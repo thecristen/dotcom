@@ -2,5 +2,5 @@ defmodule Stations.Station do
   @moduledoc """
   Domain model for a station.
   """
-  defstruct [:id, :name]
+  defstruct [:id, :name, :note, :accessibility, :address]
 end

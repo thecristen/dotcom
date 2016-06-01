@@ -32,10 +32,13 @@ defmodule Stations.Api do
     end
   end
 
-  defp parse(item) do
+  defp parse(%{"attributes" => attributes}) do
     %Station{
-      id: item["attributes"]["gtfs_id"],
-      name: item["attributes"]["name"]
+      id: attributes["gtfs_id"],
+      name: attributes["name"],
+      address: attributes["address"],
+      note: attributes["note"],
+      accessibility: attributes["accessibility"]
     }
   end
 

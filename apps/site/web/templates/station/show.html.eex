@@ -1,7 +1,13 @@
-<h2>Show station</h2>
+<h1>
+  <%= @station.name %>
 
-<ul>
-  <h1><%= @station.name %>
-</ul>
+  <%= for accessibility <- @station.accessibility do %>
+  <img src="<%= static_path(@conn, "/images/access_#{accessibility}.gif") %>" />
+  <% end %>
+</h1>
+
+<h4><%= @station.address %></h4>
+
+<pre><%= inspect @station, pretty: true %></pre>
 
 <%= link "Back", to: station_path(@conn, :index) %>
