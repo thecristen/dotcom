@@ -1,0 +1,11 @@
+@import "variables";
+@import "node_modules/bootstrap/scss/bootstrap";
+
+.alert:empty {
+  display: none;
+}
+
+.navbar-logo {
+  float: left;
+  margin-right: 0.5em;
+}

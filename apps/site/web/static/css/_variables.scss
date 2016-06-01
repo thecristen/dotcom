@@ -1,0 +1,28 @@
+@import "node_modules/bootstrap/scss/variables";
+
+$font-family-base: 'Lato', $font-family-sans-serif;
+@import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+$brand-primary: #1c77c3;
+$brand-primary-darkest: #0b2f4c;
+$brand-primary-dark: #165c96;
+$brand-primary-light: #5da9e8;
+$brand-primary-lightest: #b6d8f5;
+
+$brand-secondary: #ffce0c;
+$brand-secondary-dark: #d8ac00;
+$brand-secondary-light: #ffe372;
+
+$gray: #494f5c;
+$gray-dark: #1c1e23;
+$gray-light: #788093;
+$gray-lighter: #b0b5c0;
+$gray-lightest: #e9eaed;
+
+/* Train colors */
+$brand-blue-line: #0064c8;
+$brand-green-line: #428608;
+$brand-orange-line: #ff8200;
+$brand-red-line: #ff1428;
+$brand-silver-line: #788093;
+$brand-commuter-rail: #a00a78;
