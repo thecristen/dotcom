@@ -1,0 +1,7 @@
+<h2>Show station</h2>
+
+<ul>
+  <h1><%= @station.name %>
+</ul>
+
+<%= link "Back", to: station_path(@conn, :index) %>

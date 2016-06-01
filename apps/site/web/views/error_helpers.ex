@@ -33,3 +33,8 @@ defmodule Site.ErrorHelpers do
     Gettext.dgettext(Site.Gettext, "errors", msg)
   end
 end
+
+
+defimpl Plug.Exception, for: Stations.NotFoundError do
+  def status(_), do: 404
+end
