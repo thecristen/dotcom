@@ -1,6 +1,10 @@
 defmodule Site.StationView do
   use Site.Web, :view
 
+  def google_api_key do
+    Application.get_env(:site, __MODULE__)[:google_api_key]
+  end
+
   def pretty_accessibility(accessibility) do
     accessibility
     |> String.split("_")
