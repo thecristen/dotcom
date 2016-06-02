@@ -9,5 +9,12 @@ defmodule Stations.Station.Parking do
   @moduledoc """
   A type of a parking at a station.
   """
-  defstruct [:type, :spots, :rate, :note]
+  defstruct [:type, :spots, :rate, :note, :manager]
+end
+
+defmodule Stations.Station.Manager do
+  @moduledoc """
+  A manager of parking.
+  """
+  defstruct [:name, :phone, :email, :website]
 end

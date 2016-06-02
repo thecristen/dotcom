@@ -10,16 +10,18 @@ defmodule Stations.ApiTest do
   end
 
   test "by_gtfs_id uses the gtfs parameter" do
-    station = Stations.Api.by_gtfs_id("place-portr")
+    station = Stations.Api.by_gtfs_id("Anderson/ Woburn")
 
-    assert station.id == "place-portr"
-    assert station.name == "Porter Square"
+    assert station.id == "Anderson/ Woburn"
+    assert station.name == "Anderson/Woburn"
     assert station.accessibility != []
     assert station.parkings != []
     for parking <- station.parkings do
       assert %Station.Parking{} = parking
       assert parking.type != nil
       assert parking.spots != nil
+      manager = parking.manager
+      assert manager.name == "Massport"
     end
   end
 

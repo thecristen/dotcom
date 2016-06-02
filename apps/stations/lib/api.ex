@@ -56,20 +56,44 @@ defmodule Stations.Api do
                  parkings ->
                    parkings
                    |> Enum.flat_map(&(match_included(&1, parsed)))
-                   |> Enum.map(&parse_parkings/1)
+                   |> Enum.map(&(parse_parking(&1, parsed)))
                end
     %Station{station | parkings: parkings}
   end
 
-  defp parse_parkings(%{"attributes" => attributes}) do
+  defp parse_parking(%{"attributes" => attributes, "relationships" => relationships}, parsed) do
     %Station.Parking{
       type: attributes["type"],
       spots: attributes["spots"],
       rate: attributes["rate"],
       note: attributes["note"]
     }
+    |> include_manager(relationships["manager"], parsed)
   end
 
+  defp include_manager(parking, nil, _) do
+    parking
+  end
+  defp include_manager(parking, %{"data" => data}, parsed) do
+    case match_included(data, parsed) do
+      [manager] ->
+        %Station.Parking{parking | manager: parse_manager(manager)}
+      _ -> parking
+    end
+  end
+
+  defp parse_manager(%{"attributes" => attributes}) do
+    %Station.Manager{
+      name: attributes["name"],
+      website: attributes["website"],
+      phone: attributes["phone"],
+      email: attributes["email"]
+    }
+  end
+
+  defp match_included(nil, _) do
+    []
+  end
   defp match_included(%{"type" => type, "id" => id}, %{"included" => included}) do
     included
     |> Enum.filter(&(&1["type"] == type && &1["id"] == id))

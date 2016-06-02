@@ -22,6 +22,7 @@
             <th>Spots</th>
             <th>Rate</th>
             <th>Note</th>
+            <th>Managed By</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,16 @@
               <td><%= parking.spots %></td>
               <td><%= parking.rate %></td>
               <td><%= parking.note %></td>
+              <td>
+                <%= if parking.manager do %>
+                  <%= parking.manager.name |> optional_link(parking.manager.website) %><br/>
+                  <ul>
+                    <%= parking.manager.phone |> phone |> optional_li %>
+                    <%= parking.manager.email |> email |> optional_li %>
+                  </ul>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
         </tbody>
       </table>
