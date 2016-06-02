@@ -13,7 +13,7 @@ defmodule Stations.Config do
 end
 
 config :stations,
-  base_url: Stations.Config.envvar_or_default("$STATION_URL", "http://mbta-station-info-dev.us-east-1.elasticbeanstalk.com")
+  base_url: Stations.Config.envvar_or_default("${STATION_URL}", "http://mbta-station-info-dev.us-east-1.elasticbeanstalk.com")
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

@@ -15,14 +15,15 @@ defmodule Stations.Api do
     with {:ok, response} <- get("/stations/", [], params: [gtfs_id: gtfs_id]),
          %{body: parsed, status_code: 200} <- response do
       parsed["data"]
-      |> Enum.map(&parse/1)
+      |> Enum.map(&(parse(&1, parsed)))
       |> List.first
     end
   end
 
   defp do_all({:ok, %{body: parsed}}, acc) do
-    new_items = parsed["data"]
-    |> Enum.map(&parse/1)
+    new_items = for item <- parsed["data"] do
+      parse(item, parsed)
+    end
 
     new_acc = new_items ++ acc
 
@@ -32,7 +33,13 @@ defmodule Stations.Api do
     end
   end
 
-  defp parse(%{"attributes" => attributes}) do
+  defp parse(item, parsed) do
+    item
+    |> parse_station
+    |> include_parking(item, parsed)
+  end
+
+  defp parse_station(%{"attributes" => attributes}) do
     %Station{
       id: attributes["gtfs_id"],
       name: attributes["name"],
@@ -40,6 +47,32 @@ defmodule Stations.Api do
       note: attributes["note"],
       accessibility: attributes["accessibility"]
     }
+  end
+
+  defp include_parking(station, item, parsed) do
+    parkings = case item["relationships"]["parkings"]["data"] do
+                 nil ->
+                   []
+                 parkings ->
+                   parkings
+                   |> Enum.flat_map(&(match_included(&1, parsed)))
+                   |> Enum.map(&parse_parkings/1)
+               end
+    %Station{station | parkings: parkings}
+  end
+
+  defp parse_parkings(%{"attributes" => attributes}) do
+    %Station.Parking{
+      type: attributes["type"],
+      spots: attributes["spots"],
+      rate: attributes["rate"],
+      note: attributes["note"]
+    }
+  end
+
+  defp match_included(%{"type" => type, "id" => id}, %{"included" => included}) do
+    included
+    |> Enum.filter(&(&1["type"] == type && &1["id"] == id))
   end
 
   defp process_url(url) do

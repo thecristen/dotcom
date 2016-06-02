@@ -1,13 +1,44 @@
-<h1>
-  <%= @station.name %>
+<div class="container station-info-container">
+  <div class="row">
+    <h1>
+      <%= @station.name %>
 
-  <%= for accessibility <- @station.accessibility do %>
-  <img src="<%= static_path(@conn, "/images/access_#{accessibility}.gif") %>" />
-  <% end %>
-</h1>
+      <%= for accessibility <- @station.accessibility do %>
+        <img src="<%= static_path(@conn, "/images/access_#{accessibility}.gif") %>"
+          alt="Accessiblity: <%= pretty_accessibility(accessibility) %>"
+          title="<%= pretty_accessibility(accessibility) %>">
+      <% end %>
+    </h1>
 
-<h4><%= @station.address %></h4>
+    <h4><%= @station.address %></h4>
 
-<pre><%= inspect @station, pretty: true %></pre>
+    <p><%= @station.note %></p>
 
-<%= link "Back", to: station_path(@conn, :index) %>
+    <%= if @station.parkings != [] do %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Parking</th>
+            <th>Spots</th>
+            <th>Rate</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for parking <- @station.parkings do %>
+            <tr>
+              <td><%= parking.type |> String.capitalize %></td>
+              <td><%= parking.spots %></td>
+              <td><%= parking.rate %></td>
+              <td><%= parking.note %></td>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+    <!---
+         <%= inspect @station, pretty: true %>
+       -->
+
+    <%= link "Back", to: station_path(@conn, :index) %>
+  </div>
+</div>
