@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e -x
+PREFIX=apps/site/
+APP=site
+BUILD_TAG=$APP:_build
+VERSION=`egrep -o 'version: .*"' ${PREFIX}mix.exs |egrep -o '\d+\.\d+\.\d+'`
+BUILD_ARTIFACT=$APP-build.zip
+
+docker build -t $BUILD_TAG .
+CONTAINER=$(docker run -d ${BUILD_TAG} sleep 2000)
+
+rm -rf rel/$APP rel/$APP.tar.gz
+docker cp $CONTAINER:/root/${PREFIX}rel/$APP/releases/$VERSION/$APP.tar.gz rel/$APP.tar.gz
+
+docker kill $CONTAINER
+docker rm $CONTAINER
+tar -zxf rel/$APP.tar.gz -C rel/
+rm rel/$APP.tar.gz
+
+test -f $BUILD_ARTIFACT && rm $BUILD_ARTIFACT || true
+pushd rel
+zip -r ../$BUILD_ARTIFACT *
+rm -fr bin erts* lib releases
+popd

@@ -1,0 +1,16 @@
+*~
+Mnesia*
+_build
+deps
+node_modules
+test
+cache
+rel
+erl_crash.dump
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore
+aws
+station_info-build.zip

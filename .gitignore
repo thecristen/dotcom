@@ -4,3 +4,9 @@
 erl_crash.dump
 *.ez
 /apps/site/.sass-cache/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+/site-build.zip

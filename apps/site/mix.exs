@@ -38,6 +38,7 @@ defmodule Site.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
-     {:stations, in_umbrella: true}]
+     {:stations, in_umbrella: true},
+     {:exrm, ">= 0.0.0"}]
   end
 end
