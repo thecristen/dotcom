@@ -22,7 +22,7 @@ defmodule Site.Mixfile do
   def application do
     [mod: {Site, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :stations]]
+                    :stations, :routes]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,6 +39,7 @@ defmodule Site.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:stations, in_umbrella: true},
+     {:routes, in_umbrella: true},
      {:exrm, ">= 0.0.0"}]
   end
 end
