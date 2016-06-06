@@ -1,6 +1,38 @@
 @import "./variables";
 @import "./bootstrap";
 
+body {
+  background-color: $brand-primary;
+}
+
+.header, main {
+  background-color: white;
+}
+
+.footer {
+  margin-top: 1em;
+  color: white;
+  text-align: center;
+}
+.footer-link-list {
+  @include clearfix;
+  padding: 0;
+}
+.footer-link-list-item {
+  display: inline;
+  list-style: none;
+
+  &:before {
+    content: " | ";
+  }
+  &:first-child:before {
+    content: "";
+  }
+}
+.footer-link {
+  color: white;
+}
+
 .alert:empty {
   display: none;
 }

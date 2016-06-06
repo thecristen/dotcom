@@ -20,10 +20,7 @@
             Massachusetts Bay Transportation Authority
           </a>
         </div>
-      </div>
-
-      <nav class="navbar navbar-dark navbar-full bg-primary" role="navigation">
-        <div class="container">
+        <nav class="navbar">
           <ul class="nav navbar-nav">
             <li class="nav-item">
               <a class="nav-link" href="http://www.mbta.com/schedules_and_maps/">Schedules &amp; Maps</a>
@@ -38,11 +35,11 @@
               <a class="nav-link" href="#">Service Alerts</a>
             </li>
           </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
 
-    <div class="container">
+    <div class="container main-container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
@@ -50,6 +47,17 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
 
+      <footer class="footer">
+        <ul class="footer-link-list">
+          <li class="footer-link-list-item">
+            <a class="footer-link" href="http://www.mbta.com/customer_support/privacy_policy/">Privacy Policy</a>
+          </li>
+          <li class="footer-link-list-item">
+            <a class="footer-link" href="http://www.mbta.com/customer_support/terms_of_use/">Terms of Use</a>
+          </li>
+        </ul>
+        <p>&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
+      </footer>
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
