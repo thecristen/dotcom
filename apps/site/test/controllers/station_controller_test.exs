@@ -1,10 +1,6 @@
 defmodule Site.StationControllerTest do
   use Site.ConnCase
 
-  alias Stations.Station
-  @valid_attrs %{}
-  @invalid_attrs %{}
-
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, station_path(conn, :index)
     assert html_response(conn, 200) =~ "Alewife"

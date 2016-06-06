@@ -21,7 +21,7 @@
         class="station-info-map"
         frameborder="0" style="border:0"
         src="https://www.google.com/maps/embed/v1/place?key=<%= google_api_key %>
-             &zoom=14&q=<%= URI.encode(@station.address, &URI.char_unreserved?/1) %>" allowfullscreen>
+             &zoom=14&q=<%= location(@station) %>" allowfullscreen>
       </iframe>
     </div>
     <div class="row">

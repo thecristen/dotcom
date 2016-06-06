@@ -5,6 +5,13 @@ defmodule Site.StationView do
     Application.get_env(:site, __MODULE__)[:google_api_key]
   end
 
+  def location(station) do
+    case station.latitude do
+      nil -> URI.encode(station.address, &URI.char_unreserved?/1)
+      _ -> "#{station.latitude},#{station.longitude}"
+    end
+  end
+
   def pretty_accessibility(accessibility) do
     accessibility
     |> String.split("_")

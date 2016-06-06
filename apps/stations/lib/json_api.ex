@@ -5,6 +5,13 @@ end
 defmodule JsonApi do
   defstruct [:links, :data]
 
+  def merge(j1, j2) do
+    %JsonApi{
+      links: Map.merge(j1.links, j2.links),
+      data: j1.data ++ j2.data
+    }
+  end
+
   @spec parse(String.t) :: JsonApi
   def parse(body) do
     with {:ok, parsed} <- Poison.Parser.parse(body) do
@@ -41,7 +48,7 @@ defmodule JsonApi do
     }
   end
 
-  defp load_relationships(nil, parsed) do
+  defp load_relationships(nil, _) do
     %{}
   end
   defp load_relationships(%{} = relationships, parsed) do
@@ -60,7 +67,7 @@ defmodule JsonApi do
     |> Enum.flat_map(&(match_included(&1, parsed)))
     |> (fn(item) -> parse_data(%{parsed | "data" => item}) end).()
   end
-  defp load_single_relationship(%{"data" => data} = relationship, parsed) do
+  defp load_single_relationship(%{"data" => data}, parsed) do
     data
     |> match_included(parsed)
     |> (fn(item) -> parse_data(%{parsed | "data" => item}) end).()

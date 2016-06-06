@@ -2,39 +2,33 @@ defmodule Stations.Api do
   @moduledoc """
   Wrapper around the remote station information service.
   """
-  use HTTPoison.Base
+  alias Stations.StationInfoApi
+  alias Stations.V3Api
   alias Stations.Station
 
   @spec all :: [Station.t]
   def all do
-    do_all(get("/stations/"), [])
+    StationInfoApi.all
+    |> map_json_api
   end
 
   @spec by_gtfs_id(String.t) :: Station.t | nil
   def by_gtfs_id(gtfs_id) do
-    with {:ok, response} <- get("/stations/", [], params: [gtfs_id: gtfs_id]),
-         %{body: body, status_code: 200} <- response do
-      body
-      |> JsonApi.parse
-      |> (fn parsed -> parsed.data end).()
-      |> Enum.map(&parse_station/1)
+    station_info_task = Task.async fn -> gtfs_id
+      |> StationInfoApi.by_gtfs_id
+      |> map_json_api
       |> List.first
     end
+    v3_task = Task.async fn ->
+      gtfs_id
+      |> V3Api.by_gtfs_id
+    end
+    merge_v3(Task.await(station_info_task), Task.await(v3_task))
   end
 
-  defp do_all({:ok, %{body: body, status_code: 200}}, acc) do
-    parsed = body
-    |> JsonApi.parse
-
-    new_items = parsed.data
+  defp map_json_api(%JsonApi{data: data}) do
+    data
     |> Enum.map(&parse_station/1)
-
-    new_acc = new_items ++ acc
-
-    case parsed.links["next"] do
-      nil -> new_acc
-      link -> do_all(get(link), new_acc)
-    end
   end
 
   defp parse_station(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
@@ -70,8 +64,11 @@ defmodule Stations.Api do
     nil
   end
 
-  defp process_url(url) do
-    base_url = Application.get_env(:stations, :base_url)
-    base_url <> url
+  defp merge_v3(station, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
+    %Station{station | latitude: latitude, longitude: longitude}
+  end
+  defp merge_v3(station, %{status_code: 404}) do
+    # failed v3 response, just return the station as-is
+    station
   end
 end
