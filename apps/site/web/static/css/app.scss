@@ -1,11 +1,13 @@
-@import "./variables";
-@import "./bootstrap";
+@import "variables";
+@import "bootstrap";
+@import "alert-list";
+@import "index";
 
 body {
   background-color: $brand-primary;
 }
 
-.header, main {
+.header {
   background-color: white;
 }
 
@@ -14,10 +16,12 @@ body {
   color: white;
   text-align: center;
 }
+
 .footer-link-list {
   @include clearfix;
   padding: 0;
 }
+
 .footer-link-list-item {
   display: inline;
   list-style: none;
@@ -29,6 +33,7 @@ body {
     content: "";
   }
 }
+
 .footer-link {
   color: white;
 }

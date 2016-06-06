@@ -58,6 +58,7 @@ exports.config = {
       mode: 'ruby',
       precision: 8,
       allowCache: true,
+      includePaths: ['web/static/css'],
     }
   },
 

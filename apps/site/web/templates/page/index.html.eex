@@ -1,36 +1,78 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-</div>
-
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="http://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
+<div class="index">
+  <div class="card">
+    <div class="card-header bg-inverse">Transit Near Me</div>
+    <div class="card-block">
+      <form>
+        <fieldset class="form-group">
+          <label for="location">Enter your desired location:</label>
+          <input class="form-control" type="text" name="location" placeholder="Example: 123 Main St, Boston MA">
+        </fieldset>
+      </form>
+    </div>
+    <div class="card-header bg-inverse">Service Alerts</div>
+    <div class="card-block">
+      <ul class="alert-list">
+        <li>
+          <div class="alert-list-route-type">Commuter Rail</div>
+          <div class="alert-list-routes">Fairmount, Fitchburg, and 1 more</div>
+          <div class="alert-list-all"><a href="#">View All</a></div>
+        </li>
+      </ul>
+    </div>
+    <div class="card-header bg-inverse">Schedules &amp; Maps</div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>Commuter Rail</h5>
+        </div>
+        <div class="col-md-4">
+          <h5>Bus</h5>
+        </div>
+        <div class="col-md-4">
+          <h5>Subway</h5>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
+  <div class="card">
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>News &amp Updates</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Riding the T</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Fares &amp; Passes</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>What You Need To Ride The T</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Other Links</h5>
+        </div>
+        <div class="col-md-6">
+          <a href="http://www.mbta.com/riding_the_t/accessible_services/">
+            <img class="center-block" src="<%= static_path(@conn, "/images/accessibility_at_t.jpg") %>" alt="Accessibility at the T" />
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
