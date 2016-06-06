@@ -4,5 +4,7 @@ defmodule Site.PageView do
   def clean_route_name(name) do
     name
     |> String.replace_suffix(" Line", "")
+    |> String.replace("/", "/​") # slash replaced with a slash with a ZERO
+                                # WIDTH SPACE afer
   end
 end
