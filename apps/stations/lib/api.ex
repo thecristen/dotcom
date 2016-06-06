@@ -3,7 +3,6 @@ defmodule Stations.Api do
   Wrapper around the remote station information service.
   """
   alias Stations.StationInfoApi
-  alias Stations.V3Api
   alias Stations.Station
 
   @spec all :: [Station.t]
@@ -21,7 +20,7 @@ defmodule Stations.Api do
     end
     v3_task = Task.async fn ->
       gtfs_id
-      |> V3Api.by_gtfs_id
+      |> V3Api.Stops.by_gtfs_id
     end
     merge_v3(Task.await(station_info_task), Task.await(v3_task))
   end

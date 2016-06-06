@@ -2,6 +2,31 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+defmodule DotCom.Config do
+  @moduledoc "simple helper for config"
+
+  @doc """
+
+  If the first argument hasn't been converted by relx to an environment
+  variable (happens in releases), then use the second argument as a default
+  value.
+
+  """
+  def envvar_or_default(<<"$", _::binary>>, default) do
+    default
+  end
+  def envvar_or_default(var, _) do
+    var
+  end
+end
+
+
+config :stations,
+  base_url: DotCom.Config.envvar_or_default("${STATION_URL}", "http://mbta-station-info-dev.us-east-1.elasticbeanstalk.com")
+
+config :v3_api,
+  base_url: DotCom.Config.envvar_or_default("${V3_URL}", "http://mbta-api-dev.rmfmhatiyh.us-east-1.elasticbeanstalk.com")
+
 # By default, the umbrella project as well as each child
 # application will require this configuration file, ensuring
 # they all use the same configuration. While one could
