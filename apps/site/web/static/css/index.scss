@@ -3,3 +3,18 @@
     border-radius: 0;
   }
 }
+
+.route-list {
+  list-style: none;
+  padding: 0;
+}
+
+.route-list-item-inline {
+  display: inline;
+  &:after {
+    content: ", "
+  }
+  &:last-child:after {
+    content: ""
+  }
+}
