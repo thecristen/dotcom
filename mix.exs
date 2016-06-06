@@ -1,4 +1,4 @@
-defmodule Eweb.Mixfile do
+defmodule DotCom.Mixfile do
   use Mix.Project
 
   def project do
