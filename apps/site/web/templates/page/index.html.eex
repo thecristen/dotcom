@@ -66,7 +66,9 @@
           <h5>News &amp Updates</h5>
           <ul class="list-unstyled">
             <%= for post <- @news do %>
-            <li><%= post.attributes["title"] %></li>
+              <li>
+                <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>"><%= post.attributes["title"] %></a>
+              </li>
             <% end %>
           </ul>
         </div>
