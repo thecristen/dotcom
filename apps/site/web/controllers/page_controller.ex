@@ -3,6 +3,7 @@ defmodule Site.PageController do
 
   def index(conn, _params) do
     render conn, "index.html", %{
+      alerts: Alerts.Repo.all,
       grouped_routes: grouped_routes
     }
   end

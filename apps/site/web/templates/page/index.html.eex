@@ -12,10 +12,14 @@
     <div class="card-header bg-inverse">Service Alerts</div>
     <div class="card-block">
       <ul class="alert-list">
-        <li>
-          <div class="alert-list-route-type">Commuter Rail</div>
-          <div class="alert-list-routes">Fairmount, Fitchburg, and 1 more</div>
-          <div class="alert-list-all"><a href="#">View All</a></div>
+        <li class="alert-list-item">
+          <%= render_alert_list("Commuter Rail", @grouped_routes[:commuter_rail], @alerts, 4) %>
+        </li>
+        <li class="alert-list-item">
+          <%= render_alert_list("Bus", @grouped_routes[:bus], @alerts, 10) %>
+        </li>
+        <li class="alert-list-item">
+          <%= render_alert_list("Subway", @grouped_routes[:subway], @alerts) %>
         </li>
       </ul>
     </div>

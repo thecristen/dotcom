@@ -1,0 +1,15 @@
+<div class="alert-list-route-type"><%= @route_type_description %></div>
+<div class="alert-list-routes">
+  <ul class="route-list">
+    <%= for route <- @routes_with_alerts do %>
+      <li class="route-list-item-inline">
+        <a href="#"><%= route.name |> clean_route_name %></a></li>
+    <% end %>
+    <%= if @additional > 0 do %>
+    <li class="route-list-item-inline">+ <%= @additional %> lines</li>
+    <% end %>
+  </ul>
+  <%= if @additional > 0 do %>
+    <div class="alert-list-all"><a href="#">View All</a></div>
+  <% end %>
+</div>
