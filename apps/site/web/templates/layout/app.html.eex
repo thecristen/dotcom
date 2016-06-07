@@ -23,16 +23,16 @@
         <nav class="navbar">
           <ul class="nav navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="http://www.mbta.com/schedules_and_maps/">Schedules &amp; Maps</a>
+              <a class="nav-link" href="<%= redirect_path(@conn, "schedules_and_maps/") %>">Schedules &amp; Maps</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://www.mbta.com/fares_and_passes/">Fares &amp; Passes</a>
+              <a class="nav-link" href="<%= redirect_path @conn, "fares_and_passes/" %>">Fares &amp; Passes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://www.mbta.com/riding_the_t/">Riding the T</a>
+              <a class="nav-link" href="<%= redirect_path @conn, "riding_the_t/" %>">Riding the T</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://www.mbta.com/rider_tools/transit_updates/">Service Alerts</a>
+              <a class="nav-link" href="<%= redirect_path @conn, "rider_tools/transit_updates/" %>">Service Alerts</a>
             </li>
           </ul>
         </nav>
@@ -50,10 +50,10 @@
       <footer class="footer">
         <ul class="footer-link-list">
           <li class="footer-link-list-item">
-            <a class="footer-link" href="http://www.mbta.com/customer_support/privacy_policy/">Privacy Policy</a>
+            <a class="footer-link" href="<%= redirect_path @conn, "customer_support/privacy_policy/" %>">Privacy Policy</a>
           </li>
           <li class="footer-link-list-item">
-            <a class="footer-link" href="http://www.mbta.com/customer_support/terms_of_use/">Terms of Use</a>
+            <a class="footer-link" href="<%= redirect_path @conn, "customer_support/terms_of_use/" %>">Terms of Use</a>
           </li>
         </ul>
         <p>&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>

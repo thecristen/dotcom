@@ -17,6 +17,7 @@ defmodule Site.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/redirect/:path", RedirectController, :show
     resources "/stations", StationController, only: [:index, :show]
   end
 

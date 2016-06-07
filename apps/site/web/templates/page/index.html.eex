@@ -97,7 +97,7 @@
           <h5>Other Links</h5>
         </div>
         <div class="col-md-6">
-          <a href="http://www.mbta.com/riding_the_t/accessible_services/">
+          <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
             <img class="center-block" src="<%= static_path(@conn, "/images/accessibility_at_t.jpg") %>" alt="Accessibility at the T" />
           </a>
         </div>

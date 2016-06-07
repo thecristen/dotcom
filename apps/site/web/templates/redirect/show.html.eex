@@ -1,0 +1,12 @@
+<div class="bg-white">
+  <div class="card-block">
+
+    <p class="lead">
+      While we're working on the new site, we haven't moved everything over yet.  We're sending you back to the original site for the content you requested.
+    </p>
+
+    <p>
+      <a class="btn btn-primary btn-block" role="button" href="http://mbta.com/<%= raw @redirect %>">Go</a>
+    </p>
+  </div>
+</div>

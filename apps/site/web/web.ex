@@ -44,6 +44,10 @@ defmodule Site.Web do
       import Site.Router.Helpers
       import Site.ErrorHelpers
       import Site.Gettext
+
+      def redirect_path(conn, path) do
+        redirect_path(conn, :show, path)
+      end
     end
   end
 
