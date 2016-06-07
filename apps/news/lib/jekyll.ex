@@ -26,16 +26,15 @@ defmodule News.Jekyll do
   is useful for creating stub structures from a list of filenames.
 
   """
-  def parse_file(filename, include_body \\ true)
-  def parse_file(filename, false) do
-    %News.Post{}
-    |> add_file_attributes(filename)
-  end
-  def parse_file(filename, true) do
-    filename
-    |> File.read!
-    |> parse
-    |> add_file_attributes(filename)
+  def parse_file(filename) do
+    try do
+      filename
+      |> File.read!
+      |> parse
+      |> add_file_attributes(filename)
+    catch
+      err -> throw "Error while parsing #{filename}: #{inspect err}"
+    end
   end
 
   defp parse_yaml(yaml) do
@@ -51,8 +50,11 @@ defmodule News.Jekyll do
     |> Path.basename
     |> Path.rootname
     |> String.split("-", parts: 4)
-    %News.Post{post | id: id, date: {String.to_integer(year_str),
-                                     String.to_integer(month_str),
-                                     String.to_integer(day_str)}}
+    %News.Post{post |
+               filename: filename,
+               id: id,
+               date: {String.to_integer(year_str),
+                      String.to_integer(month_str),
+                      String.to_integer(day_str)}}
   end
 end

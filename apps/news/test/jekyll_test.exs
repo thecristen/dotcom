@@ -23,20 +23,13 @@ body
   test ".parse_file includes the date and ID from the filename" do
     filename = Path.join([__DIR__, "fixture", "2016-06-07-post-id.md"])
     assert News.Jekyll.parse_file(filename) == %News.Post{
+      filename: filename,
       id: "post-id",
       date: {2016, 6, 7},
       attributes: %{
         "title" => "from file",
       },
       body: "file body"
-    }
-  end
-
-  test ".parse_file(filename, false) parses the date and ID, but not the body" do
-    filename = Path.join([__DIR__, "fixture", "2016-06-07-post-id.md"])
-    assert News.Jekyll.parse_file(filename, false) == %News.Post{
-      id: "post-id",
-      date: {2016, 6, 7}
     }
   end
 end
