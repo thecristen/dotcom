@@ -1,1 +1,24 @@
-<h2>Listing schedules</h2>
+<div class="bg-white">
+  <h2>Listing schedules for <%= @route.name %></h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Departure</th>
+        <th>Stop</th>
+        <th>Train</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for schedule <- @schedules do %>
+      <tr>
+        <td><%= schedule.time |> Timex.format!("{kitchen}") %></td>
+        <td><%= schedule.stop.name %></td>
+        <td><%= schedule.trip.name %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <code>
+    <%= inspect(@schedules, pretty: true) %>
+  </code>
+</div>
