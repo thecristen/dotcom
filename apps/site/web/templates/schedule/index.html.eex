@@ -1,7 +1,16 @@
 <div class="container bg-white">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-6">
       <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
+    </div>
+    <div class="col-xs-6">
+      <div class="pull-xs-right">
+        <form method="GET" action="" class="form-inline">
+          <%= hidden_query_params @conn, exclude: ["date"] %>
+          <input class="form-control form-control-sm" type="date" name="date" value="<%= @date |> Timex.format!("{ISOdate}") %>"/>
+          <button type="submit" class="btn btn-sm btn-primary-outline">Change</button>
+        </form>
+      </div>
     </div>
   </div>
   <div class="row">
