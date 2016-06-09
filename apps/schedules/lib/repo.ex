@@ -14,11 +14,31 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :date)
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequence)
+    |> add_optional_param(opts, :stop)
 
     params
     |> V3Api.Schedules.all
     |> (fn api -> api.data end).()
     |> Enum.map(&Schedules.Parser.parse/1)
+  end
+
+  def stops(opts) do
+    params = [
+      include: "stop",
+      "fields[schedule]": "stop_sequence",
+      "fields[stop]": "name"
+    ]
+    params = params
+    |> add_optional_param(opts, :route)
+    |> add_optional_param(opts, :date)
+    |> add_optional_param(opts, :direction_id)
+
+    params
+    |> V3Api.Schedules.all
+    |> (fn api -> api.data end).()
+    |> Enum.map(&Schedules.Parser.stop/1)
+    |> Enum.uniq
+    |> Enum.sort_by(fn stop -> stop.name end)
   end
 
   defp add_optional_param(params, opts, key) do
