@@ -20,7 +20,14 @@ defmodule Site.ScheduleView do
       stop: schedule.stop.id
     }
 
-    Alerts.Match.match(alerts, entity, schedule.time) != []
+    # hack to unmatch the "Fares go up on July 1" alert on everything
+    matched = alerts
+    |> Alerts.Match.match(entity, schedule.time)
+    |> Enum.reject(fn alert ->
+      %Alerts.InformedEntity{route_type: schedule.route.type} in alert.informed_entity
+    end)
+
+    matched != []
   end
 
   def hidden_query_params(conn, opts \\ []) do
