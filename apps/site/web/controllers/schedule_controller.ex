@@ -9,7 +9,7 @@ defmodule Site.ScheduleController do
            end
 
     direction_id = case params["direction_id"] do
-                     nil -> 0
+                     nil -> default_direction_id
                      str -> String.to_integer(str)
                    end
 
@@ -52,6 +52,14 @@ defmodule Site.ScheduleController do
       alerts: alerts,
       reverse_url: update_url(conn,
         direction_id: reverse_direction(direction_id)))
+  end
+
+  def default_direction_id do
+    if DateTime.now("America/New_York").hour <= 13 do
+      1 # Inbound
+    else
+      0
+    end
   end
 
   def update_url(%{params: params} = conn, query) do
