@@ -1,0 +1,22 @@
+@import "variables";
+
+.schedule-route-icon {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 50%;
+
+  svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+.schedule-route-icon-commuter-rail {
+  * {
+    fill: white;
+  }
+  background-color: $brand-commuter-rail;
+}

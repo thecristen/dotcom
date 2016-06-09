@@ -1,24 +1,37 @@
-<div class="bg-white">
-  <h2>Listing schedules for <%= @route.name %></h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Departure</th>
-        <th>Stop</th>
-        <th>Train</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for schedule <- @schedules do %>
-      <tr>
-        <td><%= schedule.time |> Timex.format!("{kitchen}") %></td>
-        <td><%= schedule.stop.name %></td>
-        <td><%= schedule.trip.name %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <code>
-    <%= inspect(@schedules, pretty: true) %>
-  </code>
+<div class="container bg-white">
+  <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
+  <h3>
+    <span class="schedule-route-icon schedule-route-icon-commuter-rail">
+      <%= svg @conn, "/images/commuter.svg" %>
+    </span>
+    <%= @route.name %>
+  </h3>
+  <h4>
+    <div class="pull-xs-right">
+      <a href="<%= @reverse_url %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
+    </div>
+    <div>
+      <small>From:</small>
+      <%= @from %>
+    </div>
+    <div>
+      <small>To:</small>
+      <%= @to %>
+    </div>
+  </h4>
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+      <ul class="list-group">
+        <%= for schedule <- @schedules do %>
+          <li class="list-group-item">
+            <%= schedule.time |> Timex.format!("{kitchen}") %> -
+            No. <%= schedule.trip.name %>
+            <%= if schedule.stop.name != @from do %>
+            (from <%= schedule.stop.name %>)
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>
