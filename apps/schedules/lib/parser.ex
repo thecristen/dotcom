@@ -41,7 +41,7 @@ defmodule Schedules.Parser do
     }
   end
 
-  defp stop(%JsonApi.Item{
+  def stop(%JsonApi.Item{
         relationships: %{
           "stop" => [
           %JsonApi.Item{
