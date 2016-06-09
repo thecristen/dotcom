@@ -1,10 +1,6 @@
 defmodule Site.StationView do
   use Site.Web, :view
 
-  def google_api_key do
-    Application.get_env(:site, __MODULE__)[:google_api_key]
-  end
-
   def location(station) do
     case station.latitude do
       nil -> URI.encode(station.address, &URI.char_unreserved?/1)

@@ -13,11 +13,25 @@ defmodule Site.ScheduleController do
                      str -> String.to_integer(str)
                    end
 
-    all_schedules = Schedules.Repo.all(
+    basic_schedule_params = [
       route: route_id,
       date: date,
-      direction_id: direction_id,
-      stop_sequence: 1)
+      direction_id: direction_id]
+
+    basic_schedule_params = case Map.get(params, "origin", "") do
+                              "" -> basic_schedule_params
+                              |> Keyword.put(:stop_sequence, 1)
+                              value -> basic_schedule_params
+                              |> Keyword.put(:stop, value)
+                            end
+
+    [all_schedules, all_stops, alerts] = AsyncList.run([
+      {Schedules.Repo, :all, [basic_schedule_params]},
+      {Schedules.Repo, :stops, [[
+                                 route: route_id,
+                                 date: date,
+                                 direction_id: direction_id]]},
+      {Alerts.Repo, :all, []}])
 
     show_all = params["all"] != nil || not Timex.equal?(Date.today, date)
 
@@ -29,10 +43,13 @@ defmodule Site.ScheduleController do
         update_url(conn, all: "all")
       end,
       schedules: schedules(all_schedules, show_all),
+      all_stops: all_stops,
       direction: direction(direction_id),
       route: route(all_schedules),
       from: from(all_schedules),
       to: to(all_schedules),
+      origin: params["origin"],
+      alerts: alerts,
       reverse_url: update_url(conn,
         direction_id: reverse_direction(direction_id)))
   end

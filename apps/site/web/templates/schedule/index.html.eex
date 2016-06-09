@@ -1,24 +1,54 @@
 <div class="container bg-white">
-  <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
-  <h3>
-    <span class="schedule-route-icon schedule-route-icon-commuter-rail">
-      <%= svg @conn, "/images/commuter.svg" %>
-    </span>
-    <%= @route.name %>
-  </h3>
-  <h4>
-    <div class="pull-xs-right">
-      <a href="<%= @reverse_url %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
     </div>
-    <div>
-      <small>From:</small>
-      <%= @from %>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>
+        <span class="schedule-route-icon schedule-route-icon-commuter-rail">
+          <%= svg @conn, "/images/commuter.svg" %>
+        </span>
+        <%= @route.name %>
+      </h3>
+      <h4>
+        <div class="pull-xs-right">
+          <a href="<%= @reverse_url %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
+        </div>
+        <div>
+          <small>From:</small>
+          <%= @from %>
+        </div>
+        <div>
+          <small>To:</small>
+          <%= @to %>
+        </div>
+      </h4>
     </div>
-    <div>
-      <small>To:</small>
-      <%= @to %>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <form method="GET" action="">
+        <%= hidden_query_params(@conn, exclude: ["origin"]) %>
+        <label for="origin" class="text-muted">Where are you coming from?</label>
+        <select name="origin" class="form-control c-select">
+          <option value="">Select a station</option>
+          <%= for stop <- @all_stops do %>
+            <option value="<%= stop.id %>" <%= if stop.id == @origin do %>selected<% end %>><%= stop.name %></option>
+          <% end %>
+        </select>
+        <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
+      </form>
     </div>
-  </h4>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <label for="destination" class="text-muted">Where are you going?</label>
+      <select name="destination" class="form-control c-select" placeholder="Select a station" disabled>
+      </select
+    </div>
+  </div>
   <div class="row">
     <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
       <p class="text-muted">
@@ -36,6 +66,10 @@
             No. <%= schedule.trip.name %>
             <%= if schedule.stop.name != @from do %>
             (from <%= schedule.stop.name %>)
+            <% end %>
+            <%= if has_alerts?(@alerts, schedule) do %>
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              <span class="sr-only">Has an alert</span>
             <% end %>
           </li>
         <% end %>
