@@ -68,12 +68,24 @@ defmodule Site.ScheduleController do
 
   def schedules(all_schedules, true) do
     all_schedules
+    |> sort_schedules
   end
   def schedules(all_schedules, false) do
-    all_schedules
-    |> Enum.drop_while(fn %{time: time} ->
-      Timex.after?(DateTime.now, time)
+    default_schedules = schedules(all_schedules, true)
+
+    first_after_index = default_schedules
+    |> Enum.find_index(fn %{time: time} ->
+      time
+      |> Timex.after?(DateTime.now)
     end)
+
+    all_schedules
+    |> Enum.drop(first_after_index - 1)
+  end
+
+  defp sort_schedules(all_schedules) do
+    all_schedules
+    |> Enum.sort_by(fn schedule -> schedule.time end)
   end
 
   def direction(0), do: "Outbound"
