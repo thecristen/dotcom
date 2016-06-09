@@ -21,7 +21,15 @@
   </h4>
   <div class="row">
     <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+      <p class="text-muted">
+        Departure times from <%= @from %>
+      </p>
       <ul class="list-group">
+        <%= if @show_all_url do %>
+          <li class="list-group-item text-xs-center">
+            <a href="<%= @show_all_url %>">Show earlier times</a>
+          </li>
+        <% end %>
         <%= for schedule <- @schedules do %>
           <li class="list-group-item">
             <%= schedule.time |> Timex.format!("{kitchen}") %> -

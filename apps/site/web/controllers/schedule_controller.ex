@@ -13,24 +13,43 @@ defmodule Site.ScheduleController do
                      str -> String.to_integer(str)
                    end
 
-    schedules = Schedules.Repo.all(
+    all_schedules = Schedules.Repo.all(
       route: route,
       date: date,
       direction_id: direction_id,
       stop_sequence: 1)
+    show_all = params["all"] != nil
 
     render(conn, "index.html",
       date: date,
-      schedules: schedules,
+      show_all_url: case show_all do
+                      false ->
+                        schedule_path(conn, :index,
+                          route: route,
+                          direction_id: direction_id |> Integer.to_string,
+                          all: "all")
+                      true ->
+                        nil
+                    end,
+      schedules: schedules(all_schedules, show_all),
       direction: direction(direction_id),
-      route: route(schedules),
-      from: from(schedules),
-      to: to(schedules),
+      route: route(all_schedules),
+      from: from(all_schedules),
+      to: to(all_schedules),
       reverse_url: schedule_path(conn, :index,
         route: route,
         direction_id: rem(direction_id + 1, 2) |> Integer.to_string))
   end
 
+  def schedules(all_schedules, true) do
+    all_schedules
+  end
+  def schedules(all_schedules, false) do
+    all_schedules
+    |> Enum.drop_while(fn %{time: time} ->
+      Timex.after?(DateTime.now, time)
+    end)
+  end
   def direction(0), do: "Outbound"
   def direction(1), do: "Inbound"
   def direction(_), do: "Unknown"
