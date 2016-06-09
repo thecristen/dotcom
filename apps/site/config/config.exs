@@ -19,7 +19,8 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :site, Site.StationView,
+config :site, Site.ViewHelpers,
+  font_awesome_id: "${FONT_AWESOME_ID}",
   google_api_key: "${GOOGLE_API_KEY}"
 
 # Import environment specific config. This must remain at the bottom

@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <title>Massachusetts Bay Transportation Authority - MBTA</title>
+    <script src="https://use.fontawesome.com/<%= font_awesome_id %>.js"></script>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
