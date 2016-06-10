@@ -22,6 +22,12 @@ defmodule News.Repo do
   defp do_all(filenames) do
     filenames
     |> Enum.map(&News.Jekyll.parse_file/1)
+    |> Enum.filter_map(
+    fn
+      {:ok, _} -> true
+      {:error, _} -> false
+    end,
+    fn {:ok, parsed} -> parsed end)
   end
 
 

@@ -9,13 +9,15 @@ defmodule News.Jekyll do
   @front_matter_sep "---\n"
 
   def parse(str) do
-    [_, yaml, body] = str
-    |> String.split(@front_matter_sep, parts: 3)
-
-    %News.Post{
-      attributes: yaml |> parse_yaml,
-      body: body |> String.strip
-    }
+    case String.split(str, @front_matter_sep, parts: 3) do
+      [_, yaml, body] ->
+        {:ok, %News.Post{
+            attributes: yaml |> parse_yaml,
+            body: body |> String.strip}
+        }
+      _ ->
+        {:error, "unable to parse YAML"}
+    end
   end
 
   @doc """
@@ -26,14 +28,19 @@ defmodule News.Jekyll do
   is useful for creating stub structures from a list of filenames.
 
   """
+  def parse_file!(filename) do
+    case parse_file(filename) do
+      {:ok, post} ->
+        post
+      {:error, error} ->
+        throw "Error while parsing #{filename}: #{inspect error}"
+    end
+  end
+
   def parse_file(filename) do
-    try do
-      filename
-      |> File.read!
-      |> parse
-      |> add_file_attributes(filename)
-    catch
-      err -> throw "Error while parsing #{filename}: #{inspect err}"
+    with {:ok, data} <- File.read(filename),
+         {:ok, post} <- parse(data) do
+      {:ok, post |> add_file_attributes(filename)}
     end
   end
 
