@@ -13,6 +13,9 @@ defmodule Site.ScheduleController do
                      str -> String.to_integer(str)
                    end
 
+    trip = params
+    |> Map.get("trip", "")
+
     basic_schedule_params = [
       route: route_id,
       date: date,
@@ -25,33 +28,31 @@ defmodule Site.ScheduleController do
                               |> Keyword.put(:stop, value)
                             end
 
-    [all_schedules, all_stops, alerts] = AsyncList.run([
+    [all_schedules, all_stops, alerts, trip_schedule] = AsyncList.run([
       {Schedules.Repo, :all, [basic_schedule_params]},
       {Schedules.Repo, :stops, [[
                                  route: route_id,
                                  date: date,
                                  direction_id: direction_id]]},
-      {Alerts.Repo, :all, []}])
+      {Alerts.Repo, :all, []},
+      {Site.ScheduleController, :selected_trip, [trip]}])
 
     show_all = params["all"] != nil || not Timex.equal?(Date.today, date)
 
     render(conn, "index.html",
       date: date,
-      show_all_url: if show_all do
-        nil
-      else
-        update_url(conn, all: "all")
-      end,
+      show_all: show_all,
       schedules: schedules(all_schedules, show_all),
       all_stops: all_stops,
       direction: direction(direction_id),
+      reverse_direction: reverse_direction(direction_id),
       route: route(all_schedules),
       from: from(all_schedules),
       to: to(all_schedules),
       origin: params["origin"],
-      alerts: alerts,
-      reverse_url: update_url(conn,
-        direction_id: reverse_direction(direction_id)))
+      trip: trip,
+      trip_schedule: trip_schedule,
+      alerts: alerts)
   end
 
   def default_direction_id do
@@ -60,18 +61,6 @@ defmodule Site.ScheduleController do
     else
       0
     end
-  end
-
-  def update_url(%{params: params} = conn, query) do
-    query_map = query
-    |> Enum.map(fn {key, value} -> {Atom.to_string(key), to_string(value)} end)
-    |> Enum.into(%{})
-
-    new_query = params
-    |> Map.merge(query_map)
-    |> Enum.into([])
-
-    schedule_path(conn, :index, new_query)
   end
 
   def schedules(all_schedules, true) do
@@ -120,9 +109,16 @@ defmodule Site.ScheduleController do
 
   def reverse_direction(direction_id) do
     direction_id
-    |> +(1)
+    |> Kernel.+(1)
     |> rem(2)
     |> Integer.to_string
+  end
+
+  def selected_trip("") do
+    nil
+  end
+  def selected_trip(trip_id) do
+    Schedules.Repo.trip(trip_id)
   end
 
   defp most_frequent_value(values) do

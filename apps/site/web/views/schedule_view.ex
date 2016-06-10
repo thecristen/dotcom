@@ -13,6 +13,19 @@ defmodule Site.ScheduleView do
     raw svg_content
   end
 
+  def update_url(%{params: params} = conn, query) do
+    query_map = query
+    |> Enum.map(fn {key, value} -> {Atom.to_string(key), to_string(value)} end)
+    |> Enum.into(%{})
+
+    new_query = params
+    |> Map.merge(query_map)
+    |> Enum.into([])
+    |> Enum.reject(&empty_value?/1)
+
+    schedule_path(conn, :index, new_query)
+  end
+
   def has_alerts?(alerts, schedule) do
     entity = %Alerts.InformedEntity{
       route_type: schedule.route.type,
@@ -35,6 +48,10 @@ defmodule Site.ScheduleView do
     conn.params
     |> Enum.reject(fn {key, _} -> key in exclude end)
     |> Enum.map(&hidden_tag/1)
+  end
+
+  defp empty_value?({_, value}) do
+    value in ["", nil]
   end
 
   defp hidden_tag({key, value}) do

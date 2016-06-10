@@ -25,7 +25,7 @@ defmodule Schedules.Repo do
   def stops(opts) do
     params = [
       include: "stop",
-      "fields[schedule]": "stop_sequence",
+      "fields[schedule]": "",
       "fields[stop]": "name"
     ]
     params = params
@@ -39,6 +39,19 @@ defmodule Schedules.Repo do
     |> Enum.map(&Schedules.Parser.stop/1)
     |> Enum.uniq
     |> Enum.sort_by(fn stop -> stop.name end)
+  end
+
+  def trip(trip_id) do
+    params = [
+      include: "stop,trip.route",
+      "fields[schedule]": "departure_time",
+      "fields[stop]": "name",
+      trip: trip_id
+    ]
+    params
+    |> V3Api.Schedules.all
+    |> (fn api -> api.data end).()
+    |> Enum.map(&Schedules.Parser.parse/1)
   end
 
   defp add_optional_param(params, opts, key) do

@@ -23,4 +23,12 @@ defmodule Schedules.RepoTest do
     assert List.last(response) == %Schedules.Stop{id: "Winchester Center", name: "Winchester Center"}
     assert response == Enum.uniq(response)
   end
+
+  test ".trip returns stops in order of their stop_sequence for a given trip" do
+    trip_id = "31174481-CR_MAY2016-hxl16011-Weekday-01"
+    response = Schedules.Repo.trip(trip_id)
+    assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
+    assert List.first(response).stop.id == "Lowell"
+    assert List.last(response).stop.id == "North Station"
+  end
 end

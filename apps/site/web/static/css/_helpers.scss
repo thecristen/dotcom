@@ -1,3 +1,15 @@
 .bg-white {
   background-color: white;
 }
+
+.bg-gray {
+  color: white;
+  background-color: $gray;
+}
+.list-group-item.bg-gray {
+  color: white;
+}
+
+.list-group-item.bg-inverse {
+  color: $gray-lighter;
+}
