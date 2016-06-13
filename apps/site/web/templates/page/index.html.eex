@@ -31,7 +31,7 @@
           <ul class="route-list">
             <%= for route <- @grouped_routes[:commuter_rail] do %>
               <li class="route-list-item-inline">
-                <%= link route.name |> clean_route_name, to: "/schedules/?route=#{route.id}" %></li>
+                <%= link route.name |> clean_route_name, to: schedule_path @conn, :index, route: route.id %></li>
             <% end %>
           </ul>
         </div>
@@ -40,7 +40,7 @@
           <ul class="route-list">
             <%= for route <- @grouped_routes[:bus] |> Enum.take(50) do %>
               <li class="route-list-item-inline">
-                <%= link route.name, to: "#" %></li>
+                <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %></li>
               <% end %>
             <li class="route-list-item-inline">...</li>
           </ul>
