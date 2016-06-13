@@ -13,20 +13,20 @@
     </form>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12">
-    <form method="GET" action="">
-      <%= hidden_query_params @conn, exclude: ["dest", "route", "trip"] %>
-      <label for="dest" class="text-muted">Where are you going?</label>
-      <select name="dest" class="form-control c-select" placeholder="Select a station" <%= if @origin == "" do %>disabled<% end %>>
-        <option value="">Select a station</option>
-        <%= for stop <- @all_stops |> Enum.drop_while(fn stop -> stop.id != @origin end) |> Enum.drop(1) do %>
-          <option value="<%=  stop.id %>" <%= if stop.id == @destination do %>selected<% end %>><%= stop.name %></option>
-        <% end %>
-      </select>
-      <%=  if @origin != "" do %>
+<%= if @origin != nil do %>
+  <div class="row">
+    <div class="col-xs-12">
+      <form method="GET" action="">
+        <%= hidden_query_params @conn, exclude: ["dest", "route", "trip"] %>
+        <label for="dest" class="text-muted">Where are you going?</label>
+        <select name="dest" class="form-control c-select" placeholder="Select a station">
+          <option value="">Select a station</option>
+          <%= for stop <- @all_stops |> Enum.drop_while(fn stop -> stop.id != @origin end) |> Enum.drop(1) do %>
+            <option value="<%=  stop.id %>" <%= if stop.id == @destination do %>selected<% end %>><%= stop.name %></option>
+          <% end %>
+        </select>
         <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
-      <% end %>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
+<% end %>
