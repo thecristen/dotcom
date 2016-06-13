@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form method="GET" action="">
+      <%= hidden_query_params(@conn, exclude: ["origin"]) %>
+      <label for="origin" class="text-muted">Where are you coming from?</label>
+      <select name="origin" class="form-control c-select">
+        <option value="">Select a station</option>
+        <%= for stop <- @all_stops do %>
+          <option value="<%= stop.id %>" <%= if stop.id == @origin do %>selected<% end %>><%= stop.name %></option>
+        <% end %>
+      </select>
+      <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <label for="destination" class="text-muted">Where are you going?</label>
+    <select name="destination" class="form-control c-select" placeholder="Select a station" disabled>
+    </select
+  </div>
+</div>

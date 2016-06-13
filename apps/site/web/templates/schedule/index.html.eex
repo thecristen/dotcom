@@ -1,63 +1,6 @@
 <div class="container bg-white">
-  <div class="row">
-    <div class="col-xs-6">
-      <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
-    </div>
-    <div class="col-xs-6">
-      <div class="pull-xs-right">
-        <form method="GET" action="" class="form-inline">
-          <%= hidden_query_params @conn, exclude: ["date"] %>
-          <input class="form-control form-control-sm" type="date" name="date" value="<%= @date |> Timex.format!("{ISOdate}") %>"/>
-          <button type="submit" class="btn btn-sm btn-primary-outline">Change</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <h3>
-        <span class="schedule-route-icon schedule-route-icon-commuter-rail">
-          <%= svg @conn, "/images/commuter.svg" %>
-        </span>
-        <%= @route.name %>
-      </h3>
-      <h4>
-        <div class="pull-xs-right">
-          <a href="<%= update_url @conn, direction_id: @reverse_direction %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
-        </div>
-        <div>
-          <small>From:</small>
-          <%= @from %>
-        </div>
-        <div>
-          <small>To:</small>
-          <%= @to %>
-        </div>
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <form method="GET" action="">
-        <%= hidden_query_params(@conn, exclude: ["origin"]) %>
-        <label for="origin" class="text-muted">Where are you coming from?</label>
-        <select name="origin" class="form-control c-select">
-          <option value="">Select a station</option>
-          <%= for stop <- @all_stops do %>
-            <option value="<%= stop.id %>" <%= if stop.id == @origin do %>selected<% end %>><%= stop.name %></option>
-          <% end %>
-        </select>
-        <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <label for="destination" class="text-muted">Where are you going?</label>
-      <select name="destination" class="form-control c-select" placeholder="Select a station" disabled>
-      </select
-    </div>
-  </div>
+  <%= render "_locations.html", Dict.put(@conn.assigns, :conn, @conn) %>
+  <%= render "_filters.html", Dict.put(@conn.assigns, :conn, @conn) %>
   <div class="row">
     <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
       <p class="text-muted">

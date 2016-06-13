@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-xs-6">
+    <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
+  </div>
+  <div class="col-xs-6">
+    <div class="pull-xs-right">
+      <form method="GET" action="" class="form-inline">
+        <%= hidden_query_params @conn, exclude: ["date"] %>
+        <input class="form-control form-control-sm" type="date" name="date" value="<%= @date |> Timex.format!("{ISOdate}") %>"/>
+        <button type="submit" class="btn btn-sm btn-primary-outline">Change</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <%= if @conn.assigns[:route] != nil do %> %>
+      <h3>
+        <span class="schedule-route-icon schedule-route-icon-commuter-rail">
+          <%= svg @conn, "/images/commuter.svg" %>
+        </span>
+        <%= @route.name %>
+      </h3>
+    <% end %>
+    <h4>
+      <div class="pull-xs-right">
+        <a href="<%= update_url @conn, direction_id: @reverse_direction_id, dest: @origin, origin: @destination %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
+      </div>
+      <div>
+        <small>From:</small>
+        <%= @from %>
+      </div>
+      <div>
+        <small>To:</small>
+        <%= @to %>
+      </div>
+    </h4>
+  </div>
+</div>

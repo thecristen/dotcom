@@ -1,0 +1,25 @@
+<div class="container bg-white">
+  <%= render "_locations.html", Dict.put(@conn.assigns, :conn, @conn) %>
+  <div class="row">
+    <div class="col-xs-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Train</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for {origin, dest} <- @pairs do %>
+            <tr>
+              <td><%= origin.time |> Timex.format!("{kitchen}") %></td>
+              <td><%= dest.time |> Timex.format!("{kitchen}") %></td>
+              <td><%= origin.trip.name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
