@@ -14,7 +14,7 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <%= if @conn.assigns[:route] != nil do %> %>
+    <%= if @conn.assigns[:route] != nil do %>
       <h3>
         <span class="schedule-route-icon schedule-route-icon-commuter-rail">
           <%= svg @conn, "/images/commuter.svg" %>
@@ -24,7 +24,7 @@
     <% end %>
     <h4>
       <div class="pull-xs-right">
-        <a href="<%= update_url @conn, direction_id: @reverse_direction_id, dest: @origin, origin: @destination %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
+        <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @origin || @destination %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
       </div>
       <div>
         <small>From:</small>

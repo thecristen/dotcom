@@ -20,7 +20,7 @@ defmodule Site.ScheduleController do
     default_params = index_params(params)
 
     date = default_params[:date]
-    direction_id = default_params[:direction_id]
+    direction_id = default_direction_id(params)
     trip = params
     |> Map.get("trip", "")
 
@@ -36,7 +36,6 @@ defmodule Site.ScheduleController do
                               value -> basic_schedule_params
                               |> Keyword.put(:stop, value)
                             end
-
     [all_schedules, all_stops, alerts, trip_schedule] = AsyncList.run([
       {Schedules.Repo, :all, [basic_schedule_params]},
       {Schedules.Repo, :stops, [[
@@ -46,10 +45,16 @@ defmodule Site.ScheduleController do
       {Alerts.Repo, :all, []},
       {Site.ScheduleController, :selected_trip, [trip]}])
 
+    filtered_schedules = schedules(all_schedules, default_params[:show_all])
+    {filtered_schedules, default_params} = if filtered_schedules == [] do
+      {all_schedules, Keyword.put(default_params, :show_all, true)}
+    else
+      {filtered_schedules, default_params}
+    end
 
     render(conn, "index.html", Keyword.merge(default_params, [
               all_stops: all_stops,
-              schedules: schedules(all_schedules, default_params[:show_all]),
+              schedules: filtered_schedules,
               route: route(all_schedules),
               from: from(all_schedules),
               to: to(all_schedules),
@@ -93,7 +98,7 @@ defmodule Site.ScheduleController do
           0
         end
 
-      str ->
+        str ->
         String.to_integer(str)
     end
   end
@@ -112,8 +117,12 @@ defmodule Site.ScheduleController do
       |> Timex.after?(DateTime.now)
     end)
 
-    all_schedules
-    |> Enum.drop(first_after_index - 1)
+    if first_after_index == nil do
+      []
+    else
+      all_schedules
+      |> Enum.drop(first_after_index - 1)
+    end
   end
 
   defp sort_schedules(all_schedules) do
