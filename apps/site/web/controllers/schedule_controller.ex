@@ -8,7 +8,10 @@ defmodule Site.ScheduleController do
     |> Dict.put(:direction_id, default_direction_id(params))
     |> Dict.put(:date, default_date(params))
 
-    pairs = Schedules.Repo.origin_destination(origin_id, dest_id, opts)
+    [pairs, alerts] = AsyncList.run([
+      {Schedules.Repo, :origin_destination, [origin_id, dest_id, opts]},
+      {Alerts.Repo, :all, []}])
+
     general_route = pairs
     |> Enum.map(fn {stop, _} -> stop.route end)
     |> most_frequent_value
@@ -23,6 +26,7 @@ defmodule Site.ScheduleController do
     end
 
     render(conn, "pairs.html", Keyword.merge(default_params, [
+              alerts: alerts,
               from: pairs |> List.first |> (fn {x, _} -> x.stop.name end).(),
               to: pairs |> List.first |> (fn {_, y} -> y.stop.name end).(),
               route: general_route,

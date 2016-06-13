@@ -22,8 +22,20 @@
         <tbody>
           <%= for {origin, dest} <- @pairs do %>
             <tr>
-              <td><%= origin.time |> Timex.format!("{kitchen}") %></td>
-              <td><%= dest.time |> Timex.format!("{kitchen}") %></td>
+              <td>
+                <%= origin.time |> Timex.format!("{kitchen}") %>
+                <%= if has_alerts?(@alerts, origin) do %>
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <span class="sr-only">Has an alert</span>
+                <% end %>
+              </td>
+              <td>
+                <%= dest.time |> Timex.format!("{kitchen}") %>
+                <%= if has_alerts?(@alerts, dest) do %>
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <span class="sr-only">Has an alert</span>
+                <% end %>
+              </td>
               <td>
                 <%= origin.trip.name %>
                 <%= if origin.route != @route do %>(via <%= origin.route.name %>)<% end %>
