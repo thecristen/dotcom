@@ -13,17 +13,13 @@ defmodule Site.ScheduleController do
     |> Enum.map(fn {stop, _} -> stop.route end)
     |> most_frequent_value
 
-    next_pair_index = if default_params[:show_all] == false do
-      pairs
-      |> Enum.find_index(fn {origin, _} -> is_after_now?(origin) end)
-    else
-      nil
-    end
+    filtered_pairs = pairs
+    |> Enum.filter(fn {_, dest} -> is_after_now?(dest) end)
 
-    {filtered_pairs, default_params} = if next_pair_index == nil do
+    {filtered_pairs, default_params} = if filtered_pairs == [] do
       {pairs, Keyword.put(default_params, :show_all, true)}
     else
-      {Enum.drop(pairs, next_pair_index - 1), default_params}
+      {filtered_pairs, default_params}
     end
 
     render(conn, "pairs.html", Keyword.merge(default_params, [
