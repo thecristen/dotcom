@@ -15,7 +15,10 @@
             <tr>
               <td><%= origin.time |> Timex.format!("{kitchen}") %></td>
               <td><%= dest.time |> Timex.format!("{kitchen}") %></td>
-              <td><%= origin.trip.name %></td>
+              <td>
+                <%= origin.trip.name %>
+                <%= if origin.route != @route do %>(via <%= origin.route.name %>)<% end %>
+              </td>
             </tr>
           <% end %>
         </tbody>

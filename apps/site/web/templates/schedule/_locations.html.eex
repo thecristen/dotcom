@@ -24,7 +24,7 @@
     <% end %>
     <h4>
       <div class="pull-xs-right">
-        <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @origin || @destination %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
+        <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
       </div>
       <div>
         <small>From:</small>

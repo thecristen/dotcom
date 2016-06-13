@@ -9,9 +9,14 @@ defmodule Site.ScheduleController do
     |> Dict.put(:date, default_date(params))
 
     pairs = Schedules.Repo.origin_destination(origin_id, dest_id, opts)
+    general_route = pairs
+    |> Enum.map(fn {stop, _} -> stop.route end)
+    |> most_frequent_value
+
     render(conn, "pairs.html", Keyword.merge(default_params, [
               from: pairs |> List.first |> (fn {x, _} -> x.stop.name end).(),
               to: pairs |> List.first |> (fn {_, y} -> y.stop.name end).(),
+              route: general_route,
               pairs: pairs
             ]))
   end
