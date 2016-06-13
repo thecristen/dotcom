@@ -1,25 +1,23 @@
 defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
 
-  def all(opts) do
-    params = [
-      include: "trip.route,stop,route",
+  @default_params [
+      include: "trip.route,stop",
       "fields[schedule]": "departure_time",
-      "fields[stop]": "name",
-      "fields[trip]": "name,headsign",
-      "fields[route]": "type,long_name"
-    ]
-    params = params
+      "fields[stop]": "name"
+  ]
+  def all(opts) do
+    params = Keyword.merge(@default_params, [
+          "fields[trip]": "name,headsign",
+          "fields[route]": "type,long_name"
+        ])
+    params
     |> add_optional_param(opts, :route)
     |> add_optional_param(opts, :date)
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequence)
     |> add_optional_param(opts, :stop)
-
-    params
-    |> V3Api.Schedules.all
-    |> (fn api -> api.data end).()
-    |> Enum.map(&Schedules.Parser.parse/1)
+    |> all_from_params
   end
 
   def stops(opts) do
@@ -41,12 +39,35 @@ defmodule Schedules.Repo do
   end
 
   def trip(trip_id) do
-    params = [
-      include: "stop,trip.route",
-      "fields[schedule]": "departure_time",
-      "fields[stop]": "name",
+    @default_params
+    |> Keyword.merge([
       trip: trip_id
-    ]
+    ])
+    |> all_from_params
+  end
+
+  def origin_destination(origin_stop, dest_stop, opts \\ []) do
+    origin_task = Task.async(Schedules.Repo, :schedule_for_stop, [origin_stop, opts])
+    dest_task = Task.async(Schedules.Repo, :schedule_for_stop, [dest_stop, opts])
+
+    {:ok, origin_stops} = Task.yield(origin_task)
+    {:ok, dest_stops} = Task.yield(dest_task)
+
+    origin_stops
+    |> Join.join(dest_stops, fn schedule -> schedule.trip.id end)
+    |> Enum.filter(fn {o, d} -> o.time < d.time end) # filter out reverse trips
+  end
+
+  def schedule_for_stop(stop_id, opts) do
+    opts
+    |> Keyword.merge([
+      stop: stop_id
+    ])
+    |> all
+    |> Enum.sort_by(fn schedule -> schedule.time end)
+  end
+
+  defp all_from_params(params) do
     params
     |> V3Api.Schedules.all
     |> (fn api -> api.data end).()

@@ -31,4 +31,16 @@ defmodule Schedules.RepoTest do
     assert List.first(response).stop.id == "Lowell"
     assert List.last(response).stop.id == "North Station"
   end
+
+  test ".origin_destination returns pairs of Schedule items" do
+    today = Date.today |> Timex.format!("{ISOdate}")
+    response = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
+      date: today, direction_id: 1)
+    [{origin, dest}|_] = response
+
+    assert origin.stop.id == "Anderson/ Woburn"
+    assert dest.stop.id == "North Station"
+    assert origin.trip.id == dest.trip.id
+    assert origin.time < dest.time
+  end
 end
