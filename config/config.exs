@@ -12,8 +12,9 @@ defmodule DotCom.Config do
   value.
 
   """
-  def envvar_or_default(<<"$", _::binary>>, default) do
-    default
+  def envvar_or_default(<<"$", rest::binary>>, default) do
+    envvar = String.slice(rest, 1, byte_size(rest) - 2)
+    System.get_env(envvar) || default
   end
   def envvar_or_default(var, _) do
     var
