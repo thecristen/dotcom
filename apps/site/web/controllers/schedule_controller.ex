@@ -13,11 +13,24 @@ defmodule Site.ScheduleController do
     |> Enum.map(fn {stop, _} -> stop.route end)
     |> most_frequent_value
 
+    next_pair_index = if default_params[:show_all] == false do
+      pairs
+      |> Enum.find_index(fn {origin, _} -> is_after_now?(origin) end)
+    else
+      nil
+    end
+
+    {filtered_pairs, default_params} = if next_pair_index == nil do
+      {pairs, Keyword.put(default_params, :show_all, true)}
+    else
+      {Enum.drop(pairs, next_pair_index - 1), default_params}
+    end
+
     render(conn, "pairs.html", Keyword.merge(default_params, [
               from: pairs |> List.first |> (fn {x, _} -> x.stop.name end).(),
               to: pairs |> List.first |> (fn {_, y} -> y.stop.name end).(),
               route: general_route,
-              pairs: pairs
+              pairs: filtered_pairs
             ]))
   end
 
@@ -117,10 +130,7 @@ defmodule Site.ScheduleController do
     default_schedules = schedules(all_schedules, true)
 
     first_after_index = default_schedules
-    |> Enum.find_index(fn %{time: time} ->
-      time
-      |> Timex.after?(DateTime.now)
-    end)
+    |> Enum.find_index(&is_after_now?/1)
 
     if first_after_index == nil do
       []
@@ -133,6 +143,11 @@ defmodule Site.ScheduleController do
   defp sort_schedules(all_schedules) do
     all_schedules
     |> Enum.sort_by(fn schedule -> schedule.time end)
+  end
+
+  defp is_after_now?(%{time: time}) do
+    time
+    |> Timex.after?(DateTime.now)
   end
 
   def direction(0), do: "Outbound"
