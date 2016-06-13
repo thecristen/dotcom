@@ -19,8 +19,8 @@ defmodule Schedules.RepoTest do
       direction_id: 1)
 
     assert response != []
-    assert List.first(response) == %Schedules.Stop{id: "Anderson/ Woburn", name: "Anderson/ Woburn"}
-    assert List.last(response) == %Schedules.Stop{id: "Winchester Center", name: "Winchester Center"}
+    assert List.first(response) == %Schedules.Stop{id: "Lowell", name: "Lowell"}
+    assert List.last(response) == %Schedules.Stop{id: "North Station", name: "North Station"}
     assert response == Enum.uniq(response)
   end
 

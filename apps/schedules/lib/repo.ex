@@ -37,8 +37,7 @@ defmodule Schedules.Repo do
     |> V3Api.Schedules.all
     |> (fn api -> api.data end).()
     |> Enum.map(&Schedules.Parser.stop/1)
-    |> Enum.uniq
-    |> Enum.sort_by(fn stop -> stop.name end)
+    |> uniq_by_last_appearance
   end
 
   def trip(trip_id) do
@@ -73,5 +72,17 @@ defmodule Schedules.Repo do
   end
   defp to_string(other) do
     Kernel.to_string(other)
+  end
+
+  defp uniq_by_last_appearance(items) do
+    # We get multiple copies of the stops, based on the order they are in
+    # various schedules. A stop can appear multiple times, and we want to
+    # take the last place the stop appears.  We take advantage of Enum.uniq/1
+    # keeping the first time an item appears: we reverse the list to have it
+    # keep the last time, then re-reverse the list.
+    items
+    |> Enum.reverse
+    |> Enum.uniq
+    |> Enum.reverse
   end
 end
