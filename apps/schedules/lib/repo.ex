@@ -9,7 +9,7 @@ defmodule Schedules.Repo do
   def all(opts) do
     params = Keyword.merge(@default_params, [
           "fields[trip]": "name,headsign",
-          "fields[route]": "type,long_name"
+          "fields[route]": "type,long_name,short_name"
         ])
     params
     |> add_optional_param(opts, :route)
