@@ -14,8 +14,8 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <%= if @conn.assigns[:route] != nil do %>
-      <h3>
+    <h3>
+      <%= if @conn.assigns[:route] != nil do %>
         <%= case @route.type do %>
           <% 2 -> %>
           <span class="schedule-route-icon schedule-route-icon-commuter-rail">
@@ -28,20 +28,14 @@
           <% _ -> %>
         <% end %>
         <%= @route.name %>
-      </h3>
-    <% end %>
-    <h4>
+      <% end %>
       <div class="pull-xs-right">
-        <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>" class="btn btn-sm btn-secondary"><%= @direction %></a>
+        <small>
+          <%= @direction %> to: <%= @to %>
+          <br>
+          <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>">Switch to <%= @reverse_direction %></a>
+        </small>
       </div>
-      <div>
-        <small>From:</small>
-        <%= @from %>
-      </div>
-      <div>
-        <small>To:</small>
-        <%= @to %>
-      </div>
-    </h4>
+    </h3>
   </div>
 </div>

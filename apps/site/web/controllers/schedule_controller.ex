@@ -124,6 +124,7 @@ defmodule Site.ScheduleController do
       direction_id: direction_id,
       direction: direction(direction_id),
       reverse_direction_id: reverse_direction_id(direction_id),
+      reverse_direction: direction(reverse_direction_id(direction_id)),
       origin: params["origin"],
       destination: params["dest"],
     ]
@@ -145,7 +146,7 @@ defmodule Site.ScheduleController do
           0
         end
 
-        str ->
+      str ->
         String.to_integer(str)
     end
   end
@@ -226,7 +227,6 @@ defmodule Site.ScheduleController do
     direction_id
     |> Kernel.+(1)
     |> rem(2)
-    |> Integer.to_string
   end
 
   def selected_trip("") do
