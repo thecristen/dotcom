@@ -18,6 +18,23 @@ defmodule TimeGroup do
     |> Enum.reverse
   end
 
+  @doc """
+  Given a list of schedules, return the frequency of service in minutes.
+  Returns either a min/max pair if there's a variation, or a single integer.
+  """
+  @spec frequency([%Schedule{}]) :: {non_neg_integer, non_neg_integer} | non_neg_integer
+  def frequency(schedules) do
+    {min, max} = schedules
+    |> Enum.zip(Enum.drop(schedules, 1))
+    |> Enum.map(fn {x, y} -> Timex.diff(x.time, y.time, :minutes) end)
+    |> Enum.min_max
+
+    case {min, max} do
+      {value, value} -> value
+      _ -> {min, max}
+    end
+  end
+
   defp reduce_by_hour(schedule, []) do
     [{schedule.time.hour, [schedule]}]
   end

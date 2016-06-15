@@ -41,4 +41,22 @@ defmodule TimeGroupTest do
       schedules == ungrouped
     end
   end
+
+  test "frequency returns a single value if there's a single headway" do
+    first_time = DateTime.from_erl({{2016, 1, 1}, {5, 26, 1}})
+    first_schedule = %Schedule{time: first_time}
+    second_time = DateTime.from_erl({{2016, 1, 1}, {5, 36, 1}})
+    second_schedule = %Schedule{time: second_time}
+
+    assert TimeGroup.frequency([@schedule, first_schedule, second_schedule]) == 10
+  end
+
+  test "frequency returns a min/max if there are different values" do
+    first_time = DateTime.from_erl({{2016, 1, 1}, {5, 25, 1}})
+    first_schedule = %Schedule{time: first_time}
+    second_time = DateTime.from_erl({{2016, 1, 1}, {5, 36, 1}})
+    second_schedule = %Schedule{time: second_time}
+
+    assert TimeGroup.frequency([@schedule, first_schedule, second_schedule]) == {9, 11}
+  end
 end
