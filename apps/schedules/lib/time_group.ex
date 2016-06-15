@@ -1,0 +1,39 @@
+defmodule TimeGroup do
+  alias Schedules.Schedule
+
+  @doc """
+  Given a list of schedules, returns a map of those schedules grouped by the hour of day.
+
+  Returns a keyword list rather than a map so that the times appear in order.
+
+  """
+  @spec by_hour([%Schedule{}]) :: [{non_neg_integer, [%Schedule{}]}]
+  def by_hour([]) do
+    []
+  end
+  def by_hour(schedules) do
+    schedules
+    |> Enum.reduce([], &reduce_by_hour/2)
+    |> reverse_first_group
+    |> Enum.reverse
+  end
+
+  defp reduce_by_hour(schedule, []) do
+    [{schedule.time.hour, [schedule]}]
+  end
+  defp reduce_by_hour(schedule, [{hour, grouped}|rest]) do
+    if hour == schedule.time.hour do
+      head = {hour, [schedule|grouped]}
+      [head|rest]
+    else
+      head = {schedule.time.hour, [schedule]}
+      previous_head = {hour, Enum.reverse(grouped)}
+      [head,previous_head|rest]
+    end
+  end
+
+  defp reverse_first_group([{hour, grouped}|rest]) do
+    head = {hour, Enum.reverse(grouped)}
+    [head|rest]
+  end
+end
