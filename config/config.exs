@@ -12,16 +12,13 @@ defmodule DotCom.Config do
   value.
 
   """
-  def envvar_or_default(<<"$", rest::binary>> = var, default) do
+  def envvar_or_default(var, default) do
     if Mix.env == :prod do
       var
     else
       envvar = String.slice(rest, 1, byte_size(rest) - 2)
       System.get_env(envvar) || default
     end
-  end
-  def envvar_or_default(var, _) do
-    var
   end
 end
 
@@ -30,7 +27,7 @@ config :stations,
   base_url: DotCom.Config.envvar_or_default("${STATION_URL}", "http://mbta-station-info-dev.us-east-1.elasticbeanstalk.com")
 
 config :v3_api,
-  base_url: DotCom.Config.envvar_or_default("${V3_URL}", "http://mbta-api-dev.rmfmhatiyh.us-east-1.elasticbeanstalk.com")
+  base_url: DotCom.Config.envvar_or_default("${V3_URL}", "http://mbta-api-dev.us-east-1.elasticbeanstalk.com")
 
 # By default, the umbrella project as well as each child
 # application will require this configuration file, ensuring
