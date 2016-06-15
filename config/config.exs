@@ -12,9 +12,13 @@ defmodule DotCom.Config do
   value.
 
   """
-  def envvar_or_default(<<"$", rest::binary>>, default) do
-    envvar = String.slice(rest, 1, byte_size(rest) - 2)
-    System.get_env(envvar) || default
+  def envvar_or_default(<<"$", rest::binary>> = var, default) do
+    if Mix.env == :prod do
+      var
+    else
+      envvar = String.slice(rest, 1, byte_size(rest) - 2)
+      System.get_env(envvar) || default
+    end
   end
   def envvar_or_default(var, _) do
     var
