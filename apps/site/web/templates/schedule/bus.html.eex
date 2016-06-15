@@ -1,0 +1,49 @@
+<div class="container bg-white">
+  <%= render "_locations.html", Dict.put(@conn.assigns, :conn, @conn) %>
+  <%= render "_filters.html", Dict.put(@conn.assigns, :conn, @conn) %>
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+      <p class="text-muted">
+        Departure times from <%= @from %>
+      </p>
+      <div class="list-group">
+        <%= if not @show_all do %>
+          <div class="list-group-item text-xs-center">
+            <a href="<%= update_url @conn, all: "all" %>">Show earlier times</a>
+          </div>
+        <% end %>
+        <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
+          <a class="list-group-item <%= if @conn.params["hour"] == to_string(hour) do %>bg-inverse<% else %>bg-gray<% end %>"
+            href="<%= if @conn.params["hour"] == to_string(hour) do %>
+                  <%= update_url @conn, hour: "" %>
+                  <% else %>
+                  <%= update_url @conn, hour: hour %>
+                  <% end %>">
+            <div class="row">
+              <div class="col-xs-3">
+                <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
+              </div>
+              <div class="col-xs-9">
+                <%= case TimeGroup.frequency(schedules) do %>
+                  <%= {min, max} -> %>Every <%= min %>-<%= max %> minutes
+                  <%= value -> %>Every <%= value %> minutes
+                <% end %>
+              </div>
+            </div>
+          </a>
+          <%= if @conn.params["hour"] == to_string(hour) do %>
+            <div class="list-group-item">
+              <div class="row">
+                <%= for schedule <- schedules do %>
+                  <div class="col-xs-2">
+                    <%= schedule.time |> Timex.format!("{kitchen}") %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

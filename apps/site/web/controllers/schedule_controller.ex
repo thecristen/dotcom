@@ -48,16 +48,22 @@ defmodule Site.ScheduleController do
     |> possibly_open_schedules(all_schedules, conn)
 
     conn
+    |> assign(:schedules, filtered_schedules)
+    |> assign(:route, route(all_schedules))
+    |> assign(:from, from(all_schedules))
+    |> assign(:to, to(all_schedules))
     |> await_assign_all
-    |> render(
-      "index.html", [
-        schedules: filtered_schedules,
-        route: route(all_schedules),
-        from: from(all_schedules),
-        to: to(all_schedules)
-      ]
-    )
+    |> render_schedule
+  end
 
+  def render_schedule(%{assigns: %{route: route}} = conn) do
+    conn
+    |> render(case route.type do
+                3 ->
+                  "bus.html"
+                _ ->
+                  "index.html"
+              end)
   end
 
   def default_assigns(conn) do
