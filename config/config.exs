@@ -16,7 +16,7 @@ defmodule DotCom.Config do
     if Mix.env == :prod do
       var
     else
-      envvar = String.slice(rest, 1, byte_size(rest) - 2)
+      envvar = String.slice(var, 2, byte_size(var) - 3)
       System.get_env(envvar) || default
     end
   end
