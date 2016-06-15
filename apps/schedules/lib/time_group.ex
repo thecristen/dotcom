@@ -23,7 +23,7 @@ defmodule TimeGroup do
   Returns either a min/max pair if there's a variation, or a single integer.
   """
   @spec frequency([%Schedule{}]) :: {non_neg_integer, non_neg_integer} | non_neg_integer
-  def frequency(schedules) do
+  def frequency([_,_|_] = schedules) do
     {min, max} = schedules
     |> Enum.zip(Enum.drop(schedules, 1))
     |> Enum.map(fn {x, y} -> Timex.diff(x.time, y.time, :minutes) end)
@@ -33,6 +33,9 @@ defmodule TimeGroup do
       {value, value} -> value
       _ -> {min, max}
     end
+  end
+  def frequency(_) do
+    nil
   end
 
   defp reduce_by_hour(schedule, []) do

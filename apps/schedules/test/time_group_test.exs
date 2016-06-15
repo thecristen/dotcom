@@ -59,4 +59,8 @@ defmodule TimeGroupTest do
 
     assert TimeGroup.frequency([@schedule, first_schedule, second_schedule]) == {9, 11}
   end
+
+  test "frequency returns nil if there's only one scheduled trip" do
+    assert TimeGroup.frequency([@schedule]) == nil
+  end
 end
