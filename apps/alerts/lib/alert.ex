@@ -1,5 +1,5 @@
 defmodule Alerts.Alert do
-  defstruct [:id, :header, :informed_entity, :active_period]
+  defstruct [:id, :header, :informed_entity, :active_period, :effect_name, :severity, :lifecycle]
 end
 
 defmodule Alerts.InformedEntity do
