@@ -20,7 +20,10 @@ defmodule Alerts.ParserTest do
               "start" => "2016-06-06T14:48:48-04:00",
               "end" => "2016-06-06T19:53:51-04:00"
             }
-          ]
+          ],
+          "severity" => "Minor",
+          "lifecycle" => "Ongoing",
+          "effect_name" => "Delay"
         }
       })
     ==
@@ -37,7 +40,10 @@ defmodule Alerts.ParserTest do
         active_period: [
           {Timex.DateTime.from_erl({{2016, 6, 6}, {14, 48, 48}}, "Etc/GMT+4"),
            Timex.DateTime.from_erl({{2016, 6, 6}, {19, 53, 51}}, "Etc/GMT+4")}
-        ]
+        ],
+        severity: "Minor",
+        lifecycle: "Ongoing",
+        effect_name: "Delay"
       }
     end
 end
