@@ -21,9 +21,10 @@ defmodule TimeGroup do
 
   @doc """
   Given a list of schedules, return the frequency of service in minutes.
-  Returns either a min/max pair if there's a variation, or a single integer.
+  If there are multiple schedules, returns either a min/max pair if there's a
+  variation, or a single integer.  Otherwise, returns nil.
   """
-  @spec frequency([%Schedule{}]) :: {non_neg_integer, non_neg_integer} | non_neg_integer
+  @spec frequency([%Schedule{}]) :: {non_neg_integer, non_neg_integer} | non_neg_integer | nil
   def frequency([_,_|_] = schedules) do
     {min, max} = schedules
     |> Enum.zip(Enum.drop(schedules, 1))
