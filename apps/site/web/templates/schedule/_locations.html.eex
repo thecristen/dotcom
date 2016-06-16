@@ -13,9 +13,9 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12">
-    <h3>
-      <%= if @conn.assigns[:route] != nil do %>
+  <div class="col-xs-6">
+    <%= if @conn.assigns[:route] != nil do %>
+      <form method="GET" action="" class="form-inline">
         <%= case @route.type do %>
           <% 2 -> %>
           <span class="schedule-route-icon schedule-route-icon-commuter-rail">
@@ -27,15 +27,21 @@
           </span>
           <% _ -> %>
         <% end %>
-        <%= @route.name %>
-      <% end %>
-      <div class="pull-xs-right">
-        <small>
-          <%= @direction %> to: <%= @to %>
-          <br>
-          <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>">Switch to <%= @reverse_direction %></a>
-        </small>
-      </div>
-    </h3>
+        <%= hidden_query_params @conn, exclude: ["route"] %>
+        <select name="route" class="form-control form-control-lg">
+          <%= for route <- @all_routes do %>
+            <option value="<%= route.id %>" <%= if @route.id == route.id do %>selected<% end %>><%= route.name %></option>
+          <% end %>
+        </select>
+        <button type="submit" class="btn btn-sm btn-primary-outline">Go</button>
+      </form>
+    <% end %>
+  </div>
+  <div class="col-xs-6 pull-xs-right">
+    <small>
+      <%= @direction %> to: <%= @to %>
+      <br>
+      <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>">Switch to <%= @reverse_direction %></a>
+      </small>
   </div>
 </div>
