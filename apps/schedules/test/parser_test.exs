@@ -59,4 +59,26 @@ defmodule Schedules.ParserTest do
 
     assert Schedules.Parser.parse(api_item) == expected
   end
+
+  test "route parsing uses the short_name if the long_name is empty" do
+    api_item = %JsonApi.Item{
+      relationships: %{
+        "trip" => [%JsonApi.Item{
+                      relationships: %{
+                        "route" => [%JsonApi.Item{
+                                       type: "route",
+                                       id: "9",
+                                       attributes: %{
+                                         "type" => 3,
+                                         "short_name" => "9",
+                                         "long_name" => "",
+                                         "description" => "Local Bus"
+                                       }}]}}]}}
+    assert Schedules.Parser.route(api_item) ==
+      %Schedules.Route{
+        type: 3,
+        id: "9",
+        name: "9"
+      }
+  end
 end

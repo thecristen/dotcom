@@ -37,6 +37,8 @@ defmodule Schedules.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:v3_api, in_umbrella: true},
-     {:timex, ">= 0.0.0"}]
+     {:timex, ">= 0.0.0"},
+     {:excheck, github: "paulswartz/excheck", ref: "bca297d", only: :test},
+     {:triq, github: "krestenkrab/triq", only: :test}]
   end
 end

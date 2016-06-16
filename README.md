@@ -22,7 +22,7 @@ Then, visit the site at http://localhost:4000/
 
     mix test
 
-## Building/deployingh
+## Building/deploying
 
 1. Install Docker: https://docs.docker.com/engine/installation/
 1. Build the .ZIP package: `sh build.sh`

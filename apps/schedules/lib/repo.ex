@@ -9,7 +9,7 @@ defmodule Schedules.Repo do
   def all(opts) do
     params = Keyword.merge(@default_params, [
           "fields[trip]": "name,headsign",
-          "fields[route]": "type,long_name"
+          "fields[route]": "type,long_name,short_name"
         ])
     params
     |> add_optional_param(opts, :route)
@@ -18,6 +18,7 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :stop_sequence)
     |> add_optional_param(opts, :stop)
     |> all_from_params
+    |> Enum.sort_by(fn schedule -> schedule.time end)
   end
 
   def stops(opts) do

@@ -1,86 +1,114 @@
 defmodule Site.ScheduleController do
   use Site.Web, :controller
   use Timex
+  import Plug.Conn
 
   def index(conn, %{"origin" => origin_id, "dest" => dest_id} = params) do
-    default_params = index_params(params)
+    conn = conn
+    |> default_assigns
+    |> async_alerts
+
     opts = []
     |> Dict.put(:direction_id, default_direction_id(params))
     |> Dict.put(:date, default_date(params))
 
-    [pairs, alerts] = AsyncList.run([
-      {Schedules.Repo, :origin_destination, [origin_id, dest_id, opts]},
-      {Alerts.Repo, :all, []}])
+    pairs = Schedules.Repo.origin_destination(origin_id, dest_id, opts)
 
     general_route = pairs
     |> Enum.map(fn {stop, _} -> stop.route end)
     |> most_frequent_value
 
-    filtered_pairs = pairs
+    { filtered_pairs, conn } = pairs
     |> Enum.filter(fn {_, dest} -> is_after_now?(dest) end)
+    |> possibly_open_schedules(pairs, conn)
 
-    {filtered_pairs, default_params} = if filtered_pairs == [] do
-      {pairs, Keyword.put(default_params, :show_all, true)}
-    else
-      {filtered_pairs, default_params}
-    end
-
-    render(conn, "pairs.html", Keyword.merge(default_params, [
-              alerts: alerts,
-              from: pairs |> List.first |> (fn {x, _} -> x.stop.name end).(),
-              to: pairs |> List.first |> (fn {_, y} -> y.stop.name end).(),
-              route: general_route,
-              pairs: filtered_pairs
-            ]))
+    conn
+    |> await_assign_all
+    |> render("pairs.html",
+      from: pairs |> List.first |> (fn {x, _} -> x.stop.name end).(),
+      to: pairs |> List.first |> (fn {_, y} -> y.stop.name end).(),
+      route: general_route,
+      pairs: filtered_pairs
+    )
   end
 
-  def index(conn, %{"route" => route_id} = params) do
-    default_params = index_params(params)
+  def index(conn, %{"route" => route_id}) do
+    conn = conn
+    |> default_assigns
+    |> async_alerts
+    |> async_all_stops(route_id)
+    |> async_selected_trip
 
-    date = default_params[:date]
-    direction_id = default_direction_id(params)
-    trip = params
-    |> Map.get("trip", "")
+    all_schedules = conn
+    |> basic_schedule_params
+    |> Schedules.Repo.all
 
+    {filtered_schedules, conn} = all_schedules
+    |> schedules(conn.assigns[:show_all])
+    |> possibly_open_schedules(all_schedules, conn)
 
-    basic_schedule_params = [
-      route: route_id,
-      date: date,
-      direction_id: direction_id]
+    conn
+    |> assign(:schedules, filtered_schedules)
+    |> assign(:route, route(all_schedules))
+    |> assign(:from, from(all_schedules))
+    |> assign(:to, to(all_schedules))
+    |> await_assign_all
+    |> render_schedule
+  end
 
-    basic_schedule_params = case Map.get(params, "origin", "") do
-                              "" -> basic_schedule_params
-                              |> Keyword.put(:stop_sequence, 1)
-                              value -> basic_schedule_params
-                              |> Keyword.put(:stop, value)
-                            end
-    [all_schedules, all_stops, alerts, trip_schedule] = AsyncList.run([
-      {Schedules.Repo, :all, [basic_schedule_params]},
-      {Schedules.Repo, :stops, [[
-                                 route: route_id,
-                                 date: date,
-                                 direction_id: direction_id]]},
-      {Alerts.Repo, :all, []},
-      {Site.ScheduleController, :selected_trip, [trip]}])
+  def render_schedule(%{assigns: %{route: route}} = conn) do
+    conn
+    |> render(case route.type do
+                3 ->
+                  "bus.html"
+                _ ->
+                  "index.html"
+              end)
+  end
 
-    filtered_schedules = schedules(all_schedules, default_params[:show_all])
-    {filtered_schedules, default_params} = if filtered_schedules == [] do
-      {all_schedules, Keyword.put(default_params, :show_all, true)}
-    else
-      {filtered_schedules, default_params}
-    end
+  def default_assigns(conn) do
+    conn.params
+    |> index_params
+    |> Enum.reduce(conn, fn {key, value}, conn -> assign(conn, key, value) end)
+  end
 
-    render(conn, "index.html", Keyword.merge(default_params, [
-              all_stops: all_stops,
-              schedules: filtered_schedules,
-              route: route(all_schedules),
-              from: from(all_schedules),
-              to: to(all_schedules),
-              alerts: alerts,
-              trip: trip,
-              trip_schedule: trip_schedule
-            ]))
+  def async_alerts(conn) do
+    conn
+    |> async_assign(:alerts, &Alerts.Repo.all/0)
+  end
 
+  def async_all_stops(conn, route_id) do
+    conn
+    |> async_assign(:all_stops, fn ->
+      Schedules.Repo.stops(
+        route: route_id,
+        date: conn.assigns[:date],
+        direction_id: conn.assigns[:direction_id])
+    end)
+  end
+
+  def async_selected_trip(%{params: %{"trip" => trip_id}} = conn) do
+    conn
+    |> assign(:trip, trip_id)
+    |> async_assign(:trip_schedule, fn ->
+      selected_trip(trip_id)
+    end)
+  end
+  def async_selected_trip(conn) do
+    conn
+    |> assign(:trip, nil)
+  end
+
+  @doc "Find all the assigns which are Tasks, and await_assign them"
+  def await_assign_all(conn) do
+    conn.assigns
+    |> Enum.filter_map(
+    fn
+      {_, %Task{}} -> true
+      _ -> false
+    end,
+    fn {key, _} -> key end)
+    |> Enum.reduce(conn, fn key, conn -> await_assign(conn, key) end)
   end
 
   def index_params(params) do
@@ -93,8 +121,10 @@ defmodule Site.ScheduleController do
     [
       date: date,
       show_all: show_all,
+      direction_id: direction_id,
       direction: direction(direction_id),
       reverse_direction_id: reverse_direction_id(direction_id),
+      reverse_direction: direction(reverse_direction_id(direction_id)),
       origin: params["origin"],
       destination: params["dest"],
     ]
@@ -116,10 +146,26 @@ defmodule Site.ScheduleController do
           0
         end
 
-        str ->
+      str ->
         String.to_integer(str)
     end
   end
+
+  def basic_schedule_params(%{params: params, assigns: assigns}) do
+    schedule_params = [
+      route: params["route"],
+      date: assigns[:date],
+      direction_id: assigns[:direction_id]]
+
+    case Map.get(params, "origin", "") do
+      "" -> schedule_params
+      |> Keyword.put(:stop_sequence, 1)
+
+      value -> schedule_params
+      |> Keyword.put(:stop, value)
+    end
+  end
+
 
   def schedules(all_schedules, show_all)
   def schedules(all_schedules, true) do
@@ -138,6 +184,13 @@ defmodule Site.ScheduleController do
       all_schedules
       |> Enum.drop(first_after_index - 1)
     end
+  end
+
+  def possibly_open_schedules([], all_schedules, conn) do
+    { all_schedules, assign(conn, :show_all, true) }
+  end
+  def possibly_open_schedules(schedules, _, conn) do
+    { schedules, conn }
   end
 
   defp sort_schedules(all_schedules) do
@@ -174,7 +227,6 @@ defmodule Site.ScheduleController do
     direction_id
     |> Kernel.+(1)
     |> rem(2)
-    |> Integer.to_string
   end
 
   def selected_trip("") do

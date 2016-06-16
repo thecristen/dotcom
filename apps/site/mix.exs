@@ -22,7 +22,7 @@ defmodule Site.Mixfile do
   def application do
     [mod: {Site, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :stations, :routes, :alerts, :news, :schedules]]
+                    :stations, :routes, :alerts, :news, :schedules, :timex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,6 +38,7 @@ defmodule Site.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
+     {:timex, ">= 2.0.0"},
      {:stations, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:alerts, in_umbrella: true},

@@ -8,7 +8,7 @@ defmodule Schedules.Parser do
     }
   end
 
-  defp route(
+  def route(
     %JsonApi.Item{
       relationships: %{
         "trip" => [
@@ -16,7 +16,8 @@ defmodule Schedules.Parser do
           relationships: %{
             "route" => [
             %JsonApi.Item{id: id,
-                          attributes: %{"long_name" => long_name, "type" => type}}
+                          attributes: %{"long_name" => long_name,
+                                        "type" => type} = attributes}
             | _]
           }} | _]
       }
@@ -24,7 +25,10 @@ defmodule Schedules.Parser do
     %Schedules.Route{
       id: id,
       type: type,
-      name: long_name
+      name: case long_name do
+              "" -> attributes["short_name"]
+              _ -> long_name
+            end
     }
   end
 
