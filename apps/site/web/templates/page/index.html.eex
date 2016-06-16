@@ -1,15 +1,20 @@
 <div class="index">
   <div class="card">
-    <div class="card-header bg-inverse">Transit Near Me</div>
+    <div class="card-header">Transit Near Me</div>
     <div class="card-block">
       <form>
         <fieldset class="form-group">
-          <label for="location">Enter your desired location:</label>
+          <label for="location"><strong>Enter your desired location:</strong></label>
           <input class="form-control" type="text" name="location" placeholder="Example: 123 Main St, Boston MA">
         </fieldset>
       </form>
     </div>
-    <div class="card-header bg-inverse">Service Alerts</div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      Service Alerts
+    </div>
     <div class="card-block">
       <ul class="alert-list">
         <li class="alert-list-item">
@@ -23,12 +28,14 @@
         </li>
       </ul>
     </div>
-    <div class="card-header bg-inverse">Schedules &amp; Maps</div>
+  </div>
+  <div class="card">
+    <div class="card-header">Schedules &amp; Maps</div>
     <div class="card-block">
       <div class="row">
         <div class="col-md-4">
-          <h5>Commuter Rail</h5>
-          <ul class="route-list">
+          <h5><%= svg @conn, "/images/commuter.svg" %>Commuter Rail</h5>
+          <ul class="route-list schedule-route-list">
             <%= for route <- @grouped_routes[:commuter_rail] do %>
               <li class="route-list-item-inline">
                 <%= link route.name |> clean_route_name, to: schedule_path @conn, :index, route: route.id %></li>
@@ -36,19 +43,19 @@
           </ul>
         </div>
         <div class="col-md-4">
-          <h5>Bus</h5>
-          <ul class="route-list">
+          <h5><%= svg @conn, "/images/bus.svg" %>Bus</h5>
+          <ul class="route-list schedule-route-list">
             <%= for route <- @grouped_routes[:bus] |> Enum.take(50) do %>
               <li class="route-list-item-inline">
                 <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %></li>
-              <% end %>
+            <% end %>
             <li class="route-list-item-inline">...</li>
           </ul>
           <a href="#">View All &raquo</a>
         </div>
         <div class="col-md-4">
-          <h5>Subway</h5>
-          <ul class="route-list">
+          <h5><%= svg @conn, "/images/subway.svg" %>Subway</h5>
+          <ul class="route-list schedule-route-list">
             <%= for route <- @grouped_routes[:subway] do %>
               <li class="route-list-item">
                 <%= link route.name, to: "#" %></li>

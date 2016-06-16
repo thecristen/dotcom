@@ -1,6 +1,18 @@
 defmodule Site.ViewHelpers do
   import Site.Router.Helpers
 
+  def svg(_conn, path) do
+    svg_content = :site
+    |> Application.app_dir
+    |> Path.join("priv/static" <> path)
+    |> File.read!
+    |> String.split("\n")
+    |> Enum.drop(1) # drop the <?xml> header
+    |> Enum.join("")
+
+    Phoenix.HTML.raw svg_content
+  end
+
   def redirect_path(conn, path) do
     redirect_path(conn, :show, path)
   end

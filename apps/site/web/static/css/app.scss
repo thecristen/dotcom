@@ -6,7 +6,9 @@
 @import "index";
 
 body {
-  background-color: $brand-primary;
+  background-color: $homepage-bg-color;
+  background-image: url(/images/mbta-train-bkg.jpg);
+  background-repeat: no-repeat;
 }
 
 .header {
