@@ -28,7 +28,7 @@
             </span>
             <% _ -> %>
           <% end %>
-          <%= hidden_query_params @conn, exclude: ["route"] %>
+          <%= hidden_query_params @conn, exclude: ["route", "origin", "dest"] %>
           <select name="route" class="form-control form-control-lg">
             <%= for route <- @all_routes do %>
               <option value="<%= route.id %>" <%= if @route.id == route.id do %>selected<% end %>><%= route.name %></option>
