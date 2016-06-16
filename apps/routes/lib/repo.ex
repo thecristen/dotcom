@@ -1,6 +1,24 @@
 defmodule Routes.Repo do
+  use RepoCache, ttl: :timer.hours(24)
+
   def all do
-    V3Api.Routes.all.data
+    cache [], fn _ ->
+      V3Api.Routes.all
+      |> handle_response
+    end
+  end
+
+  def by_type(type) do
+    type
+    |> cache(fn type ->
+      type
+      |> V3Api.Routes.by_type
+      |> handle_response
+    end)
+  end
+
+  defp handle_response(%{data: data}) do
+    data
     |> Enum.reject(&hidden_routes/1)
     |> Enum.map(&parse_json/1)
   end

@@ -18,7 +18,7 @@ defmodule Routes.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api],
+    [applications: [:logger, :v3_api, :repo_cache],
      mod: {Routes, []}]
   end
 
@@ -36,6 +36,7 @@ defmodule Routes.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:v3_api, in_umbrella: true}]
+    [{:v3_api, in_umbrella: true},
+     {:repo_cache, in_umbrella: true}]
   end
 end

@@ -1,16 +1,16 @@
 defmodule V3Api.Routes do
   @moduledoc """
 
-  Responsible for fetching Alert data from the V3 API.
+  Responsible for fetching Route data from the V3 API.
 
   """
   import V3Api
 
   def all do
-    with {:ok, response} <- get("/routes/"),
-         %{body: body, status_code: 200} <- response do
-      body
-      |> JsonApi.parse
-    end
+    get_json("/routes/")
+  end
+
+  def by_type(type) do
+    get_json("/routes/", type: type)
   end
 end
