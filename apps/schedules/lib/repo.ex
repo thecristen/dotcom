@@ -1,5 +1,6 @@
 defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
+  use RepoCache, ttl: :timer.hours(24)
 
   @default_params [
       include: "trip.route,stop",
@@ -17,8 +18,11 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequence)
     |> add_optional_param(opts, :stop)
-    |> all_from_params
-    |> Enum.sort_by(fn schedule -> schedule.time end)
+    |> cache(fn(params) ->
+      params
+      |> all_from_params
+      |> Enum.sort_by(fn schedule -> schedule.time end)
+    end)
   end
 
   def stops(opts) do
@@ -33,10 +37,13 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :direction_id)
 
     params
-    |> V3Api.Schedules.all
-    |> (fn api -> api.data end).()
-    |> Enum.map(&Schedules.Parser.stop/1)
-    |> uniq_by_last_appearance
+    |> cache(fn params ->
+      params
+      |> V3Api.Schedules.all
+      |> (fn api -> api.data end).()
+      |> Enum.map(&Schedules.Parser.stop/1)
+      |> uniq_by_last_appearance
+    end)
   end
 
   def trip(trip_id) do
@@ -44,19 +51,22 @@ defmodule Schedules.Repo do
     |> Keyword.merge([
       trip: trip_id
     ])
-    |> all_from_params
+    |> cache(&all_from_params/1)
   end
 
   def origin_destination(origin_stop, dest_stop, opts \\ []) do
-    origin_task = Task.async(Schedules.Repo, :schedule_for_stop, [origin_stop, opts])
-    dest_task = Task.async(Schedules.Repo, :schedule_for_stop, [dest_stop, opts])
+    {origin_stop, dest_stop, opts}
+    |> cache(fn _ ->
+      origin_task = Task.async(Schedules.Repo, :schedule_for_stop, [origin_stop, opts])
+      dest_task = Task.async(Schedules.Repo, :schedule_for_stop, [dest_stop, opts])
 
-    {:ok, origin_stops} = Task.yield(origin_task)
-    {:ok, dest_stops} = Task.yield(dest_task)
+      {:ok, origin_stops} = Task.yield(origin_task)
+      {:ok, dest_stops} = Task.yield(dest_task)
 
-    origin_stops
-    |> Join.join(dest_stops, fn schedule -> schedule.trip.id end)
-    |> Enum.filter(fn {o, d} -> o.time < d.time end) # filter out reverse trips
+      origin_stops
+      |> Join.join(dest_stops, fn schedule -> schedule.trip.id end)
+      |> Enum.filter(fn {o, d} -> o.time < d.time end) # filter out reverse trips
+    end)
   end
 
   def schedule_for_stop(stop_id, opts) do

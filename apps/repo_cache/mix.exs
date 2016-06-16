@@ -1,14 +1,14 @@
-defmodule Schedules.Mixfile do
+defmodule RepoCache.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :schedules,
-     version: "0.0.1",
+    [app: :repo_cache,
+     version: "0.1.0",
      build_path: "../../_build",
      config_path: "../../config/config.exs",
      deps_path: "../../deps",
      lockfile: "../../mix.lock",
-     elixir: "~> 1.2",
+     elixir: "~> 1.3-rc",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -18,8 +18,8 @@ defmodule Schedules.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api, :timex, :repo_cache],
-     mod: {Schedules, []}]
+    [applications: [:logger, :con_cache],
+     mod: {RepoCache.Application, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -36,10 +36,6 @@ defmodule Schedules.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:v3_api, in_umbrella: true},
-     {:timex, ">= 0.0.0"},
-     {:repo_cache, in_umbrella: true},
-     {:excheck, github: "paulswartz/excheck", ref: "bca297d", only: :test},
-     {:triq, github: "krestenkrab/triq", only: :test},]
+    [{:con_cache, "~> 0.11.0"}]
   end
 end
