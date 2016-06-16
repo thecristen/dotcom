@@ -2,10 +2,11 @@ defmodule TimeGroup do
   alias Schedules.Schedule
 
   @doc """
-  Given a list of schedules, returns a map of those schedules grouped by the hour of day.
+  Given a list of schedules, returns those schedules grouped by the hour of day.
 
   Returns a keyword list rather than a map so that the times appear in order.
 
+  Precondition: the schedules are already sorted by time.
   """
   @spec by_hour([%Schedule{}]) :: [{non_neg_integer, [%Schedule{}]}]
   def by_hour([]) do
