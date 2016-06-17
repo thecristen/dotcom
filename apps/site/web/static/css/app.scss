@@ -42,6 +42,11 @@ body {
   color: white;
 }
 
+.main-container {
+  @extend .bg-white;
+  padding-bottom: 1em;
+}
+
 .alert:empty {
   display: none;
 }
@@ -56,6 +61,5 @@ body {
 }
 
 .station-info-map {
-  width: 100%;
-  height: 20em;
+  @extend .embed-responsive-item;
 }
