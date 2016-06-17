@@ -1,4 +1,4 @@
-<div class="container bg-white">
+<div class="container main-container">
   <%= render "_locations.html", forward_assigns(@conn) %>
   <%= render "_filters.html", forward_assigns(@conn) %>
   <div class="row">

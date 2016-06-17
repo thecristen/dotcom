@@ -42,6 +42,11 @@ body {
   color: white;
 }
 
+.main-container {
+  @extend .bg-white;
+  padding-bottom: 1em;
+}
+
 .alert:empty {
   display: none;
 }

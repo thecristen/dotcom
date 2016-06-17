@@ -1,4 +1,4 @@
-<div class="container station-info-container">
+<div class="container main-container station-info-container">
   <div class="row">
     <div class="col-xs-12 col-md-6">
       <h1>
@@ -58,8 +58,6 @@
             </tbody>
           </table>
         <% end %>
-
-        <%= link "Back", to: station_path(@conn, :index) %>
       </div>
     </div>
   </div>

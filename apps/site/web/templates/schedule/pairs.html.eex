@@ -1,14 +1,5 @@
-<div class="container bg-white">
+<div class="container main-container">
   <%= render "_locations.html", Dict.put(@conn.assigns, :conn, @conn) %>
-  <div class="row">
-    <div class="col-xs-12">
-      <%= if not @show_all do %>
-        <div class="text-xs-center">
-          <a href="<%= update_url @conn, all: "all" %>">Show earlier times</a>
-        </div>
-      <% end %>
-    </div>
-  </div>
   <div class="row">
     <div class="col-xs-12">
       <table class="table">
@@ -44,6 +35,16 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= if not @show_all do %>
+        <a class="btn btn-primary-outline btn-block text-xs-center"
+          href="<%= update_url @conn, all: "all" %>">
+          Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
+        </a>
+      <% end %>
     </div>
   </div>
 </div>
