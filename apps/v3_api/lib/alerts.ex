@@ -7,10 +7,6 @@ defmodule V3Api.Alerts do
   import V3Api
 
   def all do
-    with {:ok, response} <- get("/alerts/"),
-         %{body: body, status_code: 200} <- response do
-      body
-      |> JsonApi.parse
-    end
+    get_json("/alerts/")
   end
 end

@@ -18,7 +18,7 @@ defmodule Schedules.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api, :timex],
+    [applications: [:logger, :v3_api, :timex, :repo_cache],
      mod: {Schedules, []}]
   end
 
@@ -38,7 +38,8 @@ defmodule Schedules.Mixfile do
   defp deps do
     [{:v3_api, in_umbrella: true},
      {:timex, ">= 0.0.0"},
+     {:repo_cache, in_umbrella: true},
      {:excheck, github: "paulswartz/excheck", ref: "bca297d", only: :test},
-     {:triq, github: "krestenkrab/triq", only: :test}]
+     {:triq, github: "krestenkrab/triq", only: :test},]
   end
 end

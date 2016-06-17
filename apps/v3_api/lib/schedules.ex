@@ -7,10 +7,6 @@ defmodule V3Api.Schedules do
   import V3Api
 
   def all(params \\ []) do
-    with {:ok, response} <- get("/schedules/", [], params: params),
-         %{body: body, status_code: 200} <- response do
-      body
-      |> JsonApi.parse
-    end
+    get_json("/schedules/", params)
   end
 end

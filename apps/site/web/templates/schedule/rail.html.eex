@@ -1,0 +1,30 @@
+<%= for schedule <- @schedules do %>
+  <%= if schedule.trip.id == @trip do %>
+    <span id="trip" aria-hidden="true"></span>
+  <% end %>
+  <a class="list-group-item <%= if schedule.trip.id == @trip do %>bg-inverse<% else %>bg-gray<% end %>"
+    id="<%= schedule.trip.id %>"
+    href="<%= if schedule.trip.id == @trip do %>
+          <%= update_url @conn, trip: "" %>
+    <% else %>
+          <%= update_url @conn, trip: schedule.trip.id %>#trip
+    <% end %>">
+    <%= schedule.time |> Timex.format!("{kitchen}") %> -
+    No. <%= schedule.trip.name %>
+    <%= if schedule.stop.name != @from do %>
+      (from <%= schedule.stop.name %>)
+    <% end %>
+    <%= if has_alerts?(@alerts, schedule) do %>
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <span class="sr-only">Has an alert</span>
+    <% end %>
+  </a>
+  <%= if schedule.trip.id == @trip do %>
+    <%= for trip_schedule <- @trip_schedule do %>
+      <div class="list-group-item">
+        <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
+        <%= trip_schedule.stop.name %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

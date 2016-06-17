@@ -14,6 +14,14 @@ defmodule Site.ScheduleView do
     schedule_path(conn, :index, new_query)
   end
 
+  @doc """
+  Puts the conn into the assigns dictionary so that downstream templates can use it
+  """
+  def forward_assigns(%{assigns: assigns}=conn) do
+    assigns
+    |> Dict.put(:conn, conn)
+  end
+
   def has_alerts?(alerts, schedule) do
     entity = %Alerts.InformedEntity{
       route_type: schedule.route.type,

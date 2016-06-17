@@ -1,5 +1,5 @@
 defmodule Routes.RepoTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test ".all returns something" do
     assert Routes.Repo.all != []
@@ -36,5 +36,11 @@ defmodule Routes.RepoTest do
   test ".all filters out 'hidden' routes'" do
     all = Routes.Repo.all
     assert all |> Enum.filter(fn route -> route.name == "24/27" end) == []
+  end
+
+  test ".by_type only returns routes of a given type" do
+    one = Routes.Repo.by_type(1)
+    assert one |> Enum.all?(fn route -> route.type == 1 end)
+    assert one != []
   end
 end

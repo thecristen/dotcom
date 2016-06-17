@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-xs-12">
-    <form method="GET" action="">
+    <form method="GET" action="" class="form-group">
       <%= hidden_query_params(@conn, exclude: ["origin"]) %>
-      <label for="origin" class="text-muted">Where are you coming from?</label>
+      <label for="origin" class="text-muted">What is your stop?</label>
       <select name="origin" class="form-control c-select">
         <option value="">Select a station</option>
         <%= for stop <- @all_stops do %>
@@ -16,9 +16,16 @@
 <%= if @origin != nil do %>
   <div class="row">
     <div class="col-xs-12">
-      <form method="GET" action="">
+      <div class="card card-header text-xs-center">
+        To view a trip schedule enter a destination
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <form method="GET" action="" class="form-group">
         <%= hidden_query_params @conn, exclude: ["dest", "route", "trip"] %>
-        <label for="dest" class="text-muted">Where are you going?</label>
+        <label for="dest" class="text-muted">What is your destination?</label>
         <select name="dest" class="form-control c-select" placeholder="Select a station">
           <option value="">Select a station</option>
           <%= for stop <- @all_stops |> Enum.drop_while(fn stop -> stop.id != @origin end) |> Enum.drop(1) do %>
