@@ -61,6 +61,5 @@ body {
 }
 
 .station-info-map {
-  width: 100%;
-  height: 20em;
+  @extend .embed-responsive-item;
 }
