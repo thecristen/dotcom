@@ -18,7 +18,7 @@ defmodule Site.ScheduleController do
     |> Enum.map(fn {stop, _} -> stop.route end)
     |> most_frequent_value
 
-    { filtered_pairs, conn } = pairs
+    {filtered_pairs, conn} = pairs
     |> Enum.filter(fn {_, dest} -> is_after_now?(dest) end)
     |> possibly_open_schedules(pairs, conn)
 
@@ -54,18 +54,21 @@ defmodule Site.ScheduleController do
     |> assign(:schedules, filtered_schedules)
     |> assign(:from, from(all_schedules))
     |> assign(:to, to(all_schedules))
+    |> assign_list_group_template
     |> await_assign_all
-    |> render_schedule
+    |> render("index.html")
   end
 
-  def render_schedule(%{assigns: %{route: route}} = conn) do
+  def assign_list_group_template(%{assigns: %{route: %{type: type}}} = conn) do
+    list_group_template = case type do
+                            3 ->
+                              "bus.html"
+                            _ ->
+                              "rail.html"
+                          end
+
     conn
-    |> render(case route.type do
-                3 ->
-                  "bus.html"
-                _ ->
-                  "index.html"
-              end)
+    |> assign(:list_group_template, list_group_template)
   end
 
   def default_assigns(conn) do
