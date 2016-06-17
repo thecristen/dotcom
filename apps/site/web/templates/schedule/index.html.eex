@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
       <p class="text-muted">
-        Departure times from <%= @from %>
+        Times from <%= @from %>
       </p>
       <div class="list-group">
         <%= render @list_group_template, forward_assigns(@conn) %>
