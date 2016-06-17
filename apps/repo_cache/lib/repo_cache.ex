@@ -24,7 +24,7 @@ defmodule RepoCache do
   """
   defmacro __using__(opts \\ []) do
     ttl = opts
-    |> Keyword.get(:ttl, unquote(:timer.seconds(1)))
+    |> Keyword.get(:ttl, :timer.seconds(1))
 
     quote do
       require RepoCache
