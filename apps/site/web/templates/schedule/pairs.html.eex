@@ -16,7 +16,7 @@
           <tr>
             <th>Departure</th>
             <th>Arrival</th>
-            <th>Train</th>
+            <th><%= if @route.type == 2 do %>Train<% end %></th>
           </tr>
         </thead>
         <tbody>
