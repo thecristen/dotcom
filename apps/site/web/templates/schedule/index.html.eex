@@ -1,13 +1,13 @@
 <div class="container bg-white">
-  <%= render "_locations.html", Dict.put(@conn.assigns, :conn, @conn) %>
-  <%= render "_filters.html", Dict.put(@conn.assigns, :conn, @conn) %>
+  <%= render "_locations.html", forward_assigns(@conn) %>
+  <%= render "_filters.html", forward_assigns(@conn) %>
   <div class="row">
     <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
       <p class="text-muted">
         Departure times from <%= @from %>
       </p>
       <div class="list-group">
-        <%= render @list_group_template, Dict.put(@conn.assigns, :conn, @conn) %>
+        <%= render @list_group_template, forward_assigns(@conn) %>
         <%= if not @show_all do %>
           <a class="list-group-item text-xs-center"
             href="<%= update_url @conn, all: "all" %>">
