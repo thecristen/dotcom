@@ -42,6 +42,21 @@ defmodule TimeGroupTest do
     end
   end
 
+  test "by_subway_period groups schedules into 5 groups" do
+    # @schedule is am_rush
+    midday = %Schedule{time: DateTime.from_erl({{2016, 1, 1}, {11, 0, 0}})}
+    pm_rush = %Schedule{time: DateTime.from_erl({{2016, 1, 1}, {16, 0, 0}})}
+    evening = %Schedule{time: DateTime.from_erl({{2016, 1, 1}, {19, 0, 0}})}
+    late = %Schedule{time: DateTime.from_erl({{2016, 1, 2}, {1, 0, 0}})}
+    assert TimeGroup.by_subway_period([@schedule, midday, pm_rush, evening, late]) == [
+      am_rush: [@schedule],
+      midday: [midday],
+      pm_rush: [pm_rush],
+      evening: [evening],
+      late_night: [late]
+    ]
+  end
+
   test "frequency returns a single value if there's a single headway" do
     first_time = DateTime.from_erl({{2016, 1, 1}, {5, 26, 1}})
     first_schedule = %Schedule{time: first_time}
