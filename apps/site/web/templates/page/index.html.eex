@@ -58,7 +58,7 @@
           <ul class="route-list schedule-route-list">
             <%= for route <- @grouped_routes[:subway] do %>
               <li class="route-list-item">
-                <%= link route.name, to: "#" %></li>
+                <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %></li>
             <% end %>
           </ul>
         </div>
