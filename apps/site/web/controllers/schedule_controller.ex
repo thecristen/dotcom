@@ -61,6 +61,8 @@ defmodule Site.ScheduleController do
 
   def assign_list_group_template(%{assigns: %{route: %{type: type}}} = conn) do
     list_group_template = case type do
+                            1 ->
+                              "subway.html"
                             3 ->
                               "bus.html"
                             _ ->

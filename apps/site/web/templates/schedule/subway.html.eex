@@ -1,0 +1,39 @@
+<%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
+  <a class="list-group-item <%= if @conn.params["name"] == to_string(name) do %>bg-inverse<% else %>bg-gray<% end %>"
+    href="<%= if @conn.params["name"] == to_string(name) do %>
+          <%= update_url @conn, name: "" %>
+    <% else %>
+          <%= update_url @conn, name: name %>
+    <% end %>">
+    <div class="row">
+      <div class="col-xs-6">
+        <%= case name do
+            :am_rush -> "OPEN - 9:00AM"
+            :midday -> "9:00AM - 3:30PM"
+            :pm_rush -> "3:30PM - 6:30PM"
+            :evening -> "6:30PM - 8:00PM"
+            :late_night -> "8:00PM - CLOSE"
+            end
+        %>
+      </div>
+      <div class="col-xs-6">
+        <%= case TimeGroup.frequency(schedules) do %>
+          <%= {min, max} -> %>Every <%= min %>-<%= max %> minutes
+          <%= nil -> %>At <%= schedules |> (fn [schedule] -> schedule.time end).() |> Timex.format!("{kitchen}") %>
+          <%= value -> %>Every <%= value %> minutes
+        <% end %>
+      </div>
+    </div>
+  </a>
+  <%= if @conn.params["name"] == to_string(name) do %>
+    <div class="list-group-item">
+      <div class="row">
+        <%= for schedule <- schedules do %>
+          <div class="col-xs-2">
+            <%= schedule.time |> Timex.format!("{kitchen}") %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
