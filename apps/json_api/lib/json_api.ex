@@ -47,6 +47,12 @@ defmodule JsonApi do
       relationships: load_relationships(item["relationships"], parsed)
     }
   end
+  def parse_data_item(%{"type" => type, "id" => id}, _) do
+    %JsonApi.Item{
+      type: type,
+      id: id
+    }
+  end
 
   defp load_relationships(nil, _) do
     %{}
@@ -80,5 +86,7 @@ defmodule JsonApi do
     included
     |> Enum.filter(&(&1["type"] == type && &1["id"] == id))
   end
-
+  defp match_included(item, _) do
+    item
+  end
 end

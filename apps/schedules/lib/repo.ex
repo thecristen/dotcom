@@ -27,22 +27,18 @@ defmodule Schedules.Repo do
 
   def stops(opts) do
     params = [
-      include: "stop",
-      "fields[schedule]": "",
+      route: opts |> Keyword.get(:route),
       "fields[stop]": "name"
     ]
     params = params
-    |> add_optional_param(opts, :route)
-    |> add_optional_param(opts, :date)
     |> add_optional_param(opts, :direction_id)
 
     params
     |> cache(fn params ->
       params
-      |> V3Api.Schedules.all
+      |> V3Api.Stops.all
       |> (fn api -> api.data end).()
-      |> Enum.map(&Schedules.Parser.stop/1)
-      |> uniq_by_last_appearance
+      |> Enum.map(&(%Schedules.Stop{id: &1.id, name: &1.attributes["name"]}))
     end)
   end
 
@@ -104,17 +100,5 @@ defmodule Schedules.Repo do
   end
   defp to_string(other) do
     Kernel.to_string(other)
-  end
-
-  defp uniq_by_last_appearance(items) do
-    # We get multiple copies of the stops, based on the order they are in
-    # various schedules. A stop can appear multiple times, and we want to
-    # take the last place the stop appears.  We take advantage of Enum.uniq/1
-    # keeping the first time an item appears: we reverse the list to have it
-    # keep the last time, then re-reverse the list.
-    items
-    |> Enum.reverse
-    |> Enum.uniq
-    |> Enum.reverse
   end
 end

@@ -4,7 +4,7 @@ defmodule Schedules.RepoTest do
 
   test ".all can take a route/direction/sequence/date" do
     response = Schedules.Repo.all(
-      route: 'CR-Lowell',
+      route: "CR-Lowell",
       date: Date.now,
       direction_id: 1,
       stop_sequence: 1)
@@ -14,7 +14,7 @@ defmodule Schedules.RepoTest do
 
   test ".stops returns a list of stops in order of their stop_sequence" do
     response = Schedules.Repo.stops(
-      route: 'CR-Lowell',
+      route: "CR-Lowell",
       date: Date.now,
       direction_id: 1)
 
