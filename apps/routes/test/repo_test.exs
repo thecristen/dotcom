@@ -13,6 +13,16 @@ defmodule Routes.RepoTest do
     }
   end
 
+  test ".all parses a long name for the Green Line" do
+    [route] = Routes.Repo.all
+    |> Enum.filter(&(&1.id == "Green-B"))
+    assert route == %Routes.Route{
+      id: "Green-B",
+      type: 0,
+      name: "Green Line B"
+    }
+  end
+
   test ".all parses a short name instead of a long one" do
     [route] = Routes.Repo.all
     |> Enum.filter(&(&1.name == "SL1"))
