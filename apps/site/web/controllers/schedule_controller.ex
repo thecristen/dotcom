@@ -37,8 +37,8 @@ defmodule Site.ScheduleController do
     conn = conn
     |> default_assigns
     |> async_alerts
-    |> async_all_stops(route_id)
     |> async_selected_trip
+    |> all_stops(route_id)
 
     all_schedules = conn
     |> basic_schedule_params
@@ -86,14 +86,13 @@ defmodule Site.ScheduleController do
     |> async_assign(:alerts, &Alerts.Repo.all/0)
   end
 
-  def async_all_stops(conn, route_id) do
+  def all_stops(conn, route_id) do
     conn
-    |> async_assign(:all_stops, fn ->
-      Schedules.Repo.stops(
-        route: route_id,
-        date: conn.assigns[:date],
-        direction_id: conn.assigns[:direction_id])
-    end)
+    |> assign(:all_stops,
+    Schedules.Repo.stops(
+      route: route_id,
+      date: conn.assigns[:date],
+      direction_id: conn.assigns[:direction_id]))
   end
 
   def async_all_routes(%{assigns: %{route: %{type: type}}} = conn) do
@@ -173,13 +172,15 @@ defmodule Site.ScheduleController do
       date: assigns[:date],
       direction_id: assigns[:direction_id]]
 
-    case Map.get(params, "origin", "") do
-      "" -> schedule_params
-      |> Keyword.put(:stop_sequence, 1)
-
-      value -> schedule_params
-      |> Keyword.put(:stop, value)
-    end
+    stop_id = case Map.get(params, "origin", "") do
+                "" ->
+                  assigns[:all_stops]
+                  |> (fn [stop|_] -> stop.id end).()
+                value -> value
+              end
+    IO.inspect("basic stop ID #{stop_id}")
+    schedule_params
+    |> Keyword.put(:stop, stop_id)
   end
 
 

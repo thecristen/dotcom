@@ -32,6 +32,7 @@ defmodule Schedules.Repo do
     ]
     params = params
     |> add_optional_param(opts, :direction_id)
+    |> add_optional_param(opts, :date)
 
     params
     |> cache(fn params ->
