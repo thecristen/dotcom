@@ -1,57 +1,11 @@
-<div class="row p-b-1">
-  <div class="col-xs-6">
-    <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
-  </div>
-  <div class="col-xs-6">
-    <div class="pull-xs-right">
-      <form method="GET" action="" class="form-inline">
-        <%= hidden_query_params @conn, exclude: ["date"] %>
-        <input class="form-control form-control-sm" type="date" name="date" value="<%= @date |> Timex.format!("{ISOdate}") %>"/>
-        <button type="submit" class="btn btn-sm btn-primary-outline">Change</button>
-      </form>
-    </div>
-  </div>
-</div>
+<%= render "_date.html", date: @date, conn: @conn %>
 <div class="row p-b-1">
   <div class="col-xs-12 col-sm-6">
     <%= if @conn.assigns[:route] != nil do %>
-      <form method="GET" action="" class="form-inline">
-        <fieldset class="form-group">
-          <%= case @route.type do %>
-            <% 0 -> %>
-            <span class="schedule-route-icon schedule-route-icon-green">
-              <%= svg @conn, "/images/subway.svg" %>
-            </span>
-            <% 1 -> %>
-            <span class="schedule-route-icon schedule-route-icon-<%= @route.id |> String.downcase %>">
-              <%= svg @conn, "/images/subway.svg" %>
-            </span>
-            <% 2 -> %>
-            <span class="schedule-route-icon schedule-route-icon-commuter-rail">
-              <%= svg @conn, "/images/commuter.svg" %>
-            </span>
-            <% 3 -> %>
-            <span class="schedule-route-icon schedule-route-icon-bus">
-              <%= svg @conn, "/images/bus.svg" %>
-            </span>
-            <% _ -> %>
-          <% end %>
-          <%= hidden_query_params @conn, exclude: ["route", "origin", "dest"] %>
-          <select name="route" class="form-control form-control-lg">
-            <%= for route <- @all_routes do %>
-              <option value="<%= route.id %>" <%= if @route.id == route.id do %>selected<% end %>><%= route.name %></option>
-            <% end %>
-          </select>
-          <button type="submit" class="btn btn-sm btn-primary-outline">Go</button>
-        </fieldset>
-      </form>
+      <%= render "_route.html", forward_assigns(@conn) %>
     <% end %>
   </div>
   <div class="col-xs-12 col-sm-6">
-    <small class="pull-sm-right">
-      <%= @direction %> to: <%= @to %>
-      <br>
-      <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>">Switch to <%= @reverse_direction %></a>
-      </small>
+    <%= render "_direction.html", forward_assigns(@conn) %>
   </div>
 </div>

@@ -1,0 +1,5 @@
+<%= case TimeGroup.frequency(@schedules) do %>
+  <%= {min, max} -> %>Every <%= min %>-<%= max %> minutes
+  <%= nil -> %>At <%= @schedules |> (fn [schedule] -> schedule.time end).() |> Timex.format!("{kitchen}") %>
+  <%= value -> %>Every <%= value %> minutes
+<% end %>

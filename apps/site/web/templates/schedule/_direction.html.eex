@@ -1,0 +1,5 @@
+<small class="pull-sm-right">
+  <%= @direction %><%= if @conn.assigns[:to] do %> to: <%= @to %><% end %>
+  <br>
+  <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>">Switch to <%= @reverse_direction %></a>
+</small>

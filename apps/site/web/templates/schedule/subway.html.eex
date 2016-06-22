@@ -17,11 +17,7 @@
         %>
       </div>
       <div class="col-xs-6">
-        <%= case TimeGroup.frequency(schedules) do %>
-          <%= {min, max} -> %>Every <%= min %>-<%= max %> minutes
-          <%= nil -> %>At <%= schedules |> (fn [schedule] -> schedule.time end).() |> Timex.format!("{kitchen}") %>
-          <%= value -> %>Every <%= value %> minutes
-        <% end %>
+        <%= render "_schedule_group.html", schedules: schedules %>
       </div>
     </div>
   </a>

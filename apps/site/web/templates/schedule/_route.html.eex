@@ -1,0 +1,30 @@
+<form method="GET" action="" class="form-inline">
+  <fieldset class="form-group">
+    <%= case @route.type do %>
+      <% 0 -> %>
+      <span class="schedule-route-icon schedule-route-icon-green">
+        <%= svg @conn, "/images/subway.svg" %>
+      </span>
+      <% 1 -> %>
+      <span class="schedule-route-icon schedule-route-icon-<%= @route.id |> String.downcase %>">
+        <%= svg @conn, "/images/subway.svg" %>
+      </span>
+      <% 2 -> %>
+      <span class="schedule-route-icon schedule-route-icon-commuter-rail">
+        <%= svg @conn, "/images/commuter.svg" %>
+      </span>
+      <% 3 -> %>
+      <span class="schedule-route-icon schedule-route-icon-bus">
+        <%= svg @conn, "/images/bus.svg" %>
+      </span>
+      <% _ -> %>
+    <% end %>
+    <%= hidden_query_params @conn, exclude: ["route", "origin", "dest"] %>
+    <select name="route" class="form-control form-control-lg">
+      <%= for route <- @all_routes do %>
+        <option value="<%= route.id %>" <%= if @route.id == route.id do %>selected<% end %>><%= route.name %></option>
+      <% end %>
+    </select>
+    <button type="submit" class="btn btn-sm btn-primary-outline">Go</button>
+  </fieldset>
+</form>
