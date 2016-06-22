@@ -24,6 +24,16 @@ defmodule Schedules.RepoTest do
     assert response == Enum.uniq(response)
   end
 
+  test ".stops uses the parent station name" do
+    response = Schedules.Repo.stops(
+      "Green-B",
+      date: Date.now,
+      direction_id: 0)
+
+    assert response != []
+    assert List.first(response) == %Schedules.Stop{id: "70196", name: "Park Street"}
+  end
+
   test ".trip returns stops in order of their stop_sequence for a given trip" do
     trip_id = "31174481-CR_MAY2016-hxl16011-Weekday-01"
     response = Schedules.Repo.trip(trip_id)

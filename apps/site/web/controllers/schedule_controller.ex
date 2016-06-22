@@ -48,20 +48,20 @@ defmodule Site.ScheduleController do
     |> async_assign(:green_schedules, fn ->
       routes
       |> Enum.map(fn route ->
+        stops = Schedules.Repo.stops(
+        route.id,
+        date: conn.assigns[:date],
+        direction_id: conn.assigns[:direction_id])
+
         params = conn
-        |> assign(
-          :all_stops,
-          Schedules.Repo.stops(
-            route.id,
-           date: conn.assigns[:date],
-           direction_id: conn.assigns[:direction_id]))
+        |> assign(:all_stops, stops)
         |> basic_schedule_params
 
         all_schedules = params
         |> Keyword.put(:route, route.id)
         |> Schedules.Repo.all
 
-        {route, all_schedules, from(all_schedules)}
+        {route, all_schedules, List.first(stops).name}
       end)
     end)
     |> async_all_routes

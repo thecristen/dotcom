@@ -3,7 +3,7 @@ defmodule Schedules.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
   @default_params [
-      include: "trip.route,stop",
+      include: "trip.route,stop.parent_station",
       "fields[schedule]": "departure_time",
       "fields[stop]": "name"
   ]
@@ -28,6 +28,7 @@ defmodule Schedules.Repo do
   def stops(route, opts) do
     params = [
       route: route,
+      include: "parent_station",
       "fields[stop]": "name"
     ]
     params = params
@@ -39,7 +40,7 @@ defmodule Schedules.Repo do
       params
       |> V3Api.Stops.all
       |> (fn api -> api.data end).()
-      |> Enum.map(&(%Schedules.Stop{id: &1.id, name: &1.attributes["name"]}))
+      |> Enum.map(&simple_stop/1)
     end)
   end
 
@@ -101,5 +102,12 @@ defmodule Schedules.Repo do
   end
   defp to_string(other) do
     Kernel.to_string(other)
+  end
+
+  defp simple_stop(%JsonApi.Item{id: id, relationships: %{"parent_station" => [%JsonApi.Item{attributes: %{"name" => name}}]}}) do
+    %Schedules.Stop{id: id, name: name}
+  end
+  defp simple_stop(%JsonApi.Item{id: id, attributes: %{"name" => name}}) do
+    %Schedules.Stop{id: id, name: name}
   end
 end
