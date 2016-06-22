@@ -26,12 +26,12 @@
     </div>
   </div>
   <div class="list-group" >
-    <%= for {route, schedules} <- @green_schedules do %>
+    <%= for {route, schedules, from} <- @green_schedules do %>
       <a class="list-group-item bg-gray"
         href="<%= update_url @conn, route: route.id %>">
         <div class="row">
           <div class="col-xs-6">
-            <%= route.name %> - <%= schedules |> List.first |> (fn schedule -> schedule.stop.name end).() %>
+            <%= route.name %> - <%= from %>
           </div>
           <div clas="col-xs-6">
             <%= render "_schedule_group.html", schedules: schedules %>

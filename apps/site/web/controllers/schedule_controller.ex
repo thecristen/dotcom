@@ -57,9 +57,11 @@ defmodule Site.ScheduleController do
            direction_id: conn.assigns[:direction_id]))
         |> basic_schedule_params
 
-        {route, params
+        all_schedules = params
         |> Keyword.put(:route, route.id)
-        |> Schedules.Repo.all}
+        |> Schedules.Repo.all
+
+        {route, all_schedules, from(all_schedules)}
       end)
     end)
     |> async_all_routes
