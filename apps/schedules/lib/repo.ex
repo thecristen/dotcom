@@ -25,9 +25,9 @@ defmodule Schedules.Repo do
     end)
   end
 
-  def stops(opts) do
+  def stops(route, opts) do
     params = [
-      route: opts |> Keyword.get(:route),
+      route: route,
       "fields[stop]": "name"
     ]
     params = params

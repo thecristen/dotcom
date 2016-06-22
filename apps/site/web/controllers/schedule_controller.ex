@@ -90,7 +90,7 @@ defmodule Site.ScheduleController do
     conn
     |> assign(:all_stops,
     Schedules.Repo.stops(
-      route: route_id,
+      route_id,
       date: conn.assigns[:date],
       direction_id: conn.assigns[:direction_id]))
   end
@@ -178,7 +178,7 @@ defmodule Site.ScheduleController do
                   |> (fn [stop|_] -> stop.id end).()
                 value -> value
               end
-    IO.inspect("basic stop ID #{stop_id}")
+
     schedule_params
     |> Keyword.put(:stop, stop_id)
   end

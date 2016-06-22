@@ -14,7 +14,7 @@ defmodule Schedules.RepoTest do
 
   test ".stops returns a list of stops in order of their stop_sequence" do
     response = Schedules.Repo.stops(
-      route: "CR-Lowell",
+      "CR-Lowell",
       date: Date.now,
       direction_id: 1)
 
