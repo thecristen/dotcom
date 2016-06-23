@@ -58,7 +58,11 @@
           <ul class="route-list schedule-route-list">
             <%= for route <- @grouped_routes[:subway] do %>
               <li class="route-list-item">
-                <%= link route.name, to: "#" %></li>
+                <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %><%= if route.id == "Green" do %> -
+                <%= for line <- ["B", "C", "D", "E"] do %>
+                  <%= link line, to: schedule_path(@conn, :index, route: "Green-" <> line) %><%= if line != "E" do %>,<% end %>
+                <% end %>
+                <% end %></li>
             <% end %>
           </ul>
         </div>

@@ -22,7 +22,7 @@ defmodule Schedules.Parser do
           }} | _]
       }
     }) do
-    %Schedules.Route{
+    %Routes.Route{
       id: id,
       type: type,
       name: case long_name do

@@ -24,3 +24,31 @@
 .schedule-route-icon-bus {
   background-color: $brand-secondary;
 }
+
+.schedule-route-icon-green {
+  * {
+    fill: white;
+  }
+  background-color: $brand-green-line;
+}
+
+.schedule-route-icon-red {
+  * {
+    fill: white;
+  }
+  background-color: $brand-red-line;
+}
+
+.schedule-route-icon-orange {
+  * {
+    fill: white;
+  }
+  background-color: $brand-orange-line;
+}
+
+.schedule-route-icon-blue {
+  * {
+    fill: white;
+  }
+  background-color: $brand-blue-line;
+}

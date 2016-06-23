@@ -6,6 +6,10 @@ defmodule V3Api.Stops do
   """
   import V3Api
 
+  def all(params \\ []) do
+    get_json("/stops/", params)
+  end
+
   def by_gtfs_id(gtfs_id) do
     get_json("/stops/#{URI.encode(gtfs_id, &URI.char_unreserved?/1)}")
   end

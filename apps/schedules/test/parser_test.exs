@@ -41,7 +41,7 @@ defmodule Schedules.ParserTest do
       type: "schedule"}
 
     expected = %Schedules.Schedule{
-      route: %Schedules.Route{
+      route: %Routes.Route{
         id: "CR-Lowell",
         type: 2,
         name: "Lowell Line"},
@@ -75,7 +75,7 @@ defmodule Schedules.ParserTest do
                                          "description" => "Local Bus"
                                        }}]}}]}}
     assert Schedules.Parser.route(api_item) ==
-      %Schedules.Route{
+      %Routes.Route{
         type: 3,
         id: "9",
         name: "9"

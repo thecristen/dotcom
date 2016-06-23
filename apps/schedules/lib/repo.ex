@@ -25,24 +25,22 @@ defmodule Schedules.Repo do
     end)
   end
 
-  def stops(opts) do
+  def stops(route, opts) do
     params = [
-      include: "stop",
-      "fields[schedule]": "",
+      route: route,
+      include: "parent_station",
       "fields[stop]": "name"
     ]
     params = params
-    |> add_optional_param(opts, :route)
-    |> add_optional_param(opts, :date)
     |> add_optional_param(opts, :direction_id)
+    |> add_optional_param(opts, :date)
 
     params
     |> cache(fn params ->
       params
-      |> V3Api.Schedules.all
+      |> V3Api.Stops.all
       |> (fn api -> api.data end).()
-      |> Enum.map(&Schedules.Parser.stop/1)
-      |> uniq_by_last_appearance
+      |> Enum.map(&simple_stop/1)
     end)
   end
 
@@ -106,15 +104,10 @@ defmodule Schedules.Repo do
     Kernel.to_string(other)
   end
 
-  defp uniq_by_last_appearance(items) do
-    # We get multiple copies of the stops, based on the order they are in
-    # various schedules. A stop can appear multiple times, and we want to
-    # take the last place the stop appears.  We take advantage of Enum.uniq/1
-    # keeping the first time an item appears: we reverse the list to have it
-    # keep the last time, then re-reverse the list.
-    items
-    |> Enum.reverse
-    |> Enum.uniq
-    |> Enum.reverse
+  defp simple_stop(%JsonApi.Item{id: id, relationships: %{"parent_station" => [%JsonApi.Item{attributes: %{"name" => name}}]}}) do
+    %Schedules.Stop{id: id, name: name}
+  end
+  defp simple_stop(%JsonApi.Item{id: id, attributes: %{"name" => name}}) do
+    %Schedules.Stop{id: id, name: name}
   end
 end

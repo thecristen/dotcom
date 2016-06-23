@@ -8,12 +8,19 @@ defmodule Routes.Repo do
     end
   end
 
+  def get(id) do
+    all
+    |> Enum.find(fn
+      %{id: ^id} -> true
+      _ -> false
+    end)
+  end
+
   def by_type(type) do
-    type
-    |> cache(fn type ->
-      type
-      |> V3Api.Routes.by_type
-      |> handle_response
+    all
+    |> Enum.filter(fn
+      %{type: ^type} -> true
+      _ -> false
     end)
   end
 
@@ -44,6 +51,7 @@ defmodule Routes.Repo do
     }
   end
 
-  defp name(%{"short_name" => "", "long_name" => long_name}), do: long_name
-  defp name(%{"short_name" => short_name}), do: short_name
+  defp name(%{"type" => 3, "short_name" => short_name}), do: short_name
+  defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
+  defp name(%{"long_name" => long_name}), do: long_name
 end

@@ -28,4 +28,9 @@ defmodule Site.ViewHelpers do
   defp env(key) do
     Application.get_env(:site, __MODULE__)[key]
   end
+
+  @doc "The string description of a direction ID"
+  def direction(0), do: "Outbound"
+  def direction(1), do: "Inbound"
+  def direction(_), do: "Unknown"
 end
