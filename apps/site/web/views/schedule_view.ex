@@ -56,15 +56,13 @@ defmodule Site.ScheduleView do
     alert.effect_name in alert_effects
   end
 
-  def display_alert_effects(alerts, rest_text) do
+  def display_alert_effects([], _), do: ""
+  def display_alert_effects(alerts, suffix) do
     alerts
     |> Enum.map(&(&1.effect_name))
     |> Enum.uniq
     |> Enum.join(", ")
-    |> (fn
-      "" -> ""
-      effects -> effects <> rest_text
-    end).()
+    |> Kernel.<>(suffix)
   end
 
   def hidden_query_params(conn, opts \\ []) do
