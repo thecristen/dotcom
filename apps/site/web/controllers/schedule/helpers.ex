@@ -96,4 +96,33 @@ defmodule Site.ScheduleController.Helpers do
     time
     |> Timex.after?(DateTime.now)
   end
+
+  @doc """
+  Fetches the route and the full list of alerts from `conn.assigns` and assigns a filtered list 
+  of alerts for that route.
+  """
+  def route_alerts(conn) do
+    route_alerts = conn.assigns[:alerts]
+    |> Alerts.Match.match(%Alerts.InformedEntity{route: conn.assigns[:route].id})
+    |> Enum.sort_by(&(- Timex.DateTime.to_seconds(&1.updated_at)))
+
+    conn
+    |> assign(:route_alerts, route_alerts)
+  end
+
+  @doc """
+  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list 
+  of alerts for `stop_id`.
+  """
+  def stop_alerts(conn, nil) do
+    conn
+    |> assign(:stop_alerts, nil)
+  end
+  def stop_alerts(conn, stop_id) do
+    stop_alerts = conn.assigns[:alerts]
+    |> Alerts.Match.match(%Alerts.InformedEntity{stop: conn.assigns[:origin]})
+
+    conn
+    |> assign(:stop_alerts, stop_alerts)
+  end
 end

@@ -39,6 +39,34 @@ defmodule Site.ScheduleView do
     matched != []
   end
 
+  @doc """
+  Partition a enum of alerts into a pair of those that should be displayed as alerts, and those
+  that should be displayed as notices.
+  """
+  def alerts_and_notices(alerts) do
+    Enum.partition(alerts, &display_as_alert?/1)
+  end
+
+  defp display_as_alert?(alert) do
+    # The list of effects which should be shown as an alert -- others
+    # are shown with less emphasis in the UI
+    alert_effects = [
+      "Delay", "Shuttle", "Stop Closure", "Snow Route", "Cancellation", "Detour", "No Service"
+    ]
+    alert.effect_name in alert_effects
+  end
+
+  def display_alert_effects(alerts, rest_text) do
+    alerts
+    |> Enum.map(&(&1.effect_name))
+    |> Enum.uniq
+    |> Enum.join(", ")
+    |> (fn
+      "" -> ""
+      effects -> effects <> rest_text
+    end).()
+  end
+
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
     conn.params

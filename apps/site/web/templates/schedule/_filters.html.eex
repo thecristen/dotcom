@@ -11,6 +11,7 @@
           <% end %>
         </select>
       </div>
+      <%= render "_alerts.html", forward_assigns(@conn) %>
       <div class="form-group">
         <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
       </div>

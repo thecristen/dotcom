@@ -11,8 +11,8 @@ defmodule Site.ScheduleController do
     |> Site.ScheduleController.Green.green
   end
 
-  def index(conn, %{"route" => route_id}) do
+  def index(conn, %{"route" => route_id} = params) do
     conn
-    |> Site.ScheduleController.Route.route(route_id)
+    |> Site.ScheduleController.Route.route(route_id, params["origin"])
   end
 end

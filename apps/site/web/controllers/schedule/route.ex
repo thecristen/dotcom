@@ -5,7 +5,7 @@ defmodule Site.ScheduleController.Route do
   import Site.ScheduleController.Helpers
   import Site.ScheduleController.Query
 
-  def route(conn, route_id) do
+  def route(conn, route_id, stop_id) do
     conn = conn
     |> default_assigns
     |> assign_route(route_id)
@@ -28,6 +28,8 @@ defmodule Site.ScheduleController.Route do
     |> assign(:to, to(all_schedules))
     |> assign_list_group_template
     |> await_assign_all
+    |> route_alerts
+    |> stop_alerts(stop_id)
     |> render("index.html")
   end
 
