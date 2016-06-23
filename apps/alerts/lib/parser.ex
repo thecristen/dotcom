@@ -8,6 +8,8 @@ defmodule Alerts.Parser do
       effect_name: attributes["effect_name"],
       severity: attributes["severity"],
       lifecycle: attributes["lifecycle"],
+      updated_at: parse_time(attributes["updated_at"]),
+      description: attributes["description"]
     }
   end
 

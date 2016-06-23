@@ -23,7 +23,9 @@ defmodule Alerts.ParserTest do
           ],
           "severity" => "Minor",
           "lifecycle" => "Ongoing",
-          "effect_name" => "Delay"
+          "effect_name" => "Delay",
+          "updated_at" => "2016-06-20T16:09:29-04:00",
+          "description" => "Affected routes: 18"
         }
       })
     ==
@@ -43,7 +45,9 @@ defmodule Alerts.ParserTest do
         ],
         severity: "Minor",
         lifecycle: "Ongoing",
-        effect_name: "Delay"
+        effect_name: "Delay",
+        updated_at: Timex.DateTime.from_erl({{2016, 6, 20}, {16, 09, 29}}, "Etc/GMT+4"),
+        description: "Affected routes: 18"
       }
     end
 end
