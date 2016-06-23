@@ -52,3 +52,107 @@
   }
   background-color: $brand-blue-line;
 }
+
+.alert-moderate {
+  color: $gray-light;
+}
+
+.alert-severe {
+  color: $alert-severe;
+}
+
+.schedules-link {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0;
+  border-top: 1px solid $gray-lighter;
+  border-bottom: 1px solid $gray-lighter;
+  text-align: left;
+
+  p {
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    i {
+      line-height: 24px;
+    }
+  }
+}
+
+.alert-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+
+  .alert-modal {
+    @media (max-width: 34em) {
+      width: 100%;
+      margin: 0;
+    }
+    @media (min-width: 34em) {
+      width: 60%;
+      margin: auto 20%;
+    }
+    height: 100%;
+    position: relative;
+    padding: 5px 20px 13px 20px;
+    background-color: white;
+    overflow: auto;
+
+    .btn {
+      border: none;
+      padding: 0;
+    }
+
+    .alert-list-header {
+      border-bottom: 1px solid $gray-lighter;
+    }
+
+    .alert-card {
+      padding: 0;
+      
+      .alert-card-header {
+        background-color: $brand-secondary;
+        padding: 10px;
+      }
+
+      .alert-card-body, .alert-card-footer {
+        margin: 5px;
+      }
+    }
+
+    .notice-card {
+      padding: 0;
+      
+      .notice-card-header {
+        background-color: $gray-lightest;
+        padding: 10px;
+      }
+
+      .notice-card-body, .notice-card-footer {
+        margin: 5px;
+      }
+    }
+
+    ul {
+      padding: 0;
+      list-style: none;
+
+      li {
+        border: 1px solid $gray-lighter;
+        margin-top: 10px;
+        padding: 5px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

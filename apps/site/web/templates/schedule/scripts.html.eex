@@ -1,0 +1,17 @@
+<% {alerts, notices} = alerts_and_notices(@route_alerts) %>
+<script type="text/javascript">
+  require('web/static/js/alerts').default({
+    alerts: <%= raw(Poison.encode! alerts) %>,
+    notices: <%= raw(Poison.encode! notices) %>,
+    route_type: <%= raw(Poison.encode! @route.type) %>,
+    route: "<%= @route.name %>",
+    <%= case @route.type do %>
+      <% 2 -> %>
+      route_image: '<span class="schedule-route-icon schedule-route-icon-commuter-rail"><%= svg @conn, "/images/commuter.svg" %></span>'
+      <% 3 -> %>
+      route_image: '<span class="schedule-route-icon schedule-route-icon-bus"><%= svg @conn, "/images/bus.svg" %></span>'
+      <% _ -> %>
+      route_image: null
+    <% end %>
+  });
+</script>
