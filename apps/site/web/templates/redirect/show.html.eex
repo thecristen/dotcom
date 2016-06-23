@@ -6,7 +6,7 @@
     </p>
 
     <p>
-      <a class="btn btn-primary btn-block" role="button" href="http://mbta.com/<%= raw @redirect %>">Go</a>
+      <a class="btn btn-primary btn-block" role="button" href="http://www.mbta.com/<%= raw @redirect %>">Go</a>
     </p>
   </div>
 </div>
