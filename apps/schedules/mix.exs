@@ -39,6 +39,7 @@ defmodule Schedules.Mixfile do
     [{:v3_api, in_umbrella: true},
      {:timex, ">= 0.0.0"},
      {:repo_cache, in_umbrella: true},
+     {:routes, in_umbrella: true},
      {:excheck, github: "paulswartz/excheck", ref: "bca297d", only: :test},
      {:triq, github: "krestenkrab/triq", only: :test},]
   end
