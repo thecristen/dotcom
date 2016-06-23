@@ -3,7 +3,7 @@ defmodule Schedules.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
   @default_params [
-      include: "trip.route,stop.parent_station",
+      include: "trip.route,stop",
       "fields[schedule]": "departure_time",
       "fields[stop]": "name"
   ]

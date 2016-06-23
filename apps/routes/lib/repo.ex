@@ -8,12 +8,19 @@ defmodule Routes.Repo do
     end
   end
 
+  def get(id) do
+    all
+    |> Enum.find(fn
+      %{id: ^id} -> true
+      _ -> false
+    end)
+  end
+
   def by_type(type) do
-    type
-    |> cache(fn type ->
-      type
-      |> V3Api.Routes.by_type
-      |> handle_response
+    all
+    |> Enum.filter(fn
+      %{type: ^type} -> true
+      _ -> false
     end)
   end
 
