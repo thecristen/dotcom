@@ -12,9 +12,6 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 
-import collapse from "bootstrap/umd/collapse";
-import modal from "bootstrap/umd/modal";
-
 // Import local files
 //
 // Local files can be imported directly using relative

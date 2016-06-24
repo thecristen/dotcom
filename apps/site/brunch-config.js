@@ -4,7 +4,9 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/app.js"
+      entryPoints: {
+        "web/static/js/app.js": "js/app.js"
+      }
 
       // To use a separate vendor.js bundle, specify two files path
       // https://github.com/brunch/brunch/blob/stable/docs/config.md#files
@@ -69,7 +71,7 @@ exports.config = {
 
   modules: {
     autoRequire: {
-      "js/app.js": ["web/static/js/app"]
+      "js/app.js": ["web/static/js/app.js"]
     }
   },
 
@@ -77,10 +79,20 @@ exports.config = {
     enabled: true,
     // Whitelist the npm deps to be pulled in as front-end assets.
     // All other deps in package.json will be excluded from the bundle.
-    whitelist: ["phoenix", "phoenix_html", "bootstrap"]
+    globals: {
+      collapse: "bootstrap/dist/js/umd/collapse",
+      modal: "bootstrap/dist/js/umd/modal"
+    }
   },
 
-  onCompile: function() {
-    exec("node_modules/svgo/bin/svgo -f priv/static/images --enable=removeTitle");
+  hooks: {
+    onCompile: function() {
+      exec("node_modules/svgo/bin/svgo -f priv/static/images --enable=removeTitle");
+    }
   }
 };
+
+if (process.env["MIX_ENV"] != "prod") {
+  // dev-only dep for now
+  exports.config.npm.globals["phoenix"] = "phoenix";
+}
