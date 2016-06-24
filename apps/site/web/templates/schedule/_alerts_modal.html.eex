@@ -8,15 +8,7 @@
         </button>
         <div class="schedule-alert-header container">
           <div class="col-xs-2">
-            <%= case @route.type do %>
-              <% 1 -> %>
-              <span class="schedule-route-icon schedule-route-icon-<%= route_class_suffix(@route.id) %>"><%= svg @conn, "/images/subway.svg" %></span>
-              <% 2 -> %>
-              <span class="schedule-route-icon schedule-route-icon-commuter-rail"><%= svg @conn, "/images/commuter.svg" %></span>
-              <% 3 -> %>
-              <span class="schedule-route-icon schedule-route-icon-bus"><%= svg @conn, "/images/bus.svg" %></span>
-              <% _ -> %>
-            <% end %>
+            <%= render "_mode_image.html", forward_assigns(@conn) %>
           </div>
           <div class="col-xs-9">
             <h4><strong>Service Alerts & Notices</strong></h4>

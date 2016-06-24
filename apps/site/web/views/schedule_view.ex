@@ -88,14 +88,6 @@ defmodule Site.ScheduleView do
     tag :input, type: "hidden", name: key, value: value
   end
 
-  def route_class_suffix(route_id) do
-    if Regex.match?(~r/Green/, route_id) do
-      "green"
-    else
-      String.downcase(route_id)
-    end
-  end
-
   def newline_to_br(text) do
     import Phoenix.HTML
 
