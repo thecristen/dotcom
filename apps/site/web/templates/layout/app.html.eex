@@ -72,8 +72,7 @@
         <p>&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
       </footer>
     </div> <!-- /container -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <!-- Include any page-specific scripts for the current view. -->
-    <%= render_existing view_module(@conn), "scripts.html", assigns %>
   </body>
 </html>

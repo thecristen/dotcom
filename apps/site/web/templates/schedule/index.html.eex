@@ -1,6 +1,6 @@
 <div class="container main-container">
   <%= render "_locations.html", forward_assigns(@conn) %>
-  <div id="modal"></div>
+  <%= render "_alerts_modal.html", forward_assigns(@conn) %>
   <%= render "_filters.html", forward_assigns(@conn) %>
   <div class="row">
     <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">

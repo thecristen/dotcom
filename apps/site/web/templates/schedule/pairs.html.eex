@@ -1,6 +1,6 @@
 <div class="container main-container">
   <%= render "_locations.html", Dict.put(@conn.assigns, :conn, @conn) %>
-  <div id="modal"></div>
+  <%= render "_alerts_modal.html", forward_assigns(@conn) %>
   <%= render "_alerts.html", forward_assigns(@conn) %>
   <div class="row">
     <div class="col-xs-12">

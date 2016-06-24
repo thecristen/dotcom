@@ -56,6 +56,7 @@ defmodule Site.ScheduleView do
     alert.effect_name in alert_effects
   end
 
+  def display_alert_effects(alerts, suffix \\ "")
   def display_alert_effects([], _), do: ""
   def display_alert_effects(alerts, suffix) do
     alerts
@@ -63,6 +64,13 @@ defmodule Site.ScheduleView do
     |> Enum.uniq
     |> Enum.join(", ")
     |> Kernel.<>(suffix)
+  end
+
+  def display_alert_updated(alert) do
+    formatted = alert.updated_at
+    |> Timex.format!("{relative}", Timex.Format.DateTime.Formatters.Relative)
+
+    "Updated #{formatted}"
   end
 
   def hidden_query_params(conn, opts \\ []) do
@@ -80,4 +88,20 @@ defmodule Site.ScheduleView do
     tag :input, type: "hidden", name: key, value: value
   end
 
+  def route_class_suffix(route_id) do
+    if Regex.match?(~r/Green/, route_id) do
+      "green"
+    else
+      String.downcase(route_id)
+    end
+  end
+
+  def newline_to_br(text) do
+    import Phoenix.HTML
+
+    html_escape(text)
+    |> safe_to_string
+    |> String.replace("\n", "<br />")
+    |> raw
+  end
 end

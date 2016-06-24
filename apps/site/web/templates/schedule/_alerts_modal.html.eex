@@ -1,0 +1,90 @@
+<% {alerts, notices} = alerts_and_notices(@route_alerts) %>
+<div id="alertsModal" class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="alertsModalTitle">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
+          <i class="fa fa-times-circle" aria-hidden="true"></i> Close
+        </button>
+        <div class="schedule-alert-header container">
+          <div class="col-xs-2">
+            <%= case @route.type do %>
+              <% 1 -> %>
+              <span class="schedule-route-icon schedule-route-icon-<%= route_class_suffix(@route.id) %>"><%= svg @conn, "/images/subway.svg" %></span>
+              <% 2 -> %>
+              <span class="schedule-route-icon schedule-route-icon-commuter-rail"><%= svg @conn, "/images/commuter.svg" %></span>
+              <% 3 -> %>
+              <span class="schedule-route-icon schedule-route-icon-bus"><%= svg @conn, "/images/bus.svg" %></span>
+              <% _ -> %>
+            <% end %>
+          </div>
+          <div class="col-xs-9">
+            <h4><strong>Service Alerts & Notices</strong></h4>
+            <h5><strong><%= @route.name %></strong></h5>
+          </div>
+        </div>
+        <div class="schedules-link">
+          <a href="<%= redirect_path @conn, "rider_tools/t_alerts/"  %>">
+            <small>Sign up for T-Alerts to receive alerts for specific routes to your email or cell phone.</small>
+            <i class="fa fa-angle-right fa-pull-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div class="modal-body">
+        <%= if length(alerts) > 0 do %>
+          <div>
+            <h5 class="alert-list-header">Alerts</h5>
+            <ul>
+              <%= for alert <- alerts do %>
+                <li class="alert-card">
+                  <h5 class="alert-card-header">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <%= alert.effect_name %>
+                  </h5>
+                  <p class="alert-card-body"><%= alert.header %></p>
+                  <p class="alert-card-footer">
+                    <small><%= display_alert_updated(alert) %></small>
+                  </p>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <%= if length(notices) > 0 do %>
+          <div>
+            <h5 class="alert-list-header">Notices</h5>
+            <ul>
+              <%= for notice <- notices do %>
+                <li class="notice-card">
+                  <h5 class="notice-card-header">
+                    <%= notice.header %>
+                  </h5>
+                  <p class="notice-card-body no-overflow">
+                    <small><%= newline_to_br(notice.description) %></small>
+                  </p>
+                  <p class="notice-card-footer text-muted"><small><%= display_alert_updated(notice) %></small></p>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if length(@route_alerts) > 0 do %>
+  <button
+      type="button"
+      class="col-xs-12 col-md-6 btn btn-link schedules-link"
+      data-toggle="modal"
+      data-target="#alertsModal"
+  >
+    <p>
+      <small>
+        <i class="fa fa-exclamation-triangle alert-severe" aria-hidden="true"></i>
+        <%= display_alert_effects(@route_alerts) %>
+      </small>
+    </p>
+  </button>
+<% end %>
