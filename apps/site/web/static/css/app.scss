@@ -1,10 +1,11 @@
 @import "variables";
 @import "bootstrap";
 @import "helpers";
-@import "alert-list";
-@import "schedule";
+
 @import "index";
 @import "alerts";
+@import "stations";
+@import "schedule";
 
 body {
   background-color: $homepage-bg-color;
