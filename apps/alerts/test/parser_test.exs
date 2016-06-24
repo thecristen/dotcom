@@ -11,7 +11,8 @@ defmodule Alerts.ParserTest do
             %{
               "route_type" => 3,
               "route" => "18",
-              "stop" => "stop"
+              "stop" => "stop",
+              "trip" => "trip"
             }
           ],
           "header" => "Route 18 experiencing moderate delays due to traffic",
@@ -23,7 +24,9 @@ defmodule Alerts.ParserTest do
           ],
           "severity" => "Minor",
           "lifecycle" => "Ongoing",
-          "effect_name" => "Delay"
+          "effect_name" => "Delay",
+          "updated_at" => "2016-06-20T16:09:29-04:00",
+          "description" => "Affected routes: 18"
         }
       })
     ==
@@ -34,7 +37,8 @@ defmodule Alerts.ParserTest do
           %Alerts.InformedEntity{
             route_type: 3,
             route: "18",
-            stop: "stop"
+            stop: "stop",
+            trip: "trip"
           }
         ],
         active_period: [
@@ -43,7 +47,9 @@ defmodule Alerts.ParserTest do
         ],
         severity: "Minor",
         lifecycle: "Ongoing",
-        effect_name: "Delay"
+        effect_name: "Delay",
+        updated_at: Timex.DateTime.from_erl({{2016, 6, 20}, {16, 09, 29}}, "Etc/GMT+4"),
+        description: "Affected routes: 18"
       }
     end
 end

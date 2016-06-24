@@ -27,6 +27,7 @@ defmodule Site.ScheduleController.Pairs do
     |> assign(:route, general_route)
     |> assign_all_routes
     |> await_assign_all
+    |> route_alerts
     |> render("pairs.html",
       from: pairs |> List.first |> (fn {x, _} -> x.stop.name end).(),
       to: pairs |> List.first |> (fn {_, y} -> y.stop.name end).(),

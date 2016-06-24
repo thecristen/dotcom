@@ -13,3 +13,8 @@
 .list-group-item.bg-inverse {
   color: $gray-lighter;
 }
+
+.no-overflow {
+  word-wrap: break-word;
+  word-break: break-word;
+}

@@ -8,11 +8,13 @@ defmodule Alerts.Parser do
       effect_name: attributes["effect_name"],
       severity: attributes["severity"],
       lifecycle: attributes["lifecycle"],
+      updated_at: parse_time(attributes["updated_at"]),
+      description: attributes["description"]
     }
   end
 
   defp informed_entity(entity) do
-    [:route_type, :route, :stop]
+    [:route_type, :route, :stop, :trip]
     |> Enum.reduce(%Alerts.InformedEntity{}, fn(key, acc) ->
       acc
       |> Dict.put(key, entity[Atom.to_string(key)])

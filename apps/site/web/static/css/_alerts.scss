@@ -1,0 +1,71 @@
+@import "variables";
+
+.alert-moderate {
+  color: $gray-light;
+}
+
+.alert-severe {
+  color: $alert-severe;
+}
+
+.alert-modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+.alert-modal {
+
+  .btn {
+    border: none;
+    padding: 0;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+
+    li {
+      border: 1px solid $gray-lighter;
+      margin-top: 10px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.alert-list-header {
+  border-bottom: 1px solid $gray-lighter;
+}
+
+.alert-card {
+  padding: 0;
+}
+
+.alert-card-body, .alert-card-footer {
+  margin: 5px;
+}
+
+.alert-card-header {
+  background-color: $brand-secondary;
+  padding: 10px;
+}
+
+.notice-card {
+  padding: 0;
+}
+    
+.notice-card-header {
+  background-color: $gray-lightest;
+  padding: 10px;
+}
+
+.notice-card-body, .notice-card-footer {
+  margin: 5px;
+}

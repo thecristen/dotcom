@@ -28,6 +28,9 @@ defmodule Site.ScheduleController.Route do
     |> assign(:to, to(all_schedules))
     |> assign_list_group_template
     |> await_assign_all
+    |> route_alerts
+    |> stop_alerts
+    |> trip_alerts
     |> render("index.html")
   end
 

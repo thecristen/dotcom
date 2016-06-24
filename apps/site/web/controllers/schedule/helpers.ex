@@ -96,4 +96,49 @@ defmodule Site.ScheduleController.Helpers do
     time
     |> Timex.after?(DateTime.now)
   end
+
+  @doc """
+  Fetches the route and the full list of alerts from `conn.assigns` and assigns a filtered list
+  of alerts for that route.
+  """
+  def route_alerts(%{assigns: %{alerts: alerts, route: route}} = conn) do
+    route_alerts = alerts
+    |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id})
+    |> Enum.sort_by(&(- Timex.DateTime.to_seconds(&1.updated_at)))
+
+    conn
+    |> assign(:route_alerts, route_alerts)
+  end
+
+  @doc """
+  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
+  of alerts for `stop_id`.
+  """
+  def stop_alerts(%{assigns: %{origin: nil}} = conn) do
+    conn
+    |> assign(:stop_alerts, nil)
+  end
+  def stop_alerts(%{assigns: %{origin: origin}} = conn) do
+    stop_alerts = conn.assigns[:alerts]
+    |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
+
+    conn
+    |> assign(:stop_alerts, stop_alerts)
+  end
+
+  @doc """
+  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
+  of alerts for `stop_id`.
+  """
+  def trip_alerts(%{assigns: %{trip: nil}} = conn) do
+    conn
+    |> assign(:trip_alerts, nil)
+  end
+  def trip_alerts(%{assigns: %{trip: trip_id}} = conn) do
+    trip_alerts = conn.assigns[:alerts]
+    |> Alerts.Match.match(%Alerts.InformedEntity{trip: trip_id})
+
+    conn
+    |> assign(:trip_alerts, trip_alerts)
+  end
 end

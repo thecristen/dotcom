@@ -1,0 +1,10 @@
+<%= if @conn.assigns[:stop_alerts] do %>
+  <div class="col-xs-12">
+    <p class="alert-severe"><%= display_alert_effects(@stop_alerts, " at this stop") %></p>
+  </div>
+<%= end %>
+<%= if @conn.assigns[:trip_alerts] do %>
+  <div class="col-xs-12">
+    <p class="alert-severe"><%= display_alert_effects(@trip_alerts, " on this route") %></p>
+  </div>
+<%= end %>
