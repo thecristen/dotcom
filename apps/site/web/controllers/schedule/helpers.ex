@@ -114,13 +114,13 @@ defmodule Site.ScheduleController.Helpers do
   Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
   of alerts for `stop_id`.
   """
-  def stop_alerts(conn, nil) do
+  def stop_alerts(%{assigns: %{origin: nil}} = conn) do
     conn
     |> assign(:stop_alerts, nil)
   end
-  def stop_alerts(conn, stop_id) do
+  def stop_alerts(%{assigns: %{origin: origin}} = conn) do
     stop_alerts = conn.assigns[:alerts]
-    |> Alerts.Match.match(%Alerts.InformedEntity{stop: conn.assigns[:origin]})
+    |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
 
     conn
     |> assign(:stop_alerts, stop_alerts)
