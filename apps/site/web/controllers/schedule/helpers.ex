@@ -98,7 +98,7 @@ defmodule Site.ScheduleController.Helpers do
   end
 
   @doc """
-  Fetches the route and the full list of alerts from `conn.assigns` and assigns a filtered list 
+  Fetches the route and the full list of alerts from `conn.assigns` and assigns a filtered list
   of alerts for that route.
   """
   def route_alerts(conn) do
@@ -111,7 +111,7 @@ defmodule Site.ScheduleController.Helpers do
   end
 
   @doc """
-  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list 
+  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
   of alerts for `stop_id`.
   """
   def stop_alerts(conn, nil) do
@@ -124,5 +124,21 @@ defmodule Site.ScheduleController.Helpers do
 
     conn
     |> assign(:stop_alerts, stop_alerts)
+  end
+
+  @doc """
+  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
+  of alerts for `stop_id`.
+  """
+  def trip_alerts(%{assigns: %{trip: nil}} = conn) do
+    conn
+    |> assign(:trip_alerts, nil)
+  end
+  def trip_alerts(%{assigns: %{trip: trip_id}} = conn) do
+    trip_alerts = conn.assigns[:alerts]
+    |> Alerts.Match.match(%Alerts.InformedEntity{trip: trip_id})
+
+    conn
+    |> assign(:trip_alerts, trip_alerts)
   end
 end

@@ -30,6 +30,7 @@ defmodule Site.ScheduleController.Route do
     |> await_assign_all
     |> route_alerts
     |> stop_alerts(stop_id)
+    |> trip_alerts
     |> render("index.html")
   end
 
