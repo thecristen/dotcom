@@ -10,6 +10,7 @@
     "phoenix": "file:../../deps/phoenix",
     "phoenix_html": "file:../../deps/phoenix_html",
     "sass-brunch": "^2.6.3",
-    "uglify-js-brunch": "~1.7.0"
+    "uglify-js-brunch": "~1.7.0",
+    "svgo": "^0.6.6"
   }
 }

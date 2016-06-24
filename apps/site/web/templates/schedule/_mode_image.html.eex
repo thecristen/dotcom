@@ -15,5 +15,9 @@
   <span class="schedule-route-icon schedule-route-icon-bus">
     <%= svg @conn, "/images/bus.svg" %>
   </span>
+  <% 4 -> %>
+  <span class="schedule-route-icon schedule-route-icon-boat">
+    <%= svg @conn, "/images/boat.svg" %>
+  </span>
   <% _ -> %>
 <% end %>

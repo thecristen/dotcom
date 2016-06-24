@@ -1,3 +1,5 @@
+var exec = require('child_process').exec;
+
 exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
@@ -76,5 +78,9 @@ exports.config = {
     // Whitelist the npm deps to be pulled in as front-end assets.
     // All other deps in package.json will be excluded from the bundle.
     whitelist: ["phoenix", "phoenix_html", "bootstrap"]
+  },
+
+  onCompile: function() {
+    exec("node_modules/svgo/bin/svgo -f priv/static/images --enable=removeTitle");
   }
 };
