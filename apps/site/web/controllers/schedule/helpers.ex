@@ -101,9 +101,9 @@ defmodule Site.ScheduleController.Helpers do
   Fetches the route and the full list of alerts from `conn.assigns` and assigns a filtered list
   of alerts for that route.
   """
-  def route_alerts(conn) do
-    route_alerts = conn.assigns[:alerts]
-    |> Alerts.Match.match(%Alerts.InformedEntity{route: conn.assigns[:route].id})
+  def route_alerts(%{assigns: %{alerts: alerts, route: route}} = conn) do
+    route_alerts = alerts
+    |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id})
     |> Enum.sort_by(&(- Timex.DateTime.to_seconds(&1.updated_at)))
 
     conn
