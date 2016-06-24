@@ -11,7 +11,8 @@ defmodule Alerts.ParserTest do
             %{
               "route_type" => 3,
               "route" => "18",
-              "stop" => "stop"
+              "stop" => "stop",
+              "trip" => "trip"
             }
           ],
           "header" => "Route 18 experiencing moderate delays due to traffic",
@@ -36,7 +37,8 @@ defmodule Alerts.ParserTest do
           %Alerts.InformedEntity{
             route_type: 3,
             route: "18",
-            stop: "stop"
+            stop: "stop",
+            trip: "trip"
           }
         ],
         active_period: [
