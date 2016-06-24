@@ -41,6 +41,7 @@ exports.config = {
     watched: [
       "web/static",
       "node_modules/bootstrap/dist/js/modal.js",
+      "node_modules/bootstrap/dist/js/collapse.js",
       "test/static"
     ],
 

@@ -57,10 +57,19 @@ body {
   margin-right: 0.5em;
 }
 
-.station-info-container {
-  padding-top: 1em;
-}
+@include media-breakpoint-down(sm) {
+  .navbar-brand {
+    font-size: 0.75rem !important;
+    max-width: 14rem;
+  }
 
-.station-info-map {
-  @extend .embed-responsive-item;
+  .nav-item {
+    margin-left: 0 !important;
+    text-align: center;
+    width: 100%;
+
+    a {
+      height: 3rem;
+    }
+  }
 }
