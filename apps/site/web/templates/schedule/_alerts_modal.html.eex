@@ -74,7 +74,9 @@
   >
     <p>
       <small>
-        <i class="fa fa-exclamation-triangle alert-severe" aria-hidden="true"></i>
+        <%= if length(alerts) > 0 do %>
+          <i class="fa fa-exclamation-triangle alert-severe" aria-hidden="true"></i>
+        <% end %>
         <%= display_alert_effects(@route_alerts) %>
       </small>
     </p>
