@@ -14,6 +14,12 @@ defmodule Site.ScheduleControllerTest do
     assert response =~ "from Anderson/ Woburn"
   end
 
+  test "@from is set to the nice name of a station" do
+    conn = get conn, schedule_path(conn, :index, route: "Red", direction_id: 1)
+    response = html_response(conn, 200)
+    refute response =~ "Ashmont - Inbound"
+  end
+
   for route <- ["Red", "Blue", "Orange", "Green-B", "Green-C", "Green-D", "Green-E"] do
     for direction_id <- [0, 1] do
       name = "test_#{route}-#{direction_id} doesn't display 0 minute headway"
