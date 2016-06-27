@@ -41,6 +41,12 @@ defmodule Site.ScheduleController.Helpers do
   as @all_routes
   """
   def assign_all_routes(%{assigns: %{route: %{type: type}}} = conn) do
+    type = if type in [0, 1] do
+      [0, 1]
+    else
+      type
+    end
+
     conn
     |> assign(:all_routes, Routes.Repo.by_type(type))
   end
