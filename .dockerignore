@@ -7,10 +7,14 @@ test
 cache
 rel
 erl_crash.dump
+build.sh
+deploy.sh
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 .git
 .gitignore
+.dockerignore
+apps/site/node_modules
 aws
 site-build.zip

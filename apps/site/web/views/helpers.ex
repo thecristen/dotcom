@@ -7,7 +7,6 @@ defmodule Site.ViewHelpers do
     |> Path.join("priv/static" <> path)
     |> File.read!
     |> String.split("\n")
-    |> Enum.drop(1) # drop the <?xml> header
     |> Enum.join("")
 
     Phoenix.HTML.raw svg_content

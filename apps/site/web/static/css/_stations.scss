@@ -1,0 +1,7 @@
+.station-info-container {
+  padding-top: 1em;
+}
+
+.station-info-map {
+  @extend .embed-responsive-item;
+}
