@@ -49,8 +49,13 @@ defmodule RepoCache do
     ConCache.get_or_store(:repo_cache_cache, {module, name, func_param}, fn ->
       value = func.(func_param)
 
-      ttl = cache_opts
-      |> Keyword.get(:ttl)
+      # don't cache if we don't get values back
+      ttl = case value do
+              [] -> :timer.seconds(0)
+              nil -> :timer.seconds(0)
+              _ -> cache_opts
+              |> Keyword.get(:ttl)
+            end
 
       %ConCache.Item{value: value, ttl: ttl}
     end)
