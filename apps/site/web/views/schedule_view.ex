@@ -56,12 +56,23 @@ defmodule Site.ScheduleView do
     alert.effect_name in alert_effects
   end
 
+  @doc """
+  Takes a list of alerts and returns a string summarizing their effects, such as "3 Delays, Stop
+  Closure, 4 Station Issues". Adds an optional suffix if the list of alerts is non-empty.
+  """
   def display_alert_effects(alerts, suffix \\ "")
   def display_alert_effects([], _), do: ""
   def display_alert_effects(alerts, suffix) do
     alerts
-    |> Enum.map(&(&1.effect_name))
-    |> Enum.uniq
+    |> Enum.group_by(&(&1.effect_name))
+    |> Enum.map(fn {effect_name, alerts} ->
+      num_alerts = length(alerts)
+      if num_alerts > 1 do
+        "#{num_alerts} #{Inflex.inflect(effect_name, num_alerts)}"
+      else
+        effect_name
+      end
+    end)
     |> Enum.join(", ")
     |> Kernel.<>(suffix)
   end

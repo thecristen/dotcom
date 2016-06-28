@@ -51,13 +51,28 @@
   background-color: $brand-blue-line;
 }
 
-.schedules-link, .schedules-link:hover {
+.schedules-link {
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 0;
   border-top: 1px solid $gray-lighter;
   border-bottom: 1px solid $gray-lighter;
   text-align: left;
+
+  i {
+    line-height: 24px;
+  }
+}
+
+.alerts-modal-button,
+.alerts-modal-button:hover,
+.alerts-modal-button:active,
+.alerts-modal-button:focus {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  background-color: $brand-secondary;
+  color: inherit;
 
   p {
     margin: 0;
