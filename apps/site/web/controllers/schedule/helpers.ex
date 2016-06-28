@@ -147,4 +147,24 @@ defmodule Site.ScheduleController.Helpers do
     conn
     |> assign(:trip_alerts, trip_alerts)
   end
+
+  @doc "Given a list of schedules, return where those schedules start (best-guess)"
+  def from(all_schedules, %{assigns: %{all_stops: all_stops}}) do
+    stop_id = all_schedules
+    |> Enum.map(fn schedule -> schedule.stop.id end)
+    |> most_frequent_value
+
+    # Use the parent station name from all_stops
+    all_stops
+    |> Enum.find(fn stop -> stop.id == stop_id end)
+    |> (fn stop -> stop.name end).()
+  end
+
+  @doc "Given a list of schedules, return where those schedules stop"
+  def to(all_schedules) do
+    all_schedules
+    |> Enum.map(fn schedule -> schedule.trip.headsign end)
+    |> Enum.uniq
+  end
+
 end
