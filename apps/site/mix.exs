@@ -44,6 +44,8 @@ defmodule Site.Mixfile do
      {:alerts, in_umbrella: true},
      {:news, in_umbrella: true},
      {:schedules, in_umbrella: true},
-     {:exrm, ">= 0.0.0"}]
+     {:exrm, ">= 0.0.0"},
+     { :inflex, "~> 1.7.0" },
+    ]
   end
 end

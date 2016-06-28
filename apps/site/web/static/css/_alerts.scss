@@ -69,3 +69,27 @@
 .notice-card-body, .notice-card-footer {
   margin: 5px;
 }
+
+.card-description-first {
+  display: inline;
+}
+
+.card-description-rest.in,
+.card-description-rest.collapsing {
+  display: inline;
+  margin-left: -2px;
+}
+
+.collapse ~ .btn.show-alert:before {
+  content: "View More";
+}
+
+.in.collapse ~ .btn.show-alert:before,
+.collapsing ~ .btn.show-alert:before {
+  content: "View Less";
+}
+
+.in.collapse ~ .card-description-ellipsis,
+.collapsing ~ .card-description-ellipsis {
+  display: none;
+}

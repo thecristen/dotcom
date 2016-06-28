@@ -1,0 +1,25 @@
+<span class="collapsible-alert-text">
+  <% {first, rest} = String.split_at(@description, 500) %>
+  <small>
+    <%= if String.length(rest) == 0 do %>
+      <%= newline_to_br(@description) %>
+    <%= else %>
+      <% selector = "view-more-" <> @id %>
+      <span class="card-description-first">
+        <%= newline_to_br(first) %>
+      </span>
+      <span class="collapse card-description-rest" id="<%= selector %>">
+        <%= newline_to_br(rest) %>
+      </span>
+      <span class="card-description-ellipsis">...</span>
+      <br />
+      <button
+          class="btn btn-link show-alert"
+          data-toggle="collapse"
+          data-target="#<%= selector %>"
+          aria-expanded="false"
+          aria-controls="<%= selector %>"
+      ></button>
+    <% end %>
+  </small>
+</span>
