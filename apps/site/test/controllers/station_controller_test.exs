@@ -1,5 +1,5 @@
 defmodule Site.StationControllerTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, station_path(conn, :index)

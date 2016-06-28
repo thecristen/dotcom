@@ -24,7 +24,7 @@ defmodule Site.ScheduleController.Route do
     conn
     |> assign_all_routes
     |> assign(:schedules, filtered_schedules)
-    |> assign(:from, from(all_schedules))
+    |> assign(:from, from(all_schedules, conn))
     |> assign(:to, to(all_schedules))
     |> assign_list_group_template
     |> await_assign_all
@@ -56,20 +56,6 @@ defmodule Site.ScheduleController.Route do
   defp sort_schedules(all_schedules) do
     all_schedules
     |> Enum.sort_by(fn schedule -> schedule.time end)
-  end
-
-  defp from(all_schedules) do
-    # Given a list of schedules, return where those schedules start (best-guess)
-    all_schedules
-    |> Enum.map(fn schedule -> schedule.stop.name end)
-    |> most_frequent_value
-  end
-
-  defp to(all_schedules) do
-    # Given a list of schedules, return where those schedules stop (best-guess)
-    all_schedules
-    |> Enum.map(fn schedule -> schedule.trip.headsign end)
-    |> most_frequent_value
   end
 
   defp assign_list_group_template(%{assigns: %{route: %{type: type}}} = conn) do

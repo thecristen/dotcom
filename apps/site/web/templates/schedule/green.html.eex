@@ -2,9 +2,7 @@
   <%= render "_date.html", date: @date, conn: @conn %>
   <div class="row p-b-1">
     <div class="col-xs-12 col-sm-6">
-      <%= if @conn.assigns[:route] != nil do %>
-        <%= render "_route.html", forward_assigns(@conn) %>
-      <% end %>
+      <%= render "_route.html", forward_assigns(@conn) %>
     </div>
     <div class="col-xs-12 col-sm-4">
       <%= for route <- @green_routes do %>
@@ -21,7 +19,7 @@
   <div class="row">
     <div class="col-xs-12">
       <p class="text-muted">
-        <%= direction(@direction_id) %> Times - Select a line to view a more accurate time range for each block of time
+        <%= direction(@direction_id, @route.id) %> Times - Select a line to view a more accurate time range for each block of time
       </p>
     </div>
   </div>

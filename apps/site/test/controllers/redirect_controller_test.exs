@@ -1,5 +1,5 @@
 defmodule Site.RedirectControllerTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
 
   test "shows chosen resource", %{conn: conn} do
     redirect = "schedules_and_maps/"

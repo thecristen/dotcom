@@ -13,7 +13,7 @@ defmodule Site.ScheduleController.Green do
 
     conn = conn
     |> default_assigns
-    |> assign(:route, %Routes.Route{id: 0, name: "Green", type: 0})
+    |> assign(:route, %Routes.Route{id: "Green", name: "Green", type: 0})
     |> assign(:green_routes, routes)
 
     conn
@@ -25,13 +25,18 @@ defmodule Site.ScheduleController.Green do
         date: conn.assigns[:date],
         direction_id: conn.assigns[:direction_id])
 
-        all_schedules = conn
+        # update the route in the conn for this request
+        conn = %{conn|params:
+                 conn.params
+                 |> Dict.put("route", route.id)}
         |> assign(:all_stops, stops)
+
+
+        all_schedules = conn
         |> schedule_query
-        |> Keyword.put(:route, route.id)
         |> Schedules.Repo.all
 
-        {route, all_schedules, List.first(stops).name}
+        {route, all_schedules, from(all_schedules, conn)}
       end)
     end)
     |> assign_all_routes

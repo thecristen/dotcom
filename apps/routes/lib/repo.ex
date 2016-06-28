@@ -16,6 +16,11 @@ defmodule Routes.Repo do
     end)
   end
 
+  def by_type(types) when is_list(types) do
+    types
+    |> Enum.flat_map(&by_type/1)
+  end
+
   def by_type(type) do
     all
     |> Enum.filter(fn
