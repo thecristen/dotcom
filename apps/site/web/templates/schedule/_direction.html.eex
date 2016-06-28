@@ -1,5 +1,5 @@
 <small class="pull-sm-right">
-  <%= direction(@direction_id, @route.id) %><%= if @conn.assigns[:to] do %> to: <%= @to %><% end %>
+  <%= direction(@direction_id, @route.id) %><%= if @conn.assigns[:to] do %> to: <%= @to |> Enum.join("/")%><% end %>
   <br>
   <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>">Switch to <%= direction(@reverse_direction_id, @route.id) %></a>
 </small>
