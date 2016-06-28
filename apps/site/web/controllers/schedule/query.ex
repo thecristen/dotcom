@@ -15,7 +15,7 @@ defmodule Site.ScheduleController.Query do
     case Map.get(params, "origin", default_origin(route, direction_id)) do
       "" ->
         schedule_params
-        |> Keyword.put(:stop_sequence, 1)
+        |> Keyword.put(:stop_sequence, "first")
 
      stop_id ->
         schedule_params

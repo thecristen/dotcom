@@ -7,7 +7,7 @@ defmodule Schedules.RepoTest do
       route: "CR-Lowell",
       date: Date.now,
       direction_id: 1,
-      stop_sequence: 1)
+      stop_sequence: "first")
     assert response != []
     assert %Schedules.Schedule{} = List.first(response)
   end
