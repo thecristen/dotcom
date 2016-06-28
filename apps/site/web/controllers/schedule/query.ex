@@ -27,10 +27,10 @@ defmodule Site.ScheduleController.Query do
   # special cases for the subways so that they pick up all relevant headways
   # by default
   defp default_origin("Red", 1) do
-    "70084" # Andrew
+    "70076" # Park
   end
   defp default_origin("Blue", 0) do
-    "70051" # Orient Heights - Inbound
+    "70047" # Airport
   end
   defp default_origin("Orange", 0) do
     "70036" # Oak Grove
