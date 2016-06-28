@@ -29,7 +29,16 @@ defmodule Site.ViewHelpers do
   end
 
   @doc "The string description of a direction ID"
-  def direction(0), do: "Outbound"
-  def direction(1), do: "Inbound"
-  def direction(_), do: "Unknown"
+  def direction(direction_id, route_id)
+  def direction(0, "Red"), do: "Southbound"
+  def direction(1, "Red"), do: "Northbound"
+  def direction(0, "Orange"), do: "Southbound"
+  def direction(1, "Orange"), do: "Northbound"
+  def direction(0, "Blue"), do: "Westbound"
+  def direction(1, "Blue"), do: "Eastbound"
+  def direction(0, "Green" <> _), do: "Westbound"
+  def direction(1, "Green" <> _), do: "Eastbound"
+  def direction(0, _), do: "Outbound"
+  def direction(1, _), do: "Inbound"
+  def direction(_, _), do: "Unknown"
 end
