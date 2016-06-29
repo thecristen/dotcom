@@ -19,4 +19,5 @@ The script expects 4 environment variables with the configuration for the Ektron
 
 ### Usage:
 
+    brew install freetds
     python3 import_posts.py priv/posts
