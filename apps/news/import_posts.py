@@ -38,7 +38,7 @@ def news_entries():
             }
 
 
-def to_dict(tree, filter_=True):
+def to_dict(tree):
     d = {}
     for child in tree:
         d[child.tag] = element_to_string(child)

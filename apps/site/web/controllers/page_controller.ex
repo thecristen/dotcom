@@ -19,8 +19,9 @@ defmodule Site.PageController do
   defp news_image(news) do
     case news |> Enum.filter(&(&1.attributes["homepageicon"])) do
       [entry|_] ->
-        raw entry.attributes["homepageicon"]
-        |> String.replace("src=\"/", "src=\"//www.mbta.com/")
+        entry.attributes["homepageicon"]
+        |> String.replace(~s(src="/), ~s(src="//www.mbta.com/))
+        |> raw
       _ ->
         nil
     end
