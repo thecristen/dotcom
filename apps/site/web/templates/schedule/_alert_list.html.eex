@@ -1,0 +1,28 @@
+<%= if length(@alerts) > 0 do %>
+  <div>
+    <h5 class="alert-list-header text-muted">Alerts</h5>
+    <ul class="alert-list">
+      <%= for alert <- @alerts do %>
+        <li class="alert-card">
+          <h5 class="alert-card-header">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            <%= alert.effect_name %>
+          </h5>
+          <p class="alert-card-body no-overflow">
+            <%= alert.header %><br />
+            <%= if alert.description do %>
+              <%= if @collapse_descriptions do %>
+                <%= render "_collapsible_alert_text.html", description: alert.description, id: alert.id %>
+              <%= else %>
+                <%= newline_to_br(alert.description) %>
+              <% end %>
+            <% end %>
+          </p>
+          <p class="alert-card-footer">
+            <small><%= display_alert_updated(alert) %></small>
+          </p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<%= end %>

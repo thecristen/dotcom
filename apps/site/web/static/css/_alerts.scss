@@ -18,24 +18,21 @@
   z-index: 1;
 }
 
-.alert-modal {
+.alert-modal .btn {
+  border: none;
+  padding: 0;
+}
 
-  .btn {
-    border: none;
-    padding: 0;
-  }
+.alert-list {
+  padding: 0;
+  list-style: none;
 
-  ul {
-    padding: 0;
-    list-style: none;
+  li {
+    border: 1px solid $gray-lighter;
+    margin-top: 10px;
 
-    li {
-      border: 1px solid $gray-lighter;
-      margin-top: 10px;
-
-      &:first-child {
-        margin-top: 0;
-      }
+    &:first-child {
+      margin-top: 0;
     }
   }
 }

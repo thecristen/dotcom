@@ -20,6 +20,7 @@ defmodule Site.Router do
     get "/redirect/:path", RedirectController, :show
     resources "/stations", StationController, only: [:index, :show]
     resources "/schedules", ScheduleController, only: [:index]
+    get "/alerts", ScheduleController, :alerts
   end
 
   # Other scopes may use custom stacks.
