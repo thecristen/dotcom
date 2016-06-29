@@ -22,6 +22,8 @@ defmodule Site.ScheduleController.Pairs do
     |> assign_all_routes
     |> await_assign_all
     |> route_alerts
+    |> stop_alerts
+    |> trip_alerts
     |> render("pairs.html",
       to: stop_pairs |> Enum.map(&(elem(&1, 1))) |> to,
       pairs: filtered_pairs

@@ -147,6 +147,9 @@ defmodule Site.ScheduleController.Helpers do
     conn
     |> assign(:trip_alerts, trip_alerts)
   end
+  def trip_alerts(conn) do
+    assign(conn, :trip_alerts, nil)
+  end
 
   @doc "Given a list of schedules, return where those schedules start (best-guess)"
   def from(all_schedules, %{assigns: %{all_stops: all_stops}}) do
