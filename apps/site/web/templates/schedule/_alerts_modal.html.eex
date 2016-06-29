@@ -3,69 +3,16 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
-          <i class="fa fa-times-circle" aria-hidden="true"></i> Close
-        </button>
-        <div class="schedule-alert-header container">
-          <div class="col-xs-2">
-            <%= render "_mode_image.html", forward_assigns(@conn) %>
-          </div>
-          <div class="col-xs-9">
-            <h4><strong><%= @route.name %>: Service Alerts & Notices</strong></h4>
-          </div>
+        <div class="col-xs-12">
+          <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Close
+          </button>
         </div>
-        <div class="schedules-link">
-          <a href="<%= redirect_path @conn, "rider_tools/t_alerts/"  %>">
-            <small>Sign up for T-Alerts to receive alerts for specific routes to your email or cell phone.</small>
-            <i class="fa fa-angle-right fa-pull-right" aria-hidden="true"></i>
-          </a>
-        </div>
+        <%= render "_alerts_header.html", forward_assigns(@conn) %>
       </div>
       <div class="modal-body">
-        <%= if length(alerts) > 0 do %>
-          <div>
-            <h5 class="alert-list-header text-muted">Alerts</h5>
-            <ul>
-              <%= for alert <- alerts do %>
-                <li class="alert-card">
-                  <h5 class="alert-card-header">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    <%= alert.effect_name %>
-                  </h5>
-                  <p class="alert-card-body no-overflow">
-                    <%= alert.header %><br />
-                    <%= if alert.description do %>
-                      <%= render "_collapsible_alert_text.html", description: alert.description, id: alert.id %>
-                    <% end %>
-                  </p>
-                  <p class="alert-card-footer">
-                    <small><%= display_alert_updated(alert) %></small>
-                  </p>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-        <%= if length(notices) > 0 do %>
-          <div>
-            <h5 class="alert-list-header text-muted">Notices</h5>
-            <ul>
-              <%= for notice <- notices do %>
-                <li class="notice-card">
-                  <h5 class="notice-card-header">
-                    <%= notice.header %>
-                  </h5>
-                  <%= if notice.description do %>
-                    <p class="notice-card-body no-overflow">
-                      <%= render "_collapsible_alert_text.html", description: notice.description, id: notice.id %>
-                    </p>
-                  <% end %>
-                  <p class="notice-card-footer text-muted"><small><%= display_alert_updated(notice) %></small></p>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
+        <%= render "_alert_list.html", alerts: alerts, collapse_descriptions: true %>
+        <%= render "_notice_list.html", notices: notices, collapse_descriptions: true %>
       </div>
     </div>
   </div>
