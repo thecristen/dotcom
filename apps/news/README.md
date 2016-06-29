@@ -1,20 +1,23 @@
 # News
 
-**TODO: Add description**
+Responsible for the news entries.
 
-## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+## `import_posts.py`
 
-  1. Add news to your list of dependencies in `mix.exs`:
+This script pulls the news entries out of the Ektron DB, and reformats them
+into Jekyll-style Markdown files in a given directory.
 
-        def deps do
-          [{:news, "~> 0.0.1"}]
-        end
+### Environment:
 
-  2. Ensure news is started before your application:
+The script expects 4 environment variables with the configuration for the Ektron DB:
 
-        def application do
-          [applications: [:news]]
-        end
+* MBTA_SQL_SERVER
+* MBTA_SQL_USERNAME
+* MBTA_SQL_PASSWORD
+* MBTA_SQL_DATABASE
 
+### Usage:
+
+    brew install freetds
+    python3 import_posts.py priv/posts
