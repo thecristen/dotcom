@@ -1,14 +1,16 @@
-defmodule News.Repo do
+defmodule News.Repo.Directory do
+  def post_dir do
+    config_dir = Application.fetch_env!(:news, :post_dir)
+    case config_dir do
+      <<"/", _::binary>> -> config_dir
+      _ -> Application.app_dir(:news, config_dir)
+    end
+  end
+end
 
-  config_dir = Application.fetch_env!(:news, :post_dir)
-  post_dir = case config_dir do
-               <<"/", _::binary>> -> config_dir
-               _ -> Application.app_dir(:news, config_dir)
-             end
-  @post_filenames post_dir
+defmodule News.Repo do
+  @post_filenames News.Repo.Directory.post_dir
   |> File.ls!
-  |> Enum.map(&(Path.join(post_dir, &1)))
-  |> Enum.map(&Path.expand/1)
 
   def all(opts \\ []) do
     case Keyword.get(opts, :limit, :infinity) do
@@ -33,6 +35,8 @@ defmodule News.Repo do
 
   defp do_all(filenames) do
     filenames
+    |> Enum.map(&(Path.join(News.Repo.Directory.post_dir, &1)))
+    |> Enum.map(&Path.expand/1)
     |> Enum.map(&News.Jekyll.parse_file/1)
     |> Enum.filter_map(
     fn
@@ -41,4 +45,5 @@ defmodule News.Repo do
     end,
     fn {:ok, parsed} -> parsed end)
   end
+
 end

@@ -9,7 +9,7 @@ WORKDIR /root
 
 # Set exposed ports
 EXPOSE 4000
-ENV PORT=4000 MIX_ENV=prod TERM=xterm LANG="en_US.UTF-8" RELX_REPLACE_OS_VARS=true
+ENV PORT=4000 MIX_ENV=prod TERM=xterm LANG="C.UTF-8" RELX_REPLACE_OS_VARS=true
 
 ADD . rel/site
 RUN mkdir /root/work
