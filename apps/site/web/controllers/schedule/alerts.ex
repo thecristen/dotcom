@@ -27,7 +27,7 @@ defmodule Site.ScheduleController.Alerts do
          :stop_alerts => stop_alerts}
     } = conn) do
     all_alerts = [trip_alerts || [], route_alerts || [], stop_alerts || []]
-    |> Enum.reduce(%MapSet{}, &Enum.concat/2)
+    |> Enum.reduce([], &Enum.concat/2)
     |> Enum.uniq
 
     conn
