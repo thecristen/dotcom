@@ -14,6 +14,9 @@
     <%= if schedule.stop.name != @from do %>
       (from <%= schedule.stop.name %>)
     <% end %>
+    <%= if schedule.trip.headsign != @most_frequent_headsign do %>
+      (to <%= schedule.trip.headsign %>)
+    <% end %>
     <%= if has_alerts?(@alerts, schedule) do %>
       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
       <span class="sr-only">Has an alert</span>
