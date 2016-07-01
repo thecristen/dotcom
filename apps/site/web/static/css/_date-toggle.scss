@@ -1,0 +1,18 @@
+body.js .date-toggle {
+  display: none;
+
+  &.date-toggle-enabled {
+    display: initial;
+  }
+}
+
+body.no-js .date-toggle-js-only {
+  display: none;
+}
+
+.date-toggle-edit {
+  display: none;
+}
+body.js .date-toggle-edit {
+  display: initial;
+}

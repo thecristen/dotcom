@@ -1,14 +1,14 @@
 <div class="row p-b-1">
-  <div class="col-xs-6">
-    <h2>Schedule for <%= @date |> Timex.format!("{M}/{D}/{YYYY}") %></h2>
-  </div>
-  <div class="col-xs-6">
-    <div class="pull-xs-right">
-      <form method="GET" action="" class="form-inline" data-submit-on-change>
-        <%= hidden_query_params @conn, exclude: ["date"] %>
-        <input class="form-control form-control-sm" type="date" name="date" value="<%= @date |> Timex.format!("{ISOdate}") %>"/>
+  <div class="col-xs-12">
+    <form method="GET" action="" class="form-inline" data-submit-on-change>
+      <%= hidden_query_params @conn, exclude: ["date"] %>
+      <h2>
+        Schedule for
+        <span class="date-toggle date-toggle-js-only date-toggle-enabled"><%= @date |> Timex.format!("{Mfull} {D}") %></span>
+        <span class="date-toggle"><input class="form-control form-control-sm" type="date" name="date" value="<%= @date |> Timex.format!("{ISOdate}") %>"></span>
+        <a href="#" class="date-toggle-edit"><small>(edit)</small></a>
         <button type="submit" class="btn btn-sm btn-primary-outline">Change</button>
-      </form>
-    </div>
+      </h2>
+    </form>
   </div>
 </div>

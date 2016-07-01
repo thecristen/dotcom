@@ -1,6 +1,5 @@
-// global $
-module.exports = function() {
-  $("[data-submit-on-change").each(
+module.exports = function($) {
+  $("[data-submit-on-change]").each(
     function() {
       const $this = $(this);
       const onChange = function(e) {

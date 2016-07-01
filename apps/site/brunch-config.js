@@ -80,7 +80,8 @@ exports.config = {
     // All other deps in package.json will be excluded from the bundle.
     globals: {
       collapse: "bootstrap/dist/js/umd/collapse",
-      modal: "bootstrap/dist/js/umd/modal"
+      modal: "bootstrap/dist/js/umd/modal",
+      date_polyfill: "nodep-date-input-polyfill"
     }
   },
 
