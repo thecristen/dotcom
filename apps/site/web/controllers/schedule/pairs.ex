@@ -9,13 +9,16 @@ defmodule Site.ScheduleController.Pairs do
     |> default_assigns
     |> assign_alerts
 
-    opts = []
-    |> Dict.put(:direction_id, conn.assigns[:direction_id])
-    |> Dict.put(:date, conn.assigns[:date])
+    opts = [
+      direction_id: conn.assigns[:direction_id],
+      date: conn.assigns[:date]
+    ]
 
     stop_pairs = Schedules.Repo.origin_destination(origin_id, dest_id, opts)
 
-    {filtered_pairs, conn} = filter_pairs(stop_pairs, conn)
+    {filtered_pairs, conn} = stop_pairs
+    |> filter_pairs(conn.assigns[:show_all])
+    |> possibly_open_schedules(stop_pairs, conn)
 
     conn
     |> assign(:route, general_route(stop_pairs))
@@ -25,8 +28,8 @@ defmodule Site.ScheduleController.Pairs do
     |> stop_alerts
     |> trip_alerts
     |> render("pairs.html",
-      to: stop_pairs |> Enum.map(&(elem(&1, 1))) |> to,
-      pairs: filtered_pairs
+    to: stop_pairs |> Enum.map(&(elem(&1, 1))) |> to,
+    pairs: filtered_pairs
     )
   end
 
@@ -36,9 +39,12 @@ defmodule Site.ScheduleController.Pairs do
     |> most_frequent_value
   end
 
-  defp filter_pairs(stop_pairs, conn) do
+  defp filter_pairs(stop_pairs, show_all)
+  defp filter_pairs(stop_pairs, true) do
+    stop_pairs
+  end
+  defp filter_pairs(stop_pairs, false) do
     stop_pairs
     |> Enum.filter(fn {_, dest} -> is_after_now?(dest) end)
-    |> possibly_open_schedules(stop_pairs, conn)
   end
 end
