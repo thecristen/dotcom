@@ -19,11 +19,11 @@
 </div>
 
 <%= if length(@route_alerts) > 0 do %>
-  <button
-      type="button"
-      class="col-xs-12 btn btn-link alerts-modal-button"
-      data-toggle="modal"
-      data-target="#alertsModal"
+  <a
+    href="<%= schedule_path @conn, :alerts, @conn.params %>"
+    class="col-xs-12 btn btn-link alerts-modal-button"
+    data-toggle="modal"
+    data-target="#alertsModal"
   >
     <p>
       <%= if length(alerts) > 0 do %>
@@ -31,5 +31,5 @@
       <% end %>
       <%= display_alert_effects(@route_alerts) %>
     </p>
-  </button>
+  </a>
 <% end %>
