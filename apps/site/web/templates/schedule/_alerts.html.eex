@@ -1,4 +1,4 @@
-<%= if @alerts do %>
+<%= if @alerts && @alerts != [] do %>
   <div class="col-xs-12">
     <p>
       <span class="alert-severe">
