@@ -6,9 +6,11 @@ export default function($) {
     const $form = $(this).parents("form");
     $form.find(".date-toggle").toggleClass("date-toggle-enabled");
 
-    const dateInput = $form.find(".date-toggle-enabled").find("input[type=date]");
+    const dateInput = $form.find(".date-toggle-enabled").find("input");
     if (dateInput.length > 0) {
-      dateInput.focus().click();
+      window.setTimeout(
+        () => {dateInput.focus().click();},
+        0);
     }
   });
 };
