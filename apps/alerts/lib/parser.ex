@@ -22,7 +22,7 @@ defmodule Alerts.Parser do
   end
 
   defp active_period(%{"start" => start, "end" => stop}) do
-    { parse_time(start), parse_time(stop) }
+    {parse_time(start), parse_time(stop)}
   end
 
   defp parse_time(nil) do

@@ -17,7 +17,7 @@ defmodule Site.ScheduleView do
   @doc """
   Puts the conn into the assigns dictionary so that downstream templates can use it
   """
-  def forward_assigns(%{assigns: assigns}=conn) do
+  def forward_assigns(%{assigns: assigns} = conn) do
     assigns
     |> Dict.put(:conn, conn)
   end
@@ -102,7 +102,8 @@ defmodule Site.ScheduleView do
   def newline_to_br(text) do
     import Phoenix.HTML
 
-    html_escape(text)
+    text
+    |> html_escape
     |> safe_to_string
     |> String.replace("\n", "<br />")
     |> raw

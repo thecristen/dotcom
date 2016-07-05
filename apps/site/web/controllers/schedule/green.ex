@@ -41,10 +41,14 @@ defmodule Site.ScheduleController.Green do
     end)
     |> assign_all_routes
     |> await_assign_all
-    |> (fn(%{assigns: %{route: route, all_routes: all_routes}}=conn) ->
-      conn
-      |> assign(:all_routes, [route|all_routes])
-    end).()
+    |> assign_additional_route_to_all_routes
     |> render("green.html")
+  end
+
+  @doc "Includes the fake Green line route in the list of all routes"
+  def assign_additional_route_to_all_routes(
+    %{assigns: %{route: route, all_routes: all_routes}} = conn) do
+    conn
+    |> assign(:all_routes, [route|all_routes])
   end
 end

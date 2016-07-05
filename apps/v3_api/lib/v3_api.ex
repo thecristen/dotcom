@@ -1,7 +1,7 @@
 defmodule V3Api do
   use HTTPoison.Base
 
-  def get_json(url, params \\ [], timeout \\ 30000) do
+  def get_json(url, params \\ [], timeout \\ 30_000) do
     with {:ok, response} <- get(url, [], params: params,
               timeout: timeout, recv_timeout: timeout),
          %{body: body, status_code: 200} <- response do
