@@ -23,6 +23,7 @@ Then, visit the site at http://localhost:4000/
 ## Running the tests
 
     mix test
+    cd apps/site; npm test  # runs the JS tests
 
 ## Building/deploying
 

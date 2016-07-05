@@ -13,5 +13,14 @@
     "sass-brunch": "^2.6.3",
     "svgo": "^0.6.6",
     "uglify-js-brunch": "~1.7.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "jsdom": "^9.4.0",
+    "mocha": "^2.5.3",
+    "mocha-jsdom": "^1.1.0"
+  },
+  "scripts": {
+    "test": "mocha --compilers js:babel-register test/js/**/*.js"
   }
 }
