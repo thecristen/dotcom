@@ -4,10 +4,9 @@
       <strong class="h4">
         <%= @station.name %>
 
-        <%= for accessibility <- @station.accessibility do %>
-          <img src="<%= static_path(@conn, "/images/access_#{accessibility}.gif") %>"
-            alt="Accessiblity: <%= pretty_accessibility(accessibility) %>"
-            title="<%= pretty_accessibility(accessibility) %>">
+        <%= if "accessible" in @station.accessibility do %>
+          <img src="<%= static_path(@conn, "/images/access_accessible.gif") %>"
+            alt="Accessible" />
         <% end %>
       </strong>
       <br/>
