@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
-  <body>
+  <body class="no-js">
     <header class="header">
       <div class="container">
         <div class="navbar navbar-light">

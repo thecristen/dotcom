@@ -18,3 +18,9 @@
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+import submitOnChange from './submit-on-change.js';
+import dateToggle from './date-toggle.js';
+
+submitOnChange();
+dateToggle();
+$("body").removeClass("no-js").addClass("js");

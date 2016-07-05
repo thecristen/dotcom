@@ -15,7 +15,9 @@ defmodule RepoCacheTest do
   alias RepoCacheTest.Repo
 
   test "returns the cache result multiple times for the same key" do
-    assert Repo.time(1) == Repo.time(1)
+    first = Repo.time(1)
+    second = Repo.time(1)
+    assert first == second
   end
 
   test "returns different values for different keys" do

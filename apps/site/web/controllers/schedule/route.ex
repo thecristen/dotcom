@@ -18,7 +18,7 @@ defmodule Site.ScheduleController.Route do
     |> Schedules.Repo.all
 
     {filtered_schedules, conn} = all_schedules
-    |> schedules(conn.assigns[:show_all])
+    |> upcoming_schedules(conn.assigns[:show_all])
     |> possibly_open_schedules(all_schedules, conn)
 
     conn
@@ -26,6 +26,7 @@ defmodule Site.ScheduleController.Route do
     |> assign(:schedules, filtered_schedules)
     |> assign(:from, from(all_schedules, conn))
     |> assign(:to, to(all_schedules))
+    |> assign(:most_frequent_headsign, most_frequent_headsign(filtered_schedules))
     |> assign_list_group_template
     |> await_assign_all
     |> route_alerts
@@ -34,13 +35,13 @@ defmodule Site.ScheduleController.Route do
     |> render("index.html")
   end
 
-  defp schedules(all_schedules, show_all)
-  defp schedules(all_schedules, true) do
+  defp upcoming_schedules(all_schedules, show_all)
+  defp upcoming_schedules(all_schedules, true) do
     all_schedules
     |> sort_schedules
   end
-  defp schedules(all_schedules, false) do
-    default_schedules = schedules(all_schedules, true)
+  defp upcoming_schedules(all_schedules, false) do
+    default_schedules = upcoming_schedules(all_schedules, true)
 
     first_after_index = default_schedules
     |> Enum.find_index(&is_after_now?/1)
@@ -56,6 +57,12 @@ defmodule Site.ScheduleController.Route do
   defp sort_schedules(all_schedules) do
     all_schedules
     |> Enum.sort_by(fn schedule -> schedule.time end)
+  end
+
+  defp most_frequent_headsign(schedules) do
+    schedules
+    |> Enum.map(&(&1.trip.headsign))
+    |> most_frequent_value
   end
 
   defp assign_list_group_template(%{assigns: %{route: %{type: type}}} = conn) do

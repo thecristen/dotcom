@@ -22,7 +22,8 @@ defmodule Site.Mixfile do
   def application do
     [mod: {Site, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :stations, :routes, :alerts, :news, :schedules, :timex]]
+                    :stations, :routes, :alerts, :news, :schedules, :timex,
+                    :inflex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -45,7 +46,7 @@ defmodule Site.Mixfile do
      {:news, in_umbrella: true},
      {:schedules, in_umbrella: true},
      {:exrm, ">= 0.0.0"},
-     { :inflex, "~> 1.7.0" },
+     {:inflex, "~> 1.7.0"},
     ]
   end
 end

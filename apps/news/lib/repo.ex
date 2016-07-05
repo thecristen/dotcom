@@ -27,7 +27,7 @@ defmodule News.Repo do
 
   def get!(_, id) do
     @post_filenames
-    |> Enum.filter(&(&1 |> String.contains?(id)))
+    |> Enum.filter(&(String.contains?(&1, id)))
     |> do_all
     |> Enum.filter(&(&1.id == id))
     |> List.first

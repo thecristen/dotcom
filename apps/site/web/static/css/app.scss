@@ -6,6 +6,7 @@
 @import "alerts";
 @import "stations";
 @import "schedule";
+@import "date-toggle";
 
 body {
   background-color: $homepage-bg-color;
@@ -61,7 +62,7 @@ body {
 @include media-breakpoint-down(sm) {
   .navbar-brand {
     font-size: 0.75rem !important;
-    max-width: 14rem;
+    max-width: 12rem;
   }
 
   .nav-item {

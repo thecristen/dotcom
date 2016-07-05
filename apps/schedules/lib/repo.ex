@@ -1,9 +1,9 @@
 defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, ttl: :timer.hours(0)
 
   @default_params [
-      include: "trip.route,stop",
+      include: "trip.route,stop.parent_station",
       "fields[schedule]": "departure_time",
       "fields[stop]": "name"
   ]
@@ -104,8 +104,8 @@ defmodule Schedules.Repo do
     Kernel.to_string(other)
   end
 
-  defp simple_stop(%JsonApi.Item{id: id, relationships: %{"parent_station" => [%JsonApi.Item{attributes: %{"name" => name}}]}}) do
-    %Schedules.Stop{id: id, name: name}
+  defp simple_stop(%JsonApi.Item{relationships: %{"parent_station" => [item]}}) do
+    simple_stop(item)
   end
   defp simple_stop(%JsonApi.Item{id: id, attributes: %{"name" => name}}) do
     %Schedules.Stop{id: id, name: name}

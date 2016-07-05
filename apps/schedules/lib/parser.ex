@@ -49,6 +49,24 @@ defmodule Schedules.Parser do
         relationships: %{
           "stop" => [
           %JsonApi.Item{
+            relationships: %{
+              "parent_station" => [
+                %JsonApi.Item{
+                  id: id,
+                  attributes: %{
+                    "name" => name
+                  }}]
+            }}]
+        }}) do
+    %Schedules.Stop{
+      id: id,
+      name: name
+    }
+  end
+  def stop(%JsonApi.Item{
+        relationships: %{
+          "stop" => [
+          %JsonApi.Item{
             id: id,
             attributes: %{
               "name" => name

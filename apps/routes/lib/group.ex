@@ -18,7 +18,7 @@ defmodule Routes.Group do
   defp filter(%Route{type: 0}), do: false
   defp filter(_), do: true
 
-  defp filter_map(%Route{type: 0}=route) do
+  defp filter_map(%Route{type: 0} = route) do
     %Route{route | name: "Green Line", id: "Green"}
   end
   defp filter_map(item) do

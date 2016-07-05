@@ -82,10 +82,10 @@ defmodule Site.ScheduleController.Helpers do
   in the Conn.  Otherwise, returns the filtered list and the Conn unmodified.
   """
   def possibly_open_schedules([], all_schedules, conn) do
-    { all_schedules, assign(conn, :show_all, true) }
+    {all_schedules, assign(conn, :show_all, true)}
   end
   def possibly_open_schedules(schedules, _, conn) do
-    { schedules, conn }
+    {schedules, conn}
   end
 
   @doc "Given a list of values, return the one which appears the most"
@@ -108,12 +108,12 @@ defmodule Site.ScheduleController.Helpers do
   of alerts for that route.
   """
   def route_alerts(%{assigns: %{alerts: alerts, route: route}} = conn) do
-    route_alerts = alerts
+    alerts = alerts
     |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id})
     |> Enum.sort_by(&(- Timex.DateTime.to_seconds(&1.updated_at)))
 
     conn
-    |> assign(:route_alerts, route_alerts)
+    |> assign(:route_alerts, alerts)
   end
 
   @doc """
@@ -125,11 +125,11 @@ defmodule Site.ScheduleController.Helpers do
     |> assign(:stop_alerts, nil)
   end
   def stop_alerts(%{assigns: %{origin: origin}} = conn) do
-    stop_alerts = conn.assigns[:alerts]
+    alerts = conn.assigns[:alerts]
     |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
 
     conn
-    |> assign(:stop_alerts, stop_alerts)
+    |> assign(:stop_alerts, alerts)
   end
 
   @doc """

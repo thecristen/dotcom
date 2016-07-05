@@ -88,13 +88,15 @@ defmodule TimeGroup do
   defp subway_period(%Schedule{time: time}) do
     tup = {time.hour, time.minute}
     cond do
-      @start < tup && tup <= @am_rush_end ->
+      tup < @start ->
+        :late_night
+      tup <= @am_rush_end ->
         :am_rush
-      @am_rush_end < tup && tup <= @midday_end ->
+      tup <= @midday_end ->
         :midday
-      @midday_end < tup && tup <= @pm_rush_end ->
+      tup <= @pm_rush_end ->
         :pm_rush
-      @pm_rush_end < tup && tup <= @evening_end ->
+      tup <= @evening_end ->
         :evening
       true ->
         :late_night

@@ -9,7 +9,7 @@ defmodule RepoCache.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Starts a worker by calling: RepoCache.Worker.start_link(arg1, arg2, arg3)
-      worker(ConCache, [[], [name: :repo_cache_cache]])
+      worker(ConCache, [[ttl_check: :timer.seconds(1)], [name: :repo_cache_cache]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

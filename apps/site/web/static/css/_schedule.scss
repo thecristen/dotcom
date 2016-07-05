@@ -5,6 +5,7 @@
   padding: 5px;
   margin: 5px;
   border-radius: 50%;
+  float: left;
 
   svg {
     width: 26px;
@@ -49,6 +50,12 @@
     fill: white;
   }
   background-color: $brand-blue-line;
+}
+
+.form-control.schedule-route-selector {
+  // leave room for the route icon
+  width: 79%;
+  float: left;
 }
 
 .schedules-link {
