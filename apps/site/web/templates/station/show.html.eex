@@ -1,7 +1,7 @@
 <div class="container main-container station-info-container">
-  <div class="row">
+  <div class="row p-b-1">
     <div class="col-xs-12 col-md-6">
-      <h1>
+      <strong class="h4">
         <%= @station.name %>
 
         <%= for accessibility <- @station.accessibility do %>
@@ -9,57 +9,79 @@
             alt="Accessiblity: <%= pretty_accessibility(accessibility) %>"
             title="<%= pretty_accessibility(accessibility) %>">
         <% end %>
-      </h1>
-
-      <h4><%= @station.address %></h4>
-
-      <p><%= @station.note %></p>
-    </div>
-
-    <div class="col-xs-12 col-md-6">
-      <div class="embed-responsive embed-responsive-4by3">
-        <iframe
-          class="station-info-map"
-          src="https://www.google.com/maps/embed/v1/place?key=<%= google_api_key %>
-               &zoom=14&q=<%= location(@station) %>" allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <%= if @station.parkings != [] do %>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Parking</th>
-                <th>Spots</th>
-                <th>Rate</th>
-                <th>Note</th>
-                <th>Managed By</th>
-              </tr>
-            </thead>
-            <tbody>
-              <%= for parking <- @station.parkings do %>
-                <tr>
-                  <td><%= parking.type |> String.capitalize %></td>
-                  <td><%= parking.spots %></td>
-                  <td><%= parking.rate %></td>
-                  <td><%= parking.note %></td>
-                  <td>
-                    <%= if parking.manager do %>
-                      <%= parking.manager.name |> optional_link(parking.manager.website) %><br/>
-                      <ul>
-                        <%= parking.manager.phone |> phone |> optional_li %>
-                        <%= parking.manager.email |> email |> optional_li %>
-                      </ul>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% end %>
-      </div>
+      </strong>
+      <br/>
+      <%= @station.address %>
     </div>
   </div>
+
+  <div class="row p-b-1">
+    <div class="embed-responsive embed-responsive-4by3">
+      <iframe
+        class="station-info-map"
+        src="https://www.google.com/maps/embed/v1/place?key=<%= google_api_key %>
+             &zoom=14&q=<%= location(@station) %>" allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <%= if @station.parkings != [] do %>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Parking</h5>
+          </div>
+          <div class="card-block">
+            <ul class="list-unstyled">
+              <%= if @parking_rate do %><li><strong>Rate:</strong> <%= @parking_rate %></li><% end %>
+              <%= for { type_name, space_count } <- @parking_space_counts do %>
+                <li><strong><%= type_name %> <%= Inflex.inflect("Space", space_count) %>:</strong> <%= space_count %></li>
+              <% end %>
+            </ul>
+
+            <%= if @parking_manager do %>
+              <div class="card">
+                <div class="card-header">
+                  <ul class="list-unstyled">
+                    <li><strong>Managed by <%= @parking_manager.name %></strong></li>
+                    <%= @parking_manager.website |> optional_link("Visit #{@parking_manager.name}'s Website »") |> optional_li %>
+                    <%= @parking_manager.phone |> phone |> optional_li %>
+                    <%= @parking_manager.email |> email |> optional_li %>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+
+            <%= if @parking_note do %>
+              <ul class="list-unstyled">
+                <li><strong>Notes</strong></li>
+                <li><%= @parking_note %></li>
+              </ul>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Accessibility</h5>
+          </div>
+          <div class="card-block">
+            <p>The following accessibility services are available at <%= @station.name %>:</p>
+            <ul>
+              <%= for accessibility <- @station.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
+                <li><%= accessibility |> pretty_accessibility %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

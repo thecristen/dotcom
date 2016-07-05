@@ -8,6 +8,8 @@ defmodule Site.StationView do
     end
   end
 
+  def pretty_accessibility("tty_phone"), do: "TTY Phone"
+  def pretty_accessibility("escalator_both"), do: "Escalator (Both)"
   def pretty_accessibility(accessibility) do
     accessibility
     |> String.split("_")
@@ -32,13 +34,15 @@ defmodule Site.StationView do
     ""
   end
   def email(value) do
-    content_tag(:a, value, href: "mailto:#{value}")
+    display_value = value
+    |> String.replace("@", "@\u200B")
+    content_tag(:a, display_value, href: "mailto:#{value}")
   end
 
-  def optional_link(value, "") do
-    value
+  def optional_link("", value) do
+    nil
   end
-  def optional_link(value, href) do
+  def optional_link(href, value) do
     href_value = case href do
                    <<"http://", _::binary>> -> href
                    <<"https://", _::binary>> -> href

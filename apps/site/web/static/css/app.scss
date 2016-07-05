@@ -74,4 +74,9 @@ body {
       height: 3rem;
     }
   }
+
+  .full-width {
+    // removes the margins on the outside
+    @include make-row();
+  }
 }
