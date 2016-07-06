@@ -20,7 +20,9 @@
 // import socket from "./socket"
 import submitOnChange from './submit-on-change.js';
 import dateToggle from './date-toggle.js';
+import imageExpand from './image-expand.js';
 
 submitOnChange();
 dateToggle();
+imageExpand();
 $("body").removeClass("no-js").addClass("js");
