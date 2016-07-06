@@ -1,15 +1,20 @@
 defmodule Site.ViewHelpers do
   import Site.Router.Helpers
+  import Phoenix.HTML, only: [raw: 1]
+  import Phoenix.HTML.Tag, only: [content_tag: 3]
 
-  def svg(_conn, path) do
-    svg_content = :site
+  def svg(path) do
+    :site
     |> Application.app_dir
     |> Path.join("priv/static" <> path)
     |> File.read!
     |> String.split("\n")
     |> Enum.join("")
-
-    Phoenix.HTML.raw svg_content
+    |> raw
+  end
+  def svg(_conn, path) do
+    # TODO remove old uses of svg/2
+    svg(path)
   end
 
   def redirect_path(conn, path) do
@@ -41,4 +46,26 @@ defmodule Site.ViewHelpers do
   def direction(0, _), do: "Outbound"
   def direction(1, _), do: "Inbound"
   def direction(_, _), do: "Unknown"
+
+  def mode_icon(type)
+  def mode_icon(0), do: mode_icon(1)
+  def mode_icon(1), do: do_mode_icon("subway")
+  def mode_icon(2), do: do_mode_icon("commuter-rail", "commuter")
+  def mode_icon(3), do: do_mode_icon("bus")
+  def mode_icon(4), do: do_mode_icon("boat")
+
+  defp do_mode_icon(name, svg_name \\ nil) do
+    svg_name = svg_name || name
+    content_tag :div, class: "route-icon route-icon-#{name}" do
+      svg("/images/#{svg_name}.svg")
+    end
+  end
+
+  def mode_name(type)
+  def mode_name(0), do: mode_name(1)
+  def mode_name(1), do: "Subway"
+  def mode_name(2), do: "Commuter Rail"
+  def mode_name(3), do: "Bus"
+  def mode_name(4), do: "Boat"
+
 end

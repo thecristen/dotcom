@@ -13,4 +13,8 @@ defmodule V3Api.Routes do
   def by_type(type) do
     get_json("/routes/", type: type)
   end
+
+  def by_stop(stop_id) do
+    get_json("/routes/", stop: stop_id)
+  end
 end

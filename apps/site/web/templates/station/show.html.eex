@@ -15,7 +15,7 @@
   </div>
 
   <div class="row p-b-1">
-    <div class="embed-responsive embed-responsive-4by3">
+    <div class="station-info-container embed-responsive embed-responsive-21by9">
       <iframe
         class="station-info-map"
         src="https://www.google.com/maps/embed/v1/place?key=<%= google_api_key %>
@@ -24,9 +24,35 @@
     </div>
   </div>
 
-  <%= if @station.parkings != [] do %>
-    <div class="row">
-      <div class="col-xs-12">
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <%= for {type, routes} <- @grouped_routes do %>
+        <div class="mode-group">
+          <div class="mode-group-header">
+            <%= case type do %>
+              <% 1 -> %><%# also includes the green line (type 0)  %>
+              <span class="route-icon route-icon-subway"><%= svg @conn, "/images/subway.svg" %></span>
+              <% 2 -> %>
+              <span class="route-icon route-icon-commuter-rail"><%= svg @conn, "/images/commuter.svg" %></span>
+              <% 3 -> %>
+              <span class="route-icon route-icon-bus"><%= svg @conn, "/images/bus.svg" %></span>
+            <% end %>
+            <h5><%= mode_name type %></h5>
+          </div>
+          <div class="mode-group-block">
+            <%= for route <- routes do %>
+              <%= link route.name, class: "mode-group-btn", to: schedule_path @conn, :index, route: route.id %>
+            <% end %>
+          </div>
+          <div class="mode-group-footer">
+            <%= link "View #{mode_name type} Fares & Passes »", to: redirect_path @conn, fare_redirect_path(type) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= if @station.parkings != [] do %>
+      <div class="col-xs-12 col-md-6">
         <div class="card">
           <div class="card-header">
             <h5>Parking</h5>
@@ -61,12 +87,10 @@
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
 
-  <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
-    <div class="row">
-      <div class="col-xs-12">
+    <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
+      <div class="col-xs-12 col-md-6">
         <div class="card">
           <div class="card-header">
             <h5>Accessibility</h5>

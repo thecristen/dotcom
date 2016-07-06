@@ -1,51 +1,71 @@
 <div class="index">
   <div class="card">
-    <div class="card-header">Transit Near Me</div>
-    <div class="card-block">
-      <form>
-        <fieldset class="form-group">
-          <label for="location"><strong>Enter your desired location:</strong></label>
-          <input class="form-control" type="text" name="location" placeholder="Example: 123 Main St, Boston MA">
-        </fieldset>
-      </form>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header">Schedules &amp; Maps</div>
+    <div class="card-header"><h5>Schedules &amp; Maps</h5></div>
     <div class="card-block">
       <div class="row">
-        <div class="col-md-4">
-          <h5><%= svg @conn, "/images/commuter.svg" %>Commuter Rail</h5>
-          <ul class="route-list schedule-route-list">
-            <%= for route <- @grouped_routes[:commuter_rail] do %>
-              <li class="route-list-item-inline">
-                <%= link route.name |> clean_route_name, to: schedule_path @conn, :index, route: route.id %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="col-md-4">
-          <h5><%= svg @conn, "/images/bus.svg" %>Bus</h5>
-          <ul class="route-list schedule-route-list">
-            <%= for route <- @grouped_routes[:bus] |> Enum.take(50) do %>
-              <li class="route-list-item-inline">
-                <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %></li>
-            <% end %>
-            <li class="route-list-item-inline">...</li>
-          </ul>
-          <a href="#">View All &raquo</a>
-        </div>
-        <div class="col-md-4">
-          <h5><%= svg @conn, "/images/subway.svg" %>Subway</h5>
-          <ul class="route-list schedule-route-list">
-            <%= for route <- @grouped_routes[:subway] do %>
-              <li class="route-list-item">
-                <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %><%= if route.id == "Green" do %> -
-                <%= for line <- ["B", "C", "D", "E"] do %>
-                  <%= link line, to: schedule_path(@conn, :index, route: "Green-" <> line) %><%= if line != "E" do %>,<% end %>
+        <div class="col-xs-12">
+          <div class="mode-group">
+            <div class="mode-group-header">
+              <h6><%= mode_icon 2 %>Commuter Rail | <a href="#">View All &raquo</a></h6>
+            </div>
+            <div class="mode-group-block">
+              <div class="row">
+                <%= for route <- @grouped_routes[:commuter_rail] do %>
+                  <div class="col-xs-6 col-md-3">
+                    <%= link route.name |> clean_route_name, class: "mode-group-btn btn-block text-truncate", to: schedule_path @conn, :index, route: route.id %>
+                  </div>
                 <% end %>
-                <% end %></li>
-            <% end %>
-          </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="mode-group">
+            <div class="mode-group-header">
+              <h6><%= mode_icon 3 %> Bus | <a href="#">View All &raquo</a></h6>
+            </div>
+            <div class="mode-group-block">
+              <div class="row">
+                <%= for route <- @grouped_routes[:bus] |> Enum.take(18) do %>
+                  <div class="col-xs-4 col-md-2">
+                    <%= link route.name, class: "mode-group-btn btn-block", to: schedule_path(@conn, :index, route: route.id) %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="mode-group">
+            <div class="mode-group-header">
+              <h6><%= mode_icon 1 %>Subway | <a href="#">View All &raquo</a></h6>
+            </div>
+            <div class="mode-group-block">
+              <div class="row">
+                <%= for route <- @grouped_routes[:subway] do %>
+                  <div class="col-xs-6 col-md-3">
+                    <%= link route.name |> clean_route_name, class: "mode-group-btn btn-block", to: schedule_path(@conn, :index, route: route.id) %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="mode-group">
+            <div class="mode-group-header">
+              <h6><%= mode_icon 4 %>Boat | <a href="#">View All &raquo</a></h6>
+            </div>
+            <div class="mode-group-block">
+              <div class="row">
+                <%= for route <- @grouped_routes[:boat] do %>
+                  <div class="col-xs-12 col-md-4">
+                    <%= link route.name, class: "mode-group-btn btn-block", to: schedule_path(@conn, :index, route: route.id) %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

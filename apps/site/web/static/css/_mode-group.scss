@@ -1,0 +1,30 @@
+.mode-group {
+  @extend .card;
+}
+
+.mode-group-header {
+  @extend .card-header;
+}
+
+.mode-group-block {
+  @extend .card-block;
+}
+
+.mode-group-btn {
+  @extend .btn;
+  @extend .btn-primary-outline;
+
+  margin-bottom: 0.2rem;
+}
+
+.mode-group-footer {
+  @extend .card-footer;
+}
+
+// overrides
+
+.mode-group {
+  .route-icon {
+    margin-top: -5px; // to recenter in the header
+  }
+}

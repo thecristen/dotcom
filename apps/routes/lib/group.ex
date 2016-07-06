@@ -44,6 +44,9 @@ defmodule Routes.Group do
   defp key(%{type: 3}) do
     :bus
   end
+  defp key(%{type: 4}) do
+    :boat
+  end
   defp key(%{type: _}) do
     :other
   end

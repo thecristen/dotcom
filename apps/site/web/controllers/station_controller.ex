@@ -12,8 +12,16 @@ defmodule Site.StationController do
   def show(conn, %{"id" => id}) do
     station = Repo.get!(Station, id |> String.replace("+", " "))
     conn
+    |> assign(:grouped_routes, grouped_routes(id))
     |> assign_parking(station.parkings)
     |> render("show.html", station: station)
+  end
+
+  def grouped_routes(stop_id) do
+    stop_id
+    |> Routes.Repo.by_stop
+    |> Enum.map(&map_0_type/1)
+    |> Enum.group_by(&(&1.type))
   end
 
   def assign_parking(conn, parkings) do
@@ -44,6 +52,11 @@ defmodule Site.StationController do
     parkings
     |> first_not_empty(:note)
   end
+
+  defp map_0_type(%{type: 0} = route) do
+    %{route|type: 1}
+  end
+  defp map_0_type(route), do: route
 
   defp first_not_empty(enum, key) do
     case Enum.find(enum, &(!empty?(Map.from_struct(&1)[key]))) do
