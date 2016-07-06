@@ -7,4 +7,12 @@ defmodule Alerts.Repo do
       |> Enum.map(&Alerts.Parser.parse/1)
     end
   end
+
+  def by_id(id) do
+    cache [], fn _ ->
+      V3Api.Alerts.by_id(id).data
+      |> List.first
+      |> Alerts.Parser.parse
+    end
+  end
 end

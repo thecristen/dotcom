@@ -1,0 +1,7 @@
+<div class="container main-container">
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render "_alert_list.html", alerts: [@single_alert], collapse_descriptions: false %>
+    </div>
+  </div>
+</div>
