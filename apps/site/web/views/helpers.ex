@@ -47,6 +47,7 @@ defmodule Site.ViewHelpers do
   def direction(1, _), do: "Inbound"
   def direction(_, _), do: "Unknown"
 
+  @doc "HTML for an icon representing a mode"
   def mode_icon(type)
   def mode_icon(0), do: mode_icon(1)
   def mode_icon(1), do: do_mode_icon("subway")
@@ -61,6 +62,7 @@ defmodule Site.ViewHelpers do
     end
   end
 
+  @doc "Textual version of a mode ID"
   def mode_name(type)
   def mode_name(0), do: mode_name(1)
   def mode_name(1), do: "Subway"
@@ -68,4 +70,11 @@ defmodule Site.ViewHelpers do
   def mode_name(3), do: "Bus"
   def mode_name(4), do: "Boat"
 
+  @doc "Clean up a GTFS route name for better presentation"
+  def clean_route_name(name) do
+    name
+    |> String.replace_suffix(" Line", "")
+    |> String.replace("/", "/​") # slash replaced with a slash with a ZERO
+                                # WIDTH SPACE afer
+  end
 end

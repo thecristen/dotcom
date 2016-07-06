@@ -40,9 +40,18 @@
             <h5><%= mode_name type %></h5>
           </div>
           <div class="mode-group-block">
-            <%= for route <- routes do %>
-              <%= link route.name, class: "mode-group-btn", to: schedule_path @conn, :index, route: route.id %>
-            <% end %>
+            <% column_classes = case type do
+                3 -> "col-xs-4 col-md-2"
+                _ -> "col-xs-6"
+                end
+            %>
+            <div class="row">
+              <%= for route <- routes do %>
+                <div class="<%= column_classes %>">
+                  <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path @conn, :index, route: route.id %>
+                </div>
+              <% end %>
+            </div>
           </div>
           <div class="mode-group-footer">
             <%= link "View #{mode_name type} Fares & Passes »", to: redirect_path @conn, fare_redirect_path(type) %>
@@ -53,11 +62,11 @@
 
     <%= if @station.parkings != [] do %>
       <div class="col-xs-12 col-md-6">
-        <div class="card">
-          <div class="card-header">
+        <div class="mode-group">
+          <div class="mode-group-header">
             <h5>Parking</h5>
           </div>
-          <div class="card-block">
+          <div class="mode-group-block">
             <ul class="list-unstyled">
               <%= if @parking_rate do %><li><strong>Rate:</strong> <%= @parking_rate %></li><% end %>
               <%= for { type_name, space_count } <- @parking_space_counts do %>
@@ -91,11 +100,11 @@
 
     <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
       <div class="col-xs-12 col-md-6">
-        <div class="card">
-          <div class="card-header">
+        <div class="mode-group">
+          <div class="mode-group-header">
             <h5>Accessibility</h5>
           </div>
-          <div class="card-block">
+          <div class="mode-group-block">
             <p>The following accessibility services are available at <%= @station.name %>:</p>
             <ul>
               <%= for accessibility <- @station.accessibility |> Enum.filter(&(&1 != "accessible")) do %>

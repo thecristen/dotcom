@@ -48,7 +48,7 @@ defmodule Site.StationView do
     content_tag(:a, display_value, href: "mailto:#{value}")
   end
 
-  def optional_link("", value) do
+  def optional_link("", _) do
     nil
   end
   def optional_link(href, value) do

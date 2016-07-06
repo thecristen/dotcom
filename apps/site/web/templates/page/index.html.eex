@@ -12,7 +12,7 @@
               <div class="row">
                 <%= for route <- @grouped_routes[:commuter_rail] do %>
                   <div class="col-xs-6 col-md-3">
-                    <%= link route.name |> clean_route_name, class: "mode-group-btn btn-block text-truncate", to: schedule_path @conn, :index, route: route.id %>
+                    <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path @conn, :index, route: route.id %>
                   </div>
                 <% end %>
               </div>
@@ -28,7 +28,7 @@
               <div class="row">
                 <%= for route <- @grouped_routes[:bus] |> Enum.take(18) do %>
                   <div class="col-xs-4 col-md-2">
-                    <%= link route.name, class: "mode-group-btn btn-block", to: schedule_path(@conn, :index, route: route.id) %>
+                    <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
                   </div>
                 <% end %>
               </div>
@@ -44,7 +44,7 @@
               <div class="row">
                 <%= for route <- @grouped_routes[:subway] do %>
                   <div class="col-xs-6 col-md-3">
-                    <%= link route.name |> clean_route_name, class: "mode-group-btn btn-block", to: schedule_path(@conn, :index, route: route.id) %>
+                    <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
                   </div>
                 <% end %>
               </div>
@@ -60,7 +60,7 @@
               <div class="row">
                 <%= for route <- @grouped_routes[:boat] do %>
                   <div class="col-xs-12 col-md-4">
-                    <%= link route.name, class: "mode-group-btn btn-block", to: schedule_path(@conn, :index, route: route.id) %>
+                    <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
                   </div>
                 <% end %>
               </div>
