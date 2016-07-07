@@ -1,18 +1,16 @@
 <div class="container main-container">
   <div class="row">
     <div class="col-xs-12 p-b-1">
-      <span class="col-xs-1 schedule-route-icon schedule-route-icon-subway">
-        <%= svg @conn, "/images/subway.svg" %>
-      </span>
-      <h1 class="schedule-header col-xs-8 col-md-11">Subway Schedules & Map</h1>
+      <%= render "_mode_image.html", %{route: %{type: @route_type, id: @mode_name}} %>
+      <h1 class="schedule-header col-xs-8 col-md-11"><%= @mode_name |> String.capitalize %> Schedules & Map</h1>
     </div>
     <div class="col-xs-12 p-b-1">
       <h2>System Map</h2>
-      <img src="<%= static_path(@conn, "/images/subway-spider.jpg") %>" class="subway-map expandable m-y-1" alt="Subway Map" title="Subway Map (click to expand)">
+      <img src="<%= static_path(@conn, "/images/subway-spider.jpg") %>" class="subway-map expandable m-y-1" alt="<%= @mode_name |> String.capitalize %> Map" title="<%= @mode_name |> String.capitalize %> Map (click to expand)">
       <p>
         <a href="<%= static_path(@conn, "/images/subway-map.pdf") %>" target="_blank">
           <i class="fa fa-search-plus" aria-hidden="true"></i>
-          View subway map as a PDF
+          View <%= @mode_name %> map as a PDF
         </a>
       </p>
     </div>
@@ -20,7 +18,7 @@
       <h2>Line Schedules</h2>
       <ul class="schedule-hub-route-list">
         <%= for route <- @routes do %>
-          <li class="col-xs-5 col-md-2">
+          <li class="col-xs-4 col-md-2">
             <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %>
           </li>
         <% end %>
@@ -44,15 +42,10 @@
       </div>
     <%= end %>
     <div class="col-xs-12">
-      <h2>Subway Fares</h2>
-      <p>Travel anywhere on the Blue, Orange, Red, and Green lines for the same price.</p>
+      <h2><%= @mode_name |> String.capitalize %> Fares</h2>
+      <p><%= @fare_description %></p>
       <ul class="fare-list">
-        <%= for {title, price} <- [
-            {"Passes/Tickets", "Fare"},
-            {"CharlieCard", "$2.25"},
-            {"CharlieTicket/Cash-on-board", "$2.75"},
-            {"LinkPass - unlimited travel on Subway plus Local Bus", "$84.50"}
-        ] do %>
+        <%= for {title, price} <- @fares do %>
           <li class="col-xs-12">
             <span class="col-xs-9"><%= title %></span>
             <span class="pull-right"><%= price %></span>

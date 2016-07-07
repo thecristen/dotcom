@@ -23,4 +23,8 @@ defmodule Site.ScheduleController do
   def subway(conn, _params) do
     Site.ScheduleController.Modes.subway conn
   end
+
+  def bus(conn, _params) do
+    Site.ScheduleController.Modes.bus conn
+  end
 end
