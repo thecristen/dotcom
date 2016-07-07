@@ -33,7 +33,7 @@
           </div>
           <div class="mode-group-block">
             <% column_classes = case type do
-                3 -> "col-xs-4 col-md-3"
+                3 -> "col-xs-4"
                 _ -> "col-xs-6"
                 end
             %>
@@ -52,38 +52,15 @@
       <% end %>
     </div>
 
-    <%= if @station.parkings != [] do %>
+    <%= if @station.parking_lots != [] do %>
       <div class="col-xs-12 col-md-6">
         <div class="mode-group">
           <div class="mode-group-header">
             <h5>Parking</h5>
           </div>
           <div class="mode-group-block">
-            <ul class="list-unstyled">
-              <%= if @parking_rate do %><li><strong>Rate:</strong> <%= @parking_rate %></li><% end %>
-              <%= for { type_name, space_count } <- @parking_space_counts do %>
-                <li><strong><%= type_name %> <%= Inflex.inflect("Space", space_count) %>:</strong> <%= space_count %></li>
-              <% end %>
-            </ul>
-
-            <%= if @parking_manager do %>
-              <div class="card">
-                <div class="card-header">
-                  <ul class="list-unstyled">
-                    <li><strong>Managed by <%= @parking_manager.name %></strong></li>
-                    <%= @parking_manager.website |> optional_link("Visit #{@parking_manager.name}'s Website »") |> optional_li %>
-                    <%= @parking_manager.phone |> phone |> optional_li %>
-                    <%= @parking_manager.email |> email |> optional_li %>
-                  </ul>
-                </div>
-              </div>
-            <% end %>
-
-            <%= if @parking_note do %>
-              <ul class="list-unstyled">
-                <li><strong>Notes</strong></li>
-                <li><%= @parking_note %></li>
-              </ul>
+            <%= for lot <- @station.parking_lots do %>
+              <%= render "_parking_lot.html", lot: lot %>
             <% end %>
           </div>
         </div>

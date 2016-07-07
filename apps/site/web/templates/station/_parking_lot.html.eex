@@ -1,0 +1,27 @@
+<ul class="list-unstyled">
+  <%= if @lot.average_availability do %><li><strong>Average weekday availability:</strong> <%= @lot.average_availability %></li><% end %>
+  <%= if @lot.rate do %><li><strong>Rate:</strong> <%= @lot.rate %></li><% end %>
+  <%= for parking <- @lot.spots |> sort_parking_spots do %>
+    <li><strong><%= parking.type |> parking_type %> <%= Inflex.inflect("Space", parking.spots) %>:</strong> <%= parking.spots %></li>
+  <% end %>
+</ul>
+
+<%= if @lot.manager do %>
+  <div class="card">
+    <div class="card-header">
+      <ul class="list-unstyled">
+        <li><strong>Managed by <%= @lot.manager.name %></strong></li>
+        <%= @lot.manager.website |> optional_link("Visit #{@lot.manager.name}'s Website »") |> optional_li %>
+        <%= @lot.manager.phone |> phone |> optional_li %>
+        <%= @lot.manager.email |> email |> optional_li %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<%= if @lot.note && @lot.note != "" do %>
+  <ul class="list-unstyled">
+    <li><strong>Notes</strong></li>
+    <li><%= @lot.note %></li>
+  </ul>
+<% end %>
