@@ -1,3 +1,5 @@
+[![Build Status](https://semaphoreci.com/api/v1/projects/3e8894ff-9143-4cb0-a0ae-a4489ca741a7/882389/badge.svg)](https://semaphoreci.com/peter-fogg/dotcom)
+
 # DotCom
 
 The new face of http://mbta.com/
