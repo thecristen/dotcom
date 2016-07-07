@@ -1,7 +1,8 @@
 <div class="container main-container">
   <div class="row">
     <div class="col-xs-12 p-b-1">
-      <%= render "_mode_image.html", %{route: %{type: @route_type, id: @mode_name}} %>
+      <%#= render "_mode_image.html", %{route: %{type: @route_type, id: @mode_name}} %>
+      <%= mode_icon @route_type %>
       <h1 class="schedule-header col-xs-8 col-md-11"><%= @mode_name |> String.capitalize %> Schedules & Map</h1>
     </div>
     <div class="col-xs-12 p-b-1">

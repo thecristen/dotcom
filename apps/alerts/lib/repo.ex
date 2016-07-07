@@ -9,10 +9,7 @@ defmodule Alerts.Repo do
   end
 
   def by_id(id) do
-    cache [], fn _ ->
-      V3Api.Alerts.by_id(id).data
-      |> List.first
-      |> Alerts.Parser.parse
-    end
+    all
+    |> Enum.find(&(&1.id == id))
   end
 end

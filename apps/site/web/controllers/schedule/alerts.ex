@@ -7,8 +7,8 @@ defmodule Site.ScheduleController.Alerts do
   def alerts(%{params: %{"alert" => alert_id}} = conn) do
     conn
     |> default_assigns
-    |> assign(:single_alert, Alerts.Repo.by_id(alert_id))
-    |> render("single_alert.html")
+    |> assign(:alerts, [Alerts.Repo.by_id(alert_id)])
+    |> render("alert_list.html")
   end
   def alerts(conn) do
     conn

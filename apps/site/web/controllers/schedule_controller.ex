@@ -21,10 +21,10 @@ defmodule Site.ScheduleController do
   end
 
   def subway(conn, _params) do
-    Site.ScheduleController.Modes.subway conn
+    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Subway)
   end
 
   def bus(conn, _params) do
-    Site.ScheduleController.Modes.bus conn
+    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Bus)
   end
 end

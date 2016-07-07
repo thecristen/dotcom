@@ -9,8 +9,4 @@ defmodule V3Api.Alerts do
   def all do
     get_json("/alerts/")
   end
-
-  def by_id(id) do
-    get_json("/alerts/" <> id)
-  end
 end
