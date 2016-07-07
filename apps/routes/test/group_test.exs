@@ -39,7 +39,7 @@ defmodule Routes.GroupTest do
       subway: [%Route{type: 0, id: "Green", name: "Green Line"}, @subway],
       commuter_rail: [@rail],
       bus: [@bus],
-      other: [@boat]
+      boat: [@boat]
     }
   end
 end
