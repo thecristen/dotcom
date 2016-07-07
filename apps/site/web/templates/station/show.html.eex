@@ -29,19 +29,11 @@
       <%= for {type, routes} <- @grouped_routes do %>
         <div class="mode-group">
           <div class="mode-group-header">
-            <%= case type do %>
-              <% 1 -> %><%# also includes the green line (type 0)  %>
-              <span class="route-icon route-icon-subway"><%= svg @conn, "/images/subway.svg" %></span>
-              <% 2 -> %>
-              <span class="route-icon route-icon-commuter-rail"><%= svg @conn, "/images/commuter.svg" %></span>
-              <% 3 -> %>
-              <span class="route-icon route-icon-bus"><%= svg @conn, "/images/bus.svg" %></span>
-            <% end %>
-            <h5><%= mode_name type %></h5>
+            <h5><%= mode_icon type %><%= mode_name type %></h5>
           </div>
           <div class="mode-group-block">
             <% column_classes = case type do
-                3 -> "col-xs-4 col-md-2"
+                3 -> "col-xs-4 col-md-3"
                 _ -> "col-xs-6"
                 end
             %>
