@@ -22,6 +22,19 @@
              &zoom=14&q=<%= location(@station) %>" allowfullscreen>
       </iframe>
     </div>
+
+      <div class="btn-group">
+        <%= case @station.images |> Enum.find(&(&1.description == "_pdf")) do %>
+        <% nil -> %>
+        <% %{url: url} -> %>
+        <%= link to: url, class: "btn btn-link" do %>
+        <i class="fa fa-search-plus"></i> View Neighborhood Map as PDF
+        <% end %>
+        <% end %>
+        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank", class: "btn btn-link hidden-sm-down" do %>
+          Enlarge map and get directions&nbsp;&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i>
+        <% end %>
+    </div>
   </div>
 
   <div class="row">

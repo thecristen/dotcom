@@ -1,6 +1,6 @@
 <ul class="list-unstyled">
-  <%= if @lot.average_availability do %><li><strong>Average weekday availability:</strong> <%= @lot.average_availability %></li><% end %>
-  <%= if @lot.rate do %><li><strong>Rate:</strong> <%= @lot.rate %></li><% end %>
+  <%= if @lot.average_availability && @lot.average_availability != "" do %><li><strong>Average weekday availability:</strong> <%= @lot.average_availability %></li><% end %>
+  <%= if @lot.rate && @lot.rate != "" do %><li><strong>Rate:</strong> <%= @lot.rate %></li><% end %>
   <%= for parking <- @lot.spots |> sort_parking_spots do %>
     <li><strong><%= parking.type |> parking_type %> <%= Inflex.inflect("Space", parking.spots) %>:</strong> <%= parking.spots %></li>
   <% end %>

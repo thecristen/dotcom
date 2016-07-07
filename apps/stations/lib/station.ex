@@ -2,7 +2,7 @@ defmodule Stations.Station do
   @moduledoc """
   Domain model for a station.
   """
-  defstruct [:id, :name, :note, :accessibility, :address, :parking_lots, :latitude, :longitude]
+  defstruct [:id, :name, :note, :accessibility, :address, :parking_lots, :latitude, :longitude, :images]
 end
 
 defmodule Stations.Station.ParkingLot do
@@ -21,7 +21,14 @@ end
 
 defmodule Stations.Station.Manager do
   @moduledoc """
-  A manager of parking.
+  A manager of a parking lot.
   """
   defstruct [:name, :phone, :email, :website]
+end
+
+defmodule Stations.Station.Image do
+  @moduledoc """
+  A picture/PDF of the station.
+  """
+  defstruct [:description, :url, :sort_order]
 end

@@ -37,6 +37,7 @@ defmodule Stations.Api do
       address: attributes["address"],
       note: attributes["note"],
       accessibility: attributes["accessibility"],
+      images: images(relationships["images"]),
       parking_lots: parking_lots(relationships)
     }
   end
@@ -95,6 +96,17 @@ defmodule Stations.Api do
   end
   defp parse_manager([]) do
     nil
+  end
+
+  defp images(nil), do: []
+  defp images(items) do
+    items
+    |> Enum.map(fn image ->
+      %Station.Image{
+        description: image.attributes["description"],
+        url: image.attributes["url"],
+        sort_order: image.attributes["sort_order"]}
+    end)
   end
 
   defp merge_v3(station, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
