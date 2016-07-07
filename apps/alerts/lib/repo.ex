@@ -7,4 +7,9 @@ defmodule Alerts.Repo do
       |> Enum.map(&Alerts.Parser.parse/1)
     end
   end
+
+  def by_id(id) do
+    all
+    |> Enum.find(&(&1.id == id))
+  end
 end

@@ -1,7 +1,9 @@
 <% {alerts, notices} = alerts_and_notices(@alerts) %>
 <div class="container main-container">
   <div class="row">
-    <%= render "_alerts_header.html", forward_assigns(@conn) %>
+    <%= if @conn.assigns[:route] do %>
+      <%= render "_alerts_header.html", forward_assigns(@conn) %>
+    <%= end %>
     <div class="col-xs-12">
       <%= render "_alert_list.html", alerts: alerts, collapse_descriptions: false %>
       <%= render "_notice_list.html", notices: notices, collapse_descriptions: false %>

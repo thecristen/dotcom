@@ -42,3 +42,64 @@
     line-height: 24px;
   }
 }
+
+.schedule-header {
+  display: inline-block;
+}
+
+.schedule-hub-route-list {
+  list-style: none;
+  padding: 10px 0 0 0;
+
+  li {
+    display: inline-block;
+    padding: 3px 35px;
+    margin: 6px 6px;
+    border: 1px solid $gray-lightest;
+    border-radius: 2px;
+    text-align: center;
+  }
+}
+
+.fare-list {
+  list-style: none;
+  padding: 0;
+  border: 1px solid $gray-lightest;
+
+  li:first-child {
+    background-color: $brand-primary-darkest;
+    color: white;
+    border-top: none;
+  }
+
+  li {
+    padding: 6px;
+    border-top: 1px solid $gray-lightest;
+  }
+}
+
+.subway-map {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  object-position: 50% 30%;
+  @include media-breakpoint-up(sm) {
+    transition: max-height 1s ease, object-position 1s ease;
+    -webkit-transition: max-height 1s ease, object-position 1s ease;
+    cursor: nesw-resize;
+    &.expanded {
+      max-height: map-get($container-max-widths, md);
+      object-position: initial;
+    }
+  }
+  // Leave the map fully expanded on mobile
+  @include media-breakpoint-down(sm) {
+    height: 100%;
+    max-height: 100%;
+  }
+}
+
+body.no-js .subway-map {
+  max-height: map-get($container-max-widths, md);
+  object-position: initial;
+}

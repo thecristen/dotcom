@@ -19,6 +19,8 @@ defmodule Site.Router do
     get "/", PageController, :index
     get "/redirect/:path", RedirectController, :show
     resources "/stations", StationController, only: [:index, :show]
+    get "/schedules/subway", ScheduleController, :subway
+    get "/schedules/bus", ScheduleController, :bus
     resources "/schedules", ScheduleController, only: [:index]
     get "/alerts", ScheduleController, :alerts
   end

@@ -19,4 +19,12 @@ defmodule Site.ScheduleController do
   def alerts(conn, _params) do
     Site.ScheduleController.Alerts.alerts conn
   end
+
+  def subway(conn, _params) do
+    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Subway)
+  end
+
+  def bus(conn, _params) do
+    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Bus)
+  end
 end

@@ -1,0 +1,90 @@
+defmodule Site.ScheduleController.Modes.Behaviour do
+  @moduledoc "Behaviour for mode hub pages."
+
+  @callback routes() :: [Routes.Route.t]
+  @callback delays() :: [Alerts.Alert.t]
+  @callback mode_name() :: String.t
+  @callback fares() :: String.t
+  @callback fare_description() :: String.t
+  @callback route_type :: integer
+
+  defmacro __using__(_) do
+    quote location: :keep do
+      @behaviour unquote(__MODULE__)
+
+      # Returns only those alerts which should be shown on the hub page for `route_type`. This includes
+      # all delays for that route type which are current and not ongoing.
+      defp mode_delays(route_type) when is_list(route_type) do
+        route_type
+        |> Enum.flat_map(&mode_delays/1)
+        |> Enum.uniq
+      end
+      defp mode_delays(route_type) do
+        Alerts.Repo.all
+        |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, Timex.DateTime.now)
+        |> Enum.filter(&(&1.effect_name == "Delay" && &1.lifecycle != "Ongoing"))
+      end
+
+      def fares do
+        [
+          {"Passes/Tickets", "Fare"},
+          {"CharlieCard", "$2.25"},
+          {"CharlieTicket/Cash-on-board", "$2.75"},
+          {"LinkPass - unlimited travel on Subway plus Local Bus", "$84.50"}
+        ]
+      end
+      
+      def routes, do: Routes.Repo.by_type(route_type)
+
+      def delays, do: mode_delays(route_type)
+
+      defoverridable [fares: 0, routes: 0, delays: 0]
+    end
+  end
+end
+
+defmodule Site.ScheduleController.Modes.Bus do
+  use Site.ScheduleController.Modes.Behaviour
+
+  def route_type, do: 3
+
+  def mode_name, do: "bus"
+
+  def fare_description do
+    "For Inner and Outer Express Bus fares, read the complete Bus Fares page."
+  end
+end
+
+defmodule Site.ScheduleController.Modes.Subway do
+  use Site.ScheduleController.Modes.Behaviour
+
+  def route_type, do: 1
+
+  def routes do
+    [0, 1]
+    |> Routes.Repo.by_type
+    |> Routes.Group.group
+    |> Map.get(:subway)
+  end
+
+  def delays, do: mode_delays([0, 1])
+
+  def mode_name, do: "subway"
+
+  def fare_description, do: "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
+end
+
+defmodule Site.ScheduleController.Modes do
+  use Site.Web, :controller
+
+  def render(conn, mode_strategy) do
+    render(conn, "hub.html",
+      route_type: mode_strategy.route_type,
+      routes: mode_strategy.routes,
+      delays: mode_strategy.delays,
+      mode_name: mode_strategy.mode_name,
+      fares: mode_strategy.fares,
+      fare_description: mode_strategy.fare_description
+    )
+  end
+end
