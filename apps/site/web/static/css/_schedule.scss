@@ -1,55 +1,5 @@
 .schedule-route-icon {
-  display: inline-block;
-  width: 36px;
-  height: 36px;
-  padding: 5px;
   margin: 5px;
-  border-radius: 50%;
-  float: left;
-
-  svg {
-    width: 26px;
-    height: 26px;
-  }
-}
-
-.schedule-route-icon-commuter-rail {
-  * {
-    fill: white;
-  }
-  background-color: $brand-commuter-rail;
-}
-
-.schedule-route-icon-bus {
-  background-color: $brand-secondary;
-}
-
-.schedule-route-icon-green {
-  * {
-    fill: white;
-  }
-  background-color: $brand-green-line;
-}
-
-.schedule-route-icon-red {
-  * {
-    fill: white;
-  }
-  background-color: $brand-red-line;
-}
-
-.schedule-route-icon-orange {
-  * {
-    fill: white;
-  }
-  background-color: $brand-orange-line;
-}
-
-.schedule-route-icon-blue {
-  * {
-    fill: white;
-  }
-  background-color: $brand-blue-line;
 }
 
 .form-control.schedule-route-selector {

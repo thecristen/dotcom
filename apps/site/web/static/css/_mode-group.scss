@@ -1,0 +1,36 @@
+.mode-group {
+  @extend .row;
+  padding-bottom: 3rem;
+}
+
+.mode-group-header {
+  @extend .col-xs-12;
+  padding-bottom: 1rem;
+}
+
+.mode-group-block {
+  @extend .col-xs-12;
+}
+
+.mode-group-btn {
+  @extend .btn;
+  @extend .btn-primary-outline;
+  @extend .btn-block;
+  @extend .text-truncate;
+
+  margin-bottom: 0.2rem;
+}
+
+.mode-group-footer {
+  @extend .col-xs-12;
+  padding-top: 1rem;
+}
+
+// overrides
+
+.mode-group {
+  .route-icon {
+    margin-left: 2px;
+    margin-top: -5px; // to recenter in the header
+  }
+}

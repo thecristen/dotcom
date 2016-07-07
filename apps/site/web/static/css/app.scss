@@ -1,6 +1,8 @@
 @import "variables";
 @import "bootstrap";
 @import "helpers";
+@import "route-icon";
+@import "mode-group";
 
 @import "index";
 @import "alerts";
@@ -73,5 +75,10 @@ body {
     a {
       height: 3rem;
     }
+  }
+
+  .full-width {
+    // removes the margins on the outside
+    @include make-row();
   }
 }

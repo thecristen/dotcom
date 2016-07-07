@@ -1,0 +1,60 @@
+.route-icon {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  margin: 0 5px;
+  border-radius: 50%;
+  float: left;
+
+  svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+.route-icon-commuter-rail {
+  * {
+    fill: white;
+  }
+  background-color: $brand-commuter-rail;
+}
+
+.route-icon-bus {
+  background-color: $brand-secondary;
+}
+
+.route-icon-green {
+  * {
+    fill: white;
+  }
+  background-color: $brand-green-line;
+}
+
+.route-icon-subway {
+  * {
+    fill: white;
+  }
+  background-color: $gray;
+}
+
+.route-icon-red {
+  * {
+    fill: white;
+  }
+  background-color: $brand-red-line;
+}
+
+.route-icon-orange {
+  * {
+    fill: white;
+  }
+  background-color: $brand-orange-line;
+}
+
+.route-icon-blue {
+  * {
+    fill: white;
+  }
+  background-color: $brand-blue-line;
+}

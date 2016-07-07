@@ -29,6 +29,14 @@ defmodule Routes.Repo do
     end)
   end
 
+  def by_stop(stop_id) do
+    cache stop_id, fn stop_id ->
+      stop_id
+      |> V3Api.Routes.by_stop
+      |> handle_response
+    end
+  end
+
   defp handle_response(%{data: data}) do
     data
     |> Enum.reject(&hidden_routes/1)
