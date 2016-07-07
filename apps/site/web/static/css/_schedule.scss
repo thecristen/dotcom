@@ -80,22 +80,26 @@
 
 .subway-map {
   width: 100%;
-  max-height: 400px;
+  max-height: 240px;
   object-fit: cover;
   object-position: 50% 30%;
-  cursor: nesw-resize;
   @include media-breakpoint-up(sm) {
     transition: max-height 1s ease, object-position 1s ease;
     -webkit-transition: max-height 1s ease, object-position 1s ease;
+    cursor: nesw-resize;
+    &.expanded {
+      max-height: map-get($container-max-widths, md);
+      object-position: initial;
+    }
   }
-
-  &.expanded {
-    max-height: 1100px;
-    object-position: initial;
+  // Leave the map fully expanded on mobile
+  @include media-breakpoint-down(sm) {
+    height: 100%;
+    max-height: 100%;
   }
 }
 
 body.no-js .subway-map {
-  max-height: 1100px;
+  max-height: map-get($container-max-widths, md);
   object-position: initial;
 }
