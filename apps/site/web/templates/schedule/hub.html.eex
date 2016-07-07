@@ -8,7 +8,7 @@
       <h2>System Map</h2>
       <img src="<%= static_path(@conn, "/images/subway-spider.jpg") %>" class="subway-map expandable m-y-1" alt="<%= @mode_name |> String.capitalize %> Map" title="<%= @mode_name |> String.capitalize %> Map (click to expand)">
       <p>
-        <a href="<%= static_path(@conn, "/images/subway-map.pdf") %>" target="_blank">
+        <a href="http://mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf" target="_blank">
           <i class="fa fa-search-plus" aria-hidden="true"></i>
           View <%= @mode_name %> map as a PDF
         </a>
