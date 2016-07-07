@@ -67,6 +67,8 @@ defmodule Site.ScheduleController.Modes.Subway do
     |> Map.get(:subway)
   end
 
+  def delays, do: mode_delays([0, 1])
+
   def mode_name, do: "subway"
 
   def fare_description, do: "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
