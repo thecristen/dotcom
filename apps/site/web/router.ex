@@ -25,6 +25,7 @@ defmodule Site.Router do
     get "/schedules/commuter-rail", ScheduleController, :commuter_rail
     resources "/schedules", ScheduleController, only: [:index]
     get "/alerts", ScheduleController, :alerts
+    get "/alerts/:alert", ScheduleController, :alerts
   end
 
   # Other scopes may use custom stacks.

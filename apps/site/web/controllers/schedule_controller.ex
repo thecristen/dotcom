@@ -16,6 +16,9 @@ defmodule Site.ScheduleController do
     |> Site.ScheduleController.Route.route(route_id)
   end
 
+  def alerts(conn, %{"alert" => alert_id}) do
+    Site.ScheduleController.Alerts.alerts conn, alert_id
+  end
   def alerts(conn, _params) do
     Site.ScheduleController.Alerts.alerts conn
   end

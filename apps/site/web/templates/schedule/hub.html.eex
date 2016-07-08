@@ -36,7 +36,7 @@
         <ul class="alert-list">
           <%= for delay <- @delays do %>
             <li class="m-t-0">
-              <a href="<%= schedule_path(@conn, :alerts, alert: delay.id) %>">
+              <a href="<%= schedule_path(@conn, :alerts, delay.id, []) %>">
                 <p class="alert-card-header m-b-0">
                   <%= delay.header %>
                   <i class="fa fa-angle-right fa-pull-right" aria-hidden="true"></i>

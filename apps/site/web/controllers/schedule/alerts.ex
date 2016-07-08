@@ -4,7 +4,7 @@ defmodule Site.ScheduleController.Alerts do
   import Site.ScheduleController.Defaults
   import Site.ScheduleController.Helpers
 
-  def alerts(%{params: %{"alert" => alert_id}} = conn) do
+  def alerts(conn, alert_id) do
     conn
     |> default_assigns
     |> assign(:alerts, [Alerts.Repo.by_id(alert_id)])
