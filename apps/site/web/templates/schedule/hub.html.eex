@@ -2,16 +2,16 @@
   <div class="row">
     <div class="col-xs-12 p-b-1">
       <%= mode_icon @route_type %>
-      <h1 class="schedule-header col-xs-8 col-md-11"><%= @mode_name |> String.capitalize %> Schedules & Map</h1>
+      <h1 class="schedule-header col-xs-8 col-md-11"><%= @mode_name %> Schedules & Map</h1>
     </div>
     <div class="col-xs-12 p-b-1">
       <h2>System Map</h2>
-      <img src="<%= @map_image_url %>" class="subway-map expandable m-y-1" alt="<%= @mode_name |> String.capitalize %> Map" title="<%= @mode_name |> String.capitalize %> Map (click to expand)">
+      <img src="<%= @map_image_url %>" class="subway-map expandable m-y-1" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)">
       <%= if @map_pdf_url do %>
         <p>
           <a href="<%= @map_pdf_url %>" target="_blank">
             <i class="fa fa-search-plus" aria-hidden="true"></i>
-            View <%= @mode_name %> map as a PDF
+            View <%= @mode_name |> String.downcase %> map as a PDF
           </a>
         </p>
       <% end %>
@@ -48,7 +48,7 @@
       </div>
     <%= end %>
     <div class="col-xs-12">
-      <h2><%= @mode_name |> String.capitalize %> Fares</h2>
+      <h2><%= @mode_name %> Fares</h2>
       <p><%= @fare_description %></p>
       <ul class="fare-list">
         <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>

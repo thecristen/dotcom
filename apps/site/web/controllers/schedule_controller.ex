@@ -31,4 +31,8 @@ defmodule Site.ScheduleController do
   def boat(conn, _params) do
     Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Boat)
   end
+
+  def commuter_rail(conn, _params) do
+    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.CommuterRail)
+  end
 end

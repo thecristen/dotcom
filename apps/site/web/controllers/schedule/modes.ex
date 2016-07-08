@@ -57,7 +57,7 @@ defmodule Site.ScheduleController.Modes.Bus do
 
   def route_type, do: 3
 
-  def mode_name, do: "bus"
+  def mode_name, do: "Bus"
 
   def fare_description do
     "For Inner and Outer Express Bus fares, read the complete Bus Fares page."
@@ -78,7 +78,7 @@ defmodule Site.ScheduleController.Modes.Subway do
 
   def delays, do: mode_delays([0, 1])
 
-  def mode_name, do: "subway"
+  def mode_name, do: "Subway"
 
   def fare_description, do: "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
 end
@@ -88,7 +88,7 @@ defmodule Site.ScheduleController.Modes.Boat do
 
   def route_type, do: 4
 
-  def mode_name, do: "boat"
+  def mode_name, do: "Boat"
 
   def map_image_url, do: static_path(Site.Endpoint, "/images/boat-spider.jpg")
 
@@ -105,6 +105,32 @@ defmodule Site.ScheduleController.Modes.Boat do
       {"Hingham or Hull to Logan Airport", "$18.50"},
       {"Zone 1A pass includes travel on Subway, Local Bus, Commuter Zone 1A, & Inner Harbor Ferry", "$84.50"},
       {"Commuter Boat Pass includes travel on Commuter Zones 1-5, Subway, Local Bus, & Inner Harbor Ferry", "$308.00"}
+    ]
+  end
+end
+
+defmodule Site.ScheduleController.Modes.CommuterRail do
+  use Site.ScheduleController.Modes.Behaviour
+
+  def route_type, do: 2
+
+  def mode_name, do: "Commuter Rail"
+
+  def map_image_url, do: static_path(Site.Endpoint, "/images/commuter-rail-spider.jpg")
+
+  def map_pdf_url do
+    "http://mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
+  end
+
+  def fare_description do
+    "Commuter Rail fares depend on the distance traveled (zones). Read the information below:"
+  end
+
+  def fares do
+    [
+      {"Zones 1A-10", "$2.10-11.50"},
+      {"Monthly Pass, unlimited travel to and from your zone plus travel on all buses, subway, and Inner Harbor Ferry", "$75-362"},
+      {"Seniors and Persons with Disabilities", "50%"}
     ]
   end
 end
