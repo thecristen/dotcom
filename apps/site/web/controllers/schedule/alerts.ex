@@ -25,7 +25,7 @@ defmodule Site.ScheduleController.Alerts do
     |> render("alert_list.html")
   end
 
-  @doc "Merge all alerts for the route, trip, and stop, and assign them to :alerts."
+  # Merge all alerts for the route, trip, and stop, and assign them to :alerts.
   defp consolidate_alerts(
     %{assigns: %{
          :trip_alerts => trip_alerts,
