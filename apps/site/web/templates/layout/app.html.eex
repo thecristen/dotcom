@@ -20,7 +20,7 @@
             &#9776;
           </button>
           <a class="navbar-brand" href="/">
-            <img class="navbar-logo" src="<%= static_path(@conn, "/images/t.svg") %>" />
+            <img class="navbar-logo" alt="" src="<%= static_path(@conn, "/images/t.svg") %>" />
             Massachusetts Bay Transportation Authority
           </a>
         </div>
@@ -59,7 +59,7 @@
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
-      <main role="main" class="full-width">
+      <main class="full-width">
         <%= render @view_module, @view_template, assigns %>
       </main>
 

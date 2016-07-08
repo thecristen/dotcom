@@ -6,7 +6,7 @@
         <div class="col-xs-12">
           <div class="mode-group">
             <div class="mode-group-header">
-              <h6><%= mode_icon 2 %>Commuter Rail | <a href="<%= schedule_path(@conn, :commuter_rail) %>">View All &raquo</a></h6>
+              <h6><%= mode_icon 2 %>Commuter Rail | <a href="<%= schedule_path(@conn, :commuter_rail) %>">View All &raquo;</a></h6>
             </div>
             <div class="mode-group-block">
               <div class="row">
@@ -22,7 +22,7 @@
         <div class="col-xs-12">
           <div class="mode-group">
             <div class="mode-group-header">
-              <h6><%= mode_icon 3 %> Bus | <a href="<%= schedule_path(@conn, :bus) %>">View All &raquo</a></h6>
+              <h6><%= mode_icon 3 %> Bus | <a href="<%= schedule_path(@conn, :bus) %>">View All &raquo;</a></h6>
             </div>
             <div class="mode-group-block">
               <div class="row">
@@ -38,7 +38,7 @@
         <div class="col-xs-12">
           <div class="mode-group">
             <div class="mode-group-header">
-              <h6><%= mode_icon 1 %>Subway | <a href="<%= schedule_path(@conn, :subway) %>">View All &raquo</a></h6>
+              <h6><%= mode_icon 1 %>Subway | <a href="<%= schedule_path(@conn, :subway) %>">View All &raquo;</a></h6>
             </div>
             <div class="mode-group-block">
               <div class="row">
@@ -54,7 +54,7 @@
         <div class="col-xs-12">
           <div class="mode-group">
             <div class="mode-group-header">
-              <h6><%= mode_icon 4 %>Boat | <a href="<%= schedule_path(@conn, :boat) %>">View All &raquo</a></h6>
+              <h6><%= mode_icon 4 %>Boat | <a href="<%= schedule_path(@conn, :boat) %>">View All &raquo;</a></h6>
             </div>
             <div class="mode-group-block">
               <div class="row">
@@ -75,7 +75,7 @@
     <div class="card-block">
       <div class="row">
         <div class="col-md-6">
-          <h5>News &amp Updates</h5>
+          <h5>News &amp; Updates</h5>
           <%= if @news_image do %>
           <div class="text-xs-center">
             <%= @news_image %>
