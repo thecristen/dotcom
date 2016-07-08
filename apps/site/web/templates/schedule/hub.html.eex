@@ -18,13 +18,17 @@
     </div>
     <div class="col-xs-12 p-b-1">
       <h2>Line Schedules</h2>
-      <ul class="schedule-hub-route-list">
-        <%= for route <- @routes do %>
-          <li class="col-xs-4 col-md-2">
-            <%= link route.name, to: schedule_path(@conn, :index, route: route.id) %>
-          </li>
-        <% end %>
-      </ul>
+      <div class="mode-group">
+        <div class="mode-group-block">
+          <div class="row">
+            <%= for route <- @routes do %>
+              <div class="<%= route_spacing_class(@route_type)%>">
+                <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
     <%= if length(@delays) > 0 do %>
       <div class="col-xs-12 p-b-1">
