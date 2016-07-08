@@ -61,11 +61,11 @@ def main():
 
         filename = row_filename(row)
 
-        d = to_dict(tree, False)
+        d = to_dict(tree)
         body = d.pop('Information')
         with open(os.path.join(POSTS_DIR, filename), 'w') as post:
             print('---', file=post)
-            for (k, v) in d.items():
+            for (k, v) in sorted(d.items()):
                 if not v:
                     continue
                 print("%s: %s" % (k.lower(), v), file=post)
