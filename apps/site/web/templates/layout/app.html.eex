@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Massachusetts Bay Transportation Authority - MBTA</title>
+    <title>MBTA - Massachusetts Bay Transportation Authority</title>
     <script src="https://use.fontawesome.com/<%= font_awesome_id %>.js"></script>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
@@ -20,7 +20,7 @@
             &#9776;
           </button>
           <a class="navbar-brand" href="/">
-            <img class="navbar-logo" src="<%= static_path(@conn, "/images/t.svg") %>" />
+            <img class="navbar-logo" alt="" src="<%= static_path(@conn, "/images/t.svg") %>" />
             Massachusetts Bay Transportation Authority
           </a>
         </div>
@@ -59,7 +59,7 @@
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
-      <main role="main" class="full-width">
+      <main class="full-width">
         <%= render @view_module, @view_template, assigns %>
       </main>
 
