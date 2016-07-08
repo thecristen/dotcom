@@ -1,6 +1,8 @@
 defmodule Site.ScheduleController do
   use Site.Web, :controller
 
+  defdelegate alerts(conn, params), to: Site.ScheduleController.Alerts
+
   def index(conn, %{"origin" => origin_id, "dest" => dest_id}) do
     conn
     |> Site.ScheduleController.Pairs.pairs(origin_id, dest_id)
@@ -14,13 +16,6 @@ defmodule Site.ScheduleController do
   def index(conn, %{"route" => route_id}) do
     conn
     |> Site.ScheduleController.Route.route(route_id)
-  end
-
-  def alerts(conn, %{"alert" => alert_id}) do
-    Site.ScheduleController.Alerts.alerts conn, alert_id
-  end
-  def alerts(conn, _params) do
-    Site.ScheduleController.Alerts.alerts conn
   end
 
   def subway(conn, _params) do

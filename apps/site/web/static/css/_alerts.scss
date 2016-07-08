@@ -33,6 +33,14 @@
 
     &:first-child {
       margin-top: 0;
+
+      &.m-t-0 {
+        border-top: 1px solid $gray-lighter;
+      }
+    }
+
+    &.m-t-0 {
+      border-top: none;
     }
   }
 }
@@ -51,6 +59,7 @@
 
 .alert-card-header {
   background-color: $brand-secondary;
+  color: $body-color;
   padding: 10px;
 }
 

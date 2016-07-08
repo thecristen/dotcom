@@ -4,13 +4,13 @@ defmodule Site.ScheduleController.Alerts do
   import Site.ScheduleController.Defaults
   import Site.ScheduleController.Helpers
 
-  def alerts(conn, alert_id) do
+  def alerts(conn, %{"alert" => alert_id}) do
     conn
     |> default_assigns
     |> assign(:alerts, [Alerts.Repo.by_id(alert_id)])
     |> render("alert_list.html")
   end
-  def alerts(conn) do
+  def alerts(conn, _params) do
     conn
     |> default_assigns
     |> assign_route(conn.params["route"])
