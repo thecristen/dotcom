@@ -15,12 +15,11 @@ defmodule Stations.ApiTest do
     assert station.id == "Anderson/ Woburn"
     assert station.name == "Anderson/Woburn"
     assert station.accessibility != []
-    assert station.parkings != []
-    for parking <- station.parkings do
-      assert %Station.Parking{} = parking
-      assert parking.type != nil
-      assert parking.spots != nil
-      manager = parking.manager
+    assert station.parking_lots != []
+    for parking_lot <- station.parking_lots do
+      assert %Station.ParkingLot{} = parking_lot
+      assert parking_lot.spots != nil
+      manager = parking_lot.manager
       assert manager.name == "Massport"
     end
   end

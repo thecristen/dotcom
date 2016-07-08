@@ -59,4 +59,17 @@ defmodule Site.StationView do
                  end
     content_tag(:a, value, href: href_value)
   end
+
+  def sort_parking_spots(spots) do
+    spots
+    |> Enum.sort_by(fn %{type: type} ->
+      case type do
+        "basic" -> 0
+        "accessible" -> 1
+        _ -> 2
+      end
+    end)
+  end
+  def parking_type("basic"), do: "Parking"
+  def parking_type(type), do: type |> String.capitalize
 end

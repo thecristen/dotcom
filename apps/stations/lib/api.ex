@@ -37,17 +37,52 @@ defmodule Stations.Api do
       address: attributes["address"],
       note: attributes["note"],
       accessibility: attributes["accessibility"],
-      parkings: Enum.map(relationships["parkings"], &parse_parking/1)
+      images: images(relationships["images"]),
+      parking_lots: parking_lots(relationships)
     }
   end
 
-  defp parse_parking(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
-    %Station.Parking{
-      type: attributes["type"],
-      spots: attributes["spots"],
+  defp parking_lots(%{"parking_lots" => lots}) do
+    lots
+    |> Enum.map(&parse_parking_lot/1)
+  end
+  defp parking_lots(%{"parkings" => []}) do
+    []
+  end
+  defp parking_lots(%{"parkings" => [first|_] = parkings}) do
+    # previous version of the Station Info API
+    manager = parse_manager(first.relationships["manager"])
+    rate = first.attributes["rate"]
+    note = first.attributes["note"]
+    [
+      %Station.ParkingLot{
+        name: "",
+        average_availability: "",
+        rate: rate,
+        note: note,
+        manager: manager,
+        spots: parkings |> Enum.map(fn parking ->
+          %Station.Parking{
+            type: parking.attributes["type"],
+            spots: parking.attributes["spots"]} end)}
+    ]
+  end
+
+  defp parse_parking_lot(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
+    %Station.ParkingLot{
+      name: attributes["name"],
+      average_availability: attributes["average_availability"],
       rate: attributes["rate"],
       note: attributes["note"],
-      manager: parse_manager(relationships["manager"])
+      manager: parse_manager(relationships["manager"]),
+      spots: Enum.map(attributes["spots"], &parse_spot/1)
+    }
+  end
+
+  defp parse_spot(%{"type" => type, "spots" => spots}) do
+    %Station.Parking{
+      type: type,
+      spots: spots
     }
   end
 
@@ -61,6 +96,17 @@ defmodule Stations.Api do
   end
   defp parse_manager([]) do
     nil
+  end
+
+  defp images(nil), do: []
+  defp images(items) do
+    items
+    |> Enum.map(fn image ->
+      %Station.Image{
+        description: image.attributes["description"],
+        url: image.attributes["url"],
+        sort_order: image.attributes["sort_order"]}
+    end)
   end
 
   defp merge_v3(station, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
