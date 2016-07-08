@@ -2,13 +2,17 @@ defmodule Stations.Repo do
   @moduledoc """
   Matches the Ecto API, but fetches Stations from the Station Info API instead.
   """
+  use RepoCache, ttl: :timer.hours(1)
+
   def all do
-    Stations.Api.all
-    |> Enum.sort_by(&(&1.name))
+    cache [], fn _ ->
+      Stations.Api.all
+      |> Enum.sort_by(&(&1.name))
+    end
   end
 
   def get!(_, id) do
-    case Stations.Api.by_gtfs_id(id) do
+    case cache id, &Stations.Api.by_gtfs_id/1 do
       nil -> raise Stations.NotFoundError, message: "Could not find station #{id}"
       station -> station
     end
