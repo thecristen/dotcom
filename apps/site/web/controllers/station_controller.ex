@@ -12,6 +12,7 @@ defmodule Site.StationController do
   def show(conn, %{"id" => id}) do
     station = Repo.get!(Station, id |> String.replace("+", " "))
     conn
+    |> assign(:map_url, Stations.Maps.by_name(station.name))
     |> assign(:grouped_routes, grouped_routes(id))
     |> render("show.html", station: station)
   end
