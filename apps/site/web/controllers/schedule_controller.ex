@@ -27,4 +27,8 @@ defmodule Site.ScheduleController do
   def bus(conn, _params) do
     Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Bus)
   end
+
+  def boat(conn, _params) do
+    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Boat)
+  end
 end

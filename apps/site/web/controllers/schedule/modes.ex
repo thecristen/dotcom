@@ -7,10 +7,14 @@ defmodule Site.ScheduleController.Modes.Behaviour do
   @callback fares() :: String.t
   @callback fare_description() :: String.t
   @callback route_type :: integer
+  @callback map_pdf_url :: String.t
+  @callback map_image_url :: String.t
 
   defmacro __using__(_) do
     quote location: :keep do
       @behaviour unquote(__MODULE__)
+
+      use Site.Web, :controller
 
       # Returns only those alerts which should be shown on the hub page for `route_type`. This includes
       # all delays for that route type which are current and not ongoing.
@@ -27,7 +31,6 @@ defmodule Site.ScheduleController.Modes.Behaviour do
 
       def fares do
         [
-          {"Passes/Tickets", "Fare"},
           {"CharlieCard", "$2.25"},
           {"CharlieTicket/Cash-on-board", "$2.75"},
           {"LinkPass - unlimited travel on Subway plus Local Bus", "$84.50"}
@@ -38,7 +41,13 @@ defmodule Site.ScheduleController.Modes.Behaviour do
 
       def delays, do: mode_delays(route_type)
 
-      defoverridable [fares: 0, routes: 0, delays: 0]
+      def map_pdf_url do
+        "http://mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+      end
+
+      def map_image_url, do: static_path(Site.Endpoint, "/images/subway-spider.jpg")
+
+      defoverridable [fares: 0, routes: 0, delays: 0, map_pdf_url: 0, map_image_url: 0]
     end
   end
 end
@@ -74,6 +83,32 @@ defmodule Site.ScheduleController.Modes.Subway do
   def fare_description, do: "Travel anywhere on the Blue, Orange, Red, and Green lines for the same price."
 end
 
+defmodule Site.ScheduleController.Modes.Boat do
+  use Site.ScheduleController.Modes.Behaviour
+
+  def route_type, do: 4
+
+  def mode_name, do: "boat"
+
+  def map_image_url, do: static_path(Site.Endpoint, "/images/boat-spider.jpg")
+
+  def map_pdf_url, do: nil
+
+  def fare_description do
+    "Fares differ between Commuter Boats & Inner Harbor Ferries."
+  end
+
+  def fares do
+    [
+      {"Inner Harbor Ferry", "$4.00"},
+      {"Commuter Boat", "$5.25"},
+      {"Hingham or Hull to Logan Airport", "$18.50"},
+      {"Zone 1A pass includes travel on Subway, Local Bus, Commuter Zone 1A, & Inner Harbor Ferry", "$84.50"},
+      {"Commuter Boat Pass includes travel on Commuter Zones 1-5, Subway, Local Bus, & Inner Harbor Ferry", "$308.00"}
+    ]
+  end
+end
+
 defmodule Site.ScheduleController.Modes do
   use Site.Web, :controller
 
@@ -84,7 +119,9 @@ defmodule Site.ScheduleController.Modes do
       delays: mode_strategy.delays,
       mode_name: mode_strategy.mode_name,
       fares: mode_strategy.fares,
-      fare_description: mode_strategy.fare_description
+      fare_description: mode_strategy.fare_description,
+      map_pdf_url: mode_strategy.map_pdf_url,
+      map_image_url: mode_strategy.map_image_url,
     )
   end
 end
