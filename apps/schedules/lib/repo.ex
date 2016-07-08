@@ -1,6 +1,6 @@
 defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(0)
+  use RepoCache, ttl: :timer.hours(24)
 
   @default_params [
       include: "trip.route,stop.parent_station",
