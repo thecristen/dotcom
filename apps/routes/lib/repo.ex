@@ -54,6 +54,10 @@ defmodule Routes.Repo do
   defp hidden_routes(%{id: "116117"}), do: true
   defp hidden_routes(%{id: "214216"}), do: true
   defp hidden_routes(%{id: "441442"}), do: true
+  defp hidden_routes(%{id: "9701"}), do: true
+  defp hidden_routes(%{id: "9702"}), do: true
+  defp hidden_routes(%{id: "9703"}), do: true
+  defp hidden_routes(%{id: "Logan-" <> _}), do: true
   defp hidden_routes(_), do: false
 
   defp parse_json(%JsonApi.Item{id: id, attributes: attributes}) do
