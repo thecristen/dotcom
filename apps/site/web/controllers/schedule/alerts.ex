@@ -4,13 +4,13 @@ defmodule Site.ScheduleController.Alerts do
   import Site.ScheduleController.Defaults
   import Site.ScheduleController.Helpers
 
-  def alerts(%{params: %{"alert" => alert_id}} = conn) do
+  def alerts(conn, %{"alert" => alert_id}) do
     conn
     |> default_assigns
     |> assign(:alerts, [Alerts.Repo.by_id(alert_id)])
     |> render("alert_list.html")
   end
-  def alerts(conn) do
+  def alerts(conn, _params) do
     conn
     |> default_assigns
     |> assign_route(conn.params["route"])
@@ -25,7 +25,7 @@ defmodule Site.ScheduleController.Alerts do
     |> render("alert_list.html")
   end
 
-  @doc "Merge all alerts for the route, trip, and stop, and assign them to :alerts."
+  # Merge all alerts for the route, trip, and stop, and assign them to :alerts.
   defp consolidate_alerts(
     %{assigns: %{
          :trip_alerts => trip_alerts,
