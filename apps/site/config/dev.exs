@@ -33,5 +33,4 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 config :site, Site.ViewHelpers,
-  font_awesome_id: System.get_env("FONT_AWESOME_ID"),
   google_api_key: System.get_env("GOOGLE_API_KEY")
