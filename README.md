@@ -24,6 +24,7 @@ Then, visit the site at http://localhost:4000/
 
     mix test
     cd apps/site; npm test  # runs the JS tests
+    cd node_modules/backstopjs; npm run test # Runs the CSS tests
 
 ## Building/deploying
 
