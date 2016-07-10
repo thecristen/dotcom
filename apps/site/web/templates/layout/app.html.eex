@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <title>MBTA - Massachusetts Bay Transportation Authority</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,300,700">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
