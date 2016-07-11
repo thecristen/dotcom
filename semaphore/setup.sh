@@ -1,7 +1,5 @@
 set -e
 
-echo $PATH
-
 mix local.hex --force
 mix deps.get
 nvm use 6.2
