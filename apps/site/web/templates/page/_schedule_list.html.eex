@@ -1,0 +1,64 @@
+<div class="col-xs-12">
+  <div class="mode-group">
+    <div class="mode-group-header">
+      <h6><%= mode_icon 2 %>Commuter Rail | <a href="<%= schedule_path(@conn, :commuter_rail) %>">View All &raquo;</a></h6>
+    </div>
+    <div class="mode-group-block">
+      <div class="row">
+        <%= for route <- @grouped_routes[:commuter_rail] do %>
+          <div class="col-xs-6 col-md-3">
+            <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path @conn, :index, route: route.id %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-12">
+  <div class="mode-group">
+    <div class="mode-group-header">
+      <h6><%= mode_icon 3 %> Bus | <a href="<%= schedule_path(@conn, :bus) %>">View All &raquo;</a></h6>
+    </div>
+    <div class="mode-group-block">
+      <div class="row">
+        <%= for route <- @grouped_routes[:bus] |> Enum.take(18) do %>
+          <div class="col-xs-4 col-md-2">
+            <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-12">
+  <div class="mode-group">
+    <div class="mode-group-header">
+      <h6><%= mode_icon 1 %>Subway | <a href="<%= schedule_path(@conn, :subway) %>">View All &raquo;</a></h6>
+    </div>
+    <div class="mode-group-block">
+      <div class="row">
+        <%= for route <- @grouped_routes[:subway] do %>
+          <div class="col-xs-6 col-md-3">
+            <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xs-12">
+  <div class="mode-group">
+    <div class="mode-group-header">
+      <h6><%= mode_icon 4 %>Boat | <a href="<%= schedule_path(@conn, :boat) %>">View All &raquo;</a></h6>
+    </div>
+    <div class="mode-group-block">
+      <div class="row">
+        <%= for route <- @grouped_routes[:boat] do %>
+          <div class="col-xs-12 col-md-4">
+            <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

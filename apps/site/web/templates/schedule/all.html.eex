@@ -1,0 +1,24 @@
+<div class="index">
+  <div class="card">
+    <div class="card-header"><h5>Schedules &amp; Maps</h5></div>
+    <div class="card-block">
+      <div class="row">
+        <%= render Site.PageView, "_schedule_list.html", grouped_routes: @grouped_routes, conn: @conn %>
+        <div class="col-xs-12">
+          <div class="mode-group">
+            <div class="mode-group-header">
+              <h6>The RIDE</h6>
+            </div>
+            <div class="mode-group-block">
+              <div class="row">
+                <div class="col-xs-12 col-md-4">
+                  <%= link "MBTA Paratransit Program", class: "mode-group-btn", to: redirect_path(@conn, :show, "riding_the_t/accessible_services/?id=7108") %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
