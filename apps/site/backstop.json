@@ -41,7 +41,7 @@
       "selectors": [
           ".subway-map",
           ".mode-group-block",
-          ".fare-list"
+          ".container > .row > div:last-child"
       ],
       "readyEvent": null,
       "delay": 1000,
@@ -50,7 +50,7 @@
     {
       "label": "All Schedules",
       "url": "http://localhost:4001/schedules",
-      "referenceUrl": "http://beta.mbta.com/schedules/subway",
+      "referenceUrl": "http://beta.mbta.com/schedules",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
