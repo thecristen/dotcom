@@ -13,19 +13,18 @@ The new face of http://mbta.com/
 1. Install Phoenix: http://www.phoenixframework.org/docs/installation
 1. Install our Elixir dependencies: `mix deps.get`
 1. Install our Node dependencies: `cd apps/site && npm install`
-1. Get a Font Awesome embed code at: http://fontawesome.io/get-started/
-  * Once you've gotten your embed code, set the `FONT_AWESOME_ID` environment variable to that value.
 
 ## Running the Server
 
     mix phoenix.server
 
-Then, visit the site at http://localhost:4000/
+Then, visit the site at http://localhost:4001/
 
 ## Running the tests
 
     mix test
     cd apps/site; npm test  # runs the JS tests
+    cd node_modules/backstopjs; npm run test # Runs the CSS tests (requires the server to be running)
 
 ## Building/deploying
 

@@ -1,7 +1,9 @@
 @import "node_modules/bootstrap/scss/variables";
 
 $font-family-base: 'Lato', $font-family-sans-serif;
-@import url("https://fonts.googleapis.com/css?family=Lato:400,300,700");
+
+// for referencing Bootstrap CDN font files directly
+$fa-font-path: "//netdna.bootstrapcdn.com/font-awesome/4.6.3/fonts";
 
 $brand-primary: #1c77c3;
 $brand-primary-darkest: #0b2f4c;

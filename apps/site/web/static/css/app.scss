@@ -1,5 +1,6 @@
 @import "variables";
 @import "bootstrap";
+@import "vendor/font-awesome-4.6.3/scss/font-awesome";
 @import "helpers";
 @import "route-icon";
 @import "mode-group";
@@ -12,8 +13,14 @@
 
 body {
   background-color: $homepage-bg-color;
-  background-image: url(/images/mbta-train-bkg.jpg);
-  background-repeat: no-repeat;
+}
+
+@include media-breakpoint-up(sm) {
+  // we only need the BG image if the screen is big enough
+  body {
+    background-image: url(/images/mbta-train-bkg.jpg);
+    background-repeat: no-repeat;
+  }
 }
 
 .header {

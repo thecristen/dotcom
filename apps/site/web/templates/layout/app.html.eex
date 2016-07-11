@@ -8,8 +8,10 @@
     <meta name="author" content="">
 
     <title>MBTA - Massachusetts Bay Transportation Authority</title>
-    <script src="https://use.fontawesome.com/<%= font_awesome_id %>.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,300,700">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
+    <link rel="preload" href="<%= static_path(@conn, "/js/app.js") %>">
   </head>
 
   <body class="no-js">
@@ -20,7 +22,7 @@
             &#9776;
           </button>
           <a class="navbar-brand" href="/">
-            <img class="navbar-logo" alt="" src="<%= static_path(@conn, "/images/t.svg") %>" />
+            <img class="navbar-logo" alt="" src="<%= static_path(@conn, "/images/t.svg") %>" width=36 height=36 />
             Massachusetts Bay Transportation Authority
           </a>
         </div>

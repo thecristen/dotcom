@@ -7,7 +7,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :site, Site.Endpoint,
-  http: [port: System.get_env |> Dict.get("PORT", "4000") |> String.to_integer],
+  http: [port: System.get_env |> Dict.get("PORT", "4001") |> String.to_integer],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -33,5 +33,4 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 config :site, Site.ViewHelpers,
-  font_awesome_id: System.get_env("FONT_AWESOME_ID"),
   google_api_key: System.get_env("GOOGLE_API_KEY")
