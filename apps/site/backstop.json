@@ -33,7 +33,7 @@
       "misMatchThreshold" : 0.1
     },
     {
-      "label": "Homepage",
+      "label": "Subway Hub",
       "url": "http://localhost:4001/schedules/subway",
       "referenceUrl": "http://beta.mbta.com/schedules/subway",
       "hideSelectors": [],
