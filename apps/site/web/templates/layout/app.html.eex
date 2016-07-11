@@ -10,6 +10,8 @@
     <title>MBTA - Massachusetts Bay Transportation Authority</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,300,700">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
+    <link rel="preload" href="<%= static_path(@conn, "/js/app.js") %>">
   </head>
 
   <body class="no-js">
