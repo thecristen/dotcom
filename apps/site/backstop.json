@@ -31,6 +31,21 @@
       "readyEvent": null,
       "delay": 1000,
       "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Homepage",
+      "url": "http://localhost:4001/schedules/subway",
+      "referenceUrl": "http://beta.mbta.com/schedules/subway",
+      "hideSelectors": [],
+      "removeSelectors": [],
+      "selectors": [
+          ".subway-map",
+          ".mode-group-block",
+          ".fare-list"
+      ],
+      "readyEvent": null,
+      "delay": 1000,
+      "misMatchThreshold" : 0.1
     }
   ],
   "paths": {
