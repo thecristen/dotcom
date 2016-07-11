@@ -13,8 +13,14 @@
 
 body {
   background-color: $homepage-bg-color;
-  background-image: url(/images/mbta-train-bkg.jpg);
-  background-repeat: no-repeat;
+}
+
+@include media-breakpoint-up(sm) {
+  // we only need the BG image if the screen is big enough
+  body {
+    background-image: url(/images/mbta-train-bkg.jpg);
+    background-repeat: no-repeat;
+  }
 }
 
 .header {
