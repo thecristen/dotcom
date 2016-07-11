@@ -18,6 +18,10 @@ defmodule Site.ScheduleController do
     |> Site.ScheduleController.Route.route(route_id)
   end
 
+  def index(conn, %{}) do
+    Site.ScheduleController.All.all(conn)
+  end
+
   def subway(conn, _params) do
     Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Subway)
   end
