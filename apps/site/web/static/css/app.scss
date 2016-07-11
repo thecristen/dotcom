@@ -27,6 +27,16 @@ body {
   background-color: white;
 }
 
+.navbar-logo {
+  svg {
+    fill: $gray-dark;
+  }
+}
+
+.navbar-brand, .nav-link {
+  color: $gray-dark;
+}
+
 .footer {
   margin-top: 1em;
   color: white;
@@ -72,19 +82,18 @@ body {
 }
 
 @include media-breakpoint-down(sm) {
-  .navbar-container {
+  .header {
     background-color: $brand-primary;
     color: #fff;
+  }
 
-    a {
-      color: #fff;
-    }
+  .navbar-brand, .nav-link {
+    color: #fff;
   }
 
   .navbar-brand {
     font-size: 0.75rem !important;
     max-width: 12rem;
-    color: #fff;
   }
 
   .navbar-logo {

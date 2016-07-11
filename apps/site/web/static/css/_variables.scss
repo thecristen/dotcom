@@ -17,6 +17,17 @@ $gray-light: #788093;
 $gray-lighter: #b0b5c0;
 $gray-lightest: #e9eaed;
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 544px,
+  md: 768px
+);
+
+$container-max-widths: (
+  sm: 576px,
+  md: 720px
+);
+
 @import "node_modules/bootstrap/scss/variables";
 
 /* Train colors */
@@ -32,12 +43,6 @@ $homepage-bg-color: #0b2f4c;
 
 $alert-severe: #fc1b32;
 
-$container-max-widths: (
-  sm: 576px,
-  md: 720px,
-  lg: 720px,
-  xl: 720px
-);
 
 
 $font-family-base: 'Lato', $font-family-sans-serif;

@@ -16,7 +16,7 @@
 
   <body class="no-js">
     <header class="header">
-      <div class="container navbar-container">
+      <div class="container">
         <div class="navbar">
           <button class="navbar-toggler hidden-md-up pull-right" type="button" data-toggle="collapse" data-target="#navbar">
             &#9776;
