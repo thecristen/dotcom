@@ -44,7 +44,7 @@
           </div>
           <div class="mode-group-block">
             <% column_classes = case {length(routes), type} do
-                {1, _} -> "col-xs-12 col-md-6"
+                {1, _} -> "col-xs-12 col-sm-6"
                 {_, 3} -> "col-xs-4 col-md-2"
                 {_, _} -> "col-xs-6"
                 end

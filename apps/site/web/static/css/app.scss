@@ -65,13 +65,32 @@ body {
 
 .navbar-logo {
   float: left;
+  display: block;
+  height: 36px;
+  width: 36px;
   margin-right: 0.5em;
 }
 
 @include media-breakpoint-down(sm) {
+  .navbar-container {
+    background-color: $brand-primary;
+    color: #fff;
+
+    a {
+      color: #fff;
+    }
+  }
+
   .navbar-brand {
     font-size: 0.75rem !important;
     max-width: 12rem;
+    color: #fff;
+  }
+
+  .navbar-logo {
+    svg {
+      fill: #fff;
+    }
   }
 
   .nav-item {
