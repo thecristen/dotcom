@@ -79,7 +79,7 @@
     <% end %>
 
     <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
-      <div class="col-xs-12">
+      <div class="col-xs-12 col-md-6">
         <div class="mode-group">
           <div class="mode-group-header">
             <h5>Accessibility</h5>
@@ -93,6 +93,11 @@
             </ul>
           </div>
         </div>
+      </div>
+      <div class="col-md-6">
+        <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
+          <img class="center-block" src="<%= static_path(@conn, "/images/accessibility_at_t.jpg") %>" alt="Accessibility at the T" width=213 height=77 />
+        </a>
       </div>
     </div>
   <% end %>
