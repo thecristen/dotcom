@@ -1,5 +1,5 @@
-<div class="container main-container station-info-container">
-  <div class="row p-b-1">
+<div class="container main-container">
+  <div class="row p-a-g">
     <div class="col-xs-12 col-md-6">
       <strong class="h4">
         <%= @station.name %>
@@ -15,7 +15,7 @@
   </div>
 
   <div class="row p-b-1">
-    <div class="station-info-container embed-responsive embed-responsive-21by9">
+    <div class="station-map-container embed-responsive embed-responsive-21by9">
       <iframe
         class="station-info-map"
         src="https://www.google.com/maps/embed/v1/place?key=<%= google_api_key %>
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row p-x-g">
     <div class="col-xs-12">
       <%= for {type, routes} <- @grouped_routes do %>
         <div class="mode-group">

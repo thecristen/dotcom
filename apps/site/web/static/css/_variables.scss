@@ -27,8 +27,31 @@ $container-max-widths: (
   sm: 576px,
   md: 720px
 );
-
 @import "node_modules/bootstrap/scss/variables";
+$grid-gutter-width: 0.75rem; // 12px
+$spacers: (
+  0: (
+    x:   0,
+    y:   0
+  ),
+  1: (
+    x:   $spacer-x,
+    y:   $spacer-y
+  ),
+  2: (
+    x:   ($spacer-x * 1.5),
+    y:   ($spacer-y * 1.5)
+  ),
+  3: (
+    x:   ($spacer-x * 3),
+    y:   ($spacer-y * 3)
+  ),
+  g: ( // for grid
+    x: $grid-gutter-width,
+    y: $grid-gutter-width
+  )
+);
+
 
 /* Train colors */
 $brand-blue-line: #0064c8;
@@ -42,8 +65,6 @@ $brand-commuter-rail: #a00a78;
 $homepage-bg-color: #0b2f4c;
 
 $alert-severe: #fc1b32;
-
-
 
 $font-family-base: 'Lato', $font-family-sans-serif;
 
