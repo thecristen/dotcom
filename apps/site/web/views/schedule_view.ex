@@ -26,14 +26,20 @@ defmodule Site.ScheduleView do
     entity = %Alerts.InformedEntity{
       route_type: schedule.route.type,
       route: schedule.route.id,
-      stop: schedule.stop.id
+      stop: schedule.stop.id,
+      trip: schedule.trip.id
     }
 
     # hack to unmatch the "Fares go up on July 1" alert on everything
     matched = alerts
     |> Alerts.Match.match(entity, schedule.time)
     |> Enum.reject(fn alert ->
-      %Alerts.InformedEntity{route_type: schedule.route.type} in alert.informed_entity
+      # not a displayed alert and affects the whole mode type or the whole
+      # line
+      !display_as_alert?(alert) && (
+        %Alerts.InformedEntity{route_type: schedule.route.type} in alert.informed_entity ||
+          %Alerts.InformedEntity{route_type: schedule.route.type,
+                                 route: schedule.route.id} in alert.informed_entity)
     end)
 
     matched != []
