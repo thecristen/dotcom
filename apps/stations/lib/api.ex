@@ -109,6 +109,9 @@ defmodule Stations.Api do
     end)
   end
 
+  defp merge_v3(nil, _) do
+    nil
+  end
   defp merge_v3(station, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
     %Station{station | latitude: latitude, longitude: longitude}
   end

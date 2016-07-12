@@ -11,7 +11,7 @@
     <% end %>">
     <%= schedule.time |> Timex.format!("{kitchen}") %> -
     No. <%= schedule.trip.name %>
-    <%= if schedule.stop.name != @from do %>
+    <%= if schedule.stop.name != @from.name do %>
       (from <%= schedule.stop.name %>)
     <% end %>
     <%= if schedule.trip.headsign != @most_frequent_headsign do %>
@@ -26,7 +26,7 @@
     <%= for trip_schedule <- @trip_schedule do %>
       <div class="list-group-item">
         <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
-        <%= trip_schedule.stop.name %>
+        <%= station_link(trip_schedule.stop) %>
       </div>
     <% end %>
   <% end %>

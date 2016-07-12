@@ -157,10 +157,9 @@ defmodule Site.ScheduleController.Helpers do
     |> Enum.map(fn schedule -> schedule.stop.id end)
     |> most_frequent_value
 
-    # Use the parent station name from all_stops
+    # Use the parent station from all_stops
     all_stops
     |> Enum.find(fn stop -> stop.id == stop_id end)
-    |> (fn stop -> stop.name end).()
   end
 
   @doc "Given a list of schedules, return where those schedules stop"
