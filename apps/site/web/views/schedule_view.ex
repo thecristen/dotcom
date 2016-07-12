@@ -113,4 +113,12 @@ defmodule Site.ScheduleView do
   def route_spacing_class(2), do: "col-xs-6 col-md-3"
   def route_spacing_class(3), do: "col-xs-4 col-md-2"
   def route_spacing_class(4), do: "col-xs-12 col-md-4"
+
+  @doc "Link a station's name to its page, if it exists. Otherwise, just returns the name."
+  def station_link(station) do
+    case Stations.Repo.get(nil, station.id) do
+      nil -> station.name
+      _ -> link station.name, to: station_path(Site.Endpoint, :show, station.id)
+    end
+  end
 end

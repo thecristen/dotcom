@@ -11,8 +11,12 @@ defmodule Stations.Repo do
     end
   end
 
+  def get(_, id) do
+    cache id, &Stations.Api.by_gtfs_id/1
+  end
+
   def get!(_, id) do
-    case cache id, &Stations.Api.by_gtfs_id/1 do
+    case get(Station, id) do
       nil -> raise Stations.NotFoundError, message: "Could not find station #{id}"
       station -> station
     end

@@ -6,10 +6,10 @@
   <%= render "_alerts.html", alerts: @trip_alerts, suffix: " on this route" %>
   <div class="row p-b-1">
     <div class="col-xs-12">
-      <strong>Origin:</strong> <%= link origin.stop.name, to: station_path(@conn, :show, origin.stop.id) %>
+      <strong>Origin:</strong> <%= station_link origin.stop %>
     </div>
     <div class="col-xs-12">
-      <strong>Destination:</strong> <%= link dest.stop.name, to: station_path(@conn, :show, dest.stop.id) %>
+      <strong>Destination:</strong> <%= station_link dest.stop %>
     </div>
   </div>
   <div class="row">

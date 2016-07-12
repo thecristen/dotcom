@@ -26,7 +26,7 @@
     <%= for trip_schedule <- @trip_schedule do %>
       <div class="list-group-item">
         <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
-        <%= trip_schedule.stop.name %>
+        <%= station_link(trip_schedule.stop) %>
       </div>
     <% end %>
   <% end %>
