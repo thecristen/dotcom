@@ -84,11 +84,16 @@ body {
 @include media-breakpoint-down(sm) {
   .header {
     background-color: $brand-primary;
-    color: #fff;
+    color: $nav-mobile-link-color;
   }
 
   .navbar-brand, .nav-link {
-    color: #fff;
+    color: $nav-mobile-link-color;
+
+    @include hover-focus-active {
+      color: $nav-mobile-link-color;
+      text-decoration: underline;
+    }
   }
 
   .navbar-brand {
@@ -98,7 +103,7 @@ body {
 
   .navbar-logo {
     svg {
-      fill: #fff;
+      fill: $nav-mobile-link-color;
     }
   }
 
