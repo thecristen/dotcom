@@ -1,7 +1,6 @@
 defmodule Site.StationController do
   use Site.Web, :controller
 
-  alias Stations.Station
   alias Stations.Repo
 
   def index(conn, _params) do
@@ -10,7 +9,7 @@ defmodule Site.StationController do
   end
 
   def show(conn, %{"id" => id}) do
-    station = Repo.get!(Station, id |> String.replace("+", " "))
+    station = Repo.get!(id |> String.replace("+", " "))
     conn
     |> assign(:map_url, Stations.Maps.by_name(station.name))
     |> assign(:grouped_routes, grouped_routes(id))
