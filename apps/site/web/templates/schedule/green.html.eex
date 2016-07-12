@@ -29,9 +29,9 @@
         href="<%= update_url @conn, route: route.id %>">
         <div class="row">
           <div class="col-xs-6">
-            <%= route.name %> - <%= from %>
+            <%= route.name %> - <%= from.name %>
           </div>
-          <div clas="col-xs-6">
+          <div class="col-xs-6">
             <%= render "_schedule_group.html", schedules: schedules %>
           </div>
         </div>
