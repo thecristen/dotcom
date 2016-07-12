@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-sm-12">
       <p class="text-muted">
-        Times from <%= @from %>
+        Times from <%= link @from.name, to: station_path(@conn, :show, @from.id) %>
       </p>
       <div class="list-group">
         <%= render @list_group_template, forward_assigns(@conn) %>
