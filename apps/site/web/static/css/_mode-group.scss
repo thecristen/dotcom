@@ -14,7 +14,7 @@
 
 .mode-group-btn {
   @extend .btn;
-  @extend .btn-primary-outline;
+  @include button-variant($link-color, white, $gray-lightest);
   @extend .btn-block;
   @extend .text-truncate;
 

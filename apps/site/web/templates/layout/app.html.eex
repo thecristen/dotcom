@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>MBTA - Massachusetts Bay Transportation Authority</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,300,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,500,700">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
     <link rel="preload" href="<%= static_path(@conn, "/js/app.js") %>">
@@ -17,12 +17,14 @@
   <body class="no-js">
     <header class="header">
       <div class="container">
-        <div class="navbar navbar-light">
+        <div class="navbar">
           <button class="navbar-toggler hidden-md-up pull-right" type="button" data-toggle="collapse" data-target="#navbar">
             &#9776;
           </button>
           <a class="navbar-brand" href="/">
-            <img class="navbar-logo" alt="" src="<%= static_path(@conn, "/images/t.svg") %>" width=36 height=36 />
+            <span class="navbar-logo">
+              <%= svg "/images/t.svg" %>
+            </span>
             Massachusetts Bay Transportation Authority
           </a>
         </div>

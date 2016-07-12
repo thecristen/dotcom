@@ -7,7 +7,6 @@
 
 @import "index";
 @import "alerts";
-@import "stations";
 @import "schedule";
 @import "date-toggle";
 
@@ -25,6 +24,16 @@ body {
 
 .header {
   background-color: white;
+}
+
+.navbar-logo {
+  svg {
+    fill: $gray-dark;
+  }
+}
+
+.navbar-brand, .nav-link {
+  color: $gray-dark;
 }
 
 .footer {
@@ -65,13 +74,31 @@ body {
 
 .navbar-logo {
   float: left;
+  display: block;
+  height: 36px;
+  width: 36px;
   margin-right: 0.5em;
 }
 
 @include media-breakpoint-down(sm) {
+  .header {
+    background-color: $brand-primary;
+    color: #fff;
+  }
+
+  .navbar-brand, .nav-link {
+    color: #fff;
+  }
+
   .navbar-brand {
     font-size: 0.75rem !important;
     max-width: 12rem;
+  }
+
+  .navbar-logo {
+    svg {
+      fill: #fff;
+    }
   }
 
   .nav-item {

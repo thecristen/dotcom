@@ -59,6 +59,22 @@
       "readyEvent": null,
       "delay": 1000,
       "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Station Info (South Station)",
+      "url": "http://localhost:4001/stations/place-sstat",
+      "referenceUrl": "http://beta.mbta.com/stations/place-sstat",
+      "selectors": ["main"],
+      "delay": 1000,
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Station Info (Framingham)",
+      "url": "http://localhost:4001/stations/Framingham",
+      "referenceUrl": "http://beta.mbta.com/stations/Framingham",
+      "selectors": ["main"],
+      "delay": 1000,
+      "misMatchThreshold": 0.1
     }
   ],
   "paths": {
