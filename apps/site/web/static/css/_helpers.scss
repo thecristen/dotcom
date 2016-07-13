@@ -10,6 +10,22 @@
   color: white;
 }
 
+.white {
+  color: white;
+}
+
+.brand-primary-dark {
+  color: $brand-primary-dark;
+}
+
+.bg-brand-primary-dark {
+  background-color: $brand-primary-dark;
+}
+
+.bg-brand-primary-darkest {
+  background-color: $brand-primary-darkest;
+}
+
 .list-group-item.bg-inverse {
   color: $gray-lighter;
 }
