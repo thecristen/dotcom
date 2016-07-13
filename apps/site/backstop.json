@@ -41,7 +41,7 @@
       "selectors": [
           ".subway-map",
           ".mode-group-block",
-          ".container > .row > div:last-child"
+          ".card-block > .row > div:last-child"
       ],
       "readyEvent": null,
       "delay": 1000,

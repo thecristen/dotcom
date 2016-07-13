@@ -14,8 +14,8 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <table class="table">
-        <thead>
+      <table class="table schedule-pairs">
+        <thead class="bg-brand-primary-darkest white">
           <tr>
             <th>Departure</th>
             <th>Arrival</th>

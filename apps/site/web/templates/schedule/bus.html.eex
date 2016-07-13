@@ -1,21 +1,26 @@
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
-  <a class="list-group-item <%= if @conn.params["hour"] == to_string(hour) do %>bg-inverse<% else %>bg-gray<% end %>"
-    href="<%= if @conn.params["hour"] == to_string(hour) do %>
+  <% is_selected_period = @conn.params["hour"] == to_string(hour) %>
+  <a class="list-group-item <%= if is_selected_period do %>selected-period bg-brand-primary-dark<% end %>"
+    href="<%= if is_selected_period do %>
           <%= update_url @conn, hour: "" %>
     <% else %>
           <%= update_url @conn, hour: hour %>
     <% end %>">
     <div class="row">
       <div class="col-xs-3">
-        <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
+        <span class="<%= if is_selected_period do %>white<% else %>brand-primary-dark<% end %>">
+          <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
+        </span>
       </div>
       <div class="col-xs-9">
-        <%= render "_schedule_group.html", schedules: schedules %>
+        <span <%= if is_selected_period do %>class="white"<% end %>>
+          <%= render "_schedule_group.html", schedules: schedules %>
+        </span>
       </div>
     </div>
   </a>
-  <%= if @conn.params["hour"] == to_string(hour) do %>
-    <div class="list-group-item">
+  <%= if is_selected_period do %>
+    <div class="list-group-item selected-period">
       <div class="row">
         <%= for schedule <- schedules do %>
           <div class="col-xs-4 col-sm-3 col-md-2">

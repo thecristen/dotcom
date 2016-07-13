@@ -3,8 +3,10 @@
     border-radius: 0;
   }
 
-  .card:first-child {
-    margin-top: 12px;
+  @include media-breakpoint-up(sm) {
+    .card:first-child {
+      margin-top: 12px;
+    }
   }
 }
 

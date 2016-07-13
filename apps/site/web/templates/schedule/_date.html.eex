@@ -1,4 +1,4 @@
-<div class="row p-y-1">
+<div class="row">
   <div class="col-xs-12">
     <form method="GET" action="" class="form-inline" data-submit-on-change>
       <%= hidden_query_params @conn, exclude: ["date"] %>
