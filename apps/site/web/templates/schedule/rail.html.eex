@@ -43,11 +43,13 @@
       <p>Your trip:</p>
       <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
         <p>
+          <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
+          <% last_index = length(@trip_schedule) - 1 %>
           <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
-          <%= if index == 0 or index == length(@trip_schedule) - 1 do %>
-            <strong><%= station_link(trip_schedule.stop) %></strong>
-          <%= else %>
-            <%= station_link(trip_schedule.stop) %>
+          <%= case index do %>
+            <% 0 -> %><strong><%= station_link(trip_schedule.stop) %> (origin)</strong>
+            <% ^last_index -> %><strong><%= station_link(trip_schedule.stop) %> (destination)</strong>
+            <% _ -> %><%= station_link(trip_schedule.stop) %>
           <% end %>
         </p>
       <% end %>
