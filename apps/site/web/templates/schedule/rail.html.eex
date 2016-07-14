@@ -11,8 +11,8 @@
           <%= update_url @conn, trip: schedule.trip.id %>#trip
     <% end %>">
     <span class="schedule-title">
-      <%= schedule.time |> Timex.format!("{kitchen}") %> -
-      No. <%= schedule.trip.name %>
+      <%= schedule.time |> Timex.format!("{kitchen}") %>
+      <%= if schedule.trip.name != "" do %>- No. <%= schedule.trip.name %><% end %>
       <%= if schedule.stop.name != @from.name do %>
         (from <%= schedule.stop.name %>)
       <% end %>

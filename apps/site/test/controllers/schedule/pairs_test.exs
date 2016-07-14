@@ -6,7 +6,7 @@ defmodule Site.ScheduleController.PairsTest do
     response = html_response(conn, 200)
     assert response =~ "Departure"
     assert response =~ "Arrival"
-    assert response =~ "Inbound to: North Station"
+    assert response =~ ~R(Inbound\s+to: North Station)
   end
 
   test "links to origin and destination station pages", %{conn: conn} do
