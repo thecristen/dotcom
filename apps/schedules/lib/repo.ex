@@ -76,6 +76,13 @@ defmodule Schedules.Repo do
     |> Enum.sort_by(fn schedule -> schedule.time end)
   end
 
+  def stop_exists_on_route?(stop_id, route, direction_id) do
+    route
+    |> stops(direction_id: direction_id)
+    |> Enum.map(&(&1.id))
+    |> Enum.any?(&(&1 == stop_id))
+  end
+
   defp all_from_params(params) do
     params
     |> V3Api.Schedules.all

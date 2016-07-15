@@ -4,5 +4,5 @@
     to: <%= @to |> Enum.join("/")%>
   <% end %>
   <br class="hidden-sm-down">
-  <a href="<%= update_url @conn, trip: "", direction_id: @reverse_direction_id, dest: @destination && @origin, origin: @destination || @origin %>">Switch&nbsp;to&nbsp;<%= direction(@reverse_direction_id, @route.id) %> <%= fa "arrow-circle-right" %></i></a>
+  <a href="<%= update_url @conn, reverse_direction_opts(@origin, @destination, @route.id, @reverse_direction_id) %>">Switch&nbsp;to&nbsp;<%= direction(@reverse_direction_id, @route.id) %> <%= fa "arrow-circle-right" %></a>
 </small>

@@ -27,4 +27,16 @@ defmodule Site.ScheduleViewTest do
 
     assert Site.ScheduleView.has_alerts?([trip_alert], @schedule)
   end
+
+  test "reverse_direction_opts reverses direction when the stop exists in the other direction" do
+    expected = [trip: "", direction_id: "1", dest: "place-harsq", origin: "place-davis", route: "Red"]
+    actual = Site.ScheduleView.reverse_direction_opts("place-harsq", "place-davis", "Red", "1")
+    assert Keyword.equal?(expected, actual)
+  end
+
+  test "reverse_direction_opts doesn't maintain stops when the stop does not exist in the other direction" do
+    expected = [trip: "", direction_id: "1", dest: nil, origin: nil, route: "16"]
+    actual = Site.ScheduleView.reverse_direction_opts("111", "2905", "16", "1")
+    assert Keyword.equal?(expected, actual)
+  end
 end
