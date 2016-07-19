@@ -41,18 +41,22 @@
         </ul>
       <% end %>
       <p>Your trip:</p>
-      <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
-        <p>
-          <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
-          <% last_index = length(@trip_schedule) - 1 %>
-          <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
-          <%= case index do %>
-            <% 0 -> %><strong><%= station_link(trip_schedule.stop) %> (origin)</strong>
-            <% ^last_index -> %><strong><%= station_link(trip_schedule.stop) %> (destination)</strong>
-            <% _ -> %><%= station_link(trip_schedule.stop) %>
-          <% end %>
-        </p>
-      <% end %>
+      <ul class="trip-list">
+        <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
+          <li class="trip-stop">
+            <% last_index = length(@trip_schedule) - 1 %>
+            <p>
+              <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
+              <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
+              <%= case index do %>
+                <% 0 -> %><strong><%= station_link(trip_schedule.stop) %> (origin)</strong>
+                <% ^last_index -> %><strong><%= station_link(trip_schedule.stop) %> (destination)</strong>
+                <% _ -> %><%= station_link(trip_schedule.stop) %>
+              <% end %>
+            </p>
+          </li>
+        <% end %>
+      </ul>
       <p>
         Trip duration:
         <strong>
