@@ -3,6 +3,7 @@ export default function($) {
   $("[data-submit-on-change]").each((index, el) => {
     const $el = $(el);
     function onChange() {
+      $(this).siblings('label').find('.loading-indicator').removeClass('hidden-xs-up');
       $(this).parents("form").submit();
     };
     $el.find("select").change(onChange);
