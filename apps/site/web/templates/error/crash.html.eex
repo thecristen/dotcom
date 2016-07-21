@@ -1,0 +1,8 @@
+<div class="index">
+  <div class="card">
+    <div class="card-header">
+      <h1>Error</h1>
+      <h2 class="h3">Sorry, we seem to have encountered an error. Please wait a minute and try again.</h2>
+    </div>
+  </div>
+</div>
