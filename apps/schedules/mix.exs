@@ -40,7 +40,7 @@ defmodule Schedules.Mixfile do
      {:timex, ">= 0.0.0"},
      {:repo_cache, in_umbrella: true},
      {:routes, in_umbrella: true},
-     {:excheck, github: "paulswartz/excheck", ref: "bca297d", only: :test},
-     {:triq, github: "krestenkrab/triq", only: :test},]
+     {:excheck, "~> 0.3", only: :test},
+     {:triq, github: "peter-fogg/triq", only: :test},]
   end
 end
