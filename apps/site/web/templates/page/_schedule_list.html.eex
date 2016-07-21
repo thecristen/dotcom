@@ -21,7 +21,7 @@
     </div>
     <div class="mode-group-block">
       <div class="row">
-        <%= for route <- @grouped_routes[:bus] |> Enum.take(18) do %>
+        <%= for route <- @grouped_routes[:bus] |> Enum.filter(&(&1.key_route?)) do %>
           <div class="col-xs-4 col-md-2">
             <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
           </div>

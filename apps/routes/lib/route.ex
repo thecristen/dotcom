@@ -1,3 +1,3 @@
 defmodule Routes.Route do
-  defstruct [:id, :type, :name]
+  defstruct [:id, :type, :name, :key_route?]
 end

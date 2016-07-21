@@ -9,7 +9,8 @@ defmodule Routes.RepoTest do
     assert Routes.Repo.all |> List.first == %Routes.Route{
       id: "Blue",
       type: 1,
-      name: "Blue Line"
+      name: "Blue Line",
+      key_route?: true
     }
   end
 
@@ -19,7 +20,8 @@ defmodule Routes.RepoTest do
     assert route == %Routes.Route{
       id: "Green-B",
       type: 0,
-      name: "Green Line B"
+      name: "Green Line B",
+      key_route?: true
     }
   end
 
@@ -29,7 +31,8 @@ defmodule Routes.RepoTest do
     assert route == %Routes.Route{
       id: "741",
       type: 3,
-      name: "SL1"
+      name: "SL1",
+      key_route?: true
     }
   end
 
@@ -39,7 +42,8 @@ defmodule Routes.RepoTest do
     assert route == %Routes.Route{
       id: "23",
       type: 3,
-      name: "23"
+      name: "23",
+      key_route?: true
     }
   end
 
@@ -52,5 +56,27 @@ defmodule Routes.RepoTest do
     one = Routes.Repo.by_type(1)
     assert one |> Enum.all?(fn route -> route.type == 1 end)
     assert one != []
+  end
+
+  test ".get returns a single route" do
+    assert %Routes.Route{
+      id: "Red",
+      name: "Red Line",
+      type: 1
+      } = Routes.Repo.get("Red")
+  end
+
+  test "key bus routes are tagged" do
+    assert %Routes.Route{
+      key_route?: true}
+    = Routes.Repo.get("1")
+
+    assert %Routes.Route{
+      key_route?: true}
+    = Routes.Repo.get("741")
+
+    assert %Routes.Route{
+      key_route?: false}
+    = Routes.Repo.get("47")
   end
 end

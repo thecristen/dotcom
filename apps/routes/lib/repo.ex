@@ -64,11 +64,16 @@ defmodule Routes.Repo do
     %Routes.Route{
       id: id,
       type: attributes["type"],
-      name: name(attributes)
+      name: name(attributes),
+      key_route?: key_route?(attributes["description"])
     }
   end
 
   defp name(%{"type" => 3, "short_name" => short_name}), do: short_name
   defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
   defp name(%{"long_name" => long_name}), do: long_name
+
+  defp key_route?("Key Bus Route (Frequent Service)"), do: true
+  defp key_route?("Rapid Transit"), do: true
+  defp key_route?(_), do: false
 end
