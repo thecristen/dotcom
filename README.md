@@ -26,9 +26,25 @@ Then, visit the site at http://localhost:4001/
     cd apps/site; npm test  # runs the JS tests
     cd node_modules/backstopjs; npm run test # Runs the CSS tests (requires the server to be running)
 
-## Building/deploying
+## Building
 
-1. Install Docker: https://docs.docker.com/engine/installation/
+1. (once) Install Docker: https://docs.docker.com/engine/installation/
 1. Build the .ZIP package: `sh build.sh`
-  * This will build the release in a Docker container, and put the files in `site-build.zip`
-1. Upload .ZIP package to Elastic Beanstalk
+
+This will build the release in a Docker container, and put the files in `site-build.zip`
+
+## Deploying
+
+1. (once) Install the AWS EB CLI: http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html
+1. (once) Get AWS credentials (Access Key ID and Secret Access Key)
+1. (once) Create `~/.aws/config` with the following:
+
+    ```
+    [profile eb-cli]
+    aws_access_key_id = <YOUR ACCESS KEY ID>
+    aws_secret_access_key = <YOUR SECRET ACCESS KEY>
+    ```
+
+1. Deploy the built file with `eb deploy`
+
+You should now be able to see the new site at http://mbta-dotcom-dev-green.us-east-1.elasticbeanstalk.com/
