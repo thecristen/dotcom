@@ -1,7 +1,7 @@
 <small class="pull-sm-right">
   <%= direction(@direction_id, @route.id) %>
   <%= if @conn.assigns[:to] && not Enum.all?(@to, &(&1 == "")) do %>
-    to: <%= @to |> Enum.join("/" <> << 0x200B :: utf8 >>)%><%# Add a zero-width space after the slash %>
+    to: <%= @to |> Enum.join("/") |> clean_route_name %>
   <% end %>
   <br class="hidden-sm-down">
   <a href="<%= update_url @conn, reverse_direction_opts(@origin, @destination, @route.id, @reverse_direction_id) %>">Switch&nbsp;to&nbsp;<%= direction(@reverse_direction_id, @route.id) %> <%= fa "arrow-circle-right" %></a>

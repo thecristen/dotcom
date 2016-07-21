@@ -79,8 +79,7 @@ defmodule Schedules.Repo do
   def stop_exists_on_route?(stop_id, route, direction_id) do
     route
     |> stops(direction_id: direction_id)
-    |> Enum.map(&(&1.id))
-    |> Enum.any?(&(&1 == stop_id))
+    |> Enum.any?(&(&1.id == stop_id))
   end
 
   defp all_from_params(params) do
