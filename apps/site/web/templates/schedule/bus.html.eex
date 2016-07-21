@@ -1,6 +1,6 @@
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
   <% is_selected_period = @conn.params["hour"] == to_string(hour) %>
-  <a class="list-group-item <%= if is_selected_period do %>selected-period bg-brand-primary-dark<% end %>"
+  <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
     href="<%= if is_selected_period do %>
           <%= update_url @conn, hour: "" %>
     <% else %>
@@ -8,12 +8,12 @@
     <% end %>">
     <div class="row">
       <div class="col-xs-3">
-        <span class="<%= if is_selected_period do %>white<% else %>brand-primary-dark<% end %>">
+        <span class="<%= if is_selected_period do %>selected-title<% else %>unselected-title<% end %>">
           <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
         </span>
       </div>
       <div class="col-xs-9">
-        <span <%= if is_selected_period do %>class="white"<% end %>>
+        <span <%= if is_selected_period do %>class="selected-title"<% end %>>
           <%= render "_schedule_group.html", schedules: schedules %>
         </span>
       </div>

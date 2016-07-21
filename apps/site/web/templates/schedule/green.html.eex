@@ -10,9 +10,9 @@
         </div>
         <div class="col-xs-12 col-sm-4">
           <%= for route <- @green_routes do %>
-            <a class="btn btn-secondary-outline btn-sm font-weight-bold text-primary"
+            <a class="btn btn-secondary-outline btn-sm text-primary"
                href="<%= update_url @conn, route: route.id %>">
-              <%= route.name %>
+              <strong><%= route.name %></strong>
             </a>
           <% end %>
         </div>
@@ -33,7 +33,7 @@
              href="<%= update_url @conn, route: route.id %>">
             <div class="row">
               <div class="col-xs-6">
-                <span class="brand-primary-dark font-weight-bold"><%= route.name %> - <%= from.name %></span>
+                <span class="brand-primary-dark"><strong><%= route.name %> - <%= from.name %><strong></span>
               </div>
               <div class="col-xs-6">
                 <%= render "_schedule_group.html", schedules: schedules %>

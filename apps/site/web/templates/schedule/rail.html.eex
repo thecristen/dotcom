@@ -3,14 +3,14 @@
   <%= if schedule.trip.id == @trip do %>
     <span id="trip" aria-hidden="true"></span>
   <% end %>
-  <a class="list-group-item <%= if is_selected_period do %>selected-period bg-brand-primary-dark<% end %>"
+  <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
     id="<%= schedule.trip.id %>"
     href="<%= if is_selected_period do %>
           <%= update_url @conn, trip: "" %>
     <% else %>
           <%= update_url @conn, trip: schedule.trip.id %>#trip
     <% end %>">
-    <span class="<%= if is_selected_period do %>white<% else %>brand-primary-dark<% end %>">
+    <span class="<%= if is_selected_period do %>selected-title<% else %>unselected-title<% end %>">
       <%= schedule.time |> Timex.format!("{kitchen}") %> -
       No. <%= schedule.trip.name %>
       <%= if schedule.stop.name != @from.name do %>
@@ -33,7 +33,7 @@
             <li class="alert-card">
               <a href="<%= schedule_path(@conn, :alerts, alert.id, []) %>">
                 <p class="alert-card-header m-b-0">
-                  <span class="font-weight-bold"><%= alert.effect_name %>:</span> <%= alert.header %>
+                  <strong><%= alert.effect_name %>:</strong> <%= alert.header %>
                 </p>
               </a>
             </li>
@@ -44,16 +44,18 @@
       <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
         <p>
           <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
-          <span <%= if index == 0 or index == length(@trip_schedule) - 1 do %>class="font-weight-bold"<% end %>>
+          <%= if index == 0 or index == length(@trip_schedule) - 1 do %>
+            <strong><%= station_link(trip_schedule.stop) %></strong>
+          <%= else %>
             <%= station_link(trip_schedule.stop) %>
-          </span>
+          <% end %>
         </p>
       <% end %>
       <p>
         Trip duration:
-        <span class="font-weight-bold">
+        <strong>
           <%= Timex.DateTime.diff(List.first(@trip_schedule).time, List.last(@trip_schedule).time, :minutes) %> minutes
-        </span>
+        </strong>
       </p>
     </div>
   <% end %>
