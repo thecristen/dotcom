@@ -28,14 +28,14 @@
               <td>
                 <%= origin.time |> Timex.format!("{kitchen}") %>
                 <%= if has_alerts?(@alerts, origin) do %>
-                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <%= fa "exclamation-triangle" %>
                   <span class="sr-only">Has an alert</span>
                 <% end %>
               </td>
               <td>
                 <%= dest.time |> Timex.format!("{kitchen}") %>
                 <%= if has_alerts?(@alerts, dest) do %>
-                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <%= fa "exclamation-triangle" %>
                   <span class="sr-only">Has an alert</span>
                 <% end %>
               </td>

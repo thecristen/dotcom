@@ -1,5 +1,23 @@
 <div class="index">
   <div class="card">
+    <div class="card-header"><h5>What's Happening at the MBTA</h5></div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="<%= static_path @conn, "/images/subway-station-home.jpg" %>"
+            alt="A train moving through the new Government Center station"
+            class="img-fluid"
+            width="348"
+            height="168">
+        </div>
+        <div class="col-md-6">
+          <%= render "_news.html", news: @news, conn: @conn %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
     <div class="card-header"><h5>Schedules &amp; Maps</h5></div>
     <div class="card-block">
       <div class="row">
@@ -7,53 +25,48 @@
       </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-block">
       <div class="row">
-        <div class="col-md-6">
-          <h5>News &amp; Updates</h5>
-          <%= if @news_image do %>
-          <div class="text-xs-center">
-            <%= @news_image %>
-          </div>
-          <% end %>
-          <ul class="list-unstyled">
-            <%= for post <- @news do %>
-              <li>
-                <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>"><%= post.attributes["title"] %></a>
-              </li>
-            <% end %>
-          </ul>
-        </div>
         <div class="col-md-6">
           <h5>Riding the T</h5>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-block">
-      <div class="row">
-        <div class="col-md-6">
-          <h5>Fares &amp; Passes</h5>
-        </div>
-        <div class="col-md-6">
-          <h5>What You Need To Ride The T</h5>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-block">
-      <div class="row">
-        <div class="col-md-6">
-          <h5>Other Links</h5>
-        </div>
-        <div class="col-md-6">
+          <ul class="list-group list-group-flush p-b-1">
+            <li class="list-group-item"><a href="<%= redirect_path @conn, "rider_tools/" %>">
+              Rider Tools
+              <%= fa "angle-right fa-pull-right" %>
+            </a></li>
+            <li class="list-group-item"><a href="<%= redirect_path @conn, "riding_the_t/logan/" %>">
+              Getting to and from Logan
+              <%= fa "angle-right fa-pull-right" %>
+            </a></li>
+            <li class="list-group-item"><a href="<%= redirect_path @conn, "fares_and_passes/" %>">
+              Fares &amp; Passes
+              <%= fa "angle-right fa-pull-right" %>
+            </a></li>
+          </ul>
           <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
-            <img class="center-block" src="<%= static_path(@conn, "/images/accessibility_at_t.jpg") %>" alt="Accessibility at the T" width=213 height=77 />
+            <img class="img-fluid center-block m-b-1" src="<%= static_path(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
+          </a>
+        </div>
+        <div class="col-md-6">
+          <h5>Get Involved</h5>
+          <ul class="list-group list-group-flush p-b-1">
+            <li class="list-group-item"><a href="<%= redirect_path @conn, "about_the_mbta/board_meetings/fmcb/" %>">
+              Fiscal and Management Control Board
+              <%= fa "angle-right fa-pull-right" %>
+            </a></li>
+            <li class="list-group-item"><a href="<%= redirect_path @conn, "about_the_mbta/public_meetings/" %>">
+              Public Meetings
+              <%= fa "angle-right fa-pull-right" %>
+            </a></li>
+            <li class="list-group-item"><a href="<%= redirect_path @conn, "business_center/" %>">
+              Business Center
+              <%= fa "angle-right fa-pull-right" %>
+            </a></li>
+          </ul>
+          <a href="http://www.mbtabackontrack.com/performance/index.html#/home">
+            <img class="img-fluid center-block" src="<%= static_path(@conn, "/images/see_our_performance.png") %>" alt="See Our Performance" width=348 height=96 />
           </a>
         </div>
       </div>

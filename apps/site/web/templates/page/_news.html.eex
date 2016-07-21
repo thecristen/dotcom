@@ -1,0 +1,19 @@
+<ul class="list-unstyled">
+  <% first_post = hd(@news) %>
+  <li>
+    <strong><%= first_post.attributes["title"] %></strong>
+    <p>
+      <%= first_post.body |> News.Blurb.blurb |> raw %>
+      <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{first_post.id}" %>">Read &raquo;</a>
+  </li>
+  <%= for post <- @news |> Enum.drop(1) |> Enum.take(2) do %>
+    <li>
+      <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>"><%= post.attributes["title"] %></a>
+    </li>
+  <% end %>
+  <li>
+    <a href="<%= redirect_path @conn, "about_the_mbta/news_events/" %>">
+      More news &amp; updates &raquo;
+    </a>
+  </li>
+</ul>
