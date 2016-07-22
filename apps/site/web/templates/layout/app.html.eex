@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
     <link rel="preload" href="<%= static_path(@conn, "/js/app.js") %>">
+    <link rel=icon href="<%= static_path(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
   </head>
 
   <body class="no-js">

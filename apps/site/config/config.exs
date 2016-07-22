@@ -14,6 +14,8 @@ config :site, Site.Endpoint,
   pubsub: [name: Site.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
