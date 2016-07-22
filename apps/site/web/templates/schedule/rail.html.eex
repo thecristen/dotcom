@@ -10,7 +10,7 @@
     <% else %>
           <%= update_url @conn, trip: schedule.trip.id %>#trip
     <% end %>">
-    <span class="<%= if is_selected_period do %>selected-title<% else %>unselected-title<% end %>">
+    <span class="schedule-title">
       <%= schedule.time |> Timex.format!("{kitchen}") %> -
       No. <%= schedule.trip.name %>
       <%= if schedule.stop.name != @from.name do %>

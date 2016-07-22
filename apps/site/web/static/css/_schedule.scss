@@ -101,6 +101,18 @@ body.no-js .subway-map {
   .list-group-item:last-child {
     border-radius: 0;
   }
+
+  .list-group-item {
+    .schedule-title {
+      color: $brand-primary-dark;
+    }
+  }
+
+  .list-group-item.selected-period {
+    .schedule-title {
+      color: white;
+    }
+  }
 }
 
 .selected-header {
@@ -109,14 +121,6 @@ body.no-js .subway-map {
 
 .selected-period {
   border: 4px solid $brand-primary-dark;
-}
-
-.selected-title {
-  color: white;
-}
-
-.unselected-title {
-  color: $brand-primary-dark;
 }
 
 .table.schedule-pairs {

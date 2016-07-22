@@ -8,7 +8,7 @@
     <% end %>">
     <div class="row">
       <div class="col-xs-6">
-        <span class="<%= if is_selected_period do %>selected-title<% else %>unselected-title<% end %>">
+        <span class="schedule-title">
           <%= case name do
               :am_rush -> "OPEN - 9:00AM"
               :midday -> "9:00AM - 3:30PM"
@@ -20,7 +20,7 @@
         </span>
       </div>
       <div class="col-xs-6">
-        <span <%= if is_selected_period do %>class="selected-title"<% end %>>
+        <span class="schedule-title">
           <%= render "_schedule_group.html", schedules: schedules %>
         </span>
       </div>

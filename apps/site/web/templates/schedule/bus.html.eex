@@ -8,12 +8,12 @@
     <% end %>">
     <div class="row">
       <div class="col-xs-3">
-        <span class="<%= if is_selected_period do %>selected-title<% else %>unselected-title<% end %>">
+        <span class="schedule-title">
           <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
         </span>
       </div>
       <div class="col-xs-9">
-        <span <%= if is_selected_period do %>class="selected-title"<% end %>>
+        <span class="schedule-title">
           <%= render "_schedule_group.html", schedules: schedules %>
         </span>
       </div>
