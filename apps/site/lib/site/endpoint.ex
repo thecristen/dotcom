@@ -10,7 +10,8 @@ defmodule Site.Endpoint do
   plug Plug.Static,
     at: "/", from: :site, gzip: true,
     cache_control_for_etags: "public, max-age=86400",
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: ~w(css fonts images js robots.txt),
+    only_matching: ~w(favicon)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
