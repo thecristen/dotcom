@@ -18,7 +18,7 @@
       (to <%= schedule.trip.headsign %>)
     <% end %>
     <%= if has_alerts?(@alerts, schedule) do %>
-      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <%= fa "exclamation-triangle" %>
       <span class="sr-only">Has an alert</span>
     <% end %>
   </a>

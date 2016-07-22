@@ -26,11 +26,11 @@
     <div class="btn-group">
       <%= if @map_url && @map_url != "" do %>
         <%= link to: @map_url, class: "btn btn-link" do %>
-          <i class="fa fa-search-plus"></i> View Neighborhood Map as PDF
+          <%= fa "search-plus" %> View Neighborhood Map as PDF
         <% end %>
       <% end %>
       <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank", class: "btn btn-link hidden-sm-down" do %>
-        Enlarge map and get directions&nbsp;&nbsp;<i class="fa fa-external-link" aria-hidden="true"></i>
+        Enlarge map and get directions&nbsp;&nbsp;<%= fa "external-link" %>
       <% end %>
     </div>
   </div>

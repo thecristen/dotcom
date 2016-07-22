@@ -33,6 +33,12 @@ defmodule Site.ViewHelpers do
     Application.get_env(:site, __MODULE__)[key]
   end
 
+  @doc "HTML for a FontAwesome icon"
+  def fa(name) do
+    class_name = "fa fa-#{name}"
+    raw ~s(<i class="#{class_name}" aria-hidden=true></i>)
+  end
+
   @doc "The string description of a direction ID"
   def direction(direction_id, route_id)
   def direction(0, "Red"), do: "Southbound"

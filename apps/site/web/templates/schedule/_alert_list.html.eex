@@ -5,7 +5,7 @@
       <%= for alert <- @alerts do %>
         <li class="alert-card">
           <h5 class="alert-card-header">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            <%= fa "exclamation-triangle" %>
             <%= alert.effect_name %>
           </h5>
           <p class="alert-card-body no-overflow">

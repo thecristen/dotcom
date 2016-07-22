@@ -5,7 +5,7 @@
       <div class="modal-header">
         <div class="col-xs-12">
           <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
-            <i class="fa fa-times-circle" aria-hidden="true"></i> Close
+            <%= fa "times-circle" %>
           </button>
         </div>
         <%= render "_alerts_header.html", forward_assigns(@conn) %>
@@ -27,7 +27,7 @@
   >
     <p>
       <%= if length(alerts) > 0 do %>
-        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <%= fa "exclamation-triangle" %>
       <% end %>
       <%= display_alert_effects(@route_alerts) %>
     </p>
