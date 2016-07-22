@@ -33,4 +33,10 @@ defmodule Site.ScheduleControllerTest do
     assert response =~ stop_name
     refute response =~ ~s(<a href="#{station_path(conn, :show, "33")}">#{stop_name}</a>)
   end
+
+  test "returns 404 if a nonexistent route is given", %{conn: conn} do
+    conn = get conn, schedule_path(conn, :index, route: "Teal")
+    response = html_response(conn, 404)
+    assert response =~ "doesn't exist"
+  end
 end

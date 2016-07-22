@@ -13,26 +13,33 @@ defmodule Site.ScheduleController.Route do
     |> assign_selected_trip
     |> assign_all_stops(route_id)
 
-    all_schedules = conn
-    |> schedule_query
-    |> Schedules.Repo.all
+    if conn.assigns[:route] == nil do
+      conn
+      |> put_status(:not_found)
+      |> render(Site.ErrorView, "404.html", [])
+    else
 
-    {filtered_schedules, conn} = all_schedules
-    |> upcoming_schedules(conn.assigns[:show_all])
-    |> possibly_open_schedules(all_schedules, conn)
+      all_schedules = conn
+      |> schedule_query
+      |> Schedules.Repo.all
 
-    conn
-    |> assign_all_routes
-    |> assign(:schedules, filtered_schedules)
-    |> assign(:from, from(all_schedules, conn))
-    |> assign(:to, to(all_schedules))
-    |> assign(:most_frequent_headsign, most_frequent_headsign(filtered_schedules))
-    |> assign_list_group_template
-    |> await_assign_all
-    |> route_alerts
-    |> stop_alerts
-    |> trip_alerts
-    |> render("index.html")
+      {filtered_schedules, conn} = all_schedules
+      |> upcoming_schedules(conn.assigns[:show_all])
+      |> possibly_open_schedules(all_schedules, conn)
+
+      conn
+      |> assign_all_routes
+      |> assign(:schedules, filtered_schedules)
+      |> assign(:from, from(all_schedules, conn))
+      |> assign(:to, to(all_schedules))
+      |> assign(:most_frequent_headsign, most_frequent_headsign(filtered_schedules))
+      |> assign_list_group_template
+      |> await_assign_all
+      |> route_alerts
+      |> stop_alerts
+      |> trip_alerts
+      |> render("index.html")
+    end
   end
 
   defp upcoming_schedules(all_schedules, show_all)

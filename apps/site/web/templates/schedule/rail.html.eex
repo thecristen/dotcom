@@ -11,8 +11,8 @@
           <%= update_url @conn, trip: schedule.trip.id %>#trip
     <% end %>">
     <span class="schedule-title">
-      <%= schedule.time |> Timex.format!("{kitchen}") %> -
-      No. <%= schedule.trip.name %>
+      <%= schedule.time |> Timex.format!("{kitchen}") %>
+      <%= if schedule.trip.name != "" do %>- No. <%= schedule.trip.name %><% end %>
       <%= if schedule.stop.name != @from.name do %>
         (from <%= schedule.stop.name %>)
       <% end %>
@@ -41,16 +41,22 @@
         </ul>
       <% end %>
       <p>Your trip:</p>
-      <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
-        <p>
-          <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
-          <%= if index == 0 or index == length(@trip_schedule) - 1 do %>
-            <strong><%= station_link(trip_schedule.stop) %></strong>
-          <%= else %>
-            <%= station_link(trip_schedule.stop) %>
-          <% end %>
-        </p>
-      <% end %>
+      <ul class="trip-list">
+        <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
+          <li class="trip-stop">
+            <% last_index = length(@trip_schedule) - 1 %>
+            <p>
+              <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
+              <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
+              <%= case index do %>
+                <% 0 -> %><strong><%= station_link(trip_schedule.stop) %> (origin)</strong>
+                <% ^last_index -> %><strong><%= station_link(trip_schedule.stop) %> (destination)</strong>
+                <% _ -> %><%= station_link(trip_schedule.stop) %>
+              <% end %>
+            </p>
+          </li>
+        <% end %>
+      </ul>
       <p>
         Trip duration:
         <strong>

@@ -1,12 +1,12 @@
 defmodule Site.ErrorView do
   use Site.Web, :view
 
-  def render("404.html", _assigns) do
-    "Page not found"
+  def render("404.html", assigns) do
+    render __MODULE__, "not_found.html", assigns
   end
 
-  def render("500.html", _assigns) do
-    "Server internal error"
+  def render("500.html", assigns) do
+    render __MODULE__, "crash.html", assigns
   end
 
   # In case no render clause matches or no

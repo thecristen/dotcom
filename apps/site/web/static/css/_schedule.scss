@@ -135,3 +135,43 @@ body.no-js .subway-map {
   color: white;
   background-color: $brand-primary-darkest;
 }
+
+.trip-list {
+  padding-left: 10px;
+}
+
+.trip-stop {
+  position: relative;
+  margin-bottom: 0;
+  padding-bottom: 1px;
+  padding-left: 10px;
+  list-style: none;
+
+  &:after {
+    content: url('/images/trip-circle-open.svg');
+    color: $brand-primary-dark;
+    position: absolute;
+    left: -21px;
+    top: 1px;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: -11px;
+    border-left: 3px solid $brand-primary-dark;
+    height: 100%;
+    width: 1px;
+  }
+
+  &:first-child:before {
+    top: 6px;
+  }
+  &:last-child:before {
+    height: 6px;
+  }
+
+  &:first-child:after, &:last-child:after {
+    content: url('/images/trip-circle-filled.svg');
+  }
+}

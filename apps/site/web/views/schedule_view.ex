@@ -127,4 +127,17 @@ defmodule Site.ScheduleView do
       _ -> link station.name, to: station_path(Site.Endpoint, :show, station.id)
     end
   end
+
+  def reverse_direction_opts(origin, dest, route_id, direction_id) do
+    new_origin = dest || origin
+    new_dest = dest && origin
+    [trip: "", direction_id: direction_id, route: route_id]
+    |> Keyword.merge(
+      if Schedules.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
+        [dest: new_dest, origin: new_origin]
+      else
+        [dest: nil, origin: nil]
+      end
+    )
+  end
 end
