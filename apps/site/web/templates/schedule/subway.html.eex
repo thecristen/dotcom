@@ -1,28 +1,38 @@
 <%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
-  <a class="list-group-item <%= if @conn.params["name"] == to_string(name) do %>bg-inverse<% else %>bg-gray<% end %>"
-    href="<%= if @conn.params["name"] == to_string(name) do %>
+  <% is_selected_period = @conn.params["name"] == to_string(name) %>
+  <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
+    href="<%= if is_selected_period do %>
           <%= update_url @conn, name: "" %>
     <% else %>
           <%= update_url @conn, name: name %>
     <% end %>">
     <div class="row">
       <div class="col-xs-6">
-        <%= case name do
-            :am_rush -> "OPEN - 9:00AM"
-            :midday -> "9:00AM - 3:30PM"
-            :pm_rush -> "3:30PM - 6:30PM"
-            :evening -> "6:30PM - 8:00PM"
-            :late_night -> "8:00PM - CLOSE"
-            end
-        %>
+        <span class="schedule-title">
+          <%= case name do
+              :am_rush -> "OPEN - 9:00AM"
+              :midday -> "9:00AM - 3:30PM"
+              :pm_rush -> "3:30PM - 6:30PM"
+              :evening -> "6:30PM - 8:00PM"
+              :late_night -> "8:00PM - CLOSE"
+              end
+          %>
+        </span>
       </div>
       <div class="col-xs-6">
-        <%= render "_schedule_group.html", schedules: schedules %>
+        <span class="schedule-title">
+          <%= render "_schedule_group.html", schedules: schedules %>
+        </span>
       </div>
     </div>
   </a>
-  <%= if @conn.params["name"] == to_string(name) do %>
-    <div class="list-group-item">
+  <%= if is_selected_period do %>
+    <div class="list-group-item selected-period">
+      <div class="row">
+        <div class="col-xs-12">
+          Upcoming Arrivals:
+        </div>
+      </div>
       <div class="row">
         <%= for schedule <- schedules do %>
           <div class="col-xs-4 col-sm-3 col-md-2">

@@ -1,63 +1,66 @@
-<div class="container main-container">
-  <div class="row">
-    <div class="col-xs-12 p-y-1">
-      <%= mode_icon @route_type %>
-      <h1 class="schedule-header col-xs-8 col-md-11"><%= @mode_name %> Schedules & Map</h1>
+<div class="index">
+  <div class="card">
+    <div class="schedule-header">
+      <%= mode_icon @route_type %><h1 class="h5"><strong><%= @mode_name %> Schedules & Map</strong></h1>
     </div>
-    <div class="col-xs-12 p-b-1">
-      <h2>System Map</h2>
-      <img src="<%= @map_image_url %>" class="subway-map expandable m-y-1" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)">
-      <%= if @map_pdf_url do %>
-        <p>
-          <a href="<%= @map_pdf_url %>" target="_blank">
-            <%= fa "search-plus" %>
-            View <%= @mode_name |> String.downcase %> map as a PDF
-          </a>
-        </p>
-      <% end %>
-    </div>
-    <div class="col-xs-12 p-b-1">
-      <h2>Line Schedules</h2>
-      <div class="mode-group">
-        <div class="mode-group-block">
-          <div class="row">
-            <%= for route <- @routes do %>
-              <div class="<%= route_spacing_class(@route_type)%>">
-                <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-xs-12 p-b-1">
+          <h2 class="h5"><strong>System Map</strong></h2>
+          <img src="<%= @map_image_url %>" class="subway-map expandable m-y-1" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)">
+          <%= if @map_pdf_url do %>
+            <p>
+              <a href="<%= @map_pdf_url %>" target="_blank">
+                <%= fa "search-plus" %>
+                View <%= @mode_name |> String.downcase %> map as a PDF
+              </a>
+            </p>
+          <% end %>
+        </div>
+        <div class="col-xs-12 p-b-1">
+          <h2 class="h5"><strong>Line Schedules</strong></h2>
+          <div class="mode-group">
+            <div class="mode-group-block">
+              <div class="row">
+                <%= for route <- @routes do %>
+                  <div class="<%= route_spacing_class(@route_type)%>">
+                    <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+                  </div>
+                <% end %>
               </div>
-            <% end %>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <%= if length(@delays) > 0 do %>
-      <div class="col-xs-12 p-b-1">
-        <h2>Service Alerts</h2>
-        <ul class="alert-list">
-          <%= for delay <- @delays do %>
-            <li class="m-t-0">
-              <a href="<%= schedule_path(@conn, :alerts, delay.id, []) %>">
-                <p class="alert-card-header m-b-0">
-                  <%= delay.header %>
-                  <%= fa "angle-right fa-pull-right" %>
-                </p>
-              </a>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    <%= end %>
-    <div class="col-xs-12">
-      <h2><%= @mode_name %> Fares</h2>
-      <p><%= @fare_description %></p>
-      <ul class="fare-list">
-        <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>
-          <li class="col-xs-12">
-            <span class="col-xs-9"><%= title %></span>
-            <span class="pull-right"><%= price %></span>
-          </li>
+        <%= if length(@delays) > 0 do %>
+          <div class="col-xs-12 p-b-1">
+            <h2 class="h5"><strong>Service Alerts</strong></h2>
+            <ul class="alert-list">
+              <%= for delay <- @delays do %>
+                <li class="m-t-0">
+                  <a href="<%= schedule_path(@conn, :alerts, delay.id, []) %>">
+                    <p class="alert-card-header m-b-0">
+                      <%= delay.header %>
+                      <%= fa "angle-right fa-pull-right" %>
+                    </p>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
         <%= end %>
-      </ul>
+        <div class="col-xs-12">
+          <h2 class="h5"><strong><%= @mode_name %> Fares</strong></h2>
+          <p><%= @fare_description %></p>
+          <ul class="fare-list">
+            <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>
+              <li class="col-xs-12">
+                <span class="col-xs-9"><%= title %></span>
+                <span class="pull-right"><%= price %></span>
+              </li>
+            <%= end %>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

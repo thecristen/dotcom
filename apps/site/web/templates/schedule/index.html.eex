@@ -1,20 +1,26 @@
-<div class="container main-container">
-  <%= render "_locations.html", forward_assigns(@conn) %>
-  <%= render "_alerts_modal.html", forward_assigns(@conn) %>
-  <%= render "_filters.html", forward_assigns(@conn) %>
-  <div class="row">
-    <div class="col-sm-12">
-      <p class="text-muted">
-        Times from <%= station_link @from %>
-      </p>
-      <div class="list-group">
-        <%= render @list_group_template, forward_assigns(@conn) %>
-        <%= if not @show_all do %>
-          <a class="list-group-item text-xs-center"
-            href="<%= update_url @conn, all: "all" %>">
-            Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
-          </a>
-        <% end %>
+<div class="index">
+  <div class="card">
+    <div class="schedule-header">
+      <%= render "_locations.html", forward_assigns(@conn) %>
+      <%= render "_alerts_modal.html", forward_assigns(@conn) %>
+      <%= render "_filters.html", forward_assigns(@conn) %>
+    </div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="text-muted">
+            Times from <%= station_link @from %>
+          </p>
+          <div class="list-group schedule-list-group">
+            <%= render @list_group_template, forward_assigns(@conn) %>
+            <%= if not @show_all do %>
+              <a class="list-group-item text-xs-center"
+                 href="<%= update_url @conn, all: "all" %>">
+                Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
+              </a>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -12,7 +12,6 @@
         </select>
       </div>
       <%= render "_alerts.html", alerts: @stop_alerts, suffix: " at this stop" %>
-      <%= render "_alerts.html", alerts: @trip_alerts, suffix: " on this route" %>
       <div class="form-group">
         <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
       </div>

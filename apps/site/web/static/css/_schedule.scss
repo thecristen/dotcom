@@ -28,7 +28,7 @@
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: left;
-  background-color: $brand-secondary;
+  background-color: $alert-notice;
   color: inherit;
 
   p {
@@ -44,7 +44,11 @@
 }
 
 .schedule-header {
-  display: inline-block;
+  padding: 1rem 1.25rem 0 1.25rem;
+
+  .route-icon {
+    margin-top: -5px;
+  }
 }
 
 .fare-list {
@@ -88,4 +92,46 @@
 body.no-js .subway-map {
   max-height: map-get($container-max-widths, md);
   object-position: initial;
+}
+
+.schedule-list-group {
+  .list-group-item:first-child {
+    border-radius: 0;
+  }
+  .list-group-item:last-child {
+    border-radius: 0;
+  }
+
+  .list-group-item {
+    .schedule-title {
+      color: $brand-primary-dark;
+    }
+  }
+
+  .list-group-item.selected-period {
+    .schedule-title {
+      color: white;
+    }
+  }
+}
+
+.selected-header {
+  background-color: $brand-primary-dark;
+}
+
+.selected-period {
+  border: 4px solid $brand-primary-dark;
+}
+
+.table.schedule-pairs {
+  border-left: 1px solid $gray-lighter;
+  border-right: 1px solid $gray-lighter;
+  th {
+    border-bottom: none;
+  }
+}
+
+.schedule-pairs-header {
+  color: white;
+  background-color: $brand-primary-darkest;
 }
