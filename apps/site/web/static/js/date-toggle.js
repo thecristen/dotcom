@@ -13,4 +13,9 @@ export default function($) {
         0);
     }
   });
+
+  $(".date-toggle input").blur(function (ev) {
+    ev.preventDefault();
+    $(this).parents("form").find(".date-toggle").toggleClass("date-toggle-enabled");
+  });
 };
