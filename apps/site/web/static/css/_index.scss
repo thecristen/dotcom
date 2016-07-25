@@ -53,3 +53,10 @@
   max-height: $line-height * 2;
   overflow: hidden;
 }
+
+.header .navbar {
+  @include media-breakpoint-up(md) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
