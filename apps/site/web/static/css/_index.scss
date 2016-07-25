@@ -15,6 +15,10 @@
   }
 
   @include media-breakpoint-up(sm) {
+    .card, .card-header {
+      border-radius: 12px;
+    }
+
     .card:first-child {
       margin-top: 12px;
     }
