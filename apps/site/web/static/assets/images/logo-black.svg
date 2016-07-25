@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="269px" height="48px" viewBox="0 0 269 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>0028410E-3FD8-4A88-884A-80A9FC23D964</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="assets" transform="translate(-48.000000, -48.000000)" fill="#1C1E23">
+            <g id="logo-black" transform="translate(48.000000, 48.000000)">
+                <text id="Massachusetts-Bay" font-family="Lato-Black, Lato" font-size="18" font-weight="700">
+                    <tspan x="60" y="18">Massachusetts Bay</tspan>
+                    <tspan x="60" y="40">Transportation Authority</tspan>
+                </text>
+                <g id="MBTA">
+                    <path d="M24,48 C37.254834,48 48,37.254834 48,24 C48,10.745166 37.254834,0 24,0 C10.745166,0 0,10.745166 0,24 C0,37.254834 10.745166,48 24,48 L24,48 Z M24,45.888 C11.9115914,45.888 2.112,36.0884086 2.112,24 C2.112,11.9115914 11.9115914,2.112 24,2.112 C36.0884086,2.112 45.888,11.9115914 45.888,24 C45.888,36.0884086 36.0884086,45.888 24,45.888 L24,45.888 Z" id="Oval"></path>
+                    <polygon id="Shape" points="8.16 12.24 39.84 12.24 39.84 19.56 28.08 19.56 28.08 39.144 19.968 39.144 19.968 19.56 8.208 19.56"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

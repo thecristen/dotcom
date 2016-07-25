@@ -103,7 +103,14 @@ body {
 
   .navbar-logo {
     svg {
-      fill: $nav-mobile-link-color;
+      position: absolute;
+      width: 150px;
+      left: 4px;
+      top: 4px;
+
+      & > g {
+        fill: white;
+      }
     }
   }
 
@@ -120,5 +127,37 @@ body {
   .full-width {
     // removes the margins on the outside
     @include make-row();
+  }
+}
+
+#social-nav {
+  padding-top: 7px;
+
+  a {
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 100%;
+    color: white;
+  }
+
+  li {
+    margin-left: 6px;
+  }
+
+  .social-nav-instagram {
+    background-color: #1c1e23;
+  }
+
+  .social-nav-youtube {
+    background-color: #cd201f;
+  }
+
+  .social-nav-twitter {
+    background-color: #55acee;
+  }
+
+  .social-nav-facebook {
+    background-color: #395185;
   }
 }
