@@ -34,4 +34,11 @@ describe('date-toggle', () => {
     });
     $('#test .date-toggle-edit').click();
   });
+
+  it('switches back to its initial state when the input is blurred', () => {
+    $('#test .date-toggle-edit').click();
+    assert.lengthOf($('#test .date-toggle-enabled input'), 1);
+    $('#test .date-toggle-enabled input').blur();
+    assert.lengthOf($('#test .date-toggle-enabled input'), 0);
+  });
 });
