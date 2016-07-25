@@ -2,18 +2,6 @@ defmodule Site.ScheduleController.Helpers do
   import Plug.Conn
   use Timex
 
-  @doc "Find all the assigns which are Tasks, and await_assign them"
-  def await_assign_all(conn) do
-    conn.assigns
-    |> Enum.filter_map(
-    fn
-      {_, %Task{}} -> true
-      _ -> false
-    end,
-    fn {key, _} -> key end)
-    |> Enum.reduce(conn, fn key, conn -> await_assign(conn, key) end)
-  end
-
   @doc "Fetch the alerts and assign them"
   def assign_alerts(conn) do
     conn

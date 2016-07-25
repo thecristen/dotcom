@@ -1,6 +1,17 @@
 .index {
   .card, .card-header {
+    background-color: white;
+    border-color: white;
     border-radius: 0;
+  }
+
+  .card-block {
+    margin-top: -1rem;
+  }
+
+  .card-block-no-header {
+    //  we don't want to undo the margin
+    margin-top: 0;
   }
 
   @include media-breakpoint-up(sm) {
@@ -27,4 +38,18 @@
   &:last-child:after {
     content: ""
   }
+}
+
+.index-news-group {
+  @extend .list-group;
+  @extend .list-group-flush;
+
+  margin-top: -1rem;
+}
+
+.index-news-item {
+  @extend .list-group-item;
+
+  max-height: $line-height * 2;
+  overflow: hidden;
 }
