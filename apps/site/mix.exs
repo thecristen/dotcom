@@ -47,6 +47,7 @@ defmodule Site.Mixfile do
      {:schedules, in_umbrella: true},
      {:exrm, ">= 0.0.0"},
      {:inflex, "~> 1.7.0"},
+     {:html_sanitize_ex, "~> 1.0.0"},
     ]
   end
 end
