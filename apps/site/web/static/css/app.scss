@@ -122,3 +122,31 @@ body {
     @include make-row();
   }
 }
+
+#social-nav {
+  padding-top: 7px;
+
+  a {
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 100%;
+    color: white;
+  }
+
+  #instagram {
+    background-color: #1c1e23;
+  }
+
+  #youtube {
+    background-color: #cd201f;
+  }
+
+  #twitter {
+    background-color: #55acee;
+  }
+
+  #facebook {
+    background-color: #395185;
+  }
+}
