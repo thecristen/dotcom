@@ -19,12 +19,14 @@ $gray-lightest: #e9eaed;
 $grid-breakpoints: (
   xs: 0,
   sm: 544px,
-  md: 768px
+  md: 768px,
+  lg: 992px
 );
 
 $container-max-widths: (
   sm: 576px,
-  md: 720px
+  md: 720px,
+  lg: 768px
 );
 @import "node_modules/bootstrap/scss/variables";
 $grid-gutter-width: 0.75rem; // 12px
