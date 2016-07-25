@@ -24,9 +24,8 @@
           </button>
           <a class="navbar-brand" href="/">
             <span class="navbar-logo">
-              <%= svg "/images/t.svg" %>
+              <%= svg "/images/logo-black.svg" %>
             </span>
-            Massachusetts Bay Transportation Authority
           </a>
         </div>
         <div>

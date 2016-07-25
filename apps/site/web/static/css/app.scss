@@ -103,7 +103,14 @@ body {
 
   .navbar-logo {
     svg {
-      fill: $nav-mobile-link-color;
+      position: absolute;
+      width: 150px;
+      left: 4px;
+      top: 4px;
+
+      & > g {
+        fill: white;
+      }
     }
   }
 
