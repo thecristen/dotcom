@@ -35,7 +35,6 @@
                 <small>
                   <a class="nav-link" href="<%= schedule_path(@conn, :index, []) %>">
                     Schedules &amp; Maps
-                    <%= fa "angle-down" %>
                   </a>
                 </small>
               </li>
@@ -43,7 +42,6 @@
                 <small>
                   <a class="nav-link" href="<%= redirect_path @conn, "fares_and_passes/" %>">
                     Fares &amp; Passes
-                    <%= fa "angle-down" %>
                   </a>
                 </small>
               </li>
@@ -51,7 +49,6 @@
                 <small>
                   <a class="nav-link" href="<%= redirect_path @conn, "riding_the_t/" %>">
                     Riding the T
-                    <%= fa "angle-down" %>
                   </a>
                 </small>
               </li>
@@ -59,7 +56,6 @@
                 <small>
                   <a class="nav-link" href="<%= redirect_path @conn, "rider_tools/transit_updates/" %>">
                     Service Alerts
-                    <%= fa "angle-down" %>
                   </a>
                 </small>
               </li>
