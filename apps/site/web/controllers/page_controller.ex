@@ -1,29 +1,20 @@
 defmodule Site.PageController do
   use Site.Web, :controller
-  import Phoenix.HTML, only: [raw: 1]
 
   def index(conn, _params) do
-    news = News.Repo.all(limit: 5)
-    render conn, "index.html", %{
-      news: news,
-      news_image: news_image(news),
-      grouped_routes: grouped_routes
-    }
+    conn
+    |> async_assign(:grouped_routes, &grouped_routes/0)
+    |> async_assign(:news, &news/0)
+    |> await_assign_all
+    |> render("index.html")
+  end
+
+  defp news do
+    News.Repo.all(limit: 3)
   end
 
   defp grouped_routes do
     Routes.Repo.all
     |> Routes.Group.group
-  end
-
-  defp news_image(news) do
-    case news |> Enum.filter(&(&1.attributes["homepageicon"])) do
-      [entry|_] ->
-        entry.attributes["homepageicon"]
-        |> String.replace(~s(src="/), ~s(src="//www.mbta.com/))
-        |> raw
-      _ ->
-        nil
-    end
   end
 end

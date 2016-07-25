@@ -27,6 +27,7 @@ defmodule Site.Web do
       use Phoenix.Controller
 
       import Site.Router.Helpers
+      import Site.ControllerHelpers
       import Site.Gettext
     end
   end
