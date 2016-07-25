@@ -22,6 +22,6 @@
 <%= if @lot.note && @lot.note != "" do %>
   <ul class="list-unstyled">
     <li><strong>Notes</strong></li>
-    <li><%= @lot.note %></li>
+    <li><%= HtmlSanitizeEx.strip_tags(@lot.note) %></li>
   </ul>
 <% end %>
