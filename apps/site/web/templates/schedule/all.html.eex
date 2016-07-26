@@ -1,5 +1,5 @@
 <div class="index">
-  <div class="card">
+  <div class="card" id="schedules">
     <div class="schedule-header card-header"><h1 class="h5"><strong>Schedules &amp; Maps</strong></h1></div>
     <div class="card-block">
       <div class="row">
