@@ -8,6 +8,13 @@ defmodule Site.ScheduleControllerTest do
     assert response =~ "North Station"
   end
 
+  test "returns a friendly message if there are no trips on the day" do
+    conn = get conn, schedule_path(conn, :index, route: "CR-Lowell", date: "1900-01-01")
+    response = html_response(conn, 200)
+    assert response =~ "Lowell Line"
+    assert response =~ "There are no currently scheduled trips on January 1, 1900."
+  end
+
   test "inbound Lowell schedule contains the trip from Anderson/Woburn", %{conn: conn} do
     conn = get conn, schedule_path(conn, :index, route: "CR-Lowell", all: "all", direction_id: 1)
     response = html_response(conn, 200)
