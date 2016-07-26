@@ -60,6 +60,6 @@ config :phoenix, :serve_endpoints, true
 # for the new static assets to be served after a hot upgrade:
 #
 
-
-# Finally import the config/prod.secret.exs
-# which should be versioned separately.
+config :site, Site.ViewHelpers,
+  google_api_key: "${GOOGLE_API_KEY}",
+  google_tag_manager_id: "${GOOGLE_TAG_MANAGER_ID}"
