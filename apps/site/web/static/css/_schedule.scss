@@ -44,7 +44,7 @@
 }
 
 .schedule-header {
-  padding: 1rem 1.25rem 0 1.25rem;
+  padding: 1rem 1.25rem 0 .75rem;
 
   .route-icon {
     margin-top: -5px;
@@ -59,12 +59,16 @@
   li:first-child {
     background-color: $brand-primary-darkest;
     color: white;
-    border-top: none;
+    border-bottom: none;
+    border-left: 1px solid $brand-primary-darkest;
+    border-right: 1px solid $brand-primary-darkest;
   }
 
   li {
     padding: 6px;
-    border-top: 1px solid $gray-lightest;
+    border-left: 1px solid $gray-lightest;
+    border-right: 1px solid $gray-lightest;
+    border-bottom: 1px solid $gray-lightest;
   }
 }
 

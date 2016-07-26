@@ -28,19 +28,18 @@
   list-style: none;
 
   li {
-    border: 1px solid $gray-lighter;
     margin-top: 10px;
 
     &:first-child {
       margin-top: 0;
 
       &.m-t-0 {
-        border-top: 1px solid $gray-lighter;
+        border-top: none;
       }
     }
 
     &.m-t-0 {
-      border-top: none;
+      border-top: 1px solid white;
     }
   }
 }
