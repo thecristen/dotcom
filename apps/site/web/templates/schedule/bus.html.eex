@@ -6,17 +6,14 @@
     <% else %>
           <%= update_url @conn, hour: hour %>
     <% end %>">
-    <div class="row">
-      <div class="col-xs-3">
-        <span class="schedule-title">
-          <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
-        </span>
-      </div>
-      <div class="col-xs-9">
-        <span class="schedule-title">
-          <%= render "_schedule_group.html", schedules: schedules %>
-        </span>
-      </div>
+    <div class="schedule-title row">
+      <span class="col-xs-4 schedule-time">
+        <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
+      </span>
+      <span class="col-xs-7">
+        <%= render "_schedule_group.html", schedules: schedules %>
+      </span>
+      <span class="col-xs-1 pull-right"><%= fa "caret-down pull-right" %></span>
     </div>
   </a>
   <%= if is_selected_period do %>

@@ -6,9 +6,9 @@
     <% else %>
           <%= update_url @conn, name: name %>
     <% end %>">
-    <div class="row">
+    <div class="schedule-title row">
       <div class="col-xs-6">
-        <span class="schedule-title">
+        <span class="schedule-time">
           <%= case name do
               :am_rush -> "OPEN - 9:00AM"
               :midday -> "9:00AM - 3:30PM"
@@ -19,11 +19,12 @@
           %>
         </span>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-5">
         <span class="schedule-title">
-          <%= render "_schedule_group.html", schedules: schedules %>
+          <small><%= render "_schedule_group.html", schedules: schedules %></small>
         </span>
       </div>
+      <span class="col-xs-1 pull-right"><%= fa "caret-down pull-right" %></span>
     </div>
   </a>
   <%= if is_selected_period do %>

@@ -100,7 +100,8 @@ body.no-js .subway-map {
   }
 
   .list-group-item {
-    .schedule-title {
+    padding: .5em;
+    .schedule-time {
       color: $brand-primary-dark;
     }
     &:hover {
@@ -109,7 +110,7 @@ body.no-js .subway-map {
   }
 
   a.list-group-item.selected-period {
-    .schedule-title {
+    .schedule-title, .schedule-time {
       color: white;
     }
     &:hover {
