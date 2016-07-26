@@ -95,7 +95,7 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
 
-      <footer class="footer">
+      <footer class="footer full-width">
         <ul class="footer-link-list">
           <li class="footer-link-list-item">
             <a class="footer-link" href="<%= redirect_path @conn, "customer_support/privacy_policy/" %>">Privacy Policy</a>

@@ -40,8 +40,15 @@ body {
 }
 
 .footer {
-  margin-top: 2.25rem;
-  color: white;
+  @include media-breakpoint-up(sm) {
+    margin-top: 2.25rem;
+    color: white;
+  }
+  @include media-breakpoint-down(xs) {
+    padding-top: .75rem;
+    margin-top: -.75rem;
+    background-color: $gray-lightest;
+  }
   text-align: center;
   font-size: $font-size-sm;
 }
@@ -64,7 +71,9 @@ body {
 }
 
 .footer-link {
-  color: white;
+  @include media-breakpoint-up(sm) {
+    color: white;
+  }
 }
 
 .main-container {
