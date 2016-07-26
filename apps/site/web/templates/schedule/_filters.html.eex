@@ -3,7 +3,7 @@
     <form method="GET" action="#origin" data-submit-on-change>
       <%= hidden_query_params(@conn, exclude: ["origin"]) %>
       <div class="form-group">
-        <label for="origin" class="text-muted">What is your stop? <%= render "_loading.html" %></label>
+        <label for="origin">What is your stop? <%= render "_loading.html" %></label>
         <select id="origin" name="origin" class="form-control c-select">
           <option value="">Select a station</option>
           <%= for stop <- @all_stops do %>
@@ -31,7 +31,7 @@
       <form method="GET" action="#" data-submit-on-change>
         <%= hidden_query_params @conn, exclude: ["dest", "route", "trip", "name"] %>
         <div class="form-group">
-          <label for="dest" class="text-muted">What is your destination? <%= render "_loading.html" %></label>
+          <label for="dest">What is your destination? <%= render "_loading.html" %></label>
           <select id="dest" name="dest" class="form-control c-select" placeholder="Select a station">
             <option value="">Select a station</option>
             <%= for stop <- @all_stops |> Enum.drop_while(fn stop -> stop.id != @origin end) |> Enum.drop(1) do %>
