@@ -18,15 +18,15 @@
         <div class="col-md-6">
           <h5>Riding the T</h5>
           <ul class="list-group list-group-flush p-b-1">
-            <li class="list-group-item"><a href="<%= redirect_path @conn, "rider_tools/" %>">
+            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "rider_tools/" %>">
               Rider Tools
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
-            <li class="list-group-item"><a href="<%= redirect_path @conn, "riding_the_t/logan/" %>">
+            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "riding_the_t/logan/" %>">
               Getting to and from Logan
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
-            <li class="list-group-item"><a href="<%= redirect_path @conn, "fares_and_passes/" %>">
+            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "fares_and_passes/" %>">
               Fares &amp; Passes
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
@@ -38,15 +38,15 @@
         <div class="col-md-6">
           <h5>Get Involved</h5>
           <ul class="list-group list-group-flush p-b-1">
-            <li class="list-group-item"><a href="<%= redirect_path @conn, "about_the_mbta/board_meetings/fmcb/" %>">
+            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "about_the_mbta/board_meetings/fmcb/" %>">
               Fiscal and Management Control Board
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
-            <li class="list-group-item"><a href="<%= redirect_path @conn, "about_the_mbta/public_meetings/" %>">
+            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "about_the_mbta/public_meetings/" %>">
               Public Meetings
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
-            <li class="list-group-item"><a href="<%= redirect_path @conn, "business_center/" %>">
+            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "business_center/" %>">
               Business Center
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
