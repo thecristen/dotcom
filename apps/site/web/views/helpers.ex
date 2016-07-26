@@ -12,13 +12,16 @@ defmodule Site.ViewHelpers do
     |> Enum.join("")
     |> raw
   end
-  def svg(_conn, path) do
-    # TODO remove old uses of svg/2
-    svg(path)
-  end
 
   def redirect_path(conn, path) do
     redirect_path(conn, :show, path)
+  end
+
+  def google_tag_manager_id do
+    case env(:google_tag_manager_id) do
+      "" -> nil
+      id -> id
+    end
   end
 
   def google_api_key do

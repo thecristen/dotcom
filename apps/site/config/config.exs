@@ -22,7 +22,8 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :site, Site.ViewHelpers,
-  google_api_key: "${GOOGLE_API_KEY}"
+  google_api_key: System.get_env("GOOGLE_API_KEY"),
+  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
