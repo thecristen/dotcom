@@ -1,6 +1,6 @@
 <div class="index">
   <div class="card">
-    <div class="schedule-header">
+    <div class="schedule-header m-b-2">
       <%= mode_icon @route_type %><h1 class="h5"><strong><%= @mode_name %> Schedules & Map</strong></h1>
     </div>
     <div class="card-block">
@@ -17,7 +17,7 @@
             </p>
           <% end %>
         </div>
-        <div class="col-xs-12 p-b-1">
+        <div class="col-xs-12 p-b-0">
           <h2 class="h5"><strong>Line Schedules</strong></h2>
           <div class="mode-group">
             <div class="mode-group-block">
@@ -54,8 +54,8 @@
           <ul class="fare-list">
             <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>
               <li class="col-xs-12">
-                <span class="col-xs-9"><%= title %></span>
-                <span class="pull-right"><%= price %></span>
+                <span class="col-md-11 col-xs-9"><%= title %></span>
+                <span class="col-md-1 col-xs-3"><%= price %></span>
               </li>
             <%= end %>
           </ul>
