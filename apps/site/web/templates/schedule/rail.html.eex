@@ -40,7 +40,7 @@
           <% end %>
         </ul>
       <% end %>
-      <p>Your trip:</p>
+      <p><strong>Your trip:</strong></p>
       <ul class="trip-list">
         <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
           <li class="trip-stop">
