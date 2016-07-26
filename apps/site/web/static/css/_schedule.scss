@@ -140,6 +140,10 @@ body.no-js .subway-map {
   th {
     border-bottom: none;
   }
+
+  tr:last-child td {
+    border-bottom: 1px solid $gray-lighter;
+  }
 }
 
 .schedule-pairs-header {
