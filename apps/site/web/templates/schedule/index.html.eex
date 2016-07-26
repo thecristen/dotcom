@@ -7,7 +7,7 @@
     </div>
     <div class="card-block">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 p-x-0">
           <p>
             Times from <%= station_link @from %>
           </p>
