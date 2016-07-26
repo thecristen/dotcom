@@ -1,6 +1,6 @@
-<div class="index">
-  <div class="card">
-    <div class="schedule-header m-b-2">
+<div>
+  <div class="card card-section">
+    <div class="card-header">
       <%= mode_icon @route_type %><h1 class="h5"><strong><%= @mode_name %> Schedules & Map</strong></h1>
     </div>
     <div class="card-block">
@@ -19,7 +19,7 @@
         </div>
         <div class="col-xs-12 p-b-0">
           <h2 class="h5"><strong>Line Schedules</strong></h2>
-          <div class="mode-group">
+          <div class="mode-group mode-group-last">
             <div class="mode-group-block">
               <div class="row">
                 <%= for route <- @routes do %>

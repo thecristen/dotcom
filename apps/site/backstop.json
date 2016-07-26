@@ -25,7 +25,7 @@
       "removeSelectors": [],
       "selectors": [
         "header",
-        ".index .card:nth-child(2)",
+        "#schedules",
         "footer"
       ],
       "readyEvent": null,
@@ -54,7 +54,7 @@
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
-          ".index .card:first-child"
+          "#schedules"
       ],
       "readyEvent": null,
       "delay": 1000,

@@ -37,8 +37,9 @@
 
   <div class="row p-x-g">
     <div class="col-xs-12">
-      <%= for {type, routes} <- @grouped_routes do %>
-        <div class="mode-group">
+      <% route_size = map_size(@grouped_routes) %>
+      <%= for {{type, routes}, index} <- Enum.with_index(@grouped_routes) do %>
+        <div class="mode-group <%= if index == route_size, do: "mode-group-last" %>">
           <div class="mode-group-header">
             <h5><%= mode_icon type %><%= mode_name type %></h5>
           </div>

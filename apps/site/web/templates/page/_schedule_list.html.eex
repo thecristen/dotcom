@@ -39,7 +39,11 @@
       <div class="row">
         <%= for route <- @grouped_routes[:subway] do %>
           <div class="col-xs-6 col-md-3">
-            <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+            <a href="<%= schedule_path @conn, :index, route: route.id %>"
+              class="mode-group-btn">
+              <%= fa "circle fa-color-subway-" <> (route.id |> String.downcase) %>
+              <%= route.name |> clean_route_name %>
+            </a>
           </div>
         <% end %>
       </div>
@@ -47,7 +51,7 @@
   </div>
 </div>
 <div class="col-xs-12">
-  <div class="mode-group">
+  <div class="mode-group mode-group-last">
     <div class="mode-group-header">
       <h6><%= mode_icon 4 %><strong>Boat</strong> | <a href="<%= schedule_path(@conn, :boat) %>">View All &raquo;</a></h6>
     </div>
