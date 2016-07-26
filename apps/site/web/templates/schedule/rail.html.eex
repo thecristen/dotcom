@@ -57,7 +57,7 @@
           </li>
         <% end %>
       </ul>
-      <p>
+      <p class="m-b-0">
         Trip duration:
         <strong>
           <%= Timex.DateTime.diff(List.first(@trip_schedule).time, List.last(@trip_schedule).time, :minutes) %> minutes
