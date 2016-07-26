@@ -1,0 +1,14 @@
+<div class="card card-section">
+  <div class="card-header">
+    <%= render "_locations.html", forward_assigns(@conn) %>
+    <%= render "_alerts_modal.html", forward_assigns(@conn) %>
+  </div>
+  <div class="card-block">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="h4">
+          There are no currently scheduled trips on <%= @date |> Timex.format!("{Mfull} {D}, {YYYY}") %>.
+      </div>
+    </div>
+  </div>
+</div>
