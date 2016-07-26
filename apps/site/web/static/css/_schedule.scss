@@ -103,12 +103,26 @@ body.no-js .subway-map {
     .schedule-title {
       color: $brand-primary-dark;
     }
+    &:hover {
+      background-color: $brand-primary-lightest;
+    }
   }
 
-  .list-group-item.selected-period {
+  a.list-group-item.selected-period {
     .schedule-title {
       color: white;
     }
+    &:hover {
+      background-color: $brand-primary-light;
+      border: 4px solid $brand-primary-light;
+      & + .list-group-item {
+        border: 4px solid $brand-primary-light;
+      }
+    }
+  }
+
+  div.list-group-item.selected-period:hover {
+    background-color: white;
   }
 }
 
