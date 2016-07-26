@@ -23,7 +23,7 @@ defmodule Site.Mixfile do
     [mod: {Site, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
                     :stations, :routes, :alerts, :news, :schedules, :timex,
-                    :inflex]]
+                    :inflex, :html_sanitize_ex]]
   end
 
   # Specifies which paths to compile per environment.
