@@ -1,7 +1,9 @@
 <div class="index">
+  <%# empty card to get the correct padding on mobile %>
+  <div class="card card-section"></div>
   <%= render "_news_card.html", news: @news, conn: @conn, class: "hidden-sm-down" %>
 
-  <div class="card" id="schedules">
+  <div class="card card-section card-narrow" id="schedules">
     <div class="card-header"><h5>Schedules &amp; Maps</h5></div>
     <div class="card-block">
       <div class="row">
@@ -12,7 +14,7 @@
 
   <%= render "_news_card.html", news: @news, conn: @conn, class: "hidden-md-up" %>
 
-  <div class="card">
+  <div class="card card-section card-narrow">
     <div class="card-block card-block-no-header">
       <div class="row">
         <div class="col-md-6">

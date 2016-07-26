@@ -51,7 +51,7 @@
   </div>
 </div>
 <div class="col-xs-12">
-  <div class="mode-group">
+  <div class="mode-group mode-group-last">
     <div class="mode-group-header">
       <h6><%= mode_icon 4 %><strong>Boat</strong> | <a href="<%= schedule_path(@conn, :boat) %>">View All &raquo;</a></h6>
     </div>

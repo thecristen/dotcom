@@ -1,4 +1,4 @@
-<div class="card <%= @class %>">
+<div class="card card-section card-narrow <%= @class %>">
   <div class="card-header"><h5>What's Happening at the MBTA</h5></div>
   <div class="card-block">
     <div class="row">

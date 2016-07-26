@@ -1,11 +1,11 @@
-<div class="index">
-  <div class="card" id="schedules">
-    <div class="schedule-header card-header"><h1 class="h5"><strong>Schedules &amp; Maps</strong></h1></div>
+<div>
+  <div class="card card-section" id="schedules">
+    <div class="card-header"><h1 class="h5"><strong>Schedules &amp; Maps</strong></h1></div>
     <div class="card-block">
       <div class="row">
         <%= render Site.PageView, "_schedule_list.html", grouped_routes: @grouped_routes, conn: @conn %>
         <div class="col-xs-12">
-          <div class="mode-group">
+          <div class="mode-group mode-group-last">
             <div class="mode-group-header">
               <h2 class="h6"><strong>The RIDE</strong></h2>
             </div>

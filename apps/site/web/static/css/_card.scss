@@ -1,0 +1,75 @@
+$card-section-padding-sm: 0.75rem;
+$card-section-padding-md: 1.5rem;
+$card-section-radius-sm: 6px;
+$card-section-radius-md: $card-section-radius-sm * 2;
+
+.card-section {
+  background-color: white;
+  border-color: white;
+  border-radius: 0;
+
+  &:empty {
+    // don't show anything for empty sections
+    border: none;
+  }
+
+  &:first-child {
+    margin-top: $card-section-padding-sm;
+  }
+
+
+  &.card-narrow {
+    border-radius: $card-section-radius-sm;
+    margin-left: $card-section-padding-sm;
+    margin-right: $card-section-padding-sm;
+  }
+
+  .card-header {
+    background-color: white;
+    border-color: white;
+    border-radius: $card-section-radius-sm;
+    padding-left: $card-section-padding-sm;
+    padding-right: $card-section-padding-sm;
+    padding-top: $card-section-padding-sm;
+  }
+
+  .card-block {
+    margin-top: -1rem;
+    padding-left: $card-section-padding-sm;
+    padding-right: $card-section-padding-sm;
+    padding-bottom: $card-section-padding-sm;
+  }
+
+  .card-block-no-header {
+    //  we don't want to undo the margin
+    margin-top: 0;
+    padding-top: $card-section-padding-sm;
+  }
+
+  @include media-breakpoint-up(sm) {
+    border-radius: $card-section-radius-md;
+
+    &.card-narrow {
+      // only narrow on mobile
+      margin-left: inherit;
+      margin-right: inherit;
+    }
+
+    .card-header {
+      border-radius: $card-section-radius-md;
+      padding-left: $card-section-padding-md;
+      padding-right: $card-section-padding-md;
+      padding-top: $card-section-padding-md;
+    }
+
+    .card-block {
+      padding-left: $card-section-padding-md;
+      padding-right: $card-section-padding-md;
+      padding-bottom: $card-section-padding-md;
+    }
+
+    .card-block-no-header {
+      padding-top: $card-section-padding-md;
+    }
+  }
+}
