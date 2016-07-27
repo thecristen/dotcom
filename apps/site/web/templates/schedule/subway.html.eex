@@ -21,7 +21,7 @@
       </div>
       <div class="col-xs-5">
         <span class="schedule-title">
-          <small><%= render "_schedule_group.html", schedules: schedules %></small>
+          <%= render "_schedule_group.html", schedules: schedules %>
         </span>
       </div>
       <span class="col-xs-1 pull-right"><%= fa "caret-down pull-right" %></span>
