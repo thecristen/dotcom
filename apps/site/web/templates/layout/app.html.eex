@@ -66,25 +66,25 @@
             </ul>
             <ul class="nav-inline pull-right m-b-0 p-x-0 hidden-sm-down" id="social-nav">
               <li class="nav-item">
-                <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/">
+                <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
                   <%= fa "instagram" %>
                   <span class="sr-only">MBTA Instagram</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link social-nav-youtube" href="https://www.youtube.com/user/mbtagm/">
+                <a class="nav-link social-nav-youtube" href="https://www.youtube.com/user/mbtagm/" target="_blank">
                   <%= fa "youtube" %>
                   <span class="sr-only">MBTA Youtube</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link social-nav-twitter" href="https://twitter.com/MBTA">
+                <a class="nav-link social-nav-twitter" href="https://twitter.com/MBTA" target="_blank">
                   <%= fa "twitter" %>
                   <span class="sr-only">MBTA Twitter</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link social-nav-facebook" href="https://www.facebook.com/TheMBTA/">
+                <a class="nav-link social-nav-facebook" href="https://www.facebook.com/TheMBTA/" target="_blank">
                   <%= fa "facebook" %>
                   <span class="sr-only">MBTA Facebook</span>
                 </a>
