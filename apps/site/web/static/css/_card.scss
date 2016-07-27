@@ -6,7 +6,9 @@ $card-section-radius-md: $card-section-radius-sm * 2;
 .card-section {
   background-color: white;
   border-color: white;
-  border-radius: 0;
+  &.card {
+    border-radius: 0;
+  }
 
   &:empty {
     // don't show anything for empty sections
