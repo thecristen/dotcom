@@ -12,16 +12,22 @@ defmodule News.Repo do
   @post_filenames News.Repo.Directory.post_dir
   |> File.ls!
 
+  # compiled in, so basically there shouldn't be a TTL. Instead, we TTL for a
+  # year.
+  use RepoCache, ttl: :timer.hours(24 * 365)
+
   def all(opts \\ []) do
-    case Keyword.get(opts, :limit, :infinity) do
-      :infinity ->
-        do_all(@post_filenames)
-      limit when is_integer(limit) ->
-        @post_filenames
-        |> Enum.sort
-        |> Enum.reverse
-        |> Enum.take(limit)
-        |> do_all
+    cache opts, fn opts ->
+      case Keyword.get(opts, :limit, :infinity) do
+        :infinity ->
+          do_all(@post_filenames)
+        limit when is_integer(limit) ->
+          @post_filenames
+          |> Enum.sort
+          |> Enum.reverse
+          |> Enum.take(limit)
+          |> do_all
+      end
     end
   end
 
