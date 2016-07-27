@@ -36,6 +36,8 @@ defmodule News.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:yamerl, github: "yakaz/yamerl"}]
+    [{:yamerl, github: "yakaz/yamerl"},
+     {:excheck, "~> 0.3", only: :test},
+     {:triq, github: "peter-fogg/triq", only: :test},]
   end
 end
