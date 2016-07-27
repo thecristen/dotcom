@@ -9,7 +9,7 @@
       <a class="btn btn-primary btn-block hidden-sm-down" role="button" href="http://www.mbta.com/<%= raw @redirect %>">
         Go<span class="sr-only"> (desktop version)</span>
       </a>
-      <a class="btn btn-primary btn-block hidden-md-up hidden-" role="button" href="http://mobile.usablenet.com/mt/www.mbta.com/<%= raw @redirect %>">
+      <a class="btn btn-primary btn-block hidden-md-up" role="button" href="http://mobile.usablenet.com/mt/www.mbta.com/<%= raw @redirect %>">
         Go<span class="sr-only"> (mobile version)</span>
       </a>
     </p>
