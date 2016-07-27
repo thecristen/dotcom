@@ -1,5 +1,14 @@
 .schedule-route-icon {
+  position: relative;
   margin: 5px;
+  @include media-breakpoint-up(md) {
+    top: -10px;
+    left: -10px;
+  }
+  @include media-breakpoint-down(sm) {
+    top: -5px;
+    left: -5px;
+  }
 }
 
 .form-control.schedule-route-selector {
@@ -21,11 +30,41 @@
   }
 }
 
+.card-header.schedule-header {
+  @include media-breakpoint-down(sm) {
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+  @include media-breakpoint-up(md) {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+}
+
+.schedule-direction {
+  margin-bottom: .5em;
+  @include media-breakpoint-down(sm) {
+    margin-top: -1em;
+  }
+}
+
+.schedule-callout {
+  background-color: $gray-lightest;
+  padding: .5em;
+  border-radius: 0;
+}
+
+.card-block .schedule-block {
+  @include media-breakpoint-up(md) {
+    padding-left: 5em;
+    padding-right: 5em;
+  }
+}
+
 .alerts-modal-button,
 .alerts-modal-button:hover,
 .alerts-modal-button:active,
 .alerts-modal-button:focus {
-  margin-top: 10px;
   margin-bottom: 10px;
   text-align: left;
   background-color: $alert-notice;
@@ -96,18 +135,34 @@ body.no-js .subway-map {
   }
   .list-group-item:last-child {
     border-radius: 0;
+    background-color: $gray-lightest;
   }
 
   .list-group-item {
-    .schedule-title {
+    padding: .5em;
+    .schedule-time {
       color: $brand-primary-dark;
+    }
+    &:hover {
+      background-color: $brand-primary-lightest;
     }
   }
 
-  .list-group-item.selected-period {
-    .schedule-title {
+  a.list-group-item.selected-period {
+    .schedule-title, .schedule-time {
       color: white;
     }
+    &:hover {
+      background-color: $brand-primary-light;
+      border: 4px solid $brand-primary-light;
+      & + .list-group-item {
+        border: 4px solid $brand-primary-light;
+      }
+    }
+  }
+
+  div.list-group-item.selected-period:hover {
+    background-color: white;
   }
 }
 
@@ -125,6 +180,10 @@ body.no-js .subway-map {
   th {
     border-bottom: none;
   }
+
+  tr:last-child td {
+    border-bottom: 1px solid $gray-lighter;
+  }
 }
 
 .schedule-pairs-header {
@@ -133,7 +192,8 @@ body.no-js .subway-map {
 }
 
 .trip-list {
-  padding-left: 10px;
+  padding-left: 1.25em;
+  margin-bottom: 0;
 }
 
 .trip-stop {

@@ -21,8 +21,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
-          <p class="text-muted">
+        <div class="col-xs-12 p-x-0">
+          <p>
             <%= direction(@direction_id, @route.id) %> Times - Select a line to view a more accurate time range for each block of time
           </p>
         </div>

@@ -47,6 +47,7 @@ defmodule Site.ScheduleController.Route do
     |> assign(:to, to(all_schedules))
     |> assign(:most_frequent_headsign, most_frequent_headsign(filtered_schedules))
     |> assign_list_group_template
+    |> assign_route_breadcrumbs
     |> await_assign_all
     |> route_alerts
     |> stop_alerts

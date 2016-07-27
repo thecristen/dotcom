@@ -23,6 +23,7 @@ defmodule Site.ScheduleController.Pairs do
     conn
     |> assign(:route, general_route(stop_pairs))
     |> assign_all_routes
+    |> assign_route_breadcrumbs
     |> await_assign_all
     |> route_alerts
     |> stop_alerts

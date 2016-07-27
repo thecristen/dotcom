@@ -40,8 +40,15 @@ body {
 }
 
 .footer {
-  margin-top: 2.25rem;
-  color: white;
+  @include media-breakpoint-up(md) {
+    margin-top: 2.25rem;
+    color: white;
+  }
+  @include media-breakpoint-down(sm) {
+    padding-top: .75rem;
+    margin-top: -.75rem;
+    background-color: $gray-lightest;
+  }
   text-align: center;
   font-size: $font-size-sm;
 }
@@ -64,7 +71,9 @@ body {
 }
 
 .footer-link {
-  color: white;
+  @include media-breakpoint-up(md) {
+    color: white;
+  }
 }
 
 .main-container {
@@ -162,5 +171,19 @@ body {
 
   .social-nav-facebook {
     background-color: #395185;
+  }
+}
+
+.breadcrumb-container {
+  background-color: $gray-lightest;
+  padding: .5em 0;
+
+  @include media-breakpoint-down(sm) {
+    padding-left: .5em;
+  }
+
+  i {
+    padding: 0 .25em;
+    color: $gray-light;
   }
 }

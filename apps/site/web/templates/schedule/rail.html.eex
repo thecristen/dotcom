@@ -10,20 +10,23 @@
     <% else %>
           <%= update_url @conn, trip: schedule.trip.id %>#trip
     <% end %>">
-    <span class="schedule-title">
-      <%= schedule.time |> Timex.format!("{kitchen}") %>
-      <%= if schedule.trip.name != "" do %>- No. <%= schedule.trip.name %><% end %>
-      <%= if schedule.stop.name != @from.name do %>
-        (from <%= schedule.stop.name %>)
-      <% end %>
-      <%= if schedule.trip.headsign != @most_frequent_headsign do %>
-        (to <%= schedule.trip.headsign %>)
-      <% end %>
-      <%= if has_alerts?(@alerts, schedule.trip) do %>
-        <%= fa "exclamation-triangle" %>
-        <span class="sr-only">Has an alert</span>
-      <% end %>
-    </span>
+    <div class="schedule-title row">
+      <span class="schedule-time col-xs-4"><%= schedule.time |> Timex.format!("{kitchen}") %></span>
+      <span class="col-xs-7">
+        <%= if schedule.trip.name != "" do %>No. <%= schedule.trip.name %><% end %>
+        <%= if schedule.stop.name != @from.name do %>
+          (from <%= schedule.stop.name %>)
+        <% end %>
+        <%= if schedule.trip.headsign != @most_frequent_headsign do %>
+          (to <%= schedule.trip.headsign %>)
+        <% end %>
+        <%= if has_alerts?(@alerts, schedule.trip) do %>
+          <%= fa "exclamation-triangle" %>
+          <span class="sr-only">Has an alert</span>
+        <% end %>
+      </span>
+      <span class="col-xs-1 pull-right"><%= fa "caret-down pull-right" %></span>
+    </div>
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
@@ -40,7 +43,7 @@
           <% end %>
         </ul>
       <% end %>
-      <p>Your trip:</p>
+      <p><strong>Your trip:</strong></p>
       <ul class="trip-list">
         <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
           <li class="trip-stop">
@@ -57,7 +60,7 @@
           </li>
         <% end %>
       </ul>
-      <p>
+      <p class="m-b-0">
         Trip duration:
         <strong>
           <%= Timex.DateTime.diff(List.first(@trip_schedule).time, List.last(@trip_schedule).time, :minutes) %> minutes

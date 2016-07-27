@@ -6,15 +6,19 @@ $card-section-radius-md: $card-section-radius-sm * 2;
 .card-section {
   background-color: white;
   border-color: white;
-  border-radius: 0;
+  &.card {
+    border-radius: 0;
+  }
 
   &:empty {
     // don't show anything for empty sections
     border: none;
   }
 
-  &:first-child {
-    margin-top: $card-section-padding-sm;
+  @include media-breakpoint-up(md) {
+    &:first-child {
+      margin-top: $card-section-padding-sm;
+    }
   }
 
 
@@ -46,7 +50,7 @@ $card-section-radius-md: $card-section-radius-sm * 2;
     padding-top: $card-section-padding-sm;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     border-radius: $card-section-radius-md;
 
     &.card-narrow {
