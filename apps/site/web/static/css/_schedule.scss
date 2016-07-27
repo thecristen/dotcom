@@ -31,8 +31,14 @@
 }
 
 .card-header.schedule-header {
-  padding-left: .5em;
-  padding-right: .5em;
+  @include media-breakpoint-down(sm) {
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+  @include media-breakpoint-up(md) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 }
 
 .schedule-direction {
