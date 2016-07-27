@@ -1,5 +1,5 @@
 <div class="card card-section card-narrow <%= @class %>">
-  <div class="card-header"><h5>What's Happening at the MBTA</h5></div>
+  <div class="card-header"><h5><strong>What's Happening at the MBTA</strong></h5></div>
   <div class="card-block">
     <div class="row">
       <div class="col-md-6">
