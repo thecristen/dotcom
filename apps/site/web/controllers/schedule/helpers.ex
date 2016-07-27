@@ -159,7 +159,7 @@ defmodule Site.ScheduleController.Helpers do
   end
 
   @doc "Fetches the route from `conn.assigns` and assigns breadcrumbs."
-  def assign_route_breadcrumbs(%{assigns: %{route: %{id: id, type: type}}} = conn) do
+  def assign_route_breadcrumbs(%{assigns: %{route: %{name: name, type: type}}} = conn) do
     route_type_display =
       case type do
         2 -> {schedule_path(conn, :commuter_rail), "Commuter Rail"}
@@ -168,7 +168,7 @@ defmodule Site.ScheduleController.Helpers do
         _ -> {schedule_path(conn, :subway), "Subway"}
       end
     conn
-    |> assign(:breadcrumbs, [{schedule_path(conn, :index), "Schedules & Maps"}, route_type_display, id])
+    |> assign(:breadcrumbs, [{schedule_path(conn, :index), "Schedules & Maps"}, route_type_display, name])
   end
 
 end
