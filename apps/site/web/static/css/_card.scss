@@ -13,7 +13,7 @@ $card-section-radius-md: $card-section-radius-sm * 2;
     border: none;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     &:first-child {
       margin-top: $card-section-padding-sm;
     }
@@ -48,7 +48,7 @@ $card-section-radius-md: $card-section-radius-sm * 2;
     padding-top: $card-section-padding-sm;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     border-radius: $card-section-radius-md;
 
     &.card-narrow {

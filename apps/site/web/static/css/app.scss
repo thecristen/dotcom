@@ -40,11 +40,11 @@ body {
 }
 
 .footer {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     margin-top: 2.25rem;
     color: white;
   }
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     padding-top: .75rem;
     margin-top: -.75rem;
     background-color: $gray-lightest;
@@ -71,7 +71,7 @@ body {
 }
 
 .footer-link {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     color: white;
   }
 }
