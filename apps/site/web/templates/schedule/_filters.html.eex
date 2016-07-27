@@ -21,7 +21,7 @@
 <%= if @origin != nil do %>
   <div class="row">
     <div class="col-xs-12">
-      <div class="card card-header text-xs-center">
+      <div class="card schedule-callout">
         To view a trip schedule enter a destination
       </div>
     </div>
