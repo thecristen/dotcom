@@ -1,5 +1,14 @@
 .schedule-route-icon {
+  position: relative;
   margin: 5px;
+  @include media-breakpoint-up(md) {
+    top: -10px;
+    left: -10px;
+  }
+  @include media-breakpoint-down(sm) {
+    top: -5px;
+    left: -5px;
+  }
 }
 
 .form-control.schedule-route-selector {
@@ -21,11 +30,22 @@
   }
 }
 
+.card-header.schedule-header {
+  padding-left: .5em;
+  padding-right: .5em;
+}
+
+.schedule-direction {
+  margin-bottom: .5em;
+  @include media-breakpoint-down(sm) {
+    margin-top: -1em;
+  }
+}
+
 .alerts-modal-button,
 .alerts-modal-button:hover,
 .alerts-modal-button:active,
 .alerts-modal-button:focus {
-  margin-top: 10px;
   margin-bottom: 10px;
   text-align: left;
   background-color: $alert-notice;
