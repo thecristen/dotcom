@@ -39,4 +39,13 @@ defmodule Site.ScheduleViewTest do
     actual = Site.ScheduleView.reverse_direction_opts("111", "2905", "16", "1")
     assert Keyword.equal?(expected, actual)
   end
+
+  test "test display_alert_effects returns one alert for one effect" do
+    delay_alert = %Alerts.Alert{effect_name: "Delay"}
+
+    expected = "Delay"
+    actual = Site.ScheduleView.display_alert_effects([delay_alert])
+
+    assert expected == actual
+  end
 end
