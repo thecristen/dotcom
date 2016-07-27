@@ -32,59 +32,51 @@
           <nav class="collapse navbar navbar-toggleable-sm" id="navbar">
             <ul class="nav navbar-nav">
               <li class="nav-item">
-                <small>
-                  <% schedules_path = schedule_path(@conn, :index, []) %>
-                  <a class="nav-link" href="<%= schedules_path %>">
-                    <%= bold_if_active @conn, schedules_path, "Schedules &amp; Maps" %>
-                  </a>
-                </small>
+                <% schedules_path = schedule_path(@conn, :index, []) %>
+                <a class="nav-link" href="<%= schedules_path %>">
+                  <%= bold_if_active @conn, schedules_path, "Schedules &amp; Maps" %>
+                </a>
               </li>
               <li class="nav-item">
-                <small>
-                  <% fares_path = redirect_path @conn, "fares_and_passes/" %>
-                  <a class="nav-link" href="<%= fares_path %>">
-                    <%= bold_if_active @conn, fares_path, "Fares &amp; Passes" %>
-                  </a>
-                </small>
+                <% fares_path = redirect_path @conn, "fares_and_passes/" %>
+                <a class="nav-link" href="<%= fares_path %>">
+                  <%= bold_if_active @conn, fares_path, "Fares &amp; Passes" %>
+                </a>
               </li>
               <li class="nav-item">
-                <small>
-                  <% riding_path = redirect_path @conn, "riding_the_t/" %>
-                  <a class="nav-link" href="<%= riding_path %>">
-                    <%= bold_if_active @conn, riding_path, "Riding the T" %>
-                  </a>
-                </small>
+                <% riding_path = redirect_path @conn, "riding_the_t/" %>
+                <a class="nav-link" href="<%= riding_path %>">
+                  <%= bold_if_active @conn, riding_path, "Riding the T" %>
+                </a>
               </li>
               <li class="nav-item">
-                <small>
-                  <% alerts_path = redirect_path @conn, "rider_tools/transit_updates/" %>
-                  <a class="nav-link" href="<%= alerts_path %>">
-                    <%= bold_if_active @conn, alerts_path, "Service Alerts" %>
+                <% alerts_path = redirect_path @conn, "rider_tools/transit_updates/" %>
+                <a class="nav-link" href="<%= alerts_path %>">
+                  <%= bold_if_active @conn, alerts_path, "Service Alerts" %>
                   </a>
-                </small>
               </li>
             </ul>
             <ul class="nav-inline pull-right m-b-0 p-x-0 hidden-sm-down" id="social-nav">
               <li class="nav-item">
-                <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/">
+                <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
                   <%= fa "instagram" %>
                   <span class="sr-only">MBTA Instagram</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link social-nav-youtube" href="https://www.youtube.com/user/mbtagm/">
+                <a class="nav-link social-nav-youtube" href="https://www.youtube.com/user/mbtagm/" target="_blank">
                   <%= fa "youtube" %>
                   <span class="sr-only">MBTA Youtube</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link social-nav-twitter" href="https://twitter.com/MBTA">
+                <a class="nav-link social-nav-twitter" href="https://twitter.com/MBTA" target="_blank">
                   <%= fa "twitter" %>
                   <span class="sr-only">MBTA Twitter</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link social-nav-facebook" href="https://www.facebook.com/TheMBTA/">
+                <a class="nav-link social-nav-facebook" href="https://www.facebook.com/TheMBTA/" target="_blank">
                   <%= fa "facebook" %>
                   <span class="sr-only">MBTA Facebook</span>
                 </a>
