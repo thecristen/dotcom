@@ -86,7 +86,23 @@
         </div>
       </div>
     </header>
-
+    <%= if Map.get(@conn.assigns, :breadcrumbs, []) != [] do %>
+      <div class="container-fluid breadcrumb-container">
+        <div class="container">
+          <div class="col-xs-12 p-l-0">
+            <% breadcrumb_length = length @breadcrumbs %>
+            <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
+            <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
+              <span <%= if index < breadcrumb_length - 2 do %>class="hidden-sm-down"<% end %>>
+                <a href="<%= link %>"><%= text %></a>
+                <%= fa "angle-right" %>
+              </span>
+            <% end %>
+            <%= last_text %>
+          </div>
+        </div>
+      </div>
+    <% end %>
     <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

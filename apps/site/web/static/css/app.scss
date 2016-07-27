@@ -173,3 +173,17 @@ body {
     background-color: #395185;
   }
 }
+
+.breadcrumb-container {
+  background-color: $gray-lightest;
+  padding: .5em 0;
+
+  @include media-breakpoint-down(sm) {
+    padding-left: .5em;
+  }
+
+  i {
+    padding: 0 .25em;
+    color: $gray-light;
+  }
+}
