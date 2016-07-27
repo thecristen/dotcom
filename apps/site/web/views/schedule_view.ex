@@ -22,7 +22,7 @@ defmodule Site.ScheduleView do
     |> Dict.put(:conn, conn)
   end
 
-  def has_alerts?(alerts, schedule) do
+  def has_alerts?(alerts, %Schedules.Schedule{} = schedule) do
     entity = %Alerts.InformedEntity{
       route_type: schedule.route.type,
       route: schedule.route.id,
@@ -41,6 +41,17 @@ defmodule Site.ScheduleView do
           %Alerts.InformedEntity{route_type: schedule.route.type,
                                  route: schedule.route.id} in alert.informed_entity)
     end)
+
+    matched != []
+  end
+  def has_alerts?(alerts, %Schedules.Trip{} = trip) do
+    entity = %Alerts.InformedEntity{
+      trip: trip.id
+    }
+
+    matched = alerts
+    |> Alerts.Match.match(entity)
+    |> Enum.filter(&display_as_alert?/1)
 
     matched != []
   end

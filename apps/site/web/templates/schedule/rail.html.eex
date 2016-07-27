@@ -19,7 +19,7 @@
       <%= if schedule.trip.headsign != @most_frequent_headsign do %>
         (to <%= schedule.trip.headsign %>)
       <% end %>
-      <%= if has_alerts?(@alerts, schedule) do %>
+      <%= if has_alerts?(@alerts, schedule.trip) do %>
         <%= fa "exclamation-triangle" %>
         <span class="sr-only">Has an alert</span>
       <% end %>
