@@ -39,7 +39,7 @@ defmodule Site.ScheduleController.Query do
     "70202" # Government Center
   end
   defp default_origin("Green-E", 0) do
-    "70202" # Government Center
+    "place-lech" # Lechmere
   end
   defp default_origin(_, _) do
     ""
