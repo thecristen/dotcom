@@ -36,8 +36,8 @@
     padding-right: .5em;
   }
   @include media-breakpoint-up(md) {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   }
 }
 
@@ -52,6 +52,13 @@
   background-color: $gray-lightest;
   padding: .5em;
   border-radius: 0;
+}
+
+.card-block. schedule-block {
+  @include media-breakpoint-up(md) {
+    padding-left: 5em;
+    padding-right: 5em;
+  }
 }
 
 .alerts-modal-button,
