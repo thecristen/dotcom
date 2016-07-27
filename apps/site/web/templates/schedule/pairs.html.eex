@@ -1,9 +1,11 @@
 <% {origin, dest} = @pairs |> List.first %>
-<div class="container main-container">
-  <%= render "_locations.html", forward_assigns(@conn) %>
-  <%= render "_alerts_modal.html", forward_assigns(@conn) %>
-  <%= render "_alerts.html", alerts: @stop_alerts, suffix: " at this stop" %>
-  <%= render "_alerts.html", alerts: @trip_alerts, suffix: " on this route" %>
+<div class="card card-section">
+  <div class="card-header schedule-header">
+    <%= render "_locations.html", forward_assigns(@conn) %>
+    <%= render "_alerts_modal.html", forward_assigns(@conn) %>
+    <%= render "_alerts.html", alerts: @stop_alerts, suffix: " at this stop" %>
+    <%= render "_alerts.html", alerts: @trip_alerts, suffix: " on this route" %>
+  </div>
   <div class="row p-b-1 p-x-1">
     <div class="col-xs-12">
       <strong>Origin:</strong> <%= station_link origin.stop %>
