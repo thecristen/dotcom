@@ -16,6 +16,7 @@
   </head>
 
   <body class="no-js">
+    <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
     <header class="header">
       <div class="container">
         <div class="navbar">
@@ -29,7 +30,7 @@
           </a>
         </div>
         <div>
-          <nav class="collapse navbar navbar-toggleable-sm" id="navbar">
+          <nav class="collapse navbar navbar-toggleable-sm" id="navbar" role="navigation">
             <ul class="nav navbar-nav">
               <li class="nav-item">
                 <% schedules_path = schedule_path(@conn, :index, []) %>
@@ -91,7 +92,7 @@
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
-      <main class="full-width">
+      <main class="full-width" id="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
 
