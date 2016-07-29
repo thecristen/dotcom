@@ -1,21 +1,22 @@
-<div class="container main-container">
+<div class="card card-section">
   <div class="row p-a-g">
     <div class="col-xs-12 col-md-6">
-      <strong class="h4">
-        <%= @station.name %>
+      <h4>
+        <strong>
+          <%= @station.name %>
 
-        <%= if "accessible" in @station.accessibility do %>
-          <img src="<%= static_path(@conn, "/images/access_accessible.gif") %>"
-            alt="Accessible" />
-        <% end %>
-      </strong>
-      <br/>
+          <%= if "accessible" in @station.accessibility do %>
+            <img src="<%= static_path(@conn, "/images/access_accessible.gif") %>"
+                 alt="Accessible" />
+          <% end %>
+        </strong>
+      </h4>
+
       <%= @station.address %>
     </div>
   </div>
-
-  <div class="row p-b-1">
-    <div class="station-map-container embed-responsive embed-responsive-21by9">
+  <div class="row station-map-container">
+    <div class="embed-responsive embed-responsive-21by9">
       <iframe
         class="station-info-map"
         src="https://www.google.com/maps/embed/v1/place?key=<%= google_api_key %>
@@ -40,18 +41,12 @@
       <%= for {{type, routes}, index} <- Enum.with_index(@grouped_routes) do %>
         <div class="mode-group <%= if index == 0, do: "mode-group-first" %>">
           <div class="mode-group-header">
-            <h5><%= mode_icon type %><%= mode_name type %></h5>
+            <h4><strong><%= mode_icon type %><%= mode_name type %></strong></h4>
           </div>
           <div class="mode-group-block">
-            <% column_classes = case {length(routes), type} do
-                {1, _} -> "col-xs-12 col-sm-6"
-                {_, 3} -> "col-xs-4 col-md-2"
-                {_, _} -> "col-xs-6"
-                end
-            %>
             <div class="row">
               <%= for route <- routes do %>
-                <div class="<%= column_classes %>">
+                <div class="<%= route_spacing_class(route.type) %>">
                   <%= route_link @conn, route %>
                 </div>
               <% end %>
@@ -68,7 +63,7 @@
       <div class="col-xs-12">
         <div class="mode-group">
           <div class="mode-group-header">
-            <h5>Parking</h5>
+            <h4><strong>Parking</strong></h4>
           </div>
           <div class="mode-group-block">
             <%= for lot <- @station.parking_lots do %>
@@ -81,9 +76,9 @@
 
     <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
       <div class="col-xs-12 col-md-6">
-        <div class="mode-group">
+        <div class="mode-group p-b-0">
           <div class="mode-group-header">
-            <h5>Accessibility</h5>
+            <h4><strong>Accessibility</strong></h4>
           </div>
           <div class="mode-group-block">
             <p>The following accessibility services are available at <%= @station.name %>:</p>
