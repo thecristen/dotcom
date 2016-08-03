@@ -51,8 +51,16 @@ defmodule News.BlurbTest do
     end
   end
 
-  test "removes a paragraph if it contains 'Media Contact" do
+  test "removes a paragraph if it contains 'Media Contact'" do
     text = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p>MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features Performance Trends over Time</p>"
+    expected = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features P..."
+    actual = Blurb.blurb(text)
+
+    assert actual == expected
+  end
+
+  test "removes a paragraph if it contains 'Media Contact' and strips HTML tags" do
+    text = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p><b>MBTA Debuts Performance Dashboard 2.0.</b> Updated Dashboard Features Performance Trends over Time</p>"
     expected = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features P..."
     actual = Blurb.blurb(text)
 
