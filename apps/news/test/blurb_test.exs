@@ -4,7 +4,6 @@ defmodule News.BlurbTest do
   alias News.Blurb
 
   @suffix_length String.length(Blurb.suffix)
-  @before_suffix_range Range.new(0, -1 * @suffix_length - 1)
   @suffix_range Range.new(-1 * @suffix_length, -1)
 
   @max_blurb_length_padding String.duplicate("x", Blurb.max_length + 1)
