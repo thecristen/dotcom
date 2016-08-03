@@ -4,7 +4,10 @@ defmodule News.BlurbTest do
   alias News.Blurb
 
   @suffix_length String.length(Blurb.suffix)
+  @before_suffix_range Range.new(0, -1 * @suffix_length - 1)
   @suffix_range Range.new(-1 * @suffix_length, -1)
+
+  @max_blurb_length_padding String.duplicate("x", Blurb.max_length + 1)
 
   property "keeps string under or equal to max_length characters" do
     for_all x in unicode_binary do
@@ -14,7 +17,7 @@ defmodule News.BlurbTest do
 
   property "ends with ... if original string was > max_length characters" do
     for_all x in unicode_binary do
-      text = String.duplicate("x", Blurb.max_length + 1) <> x
+      text = @max_blurb_length_padding <> x
       String.slice(Blurb.blurb(text), @suffix_range) == Blurb.suffix
     end
   end
@@ -47,4 +50,13 @@ defmodule News.BlurbTest do
       actual == expected
     end
   end
+
+  test "removes a paragraph if it contains 'Media Contact" do
+    text = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p>MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features Performance Trends over Time</p>"
+    expected = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features P..."
+    actual = Blurb.blurb(text)
+
+    assert actual == expected
+  end
+
 end
