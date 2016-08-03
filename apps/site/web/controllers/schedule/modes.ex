@@ -36,7 +36,7 @@ defmodule Site.ScheduleController.Modes.Behaviour do
           {"LinkPass - unlimited travel on Subway plus Local Bus", "$84.50"}
         ]
       end
-      
+
       def routes, do: Routes.Repo.by_type(route_type)
 
       def delays, do: mode_delays(route_type)
@@ -70,8 +70,7 @@ defmodule Site.ScheduleController.Modes.Subway do
   def route_type, do: 1
 
   def routes do
-    [0, 1]
-    |> Routes.Repo.by_type
+    Routes.Repo.all
     |> Routes.Group.group
     |> Map.get(:subway)
   end
