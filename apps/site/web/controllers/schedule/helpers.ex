@@ -16,13 +16,21 @@ defmodule Site.ScheduleController.Helpers do
   end
 
   @doc "Fetch all the stops on a route and assign them as @all_stops"
+  def assign_all_stops(conn, "Red" = route_id) do
+    conn
+    |> assign(:all_stops, Enum.uniq_by(get_all_stops(conn, route_id), &(&1.id)))
+  end
   def assign_all_stops(conn, route_id) do
     conn
-    |> assign(:all_stops,
+    |> assign(:all_stops, get_all_stops(conn, route_id))
+  end
+
+  defp get_all_stops(conn, route_id) do
     Schedules.Repo.stops(
       route_id,
       date: conn.assigns[:date],
-      direction_id: conn.assigns[:direction_id]))
+      direction_id: conn.assigns[:direction_id]
+    )
   end
 
   @doc """
