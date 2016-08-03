@@ -36,13 +36,13 @@ defmodule Site.ScheduleController.Modes.Behaviour do
           {"LinkPass - unlimited travel on Subway plus Local Bus", "$84.50"}
         ]
       end
-      
+
       def routes, do: Routes.Repo.by_type(route_type)
 
       def delays, do: mode_delays(route_type)
 
       def map_pdf_url do
-        "http://mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+        "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
       end
 
       def map_image_url, do: static_path(Site.Endpoint, "/images/subway-spider.jpg")
@@ -70,8 +70,7 @@ defmodule Site.ScheduleController.Modes.Subway do
   def route_type, do: 1
 
   def routes do
-    [0, 1]
-    |> Routes.Repo.by_type
+    Routes.Repo.all
     |> Routes.Group.group
     |> Map.get(:subway)
   end
@@ -119,7 +118,7 @@ defmodule Site.ScheduleController.Modes.CommuterRail do
   def map_image_url, do: static_path(Site.Endpoint, "/images/commuter-rail-spider.jpg")
 
   def map_pdf_url do
-    "http://mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
+    "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
   end
 
   def fare_description do

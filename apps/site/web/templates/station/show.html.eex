@@ -53,7 +53,12 @@
             <div class="row">
               <%= for route <- routes do %>
                 <div class="<%= column_classes %>">
-                  <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path @conn, :index, route: route.id %>
+                  <a href="<%= schedule_path @conn, :index, route: route.id %>" class="mode-group-btn">
+                    <%= if route.type in [0, 1] do %>
+                      <%= fa "circle fa-color-subway-" <> (route.id |> String.downcase) %>
+                    <% end %>
+                    <%= route.name |> clean_route_name %>
+                  </a>
                 </div>
               <% end %>
             </div>
