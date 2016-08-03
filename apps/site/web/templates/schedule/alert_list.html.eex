@@ -1,4 +1,4 @@
-<% {alerts, notices} = alerts_and_notices(@alerts) %>
+<% {notices, alerts} = notices_and_alerts(@alerts) %>
 <div class="container main-container">
   <div class="row">
     <%= if @conn.assigns[:route] do %>

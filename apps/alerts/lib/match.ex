@@ -23,7 +23,7 @@ defmodule Alerts.Match do
     |> Enum.any?(&(IE.match?(&1, entity)))
   end
 
-  defp any_time_match?(alert, datetime) do
+  def any_time_match?(alert, datetime) do
     alert.active_period
     |> Enum.any?(&(between?(&1, datetime)))
   end

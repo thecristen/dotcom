@@ -33,14 +33,7 @@ defmodule Site.ScheduleView do
     # hack to unmatch the "Fares go up on July 1" alert on everything
     matched = alerts
     |> Alerts.Match.match(entity, schedule.time)
-    |> Enum.reject(fn alert ->
-      # not a displayed alert and affects the whole mode type or the whole
-      # line
-      !display_as_alert?(alert) && (
-        %Alerts.InformedEntity{route_type: schedule.route.type} in alert.informed_entity ||
-          %Alerts.InformedEntity{route_type: schedule.route.type,
-                                 route: schedule.route.id} in alert.informed_entity)
-    end)
+    |> Enum.reject(&Alerts.Alert.is_notice?/1)
 
     matched != []
   end
@@ -51,7 +44,7 @@ defmodule Site.ScheduleView do
 
     matched = alerts
     |> Alerts.Match.match(entity)
-    |> Enum.filter(&display_as_alert?/1)
+    |> Enum.reject(&Alerts.Alert.is_notice?/1)
 
     matched != []
   end
@@ -60,17 +53,9 @@ defmodule Site.ScheduleView do
   Partition a enum of alerts into a pair of those that should be displayed as alerts, and those
   that should be displayed as notices.
   """
-  def alerts_and_notices(alerts) do
-    Enum.partition(alerts, &display_as_alert?/1)
-  end
-
-  defp display_as_alert?(alert) do
-    # The list of effects which should be shown as an alert -- others
-    # are shown with less emphasis in the UI
-    alert_effects = [
-      "Delay", "Shuttle", "Stop Closure", "Snow Route", "Cancellation", "Detour", "No Service"
-    ]
-    alert.effect_name in alert_effects
+  def notices_and_alerts(alerts) do
+    alerts
+    |> Enum.partition(&Alerts.Alert.is_notice?/1)
   end
 
   @doc """

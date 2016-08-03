@@ -23,7 +23,7 @@ defmodule Site.ScheduleViewTest do
   end
 
   test "has_alerts? returns true if there's an alert for the trip" do
-    trip_alert = %Alerts.Alert{informed_entity: [%Alerts.InformedEntity{trip: @trip.id}]}
+    trip_alert = %Alerts.Alert{effect_name: "Delay", informed_entity: [%Alerts.InformedEntity{trip: @trip.id}]}
 
     assert Site.ScheduleView.has_alerts?([trip_alert], @schedule)
   end
