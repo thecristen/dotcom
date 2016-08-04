@@ -1,13 +1,5 @@
 @import "variables";
 
-.alert-moderate {
-  color: $gray-light;
-}
-
-.alert-severe {
-  color: $alert-severe;
-}
-
 .alert-modal-wrapper {
   position: fixed;
   top: 0;
@@ -59,9 +51,6 @@
   background-color: $brand-secondary;
   padding: 1rem;
 
-  &.bg-notice {
-    background-color: $alert-notice;
-  }
 }
 
 .alert-card-body {
@@ -100,4 +89,46 @@
 .in.collapse ~ .card-description-ellipsis,
 .collapsing ~ .card-description-ellipsis {
   display: none;
+}
+
+.alerts-modal-button {
+  margin-bottom: 10px;
+  text-align: left;
+  background-color: $brand-secondary;
+  color: inherit;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $brand-secondary;
+  }
+
+  p {
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  i {
+    line-height: 24px;
+  }
+}
+
+.alert-moderate {
+  color: $gray-light;
+}
+
+.alert-severe {
+  color: $alert-severe;
+}
+
+.bg-notice {
+  background-color: $alert-notice;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $alert-notice;
+  }
 }

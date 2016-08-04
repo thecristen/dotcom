@@ -61,27 +61,6 @@
   }
 }
 
-.alerts-modal-button,
-.alerts-modal-button:hover,
-.alerts-modal-button:active,
-.alerts-modal-button:focus {
-  margin-bottom: 10px;
-  text-align: left;
-  background-color: $alert-notice;
-  color: inherit;
-
-  p {
-    margin: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  i {
-    line-height: 24px;
-  }
-}
-
 .fare-list {
   list-style: none;
   padding: 0;
