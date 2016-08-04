@@ -1,7 +1,9 @@
 defmodule Site.ViewHelpers do
   import Site.Router.Helpers
-  import Phoenix.HTML, only: [raw: 1]
+  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import Phoenix.HTML.Link
+  import Util
 
   def svg(path) do
     :site
@@ -73,8 +75,7 @@ defmodule Site.ViewHelpers do
 
   @doc "Textual version of a mode ID"
   def mode_name(type)
-  def mode_name(0), do: mode_name(1)
-  def mode_name(1), do: "Subway"
+  def mode_name(type) when type in [0, 1], do: "Subway"
   def mode_name(2), do: "Commuter Rail"
   def mode_name(3), do: "Bus"
   def mode_name(4), do: "Boat"
@@ -85,5 +86,19 @@ defmodule Site.ViewHelpers do
     |> String.replace_suffix(" Line", "")
     |> String.replace("/", "/​") # slash replaced with a slash with a ZERO
                                 # WIDTH SPACE afer
+  end
+
+  @doc "HTML for a route icon"
+  def route_icon(route_type, route_id)
+  def route_icon(route_type, route_id) when route_type in [0, 1] do
+    fa("circle fa-color-subway-" <> String.downcase(route_id))
+  end
+  def route_icon(_,_), do: raw ""
+
+  @doc "HTML for a Route link"
+  def route_link(conn, route) do
+    link(raw(string_join(safe_to_string(route_icon(route.type, route.id)), clean_route_name(route.name))),
+          to: schedule_path(conn, :index, route: route.id), 
+          class: "mode-group-btn")
   end
 end
