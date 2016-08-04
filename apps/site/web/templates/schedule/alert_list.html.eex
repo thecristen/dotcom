@@ -4,11 +4,13 @@
     <%= render "_alerts_header.html", forward_assigns(@conn) %>
   <%= end %>
   <div class="row">
-    <div class="schedules-link col-xs-12">
+    <div class="col-xs-12 p-x-1">
+      <hr>
       <a href="<%= redirect_path @conn, "rider_tools/t_alerts/"  %>">
         Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
         <%= fa "angle-right fa-pull-right" %>
       </a>
+      <hr>
     </div>
   </div>
   <div class="row">

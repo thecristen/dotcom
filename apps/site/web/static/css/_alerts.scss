@@ -45,33 +45,26 @@
 }
 
 .alert-list-header {
+  font-weight: bold;
+  padding-bottom: 1rem;
 }
 
 .alert-card {
   padding: 0;
-}
-
-.alert-card-body, .alert-card-footer {
-  margin: 5px;
+  border: 1px solid $gray-lightest;
+  color: $body-color;
 }
 
 .alert-card-header {
   background-color: $brand-secondary;
-  color: $body-color;
-  padding: 10px;
-}
-
-.notice-card {
-  padding: 0;
-  border: 1px solid $gray-lightest;
-}
-
-.notice-card-header {
-  background-color: $alert-notice;
   padding: 1rem;
+
+  &.bg-notice {
+    background-color: $alert-notice;
+  }
 }
 
-.notice-card-body {
+.alert-card-body {
   border-bottom: 1px solid $gray-lightest;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -80,8 +73,9 @@
   margin-right: 1rem;
 }
 
-.notice-card-footer {
+.alert-card-footer {
   padding: 1rem;
+  font-size: $font-size-sm;
 }
 
 .card-description-first {
