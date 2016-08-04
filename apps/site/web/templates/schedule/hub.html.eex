@@ -19,7 +19,7 @@
         </div>
         <div class="col-xs-12 p-b-1">
           <h2 class="h5"><strong>Line Schedules</strong></h2>
-          <div class="mode-group mode-group-last">
+          <div class="mode-group mode-group-first">
             <div class="mode-group-block">
               <div class="row">
                 <%= for route <- @routes do %>

@@ -1,10 +1,10 @@
 .mode-group {
   @extend .row;
-  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
 }
 
-.mode-group-last {
-  padding-bottom: 0;
+.mode-group-first {
+  padding-top: 0;
 }
 
 .mode-group-header {
