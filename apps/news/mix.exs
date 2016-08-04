@@ -18,7 +18,7 @@ defmodule News.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :yamerl],
+    [applications: [:logger, :yamerl, :repo_cache, :html_sanitize_ex],
      mod: {News, []}]
   end
 
@@ -35,7 +35,11 @@ defmodule News.Mixfile do
   #   {:myapp, in_umbrella: true}
   #
   # Type "mix help deps" for more examples and options
-  defp deps do
-    [{:yamerl, github: "yakaz/yamerl"}]
+  defp deps do 
+    [ {:yamerl, github: "yakaz/yamerl"},
+      {:excheck, "~> 0.3", only: :test},
+      {:triq, github: "peter-fogg/triq", only: :test},
+      {:repo_cache, in_umbrella: true},
+      {:html_sanitize_ex, "~> 1.0.0"} ]
   end
 end
