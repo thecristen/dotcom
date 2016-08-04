@@ -3,6 +3,7 @@ defmodule Site.ViewHelpers do
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML.Link
+  import Util
 
   def svg(path) do
     :site
@@ -96,7 +97,7 @@ defmodule Site.ViewHelpers do
 
   @doc "HTML for a Route link"
   def route_link(conn, route) do
-    link(raw(safe_to_string(route_icon(route.type, route.id)) <> " " <> clean_route_name(route.name)),
+    link(raw(string_join(safe_to_string(route_icon(route.type, route.id)), clean_route_name(route.name))),
           to: schedule_path(conn, :index, route: route.id), 
           class: "mode-group-btn")
   end
