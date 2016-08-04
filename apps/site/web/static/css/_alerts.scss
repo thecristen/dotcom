@@ -45,7 +45,6 @@
 }
 
 .alert-list-header {
-  border-bottom: 1px solid $gray-lighter;
 }
 
 .alert-card {
@@ -64,15 +63,25 @@
 
 .notice-card {
   padding: 0;
-}
-    
-.notice-card-header {
-  background-color: $gray-lightest;
-  padding: 10px;
+  border: 1px solid $gray-lightest;
 }
 
-.notice-card-body, .notice-card-footer {
-  margin: 5px;
+.notice-card-header {
+  background-color: $alert-notice;
+  padding: 1rem;
+}
+
+.notice-card-body {
+  border-bottom: 1px solid $gray-lightest;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  // margin on the sides so that the border is narrower as well
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.notice-card-footer {
+  padding: 1rem;
 }
 
 .card-description-first {

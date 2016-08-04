@@ -4,11 +4,11 @@
     <ul class="alert-list">
       <%= for alert <- @alerts do %>
         <li class="alert-card">
-          <h5 class="alert-card-header">
+          <div class="alert-card-header">
             <%= fa "exclamation-triangle" %>
             <%= alert.effect_name %>
-          </h5>
-          <p class="alert-card-body no-overflow">
+          </div>
+          <div class="alert-card-body no-overflow">
             <%= alert.header %><br />
             <%= if alert.description do %>
               <%= if @collapse_descriptions do %>
@@ -17,10 +17,10 @@
                 <%= newline_to_br(alert.description) %>
               <% end %>
             <% end %>
-          </p>
-          <p class="alert-card-footer">
+          </div>
+          <div class="alert-card-footer">
             <small><%= display_alert_updated(alert) %></small>
-          </p>
+          </div>
         </li>
       <% end %>
     </ul>
