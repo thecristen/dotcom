@@ -1,18 +1,6 @@
 <% {notices, alerts} = notices_and_alerts(@alerts) %>
 <div class="container main-container">
-  <%= if @conn.assigns[:route] do %>
-    <%= render "_alerts_header.html", forward_assigns(@conn) %>
-  <%= end %>
-  <div class="row">
-    <div class="col-xs-12 p-x-1">
-      <hr>
-      <a href="<%= redirect_path @conn, "rider_tools/t_alerts/"  %>">
-        Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
-        <%= fa "angle-right fa-pull-right" %>
-      </a>
-      <hr>
-    </div>
-  </div>
+  <%= render "_alerts_header.html", forward_assigns(@conn) %>
   <div class="row">
     <div class="col-xs-12">
       <%= render "_alert_list.html", alerts: alerts, collapse_descriptions: false %>

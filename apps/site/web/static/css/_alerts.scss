@@ -46,11 +46,11 @@
 
 .alert-list-header {
   font-weight: bold;
-  padding-bottom: 1rem;
+  padding: 1rem;
 }
 
 .alert-card {
-  padding: 0;
+  margin: 1rem;
   border: 1px solid $gray-lightest;
   color: $body-color;
 }

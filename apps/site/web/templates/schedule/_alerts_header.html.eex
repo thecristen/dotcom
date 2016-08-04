@@ -1,8 +1,24 @@
 <div class="row">
   <div class="col-xs-12">
-    <strong>
-      <%= render "_mode_image.html", forward_assigns(@conn) %>
-      <%= @route.name %>: Service Alerts & Notices</strong>
-    </strong>
+    <%= if @conn.assigns[:route] do %>
+      <div class="p-x-1">
+        <strong>
+          <%= render "_mode_image.html", forward_assigns(@conn) %>
+          <%= @route.name %>: Service Alerts & Notices</strong>
+        </strong>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="p-x-1">
+      <hr>
+      <a href="<%= redirect_path @conn, "rider_tools/t_alerts/"  %>">
+          Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
+        <%= fa "angle-right fa-pull-right" %>
+      </a>
+      <hr>
+    </div>
   </div>
 </div>

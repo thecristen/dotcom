@@ -1,0 +1,18 @@
+.modal-transparent {
+  .modal-content {
+    background-color: transparent;
+    border: none;
+  }
+
+  .modal-body {
+    background-color: #fff;
+  }
+
+  .close {
+    color: #fff;
+  }
+}
+
+.modal-open .navbar-toggler {
+  display: none;
+}
