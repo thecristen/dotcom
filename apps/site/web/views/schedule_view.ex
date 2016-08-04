@@ -109,7 +109,8 @@ defmodule Site.ScheduleView do
     text
     |> html_escape
     |> safe_to_string
-    |> String.replace(~r/\s(.*:)\s/, "<hr><strong>\\1</strong>\n")
+    |> String.replace(~r/^(.*:)\s/, "<strong>\\1</strong>\n") # an initial header
+    |> String.replace(~r/\n(.*:)\s/, "<hr><strong>\\1</strong>\n") # all other start with an HR
     |> String.replace(~r/\s*\n/s, "<br />")
     |> raw
   end

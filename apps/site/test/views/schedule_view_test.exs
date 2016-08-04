@@ -85,5 +85,12 @@ defmodule Site.ScheduleViewTest do
 
       assert expected == actual
     end
+
+    test "<strong>ifies a starting long header" do
+      expected = {:safe, "<strong>Long Header:</strong><br />7:30"}
+      actual = ScheduleView.newline_to_br("Long Header:\n7:30")
+
+      assert expected == actual
+    end
   end
 end
