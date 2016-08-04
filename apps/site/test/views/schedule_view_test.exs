@@ -1,6 +1,7 @@
 defmodule Site.ScheduleViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
+  alias Site.ScheduleView
 
   @stop %Schedules.Stop{id: "stop_id"}
   @trip %Schedules.Trip{id: "trip_id"}
@@ -47,5 +48,42 @@ defmodule Site.ScheduleViewTest do
     actual = Site.ScheduleView.display_alert_effects([delay_alert])
 
     assert expected == actual
+  end
+
+  describe "newline_to_br/1" do
+    test "escapes existing HTML" do
+      expected = {:safe, "&lt;br&gt;"}
+      actual = ScheduleView.newline_to_br("<br>")
+
+      assert expected == actual
+    end
+
+    test "replaces newlines with breaks" do
+      expected = {:safe, "hi<br />there"}
+      actual = ScheduleView.newline_to_br("hi\nthere")
+
+      assert expected == actual
+    end
+
+    test "combines multiple newlines" do
+      expected = {:safe, "hi<br />there"}
+      actual = ScheduleView.newline_to_br("hi\n\n\nthere")
+
+      assert expected == actual
+    end
+
+    test "combines multiple Windows newlines" do
+      expected = {:safe, "hi<br />there"}
+      actual = ScheduleView.newline_to_br("hi\r\n\r\nthere")
+
+      assert expected == actual
+    end
+
+    test "<strong>ifies a header" do
+      expected = {:safe, "hi<hr><strong>Header:</strong><br />7:30"}
+      actual = ScheduleView.newline_to_br("hi\nHeader:\n7:30")
+
+      assert expected == actual
+    end
   end
 end

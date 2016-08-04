@@ -107,7 +107,8 @@ defmodule Site.ScheduleView do
     text
     |> html_escape
     |> safe_to_string
-    |> String.replace("\n", "<br />")
+    |> String.replace(~r/\s(.*:)\s/, "<hr><strong>\\1</strong>\n")
+    |> String.replace(~r/\s*\n/s, "<br />")
     |> raw
   end
 
