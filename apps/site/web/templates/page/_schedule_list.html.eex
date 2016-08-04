@@ -7,7 +7,7 @@
       <div class="row">
         <%= for route <- @grouped_routes[:commuter_rail] do %>
           <div class="col-xs-6 col-md-3">
-            <%= link route.name |> clean_route_name, class: "mode-group-btn", to: schedule_path @conn, :index, route: route.id %>
+            <%= route_link @conn, route %>
           </div>
         <% end %>
       </div>
@@ -23,7 +23,7 @@
       <div class="row">
         <%= for route <- @grouped_routes[:bus] |> Enum.filter(&(&1.key_route?)) do %>
           <div class="col-xs-4 col-md-2">
-            <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+            <%= route_link @conn, route %>
           </div>
         <% end %>
       </div>
@@ -39,11 +39,7 @@
       <div class="row">
         <%= for route <- @grouped_routes[:subway] do %>
           <div class="col-xs-6 col-md-4">
-            <a href="<%= schedule_path @conn, :index, route: route.id %>"
-              class="mode-group-btn">
-              <%= fa "circle fa-color-subway-" <> (route.id |> String.downcase) %>
-              <%= route.name |> clean_route_name %>
-            </a>
+            <%= route_link @conn, route %>
           </div>
         <% end %>
       </div>
@@ -59,7 +55,7 @@
       <div class="row">
         <%= for route <- @grouped_routes[:boat] do %>
           <div class="col-xs-12 col-md-4">
-            <%= link route.name, class: "mode-group-btn", to: schedule_path(@conn, :index, route: route.id) %>
+            <%= route_link @conn, route %>
           </div>
         <% end %>
       </div>
