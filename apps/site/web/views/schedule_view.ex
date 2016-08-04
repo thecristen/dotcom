@@ -22,7 +22,7 @@ defmodule Site.ScheduleView do
     |> Dict.put(:conn, conn)
   end
 
-  def has_alerts?(alerts, %Schedules.Schedule{} = schedule) do
+  def alerts_for(alerts, %Schedules.Schedule{} = schedule) do
     entity = %Alerts.InformedEntity{
       route_type: schedule.route.type,
       route: schedule.route.id,
@@ -30,28 +30,30 @@ defmodule Site.ScheduleView do
       trip: schedule.trip.id
     }
 
-    # hack to unmatch the "Fares go up on July 1" alert on everything
-    matched = alerts
+    alerts
     |> Alerts.Match.match(entity, schedule.time)
-    |> Enum.reject(&Alerts.Alert.is_notice?/1)
-
-    matched != []
   end
-  def has_alerts?(alerts, %Schedules.Trip{} = trip) do
+
+  def alerts_for(alerts, %Schedules.Trip{} = trip) do
     entity = %Alerts.InformedEntity{
       trip: trip.id
     }
 
-    matched = alerts
+    alerts
     |> Alerts.Match.match(entity)
+  end
+
+  def has_alerts?(alerts, item) do
+    matched = alerts
+    |> alerts_for(item)
     |> Enum.reject(&Alerts.Alert.is_notice?/1)
 
     matched != []
   end
 
   @doc """
-  Partition a enum of alerts into a pair of those that should be displayed as alerts, and those
-  that should be displayed as notices.
+  Partition a enum of alerts into a pair of those that should be displayed as notices, and those
+  that should be displayed as alerts.
   """
   def notices_and_alerts(alerts) do
     alerts
