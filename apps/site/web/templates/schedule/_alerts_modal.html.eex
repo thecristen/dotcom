@@ -28,9 +28,7 @@
     data-target="#alertsModal"
   >
     <p>
-      <%= if alerts != [] do %>
-        <%= fa "exclamation-triangle" %>
-      <% end %>
+      <%= fa "exclamation-triangle" %>
       <%= display_alert_effects(@route_alerts) %>
     </p>
   </a>

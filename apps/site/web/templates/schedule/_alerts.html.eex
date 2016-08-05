@@ -1,7 +1,0 @@
-<%= if @alerts do %>
-  <%= for alert <- @alerts do %>
-    <div class="alert-card-header <%= if Alerts.Alert.is_notice? alert do %>bg-notice<% end %>">
-        <%= alert.header %>
-    </div>
-  <% end %>
-<% end %>

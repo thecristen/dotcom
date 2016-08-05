@@ -1,0 +1,12 @@
+<%= if @alerts do %>
+  <ul class="alert-list">
+    <%= for alert <- @alerts do %>
+      <li class="alert-card">
+        <div class="alert-card-header <%= if Alerts.Alert.is_notice? alert do %>bg-notice<% end %>">
+          <strong><%= alert.effect_name %>:</strong>
+          <%= alert.header %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

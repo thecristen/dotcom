@@ -12,12 +12,16 @@
       </span>
       <span class="col-xs-7">
         <%= render "_schedule_group.html", schedules: schedules %>
+        <%= if has_trip_alerts? @alerts, schedules do %><%= fa "exclamation-triangle" %><% end %>
       </span>
-      <span class="col-xs-1 pull-right"><%= fa "caret-down pull-right" %></span>
+      <span class="col-xs-1 pull-right">
+        <%= fa "caret-down pull-right" %>
+      </span>
     </div>
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
+      <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedules) %>
       <div class="row">
         <%= for schedule <- schedules do %>
           <div class="col-xs-4 col-sm-3 col-md-2">
