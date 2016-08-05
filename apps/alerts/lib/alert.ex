@@ -31,7 +31,7 @@ defmodule Alerts.Alert do
 end
 
 defmodule Alerts.InformedEntity do
-  defstruct [:route_type, :route, :stop, :trip]
+  defstruct [:route_type, :route, :stop, :trip, :direction_id]
 
   alias __MODULE__, as: IE
 
@@ -47,6 +47,9 @@ defmodule Alerts.InformedEntity do
   end
   def put(entity, :trip, value) do
     %Alerts.InformedEntity{entity | trip: value}
+  end
+  def put(entity, :direction_id, value) do
+    %Alerts.InformedEntity{entity | direction_id: value}
   end
 
   @doc """

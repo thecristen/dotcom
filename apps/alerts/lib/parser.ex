@@ -14,7 +14,7 @@ defmodule Alerts.Parser do
   end
 
   defp informed_entity(entity) do
-    [:route_type, :route, :stop, :trip]
+    [:route_type, :route, :stop, :trip, :direction_id]
     |> Enum.reduce(%Alerts.InformedEntity{}, fn(key, acc) ->
       acc
       |> Dict.put(key, entity[Atom.to_string(key)])
