@@ -30,7 +30,7 @@
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
-      <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedule) %>
+      <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedule), time: schedule.time %>
       <p><strong>Your trip:</strong></p>
       <ul class="trip-list">
         <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>

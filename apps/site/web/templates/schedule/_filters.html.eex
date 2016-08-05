@@ -14,7 +14,7 @@
       <div class="form-group">
         <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
       </div>
-      <%= render "_alerts_inline.html", alerts: @stop_alerts %>
+      <%= render "_alerts_inline.html", alerts: @stop_alerts, time: Timex.DateTime.now %>
     </form>
   </div>
 </div>

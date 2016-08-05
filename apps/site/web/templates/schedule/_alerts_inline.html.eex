@@ -4,7 +4,7 @@
       <ul class="alert-list-inline">
         <%= for alert <- @alerts do %>
           <li class="alert-inline">
-            <div class="alert-inline-icon <%= if Alerts.Alert.is_notice? alert do %>bg-notice<% end %>">
+            <div class="alert-inline-icon <%= if Alerts.Alert.is_notice? alert, @time do %>bg-notice<% end %>">
             <%= fa "exclamation-triangle" %>
             </div>
             <div class="alert-inline-body">
