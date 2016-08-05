@@ -121,12 +121,18 @@ defmodule Site.ScheduleController.Helpers do
     conn
     |> assign(:stop_alerts, nil)
   end
-  def stop_alerts(%{assigns: %{origin: origin}} = conn) do
-    alerts = conn.assigns[:alerts]
-    |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
+  def stop_alerts(%{assigns: %{alerts: alerts,
+                               route: route,
+                               direction_id: direction_id,
+                               origin: origin}} = conn) do
+    stop_alerts = alerts
+    |> Alerts.Match.match(%Alerts.InformedEntity{
+          route: route.id,
+          direction_id: direction_id,
+          stop: origin})
 
     conn
-    |> assign(:stop_alerts, alerts)
+    |> assign(:stop_alerts, stop_alerts)
   end
 
   @doc """
