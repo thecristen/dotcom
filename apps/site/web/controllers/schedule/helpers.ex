@@ -127,6 +127,7 @@ defmodule Site.ScheduleController.Helpers do
                                origin: origin}} = conn) do
     stop_alerts = alerts
     |> Alerts.Match.match(%Alerts.InformedEntity{
+          route_type: route.type,
           route: route.id,
           direction_id: direction_id,
           stop: origin})

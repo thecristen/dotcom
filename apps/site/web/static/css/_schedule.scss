@@ -39,6 +39,12 @@
     padding-left: 1.5em;
     padding-right: 1.5em;
   }
+
+  // override for stop alert lower border
+  .alert-inline:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 }
 
 .schedule-direction {

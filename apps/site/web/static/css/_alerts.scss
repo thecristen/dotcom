@@ -134,6 +134,36 @@
   color: $alert-severe;
 }
 
+.alert-list-inline {
+  padding: 0;
+  list-style: none;
+}
+
+.alert-inline {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $gray-lightest;
+}
+
+.alert-inline-icon {
+  background-color: $brand-secondary;
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  border-radius: 50%;
+  float: left;
+
+  > i {
+    width: 20px;
+    height: 20px;
+    margin: 1px 2px;
+    display: block;
+  }
+}
+
+.alert-inline-body {
+  padding-left: 2rem;
+}
+
 .bg-notice {
   background-color: $alert-notice;
   border-color: $alert-notice;
