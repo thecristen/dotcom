@@ -5,9 +5,14 @@
       <div class="row">
         <%= render Site.PageView, "_schedule_list.html", grouped_routes: @grouped_routes, conn: @conn %>
         <div class="col-xs-12">
-          <div class="mode-group mode-group-last">
+          <div class="mode-group">
             <div class="mode-group-header">
-              <h2 class="h6"><strong>The RIDE</strong></h2>
+              <h2 class="h6">
+                <span class="route-icon route-icon-the-ride">
+                  <%= svg "/images/the-ride.svg" %>
+                </span>
+                <strong>The RIDE</strong>
+              </h2>
             </div>
             <div class="mode-group-block">
               <div class="row">

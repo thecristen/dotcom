@@ -66,6 +66,15 @@
   background-color: $brand-primary-light;
 }
 
+.route-icon-the-ride {
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+  padding: 0;
+  background-color: $brand-the-ride;
+}
+
 .fa-color-subway-blue {
   color: $brand-blue-line;
 }
@@ -78,10 +87,10 @@
   color: $brand-red-line;
 }
 
-.fa-color-subway-green, 
-.fa-color-subway-green-b, 
-.fa-color-subway-green-c, 
-.fa-color-subway-green-d, 
+.fa-color-subway-green,
+.fa-color-subway-green-b,
+.fa-color-subway-green-c,
+.fa-color-subway-green-d,
 .fa-color-subway-green-e  {
   color: $brand-green-line;
 }

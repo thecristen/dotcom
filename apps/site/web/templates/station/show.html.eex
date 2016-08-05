@@ -37,9 +37,8 @@
 
   <div class="row p-x-g">
     <div class="col-xs-12">
-      <% route_size = map_size(@grouped_routes) %>
       <%= for {{type, routes}, index} <- Enum.with_index(@grouped_routes) do %>
-        <div class="mode-group <%= if index == route_size, do: "mode-group-last" %>">
+        <div class="mode-group <%= if index == 0, do: "mode-group-first" %>">
           <div class="mode-group-header">
             <h5><%= mode_icon type %><%= mode_name type %></h5>
           </div>
@@ -96,10 +95,12 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
-          <img class="center-block img-fluid" src="<%= static_path(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
-        </a>
+      <div class="col-md-6 col-xs-12">
+        <div style="padding-top: 1.5rem;">
+          <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
+            <img class="center-block img-fluid" src="<%= static_path(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
+          </a>
+        </div>
       </div>
     </div>
   <% end %>
