@@ -49,14 +49,19 @@
 
 .alert-card {
   margin: 1rem;
-  border: 1px solid $gray-lightest;
   color: $body-color;
 }
 
 .alert-card-header {
   background-color: $brand-secondary;
+  border: 1px solid $brand-secondary;
   padding: 1rem;
 
+}
+
+.alert-card-body-container {
+  border: 1px solid $gray-lightest;
+  border-top: 0;
 }
 
 .alert-card-body {

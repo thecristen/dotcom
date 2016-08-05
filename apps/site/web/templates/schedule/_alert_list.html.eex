@@ -8,19 +8,21 @@
             <%= fa "exclamation-triangle" %>
             <%= alert.effect_name %>
           </div>
-          <div class="alert-card-body no-overflow">
-            <%= if alert.description do %>
-              <%= if @collapse_descriptions do %>
-                <%= render "_collapsible_alert_text.html", description: alert.description, id: alert.id %>
-              <%= else %>
-                <%= newline_to_br(alert.description) %>
+          <div class="alert-card-body-container">
+            <div class="alert-card-body no-overflow">
+              <%= if alert.description do %>
+                <%= if @collapse_descriptions do %>
+                  <%= render "_collapsible_alert_text.html", description: alert.description, id: alert.id %>
+                <%= else %>
+                  <%= newline_to_br(alert.description) %>
+                <% end %>
+              <% else %>
+                <%= alert.header %>
               <% end %>
-            <% else %>
-              <%= alert.header %>
-            <% end %>
-          </div>
-          <div class="alert-card-footer">
-            <%= display_alert_updated(alert) %>
+            </div>
+            <div class="alert-card-footer">
+              <%= display_alert_updated(alert) %>
+            </div>
           </div>
         </li>
       <% end %>
