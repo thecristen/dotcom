@@ -36,9 +36,15 @@
   }
 }
 
+.t-alerts-container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: -1rem;
+}
+
 .alert-list-header {
   font-weight: bold;
-  padding: 1rem;
+  padding: 0 1rem 1rem;
 }
 
 .alert-card {
@@ -125,6 +131,7 @@
 
 .bg-notice {
   background-color: $alert-notice;
+  border-color: $alert-notice;
 
   &:hover,
   &:active,

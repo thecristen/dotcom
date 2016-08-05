@@ -4,11 +4,9 @@
     <div class="modal-dialog modal-lg modal-transparent" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="col-xs-12">
-            <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
-              <%= fa "times-circle" %> Close
-            </button>
-          </div>
+          <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
+            <%= fa "times-circle" %> Close
+          </button>
         </div>
         <div class="modal-body p-x-0 p-t-1 p-b-0">
           <%= render "_alerts_header.html", forward_assigns(@conn) %>

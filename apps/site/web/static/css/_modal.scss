@@ -10,9 +10,12 @@
 
   .close {
     color: #fff;
+    margin-right: -15px; // undo default header padding
   }
 }
 
-.modal-open .navbar-toggler {
-  display: none;
+.modal-backdrop {
+  &.in {
+    opacity: 0.7;
+  }
 }

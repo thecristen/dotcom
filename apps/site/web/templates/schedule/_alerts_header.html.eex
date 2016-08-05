@@ -12,7 +12,7 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <div class="p-x-1">
+    <div class="t-alerts-container">
       <hr>
       <a href="<%= redirect_path @conn, "rider_tools/t_alerts/"  %>">
           Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
