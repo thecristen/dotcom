@@ -6,7 +6,7 @@
         <li class="alert-card">
           <div class="alert-card-header">
             <%= fa "exclamation-triangle" %>
-            <%= alert.effect_name %>
+            <strong><%= alert.effect_name %>:</strong> <%= alert.header %>
           </div>
           <div class="alert-card-body-container">
             <div class="alert-card-body no-overflow">
@@ -16,8 +16,6 @@
                 <%= else %>
                   <%= newline_to_br(alert.description) %>
                 <% end %>
-              <% else %>
-                <%= alert.header %>
               <% end %>
             </div>
             <div class="alert-card-footer">

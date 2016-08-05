@@ -12,7 +12,10 @@
       </span>
       <span class="col-xs-7">
         <%= render "_schedule_group.html", schedules: schedules %>
-        <%= if has_trip_alerts? @alerts, schedules do %><%= fa "exclamation-triangle" %><% end %>
+        <%= if has_trip_alerts? @alerts, schedules do %>
+          <%= fa "exclamation-triangle" %>
+          <span class="sr-only">Has an alert</span>
+        <% end %>
       </span>
       <span class="col-xs-1 pull-right">
         <%= fa "caret-down pull-right" %>

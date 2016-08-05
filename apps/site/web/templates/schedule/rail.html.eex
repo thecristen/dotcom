@@ -20,7 +20,7 @@
         <%= if schedule.trip.headsign != @most_frequent_headsign do %>
           (to <%= schedule.trip.headsign %>)
         <% end %>
-        <%= if has_alerts?(@alerts, schedule.trip) do %>
+        <%= if has_trip_alerts? @alerts, schedule do %>
           <%= fa "exclamation-triangle" %>
           <span class="sr-only">Has an alert</span>
         <% end %>
@@ -30,19 +30,7 @@
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
-      <%= if length(@trip_alerts) > 0 do %>
-        <ul class="alert-list">
-          <%= for alert <- @trip_alerts do %>
-            <li class="alert-card">
-              <a href="<%= schedule_path(@conn, :alerts, alert.id, []) %>">
-                <p class="alert-card-header m-b-0">
-                  <strong><%= alert.effect_name %>:</strong> <%= alert.header %>
-                </p>
-              </a>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedule) %>
       <p><strong>Your trip:</strong></p>
       <ul class="trip-list">
         <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
