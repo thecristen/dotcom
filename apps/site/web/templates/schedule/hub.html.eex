@@ -7,14 +7,14 @@
       <div class="row">
         <div class="col-xs-12 p-b-1">
           <h2 class="h5"><strong>System Map</strong></h2>
-          <% something = @mode_name |> String.downcase %>
-          <% mode_class = something |> String.replace(" ", "-") %>
+          <% mode_downcase = @mode_name |> String.downcase %>
+          <% mode_class = mode_downcase |> String.replace(" ", "-") %>
           <img src="<%= @map_image_url %>" class="system-map <%= mode_class %> expandable m-y-1" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)">
           <%= if @map_pdf_url do %>
             <p>
               <a href="<%= @map_pdf_url %>" target="_blank">
                 <%= fa "search-plus" %>
-                View <%= something %> map as a PDF
+                View <%= mode_downcase %> map as a PDF
               </a>
             </p>
           <% end %>
