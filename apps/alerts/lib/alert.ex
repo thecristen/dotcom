@@ -20,7 +20,7 @@ defmodule Alerts.Alert do
       true
     end
     def is_notice?(%__MODULE__{effect_name: unquote(effect)}=alert, dt) do
-      # non-Outgoing alerts are notices if they aren't happening now
+      # non-Ongoing alerts are notices if they aren't happening now
       !Alerts.Match.any_time_match?(alert, dt)
     end
   end
