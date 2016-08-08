@@ -123,7 +123,8 @@ defmodule Site.ScheduleController.Helpers do
   end
   def stop_alerts(%{assigns: %{alerts: alerts,
                                origin: origin,
-                               dest: dest}} = conn) do
+                               destination: dest}} = conn)
+  when origin != nil and dest != nil do
     origin_alerts = alerts
     |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
     dest_alerts = alerts
