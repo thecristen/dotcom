@@ -1,4 +1,4 @@
-gdefmodule Alerts.TripTest do
+defmodule Alerts.TripTest do
   use ExUnit.Case, async: true
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
