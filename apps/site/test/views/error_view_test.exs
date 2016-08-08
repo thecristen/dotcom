@@ -5,14 +5,14 @@ defmodule Site.ErrorViewTest do
   import Phoenix.View
 
   test "renders 404.html" do
-    assert render_to_string(Site.ErrorView, "404.html", []) =~ "Sorry, the page you are looking for doesn't exist."
+    assert render_to_string(Site.ErrorView, "404.html", []) =~ "the page you're looking for has been derailed and cannot be found."
   end
 
   test "render 500.html" do
-    assert render_to_string(Site.ErrorView, "500.html", []) =~ "Sorry, we seem to have encountered an error."
+    assert render_to_string(Site.ErrorView, "500.html", []) =~ "It looks like we have our signals crossed"
   end
 
   test "render any other" do
-    assert render_to_string(Site.ErrorView, "505.html", []) =~ "Sorry, we seem to have encountered an error."
+    assert render_to_string(Site.ErrorView, "505.html", []) =~ "It looks like we have our signals crossed"
   end
 end

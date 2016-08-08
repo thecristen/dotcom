@@ -1,8 +1,4 @@
-<div>
-  <div class="card card-section">
-    <div class="card-header">
-      <h1>Error</h1>
-      <h2 class="h3">Sorry, we seem to have encountered an error. Please wait a minute and try again.</h2>
-    </div>
-  </div>
+<div class="error-card">
+  <h1><strong>500</strong></h1>
+  <h2 class="h3">It looks like we have our signals crossed &mdash; our servers failed to load your request. Please try again later or <a href="http://www.mbta.com/customer_support/feedback/">contact us</a>.</h2>
 </div>
