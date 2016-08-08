@@ -130,7 +130,7 @@ defmodule Site.ScheduleController.Helpers do
     |> Alerts.Match.match(%Alerts.InformedEntity{stop: dest})
 
     stop_alerts = [origin_alerts, dest_alerts]
-    |> List.concat
+    |> Enum.concat
     |> Enum.uniq
 
     conn

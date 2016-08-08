@@ -7,8 +7,8 @@ defmodule Alerts do
     import Supervisor.Spec, warn: false
 
     children = [
-      # Define workers and child supervisors to be supervised
-      # worker(Alerts.Worker, [arg1, arg2, arg3]),
+      worker(ConCache, [[ttl: :timer.seconds(86400),
+                         ttl_check: :timer.seconds(60)], [name: :alerts_parent_ids]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
