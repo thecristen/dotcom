@@ -122,15 +122,24 @@ defmodule Site.ScheduleController.Helpers do
     |> assign(:stop_alerts, nil)
   end
   def stop_alerts(%{assigns: %{alerts: alerts,
-                               route: route,
-                               direction_id: direction_id,
+                               origin: origin,
+                               dest: dest}} = conn) do
+    origin_alerts = alerts
+    |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
+    dest_alerts = alerts
+    |> Alerts.Match.match(%Alerts.InformedEntity{stop: dest})
+
+    stop_alerts = [origin_alerts, dest_alerts]
+    |> List.concat
+    |> Enum.uniq
+
+    conn
+    |> assign(:stop_alerts, stop_alerts)
+  end
+  def stop_alerts(%{assigns: %{alerts: alerts,
                                origin: origin}} = conn) do
     stop_alerts = alerts
-    |> Alerts.Match.match(%Alerts.InformedEntity{
-          route_type: route.type,
-          route: route.id,
-          direction_id: direction_id,
-          stop: origin})
+    |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
 
     conn
     |> assign(:stop_alerts, stop_alerts)
