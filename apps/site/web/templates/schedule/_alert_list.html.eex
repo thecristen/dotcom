@@ -11,11 +11,7 @@
           <div class="alert-card-body-container">
             <%= if alert.description do %>
               <div class="alert-card-body no-overflow">
-                <%= if @collapse_descriptions do %>
-                  <%= render "_collapsible_alert_text.html", description: alert.description, id: alert.id %>
-                <%= else %>
-                  <%= newline_to_br(alert.description) %>
-                <% end %>
+                <%= newline_to_br(alert.description) %>
               </div>
             <% end %>
             <div class="alert-card-footer">

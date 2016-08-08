@@ -12,8 +12,8 @@
           <%= render "_alerts_header.html", forward_assigns(@conn) %>
           <div class="row">
             <div class="col-xs-12">
-              <%= render "_alert_list.html", alerts: alerts, collapse_descriptions: false %>
-              <%= render "_notice_list.html", notices: notices, collapse_descriptions: false %>
+              <%= render "_alert_list.html", alerts: alerts %>
+              <%= render "_notice_list.html", notices: notices %>
             </div>
           </div>
         </div>
