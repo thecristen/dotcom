@@ -101,4 +101,9 @@ defmodule Site.ViewHelpers do
           to: schedule_path(conn, :index, route: route.id), 
           class: "mode-group-btn")
   end
+
+  def route_spacing_class(1), do: "col-xs-6 col-md-3"
+  def route_spacing_class(2), do: "col-xs-6 col-md-3"
+  def route_spacing_class(3), do: "col-xs-4 col-md-2"
+  def route_spacing_class(4), do: "col-xs-12 col-md-4"
 end
