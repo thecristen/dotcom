@@ -3,6 +3,9 @@ defmodule Site.ScheduleController.All do
 
   def all(conn) do
     conn
-    |> render("all.html", grouped_routes: Routes.Repo.all |> Routes.Group.group)
+    |> render("all.html", 
+      grouped_routes: Routes.Repo.all |> Routes.Group.group,
+      breadcrumbs: ["Schedules & Maps"]
+  )
   end
 end
