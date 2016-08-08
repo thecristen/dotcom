@@ -3,7 +3,6 @@
   <div class="card-header schedule-header">
     <%= render "_locations.html", forward_assigns(@conn) %>
     <%= render "_alerts_modal.html", forward_assigns(@conn) %>
-    <%= render "_alerts_inline.html", alerts: @stop_alerts, time: Timex.DateTime.now %>
   </div>
   <div class="row p-b-1 p-x-1">
     <div class="col-xs-12">
@@ -11,6 +10,11 @@
     </div>
     <div class="col-xs-12">
       <strong>Destination:</strong> <%= station_link dest.stop %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 p-x-2">
+      <%= render "_alerts_inline.html", alerts: @stop_alerts, time: Timex.DateTime.now %>
     </div>
   </div>
   <div class="row p-x-1">
