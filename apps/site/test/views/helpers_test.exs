@@ -20,7 +20,7 @@ defmodule Site.HelpersTest do
 
   describe "route_link/2" do
     test "for Orange line" do
-      conn = conn :get, "/stations/place-north"
+      conn = build_conn :get, "/stations/place-north"
       route = %Routes.Route{type: 0, id: "Orange", name: "Orange"}
 
       expected = 
@@ -32,7 +32,7 @@ defmodule Site.HelpersTest do
     end
 
     test "for Lowell line" do
-      conn = conn :get, "/stations/place-north"
+      conn = build_conn :get, "/stations/place-north"
       route = %Routes.Route{type: 2, id: "CR-Lowell", name: "Lowell"}
 
       expected = "<a class=\"mode-group-btn\" href=\"/schedules?route=CR-Lowell\">Lowell</a>"
