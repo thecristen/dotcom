@@ -39,7 +39,7 @@
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
-          ".subway-map",
+          ".system-map",
           ".mode-group-block",
           ".card-block > .row > div:last-child"
       ],

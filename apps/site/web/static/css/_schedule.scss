@@ -103,7 +103,7 @@
   }
 }
 
-.subway-map {
+.system-map {
   width: 100%;
   max-height: 240px;
   object-fit: cover;
@@ -115,6 +115,9 @@
     &.expanded {
       max-height: map-get($container-max-widths, md);
       object-position: initial;
+      &.commuter-rail {
+        max-height: map-get($container-max-widths, md) + 30px;
+      }
     }
   }
   // Leave the map fully expanded on mobile
@@ -124,7 +127,7 @@
   }
 }
 
-body.no-js .subway-map {
+body.no-js .system-map {
   max-height: map-get($container-max-widths, md);
   object-position: initial;
 }
