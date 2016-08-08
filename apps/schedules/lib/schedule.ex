@@ -3,7 +3,7 @@ defmodule Schedules.Schedule do
 end
 
 defmodule Schedules.Trip do
-  defstruct [:id, :name, :headsign]
+  defstruct [:id, :name, :headsign, :direction_id]
 end
 
 defmodule Schedules.Stop do

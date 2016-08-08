@@ -40,7 +40,7 @@ defmodule Site.ScheduleView.Alerts do
       schedule.trip.id,
       route: schedule.route.id,
       route_type: schedule.route.type,
-      direction_id: schedule.direction_id,
+      direction_id: schedule.trip.direction_id,
       stop: schedule.stop.id)
   end
 
