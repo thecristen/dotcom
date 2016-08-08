@@ -35,16 +35,13 @@ defmodule Site.ScheduleView.Alerts do
     |> Enum.uniq
   end
   def trip_alerts_for(alerts, schedule) do
-    trip_alerts = alerts_for(alerts, schedule.trip)
-    delays = alerts
-    |> alerts_for(schedule)
-    |> Enum.filter(fn alert ->
-      alert.effect_name == "Delay"
-    end)
-
-    [trip_alerts, delays]
-    |> Enum.concat
-    |> Enum.uniq
+    alerts
+    |> Alerts.Trip.match(
+      schedule.trip.id,
+      route: schedule.route.id,
+      route_type: schedule.route.type,
+      direction_id: schedule.direction_id,
+      stop: schedule.stop.id)
   end
 
   def has_trip_alerts?(alerts, schedules) do
