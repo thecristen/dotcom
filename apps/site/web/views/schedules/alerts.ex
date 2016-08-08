@@ -38,6 +38,7 @@ defmodule Site.ScheduleView.Alerts do
     alerts
     |> Alerts.Trip.match(
       schedule.trip.id,
+      time: schedule.time,
       route: schedule.route.id,
       route_type: schedule.route.type,
       direction_id: schedule.trip.direction_id,

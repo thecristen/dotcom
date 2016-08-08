@@ -1,4 +1,4 @@
-defmodule Alerts.TripTest do
+gdefmodule Alerts.TripTest do
   use ExUnit.Case, async: true
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
@@ -35,5 +35,15 @@ defmodule Alerts.TripTest do
       informed_entity: [%IE{trip: @trip_id}]}
 
     assert [alert] == Trip.match([alert], @trip_id)
+  end
+
+  test "includes delays that are active at :time" do
+    now = Timex.DateTime.now
+    alert = %Alert{informed_entity: [%IE{trip: @trip_id}],
+                   active_period: [{now, nil}]}
+    wrong_alert = %Alert{informed_entity: [%IE{trip: @trip_id}],
+                        active_period: []}
+
+    assert [alert] == Trip.match([alert, wrong_alert], @trip_id, time: now)
   end
 end

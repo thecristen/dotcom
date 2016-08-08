@@ -24,6 +24,7 @@ defmodule Alerts.Trip do
     trip_alerts
     |> Kernel.++(delay_alerts)
     |> Enum.uniq
+    |> filter_for_time(Keyword.get(options, :time))
   end
 
   defp entity_for(trip_id, options) do
@@ -35,5 +36,13 @@ defmodule Alerts.Trip do
         :error -> entity
       end
     end)
+  end
+
+  defp filter_for_time(alerts, nil) do
+    alerts
+  end
+  defp filter_for_time(alerts, dt) do
+    alerts
+    |> Enum.filter(&(Alerts.Match.any_time_match?(&1, dt)))
   end
 end
