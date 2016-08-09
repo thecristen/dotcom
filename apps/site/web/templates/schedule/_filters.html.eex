@@ -34,8 +34,11 @@
           <label for="dest">What is your destination? <%= render "_loading.html" %></label>
           <select id="dest" name="dest" class="form-control c-select" placeholder="Select a station">
             <option value="">Select a station</option>
-            <%= for stop <- @all_stops |> Enum.drop_while(fn stop -> stop.id != @origin end) |> Enum.drop(1) do %>
-              <option value="<%=  stop.id %>" <%= if stop.id == @destination do %>selected<% end %>><%= stop.name %></option>
+            <%= for stop <- @all_stops |> Enum.take_while(fn stop -> stop.id != @origin end) do %>
+              <option disabled><%= stop.name %></option>
+            <% end %>
+            <%= for stop <- @all_stops |> Enum.drop_while(fn stop -> stop.id != @origin end) do %>
+              <option value="<%= stop.id %>"<%= if stop.id == @destination do %> selected<% end %><%= if stop.id == @origin do %> disabled<% end %>><%= stop.name %></option>
             <% end %>
           </select>
         </div>
