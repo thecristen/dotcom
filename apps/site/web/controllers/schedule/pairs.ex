@@ -10,6 +10,7 @@ defmodule Site.ScheduleController.Pairs do
     |> assign_route(route_id)
     |> assign_alerts
     |> assign_all_stops(route_id)
+    |> assign_destination_stops(route_id)
 
     opts = [
       direction_id: conn.assigns[:direction_id],

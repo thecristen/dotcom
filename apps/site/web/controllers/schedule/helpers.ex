@@ -25,6 +25,49 @@ defmodule Site.ScheduleController.Helpers do
     |> assign(:all_stops, get_all_stops(conn, route_id))
   end
 
+  @braintree_stops [
+    "place-brntn",
+    "place-qamnl",
+    "place-qnctr",
+    "place-wlsta",
+    "place-nqncy"
+  ]
+  @ashmont_stops [
+    "place-asmnl",
+    "place-smmnl",
+    "place-fldcr",
+    "place-shmnl"
+  ]
+
+  @doc """
+  Fetch applicable destination stops for the given route. If no origin is set then we don't need
+  destinations yet. If the route is northbound on the red line coming from the Ashmont or Braintree
+  branches, filter out stops on the opposite branch. For all other routes, the already assigned
+  :all_stops is sufficient.
+  """
+  def assign_destination_stops(%{assigns: %{origin: nil}} = conn, _) do
+    conn
+  end
+  def assign_destination_stops(conn, "Red") do
+    all_stops = conn.assigns[:all_stops]
+    northbound = conn.assigns[:direction_id] == 1
+    origin = conn.assigns[:origin]
+    filtered_stops = cond do
+      northbound and origin in @braintree_stops ->
+        Enum.reject(all_stops, &(&1.id in @ashmont_stops))
+      northbound and origin in @ashmont_stops ->
+        Enum.reject(all_stops, &(&1.id in @braintree_stops))
+      true ->
+        all_stops
+    end
+    conn
+    |> assign(:destination_stops, filtered_stops)
+  end
+  def assign_destination_stops(conn, _) do
+    conn
+    |> assign(:destination_stops, conn.assigns[:all_stops])
+  end
+
   defp get_all_stops(conn, route_id) do
     Schedules.Repo.stops(
       route_id,
