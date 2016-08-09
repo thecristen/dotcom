@@ -33,11 +33,12 @@
       <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedule), time: schedule.time %>
       <p><strong>Your trip:</strong></p>
       <ul class="trip-list">
-        <%= for {trip_schedule, index} <- Enum.with_index(@trip_schedule) do %>
+        <% filtered_schedules = @trip_schedule |> Enum.drop_while(&(&1.stop.id !== @from.id)) %>
+        <%= for {trip_schedule, index} <- Enum.with_index(filtered_schedules) do %>
           <li class="trip-stop">
+            <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
             <% last_index = length(@trip_schedule) - 1 %>
             <p>
-              <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
               <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
               <%= case index do %>
                 <% 0 -> %><strong><%= station_link(trip_schedule.stop) %> (origin)</strong>
@@ -51,7 +52,7 @@
       <p class="m-b-0">
         Trip duration:
         <strong>
-          <%= Timex.DateTime.diff(List.first(@trip_schedule).time, List.last(@trip_schedule).time, :minutes) %> minutes
+          <%= Timex.DateTime.diff(List.first(filtered_schedules).time, List.last(filtered_schedules).time, :minutes) %> minutes
         </strong>
       </p>
     </div>
