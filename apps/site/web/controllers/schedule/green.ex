@@ -22,7 +22,6 @@ defmodule Site.ScheduleController.Green do
       |> Enum.map(fn route ->
         stops = Schedules.Repo.stops(
         route.id,
-        date: conn.assigns[:date],
         direction_id: conn.assigns[:direction_id])
 
         # update the route in the conn for this request
