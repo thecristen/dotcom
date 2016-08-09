@@ -2,10 +2,36 @@ defmodule Alerts.Alert do
   defstruct [
     :id, :header, :informed_entity, :active_period, :effect_name, :severity, :lifecycle, :updated_at, :description
   ]
+
+  use Timex
+
+  @doc "Returns true if the Alert should be displayed as a less-prominent notice"
+  @spec is_notice?(%__MODULE__{}) :: boolean
+  def is_notice?(%__MODULE__{}=alert) do
+    is_notice?(alert, DateTime.now("America/New_York"))
+  end
+  def is_notice?(%__MODULE__{effect_name: "Delay"}, _) do
+    # Delays are never notices
+    false
+  end
+  for effect <- ["Shuttle", "Stop Closure", "Snow Route", "Cancellation", "Detour", "No Service"] do
+    def is_notice?(%__MODULE__{effect_name: unquote(effect), lifecycle: "Ongoing"}, _) do
+      # Ongoing alerts are notices
+      true
+    end
+    def is_notice?(%__MODULE__{effect_name: unquote(effect)}=alert, dt) do
+      # non-Ongoing alerts are notices if they aren't happening now
+      !Alerts.Match.any_time_match?(alert, dt)
+    end
+  end
+  def is_notice?(%__MODULE__{}, _) do
+    # Default to true
+    true
+  end
 end
 
 defmodule Alerts.InformedEntity do
-  defstruct [:route_type, :route, :stop, :trip]
+  defstruct [:route_type, :route, :stop, :trip, :direction_id]
 
   alias __MODULE__, as: IE
 
@@ -21,6 +47,9 @@ defmodule Alerts.InformedEntity do
   end
   def put(entity, :trip, value) do
     %Alerts.InformedEntity{entity | trip: value}
+  end
+  def put(entity, :direction_id, value) do
+    %Alerts.InformedEntity{entity | direction_id: value}
   end
 
   @doc """

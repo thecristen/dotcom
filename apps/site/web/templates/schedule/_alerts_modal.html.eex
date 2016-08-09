@@ -1,34 +1,34 @@
-<% {alerts, notices} = alerts_and_notices(@route_alerts) %>
-<div id="alertsModal" class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="alertsModalTitle">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="col-xs-12">
+<%= if @route_alerts != [] do %>
+  <% {notices, alerts} = notices_and_alerts(@route_alerts) %>
+  <div id="alertsModal" class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="alertsModalTitle">
+    <div class="modal-dialog modal-lg modal-transparent" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
           <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
-            <%= fa "times-circle" %>
+            <%= fa "times-circle" %> Close
           </button>
         </div>
-        <%= render "_alerts_header.html", forward_assigns(@conn) %>
-      </div>
-      <div class="modal-body">
-        <%= render "_alert_list.html", alerts: alerts, collapse_descriptions: true %>
-        <%= render "_notice_list.html", notices: notices, collapse_descriptions: true %>
+        <div class="modal-body p-a-0">
+          <%= render "_alerts_header.html", forward_assigns(@conn) %>
+          <div class="row">
+            <div class="col-xs-12">
+              <%= render "_alert_list.html", alerts: alerts %>
+              <%= render "_notice_list.html", notices: notices %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<%= if length(@route_alerts) > 0 do %>
   <a
     href="<%= schedule_path @conn, :alerts, @conn.params %>"
-    class="col-xs-12 btn btn-link alerts-modal-button"
+    class="col-xs-12 btn btn-link alerts-modal-button <%= if alerts == [] do %>bg-notice <% end %>"
     data-toggle="modal"
     data-target="#alertsModal"
   >
     <p>
-      <%= if length(alerts) > 0 do %>
-        <%= fa "exclamation-triangle" %>
-      <% end %>
+      <%= fa "exclamation-triangle" %>
       <%= display_alert_effects(@route_alerts) %>
     </p>
   </a>

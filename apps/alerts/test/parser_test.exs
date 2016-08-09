@@ -12,7 +12,8 @@ defmodule Alerts.ParserTest do
               "route_type" => 3,
               "route" => "18",
               "stop" => "stop",
-              "trip" => "trip"
+              "trip" => "trip",
+              "direction_id" => 1
             }
           ],
           "header" => "Route 18 experiencing moderate delays due to traffic",
@@ -38,7 +39,8 @@ defmodule Alerts.ParserTest do
             route_type: 3,
             route: "18",
             stop: "stop",
-            trip: "trip"
+            trip: "trip",
+            direction_id: 1
           }
         ],
         active_period: [

@@ -1,22 +1,20 @@
-<%= if length(@notices) > 0 do %>
+<%= if @notices != [] do %>
   <div>
-    <h5 class="alert-list-header text-muted">Notices</h5>
+    <div class="alert-list-header">Notices</div>
     <ul class="alert-list">
       <%= for notice <- @notices do %>
-        <li class="notice-card">
-          <h5 class="notice-card-header">
+        <li class="alert-card">
+          <div class="alert-card-header bg-notice">
             <%= notice.header %>
-          </h5>
-          <%= if notice.description do %>
-            <p class="notice-card-body no-overflow">
-              <%= if @collapse_descriptions do %>
-                <%= render "_collapsible_alert_text.html", description: notice.description, id: notice.id %>
-              <%= else %>
+          </div>
+          <div class="alert-card-body-container">
+            <%= if notice.description do %>
+              <div class="alert-card-body no-overflow">
                 <%= newline_to_br(notice.description) %>
-              <% end %>
-            </p>
-          <% end %>
-          <p class="notice-card-footer text-muted"><small><%= display_alert_updated(notice) %></small></p>
+              </div>
+            <% end %>
+            <div class="alert-card-footer"><%= display_alert_updated(notice) %></div>
+          </div>
         </li>
       <% end %>
     </ul>

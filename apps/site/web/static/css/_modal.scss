@@ -1,0 +1,30 @@
+.modal-transparent {
+  .modal-content {
+    background-color: transparent;
+    border: none;
+  }
+
+  .modal-body {
+    background-color: #fff;
+  }
+
+  .close {
+    color: #fff;
+    margin-right: -15px; // undo default header padding
+  }
+}
+
+.modal-backdrop {
+  &.in {
+    opacity: 0.7;
+  }
+}
+
+// Fix the max-width.  TODO check when we upgrade; this might be fixed in
+// other versions of Bootstrap.
+@include media-breakpoint-up(sm) {
+  .modal-dialog {
+    max-width: $modal-md;
+    padding: 0 0.5rem;
+  }
+}

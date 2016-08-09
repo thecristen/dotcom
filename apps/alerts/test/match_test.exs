@@ -69,7 +69,10 @@ defmodule Alerts.MatchTest do
     ie = %InformedEntity{stop: "1"}
 
     assert Alerts.Match.match(alerts, ie) == alerts
+    assert Alerts.Match.match(alerts, ie, DateTime.from({{2016, 6, 1}, {0, 0, 0}})) == alerts
+    assert Alerts.Match.match(alerts, ie, DateTime.from({{2016, 6, 2}, {0, 0, 0}})) == alerts
     assert Alerts.Match.match(alerts, ie, DateTime.from({{2016, 6, 2}, {0, 30, 0}})) == alerts
+    assert Alerts.Match.match(alerts, ie, DateTime.from({{2016, 6, 3}, {0, 0, 0}})) == alerts
     assert Alerts.Match.match(alerts, ie, DateTime.from({{2016, 6, 4}, {0, 0, 0}})) == alerts
     assert Alerts.Match.match(alerts, ie, DateTime.from({{2016, 5, 20}, {0, 0, 0}})) == alerts
 

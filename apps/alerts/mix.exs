@@ -18,7 +18,7 @@ defmodule Alerts.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :timex, :repo_cache],
+    [applications: [:logger, :timex, :repo_cache, :con_cache, :parallel_stream],
      mod: {Alerts, []}]
   end
 
@@ -38,6 +38,8 @@ defmodule Alerts.Mixfile do
   defp deps do
     [{:v3_api, in_umbrella: true},
      {:repo_cache, in_umbrella: true},
+     {:parallel_stream, "~> 1.0.5"},
+     {:con_cache, "~> 0.11.0"},
      {:timex, ">= 0.0.0"}]
   end
 end

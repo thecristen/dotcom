@@ -24,6 +24,6 @@ ADD . .
 
 WORKDIR /root/apps/site
 RUN mix do deps.get, deps.compile && \
-    npm install && \
+    npm install --production && \
     brunch build --production && \
     mix do compile, phoenix.digest, release --verbosity=verbose --no-confirm-missing

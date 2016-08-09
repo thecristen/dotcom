@@ -23,21 +23,20 @@ defmodule Alerts.Match do
     |> Enum.any?(&(IE.match?(&1, entity)))
   end
 
-  defp any_time_match?(alert, datetime) do
+  def any_time_match?(alert, datetime) do
     alert.active_period
     |> Enum.any?(&(between?(&1, datetime)))
   end
 
   defp between?({start, nil}, datetime) do
-    datetime
-    |> Timex.after?(start)
+    Timex.equal?(datetime, start) || Timex.after?(datetime, start)
   end
   defp between?({nil, stop}, datetime) do
-    datetime
-    |> Timex.before?(stop)
+    Timex.equal?(datetime, stop) || Timex.before?(datetime, stop)
   end
   defp between?({start, stop}, datetime) do
-    datetime
-    |> Timex.between?(start, stop)
+    Timex.between?(datetime, start, stop) ||
+      Timex.equal?(datetime, start) ||
+      Timex.equal?(datetime, stop)
   end
 end

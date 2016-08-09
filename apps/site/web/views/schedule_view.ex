@@ -1,5 +1,6 @@
 defmodule Site.ScheduleView do
   use Site.Web, :view
+  import Site.ScheduleView.Alerts
 
   def update_url(%{params: params} = conn, query) do
     query_map = query
@@ -21,86 +22,6 @@ defmodule Site.ScheduleView do
     assigns
     |> Dict.put(:conn, conn)
   end
-
-  def has_alerts?(alerts, %Schedules.Schedule{} = schedule) do
-    entity = %Alerts.InformedEntity{
-      route_type: schedule.route.type,
-      route: schedule.route.id,
-      stop: schedule.stop.id,
-      trip: schedule.trip.id
-    }
-
-    # hack to unmatch the "Fares go up on July 1" alert on everything
-    matched = alerts
-    |> Alerts.Match.match(entity, schedule.time)
-    |> Enum.reject(fn alert ->
-      # not a displayed alert and affects the whole mode type or the whole
-      # line
-      !display_as_alert?(alert) && (
-        %Alerts.InformedEntity{route_type: schedule.route.type} in alert.informed_entity ||
-          %Alerts.InformedEntity{route_type: schedule.route.type,
-                                 route: schedule.route.id} in alert.informed_entity)
-    end)
-
-    matched != []
-  end
-  def has_alerts?(alerts, %Schedules.Trip{} = trip) do
-    entity = %Alerts.InformedEntity{
-      trip: trip.id
-    }
-
-    matched = alerts
-    |> Alerts.Match.match(entity)
-    |> Enum.filter(&display_as_alert?/1)
-
-    matched != []
-  end
-
-  @doc """
-  Partition a enum of alerts into a pair of those that should be displayed as alerts, and those
-  that should be displayed as notices.
-  """
-  def alerts_and_notices(alerts) do
-    Enum.partition(alerts, &display_as_alert?/1)
-  end
-
-  defp display_as_alert?(alert) do
-    # The list of effects which should be shown as an alert -- others
-    # are shown with less emphasis in the UI
-    alert_effects = [
-      "Delay", "Shuttle", "Stop Closure", "Snow Route", "Cancellation", "Detour", "No Service"
-    ]
-    alert.effect_name in alert_effects
-  end
-
-  @doc """
-  Takes a list of alerts and returns a string summarizing their effects, such as "3 Delays, Stop
-  Closure, 4 Station Issues". Adds an optional suffix if the list of alerts is non-empty.
-  """
-  def display_alert_effects(alerts, suffix \\ "")
-  def display_alert_effects([], _), do: ""
-  def display_alert_effects(alerts, suffix) do
-    alerts
-    |> Enum.group_by(&(&1.effect_name))
-    |> Enum.map(fn {effect_name, alerts} ->
-      num_alerts = length(alerts)
-      if num_alerts > 1 do
-        "#{num_alerts} #{Inflex.inflect(effect_name, num_alerts)}"
-      else
-        effect_name
-      end
-    end)
-    |> Enum.join(", ")
-    |> Kernel.<>(suffix)
-  end
-
-  def display_alert_updated(alert) do
-    formatted = alert.updated_at
-    |> Timex.format!("{relative}", Timex.Format.DateTime.Formatters.Relative)
-
-    "Updated #{formatted}"
-  end
-
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
     conn.params
@@ -122,7 +43,9 @@ defmodule Site.ScheduleView do
     text
     |> html_escape
     |> safe_to_string
-    |> String.replace("\n", "<br />")
+    |> String.replace(~r/^(.*:)\s/, "<strong>\\1</strong>\n") # an initial header
+    |> String.replace(~r/\n(.*:)\s/, "<hr><strong>\\1</strong>\n") # all other start with an HR
+    |> String.replace(~r/\s*\n/s, "<br />")
     |> raw
   end
 

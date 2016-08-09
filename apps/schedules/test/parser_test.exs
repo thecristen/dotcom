@@ -21,7 +21,8 @@ defmodule Schedules.ParserTest do
           %JsonApi.Item{
             attributes: %{
               "headsign" => "North Station",
-              "name" => "300"
+              "name" => "300",
+              "direction_id" => 1,
             },
             id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
             relationships: %{
@@ -49,6 +50,7 @@ defmodule Schedules.ParserTest do
         id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
         name: "300",
         headsign: "North Station",
+        direction_id: 1
       },
       stop: %Schedules.Stop{
         id: "Lowell",
