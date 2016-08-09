@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-sm-12 schedule-block">
           <p>
-            Departure times from <%= station_link @from %>
+            Departure times from <%= @from.name %>
           </p>
           <div class="list-group schedule-list-group">
             <%= render @list_group_template, forward_assigns(@conn) %>
