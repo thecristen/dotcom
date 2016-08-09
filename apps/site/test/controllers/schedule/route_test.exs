@@ -27,20 +27,6 @@ defmodule Site.ScheduleControllerTest do
     refute response =~ "Ashmont - Inbound"
   end
 
-  test "links to the origin station name if one exists", %{conn: conn} do
-    conn = get conn, schedule_path(conn, :index, route: "Red", origin: "place-alfcl")
-    response = html_response(conn, 200)
-    assert response =~ ~s(<a href="#{station_path(conn, :show, "place-alfcl")}">Alewife</a>)
-  end
-
-  test "does not try to link to a stop if there's no corresponding station page", %{conn: conn} do
-    conn = get conn, schedule_path(conn, :index, route: "33")
-    response = html_response(conn, 200)
-    stop_name = "River St @ Milton St"
-    assert response =~ stop_name
-    refute response =~ ~s(<a href="#{station_path(conn, :show, "33")}">#{stop_name}</a>)
-  end
-
   test "returns 404 if a nonexistent route is given", %{conn: conn} do
     conn = get conn, schedule_path(conn, :index, route: "Teal")
     response = html_response(conn, 404)
