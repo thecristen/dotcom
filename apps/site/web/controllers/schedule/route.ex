@@ -30,9 +30,11 @@ defmodule Site.ScheduleController.Route do
 
   defp render_schedules([], conn) do
     conn
+    |> assign(:schedules, [])
     |> assign_all_routes
     |> await_assign_all
     |> route_alerts
+    |> stop_alerts
     |> render("empty.html")
   end
   defp render_schedules(all_schedules, conn) do

@@ -20,7 +20,7 @@
     </form>
   </div>
 </div>
-<%= if @origin != nil do %>
+<%= if @origin != nil && (@destination != nil || @schedules != []) do %>
   <%= if @destination == nil do %>
   <div class="row">
     <div class="col-xs-12">
