@@ -96,7 +96,7 @@
   @include media-breakpoint-up(sm) {
     transition: max-height 1s ease, object-position 1s ease;
     -webkit-transition: max-height 1s ease, object-position 1s ease;
-    cursor: nesw-resize;
+    cursor: pointer;
     &.expanded {
       max-height: map-get($container-max-widths, md);
       object-position: initial;
