@@ -15,7 +15,7 @@ defmodule Stations.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :json_api],
+    [applications: [:logger, :httpoison, :json_api, :repo_cache],
      mod: {Stations, []}]
   end
 
@@ -31,6 +31,7 @@ defmodule Stations.Mixfile do
   defp deps do
     [{:httpoison, ">= 0.0.0"},
      {:json_api, in_umbrella: true},
+     {:repo_cache, in_umbrella: true},
      {:credo, ">= 0.0.0", only: [:dev, :test]},
      {:dialyxir, ">= 0.0.0", only: [:dev, :test]}]
   end

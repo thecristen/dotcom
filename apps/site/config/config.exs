@@ -8,9 +8,8 @@ use Mix.Config
 # Configures the endpoint
 config :site, Site.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
   secret_key_base: "4DTl03knjPRXF9QYrTqcVRZUy8hN5gS6x6rN1mIImpo1rcN79d77ZAfShyVqDzx/",
-  render_errors: [accepts: ~w(html json)],
+  render_errors: [accepts: ~w(html json), layout: {Site.LayoutView, "app.html"}],
   pubsub: [name: Site.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

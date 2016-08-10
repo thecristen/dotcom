@@ -29,6 +29,6 @@ defmodule Site.ConnCase do
 
   setup tags do
 
-    {:ok, conn: Phoenix.ConnTest.conn()}
+    {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

@@ -19,8 +19,8 @@ defmodule Site.HelpersTest do
   end
 
   describe "route_link/2" do
-    test "for Orange line" do
-      conn = conn :get, "/stations/place-north"
+    test "for Orange line", %{conn: conn} do
+      conn = get conn, "/stations/place-north"
       route = %Routes.Route{type: 0, id: "Orange", name: "Orange"}
 
       expected = 
@@ -31,8 +31,8 @@ defmodule Site.HelpersTest do
       assert expected == safe_to_string(route_link(conn, route))
     end
 
-    test "for Lowell line" do
-      conn = conn :get, "/stations/place-north"
+    test "for Lowell line", %{conn: conn} do
+      conn = get conn, "/stations/place-north"
       route = %Routes.Route{type: 2, id: "CR-Lowell", name: "Lowell"}
 
       expected = "<a class=\"mode-group-btn\" href=\"/schedules?route=CR-Lowell\">Lowell</a>"
