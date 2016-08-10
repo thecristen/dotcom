@@ -12,6 +12,7 @@ defmodule Site.ScheduleController.Route do
     |> assign_alerts
     |> assign_selected_trip
     |> assign_all_stops(route_id)
+    |> assign_destination_stops(route_id)
     |> render_route
   end
 
