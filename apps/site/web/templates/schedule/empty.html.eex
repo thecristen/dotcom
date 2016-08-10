@@ -13,6 +13,10 @@
               nil -> ""
               %{name: name} -> "from #{name}"
               end %>
+          <%= case Enum.find(@all_stops, &(&1.id == @destination)) do
+              nil -> ""
+              %{name: name} -> "to #{name}"
+              end %>
           on <%= @date |> Timex.format!("{Mfull} {D}, {YYYY}") %>.
       </div>
     </div>
