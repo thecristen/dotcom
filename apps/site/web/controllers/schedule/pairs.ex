@@ -30,6 +30,7 @@ defmodule Site.ScheduleController.Pairs do
     |> route_alerts
     |> stop_alerts
     |> trip_alerts
+    |> assign(:schedules, filtered_pairs)
     |> render_pairs(filtered_pairs)
   end
 
@@ -50,7 +51,6 @@ defmodule Site.ScheduleController.Pairs do
     conn
     |> render("pairs.html",
     to: pairs |> Enum.map(&(elem(&1, 1))) |> to,
-    pairs: pairs
     )
   end
 end
