@@ -3,7 +3,7 @@
     <form method="GET" action="#origin" data-submit-on-change>
       <%= hidden_query_params(@conn, exclude: ["origin"]) %>
       <div class="form-group">
-        <label for="origin">What is your stop? <%= render "_loading.html" %></label>
+        <label for="origin">Show departure times for <%= render "_loading.html" %></label>
         <select id="origin" name="origin" class="form-control c-select">
           <option value="">Select a station</option>
           <%= for stop <- @all_stops do %>
@@ -25,7 +25,7 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="card schedule-callout">
-        To view a trip schedule enter a destination
+        <%= fa "question-circle" %> To view a trip schedule enter a destination
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@
       <form method="GET" action="#" data-submit-on-change>
         <%= hidden_query_params @conn, exclude: ["dest", "trip", "name"] %>
         <div class="form-group">
-          <label for="dest">What is your destination? <%= render "_loading.html" %></label>
+          <label for="dest">Where are you traveling to? <%= render "_loading.html" %></label>
           <select id="dest" name="dest" class="form-control c-select" placeholder="Select a station">
             <option value="">Select a station</option>
             <%= for stop <- @all_stops |> Enum.take_while(fn stop -> stop.id != @origin end) do %>
