@@ -8,7 +8,7 @@
     <% end %>">
     <div class="schedule-title row">
       <span class="col-xs-4 schedule-time">
-        <%= hour |> Kernel.*(3600) |> Timex.DateTime.from_seconds |> Timex.format!("{kitchen}") %>
+        <%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %>
       </span>
       <span class="col-xs-7">
         <%= render "_schedule_group.html", schedules: schedules %>

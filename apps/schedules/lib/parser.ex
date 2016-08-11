@@ -82,6 +82,6 @@ defmodule Schedules.Parser do
 
   defp time(%JsonApi.Item{attributes: %{"departure_time" => departure_time}}) do
     departure_time
-    |> Timex.parse!("{ISO}")
+    |> Timex.parse!("{ISO:Extended}")
   end
 end

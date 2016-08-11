@@ -44,13 +44,13 @@ defmodule Alerts.ParserTest do
           }
         ],
         active_period: [
-          {Timex.DateTime.from_erl({{2016, 6, 6}, {14, 48, 48}}, "Etc/GMT+4"),
-           Timex.DateTime.from_erl({{2016, 6, 6}, {19, 53, 51}}, "Etc/GMT+4")}
+          {~N[2016-06-06T14:48:48] |> Timex.to_datetime("Etc/GMT+4"),
+           ~N[2016-06-06T19:53:51] |> Timex.to_datetime("Etc/GMT+4")}
         ],
         severity: "Minor",
         lifecycle: "Ongoing",
         effect_name: "Delay",
-        updated_at: Timex.DateTime.from_erl({{2016, 6, 20}, {16, 09, 29}}, "Etc/GMT+4"),
+        updated_at: ~N[2016-06-20T16:09:29] |> Timex.to_datetime("Etc/GMT+4"),
         description: "Affected routes: 18"
       }
     end

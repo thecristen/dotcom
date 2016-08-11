@@ -15,7 +15,7 @@ defmodule AlertsTest do
     end
 
     test "Shuttle is an alert if it's active and not Ongoing" do
-      today = DateTime.now("America/New_York")
+      today = Timex.now("America/New_York")
       shuttle = %Alert{effect_name: "Shuttle",
                        active_period: [{Timex.shift(today, days: -1), nil}],
                        lifecycle: "New"}
@@ -24,7 +24,7 @@ defmodule AlertsTest do
     end
 
     test "Shuttle is a notice if it's Ongoing" do
-      today = DateTime.now("America/New_York")
+      today = Timex.now("America/New_York")
       shuttle = %Alert{effect_name: "Shuttle",
                        active_period: [{Timex.shift(today, days: -1), nil}],
                        lifecycle: "Ongoing"}

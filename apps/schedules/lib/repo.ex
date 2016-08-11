@@ -99,7 +99,7 @@ defmodule Schedules.Repo do
     end
   end
 
-  defp to_string(%Timex.Date{} = date) do
+  defp to_string(%Date{} = date) do
     date
     |> Timex.format!("{ISOdate}")
   end

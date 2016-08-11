@@ -38,7 +38,7 @@ defmodule Alerts.TripTest do
   end
 
   test "includes delays that are active at :time" do
-    now = Timex.DateTime.now
+    now = Timex.now
     alert = %Alert{informed_entity: [%IE{trip: @trip_id}],
                    active_period: [{now, nil}]}
     wrong_alert = %Alert{informed_entity: [%IE{trip: @trip_id}],

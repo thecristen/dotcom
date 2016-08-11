@@ -30,6 +30,6 @@ defmodule Alerts.Parser do
   end
   defp parse_time(str) do
     str
-    |> Timex.parse!("{ISO}")
+    |> Timex.parse!("{ISO:Extended}")
   end
 end

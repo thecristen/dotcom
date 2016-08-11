@@ -139,7 +139,7 @@ defmodule Site.ScheduleController.Helpers do
   @doc "Returns true if the Schedule is in the future"
   def is_after_now?(%Schedules.Schedule{time: time}) do
     time
-    |> Timex.after?(DateTime.now)
+    |> Timex.after?(Timex.now)
   end
 
   @doc """
@@ -149,7 +149,7 @@ defmodule Site.ScheduleController.Helpers do
   def route_alerts(%{assigns: %{alerts: alerts, route: route}} = conn) do
     alerts = alerts
     |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id})
-    |> Enum.sort_by(&(- Timex.DateTime.to_seconds(&1.updated_at)))
+    |> Enum.sort_by(&(- Timex.to_unix(&1.updated_at)))
 
     conn
     |> assign(:route_alerts, alerts)
