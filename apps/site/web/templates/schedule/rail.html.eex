@@ -33,7 +33,11 @@
       <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedule), time: schedule.time %>
       <p><strong>Your trip:</strong></p>
       <ul class="trip-list">
-        <% filtered_schedules = @trip_schedule |> Enum.drop_while(&(&1.stop.id !== @from.id)) %>
+        <% filtered_schedules = case @trip_schedule |> Enum.drop_while(&(&1.stop.id !== @from.id)) do
+             [] -> @trip_schedule # the case when the trip doesn't intersect @from
+             schedules -> schedules
+           end
+        %>
         <%= for {trip_schedule, index} <- Enum.with_index(filtered_schedules) do %>
           <li class="trip-stop">
             <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
