@@ -25,4 +25,5 @@ import imageExpand from './image-expand.js';
 submitOnEvents(["blur", "change"]);
 dateToggle();
 imageExpand();
+$('[data-toggle="tooltip"]').tooltip()
 $("body").removeClass("no-js").addClass("js");

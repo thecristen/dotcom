@@ -46,6 +46,7 @@ exports.config = {
       "web/static",
       "node_modules/bootstrap/dist/js/modal.js",
       "node_modules/bootstrap/dist/js/collapse.js",
+      "node_modules/bootstrap/dist/js/tooltip.js",
       "test/static"
     ],
 
@@ -79,8 +80,10 @@ exports.config = {
     // Whitelist the npm deps to be pulled in as front-end assets.
     // All other deps in package.json will be excluded from the bundle.
     globals: {
+      Tether: "tether",
       collapse: "bootstrap/dist/js/umd/collapse",
       modal: "bootstrap/dist/js/umd/modal",
+      tooltip: "bootstrap/dist/js/umd/tooltip",
       date_polyfill: "nodep-date-input-polyfill"
     }
   },

@@ -47,10 +47,10 @@ defmodule Site.ViewHelpers do
     end
   end
 
-  @doc "HTML for a FontAwesome icon"
-  def fa(name) do
+  @doc "HTML for a FontAwesome icon, with optional attributes"
+  def fa(name, attributes \\ "") do
     class_name = "fa fa-#{name}"
-    raw ~s(<i class="#{class_name}" aria-hidden=true></i>)
+    raw ~s(<i class="#{class_name}" #{attributes} aria-hidden=true></i>)
   end
 
   @doc "The string description of a direction ID"
