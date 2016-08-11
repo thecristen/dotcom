@@ -56,7 +56,7 @@ defmodule Schedules.ParserTest do
         id: "Lowell",
         name: "Lowell"
       },
-      time: Timex.DateTime.from({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
+      time: Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
     }
 
     assert Schedules.Parser.parse(api_item) == expected

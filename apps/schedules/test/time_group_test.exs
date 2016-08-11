@@ -4,7 +4,7 @@ defmodule TimeGroupTest do
   use Timex
   alias Schedules.Schedule
 
-  @time DateTime.from_erl({{2016, 1, 1}, {5, 16, 1}})
+  @time ~N[2016-01-01T05:16:01] |> Timex.to_datetime
   @schedule %Schedule{time: @time}
 
   test "by_group returns a keyword list of the schedules grouped by hour" do
@@ -13,14 +13,14 @@ defmodule TimeGroupTest do
   end
 
   test "keeps schedules in order between groups" do
-    other_time = DateTime.from_erl({{2016, 1, 1}, {6, 50, 0}})
+    other_time = Timex.to_datetime({{2016, 1, 1}, {6, 50, 0}})
     other_schedule = %Schedule{time: other_time}
     assert TimeGroup.by_hour([@schedule, other_schedule]) ==
       [{5, [@schedule]}, {6, [other_schedule]}]
   end
 
   test "keeps schedules in order inside a group" do
-    other_time = DateTime.from_erl({{2016, 1, 1}, {5, 50, 0}})
+    other_time = Timex.to_datetime({{2016, 1, 1}, {5, 50, 0}})
     other_schedule = %Schedule{time: other_time}
     assert TimeGroup.by_hour([@schedule, other_schedule]) ==
       [{5, [@schedule, other_schedule]}]
@@ -29,7 +29,7 @@ defmodule TimeGroupTest do
   property "by_hour keeps schedules globally ordered" do
     for_all seconds in list(non_neg_integer) do
       times = seconds
-      |> Enum.map(fn seconds -> DateTime.from_seconds(seconds) end)
+      |> Enum.map(fn seconds -> DateTime.from_unix!(seconds) end)
 
       schedules = times
       |> Enum.map(fn time -> %Schedule{time: time} end)
@@ -44,10 +44,10 @@ defmodule TimeGroupTest do
 
   test "by_subway_period groups schedules into 5 groups" do
     # @schedule is am_rush
-    midday = %Schedule{time: DateTime.from_erl({{2016, 1, 1}, {11, 0, 0}})}
-    pm_rush = %Schedule{time: DateTime.from_erl({{2016, 1, 1}, {16, 0, 0}})}
-    evening = %Schedule{time: DateTime.from_erl({{2016, 1, 1}, {19, 0, 0}})}
-    late = %Schedule{time: DateTime.from_erl({{2016, 1, 2}, {1, 0, 0}})}
+    midday = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {11, 0, 0}})}
+    pm_rush = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {16, 0, 0}})}
+    evening = %Schedule{time: Timex.to_datetime({{2016, 1, 1}, {19, 0, 0}})}
+    late = %Schedule{time: Timex.to_datetime({{2016, 1, 2}, {1, 0, 0}})}
     assert TimeGroup.by_subway_period([@schedule, midday, pm_rush, evening, late]) == [
       am_rush: [@schedule],
       midday: [midday],
@@ -58,18 +58,18 @@ defmodule TimeGroupTest do
   end
 
   test "frequency returns a single value if there's a single headway" do
-    first_time = DateTime.from_erl({{2016, 1, 1}, {5, 26, 1}})
+    first_time = Timex.to_datetime({{2016, 1, 1}, {5, 26, 1}})
     first_schedule = %Schedule{time: first_time}
-    second_time = DateTime.from_erl({{2016, 1, 1}, {5, 36, 1}})
+    second_time = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
     second_schedule = %Schedule{time: second_time}
 
     assert TimeGroup.frequency([@schedule, first_schedule, second_schedule]) == 10
   end
 
   test "frequency returns a min/max if there are different values" do
-    first_time = DateTime.from_erl({{2016, 1, 1}, {5, 25, 1}})
+    first_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
     first_schedule = %Schedule{time: first_time}
-    second_time = DateTime.from_erl({{2016, 1, 1}, {5, 36, 1}})
+    second_time = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
     second_schedule = %Schedule{time: second_time}
 
     assert TimeGroup.frequency([@schedule, first_schedule, second_schedule]) == {9, 11}

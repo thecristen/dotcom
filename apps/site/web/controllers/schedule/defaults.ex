@@ -17,7 +17,7 @@ defmodule Site.ScheduleController.Defaults do
 
     direction_id = default_direction_id(params)
 
-    show_all = params["all"] != nil || not Timex.equal?(Date.today, date)
+    show_all = params["all"] != nil || not Timex.equal?(Timex.today, date)
 
     [
       date: date,
@@ -31,15 +31,15 @@ defmodule Site.ScheduleController.Defaults do
 
   defp default_date(params) do
     case Timex.parse(params["date"], "{ISOdate}") do
-      {:ok, value} -> value |> Date.from
-      _ -> Date.today
+      {:ok, value} -> value |> Timex.to_date
+      _ -> Timex.today
     end
   end
 
   defp default_direction_id(params) do
     case params["direction_id"] do
       nil ->
-        if DateTime.now("America/New_York").hour <= 13 do
+        if Timex.now("America/New_York").hour <= 13 do
           1 # Inbound
         else
           0

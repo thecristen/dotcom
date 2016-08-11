@@ -25,7 +25,7 @@ defmodule Site.ScheduleController.Modes.Behaviour do
       end
       defp mode_delays(route_type) do
         Alerts.Repo.all
-        |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, Timex.DateTime.now)
+        |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, Timex.now)
         |> Enum.filter(&(&1.effect_name == "Delay" && &1.lifecycle != "Ongoing"))
       end
 

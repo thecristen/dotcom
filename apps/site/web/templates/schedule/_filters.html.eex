@@ -15,7 +15,7 @@
         <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
       </div>
       <%= if @destination == nil do %>
-        <%= render "_alerts_inline.html", alerts: @stop_alerts, time: Timex.DateTime.now %>
+        <%= render "_alerts_inline.html", alerts: @stop_alerts, time: Timex.now %>
       <% end %>
     </form>
   </div>
@@ -50,7 +50,7 @@
           <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
         </div>
         <%= if @destination != nil do %>
-          <%= render "_alerts_inline.html", alerts: @stop_alerts, time: Timex.DateTime.now %>
+          <%= render "_alerts_inline.html", alerts: @stop_alerts, time: Timex.now %>
         <% end %>
       </form>
     </div>

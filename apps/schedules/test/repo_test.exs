@@ -5,7 +5,7 @@ defmodule Schedules.RepoTest do
   test ".all can take a route/direction/sequence/date" do
     response = Schedules.Repo.all(
       route: "CR-Lowell",
-      date: Date.now,
+      date: Timex.today,
       direction_id: 1,
       stop_sequence: "first")
     assert response != []
@@ -15,7 +15,7 @@ defmodule Schedules.RepoTest do
   test ".all returns the parent station as the stop" do
     response = Schedules.Repo.all(
       route: "Red",
-      date: Date.now,
+      date: Timex.today,
       direction_id: 0,
       stop_sequence: "first")
     assert response != []
@@ -25,7 +25,7 @@ defmodule Schedules.RepoTest do
   test ".stops returns a list of stops in order of their stop_sequence" do
     response = Schedules.Repo.stops(
       "CR-Lowell",
-      date: Date.now,
+      date: Timex.today,
       direction_id: 1)
 
     assert response != []
@@ -37,7 +37,7 @@ defmodule Schedules.RepoTest do
   test ".stops uses the parent station name" do
     response = Schedules.Repo.stops(
       "Green-B",
-      date: Date.now,
+      date: Timex.today,
       direction_id: 0)
 
     assert response != []
@@ -53,7 +53,7 @@ defmodule Schedules.RepoTest do
   end
 
   test ".origin_destination returns pairs of Schedule items" do
-    today = Date.today |> Timex.format!("{ISOdate}")
+    today = Timex.today |> Timex.format!("{ISOdate}")
     response = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
       date: today, direction_id: 1)
     [{origin, dest}|_] = response
