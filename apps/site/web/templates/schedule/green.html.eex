@@ -5,10 +5,10 @@
     </div>
     <div class="card-block">
       <div class="row p-b-1">
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-xs-12 col-sm-5">
           <%= render "_route.html", forward_assigns(@conn) %>
         </div>
-        <div class="col-xs-12 col-sm-4">
+        <div class="col-xs-12 col-sm-4 p-b-2">
           <%= for route <- @green_routes do %>
             <a class="btn btn-secondary-outline btn-sm text-primary"
                href="<%= update_url @conn, route: route.id %>">
@@ -16,7 +16,7 @@
             </a>
           <% end %>
         </div>
-        <div class="col-xs-12 col-sm-2">
+        <div class="col-xs-12 col-sm-3 schedule-direction">
           <%= render "_direction.html", forward_assigns(@conn) %>
         </div>
       </div>

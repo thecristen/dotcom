@@ -3,7 +3,7 @@
     <form method="GET" action="#origin" data-submit-on-change>
       <%= hidden_query_params(@conn, exclude: ["origin"]) %>
       <div class="form-group">
-        <label for="origin">Show departure times for <%= render "_loading.html" %></label>
+        <label for="origin">Show departure times for: <%= render "_loading.html" %></label>
         <select id="origin" name="origin" class="form-control c-select">
           <option value="">Select a station</option>
           <%= for stop <- @all_stops do %>
