@@ -3,12 +3,9 @@
     <form method="GET" action="" class="form-inline" data-submit-on-change>
       <%= hidden_query_params @conn, exclude: ["date"] %>
       <h4 class="h5">
-        <strong>
-          Schedule for
-          <span class="date-toggle date-toggle-js-only date-toggle-enabled"><%= @date |> Timex.format!("{Mfull} {D}") %></span>
-        </strong>
+        <strong>Schedule for</strong>
+        <button class="btn btn-link date-toggle-edit p-x-0 p-t-0" style="font-weight: bold; font-size: 1.25rem;"><%= @date |> Timex.format!("{Mfull} {D}") %> <%= fa "calendar" %></button>
         <span class="date-toggle"><input class="form-control form-control-sm" type="date" name="date" value="<%= @date |> Timex.format!("{ISOdate}") %>"></span>
-        <button class="btn btn-link date-toggle-edit p-x-0 p-t-0">(change)</a>
         <button type="submit" class="btn btn-sm btn-primary-outline">Change</button>
       </h4>
     </form>

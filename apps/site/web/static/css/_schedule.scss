@@ -2,7 +2,7 @@
   position: relative;
   margin: 5px;
   @include media-breakpoint-up(md) {
-    top: -10px;
+    top: -5px;
     left: -10px;
   }
   @include media-breakpoint-down(sm) {
@@ -49,7 +49,11 @@
 
 .schedule-direction {
   margin-bottom: .5em;
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-up(sm) {
+    // better aligned with the route selector
+    margin-top: -5px;
+  }
+  @include media-breakpoint-down(xs) {
     margin-top: -1em;
   }
 }
@@ -58,6 +62,7 @@
   background-color: $gray-lightest;
   padding: .5em;
   border-radius: 0;
+  font-size: $font-size-sm;
 }
 
 .card-block .schedule-block {
