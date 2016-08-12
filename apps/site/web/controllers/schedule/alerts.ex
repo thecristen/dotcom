@@ -17,6 +17,7 @@ defmodule Site.ScheduleController.Alerts do
     |> assign_alerts
     |> assign_selected_trip
     |> await_assign_all
+    |> assign_datetime
     |> route_alerts
     |> stop_alerts
     |> trip_alerts
@@ -33,7 +34,7 @@ defmodule Site.ScheduleController.Alerts do
          :stop_alerts => stop_alerts}
     } = conn) do
     all_alerts = [trip_alerts || [], route_alerts || [], stop_alerts || []]
-    |> Enum.reduce([], &Enum.concat/2)
+    |> Enum.concat
     |> Enum.uniq
 
     conn

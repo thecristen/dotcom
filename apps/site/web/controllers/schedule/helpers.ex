@@ -25,6 +25,24 @@ defmodule Site.ScheduleController.Helpers do
     |> assign(:all_stops, get_all_stops(conn, route_id))
   end
 
+  @doc "Assign @datetime, a relevant time to use for filtering alerts"
+  def assign_datetime(%{assigns: %{trip_schedule: [schedule|_]}} = conn) do
+    conn
+    |> assign(:datetime, schedule.time)
+  end
+  def assign_datetime(%{assigns: %{date: date}} = conn) do
+    datetime = if Timex.equal?(Timex.today, date) do
+      Timex.now
+    else
+      date
+      |> Timex.to_datetime("America/New_York")
+      |> Timex.set(hour: 12)
+    end
+
+    conn
+    |> assign(:datetime, datetime)
+  end
+
   @braintree_stops [
     "place-brntn",
     "place-qamnl",
@@ -164,13 +182,26 @@ defmodule Site.ScheduleController.Helpers do
     |> assign(:stop_alerts, nil)
   end
   def stop_alerts(%{assigns: %{alerts: alerts,
+                               date: date,
+                               route: route,
+                               direction_id: direction_id,
                                origin: origin,
                                destination: dest}} = conn)
   when origin != nil and dest != nil do
-    origin_alerts = alerts
-    |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
-    dest_alerts = alerts
-    |> Alerts.Match.match(%Alerts.InformedEntity{stop: dest})
+    origin_alerts = Alerts.Stop.match(
+      alerts,
+      origin,
+      route: route.id,
+      route_type: route.type,
+      direction_id: direction_id,
+      time: date)
+    dest_alerts = Alerts.Stop.match(
+      alerts,
+      dest,
+      route: route.id,
+      route_type: route.type,
+      direction_id: direction_id,
+      time: date)
 
     stop_alerts = [origin_alerts, dest_alerts]
     |> Enum.concat
@@ -180,9 +211,17 @@ defmodule Site.ScheduleController.Helpers do
     |> assign(:stop_alerts, stop_alerts)
   end
   def stop_alerts(%{assigns: %{alerts: alerts,
+                               date: date,
+                               route: route,
+                               direction_id: direction_id,
                                origin: origin}} = conn) do
-    stop_alerts = alerts
-    |> Alerts.Match.match(%Alerts.InformedEntity{stop: origin})
+    stop_alerts = Alerts.Stop.match(
+      alerts,
+      origin,
+      route: route.id,
+      route_type: route.type,
+      direction_id: direction_id,
+      time: date)
 
     conn
     |> assign(:stop_alerts, stop_alerts)

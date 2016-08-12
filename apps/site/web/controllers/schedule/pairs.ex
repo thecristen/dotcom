@@ -27,6 +27,7 @@ defmodule Site.ScheduleController.Pairs do
     |> assign_all_routes
     |> assign_route_breadcrumbs
     |> await_assign_all
+    |> assign_datetime
     |> route_alerts
     |> stop_alerts
     |> trip_alerts
