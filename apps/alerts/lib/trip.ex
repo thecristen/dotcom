@@ -10,21 +10,20 @@ defmodule Alerts.Trip do
   * route: the route that trip is on (ID string)
   * route_type: the type of route (GTFS integer)
   * direction_id: the direction of the trip (GTFS integer)
-  * time: for a particular time during that trip (Timex DateTime)
+  * time: for a particular time during that trip (DateTime)
 
   """
   def match(alerts, trip_id, options \\ []) do
     trip_alerts = alerts
-    |> Alerts.Match.match(entity_for(trip_id, []))
+    |> Alerts.Match.match(entity_for(trip_id, []), options[:time])
 
     delay_alerts = alerts
-    |> Alerts.Match.match(entity_for(nil, options))
+    |> Alerts.Match.match(entity_for(nil, options), options[:time])
     |> Enum.filter(&(&1.effect_name == "Delay"))
 
     trip_alerts
     |> Kernel.++(delay_alerts)
     |> Enum.uniq
-    |> filter_for_time(Keyword.get(options, :time))
   end
 
   defp entity_for(trip_id, options) do
@@ -36,13 +35,5 @@ defmodule Alerts.Trip do
         :error -> entity
       end
     end)
-  end
-
-  defp filter_for_time(alerts, nil) do
-    alerts
-  end
-  defp filter_for_time(alerts, dt) do
-    alerts
-    |> Enum.filter(&(Alerts.Match.any_time_match?(&1, dt)))
   end
 end
