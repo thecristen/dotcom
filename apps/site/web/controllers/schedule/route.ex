@@ -34,6 +34,7 @@ defmodule Site.ScheduleController.Route do
     |> assign(:schedules, [])
     |> assign_all_routes
     |> await_assign_all
+    |> assign_datetime
     |> route_alerts
     |> stop_alerts
     |> render("empty.html")
@@ -52,6 +53,7 @@ defmodule Site.ScheduleController.Route do
     |> assign_list_group_template
     |> assign_route_breadcrumbs
     |> await_assign_all
+    |> assign_datetime
     |> route_alerts
     |> stop_alerts
     |> trip_alerts

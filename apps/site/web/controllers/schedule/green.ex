@@ -40,6 +40,7 @@ defmodule Site.ScheduleController.Green do
     end)
     |> assign_all_routes
     |> await_assign_all
+    |> assign_datetime
     |> assign_additional_route_to_all_routes
     |> render("green.html")
   end
