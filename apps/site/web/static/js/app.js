@@ -18,11 +18,11 @@
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
-import submitOnChange from './submit-on-change.js';
+import submitOnEvents from './submit-on-events.js';
 import dateToggle from './date-toggle.js';
 import imageExpand from './image-expand.js';
 
-submitOnChange();
+submitOnEvents(["blur", "change"]);
 dateToggle();
 imageExpand();
 $("body").removeClass("no-js").addClass("js");
