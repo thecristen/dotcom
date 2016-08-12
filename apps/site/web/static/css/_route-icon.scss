@@ -14,55 +14,37 @@
 }
 
 .route-icon-commuter-rail {
-  * {
-    fill: white;
-  }
   background-color: $brand-commuter-rail;
 }
 
 .route-icon-bus {
+  * {
+    fill: black;
+  }
   background-color: $brand-secondary;
 }
 
 .route-icon-green {
-  * {
-    fill: white;
-  }
   background-color: $brand-green-line;
 }
 
 .route-icon-subway {
-  * {
-    fill: white;
-  }
   background-color: $gray;
 }
 
 .route-icon-red, .route-icon-mattapan {
-  * {
-    fill: white;
-  }
   background-color: $brand-red-line;
 }
 
 .route-icon-orange {
-  * {
-    fill: white;
-  }
   background-color: $brand-orange-line;
 }
 
 .route-icon-blue {
-  * {
-    fill: white;
-  }
   background-color: $brand-blue-line;
 }
 
 .route-icon-boat {
-  * {
-    fill: white;
-  }
   background-color: $brand-primary-light;
 }
 
