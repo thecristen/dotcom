@@ -3,6 +3,7 @@ defmodule Site.ViewHelpers do
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML.Link
+  import Plug.Conn
   import Util
 
   def svg(path) do
@@ -106,4 +107,11 @@ defmodule Site.ViewHelpers do
   def route_spacing_class(2), do: "col-xs-6 col-md-3"
   def route_spacing_class(3), do: "col-xs-4 col-md-2"
   def route_spacing_class(4), do: "col-xs-12 col-md-4"
+
+  def user_agent(conn) do
+    case get_req_header(conn, "user-agent") do
+      [] -> ""
+      [agent | _] -> agent
+    end
+  end
 end

@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import submitOnChange from '../../web/static/js/submit-on-change';
+import submitOnEvents from '../../web/static/js/submit-on-events';
 
-describe('submit-on-change', () => {
+describe('submit-on-event', () => {
 
   var $;
   jsdom();
@@ -11,7 +11,7 @@ describe('submit-on-change', () => {
     $ = require('jquery');
     $('body').append('<div id=test></div>');
     $('#test').html('<form data-submit-on-change><input type=text><label><i class="loading-indicator hidden-xs-up"></i></label><select><option value=1>1</select><button type=submit>Submit</button></form>');
-    submitOnChange($);
+    submitOnEvents(["change"], $);
   });
 
   afterEach(() => {
