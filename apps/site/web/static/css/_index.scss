@@ -32,12 +32,16 @@
 }
 
 .header .navbar {
-  @include media-breakpoint-up(md) {
-    padding-left: 0;
-    padding-right: 0;
-  }
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .list-group-item-flush {
   padding-left: 0;
+}
+
+@include media-breakpoint-down(sm) {
+  .index {
+    padding-bottom: 12px;
+  }
 }
