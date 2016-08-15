@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-wlsta"}}},"links":{"self":"/stops/70099"},"id":"70099","attributes":{"wheelchair_boarding":0,"name":"Wollaston - Outbound","longitude":-71.0203369,"latitude":42.2665139}}}

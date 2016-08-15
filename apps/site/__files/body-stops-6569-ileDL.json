@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/6569"},"id":"6569","attributes":{"wheelchair_boarding":0,"name":"Corporation Way","longitude":-71.075506,"latitude":42.404686}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "288e34c6-49f2-343b-a4a3-914a22768d66",
+  "request" : {
+    "url" : "/stops/1817",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-stops-1817-FNtrS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "hj05q5ntsgjcvo8b4jrile59k59m6utv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

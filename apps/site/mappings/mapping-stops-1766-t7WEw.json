@@ -1,0 +1,19 @@
+{
+  "uuid" : "2584ff00-02fa-3c32-849c-2bd45448ae3c",
+  "request" : {
+    "url" : "/stops/1766",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-stops-1766-t7WEw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "d40ucr6mff52sn4sbj92a57astrsodbh",
+      "Connection" : "keep-alive"
+    }
+  }
+}

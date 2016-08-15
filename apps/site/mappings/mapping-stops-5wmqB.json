@@ -1,0 +1,19 @@
+{
+  "uuid" : "5c680a2d-8548-3eb8-9672-d15a25ebaa0a",
+  "request" : {
+    "url" : "/stops/?direction_id=0&route=Red&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-5wmqB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:17 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "ble7ogpd2e2o81tarcnhfu9gksl1chob",
+      "Connection" : "keep-alive"
+    }
+  }
+}

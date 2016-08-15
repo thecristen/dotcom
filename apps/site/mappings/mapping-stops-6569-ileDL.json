@@ -1,0 +1,19 @@
+{
+  "uuid" : "73b23954-4102-3cf1-a5be-afb13f6c8862",
+  "request" : {
+    "url" : "/stops/6569",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-6569-ileDL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "t5cq6kjm2eojb1efnu9pead1at3qd0vt",
+      "Connection" : "keep-alive"
+    }
+  }
+}

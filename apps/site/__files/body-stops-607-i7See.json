@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/607"},"id":"607","attributes":{"wheelchair_boarding":0,"name":"Washington St @ Brahms St","longitude":-71.138618,"latitude":42.276985}}}

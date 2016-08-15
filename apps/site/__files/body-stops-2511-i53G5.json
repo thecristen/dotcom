@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/2511"},"id":"2511","attributes":{"wheelchair_boarding":0,"name":"Webster Ave @ Washington St","longitude":-71.096246,"latitude":42.378938}}}

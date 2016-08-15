@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/981"},"id":"981","attributes":{"wheelchair_boarding":0,"name":"Tremont St opp Tremont Pl","longitude":-71.172164,"latitude":42.350798}}}

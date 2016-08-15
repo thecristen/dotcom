@@ -1,0 +1,19 @@
+{
+  "uuid" : "3bdcbc02-71f4-39c1-bfbe-5315fb7bb33f",
+  "request" : {
+    "url" : "/stops/10032",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-10032-SHMzI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "nbt2gjidahjoj5bg0k1433agghjp6u0g",
+      "Connection" : "keep-alive"
+    }
+  }
+}

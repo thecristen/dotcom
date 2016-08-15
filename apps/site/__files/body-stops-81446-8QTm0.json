@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/81446"},"id":"81446","attributes":{"wheelchair_boarding":0,"name":"Central Ave @ Noanette Rd","longitude":-71.235193,"latitude":42.30798}}}

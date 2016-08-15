@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/Natick Center"},"id":"Natick Center","attributes":{"wheelchair_boarding":2,"name":"Natick Center","longitude":-71.347133,"latitude":42.285719}}}

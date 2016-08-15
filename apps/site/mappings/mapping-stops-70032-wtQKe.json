@@ -1,0 +1,19 @@
+{
+  "uuid" : "8f99ee7f-be92-3678-9c5d-a3008d99d113",
+  "request" : {
+    "url" : "/stops/70032",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70032-wtQKe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "plc7pbfsg0eaapjncalagqd00mq6hu7h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

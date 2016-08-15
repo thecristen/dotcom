@@ -1,0 +1,19 @@
+{
+  "uuid" : "a7057d77-bde7-3711-9adb-6fc6ca979edd",
+  "request" : {
+    "url" : "/stops/70104",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70104-mBgZe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "srjhn8s67s03ovvso049rc70er7mb7vp",
+      "Connection" : "keep-alive"
+    }
+  }
+}

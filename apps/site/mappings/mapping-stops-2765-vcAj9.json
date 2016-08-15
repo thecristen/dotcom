@@ -1,0 +1,19 @@
+{
+  "uuid" : "e4514467-2934-3ba5-9fc5-a69833f31681",
+  "request" : {
+    "url" : "/stops/2765",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-2765-vcAj9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "caa3ad738h4hpjvevn85d7livn8pq5nd",
+      "Connection" : "keep-alive"
+    }
+  }
+}

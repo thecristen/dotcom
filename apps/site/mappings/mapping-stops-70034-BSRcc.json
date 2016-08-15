@@ -1,0 +1,19 @@
+{
+  "uuid" : "24ba3f89-4d92-34dc-b2ab-5826883b91fb",
+  "request" : {
+    "url" : "/stops/70034",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70034-BSRcc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "47kpdgufaj8ufvamdcnk3udfjtvc2md2",
+      "Connection" : "keep-alive"
+    }
+  }
+}
