@@ -11,7 +11,11 @@ defmodule V3Api do
   end
 
   defp process_url(url) do
-    base_url = Application.get_env(:v3_api, :base_url)
+    base_url = case Application.get_env(:v3_api, :base_url) do
+                 {:system, envvar, default} ->
+                   System.get_env(envvar) || default
+                 value -> value
+               end
     base_url <> url
   end
 end
