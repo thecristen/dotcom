@@ -10,7 +10,7 @@
     <div class="schedule-title row">
       <span class="schedule-time col-xs-4"><span class="sr-only">Departure: </span><%= schedule.time |> Timex.format!("{kitchen}") %></span>
       <span class="col-xs-7">
-        <%= if schedule.trip.name != "" do %><span class="sr-only">Train</span> No. <%= schedule.trip.name %><% end %>
+        <%= if schedule.trip.name != "" do %><span class="sr-only">Train Number</span><span aria-hidden="true">No.</span><%= schedule.trip.name %><% end %>
         <%= if schedule.stop.name != @from.name do %>
           (from <%= schedule.stop.name %>)
         <% end %>
