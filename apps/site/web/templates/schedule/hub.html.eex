@@ -56,8 +56,8 @@
           <ul class="fare-list">
             <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>
               <li class="col-xs-12">
-                <span class="col-md-11 col-xs-9"><%= title %></span>
-                <span class="col-md-1 col-xs-3"><%= price %></span>
+                <span class="col-xs-9"><%= title %></span>
+                <span class="col-xs-3"><%= price %></span>
               </li>
             <%= end %>
           </ul>
