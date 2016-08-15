@@ -136,7 +136,7 @@ body.no-js .system-map {
     .schedule-time {
       color: $brand-primary-dark;
     }
-    &:hover {
+    &:hover, &:focus, &:active {
       background-color: $brand-primary-lightest;
     }
   }
@@ -145,17 +145,13 @@ body.no-js .system-map {
     .schedule-title, .schedule-time {
       color: white;
     }
-    &:hover {
+    &:hover, &:focus, &:active {
       background-color: $brand-primary-light;
       border: 4px solid $brand-primary-light;
       & + .list-group-item {
         border: 4px solid $brand-primary-light;
       }
     }
-  }
-
-  div.list-group-item.selected-period:hover {
-    background-color: white;
   }
 }
 
