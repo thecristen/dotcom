@@ -188,16 +188,32 @@ body {
   }
 }
 
-.breadcrumb-container {
-  background-color: $gray-lightest;
+.top-bar {
   padding: .5em 0;
 
   @include media-breakpoint-down(sm) {
     padding-left: .5em;
   }
+}
+
+.breadcrumb-container {
+  @extend .top-bar;
+  background-color: $gray-lightest;
 
   i {
     padding: 0 .25em;
     color: $gray-light;
+  }
+}
+
+.alert-container {
+  @extend .top-bar;
+  background-color: $brand-primary-dark;
+  color: white;
+  font-weight: lighter;
+
+  a {
+    color: white;
+    font-weight: initial;
   }
 }

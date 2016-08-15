@@ -17,6 +17,15 @@
 
   <body class="no-js <%= error_class(@view_module) %>">
     <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
+    <%= if Map.get(@conn.assigns, :announcement_template, nil) != nil do %>
+      <div class="container-fluid alert-container">
+        <div class="container">
+          <div class="col-xs-12 p-l-0">
+            <%= render __MODULE__, @announcement_template, assigns %>
+          </div>
+        </div>
+      </div>
+    <% end %>
     <header class="header">
       <div class="container">
         <div class="navbar">
@@ -26,7 +35,7 @@
           <a class="navbar-brand" href="/">
             <span class="sr-only">MBTA Home Page</span>
             <span class="navbar-logo" aria-hidden="true">
-              <%= svg "/images/logo-black.svg" %>
+              <%= svg "/images/logo-beta.svg" %>
             </span>
           </a>
         </div>
