@@ -98,7 +98,7 @@
             <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
 
             <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
-              <span <%= if index < breadcrumb_w_home_length - 2 do %>class="hidden-sm-down"<% end %>>
+              <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
                 <a href="<%= link %>"><%= text %></a>
                 <%= fa "angle-right" %>
               </span>
