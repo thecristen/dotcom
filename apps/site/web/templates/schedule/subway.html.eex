@@ -9,6 +9,7 @@
     <div class="schedule-title row">
       <div class="col-xs-6">
         <span class="schedule-time">
+          <span class="sr-only">Departure Times:</span>
           <%= case name do
               :am_rush -> "OPEN - 9:00AM"
               :midday -> "9:00AM - 3:30PM"

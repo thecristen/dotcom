@@ -11,9 +11,9 @@
           <%= update_url @conn, trip: schedule.trip.id %>#trip
     <% end %>">
     <div class="schedule-title row">
-      <span class="schedule-time col-xs-4"><%= schedule.time |> Timex.format!("{kitchen}") %></span>
+      <span class="schedule-time col-xs-4"><span class="sr-only">Departure: </span><%= schedule.time |> Timex.format!("{kitchen}") %></span>
       <span class="col-xs-7">
-        <%= if schedule.trip.name != "" do %>No. <%= schedule.trip.name %><% end %>
+        <%= if schedule.trip.name != "" do %><span class="sr-only">Train</span> No. <%= schedule.trip.name %><% end %>
         <%= if schedule.stop.name != @from.name do %>
           (from <%= schedule.stop.name %>)
         <% end %>
@@ -38,10 +38,18 @@
              schedules -> schedules
            end
         %>
+        <% last_index = length(@trip_schedule) - 1 %>
         <%= for {trip_schedule, index} <- Enum.with_index(filtered_schedules) do %>
           <li class="trip-stop">
             <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
-            <% last_index = length(@trip_schedule) - 1 %>
+            <span class="trip-stop-bubble" aria-hidden="true">
+              <%= if index in [0, last_index] do %>
+                <%= svg "/images/trip-circle-filled.svg" %>
+              <% else %>
+                <%= svg "/images/trip-circle-open.svg" %>
+              <% end %>
+            </span>
+            <span class="sr-only">Stop</span>
             <p>
               <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
               <%= case index do %>

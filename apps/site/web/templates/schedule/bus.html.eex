@@ -8,6 +8,7 @@
     <% end %>">
     <div class="schedule-title row">
       <span class="col-xs-4 schedule-time">
+        <span class="sr-only">Departure times during the hour of</span>
         <%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %>
       </span>
       <span class="col-xs-7">
