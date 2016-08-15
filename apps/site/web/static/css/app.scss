@@ -20,6 +20,9 @@ body {
 
 @include media-breakpoint-up(sm) {
   // we only need the BG image if the screen is big enough
+  body.not-found {
+    background-image: url(/images/mbta-train-bkg-404.jpg);
+  }
   body {
     background-image: url(/images/mbta-train-bkg.jpg);
     background-repeat: no-repeat;

@@ -20,10 +20,11 @@
     {
       "label": "Homepage",
       "url": "http://localhost:4001/",
-      "referenceUrl": "http://beta.mbta.com/",
+      "referenceUrl": "http://beta.mbta.com",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
+        "body",
         "header",
         "#schedules",
         "footer"
@@ -79,6 +80,13 @@
       "selectors": ["main"],
       "delay": 1000,
       "misMatchThreshold": 0.1
+    },
+    {
+      "label": "404 Page",
+      "url": "http://localhost:4001/not-found",
+      "referenceUrl": "http://beta.mbta.com/not-found",
+      "selectors": ["body"],
+      "delay": 1000
     }
   ],
   "paths": {

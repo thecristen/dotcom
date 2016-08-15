@@ -4,6 +4,11 @@ defmodule Site.ErrorViewTest do
   # Bring render/3 and render_to_string/3 for testing custom views
   import Phoenix.View
 
+  test "adds 'not-found' to body class on 404 pages" do
+    conn = get build_conn(), "/not-found"
+    assert html_response(conn, 404) =~ "not-found"
+  end
+
   test "renders 404.html" do
     assert render_to_string(Site.ErrorView, "404.html", []) =~ "the page you're looking for has been derailed and cannot be found."
   end

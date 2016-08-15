@@ -15,7 +15,7 @@
     <link rel=icon href="<%= static_path(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
   </head>
 
-  <body class="no-js">
+  <body class="no-js <%= error_class(@view_module) %>">
     <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
     <header class="header">
       <div class="container">
