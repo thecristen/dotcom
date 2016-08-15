@@ -1,14 +1,16 @@
 <%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
   <% is_selected_period = @conn.params["name"] == to_string(name) %>
   <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
+    id="<%= name %>"
     href="<%= if is_selected_period do %>
           <%= update_url @conn, name: "" %>
     <% else %>
-          <%= update_url @conn, name: name %>
+          <%= update_url @conn, name: name %>#<%= name %>
     <% end %>">
     <div class="schedule-title row">
       <div class="col-xs-6">
         <span class="schedule-time">
+          <span class="sr-only">Departure Times:</span>
           <%= case name do
               :am_rush -> "OPEN - 9:00AM"
               :midday -> "9:00AM - 3:30PM"

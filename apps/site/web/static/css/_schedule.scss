@@ -123,6 +123,13 @@ body.no-js .system-map {
 }
 
 .schedule-list-group {
+  .list-group-item {
+    padding: .5em;
+
+    .schedule-time {
+      color: $brand-primary-dark;
+    }
+  }
   .list-group-item:first-child {
     border-radius: 0;
   }
@@ -131,25 +138,21 @@ body.no-js .system-map {
     background-color: $gray-lightest;
   }
 
-  .list-group-item {
-    padding: .5em;
-    .schedule-time {
-      color: $brand-primary-dark;
-    }
+  a.list-group-item {
     &:hover, &:focus, &:active {
       background-color: $brand-primary-lightest;
     }
-  }
 
-  a.list-group-item.selected-period {
-    .schedule-title, .schedule-time {
-      color: white;
-    }
-    &:hover, &:focus, &:active {
-      background-color: $brand-primary-light;
-      border: 4px solid $brand-primary-light;
-      & + .list-group-item {
+    &.selected-period {
+      .schedule-title, .schedule-time {
+        color: white;
+      }
+      &:hover, &:focus, &:active {
+        background-color: $brand-primary-light;
         border: 4px solid $brand-primary-light;
+        & + .list-group-item {
+          border: 4px solid $brand-primary-light;
+        }
       }
     }
   }
@@ -192,14 +195,6 @@ body.no-js .system-map {
   padding-left: 10px;
   list-style: none;
 
-  &:after {
-    content: url('/images/trip-circle-open.svg');
-    color: $brand-primary-dark;
-    position: absolute;
-    left: -21px;
-    top: 1px;
-  }
-
   &:before {
     content: "";
     position: absolute;
@@ -215,8 +210,11 @@ body.no-js .system-map {
   &:last-child:before {
     height: 6px;
   }
+}
 
-  &:first-child:after, &:last-child:after {
-    content: url('/images/trip-circle-filled.svg');
-  }
+.trip-stop-bubble {
+  float: left;
+  position: relative;
+  left: -2rem;
+  margin-right: -2rem;
 }

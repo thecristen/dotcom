@@ -1,0 +1,36 @@
+<p><strong>Your trip:</strong></p>
+<ul class="trip-list">
+  <% filtered_schedules = case @trip_schedule |> Enum.drop_while(&(&1.stop.id !== @from.id)) do
+      [] -> @trip_schedule # the case when the trip doesn't intersect @from
+      schedules -> schedules
+      end
+  %>
+  <% last_index = length(@trip_schedule) - 1 %>
+  <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
+  <%= for {trip_schedule, index} <- Enum.with_index(filtered_schedules) do %>
+    <li class="trip-stop">
+      <span class="trip-stop-bubble" aria-hidden="true">
+        <%= if index in [0, last_index] do %>
+          <%= svg "/images/trip-circle-filled.svg" %>
+        <% else %>
+          <%= svg "/images/trip-circle-open.svg" %>
+        <% end %>
+      </span>
+      <span class="sr-only">Stop</span>
+      <p>
+        <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
+        <%= case index do %>
+          <% 0 -> %><strong><%= station_link(trip_schedule.stop) %> (origin)</strong>
+          <% ^last_index -> %><strong><%= station_link(trip_schedule.stop) %> (destination)</strong>
+          <% _ -> %><%= station_link(trip_schedule.stop) %>
+        <% end %>
+      </p>
+    </li>
+  <% end %>
+</ul>
+<p class="m-b-0">
+  Trip duration:
+  <strong>
+    <%= Timex.diff(List.last(filtered_schedules).time, List.first(filtered_schedules).time, :minutes) %> minutes
+  </strong>
+</p>
