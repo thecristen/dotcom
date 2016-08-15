@@ -24,7 +24,8 @@
             <small>Menu <%= fa "angle-down" %></small>
           </button>
           <a class="navbar-brand" href="/">
-            <span class="navbar-logo">
+            <span class="sr-only">MBTA Home Page</span>
+            <span class="navbar-logo" aria-hidden="true">
               <%= svg "/images/logo-black.svg" %>
             </span>
           </a>
