@@ -109,7 +109,7 @@
       </div>
     <% end %>
     <div class="container">
-      <main class="full-width" id="main">
+      <main class="full-width" id="main" tabindex="-1">
         <%= render @view_module, @view_template, assigns %>
       </main>
 

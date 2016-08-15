@@ -1,10 +1,11 @@
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
   <% is_selected_period = @conn.params["hour"] == to_string(hour) %>
   <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
+    id="hour-<%= hour %>"
     href="<%= if is_selected_period do %>
           <%= update_url @conn, hour: "" %>
     <% else %>
-          <%= update_url @conn, hour: hour %>
+          <%= update_url @conn, hour: hour %>#hour-<%= hour %>
     <% end %>">
     <div class="schedule-title row">
       <span class="col-xs-4 schedule-time">
