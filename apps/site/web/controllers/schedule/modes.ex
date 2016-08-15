@@ -16,6 +16,8 @@ defmodule Site.ScheduleController.Modes.Behaviour do
 
       use Site.Web, :controller
 
+      import Util
+
       # Returns only those alerts which should be shown on the hub page for `route_type`. This includes
       # all delays for that route type which are current and not ongoing.
       defp mode_delays(route_type) when is_list(route_type) do
@@ -25,7 +27,7 @@ defmodule Site.ScheduleController.Modes.Behaviour do
       end
       defp mode_delays(route_type) do
         Alerts.Repo.all
-        |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, Timex.now)
+        |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, now)
         |> Enum.filter(&(&1.effect_name == "Delay" && &1.lifecycle != "Ongoing"))
       end
 

@@ -1,6 +1,7 @@
 defmodule Site.ScheduleController.Helpers do
   import Plug.Conn
   import Site.Router.Helpers
+  import Util
   use Timex
 
   @doc "Fetch the alerts and assign them"
@@ -31,8 +32,8 @@ defmodule Site.ScheduleController.Helpers do
     |> assign(:datetime, schedule.time)
   end
   def assign_datetime(%{assigns: %{date: date}} = conn) do
-    datetime = if Timex.equal?(Timex.today, date) do
-      Timex.now
+    datetime = if Timex.equal?(today, date) do
+      now
     else
       date
       |> Timex.to_datetime("America/New_York")
@@ -157,7 +158,7 @@ defmodule Site.ScheduleController.Helpers do
   @doc "Returns true if the Schedule is in the future"
   def is_after_now?(%Schedules.Schedule{time: time}) do
     time
-    |> Timex.after?(Timex.now)
+    |> Timex.after?(now)
   end
 
   @doc """
@@ -276,5 +277,4 @@ defmodule Site.ScheduleController.Helpers do
     conn
     |> assign(:breadcrumbs, [{schedule_path(conn, :index), "Schedules & Maps"}, route_type_display, name])
   end
-
 end

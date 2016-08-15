@@ -98,9 +98,11 @@ defmodule Site.ViewHelpers do
 
   @doc "HTML for a Route link"
   def route_link(conn, route) do
-    link(raw(string_join(safe_to_string(route_icon(route.type, route.id)), clean_route_name(route.name))),
-          to: schedule_path(conn, :index, route: route.id), 
-          class: "mode-group-btn")
+    route_icon(route.type, route.id)
+    |> safe_to_string
+    |> string_join(clean_route_name(route.name))
+    |> raw
+    |> link(to: schedule_path(conn, :index, route: route.id), class: "mode-group-btn")
   end
 
   def route_spacing_class(1), do: "col-xs-6 col-md-3"
