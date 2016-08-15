@@ -148,6 +148,14 @@ body {
   }
 }
 
+@include media-breakpoint-down(sm) {
+  // hide SM down, but remain visible to screen readers
+  .focusable-sm-down {
+    @include sr-only();
+    @include sr-only-focusable();
+  }
+}
+
 #social-nav {
   padding-top: 7px;
 
