@@ -2,7 +2,7 @@ body.js .date-toggle {
   display: none;
 
   &.date-toggle-enabled {
-    display: initial;
+    display: inline;
   }
 }
 
@@ -14,5 +14,5 @@ body.no-js .date-toggle-js-only {
   display: none;
 }
 body.js .date-toggle-edit {
-  display: initial;
+  display: inline;
 }
