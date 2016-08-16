@@ -12,7 +12,7 @@
           <%= for route <- @green_routes do %>
             <a class="btn btn-secondary-outline btn-sm text-primary"
                href="<%= update_url @conn, route: route.id %>">
-              <strong><%= route.name %></strong>
+              <strong><%= route.name %> <span class="sr-only">Line</span></strong>
             </a>
           <% end %>
         </div>
