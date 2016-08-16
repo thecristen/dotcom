@@ -17,7 +17,7 @@ defmodule Site.ViewHelpers do
   end
 
   def redirect_path(conn, path) do
-    redirect_path(conn, :show, path)
+    redirect_path(conn, :show, [path])
   end
 
   def google_tag_manager_id do
