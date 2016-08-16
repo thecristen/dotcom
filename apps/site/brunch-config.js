@@ -79,7 +79,8 @@ exports.config = {
       collapse: "bootstrap/dist/js/umd/collapse",
       modal: "bootstrap/dist/js/umd/modal",
       tooltip: "bootstrap/dist/js/umd/tooltip",
-      date_polyfill: "nodep-date-input-polyfill"
+      date_polyfill: "nodep-date-input-polyfill",
+      Turbolinks: "turbolinks"
     }
   },
 

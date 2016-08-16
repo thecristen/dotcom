@@ -4704,6 +4704,11 @@
       "from": "tunnel-agent@>=0.4.1 <0.5.0",
       "resolved": "https://registry.npmjs.org/tunnel-agent/-/tunnel-agent-0.4.3.tgz"
     },
+    "turbolinks": {
+      "version": "5.0.0",
+      "from": "turbolinks@latest",
+      "resolved": "https://registry.npmjs.org/turbolinks/-/turbolinks-5.0.0.tgz"
+    },
     "tweetnacl": {
       "version": "0.13.3",
       "from": "tweetnacl@>=0.13.0 <0.14.0",

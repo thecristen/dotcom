@@ -31,4 +31,5 @@ dismissAnnouncement();
 selectModal();
 
 $('[data-toggle="tooltip"]').tooltip();
+Turbolinks.start();
 $("body").removeClass("no-js").addClass("js");
