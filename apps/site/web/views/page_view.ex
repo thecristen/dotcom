@@ -1,4 +1,6 @@
 defmodule Site.PageView do
+  import Phoenix.HTML.Tag
+
   use Site.Web, :view
 
   def has_alerts?(route, alerts) do
@@ -14,5 +16,9 @@ defmodule Site.PageView do
       #[_] -> false
       _ -> true
     end
+  end
+
+  def schedule_separator do
+    content_tag :span, "|", aria_hidden: "true"
   end
 end
