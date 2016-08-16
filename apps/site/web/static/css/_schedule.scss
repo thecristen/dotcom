@@ -147,7 +147,12 @@ body.no-js .system-map {
       .schedule-title, .schedule-time {
         color: white;
       }
-      &:hover, &:focus, &:active {
+      &:focus, &:active {
+        background-color: $brand-primary-dark;
+        border: 4px solid $brand-primary-dark;
+        outline: none;
+      }
+      &:hover {
         background-color: $brand-primary-light;
         border: 4px solid $brand-primary-light;
         & + .list-group-item {
