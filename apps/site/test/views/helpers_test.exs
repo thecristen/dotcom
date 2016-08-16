@@ -18,13 +18,12 @@ defmodule Site.HelpersTest do
     end
   end
 
-  describe "route_link/2" do
+  describe "route_link/3" do
     test "for Orange line", %{conn: conn} do
-      conn = get conn, "/stations/place-north"
       route = %Routes.Route{type: 0, id: "Orange", name: "Orange"}
 
-      expected = 
-        "<a class=\"mode-group-btn\" href=\"/schedules?route=Orange\">" <>  
+      expected =
+        "<a class=\"mode-group-btn\" href=\"/schedules?route=Orange\">" <>
         safe_to_string(route_icon(route.type, route.id)) <>
         " Orange</a>"
 
@@ -32,11 +31,18 @@ defmodule Site.HelpersTest do
     end
 
     test "for Lowell line", %{conn: conn} do
-      conn = get conn, "/stations/place-north"
       route = %Routes.Route{type: 2, id: "CR-Lowell", name: "Lowell"}
 
       expected = "<a class=\"mode-group-btn\" href=\"/schedules?route=CR-Lowell\">Lowell</a>"
       assert expected == safe_to_string(route_link(conn, route))
+    end
+
+    test "includes additional options", %{conn: conn} do
+      route = %Routes.Route{type: 2, id: "CR-Lowell", name: "Lowell"}
+      # the ampersand doesn't need to be escaped, but it's preferred.
+      expected = "<a class=\"mode-group-btn\" href=\"/schedules?route=CR-Lowell&amp;dest=place-sstat\">Lowell</a>"
+
+      assert expected == safe_to_string(route_link(conn, route, dest: "place-sstat"))
     end
   end
 end
