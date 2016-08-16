@@ -17,7 +17,7 @@ config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 
 # Configures Elixir's Logger
 config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
+  format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
 
 config :site, Site.ViewHelpers,
