@@ -50,7 +50,12 @@ defmodule Site.ViewHelpers do
   @doc "HTML for a FontAwesome icon, with optional attributes"
   def fa(name, attributes \\ "") do
     class_name = "fa fa-#{name}"
-    raw ~s(<i class="#{class_name}" #{attributes} aria-hidden=true></i>)
+    # add a space only if there are attributes
+    attributes = case attributes do
+                   "" -> ""
+                   _ -> attributes <> " "
+                 end
+    raw ~s(<i class="#{class_name}" #{attributes}aria-hidden=true></i>)
   end
 
   @doc "The string description of a direction ID"
