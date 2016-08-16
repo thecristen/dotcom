@@ -17,11 +17,11 @@
 
   <body class="no-js <%= error_class(@view_module) %>">
     <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
-    <%= if Map.get(@conn.assigns, :announcement_template, nil) != nil do %>
+    <%= if BetaAnnouncement.show_announcement?(@conn) do %>
       <div class="container-fluid alert-container">
         <div class="container">
           <div class="col-xs-12 p-l-0">
-            <%= render __MODULE__, @announcement_template, assigns %>
+            <%= render __MODULE__, "_beta_announcement.html", assigns %>
           </div>
         </div>
       </div>
@@ -65,6 +65,11 @@
                 <a class="nav-link" href="<%= alerts_path %>">
                   <%= bold_if_active @conn, alerts_path, "Service Alerts" %>
                   </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%= feedback_form_url %>" target="_blank">
+                  Submit Feedback
+                </a>
               </li>
             </ul>
             <ul class="nav-inline pull-right m-b-0 p-x-0 hidden-sm-down" id="social-nav">
