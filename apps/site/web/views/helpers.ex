@@ -104,7 +104,10 @@ defmodule Site.ViewHelpers do
   end
   def route_icon(_,_), do: raw ""
 
-  @doc "HTML for a Route link"
+  @doc """
+  HTML for a Route link.  If additional options are passed, they are
+  passed to the schedule_path helper.
+  """
   def route_link(conn, route, opts \\ []) do
     opts = Keyword.put(opts, :route, route.id)
 
