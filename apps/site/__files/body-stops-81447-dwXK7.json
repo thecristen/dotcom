@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/81447"},"id":"81447","attributes":{"wheelchair_boarding":0,"name":"Central Ave @ Gould St","longitude":-71.232925,"latitude":42.309215}}}

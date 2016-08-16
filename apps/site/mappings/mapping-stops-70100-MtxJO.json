@@ -1,0 +1,19 @@
+{
+  "uuid" : "07d5247d-504b-3ed5-b98e-57c1330042cf",
+  "request" : {
+    "url" : "/stops/70100",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70100-MtxJO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "ul5trvbuhrtdk5q6fugu29dquhbgeer9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

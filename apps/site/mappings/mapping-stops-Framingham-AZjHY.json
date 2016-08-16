@@ -1,0 +1,19 @@
+{
+  "uuid" : "35b7717c-5b04-3032-b259-0f35c26bc3bc",
+  "request" : {
+    "url" : "/stops/Framingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Framingham-AZjHY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "hc7j5i5dj5s0ipi2q1gc6l634jbt071c",
+      "Connection" : "keep-alive"
+    }
+  }
+}

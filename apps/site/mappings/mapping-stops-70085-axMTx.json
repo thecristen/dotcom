@@ -1,0 +1,19 @@
+{
+  "uuid" : "53ce173e-48fa-3506-a96a-68c6b20a161d",
+  "request" : {
+    "url" : "/stops/70085",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70085-axMTx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "nu6qqj4smp64o3mbgorettq1i2qcelgu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

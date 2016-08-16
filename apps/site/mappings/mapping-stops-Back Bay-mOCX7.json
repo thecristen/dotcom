@@ -1,0 +1,19 @@
+{
+  "uuid" : "30781c57-e0f0-3241-a6b3-48222e220bf3",
+  "request" : {
+    "url" : "/stops/Back%20Bay",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-mOCX7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "44ie5vrioquf3quuglef58rt5bg345ph",
+      "Connection" : "keep-alive"
+    }
+  }
+}

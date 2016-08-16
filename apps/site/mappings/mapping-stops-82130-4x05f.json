@@ -1,0 +1,19 @@
+{
+  "uuid" : "f4454827-abb6-319d-9db0-23cc76681d19",
+  "request" : {
+    "url" : "/stops/82130",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-82130-4x05f.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "6eaqh2af0nc0kiaqs3ovrqpgfmvgoedn",
+      "Connection" : "keep-alive"
+    }
+  }
+}

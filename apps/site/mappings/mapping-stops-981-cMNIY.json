@@ -1,0 +1,19 @@
+{
+  "uuid" : "3ecf4a6b-07cf-3656-a180-c7e612dbaaa9",
+  "request" : {
+    "url" : "/stops/981",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-981-cMNIY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "87tdpeg07g5dh0n72gdvh4bslvg2bbun",
+      "Connection" : "keep-alive"
+    }
+  }
+}

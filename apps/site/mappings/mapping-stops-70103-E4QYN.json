@@ -1,0 +1,19 @@
+{
+  "uuid" : "76818181-a348-3463-b994-9f2ac7e8903f",
+  "request" : {
+    "url" : "/stops/70103",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70103-E4QYN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "ptn6i85n90jd3kkvc4mtq1d6v8bsjt0f",
+      "Connection" : "keep-alive"
+    }
+  }
+}

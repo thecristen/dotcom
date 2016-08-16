@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/2765"},"id":"2765","attributes":{"wheelchair_boarding":0,"name":"Newton St @ Clark St","longitude":-71.096607,"latitude":42.377485}}}

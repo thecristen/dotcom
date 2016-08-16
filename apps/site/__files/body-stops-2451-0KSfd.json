@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/2451"},"id":"2451","attributes":{"wheelchair_boarding":0,"name":"Hampshire St @ Cambridge St","longitude":-71.100422,"latitude":42.373437}}}

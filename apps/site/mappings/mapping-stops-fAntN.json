@@ -1,0 +1,19 @@
+{
+  "uuid" : "360400f8-fb27-3d51-b51b-9ffbe69d0357",
+  "request" : {
+    "url" : "/stops/?direction_id=1&route=1&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-fAntN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:22 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "94lgjvdf6pvflo2cdd3p16um2luepihd",
+      "Connection" : "keep-alive"
+    }
+  }
+}

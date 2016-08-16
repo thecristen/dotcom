@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-jaksn"}}},"links":{"self":"/stops/70006"},"id":"70006","attributes":{"wheelchair_boarding":0,"name":"Jackson Square - Outbound","longitude":-71.099592,"latitude":42.323132}}}

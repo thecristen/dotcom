@@ -1,0 +1,19 @@
+{
+  "uuid" : "faa5a2ed-53cb-3a05-a42f-3b02b8818ad7",
+  "request" : {
+    "url" : "/stops/70102",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70102-zCUBe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "0cb2p6enbdb035d8o6jdc4hsg1eg1q0i",
+      "Connection" : "keep-alive"
+    }
+  }
+}

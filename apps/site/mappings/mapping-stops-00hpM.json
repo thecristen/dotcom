@@ -1,0 +1,19 @@
+{
+  "uuid" : "3041bb2b-6a52-3d98-9448-609cfc4955e7",
+  "request" : {
+    "url" : "/stops/?direction_id=0&route=1&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-00hpM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:22 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "c4k0o6ms736nig1cn55q13ot2q34tgja",
+      "Connection" : "keep-alive"
+    }
+  }
+}

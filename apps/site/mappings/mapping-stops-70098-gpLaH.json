@@ -1,0 +1,19 @@
+{
+  "uuid" : "a54afa3d-dbdd-3ccc-9b55-b9a428efe411",
+  "request" : {
+    "url" : "/stops/70098",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70098-gpLaH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "6il0lu07478l6ndvjjndl7f7hb21p289",
+      "Connection" : "keep-alive"
+    }
+  }
+}

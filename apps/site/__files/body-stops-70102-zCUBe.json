@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-qnctr"}}},"links":{"self":"/stops/70102"},"id":"70102","attributes":{"wheelchair_boarding":0,"name":"Quincy Center - Inbound","longitude":-71.005409,"latitude":42.251809}}}

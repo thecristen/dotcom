@@ -1,0 +1,19 @@
+{
+  "uuid" : "8f6c1137-b598-3f06-a001-ce686095a940",
+  "request" : {
+    "url" : "/stops/70078",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70078-XACsq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "12gai4ul7b3j1eck05iun2vv229la403",
+      "Connection" : "keep-alive"
+    }
+  }
+}

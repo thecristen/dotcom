@@ -1,0 +1,19 @@
+{
+  "uuid" : "6c8d6cce-9e18-36f3-aa39-4611979eab08",
+  "request" : {
+    "url" : "/stops/70001",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70001-spdkQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Date" : "Mon, 15 Aug 2016 20:23:04 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "ohpslvikmi8hdu594ri5rm8i3ao802l4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

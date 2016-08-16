@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/82130"},"id":"82130","attributes":{"wheelchair_boarding":0,"name":"Central Ave @ Parkland Rd","longitude":-71.235052,"latitude":42.308155}}}

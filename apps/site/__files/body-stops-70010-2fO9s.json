@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-rugg"}}},"links":{"self":"/stops/70010"},"id":"70010","attributes":{"wheelchair_boarding":0,"name":"Ruggles - Outbound","longitude":-71.088961,"latitude":42.336377}}}
