@@ -104,13 +104,18 @@ defmodule Site.ViewHelpers do
   end
   def route_icon(_,_), do: raw ""
 
-  @doc "HTML for a Route link"
-  def route_link(conn, route) do
+  @doc """
+  HTML for a Route link.  If additional options are passed, they are
+  passed to the schedule_path helper.
+  """
+  def route_link(conn, route, opts \\ []) do
+    opts = Keyword.put(opts, :route, route.id)
+
     route_icon(route.type, route.id)
     |> safe_to_string
     |> string_join(clean_route_name(route.name))
     |> raw
-    |> link(to: schedule_path(conn, :index, route: route.id), class: "mode-group-btn")
+    |> link(to: schedule_path(conn, :index, opts), class: "mode-group-btn")
   end
 
   def route_spacing_class(1), do: "col-xs-6 col-md-3"

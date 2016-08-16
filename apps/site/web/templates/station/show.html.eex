@@ -47,7 +47,7 @@
             <div class="row">
               <%= for route <- routes do %>
                 <div class="<%= route_spacing_class(route.type) %>">
-                  <%= route_link @conn, route %>
+                  <%= route_link @conn, route, origin: @station.id %>
                 </div>
               <% end %>
             </div>
