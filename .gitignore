@@ -10,3 +10,4 @@ erl_crash.dump
 !.elasticbeanstalk/config.yml
 /site-build.zip
 /apps/site/backstop_data/bitmaps_test
+npm-debug.log
