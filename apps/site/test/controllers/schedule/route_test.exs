@@ -24,7 +24,7 @@ defmodule Site.ScheduleControllerTest do
   test "inbound Lowell schedule contains the trip from Anderson/Woburn", %{conn: conn} do
     conn = get conn, schedule_path(conn, :index, route: "CR-Lowell", all: "all", direction_id: 1)
     response = html_response(conn, 200)
-    assert response =~ "from Anderson/ Woburn"
+    assert response =~ "from Anderson/Woburn"
   end
 
   test "@from is set to the nice name of a station", %{conn: conn} do
