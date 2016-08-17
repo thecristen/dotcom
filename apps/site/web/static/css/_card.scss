@@ -51,7 +51,9 @@ $card-section-radius-md: $card-section-radius-sm * 2;
   }
 
   @include media-breakpoint-up(md) {
-    border-radius: $card-section-radius-md;
+    &.card {
+      border-radius: $card-section-radius-md;
+    }
 
     &.card-narrow {
       // only narrow on mobile
