@@ -65,10 +65,11 @@ In order to make sure the tests are reproducible, we use
 
 1. (once) Download
    [WireMock](http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.1.10/wiremock-standalone-2.1.10.jar)
-1. Run WireMock server from `apps/site` directory:
-  * `java -jar <path to wiremock-standalone.jar>`
+1. Run the WireMock server:
+  * Set `WIREMOCK_PATH` to the location of `wiremock-standalone.jar`
+  * Run `npm run wiremock`
 1. Start Phoenix against the WireMock API:
-  * `env MIX_ENV=prod PORT=4001 STATIC_HOST=localhost STATIC_PORT=4001 V3_URL=http://localhost:8080 mix do compile, phoenix.server`
+  * `npm run server:mocked`
 1. Build the static files:
   * `npm run brunch:build`
 1. Run the tests:
