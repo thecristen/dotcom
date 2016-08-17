@@ -53,7 +53,7 @@
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
           </ul>
-          <a href="http://www.mbtabackontrack.com/performance/index.html#/home">
+          <a href="http://www.mbtabackontrack.com/performance/index.html#/home" target="_blank">
             <img class="img-fluid center-block" src="<%= static_path(@conn, "/images/see_our_performance.png") %>" alt="See Our Performance" width=348 height=96 />
           </a>
         </div>
