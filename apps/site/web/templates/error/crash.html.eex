@@ -1,4 +1,4 @@
 <div class="error-card">
   <h1><strong>500</strong></h1>
-  <h2 class="h3">It looks like we have our signals crossed &mdash; our servers failed to load your request. Please try again later or <a href="http://www.mbta.com/customer_support/feedback/">contact us</a>.</h2>
+  <h2 class="h3">It looks like we have our signals crossed &mdash; our servers failed to load your request. Please try again later or <a href="<%= feedback_form_url %>">contact us</a>.</h2>
 </div>

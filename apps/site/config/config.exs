@@ -22,7 +22,8 @@ config :logger, :console,
 
 config :site, Site.ViewHelpers,
   google_api_key: System.get_env("GOOGLE_API_KEY"),
-  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
+  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
+  feedback_form_url: "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -17,6 +17,10 @@ defmodule Site.ErrorViewTest do
     assert render_to_string(Site.ErrorView, "500.html", []) =~ "It looks like we have our signals crossed"
   end
 
+  test "crash pages links to the Google form" do
+    assert render_to_string(Site.ErrorView, "500.html", []) =~ Site.ViewHelpers.feedback_form_url
+  end
+
   test "render any other" do
     assert render_to_string(Site.ErrorView, "505.html", []) =~ "It looks like we have our signals crossed"
   end
