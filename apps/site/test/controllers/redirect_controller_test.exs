@@ -3,7 +3,7 @@ defmodule Site.RedirectControllerTest do
 
   test "shows chosen resource", %{conn: conn} do
     redirect = "schedules_and_maps/"
-    conn = get conn, redirect_path(conn, :show, redirect)
+    conn = get conn, redirect_path(conn, :show, [redirect])
     response = html_response(conn, 200)
     assert response =~ "http://www.mbta.com/" <> redirect
     assert response =~ "http://mobile.usablenet.com/mt/www.mbta.com/" <> redirect
@@ -11,9 +11,21 @@ defmodule Site.RedirectControllerTest do
 
   test "does not include the mobile link for t-alerts", %{conn: conn} do
     redirect = "rider_tools/t_alerts/"
-    conn = get conn, redirect_path(conn, :show, redirect)
+    conn = get conn, redirect_path(conn, :show, [redirect])
     response = html_response(conn, 200)
     assert response =~ "http://www.mbta.com/" <> redirect
     refute response =~ "http://mobile.usablenet.com/mt/www.mbta.com/" <> redirect
+  end
+
+  test "handles resources with slashes", %{conn: conn} do
+    conn = get conn, "/redirect/rider_tools/transit_updates"
+    response = html_response(conn, 200)
+    assert response =~ "http://www.mbta.com/rider_tools/transit_updates"
+  end
+
+  test "handles resource with query params", %{conn: conn} do
+    conn = get conn, redirect_path(conn, :show, ["news"], entry: "123")
+    response = html_response(conn, 200)
+    assert response =~ "http://www.mbta.com/news?entry=123"
   end
 end
