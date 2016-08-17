@@ -7,8 +7,7 @@ defmodule Site.ScheduleController.Alerts do
   def alerts(conn, %{"alert" => alert_id}) do
     conn
     |> default_assigns
-    |> assign(:alerts, [Alerts.Repo.by_id(alert_id)])
-    |> render("alert_list.html")
+    |> render_alert(Alerts.Repo.by_id(alert_id))
   end
   def alerts(conn, _params) do
     conn
@@ -39,5 +38,16 @@ defmodule Site.ScheduleController.Alerts do
 
     conn
     |> assign(:alerts, all_alerts)
+  end
+
+  defp render_alert(conn, nil) do
+    conn
+    |> put_status(:not_found)
+    |> render("expired_alert.html")
+  end
+  defp render_alert(conn, alert) do
+    conn
+    |> assign(:alerts, [alert])
+    |> render("alert_list.html")
   end
 end

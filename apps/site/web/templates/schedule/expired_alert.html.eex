@@ -1,0 +1,8 @@
+<div class="container main-container">
+  <%= render "_alerts_header.html", forward_assigns(@conn) %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="alert-list-header">It looks like that alert is no longer valid &mdash; we're back up and running now.</div>
+    </div>
+  </div>
+</div>
