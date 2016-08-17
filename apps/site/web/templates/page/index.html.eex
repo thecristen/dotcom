@@ -34,7 +34,7 @@
             </a></li>
           </ul>
           <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
-            <img class="img-fluid center-block m-b-1" src="<%= static_path(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
+            <img class="img-fluid center-block m-b-1" src="<%= static_url(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
           </a>
         </div>
         <div class="col-md-6">
@@ -54,7 +54,7 @@
             </a></li>
           </ul>
           <a href="http://www.mbtabackontrack.com/performance/index.html#/home" target="_blank">
-            <img class="img-fluid center-block" src="<%= static_path(@conn, "/images/see_our_performance.png") %>" alt="See Our Performance" width=348 height=96 />
+            <img class="img-fluid center-block" src="<%= static_url(@conn, "/images/see_our_performance.png") %>" alt="See Our Performance" width=348 height=96 />
           </a>
         </div>
       </div>

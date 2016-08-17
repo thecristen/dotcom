@@ -68,7 +68,7 @@ In order to make sure the tests are reproducible, we use
 1. Run WireMock server from `apps/site` directory:
   * `java -jar <path to wiremock-standalone.jar>`
 1. Start Phoenix against the WireMock API:
-  * `env MIX_ENV=prod PORT=4001 V3_URL=http://localhost:8080 mix do compile, phoenix.server`
+  * `env MIX_ENV=prod PORT=4001 STATIC_HOST=localhost STATIC_PORT=4001 V3_URL=http://localhost:8080 mix do compile, phoenix.server`
 1. Build the static files:
   * `npm run brunch:build`
 1. Run the tests:

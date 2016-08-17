@@ -6,7 +6,7 @@
           <%= @station.name %>
 
           <%= if "accessible" in @station.accessibility do %>
-            <img src="<%= static_path(@conn, "/images/access_accessible.gif") %>"
+            <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
                  alt="Accessible" />
           <% end %>
         </strong>
@@ -93,7 +93,7 @@
       <div class="col-md-6 col-xs-12">
         <div style="padding-top: 1.5rem;">
           <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
-            <img class="center-block img-fluid" src="<%= static_path(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
+            <img class="center-block img-fluid" src="<%= static_url(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
           </a>
         </div>
       </div>

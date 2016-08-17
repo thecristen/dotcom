@@ -47,7 +47,7 @@ defmodule Site.ScheduleController.Modes.Behaviour do
         "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
       end
 
-      def map_image_url, do: static_path(Site.Endpoint, "/images/subway-spider.jpg")
+      def map_image_url, do: static_url(Site.Endpoint, "/images/subway-spider.jpg")
 
       defoverridable [fares: 0, routes: 0, delays: 0, map_pdf_url: 0, map_image_url: 0]
     end
@@ -91,7 +91,7 @@ defmodule Site.ScheduleController.Modes.Boat do
 
   def mode_name, do: "Boat"
 
-  def map_image_url, do: static_path(Site.Endpoint, "/images/boat-spider.jpg")
+  def map_image_url, do: static_url(Site.Endpoint, "/images/boat-spider.jpg")
 
   def map_pdf_url, do: nil
 
@@ -117,7 +117,7 @@ defmodule Site.ScheduleController.Modes.CommuterRail do
 
   def mode_name, do: "Commuter Rail"
 
-  def map_image_url, do: static_path(Site.Endpoint, "/images/commuter-rail-spider.jpg")
+  def map_image_url, do: static_url(Site.Endpoint, "/images/commuter-rail-spider.jpg")
 
   def map_pdf_url do
     "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
