@@ -3,7 +3,7 @@
   <div class="card-block">
     <div class="row">
       <div class="col-md-6">
-        <img src="<%= static_path @conn, "/images/subway-station-home.jpg" %>"
+        <img src="<%= static_url @conn, "/images/subway-station-home.jpg" %>"
           alt="A train moving through the new Government Center station"
           class="img-fluid"
           width="348"
