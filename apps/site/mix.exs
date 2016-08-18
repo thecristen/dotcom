@@ -23,7 +23,7 @@ defmodule Site.Mixfile do
     [mod: {Site, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
                     :stations, :routes, :alerts, :news, :schedules, :timex,
-                    :inflex, :html_sanitize_ex, :ehmon]]
+                    :inflex, :html_sanitize_ex, :ehmon, :logger_logentries_backend]]
   end
 
   # Specifies which paths to compile per environment.
@@ -50,6 +50,7 @@ defmodule Site.Mixfile do
      {:exrm, ">= 0.0.0"},
      {:inflex, "~> 1.7.0"},
      {:html_sanitize_ex, "~> 1.0.0"},
+     {:logger_logentries_backend, github: "paulswartz/logger_logentries_backend"}
     ]
   end
 end
