@@ -23,6 +23,14 @@ body
     assert {:error, _} = News.Jekyll.parse("")
   end
 
+  test ".parse returns an error if the yaml throws an exception" do
+    assert {:error, _} = News.Jekyll.parse("""
+    ---
+homepageicon: <img style="width: 70px; height: 70px;" />
+---
+    """)
+  end
+
   test ".parse_file includes the date and ID from the filename" do
     filename = Path.join([__DIR__, "fixture", "2016-06-07-post-id.md"])
     assert News.Jekyll.parse_file!(filename) == %News.Post{
