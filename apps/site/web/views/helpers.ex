@@ -43,14 +43,6 @@ defmodule Site.ViewHelpers do
     Application.get_env(:site, __MODULE__)[key]
   end
 
-  def error_class(view_module) do
-    case view_module do
-      Elixir.Site.ErrorView -> "not-found"
-      Elixir.Site.CrashView -> "not-found"
-      _ -> ""
-    end
-  end
-
   @doc "HTML for a FontAwesome icon, with optional attributes"
   def fa(name, attributes \\ "") do
     class_name = "fa fa-#{name}"

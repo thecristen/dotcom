@@ -15,7 +15,7 @@
     <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
   </head>
 
-  <body class="no-js <%= error_class(@view_module) %>">
+  <body class="<%= Site.BodyClass.class_name(@conn) %>">
     <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
     <%= if BetaAnnouncement.show_announcement?(@conn) do %>
       <div class="container-fluid alert-container">
