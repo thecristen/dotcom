@@ -46,7 +46,7 @@ defmodule Site.Mixfile do
      {:alerts, in_umbrella: true},
      {:news, in_umbrella: true},
      {:schedules, in_umbrella: true},
-     {:ehmon, in_umbrella: true},
+     {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4"},
      {:exrm, ">= 0.0.0"},
      {:inflex, "~> 1.7.0"},
      {:html_sanitize_ex, "~> 1.0.0"},
