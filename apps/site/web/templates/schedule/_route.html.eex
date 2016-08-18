@@ -1,7 +1,7 @@
 <form method="GET" action="" class="form-inline" data-submit-on-change>
   <fieldset class="form-group">
     <%= render "_mode_image.html", forward_assigns(@conn) %>
-    <%= hidden_query_params @conn, exclude: ["route", "origin", "dest"] %>
+    <%= hidden_query_params @conn, exclude: ["route", "origin", "dest", "hour", "trip", "name"] %>
     <label for="route" class="sr-only">Route <%= render "_loading.html" %></label>
     <select id="route" name="route" class="form-control c-select schedule-route-selector">
       <%= for route <- @all_routes do %>
