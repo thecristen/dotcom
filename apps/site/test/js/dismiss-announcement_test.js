@@ -6,17 +6,21 @@ describe('dismiss-announcement', () => {
   var $;
   jsdom();
 
+  before(() => {
+    $ = jsdom.rerequire('jquery');
+    dismissAnnouncement($);
+  });
+
   beforeEach(() => {
-    $ = require('jquery');
     $('body').append(
       '<div class="alert-container">Message<a data-cookie-name="test-cookie" id="beta-announcement-dismiss">Dismiss</a></div>'
     );
-    dismissAnnouncement($);
   });
 
   afterEach(() => {
     // Clear out the beta announcement cookie between tests
     document.cookie = 'test-cookie=; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+    $(".alert-container").remove();
   });
 
   it('hides the announcement on click', () => {
@@ -28,6 +32,6 @@ describe('dismiss-announcement', () => {
   it('drops a cookie on click', () => {
     assert.equal(document.cookie, '');
     $('#beta-announcement-dismiss').click();
-    assert.equal(document.cookie, 'test-cookie=true')
+    assert.equal(document.cookie, 'test-cookie=true');
   });
 });

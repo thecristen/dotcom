@@ -58,7 +58,9 @@ export default class Input {
     // Open the picker when the input get focus,
     // also on various click events to capture it in all corner cases.
     const showPicker = ()=> {
-      Picker.instance.attachTo(this);
+      // make sure the Picker is created
+      const picker = new Picker();
+      picker.attachTo(this);
     };
     this.element.addEventListener(`showPicker`, showPicker);
     this.element.addEventListener(`focus`, showPicker);

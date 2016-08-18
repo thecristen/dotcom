@@ -21,6 +21,8 @@ export default function($ = window.jQuery) {
 
   $(document).on("hidden.bs.modal", ".select-modal",
                  (ev) => modalHidden(ev, $));
+
+  $(document).on("turbolinks:load", () => convertSelects($));
 }
 
 function openModal(ev, $) {

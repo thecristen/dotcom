@@ -6,8 +6,12 @@ describe('date-toggle', () => {
   var $;
   jsdom();
 
+  before(() => {
+    $ = jsdom.rerequire('jquery');
+    dateToggle($);
+  });
+
   beforeEach(() => {
-    $ = require('jquery');
     $('body').append('<div id=test/>');
     $('#test').html(`
 <form>
@@ -16,7 +20,10 @@ describe('date-toggle', () => {
 <span class='date-toggle-edit'>edit</span>
 </form>
 `);
-  dateToggle($);
+  });
+
+  afterEach(() => {
+    $("#test").remove();
   });
 
   afterEach(() => {

@@ -1,7 +1,7 @@
 class Picker {
   constructor() {
-    // This is a singleton.
-    if(Picker.instance) {
+    // This is a singleton, though we'll rebuild it if the element is removed.
+    if(Picker.instance && document.getElementsByName(`date-input-polyfill`).length > 0) {
       return Picker.instance;
     }
 
@@ -249,8 +249,8 @@ class Picker {
 
     // Modern event creation.
     try {
-      inputEvent = new Event(`input`);
-      changeEvent = new Event(`change`);
+      inputEvent = new Event(`input`, {bubbles: true});
+      changeEvent = new Event(`change`, {bubbles: true});
     }
     // Old-fashioned way.
     catch(e) {

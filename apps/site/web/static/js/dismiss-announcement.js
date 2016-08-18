@@ -1,7 +1,7 @@
 export default function($) {
   $ = $ || window.jQuery;
 
-  $('#beta-announcement-dismiss').click((event) => {
+  $(document).on('click', '#beta-announcement-dismiss', (event) => {
     const $target = $(event.currentTarget);
     event.preventDefault();
     $target.parents(".alert-container").remove();
