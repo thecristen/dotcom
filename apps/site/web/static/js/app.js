@@ -21,9 +21,12 @@
 import submitOnEvents from './submit-on-events.js';
 import dateToggle from './date-toggle.js';
 import imageExpand from './image-expand.js';
+import dismissAnnouncement from './dismiss-announcement.js';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
 imageExpand();
+dismissAnnouncement();
+
 $('[data-toggle="tooltip"]').tooltip()
 $("body").removeClass("no-js").addClass("js");

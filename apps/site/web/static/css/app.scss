@@ -215,5 +215,9 @@ body {
   a {
     color: white;
     font-weight: initial;
+
+    &.btn-link:hover {
+      color: white;
+    }
   }
 }
