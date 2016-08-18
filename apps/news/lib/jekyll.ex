@@ -9,14 +9,18 @@ defmodule News.Jekyll do
   @front_matter_sep "---\n"
 
   def parse(str) do
-    case String.split(str, @front_matter_sep, parts: 3) do
-      [_, yaml, body] ->
-        {:ok, %News.Post{
-            attributes: yaml |> parse_yaml,
-            body: body |> String.strip}
-        }
-      _ ->
-        {:error, "unable to parse YAML"}
+    try do
+      case String.split(str, @front_matter_sep, parts: 3) do
+        [_, yaml, body] ->
+          {:ok, %News.Post{
+              attributes: yaml |> parse_yaml,
+              body: body |> String.strip}
+          }
+        _ ->
+          {:error, "unable to parse YAML"}
+      end
+    catch # yamlerl throws exceptions :(
+      exc -> {:error, exc}
     end
   end
 

@@ -15,6 +15,7 @@ defmodule News.Repo do
   # compiled in, so basically there shouldn't be a TTL. Instead, we TTL for a
   # year.
   use RepoCache, ttl: :timer.hours(24 * 365)
+  import Logger
 
   def all(opts \\ []) do
     cache opts, fn opts ->
@@ -47,7 +48,9 @@ defmodule News.Repo do
     |> Enum.filter_map(
     fn
       {:ok, _} -> true
-      {:error, _} -> false
+      {:error, err} ->
+        Logger.debug("error in news entry: #{inspect err}")
+        false
     end,
     fn {:ok, parsed} -> parsed end)
   end
