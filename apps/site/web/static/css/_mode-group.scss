@@ -28,12 +28,3 @@
 .mode-group-footer {
   @extend .col-xs-12;
 }
-
-// overrides
-
-.mode-group {
-  .route-icon {
-    // top margin is 33% of line height
-    margin: -0.5rem 12px 0 2px;
-  }
-}
