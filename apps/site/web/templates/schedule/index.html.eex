@@ -12,6 +12,7 @@
             <strong>Departure times</strong>
             <br>
             from <%= @from.name %>
+            <%= station_info_link @from %>
           </p>
           <div class="list-group schedule-list-group">
             <%= render @list_group_template, forward_assigns(@conn) %>

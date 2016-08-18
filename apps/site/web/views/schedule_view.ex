@@ -50,12 +50,22 @@ defmodule Site.ScheduleView do
   end
 
   @doc "Link a station's name to its page, if it exists. Otherwise, just returns the name."
-  def station_link(station) do
+  def station_name_as_link(station) do
+    import Phoenix.HTML
     case Stations.Repo.get(station.id) do
       nil -> station.name
       _ -> link station.name, to: station_path(Site.Endpoint, :show, station.id)
     end
   end
+
+  def station_info_link(station) do
+    import Phoenix.HTML
+    case Stations.Repo.get(station.id) do
+      nil -> ""
+      _ -> "(<a href='#{station_path(Site.Endpoint, :show, station.id)}'>View station info</a>)" |> raw
+    end
+  end
+
 
   def reverse_direction_opts(origin, dest, route_id, direction_id) do
     new_origin = dest || origin

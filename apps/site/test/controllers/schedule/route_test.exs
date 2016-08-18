@@ -33,6 +33,18 @@ defmodule Site.ScheduleControllerTest do
     refute response =~ "Ashmont - Inbound"
   end
 
+  test "shows station info link if a station page exists", %{conn: conn} do
+    conn = get conn, schedule_path(conn, :index, route: "28")
+    response = html_response(conn, 200)
+    assert response =~ "View station info"
+  end
+
+  test "does not show station info link if no station page exists", %{conn: conn} do
+    conn = get conn, schedule_path(conn, :index, route: "71")
+    response = html_response(conn, 200)
+    refute response =~ "View station info"
+  end
+
   test "returns 404 if a nonexistent route is given", %{conn: conn} do
     conn = get conn, schedule_path(conn, :index, route: "Teal")
     response = html_response(conn, 404)
