@@ -186,6 +186,10 @@ body.no-js .system-map {
 .schedule-pairs-header {
   color: white;
   background-color: $brand-primary-darkest;
+  border: 1px solid $brand-primary-darkest;
+  th {
+    border-top: none;
+  }
 }
 
 .trip-list {
