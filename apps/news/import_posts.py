@@ -19,15 +19,21 @@ except IndexError:
 
 def news_entries():
     with open("/dev/null") as null:
-        process = subprocess.run(["bsqldb", "-t", "\\n",
-                                  "-S", os.environ['MBTA_SQL_SERVER'],
-                                  "-U", os.environ['MBTA_SQL_USERNAME'],
-                                  "-P", os.environ['MBTA_SQL_PASSWORD'],
-                                  "-D", os.environ['MBTA_SQL_DATABASE']],
-                                 input=FETCH_SQL,
-                                 stderr=null,
-                                 stdout=subprocess.PIPE,
-                                 check=True)
+        try:
+            process = subprocess.run(["bsqldb", "-t", "\\n",
+                                      "-S", os.environ['MBTA_SQL_SERVER'],
+                                      "-U", os.environ['MBTA_SQL_USERNAME'],
+                                      "-P", os.environ['MBTA_SQL_PASSWORD'],
+                                      "-D", os.environ['MBTA_SQL_DATABASE']],
+                                     input=FETCH_SQL,
+                                     stderr=subprocess.PIPE,
+                                     stdout=subprocess.PIPE,
+                                     check=True)
+        except subprocess.CalledProcessError as e:
+            print("ERROR: while calling bsqldb")
+            print(e.stderr.decode('utf8'))
+            sys.exit(1)
+
         for row in process.stdout.split(SEPARATOR)[:-1]:
             [date, content_id, xml] = row.decode('utf8').split("\n", 3)[1:]
 
@@ -68,7 +74,7 @@ def main():
             for (k, v) in sorted(d.items()):
                 if not v:
                     continue
-                print("%s: %s" % (k.lower(), v), file=post)
+                print("%s: '%s'" % (k.lower(), v), file=post)
             print('---', file=post)
             print(body, file=post)
 
