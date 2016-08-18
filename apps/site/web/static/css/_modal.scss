@@ -6,6 +6,9 @@
 
   .modal-body {
     background-color: #fff;
+    max-height: calc(100vh - 41px - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .close {
