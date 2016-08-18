@@ -1,0 +1,11 @@
+{application,ehmon,
+             [{description,"Heroku Erlang VM Monitoring library"},
+              {vsn,"4"},
+              {registered,[ehmon_sup]},
+              {applications,[kernel,stdlib]},
+              {mod,{ehmon_app,[]}},
+              {env,[{report_interval,60},
+                    {report_mf,{ehmon,stdout_report}},
+                    {shh_report_prefix,"erlang.ehmon"}]},
+              {modules,[ehmon,ehmon_app,ehmon_report_srv,ehmon_shh_report,
+                        ehmon_sup,shh_drv]}]}.
