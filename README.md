@@ -68,7 +68,9 @@ In order to make sure the tests are reproducible, we use
 1. Install JDK if you do not have it already. Type `java` at the command line and follow the prompts.
 1. Run the WireMock server:
   * Set `WIREMOCK_PATH` to the location of `wiremock-standalone.jar`. e.g.
-   ```export WIREMOCK_PATH=${HOME}/work/thirdparty/wiremock/wiremock-standalone-2.1.10.jar```
+   ```bash
+   export WIREMOCK_PATH=${HOME}/work/thirdparty/wiremock/wiremock-standalone-2.1.10.jar
+   ```
   * Run `npm run wiremock`
 1. Start Phoenix against the WireMock API:
   * `npm run server:mocked`
@@ -96,7 +98,7 @@ In order to make sure the tests are reproducible, we use
 ### Updating the API responses
 
 1. Run the WireMock server in record-mappings mode:
-  * `java -jar <path to wiremock-standalone.jar> —proxy-all="http://mbta-api-prod.us-east-1.elasticbeanstalk.com" --record-mappings`
+  * `java -jar ${WIREMOCK_PATH} —proxy-all="http://mbta-api-prod.us-east-1.elasticbeanstalk.com" --record-mappings`
 
 ## Building
 
