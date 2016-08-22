@@ -65,8 +65,10 @@ In order to make sure the tests are reproducible, we use
 
 1. (once) Download
    [WireMock](http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.1.10/wiremock-standalone-2.1.10.jar)
+1. Install JDK if you do not have it already. Type `java` at the command line and follow the prompts.
 1. Run the WireMock server:
-  * Set `WIREMOCK_PATH` to the location of `wiremock-standalone.jar`
+  * Set `WIREMOCK_PATH` to the location of `wiremock-standalone.jar`. e.g.
+   ```export WIREMOCK_PATH=${HOME}/work/thirdparty/wiremock/wiremock-standalone-2.1.10.jar```
   * Run `npm run wiremock`
 1. Start Phoenix against the WireMock API:
   * `npm run server:mocked`
