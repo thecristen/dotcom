@@ -19,6 +19,10 @@ describe('date-toggle', () => {
   dateToggle($);
   });
 
+  afterEach(() => {
+    $('#test').remove();
+  });
+
   it('switches which element is enabled when edit is clicked', () => {
     assert.lengthOf($('#test .date-toggle-enabled input'), 0);
     $('#test .date-toggle-edit').click();
