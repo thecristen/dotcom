@@ -25,6 +25,8 @@ import dismissAnnouncement from './dismiss-announcement.js';
 import selectModal from './select-modal.js';
 import tooltip from './tooltip.js';
 import turbolinks from './turbolinks';
+import supportForm from './support-form.js';
+
 submitOnEvents(["blur", "change"]);
 dateToggle();
 imageExpand();
@@ -32,4 +34,6 @@ dismissAnnouncement();
 selectModal();
 tooltip();
 turbolinks();
+supportForm();
+
 $("body").removeClass("no-js").addClass("js");

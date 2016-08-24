@@ -29,6 +29,9 @@ defmodule Site.Router do
     get "/schedules/Green", ScheduleController.Green, :green
     get "/schedules/:route", ScheduleController, :show
     resources "/alerts", AlertController, only: [:index, :show]
+    get "/customer-support", CustomerSupportController, :index
+    get "/customer-support/thanks", CustomerSupportController, :thanks
+    post "/customer-support", CustomerSupportController, :submit
   end
 
   # Other scopes may use custom stacks.

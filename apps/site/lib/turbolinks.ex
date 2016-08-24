@@ -1,12 +1,19 @@
 defmodule Turbolinks do
   import Plug.Conn, only: [get_req_header: 2]
+  alias Phoenix.HTML.Tag
 
   def enabled?(conn) do
     case get_req_header(conn, "turbolinks-referrer") do
       [] -> false
       _ -> true
     end
+  end
 
+  def turbolinks_cache(%{private: %{phoenix_view: Site.CustomerSupportView}}) do
+    Tag.tag :meta, name: "turbolinks-cache-control", content: "no-cache"
+  end
+  def turbolinks_cache(_conn) do
+    ""
   end
 end
 

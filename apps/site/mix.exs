@@ -23,7 +23,7 @@ defmodule Site.Mixfile do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
             :stations, :routes, :alerts, :news, :schedules, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
-            :logster]
+            :logster, :sizeable, :feedback]
     [mod: {Site, []},
      applications: if Mix.env == :prod do
        [:ehmon | apps]
@@ -60,7 +60,10 @@ defmodule Site.Mixfile do
      {:logster, "~> 0.3.0"},
      {:logger_logentries_backend, github: "paulswartz/logger_logentries_backend"},
      {:excheck, "~> 0.5", only: :test},
-     {:triq, github: "triqng/triq", only: :test}
+     {:triq, github: "triqng/triq", only: :test},
+     {:sizeable, "~> 0.1.5"},
+     {:poison, "~> 2.2", override: true},
+     {:feedback, in_umbrella: true}
     ]
   end
 end

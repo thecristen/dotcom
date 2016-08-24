@@ -146,4 +146,12 @@ defmodule Site.ViewHelpers do
       [agent | _] -> agent
     end
   end
+
+  def tel_link(number) do
+    content_tag :a, number, href: "tel:#{number}"
+  end
+
+  def sms_link(number) do
+    content_tag :a, number, href: "sms:#{number}"
+  end
 end

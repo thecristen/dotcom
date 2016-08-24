@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <%= Turbolinks.turbolinks_cache @conn %>
 
     <title>MBTA - Massachusetts Bay Transportation Authority</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,500,700">

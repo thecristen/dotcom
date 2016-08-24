@@ -1,11 +1,10 @@
-@import "variables";
-@import "bootstrap";
-@import "vendor/font-awesome-4.6.3/scss/font-awesome";
-@import "helpers";
-@import "route-icon";
-@import "mode-group";
+@import 'variables';
+@import 'bootstrap';
+@import 'vendor/font-awesome-4.6.3/scss/font-awesome';
+@import 'helpers';
+@import 'route-icon';
+@import 'mode-group';
 @import 'card';
-
 @import 'index';
 @import 'alerts';
 @import 'schedule';
@@ -14,6 +13,7 @@
 @import 'stations';
 @import 'modal';
 @import 'errors';
+@import 'customer-support';
 
 body {
   background-color: $homepage-bg-color;
