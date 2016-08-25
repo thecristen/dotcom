@@ -145,7 +145,7 @@ export function renderModal($modal, data, options) {
       </div>
     </div>
     <div class="modal-body">
-      <form class="select-modal-search">${renderSearch(options)}</form>
+      <form class="select-modal-search">${renderSearch(data, options)}</form>
       <div class="select-modal-options list-group list-group-flush">${data.map(renderOption).join('')}</div>
     </div>
   </div>
@@ -173,10 +173,10 @@ function dataFromOption($) {
   };
 }
 
-function renderSearch(options) {
+function renderSearch(data, options) {
   return `
 <label for="select-modal-search" class="select-modal-label">${options.label}</label>
-<input id="select-modal-search" class="form-control" type=search />
+<input id="select-modal-search" class="form-control" type=search placeholder='Ex ${data[0].name}'/>
 `;
 }
 
