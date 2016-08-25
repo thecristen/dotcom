@@ -184,8 +184,8 @@ function renderOption(option) {
   const className = [
     'select-modal-option',
     'list-group-item',
-    option.selected ? 'select-modal-option-selected' : '',
-    option.disabled ? 'select-modal-option-disabled disabled' : ''
+    option.selected ? 'selected' : '',
+    option.disabled ? 'disabled' : ''
   ].join(' ');
   return `
 <button class='${className}' data-value='${option.value}' ${option.disabled ? 'disabled' : ''}>

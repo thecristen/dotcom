@@ -42,3 +42,11 @@
   padding-top: 0.5rem;
   padding-bottom: 1rem;
 }
+
+.select-modal-option {
+  font-weight: bold;
+
+  &.disabled {
+    font-weight: normal;
+  }
+}
