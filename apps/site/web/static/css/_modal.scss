@@ -1,4 +1,8 @@
 .modal-transparent {
+  .modal-header {
+    border: none;
+  }
+
   .modal-content {
     background-color: transparent;
     border: none;
@@ -6,6 +10,10 @@
 
   .modal-body {
     background-color: #fff;
+    max-height: calc(100vh - 41px - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 1rem;
   }
 
   .close {
@@ -26,5 +34,6 @@
   .modal-dialog {
     max-width: $modal-md;
     padding: 0 0.5rem;
+    margin: 0 auto;
   }
 }
