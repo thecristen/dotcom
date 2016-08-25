@@ -29,8 +29,9 @@ function openModal(ev, $) {
   const $target = $(ev.currentTarget);
   const $parent = $target.data('select-modal-select');
   const selectData = dataFromSelect($parent, $);
+  const options = optionsFromSelect($parent, $);
   const $modal = $newModal($parent.attr('name'), $);
-  renderModal($modal, selectData);
+  renderModal($modal, selectData, options);
   $modal
     .data('select-modal-button', $target)
     .data('select-modal-select', $parent)
@@ -108,6 +109,12 @@ export function dataFromSelect($el, $) {
     .filter(({value: value}) => value !== "");
 }
 
+export function optionsFromSelect($el, $) {
+  return {
+    label: $(`label[for=${$el.attr('id')}]`).html()
+  };
+}
+
 export function $newModal(id, $) {
   const modalId = id + 'Modal';
   const $existing = $('#' + modalId);
@@ -127,9 +134,9 @@ data-original-id='#${id}'>
   return $div;
 }
 
-export function renderModal($modal, data) {
+export function renderModal($modal, data, options) {
   $modal.html(`
-<div class='modal-dialog modal-lg modal-transparent role='document'>
+<div class='modal-dialog modal-sm modal-transparent role='document'>
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
@@ -138,8 +145,8 @@ export function renderModal($modal, data) {
       </div>
     </div>
     <div class="modal-body">
-      <form class="select-modal-search">${renderSearch()}</form>
-      <div class="select-modal-options">${data.map(renderOption).join('')}</div
+      <form class="select-modal-search">${renderSearch(options)}</form>
+      <div class="select-modal-options list-group list-group-flush">${data.map(renderOption).join('')}</div>
     </div>
   </div>
 </div>
@@ -166,17 +173,19 @@ function dataFromOption($) {
   };
 }
 
-function renderSearch() {
+function renderSearch(options) {
   return `
-<input type=search />
+<label for="select-modal-search" class="select-modal-label">${options.label}</label>
+<input id="select-modal-search" class="form-control" type=search />
 `;
 }
 
 function renderOption(option) {
   const className = [
     'select-modal-option',
+    'list-group-item',
     option.selected ? 'select-modal-option-selected' : '',
-    option.disabled ? 'select-modal-option-disabled' : ''
+    option.disabled ? 'select-modal-option-disabled disabled' : ''
   ].join(' ');
   return `
 <button class='${className}' data-value='${option.value}' ${option.disabled ? 'disabled' : ''}>
