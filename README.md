@@ -17,6 +17,9 @@ The new face of http://mbta.com/
   * `mix deps.get`
 1. Install our Node dependencies:
   * `npm run install`
+  * If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github:
+
+      git config --global url.https://github.com/.insteadOf git://github.com/
 
 ## Running the Server
 

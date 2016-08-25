@@ -44,6 +44,17 @@ defmodule Schedules.RepoTest do
     assert List.first(response) == %Schedules.Stop{id: "place-pktrm", name: "Park Street"}
   end
 
+  test ".stops does not include a parent station multiple times" do
+    # stops multiple times at Sullivan
+    response = Schedules.Repo.stops(
+      "86",
+      date: Timex.today,
+      direction_id: 1)
+
+    assert response != []
+    refute (response |> Enum.at(1)).id == "place-sull"
+  end
+
   test ".trip returns stops in order of their stop_sequence for a given trip" do
     trip_id = "31174481-CR_MAY2016-hxl16011-Weekday-01"
     response = Schedules.Repo.trip(trip_id)

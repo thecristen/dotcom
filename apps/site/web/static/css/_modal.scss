@@ -1,4 +1,9 @@
 .modal-transparent {
+  &.modal-dialog {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .modal-header {
     border: none;
   }
@@ -35,5 +40,17 @@
     max-width: $modal-md;
     padding: 0 0.5rem;
     margin: 0 auto;
+  }
+}
+
+.select-modal-search {
+  padding-bottom: 1rem;
+}
+
+.select-modal-option {
+  font-weight: bold;
+
+  &.disabled {
+    font-weight: normal;
   }
 }

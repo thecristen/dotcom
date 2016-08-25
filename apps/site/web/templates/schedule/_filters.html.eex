@@ -4,10 +4,10 @@
       <%= hidden_query_params(@conn, exclude: ["origin"]) %>
       <div class="form-group">
         <label for="origin">Show departure times for: <%= render "_loading.html" %></label>
-        <select id="origin" name="origin" class="form-control c-select">
+        <select id="origin" name="origin" class="form-control c-select" data-select-modal>
           <option value="">Select a station</option>
           <%= for stop <- @all_stops do %>
-            <option value="<%= stop.id %>"<%= if stop.id == @origin do %> selected<% end %><%= if stop == List.last(@all_stops) do %> disabled<% end %>><%= stop.name %></option>
+            <option value="<%= stop.id %>"<%= if stop.id == @origin do %> selected<% end %><%= if stop.id == @destination || stop == List.last(@all_stops) do %> disabled<% end %>><%= stop.name %></option>
           <% end %>
         </select>
       </div>
@@ -36,7 +36,7 @@
         <%= hidden_query_params @conn, exclude: ["dest", "trip", "name", "direction_id"] %>
         <div class="form-group">
           <label for="dest">Where are you traveling to? <%= render "_loading.html" %></label>
-          <select id="dest" name="dest" class="form-control c-select" placeholder="Select a station">
+          <select id="dest" name="dest" class="form-control c-select" placeholder="Select a station" data-select-modal>
             <option value="">Select a station</option>
             <%= for stop <- @all_stops do %>
               <option value="<%= stop.id %>"<%= if stop.id == @destination do %> selected<% end %><%= if stop.id == @origin or not (stop in @destination_stops) do %> disabled<% end %>><%= stop.name %></option>

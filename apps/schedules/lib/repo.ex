@@ -41,6 +41,7 @@ defmodule Schedules.Repo do
       |> V3Api.Stops.all
       |> (fn api -> api.data end).()
       |> Enum.map(&simple_stop/1)
+      |> Enum.uniq # filter out stops which hit multiple parts of the same parent
     end)
   end
 
