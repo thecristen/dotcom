@@ -7,10 +7,6 @@ defmodule Site.ScheduleController.Pairs do
   def pairs(conn, route_id, origin_id, dest_id) do
     conn = conn
     |> default_assigns
-    |> assign_route(route_id)
-    |> assign_alerts
-    |> assign_all_stops(route_id)
-    |> assign_destination_stops(route_id)
 
     opts = [
       date: conn.assigns[:date]
@@ -24,6 +20,10 @@ defmodule Site.ScheduleController.Pairs do
 
     conn
     |> assign_direction_id(filtered_pairs)
+    |> assign_route(route_id)
+    |> assign_all_stops(route_id)
+    |> assign_destination_stops(route_id)
+    |> assign_alerts
     |> assign_all_routes
     |> assign_route_breadcrumbs
     |> await_assign_all
