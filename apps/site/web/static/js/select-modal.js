@@ -184,6 +184,7 @@ function renderOption(option) {
   const className = [
     'select-modal-option',
     'list-group-item',
+    'list-group-item-flush',
     option.selected ? 'selected' : '',
     option.disabled ? 'disabled' : ''
   ].join(' ');
