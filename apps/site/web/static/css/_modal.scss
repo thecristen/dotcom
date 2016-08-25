@@ -1,4 +1,9 @@
 .modal-transparent {
+  &.modal-dialog {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .modal-header {
     border: none;
   }
