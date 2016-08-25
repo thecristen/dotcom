@@ -13,7 +13,6 @@ defmodule Site.ScheduleController.Pairs do
     |> assign_destination_stops(route_id)
 
     opts = [
-      direction_id: conn.assigns[:direction_id],
       date: conn.assigns[:date]
     ]
 
@@ -24,6 +23,7 @@ defmodule Site.ScheduleController.Pairs do
     |> possibly_open_schedules(stop_pairs, conn)
 
     conn
+    |> assign_direction_id(filtered_pairs)
     |> assign_all_routes
     |> assign_route_breadcrumbs
     |> await_assign_all
@@ -42,6 +42,13 @@ defmodule Site.ScheduleController.Pairs do
   defp filter_pairs(stop_pairs, false) do
     stop_pairs
     |> Enum.filter(fn {_, dest} -> is_after_now?(dest) end)
+  end
+
+  defp assign_direction_id(conn, []), do: conn
+  defp assign_direction_id(conn, [{%{trip: %{direction_id: direction_id}}, _}|_]) do
+    conn
+    |> assign(:direction_id, direction_id)
+    |> assign(:reverse_direction_id, reverse_direction_id(direction_id))
   end
 
   defp render_pairs(conn, []) do

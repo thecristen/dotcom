@@ -52,7 +52,7 @@ defmodule Site.ScheduleController.Defaults do
     end
   end
 
-  defp reverse_direction_id(0), do: 1
-  defp reverse_direction_id(1), do: 0
-  defp reverse_direction_id(_), do: 1 # Unknown, so pick a default
+  def reverse_direction_id(0), do: 1
+  def reverse_direction_id(1), do: 0
+  def reverse_direction_id(_), do: 1 # Unknown, so pick a default
 end
