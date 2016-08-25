@@ -91,13 +91,13 @@ function modalHidden(ev, $) {
 export function convertSelects($) {
   $("select[data-select-modal]").each((_index, el) => {
     const $el = $(el),
-          $newDiv = $("<button data-select-modal/>")
+          $replacement = $("<button data-select-modal/>")
       .addClass(el.className)
       .text(el.options[el.selectedIndex].text)
       .data('select-modal-select', $el);
     $el.hide()
       .removeAttr('data-select-modal')
-      .after($newDiv);
+      .after($replacement);
   });
 }
 
