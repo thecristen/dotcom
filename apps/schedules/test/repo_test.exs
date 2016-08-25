@@ -63,4 +63,14 @@ defmodule Schedules.RepoTest do
     assert origin.trip.id == dest.trip.id
     assert origin.time < dest.time
   end
+
+  test ".origin_destination does not require a direction id" do
+    today = Timex.today |> Timex.format!("{ISOdate}")
+    no_direction_id = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
+      date: today)
+    direction_id = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
+      date: today, direction_id: 1)
+
+    assert no_direction_id == direction_id
+  end
 end

@@ -58,8 +58,8 @@ defmodule Schedules.Repo do
       origin_task = Task.async(Schedules.Repo, :schedule_for_stop, [origin_stop, opts])
       dest_task = Task.async(Schedules.Repo, :schedule_for_stop, [dest_stop, opts])
 
-      {:ok, origin_stops} = Task.yield(origin_task)
-      {:ok, dest_stops} = Task.yield(dest_task)
+      {:ok, origin_stops} = Task.yield(origin_task, 10_000)
+      {:ok, dest_stops} = Task.yield(dest_task, 10_000)
 
       origin_stops
       |> Join.join(dest_stops, fn schedule -> schedule.trip.id end)
