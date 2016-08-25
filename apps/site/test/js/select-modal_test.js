@@ -115,18 +115,18 @@ describe('selectModal', () => {
       assert.lengthOf($data, 3);
     });
 
-    it('sets modal-select-option-selected on the selection data', () => {
+    it('sets selected on the selection data', () => {
       const $data = $modal.find('.select-modal-option') ;
       assert.deepEqual($data
-                       .map((_index, el) => $(el).hasClass('select-modal-option-selected'))
+                       .map((_index, el) => $(el).hasClass('selected'))
                        .get(),
                        [true, false, false]);
     });
 
-    it('sets modal-select-option-disabled on the selection data', () => {
+    it('sets disabled on the selection data', () => {
       const $data = $modal.find('.select-modal-option') ;
       assert.deepEqual($data
-                       .map((_index, el) => $(el).hasClass('select-modal-option-disabled'))
+                       .map((_index, el) => $(el).hasClass('disabled'))
                        .get(),
                        [false, true, false]);
     });
