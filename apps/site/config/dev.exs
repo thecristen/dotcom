@@ -6,8 +6,12 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
+
+port = System.get_env |> Dict.get("PORT", "4001") |> String.to_integer
 config :site, Site.Endpoint,
   http: [port: System.get_env |> Dict.get("PORT", "4001") |> String.to_integer],
+  static_url: [host: System.get_env |> Dict.get("STATIC_HOST", "localhost"),
+               port: port],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
