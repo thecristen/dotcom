@@ -9,6 +9,11 @@ defmodule AlertsTest do
       refute Alert.is_notice? delay
     end
 
+    test "Suspension alerts are not notices" do
+      suspension = %Alert{effect_name: "Suspension"}
+      refute Alert.is_notice? suspension
+    end
+
     test "Track Change is a notice" do
       change = %Alert{effect_name: "Track Change"}
       assert Alert.is_notice? change

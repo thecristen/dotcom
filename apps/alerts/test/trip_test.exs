@@ -18,6 +18,10 @@ defmodule Alerts.TripTest do
     alert = %Alert{
       effect_name: "Delay",
       informed_entity: [%IE{route: @route_id}]}
+    suspension = %Alert{
+      effect_name: "Suspension",
+      informed_entity: {%IE{route: @route_id}}
+    }
     wrong_route = %Alert{
       header: "Wrong Route",
       effect_name: "Delay",
@@ -26,7 +30,7 @@ defmodule Alerts.TripTest do
       header: "Wrong Effect",
       informed_entity: [%IE{route: @route_id}]}
 
-    assert [alert] == Trip.match([alert, wrong_route, wrong_effect], @trip_id, route: @route_id)
+    assert [alert, suspension] == Trip.match([alert, suspension, wrong_route, wrong_effect], @trip_id, route: @route_id)
   end
 
   test "does not double-count delays on a trip" do

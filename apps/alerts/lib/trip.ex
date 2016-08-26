@@ -19,7 +19,7 @@ defmodule Alerts.Trip do
 
     delay_alerts = alerts
     |> Alerts.Match.match(entity_for(nil, options), options[:time])
-    |> Enum.filter(&(&1.effect_name == "Delay"))
+    |> Enum.filter(&(&1.effect_name in ["Delay", "Suspension"]))
 
     trip_alerts
     |> Kernel.++(delay_alerts)
