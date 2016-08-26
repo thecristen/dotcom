@@ -1,5 +1,6 @@
 <%= for schedule <- @schedules do %>
   <% is_selected_period = schedule.trip.id == @trip %>
+  <% trip_alerts = trip_alerts_for @alerts, schedule %>
   <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
     id="<%= schedule.trip.id %>"
     href="<%= if is_selected_period do %>
@@ -17,7 +18,7 @@
         <%= if schedule.trip.headsign != @most_frequent_headsign do %>
           (to <%= schedule.trip.headsign %>)
         <% end %>
-        <%= if has_trip_alerts? @alerts, schedule do %>
+        <%= if trip_alerts != [] do %>
           <%= fa "exclamation-triangle" %>
           <span class="sr-only">Has an alert</span>
         <% end %>
@@ -27,7 +28,7 @@
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
-      <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedule), time: schedule.time %>
+      <%= render "_alerts_inline.html", alerts: trip_alerts, time: schedule.time %>
       <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from %>
     </div>
   <% end %>

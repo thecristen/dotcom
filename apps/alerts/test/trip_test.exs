@@ -14,6 +14,19 @@ defmodule Alerts.TripTest do
     assert [alert] == Trip.match([alert, wrong_alert], @trip_id)
   end
 
+  test "can query multiple trip IDs" do
+    alert = %Alert{informed_entity: [%IE{trip: @trip_id}]}
+    alert_two = %Alert{informed_entity: [%IE{trip: "other_trip"}]}
+    alert_both = %Alert{informed_entity: [
+                           %IE{trip: @trip_id},
+                           %IE{trip: "other_trip"}
+                           ]}
+
+    expected = [alert, alert_both, alert_two]
+    actual = Trip.match([alert, alert_two, alert_both], [@trip_id, "other_trip"])
+    assert Enum.sort(expected) == Enum.sort(actual)
+  end
+
   test "includes delays that apply to the route" do
     alert = %Alert{
       effect_name: "Delay",

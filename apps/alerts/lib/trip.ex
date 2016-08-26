@@ -2,7 +2,8 @@ defmodule Alerts.Trip do
 
   @doc """
 
-  Given a trip_id, returns the list of alerts which apply to that trip.
+  Given a trip_id (or a list of IDs), returns the list of alerts which apply
+  to that trip.
 
   Options include:
 
@@ -13,17 +14,37 @@ defmodule Alerts.Trip do
   * time: for a particular time during that trip (DateTime)
 
   """
-  def match(alerts, trip_id, options \\ []) do
-    trip_alerts = alerts
-    |> Alerts.Match.match(entity_for(trip_id, []), options[:time])
+  def match(alerts, trip_ids, options \\ [])
+  def match(alerts, trip_ids, options) when is_list(trip_ids) do
+    all_trip_entities = trip_ids
+    |> Enum.map(&(entity_for(&1, options)))
+    all_trip_alerts = Alerts.Match.match(
+      alerts,
+      all_trip_entities,
+      options[:time])
 
-    delay_alerts = alerts
+    [all_trip_alerts,
+     delay_alerts(alerts, options)]
+    |> Enum.concat
+    |> Enum.uniq
+  end
+  def match(alerts, trip_id, options) do
+    [trip_alerts(alerts, trip_id, options[:time]),
+     delay_alerts(alerts, options)
+    ]
+    |> Enum.concat
+    |> Enum.uniq
+  end
+
+  defp trip_alerts(alerts, trip_id, time) do
+    alerts
+    |> Alerts.Match.match(entity_for(trip_id, []), time)
+  end
+
+  defp delay_alerts(alerts, options) do
+    alerts
     |> Alerts.Match.match(entity_for(nil, options), options[:time])
     |> Enum.filter(&(&1.effect_name in ["Delay", "Suspension"]))
-
-    trip_alerts
-    |> Kernel.++(delay_alerts)
-    |> Enum.uniq
   end
 
   defp entity_for(trip_id, options) do

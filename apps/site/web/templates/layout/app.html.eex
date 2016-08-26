@@ -13,6 +13,7 @@
     <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" as="script">
     <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">
     <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
 
   <body class="no-js <%= error_class(@view_module) %>">

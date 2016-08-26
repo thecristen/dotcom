@@ -1,5 +1,6 @@
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
   <% is_selected_period = @conn.params["hour"] == to_string(hour) %>
+  <% trip_alerts = trip_alerts_for(@alerts, schedules) %>
   <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
     id="hour-<%= hour %>"
     href="<%= if is_selected_period do %>
@@ -14,7 +15,7 @@
       </span>
       <span class="col-xs-7">
         <%= render "_schedule_group.html", schedules: schedules %>
-        <%= if has_trip_alerts? @alerts, schedules do %>
+        <%= if trip_alerts != [] do %>
           <%= fa "exclamation-triangle" %>
           <span class="sr-only">Has an alert</span>
         <% end %>
@@ -26,7 +27,7 @@
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
-      <%= render "_alerts_inline.html", alerts: trip_alerts_for(@alerts, schedules), time: List.first(schedules).time %>
+      <%= render "_alerts_inline.html", alerts: trip_alerts, time: List.first(schedules).time %>
       <div class="row">
         <%= for schedule <- schedules do %>
           <div class="col-xs-4 col-sm-3 col-md-2">

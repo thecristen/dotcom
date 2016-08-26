@@ -1,7 +1,9 @@
 defmodule Alerts.Match do
-  @doc """
+  @moduledoc """
 
-  Returns the alerts which match the provided InformedEntity.
+  Returns the alerts which match the provided InformedEntity or entities.
+
+  Passing multiple entities will allow the matching to be more efficient.
 
   """
   use Timex
@@ -13,14 +15,21 @@ defmodule Alerts.Match do
     |> Enum.filter(&(any_entity_match?(&1, entity)))
   end
   def match(alerts, entity, datetime) do
+    # time first in order to minimize the more-expensive entity match
     alerts
-    |> match(entity, nil)
     |> Enum.filter(&(any_time_match?(&1, datetime)))
+    |> match(entity, nil)
   end
 
-  defp any_entity_match?(alert, entity) do
+  defp any_entity_match?(alert, entities) when is_list(entities) do
     alert.informed_entity
-    |> Enum.any?(&(IE.match?(&1, entity)))
+    |> Enum.any?(fn ie ->
+      entities
+      |> Enum.any?(&(IE.match?(ie, &1)))
+    end)
+  end
+  defp any_entity_match?(alert, entity) do
+    any_entity_match?(alert, [entity])
   end
 
   def any_time_match?(alert, datetime) do
