@@ -79,7 +79,7 @@ function optionSelected(ev, $) {
 
 function modalShown(ev, $) {
   // focus search when the modal is open
-  $(ev.currentTarget).find('.select-modal-search input').focus();
+  //$(ev.currentTarget).find('.select-modal-search input').focus();
 }
 
 function modalHidden(ev, $) {
@@ -176,7 +176,7 @@ function dataFromOption($) {
 function renderSearch(data, options) {
   return `
 <label for="select-modal-search" class="select-modal-label">${options.label}</label>
-<input id="select-modal-search" class="form-control" type=search placeholder='Ex ${data[0].name}'/>
+<input id="select-modal-search" name="select-modal-search" class="form-control" type="search" autocomplete="off" placeholder="Ex ${data[0].name}"/>
 `;
 }
 
