@@ -80,8 +80,8 @@ defmodule Site.ScheduleView.Alerts do
   end
 
   def display_alert_updated(alert) do
-    formatted = alert.updated_at
-    |> Timex.format!("{relative}", Timex.Format.DateTime.Formatters.Relative)
+    {:ok, formatted} = alert.updated_at
+    |> Timex.Format.DateTime.Formatters.Relative.relative_to(Util.now, "{relative}")
 
     "Updated #{formatted}"
   end

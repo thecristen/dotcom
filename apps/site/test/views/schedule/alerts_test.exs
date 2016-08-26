@@ -39,4 +39,11 @@ defmodule Site.ScheduleView.AlertsTest do
 
     assert expected == actual
   end
+
+  test "display_alert_updated/1 returns the relative offset based on our timezone" do
+    one_hour = Timex.shift(Util.now, hours: -1)
+    alert = %Alerts.Alert{updated_at: one_hour}
+
+    assert ScheduleView.Alerts.display_alert_updated(alert) == "Updated 1 hour ago"
+  end
 end
