@@ -78,8 +78,10 @@ function optionSelected(ev, $) {
 }
 
 function modalShown(ev, $) {
-  // focus search when the modal is open
-  //$(ev.currentTarget).find('.select-modal-search input').focus();
+  if (!/iPad|iPhone|Android/.exec(navigator.userAgent)) {
+    // focus search when the modal is open (desktop)
+    $(ev.currentTarget).find('.select-modal-search label').focus();
+  }
 }
 
 function modalHidden(ev, $) {
