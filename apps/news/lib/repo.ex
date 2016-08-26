@@ -15,7 +15,7 @@ defmodule News.Repo do
   # compiled in, so basically there shouldn't be a TTL. Instead, we TTL for a
   # year.
   use RepoCache, ttl: :timer.hours(24 * 365)
-  import Logger
+  require Logger
 
   def all(opts \\ []) do
     cache opts, fn opts ->

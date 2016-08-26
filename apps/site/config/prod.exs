@@ -18,9 +18,19 @@ config :site, Site.Endpoint,
   cache_static_manifest: "priv/static/manifest.json"
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger,
+  level: :debug,
+  backends: [{Logger.Backend.Logentries, :logentries}, :console]
 
-# ## SSL Support
+config :logger, :logentries,
+  connector: Logger.Backend.Logentries.Output.SslKeepOpen,
+  host: 'data.logentries.com',
+  port: 443,
+  token: "${LOGENTRIES_TOKEN}",
+  format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
+  metadata: [:request_id]
+
+  # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
 # to the previous section and set your `:url` port to 443:
