@@ -2,6 +2,9 @@ FROM elixir:1.3
 
 WORKDIR /root
 
+# Configure Git to use HTTPS in order to avoid issues with the internal MBTA network
+RUN git config --global url.https://github.com/.insteadOf git://github.com/
+
 # Install Hex+Rebar
 RUN mix local.hex --force && \
   mix local.rebar --force
