@@ -20,7 +20,7 @@ defmodule Alerts.TripTest do
       informed_entity: [%IE{route: @route_id}]}
     suspension = %Alert{
       effect_name: "Suspension",
-      informed_entity: {%IE{route: @route_id}}
+      informed_entity: [%IE{route: @route_id}]
     }
     wrong_route = %Alert{
       header: "Wrong Route",

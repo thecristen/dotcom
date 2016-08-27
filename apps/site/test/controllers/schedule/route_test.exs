@@ -22,7 +22,13 @@ defmodule Site.ScheduleControllerTest do
   end
 
   test "inbound Lowell schedule contains the trip from Anderson/Woburn", %{conn: conn} do
-    conn = get conn, schedule_path(conn, :index, route: "CR-Lowell", all: "all", direction_id: 1)
+    next_weekday = Util.today
+    |> Timex.end_of_week(:mon)
+    |> Timex.shift(days: 1)
+    |> Timex.format!("{ISOdate}")
+    conn = get conn, schedule_path(
+      conn, :index,
+      route: "CR-Lowell", all: "all", direction_id: 1, date: next_weekday)
     response = html_response(conn, 200)
     assert response =~ "from Anderson/Woburn"
   end
