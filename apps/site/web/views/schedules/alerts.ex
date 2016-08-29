@@ -1,52 +1,22 @@
 defmodule Site.ScheduleView.Alerts do
 
-  def alerts_for(alerts, %Schedules.Schedule{} = schedule) do
-    entity = %Alerts.InformedEntity{
-      route_type: schedule.route.type,
-      route: schedule.route.id,
-      stop: schedule.stop.id,
-      trip: schedule.trip.id
-    }
+  def trip_alerts_for(_, []), do: []
+  def trip_alerts_for(alerts, [schedule|_]=schedules) do
+    trip_ids = schedules
+    |> Enum.map(fn schedule -> schedule.trip.id end)
 
-    alerts
-    |> Alerts.Match.match(entity, schedule.time)
-  end
-
-  def alerts_for(alerts, %Schedules.Trip{} = trip) do
-    entity = %Alerts.InformedEntity{
-      trip: trip.id
-    }
-
-    alerts
-    |> Alerts.Match.match(entity)
-  end
-
-  def has_alerts?(alerts, item) do
-    matched = alerts
-    |> alerts_for(item)
-    |> Enum.reject(&Alerts.Alert.is_notice?/1)
-
-    matched != []
-  end
-
-  def trip_alerts_for(alerts, schedules) when is_list(schedules) do
-    schedules
-    |> Enum.flat_map(&(trip_alerts_for(alerts, &1)))
-    |> Enum.uniq
-  end
-  def trip_alerts_for(alerts, schedule) do
-    alerts
-    |> Alerts.Trip.match(
-      schedule.trip.id,
+    Alerts.Trip.match(
+      alerts,
+      trip_ids,
       time: schedule.time,
       route: schedule.route.id,
       route_type: schedule.route.type,
       direction_id: schedule.trip.direction_id,
-      stop: schedule.stop.id)
+      stop: schedule.stop.id
+    )
   end
-
-  def has_trip_alerts?(alerts, schedules) do
-    trip_alerts_for(alerts, schedules) != []
+  def trip_alerts_for(alerts, schedule) do
+    trip_alerts_for(alerts, [schedule])
   end
 
   @doc """

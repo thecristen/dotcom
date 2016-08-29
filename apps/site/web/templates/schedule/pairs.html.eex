@@ -16,6 +16,7 @@
         </thead>
         <tbody>
           <%= for {origin, dest} <- @schedules do %>
+            <% trip_alerts = trip_alerts_for(@alerts, [origin, dest]) %>
             <tr>
               <td>
                 <%= origin.time |> Timex.format!("{kitchen}") %>
@@ -26,7 +27,7 @@
               <td>
                 <%= origin.trip.name %>
                 <%= if origin.route.id != @route.id do %>(via <%= origin.route.name %>)<% end %>
-                <%= if has_trip_alerts?(@alerts, [origin, dest]) do %>
+                <%= if trip_alerts != [] do %>
                   <span data-toggle="modal" data-target="#alertsModal" style="cursor: pointer;">
                     <%= fa "exclamation-triangle" %>
                     <span class="sr-only">Has an alert</span>
