@@ -1,4 +1,4 @@
-[![Build Status](https://semaphoreci.com/api/v1/projects/3e8894ff-9143-4cb0-a0ae-a4489ca741a7/882389/badge.svg)](https://semaphoreci.com/peter-fogg/dotcom)
+[![Build Status](https://semaphoreci.com/api/v1/projects/ed6a7697-4bde-446b-89bd-47c634431bf0/950162/badge.svg)](https://semaphoreci.com/mbta/dotcom)
 
 # DotCom
 
