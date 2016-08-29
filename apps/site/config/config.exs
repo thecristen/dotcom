@@ -25,6 +25,10 @@ config :site, Site.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
   feedback_form_url: "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
+config :site, GoogleMaps,
+  client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
+  signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
+
 config :ehmon, :report_mf, {:ehmon, :info_report}
 
 # Import environment specific config. This must remain at the bottom
