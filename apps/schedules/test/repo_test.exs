@@ -35,9 +35,13 @@ defmodule Schedules.RepoTest do
   end
 
   test ".stops uses the parent station name" do
+    next_weekday = Util.today
+    |> Timex.end_of_week(:mon)
+    |> Timex.shift(days: 1)
+
     response = Schedules.Repo.stops(
       "Green-B",
-      date: Timex.today,
+      date: next_weekday,
       direction_id: 0)
 
     assert response != []
