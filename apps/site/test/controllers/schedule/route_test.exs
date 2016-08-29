@@ -24,8 +24,9 @@ defmodule Site.ScheduleControllerTest do
   test "inbound Lowell schedule contains the trip from Anderson/Woburn", %{conn: conn} do
     next_weekday = Util.today
     |> Timex.end_of_week(:mon)
-    |> Timex.shift(days: 1)
+    |> Timex.shift(days: 3)
     |> Timex.format!("{ISOdate}")
+
     conn = get conn, schedule_path(
       conn, :index,
       route: "CR-Lowell", all: "all", direction_id: 1, date: next_weekday)
