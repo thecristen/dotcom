@@ -23,12 +23,13 @@ import dateToggle from './date-toggle.js';
 import imageExpand from './image-expand.js';
 import dismissAnnouncement from './dismiss-announcement.js';
 import selectModal from './select-modal.js';
-
+import tooltip from './tooltip.js';
+import turbolinks from './turbolinks';
 submitOnEvents(["blur", "change"]);
 dateToggle();
 imageExpand();
 dismissAnnouncement();
 selectModal();
-
-$('[data-toggle="tooltip"]').tooltip();
+tooltip();
+turbolinks();
 $("body").removeClass("no-js").addClass("js");

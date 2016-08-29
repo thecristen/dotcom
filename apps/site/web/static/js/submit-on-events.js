@@ -1,15 +1,40 @@
 export default function(events, $) {
   $ = $ || window.jQuery;
   events.forEach((event) => {
-    $("[data-submit-on-" + event + "]").each((index, el) => {
-      const $el = $(el);
-      function onEvent() {
-        $(this).siblings('label').find('.loading-indicator').removeClass('hidden-xs-up');
-        $(this).parents("form").submit();
-      };
-      $el.find("select")[event](onEvent);
-      $el.find("input")[event](onEvent);
-      $el.find("[type=submit]").hide();
-    });
+    function onEvent(ev) {
+      $(ev.target).siblings('label').find('.loading-indicator').removeClass('hidden-xs-up');
+      const form = $(ev.target).parents("form");
+      const action = form.attr('action');
+      const serialized = form.serialize();
+
+      window.Turbolinks.visit(mergeAction(action, serialized));
+    };
+
+    function hideSubmits() {
+      $('<style type="text/css">[data-submit-on-' + event + '] [type=submit] {display: none;}</style>').appendTo($('head'));
+    }
+
+    $(document).on(event, "[data-submit-on-" + event + "] select", onEvent);
+    $(document).on(event, "[data-submit-on-" + event + "] input", onEvent);
+    hideSubmits();
   });
 };
+
+export function mergeAction(action, params, pathname) {
+  if (!pathname) {
+    if (typeof window !== 'undefined') { // not set in tests
+      pathname = window.location.pathname;
+    }
+  }
+  if (typeof action === "undefined" || action === "" || action === "#") {
+    return pathname + "?" + params;
+  }
+  if (action.charAt(0) == "#") {
+    return pathname + "?" + params + action;
+  }
+  const replacedHash = action.replace(/#/, "?" + params + "#");
+  if (replacedHash === action) {
+    return action + "?" + params;
+  }
+  return replacedHash;
+}

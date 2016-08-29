@@ -1,9 +1,7 @@
 export default function($) {
-    $ = $ || window.jQuery;
-    $('.expandable').each((index, el) => {
-        const $el = $(el);
-        $el.click(() => {
-           $el.toggleClass('expanded') ;
-        });
-    });
+  $ = $ || window.jQuery;
+  $(document).on("click", ".expandable", (ev) => {
+    const $el = $(ev.target);
+    $el.toggleClass('expanded') ;
+  });
 };

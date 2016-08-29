@@ -1,9 +1,10 @@
 export default function($) {
   $ = $ || window.jQuery;
 
-  $(".date-toggle-edit").click(function(ev) {
+  $(document).on("click", ".date-toggle-edit", (ev) => {
     ev.preventDefault();
-    const $form = $(this).parents("form");
+    const $el = $(ev.target);
+    const $form = $el.parents("form");
     $form.find(".date-toggle").toggleClass("date-toggle-enabled");
 
     const dateInput = $form.find(".date-toggle-enabled").find("input");
@@ -14,8 +15,8 @@ export default function($) {
     }
   });
 
-  $(".date-toggle input").blur(function (ev) {
+  $(document).on("blur", ".date-toggle input", (ev) => {
     ev.preventDefault();
-    $(this).parents("form").find(".date-toggle").toggleClass("date-toggle-enabled");
+    $(ev.target).parents("form").find(".date-toggle").toggleClass("date-toggle-enabled");
   });
 };
