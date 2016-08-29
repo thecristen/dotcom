@@ -3,7 +3,7 @@ set -e -x
 PREFIX=apps/site/
 APP=site
 BUILD_TAG=$APP:_build
-VERSION=`egrep -o 'version: .*"' ${PREFIX}mix.exs |egrep -o '\d+\.\d+\.\d+'`
+VERSION=$(grep -o 'version: .*"' ${PREFIX}mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
 BUILD_ARTIFACT=$APP-build.zip
 
 docker build -t $BUILD_TAG .
