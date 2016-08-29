@@ -78,8 +78,10 @@ function optionSelected(ev, $) {
 }
 
 function modalShown(ev, $) {
-  // focus search when the modal is open
-  $(ev.currentTarget).find('.select-modal-search input').focus();
+  if (!/iPad|iPhone|Android/.exec(navigator.userAgent)) {
+    // focus search when the modal is open (desktop)
+    $(ev.currentTarget).find('.select-modal-search label').focus();
+  }
 }
 
 function modalHidden(ev, $) {
@@ -91,7 +93,7 @@ function modalHidden(ev, $) {
 export function convertSelects($) {
   $("select[data-select-modal]").each((_index, el) => {
     const $el = $(el),
-          $replacement = $("<button data-select-modal/>")
+          $replacement = $("<button data-select-modal type=button />")
       .addClass(el.className)
       .text(el.options[el.selectedIndex].text)
       .data('select-modal-select', $el);
@@ -127,7 +129,6 @@ class='modal select-modal'
 id='${modalId}'
 tabindex="-1"
 role="dialog"
-aria-hidden="true"
 data-original-id='#${id}'>
 </div>`);
   $('body').append($div);
@@ -136,23 +137,29 @@ data-original-id='#${id}'>
 
 export function renderModal($modal, data, options) {
   $modal.html(`
-<div class='modal-dialog modal-sm modal-transparent role='document'>
+<div class='modal-dialog role='document'>
   <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
-        <i class="fa fa-close" aria-hidden="true"/> Close
-        </button>
-      </div>
-    </div>
     <div class="modal-body">
-      <form class="select-modal-search">${renderSearch(data, options)}</form>
-      <div class="select-modal-options list-group list-group-flush">${data.map(renderOption).join('')}</div>
+      ${renderCloseButton()}
+      <form class="select-modal-search">
+        ${renderSearch(data, options)}
+      </form>
+      <div class="select-modal-options list-group list-group-flush">
+        ${data.map(renderOption).join('')}
+      </div>
     </div>
   </div>
 </div>
 `)
     .data('select-modal-data', data)
     .data('select-modal-sifter', new Sifter(data));
+}
+
+function renderCloseButton() {
+  return `
+<button type="button" class="close btn btn-link pull-right p-t-0" data-dismiss="modal" aria-label="Close">
+  <i class="fa fa-close" aria-hidden="true"/> Close
+</button>`;
 }
 
 
@@ -176,7 +183,7 @@ function dataFromOption($) {
 function renderSearch(data, options) {
   return `
 <label for="select-modal-search" class="select-modal-label">${options.label}</label>
-<input id="select-modal-search" class="form-control" type=search placeholder='Ex ${data[0].name}'/>
+<input id="select-modal-search" name="select-modal-search" class="form-control" type="search" autocomplete="off" placeholder="Ex ${data[0].name}"/>
 `;
 }
 

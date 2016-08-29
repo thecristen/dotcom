@@ -1,3 +1,7 @@
+.modal-content, .modal-body {
+  border-radius: 1rem;
+}
+
 .modal-transparent {
   &.modal-dialog {
     margin-top: 0;
@@ -18,7 +22,6 @@
     max-height: calc(100vh - 41px - 2rem);
     overflow-y: auto;
     overflow-x: hidden;
-    border-radius: 1rem;
   }
 
   .close {
@@ -39,7 +42,6 @@
   .modal-dialog {
     max-width: $modal-md;
     padding: 0 0.5rem;
-    margin: 0 auto;
   }
 }
 
