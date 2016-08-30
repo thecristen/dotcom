@@ -1,0 +1,7 @@
+<%= if @prediction.status do %>
+  <%= fa "clock-o" %>
+  <strong <%= if @prediction.status == "All Aboard" do %>style="text-decoration: underline;"<% end %>>
+    <%= @prediction.status %>
+    <%= if @prediction.track do %>on track&nbsp;<%= @prediction.track %><% end %>
+  </strong>
+<% end %>

@@ -4,6 +4,8 @@ defmodule Site.ScheduleViewTest do
   alias Site.ScheduleView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Phoenix.HTML.Tag, only: [tag: 2]
+  import Phoenix.View, only: [render_to_string: 3]
+  alias Predictions.Prediction
 
   @stop %Schedules.Stop{id: "stop_id"}
   @trip %Schedules.Trip{id: "trip_id"}
@@ -74,11 +76,62 @@ end
     end
   end
 
-  test "translates the type number to a string" do
-    assert ScheduleView.header_text(0, "test route") == "test route"
-    assert ScheduleView.header_text(3, "2") == "Route 2"
-    assert ScheduleView.header_text(1, "Red Line") == "Red Line"
-    assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
+  describe "header_text/2" do
+    test "translates the type number to a string" do
+      assert ScheduleView.header_text(0, "test route") == "test route"
+      assert ScheduleView.header_text(3, "2") == "Route 2"
+      assert ScheduleView.header_text(1, "Red Line") == "Red Line"
+      assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
+    end
+  end
+
+  describe "with predictions" do
+    test "on commuter rail, renders inline predictions", %{conn: conn} do
+      conn = get conn, "/schedules/CR-Lowell"
+      second_schedule = Enum.at(conn.assigns[:schedules], 1)
+      conn = conn
+      |> assign(:predictions, [
+            %Prediction{
+              trip_id: second_schedule.trip.id,
+              stop_id: second_schedule.stop.id,
+              route_id: second_schedule.route.id,
+              direction_id: second_schedule.trip.direction_id,
+              time: Util.now,
+              status: "All Aboard",
+              track: "6"
+            }
+          ])
+      conn = assign(conn, :conn, conn)
+
+      html = render_to_string(Site.ScheduleView, "index.html", conn.assigns)
+
+      assert html =~ "Predicted Departure"
+      assert html =~ "Departed" # for the first schedule
+      assert html =~ ~R(All Aboard\s+on track&nbsp;6)
+    end
+
+    test "for subway, renders a list of times", %{conn: conn} do
+      conn = get conn, "/schedules/Red"
+      schedule = List.first(conn.assigns[:schedules])
+      time = Util.now |> Timex.shift(minutes: 5, seconds: 30)
+      conn = conn
+      |> assign(:predictions, [
+            %Prediction{
+              trip_id: schedule.trip.id,
+              stop_id: schedule.stop.id,
+              route_id: schedule.route.id,
+              direction_id: schedule.trip.direction_id,
+              time: time
+            }
+          ])
+      conn = assign(conn, :conn, conn)
+
+      html = render_to_string(Site.ScheduleView, "index.html", conn.assigns)
+
+      assert html =~ "Upcoming departures"
+      assert html =~ Timex.format!(time, "{kitchen}")
+      assert html =~ "5 minutes"
+    end
   end
 
   describe "station_info_link/1" do

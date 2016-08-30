@@ -16,13 +16,26 @@
     <% else %>
           <%= update_url @conn, trip: origin.trip.id %>#<%= origin.trip.id %>"
     <% end %>">
-    <span class="schedule-col-departure"><span class="sr-only">Departure: </span><%= origin.time |> Timex.format!("{kitchen}") %></span>
+    <% prediction = @predictions |> Enum.find(&(&1.trip_id == origin.trip.id)) %>
+    <span class="schedule-col-departure"><span class="sr-only">Departure:</span>
+      <%= if prediction do %>
+        <%= prediction.time |> Timex.format!("{kitchen}") %> <%= fa "rss" %>
+      <% else %>
+        <%= origin.time |> Timex.format!("{kitchen}") %>
+      <% end %>
+    </span>
     <span class="schedule-col-arrival"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
     <span class="schedule-col-pair-notes">
       <%= if origin.trip.name != "" do %>
         <span class="sr-only"><%= if route_type == :commuter_rail do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
       <% end %>
       <%= if origin.route.id != @route.id do %>(via <%= origin.route.name |> clean_route_name %>)<% end %>
+      <%= if prediction do %>
+        <span class="pull-right text-strong">
+          <%= prediction.status %>
+          <%= if prediction.track do %>on track <%= prediction.track %><% end %>
+        </span>
+      <% end %>
       <%= if trip_alerts != [] do %>
         <%= Site.AlertView.tooltip %>
       <% end %>

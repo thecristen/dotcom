@@ -1,3 +1,4 @@
+<%= render "_upcoming_departures.html", predictions: @predictions %>
 <%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
   <% last_trip_id = List.last(schedules).trip.id %>
   <% is_selected_period = Enum.any?(schedules, &(&1.trip.id == @trip)) %>

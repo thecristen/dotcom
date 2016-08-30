@@ -1,0 +1,2 @@
+defmodule Predictions do
+end

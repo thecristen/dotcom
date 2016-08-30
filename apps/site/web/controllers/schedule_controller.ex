@@ -17,6 +17,7 @@ defmodule Site.ScheduleController do
   plug ScheduleController.DirectionNames
   plug ScheduleController.AllRoutes
   plug ScheduleController.DestinationStops
+  plug ScheduleController.Predictions
 
   def show(%{query_params: %{"route" => new_route_id}} = conn,
     %{"route" => old_route_id} = params) when new_route_id != old_route_id do

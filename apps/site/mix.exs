@@ -21,15 +21,19 @@ defmodule Site.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-            :stations, :routes, :alerts, :news, :schedules, :timex,
+            :stations, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
             :logster, :sizeable, :feedback]
+
+    apps = if Mix.env == :prod do
+      [:ehmon | apps]
+    else
+      apps
+    end
+
     [mod: {Site, []},
-     applications: if Mix.env == :prod do
-       [:ehmon | apps]
-     else
-       apps
-     end
+     included_applications: [:laboratory],
+     applications: apps
     ]
   end
 
@@ -54,6 +58,7 @@ defmodule Site.Mixfile do
      {:news, in_umbrella: true},
      {:schedules, in_umbrella: true},
      {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
+     {:predictions, in_umbrella: true},
      {:exrm, ">= 0.0.0"},
      {:inflex, "~> 1.7.0"},
      {:html_sanitize_ex, "~> 1.0.0"},
@@ -63,7 +68,8 @@ defmodule Site.Mixfile do
      {:triq, github: "triqng/triq", only: :test},
      {:sizeable, "~> 0.1.5"},
      {:poison, "~> 2.2", override: true},
-     {:feedback, in_umbrella: true}
+     {:feedback, in_umbrella: true},
+     {:laboratory, github: "code-mancers/laboratory"}
     ]
   end
 end

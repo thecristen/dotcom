@@ -1,0 +1,20 @@
+<%= if @predictions != [] do %>
+  <div class="schedule-list-group p-b-1">
+    <div class="schedule-list-group-item schedule-list-group-header">
+      <div class="schedule-col-group">
+        <%= fa "rss" %> Upcoming departures
+      </div>
+      <div class="schedule-col-1 pull-right">
+        <%= render "_refresh.html", predictions: @predictions %>
+      </div>
+    </div>
+    <%= for %{time: time} <- @predictions |> Enum.take(4) do %>
+      <div class="schedule-list-group-item">
+        <div class="schedule-col-departure"><%= time |> Timex.format!("{kitchen}") %></div>
+        <div class="schedule-col-group">
+          <%= time |> Timex.Format.DateTime.Formatters.Relative.relative_to(Util.now, "{relative}") |> elem(1) |> String.replace("in ", "") %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
