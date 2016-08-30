@@ -68,6 +68,9 @@ defmodule JsonApi do
     |> Enum.into(%{})
   end
 
+  defp load_single_relationship(relationship, _) when relationship == %{} do
+    []
+  end
   defp load_single_relationship(%{"data" => data}, parsed) when is_list(data) do
     data
     |> Enum.flat_map(&(match_included(&1, parsed)))

@@ -37,4 +37,22 @@ defmodule JsonApiTest do
       ]
     }
   end
+
+  test ".parse handles an empty relationship" do
+    body = """
+    {"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{},"other":{"data": null}},"links":{},"id":"20761","attributes":{}}}
+    """
+
+    assert JsonApi.parse(body) == %JsonApi{
+      links: %{},
+      data: [
+        %JsonApi.Item{
+          type: "stop",
+          id: "20761",
+          attributes: %{},
+          relationships: %{
+            "parent_station" => [],
+            "other" => []
+          }}]}
+  end
 end
