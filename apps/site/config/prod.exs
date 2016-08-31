@@ -73,3 +73,7 @@ config :phoenix, :serve_endpoints, true
 config :site, Site.ViewHelpers,
   google_api_key: "${GOOGLE_API_KEY}",
   google_tag_manager_id: "${GOOGLE_TAG_MANAGER_ID}"
+
+config :site, GoogleMaps,
+  client_id: "${GOOGLE_MAPS_CLIENT_ID}",
+  signing_key: "${GOOGLE_MAPS_SIGNING_KEY}"

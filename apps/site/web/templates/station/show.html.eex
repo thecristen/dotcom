@@ -17,11 +17,35 @@
   </div>
   <div class="row station-map-container">
     <div class="embed-responsive embed-responsive-21by9">
-      <iframe
-        class="station-info-map"
-        src="https://www.google.com/maps/embed/v1/place?key=<%= google_api_key %>
-             &zoom=14&q=<%= location(@station) %>" allowfullscreen>
-      </iframe>
+      <div class="station-info-map">
+        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>
+          <%# This generates a srcset for our responsive image component,
+              based on the sizes of the current iframe.  It generates a
+              srcset entry for each width/height pair, as well as a
+              double-width entry for the 2x scaled Google Maps image. %>
+          <img
+            alt=""
+            srcset="<%= [{298, 127},
+                        {353, 151},
+                        {403, 172},
+                        {686, 294},
+                        {734, 313}]
+                        |> Enum.flat_map(fn {width, height} ->
+                          [{width, height, 1},
+                            {width, height, 2}]
+                          end)
+                        |> Enum.sort_by(fn {width, _, scale} -> width * scale end)
+                        |> Enum.map(fn {width, height, scale} ->
+                          {"#{width * scale}", GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&scale=#{scale}&channel=beta_mbta_station_info&size=#{width}x#{height}")}
+                          end)
+                        |> Picture.srcset %>"
+            sizes="(min-width: 992px) 734px,
+                   (min-width: 768px) 686px,
+                   (min-width: 576px) 554px,
+                   calc(100vw - 22px)"
+            src="<%= GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&size=735x314&scale=2") %>"/>
+        <% end %>
+      </div>
     </div>
 
     <div class="btn-group">
