@@ -186,6 +186,14 @@ body {
   .social-nav-facebook {
     background-color: #395185;
   }
+
+  @include media-breakpoint-down(md) {
+    // move social icons up on tablets
+    position: relative;
+    bottom: 5rem;
+    height: 0;
+    padding: 0;
+  }
 }
 
 .top-bar {
