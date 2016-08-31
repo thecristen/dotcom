@@ -26,8 +26,14 @@ defmodule Site.ScheduleController.Defaults do
       show_all: show_all,
       direction_id: direction_id,
       reverse_direction_id: reverse_direction_id(direction_id),
-      origin: params["origin"],
-      destination: params["dest"],
+      origin: case params["origin"] do
+                "" -> nil
+                value -> value
+              end,
+      destination: case params["dest"] do
+                     "" -> nil
+                     value -> value
+                   end,
     ]
   end
 
