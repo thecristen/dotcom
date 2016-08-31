@@ -18,7 +18,7 @@ body {
   background-color: $homepage-bg-color;
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   // we only need the BG image if the screen is big enough
   body.not-found {
     background-image: url(/images/mbta-train-bkg-404.jpg);
