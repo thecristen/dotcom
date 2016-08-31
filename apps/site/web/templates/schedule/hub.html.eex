@@ -33,21 +33,10 @@
             </div>
           </div>
         </div>
-        <%= if length(@delays) > 0 do %>
+        <%= if @delays != [] do %>
           <div class="col-xs-12 p-b-1">
-            <h2 class="h5"><strong>Service Alerts</strong></h2>
-            <ul class="alert-list">
-              <%= for delay <- @delays do %>
-                <li class="m-t-0">
-                  <a href="<%= schedule_path(@conn, :alerts, delay.id, []) %>">
-                    <p class="alert-card-header m-b-0">
-                      <%= delay.header %>
-                      <%= fa "angle-right fa-pull-right" %>
-                    </p>
-                  </a>
-                </li>
-              <% end %>
-            </ul>
+            <h2 class="h5 font-weight-bold">Delays</h2>
+            <%= render "_alerts_inline.html", alerts: @delays, time: Util.now %>
           </div>
         <%= end %>
         <div class="col-xs-12">
