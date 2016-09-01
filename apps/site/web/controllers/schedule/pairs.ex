@@ -41,7 +41,7 @@ defmodule Site.ScheduleController.Pairs do
   end
   defp filter_pairs(stop_pairs, false) do
     stop_pairs
-    |> Enum.filter(fn {_, dest} -> is_after_now?(dest) end)
+    |> Enum.drop_while(fn {_, dest} -> not is_after_now?(dest) end)
   end
 
   defp assign_direction_id(conn, []), do: conn
