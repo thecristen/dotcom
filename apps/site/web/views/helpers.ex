@@ -22,6 +22,9 @@ defmodule Site.ViewHelpers do
       unquote(contents)
     end
   end
+  def svg(unknown) do
+    raise ArgumentError, message: "unknown SVG #{unknown}"
+  end
 
   def redirect_path(conn, path) do
     redirect_path(conn, :show, []) <> path
