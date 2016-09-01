@@ -4,8 +4,11 @@ defmodule Alerts.Repo do
   def all do
     cache [], fn _ ->
       V3Api.Alerts.all.data
-      |> Enum.map(&Alerts.Parser.parse/1)
-      |> ParallelStream.map(&include_parents/1)
+      |> Enum.map(fn alert ->
+        alert
+        |> Alerts.Parser.parse
+        |> include_parents
+      end)
     end
   end
 
