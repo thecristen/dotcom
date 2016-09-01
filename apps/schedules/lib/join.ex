@@ -13,18 +13,23 @@ defmodule Join do
   """
 
   def join(s, r, key_fn) when length(s) <= length(r) do
-    s_map = s |> Enum.map(fn item ->
-      {key_fn.(item), item} end) |> Enum.into(%{})
-
-    r
-    |> Stream.map(fn item -> {s_map[key_fn.(item)], item} end)
-    |> Enum.filter(fn {s_item, _} -> s_item != nil end)
+    do_join(s, r, key_fn, fn a, b -> {a, b} end)
   end
 
   def join(s, r, key_fn) do
     # join them with the smaller one first, then flip the pairs
+    do_join(r, s, key_fn, fn a, b -> {b, a} end)
+  end
+
+  def do_join(s, r, key_fn, tuple_fn) do
+    s_map = s
+    |> Map.new(fn item ->
+      {key_fn.(item), item}
+    end)
+
     r
-    |> join(s, key_fn)
-    |> Enum.map(fn {a, b} -> {b, a} end)
+    |> Enum.filter_map(
+      fn item -> Map.has_key?(s_map, key_fn.(item)) end,
+      fn item -> tuple_fn.(s_map[key_fn.(item)], item) end)
   end
 end
