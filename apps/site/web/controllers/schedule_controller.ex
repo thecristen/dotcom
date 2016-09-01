@@ -3,7 +3,8 @@ defmodule Site.ScheduleController do
 
   defdelegate alerts(conn, params), to: Site.ScheduleController.Alerts
 
-  def index(conn, %{"route" => route_id, "origin" => origin_id, "dest" => dest_id}) do
+  def index(conn, %{"route" => route_id, "origin" => origin_id, "dest" => dest_id})
+    when origin_id != "" and dest_id != "" do
     conn
     |> Site.ScheduleController.Pairs.pairs(route_id, origin_id, dest_id)
   end

@@ -26,8 +26,14 @@ defmodule Site.ScheduleController.Defaults do
       show_all: show_all,
       direction_id: direction_id,
       reverse_direction_id: reverse_direction_id(direction_id),
-      origin: params["origin"],
-      destination: params["dest"],
+      origin: case params["origin"] do
+                "" -> nil
+                value -> value
+              end,
+      destination: case params["dest"] do
+                     "" -> nil
+                     value -> value
+                   end,
     ]
   end
 
@@ -38,17 +44,18 @@ defmodule Site.ScheduleController.Defaults do
     end
   end
 
-  defp default_direction_id(params) do
-    case params["direction_id"] do
-      nil ->
-        if now.hour <= 13 do
-          1 # Inbound
-        else
-          0
-        end
-
-      str ->
-        String.to_integer(str)
+  defp default_direction_id(%{"direction_id" => direction_str}) when is_binary(direction_str) do
+    case Integer.parse(direction_str) do
+      {0, _} -> 0
+      {1, _} -> 1
+      _ -> default_direction_id(nil) # fallback to the default
+    end
+  end
+  defp default_direction_id(_) do
+    if Util.now.hour <= 13 do
+      1 # Inbound
+    else
+      0
     end
   end
 
