@@ -22,19 +22,20 @@ defmodule Alerts.Match do
   end
 
   defp any_entity_match?(alert, entities) when is_list(entities) do
-    alert.informed_entity
+    entities
     |> Enum.any?(fn ie ->
-      entities
-      |> Enum.any?(&(IE.match?(ie, &1)))
+      alert.informed_entity
+      |> Enum.any?(&IE.match?(ie, &1))
     end)
   end
   defp any_entity_match?(alert, entity) do
-    any_entity_match?(alert, [entity])
+    alert.informed_entity
+    |> Enum.any?(&IE.match?(entity, &1))
   end
 
   def any_time_match?(alert, datetime) do
     alert.active_period
-    |> Enum.any?(&(between?(&1, datetime)))
+    |> Enum.any?(&between?(&1, datetime))
   end
 
   defp between?({start, nil}, datetime) do

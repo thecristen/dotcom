@@ -40,6 +40,7 @@ defmodule Alerts.Mixfile do
      {:repo_cache, in_umbrella: true},
      {:parallel_stream, "~> 1.0.5"},
      {:con_cache, "~> 0.11.0"},
-     {:timex, ">= 0.0.0"}]
+     {:timex, ">= 0.0.0"},
+     {:benchfella, "~> 0.3", only: :dev}]
   end
 end
