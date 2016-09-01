@@ -38,7 +38,12 @@ defmodule GoogleMaps do
 
   defp get_env(key) do
     env = Application.get_env(:site, __MODULE__, [])
-    Keyword.get(env, key, "")
+    case Keyword.get(env, key, "") do
+      "${" <> _ ->
+        # relx configuration that wasn't overriden; ignore
+        ""
+      value -> value
+    end
   end
 
   defp do_signed_url(uri, "", _, opts) do
