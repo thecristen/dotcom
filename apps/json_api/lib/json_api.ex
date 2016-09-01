@@ -31,20 +31,21 @@ defmodule JsonApi do
   end
 
   defp parse_data(%{"data" => data} = parsed) when is_list(data) do
+    included = parse_included(parsed)
     data
-    |> Enum.map(&(parse_data_item(&1, parsed)))
+    |> Enum.map(&(parse_data_item(&1, included)))
   end
   defp parse_data(%{"data" => data} = parsed) do
-    %{parsed | "data" => [data]}
-    |> parse_data
+    included = parse_included(parsed)
+    [parse_data_item(data, included)]
   end
 
-  def parse_data_item(%{"type" => type, "id" => id, "attributes" => attributes} = item, parsed) do
+  def parse_data_item(%{"type" => type, "id" => id, "attributes" => attributes} = item, included) do
     %JsonApi.Item{
       type: type,
       id: id,
       attributes: attributes,
-      relationships: load_relationships(item["relationships"], parsed)
+      relationships: load_relationships(item["relationships"], included)
     }
   end
   def parse_data_item(%{"type" => type, "id" => id}, _) do
@@ -57,39 +58,48 @@ defmodule JsonApi do
   defp load_relationships(nil, _) do
     %{}
   end
-  defp load_relationships(%{} = relationships, parsed) do
+  defp load_relationships(%{} = relationships, included) do
     relationships
-    |> map_values(&(load_single_relationship(&1, parsed)))
+    |> map_values(&(load_single_relationship(&1, included)))
   end
 
   defp map_values(map, f) do
     map
-    |> Enum.map(fn({key, value}) -> {key, (f).(value)} end)
-    |> Enum.into(%{})
+    |> Map.new(fn {key, value} -> {key, (f).(value)} end)
   end
 
   defp load_single_relationship(relationship, _) when relationship == %{} do
     []
   end
-  defp load_single_relationship(%{"data" => data}, parsed) when is_list(data) do
+  defp load_single_relationship(%{"data" => data}, included) when is_list(data) do
     data
-    |> Enum.flat_map(&(match_included(&1, parsed)))
-    |> (fn(item) -> parse_data(%{parsed | "data" => item}) end).()
+    |> Enum.map(&match_included(&1, included))
+    |> Enum.reject(&is_nil/1)
+    |> Enum.map(&parse_data_item(&1, included))
   end
-  defp load_single_relationship(%{"data" => data}, parsed) do
-    data
-    |> match_included(parsed)
-    |> (fn(item) -> parse_data(%{parsed | "data" => item}) end).()
+  defp load_single_relationship(%{"data" => %{} = data}, included) do
+    case data |> match_included(included) do
+      nil -> []
+      item -> [parse_data_item(item, included)]
+    end
+  end
+  defp load_single_relationship(_, _) do
+    []
   end
 
   defp match_included(nil, _) do
-    []
+    nil
   end
-  defp match_included(%{"type" => type, "id" => id}, %{"included" => included}) do
+  defp match_included(%{"type" => type, "id" => id} = item, included) do
+    Map.get(included, {type, id}, item)
+  end
+
+  defp parse_included(%{"included" => included}) do
     included
-    |> Enum.filter(&(&1["type"] == type && &1["id"] == id))
+    |> Map.new(fn %{"type" => type, "id" => id} = item ->
+      {{type, id}, item} end)
   end
-  defp match_included(item, _) do
-    item
+  defp parse_included(_) do
+    %{}
   end
 end
