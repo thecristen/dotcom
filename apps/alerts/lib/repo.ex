@@ -2,13 +2,16 @@ defmodule Alerts.Repo do
   use RepoCache, ttl: :timer.minutes(1)
 
   def all do
-    cache [], fn _ ->
+    cache nil, fn _ ->
       V3Api.Alerts.all.data
       |> Enum.map(fn alert ->
-        alert
-        |> Alerts.Parser.parse
-        |> include_parents
+        Task.async(fn ->
+          alert
+          |> Alerts.Parser.parse
+          |> include_parents
+        end)
       end)
+      |> Enum.map(&Task.await/1)
     end
   end
 
