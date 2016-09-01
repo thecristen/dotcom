@@ -2,27 +2,27 @@
   <% {0, "Mattapan"} -> %>
   <%# Mattapan is a red line train %>
   <span class="schedule-route-icon route-icon route-icon-mattapan">
-    <%= svg "/images/subway.svg" %>
+    <%= svg "subway.svg" %>
   </span>
   <% {0, _} -> %>
   <span class="schedule-route-icon route-icon route-icon-green">
-    <%= svg "/images/subway.svg" %>
+    <%= svg "subway.svg" %>
   </span>
   <% {1, route_id} -> %>
   <span class="schedule-route-icon route-icon route-icon-<%= route_id |> String.downcase %>">
-    <%= svg "/images/subway.svg" %>
+    <%= svg "subway.svg" %>
   </span>
   <% {2, _} -> %>
   <span class="schedule-route-icon route-icon route-icon-commuter-rail">
-    <%= svg "/images/commuter.svg" %>
+    <%= svg "commuter.svg" %>
   </span>
   <% {3, _} -> %>
   <span class="schedule-route-icon route-icon route-icon-bus">
-    <%= svg "/images/bus.svg" %>
+    <%= svg "bus.svg" %>
   </span>
   <% {4, _} -> %>
   <span class="schedule-route-icon route-icon route-icon-boat">
-    <%= svg "/images/boat.svg" %>
+    <%= svg "boat.svg" %>
   </span>
   <% _ -> %>
 <% end %>

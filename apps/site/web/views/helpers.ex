@@ -6,14 +6,21 @@ defmodule Site.ViewHelpers do
   import Plug.Conn
   import Util
 
-  def svg(path) do
-    :site
-    |> Application.app_dir
-    |> Path.join("priv/static" <> path)
+  # precompile the SVGs, rather than hitting the filesystem every time
+  for path <- :site
+  |> Application.app_dir
+  |> Kernel.<>("/priv/static/**/*.svg")
+  |> Path.wildcard do
+    name = Path.basename(path)
+    contents = path
     |> File.read!
     |> String.split("\n")
     |> Enum.join("")
     |> raw
+
+    def svg(unquote(name)) do
+      unquote(contents)
+    end
   end
 
   def redirect_path(conn, path) do
@@ -79,7 +86,7 @@ defmodule Site.ViewHelpers do
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name
     content_tag :span, class: "route-icon route-icon-#{name}" do
-      svg("/images/#{svg_name}.svg")
+      svg("#{svg_name}.svg")
     end
   end
 
