@@ -35,7 +35,8 @@ defmodule Schedules.RepoTest do
   end
 
   test ".stops uses the parent station name" do
-    next_weekday = Util.today
+    next_weekday = Timex.now("America/New_York")
+    |> Timex.to_date
     |> Timex.end_of_week(:mon)
     |> Timex.shift(days: 3)
 
