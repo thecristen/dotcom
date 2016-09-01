@@ -1,7 +1,7 @@
 set -e
 
 mix local.hex --force
-mix deps.get
+MIX_ENV=test mix do deps.get --only test, deps.compile, compile
 nvm use 6.2
 rbenv local 2.3
 gem install sass pronto pronto-credo pronto-eslint
