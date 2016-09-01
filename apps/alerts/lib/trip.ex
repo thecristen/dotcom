@@ -17,7 +17,7 @@ defmodule Alerts.Trip do
   def match(alerts, trip_ids, options \\ [])
   def match(alerts, trip_ids, options) when is_list(trip_ids) do
     all_trip_entities = trip_ids
-    |> Enum.map(&(entity_for(&1, options)))
+    |> Enum.map(&(entity_for(&1, [])))
     all_trip_alerts = Alerts.Match.match(
       alerts,
       all_trip_entities,

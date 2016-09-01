@@ -44,6 +44,7 @@ defmodule Alerts.TripTest do
       informed_entity: [%IE{route: @route_id}]}
 
     assert [alert, suspension] == Trip.match([alert, suspension, wrong_route, wrong_effect], @trip_id, route: @route_id)
+    assert [alert, suspension] == Trip.match([alert, suspension, wrong_route, wrong_effect], [@trip_id], route: @route_id)
   end
 
   test "does not double-count delays on a trip" do
@@ -52,6 +53,7 @@ defmodule Alerts.TripTest do
       informed_entity: [%IE{trip: @trip_id}]}
 
     assert [alert] == Trip.match([alert], @trip_id)
+    assert [alert] == Trip.match([alert], [@trip_id])
   end
 
   test "includes delays that are active at :time" do
@@ -62,5 +64,16 @@ defmodule Alerts.TripTest do
                         active_period: []}
 
     assert [alert] == Trip.match([alert, wrong_alert], @trip_id, time: now)
+    assert [alert] == Trip.match([alert, wrong_alert], [@trip_id], time: now)
+  end
+
+  test "does not include alerts which only apply to the route type of the trip" do
+    alert = %Alert{
+      severity: "Severe",
+      informed_entity: [%IE{route_type: 1}]
+    }
+
+    assert [] == Trip.match([alert], @trip_id, route_type: 1, route: @route_id)
+    assert [] == Trip.match([alert], [@trip_id], route_type: 1, route: @route_id)
   end
 end
