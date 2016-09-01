@@ -40,21 +40,19 @@ defmodule Alerts.InformedEntity do
 
   alias __MODULE__, as: IE
 
-  @spec put(%IE{}, :route|:route_type|:stop|:trip, any) :: %IE{}
-  def put(entity, :route_type, value) do
-    %Alerts.InformedEntity{entity | route_type: value}
-  end
-  def put(entity, :route, value) do
-    %Alerts.InformedEntity{entity | route: value}
-  end
-  def put(entity, :stop, value) do
-    %Alerts.InformedEntity{entity | stop: value}
-  end
-  def put(entity, :trip, value) do
-    %Alerts.InformedEntity{entity | trip: value}
-  end
-  def put(entity, :direction_id, value) do
-    %Alerts.InformedEntity{entity | direction_id: value}
+  @doc """
+
+  Given a keyword list (with keys matching our fields), returns a new
+  InformedEntity.  Additional keys are ignored.
+
+  """
+  @spec from_keywords(list) :: %IE{}
+  def from_keywords(options) do
+    map = options
+    |> Map.new
+    |> Map.take(@fields)
+
+    struct!(__MODULE__, map)
   end
 
   @doc """

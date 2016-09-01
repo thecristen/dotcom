@@ -23,13 +23,8 @@ defmodule Alerts.Stop do
   end
 
   defp entity_for(stop_id, options) do
-    entity = %IE{stop: stop_id}
-    [:route, :route_type, :direction_id]
-    |> Enum.reduce(entity, fn key, entity ->
-      case Keyword.fetch(options, key) do
-        {:ok, value} -> IE.put(entity, key, value)
-        :error -> entity
-      end
-    end)
+    options
+    |> Keyword.put(:stop, stop_id)
+    |> IE.from_keywords
   end
 end

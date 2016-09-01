@@ -48,13 +48,8 @@ defmodule Alerts.Trip do
   end
 
   defp entity_for(trip_id, options) do
-    entity = %Alerts.InformedEntity{trip: trip_id}
-    [:stop, :route, :route_type, :direction_id]
-    |> Enum.reduce(entity, fn key, entity ->
-      case Keyword.fetch(options, key) do
-        {:ok, value} -> Alerts.InformedEntity.put(entity, key, value)
-        :error -> entity
-      end
-    end)
+    options
+    |> Keyword.put(:trip, trip_id)
+    |> Alerts.InformedEntity.from_keywords
   end
 end
