@@ -45,6 +45,11 @@ body {
   color: $gray-dark;
 }
 
+body.no-js .collapse {
+  // don't hide collapsed elements if we can't re-open them
+  display: block;
+};
+
 .footer {
   @include media-breakpoint-up(md) {
     margin-top: 2.25rem;
