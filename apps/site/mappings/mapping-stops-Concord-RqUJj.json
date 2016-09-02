@@ -1,0 +1,19 @@
+{
+  "uuid" : "917baf2c-461d-39a3-b1fa-11f55dc7d1a3",
+  "request" : {
+    "url" : "/stops/Concord",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Concord-RqUJj.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 02 Sep 2016 16:37:43 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "skk3qj6avk5fj9lpbelomd2ovhqviq70",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/10032"},"id":"10032","attributes":{"wheelchair_boarding":0,"name":"E 1st St opp O St","longitude":-71.029203,"latitude":42.338274}}}

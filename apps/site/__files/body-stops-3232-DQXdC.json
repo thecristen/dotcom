@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/3232"},"id":"3232","attributes":{"wheelchair_boarding":0,"name":"W Elm Ave @ Staunton St","longitude":-71.013404,"latitude":42.271098}}}

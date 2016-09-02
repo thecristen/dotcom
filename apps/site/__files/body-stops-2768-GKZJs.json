@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/2768"},"id":"2768","attributes":{"wheelchair_boarding":0,"name":"Springfield St @ Houghton St","longitude":-71.099918,"latitude":42.375313}}}

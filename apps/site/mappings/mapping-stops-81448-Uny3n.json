@@ -1,0 +1,19 @@
+{
+  "uuid" : "6ef4bd25-1a13-31d9-80bb-fe6fb4147032",
+  "request" : {
+    "url" : "/stops/81448",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-81448-Uny3n.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 02 Sep 2016 16:37:43 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "8p9lc98fqttir2uvvpkm2t93cchjlv3j",
+      "Connection" : "keep-alive"
+    }
+  }
+}

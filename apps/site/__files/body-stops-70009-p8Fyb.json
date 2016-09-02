@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-rcmnl"}}},"links":{"self":"/stops/70009"},"id":"70009","attributes":{"wheelchair_boarding":0,"name":"Roxbury Crossing - Inbound","longitude":-71.095451,"latitude":42.331397}}}

@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/76051"},"id":"76051","attributes":{"wheelchair_boarding":0,"name":"64 South St","longitude":-71.249953,"latitude":42.374093}}}

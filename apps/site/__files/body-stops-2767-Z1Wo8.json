@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/2767"},"id":"2767","attributes":{"wheelchair_boarding":0,"name":"Springfield St @ Newton St","longitude":-71.099615,"latitude":42.376368}}}
