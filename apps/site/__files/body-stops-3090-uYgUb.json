@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/3090"},"id":"3090","attributes":{"wheelchair_boarding":0,"name":"Highland Ave @ Brook St","longitude":-71.024997,"latitude":42.263888}}}

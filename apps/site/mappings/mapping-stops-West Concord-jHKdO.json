@@ -1,0 +1,19 @@
+{
+  "uuid" : "83a91f80-73d7-32cd-a33e-108be7f17521",
+  "request" : {
+    "url" : "/stops/West%20Concord",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-West Concord-jHKdO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 02 Sep 2016 16:37:43 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "rpeuo6u67ia2tsmf57v7pgmb6vfdpfnj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

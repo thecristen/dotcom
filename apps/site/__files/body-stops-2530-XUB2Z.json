@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/2530"},"id":"2530","attributes":{"wheelchair_boarding":0,"name":"Newton St @ Webster Ave","longitude":-71.095899,"latitude":42.377761}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "0b586425-5789-30c2-bf04-17ed3cc9a78f",
+  "request" : {
+    "url" : "/stops/3231",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-3231-YPibE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 02 Sep 2016 16:37:43 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "grbainjk51mrl034jec39s9928gasggm",
+      "Connection" : "keep-alive"
+    }
+  }
+}
