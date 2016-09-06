@@ -8,6 +8,7 @@ defmodule Site.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug BetaAnnouncement.Plug
+    plug Turbolinks.Plug
   end
 
   pipeline :api do
@@ -20,12 +21,13 @@ defmodule Site.Router do
     get "/", PageController, :index
     get "/redirect/*path", RedirectController, :show
     resources "/stations", StationController, only: [:index, :show]
+    get "/schedules", ModeController, :index
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus
     get "/schedules/boat", ModeController, :boat
     get "/schedules/commuter-rail", ModeController, :commuter_rail
-    get "/schedules", ScheduleController, :index
-    get "/schedules/:route", ScheduleController, :index
+    get "/schedules/Green", ScheduleController.Green, :green
+    get "/schedules/:route", ScheduleController, :show
     resources "/alerts", AlertController, only: [:index, :show]
   end
 

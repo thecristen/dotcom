@@ -3,9 +3,13 @@ defmodule Site.ModeController do
 
   alias Site.Mode
 
+  def index(conn, %{"route" => route_id} = params) when is_binary(route_id) do
+    new_path = schedule_path(conn, :show, route_id, Map.delete(params, "route"))
+    redirect conn, to: new_path
+  end
+
   def index(conn, _params) do
     conn
-    |> put_view(Site.ModeView)
     |> render("index.html",
       datetime: Util.now,
       grouped_routes: Routes.Repo.all |> Routes.Group.group,

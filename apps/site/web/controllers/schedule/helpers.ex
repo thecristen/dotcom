@@ -4,18 +4,6 @@ defmodule Site.ScheduleController.Helpers do
   import Util
   use Timex
 
-  @doc "Fetch the alerts and assign them"
-  def assign_alerts(conn) do
-    conn
-    |> async_assign(:alerts, &Alerts.Repo.all/0)
-  end
-
-  @doc "Fetch a route and assign it as @route"
-  def assign_route(conn, route_id) do
-    conn
-    |> assign(:route, Routes.Repo.get(route_id))
-  end
-
   @doc "Fetch all the stops on a route and assign them as @all_stops"
   def assign_all_stops(conn, "Red" = route_id) do
     conn
@@ -189,6 +177,6 @@ defmodule Site.ScheduleController.Helpers do
         _ -> {mode_path(conn, :subway), "Subway"}
       end
     conn
-    |> assign(:breadcrumbs, [{schedule_path(conn, :index), "Schedules & Maps"}, route_type_display, name])
+    |> assign(:breadcrumbs, [{mode_path(conn, :index), "Schedules & Maps"}, route_type_display, name])
   end
 end

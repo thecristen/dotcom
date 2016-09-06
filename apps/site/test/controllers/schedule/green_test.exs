@@ -7,8 +7,8 @@ defmodule Site.ScheduleController.GreenTest do
       test name, %{conn: conn} do
         conn = get conn, schedule_path(
           conn,
-          :index,
-          route: unquote(route),
+          :show,
+          unquote(route),
           all: "all",
           direction_id: unquote(direction_id)
         )

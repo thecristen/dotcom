@@ -28,7 +28,7 @@
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
-      <%= Site.AlertController.inline @conn, alerts: trip_alerts, time: schedule.time %>
+      <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: schedule.time %>
       <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from %>
     </div>
   <% end %>

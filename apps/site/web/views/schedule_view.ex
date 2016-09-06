@@ -36,7 +36,7 @@ defmodule Site.ScheduleView do
     |> Enum.into([])
     |> Enum.reject(&empty_value?/1)
 
-    schedule_path(conn, :index, new_query)
+    schedule_path(conn, :show, params["route"], new_query)
   end
 
   @doc """

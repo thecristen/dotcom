@@ -36,7 +36,7 @@
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
-      <%= Site.AlertController.inline @conn, alerts: trip_alerts, time: List.first(schedules).time %>
+      <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: List.first(schedules).time %>
       <div class="row">
         <div class="col-xs-12">
           Upcoming Arrivals:

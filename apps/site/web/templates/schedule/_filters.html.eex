@@ -15,7 +15,7 @@
         <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
       </div>
       <%= if @origin != nil && @destination == nil do %>
-        <%= Site.AlertController.inline @conn, alerts: stop_alerts_for(@alerts, [@origin], route: @route.id, route_type: @route.type, time: @datetime), time: @datetime %>
+        <%= Site.AlertView.inline @conn, alerts: stop_alerts_for(@alerts, [@origin], route: @route.id, route_type: @route.type, time: @datetime), time: @datetime %>
       <% end %>
     </form>
   </div>
@@ -47,7 +47,7 @@
           <button type="submit" class="btn btn-primary-outline btn-block">Select</button>
         </div>
         <%= if @destination != nil do %>
-          <%= Site.AlertController.inline @conn, alerts: stop_alerts_for(@alerts, [@origin, @destination], route: @route.id, route_type: @route.type, time: @datetime), time: @datetime %>
+          <%= Site.AlertView.inline @conn, alerts: stop_alerts_for(@alerts, [@origin, @destination], route: @route.id, route_type: @route.type, time: @datetime), time: @datetime %>
         <% end %>
       </form>
     </div>

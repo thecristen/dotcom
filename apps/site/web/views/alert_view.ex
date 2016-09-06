@@ -2,6 +2,37 @@ defmodule Site.AlertView do
   use Site.Web, :view
 
   @doc """
+
+  Used by the schedule view to render a link/modal with relevant alerts.
+
+  """
+  def modal(%{assigns: %{notices: notices, alerts: alerts} = assigns} = conn) when notices != [] or alerts != [] do
+    assigns = assigns
+    |> Map.put(:layout, false)
+    |> Map.put(:conn, conn)
+
+    render(__MODULE__, "modal.html", assigns)
+  end
+  def modal(_conn) do
+    ""
+  end
+
+  @doc """
+
+  Renders an inline list of alerts, passed in as the alerts key.
+
+  """
+  def inline(_conn, [{:alerts, []}|_]) do
+    ""
+  end
+  def inline(_conn, [{:alerts, nil}|_]) do
+    ""
+  end
+  def inline(_conn, assigns) do
+    render(__MODULE__, "inline.html", assigns)
+  end
+
+  @doc """
   Takes a list of alerts and returns a string summarizing their effects, such as "3 Delays, Stop
   Closure, 4 Station Issues". Adds an optional suffix if the list of alerts is non-empty.
   """

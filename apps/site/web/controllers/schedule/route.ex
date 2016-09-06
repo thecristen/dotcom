@@ -8,8 +8,6 @@ defmodule Site.ScheduleController.Route do
   def route(conn, route_id) do
     conn
     |> default_assigns
-    |> assign_route(route_id)
-    |> assign_alerts
     |> assign_selected_trip
     |> assign_all_stops(route_id)
     |> assign_destination_stops(route_id)

@@ -69,7 +69,7 @@ defmodule Site.Mode.HubBehaviour do
       fare_description: mode_strategy.fare_description,
       map_pdf_url: mode_strategy.map_pdf_url,
       map_image_url: mode_strategy.map_image_url,
-      breadcrumbs: [{schedule_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name]
+      breadcrumbs: [{mode_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name]
     )
   end
 end
