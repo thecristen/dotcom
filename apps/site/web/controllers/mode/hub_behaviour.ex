@@ -18,23 +18,8 @@ defmodule Site.Mode.HubBehaviour do
 
       use Site.Web, :controller
 
-      import Util
-
       def index(conn, params) do
         unquote(__MODULE__).index(__MODULE__, conn, params)
-      end
-
-      # Returns only those alerts which should be shown on the hub page for `route_type`. This includes
-      # all delays for that route type which are current and not ongoing.
-      defp mode_delays(route_type) when is_list(route_type) do
-        route_type
-        |> Enum.flat_map(&mode_delays/1)
-        |> Enum.uniq
-      end
-      defp mode_delays(route_type) do
-        Alerts.Repo.all
-        |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, now)
-        |> Enum.filter(&(&1.effect_name == "Delay" && &1.lifecycle != "Ongoing"))
       end
 
       def fares do
@@ -47,13 +32,13 @@ defmodule Site.Mode.HubBehaviour do
 
       def routes, do: Routes.Repo.by_type(route_type)
 
-      def delays, do: mode_delays(route_type)
+      def delays, do: unquote(__MODULE__).mode_delays(route_type)
 
       def map_pdf_url do
         "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
       end
 
-      def map_image_url, do: static_url(Site.Endpoint, "/images/subway-spider.jpg")
+      def map_image_url, do: "/images/subway-spider.jpg"
 
       defoverridable [fares: 0, routes: 0, delays: 0, map_pdf_url: 0, map_image_url: 0]
     end
@@ -68,8 +53,21 @@ defmodule Site.Mode.HubBehaviour do
       fares: mode_strategy.fares,
       fare_description: mode_strategy.fare_description,
       map_pdf_url: mode_strategy.map_pdf_url,
-      map_image_url: mode_strategy.map_image_url,
+      map_image_url: static_url(Site.Endpoint, mode_strategy.map_image_url),
       breadcrumbs: [{mode_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name]
     )
+  end
+
+  # Returns only those alerts which should be shown on the hub page for `route_type`. This includes
+  # all delays for that route type which are current and not ongoing.
+  def mode_delays(route_type) when is_list(route_type) do
+    route_type
+    |> Enum.flat_map(&mode_delays/1)
+    |> Enum.uniq
+  end
+  def mode_delays(route_type) do
+    Alerts.Repo.all
+    |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, Util.now)
+    |> Enum.filter(&(&1.effect_name == "Delay" && &1.lifecycle != "Ongoing"))
   end
 end

@@ -9,7 +9,7 @@ defmodule Site.Mode.SubwayController do
     |> Map.get(:subway)
   end
 
-  def delays, do: mode_delays([0, 1])
+  def delays, do: Site.Mode.HubBehaviour.mode_delays([0, 1])
 
   def mode_name, do: "Subway"
 

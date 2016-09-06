@@ -5,7 +5,7 @@ defmodule Site.Mode.BoatController do
 
   def mode_name, do: "Boat"
 
-  def map_image_url, do: static_url(Site.Endpoint, "/images/boat-spider.jpg")
+  def map_image_url, do: "/images/boat-spider.jpg"
 
   def map_pdf_url, do: nil
 

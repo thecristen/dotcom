@@ -5,7 +5,7 @@ defmodule Site.Mode.CommuterRailController do
 
   def mode_name, do: "Commuter Rail"
 
-  def map_image_url, do: static_url(Site.Endpoint, "/images/commuter-rail-spider.jpg")
+  def map_image_url, do: "/images/commuter-rail-spider.jpg"
 
   def map_pdf_url do
     "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
