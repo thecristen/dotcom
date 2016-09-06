@@ -8,7 +8,7 @@ defmodule Site.ScheduleView do
   end
 
   def trip_alerts_for(_, []), do: []
-  def trip_alerts_for(alerts, [schedule|_]=schedules) do
+  def trip_alerts_for(alerts, [schedule|_] = schedules) do
     trip_ids = schedules
     |> Enum.map(fn schedule -> schedule.trip.id end)
 
