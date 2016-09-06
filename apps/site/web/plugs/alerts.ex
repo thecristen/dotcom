@@ -71,7 +71,6 @@ defmodule Site.Plugs.Alerts do
 
   defp alerts_from_params(params) do
     base_entity = struct(Alerts.InformedEntity, [
-          route_type: params["route_type"],
           route: params["route"],
           trip: params["trip"],
           direction_id: direction_id(params["direction_id"])
