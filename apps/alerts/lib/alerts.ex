@@ -7,7 +7,7 @@ defmodule Alerts do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(ConCache, [[ttl: :timer.seconds(86400),
+      worker(ConCache, [[ttl: :timer.seconds(86_400),
                          ttl_check: :timer.seconds(60)], [name: :alerts_parent_ids]])
     ]
 

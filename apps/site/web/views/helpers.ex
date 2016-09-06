@@ -122,7 +122,8 @@ defmodule Site.ViewHelpers do
   def route_link(conn, route, opts \\ []) do
     opts = Keyword.put(opts, :route, route.id)
 
-    route_icon(route.type, route.id)
+    route.type
+    |> route_icon(route.id)
     |> safe_to_string
     |> string_join(clean_route_name(route.name))
     |> raw

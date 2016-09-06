@@ -6,11 +6,15 @@ defmodule Site.HelpersTest do
 
   describe "route_icon/2" do
     test "for Red line" do
-      assert "<i class=\"fa fa-circle fa-color-subway-red\" aria-hidden=true></i>" == safe_to_string(route_icon(0, "Red"))
+      expected = "<i class=\"fa fa-circle fa-color-subway-red\" aria-hidden=true></i>"
+      actual = safe_to_string(route_icon(0, "Red"))
+      assert expected == actual
     end
 
     test "for Green line D" do
-      assert "<i class=\"fa fa-circle fa-color-subway-green-d\" aria-hidden=true></i>" == safe_to_string(route_icon(1, "Green-D"))
+      expected = "<i class=\"fa fa-circle fa-color-subway-green-d\" aria-hidden=true></i>"
+      actual = safe_to_string(route_icon(1, "Green-D"))
+      assert expected == actual
     end
 
     test "for Bus line 4" do

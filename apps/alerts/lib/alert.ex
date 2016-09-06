@@ -7,7 +7,7 @@ defmodule Alerts.Alert do
 
   @doc "Returns true if the Alert should be displayed as a less-prominent notice"
   @spec is_notice?(%__MODULE__{}) :: boolean
-  def is_notice?(%__MODULE__{}=alert) do
+  def is_notice?(%__MODULE__{} = alert) do
     is_notice?(alert, Timex.now("America/New_York"))
   end
   def is_notice?(%__MODULE__{effect_name: "Delay"}, _) do
@@ -23,7 +23,7 @@ defmodule Alerts.Alert do
       # Ongoing alerts are notices
       true
     end
-    def is_notice?(%__MODULE__{effect_name: unquote(effect)}=alert, dt) do
+    def is_notice?(%__MODULE__{effect_name: unquote(effect)} = alert, dt) do
       # non-Ongoing alerts are notices if they aren't happening now
       !Alerts.Match.any_time_match?(alert, dt)
     end

@@ -3,10 +3,9 @@ defmodule Site.LayoutView do
 
   def bold_if_active(conn, path, text) do
     if String.starts_with?(conn.request_path, path) do
-      "<strong>#{text}</strong>"
+      raw "<strong>#{text}</strong>"
     else
-      text
+      raw text
     end
-    |> raw
   end
 end
