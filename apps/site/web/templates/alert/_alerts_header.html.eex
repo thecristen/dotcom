@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <%= if @conn.assigns[:route] do %>
+    <%= if @route do %>
       <div class="p-x-1 p-b-1">
         <strong>
           <%= mode_icon @route.type %>

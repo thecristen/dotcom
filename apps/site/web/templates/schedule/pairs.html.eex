@@ -1,7 +1,7 @@
 <div class="card card-section">
   <div class="card-header schedule-header">
     <%= render "_locations.html", forward_assigns(@conn) %>
-    <%= render "_alerts_modal.html", forward_assigns(@conn) %>
+    <%= Site.AlertController.modal @conn %>
     <%= render "_filters.html", forward_assigns(@conn) %>
   </div>
   <div class="card-block">

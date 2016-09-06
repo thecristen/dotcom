@@ -95,7 +95,7 @@
       "delay": 100
     },
     {
-      "label": "Bus Rail Schedule",
+      "label": "Bus Schedule",
       "url": "http://localhost:4001/schedules?all=all&date=2016-08-15&direction_id=0&route=1",
       "selectors": ["main"],
       "delay": 100
@@ -104,7 +104,8 @@
       "label": "Alerts",
       "url": "http://localhost:4001/alerts?route=CR-Providence&date=2016-08-15",
       "selectors": ["main"],
-      "delay": 100
+      "delay": 100,
+      "hideSelectors": [".alert-card-footer"]
     }
   ],
   "paths": {

@@ -1,5 +1,5 @@
 <div class="card card-section">
-  <%= render "_alerts_header.html", forward_assigns(@conn) %>
+  <%= render "_alerts_header.html", conn: @conn, route: @route %>
   <div class="row">
     <div class="col-xs-12">
       <div class="alert-list-header">It looks like that alert is no longer valid &mdash; we're back up and running now.</div>

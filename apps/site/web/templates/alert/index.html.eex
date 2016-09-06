@@ -1,0 +1,9 @@
+<div class="container main-container">
+  <%= render "_alerts_header.html", conn: @conn, route: @route %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render "_alert_list.html", alerts: @alerts %>
+      <%= render "_notice_list.html", notices: @notices %>
+    </div>
+  </div>
+</div>

@@ -35,8 +35,6 @@ defmodule Site.ScheduleController.Route do
     |> assign_all_routes
     |> await_assign_all
     |> assign_datetime
-    |> route_alerts
-    |> stop_alerts
     |> render("empty.html")
   end
   defp render_schedules(all_schedules, conn) do
@@ -54,9 +52,6 @@ defmodule Site.ScheduleController.Route do
     |> assign_route_breadcrumbs
     |> await_assign_all
     |> assign_datetime
-    |> route_alerts
-    |> stop_alerts
-    |> trip_alerts
     |> render("index.html")
   end
 

@@ -1,0 +1,32 @@
+<div id="alertsModal" class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="alertsModalTitle">
+  <div class="modal-dialog modal-lg modal-transparent" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
+          <%= fa "times-circle" %> Close
+        </button>
+      </div>
+      <div class="modal-body p-a-0">
+        <%= render "_alerts_header.html", conn: @conn, route: @route %>
+        <div class="row">
+          <div class="col-xs-12">
+            <%= render "_alert_list.html", alerts: @alerts %>
+            <%= render "_notice_list.html", notices: @notices %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a
+  href="<%= alert_path @conn, :index, @conn.params %>"
+  class="col-xs-12 btn btn-link alerts-modal-button <%= if @alerts == [] do %>bg-notice <% end %>"
+  data-toggle="modal"
+  data-target="#alertsModal"
+>
+  <p>
+    <%= fa "exclamation-triangle" %>
+    <%= display_alert_effects(@all_alerts) %>
+  </p>
+</a>

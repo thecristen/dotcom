@@ -161,92 +161,6 @@ defmodule Site.ScheduleController.Helpers do
     |> Timex.after?(now)
   end
 
-  @doc """
-  Fetches the route and the full list of alerts from `conn.assigns` and assigns a filtered list
-  of alerts for that route.
-  """
-  def route_alerts(%{assigns: %{alerts: alerts, route: route}} = conn) do
-    alerts = alerts
-    |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id})
-    |> Enum.sort_by(&(- Timex.to_unix(&1.updated_at)))
-
-    conn
-    |> assign(:route_alerts, alerts)
-  end
-
-  @doc """
-  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
-  of alerts for `stop_id`.
-  """
-  def stop_alerts(%{assigns: %{origin: nil}} = conn) do
-    conn
-    |> assign(:stop_alerts, nil)
-  end
-  def stop_alerts(%{assigns: %{alerts: alerts,
-                               date: date,
-                               route: route,
-                               direction_id: direction_id,
-                               origin: origin,
-                               destination: dest}} = conn)
-  when origin != nil and dest != nil do
-    origin_alerts = Alerts.Stop.match(
-      alerts,
-      origin,
-      route: route.id,
-      route_type: route.type,
-      direction_id: direction_id,
-      time: date)
-    dest_alerts = Alerts.Stop.match(
-      alerts,
-      dest,
-      route: route.id,
-      route_type: route.type,
-      direction_id: direction_id,
-      time: date)
-
-    stop_alerts = [origin_alerts, dest_alerts]
-    |> Enum.concat
-    |> Enum.uniq
-
-    conn
-    |> assign(:stop_alerts, stop_alerts)
-  end
-  def stop_alerts(%{assigns: %{alerts: alerts,
-                               date: date,
-                               route: route,
-                               direction_id: direction_id,
-                               origin: origin}} = conn) do
-    stop_alerts = Alerts.Stop.match(
-      alerts,
-      origin,
-      route: route.id,
-      route_type: route.type,
-      direction_id: direction_id,
-      time: date)
-
-    conn
-    |> assign(:stop_alerts, stop_alerts)
-  end
-
-  @doc """
-  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
-  of alerts for `stop_id`.
-  """
-  def trip_alerts(%{assigns: %{trip: nil}} = conn) do
-    conn
-    |> assign(:trip_alerts, nil)
-  end
-  def trip_alerts(%{assigns: %{trip: trip_id}} = conn) do
-    trip_alerts = conn.assigns[:alerts]
-    |> Alerts.Match.match(%Alerts.InformedEntity{trip: trip_id})
-
-    conn
-    |> assign(:trip_alerts, trip_alerts)
-  end
-  def trip_alerts(conn) do
-    assign(conn, :trip_alerts, nil)
-  end
-
   @doc "Given a list of schedules, return where those schedules start (best-guess)"
   def from(all_schedules, %{assigns: %{all_stops: all_stops}}) do
     stop_id = all_schedules
@@ -269,10 +183,10 @@ defmodule Site.ScheduleController.Helpers do
   def assign_route_breadcrumbs(%{assigns: %{route: %{name: name, type: type}}} = conn) do
     route_type_display =
       case type do
-        2 -> {schedule_path(conn, :commuter_rail), "Commuter Rail"}
-        3 -> {schedule_path(conn, :bus), "Bus"}
-        4 -> {schedule_path(conn, :boat), "Boat"}
-        _ -> {schedule_path(conn, :subway), "Subway"}
+        2 -> {mode_path(conn, :commuter_rail), "Commuter Rail"}
+        3 -> {mode_path(conn, :bus), "Bus"}
+        4 -> {mode_path(conn, :boat), "Boat"}
+        _ -> {mode_path(conn, :subway), "Subway"}
       end
     conn
     |> assign(:breadcrumbs, [{schedule_path(conn, :index), "Schedules & Maps"}, route_type_display, name])

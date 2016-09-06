@@ -20,13 +20,13 @@ defmodule Site.Router do
     get "/", PageController, :index
     get "/redirect/*path", RedirectController, :show
     resources "/stations", StationController, only: [:index, :show]
-    get "/schedules/subway", ScheduleController, :subway
-    get "/schedules/bus", ScheduleController, :bus
-    get "/schedules/boat", ScheduleController, :boat
-    get "/schedules/commuter-rail", ScheduleController, :commuter_rail
-    resources "/schedules", ScheduleController, only: [:index]
-    get "/alerts", ScheduleController, :alerts
-    get "/alerts/:alert", ScheduleController, :alerts
+    get "/schedules/subway", ModeController, :subway
+    get "/schedules/bus", ModeController, :bus
+    get "/schedules/boat", ModeController, :boat
+    get "/schedules/commuter-rail", ModeController, :commuter_rail
+    get "/schedules", ScheduleController, :index
+    get "/schedules/:route", ScheduleController, :index
+    resources "/alerts", AlertController, only: [:index, :show]
   end
 
   # Other scopes may use custom stacks.
