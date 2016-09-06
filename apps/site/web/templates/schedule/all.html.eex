@@ -9,7 +9,7 @@
             <div class="mode-group-header">
               <h2 class="h6">
                 <span class="route-icon route-icon-the-ride">
-                  <%= svg "/images/the-ride.svg" %>
+                  <%= svg "the-ride.svg" %>
                 </span>
                 <strong>The RIDE</strong>
               </h2>

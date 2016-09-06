@@ -12,29 +12,31 @@ defmodule Alerts.Match do
   def match(alerts, entity, datetime \\ nil)
   def match(alerts, entity, nil) do
     alerts
-    |> Enum.filter(&(any_entity_match?(&1, entity)))
+    |> Enum.filter(&any_entity_match?(&1, entity))
   end
   def match(alerts, entity, datetime) do
     # time first in order to minimize the more-expensive entity match
     alerts
-    |> Enum.filter(&(any_time_match?(&1, datetime)))
-    |> match(entity, nil)
+    |> Enum.filter(fn alert ->
+      any_time_match?(alert, datetime) && any_entity_match?(alert, entity)
+    end)
   end
 
   defp any_entity_match?(alert, entities) when is_list(entities) do
     alert.informed_entity
     |> Enum.any?(fn ie ->
       entities
-      |> Enum.any?(&(IE.match?(ie, &1)))
+      |> Enum.any?(&IE.match?(ie, &1))
     end)
   end
   defp any_entity_match?(alert, entity) do
-    any_entity_match?(alert, [entity])
+    alert.informed_entity
+    |> Enum.any?(&IE.match?(entity, &1))
   end
 
   def any_time_match?(alert, datetime) do
     alert.active_period
-    |> Enum.any?(&(between?(&1, datetime)))
+    |> Enum.any?(&between?(&1, datetime))
   end
 
   defp between?({start, nil}, datetime) do

@@ -35,25 +35,24 @@ defmodule Alerts.Alert do
 end
 
 defmodule Alerts.InformedEntity do
-  defstruct [:route_type, :route, :stop, :trip, :direction_id]
+  @fields [:route, :route_type, :stop, :trip, :direction_id]
+  defstruct @fields
 
   alias __MODULE__, as: IE
 
-  @spec put(%IE{}, :route|:route_type|:stop|:trip, any) :: %IE{}
-  def put(entity, :route_type, value) do
-    %Alerts.InformedEntity{entity | route_type: value}
-  end
-  def put(entity, :route, value) do
-    %Alerts.InformedEntity{entity | route: value}
-  end
-  def put(entity, :stop, value) do
-    %Alerts.InformedEntity{entity | stop: value}
-  end
-  def put(entity, :trip, value) do
-    %Alerts.InformedEntity{entity | trip: value}
-  end
-  def put(entity, :direction_id, value) do
-    %Alerts.InformedEntity{entity | direction_id: value}
+  @doc """
+
+  Given a keyword list (with keys matching our fields), returns a new
+  InformedEntity.  Additional keys are ignored.
+
+  """
+  @spec from_keywords(list) :: %IE{}
+  def from_keywords(options) do
+    map = options
+    |> Map.new
+    |> Map.take(@fields)
+
+    struct!(__MODULE__, map)
   end
 
   @doc """
@@ -66,15 +65,25 @@ defmodule Alerts.InformedEntity do
   """
   @spec match?(%IE{}, %IE{}) :: boolean
   def match?(%IE{} = first, %IE{} = second) do
-    do_match?(first, second) || do_match?(second, first)
+    share_a_key(first, second) && do_match?(first, second)
   end
 
-  def do_match?(first, second) do
-    {map1, map2} = {Map.from_struct(first), Map.from_struct(second)}
-
-    map1
-    |> Enum.all?(fn
-      ({key, value}) -> map2[key] == nil or map2[key] == value
-    end)
+  defp do_match?(f, s) do
+    @fields
+    |> Enum.all?(&do_key_match(Map.get(f, &1), Map.get(s, &1)))
   end
+
+  defp do_key_match(eql, eql), do: true
+  defp do_key_match(nil, _), do: true
+  defp do_key_match(_, nil), do: true
+  defp do_key_match(_, _), do: false
+
+  defp share_a_key(first, second) do
+    @fields
+    |> Enum.any?(&shared_key(Map.get(first, &1), Map.get(second, &1)))
+  end
+
+  defp shared_key(nil, nil), do: false
+  defp shared_key(eql, eql), do: true
+  defp shared_key(_, _), do: false
 end

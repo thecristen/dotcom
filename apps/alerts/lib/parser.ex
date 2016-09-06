@@ -14,11 +14,14 @@ defmodule Alerts.Parser do
   end
 
   defp informed_entity(entity) do
-    [:route_type, :route, :stop, :trip, :direction_id]
-    |> Enum.reduce(%Alerts.InformedEntity{}, fn(key, acc) ->
-      acc
-      |> Dict.put(key, entity[Atom.to_string(key)])
-    end)
+    # since lookups default to nil, this results in the correct data
+    %Alerts.InformedEntity{
+      route_type: entity["route_type"],
+      route: entity["route"],
+      stop: entity["stop"],
+      trip: entity["trip"],
+      direction_id: entity["direction_id"]
+    }
   end
 
   defp active_period(%{"start" => start, "end" => stop}) do

@@ -41,6 +41,7 @@ defmodule Schedules.Mixfile do
      {:repo_cache, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:excheck, "~> 0.3", only: :test},
-     {:triq, github: "peter-fogg/triq", only: :test},]
+     {:triq, github: "peter-fogg/triq", only: :test},
+     {:benchfella, "~> 0.3", only: :dev}]
   end
 end

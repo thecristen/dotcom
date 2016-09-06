@@ -36,7 +36,7 @@
           <a class="navbar-brand" href="/">
             <span class="sr-only">MBTA Home Page</span>
             <span class="navbar-logo" aria-hidden="true">
-              <%= svg "/images/logo-beta.svg" %>
+              <%= svg "logo-beta.svg" %>
             </span>
           </a>
         </div>

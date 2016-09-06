@@ -2,6 +2,7 @@ defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(24)
 
+  @default_timeout 10_000
   @default_params [
       include: "trip.route,stop.parent_station",
       "fields[schedule]": "departure_time",
@@ -21,7 +22,7 @@ defmodule Schedules.Repo do
     |> cache(fn(params) ->
       params
       |> all_from_params
-      |> Enum.sort_by(fn schedule -> schedule.time end)
+      |> Enum.sort_by(fn schedule -> DateTime.to_unix(schedule.time) end)
     end)
   end
 
@@ -59,12 +60,12 @@ defmodule Schedules.Repo do
       origin_task = Task.async(Schedules.Repo, :schedule_for_stop, [origin_stop, opts])
       dest_task = Task.async(Schedules.Repo, :schedule_for_stop, [dest_stop, opts])
 
-      {:ok, origin_stops} = Task.yield(origin_task, 10_000)
-      {:ok, dest_stops} = Task.yield(dest_task, 10_000)
+      {:ok, origin_stops} = Task.yield(origin_task, @default_timeout)
+      {:ok, dest_stops} = Task.yield(dest_task, @default_timeout)
 
       origin_stops
       |> Join.join(dest_stops, fn schedule -> schedule.trip.id end)
-      |> Enum.filter(fn {o, d} -> o.time < d.time end) # filter out reverse trips
+      |> Enum.filter(fn {o, d} -> Timex.before?(o.time, d.time) end) # filter out reverse trips
     end)
   end
 
@@ -74,7 +75,6 @@ defmodule Schedules.Repo do
       stop: stop_id
     ])
     |> all
-    |> Enum.sort_by(fn schedule -> schedule.time end)
   end
 
   def stop_exists_on_route?(stop_id, route, direction_id) do
