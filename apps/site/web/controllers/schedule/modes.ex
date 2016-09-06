@@ -130,7 +130,8 @@ defmodule Site.ScheduleController.Modes.CommuterRail do
   def fares do
     [
       {"Zones 1A-10", "$2.10-11.50"},
-      {"Monthly Pass, unlimited travel to and from your zone plus travel on all buses, subway, and Inner Harbor Ferry", "$75-362"},
+      {"Monthly Pass, unlimited travel to and from your zone plus travel on all buses, subway, and Inner Harbor Ferry",
+       "$75-362"},
       {"Seniors and Persons with Disabilities", "50%"}
     ]
   end

@@ -1,6 +1,7 @@
 defmodule JsonApiTest do
   use ExUnit.Case, async: true
 
+  @lint {Credo.Check.Readability.MaxLineLength, false}
   test ".parse parses a body into a JsonApi struct" do
     body = """
     {"jsonapi":{"version":"1.0"},"included":[{"type":"stop","id":"place-harsq","attributes":{"wheelchair_boarding":1,"name":"Harvard","longitude":-71.118956,"latitude":42.373362}}],"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-harsq"}}},"links":{"self":"/stops/20761"},"id":"20761","attributes":{"wheelchair_boarding":0,"name":"Harvard Upper Busway @ Red Line","longitude":-71.118956,"latitude":42.373362}}}
@@ -58,6 +59,7 @@ defmodule JsonApiTest do
     }
   end
 
+  @lint {Credo.Check.Readability.MaxLineLength, false}
   test ".parse handles an empty relationship" do
     body = """
     {"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{},"other":{"data": null}},"links":{},"id":"20761","attributes":{}}}

@@ -20,7 +20,7 @@ defmodule BetaAnnouncement.Plug do
   def call(conn, _options) do
     if Map.has_key?(conn.params, hide_cookie_param) do
       conn
-      |> put_resp_cookie(BetaAnnouncement.beta_announcement_cookie, "true", max_age: 60*60*24*365*100)
+      |> put_resp_cookie(BetaAnnouncement.beta_announcement_cookie, "true", max_age: 60 * 60 * 24 * 365 * 100)
     else
       conn
     end

@@ -22,7 +22,8 @@ defmodule Site.ScheduleControllerTest do
   end
 
   test "inbound Lowell schedule contains the trip from Anderson/Woburn", %{conn: conn} do
-    next_weekday = Timex.now("America/New_York")
+    next_weekday = "America/New_York"
+    |> Timex.now()
     |> Timex.end_of_week(:mon)
     |> Timex.shift(days: 3)
     |> Timex.format!("{ISOdate}")

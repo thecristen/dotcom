@@ -2,7 +2,14 @@ defmodule Site.ScheduleController.PairsTest do
   use Site.ConnCase, async: true
 
   test "origin/destination pairs returns Departure/Arrival times", %{conn: conn} do
-    conn = get conn, schedule_path(conn, :index, route: "CR-Lowell", origin: "Anderson/ Woburn", dest: "North Station", direction_id: "1")
+    conn = get conn, schedule_path(
+      conn,
+      :index,
+      route: "CR-Lowell",
+      origin: "Anderson/ Woburn",
+      dest: "North Station",
+      direction_id: "1"
+    )
     response = html_response(conn, 200)
     assert response =~ "Departure"
     assert response =~ "Arrival"
@@ -10,7 +17,14 @@ defmodule Site.ScheduleController.PairsTest do
   end
 
   test "links to origin and destination station pages", %{conn: conn} do
-    conn = get conn, schedule_path(conn, :index, route: "Red", origin: "place-alfcl", dest: "place-harsq", direction_id: "0")
+    conn = get conn, schedule_path(
+      conn,
+      :index,
+      route: "Red",
+      origin: "place-alfcl",
+      dest: "place-harsq",
+      direction_id: "0"
+    )
     response = html_response(conn, 200)
     assert response =~ ~s(<option value="place-alfcl" selected>Alewife</option>)
     assert response =~ ~s(<option value="place-harsq" selected>Harvard</option>)
@@ -33,7 +47,15 @@ defmodule Site.ScheduleController.PairsTest do
   end
 
   test "handles an empty schedule with origin/destination selected", %{conn: conn} do
-    conn = get conn, schedule_path(conn, :index, route: "Red", origin: "place-alfcl", dest: "place-harsq", direction_id: "0", date: "1970-01-01")
+    conn = get conn, schedule_path(
+      conn,
+      :index,
+      route: "Red",
+      origin: "place-alfcl",
+      dest: "place-harsq",
+      direction_id: "0",
+      date: "1970-01-01"
+    )
     response = html_response(conn, 200)
     assert response =~ ~R(There are no currently scheduled trips\s+from Alewife\s+to Harvard\s+on January 1, 1970.)
   end
