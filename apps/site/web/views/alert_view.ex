@@ -41,15 +41,16 @@ defmodule Site.AlertView do
   def display_alert_effects(alerts) do
     alerts
     |> Enum.group_by(&(&1.effect_name))
-    |> Enum.map(fn {effect_name, alerts} ->
-      num_alerts = length(alerts)
-      if num_alerts > 1 do
-        "#{num_alerts} #{Inflex.inflect(effect_name, num_alerts)}"
-      else
-        effect_name
-      end
-    end)
+    |> Enum.map(&display_alert_group/1)
     |> Enum.join(", ")
+  end
+
+  defp display_alert_group({effect_name, [_]}) do
+    effect_name
+  end
+  defp display_alert_group({effect_name, alerts}) do
+    num_alerts = length(alerts)
+    "#{num_alerts} #{Inflex.inflect(effect_name, num_alerts)}"
   end
 
   def display_alert_updated(alert) do
