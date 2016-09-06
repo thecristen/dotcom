@@ -1,5 +1,5 @@
 <% {notices, alerts} = notices_and_alerts(@alerts) %>
-<div class="container main-container">
+<div class="card card-section p-t-1">
   <%= render "_alerts_header.html", forward_assigns(@conn) %>
   <div class="row">
     <div class="col-xs-12">

@@ -227,3 +227,25 @@ body.no-js .system-map {
   left: -2rem;
   margin-right: -2rem;
 }
+
+.card-header.hub-header {
+ @include media-breakpoint-down(sm) {
+   padding-left: .25em;
+   padding-right: .25em;
+
+   .route-icon {
+     margin-top: 0;
+   }
+   .route-icon + strong {
+     display: inline-block;
+     margin-top: .25em;
+   }
+   .route-icon-commuter-rail + strong {
+     display: inline;
+   }
+ }
+ @include media-breakpoint-up(md) {
+   padding-left: 1em;
+   padding-right: 1em;
+ }
+}

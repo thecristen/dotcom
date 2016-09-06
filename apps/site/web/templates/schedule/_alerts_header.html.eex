@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-xs-12">
     <%= if @conn.assigns[:route] do %>
-      <div class="p-a-1">
+      <div class="p-x-1 p-b-1">
         <strong>
-          <%= render "_mode_image.html", forward_assigns(@conn) %>
+          <%= mode_icon @route.type %>
           <%= @route.name %>: Service Alerts & Notices</strong>
         </strong>
       </div>
