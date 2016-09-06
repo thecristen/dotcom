@@ -1,14 +1,16 @@
 defmodule Site.ScheduleController.Defaults do
+  @moduledoc """
+  For a given %Plug.Conn, assign some default values based on the query
+  parameters.
+  """
   import Plug.Conn
   use Timex
 
   import Util
 
-  @doc """
-  For a given %Plug.Conn, assign some default values based on the query
-  parameters.
-  """
-  def default_assigns(conn) do
+  def init([]), do: []
+
+  def call(conn, []) do
     conn.params
     |> index_params
     |> Enum.reduce(conn, fn {key, value}, conn -> assign(conn, key, value) end)

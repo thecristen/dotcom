@@ -1,16 +1,12 @@
 defmodule Site.ScheduleController.Route do
   use Site.Web, :controller
 
-  import Site.ScheduleController.Defaults
   import Site.ScheduleController.Helpers
   import Site.ScheduleController.Query
 
-  def route(conn, route_id) do
+  def route(conn) do
     conn
-    |> default_assigns
     |> assign_selected_trip
-    |> assign_all_stops(route_id)
-    |> assign_destination_stops(route_id)
     |> render_route
   end
 
@@ -30,7 +26,6 @@ defmodule Site.ScheduleController.Route do
   defp render_schedules([], conn) do
     conn
     |> assign(:schedules, [])
-    |> assign_all_routes
     |> await_assign_all
     |> assign_datetime
     |> render("empty.html")
@@ -41,7 +36,6 @@ defmodule Site.ScheduleController.Route do
     |> possibly_open_schedules(all_schedules, conn)
 
     conn
-    |> assign_all_routes
     |> assign(:schedules, filtered_schedules)
     |> assign(:from, from(all_schedules, conn))
     |> assign(:to, to(all_schedules))

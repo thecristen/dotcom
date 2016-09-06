@@ -1,9 +1,9 @@
 defmodule Site.ScheduleController.Green do
   use Site.Web, :controller
 
-  import Site.ScheduleController.Defaults
-  import Site.ScheduleController.Helpers
-  import Site.ScheduleController.Query
+  alias Site.ScheduleController
+  import ScheduleController.Helpers
+  import ScheduleController.Query
 
   def green(conn) do
     # special case for the Green Line summary
@@ -12,7 +12,6 @@ defmodule Site.ScheduleController.Green do
     end
 
     conn = conn
-    |> default_assigns
     |> assign(:route, %Routes.Route{id: "Green", name: "Green", type: 0})
     |> assign(:green_routes, routes)
 
@@ -38,7 +37,7 @@ defmodule Site.ScheduleController.Green do
         {route, all_schedules, from(all_schedules, conn)}
       end)
     end)
-    |> assign_all_routes
+    |> ScheduleController.AllRoutes.call([])
     |> await_assign_all
     |> assign_datetime
     |> assign_additional_route_to_all_routes
