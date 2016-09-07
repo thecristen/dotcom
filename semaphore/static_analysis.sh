@@ -1,3 +1,3 @@
 set -e
 
-pronto run -f github github_status -c origin/master || true
+MIX_ENV=test pronto run -f github github_status -c origin/master || true
