@@ -1,7 +1,7 @@
 class Picker {
   constructor() {
     // This is a singleton, though we'll rebuild it if the element is removed.
-    if(Picker.instance && document.getElementsByName(`date-input-polyfill`).length > 0) {
+    if(Picker.instance && document.getElementsByTagName(`date-input-polyfill`).length > 0) {
       return Picker.instance;
     }
 
@@ -99,6 +99,8 @@ class Picker {
       e.target.getAttribute(`data-has-picker`) !== `` && !isPicker
         && this.hide();
     });
+
+    Picker.instance = this;
   }
 
   // Hide.
@@ -147,10 +149,11 @@ class Picker {
     } else {
       this.date = new Date();
     }
-
+    // refreshing the days matrix has the side-effect of creating the
+    // appropriate elements for the year and month fields. -ps
+    this.refreshDaysMatrix();
     this.year.value = this.date.getFullYear();
     this.month.value = this.date.getMonth();
-    this.refreshDaysMatrix();
   }
 
   // Match input date with picker date.

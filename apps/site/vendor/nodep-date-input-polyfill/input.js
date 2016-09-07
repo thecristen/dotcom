@@ -59,8 +59,7 @@ export default class Input {
     // also on various click events to capture it in all corner cases.
     const showPicker = ()=> {
       // make sure the Picker is created
-      const picker = new Picker();
-      picker.attachTo(this);
+      Picker.instance.attachTo(this);
     };
     this.element.addEventListener(`showPicker`, showPicker);
     this.element.addEventListener(`focus`, showPicker);
@@ -144,6 +143,9 @@ export default class Input {
 
   // Will add the Picker to all inputs in the page.
   static addPickerToDateInputs() {
+    // create singleton Picker
+    new Picker();
+
     // Get and loop all the input[type="date"]s in the page that do not have `[data-has-picker]` yet.
     const dateInputs = document.querySelectorAll(`input[type="date"]:not([data-has-picker])`);
     const length = dateInputs.length;

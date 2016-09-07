@@ -2,7 +2,7 @@ import './nodep-date-input-polyfill.scss';
 import Picker from './picker.js';
 import Input from './input.js';
 
-// Check if type="date" is supported.
+// Check if type="date" is supported and we use is (not on desktop).
 if(Input.shouldRun()) {
   const init = ()=> {
     // Run the above code on any <input type="date"> in the document, also on dynamically created ones.
@@ -11,6 +11,9 @@ if(Input.shouldRun()) {
     // This is also on mousedown event so it will capture new inputs that might
     // be added to the DOM dynamically.
     document.addEventListener(`mousedown`, ()=> {
+      Input.addPickerToDateInputs();
+    });
+    document.addEventListener(`turbolinks:load`, () => {
       Input.addPickerToDateInputs();
     });
   };
