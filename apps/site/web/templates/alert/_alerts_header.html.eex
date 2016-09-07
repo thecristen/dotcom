@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
-    <%= if @conn.assigns[:route] do %>
-      <div class="p-x-1 p-b-1">
+    <%= if @route do %>
+      <div class="p-a-1">
         <strong>
           <%= mode_icon @route.type %>
           <%= @route.name %>: Service Alerts & Notices</strong>

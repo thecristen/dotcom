@@ -4,28 +4,6 @@ defmodule Site.ScheduleController.Helpers do
   import Util
   use Timex
 
-  @doc "Fetch the alerts and assign them"
-  def assign_alerts(conn) do
-    conn
-    |> async_assign(:alerts, &Alerts.Repo.all/0)
-  end
-
-  @doc "Fetch a route and assign it as @route"
-  def assign_route(conn, route_id) do
-    conn
-    |> assign(:route, Routes.Repo.get(route_id))
-  end
-
-  @doc "Fetch all the stops on a route and assign them as @all_stops"
-  def assign_all_stops(conn, "Red" = route_id) do
-    conn
-    |> assign(:all_stops, Enum.uniq_by(get_all_stops(conn, route_id), &(&1.id)))
-  end
-  def assign_all_stops(conn, route_id) do
-    conn
-    |> assign(:all_stops, get_all_stops(conn, route_id))
-  end
-
   @doc "Assign @datetime, a relevant time to use for filtering alerts"
   def assign_datetime(%{assigns: %{trip_schedule: [schedule|_]}} = conn) do
     conn
@@ -42,71 +20,6 @@ defmodule Site.ScheduleController.Helpers do
 
     conn
     |> assign(:datetime, datetime)
-  end
-
-  @braintree_stops [
-    "place-brntn",
-    "place-qamnl",
-    "place-qnctr",
-    "place-wlsta",
-    "place-nqncy"
-  ]
-  @ashmont_stops [
-    "place-asmnl",
-    "place-smmnl",
-    "place-fldcr",
-    "place-shmnl"
-  ]
-
-  @doc """
-  Fetch applicable destination stops for the given route. If no origin is set then we don't need
-  destinations yet. If the route is northbound on the red line coming from the Ashmont or Braintree
-  branches, filter out stops on the opposite branch. For all other routes, the already assigned
-  :all_stops is sufficient.
-  """
-  def assign_destination_stops(%{assigns: %{origin: nil}} = conn, _) do
-    conn
-  end
-  def assign_destination_stops(conn, "Red") do
-    all_stops = conn.assigns[:all_stops]
-    northbound = conn.assigns[:direction_id] == 1
-    origin = conn.assigns[:origin]
-    filtered_stops = cond do
-      northbound and origin in @braintree_stops ->
-        Enum.reject(all_stops, &(&1.id in @ashmont_stops))
-      northbound and origin in @ashmont_stops ->
-        Enum.reject(all_stops, &(&1.id in @braintree_stops))
-      true ->
-        all_stops
-    end
-    conn
-    |> assign(:destination_stops, filtered_stops)
-  end
-  def assign_destination_stops(conn, _) do
-    conn
-    |> assign(:destination_stops, conn.assigns[:all_stops])
-  end
-
-  defp get_all_stops(conn, route_id) do
-    Schedules.Repo.stops(
-      route_id,
-      direction_id: conn.assigns[:direction_id]
-    )
-  end
-
-  @doc """
-  Once @route is set, fetches all the routes with that same type and assigns them
-  as @all_routes
-  """
-  def assign_all_routes(%{assigns: %{route: %{type: type}}} = conn) do
-    type = if type in [0, 1] do
-      [0, 1]
-    else
-      type
-    end
-
-    conn
-    |> assign(:all_routes, Routes.Repo.by_type(type))
   end
 
   @doc """
@@ -161,92 +74,6 @@ defmodule Site.ScheduleController.Helpers do
     |> Timex.after?(now)
   end
 
-  @doc """
-  Fetches the route and the full list of alerts from `conn.assigns` and assigns a filtered list
-  of alerts for that route.
-  """
-  def route_alerts(%{assigns: %{alerts: alerts, route: route}} = conn) do
-    alerts = alerts
-    |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id})
-    |> Enum.sort_by(&(- Timex.to_unix(&1.updated_at)))
-
-    conn
-    |> assign(:route_alerts, alerts)
-  end
-
-  @doc """
-  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
-  of alerts for `stop_id`.
-  """
-  def stop_alerts(%{assigns: %{origin: nil}} = conn) do
-    conn
-    |> assign(:stop_alerts, nil)
-  end
-  def stop_alerts(%{assigns: %{alerts: alerts,
-                               date: date,
-                               route: route,
-                               direction_id: direction_id,
-                               origin: origin,
-                               destination: dest}} = conn)
-  when origin != nil and dest != nil do
-    origin_alerts = Alerts.Stop.match(
-      alerts,
-      origin,
-      route: route.id,
-      route_type: route.type,
-      direction_id: direction_id,
-      time: date)
-    dest_alerts = Alerts.Stop.match(
-      alerts,
-      dest,
-      route: route.id,
-      route_type: route.type,
-      direction_id: direction_id,
-      time: date)
-
-    stop_alerts = [origin_alerts, dest_alerts]
-    |> Enum.concat
-    |> Enum.uniq
-
-    conn
-    |> assign(:stop_alerts, stop_alerts)
-  end
-  def stop_alerts(%{assigns: %{alerts: alerts,
-                               date: date,
-                               route: route,
-                               direction_id: direction_id,
-                               origin: origin}} = conn) do
-    stop_alerts = Alerts.Stop.match(
-      alerts,
-      origin,
-      route: route.id,
-      route_type: route.type,
-      direction_id: direction_id,
-      time: date)
-
-    conn
-    |> assign(:stop_alerts, stop_alerts)
-  end
-
-  @doc """
-  Fetches the full list of alerts from `conn.assigns` and assigns a filtered list
-  of alerts for `stop_id`.
-  """
-  def trip_alerts(%{assigns: %{trip: nil}} = conn) do
-    conn
-    |> assign(:trip_alerts, nil)
-  end
-  def trip_alerts(%{assigns: %{trip: trip_id}} = conn) do
-    trip_alerts = conn.assigns[:alerts]
-    |> Alerts.Match.match(%Alerts.InformedEntity{trip: trip_id})
-
-    conn
-    |> assign(:trip_alerts, trip_alerts)
-  end
-  def trip_alerts(conn) do
-    assign(conn, :trip_alerts, nil)
-  end
-
   @doc "Given a list of schedules, return where those schedules start (best-guess)"
   def from(all_schedules, %{assigns: %{all_stops: all_stops}}) do
     stop_id = all_schedules
@@ -269,12 +96,12 @@ defmodule Site.ScheduleController.Helpers do
   def assign_route_breadcrumbs(%{assigns: %{route: %{name: name, type: type}}} = conn) do
     route_type_display =
       case type do
-        2 -> {schedule_path(conn, :commuter_rail), "Commuter Rail"}
-        3 -> {schedule_path(conn, :bus), "Bus"}
-        4 -> {schedule_path(conn, :boat), "Boat"}
-        _ -> {schedule_path(conn, :subway), "Subway"}
+        2 -> {mode_path(conn, :commuter_rail), "Commuter Rail"}
+        3 -> {mode_path(conn, :bus), "Bus"}
+        4 -> {mode_path(conn, :boat), "Boat"}
+        _ -> {mode_path(conn, :subway), "Subway"}
       end
     conn
-    |> assign(:breadcrumbs, [{schedule_path(conn, :index), "Schedules & Maps"}, route_type_display, name])
+    |> assign(:breadcrumbs, [{mode_path(conn, :index), "Schedules & Maps"}, route_type_display, name])
   end
 end

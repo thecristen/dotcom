@@ -36,7 +36,7 @@
         <%= if @delays != [] do %>
           <div class="col-xs-12 p-b-1">
             <h2 class="h5 font-weight-bold">Delays</h2>
-            <%= render "_alerts_inline.html", alerts: @delays, time: Util.now %>
+            <%= Site.AlertView.inline @conn, alerts: @delays, time: Util.now %>
           </div>
         <%= end %>
         <div class="col-xs-12">

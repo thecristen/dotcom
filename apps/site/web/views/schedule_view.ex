@@ -1,6 +1,30 @@
 defmodule Site.ScheduleView do
   use Site.Web, :view
-  import Site.ScheduleView.Alerts
+
+  def stop_alerts_for(alerts, stop_ids, opts) do
+    stop_ids
+    |> Enum.flat_map(fn id -> Alerts.Stop.match(alerts, id, opts) end)
+    |> Enum.uniq
+  end
+
+  def trip_alerts_for(_, []), do: []
+  def trip_alerts_for(alerts, [schedule|_] = schedules) do
+    trip_ids = schedules
+    |> Enum.map(fn schedule -> schedule.trip.id end)
+
+    Alerts.Trip.match(
+      alerts,
+      trip_ids,
+      time: schedule.time,
+      route: schedule.route.id,
+      route_type: schedule.route.type,
+      direction_id: schedule.trip.direction_id,
+      stop: schedule.stop.id
+    )
+  end
+  def trip_alerts_for(alerts, schedule) do
+    trip_alerts_for(alerts, [schedule])
+  end
 
   def update_url(%{params: params} = conn, query) do
     query_map = query
@@ -12,7 +36,7 @@ defmodule Site.ScheduleView do
     |> Enum.into([])
     |> Enum.reject(&empty_value?/1)
 
-    schedule_path(conn, :index, new_query)
+    schedule_path(conn, :show, params["route"], new_query)
   end
 
   @doc """
@@ -35,18 +59,6 @@ defmodule Site.ScheduleView do
 
   defp hidden_tag({key, value}) do
     tag :input, type: "hidden", name: key, value: value
-  end
-
-  def newline_to_br(text) do
-    import Phoenix.HTML
-
-    text
-    |> html_escape
-    |> safe_to_string
-    |> String.replace(~r/^(.*:)\s/, "<strong>\\1</strong>\n") # an initial header
-    |> String.replace(~r/\n(.*:)\s/, "<hr><strong>\\1</strong>\n") # all other start with an HR
-    |> String.replace(~r/\s*\n/s, "<br />")
-    |> raw
   end
 
   @doc "Link a station's name to its page, if it exists. Otherwise, just returns the name."

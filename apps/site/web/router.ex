@@ -8,6 +8,7 @@ defmodule Site.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug BetaAnnouncement.Plug
+    plug Turbolinks.Plug
   end
 
   pipeline :api do
@@ -20,13 +21,14 @@ defmodule Site.Router do
     get "/", PageController, :index
     get "/redirect/*path", RedirectController, :show
     resources "/stations", StationController, only: [:index, :show]
-    get "/schedules/subway", ScheduleController, :subway
-    get "/schedules/bus", ScheduleController, :bus
-    get "/schedules/boat", ScheduleController, :boat
-    get "/schedules/commuter-rail", ScheduleController, :commuter_rail
-    resources "/schedules", ScheduleController, only: [:index]
-    get "/alerts", ScheduleController, :alerts
-    get "/alerts/:alert", ScheduleController, :alerts
+    get "/schedules", ModeController, :index
+    get "/schedules/subway", ModeController, :subway
+    get "/schedules/bus", ModeController, :bus
+    get "/schedules/boat", ModeController, :boat
+    get "/schedules/commuter-rail", ModeController, :commuter_rail
+    get "/schedules/Green", ScheduleController.Green, :green
+    get "/schedules/:route", ScheduleController, :show
+    resources "/alerts", AlertController, only: [:index, :show]
   end
 
   # Other scopes may use custom stacks.

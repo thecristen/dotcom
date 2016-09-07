@@ -8,8 +8,6 @@ defmodule Site.BodyClass do
   class if we detect that we're rendering an error page.
 
   """
-  import Plug.Conn, only: [get_req_header: 2]
-
   def class_name(conn) do
     [javascript_class(conn),
      error_class(conn)]
@@ -18,9 +16,10 @@ defmodule Site.BodyClass do
   end
 
   defp javascript_class(conn) do
-    case get_req_header(conn, "turbolinks-referrer") do
-      [] -> "no-js"
-      _ -> "js"
+    if Turbolinks.enabled?(conn) do
+      "js"
+    else
+      "no-js"
     end
   end
 

@@ -11,7 +11,7 @@
           <div class="alert-card-body-container">
             <%= if alert.description do %>
               <div class="alert-card-body no-overflow">
-                <%= newline_to_br(alert.description) %>
+                <%= format_alert_description(alert.description) %>
               </div>
             <% end %>
             <div class="alert-card-footer">

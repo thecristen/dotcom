@@ -1,41 +1,27 @@
 defmodule Site.ScheduleController do
   use Site.Web, :controller
 
-  defdelegate alerts(conn, params), to: Site.ScheduleController.Alerts
+  alias Site.ScheduleController
 
-  def index(conn, %{"route" => route_id, "origin" => origin_id, "dest" => dest_id})
+  plug Site.Plugs.Route
+  plug Site.Plugs.Alerts
+  plug ScheduleController.Defaults
+  plug ScheduleController.AllRoutes
+  plug ScheduleController.AllStops
+  plug ScheduleController.DestinationStops
+
+  def show(%{query_params: %{"route" => new_route_id}} = conn,
+    %{"route" => old_route_id} = params) when new_route_id != old_route_id do
+    new_path = schedule_path(conn, :show, new_route_id, Map.delete(params, "route"))
+    redirect conn, to: new_path
+  end
+  def show(conn, %{"origin" => origin_id, "dest" => dest_id})
     when origin_id != "" and dest_id != "" do
     conn
-    |> Site.ScheduleController.Pairs.pairs(route_id, origin_id, dest_id)
+    |> ScheduleController.Pairs.pairs(origin_id, dest_id)
   end
-
-  def index(conn, %{"route" => "Green"}) do
+  def show(conn, _params) do
     conn
-    |> Site.ScheduleController.Green.green
-  end
-
-  def index(conn, %{"route" => route_id}) do
-    conn
-    |> Site.ScheduleController.Route.route(route_id)
-  end
-
-  def index(conn, %{}) do
-    Site.ScheduleController.All.all(conn)
-  end
-
-  def subway(conn, _params) do
-    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Subway)
-  end
-
-  def bus(conn, _params) do
-    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Bus)
-  end
-
-  def boat(conn, _params) do
-    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.Boat)
-  end
-
-  def commuter_rail(conn, _params) do
-    Site.ScheduleController.Modes.render(conn, Site.ScheduleController.Modes.CommuterRail)
+    |> ScheduleController.Route.route
   end
 end

@@ -27,7 +27,7 @@
   </a>
   <%= if is_selected_period do %>
     <div class="list-group-item selected-period">
-      <%= render "_alerts_inline.html", alerts: trip_alerts, time: List.first(schedules).time %>
+      <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: List.first(schedules).time %>
       <div class="row">
         <%= for schedule <- schedules do %>
           <div class="col-xs-4 col-sm-3 col-md-2">

@@ -4,8 +4,7 @@ defmodule Site.ScheduleController.PairsTest do
   test "origin/destination pairs returns Departure/Arrival times", %{conn: conn} do
     conn = get conn, schedule_path(
       conn,
-      :index,
-      route: "CR-Lowell",
+      :show, "CR-Lowell",
       origin: "Anderson/ Woburn",
       dest: "North Station",
       direction_id: "1"
@@ -19,8 +18,7 @@ defmodule Site.ScheduleController.PairsTest do
   test "links to origin and destination station pages", %{conn: conn} do
     conn = get conn, schedule_path(
       conn,
-      :index,
-      route: "Red",
+      :show, "Red",
       origin: "place-alfcl",
       dest: "place-harsq",
       direction_id: "0"
@@ -32,7 +30,7 @@ defmodule Site.ScheduleController.PairsTest do
 
   test "handles a missing direction ID", %{conn: conn} do
     response = conn
-    |> get(schedule_path(conn, :index, route: "Red", origin: "place-alfcl", dest: "place-harsq"))
+    |> get(schedule_path(conn, :show, "Red", origin: "place-alfcl", dest: "place-harsq"))
     |> html_response(200)
 
     assert response =~ ~s(Southbound)
@@ -40,7 +38,7 @@ defmodule Site.ScheduleController.PairsTest do
 
   test "picks stops based on the calculated direction ID", %{conn: conn} do
     conn = conn
-    |> get(schedule_path(conn, :index, route: "86", origin: "2546", dest: "22549", direction_id: "0"))
+    |> get(schedule_path(conn, :show, "86", origin: "2546", dest: "22549", direction_id: "0"))
 
     assert hd(conn.assigns[:all_stops]).id == "place-sull"
     assert hd(conn.assigns[:destination_stops]).id == "place-sull"
@@ -49,8 +47,7 @@ defmodule Site.ScheduleController.PairsTest do
   test "handles an empty schedule with origin/destination selected", %{conn: conn} do
     conn = get conn, schedule_path(
       conn,
-      :index,
-      route: "Red",
+      :show, "Red",
       origin: "place-alfcl",
       dest: "place-harsq",
       direction_id: "0",
