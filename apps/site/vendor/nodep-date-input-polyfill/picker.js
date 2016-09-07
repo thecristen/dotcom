@@ -134,6 +134,7 @@ class Picker {
       input === this.input
       && this.isOpen
     ) {
+      this.sync();
       return false;
     }
 
