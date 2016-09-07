@@ -23,45 +23,45 @@ defmodule Site.AlertViewTest do
 
     assert AlertView.display_alert_updated(alert) == "Updated 1 hour ago"
   end
-  describe "newline_to_br/1" do
+  describe "format_alert_description/1" do
     test "escapes existing HTML" do
       expected = {:safe, "&lt;br&gt;"}
-      actual = AlertView.newline_to_br("<br>")
+      actual = AlertView.format_alert_description("<br>")
 
       assert expected == actual
     end
 
     test "replaces newlines with breaks" do
       expected = {:safe, "hi<br />there"}
-      actual = AlertView.newline_to_br("hi\nthere")
+      actual = AlertView.format_alert_description("hi\nthere")
 
       assert expected == actual
     end
 
     test "combines multiple newlines" do
       expected = {:safe, "hi<br />there"}
-      actual = AlertView.newline_to_br("hi\n\n\nthere")
+      actual = AlertView.format_alert_description("hi\n\n\nthere")
 
       assert expected == actual
     end
 
     test "combines multiple Windows newlines" do
       expected = {:safe, "hi<br />there"}
-      actual = AlertView.newline_to_br("hi\r\n\r\nthere")
+      actual = AlertView.format_alert_description("hi\r\n\r\nthere")
 
       assert expected == actual
     end
 
     test "<strong>ifies a header" do
       expected = {:safe, "hi<hr><strong>Header:</strong><br />7:30"}
-      actual = AlertView.newline_to_br("hi\nHeader:\n7:30")
+      actual = AlertView.format_alert_description("hi\nHeader:\n7:30")
 
       assert expected == actual
     end
 
     test "<strong>ifies a starting long header" do
       expected = {:safe, "<strong>Long Header:</strong><br />7:30"}
-      actual = AlertView.newline_to_br("Long Header:\n7:30")
+      actual = AlertView.format_alert_description("Long Header:\n7:30")
 
       assert expected == actual
     end

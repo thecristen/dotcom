@@ -70,11 +70,11 @@ defmodule Site.Plugs.Alerts do
   end
 
   defp alerts_from_params(params) do
-    base_entity = struct(Alerts.InformedEntity, [
-          route: params["route"],
-          trip: params["trip"],
-          direction_id: direction_id(params["direction_id"])
-        ])
+    base_entity = %Alerts.InformedEntity{
+      route: params["route"],
+      trip: params["trip"],
+      direction_id: direction_id(params["direction_id"])
+    }
 
     entities = [params["origin"], params["dest"]]
     |> Enum.uniq

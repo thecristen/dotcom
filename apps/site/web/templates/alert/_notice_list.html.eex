@@ -10,7 +10,7 @@
           <div class="alert-card-body-container">
             <%= if notice.description do %>
               <div class="alert-card-body no-overflow">
-                <%= newline_to_br(notice.description) %>
+                <%= format_alert_description(notice.description) %>
               </div>
             <% end %>
             <div class="alert-card-footer"><%= display_alert_updated(notice) %></div>

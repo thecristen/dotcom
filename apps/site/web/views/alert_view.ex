@@ -60,7 +60,7 @@ defmodule Site.AlertView do
     "Updated #{formatted}"
   end
 
-  def newline_to_br(text) do
+  def format_alert_description(text) do
     import Phoenix.HTML
 
     text

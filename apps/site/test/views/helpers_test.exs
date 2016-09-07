@@ -43,9 +43,11 @@ defmodule Site.HelpersTest do
 
     test "includes additional options", %{conn: conn} do
       route = %Routes.Route{type: 2, id: "CR-Lowell", name: "Lowell"}
-      expected = "<a class=\"mode-group-btn\" href=\"/schedules/CR-Lowell?dest=place-sstat&amp;origin=place-harsq\">Lowell</a>"
+      expected = "<a class=\"mode-group-btn\" " <>
+        "href=\"/schedules/CR-Lowell?dest=place-sstat&amp;origin=place-harsq\">Lowell</a>"
 
-      assert expected == safe_to_string(route_link(conn, route, dest: "place-sstat", origin: "place-harsq"))
+      assert expected == safe_to_string(
+        route_link(conn, route, dest: "place-sstat", origin: "place-harsq"))
     end
   end
 end
