@@ -1,3 +1,4 @@
+<% most_frequent_headsign = most_frequent_headsign(@schedules) %>
 <%= for schedule <- @schedules do %>
   <% is_selected_period = schedule.trip.id == @trip %>
   <% trip_alerts = trip_alerts_for @alerts, schedule %>
@@ -15,7 +16,7 @@
         <%= if schedule.stop.name != @from.name do %>
           (from <%= schedule.stop.name %>)
         <% end %>
-        <%= if schedule.trip.headsign != @most_frequent_headsign do %>
+        <%= if schedule.trip.headsign != most_frequent_headsign do %>
           (to <%= schedule.trip.headsign %>)
         <% end %>
         <%= if trip_alerts != [] do %>

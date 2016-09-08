@@ -91,4 +91,14 @@ defmodule Site.ScheduleView do
       end
     )
   end
+
+  def reverse_direction_id(0), do: 1
+  def reverse_direction_id(1), do: 0
+  def reverse_direction_id(_), do: 1 # Unknown, so pick a default
+
+  def most_frequent_headsign(schedules) do
+    schedules
+    |> Enum.map(&(&1.trip.headsign))
+    |> Util.most_frequent_value
+  end
 end

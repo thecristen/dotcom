@@ -3,12 +3,18 @@ defmodule Site.ScheduleController do
 
   alias Site.ScheduleController
 
-  plug Site.Plugs.Route
+  plug Site.Plugs.Route, required: true
   plug Site.Plugs.Alerts
   plug ScheduleController.Headsigns
   plug ScheduleController.Defaults
-  plug ScheduleController.AllRoutes
+  plug ScheduleController.RouteBreadcrumbs
+  plug ScheduleController.Trip
+  plug ScheduleController.DateTime
+  plug ScheduleController.Schedules
+  plug ScheduleController.ViewTemplate
   plug ScheduleController.AllStops
+  plug ScheduleController.DirectionNames
+  plug ScheduleController.AllRoutes
   plug ScheduleController.DestinationStops
 
   def show(%{query_params: %{"route" => new_route_id}} = conn,
@@ -16,13 +22,7 @@ defmodule Site.ScheduleController do
     new_path = schedule_path(conn, :show, new_route_id, Map.delete(params, "route"))
     redirect conn, to: new_path
   end
-  def show(conn, %{"origin" => origin_id, "dest" => dest_id})
-    when origin_id != "" and dest_id != "" do
-    conn
-    |> ScheduleController.Pairs.pairs(origin_id, dest_id)
-  end
-  def show(conn, _params) do
-    conn
-    |> ScheduleController.Route.route
+  def show(%{assigns: %{view_template: view_template}} = conn, _params) do
+    render conn, view_template
   end
 end
