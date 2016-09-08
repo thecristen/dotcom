@@ -8,13 +8,16 @@ defmodule Site.ScheduleController.Green do
 
   plug :route
   plug :green_routes
+  plug ScheduleController.Defaults
   plug :green_schedules
   plug ScheduleController.AllRoutes
   plug ScheduleController.DateTime
+  plug ScheduleController.RouteBreadcrumbs
   plug :assign_additional_route_to_all_routes
+  plug :headsigns
 
-  def green(conn) do
-    render conn, :green
+  def green(conn, _) do
+    render conn, Site.ScheduleView, "green.html", []
   end
 
   def route(conn, []) do
@@ -32,7 +35,7 @@ defmodule Site.ScheduleController.Green do
     |> Enum.map(fn route -> schedule_for_route(route, conn) end)
 
     conn
-    |> assign(:schedules, schedules)
+    |> assign(:green_schedules, schedules)
   end
 
   @doc "Includes the fake Green line route in the list of all routes"
@@ -58,5 +61,13 @@ defmodule Site.ScheduleController.Green do
              |> ScheduleController.DirectionNames.call([])
 
     {route, conn.assigns.all_schedules, conn.assigns.from}
+  end
+
+  def headsigns(conn, []) do
+    conn
+    |> assign(:headsigns, %{
+          0 => [],
+          1 => []
+              })
   end
 end

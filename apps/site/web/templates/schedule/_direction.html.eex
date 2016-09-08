@@ -10,10 +10,11 @@
       <%= if direction_id == @direction_id do %>
         <%= fa "check" %><span class="sr-only">Current direction: </span>
       <% end %>
-      <%= direction(direction_id, @route.id) %> to:<br>
+      <%= direction(direction_id, @route.id) %><%= if @headsigns[direction_id] != [] do %> to:<br>
       <strong>
         <%= @headsigns[direction_id] |> Enum.join(", ") |> clean_route_name %>
       </strong>
+      <% end %>
     <% end %>
   <% end %>
 </div>

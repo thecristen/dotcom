@@ -27,16 +27,19 @@ defmodule Site.ScheduleView do
   end
 
   def update_url(%{params: params} = conn, query) do
+    params = params || %{}
     query_map = query
     |> Enum.map(fn {key, value} -> {Atom.to_string(key), to_string(value)} end)
     |> Enum.into(%{})
 
     new_query = params
     |> Map.merge(query_map)
-    |> Enum.into([])
     |> Enum.reject(&empty_value?/1)
+    |> Enum.into(%{})
 
-    schedule_path(conn, :show, params["route"], new_query)
+    {route, new_query} = Map.pop(new_query, "route")
+
+    schedule_path(conn, :show, route, new_query |> Enum.into([]))
   end
 
   @doc """
@@ -53,9 +56,9 @@ defmodule Site.ScheduleView do
     |> Enum.map(&hidden_tag/1)
   end
 
-  defp empty_value?({_, value}) do
-    value in ["", nil]
-  end
+  defp empty_value?({_, ""}), do: true
+  defp empty_value?({_, nil}), do: true
+  defp empty_value?({_, _}), do: false
 
   defp hidden_tag({key, value}) do
     tag :input, type: "hidden", name: key, value: value
