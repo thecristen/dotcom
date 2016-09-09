@@ -51,7 +51,7 @@ defmodule Site.ScheduleView do
   end
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
-    conn.params
+    conn.query_params
     |> Enum.reject(fn {key, _} -> key in exclude end)
     |> Enum.map(&hidden_tag/1)
   end
