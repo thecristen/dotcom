@@ -22,7 +22,7 @@ defmodule Site.ScheduleController do
     new_path = schedule_path(conn, :show, new_route_id, Map.delete(params, "route"))
     redirect conn, to: new_path
   end
-  def show(%{assigns: %{view_template: view_template}} = conn, _params) do
-    render conn, view_template
+  def show(conn, _params) do
+    render conn, "index.html"
   end
 end
