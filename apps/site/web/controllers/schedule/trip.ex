@@ -17,7 +17,7 @@ defmodule Site.ScheduleController.Trip do
     |> do_selected_trip(nil)
   end
 
-  def do_selected_trip(conn, [%{id: trip_id} | _] = trips) do
+  def do_selected_trip(conn, [%Schedules.Schedule{trip: %{id: trip_id}} | _] = trips) do
     conn
     |> assign(:trip, trip_id)
     |> assign(:trip_schedule, trips)
