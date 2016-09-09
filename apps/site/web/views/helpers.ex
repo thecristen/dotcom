@@ -104,6 +104,7 @@ defmodule Site.ViewHelpers do
   def clean_route_name(name) do
     name
     |> String.replace_suffix(" Line", "")
+    |> String.replace_suffix(" Trolley", "")
     |> String.replace("/", "/​") # slash replaced with a slash with a ZERO
                                 # WIDTH SPACE afer
   end
@@ -121,19 +122,23 @@ defmodule Site.ViewHelpers do
   """
   def route_link(conn, route, opts \\ []) do
     opts = Keyword.put(opts, :route, route.id)
+    {class_name, opts} = Keyword.pop(opts, :class, "")
 
     route.type
     |> route_icon(route.id)
     |> safe_to_string
     |> string_join(clean_route_name(route.name))
     |> raw
-    |> link(to: schedule_path(conn, :show, route.id, opts), class: "mode-group-btn")
+    |> link(
+      to: schedule_path(conn, :show, route.id, opts),
+      class: Util.string_join("mode-group-btn", class_name))
   end
 
+  def route_spacing_class(0), do: "col-xs-6 col-md-3"
   def route_spacing_class(1), do: "col-xs-6 col-md-3"
-  def route_spacing_class(2), do: "col-xs-6 col-md-3"
-  def route_spacing_class(3), do: "col-xs-4 col-md-2"
-  def route_spacing_class(4), do: "col-xs-12 col-md-4"
+  def route_spacing_class(2), do: "col-xs-12 col-sm-6 col-md-4"
+  def route_spacing_class(3), do: "col-xs-4 col-sm-3 col-md-2"
+  def route_spacing_class(4), do: "col-xs-12 col-sm-6 col-md-4"
 
   def user_agent(conn) do
     case get_req_header(conn, "user-agent") do

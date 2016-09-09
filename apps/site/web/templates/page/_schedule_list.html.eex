@@ -5,8 +5,9 @@
     </div>
     <div class="mode-group-block">
       <div class="row">
-        <%= for route <- @grouped_routes[:commuter_rail] do %>
-          <div class="col-xs-6 col-md-3">
+        <% commuter_rail_routes = @grouped_routes[:commuter_rail] %>
+        <%= for route <- commuter_rail_routes do %>
+          <div class="<%= route_spacing_class(route.type) %>">
             <%= route_link @conn, route %>
           </div>
         <% end %>
@@ -22,7 +23,7 @@
     <div class="mode-group-block">
       <div class="row">
         <%= for route <- @grouped_routes[:bus] |> Enum.filter(&(&1.key_route?)) do %>
-          <div class="col-xs-4 col-md-2">
+          <div class="<%= route_spacing_class(route.type) %>">
             <%= route_link @conn, route %>
           </div>
         <% end %>
@@ -38,7 +39,7 @@
     <div class="mode-group-block">
       <div class="row">
         <%= for route <- @grouped_routes[:subway] do %>
-          <div class="col-xs-6 col-md-4">
+          <div class="<%= route_spacing_class(route.type) %>">
             <%= route_link @conn, route %>
           </div>
         <% end %>
@@ -54,7 +55,7 @@
     <div class="mode-group-block">
       <div class="row">
         <%= for route <- @grouped_routes[:boat] do %>
-          <div class="col-xs-12 col-md-4">
+          <div class="<%= route_spacing_class(route.type) %>">
             <%= route_link @conn, route %>
           </div>
         <% end %>

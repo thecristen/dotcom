@@ -20,9 +20,13 @@
   @extend .btn;
   @include button-variant($link-color, white, $gray-lightest);
   @extend .btn-block;
-  @extend .text-truncate;
 
-  margin-bottom: 0.75em;
+  margin-bottom: .75rem;
+
+  @include media-breakpoint-down(sm) {
+    // small button
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
+  }
 }
 
 .mode-group-footer {
