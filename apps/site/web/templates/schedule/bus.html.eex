@@ -1,32 +1,30 @@
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
   <% is_selected_period = @conn.params["hour"] == to_string(hour) %>
   <% trip_alerts = trip_alerts_for(@alerts, schedules) %>
-  <a class="list-group-item <%= if is_selected_period do %>selected-period selected-header<% end %>"
+  <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="hour-<%= hour %>"
     href="<%= if is_selected_period do %>
           <%= update_url @conn, hour: "" %>
     <% else %>
           <%= update_url @conn, hour: hour %>#hour-<%= hour %>
     <% end %>">
-    <div class="schedule-title row">
-      <span class="col-xs-4 schedule-time">
-        <span class="sr-only">Departure times during the hour of</span>
-        <%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %>
-      </span>
-      <span class="col-xs-7">
-        <%= render "_schedule_group.html", schedules: schedules %>
-        <%= if trip_alerts != [] do %>
-          <%= fa "exclamation-triangle" %>
-          <span class="sr-only">Has an alert</span>
-        <% end %>
-      </span>
-      <span class="col-xs-1 pull-right">
-        <%= fa "caret-down pull-right" %>
-      </span>
-    </div>
+    <span class="schedule-col-4 schedule-time">
+      <span class="sr-only">Departure times during the hour of</span>
+      <%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %>
+    </span>
+    <span class="schedule-col-7">
+      <%= render "_schedule_group.html", schedules: schedules %>
+      <%= if trip_alerts != [] do %>
+        <%= fa "exclamation-triangle" %>
+        <span class="sr-only">Has an alert</span>
+      <% end %>
+    </span>
+    <span class="schedule-col-1 pull-right">
+      <%= fa "caret-down pull-right" %>
+    </span>
   </a>
   <%= if is_selected_period do %>
-    <div class="list-group-item selected-period">
+    <div class="schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: List.first(schedules).time %>
       <div class="row">
         <%= for schedule <- schedules do %>

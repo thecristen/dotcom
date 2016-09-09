@@ -6,24 +6,24 @@
       <%= render "_filters.html", forward_assigns(@conn) %>
     </div>
     <div class="card-block">
-      <div class="row">
-        <div class="col-xs-12 schedule-block">
+      <div class="schedule-block">
+        <%= if !@destination do %>
           <p>
             <strong>Departure times</strong>
             <br>
             from <%= @from.name %>
             <%= station_info_link @from %>
           </p>
-          <div class="list-group schedule-list-group">
-            <%= render @list_group_template, forward_assigns(@conn) %>
-            <%= if not @show_all do %>
-              <a class="list-group-item text-xs-center"
-                 href="<%= update_url @conn, all: "all" %>">
-                Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
-              </a>
-            <% end %>
-          </div>
+        <% end %>
+        <div class="schedule-list-group">
+          <%= render @list_group_template, forward_assigns(@conn) %>
         </div>
+        <%= if not @show_all do %>
+          <a class="btn btn-primary-outline btn-block text-xs-center m-t-1"
+            href="<%= update_url @conn, all: "all" %>">
+            Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
+          </a>
+        <% end %>
       </div>
     </div>
   </div>
