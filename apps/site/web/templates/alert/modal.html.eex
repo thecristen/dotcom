@@ -27,6 +27,7 @@
 >
   <p>
     <%= fa "exclamation-triangle" %>
+    <strong>Alerts:</strong>
     <%= display_alert_effects(@alerts ++ @notices) %>
   </p>
 </a>
