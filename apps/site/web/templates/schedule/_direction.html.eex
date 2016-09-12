@@ -1,18 +1,19 @@
-<div class="row hidden-md-up">
-  <div class="col-xs-12">
-    <span <%= if @conn.assigns[:to] && length(@to) > 1 do %> style="display: block;"<% end %>><%= direction(@direction_id, @route.id) %>
-    <%= if @conn.assigns[:to] && not Enum.all?(@to, &(&1 == "")) do %>
-      to:&nbsp;</span> <span><strong><%= @to |> Enum.join(" · ") |> clean_route_name %></strong>
+<div class="btn-group direction-btn-group" role="group">
+  <%= for direction_id <- [1, 0] do %>
+    <% button_class = if direction_id == @direction_id do
+        "btn-primary"
+        else
+        "btn-primary-outline"
+        end
+    %>
+    <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, @route.id, direction_id)), class: "btn btn-sm #{button_class} direction-btn" do %>
+      <%= if direction_id == @direction_id do %>
+        <%= fa "check" %><span class="sr-only">Current direction: </span>
+      <% end %>
+      <%= direction(direction_id, @route.id) %> to:<br>
+      <strong>
+        <%= @headsigns[direction_id] |> Enum.join(", ") |> clean_route_name %>
+      </strong>
     <% end %>
-    </span>
-    <br>
-    <a href="<%= update_url @conn, reverse_direction_opts(@origin, @destination, @route.id, @reverse_direction_id) %>">Switch&nbsp;to&nbsp;<%= direction(@reverse_direction_id, @route.id) %>&nbsp;<%= fa "arrow-circle-right" %></a>
-  </div>
-</div>
-<div class="hidden-sm-down">
-  <%= direction(@direction_id, @route.id) %>
-  <%= if @conn.assigns[:to] && not Enum.all?(@to, &(&1 == "")) do %>
-    to: <strong class="text-nowrap"><%= @to |> Enum.join(" · ") |> clean_route_name %></strong>
-  <% end %><br>
-  <a href="<%= update_url @conn, reverse_direction_opts(@origin, @destination, @route.id, @reverse_direction_id) %>">Switch&nbsp;to&nbsp;<%= direction(@reverse_direction_id, @route.id) %>&nbsp;<%= fa "arrow-circle-right" %></a>
+  <% end %>
 </div>

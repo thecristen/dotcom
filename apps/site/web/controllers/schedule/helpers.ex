@@ -63,7 +63,6 @@ defmodule Site.ScheduleController.Helpers do
   def most_frequent_value(values) do
     values
     |> Enum.group_by(&(&1))
-    |> Enum.into([])
     |> Enum.max_by(fn {_, items} -> length(items) end)
     |> (fn {value, _} -> value end).()
   end
@@ -83,13 +82,6 @@ defmodule Site.ScheduleController.Helpers do
     # Use the parent station from all_stops
     all_stops
     |> Enum.find(fn stop -> stop.id == stop_id end)
-  end
-
-  @doc "Given a list of schedules, return where those schedules stop"
-  def to(all_schedules) do
-    all_schedules
-    |> Enum.map(fn schedule -> schedule.trip.headsign end)
-    |> Enum.uniq
   end
 
   @doc "Fetches the route from `conn.assigns` and assigns breadcrumbs."

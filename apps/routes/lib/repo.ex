@@ -1,6 +1,12 @@
 defmodule Routes.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
+  @doc """
+
+  Returns a list of all the routes
+
+  """
+  @spec all() :: [Routes.Route.t]
   def all do
     cache [], fn _ ->
       V3Api.Routes.all
@@ -8,6 +14,12 @@ defmodule Routes.Repo do
     end
   end
 
+  @doc """
+
+  Returns a single route by ID
+
+  """
+  @spec get(String.t) :: Routes.Route.t | nil
   def get(id) do
     all
     |> Enum.find(fn
@@ -16,11 +28,16 @@ defmodule Routes.Repo do
     end)
   end
 
+  @doc """
+
+  Given a route_type (or list of route types), returns the list of routes matching that type.
+
+  """
+  @spec by_type([0..4] | 0..4) :: [Routes.Route.t]
   def by_type(types) when is_list(types) do
     types
     |> Enum.flat_map(&by_type/1)
   end
-
   def by_type(type) do
     all
     |> Enum.filter(fn
@@ -29,11 +46,39 @@ defmodule Routes.Repo do
     end)
   end
 
+  @doc """
+
+  Given a stop ID, returns the list of routes which stop there.
+
+  """
+  @spec by_stop(String.t) :: [Routes.Route.t]
   def by_stop(stop_id) do
     cache stop_id, fn stop_id ->
       stop_id
       |> V3Api.Routes.by_stop
       |> handle_response
+    end
+  end
+
+  @doc """
+
+  Given a route_id, returns a map with the headsigns for trips in the given
+  directions (by direction_id).
+
+  """
+  @spec headsigns(String.t) :: %{0 => [String.t], 1 => [String.t]}
+  def headsigns(id) do
+    cache id, fn id ->
+      id
+      |> V3Api.Trips.by_route
+      |> (fn api -> api.data end).()
+      |> Enum.map(&direction_headsign_pair_from_trip/1)
+      |> Enum.group_by(&(elem(&1, 0)))
+      |> Map.new(fn {key, value_pairs} ->
+        {key, value_pairs
+          |> Enum.map(&(elem(&1, 1)))
+          |> order_by_frequency}
+      end)
     end
   end
 
@@ -76,4 +121,25 @@ defmodule Routes.Repo do
   defp key_route?("Key Bus Route (Frequent Service)"), do: true
   defp key_route?("Rapid Transit"), do: true
   defp key_route?(_), do: false
+
+  defp direction_headsign_pair_from_trip(%JsonApi.Item{attributes: attributes}) do
+    {attributes["direction_id"], attributes["headsign"]}
+  end
+
+  defp order_by_frequency(enum) do
+    # the complicated function in the middle collapses some lengths which are
+    # close together and allows us to instead sort by the name.  For example,
+    # on the Red line, Braintree has 710 trips, Ashmont has 709.  The
+    # division by two with a floor makes them both -354 and so equal.  We
+    # divide by -2 so that the ordering by count is large to small, but the
+    # name ordering is small to large.
+    enum
+    |> Enum.group_by(&(&1))
+    |> Enum.sort_by(fn {value, values} -> {
+      values
+      |> length
+      |> (fn v -> Float.floor(v / -2) end).(), value}
+    end)
+    |> Enum.map(&(elem(&1, 0)))
+  end
 end

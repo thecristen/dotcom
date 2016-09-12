@@ -38,7 +38,6 @@ defmodule Site.ScheduleController.Route do
     conn
     |> assign(:schedules, filtered_schedules)
     |> assign(:from, from(all_schedules, conn))
-    |> assign(:to, to(all_schedules))
     |> assign(:most_frequent_headsign, most_frequent_headsign(filtered_schedules))
     |> assign_list_group_template
     |> assign_route_breadcrumbs

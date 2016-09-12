@@ -27,7 +27,6 @@ defmodule Site.ScheduleController.Defaults do
       date: date,
       show_all: show_all,
       direction_id: direction_id,
-      reverse_direction_id: reverse_direction_id(direction_id),
       origin: case params["origin"] do
                 "" -> nil
                 value -> value
@@ -60,8 +59,4 @@ defmodule Site.ScheduleController.Defaults do
       0
     end
   end
-
-  def reverse_direction_id(0), do: 1
-  def reverse_direction_id(1), do: 0
-  def reverse_direction_id(_), do: 1 # Unknown, so pick a default
 end
