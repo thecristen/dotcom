@@ -84,13 +84,6 @@ defmodule Site.ScheduleController.Helpers do
     |> Enum.find(fn stop -> stop.id == stop_id end)
   end
 
-  @doc "Given a list of schedules, return where those schedules stop"
-  def to(all_schedules) do
-    all_schedules
-    |> Enum.map(fn schedule -> schedule.trip.headsign end)
-    |> Enum.uniq
-  end
-
   @doc "Fetches the route from `conn.assigns` and assigns breadcrumbs."
   def assign_route_breadcrumbs(%{assigns: %{route: %{name: name, type: type}}} = conn) do
     route_type_display =

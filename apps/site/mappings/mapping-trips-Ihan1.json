@@ -1,0 +1,19 @@
+{
+  "uuid" : "4a720327-7cf8-3c19-aa60-9b1c179c8ba7",
+  "request" : {
+    "url" : "/trips/?route=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-Ihan1.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Mon, 12 Sep 2016 16:40:12 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "89ttvbnr7hfkq7vo3kh71j5n4rju206k"
+    }
+  }
+}

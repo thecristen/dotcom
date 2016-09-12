@@ -127,9 +127,19 @@ defmodule Routes.Repo do
   end
 
   defp order_by_frequency(enum) do
+    # the complicated function in the middle collapses some lengths which are
+    # close together and allows us to instead sort by the name.  For example,
+    # on the Red line, Braintree has 710 trips, Ashmont has 709.  The
+    # division by two with a floor makes them both -354 and so equal.  We
+    # divide by -2 so that the ordering by count is large to small, but the
+    # name ordering is small to large.
     enum
     |> Enum.group_by(&(&1))
-    |> Enum.sort_by(fn {_, values} -> length(values) end, &>=/2)
+    |> Enum.sort_by(fn {value, values} -> {
+      values
+      |> length
+      |> (fn v -> Float.floor(v / -2) end).(), value}
+    end)
     |> Enum.map(&(elem(&1, 0)))
   end
 end

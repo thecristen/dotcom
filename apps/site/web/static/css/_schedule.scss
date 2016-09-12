@@ -249,3 +249,17 @@ body.no-js .system-map {
    padding-right: 1em;
  }
 }
+
+.direction-btn-group {
+  display: table;
+  width: 100%
+}
+
+.direction-btn {
+  width: 50%;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  display: table-cell;
+  float: none !important;
+}

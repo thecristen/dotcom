@@ -36,11 +36,10 @@ defmodule Site.ScheduleController.Pairs do
     # current direction ID matches the default, so nothing to do
     conn
   end
-  defp assign_direction_id(%{assigns: %{direction_id: other_direction_id}} = conn,
+  defp assign_direction_id(%{assigns: %{direction_id: _other_direction_id}} = conn,
     [{%{trip: %{direction_id: direction_id}}, _}|_]) do
     conn
     |> assign(:direction_id, direction_id)
-    |> assign(:reverse_direction_id, other_direction_id)
     |> Site.ScheduleController.AllStops.call([]) # need to re-fetch the stops as well
     |> Site.ScheduleController.DestinationStops.call([]) # need to re-fetch the stops as well
   end
@@ -49,10 +48,8 @@ defmodule Site.ScheduleController.Pairs do
     conn
     |> render("empty.html")
   end
-  defp render_pairs(conn, pairs) do
+  defp render_pairs(conn, [_ | _]) do
     conn
-    |> render("pairs.html",
-    to: pairs |> Enum.map(&(elem(&1, 1))) |> to,
-    )
+    |> render("pairs.html")
   end
 end

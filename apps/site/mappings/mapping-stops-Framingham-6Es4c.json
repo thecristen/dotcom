@@ -1,0 +1,19 @@
+{
+  "uuid" : "bde91dbe-cfe6-3500-ad6b-2b0927464d13",
+  "request" : {
+    "url" : "/stops/Framingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Framingham-6Es4c.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Mon, 12 Sep 2016 16:40:03 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "pv6s3l1bb80ofa6f7k8euc508keik1c2"
+    }
+  }
+}

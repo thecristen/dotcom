@@ -5,6 +5,7 @@ defmodule Site.ScheduleController do
 
   plug Site.Plugs.Route
   plug Site.Plugs.Alerts
+  plug ScheduleController.Headsigns
   plug ScheduleController.Defaults
   plug ScheduleController.AllRoutes
   plug ScheduleController.AllStops
