@@ -1,6 +1,12 @@
 defmodule Routes.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
+  @doc """
+
+  Returns a list of all the routes
+
+  """
+  @spec all() :: [Routes.Route.t]
   def all do
     cache [], fn _ ->
       V3Api.Routes.all
@@ -8,6 +14,12 @@ defmodule Routes.Repo do
     end
   end
 
+  @doc """
+
+  Returns a single route by ID
+
+  """
+  @spec get(String.t) :: Routes.Route.t | nil
   def get(id) do
     all
     |> Enum.find(fn
@@ -16,11 +28,16 @@ defmodule Routes.Repo do
     end)
   end
 
+  @doc """
+
+  Given a route_type (or list of route types), returns the list of routes matching that type.
+
+  """
+  @spec by_type([0..4] | 0..4) :: [Routes.Route.t]
   def by_type(types) when is_list(types) do
     types
     |> Enum.flat_map(&by_type/1)
   end
-
   def by_type(type) do
     all
     |> Enum.filter(fn
@@ -29,12 +46,28 @@ defmodule Routes.Repo do
     end)
   end
 
+  @doc """
+
+  Given a stop ID, returns the list of routes which stop there.
+
+  """
+  @spec by_stop(String.t) :: [Routes.Route.t]
   def by_stop(stop_id) do
     cache stop_id, fn stop_id ->
       stop_id
       |> V3Api.Routes.by_stop
       |> handle_response
     end
+  end
+
+  @doc """
+
+  Given a route_id, returns a map with the headsigns for trips in the given
+  directions (by direction_id).
+
+  """
+  @spec headsigns(String.t) :: %{0 => [String.t], 1 => [String.t]}
+  def headsigns(id) do
   end
 
   defp handle_response(%{data: data}) do
