@@ -252,14 +252,15 @@ body.no-js .system-map {
 
 .direction-btn-group {
   display: table;
-  width: 100%
+  width: 100%;
 }
 
-.direction-btn {
-  width: 50%;
+// needs .btn to be specific enough to have the float overridden -ps
+.btn.direction-btn {
+  display: table-cell;
+  float: none;
   text-align: left;
   vertical-align: top;
   white-space: normal;
-  display: table-cell;
-  float: none !important;
+  width: 50%;
 }
