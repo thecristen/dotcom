@@ -20,6 +20,7 @@ The new face of http://mbta.com/
   * If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github:
 
       git config --global url.https://github.com/.insteadOf git://github.com/
+1. Run `npm run brunch:build`
 
 ## Running the Server
 

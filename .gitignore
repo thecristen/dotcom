@@ -4,6 +4,8 @@
 erl_crash.dump
 *.ez
 /apps/site/.sass-cache/
+.DS_Store
+.ruby-version
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
