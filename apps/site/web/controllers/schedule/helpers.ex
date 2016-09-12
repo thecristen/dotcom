@@ -63,7 +63,6 @@ defmodule Site.ScheduleController.Helpers do
   def most_frequent_value(values) do
     values
     |> Enum.group_by(&(&1))
-    |> Enum.into([])
     |> Enum.max_by(fn {_, items} -> length(items) end)
     |> (fn {value, _} -> value end).()
   end

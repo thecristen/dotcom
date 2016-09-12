@@ -84,4 +84,39 @@ defmodule Routes.RepoTest do
       key_route?: false}
     = Routes.Repo.get("47")
   end
+
+  describe "headsigns/1" do
+    test "returns keys for both directions" do
+      headsigns = Routes.Repo.headsigns("1")
+
+      assert Map.keys(headsigns) == [0, 1]
+    end
+
+    test "returns basic headsign data" do
+      headsigns = Routes.Repo.headsigns("1")
+
+      assert headsigns == %{
+        0 => ["Harvard"],
+        1 => ["Dudley"]
+      }
+    end
+
+    test "returns multiple headsigns for a direction" do
+      headsigns = Routes.Repo.headsigns("66")
+
+      assert headsigns == %{
+        0 => ["Harvard via Allston", "Brighton Center via Brookline", "Union Square, Allston via Brookline"],
+        1 => ["Dudley via Allston"]
+      }
+    end
+
+    test "returns headsigns for rail routes" do
+      headsigns = Routes.Repo.headsigns("CR-Lowell")
+
+      assert headsigns == %{
+        0 => ["Lowell", "Anderson/ Woburn", "Haverhill"],
+        1 => ["North Station"]
+      }
+    end
+  end
 end

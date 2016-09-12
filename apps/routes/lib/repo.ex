@@ -68,6 +68,18 @@ defmodule Routes.Repo do
   """
   @spec headsigns(String.t) :: %{0 => [String.t], 1 => [String.t]}
   def headsigns(id) do
+    cache id, fn id ->
+      id
+      |> V3Api.Trips.by_route
+      |> (fn api -> api.data end).()
+      |> Enum.map(&direction_headsign_pair_from_trip/1)
+      |> Enum.group_by(&(elem(&1, 0)))
+      |> Map.new(fn {key, value_pairs} ->
+        {key, value_pairs
+          |> Enum.map(&(elem(&1, 1)))
+          |> order_by_frequency}
+      end)
+    end
   end
 
   defp handle_response(%{data: data}) do
@@ -109,4 +121,15 @@ defmodule Routes.Repo do
   defp key_route?("Key Bus Route (Frequent Service)"), do: true
   defp key_route?("Rapid Transit"), do: true
   defp key_route?(_), do: false
+
+  defp direction_headsign_pair_from_trip(%JsonApi.Item{attributes: attributes}) do
+    {attributes["direction_id"], attributes["headsign"]}
+  end
+
+  defp order_by_frequency(enum) do
+    enum
+    |> Enum.group_by(&(&1))
+    |> Enum.sort_by(fn {_, values} -> length(values) end, &>=/2)
+    |> Enum.map(&(elem(&1, 0)))
+  end
 end
