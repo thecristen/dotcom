@@ -2,11 +2,11 @@
   position: relative;
   margin: 5px;
   @include media-breakpoint-up(md) {
-    top: -5px;
+    top: -13px;
     left: -10px;
   }
   @include media-breakpoint-down(sm) {
-    top: -5px;
+    top: -13px;
     left: -5px;
   }
 }

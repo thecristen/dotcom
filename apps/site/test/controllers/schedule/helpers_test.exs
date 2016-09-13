@@ -37,12 +37,13 @@ defmodule Site.ScheduleController.HelpersTest do
     end
 
     test "translates the type number to a string" do
-      assert Helpers.route_type(1) == "Subway"
+      assert Helpers.route_type(0) == "Tram/Streetcar/Light Rail"
+      assert Helpers.route_type(1) == "Subway/Metro"
       assert Helpers.route_type(2) == "Rail"
       assert Helpers.route_type(3) == "Bus"
       assert Helpers.route_type(4) == "Ferry"
       assert Helpers.route_type(5) == "Cable Car"
-      assert Helpers.route_type(6) == "Gondola"
+      assert Helpers.route_type(6) == "Gondola/Suspended Cable Car"
       assert Helpers.route_type(7) == "Funicular"
     end
   end
