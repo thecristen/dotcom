@@ -133,13 +133,26 @@
 }
 
 a {
+  &.schedule-list-group-item {
+    @include hover-focus-active {
+      background-color: $brand-primary-lightest;
+      border-color: $brand-primary-lightest;
+    }
+  }
+
   &.selected-period-header {
     background-color: $brand-primary-dark;
     border-color: $brand-primary-dark;
     color: $white;
 
-    @include plain-hover-focus {
+    @include hover-focus-active {
+      background-color: $brand-primary-light;
+      border-color: $brand-primary-light;
       color: $white;
+
+      + .schedule-list-group-item {
+        border: 4px solid $brand-primary-light;
+      }
     }
 
     .schedule-time {
@@ -147,22 +160,12 @@ a {
     }
   }
 
-  &.schedule-list-group-item {
-    @include hover-focus-active {
-      background-color: $brand-primary-lightest;
-    }
-  }
-
   &.selected-period {
     color: $white;
 
-    @include hover {
+    @include hover-focus-active {
       background-color: $brand-primary-light;
       border: 4px solid $brand-primary-light;
-
-      + .list-group-item {
-        border: 4px solid $brand-primary-light;
-      }
     }
 
     &:focus,

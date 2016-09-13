@@ -9,8 +9,6 @@
     <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, @route.id, direction_id)), class: "btn btn-sm #{button_class} direction-btn" do %>
       <%= if direction_id == @direction_id do %>
         <%= fa "check-circle" %><span class="sr-only">Current direction: </span>
-      <% else %>
-        <%= fa "circle-thin" %>
       <% end %>
       <%= direction(direction_id, @route.id) %><%= if @headsigns[direction_id] != [] do %> to:<br>
       <strong>
