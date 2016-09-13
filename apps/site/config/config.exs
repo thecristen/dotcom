@@ -30,8 +30,6 @@ config :site, GoogleMaps,
   client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
   signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
 
-config :ehmon, :report_mf, {:ehmon, :info_report}
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

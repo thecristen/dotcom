@@ -77,3 +77,5 @@ config :site, Site.ViewHelpers,
 config :site, GoogleMaps,
   client_id: "${GOOGLE_MAPS_CLIENT_ID}",
   signing_key: "${GOOGLE_MAPS_SIGNING_KEY}"
+
+config :ehmon, :report_mf, {:ehmon, :info_report}

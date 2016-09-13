@@ -20,11 +20,17 @@ defmodule Site.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
+    apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
+            :stations, :routes, :alerts, :news, :schedules, :timex,
+            :inflex, :html_sanitize_ex, :logger_logentries_backend,
+            :logster]
     [mod: {Site, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :stations, :routes, :alerts, :news, :schedules, :timex,
-                    :inflex, :html_sanitize_ex, :ehmon, :logger_logentries_backend,
-                    :logster]]
+     applications: if Mix.env == :prod do
+       [:ehmon | apps]
+     else
+       apps
+     end
+    ]
   end
 
   # Specifies which paths to compile per environment.
@@ -47,7 +53,7 @@ defmodule Site.Mixfile do
      {:alerts, in_umbrella: true},
      {:news, in_umbrella: true},
      {:schedules, in_umbrella: true},
-     {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4"},
+     {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
      {:exrm, ">= 0.0.0"},
      {:inflex, "~> 1.7.0"},
      {:html_sanitize_ex, "~> 1.0.0"},
