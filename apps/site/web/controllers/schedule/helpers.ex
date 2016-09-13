@@ -96,18 +96,4 @@ defmodule Site.ScheduleController.Helpers do
     conn
     |> assign(:breadcrumbs, [{mode_path(conn, :index), "Schedules & Maps"}, route_type_display, name])
   end
-
-  @doc "Translates the route type number into a human readable string."
-  def route_type(type_number) do
-    cond do
-      type_number == 0 -> "Tram/Streetcar/Light Rail"
-      type_number == 1 -> "Subway/Metro"
-      type_number == 2 -> "Rail"
-      type_number == 3 -> "Bus"
-      type_number == 4 -> "Ferry"
-      type_number == 5 -> "Cable Car"
-      type_number == 6 -> "Gondola/Suspended Cable Car"
-      type_number == 7 -> "Funicular"
-    end
-  end
 end

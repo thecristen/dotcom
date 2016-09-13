@@ -91,4 +91,8 @@ defmodule Site.ScheduleView do
       end
     )
   end
+
+  @doc "Prefix route name with route for bus lines"
+  def route_prefix(3), do: "Route "
+  def route_prefix(_), do: ""
 end
