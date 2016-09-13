@@ -1,41 +1,44 @@
 .fare-list {
+  border: 1px solid $gray-lightest;
   list-style: none;
   padding: 0;
-  border: 1px solid $gray-lightest;
 
   li:first-child {
     background-color: $brand-primary-darkest;
-    color: white;
-    border-bottom: none;
+    border-bottom: 0;
     border-left: 1px solid $brand-primary-darkest;
     border-right: 1px solid $brand-primary-darkest;
+    color: $white;
   }
 
   li {
-    padding: 6px;
+    border-bottom: 1px solid $gray-lightest;
     border-left: 1px solid $gray-lightest;
     border-right: 1px solid $gray-lightest;
-    border-bottom: 1px solid $gray-lightest;
+    padding: 6px;
   }
 }
 
 .system-map {
-  width: 100%;
   max-height: 240px;
   object-fit: cover;
   object-position: 50% 30%;
+  width: 100%;
+
   @include media-breakpoint-up(sm) {
-    transition: max-height 1s ease, object-position 1s ease;
-    -webkit-transition: max-height 1s ease, object-position 1s ease;
     cursor: pointer;
+    transition: max-height 1s ease, object-position 1s ease;
+
     &.expanded {
       max-height: map-get($container-max-widths, md);
       object-position: initial;
+
       &.commuter-rail {
         max-height: map-get($container-max-widths, md) + 30px;
       }
     }
   }
+
   // Leave the map fully expanded on mobile
   @include media-breakpoint-down(sm) {
     height: 100%;
@@ -43,29 +46,34 @@
   }
 }
 
-body.no-js .system-map {
-  max-height: map-get($container-max-widths, md);
-  object-position: initial;
+body {
+  &.no-js .system-map {
+    max-height: map-get($container-max-widths, md);
+    object-position: initial;
+  }
 }
 
 .card-header.hub-header {
- @include media-breakpoint-down(sm) {
-   padding-left: .25em;
-   padding-right: .25em;
+  @include media-breakpoint-down(sm) {
+    padding-left: .25em;
+    padding-right: .25em;
 
-   .route-icon {
-     margin-top: 0;
-   }
-   .route-icon + strong {
-     display: inline-block;
-     margin-top: .25em;
-   }
-   .route-icon-commuter-rail + strong {
-     display: inline;
-   }
- }
- @include media-breakpoint-up(md) {
-   padding-left: 1em;
-   padding-right: 1em;
- }
+    .route-icon {
+      margin-top: 0;
+    }
+
+    .route-icon + strong {
+      display: inline-block;
+      margin-top: .25em;
+    }
+
+    .route-icon-commuter-rail + strong {
+      display: inline;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 }

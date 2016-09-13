@@ -4,24 +4,45 @@
 @import "helpers";
 @import "route-icon";
 @import "mode-group";
-@import "card";
+@import 'card';
 
-@import "index";
-@import "alerts";
-@import "schedule";
-@import "mode-hub";
-@import "date-toggle";
-@import "stations";
-@import "modal";
-@import "errors";
+@import 'index';
+@import 'alerts';
+@import 'schedule';
+@import 'mode-hub';
+@import 'date-toggle';
+@import 'stations';
+@import 'modal';
+@import 'errors';
 
 body {
   background-color: $homepage-bg-color;
+
+  &.no-js {
+    .collapse {
+      // don't hide collapsed elements if we can't re-open them
+      display: block;
+    };
+
+    .hidden-no-js {
+      display: none;
+    }
+  }
+
+  &.js {
+    .hidden-js {
+      display: none;
+    }
+
+    .sr-or-no-js {
+      @include sr-only();
+    }
+  }
 }
 
 @include media-breakpoint-up(md) {
   // we only need the BG image if the screen is big enough
-  body.not-found {
+  .not-found {
     background-image: url(/images/mbta-train-bkg-404.jpg);
   }
   body {
@@ -33,7 +54,7 @@ body {
 }
 
 .header {
-  background-color: white;
+  background-color: $white;
 }
 
 .navbar-logo {
@@ -45,11 +66,6 @@ body {
 .navbar-brand, .nav-link {
   color: $gray-dark;
 }
-
-body.no-js .collapse {
-  // don't hide collapsed elements if we can't re-open them
-  display: block;
-};
 
 .footer {
   @include media-breakpoint-up(md) {
@@ -75,10 +91,10 @@ body.no-js .collapse {
   list-style: none;
 
   &:before {
-    content: " | ";
+    content: ' | ';
   }
   &:first-child:before {
-    content: "";
+    content: '';
   }
 }
 
