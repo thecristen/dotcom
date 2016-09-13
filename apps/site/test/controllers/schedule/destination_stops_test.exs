@@ -12,12 +12,12 @@ defmodule Site.ScheduleController.DestinationStopsTest do
     |> Enum.reduce(conn, fn {key, value}, conn -> assign(conn, key, value) end)
   end
 
-  test "destination stops are not assigned if no origin is present", %{conn: conn} do
+  test "destination stops are assigned from @from if no origin is present", %{conn: conn} do
     conn = conn
-    |> conn_with_route("Red", origin: nil)
+    |> conn_with_route("7", origin: nil, from: %{id: "place-sstat"})
     |> DestinationStops.call([])
 
-    refute :destination_stops in Map.keys(conn.assigns)
+    assert :destination_stops in Map.keys(conn.assigns)
   end
 
   test "destination_stops and all_stops are the same on non-red lines", %{conn: conn} do

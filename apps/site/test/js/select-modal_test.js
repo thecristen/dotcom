@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { dataFromSelect,
+import { convertSelects,
+         dataFromSelect,
          optionsFromSelect,
          $newModal,
          renderModal,
@@ -20,15 +21,51 @@ describe('selectModal', () => {
     $ = jsdom.rerequire('jquery');
   });
 
+  describe('convertSelects', () => {
+    beforeEach(() => {
+      $('body').append('<div id=test />');
+      $('#test').html(`
+<form>
+  <select data-select-modal name=sel>
+    <option value="">Make a selection</option>
+    <option value=1 selected>Selected</option>
+    <option value=0 disabled>Disabled</option>
+    <option value="reg">Regular</option>
+  </select>
+  <button type=submit>Submit</button
+</form>
+`);
+    });
+
+    afterEach(() => {
+      $("#test").remove();
+    });
+
+    it('creates a span with the selected text', () => {
+      convertSelects($);
+      assert.equal($("#test .select-modal-text").text(), "Selected");
+    });
+
+    it('creates a button with the text from the submit button', () => {
+      convertSelects($);
+      assert.equal($("#test button[data-select-modal=sel]").text(), "(submit)");
+    });
+
+    it('hides the select itself', () => {
+      convertSelects($);
+      assert.equal($("#test select").css("display"), "none");
+    });
+  });;
+
   describe('dataFromSelect', () => {
     beforeEach(() => {
       $('body').append('<div id=test />');
       $('#test').html(`
 <select>
-<option value="">Make a selection</option>
-<option value=1 selected>Selected</option>
-<option value=0 disabled>Disabled</option>
-<option value="reg">Regular</option>
+  <option value="">Make a selection</option>
+  <option value=1 selected>Selected</option>
+  <option value=0 disabled>Disabled</option>
+  <option value="reg">Regular</option>
 </select>
 `);
     });

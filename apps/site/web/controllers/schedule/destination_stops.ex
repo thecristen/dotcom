@@ -24,9 +24,6 @@ defmodule Site.ScheduleController.DestinationStops do
 
   def init([]), do: []
 
-  def call(%{assigns: %{origin: nil}} = conn, _) do
-    conn
-  end
   def call(%{assigns: %{
                 route: %{id: "Red"},
                 all_stops: all_stops,
