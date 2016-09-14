@@ -242,6 +242,7 @@ a {
 
 .direction-btn-group {
   display: table;
+  margin-bottom: .5rem;
   width: 100%;
 }
 
@@ -253,4 +254,15 @@ a {
   vertical-align: top;
   white-space: normal;
   width: 50%;
+}
+
+.direction-btn-selected-icon {
+  @include pull-left();
+  display: block;
+  padding-right: .333rem;
+}
+
+.direction-btn-label {
+  @include pull-left();
+  display: block;
 }
