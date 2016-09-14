@@ -21,7 +21,9 @@ defmodule Site.ScheduleViewTest do
   end
 
   test "translates the type number to a string" do
-    assert ScheduleView.route_prefix(0) == ""
-    assert ScheduleView.route_prefix(3) == "Route "
+    assert ScheduleView.header_text(0, "test route") == "test route"
+    assert ScheduleView.header_text(3, "2") == "Route 2"
+    assert ScheduleView.header_text(1, "Red Line") == "Red Line"
+    assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
   end
 end

@@ -1,3 +1,3 @@
 <%= render "_mode_image.html", forward_assigns(@conn) %>
 <%= hidden_query_params @conn, exclude: ["route", "origin", "dest", "hour", "trip", "name"] %>
-<%= route_prefix(@route."type") %><%= clean_route_name(@route."name") %>
+<%= header_text(@route."type", @route."name") %>
