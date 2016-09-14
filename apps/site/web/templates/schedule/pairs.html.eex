@@ -1,7 +1,7 @@
 <div class="schedule-list-group-item schedule-list-group-header">
-  <span class="schedule-col-4">Departure</span>
-  <span class="schedule-col-4">Arrival</span>
-  <span class="schedule-col-4">
+  <span class="schedule-col-departure">Departure</span>
+  <span class="schedule-col-arrival">Arrival</span>
+  <span class="schedule-col-pair-notes">
     <%= if @route.type == 2 do %>Train<% else %>Notes<% end %>
   </span>
 </div>
@@ -15,13 +15,13 @@
     <% else %>
           <%= update_url @conn, trip: origin.trip.id %>#<%= origin.trip.id %>"
     <% end %>">
-    <span class="schedule-col-4"><span class="sr-only">Departure: </span><%= origin.time |> Timex.format!("{kitchen}") %></span>
-    <span class="schedule-col-4"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
-    <span class="schedule-col-3">
+    <span class="schedule-col-departure"><span class="sr-only">Departure: </span><%= origin.time |> Timex.format!("{kitchen}") %></span>
+    <span class="schedule-col-arrival"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
+    <span class="schedule-col-pair-notes">
       <%= if origin.trip.name != "" do %>
         <span class="sr-only"><%= if @route.type == 2 do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
       <% end %>
-      <%= if origin.route.id != @route.id do %>(via <%= origin.route.name %>)<% end %>
+      <%= if origin.route.id != @route.id do %>(via <%= origin.route.name |> clean_route_name g%>)<% end %>
       <%= if trip_alerts != [] do %>
         <%= fa "exclamation-triangle" %>
         <span class="sr-only">Has an alert</span>

@@ -8,11 +8,11 @@
     <% else %>
           <%= update_url @conn, hour: hour %>#hour-<%= hour %>
     <% end %>">
-    <span class="schedule-col-4 schedule-time">
+    <span class="schedule-col-departure schedule-time">
       <span class="sr-only">Departure times during the hour of</span>
       <%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %>
     </span>
-    <span class="schedule-col-7">
+    <span class="schedule-col-group">
       <%= render "_schedule_group.html", schedules: schedules %>
       <%= if trip_alerts != [] do %>
         <%= fa "exclamation-triangle" %>

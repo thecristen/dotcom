@@ -89,12 +89,7 @@
   font-weight: bold;
 }
 
-.schedule-col-1,
-.schedule-col-3,
-.schedule-col-4,
-.schedule-col-5,
-.schedule-col-6,
-.schedule-col-7 {
+%schedule-col {
   float: left;
   padding-left: $grid-gutter-width / 2;
   padding-right: $grid-gutter-width / 2;
@@ -105,27 +100,66 @@
 }
 
 .schedule-col-1 {
+  @extend %schedule-col;
   width: 100% * (1 / 12);
 }
 
-.schedule-col-3 {
-  width: 100% * (3 / 12);
-}
-
-.schedule-col-4 {
+.schedule-col-departure,
+.schedule-col-arrival {
+  @extend %schedule-col;
   width: 100% * (4 / 12);
+
+  @include media-breakpoint-up(sm) {
+    width: 100% * (3 / 12);
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (2 / 12);
+  }
 }
 
-.schedule-col-5 {
-  width: 100% * (5 / 12);
-}
-
-.schedule-col-6 {
+.schedule-col-departure-subway {
+  @extend %schedule-col;
   width: 100% * (6 / 12);
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (3 / 12);
+  }
 }
 
-.schedule-col-7 {
+.schedule-col-pair-notes {
+  @extend %schedule-col;
+  width: 100% * (3 / 12);
+
+  @include media-breakpoint-up(sm) {
+    width: 100% * (5 / 12);
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (7 / 12);
+  }
+}
+
+.schedule-col-group {
+  @extend %schedule-col;
   width: 100% * (7 / 12);
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (8 / 12);
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (9 / 12);
+  }
+}
+
+.schedule-col-group-subway {
+  @extend %schedule-col;
+  width: 100% * (5 / 12);
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (7 / 12);
+  }
 }
 
 .schedule-time {
@@ -226,10 +260,12 @@ a {
    .route-icon {
      margin-top: 0;
    }
+
    .route-icon + strong {
      display: inline-block;
      margin-top: .25em;
    }
+
    .route-icon-commuter-rail + strong {
      display: inline;
    }

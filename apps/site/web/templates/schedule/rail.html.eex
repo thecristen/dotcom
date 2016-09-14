@@ -1,6 +1,6 @@
 <div class="schedule-list-group-item schedule-list-group-header">
-  <span class="schedule-col-4">Departure</span>
-  <span class="schedule-col-7">Train No.</span>
+  <span class="schedule-col-departure">Departure</span>
+  <span class="schedule-col-group">Train No.</span>
 </div>
 <% most_frequent_headsign = most_frequent_headsign(@schedules) %>
 <%= for schedule <- @schedules do %>
@@ -13,8 +13,8 @@
     <% else %>
           <%= update_url @conn, trip: schedule.trip.id %>#<%= schedule.trip.id %>"
     <% end %>">
-    <span class="schedule-time schedule-col-4"><span class="sr-only">Departure: </span><%= schedule.time |> Timex.format!("{kitchen}") %></span>
-    <span class="schedule-col-7">
+    <span class="schedule-time schedule-col-departure"><span class="sr-only">Departure: </span><%= schedule.time |> Timex.format!("{kitchen}") %></span>
+    <span class="schedule-col-group">
       <%= if schedule.trip.name != "" do %><span class="sr-only">Train Number</span><span aria-hidden="true">No.</span><%= schedule.trip.name %><% end %>
       <%= if schedule.stop.name != @from.name do %>
         (from <%= schedule.stop.name %>)
