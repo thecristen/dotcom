@@ -1,9 +1,11 @@
-<%= render "_date.html", date: @date, conn: @conn %>
 <div class="p-b-1 p-x-0">
   <div class="col-xs-12 col-md-5 p-x-0">
-    <%= if @conn.assigns[:route] != nil do %>
-      <%= render "_route.html", forward_assigns(@conn) %>
-    <% end %>
+    <h4>
+      <%= if @conn.assigns[:route] != nil do %>
+        <%= render "_route.html", forward_assigns(@conn) %>
+      <% end %>
+    </h4>
+    <%= render "_date.html", date: @date, conn: @conn %>
   </div>
   <div class="col-xs-12 col-md-7 p-x-0 schedule-direction">
     <%= render "_direction.html", forward_assigns(@conn) %>

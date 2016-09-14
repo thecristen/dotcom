@@ -2,12 +2,12 @@
   position: relative;
   margin: 5px;
   @include media-breakpoint-up(md) {
+    top: -5px;
     left: -10px;
-    top: -13px;
   }
   @include media-breakpoint-down(sm) {
+    top: -5px;
     left: -5px;
-    top: -13px;
   }
 }
 
@@ -263,4 +263,10 @@ body.no-js .system-map {
   vertical-align: top;
   white-space: normal;
   width: 50%;
+}
+
+.schedule-change-date {
+  line-height: 12px;
+  padding-left: 47px;
+  margin-top: -15px;
 }
