@@ -95,13 +95,14 @@ defmodule Site.ScheduleView do
     )
   end
 
-  def reverse_direction_id(0), do: 1
-  def reverse_direction_id(1), do: 0
-  def reverse_direction_id(_), do: 1 # Unknown, so pick a default
-
   def most_frequent_headsign(schedules) do
     schedules
     |> Enum.map(&(&1.trip.headsign))
     |> Util.most_frequent_value
   end
+
+  @doc "Prefix route name with route for bus lines"
+  def header_text(3, name), do: "Route #{name}"
+  def header_text(2, name), do: Site.ViewHelpers.clean_route_name(name)
+  def header_text(_, name), do: "#{name}"
 end

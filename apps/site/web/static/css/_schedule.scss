@@ -5,13 +5,13 @@
   margin: 5px;
 
   @include media-breakpoint-up(md) {
-    top: -5px;
     left: -10px;
+    top: -5px;
   }
 
   @include media-breakpoint-down(sm) {
-    top: -5px;
     left: -5px;
+    top: -5px;
   }
 }
 
@@ -301,4 +301,10 @@ a {
 .direction-btn-label {
   @include pull-left();
   display: block;
+}
+
+.schedule-change-date {
+  line-height: 12px;
+  margin-top: -15px;
+  padding-left: 47px;
 }

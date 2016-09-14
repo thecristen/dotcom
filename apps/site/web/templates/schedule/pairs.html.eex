@@ -21,7 +21,7 @@
       <%= if origin.trip.name != "" do %>
         <span class="sr-only"><%= if @route.type == 2 do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
       <% end %>
-      <%= if origin.route.id != @route.id do %>(via <%= origin.route.name |> clean_route_name g%>)<% end %>
+      <%= if origin.route.id != @route.id do %>(via <%= origin.route.name |> clean_route_name %>)<% end %>
       <%= if trip_alerts != [] do %>
         <%= fa "exclamation-triangle" %>
         <span class="sr-only">Has an alert</span>

@@ -19,4 +19,11 @@ defmodule Site.ScheduleViewTest do
     actual = ScheduleView.reverse_direction_opts("111", "2905", "16", "1")
     assert Keyword.equal?(expected, actual)
   end
+
+  test "translates the type number to a string" do
+    assert ScheduleView.header_text(0, "test route") == "test route"
+    assert ScheduleView.header_text(3, "2") == "Route 2"
+    assert ScheduleView.header_text(1, "Red Line") == "Red Line"
+    assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
+  end
 end
