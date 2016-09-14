@@ -1,57 +1,38 @@
-<div class="card card-section">
-  <div class="card-header schedule-header">
-    <%= render "_locations.html", forward_assigns(@conn) %>
-    <%= Site.AlertView.modal @conn %>
-    <%= render "_filters.html", forward_assigns(@conn) %>
-  </div>
-  <div class="card-block">
-    <div class="row">
-      <div class="col-xs-12 schedule-block">
-        <table class="table schedule-pairs">
-          <thead class="schedule-pairs-header">
-            <tr>
-              <th>Departure</th>
-              <th>Arrival</th>
-              <th><%= if @route.type == 2 do %>Train<% else %>Notes<% end %></th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= for {origin, dest} <- @schedules do %>
-              <% trip_alerts = trip_alerts_for(@alerts, [origin, dest]) %>
-              <tr>
-                <td>
-                  <%= origin.time |> Timex.format!("{kitchen}") %>
-                </td>
-                <td>
-                  <%= dest.time |> Timex.format!("{kitchen}") %>
-                </td>
-                <td>
-                  <%= origin.trip.name %>
-                  <%= if origin.route.id != @route.id do %>(via <%= origin.route.name %>)<% end %>
-                  <%= if trip_alerts != [] do %>
-                    <span data-toggle="modal" data-target="#alertsModal" style="cursor: pointer;">
-                      <%= fa "exclamation-triangle" %>
-                      <span class="sr-only">Has an alert</span>
-                    </span>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <%= if not @show_all do %>
-    <div class="card-block p-t-0">
-      <div class="row">
-        <div class="col-xs-12 schedule-block">
-          <a class="btn btn-primary-outline btn-block text-xs-center"
-             href="<%= update_url @conn, all: "all" %>">
-            Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
-          </a>
-        </div>
-      </div>
+<div class="schedule-list-group-item schedule-list-group-header">
+  <span class="schedule-col-departure">Departure</span>
+  <span class="schedule-col-arrival">Arrival</span>
+  <span class="schedule-col-pair-notes">
+    <%= if @route.type == 2 do %>Train<% else %>Notes<% end %>
+  </span>
+</div>
+<%= for {origin, destination} <- @schedules do %>
+  <% is_selected_period = origin.trip.id == @trip %>
+  <% trip_alerts = trip_alerts_for @alerts, [origin, destination] %>
+  <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
+    id="<%= origin.trip.id %>"
+    href="<%= if is_selected_period do %>
+          <%= update_url @conn, trip: "" %>
+    <% else %>
+          <%= update_url @conn, trip: origin.trip.id %>#<%= origin.trip.id %>"
+    <% end %>">
+    <span class="schedule-col-departure"><span class="sr-only">Departure: </span><%= origin.time |> Timex.format!("{kitchen}") %></span>
+    <span class="schedule-col-arrival"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
+    <span class="schedule-col-pair-notes">
+      <%= if origin.trip.name != "" do %>
+        <span class="sr-only"><%= if @route.type == 2 do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
+      <% end %>
+      <%= if origin.route.id != @route.id do %>(via <%= origin.route.name |> clean_route_name %>)<% end %>
+      <%= if trip_alerts != [] do %>
+        <%= fa "exclamation-triangle" %>
+        <span class="sr-only">Has an alert</span>
+      <% end %>
+    </span>
+    <span class="schedule-col-1 pull-right"><%= fa "caret-down pull-right" %></span>
+  </a>
+  <%= if is_selected_period do %>
+    <div class="schedule-list-group-item selected-period">
+      <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: origin.time %>
+      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from %>
     </div>
   <% end %>
-</div>
+<% end %>

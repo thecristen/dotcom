@@ -56,6 +56,15 @@ defmodule Alerts.TripTest do
     assert [alert] == Trip.match([alert], [@trip_id])
   end
 
+  test "does not count delays on a different trip even on the same route" do
+    alert = %Alert{
+      effect_name: "Delay",
+      informed_entity: [%IE{route: @route_id, trip: "different trip"}]}
+
+    assert [] == Trip.match([alert], @trip_id, route: @route_id)
+    assert [] == Trip.match([alert], [@trip_id], route: @route_id)
+  end
+
   test "includes delays that are active at :time" do
     now = Timex.now
     alert = %Alert{informed_entity: [%IE{trip: @trip_id}],

@@ -12,7 +12,7 @@ defmodule Site.ScheduleController.PairsTest do
     response = html_response(conn, 200)
     assert response =~ "Departure"
     assert response =~ "Arrival"
-    assert HtmlSanitizeEx.strip_tags(response) =~ ~R(Inbound to:\s+North Station)
+    assert HtmlSanitizeEx.strip_tags(response) =~ ~R(Inbound\s+to:\s+North Station)
   end
 
   test "links to origin and destination station pages", %{conn: conn} do

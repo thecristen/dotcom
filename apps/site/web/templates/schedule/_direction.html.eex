@@ -8,12 +8,18 @@
     %>
     <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, @route.id, direction_id)), class: "btn btn-sm #{button_class} direction-btn" do %>
       <%= if direction_id == @direction_id do %>
-        <%= fa "check" %><span class="sr-only">Current direction: </span>
+        <span class="direction-btn-selected-icon">
+          <%= fa "check-circle" %>
+          <span class="sr-only">Current direction: </span>
+        </span>
       <% end %>
-      <%= direction(direction_id, @route.id) %> to:<br>
-      <strong>
-        <%= @headsigns[direction_id] |> Enum.join(", ") |> clean_route_name %>
-      </strong>
+      <span class="direction-btn-label">
+        <%= direction(direction_id, @route.id) %><%= if @headsigns[direction_id] != [] do %> to:<br>
+        <strong>
+          <%= @headsigns[direction_id] |> Enum.map(&clean_route_name/1) |> Enum.join(" • ") %>
+        </strong>
+      </span>
+      <% end %>
     <% end %>
   <% end %>
 </div>

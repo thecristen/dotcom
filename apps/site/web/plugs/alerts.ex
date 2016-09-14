@@ -72,13 +72,20 @@ defmodule Site.Plugs.Alerts do
   defp alerts_from_params(params) do
     base_entity = %Alerts.InformedEntity{
       route: params["route"],
-      trip: params["trip"],
       direction_id: direction_id(params["direction_id"])
     }
 
     entities = [params["origin"], params["dest"]]
     |> Enum.uniq
     |> Enum.map(fn stop -> %{base_entity | stop: stop} end)
+
+    entities = [nil, params["trip"]]
+    |> Enum.uniq
+    |> Enum.flat_map(fn trip ->
+      Enum.map(entities, fn entity ->
+        %{entity | trip: trip}
+      end)
+    end)
 
     Alerts.Repo.all
     |> Alerts.Match.match(entities)

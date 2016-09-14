@@ -1,10 +1,14 @@
+@import 'variables';
+
 .schedule-route-icon {
   position: relative;
   margin: 5px;
+
   @include media-breakpoint-up(md) {
     left: -10px;
     top: -5px;
   }
+
   @include media-breakpoint-down(sm) {
     left: -5px;
     top: -5px;
@@ -15,19 +19,6 @@
   // leave room for the route icon
   max-width: 80%;
   float: left;
-}
-
-.schedules-link {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 0;
-  border-top: 1px solid $gray-lighter;
-  border-bottom: 1px solid $gray-lighter;
-  text-align: left;
-
-  i {
-    line-height: 24px;
-  }
 }
 
 .card-header.schedule-header {
@@ -60,136 +51,169 @@
 
 .schedule-callout {
   background-color: $gray-lightest;
-  padding: .5em;
   border-radius: 0;
   font-size: $font-size-sm;
+  padding: .5em;
 }
 
 .card-block .schedule-block {
   @include media-breakpoint-up(md) {
-    padding-left: .5em;
-    padding-right: .5em;
+    // TOOD clean this up? but it matches the existing behavior -ps
+    padding-left: .5rem - $grid-gutter-width / 2;
+    padding-right: .5rem - $grid-gutter-width / 2;
   }
-}
-
-.fare-list {
-  list-style: none;
-  padding: 0;
-  border: 1px solid $gray-lightest;
-
-  li:first-child {
-    background-color: $brand-primary-darkest;
-    color: white;
-    border-bottom: none;
-    border-left: 1px solid $brand-primary-darkest;
-    border-right: 1px solid $brand-primary-darkest;
-  }
-
-  li {
-    padding: 6px;
-    border-left: 1px solid $gray-lightest;
-    border-right: 1px solid $gray-lightest;
-    border-bottom: 1px solid $gray-lightest;
-  }
-}
-
-.system-map {
-  width: 100%;
-  max-height: 240px;
-  object-fit: cover;
-  object-position: 50% 30%;
-  @include media-breakpoint-up(sm) {
-    transition: max-height 1s ease, object-position 1s ease;
-    -webkit-transition: max-height 1s ease, object-position 1s ease;
-    cursor: pointer;
-    &.expanded {
-      max-height: map-get($container-max-widths, md);
-      object-position: initial;
-      &.commuter-rail {
-        max-height: map-get($container-max-widths, md) + 30px;
-      }
-    }
-  }
-  // Leave the map fully expanded on mobile
-  @include media-breakpoint-down(sm) {
-    height: 100%;
-    max-height: 100%;
-  }
-}
-
-body.no-js .system-map {
-  max-height: map-get($container-max-widths, md);
-  object-position: initial;
 }
 
 .schedule-list-group {
-  .list-group-item {
-    padding: .5em;
+  //scss-lint:disable PlaceholderInExtend
+  @extend .list-group;
+}
 
-    .schedule-time {
-      color: $link-color;
-    }
-  }
-  .list-group-item:first-child {
+.schedule-list-group-item {
+  //scss-lint:disable PlaceholderInExtend
+  @extend .list-group-item;
+  @include clearfix;
+  display: block;
+  // left/right padding is reduced to account for the column padding
+  padding: .5rem (.5rem - $grid-gutter-width / 2);
+
+  &:first-child {
     border-radius: 0;
-  }
-  .list-group-item:last-child {
-    border-radius: 0;
-    background-color: $gray-lightest;
-  }
-
-  a.list-group-item {
-    &:hover, &:focus, &:active {
-      background-color: $brand-primary-lightest;
-    }
-
-    &.selected-period {
-      .schedule-title, .schedule-time {
-        color: white;
-      }
-      &:focus, &:active {
-        background-color: $brand-primary-dark;
-        border: 4px solid $brand-primary-dark;
-        outline: none;
-      }
-      &:hover {
-        background-color: $brand-primary-light;
-        border: 4px solid $brand-primary-light;
-        & + .list-group-item {
-          border: 4px solid $brand-primary-light;
-        }
-      }
-    }
   }
 }
 
-.selected-header {
-  background-color: $brand-primary-dark;
+.schedule-list-group-header {
+  background-color: $brand-primary-darkest;
+  border-color: $brand-primary-darkest;
+  color: $white;
+  font-weight: bold;
+}
+
+%schedule-col {
+  float: left;
+  padding-left: $grid-gutter-width / 2;
+  padding-right: $grid-gutter-width / 2;
+
+  &.pull-right {
+    float: right;
+  }
+}
+
+.schedule-col-1 {
+  @extend %schedule-col;
+  width: 100% * (1 / 12);
+}
+
+.schedule-col-departure,
+.schedule-col-arrival {
+  @extend %schedule-col;
+  width: 100% * (4 / 12);
+
+  @include media-breakpoint-up(sm) {
+    width: 100% * (3 / 12);
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (2 / 12);
+  }
+}
+
+.schedule-col-departure-subway {
+  @extend %schedule-col;
+  width: 100% * (6 / 12);
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (3 / 12);
+  }
+}
+
+.schedule-col-pair-notes {
+  @extend %schedule-col;
+  width: 100% * (3 / 12);
+
+  @include media-breakpoint-up(sm) {
+    width: 100% * (5 / 12);
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (7 / 12);
+  }
+}
+
+.schedule-col-group {
+  @extend %schedule-col;
+  width: 100% * (7 / 12);
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (8 / 12);
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (9 / 12);
+  }
+}
+
+.schedule-col-group-subway {
+  @extend %schedule-col;
+  width: 100% * (5 / 12);
+
+  @include media-breakpoint-up(md) {
+    width: 100% * (7 / 12);
+  }
+}
+
+.schedule-time {
+  color: $link-color;
+}
+
+a {
+  &.schedule-list-group-item {
+    @include hover-focus-active {
+      background-color: $brand-primary-lightest;
+      border-color: $brand-primary-lightest;
+    }
+  }
+
+  &.selected-period-header {
+    background-color: $brand-primary-dark;
+    border-color: $brand-primary-dark;
+    color: $white;
+
+    @include hover-focus-active {
+      background-color: $brand-primary-light;
+      border-color: $brand-primary-light;
+      color: $white;
+
+      + .schedule-list-group-item {
+        border: 4px solid $brand-primary-light;
+      }
+    }
+
+    .schedule-time {
+      color: $white;
+    }
+  }
+
+  &.selected-period {
+    color: $white;
+
+    @include hover-focus-active {
+      background-color: $brand-primary-light;
+      border: 4px solid $brand-primary-light;
+    }
+
+    &:focus,
+    &:active {
+      background-color: $brand-primary-dark;
+      border: 4px solid $brand-primary-dark;
+      outline: none;
+    }
+  }
 }
 
 .selected-period {
   border: 4px solid $brand-primary-dark;
-}
-
-.table.schedule-pairs {
-  border-left: 1px solid $gray-lighter;
-  border-right: 1px solid $gray-lighter;
-  th {
-    border-bottom: none;
-  }
-
-  tr:last-child td {
-    border-bottom: 1px solid $gray-lighter;
-  }
-}
-
-.schedule-pairs-header {
-  color: white;
-  background-color: $brand-primary-darkest;
-  border: 1px solid $brand-primary-darkest;
-  th {
-    border-top: none;
-  }
+  padding: .5rem;
 }
 
 .trip-list {
@@ -236,10 +260,12 @@ body.no-js .system-map {
    .route-icon {
      margin-top: 0;
    }
+
    .route-icon + strong {
      display: inline-block;
      margin-top: .25em;
    }
+
    .route-icon-commuter-rail + strong {
      display: inline;
    }
@@ -252,6 +278,7 @@ body.no-js .system-map {
 
 .direction-btn-group {
   display: table;
+  margin-bottom: .5rem;
   width: 100%;
 }
 
@@ -263,6 +290,17 @@ body.no-js .system-map {
   vertical-align: top;
   white-space: normal;
   width: 50%;
+}
+
+.direction-btn-selected-icon {
+  @include pull-left();
+  display: block;
+  padding-right: .333rem;
+}
+
+.direction-btn-label {
+  @include pull-left();
+  display: block;
 }
 
 .schedule-change-date {
