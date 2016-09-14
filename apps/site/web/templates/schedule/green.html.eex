@@ -1,32 +1,29 @@
 <div>
   <div class="card card-section">
     <div class="card-header">
-      <%= render "_date.html", date: @date, conn: @conn %>
-    </div>
-    <div class="card-block">
-      <div class="row p-b-1">
-        <div class="col-xs-12 col-sm-5 col-md-4">
-          <%= render "_route.html", forward_assigns(@conn) %>
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-3 p-b-2">
-          <%= for route <- @green_routes do %>
-            <a class="btn btn-secondary-outline btn-sm text-primary"
-               href="<%= update_url @conn, route: route.id %>">
-              <strong><%= route.name %> <span class="sr-only">Line</span></strong>
-            </a>
-          <% end %>
-        </div>
-        <div class="col-xs-12 col-md-4 schedule-direction m-t-0">
-          <%= render "_direction.html", forward_assigns(@conn) %>
+      <div class="row">
+        <div class="col-xs-12">
+          <h4>
+            <%= render "_route.html", forward_assigns(@conn) %>
+            <span class="p-l-1 pull-right">
+              <%= for route <- @green_routes do %>
+                <a class="btn btn-secondary-outline btn-sm text-primary"
+                  href="<%= update_url @conn, route: route.id %>">
+                  <strong><%= route.name %> <span class="sr-only">Line</span></strong>
+                </a>
+              <% end %>
+            </span>
+          </h4>
+          <%= render "_date.html", date: @date, conn: @conn %>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12 p-x-0">
-          <p>
-            <%= direction(@direction_id, @route.id) %> Times - Select a line to view a more accurate time range for each block of time
-          </p>
+        <div class="col-xs-12 schedule-direction">
+          <%= render "_direction.html", forward_assigns(@conn) %>
         </div>
       </div>
+    </div>
+    <div class="card-block">
       <div class="list-group schedule-list-group">
         <%= for {route, schedules, from} <- @green_schedules do %>
           <a class="list-group-item"

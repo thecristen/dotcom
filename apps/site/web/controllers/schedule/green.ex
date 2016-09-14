@@ -22,7 +22,7 @@ defmodule Site.ScheduleController.Green do
 
   def route(conn, []) do
     conn
-    |> assign(:route, %Routes.Route{id: "Green", name: "Green", type: 0})
+    |> assign(:route, %Routes.Route{id: "Green", name: "Green Line", type: 0})
   end
 
   def green_routes(conn, []) do
