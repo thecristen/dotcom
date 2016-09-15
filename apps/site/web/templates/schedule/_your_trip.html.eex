@@ -20,9 +20,9 @@
       <p>
         <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
         <%= case index do %>
-          <% 0 -> %><strong><%= station_name_as_link(trip_schedule.stop) %> (origin)</strong>
-          <% ^last_index -> %><strong><%= station_name_as_link(trip_schedule.stop) %> (destination)</strong>
-          <% _ -> %><%= station_name_as_link(trip_schedule.stop) %>
+          <% 0 -> %><strong><%= trip_schedule.stop.name %> (origin)</strong> <%= map_icon_link(trip_schedule.stop) %>
+          <% ^last_index -> %><strong><%= trip_schedule.stop.name %> (destination)</strong> <%= map_icon_link(trip_schedule.stop) %>
+          <% _ -> %><%= trip_schedule.stop.name %> <%= map_icon_link(trip_schedule.stop) %>
         <% end %>
       </p>
     </li>
