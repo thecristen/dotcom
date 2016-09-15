@@ -4,7 +4,7 @@ export default function($ = window.jQuery) {
   convertSelects($);
 
   // create the modal when we click on the fake select
-  $(document).on("click", "[data-select-modal]",
+  $(document).on("click openModal", "[data-select-modal]",
                  (ev) => openModal(ev, $));
 
   $(document).on('keyup', '.select-modal-search input',
@@ -22,25 +22,35 @@ export default function($ = window.jQuery) {
   $(document).on("hidden.bs.modal", ".select-modal",
                  (ev) => modalHidden(ev, $));
 
+  $(document).on("click", "[data-select-modal-open]",
+                 (ev) => openRemoteModal(ev, $));
+
   $(document).on("turbolinks:load", () => convertSelects($));
 }
 
 function openModal(ev, $) {
   ev.preventDefault();
   ev.stopPropagation();
-  const $target = $(ev.currentTarget);
-  const $parent = $target.data('select-modal-select');
-  const selectData = dataFromSelect($parent, $);
-  const options = optionsFromSelect($parent, $);
-  const $modal = $newModal($parent.attr('name'), $);
+  const $target = $(ev.currentTarget); // the button we clicked
+  const $select = $target.data('select-modal-select'); // the <select>
+  const selectData = dataFromSelect($select, $);
+  const options = optionsFromSelect($select, $);
+  const $modal = $newModal($select.attr('name'), $);
   renderModal($modal, selectData, options);
   $modal
-    .data('select-modal-button', $target)
-    .data('select-modal-select', $parent)
+    .data('select-modal-select', $select)
     .modal({
       keyboard: true,
       show: true
     });
+  return false;
+}
+
+function openRemoteModal(ev, $) {
+  ev.preventDefault();
+  ev.stopPropagation();
+  const name = $(ev.currentTarget).data('select-modal-open');
+  $(`[data-select-modal=${name}]`).trigger('openModal');
   return false;
 }
 
@@ -73,7 +83,7 @@ function optionSelected(ev, $) {
   $parent = $target.parents(".select-modal"),
   value = $target.data('value');
 
-  $parent.data('select-modal-button').text($target.text());
+  $parent.data('select-modal-select').siblings('.select-modal-text').text($target.text());
   $parent.data('select-modal-select').val(value).change();
   $parent.modal('hide');
   return false;
@@ -94,15 +104,29 @@ function modalHidden(ev, $) {
 // public so that it can be re-run separately from the global event handlers
 export function convertSelects($) {
   $("select[data-select-modal]").each((_index, el) => {
+    // creates a text container (based on the select value) and a button
+    // (based on the text of the submit button for the form).
     const $el = $(el),
-          $replacement = $("<button data-select-modal type=button />")
-      .addClass(el.className)
-      .text(el.options[el.selectedIndex].text)
-      .data('select-modal-select', $el);
+          $replacementText = $(`<span/>`)
+          .addClass('select-modal-text')
+          .text(el.options[el.selectedIndex].text),
+          $replacement = $(`<button data-select-modal="${$el.attr('name')}" type=button />`)
+          .addClass('btn-select-modal')
+          .text(buttonText($el.parents("form").find("[type=submit]").text()))
+          .data('select-modal-select', $el);
     $el.hide()
       .removeAttr('data-select-modal')
+      .after($replacementText)
+      .parents("form")
+      .find("[type=submit]")
       .after($replacement);
   });
+}
+
+function buttonText(text) {
+  // The buttons have text like 'Change Departure', but we want the text to
+  // be lower case and be wrapped in parens: '(change departure)'
+  return `(${text.toLowerCase()})`;
 }
 
 export function dataFromSelect($el, $) {

@@ -19,8 +19,10 @@ defmodule Site.ScheduleController.Schedules do
     |> assign_direction_id(filtered_schedules)
   end
 
-  def schedules(%{params: %{"origin" => origin, "dest" => dest},
-                  assigns: %{date: date}}) when is_binary(origin) and is_binary(dest) do
+  def schedules(%{assigns: %{
+                     date: date,
+                     origin: origin,
+                     destination: dest}}) when is_binary(origin) and is_binary(dest) do
     # with an origin, destination, we return pairs
     Schedules.Repo.origin_destination(origin, dest, date: date)
   end

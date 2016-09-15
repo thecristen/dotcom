@@ -53,7 +53,19 @@
   background-color: $gray-lightest;
   border-radius: 0;
   font-size: $font-size-sm;
+  margin-bottom: .75rem;
   padding: .5em;
+  text-align: center;
+
+  @include media-breakpoint-down(xs) {
+    margin: .5em auto;
+  }
+
+  button {
+    font-size: $font-size-sm;
+    line-height: 1;
+    padding: 0;
+  }
 }
 
 .card-block .schedule-block {
@@ -303,8 +315,34 @@ a {
   display: block;
 }
 
+.direction-btn-label-selected {
+  max-width: 32vw;
+}
+
 .schedule-change-date {
   line-height: 12px;
   margin-top: -15px;
   padding-left: 47px;
+}
+
+@include media-breakpoint-up(sm) {
+  .row-equal {
+    display: table;
+    width: 100%;
+  }
+
+  .col-equal {
+    display: table-cell;
+    float: none;
+    margin-bottom: 0;
+  }
+
+  .js .col-equal {
+    // without JS, we want both columns to top align
+    vertical-align: middle;
+  }
+}
+
+.col-equal {
+  margin-bottom: .5rem;
 }

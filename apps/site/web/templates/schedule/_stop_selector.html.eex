@@ -1,0 +1,23 @@
+<form method="GET" action="#<%= @query_key %>" data-submit-on-change>
+  <% extra_excludes = assigns[:exclude] || [] %>
+  <% include = assigns[:include] || %{} %>
+  <%= hidden_query_params @conn, exclude: ["trip", "name", @query_key] ++ extra_excludes, include: include %>
+  <div>
+    <label class="select-modal-label"  for="<%= @query_key %>"><%= @label_text %><%= render "_loading.html" %></label><br>
+    <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
+    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal>
+      <%= if assigns[:include_empty?] && !selected do %><option value="">Select a station</option><% end %>
+      <%= for stop <- @all_stops do %>
+        <option value="<%= stop.id %>"<%= if stop.id == @selected do %> selected<% end %><%= if stop.id in @disabled_values do %> disabled<% end %>><%= stop.name %></option>
+      <% end %>
+    </select>
+    <%= if selected do %>
+      <%= station_info_link(selected) do %>
+          <%= fa "map-o" %><span class="sr-or-no-js"> view station information for <%= selected.name %></span>
+      <% end %>
+    <% end %>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary-outline btn-sm"><%= @change_text %></button>
+  </div>
+</form>

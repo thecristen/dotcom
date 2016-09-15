@@ -49,10 +49,14 @@ defmodule Site.ScheduleView do
     assigns
     |> Dict.put(:conn, conn)
   end
+
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
+    include = Keyword.get(opts, :include, %{})
     conn.query_params
+    |> Map.merge(include)
     |> Enum.reject(fn {key, _} -> key in exclude end)
+    |> Enum.uniq_by(fn {key, _} -> to_string(key) end)
     |> Enum.map(&hidden_tag/1)
   end
 
@@ -66,18 +70,17 @@ defmodule Site.ScheduleView do
 
   @doc "Link a station's name to its page, if it exists. Otherwise, just returns the name."
   def station_name_as_link(station) do
-    import Phoenix.HTML
     case Stations.Repo.get(station.id) do
       nil -> station.name
       _ -> link station.name, to: station_path(Site.Endpoint, :show, station.id)
     end
   end
 
-  def station_info_link(station) do
-    import Phoenix.HTML
+  def station_info_link(station, [do: block]) do
+    url = station_path(Site.Endpoint, :show, station.id)
     case Stations.Repo.get(station.id) do
       nil -> ""
-      _ -> "(<a href='#{station_path(Site.Endpoint, :show, station.id)}'>View station info</a>)" |> raw
+      _ -> link(to: url, do: block)
     end
   end
 
