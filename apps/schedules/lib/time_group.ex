@@ -27,7 +27,7 @@ defmodule TimeGroup do
   @spec by_subway_period([%Schedule{}]) :: %{subway_schedule: [%Schedule{}]}
   def by_subway_period(schedules) do
     schedules
-    |> do_by_fn(&subway_period/1)
+    |> do_by_fn(fn(%Schedule{time: time}) -> subway_period(time) end)
   end
 
   @doc """
@@ -85,7 +85,7 @@ defmodule TimeGroup do
   @midday_end {15, 30}
   @pm_rush_end {18, 30}
   @evening_end {20, 0}
-  defp subway_period(%Schedule{time: time}) do
+  def subway_period(time) do
     tup = {time.hour, time.minute}
     cond do
       tup < @start ->

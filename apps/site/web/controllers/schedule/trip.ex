@@ -12,6 +12,14 @@ defmodule Site.ScheduleController.Trip do
     conn
     |> do_selected_trip(Schedules.Repo.trip(trip_id))
   end
+  def call(%{assigns: %{schedules: schedules}} = conn, []) do
+    case current_trip(schedules) do
+      nil -> conn
+      |> assign(:trip, nil)
+      |> assign(:trip_schedule, nil)
+      trip_id -> do_selected_trip(conn, Schedules.Repo.trip(trip_id))
+    end
+  end
   def call(conn, []) do
     conn
     |> do_selected_trip(nil)
@@ -26,5 +34,27 @@ defmodule Site.ScheduleController.Trip do
     conn
     |> assign(:trip, nil)
     |> assign(:trip_schedule, nil)
+  end
+
+  def current_trip([%Schedules.Schedule{} | _] = schedules) do
+    do_current_trip schedules
+  end
+  def current_trip([{%Schedules.Schedule{}, %Schedules.Schedule{}} | _] = schedules) do
+    schedules
+    |> Enum.map(&(elem(&1, 0)))
+    |> do_current_trip
+  end
+  def current_trip([]), do: nil
+
+  def do_current_trip(schedules) do
+    case Enum.find_index(schedules, &is_after_now?/1) do
+      nil -> nil
+      index -> Enum.at(schedules, index).trip.id
+    end
+  end
+
+  def is_after_now?(%Schedules.Schedule{time: time}) do
+    time
+    |> Timex.after?(Util.now)
   end
 end

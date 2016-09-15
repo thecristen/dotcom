@@ -1,0 +1,19 @@
+<li class="trip-stop">
+  <span class="trip-stop-bubble" aria-hidden="true">
+    <%= if @origin || @destination do %>
+      <%= svg "trip-circle-filled.svg" %>
+    <% else %>
+      <%= svg "trip-circle-open.svg" %>
+    <% end %>
+  </span>
+  <span class="sr-only">Stop</span>
+  <p>
+    <%= @trip_schedule.time |> Timex.format!("{kitchen}") %> -
+    <%= cond do %>
+      <% @origin -> %><strong><%= @trip_schedule.stop.name %> (origin)</strong>
+      <% @destination -> %><strong><%= @trip_schedule.stop.name %> (destination)</strong>
+      <% true -> %><%= @trip_schedule.stop.name %>
+    <% end %>
+    <%= map_icon_link(@trip_schedule.stop) %>
+  </p>
+</li>
