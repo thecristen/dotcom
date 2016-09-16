@@ -58,9 +58,7 @@ defmodule Site.ScheduleViewTest do
           type: "accessible"},
          %Stations.Station.Parking{manager: nil, note: nil, rate: nil, spots: 226,
           type: "basic"}]}]}
-    assert ScheduleView.map_icon_link(station) == {:safe,
-            [60, "a", " href=\"/stations/place-sstat\"", 62,
-             "<i class=\"fa fa-map-o\" aria-hidden=true></i>", 60, 47, "a", 62]}
-
+    assert Phoenix.HTML.safe_to_string(ScheduleView.map_icon_link(station)) ==
+      "<a href=\"/stations/place-sstat\"><i class=\"fa fa-map-o\" aria-hidden=true></i></a>"
   end
 end
