@@ -1,0 +1,97 @@
+@import 'variables';
+
+.support-section {
+  margin-bottom: 1em;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      margin: .5em 0;
+    }
+  }
+}
+
+.support-header {
+  border-bottom: 1px solid $gray-lightest;
+  line-height: 1.5em;
+  padding-bottom: .25em;
+}
+
+.support-error-container {
+  background-color: $form-error-message;
+  margin-top: .5em;
+
+  span {
+    display: inline-block;
+    margin: .5em;
+
+    // scss-lint:disable PlaceholderInExtend
+    &::before {
+      @extend .fa;
+      @extend .fa-exclamation-circle;
+      margin-right: .25em;
+    }
+  }
+}
+
+.support-success,
+.support-error {
+  margin-top: .5em;
+  padding: .5em;
+}
+
+.support-success {
+  background-color: $form-success-message;
+}
+
+.support-error {
+  background-color: $form-error-message;
+}
+
+.photo-preview-container {
+  .photo-preview {
+    border-bottom: 1px solid $gray-lightest;
+    border-top: 1px solid $gray-lightest;
+    margin-top: .5em;
+    padding: .5em 0;
+
+    img {
+      object-fit: contain;
+    }
+  }
+}
+
+.upload-photo-button {
+  background-color: $gray-light;
+  color: $white;
+
+  + input {
+    padding: .5em 0;
+  }
+}
+
+.support-text-entered-container {
+  background-color: $gray-lightest;
+  padding: .5em;
+}
+
+body {
+  &.no-js {
+    .upload-photo-button {
+      display: none;
+    }
+  }
+
+  &.js {
+    .support-form-expanded {
+      display: none;
+    }
+
+    // scss-lint:disable IdSelector
+    #photo {
+      display: none;
+    }
+  }
+}
