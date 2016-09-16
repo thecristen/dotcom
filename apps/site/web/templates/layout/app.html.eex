@@ -1,3 +1,4 @@
+<% breadcrumbs = Map.get(@conn.assigns, :breadcrumbs, []) %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +9,16 @@
     <meta name="author" content="">
     <%= Turbolinks.turbolinks_cache @conn %>
 
-    <title>MBTA - Massachusetts Bay Transportation Authority</title>
+    <title><%= case breadcrumbs do
+               [] -> ""
+               items -> items
+               |> Enum.reverse
+               |> Enum.map(fn {_, text} -> text
+                 text -> text
+                 end)
+               |> Enum.join(" < ")
+               |> Kernel.<>(" < ")
+               end %>MBTA - Massachusetts Bay Transportation Authority</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,500,700">
     <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>">
     <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" as="script">
@@ -104,7 +114,7 @@
         </div>
       </div>
     </header>
-    <%= if Map.get(@conn.assigns, :breadcrumbs, []) != [] do %>
+    <%= if breadcrumbs != [] do %>
       <div class="container-fluid breadcrumb-container">
         <div class="container">
           <div class="col-xs-12 p-l-0">
