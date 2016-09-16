@@ -41,4 +41,24 @@ defmodule Site.ScheduleViewTest do
     assert ScheduleView.header_text(1, "Red Line") == "Red Line"
     assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
   end
+
+  test "map_icon_link generates a station link on a map icon" do
+    station = %Stations.Station{accessibility: ["accessible", "tty_phone", "escalator_up",
+       "elevator"], address: "Atlantic Ave & Summer St Boston, MA 02110",
+      id: "place-sstat", images: [], latitude: 42.352271, longitude: -71.055242,
+      name: "South Station", note: "",
+      parking_lots: [%Stations.Station.ParkingLot{average_availability: "",
+        manager: %Stations.Station.Manager{email: "boston@propark.com",
+         name: "Propark America", phone: "(617) 742-8025",
+         website: "www.proparkboston.com"}, name: "", note: "",
+        rate: "Variable rates beginning at $4/ 30 minutes.  Overnight maximum of $27/day",
+        spots: [%Stations.Station.Parking{manager: nil, note: nil, rate: nil,
+          spots: 8, type: "bike"},
+         %Stations.Station.Parking{manager: nil, note: nil, rate: nil, spots: 8,
+          type: "accessible"},
+         %Stations.Station.Parking{manager: nil, note: nil, rate: nil, spots: 226,
+          type: "basic"}]}]}
+    assert Phoenix.HTML.safe_to_string(ScheduleView.map_icon_link(station)) ==
+      "<a href=\"/stations/place-sstat\"><i class=\"fa fa-map-o\" aria-hidden=true></i></a>"
+  end
 end

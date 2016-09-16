@@ -84,6 +84,12 @@ defmodule Site.ScheduleView do
     end
   end
 
+  def map_icon_link(station) do
+    case Stations.Repo.get(station.id) do
+      nil -> station.name
+      _ -> link fa("map-o"), to: station_path(Site.Endpoint, :show, station.id)
+    end
+  end
 
   def reverse_direction_opts(origin, dest, route_id, direction_id) do
     new_origin = dest || origin
