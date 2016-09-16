@@ -1,5 +1,5 @@
 <%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
-  <% is_selected_period = @conn.params["name"] == to_string(name) %>
+  <% is_selected_period = get_schedule_name(@conn) == to_string(name) %>
   <% trip_alerts = trip_alerts_for @alerts, schedules %>
   <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= name %>"

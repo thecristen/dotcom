@@ -5,28 +5,30 @@
       schedules -> schedules
       end
   %>
-  <% last_index = length(@trip_schedule) - 1 %>
-  <%# Can't fetch assigns within a case branch, so get the last index outside of the case. %>
-  <%= for {trip_schedule, index} <- Enum.with_index(filtered_schedules) do %>
+  <% expand_stops = @show_all_stops || length(filtered_schedules) <= 4 %>
+  <%= if expand_stops do %>
+    <% last_index = length(filtered_schedules) - 1 %>
+    <%= for {trip_schedule, index} <- Enum.with_index(filtered_schedules) do %>
+      <%= render "_trip_stop.html", origin: index == 0, destination: index == last_index, trip_schedule: trip_schedule %>
+    <% end %>
+  <% else %>
+    <% [first, second] = Enum.take(filtered_schedules, 2) %>
+    <% [third, fourth] = Enum.take(filtered_schedules, -2) %>
+    <%= render "_trip_stop.html", origin: true, destination: false, trip_schedule: first %>
+    <%= render "_trip_stop.html", origin: false, destination: false, trip_schedule: second %>
     <li class="trip-stop">
-      <span class="trip-stop-bubble" aria-hidden="true">
-        <%= if index in [0, last_index] do %>
-          <%= svg "trip-circle-filled.svg" %>
-        <% else %>
-          <%= svg "trip-circle-open.svg" %>
-        <% end %>
-      </span>
-      <span class="sr-only">Stop</span>
       <p>
-        <%= trip_schedule.time |> Timex.format!("{kitchen}") %> -
-        <%= case index do %>
-          <% 0 -> %><strong><%= trip_schedule.stop.name %> (origin)</strong>
-          <% ^last_index -> %><strong><%= trip_schedule.stop.name %> (destination)</strong>
-          <% _ -> %><%= trip_schedule.stop.name %>
-        <% end %>
-        <%= map_icon_link(trip_schedule.stop) %>
+        <a href="<%= update_url(@conn, all_stops: "all_stops") %>">
+          <button class="btn btn-link">
+            <%= fa "angle-up" %>
+            <div>Show all stops</div>
+            <%= fa "angle-down" %>
+          </button>
+        </a>
       </p>
     </li>
+    <%= render "_trip_stop.html", origin: false, destination: false, trip_schedule: third %>
+    <%= render "_trip_stop.html", origin: false, destination: true, trip_schedule: fourth %>
   <% end %>
 </ul>
 <p class="m-b-0">

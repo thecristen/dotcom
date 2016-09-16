@@ -1,7 +1,7 @@
 defmodule Site.ScheduleController.Schedules do
   @moduledoc """
 
-  Responsible for populating @schedules, @show_all, and @direction_id based on parameters.
+  Responsible for populating @schedules, @show_all_schedules, and @direction_id based on parameters.
 
   """
   import Plug.Conn, only: [assign: 3]
@@ -37,13 +37,13 @@ defmodule Site.ScheduleController.Schedules do
 
   Given a list of schedules and a %Plug.Conn, return a tuple of {filtered_schedules, conn}.
 
-  This checks @show_all, and if true returns all of the schedules.  If false, tries to filter
+  This checks @show_all_schedules, and if true returns all of the schedules.  If false, tries to filter
   the schedule for the current time, and if not all the schedules are in the past, returns the filtered list.
   If the date filtering removed all the schedules, set @show_all to true and return the full list.
   """
-  def filtered_schedules(schedules, %{assigns: %{show_all: show_all}} = conn) do
+  def filtered_schedules(schedules, %{assigns: %{show_all_schedules: show_all_schedules}} = conn) do
     schedules
-    |> upcoming_schedules(show_all)
+    |> upcoming_schedules(show_all_schedules)
     |> possibly_open_schedules(schedules, conn)
   end
 
@@ -66,7 +66,7 @@ defmodule Site.ScheduleController.Schedules do
   end
 
   defp possibly_open_schedules([], all_schedules, conn) do
-    {all_schedules, assign(conn, :show_all, true)}
+    {all_schedules, assign(conn, :show_all_schedules, true)}
   end
   defp possibly_open_schedules(schedules, _, conn) do
     {schedules, conn}

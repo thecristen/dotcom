@@ -1,6 +1,6 @@
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
-  <span class="schedule-col-group">Train No.</span>
+  <%= if @route.type == 2 do %><span class="schedule-col-group">Train No.</span><% end %>
 </div>
 <% most_frequent_headsign = most_frequent_headsign(@schedules) %>
 <%= for schedule <- @schedules do %>
@@ -15,7 +15,9 @@
     <% end %>">
     <span class="schedule-time schedule-col-departure"><span class="sr-only">Departure: </span><%= schedule.time |> Timex.format!("{kitchen}") %></span>
     <span class="schedule-col-group">
-      <%= if schedule.trip.name != "" do %><span class="sr-only">Train Number</span><span aria-hidden="true">No.</span><%= schedule.trip.name %><% end %>
+      <%= if @route.type == 2 && schedule.trip.name != "" do %>
+        <span class="sr-only">Train Number</span><span aria-hidden="true">No.</span><%= schedule.trip.name %>
+      <% end %>
       <%= if schedule.stop.name != @from.name do %>
         (from <%= schedule.stop.name %>)
       <% end %>
@@ -32,7 +34,7 @@
   <%= if is_selected_period do %>
     <div class="schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: schedule.time %>
-      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from %>
+      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from, show_all_stops: @show_all_stops, conn: @conn %>
     </div>
   <% end %>
 <% end %>

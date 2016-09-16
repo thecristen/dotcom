@@ -8,9 +8,9 @@ defmodule Site.ScheduleController do
   plug ScheduleController.Headsigns
   plug ScheduleController.Defaults
   plug ScheduleController.RouteBreadcrumbs
+  plug ScheduleController.Schedules
   plug ScheduleController.Trip
   plug ScheduleController.DateTime
-  plug ScheduleController.Schedules
   plug ScheduleController.ViewTemplate
   plug ScheduleController.AllStops
   plug ScheduleController.DirectionNames

@@ -114,4 +114,14 @@ defmodule Site.ScheduleView do
   def header_text(3, name), do: "Route #{name}"
   def header_text(2, name), do: Site.ViewHelpers.clean_route_name(name)
   def header_text(_, name), do: "#{name}"
+
+  def get_hour(%{params: %{"hour" => hour}}), do: hour
+  def get_hour(_), do: Util.now.hour |> to_string
+
+  def get_schedule_name(%{params: %{"name" => name}}), do: name
+  def get_schedule_name(_) do
+    Util.now
+    |> TimeGroup.subway_period
+    |> to_string
+  end
 end
