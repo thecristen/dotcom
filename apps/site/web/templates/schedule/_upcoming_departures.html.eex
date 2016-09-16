@@ -10,7 +10,7 @@
     </div>
     <%= for %{time: time} <- @predictions |> Enum.take(4) do %>
       <div class="schedule-list-group-item">
-        <div class="schedule-col-departure"><%= time |> Timex.format!("{kitchen}") %></div>
+        <div class="<%= @time_class %>"><%= time |> Timex.format!("{kitchen}") %></div>
         <div class="schedule-col-group">
           <%= time |> Timex.Format.DateTime.Formatters.Relative.relative_to(Util.now, "{relative}") |> elem(1) |> String.replace("in ", "") %>
         </div>

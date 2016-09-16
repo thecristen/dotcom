@@ -1,4 +1,4 @@
-<%= render "_upcoming_departures.html", predictions: @predictions %>
+<%= render "_upcoming_departures.html", predictions: @predictions, time_class: "schedule-col-departure" %>
 <%= if @alerts != [] do %>
   <%= Site.AlertView.inline @conn, alerts: @alerts, time: List.first(@schedules).time %>
 <% end %>
