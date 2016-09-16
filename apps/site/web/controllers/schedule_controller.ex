@@ -15,7 +15,6 @@ defmodule Site.ScheduleController do
   plug ScheduleController.ViewTemplate
   plug ScheduleController.AllStops
   plug ScheduleController.DirectionNames
-  plug ScheduleController.AllRoutes
   plug ScheduleController.DestinationStops
   plug ScheduleController.Predictions
   plug :disable_cache
