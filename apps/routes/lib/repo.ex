@@ -72,14 +72,25 @@ defmodule Routes.Repo do
       id
       |> V3Api.Trips.by_route
       |> (fn api -> api.data end).()
-      |> Enum.map(&direction_headsign_pair_from_trip/1)
-      |> Enum.group_by(&(elem(&1, 0)))
-      |> Map.new(fn {key, value_pairs} ->
-        {key, value_pairs
-          |> Enum.map(&(elem(&1, 1)))
-          |> order_by_frequency}
-      end)
+      |> do_headsigns
     end
+  end
+
+  def do_headsigns([]) do
+    %{
+      0 => [],
+      1 => []
+    }
+  end
+  def do_headsigns(routes) do
+    routes
+    |> Enum.map(&direction_headsign_pair_from_trip/1)
+    |> Enum.group_by(&(elem(&1, 0)))
+    |> Map.new(fn {key, value_pairs} ->
+      {key, value_pairs
+        |> Enum.map(&(elem(&1, 1)))
+        |> order_by_frequency}
+    end)
   end
 
   defp handle_response(%{data: data}) do
