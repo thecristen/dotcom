@@ -86,6 +86,15 @@ defmodule Routes.RepoTest do
   end
 
   describe "headsigns/1" do
+    test "returns empty lists when route has no trips" do
+      headsigns = Routes.Repo.headsigns("tripless")
+
+      assert headsigns == %{
+        0 => [],
+        1 => []
+      }
+    end
+
     test "returns keys for both directions" do
       headsigns = Routes.Repo.headsigns("1")
 
