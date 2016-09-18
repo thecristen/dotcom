@@ -33,6 +33,10 @@ config :site, GoogleMaps,
 config :laboratory,
   features: [
     {:predictions, "Predictions", "Enables real-time information in schedules"}
+  ],
+  cookie: [
+    max_age: 3600 * 24 * 30, # one month,
+    http_only: true
   ]
 
 # Import environment specific config. This must remain at the bottom

@@ -69,7 +69,7 @@ defmodule Site.Mixfile do
      {:sizeable, "~> 0.1.5"},
      {:poison, "~> 2.2", override: true},
      {:feedback, in_umbrella: true},
-     {:laboratory, github: "code-mancers/laboratory"}
+     {:laboratory, github: "paulswartz/laboratory", ref: "cookie_opts"}
     ]
   end
 end

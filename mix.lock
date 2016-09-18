@@ -23,7 +23,7 @@
   "httpoison": {:hex, :httpoison, "0.9.0", "68187a2daddfabbe7ca8f7d75ef227f89f0e1507f7eecb67e4536b3c516faddb", [:mix], [{:hackney, "~> 1.6.0", [hex: :hackney, optional: false]}]},
   "idna": {:hex, :idna, "1.2.0", "ac62ee99da068f43c50dc69acf700e03a62a348360126260e87f2b54eced86b2", [:rebar3], []},
   "inflex": {:hex, :inflex, "1.7.0", "4466a34b7d8e871d8164619ba0f3b8410ec782e900f0ae1d3d27a5875a29532e", [:mix], []},
-  "laboratory": {:git, "https://github.com/code-mancers/laboratory.git", "974737000b9407e89975ef1c3ac645390be5fe93", []},
+  "laboratory": {:git, "https://github.com/paulswartz/laboratory.git", "c005b21d2f511511671be605e5d9570f00dcc889", [ref: "cookie_opts"]},
   "logger_logentries_backend": {:git, "https://github.com/paulswartz/logger_logentries_backend.git", "676cad489c93873adc39ed270b02796f30a4837f", []},
   "logster": {:hex, :logster, "0.3.0", "d005f56ddc544fa104c2f089d2a96a048be659c1d0298d221377e53b17395b47", [:mix], [{:plug, "~> 1.0", [hex: :plug, optional: false]}, {:poison, "~> 1.5 or ~> 2.0", [hex: :poison, optional: false]}]},
   "mailgun": {:hex, :mailgun, "0.1.2", "37c1306675cf27a66a13dea3c9d479da2a990f0aed296b5addbd0b07529b667d", [:mix], [{:poison, "~> 1.4", [hex: :poison, optional: false]}]},
