@@ -114,6 +114,7 @@ defmodule Routes.Repo do
   defp hidden_routes(%{id: "9702"}), do: true
   defp hidden_routes(%{id: "9703"}), do: true
   defp hidden_routes(%{id: "Logan-" <> _}), do: true
+  defp hidden_routes(%{id: "CapeFlyer"}), do: true
   defp hidden_routes(_), do: false
 
   defp parse_json(%JsonApi.Item{id: id, attributes: attributes}) do

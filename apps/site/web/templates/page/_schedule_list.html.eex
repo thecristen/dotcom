@@ -5,7 +5,7 @@
     </div>
     <div class="mode-group-block">
       <div class="row">
-        <% commuter_rail_routes = @grouped_routes[:commuter_rail] %>
+        <% commuter_rail_routes = @grouped_routes[:commuter_rail] |> Enum.sort_by(&(&1.name))%>
         <%= for route <- commuter_rail_routes do %>
           <div class="<%= route_spacing_class(route.type) %>">
             <%= route_link @conn, route %>
