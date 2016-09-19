@@ -1,2 +1,4 @@
-<%= render "_mode_image.html", forward_assigns(@conn) %>
-<%= header_text(@route."type", @route."name") %>
+<span class="schedule-route-icon">
+  <%= mode_icon(@route) %>
+</span>
+<%= header_text(@route.type, @route.name) %>

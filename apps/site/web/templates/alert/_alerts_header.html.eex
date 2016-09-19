@@ -3,7 +3,7 @@
     <%= if @route do %>
       <div class="p-a-1">
         <strong>
-          <%= mode_icon @route.type %>
+          <%= mode_icon @route %>
           <%= @route.name %>: Service Alerts & Notices</strong>
         </strong>
       </div>
