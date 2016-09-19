@@ -8,12 +8,9 @@
 }
 
 .mode-group-header {
-  @extend .col-xs-12;
-  padding-bottom: 1rem;
-}
-
-.mode-group-block {
-  @extend .col-xs-12;
+  @extend .h4;
+  font-weight: bold;
+  margin: 1rem 0;
 }
 
 .mode-group-btn {
