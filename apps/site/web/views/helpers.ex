@@ -78,19 +78,17 @@ defmodule Site.ViewHelpers do
   def direction(1, _), do: "Inbound"
   def direction(_, _), do: "Unknown"
 
-  @doc "HTML for an icon representing a mode"
-  def mode_icon(type_or_route)
-  def mode_icon(0), do: mode_icon(1)
-  def mode_icon(1), do: do_mode_icon("subway")
-  def mode_icon(2), do: do_mode_icon("commuter-rail", "commuter")
-  def mode_icon(3), do: do_mode_icon("bus")
-  def mode_icon(4), do: do_mode_icon("boat")
+  @doc "HTML for an icon representing the mode of %Routes.Route."
+  @spec mode_icon(Routes.Route.t) :: Phoenix.HTML.Safe.t
   def mode_icon(%{type: 0, id: "Mattapan"}), do: do_mode_icon("mattapan", "subway")
   def mode_icon(%{type: 0}), do: do_mode_icon("green", "subway")
   def mode_icon(%{type: 1, id: id}) do
     do_mode_icon(String.downcase(id), "subway")
   end
-  def mode_icon(%{type: type}), do: mode_icon(type)
+  def mode_icon(%{type: 1}), do: do_mode_icon("subway")
+  def mode_icon(%{type: 2}), do: do_mode_icon("commuter-rail", "commuter")
+  def mode_icon(%{type: 3}), do: do_mode_icon("bus")
+  def mode_icon(%{type: 4}), do: do_mode_icon("boat")
 
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name

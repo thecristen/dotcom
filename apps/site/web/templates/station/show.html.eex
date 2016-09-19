@@ -65,7 +65,7 @@
       <%= for {{type, routes}, index} <- Enum.with_index(@grouped_routes) do %>
         <div class="mode-group <%= if index == 0, do: "mode-group-first" %>">
           <div class="mode-group-header">
-            <h4><strong><%= mode_icon type %><%= mode_name type %></strong></h4>
+            <h4><strong><%= mode_icon List.first(routes) %><%= mode_name type %></strong></h4>
           </div>
           <div class="mode-group-block">
             <div class="row">

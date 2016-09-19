@@ -1,7 +1,7 @@
 <div>
   <div class="card card-section">
     <div class="card-header hub-header">
-      <h1 class="h5"><%= mode_icon @route_type %><strong><%= @mode_name %> Schedules & Map</strong></h1>
+      <h1 class="h5"><%= mode_icon %{type: @route_type} %><strong><%= @mode_name %> Schedules & Map</strong></h1>
     </div>
     <div class="card-block">
       <div class="row">

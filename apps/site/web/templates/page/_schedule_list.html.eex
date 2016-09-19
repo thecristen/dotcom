@@ -1,7 +1,7 @@
 <div class="col-xs-12">
   <div class="mode-group mode-group-first">
     <div class="mode-group-header">
-      <h6><%= mode_icon 2 %><strong>Commuter Rail</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :commuter_rail) %>">View All &raquo;</a></h6>
+      <h6><%= mode_icon List.first(@grouped_routes[:commuter_rail]) %><strong>Commuter Rail</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :commuter_rail) %>">View All &raquo;</a></h6>
     </div>
     <div class="mode-group-block">
       <div class="row">
@@ -18,7 +18,7 @@
 <div class="col-xs-12">
   <div class="mode-group">
     <div class="mode-group-header">
-      <h6><%= mode_icon 3 %><strong>Bus</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :bus) %>">View All &raquo;</a></h6>
+      <h6><%= mode_icon List.first(@grouped_routes[:bus]) %><strong>Bus</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :bus) %>">View All &raquo;</a></h6>
     </div>
     <div class="mode-group-block">
       <div class="row">
@@ -34,7 +34,7 @@
 <div class="col-xs-12">
   <div class="mode-group">
     <div class="mode-group-header">
-      <h6><%= mode_icon 1 %><strong>Subway</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :subway) %>">View All &raquo;</a></h6>
+      <h6><%= mode_icon %{type: 1} %><strong>Subway</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :subway) %>">View All &raquo;</a></h6>
     </div>
     <div class="mode-group-block">
       <div class="row">
@@ -50,7 +50,7 @@
 <div class="col-xs-12">
   <div class="mode-group">
     <div class="mode-group-header">
-      <h6><%= mode_icon 4 %><strong>Boat</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :boat) %>">View All &raquo;</a></h6>
+      <h6><%= mode_icon List.first(@grouped_routes[:boat]) %><strong>Boat</strong> <%= schedule_separator %> <a href="<%= mode_path(@conn, :boat) %>">View All &raquo;</a></h6>
     </div>
     <div class="mode-group-block">
       <div class="row">
