@@ -60,7 +60,6 @@ defmodule Site.ScheduleView do
     |> Enum.map(&hidden_tag/1)
   end
 
-  defp empty_value?({_, ""}), do: true
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
 

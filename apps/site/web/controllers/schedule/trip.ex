@@ -8,6 +8,13 @@ defmodule Site.ScheduleController.Trip do
 
   def init([]), do: []
 
+  def call(%{params: %{"trip" => ""}} = conn, []) do
+    # if we explicitly set trip to an empty string, then don't include a
+    # default trip
+    conn
+    |> assign(:trip, nil)
+    |> assign(:trip_schedule, nil)
+  end
   def call(%{params: %{"trip" => trip_id}} = conn, []) when not is_nil(trip_id) do
     conn
     |> do_selected_trip(Schedules.Repo.trip(trip_id))
