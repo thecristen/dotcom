@@ -35,7 +35,7 @@ separate window and run `npm test` from the main folder. This will execute
 the following scripts in succession:
 
 * `mix test` — Phoenix tests
-* `npm run js:test` — JS tests
+* `npm run test:js` — JS tests
 * `npm run backstop:test` — Backstop tests (see section below for details)
 
 Note that all tests will run even if one of them fails, and there is no final

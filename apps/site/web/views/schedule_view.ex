@@ -1,5 +1,6 @@
 defmodule Site.ScheduleView do
   use Site.Web, :view
+  alias Routes.Route
 
   def stop_alerts_for(alerts, stop_ids, opts) do
     stop_ids

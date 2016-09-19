@@ -1,5 +1,6 @@
 defmodule Site.AlertView do
   use Site.Web, :view
+  alias Routes.Route
 
   @doc """
 
@@ -11,7 +12,10 @@ defmodule Site.AlertView do
     |> Map.put(:layout, false)
     |> Map.put(:conn, conn)
 
-    render(__MODULE__, "modal.html", assigns)
+    case {Route.type_atom(conn.assigns.route), length(notices)} do
+      {:bus, 0} -> nil
+      {_, _} -> render(__MODULE__, "modal.html", assigns)
+    end
   end
   def modal(_conn) do
     ""
@@ -70,6 +74,18 @@ defmodule Site.AlertView do
     |> String.replace(~r/\n(.*:)\s/, "<hr><strong>\\1</strong>\n") # all other start with an HR
     |> String.replace(~r/\s*\n/s, "<br />")
     |> raw
+  end
+
+  def get_link_background(:bus, _) do
+    "bg-notice"
+  end
+
+  def get_link_background(_, []) do
+    "bg-notice"
+  end
+
+  def get_link_background(_, _) do
+    ""
   end
 
 end

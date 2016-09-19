@@ -1,8 +1,14 @@
+<% route_type = Route.type_atom(@route) %>
+<%= if route_type == :bus do %>
+  <div class="list-group-item alerts-modal-button bus">
+    <%= Site.AlertView.inline @conn, alerts: @alerts, time: nil %>
+  </div>
+<% end %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <span class="schedule-col-arrival">Arrival</span>
   <span class="schedule-col-pair-notes">
-    <%= if @route.type == 2 do %>Train<% else %>Notes<% end %>
+    <%= if route_type == :commuter_rail do %>Train<% else %>Notes<% end %>
   </span>
 </div>
 <%= for {origin, destination} <- @schedules do %>
@@ -19,7 +25,7 @@
     <span class="schedule-col-arrival"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
     <span class="schedule-col-pair-notes">
       <%= if origin.trip.name != "" do %>
-        <span class="sr-only"><%= if @route.type == 2 do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
+        <span class="sr-only"><%= if route_type == :commuter_rail do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
       <% end %>
       <%= if origin.route.id != @route.id do %>(via <%= origin.route.name |> clean_route_name %>)<% end %>
       <%= if trip_alerts != [] do %>
