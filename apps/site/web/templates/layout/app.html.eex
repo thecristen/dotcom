@@ -142,12 +142,13 @@
 
       <footer class="footer full-width">
         <ul class="footer-link-list">
-          <li class="footer-link-list-item">
-            <a class="footer-link" href="<%= redirect_path @conn, "customer_support/privacy_policy/" %>">Privacy Policy</a>
-          </li>
-          <li class="footer-link-list-item">
-            <a class="footer-link" href="<%= redirect_path @conn, "customer_support/terms_of_use/" %>">Terms of Use</a>
-          </li>
+          <%= for {path, text} <- [{"customer_support/privacy_policy/", "Privacy Policy"}, {"customer_support/terms_of_use", "Terms of Use"}] do %>
+            <%= unless @conn.request_path =~ path do %>
+              <li class="footer-link-list-item">
+                <a class="footer-link" href="<%= redirect_path @conn, path %>"><%= text %></a>
+              </li>
+            <% end %>
+          <% end %>
         </ul>
         <p>&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
       </footer>
