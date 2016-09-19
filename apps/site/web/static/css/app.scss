@@ -67,20 +67,6 @@ body {
   color: $gray-dark;
 }
 
-.footer {
-  @include media-breakpoint-up(md) {
-    margin-top: 2.25rem;
-    color: white;
-  }
-  @include media-breakpoint-down(sm) {
-    padding-top: .75rem;
-    margin-top: -.75rem;
-    background-color: $gray-lightest;
-  }
-  text-align: center;
-  font-size: $font-size-sm;
-}
-
 .footer-link-list {
   @include clearfix;
   padding: 0;
@@ -249,5 +235,53 @@ body {
     &.btn-link:hover {
       color: white;
     }
+  }
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+// For the sticky footer
+
+$footer-xs: 107px;
+$footer-sm-up: 86px;
+$footer-offset: 12px;
+
+.body-wrapper {
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $footer-xs - $footer-offset;
+  }
+
+  @include media-breakpoint-up(sm) {
+    margin-bottom: $footer-sm-up - $footer-offset;
+  }
+}
+
+.footer {
+  bottom: 0;
+  font-size: $font-size-sm;
+  padding-top: 2rem;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+
+  @include media-breakpoint-only(xs) {
+    height: $footer-xs;
+  }
+
+  @include media-breakpoint-up(sm) {
+    height: $footer-sm-up;
+  }
+
+  @include media-breakpoint-up(md) {
+    color: $white;
+  }
+
+  @include media-breakpoint-down(sm) {
+    background-color: $gray-lightest;
+    margin-top: -.75rem;
+    padding-top: .75rem;
   }
 }
