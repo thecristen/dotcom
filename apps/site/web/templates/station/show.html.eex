@@ -1,20 +1,19 @@
-<div class="card card-section">
+<div class="card card-section station">
   <div class="card-header">
-    <h1 class="h3">
-      <strong>
+    <div class="p-x-g">
+      <h1 class="h3"><strong>
         <%= @station.name %>
 
         <%= if "accessible" in @station.accessibility do %>
           <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
                alt="Accessible" />
         <% end %>
-      </strong>
-    </h1>
-
-    <%= @station.address %>
+      </strong></h1>
+    </div>
+    <p class="p-x-g"><%= @station.address %></p>
   </div>
   <div class="card-block">
-    <div class="row station-map-container">
+    <div class="row p-x-g station-map-container">
       <div class="embed-responsive embed-responsive-21by9">
         <div class="station-info-map">
           <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>

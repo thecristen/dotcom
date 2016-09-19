@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="mode-group col-xs-12<%= if @route_type == :commuter_rail do %> mode-group-first<% end %>">
+    <div class="mode-group-header">
+      <h2 class="h4"><%= mode_icon @route_type %><span><%= atom_to_string_with_spaces @route_type %> </span><%= Site.PageView.schedule_separator %> <a href="<%= mode_path(@conn, @route_type) %>">View All &raquo;</a></h2>
+    </div>
+    <div class="mode-group-block">
+      <div class="row">
+        <% IO.inspect @truncate %>
+        <% routes = get_route_group @route_type, @grouped_routes, @truncate %>
+        <%= for route <- routes do %>
+          <div class="<%= route_spacing_class(route.type) %>">
+            <%= route_link @conn, route %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

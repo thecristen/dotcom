@@ -1,16 +1,8 @@
 <div class="index">
   <%# empty card to get the correct padding on mobile %>
-  <div class="card card-section"></div>
   <%= render "_news_card.html", news: @news, conn: @conn, class: "hidden-sm-down" %>
 
-  <div class="card card-section card-narrow" id="schedules">
-    <div class="card-header"><h5><strong>Schedules &amp; Maps</strong></h5></div>
-    <div class="card-block">
-      <div class="row">
-        <%= render Site.PageView, "_schedule_list.html", grouped_routes: @grouped_routes, conn: @conn %>
-      </div>
-    </div>
-  </div>
+  <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false %>
 
   <%= render "_news_card.html", news: @news, conn: @conn, class: "hidden-md-up" %>
 

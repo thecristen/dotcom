@@ -11,6 +11,10 @@
   @extend .h4;
   font-weight: bold;
   margin: 1rem 0;
+
+  a {
+    font-size: 0.85em;
+  }
 }
 
 .mode-group-btn {

@@ -35,6 +35,10 @@ $card-section-radius-md: $card-section-radius-sm * 2;
     padding-left: $card-section-padding-sm;
     padding-right: $card-section-padding-sm;
     padding-top: $card-section-padding-sm;
+
+    p {
+      margin-bottom: 0;
+    }
   }
 
   .card-block {
