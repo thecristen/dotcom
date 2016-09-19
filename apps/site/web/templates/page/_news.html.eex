@@ -1,7 +1,9 @@
 <ul class="index-news-group">
   <%= for post <- @news do %>
     <li class="index-news-item">
-      <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>"><%= post.attributes["title"] |> News.Blurb.blurb %></a>
+      <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>"><%= post.attributes["title"]
+                                                                                            |> News.Blurb.blurb
+                                                                                            |> raw %></a>
     </li>
   <% end %>
   <li class="index-news-item">

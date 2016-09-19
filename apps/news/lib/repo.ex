@@ -1,29 +1,18 @@
-defmodule News.Repo.Directory do
-  def post_dir do
-    config_dir = Application.fetch_env!(:news, :post_dir)
-    case config_dir do
-      <<"/", _::binary>> -> config_dir
-      _ -> Application.app_dir(:news, config_dir)
-    end
-  end
-end
-
 defmodule News.Repo do
-  @post_filenames News.Repo.Directory.post_dir
-  |> File.ls!
+  @callback all_ids() :: [String.t]
+  @callback get(String.t) :: {:ok, String.t} | {:error, any}
 
-  # compiled in, so basically there shouldn't be a TTL. Instead, we TTL for a
-  # year.
-  use RepoCache, ttl: :timer.hours(24 * 365)
+  use RepoCache, ttl: :timer.hours(3)
   require Logger
 
+  @spec all(Keyword.t) :: [News.Post.t]
   def all(opts \\ []) do
     cache opts, fn opts ->
       case Keyword.get(opts, :limit, :infinity) do
         :infinity ->
-          do_all(@post_filenames)
+          do_all(repo.all_ids)
         limit when is_integer(limit) ->
-          @post_filenames
+          repo.all_ids
           |> Enum.sort
           |> Enum.reverse
           |> Enum.take(limit)
@@ -32,19 +21,9 @@ defmodule News.Repo do
     end
   end
 
-  def get!(_, id) do
-    @post_filenames
-    |> Enum.filter(&(String.contains?(&1, id)))
-    |> do_all
-    |> Enum.filter(&(&1.id == id))
-    |> List.first
-  end
-
   defp do_all(filenames) do
     filenames
-    |> Enum.map(&(Path.join(News.Repo.Directory.post_dir, &1)))
-    |> Enum.map(&Path.expand/1)
-    |> Enum.map(&News.Jekyll.parse_file/1)
+    |> Enum.map(&parse_contents/1)
     |> Enum.filter_map(
     fn
       {:ok, _} -> true
@@ -55,4 +34,22 @@ defmodule News.Repo do
     fn {:ok, parsed} -> parsed end)
   end
 
+  defp repo do
+    Application.get_env(:news, :repo)
+  end
+
+  defp parse_contents(filename) do
+    with {:ok, contents} <- repo.get(filename),
+         {:ok, post} <- News.Jekyll.parse(contents),
+           post <- put_in(post.id, parse_id(filename)) do
+      {:ok, post}
+    end
+  end
+
+  defp parse_id(filename) do
+    filename
+    |> Path.rootname
+    |> String.split("-", parts: 4)
+    |> List.last
+  end
 end
