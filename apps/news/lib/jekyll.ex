@@ -8,6 +8,7 @@ defmodule News.Jekyll do
 
   @front_matter_sep "---\n"
 
+  @spec parse(binary) :: {:ok, News.Post.t} | {:error, any}
   def parse(str) do
     try do
       case String.split(str, @front_matter_sep, parts: 3) do

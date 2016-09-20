@@ -2,8 +2,7 @@ defmodule Site.FareViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
   alias Site.FareView
-
-  @fares Fares.Repo.all
+  alias Fares.Fare
 
   test "zone_name gets the name of the zone for the fare given two stops" do
     assert FareView.zone_name({:zone, "2"}) == "Zone 2"

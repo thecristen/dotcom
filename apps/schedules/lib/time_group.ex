@@ -24,7 +24,7 @@ defmodule TimeGroup do
   Returns a keyword list, and expects that the schedules are already sorted.
   """
   @type subway_schedule :: :am_rush|:midday|:pm_rush|:evening|:late_night
-  @spec by_subway_period([%Schedule{}]) :: %{subway_schedule: [%Schedule{}]}
+  @spec by_subway_period([Schedule.t]) :: [{subway_schedule, [Schedule.t]}]
   def by_subway_period(schedules) do
     schedules
     |> do_by_fn(fn(%Schedule{time: time}) -> subway_period(time) end)
@@ -35,7 +35,7 @@ defmodule TimeGroup do
   If there are multiple schedules, returns either a min/max pair if there's a
   variation, or a single integer.  Otherwise, returns nil.
   """
-  @spec frequency([%Schedule{}]) :: {non_neg_integer, non_neg_integer} | non_neg_integer | nil
+  @spec frequency([Schedule.t]) :: {non_neg_integer, non_neg_integer} | non_neg_integer | nil
   def frequency([_,_|_] = schedules) do
     {min, max} = schedules
     |> Enum.zip(Enum.drop(schedules, 1))

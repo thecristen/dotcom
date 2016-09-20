@@ -4,10 +4,10 @@ defmodule Site.Mode.HubBehaviour do
   @callback routes() :: [Routes.Route.t]
   @callback delays() :: [Alerts.Alert.t]
   @callback mode_name() :: String.t
-  @callback fares() :: String.t
+  @callback fares() :: [{String.t, String.t}]
   @callback fare_description() :: String.t
-  @callback route_type :: integer
-  @callback map_pdf_url :: String.t
+  @callback route_type :: 0..4
+  @callback map_pdf_url :: String.t | nil
   @callback map_image_url :: String.t
 
   use Site.Web, :controller

@@ -1,10 +1,27 @@
 defmodule JsonApi.Item do
   defstruct [:type, :id, :attributes, :relationships]
+  @type t :: %JsonApi.Item{
+    type: String.t,
+    id: String.t,
+    attributes: %{String.t => String.t},
+    relationships: %{String.t => list(JsonApi.Item.t)}}
 end
 
 defmodule JsonApi do
   defstruct [:links, :data]
+  @type t :: %JsonApi{
+    links: %{String.t => String.t},
+    data: list(JsonApi.Item.t)}
 
+  @spec empty() :: JsonApi.t
+  def empty do
+    %JsonApi{
+      links: %{},
+      data: []
+    }
+  end
+
+  @spec merge(JsonApi.t, JsonApi.t) :: JsonApi.t
   def merge(j1, j2) do
     %JsonApi{
       links: Map.merge(j1.links, j2.links),
@@ -12,7 +29,7 @@ defmodule JsonApi do
     }
   end
 
-  @spec parse(String.t) :: JsonApi
+  @spec parse(String.t) :: JsonApi.t | {:error, any}
   def parse(body) do
     with {:ok, parsed} <- Poison.Parser.parse(body) do
       %JsonApi{
@@ -22,14 +39,17 @@ defmodule JsonApi do
     end
   end
 
-  @spec parse_links(%{}) :: %{}
+  @spec parse_links(Poison.Parser.t) :: %{String.t => String.t}
   defp parse_links(%{"links" => links}) do
     links
+    |> Enum.filter(fn {key, value} -> is_binary(key) && is_binary(value) end)
+    |> Enum.into(%{})
   end
   defp parse_links(_) do
     %{}
   end
 
+  @spec parse_data(Poison.Parser.t) :: list(JsonApi.Item.t)
   defp parse_data(%{"data" => data} = parsed) when is_list(data) do
     included = parse_included(parsed)
     data
@@ -38,6 +58,9 @@ defmodule JsonApi do
   defp parse_data(%{"data" => data} = parsed) do
     included = parse_included(parsed)
     [parse_data_item(data, included)]
+  end
+  defp parse_data(%{}) do
+    []
   end
 
   def parse_data_item(%{"type" => type, "id" => id, "attributes" => attributes} = item, included) do

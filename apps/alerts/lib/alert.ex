@@ -10,6 +10,18 @@ defmodule Alerts.Alert do
     updated_at: nil,
     description: ""
   ]
+  @type period_pair :: {DateTime.t, nil} | {nil, DateTime.t} | {DateTime.t, DateTime.t} | {nil, nil}
+  @type t :: %Alerts.Alert{
+    id: String.t,
+    header: String.t,
+    informed_entity: [Alerts.InformedEntity.t],
+    active_period: [period_pair],
+    effect_name: String.t,
+    severity: String.t,
+    lifecycle: String.t,
+    updated_at: DateTime.t,
+    description: String.t
+  }
 
   use Timex
 
@@ -56,6 +68,13 @@ end
 defmodule Alerts.InformedEntity do
   @fields [:route, :route_type, :stop, :trip, :direction_id]
   defstruct @fields
+  @type t :: %Alerts.InformedEntity{
+    route: String.t | nil,
+    route_type: String.t | nil,
+    stop: String.t | nil,
+    trip: String.t | nil,
+    direction_id: 0 | 1 | nil
+  }
 
   alias __MODULE__, as: IE
 

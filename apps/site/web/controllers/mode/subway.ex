@@ -6,7 +6,7 @@ defmodule Site.Mode.SubwayController do
   def routes do
     Routes.Repo.all
     |> Routes.Group.group
-    |> Map.get(:subway)
+    |> Dict.get(:subway)
   end
 
   def delays, do: Site.Mode.HubBehaviour.mode_delays([0, 1])

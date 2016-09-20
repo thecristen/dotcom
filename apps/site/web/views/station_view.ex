@@ -1,10 +1,10 @@
 defmodule Site.StationView do
   use Site.Web, :view
 
-  def fare_redirect_path(1), do: do_fare_redirect_path("subway")
-  def fare_redirect_path(2), do: do_fare_redirect_path("rail")
-  def fare_redirect_path(3), do: do_fare_redirect_path("bus")
-  def fare_redirect_path(4), do: do_fare_redirect_path("boats")
+  def fare_redirect_path(:subway), do: do_fare_redirect_path("subway")
+  def fare_redirect_path(:commuter), do: do_fare_redirect_path("rail")
+  def fare_redirect_path(:bus), do: do_fare_redirect_path("bus")
+  def fare_redirect_path(:boat), do: do_fare_redirect_path("boats")
 
   defp do_fare_redirect_path(path) do
     "/fares_and_passes/#{path}/"

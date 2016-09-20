@@ -35,11 +35,11 @@ defmodule Routes.GroupTest do
 
   test ".group groups routes by their type" do
     # drops the light rail (only keeps the green line, and renames it)
-    assert Routes.Group.group([@light_rail, @green, @subway, @rail, @bus, @boat]) == %{
+    assert Routes.Group.group([@light_rail, @green, @subway, @rail, @bus, @boat]) == [
       subway: [@light_rail, %Route{type: 0, id: "Green", name: "Green Line"}, @subway],
       commuter: [@rail],
       bus: [@bus],
       boat: [@boat]
-    }
+    ]
   end
 end

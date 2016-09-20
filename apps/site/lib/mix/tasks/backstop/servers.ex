@@ -29,8 +29,10 @@ defmodule Backstop.Servers do
         |> Module.split
         |> List.last
 
-        Logger.info "shutting down " <> server_name
-        Process.signal proc, :int
+        _ = Logger.info "shutting down " <> server_name
+        # NB: the spec for Process.signal says it outputs :int, but the
+        # actual return is {:signal, :int} -ps
+        _ = Process.signal proc, :int
         send parent, {self(), :finished}
     end
   end

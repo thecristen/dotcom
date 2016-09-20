@@ -59,7 +59,7 @@ defmodule Site.Mixfile do
      {:schedules, in_umbrella: true},
      {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
      {:predictions, in_umbrella: true},
-     {:exrm, ">= 0.0.0"},
+     {:exrm, ">= 0.0.0", only: :prod},
      {:inflex, "~> 1.7.0"},
      {:html_sanitize_ex, "~> 1.0.0"},
      {:logster, "~> 0.3.0"},
@@ -72,7 +72,8 @@ defmodule Site.Mixfile do
      {:laboratory, github: "paulswartz/laboratory", ref: "cookie_opts"},
      {:porcelain, "~> 2.0"},
      {:zones, in_umbrella: true},
-     {:fares, in_umbrella: true}
+     {:fares, in_umbrella: true},
+     {:dialyxir, ">= 0.3.5", only: [:test, :dev]}
     ]
   end
 end

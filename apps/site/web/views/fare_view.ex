@@ -1,6 +1,8 @@
 defmodule Site.FareView do
   use Site.Web, :view
 
+  alias Fares.Fare
+
   def zone_name({zone, number}) do
     "#{String.capitalize(Atom.to_string(zone))} #{number}"
   end

@@ -5,6 +5,11 @@ defmodule DotCom.Mixfile do
     [apps_path: "apps",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     dialyzer: [
+       plt_add_apps: [:phoenix, :timex],
+       plt_add_deps: :transitive,
+       plt_file: ".local.plt"
+     ],
      deps: deps]
   end
 
