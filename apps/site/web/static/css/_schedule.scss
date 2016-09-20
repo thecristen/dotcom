@@ -330,7 +330,16 @@ a {
 }
 
 .direction-btn-label-selected {
-  max-width: 32vw;
+  // leave room for the checkbox on the first line
+  max-width: 86%;
+
+  @include media-breakpoint-up(sm) {
+    max-width: 90%;
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: 94%;
+  }
 }
 
 .schedule-change-date {
