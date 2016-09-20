@@ -1,7 +1,5 @@
 <%= if @alerts != [] do %>
-  <div class="list-group-item alerts-modal-button bus">
-    <%= Site.AlertView.inline @conn, alerts: @alerts, time: nil %>
-  </div>
+  <%= Site.AlertView.inline @conn, alerts: @alerts, time: nil %>
 <% end %>
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
   <% trip_alerts = trip_alerts_for(@alerts, schedules) %>
@@ -10,8 +8,10 @@
       <span class="sr-only">Departure times during the hour of</span>
       <%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %>
       <%= if trip_alerts != [] do %>
-        <%= fa "exclamation-triangle" %>
-        <span class="sr-only">Has an alert</span>
+        <span class="pull-xs-right">
+          <%= fa "exclamation-triangle" %>
+          <span class="sr-only">Has an alert</span>
+        </span>
       <% end %>
     </span>
     <span class="schedule-col-group">
