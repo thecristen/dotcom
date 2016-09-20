@@ -100,14 +100,32 @@ end
       "<a href=\"/stations/place-sstat\"><i class=\"fa fa-map-o\" aria-hidden=true></i></a>"
   end
 
-  test "filters a list of schedules down to a list representing a trip starting at from and going until to" do
-    route = Schedules.Repo.trip("30992005-CR_MAY2016-hxf16011-Weekday-01")
-    start_id = "Concord"
-    end_id = "South Acton"
+  describe "test/3" do
+    @stops [%Schedules.Stop{id: "1"},
+      %Schedules.Stop{id: "2"},
+      %Schedules.Stop{id: "3"},
+      %Schedules.Stop{id: "4"},
+      %Schedules.Stop{id: "5"}]
+    @schedules Enum.map(@stops, fn(stop) -> %Schedules.Schedule{stop: stop, trip: @trip, route: @route} end)
 
-    trip = ScheduleView.trip(route, start_id, end_id)
-    assert length(trip) == 3
-    assert Enum.at(trip, 0).stop.name == "Concord"
-    assert Enum.at(trip, 2).stop.name == "South Acton"
+    test "filters a list of schedules down to a list representing a trip starting at from and going until to" do
+      start_id = "2"
+      end_id = "4"
+
+      trip = ScheduleView.trip(@schedules, start_id, end_id)
+      assert length(trip) == 3
+      assert Enum.at(trip, 0).stop.id == "2"
+      assert Enum.at(trip, 2).stop.id == "4"
+    end
+
+    test "when end id is nil, trip goes until the end of the line" do
+      start_id = "2"
+      end_id = nil
+
+      trip = ScheduleView.trip(@schedules, start_id, end_id)
+      assert length(trip) == 4
+      assert Enum.at(trip, 0).stop.id == "2"
+      assert Enum.at(trip, 3).stop.id == "5"
+    end
   end
 end

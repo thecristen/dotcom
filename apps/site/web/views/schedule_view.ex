@@ -112,8 +112,19 @@ defmodule Site.ScheduleView do
 
   def trip(schedules, from_id, to_id) do
     schedules
-    |> Enum.drop_while(&(&1.stop.id !== from_id))
-    |> Enum.reverse
+    |> filter_beginning(from_id)
+    |> filter_end(to_id)
+  end
+
+  defp filter_beginning(schedules, from_id) do
+    Enum.drop_while(schedules, &(&1.stop.id !== from_id))
+  end
+
+  defp filter_end(schedules, nil) do
+    schedules
+  end
+  defp filter_end(schedules, to_id) do
+    Enum.reverse(schedules)
     |> Enum.drop_while(&(&1.stop.id !== to_id))
     |> Enum.reverse
   end
