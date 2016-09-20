@@ -104,12 +104,6 @@
                     <span class="sr-only">MBTA Twitter</span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link social-nav-facebook" href="https://www.facebook.com/TheMBTA/" target="_blank">
-                    <%= fa "facebook" %>
-                    <span class="sr-only">MBTA Facebook</span>
-                  </a>
-                </li>
               </ul>
             </nav>
           </div>
