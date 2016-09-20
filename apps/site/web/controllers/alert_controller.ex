@@ -3,26 +3,21 @@ defmodule Site.AlertController do
 
   plug Site.Plugs.Route
   plug Site.Plugs.Alerts
+  # TODO refactor breadcrumbs into a more generic plug -ps
+  plug Site.ScheduleController.RouteBreadcrumbs
+  plug :extend_breadcrumbs
 
   def index(conn, _params) do
     conn
     |> render("index.html")
   end
 
-  def show(conn, %{"id" => alert_id}) do
-    conn
-    |> render_alert(Alerts.Repo.by_id(alert_id))
-  end
-
-  defp render_alert(conn, nil) do
-    conn
-    |> put_status(:not_found)
-    |> render("expired.html")
-  end
-  defp render_alert(conn, alert) do
-    conn
-    |> assign(:alerts, [alert])
-    |> assign(:notices, [])
-    |> render("index.html")
+  def extend_breadcrumbs(%{assigns: %{route: route, breadcrumbs: breadcrumbs}} = conn, []) do
+    route_link = schedule_path(conn, :show, route.id, conn.params)
+    # replace the last breadcrumb with a link to the schedule
+    breadcrumbs = List.replace_at(breadcrumbs, -1, {route_link, List.last(breadcrumbs)})
+    # add last entry
+    breadcrumbs = breadcrumbs ++ ["Alerts & Notices"]
+    assign(conn, :breadcrumbs, breadcrumbs)
   end
 end

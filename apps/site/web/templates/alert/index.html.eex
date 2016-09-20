@@ -1,9 +1,19 @@
-<div class="container main-container">
-  <%= render "_alerts_header.html", conn: @conn, route: @route %>
-  <div class="row">
-    <div class="col-xs-12">
-      <%= render "_alert_list.html", alerts: @alerts %>
-      <%= render "_notice_list.html", notices: @notices %>
+<div class="card card-section">
+  <div class="card-header schedule-header">
+    <div class="row">
+      <div class="col-xs-12">
+        <h4>
+          <span class="schedule-route-icon">
+            <%= mode_icon @route %>
+          </span>
+          <%= @route.name |> clean_route_name %>
+        </h4>
+      </div>
     </div>
+  </div>
+  <div class="card-block p-a-0">
+    <%= render "_t-alerts.html", conn: @conn %>
+    <%= render "_alert_list.html", alerts: @alerts %>
+    <%= render "_notice_list.html", notices: @notices %>
   </div>
 </div>

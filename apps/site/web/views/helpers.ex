@@ -78,13 +78,17 @@ defmodule Site.ViewHelpers do
   def direction(1, _), do: "Inbound"
   def direction(_, _), do: "Unknown"
 
-  @doc "HTML for an icon representing a mode"
-  def mode_icon(type)
-  def mode_icon(0), do: mode_icon(1)
-  def mode_icon(1), do: do_mode_icon("subway")
-  def mode_icon(2), do: do_mode_icon("commuter-rail", "commuter")
-  def mode_icon(3), do: do_mode_icon("bus")
-  def mode_icon(4), do: do_mode_icon("boat")
+  @doc "HTML for an icon representing the mode of %Routes.Route."
+  @spec mode_icon(Routes.Route.t) :: Phoenix.HTML.Safe.t
+  def mode_icon(%{type: 0, id: "Mattapan"}), do: do_mode_icon("mattapan", "subway")
+  def mode_icon(%{type: 0}), do: do_mode_icon("green", "subway")
+  def mode_icon(%{type: 1, id: id}) do
+    do_mode_icon(String.downcase(id), "subway")
+  end
+  def mode_icon(%{type: 1}), do: do_mode_icon("subway")
+  def mode_icon(%{type: 2}), do: do_mode_icon("commuter-rail", "commuter")
+  def mode_icon(%{type: 3}), do: do_mode_icon("bus")
+  def mode_icon(%{type: 4}), do: do_mode_icon("boat")
 
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name
@@ -109,12 +113,12 @@ defmodule Site.ViewHelpers do
                                 # WIDTH SPACE afer
   end
 
-  @doc "HTML for a route icon"
-  def route_icon(route_type, route_id)
-  def route_icon(route_type, route_id) when route_type in [0, 1] do
+  @doc "HTML for a route circle"
+  def route_circle(route_type, route_id)
+  def route_circle(route_type, route_id) when route_type in [0, 1] do
     fa("circle fa-color-subway-" <> String.downcase(route_id))
   end
-  def route_icon(_,_), do: raw ""
+  def route_circle(_,_), do: raw ""
 
   @doc """
   HTML for a Route link.  If additional options are passed, they are
@@ -125,7 +129,7 @@ defmodule Site.ViewHelpers do
     {class_name, opts} = Keyword.pop(opts, :class, "")
 
     route.type
-    |> route_icon(route.id)
+    |> route_circle(route.id)
     |> safe_to_string
     |> string_join(clean_route_name(route.name))
     |> raw

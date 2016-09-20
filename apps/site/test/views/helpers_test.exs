@@ -4,21 +4,21 @@ defmodule Site.HelpersTest do
 
   use Site.ConnCase, async: true
 
-  describe "route_icon/2" do
+  describe "route_circle/2" do
     test "for Red line" do
       expected = "<i class=\"fa fa-circle fa-color-subway-red\" aria-hidden=true></i>"
-      actual = safe_to_string(route_icon(0, "Red"))
+      actual = safe_to_string(route_circle(0, "Red"))
       assert expected == actual
     end
 
     test "for Green line D" do
       expected = "<i class=\"fa fa-circle fa-color-subway-green-d\" aria-hidden=true></i>"
-      actual = safe_to_string(route_icon(1, "Green-D"))
+      actual = safe_to_string(route_circle(1, "Green-D"))
       assert expected == actual
     end
 
     test "for Bus line 4" do
-      assert "" == safe_to_string(route_icon(3, "4"))
+      assert "" == safe_to_string(route_circle(3, "4"))
     end
   end
 
@@ -28,7 +28,7 @@ defmodule Site.HelpersTest do
 
       expected =
         "<a class=\"mode-group-btn\" href=\"/schedules/Orange\">" <>
-        safe_to_string(route_icon(route.type, route.id)) <>
+        safe_to_string(route_circle(route.type, route.id)) <>
         " Orange</a>"
 
       assert expected == safe_to_string(route_link(conn, route))

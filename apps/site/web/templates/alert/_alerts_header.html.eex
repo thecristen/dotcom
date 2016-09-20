@@ -3,7 +3,7 @@
     <%= if @route do %>
       <div class="p-a-1">
         <strong>
-          <%= mode_icon @route.type %>
+          <%= mode_icon @route %>
           <%= @route.name %>: Service Alerts & Notices</strong>
         </strong>
       </div>
@@ -12,13 +12,6 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <div class="t-alerts-container">
-      <hr>
-      <a href="<%= redirect_path @conn, "rider_tools/t_alerts/"  %>">
-          Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
-        <%= fa "angle-right fa-pull-right" %>
-      </a>
-      <hr>
-    </div>
+    <%= render "_t-alerts.html", conn: @conn %>
   </div>
 </div>
