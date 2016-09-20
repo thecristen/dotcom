@@ -11,17 +11,55 @@ defmodule Site.ScheduleViewTest do
 
   describe "reverse_direction_opts/4" do
     test "reverses direction when the stop exists in the other direction" do
-      expected = [trip: "", direction_id: "1", dest: "place-harsq", origin: "place-davis", route: "Red"]
+      expected = [trip: nil, direction_id: "1", dest: "place-harsq", origin: "place-davis", route: "Red"]
       actual = ScheduleView.reverse_direction_opts("place-harsq", "place-davis", "Red", "1")
-      assert Keyword.equal?(expected, actual)
+      assert Enum.sort(expected) == Enum.sort(actual)
     end
 
     test "doesn't maintain stops when the stop does not exist in the other direction" do
-      expected = [trip: "", direction_id: "1", dest: nil, origin: nil, route: "16"]
+      expected = [trip: nil, direction_id: "1", dest: nil, origin: nil, route: "16"]
       actual = ScheduleView.reverse_direction_opts("111", "2905", "16", "1")
-      assert Keyword.equal?(expected, actual)
+      assert Enum.sort(expected) == Enum.sort(actual)
     end
   end
+
+  describe "update_url/2" do
+    test "adds additional parameters to a conn", %{conn: conn} do
+      conn = %{conn | params: %{"route" => "route"}}
+
+      actual = ScheduleView.update_url(conn, trip: "trip")
+      expected = schedule_path(conn, :show, "route", trip: "trip")
+
+      assert expected == actual
+    end
+
+    test "updates existing parameters in a conn", %{conn: conn} do
+      conn = %{conn | params: %{"route" => "route", "trip" => "old"}}
+
+      actual = ScheduleView.update_url(conn, trip: "trip")
+      expected = schedule_path(conn, :show, "route", trip: "trip")
+
+      assert expected == actual
+    end
+
+    test "setting a value to nil removes it from the URL", %{conn: conn} do
+      conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
+
+      actual = ScheduleView.update_url(conn, trip: nil)
+      expected = schedule_path(conn, :show, "route")
+
+      assert expected == actual
+    end
+
+    test 'setting a value to "" keeps it from the URL', %{conn: conn} do
+      conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
+
+      actual = ScheduleView.update_url(conn, trip: "")
+      expected = schedule_path(conn, :show, "route", trip: "")
+
+      assert expected == actual
+    end
+end
 
   describe "hidden_query_params/2" do
     test "creates a hidden tag for each query parameter", %{conn: conn} do
