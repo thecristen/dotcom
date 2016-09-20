@@ -86,7 +86,7 @@ defmodule Site.ScheduleView do
 
   def map_icon_link(station) do
     case Stations.Repo.get(station.id) do
-      nil -> station.name
+      nil -> raw ""
       _ -> link fa("map-o"), to: station_path(Site.Endpoint, :show, station.id)
     end
   end
