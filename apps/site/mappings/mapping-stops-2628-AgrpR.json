@@ -1,0 +1,19 @@
+{
+  "uuid" : "f732266c-bed3-3a1f-a8ff-f65576468bdb",
+  "request" : {
+    "url" : "/stops/2628",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-2628-AgrpR.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "iiqh7bpngqu9qfdj72tfqug5qhv9dida"
+    }
+  }
+}

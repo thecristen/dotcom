@@ -1,0 +1,19 @@
+{
+  "uuid" : "15a3f148-1e3f-3a7f-bf5c-418869fcf22b",
+  "request" : {
+    "url" : "/stops/82134",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-82134-tbJA9.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "n2mkk6547i33fllre539rdfvrmkljle0"
+    }
+  }
+}

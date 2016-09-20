@@ -1,0 +1,19 @@
+{
+  "uuid" : "7b54c52f-c966-30a7-90cd-6d2f35d3e76c",
+  "request" : {
+    "url" : "/schedules/?stop_sequence=first&direction_id=0&date=2016-10-31&route=1&include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Broute%5D=type%2Clong_name%2Cshort_name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-0aTpF.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:57:00 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ldkgso1e259p594u895rebsiuu5gvlrr"
+    }
+  }
+}

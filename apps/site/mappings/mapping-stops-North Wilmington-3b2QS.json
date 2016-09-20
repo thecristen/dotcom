@@ -1,0 +1,19 @@
+{
+  "uuid" : "b45e9d68-da6d-3021-8da2-6f2ebece8d6c",
+  "request" : {
+    "url" : "/stops/North%20Wilmington",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-North Wilmington-3b2QS.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "tb2q0vpvjsf1tgciv4tcrnvmc6ji5lp7"
+    }
+  }
+}

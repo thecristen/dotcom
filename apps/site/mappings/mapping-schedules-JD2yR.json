@@ -1,0 +1,19 @@
+{
+  "uuid" : "995febc7-1825-364a-a7b3-7cf21217a867",
+  "request" : {
+    "url" : "/schedules/?stop=Wickford+Junction&date=2016-10-31&include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Broute%5D=type%2Clong_name%2Cshort_name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-JD2yR.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:54 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "pdb43obhr7uhu1k6ha9pqe5jdutt4h5a"
+    }
+  }
+}

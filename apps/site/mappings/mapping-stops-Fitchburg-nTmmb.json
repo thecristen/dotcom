@@ -1,0 +1,19 @@
+{
+  "uuid" : "b07dc2c4-b5d1-30db-a00e-33b0f2b7c12a",
+  "request" : {
+    "url" : "/stops/Fitchburg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Fitchburg-nTmmb.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "fqe6e1qnav6jm25o25f7c2kampb9vqj5"
+    }
+  }
+}

@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-ogmnl"}}},"links":{"self":"/stops/70036"},"id":"70036","attributes":{"wheelchair_boarding":0,"name":"Oak Grove","longitude":-71.071097,"latitude":42.43668}}}

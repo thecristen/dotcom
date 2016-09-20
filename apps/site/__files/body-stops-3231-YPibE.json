@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/3231"},"id":"3231","attributes":{"wheelchair_boarding":0,"name":"W Elm Ave @ Gould St","longitude":-71.013165,"latitude":42.272005}}}

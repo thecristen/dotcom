@@ -1,0 +1,19 @@
+{
+  "uuid" : "9a8be7fa-b551-3632-83ac-fe20c364848c",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-61gwD.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ph9b97gj3jp0jk0u1g9njnq9l74tbhgr"
+    }
+  }
+}

@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-mlmnl"}}},"links":{"self":"/stops/70035"},"id":"70035","attributes":{"wheelchair_boarding":0,"name":"Malden - Outbound","longitude":-71.07411,"latitude":42.426632}}}

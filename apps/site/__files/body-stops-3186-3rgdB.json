@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/3186"},"id":"3186","attributes":{"wheelchair_boarding":0,"name":"Highland Ave @ Elmwood Ave","longitude":-71.026047,"latitude":42.264867}}}

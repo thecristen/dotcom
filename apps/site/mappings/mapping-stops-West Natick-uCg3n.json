@@ -1,0 +1,19 @@
+{
+  "uuid" : "c148225e-b9bd-3338-a1f6-e9bce9074bec",
+  "request" : {
+    "url" : "/stops/West%20Natick",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-West Natick-uCg3n.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "qhtdcpma3os5618eqjhc4sol3pel1da0"
+    }
+  }
+}

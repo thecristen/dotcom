@@ -1,0 +1,19 @@
+{
+  "uuid" : "ebddaae1-52db-371a-9928-2882449cb320",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&direction_id=1&date=2016-10-31&route=Red&include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Broute%5D=type%2Clong_name%2Cshort_name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-5komY.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:57 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "id6u1v37bhf9tb7l12jbr1mih6qpb13f"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "d0068f17-5bfc-3656-8576-de94e694dbaa",
+  "request" : {
+    "url" : "/stops/70097",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70097-FeMVc.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ltuq0phpds92f4cj6e62d8h8oe4pt4fo"
+    }
+  }
+}

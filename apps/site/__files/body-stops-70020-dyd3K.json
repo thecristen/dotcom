@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-dwnxg"}}},"links":{"self":"/stops/70020"},"id":"70020","attributes":{"wheelchair_boarding":0,"name":"Downtown Crossing - to Forest Hills","longitude":-71.060225,"latitude":42.355518000000004}}}
