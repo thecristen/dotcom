@@ -136,5 +136,14 @@ defmodule Routes.RepoTest do
         1 => ["Alewife"]
       }
     end
+
+    test "returns headsigns for boats" do
+      headsigns = Routes.Repo.headsigns("Boat-F1")
+
+      assert headsigns == %{
+        0 => [],
+        1 => []
+      }
+    end
   end
 end
