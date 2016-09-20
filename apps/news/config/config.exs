@@ -3,6 +3,7 @@
 use Mix.Config
 
 config :news,
+  repo: News.Repo.Directory,
   post_dir: "priv/posts"
 
 # This configuration is loaded before any dependency and is restricted

@@ -13,3 +13,4 @@ erl_crash.dump
 /site-build.zip
 /apps/site/backstop_data/bitmaps_test
 npm-debug.log
+/apps/news/posts.zip
