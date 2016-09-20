@@ -30,7 +30,7 @@ defmodule Site.ScheduleView do
   def update_url(%{params: params} = conn, query) do
     params = params || %{}
     query_map = query
-    |> Enum.map(fn {key, value} -> {Atom.to_string(key), to_string(value)} end)
+    |> Enum.map(fn {key, value} -> {Atom.to_string(key), value} end)
     |> Enum.into(%{})
 
     new_query = params
@@ -94,7 +94,7 @@ defmodule Site.ScheduleView do
   def reverse_direction_opts(origin, dest, route_id, direction_id) do
     new_origin = dest || origin
     new_dest = dest && origin
-    [trip: "", direction_id: direction_id, route: route_id]
+    [trip: nil, direction_id: direction_id, route: route_id]
     |> Keyword.merge(
       if Schedules.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
         [dest: new_dest, origin: new_origin]
