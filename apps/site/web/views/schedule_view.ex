@@ -110,6 +110,15 @@ defmodule Site.ScheduleView do
     |> Util.most_frequent_value
   end
 
+  def trip(schedules, from_id, to_id) do
+    schedules
+    |> Enum.drop_while(&(&1.stop.id !== from_id))
+    |> Enum.reverse
+    |> Enum.drop_while(&(&1.stop.id !== to_id))
+    |> Enum.reverse
+  end
+
+
   @doc "Prefix route name with route for bus lines"
   def header_text(3, name), do: "Route #{name}"
   def header_text(2, name), do: Site.ViewHelpers.clean_route_name(name)

@@ -1,6 +1,6 @@
 <p><strong>Your trip:</strong></p>
 <ul class="trip-list">
-  <% filtered_schedules = case @trip_schedule |> Enum.drop_while(&(&1.stop.id !== @from.id)) do
+  <% filtered_schedules = case @trip_schedule |> trip(@from.id, @conn.params["dest"]) do
       [] -> @trip_schedule # the case when the trip doesn't intersect @from
       schedules -> schedules
       end

@@ -99,4 +99,15 @@ end
     assert Phoenix.HTML.safe_to_string(ScheduleView.map_icon_link(station)) ==
       "<a href=\"/stations/place-sstat\"><i class=\"fa fa-map-o\" aria-hidden=true></i></a>"
   end
+
+  test "filters a list of schedules down to a list representing a trip starting at from and going until to" do
+    route = Schedules.Repo.trip("30992005-CR_MAY2016-hxf16011-Weekday-01")
+    start_id = "Concord"
+    end_id = "South Acton"
+
+    trip = ScheduleView.trip(route, start_id, end_id)
+    assert length(trip) == 3
+    assert Enum.at(trip, 0).stop.name == "Concord"
+    assert Enum.at(trip, 2).stop.name == "South Acton"
+  end
 end
