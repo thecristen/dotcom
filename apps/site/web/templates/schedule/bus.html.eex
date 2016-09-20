@@ -1,5 +1,5 @@
 <%= if @alerts != [] do %>
-  <%= Site.AlertView.inline @conn, alerts: @alerts, time: nil %>
+  <%= Site.AlertView.inline @conn, alerts: @alerts, time: List.first(@schedules).time %>
 <% end %>
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
   <% trip_alerts = trip_alerts_for(@alerts, schedules) %>
