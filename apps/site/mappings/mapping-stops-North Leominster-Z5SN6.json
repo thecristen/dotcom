@@ -1,0 +1,19 @@
+{
+  "uuid" : "29c1751d-8d47-333d-be7a-e9b85c4682aa",
+  "request" : {
+    "url" : "/stops/North%20Leominster",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-North Leominster-Z5SN6.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "mjdef8aqh600nbqojkbnr8homko21mdj"
+    }
+  }
+}

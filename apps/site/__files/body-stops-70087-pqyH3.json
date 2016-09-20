@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-shmnl"}}},"links":{"self":"/stops/70087"},"id":"70087","attributes":{"wheelchair_boarding":0,"name":"Savin Hill - Outbound","longitude":-71.053331,"latitude":42.31129}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "3ad83408-bea8-30e9-9a9e-bac8b581a2b4",
+  "request" : {
+    "url" : "/stops/82135",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-82135-aGp25.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "vus7jvq8ncpe5l8d1j7vji80qi488lu7"
+    }
+  }
+}

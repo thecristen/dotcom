@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-dwnxg"}}},"links":{"self":"/stops/70021"},"id":"70021","attributes":{"wheelchair_boarding":0,"name":"Downtown Crossing - to Oak Grove","longitude":-71.060225,"latitude":42.355518000000004}}}

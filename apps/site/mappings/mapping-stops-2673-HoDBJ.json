@@ -1,0 +1,19 @@
+{
+  "uuid" : "7ab0b34d-f8c3-39d1-babe-63a0988a8926",
+  "request" : {
+    "url" : "/stops/2673",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-2673-HoDBJ.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "vrmir8bq8h43715u1fk61bvkacg9b10c"
+    }
+  }
+}

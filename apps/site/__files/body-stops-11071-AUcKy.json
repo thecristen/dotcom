@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/11071"},"id":"11071","attributes":{"wheelchair_boarding":0,"name":"Arthur St @ Guest St - Stop & Shop","longitude":-71.141651,"latitude":42.356313}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "50fc9d81-105c-3414-93c9-e856e69c3aeb",
+  "request" : {
+    "url" : "/stops/Lawrence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Lawrence-OOVW0.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "4ko424a7k4jf5brfojcutg2tet0akqrn"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "5d643e4a-587a-38b4-9ab0-77ecd7a895c6",
+  "request" : {
+    "url" : "/stops/70102",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70102-nmsxQ.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "cst9ga8k41a5dii75op0r0ba2koclqc2"
+    }
+  }
+}

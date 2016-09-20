@@ -1,0 +1,19 @@
+{
+  "uuid" : "43ba7ca5-8e21-34c5-911e-616fde9fe129",
+  "request" : {
+    "url" : "/routes/?stop=Framingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NIk53.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "t3hc8er04ah25h4vjbnjo2a5m9i4geb4"
+    }
+  }
+}
