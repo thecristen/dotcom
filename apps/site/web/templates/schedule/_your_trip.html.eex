@@ -37,3 +37,9 @@
     <%= Timex.diff(List.last(filtered_schedules).time, List.first(filtered_schedules).time, :minutes) %> minutes
   </strong>
 </p>
+<%= if Enum.any?(filtered_schedules, &Schedules.Schedule.flag?/1) do %>
+  <p class="schedule-callout m-t-1 m-b-0">
+    <span class="schedule-flag">F</span>
+    Indicates that the train stops to discharge passengers on notice to the Conductor and to pick up passengers on platform visible to Engineer.
+  </p>
+<% end %>
