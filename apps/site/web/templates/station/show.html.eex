@@ -1,14 +1,14 @@
 <div class="card card-section station">
   <div class="card-header">
     <div class="p-x-g">
-      <h1 class="h3"><strong>
+      <h1>
         <%= @station.name %>
 
         <%= if "accessible" in @station.accessibility do %>
           <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
                alt="Accessible" />
         <% end %>
-      </strong></h1>
+      </h1>
     </div>
     <p class="p-x-g"><%= @station.address %></p>
   </div>
@@ -63,7 +63,7 @@
         <%= for {{type, routes}, index} <- Enum.with_index(@grouped_routes) do %>
           <div class="mode-group <%= if index == 0, do: "mode-group-first" %>">
             <div class="mode-group-header">
-              <h2 class="h4">
+              <h2>
                 <%= mode_icon type %>
                 <span class="mode-name-heading"><%= mode_name type %></span>
               </h2>
@@ -88,7 +88,7 @@
         <div class="col-xs-12">
           <div class="mode-group">
             <div class="mode-group-header">
-              <h4><strong>Parking</strong></h4>
+              <h2>Parking</h2>
             </div>
             <div class="mode-group-block">
               <%= for lot <- @station.parking_lots do %>
@@ -103,7 +103,7 @@
         <div class="col-xs-12">
           <div class="mode-group p-b-0">
             <div class="mode-group-header">
-              <h4><strong>Accessibility</strong></h4>
+              <h2>Accessibility</h2>
             </div>
             <div class="mode-group-block">
               <p>The following accessibility services are available at <%= @station.name %>:</p>

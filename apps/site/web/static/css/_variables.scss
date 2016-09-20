@@ -32,11 +32,13 @@ $container-max-widths: (
   lg: 768px
 );
 
-$font-size-h1: 2.25rem;
-$font-size-h2: 1.7rem;
-$font-size-h3: 1.375rem;
-$font-size-h4: 1.125rem;
-$font-size-h5: 1rem;
+$font-size-h1: 1.375rem;
+$font-size-h2: 1.125rem;
+$font-size-h3: 1rem;
+$font-size-h4: 0.825rem;
+$font-size-h5: 0.75rem;
+$headings-font-weight: bold;
+
 
 @import "node_modules/bootstrap/scss/variables";
 $grid-gutter-width: 0.75rem; // 12px
@@ -90,3 +92,5 @@ $form-success-message: #dff0d8;
 
 $brand-success: #428608;
 $brand-danger: #ff1428;
+
+$route-icon-diameter: 36px;

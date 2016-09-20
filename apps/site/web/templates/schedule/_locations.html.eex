@@ -1,11 +1,4 @@
-<div class="row">
-  <div class="col-xs-12">
-    <%= if @conn.assigns[:route] != nil do %>
-      <h4><%= render "_route.html", forward_assigns(@conn) %></h4>
-    <% end %>
-    <%= render "_date.html", date: @date, conn: @conn %>
-  </div>
-</div>
+<%= render "_route.html", forward_assigns(@conn) %>
 <div class="row">
   <div class="col-xs-12 schedule-direction">
     <%= render "_direction.html", forward_assigns(@conn) %>

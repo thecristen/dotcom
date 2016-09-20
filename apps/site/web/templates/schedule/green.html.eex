@@ -2,20 +2,7 @@
   <div class="card card-section">
     <div class="card-header">
       <div class="row">
-        <div class="col-xs-12">
-          <h4>
-            <%= render "_route.html", forward_assigns(@conn) %>
-            <span class="p-l-1 pull-right">
-              <%= for route <- @green_routes do %>
-                <a class="btn btn-secondary-outline btn-sm text-primary"
-                  href="<%= update_url @conn, route: route.id %>">
-                  <strong><%= route.name %> <span class="sr-only">Line</span></strong>
-                </a>
-              <% end %>
-            </span>
-          </h4>
-          <%= render "_date.html", date: @date, conn: @conn %>
-        </div>
+        <%= render "_route.html", forward_assigns(@conn) %>
       </div>
       <div class="row">
         <div class="col-xs-12 schedule-direction">
@@ -30,7 +17,7 @@
              href="<%= update_url @conn, route: route.id %>">
             <div class="row">
               <div class="col-xs-6">
-                <span class="brand-primary-dark"><strong><%= route.name %> - <%= from.name %><strong></span>
+                <span class="green-route-name"><%= route.name %> - <%= from.name %></span>
               </div>
               <div class="col-xs-6">
                 <%= render "_schedule_group.html", schedules: schedules %>

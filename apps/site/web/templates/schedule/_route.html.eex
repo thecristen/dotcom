@@ -1,2 +1,11 @@
-<%= render "_mode_image.html", forward_assigns(@conn) %>
-<%= header_text(@route."type", @route."name") %>
+<div class="row schedule-route-name">
+  <%= if @conn.assigns[:route] != nil do %>
+    <%= render "_mode_image.html", forward_assigns(@conn) %>
+  <% end %>
+  <div class="schedule-route-name-container">
+    <%= if @conn.assigns[:route] != nil do %>
+      <h1><%= header_text(@route."type", @route."name") %></h1>
+    <% end %>
+    <%= render "_date.html", date: @date, conn: @conn %>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <div class="card card-section">
   <div class="card-header">
-    <h1 class="h3">Schedules &amp; Maps</h1>
+    <h1 class="schedules-list-header">Schedules &amp; Maps</h1>
   </div>
   <div class="card-block">
     <%= for route_type <- [:commuter_rail, :bus, :subway, :boat] do %>
@@ -11,7 +11,7 @@
         <div class="col-xs-12">
           <div class="mode-group">
             <div class="mode-group-header">
-              <h2 class="h4">
+              <h2>
                 <span class="route-icon route-icon-the-ride">
                   <%= svg "the-ride.svg" %>
                 </span>

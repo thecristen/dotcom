@@ -6,7 +6,7 @@
     <div class="card-block">
       <div class="row">
         <div class="col-xs-12 p-b-1">
-          <h2 class="h4"><strong>System Map</strong></h2>
+          <h2><strong>System Map</strong></h2>
           <% mode_downcase = @mode_name |> String.downcase %>
           <% mode_class = mode_downcase |> String.replace(" ", "-") %>
           <img src="<%= @map_image_url %>" class="system-map <%= mode_class %> expandable m-y-1" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
@@ -20,7 +20,7 @@
           <% end %>
         </div>
         <div class="col-xs-12 p-b-1">
-          <h2 class="h4"><strong>Line Schedules</strong></h2>
+          <h2><strong>Line Schedules</strong></h2>
           <div class="mode-group mode-group-first">
             <div class="mode-group-block">
               <div class="row">
@@ -35,12 +35,12 @@
         </div>
         <%= if @delays != [] do %>
           <div class="col-xs-12 p-b-1">
-            <h2 class="h4 font-weight-bold">Delays</h2>
+            <h2 class="font-weight-bold">Delays</h2>
             <%= Site.AlertView.inline @conn, alerts: @delays, time: Util.now %>
           </div>
         <%= end %>
         <div class="col-xs-12">
-          <h2 class="h4"><strong><%= @mode_name %> Fares</strong></h2>
+          <h2><strong><%= @mode_name %> Fares</strong></h2>
           <p><%= @fare_description %></p>
           <ul class="fare-list">
             <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>
