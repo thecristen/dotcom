@@ -12,6 +12,6 @@ defmodule News.RepoTest do
 
   test ".all can be limited to a number of posts" do
     assert Repo.all(limit: 0) == []
-    assert Repo.all(limit: 1) == Repo.all
+    assert length(Repo.all(limit: 1)) == 1
   end
 end
