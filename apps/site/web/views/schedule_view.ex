@@ -124,7 +124,8 @@ defmodule Site.ScheduleView do
     schedules
   end
   defp filter_end(schedules, to_id) do
-    Enum.reverse(schedules)
+    schedules
+    |> Enum.reverse
     |> Enum.drop_while(&(&1.stop.id !== to_id))
     |> Enum.reverse
   end
