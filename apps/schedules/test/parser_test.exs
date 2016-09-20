@@ -4,7 +4,9 @@ defmodule Schedules.ParserTest do
   test "parse converts a JsonApi.Item into a Schedule" do
     api_item = %JsonApi.Item{
       attributes: %{
-        "departure_time" => "2016-06-08T05:35:00+04:00"
+        "departure_time" => "2016-06-08T05:35:00+04:00",
+        "pickup_type" => 3,
+        "drop_off_type" => 0
       },
       id: "31174458-CR_MAY2016-hxl16011-Weekday-01-Lowell-schedule",
       relationships: %{
@@ -57,6 +59,7 @@ defmodule Schedules.ParserTest do
         name: "Lowell"
       },
       time: Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
+      flag?: true
     }
 
     assert Schedules.Parser.parse(api_item) == expected

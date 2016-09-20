@@ -1,5 +1,7 @@
 defmodule Schedules.Schedule do
-  defstruct [:route, :trip, :stop, :time]
+  defstruct route: nil, trip: nil, stop: nil, time: nil, flag?: false
+
+  def flag?(%Schedules.Schedule{flag?: value}), do: value
 end
 
 defmodule Schedules.Trip do

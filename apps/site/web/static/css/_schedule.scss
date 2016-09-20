@@ -55,7 +55,6 @@
   font-size: $font-size-sm;
   margin-bottom: .75rem;
   padding: .5em;
-  text-align: center;
 
   @include media-breakpoint-down(xs) {
     margin: .5em auto;
@@ -360,4 +359,9 @@ a {
 
 .col-equal {
   margin-bottom: .5rem;
+}
+
+.schedule-flag {
+  color: $brand-danger;
+  font-weight: bold;
 }

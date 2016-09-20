@@ -5,7 +5,7 @@ defmodule Schedules.Repo do
   @default_timeout 10_000
   @default_params [
       include: "trip.route,stop.parent_station",
-      "fields[schedule]": "departure_time",
+      "fields[schedule]": "departure_time,drop_off_type,pickup_type",
       "fields[stop]": "name"
   ]
   def all(opts) do
