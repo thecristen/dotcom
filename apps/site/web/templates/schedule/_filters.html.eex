@@ -5,7 +5,7 @@
         query_key: "origin",
         selected: @origin || @from.id,
         all_stops: @all_stops,
-        label_text: "Departure times from",
+        label_text: "Departure times from:",
         change_text: "Change Departure",
         disabled_values: if @all_stops == [], do: [], else: [List.last(@all_stops).id] %>
   </div>
@@ -26,7 +26,7 @@
         query_key: "dest",
         selected: @destination,
         all_stops: @all_stops,
-        label_text: "Arriving at",
+        label_text: "Arriving at:",
         change_text: "Change Arrival",
         include_empty?: true,
         include: %{"origin" => @origin || @from.id},
