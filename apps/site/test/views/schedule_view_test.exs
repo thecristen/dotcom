@@ -81,7 +81,7 @@ end
   end
 
   describe "map_icon_link/1" do
-    test "generates a station link on a map icon" do
+    test "generates a station link on a map icon when the stop has station information" do
       stop = %Schedules.Stop{id: "place-sstat"}
       assert Phoenix.HTML.safe_to_string(ScheduleView.map_icon_link(stop)) ==
         "<a href=\"/stations/place-sstat\"><i class=\"fa fa-map-o\" aria-hidden=true></i></a>"
