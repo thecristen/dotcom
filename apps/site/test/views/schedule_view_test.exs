@@ -136,7 +136,6 @@ end
 
       assert html =~ "Upcoming departures"
       assert html =~ Timex.format!(time, "{kitchen}")
-      assert html =~ "5 minutes"
     end
   end
 

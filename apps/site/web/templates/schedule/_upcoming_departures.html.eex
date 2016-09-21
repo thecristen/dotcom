@@ -8,13 +8,15 @@
         <%= render "_refresh.html", predictions: @predictions %>
       </div>
     </div>
-    <%= for %{time: time} <- @predictions |> Enum.take(4) do %>
-      <div class="schedule-list-group-item">
-        <div class="<%= @time_class %>"><%= time |> Timex.format!("{kitchen}") %></div>
-        <div class="schedule-col-group">
-          <%= time |> Timex.Format.DateTime.Formatters.Relative.relative_to(Util.now, "{relative}") |> elem(1) |> String.replace("in ", "") %>
+    <div class="schedule-list-group-item">
+      <%= for %{time: time} <- @predictions |> Enum.take(4) do %>
+        <div class="col-xs-4 col-sm-3 col-md-2">
+          <%= time |> Timex.format!("{kitchen}") %>
         </div>
+      <% end %>
+      <div class="col-xs-12">
+        <%= render "_last_updated.html" %>
       </div>
-    <% end %>
+    </div>
   </div>
 <% end %>
