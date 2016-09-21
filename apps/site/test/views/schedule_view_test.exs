@@ -86,8 +86,14 @@ end
   end
 
   describe "with predictions" do
+    setup %{conn: conn} do
+      conn = conn
+      |> Plug.Test.put_req_cookie("predictions", "true")
+      {:ok, %{conn: conn}}
+    end
+
     test "on commuter rail, renders inline predictions", %{conn: conn} do
-      conn = get conn, "/schedules/CR-Lowell"
+      conn = get conn, "/schedules/CR-Lowell?direction_id=0"
       second_schedule = Enum.at(conn.assigns[:schedules], 1)
       conn = conn
       |> assign(:predictions, [

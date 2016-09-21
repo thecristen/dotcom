@@ -1,9 +1,10 @@
+<% predictions_enabled? = Laboratory.enabled? @conn, :predictions %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <%= if @route.type == 2 do %><span class="schedule-col-group">Train No.</span><% end %>
-  <%= if @predictions != [] do %>
+  <%= if predictions_enabled? do %>
     <span class="schedule-col-1">
-      <%= render "_refresh.html", predictions: @predictions %>
+      <%= render "_refresh.html" %>
     </span>
   <% end %>
 </div>
@@ -46,12 +47,17 @@
         <%= render "_prediction.html", prediction: prediction %>
       </span>
     <% else %>
-      <%= if index == 0 && @predictions != [] do %>
+      <%= if index == 0 && @direction_id == 0 && predictions_enabled? do %>
       <%# if there are other predictions but not for the first trip, assume that the trip departed %>
         <span class="col-xs-12">
           <%= render "_prediction.html", prediction: %Predictions.Prediction{status: "Departed"} %>
         </span>
       <% end %>
+    <% end %>
+    <%= if is_selected_period && predictions_enabled? do %>
+      <span class="col-xs-12">
+        <%= render "_last_updated.html" %>
+      </span>
     <% end %>
   </a>
   <%= if is_selected_period do %>
