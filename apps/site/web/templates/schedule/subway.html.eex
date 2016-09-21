@@ -35,12 +35,21 @@
     <div class="schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: List.first(schedules).time %>
       <div class="row">
-        <%= for schedule <- schedules do %>
+        <%= for schedule <- schedule_list(schedules, @show_all_times)  do %>
           <div class="col-xs-4 col-sm-3 col-md-2">
             <%= schedule.time |> Timex.format!("{kitchen}") %>
           </div>
         <% end %>
       </div>
+      <%= if !@show_all_times do %>
+        <a href="<%= update_url(@conn, all_times: "all_times") %>"/>
+          see all times
+        </a>
+      <% else %>
+        <a href="<%= update_url(@conn, all_times: nil) %>"/>
+           collapse times
+        </a>
+      <% end %>
     </div>
   <% end %>
 

@@ -25,10 +25,13 @@ defmodule Site.ScheduleController.Defaults do
 
     show_all_stops = params["all_stops"] != nil
 
+    show_all_times = params["all_times"] != nil
+
     [
       date: date,
       show_all_schedules: show_all_schedules,
       show_all_stops: show_all_stops,
+      show_all_times: show_all_times,
       direction_id: direction_id,
       origin: case params["origin"] do
                 "" -> nil
