@@ -66,6 +66,7 @@ defmodule Schedules.Repo do
       origin_stops
       |> Join.join(dest_stops, fn schedule -> schedule.trip.id end)
       |> Enum.filter(fn {o, d} -> Timex.before?(o.time, d.time) end) # filter out reverse trips
+      |> Enum.uniq_by(fn {o, _} -> o.trip.id end)
     end)
   end
 

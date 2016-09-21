@@ -69,25 +69,37 @@ defmodule Schedules.RepoTest do
     assert List.last(response).stop.id == "place-north"
   end
 
-  test ".origin_destination returns pairs of Schedule items" do
-    today = Timex.today |> Timex.format!("{ISOdate}")
-    response = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
-      date: today, direction_id: 1)
-    [{origin, dest}|_] = response
+  describe "origin_destination/3" do
+    test "returns pairs of Schedule items" do
+      today = Timex.today |> Timex.format!("{ISOdate}")
+      response = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
+        date: today, direction_id: 1)
+      [{origin, dest}|_] = response
 
-    assert origin.stop.id == "Anderson/ Woburn"
-    assert dest.stop.id == "place-north"
-    assert origin.trip.id == dest.trip.id
-    assert origin.time < dest.time
-  end
+      assert origin.stop.id == "Anderson/ Woburn"
+      assert dest.stop.id == "place-north"
+      assert origin.trip.id == dest.trip.id
+      assert origin.time < dest.time
+    end
 
-  test ".origin_destination does not require a direction id" do
-    today = Timex.today |> Timex.format!("{ISOdate}")
-    no_direction_id = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
-      date: today)
-    direction_id = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
-      date: today, direction_id: 1)
+    test "does not require a direction id" do
+      today = Timex.today |> Timex.format!("{ISOdate}")
+      no_direction_id = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
+        date: today)
+      direction_id = Schedules.Repo.origin_destination("Anderson/ Woburn", "North Station",
+        date: today, direction_id: 1)
 
-    assert no_direction_id == direction_id
+      assert no_direction_id == direction_id
+    end
+
+    test "does not return duplicate trips if a stop hits multiple stops with the same parent" do
+      next_tuesday = Util.today
+      |> Timex.end_of_week(:wed)
+      |> Timex.format!("{ISOdate}")
+      # stops multiple times at ruggles
+      response = Schedules.Repo.origin_destination("place-rugg", "1237", date: next_tuesday)
+      trips = Enum.map(response, fn {origin, _} -> origin.trip.id end)
+      assert trips == Enum.uniq(trips)
+    end
   end
 end

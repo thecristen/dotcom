@@ -1,9 +1,4 @@
 <% route_type = Route.type_atom(@route) %>
-<%= if route_type == :bus do %>
-  <div class="list-group-item alerts-modal-button bus">
-    <%= Site.AlertView.inline @conn, alerts: @alerts, time: nil %>
-  </div>
-<% end %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <span class="schedule-col-arrival">Arrival</span>

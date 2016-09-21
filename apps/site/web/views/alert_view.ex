@@ -33,7 +33,10 @@ defmodule Site.AlertView do
     ""
   end
   def inline(_conn, assigns) do
-    render(__MODULE__, "inline.html", assigns)
+    case Keyword.get(assigns, :time) do
+      value when not is_nil(value) ->
+        render(__MODULE__, "inline.html", assigns)
+    end
   end
 
   @doc """
