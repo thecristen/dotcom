@@ -11,7 +11,7 @@
 <% most_frequent_headsign = most_frequent_headsign(@schedules) %>
 <%= for schedule <- @schedules do %>
   <% is_selected_period = schedule.trip.id == @trip %>
-  <% trip_alerts = trip_alerts_for @alerts, schedule %>
+  <% trip_alerts = trip_alerts_for @all_alerts, schedule %>
   <% prediction = @predictions |> Enum.find(&(&1.trip_id == schedule.trip.id)) %>
   <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= schedule.trip.id %>"

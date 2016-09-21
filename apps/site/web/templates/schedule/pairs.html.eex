@@ -14,7 +14,7 @@
 </div>
 <%= for {origin, destination} <- @schedules do %>
   <% is_selected_period = origin.trip.id == @trip %>
-  <% trip_alerts = trip_alerts_for @alerts, [origin, destination] %>
+  <% trip_alerts = trip_alerts_for @all_alerts, [origin, destination] %>
   <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= origin.trip.id %>"
     href="<%= if is_selected_period do %>
