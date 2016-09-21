@@ -85,7 +85,7 @@
                   </a>
                 </li>
               </ul>
-              <ul class="nav-inline pull-right m-b-0 p-x-0 hidden-sm-down" id="social-nav">
+              <ul class="social-nav nav-inline pull-right m-b-0 p-x-0 hidden-sm-down">
                 <li class="nav-item">
                   <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
                     <%= fa "instagram" %>

@@ -43,13 +43,14 @@ body {
 @include media-breakpoint-up(md) {
   // we only need the BG image if the screen is big enough
   .not-found {
-    background-image: url(/images/mbta-train-bkg-404.jpg);
+    background-image: url('/images/mbta-train-bkg-404.jpg');
   }
+
   body {
-    background-image: url(/images/mbta-train-bkg.jpg);
+    background-attachment: fixed;
+    background-image: url('/images/mbta-train-bkg.jpg');
     background-repeat: no-repeat;
     background-size: 100%;
-    background-attachment: fixed;
   }
 }
 
@@ -58,12 +59,19 @@ body {
 }
 
 .navbar-logo {
+  display: block;
+  float: left;
+  height: 36px;
+  margin-right: .5em;
+  width: 36px;
+
   svg {
     fill: $gray-dark;
   }
 }
 
-.navbar-brand, .nav-link {
+.navbar-brand,
+.nav-link {
   color: $gray-dark;
 }
 
@@ -76,21 +84,14 @@ body {
   display: none;
 }
 
-.navbar-logo {
-  float: left;
-  display: block;
-  height: 36px;
-  width: 36px;
-  margin-right: 0.5em;
-}
-
 @include media-breakpoint-down(sm) {
   .header {
     background-color: $brand-primary;
     color: $nav-mobile-link-color;
   }
 
-  .navbar-brand, .nav-link {
+  .navbar-brand,
+  .nav-link {
     color: $nav-mobile-link-color;
 
     @include hover-focus-active {
@@ -106,13 +107,13 @@ body {
 
   .navbar-logo {
     svg {
-      position: absolute;
-      width: 150px;
       left: 4px;
+      position: absolute;
       top: 4px;
+      width: 150px;
 
       g {
-        fill: white;
+        fill: $white;
       }
     }
   }
@@ -141,15 +142,23 @@ body {
   }
 }
 
-#social-nav {
+.social-nav {
   padding-top: 7px;
 
+  @include media-breakpoint-down(md) {
+    // move social icons up on tablets
+    bottom: 3rem;
+    height: 0;
+    padding: 0;
+    position: relative;
+  }
+
   a {
-    width: 24px;
+    border-radius: 100%;
+    color: $white;
     height: 24px;
     text-align: center;
-    border-radius: 100%;
-    color: white;
+    width: 24px;
   }
 
   li {
@@ -157,23 +166,15 @@ body {
   }
 
   .social-nav-instagram {
-    background-color: #1c1e23;
+    background-color: $instagram;
   }
 
   .social-nav-youtube {
-    background-color: #cd201f;
+    background-color: $youtube;
   }
 
   .social-nav-twitter {
-    background-color: #55acee;
-  }
-
-  @include media-breakpoint-down(md) {
-    // move social icons up on tablets
-    position: relative;
-    bottom: 3rem;
-    height: 0;
-    padding: 0;
+    background-color: $twitter;
   }
 }
 
@@ -190,23 +191,23 @@ body {
   background-color: $gray-lightest;
 
   i {
-    padding: 0 .25em;
     color: $gray-light;
+    padding: 0 .25em;
   }
 }
 
 .alert-container {
   @extend .top-bar;
   background-color: $brand-primary-dark;
-  color: white;
+  color: $white;
   font-weight: 300;
 
   a {
-    color: white;
+    color: $white;
     font-weight: initial;
 
     &.btn-link:hover {
-      color: white;
+      color: $white;
     }
   }
 }
@@ -237,13 +238,13 @@ $footer-md-up: 222px;
 }
 
 .footer {
+  background-color: $footer-color;
   bottom: 0;
   font-size: $font-size-sm;
   padding-top: 1rem;
   position: absolute;
   text-align: center;
   width: 100%;
-  background-color: $footer-color;
 
   @include media-breakpoint-only(xs) {
     height: $footer-xs;
@@ -254,8 +255,8 @@ $footer-md-up: 222px;
   }
 
   @include media-breakpoint-up(md) {
-    height: $footer-md-up;
     color: $white;
+    height: $footer-md-up;
   }
 
   @include media-breakpoint-down(sm) {
@@ -263,10 +264,11 @@ $footer-md-up: 222px;
     padding-top: .75rem;
   }
 }
+
 .footer-link-list {
-  padding: 0 0 1em 0;
-  margin-bottom: 0;
   border-bottom: 1px solid $gray-lightest;
+  margin-bottom: 0;
+  padding: 0 0 1em;
 }
 
 .footer-link-sublist {
@@ -291,38 +293,38 @@ $footer-md-up: 222px;
     display: inline;
   }
 
-  & > a {
-    color: $white;
-    font-weight: lighter;
-  }
-
-  &:first-child > a {
-    font-weight: normal;
-  }
-
-  &:first-child {
-    display: list-item;
-  }
-
   @include media-breakpoint-down(sm) {
     &:first-child::after,
     &:last-child::after {
-      content: "";
+      content: '';
     }
 
     &::after {
       color: $white;
-      content: "●";
+      content: '●';
       margin: 0 .25em;
+    }
+  }
+
+  > a {
+    color: $white;
+    font-weight: lighter;
+  }
+
+  &:first-child {
+    display: list-item;
+
+    > a {
+      font-weight: normal;
     }
   }
 }
 
 .footer-copyright {
   display: inline-block;
+  font-weight: lighter;
   margin-bottom: 0;
   padding: 1em 0;
-  font-weight: lighter;
 
   @include media-breakpoint-down(sm) {
     color: $white;
