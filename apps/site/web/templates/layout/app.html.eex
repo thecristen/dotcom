@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines.">
+    <meta name="author" content="Massachusetts Bay Transportation Authority">
     <%= Turbolinks.cache_meta @conn %>
 
     <title><%= case breadcrumbs do
@@ -24,7 +24,6 @@
     <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" as="script">
     <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">
     <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
   </head>
 
   <body class="<%= Site.BodyClass.class_name(@conn) %>">
