@@ -1,0 +1,87 @@
+<footer class="footer">
+  <div class="container">
+    <div class="row m-a-0">
+      <ul class="footer-link-list col-xs-12">
+        <div class="col-xs-12 col-md-3">
+          <li class="footer-link-list-item">
+            <ul class="footer-link-sublist">
+              <li class="footer-link-sublist-item">
+                <%= link "Schedules & Maps", to: mode_path(Site.Endpoint, :index) %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Commuter Rail", to: mode_path(Site.Endpoint, :commuter_rail) %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Bus", to: mode_path(Site.Endpoint, :bus) %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Subway", to: mode_path(Site.Endpoint, :subway) %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Boat", to: mode_path(Site.Endpoint, :boat) %>
+              </li>
+            </ul>
+          </li>
+        </div>
+        <div class="col-xs-12 col-md-3">
+          <li class="footer-link-list-item">
+            <ul class="footer-link-sublist">
+              <li class="footer-link-sublist-item">
+                <%= link "Fares & Passes", to: redirect_path(Site.Endpoint, "fares_and_passes/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "MBTA mTicket", to: redirect_path(Site.Endpoint, "fares_and_passes/mTicketing/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Passes", to: redirect_path(Site.Endpoint, "fares_and_passes/passes/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Reduced Fares Program", to: redirect_path(Site.Endpoint, "fares_and_passes/reduced_fare_programs/") %>
+              </li>
+            </ul>
+          </li>
+        </div>
+        <div class="col-xs-12 col-md-3">
+          <li class="footer-link-list-item">
+            <ul class="footer-link-sublist">
+              <li class="footer-link-sublist-item">
+                <%= link "About the MBTA", to: redirect_path(Site.Endpoint, "about_the_mbta/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "News & Events", to: redirect_path(Site.Endpoint, "about_the_mbta/news_events/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Public Meetings", to: redirect_path(Site.Endpoint, "about_the_mbta/public_meetings/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Career Opportunities", to: redirect_path(Site.Endpoint, "about_the_mbta/career_opps/") %>
+              </li>
+            </ul>
+          </li>
+        </div>
+        <div class="col-xs-12 col-md-3">
+          <li class="footer-link-list-item">
+            <ul class="footer-link-sublist">
+              <li class="footer-link-sublist-item">
+                <%= link "Customer Support", to: redirect_path(Site.Endpoint, "customer_support/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Contact Us", to: redirect_path(Site.Endpoint, "customer_support/contact/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Customer Comment", to: customer_support_path(Site.Endpoint, :index) %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Privacy Policy", to: redirect_path(Site.Endpoint, "customer_support/privacy_policy/") %>
+              </li>
+              <li class="footer-link-sublist-item">
+                <%= link "Terms of Use", to: redirect_path(Site.Endpoint, "customer_support/terms_of_use/") %>
+              </li>
+            </ul>
+          </li>
+        </div>
+      </ul>
+      <p class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
+      </div>
+  </div>
+</footer>
