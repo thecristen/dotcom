@@ -43,11 +43,11 @@
       </div>
       <%= if !@show_all_times do %>
         <a href="<%= update_url(@conn, all_times: "all_times") %>"/>
-          see all times
+          Show more times
         </a>
       <% else %>
         <a href="<%= update_url(@conn, all_times: nil) %>"/>
-           collapse times
+           Show fewer times
         </a>
       <% end %>
     </div>

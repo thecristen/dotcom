@@ -31,6 +31,11 @@
     <%= render "_trip_stop.html", origin: false, destination: true, trip_schedule: fourth %>
   <% end %>
 </ul>
+<%= if @show_all_stops do %>
+   <a href="<%= update_url(@conn, all_stops: nil) %>"/>
+      Show fewer stops
+   </a>
+<% end %>
 <p class="m-b-0">
   Trip duration:
   <strong>
