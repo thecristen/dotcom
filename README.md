@@ -99,7 +99,8 @@ In order to make sure the tests are reproducible, we use
    * A quick way to update the files would be to run:
    ```bash
    $ find ./apps/site/backstop_data/bitmaps_test -type d | sort | tail -1
-   ``` to find the directory the new images are saved in, and use that directory in
+   ```
+   to find the directory the new images are saved in, and use that directory in
    ```bash
    $ cp ${<that directory>}/{<comma separated prefixs for your files>}*.png apps/site/backstop_data/bitmaps_reference
    ```
