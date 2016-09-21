@@ -1,7 +1,17 @@
-<%= if @prediction.status do %>
+<% different_time? = @prediction.time != nil && @schedule.time != nil && !Timex.equal?(@prediction.time, @schedule.time) %>
+<strong <%= if @prediction.status == "All Aboard" do %>style="text-decoration: underline;"<% end %>>
   <%= fa "clock-o" %>
-  <strong <%= if @prediction.status == "All Aboard" do %>style="text-decoration: underline;"<% end %>>
+  <%= if @prediction.status do %>
     <%= @prediction.status %>
     <%= if @prediction.track do %>on track&nbsp;<%= @prediction.track %><% end %>
-  </strong>
-<% end %>
+    <%= if different_time? && not(@prediction.status in ["All Aboard", "Now Boarding"]) do %>
+      (est. departure: <%= @prediction.time |> Timex.format!("{kitchen}") %>)
+    <% end %>
+  <% else %>
+    <%= if different_time? do %>
+      Estimated departure: <%= @prediction.time |> Timex.format!("{kitchen}") %>
+    <% else %>
+      On Time
+    <% end %>
+  <% end %>
+</strong>

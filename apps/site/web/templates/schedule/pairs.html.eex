@@ -24,11 +24,11 @@
     <% end %>">
     <% prediction = @predictions |> Enum.find(&(&1.trip_id == origin.trip.id)) %>
     <span class="schedule-col-departure"><span class="sr-only">Departure:</span>
+      <%= origin.time |> Timex.format!("{kitchen}") %>
       <%= if prediction do %>
-        <%= prediction.time |> Timex.format!("{kitchen}") %> <%= fa "rss" %>
+        <%= fa "rss" %>
       <% else %>
-        <%= origin.time |> Timex.format!("{kitchen}") %>
-      <% end %>
+<% end %>
     </span>
     <span class="schedule-col-arrival"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
     <span class="schedule-col-pair-notes">
@@ -42,8 +42,8 @@
     </span>
     <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>
     <%= if prediction do %>
-      <span class="col-xs-12 text-strong">
-        <%= render "_prediction.html", prediction: prediction %>
+      <span class="col-xs-12">
+        <%= render "_prediction.html", prediction: prediction, schedule: origin %>
       </span>
     <% end %>
     <%= if is_selected_period && predictions_enabled? do %>
