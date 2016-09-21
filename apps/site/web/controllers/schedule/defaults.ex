@@ -23,15 +23,12 @@ defmodule Site.ScheduleController.Defaults do
 
     show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(today, date)
 
-    show_all_stops = params["all_stops"] != nil
-
-    show_all_times = params["all_times"] != nil
+    show_full_list = params["full_list"] != nil
 
     [
       date: date,
       show_all_schedules: show_all_schedules,
-      show_all_stops: show_all_stops,
-      show_all_times: show_all_times,
+      show_full_list: show_full_list,
       direction_id: direction_id,
       origin: case params["origin"] do
                 "" -> nil
