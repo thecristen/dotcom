@@ -41,7 +41,7 @@
         <%= end %>
         <div class="col-xs-12">
           <h2 class="h5"><strong><%= @mode_name %> Fares</strong></h2>
-          <p><%= @fare_description %></p>
+          <p><%= @fare_description |> raw %></p>
           <ul class="fare-list">
             <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>
               <li class="col-xs-12">

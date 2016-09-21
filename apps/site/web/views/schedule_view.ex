@@ -130,6 +130,13 @@ defmodule Site.ScheduleView do
     |> Enum.reverse
   end
 
+  @doc "Return the icon for the schedule row depending on whether it's selected"
+  def selected_caret(true) do
+    fa "caret-up pull-right"
+  end
+  def selected_caret(false) do
+    fa "caret-down pull-right"
+  end
 
   @doc "Prefix route name with route for bus lines"
   def header_text(3, name), do: "Route #{name}"

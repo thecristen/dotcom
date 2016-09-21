@@ -28,7 +28,7 @@
         <span class="sr-only">Has an alert</span>
       <% end %>
     </span>
-    <span class="schedule-col-1 pull-right"><%= fa "caret-down pull-right" %></span>
+    <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>
   </a>
   <%= if is_selected_period do %>
     <div class="schedule-list-group-item selected-period">
