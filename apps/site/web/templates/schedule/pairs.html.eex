@@ -1,7 +1,4 @@
 <% route_type = Route.type_atom(@route) %>
-<%= if route_type == :bus do %>
-  <%= Site.AlertView.inline @conn, alerts: @alerts, time: (@schedules |> List.first |> elem(0)).time %>
-<% end %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <span class="schedule-col-arrival">Arrival</span>
