@@ -67,29 +67,6 @@ body {
   color: $gray-dark;
 }
 
-.footer-link-list {
-  @include clearfix;
-  padding: 0;
-}
-
-.footer-link-list-item {
-  display: inline;
-  list-style: none;
-
-  &:before {
-    content: ' | ';
-  }
-  &:first-child:before {
-    content: '';
-  }
-}
-
-.footer-link {
-  @include media-breakpoint-up(md) {
-    color: white;
-  }
-}
-
 .main-container {
   @extend .bg-white;
   padding-bottom: 1em;
@@ -241,43 +218,113 @@ html {
 
 // For the sticky footer
 
-$footer-xs: 107px;
-$footer-sm-up: 86px;
-$footer-offset: 12px;
+$footer-xs: 426px;
+$footer-sm: 342px;
+$footer-md-up: 222px;
 
 .body-wrapper {
   @include media-breakpoint-only(xs) {
-    margin-bottom: $footer-xs - $footer-offset;
+    margin-bottom: $footer-xs;
   }
 
-  @include media-breakpoint-up(sm) {
-    margin-bottom: $footer-sm-up - $footer-offset;
+  @include media-breakpoint-only(sm) {
+    margin-bottom: $footer-sm;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: $footer-md-up;
   }
 }
 
 .footer {
   bottom: 0;
   font-size: $font-size-sm;
-  padding-top: 2rem;
+  padding-top: 1rem;
   position: absolute;
   text-align: center;
   width: 100%;
+  background-color: $footer-color;
 
   @include media-breakpoint-only(xs) {
     height: $footer-xs;
   }
 
-  @include media-breakpoint-up(sm) {
-    height: $footer-sm-up;
+  @include media-breakpoint-only(sm) {
+    height: $footer-sm;
   }
 
   @include media-breakpoint-up(md) {
+    height: $footer-md-up;
     color: $white;
   }
 
   @include media-breakpoint-down(sm) {
-    background-color: $gray-lightest;
     margin-top: -.75rem;
     padding-top: .75rem;
+  }
+}
+.footer-link-list {
+  padding: 0 0 1em 0;
+  margin-bottom: 0;
+  border-bottom: 1px solid $gray-lightest;
+}
+
+.footer-link-sublist {
+  list-style: none;
+  padding: 0;
+
+ }
+
+.footer-link-list-item {
+  list-style: none;
+  text-align: left;
+
+  @include media-breakpoint-down(sm) {
+    margin: .75em 0;
+  }
+}
+
+.footer-link-sublist-item {
+  margin: .25em 0;
+
+  @include media-breakpoint-down(sm) {
+    display: inline;
+  }
+
+  & > a {
+    color: $white;
+    font-weight: lighter;
+  }
+
+  &:first-child > a {
+    font-weight: normal;
+  }
+
+  &:first-child {
+    display: list-item;
+  }
+
+  @include media-breakpoint-down(sm) {
+    &:first-child::after,
+    &:last-child::after {
+      content: "";
+    }
+
+    &::after {
+      color: $white;
+      content: "●";
+      margin: 0 .25em;
+    }
+  }
+}
+
+.footer-copyright {
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 1em 0;
+  font-weight: lighter;
+
+  @include media-breakpoint-down(sm) {
+    color: $white;
   }
 }
