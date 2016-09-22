@@ -26,8 +26,16 @@ defmodule Alerts.Alert do
     # Suspensions are not notices
     false
   end
-  for effect <- ["Shuttle", "Stop Closure", "Snow Route", "Cancellation", "Detour", "No Service"] do
-    def is_notice?(%__MODULE__{effect_name: unquote(effect), lifecycle: "Ongoing"}, _) do
+  for effect <- [
+        "Shuttle",
+        "Stop Closure",
+        "Snow Route",
+        "Cancellation",
+        "Detour",
+        "No Service",
+        "Service Change"
+                ] do
+    def is_notice?(%__MODULE__{effect_name: unquote(effect), lifecycle: "Ongoing" <> _}, _) do
       # Ongoing alerts are notices
       true
     end
