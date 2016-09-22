@@ -11,22 +11,19 @@ defmodule Site.ScheduleController.Defaults do
   def init([]), do: []
 
   def call(conn, []) do
-    conn.params
+    conn
     |> index_params
     |> Enum.reduce(conn, fn {key, value}, conn -> assign(conn, key, value) end)
   end
 
-  defp index_params(params) do
-    date = default_date(params)
-
+  defp index_params(%{params: params} = conn) do
     direction_id = default_direction_id(params)
 
-    show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(today, date)
+    show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(today, conn.assigns.date)
 
     show_full_list = params["full_list"] != nil
 
     [
-      date: date,
       show_all_schedules: show_all_schedules,
       show_full_list: show_full_list,
       direction_id: direction_id,
@@ -39,13 +36,6 @@ defmodule Site.ScheduleController.Defaults do
                      value -> value
                    end,
     ]
-  end
-
-  defp default_date(params) do
-    case Timex.parse(params["date"], "{ISOdate}") do
-      {:ok, value} -> value |> Timex.to_date
-      _ -> today
-    end
   end
 
   defp default_direction_id(%{"direction_id" => direction_str}) when is_binary(direction_str) do

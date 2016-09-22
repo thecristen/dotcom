@@ -25,9 +25,7 @@ defmodule Site.Plugs.Alerts do
     |> assign(:all_alerts, alerts(conn))
   end
 
-  defp assign_current_upcoming(%{assigns: %{all_alerts: all_alerts}} = conn) do
-    date = date(conn.params["date"])
-
+  defp assign_current_upcoming(%{assigns: %{all_alerts: all_alerts, date: date}} = conn) do
     {current_alerts, not_current_alerts} = all_alerts
     |> Enum.partition(fn alert -> Alerts.Match.any_time_match?(alert, date) end)
 
@@ -44,11 +42,12 @@ defmodule Site.Plugs.Alerts do
   end
 
   defp assign_alerts_notices(%{assigns: %{
+                                  date: date,
                                   current_alerts: current_alerts,
                                   upcoming_alerts: upcoming_alerts
                                }} = conn) do
     {notices, alerts} = current_alerts
-    |> Enum.partition(&Alerts.Alert.is_notice?/1)
+    |> Enum.partition(fn alert -> Alerts.Alert.is_notice?(alert, date) end)
 
     # put anything upcoming in the notices block, but at the end
     notices = [notices, upcoming_alerts]
@@ -99,16 +98,6 @@ defmodule Site.Plugs.Alerts do
     case Integer.parse(str) do
       {id, ""} -> id
       _ -> nil
-    end
-  end
-
-  defp date(nil) do
-    Util.now
-  end
-  defp date(str) when is_binary(str) do
-    case Timex.parse(str, "{ISOdate}") do
-      {:ok, value} -> Timex.to_date(value)
-      _ -> Util.today
     end
   end
 
