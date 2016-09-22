@@ -110,7 +110,6 @@ defmodule Site.Plugs.Alerts do
   end
 
   defp sort(alerts) do
-    alerts
-    |> Enum.sort_by(&{-Timex.to_unix(&1.updated_at), &1.id})
+    Alerts.Sort.sort(alerts)
   end
 end
