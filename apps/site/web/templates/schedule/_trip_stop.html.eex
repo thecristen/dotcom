@@ -20,6 +20,6 @@
     <%= if Alerts.Match.match(@alerts, %Alerts.InformedEntity{stop: @trip_schedule.stop.id}) != [] do %>
       <%= Site.AlertView.tooltip %>
     <% end %>
-    <%= map_icon_link(@trip_schedule.stop) %>
+    <%= station_info_link(@trip_schedule.stop) %>
   </p>
 </li>
