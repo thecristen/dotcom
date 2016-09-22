@@ -1,7 +1,7 @@
 <div>
   <div class="card card-section">
     <div class="card-header hub-header">
-      <h1><%= mode_icon @route_type %><strong><%= @mode_name %> Schedules &amp; Maps</strong></h1>
+      <h1><%= mode_icon %{type: @route_type} %><strong><%= @mode_name %> Schedules &amp; Maps</strong></h1>
     </div>
     <div class="card-block">
       <div class="row">
@@ -41,7 +41,7 @@
         <%= end %>
         <div class="col-xs-12">
           <h2><strong><%= @mode_name %> Fares</strong></h2>
-          <p><%= @fare_description %></p>
+          <p><%= @fare_description |> raw %></p>
           <ul class="fare-list">
             <%= for {title, price} <- [{"Passes/Tickets", "Fare"} | @fares] do %>
               <li class="col-xs-12">

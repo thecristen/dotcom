@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/76052"},"id":"76052","attributes":{"wheelchair_boarding":0,"name":"South St @ Russell St","longitude":-71.249977,"latitude":42.375512}}}

@@ -1,5 +1,6 @@
 defmodule Site.ScheduleView do
   use Site.Web, :view
+  alias Routes.Route
 
   def stop_alerts_for(alerts, stop_ids, opts) do
     stop_ids
@@ -29,7 +30,7 @@ defmodule Site.ScheduleView do
   def update_url(%{params: params} = conn, query) do
     params = params || %{}
     query_map = query
-    |> Enum.map(fn {key, value} -> {Atom.to_string(key), to_string(value)} end)
+    |> Enum.map(fn {key, value} -> {Atom.to_string(key), value} end)
     |> Enum.into(%{})
 
     new_query = params
@@ -60,7 +61,6 @@ defmodule Site.ScheduleView do
     |> Enum.map(&hidden_tag/1)
   end
 
-  defp empty_value?({_, ""}), do: true
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
 
@@ -86,7 +86,7 @@ defmodule Site.ScheduleView do
 
   def map_icon_link(station) do
     case Stations.Repo.get(station.id) do
-      nil -> station.name
+      nil -> raw ""
       _ -> link fa("map-o"), to: station_path(Site.Endpoint, :show, station.id)
     end
   end
@@ -94,7 +94,7 @@ defmodule Site.ScheduleView do
   def reverse_direction_opts(origin, dest, route_id, direction_id) do
     new_origin = dest || origin
     new_dest = dest && origin
-    [trip: "", direction_id: direction_id, route: route_id]
+    [trip: nil, direction_id: direction_id, route: route_id]
     |> Keyword.merge(
       if Schedules.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
         [dest: new_dest, origin: new_origin]
@@ -108,6 +108,41 @@ defmodule Site.ScheduleView do
     schedules
     |> Enum.map(&(&1.trip.headsign))
     |> Util.most_frequent_value
+  end
+
+  def trip(schedules, from_id, to_id) do
+    schedules
+    |> filter_beginning(from_id)
+    |> filter_end(to_id)
+  end
+
+  defp filter_beginning(schedules, from_id) do
+    Enum.drop_while(schedules, &(&1.stop.id !== from_id))
+  end
+
+  defp filter_end(schedules, nil) do
+    schedules
+  end
+  defp filter_end(schedules, to_id) do
+    schedules
+    |> Enum.reverse
+    |> Enum.drop_while(&(&1.stop.id !== to_id))
+    |> Enum.reverse
+  end
+
+  @doc "Return the icon for the schedule row depending on whether it's selected"
+  def selected_caret(true) do
+    fa "caret-up pull-right"
+  end
+  def selected_caret(false) do
+    fa "caret-down pull-right"
+  end
+
+  def schedule_list(schedules, true) do
+    schedules
+  end
+  def schedule_list(schedules, false) do
+    Enum.slice(schedules, 0..8)
   end
 
   @doc "Prefix route name with route for bus lines"

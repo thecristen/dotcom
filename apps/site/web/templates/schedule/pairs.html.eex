@@ -1,8 +1,9 @@
+<% route_type = Route.type_atom(@route) %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <span class="schedule-col-arrival">Arrival</span>
   <span class="schedule-col-pair-notes">
-    <%= if @route.type == 2 do %>Train<% else %>Notes<% end %>
+    <%= if route_type == :commuter_rail do %>Train<% else %>Notes<% end %>
   </span>
 </div>
 <%= for {origin, destination} <- @schedules do %>
@@ -19,7 +20,7 @@
     <span class="schedule-col-arrival"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
     <span class="schedule-col-pair-notes">
       <%= if origin.trip.name != "" do %>
-        <span class="sr-only"><%= if @route.type == 2 do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
+        <span class="sr-only"><%= if route_type == :commuter_rail do %>Train <% else %>Notes <% end %></span><%= origin.trip.name %>
       <% end %>
       <%= if origin.route.id != @route.id do %>(via <%= origin.route.name |> clean_route_name %>)<% end %>
       <%= if trip_alerts != [] do %>
@@ -27,12 +28,12 @@
         <span class="sr-only">Has an alert</span>
       <% end %>
     </span>
-    <span class="schedule-col-1 pull-right"><%= fa "caret-down pull-right" %></span>
+    <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>
   </a>
   <%= if is_selected_period do %>
     <div class="schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: origin.time %>
-      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from, show_all_stops: @show_all_stops, conn: @conn %>
+      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from, show_full_list: @show_full_list, conn: @conn %>
     </div>
   <% end %>
 <% end %>

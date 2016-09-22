@@ -26,29 +26,8 @@ defmodule Routes.Group do
   end
 
   defp reducer(route, acc) do
-    acc_key = key(route)
-
     acc
-    |> Dict.update(acc_key, [route], fn(value) -> [route|value] end)
-  end
-
-  defp key(%{type: 0}) do
-    :subway
-  end
-  defp key(%{type: 1}) do
-    :subway
-  end
-  defp key(%{type: 2}) do
-    :commuter_rail
-  end
-  defp key(%{type: 3}) do
-    :bus
-  end
-  defp key(%{type: 4}) do
-    :boat
-  end
-  defp key(%{type: _}) do
-    :other
+    |> Dict.update(Route.type_atom(route), [route], fn(value) -> [route|value] end)
   end
 
 end

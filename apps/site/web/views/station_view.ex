@@ -57,7 +57,7 @@ defmodule Site.StationView do
                    <<"https://", _::binary>> -> href
                    _ -> "http://" <> href
                  end
-    content_tag(:a, value, href: href_value)
+    content_tag(:a, value, href: href_value, target: "_blank")
   end
 
   def sort_parking_spots(spots) do

@@ -14,6 +14,9 @@
       <% @destination -> %><strong><%= @trip_schedule.stop.name %> (destination)</strong>
       <% true -> %><%= @trip_schedule.stop.name %>
     <% end %>
+    <%= if @trip_schedule.flag? do %>
+      <span class="schedule-flag">F</span>
+    <% end %>
     <%= map_icon_link(@trip_schedule.stop) %>
   </p>
 </li>

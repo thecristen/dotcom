@@ -17,8 +17,6 @@ $gray-light: #788093;
 $gray-lighter: #b0b5c0;
 $gray-lightest: #e9eaed;
 
-$white: #fff;
-
 $grid-breakpoints: (
   xs: 0,
   sm: 544px,
@@ -37,6 +35,15 @@ $font-size-h2: 1.125rem;
 $font-size-h3: 1rem;
 $font-size-h4: 0.825rem;
 $font-size-h5: 0.75rem;
+$font-size-h6: 0.625rem;
+
+$font-size-h1-mobile: $font-size-h2;
+$font-size-h2-mobile: $font-size-h3;
+$font-size-h3-mobile: $font-size-h4;
+$font-size-h4-mobile: $font-size-h5;
+$font-size-h5-mobile: $font-size-h6;
+$font-size-h6-mobile: 0.5rem;
+
 $headings-font-weight: bold;
 
 
@@ -94,3 +101,8 @@ $brand-success: #428608;
 $brand-danger: #ff1428;
 
 $route-icon-diameter: 36px;
+$footer-color: #071d2e;
+
+$instagram: #1c1e23;
+$youtube: #cd201f;
+$twitter: #55acee;

@@ -4,7 +4,7 @@
       <h2>
         <%= mode_icon @route_type %>
         <span><%= atom_to_string_with_spaces @route_type %> </span>
-        <%= Site.PageView.schedule_separator %> 
+        <%= Site.PageView.schedule_separator %>
         <small>
           <a href="<%= mode_path(@conn, @route_type) %>">View All &raquo;</a>
         </small>

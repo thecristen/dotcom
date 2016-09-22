@@ -5,7 +5,7 @@ defmodule Schedules.Repo do
   @default_timeout 10_000
   @default_params [
       include: "trip.route,stop.parent_station",
-      "fields[schedule]": "departure_time",
+      "fields[schedule]": "departure_time,drop_off_type,pickup_type",
       "fields[stop]": "name"
   ]
   def all(opts) do
@@ -66,6 +66,7 @@ defmodule Schedules.Repo do
       origin_stops
       |> Join.join(dest_stops, fn schedule -> schedule.trip.id end)
       |> Enum.filter(fn {o, d} -> Timex.before?(o.time, d.time) end) # filter out reverse trips
+      |> Enum.uniq_by(fn {o, _} -> o.trip.id end)
     end)
   end
 

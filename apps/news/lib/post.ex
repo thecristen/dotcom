@@ -1,3 +1,3 @@
 defmodule News.Post do
-  defstruct [:filename, :id, :date, :attributes, :body]
+  defstruct [:id, :attributes, :body]
 end

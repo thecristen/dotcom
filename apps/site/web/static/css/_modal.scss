@@ -60,6 +60,10 @@
   &.disabled {
     font-weight: normal;
   }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .btn-select-modal {

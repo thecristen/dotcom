@@ -28,130 +28,115 @@
   </head>
 
   <body class="<%= Site.BodyClass.class_name(@conn) %>">
-    <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
-    <%= if BetaAnnouncement.show_announcement?(@conn) do %>
-      <div class="container-fluid alert-container">
-        <div class="container">
-          <div class="col-xs-12 p-l-0">
-            <%= render __MODULE__, "_beta_announcement.html", assigns %>
+    <div class="body-wrapper">
+      <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
+      <%= if BetaAnnouncement.show_announcement?(@conn) do %>
+        <div class="container-fluid alert-container">
+          <div class="container">
+            <div class="col-xs-12 p-l-0">
+              <%= render __MODULE__, "_beta_announcement.html", assigns %>
+            </div>
           </div>
         </div>
-      </div>
-    <% end %>
-    <header class="header">
-      <div class="container">
-        <div class="navbar">
-          <button class="navbar-toggler hidden-md-up pull-right" type="button" data-toggle="collapse" data-target="#navbar">
-            <small>Menu <%= fa "angle-down" %></small>
-          </button>
-          <a class="navbar-brand" href="/">
-            <span class="sr-only">MBTA Home Page</span>
-            <span class="navbar-logo" aria-hidden="true">
-              <%= svg "logo-beta.svg" %>
-            </span>
-          </a>
-        </div>
-        <div>
-          <nav class="collapse navbar navbar-toggleable-sm" id="navbar" role="navigation">
-            <ul class="nav navbar-nav">
-              <li class="nav-item">
-                <% schedules_path = mode_path(@conn, :index, []) %>
-                <a class="nav-link" href="<%= schedules_path %>">
-                  <%= bold_if_active @conn, schedules_path, "Schedules &amp; Maps" %>
-                </a>
-              </li>
-              <li class="nav-item">
-                <% fares_path = redirect_path @conn, "fares_and_passes/" %>
-                <a class="nav-link" href="<%= fares_path %>">
-                  <%= bold_if_active @conn, fares_path, "Fares &amp; Passes" %>
-                </a>
-              </li>
-              <li class="nav-item">
-                <% riding_path = redirect_path @conn, "riding_the_t/" %>
-                <a class="nav-link" href="<%= riding_path %>">
-                  <%= bold_if_active @conn, riding_path, "Riding the T" %>
-                </a>
-              </li>
-              <li class="nav-item">
-                <% alerts_path = redirect_path @conn, "rider_tools/transit_updates/" %>
-                <a class="nav-link" href="<%= alerts_path %>">
-                  <%= bold_if_active @conn, alerts_path, "Service Alerts" %>
-                  </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%= feedback_form_url %>" target="_blank">
-                  Submit Feedback
-                </a>
-              </li>
-            </ul>
-            <ul class="nav-inline pull-right m-b-0 p-x-0 hidden-sm-down" id="social-nav">
-              <li class="nav-item">
-                <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
-                  <%= fa "instagram" %>
-                  <span class="sr-only">MBTA Instagram</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link social-nav-youtube" href="https://www.youtube.com/user/mbtagm/" target="_blank">
-                  <%= fa "youtube" %>
-                  <span class="sr-only">MBTA Youtube</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link social-nav-twitter" href="https://twitter.com/MBTA" target="_blank">
-                  <%= fa "twitter" %>
-                  <span class="sr-only">MBTA Twitter</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link social-nav-facebook" href="https://www.facebook.com/TheMBTA/" target="_blank">
-                  <%= fa "facebook" %>
-                  <span class="sr-only">MBTA Facebook</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </header>
-    <%= if breadcrumbs != [] do %>
-      <div class="container-fluid breadcrumb-container">
+      <% end %>
+      <header class="header">
         <div class="container">
-          <div class="col-xs-12 p-l-0">
-            <% breadcrumb_length = length @breadcrumbs %>
-            <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
-
-            <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
-            <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
-
-            <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
-              <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
-                <a href="<%= link %>"><%= text %></a>
-                <%= fa "angle-right" %>
+          <div class="navbar">
+            <button class="navbar-toggler hidden-md-up pull-right" type="button" data-toggle="collapse" data-target="#navbar">
+              <small>Menu <%= fa "angle-down" %></small>
+            </button>
+            <a class="navbar-brand" href="/">
+              <span class="sr-only">MBTA Home Page</span>
+              <span class="navbar-logo" aria-hidden="true">
+                <%= svg "logo-beta.svg" %>
               </span>
-            <% end %>
-            <%= last_text %>
+            </a>
+          </div>
+          <div>
+            <nav class="collapse navbar navbar-toggleable-sm" id="navbar" role="navigation">
+              <ul class="nav navbar-nav">
+                <li class="nav-item">
+                  <% schedules_path = mode_path(@conn, :index, []) %>
+                  <a class="nav-link" href="<%= schedules_path %>">
+                    <%= bold_if_active @conn, schedules_path, "Schedules &amp; Maps" %>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <% fares_path = redirect_path @conn, "fares_and_passes/" %>
+                  <a class="nav-link" href="<%= fares_path %>">
+                    <%= bold_if_active @conn, fares_path, "Fares &amp; Passes" %>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <% riding_path = redirect_path @conn, "riding_the_t/" %>
+                  <a class="nav-link" href="<%= riding_path %>">
+                    <%= bold_if_active @conn, riding_path, "Riding the T" %>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <% alerts_path = redirect_path @conn, "rider_tools/transit_updates/" %>
+                  <a class="nav-link" href="<%= alerts_path %>">
+                    <%= bold_if_active @conn, alerts_path, "Service Alerts" %>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= feedback_form_url %>" target="_blank">
+                    Submit Feedback
+                  </a>
+                </li>
+              </ul>
+              <ul class="social-nav nav-inline pull-right m-b-0 p-x-0 hidden-sm-down">
+                <li class="nav-item">
+                  <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
+                    <%= fa "instagram" %>
+                    <span class="sr-only">MBTA Instagram</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link social-nav-youtube" href="https://www.youtube.com/user/mbtagm/" target="_blank">
+                    <%= fa "youtube" %>
+                    <span class="sr-only">MBTA Youtube</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link social-nav-twitter" href="https://twitter.com/MBTA" target="_blank">
+                    <%= fa "twitter" %>
+                    <span class="sr-only">MBTA Twitter</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
-      </div>
-    <% end %>
-    <div class="container">
-      <main class="full-width" id="main" tabindex="-1">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
+      </header>
+      <%= if breadcrumbs != [] do %>
+        <div class="container-fluid breadcrumb-container">
+          <div class="container">
+            <div class="col-xs-12 p-l-0">
+              <% breadcrumb_length = length @breadcrumbs %>
+              <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
 
-      <footer class="footer full-width">
-        <ul class="footer-link-list">
-          <li class="footer-link-list-item">
-            <a class="footer-link" href="<%= redirect_path @conn, "customer_support/privacy_policy/" %>">Privacy Policy</a>
-          </li>
-          <li class="footer-link-list-item">
-            <a class="footer-link" href="<%= redirect_path @conn, "customer_support/terms_of_use/" %>">Terms of Use</a>
-          </li>
-        </ul>
-        <p>&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
-      </footer>
-    </div> <%# /container %>
+              <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
+              <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
+
+              <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
+                <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
+                  <a href="<%= link %>"><%= text %></a>
+                  <%= fa "angle-right" %>
+                </span>
+              <% end %>
+              <%= last_text %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="container">
+        <main class="full-width" id="main" tabindex="-1">
+          <%= render @view_module, @view_template, assigns %>
+        </main>
+      </div> <%# /container %>
+      <%= render __MODULE__, "_footer.html" %>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" data-turbolinks-eval="false"></script>
     <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
     <%= if google_tag_manager_id do %>

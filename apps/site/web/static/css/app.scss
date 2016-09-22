@@ -44,13 +44,14 @@ body {
 @include media-breakpoint-up(md) {
   // we only need the BG image if the screen is big enough
   .not-found {
-    background-image: url(/images/mbta-train-bkg-404.jpg);
+    background-image: url('/images/mbta-train-bkg-404.jpg');
   }
+
   body {
-    background-image: url(/images/mbta-train-bkg.jpg);
+    background-attachment: fixed;
+    background-image: url('/images/mbta-train-bkg.jpg');
     background-repeat: no-repeat;
     background-size: 100%;
-    background-attachment: fixed;
   }
 }
 
@@ -59,50 +60,20 @@ body {
 }
 
 .navbar-logo {
+  display: block;
+  float: left;
+  height: 36px;
+  margin-right: .5em;
+  width: 36px;
+
   svg {
     fill: $gray-dark;
   }
 }
 
-.navbar-brand, .nav-link {
+.navbar-brand,
+.nav-link {
   color: $gray-dark;
-}
-
-.footer {
-  @include media-breakpoint-up(md) {
-    margin-top: 2.25rem;
-    color: white;
-  }
-  @include media-breakpoint-down(sm) {
-    padding-top: .75rem;
-    margin-top: -.75rem;
-    background-color: $gray-lightest;
-  }
-  text-align: center;
-  font-size: $font-size-sm;
-}
-
-.footer-link-list {
-  @include clearfix;
-  padding: 0;
-}
-
-.footer-link-list-item {
-  display: inline;
-  list-style: none;
-
-  &:before {
-    content: ' | ';
-  }
-  &:first-child:before {
-    content: '';
-  }
-}
-
-.footer-link {
-  @include media-breakpoint-up(md) {
-    color: white;
-  }
 }
 
 .main-container {
@@ -114,21 +85,14 @@ body {
   display: none;
 }
 
-.navbar-logo {
-  float: left;
-  display: block;
-  height: 36px;
-  width: 36px;
-  margin-right: 0.5em;
-}
-
 @include media-breakpoint-down(sm) {
   .header {
     background-color: $brand-primary;
     color: $nav-mobile-link-color;
   }
 
-  .navbar-brand, .nav-link {
+  .navbar-brand,
+  .nav-link {
     color: $nav-mobile-link-color;
 
     @include hover-focus-active {
@@ -144,13 +108,13 @@ body {
 
   .navbar-logo {
     svg {
-      position: absolute;
-      width: 150px;
       left: 4px;
+      position: absolute;
       top: 4px;
+      width: 150px;
 
       g {
-        fill: white;
+        fill: $white;
       }
     }
   }
@@ -179,15 +143,23 @@ body {
   }
 }
 
-#social-nav {
+.social-nav {
   padding-top: 7px;
 
+  @include media-breakpoint-down(md) {
+    // move social icons up on tablets
+    bottom: 3rem;
+    height: 0;
+    padding: 0;
+    position: relative;
+  }
+
   a {
-    width: 24px;
+    border-radius: 100%;
+    color: $white;
     height: 24px;
     text-align: center;
-    border-radius: 100%;
-    color: white;
+    width: 24px;
   }
 
   li {
@@ -195,27 +167,15 @@ body {
   }
 
   .social-nav-instagram {
-    background-color: #1c1e23;
+    background-color: $instagram;
   }
 
   .social-nav-youtube {
-    background-color: #cd201f;
+    background-color: $youtube;
   }
 
   .social-nav-twitter {
-    background-color: #55acee;
-  }
-
-  .social-nav-facebook {
-    background-color: #395185;
-  }
-
-  @include media-breakpoint-down(md) {
-    // move social icons up on tablets
-    position: relative;
-    bottom: 5rem;
-    height: 0;
-    padding: 0;
+    background-color: $twitter;
   }
 }
 
@@ -232,23 +192,147 @@ body {
   background-color: $gray-lightest;
 
   i {
-    padding: 0 .25em;
     color: $gray-light;
+    padding: 0 .25em;
   }
 }
 
 .alert-container {
   @extend .top-bar;
   background-color: $brand-primary-dark;
-  color: white;
-  font-weight: lighter;
+  color: $white;
+  font-weight: 300;
 
   a {
-    color: white;
+    color: $white;
     font-weight: initial;
 
     &.btn-link:hover {
-      color: white;
+      color: $white;
     }
   }
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+// For the sticky footer
+
+$footer-xs: 426px;
+$footer-sm: 342px;
+$footer-md-up: 222px;
+
+.body-wrapper {
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $footer-xs;
+  }
+
+  @include media-breakpoint-only(sm) {
+    margin-bottom: $footer-sm;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: $footer-md-up;
+  }
+}
+
+.footer {
+  background-color: $footer-color;
+  bottom: 0;
+  font-size: $font-size-sm;
+  padding-top: 1rem;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+
+  @include media-breakpoint-only(xs) {
+    height: $footer-xs;
+  }
+
+  @include media-breakpoint-only(sm) {
+    height: $footer-sm;
+  }
+
+  @include media-breakpoint-up(md) {
+    color: $white;
+    height: $footer-md-up;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-top: -.75rem;
+    padding-top: .75rem;
+  }
+}
+
+.footer-link-list {
+  border-bottom: 1px solid $gray-lightest;
+  margin-bottom: 0;
+  padding: 0 0 1em;
+}
+
+.footer-link-sublist {
+  list-style: none;
+  padding: 0;
+
+ }
+
+.footer-link-list-item {
+  list-style: none;
+  text-align: left;
+
+  @include media-breakpoint-down(sm) {
+    margin: .75em 0;
+  }
+}
+
+.footer-link-sublist-item {
+  margin: .25em 0;
+
+  @include media-breakpoint-down(sm) {
+    display: inline;
+  }
+
+  @include media-breakpoint-down(sm) {
+    &:first-child::after,
+    &:last-child::after {
+      content: '';
+    }
+
+    &::after {
+      color: $white;
+      content: '●';
+      margin: 0 .25em;
+    }
+  }
+
+  > a {
+    color: $white;
+    font-weight: lighter;
+  }
+
+  &:first-child {
+    display: list-item;
+
+    > a {
+      font-weight: normal;
+    }
+  }
+}
+
+.footer-copyright {
+  display: inline-block;
+  font-weight: lighter;
+  margin-bottom: 0;
+  padding: 1em 0;
+
+  @include media-breakpoint-down(sm) {
+    color: $white;
+  }
+}
+
+// To be removed once the smart banner is disabled
+.smartbanner {
+  top: -80px;
 }

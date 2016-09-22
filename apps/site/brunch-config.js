@@ -86,7 +86,7 @@ exports.config = {
 
   hooks: {
     onCompile: function() {
-      exec("node_modules/svgo/bin/svgo -f priv/static/images --enable=removeTitle --disable=cleanupIDs");
+      exec("node_modules/svgo/bin/svgo -f priv/static/images --config svgo.yml");
     }
   }
 };

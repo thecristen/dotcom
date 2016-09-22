@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/Wellesley Farms"},"id":"Wellesley Farms","attributes":{"wheelchair_boarding":2,"name":"Wellesley Farms","longitude":-71.272288,"latitude":42.323608}}}

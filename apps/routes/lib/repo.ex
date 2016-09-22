@@ -76,21 +76,17 @@ defmodule Routes.Repo do
     end
   end
 
-  def do_headsigns([]) do
-    %{
-      0 => [],
-      1 => []
-    }
-  end
   def do_headsigns(routes) do
     routes
-    |> Enum.map(&direction_headsign_pair_from_trip/1)
+    |> Enum.flat_map(&direction_headsign_pair_from_trip/1)
     |> Enum.group_by(&(elem(&1, 0)))
     |> Map.new(fn {key, value_pairs} ->
       {key, value_pairs
-        |> Enum.map(&(elem(&1, 1)))
-        |> order_by_frequency}
+      |> Enum.map(&(elem(&1, 1)))
+      |> order_by_frequency}
     end)
+    |> Map.put_new(0, []) # make sure there are default values
+    |> Map.put_new(1, [])
   end
 
   defp handle_response(%{data: data}) do
@@ -114,6 +110,7 @@ defmodule Routes.Repo do
   defp hidden_routes(%{id: "9702"}), do: true
   defp hidden_routes(%{id: "9703"}), do: true
   defp hidden_routes(%{id: "Logan-" <> _}), do: true
+  defp hidden_routes(%{id: "CapeFlyer"}), do: true
   defp hidden_routes(_), do: false
 
   defp parse_json(%JsonApi.Item{id: id, attributes: attributes}) do
@@ -133,8 +130,12 @@ defmodule Routes.Repo do
   defp key_route?("Rapid Transit"), do: true
   defp key_route?(_), do: false
 
+  defp direction_headsign_pair_from_trip(%JsonApi.Item{attributes: %{"headsign" => ""}}) do
+    # empty headsign, don't count it for the pair
+    []
+  end
   defp direction_headsign_pair_from_trip(%JsonApi.Item{attributes: attributes}) do
-    {attributes["direction_id"], attributes["headsign"]}
+    [{attributes["direction_id"], attributes["headsign"]}]
   end
 
   defp order_by_frequency(enum) do

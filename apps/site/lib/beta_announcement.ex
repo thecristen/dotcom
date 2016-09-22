@@ -13,11 +13,11 @@ defmodule BetaAnnouncement.Plug do
 
   import Plug.Conn
 
-  def init(options), do: options
+  def init([]), do: []
 
   def hide_cookie_param, do: "clear-beta-announcement"
 
-  def call(conn, _options) do
+  def call(conn, []) do
     if Map.has_key?(conn.params, hide_cookie_param) do
       conn
       |> put_resp_cookie(BetaAnnouncement.beta_announcement_cookie, "true", max_age: 60 * 60 * 24 * 365 * 100)

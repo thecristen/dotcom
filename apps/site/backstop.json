@@ -84,25 +84,25 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://localhost:4001/schedules?all=all&date=2016-08-15&direction_id=0&route=CR-Providence&origin=Hyde+Park&dest=Wickford+Junction",
+      "url": "http://localhost:4001/schedules/CR-Providence?all_schedules=all_schedules&date=2016-10-31&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Subway Schedule",
-      "url": "http://localhost:4001/schedules?all=all&date=2016-08-15&direction_id=1&route=Red&origin=place-sstat",
+      "url": "http://localhost:4001/schedules/Red?all_schedules=all_schedules&date=2016-10-31&direction_id=1&origin=place-sstat&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:4001/schedules?all=all&date=2016-08-15&direction_id=0&route=1",
+      "url": "http://localhost:4001/schedules/1?all_schedules=all_schedulesi&date=2016-10-31&direction_id=0&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Alerts",
-      "url": "http://localhost:4001/alerts?route=CR-Providence&date=2016-08-15",
+      "url": "http://localhost:4001/alerts?route=CR-Providence&date=2016-10-31",
       "selectors": ["main"],
       "delay": 100,
       "hideSelectors": [".alert-card-footer"]

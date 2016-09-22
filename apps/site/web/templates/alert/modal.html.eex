@@ -1,3 +1,4 @@
+<% route_type = Route.type_atom(@route) %>
 <div id="alertsModal" class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="alertsModalTitle">
   <div class="modal-dialog modal-lg modal-transparent" role="document">
     <div class="modal-content">
@@ -21,13 +22,18 @@
 
 <a
   href="<%= alert_path @conn, :index, @conn.params %>"
-  class="col-xs-12 btn btn-link alerts-modal-button <%= if @alerts == [] do %>bg-notice <% end %>"
+  class="col-xs-12 btn btn-link alerts-modal-button <%= get_link_background(route_type, @alerts) %>"
   data-toggle="modal"
   data-target="#alertsModal"
 >
   <p>
     <%= fa "exclamation-triangle" %>
-    <strong>Alerts:</strong>
-    <%= display_alert_effects(@alerts ++ @notices) %>
+    <%= if route_type == :bus do %>
+      <strong>Notices:</strong>
+      <%= display_alert_effects(@notices) %>
+    <%= else %>
+      <strong>Alerts:</strong>
+      <%= display_alert_effects(@alerts ++ @notices) %>
+    <% end %>
   </p>
 </a>

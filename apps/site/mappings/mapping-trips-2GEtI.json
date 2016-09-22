@@ -1,0 +1,19 @@
+{
+  "uuid" : "e92054fb-98c2-39d3-9e43-057bec733023",
+  "request" : {
+    "url" : "/trips/?route=CR-Providence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-2GEtI.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Tue, 20 Sep 2016 20:56:54 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "srh2khs66fmd851t8d9144bi8se67g6q"
+    }
+  }
+}

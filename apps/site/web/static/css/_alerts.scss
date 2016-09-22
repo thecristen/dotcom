@@ -111,6 +111,12 @@
   padding-bottom: 0.5rem;
   border-bottom: 1px solid $gray-lightest;
   margin-bottom: 0.5rem;
+
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
 }
 
 .alert-inline-icon {

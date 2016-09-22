@@ -1,19 +1,21 @@
-@import "variables";
+@import 'variables';
 
 .error-card {
-  text-align: center;
-  padding: 1em .5em 1.75em .5em;
+  background: $white;
   color: $gray-dark;
-  background: white;
+  padding: 1em .5em 1.75em;
+  text-align: center;
 
   @include media-breakpoint-up(sm) {
-    color: white;
     background: rgba($gray-dark, .5);
+    color: $white;
     margin: 5em;
     padding-bottom: 1em;
+  }
 
-    h1, h2 {
-      line-height: 1.5em;
-    }
+  h1,
+  h2 {
+    font-size: 1.25rem;
+    line-height: 1.25em;
   }
 }

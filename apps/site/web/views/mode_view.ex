@@ -5,6 +5,10 @@ defmodule Site.ModeView do
     route_groups[route_type] |> Enum.filter(&(&1.key_route?))
   end
 
+  def get_route_group(:commuter_rail = route_type, route_groups, _) do
+    route_groups[route_type] |> Enum.sort_by(&(&1.name))
+  end
+
   def get_route_group(route_type, route_groups, _), do: route_groups[route_type]
 
 end

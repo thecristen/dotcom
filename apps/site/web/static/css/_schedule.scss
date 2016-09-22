@@ -1,6 +1,5 @@
 @import 'variables';
 
-
 .schedule-route-name {
   margin-bottom: 1rem;
   & > div {
@@ -59,7 +58,6 @@
   font-size: $font-size-sm;
   margin-bottom: .75rem;
   padding: .5em;
-  text-align: center;
 
   @include media-breakpoint-down(xs) {
     margin: .5em auto;
@@ -134,6 +132,12 @@
   }
 }
 
+.schedule-col-departure {
+  .fa-exclamation-triangle {
+    color: $gray-dark;
+  }
+}
+
 .schedule-col-departure-subway {
   @extend %schedule-col;
   width: 100% * (6 / 12);
@@ -180,6 +184,15 @@
 
 .schedule-time {
   color: $link-color;
+}
+
+.bus-schedule-time {
+  display: inline-block;
+  width: 3.1rem;
+
+  @include media-breakpoint-up(md) {
+    width: 4rem;
+  }
 }
 
 a {
@@ -324,7 +337,16 @@ a {
 }
 
 .direction-btn-label-selected {
-  max-width: 32vw;
+  // leave room for the checkbox on the first line
+  max-width: 86%;
+
+  @include media-breakpoint-up(sm) {
+    max-width: 90%;
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: 94%;
+  }
 }
 
 @include media-breakpoint-up(sm) {
@@ -347,4 +369,9 @@ a {
 
 .col-equal {
   margin-bottom: .5rem;
+}
+
+.schedule-flag {
+  color: $brand-danger;
+  font-weight: bold;
 }
