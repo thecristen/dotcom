@@ -1,5 +1,8 @@
 defmodule Site.Mode.CommuterRailController do
   use Site.Mode.HubBehaviour
+  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import Phoenix.HTML, only: [safe_to_string: 1]
+  import Site.ViewHelpers, only: [redirect_path: 2]
 
   def route_type, do: 2
 
@@ -12,7 +15,14 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   def fare_description do
-    "Commuter Rail fares depend on the distance traveled (zones). Read the information below:"
+    "#{link_to_zone_fares} depend on the distance traveled (zones). Read the information below:"
+  end
+
+  defp link_to_zone_fares do
+    path = redirect_path(Site.Endpoint, "fares_and_passes/rail/")
+    tag = content_tag :a, "Commuter Rail Fares", href: path
+
+    safe_to_string(tag)
   end
 
   def fares do
