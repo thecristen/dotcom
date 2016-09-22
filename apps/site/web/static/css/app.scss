@@ -330,3 +330,8 @@ $footer-md-up: 222px;
     color: $white;
   }
 }
+
+// To be removed once the smart banner is disabled
+.smartbanner {
+  top: -80px;
+}
