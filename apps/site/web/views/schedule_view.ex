@@ -138,6 +138,13 @@ defmodule Site.ScheduleView do
     fa "caret-down pull-right"
   end
 
+  def schedule_list(schedules, true) do
+    schedules
+  end
+  def schedule_list(schedules, false) do
+    Enum.slice(schedules, 0..8)
+  end
+
   @doc "Prefix route name with route for bus lines"
   def header_text(3, name), do: "Route #{name}"
   def header_text(2, name), do: Site.ViewHelpers.clean_route_name(name)

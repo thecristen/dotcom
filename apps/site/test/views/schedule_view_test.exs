@@ -93,7 +93,7 @@ end
     end
   end
 
-  describe "test/3" do
+  describe "trip/3" do
     @stops [%Schedules.Stop{id: "1"},
       %Schedules.Stop{id: "2"},
       %Schedules.Stop{id: "3"},
@@ -120,5 +120,30 @@ end
       assert Enum.at(trip, 0).stop.id == "2"
       assert Enum.at(trip, 3).stop.id == "5"
     end
+  end
+
+  describe "schedule_list/2" do
+    @stops [%Schedules.Stop{id: "1"},
+      %Schedules.Stop{id: "2"},
+      %Schedules.Stop{id: "3"},
+      %Schedules.Stop{id: "4"},
+      %Schedules.Stop{id: "5"},
+      %Schedules.Stop{id: "6"},
+      %Schedules.Stop{id: "7"},
+      %Schedules.Stop{id: "8"},
+      %Schedules.Stop{id: "9"},
+      %Schedules.Stop{id: "10"},
+      %Schedules.Stop{id: "11"},
+      %Schedules.Stop{id: "12"}]
+    @schedules Enum.map(@stops, fn(stop) -> %Schedules.Schedule{stop: stop, trip: @trip, route: @route} end)
+
+    test "when all times is false, filters a list of schedules to the first 9" do
+      assert length(ScheduleView.schedule_list(@schedules, false)) == 9
+    end
+
+    test "when all times is true, does not filter the list" do
+      assert length(ScheduleView.schedule_list(@schedules, true)) == length(@schedules)
+    end
+
   end
 end
