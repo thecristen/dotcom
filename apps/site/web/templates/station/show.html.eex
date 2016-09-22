@@ -60,26 +60,11 @@
 
     <div class="row p-x-g">
       <div class="col-xs-12">
-        <%= for {{type, routes}, index} <- Enum.with_index(@grouped_routes) do %>
-          <div class="mode-group <%= if index == 0, do: "mode-group-first" %>">
-            <div class="mode-group-header">
-              <h2>
-                <%= mode_icon type %>
-                <span class="mode-name-heading"><%= mode_name type %></span>
-              </h2>
-            </div>
-            <div class="mode-group-block">
-              <div class="row">
-                <%= for route <- routes do %>
-                  <div class="<%= route_spacing_class(route.type) %>">
-                    <%= route_link @conn, route, origin: @station.id %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-            <div class="mode-group-footer">
-              <%= link "View #{mode_name type} Fares & Passes »", to: redirect_path @conn, fare_redirect_path(type) %>
-            </div>
+        <%= for {type, routes} <- @grouped_routes do %>
+          <% route_type = Routes.Route.type_atom(%{type: type}) %>
+          <%= render Site.ModeView, "_mode.html", conn: @conn, route_type: Routes.Route.type_atom(%{type: type}), grouped_routes: %{route_type => routes}, truncate: false %>
+          <div class="mode-group-footer">
+            <%= link "View #{mode_name type} Fares & Passes »", to: redirect_path @conn, fare_redirect_path(type) %>
           </div>
         <% end %>
       </div>
