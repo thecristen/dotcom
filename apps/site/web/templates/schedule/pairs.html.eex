@@ -22,7 +22,7 @@
     <% else %>
           <%= update_url @conn, trip: origin.trip.id %>#<%= origin.trip.id %>"
     <% end %>">
-    <% prediction = @predictions |> Enum.find(&(&1.trip_id == origin.trip.id)) %>
+    <% prediction = prediction_for_schedule(@predictions, origin) %>
     <span class="schedule-col-departure"><span class="sr-only">Departure:</span>
       <%= origin.time |> Timex.format!("{kitchen}") %>
       <%= if prediction do %>

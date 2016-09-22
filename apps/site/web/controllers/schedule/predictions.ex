@@ -37,9 +37,18 @@ defmodule Site.ScheduleController.Predictions do
   end
 
   def assign_route_stop_direction(conn, route_id, stop_id, direction_id) do
-    predictions = [route: route_id, direction_id: direction_id, stop: stop_id]
+    # Since we have both trips displayed which don't start at stop_id, as
+    # well as trips which aren't on the given route, we check both and
+    # combine the predictions.
+    stop_predictions = [direction_id: direction_id, stop: stop_id]
+    |> Predictions.Repo.all
+    route_predictions = [route: route_id, direction_id: direction_id]
     |> Predictions.Repo.all
 
-    assign(conn, :predictions, predictions)
+    all_predictions = [stop_predictions, route_predictions]
+    |> Enum.concat
+    |> Enum.uniq
+
+    assign(conn, :predictions, all_predictions)
   end
 end
