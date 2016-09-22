@@ -30,19 +30,19 @@ $container-max-widths: (
   lg: 768px
 );
 
-$font-size-h1: 1.375rem;
-$font-size-h2: 1.125rem;
-$font-size-h3: 1rem;
-$font-size-h4: .825rem;
-$font-size-h5: .75rem;
-$font-size-h6: .625rem;
+$font-size-h1: 1.125rem;
+$font-size-h2: 1rem;
+$font-size-h3: .825rem;
+$font-size-h4: .75rem;
+$font-size-h5: .625rem;
+$font-size-h6: .5rem;
 
-$font-size-h1-mobile: $font-size-h2;
-$font-size-h2-mobile: $font-size-h3;
-$font-size-h3-mobile: $font-size-h4;
-$font-size-h4-mobile: $font-size-h5;
-$font-size-h5-mobile: $font-size-h6;
-$font-size-h6-mobile: .5rem;
+$font-size-h1-desktop: 1.375rem;
+$font-size-h2-desktop: $font-size-h1;
+$font-size-h3-desktop: $font-size-h2;
+$font-size-h4-desktop: $font-size-h3;
+$font-size-h5-desktop: $font-size-h4;
+$font-size-h6-desktop: $font-size-h5;
 
 $headings-font-weight: bold;
 

@@ -3,11 +3,11 @@ h1,
   font-weight: 700;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-h1-mobile;
+    font-size: $font-size-h1;
   }
 
   @include media-breakpoint-up(md) {
-    font-size: $font-size-h1;
+    font-size: $font-size-h1-desktop;
   }
 }
 
@@ -16,11 +16,11 @@ h2,
   font-weight: 700;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-h2-mobile;
+    font-size: $font-size-h2;
   }
 
   @include media-breakpoint-up(md) {
-    font-size: $font-size-h2;
+    font-size: $font-size-h2-desktop;
   }
 }
 
@@ -29,11 +29,11 @@ h3,
   font-weight: 700;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-h3-mobile;
+    font-size: $font-size-h3;
   }
 
   @include media-breakpoint-up(md) {
-    font-size: $font-size-h3;
+    font-size: $font-size-h3-desktop;
   }
 }
 
@@ -42,11 +42,11 @@ h4,
   font-weight: 700;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-h4-mobile;
+    font-size: $font-size-h4;
   }
 
   @include media-breakpoint-up(md) {
-    font-size: $font-size-h4;
+    font-size: $font-size-h4-desktop;
   }
 }
 
@@ -55,11 +55,11 @@ h5,
   font-weight: 700;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-h5-mobile;
+    font-size: $font-size-h5;
   }
 
   @include media-breakpoint-up(md) {
-    font-size: $font-size-h5;
+    font-size: $font-size-h5-desktop;
   }
 }
 
@@ -68,10 +68,10 @@ h6,
   font-weight: 700;
 
   @include media-breakpoint-down(sm) {
-    font-size: $font-size-h6-mobile;
+    font-size: $font-size-h6;
   }
 
   @include media-breakpoint-up(md) {
-    font-size: $font-size-h6;
+    font-size: $font-size-h6-desktop;
   }
 }
