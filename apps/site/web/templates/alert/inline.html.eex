@@ -4,7 +4,7 @@
       <%= for alert <- @alerts do %>
         <li class="alert-inline">
           <div class="alert-inline-icon <%= if Alerts.Alert.is_notice? alert, @time do %>bg-notice<% end %>">
-            <%= fa "exclamation-triangle", ~s(data-toggle="tooltip" title="There is an alert for this service that may affect your trip") %>
+            <%= Site.AlertView.tooltip %>
           </div>
           <div class="alert-inline-body">
             <strong><%= alert.effect_name %>:</strong>
