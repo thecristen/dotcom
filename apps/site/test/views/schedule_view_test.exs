@@ -2,6 +2,7 @@ defmodule Site.ScheduleViewTest do
   @moduledoc false
   use Site.ConnCase, async: true
   alias Site.ScheduleView
+  import Phoenix.HTML, only: [safe_to_string: 1]
   import Phoenix.HTML.Tag, only: [tag: 2]
 
   @stop %Schedules.Stop{id: "stop_id"}
@@ -80,16 +81,18 @@ end
     assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
   end
 
-  describe "map_icon_link/1" do
+  describe "station_info_link/1" do
     test "generates a station link on a map icon when the stop has station information" do
       stop = %Schedules.Stop{id: "place-sstat"}
-      assert Phoenix.HTML.safe_to_string(ScheduleView.map_icon_link(stop)) ==
-        "<a href=\"/stations/place-sstat\"><i class=\"fa fa-map-o\" aria-hidden=true></i></a>"
+      str = safe_to_string(ScheduleView.station_info_link(stop))
+      assert str =~ station_path(Site.Endpoint, :show, "place-sstat")
+      assert str =~ safe_to_string(Site.ViewHelpers.fa("map-o"))
+      assert str =~ "View station information for South Station"
     end
 
     test "generates an empty string for other stops" do
       stop = %Schedules.Stop{id: "Boat-Long"}
-      assert Phoenix.HTML.safe_to_string(ScheduleView.map_icon_link(stop)) == ""
+      assert safe_to_string(ScheduleView.station_info_link(stop)) == ""
     end
   end
 

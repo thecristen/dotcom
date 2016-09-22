@@ -22,10 +22,9 @@ defmodule News.BlurbTest do
   end
 
   property "does not end with ... if original string was <= max_length characters" do
-    for_all x in unicode_binary do
-      implies String.length(x) <= Blurb.max_length && String.slice(x, -3..-1) != Blurb.suffix do
-        String.slice(Blurb.blurb(x), @suffix_range) != Blurb.suffix
-      end
+    for_all size in int(1, Blurb.max_length) do
+      str = String.duplicate("x", size)
+      String.slice(Blurb.blurb(str), @suffix_range) != Blurb.suffix
     end
   end
 

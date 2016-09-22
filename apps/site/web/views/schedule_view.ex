@@ -76,19 +76,28 @@ defmodule Site.ScheduleView do
     end
   end
 
-  def station_info_link(station, [do: block]) do
-    url = station_path(Site.Endpoint, :show, station.id)
-    case Stations.Repo.get(station.id) do
-      nil -> ""
-      _ -> link(to: url, do: block)
-    end
+  def station_info_link(station) do
+    do_station_info_link(Stations.Repo.get(station.id))
   end
 
-  def map_icon_link(station) do
-    case Stations.Repo.get(station.id) do
-      nil -> raw ""
-      _ -> link fa("map-o"), to: station_path(Site.Endpoint, :show, station.id)
-    end
+  defp do_station_info_link(nil) do
+    raw ""
+  end
+  defp do_station_info_link(%{id: id, name: name}) do
+    title = "View station information for #{name}"
+    body = ~e(
+      <%= fa "map-o" %>
+      <span class="sr-or-no-js"> <%= title %>
+    )
+
+    link(
+      to: station_path(Site.Endpoint, :show, id),
+      class: "station-info-link",
+      data: [
+        toggle: "tooltip"
+      ],
+      title: title,
+      do: body)
   end
 
   def reverse_direction_opts(origin, dest, route_id, direction_id) do

@@ -9,13 +9,13 @@
   <%= if expand_stops do %>
     <% last_index = length(filtered_schedules) - 1 %>
     <%= for {trip_schedule, index} <- Enum.with_index(filtered_schedules) do %>
-      <%= render "_trip_stop.html", origin: index == 0, destination: index == last_index, trip_schedule: trip_schedule %>
+      <%= render "_trip_stop.html", origin: index == 0, destination: index == last_index, trip_schedule: trip_schedule, alerts: @alerts %>
     <% end %>
   <% else %>
     <% [first, second] = Enum.take(filtered_schedules, 2) %>
     <% [third, fourth] = Enum.take(filtered_schedules, -2) %>
-    <%= render "_trip_stop.html", origin: true, destination: false, trip_schedule: first %>
-    <%= render "_trip_stop.html", origin: false, destination: false, trip_schedule: second %>
+    <%= render "_trip_stop.html", origin: true, destination: false, trip_schedule: first, alerts: @alerts %>
+    <%= render "_trip_stop.html", origin: false, destination: false, trip_schedule: second, alerts: @alerts %>
     <li class="trip-stop">
       <p>
         <a href="<%= update_url(@conn, full_list: "full_list") %>">
@@ -27,8 +27,8 @@
         </a>
       </p>
     </li>
-    <%= render "_trip_stop.html", origin: false, destination: false, trip_schedule: third %>
-    <%= render "_trip_stop.html", origin: false, destination: true, trip_schedule: fourth %>
+    <%= render "_trip_stop.html", origin: false, destination: false, trip_schedule: third, alerts: @alerts %>
+    <%= render "_trip_stop.html", origin: false, destination: true, trip_schedule: fourth, alerts: @alerts %>
   <% end %>
 </ul>
 <%= if @show_full_list do %>

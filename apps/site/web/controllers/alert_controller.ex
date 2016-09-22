@@ -2,6 +2,7 @@ defmodule Site.AlertController do
   use Site.Web, :controller
 
   plug Site.Plugs.Route
+  plug Site.Plugs.Date
   plug Site.Plugs.Alerts
   # TODO refactor breadcrumbs into a more generic plug -ps
   plug Site.ScheduleController.RouteBreadcrumbs

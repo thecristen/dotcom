@@ -4,6 +4,7 @@ defmodule Site.ScheduleController do
   alias Site.ScheduleController
 
   plug Site.Plugs.Route, required: true
+  plug Site.Plugs.Date
   plug Site.Plugs.Alerts
   plug ScheduleController.Headsigns
   plug ScheduleController.Defaults

@@ -9,8 +9,7 @@
       <strong><%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %></strong>
       <%= if trip_alerts != [] do %>
         <span class="pull-xs-right">
-          <%= fa "exclamation-triangle" %>
-          <span class="sr-only">Has an alert</span>
+          <%= Site.AlertView.tooltip %>
         </span>
       <% end %>
     </span>

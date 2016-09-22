@@ -1,0 +1,3 @@
+<% text = "There is an alert for this service that may affect your trip" %>
+<%= fa "exclamation-triangle", ~s(data-toggle="tooltip" title="#{text}") %>
+<span class="sr-only"><%= text %></span>
