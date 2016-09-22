@@ -40,6 +40,15 @@ defmodule Site.AlertView do
   end
 
   @doc """
+
+  Renders a small icon along with a message
+
+  """
+  def tooltip() do
+    render(__MODULE__, "tooltip.html", %{})
+  end
+
+  @doc """
   Takes a list of alerts and returns a string summarizing their effects, such as "3 Delays, Stop
   Closure, 4 Station Issues". Adds an optional suffix if the list of alerts is non-empty.
   """

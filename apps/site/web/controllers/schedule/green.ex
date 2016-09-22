@@ -8,6 +8,7 @@ defmodule Site.ScheduleController.Green do
 
   plug :route
   plug :green_routes
+  plug Site.Plugs.Date
   plug ScheduleController.Defaults
   plug :green_schedules
   plug ScheduleController.AllRoutes

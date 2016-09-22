@@ -25,8 +25,7 @@
           (to <%= schedule.trip.headsign %>)
       <% end %>
       <%= if trip_alerts != [] do %>
-        <%= fa "exclamation-triangle" %>
-        <span class="sr-only">Has an alert</span>
+        <%= Site.AlertView.tooltip %>
       <% end %>
     </span>
     <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>
@@ -34,7 +33,7 @@
   <%= if is_selected_period do %>
     <div class="schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: schedule.time %>
-      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from, show_full_list: @show_full_list, conn: @conn %>
+      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from, show_full_list: @show_full_list, conn: @conn, alerts: @alerts %>
     </div>
   <% end %>
 <% end %>

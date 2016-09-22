@@ -35,5 +35,18 @@ defmodule AlertsTest do
                        lifecycle: "Ongoing"}
       assert Alert.is_notice?(shuttle)
     end
+
+    test "Cancellation is an alert if it's today" do
+      # NOTE: this will fail around 11:55pm, since future will switch to a different day
+      now = Timex.now("America/New_York")
+      future = now |> Timex.shift(minutes: 5)
+      cancellation = %Alert{effect_name: "Cancellation",
+                            active_period: [{future, future}],
+                            lifecycle: "New"}
+      today = now |> DateTime.to_date
+      yesterday = now |> Timex.shift(days: -1) |> DateTime.to_date
+      refute Alert.is_notice?(cancellation, today)
+      assert Alert.is_notice?(cancellation, yesterday)
+    end
   end
 end

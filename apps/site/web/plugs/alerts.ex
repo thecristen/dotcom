@@ -25,30 +25,34 @@ defmodule Site.Plugs.Alerts do
     |> assign(:all_alerts, alerts(conn))
   end
 
-  defp assign_current_upcoming(%{assigns: %{all_alerts: all_alerts}} = conn) do
-    date = date(conn.params["date"])
-
+  defp assign_current_upcoming(%{assigns: %{all_alerts: all_alerts, date: date}} = conn) do
     {current_alerts, not_current_alerts} = all_alerts
     |> Enum.partition(fn alert -> Alerts.Match.any_time_match?(alert, date) end)
 
     upcoming_alerts = not_current_alerts
     |> Enum.filter(fn alert ->
-      Enum.any?(alert.active_period, fn {start, _} ->
-        Timex.before?(date, start)
+      Enum.any?(alert.active_period, fn
+        {nil, nil} ->
+          true
+        {nil, stop} ->
+          not Timex.before?(date, stop)
+        {start, _} ->
+          Timex.before?(date, start)
       end)
     end)
 
     conn
-    |> assign(:current_alerts, current_alerts)
-    |> assign(:upcoming_alerts, upcoming_alerts)
+    |> assign(:current_alerts, current_alerts |> sort)
+    |> assign(:upcoming_alerts, upcoming_alerts |> sort)
   end
 
   defp assign_alerts_notices(%{assigns: %{
+                                  date: date,
                                   current_alerts: current_alerts,
                                   upcoming_alerts: upcoming_alerts
                                }} = conn) do
     {notices, alerts} = current_alerts
-    |> Enum.partition(&Alerts.Alert.is_notice?/1)
+    |> Enum.partition(fn alert -> Alerts.Alert.is_notice?(alert, date) end)
 
     # put anything upcoming in the notices block, but at the end
     notices = [notices, upcoming_alerts]
@@ -56,10 +60,14 @@ defmodule Site.Plugs.Alerts do
     |> Enum.uniq
 
     conn
-    |> assign(:notices, notices)
-    |> assign(:alerts, alerts)
+    |> assign(:notices, notices |> sort)
+    |> assign(:alerts, alerts |> sort)
   end
 
+  defp alerts(%{assigns: %{all_alerts: all_alerts}}) when is_list(all_alerts) do
+    # if the conn already has alerts from somewhere, use them.
+    all_alerts
+  end
   defp alerts(%{params: params, assigns: %{route: route}}) when route != nil do
     params = put_in params["route_type"], route.type
 
@@ -89,7 +97,6 @@ defmodule Site.Plugs.Alerts do
 
     Alerts.Repo.all
     |> Alerts.Match.match(entities)
-    |> sort
   end
 
   defp direction_id(nil) do
@@ -102,18 +109,7 @@ defmodule Site.Plugs.Alerts do
     end
   end
 
-  defp date(nil) do
-    Util.now
-  end
-  defp date(str) when is_binary(str) do
-    case Timex.parse(str, "{ISOdate}") do
-      {:ok, value} -> Timex.to_date(value)
-      _ -> Util.today
-    end
-  end
-
   defp sort(alerts) do
-    alerts
-    |> Enum.sort_by(&(- Timex.to_unix(&1.updated_at)))
+    Alerts.Sort.sort(alerts)
   end
 end

@@ -12,9 +12,7 @@
       <% end %>
     </select>
     <%= if selected do %>
-      <%= station_info_link(selected) do %>
-          <%= fa "map-o" %><span class="sr-or-no-js"> view station information for <%= selected.name %></span>
-      <% end %>
+      <%= station_info_link(selected) %>
     <% end %>
   </div>
   <div>
