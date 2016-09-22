@@ -15,12 +15,12 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   def fare_description do
-    "Commuter Rail #{link_to_commuter_rail_zone_fares} depend on the distance traveled (zones). Read the information below:"
+    "#{link_to_zone_fares} depend on the distance traveled (zones). Read the information below:"
   end
 
-  defp link_to_commuter_rail_zone_fares do
+  defp link_to_zone_fares do
     path = redirect_path(Site.Endpoint, "fares_and_passes/rail/")
-    tag = content_tag :a, "fares", href: path
+    tag = content_tag :a, "Commuter Rail Fares", href: path
 
     safe_to_string(tag)
   end
