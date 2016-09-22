@@ -31,14 +31,19 @@ defmodule Site.Plugs.Alerts do
 
     upcoming_alerts = not_current_alerts
     |> Enum.filter(fn alert ->
-      Enum.any?(alert.active_period, fn {start, _} ->
-        Timex.before?(date, start)
+      Enum.any?(alert.active_period, fn
+        {nil, nil} ->
+          true
+        {nil, stop} ->
+          not Timex.before?(date, stop)
+        {start, _} ->
+          Timex.before?(date, start)
       end)
     end)
 
     conn
-    |> assign(:current_alerts, current_alerts)
-    |> assign(:upcoming_alerts, upcoming_alerts)
+    |> assign(:current_alerts, current_alerts |> sort)
+    |> assign(:upcoming_alerts, upcoming_alerts |> sort)
   end
 
   defp assign_alerts_notices(%{assigns: %{
@@ -55,10 +60,14 @@ defmodule Site.Plugs.Alerts do
     |> Enum.uniq
 
     conn
-    |> assign(:notices, notices)
-    |> assign(:alerts, alerts)
+    |> assign(:notices, notices |> sort)
+    |> assign(:alerts, alerts |> sort)
   end
 
+  defp alerts(%{assigns: %{all_alerts: all_alerts}}) when is_list(all_alerts) do
+    # if the conn already has alerts from somewhere, use them.
+    all_alerts
+  end
   defp alerts(%{params: params, assigns: %{route: route}}) when route != nil do
     params = put_in params["route_type"], route.type
 
@@ -88,7 +97,6 @@ defmodule Site.Plugs.Alerts do
 
     Alerts.Repo.all
     |> Alerts.Match.match(entities)
-    |> sort
   end
 
   defp direction_id(nil) do
@@ -103,6 +111,6 @@ defmodule Site.Plugs.Alerts do
 
   defp sort(alerts) do
     alerts
-    |> Enum.sort_by(&(- Timex.to_unix(&1.updated_at)))
+    |> Enum.sort_by(&{-Timex.to_unix(&1.updated_at), &1.id})
   end
 end

@@ -1,6 +1,14 @@
 defmodule Alerts.Alert do
   defstruct [
-    :id, :header, :informed_entity, :active_period, :effect_name, :severity, :lifecycle, :updated_at, :description
+    id: "",
+    header: "",
+    informed_entity: [],
+    active_period: [],
+    effect_name: "",
+    severity: "",
+    lifecycle: "",
+    updated_at: nil,
+    description: ""
   ]
 
   use Timex

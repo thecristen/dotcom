@@ -39,6 +39,9 @@ defmodule Alerts.Match do
     |> Enum.any?(&between?(&1, datetime))
   end
 
+  defp between?({nil, nil}, _) do
+    true
+  end
   defp between?({start, nil}, datetime) do
     Timex.equal?(datetime, start) || Timex.after?(datetime, start)
   end
