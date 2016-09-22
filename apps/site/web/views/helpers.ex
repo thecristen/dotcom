@@ -167,7 +167,7 @@ defmodule Site.ViewHelpers do
     atom
     |> Atom.to_string
     |> String.split("_")
-    |> Enum.map(fn string -> 
+    |> Enum.map(fn string ->
       case capitalize do
         true ->  String.capitalize(string)
         false -> string
