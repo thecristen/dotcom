@@ -220,8 +220,8 @@ html {
 
 // For the sticky footer
 
-$footer-xs: 426px;
-$footer-sm: 342px;
+$footer-xs: 145px;
+$footer-sm: 117px;
 $footer-md-up: 222px;
 
 .body-wrapper {
@@ -267,9 +267,12 @@ $footer-md-up: 222px;
 }
 
 .footer-link-list {
-  border-bottom: 1px solid $gray-lightest;
   margin-bottom: 0;
   padding: 0 0 1em;
+
+  @include media-breakpoint-up(md) {
+    border-bottom: 1px solid $gray-lightest;
+  }
 }
 
 .footer-link-sublist {
@@ -284,6 +287,7 @@ $footer-md-up: 222px;
 
   @include media-breakpoint-down(sm) {
     margin: .75em 0;
+    text-align: center;
   }
 }
 
@@ -303,12 +307,13 @@ $footer-md-up: 222px;
     &::after {
       color: $white;
       content: '●';
+      font-size: .75em;
       margin: 0 .25em;
     }
   }
 
   > a {
-    color: $white;
+    color: $brand-primary-light;
     font-weight: lighter;
   }
 
@@ -316,6 +321,7 @@ $footer-md-up: 222px;
     display: list-item;
 
     > a {
+      color: $white;
       font-weight: normal;
     }
   }
@@ -329,6 +335,7 @@ $footer-md-up: 222px;
 
   @include media-breakpoint-down(sm) {
     color: $white;
+    padding-top: 0;
   }
 }
 
