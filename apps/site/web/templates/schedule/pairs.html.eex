@@ -32,7 +32,7 @@
   <%= if is_selected_period do %>
     <div class="schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: origin.time %>
-      <%= render "_your_trip.html", trip_schedule: @trip_schedule, from: @from, show_full_list: @show_full_list, conn: @conn, alerts: @alerts %>
+      <%= render "_your_trip.html", trip_schedule: @trip_schedule, origin: @origin, destination: @destination, show_full_list: @show_full_list, conn: @conn, alerts: @alerts %>
     </div>
   <% end %>
 <% end %>
