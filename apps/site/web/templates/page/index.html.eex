@@ -20,7 +20,7 @@
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
             <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "fares_and_passes/" %>">
-              Fares &amp; Passes
+              Fares and Passes
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
           </ul>
