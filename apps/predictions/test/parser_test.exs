@@ -54,4 +54,30 @@ defmodule Predictions.ParserTest do
       assert Parser.parse(item).time == ~N[2016-09-15T14:40:00] |> Timezone.convert("Etc/GMT-1")
     end
   end
+
+  test "uses parent station ID if present" do
+    item = %Item{
+      attributes: %{
+        "track" => nil,
+        "status" => "On Time",
+        "direction_id" => 0,
+        "departure_time" => "2016-09-15T15:40:00-04:00",
+        "arrival_time" => nil
+      },
+      relationships: %{
+        "route" => [%Item{id: "route_id"}],
+        "stop" => [%Item{id: "stop_id",
+                         relationships: %{
+                           "parent_station" => [
+                           %Item{id: "parent_id"}
+                         ]
+                         }}],
+        "trip" => [%Item{id: "trip_id"}]
+      }
+    }
+    expected = "parent_id"
+    actual = Parser.parse(item).stop_id
+
+    assert actual == expected
+  end
 end

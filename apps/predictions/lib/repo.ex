@@ -3,7 +3,9 @@ defmodule Predictions.Repo do
   require Logger
 
   @default_params [
-    "fields[prediction]": "track,status,departure_time,arrival_time"
+    "fields[prediction]": "track,status,departure_time,arrival_time",
+    "fields[stop]": "",
+    "include": "stop"
   ]
 
   def all(opts) when is_list(opts) and opts != [] do
