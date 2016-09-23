@@ -340,6 +340,8 @@ $footer-md-up: 222px;
 }
 
 // To be removed once the smart banner is disabled
-.smartbanner {
-  top: -80px;
+div {
+  &.smartbanner {
+    top: -80px;
+  }
 }
