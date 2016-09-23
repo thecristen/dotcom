@@ -1,8 +1,7 @@
 <div class="index">
-  <%# empty card to get the correct padding on mobile %>
   <%= render "_news_card.html", news: @news, conn: @conn, class: "hidden-sm-down" %>
 
-  <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false %>
+  <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false, card_class: "card-narrow" %>
 
   <%= render "_news_card.html", news: @news, conn: @conn, class: "hidden-md-up" %>
 

@@ -40,6 +40,10 @@
   padding-left: 0;
 }
 
+.index {
+  margin-top: .75rem;
+}
+
 @include media-breakpoint-down(sm) {
   .index {
     padding-bottom: 12px;
