@@ -89,6 +89,10 @@ defmodule Site.ViewHelpers do
   def mode_icon(%{type: 2}), do: do_mode_icon("commuter-rail", "commuter")
   def mode_icon(%{type: 3}), do: do_mode_icon("bus")
   def mode_icon(%{type: 4}), do: do_mode_icon("boat")
+  def mode_icon(:commuter_rail), do: mode_icon(%{type: 2})
+  def mode_icon(:subway), do: mode_icon(%{type: 1})
+  def mode_icon(:bus), do: mode_icon(%{type: 3})
+  def mode_icon(:boat), do: mode_icon(%{type: 4})
 
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name
@@ -157,5 +161,18 @@ defmodule Site.ViewHelpers do
 
   def sms_link(number) do
     content_tag :a, number, href: "sms:#{number}"
+  end
+
+  def atom_to_string_with_spaces(atom, capitalize \\ true) do
+    atom
+    |> Atom.to_string
+    |> String.split("_")
+    |> Enum.map(fn string ->
+      case capitalize do
+        true ->  String.capitalize(string)
+        false -> string
+      end
+    end)
+    |> Enum.join(" ")
   end
 end

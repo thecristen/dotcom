@@ -1,3 +1,10 @@
 .station-map-container {
-  padding: .5em 1em;
+
+  .btn:first-child {
+    padding-left: 0;
+  }
+}
+
+.mode-name-heading {
+  display: inline-block;
 }

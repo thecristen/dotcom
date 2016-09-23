@@ -1,126 +1,109 @@
-<div class="card card-section">
-  <div class="row p-a-g">
-    <div class="col-xs-12 col-md-6">
-      <h4>
-        <strong>
-          <%= @station.name %>
+<div class="card card-section station">
+  <div class="card-header">
+    <div class="p-x-g">
+      <h1>
+        <%= @station.name %>
 
-          <%= if "accessible" in @station.accessibility do %>
-            <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
-                 alt="Accessible" />
-          <% end %>
-        </strong>
-      </h4>
-
-      <%= @station.address %>
+        <%= if "accessible" in @station.accessibility do %>
+          <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
+               alt="Accessible" />
+        <% end %>
+      </h1>
     </div>
+    <p class="p-x-g"><%= @station.address %></p>
   </div>
-  <div class="row station-map-container">
-    <div class="embed-responsive embed-responsive-21by9">
-      <div class="station-info-map">
-        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>
-          <%# This generates a srcset for our responsive image component,
-              based on the sizes of the current iframe.  It generates a
-              srcset entry for each width/height pair, as well as a
-              double-width entry for the 2x scaled Google Maps image. %>
-          <img
-            alt=""
-            srcset="<%= [{298, 127},
-                        {353, 151},
-                        {403, 172},
-                        {686, 294},
-                        {734, 313}]
-                        |> Enum.flat_map(fn {width, height} ->
-                          [{width, height, 1},
-                            {width, height, 2}]
-                          end)
-                        |> Enum.sort_by(fn {width, _, scale} -> width * scale end)
-                        |> Enum.map(fn {width, height, scale} ->
-                          {"#{width * scale}", GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&scale=#{scale}&channel=beta_mbta_station_info&size=#{width}x#{height}")}
-                          end)
-                        |> Picture.srcset %>"
-            sizes="(min-width: 992px) 734px,
-                   (min-width: 768px) 686px,
-                   (min-width: 576px) 554px,
-                   calc(100vw - 22px)"
-            src="<%= GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&size=735x314&scale=2") %>"/>
+  <div class="card-block">
+    <div class="row p-x-g station-map-container">
+      <div class="embed-responsive embed-responsive-21by9">
+        <div class="station-info-map">
+          <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>
+            <%# This generates a srcset for our responsive image component,
+                based on the sizes of the current iframe.  It generates a
+                srcset entry for each width/height pair, as well as a
+                double-width entry for the 2x scaled Google Maps image. %>
+            <img
+              alt=""
+              srcset="<%= [{298, 127},
+                          {353, 151},
+                          {403, 172},
+                          {686, 294},
+                          {734, 313}]
+                          |> Enum.flat_map(fn {width, height} ->
+                            [{width, height, 1},
+                              {width, height, 2}]
+                            end)
+                          |> Enum.sort_by(fn {width, _, scale} -> width * scale end)
+                          |> Enum.map(fn {width, height, scale} ->
+                            {"#{width * scale}", GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&scale=#{scale}&channel=beta_mbta_station_info&size=#{width}x#{height}")}
+                            end)
+                          |> Picture.srcset %>"
+              sizes="(min-width: 992px) 734px,
+                     (min-width: 768px) 686px,
+                     (min-width: 576px) 554px,
+                     calc(100vw - 22px)"
+              src="<%= GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&size=735x314&scale=2") %>"/>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <%= if @map_url && @map_url != "" do %>
+          <%= link to: @map_url, class: "btn btn-link" do %>
+            <%= fa "search-plus" %> View Neighborhood Map as PDF
+          <% end %>
+        <% end %>
+        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank", class: "btn btn-link hidden-sm-down" do %>
+          Enlarge map and get directions&nbsp;&nbsp;<%= fa "external-link" %>
         <% end %>
       </div>
     </div>
 
-    <div class="btn-group">
-      <%= if @map_url && @map_url != "" do %>
-        <%= link to: @map_url, class: "btn btn-link" do %>
-          <%= fa "search-plus" %> View Neighborhood Map as PDF
-        <% end %>
-      <% end %>
-      <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank", class: "btn btn-link hidden-sm-down" do %>
-        Enlarge map and get directions&nbsp;&nbsp;<%= fa "external-link" %>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="row p-x-g">
-    <div class="col-xs-12">
-      <%= for {{type, routes}, index} <- Enum.with_index(@grouped_routes) do %>
-        <div class="mode-group <%= if index == 0, do: "mode-group-first" %>">
-          <div class="mode-group-header">
-            <h4><strong><%= mode_icon List.first(routes) %><%= mode_name type %></strong></h4>
-          </div>
-          <div class="mode-group-block">
-            <div class="row">
-              <%= for route <- routes do %>
-                <div class="<%= route_spacing_class(route.type) %>">
-                  <%= route_link @conn, route, origin: @station.id %>
-                </div>
-              <% end %>
-            </div>
-          </div>
+    <div class="row p-x-g">
+      <div class="col-xs-12">
+        <%= for {type, routes} <- @grouped_routes do %>
+          <% route_type = Routes.Route.type_atom(%{type: type}) %>
+          <%= render Site.ModeView, "_mode.html", conn: @conn, route_type: Routes.Route.type_atom(%{type: type}), grouped_routes: %{route_type => routes}, truncate: false %>
           <div class="mode-group-footer">
             <%= link "View #{mode_name type} Fares & Passes »", to: redirect_path @conn, fare_redirect_path(type) %>
           </div>
+        <% end %>
+      </div>
+
+      <%= if @station.parking_lots != [] do %>
+        <div class="col-xs-12">
+          <div class="mode-group">
+            <div class="mode-group-header">
+              <h2>Parking</h2>
+            </div>
+            <div class="mode-group-block">
+              <%= for lot <- @station.parking_lots do %>
+                <%= render "_parking_lot.html", lot: lot %>
+              <% end %>
+            </div>
+          </div>
         </div>
       <% end %>
-    </div>
 
-    <%= if @station.parking_lots != [] do %>
-      <div class="col-xs-12">
-        <div class="mode-group">
-          <div class="mode-group-header">
-            <h4><strong>Parking</strong></h4>
-          </div>
-          <div class="mode-group-block">
-            <%= for lot <- @station.parking_lots do %>
-              <%= render "_parking_lot.html", lot: lot %>
-            <% end %>
+      <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
+        <div class="col-xs-12">
+          <div class="mode-group p-b-0">
+            <div class="mode-group-header">
+              <h2>Accessibility</h2>
+            </div>
+            <div class="mode-group-block">
+              <p>The following accessibility services are available at <%= @station.name %>:</p>
+              <ul>
+                <%= for accessibility <- @station.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
+                  <li><%= accessibility |> pretty_accessibility %></li>
+                <% end %>
+              </ul>
+              <p>
+                <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">Learn more about accessibility at the T</a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
     <% end %>
-
-    <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
-      <div class="col-xs-12 col-md-6">
-        <div class="mode-group p-b-0">
-          <div class="mode-group-header">
-            <h4><strong>Accessibility</strong></h4>
-          </div>
-          <div class="mode-group-block">
-            <p>The following accessibility services are available at <%= @station.name %>:</p>
-            <ul>
-              <%= for accessibility <- @station.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
-                <li><%= accessibility |> pretty_accessibility %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-xs-12">
-        <div style="padding-top: 1.5rem;">
-          <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">
-            <img class="center-block img-fluid" src="<%= static_url(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96 />
-          </a>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  </div>
 </div>

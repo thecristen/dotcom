@@ -1,0 +1,77 @@
+h1,
+.h1 {
+  font-weight: 700;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h1;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h1-desktop;
+  }
+}
+
+h2,
+.h2 {
+  font-weight: 700;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h2;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h2-desktop;
+  }
+}
+
+h3,
+.h3 {
+  font-weight: 700;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h3;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h3-desktop;
+  }
+}
+
+h4,
+.h4 {
+  font-weight: 700;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h4;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h4-desktop;
+  }
+}
+
+h5,
+.h5 {
+  font-weight: 700;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h5;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h5-desktop;
+  }
+}
+
+h6,
+.h6 {
+  font-weight: 700;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h6;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h6-desktop;
+  }
+}

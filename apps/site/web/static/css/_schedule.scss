@@ -1,17 +1,19 @@
 @import 'variables';
 
-.schedule-route-icon .route-icon {
-  position: relative;
-  margin: 5px;
+.schedule-route-name {
+  margin-bottom: 1rem;
 
-  @include media-breakpoint-up(md) {
-    left: -10px;
-    top: -5px;
+  > div {
+    display: inline-block;
   }
 
-  @include media-breakpoint-down(sm) {
-    left: -5px;
-    top: -5px;
+  h1 {
+    margin: 0;
+  }
+
+  .route-icon {
+    position: relative;
+    top: .75rem;
   }
 }
 
@@ -36,6 +38,10 @@
     border-bottom: none;
     padding-bottom: 0;
   }
+}
+
+.schedule-separator {
+  font-weight: 300;
 }
 
 .schedule-direction {
@@ -241,6 +247,10 @@ a {
   padding: .5rem;
 }
 
+.green-route-name {
+  color: $link-color;
+}
+
 .trip-list {
   padding-left: 1.25em;
   margin-bottom: 0;
@@ -339,12 +349,6 @@ a {
   @include media-breakpoint-up(md) {
     max-width: 94%;
   }
-}
-
-.schedule-change-date {
-  line-height: 12px;
-  margin-top: -15px;
-  padding-left: 47px;
 }
 
 @include media-breakpoint-up(sm) {

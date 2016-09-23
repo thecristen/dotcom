@@ -4,6 +4,6 @@ defmodule Site.PageView do
   use Site.Web, :view
 
   def schedule_separator do
-    content_tag :span, "|", aria_hidden: "true"
+    content_tag :span, "|", aria_hidden: "true", class: "schedule-separator"
   end
 end

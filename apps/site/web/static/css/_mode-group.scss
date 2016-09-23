@@ -1,19 +1,15 @@
-.mode-group {
-  @extend .row;
-  padding-top: 1.5rem;
-}
-
 .mode-group-first {
   padding-top: 0;
+  margin-top: -.5rem;
 }
 
 .mode-group-header {
-  @extend .col-xs-12;
-  padding-bottom: 1rem;
+  font-weight: bold;
+  margin: 1rem 0;
 }
 
 .mode-group-block {
-  @extend .col-xs-12;
+  padding-top: .5rem;
 }
 
 .mode-group-btn {
@@ -32,4 +28,5 @@
 
 .mode-group-footer {
   @extend .col-xs-12;
+  margin-bottom: 1rem;
 }

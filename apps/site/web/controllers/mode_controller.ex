@@ -19,7 +19,8 @@ defmodule Site.ModeController do
     |> render("index.html",
       datetime: Util.now,
       grouped_routes: Routes.Repo.all |> Routes.Group.group,
-      breadcrumbs: ["Schedules & Maps"]
+      breadcrumbs: ["Schedules & Maps"],
+      include_ride: true
     )
   end
 end
