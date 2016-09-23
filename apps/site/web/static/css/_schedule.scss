@@ -67,11 +67,10 @@
   }
 }
 
-.card-block .schedule-block {
-  @include media-breakpoint-up(md) {
-    // TOOD clean this up? but it matches the existing behavior -ps
-    padding-left: .5rem - $grid-gutter-width / 2;
-    padding-right: .5rem - $grid-gutter-width / 2;
+.card-block.schedule-block {
+  @include media-breakpoint-down(sm) {
+    padding-left: .5rem;
+    padding-right: .5rem;
   }
 }
 
