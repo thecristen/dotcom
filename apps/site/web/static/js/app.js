@@ -24,6 +24,7 @@ import imageExpand from './image-expand.js';
 import dismissAnnouncement from './dismiss-announcement.js';
 import selectModal from './select-modal.js';
 import tooltip from './tooltip.js';
+import modal from './modal.js';
 import turbolinks from './turbolinks';
 import supportForm from './support-form.js';
 
@@ -33,6 +34,7 @@ imageExpand();
 dismissAnnouncement();
 selectModal();
 tooltip();
+modal();
 turbolinks();
 supportForm();
 
