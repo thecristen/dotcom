@@ -17,7 +17,7 @@
   <%= if @destination == nil do %>
     <%# need both to handle the margins correctly on the small screen but also have a full-height background on desktop %>
     <div class="hidden-xs-down col-equal hidden-no-js schedule-callout text-xs-center">
-      To view a trip schedule, <button class="btn btn-link" data-select-modal-open="dest">select a destination</button>.
+      To view a trip schedule, <div><button class="btn btn-link" data-select-modal-open="dest">select a destination</button>.</div>
     </div>
     <div class="col-xs-12 hidden-sm-up hidden-no-js">
       <div class="schedule-callout text-xs-center">
