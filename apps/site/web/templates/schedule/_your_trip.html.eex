@@ -1,7 +1,7 @@
 <p><strong>Your trip:</strong></p>
 <ul class="trip-list">
-  <% filtered_schedules = case @trip_schedule |> trip(@from.id, @conn.params["dest"]) do
-      [] -> @trip_schedule # the case when the trip doesn't intersect @from
+  <% filtered_schedules = case @trip_schedule |> trip(@origin, @destination) do
+      [] -> @trip_schedule # the case when the trip doesn't intersect @origin
       schedules -> schedules
       end
   %>
