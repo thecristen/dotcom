@@ -1,4 +1,4 @@
-<div class="card card-section" id="schedules">
+<div class="card card-section <%= assigns[:card_class] %>" id="schedules">
   <div class="card-header">
     <h1 class="schedules-list-header">Schedules &amp; Maps</h1>
   </div>

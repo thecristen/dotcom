@@ -5,7 +5,7 @@
       <div class="col-md-6">
         <img src="<%= static_url @conn, "/images/subway-station-home.jpg" %>"
           alt="A train moving through the new Government Center station"
-          class="img-fluid"
+          class="img-fluid m-x-auto"
           width="348"
           height="228">
       </div>
