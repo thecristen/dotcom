@@ -9,9 +9,11 @@ export default function($) {
 
     const dateInput = $form.find(".date-toggle-enabled").find("input");
     if (dateInput.length > 0) {
+      dateInput.focus();
       window.setTimeout(
-        () => {dateInput.focus().click();},
-        0);
+        () => dateInput.click(),
+        0
+      );
     }
   });
 
