@@ -65,11 +65,8 @@
               <li class="footer-link-sublist-item hidden-sm-down">
                 <%= link "Customer Support", to: redirect_path(Site.Endpoint, "customer_support/") %>
               </li>
-              <li class="footer-link-sublist-item hidden-sm-down">
-                <%= link "Contact Us", to: redirect_path(Site.Endpoint, "customer_support/contact/") %>
-              </li>
               <li class="footer-link-sublist-item">
-                <%= link "Customer Comment", to: customer_support_path(Site.Endpoint, :index) %>
+                <%= link "Contact Us", to: customer_support_path(Site.Endpoint, :index) %>
               </li>
               <li class="footer-link-sublist-item">
                 <%= link "Privacy Policy", to: redirect_path(Site.Endpoint, "customer_support/privacy_policy/") %>
