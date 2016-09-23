@@ -1,8 +1,8 @@
-# The one the elixir:1.2.5 image was built with
+# The one the elixir image was built with
 FROM debian:jessie
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-		libssl1.0.0 \
+		libssl1.0.0 libsctp1 \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
