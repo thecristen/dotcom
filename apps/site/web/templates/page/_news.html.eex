@@ -8,7 +8,7 @@
   <% end %>
   <li class="index-news-item">
     <a href="<%= redirect_path @conn, "about_the_mbta/news_events/" %>">
-      More news &amp; updates &raquo;
+      View more &raquo;
     </a>
   </li>
 </ul>

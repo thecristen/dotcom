@@ -10,7 +10,7 @@ defmodule Site.Mode.BoatController do
   def map_pdf_url, do: "https://s3.amazonaws.com/mbta-dotcom/Water_Ferries_2016.pdf"
 
   def fare_description do
-    "Fares differ between Commuter Boats & Inner Harbor Ferries."
+    "Fares differ between Commuter Boats & Inner Harbor Ferries. Refer to the information below:"
   end
 
   def fares do

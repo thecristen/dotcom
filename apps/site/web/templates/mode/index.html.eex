@@ -1,6 +1,6 @@
 <div class="card card-section <%= assigns[:card_class] %>" id="schedules">
   <div class="card-header">
-    <h1 class="schedules-list-header">Schedules &amp; Maps</h1>
+    <h1 class="schedules-list-header">Schedules and Maps</h1>
   </div>
   <div class="card-block">
     <%= for route_type <- [:commuter_rail, :bus, :subway, :boat] do %>

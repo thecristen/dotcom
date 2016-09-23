@@ -158,7 +158,7 @@
       </ul>
     </div>
     <div class="col-xs-12 col-sm-6 support-section">
-      <h2 class="h4 support-header"><strong>Emergency &amp; Transit Police</strong></h2>
+      <h2 class="h4 support-header"><strong>Emergency and Transit Police</strong></h2>
       <ul>
         <li><strong>MBTA Transit Police Emergency:</strong><br /><%= tel_link "(617)-222-1212" %></li>
         <li><strong>TTY</strong> (for the deaf or hard of hearing):<br /><%= tel_link "(617)-222-1200" %></li>
