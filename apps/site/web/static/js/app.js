@@ -27,6 +27,7 @@ import tooltip from './tooltip.js';
 import modal from './modal.js';
 import turbolinks from './turbolinks';
 import supportForm from './support-form.js';
+import objectFitImages from 'object-fit-images';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
@@ -37,5 +38,6 @@ tooltip();
 modal();
 turbolinks();
 supportForm();
+objectFitImages(); // Polyfill for IE object-fit support
 
 $("body").removeClass("no-js").addClass("js");
