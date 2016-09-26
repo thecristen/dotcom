@@ -21,6 +21,8 @@
 
 .system-map {
   max-height: 240px;
+  // Polyfill for IE object-fit support
+  font-family: 'object-fit: cover; object-position: 50% 30%;';
   object-fit: cover;
   object-position: 50% 30%;
   width: 100%;
