@@ -25,4 +25,23 @@ defmodule UtilTest do
       end
     end
   end
+
+  describe "service_date/0" do
+    test "returns the service date for the current time" do
+      assert Util.service_date == Util.service_date(Util.now)
+    end
+  end
+
+  describe "service_date/1" do
+    test "returns the service date" do
+      expected = ~D[2016-01-01]
+      for time_str <- [
+            "2016-01-01T03:00:00-04:00",
+            "2016-01-01T12:00:00-04:00",
+            "2016-01-02T02:59:59-04:00"] do
+          date_time = Timex.parse!(time_str, "{ISO:Extended}")
+          assert Util.service_date(date_time) == expected
+      end
+    end
+  end
 end

@@ -19,7 +19,7 @@ defmodule Site.ScheduleController.Defaults do
   defp index_params(%{params: params} = conn) do
     direction_id = default_direction_id(params)
 
-    show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(today, conn.assigns.date)
+    show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(service_date, conn.assigns.date)
 
     show_full_list = params["full_list"] != nil
 
