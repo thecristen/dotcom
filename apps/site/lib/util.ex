@@ -25,4 +25,18 @@ defmodule Util do
   def today do
     now |> Timex.to_date
   end
+
+  @doc """
+
+  The current service date.  The service date lasts from 3am to 2:59am, so
+  times after midnight belong to the service of the previous date.
+
+  """
+  def service_date(current_time \\ nil) do
+    current_time = current_time || Util.now
+
+    current_time
+    |> Timex.shift(hours: -3)
+    |> Timex.to_date
+  end
 end

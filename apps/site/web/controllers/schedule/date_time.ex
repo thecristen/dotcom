@@ -14,7 +14,7 @@ defmodule Site.ScheduleController.DateTime do
     schedule.time
   end
   def datetime(%{assigns: %{date: date}}) do
-    if Timex.equal?(Util.today, date) do
+    if Timex.equal?(Util.service_date, date) do
       Util.now
     else
       # noon
