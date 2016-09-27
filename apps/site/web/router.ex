@@ -34,6 +34,10 @@ defmodule Site.Router do
     post "/customer-support", CustomerSupportController, :submit
   end
 
+  scope "/_flags", Laboratory do
+    forward "/", Router
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Site do
   #   pipe_through :api

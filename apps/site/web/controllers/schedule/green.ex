@@ -11,10 +11,8 @@ defmodule Site.ScheduleController.Green do
   plug Site.Plugs.Date
   plug ScheduleController.Defaults
   plug :green_schedules
-  plug ScheduleController.AllRoutes
   plug ScheduleController.DateTime
   plug ScheduleController.RouteBreadcrumbs
-  plug :assign_additional_route_to_all_routes
   plug :headsigns
 
   def green(conn, _) do
@@ -37,13 +35,6 @@ defmodule Site.ScheduleController.Green do
 
     conn
     |> assign(:green_schedules, schedules)
-  end
-
-  @doc "Includes the fake Green line route in the list of all routes"
-  def assign_additional_route_to_all_routes(
-    %{assigns: %{route: route, all_routes: all_routes}} = conn, []) do
-    conn
-    |> assign(:all_routes, [route|all_routes])
   end
 
   defp schedule_for_route(

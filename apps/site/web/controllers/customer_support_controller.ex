@@ -1,6 +1,8 @@
 defmodule Site.CustomerSupportController do
   use Site.Web, :controller
 
+  plug Turbolinks.Plug.NoCache
+
   def index(conn, _params) do
     render_form conn, MapSet.new, %{}
   end

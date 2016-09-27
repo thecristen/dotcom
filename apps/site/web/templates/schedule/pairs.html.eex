@@ -1,3 +1,4 @@
+<% predictions_enabled? = Laboratory.enabled? @conn, :predictions %>
 <% route_type = Route.type_atom(@route) %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
@@ -5,10 +6,15 @@
   <span class="schedule-col-pair-notes">
     <%= if route_type == :commuter_rail do %>Train<% else %>Notes<% end %>
   </span>
+  <%= if predictions_enabled? do %>
+    <span class="schedule-col-1">
+      <%= render "_refresh.html" %>
+    </span>
+  <% end %>
 </div>
 <%= for {origin, destination} <- @schedules do %>
   <% is_selected_period = origin.trip.id == @trip %>
-  <% trip_alerts = trip_alerts_for @alerts, [origin, destination] %>
+  <% trip_alerts = trip_alerts_for @all_alerts, [origin, destination] %>
   <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= origin.trip.id %>"
     href="<%= if is_selected_period do %>
@@ -16,7 +22,14 @@
     <% else %>
           <%= update_url @conn, trip: origin.trip.id %>#<%= origin.trip.id %>"
     <% end %>">
-    <span class="schedule-col-departure"><span class="sr-only">Departure: </span><%= origin.time |> Timex.format!("{kitchen}") %></span>
+    <% prediction = prediction_for_schedule(@predictions, origin) %>
+    <span class="schedule-col-departure"><span class="sr-only">Departure:</span>
+      <%= origin.time |> Timex.format!("{kitchen}") %>
+      <%= if prediction do %>
+        <%= fa "rss" %>
+      <% else %>
+<% end %>
+    </span>
     <span class="schedule-col-arrival"><span class="sr-only">Arrival: </span><%= destination.time |> Timex.format!("{kitchen}") %></span>
     <span class="schedule-col-pair-notes">
       <%= if origin.trip.name != "" do %>
@@ -28,6 +41,16 @@
       <% end %>
     </span>
     <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>
+    <%= if prediction do %>
+      <span class="col-xs-12">
+        <%= render "_prediction.html", prediction: prediction, schedule: origin %>
+      </span>
+    <% end %>
+    <%= if is_selected_period && predictions_enabled? do %>
+      <span class="col-xs-12">
+        <%= render "_last_updated.html" %>
+      </span>
+    <% end %>
   </a>
   <%= if is_selected_period do %>
     <div class="schedule-list-group-item selected-period">

@@ -1,7 +1,8 @@
+<%= render "_upcoming_departures.html", predictions: @predictions, route: @route.id, stop: @origin || @from.id %>
 <%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
   <% last_trip_id = List.last(schedules).trip.id %>
   <% is_selected_period = Enum.any?(schedules, &(&1.trip.id == @trip)) %>
-  <% trip_alerts = trip_alerts_for @alerts, schedules %>
+  <% trip_alerts = trip_alerts_for @all_alerts, schedules %>
   <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= last_trip_id %>"
     href="<%= if is_selected_period do %>

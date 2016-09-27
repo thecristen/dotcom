@@ -1,0 +1,27 @@
+<%= if @predictions != [] do %>
+  <div class="schedule-list-group p-b-1">
+    <div class="schedule-list-group-item schedule-list-group-header">
+      <div class="schedule-col-group">
+        <%= fa "rss" %> Upcoming departures
+      </div>
+      <div class="schedule-col-1 pull-right">
+        <%= render "_refresh.html", predictions: @predictions %>
+      </div>
+    </div>
+    <div class="schedule-list-group-item">
+      <%= for %{time: time} <- @predictions
+          |> Enum.filter(fn %{stop_id: stop_id, route_id: route_id} ->
+            stop_id == @stop && route_id == @route
+            end)
+          |> Enum.sort_by(&(Timex.to_unix(&1.time)))
+          |> Enum.take(6) do %>
+        <div class="col-xs-4 col-sm-3 col-md-2">
+          <%= time |> Timex.format!("{kitchen}") %>
+        </div>
+      <% end %>
+      <div class="col-xs-12">
+        <%= render "_last_updated.html" %>
+      </div>
+    </div>
+  </div>
+<% end %>

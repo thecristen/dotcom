@@ -1,0 +1,3 @@
+<small>
+  Last updated at <%= Util.now |> Timex.format!("{kitchen}") %>
+</small>

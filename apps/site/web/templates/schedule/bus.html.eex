@@ -1,8 +1,9 @@
+<%= render "_upcoming_departures.html", predictions: @predictions, route: @route.id, stop: @origin || @from.id %>
 <%= if @alerts != [] do %>
   <%= Site.AlertView.inline @conn, alerts: @alerts, time: List.first(@schedules).time %>
 <% end %>
 <%= for {hour, schedules} <- TimeGroup.by_hour(@schedules) do %>
-  <% trip_alerts = trip_alerts_for(@alerts, schedules) %>
+  <% trip_alerts = trip_alerts_for(@all_alerts, schedules) %>
   <div class="schedule-list-group-item" id="hour-<%= hour %>">
     <span class="schedule-col-departure">
       <span class="sr-only">Departure times during the hour of</span>

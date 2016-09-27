@@ -1,7 +1,13 @@
 defmodule Turbolinks do
+  @moduledoc """
+
+  Helper functions for working with Turbolinks
+
+  """
   import Plug.Conn, only: [get_req_header: 2]
   alias Phoenix.HTML.Tag
 
+  @doc "Return a boolean indicating whether Turbolinks is enabled on the request"
   def enabled?(conn) do
     case get_req_header(conn, "turbolinks-referrer") do
       [] -> false
@@ -9,10 +15,11 @@ defmodule Turbolinks do
     end
   end
 
-  def turbolinks_cache(%{private: %{phoenix_view: Site.CustomerSupportView}}) do
-    Tag.tag :meta, name: "turbolinks-cache-control", content: "no-cache"
+  @doc "Return HTML for the Turbolinks Cache-Control on the current request"
+  def cache_meta(%{assigns: %{turbolinks_cache_header: header}}) when is_binary(header) do
+    Tag.tag :meta, name: "turbolinks-cache-control", content: header
   end
-  def turbolinks_cache(_conn) do
+  def cache_meta(_conn) do
     ""
   end
 end
@@ -63,5 +70,30 @@ defmodule Turbolinks.Plug do
   end
   def before_send(conn) do
     conn
+  end
+end
+
+defmodule Turbolinks.Plug.NoCache do
+  @moduledoc """
+
+  Plug to disable the Turbolinks caching behavior for a controller.
+
+  Usage:
+
+      plug Turbolinks.Plug.NoCache
+
+  """
+  import Plug.Conn, only: [assign: 3]
+
+  def init(value \\ []) do
+    case value do
+      [header] -> header
+      _ -> "no-cache"
+    end
+  end
+
+  def call(conn, value) do
+    conn
+    |> assign(:turbolinks_cache_header, value)
   end
 end

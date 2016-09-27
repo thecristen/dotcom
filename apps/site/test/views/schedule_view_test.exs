@@ -4,11 +4,15 @@ defmodule Site.ScheduleViewTest do
   alias Site.ScheduleView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Phoenix.HTML.Tag, only: [tag: 2]
+  import Phoenix.View, only: [render_to_string: 3]
+  alias Predictions.Prediction
+  alias Routes.Route
+  alias Schedules.{Schedule, Stop, Trip}
 
-  @stop %Schedules.Stop{id: "stop_id"}
-  @trip %Schedules.Trip{id: "trip_id"}
-  @route %Routes.Route{type: 2, id: "route_id"}
-  @schedule %Schedules.Schedule{stop: @stop, trip: @trip, route: @route}
+  @stop %Stop{id: "stop_id"}
+  @trip %Trip{id: "trip_id"}
+  @route %Route{type: 2, id: "route_id"}
+  @schedule %Schedule{stop: @stop, trip: @trip, route: @route}
 
   describe "reverse_direction_opts/4" do
     test "reverses direction when the stop exists in the other direction" do
@@ -74,16 +78,70 @@ end
     end
   end
 
-  test "translates the type number to a string" do
-    assert ScheduleView.header_text(0, "test route") == "test route"
-    assert ScheduleView.header_text(3, "2") == "Route 2"
-    assert ScheduleView.header_text(1, "Red Line") == "Red Line"
-    assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
+  describe "header_text/2" do
+    test "translates the type number to a string" do
+      assert ScheduleView.header_text(0, "test route") == "test route"
+      assert ScheduleView.header_text(3, "2") == "Route 2"
+      assert ScheduleView.header_text(1, "Red Line") == "Red Line"
+      assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
+    end
+  end
+
+  describe "with predictions" do
+    setup %{conn: conn} do
+      conn = conn
+      |> Plug.Test.put_req_cookie("predictions", "true")
+      {:ok, %{conn: conn}}
+    end
+
+    test "on commuter rail, renders inline predictions", %{conn: conn} do
+      conn = get conn, "/schedules/CR-Lowell?direction_id=0"
+      second_schedule = Enum.at(conn.assigns[:schedules], 1)
+      conn = conn
+      |> assign(:predictions, [
+            %Prediction{
+              trip_id: second_schedule.trip.id,
+              stop_id: second_schedule.stop.id,
+              route_id: second_schedule.route.id,
+              direction_id: second_schedule.trip.direction_id,
+              time: Util.now,
+              status: "All Aboard",
+              track: "6"
+            }
+          ])
+      conn = assign(conn, :conn, conn)
+
+      html = render_to_string(Site.ScheduleView, "index.html", conn.assigns)
+
+      assert html =~ ~R(All Aboard\s+on track&nbsp;6)
+    end
+
+    test "for subway, renders a list of times", %{conn: conn} do
+      conn = get conn, "/schedules/Red"
+      schedule = List.first(conn.assigns[:schedules])
+      time = Util.now |> Timex.shift(minutes: 5, seconds: 30)
+      conn = conn
+      |> assign(:predictions, [
+            %Prediction{
+              trip_id: schedule.trip.id,
+              stop_id: schedule.stop.id,
+              route_id: schedule.route.id,
+              direction_id: schedule.trip.direction_id,
+              time: time
+            }
+          ])
+      conn = assign(conn, :conn, conn)
+
+      html = render_to_string(Site.ScheduleView, "index.html", conn.assigns)
+
+      assert html =~ "Upcoming departures"
+      assert html =~ Timex.format!(time, "{kitchen}")
+    end
   end
 
   describe "station_info_link/1" do
     test "generates a station link on a map icon when the stop has station information" do
-      stop = %Schedules.Stop{id: "place-sstat"}
+      stop = %Stop{id: "place-sstat"}
       str = safe_to_string(ScheduleView.station_info_link(stop))
       assert str =~ station_path(Site.Endpoint, :show, "place-sstat")
       assert str =~ safe_to_string(Site.ViewHelpers.fa("map-o"))
@@ -97,12 +155,12 @@ end
   end
 
   describe "trip/3" do
-    @stops [%Schedules.Stop{id: "1"},
-      %Schedules.Stop{id: "2"},
-      %Schedules.Stop{id: "3"},
-      %Schedules.Stop{id: "4"},
-      %Schedules.Stop{id: "5"}]
-    @schedules Enum.map(@stops, fn(stop) -> %Schedules.Schedule{stop: stop, trip: @trip, route: @route} end)
+    @stops [%Stop{id: "1"},
+      %Stop{id: "2"},
+      %Stop{id: "3"},
+      %Stop{id: "4"},
+      %Stop{id: "5"}]
+    @schedules Enum.map(@stops, fn(stop) -> %Schedule{stop: stop, trip: @trip, route: @route} end)
 
     test "filters a list of schedules down to a list representing a trip starting at from and going until to" do
       start_id = "2"
@@ -126,19 +184,19 @@ end
   end
 
   describe "schedule_list/2" do
-    @stops [%Schedules.Stop{id: "1"},
-      %Schedules.Stop{id: "2"},
-      %Schedules.Stop{id: "3"},
-      %Schedules.Stop{id: "4"},
-      %Schedules.Stop{id: "5"},
-      %Schedules.Stop{id: "6"},
-      %Schedules.Stop{id: "7"},
-      %Schedules.Stop{id: "8"},
-      %Schedules.Stop{id: "9"},
-      %Schedules.Stop{id: "10"},
-      %Schedules.Stop{id: "11"},
-      %Schedules.Stop{id: "12"}]
-    @schedules Enum.map(@stops, fn(stop) -> %Schedules.Schedule{stop: stop, trip: @trip, route: @route} end)
+    @stops [%Stop{id: "1"},
+      %Stop{id: "2"},
+      %Stop{id: "3"},
+      %Stop{id: "4"},
+      %Stop{id: "5"},
+      %Stop{id: "6"},
+      %Stop{id: "7"},
+      %Stop{id: "8"},
+      %Stop{id: "9"},
+      %Stop{id: "10"},
+      %Stop{id: "11"},
+      %Stop{id: "12"}]
+    @schedules Enum.map(@stops, fn(stop) -> %Schedule{stop: stop, trip: @trip, route: @route} end)
 
     test "when all times is false, filters a list of schedules to the first 9" do
       assert length(ScheduleView.schedule_list(@schedules, false)) == 9
@@ -147,6 +205,54 @@ end
     test "when all times is true, does not filter the list" do
       assert length(ScheduleView.schedule_list(@schedules, true)) == length(@schedules)
     end
+  end
 
+  describe "rendering _prediction.html" do
+    @original_time ~N[2016-01-01T00:00:00]
+    @estimated_time ~N[2016-01-01T01:00:00]
+    @schedule %Schedule{time: @original_time}
+
+    def render_prediction(prediction) do
+      render_to_string(ScheduleView, "_prediction.html", prediction: prediction, schedule: @schedule)
+    end
+
+    test "renders On Time if the times are the same and there's no status" do
+      prediction = %Prediction{time: @original_time}
+      response = render_prediction(prediction)
+
+      assert response =~ "On Time"
+    end
+
+    test "renders 'Estimated departure: time' if different from scheduled time" do
+      prediction = %Prediction{time: @estimated_time}
+
+      response = render_prediction(prediction)
+
+      assert response =~ "Estimated departure: 1:00AM"
+    end
+
+    test "if there's no predicted time but there is a status, renders the status" do
+      prediction = %Prediction{status: "Departed"}
+
+      response = render_prediction(prediction)
+
+      assert response =~ "Departed"
+    end
+
+    test "if the status is Now Boarding or All Aboard, doesn't display a time even if it's different" do
+      for status <- ["All Aboard", "Now Boarding"] do
+        prediction = %Prediction{time: @estimated_time, track: "5", status: status}
+        response = render_prediction(prediction)
+        assert response =~ ~r(#{status}\s+on track&nbsp;5)
+        refute response =~ "1:00AM"
+      end
+    end
+
+    test "if there is another status with a different time, renders the status along with the departure" do
+      prediction = %Prediction{time: @estimated_time, status: "Delayed"}
+      response = render_prediction(prediction)
+      assert response =~ "Delayed"
+      assert response =~ "(est. departure: 1:00AM)"
+    end
   end
 end

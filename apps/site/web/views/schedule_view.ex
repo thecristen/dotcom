@@ -1,6 +1,7 @@
 defmodule Site.ScheduleView do
   use Site.Web, :view
   alias Routes.Route
+  alias Schedules.Schedule
 
   def stop_alerts_for(alerts, stop_ids, opts) do
     stop_ids
@@ -167,5 +168,13 @@ defmodule Site.ScheduleView do
     Util.now
     |> TimeGroup.subway_period
     |> to_string
+  end
+
+  def prediction_for_schedule(predictions, %Schedule{trip: %{id: trip_id}, stop: %{id: stop_id}}) do
+    predictions
+    |> Enum.find(fn
+      %{trip_id: ^trip_id, stop_id: ^stop_id} -> true
+      _ -> false
+    end)
   end
 end
