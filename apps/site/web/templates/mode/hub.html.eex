@@ -12,14 +12,12 @@
           <a href="<%= @map_pdf_url %>" target="_blank">
             <img src="<%= @map_image_url %>" class="system-map <%= mode_class %>" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
           </a>
-          <%= if @map_pdf_url do %>
-            <p>
-              <a href="<%= @map_pdf_url %>" target="_blank">
-                <%= fa "search-plus" %>
-                View <%= mode_downcase %> map as a PDF
-              </a>
-            </p>
-          <% end %>
+          <p>
+            <a href="<%= @map_pdf_url %>" target="_blank">
+              <%= fa "search-plus" %>
+              View <%= mode_downcase %> map as a PDF
+            </a>
+          </p>
         </div>
         <div class="col-xs-12 p-b-1">
           <h2><strong>Line Schedules</strong></h2>
