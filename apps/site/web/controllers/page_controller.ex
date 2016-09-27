@@ -1,6 +1,9 @@
 defmodule Site.PageController do
   use Site.Web, :controller
 
+  plug Site.Plugs.Date
+  plug Site.Plugs.Alerts
+
   def index(conn, _params) do
     conn
     |> async_assign(:grouped_routes, &grouped_routes/0)

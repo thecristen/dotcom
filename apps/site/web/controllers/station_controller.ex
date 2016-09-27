@@ -1,6 +1,9 @@
 defmodule Site.StationController do
   use Site.Web, :controller
 
+  plug Site.Plugs.Date
+  plug Site.Plugs.Alerts
+
   alias Stations.Repo
 
   def index(conn, _params) do
