@@ -9,6 +9,7 @@ export default function($) {
     const anchorIndex = url.indexOf('#');
     if (anchorIndex !== -1) {
       ev.preventDefault();
+      ev.stopPropagation();
       const newUrl = url.slice(0, anchorIndex);
       window.setTimeout(() => Turbolinks.visit(newUrl), 0);
       return;
