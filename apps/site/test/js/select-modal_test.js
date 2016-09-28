@@ -9,9 +9,9 @@ import { convertSelects,
 
 describe('selectModal', () => {
   const data = [
-    {name: 'Selected', value: '1', selected: true},
-    {name: 'Disabled', value: '0', disabled: true},
-    {name: 'Regular', value: 'reg'}
+    {name: 'Selected', html: 'Selected', value: '1', selected: true},
+    {name: 'Disabled', html: 'Disabled', value: '0', disabled: true},
+    {name: 'Regular', html: 'Regular', value: 'reg'}
   ];
 
   var $;
@@ -76,6 +76,22 @@ describe('selectModal', () => {
 
     it('generates a list of objects', () => {
       assert.deepEqual(dataFromSelect($("#test select"), $), data);
+    });
+
+    it("stores the full HTML separately from the name", () => {
+      $("#test").html(`
+<select>
+  <option value=1> Name (with content)</option>
+</select>
+`);
+      assert.deepEqual(dataFromSelect($("#test select"), $),
+                       [
+                         {
+                           name: "Name",
+                           html: " Name (with content)",
+                           value: "1"
+                         }
+                       ]);
     });
   });
 

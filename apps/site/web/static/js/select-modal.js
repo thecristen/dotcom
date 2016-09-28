@@ -193,7 +193,8 @@ function dataFromOption($) {
   return (_index, option) => {
     const $option = $(option);
     const data = {
-      name: $option.text(),
+      name: $option.text().replace(/\(.+\)/, '').trim(),
+      html: $option.html(),
       value: $option.val()
     };
     if ($option.attr('selected')) {
@@ -223,7 +224,10 @@ function renderOption(option) {
   ].join(' ');
   return `
 <button class='${className}' data-value='${option.value}' ${option.disabled ? 'disabled' : ''}>
-  <div class='select-modal-option-name'>${option.name}</div>
+  <div class='select-modal-option-name'>
+    ${option.selected ? '<span class="fa fa-check-circle" aria-hidden=true/>': ''}
+    ${option.html}
+  </div>
 </button>
 `;
 }

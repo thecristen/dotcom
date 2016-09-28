@@ -58,7 +58,12 @@
   font-weight: bold;
 
   &.disabled {
-    font-weight: normal;
+    background-color: $white;
+    color: $gray-light;
+
+    @include hover-focus-active {
+      background-color: $white;
+    }
   }
 
   &:focus {
