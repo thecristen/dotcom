@@ -1,0 +1,2 @@
+defmodule Fares do
+end
