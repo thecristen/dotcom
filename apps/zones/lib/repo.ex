@@ -4,8 +4,8 @@ defmodule Zones.Repo.StationZones do
     filename
     |> File.stream!
     |> CSV.decode
-    |> Enum.reduce(Map.new, fn [station| zone], station_zone_map ->
-      Map.put(station_zone_map, station, List.last(zone))
+    |> Enum.reduce(Map.new, fn [station, zone], station_zone_map ->
+      Map.put(station_zone_map, station, zone)
     end)
   end
 end
@@ -15,7 +15,7 @@ defmodule Zones.Repo do
   @station_zones zone_info
 
   def get(stop) do
-    Map.fetch(@station_zones, stop)
+    @station_zones[stop]
   end
 
   def all do
