@@ -1,6 +1,9 @@
 defmodule Site.ModeController do
   use Site.Web, :controller
 
+  plug Site.Plugs.Date
+  plug Site.Plugs.Alerts
+
   alias Site.Mode
 
   defdelegate subway(conn, params), to: Mode.SubwayController, as: :index

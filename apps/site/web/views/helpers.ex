@@ -1,10 +1,8 @@
 defmodule Site.ViewHelpers do
   import Site.Router.Helpers
-  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
+  import Phoenix.HTML, only: [raw: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 3]
-  import Phoenix.HTML.Link
   import Plug.Conn
-  import Util
 
   # precompile the SVGs, rather than hitting the filesystem every time
   for path <- :site
@@ -115,31 +113,6 @@ defmodule Site.ViewHelpers do
     |> String.replace_suffix(" Trolley", "")
     |> String.replace("/", "/​") # slash replaced with a slash with a ZERO
                                 # WIDTH SPACE afer
-  end
-
-  @doc "HTML for a route circle"
-  def route_circle(route_type, route_id)
-  def route_circle(route_type, route_id) when route_type in [0, 1] do
-    fa("circle fa-color-subway-" <> String.downcase(route_id))
-  end
-  def route_circle(_,_), do: raw ""
-
-  @doc """
-  HTML for a Route link.  If additional options are passed, they are
-  passed to the schedule_path helper.
-  """
-  def route_link(conn, route, opts \\ []) do
-    opts = Keyword.put(opts, :route, route.id)
-    {class_name, opts} = Keyword.pop(opts, :class, "")
-
-    route.type
-    |> route_circle(route.id)
-    |> safe_to_string
-    |> string_join(clean_route_name(route.name))
-    |> raw
-    |> link(
-      to: schedule_path(conn, :show, route.id, opts),
-      class: Util.string_join("mode-group-btn", class_name))
   end
 
   def route_spacing_class(0), do: "col-xs-6 col-md-3"

@@ -73,8 +73,8 @@ defmodule Site.Plugs.Alerts do
 
     alerts_from_params(params)
   end
-  defp alerts(%{params: params}) do
-    alerts_from_params(params)
+  defp alerts(_) do
+    Alerts.Repo.all
   end
 
   defp alerts_from_params(params) do
