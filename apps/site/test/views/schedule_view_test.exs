@@ -254,5 +254,12 @@ end
       assert response =~ "Delayed"
       assert response =~ "(est. departure: 1:00AM)"
     end
+
+    test "doesn't render departure if the status is Departed" do
+      prediction = %Prediction{time: @estimated_time, status: "Departed"}
+      response = render_prediction(prediction)
+      assert response =~ "Departed"
+      refute response =~ "est. departure"
+    end
   end
 end
