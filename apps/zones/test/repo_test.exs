@@ -3,7 +3,7 @@ defmodule Zones.RepoTest do
   alias Zones.Repo
 
   test "it finds the zone of a commuter rail stop" do
-    assert Repo.get("South Acton") == "6"
+    assert Repo.get("South Acton") == {:ok, "6"}
   end
 
   test "it finds the zones for all stops" do

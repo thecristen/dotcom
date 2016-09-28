@@ -1,22 +1,24 @@
-defmodule Zones.Repo do
-
+defmodule Zones.Repo.StationZones do
   def zone_info do
     filename = "priv/crzones.csv"
     filename
     |> File.stream!
     |> CSV.decode
-    |> Enum.map(fn row -> Enum.map(row, &String.upcase/1) end)
-  end
-
-  def get(stop) do
-    zone_info
-    |> Enum.find_value(fn [station|zone] -> if station == String.upcase(stop) do List.first(zone) end end)
-  end
-
-  def all do
-    zone_info
     |> Enum.reduce(Map.new, fn [station| zone], station_zone_map ->
       Map.put(station_zone_map, station, List.last(zone))
     end)
+  end
+end
+
+defmodule Zones.Repo do
+  import Zones.Repo.StationZones
+  @station_zones zone_info
+
+  def get(stop) do
+    Map.fetch(@station_zones, stop)
+  end
+
+  def all do
+    @station_zones
   end
 end
