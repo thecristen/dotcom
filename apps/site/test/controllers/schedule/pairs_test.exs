@@ -24,8 +24,8 @@ defmodule Site.ScheduleController.PairsTest do
       direction_id: "0"
     )
     response = html_response(conn, 200)
-    assert response =~ ~s(<option value="place-alfcl" selected>Alewife</option>)
-    assert response =~ ~s(<option value="place-harsq" selected>Harvard</option>)
+    assert response =~ ~s(<option value="place-alfcl" selected>)
+    assert response =~ ~s(<option value="place-harsq" selected>)
   end
 
   test "handles a missing direction ID", %{conn: conn} do
