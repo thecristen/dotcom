@@ -4,7 +4,7 @@
   <%= if @prediction.status do %>
     <%= @prediction.status %>
     <%= if @prediction.track do %>on track&nbsp;<%= @prediction.track %><% end %>
-    <%= if different_time? && not(@prediction.status in ["All Aboard", "Now Boarding"]) do %>
+    <%= if different_time? && not(@prediction.status in ["All Aboard", "Now Boarding", "Departed"]) do %>
       (est. departure: <%= @prediction.time |> Timex.format!("{kitchen}") %>)
     <% end %>
   <% else %>

@@ -35,10 +35,9 @@ defmodule Site.ScheduleControllerTest do
     assert response =~ "from Anderson/Woburn"
   end
 
-  test "@from is set to the nice name of a station", %{conn: conn} do
+  test "@from has the nice name of a station", %{conn: conn} do
     conn = get conn, schedule_path(conn, :show, "Red", direction_id: 1)
-    response = html_response(conn, 200)
-    refute response =~ "Ashmont - Inbound"
+    refute conn.assigns.from.name =~ "Inbound"
   end
 
   test "shows station info link if a station page exists", %{conn: conn} do
