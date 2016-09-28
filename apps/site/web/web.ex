@@ -46,6 +46,7 @@ defmodule Site.Web do
       import Site.ErrorHelpers
       import Site.Gettext
       import Site.ViewHelpers
+      import Site.ViewHelpers.RouteLink
     end
   end
 

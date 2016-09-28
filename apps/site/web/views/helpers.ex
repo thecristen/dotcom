@@ -4,7 +4,6 @@ defmodule Site.ViewHelpers do
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Plug.Conn
 
-  defdelegate route_link(conn, route, opts \\ []), to: Site.ViewHelpers.RouteLink
   # precompile the SVGs, rather than hitting the filesystem every time
   for path <- :site
   |> Application.app_dir
