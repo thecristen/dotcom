@@ -27,14 +27,12 @@ defmodule Site.ScheduleController.DestinationStops do
   def call(%{assigns: %{
                 route: %{id: "Red"},
                 all_stops: all_stops,
-                direction_id: direction_id,
                 origin: origin
              }} = conn, _) do
-    northbound = direction_id == 1
     filtered_stops = cond do
-      northbound and origin in @braintree_stops ->
+      origin in @braintree_stops ->
         Enum.reject(all_stops, &(&1.id in @ashmont_stops))
-      northbound and origin in @ashmont_stops ->
+      origin in @ashmont_stops ->
         Enum.reject(all_stops, &(&1.id in @braintree_stops))
       true ->
         all_stops

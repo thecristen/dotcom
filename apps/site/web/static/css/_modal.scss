@@ -60,9 +60,11 @@
   &.disabled {
     background-color: $white;
     color: $gray-light;
+    cursor: default;
 
     @include hover-focus-active {
       background-color: $white;
+      cursor: default;
     }
   }
 

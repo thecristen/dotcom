@@ -12,7 +12,7 @@
         all_stops: @all_stops,
         label_text: label_text,
         change_text: "Change Departure",
-        disabled_values: if @all_stops == [], do: [], else: [{List.last(@all_stops).id, "last stop"}] %>
+        disabled_values: if @all_stops == [], do: [], else: [{List.last(@all_stops).id, "last #{direction(@direction_id, @route.id) |> String.downcase} stop"}] %>
   </div>
   <%= if @destination == nil do %>
     <%# need both to handle the margins correctly on the small screen but also have a full-height background on desktop %>
@@ -36,7 +36,12 @@
         include_empty?: true,
         include: %{"origin" => @origin || @from.id},
         exclude: ["direction_id"], # since the pairs view doesn't need a direction_id
-        disabled_values: [{@origin, "departure stop"}, {@from.id, "departure stop"}] ++ (@all_stops |> Enum.filter(&(!Enum.member?(@destination_stops, &1))) |> Enum.map(&({&1, "not on route"})))
+        disabled_values: [
+          {@origin, "departure stop"},
+          {@from.id, "departure stop"}] ++ (
+            @all_stops # filter out non-destination stops because they're on a different branch
+            |> Enum.reject(&Enum.member?(@destination_stops, &1))
+            |> Enum.map(&({&1.id, "not on branch"})))
     %>
   </div>
 </div>
