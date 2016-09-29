@@ -2,6 +2,7 @@ export default function($) {
   $ = $ || window.jQuery;
 
   var savedPosition = null;
+  var savedAnchor = null;
 
   Turbolinks.start();
   $(document).on('turbolinks:before-visit', (ev) => {
@@ -11,6 +12,7 @@ export default function($) {
       ev.preventDefault();
       ev.stopPropagation();
       const newUrl = url.slice(0, anchorIndex);
+      savedAnchor = url.slice(anchorIndex, url.length);
       window.setTimeout(() => Turbolinks.visit(newUrl), 0);
       return;
     }
@@ -24,6 +26,19 @@ export default function($) {
     if (savedPosition) {
       window.scrollTo.apply(window, savedPosition);
       savedPosition = null;
+    }
+    if (savedAnchor) {
+      // if we saved the anchor and it's above the screen, scroll to it
+      const $el = $(savedAnchor);
+      const $window = $(window);
+      savedAnchor = null;
+      if ($el.length > 0) {
+        const elementY = $el.offset().top;
+        const windowY = $window.scrollTop();
+        if (windowY > elementY) {
+          $window.scrollTop(elementY - 20);
+        }
+      }
     }
   });
 };
