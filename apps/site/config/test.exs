@@ -8,3 +8,7 @@ config :site, Site.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+# Don't fetch tz data in test mode; can cause a race if we're doing TZ
+# operations while it updates.
+config :tzdata, :autoupdate, :disabled

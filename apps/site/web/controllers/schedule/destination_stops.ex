@@ -1,9 +1,13 @@
 defmodule Site.ScheduleController.DestinationStops do
   @moduledoc """
-  Fetch applicable destination stops for the given route. If no origin is set then we don't need
-  destinations yet. If the route is northbound on the red line coming from the Ashmont or Braintree
-  branches, filter out stops on the opposite branch. For all other routes, the already assigned
-  :all_stops is sufficient.
+
+  Fetch unavailable origin/destination stops for the given route. If no
+  origin is set then we don't know which destinations are unavailable yet,
+  and only the last origin in @all_stops is excluded. If the route is the red
+  line on the Ashmont or Braintree branches, exclude destinations on the
+  other branch, and depending on the direction, either Ashmont/Braintree or
+  Alewife are unavailable as origins.
+
   """
 
   @braintree_stops [
@@ -26,28 +30,39 @@ defmodule Site.ScheduleController.DestinationStops do
 
   def call(%{assigns: %{
                 route: %{id: "Red"},
-                all_stops: all_stops,
                 direction_id: direction_id,
                 origin: origin
              }} = conn, _) do
-    northbound = direction_id == 1
-    filtered_stops = cond do
-      northbound and origin in @braintree_stops ->
-        Enum.reject(all_stops, &(&1.id in @ashmont_stops))
-      northbound and origin in @ashmont_stops ->
-        Enum.reject(all_stops, &(&1.id in @braintree_stops))
-      true ->
-        all_stops
-    end
 
     conn
-    |> assign(:destination_stops, filtered_stops)
+    |> assign(:excluded_origin_stops, excluded_red_origin_stops(direction_id))
+    |> assign(:excluded_destination_stops, excluded_red_destination_stops(origin))
   end
-  def call(%{assigns: %{all_stops: all_stops}} = conn, _) do
+  def call(%{assigns: %{all_stops: all_stops}} = conn, _) when all_stops != [] do
     conn
-    |> assign(:destination_stops, all_stops)
+    |> assign(:excluded_origin_stops, [List.last(all_stops).id])
+    |> assign(:excluded_destination_stops, [])
   end
   def call(conn, []) do
     conn
+    |> assign(:excluded_origin_stops, [])
+    |> assign(:excluded_destination_stops, [])
+  end
+
+  defp excluded_red_origin_stops(0) do
+    ["place-brntn", "place-asmnl"]
+  end
+  defp excluded_red_origin_stops(1) do
+    ["place-alfcl"]
+  end
+
+  defp excluded_red_destination_stops(origin) when origin in @braintree_stops do
+    @ashmont_stops
+  end
+  defp excluded_red_destination_stops(origin) when origin in @ashmont_stops do
+    @braintree_stops
+  end
+  defp excluded_red_destination_stops(_origin) do
+    []
   end
 end

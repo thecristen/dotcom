@@ -17,15 +17,17 @@ defmodule Site.ScheduleController.DestinationStopsTest do
     |> conn_with_route("7", origin: nil, from: %{id: "place-sstat"})
     |> DestinationStops.call([])
 
-    assert :destination_stops in Map.keys(conn.assigns)
+    assert :excluded_origin_stops in Map.keys(conn.assigns)
+    assert :excluded_destination_stops in Map.keys(conn.assigns)
   end
 
   test "destination_stops and all_stops are the same on non-red lines", %{conn: conn} do
     conn = conn
-    |> conn_with_route("Green-B", origin: "place-lake", direction_id: 1)
+    |> conn_with_route("Green-B", origin: "place-park", direction_id: 1)
     |> DestinationStops.call([])
 
-    assert conn.assigns[:destination_stops] == conn.assigns[:all_stops]
+    assert conn.assigns.excluded_origin_stops == ["place-lake"]
+    assert conn.assigns.excluded_destination_stops == []
   end
 
   test "destination_stops and all_stops are the same on southbound red line trips", %{conn: conn} do
@@ -33,7 +35,8 @@ defmodule Site.ScheduleController.DestinationStopsTest do
     |> conn_with_route("Red", origin: "place-alfcl", direction_id: 0)
     |> DestinationStops.call([])
 
-    assert conn.assigns[:destination_stops] == conn.assigns[:all_stops]
+    assert conn.assigns.excluded_origin_stops == ["place-brntn", "place-asmnl"]
+    assert conn.assigns.excluded_destination_stops == []
   end
 
   test "destination_stops does not include Ashmont stops on northbound Braintree trips", %{conn: conn} do
@@ -41,7 +44,7 @@ defmodule Site.ScheduleController.DestinationStopsTest do
     |> conn_with_route("Red", origin: "place-brntn", direction_id: 1)
     |> DestinationStops.call([])
 
-    refute "place-smmn" in Enum.map(conn.assigns[:destination_stops], &(&1.id))
+    assert "place-smmnl" in conn.assigns.excluded_destination_stops
   end
 
   test "destination_stops does not include Braintree stops on northbound Ashmost trips", %{conn: conn} do
@@ -49,6 +52,6 @@ defmodule Site.ScheduleController.DestinationStopsTest do
     |> conn_with_route("Red", origin: "place-asmnl", direction_id: 1)
     |> DestinationStops.call([])
 
-    refute "place-qamnl" in Enum.map(conn.assigns[:destination_stops], &(&1.id))
+    assert "place-qamnl" in conn.assigns.excluded_destination_stops
   end
 end

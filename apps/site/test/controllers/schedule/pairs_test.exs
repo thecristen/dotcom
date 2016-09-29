@@ -24,8 +24,9 @@ defmodule Site.ScheduleController.PairsTest do
       direction_id: "0"
     )
     response = html_response(conn, 200)
-    assert response =~ ~s(<option value="place-alfcl" selected>)
-    assert response =~ ~s(<option value="place-harsq" selected>)
+    # NB: if you change the stop selector, make sure this is changed as well
+    assert response =~ ~R(<option\s+value="place-alfcl"\s+selected)
+    assert response =~ ~R(<option\s+value="place-harsq"\s+selected)
   end
 
   test "handles a missing direction ID", %{conn: conn} do
@@ -40,8 +41,7 @@ defmodule Site.ScheduleController.PairsTest do
     conn = conn
     |> get(schedule_path(conn, :show, "86", origin: "2546", dest: "22549", direction_id: "0"))
 
-    assert hd(conn.assigns[:all_stops]).id == "place-sull"
-    assert hd(conn.assigns[:destination_stops]).id == "place-sull"
+    assert hd(conn.assigns.all_stops).id == "place-sull"
   end
 
   test "handles an empty schedule with origin/destination selected", %{conn: conn} do
