@@ -19,8 +19,8 @@
                |> Enum.join(" < ")
                |> Kernel.<>(" < ")
                end %>MBTA - Massachusetts Bay Transportation Authority</title>
+    <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,500,700">
-    <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>">
     <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" as="script">
     <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">
     <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
