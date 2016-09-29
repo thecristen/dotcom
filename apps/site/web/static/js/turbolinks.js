@@ -38,6 +38,7 @@ export default function($) {
         if (windowY > elementY) {
           $window.scrollTop(elementY - 20);
         }
+        $el.focus();
       }
     }
   });
