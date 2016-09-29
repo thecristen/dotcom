@@ -41,8 +41,7 @@ defmodule Site.ScheduleController.PairsTest do
     conn = conn
     |> get(schedule_path(conn, :show, "86", origin: "2546", dest: "22549", direction_id: "0"))
 
-    assert hd(conn.assigns[:all_stops]).id == "place-sull"
-    assert hd(conn.assigns[:destination_stops]).id == "place-sull"
+    assert hd(conn.assigns.all_stops).id == "place-sull"
   end
 
   test "handles an empty schedule with origin/destination selected", %{conn: conn} do
