@@ -298,6 +298,14 @@ a {
   margin-right: -2rem;
 }
 
+.trip-stop-text {
+  display: inline-block;
+}
+
+.trip-stop-suffix {
+  display: block;
+}
+
 .card-header.hub-header {
  @include media-breakpoint-down(sm) {
    padding-left: .25em;
