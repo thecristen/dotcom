@@ -11,18 +11,19 @@ defmodule Site.Plugs.Alerts do
   """
   import Plug.Conn, only: [assign: 3]
 
-  def init([]), do: []
+  def init([]), do: &Alerts.Repo.all/0
 
-  def call(conn, []) do
+  # can pass in a different function to use for getting all the alerts
+  def call(conn, alert_fn) do
     conn
-    |> assign_all_alerts
+    |> assign_all_alerts(alert_fn)
     |> assign_current_upcoming
     |> assign_alerts_notices
   end
 
-  defp assign_all_alerts(conn) do
+  defp assign_all_alerts(conn, alert_fn) do
     conn
-    |> assign(:all_alerts, alerts(conn))
+    |> assign(:all_alerts, alerts(conn, alert_fn))
   end
 
   defp assign_current_upcoming(%{assigns: %{all_alerts: all_alerts, date: date}} = conn) do
@@ -64,21 +65,22 @@ defmodule Site.Plugs.Alerts do
     |> assign(:alerts, alerts |> sort)
   end
 
-  defp alerts(%{assigns: %{all_alerts: all_alerts}}) when is_list(all_alerts) do
+  defp alerts(%{assigns: %{all_alerts: all_alerts}}, _) when is_list(all_alerts) do
     # if the conn already has alerts from somewhere, use them.
     all_alerts
   end
-  defp alerts(%{params: params, assigns: %{route: route}}) when route != nil do
+  defp alerts(%{params: params, assigns: %{route: route}}, alert_fn) when route != nil do
     params = put_in params["route_type"], route.type
 
-    alerts_from_params(params)
+    alerts_from_params(params, alert_fn)
   end
-  defp alerts(_) do
-    Alerts.Repo.all
+  defp alerts(_, alert_fn) do
+    alert_fn.()
   end
 
-  defp alerts_from_params(params) do
+  defp alerts_from_params(params, alert_fn) do
     base_entity = %Alerts.InformedEntity{
+      route_type: params["route_type"],
       route: params["route"],
       direction_id: direction_id(params["direction_id"])
     }
@@ -95,7 +97,7 @@ defmodule Site.Plugs.Alerts do
       end)
     end)
 
-    Alerts.Repo.all
+    alert_fn.()
     |> Alerts.Match.match(entities)
   end
 
