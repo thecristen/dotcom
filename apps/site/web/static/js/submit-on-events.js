@@ -10,12 +10,17 @@ export default function(events, $) {
       window.Turbolinks.visit(mergeAction(action, serialized));
     };
 
+    function hideLoading(ev) {
+      $(`[data-submit-on-${event}] label .loading-indicator`).addClass('hidden-xs-up');
+    }
+
     function hideSubmits() {
       $('<style type="text/css">[data-submit-on-' + event + '] [type=submit] {display: none;}</style>').appendTo($('head'));
     }
 
     $(document).on(event, "[data-submit-on-" + event + "] select", onEvent);
     $(document).on(event, "[data-submit-on-" + event + "] input", onEvent);
+    $(document).on('turbolinks:before-cache', hideLoading);
     hideSubmits();
   });
 };

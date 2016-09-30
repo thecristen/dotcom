@@ -32,7 +32,8 @@ function openModal(ev, $) {
   ev.preventDefault();
   ev.stopPropagation();
   const $target = $(ev.currentTarget); // the button we clicked
-  const $select = $target.data('select-modal-select'); // the <select>
+  const selectName = $target.data('select-modal');
+  const $select = $(`select[name=${selectName}]`); // the <select>
   const selectData = dataFromSelect($select, $);
   const options = optionsFromSelect($select, $);
   const $modal = $newModal($select.attr('name'), $);
