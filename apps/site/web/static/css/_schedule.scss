@@ -227,7 +227,19 @@ a {
       color: $white;
 
       + .schedule-list-group-item {
-        border: 4px solid $brand-primary-light;
+        border-color: $brand-primary-dark;
+      }
+    }
+
+    @media (pointer: fine) {
+      // if we have a mouse, use the regular focus colors
+      @include hover-focus-active {
+        background-color: $brand-primary-lightest;
+        border-color: $brand-primary-lightest;
+
+        + .schedule-list-group-item {
+          border-color: $brand-primary-lightest;
+        }
       }
     }
 
@@ -235,27 +247,15 @@ a {
       color: $white;
     }
   }
-
-  &.selected-period {
-    color: $white;
-
-    @include hover-focus-active {
-      background-color: $brand-primary-light;
-      border: 4px solid $brand-primary-light;
-    }
-
-    &:focus,
-    &:active {
-      background-color: $brand-primary-dark;
-      border: 4px solid $brand-primary-dark;
-      outline: none;
-    }
-  }
 }
 
 .selected-period {
   border: 4px solid $brand-primary-dark;
   padding: .5rem;
+
+  @include hover-focus-active {
+    outline: none;
+  }
 }
 
 .green-route-name {
