@@ -46,7 +46,7 @@
         <%= render "_prediction.html", prediction: prediction, schedule: origin %>
       </span>
     <% end %>
-    <%= if is_selected_period && predictions_enabled? do %>
+    <%= if is_selected_period && prediction do %>
       <span class="col-xs-12">
         <%= render "_last_updated.html" %>
       </span>
