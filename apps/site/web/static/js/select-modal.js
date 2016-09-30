@@ -208,9 +208,10 @@ function dataFromOption($) {
 }
 
 function renderSearch(data, options) {
+  const placeholder = data.find((opt) => !opt.disabled).name;
   return `
 <label for="select-modal-search" class="select-modal-label">${options.label}</label>
-<input id="select-modal-search" name="select-modal-search" class="form-control" type="search" autocomplete="off" placeholder="Ex ${data[0].name}"/>
+<input id="select-modal-search" name="select-modal-search" class="form-control" type="search" autocomplete="off" placeholder="Ex ${placeholder}"/>
 `;
 }
 
