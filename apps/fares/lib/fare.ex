@@ -1,9 +1,16 @@
 defmodule Fare do
+  @typedoc """
+    name: :zone_1 | :interzone_4 | etc
+    pass_type: :ticket | :charlie_card | :mticket
+    reduced: :student | :senior_disabled
+    duration: :single_trip | :month
+    cents: <cost in cents>
+  """
   defstruct [
-    name: nil, # :zone_1 | :interzone_4 etc
-    pass_type: nil, # :ticket | :charlie_card | :mticket
-    reduced: nil, # :student | :senior_disabled
-    duration: nil, # :single_trip | :month
-    cents: 0, # cost in cents
+    name: nil,
+    pass_type: nil,
+    reduced: nil,
+    duration: nil,
+    cents: 0,
   ]
 end
