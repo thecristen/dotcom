@@ -2,12 +2,19 @@ defmodule Fares.Repo.ZoneFares do
   def fare_info do
     filename = "priv/zone_fares.csv"
 
-    zone_fares = filename
+    filename
     |> File.stream!
     |> CSV.decode
-    |> Enum.reduce(Map.new, fn [zone| [one_way, one_way_reduced, monthly]], station_zone_map ->
-      Map.put(station_zone_map, zone, %{one_way: one_way, one_way_reduced: one_way_reduced, monthly: monthly})
-    end)
+    |> Enum.flat_map(&mapper/1)
+  end
+
+  def mapper([zone, single_trip, single_trip_reduced, monthly]) do
+    [
+      %Fare{name: String.to_atom(zone), duration: :single_trip, pass_type: :ticket, reduced: nil, cents: round(String.to_float(single_trip) * 100)},
+      %Fare{name: String.to_atom(zone), duration: :single_trip, pass_type: :ticket, reduced: :student, cents: round(String.to_float(single_trip_reduced) * 100)},
+      %Fare{name: String.to_atom(zone), duration: :single_trip, pass_type: :ticket, reduced: :senior_disabled, cents: round(String.to_float(single_trip_reduced) * 100)},
+      %Fare{name: String.to_atom(zone), duration: :month, pass_type: :ticket, reduced: nil, cents: round(String.to_float(monthly) * 100)}
+    ]
   end
 end
 
@@ -15,15 +22,17 @@ defmodule Fares.Repo do
   import Fares.Repo.ZoneFares
   @zone_fares fare_info
 
-  def one_way(zone) do
-    @zone_fares[zone][:one_way]
+  def all(opts \\ []) do
+    @zone_fares
+    |> filter(opts)
   end
 
-  def one_way_reduced(zone) do
-    @zone_fares[zone][:one_way_reduced]
+  def filter(fares, opts) do
+    fares
+    |> filter_all(Enum.into(opts, %{}))
   end
 
-  def monthly(zone) do
-    @zone_fares[zone][:monthly]
+  defp filter_all(fares, opts) do
+    Enum.filter(fares, fn fare -> match?(^opts, Map.take(fare, Map.keys(opts))) end)
   end
 end
