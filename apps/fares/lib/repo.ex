@@ -10,10 +10,30 @@ defmodule Fares.Repo.ZoneFares do
 
   def mapper([zone, single_trip, single_trip_reduced, monthly]) do
     [
-      %Fare{name: String.to_atom(zone), duration: :single_trip, pass_type: :ticket, reduced: nil, cents: round(String.to_float(single_trip) * 100)},
-      %Fare{name: String.to_atom(zone), duration: :single_trip, pass_type: :ticket, reduced: :student, cents: round(String.to_float(single_trip_reduced) * 100)},
-      %Fare{name: String.to_atom(zone), duration: :single_trip, pass_type: :ticket, reduced: :senior_disabled, cents: round(String.to_float(single_trip_reduced) * 100)},
-      %Fare{name: String.to_atom(zone), duration: :month, pass_type: :ticket, reduced: nil, cents: round(String.to_float(monthly) * 100)}
+      %Fare{
+        name: String.to_atom(zone),
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: round(String.to_float(single_trip) * 100)},
+      %Fare{
+        name: String.to_atom(zone),
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: :student,
+        cents: round(String.to_float(single_trip_reduced) * 100)},
+      %Fare{
+        name: String.to_atom(zone),
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: :senior_disabled,
+        cents: round(String.to_float(single_trip_reduced) * 100)},
+      %Fare{
+        name: String.to_atom(zone),
+        duration: :month,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: round(String.to_float(monthly) * 100)}
     ]
   end
 end
