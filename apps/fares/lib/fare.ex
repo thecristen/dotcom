@@ -8,7 +8,14 @@ defmodule Fare do
       cents: cost_in_cents
     )
   """
-  @type fare :: %Fare{name: :atom, pass_type: :atom, reduced: :atom, duration: :atom, cents: integer}
+  @type t :: %Fare{
+    name: atom,
+    pass_type: :ticket | :charlie_card | :mticket,
+    reduced: :student | :senior_disabled,
+    duration: :single_trip | :month,
+    cents: non_neg_integer
+  }
+
   defstruct [
     name: nil,
     pass_type: nil,
