@@ -1,4 +1,3 @@
-<% predictions_enabled? = Laboratory.enabled? @conn, :predictions %>
 <% route_type = Route.type_atom(@route) %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
@@ -6,11 +5,9 @@
   <span class="schedule-col-pair-notes">
     <%= if route_type == :commuter_rail do %>Train<% else %>Notes<% end %>
   </span>
-  <%= if predictions_enabled? do %>
-    <span class="schedule-col-1">
-      <%= render "_refresh.html" %>
-    </span>
-  <% end %>
+  <span class="schedule-col-1">
+    <%= render "_refresh.html" %>
+  </span>
 </div>
 <%= for {origin, destination} <- @schedules do %>
   <% is_selected_period = origin.trip.id == @trip %>

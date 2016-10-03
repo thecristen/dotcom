@@ -134,7 +134,7 @@ end
 
       html = render_to_string(Site.ScheduleView, "index.html", conn.assigns)
 
-      assert html =~ "Upcoming departures"
+      assert html =~ "Upcoming Departures"
       assert html =~ Timex.format!(time, "{kitchen}")
     end
   end

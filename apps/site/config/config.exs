@@ -31,9 +31,7 @@ config :site, GoogleMaps,
   signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
 
 config :laboratory,
-  features: [
-    {:predictions, "Predictions", "Enables real-time information in schedules"}
-  ],
+  features: [],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
     http_only: true

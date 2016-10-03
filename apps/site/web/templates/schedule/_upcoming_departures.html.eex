@@ -2,7 +2,7 @@
   <div class="schedule-list-group p-b-1">
     <div class="schedule-list-group-item schedule-list-group-header">
       <div class="schedule-col-group">
-        <%= fa "rss" %> Upcoming departures
+        <%= fa "rss" %> Upcoming Departures
       </div>
       <div class="schedule-col-1 pull-right">
         <%= render "_refresh.html", predictions: @predictions %>
