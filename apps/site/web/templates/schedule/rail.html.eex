@@ -1,12 +1,9 @@
-<% predictions_enabled? = Laboratory.enabled? @conn, :predictions %>
 <div class="schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <%= if @route.type == 2 do %><span class="schedule-col-group">Train No.</span><% end %>
-  <%= if predictions_enabled? do %>
-    <span class="schedule-col-1">
-      <%= render "_refresh.html" %>
-    </span>
-  <% end %>
+  <span class="schedule-col-1">
+    <%= render "_refresh.html" %>
+  </span>
 </div>
 <% most_frequent_headsign = most_frequent_headsign(@schedules) %>
 <%= for schedule <- @schedules do %>

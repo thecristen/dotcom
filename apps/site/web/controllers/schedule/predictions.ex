@@ -9,11 +9,7 @@ defmodule Site.ScheduleController.Predictions do
   def init([]), do: []
 
   def call(conn, []) do
-    if Laboratory.enabled?(conn, :predictions) do
-      assign_predictions(conn)
-    else
-      assign(conn, :predictions, [])
-    end
+    assign_predictions(conn, Util.service_date)
   end
 
   @doc """
@@ -22,17 +18,21 @@ defmodule Site.ScheduleController.Predictions do
   Otherwise, we use @from, assigned out of the schedules
 
   """
+  def assign_predictions(%{assigns: %{date: date}} = conn, service_date)
+  when date != service_date do
+    assign(conn, :predictions, [])
+  end
   def assign_predictions(%{assigns: %{
                               origin: stop_id,
                               route: %{id: route_id},
-                              direction_id: direction_id}} = conn)
+                              direction_id: direction_id}} = conn, _)
   when not is_nil(stop_id) do
     assign_route_stop_direction(conn, route_id, stop_id, direction_id)
   end
   def assign_predictions(%{assigns: %{
                               from: %{id: stop_id},
                               route: %{id: route_id},
-                              direction_id: direction_id}} = conn) do
+                              direction_id: direction_id}} = conn, _) do
     assign_route_stop_direction(conn, route_id, stop_id, direction_id)
   end
 
