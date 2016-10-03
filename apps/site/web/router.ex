@@ -32,6 +32,7 @@ defmodule Site.Router do
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
+    resources "/fares", FareController
   end
 
   scope "/_flags", Laboratory do
