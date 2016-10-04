@@ -10,7 +10,7 @@ defmodule FaresTest do
         pass_type: :ticket, reduced: :student},
       %Fare{cents: 500, duration: :single_trip, name: :zone_6,
         pass_type: :ticket, reduced: :senior_disabled},
-      %Fare{cents: 31800, duration: :month, name: :zone_6,
+      %Fare{cents: 31_800, duration: :month, name: :zone_6,
         pass_type: :ticket, reduced: nil}
     ]
   end
@@ -23,7 +23,7 @@ defmodule FaresTest do
        pass_type: :ticket, reduced: :student},
      %Fare{cents: 175, duration: :single_trip, name: :interzone_3,
        pass_type: :ticket, reduced: :senior_disabled},
-     %Fare{cents: 11975, duration: :month, name: :interzone_3, pass_type: :ticket,
+     %Fare{cents: 11_975, duration: :month, name: :interzone_3, pass_type: :ticket,
        reduced: nil}
     ]
   end
@@ -36,7 +36,7 @@ defmodule FaresTest do
         reduced: :student},
       %Fare{cents: 410, duration: :single_trip, name: :zone_4, pass_type: :ticket,
         reduced: :senior_disabled},
-      %Fare{cents: 26300, duration: :month, name: :zone_4, pass_type: :ticket,
+      %Fare{cents: 26_300, duration: :month, name: :zone_4, pass_type: :ticket,
         reduced: nil}
     ]
   end
