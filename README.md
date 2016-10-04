@@ -72,7 +72,7 @@ In order to make sure the tests are reproducible, we use
 1. (once) Download [Goon](https://github.com/alco/goon/releases/download/v1.1.1/goon_darwin_amd64.tar.gz), untar it with `tar -xf goon_darwin_amd64.tar.gz`, and place it in the `bin/` directory.
 1. Install JDK if you do not have it already. Type `java` at the command line and follow the prompts.
 1. Build the static files:
-  * `npm run brunch:build && mix phoenix.digest`
+  * `npm run brunch:build`
 1. Run the tests:
   * `mix backstop.tests`
   * You may need to run `npm run backstop:bless` in make sure the timestamps
