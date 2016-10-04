@@ -8,18 +8,26 @@
   </span>
   <span class="sr-only">Stop</span>
   <p>
-    <%= @trip_schedule.time |> Timex.format!("{kitchen}") %> -
-    <%= cond do %>
-      <% @origin -> %><strong><%= @trip_schedule.stop.name %> (origin)</strong>
-      <% @destination -> %><strong><%= @trip_schedule.stop.name %> (destination)</strong>
-      <% true -> %><%= @trip_schedule.stop.name %>
+    <span class="trip-stop-text">
+      <%= @trip_schedule.time |> Timex.format!("{kitchen}") %> -
+      <%= if @origin || @destination do %>
+        <strong><%= @trip_schedule.stop.name %></strong>
+      <% else %>
+        <%= @trip_schedule.stop.name %>
+      <% end %>
+      <%= if @trip_schedule.flag? do %>
+        <span class="schedule-flag">F</span>
+      <% end %>
+      <%= if Alerts.Match.match(@alerts, %Alerts.InformedEntity{stop: @trip_schedule.stop.id}) != [] do %>
+        <%= Site.AlertView.tooltip %>
+      <% end %>
+      <%= station_info_link(@trip_schedule.stop) %>
+    </span>
+    <%= if @origin do %>
+      <span class="trip-stop-suffix">(origin)</span>
     <% end %>
-    <%= if @trip_schedule.flag? do %>
-      <span class="schedule-flag">F</span>
+    <%= if @destination do %>
+      <span class="trip-stop-suffix">(destination)</span>
     <% end %>
-    <%= if Alerts.Match.match(@alerts, %Alerts.InformedEntity{stop: @trip_schedule.stop.id}) != [] do %>
-      <%= Site.AlertView.tooltip %>
-    <% end %>
-    <%= station_info_link(@trip_schedule.stop) %>
   </p>
 </li>
