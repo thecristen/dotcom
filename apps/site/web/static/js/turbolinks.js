@@ -8,15 +8,20 @@ export default function($) {
   $(document).on('turbolinks:before-visit', (ev) => {
     const url = ev.originalEvent.data.url;
     const anchorIndex = url.indexOf('#');
+    const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
     if (anchorIndex !== -1) {
       ev.preventDefault();
       ev.stopPropagation();
       const newUrl = url.slice(0, anchorIndex);
-      savedAnchor = url.slice(anchorIndex, url.length);
-      window.setTimeout(() => Turbolinks.visit(newUrl), 0);
+      if (samePath(`${currentPath}${window.location.search}`, newUrl)) {
+        window.location.hash = url.slice(anchorIndex, url.length);
+      } else {
+        savedAnchor = url.slice(anchorIndex, url.length);
+        window.setTimeout(() => Turbolinks.visit(newUrl), 0);
+      }
       return;
     }
-    const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+
     if (samePath(url, currentPath)) {
       savedPosition = [window.scrollX, window.scrollY];
     }
