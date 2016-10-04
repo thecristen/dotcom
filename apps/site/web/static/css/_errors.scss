@@ -9,8 +9,11 @@
   @include media-breakpoint-up(sm) {
     background: rgba($gray-dark, .5);
     color: $white;
-    margin: 5em;
+    margin: 5rem;
     padding-bottom: 1em;
+  }
+  @include media-breakpoint-up(md) {
+    margin: 5rem 5rem 15rem;
   }
 
   h1,
