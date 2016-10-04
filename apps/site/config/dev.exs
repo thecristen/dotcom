@@ -37,3 +37,6 @@ config :logger, :console, format: "[$level] $message\n"
 # Do not configure such in production as keeping
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
+
+config :porcelain, :goon_driver_path, Path.expand("bin/goon")
+config :site, :wiremock_path, Path.expand("bin/wiremock-standalone-2.1.10.jar")
