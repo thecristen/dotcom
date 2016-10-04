@@ -106,6 +106,13 @@
       "selectors": ["main"],
       "delay": 100,
       "hideSelectors": [".alert-card-footer"]
+    },
+    {
+      "label": "Commuter Rail Fares",
+      "url": "http://localhost:4001/fares/commuter-rail",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold" : 0.1
     }
   ],
   "paths": {
