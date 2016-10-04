@@ -1,39 +1,30 @@
-<% route_type = Route.type_atom(@route) %>
-<div id="alertsModal" class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="alertsModalTitle">
-  <div class="modal-dialog modal-lg modal-transparent" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
-          <%= fa "times-circle" %> Close
-        </button>
-      </div>
-      <div class="modal-body p-a-0">
-        <%= render "_alerts_header.html", conn: @conn, route: @route %>
-        <div class="row">
-          <div class="col-xs-12">
-            <%= render "_alert_list.html", alerts: @alerts %>
-            <%= render "_notice_list.html", notices: @notices %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<a
-  href="<%= alert_path @conn, :index, @conn.params %>"
-  class="col-xs-12 btn btn-link alerts-modal-button <%= get_link_background(route_type, @alerts) %>"
-  data-toggle="modal"
-  data-target="#alertsModal"
->
-  <p>
-    <%= fa "exclamation-triangle" %>
-    <%= if route_type == :bus do %>
-      <strong>Notices:</strong>
-      <%= display_alert_effects(@notices) %>
-    <%= else %>
-      <strong>Alerts:</strong>
-      <%= display_alert_effects(@alerts ++ @notices) %>
+<% id = "alerts-#{@route.id}" %>
+<div class="alert-container" id="<%= id %>">
+  <a class="alert-link" href="#<%= id %>">
+    <%= render "_icon.html", alert: hd(@alerts) %>
+    <% {prefix, suffix} = display_alert_effects(@alerts) %>
+    <strong><%= prefix %></strong><span class="hidden-xs-down"><strong>:</strong>
+      <%= hd(@alerts).header %>
+    </span>
+    <strong><%= suffix %></strong>
+    <span class="alert-list-toggle">View</span>
+    <span class="clearfix"></span>
+  </a>
+  <a class="alert-list-header" href="#">
+    <span class="alert-item-icon">
+      <%= fa "exclamation-triangle" %>
+    </span>
+    <span class="alert-list-header-title">Displaying Service Alerts for <%= route_header_text(@route) %></span>
+    <span class="alert-list-toggle">Close</span>
+  </a>
+  <ul class="alert-list">
+    <%= for alert <- @alerts do %>
+      <li class="alert-list-item">
+        <%= render "_item.html", alert: alert %>
+      </li>
     <% end %>
-  </p>
-</a>
+    <li class="alert-list-item">
+      <%= render "_t-alerts.html" %>
+    </li>
+  </ul>
+</div>

@@ -1,17 +1,7 @@
-<div class="row">
-  <div class="col-xs-12">
-    <ul class="alert-list-inline">
-      <%= for alert <- @alerts do %>
-        <li class="alert-inline">
-          <div class="alert-inline-icon <%= if Alerts.Alert.is_notice? alert, @time do %>bg-notice<% end %>">
-            <%= Site.AlertView.tooltip %>
-          </div>
-          <div class="alert-inline-body">
-            <strong><%= alert.effect_name %>:</strong>
-            <%= alert.header %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
+<ul class="alert-list">
+  <%= for alert <- @alerts do %>
+    <li class="alert-list-item">
+      <%= render "_item.html", alert: alert %>
+    </li>
+  <% end %>
+</ul>

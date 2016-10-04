@@ -14,6 +14,5 @@
   <div class="card-block p-a-0">
     <%= render "_t-alerts.html", conn: @conn %>
     <%= render "_alert_list.html", alerts: @alerts %>
-    <%= render "_notice_list.html", notices: @notices %>
   </div>
 </div>

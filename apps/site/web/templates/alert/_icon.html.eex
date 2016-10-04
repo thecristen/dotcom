@@ -1,0 +1,7 @@
+<span class="alert-item-icon<%= if Alerts.Alert.is_notice?(@alert) do %> alert-item-icon-notice<% end %>">
+  <%= if Alerts.Alert.is_notice?(@alert) do %>
+    <%= fa "sticky-note" %>
+  <% else %>
+    <%= fa "exclamation-triangle" %>
+  <% end %>
+</span>
