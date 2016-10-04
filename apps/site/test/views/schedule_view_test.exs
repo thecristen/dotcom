@@ -78,15 +78,6 @@ end
     end
   end
 
-  describe "header_text/2" do
-    test "translates the type number to a string" do
-      assert ScheduleView.header_text(0, "test route") == "test route"
-      assert ScheduleView.header_text(3, "2") == "Route 2"
-      assert ScheduleView.header_text(1, "Red Line") == "Red Line"
-      assert ScheduleView.header_text(2, "Fitchburg Line") == "Fitchburg"
-    end
-  end
-
   describe "with predictions" do
     setup %{conn: conn} do
       conn = conn

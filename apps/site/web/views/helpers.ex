@@ -106,6 +106,11 @@ defmodule Site.ViewHelpers do
   def mode_name(3), do: "Bus"
   def mode_name(4), do: "Boat"
 
+  @doc "Prefix route name with route for bus lines"
+  def route_header_text(%{type: 3, name: name}), do: "Route #{name}"
+  def route_header_text(%{type: 2, name: name}), do: clean_route_name(name)
+  def route_header_text(%{name: name}), do: "#{name}"
+
   @doc "Clean up a GTFS route name for better presentation"
   def clean_route_name(name) do
     name
