@@ -77,6 +77,7 @@ In order to make sure the tests are reproducible, we use
   * `mix backstop.tests`
   * You may need to run `npm run backstop:bless` in make sure the timestamps
     are correct.
+  * If the tests exit with an error, try running the servers individually to debug with `npm run server:mocked` and `npm run wiremock`. It's also possible that you've left the dev server open on the same port that the test server uses.
 
 ### Updating the images
 
