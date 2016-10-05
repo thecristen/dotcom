@@ -40,8 +40,8 @@ defmodule Site.Plugs.Alerts do
     end)
 
     conn
-    |> assign(:alerts, current_alerts |> sort)
-    |> assign(:upcoming_alerts, upcoming_alerts |> sort)
+    |> assign(:alerts, current_alerts)
+    |> assign(:upcoming_alerts, upcoming_alerts)
   end
 
   defp alerts(%{assigns: %{all_alerts: all_alerts}}, _) when is_list(all_alerts) do
@@ -55,6 +55,7 @@ defmodule Site.Plugs.Alerts do
   end
   defp alerts(_, alert_fn) do
     alert_fn.()
+    |> sort
   end
 
   defp alerts_from_params(params, alert_fn) do
@@ -78,6 +79,7 @@ defmodule Site.Plugs.Alerts do
 
     alert_fn.()
     |> Alerts.Match.match(entities)
+    |> sort
   end
 
   defp direction_id(nil) do

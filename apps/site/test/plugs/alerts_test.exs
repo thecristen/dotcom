@@ -10,9 +10,9 @@ defmodule Site.Plugs.AlertsTest do
   test "assigns alerts, upcoming_alerts" do
     conn = build_conn
     |> assign(:date, Timex.today)
-    |> assign(:all_alerts, [])
-    |> Alerts.call([])
+    |> Alerts.call(fn -> [] end)
 
+    assert conn.assigns.all_alerts == []
     assert conn.assigns.upcoming_alerts == []
     assert conn.assigns.alerts == []
   end
@@ -54,8 +54,7 @@ defmodule Site.Plugs.AlertsTest do
 
       conn = build_conn
       |> assign(:date, date)
-      |> assign(:all_alerts, alerts)
-      |> Alerts.call([])
+      |> Alerts.call(fn -> alerts end)
 
       sorted = alerts
       |> Enum.sort_by(&(&1.id))
@@ -64,7 +63,8 @@ defmodule Site.Plugs.AlertsTest do
       |> Enum.sort_by(&(&1.updated_at))
       |> Enum.reverse
 
-      conn.assigns.alerts == sorted
+      assert conn.assigns.all_alerts == sorted
+      assert conn.assigns.alerts == sorted
     end
   end
 end
