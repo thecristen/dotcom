@@ -57,17 +57,17 @@
 .alert-list-item {
   @include clearfix();
   background-color: $alert-color-lighter;
-  border-color: $alert-color;
+  border-color: $gray-lightest;
   border-style: solid;
   border-width: $space-1 $space-2;
   padding: $space-12;
 
   &:first-child {
-    border-top: $space-2 solid $alert-color;
+    border-top-width: 0;
   }
 
   &:last-child {
-    border-bottom: $space-2 solid $alert-color;
+    border-bottom-width: $space-2;
   }
 }
 
@@ -79,11 +79,13 @@
 }
 
 .alert-item-icon {
-  background-color: $alert-color;
+  background-color: $gray-dark;
   border-radius: 50%;
+  color: $alert-color;
   display: block;
   float: left;
   height: 1.5rem;
+  margin-top: -$space-2;
   margin-right: $space-12;
   padding: .125rem;
   width: 1.5rem;
@@ -91,14 +93,13 @@
 
   > .fa {
     display: block;
-    height: 1.25rem;
     margin: .0625rem .125rem;
-    width: 1.25rem;
   }
 }
 
 .alert-item-icon-notice {
   background-color: $alert-notice-color;
+  color: $gray-dark;
 
   > .fa {
     left: .1rem;
@@ -145,10 +146,6 @@
   display: block;
   font-size: $font-size-sm;
   margin-top: $space-12;
-}
-
-.t-alerts-container {
-  margin-left: 2.25rem;
 }
 
 .alert-container.collapsing {

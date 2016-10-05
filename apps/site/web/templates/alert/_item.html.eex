@@ -1,19 +1,21 @@
 <%= render "_icon.html", alert: @alert %>
 <span class="alert-item-content">
   <span class="alert-item-effect">
-    <strong><%= @alert.effect_name %> (<%= @alert.lifecycle %>):</strong>
-    <%= @alert.header %>
+    <strong><%= @alert.effect_name %> (<%= @alert.lifecycle %>)</strong>
   </span>
-  <span class="alert-item-body collapse" id="alert-body-<%= @alert.id %>">
-    <hr>
-    <%= format_alert_description(@alert.description) %>
-  </span>
-  <%= if @alert.description  do %>
-    <button class="btn-link alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %>">
-      View Full Description &raquo;
-    </button>
-  <% end %>
-  <span class="alert-item-updated">
-    <%= display_alert_updated(@alert) %>
-  </span>
+</span>
+<div>
+  <%= @alert.header %>
+</div>
+<span class="alert-item-body collapse" id="alert-body-<%= @alert.id %>">
+  <hr>
+  <%= format_alert_description(@alert.description) %>
+</span>
+<%= if @alert.description  do %>
+  <button class="btn-link alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %>">
+    View Full Description &raquo;
+  </button>
+<% end %>
+<span class="alert-item-updated">
+  <%= alert_updated(@alert) %>
 </span>

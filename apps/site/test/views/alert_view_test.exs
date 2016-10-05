@@ -11,9 +11,9 @@ defmodule Site.AlertViewTest do
 
   describe "alert_effects/1" do
     test "returns one alert for one effect" do
-      delay_alert = %Alerts.Alert{effect_name: "Delay"}
+      delay_alert = %Alerts.Alert{effect_name: "Delay", lifecycle: "Upcoming"}
 
-      expected = {"Delay", ""}
+      expected = {"Delay (Upcoming)", ""}
       actual = alert_effects([delay_alert])
 
       assert expected == actual
@@ -21,25 +21,25 @@ defmodule Site.AlertViewTest do
 
     test "returns a count with multiple alerts" do
       alerts = [
-        %Alerts.Alert{effect_name: "Suspension"},
+        %Alerts.Alert{effect_name: "Suspension", lifecycle: "New"},
         %Alerts.Alert{effect_name: "Delay"},
         %Alerts.Alert{effect_name: "Cancellation"}
       ]
 
-      expected = {"Suspension", "+2 more"}
+      expected = {"Suspension (New)", "+2 more"}
       actual = alert_effects(alerts)
 
       assert expected == actual
     end
   end
 
-  test "display_alert_updated/1 returns the relative offset based on our timezone" do
+  test "alert_updated/1 returns the relative offset based on our timezone" do
     now = ~N[2016-10-05T01:02:03]
     date = ~D[2016-10-05]
     one_hour = Timex.shift(now, hours: -1)
     alert = %Alerts.Alert{updated_at: one_hour}
 
-    assert display_alert_updated(alert, date) == "Last Updated: Today at 12:02 AM"
+    assert alert_updated(alert, date) == "Last Updated: Today at 12:02 AM"
   end
 
   describe "format_alert_description/1" do

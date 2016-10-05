@@ -4,7 +4,7 @@
     <span class="alert-item-icon">
       <%= fa "exclamation-triangle" %>
     </span>
-    <span class="alert-list-header-title">Displaying Today's Alerts for <%= route_header_text(@route) %></span>
+    <span class="alert-list-header-title">Today's Alerts for <%= route_header_text(@route) %></span>
     <span class="alert-list-toggle">Close</span>
   </a>
   <ul class="alert-list">
@@ -14,17 +14,19 @@
       </li>
     <% else %>
     <% end %>
-    <%= if @upcoming_alert_count != 0 do %>
-      <li class="alert-list-item">
-        <div class="t-alerts-container">
-          <%= link to: alert_path(Site.Endpoint, :index, route: @route.id) do %>
-            View <%= @upcoming_alert_count %> Upcoming Alerts &raquo;
-          <% end %>
-        </div>
-      </li>
-    <% end %>
     <li class="alert-list-item">
-      <%= render "_t-alerts.html" %>
+      <div class="row">
+        <%= if @upcoming_alert_count != 0 do %>
+          <div class="col-xs-12 col-sm-6 pull-sm-right p-b-1">
+            <%= link to: alert_path(Site.Endpoint, :index, route: @route.id) do %>
+              View <%= @upcoming_alert_count %> Upcoming Alerts &raquo;
+            <% end %>
+          </div>
+        <% end %>
+        <div class="col-xs-12 col-sm-6">
+          <%= render "_t-alerts.html" %>
+        </div>
+     </div>
     </li>
   </ul>
 </div>

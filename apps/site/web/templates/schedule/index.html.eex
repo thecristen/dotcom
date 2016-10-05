@@ -2,7 +2,7 @@
   <div class="card-header schedule-header">
     <%= render "_locations.html", forward_assigns(@conn) %>
     <%= render "_filters.html", forward_assigns(@conn) %>
-    <%= Site.AlertView.modal @conn %>
+    <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route %>
   </div>
   <div class="card-block schedule-block">
     <div class="schedule-list-group">

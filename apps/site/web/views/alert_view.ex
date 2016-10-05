@@ -6,16 +6,19 @@ defmodule Site.AlertView do
   Used by the schedule view to render a link/modal with relevant alerts.
 
   """
-  def modal(%{assigns: %{alerts: alerts, upcoming_alerts: upcoming_alerts} = assigns}) do
-    route = assigns.route
+  def modal(opts) do
+    alerts = Keyword.fetch!(opts, :alerts)
+    route = Keyword.fetch!(opts, :route)
+    upcoming_alerts = Keyword.get(opts, :upcoming_alerts, [])
 
-    render(__MODULE__, "modal.html",
-      alerts: alerts,
-      route: route,
-      upcoming_alert_count: length(upcoming_alerts))
-  end
-  def modal(_conn) do
-    ""
+    case alerts do
+      [] -> ""
+      _ ->
+        render(__MODULE__, "modal.html",
+          alerts: alerts,
+          route: route,
+          upcoming_alert_count: length(upcoming_alerts))
+    end
   end
 
   @doc """
@@ -50,16 +53,18 @@ defmodule Site.AlertView do
   def alert_effects(alerts)
   def alert_effects([]), do: "No alerts for today."
   def alert_effects([alert]) do
-    {alert.effect_name, ""}
+    {"#{alert.effect_name} (#{alert.lifecycle})",
+     ""}
   end
   def alert_effects([alert|rest]) do
-    {alert.effect_name, "+#{length rest} more"}
+    {"#{alert.effect_name} (#{alert.lifecycle})",
+     "+#{length rest} more"}
   end
 
-  def display_alert_updated(alert) do
-    display_alert_updated(alert, Util.today)
+  def alert_updated(alert) do
+    alert_updated(alert, Util.today)
   end
-  def display_alert_updated(alert, relative_to) do
+  def alert_updated(alert, relative_to) do
     date = if Timex.equal?(relative_to, alert.updated_at) do
       "Today at"
     else
