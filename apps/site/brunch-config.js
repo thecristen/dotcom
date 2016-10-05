@@ -5,6 +5,11 @@ exports.config = {
   files: {
     javascripts: {
       joinTo: "js/app.js",
+      order: {
+        before: [
+          "vendor/fixedsticky.js"
+        ]
+      }
 
       // To use a separate vendor.js bundle, specify two files path
       // https://github.com/brunch/brunch/blob/stable/docs/config.md#files
@@ -39,6 +44,7 @@ exports.config = {
     // Dependencies and current project directories to watch
     watched: [
       "web/static",
+      "vendor/fixedsticky.js",
       "node_modules/bootstrap/dist/js/modal.js",
       "node_modules/bootstrap/dist/js/collapse.js",
       "node_modules/bootstrap/dist/js/tooltip.js",

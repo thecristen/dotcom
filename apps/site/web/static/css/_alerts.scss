@@ -76,6 +76,7 @@
   margin-right: $space-12;
   padding: .125rem;
   width: 1.5rem;
+  z-index: 1;
 
   > .fa {
     display: block;
@@ -149,5 +150,24 @@
   .alert-list-header,
   .alert-list {
     display: block;
+  }
+
+  .alert-list-header {
+    position: sticky;
+    top: 0;
+
+    &.fixedsticky-on {
+      width: calc(100% - 1.15rem);
+      z-index: 1;
+
+      // could calculate these... -ps
+      @include media-breakpoint-up(sm) {
+        width: 558px;
+      }
+
+      @include media-breakpoint-up(md) {
+        width: 658px;
+      }
+    }
   }
 }

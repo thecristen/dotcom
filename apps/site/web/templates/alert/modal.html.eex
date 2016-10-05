@@ -10,7 +10,7 @@
     <span class="alert-list-toggle">View</span>
     <span class="clearfix"></span>
   </a>
-  <a class="alert-list-header" href="#">
+  <a class="alert-list-header fixedsticky" href="#">
     <span class="alert-item-icon">
       <%= fa "exclamation-triangle" %>
     </span>

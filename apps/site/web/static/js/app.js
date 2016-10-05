@@ -28,6 +28,7 @@ import modal from './modal.js';
 import turbolinks from './turbolinks';
 import supportForm from './support-form.js';
 import objectFitImages from 'object-fit-images';
+import fixedsticky from './fixedsticky';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
@@ -38,6 +39,7 @@ tooltip();
 modal();
 turbolinks();
 supportForm();
+fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support
 
 $("body").removeClass("no-js").addClass("js");
