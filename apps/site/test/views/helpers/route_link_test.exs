@@ -59,8 +59,9 @@ defmodule Site.ViewHelpers.RouteLinkTest do
       route = %Routes.Route{type: 2, id: "CR-Lowell", name: "Lowell"}
       conn = assign(conn, :alerts, [
             %Alerts.Alert{
+              effect_name: "Delay",
               informed_entity: [%Alerts.InformedEntity{route_type: 2}],
-              active_period: [{nil, nil}]}])
+              active_period: [{Util.now, nil}]}])
       actual = safe_to_string(route_link(conn, route))
 
       assert actual =~ "There is an alert"

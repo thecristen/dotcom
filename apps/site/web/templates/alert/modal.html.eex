@@ -1,16 +1,6 @@
 <% id = "alerts-#{@route.id}" %>
-<div class="alert-container" id="<%= id %>">
-  <a class="alert-link" href="#<%= id %>">
-    <%= render "_icon.html", alert: hd(@alerts) %>
-    <% {prefix, suffix} = display_alert_effects(@alerts) %>
-    <strong><%= prefix %></strong><span class="hidden-xs-down"><strong>:</strong>
-      <%= hd(@alerts).header %>
-    </span>
-    <strong><%= suffix %></strong>
-    <span class="alert-list-toggle">View</span>
-    <span class="clearfix"></span>
-  </a>
-  <a class="alert-list-header fixedsticky" href="#">
+<div class="alert-container collapse" id="<%= id %>">
+  <a class="alert-list-header fixedsticky" href="#" data-toggle="collapse" data-target="#<%= id %>">
     <span class="alert-item-icon">
       <%= fa "exclamation-triangle" %>
     </span>
@@ -22,9 +12,32 @@
       <li class="alert-list-item">
         <%= render "_item.html", alert: alert %>
       </li>
+    <% else %>
+    <% end %>
+    <%= if @upcoming_alert_count != 0 do %>
+      <li class="alert-list-item">
+        <div class="t-alerts-container">
+          <%= link to: alert_path(Site.Endpoint, :index, route: @route.id) do %>
+            View <%= @upcoming_alert_count %> Upcoming Alerts &raquo;
+          <% end %>
+        </div>
+      </li>
     <% end %>
     <li class="alert-list-item">
       <%= render "_t-alerts.html" %>
     </li>
   </ul>
 </div>
+<a class="alert-link" href="#<%= id %>" data-toggle="collapse" data-target="#<%= id %>">
+  <%= case alert_effects(@alerts) do %>
+    <% {prefix, suffix} -> %>
+    <%= render "_icon.html", alert: hd(@alerts) %>
+    <strong><%= prefix %></strong><span class="hidden-xs-down"><strong>:</strong>
+      <%= hd(@alerts).header %>
+    </span>
+    <strong><%= suffix %></strong>
+    <% text -> %><%= text %>
+  <% end %>
+  <span class="alert-list-toggle">View</span>
+  <span class="clearfix"></span>
+</a>

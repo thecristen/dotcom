@@ -9,12 +9,12 @@ defmodule Site.AlertViewTest do
   @route %Routes.Route{type: 2, id: "route_id"}
   @schedule %Schedules.Schedule{stop: @stop, trip: @trip, route: @route}
 
-  describe "display_alert_effects/1" do
+  describe "alert_effects/1" do
     test "returns one alert for one effect" do
       delay_alert = %Alerts.Alert{effect_name: "Delay"}
 
       expected = {"Delay", ""}
-      actual = display_alert_effects([delay_alert])
+      actual = alert_effects([delay_alert])
 
       assert expected == actual
     end
@@ -27,7 +27,7 @@ defmodule Site.AlertViewTest do
       ]
 
       expected = {"Suspension", "+2 more"}
-      actual = display_alert_effects(alerts)
+      actual = alert_effects(alerts)
 
       assert expected == actual
     end

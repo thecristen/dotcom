@@ -1,16 +1,18 @@
 defmodule Site.AlertView do
   use Site.Web, :view
-  alias Routes.Route
 
   @doc """
 
   Used by the schedule view to render a link/modal with relevant alerts.
 
   """
-  def modal(%{assigns: %{alerts: alerts} = assigns} = conn) when alerts != [] do
+  def modal(%{assigns: %{alerts: alerts, upcoming_alerts: upcoming_alerts} = assigns}) do
     route = assigns.route
 
-    render(__MODULE__, "modal.html", alerts: alerts, route: route)
+    render(__MODULE__, "modal.html",
+      alerts: alerts,
+      route: route,
+      upcoming_alert_count: length(upcoming_alerts))
   end
   def modal(_conn) do
     ""
@@ -45,12 +47,12 @@ defmodule Site.AlertView do
 
   @doc """
   """
-  def display_alert_effects(alerts)
-  def display_alert_effects([]), do: {"", ""}
-  def display_alert_effects([alert]) do
+  def alert_effects(alerts)
+  def alert_effects([]), do: "No alerts for today."
+  def alert_effects([alert]) do
     {alert.effect_name, ""}
   end
-  def display_alert_effects([alert|rest]) do
+  def alert_effects([alert|rest]) do
     {alert.effect_name, "+#{length rest} more"}
   end
 

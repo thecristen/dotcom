@@ -3,7 +3,6 @@
 .alert-link,
 .alert-list {
   color: $gray-dark;
-  margin-bottom: $space-12;
 }
 
 .alert-link {
@@ -13,18 +12,28 @@
   padding: $space-12;
 }
 
-.alert-container {
-  .alert-list-header,
-  .alert-list {
-    display: none; // overriden when .alert-container:target is true
-  }
-}
-
 .alert-list-header {
   background-color: $alert-color;
   border: 1px solid $alert-color;
   color: $gray-dark;
+  display: block;
   padding: $space-12;
+  position: sticky;
+  top: 0;
+
+  &.fixedsticky-on {
+    width: calc(100% - 1.15rem);
+    z-index: 1;
+
+    // could calculate these... -ps
+    @include media-breakpoint-up(sm) {
+      width: 558px;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: 658px;
+    }
+  }
 }
 
 .alert-list-header-title {
@@ -39,7 +48,9 @@
 }
 
 .alert-list {
+  display: block;
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 
@@ -140,34 +151,15 @@
   margin-left: 2.25rem;
 }
 
-.alert-container:target {
+.alert-container.collapsing {
+  display: block;
+}
+
+.alert-container:target,
+.alert-container.collapse.in {
   display: block;
 
-  .alert-link {
+  + .alert-link {
     display: none;
-  }
-
-  .alert-list-header,
-  .alert-list {
-    display: block;
-  }
-
-  .alert-list-header {
-    position: sticky;
-    top: 0;
-
-    &.fixedsticky-on {
-      width: calc(100% - 1.15rem);
-      z-index: 1;
-
-      // could calculate these... -ps
-      @include media-breakpoint-up(sm) {
-        width: 558px;
-      }
-
-      @include media-breakpoint-up(md) {
-        width: 658px;
-      }
-    }
   }
 }

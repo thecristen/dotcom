@@ -30,8 +30,8 @@ defmodule Site.ViewHelpers.RouteLink do
     alerts = conn.assigns.alerts || []
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
     route_alerts = alerts
-    |> Enum.reject(&Alerts.Alert.is_notice?(&1, conn.assigns.date))
-    |> Alerts.Match.match(entity, conn.assigns.date)
+    |> Enum.reject(&Alerts.Alert.is_notice?/1)
+    |> Alerts.Match.match(entity)
 
     do_alert_icon(route_alerts)
   end
