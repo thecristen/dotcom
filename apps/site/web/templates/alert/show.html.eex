@@ -1,0 +1,18 @@
+<div class="card card-section">
+  <div class="card-header">
+  </div>
+  <div class="card-block">
+    <%= for {route, alerts} <- @route_alerts do %>
+      <div>
+        <strong class="text-center">
+          <%= route.name |> clean_route_name %>
+        </strong>
+        <%= if alerts == [] do %>
+          <span>No current or upcoming alerts.</span>
+        <% else %>
+          <%= Site.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

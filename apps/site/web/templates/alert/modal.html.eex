@@ -14,20 +14,22 @@
       </li>
     <% else %>
     <% end %>
-    <li class="alert-list-item">
-      <div class="row">
-        <%= if @upcoming_alert_count != 0 do %>
-          <div class="col-xs-12 col-sm-6 pull-sm-right p-b-1">
-            <%= link to: alert_path(Site.Endpoint, :index, route: @route.id) do %>
-              View <%= @upcoming_alert_count %> Upcoming Alerts &raquo;
-            <% end %>
+    <%= if !assigns[:hide_t_alerts] do %>
+      <li class="alert-list-item">
+        <div class="row">
+          <%= if @upcoming_alert_count != 0 do %>
+            <div class="col-xs-12 col-sm-6 pull-sm-right p-b-1">
+              <%= link to: alert_path(Site.Endpoint, :index, route: @route.id) do %>
+                View <%= @upcoming_alert_count %> Upcoming Alerts &raquo;
+              <% end %>
+            </div>
+          <% end %>
+          <div class="col-xs-12 col-sm-6">
+            <%= render "_t-alerts.html" %>
           </div>
-        <% end %>
-        <div class="col-xs-12 col-sm-6">
-          <%= render "_t-alerts.html" %>
         </div>
-     </div>
-    </li>
+      </li>
+    <% end %>
   </ul>
 </div>
 <a class="alert-link" href="#<%= id %>" data-toggle="collapse" data-target="#<%= id %>">

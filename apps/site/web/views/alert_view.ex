@@ -8,16 +8,17 @@ defmodule Site.AlertView do
   """
   def modal(opts) do
     alerts = Keyword.fetch!(opts, :alerts)
-    route = Keyword.fetch!(opts, :route)
-    upcoming_alerts = Keyword.get(opts, :upcoming_alerts, [])
+    _ = Keyword.fetch!(opts, :route)
+
+    upcoming_alerts = opts[:upcoming_alerts] || []
+
+    opts = opts
+    |> Keyword.put(:upcoming_alert_count, length(upcoming_alerts))
 
     case alerts do
       [] -> ""
       _ ->
-        render(__MODULE__, "modal.html",
-          alerts: alerts,
-          route: route,
-          upcoming_alert_count: length(upcoming_alerts))
+        render(__MODULE__, "modal.html", opts)
     end
   end
 

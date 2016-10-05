@@ -4,21 +4,39 @@ defmodule Site.AlertController do
   plug Site.Plugs.Route
   plug Site.Plugs.Date
   plug Site.Plugs.Alerts
-  # TODO refactor breadcrumbs into a more generic plug -ps
-  plug Site.ScheduleController.RouteBreadcrumbs
-  plug :extend_breadcrumbs
 
   def index(conn, _params) do
     conn
     |> render("index.html")
   end
 
-  def extend_breadcrumbs(%{assigns: %{route: route, breadcrumbs: breadcrumbs}} = conn, []) do
-    route_link = schedule_path(conn, :show, route.id, conn.params)
-    # replace the last breadcrumb with a link to the schedule
-    breadcrumbs = List.replace_at(breadcrumbs, -1, {route_link, List.last(breadcrumbs)})
-    # add last entry
-    breadcrumbs = breadcrumbs ++ ["Alerts & Notices"]
-    assign(conn, :breadcrumbs, breadcrumbs)
+  def show(conn, %{"id" => "subway"}) do
+    render_routes(conn, [0, 1])
+  end
+  def show(conn, %{"id" => "commuter-rail"}) do
+    render_routes(conn, 2)
+  end
+  def show(conn, %{"id" => "bus"}) do
+    render_routes(conn, 3)
+  end
+  def show(conn, %{"id" => "boat"}) do
+    render_routes(conn, 4)
+  end
+
+  def render_routes(%{assigns: %{all_alerts: all_alerts}} = conn, route_types) do
+    route_alerts = route_types
+    |> Routes.Repo.by_type
+    |> Enum.map(&route_alerts(&1, all_alerts))
+
+    conn
+    |> render("show.html", route_alerts: route_alerts)
+  end
+
+  def route_alerts(%Routes.Route{} = route, alerts) do
+    entity = %Alerts.InformedEntity{
+      route_type: route.type,
+      route: route.id
+    }
+    {route, Alerts.Match.match(alerts, entity)}
   end
 end
