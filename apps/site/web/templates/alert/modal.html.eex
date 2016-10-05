@@ -14,7 +14,7 @@
     <span class="alert-item-icon">
       <%= fa "exclamation-triangle" %>
     </span>
-    <span class="alert-list-header-title">Displaying Service Alerts for <%= route_header_text(@route) %></span>
+    <span class="alert-list-header-title">Displaying Today's Alerts for <%= route_header_text(@route) %></span>
     <span class="alert-list-toggle">Close</span>
   </a>
   <ul class="alert-list">
