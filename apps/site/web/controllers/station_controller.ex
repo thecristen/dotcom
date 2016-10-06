@@ -8,7 +8,7 @@ defmodule Site.StationController do
 
   def index(conn, _params) do
     stations = Repo.all
-    render(conn, "index.html", stations: stations)
+    render(conn, "index.html", stations: stations, breadcrumbs: ["Stations"])
   end
 
   def show(conn, %{"id" => id}) do
@@ -16,6 +16,7 @@ defmodule Site.StationController do
     conn
     |> assign(:map_url, Stations.Maps.by_name(station.name))
     |> assign(:grouped_routes, grouped_routes(id))
+    |> assign(:breadcrumbs, [{station_path(conn, :index), "Stations"}, station.name])
     |> render("show.html", station: station)
   end
 
