@@ -1,5 +1,65 @@
 @import "variables";
+// Show
 
+.alert-show-btn-group {
+  @extend .btn-group;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+
+  > .btn {
+    display: table-cell;
+    float: none;
+  }
+}
+.alert-show-title-container {
+  text-align: center;
+}
+
+.alert-show-title {
+  display: block;
+  font-weight: bold;
+  padding: $space-12;
+  z-index: 5;
+  margin-bottom: $space-6;
+  background: $white;
+}
+
+.alert-show-row {
+  margin: $space-12 auto;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.alert-show-empty {
+  border: $space-1 solid $gray-lightest;
+  padding: $space-6;
+}
+
+.alert-show-body {
+  margin-bottom: $space-12;
+}
+
+.t-alert-container-big {
+  background-color: $brand-primary;
+  color: $white;
+  text-align: center;
+  padding: $space-12;
+  margin-top: $space-12 * 2;
+
+  p {
+    margin-top: $space-12;
+  }
+
+  .btn {
+    border-color: $white;
+    color: white;
+  }
+}
+
+// Modal
 .alert-link,
 .alert-list {
   color: $gray-dark;

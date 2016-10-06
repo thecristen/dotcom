@@ -1,22 +1,3 @@
-.route-list {
-  list-style: none;
-  padding: 10px 0 0 0;
-}
-
-.schedule-route-list {
-  border-top: 2px solid $gray-lightest;
-}
-
-.route-list-item-inline {
-  display: inline;
-  &:after {
-    content: ", "
-  }
-  &:last-child:after {
-    content: ""
-  }
-}
-
 .index-news-group {
   @extend .list-group;
   @extend .list-group-flush;

@@ -2,9 +2,7 @@
   <div class="card-header">
     <div class="row">
       <div class="col-xs-12">
-        <strong class="text-center" >
-          <%= @route.name |> clean_route_name %>
-        </strong>
+        <h3>Service Alerts and Notices</h3>
       </div>
     </div>
   </div>

@@ -25,7 +25,7 @@ defmodule Site.Router do
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus
     get "/schedules/boat", ModeController, :boat
-    get "/schedules/commuter-rail", ModeController, :commuter_rail
+    get "/schedules/commuter", ModeController, :commuter_rail
     get "/schedules/Green", ScheduleController.Green, :green
     get "/schedules/:route", ScheduleController, :show
     resources "/alerts", AlertController, only: [:index, :show]
