@@ -35,15 +35,14 @@ defmodule Routes.Repo do
   """
   @spec by_type([0..4] | 0..4) :: [Routes.Route.t]
   def by_type(types) when is_list(types) do
-    types
-    |> Enum.flat_map(&by_type/1)
+    all
+    |> Enum.filter(fn %{type: type} ->
+      type in types
+    end)
   end
   def by_type(type) do
     all
-    |> Enum.filter(fn
-      %{type: ^type} -> true
-      _ -> false
-    end)
+    |> Enum.filter(&match?(%{type: ^type}, &1))
   end
 
   @doc """
