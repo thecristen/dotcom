@@ -2,11 +2,12 @@ defmodule Site.AlertViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
 
+  import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.AlertView
 
   @stop %Schedules.Stop{id: "stop_id"}
   @trip %Schedules.Trip{id: "trip_id"}
-  @route %Routes.Route{type: 2, id: "route_id"}
+  @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
   @schedule %Schedules.Schedule{stop: @stop, trip: @trip, route: @route}
 
   describe "alert_effects/1" do
@@ -14,7 +15,7 @@ defmodule Site.AlertViewTest do
       delay_alert = %Alerts.Alert{effect_name: "Delay", lifecycle: "Upcoming"}
 
       expected = {"Delay (Upcoming)", ""}
-      actual = alert_effects([delay_alert])
+      actual = alert_effects([delay_alert], 0)
 
       assert expected == actual
     end
@@ -26,10 +27,16 @@ defmodule Site.AlertViewTest do
         %Alerts.Alert{effect_name: "Cancellation"}
       ]
 
-      expected = {"Suspension (New)", "+2 more"}
-      actual = alert_effects(alerts)
+      expected = {"Suspension", "+2 more"}
+      actual = alert_effects(alerts, 0)
 
       assert expected == actual
+    end
+
+    test "returns text when there are no current alerts" do
+     assert alert_effects([], 0) == "There are no alerts for today."
+     assert alert_effects([], 1) == "There are no alerts for today; 1 upcoming alert."
+     assert alert_effects([], 2) == "There are no alerts for today; 2 upcoming alerts."
     end
   end
 
@@ -83,6 +90,22 @@ defmodule Site.AlertViewTest do
       actual = format_alert_description("Long Header:\n7:30")
 
       assert expected == actual
+    end
+  end
+
+  describe "modal.html" do
+    test "text for no current alerts and 1 upcoming alert" do
+      response = Site.AlertView.render("modal.html", alerts: [], upcoming_alert_count: 1, route: @route)
+      text = safe_to_string(response)
+      assert text =~ "There are currently no service alerts affecting the #{@route.name} today."
+      assert text =~ "However, there is 1 upcoming alert."
+    end
+
+    test "text for no current alerts and 2 upcoming alerts" do
+      response = Site.AlertView.render("modal.html", alerts: [], upcoming_alert_count: 2, route: @route)
+      text = safe_to_string(response)
+      assert text =~ "There are currently no service alerts affecting the #{@route.name} today."
+      assert text =~ "However, there are 2 upcoming alerts."
     end
   end
 end

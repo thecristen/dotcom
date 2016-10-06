@@ -1,7 +1,7 @@
 <div class="card card-section">
   <div class="card-header">
     <h3>Service Alerts and Notices</h3>
-    <div class="alert-show-btn-group">
+    <div class="btn-group alert-show-btn-group">
       <%= for {name, display} <- [
           bus: "Bus",
           commuter: "Commuter",
@@ -23,13 +23,13 @@
       <div class="alert-show-row">
         <div class="alert-show-title-container">
           <span class="alert-show-title">
-            <%= route.name |> clean_route_name %>
+            <%= route.name %>
           </span>
         </div>
         <div class="alert-show-body">
           <%= if alerts == [] do %>
             <div class="alert-show-empty">
-              <span><strong>Regular:</strong> There are no current or upcoming service alerts.</span>
+              <span><strong>Regular Service:</strong> There are no current or upcoming service alerts.</span>
             </div>
           <% else %>
             <%= Site.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true %>

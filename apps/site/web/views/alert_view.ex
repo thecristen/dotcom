@@ -15,8 +15,8 @@ defmodule Site.AlertView do
     opts = opts
     |> Keyword.put(:upcoming_alert_count, length(upcoming_alerts))
 
-    case alerts do
-      [] -> ""
+    case {alerts, upcoming_alerts} do
+      {[], []} -> ""
       _ ->
         render(__MODULE__, "modal.html", opts)
     end
@@ -51,15 +51,24 @@ defmodule Site.AlertView do
 
   @doc """
   """
-  def alert_effects(alerts)
-  def alert_effects([]), do: "No alerts for today."
-  def alert_effects([alert]) do
-    {"#{alert.effect_name} (#{alert.lifecycle})",
+  def alert_effects(alerts, upcoming_count)
+  def alert_effects([], 0), do: "There are no alerts for today."
+  def alert_effects([], 1), do: "There are no alerts for today; 1 upcoming alert."
+  def alert_effects([], count), do: "There are no alerts for today; #{count} upcoming alerts."
+  def alert_effects([alert], _) do
+    {effect_name(alert),
      ""}
   end
-  def alert_effects([alert|rest]) do
-    {"#{alert.effect_name} (#{alert.lifecycle})",
+  def alert_effects([alert|rest], _) do
+    {effect_name(alert),
      "+#{length rest} more"}
+  end
+
+  def effect_name(%{effect_name: name, lifecycle: "New"}) do
+    name
+  end
+  def effect_name(%{effect_name: name, lifecycle: lifecycle}) do
+    "#{name} (#{lifecycle})"
   end
 
   def alert_updated(alert) do

@@ -1,7 +1,7 @@
 <%= render "_icon.html", alert: @alert %>
 <span class="alert-item-content">
   <span class="alert-item-effect">
-    <strong><%= @alert.effect_name %> (<%= @alert.lifecycle %>)</strong>
+    <strong><%= effect_name(@alert) %></strong>
   </span>
 </span>
 <div>

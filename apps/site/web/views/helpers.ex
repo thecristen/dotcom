@@ -87,7 +87,7 @@ defmodule Site.ViewHelpers do
   def mode_icon(%{type: 2}), do: do_mode_icon("commuter-rail", "commuter")
   def mode_icon(%{type: 3}), do: do_mode_icon("bus")
   def mode_icon(%{type: 4}), do: do_mode_icon("boat")
-  def mode_icon(:commuter_rail), do: mode_icon(%{type: 2})
+  def mode_icon(:commuter), do: mode_icon(%{type: 2})
   def mode_icon(:subway), do: mode_icon(%{type: 1})
   def mode_icon(:bus), do: mode_icon(%{type: 3})
   def mode_icon(:boat), do: mode_icon(%{type: 4})

@@ -21,7 +21,7 @@ defmodule Site.ScheduleController.RouteBreadcrumbs do
     {mode_path(Site.Endpoint, :subway), "Subway"}
   end
   def route_type_display(2) do
-    {mode_path(Site.Endpoint, :commuter_rail), "Commuter Rail"}
+    {mode_path(Site.Endpoint, :commuter), "Commuter Rail"}
   end
   def route_type_display(3) do
     {mode_path(Site.Endpoint, :bus), "Bus"}
