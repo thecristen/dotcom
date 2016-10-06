@@ -1,19 +1,16 @@
-<div class="container main-container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
+<div class="card card-section">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 class="h2 station-list-heading">Name</h1>
+    </div>
+  </div>
+  <div class="row">
+    <ul class="station-list">
       <%= for station <- @stations do %>
-        <tr>
-          <td><%= station.name %></td>
-          <td class="text-right">
-            <%= link "Show", to: station_path(@conn, :show, station), class: "btn btn-default btn-xs" %>
-          </td>
-        </tr>
+        <li class="col-xs-12">
+          <%= link station.name, to: station_path(@conn, :show, station) %>
+        </li>
       <% end %>
-    </tbody>
-  </table>
+    </ul>
+  </div>
 </div>
