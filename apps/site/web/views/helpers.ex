@@ -91,6 +91,8 @@ defmodule Site.ViewHelpers do
   def mode_icon(:subway), do: mode_icon(%{type: 1})
   def mode_icon(:bus), do: mode_icon(%{type: 3})
   def mode_icon(:boat), do: mode_icon(%{type: 4})
+  def mode_icon(:ferry), do: mode_icon(%{type: 4})
+  def mode_icon(:access), do: do_mode_icon("access");
 
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name

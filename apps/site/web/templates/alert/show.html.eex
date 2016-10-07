@@ -8,12 +8,16 @@
           subway: "Subway",
           ferry: "Ferry",
           access: "Access",] do %>
-        <% btn_class = case @id do
-            ^name -> "btn-primary"
-            _ -> "btn-primary-outline"
+        <% selected_class = case @id do
+            ^name -> "alert-show-btn-selected"
+            _ -> ""
             end %>
-        <%= link to: alert_path(@conn, :show, name), class: "btn #{btn_class}" do %>
+        <%= link to: alert_path(@conn, :show, name), class: "btn alert-show-btn alert-show-btn-#{name} #{selected_class}" do %>
+          <%= mode_icon(name) %>
           <%= display %>
+          <%= if name == @id do %>
+            <span class="btn-selected-bottom"></span>
+          <% end %>
         <% end %>
       <% end %>
     </div>

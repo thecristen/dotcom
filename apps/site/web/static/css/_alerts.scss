@@ -8,26 +8,59 @@
     width: 100%;
 
     > .btn {
+      border-radius: 0;
       display: table-cell;
       float: none;
     }
   }
+
+  .btn {
+    border-color: $gray-lightest;
+    padding: $space-12;
+    position: relative;
+  }
+
+  .btn-selected-bottom {
+    border-bottom: $space-6 solid $brand-primary;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.alert-show-btn {
+  $alert-route-icon-diameter: 1.5rem;
+
+  .route-icon {
+    float: none;
+    height: $alert-route-icon-diameter;
+    margin: 0 $space-6 0 0;
+    padding: $space-4;
+    vertical-align: sub;
+    width: $alert-route-icon-diameter;
+  }
+}
+
+.alert-show-btn-selected {
+  color: $gray-dark;
+  font-weight: bold;
 }
 
 .alert-show-title-container {
-  text-align: center;
   position: relative;
+  text-align: center;
 }
 
 .alert-show-title {
   background: $white;
-  font-weight: bold;
-  z-index: 5;
-  position: relative;
-  height: 2.25rem;
-  width: 9rem;
   display: block;
+  font-weight: bold;
+  height: 2.25rem;
   margin: 0 auto;
+  position: relative;
+  width: 9rem;
+  z-index: 5;
 
   > span {
     vertical-align: sub;
@@ -35,14 +68,15 @@
 }
 
 .alert-show-title-background {
-  display: block;
-  width: 100%;
-  height: $space-1;
-  z-index: 4;
   background-color: $gray-lightest;
+  display: block;
+  height: $space-1;
   position: absolute;
   top: 50%;
+  width: 100%;
+  z-index: 4;
 }
+
 
 .alert-show-row {
   margin: $space-12 * 2 auto $space-6;
@@ -118,8 +152,8 @@
 .alert-list-header-title {
   display: inline-block;
   font-weight: bold;
-  max-width: 13rem;
   margin-right: $space-12;
+  max-width: 13rem;
 
   @include media-breakpoint-up(sm) {
     max-width: 25rem;
