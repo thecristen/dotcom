@@ -40,13 +40,34 @@ defmodule Site.AlertViewTest do
     end
   end
 
-  test "alert_updated/1 returns the relative offset based on our timezone" do
-    now = ~N[2016-10-05T01:02:03]
-    date = ~D[2016-10-05]
-    one_hour = Timex.shift(now, hours: -1)
-    alert = %Alerts.Alert{updated_at: one_hour}
+  describe "alert_updated/1" do
+    test "returns the relative offset based on our timezone" do
+      now = ~N[2016-10-05T00:02:03]
+      date = ~D[2016-10-05]
+      alert = %Alerts.Alert{updated_at: now}
 
-    assert alert_updated(alert, date) == "Last Updated: Today at 12:02 AM"
+      assert alert_updated(alert, date) == "Last Updated: Today at 12:02 AM"
+    end
+
+    test "alerts from further in the past use a date" do
+      now = ~N[2016-10-05T00:02:03]
+      date = ~D[2016-10-06]
+
+      alert = %Alerts.Alert{updated_at: now}
+
+      assert alert_updated(alert, date) == "Last Updated: 10/5/2016 12:02 AM"
+    end
+  end
+
+  describe "clamp_header/1" do
+    test "short headers are the same" do
+      assert clamp_header("short") == "short"
+    end
+
+    test "anything more than 119 characters gets chomped to 120 characters" do
+      long = String.duplicate("x", 121)
+      assert String.length(clamp_header(long)) == 120
+    end
   end
 
   describe "format_alert_description/1" do

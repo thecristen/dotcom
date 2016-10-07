@@ -85,6 +85,13 @@ defmodule Site.AlertView do
     "Last Updated: #{date} #{time}"
   end
 
+  def clamp_header(header) do
+    case String.split_at(header, 119) do
+      {short, ""} -> short
+      {short, _} -> short <> "…" # ellipsis
+    end
+  end
+
   def format_alert_description(text) do
     import Phoenix.HTML
 

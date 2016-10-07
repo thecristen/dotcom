@@ -47,7 +47,7 @@
   <%= case alert_effects(@alerts, @upcoming_alert_count) do %>
     <% {prefix, suffix} -> %>
     <strong><%= prefix %></strong><span class="hidden-xs-down"><strong>:</strong>
-      <%= hd(@alerts).header %>
+      <%= hd(@alerts).header |> clamp_header %>
     </span>
     <strong><%= suffix %></strong>
     <% text -> %><%= text %>
