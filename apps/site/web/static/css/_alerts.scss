@@ -2,10 +2,11 @@
 // Show
 
 .alert-show-btn-group {
+  width: 100%;
+
   @include media-breakpoint-up(sm) {
     border-collapse: collapse;
     display: table;
-    width: 100%;
 
     > .btn {
       border-radius: 0;
@@ -30,6 +31,10 @@
 }
 
 .alert-show-btn {
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
+
   $alert-route-icon-diameter: 1.5rem;
 
   .route-icon {
@@ -40,11 +45,16 @@
     vertical-align: sub;
     width: $alert-route-icon-diameter;
   }
+
 }
 
 .alert-show-btn-selected {
   color: $gray-dark;
   font-weight: bold;
+}
+
+.collapse.in + .alert-show-mode-toggle-btn {
+  display: none;
 }
 
 .alert-show-title-container {
@@ -59,12 +69,28 @@
   height: 2.25rem;
   margin: 0 auto;
   position: relative;
-  width: 9rem;
+  width: 14rem; // biggest item: Middleborough/Lakeville Line
   z-index: 5;
 
   > span {
     vertical-align: sub;
   }
+}
+
+.alert-show-title-bus {
+  width: 4rem;
+}
+
+.alert-show-title-subway {
+  width: 9rem;
+}
+
+.alert-show-title-ferry {
+  width: 10rem;
+}
+
+.alert-show-title-access {
+  width: 6rem;
 }
 
 .alert-show-title-background {
@@ -125,6 +151,15 @@
   padding: $space-12;
 }
 
+.alert-link-title {
+  display: inline-block;
+  max-width: 84%;
+
+  @include media-breakpoint-up(sm) {
+    max-width: 92%;
+  }
+}
+
 .alert-list-header {
   background-color: $alert-color;
   border: 1px solid $alert-color;
@@ -153,7 +188,7 @@
   display: inline-block;
   font-weight: bold;
   margin-right: $space-12;
-  max-width: 13rem;
+  max-width: 9em;
 
   @include media-breakpoint-up(sm) {
     max-width: 25rem;

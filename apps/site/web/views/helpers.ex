@@ -143,16 +143,10 @@ defmodule Site.ViewHelpers do
     content_tag :a, number, href: "sms:#{number}"
   end
 
-  def atom_to_string_with_spaces(atom, capitalize \\ true) do
+  def route_type_name(:commuter), do: "Commuter Rail"
+  def route_type_name(atom) do
     atom
     |> Atom.to_string
-    |> String.split("_")
-    |> Enum.map(fn string ->
-      case capitalize do
-        true ->  String.capitalize(string)
-        false -> string
-      end
-    end)
-    |> Enum.join(" ")
+    |> String.capitalize
   end
 end

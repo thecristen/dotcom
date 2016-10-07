@@ -48,6 +48,9 @@ defmodule Site.AlertController do
   end
 
   def render_route_alerts(conn, route_alerts) do
+    route_alerts = route_alerts
+    |> Enum.reject(&match?({_, []}, &1))
+
     conn
     |> render("show.html",
     id: String.to_existing_atom(conn.params["id"]),

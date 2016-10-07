@@ -3,7 +3,7 @@
     <div class="mode-group-header">
       <h2>
         <%= mode_icon @route_type %>
-        <span><%= atom_to_string_with_spaces @route_type %> </span>
+        <span><%= route_type_name @route_type %> </span>
         <%= Site.PageView.schedule_separator %>
         <small>
           <a href="<%= mode_path(@conn, @route_type) %>">View All &raquo;</a>

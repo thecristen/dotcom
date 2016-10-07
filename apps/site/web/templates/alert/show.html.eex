@@ -1,32 +1,38 @@
 <div class="card card-section">
   <div class="card-header">
     <h3>Service Alerts and Notices</h3>
-    <div class="btn-group alert-show-btn-group">
-      <%= for {name, display} <- [
-          bus: "Bus",
-          commuter: "Commuter",
-          subway: "Subway",
-          ferry: "Ferry",
-          access: "Access",] do %>
-        <% selected_class = case @id do
-            ^name -> "alert-show-btn-selected"
-            _ -> ""
-            end %>
-        <%= link to: alert_path(@conn, :show, name), class: "btn alert-show-btn alert-show-btn-#{name} #{selected_class}" do %>
-          <%= mode_icon(name) %>
-          <%= display %>
-          <%= if name == @id do %>
-            <span class="btn-selected-bottom"></span>
+    <nav class="collapse navbar-toggleable-sm" id="modes" role="navigation">
+      <div class="btn-group alert-show-btn-group">
+        <%= for {name, display} <- [
+            bus: "Bus",
+            commuter: "Commuter",
+            subway: "Subway",
+            ferry: "Ferry",
+            access: "Access",] do %>
+          <% selected_class = case @id do
+              ^name -> "alert-show-btn-selected"
+              _ -> ""
+              end %>
+          <%= link to: alert_path(@conn, :show, name), class: "btn alert-show-btn alert-show-btn-#{name} #{selected_class}" do %>
+            <%= mode_icon(name) %>
+            <%= display %>
+            <%= if name == @id do %>
+              <span class="btn-selected-bottom"></span>
+            <% end %>
           <% end %>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    </nav>
+    <a class="btn btn-block btn-primary-outline hidden-md-up pull-right alert-show-mode-toggle-btn" href="#modes" data-toggle="collapse" data-target="#modes">
+      <%= route_type_name(@id) %> <%= fa "angle-down" %>
+    </a>
+    <div class="clearfix"></div>
   </div>
   <div class="card-block">
     <%= for {route, alerts} <- @route_alerts do %>
       <div class="alert-show-row">
         <div class="alert-show-title-container">
-          <span class="alert-show-title">
+          <span class="alert-show-title alert-show-title-<%= @id %>">
             <span><%= route.name %></span>
           </span>
           <span class="alert-show-title-background"></span>
@@ -44,7 +50,7 @@
     <% end %>
     <div class="alert-show-row">
       <div class="t-alert-container-big">
-        <h4>Sign Up For T-Alerts</h4>
+        <strong>Sign Up For T-Alerts</strong>
         <p>T-Alerts lets you sign up to receive notifications of delays and disruptions, as well as advanced notice of planned service changes, by e-mail or text message (SMS). </p>
         <p>
           <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), class: "btn" do %>

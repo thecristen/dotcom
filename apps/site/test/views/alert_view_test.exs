@@ -14,7 +14,7 @@ defmodule Site.AlertViewTest do
     test "returns one alert for one effect" do
       delay_alert = %Alerts.Alert{effect_name: "Delay", lifecycle: "Upcoming"}
 
-      expected = {"Delay (Upcoming)", ""}
+      expected = {"Delay", ""}
       actual = alert_effects([delay_alert], 0)
 
       assert expected == actual
@@ -27,7 +27,7 @@ defmodule Site.AlertViewTest do
         %Alerts.Alert{effect_name: "Cancellation"}
       ]
 
-      expected = {"Suspension", "+2 more"}
+      expected = {"Suspension", "+2 more"}
       actual = alert_effects(alerts, 0)
 
       assert expected == actual
@@ -64,9 +64,14 @@ defmodule Site.AlertViewTest do
       assert clamp_header("short") == "short"
     end
 
-    test "anything more than 119 characters gets chomped to 120 characters" do
-      long = String.duplicate("x", 121)
-      assert String.length(clamp_header(long)) == 120
+    test "anything more than 60 characters gets chomped to 60 characters" do
+      long = String.duplicate("x", 61)
+      assert String.length(clamp_header(long)) == 60
+    end
+
+    test "clamps that end in a space have it trimmed" do
+      text = String.duplicate(" ", 61)
+      assert String.length(clamp_header(text)) == 1
     end
   end
 

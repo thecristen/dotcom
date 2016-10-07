@@ -4,7 +4,7 @@
   display: inline-block;
   width: $route-icon-diameter;
   height: $route-icon-diameter;
-  padding: $route-icon-diameter / 18;
+  padding: $route-icon-diameter / 7.2; // 5px
   border-radius: 50%;
   float: left;
   margin: -.5rem .75rem 0 .125rem;

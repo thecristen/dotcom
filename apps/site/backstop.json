@@ -96,15 +96,15 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:4001/schedules/1?all_schedules=all_schedulesi&date=2016-10-31&direction_id=0&trip=",
+      "url": "http://localhost:4001/schedules/1?all_schedules=all_schedules&date=2016-10-31&direction_id=0&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Alerts",
-      "url": "http://localhost:4001/alerts?route=CR-Providence&date=2016-10-31",
-      "selectors": ["main"],
-      "delay": 100,
+      "url": "http://localhost:4001/alerts/subway#alerts-Orange",
+      "selectors": ["document"],
+      "delay": 1000,
       "hideSelectors": [".alert-card-footer"]
     },
     {

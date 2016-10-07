@@ -56,12 +56,12 @@ defmodule Site.AlertView do
   def alert_effects([], 1), do: "There are no alerts for today; 1 upcoming alert."
   def alert_effects([], count), do: "There are no alerts for today; #{count} upcoming alerts."
   def alert_effects([alert], _) do
-    {effect_name(alert),
+    {alert.effect_name,
      ""}
   end
   def alert_effects([alert|rest], _) do
-    {effect_name(alert),
-     "+#{length rest} more"}
+    {alert.effect_name,
+     "+#{length rest} more"}
   end
 
   def effect_name(%{effect_name: name, lifecycle: "New"}) do
@@ -86,9 +86,9 @@ defmodule Site.AlertView do
   end
 
   def clamp_header(header) do
-    case String.split_at(header, 119) do
+    case String.split_at(header, 59) do
       {short, ""} -> short
-      {short, _} -> short <> "…" # ellipsis
+      {short, _} -> String.trim(short) <> "…" # ellipsis
     end
   end
 
