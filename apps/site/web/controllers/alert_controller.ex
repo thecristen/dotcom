@@ -12,7 +12,8 @@ defmodule Site.AlertController do
 
   def index(conn, _params) do
     conn
-    |> render("index.html")
+    |> redirect(to: alert_path(conn, :show, "subway"))
+    |> halt
   end
 
   def show(conn, %{"id" => "subway"}) do
