@@ -8,3 +8,21 @@
 .mode-name-heading {
   display: inline-block;
 }
+
+.station-list-heading {
+  margin: 1em .5em 0;
+}
+
+.station-list {
+  list-style: none;
+  padding: .5em;
+
+  li {
+    border-bottom: 1px solid $gray-lightest;
+    padding: .5em;
+
+    &:last-child {
+      border: 0;
+    }
+  }
+}
