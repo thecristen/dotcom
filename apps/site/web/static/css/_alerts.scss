@@ -53,8 +53,11 @@
   font-weight: bold;
 }
 
-.collapse.in + .alert-show-mode-toggle-btn {
-  display: none;
+.collapse.in,
+.collapse:target {
+  + .alert-show-mode-toggle-btn {
+    display: none;
+  }
 }
 
 .alert-show-title-container {

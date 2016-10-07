@@ -21,8 +21,7 @@ body {
   background-color: $homepage-bg-color;
 
   &.no-js {
-    .collapse {
-      // don't hide collapsed elements if we can't re-open them
+    .collapse:target {
       display: block;
     };
 
