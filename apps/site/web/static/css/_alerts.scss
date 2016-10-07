@@ -16,19 +16,36 @@
 
 .alert-show-title-container {
   text-align: center;
+  position: relative;
 }
 
 .alert-show-title {
   background: $white;
-  display: block;
   font-weight: bold;
-  margin-bottom: $space-6;
-  padding: $space-12;
   z-index: 5;
+  position: relative;
+  height: 2.25rem;
+  width: 9rem;
+  display: block;
+  margin: 0 auto;
+
+  > span {
+    vertical-align: sub;
+  }
+}
+
+.alert-show-title-background {
+  display: block;
+  width: 100%;
+  height: $space-1;
+  z-index: 4;
+  background-color: $gray-lightest;
+  position: absolute;
+  top: 50%;
 }
 
 .alert-show-row {
-  margin: $space-12 auto;
+  margin: $space-12 * 2 auto $space-6;
 
   &:first-child {
     margin-top: 0;
