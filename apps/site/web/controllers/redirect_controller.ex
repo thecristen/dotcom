@@ -18,6 +18,6 @@ defmodule Site.RedirectController do
       mobile_enabled: mobile_enabled(full_path))
   end
 
-  defp mobile_enabled("rider_tools/t_alerts/"), do: false
+  defp mobile_enabled("rider_tools/t_alerts"), do: false
   defp mobile_enabled(_), do: true
 end
