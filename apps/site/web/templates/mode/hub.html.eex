@@ -33,12 +33,6 @@
             </div>
           </div>
         </div>
-        <%= if @delays != [] do %>
-          <div class="col-xs-12 p-b-1">
-            <h2 class="font-weight-bold">Delays</h2>
-            <%= Site.AlertView.inline @conn, alerts: @delays, time: Util.now %>
-          </div>
-        <%= end %>
         <div class="col-xs-12">
           <h2><strong><%= @mode_name %> Fares</strong></h2>
           <p><%= @fare_description |> raw %></p>
