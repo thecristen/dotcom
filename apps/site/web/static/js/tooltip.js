@@ -8,7 +8,6 @@ export default function($) {
     $(".tooltip.in").remove();
   };
 
-  addTooltips();
   $(document).on('turbolinks:load', addTooltips);
   $(document).on('turbolinks:before-cache', clearTooltips);
 };

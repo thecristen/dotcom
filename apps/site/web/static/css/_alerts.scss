@@ -336,6 +336,15 @@
   display: block;
 }
 
+.alert-container,
+.alert-container.collapse:target {
+  display: none;
+
+  + .alert-link {
+    display: block;
+  }
+}
+
 .alert-container:target,
 .alert-container.collapse.in {
   display: block;

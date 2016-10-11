@@ -1,6 +1,6 @@
 <% id = "alerts-#{@route.id}" %>
-<div class="alert-container collapse" id="<%= id %>">
-  <a class="alert-list-header fixedsticky" href="#" data-toggle="collapse" data-target="#<%= id %>">
+<div class="alert-container" id="<%= id %>">
+  <a class="alert-list-header fixedsticky" href="#" data-hide="collapse" data-target="#<%= id %>">
     <span class="alert-item-icon">
       <%= fa "exclamation-triangle" %>
     </span>
@@ -42,7 +42,7 @@
     <% end %>
   </ul>
 </div>
-<a class="alert-link" href="#<%= id %>" data-toggle="collapse" data-target="#<%= id %>">
+<a class="alert-link" href="#<%= id %>" data-show="collapse" data-target="#<%= id %>">
   <span class="alert-link-title">
     <%= render "_icon.html", alert: List.first(@alerts) %>
     <%= case alert_effects(@alerts, @upcoming_alert_count) do %>
