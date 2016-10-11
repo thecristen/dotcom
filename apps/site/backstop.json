@@ -109,7 +109,7 @@
     },
     {
       "label": "Commuter Rail Fares",
-      "url": "http://localhost:4001/fares/commuter-rail",
+      "url": "http://localhost:4001/fares/commuter",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold" : 0.1

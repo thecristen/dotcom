@@ -6,7 +6,7 @@ defmodule Site.AlertController do
   plug Site.Plugs.Alerts
 
   @access_routes ["Elevator", "Escalator", "Lift"]
-  |> Enum.map(&(%{type: nil, id: &1, name: &1}))
+  |> Enum.map(&(%Routes.Route{id: &1, name: &1}))
   @access_route_map @access_routes
   |> Enum.reduce(%{}, fn route, map -> put_in map[route], [] end)
 
@@ -84,6 +84,6 @@ defmodule Site.AlertController do
     |> String.splitter(" ")
     |> Enum.at(0)
 
-    %{type: nil, id: type, name: type}
+    %Routes.Route{id: type, name: type}
   end
 end

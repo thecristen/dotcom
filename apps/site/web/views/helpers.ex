@@ -84,7 +84,7 @@ defmodule Site.ViewHelpers do
     do_mode_icon(String.downcase(id), "subway")
   end
   def mode_icon(%{type: 1}), do: do_mode_icon("subway")
-  def mode_icon(%{type: 2}), do: do_mode_icon("commuter-rail", "commuter")
+  def mode_icon(%{type: 2}), do: do_mode_icon("commuter")
   def mode_icon(%{type: 3}), do: do_mode_icon("bus")
   def mode_icon(%{type: 4}), do: do_mode_icon("boat")
   def mode_icon(:commuter), do: mode_icon(%{type: 2})

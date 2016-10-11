@@ -13,10 +13,11 @@ export default function($) {
       ev.preventDefault();
       ev.stopPropagation();
       const newUrl = url.slice(0, anchorIndex);
+      const rest = url.slice(anchorIndex, url.length);
       if (samePath(`${currentPath}${window.location.search}`, newUrl)) {
-        window.location.hash = url.slice(anchorIndex, url.length);
+        window.location.hash = rest;
       } else {
-        savedAnchor = url.slice(anchorIndex, url.length);
+        savedAnchor = rest;
         window.setTimeout(() => Turbolinks.visit(newUrl), 0);
       }
       return;
