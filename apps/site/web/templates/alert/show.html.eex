@@ -58,7 +58,7 @@
         <strong>Sign Up For T-Alerts</strong>
         <p>T-Alerts lets you sign up to receive notifications of delays and disruptions, as well as advanced notice of planned service changes, by e-mail or text message (SMS). </p>
         <p>
-          <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), class: "btn" do %>
+          <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank", class: "btn" do %>
             Sign Up Now
           <% end %>
         </p>
