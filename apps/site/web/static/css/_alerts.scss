@@ -153,6 +153,11 @@
   margin-bottom: $space-12;
 }
 
+.alert-no-alerts {
+  background-color: $gray-lightest;
+  padding: $space-12;
+}
+
 .t-alert-container-big {
   background-color: $brand-primary;
   color: $white;

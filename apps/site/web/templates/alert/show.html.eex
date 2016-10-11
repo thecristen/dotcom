@@ -48,6 +48,11 @@
         </div>
       </div>
     <% end %>
+    <%= if @route_alerts == [] do %>
+      <div class="alert-no-alerts">
+        There are no current service alerts for this mode.
+      </div>
+    <% end %>
     <div class="alert-show-row">
       <div class="t-alert-container-big">
         <strong>Sign Up For T-Alerts</strong>
