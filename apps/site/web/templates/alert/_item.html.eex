@@ -1,3 +1,7 @@
+<% extra_id = case assigns[:extra_id] do
+    nil -> ""
+    id -> "-#{id}"
+    end %>
 <%= render "_icon.html", alert: @alert %>
 <span class="alert-item-content">
   <span class="alert-item-effect">
@@ -7,12 +11,12 @@
 <div>
   <%= @alert.header %>
 </div>
-<span class="alert-item-body collapse" id="alert-body-<%= @alert.id %>">
+<span class="alert-item-body collapse" id="alert-body-<%= @alert.id %><%= extra_id %>">
   <hr>
   <%= format_alert_description(@alert.description) %>
 </span>
 <%= if @alert.description  do %>
-  <button class="btn-link alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %>">
+  <button class="btn-link alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %><%= extra_id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %><%= extra_id %>">
     View Full Description &raquo;
   </button>
 <% end %>
