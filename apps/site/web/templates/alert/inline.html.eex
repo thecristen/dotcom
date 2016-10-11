@@ -1,4 +1,4 @@
-<%= unique_id = :rand.uniform |> Float.to_string |> String.slice(2..10) %>
+<% unique_id = :rand.uniform |> Float.to_string |> String.slice(2..10) %>
 <ul class="alert-list">
   <%= for alert <- @alerts do %>
     <li class="alert-list-item">

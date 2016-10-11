@@ -1,16 +1,14 @@
 <% id = "alerts-#{@route.id}" %>
 <div class="alert-container" id="<%= id %>">
   <a class="alert-list-header fixedsticky" href="#" data-hide="collapse" data-target="#<%= id %>">
-    <span class="alert-item-icon">
-      <%= fa "exclamation-triangle" %>
-    </span>
-    <span class="alert-list-header-title">Service Alerts For Today</span>
+    <%= render "_icon.html", alert: List.first(@alerts) %>
+    <span class="alert-list-header-title">Service Alerts For <%= @route.name %></span>
     <span class="alert-list-toggle">Close</span>
   </a>
   <ul class="alert-list">
     <%= for alert <- @alerts do %>
       <li class="alert-list-item">
-        <%= render "_item.html", alert: alert %>
+        <%= render "_item.html", alert: alert, extra_id: @route.id %>
       </li>
     <% end %>
     <%= if @alerts == [] do %>
@@ -48,7 +46,7 @@
     <%= case alert_effects(@alerts, @upcoming_alert_count) do %>
       <% {prefix, suffix} -> %>
       <strong><%= prefix %>:</strong>
-      <%= hd(@alerts).header |> clamp_header %>
+      <%= hd(@alerts).header |> clamp_header(String.length(hd(@alerts).effect_name)) %>
       <strong><%= suffix %></strong>
       <% text -> %><%= text %>
     <% end %>

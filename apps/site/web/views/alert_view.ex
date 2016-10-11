@@ -86,7 +86,10 @@ defmodule Site.AlertView do
   end
 
   def clamp_header(header) do
-    case String.split_at(header, 59) do
+    clamp_header(header, 0)
+  end
+  def clamp_header(header, extra_remove) do
+    case String.split_at(header, 59 - extra_remove) do
       {short, ""} -> short
       {short, _} -> String.trim(short) <> "…" # ellipsis
     end
