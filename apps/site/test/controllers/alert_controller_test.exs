@@ -18,9 +18,9 @@ defmodule Site.AlertControllerTest do
       end)
 
       assert group_access_alerts(alerts) == %{
-        %{id: "Elevator", name: "Elevator"} => [Enum.at(alerts, 1)],
-        %{id: "Escalator", name: "Escalator"} => [Enum.at(alerts, 0)],
-        %{id: "Lift", name: "Lift"} => [Enum.at(alerts, 2)]
+        %{type: nil, id: "Elevator", name: "Elevator"} => [Enum.at(alerts, 1)],
+        %{type: nil, id: "Escalator", name: "Escalator"} => [Enum.at(alerts, 0)],
+        %{type: nil, id: "Lift", name: "Lift"} => [Enum.at(alerts, 2)]
       }
     end
 
@@ -36,17 +36,17 @@ defmodule Site.AlertControllerTest do
       end)
 
       assert group_access_alerts(alerts) == %{
-        %{id: "Elevator", name: "Elevator"} => alerts,
-        %{id: "Escalator", name: "Escalator"} => [],
-        %{id: "Lift", name: "Lift"} => [],
+        %{type: nil, id: "Elevator", name: "Elevator"} => alerts,
+        %{type: nil, id: "Escalator", name: "Escalator"} => [],
+        %{type: nil, id: "Lift", name: "Lift"} => [],
       }
     end
 
     test "ignores non Access Issue alerts" do
       assert group_access_alerts([%Alert{}]) == %{
-        %{id: "Elevator", name: "Elevator"} => [],
-        %{id: "Escalator", name: "Escalator"} => [],
-        %{id: "Lift", name: "Lift"} => [],
+        %{type: nil, id: "Elevator", name: "Elevator"} => [],
+        %{type: nil, id: "Escalator", name: "Escalator"} => [],
+        %{type: nil, id: "Lift", name: "Lift"} => [],
       }
     end
   end

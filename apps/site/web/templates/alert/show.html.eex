@@ -33,7 +33,7 @@
       <div class="alert-show-row">
         <div class="alert-show-title-container">
           <span class="alert-show-title alert-show-title-<%= @id %>">
-            <span><%= route.name %></span>
+            <span><%= raw route_circle(route.type, route.name) %><%= route.name %></span>
           </span>
           <span class="alert-show-title-background"></span>
         </div>

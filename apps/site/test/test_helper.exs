@@ -1,2 +1,3 @@
 ExUnit.start
+ExCheck.start
 

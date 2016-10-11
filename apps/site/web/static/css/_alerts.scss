@@ -53,6 +53,31 @@
   font-weight: bold;
 }
 
+.alert-show-btn-bus {
+  .btn-selected-bottom {
+    border-color: $brand-secondary;
+  }
+}
+
+.alert-show-btn-commuter {
+  .btn-selected-bottom {
+    border-color: $brand-commuter-rail;
+  }
+}
+
+.alert-show-btn-subway {
+  .btn-selected-bottom {
+    border-color: $brand-silver-line;
+  }
+}
+
+.alert-show-btn-ferry {
+  .btn-selected-bottom {
+    border-color: $brand-primary-light;
+  }
+}
+
+
 .collapse.in,
 .collapse:target {
   + .alert-show-mode-toggle-btn {
@@ -86,6 +111,10 @@
 
 .alert-show-title-subway {
   width: 9rem;
+
+  .fa-circle {
+    margin-right: $space-6;
+  }
 }
 
 .alert-show-title-ferry {
