@@ -1,0 +1,19 @@
+{
+  "uuid" : "1c572eca-f676-315f-829e-88183b74eb77",
+  "request" : {
+    "url" : "/routes/?stop=114893",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Yfpfs.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:55 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "sihte6lcbc0rvra7k6q70a7v143375ks",
+      "Connection" : "keep-alive"
+    }
+  }
+}

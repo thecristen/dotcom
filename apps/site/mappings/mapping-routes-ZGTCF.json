@@ -1,0 +1,19 @@
+{
+  "uuid" : "a21d3f22-e6a2-33d4-be71-c7cf1126cd53",
+  "request" : {
+    "url" : "/routes/?stop=place-north",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZGTCF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:56 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "b2uqqqg2dfh2c4tm5bl19q8ea36jvcnj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

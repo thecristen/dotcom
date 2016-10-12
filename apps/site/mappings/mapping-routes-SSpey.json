@@ -1,0 +1,19 @@
+{
+  "uuid" : "4c250036-c3f2-30b2-8650-63bf4038ea67",
+  "request" : {
+    "url" : "/routes/?stop=place-butlr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SSpey.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:53 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "2c9b1a1abruvhseofqcrdflh36grk9s0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

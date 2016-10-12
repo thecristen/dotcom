@@ -1,0 +1,19 @@
+{
+  "uuid" : "86c2a96b-bc93-37d0-903e-90c16f007ca3",
+  "request" : {
+    "url" : "/routes/?stop=Anderson%2F+Woburn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-otqci.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:52 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "djp765f9rpsjqftbfgis6ojktahecijs",
+      "Connection" : "keep-alive"
+    }
+  }
+}

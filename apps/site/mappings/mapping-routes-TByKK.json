@@ -1,0 +1,19 @@
+{
+  "uuid" : "b78985b1-8713-32d5-870d-699a57692496",
+  "request" : {
+    "url" : "/routes/?stop=North+Beverly",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TByKK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:55 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "a8r3lgvhah7g7j40ioiof8co8q16lsik",
+      "Connection" : "keep-alive"
+    }
+  }
+}

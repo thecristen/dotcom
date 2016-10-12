@@ -1,0 +1,19 @@
+{
+  "uuid" : "b9f350fc-0f1b-38e9-baf4-b28b69174d9c",
+  "request" : {
+    "url" : "/routes/?stop=place-knncl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-3LoyR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:55 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "7noud5dpmji9jltmvegrbbr5uq8n4glc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "81f1cb82-d0a3-37dd-8b7d-808c1a8de245",
+  "request" : {
+    "url" : "/routes/?stop=place-qnctr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JgfLI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:56 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "cn3k4nrln3ditqlcpd5hojrmuph993ps",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "1b81740d-6c75-3dc0-8a88-f32c435258d2",
+  "request" : {
+    "url" : "/routes/?stop=31258",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mISIB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:52 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "7f2jslhtvda8pp09evqr3jot336a6l14",
+      "Connection" : "keep-alive"
+    }
+  }
+}

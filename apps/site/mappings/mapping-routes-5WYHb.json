@@ -1,0 +1,19 @@
+{
+  "uuid" : "c4ce09a4-80e1-3dd6-842c-6a4ea30777d2",
+  "request" : {
+    "url" : "/routes/?stop=Greenbush",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-5WYHb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "setgntf2r6k0j3cp847kguraqakoem93",
+      "Connection" : "keep-alive"
+    }
+  }
+}

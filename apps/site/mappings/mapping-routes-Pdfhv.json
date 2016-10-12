@@ -1,0 +1,19 @@
+{
+  "uuid" : "cc28f344-f210-3e90-85cc-87f14858a784",
+  "request" : {
+    "url" : "/routes/?stop=31255",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Pdfhv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:53 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "4qa8a6f0tpdvv4iqngh7m3o4v8d89069",
+      "Connection" : "keep-alive"
+    }
+  }
+}

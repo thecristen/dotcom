@@ -1,0 +1,19 @@
+{
+  "uuid" : "2e4071b5-38d6-37ae-9e8c-7d14307d24c3",
+  "request" : {
+    "url" : "/routes/?stop=place-stpul",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-B0cRh.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:57 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "39gtimmj3vf2f2j13cckfoo8fbi0r53d",
+      "Connection" : "keep-alive"
+    }
+  }
+}

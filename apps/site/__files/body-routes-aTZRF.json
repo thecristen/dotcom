@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/CR-Kingston"},"id":"CR-Kingston","attributes":{"type":2,"short_name":"","long_name":"Kingston/Plymouth Line","description":"Commuter Rail"}}]}

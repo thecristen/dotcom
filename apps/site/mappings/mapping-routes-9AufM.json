@@ -1,0 +1,19 @@
+{
+  "uuid" : "d5bd79d2-07e1-3c4a-b175-504472ff54e0",
+  "request" : {
+    "url" : "/routes/?stop=Norwood+Central",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-9AufM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:56 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "qlks1obrr55300p33q97oktgv0c1h93i",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "9eb37c41-25d1-36fc-ad2e-a6ece6fa1f7a",
+  "request" : {
+    "url" : "/routes/?stop=Andover",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BTuiP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:52 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "b55sg6lo8nl8mfq2lfar1609dcoledfc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

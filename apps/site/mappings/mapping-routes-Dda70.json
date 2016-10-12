@@ -1,0 +1,19 @@
+{
+  "uuid" : "881ae6b1-4c9c-3504-aeb7-3fd3d9981dbd",
+  "request" : {
+    "url" : "/routes/?stop=Mansfield",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Dda70.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:55 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "4c96jtbjkt0ijd4629c02o7nsd9q4gk3",
+      "Connection" : "keep-alive"
+    }
+  }
+}
