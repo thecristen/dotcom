@@ -37,7 +37,7 @@ defmodule Routes.GroupTest do
     # drops the light rail (only keeps the green line, and renames it)
     assert Routes.Group.group([@light_rail, @green, @subway, @rail, @bus, @boat]) == %{
       subway: [@light_rail, %Route{type: 0, id: "Green", name: "Green Line"}, @subway],
-      commuter_rail: [@rail],
+      commuter: [@rail],
       bus: [@bus],
       boat: [@boat]
     }

@@ -1,8 +1,12 @@
 <div class="card card-section">
   <div class="card-header schedule-header">
     <%= render "_locations.html", forward_assigns(@conn) %>
-    <%= Site.AlertView.modal @conn %>
     <%= render "_filters.html", forward_assigns(@conn) %>
+    <%= if @alerts != [] || @upcoming_alerts != [] do %>
+      <div class="m-t-1">
+        <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route %>
+      </div>
+    <% end %>
   </div>
   <div class="card-block schedule-block">
     <div class="schedule-list-group">

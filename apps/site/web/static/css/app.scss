@@ -1,6 +1,7 @@
 @import 'variables';
 @import 'bootstrap';
 @import 'vendor/font-awesome-4.6.3/scss/font-awesome';
+@import 'vendor/fixedsticky';
 @import 'helpers';
 @import 'route-icon';
 @import 'mode-group';
@@ -20,8 +21,7 @@ body {
   background-color: $homepage-bg-color;
 
   &.no-js {
-    .collapse {
-      // don't hide collapsed elements if we can't re-open them
+    .collapse:target {
       display: block;
     };
 
@@ -197,7 +197,7 @@ body {
   }
 }
 
-.alert-container {
+.announcement-container {
   @extend .top-bar;
   background-color: $brand-primary-dark;
   color: $white;

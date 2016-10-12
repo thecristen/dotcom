@@ -9,7 +9,7 @@
                 <%= link "Schedules & Maps", to: mode_path(Site.Endpoint, :index) %>
               </li>
               <li class="footer-link-sublist-item">
-                <%= link "Commuter Rail", to: mode_path(Site.Endpoint, :commuter_rail) %>
+                <%= link "Commuter Rail", to: mode_path(Site.Endpoint, :commuter) %>
               </li>
               <li class="footer-link-sublist-item">
                 <%= link "Bus", to: mode_path(Site.Endpoint, :bus) %>

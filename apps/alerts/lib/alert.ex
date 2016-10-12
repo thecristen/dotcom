@@ -26,6 +26,9 @@ defmodule Alerts.Alert do
     # Suspensions are not notices
     false
   end
+  def is_notice?(%__MODULE__{effect_name: "Access Issue"}, _) do
+    true
+  end
   for effect <- [
         "Shuttle",
         "Stop Closure",

@@ -1,39 +1,56 @@
-<% route_type = Route.type_atom(@route) %>
-<div id="alertsModal" class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="alertsModalTitle">
-  <div class="modal-dialog modal-lg modal-transparent" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close btn btn-link pull-right" data-dismiss="modal" aria-label="Close">
-          <%= fa "times-circle" %> Close
-        </button>
-      </div>
-      <div class="modal-body p-a-0">
-        <%= render "_alerts_header.html", conn: @conn, route: @route %>
+<% id = "alerts-#{@route.id}" %>
+<div class="alert-container" id="<%= id %>">
+  <a class="alert-list-header fixedsticky" href="#" data-hide="collapse" data-target="#<%= id %>">
+    <%= render "_icon.html", alert: List.first(@alerts) %>
+    <span class="alert-list-header-title">Service Alerts For <%= @route.name %></span>
+    <span class="alert-list-toggle">Close</span>
+  </a>
+  <ul class="alert-list">
+    <%= for alert <- @alerts do %>
+      <li class="alert-list-item">
+        <%= render "_item.html", alert: alert, extra_id: @route.id %>
+      </li>
+    <% end %>
+    <%= if @alerts == [] do %>
+      <li class="alert-list-item">
+        There are currently no service alerts affecting the <%= @route.name %> today.
+        <%= if @upcoming_alert_count do %>
+          However, there <%= case @upcoming_alert_count do %>
+          <%= 1 -> %>is 1 upcoming alert.
+          <%= more -> %>are <%= more %> upcoming alerts.
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+    <%= if !assigns[:hide_t_alerts] do %>
+      <li class="alert-list-item">
         <div class="row">
-          <div class="col-xs-12">
-            <%= render "_alert_list.html", alerts: @alerts %>
-            <%= render "_notice_list.html", notices: @notices %>
+          <%= if @upcoming_alert_count != 0 do %>
+            <div class="col-xs-12 col-sm-6 pull-sm-right p-b-1">
+              <%= link to: (alert_path(Site.Endpoint, :show, Routes.Route.type_atom(@route)) <> "#alerts-" <> @route.id), data: [turbolinks: "false"] do %>
+                View <%= @upcoming_alert_count %> Upcoming Alerts &raquo;
+              <% end %>
+            </div>
+          <% end %>
+          <div class="col-xs-12 col-sm-6">
+            <%= render "_t-alerts.html" %>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<a
-  href="<%= alert_path @conn, :index, @conn.params %>"
-  class="col-xs-12 btn btn-link alerts-modal-button <%= get_link_background(route_type, @alerts) %>"
-  data-toggle="modal"
-  data-target="#alertsModal"
->
-  <p>
-    <%= fa "exclamation-triangle" %>
-    <%= if route_type == :bus do %>
-      <strong>Notices:</strong>
-      <%= display_alert_effects(@notices) %>
-    <%= else %>
-      <strong>Alerts:</strong>
-      <%= display_alert_effects(@alerts ++ @notices) %>
+      </li>
     <% end %>
-  </p>
+  </ul>
+</div>
+<a class="alert-link" href="#<%= id %>" data-show="collapse" data-target="#<%= id %>">
+  <span class="alert-link-title">
+    <%= render "_icon.html", alert: List.first(@alerts) %>
+    <%= case alert_effects(@alerts, @upcoming_alert_count) do %>
+      <% {prefix, suffix} -> %>
+      <strong><%= prefix %>:</strong>
+      <%= hd(@alerts).header |> clamp_header(String.length(hd(@alerts).effect_name)) %>
+      <strong><%= suffix %></strong>
+      <% text -> %><%= text %>
+    <% end %>
+  </span>
+  <span class="alert-list-toggle">View</span>
+  <span class="clearfix"></span>
 </a>

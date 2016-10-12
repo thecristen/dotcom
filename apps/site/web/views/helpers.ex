@@ -84,13 +84,15 @@ defmodule Site.ViewHelpers do
     do_mode_icon(String.downcase(id), "subway")
   end
   def mode_icon(%{type: 1}), do: do_mode_icon("subway")
-  def mode_icon(%{type: 2}), do: do_mode_icon("commuter-rail", "commuter")
+  def mode_icon(%{type: 2}), do: do_mode_icon("commuter")
   def mode_icon(%{type: 3}), do: do_mode_icon("bus")
   def mode_icon(%{type: 4}), do: do_mode_icon("boat")
-  def mode_icon(:commuter_rail), do: mode_icon(%{type: 2})
+  def mode_icon(:commuter), do: mode_icon(%{type: 2})
   def mode_icon(:subway), do: mode_icon(%{type: 1})
   def mode_icon(:bus), do: mode_icon(%{type: 3})
   def mode_icon(:boat), do: mode_icon(%{type: 4})
+  def mode_icon(:ferry), do: mode_icon(%{type: 4})
+  def mode_icon(:access), do: do_mode_icon("access");
 
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name
@@ -105,6 +107,11 @@ defmodule Site.ViewHelpers do
   def mode_name(2), do: "Commuter Rail"
   def mode_name(3), do: "Bus"
   def mode_name(4), do: "Boat"
+
+  @doc "Prefix route name with route for bus lines"
+  def route_header_text(%{type: 3, name: name}), do: "Route #{name}"
+  def route_header_text(%{type: 2, name: name}), do: clean_route_name(name)
+  def route_header_text(%{name: name}), do: "#{name}"
 
   @doc "Clean up a GTFS route name for better presentation"
   def clean_route_name(name) do
@@ -136,16 +143,10 @@ defmodule Site.ViewHelpers do
     content_tag :a, number, href: "sms:#{number}"
   end
 
-  def atom_to_string_with_spaces(atom, capitalize \\ true) do
+  def route_type_name(:commuter), do: "Commuter Rail"
+  def route_type_name(atom) do
     atom
     |> Atom.to_string
-    |> String.split("_")
-    |> Enum.map(fn string ->
-      case capitalize do
-        true ->  String.capitalize(string)
-        false -> string
-      end
-    end)
-    |> Enum.join(" ")
+    |> String.capitalize
   end
 end

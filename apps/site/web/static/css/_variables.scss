@@ -79,13 +79,14 @@ $brand-green-line: #428608;
 $brand-orange-line: #ff8200;
 $brand-red-line: #ff1428;
 $brand-silver-line: #788093;
-$brand-commuter-rail: #a00a78;
+$brand-commuter: #a00a78;
 $brand-the-ride: #52BBC5;
 
 $homepage-bg-color: #071d2e;
 $nav-mobile-link-color: #fff;
 
 $alert-color: $brand-secondary;
+$alert-color-lighter: #fff7d8;
 $alert-notice-color: #dcd3e8;
 
 $font-family-base: 'Lato', $font-family-sans-serif;
@@ -100,9 +101,15 @@ $form-success-message: #dff0d8;
 $brand-success: #428608;
 $brand-danger: #ff1428;
 
-$route-icon-diameter: 36px;
+$route-icon-diameter: 2.25rem;
 $footer-color: $homepage-bg-color;
 
 $instagram: #1c1e23;
 $youtube: #cd201f;
 $twitter: #55acee;
+
+$space-12: $grid-gutter-width; // 12px real, 6px Zeplin
+$space-6: $grid-gutter-width / 2; // 6px real, 3px Zeplin
+$space-4: $grid-gutter-width / 4; // 3px real, 1.5px Zeplin
+$space-2: $grid-gutter-width / 6; // 2px real, 1px Zeplin
+$space-1: $grid-gutter-width / 12; // 1px real, 0.5px Zeplin

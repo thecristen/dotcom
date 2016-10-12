@@ -1,24 +1,25 @@
 defmodule Site.AlertView do
   use Site.Web, :view
-  alias Routes.Route
 
   @doc """
 
   Used by the schedule view to render a link/modal with relevant alerts.
 
   """
-  def modal(%{assigns: %{notices: notices, alerts: alerts} = assigns} = conn) when notices != [] or alerts != [] do
-    assigns = assigns
-    |> Map.put(:layout, false)
-    |> Map.put(:conn, conn)
+  def modal(opts) do
+    alerts = Keyword.fetch!(opts, :alerts)
+    _ = Keyword.fetch!(opts, :route)
 
-    case {Route.type_atom(conn.assigns.route), length(notices)} do
-      {:bus, 0} -> nil
-      {_, _} -> render(__MODULE__, "modal.html", assigns)
+    upcoming_alerts = opts[:upcoming_alerts] || []
+
+    opts = opts
+    |> Keyword.put(:upcoming_alert_count, length(upcoming_alerts))
+
+    case {alerts, upcoming_alerts} do
+      {[], []} -> ""
+      _ ->
+        render(__MODULE__, "modal.html", opts)
     end
-  end
-  def modal(_conn) do
-    ""
   end
 
   @doc """
@@ -49,31 +50,49 @@ defmodule Site.AlertView do
   end
 
   @doc """
-  Takes a list of alerts and returns a string summarizing their effects, such as "3 Delays, Stop
-  Closure, 4 Station Issues". Adds an optional suffix if the list of alerts is non-empty.
   """
-  def display_alert_effects(alerts)
-  def display_alert_effects([]), do: ""
-  def display_alert_effects(alerts) do
-    alerts
-    |> Enum.group_by(&(&1.effect_name))
-    |> Enum.map(&display_alert_group/1)
-    |> Enum.join(", ")
+  def alert_effects(alerts, upcoming_count)
+  def alert_effects([], 0), do: "There are no alerts for today."
+  def alert_effects([], 1), do: "There are no alerts for today; 1 upcoming alert."
+  def alert_effects([], count), do: "There are no alerts for today; #{count} upcoming alerts."
+  def alert_effects([alert], _) do
+    {alert.effect_name,
+     ""}
+  end
+  def alert_effects([alert|rest], _) do
+    {alert.effect_name,
+     "+#{length rest} more"}
   end
 
-  defp display_alert_group({effect_name, [_]}) do
-    effect_name
+  def effect_name(%{effect_name: name, lifecycle: "New"}) do
+    name
   end
-  defp display_alert_group({effect_name, alerts}) do
-    num_alerts = length(alerts)
-    "#{num_alerts} #{Inflex.inflect(effect_name, num_alerts)}"
+  def effect_name(%{effect_name: name, lifecycle: lifecycle}) do
+    "#{name} (#{lifecycle})"
   end
 
-  def display_alert_updated(alert) do
-    {:ok, formatted} = alert.updated_at
-    |> Timex.Format.DateTime.Formatters.Relative.relative_to(Util.now, "{relative}")
+  def alert_updated(alert) do
+    alert_updated(alert, Util.today)
+  end
+  def alert_updated(alert, relative_to) do
+    date = if Timex.equal?(relative_to, alert.updated_at) do
+      "Today at"
+    else
+      Timex.format!(alert.updated_at, "{M}/{D}/{YYYY}")
+    end
+    time = Timex.format!(alert.updated_at, "{h12}:{m} {AM}")
 
-    "Updated #{formatted}"
+    "Last Updated: #{date} #{time}"
+  end
+
+  def clamp_header(header) do
+    clamp_header(header, 0)
+  end
+  def clamp_header(header, extra_remove) do
+    case String.split_at(header, 59 - extra_remove) do
+      {short, ""} -> short
+      {short, _} -> String.trim(short) <> "…" # ellipsis
+    end
   end
 
   def format_alert_description(text) do
@@ -87,17 +106,4 @@ defmodule Site.AlertView do
     |> String.replace(~r/\s*\n/s, "<br />")
     |> raw
   end
-
-  def get_link_background(:bus, _) do
-    "bg-notice"
-  end
-
-  def get_link_background(_, []) do
-    "bg-notice"
-  end
-
-  def get_link_background(_, _) do
-    ""
-  end
-
 end

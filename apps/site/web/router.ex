@@ -25,14 +25,14 @@ defmodule Site.Router do
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus
     get "/schedules/boat", ModeController, :boat
-    get "/schedules/commuter-rail", ModeController, :commuter_rail
+    get "/schedules/commuter", ModeController, :commuter
     get "/schedules/Green", ScheduleController.Green, :green
     get "/schedules/:route", ScheduleController, :show
-    get "/alerts", AlertController, :index
+    resources "/alerts", AlertController, only: [:index, :show]
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
-    get "/fares/commuter-rail", FareController, :index
+    get "/fares/commuter", FareController, :index
   end
 
   scope "/_flags", Laboratory do

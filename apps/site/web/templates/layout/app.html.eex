@@ -30,7 +30,7 @@
     <div class="body-wrapper">
       <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
       <%= if BetaAnnouncement.show_announcement?(@conn) do %>
-        <div class="container-fluid alert-container">
+        <div class="container-fluid announcement-container">
           <div class="container">
             <div class="col-xs-12 p-l-0">
               <%= render __MODULE__, "_beta_announcement.html", assigns %>
@@ -73,8 +73,8 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <% alerts_path = redirect_path @conn, "rider_tools/transit_updates/" %>
-                  <a class="nav-link" href="<%= alerts_path %>">
+                  <% alerts_path = alert_path(@conn, :index) %>
+                  <a class="nav-link" href="<%= alerts_path %>/subway">
                     <%= bold_if_active @conn, alerts_path, "Service Alerts" %>
                   </a>
                 </li>

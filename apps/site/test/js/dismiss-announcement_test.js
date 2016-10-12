@@ -13,20 +13,20 @@ describe('dismiss-announcement', () => {
 
   beforeEach(() => {
     $('body').append(
-      '<div class="alert-container">Message<a data-cookie-name="test-cookie" id="beta-announcement-dismiss">Dismiss</a></div>'
+      '<div class="announcement-container">Message<a data-cookie-name="test-cookie" id="beta-announcement-dismiss">Dismiss</a></div>'
     );
   });
 
   afterEach(() => {
     // Clear out the beta announcement cookie between tests
     document.cookie = 'test-cookie=; expires=Thu, 01 Jan 1970 00:00:01 GMT';
-    $(".alert-container").remove();
+    $(".announcement-container").remove();
   });
 
   it('hides the announcement on click', () => {
-    assert.lengthOf($('.alert-container'), 1);
+    assert.lengthOf($('.announcement-container'), 1);
     $('#beta-announcement-dismiss').click();
-    assert.lengthOf($('.alert-container'), 0);
+    assert.lengthOf($('.announcement-container'), 0);
   });
 
   it('drops a cookie on click', () => {

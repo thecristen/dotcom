@@ -7,16 +7,14 @@ defmodule Site.Plugs.AlertsTest do
   import Phoenix.ConnTest, only: [build_conn: 0]
   import Plug.Conn, only: [assign: 3, fetch_query_params: 1]
 
-  test "assigns current_alerts, upcoming_alerts, alerts, notices" do
+  test "assigns alerts, upcoming_alerts" do
     conn = build_conn
     |> assign(:date, Timex.today)
-    |> assign(:all_alerts, [])
-    |> Alerts.call([])
+    |> Alerts.call(fn -> [] end)
 
-    assert conn.assigns.current_alerts == []
+    assert conn.assigns.all_alerts == []
     assert conn.assigns.upcoming_alerts == []
     assert conn.assigns.alerts == []
-    assert conn.assigns.notices == []
   end
 
   test "includes alerts which only match the route type" do
@@ -56,8 +54,7 @@ defmodule Site.Plugs.AlertsTest do
 
       conn = build_conn
       |> assign(:date, date)
-      |> assign(:all_alerts, alerts)
-      |> Alerts.call([])
+      |> Alerts.call(fn -> alerts end)
 
       sorted = alerts
       |> Enum.sort_by(&(&1.id))
@@ -66,7 +63,8 @@ defmodule Site.Plugs.AlertsTest do
       |> Enum.sort_by(&(&1.updated_at))
       |> Enum.reverse
 
-      conn.assigns.notices == sorted
+      assert conn.assigns.all_alerts == sorted
+      assert conn.assigns.alerts == sorted
     end
   end
 end

@@ -44,8 +44,3 @@
     %>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12">
-    <%= Site.AlertView.inline @conn, alerts: stop_alerts_for(@alerts, [@origin, @destination], route: @route.id, route_type: @route.type, time: @datetime), time: @datetime %>
-  </div>
-</div>

@@ -1,7 +1,7 @@
 <div class="row schedule-route-name">
   <%= mode_icon(@route) %>
   <div class="schedule-route-name-container">
-    <h1><%= header_text(@route."type", @route."name") %></h1>
+    <h1><%= route_header_text(@route) %></h1>
     <%= render "_date.html", date: @date, conn: @conn %>
   </div>
 </div>

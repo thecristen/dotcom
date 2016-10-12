@@ -55,10 +55,17 @@ defmodule Routes.RepoTest do
 
   end
 
-  test "by_type/1 only returns routes of a given type" do
-    one = Routes.Repo.by_type(1)
-    assert one |> Enum.all?(fn route -> route.type == 1 end)
-    assert one != []
+  describe "by_type/1" do
+    test "only returns routes of a given type" do
+      one = Routes.Repo.by_type(1)
+      assert one |> Enum.all?(fn route -> route.type == 1 end)
+      assert one != []
+      assert one == Routes.Repo.by_type([1])
+    end
+
+    test "filtering by a list keeps the routes in their global order" do
+      assert Routes.Repo.by_type([0, 1, 2, 3, 4]) == Routes.Repo.all
+    end
   end
 
   test "get/1 returns a single route" do

@@ -1,8 +1,5 @@
 <div class="t-alerts-container">
-  <hr>
-  <%= link to: redirect_path(@conn, "rider_tools/t_alerts/") do %>
+  <%= link to: redirect_path(Site.Endpoint, "rider_tools/t_alerts/"), target: "_blank" do %>
     Sign up for T-Alerts <%= fa "mobile" %> <%= fa "envelope" %>
-    <%= fa "angle-right fa-pull-right" %>
   <% end %>
-  <hr>
 </div>

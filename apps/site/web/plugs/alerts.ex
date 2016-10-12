@@ -4,10 +4,8 @@ defmodule Site.Plugs.Alerts do
   Assigns some variables to the conn for relevant alerts:
 
   * all_alerts: any alert, regardless of time, that matches a query parameter
-  * current_alerts: currently valid alerts/notices (current based on date parameter)
+  * alerts: currently valid alerts/notices (current based on date parameter)
   * upcoming alerts: alerts/notices that will be valid some other time
-  * alerts: current valid alerts
-  * notices: currently valid notices, followed by upcoming alerts
   """
   import Plug.Conn, only: [assign: 3]
 
@@ -18,7 +16,6 @@ defmodule Site.Plugs.Alerts do
     conn
     |> assign_all_alerts(alert_fn)
     |> assign_current_upcoming
-    |> assign_alerts_notices
   end
 
   defp assign_all_alerts(conn, alert_fn) do
@@ -43,26 +40,8 @@ defmodule Site.Plugs.Alerts do
     end)
 
     conn
-    |> assign(:current_alerts, current_alerts |> sort)
-    |> assign(:upcoming_alerts, upcoming_alerts |> sort)
-  end
-
-  defp assign_alerts_notices(%{assigns: %{
-                                  date: date,
-                                  current_alerts: current_alerts,
-                                  upcoming_alerts: upcoming_alerts
-                               }} = conn) do
-    {notices, alerts} = current_alerts
-    |> Enum.partition(fn alert -> Alerts.Alert.is_notice?(alert, date) end)
-
-    # put anything upcoming in the notices block, but at the end
-    notices = [notices, upcoming_alerts]
-    |> Enum.concat
-    |> Enum.uniq
-
-    conn
-    |> assign(:notices, notices |> sort)
-    |> assign(:alerts, alerts |> sort)
+    |> assign(:alerts, current_alerts)
+    |> assign(:upcoming_alerts, upcoming_alerts)
   end
 
   defp alerts(%{assigns: %{all_alerts: all_alerts}}, _) when is_list(all_alerts) do
@@ -76,6 +55,7 @@ defmodule Site.Plugs.Alerts do
   end
   defp alerts(_, alert_fn) do
     alert_fn.()
+    |> sort
   end
 
   defp alerts_from_params(params, alert_fn) do
@@ -99,6 +79,7 @@ defmodule Site.Plugs.Alerts do
 
     alert_fn.()
     |> Alerts.Match.match(entities)
+    |> sort
   end
 
   defp direction_id(nil) do

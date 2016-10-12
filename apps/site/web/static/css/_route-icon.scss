@@ -4,19 +4,19 @@
   display: inline-block;
   width: $route-icon-diameter;
   height: $route-icon-diameter;
-  padding: 5px;
+  padding: $route-icon-diameter / 7.2; // 5px
   border-radius: 50%;
   float: left;
-  margin: -0.5rem 12px 0 2px;
+  margin: -.5rem .75rem 0 .125rem;
 
   svg {
-    width: 26px;
-    height: 26px;
+    height: 100%;
+    width: 100%;
   }
 }
 
-.route-icon-commuter-rail {
-  background-color: $brand-commuter-rail;
+.route-icon-commuter {
+  background-color: $brand-commuter;
 }
 
 .route-icon-bus {
@@ -52,11 +52,16 @@
 
 .route-icon-the-ride {
   svg {
-    width: 36px;
-    height: 36px;
+    height: 2.25rem;
+    width: 2.25rem;
   }
+
   padding: 0;
   background-color: $brand-the-ride;
+}
+
+.route-icon-access {
+  background-color: $brand-primary;
 }
 
 .fa-color-subway-blue {
