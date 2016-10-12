@@ -74,7 +74,7 @@ def main():
             for (k, v) in sorted(d.items()):
                 if not v:
                     continue
-                print("%s: '%s'" % (k.lower(), v), file=post)
+                print("%s: '%s'" % (k.lower(), v.replace("'", "\\'")), file=post)
             print('---', file=post)
             print(body, file=post)
 

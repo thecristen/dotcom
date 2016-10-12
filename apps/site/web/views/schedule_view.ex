@@ -44,14 +44,6 @@ defmodule Site.ScheduleView do
     schedule_path(conn, :show, route, new_query |> Enum.into([]))
   end
 
-  @doc """
-  Puts the conn into the assigns dictionary so that downstream templates can use it
-  """
-  def forward_assigns(%{assigns: assigns} = conn) do
-    assigns
-    |> Dict.put(:conn, conn)
-  end
-
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
 

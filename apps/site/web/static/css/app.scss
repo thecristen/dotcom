@@ -42,20 +42,6 @@ body {
   }
 }
 
-@include media-breakpoint-up(md) {
-  // we only need the BG image if the screen is big enough
-  .not-found {
-    background-image: url('/images/mbta-train-bkg-404.jpg');
-  }
-
-  body {
-    background-attachment: fixed;
-    background-image: url('/images/mbta-train-bkg.jpg');
-    background-repeat: no-repeat;
-    background-size: 100%;
-  }
-}
-
 .header {
   background-color: $white;
 }
@@ -84,6 +70,14 @@ body {
 
 .alert:empty {
   display: none;
+}
+
+.bg-gray-light {
+  background-color: $gray-light;
+}
+
+.d-block {
+  display: block;
 }
 
 @include media-breakpoint-down(sm) {

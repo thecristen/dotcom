@@ -38,14 +38,8 @@
   $alert-route-icon-diameter: 1.5rem;
 
   .route-icon {
-    float: none;
-    height: $alert-route-icon-diameter;
-    margin: 0 $space-6 0 0;
-    padding: $space-4;
-    vertical-align: sub;
-    width: $alert-route-icon-diameter;
+    @include route-icon($alert-route-icon-diameter, $space-4);
   }
-
 }
 
 .alert-show-btn-selected {
@@ -182,6 +176,7 @@
   @include media-breakpoint-up(sm) {
     max-width: 91%;
   }
+
 }
 
 .alert-list-header {
@@ -197,17 +192,16 @@
   &.fixedsticky-on {
     width: calc(100% - 1.5rem - 2px);
 
-    // could calculate these... -ps
-    @include media-breakpoint-up(sm) {
-      width: 550px;
-    }
-
     @include media-breakpoint-up(md) {
-      width: 658px;
+      width: map-get($container-max-widths, md) + 2px - 16px * 4;
     }
 
     @include media-breakpoint-up(lg) {
-      width: 706px;
+      width: map-get($container-max-widths, lg) + 2px - 16px * 4;
+    }
+
+    @include media-breakpoint-up(xxl) {
+      width: map-get($container-max-widths, xxl) + 2px - 18px * 5;
     }
   }
 }
@@ -220,6 +214,9 @@
 
   @include media-breakpoint-up(sm) {
     max-width: 25rem;
+  }
+
+  @include media-breakpoint-up(md) {
   }
 }
 
@@ -283,12 +280,22 @@
   }
 }
 
-.alert-item-content {
+.alert-item-effect-container {
   display: block;
   float: left;
   line-height: 1.7;
   margin-top: -.3rem;
-  width: calc(100% - 2.25rem);
+  width: 100%;
+
+  > .alert-item-icon {
+    margin-top: .1rem;
+  }
+}
+
+.alert-item-body-container {
+  @include media-breakpoint-up(lg) {
+    width: 75%;
+  }
 }
 
 .alert-item-body {

@@ -117,7 +117,7 @@ defmodule Routes.Repo do
       id: id,
       type: attributes["type"],
       name: name(attributes),
-      key_route?: key_route?(attributes["description"])
+      key_route?: key_route?(name(attributes), attributes["description"])
     }
   end
 
@@ -125,9 +125,9 @@ defmodule Routes.Repo do
   defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
   defp name(%{"long_name" => long_name}), do: long_name
 
-  defp key_route?("Key Bus Route (Frequent Service)"), do: true
-  defp key_route?("Rapid Transit"), do: true
-  defp key_route?(_), do: false
+  defp key_route?(_, "Key Bus Route (Frequent Service)"), do: true
+  defp key_route?(name, "Rapid Transit") when name != "Mattapan Trolley", do: true
+  defp key_route?(_, _), do: false
 
   defp direction_headsign_pair_from_trip(%JsonApi.Item{attributes: %{"headsign" => ""}}) do
     # empty headsign, don't count it for the pair

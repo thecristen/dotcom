@@ -1,43 +1,13 @@
 @import 'variables';
 
-.schedule-route-name {
-  margin-bottom: 1rem;
-
-  > div {
-    display: inline-block;
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  .route-icon {
-    position: relative;
-    top: .75rem;
-  }
+.schedule-route-name-container {
+  padding-bottom: 1rem;
 }
 
 .form-control.schedule-route-selector {
   // leave room for the route icon
   max-width: 80%;
   float: left;
-}
-
-.card-header.schedule-header {
-  @include media-breakpoint-down(sm) {
-    padding-left: $space-12;
-    padding-right: $space-12;
-  }
-  @include media-breakpoint-up(md) {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
-  }
-
-  // override for stop alert lower border
-  .alert-inline:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
 }
 
 .schedule-separator {
@@ -58,26 +28,26 @@
 .schedule-callout {
   background-color: $gray-lightest;
   border-radius: 0;
-  font-size: $font-size-sm;
   margin-bottom: .75rem;
   padding: .5em;
 
   @include media-breakpoint-down(xs) {
     margin: .5em auto;
+    font-size: $font-size-sm;
+
+    button {
+      font-size: $font-size-sm;
+    }
   }
 
   button {
-    font-size: $font-size-sm;
     line-height: 1;
     padding: 0;
   }
 }
 
-.card-block.schedule-block {
-  @include media-breakpoint-down(sm) {
-    padding-left: $space-12;
-    padding-right: $space-12;
-  }
+.schedule-block {
+  padding-top: $space-12;
 }
 
 .schedule-list-group {
@@ -270,24 +240,24 @@ a {
 .trip-stop {
   position: relative;
   margin-bottom: 0;
-  padding-bottom: 1px;
-  padding-left: 10px;
+  padding-bottom: $space-1;
+  padding-left: .625rem;
   list-style: none;
 
   &:before {
     content: "";
     position: absolute;
-    left: -11px;
-    border-left: 3px solid $brand-primary-dark;
+    left: -1 * $space-12;
+    border-left: $space-4 solid $brand-primary-dark;
     height: 100%;
-    width: 1px;
+    width: $space-1;
   }
 
   &:first-child:before {
-    top: 6px;
+    top: $space-6;
   }
   &:last-child:before {
-    height: 6px;
+    height: $space-6;
   }
 }
 
@@ -303,31 +273,9 @@ a {
 }
 
 .trip-stop-suffix {
-  display: block;
-}
-
-.card-header.hub-header {
- @include media-breakpoint-down(sm) {
-   padding-left: .25em;
-   padding-right: .25em;
-
-   .route-icon {
-     margin-top: 0;
-   }
-
-   .route-icon + strong {
-     display: inline-block;
-     margin-top: .25em;
-   }
-
-   .route-icon-commuter + strong {
-     display: inline;
-   }
- }
- @include media-breakpoint-up(md) {
-   padding-left: 1em;
-   padding-right: 1em;
- }
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
 }
 
 .direction-btn-group {
@@ -373,7 +321,7 @@ a {
 @include media-breakpoint-up(sm) {
   .row-equal {
     display: table;
-    width: 100%;
+    width: calc(100% + #{$grid-gutter-width / 2});
   }
 
   .col-equal {
@@ -399,4 +347,10 @@ a {
 .schedule-flag {
   color: $brand-danger;
   font-weight: bold;
+}
+
+.schedule-prediction {
+  @include media-breakpoint-down(xs) {
+    display: block;
+  }
 }

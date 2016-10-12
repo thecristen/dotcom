@@ -1,5 +1,5 @@
 <div class="card card-section station">
-  <div class="card-header">
+  <div class="card-block card-block-no-header">
     <div class="p-x-g">
       <h1>
         <%= @station.name %>
@@ -11,8 +11,7 @@
       </h1>
     </div>
     <p class="p-x-g"><%= @station.address %></p>
-  </div>
-  <div class="card-block">
+
     <div class="row p-x-g station-map-container">
       <div class="embed-responsive embed-responsive-21by9">
         <div class="station-info-map">
@@ -22,12 +21,15 @@
                 srcset entry for each width/height pair, as well as a
                 double-width entry for the 2x scaled Google Maps image. %>
             <img
+              class="img-fluid"
               alt=""
-              srcset="<%= [{298, 127},
-                          {353, 151},
-                          {403, 172},
-                          {686, 294},
-                          {734, 313}]
+              srcset="<%= [
+                          {140, 60},
+                          {280, 120},
+                          {340, 146},
+                          {400, 172},
+                          {520, 222}
+                          ]
                           |> Enum.flat_map(fn {width, height} ->
                             [{width, height, 1},
                               {width, height, 2}]
@@ -37,10 +39,10 @@
                             {"#{width * scale}", GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&scale=#{scale}&channel=beta_mbta_station_info&size=#{width}x#{height}")}
                             end)
                           |> Picture.srcset %>"
-              sizes="(min-width: 992px) 734px,
-                     (min-width: 768px) 686px,
-                     (min-width: 576px) 554px,
-                     calc(100vw - 22px)"
+              sizes="(min-width: 1344px) 1099w,
+                     (min-width: 1088px) 734w,
+                     (min-width: 800px) 694w,
+                     calc(100vw - 1.5rem)"
               src="<%= GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@station)}&zoom=16&size=735x314&scale=2") %>"/>
           <% end %>
         </div>

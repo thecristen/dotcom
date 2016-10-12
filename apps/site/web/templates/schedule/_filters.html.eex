@@ -1,10 +1,8 @@
 <div class="row row-equal">
   <div class="col-xs-12 col-sm-6 col-equal">
-    <% label_text = if is_nil(@destination) do
-        "Showing departure times from:"
-        else
+    <% label_text =
         "Departure times from:"
-        end %>
+        %>
     <%= render "_stop_selector.html",
         conn: @conn,
         query_key: "origin",

@@ -122,11 +122,11 @@ defmodule Site.ViewHelpers do
                                 # WIDTH SPACE afer
   end
 
-  def route_spacing_class(0), do: "col-xs-6 col-md-3"
-  def route_spacing_class(1), do: "col-xs-6 col-md-3"
-  def route_spacing_class(2), do: "col-xs-12 col-sm-6 col-md-4"
+  def route_spacing_class(0), do: "col-xs-6 col-md-3 col-lg-2"
+  def route_spacing_class(1), do: "col-xs-6 col-md-3 col-lg-2"
+  def route_spacing_class(2), do: "col-xs-12 col-sm-6 col-md-4 col-xxl-3"
   def route_spacing_class(3), do: "col-xs-4 col-sm-3 col-md-2"
-  def route_spacing_class(4), do: "col-xs-12 col-sm-6 col-md-4"
+  def route_spacing_class(4), do: "col-xs-12 col-sm-6 col-md-4 col-xxl-3"
 
   def user_agent(conn) do
     case get_req_header(conn, "user-agent") do
@@ -162,5 +162,13 @@ defmodule Site.ViewHelpers do
 
   defp hidden_tag({key, value}) do
     tag :input, type: "hidden", name: key, value: value
+  end
+
+  @doc """
+  Puts the conn into the assigns dictionary so that downstream templates can use it
+  """
+  def forward_assigns(%{assigns: assigns} = conn) do
+    assigns
+    |> Dict.put(:conn, conn)
   end
 end

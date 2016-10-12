@@ -1,6 +1,6 @@
 <div class="card card-section">
   <div class="card-header">
-    <h3>Service Alerts and Notices</h3>
+    <h1>Service Alerts and Notices</h1>
     <nav class="collapse navbar-toggleable-sm" id="modes" role="navigation">
       <div class="btn-group alert-show-btn-group">
         <%= for {name, display} <- [
@@ -55,7 +55,7 @@
     <% end %>
     <div class="alert-show-row">
       <div class="t-alert-container-big">
-        <strong>Sign Up For T-Alerts</strong>
+        <h2 class="h3">Sign Up For T-Alerts</h2>
         <p>T-Alerts lets you sign up to receive notifications of delays and disruptions, as well as advanced notice of planned service changes, by e-mail or text message (SMS). </p>
         <p>
           <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank", class: "btn" do %>

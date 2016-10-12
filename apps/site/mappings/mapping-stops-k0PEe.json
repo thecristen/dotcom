@@ -1,0 +1,19 @@
+{
+  "uuid" : "c308f078-7214-3c14-8ec5-bb3573f56af8",
+  "request" : {
+    "url" : "/stops/?route=CR-Franklin&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-k0PEe.json",
+    "headers" : {
+      "Server" : "nginx/1.8.1",
+      "Date" : "Fri, 14 Oct 2016 19:48:29 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "frc60l5cr3ck6nrrr1rrt5osdntjdkca"
+    }
+  }
+}
