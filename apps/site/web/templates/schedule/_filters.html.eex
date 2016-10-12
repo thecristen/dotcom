@@ -10,6 +10,7 @@
         query_key: "origin",
         selected: @origin || @from.id,
         all_stops: @all_stops,
+        key_stops: [],
         label_text: label_text,
         change_text: "Change Departure",
         disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route.id) |> String.downcase} stop"}) %>
@@ -31,6 +32,7 @@
         query_key: "dest",
         selected: @destination,
         all_stops: @all_stops,
+        key_stops: [],
         label_text: "Arriving at:",
         change_text: "Change Arrival",
         include_empty?: true,

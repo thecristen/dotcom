@@ -104,7 +104,19 @@ function modalHidden(ev, $) {
 
 // public so that it can be re-run separately from the global event handlers
 export function convertSelects($) {
-  $("select[data-select-modal]").each((_index, el) => {
+  $("select[data-select-modal][data-no-conversion]").each((_index, el) => {
+    const $el = $(el),
+          $cover = $(`<div data-select-modal=${$el.attr('name')}/>`)
+            .addClass('select-cover')
+            .css({
+              width: $el.outerWidth(),
+              height: $el.outerHeight(),
+              background: "rgba(0, 0, 0, 0)",
+              position: "absolute"
+            });
+    $el.before($cover).removeAttr('data-select-modal');
+  });
+  $("select[data-select-modal]:not([data-no-conversion])").each((_index, el) => {
     // creates a text container (based on the select value) and a button
     // (based on the text of the submit button for the form).
     const $el = $(el),
@@ -204,6 +216,12 @@ function dataFromOption($) {
     if ($option.attr('disabled')) {
       data.disabled = true;
     }
+    if ($option.data('key-option')) {
+      data.keyOption = true;
+    }
+    if ($option.data('suffix')) {
+      data.suffix = $option.data('suffix');
+    }
     return data;
   };
 }
@@ -222,13 +240,15 @@ function renderOption(option) {
     'list-group-item',
     'list-group-item-flush',
     option.selected ? 'selected' : '',
-    option.disabled ? 'disabled' : ''
+    option.disabled ? 'disabled' : '',
+    option.keyOption ? 'key-option' : ''
   ].join(' ');
   return `
 <button class='${className}' data-value='${option.value}' ${option.disabled ? 'disabled' : ''}>
   <div class='select-modal-option-name'>
     ${option.selected ? '<span class="fa fa-check-circle" aria-hidden=true/>': ''}
     ${option.html}
+    ${option.suffix ? '<span class="pull-xs-right font-weight-normal">' + option.suffix + '</span>' : ''}
   </div>
 </button>
 `;

@@ -52,22 +52,8 @@ defmodule Site.ScheduleView do
     |> Dict.put(:conn, conn)
   end
 
-  def hidden_query_params(conn, opts \\ []) do
-    exclude = Keyword.get(opts, :exclude, [])
-    include = Keyword.get(opts, :include, %{})
-    conn.query_params
-    |> Map.merge(include)
-    |> Enum.reject(fn {key, _} -> key in exclude end)
-    |> Enum.uniq_by(fn {key, _} -> to_string(key) end)
-    |> Enum.map(&hidden_tag/1)
-  end
-
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
-
-  defp hidden_tag({key, value}) do
-    tag :input, type: "hidden", name: key, value: value
-  end
 
   @doc "Link a station's name to its page, if it exists. Otherwise, just returns the name."
   def station_name_as_link(station) do

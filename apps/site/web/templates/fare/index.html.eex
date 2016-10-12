@@ -1,8 +1,34 @@
-<div class="card card-section p-x-1">
+<div class="card card-section p-x-1 m-t-1">
   <h1>Commuter Rail Fares</h1>
 
   <h2>Find a Fare</h2>
   Fares for the commuter rail are separated into zones that depend on your origin and destination.
+
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <%= render "_stop_selector.html",
+      conn: @conn,
+      query_key: "origin",
+      selected: @origin,
+      all_stops: @origin_stops,
+      key_stops: @key_stops,
+      label_text: "Origin"
+      %>
+    </div>
+
+    <%= unless @origin == nil do %>
+      <div class="col-xs-12 col-md-6">
+        <%= render "_stop_selector.html",
+        conn: @conn,
+        query_key: "destination",
+        selected: @destination,
+        all_stops: @destination_stops,
+        key_stops: [],
+        label_text: "Destination"
+        %>
+      </div>
+    <% end %>
+  </div>
 
   <div class="m-t-1">
     <h2>Purchasing Tickets or Passes</h2>
