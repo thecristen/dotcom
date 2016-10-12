@@ -71,4 +71,65 @@ defmodule Fares.RepoTest do
       ]
     end
   end
+
+  describe "mapper/1" do
+    assert Repo.ZoneFares.mapper(["commuter", "zone_1a","2.25","1.10","84.50"]) == [
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: 225},
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: :student,
+        cents: 110},
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: :senior_disabled,
+        cents: 110},
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :month,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: 8450},
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :month,
+        pass_type: :mticket,
+        reduced: nil,
+        cents: 7450},
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: 450},
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: :student,
+        cents: 220},
+      %Fare{
+        name: {:zone, "1A"},
+        mode: :commuter,
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: :senior_disabled,
+        cents: 220},
+    ]
+  end
 end

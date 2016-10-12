@@ -1,0 +1,52 @@
+.tab {
+  color: #ffffff;
+  background-color: #1c77c3;
+}
+
+.fares-box {
+  border:solid 3px #1c77c3;
+  padding: .75rem;
+}
+.fare-name {
+  display:inline-block;
+  padding: .5rem 0;
+  width: 50%;
+}
+
+.fare-price {
+  display: inline-block;
+  text-align: center;
+  padding: .5em;
+  background-color: #e9eaed;
+  float: right;
+}
+
+.fares-box-column {
+  padding: .5rem;
+
+}
+
+.fares-mode-icon {
+  text-align: center;
+
+  .route-icon {
+    float: none;
+  }
+}
+.fares-ticket-type {
+  clear: both;
+}
+.fares-box > .row > .fares-box-column:first-child {
+  border-right: 1px solid $gray-lightest
+}
+
+.fares-box > .row:first-child > .fares-box-column {
+  border-bottom: 1px solid $gray-lightest
+}
+
+
+
+.fares-box > .row:last-child > .fares-box-column > .fares-mode-icon {
+  margin-top: .5rem;
+  width: 100%;
+}

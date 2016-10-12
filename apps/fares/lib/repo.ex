@@ -10,37 +10,60 @@ defmodule Fares.Repo.ZoneFares do
 
   @lint {Credo.Check.Refactor.ABCSize, false}
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
-    name = String.to_atom(zone)
     mode = :commuter
     [
       %Fare{
         mode: mode,
-        name: name,
+        name: commuter_rail_fare_name(zone),
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(single_trip)},
       %Fare{
         mode: mode,
-        name: name,
+        name: commuter_rail_fare_name(zone),
         duration: :single_trip,
         pass_type: :ticket,
         reduced: :student,
         cents: dollars_to_cents(single_trip_reduced)},
       %Fare{
         mode: mode,
-        name: name,
+        name: commuter_rail_fare_name(zone),
         duration: :single_trip,
         pass_type: :ticket,
         reduced: :senior_disabled,
         cents: dollars_to_cents(single_trip_reduced)},
       %Fare{
         mode: mode,
-        name: name,
+        name: commuter_rail_fare_name(zone),
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(monthly)}
+        cents: dollars_to_cents(monthly)},
+      %Fare{
+        name: commuter_rail_fare_name(zone),
+        duration: :month,
+        pass_type: :mticket,
+        reduced: nil,
+        cents: round(String.to_float(monthly) * 100) - 1000},
+      %Fare{
+        name: commuter_rail_fare_name(zone),
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: round(String.to_float(single_trip) * 2 * 100)},
+      %Fare{
+        name: commuter_rail_fare_name(zone),
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: :student,
+        cents: round(String.to_float(single_trip_reduced) * 2 * 100)},
+      %Fare{
+        name: commuter_rail_fare_name(zone),
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: :senior_disabled,
+        cents: round(String.to_float(single_trip_reduced) * 2 * 100)}
     ]
   end
   def mapper([
@@ -212,6 +235,12 @@ defmodule Fares.Repo.ZoneFares do
         cents: dollars_to_cents(month_pass_price)
       }
     ]
+  end
+
+  defp commuter_rail_fare_name(zone) do
+    name = zone
+           |> String.split("_")
+    {String.to_atom(List.first(name)), String.upcase(List.last(name))}
   end
 
   defp dollars_to_cents(dollars) do

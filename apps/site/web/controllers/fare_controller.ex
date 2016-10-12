@@ -2,7 +2,11 @@ defmodule Site.FareController do
   use Site.Web, :controller
 
   def index(conn, _params) do
+    fare_name = Fares.calculate(Zones.Repo.get(conn.params["origin"]), Zones.Repo.get(conn.params["destination"]))
+
     conn
+    |> assign(:fare_zone, fare_name)
+    |> assign(:fares, Fares.Repo.all(name: fare_name))
     |> assign_params
     |> assign_origin_stops
     |> assign_destination_stops

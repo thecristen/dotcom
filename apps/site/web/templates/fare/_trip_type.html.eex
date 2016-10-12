@@ -1,0 +1,11 @@
+<div class="col-md-6 fares-box-column">
+  <div class="fares-mode-icon">
+    <%= mode_icon(:commuter_rail) %>
+    <%= fare_duration(@fare.duration) %>
+  </div>
+  <div class="fares-ticket-type">
+    <h3 class="fare-name"><%= zone_name(@conn.params["origin"], @conn.params["destination"]) %> <%= fare_duration(@fare.duration) %> </h3>
+    <p class="fare-price"><%= fare_price(@fare) %></p>
+  </div>
+  <p><%= description(@fare) %></p>
+</div>
