@@ -6,15 +6,11 @@ defmodule Site.FareViewTest do
   @fares Fares.Repo.all
 
   test "zone_name gets the name of the zone for the fare given two stops" do
-    assert FareView.zone_name("place-sstat", "Anderson/ Woburn") == "Zone 2"
+    assert FareView.zone_name(:zone_2) == "Zone 2"
   end
 
   test "fare price gets a string version of the price formmated nicely" do
-    fare = @fares
-    |> Fares.Repo.filter(%{duration: :single_trip, name: :zone_5})
-    |> List.first
-
-    assert FareView.fare_price(fare) == "$9.25"
+    assert FareView.fare_price(925) == "$9.25"
   end
 
   test "fare duration is '1 Month' for a monthly fare" do

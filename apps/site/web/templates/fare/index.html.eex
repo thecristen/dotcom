@@ -39,8 +39,8 @@
 
     <div class="container">
       <div class="row">
-        <div class="p-a-1 col-md-3 col-xs-12 tab" >
-          <%= zone_name(@conn.params["origin"], @conn.params["destination"]) %> Adult Fares
+        <div class="p-a-1 col-md-3 col-xs-12 fares-tab" >
+          <%= zone_name(List.first(@fares).name) %> Adult Fares
         </div>
       </div>
 

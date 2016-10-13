@@ -1,20 +1,15 @@
 defmodule Site.FareView do
   use Site.Web, :view
 
-  def zone_name(origin, destination) do
-    origin_zone = Zones.Repo.get(origin)
-    destination_zone = Zones.Repo.get(destination)
-
-    zone_atom = Fares.calculate(origin_zone, destination_zone)
-
+  def zone_name(zone_atom) do
     zone_atom
     |> Atom.to_string
     |> String.capitalize
     |> String.replace("_", " ")
   end
 
-  def fare_price(fare) do
-    "$#{Float.to_string(fare.cents / 100, decimals: 2)}"
+  def fare_price(fare_in_cents) do
+    "$#{Float.to_string(fare_in_cents / 100, decimals: 2)}"
   end
 
   def fare_duration(:month) do

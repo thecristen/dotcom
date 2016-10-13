@@ -1,4 +1,4 @@
-.tab {
+.fares-tab {
   background-color: $brand-primary;
   color: $white;
 }
@@ -36,8 +36,8 @@
 }
 
 .fares-mode-icon {
-  text-align: center;
   margin-top: .5rem;
+  text-align: center;
   width: 100%;
 
   .route-icon {
@@ -55,7 +55,7 @@
   line-height: 1.5;
 }
 
-.mode-icon-group {
+.fares-mode-icon-group {
   margin-left: -30px;
 }
 

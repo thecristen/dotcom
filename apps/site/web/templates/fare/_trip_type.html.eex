@@ -1,18 +1,18 @@
 <div class="col-md-6 fares-box-column">
   <div class="fares-mode-icon">
     <%= if @fare.duration == :month && @fare.pass_type == :ticket do %>
-      <span class="mode-icon-group"><%= mode_icon(:commuter) %></span>
-      <span class="mode-icon-group"><%= mode_icon(:subway) %></span>
-      <span class="mode-icon-group"><%= mode_icon(:bus) %></span>
-      <span class="mode-icon-group"><%= mode_icon(:boat) %></span>
+      <span class="fares-mode-icon-group"><%= mode_icon(:commuter) %></span>
+      <span class="fares-mode-icon-group"><%= mode_icon(:subway) %></span>
+      <span class="fares-mode-icon-group"><%= mode_icon(:bus) %></span>
+      <span class="fares-mode-icon-group"><%= mode_icon(:boat) %></span>
     <% else %>
       <%= mode_icon(:commuter) %>
     <% end %>
     <span class="fare-duration"><%= fare_duration(@fare.duration) %></span>
   </div>
   <div class="fares-ticket-type">
-    <h3 class="fare-name"><%= zone_name(@conn.params["origin"], @conn.params["destination"]) %> <%= fare_duration(@fare.duration) %> </h3>
-    <p class="fare-price"><%= fare_price(@fare) %></p>
+    <h3 class="fare-name"><%= zone_name(@fare.name) %> <%= fare_duration(@fare.duration) %> </h3>
+    <p class="fare-price"><%= fare_price(@fare.cents) %></p>
   </div>
   <p><%= description(@fare) %></p>
 </div>
