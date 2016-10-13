@@ -5,7 +5,6 @@ defmodule Site.FareController do
     fare_name = Fares.calculate(Zones.Repo.get(conn.params["origin"]), Zones.Repo.get(conn.params["destination"]))
 
     conn
-    |> assign(:fare_zone, fare_name)
     |> assign(:fares, Fares.Repo.all(name: fare_name))
     |> assign_params
     |> assign_origin_stops

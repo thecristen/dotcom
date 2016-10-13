@@ -41,24 +41,28 @@ defmodule Fares.Repo.ZoneFares do
         reduced: nil,
         cents: dollars_to_cents(monthly)},
       %Fare{
+        mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :month,
         pass_type: :mticket,
         reduced: nil,
         cents: round(String.to_float(monthly) * 100) - 1000},
       %Fare{
+        mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: round(String.to_float(single_trip) * 2 * 100)},
       %Fare{
+        mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,
         reduced: :student,
         cents: round(String.to_float(single_trip_reduced) * 2 * 100)},
       %Fare{
+        mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,

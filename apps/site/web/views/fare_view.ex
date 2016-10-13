@@ -1,11 +1,8 @@
 defmodule Site.FareView do
   use Site.Web, :view
 
-  def zone_name(zone_atom) do
-    zone_atom
-    |> Atom.to_string
-    |> String.capitalize
-    |> String.replace("_", " ")
+  def zone_name({zone, number}) do
+    "#{String.capitalize(Atom.to_string(zone))} #{number}"
   end
 
   def fare_price(fare_in_cents) do
@@ -28,17 +25,17 @@ defmodule Site.FareView do
   def description(%Fare{duration: :round_trip}) do
     "Valid for Commuter Rail only."
   end
-  def description(%Fare{duration: :month, pass_type: :mticket, number: "1A"}) do
+  def description(%Fare{duration: :month, pass_type: :mticket, name: {_, "1A"}}) do
     "Valid for one calendar month of travel on the commuter rail in zone 1A only."
   end
-  def description(%Fare{duration: :month, pass_type: :mticket, number: number}) do
+  def description(%Fare{duration: :month, pass_type: :mticket, name: {_zone, number}}) do
     "Valid for one calendar month of travel on the commuter rail from zones 1A-#{number} only."
   end
-  def description(%Fare{duration: :month, number: "1A"}) do
+  def description(%Fare{duration: :month, name: {_, "1A"}}) do
     "Valid for one calendar month of unlimited travel on Commuter Rail in zone 1A as well as Local Bus, Subway, " <>
     "Express Bus, and the Charlestown Ferry."
   end
-  def description(%Fare{duration: :month, number: number}) do
+  def description(%Fare{duration: :month, name: {_zone, number}}) do
     "Valid for one calendar month of unlimited travel on Commuter Rail from Zones 1A-#{number} as well as Local " <>
     "Bus, Subway, Express Bus, and the Charlestown Ferry."
   end
