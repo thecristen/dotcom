@@ -6,10 +6,12 @@ defmodule Site.ScheduleController.DestinationStopsTest do
   def conn_with_route(conn, route_id, opts) do
     conn = conn
     |> assign(:route, %Routes.Route{id: route_id})
-    |> AllStops.call([])
 
-    opts
+    conn = opts
     |> Enum.reduce(conn, fn {key, value}, conn -> assign(conn, key, value) end)
+
+    conn
+    |> AllStops.call([])
   end
 
   test "destination stops are assigned from @from if no origin is present", %{conn: conn} do
@@ -21,9 +23,18 @@ defmodule Site.ScheduleController.DestinationStopsTest do
     assert :excluded_destination_stops in Map.keys(conn.assigns)
   end
 
-  test "destination_stops and all_stops are the same on non-red lines", %{conn: conn} do
+  test "exclusions use normal lines on non-red lines", %{conn: conn} do
     conn = conn
     |> conn_with_route("Green-B", origin: "place-park", direction_id: 1)
+    |> DestinationStops.call([])
+
+    assert conn.assigns.excluded_origin_stops == ["place-lech"]
+    assert conn.assigns.excluded_destination_stops == []
+  end
+
+  test "exclusions use the direction_id to exclude the last stop", %{conn: conn} do
+    conn = conn
+    |> conn_with_route("Green-B", origin: "place-park", direction_id: 0)
     |> DestinationStops.call([])
 
     assert conn.assigns.excluded_origin_stops == ["place-lake"]
