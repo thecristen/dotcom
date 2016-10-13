@@ -8,33 +8,132 @@ defmodule Fares.Repo.ZoneFares do
     |> Enum.flat_map(&mapper/1)
   end
 
-  def mapper([zone, single_trip, single_trip_reduced, monthly]) do
+  @lint {Credo.Check.Refactor.ABCSize, false}
+  def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
+    name = String.to_atom(zone)
+    mode = :commuter
     [
       %Fare{
-        name: String.to_atom(zone),
+        mode: mode,
+        name: name,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
-        cents: round(String.to_float(single_trip) * 100)},
+        cents: dollars_to_cents(single_trip)},
       %Fare{
-        name: String.to_atom(zone),
+        mode: mode,
+        name: name,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: :student,
-        cents: round(String.to_float(single_trip_reduced) * 100)},
+        cents: dollars_to_cents(single_trip_reduced)},
       %Fare{
-        name: String.to_atom(zone),
+        mode: mode,
+        name: name,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: :senior_disabled,
-        cents: round(String.to_float(single_trip_reduced) * 100)},
+        cents: dollars_to_cents(single_trip_reduced)},
       %Fare{
-        name: String.to_atom(zone),
+        mode: mode,
+        name: name,
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
-        cents: round(String.to_float(monthly) * 100)}
+        cents: dollars_to_cents(monthly)}
     ]
+  end
+  def mapper([
+    "subway",
+    charlie_card_price,
+    ticket_price,
+    day_reduced_price,
+    month_reduced_price,
+    day_pass_price,
+    week_pass_price,
+    month_pass_price
+  ]) do
+    [
+      %Fare{
+        mode: :subway,
+        name: :subway_charlie_card,
+        duration: :single_trip,
+        pass_type: :charlie_card,
+        reduced: nil,
+        cents: dollars_to_cents(charlie_card_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_ticket,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(ticket_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_student,
+        duration: :single_trip,
+        pass_type: :charlie_card,
+        reduced: :student,
+        cents: dollars_to_cents(day_reduced_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_senior,
+        duration: :single_trip,
+        pass_type: :charlie_card,
+        reduced: :senior,
+        cents: dollars_to_cents(day_reduced_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_student,
+        duration: :month,
+        pass_type: :charlie_card,
+        reduced: :student,
+        cents: dollars_to_cents(month_reduced_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_senior,
+        duration: :month,
+        pass_type: :charlie_card,
+        reduced: :senior,
+        cents: dollars_to_cents(month_reduced_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_link_pass,
+        duration: :day,
+        pass_type: :link_pass,
+        reduced: nil,
+        cents: dollars_to_cents(day_pass_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_link_pass,
+        duration: :week,
+        pass_type: :link_pass,
+        reduced: nil,
+        cents: dollars_to_cents(week_pass_price)
+      },
+      %Fare{
+        mode: :subway,
+        name: :subway_link_pass,
+        duration: :month,
+        pass_type: :link_pass,
+        reduced: nil,
+        cents: dollars_to_cents(month_pass_price)
+      }
+    ]
+  end
+
+  defp dollars_to_cents(dollars) do
+    dollars
+    |> String.to_float
+    |> Kernel.*(100)
+    |> round
   end
 end
 

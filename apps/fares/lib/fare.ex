@@ -1,22 +1,25 @@
 defmodule Fare do
   @typedoc """
     struct(
+      mode: :commuter | :bus | :subway | :boat,
       name: :zone_1 | :interzone_4 | etc
-      pass_type: :ticket | :charlie_card | :mticket
+      pass_type: :ticket | :charlie_card | :mticket | :link_pass
       reduced: :student | :senior_disabled
-      duration: :single_trip | :month
+      duration: :single_trip | :week | :month
       cents: cost_in_cents
     )
   """
   @type t :: %Fare{
+    mode: :commuter | :bus | :subway | :boat,
     name: atom,
-    pass_type: :ticket | :charlie_card | :mticket,
+    pass_type: :ticket | :charlie_card | :mticket | :link_pass,
     reduced: :student | :senior_disabled,
-    duration: :single_trip | :month,
+    duration: :single_trip | :week | :month,
     cents: non_neg_integer
   }
 
   defstruct [
+    mode: nil,
     name: nil,
     pass_type: nil,
     reduced: nil,
