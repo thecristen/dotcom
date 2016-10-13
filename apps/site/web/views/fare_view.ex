@@ -40,9 +40,11 @@ defmodule Site.FareView do
     "Valid for one calendar month of travel on the commuter rail from zones 1A-#{number} only."
   end
   def description(%Fare{duration: :month, number: "1A"}) do
-    "Valid for one calendar month of unlimited travel on Commuter Rail in zone 1A as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."
+    "Valid for one calendar month of unlimited travel on Commuter Rail in zone 1A as well as Local Bus, Subway, " <>
+    "Express Bus, and the Charlestown Ferry."
   end
   def description(%Fare{duration: :month, number: number}) do
-    "Valid for one calendar month of unlimited travel on Commuter Rail from Zones 1A-#{number} as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."
+    "Valid for one calendar month of unlimited travel on Commuter Rail from Zones 1A-#{number} as well as Local " <>
+    "Bus, Subway, Express Bus, and the Charlestown Ferry."
   end
 end

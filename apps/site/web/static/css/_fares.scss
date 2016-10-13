@@ -1,12 +1,26 @@
 .tab {
-  color: #ffffff;
-  background-color: #1c77c3;
+  background-color: $brand-primary;
+  color: $white;
 }
 
 .fares-box {
-  border:solid 3px #1c77c3;
+  border: solid 3px $brand-primary;
   padding: .75rem;
+
+  .row > .fares-box-column:first-child {
+    border-right: 1px solid $gray-lightest;
+  }
+
+ .row:first-child > .fares-box-column {
+    border-bottom: 1px solid $gray-lightest;
+  }
+
+  .row:last-child > .fares-box-column > .fares-mode-icon {
+    margin-top: .5rem;
+    width: 100%;
+  }
 }
+
 .fare-name {
   display:inline-block;
   padding: .5rem 0;
@@ -17,7 +31,7 @@
   display: inline-block;
   text-align: center;
   padding: .5em;
-  background-color: #e9eaed;
+  background-color: $gray-lightest;
   float: right;
 }
 
@@ -33,20 +47,24 @@
     float: none;
   }
 }
+
 .fares-ticket-type {
   clear: both;
 }
-.fares-box > .row > .fares-box-column:first-child {
-  border-right: 1px solid $gray-lightest
+
+.fare-duration {
+  font-size: 18px;
+  line-height: 1.5;
+  color: $gray-light;
 }
 
-.fares-box > .row:first-child > .fares-box-column {
-  border-bottom: 1px solid $gray-lightest
+.mode-icon-group {
+  margin-left: -30px;
+}
+
+.fare-qualifications {
+  background-color: $gray-lightest;
+  padding: .5rem;
 }
 
 
-
-.fares-box > .row:last-child > .fares-box-column > .fares-mode-icon {
-  margin-top: .5rem;
-  width: 100%;
-}

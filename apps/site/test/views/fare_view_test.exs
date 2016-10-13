@@ -56,13 +56,16 @@ defmodule Site.FareViewTest do
      fare = @fares
      |> Fares.Repo.filter(%{name: :zone_5, duration: :month})
      |> List.first
-     assert FareView.description(fare) == "Valid for one calendar month of unlimited travel on Commuter Rail from Zones 1A-5 as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."
+     assert FareView.description(fare) ==
+       "Valid for one calendar month of unlimited travel on Commuter Rail from " <>
+       "Zones 1A-5 as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."
    end
 
    test "fare description for month mticket describes where it can be used" do
      fare = @fares
      |> Fares.Repo.filter(%{number: "5", duration: :month, pass_type: :mticket})
      |> List.first
-     assert FareView.description(fare) == "Valid for one calendar month of travel on the commuter rail from zones 1A-5 only."
+     assert FareView.description(fare) ==
+       "Valid for one calendar month of travel on the commuter rail from zones 1A-5 only."
    end
 end#
