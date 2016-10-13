@@ -128,6 +128,91 @@ defmodule Fares.Repo.ZoneFares do
       }
     ]
   end
+  def mapper([
+    mode,
+    charlie_card_price,
+    ticket_price,
+    day_reduced_price,
+    month_reduced_price,
+    day_pass_price,
+    week_pass_price,
+    month_pass_price
+  ]) when mode in ["local_bus", "inner_express_bus", "outer_express_bus"] do
+    [
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_charlie_card",
+        duration: :single_trip,
+        pass_type: :charlie_card,
+        reduced: nil,
+        cents: dollars_to_cents(charlie_card_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_ticket",
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(ticket_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_student",
+        duration: :single_trip,
+        pass_type: :charlie_card,
+        reduced: :student,
+        cents: dollars_to_cents(day_reduced_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_senior",
+        duration: :single_trip,
+        pass_type: :charlie_card,
+        reduced: :senior,
+        cents: dollars_to_cents(day_reduced_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_student",
+        duration: :month,
+        pass_type: :charlie_card,
+        reduced: :student,
+        cents: dollars_to_cents(month_reduced_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_senior",
+        duration: :month,
+        pass_type: :charlie_card,
+        reduced: :senior,
+        cents: dollars_to_cents(month_reduced_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_link_pass",
+        duration: :day,
+        pass_type: :link_pass,
+        reduced: nil,
+        cents: dollars_to_cents(day_pass_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_link_pass",
+        duration: :week,
+        pass_type: :link_pass,
+        reduced: nil,
+        cents: dollars_to_cents(week_pass_price)
+      },
+      %Fare{
+        mode: :bus,
+        name: :"#{mode}_link_pass",
+        duration: :month,
+        pass_type: :link_pass,
+        reduced: nil,
+        cents: dollars_to_cents(month_pass_price)
+      }
+    ]
+  end
 
   defp dollars_to_cents(dollars) do
     dollars
