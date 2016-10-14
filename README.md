@@ -42,6 +42,21 @@ Note that all tests will run even if one of them fails, and there is no final
 summary at the end, so pay attention to the output while they're running to
 make sure everything passes.
 
+### Dialyzer
+
+Dialyzer is a static analysis tool which looks at type information. We use it
+verify our type specifcations and make sure we're calling functions properly.
+
+* `mix dialyzer.plt` — builds the Persistent Lookup Table that Dialyzer
+  needs. You should only need to run this once for a given Elixir/OTP
+  version.
+* `mix dialyzer` — Runs the actual type checks.
+
+Currently, there are some spurious "The variable _ can never match ..."
+errors that can be ignored.
+`mix dialyzer | grep -v "variable _ can never match"` is one way to ignore
+them.
+
 ### Other helpful test scripts
 
 All run from the main folder:
