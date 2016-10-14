@@ -1,66 +1,89 @@
-<div class="card card-section p-x-1 m-t-1">
-  <h1>Commuter Rail Fares</h1>
+<div class="card card-section">
+  <div class="card-header">
+    <h1>Commuter Rail Fares</h1>
+  </div>
 
-  <h2>Find a Fare</h2>
-  Fares for the commuter rail are separated into zones that depend on your origin and destination.
-
-  <div class="row">
-    <div class="col-xs-12 col-md-6">
-      <%= render "_stop_selector.html",
-      conn: @conn,
-      query_key: "origin",
-      selected: @origin,
-      all_stops: @origin_stops,
-      key_stops: @key_stops,
-      label_text: "Origin"
-      %>
+  <div class="card-block">
+    <div>
+      <h2>Find a Fare</h2>
+      Fares for the commuter rail are separated into zones that depend on your origin and destination.
     </div>
 
-    <%= unless @origin == nil do %>
+    <div class="row">
       <div class="col-xs-12 col-md-6">
         <%= render "_stop_selector.html",
         conn: @conn,
-        query_key: "destination",
-        selected: @destination,
-        all_stops: @destination_stops,
-        key_stops: [],
-        label_text: "Destination"
+        query_key: "origin",
+        selected: @origin,
+        all_stops: @origin_stops,
+        key_stops: @key_stops,
+        label_text: "Origin"
         %>
       </div>
-    <% end %>
-  </div>
-
-  <div class="m-t-1">
-    <h2>Purchasing Tickets or Passes</h2>
-    <div class="col-md-6 p-x-0">
-      <h3>mTicket App</h3>
-      <p>
-        Commuter rail riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.  Push “activate” right before boarding and show your mTicket to the conductor upon request.
-      </p>
-      <p>
-        Available on the iPhone App Store and Google Play.
-      </p>
-      <h3>Retail Sales Locations</h3>
-      <p>
-        MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
-      </p>
+      <%= unless @origin == nil do %>
+        <div class="col-xs-12 col-md-6">
+          <%= render "_stop_selector.html",
+          conn: @conn,
+          query_key: "destination",
+          selected: @destination,
+          all_stops: @destination_stops,
+          key_stops: [],
+          label_text: "Destination"
+          %>
+        </div>
+      <% end %>
     </div>
 
-    <div class="col-md-6 p-x-0">
-      <h3>Fare Vending Machine</h3>
-      <p>
-        One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
-        North Station, South Station, Back Bay, Porter, Malden, Lynn, Worcester, Ruggles, Forest Hills, JFK/UMass, Quincy Center, Braintree
-      </p>
-      <h3>On-Board</h3>
-      <p>
-        One way or round trip tickets can be purchased on-board by cash.  If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.
-      </p>
+    <div class="fare-qualifications m-y-1">
+      Those who are 12 years of age or older qualify for Adult fare pricing.
     </div>
 
-    <h2>Reduced Fares</h2>
-    <p>
-      Students, seniors, and persons with disabilities are eligible for a reduced fare on single ride and round trip tickets. There are no discounts available for monthly passes.  A student, senior ID, or TAP ID card must be available when purchasing.
-    </p>
+    <div class="row">
+      <div class="p-a-1 col-md-3 col-xs-12 fares-tab" >
+        <%= zone_name(List.first(@fares).name) %> Adult Fares
+      </div>
+    </div>
+
+    <div class="row fares-box">
+      <div class="row">
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :single_trip, reduced: nil})) %>
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :round_trip, reduced: nil})) %>
+      </div>
+
+      <div class="row">
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, reduced: nil})) %>
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, pass_type: :mticket, reduced: nil})) %>
+      </div>
+    </div>
+
+
+    <div class="row m-t-1">
+      <h2>Purchasing Tickets or Passes</h2>
+      <div class="col-md-6 p-x-0">
+        <h3>mTicket App</h3>
+        <p>
+          Commuter rail riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.  Push “activate” right before boarding and show your mTicket to the conductor upon request.
+        </p>
+        <p>
+          Available on the iPhone App Store and Google Play.
+        </p>
+        <h3>Retail Sales Locations</h3>
+        <p>
+          MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
+        </p>
+      </div>
+
+      <div class="col-md-6 p-x-0">
+        <h3>Fare Vending Machine</h3>
+        <p>
+          One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
+          North Station, South Station, Back Bay, Porter, Malden, Lynn, Worcester, Ruggles, Forest Hills, JFK/UMass, Quincy Center, Braintree
+        </p>
+        <h3>On-Board</h3>
+        <p>
+          One way or round trip tickets can be purchased on-board by cash.  If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.
+        </p>
+      </div>
+    </div>
   </div>
 </div>
