@@ -14,44 +14,32 @@ defmodule Site.FareViewTest do
   end
 
   test "fare duration is '1 Month' for a monthly fare" do
-    fare = @fares
-    |> Fares.Repo.filter(%{duration: :month})
-    |> List.first
+    fare = %Fare{duration: :month}
     assert FareView.fare_duration(fare.duration) == "1 Month"
   end
 
    test "fare duration is 'Round Trip' for a round-trip fare" do
-     fare = @fares
-     |> Fares.Repo.filter(%{duration: :round_trip})
-     |> List.first
+     fare = %Fare{duration: :round_trip}
      assert FareView.fare_duration(fare.duration) == "Round Trip"
    end
 
    test "fare duration is 'One Way' for a one-way fare" do
-     fare = @fares
-     |> Fares.Repo.filter(%{duration: :single_trip})
-     |> List.first
+     fare = %Fare{duration: :single_trip}
      assert FareView.fare_duration(fare.duration) == "One Way"
    end
 
    test "fare description for one way is for commuter rail only" do
-     fare = @fares
-     |> Fares.Repo.filter(%{duration: :single_trip})
-     |> List.first
+     fare = %Fare{duration: :single_trip}
      assert FareView.description(fare) == "Valid for Commuter Rail only."
    end
 
    test "fare description for round trip is for commuter rail only" do
-     fare = @fares
-     |> Fares.Repo.filter(%{duration: :round_trip})
-     |> List.first
+     fare = %Fare{duration: :round_trip}
      assert FareView.description(fare) == "Valid for Commuter Rail only."
    end
 
    test "fare description for month is describes the modes it can be used on" do
-     fare = @fares
-     |> Fares.Repo.filter(%{name: {:zone, "5"}, duration: :month})
-     |> List.first
+     fare = %Fare{name: {:zone, "5"}, duration: :month}
 
      assert FareView.description(fare) ==
        "Valid for one calendar month of unlimited travel on Commuter Rail from " <>
@@ -59,10 +47,9 @@ defmodule Site.FareViewTest do
    end
 
    test "fare description for month mticket describes where it can be used" do
-     fare = @fares
-     |> Fares.Repo.filter(%{name: {:zone, "5"}, duration: :month, pass_type: :mticket})
-     |> List.first
+     fare = %Fare{name: {:zone, "5"}, duration: :month, pass_type: :mticket}
+
      assert FareView.description(fare) ==
        "Valid for one calendar month of travel on the commuter rail from zones 1A-5 only."
    end
-end#
+end

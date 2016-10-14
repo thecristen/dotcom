@@ -242,9 +242,10 @@ defmodule Fares.Repo.ZoneFares do
   end
 
   defp commuter_rail_fare_name(zone) do
-    name = zone
-           |> String.split("_")
-    {String.to_atom(List.first(name)), String.upcase(List.last(name))}
+    case String.split(zone, "_") do
+      ["zone", zone] -> {:zone, String.upcase(zone)}
+      ["interzone", zone] -> {:interzone, String.upcase(zone)}
+    end
   end
 
   defp dollars_to_cents(dollars) do

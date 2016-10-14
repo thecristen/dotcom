@@ -11,7 +11,7 @@ defmodule Fare do
   """
   @type t :: %Fare{
     mode: :commuter | :bus | :subway | :boat,
-    name: {atom, String.t{}} | atom,
+    name: {atom, String.t()} | atom,
     pass_type: :ticket | :charlie_card | :mticket | :link_pass,
     reduced: :student | :senior_disabled,
     duration: :single_trip | :week | :month,
