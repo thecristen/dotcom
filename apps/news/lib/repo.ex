@@ -28,7 +28,7 @@ defmodule News.Repo do
     fn
       {:ok, _} -> true
       {:error, err} ->
-        Logger.debug("error in news entry: #{inspect err}")
+        _ = Logger.debug("error in news entry: #{inspect err}")
         false
     end,
     fn {:ok, parsed} -> parsed end)

@@ -64,10 +64,10 @@ defmodule GoogleMaps do
   end
 
   defp append_query(%URI{query: nil} = uri, key, value) do
-    %URI{uri | query: "#{key}=#{value}"}
+    %{uri | query: "#{key}=#{value}"}
   end
-  defp append_query(%URI{query: query} = uri, key, value) do
-    %URI{uri | query: "#{query}&#{key}=#{value}"}
+  defp append_query(%URI{query: query} = uri, key, value) when is_binary(query) do
+    %{uri | query: "#{query}&#{key}=#{value}"}
   end
 
   defp prepend_host(uri) do

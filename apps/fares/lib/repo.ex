@@ -1,4 +1,7 @@
 defmodule Fares.Repo.ZoneFares do
+  alias Fares.Fare
+
+  @spec fare_info() :: [Fare.t]
   def fare_info do
     filename = "priv/zone_fares.csv"
 
@@ -9,6 +12,7 @@ defmodule Fares.Repo.ZoneFares do
   end
 
   @lint {Credo.Check.Refactor.ABCSize, false}
+  @spec mapper([String.t]) :: [Fare.t]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
     mode = :commuter
     [
@@ -260,16 +264,25 @@ defmodule Fares.Repo do
   import Fares.Repo.ZoneFares
   @zone_fares fare_info
 
-  def all(opts \\ []) do
+  alias Fares.Fare
+
+  @spec all() :: [Fare.t]
+  @spec all(Keyword.t) :: [Fare.t]
+  def all() do
     @zone_fares
+  end
+  def all(opts) when is_list(opts) do
+    all
     |> filter(opts)
   end
 
+  @spec filter([Fare.t], Dict.t) :: [Fare.t]
   def filter(fares, opts) do
     fares
-    |> filter_all(Enum.into(opts, %{}))
+    |> filter_all(Map.new(opts))
   end
 
+  @spec filter_all([Fare.t], %{}) :: [Fare.t]
   defp filter_all(fares, opts) do
     Enum.filter(fares, fn fare -> match?(^opts, Map.take(fare, Map.keys(opts))) end)
   end

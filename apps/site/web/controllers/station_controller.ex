@@ -23,12 +23,6 @@ defmodule Site.StationController do
   def grouped_routes(stop_id) do
     stop_id
     |> Routes.Repo.by_stop
-    |> Enum.map(&map_0_type/1)
-    |> Enum.group_by(&(&1.type))
+    |> Routes.Group.group
   end
-
-  defp map_0_type(%{type: 0} = route) do
-    %{route|type: 1}
-  end
-  defp map_0_type(route), do: route
 end

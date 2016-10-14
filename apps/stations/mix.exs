@@ -32,8 +32,6 @@ defmodule Stations.Mixfile do
     [{:httpoison, ">= 0.0.0"},
      {:v3_api, in_umbrella: true},
      {:json_api, in_umbrella: true},
-     {:repo_cache, in_umbrella: true},
-     {:credo, ">= 0.0.0", only: [:dev, :test]},
-     {:dialyxir, ">= 0.0.0", only: [:dev, :test]}]
+     {:repo_cache, in_umbrella: true}]
   end
 end

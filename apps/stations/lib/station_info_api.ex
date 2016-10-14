@@ -5,7 +5,7 @@ defmodule Stations.StationInfoApi do
   use HTTPoison.Base
 
   def all do
-    do_all(get("/stations/"), nil)
+    do_all(get("/stations/"), JsonApi.empty)
   end
 
   def by_gtfs_id(gtfs_id) do
@@ -20,12 +20,7 @@ defmodule Stations.StationInfoApi do
     parsed = body
     |> JsonApi.parse
 
-    new_acc = case acc do
-                nil ->
-                  parsed
-                acc ->
-                  JsonApi.merge(parsed, acc)
-              end
+    new_acc = JsonApi.merge(parsed, acc)
 
     case parsed.links["next"] do
       nil -> new_acc

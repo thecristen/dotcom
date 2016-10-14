@@ -1,4 +1,4 @@
-defmodule Fare do
+defmodule Fares.Fare do
   @typedoc """
     struct(
       mode: :commuter | :bus | :subway | :boat,
@@ -9,7 +9,7 @@ defmodule Fare do
       cents: cost_in_cents
     )
   """
-  @type t :: %Fare{
+  @type t :: %__MODULE__{
     mode: :commuter | :bus | :subway | :boat,
     name: {atom, String.t()} | atom,
     pass_type: :ticket | :charlie_card | :mticket | :link_pass,

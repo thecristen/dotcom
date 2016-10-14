@@ -1,6 +1,6 @@
 defmodule Fares.RepoTest do
   use ExUnit.Case, async: true
-  alias Fares.Repo
+  alias Fares.{Repo, Fare}
 
   describe "filter/1" do
     @fares [

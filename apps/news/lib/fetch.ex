@@ -14,8 +14,8 @@ defmodule News.Fetch do
   end
 
   def handle_info(:timeout, url) do
-    Logger.debug("#{__MODULE__} fetching")
-    url
+    _ = Logger.debug("#{__MODULE__} fetching")
+    :ok = url
     |> HTTPoison.get
     |> unzip_response
     |> update_repo
@@ -34,6 +34,6 @@ defmodule News.Fetch do
     News.Repo.Ets.update(files)
   end
   def update_repo(other) do
-    Logger.info("#{__MODULE__} unknown response for news: #{inspect other}")
+    _ = Logger.info("#{__MODULE__} unknown response for news: #{inspect other}")
   end
 end

@@ -1,17 +1,18 @@
 defmodule Routes.Group do
   @moduledoc """
 
-  Groups a list of Route structures into a map based on their type: Commuter Rail, Bus, or Subway
+  Groups a list of Route structures into a keyword dict based on their type: Commuter Rail, Bus, or Subway
 
   """
   alias Routes.Route
 
-  @spec group([Route]) :: %{String: Route}
+  @spec group([Route]) :: [{Route.route_type, [Route.t]}]
   def group(routes) do
     routes
     |> Enum.reverse
     |> Enum.filter_map(&filter/1, &filter_map/1)
-    |> Enum.reduce(%{}, &reducer/2)
+    |> Enum.reduce([], &reducer/2)
+    |> Enum.sort_by(&sorter/1)
   end
 
   defp filter(%Route{type: 0, id: "Green-B"}), do: true
@@ -19,7 +20,7 @@ defmodule Routes.Group do
   defp filter(_), do: true
 
   defp filter_map(%Route{type: 0, id: "Green" <> _} = route) do
-    %Route{route | name: "Green Line", id: "Green"}
+    %{route | name: "Green Line", id: "Green"}
   end
   defp filter_map(item) do
     item
@@ -30,4 +31,8 @@ defmodule Routes.Group do
     |> Dict.update(Route.type_atom(route), [route], fn(value) -> [route|value] end)
   end
 
+  def sorter({:subway, _}), do: 0
+  def sorter({:commuter, _}), do: 1
+  def sorter({:bus, _}), do: 2
+  def sorter({:boat, _}), do: 3
 end

@@ -61,8 +61,7 @@
     <div class="row p-x-g">
       <div class="col-xs-12">
         <%= for {type, routes} <- @grouped_routes do %>
-          <% route_type = Routes.Route.type_atom(%{type: type}) %>
-          <%= render Site.ModeView, "_mode.html", conn: @conn, route_type: Routes.Route.type_atom(%{type: type}), grouped_routes: %{route_type => routes}, truncate: false %>
+          <%= render Site.ModeView, "_mode.html", conn: @conn, route_type: type, grouped_routes: %{type => routes}, truncate: false %>
           <div class="mode-group-footer">
             <%= link "View #{mode_name type} Fares and Passes »", to: redirect_path @conn, fare_redirect_path(type) %>
           </div>

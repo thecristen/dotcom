@@ -3,7 +3,7 @@ defmodule V3Api do
   require Logger
 
   def get_json(url, params \\ [], timeout \\ 30_000) do
-    Logger.debug("V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}")
+    _ = Logger.debug("V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}")
     with {time, response} <- timed_get(url, params, timeout),
          log_response(url, params, time, response),
          {:ok, %{body: body, status_code: 200}} <- response do
@@ -23,10 +23,11 @@ defmodule V3Api do
   end
 
   defp log_response(url, params, time, response) do
-    Logger.info("V3Api.get_json_response url=#{url} " <>
+    _ = Logger.info("V3Api.get_json_response url=#{url} " <>
       "params=#{params |> Map.new |> Poison.encode!} " <>
       log_body(response) <>
       " duration=#{time / 1000}")
+    :ok
   end
 
   defp log_body({:ok, response}) do
