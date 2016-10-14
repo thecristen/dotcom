@@ -5,7 +5,7 @@
   <span class="schedule-col-pair-notes">
     <%= if route_type == :commuter do %>Train<% else %>Notes<% end %>
   </span>
-  <span class="schedule-col-1">
+  <span class="schedule-col-1 pull-right">
     <%= render "_refresh.html" %>
   </span>
 </div>
@@ -41,11 +41,9 @@
     <%= if prediction do %>
       <span class="col-xs-12">
         <%= render "_prediction.html", prediction: prediction, schedule: origin %>
-      </span>
-    <% end %>
-    <%= if is_selected_period && prediction do %>
-      <span class="col-xs-12">
-        <%= render "_last_updated.html" %>
+        <%= if is_selected_period do %>
+          <%= render "_last_updated.html" %>
+        <% end %>
       </span>
     <% end %>
   </a>

@@ -1,19 +1,29 @@
 {
   "viewports": [
     {
-      "name": "phone",
+      "name": "xs",
       "width": 320,
       "height": 480
     },
     {
-      "name": "tablet_v",
-      "width": 568,
+      "name": "sm",
+      "width": 544,
+      "height": 714
+    },
+    {
+      "name": "md",
+      "width": 800,
       "height": 1024
     },
     {
-      "name": "tablet_h",
-      "width": 1024,
-      "height": 768
+      "name": "lg",
+      "width": 992,
+      "height": 1300
+    },
+    {
+      "name": "xxl",
+      "width": 1236,
+      "height": 1600
     }
   ],
   "scenarios": [
@@ -39,7 +49,7 @@
       "selectors": [
           ".system-map",
           ".mode-group-block",
-          ".card-block > .row > div:last-child",
+          "#fares",
           ".breadcrumb-container"
       ],
       "readyEvent": null,
@@ -109,7 +119,7 @@
     },
     {
       "label": "Commuter Rail Fares",
-      "url": "http://localhost:4001/fares/commuter",
+      "url": "http://localhost:4001/fares/commuter?origin=place-sstat&destination=North+Scituate",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold" : 0.1

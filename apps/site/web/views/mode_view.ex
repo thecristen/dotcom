@@ -2,7 +2,11 @@ defmodule Site.ModeView do
   use Site.Web, :view
 
   def get_route_group(:bus = route_type, route_groups, true) do
-    route_groups[route_type] |> Enum.filter(&(&1.key_route?))
+    route_groups[route_type] |> Enum.filter(&Routes.Route.key_route?/1)
+  end
+
+  def get_route_group(:subway = route_type, route_groups, true) do
+    route_groups[route_type] |> Enum.filter(&Routes.Route.key_route?/1)
   end
 
   def get_route_group(:commuter = route_type, route_groups, _) do

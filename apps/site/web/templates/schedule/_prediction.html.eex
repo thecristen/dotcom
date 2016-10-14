@@ -1,5 +1,5 @@
 <% different_time? = @prediction.time != nil && @schedule.time != nil && !Timex.equal?(@prediction.time, @schedule.time) %>
-<strong <%= if @prediction.status == "All Aboard" do %>style="text-decoration: underline;"<% end %>>
+<strong class="schedule-prediction" <%= if @prediction.status == "All Aboard" do %>style="text-decoration: underline;"<% end %>>
   <%= fa "clock-o" %>
   <%= if @prediction.status do %>
     <%= @prediction.status %>

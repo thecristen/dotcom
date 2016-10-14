@@ -6,7 +6,7 @@
         <span><%= route_type_name @route_type %> </span>
         <%= Site.PageView.schedule_separator %>
         <small>
-          <a href="<%= mode_path(@conn, @route_type) %>">View All &raquo;</a>
+          <a href="<%= mode_path(@conn, @route_type) %>">View&nbsp;All&nbsp;&raquo;</a>
         </small>
       </h2>
     </div>

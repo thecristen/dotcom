@@ -8,8 +8,7 @@
 .index-news-item {
   @extend .list-group-item;
 
-  max-height: 4.5rem;
-  overflow: hidden;
+  padding-left: 0;
 }
 
 .header .navbar {
@@ -28,5 +27,18 @@
 @include media-breakpoint-down(sm) {
   .index {
     padding-bottom: 12px;
+  }
+}
+
+.news-image {
+  // Polyfill for IE object-fit support
+  font-family: 'object-fit: cover; object-position: 100% 63%;';
+  max-height: 10rem;
+  object-fit: cover;
+  object-position: 100% 63%;
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    max-height: 15rem;
   }
 }

@@ -1,7 +1,6 @@
 $card-section-padding-sm: 0.75rem;
 $card-section-padding-md: 1.5rem;
-$card-section-radius-sm: 6px;
-$card-section-radius-md: $card-section-radius-sm * 2;
+$card-section-padding-xxl: 2rem;
 
 .card-section {
   background-color: white;
@@ -23,7 +22,6 @@ $card-section-radius-md: $card-section-radius-sm * 2;
 
 
   &.card-narrow {
-    border-radius: $card-section-radius-sm;
     margin-left: $card-section-padding-sm;
     margin-right: $card-section-padding-sm;
   }
@@ -31,7 +29,6 @@ $card-section-radius-md: $card-section-radius-sm * 2;
   .card-header {
     background-color: white;
     border-color: white;
-    border-radius: $card-section-radius-sm;
     padding-left: $card-section-padding-sm;
     padding-right: $card-section-padding-sm;
     padding-top: $card-section-padding-sm;
@@ -42,7 +39,7 @@ $card-section-radius-md: $card-section-radius-sm * 2;
   }
 
   .card-block {
-    margin-top: -1rem;
+    margin-top: $card-section-padding-sm;
     padding-left: $card-section-padding-sm;
     padding-right: $card-section-padding-sm;
     padding-bottom: $card-section-padding-sm;
@@ -55,10 +52,6 @@ $card-section-radius-md: $card-section-radius-sm * 2;
   }
 
   @include media-breakpoint-up(md) {
-    &.card {
-      border-radius: $card-section-radius-md;
-    }
-
     &.card-narrow {
       // only narrow on mobile
       margin-left: inherit;
@@ -66,20 +59,37 @@ $card-section-radius-md: $card-section-radius-sm * 2;
     }
 
     .card-header {
-      border-radius: $card-section-radius-md;
       padding-left: $card-section-padding-md;
       padding-right: $card-section-padding-md;
       padding-top: $card-section-padding-md;
     }
 
     .card-block {
+      padding-bottom: $card-section-padding-md;
       padding-left: $card-section-padding-md;
       padding-right: $card-section-padding-md;
-      padding-bottom: $card-section-padding-md;
     }
 
     .card-block-no-header {
       padding-top: $card-section-padding-md;
+    }
+  }
+
+  @include media-breakpoint-up(xxl) {
+    .card-header {
+      padding-left: $card-section-padding-xxl;
+      padding-right: $card-section-padding-xxl;
+      padding-top: $card-section-padding-xxl;
+    }
+
+    .card-block {
+      padding-bottom: $card-section-padding-xxl;
+      padding-left: $card-section-padding-xxl;
+      padding-right: $card-section-padding-xxl;
+    }
+
+    .card-block-no-header {
+      padding-top: $card-section-padding-xxl;
     }
   }
 }

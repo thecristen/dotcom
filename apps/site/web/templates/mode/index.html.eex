@@ -1,10 +1,8 @@
 <div class="card card-section <%= assigns[:card_class] %>" id="schedules">
-  <div class="card-header">
-    <h1 class="schedules-list-header">Schedules and Maps</h1>
-  </div>
-  <div class="card-block">
+  <div class="card-block card-block-no-header">
+    <h1>Schedules and Maps</h1>
     <%= for route_type <- [:commuter, :bus, :subway, :boat] do %>
-      <%= render Site.ModeView, "_mode.html", route_type: route_type, grouped_routes: @grouped_routes, conn: @conn, truncate: route_type == :bus %>
+      <%= render Site.ModeView, "_mode.html", route_type: route_type, grouped_routes: @grouped_routes, conn: @conn, truncate: true %>
     <% end %>
     <%= if @include_ride do %>
       <div class="row">

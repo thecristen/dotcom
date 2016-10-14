@@ -1,18 +1,25 @@
 @import 'variables';
 
-.route-icon {
-  display: inline-block;
-  width: $route-icon-diameter;
-  height: $route-icon-diameter;
-  padding: $route-icon-diameter / 7.2; // 5px
+@mixin route-icon($diameter: $route-icon-diameter, $padding: .3125rem) {
   border-radius: 50%;
-  float: left;
-  margin: -.5rem .75rem 0 .125rem;
+  display: inline-block;
+  height: $diameter;
+  margin-right: .75rem;
+  position: relative;
+  vertical-align: bottom;
+  width: $diameter;
 
   svg {
-    height: 100%;
-    width: 100%;
+    height: $diameter - ($padding * 2);
+    left: $padding;
+    position: absolute;
+    top: $padding;
+    width: $diameter - ($padding * 2);
   }
+}
+
+.route-icon {
+  @include route-icon();
 }
 
 .route-icon-commuter {
@@ -51,13 +58,14 @@
 }
 
 .route-icon-the-ride {
-  svg {
-    height: 2.25rem;
-    width: 2.25rem;
-  }
-
-  padding: 0;
   background-color: $brand-the-ride;
+
+  svg {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
 
 .route-icon-access {

@@ -1,13 +1,13 @@
 <div class="card card-section card-narrow <%= @class %>">
-  <div class="card-header"><h1>What's Happening at the MBTA</h1></div>
-  <div class="card-block">
+  <div class="card-block card-block-no-header">
+    <div>
+      <h1>What's Happening at the MBTA</h1>
+    </div>
     <div class="row">
       <div class="col-md-6">
         <img src="<%= static_url @conn, "/images/subway-station-home.jpg" %>"
           alt="A train moving through the new Government Center station"
-          class="img-fluid m-x-auto"
-          width="348"
-          height="228">
+          class="news-image">
       </div>
       <div class="col-md-6">
         <%= if @news != [] do %>
