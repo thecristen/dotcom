@@ -1,0 +1,19 @@
+{
+  "uuid" : "0581bc9a-9148-386a-b8a0-6636dc82f2d2",
+  "request" : {
+    "url" : "/routes/?stop=Ipswich",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jSig6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "dmcle1t0qpe1s377gtcaqulie1uf8r6t",
+      "Connection" : "keep-alive"
+    }
+  }
+}

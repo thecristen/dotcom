@@ -1,0 +1,19 @@
+{
+  "uuid" : "762b5711-d4ab-3a3f-854e-3c3184fa155b",
+  "request" : {
+    "url" : "/routes/?stop=Wakefield",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HknLO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:57 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "9jk3iqorncfns1ls17jcbmkh7dtdfedu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

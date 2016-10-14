@@ -1,0 +1,19 @@
+{
+  "uuid" : "8dcf0fd6-d373-3bb0-8b30-913ce36b1843",
+  "request" : {
+    "url" : "/routes/?stop=Forge+Park+%2F+495",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-N6YXO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "uht06ec9olob0oghrdhql3fo09qks6qg",
+      "Connection" : "keep-alive"
+    }
+  }
+}

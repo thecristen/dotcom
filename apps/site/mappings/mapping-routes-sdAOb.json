@@ -1,0 +1,19 @@
+{
+  "uuid" : "61c077e8-ab6e-3f97-b90c-b20f4c729bc4",
+  "request" : {
+    "url" : "/routes/?stop=Halifax",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-sdAOb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "1dj709ocaqqprr0ea9gke8ep2knlfam7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

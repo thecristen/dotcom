@@ -3,7 +3,6 @@ defmodule Site.ScheduleViewTest do
   use Site.ConnCase, async: true
   alias Site.ScheduleView
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import Phoenix.HTML.Tag, only: [tag: 2]
   import Phoenix.View, only: [render_to_string: 3]
   alias Predictions.Prediction
   alias Routes.Route
@@ -61,18 +60,6 @@ defmodule Site.ScheduleViewTest do
 
       actual = ScheduleView.update_url(conn, trip: "")
       expected = schedule_path(conn, :show, "route", trip: "")
-
-      assert expected == actual
-    end
-end
-
-  describe "hidden_query_params/2" do
-    test "creates a hidden tag for each query parameter", %{conn: conn} do
-      actual = %{conn | query_params: %{"one" => "value", "two" => "other"}}
-      |> ScheduleView.hidden_query_params
-
-      expected = [tag(:input, type: "hidden", name: "one", value: "value"),
-                  tag(:input, type: "hidden", name: "two", value: "other")]
 
       assert expected == actual
     end

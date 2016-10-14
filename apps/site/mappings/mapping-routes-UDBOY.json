@@ -1,0 +1,19 @@
+{
+  "uuid" : "d20ced02-458e-31b7-8a9d-617ddaae4116",
+  "request" : {
+    "url" : "/routes/?stop=place-hwsst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UDBOY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "s4l885sg3n87ldcnialn12s7c45vjj7n",
+      "Connection" : "keep-alive"
+    }
+  }
+}

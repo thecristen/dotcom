@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/CR-Haverhill"},"id":"CR-Haverhill","attributes":{"type":2,"short_name":"","long_name":"Haverhill Line","description":"Commuter Rail"}},{"type":"route","links":{"self":"/routes/CR-Lowell"},"id":"CR-Lowell","attributes":{"type":2,"short_name":"","long_name":"Lowell Line","description":"Commuter Rail"}}]}

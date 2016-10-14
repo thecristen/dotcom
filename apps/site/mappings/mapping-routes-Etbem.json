@@ -1,0 +1,19 @@
+{
+  "uuid" : "278ccc47-53de-3adc-85e1-89f800a5b250",
+  "request" : {
+    "url" : "/routes/?stop=place-bcnfd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Etbem.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:52 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "9o4drlfp7dhfu4fj9u810oudfb15aolv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

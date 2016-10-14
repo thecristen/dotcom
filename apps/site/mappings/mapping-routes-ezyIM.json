@@ -1,0 +1,19 @@
+{
+  "uuid" : "87bc6b0d-df83-3ff7-b06b-644be176ecc5",
+  "request" : {
+    "url" : "/routes/?stop=place-harsq",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ezyIM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "vej6afttkphlev5j4hkk1k6qcmvfs2hf",
+      "Connection" : "keep-alive"
+    }
+  }
+}

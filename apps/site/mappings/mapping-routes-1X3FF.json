@@ -1,0 +1,19 @@
+{
+  "uuid" : "dcce2031-f5a2-3349-8dfd-2ca79d36c6b7",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Charlestown",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-1X3FF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:53 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "2ghfh8b545nc1q44erke203pqrtsiur3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

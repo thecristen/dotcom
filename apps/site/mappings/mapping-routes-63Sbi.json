@@ -1,0 +1,19 @@
+{
+  "uuid" : "664b1b5d-22f7-30a0-a9d7-a15626162535",
+  "request" : {
+    "url" : "/routes/?stop=36031",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-63Sbi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "g00bhe7ok5su18gtb0c979af7v1hdee7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

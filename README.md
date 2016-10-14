@@ -102,7 +102,7 @@ In order to make sure the tests are reproducible, we use
 ### Updating the API responses
 
 1. Run the WireMock server in record-mappings mode:
-  * `java -jar ${WIREMOCK_PATH} —proxy-all="http://mbta-api-prod.us-east-1.elasticbeanstalk.com" --record-mappings`
+  * `java -jar ${WIREMOCK_PATH} --proxy-all="http://mbta-api-prod.us-east-1.elasticbeanstalk.com" --record-mappings`
 
 ## Building
 

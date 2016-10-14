@@ -1,0 +1,19 @@
+{
+  "uuid" : "18b0561e-8a60-3574-983c-85b096e3ed11",
+  "request" : {
+    "url" : "/routes/?stop=Hersey",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-tkmme.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:54 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "epsht9kb011jmp31t2p5qv7q2e25i53a",
+      "Connection" : "keep-alive"
+    }
+  }
+}

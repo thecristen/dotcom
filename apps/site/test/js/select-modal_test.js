@@ -32,6 +32,12 @@ describe('selectModal', () => {
     <option value=0 disabled>Disabled</option>
     <option value="reg">Regular</option>
   </select>
+  <select data-select-modal data-no-conversion name=no-convert>
+    <option value="">Make a selection</option>
+    <option value=1 selected>Selected</option>
+    <option value=0 disabled>Disabled</option>
+    <option value="reg">Regular</option>
+  </select>
   <button type=submit>Submit</button
 </form>
 `);
@@ -53,9 +59,15 @@ describe('selectModal', () => {
 
     it('hides the select itself', () => {
       convertSelects($);
-      assert.equal($("#test select").css("display"), "none");
+      assert.equal($("#test select[name=sel]").css("display"), "none");
     });
-  });;
+
+    it('covers the select with a transparent div if data-no-conversion if present', () => {
+      convertSelects($);
+      assert.equal($("#test select[name=no-convert]").css("display"), "inline-block");
+      assert.equal($("#test .select-cover").data("select-modal"), "no-convert");
+    });
+  });
 
   describe('dataFromSelect', () => {
     beforeEach(() => {

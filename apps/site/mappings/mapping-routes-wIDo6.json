@@ -1,0 +1,19 @@
+{
+  "uuid" : "229f4dfb-f33a-32d8-baae-11ef7cc64233",
+  "request" : {
+    "url" : "/routes/?stop=place-newto",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wIDo6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:55 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "69fn4ihrq5d1dsbetl24g5b3k888tg2e",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "a23eead7-536b-356d-bbc8-92d98404cf93",
+  "request" : {
+    "url" : "/routes/?stop=place-chhil",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-EraJD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:53 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "asp4vv0e0j0u67nf77c6ftaobhlk1kt4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

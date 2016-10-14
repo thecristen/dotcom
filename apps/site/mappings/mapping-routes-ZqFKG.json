@@ -1,0 +1,19 @@
+{
+  "uuid" : "04222427-91d1-373f-b5ee-fe43cacfce7d",
+  "request" : {
+    "url" : "/routes/?stop=Winchester+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZqFKG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:58 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "b9kpk3p7aossr3sptblipjqb7kihab8h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

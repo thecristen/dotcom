@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/Boat-F4"},"id":"Boat-F4","attributes":{"type":4,"short_name":"","long_name":"Charlestown Ferry","description":"Ferry"}}]}

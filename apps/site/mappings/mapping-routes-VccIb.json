@@ -1,0 +1,19 @@
+{
+  "uuid" : "17060f88-cdad-3495-af3d-5af3d19847c2",
+  "request" : {
+    "url" : "/routes/?stop=Auburndale",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VccIb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:52 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "4cct1horfb36v4ggt7ijj5j43g4sev4j",
+      "Connection" : "keep-alive"
+    }
+  }
+}

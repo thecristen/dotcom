@@ -1,7 +1,7 @@
 defmodule Site.ViewHelpers do
   import Site.Router.Helpers
   import Phoenix.HTML, only: [raw: 1]
-  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
   import Plug.Conn
 
   # precompile the SVGs, rather than hitting the filesystem every time
@@ -148,5 +148,19 @@ defmodule Site.ViewHelpers do
     atom
     |> Atom.to_string
     |> String.capitalize
+  end
+
+  def hidden_query_params(conn, opts \\ []) do
+    exclude = Keyword.get(opts, :exclude, [])
+    include = Keyword.get(opts, :include, %{})
+    conn.query_params
+    |> Map.merge(include)
+    |> Enum.reject(fn {key, _} -> key in exclude end)
+    |> Enum.uniq_by(fn {key, _} -> to_string(key) end)
+    |> Enum.map(&hidden_tag/1)
+  end
+
+  defp hidden_tag({key, value}) do
+    tag :input, type: "hidden", name: key, value: value
   end
 end

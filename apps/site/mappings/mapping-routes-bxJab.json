@@ -1,0 +1,19 @@
+{
+  "uuid" : "7e899a11-f7fd-3a6b-9790-8ff3b8ed7a51",
+  "request" : {
+    "url" : "/routes/?stop=Prides+Crossing",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bxJab.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 12 Oct 2016 19:08:56 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "fkbd7h9mhr4br1cuqds3lqf5svoclv0k",
+      "Connection" : "keep-alive"
+    }
+  }
+}
