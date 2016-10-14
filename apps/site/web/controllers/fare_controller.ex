@@ -4,12 +4,23 @@ defmodule Site.FareController do
   def index(conn, _params) do
     fare_name = Fares.calculate(Zones.Repo.get(conn.params["origin"]), Zones.Repo.get(conn.params["destination"]))
 
+
+    %{
+      nil => adult_fares,
+      :student => student_fares,
+      :senior_disabled => senior_fares
+    } = [name: fare_name]
+    |> Fares.Repo.all()
+    |> Enum.group_by(&(&1.reduced))
+
     conn
-    |> assign(:fares, Fares.Repo.all(name: fare_name))
     |> assign_params
     |> assign_origin_stops
     |> assign_destination_stops
     |> assign_key_stops
+    |> assign(:adult_fares, adult_fares)
+    |> assign(:student_fares, student_fares)
+    |> assign(:senior_fares, senior_fares)
     |> render("index.html")
   end
 

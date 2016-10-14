@@ -34,25 +34,47 @@
       <% end %>
     </div>
 
-    <div class="fare-qualifications m-y-1">
-      Those who are 12 years of age or older qualify for Adult fare pricing.
-    </div>
+    Adult Student
+    <div id="adult-fares-tab">
+      <div class="fare-qualifications m-y-1">
+        <%= eligibility(List.first(@adult_fares)) %>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="p-a-1 col-md-3 col-xs-12 fares-tab" >
+            <%= zone_name(List.first(@adult_fares).name) %> Adult Fares
+          </div>
+        </div>
+        <div class="row fares-box">
+          <div class="row fares-row">
+            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@adult_fares, %{duration: :single_trip, reduced: nil})) %>
+            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@adult_fares, %{duration: :round_trip, reduced: nil})) %>
+          </div>
 
-    <div class="row">
-      <div class="p-a-1 col-md-3 col-xs-12 fares-tab" >
-        <%= zone_name(List.first(@fares).name) %> Adult Fares
+          <div class="row fares-row">
+            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@adult_fares, %{duration: :month, reduced: nil})) %>
+            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@adult_fares, %{duration: :month, pass_type: :mticket, reduced: nil})) %>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="row fares-box">
-      <div class="row">
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :single_trip, reduced: nil})) %>
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :round_trip, reduced: nil})) %>
+    <div id="student-fares-tab">
+      <div class="fare-qualifications m-y-1">
+        <%= eligibility(List.first(@student_fares)) %>
       </div>
-
-      <div class="row">
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, reduced: nil})) %>
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, pass_type: :mticket, reduced: nil})) %>
+      <div class="container">
+        <div class="row">
+          <div class="p-a-1 col-md-3 col-xs-12 fares-tab" >
+            <%= zone_name(List.first(@student_fares).name) %> Student Fares
+          </div>
+        </div>
+        <div class="row fares-box">
+          <div class="row fares-row">
+            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@student_fares, %{duration: :single_trip, reduced: :student})) %>
+            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@student_fares, %{duration: :round_trip, reduced: :student})) %>
+          </div>
+        </div>
       </div>
     </div>
 

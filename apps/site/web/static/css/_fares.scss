@@ -7,15 +7,19 @@
   border: solid 3px $brand-primary;
   padding: .75rem;
 
-  .row > .fares-box-column:first-child {
-    border-right: 1px solid $gray-lightest;
-  }
-
-  .row:first-child > .fares-box-column {
-    border-bottom: 1px solid $gray-lightest;
+  @include media-breakpoint-up(md) {
+    .row > .fares-box-column:first-child {
+      border-right: 1px solid $gray-lightest;
+    }
   }
 }
 
+.fares-row {
+  border-top: 1px solid $gray-lightest;
+  &:first-child {
+    border-top: none;
+  }
+}
 
 .fare-name {
   display: inline-block;
@@ -33,6 +37,12 @@
 
 .fares-box-column {
   padding: .5rem;
+  @include media-breakpoint-down(sm) {
+    border-top: 1px solid $gray-lightest;
+    &:first-child {
+      border-top: none;
+    }
+  }
 }
 
 .fares-mode-icon {
@@ -64,4 +74,14 @@
   padding: .5rem;
 }
 
+#adult-fares-tab, #student-fares-tab{
+  display: none;
+}
 
+#adult-fares-tab:target {
+  display: block;
+}
+
+#student-fares-tab:target {
+  display: block;
+}

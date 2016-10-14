@@ -52,4 +52,15 @@ defmodule Site.FareViewTest do
         "Valid for one calendar month of travel on the commuter rail from zones 1A-5 only."
     end
   end
+
+  describe "eligibility/1" do
+    test "FareView.eligibility returns eligibility information for a mode" do
+      assert FareView.eligibility(%Fare{mode: :commuter, reduced: :student}) =~ "Middle and high school students are eligible"
+    end
+
+    test "FareView.eligibility returns eligibility information for adult" do
+      assert FareView.eligibility(%Fare{mode: :commuter, reduced: nil}) =~ "Those who are 12 years of age or older qualify for Adult fare pricing."
+    end
+  end
 end
+

@@ -41,4 +41,11 @@ defmodule Site.FareView do
     "Valid for one calendar month of unlimited travel on Commuter Rail from Zones 1A-#{number} as well as Local " <>
     "Bus, Subway, Express Bus, and the Charlestown Ferry."
   end
+
+  def eligibility(%Fare{mode: :commuter, reduced: :student}) do
+    "Middle and high school students are eligible for reduced fares on the Commuter Rail. In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. One Way fares and Stored Value are eligibile for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are not. College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."
+  end
+  def eligibility(%Fare{mode: :commuter, reduced: nil}) do
+    "Those who are 12 years of age or older qualify for Adult fare pricing."
+  end
 end
