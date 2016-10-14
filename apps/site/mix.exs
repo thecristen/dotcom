@@ -23,7 +23,7 @@ defmodule Site.Mixfile do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
             :stations, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
-            :logster, :sizeable, :feedback, :zones]
+            :logster, :sizeable, :feedback, :zones, :fares]
 
     apps = if Mix.env == :prod do
       [:ehmon | apps]
@@ -71,7 +71,8 @@ defmodule Site.Mixfile do
      {:feedback, in_umbrella: true},
      {:laboratory, github: "paulswartz/laboratory", ref: "cookie_opts"},
      {:porcelain, "~> 2.0"},
-     {:zones, in_umbrella: true}
+     {:zones, in_umbrella: true},
+     {:fares, in_umbrella: true}
     ]
   end
 end
