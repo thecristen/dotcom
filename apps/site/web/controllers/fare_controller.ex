@@ -2,25 +2,13 @@ defmodule Site.FareController do
   use Site.Web, :controller
 
   def index(conn, _params) do
-    fare_name = Fares.calculate(Zones.Repo.get(conn.params["origin"]), Zones.Repo.get(conn.params["destination"]))
-
-
-    %{
-      nil => adult_fares,
-      :student => student_fares,
-      :senior_disabled => senior_fares
-    } = [name: fare_name]
-    |> Fares.Repo.all()
-    |> Enum.group_by(&(&1.reduced))
 
     conn
     |> assign_params
     |> assign_origin_stops
     |> assign_destination_stops
     |> assign_key_stops
-    |> assign(:adult_fares, adult_fares)
-    |> assign(:student_fares, student_fares)
-    |> assign(:senior_fares, senior_fares)
+    |> assign_fares
     |> render("index.html")
   end
 
@@ -64,5 +52,24 @@ defmodule Site.FareController do
   def assign_key_stops(conn) do
     conn
     |> assign(:key_stops, Enum.map(["place-sstat", "place-north", "place-bbsta"], &Stations.Repo.get/1))
+  end
+
+  defp assign_fares(conn) do
+    if(conn.params["origin"] && conn.params["destination"]) do
+      fare_name = Fares.calculate(Zones.Repo.get(conn.params["origin"]), Zones.Repo.get(conn.params["destination"]))
+
+      %{
+        nil => adult_fares,
+        :student => student_fares,
+        :senior_disabled => senior_fares
+      } = [name: fare_name]
+      |> Fares.Repo.all()
+      |> Enum.group_by(&(&1.reduced))
+    end
+
+    conn
+    |> assign(:adult_fares, adult_fares || [])
+    |> assign(:student_fares, student_fares || [])
+    |> assign(:senior_fares, senior_fares || [])
   end
 end

@@ -48,4 +48,7 @@ defmodule Site.FareView do
   def eligibility(%Fare{mode: :commuter, reduced: nil}) do
     "Those who are 12 years of age or older qualify for Adult fare pricing."
   end
+  def eligibility(_) do
+    nil
+  end
 end

@@ -74,14 +74,18 @@
   padding: .5rem;
 }
 
-#adult-fares-tab, #student-fares-tab{
+.adult-fares-tab {
+  padding: .5rem;
+}
+#adult-fares-box, #student-fares-box{
   display: none;
 }
 
-#adult-fares-tab:target {
+#adult-fares-box:target {
   display: block;
 }
 
-#student-fares-tab:target {
+#student-fares-box:target {
   display: block;
 }
+
