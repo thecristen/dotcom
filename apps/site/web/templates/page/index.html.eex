@@ -15,7 +15,7 @@
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
             <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "riding_the_t/logan/" %>">
-              Getting to and from Logan
+              Getting to and from Logan <span class="hidden-xs-down">Airport</span>
               <%= fa "angle-right fa-pull-right" %>
             </a></li>
             <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "fares_and_passes/" %>">
