@@ -1,0 +1,11 @@
+<h1>Colors page</h1>
+<div class="colors">
+  <%= for {name, val} <- color_variables do %>
+    <div class="color">
+      <div class="color-box" style="background: <%= get_color_value(val) %>"></div>
+      <h3><%= name %></h3>
+      <p><%= val %></p>
+    </div>
+
+  <% end %>
+</div>

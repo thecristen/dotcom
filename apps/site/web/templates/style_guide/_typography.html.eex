@@ -1,0 +1,63 @@
+<div class="typography">
+  <h1>Typography</h1>
+  <p>The MBTA website requires the following typographic needs: clear and consistent headings, highly legible body paragraphs, clear labels, and easy-to-use input fields. We recommend Lato, a modern font family which is designed for legibility and can beautifully adapt to a variety of visual styles.</p>
+
+  <section>
+    <h2>Web Fonts</h2>
+    <%= for {font_name, serif_style} <- [{"Lato", "sans-serif"}] do %>
+      <div class="font" style="font-style: <%= font_name %> <%= serif_style %>">
+        <h3><%= font_name %></h3>
+        <%= for {weight, style} <- [{400, :normal}, {400, :italic}, {700, :normal}] do %>
+          <% style_string = "font-weight: #{weight}; font-style: #{style}" %>
+          <div class="font-variant">
+            <div class="large-letter-sample" style="<%= style_string %>">Aa</div>
+            <div class="all-characters" style="<%= style_string %>">
+              <p class="uppercase">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+              <p class="lowercase">abcdefghijklmnopqrstuvwxyz</p>
+              <p class="non-letters">1234567890(,.;:?!$&amp;*)</p>
+            </div>
+            <div class="font-metadata">
+              <p><%= font_name %></p>
+              <p><span class="meta-key">Weight:</span> <%= weight %></p>
+              <p><span class="meta-key">Style:</span> <%= style %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+
+  <section>
+    <h2>Headings</h2>
+    <%= for number <- 1..6 do %>
+      <div class="heading">
+        <div class="heading-name"><%= "H#{number}" %></div>
+        <div class="heading-example">
+          <h<%= number %>>Welcome to the MBTA</h<%= number %>>
+        </div>
+        <div class="heading-metadata">
+          <p class="meta-key">CSS Variables:</p>
+          <% rem = 1.25 - (0.125 * number) %>
+          <% desktop_rem = if number == 1, do: "1.375rem", else: "$font-size-h#{number + 1}" %>
+          <div>
+            <p class="variable-name">$font-size-h<%= number %>:</p>
+            <p><%= rem %>rem</p>
+          </div>
+          <div>
+            <p class="variable-name">$font-size-h<%= number %>-desktop:</p>
+            <p><%= desktop_rem %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <section>
+  <h2>Dos and Don'ts</h2>
+  <ul>
+    <li>Please follow the style guide and don't use a font family not mentioned above.</li>
+    <li>Don't underline or italicize headings.</li>
+    <li>Don't add backgrounds to the headings.</li>
+  </ul>
+  </section>
+</div>

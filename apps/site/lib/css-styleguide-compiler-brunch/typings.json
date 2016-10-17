@@ -1,0 +1,7 @@
+{
+  "globalDependencies": {
+    "colors": "registry:dt/colors#0.6.0-1+20160914114039",
+    "core-js": "registry:dt/core-js#0.0.0+20160914114559",
+    "node": "registry:dt/node#6.0.0+20160928143418"
+  }
+}

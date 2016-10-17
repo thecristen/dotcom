@@ -1,0 +1,6 @@
+<% spacing_class = Site.ViewHelpers.route_spacing_class(args.route.type) %>
+<a class="mode-group-btn <%= spacing_class %> <%= args.class %>" id="<%= args.id %>" href="<%= Site.Router.Helpers.schedule_path Site.Endpoint, :show, args.route.id %>" >
+  <%= alert_icon(args.alert) %>
+  <%= subway_color_icon(args.route) %>
+  <%= Site.ViewHelpers.clean_route_name(args.route.name) %>
+</a>

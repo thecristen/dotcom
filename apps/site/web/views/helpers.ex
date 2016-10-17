@@ -143,6 +143,14 @@ defmodule Site.ViewHelpers do
     content_tag :a, number, href: "sms:#{number}"
   end
 
+  def atom_to_string(atom) do
+    atom
+    |> Atom.to_string
+    |> String.split("_")
+    |> Enum.map(&(String.capitalize(&1)))
+    |> Enum.join(" ")
+  end
+
   def route_type_name(:commuter), do: "Commuter Rail"
   def route_type_name(atom) do
     atom

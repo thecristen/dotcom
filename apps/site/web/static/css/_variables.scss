@@ -1,21 +1,23 @@
+@import 'colors';
+
 // for referencing Bootstrap CDN font files directly
 $fa-font-path: "https://opensource.keycdn.com/fontawesome/4.6.3/";
-$white: #fff;
-$brand-primary: #1c77c3;
-$brand-primary-darkest: #0b2f4c;
-$brand-primary-dark: #165c96;
-$brand-primary-light: #5da9e8;
-$brand-primary-lightest: #b6d8f5;
+// $white: #fff;
+// $brand-primary: #1c77c3;
+// $brand-primary-darkest: #0b2f4c;
+// $brand-primary-dark: #165c96;
+// $brand-primary-light: #5da9e8;
+// $brand-primary-lightest: #b6d8f5;
 
-$brand-secondary: #ffce0c;
-$brand-secondary-dark: #d8ac00;
-$brand-secondary-light: #ffe372;
+// $brand-secondary: #ffce0c;
+// $brand-secondary-dark: #d8ac00;
+// $brand-secondary-light: #ffe372;
 
-$gray: #494f5c;
-$gray-dark: #1c1e23;
-$gray-light: #788093;
-$gray-lighter: #b0b5c0;
-$gray-lightest: #e9eaed;
+// $gray: #494f5c;
+// $gray-dark: #1c1e23;
+// $gray-light: #788093;
+// $gray-lighter: #b0b5c0;
+// $gray-lightest: #e9eaed;
 
 $container-max-widths: (
   md: 768px,
@@ -70,39 +72,39 @@ $spacers: (
 
 
 /* Train colors */
-$brand-blue-line: #0064c8;
-$brand-green-line: #428608;
-$brand-orange-line: #ff8200;
-$brand-red-line: #ff1428;
-$brand-silver-line: #788093;
-$brand-commuter: #a00a78;
-$brand-the-ride: #52BBC5;
+// $brand-blue-line: #0064c8;
+// $brand-green-line: #428608;
+// $brand-orange-line: #ff8200;
+// $brand-red-line: #ff1428;
+// $brand-silver-line: #788093;
+// $brand-commuter: #a00a78;
+// $brand-the-ride: #52BBC5;
 
-$homepage-bg-color: #071d2e;
-$nav-mobile-link-color: #fff;
+// $homepage-bg-color: #071d2e;
+// $nav-mobile-link-color: #fff;
 
-$alert-color: $brand-secondary;
-$alert-color-lighter: #fff7d8;
-$alert-notice-color: #dcd3e8;
+// $alert-color: $brand-secondary;
+// $alert-color-lighter: #fff7d8;
+// $alert-notice-color: #dcd3e8;
 
 $font-family-base: 'Lato', $font-family-sans-serif;
 
-$input-color: $gray-dark;
+// $input-color: $gray-dark;
 
-$list-group-link-color: $gray-dark;
+// $list-group-link-color: $gray-dark;
 
-$form-error-message: #f2dede;
-$form-success-message: #dff0d8;
+// $form-error-message: #f2dede;
+// $form-success-message: #dff0d8;
 
-$brand-success: #428608;
-$brand-danger: #ff1428;
+// $brand-success: #428608;
+// $brand-danger: #ff1428;
 
 $route-icon-diameter: 2.25rem;
-$footer-color: $homepage-bg-color;
+// $footer-color: $homepage-bg-color;
 
-$instagram: #1c1e23;
-$youtube: #cd201f;
-$twitter: #55acee;
+// $instagram: #1c1e23;
+// $youtube: #cd201f;
+// $twitter: #55acee;
 
 $space-12: $grid-gutter-width; // 12px real, 6px Zeplin
 $space-6: $grid-gutter-width / 2; // 6px real, 3px Zeplin

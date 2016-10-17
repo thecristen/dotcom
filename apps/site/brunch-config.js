@@ -1,5 +1,9 @@
 var exec = require('child_process').exec;
 
+var styleguideVariableFiles = [ 'colors' ];
+var StyleguideCompiler = require("css-styleguide-compiler-brunch");
+var styleguideCompiler = new StyleguideCompiler(styleguideVariableFiles);
+
 exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
@@ -28,7 +32,10 @@ exports.config = {
       // }
     },
     stylesheets: {
-      joinTo: "css/app.css"
+      joinTo: {
+        'css/app.css': /^web\/static\/css\/app/,
+        'css/style_guide.css': /^web\/static\/css\/style_guide/
+      }
     }
   },
 
@@ -91,8 +98,14 @@ exports.config = {
   },
 
   hooks: {
+    preCompile: function() {
+      styleguideCompiler.compile().then(() => {}).catch((error) => { throw error })
+    },
     onCompile: function() {
-      exec("node_modules/svgo/bin/svgo -f priv/static/images --config svgo.yml");
+      styleguideCompiler.teardown().then(() => {
+        exec("node_modules/svgo/bin/svgo -f priv/static/images --config svgo.yml");
+      }).catch((error) => { throw error });
+
     }
   }
 };

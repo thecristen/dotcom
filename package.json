@@ -1,7 +1,7 @@
 {
   "scripts": {
     "install": "cd apps/site && npm install",
-    "test": "mix test && npm run test:js && mix backstop.test",
+    "test": "mix test && npm run test:js && mix backstop.tests",
     "backstop:test": "cd apps/site/node_modules/backstopjs && npm run test",
     "backstop:reference": "cd apps/site/node_modules/backstopjs && npm run reference",
     "backstop:bless": "cd apps/site/node_modules/backstopjs && npm run bless",
@@ -10,5 +10,8 @@
     "server:mocked": "MIX_ENV=prod PORT=4001 STATIC_HOST=localhost STATIC_PORT=4001 V3_URL=http://localhost:8080 mix do clean, compile, phoenix.server",
     "wiremock": "cd apps/site && java -jar $WIREMOCK_PATH",
     "wiremock:record": "cd apps/site && java -jar $WIREMOCK_PATH --proxy-all=\"http://mbta-api-dev.us-east-1.elasticbeanstalk.com\" --record-mappings"
+  },
+  "dependencies": {
+    "brunch": "^2.8.2"
   }
 }

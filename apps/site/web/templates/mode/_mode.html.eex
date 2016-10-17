@@ -10,15 +10,6 @@
         </small>
       </h2>
     </div>
-    <div class="mode-group-block">
-      <div class="row">
-        <% routes = get_route_group @route_type, @grouped_routes, @truncate %>
-        <%= for route <- routes do %>
-          <div class="<%= route_spacing_class(route.type) %>">
-            <%= route_link @conn, route %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= mode_button_list %Site.Components.Buttons.ModeButtonList{routes: get_route_group(@route_type, @grouped_routes, @truncate), alerts: @conn.assigns.all_alerts} %>
   </div>
 </div>

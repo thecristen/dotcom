@@ -28,6 +28,9 @@ defmodule Site.Router do
     get "/schedules/commuter", ModeController, :commuter
     get "/schedules/Green", ScheduleController.Green, :green
     get "/schedules/:route", ScheduleController, :show
+    get "/style_guide", StyleGuideController, :index
+    get "/style_guide/:section", StyleGuideController, :index
+    get "/style_guide/:section/:component_group", StyleGuideController, :show
     resources "/alerts", AlertController, only: [:index, :show]
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks

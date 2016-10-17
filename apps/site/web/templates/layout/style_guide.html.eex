@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MBTA - Massachusetts Bay Transportation Authority</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,500,700">
+    <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= static_url(@conn, "/css/style_guide.css") %>">
+    <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" as="script">
+    <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">
+    <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  </head>
+
+  <body class="style-guide">
+    <header class="page-header">
+      <h1>MBTA Tech Style Guide</h1>
+      <nav class="primary-nav">
+        <ul class="row">
+          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide">Home</a></li>
+          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/components">UI Components</a></li>
+          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/principles">Design Principles</a></li>
+          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/content">Content Style Guide</a></li>
+          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/about">About MBTA.com</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="main-container row">
+      <%= if @section == :components do %>
+        <%= render(@view_module, "_sidebar_nav.html", assigns) %>
+      <% end %>
+      <% col = if @section == :components, do: "col-md-10", else: "" %>
+      <div class="main-content col-sm-12 <%= col %>">
+        <%= render @view_module, @view_template, assigns %>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>

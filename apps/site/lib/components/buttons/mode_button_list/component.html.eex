@@ -1,0 +1,9 @@
+<div class="mode-group-block <%= args.class %>" id="<%= args.id %>">
+  <div class="row">
+    <%= for route <- args.routes do %>
+      <div class="<%= Site.ViewHelpers.route_spacing_class(route.type) %>">
+        <%= mode_button_markup %Site.Components.Buttons.ModeButton{route: route, alert: get_alert(route, args.alerts)} %>
+      </div>
+    <% end %>
+  </div>
+</div>

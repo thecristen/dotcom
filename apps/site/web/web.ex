@@ -41,6 +41,7 @@ defmodule Site.Web do
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+      use Site.Components.Precompiler
 
       import Site.Router.Helpers
       import Site.ErrorHelpers
