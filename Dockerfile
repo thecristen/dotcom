@@ -16,7 +16,8 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     npm install -g brunch
 
 # Install Sass
-RUN apt-get install -y ruby-sass
+RUN apt-get install -y rubygems && \
+    gem install sass
 
 # Clean up
 RUN apt-get clean
