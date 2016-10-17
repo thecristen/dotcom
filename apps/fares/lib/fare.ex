@@ -5,7 +5,7 @@ defmodule Fares.Fare do
       name: {:zone, "5"} | :subway_student | etc
       pass_type: :ticket | :charlie_card | :mticket | :link_pass
       reduced: :student | :senior_disabled
-      duration: :single_trip | :week | :month
+      duration: :single_trip | :day | :week | :month
       cents: cost_in_cents
     )
   """
@@ -14,7 +14,7 @@ defmodule Fares.Fare do
     name: {atom, String.t()} | atom,
     pass_type: :ticket | :charlie_card | :mticket | :link_pass,
     reduced: :student | :senior_disabled,
-    duration: :single_trip | :week | :month,
+    duration: :single_trip | :day | :week | :month,
     cents: non_neg_integer
   }
 

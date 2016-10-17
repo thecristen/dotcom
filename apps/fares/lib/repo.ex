@@ -3,7 +3,7 @@ defmodule Fares.Repo.ZoneFares do
 
   @spec fare_info() :: [Fare.t]
   def fare_info do
-    filename = "priv/zone_fares.csv"
+    filename = "priv/fares.csv"
 
     filename
     |> File.stream!
@@ -82,7 +82,8 @@ defmodule Fares.Repo.ZoneFares do
     month_reduced_price,
     day_pass_price,
     week_pass_price,
-    month_pass_price
+    month_pass_price,
+    ""
   ]) do
     [
       %Fare{
@@ -167,7 +168,8 @@ defmodule Fares.Repo.ZoneFares do
     month_reduced_price,
     day_pass_price,
     week_pass_price,
-    month_pass_price
+    month_pass_price,
+    ""
   ]) when mode in ["local_bus", "inner_express_bus", "outer_express_bus"] do
     [
       %Fare{
@@ -244,6 +246,95 @@ defmodule Fares.Repo.ZoneFares do
       }
     ]
   end
+  def mapper([
+    "boat",
+    inner_harbor_price,
+    inner_harbor_month_price,
+    cross_harbor_price,
+    commuter_boat_price,
+    commuter_boat_month_price,
+    commuter_boat_logan_price,
+    day_pass_price,
+    week_pass_price
+  ]) do
+    fares = [
+      %Fare{
+        mode: :boat,
+        name: :boat_inner_harbor,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price)
+      },
+      %Fare{
+        mode: :boat,
+        name: :boat_inner_harbor,
+        duration: :month,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_month_price)
+      },
+      %Fare{
+        mode: :boat,
+        name: :boat_cross_harbor,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(cross_harbor_price)
+      },
+      %Fare{
+        mode: :boat,
+        name: :commuter_boat,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(commuter_boat_price)
+      },
+      %Fare{
+        mode: :boat,
+        name: :commuter_boat_logan,
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(commuter_boat_logan_price)
+      },
+      %Fare{
+        mode: :boat,
+        name: :commuter_boat,
+        duration: :month,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(commuter_boat_month_price)
+      },
+      %Fare{
+        mode: :boat,
+        name: :boat_day_pass,
+        duration: :day,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(day_pass_price)
+      },
+      %Fare{
+        mode: :boat,
+        name: :boat_week_pass,
+        duration: :week,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(week_pass_price)
+      }
+    ]
+
+    reduced_fares = fares
+    |> Enum.filter(&(&1.duration == :single_trip))
+    |> Enum.flat_map(fn fare ->
+      reduced_price = round(fare.cents / 2)
+      [
+        %Fare{fare | cents: reduced_price, reduced: :senior_disabled},
+        %Fare{fare | cents: reduced_price, reduced: :student}
+      ]
+    end)
+    fares ++ reduced_fares
+  end
 
   defp commuter_rail_fare_name(zone) do
     case String.split(zone, "_") do
@@ -262,14 +353,14 @@ end
 
 defmodule Fares.Repo do
   import Fares.Repo.ZoneFares
-  @zone_fares fare_info
+  @fares fare_info
 
   alias Fares.Fare
 
   @spec all() :: [Fare.t]
   @spec all(Keyword.t) :: [Fare.t]
   def all() do
-    @zone_fares
+    @fares
   end
   def all(opts) when is_list(opts) do
     all
