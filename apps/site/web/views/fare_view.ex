@@ -51,4 +51,13 @@ defmodule Site.FareView do
   def eligibility(_) do
     nil
   end
+
+  def filter_fares(fares, "adult") do
+    fares
+    |> Enum.filter(&(&1.reduced == nil))
+  end
+  def filter_fares(fares, "student") do
+    fares
+    |> Enum.filter(&(&1.reduced == :student))
+  end
 end

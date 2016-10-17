@@ -1,0 +1,23 @@
+<div id="adult-fares-box">
+  <div class="fare-qualifications m-y-1">
+    <%= eligibility(List.first(@fares)) %>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="p-a-1 col-md-3 col-xs-12 fares-tab" >
+        <%= zone_name(List.first(@fares).name) %> Adult Fares
+      </div>
+    </div>
+    <div class="row fares-box">
+      <div class="row fares-row">
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :single_trip, reduced: nil})) %>
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :round_trip, reduced: nil})) %>
+      </div>
+
+      <div class="row fares-row">
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, reduced: nil})) %>
+        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, pass_type: :mticket, reduced: nil})) %>
+      </div>
+    </div>
+  </div>
+</div>

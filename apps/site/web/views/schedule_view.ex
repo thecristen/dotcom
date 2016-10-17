@@ -28,24 +28,13 @@ defmodule Site.ScheduleView do
     trip_alerts_for(alerts, [schedule])
   end
 
-  def update_url(%{params: params} = conn, query) do
-    params = params || %{}
-    query_map = query
-    |> Enum.map(fn {key, value} -> {Atom.to_string(key), value} end)
-    |> Enum.into(%{})
-
-    new_query = params
-    |> Map.merge(query_map)
-    |> Enum.reject(&empty_value?/1)
-    |> Enum.into(%{})
+  def update_url(conn, query) do
+    new_query = Site.ViewHelpers.update_query(conn, query)
 
     {route, new_query} = Map.pop(new_query, "route")
 
     schedule_path(conn, :show, route, new_query |> Enum.into([]))
   end
-
-  defp empty_value?({_, nil}), do: true
-  defp empty_value?({_, _}), do: false
 
   @doc "Link a station's name to its page, if it exists. Otherwise, just returns the name."
   def station_name_as_link(station) do

@@ -25,4 +25,15 @@ defmodule Site.ViewHelpersTest do
       assert expected == actual
     end
   end
+
+  describe "update_query/2" do
+    test "maintains existing parameters while updating passed params" do
+      assert update_query(%{params: %{"param1" => "one", "param2" => "two"}}, %{param2: "2"}) == %{"param1" => "one", "param2" => "2"}
+    end
+
+    test "when given no new parameters, does not change its input" do
+      params = %{"param1" => "one", "param2" => "two"}
+      assert update_query(%{params: params}, []) == params
+    end
+  end
 end

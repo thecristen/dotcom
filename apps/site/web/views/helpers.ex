@@ -158,6 +158,18 @@ defmodule Site.ViewHelpers do
     |> String.capitalize
   end
 
+  def update_query(%{params: params}, query) do
+    params = params || %{}
+    query_map = query
+    |> Enum.map(fn {key, value} -> {Atom.to_string(key), value} end)
+    |> Enum.into(%{})
+
+    params
+    |> Map.merge(query_map)
+    |> Enum.reject(&empty_value?/1)
+    |> Enum.into(%{})
+  end
+
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
     include = Keyword.get(opts, :include, %{})
@@ -179,4 +191,7 @@ defmodule Site.ViewHelpers do
     assigns
     |> Dict.put(:conn, conn)
   end
+
+  defp empty_value?({_, nil}), do: true
+  defp empty_value?({_, _}), do: false
 end

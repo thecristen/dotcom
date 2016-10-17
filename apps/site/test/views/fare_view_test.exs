@@ -62,5 +62,19 @@ defmodule Site.FareViewTest do
       assert FareView.eligibility(%Fare{mode: :commuter, reduced: nil}) =~ "Those who are 12 years of age or older qualify for Adult fare pricing."
     end
   end
+
+  describe "filter_fares/2" do
+    test "filters out non-adult fares" do
+      fares = Fares.Repo.all(name: :zone_6)
+      expected_fares = Fares.Repo.all(name: :zone_6, reduced: nil)
+      assert FareView.filter_fares(fares, "adult") == expected_fares
+    end
+
+    test "filters out non-student fares" do
+      fares = Fares.Repo.all(name: :zone_6)
+      expected_fares = Fares.Repo.all(name: :zone_6, reduced: :student)
+      assert FareView.filter_fares(fares, "student") == expected_fares
+    end
+  end
 end
 
