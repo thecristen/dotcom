@@ -247,76 +247,76 @@ defmodule Fares.Repo.ZoneFares do
     ]
   end
   def mapper([
-    "boat",
+    "ferry",
     inner_harbor_price,
     inner_harbor_month_price,
     cross_harbor_price,
-    commuter_boat_price,
-    commuter_boat_month_price,
-    commuter_boat_logan_price,
+    commuter_ferry_price,
+    commuter_ferry_month_price,
+    commuter_ferry_logan_price,
     day_pass_price,
     week_pass_price
   ]) do
     fares = [
       %Fare{
-        mode: :boat,
-        name: :boat_inner_harbor,
+        mode: :ferry,
+        name: :ferry_inner_harbor,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_price)
       },
       %Fare{
-        mode: :boat,
-        name: :boat_inner_harbor,
+        mode: :ferry,
+        name: :ferry_inner_harbor,
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_month_price)
       },
       %Fare{
-        mode: :boat,
-        name: :boat_cross_harbor,
+        mode: :ferry,
+        name: :ferry_cross_harbor,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(cross_harbor_price)
       },
       %Fare{
-        mode: :boat,
-        name: :commuter_boat,
+        mode: :ferry,
+        name: :commuter_ferry,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(commuter_boat_price)
+        cents: dollars_to_cents(commuter_ferry_price)
       },
       %Fare{
-        mode: :boat,
-        name: :commuter_boat_logan,
+        mode: :ferry,
+        name: :commuter_ferry_logan,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(commuter_boat_logan_price)
+        cents: dollars_to_cents(commuter_ferry_logan_price)
       },
       %Fare{
-        mode: :boat,
-        name: :commuter_boat,
+        mode: :ferry,
+        name: :commuter_ferry,
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(commuter_boat_month_price)
+        cents: dollars_to_cents(commuter_ferry_month_price)
       },
       %Fare{
-        mode: :boat,
-        name: :boat_day_pass,
+        mode: :ferry,
+        name: :ferry_day_pass,
         duration: :day,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(day_pass_price)
       },
       %Fare{
-        mode: :boat,
-        name: :boat_week_pass,
+        mode: :ferry,
+        name: :ferry_week_pass,
         duration: :week,
         pass_type: :ticket,
         reduced: nil,
