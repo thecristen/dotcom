@@ -54,7 +54,7 @@ defmodule Site.Fare.FareBehaviour do
     |> render("index.html",
         mode_name: mode_strategy.mode_name,
         origin_stops: mode_strategy.origin_stops,
-        destination_stops: mode_strategy.destination_stops(conn.assigns[:origin]),
+        destination_stops: mode_strategy.destination_stops(conn.assigns[:origin].id),
         key_stops: mode_strategy.key_stops
       )
   end
@@ -63,7 +63,7 @@ defmodule Site.Fare.FareBehaviour do
     Enum.reduce [:origin, :destination], conn, fn (param, conn) ->
       case Map.get(conn.params, Atom.to_string(param)) do
         "" -> assign conn, param, nil
-        value -> assign conn, param, value
+        value -> assign conn, param, Stations.Repo.get(value)
       end
     end
   end

@@ -1,4 +1,17 @@
+.fares-tab-group {
+  border-bottom: 2px solid $brand-primary;
+  margin: 1em 0 0;
+}
 .fares-tab {
+  text-align: center;
+
+  &.fares-tab-selected {
+    background-color: $brand-primary;
+    color: $white;
+  }
+}
+
+.fares-description-tab {
   background-color: $brand-primary;
   color: $white;
 }

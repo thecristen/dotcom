@@ -5,7 +5,7 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="p-a-1 col-md-3 col-xs-12 fares-tab">
+      <div class="p-a-1 col-md-3 col-xs-12 fares-description-tab">
         <%= zone_name(example_fare.name) %> <%= fare_customers(example_fare.reduced) %> Fares
       </div>
     </div>

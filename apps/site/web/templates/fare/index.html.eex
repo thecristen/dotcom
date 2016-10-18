@@ -14,7 +14,7 @@
         <%= render "_stop_selector.html",
         conn: @conn,
         query_key: "origin",
-        selected: @origin,
+        selected: @origin.id,
         all_stops: @origin_stops,
         key_stops: @key_stops,
         label_text: "Origin"
@@ -25,7 +25,7 @@
           <%= render "_stop_selector.html",
           conn: @conn,
           query_key: "destination",
-          selected: @destination,
+          selected: @destination.id,
           all_stops: @destination_stops,
           key_stops: [],
           label_text: "Destination"
@@ -34,7 +34,7 @@
       <% end %>
     </div>
 
-    <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type %>
+    <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type, origin: @origin, destination: @destination %>
 
     <div class="row m-t-1">
       <h2>Purchasing Tickets or Passes</h2>
