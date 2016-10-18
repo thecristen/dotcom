@@ -3,7 +3,7 @@ defmodule Site.Fare.FareBehaviour do
 
   @callback route_type() :: integer
   @callback mode_name() :: String.t
-  @callback fares(Plug.Conn.t) :: Plug.Conn.t
+  @callback fares(String.t, String.t) :: [Fares.Fare.t]
   @callback key_stops() :: [Stations.Station.t]
 
   use Site.Web, :controller
