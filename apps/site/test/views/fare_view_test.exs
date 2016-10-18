@@ -76,5 +76,29 @@ defmodule Site.FareViewTest do
       assert FareView.filter_fares(fares, "student") == expected_fares
     end
   end
+
+  describe "fare_customers/1" do
+    test "gets 'Student' when the fare applies to students" do
+      assert FareView.fare_customers(:student) == "Student"
+    end
+
+    test "gets 'Adult' when the fare does not have a reduced field" do
+      assert FareView.fare_customers(nil) == "Adult"
+    end
+  end
+
+  describe "applicable_fares/1" do
+    test "returns fare filters for adult fares" do
+      assert FareView.applicable_fares(nil) == [%{reduced: nil, duration: :single_trip},
+       %{reduced: nil, duration: :round_trip},
+       %{reduced: nil, duration: :month},
+       %{duration: :month, pass_type: :mticket, reduced: nil}]
+    end
+
+    test "returns fare filters for student fares" do
+      assert FareView.applicable_fares(:student) == [%{reduced: :student, duration: :single_trip},
+       %{reduced: :student, duration: :round_trip}]
+    end
+  end
 end
 

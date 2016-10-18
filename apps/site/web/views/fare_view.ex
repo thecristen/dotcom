@@ -60,4 +60,24 @@ defmodule Site.FareView do
     fares
     |> Enum.filter(&(&1.reduced == :student))
   end
+
+  def fare_customers(nil) do
+    "Adult"
+  end
+  def fare_customers(reduced) do
+    reduced
+    |> Atom.to_string
+    |> String.capitalize
+  end
+
+  def applicable_fares(nil) do
+    [%{reduced: nil, duration: :single_trip},
+     %{reduced: nil, duration: :round_trip},
+     %{reduced: nil, duration: :month},
+     %{duration: :month, pass_type: :mticket, reduced: nil}]
+  end
+  def applicable_fares(reduced) do
+    [%{reduced: reduced, duration: :single_trip},
+     %{reduced: reduced, duration: :round_trip}]
+  end
 end
