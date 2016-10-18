@@ -43,12 +43,18 @@ defmodule Site.Fare.FareBehaviour do
       []
     end
 
+    fares = if conn.assigns[:destination] do
+      mode_strategy.fares(conn.assigns[:origin].id, conn.assigns[:destination].id)
+    else
+      []
+    end
+
     conn
     |> render("index.html",
         mode_name: mode_strategy.mode_name,
         origin_stops: mode_strategy.origin_stops,
         destination_stops: destination_stops,
-        fares: mode_strategy.fares(conn.assigns[:origin].id, conn.assigns[:destination].id),
+        fares: fares,
         key_stops: mode_strategy.key_stops
       )
   end
