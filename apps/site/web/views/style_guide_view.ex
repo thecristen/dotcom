@@ -29,13 +29,15 @@ defmodule Site.StyleGuideView do
   end
 
   def component_markup(component, group) do
-    apply(__MODULE__, String.to_atom("#{component}_markup"), [component_args(component, group)])
+    component
+    |> render_component(group)
+    |> Phoenix.HTML.safe_to_string
   end
 
-  def component_description(component) do
-    __MODULE__
-    |> apply(String.to_atom("#{component}_description"), [])
-    |> Phoenix.HTML.raw
+  def component_description(component, group) do
+    path = component_folder_path("#{group}", "#{component}")
+    description_path = Path.join(path, "/description.html.eex")
+    EEx.eval_file(description_path, [], engine: Phoenix.HTML.Engine)
   end
 
   def get_variants(component, group) do
@@ -58,4 +60,16 @@ defmodule Site.StyleGuideView do
     |> length
     |> Kernel.>(idx + 1)
   end
+
+   @doc """
+     Returns the component's default arguments as defined in its struct.
+     Only intended to be used in templates/style_guide/show.html.eex.
+   """
+   @spec component_args(String.t, String.t) :: map
+   def component_args(component, section) do
+     component
+     |> component_module(section)
+     |> struct
+     |> Map.from_struct
+   end
 end

@@ -25,16 +25,6 @@ defmodule Site.Components.Buttons.ModeButton do
 
   end
 
-  def states do
-    [
-      :hover,
-      :active,
-      :focus,
-      :visited
-    ]
-  end
-
-
   def subway_color_icon(%{type: 0, name: name}), do: do_subway_color_icon(name)
   def subway_color_icon(%{type: 1, name: name}), do: do_subway_color_icon(name)
   def subway_color_icon(_), do: ""
