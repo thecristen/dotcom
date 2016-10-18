@@ -21,23 +21,11 @@ defmodule Site.Fare.FareBehaviour do
       def key_stops, do: []
 
       def origin_stops do
-        Stations.Repo.all
-        |> Enum.filter(fn station ->
-          station.id
-          |> Routes.Repo.by_stop
-          |> Enum.filter(&(&1.type == route_type))
-          |> Enum.empty?
-          |> Kernel.!
-        end)
+        unquote(__MODULE__).origin_stops(route_type)
       end
 
       def destination_stops(origin) do
-        origin
-        |> Routes.Repo.by_stop
-        |> Enum.filter_map(&(&1.type == route_type), &(Schedules.Repo.stops &1.id, []))
-        |> Enum.concat
-        |> Enum.uniq
-        |> Enum.sort_by(&(&1.name))
+        unquote(__MODULE__).destination_stops(origin, route_type)
       end
 
       defoverridable [key_stops: 0]
@@ -63,6 +51,26 @@ defmodule Site.Fare.FareBehaviour do
         fares: mode_strategy.fares(conn.assigns[:origin].id, conn.assigns[:destination].id),
         key_stops: mode_strategy.key_stops
       )
+  end
+
+  def origin_stops(route_type) do
+    Stations.Repo.all
+    |> Enum.filter(fn station ->
+      station.id
+      |> Routes.Repo.by_stop
+      |> Enum.filter(&(&1.type == route_type))
+      |> Enum.empty?
+      |> Kernel.!
+    end)
+  end
+
+  def destination_stops(origin, route_type) do
+    origin
+    |> Routes.Repo.by_stop
+    |> Enum.filter_map(&(&1.type == route_type), &(Schedules.Repo.stops &1.id, []))
+    |> Enum.concat
+    |> Enum.sort_by(&(&1.name))
+    |> Enum.dedup
   end
 
   defp assign_params(conn) do
