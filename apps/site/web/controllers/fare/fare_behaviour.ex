@@ -48,7 +48,6 @@ defmodule Site.Fare.FareBehaviour do
     conn = conn
     |> assign_params
     |> assign_fare_type
-    |> mode_strategy.fares
 
     destination_stops = if conn.assigns[:origin] do
       mode_strategy.destination_stops(conn.assigns[:origin].id)
@@ -61,6 +60,7 @@ defmodule Site.Fare.FareBehaviour do
         mode_name: mode_strategy.mode_name,
         origin_stops: mode_strategy.origin_stops,
         destination_stops: destination_stops,
+        fares: mode_strategy.fares(conn.assigns[:origin].id, conn.assigns[:destination].id),
         key_stops: mode_strategy.key_stops
       )
   end

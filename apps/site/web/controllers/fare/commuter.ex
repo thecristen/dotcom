@@ -5,16 +5,14 @@ defmodule Site.FareController.Commuter do
 
   def mode_name, do: "Commuter Rail"
 
-  def fares(conn) do
-    if(conn.params["origin"] && conn.params["destination"]) do
-      fare_name = Fares.calculate(Zones.Repo.get(conn.params["origin"]), Zones.Repo.get(conn.params["destination"]))
+  def fares(origin, destination) do
+    if(origin && destination) do
+      fare_name = Fares.calculate(Zones.Repo.get(origin), Zones.Repo.get(destination))
 
       fares = [name: fare_name]
       |> Fares.Repo.all()
-
-      assign(conn, :fares, fares)
     else
-      assign(conn, :fares, [])
+      []
     end
   end
 
