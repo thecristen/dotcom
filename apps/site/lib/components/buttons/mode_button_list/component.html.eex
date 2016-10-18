@@ -2,7 +2,7 @@
   <div class="row">
     <%= for route <- args.routes do %>
       <div class="<%= Site.ViewHelpers.route_spacing_class(route.type) %>">
-        <%= mode_button_markup %Site.Components.Buttons.ModeButton{route: route, alert: get_alert(route, args.alerts)} %>
+        <%= mode_button %Site.Components.Buttons.ModeButton{route: route, alert: get_alert(route, args.alerts, args.date)} %>
       </div>
     <% end %>
   </div>
