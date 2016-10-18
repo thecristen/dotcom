@@ -2,6 +2,7 @@
   border-bottom: 2px solid $brand-primary;
   margin: 1em 0 0;
 }
+
 .fares-tab {
   text-align: center;
 
@@ -29,6 +30,7 @@
 
 .fares-row {
   border-top: 1px solid $gray-lightest;
+
   &:first-child {
     border-top: none;
   }
@@ -50,8 +52,10 @@
 
 .fares-box-column {
   padding: .5rem;
+
   @include media-breakpoint-down(sm) {
     border-top: 1px solid $gray-lightest;
+
     &:first-child {
       border-top: none;
     }
@@ -90,14 +94,3 @@
 .adult-fares-tab {
   padding: .5rem;
 }
-#adult-fares-box, #student-fares-box{
-}
-
-#adult-fares-box:target {
-  display: block;
-}
-
-#student-fares-box:target {
-  display: block;
-}
-
