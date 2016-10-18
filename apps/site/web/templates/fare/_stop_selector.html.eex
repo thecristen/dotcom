@@ -1,5 +1,6 @@
 <form method="GET" action="" data-submit-on-change>
-  <%= hidden_query_params @conn, exclude: [@query_key] %>
+  <% extra_excludes = assigns[:exclude] || [] %>
+  <%= hidden_query_params @conn, exclude: [@query_key | extra_excludes] %>
   <div>
     <label class="select-modal-label" for="<%= @query_key %>"><%= @label_text %><%= render Site.ScheduleView, "_loading.html" %></label><br>
     <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>

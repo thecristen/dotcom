@@ -50,18 +50,24 @@ defmodule Site.Fare.FareBehaviour do
     |> assign_fare_type
     |> mode_strategy.fares
 
+    destination_stops = if conn.assigns[:origin] do
+      mode_strategy.destination_stops(conn.assigns[:origin].id)
+    else
+      []
+    end
+
     conn
     |> render("index.html",
         mode_name: mode_strategy.mode_name,
         origin_stops: mode_strategy.origin_stops,
-        destination_stops: mode_strategy.destination_stops(conn.assigns[:origin].id),
+        destination_stops: destination_stops,
         key_stops: mode_strategy.key_stops
       )
   end
 
   defp assign_params(conn) do
     Enum.reduce [:origin, :destination], conn, fn (param, conn) ->
-      case Map.get(conn.params, Atom.to_string(param)) do
+      case Map.get(conn.params, Atom.to_string(param), "") do
         "" -> assign conn, param, nil
         value -> assign conn, param, Stations.Repo.get(value)
       end

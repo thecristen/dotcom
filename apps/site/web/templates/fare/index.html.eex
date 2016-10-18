@@ -14,10 +14,11 @@
         <%= render "_stop_selector.html",
         conn: @conn,
         query_key: "origin",
-        selected: @origin.id,
+        selected: (if @origin, do: @origin.id, else: nil),
         all_stops: @origin_stops,
         key_stops: @key_stops,
-        label_text: "Origin"
+        label_text: "Origin",
+        exclude: ["destination"]
         %>
       </div>
       <%= unless @origin == nil do %>
@@ -25,7 +26,7 @@
           <%= render "_stop_selector.html",
           conn: @conn,
           query_key: "destination",
-          selected: @destination.id,
+          selected: (if @destination, do: @destination.id, else: nil),
           all_stops: @destination_stops,
           key_stops: [],
           label_text: "Destination"
@@ -34,7 +35,9 @@
       <% end %>
     </div>
 
-    <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type, origin: @origin, destination: @destination %>
+    <%= unless @fares == [] do %>
+      <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type, origin: @origin, destination: @destination %>
+    <% end %>
 
     <div class="row m-t-1">
       <h2>Purchasing Tickets or Passes</h2>

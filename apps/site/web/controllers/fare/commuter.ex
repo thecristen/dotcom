@@ -13,9 +13,9 @@ defmodule Site.FareController.Commuter do
       |> Fares.Repo.all()
 
       assign(conn, :fares, fares)
+    else
+      assign(conn, :fares, [])
     end
-
-
   end
 
   def key_stops do
