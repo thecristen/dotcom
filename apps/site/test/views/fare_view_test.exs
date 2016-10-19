@@ -109,5 +109,22 @@ defmodule Site.FareViewTest do
       ]
     end
   end
+
+  describe "vending_machine_stations/0" do
+    test "gets the list of stations we have vending machines at paired with their id" do
+      assert FareView.vending_machine_stations == [{"North Station", "place-north"},
+        {"South Station", "place-sstat"},
+        {"Back Bay", "place-bbsta"},
+        {"Porter", "place-portr"},
+        {"Malden", "place-mlmnl"},
+        {"Lynn", "Lynn"},
+        {"Worcester", "Worcester"},
+        {"Ruggles", "place-rugg"},
+        {"Forest Hills", "place-forhl"},
+        {"JFK/UMass", "place-jfk"},
+        {"Quincy Center", "place-qnctr"},
+        {"Braintree", "place-brntn"}]
+    end
+  end
 end
 

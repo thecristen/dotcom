@@ -64,7 +64,9 @@
         <h3>Fare Vending Machine</h3>
         <p>
           One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
-          North Station, South Station, Back Bay, Porter, Malden, Lynn, Worcester, Ruggles, Forest Hills, JFK/UMass, Quincy Center, Braintree
+          <%= for {name, id} <- vending_machine_stations do %>
+            <%= link name, to: station_path(Site.Endpoint, :show, id) %><%= if {name, id} != List.last(vending_machine_stations) do %>,<% end%>
+          <% end %>
         </p>
       </div>
       <div class="col-md-6 col-xs-12">

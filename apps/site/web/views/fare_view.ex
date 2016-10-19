@@ -121,4 +121,19 @@ please contact an administrator at your school."
   def fare_name(%Fare{name: :ferry_cross_harbor}), do: "Cross Harbor Ferry"
   def fare_name(%Fare{name: :commuter_ferry}), do: "Commuter Ferry"
   def fare_name(%Fare{name: :commuter_ferry_logan}), do: "Commuter Ferry to Logan Airport"
+
+  def vending_machine_stations do
+    [{"North Station", "place-north"},
+      {"South Station", "place-sstat"},
+      {"Back Bay", "place-bbsta"},
+      {"Porter", "place-portr"},
+      {"Malden", "place-mlmnl"},
+      {"Lynn", "Lynn"},
+      {"Worcester", "Worcester"},
+      {"Ruggles", "place-rugg"},
+      {"Forest Hills", "place-forhl"},
+      {"JFK/UMass", "place-jfk"},
+      {"Quincy Center", "place-qnctr"},
+      {"Braintree", "place-brntn"}]
+  end
 end
