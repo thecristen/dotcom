@@ -3,7 +3,7 @@ defmodule Site.Fare.FareBehaviour do
 
   @callback route_type() :: integer
   @callback mode_name() :: String.t
-  @callback fares(String.t, String.t) :: [Fares.Fare.t]
+  @callback fares(Stations.Station.t, Stations.Station.t) :: [Fares.Fare.t]
   @callback key_stops() :: [Stations.Station.t]
 
   use Site.Web, :controller
@@ -37,17 +37,9 @@ defmodule Site.Fare.FareBehaviour do
     |> assign_params
     |> assign_fare_type
 
-    destination_stops = if conn.assigns[:origin] do
-      mode_strategy.destination_stops(conn.assigns[:origin].id)
-    else
-      []
-    end
+    destination_stops = mode_strategy.destination_stops(conn.assigns[:origin])
 
-    fares = if conn.assigns[:destination] do
-      mode_strategy.fares(conn.assigns[:origin].id, conn.assigns[:destination].id)
-    else
-      []
-    end
+    fares = mode_strategy.fares(conn.assigns[:origin], conn.assigns[:destination])
 
     conn
     |> render("index.html",
@@ -70,8 +62,11 @@ defmodule Site.Fare.FareBehaviour do
     end)
   end
 
+  def destination_stops(nil, route_type) do
+    []
+  end
   def destination_stops(origin, route_type) do
-    origin
+    origin.id
     |> Routes.Repo.by_stop
     |> Enum.filter_map(&(&1.type == route_type), &(Schedules.Repo.stops &1.id, []))
     |> Enum.concat

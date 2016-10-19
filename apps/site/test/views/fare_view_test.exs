@@ -64,16 +64,16 @@ defmodule Site.FareViewTest do
   end
 
   describe "filter_fares/2" do
+    @fares [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}, %Fare{name: {:zone, "6"}, reduced: :student}]
+
     test "filters out non-adult fares" do
-      fares = [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}, %Fare{name: {:zone, "6"}, reduced: :student}]
       expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}]
-      assert FareView.filter_fares(fares, "adult") == expected_fares
+      assert FareView.filter_fares(@fares, "adult") == expected_fares
     end
 
     test "filters out non-student fares" do
-      fares = [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}, %Fare{name: {:zone, "6"}, reduced: :student}]
       expected_fares = [%Fare{name: {:zone, "6"}, reduced: :student}]
-      assert FareView.filter_fares(fares, "student") == expected_fares
+      assert FareView.filter_fares(@fares, "student") == expected_fares
     end
   end
 
