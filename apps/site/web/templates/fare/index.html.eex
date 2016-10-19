@@ -55,6 +55,12 @@
         </p>
       </div>
       <div class="col-md-6 col-xs-12">
+        <div>
+          <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8"><%= svg "download_on_the_app_store.svg" %></a>
+          <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
+            <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="placeholder" height="41" />
+          </a>
+        </div>
         <h3>Retail Sales Locations</h3>
         <p>
           MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
