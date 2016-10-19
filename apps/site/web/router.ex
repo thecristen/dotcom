@@ -35,8 +35,12 @@ defmodule Site.Router do
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
-    get "/fares/commuter", FareController, :commuter
-    get "/fares/ferry", FareController, :ferry
+  end
+
+  scope "/fares/", Site do
+    for mode <- ~W(commuter ferry bus_subway)a do
+      get "/#{mode}", FareController, mode, as: :fare
+    end
   end
 
   scope "/_flags", Laboratory do

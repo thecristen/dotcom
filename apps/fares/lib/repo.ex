@@ -40,20 +40,6 @@ defmodule Fares.Repo.ZoneFares do
       %Fare{
         mode: mode,
         name: commuter_rail_fare_name(zone),
-        duration: :month,
-        pass_type: :ticket,
-        reduced: nil,
-        cents: dollars_to_cents(monthly)},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
-        duration: :month,
-        pass_type: :mticket,
-        reduced: nil,
-        cents: dollars_to_cents(monthly) - 1000},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,
         reduced: nil,
@@ -64,16 +50,28 @@ defmodule Fares.Repo.ZoneFares do
         duration: :round_trip,
         pass_type: :ticket,
         reduced: :student,
-        cents: dollars_to_cents(single_trip_reduced) * 2
-      },
+        cents: dollars_to_cents(single_trip_reduced) * 2},
       %Fare{
         mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,
         reduced: :senior_disabled,
-        cents: dollars_to_cents(single_trip_reduced) * 2
-      }
+        cents: dollars_to_cents(single_trip_reduced) * 2},
+      %Fare{
+        mode: mode,
+        name: commuter_rail_fare_name(zone),
+        duration: :month,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(monthly)},
+      %Fare{
+        mode: mode,
+        name: commuter_rail_fare_name(zone),
+        duration: :month,
+        pass_type: :mticket,
+        reduced: nil,
+        cents: dollars_to_cents(monthly) - 1000}
     ]
   end
   def mapper([
@@ -176,7 +174,7 @@ defmodule Fares.Repo.ZoneFares do
     [
       %Fare{
         mode: :bus,
-        name: :"#{mode}_charlie_card",
+        name: :"#{mode}",
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: nil,
@@ -184,7 +182,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_ticket",
+        name: :"#{mode}",
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
@@ -192,7 +190,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_student",
+        name: :"#{mode}",
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: :student,
@@ -200,7 +198,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_senior",
+        name: :"#{mode}",
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: :senior_disabled,
@@ -208,7 +206,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_student",
+        name: :"#{mode}",
         duration: :month,
         pass_type: :charlie_card,
         reduced: :student,
@@ -216,7 +214,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_senior",
+        name: :"#{mode}",
         duration: :month,
         pass_type: :charlie_card,
         reduced: :senior_disabled,
@@ -224,7 +222,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_link_pass",
+        name: :"#{mode}",
         duration: :day,
         pass_type: :link_pass,
         reduced: nil,
@@ -232,7 +230,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_link_pass",
+        name: :"#{mode}",
         duration: :week,
         pass_type: :link_pass,
         reduced: nil,
@@ -240,7 +238,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :bus,
-        name: :"#{mode}_link_pass",
+        name: :"#{mode}",
         duration: :month,
         pass_type: :link_pass,
         reduced: nil,

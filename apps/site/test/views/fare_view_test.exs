@@ -77,17 +77,17 @@ defmodule Site.FareViewTest do
     end
   end
 
-  describe "filter_fares/2" do
+  describe "filter_reduced/2" do
     @fares [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}, %Fare{name: {:zone, "6"}, reduced: :student}]
 
     test "filters out non-adult fares" do
       expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}]
-      assert FareView.filter_fares(@fares, "adult") == expected_fares
+      assert FareView.filter_reduced(@fares, :adult) == expected_fares
     end
 
     test "filters out non-student fares" do
       expected_fares = [%Fare{name: {:zone, "6"}, reduced: :student}]
-      assert FareView.filter_fares(@fares, "student") == expected_fares
+      assert FareView.filter_reduced(@fares, :student) == expected_fares
     end
   end
 
@@ -98,24 +98,6 @@ defmodule Site.FareViewTest do
 
     test "gets 'Adult' when the fare does not have a reduced field" do
       assert FareView.fare_customers(nil) == "Adult"
-    end
-  end
-
-  describe "applicable_fares/2" do
-    test "returns fare filters for adult fares on the commuter rail" do
-      assert FareView.applicable_fares(nil, 2) == [
-        %{reduced: nil, duration: :single_trip},
-        %{reduced: nil, duration: :round_trip},
-        %{reduced: nil, duration: :month},
-        %{duration: :month, pass_type: :mticket, reduced: nil}
-      ]
-    end
-
-    test "returns fare filters for student fares on ferries" do
-      assert FareView.applicable_fares(:student, 4) == [
-        %{reduced: :student, duration: :single_trip},
-        %{reduced: :student, duration: :round_trip}
-      ]
     end
   end
 
@@ -136,4 +118,3 @@ defmodule Site.FareViewTest do
     end
   end
 end
-

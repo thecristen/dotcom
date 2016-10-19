@@ -1,6 +1,10 @@
 defmodule Site.FareController do
   use Site.Web, :controller
 
-  defdelegate commuter(conn, params), to: __MODULE__.Commuter, as: :index
-  defdelegate ferry(conn, params), to: __MODULE__.Ferry, as: :index
+  alias Site.FareController.{Commuter, BusSubway, Ferry}
+
+  defdelegate commuter(conn, params), to: Commuter, as: :index
+  defdelegate ferry(conn, params), to: Ferry, as: :index
+  defdelegate bus_subway(conn, params), to: BusSubway, as: :index
+
 end

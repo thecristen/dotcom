@@ -34,14 +34,14 @@
     </div>
 
     <%= unless @fares == [] do %>
-      <%= render "_fares_display.html",
-      fares: @fares,
-      conn: @conn,
-      fare_type: @fare_type,
-      origin: @origin,
-      destination: @destination,
-      route_type: @route_type
-      %>
+      <%= if @origin && @destination do %>
+        <div class="row">
+          <div class="col-xs-12 m-t-1">
+            <strong><%= zone_name(List.first(@fares).name) %> Fare</strong> | <%= @origin.name %> to <%= @destination.name %>
+          </div>
+        </div>
+      <% end %>
+      <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type %>
     <% end %>
 
     <div class="row m-t-1">

@@ -1,18 +1,8 @@
-<% example_fare = List.first(@fares) %>
-<div class="row">
-  <div class="col-xs-12 m-t-1">
-    <%= if @route_type == 2 do %>
-      <strong><%= zone_name(example_fare.name) %> Fare</strong> |
-    <% end %>
-    <%= @origin.name %> to <%= @destination.name %>
-  </div>
-</div>
 <div class="fares-tab-group row">
-  <%= for reduced_type <- ["adult", "student", "senior_disabled"] do %>
-    <a class="fares-tab p-a-1 col-md-3 col-xs-12 <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= fare_path(@conn, example_fare.mode, update_query(@conn, fare_type: reduced_type)) %>">
+  <%= for reduced_type <- ~w(adult student senior_disabled)a do %>
+    <a class="fares-tab p-a-1 col-md-3 col-xs-12 <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= @conn.request_path %>?<%= @conn |> update_query(fare_type: reduced_type) |> URI.encode_query %>">
       <%= display_fare_type(reduced_type) %>
     </a>
   <% end %>
-
 </div>
-<%= render "_fare_info.html", fares: filter_fares(@fares, @fare_type), conn: @conn, route_type: @route_type %>
+<%= render "_fare_info.html", fares: filter_reduced(@fares, @fare_type), conn: @conn %>

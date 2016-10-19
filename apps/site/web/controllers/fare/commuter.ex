@@ -1,5 +1,5 @@
 defmodule Site.FareController.Commuter do
-  use Site.Fare.FareBehaviour
+  use Site.Fare.OriginDestinationFareBehaviour
 
   alias Schedules.Stop
 
@@ -7,12 +7,12 @@ defmodule Site.FareController.Commuter do
 
   def mode_name, do: "Commuter Rail"
 
-  def fares(origin, destination) when not is_nil(origin) and not is_nil(destination) do
+  def fares(%{assigns: %{origin: origin, destination: destination}}) when not is_nil(origin) and not is_nil(destination) do
     fare_name = Fares.calculate(Zones.Repo.get(origin.id), Zones.Repo.get(destination.id))
-    [name: fare_name]
-    |> Fares.Repo.all()
+
+    Fares.Repo.all(name: fare_name)
   end
-  def fares(_origin, _destination) do
+  def fares(_conn) do
     []
   end
 
@@ -22,16 +22,5 @@ defmodule Site.FareController.Commuter do
       %Stop{id: "place-north", name: "North Station"},
       %Stop{id: "place-bbsta", name: "Back Bay"}
     ]
-  end
-
-  def applicable_fares(nil) do
-    [%{reduced: nil, duration: :single_trip},
-     %{reduced: nil, duration: :round_trip},
-     %{reduced: nil, duration: :month},
-     %{duration: :month, pass_type: :mticket, reduced: nil}]
-  end
-  def applicable_fares(reduced) do
-    [%{reduced: reduced, duration: :single_trip},
-     %{reduced: reduced, duration: :round_trip}]
   end
 end

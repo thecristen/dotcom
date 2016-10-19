@@ -99,20 +99,6 @@ defmodule Fares.RepoTest do
         %Fare{
           name: {:zone, "1A"},
           mode: :commuter,
-          duration: :month,
-          pass_type: :ticket,
-          reduced: nil,
-          cents: 8450},
-        %Fare{
-          name: {:zone, "1A"},
-          mode: :commuter,
-          duration: :month,
-          pass_type: :mticket,
-          reduced: nil,
-          cents: 7450},
-        %Fare{
-          name: {:zone, "1A"},
-          mode: :commuter,
           duration: :round_trip,
           pass_type: :ticket,
           reduced: nil,
@@ -131,6 +117,20 @@ defmodule Fares.RepoTest do
           pass_type: :ticket,
           reduced: :senior_disabled,
           cents: 220},
+        %Fare{
+          name: {:zone, "1A"},
+          mode: :commuter,
+          duration: :month,
+          pass_type: :ticket,
+          reduced: nil,
+          cents: 8450},
+        %Fare{
+          name: {:zone, "1A"},
+          mode: :commuter,
+          duration: :month,
+          pass_type: :mticket,
+          reduced: nil,
+          cents: 7450},
       ]
     end
   end
