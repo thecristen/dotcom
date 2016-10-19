@@ -62,7 +62,7 @@ defmodule Site.Fare.FareBehaviour do
     end)
   end
 
-  def destination_stops(nil, route_type) do
+  def destination_stops(nil, _route_type) do
     []
   end
   def destination_stops(origin, route_type) do

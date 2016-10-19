@@ -8,7 +8,7 @@ defmodule Site.FareController.Commuter do
   def fares(origin, destination) when not is_nil(origin) and not is_nil(destination) do
     fare_name = Fares.calculate(Zones.Repo.get(origin.id), Zones.Repo.get(destination.id))
 
-    fares = [name: fare_name]
+    [name: fare_name]
     |> Fares.Repo.all()
   end
   def fares(_origin, _destination) do
