@@ -64,8 +64,12 @@
         <h3>Fare Vending Machine</h3>
         <p>
           One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
-          <%= for {name, id} <- vending_machine_stations do %>
-            <%= link name, to: station_path(Site.Endpoint, :show, id) %><%= if {name, id} != List.last(vending_machine_stations) do %>,<% end%>
+          <%= for {{name, id}, index} <- Enum.with_index(vending_machine_stations) do %>
+            <%= if length(vending_machine_stations) - 1 == index do %>
+              <%= link name, to: station_path(Site.Endpoint, :show, id) %>
+            <%= else %>
+              <%= link name, to: station_path(Site.Endpoint, :show, id) %>,
+            <% end %>
           <% end %>
         </p>
       </div>
