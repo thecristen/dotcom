@@ -1,0 +1,22 @@
+<% example_fare = List.first(@fares) %>
+<div>
+  <div class="fare-qualifications m-y-1">
+    <%= eligibility(example_fare) %>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="p-a-1 col-md-3 col-xs-12 fares-description-tab">
+        <%= zone_name(example_fare.name) %> <%= fare_customers(example_fare.reduced) %> Fares
+      </div>
+    </div>
+    <div class="row fares-box">
+      <%= for filter_row <- Enum.chunk(applicable_fares(example_fare.reduced), 2) do %>
+        <div class="row fares-row">
+          <%= for filter <- filter_row do %>
+            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, filter)) %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

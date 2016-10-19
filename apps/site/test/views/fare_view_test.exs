@@ -52,4 +52,53 @@ defmodule Site.FareViewTest do
         "Valid for one calendar month of travel on the commuter rail from zones 1A-5 only."
     end
   end
+
+  describe "eligibility/1" do
+    test "returns eligibility information for a mode" do
+      assert FareView.eligibility(%Fare{mode: :commuter, reduced: :student}) =~ "Middle and high school students are eligible"
+    end
+
+    test "returns eligibility information for adult" do
+      assert FareView.eligibility(%Fare{mode: :commuter, reduced: nil}) =~ "Those who are 12 years of age or older qualify for Adult fare pricing."
+    end
+  end
+
+  describe "filter_fares/2" do
+    @fares [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}, %Fare{name: {:zone, "6"}, reduced: :student}]
+
+    test "filters out non-adult fares" do
+      expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}]
+      assert FareView.filter_fares(@fares, "adult") == expected_fares
+    end
+
+    test "filters out non-student fares" do
+      expected_fares = [%Fare{name: {:zone, "6"}, reduced: :student}]
+      assert FareView.filter_fares(@fares, "student") == expected_fares
+    end
+  end
+
+  describe "fare_customers/1" do
+    test "gets 'Student' when the fare applies to students" do
+      assert FareView.fare_customers(:student) == "Student"
+    end
+
+    test "gets 'Adult' when the fare does not have a reduced field" do
+      assert FareView.fare_customers(nil) == "Adult"
+    end
+  end
+
+  describe "applicable_fares/1" do
+    test "returns fare filters for adult fares" do
+      assert FareView.applicable_fares(nil) == [%{reduced: nil, duration: :single_trip},
+       %{reduced: nil, duration: :round_trip},
+       %{reduced: nil, duration: :month},
+       %{duration: :month, pass_type: :mticket, reduced: nil}]
+    end
+
+    test "returns fare filters for student fares" do
+      assert FareView.applicable_fares(:student) == [%{reduced: :student, duration: :single_trip},
+       %{reduced: :student, duration: :round_trip}]
+    end
+  end
 end
+

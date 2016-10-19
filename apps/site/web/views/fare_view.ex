@@ -41,4 +41,43 @@ defmodule Site.FareView do
     "Valid for one calendar month of unlimited travel on Commuter Rail from Zones 1A-#{number} as well as Local " <>
     "Bus, Subway, Express Bus, and the Charlestown Ferry."
   end
+
+  def eligibility(%Fare{mode: :commuter, reduced: :student}) do
+    "Middle and high school students are eligible for reduced fares on the Commuter Rail. In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. One Way fares and Stored Value are eligibile for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are not. College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."
+  end
+  def eligibility(%Fare{mode: :commuter, reduced: nil}) do
+    "Those who are 12 years of age or older qualify for Adult fare pricing."
+  end
+  def eligibility(_) do
+    nil
+  end
+
+  def filter_fares(fares, "adult") do
+    fares
+    |> Enum.filter(&(&1.reduced == nil))
+  end
+  def filter_fares(fares, "student") do
+    fares
+    |> Enum.filter(&(&1.reduced == :student))
+  end
+
+  def fare_customers(nil) do
+    "Adult"
+  end
+  def fare_customers(reduced) do
+    reduced
+    |> Atom.to_string
+    |> String.capitalize
+  end
+
+  def applicable_fares(nil) do
+    [%{reduced: nil, duration: :single_trip},
+     %{reduced: nil, duration: :round_trip},
+     %{reduced: nil, duration: :month},
+     %{duration: :month, pass_type: :mticket, reduced: nil}]
+  end
+  def applicable_fares(reduced) do
+    [%{reduced: reduced, duration: :single_trip},
+     %{reduced: reduced, duration: :round_trip}]
+  end
 end

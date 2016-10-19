@@ -14,10 +14,11 @@
         <%= render "_stop_selector.html",
         conn: @conn,
         query_key: "origin",
-        selected: @origin,
+        selected: (if @origin, do: @origin.id, else: nil),
         all_stops: @origin_stops,
         key_stops: @key_stops,
-        label_text: "Origin"
+        label_text: "Origin",
+        exclude: ["destination"]
         %>
       </div>
       <%= unless @origin == nil do %>
@@ -25,7 +26,7 @@
           <%= render "_stop_selector.html",
           conn: @conn,
           query_key: "destination",
-          selected: @destination,
+          selected: (if @destination, do: @destination.id, else: nil),
           all_stops: @destination_stops,
           key_stops: [],
           label_text: "Destination"
@@ -34,28 +35,9 @@
       <% end %>
     </div>
 
-    <div class="fare-qualifications m-y-1">
-      Those who are 12 years of age or older qualify for Adult fare pricing.
-    </div>
-
-    <div class="row">
-      <div class="p-a-1 col-md-3 col-xs-12 fares-tab" >
-        <%= zone_name(List.first(@fares).name) %> Adult Fares
-      </div>
-    </div>
-
-    <div class="row fares-box">
-      <div class="row">
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :single_trip, reduced: nil})) %>
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :round_trip, reduced: nil})) %>
-      </div>
-
-      <div class="row">
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, reduced: nil})) %>
-        <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, %{duration: :month, pass_type: :mticket, reduced: nil})) %>
-      </div>
-    </div>
-
+    <%= unless @fares == [] do %>
+      <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type, origin: @origin, destination: @destination %>
+    <% end %>
 
     <div class="row m-t-1">
       <h2>Purchasing Tickets or Passes</h2>
