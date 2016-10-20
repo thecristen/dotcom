@@ -50,28 +50,30 @@ defmodule Fares.Repo.ZoneFares do
         duration: :month,
         pass_type: :mticket,
         reduced: nil,
-        cents: round(String.to_float(monthly) * 100) - 1000},
+        cents: dollars_to_cents(monthly) - 1000},
       %Fare{
         mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,
         reduced: nil,
-        cents: round(String.to_float(single_trip) * 2 * 100)},
+        cents: dollars_to_cents(single_trip) * 2},
       %Fare{
         mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,
         reduced: :student,
-        cents: round(String.to_float(single_trip_reduced) * 2 * 100)},
+        cents: dollars_to_cents(single_trip_reduced) * 2
+      },
       %Fare{
         mode: mode,
         name: commuter_rail_fare_name(zone),
         duration: :round_trip,
         pass_type: :ticket,
         reduced: :senior_disabled,
-        cents: round(String.to_float(single_trip_reduced) * 2 * 100)}
+        cents: dollars_to_cents(single_trip_reduced) * 2
+      }
     ]
   end
   def mapper([
@@ -115,7 +117,7 @@ defmodule Fares.Repo.ZoneFares do
         name: :subway_senior,
         duration: :single_trip,
         pass_type: :charlie_card,
-        reduced: :senior,
+        reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{
@@ -131,7 +133,7 @@ defmodule Fares.Repo.ZoneFares do
         name: :subway_senior,
         duration: :month,
         pass_type: :charlie_card,
-        reduced: :senior,
+        reduced: :senior_disabled,
         cents: dollars_to_cents(month_reduced_price)
       },
       %Fare{
@@ -201,7 +203,7 @@ defmodule Fares.Repo.ZoneFares do
         name: :"#{mode}_senior",
         duration: :single_trip,
         pass_type: :charlie_card,
-        reduced: :senior,
+        reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{
@@ -217,7 +219,7 @@ defmodule Fares.Repo.ZoneFares do
         name: :"#{mode}_senior",
         duration: :month,
         pass_type: :charlie_card,
-        reduced: :senior,
+        reduced: :senior_disabled,
         cents: dollars_to_cents(month_reduced_price)
       },
       %Fare{
@@ -269,6 +271,14 @@ defmodule Fares.Repo.ZoneFares do
       %Fare{
         mode: :ferry,
         name: :ferry_inner_harbor,
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(inner_harbor_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_inner_harbor,
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
@@ -284,11 +294,27 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :ferry,
+        name: :ferry_cross_harbor,
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(cross_harbor_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
         name: :commuter_ferry,
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :commuter_ferry,
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(commuter_ferry_price) * 2
       },
       %Fare{
         mode: :ferry,
@@ -300,6 +326,14 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :ferry,
+        name: :commuter_ferry_logan,
+        duration: :round_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(commuter_ferry_logan_price) * 2,
+      },
+      %Fare{
+        mode: :ferry,
         name: :commuter_ferry,
         duration: :month,
         pass_type: :ticket,
@@ -308,7 +342,15 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :ferry,
-        name: :ferry_day_pass,
+        name: :commuter_ferry,
+        duration: :month,
+        pass_type: :mticket,
+        reduced: nil,
+        cents: dollars_to_cents(commuter_ferry_month_price) - 1000
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_inner_harbor,
         duration: :day,
         pass_type: :ticket,
         reduced: nil,
@@ -316,7 +358,7 @@ defmodule Fares.Repo.ZoneFares do
       },
       %Fare{
         mode: :ferry,
-        name: :ferry_week_pass,
+        name: :ferry_inner_harbor,
         duration: :week,
         pass_type: :ticket,
         reduced: nil,
@@ -325,7 +367,7 @@ defmodule Fares.Repo.ZoneFares do
     ]
 
     reduced_fares = fares
-    |> Enum.filter(&(&1.duration == :single_trip))
+    |> Enum.filter(&(&1.duration in [:single_trip, :round_trip]))
     |> Enum.flat_map(fn fare ->
       reduced_price = round(fare.cents / 2)
       [

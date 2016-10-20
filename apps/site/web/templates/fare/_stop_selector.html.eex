@@ -7,14 +7,14 @@
     <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-no-conversion>
       <%= if !selected do %><option disabled selected value="">Select a stop</option><% end %>
       <%= for stop <- @key_stops do %>
-        <option value="<%= stop.id %>" data-key-option="true" data-suffix="Zone <%= Zones.Repo.get stop.id %>">
+        <option value="<%= stop.id %>" data-key-option="true" <%= if @route_type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>">
           <%= stop.name %>
         </option>
       <% end %>
       <%= for stop <- @all_stops do %>
         <% stop_id = stop.id %>
         <% selected = stop_id == @selected %>
-        <option value="<%= stop_id %>"<%= if selected do %> selected<% end %> data-suffix="Zone <%= Zones.Repo.get stop.id %>">
+        <option value="<%= stop_id %>"<%= if selected do %> selected<% end %> <%= if @route_type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>">
           <%= stop.name %>
         </option>
       <% end %>

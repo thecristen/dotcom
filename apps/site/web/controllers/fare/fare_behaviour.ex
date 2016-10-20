@@ -3,8 +3,8 @@ defmodule Site.Fare.FareBehaviour do
 
   @callback route_type() :: integer
   @callback mode_name() :: String.t
-  @callback fares(Stations.Station.t, Stations.Station.t) :: [Fares.Fare.t]
-  @callback key_stops() :: [Stations.Station.t]
+  @callback fares(Schedules.Stop.t, Schedules.Stop.t) :: [Fares.Fare.t]
+  @callback key_stops() :: [Schedules.Stop.t]
 
   use Site.Web, :controller
 
@@ -33,33 +33,34 @@ defmodule Site.Fare.FareBehaviour do
   end
 
   def index(mode_strategy, conn)  do
-    conn = conn
-    |> assign_params
-    |> assign_fare_type
+    origin_stop_list = mode_strategy.origin_stops
+    origin = get_stop(conn, "origin", origin_stop_list)
 
-    destination_stops = mode_strategy.destination_stops(conn.assigns[:origin])
+    destination_stop_list = mode_strategy.destination_stops(origin)
+    destination = get_stop(conn, "destination", destination_stop_list)
 
-    fares = mode_strategy.fares(conn.assigns[:origin], conn.assigns[:destination])
+    fares = mode_strategy.fares(origin, destination)
 
     conn
     |> render("index.html",
         mode_name: mode_strategy.mode_name,
-        origin_stops: mode_strategy.origin_stops,
-        destination_stops: destination_stops,
+        route_type: mode_strategy.route_type,
+        origin_stops: origin_stop_list,
+        destination_stops: destination_stop_list,
         fares: fares,
-        key_stops: mode_strategy.key_stops
-      )
+        key_stops: mode_strategy.key_stops,
+        origin: origin,
+        destination: destination,
+        fare_type: fare_type(conn)
+    )
   end
 
   def origin_stops(route_type) do
-    Stations.Repo.all
-    |> Enum.filter(fn station ->
-      station.id
-      |> Routes.Repo.by_stop
-      |> Enum.filter(&(&1.type == route_type))
-      |> Enum.empty?
-      |> Kernel.!
-    end)
+    route_type
+    |> Routes.Repo.by_type
+    |> Enum.flat_map(&Schedules.Repo.stops &1.id, [])
+    |> Enum.sort_by(&(&1.name))
+    |> Enum.dedup
   end
 
   def destination_stops(nil, _route_type) do
@@ -72,21 +73,19 @@ defmodule Site.Fare.FareBehaviour do
     |> Enum.concat
     |> Enum.sort_by(&(&1.name))
     |> Enum.dedup
+    |> Enum.reject(&(&1.id == origin.id))
   end
 
-  defp assign_params(conn) do
-    Enum.reduce [:origin, :destination], conn, fn (param, conn) ->
-      case Map.get(conn.params, Atom.to_string(param), "") do
-        "" -> assign conn, param, nil
-        value -> assign conn, param, Stations.Repo.get(value)
-      end
-    end
+  def get_stop(conn, stop, all_stops) do
+    conn.params
+    |> Map.get(stop, "")
+    |> (fn o -> Enum.find(all_stops, &(&1.id == o)) end).()
   end
 
-  defp assign_fare_type(%{params: %{"fare_type" => fare_type}} = conn) when fare_type in ["adult", "senior-disabled", "student"] do
-    assign(conn, :fare_type, fare_type)
+  defp fare_type(%{params: %{"fare_type" => fare_type}}) when fare_type in ["adult", "senior-disabled", "student"] do
+    fare_type
   end
-  defp assign_fare_type(conn) do
-    assign(conn, :fare_type, "adult")
+  defp fare_type(_) do
+    "adult"
   end
 end

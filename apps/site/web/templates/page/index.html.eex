@@ -5,7 +5,6 @@
 
   <div class="card card-section card-narrow">
     <div class="card-block card-block-no-header">
-    <%# button(%{template: "primary" }) %>
       <div class="row">
         <div class="col-md-6">
           <h1>Riding the T</h1>

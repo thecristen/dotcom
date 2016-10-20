@@ -5,17 +5,29 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="p-a-1 col-md-3 col-xs-12 fares-description-tab">
-        <%= zone_name(example_fare.name) %> <%= fare_customers(example_fare.reduced) %> Fares
+      <div class="p-a-1 col-md-3 col-xs-12 fares-tab fares-description-tab">
+        <%= fare_name(example_fare) %>
+        <%= fare_customers(example_fare.reduced) %> Fares
       </div>
     </div>
     <div class="row fares-box">
-      <%= for filter_row <- Enum.chunk(applicable_fares(example_fare.reduced), 2) do %>
-        <div class="row fares-row">
-          <%= for filter <- filter_row do %>
-            <%= render "_trip_type.html", conn: @conn, fare: List.first(Fares.Repo.filter(@fares, filter)) %>
-          <% end %>
-        </div>
+      <%= for filter_row <- Enum.chunk(applicable_fares(example_fare.reduced, @route_type), 2, 2, []) do %>
+        <%= case Enum.map(filter_row, &(List.first(Fares.Repo.filter(@fares, &1)))) do %>
+          <% [nil, nil] -> %>
+          <% [nil, fare] -> %>
+          <div class="row fares-row">
+            <%= render "_trip_type.html", conn: @conn, fare: fare, route_type: @route_type %>
+          </div>
+          <% [fare, nil] -> %>
+          <div class="row fares-row">
+            <%= render "_trip_type.html", conn: @conn, fare: fare, route_type: @route_type %>
+          </div>
+          <% [left, right] -> %>
+          <div class="row fares-row">
+            <%= render "_trip_type.html", conn: @conn, fare: left, route_type: @route_type %>
+            <%= render "_trip_type.html", conn: @conn, fare: right, route_type: @route_type %>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>
