@@ -1,5 +1,4 @@
 "use strict";
-/// <reference path="./typings/index.d.ts" />
 var os_1 = require("os");
 var FS = require("fs");
 var Path = require("path");
@@ -10,21 +9,19 @@ var CssStyleguideCompilerBrunch = (function () {
     function CssStyleguideCompilerBrunch(files) {
         var _this = this;
         this.files = files;
-        // type: string = "stylesheet";
         this.extension = "json";
         this.pattern = /\.json$/;
         this._bin = isWindows ? 'sass.bat' : 'sass';
-        this._compass_bin = isWindows ? 'compass.bat' : 'compass'; //eslint-disable-line camelcase
+        this._compass_bin = isWindows ? 'compass.bat' : 'compass';
         this.writePath = Path.join(process.cwd(), 'web/static/css');
+        this.copyPath = Path.join(process.cwd(), 'priv/static/css');
         self = this;
         this.files.forEach(function (file) {
             var fullPath = _this.createJSONPath(file);
             FS.readFile(fullPath, function (err, data) {
                 if (err) {
-                    // Throws in a brunch plugin trigger an NPM error which doesn't give stacktrace,
-                    // so I'm adding a console.log here to explain why Brunch is failing...
                     var message = Colors.red.underline("!!!!! ERROR: " + fullPath + " does not exist!");
-                    console.log(message);
+                    console.log(Colors.bgRed(message));
                     throw new Error(message);
                 }
             });
@@ -33,12 +30,12 @@ var CssStyleguideCompilerBrunch = (function () {
     CssStyleguideCompilerBrunch.prototype.compile = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log("starting precompile");
+            console.log(Colors.magenta("Starting precompile..."));
             _this.promises = [];
             _this.files.forEach(_this.createPrecompilePromise);
             Promise.all(_this.promises).then(function () {
                 _this.promises = [];
-                console.log("reached precompile resolution");
+                console.log(Colors.magenta("Finished SCSS precompile."));
                 resolve();
             }).catch(function (error) {
                 throw error;
@@ -57,7 +54,6 @@ var CssStyleguideCompilerBrunch = (function () {
     };
     CssStyleguideCompilerBrunch.prototype.readJSON = function (fileName) {
         return new Promise(function (resolve, reject) {
-            console.log("reading " + fileName + ".json...");
             FS.readFile(self.createJSONPath(fileName), function (readError, _data) {
                 if (readError) {
                     reject(new Error("Read error: " + readError.message));
@@ -69,8 +65,8 @@ var CssStyleguideCompilerBrunch = (function () {
     };
     CssStyleguideCompilerBrunch.prototype.createScssFile = function (result) {
         return new Promise(function (resolve, reject) {
+            console.log(Colors.magenta("Creating " + result.fileName + ".scss..."));
             var path = self.createScssPath(result.fileName);
-            console.log("creating new " + result.fileName + ".scss");
             FS.open(path, 'w', function (openError, fd) {
                 if (openError) {
                     reject(new Error("Open error: " + openError.message));
@@ -81,7 +77,6 @@ var CssStyleguideCompilerBrunch = (function () {
     };
     CssStyleguideCompilerBrunch.prototype.writeScssFile = function (result) {
         return new Promise(function (resolve, reject) {
-            console.log("writing to scss file");
             var scssString = '';
             try {
                 for (var name_1 in result.variables) {
@@ -102,7 +97,6 @@ var CssStyleguideCompilerBrunch = (function () {
     };
     CssStyleguideCompilerBrunch.prototype.closeScssFile = function (fd) {
         return new Promise(function (resolve, reject) {
-            console.log("closing scss file...");
             FS.close(fd, function (closeError) {
                 if (closeError) {
                     throw new Error("Close Error: " + closeError);
@@ -113,7 +107,6 @@ var CssStyleguideCompilerBrunch = (function () {
     };
     CssStyleguideCompilerBrunch.prototype.createTeardownPromise = function (path) {
         try {
-            console.log("creating teardown promise");
             var promise = new Promise(function (resolve, reject) {
                 self.checkForScssFile(path).then(function (fileExists) {
                     if (fileExists) {
@@ -147,7 +140,7 @@ var CssStyleguideCompilerBrunch = (function () {
     };
     CssStyleguideCompilerBrunch.prototype.unlinkScssFile = function (path) {
         return new Promise(function (resolve, reject) {
-            console.log("unlinking " + Path.basename(path));
+            console.log(Colors.magenta("Deleting " + Path.basename(path) + "..."));
             FS.unlink(path, function (error) {
                 if (error) {
                     console.log(Colors.red("Error in unlinkScssFile: " + error));
@@ -157,26 +150,69 @@ var CssStyleguideCompilerBrunch = (function () {
             });
         });
     };
+    CssStyleguideCompilerBrunch.prototype.copyJsonFile = function (path) {
+        var promise = new Promise(function (resolve, reject) {
+            console.log(Colors.magenta("Copying " + Path.basename(path) + " to priv/static/css..."));
+            self.readJsonCopy(path)
+                .then(self.writeJsonCopy)
+                .catch(function (error) {
+                console.log(Colors.red("Error copying JSON file to priv: " + error));
+                throw new Error("copyJson error: " + error.message);
+            });
+        });
+        self.promises.push(promise);
+    };
+    CssStyleguideCompilerBrunch.prototype.readJsonCopy = function (path) {
+        return new Promise(function (resolve, reject) {
+            FS.readFile(self.createJSONPath(path), function (error, data) {
+                if (error)
+                    return reject(error);
+                resolve({ data: data.toString(), path: path });
+            });
+        });
+    };
+    CssStyleguideCompilerBrunch.prototype.writeJsonCopy = function (result) {
+        return new Promise(function (resolve, reject) {
+            FS.open(self.createJSONcopyPath(result.path), 'w', function (error, fd) {
+                if (error)
+                    return reject(error);
+                FS.write(fd, result.data, function (error, written, str) {
+                    if (error)
+                        return reject(error);
+                    console.log("successfully copied JSON file");
+                    resolve("successfully copied JSON file");
+                    FS.close(fd, function (_error) {
+                        if (_error)
+                            return reject(error);
+                        resolve();
+                    });
+                });
+            });
+        });
+    };
     CssStyleguideCompilerBrunch.prototype.createScssPath = function (file) {
         return self.writePath + "/" + file + ".scss";
     };
     CssStyleguideCompilerBrunch.prototype.createJSONPath = function (file) {
         return self.writePath + "/" + file + ".json";
     };
+    CssStyleguideCompilerBrunch.prototype.createJSONcopyPath = function (file) {
+        return self.copyPath + "/" + file + ".json";
+    };
     CssStyleguideCompilerBrunch.prototype.teardown = function () {
         return new Promise(function (resolve, reject) {
             try {
-                console.log(Colors.magenta("starting teardown"));
+                console.log(Colors.magenta("Starting teardown..."));
                 self.promises = [];
+                self.files.forEach(self.copyJsonFile);
                 self.files.map(self.createScssPath).forEach(self.createTeardownPromise);
                 Promise.all(self.promises)
                     .then(function () {
                     self.promises = [];
-                    console.log("finished teardown");
+                    console.log(Colors.magenta("Finished teardown."));
                     resolve();
                 })
                     .catch(function (error) { console.error("Error in CssStyleguideBrunch.teardown: " + error.message); throw error; });
-                console.log(Colors.bgMagenta("returning true"));
             }
             catch (exception) {
                 throw new Error("Error in teardown: " + exception);

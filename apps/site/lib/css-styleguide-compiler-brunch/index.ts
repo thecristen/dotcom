@@ -30,6 +30,7 @@ class CssStyleguideCompilerBrunch {
   _compass_bin: string = isWindows ? 'compass.bat' : 'compass'; //eslint-disable-line camelcase
   config: any;
   writePath: string = Path.join(process.cwd(), 'web/static/css')
+  copyPath: string = Path.join(process.cwd(), 'priv/static/css')
   promises: Array<Promise<any>>;
 
   constructor(private files: Array<string>) {
@@ -167,6 +168,45 @@ class CssStyleguideCompilerBrunch {
     });
   }
 
+  copyJsonFile(path: string): void {
+    const promise = new Promise((resolve, reject) => {
+      console.log(Colors.magenta(`Copying ${Path.basename(path)} to priv/static/css...`))
+      self.readJsonCopy(path)
+        .then(self.writeJsonCopy)
+        .catch((error: NodeJS.ErrnoException) => {
+          console.log(Colors.red(`Error copying JSON file to priv: ${error}`));
+          throw new Error(`copyJson error: ${error.message}`)
+        })
+    });
+    self.promises.push(promise);
+  }
+
+  readJsonCopy(path: string): Promise<{data: string, path: string}> {
+    return new Promise((resolve, reject) => {
+      FS.readFile(self.createJSONPath(path), (error: NodeJS.ErrnoException, data: Buffer) => {
+        if (error) return reject(error);
+        resolve({data: data.toString(), path: path});
+      });
+    });
+  }
+
+  writeJsonCopy(result: {data: string, path: string}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      FS.open(self.createJSONcopyPath(result.path), 'w', (error: NodeJS.ErrnoException, fd: number) => {
+        if (error) return reject(error);
+        FS.write(fd, result.data, (error: NodeJS.ErrnoException, written: number, str: string) => {
+          if (error) return reject(error);
+          console.log("successfully copied JSON file")
+          resolve("successfully copied JSON file");
+          FS.close(fd, (_error: NodeJS.ErrnoException) => {
+            if (_error) return reject(error);
+            resolve();
+          })
+        })
+      })
+    });
+  }
+
   createScssPath(file: string) {
     return `${self.writePath}/${file}.scss`
   }
@@ -175,11 +215,16 @@ class CssStyleguideCompilerBrunch {
     return `${self.writePath}/${file}.json`
   }
 
+  createJSONcopyPath(file: string) {
+    return `${self.copyPath}/${file}.json`
+  }
+
   teardown(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         console.log(Colors.magenta("Starting teardown..."))
         self.promises = [];
+        self.files.forEach(self.copyJsonFile)
         self.files.map(self.createScssPath).forEach(self.createTeardownPromise);
         Promise.all(self.promises)
           .then(() => {

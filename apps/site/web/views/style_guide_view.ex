@@ -10,8 +10,8 @@ defmodule Site.StyleGuideView do
   end
 
   defp color_variables_map do
-    File.cwd!
-    |> Path.join("apps/site/web/static/css/colors.json")
+    Application.app_dir(:site)
+    |> Path.join("priv/static/css/colors.json")
     |> File.read!
     |> Poison.Parser.parse!
   end
