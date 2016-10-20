@@ -86,8 +86,7 @@ defmodule Site.ViewHelpers do
   def mode_icon(%Routes.Route{type: 1}), do: do_mode_icon("subway")
   def mode_icon(%Routes.Route{type: 2}), do: do_mode_icon("commuter")
   def mode_icon(%Routes.Route{type: 3}), do: do_mode_icon("bus")
-  def mode_icon(%Routes.Route{type: 4}), do: do_mode_icon("boat")
-  def mode_icon(:ferry), do: do_mode_icon("boat")
+  def mode_icon(%Routes.Route{type: 4}), do: do_mode_icon("ferry")
   def mode_icon(atom) when is_atom(atom) do
     atom
     |> Atom.to_string
@@ -106,7 +105,7 @@ defmodule Site.ViewHelpers do
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"
   def mode_name(type) when type in [2, :commuter], do: "Commuter Rail"
   def mode_name(type) when type in [3, :bus], do: "Bus"
-  def mode_name(type) when type in [4, :boat], do: "Ferry"
+  def mode_name(type) when type in [4, :ferry], do: "Ferry"
 
   @doc "Prefix route name with route for bus lines"
   def route_header_text(%{type: 3, name: name}), do: "Route #{name}"

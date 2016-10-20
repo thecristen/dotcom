@@ -18,7 +18,7 @@
                 <%= link "Subway", to: mode_path(Site.Endpoint, :subway) %>
               </li>
               <li class="footer-link-sublist-item">
-                <%= link "Boat", to: mode_path(Site.Endpoint, :boat) %>
+                <%= link "Ferry", to: mode_path(Site.Endpoint, :ferry) %>
               </li>
             </ul>
           </li>

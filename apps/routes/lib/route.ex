@@ -11,14 +11,14 @@ defmodule Routes.Route do
     name: String.t,
     key_route?: boolean
   }
-  @type route_type :: :subway | :commuter | :bus | :boat
+  @type route_type :: :subway | :commuter | :bus | :ferry
 
   @spec type_atom(t) :: route_type
   def type_atom(%Routes.Route{type: 0}), do: :subway
   def type_atom(%Routes.Route{type: 1}), do: :subway
   def type_atom(%Routes.Route{type: 2}), do: :commuter
   def type_atom(%Routes.Route{type: 3}), do: :bus
-  def type_atom(%Routes.Route{type: 4}), do: :boat
+  def type_atom(%Routes.Route{type: 4}), do: :ferry
 
   @spec key_route?(t) :: boolean
   def key_route?(%__MODULE__{key_route?: key_route?}) do

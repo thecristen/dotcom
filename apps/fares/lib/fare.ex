@@ -1,7 +1,7 @@
 defmodule Fares.Fare do
   @typedoc """
     struct(
-      mode: :commuter | :bus | :subway | :boat,
+      mode: :commuter | :bus | :subway | :ferry,
       name: {:zone, "5"} | :subway_student | etc
       pass_type: :ticket | :charlie_card | :mticket | :link_pass
       reduced: :student | :senior_disabled
@@ -10,7 +10,7 @@ defmodule Fares.Fare do
     )
   """
   @type t :: %__MODULE__{
-    mode: :commuter | :bus | :subway | :boat,
+    mode: :commuter | :bus | :subway | :ferry,
     name: {atom, String.t()} | atom,
     pass_type: :ticket | :charlie_card | :mticket | :link_pass,
     reduced: :student | :senior_disabled,
