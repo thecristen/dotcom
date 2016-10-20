@@ -39,7 +39,7 @@
 .fare-name {
   display: inline-block;
   padding: .5rem 0;
-  width: 50%;
+  width: 60%;
 }
 
 .fare-price {
@@ -73,7 +73,7 @@
 }
 
 .fares-ticket-type {
-  clear: both;
+  padding: .5rem .25rem;
 }
 
 .fare-duration {
@@ -151,4 +151,8 @@
   &.fares-callout-reduced {
     background-color: $brand-primary-dark;
   }
+}
+
+.fares-zone-map-link {
+  padding: .5rem .125rem 0;
 }

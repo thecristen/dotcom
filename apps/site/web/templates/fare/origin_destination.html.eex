@@ -31,8 +31,10 @@
           </div>
         <% end %>
       </div>
-      <p><%= link to: redirect_path(@conn, "uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg") do %>
-        View map of fare zones <%= fa "angle-right" %>
+      <p class="fares-zone-map-link">
+      <%= link to: redirect_path(
+        @conn, "uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg") do %>
+      View map of fare zones <%= fa "angle-right" %>
       <% end %></p>
     </div>
 
