@@ -109,5 +109,22 @@ defmodule Site.FareViewTest do
       ]
     end
   end
+
+  describe "vending_machine_fares/0" do
+    test "generates a list of links to stations with fare vending machines" do
+      assert FareView.vending_machine_stations =~ "place-north"
+      assert FareView.vending_machine_stations =~ "place-sstat"
+      assert FareView.vending_machine_stations =~ "place-bbsta"
+      assert FareView.vending_machine_stations =~ "place-brntn"
+      assert FareView.vending_machine_stations =~ "place-forhl"
+      assert FareView.vending_machine_stations =~ "place-jfk"
+      assert FareView.vending_machine_stations =~ "Lynn"
+      assert FareView.vending_machine_stations =~ "place-mlmnl"
+      assert FareView.vending_machine_stations =~ "place-portr"
+      assert FareView.vending_machine_stations =~ "place-qnctr"
+      assert FareView.vending_machine_stations =~ "place-rugg"
+      assert FareView.vending_machine_stations =~ "Worcester"
+    end
+  end
 end
 

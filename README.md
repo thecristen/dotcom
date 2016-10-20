@@ -116,8 +116,11 @@ In order to make sure the tests are reproducible, we use
 
 ### Updating the API responses
 
-1. Run the WireMock server in record-mappings mode:
+1. In `apps/site` run the WireMock server in record-mappings mode:
   * `java -jar ${WIREMOCK_PATH} --proxy-all="http://mbta-api-prod.us-east-1.elasticbeanstalk.com" --record-mappings`
+1. In the root of `dotcom` run the mock server with `npm run server:mocked`
+1. Run the backstop tests with `npm run backstop:test`
+1. The new mappings will be generated in `apps/site/mappings` and `apps/site/__files`
 
 ## Building
 

@@ -38,7 +38,8 @@ defmodule Stations.Api do
       note: attributes["note"],
       accessibility: attributes["accessibility"],
       images: images(relationships["images"]),
-      parking_lots: parking_lots(relationships)
+      parking_lots: parking_lots(relationships),
+      has_fare_machine: Enum.member?(vending_machine_stations, attributes["gtfs_id"])
     }
   end
 
@@ -118,5 +119,11 @@ defmodule Stations.Api do
   defp merge_v3(station, %{status_code: 404}) do
     # failed v3 response, just return the station as-is
     station
+  end
+
+  defp vending_machine_stations do
+    ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl",
+      "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr",
+      "place-brntn"]
   end
 end
