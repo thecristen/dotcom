@@ -62,6 +62,12 @@ One Way fares and Stored Value are eligible for the reduced rate, however 1-Day,
 not. College students may be eligible for reduced fares through a Semester Pass Program. For more information, \
 please contact an administrator at your school."
   end
+  def eligibility(%Fare{mode: mode, reduced: :senior_disabled}) do
+    "Those who are 65 years of age or older and persons with disabilities qualify for a reduced fare on the \
+#{route_type_name(mode)}. In order to receive a reduced fare, seniors must obtain a Senior CharlieCard and \
+persons with disabilities must apply for a Transportation Access Pass (TAP). One Way fares and Stored Value \
+are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are not."
+  end
   def eligibility(%Fare{reduced: nil}) do
     "Those who are 12 years of age or older qualify for Adult fare pricing."
   end
@@ -69,22 +75,24 @@ please contact an administrator at your school."
     nil
   end
 
-  def filter_fares(fares, "adult") do
+  def filter_fares(fares, reduced) do
     fares
-    |> Enum.filter(&(&1.reduced == nil))
-  end
-  def filter_fares(fares, "student") do
-    fares
-    |> Enum.filter(&(&1.reduced == :student))
+    |> Enum.filter(&(&1.reduced == fare_type_to_reduced(reduced)))
   end
 
-  def fare_customers(nil) do
-    "Adult"
+  def fare_type_to_reduced("adult"), do: nil
+  def fare_type_to_reduced(reduced) do
+    String.to_atom reduced
   end
-  def fare_customers(reduced) do
-    reduced
-    |> Atom.to_string
-    |> String.capitalize
+
+  def fare_customers(nil), do: "Adult"
+  def fare_customers(:student), do: "Student"
+  def fare_customers(:senior_disabled), do: "Senior & Disabilities"
+
+  def display_fare_type(fare_type) do
+    fare_type
+    |> fare_type_to_reduced
+    |> fare_customers
   end
 
   def applicable_fares(nil, 2) do

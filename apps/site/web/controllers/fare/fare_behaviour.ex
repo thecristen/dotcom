@@ -82,7 +82,7 @@ defmodule Site.Fare.FareBehaviour do
     |> (fn o -> Enum.find(all_stops, &(&1.id == o)) end).()
   end
 
-  defp fare_type(%{params: %{"fare_type" => fare_type}}) when fare_type in ["adult", "senior-disabled", "student"] do
+  defp fare_type(%{params: %{"fare_type" => fare_type}}) when fare_type in ["adult", "senior_disabled", "student"] do
     fare_type
   end
   defp fare_type(_) do
