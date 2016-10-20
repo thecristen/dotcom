@@ -1,4 +1,10 @@
 defmodule Site.Components.Buttons.ModeButtonList do
+  @moduledoc """
+
+  The is the documentation for a button list.
+
+  """
+
   defstruct class:     nil,
             id:        nil,
             routes:    [

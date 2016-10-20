@@ -1,4 +1,9 @@
 defmodule Site.Components.Buttons.ModeButton do
+  @moduledoc """
+
+  The is the documentation for a button.
+
+  """
   import Site.ViewHelpers
 
   defstruct class:           nil,
@@ -38,5 +43,4 @@ defmodule Site.Components.Buttons.ModeButton do
   def alert_icon(nil), do: ""
   def alert_icon([]), do: ""
   def alert_icon(_), do: Site.AlertView.tooltip()
-
 end

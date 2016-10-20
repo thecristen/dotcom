@@ -24,7 +24,7 @@ The controller then uses this list to build out the UI Components page with subp
 - A rendered version of the component, using its default arguments
 - The underlying HTML of the component
 - The function to call the component, showing its arguments
-- The contents of the description.html.eex file in the component's folder.
+- The contents of the moduledoc for the component's module.
 
 The UI Components section of the style guide also has two non-component pages:
 - Typography -- fully static content, editable at `/apps/site/web/templates/style_guide/_typography.html`
