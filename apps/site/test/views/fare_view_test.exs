@@ -34,11 +34,13 @@ defmodule Site.FareViewTest do
   describe "description/1" do
     test "fare description for one way CR is for commuter rail only" do
       fare = %Fare{duration: :single_trip, mode: :commuter}
+
       assert FareView.description(fare) == "Valid for Commuter Rail only."
     end
 
     test "fare description for CR round trip is for commuter rail only" do
       fare = %Fare{duration: :round_trip, mode: :commuter}
+
       assert FareView.description(fare) == "Valid for Commuter Rail only."
     end
 
@@ -59,12 +61,19 @@ defmodule Site.FareViewTest do
   end
 
   describe "eligibility/1" do
-    test "returns eligibility information for a mode" do
-      assert FareView.eligibility(%Fare{mode: :commuter, reduced: :student}) =~ "Middle and high school students are eligible"
+    test "returns eligibility information for student fares" do
+      assert FareView.eligibility(%Fare{mode: :commuter, reduced: :student}) =~
+        "Middle and high school students are eligible"
     end
 
-    test "returns eligibility information for adult" do
-      assert FareView.eligibility(%Fare{mode: :commuter, reduced: nil}) =~ "Those who are 12 years of age or older qualify for Adult fare pricing."
+    test "returns eligibility information for senior fares" do
+      assert FareView.eligibility(%Fare{mode: :commuter, reduced: :senior_disabled}) =~
+        "Those who are 65 years of age or older"
+    end
+
+    test "returns eligibility information for adult fares" do
+      assert FareView.eligibility(%Fare{mode: :commuter, reduced: nil}) =~
+        "Those who are 12 years of age or older qualify for Adult fare pricing."
     end
   end
 
