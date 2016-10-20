@@ -14,60 +14,49 @@ defmodule Fares.Repo.ZoneFares do
   @lint {Credo.Check.Refactor.ABCSize, false}
   @spec mapper([String.t]) :: [Fare.t]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
-    mode = :commuter
+    base = %Fare{
+      mode: :commuter,
+      name: commuter_rail_fare_name(zone)
+    }
     [
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+      %Fare{base |
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(single_trip)},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+        cents: dollars_to_cents(single_trip),},
+      %Fare{base |
         duration: :single_trip,
-        pass_type: :ticket,
+        pass_type: :student_card,
         reduced: :student,
         cents: dollars_to_cents(single_trip_reduced)},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+      %Fare{base |
         duration: :single_trip,
         pass_type: :ticket,
         reduced: :senior_disabled,
         cents: dollars_to_cents(single_trip_reduced)},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+      %Fare{base |
         duration: :round_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(single_trip) * 2},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+      %Fare{base |
         duration: :round_trip,
-        pass_type: :ticket,
+        pass_type: :student_card,
         reduced: :student,
         cents: dollars_to_cents(single_trip_reduced) * 2},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+      %Fare{base |
         duration: :round_trip,
-        pass_type: :ticket,
+        pass_type: :senior_card,
         reduced: :senior_disabled,
         cents: dollars_to_cents(single_trip_reduced) * 2},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+      %Fare{base |
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(monthly)},
-      %Fare{
-        mode: mode,
-        name: commuter_rail_fare_name(zone),
+        cents: dollars_to_cents(monthly),
+        additional_valid_modes: [:subway, :bus, :ferry]
+      },
+      %Fare{base |
         duration: :month,
         pass_type: :mticket,
         reduced: nil,
@@ -85,78 +74,119 @@ defmodule Fares.Repo.ZoneFares do
     month_pass_price,
     ""
   ]) do
+    base = %Fare{
+      mode: :subway,
+      name: :subway
+    }
     [
-      %Fare{
-        mode: :subway,
-        name: :subway_charlie_card,
+      %Fare{base |
+        duration: :single_trip,
+        pass_type: :charlie_card,
+        reduced: nil,
+        cents: dollars_to_cents(charlie_card_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :single_trip,
+        pass_type: :ticket,
+        reduced: nil,
+        cents: dollars_to_cents(ticket_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :single_trip,
+        pass_type: :student_card,
+        reduced: :student,
+        cents: dollars_to_cents(day_reduced_price)
+      },
+      %Fare{base |
+        duration: :single_trip,
+        pass_type: :senior_card,
+        reduced: :senior_disabled,
+        cents: dollars_to_cents(day_reduced_price)
+      },
+      %Fare{base |
+        duration: :month,
+        pass_type: :student_card,
+        reduced: :student,
+        cents: dollars_to_cents(month_reduced_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :month,
+        pass_type: :senior_card,
+        reduced: :senior_disabled,
+        cents: dollars_to_cents(month_reduced_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :day,
+        pass_type: :card_or_ticket,
+        reduced: nil,
+        cents: dollars_to_cents(day_pass_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :week,
+        pass_type: :card_or_ticket,
+        reduced: nil,
+        cents: dollars_to_cents(week_pass_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :month,
+        pass_type: :card_or_ticket,
+        reduced: nil,
+        cents: dollars_to_cents(month_pass_price),
+        additional_valid_modes: [:bus]
+      }
+    ]
+  end
+  def mapper([
+    "local_bus",
+    charlie_card_price,
+    ticket_price,
+    day_reduced_price,
+    month_reduced_price,
+    _day_pass_price,
+    _week_pass_price,
+    _month_pass_price,
+    ""
+  ]) do
+    base = %Fare{
+      mode: :bus,
+      name: :local_bus
+    }
+    [
+      %Fare{base |
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: nil,
         cents: dollars_to_cents(charlie_card_price)
       },
-      %Fare{
-        mode: :subway,
-        name: :subway_ticket,
+      %Fare{base |
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(ticket_price)
       },
-      %Fare{
-        mode: :subway,
-        name: :subway_student,
+      %Fare{base |
         duration: :single_trip,
-        pass_type: :charlie_card,
+        pass_type: :student_card,
         reduced: :student,
         cents: dollars_to_cents(day_reduced_price)
       },
-      %Fare{
-        mode: :subway,
-        name: :subway_senior,
+      %Fare{base |
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
       },
-      %Fare{
-        mode: :subway,
-        name: :subway_student,
+      %Fare{base |
         duration: :month,
-        pass_type: :charlie_card,
+        pass_type: :student_card,
         reduced: :student,
         cents: dollars_to_cents(month_reduced_price)
-      },
-      %Fare{
-        mode: :subway,
-        name: :subway_senior,
-        duration: :month,
-        pass_type: :charlie_card,
-        reduced: :senior_disabled,
-        cents: dollars_to_cents(month_reduced_price)
-      },
-      %Fare{
-        mode: :subway,
-        name: :subway_link_pass,
-        duration: :day,
-        pass_type: :link_pass,
-        reduced: nil,
-        cents: dollars_to_cents(day_pass_price)
-      },
-      %Fare{
-        mode: :subway,
-        name: :subway_link_pass,
-        duration: :week,
-        pass_type: :link_pass,
-        reduced: nil,
-        cents: dollars_to_cents(week_pass_price)
-      },
-      %Fare{
-        mode: :subway,
-        name: :subway_link_pass,
-        duration: :month,
-        pass_type: :link_pass,
-        reduced: nil,
-        cents: dollars_to_cents(month_pass_price)
       }
     ]
   end
@@ -166,83 +196,73 @@ defmodule Fares.Repo.ZoneFares do
     ticket_price,
     day_reduced_price,
     month_reduced_price,
-    day_pass_price,
+    _day_pass_price,
     week_pass_price,
     month_pass_price,
     ""
-  ]) when mode in ["local_bus", "inner_express_bus", "outer_express_bus"] do
+  ])
+  when mode in ["local_bus", "inner_express_bus", "outer_express_bus"] do
+    base = %Fare{
+      mode: :bus,
+      name: :"#{mode}"
+    }
     [
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
+      %Fare{base |
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: nil,
         cents: dollars_to_cents(charlie_card_price)
       },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
+      %Fare{base |
         duration: :single_trip,
         pass_type: :ticket,
         reduced: nil,
         cents: dollars_to_cents(ticket_price)
       },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
-        duration: :single_trip,
-        pass_type: :charlie_card,
-        reduced: :student,
-        cents: dollars_to_cents(day_reduced_price)
-      },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
+      # %Fare{base |
+      #   duration: :single_trip,
+      #   pass_type: :student_card,
+      #   reduced: :student,
+      #   cents: dollars_to_cents(day_reduced_price)
+      # },
+      %Fare{base |
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
       },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
+      %Fare{base |
         duration: :month,
-        pass_type: :charlie_card,
+        pass_type: :student_card,
         reduced: :student,
         cents: dollars_to_cents(month_reduced_price)
       },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
+      %Fare{base |
         duration: :month,
         pass_type: :charlie_card,
         reduced: :senior_disabled,
         cents: dollars_to_cents(month_reduced_price)
       },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
-        duration: :day,
-        pass_type: :link_pass,
-        reduced: nil,
-        cents: dollars_to_cents(day_pass_price)
-      },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
+      # %Fare{base |
+      #   duration: :day,
+      #   pass_type: :card_or_ticket,
+      #   reduced: nil,
+      #   cents: dollars_to_cents(day_pass_price),
+      #   additional_valid_modes: [:bus]
+      # },
+      %Fare{base |
         duration: :week,
-        pass_type: :link_pass,
+        pass_type: :card_or_ticket,
         reduced: nil,
-        cents: dollars_to_cents(week_pass_price)
+        cents: dollars_to_cents(week_pass_price),
+        additional_valid_modes: [:bus]
       },
-      %Fare{
-        mode: :bus,
-        name: :"#{mode}",
+      %Fare{base |
         duration: :month,
-        pass_type: :link_pass,
+        pass_type: :card_or_ticket,
         reduced: nil,
-        cents: dollars_to_cents(month_pass_price)
+        cents: dollars_to_cents(month_pass_price),
+        additional_valid_modes: [:bus]
       }
     ]
   end
@@ -280,7 +300,8 @@ defmodule Fares.Repo.ZoneFares do
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(inner_harbor_month_price)
+        cents: dollars_to_cents(inner_harbor_month_price),
+        additional_valid_modes: [:subway, :bus, :commuter]
       },
       %Fare{
         mode: :ferry,
@@ -336,7 +357,8 @@ defmodule Fares.Repo.ZoneFares do
         duration: :month,
         pass_type: :ticket,
         reduced: nil,
-        cents: dollars_to_cents(commuter_ferry_month_price)
+        cents: dollars_to_cents(commuter_ferry_month_price),
+        additional_valid_modes: [:subway, :bus, :commuter]
       },
       %Fare{
         mode: :ferry,
@@ -369,8 +391,8 @@ defmodule Fares.Repo.ZoneFares do
     |> Enum.flat_map(fn fare ->
       reduced_price = round(fare.cents / 2)
       [
-        %Fare{fare | cents: reduced_price, reduced: :senior_disabled},
-        %Fare{fare | cents: reduced_price, reduced: :student}
+        %Fare{fare | cents: reduced_price, pass_type: :senior_card, reduced: :senior_disabled},
+        %Fare{fare | cents: reduced_price, pass_type: :student_card, reduced: :student}
       ]
     end)
     fares ++ reduced_fares

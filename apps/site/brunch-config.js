@@ -99,10 +99,10 @@ exports.config = {
 
   hooks: {
     preCompile: function() {
-      styleguideCompiler.compile().then(() => {}).catch((error) => { throw error })
+      return styleguideCompiler.compile().then(() => {}).catch((error) => { throw error });
     },
     onCompile: function() {
-      styleguideCompiler.teardown().then(() => {
+      return styleguideCompiler.teardown().then(() => {
         exec("node_modules/svgo/bin/svgo -f priv/static/images --config svgo.yml");
       }).catch((error) => { throw error });
 

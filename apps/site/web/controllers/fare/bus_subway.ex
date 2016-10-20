@@ -6,7 +6,7 @@ defmodule Site.FareController.BusSubway do
   def template(), do: "bus_subway.html"
 
   def fares(_conn) do
-    [:subway, :local_bus, :inner_express_bus, :outer_express_bus]
+    [:subway, :bus]
     |> Enum.flat_map(&Fares.Repo.all(mode: &1))
   end
 end

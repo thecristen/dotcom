@@ -37,7 +37,8 @@
       <%= if @origin && @destination do %>
         <div class="row">
           <div class="col-xs-12 m-t-1">
-            <strong><%= zone_name(List.first(@fares).name) %> Fare</strong> | <%= @origin.name %> to <%= @destination.name %>
+            <strong><%= fare_name(List.first(@fares)) %> Fare</strong> |
+            <%= @origin.name %> to <%= @destination.name %>
           </div>
         </div>
       <% end %>

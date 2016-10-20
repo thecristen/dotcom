@@ -3,9 +3,9 @@
     <h1><%= @mode_name %> Fares</h1>
     <%= unless @fares == [] do %>
       <%= render "_fares_display.html",
-      fares: @fares,
-      conn: @conn,
-      fare_type: @fare_type
+          fares: @fares,
+          conn: @conn,
+          fare_type: @fare_type
       %>
     <% end %>
   </div>
