@@ -31,7 +31,7 @@ defmodule Fares.Repo.ZoneFares do
         cents: dollars_to_cents(single_trip_reduced)},
       %Fare{base |
         duration: :single_trip,
-        pass_type: :ticket,
+        pass_type: :senior_card,
         reduced: :senior_disabled,
         cents: dollars_to_cents(single_trip_reduced)},
       %Fare{base |
