@@ -125,5 +125,7 @@ please contact an administrator at your school."
   def vending_machine_stations do
     Stations.Repo.all
     |> Enum.filter(fn station -> station.has_fare_machine end)
+    |> Enum.map(fn station ->  Phoenix.HTML.safe_to_string(link(station.name, to: station_path(Site.Endpoint, :show, station.id))) end)
+    |> Enum.join(", ")
   end
 end
