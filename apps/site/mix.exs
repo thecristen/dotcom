@@ -73,7 +73,8 @@ defmodule Site.Mixfile do
      {:porcelain, "~> 2.0"},
      {:zones, in_umbrella: true},
      {:fares, in_umbrella: true},
-     {:dialyxir, ">= 0.3.5", only: [:test, :dev]}
+     {:dialyxir, ">= 0.3.5", only: [:test, :dev]},
+     {:benchfella, "~> 0.3", only: :dev}
     ]
   end
 end

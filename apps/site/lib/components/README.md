@@ -7,10 +7,6 @@ Calling `use Site.Components.Precompiler` in a view makes all components availab
 - For each top level folder as `component_group` in `apps/site/lib/components`, do:
     - For each subfolder as `component` in `component_group`, define:
         - `component`/1 :: html
-        - `component`_markup/1 :: String.t (used by Style Guide to show underlying HTML for each component)
-        - `component`_description/0 :: String.t (used by Style Guide templates to show the detailed description of a component.)
-        - component_args(`component`, `component_group`) :: %{ arguments } (used primarily by Style Guide templates to call default values)
-        - component_module(`component`, `component_group`) :: Site.Components.`ComponentGroup`.`Component`
 
 All components take one argument, a map, which is derived from the component's `struct`. All components' argument map will have keys for `:class` and `:id`; review the documentation for what other arguments are available for each component.
 

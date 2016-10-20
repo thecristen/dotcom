@@ -5,7 +5,9 @@ defmodule Site.ViewHelpers.RouteLinkTest do
   use Site.ConnCase, async: true
 
   setup %{conn: conn} do
-    conn = assign(conn, :alerts, [])
+    conn = conn
+    |> assign(:date, Util.today)
+    |> assign(:alerts, [])
     {:ok, %{conn: conn}}
   end
 

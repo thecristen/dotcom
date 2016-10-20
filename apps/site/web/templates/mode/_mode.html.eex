@@ -10,6 +10,6 @@
         </small>
       </h2>
     </div>
-    <%= mode_button_list %Site.Components.Buttons.ModeButtonList{routes: get_route_group(@route_type, @grouped_routes, @truncate), alerts: @conn.assigns.all_alerts} %>
+    <%= mode_button_list %Site.Components.Buttons.ModeButtonList{routes: get_route_group(@route_type, @grouped_routes, @truncate), alerts: @conn.assigns.all_alerts, date: @conn.assigns.date} %>
   </div>
 </div>

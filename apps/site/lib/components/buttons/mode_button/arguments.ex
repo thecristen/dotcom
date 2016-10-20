@@ -1,5 +1,4 @@
 defmodule Site.Components.Buttons.ModeButton do
-  import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.ViewHelpers
 
   defstruct class:           nil,
@@ -26,16 +25,6 @@ defmodule Site.Components.Buttons.ModeButton do
 
   end
 
-  def states do
-    [
-      :hover,
-      :active,
-      :focus,
-      :visited
-    ]
-  end
-
-
   def subway_color_icon(%{type: 0, name: name}), do: do_subway_color_icon(name)
   def subway_color_icon(%{type: 1, name: name}), do: do_subway_color_icon(name)
   def subway_color_icon(_), do: ""
@@ -44,10 +33,10 @@ defmodule Site.Components.Buttons.ModeButton do
     name |> clean_route_name |> String.downcase |> render_subway_color_icon
   end
 
-  defp render_subway_color_icon(name), do: "<i class='fa fa-circle fa-color-subway-#{name}'></i>"
+  defp render_subway_color_icon(name), do: fa("circle fa-color-subway-#{name}")
 
   def alert_icon(nil), do: ""
   def alert_icon([]), do: ""
-  def alert_icon(_), do: Site.AlertView.tooltip() |> safe_to_string
+  def alert_icon(_), do: Site.AlertView.tooltip()
 
 end

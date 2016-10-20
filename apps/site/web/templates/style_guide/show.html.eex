@@ -7,7 +7,7 @@
       <p>Variations</p>
       <div class="row component-variants">
         <%= for {name, args} <- get_variants(component, @component_group) do %>
-          <div class="component-variant col-sm-12, col-md-3">
+          <div class="component-variant col-sm-12 col-md-6">
             <p><%= name %></p>
             <div><%= render_component(component, @component_group, args) %></div>
           </div>
@@ -40,7 +40,7 @@
     </div>
     <p>Description</p>
     <div>
-      <%= component_description(component) %>
+      <%= component_description(component, @component_group) %>
     </div>
   </li>
 <% end %>
