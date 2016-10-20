@@ -46,9 +46,12 @@ defmodule Site.Components.Precompiler do
 
 
   @doc """
-    Defines function on a view (component = "button"):
-          button/1
-    When rendering a component, call button/1.
+  Defines function to render a particular component.  For example:
+
+      precompile_component("mode_button", "buttons")
+
+  defines the function `mode_button/1`, taking the variables to assign and
+  returning a `Phoenix.HTML.Safe.t`.
   """
   @spec precompile_component(String.t, String.t) :: nil
   def precompile_component(component, section) do
@@ -63,6 +66,7 @@ defmodule Site.Components.Precompiler do
       import Site.Components.Helpers
       import unquote(module)
 
+      @spec unquote(name)(Dict.t) :: Phoenix.HTML.Safe.t
       EEx.function_from_file(
         :def,
         unquote(name),
