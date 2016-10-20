@@ -26,7 +26,7 @@ defmodule Site.Plugs.AlertsTest do
       active_period: [{nil, nil}],
       updated_at: Util.now
     }
-    boat_alert = %Alert{
+    ferry_alert = %Alert{
       informed_entity: [%InformedEntity{route_type: 4}],
       active_period: [{nil, nil}],
       updated_at: Util.now
@@ -36,7 +36,7 @@ defmodule Site.Plugs.AlertsTest do
     |> assign(:date, Util.today)
     |> assign(:route, route)
     |> fetch_query_params
-    |> Alerts.call(fn -> [cr_alert, boat_alert] end)
+    |> Alerts.call(fn -> [cr_alert, ferry_alert] end)
 
     assert conn.assigns.all_alerts == [cr_alert]
   end

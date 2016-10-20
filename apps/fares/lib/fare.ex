@@ -1,19 +1,19 @@
 defmodule Fares.Fare do
   @typedoc """
     struct(
-      mode: :commuter | :bus | :subway | :boat,
+      mode: :commuter | :bus | :subway | :ferry,
       name: {:zone, "5"} | :subway_student | etc
       pass_type: :ticket | :charlie_card | :mticket | :link_pass
-      reduced: :student | :senior_disabled
+      reduced: :student | :senior_disabled | nil
       duration: :single_trip | :day | :week | :month
       cents: cost_in_cents
     )
   """
   @type t :: %__MODULE__{
-    mode: :commuter | :bus | :subway | :boat,
+    mode: :commuter | :bus | :subway | :ferry,
     name: {atom, String.t()} | atom,
     pass_type: :ticket | :charlie_card | :mticket | :link_pass,
-    reduced: :student | :senior_disabled,
+    reduced: :student | :senior_disabled | nil,
     duration: :single_trip | :day | :week | :month,
     cents: non_neg_integer
   }

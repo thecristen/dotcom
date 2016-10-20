@@ -4,14 +4,17 @@
       <span class="fares-mode-icon-group"><%= mode_icon(:commuter) %></span>
       <span class="fares-mode-icon-group"><%= mode_icon(:subway) %></span>
       <span class="fares-mode-icon-group"><%= mode_icon(:bus) %></span>
-      <span class="fares-mode-icon-group"><%= mode_icon(:boat) %></span>
+      <span class="fares-mode-icon-group"><%= mode_icon(:ferry) %></span>
     <% else %>
-      <%= mode_icon(:commuter) %>
+      <%= mode_icon(@fare.mode) %>
     <% end %>
-    <span class="fare-duration"><%= fare_duration(@fare.duration) %></span>
+    <span class="fare-duration"><%= fare_duration(@fare) %></span>
   </div>
   <div class="fares-ticket-type">
-    <h3 class="fare-name"><%= zone_name(@fare.name) %> <%= fare_duration(@fare.duration) %> </h3>
+    <h3 class="fare-name">
+      <%= fare_name(@fare) %>
+      <%= fare_duration(@fare) %>
+    </h3>
     <p class="fare-price"><%= fare_price(@fare.cents) %></p>
   </div>
   <p><%= description(@fare) %></p>

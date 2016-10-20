@@ -13,32 +13,37 @@ defmodule Site.FareViewTest do
   end
 
   describe "fare_duration/1" do
-    test "fare duration is '1 Month' for a monthly fare" do
-      assert FareView.fare_duration(:month) == "1 Month"
+    test "fare duration is 'Monthly Pass' for a monthly fare" do
+      assert FareView.fare_duration(%Fare{duration: :month}) == "Monthly Pass"
+    end
+
+    test "fare duration is 'Monthly Pass on mTicket app' for a monthly mTicket fare" do
+      assert FareView.fare_duration(%Fare{duration: :month, pass_type: :mticket}) ==
+        "Monthly Pass on mTicket app"
     end
 
      test "fare duration is 'Round Trip' for a round-trip fare" do
-       assert FareView.fare_duration(:round_trip) == "Round Trip"
+       assert FareView.fare_duration(%Fare{duration: :round_trip}) == "Round Trip"
      end
 
      test "fare duration is 'One Way' for a one-way fare" do
-       assert FareView.fare_duration(:single_trip) == "One Way"
+       assert FareView.fare_duration(%Fare{duration: :single_trip}) == "One Way"
      end
   end
 
   describe "description/1" do
-    test "fare description for one way is for commuter rail only" do
-      fare = %Fare{duration: :single_trip}
+    test "fare description for one way CR is for commuter rail only" do
+      fare = %Fare{duration: :single_trip, mode: :commuter}
       assert FareView.description(fare) == "Valid for Commuter Rail only."
     end
 
-    test "fare description for round trip is for commuter rail only" do
-      fare = %Fare{duration: :round_trip}
+    test "fare description for CR round trip is for commuter rail only" do
+      fare = %Fare{duration: :round_trip, mode: :commuter}
       assert FareView.description(fare) == "Valid for Commuter Rail only."
     end
 
     test "fare description for month is describes the modes it can be used on" do
-      fare = %Fare{name: {:zone, "5"}, duration: :month}
+      fare = %Fare{name: {:zone, "5"}, duration: :month, mode: :commuter}
 
       assert FareView.description(fare) ==
         "Valid for one calendar month of unlimited travel on Commuter Rail from " <>
@@ -46,7 +51,7 @@ defmodule Site.FareViewTest do
     end
 
     test "fare description for month mticket describes where it can be used" do
-      fare = %Fare{name: {:zone, "5"}, duration: :month, pass_type: :mticket}
+      fare = %Fare{name: {:zone, "5"}, duration: :month, pass_type: :mticket, mode: :commuter}
 
       assert FareView.description(fare) ==
         "Valid for one calendar month of travel on the commuter rail from zones 1A-5 only."
@@ -87,17 +92,21 @@ defmodule Site.FareViewTest do
     end
   end
 
-  describe "applicable_fares/1" do
-    test "returns fare filters for adult fares" do
-      assert FareView.applicable_fares(nil) == [%{reduced: nil, duration: :single_trip},
-       %{reduced: nil, duration: :round_trip},
-       %{reduced: nil, duration: :month},
-       %{duration: :month, pass_type: :mticket, reduced: nil}]
+  describe "applicable_fares/2" do
+    test "returns fare filters for adult fares on the commuter rail" do
+      assert FareView.applicable_fares(nil, 2) == [
+        %{reduced: nil, duration: :single_trip},
+        %{reduced: nil, duration: :round_trip},
+        %{reduced: nil, duration: :month},
+        %{duration: :month, pass_type: :mticket, reduced: nil}
+      ]
     end
 
-    test "returns fare filters for student fares" do
-      assert FareView.applicable_fares(:student) == [%{reduced: :student, duration: :single_trip},
-       %{reduced: :student, duration: :round_trip}]
+    test "returns fare filters for student fares on ferries" do
+      assert FareView.applicable_fares(:student, 4) == [
+        %{reduced: :student, duration: :single_trip},
+        %{reduced: :student, duration: :round_trip}
+      ]
     end
   end
 end

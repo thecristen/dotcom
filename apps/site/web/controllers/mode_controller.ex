@@ -8,7 +8,7 @@ defmodule Site.ModeController do
 
   defdelegate subway(conn, params), to: Mode.SubwayController, as: :index
   defdelegate bus(conn, params), to: Mode.BusController, as: :index
-  defdelegate boat(conn, params), to: Mode.BoatController, as: :index
+  defdelegate ferry(conn, params), to: Mode.FerryController, as: :index
   defdelegate commuter(conn, params), to: Mode.CommuterRailController, as: :index
 
   def index(conn, %{"route" => route_id} = params) when is_binary(route_id) do

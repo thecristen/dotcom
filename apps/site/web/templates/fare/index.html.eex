@@ -1,66 +1,73 @@
 <div class="card card-section">
-  <div class="card-header">
-    <h1>Commuter Rail Fares</h1>
-  </div>
-
-  <div class="card-block">
-    <div>
+  <div class="card-block card-block-no-header">
+    <h1><%= @mode_name %> Fares</h1>
+    <div class="fare-route m-b-1">
       <h2>Find a Fare</h2>
-      Fares for the commuter rail are separated into zones that depend on your origin and destination.
-    </div>
-
-    <div class="row">
-      <div class="col-xs-12 col-md-6">
-        <%= render "_stop_selector.html",
-        conn: @conn,
-        query_key: "origin",
-        selected: (if @origin, do: @origin.id, else: nil),
-        all_stops: @origin_stops,
-        key_stops: @key_stops,
-        label_text: "Origin",
-        exclude: ["destination"]
-        %>
-      </div>
-      <%= unless @origin == nil do %>
+      <p>Fares for the <%= String.downcase(@mode_name) %> are separated into zones that depend on your origin and destination.</p>
+      <div class="row">
         <div class="col-xs-12 col-md-6">
           <%= render "_stop_selector.html",
           conn: @conn,
-          query_key: "destination",
-          selected: (if @destination, do: @destination.id, else: nil),
-          all_stops: @destination_stops,
-          key_stops: [],
-          label_text: "Destination"
+          query_key: "origin",
+          selected: (if @origin, do: @origin.id, else: nil),
+          all_stops: @origin_stops,
+          key_stops: @key_stops,
+          label_text: "Origin",
+          exclude: ["destination"],
+          route_type: @route_type
           %>
         </div>
-      <% end %>
+        <%= unless @origin == nil do %>
+          <div class="col-xs-12 col-md-6">
+            <%= render "_stop_selector.html",
+            conn: @conn,
+            query_key: "destination",
+            selected: (if @destination, do: @destination.id, else: nil),
+            all_stops: @destination_stops,
+            key_stops: [],
+            label_text: "Destination",
+            route_type: @route_type
+            %>
+          </div>
+        <% end %>
+      </div>
     </div>
 
     <%= unless @fares == [] do %>
-      <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type, origin: @origin, destination: @destination %>
+      <%= render "_fares_display.html",
+      fares: @fares,
+      conn: @conn,
+      fare_type: @fare_type,
+      origin: @origin,
+      destination: @destination,
+      route_type: @route_type
+      %>
     <% end %>
 
     <div class="row m-t-1">
-      <h2>Purchasing Tickets or Passes</h2>
-      <div class="col-md-6 p-x-0">
+      <div class="col-xs-12">
+        <h2>Purchasing Tickets or Passes</h2>
+      </div>
+      <div class="col-md-6 col-xs-12">
         <h3>mTicket App</h3>
         <p>
-          Commuter rail riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.  Push “activate” right before boarding and show your mTicket to the conductor upon request.
+          <%= @mode_name %> riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.  Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
         </p>
-        <p>
-          Available on the iPhone App Store and Google Play.
-        </p>
+      </div>
+      <div class="col-md-6 col-xs-12">
         <h3>Retail Sales Locations</h3>
         <p>
           MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
         </p>
       </div>
-
-      <div class="col-md-6 p-x-0">
+      <div class="col-md-6 col-xs-12">
         <h3>Fare Vending Machine</h3>
         <p>
           One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
           North Station, South Station, Back Bay, Porter, Malden, Lynn, Worcester, Ruggles, Forest Hills, JFK/UMass, Quincy Center, Braintree
         </p>
+      </div>
+      <div class="col-md-6 col-xs-12">
         <h3>On-Board</h3>
         <p>
           One way or round trip tickets can be purchased on-board by cash.  If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.

@@ -34,5 +34,5 @@ defmodule Routes.Group do
   def sorter({:subway, _}), do: 0
   def sorter({:commuter, _}), do: 1
   def sorter({:bus, _}), do: 2
-  def sorter({:boat, _}), do: 3
+  def sorter({:ferry, _}), do: 3
 end
