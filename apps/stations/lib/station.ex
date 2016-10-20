@@ -4,7 +4,8 @@ defmodule Stations.Station do
   """
   alias Stations.Station
 
-  defstruct [:id, :name, :note, :accessibility, :address, :parking_lots, :latitude, :longitude, :images, :has_fare_machine]
+  defstruct [:id, :name, :note, :accessibility, :address,
+   :parking_lots, :latitude, :longitude, :images, :has_fare_machine]
   @type t :: %Station{
     id: String.t,
     name: String.t,
