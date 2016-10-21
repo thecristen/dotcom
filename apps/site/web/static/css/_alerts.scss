@@ -1,52 +1,6 @@
 @import "variables";
 // Show
 
-.alert-show-btn-group {
-  width: 100%;
-
-  @include media-breakpoint-up(sm) {
-    border-collapse: collapse;
-    display: table;
-
-    > .btn {
-      border-radius: 0;
-      display: table-cell;
-      float: none;
-    }
-  }
-
-  .btn {
-    border-color: $gray-lightest;
-    padding: $space-12;
-    position: relative;
-  }
-
-  .btn-selected-bottom {
-    border-bottom: $space-6 solid $brand-primary;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
-  }
-}
-
-.alert-show-btn {
-  @include media-breakpoint-down(xs) {
-    width: 100%;
-  }
-
-  $alert-route-icon-diameter: 1.5rem;
-
-  .route-icon {
-    @include route-icon($alert-route-icon-diameter, $space-4);
-  }
-}
-
-.alert-show-btn-selected {
-  color: $gray-dark;
-  font-weight: bold;
-}
-
 .alert-show-btn-bus {
   .btn-selected-bottom {
     border-color: $brand-secondary;
@@ -68,14 +22,6 @@
 .alert-show-btn-ferry {
   .btn-selected-bottom {
     border-color: $brand-primary-light;
-  }
-}
-
-
-.collapse.in,
-.collapse:target {
-  + .alert-show-mode-toggle-btn {
-    display: none;
   }
 }
 
