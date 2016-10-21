@@ -1,16 +1,12 @@
 defmodule Fares.Fare do
   @typedoc """
-    struct(
-      mode: :commuter | :bus | :subway | :ferry,
-      name: {:zone, "5"} | :subway_student | etc
-      pass_type: :ticket | :charlie_card | :mticket | :link_pass
-      reduced: :student | :senior_disabled | nil
-      duration: :single_trip | :day | :week | :month
-      cents: cost_in_cents
-    )
+
+  Represents a method of paying for transit on the MBTA.
+
   """
   @type fare_name :: {atom, String.t()} | atom
   @type pass_type :: :ticket
+  | :cash_or_ticket
   | :charlie_card
   | :mticket
   | :card_or_ticket

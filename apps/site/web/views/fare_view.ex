@@ -139,9 +139,10 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   def fare_name(%Fare{name: :outer_express_bus}), do: "Outer Express Bus"
 
   def fare_media(%Fare{pass_type: :charlie_card}), do: "CharlieCard"
-  def fare_media(%Fare{pass_type: :ticket}), do: "Ticket or Cash"
+  def fare_media(%Fare{pass_type: :ticket}), do: "Ticket"
   def fare_media(%Fare{pass_type: :mticket}), do: "mTicket App"
   def fare_media(%Fare{pass_type: :card_or_ticket}), do: "CharlieCard or Ticket"
+  def fare_media(%Fare{pass_type: :cash_or_ticket}), do: "Ticket or Cash"
   def fare_media(%Fare{pass_type: :senior_card}), do: "Senior CharlieCard or TAP ID"
   def fare_media(%Fare{pass_type: :student_card}), do: "Student CharlieCard"
 

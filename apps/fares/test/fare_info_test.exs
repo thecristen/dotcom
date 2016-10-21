@@ -10,7 +10,7 @@ defmodule Fares.FareInfoTest do
           name: {:zone, "1A"},
           mode: :commuter,
           duration: :single_trip,
-          pass_type: :ticket,
+          pass_type: :cash_or_ticket,
           reduced: nil,
           cents: 225},
         %Fare{
@@ -31,7 +31,7 @@ defmodule Fares.FareInfoTest do
           name: {:zone, "1A"},
           mode: :commuter,
           duration: :round_trip,
-          pass_type: :ticket,
+          pass_type: :cash_or_ticket,
           reduced: nil,
           cents: 450},
         %Fare{
