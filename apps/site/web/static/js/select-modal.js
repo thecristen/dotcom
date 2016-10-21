@@ -112,7 +112,8 @@ export function convertSelects($) {
               width: $el.outerWidth(),
               height: $el.outerHeight(),
               background: "rgba(0, 0, 0, 0)",
-              position: "absolute"
+              position: "absolute",
+              cursor: "pointer"
             });
     $el.before($cover).removeAttr('data-select-modal');
   });
