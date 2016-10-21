@@ -1,6 +1,6 @@
 defmodule Site.Fare.OriginDestinationFareBehaviour do
   @callback route_type() :: integer
-  @callback key_stops() :: [Stations.Station.t]
+  @callback key_stops() :: [Schedules.Stop.t]
 
   import Plug.Conn, only: [assign: 3]
 
