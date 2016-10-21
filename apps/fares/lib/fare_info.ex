@@ -219,7 +219,7 @@ defmodule Fares.FareInfo do
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :cash_ticket,
+        pass_type: :cash_or_ticket,
         reduced: nil,
         cents: dollars_to_cents(ticket_price)
       },

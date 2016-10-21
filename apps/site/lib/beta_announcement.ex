@@ -10,19 +10,22 @@ defmodule BetaAnnouncement do
 end
 
 defmodule BetaAnnouncement.Plug do
-
+  @hide_cookie_param "clear-beta-announcement"
   import Plug.Conn
 
   def init([]), do: []
 
-  def hide_cookie_param, do: "clear-beta-announcement"
+  def hide_cookie_param, do: @hide_cookie_param
 
+  def call(%{params: %{@hide_cookie_param => param}} = conn, []) when is_binary(param) do
+    conn
+    |> put_resp_cookie(
+      BetaAnnouncement.beta_announcement_cookie,
+      "true",
+      max_age: 60 * 60 * 24 * 365 * 100,
+      path: "/")
+  end
   def call(conn, []) do
-    if Map.has_key?(conn.params, hide_cookie_param) do
-      conn
-      |> put_resp_cookie(BetaAnnouncement.beta_announcement_cookie, "true", max_age: 60 * 60 * 24 * 365 * 100)
-    else
-      conn
-    end
+    conn
   end
 end
