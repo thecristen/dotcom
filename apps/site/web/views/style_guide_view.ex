@@ -35,9 +35,10 @@ defmodule Site.StyleGuideView do
   end
 
   def component_description(component, group) do
-    path = component_folder_path("#{group}", "#{component}")
-    description_path = Path.join(path, "/description.html.eex")
-    EEx.eval_file(description_path, [], engine: Phoenix.HTML.Engine)
+    component
+    |> component_module(group)
+    |> Code.get_docs(:moduledoc)
+    |> elem(1)
   end
 
   def get_variants(component, group) do
