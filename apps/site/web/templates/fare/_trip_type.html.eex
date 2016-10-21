@@ -1,21 +1,19 @@
-<div class="col-md-6 fares-box-column">
+<% base_fare = List.first(@fares) %>
+<div class="fares-box-column col-xs-12 col-md-6">
   <div class="fares-mode-icon">
-    <%= if @fare.duration == :month && @fare.pass_type == :ticket do %>
-      <span class="fares-mode-icon-group"><%= mode_icon(:commuter) %></span>
-      <span class="fares-mode-icon-group"><%= mode_icon(:subway) %></span>
-      <span class="fares-mode-icon-group"><%= mode_icon(:bus) %></span>
-      <span class="fares-mode-icon-group"><%= mode_icon(:ferry) %></span>
-    <% else %>
-      <%= mode_icon(@fare.mode) %>
+    <%= for {mode, index} <- [base_fare.mode | base_fare.additional_valid_modes] |> Enum.with_index do %>
+      <span class="fares-mode-icon-group" style="z-index: <%= 10 - index %>;"><%= mode_icon(mode) %></span>
     <% end %>
-    <span class="fare-duration"><%= fare_duration(@fare) %></span>
+    <span class="fare-duration"><%= fare_duration_summary(base_fare.duration) %></span>
   </div>
   <div class="fares-ticket-type">
-    <h3 class="fare-name">
-      <%= fare_name(@fare) %>
-      <%= fare_duration(@fare) %>
-    </h3>
-    <p class="fare-price"><%= fare_price(@fare.cents) %></p>
+    <h3 class="fare-name"><%= fare_name(base_fare) %> <%= fare_duration(base_fare) %> </h3>
+    <%= for fare <- @fares do %>
+      <p>
+        <strong><%= fare_media(fare) %></strong>
+        <span class="fare-price"><%= fare_price(fare.cents) %></span>
+      </p>
+    <% end %>
   </div>
-  <p><%= description(@fare) %></p>
+  <p><%= description(base_fare) %></p>
 </div>

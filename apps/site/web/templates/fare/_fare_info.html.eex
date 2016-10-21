@@ -11,23 +11,12 @@
       </div>
     </div>
     <div class="row fares-box">
-      <%= for filter_row <- Enum.chunk(applicable_fares(example_fare.reduced, @route_type), 2, 2, []) do %>
-        <%= case Enum.map(filter_row, &(List.first(Fares.Repo.filter(@fares, &1)))) do %>
-          <% [nil, nil] -> %>
-          <% [nil, fare] -> %>
-          <div class="row fares-row">
-            <%= render "_trip_type.html", conn: @conn, fare: fare, route_type: @route_type %>
-          </div>
-          <% [fare, nil] -> %>
-          <div class="row fares-row">
-            <%= render "_trip_type.html", conn: @conn, fare: fare, route_type: @route_type %>
-          </div>
-          <% [left, right] -> %>
-          <div class="row fares-row">
-            <%= render "_trip_type.html", conn: @conn, fare: left, route_type: @route_type %>
-            <%= render "_trip_type.html", conn: @conn, fare: right, route_type: @route_type %>
-          </div>
-        <% end %>
+      <%= for pairs <- @fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk(2, 2, []) do %>
+        <div class="row fares-row">
+          <%= for fares <- pairs do %>
+            <%= render "_trip_type.html", conn: @conn, fares: fares %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
