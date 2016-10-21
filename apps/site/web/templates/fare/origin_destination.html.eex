@@ -63,24 +63,28 @@
             <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
           </a>
         </div>
-        <h3>Retail Sales Locations</h3>
+        <h3>On-Board</h3>
         <p>
-          MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
+          One way or round trip tickets can be purchased on-board by cash.  If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.
         </p>
       </div>
+
       <div class="col-md-6 col-xs-12">
         <h3>Fare Vending Machine</h3>
         <p>
           One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
           <%= raw vending_machine_stations %>
         </p>
-      </div>
-      <div class="col-md-6 col-xs-12">
-        <h3>On-Board</h3>
+        <h3>Retail Sales Locations</h3>
         <p>
-          One way or round trip tickets can be purchased on-board by cash.  If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.
+          MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
         </p>
       </div>
+    </div>
+
+    <div class="row fares-callout-row">
+      <%= render "_callout_box.html", title: "Ask your employer about our Corporate Pass Program", body: "Many employers offer pass programs that have benefits such as discounted fares, automatic monthly re-loads, and online employer account management.", href: "https://passprogram.mbta.com/", class: "fares-callout-corporate" %>
+      <%= render "_callout_box.html", title: "You may be eligible for a reduced fare", body: "Middle and high school students, seniors, and persons with disabilities are eligible for reduced fares on all MBTA services.", href: "#TODO", class: "fares-callout-reduced" %>
     </div>
   </div>
 </div>

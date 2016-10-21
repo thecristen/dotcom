@@ -105,3 +105,50 @@
   display: inline-block;
   vertical-align: baseline;
 }
+
+.fares-callout-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fares-callout-container {
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-down(sm) {
+    &:first-child {
+      margin-bottom: .5em;
+    }
+  }
+}
+
+.fares-callout {
+  color: $white;
+  font-weight: lighter;
+  height: 100%;
+  padding: 1.5em;
+  text-align: center;
+
+  .btn {
+    background-color: initial;
+    border-color: $white;
+    color: $white;
+  }
+
+  h3 {
+    font-weight: initial;
+  }
+
+  .line {
+    border-color: $white;
+    width: 150px;
+  }
+
+  &.fares-callout-corporate {
+    background-color: $gray-light;
+  }
+
+  &.fares-callout-reduced {
+    background-color: $brand-primary-dark;
+  }
+}
