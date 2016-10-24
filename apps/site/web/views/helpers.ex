@@ -52,14 +52,10 @@ defmodule Site.ViewHelpers do
   end
 
   @doc "HTML for a FontAwesome icon, with optional attributes"
-  def fa(name, attributes \\ "") do
-    class_name = "fa fa-#{name}"
-    # add a space only if there are attributes
-    attributes = case attributes do
-                   "" -> ""
-                   _ -> attributes <> " "
-                 end
-    raw ~s(<i class="#{class_name}" #{attributes}aria-hidden=true></i>)
+  def fa(name, attributes \\ []) when is_list(attributes) do
+    content_tag :i, [], [{:"aria-hidden", "true"},
+                         {:class, "fa fa-#{name}"} |
+                         attributes]
   end
 
   @doc "The string description of a direction ID"
@@ -108,9 +104,9 @@ defmodule Site.ViewHelpers do
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
 
   @doc "Prefix route name with route for bus lines"
-  def route_header_text(%{type: 3, name: name}), do: "Route #{name}"
+  def route_header_text(%{type: 3, name: name}), do: ["Route ", name]
   def route_header_text(%{type: 2, name: name}), do: clean_route_name(name)
-  def route_header_text(%{name: name}), do: "#{name}"
+  def route_header_text(%{name: name}), do: name
 
   @doc "Clean up a GTFS route name for better presentation"
   def clean_route_name(name) do
