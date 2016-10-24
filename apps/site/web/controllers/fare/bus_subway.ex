@@ -3,8 +3,6 @@ defmodule Site.FareController.BusSubway do
   alias Fares.Fare
   alias Site.FareController.Filter
 
-  def mode_name(), do: "Bus/Subway"
-
   def template(), do: "bus_subway.html"
 
   def fares(_conn) do

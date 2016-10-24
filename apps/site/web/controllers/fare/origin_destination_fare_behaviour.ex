@@ -1,4 +1,7 @@
 defmodule Site.FareController.OriginDestinationFareBehaviour do
+  @doc "The display name of the mode"
+  @callback mode_name() :: String.t
+
   @callback route_type() :: integer
   @callback key_stops() :: [Schedules.Stop.t]
 
@@ -33,6 +36,7 @@ defmodule Site.FareController.OriginDestinationFareBehaviour do
     destination = get_stop(conn, "destination", destination_stop_list)
 
     conn
+    |> assign(:mode_name,  module.mode_name)
     |> assign(:route_type, module.route_type)
     |> assign(:origin_stops, origin_stop_list)
     |> assign(:destination_stops, destination_stop_list)
@@ -54,6 +58,9 @@ defmodule Site.FareController.OriginDestinationFareBehaviour do
         fares: fares
       }
     ]
+  end
+  def filters([]) do
+    []
   end
 
   defp origin_stops(route_type) do

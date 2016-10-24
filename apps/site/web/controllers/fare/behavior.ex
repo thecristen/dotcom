@@ -1,9 +1,6 @@
 defmodule Site.FareController.Behaviour do
   @moduledoc "Behaviour for fare pages."
 
-  @doc "The display name of the mode"
-  @callback mode_name() :: String.t
-
   @doc "The name of the template to render"
   @callback template() :: String.t
 
@@ -51,7 +48,6 @@ defmodule Site.FareController.Behaviour do
     conn
     |> render(
       mode_strategy.template,
-      mode_name: mode_strategy.mode_name,
       selected_filter: selected_filter,
       filters: filters)
   end
@@ -69,6 +65,9 @@ defmodule Site.FareController.Behaviour do
   end
 
   def selected_filter(filters, filter_id)
+  def selected_filter([], _) do
+    nil
+  end
   def selected_filter([filter | _], nil) do
     filter
   end

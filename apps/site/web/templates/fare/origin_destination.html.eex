@@ -38,7 +38,7 @@
       <% end %></p>
     </div>
 
-    <%= unless @selected_filter.fares == [] do %>
+    <%= unless @selected_filter == nil do %>
       <%= if @origin && @destination do %>
         <div class="row">
           <div class="col-xs-12 m-t-1">

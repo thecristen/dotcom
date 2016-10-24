@@ -37,5 +37,9 @@ defmodule Site.FarewController.BehaviourTest do
       assert selected_filter(@filters, "1") == List.first(@filters)
       assert selected_filter(@filters, "2") == List.last(@filters)
     end
+
+    test "if there are no filters, return nil" do
+      assert selected_filter([], "1") == nil
+    end
   end
 end
