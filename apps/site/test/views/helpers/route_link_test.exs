@@ -14,13 +14,13 @@ defmodule Site.ViewHelpers.RouteLinkTest do
 
   describe "route_circle/2" do
     test "for Red line" do
-      expected = fa("circle fa-color-subway-red") |> safe_to_string
+      expected = "circle fa-color-subway-red" |> fa |> safe_to_string
       actual = route_circle(0, "Red")
       assert expected == actual
     end
 
     test "for Green line D" do
-      expected = fa("circle fa-color-subway-green-d") |> safe_to_string
+      expected = "circle fa-color-subway-green-d" |> fa |> safe_to_string
       actual = route_circle(1, "Green-D")
       assert expected == actual
     end
