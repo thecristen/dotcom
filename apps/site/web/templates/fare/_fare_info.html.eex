@@ -6,9 +6,8 @@
   <div class="container">
     <div class="row">
       <%= for filter <- @filters do %>
-        <div class="p-a-1 col-md-3 col-xs-12 fares-tab fares-description-tab">
-          <%= filter.name %>
-        </div>
+        <% selected_class = if filter.id == @selected_filter.id, do: "fares-tab-selected", else: "" %>
+        <%= link filter.name, to: update_url(@conn, filter: filter.id), class: "fares-tab #{selected_class}" %>
       <% end %>
     </div>
     <div class="row fares-box">

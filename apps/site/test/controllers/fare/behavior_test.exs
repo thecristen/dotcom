@@ -6,10 +6,13 @@ defmodule Site.FarewController.BehaviourTest do
   import Site.FareController.Behaviour
 
   describe "filter_reduced/2" do
-    @fares [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}, %Fare{name: {:zone, "6"}, reduced: :student}]
+    @fares [%Fare{name: {:zone, "6"}, reduced: nil},
+            %Fare{name: {:zone, "5"}, reduced: nil},
+            %Fare{name: {:zone, "6"}, reduced: :student}]
 
     test "filters out non-adult fares" do
-      expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}]
+      expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil},
+                        %Fare{name: {:zone, "5"}, reduced: nil}]
       assert filter_reduced(@fares, :adult) == expected_fares
     end
 

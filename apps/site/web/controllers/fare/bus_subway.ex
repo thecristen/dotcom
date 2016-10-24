@@ -1,5 +1,6 @@
 defmodule Site.FareController.BusSubway do
   use Site.FareController.Behaviour
+  alias Fares.Fare
   alias Site.FareController.Filter
 
   def mode_name(), do: "Bus/Subway"
@@ -11,18 +12,27 @@ defmodule Site.FareController.BusSubway do
     |> Enum.flat_map(&Fares.Repo.all(mode: &1))
   end
 
-  def filters([example_fare | _] = fares) do
+  def filters(fares) do
+    {single_rides, passes} = fares |> Enum.partition(&single_ride?/1)
+
     [
       %Filter{
-        id: "",
-        name: [
-          Fares.Format.name(example_fare),
-          " ",
-          Fares.Format.customers(example_fare),
-          " Fares"
-        ],
-        fares: fares
+        id: "single",
+        name: "Single Ride",
+        fares: single_rides
+      },
+      %Filter{
+        id: "passes",
+        name: "Passes",
+        fares: passes
       }
     ]
+  end
+
+  defp single_ride?(%Fare{duration: duration}) when duration in [:single_trip, :round_trip] do
+    true
+  end
+  defp single_ride?(%Fare{}) do
+    false
   end
 end

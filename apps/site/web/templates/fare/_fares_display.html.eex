@@ -3,7 +3,7 @@
   <nav class="collapse navbar-toggleable-sm" id="fare_type" role="navigation">
     <div class="fares-tab-group row show-btn-group">
       <%= for reduced_type <- reduced_types do %>
-        <a class="fares-tab p-a-1 col-md-3 col-xs-12 <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= update_fare_type(@conn, reduced_type) %>">
+        <a class="fares-tab <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= update_fare_type(@conn, reduced_type) %>">
           <%= Fares.Format.customers(%Fare{reduced: reduced_type}) %>
         </a>
       <% end %>
