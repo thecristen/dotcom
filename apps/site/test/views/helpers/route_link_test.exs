@@ -1,5 +1,6 @@
 defmodule Site.ViewHelpers.RouteLinkTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
+  import Site.ViewHelpers, only: [fa: 1]
   import Site.ViewHelpers.RouteLink
 
   use Site.ConnCase, async: true
@@ -13,13 +14,13 @@ defmodule Site.ViewHelpers.RouteLinkTest do
 
   describe "route_circle/2" do
     test "for Red line" do
-      expected = "<i class=\"fa fa-circle fa-color-subway-red\" aria-hidden=true></i>"
+      expected = "circle fa-color-subway-red" |> fa |> safe_to_string
       actual = route_circle(0, "Red")
       assert expected == actual
     end
 
     test "for Green line D" do
-      expected = "<i class=\"fa fa-circle fa-color-subway-green-d\" aria-hidden=true></i>"
+      expected = "circle fa-color-subway-green-d" |> fa |> safe_to_string
       actual = route_circle(1, "Green-D")
       assert expected == actual
     end
