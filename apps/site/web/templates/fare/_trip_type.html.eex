@@ -12,8 +12,8 @@
       <p>
         <strong><%= Fares.Format.media(fare) %></strong>
         <span class="fare-price"><%= Fares.Format.price(fare) %></span>
+        <div><%= description(fare) %></div>
       </p>
     <% end %>
   </div>
-  <p><%= description(base_fare) %></p>
 </div>

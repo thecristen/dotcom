@@ -84,11 +84,45 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
  Subway, Express Buses, and Commuter Rail up to Zone 5."
     ]
   end
-  def description(%Fare{mode: :subway, duration: :single_trip}) do
-    "Free transfer to Subway and Local Bus. \
-    Transfer to Inner Express Bus $1.75. \
-    Transfer to Outer Express Bus $3.00. \
-    Must be done within 2 hours of your original ride."
+  def description(%Fare{name: name, duration: :single_trip}) when name in [:inner_express_bus, :outer_express_bus] do
+    "No free or discounted transfers."
+  end
+  def description(%Fare{mode: :subway, pass_type: :charlie_card, duration: :single_trip} = fare) do
+    inner_express = [name: :inner_express_bus, pass_type: :charlie_card, duration: :single_trip]
+    |> Fares.Repo.all
+    |> List.first
+    outer_express = [name: :outer_express_bus, pass_type: :charlie_card, duration: :single_trip]
+    |> Fares.Repo.all
+    |> List.first
+
+    [
+      "Free transfer to Subway and Local Bus. ",
+      "Transfer to Inner Express Bus ", Fares.Format.price(inner_express.cents - fare.cents), ". ",
+      "Transfer to Outer Express Bus ", Fares.Format.price(outer_express.cents - fare.cents), ". ",
+      "Must be done within 2 hours of your original ride."
+    ]
+  end
+  def description(%Fare{mode: mode, pass_type: :cash_or_ticket}) when mode in [:subway, :bus] do
+    "Free transfer to Subway, route  SL4,  and route  SL5 when done within 2 hours of purchasing a ticket."
+  end
+  def description(%Fare{mode: :bus, pass_type: :charlie_card} = fare) do
+    subway = [name: :subway, pass_type: :charlie_card, duration: :single_trip]
+    |> Fares.Repo.all
+    |> List.first
+    inner_express = [name: :inner_express_bus, pass_type: :charlie_card, duration: :single_trip]
+    |> Fares.Repo.all
+    |> List.first
+    outer_express = [name: :outer_express_bus, pass_type: :charlie_card, duration: :single_trip]
+    |> Fares.Repo.all
+    |> List.first
+
+    [
+      "Free transfer to Local Bus. ",
+      "Transfer to Subway ", Fares.Format.price(subway.cents - fare.cents), ". ",
+      "Transfer to Inner Express Bus ", Fares.Format.price(inner_express.cents - fare.cents), ". ",
+      "Transfer to Outer Express Bus ", Fares.Format.price(outer_express.cents - fare.cents), ". ",
+      "Must be done within 2 hours of your original ride."
+    ]
   end
   def description(%Fare{}) do
     "missing description"
