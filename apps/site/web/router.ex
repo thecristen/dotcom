@@ -5,6 +5,7 @@ defmodule Site.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
+    plug :fetch_cookies
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug BetaAnnouncement.Plug
@@ -38,6 +39,8 @@ defmodule Site.Router do
   end
 
   scope "/fares/", Site do
+    pipe_through :browser
+
     for mode <- ~W(commuter ferry bus_subway)a do
       get "/#{mode}", FareController, mode, as: :fare
     end
