@@ -38,16 +38,16 @@
       <% end %></p>
     </div>
 
-    <%= unless @fares == [] do %>
+    <%= unless @selected_filter.fares == [] do %>
       <%= if @origin && @destination do %>
         <div class="row">
           <div class="col-xs-12 m-t-1">
-            <strong><%= fare_name(List.first(@fares)) %> Fare</strong> |
+            <strong><%= Fares.Format.name(List.first(@selected_filter.fares)) %> Fare</strong> |
             <%= @origin.name %> to <%= @destination.name %>
           </div>
         </div>
       <% end %>
-      <%= render "_fares_display.html", fares: @fares, conn: @conn, fare_type: @fare_type %>
+      <%= render "_fares_display.html", selected_filter: @selected_filter, filters: @filters, conn: @conn, fare_type: @fare_type %>
     <% end %>
 
     <div class="row m-t-1">

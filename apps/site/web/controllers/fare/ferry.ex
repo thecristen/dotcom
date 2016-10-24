@@ -1,5 +1,5 @@
 defmodule Site.FareController.Ferry do
-  use Site.Fare.OriginDestinationFareBehaviour
+  use Site.FareController.OriginDestinationFareBehaviour
 
   alias Schedules.Stop
 
