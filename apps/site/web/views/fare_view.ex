@@ -125,10 +125,6 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   end
 
   def update_fare_type(conn, reduced_type) do
-    query = conn
-    |> update_query(fare_type: reduced_type)
-    |> URI.encode_query
-
-    "#{conn.request_path}?#{query}"
+    update_url(conn, fare_type: reduced_type)
   end
 end
