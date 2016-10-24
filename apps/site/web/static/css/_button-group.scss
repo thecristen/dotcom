@@ -1,0 +1,54 @@
+@import 'variables';
+
+.show-btn-group {
+  width: 100%;
+
+  @include media-breakpoint-up(sm) {
+    border-collapse: collapse;
+    display: table;
+
+    > .btn {
+      border-radius: 0;
+      display: table-cell;
+      float: none;
+    }
+  }
+
+  .btn {
+    border-color: $gray-lightest;
+    padding: $space-12;
+    position: relative;
+  }
+
+  .btn-selected-bottom {
+    border-bottom: $space-6 solid $brand-primary;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.show-btn {
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
+
+  $alert-route-icon-diameter: 1.5rem;
+
+  .route-icon {
+    @include route-icon($alert-route-icon-diameter, $space-4);
+  }
+}
+
+.show-btn-selected {
+  color: $gray-dark;
+  font-weight: bold;
+}
+
+.collapse.in,
+.collapse:target {
+  + .show-mode-toggle-btn {
+    display: none;
+  }
+}

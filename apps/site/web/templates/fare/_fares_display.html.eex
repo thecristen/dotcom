@@ -1,8 +1,27 @@
-<div class="fares-tab-group row">
-  <%= for reduced_type <- ~w(adult student senior_disabled)a do %>
-    <a class="fares-tab p-a-1 col-md-3 col-xs-12 <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= @conn.request_path %>?<%= @conn |> update_query(fare_type: reduced_type) |> URI.encode_query %>">
+<% reduced_types = ~w(adult student senior_disabled)a %>
+<div class="fares-tab-group row hidden-xs-down">
+  <%= for reduced_type <- reduced_types do %>
+    <a class="fares-tab p-a-1 col-sm-4 col-md-3 col-xs-12 <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= update_fare_type(@conn, reduced_type) %>">
       <%= display_fare_type(reduced_type) %>
     </a>
   <% end %>
+</div>
+<div class="row hidden-sm-up m-t-1">
+  <nav class="collapse navbar-toggleable-sm" id="fare_type" role="navigation">
+    <div class="btn-group show-btn-group">
+      <%= for reduced_type <- reduced_types do %>
+        <% selected_class = case @fare_type do
+             ^reduced_type -> "show-btn-selected"
+             _ -> ""
+           end %>
+        <%= link to: update_fare_type(@conn, reduced_type), class: "btn show-btn #{selected_class}" do %>
+          <%= display_fare_type(reduced_type) %>
+        <% end %>
+      <% end %>
+    </div>
+  </nav>
+  <a class="btn btn-block btn-primary-outline pull-right show-mode-toggle-btn" href="#fare_type" data-toggle="collapse" data-target="#fare_type">
+    <%= display_fare_type(@fare_type) %> Fares <%= fa "angle-down" %>
+  </a>
 </div>
 <%= render "_fare_info.html", fares: filter_reduced(@fares, @fare_type), conn: @conn %>

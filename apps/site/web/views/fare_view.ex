@@ -155,4 +155,12 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
       end)
     |> Enum.join(", ")
   end
+
+  def update_fare_type(conn, reduced_type) do
+    query = conn
+    |> update_query(fare_type: reduced_type)
+    |> URI.encode_query
+
+    "#{conn.request_path}?#{query}"
+  end
 end
