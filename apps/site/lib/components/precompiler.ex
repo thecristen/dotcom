@@ -21,7 +21,6 @@ defmodule Site.Components.Precompiler do
     and compiles a module for each folder in every section.
   """
   # not sure if this spec is correct -- does it return a def?
-  @spec precompile_components :: nil
   defmacro precompile_components do
     sections = File.ls!(components_folder_path)
     for section <- sections do
@@ -34,7 +33,6 @@ defmodule Site.Components.Precompiler do
   @doc """
     Compiles a module for each folder within a component section
   """
-  @spec get_components(String.t) :: nil
   def get_components(section) do
     components = File.ls!(components_section_path(section))
     for component <- components do
@@ -53,7 +51,6 @@ defmodule Site.Components.Precompiler do
   defines the function `mode_button/1`, taking the variables to assign and
   returning a `Phoenix.HTML.Safe.t`.
   """
-  @spec precompile_component(String.t, String.t) :: nil
   def precompile_component(component, section) do
     name = String.to_atom(component)
     path = Path.join(

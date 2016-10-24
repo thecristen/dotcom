@@ -18,10 +18,11 @@ defmodule Fares.Format do
   def media(%Fare{pass_type: :student_card}), do: "Student CharlieCard"
 
   @doc "Formats the customers that are served by the given fare: Adult / Student / Senior"
-  @spec customers(Fare.t) :: String.t
-  def customers(%Fare{reduced: :student}), do: "Student"
-  def customers(%Fare{reduced: :senior_disabled}), do: "Senior & Disabilities"
-  def customers(%Fare{}), do: "Adult"
+  @spec customers(Fare.t | Fare.reduced) :: String.t
+  def customers(%Fare{reduced: reduced}), do: customers(reduced)
+  def customers(:student), do: "Student"
+  def customers(:senior_disabled), do: "Senior & Disabilities"
+  def customers(nil), do: "Adult"
 
   @doc "Friendly name for the given fare"
   @spec name(Fare.t) :: String.t

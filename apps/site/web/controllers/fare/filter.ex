@@ -1,12 +1,12 @@
 defmodule Site.FareController.Filter do
   @type t :: %__MODULE__{
-    id: atom,
-    name: String.t,
+    id: String.t,
+    name: String.t | iolist,
     fares: [Fares.Fare.t]
   }
 
   defstruct [
-    id: nil,
+    id: "",
     name: "",
     fares: []
   ]

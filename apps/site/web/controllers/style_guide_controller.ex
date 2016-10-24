@@ -41,7 +41,7 @@ defmodule Site.StyleGuideController do
   defp assign_styleguide_conn(conn, %{"component_group" => component_group} = params) do
     conn
     |> styleguide_conn(params)
-    |> assign(:component_group, String.to_atom(component_group))
+    |> assign(:component_group, String.to_existing_atom(component_group))
   end
 
   defp assign_styleguide_conn(conn, params) do
@@ -52,7 +52,7 @@ defmodule Site.StyleGuideController do
   defp styleguide_conn(conn, %{"section" => section}) do
     conn
     |> styleguide_layout
-    |> assign(:section, String.to_atom(section))
+    |> assign(:section, String.to_existing_atom(section))
   end
 
   defp styleguide_conn(conn, _) do
@@ -67,10 +67,12 @@ defmodule Site.StyleGuideController do
     |> assign(:components, @components)
   end
 
+  @spec get_components(String.t) :: [String.t]
   defp get_components(group) do
+    group_atom = String.to_existing_atom(group)
     @components
-    |> Enum.find(fn {grp, _} -> String.to_atom(group) == grp end)
-    |> Tuple.to_list
-    |> List.last
+    |> Enum.find(&match?({^group_atom, _}, &1))
+    |> elem(1)
+    |> Enum.map(&Atom.to_string/1)
   end
 end

@@ -16,20 +16,23 @@ defmodule Site.StyleGuideView do
     |> List.first
   end
 
+  @spec render_component(String.t, String.t) :: Phoenix.HTML.Safe.t
+  @spec render_component(String.t, String.t, map) :: Phoenix.HTML.Safe.t
   def render_component(component, group) do
-    apply(__MODULE__, component, [component_args(component, group)])
+    render_component(component, group, component_args(component, group))
   end
-
   def render_component(component, _, args) do
-    apply(__MODULE__, component, [args])
+    apply(__MODULE__, String.to_existing_atom(component), [args])
   end
 
+  @spec component_markup(String.t, String.t) :: String.t
   def component_markup(component, group) do
     component
     |> render_component(group)
     |> Phoenix.HTML.safe_to_string
   end
 
+  @spec component_description(String.t, String.t) :: String.t
   def component_description(component, group) do
     component
     |> component_module(group)

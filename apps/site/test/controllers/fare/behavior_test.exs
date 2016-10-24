@@ -13,7 +13,7 @@ defmodule Site.FarewController.BehaviourTest do
     test "filters out non-adult fares" do
       expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil},
                         %Fare{name: {:zone, "5"}, reduced: nil}]
-      assert filter_reduced(@fares, :adult) == expected_fares
+      assert filter_reduced(@fares, nil) == expected_fares
     end
 
     test "filters out non-student fares" do

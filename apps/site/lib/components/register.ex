@@ -17,7 +17,6 @@ defmodule Site.Components.Register do
   @doc """
     Finds all folders within apps/site/lib/components, and returns a tuple {:section, [:component...]} for each
   """
-  @spec get_components :: [{atom, [atom]}]
   defmacro get_components do
     quote do
       components_folder_path
@@ -30,7 +29,6 @@ defmodule Site.Components.Register do
   @doc """
     Finds all folders within a section folder, and returns each folder's name as an atom
   """
-  @spec list_component_names(String.t) :: [atom]
   defmacro list_component_names(section) do
     quote do
       path = Path.join(components_folder_path, unquote(section))
