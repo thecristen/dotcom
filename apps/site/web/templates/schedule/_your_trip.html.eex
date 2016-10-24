@@ -18,7 +18,7 @@
     <%= render "_trip_stop.html", origin: false, destination: false, trip_schedule: second, alerts: @alerts %>
     <li class="trip-stop">
       <p>
-        <a href="<%= update_url(@conn, full_list: "full_list") %>">
+        <a href="<%= update_schedule_url(@conn, full_list: "full_list") %>">
           <button class="btn btn-link p-a-0">
             <%= fa "angle-up" %>
             <div>Show all stops</div>
@@ -32,7 +32,7 @@
   <% end %>
 </ul>
 <%= if @show_full_list do %>
-   <a href="<%= update_url(@conn, full_list: nil) %>"/>
+   <a href="<%= update_schedule_url(@conn, full_list: nil) %>"/>
       Show fewer stops
    </a>
 <% end %>

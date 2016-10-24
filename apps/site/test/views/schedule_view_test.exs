@@ -27,11 +27,11 @@ defmodule Site.ScheduleViewTest do
     end
   end
 
-  describe "update_url/2" do
+  describe "update_schedule_url/2" do
     test "adds additional parameters to a conn", %{conn: conn} do
       conn = %{conn | params: %{"route" => "route"}}
 
-      actual = ScheduleView.update_url(conn, trip: "trip")
+      actual = ScheduleView.update_schedule_url(conn, trip: "trip")
       expected = schedule_path(conn, :show, "route", trip: "trip")
 
       assert expected == actual
@@ -40,7 +40,7 @@ defmodule Site.ScheduleViewTest do
     test "updates existing parameters in a conn", %{conn: conn} do
       conn = %{conn | params: %{"route" => "route", "trip" => "old"}}
 
-      actual = ScheduleView.update_url(conn, trip: "trip")
+      actual = ScheduleView.update_schedule_url(conn, trip: "trip")
       expected = schedule_path(conn, :show, "route", trip: "trip")
 
       assert expected == actual
@@ -49,7 +49,7 @@ defmodule Site.ScheduleViewTest do
     test "setting a value to nil removes it from the URL", %{conn: conn} do
       conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
 
-      actual = ScheduleView.update_url(conn, trip: nil)
+      actual = ScheduleView.update_schedule_url(conn, trip: nil)
       expected = schedule_path(conn, :show, "route")
 
       assert expected == actual
@@ -58,7 +58,7 @@ defmodule Site.ScheduleViewTest do
     test 'setting a value to "" keeps it from the URL', %{conn: conn} do
       conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
 
-      actual = ScheduleView.update_url(conn, trip: "")
+      actual = ScheduleView.update_schedule_url(conn, trip: "")
       expected = schedule_path(conn, :show, "route", trip: "")
 
       assert expected == actual
