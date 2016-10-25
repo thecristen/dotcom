@@ -7,19 +7,16 @@ defmodule Site.FareView.Description do
   def description(%Fare{mode: :commuter, duration: :round_trip}) do
     "Valid for Commuter Rail only."
   end
-  def description(%Fare{mode: :commuter, duration: :month, pass_type: :mticket, name: {_, "1A"}}) do
-    "Valid for one calendar month of travel on the commuter rail in zone 1A only."
+  def description(%Fare{mode: :commuter, duration: :month, pass_type: :mticket, name: name}) do
+    ["Valid for one calendar month of travel on the commuter rail ",
+     valid_commuter_zones(name),
+     " only."
+    ]
   end
-  def description(%Fare{mode: :commuter, duration: :month, pass_type: :mticket, name: {_zone, number}}) do
-    "Valid for one calendar month of travel on the commuter rail from zones 1A-#{number} only."
-  end
-  def description(%Fare{mode: :commuter, duration: :month, name: {_, "1A"}}) do
-    "Valid for one calendar month of unlimited travel on Commuter Rail in zone 1A as well as Local Bus, Subway, \
-Express Bus, and the Charlestown Ferry."
-  end
-  def description(%Fare{mode: :commuter, duration: :month, name: {_zone, number}}) do
-    "Valid for one calendar month of unlimited travel on Commuter Rail from Zones 1A-#{number} as well as Local \
-Bus, Subway, Express Bus, and the Charlestown Ferry."
+  def description(%Fare{mode: :commuter, duration: :month, name: name}) do
+    ["Valid for one calendar month of unlimited travel on Commuter Rail ",
+     valid_commuter_zones(name),
+     " as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."]
   end
   def description(%Fare{mode: :ferry, duration: duration} = fare) when duration in [:round_trip, :single_trip] do
     [
@@ -62,6 +59,13 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
   def description(%Fare{mode: :bus, pass_type: :cash_or_ticket}) do
     "Free transfer to one additional Local Bus included."
   end
+  def description(%Fare{mode: :subway, duration: :month, reduced: :student}) do
+    ["Unlimited travel for one calendar month on the Subway",
+     "Local Bus",
+     "Inner Express Bus",
+     "Outer Express Bus."
+    ] |> AndJoin.join
+  end
   def description(%Fare{mode: :subway, duration: :month}) do
     "Unlimited travel for one calendar month on the Local Bus and Subway."
   end
@@ -94,8 +98,19 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
     ]
   end
 
+  defp valid_commuter_zones({:zone, "1A"}) do
+    "in Zone 1A only"
+  end
+  defp valid_commuter_zones({:zone, final}) do
+    ["from Zones 1A-", final]
+  end
+  defp valid_commuter_zones({:interzone, total}) do
+    ["between ", total, " zones outside of Zone 1A"]
+  end
+
   def transfers(fare) do
-    # used to generate the list of transfer fees for a a given fare.  Filters out transfers which are <= 0.
+    # used to generate the list of transfer fees for a a given fare.
+    # Transfers <= 0 are considered free.
     {paid, free} = [subway: "Subway",
                     local_bus: "Local Bus",
                     inner_express_bus: "Inner Express Bus",
