@@ -111,6 +111,13 @@ defmodule Fares.FareInfo do
       },
       %Fare{base |
         duration: :month,
+        pass_type: :card_or_ticket,
+        reduced: nil,
+        cents: dollars_to_cents(month_pass_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :month,
         pass_type: :student_card,
         reduced: :student,
         cents: dollars_to_cents(month_reduced_price),
@@ -124,26 +131,19 @@ defmodule Fares.FareInfo do
         additional_valid_modes: [:bus]
       },
       %Fare{base |
-        duration: :day,
-        pass_type: :card_or_ticket,
-        reduced: nil,
-        cents: dollars_to_cents(day_pass_price),
-        additional_valid_modes: [:bus]
-      },
-      %Fare{base |
         duration: :week,
         pass_type: :card_or_ticket,
         reduced: nil,
         cents: dollars_to_cents(week_pass_price),
-        additional_valid_modes: [:bus]
+        additional_valid_modes: [:bus, :commuter, :ferry]
       },
       %Fare{base |
-        duration: :month,
+        duration: :day,
         pass_type: :card_or_ticket,
         reduced: nil,
-        cents: dollars_to_cents(month_pass_price),
-        additional_valid_modes: [:bus]
-      }
+        cents: dollars_to_cents(day_pass_price),
+        additional_valid_modes: [:bus, :commuter, :ferry]
+      },
     ]
   end
   def mapper([
@@ -154,7 +154,7 @@ defmodule Fares.FareInfo do
     month_reduced_price,
     _day_pass_price,
     _week_pass_price,
-    _month_pass_price,
+    month_pass_price,
     ""
   ]) do
     base = %Fare{
@@ -185,6 +185,13 @@ defmodule Fares.FareInfo do
         pass_type: :senior_card,
         reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
+      },
+      %Fare{
+        base |
+        duration: :month,
+        pass_type: :card_or_ticket,
+        reduced: nil,
+        cents: dollars_to_cents(month_pass_price)
       },
       %Fare{base |
         duration: :month,
@@ -239,22 +246,19 @@ defmodule Fares.FareInfo do
         duration: :month,
         pass_type: :student_card,
         reduced: :student,
-        cents: dollars_to_cents(month_reduced_price),
-        additional_valid_modes: [:bus]
+        cents: dollars_to_cents(month_reduced_price)
       },
       %Fare{base |
         duration: :month,
         pass_type: :senior_card,
         reduced: :senior_disabled,
-        cents: dollars_to_cents(month_reduced_price),
-        additional_valid_modes: [:bus]
+        cents: dollars_to_cents(month_reduced_price)
       },
       %Fare{base |
         duration: :month,
         pass_type: :card_or_ticket,
         reduced: nil,
-        cents: dollars_to_cents(month_pass_price),
-        additional_valid_modes: [:bus]
+        cents: dollars_to_cents(month_pass_price)
       }
     ]
   end
