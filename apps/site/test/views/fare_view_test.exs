@@ -2,6 +2,7 @@ defmodule Site.FareViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
   import Site.FareView
+  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   alias Fares.Fare
 
   test "fare_duration_summary/1" do
@@ -29,7 +30,10 @@ defmodule Site.FareViewTest do
 
   describe "vending_machine_stations/0" do
     test "generates a list of links to stations with fare vending machines" do
-      content = vending_machine_stations |> Phoenix.HTML.safe_to_string
+      content = vending_machine_stations
+      |> Enum.map(&raw/1)
+      |> Enum.map(&safe_to_string/1)
+      |> Enum.join("")
 
       assert content =~ "place-north"
       assert content =~ "place-sstat"
@@ -48,7 +52,10 @@ defmodule Site.FareViewTest do
 
   describe "charlie_card_stations/0" do
     test "generates a list of links to stations where a customer can buy a CharlieCard" do
-      content = charlie_card_stations |> Phoenix.HTML.safe_to_string
+      content = charlie_card_stations
+      |> Enum.map(&raw/1)
+      |> Enum.map(&safe_to_string/1)
+      |> Enum.join("")
 
       assert content =~ "place-alfcl"
       assert content =~ "place-armnl"

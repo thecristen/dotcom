@@ -9,7 +9,7 @@
   <div class="fares-ticket-type">
     <h3 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h3>
     <%= case callout(base_fare) do %>
-      <% nil -> %>
+      <% "" -> %>
       <% text -> %>
       <div class="fare-callout-box m-b-1">
         <%= text %>

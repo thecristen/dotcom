@@ -40,6 +40,7 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
     nil
   end
 
+  @spec callout(Fare.t) :: String.t | iolist
   def callout(%Fare{name: :inner_express_bus}) do
     ["Travels on Routes: 170, 325, 326, 351, 424, 426, 428, 434, 449, 450, 459, 501, 502, 504, ",
      "553, 554 and 558."]
@@ -47,8 +48,9 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   def callout(%Fare{name: :outer_express_bus}) do
     "Travels on routes: 352, 354, and 505."
   end
-  def callout(%Fare{}), do: nil
+  def callout(%Fare{}), do: ""
 
+  @spec vending_machine_stations :: [Phoenix.Safe.t]
   def vending_machine_stations do
     Stations.Repo.all
     |> Enum.filter(fn station -> station.has_fare_machine end)
@@ -63,15 +65,11 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
 
   defp station_link_list(stations) do
     stations
-    |> Enum.map(fn station ->
-      station
-      |> station_link
-      |> Phoenix.HTML.safe_to_string
-    end)
-    |> Enum.join(", ")
-    |> raw
+    |> Enum.map(&station_link/1)
+    |> Enum.intersperse(", ")
   end
 
+  @spec update_fare_type(Plug.Conn.t, Fare.reduced) :: Plug.Conn.t
   def update_fare_type(conn, reduced_type) do
     update_url(conn, fare_type: reduced_type)
   end

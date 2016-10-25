@@ -1,6 +1,7 @@
 defmodule Site.FareView.Description do
   alias Fares.Fare
 
+  @spec description(Fare.t) :: String.t | iolist
   def description(%Fare{mode: :commuter, duration: :single_trip}) do
     "Valid for Commuter Rail only."
   end
