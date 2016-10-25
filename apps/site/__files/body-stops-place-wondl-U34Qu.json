@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/place-wondl"},"id":"place-wondl","attributes":{"wheelchair_boarding":1,"name":"Wonderland","longitude":-70.991648,"latitude":42.41342}}}

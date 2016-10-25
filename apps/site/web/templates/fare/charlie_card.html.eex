@@ -19,18 +19,20 @@
     </div>
 
     <div class="col-xs-12 charlie-card-hours">
-      Open every day 7:00 AM until 7:00 PM
-      <hr />
-      <p><%= charlie_card_stations %></p>
+      <div class="hours-header">Open every day 7:00 AM until 7:00 PM</div>
+      <div class="hours-body">
+        <p><%= charlie_card_stations %></p>
+      </div>
     </div>
 
     <div class="col-xs-12 charlie-card-hours m-y-1">
-      Other hours
-      <hr />
-      <p><%= station_link "place-kencl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 10:30 AM - 7:00PM</p>
-      <p><%= station_link "place-mvbcl" %>: Mon - Fri & Sun 7:00 AM - 7:00 PM, Sat 7:00 AM - 2:00 PM, 4:30 PM - 7:00PM</p>
-      <p><%= station_link "place-haecl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
-      <p><%= station_link "place-wondl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+      <div class="hours-header">Additional stations &amp; hours</div>
+      <div class="hours-body">
+        <p><%= station_link "place-kencl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 10:30 AM - 7:00PM</p>
+        <p><%= station_link "place-mvbcl" %>: Mon - Fri & Sun 7:00 AM - 7:00 PM, Sat 7:00 AM - 2:00 PM, 4:30 PM - 7:00PM</p>
+        <p><%= station_link "place-haecl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+        <p><%= station_link "place-wondl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+      </div>
     </div>
 
     <div class="col-xs-12">
@@ -53,10 +55,30 @@
         <li>Request Senior CharlieCard, Transport Access Pass, or Blind Access Pass</li>
         <li>Add credit to RIDE account</li>
       </ul>
+    </div>
 
-      <p><strong>Hours:</strong> Monday &mdash; Friday, 8:30 AM until 5:00 PM</p>
-      <p><strong>Phone:</strong> <%= tel_link "(617) 222-3200" %> or <%= tel_link "(617) 222-5854" %> for the deaf or hard of hearing.</p>
-      <p><strong>Mailing Address:</strong> Downtown Crossing Station, 7 Chauncy Street, Boston, MA 02111</p>
+    <div class="col-xs-12 col-md-4">
+      <p>
+        <strong>Hours:</strong><br />
+        Monday &mdash; Friday<br />
+        8:30 AM until 5:00 PM
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <p>
+        <strong>Phone:</strong><br />
+        <%= tel_link "(617) 222-3200" %><br />
+        <%= tel_link "(617) 222-5854" %><br />
+        (for the deaf or hard of hearing)
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <p>
+        <strong>Mailing Address:</strong><br />
+        Downtown Crossing Station<br />
+        7 Chauncy Street<br />
+        Boston, MA 02111
+      </p>
     </div>
 
     <div class="col-xs-12 m-t-1">
