@@ -10,7 +10,7 @@ defmodule Site.FareController.BusSubway do
     |> Enum.flat_map(&Fares.Repo.all(mode: &1))
   end
 
-  def filters(fares) do
+  def filters([%Fare{reduced: nil} | _] = fares) do
     {single_rides, passes} = fares |> Enum.partition(&single_ride?/1)
 
     [
@@ -23,6 +23,14 @@ defmodule Site.FareController.BusSubway do
         id: "passes",
         name: "Passes",
         fares: passes
+      }
+    ]
+  end
+  def filters(fares) do
+    [
+      %Filter{
+        name: "Single Rides and Passes",
+        fares: fares
       }
     ]
   end
