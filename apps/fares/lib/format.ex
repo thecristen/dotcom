@@ -27,7 +27,31 @@ defmodule Fares.Format do
   def customers(:senior_disabled), do: "Senior & Disabilities"
   def customers(nil), do: "Adult"
 
-  @doc "Friendly name for the given fare"
+  @doc "Formats the duration of the Fare"
+  @spec duration(Fare.t) :: String.t
+  def duration(%Fare{mode: mode, duration: :single_trip}) when mode in [:subway, :bus] do
+    "Single Ride"
+  end
+  def duration(%Fare{duration: :single_trip}) do
+    "One Way"
+  end
+  def duration(%Fare{duration: :round_trip}) do
+    "Round Trip"
+  end
+  def duration(%Fare{duration: :day}) do
+    "Day Pass"
+  end
+  def duration(%Fare{duration: :week}) do
+    "7-Day Pass"
+  end
+  def duration(%Fare{duration: :month, pass_type: :mticket}) do
+    "Monthly Pass on mTicket App"
+  end
+  def duration(%Fare{duration: :month}) do
+    "Monthly Pass"
+  end
+
+  @doc "Friendly name for the given Fare"
   @spec name(Fare.t) :: String.t
   def name(%Fare{name: :subway}), do: "Subway"
   def name(%Fare{name: :local_bus}), do: "Local Bus"
@@ -39,4 +63,15 @@ defmodule Fares.Format do
   def name(%Fare{name: :ferry_cross_harbor}), do: "Cross Harbor Ferry"
   def name(%Fare{name: :commuter_ferry}), do: "Commuter Ferry"
   def name(%Fare{name: :commuter_ferry_logan}), do: "Commuter Ferry to Logan Airport"
+
+  @spec full_name(Fare.t) :: String.t | iolist
+  def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"
+  def full_name(%Fare{duration: :week}), do: "7-Day Pass"
+  def full_name(%Fare{duration: :day}), do: "One-Day Pass"
+  def full_name(fare) do
+    [name(fare),
+     " ",
+     duration(fare)
+    ]
+  end
 end

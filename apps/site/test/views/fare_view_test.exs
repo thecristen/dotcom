@@ -18,15 +18,6 @@ defmodule Site.FareViewTest do
      end
   end
 
-  test "fare_duration/1" do
-    assert fare_duration(%Fare{duration: :single_trip}) == "One Way"
-    assert fare_duration(%Fare{duration: :round_trip}) == "Round Trip"
-    assert fare_duration(%Fare{duration: :month}) == "Monthly Pass"
-    assert fare_duration(%Fare{duration: :month, pass_type: :mticket}) == "Monthly Pass on mTicket App"
-    assert fare_duration(%Fare{mode: :subway, duration: :single_trip}) == "Single Ride"
-    assert fare_duration(%Fare{mode: :bus, duration: :single_trip}) == "Single Ride"
-  end
-
   describe "description/1" do
     test "fare description for one way CR is for commuter rail only" do
       fare = %Fare{duration: :single_trip, mode: :commuter}

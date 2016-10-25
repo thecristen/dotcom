@@ -19,29 +19,6 @@ defmodule Site.FareView do
     "7 Days"
   end
 
-  @spec fare_duration(Fares.Fare.t) :: String.t
-  def fare_duration(%Fare{mode: mode, duration: :single_trip}) when mode in [:subway, :bus] do
-    "Single Ride"
-  end
-  def fare_duration(%Fare{duration: :single_trip}) do
-    "One Way"
-  end
-  def fare_duration(%Fare{duration: :round_trip}) do
-    "Round Trip"
-  end
-  def fare_duration(%Fare{duration: :day}) do
-    "Day Pass"
-  end
-  def fare_duration(%Fare{duration: :week}) do
-    "7-Day Pass"
-  end
-  def fare_duration(%Fare{duration: :month, pass_type: :mticket}) do
-    "Monthly Pass on mTicket App"
-  end
-  def fare_duration(%Fare{duration: :month}) do
-    "Monthly Pass"
-  end
-
   def description(%Fare{mode: :commuter, duration: :single_trip}) do
     "Valid for Commuter Rail only."
   end
@@ -147,6 +124,15 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   def eligibility(_) do
     nil
   end
+
+  def callout(%Fare{name: :inner_express_bus}) do
+    ["Travels on Routes: 170, 325, 326, 351, 424, 426, 428, 434, 449, 450, 459, 501, 502, 504, ",
+     "553, 554 and 558."]
+  end
+  def callout(%Fare{name: :outer_express_bus}) do
+    "Travels on routes: 352, 354, and 505."
+  end
+  def callout(%Fare{}), do: nil
 
   def vending_machine_stations do
     Stations.Repo.all
