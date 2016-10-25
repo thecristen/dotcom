@@ -92,6 +92,23 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
   def description(%Fare{mode: :subway, duration: duration}) when duration in [:day, :week] do
     "Can be used for the Subway, Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
   end
+  def description(%Fare{name: :local_bus, duration: :month}) do
+    "Unlimited travel for one calendar month on the Local Bus (not including routes SL1 or SL2)."
+  end
+  def description(%Fare{name: :inner_express_bus, duration: :month}) do
+    ["Unlimited travel for one calendar month on the Inner Express Bus",
+     "Local Bus",
+     "Commuter Rail Zone 1A",
+     "the Charlestown Ferry."
+    ] |> AndJoin.join
+  end
+  def description(%Fare{name: :outer_express_bus, duration: :month}) do
+    ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
+     "Local Bus",
+     "Commuter Rail Zone 1A",
+     "the Charlestown Ferry."
+    ] |> AndJoin.join
+  end
   def description(%Fare{}) do
     "missing description"
   end
