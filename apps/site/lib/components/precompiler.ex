@@ -23,7 +23,7 @@ defmodule Site.Components.Precompiler do
   # not sure if this spec is correct -- does it return a def?
   defmacro precompile_components do
     sections = File.ls!(components_folder_path)
-    for section <- sections do
+    for section <- Enum.map(sections, &String.to_atom/1) do
       if File.dir?(components_section_path(section)) do
         get_components(section)
       end
@@ -35,8 +35,8 @@ defmodule Site.Components.Precompiler do
   """
   def get_components(section) do
     components = File.ls!(components_section_path(section))
-    for component <- components do
-      if File.dir?(component_folder_path(section, component)) do
+    for component <- Enum.map(components, &String.to_atom/1) do
+      if File.dir?(component_folder_path(component, section)) do
         precompile_component(component, section)
       end
     end
@@ -46,15 +46,14 @@ defmodule Site.Components.Precompiler do
   @doc """
   Defines function to render a particular component.  For example:
 
-      precompile_component("mode_button", "buttons")
+      precompile_component(:mode_button, :buttons)
 
   defines the function `mode_button/1`, taking the variables to assign and
   returning a `Phoenix.HTML.Safe.t`.
   """
-  def precompile_component(component, section) do
-    name = String.to_atom(component)
+  def precompile_component(component, section) when is_atom(component) and is_atom(section) do
     path = Path.join(
-      component_folder_path(section, component),
+      component_folder_path(component, section),
       "/component.html.eex")
     module = component_module(component, section)
 
@@ -63,10 +62,10 @@ defmodule Site.Components.Precompiler do
       import Site.Components.Helpers
       import unquote(module)
 
-      @spec unquote(name)(Dict.t) :: Phoenix.HTML.Safe.t
+      @spec unquote(component)(Dict.t) :: Phoenix.HTML.Safe.t
       EEx.function_from_file(
         :def,
-        unquote(name),
+        unquote(component),
         unquote(path),
         [:args],
         engine: Phoenix.HTML.Engine)

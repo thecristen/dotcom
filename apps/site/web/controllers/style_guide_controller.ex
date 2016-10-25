@@ -67,12 +67,11 @@ defmodule Site.StyleGuideController do
     |> assign(:components, @components)
   end
 
-  @spec get_components(String.t) :: [String.t]
+  @spec get_components(String.t) :: [atom]
   defp get_components(group) do
     group_atom = String.to_existing_atom(group)
     @components
     |> Enum.find(&match?({^group_atom, _}, &1))
     |> elem(1)
-    |> Enum.map(&Atom.to_string/1)
   end
 end

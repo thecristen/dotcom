@@ -1,7 +1,7 @@
 <ul class="components">
-<%= for component <- @section_components do %>
+  <%= for component <- @section_components do %>
   <li class="component">
-    <h2 class="h1"><%= String.capitalize component %></h2>
+    <h2 class="h1"><%= component |> Atom.to_string |> String.split("_") |> Enum.map(&String.capitalize/1) |> Enum.join(" ") %></h2>
     <div><%= render_component(component, @component_group) %></div>
     <%= if has_variants?(component, @component_group) do %>
       <p>Variations</p>
