@@ -3,15 +3,6 @@ defmodule Site.FareView do
 
   alias Fares.Fare
 
-  def zone_name({zone, number}) do
-    "#{zone} #{number}"
-    |> String.capitalize
-  end
-
-  def fare_price(fare_in_cents) do
-    "$#{Float.to_string(fare_in_cents / 100, decimals: 2)}"
-  end
-
   def fare_duration_summary(:month) do
     "1 Month"
   end
@@ -72,14 +63,26 @@ Express Bus, and the Charlestown Ferry."
 Bus, Subway, Express Bus, and the Charlestown Ferry."
   end
   def description(%Fare{mode: :ferry, duration: duration} = fare) when duration in [:round_trip, :single_trip] do
-    "Valid for the #{fare_name(fare)} only."
+    [
+      "Valid for the ",
+      Fares.Format.name(fare),
+      " only."
+    ]
   end
   def description(%Fare{mode: :ferry, duration: :month, pass_type: :mticket} = fare) do
-    "Valid for one calendar month of unlimited travel on the #{fare_name(fare)} only."
+       [
+         "Valid for one calendar month of unlimited travel on the ",
+         Fares.Format.name(fare),
+         " only."
+       ]
   end
   def description(%Fare{mode: :ferry, duration: :month} = fare) do
-    "Valid for one calendar month of unlimited travel on the #{fare_name(fare)} as well as the Local Bus, \
-Subway, Express Buses, and Commuter Rail up to Zone 5."
+    [
+      "Valid for one calendar month of unlimited travel on the ",
+      Fares.Format.name(fare),
+      " as well as the Local Bus, \
+ Subway, Express Buses, and Commuter Rail up to Zone 5."
+    ]
   end
   def description(%Fare{mode: :subway, duration: :single_trip}) do
     "Free transfer to Subway and Local Bus. \
@@ -111,41 +114,6 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
     nil
   end
 
-  def filter_reduced(fares, :adult) do
-    filter_reduced(fares, nil)
-  end
-  def filter_reduced(fares, reduced) when is_atom(reduced) or is_nil(reduced) do
-    fares
-    |> Enum.filter(&match?(%{reduced: ^reduced}, &1))
-  end
-
-  def fare_customers(type) when type in [nil, :adult], do: "Adult"
-  def fare_customers(:student), do: "Student"
-  def fare_customers(:senior_disabled), do: "Senior & Disabilities"
-
-  def display_fare_type(fare_type) do
-    fare_type
-    |> fare_customers
-  end
-
-  def fare_name(%Fare{mode: :commuter, name: name}), do: zone_name(name)
-  def fare_name(%Fare{name: :ferry_inner_harbor}), do: "Inner Harbor Ferry"
-  def fare_name(%Fare{name: :ferry_cross_harbor}), do: "Cross Harbor Ferry"
-  def fare_name(%Fare{name: :commuter_ferry}), do: "Commuter Ferry"
-  def fare_name(%Fare{name: :commuter_ferry_logan}), do: "Commuter Ferry to Logan Airport"
-  def fare_name(%Fare{name: :subway}), do: "Subway"
-  def fare_name(%Fare{name: :local_bus}), do: "Local Bus"
-  def fare_name(%Fare{name: :inner_express_bus}), do: "Inner Express Bus"
-  def fare_name(%Fare{name: :outer_express_bus}), do: "Outer Express Bus"
-
-  def fare_media(%Fare{pass_type: :charlie_card}), do: "CharlieCard"
-  def fare_media(%Fare{pass_type: :ticket}), do: "Ticket"
-  def fare_media(%Fare{pass_type: :mticket}), do: "mTicket App"
-  def fare_media(%Fare{pass_type: :card_or_ticket}), do: "CharlieCard or Ticket"
-  def fare_media(%Fare{pass_type: :cash_or_ticket}), do: "Ticket or Cash"
-  def fare_media(%Fare{pass_type: :senior_card}), do: "Senior CharlieCard or TAP ID"
-  def fare_media(%Fare{pass_type: :student_card}), do: "Student CharlieCard"
-
   def vending_machine_stations do
     Stations.Repo.all
     |> Enum.filter(fn station -> station.has_fare_machine end)
@@ -157,10 +125,6 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   end
 
   def update_fare_type(conn, reduced_type) do
-    query = conn
-    |> update_query(fare_type: reduced_type)
-    |> URI.encode_query
-
-    "#{conn.request_path}?#{query}"
+    update_url(conn, fare_type: reduced_type)
   end
 end

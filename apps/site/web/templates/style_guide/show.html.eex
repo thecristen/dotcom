@@ -1,8 +1,8 @@
 <ul class="components">
-<%= for component <- @section_components do %>
+  <%= for component <- @section_components do %>
   <li class="component">
-    <h2 class="h1"><%= String.capitalize atom_to_string(component) %></h2>
-    <div><%=  render_component(component, @component_group) %></div>
+    <h2 class="h1"><%= component |> Atom.to_string |> String.split("_") |> Enum.map(&String.capitalize/1) |> Enum.join(" ") %></h2>
+    <div><%= render_component(component, @component_group) %></div>
     <%= if has_variants?(component, @component_group) do %>
       <p>Variations</p>
       <div class="row component-variants">
@@ -19,7 +19,7 @@
         <h3>Call signature and default values: </h3>
         <div class="code">
           <code>
-            <%= Atom.to_string(component) %>(%{
+            <%= component %>(%{
               <%= for {{name, val}, idx} <- component_args(component, @component_group) |> Enum.with_index do %>
                 <span><%= name %>:</span>
                 <span>

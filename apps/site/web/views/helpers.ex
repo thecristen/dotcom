@@ -165,6 +165,19 @@ defmodule Site.ViewHelpers do
     |> Enum.into(%{})
   end
 
+  def update_url(%Plug.Conn{} = conn, query) do
+    conn
+    |> update_query(query)
+    |> do_update_url(conn)
+  end
+
+  defp do_update_url(updated, conn) when updated == %{} do
+    conn.request_path
+  end
+  defp do_update_url(updated, conn) do
+    "#{conn.request_path}?#{URI.encode_query(updated)}"
+  end
+
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
     include = Keyword.get(opts, :include, %{})

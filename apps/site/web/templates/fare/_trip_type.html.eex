@@ -7,11 +7,11 @@
     <span class="fare-duration"><%= fare_duration_summary(base_fare.duration) %></span>
   </div>
   <div class="fares-ticket-type">
-    <h3 class="fare-name"><%= fare_name(base_fare) %> <%= fare_duration(base_fare) %> </h3>
+    <h3 class="fare-name"><%= Fares.Format.name(base_fare) %> <%= fare_duration(base_fare) %> </h3>
     <%= for fare <- @fares do %>
       <p>
-        <strong><%= fare_media(fare) %></strong>
-        <span class="fare-price"><%= fare_price(fare.cents) %></span>
+        <strong><%= Fares.Format.media(fare) %></strong>
+        <span class="fare-price"><%= Fares.Format.price(fare) %></span>
       </p>
     <% end %>
   </div>

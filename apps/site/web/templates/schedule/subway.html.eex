@@ -6,9 +6,9 @@
   <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= last_trip_id %>"
     href="<%= if is_selected_period do %>
-          <%= update_url @conn, trip: "" %>
+          <%= update_schedule_url @conn, trip: "" %>
     <% else %>
-          <%= update_url @conn, trip: last_trip_id %>#<%= last_trip_id %>
+          <%= update_schedule_url @conn, trip: last_trip_id %>#<%= last_trip_id %>
     <% end %>">
     <span class="schedule-col-departure-subway">
       <span class="schedule-time">
@@ -42,11 +42,11 @@
         <% end %>
       </div>
       <%= if !@show_full_list do %>
-        <a href="<%= update_url(@conn, full_list: "full_list") %>"/>
+        <a href="<%= update_schedule_url(@conn, full_list: "full_list") %>"/>
           Show more times
         </a>
       <% else %>
-        <a href="<%= update_url(@conn, full_list: nil) %>"/>
+        <a href="<%= update_schedule_url(@conn, full_list: nil) %>"/>
            Show fewer times
         </a>
       <% end %>

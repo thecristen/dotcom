@@ -6,7 +6,7 @@
         "btn-primary-outline"
         end
     %>
-    <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, @route.id, direction_id)), class: "btn btn-sm #{button_class} direction-btn" do %>
+    <%= link to: update_schedule_url(@conn, reverse_direction_opts(@origin, @destination, @route.id, direction_id)), class: "btn btn-sm #{button_class} direction-btn" do %>
       <%= if direction_id == @direction_id do %>
         <span class="direction-btn-selected-icon">
           <%= fa "check-circle" %>

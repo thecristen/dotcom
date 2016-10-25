@@ -36,4 +36,18 @@ defmodule Site.ViewHelpersTest do
       assert update_query(%{params: params}, []) == params
     end
   end
+
+  describe "update_url/2" do
+    test "doesn't include a ? when there aren't any query strings" do
+      conn = build_conn(:get, "/path")
+      conn = fetch_query_params(conn, [])
+      assert update_url(conn, []) == "/path"
+    end
+
+    test "includes params when they're updated" do
+      conn = build_conn(:get, "/path")
+      conn = fetch_query_params(conn, [])
+      assert update_url(conn, param: "eter") == "/path?param=eter"
+    end
+  end
 end

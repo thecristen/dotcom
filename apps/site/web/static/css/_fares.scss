@@ -4,17 +4,14 @@
 }
 
 .fares-tab {
+  display: inline-block;
   text-align: center;
-
-  &.fares-tab-selected {
-    background-color: $brand-primary;
-    color: $white;
-  }
+  padding: 1rem 2rem;
 }
 
-.fares-description-tab {
-  background-color: $brand-primary;
-  color: $white;
+.fares-tab-selected {
+    background-color: $brand-primary;
+    color: $white;
 }
 
 .fares-box {

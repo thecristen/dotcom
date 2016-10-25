@@ -1,5 +1,5 @@
 defmodule Site.Mode.SubwayController do
-  use Site.Mode.HubBehaviour
+  use Site.Mode.HubBehavior
 
   def route_type, do: 1
 
@@ -9,7 +9,7 @@ defmodule Site.Mode.SubwayController do
     |> Dict.get(:subway)
   end
 
-  def delays, do: Site.Mode.HubBehaviour.mode_delays([0, 1])
+  def delays, do: Site.Mode.HubBehavior.mode_delays([0, 1])
 
   def mode_name, do: "Subway"
 

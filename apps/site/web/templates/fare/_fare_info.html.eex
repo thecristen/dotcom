@@ -1,17 +1,17 @@
-<% example_fare = List.first(@fares) %>
+<% example_fare = List.first(@selected_filter.fares) %>
 <div>
   <div class="fare-qualifications m-y-1">
     <%= eligibility(example_fare) %>
   </div>
   <div class="container">
     <div class="row">
-      <div class="p-a-1 col-md-3 col-xs-12 fares-tab fares-description-tab">
-        <%= fare_name(example_fare) %>
-        <%= fare_customers(example_fare.reduced) %> Fares
-      </div>
+      <%= for filter <- @filters do %>
+        <% selected_class = if filter.id == @selected_filter.id, do: "fares-tab-selected", else: "" %>
+        <%= link filter.name, to: update_url(@conn, filter: filter.id), class: "fares-tab #{selected_class}" %>
+      <% end %>
     </div>
     <div class="row fares-box">
-      <%= for pairs <- @fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk(2, 2, []) do %>
+      <%= for pairs <- @selected_filter.fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk(2, 2, []) do %>
         <div class="row fares-row">
           <%= for fares <- pairs do %>
             <%= render "_trip_type.html", conn: @conn, fares: fares %>

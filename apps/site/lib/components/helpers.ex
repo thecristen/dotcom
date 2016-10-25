@@ -3,7 +3,7 @@ defmodule Site.Components.Helpers do
   @doc """
     Takes a string, capitalizes each word between underscores, and removes the underscores
   """
-  @spec alias_name(String.t) :: String.t
+  @spec alias_name(atom) :: String.t
   def alias_name(atom) do
     atom
     |> Kernel.to_string
@@ -24,23 +24,23 @@ defmodule Site.Components.Helpers do
     |> Path.join("/apps/site/lib/components/")
   end
 
-  def components_section_path(section) do
+  def components_section_path(section) when is_atom(section) do
     components_folder_path
-    |> Path.join(section)
+    |> Path.join("#{section}")
   end
 
-  def component_folder_path(section, component) do
+  def component_folder_path(component, section) when is_atom(component) and is_atom(section) do
     section
     |> components_section_path
     |> Path.join("/")
-    |> Path.join(component)
+    |> Path.join("#{component}")
   end
 
   @doc """
     Returns the component's module (i.e. Site.Components.Buttons.ModeButton)
   """
-  @spec component_module(String.t, String.t) :: module
-  def component_module(component, section) do
+  @spec component_module(atom, atom) :: module
+  def component_module(component, section) when is_atom(component) and is_atom(section) do
     Site.Components
     |> Module.concat(alias_name(section))
     |> Module.concat(alias_name(component))

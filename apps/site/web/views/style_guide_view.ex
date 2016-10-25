@@ -16,21 +16,24 @@ defmodule Site.StyleGuideView do
     |> List.first
   end
 
-  def render_component(component, group) do
-    apply(__MODULE__, component, [component_args(component, group)])
+  @spec render_component(atom, atom) :: Phoenix.HTML.Safe.t
+  @spec render_component(atom, atom, map) :: Phoenix.HTML.Safe.t
+  def render_component(component, group) when is_atom(component) and is_atom(group) do
+    render_component(component, group, component_args(component, group))
   end
-
-  def render_component(component, _, args) do
+  def render_component(component, group, args) when is_atom(component) and is_atom(group) do
     apply(__MODULE__, component, [args])
   end
 
-  def component_markup(component, group) do
+  @spec component_markup(atom, atom) :: String.t
+  def component_markup(component, group) when is_atom(component) and is_atom(group) do
     component
     |> render_component(group)
     |> Phoenix.HTML.safe_to_string
   end
 
-  def component_description(component, group) do
+  @spec component_description(atom, atom) :: String.t
+  def component_description(component, group) when is_atom(component) and is_atom(group) do
     component
     |> component_module(group)
     |> Code.get_docs(:moduledoc)
@@ -62,7 +65,7 @@ defmodule Site.StyleGuideView do
      Returns the component's default arguments as defined in its struct.
      Only intended to be used in templates/style_guide/show.html.eex.
    """
-   @spec component_args(String.t, String.t) :: map
+   @spec component_args(atom, atom) :: map
    def component_args(component, section) do
      component
      |> component_module(section)

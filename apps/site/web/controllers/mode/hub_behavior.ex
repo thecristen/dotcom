@@ -1,5 +1,5 @@
-defmodule Site.Mode.HubBehaviour do
-  @moduledoc "Behaviour for mode hub pages."
+defmodule Site.Mode.HubBehavior do
+  @moduledoc "Behavior for mode hub pages."
 
   @callback routes() :: [Routes.Route.t]
   @callback delays() :: [Alerts.Alert.t]

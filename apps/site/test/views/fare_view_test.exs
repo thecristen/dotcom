@@ -4,15 +4,6 @@ defmodule Site.FareViewTest do
   import Site.FareView
   alias Fares.Fare
 
-  test "zone_name/1 gets the name of the fare zone" do
-    assert zone_name({:zone, "2"}) == "Zone 2"
-    assert zone_name({:interzone, "3"}) == "Interzone 3"
-  end
-
-  test "fare price gets a string version of the price formmated nicely" do
-    assert fare_price(925) == "$9.25"
-  end
-
   describe "fare_duration_summary/1" do
     test "fare duration is '1 Month' for a monthly fare" do
       assert fare_duration_summary(:month) == "1 Month"
@@ -77,30 +68,6 @@ defmodule Site.FareViewTest do
     test "returns eligibility information for adult fares" do
       assert eligibility(%Fare{mode: :commuter, reduced: nil}) =~
         "Those who are 12 years of age or older qualify for Adult fare pricing."
-    end
-  end
-
-  describe "filter_reduced/2" do
-    @fares [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}, %Fare{name: {:zone, "6"}, reduced: :student}]
-
-    test "filters out non-adult fares" do
-      expected_fares = [%Fare{name: {:zone, "6"}, reduced: nil}, %Fare{name: {:zone, "5"}, reduced: nil}]
-      assert filter_reduced(@fares, :adult) == expected_fares
-    end
-
-    test "filters out non-student fares" do
-      expected_fares = [%Fare{name: {:zone, "6"}, reduced: :student}]
-      assert filter_reduced(@fares, :student) == expected_fares
-    end
-  end
-
-  describe "fare_customers/1" do
-    test "gets 'Student' when the fare applies to students" do
-      assert fare_customers(:student) == "Student"
-    end
-
-    test "gets 'Adult' when the fare does not have a reduced field" do
-      assert fare_customers(nil) == "Adult"
     end
   end
 

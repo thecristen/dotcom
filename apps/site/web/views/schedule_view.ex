@@ -28,7 +28,7 @@ defmodule Site.ScheduleView do
     trip_alerts_for(alerts, [schedule])
   end
 
-  def update_url(conn, query) do
+  def update_schedule_url(conn, query) do
     new_query = Site.ViewHelpers.update_query(conn, query)
 
     {route, new_query} = Map.pop(new_query, "route")

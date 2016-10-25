@@ -15,7 +15,7 @@
       </div>
       <%= if not @show_all_schedules && @schedules != [] do %>
         <a class="btn btn-primary-outline btn-block text-xs-center m-t-1"
-          href="<%= update_url @conn, all_schedules: "all_schedules" %>">
+          href="<%= update_schedule_url @conn, all_schedules: "all_schedules" %>">
           Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
         </a>
       <% end %>
