@@ -1,5 +1,6 @@
 defmodule Site.FareView.Description do
   alias Fares.Fare
+  import AndJoin
 
   @spec description(Fare.t) :: String.t | iolist
   def description(%Fare{mode: :commuter, duration: :single_trip}) do
@@ -65,7 +66,7 @@ defmodule Site.FareView.Description do
      "Local Bus",
      "Inner Express Bus",
      "Outer Express Bus."
-    ] |> AndJoin.join
+    ] |> and_join
   end
   def description(%Fare{mode: :subway, duration: :month}) do
     "Unlimited travel for one calendar month on the Local Bus and Subway."
@@ -81,14 +82,14 @@ defmodule Site.FareView.Description do
      "Local Bus",
      "Commuter Rail Zone 1A",
      "the Charlestown Ferry."
-    ] |> AndJoin.join
+    ] |> and_join
   end
   def description(%Fare{name: :outer_express_bus, duration: :month}) do
     ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
      "Local Bus",
      "Commuter Rail Zone 1A",
      "the Charlestown Ferry."
-    ] |> AndJoin.join
+    ] |> and_join
   end
   def description(%Fare{mode: :bus, pass_type: pass_type} = fare)
   when pass_type != :cash_or_ticket do
@@ -135,7 +136,7 @@ defmodule Site.FareView.Description do
     ["Free transfers to ",
      names_and_texts
      |> Enum.map(&elem(&1, 1))
-     |> AndJoin.join,
+     |> and_join,
      "."
     ]
   end
