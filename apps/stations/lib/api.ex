@@ -31,15 +31,17 @@ defmodule Stations.Api do
   end
 
   defp parse_station(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
+    id = attributes["gtfs_id"]
     %Station{
-      id: attributes["gtfs_id"],
+      id: id,
       name: attributes["name"],
       address: attributes["address"],
       note: attributes["note"],
       accessibility: attributes["accessibility"],
       images: images(relationships["images"]),
       parking_lots: parking_lots(relationships),
-      has_fare_machine: Enum.member?(vending_machine_stations, attributes["gtfs_id"])
+      has_fare_machine: Enum.member?(vending_machine_stations, id),
+      has_charlie_card_vendor: Enum.member?(charlie_card_stations, id)
     }
   end
 
@@ -125,5 +127,21 @@ defmodule Stations.Api do
     ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl",
       "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr",
       "place-brntn"]
+  end
+
+  defp charlie_card_stations do
+    [
+      "place-alfcl",
+      "place-armnl",
+      "place-asmnl",
+      "place-bbsta",
+      "64000",
+      "place-forhl",
+      "place-harsq",
+      "place-north",
+      "place-ogmnl",
+      "place-pktrm",
+      "place-rugg"
+    ]
   end
 end

@@ -117,11 +117,24 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   def vending_machine_stations do
     Stations.Repo.all
     |> Enum.filter(fn station -> station.has_fare_machine end)
-    |> Enum.map(
-      fn station ->
-        Phoenix.HTML.safe_to_string(link(station.name, to: station_path(Site.Endpoint, :show, station.id)))
-      end)
+    |> station_link_list
+  end
+
+  def charlie_card_stations do
+    Stations.Repo.all
+    |> Enum.filter(fn station -> station.has_charlie_card_vendor end)
+    |> station_link_list
+  end
+
+  defp station_link_list(stations) do
+    stations
+    |> Enum.map(fn station ->
+      station
+      |> station_link
+      |> Phoenix.HTML.safe_to_string
+    end)
     |> Enum.join(", ")
+    |> raw
   end
 
   def update_fare_type(conn, reduced_type) do

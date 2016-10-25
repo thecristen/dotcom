@@ -5,7 +5,7 @@ defmodule Stations.Station do
   alias Stations.Station
 
   defstruct [:id, :name, :note, :accessibility, :address,
-   :parking_lots, :latitude, :longitude, :images, :has_fare_machine]
+   :parking_lots, :latitude, :longitude, :images, :has_fare_machine, :has_charlie_card_vendor]
   @type t :: %Station{
     id: String.t,
     name: String.t,
@@ -16,7 +16,8 @@ defmodule Stations.Station do
     latitude: float,
     longitude: float,
     images: [Station.Image.t],
-    has_fare_machine: boolean
+    has_fare_machine: boolean,
+    has_charlie_card_vendor: boolean
   }
 end
 

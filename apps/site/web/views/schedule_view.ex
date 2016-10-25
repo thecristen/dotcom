@@ -36,14 +36,6 @@ defmodule Site.ScheduleView do
     schedule_path(conn, :show, route, new_query |> Enum.into([]))
   end
 
-  @doc "Link a station's name to its page, if it exists. Otherwise, just returns the name."
-  def station_name_as_link(station) do
-    case Stations.Repo.get(station.id) do
-      nil -> station.name
-      _ -> link station.name, to: station_path(Site.Endpoint, :show, station.id)
-    end
-  end
-
   def station_info_link(station) do
     do_station_info_link(Stations.Repo.get(station.id))
   end

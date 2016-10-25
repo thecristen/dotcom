@@ -10,4 +10,8 @@ defmodule Site.FareController do
   def reduced(conn, _params) do
     render conn, "reduced.html", []
   end
+
+  def charlie_card(conn, _params) do
+    render conn, "charlie_card.html", []
+  end
 end
