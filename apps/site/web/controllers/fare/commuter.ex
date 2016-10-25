@@ -1,5 +1,5 @@
 defmodule Site.FareController.Commuter do
-  use Site.FareController.OriginDestinationFareBehaviour
+  use Site.FareController.OriginDestinationFareBehavior
 
   alias Schedules.Stop
 

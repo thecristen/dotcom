@@ -1,4 +1,4 @@
-defmodule Site.FareController.OriginDestinationFareBehaviour do
+defmodule Site.FareController.OriginDestinationFareBehavior do
   @doc "The display name of the mode"
   @callback mode_name() :: String.t
 
@@ -12,7 +12,7 @@ defmodule Site.FareController.OriginDestinationFareBehaviour do
     quote location: :keep do
       @behaviour unquote(__MODULE__)
 
-      use Site.FareController.Behaviour
+      use Site.FareController.Behavior
 
       defdelegate filters(fares), to: unquote(__MODULE__)
 

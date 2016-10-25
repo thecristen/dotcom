@@ -1,5 +1,5 @@
 defmodule Site.Mode.FerryController do
-  use Site.Mode.HubBehaviour
+  use Site.Mode.HubBehavior
 
   def route_type, do: 4
 

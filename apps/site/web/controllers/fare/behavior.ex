@@ -1,5 +1,5 @@
-defmodule Site.FareController.Behaviour do
-  @moduledoc "Behaviour for fare pages."
+defmodule Site.FareController.Behavior do
+  @moduledoc "Behavior for fare pages."
 
   @doc "The name of the template to render"
   @callback template() :: String.t

@@ -1,13 +1,11 @@
 defmodule Backstop.Servers do
-  use Behaviour
-
   alias Porcelain.Process
   require Logger
 
-  defcallback run(parent :: pid)
-  defcallback command() :: String.t
-  defcallback started_regex() :: String.t | Regex.t
-  defcallback error_regex() :: String.t | Regex.t
+  @callback run(parent :: pid) :: any
+  @callback command() :: String.t
+  @callback started_regex() :: String.t | Regex.t
+  @callback error_regex() :: String.t | Regex.t
 
   def loop(proc = %Process{pid: pid}, parent, server) do
     receive do

@@ -1,9 +1,9 @@
-defmodule Site.FarewController.BehaviourTest do
+defmodule Site.FareController.BehaviorTest do
   use ExUnit.Case, async: true
 
   alias Fares.Fare
   alias Site.FareController.Filter
-  import Site.FareController.Behaviour
+  import Site.FareController.Behavior
 
   describe "filter_reduced/2" do
     @fares [%Fare{name: {:zone, "6"}, reduced: nil},

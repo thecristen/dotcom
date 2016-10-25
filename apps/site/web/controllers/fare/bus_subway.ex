@@ -1,5 +1,5 @@
 defmodule Site.FareController.BusSubway do
-  use Site.FareController.Behaviour
+  use Site.FareController.Behavior
   alias Fares.Fare
   alias Site.FareController.Filter
 
