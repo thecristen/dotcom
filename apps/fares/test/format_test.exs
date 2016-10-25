@@ -3,7 +3,7 @@ defmodule Fares.FormatTest do
   alias Fares.Fare
   import Fares.Format
 
-  test "fare price gets a string version of the price formmated nicely" do
+  test "fare price gets a string version of the price formatted nicely" do
     assert price(%Fare{cents: 925}) == "$9.25"
     assert price(%Fare{cents: 100}) == "$1.00"
   end
