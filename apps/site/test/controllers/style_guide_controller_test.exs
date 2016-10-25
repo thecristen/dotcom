@@ -1,42 +1,43 @@
 defmodule Site.StyleGuideControllerTest do
-  use Site.ConnCase
-  
-  test "the same json file names exist in priv/static/css and web/static/css" do
-    assert get_json_files(css_folder_path) == get_json_files(priv_folder_path)
+  use Site.Components.Register
+  use Site.ConnCase, async: true
+
+  test "`use Site.Components.Register` registers a list of component groups which each have a list of components" do
+    @components
+    |> Enum.each(fn {group, components} ->
+      assert is_atom(group) == true
+      Enum.each(components, fn component ->
+        assert is_atom(component) == true
+      end)
+    end)
   end
 
-  test "the contents of the json files in priv/static/css and web/static/css are identical" do
-    assert read_json_files(css_folder_path) == read_json_files(priv_folder_path)
+  test "@components gets assigned to conn when visiting /style_guide/*" do
+    assigned_components =
+      build_conn
+      |> bypass_through(:browser)
+      |> get("/style_guide")
+      |> Map.get(:assigns)
+      |> Map.get(:components)
+
+    assert @components == assigned_components
   end
 
-  def css_folder_path do
-    File.cwd!
-    |> String.split("/apps/site")
-    |> List.first
-    |> Path.join("/apps/site/web/static/css")
+  test "component pages in style guide do not cause 500 errors" do
+    @components
+    |> Enum.map(&get_component_section_conn/1)
+    |> Enum.each(&(assert %{conn: %{status: 200}} = &1))
   end
 
-  def priv_folder_path do
-    :site
-    |> Application.app_dir
-    |> Path.join("/priv/static/css")
+  ###########################
+  # HELPER FUNCTIONS
+  ###########################
+
+  def get_component_section_conn({section, components}) do
+    conn = build_conn
+    |> bypass_through(:browser)
+    |> get("/style_guide/components/#{section}")
+    %{conn: conn, section: section, components: components}
   end
 
-  def get_json_files(parent_folder) do
-    parent_folder
-    |> File.ls!
-    |> Enum.filter(&(Path.extname(&1) == ".json"))
-  end
-
-  def get_json_paths(parent_folder) do
-    parent_folder
-    |> get_json_files
-    |> Enum.map(&(Path.join(parent_folder, &1)))
-  end
-
-  def read_json_files(parent_folder) do
-    parent_folder
-    |> get_json_paths
-    |> Enum.map(&File.read!/1)
-  end
 end

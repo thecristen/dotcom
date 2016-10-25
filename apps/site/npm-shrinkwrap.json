@@ -728,11 +728,6 @@
       "from": "css-selector-tokenizer@>=0.5.1 <0.6.0",
       "resolved": "https://registry.npmjs.org/css-selector-tokenizer/-/css-selector-tokenizer-0.5.4.tgz"
     },
-    "css-styleguide-compiler-brunch": {
-      "version": "1.0.0",
-      "from": "lib/css-styleguide-compiler-brunch",
-      "resolved": "file:lib/css-styleguide-compiler-brunch"
-    },
     "cssesc": {
       "version": "0.1.0",
       "from": "cssesc@>=0.1.0 <0.2.0",

@@ -9,7 +9,8 @@
     "brunch:build": "cd apps/site && node_modules/brunch/bin/brunch b -p",
     "server:mocked": "MIX_ENV=prod PORT=4001 STATIC_HOST=localhost STATIC_PORT=4001 V3_URL=http://localhost:8080 mix do clean, deps.compile, compile, phoenix.server",
     "wiremock": "cd apps/site && java -jar $WIREMOCK_PATH",
-    "wiremock:record": "cd apps/site && java -jar $WIREMOCK_PATH --proxy-all=\"http://mbta-api-dev.us-east-1.elasticbeanstalk.com\" --record-mappings"
+    "wiremock:record": "cd apps/site && java -jar $WIREMOCK_PATH --proxy-all=\"http://mbta-api-dev.us-east-1.elasticbeanstalk.com\" --record-mappings",
+    "routes": "cd apps/site && mix phoenix.routes && cd ../.."
   },
   "dependencies": {
     "brunch": "^2.8.2"

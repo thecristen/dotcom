@@ -1,23 +1,19 @@
 defmodule Site.StyleGuideView do
   use Site.Web, :view
-
   import Site.Components.Helpers
+  use Site.StyleGuideView.CssVariables
 
-  def color_variables do
-    color_variables_map
+  def color_variables, do: @colors
+
+  def get_color_value("$"<>_ = value), do: do_get_color_value(value)
+  def get_color_value(value), do: value
+
+  defp do_get_color_value(value) do
+    @colors
     |> Map.to_list
-    |> Enum.sort
-  end
-
-  defp color_variables_map do
-    Application.app_dir(:site)
-    |> Path.join("priv/static/css/colors.json")
-    |> File.read!
-    |> Poison.Parser.parse!
-  end
-
-  def get_color_value(value) do
-    Map.get(color_variables_map, value, value)
+    |> Enum.map(fn {_section, values} -> Map.get(values, value) end)
+    |> Enum.reject(&(&1 == nil))
+    |> List.first
   end
 
   def render_component(component, group) do
@@ -48,13 +44,13 @@ defmodule Site.StyleGuideView do
     end
   end
 
-  def has_variants?(component, group) do
+  defp has_variants?(component, group) do
     component
     |> component_module(group)
     |> function_exported?(:variants, 0)
   end
 
-  def is_last(component, group, idx) do
+  def needs_comma?(component, group, idx) do
     component
     |> component_args(group)
     |> Map.to_list

@@ -6,7 +6,6 @@
     "brunch": "~2.8",
     "clean-css-brunch": "~1.8.0",
     "css-brunch": "~1.7.0",
-    "css-styleguide-compiler-brunch": "file:lib/css-styleguide-compiler-brunch",
     "email-validation": "^0.1.2",
     "filesize": "^3.3.0",
     "form-data": "^1.0.1",

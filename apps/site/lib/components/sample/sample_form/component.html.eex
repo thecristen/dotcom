@@ -1,9 +1,0 @@
-<form action="<%= args.action %>">
-  <%= for field <- args.fields do %>
-    <p>
-      <label for="<%= field.id %>"><%= field.name %></label>
-      <input type="<%= field.type %>" placeholder="<%= field.placeholder %>" id="<%= field.id %>" class="<%= args.class %>" value="<%= field.default_value %>" placeholder="<%= field.placeholder %>">
-    </p>
-  <% end %>
-  <p><input class="btn btn-primary" type="submit" value="<%= args.submit_text %>"></p>
-</form>
