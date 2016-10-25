@@ -12,7 +12,7 @@ defmodule Site.FareView do
     "Round Trip"
   end
   def fare_duration_summary(:single_trip) do
-    "One Way"
+    "Single Ride"
   end
   def fare_duration_summary(:day) do
     "1 Day"

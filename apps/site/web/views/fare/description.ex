@@ -59,14 +59,6 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
   def description(%Fare{mode: :subway, pass_type: :cash_or_ticket}) do
     "Free transfer to Subway, route SL4, and route SL5 when done within 2 hours of purchasing a ticket."
   end
-  def description(%Fare{mode: :bus, pass_type: pass_type} = fare)
-  when pass_type != :cash_or_ticket do
-    [
-      "Valid for the Local Bus (includes route SL4 and SL5). ",
-      transfers(fare),
-      "Must be done within 2 hours of your original ride."
-    ]
-  end
   def description(%Fare{mode: :bus, pass_type: :cash_or_ticket}) do
     "Free transfer to one additional Local Bus included."
   end
@@ -93,8 +85,13 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
      "the Charlestown Ferry."
     ] |> AndJoin.join
   end
-  def description(%Fare{}) do
-    "missing description"
+  def description(%Fare{mode: :bus, pass_type: pass_type} = fare)
+  when pass_type != :cash_or_ticket do
+    [
+      "Valid for the Local Bus (includes route SL4 and SL5). ",
+      transfers(fare),
+      "Must be done within 2 hours of your original ride."
+    ]
   end
 
   def transfers(fare) do

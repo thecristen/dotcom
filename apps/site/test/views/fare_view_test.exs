@@ -4,18 +4,10 @@ defmodule Site.FareViewTest do
   import Site.FareView
   alias Fares.Fare
 
-  describe "fare_duration_summary/1" do
-    test "fare duration is '1 Month' for a monthly fare" do
-      assert fare_duration_summary(:month) == "1 Month"
-    end
-
-     test "fare duration is 'Round Trip' for a round-trip fare" do
-       assert fare_duration_summary(:round_trip) == "Round Trip"
-     end
-
-     test "fare duration is 'One Way' for a one-way fare" do
-       assert fare_duration_summary(:single_trip) == "One Way"
-     end
+  test "fare_duration_summary/1" do
+    assert fare_duration_summary(:month) == "1 Month"
+    assert fare_duration_summary(:round_trip) == "Round Trip"
+    assert fare_duration_summary(:single_trip) == "Single Ride"
   end
 
   describe "description/1" do
