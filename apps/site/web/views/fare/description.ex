@@ -50,7 +50,7 @@ defmodule Site.FareView.Description do
     [
       "Valid for all Subway lines (includes routes SL1 and SL2). ",
       transfers(fare),
-      "Must be done within 2 hours of your original ride."
+      " Must be done within 2 hours of your original ride."
     ]
   end
   def description(%Fare{mode: :subway, pass_type: :cash_or_ticket}) do
@@ -94,7 +94,7 @@ defmodule Site.FareView.Description do
     [
       "Valid for the Local Bus (includes route SL4 and SL5). ",
       transfers(fare),
-      "Must be done within 2 hours of your original ride."
+      " Must be done within 2 hours of your original ride."
     ]
   end
 
@@ -135,13 +135,13 @@ defmodule Site.FareView.Description do
      names_and_texts
      |> Enum.map(&elem(&1, 1))
      |> AndJoin.join,
-     ". "
+     "."
     ]
   end
 
   defp transfers_map({name, text}, fare) do
     other_fare = transfers_other_fare(name, fare)
-    ["Transfer to ", text, " ", Fares.Format.price(other_fare.cents - fare.cents), ". "]
+    [" Transfer to ", text, " ", Fares.Format.price(other_fare.cents - fare.cents), "."]
   end
 
   defp transfers_other_fare(name, fare) do
