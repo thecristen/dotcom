@@ -84,6 +84,27 @@ defmodule Fares.FareInfo do
     }
     [
       %Fare{base |
+        duration: :month,
+        pass_type: :card_or_ticket,
+        reduced: nil,
+        cents: dollars_to_cents(month_pass_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :month,
+        pass_type: :student_card,
+        reduced: :student,
+        cents: dollars_to_cents(month_reduced_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
+        duration: :month,
+        pass_type: :senior_card,
+        reduced: :senior_disabled,
+        cents: dollars_to_cents(month_reduced_price),
+        additional_valid_modes: [:bus]
+      },
+      %Fare{base |
         duration: :single_trip,
         pass_type: :charlie_card,
         reduced: nil,
@@ -110,27 +131,6 @@ defmodule Fares.FareInfo do
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{base |
-        duration: :month,
-        pass_type: :card_or_ticket,
-        reduced: nil,
-        cents: dollars_to_cents(month_pass_price),
-        additional_valid_modes: [:bus]
-      },
-      %Fare{base |
-        duration: :month,
-        pass_type: :student_card,
-        reduced: :student,
-        cents: dollars_to_cents(month_reduced_price),
-        additional_valid_modes: [:bus]
-      },
-      %Fare{base |
-        duration: :month,
-        pass_type: :senior_card,
-        reduced: :senior_disabled,
-        cents: dollars_to_cents(month_reduced_price),
-        additional_valid_modes: [:bus]
-      },
-      %Fare{base |
         duration: :week,
         pass_type: :card_or_ticket,
         reduced: nil,
@@ -151,7 +151,7 @@ defmodule Fares.FareInfo do
     charlie_card_price,
     ticket_price,
     day_reduced_price,
-    month_reduced_price,
+    _month_reduced_price,
     _day_pass_price,
     _week_pass_price,
     month_pass_price,
@@ -192,18 +192,6 @@ defmodule Fares.FareInfo do
         pass_type: :card_or_ticket,
         reduced: nil,
         cents: dollars_to_cents(month_pass_price)
-      },
-      %Fare{base |
-        duration: :month,
-        pass_type: :student_card,
-        reduced: :student,
-        cents: dollars_to_cents(month_reduced_price)
-      },
-      %Fare{base |
-        duration: :month,
-        pass_type: :senior_card,
-        reduced: :senior_disabled,
-        cents: dollars_to_cents(month_reduced_price)
       }
     ]
   end
@@ -212,7 +200,7 @@ defmodule Fares.FareInfo do
     charlie_card_price,
     ticket_price,
     day_reduced_price,
-    month_reduced_price,
+    _month_reduced_price,
     _day_pass_price,
     _week_pass_price,
     month_pass_price,
@@ -250,15 +238,9 @@ defmodule Fares.FareInfo do
       },
       %Fare{base |
         duration: :month,
-        pass_type: :student_card,
-        reduced: :student,
-        cents: dollars_to_cents(month_reduced_price)
-      },
-      %Fare{base |
-        duration: :month,
         pass_type: :senior_card,
         reduced: :senior_disabled,
-        cents: dollars_to_cents(month_reduced_price)
+        cents: dollars_to_cents(month_pass_price)
       },
       %Fare{base |
         duration: :month,
