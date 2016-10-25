@@ -54,7 +54,8 @@ defmodule Site.AlertController do
     conn
     |> render("show.html",
     id: String.to_existing_atom(conn.params["id"]),
-    route_alerts: route_alerts
+    route_alerts: route_alerts,
+    breadcrumbs: ["Alerts"]
     )
   end
 
