@@ -198,6 +198,12 @@ defmodule Fares.FareInfo do
         pass_type: :student_card,
         reduced: :student,
         cents: dollars_to_cents(month_reduced_price)
+      },
+      %Fare{base |
+        duration: :month,
+        pass_type: :senior_card,
+        reduced: :senior_disabled,
+        cents: dollars_to_cents(month_reduced_price)
       }
     ]
   end

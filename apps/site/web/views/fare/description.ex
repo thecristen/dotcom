@@ -47,7 +47,8 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
   when name in [:inner_express_bus, :outer_express_bus] do
     "No free or discounted transfers."
   end
-  def description(%Fare{mode: :subway, pass_type: :charlie_card, duration: :single_trip} = fare) do
+  def description(%Fare{mode: :subway, pass_type: pass_type, duration: :single_trip} = fare)
+  when pass_type != :cash_or_ticket do
 
     [
       "Valid for all Subway lines (includes routes SL1 and SL2). ",
@@ -58,7 +59,8 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
   def description(%Fare{mode: :subway, pass_type: :cash_or_ticket}) do
     "Free transfer to Subway, route SL4, and route SL5 when done within 2 hours of purchasing a ticket."
   end
-  def description(%Fare{mode: :bus, pass_type: :charlie_card} = fare) do
+  def description(%Fare{mode: :bus, pass_type: pass_type} = fare)
+  when pass_type != :cash_or_ticket do
     [
       "Valid for the Local Bus (includes route SL4 and SL5). ",
       transfers(fare),
@@ -109,7 +111,7 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
   end
 
   defp transfers_filter({name, _}, fare) do
-    other_fare = transfers_other_fare(name)
+    other_fare = transfers_other_fare(name, fare)
     other_fare.cents > fare.cents
   end
 
@@ -126,13 +128,13 @@ Bus, Subway, Express Bus, and the Charlestown Ferry."
   end
 
   defp transfers_map({name, text}, fare) do
-    other_fare = transfers_other_fare(name)
+    other_fare = transfers_other_fare(name, fare)
     ["Transfer to ", text, " ", Fares.Format.price(other_fare.cents - fare.cents), ". "]
   end
 
-  defp transfers_other_fare(name) do
-    [name: name, pass_type: :charlie_card, duration: :single_trip]
-    |> Fares.Repo.all
-    |> List.first
+  defp transfers_other_fare(name, fare) do
+    case {fare, name, Fares.Repo.all(name: name, pass_type: fare.pass_type, duration: fare.duration)} do
+      {_, _, [other_fare]} -> other_fare
+    end
   end
 end
