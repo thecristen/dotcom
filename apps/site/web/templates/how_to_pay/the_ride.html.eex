@@ -1,0 +1,41 @@
+<div class="container p-x-0">
+  <p>In order to schedule a trip with The RIDE you will need to first have funds in your account.</p>
+  <p>THE RIDE fare is debited from your account as you board the vehicle. You are not charged for a trip you don't take. If a refund is needed, please call The RIDE at (888) 844-0355.</p>
+  <p>You can determine your account balance via your RIDE contractor's website, your RIDE reservationist, or by calling the MBTA's Office for Transportation Access.</p>
+  <p>Listed below are the ways funds can be added to your RIDE account.</p>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Online</h3>
+      If you have an account with the RIDE, you can add value to your account online.
+      <hr />
+      <%= link to: "https://commerce.mbta.com/TheRide/" do %>
+        Log into RIDE account <%= fa "angle-right" %>
+      <% end %>
+      <hr />
+      <%= link to: "https://commerce.mbta.com/TheRide/Account/Register" do %>
+        Register a new RIDE account <%= fa "angle-right" %>
+      <% end %>
+      <hr />
+      <h3>Mail</h3>
+      <p>Funds can be added by sending a check or money order in the mail.</p>
+      <p>Make checks or money orders payable to "MBTA - THE RIDE Fares" and note your RIDE ID# in the memo portion of your check or money order. Allow five business days for posting.</p>
+      <h3>Address</h3>
+      <div>
+        MBTA - THE RIDE<br>
+        Fares 10 Park Plaza - Rm. 5000<br>
+        Boston, MA 02116
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>Phone</h3>
+      You can add funds to your RIDE account by calling  <%= tel_link "(888) 844-0355" %>.
+      <h3>Hours</h3>
+      Monday - Friday: 7:00 AM until 8:00 PM<br>
+      Saturday and Sunday: 9:00 until 5:00 PM (including holidays)
+      <h3>Accepted Payment Methods</h3>
+      Visa, Discover or American Express credit cards and debit cards supported by MasterCard or Visa. Funds post to your account within one (1) hour.
+      <h3>In-Person</h3>
+      Visit the CharlieCard Store at Downtown Crossing Station anytime Monday through Friday, 8 AM to 5:30 PM. The accessible entrance is at 32 Summer Street via the 101 Arch Street building in Boston. Cash, checks, money orders and major credit/debit cards are accepted. Funds post to your account within one (1) hour.
+    </div>
+  </div>
+</div>

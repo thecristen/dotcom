@@ -1,0 +1,41 @@
+.how-to-pay-steps {
+  margin-left: 0;
+  padding-right: 0;
+  list-style-type: none;
+}
+
+.how-to-pay-steps li {
+  counter-increment: step-counter;
+}
+
+.how-to-pay-steps li::before {
+  content: counter(step-counter);
+  margin-right: 5px;
+  font-size: 80%;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background-color: $brand-primary-dark;
+  position: relative;
+  top: 1.5rem;
+  right: 2rem;
+}
+
+.how-to-pay-callout {
+  border-top: solid 1px $gray-lightest;
+  border-bottom: solid 1px $gray-lightest;
+  padding: .5rem 0;
+  margin: .5rem 0;
+}
+
+.how-to-pay-callout-top {
+  border-bottom: solid 1px $gray-lightest;
+  padding: .5rem 0;
+  margin: .5rem 0;
+}
+
+.how-to-pay-callout-bottom {
+  border-top: solid 1px $gray-lightest;
+  padding: .5rem 0;
+  margin: .5rem .5rem;
+}

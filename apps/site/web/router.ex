@@ -39,6 +39,15 @@ defmodule Site.Router do
     resources "/fares", FareController, only: [:index, :show]
   end
 
+  scope "/how-to-pay/", Site do
+    get "/", HowToPayController, :index
+    get "/commuter", HowToPayController, :commuter
+    get "/bus", HowToPayController, :bus
+    get "/subway", HowToPayController, :subway
+    get "/ferry", HowToPayController, :ferry
+    get "/the-ride", HowToPayController, :the_ride
+  end
+
   scope "/_flags", Laboratory do
     forward "/", Router
   end

@@ -1,0 +1,24 @@
+<div class="card card-section">
+
+  <div class="card-block card-block-no-header">
+    <%= link to: "/how-to-pay/bus" do %>
+      bus
+    <% end %>
+    <%= link to: "/how-to-pay/commuter" do %>
+      commuter
+    <% end %>
+    <%= link to: "/how-to-pay/subway" do %>
+      subway
+    <% end %>
+    <%= link to: "/how-to-pay/ferry" do %>
+      ferry
+    <% end %>
+    <%= link to: "/how-to-pay/the-ride" do %>
+      the RIDE
+    <% end %>
+    <h1>How to Pay</h1>
+    <%= if @mode != nil do %>
+      <%= render "#{@mode}.html", conn: @conn %>
+    <% end %>
+  </div>
+</div>
