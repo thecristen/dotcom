@@ -3,6 +3,9 @@ defmodule Site.ScheduleView do
   alias Routes.Route
   alias Schedules.Schedule
 
+  @schedule_display_initial 12
+  @schedule_display_buffer 6
+
   def stop_alerts_for(alerts, stop_ids, opts) do
     stop_ids
     |> Enum.flat_map(fn id -> Alerts.Stop.match(alerts, id, opts) end)
@@ -111,7 +114,11 @@ defmodule Site.ScheduleView do
     schedules
   end
   def schedule_list(schedules, false) do
-    Enum.slice(schedules, 0..8)
+    if Enum.count(schedules) >= schedule_display_limit do
+      Enum.slice(schedules, 0..(@schedule_display_initial - 1))
+    else
+      schedules
+    end
   end
 
   def get_hour(%{params: %{"hour" => hour}}), do: hour
@@ -130,5 +137,9 @@ defmodule Site.ScheduleView do
       %{trip_id: ^trip_id, stop_id: ^stop_id} -> true
       _ -> false
     end)
+  end
+
+  def schedule_display_limit do
+    @schedule_display_initial + @schedule_display_buffer
   end
 end
