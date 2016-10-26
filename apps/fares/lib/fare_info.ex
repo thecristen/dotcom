@@ -238,12 +238,6 @@ defmodule Fares.FareInfo do
       },
       %Fare{base |
         duration: :month,
-        pass_type: :senior_card,
-        reduced: :senior_disabled,
-        cents: dollars_to_cents(month_pass_price)
-      },
-      %Fare{base |
-        duration: :month,
         pass_type: :card_or_ticket,
         reduced: nil,
         cents: dollars_to_cents(month_pass_price)

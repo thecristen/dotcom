@@ -1,11 +1,41 @@
-<div class="card card-section">
-  <div class="card-block card-block-no-header ">
-    <h1> Bus and Subway Fares</h1>
-    <%= render "_fares_display.html",
-        selected_filter: @selected_filter,
-        filters: @filters,
-        conn: @conn,
+<h1>Bus and Subway Fares</h1>
+<%= render "_fares_display.html",
+    selected_filter: @selected_filter,
+    filters: @filters,
+    conn: @conn,
         fare_type: @fare_type
-    %>
+%>
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Purchasing Tickets or Passes</h2>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <div class="fares-purchasing-option">
+      <h3>Fare Vending Machine</h3>
+      <p>
+        Single Ride, Stored Value, 1-Day, 7-Day, and Monthly LinkPasses can be loaded onto a CharlieCard or ticket at fare vending machines, found at all Subway stations and some Bus stations.
+      </p>
+    </div>
+
+    <div class="fares-purchasing-option">
+      <h3>On-Board</h3>
+      <p>
+        Single Ride tickets or Stored Value can be purchased using cash when on board the Bus, above-ground stops on the Green line,  and Mattapan trolley on the Red line.  Exact change is encouraged.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xs-12">
+    <div class="fares-purchasing-option">
+      <h3>Retail Sales Locations</h3>
+      <p>
+        MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
+      </p>
+      <p>
+        <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+          Find a store near you <%= fa "angle-right" %>
+        <% end %>
+      </p>
+    </div>
   </div>
 </div>
