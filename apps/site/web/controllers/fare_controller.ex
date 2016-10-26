@@ -3,12 +3,10 @@ defmodule Site.FareController do
 
   alias Site.FareController.{Commuter, BusSubway, Ferry, Filter}
 
-  def reduced(conn, _params) do
-    render conn, "reduced.html", []
-  end
+  @static_pages ["reduced", "charlie_card"]
 
-  def charlie_card(conn, _params) do
-    render conn, "charlie_card.html", []
+  def show(conn, %{"id" => static}) when static in @static_pages do
+    render conn, "#{static}.html", []
   end
 
   def show(conn, params) do

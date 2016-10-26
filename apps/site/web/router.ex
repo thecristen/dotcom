@@ -36,14 +36,7 @@ defmodule Site.Router do
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
-  end
-
-  scope "/fares/", Site do
-    pipe_through :browser
-
-    get "/reduced", FareController, :reduced
-    get "/charlie_card", FareController, :charlie_card
-    get "/:id", FareController, :show
+    resources "/fares", FareController, only: [:show]
   end
 
   scope "/_flags", Laboratory do
