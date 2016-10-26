@@ -5,21 +5,6 @@ defmodule Site.FareView do
 
   defdelegate description(fare), to: Site.FareView.Description
 
-  def fare_duration_summary(:month) do
-    "1 Month"
-  end
-  def fare_duration_summary(:round_trip) do
-    "Round Trip"
-  end
-  def fare_duration_summary(:single_trip) do
-    "Single Ride"
-  end
-  def fare_duration_summary(:day) do
-    "1 Day"
-  end
-  def fare_duration_summary(:week) do
-    "7 Days"
-  end
   def eligibility(%Fare{mode: mode, reduced: :student}) do
     "Middle and high school students are eligible for reduced fares on the #{route_type_name(mode)}. \
 In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. \

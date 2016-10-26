@@ -5,12 +5,6 @@ defmodule Site.FareViewTest do
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   alias Fares.Fare
 
-  test "fare_duration_summary/1" do
-    assert fare_duration_summary(:month) == "1 Month"
-    assert fare_duration_summary(:round_trip) == "Round Trip"
-    assert fare_duration_summary(:single_trip) == "Single Ride"
-  end
-
   describe "eligibility/1" do
     test "returns eligibility information for student fares" do
       assert eligibility(%Fare{mode: :commuter, reduced: :student}) =~
