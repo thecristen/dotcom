@@ -7,13 +7,15 @@
     <span class="fare-duration"><%= fare_duration_summary(base_fare.duration) %></span>
   </div>
   <div class="fares-ticket-type">
-    <h3 class="fare-name"><%= Fares.Format.name(base_fare) %> <%= fare_duration(base_fare) %> </h3>
+    <h3 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h3>
+    <%# fare callout is one line so that it can collapse when empty %>
+    <div class="fare-callout-box m-b-1"><%= callout(base_fare) %></div>
     <%= for fare <- @fares do %>
       <p>
         <strong><%= Fares.Format.media(fare) %></strong>
         <span class="fare-price"><%= Fares.Format.price(fare) %></span>
+        <div><%= description(fare) %></div>
       </p>
     <% end %>
   </div>
-  <p><%= description(base_fare) %></p>
 </div>

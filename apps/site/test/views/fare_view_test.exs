@@ -2,56 +2,13 @@ defmodule Site.FareViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
   import Site.FareView
+  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   alias Fares.Fare
 
-  describe "fare_duration_summary/1" do
-    test "fare duration is '1 Month' for a monthly fare" do
-      assert fare_duration_summary(:month) == "1 Month"
-    end
-
-     test "fare duration is 'Round Trip' for a round-trip fare" do
-       assert fare_duration_summary(:round_trip) == "Round Trip"
-     end
-
-     test "fare duration is 'One Way' for a one-way fare" do
-       assert fare_duration_summary(:single_trip) == "One Way"
-     end
-  end
-
-  test "fare_duration/1" do
-    assert fare_duration(%Fare{duration: :single_trip}) == "One Way"
-    assert fare_duration(%Fare{duration: :round_trip}) == "Round Trip"
-    assert fare_duration(%Fare{duration: :month}) == "Monthly Pass"
-    assert fare_duration(%Fare{duration: :month, pass_type: :mticket}) == "Monthly Pass on mTicket App"
-    assert fare_duration(%Fare{mode: :subway, duration: :single_trip}) == "Single Ride"
-    assert fare_duration(%Fare{mode: :bus, duration: :single_trip}) == "Single Ride"
-  end
-
-  describe "description/1" do
-    test "fare description for one way CR is for commuter rail only" do
-      fare = %Fare{duration: :single_trip, mode: :commuter}
-      assert description(fare) == "Valid for Commuter Rail only."
-    end
-
-    test "fare description for CR round trip is for commuter rail only" do
-      fare = %Fare{duration: :round_trip, mode: :commuter}
-      assert description(fare) == "Valid for Commuter Rail only."
-    end
-
-    test "fare description for month is describes the modes it can be used on" do
-      fare = %Fare{name: {:zone, "5"}, duration: :month, mode: :commuter}
-
-      assert description(fare) ==
-        "Valid for one calendar month of unlimited travel on Commuter Rail from " <>
-        "Zones 1A-5 as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."
-    end
-
-    test "fare description for month mticket describes where it can be used" do
-      fare = %Fare{name: {:zone, "5"}, duration: :month, pass_type: :mticket, mode: :commuter}
-
-      assert description(fare) ==
-        "Valid for one calendar month of travel on the commuter rail from zones 1A-5 only."
-    end
+  test "fare_duration_summary/1" do
+    assert fare_duration_summary(:month) == "1 Month"
+    assert fare_duration_summary(:round_trip) == "Round Trip"
+    assert fare_duration_summary(:single_trip) == "Single Ride"
   end
 
   describe "eligibility/1" do
@@ -73,7 +30,10 @@ defmodule Site.FareViewTest do
 
   describe "vending_machine_stations/0" do
     test "generates a list of links to stations with fare vending machines" do
-      content = vending_machine_stations |> Phoenix.HTML.safe_to_string
+      content = vending_machine_stations
+      |> Enum.map(&raw/1)
+      |> Enum.map(&safe_to_string/1)
+      |> Enum.join("")
 
       assert content =~ "place-north"
       assert content =~ "place-sstat"
@@ -92,7 +52,10 @@ defmodule Site.FareViewTest do
 
   describe "charlie_card_stations/0" do
     test "generates a list of links to stations where a customer can buy a CharlieCard" do
-      content = charlie_card_stations |> Phoenix.HTML.safe_to_string
+      content = charlie_card_stations
+      |> Enum.map(&raw/1)
+      |> Enum.map(&safe_to_string/1)
+      |> Enum.join("")
 
       assert content =~ "place-alfcl"
       assert content =~ "place-armnl"

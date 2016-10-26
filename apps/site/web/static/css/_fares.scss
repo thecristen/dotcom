@@ -40,7 +40,6 @@
 .fare-name {
   display: inline-block;
   padding: .5rem 0;
-  width: 60%;
 }
 
 .fare-price {
@@ -95,6 +94,10 @@
 .fare-callout-box {
   background-color: $gray-lightest;
   padding: .5rem;
+
+  &:empty {
+    display: none;
+  }
 }
 
 .fares-google-play {
