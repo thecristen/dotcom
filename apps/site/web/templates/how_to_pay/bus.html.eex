@@ -14,7 +14,7 @@
     </div>
     <div class="col-md-4">
       <h3>Retail Sales Locations</h3>
-      <div>MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.</div>
+      MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
       <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
         Find a store near you <%= fa "angle-right" %>
       <% end %>

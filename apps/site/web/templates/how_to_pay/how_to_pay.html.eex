@@ -1,24 +1,16 @@
 <div class="card card-section">
-
   <div class="card-block card-block-no-header">
-    <%= link to: "/how-to-pay/bus" do %>
-      bus
-    <% end %>
-    <%= link to: "/how-to-pay/commuter" do %>
-      commuter
-    <% end %>
-    <%= link to: "/how-to-pay/subway" do %>
-      subway
-    <% end %>
-    <%= link to: "/how-to-pay/ferry" do %>
-      ferry
-    <% end %>
-    <%= link to: "/how-to-pay/the-ride" do %>
-      the RIDE
-    <% end %>
     <h1>How to Pay</h1>
+    <%= for mode <- [:bus, :commuter, :subway, :ferry, :the_ride] do %>
+      <div class="how-to-pay-block p-a-1 <%= if mode == @mode do %>how-to-pay-block-<%= mode_string(mode) %><% end %>">
+        <%= link to: "/how-to-pay/#{mode_string(mode)}" do %>
+          <%= mode_icon(mode) %>
+          <%= "#{mode_string(mode)}" %>
+        <% end %>
+      </div>
+    <% end %>
     <%= if @mode != nil do %>
-      <%= render "#{@mode}.html", conn: @conn %>
+      <%= render mode_template(@mode), conn: @conn %>
     <% end %>
   </div>
 </div>

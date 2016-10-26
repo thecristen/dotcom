@@ -6,15 +6,15 @@
   <div class="row">
     <div class="col-md-4">
       <h3>Fare Vending Machines</h3>
-      <div>Single Ride, Stored Value, 1-Day, 7-Day, and Monthly LinkPasses can be loaded onto a CharlieCard (learn more) or ticket at fare vending machines, found at all Subway stations.</div>
+      Single Ride, Stored Value, 1-Day, 7-Day, and Monthly LinkPasses can be loaded onto a CharlieCard (learn more) or ticket at fare vending machines, found at all Subway stations.
     </div>
     <div class="col-md-4">
       <h3>On-Board</h3>
-      <div>Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.</div>
+      Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.
     </div>
     <div class="col-md-4">
       <h3>Retail Sales Locations</h3>
-      <div>MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.</div>
+      MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
       <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
         Find a store near you <%= fa "angle-right" %>
       <% end %>

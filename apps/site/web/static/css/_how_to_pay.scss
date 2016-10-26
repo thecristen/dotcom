@@ -39,3 +39,28 @@
   padding: .5rem 0;
   margin: .5rem .5rem;
 }
+
+.how-to-pay-block {
+  display: inline-block;
+  border: 1px solid $gray-lightest;
+}
+
+.how-to-pay-block-bus {
+  border-bottom: 5px solid $brand-secondary;
+}
+
+.how-to-pay-block-commuter {
+  border-bottom: 5px solid $brand-commuter;
+}
+
+.how-to-pay-block-subway {
+  border-bottom: 5px solid $gray-light;
+}
+
+.how-to-pay-block-ferry {
+  border-bottom: 5px solid $brand-primary-light;
+}
+
+.how-to-pay-block-the-ride {
+  border-bottom: 5px solid $brand-the-ride;
+}
