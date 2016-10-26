@@ -1,11 +1,7 @@
-<div class="card card-section">
-  <div class="card-block card-block-no-header ">
-    <h1> Bus and Subway Fares</h1>
-    <%= render "_fares_display.html",
-        selected_filter: @selected_filter,
-        filters: @filters,
-        conn: @conn,
+<h1> Bus and Subway Fares</h1>
+<%= render "_fares_display.html",
+    selected_filter: @selected_filter,
+    filters: @filters,
+    conn: @conn,
         fare_type: @fare_type
-    %>
-  </div>
-</div>
+%>

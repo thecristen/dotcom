@@ -41,11 +41,9 @@ defmodule Site.Router do
   scope "/fares/", Site do
     pipe_through :browser
 
-    for mode <- ~W(commuter ferry bus_subway)a do
-      get "/#{mode}", FareController, mode, as: :fare
-    end
     get "/reduced", FareController, :reduced
     get "/charlie_card", FareController, :charlie_card
+    get "/:id", FareController, :show
   end
 
   scope "/_flags", Laboratory do
