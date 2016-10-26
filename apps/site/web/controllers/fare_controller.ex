@@ -7,4 +7,11 @@ defmodule Site.FareController do
   defdelegate ferry(conn, params), to: Ferry, as: :index
   defdelegate bus_subway(conn, params), to: BusSubway, as: :index
 
+  def reduced(conn, _params) do
+    render conn, "reduced.html", []
+  end
+
+  def charlie_card(conn, _params) do
+    render conn, "charlie_card.html", []
+  end
 end

@@ -1,0 +1,19 @@
+{
+  "uuid" : "c68e1fb2-0e32-3997-9a3d-3429eca31510",
+  "request" : {
+    "url" : "/stops/place-wondl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-wondl-U34Qu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 25 Oct 2016 20:57:34 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "1tp4rni92efge751rmkg6v5ct9p5ufg9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

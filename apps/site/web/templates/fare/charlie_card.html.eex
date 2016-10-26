@@ -1,0 +1,110 @@
+<div class="card card-section">
+  <div class="card-block card-block-no-header row">
+    <div class="col-xs-12">
+      <h1>The CharlieCard</h1>
+      <hr />
+    </div>
+
+    <div class="col-xs-12">
+      <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare.</p>
+    </div>
+
+    <div class="col-xs-12 m-b-1">
+      <h3>Where to Get a CharlieCard</h3>
+    </div>
+
+    <div class="col-xs-12">
+      <h4>Bus &amp; Subway Stations</h4>
+      <p>You can get a blank CharlieCard from an MBTA Customer Service agent working at the following stations:</p>
+    </div>
+
+    <div class="col-xs-12 charlie-card-hours">
+      <div class="hours-header">Open every day 7:00 AM until 7:00 PM</div>
+      <div class="hours-body">
+        <p><%= charlie_card_stations %></p>
+      </div>
+    </div>
+
+    <div class="col-xs-12 charlie-card-hours m-y-1">
+      <div class="hours-header">Additional stations &amp; hours</div>
+      <div class="hours-body">
+        <p><%= station_link "place-kencl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 10:30 AM - 7:00PM</p>
+        <p><%= station_link "place-mvbcl" %>: Mon - Fri & Sun 7:00 AM - 7:00 PM, Sat 7:00 AM - 2:00 PM, 4:30 PM - 7:00PM</p>
+        <p><%= station_link "place-haecl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+        <p><%= station_link "place-wondl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <h4>Retail Sales Locations</h4>
+      <p>MBTA riders can get blank CharlieCards and purchase passes at stores located throughout the Greater Boston and Providence area.</p>
+      <p>
+        <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+          Find a store near you <%= fa "angle-right" %>
+        <% end %>
+      </p>
+    </div>
+
+    <div class="col-xs-12 m-t-1">
+      <h3>CharlieCard Store</h3>
+      <p>The CharlieCard store is located at the Downtown Crossing station in the underground concourse between the Red and Orange lines.</p>
+
+      <h4>Services Available</h4>
+      <ul>
+        <li>Replace damaged or expired CharlieCard</li>
+        <li>Request Senior CharlieCard, Transport Access Pass, or Blind Access Pass</li>
+        <li>Add credit to RIDE account</li>
+      </ul>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+      <p>
+        <strong>Hours:</strong><br />
+        Monday &mdash; Friday<br />
+        8:30 AM until 5:00 PM
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <p>
+        <strong>Phone:</strong><br />
+        <%= tel_link "(617) 222-3200" %><br />
+        <%= tel_link "(617) 222-5854" %><br />
+        (for the deaf or hard of hearing)
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <p>
+        <strong>Mailing Address:</strong><br />
+        Downtown Crossing Station<br />
+        7 Chauncy Street<br />
+        Boston, MA 02111
+      </p>
+    </div>
+
+    <div class="col-xs-12 m-t-1">
+      <h3>Replacing CharlieCards</h3>
+      <h4>Lost or Stolen</h4>
+      <p>Lost or stolen CharlieCards can only be replaced if they have already been registered with a MyCharlie account.  If you have a MyCharlie account, you can request a replacement card to be mailed to you.</p>
+      <h4>Damaged or Expired</h4>
+      <p>Damaged or expired CharlieCards can be replaced at the CharlieCard Store located in Downtown Crossing. The remaining Stored Value on an expired CharlieCard will be transferred to the new card.</p>
+    </div>
+
+    <div class="col-xs-12 m-t-1">
+      <h3>Online CharlieCard Services</h3>
+      <p>Bus and Subway riders can create a MyCharlie account to set up recurring monthly pass purchases and have protection against loss, theft, or damage to their CharlieCard. Those who do not want a MyCharlie can reload their CharlieCard with up to $50. Commuter Rail, Boat, and Express Bus riders can order monthly passes online.</p>
+    </div>
+
+    <div class="charlie-card-link-container col-xs-12 col-md-6">
+      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Log in to MyCharlie account <span class="pull-xs-right"><%= fa "angle-right" %></span></a>
+      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account <span class="pull-xs-right"><%= fa "angle-right" %></span></a>
+    </div>
+    <div class="charlie-card-link-container col-xs-12 col-md-6">
+      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/loginIV.jsf">Reload CharlieCard <span class="pull-xs-right"><%= fa "angle-right" %></span></a>
+      <a class="charlie-card-link" href="https://commerce.mbta.com/">
+        <span class="hidden-sm-down">Buy Commuter Rail, Ferry, Express Bus pass</span>
+        <span class="hidden-md-up">Buy Commuter Rail, Ferry, Express B&hellip;</span>
+        <span class="pull-xs-right"><%= fa "angle-right" %></span>
+      </a>
+    </div>
+  </div>
+</div>

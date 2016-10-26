@@ -123,6 +123,20 @@
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Charlie Card",
+      "url": "http://localhost:8082/fares/charlie_card",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Reduced Fares",
+      "url": "http://localhost:8082/fares/reduced",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold" : 0.1
     }
   ],
   "paths": {

@@ -44,6 +44,8 @@ defmodule Site.Router do
     for mode <- ~W(commuter ferry bus_subway)a do
       get "/#{mode}", FareController, mode, as: :fare
     end
+    get "/reduced", FareController, :reduced
+    get "/charlie_card", FareController, :charlie_card
   end
 
   scope "/_flags", Laboratory do

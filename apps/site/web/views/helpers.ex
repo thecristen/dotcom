@@ -1,6 +1,7 @@
 defmodule Site.ViewHelpers do
   import Site.Router.Helpers
   import Phoenix.HTML, only: [raw: 1]
+  import Phoenix.HTML.Link, only: [link: 2]
   import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
   import Plug.Conn
 
@@ -202,4 +203,15 @@ defmodule Site.ViewHelpers do
 
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
+
+  @doc "Link a station's name to its page."
+  @spec station_link(Stations.Station.t | String.t) :: Phoenix.HTML.Safe.t
+  def station_link(%Stations.Station{} = station) do
+    link station.name, to: station_path(Site.Endpoint, :show, station.id)
+  end
+  def station_link(station_id) do
+    station_id
+    |> Stations.Repo.get
+    |> station_link
+  end
 end

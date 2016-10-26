@@ -1,3 +1,7 @@
+.reduced-fare-note {
+  background-color: $gray-lightest;
+}
+
 .fares-tab-group {
   border-bottom: 2px solid $brand-primary;
   margin: 1em 0 0;
@@ -84,16 +88,11 @@
   position: relative;
 }
 
-.fare-qualifications {
-  background-color: $gray-lightest;
-  padding: .5rem;
-}
-
 .adult-fares-tab {
   padding: .5rem;
 }
 
-.fare-route {
+.fare-callout-box {
   background-color: $gray-lightest;
   padding: .5rem;
 }
@@ -156,4 +155,52 @@
 
 .fares-purchasing-option {
   padding: 1rem 0;
+}
+
+.charlie-card-hours {
+  border: 1px solid $gray-lightest;
+  padding: 0;
+
+  .hours-header {
+    background-color: $gray-lightest;
+    font-weight: bold;
+    padding: .5em;
+  }
+
+  .hours-body {
+    padding: .5em .5em 0;
+  }
+}
+
+.charlie-card-link {
+  border-top: 1px solid $gray-lightest;
+  display: block;
+  padding: .75em .5em;
+
+  @include media-breakpoint-up(md) {
+    &:last-child {
+      border-bottom: 1px solid $gray-lightest;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .charlie-card-link-container ~ .charlie-card-link-container {
+    margin-bottom: 1em;
+
+    .charlie-card-link:last-child {
+      border-bottom: 1px solid $gray-lightest;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .charlie-card-link-container {
+    padding-right: 1.5em;
+  }
+
+  .charlie-card-link-container ~ .charlie-card-link-container {
+    padding-left: 1.5em;
+    padding-right: .375em;
+  }
 }

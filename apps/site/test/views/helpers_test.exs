@@ -50,4 +50,20 @@ defmodule Site.ViewHelpersTest do
       assert update_url(conn, param: "eter") == "/path?param=eter"
     end
   end
+
+  describe "station_link/1" do
+    test "given a station, returns a link to that station" do
+      link = %Stations.Station{id: "place-sstat", name: "South Station"}
+      |> station_link
+      |> Phoenix.HTML.safe_to_string
+      assert link == ~s(<a href="/stations/place-sstat">South Station</a>)
+    end
+
+    test "given a station ID, returns a link to that station" do
+      link = "place-sstat"
+      |> station_link
+      |> Phoenix.HTML.safe_to_string
+      assert link == ~s(<a href="/stations/place-sstat">South Station</a>)
+    end
+  end
 end
