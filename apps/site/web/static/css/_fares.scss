@@ -94,6 +94,10 @@
 .fare-callout-box {
   background-color: $gray-lightest;
   padding: .5rem;
+
+  &:empty {
+    display: none;
+  }
 }
 
 .fares-google-play {

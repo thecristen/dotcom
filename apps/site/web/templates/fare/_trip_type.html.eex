@@ -8,13 +8,8 @@
   </div>
   <div class="fares-ticket-type">
     <h3 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h3>
-    <%= case callout(base_fare) do %>
-      <% "" -> %>
-      <% text -> %>
-      <div class="fare-callout-box m-b-1">
-        <%= text %>
-      </div>
-    <% end %>
+    <%# fare callout is one line so that it can collapse when empty %>
+    <div class="fare-callout-box m-b-1"><%= callout(base_fare) %></div>
     <%= for fare <- @fares do %>
       <p>
         <strong><%= Fares.Format.media(fare) %></strong>
