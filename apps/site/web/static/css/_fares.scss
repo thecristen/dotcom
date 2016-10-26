@@ -14,8 +14,13 @@
 }
 
 .fares-tab-selected {
-    background-color: $brand-primary;
+  background-color: $brand-primary;
+  color: $white;
+
+  @include hover-focus-active {
     color: $white;
+    text-decoration: underline;
+  }
 }
 
 .fares-box {
