@@ -1,0 +1,29 @@
+<div class="row">
+  <span class="fares-tab fares-tab-selected">Common <%= @title %> Fares</span>
+</div>
+<div class="row fares-box">
+  <%= for chunk <- @summary |> Enum.chunk(2, 2, []) do %>
+    <div class="row fares-row">
+      <%= for summary <- chunk do %>
+        <div class="col-xs-12 col-md-6 fares-box-column">
+          <h3>
+            <%= summary.name %>
+            <div class="fares-mode-icon">
+              <%= for mode <- summary.modes do %>
+                <span class="fares-mode-icon-group"><%= mode_icon(mode) %></span>
+              <% end %>
+            </div>
+          </h3>
+          <table>
+            <%= for {fare, price} <- summary.fares do %>
+              <tr>
+                <td><%= fare %></td>
+                <td><%= price %></td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
