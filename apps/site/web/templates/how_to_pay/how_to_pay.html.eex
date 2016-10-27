@@ -1,14 +1,23 @@
 <div class="card card-section">
   <div class="card-block card-block-no-header">
     <h1>How to Pay</h1>
-    <%= for mode <- [:bus, :commuter, :subway, :ferry, :the_ride] do %>
-      <div class="how-to-pay-block p-a-1 <%= if mode == @mode do %>how-to-pay-block-<%= mode_string(mode) %><% end %>">
-        <%= link to: "/how-to-pay/#{mode_string(mode)}" do %>
-          <%= mode_icon(mode) %>
-          <%= "#{mode_string(mode)}" %>
+    <nav class="collapse navbar-toggleable-sm" id="modes" role="navigation">
+      <div class="btn-group show-btn-group">
+        <%= for mode <- [:bus, :commuter, :subway, :ferry, :the_ride] do %>
+          <% selected_class = case @mode do
+              ^mode -> "show-btn-selected"
+              _ -> ""
+              end %>
+          <%= link to: "/how-to-pay/#{mode_string(mode)}", class: "btn show-btn alert-show-btn-#{mode} #{selected_class}" do %>
+            <%= mode_icon(mode) %>
+            <%= mode_title(mode) %>
+            <%= if mode == @mode do %>
+              <span class="btn-selected-bottom-<%= mode_string(mode) %>"></span>
+            <% end %>
+          <% end %>
         <% end %>
       </div>
-    <% end %>
+    </nav>
     <%= if @mode != nil do %>
       <%= render mode_template(@mode), conn: @conn %>
     <% end %>
