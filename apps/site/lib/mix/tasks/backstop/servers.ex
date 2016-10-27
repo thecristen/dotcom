@@ -100,9 +100,14 @@ defmodule Backstop.Servers.Wiremock do
   end
 
   def run(parent) do
-    File.cd! "apps/site" # apps/site has the Wiremock configuration
+    cwd = File.cwd!
+    file_dir = :site
+    |> Application.app_dir
+    |> String.replace("_build/#{Mix.env}/lib", "apps")
+    File.cd! file_dir # apps/site has the Wiremock configuration
+
     proc = spawn_server()
-    File.cd! "../.." # cd back up to the root directory
+    File.cd! cwd # cd back up to the root directory
     Backstop.Servers.loop(proc, parent, __MODULE__)
   end
 end
