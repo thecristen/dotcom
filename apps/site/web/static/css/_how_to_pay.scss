@@ -49,18 +49,23 @@
   border-bottom: 5px solid $brand-secondary;
 }
 
-.how-to-pay-block-commuter {
-  border-bottom: 5px solid $brand-commuter;
+.how-to-pay-image {
+  margin: 0 auto;
+  display: block;
 }
 
-.how-to-pay-block-subway {
-  border-bottom: 5px solid $gray-light;
+.how-to-pay-image-oversize {
+  width: 100%;
 }
 
-.how-to-pay-block-ferry {
-  border-bottom: 5px solid $brand-primary-light;
+.how-to-pay-image-caption {
+  text-align: center;
+  width: 100%;
 }
 
-.how-to-pay-block-the-ride {
-  border-bottom: 5px solid $brand-the-ride;
+.how-to-pay-ferry-box {
+  @include media-breakpoint-up(sm) {
+    border-right: 1px solid $gray-lightest;
+    margin-right: .5rem;
+  }
 }
