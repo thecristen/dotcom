@@ -176,8 +176,14 @@ defmodule Site.ScheduleViewTest do
       %Stop{id: "12"}]
     @schedules Enum.map(@stops, fn(stop) -> %Schedule{stop: stop, trip: @trip, route: @route} end)
 
-    test "when all times is false, filters a list of schedules to the first 9" do
-      assert length(ScheduleView.schedule_list(@schedules, false)) == 9
+    test "when all times is false, and number of schedules is more than the limit, only return initial schedules " do
+      many_schedules = Stream.cycle(@schedules) |> Enum.take(ScheduleView.schedule_display_limit + 1)
+      assert length(ScheduleView.schedule_list(many_schedules, false)) == ScheduleView.schedule_display_initial
+    end
+
+    test "when all times is false, and number of schedules is less than the limit, show all times" do
+      limited_schedules = Stream.cycle(@schedules) |> Enum.take(ScheduleView.schedule_display_limit - 1)
+      assert length(ScheduleView.schedule_list(limited_schedules, false)) == length(limited_schedules)
     end
 
     test "when all times is true, does not filter the list" do
