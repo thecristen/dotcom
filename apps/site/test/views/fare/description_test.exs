@@ -25,7 +25,7 @@ defmodule Site.FareView.DescriptionTest do
     end
 
     test "fare description for month mticket describes where it can be used" do
-      fare = %Fare{name: {:zone, "5"}, duration: :month, pass_type: :mticket, mode: :commuter}
+      fare = %Fare{name: {:zone, "5"}, duration: :month, media: [:mticket], mode: :commuter}
 
       assert fare |> description |> iodata_to_binary ==
         "Valid for one calendar month of travel on the commuter rail from Zones 1A-5 only."
@@ -34,7 +34,7 @@ defmodule Site.FareView.DescriptionTest do
 
   describe "transfers/1" do
     test "if current fare is cheapest, should have costs to other fares" do
-      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, pass_type: :charlie_card, cents: 1}
+      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card], cents: 1}
       result = fare |> transfers |> iodata_to_binary
       assert result =~ "Transfer to Subway $"
       assert result =~ "Transfer to Local Bus $"
@@ -43,7 +43,7 @@ defmodule Site.FareView.DescriptionTest do
     end
 
     test "if current fare is most expensive, should have free transfers to other fares" do
-      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, pass_type: :charlie_card, cents: 40000}
+      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card], cents: 40000}
       result = fare |> transfers |> iodata_to_binary
       expected = ["Free transfers to Subway",
                   "Local Bus",
@@ -56,8 +56,8 @@ defmodule Site.FareView.DescriptionTest do
     end
 
     test "if fare is somewhere in the middle, lists fare differences along with transfers" do
-      inner_express_fare = Fares.Repo.all(name: :inner_express_bus, duration: :single_trip, pass_type: :charlie_card) |> List.first
-      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, pass_type: :charlie_card, cents: inner_express_fare.cents - 1}
+      inner_express_fare = Fares.Repo.all(name: :inner_express_bus, duration: :single_trip, media: [:charlie_card]) |> List.first
+      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card], cents: inner_express_fare.cents - 1}
 
       result = fare |> transfers |> iodata_to_binary
       assert result =~ "Transfer to Inner Express Bus $0.01."
