@@ -19,6 +19,21 @@ defmodule AlertsTest do
       assert Alert.is_notice? change
     end
 
+    test "Minor Service Change is a notice" do
+      change = %Alert{effect_name: "Service Change", severity: "Minor"}
+      assert Alert.is_notice? change
+    end
+
+    test "Current non-minor Service Change is an alert" do
+      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(Util.now, days: -1), nil}]}
+      refute Alert.is_notice? change
+    end
+
+    test "Future non-minor Service Change is a notice" do
+      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(Util.now, days: 5), nil}]}
+      assert Alert.is_notice? change
+    end
+
     test "Shuttle is an alert if it's active and not Ongoing" do
       today = Timex.now("America/New_York")
       shuttle = %Alert{effect_name: "Shuttle",

@@ -41,6 +41,10 @@ defmodule Alerts.Alert do
   def is_notice?(%__MODULE__{effect_name: "Access Issue"}, _) do
     true
   end
+  def is_notice?(%__MODULE__{effect_name: "Service Change", severity: "Minor"}, _) do
+    # minor service changes are never alerts
+    true
+  end
   for effect <- [
         "Shuttle",
         "Stop Closure",
