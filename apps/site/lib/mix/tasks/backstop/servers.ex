@@ -8,14 +8,18 @@ defmodule Backstop.Servers do
   @callback error_regex() :: String.t | Regex.t
 
   def loop(proc = %Process{pid: pid}, parent, server) do
+    server_name = server
+    |> Module.split
+    |> List.last
     receive do
       {^pid, :data, :out, data} ->
+        IO.write [server_name, " => ", data]
         if data =~ server.started_regex do
           send parent, {self(), :started}
         end
         loop(proc, parent, server)
       {^pid, :data, :err, data} ->
-        IO.write data
+        IO.write [server_name, " (error) ", data]
         if data =~ server.error_regex do
           send parent, {self(), :error}
         end
