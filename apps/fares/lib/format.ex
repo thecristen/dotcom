@@ -11,14 +11,20 @@ defmodule Fares.Format do
   end
 
   @doc "Formats the fare media (card, &c) as a string"
-  @spec media(Fare.t) :: String.t
-  def media(%Fare{pass_type: :charlie_card}), do: "CharlieCard"
-  def media(%Fare{pass_type: :ticket}), do: "Ticket"
-  def media(%Fare{pass_type: :mticket}), do: "mTicket App"
-  def media(%Fare{pass_type: :card_or_ticket}), do: "CharlieCard or Ticket"
-  def media(%Fare{pass_type: :cash_or_ticket}), do: "Ticket or Cash"
-  def media(%Fare{pass_type: :senior_card}), do: "Senior CharlieCard or TAP ID"
-  def media(%Fare{pass_type: :student_card}), do: "Student CharlieCard"
+  @spec media(Fare.t | [Fare.media] | Fare.media) :: String.t
+  def media(%Fare{media: list}), do: media(list)
+  def media(list) when is_list(list) do
+    list
+    |> Enum.map(&media/1)
+    |> Enum.join(" or ")
+  end
+  def media(:charlie_card), do: "CharlieCard"
+  def media(:charlie_ticket), do: "CharlieTicket"
+  def media(:commuter_ticket), do: "Ticket"
+  def media(:mticket), do: "mTicket App"
+  def media(:cash), do: "Cash"
+  def media(:senior_card), do: "Senior CharlieCard or TAP ID"
+  def media(:student_card), do: "Student CharlieCard"
 
   @doc "Formats the customers that are served by the given fare: Adult / Student / Senior"
   @spec customers(Fare.t | Fare.reduced) :: String.t
@@ -44,11 +50,12 @@ defmodule Fares.Format do
   def duration(%Fare{duration: :week}) do
     "7-Day Pass"
   end
-  def duration(%Fare{duration: :month, pass_type: :mticket}) do
-    "Monthly Pass on mTicket App"
-  end
-  def duration(%Fare{duration: :month}) do
-    "Monthly Pass"
+  def duration(%Fare{duration: :month, media: media}) do
+    if :mticket in media do
+      "Monthly Pass on mTicket App"
+    else
+      "Monthly Pass"
+    end
   end
 
   @doc "Friendly name for the given Fare"

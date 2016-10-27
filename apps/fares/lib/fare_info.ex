@@ -25,44 +25,44 @@ defmodule Fares.FareInfo do
     [
       %Fare{base |
         duration: :single_trip,
-        pass_type: :cash_or_ticket,
+        media: [:commuter_ticket, :cash],
         reduced: nil,
         cents: dollars_to_cents(single_trip),},
       %Fare{base |
         duration: :single_trip,
-        pass_type: :student_card,
+        media: [:student_card],
         reduced: :student,
         cents: dollars_to_cents(single_trip_reduced)},
       %Fare{base |
         duration: :single_trip,
-        pass_type: :senior_card,
+        media: [:senior_card],
         reduced: :senior_disabled,
         cents: dollars_to_cents(single_trip_reduced)},
       %Fare{base |
         duration: :round_trip,
-        pass_type: :cash_or_ticket,
+        media: [:commuter_ticket, :cash],
         reduced: nil,
         cents: dollars_to_cents(single_trip) * 2},
       %Fare{base |
         duration: :round_trip,
-        pass_type: :student_card,
+        media: [:student_card],
         reduced: :student,
         cents: dollars_to_cents(single_trip_reduced) * 2},
       %Fare{base |
         duration: :round_trip,
-        pass_type: :senior_card,
+        media: [:senior_card],
         reduced: :senior_disabled,
         cents: dollars_to_cents(single_trip_reduced) * 2},
       %Fare{base |
         duration: :month,
-        pass_type: :ticket,
+        media: [:commuter_ticket],
         reduced: nil,
         cents: dollars_to_cents(monthly),
         additional_valid_modes: [:subway, :bus, :ferry]
       },
       %Fare{base |
         duration: :month,
-        pass_type: :mticket,
+        media: [:mticket],
         reduced: nil,
         cents: dollars_to_cents(monthly) - 1000}
     ]
@@ -85,61 +85,61 @@ defmodule Fares.FareInfo do
     [
       %Fare{base |
         duration: :month,
-        pass_type: :card_or_ticket,
+        media: [:charlie_card, :charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(month_pass_price),
         additional_valid_modes: [:bus]
       },
       %Fare{base |
         duration: :month,
-        pass_type: :student_card,
+        media: [:student_card],
         reduced: :student,
         cents: dollars_to_cents(month_reduced_price),
         additional_valid_modes: [:bus]
       },
       %Fare{base |
         duration: :month,
-        pass_type: :senior_card,
+        media: [:senior_card],
         reduced: :senior_disabled,
         cents: dollars_to_cents(month_reduced_price),
         additional_valid_modes: [:bus]
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :charlie_card,
+        media: [:charlie_card],
         reduced: nil,
         cents: dollars_to_cents(charlie_card_price),
         additional_valid_modes: [:bus]
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :cash_or_ticket,
+        media: [:charlie_ticket, :cash],
         reduced: nil,
         cents: dollars_to_cents(ticket_price),
         additional_valid_modes: [:bus]
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :student_card,
+        media: [:student_card],
         reduced: :student,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :senior_card,
+        media: [:senior_card],
         reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{base |
         duration: :week,
-        pass_type: :card_or_ticket,
+        media: [:charlie_card, :charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(week_pass_price),
         additional_valid_modes: [:bus, :commuter, :ferry]
       },
       %Fare{base |
         duration: :day,
-        pass_type: :card_or_ticket,
+        media: [:charlie_card, :charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(day_pass_price),
         additional_valid_modes: [:bus, :commuter, :ferry]
@@ -164,32 +164,32 @@ defmodule Fares.FareInfo do
     [
       %Fare{base |
         duration: :single_trip,
-        pass_type: :charlie_card,
+        media: [:charlie_card],
         reduced: nil,
         cents: dollars_to_cents(charlie_card_price)
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :cash_or_ticket,
+        media: [:charlie_ticket, :cash],
         reduced: nil,
         cents: dollars_to_cents(ticket_price)
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :student_card,
+        media: [:student_card],
         reduced: :student,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :senior_card,
+        media: [:senior_card],
         reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{
         base |
         duration: :month,
-        pass_type: :card_or_ticket,
+        media: [:charlie_card, :charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(month_pass_price)
       }
@@ -214,31 +214,31 @@ defmodule Fares.FareInfo do
     [
       %Fare{base |
         duration: :single_trip,
-        pass_type: :charlie_card,
+        media: [:charlie_card],
         reduced: nil,
         cents: dollars_to_cents(charlie_card_price)
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :cash_or_ticket,
+        media: [:charlie_ticket, :cash],
         reduced: nil,
         cents: dollars_to_cents(ticket_price)
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :student_card,
+        media: [:student_card],
         reduced: :student,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{base |
         duration: :single_trip,
-        pass_type: :senior_card,
+        media: [:senior_card],
         reduced: :senior_disabled,
         cents: dollars_to_cents(day_reduced_price)
       },
       %Fare{base |
         duration: :month,
-        pass_type: :card_or_ticket,
+        media: [:charlie_card, :charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(month_pass_price)
       }
@@ -260,7 +260,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :single_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_price)
       },
@@ -268,7 +268,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :round_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_price) * 2
       },
@@ -276,7 +276,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :month,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_month_price),
         additional_valid_modes: [:subway, :bus, :commuter]
@@ -285,7 +285,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_cross_harbor,
         duration: :single_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(cross_harbor_price)
       },
@@ -293,7 +293,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_cross_harbor,
         duration: :round_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(cross_harbor_price) * 2
       },
@@ -301,7 +301,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry,
         duration: :single_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_price)
       },
@@ -309,7 +309,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry,
         duration: :round_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_price) * 2
       },
@@ -317,7 +317,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry_logan,
         duration: :single_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_logan_price)
       },
@@ -325,7 +325,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry_logan,
         duration: :round_trip,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_logan_price) * 2,
       },
@@ -333,7 +333,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry,
         duration: :month,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_month_price),
         additional_valid_modes: [:subway, :bus, :commuter]
@@ -342,7 +342,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :commuter_ferry,
         duration: :month,
-        pass_type: :mticket,
+        media: [:mticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_month_price) - 1000
       },
@@ -350,7 +350,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :day,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(day_pass_price)
       },
@@ -358,7 +358,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_inner_harbor,
         duration: :week,
-        pass_type: :ticket,
+        media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(week_pass_price)
       }
@@ -369,8 +369,8 @@ defmodule Fares.FareInfo do
     |> Enum.flat_map(fn fare ->
       reduced_price = round(fare.cents / 2)
       [
-        %Fare{fare | cents: reduced_price, pass_type: :senior_card, reduced: :senior_disabled},
-        %Fare{fare | cents: reduced_price, pass_type: :student_card, reduced: :student}
+        %Fare{fare | cents: reduced_price, media: [:senior_card], reduced: :senior_disabled},
+        %Fare{fare | cents: reduced_price, media: [:student_card], reduced: :student}
       ]
     end)
     fares ++ reduced_fares

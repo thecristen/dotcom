@@ -5,11 +5,11 @@ defmodule Fares.Fare do
 
   """
   @type fare_name :: {atom, String.t()} | atom
-  @type pass_type :: :ticket
-  | :cash_or_ticket
-  | :charlie_card
+  @type media :: :charlie_card
+  | :charlie_ticket
+  | :cash
+  | :commuter_ticket
   | :mticket
-  | :card_or_ticket
   | :student_card
   | :senior_card
   @type reduced :: nil | :student | :senior_disabled
@@ -17,7 +17,7 @@ defmodule Fares.Fare do
   @type t :: %__MODULE__{
     mode: Routes.Route.route_type,
     name: fare_name,
-    pass_type: pass_type,
+    media: [media],
     reduced: reduced,
     duration: duration,
     cents: non_neg_integer,
@@ -27,7 +27,7 @@ defmodule Fares.Fare do
   defstruct [
     mode: nil,
     name: nil,
-    pass_type: nil,
+    media: [],
     reduced: nil,
     duration: nil,
     cents: 0,

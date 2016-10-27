@@ -9,7 +9,7 @@ defmodule Site.FareView.Description do
   def description(%Fare{mode: :commuter, duration: :round_trip}) do
     "Valid for Commuter Rail only."
   end
-  def description(%Fare{mode: :commuter, duration: :month, pass_type: :mticket, name: name}) do
+  def description(%Fare{mode: :commuter, duration: :month, media: [:mticket], name: name}) do
     ["Valid for one calendar month of travel on the commuter rail ",
      valid_commuter_zones(name),
      " only."
@@ -27,7 +27,7 @@ defmodule Site.FareView.Description do
       " only."
     ]
   end
-  def description(%Fare{mode: :ferry, duration: :month, pass_type: :mticket} = fare) do
+  def description(%Fare{mode: :ferry, duration: :month, media: [:mticket]} = fare) do
        [
          "Valid for one calendar month of unlimited travel on the ",
          Fares.Format.name(fare),
@@ -42,12 +42,12 @@ defmodule Site.FareView.Description do
  Subway, Express Buses, and Commuter Rail up to Zone 5."
     ]
   end
-  def description(%Fare{name: name, duration: :single_trip, pass_type: :cash_or_ticket})
+  def description(%Fare{name: name, duration: :single_trip, media: [:charlie_ticket, :cash]})
   when name in [:inner_express_bus, :outer_express_bus] do
     "No free or discounted transfers."
   end
-  def description(%Fare{mode: :subway, pass_type: pass_type, duration: :single_trip} = fare)
-  when pass_type != :cash_or_ticket do
+  def description(%Fare{mode: :subway, media: media, duration: :single_trip} = fare)
+  when media != [:charlie_ticket, :cash] do
 
     [
       "Valid for all Subway lines (includes routes SL1 and SL2). ",
@@ -55,10 +55,10 @@ defmodule Site.FareView.Description do
       " Must be done within 2 hours of your original ride."
     ]
   end
-  def description(%Fare{mode: :subway, pass_type: :cash_or_ticket}) do
+  def description(%Fare{mode: :subway, media: [:charlie_ticket, :cash]}) do
     "Free transfer to Subway, route SL4, and route SL5 when done within 2 hours of purchasing a ticket."
   end
-  def description(%Fare{mode: :bus, pass_type: :cash_or_ticket}) do
+  def description(%Fare{mode: :bus, media: [:charlie_ticket, :cash]}) do
     "Free transfer to one additional Local Bus included."
   end
   def description(%Fare{mode: :subway, duration: :month, reduced: :student}) do
@@ -91,8 +91,8 @@ defmodule Site.FareView.Description do
      "the Charlestown Ferry."
     ] |> and_join
   end
-  def description(%Fare{mode: :bus, pass_type: pass_type} = fare)
-  when pass_type != :cash_or_ticket do
+  def description(%Fare{mode: :bus, media: media} = fare)
+  when media != [:charlie_ticket, :cash] do
     [
       "Valid for the Local Bus (includes route SL4 and SL5). ",
       transfers(fare),
@@ -147,7 +147,7 @@ defmodule Site.FareView.Description do
   end
 
   defp transfers_other_fare(name, fare) do
-    case {fare, name, Fares.Repo.all(name: name, pass_type: fare.pass_type, duration: fare.duration)} do
+    case {fare, name, Fares.Repo.all(name: name, media: fare.media, duration: fare.duration)} do
       {_, _, [other_fare]} -> other_fare
     end
   end
