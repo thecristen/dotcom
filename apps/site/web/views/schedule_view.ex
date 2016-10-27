@@ -115,7 +115,7 @@ defmodule Site.ScheduleView do
   end
   def schedule_list(schedules, false) do
     if Enum.count(schedules) >= schedule_display_limit do
-      Enum.slice(schedules, 0..(@schedule_display_initial - 1))
+      Enum.take(schedules, @schedule_display_initial)
     else
       schedules
     end
