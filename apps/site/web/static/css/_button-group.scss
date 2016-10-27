@@ -28,6 +28,14 @@
     width: 100%;
   }
 
+  .btn-selected-bottom-access {
+    border-bottom: $space-6 solid $brand-primary;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+
   .btn-selected-bottom-bus {
     border-bottom: $space-6 solid $brand-secondary;
     bottom: 0;

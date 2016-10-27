@@ -17,7 +17,7 @@
             <%= mode_icon(name) %>
             <%= display %>
             <%= if name == @id do %>
-              <span class="btn-selected-bottom"></span>
+              <span class="btn-selected-bottom-<%= name %>"></span>
             <% end %>
           <% end %>
         <% end %>
