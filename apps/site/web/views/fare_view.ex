@@ -27,16 +27,16 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
 
   @spec callout(Fare.t) :: String.t | iolist
   def callout(%Fare{name: :inner_express_bus}) do
-    ["170, 325, 326, 351, 424, 426, 428, 434, 449, 450, 459, 501, 502, 504, ",
-     "553, 554 and 558."]
+    AndJoin.and_join ~w(170 325 326 351 424 426 428 434 449 450 459 501 502 504
+     553 554 558.)
   end
   def callout(%Fare{name: :outer_express_bus}) do
-    "352, 354, and 505."
+    AndJoin.and_join ~w(352 354 505.)
   end
   def callout(%Fare{}), do: ""
 
   def callout_description(%Fare{name: name}) when name == :outer_express_bus or name == :inner_express_bus do
-    "Travels on routes: "
+    "Travels on Routes: "
   end
   def callout_description(%Fare{}), do: ""
 
