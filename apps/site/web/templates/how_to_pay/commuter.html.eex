@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row">
+  <div class="row how-to-pay-step">
     <h2>Step 1: Purchase a Ticket or Pass</h2>
     <div>Fares for the Commuter Rail can be purchased in the following ways:</div>
   </div>
@@ -35,7 +35,7 @@
       <h3>On-Board</h3>
       <p>One way or round trip tickets can be purchased on-board by cash. If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.</p>
     </div>
-    <div class="row">
+    <div class="row how-to-pay-step">
       <h2>Step 2: Pay Your Fare</h2>
       Commuter rail fares are paid after boarding the train. A conductor will come to check your ticket or collect payment if you have not already bought a ticket. The following payment methods are accepted:
       <ul>

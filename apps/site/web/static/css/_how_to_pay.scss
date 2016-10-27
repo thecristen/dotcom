@@ -6,6 +6,7 @@
 
 .how-to-pay-steps li {
   counter-increment: step-counter;
+  margin-top: -1rem;
 }
 
 .how-to-pay-steps li::before {
@@ -41,12 +42,20 @@
 }
 
 .how-to-pay-block {
-  display: inline-block;
   border: 1px solid $gray-lightest;
+
+  &:last-child {
+    padding-right: 0;
+  }
 }
 
-.how-to-pay-block-bus {
-  border-bottom: 5px solid $brand-secondary;
+.how-to-pay-block-container {
+  display: inline-block;
+  padding: 0 1em;
+}
+
+.how-to-pay-block-tab {
+  padding: 1em 0;
 }
 
 .how-to-pay-image {
@@ -65,7 +74,15 @@
 
 .how-to-pay-ferry-box {
   @include media-breakpoint-up(sm) {
-    border-right: 1px solid $gray-lightest;
-    margin-right: .5rem;
+    border-left: 1px solid $gray-lightest;
   }
+}
+
+.how-to-pay-ferry-method {
+  padding-left: 0;
+  padding-right: .75rem;
+}
+
+.how-to-pay-step {
+  padding: .75rem 0;
 }
