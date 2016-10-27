@@ -3,10 +3,13 @@
   <div>
     <h2 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h2>
     <%# fare callout is one line so that it can collapse when empty %>
-    <div class="fare-callout-box m-b-1">
-      <strong><%= callout_description %></strong>
-      <%= callout(base_fare) %>
-    </div>
+    <% callout_description = callout_description(base_fare) %>
+    <%= if String.length(callout_description) != 0 do %>
+      <div class="fare-travel-routes">
+          <strong><%= callout_description %></strong>
+          <%= callout(base_fare) %>
+      </div>
+    <% end %>
     <%= for fare <- @fares do %>
       <p class="fare-mode-row">
         <strong><%= Fares.Format.media(fare) %></strong>

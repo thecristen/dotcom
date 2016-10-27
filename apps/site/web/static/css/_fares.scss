@@ -77,7 +77,7 @@
 }
 
 .fares-ticket-description {
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .fare-duration {
@@ -98,9 +98,19 @@
 .adult-fares-tab {
   padding: .5rem;
 }
-
 .fare-callout-box {
+  background-color: $gray-lightest;
+  padding: .5rem;
+
+  &:empty {
+    display: none;
+  }
 }
+
+.fare-travel-routes {
+  margin-bottom: 1rem;
+}
+
 
 .fares-google-play {
   display: inline-block;

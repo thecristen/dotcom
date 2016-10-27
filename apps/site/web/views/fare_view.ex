@@ -35,7 +35,10 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   end
   def callout(%Fare{}), do: ""
 
-  def callout_description, do: "Travels on routes: "
+  def callout_description(%Fare{name: name}) when name == :outer_express_bus or name == :inner_express_bus do
+    "Travels on routes: "
+  end
+  def callout_description(%Fare{}), do: ""
 
   @spec vending_machine_stations :: [Phoenix.Safe.t]
   def vending_machine_stations do
