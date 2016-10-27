@@ -27,15 +27,17 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
 
   @spec callout(Fare.t) :: String.t | iolist
   def callout(%Fare{name: :inner_express_bus}) do
-    ["Travels on Routes: 170, 325, 326, 351, 424, 426, 428, 434, 449, 450, 459, 501, 502, 504, ",
+    ["170, 325, 326, 351, 424, 426, 428, 434, 449, 450, 459, 501, 502, 504, ",
      "553, 554 and 558."]
   end
   def callout(%Fare{name: :outer_express_bus}) do
-    "Travels on routes: 352, 354, and 505."
+    "352, 354, and 505."
   end
   def callout(%Fare{}), do: ""
 
-  @spec vending_machine_stations :: [Phoenix.HTML.Safe.t]
+  def callout_description, do: "Travels on routes: "
+
+  @spec vending_machine_stations :: [Phoenix.Safe.t]
   def vending_machine_stations do
     Stations.Repo.all
     |> Enum.filter(fn station -> station.has_fare_machine end)

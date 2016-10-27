@@ -48,7 +48,6 @@
 }
 
 .fare-price {
-  background-color: $gray-lightest;
   display: inline-block;
   float: right;
   margin-top: -.5rem;
@@ -91,17 +90,16 @@
   position: relative;
 }
 
+.fare-mode-row {
+  padding: .5rem;
+  background-color: $gray-lightest;
+}
+
 .adult-fares-tab {
   padding: .5rem;
 }
 
 .fare-callout-box {
-  background-color: $gray-lightest;
-  padding: .5rem;
-
-  &:empty {
-    display: none;
-  }
 }
 
 .fares-google-play {
