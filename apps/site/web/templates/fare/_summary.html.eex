@@ -8,11 +8,11 @@
         <div class="col-xs-12 col-md-6 fares-box-column">
           <h3>
             <%= summary.name %>
-            <div class="fares-mode-icon">
+            <span class="fares-mode-icon">
               <%= for mode <- summary.modes do %>
                 <span class="fares-mode-icon-group"><%= mode_icon(mode) %></span>
               <% end %>
-            </div>
+            </span>
           </h3>
           <table>
             <%= for {fare, price} <- summary.fares do %>

@@ -75,35 +75,35 @@ defmodule Site.ViewHelpers do
 
   @doc "HTML for an icon representing the mode of %Routes.Route."
   @spec mode_icon(Routes.Route.t | Routes.Route.route_type | :access) :: Phoenix.HTML.Safe.t
-  def mode_icon(%Routes.Route{type: 0, id: "Mattapan"}), do: do_mode_icon("mattapan", "subway")
-  def mode_icon(%Routes.Route{type: 0}), do: do_mode_icon("green", "subway")
+  def mode_icon(%Routes.Route{type: 0, id: "Mattapan"}), do: do_mode_icon("mattapan", "subway", :subway)
+  def mode_icon(%Routes.Route{type: 0}), do: do_mode_icon("green", "subway", :subway)
   def mode_icon(%Routes.Route{type: 1, id: id}) do
-    do_mode_icon(String.downcase(id), "subway")
+    do_mode_icon(String.downcase(id), "subway", :subway)
   end
-  def mode_icon(%Routes.Route{type: 1}), do: do_mode_icon("subway")
-  def mode_icon(%Routes.Route{type: 2}), do: do_mode_icon("commuter")
-  def mode_icon(%Routes.Route{type: 3}), do: do_mode_icon("bus")
-  def mode_icon(%Routes.Route{type: 4}), do: do_mode_icon("ferry")
+  def mode_icon(%Routes.Route{type: 1}), do: do_mode_icon("subway", "subway", :subway)
+  def mode_icon(%Routes.Route{type: 2}), do: do_mode_icon("commuter", "commuter", :commuter)
+  def mode_icon(%Routes.Route{type: 3}), do: do_mode_icon("bus", "bus", :bus)
+  def mode_icon(%Routes.Route{type: 4}), do: do_mode_icon("ferry", "ferry", :ferry)
+  def mode_icon(:the_ride), do: do_mode_icon("the-ride", "the-ride", :the_ride)
   def mode_icon(atom) when is_atom(atom) do
-    atom
-    |> Atom.to_string
-    |> do_mode_icon
+    string = Atom.to_string(atom)
+    do_mode_icon(string, string, atom)
   end
 
-  defp do_mode_icon(name, svg_name \\ nil) do
-    svg_name = svg_name || name
-    content_tag :span, title: mode_name(String.to_existing_atom(svg_name)), class: "route-icon route-icon-#{name}" do
+  defp do_mode_icon(name, svg_name, mode_type) do
+    content_tag :span, title: mode_name(mode_type), class: "route-icon route-icon-#{name}" do
       svg("#{svg_name}.svg")
     end
   end
 
   @doc "Textual version of a mode ID or type"
-  @spec mode_name(0..4 | Routes.Route.route_type) :: String.t
+  @spec mode_name(0..4 | Routes.Route.route_type | :access) :: String.t
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"
   def mode_name(type) when type in [2, :commuter], do: "Commuter Rail"
   def mode_name(type) when type in [3, :bus], do: "Bus"
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
   def mode_name(:access), do: "Access"
+  def mode_name(:the_ride), do: "The Ride"
 
   @doc "Prefix route name with route for bus lines"
   def route_header_text(%{type: 3, name: name}), do: ["Route ", name]

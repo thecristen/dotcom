@@ -33,7 +33,39 @@
     <% end %></p>
     <h2>The RIDE</h2>
     <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
-    <p></p>
+    <p>
+      <div class="row">
+        <span class="fares-tab fares-tab-selected">The RIDE Fares</span>
+      </div>
+      <div class="row fares-box">
+        <%= for fare <- @the_ride do %>
+          <div class="col-xs-12-col-md-6 fares-box-column">
+            <table>
+              <tr>
+                <td>
+                  <h3>
+                    <%= Fares.Format.full_name(fare) %>
+                    <span class="fares-mode-icon">
+                      <span class="fares-mode-icon-group">
+                        <%= mode_icon(fare.mode) %>
+                      </span>
+                    </span>
+                  </h3>
+                </td>
+                <td>
+                  <%= Fares.Format.price(fare) %>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <%= description(fare) %>
+                </td>
+              </tr>
+            </table>
+          </div>
+        <% end %>
+      </div>
+    </p>
     <h2>The CharlieCard</h2>
     <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare. </p>
     <p><%= link to: fare_path(@conn, :show, :charlie_card) do %>

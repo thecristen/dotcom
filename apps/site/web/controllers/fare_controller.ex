@@ -12,12 +12,14 @@ defmodule Site.FareController do
                      [mode: :commuter, duration: :month, reduced: nil]]
   @ferry_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
                   [mode: :ferry, duration: :month, reduced: nil]]
+  @the_ride_filters [[mode: :the_ride]]
 
   def index(conn, _params) do
     render conn, "index.html", [
       bus_subway: @bus_subway_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_bus,
       commuter: @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_commuter,
-      ferry: @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_ferry
+      ferry: @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_ferry,
+      the_ride: @the_ride_filters |> Enum.flat_map(&Fares.Repo.all/1)
     ]
   end
 
