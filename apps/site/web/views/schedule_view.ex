@@ -139,6 +139,10 @@ defmodule Site.ScheduleView do
     end)
   end
 
+  def schedule_display_initial do
+    @schedule_display_initial
+  end
+
   def schedule_display_limit do
     @schedule_display_initial + @schedule_display_buffer
   end
