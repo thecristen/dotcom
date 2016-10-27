@@ -1,21 +1,20 @@
 <% base_fare = List.first(@fares) %>
 <div class="fares-box-column col-xs-12 col-md-6">
-  <div class="fares-mode-icon">
-    <%= for {mode, index} <- [base_fare.mode | base_fare.additional_valid_modes] |> Enum.with_index do %>
-      <span class="fares-mode-icon-group" style="z-index: <%= 10 - index %>;"><%= mode_icon(mode) %></span>
-    <% end %>
-    <span class="fare-duration"><%= fare_duration_summary(base_fare.duration) %></span>
-  </div>
-  <div class="fares-ticket-type">
-    <h3 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h3>
+  <div>
+    <h2 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h2>
     <%# fare callout is one line so that it can collapse when empty %>
     <div class="fare-callout-box m-b-1"><%= callout(base_fare) %></div>
     <%= for fare <- @fares do %>
       <p>
         <strong><%= Fares.Format.media(fare) %></strong>
         <span class="fare-price"><%= Fares.Format.price(fare) %></span>
-        <div><%= description(fare) %></div>
+        <div class="fares-ticket-description"><%= description(fare) %></div>
       </p>
+    <% end %>
+  </div>
+  <div class="fares-mode-icon">
+    <%= for mode <- [base_fare.mode | base_fare.additional_valid_modes] do %>
+      <span class="fares-mode-icon-group"><%= mode_icon(mode) %></span>
     <% end %>
   </div>
 </div>

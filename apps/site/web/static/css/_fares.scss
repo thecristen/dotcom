@@ -25,7 +25,7 @@
 
 .fares-box {
   border: solid 3px $brand-primary;
-  padding: .75rem;
+  padding: .0625rem .375rem;
 
   @include media-breakpoint-up(md) {
     .row > .fares-box-column:first-child {
@@ -44,7 +44,7 @@
 
 .fare-name {
   display: inline-block;
-  padding: .5rem 0;
+  padding-bottom: .5rem;
 }
 
 .fare-price {
@@ -56,7 +56,7 @@
 }
 
 .fares-box-column {
-  padding: .5rem;
+  padding: 1.375rem;
 
   @include media-breakpoint-down(sm) {
     border-top: 1px solid $gray-lightest;
@@ -68,17 +68,17 @@
 }
 
 .fares-mode-icon {
-  padding: 1rem;
-  text-align: center;
   width: 100%;
 
   .route-icon {
+    @include route-icon(1.5rem);
     float: none;
+    margin-right: .5rem;
   }
 }
 
-.fares-ticket-type {
-  padding: .5rem .25rem;
+.fares-ticket-description {
+  margin-top: 1.5rem;
 }
 
 .fare-duration {
@@ -88,7 +88,6 @@
 }
 
 .fares-mode-icon-group {
-  margin-left: -30px;
   position: relative;
 }
 
