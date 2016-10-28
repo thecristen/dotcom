@@ -92,7 +92,7 @@ defmodule Site.ViewHelpers do
 
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name
-    content_tag :span, class: "route-icon route-icon-#{name}" do
+    content_tag :span, title: mode_name(String.to_existing_atom(svg_name)), class: "route-icon route-icon-#{name}" do
       svg("#{svg_name}.svg")
     end
   end
@@ -103,6 +103,7 @@ defmodule Site.ViewHelpers do
   def mode_name(type) when type in [2, :commuter], do: "Commuter Rail"
   def mode_name(type) when type in [3, :bus], do: "Bus"
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
+  def mode_name(:access), do: "Access"
 
   @doc "Prefix route name with route for bus lines"
   def route_header_text(%{type: 3, name: name}), do: ["Route ", name]
