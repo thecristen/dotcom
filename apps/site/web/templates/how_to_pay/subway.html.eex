@@ -32,16 +32,16 @@
     </ul>
   </div>
   <div class="row">
-    <div class="col-sm-6">
+    <figure class="col-sm-6">
       <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/HAF24.jpg"
         alt="Fare entry Gate" class="how-to-pay-image how-to-pay-image-oversize" width="100%">
-      <div class="how-to-pay-image-caption">Fare entry gate</div>
-    </div>
-    <div class="col-sm-6">
+      <figcaption class="how-to-pay-image-caption">Fare entry gate</figcaption>
+    </figure>
+    <figure class="col-sm-6">
       <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/Farebox3.JPG"
         alt="On-board fare box" class="how-to-pay-image how-to-pay-image-oversize">
-      <div class="how-to-pay-image-caption">On-board fare box</div>
-    </div>
+      <figcaption class="how-to-pay-image-caption">On-board fare box</figcaption>
+    </figure>
   </div>
   <div class="row">
     <h3>Fare Entry Gates</h3>

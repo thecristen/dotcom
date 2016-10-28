@@ -53,10 +53,10 @@
           <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
         </ol>
       </div>
-      <div class="col-md-6">
+      <figure class="col-md-6">
         <img class="how-to-pay-image" src="<%= static_url(@conn, "/images/mticket_screenshot.png") %>" alt="Activated mTicket">
-        <div class="how-to-pay-image-caption">Activated mTicket</div>
-      </div>
+        <figcaption class="how-to-pay-image-caption">Activated mTicket</figcaption>
+      </figure>
     </div>
     <div class="row">
       <div class="col-md-6">

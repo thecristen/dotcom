@@ -49,11 +49,11 @@
         <li><div>The fare box will beep once to inform you that you have paid the right amount.</div></li>
       </ol>
     </div>
-    <div class="col-md-6">
+    <figure class="col-md-6">
       <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/Farebox3.JPG"
         alt="On-board fare box">
-      <div class="how-to-pay-image-caption">On-board fare box</div>
-    </div>
+      <figcaption class="how-to-pay-image-caption">On-board fare box</figcaption>
+    </figure>
   </div>
   <div class="row">
     <div class="col-md-6 p-x-0">
