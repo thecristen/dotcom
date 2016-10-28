@@ -69,7 +69,7 @@ defmodule Site.ViewHelpersTest do
 
   describe "mode_icon/1" do
     test "correctly finds the icon for the ride" do
-      expected = content_tag :span, class: "route-icon route-icon-the-ride" do
+      expected = content_tag :span, title: "The Ride", class: "route-icon route-icon-the-ride" do
         svg("the-ride.svg")
       end
       assert mode_icon(:the_ride) == expected
