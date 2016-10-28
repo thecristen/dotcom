@@ -250,3 +250,37 @@ a {
 .fare-summary-price {
   float: right;
 }
+
+.payment-method {
+  margin-bottom: .5rem;
+
+  h2 {
+    margin: .5rem 0;
+  }
+
+  img {
+    @include media-breakpoint-down(sm) {
+      height: 214px;
+      width: 296px;
+    }
+
+    @include media-breakpoint-up(md) {
+      height: 321px;
+      width: 443px;
+    }
+  }
+
+  .payment-usage {
+    border-bottom: 1px solid $gray-lightest;
+    padding-bottom: .5rem;
+  }
+
+  .payment-method-modes {
+    margin-left: .5rem;
+
+    .route-icon {
+      @include route-icon(1.5rem);
+      margin-right: .25rem;
+    }
+  }
+}

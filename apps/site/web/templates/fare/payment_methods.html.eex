@@ -1,0 +1,75 @@
+<div class="card card-section">
+  <div class="card-block card-block-no-header">
+    <div class="m-b-1">
+      <h1>Payment Methods</h1>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-md-6 payment-method">
+        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
+        <h2>CharlieCard</h2>
+        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= mode_icon(:subway) %> <%= mode_icon(:bus) %></span></p>
+        <p>
+          The CharlieCard is a reusable, durable card that can be used for the Bus and Subway. In order to use it to pay your fare, you will need to get a blank CharlieCard from an MBTA agent or a retail sales location and load value onto it.
+        </p>
+        <p>
+          <%= link to: fare_path(@conn, :show, "charlie_card") do %>
+            Learn more about the CharlieCard <%= fa "angle-right" %>
+          <% end %>
+        </p>
+      </div>
+      <div class="col-xs-12 col-md-6 payment-method">
+        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
+        <h2>CharlieTicket</h2>
+        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= mode_icon(:subway) %> <%= mode_icon(:bus) %></span></p>
+        <p>
+          CharlieTickets are paper tickets that are dispensed from fare vending machines and on-board fare-boxes, where you can also add value to a CharlieTicket. These tickets come with a surcharge if you are purchasing Stored Value.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-md-6 payment-method">
+        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
+        <h2>mTicket App</h2>
+        <p class="payment-usage">
+          Use it on:
+          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter) %> <%= mode_icon(:ferry) %></span>
+        </p>
+        <p>
+          Commuter Rail and Ferry riders can easily purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
+        </p>
+      </div>
+      <div class="col-xs-12 col-md-6 payment-method">
+        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
+        <h2>Ticket</h2>
+        <p class="payment-usage">
+          Use it on:
+          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter) %> <%= mode_icon(:ferry) %></span>
+        </p>
+        <p>
+          Commuter Rail and Ferry riders can purchase tickets for One-Way, Round Trip, and Monthly Passes. These tickets are only valid for the Commuter Rail fare zone or Ferry route they were purchased for. They cannot store additional value.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-md-6 payment-method">
+        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
+        <h2>Cash On-Board</h2>
+        <p class="payment-usage">
+          Use it on: All Modes
+          <span class="payment-method-modes">
+            <%= mode_icon(:subway) %>
+            <%= mode_icon(:bus) %>
+            <%= mode_icon(:commuter) %>
+            <%= mode_icon(:ferry) %>
+          </span>
+        </p>
+        <p>
+          Each mode accepts cash on-board, however certain restrictions apply such as limited transfers on Bus and Subway and surcharges on the Commuter Rail.
+        </p>
+        <p class="fare-callout-box">
+          <strong>Note:</strong> When using the Subway, cash is only accepted on-board at above-ground stops on the Green Line.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

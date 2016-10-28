@@ -5,7 +5,8 @@ defmodule Site.FareController do
 
   @static_page_titles %{
     "reduced" => "Reduced Fare Eligibility",
-    "charlie_card" => "The CharlieCard"
+    "charlie_card" => "The CharlieCard",
+    "payment_methods" => "Payment Methods"
   }
   @static_pages Map.keys(@static_page_titles)
   @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
