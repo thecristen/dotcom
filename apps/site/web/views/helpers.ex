@@ -92,7 +92,7 @@ defmodule Site.ViewHelpers do
 
   defp do_mode_icon(name, svg_name \\ nil) do
     svg_name = svg_name || name
-    content_tag :span, title: mode_name(String.to_atom(svg_name)), class: "route-icon route-icon-#{name}" do
+    content_tag :span, title: mode_name(String.to_existing_atom(svg_name)), class: "route-icon route-icon-#{name}" do
       svg("#{svg_name}.svg")
     end
   end
