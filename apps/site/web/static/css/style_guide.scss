@@ -116,6 +116,26 @@ $padding: 1rem;
     }
   }
 
+  .logo {
+    img {
+      max-width: 300px;
+    }
+
+    .logo-color,
+    .logo-background {
+      display: inline-block;
+      width: 45%;
+    }
+
+    h2 {
+      margin-top: 3rem;
+    }
+  }
+
+  .logo-secondary img {
+    height: 100px;
+  }
+
   nav li {
     @include media-breakpoint-down(sm) {
       padding: $padding / 2 $padding;

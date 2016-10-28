@@ -1,0 +1,44 @@
+<div class="logo">
+  <h1>Logo</h1>
+  <div class="logo-primary">
+    <h2>Primary Logo</h2>
+    <p>This is the primary logo to be used for the Massachusetts Bay Transportation Authority (MBTA).</p>
+    <p><img src="<%= static_url(@conn, "/images/mbta-logo.png") %>" /></p>
+  </div>
+
+  <div class="logo-secondary">
+    <h2>Secondary Logo</h2>
+    <p><img src="<%= static_url(@conn, "/images/mbta-logo-t.png") %>" /></p>
+    <p>The circled T is the secondary logo for the MBTA. This may be used as an icon when there is limited space. Otherwise only use this in sections where the user is aware of the MBTA brand.</p>
+  </div>
+
+  <div class="logo-donts">
+    <h2>Dont's</h2>
+
+    <div class="logo-color">
+      <p>Don't change the colors used in the logo.</p>
+      <p><img src="<%= static_url(@conn, "/images/mbta-logo-dont-change-color.png")%>" /></p>
+    </div>
+
+    <div class="logo-background">
+      <p>Don't change the background color in either logo.</p>
+      <p><img src="<%= static_url(@conn, "/images/mbta-logo-dont-change-background-color.png")%>" /></p>
+    </div>
+
+    <div id="logo-move-icon">
+      <p>Don't alter the primary logo by moving the T icon around.</p>
+      <div>
+        <img src="<%= static_url(@conn, "/images/mbta-logo-dont-alter.png")%>" />
+        <img src="<%= static_url(@conn, "/images/mbta-logo-dont-alter-02.png")%>" />
+      </div>
+    </div>
+  </div>
+
+  <div class="logo-favicon">
+    <h2>Favicon</h2>
+    <p><img src="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png")%>" /></p>
+    <p>
+      Favicon to be used in supported browsers.
+    </p>
+  </div>
+</div>

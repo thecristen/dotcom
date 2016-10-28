@@ -2,6 +2,22 @@ defmodule Site.StyleGuideControllerTest do
   use Site.Components.Register
   use Site.ConnCase, async: true
 
+  test "all known pages render", %{conn: conn} do
+    for {section_name, subpages} <- Site.StyleGuideController.known_pages do
+      conn = get conn, "style_guide/#{section_name}"
+      valid = case conn.status do
+        200 -> true
+        302 -> true
+        _ -> false
+      end
+      assert valid == true
+      for subpage <- subpages do
+        conn = get conn, "style_guide/#{section_name}/#{subpage}"
+        assert html_response(conn, 200)
+      end
+    end
+  end
+
   test "`use Site.Components.Register` registers a list of component groups which each have a list of components" do
     @components
     |> Enum.each(fn {group, components} ->
