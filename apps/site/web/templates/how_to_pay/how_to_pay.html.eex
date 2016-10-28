@@ -2,7 +2,7 @@
   <div class="card-block row">
     <div class="col-xs-12">
       <h1>How to Pay</h1>
-      <nav class="collapse <%= if @mode == nil do %>in<% end %> navbar-toggleable-xs m-y-1" id="modes" role="navigation">
+      <nav class="collapse navbar-toggleable-xs m-y-1" id="modes" role="navigation">
         <div class="btn-group show-btn-group">
           <%= for mode <- [:subway, :bus, :commuter, :ferry, :the_ride] do %>
             <% selected_class = case @mode do
