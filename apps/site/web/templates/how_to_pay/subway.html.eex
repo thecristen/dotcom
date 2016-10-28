@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row how-to-pay-step">
+  <div class="row">
     <h2>Step 1: Purchase a Ticket or Pass</h2>
     <div>Fares for the Subway can be purchased in the following ways:</div>
   </div>
@@ -20,7 +20,7 @@
       <% end %>
     </div>
   </div>
-  <div class="row how-to-pay-step">
+  <div class="row">
     <h2>Step 2: Pay Your Fare</h2>
     <p>The type of Subway stop you are boarding at determines how the fare will be paid. Most Subway stops have fare entry gates that must be passed through before entering onto the platform.</p>
     <p>The Green line has some above-ground stops where riders pay at a fare box upon boarding the train.</p>

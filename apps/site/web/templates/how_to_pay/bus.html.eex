@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row how-to-pay-step">
+  <div class="row">
     <div class="col-xs-12">
       <h2>Step 1: Purchase a Ticket or Pass</h2>
       <div>Fares for the bus can be purchased in the following ways:</div>
@@ -25,7 +25,7 @@
 
     </div>
   </div>
-  <div class="row how-to-pay-step">
+  <div class="row">
     <div class="col-xs-12">
       <h2>Step 2: Pay Your Fare</h2>
       <div>
