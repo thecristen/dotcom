@@ -4,7 +4,7 @@
     <h2 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h2>
     <%# fare callout is one line so that it can collapse when empty %>
     <% callout_description = callout_description(base_fare) %>
-    <%= if String.length(callout_description) != 0 do %>
+    <%= if callout_description != "" do %>
       <div class="fare-travel-routes">
           <strong><%= callout_description %></strong>
           <%= callout(base_fare) %>
