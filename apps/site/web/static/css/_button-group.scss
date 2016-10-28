@@ -15,8 +15,8 @@
   }
 
   .btn {
-    border-color: $gray-lightest;
     padding: $space-12;
+    border-color: $gray-lightest;
     position: relative;
   }
 
@@ -28,9 +28,6 @@
     width: 100%;
   }
 
-  .btn-selected-bottom {
-    @include btn-selected-bottom-mode($brand-primary);
-  }
 
   .btn-selected-bottom-access {
     @include btn-selected-bottom-mode($brand-primary);
@@ -55,6 +52,10 @@
   .btn-selected-bottom-the-ride {
     @include btn-selected-bottom-mode($brand-the-ride);
   }
+}
+
+.btn-selected-bottom {
+  @include btn-selected-bottom-mode($brand-primary);
 }
 
 .show-btn {
