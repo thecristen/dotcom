@@ -11,7 +11,8 @@
             <span class="fares-mode-icon">
               <span class="sr-only">Supported Modes:</span>
               <%= for mode <- summary.modes do %>
-                <span class="fares-mode-icon-group"><%= mode_icon(mode) %></span>
+                <span class="fares-mode-icon-group" aria-hidden="true"><%= mode_icon(mode) %></span>
+                <span class="sr-only"><%= mode_name(mode) %></span>
               <% end %>
             </span>
           </h3>
