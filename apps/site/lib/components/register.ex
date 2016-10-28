@@ -1,4 +1,5 @@
 defmodule Site.Components.Register do
+  import Site.Components.Helpers
   @moduledoc """
     Registers an @components attribute on a controller.
     Only used by style_guide_controller at the moment -- perhaps doesn't need to be its own module...
@@ -10,34 +11,33 @@ defmodule Site.Components.Register do
       import Site.Components.Helpers
       Module.register_attribute(__MODULE__, :components, persist: true)
 
-      @components get_components
+      @components unquote(build_component_list)
     end
   end
 
   @doc """
     Finds all folders within apps/site/lib/components, and returns a tuple {:section, [:component...]} for each
   """
-  defmacro get_components do
-    quote do
-      components_folder_path
-      |> File.ls!
-      |> Enum.filter(&(File.dir?(Path.join(components_folder_path, &1))))
-      |> Enum.map(&({String.to_atom(&1), list_component_names(&1)}))
-    end
+  @spec build_component_list :: [{atom, [atom]}]
+  def build_component_list do
+    components_folder_path
+    |> File.ls!
+    |> Enum.filter(&(File.dir?(Path.join(components_folder_path, &1))))
+    |> Enum.map(&({String.to_atom(&1), list_component_names(&1)}))
   end
 
   @doc """
     Finds all folders within a section folder, and returns each folder's name as an atom
   """
-  defmacro list_component_names(section) do
-    quote do
-      path = Path.join(components_folder_path, unquote(section))
+  @spec list_component_names(String.t) :: [atom]
+  def list_component_names(section) do
+    # path var needs to be defined here because it's used again in Enum.filter
+    path = Path.join(components_folder_path, section)
 
-      path
-      |> File.ls!
-      |> Enum.filter(&(File.dir?(path <> "/" <> &1)))
-      |> Enum.map(&(String.to_atom(&1)))
-    end
+    path
+    |> File.ls!
+    |> Enum.filter(&(File.dir?(Path.join(path, &1))))
+    |> Enum.map(&(String.to_atom(&1)))
   end
 
 end
