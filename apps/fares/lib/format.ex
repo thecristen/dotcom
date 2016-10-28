@@ -13,6 +13,7 @@ defmodule Fares.Format do
   @doc "Formats the fare media (card, &c) as a string"
   @spec media(Fare.t | [Fare.media] | Fare.media) :: String.t
   def media(%Fare{media: list}), do: media(list)
+  def media([:charlie_card, :charlie_ticket]), do: "CharlieCard or Ticket"
   def media(list) when is_list(list) do
     list
     |> Enum.map(&media/1)

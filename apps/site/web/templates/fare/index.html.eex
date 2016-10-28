@@ -39,29 +39,23 @@
       </div>
       <div class="row fares-box">
         <%= for fare <- @the_ride do %>
-          <div class="col-xs-12-col-md-6 fares-box-column">
-            <table>
-              <tr>
-                <td>
-                  <h3>
-                    <%= Fares.Format.full_name(fare) %>
-                    <span class="fares-mode-icon">
-                      <span class="fares-mode-icon-group">
-                        <%= mode_icon(fare.mode) %>
-                      </span>
-                    </span>
-                  </h3>
-                </td>
-                <td>
-                  <%= Fares.Format.price(fare) %>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  <%= description(fare) %>
-                </td>
-              </tr>
-            </table>
+          <div class="fares-box-column">
+            <div>
+              <h3 class="fare-summary-header">
+                <%= Fares.Format.full_name(fare) %>
+                <span class="fares-mode-icon">
+                  <span class="fares-mode-icon-group">
+                    <%= mode_icon(fare.mode) %>
+                  </span>
+                </span>
+              </h3>
+              <span class="fare-summary-price">
+                <%= Fares.Format.price(fare) %>
+              </span>
+            </div>
+            <div>
+              <%= description(fare) %>
+            </div>
           </div>
         <% end %>
       </div>

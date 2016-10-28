@@ -17,6 +17,14 @@
   background-color: $brand-primary;
   color: $white;
 
+  @include media-breakpoint-down(xs) {
+    &:only-child {
+      display: block;
+    }
+  }
+}
+
+a.fares-tab-selected {
   @include hover-focus-active {
     color: $white;
     text-decoration: underline;
@@ -24,14 +32,8 @@
 }
 
 .fares-box {
-  border: solid 3px $brand-primary;
+  border: solid .375rem $brand-primary;
   padding: .0625rem .375rem;
-
-  @include media-breakpoint-up(md) {
-    .row > .fares-box-column:first-child {
-      border-right: 1px solid $gray-lightest;
-    }
-  }
 }
 
 .fares-row {
@@ -55,13 +57,21 @@
 }
 
 .fares-box-column {
-  padding: 1.375rem;
+  @extend .col-xs-12;
+  @extend .col-sm-6;
+  padding: .75rem;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     border-top: 1px solid $gray-lightest;
 
     &:first-child {
       border-top: 0;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    &:first-child {
+      border-right: 1px solid $gray-lightest;
     }
   }
 }
@@ -73,6 +83,10 @@
     @include route-icon(1.5rem);
     float: none;
     margin-right: .5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 
@@ -84,10 +98,6 @@
   color: $gray-light;
   font-size: 18px;
   line-height: 1.5;
-}
-
-.fares-mode-icon-group {
-  position: relative;
 }
 
 .fare-mode-row {
@@ -219,4 +229,16 @@
     padding-left: 1.5em;
     padding-right: .375em;
   }
+}
+
+.fare-summary-header {
+  display: inline-block;
+}
+
+.fare-summary-row {
+  margin-bottom: $space-6;
+}
+
+.fare-summary-price {
+  float: right;
 }

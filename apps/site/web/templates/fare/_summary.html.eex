@@ -5,8 +5,8 @@
   <%= for chunk <- @summary |> Enum.chunk(2, 2, []) do %>
     <div class="row fares-row">
       <%= for summary <- chunk do %>
-        <div class="col-xs-12 col-md-6 fares-box-column">
-          <h3>
+        <div class="fares-box-column">
+          <h3 class="fare-summary-header">
             <%= summary.name %>
             <span class="fares-mode-icon">
               <%= for mode <- summary.modes do %>
@@ -14,14 +14,12 @@
               <% end %>
             </span>
           </h3>
-          <table>
             <%= for {fare, price} <- summary.fares do %>
-              <tr>
-                <td><%= fare %></td>
-                <td><%= price %></td>
-              </tr>
+              <div class="fare-summary-row">
+                <span class="fare-summary-name"><%= fare %></span>
+                <span class="fare-summary-price"><%= price %></span>
+              </div>
             <% end %>
-          </table>
         </div>
       <% end %>
     </div>
