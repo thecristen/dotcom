@@ -37,7 +37,9 @@ defmodule Site.Router do
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
     resources "/fares", FareController, only: [:index, :show]
+    resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
   end
+
 
   scope "/_flags", Laboratory do
     forward "/", Router

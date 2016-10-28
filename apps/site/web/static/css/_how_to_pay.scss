@@ -1,0 +1,80 @@
+.how-to-pay-steps {
+  list-style-type: none;
+  margin-left: 0;
+  padding-right: 0;
+
+  li {
+    counter-increment: step-counter;
+    margin-top: -1rem;
+
+    &::before {
+      background-color: $brand-primary-dark;
+      border-radius: 12px;
+      color: $white;
+      content: counter(step-counter);
+      font-size: 80%;
+      margin-right: 5px;
+      padding: 3px 8px;
+      position: relative;
+      right: 2rem;
+      top: 1.5rem;
+    }
+  }
+}
+
+
+.how-to-pay-callout {
+  border-bottom: solid 1px $gray-lightest;
+  border-top: solid 1px $gray-lightest;
+  margin: .5rem 0;
+  padding: .5rem 0;
+}
+
+.how-to-pay-callout-top {
+  border-bottom: solid 1px $gray-lightest;
+  margin: .5rem 0;
+  padding: .5rem 0;
+}
+
+.how-to-pay-callout-bottom {
+  border-top: solid 1px $gray-lightest;
+  margin: .5rem;
+  padding: .5rem 0;
+}
+
+.how-to-pay-block {
+  border: 1px solid $gray-lightest;
+
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+.how-to-pay-block-container {
+  display: inline-block;
+  padding: 0 1em;
+}
+
+.how-to-pay-block-tab {
+  padding: 1em 0;
+}
+
+.how-to-pay-image {
+  display: block;
+  margin: 0 auto;
+}
+
+.how-to-pay-image-oversize {
+  width: 100%;
+}
+
+.how-to-pay-image-caption {
+  text-align: center;
+  width: 100%;
+}
+
+.how-to-pay-ferry-box {
+  @include media-breakpoint-up(sm) {
+    border-left: 1px solid $gray-lightest;
+  }
+}

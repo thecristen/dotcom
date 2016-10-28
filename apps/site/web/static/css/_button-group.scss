@@ -15,18 +15,47 @@
   }
 
   .btn {
-    border-color: $gray-lightest;
     padding: $space-12;
+    border-color: $gray-lightest;
     position: relative;
   }
 
-  .btn-selected-bottom {
-    border-bottom: $space-6 solid $brand-primary;
+  @mixin btn-selected-bottom-mode($color) {
+    border-bottom: $space-6 solid $color;
     bottom: 0;
     left: 0;
     position: absolute;
     width: 100%;
   }
+
+
+  .btn-selected-bottom-access {
+    @include btn-selected-bottom-mode($brand-primary);
+  }
+
+  .btn-selected-bottom-bus {
+    @include btn-selected-bottom-mode($brand-secondary);
+  }
+
+  .btn-selected-bottom-subway {
+    @include btn-selected-bottom-mode($gray-light);
+  }
+
+  .btn-selected-bottom-commuter {
+    @include btn-selected-bottom-mode($brand-commuter);
+  }
+
+  .btn-selected-bottom-ferry {
+    @include btn-selected-bottom-mode($brand-primary-light);
+  }
+
+  .btn-selected-bottom-the-ride {
+    @include btn-selected-bottom-mode($brand-the-ride);
+  }
+}
+
+.btn-selected-bottom {
+  @include btn-selected-bottom-mode($brand-primary);
 }
 
 .show-btn {
