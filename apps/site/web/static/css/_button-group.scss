@@ -20,60 +20,40 @@
     position: relative;
   }
 
-  .btn-selected-bottom {
-    border-bottom: $space-6 solid $brand-primary;
+  @mixin btn-selected-bottom-mode($color) {
+    border-bottom: $space-6 solid $color;
     bottom: 0;
     left: 0;
     position: absolute;
     width: 100%;
+  }
+
+  .btn-selected-bottom {
+    @include btn-selected-bottom-mode($brand-primary);
   }
 
   .btn-selected-bottom-access {
-    border-bottom: $space-6 solid $brand-primary;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
+    @include btn-selected-bottom-mode($brand-primary);
   }
 
   .btn-selected-bottom-bus {
-    border-bottom: $space-6 solid $brand-secondary;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
+    @include btn-selected-bottom-mode($brand-secondary);
   }
 
   .btn-selected-bottom-subway {
-    border-bottom: $space-6 solid $gray-light;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
+    @include btn-selected-bottom-mode($gray-light);
   }
 
   .btn-selected-bottom-commuter {
-    border-bottom: $space-6 solid $brand-commuter;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
+    @include btn-selected-bottom-mode($brand-commuter);
   }
 
   .btn-selected-bottom-ferry {
-    border-bottom: $space-6 solid $brand-primary-light;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
+    @include btn-selected-bottom-mode($brand-primary-light);
   }
 
   .btn-selected-bottom-the-ride {
-    border-bottom: $space-6 solid $brand-the-ride;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
+    @include btn-selected-bottom-mode($brand-the-ride);
   }
 }
 

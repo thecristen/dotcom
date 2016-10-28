@@ -1,9 +1,9 @@
 <div class="card card-section">
   <div class="card-block card-block-no-header">
     <h1>How to Pay</h1>
-    <nav class="collapse navbar-toggleable-xs m-y-1" id="modes" role="navigation">
+    <nav class="collapse <%= if @mode == nil do %>in<% end %> navbar-toggleable-xs m-y-1" id="modes" role="navigation">
       <div class="btn-group show-btn-group">
-        <%= for mode <- [:bus, :commuter, :subway, :ferry, :the_ride] do %>
+        <%= for mode <- [:subway, :bus, :commuter, :ferry, :the_ride] do %>
           <% selected_class = case @mode do
               ^mode -> "show-btn-selected"
               _ -> ""
@@ -23,9 +23,7 @@
       <%= mode_title(@mode) %>
       <%= fa "angle-down" %>
     </a>
-  <div class="clearfix"></div>
-    <%= if @mode != nil do %>
-      <%= render mode_template(@mode), conn: @conn %>
-    <% end %>
+    <div class="clearfix"></div>
+    <%= render mode_template(@mode), conn: @conn %>
   </div>
 </div>

@@ -40,12 +40,12 @@ defmodule Site.Router do
   end
 
   scope "/how-to-pay/", Site do
+    pipe_through :browser
+
     get "/", HowToPayController, :index
-    get "/commuter", HowToPayController, :commuter
-    get "/bus", HowToPayController, :bus
-    get "/subway", HowToPayController, :subway
-    get "/ferry", HowToPayController, :ferry
-    get "/the-ride", HowToPayController, :the_ride
+    for mode <- [:commuter, :bus, :subway, :ferry, :the_ride] do
+      get "/#{mode}", HowToPayController, mode
+    end
   end
 
   scope "/_flags", Laboratory do
