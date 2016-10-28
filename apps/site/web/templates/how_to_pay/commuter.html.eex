@@ -85,7 +85,7 @@
   <div class="row">
     <div class="col-md-6 p-l-0">
       <a class="btn btn-primary btn-block" role="button" href="/fares/commuter">
-          Learn more about Commuter Rail Fares <% fa "angle-right" %>
+          Learn more about Commuter Rail Fares <%= fa "angle-right" %>
       </a>
     </div>
   </div>

@@ -102,7 +102,7 @@
   <div class="row m-t-1">
     <div class="col-md-6">
       <a class="btn btn-primary btn-block" role="button" href="/fares/bus_subway">
-          Learn more about Subway Fares <% fa "angle-right" %>
+          Learn more about Subway Fares <%= fa "angle-right" %>
       </a>
     </div>
   </div>

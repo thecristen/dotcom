@@ -56,7 +56,7 @@
   <div class="row m-t-1">
     <div class="col-md-6 p-l-0">
       <a class="btn btn-primary btn-block" role="button" href="/fares/ferry">
-        Learn more about Ferry Fares <% fa "angle-right" %>
+        Learn more about Ferry Fares <%= fa "angle-right" %>
       </a>
     </div>
   </div>
