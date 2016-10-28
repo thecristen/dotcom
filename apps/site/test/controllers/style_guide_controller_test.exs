@@ -29,6 +29,21 @@ defmodule Site.StyleGuideControllerTest do
     |> Enum.each(&(assert %{conn: %{status: 200}} = &1))
   end
 
+  test "/style_guide/content redirects to /style_guide/content/audience_goals_tone", %{conn: conn} do
+    conn = get conn, "style_guide/content"
+    assert html_response(conn, 302) =~ "/style_guide/content/audience_goals_tone"
+  end
+
+  test "/style_guide/components/* has a side navbar", %{conn: conn} do
+    conn = get conn, "/style_guide/components/typography"
+    assert html_response(conn, 200) =~ "subpage-nav"
+  end
+
+  test "/style_guide/content/* has a side navbar", %{conn: conn} do
+    conn = get conn, "/style_guide/content/terms"
+    assert html_response(conn, 200) =~ "subpage-nav"
+  end
+
   ###########################
   # HELPER FUNCTIONS
   ###########################

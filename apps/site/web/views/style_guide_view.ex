@@ -25,6 +25,10 @@ defmodule Site.StyleGuideView do
     apply(__MODULE__, component, [args])
   end
 
+  def page_title(:audience_goals_tone), do: "Audience, Goals, and Tone"
+  def page_title(:grammar_and_mechanics), do: "Grammar and Mechanics"
+  def page_title(atom), do: String.capitalize Atom.to_string(atom)
+
   @spec component_markup(atom, atom) :: String.t
   def component_markup(component, group) when is_atom(component) and is_atom(group) do
     component

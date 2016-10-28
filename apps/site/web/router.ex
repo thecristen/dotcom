@@ -31,7 +31,7 @@ defmodule Site.Router do
     get "/schedules/:route", ScheduleController, :show
     get "/style_guide", StyleGuideController, :index
     get "/style_guide/:section", StyleGuideController, :index
-    get "/style_guide/:section/:component_group", StyleGuideController, :show
+    get "/style_guide/:section/:subpage", StyleGuideController, :show
     resources "/alerts", AlertController, only: [:index, :show]
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks

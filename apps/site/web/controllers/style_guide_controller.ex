@@ -3,9 +3,15 @@ defmodule Site.StyleGuideController do
   use Site.Components.Register
   use Phoenix.HTML
 
-  def index(conn, %{"section" => "content"} = params), do: render_section(conn, params)
-  def index(conn, %{"section" => "principles"} = params), do: render_section(conn, params)
-  def index(conn, %{"section" => "about"} = params), do: render_section(conn, params)
+  @content_sections [:audience_goals_tone, :grammar_and_mechanics, :terms]
+
+  def index(conn, %{"section" => "content"}) do
+    redirect conn, to: "/style_guide/content/audience_goals_tone"
+  end
+  def index(conn, %{"section" => "components"}) do
+    redirect conn, to: "/style_guide/components/typography"
+  end
+  def index(conn, %{"section" => _} = params), do: render_section(conn, params)
 
   def index(conn, params) do
     conn
@@ -19,29 +25,36 @@ defmodule Site.StyleGuideController do
     |> render("#{section}.html")
   end
 
-  def show(conn, %{"component_group" => "colors"} = params) do
+  def show(conn, %{"subpage" => "colors"} = params) do
     conn
     |> assign_styleguide_conn(params)
     |> render("_colors.html")
   end
 
-  def show(conn, %{"component_group" => "typography"} = params) do
+  def show(conn, %{"subpage" => "typography"} = params) do
     conn
     |> assign_styleguide_conn(params)
     |> render("_typography.html")
   end
 
-  def show(conn, %{"component_group" => component_group} = params) do
+  def show(conn, %{"section" => "content", "subpage" => subpage} = params) do
+    conn
+    |> assign_styleguide_conn(params)
+    |> render("_#{subpage}.html")
+  end
+
+  def show(conn, %{"subpage" => component_group} = params) do
     conn
     |> assign_styleguide_conn(params)
     |> assign(:section_components, get_components(component_group))
     |> render("show.html")
   end
 
-  defp assign_styleguide_conn(conn, %{"component_group" => component_group} = params) do
+  defp assign_styleguide_conn(conn, %{"subpage" => subpage} = params) do
     conn
     |> styleguide_conn(params)
-    |> assign(:component_group, String.to_existing_atom(component_group))
+    |> assign_all_subpages(params)
+    |> assign(:subpage, String.to_existing_atom(subpage))
   end
 
   defp assign_styleguide_conn(conn, params) do
@@ -73,5 +86,15 @@ defmodule Site.StyleGuideController do
     @components
     |> Enum.find(&match?({^group_atom, _}, &1))
     |> elem(1)
+  end
+
+  def assign_all_subpages(conn, %{"section" => "components"}) do
+    conn
+    |> assign(:all_subpages, [:typography | [:colors | Keyword.keys(@components)]])
+  end
+
+  def assign_all_subpages(conn, %{"section" => "content"}) do
+    conn
+    |> assign(:all_subpages, @content_sections)
   end
 end

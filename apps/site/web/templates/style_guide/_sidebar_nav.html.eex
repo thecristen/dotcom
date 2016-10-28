@@ -1,12 +1,10 @@
-<% group_param = @conn.params |> Map.get("component_group") %>
-
-<aside class="component-nav col-lg-2 col-sm-12">
+<aside class="subpage-nav col-lg-2 col-sm-12">
   <nav>
-    <ul class="component-nav-list row">
-      <%= for {group, _} <- Enum.concat([{:typography, nil}, {:colors, nil}], @components) do %>
-        <% active = if group_param && String.to_atom(group_param) == group, do: "active", else: "inactive" %>
+    <ul class="subpage-nav-list row">
+      <%= for subpage <- @all_subpages do %>
+        <% active = if @subpage == subpage, do: "active", else: "inactive" %>
         <li class="col-sm-6 col-md-12 <%= active %>">
-          <a href="/style_guide/components/<%= group %>"><%= String.capitalize(to_string(group)) %></a>
+          <a href="/style_guide/<%= @section %>/<%= subpage %>"><%= page_title(subpage) %></a>
         </li>
       <% end %>
     </ul>

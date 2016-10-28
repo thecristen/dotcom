@@ -2,14 +2,14 @@
   <%= for component <- @section_components do %>
   <li class="component">
     <h2 class="h1"><%= component |> Atom.to_string |> String.split("_") |> Enum.map(&String.capitalize/1) |> Enum.join(" ") %></h2>
-    <div><%= render_component(component, @component_group) %></div>
-    <%= if has_variants?(component, @component_group) do %>
+    <div><%= render_component(component, @subpage) %></div>
+    <%= if has_variants?(component, @subpage) do %>
       <p>Variations</p>
       <div class="row component-variants">
-        <%= for {name, args} <- get_variants(component, @component_group) do %>
+        <%= for {name, args} <- get_variants(component, @subpage) do %>
           <div class="component-variant col-sm-12 col-md-6">
             <p><%= name %></p>
-            <div><%= render_component(component, @component_group, args) %></div>
+            <div><%= render_component(component, @subpage, args) %></div>
           </div>
         <% end %>
       </div>
@@ -20,11 +20,11 @@
         <div class="code">
           <code>
             <%= component %>(%{
-              <%= for {{name, val}, idx} <- component_args(component, @component_group) |> Enum.with_index do %>
+              <%= for {{name, val}, idx} <- component_args(component, @subpage) |> Enum.with_index do %>
                 <span><%= name %>:</span>
                 <span>
                   <%= inspect val %>
-                  <%= if needs_comma?(component, @component_group, idx), do: "," %>
+                  <%= if needs_comma?(component, @subpage, idx), do: "," %>
                 </span>
               <% end %>
               })
@@ -34,7 +34,7 @@
       <div class="description col-sm-12 col-md-6">
         <h3>Description</h3>
         <div>
-          <%= component_description(component, @component_group) %>
+          <%= component_description(component, @subpage) %>
         </div>
       </div>
     </div>

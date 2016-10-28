@@ -1,1 +1,17 @@
-<h1>MBTA.com Design Principles</h1>
+<h1>Design Principles for MBTA.com</h1>
+
+<p>On this page we'll be documenting the design principles we follow when designing and building new features for MBTA.com. Content still in development.</p>
+
+<ul class="styleguide-list">
+  <li>
+    <h2>Accessibility</h2>
+    <ul>
+      <li>Font sizes</li>
+      <li>Contrast</li>
+      <li>Designing for screen readers</li>
+    </ul>
+  </li>
+  <li>
+    <h2>Mobile first</h2>
+  </li>
+</ul>

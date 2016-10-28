@@ -63,7 +63,7 @@ $padding: 1rem;
     }
   }
 
-  .component-nav ul {
+  .subpage-nav ul {
     padding: 0 $padding 0 0;
     -webkit-padding-start: 0;
   }
@@ -100,6 +100,22 @@ $padding: 1rem;
     list-style-type: none;
   }
 
+  .content,
+  .principles {
+    ul {
+      padding: 0 2rem;
+    }
+
+    li {
+      list-style-position: outside;
+      list-style-type: disc;
+    }
+
+    > ul {
+      margin-bottom: 1rem;
+    }
+  }
+
   nav li {
     @include media-breakpoint-down(sm) {
       padding: $padding / 2 $padding;
@@ -123,7 +139,7 @@ $padding: 1rem;
   }
 }
 
-.component-nav {
+.subpage-nav {
   li {
     $border: 1px solid $gray-lighter;
 

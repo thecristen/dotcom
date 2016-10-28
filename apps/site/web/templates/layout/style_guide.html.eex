@@ -31,11 +31,10 @@
       </nav>
     </header>
     <main class="main-container row">
-      <%= if @section == :components do %>
-        <%= render(@view_module, "_sidebar_nav.html", assigns) %>
+      <%= if has_styleguide_subpages?(@conn) do %>
+        <%= render @view_module, "_sidebar_nav.html", assigns %>
       <% end %>
-      <% col = if @section == :components, do: "col-md-10", else: "" %>
-      <div class="main-content col-sm-12 <%= col %>">
+      <div class="main-content col-sm-12<%= styleguide_main_content_class(assigns) %> <%= Map.get(@conn.params, "section") %>">
         <%= render @view_module, @view_template, assigns %>
       </div>
     </main>

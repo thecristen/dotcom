@@ -1,0 +1,116 @@
+<h1>Grammar and Mechanics</h1>
+<h2>Acronyms</h2>
+<ul>
+	<li>
+    Spell it out when you first mention it along with the acronym in parentheses
+    <ul>
+      <li>Massachusetts Department of Transportation&nbsp;(MassDOT)</li>
+    </ul>
+  </li>
+	<li>Use only the acronym after the first mention</li>
+</ul>
+
+<h2>Headings</h2>
+<ul>
+	<li>Using &ldquo;and&rdquo; instead of &ldquo;&amp;&rdquo; in category headings</li>
+	<li>Use <a href="http://titlecapitalization.com">Title Case</a></li>
+	<li>Need to Design H1-4 and then decide when we use each</li>
+</ul>
+<p>Links</p>
+<ul>
+	<li>
+    Descriptive links should be used in place of generic links like &ldquo;click here&rdquo; or &ldquo;more&rdquo;.
+    <ul>
+    	<li>I.e. &ldquo;View more articles&rdquo; vs. &ldquo;View more&rdquo;</li>
+    </ul>
+  </li>
+	<li>Links that take you to a &ldquo;view all&rdquo; page should be preceded by double carrots &ldquo;<span class="c0 c15">&raquo;&rdquo; unless the link is in parentheses</li>
+	<li>
+    External link text should be the company you are linking to, not the web address or URL
+    <ul>
+    	<li>DO: go to the <span class="c0 c16"><a href="https://www.google.com/url?q=http://www.massdot.com&amp;sa=D&amp;ust=1477604606741000&amp;usg=AFQjCNEvaO3YX292zr-I39Oyq2r6WPNDFQ">MassDOT</a>&nbsp;website to find out more</li>
+    	<li>DONT: go to <span class="c16 c0"><a href="https://www.google.com/url?q=http://www.massdot.com&amp;sa=D&amp;ust=1477604606742000&amp;usg=AFQjCNGSxO-dd5qMfWusQkgtvoXT-p795w">www.massdot.com</a>&nbsp;to find out more</li>
+    </ul>
+  </li>
+  <li>Links to pdfs should only be provided once in body text. If you want to make sure to highlight the pdf(s) on the page, you can put them all under an H3 header titled &ldquo;Downloadables&rdquo;&nbsp;at the bottom of the content</li>
+</ul>
+<h2>Punctuation</h2>
+<ul>
+	<li>Ampersands&nbsp;- No ampersands (&amp;) unless they&rsquo;re in a proper noun or menu title</li>
+	<li>Apostrophes - Use the apostrophe to make a contraction of a subject and a verb (Example: it is &rarr; it&rsquo;s) or for possessives.</li>
+	<li>
+    Colon - Use colons to introduce a list. Do not capitalize the first letter after the colon unless it starts an independent clause.
+    <ul>
+    	<li>Example: You may bring any of the following: presentations, notes, images.</li>
+    	<li>Example: Attention Passengers: The next train to Ashmont is now arriving.</li>
+    </ul>
+  </li>
+	<li>Em-Dashes -&nbsp;An em-dash (without spaces on either side) indicates an abrupt change in thought, an emphatic pause, or an aside. For subtler pauses, you should use commas.</li>
+	<li>Ellipses - Only use Ellipses within quotes.</li>
+	<li>Exclamation Marks - Refrain from using exclamation marks.</li>
+	<li>Hyphen - Use a hyphen to make two words into one word or phrase.</li>
+	<li>Semicolon - Refrain from using semicolons. Create two separate independent sentences instead.</li>
+</ul>
+<h2>Style</h2>
+<ul>
+	<li>Italics - No italics</li>
+	<li>UPPERCASE - No use of UPPERCASE unless using an acronym</li>
+	<li>Underline - No underlining text that aren&rsquo;t links</li>
+	<li>Links - Link text does not appear in the form of a URL; use descriptive link instead</li>
+	<li>Sentence Spacing - Single space between sentences</li>
+	<li>Bullet Points - Bullet points start with a capital letter and do not end in with punctuation.</li>
+	<li>Numbers - Numbers one-nine should be spelled out, 10 and above in figures.</li>
+	<li>Commas - Use oxford commas.</li>
+	<li>Time - Use lowercase &ldquo;pm&rdquo; and &ldquo;am&rdquo; in the time</li>
+	<li>Slashes - Slashes can be used in substitution for &ldquo;per&rdquo;</li>
+</ul>
+<ul>
+	<li>Example: $5/hr</li>
+</ul>
+<p>Capitalization </p>
+<p>Modes of transportation</p><ul>
+	<li>Commuter Rail</li>
+</ul>
+<ul>
+	<li>Zone 1 - Zone 8</li>
+</ul>
+<ul>
+	<li>Ferry</li>
+</ul>
+<ul>
+	<li>Inner Harbor Ferry</li>
+	<li>Outer Harbor Ferry</li>
+</ul>
+<ul>
+	<li>Bus</li>
+</ul>
+<ul>
+	<li>Inner Express Bus</li>
+	<li>Outer Express Bus</li>
+</ul>
+<ul>
+	<li>Subway</li>
+</ul>
+<ul>
+	<li>Green Line</li>
+	<li>Red Line</li>
+	<li>Mattapan Trolley</li>
+	<li>Orange Line</li>
+	<li>Silver Line</li>
+	<li>Blue Line</li>
+</ul><p>Kinds of passes</p><ul>
+	<li>One Way</li>
+	<li>Round Trip</li>
+	<li>Weekly Pass/CharlieCard</li>
+	<li>Monthly Pass/CharlieCard</li>
+	<li>Student Pass/CharlieCard</li>
+	<li>Senior Pass/CharlieCard</li>
+	<li>Youth Pass</li>
+	<li>Blind Access CharlieCard</li>
+	<li>TAP</li>
+</ul><p>Other</p><ul>
+	<li>CharlieCard</li>
+	<li>CharlieCard Store</li>
+	<li>Pass Program</li>
+	<li>Senior CharlieCard Event</li>
+</ul>
