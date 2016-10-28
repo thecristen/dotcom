@@ -9,7 +9,7 @@
 - [ ] Tests were added or updated to cover changes
 - [ ] All tests pass on localhost:
   - [ ] `npm test` (includes mix test, JS tests, and Backstop)
-  - [ ] `mix dialyzer`
+  - [ ] `npm run dialyzer`
   - [ ] `pronto run -c origin/master`
 
 <br>

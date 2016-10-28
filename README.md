@@ -54,8 +54,8 @@ verify our type specifcations and make sure we're calling functions properly.
 
 Currently, there are some spurious "The variable _ can never match ..."
 errors that can be ignored.
-`mix dialyzer | grep -v "variable _ can never match"` is one way to ignore
-them.
+`npm run dialyzer` will filter out these errors, though there are still a few
+which show up.
 
 ### Other helpful test scripts
 
