@@ -1,28 +1,30 @@
 <div class="card card-section">
-  <div class="card-block card-block-no-header">
-    <h1>How to Pay</h1>
-    <nav class="collapse <%= if @mode == nil do %>in<% end %> navbar-toggleable-xs m-y-1" id="modes" role="navigation">
-      <div class="btn-group show-btn-group">
-        <%= for mode <- [:subway, :bus, :commuter, :ferry, :the_ride] do %>
-          <% selected_class = case @mode do
-              ^mode -> "show-btn-selected"
-              _ -> ""
-              end %>
-          <%= link to: how_to_pay_path(@conn, mode), class: "btn show-btn alert-show-btn-#{mode} #{selected_class}" do %>
-            <%= mode_icon(mode) %>
-            <%= mode_title(mode) %>
-            <%= if mode == @mode do %>
-              <span class="btn-selected-bottom-<%= mode_string(mode) %>"></span>
+  <div class="card-block row">
+    <div class="col-xs-12">
+      <h1>How to Pay</h1>
+      <nav class="collapse <%= if @mode == nil do %>in<% end %> navbar-toggleable-xs m-y-1" id="modes" role="navigation">
+        <div class="btn-group show-btn-group">
+          <%= for mode <- [:subway, :bus, :commuter, :ferry, :the_ride] do %>
+            <% selected_class = case @mode do
+                ^mode -> "show-btn-selected"
+                _ -> ""
+                end %>
+            <%= link to: how_to_pay_path(@conn, mode), class: "btn show-btn alert-show-btn-#{mode} #{selected_class}" do %>
+              <%= mode_icon(mode) %>
+              <%= mode_title(mode) %>
+              <%= if mode == @mode do %>
+                <span class="btn-selected-bottom-<%= mode_string(mode) %>"></span>
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
-      </div>
-    </nav>
-    <a class="btn btn-block btn-primary-outline pull-right show-mode-toggle-btn hidden-sm-up m-t-1" href="#modes" data-toggle="collapse" data-target="#modes">
-      <%= mode_icon(@mode) %>
-      <%= mode_title(@mode) %>
-      <%= fa "angle-down" %>
-    </a>
+        </div>
+      </nav>
+      <a class="btn btn-block btn-primary-outline pull-right show-mode-toggle-btn hidden-sm-up m-t-1" href="#modes" data-toggle="collapse" data-target="#modes">
+        <%= mode_icon(@mode) %>
+        <%= mode_title(@mode) %>
+        <%= fa "angle-down" %>
+      </a>
+    </div>
     <div class="clearfix"></div>
     <%= render mode_template(@mode), conn: @conn %>
   </div>

@@ -1,3 +1,5 @@
 all:
   exclude:
     - apps/site/vendor/nodep-date-input-polyfill/nodep-date-input-polyfill.dist.js
+
+verbose: true

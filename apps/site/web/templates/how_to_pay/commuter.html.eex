@@ -1,10 +1,12 @@
 <div class="container">
   <div class="row how-to-pay-step">
-    <h2>Step 1: Purchase a Ticket or Pass</h2>
-    <div>Fares for the Commuter Rail can be purchased in the following ways:</div>
+    <div class="col-xs-12">
+      <h2>Step 1: Purchase a Ticket or Pass</h2>
+      <div>Fares for the Commuter Rail can be purchased in the following ways:</div>
+    </div>
   </div>
   <div class="row">
-    <div class="col-md-6 p-l-0">
+    <div class="col-md-6 col-xs-12">
       <h3>mTicket App</h3>
       Commuter rail riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
       <div>
@@ -17,25 +19,27 @@
         </a>
       </div>
     </div>
-    <div class="col-md-6 p-l-0">
+    <div class="col-md-6 col-xs-12">
       <h3>Fare Vending Machine</h3>
       <p>
         One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
       </p>
       <p><%= Site.FareView.vending_machine_stations %></p>
     </div>
-    <div class="col-md-6 p-l-0">
+    <div class="col-md-6 col-xs-12">
       <h3>Retail Sales Location</h3>
       <p>MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.</p>
       <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
         Find a store near you <%= fa "angle-right" %>
       <% end %>
     </div>
-    <div class="col-md-6 p-l-0">
+    <div class="col-md-6 col-xs-12">
       <h3>On-Board</h3>
       <p>One way or round trip tickets can be purchased on-board by cash. If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.</p>
     </div>
-    <div class="row how-to-pay-step">
+  </div>
+  <div class="row how-to-pay-step">
+    <div class="col-xs-12">
       <h2>Step 2: Pay Your Fare</h2>
       Commuter rail fares are paid after boarding the train. A conductor will come to check your ticket or collect payment if you have not already bought a ticket. The following payment methods are accepted:
       <ul>
@@ -44,46 +48,46 @@
         <li><div>Cash</div></li>
       </ul>
     </div>
-    <div class="row">
-      <div class="col-md-6 p-l-0">
-        <h3>mTicket App</h3>
-        <ol class="how-to-pay-steps">
-          <li><div>Activate your ticket</div></li>
-          <li><div>Show your phone with the activated ticket to the conductor</div></li>
-          <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
-        </ol>
-      </div>
-      <figure class="col-md-6">
-        <img class="how-to-pay-image" src="<%= static_url(@conn, "/images/mticket_screenshot.png") %>" alt="Activated mTicket">
-        <figcaption class="how-to-pay-image-caption">Activated mTicket</figcaption>
-      </figure>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <h3>mTicket App</h3>
+      <ol class="how-to-pay-steps">
+        <li><div>Activate your ticket</div></li>
+        <li><div>Show your phone with the activated ticket to the conductor</div></li>
+        <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
+      </ol>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h3>Cash On-Board</h3>
-        <ol class="how-to-pay-steps">
-          <li><div>Tell the conductor which station you are traveling to and if you are purchasing a one way or round trip ticket.</div></li>
-          <li><div>The conductor will tell you the cost of the fare and collect your payment.</div></li>
-          <li>
-            <div>You will be given a ticket marking your origin and destination stops and the fare zone you are traveling in.</div>
-            <div class="how-to-pay-callout">
-              If you are traveling round-trip, remember to save this ticket and present it to the conductor on your next trip.
-            </div>
-          </li>
-          <li><div>The conductor will mark your seat with a slip of paper that indicates your destination.</div></li>
-        </ol>
-      </div>
-      <div class="col-md-6 p-l-0">
-        <h3>Ticket or Pass</h3>
-        <ol class="how-to-pay-steps">
-          <li><div>Show your ticket or pass to the conductor</div></li>
-          <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
-        </ol>
-      </div>
+    <figure class="col-md-6 col-xs-12">
+      <img class="how-to-pay-image" src="<%= static_url(@conn, "/images/mticket_screenshot.png") %>" alt="Activated mTicket">
+      <figcaption class="how-to-pay-image-caption">Activated mTicket</figcaption>
+    </figure>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <h3>Cash On-Board</h3>
+      <ol class="how-to-pay-steps">
+        <li><div>Tell the conductor which station you are traveling to and if you are purchasing a one way or round trip ticket.</div></li>
+        <li><div>The conductor will tell you the cost of the fare and collect your payment.</div></li>
+        <li>
+          <div>You will be given a ticket marking your origin and destination stops and the fare zone you are traveling in.</div>
+          <div class="how-to-pay-callout">
+            If you are traveling round-trip, remember to save this ticket and present it to the conductor on your next trip.
+          </div>
+        </li>
+        <li><div>The conductor will mark your seat with a slip of paper that indicates your destination.</div></li>
+      </ol>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <h3>Ticket or Pass</h3>
+      <ol class="how-to-pay-steps">
+        <li><div>Show your ticket or pass to the conductor</div></li>
+        <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
+      </ol>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 p-l-0">
+    <div class="col-md-6 col-xs-12">
       <a class="btn btn-primary btn-block" role="button" href="/fares/commuter">
           Learn more about Commuter Rail Fares <%= fa "angle-right" %>
       </a>
