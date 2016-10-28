@@ -3,7 +3,11 @@ defmodule Site.FareController do
 
   alias Site.FareController.{Commuter, BusSubway, Ferry, Summary, Filter}
 
-  @static_pages ["reduced", "charlie_card"]
+  @static_page_titles %{
+    "reduced" => "Reduced Fare Eligibility",
+    "charlie_card" => "The CharlieCard"
+  }
+  @static_pages Map.keys(@static_page_titles)
   @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
                        [name: :local_bus, duration: :single_trip, reduced: nil],
                        [name: :subway, duration: :week, reduced: nil],
@@ -16,6 +20,7 @@ defmodule Site.FareController do
 
   def index(conn, _params) do
     render conn, "index.html", [
+      breadcrumbs: ["Fares and Passes"],
       bus_subway: @bus_subway_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_bus,
       commuter: @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_commuter,
       ferry: @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_ferry,
@@ -24,7 +29,12 @@ defmodule Site.FareController do
   end
 
   def show(conn, %{"id" => static}) when static in @static_pages do
-    render conn, "#{static}.html", []
+    render conn, "#{static}.html", [
+      breadcrumbs: [
+        {fare_path(conn, :index), "Fares and Passes"},
+        @static_page_titles[static]
+      ]
+    ]
   end
 
   def show(conn, params) do

@@ -3,13 +3,14 @@
 }
 
 .fares-tab-group {
-  border-bottom: 2px solid $brand-primary;
+  border-bottom: $space-2 solid $brand-primary;
   margin: 1em 0 0;
 }
 
 .fares-tab {
   display: inline-block;
-  padding: 1rem 2rem;
+  margin-bottom: -1 * $space-2;
+  padding: $space-6 $space-12;
   text-align: center;
 }
 
@@ -24,10 +25,12 @@
   }
 }
 
-a.fares-tab-selected {
-  @include hover-focus-active {
-    color: $white;
-    text-decoration: underline;
+a {
+  &.fares-tab-selected {
+    @include hover-focus-active {
+      color: $white;
+      text-decoration: underline;
+    }
   }
 }
 
@@ -57,6 +60,7 @@ a.fares-tab-selected {
 }
 
 .fares-box-column {
+  //scss-lint:disable PlaceholderInExtend
   @extend .col-xs-12;
   @extend .col-sm-6;
   padding: .75rem;
@@ -73,6 +77,10 @@ a.fares-tab-selected {
     &:first-child {
       border-right: 1px solid $gray-lightest;
     }
+  }
+
+  @include media-breakpoint-up(md) {
+    padding: 1.5rem;
   }
 }
 
@@ -92,12 +100,6 @@ a.fares-tab-selected {
 
 .fares-ticket-description {
   margin-bottom: 1.5rem;
-}
-
-.fare-duration {
-  color: $gray-light;
-  font-size: 18px;
-  line-height: 1.5;
 }
 
 .fare-mode-row {
@@ -184,7 +186,7 @@ a.fares-tab-selected {
 }
 
 .charlie-card-hours {
-  border: 1px solid $gray-lightest;
+  border: $space-1 solid $gray-lightest;
   padding: 0;
 
   .hours-header {
@@ -233,6 +235,12 @@ a.fares-tab-selected {
 
 .fare-summary-header {
   display: inline-block;
+
+  .fares-mode-icon {
+    margin-left: $space-12;
+    position: relative;
+    top: -1 * $space-2;
+  }
 }
 
 .fare-summary-row {

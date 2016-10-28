@@ -5,8 +5,9 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   @callback route_type() :: integer
   @callback key_stops() :: [Schedules.Stop.t]
 
-  import Plug.Conn, only: [assign: 3]
   alias Site.FareController.Filter
+  import Plug.Conn, only: [assign: 3]
+  import Site.Router.Helpers
 
   defmacro __using__(_) do
     quote location: :keep do
@@ -36,6 +37,10 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
     destination = get_stop(conn, "destination", destination_stop_list)
 
     conn
+    |> assign(:breadcrumbs, [
+          {fare_path(conn, :index), "Fares and Passes"},
+          module.mode_name
+        ])
     |> assign(:mode_name,  module.mode_name)
     |> assign(:route_type, module.route_type)
     |> assign(:origin_stops, origin_stop_list)

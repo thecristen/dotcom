@@ -9,6 +9,7 @@
           <h3 class="fare-summary-header">
             <%= summary.name %>
             <span class="fares-mode-icon">
+              <span class="sr-only">Supported Modes:</span>
               <%= for mode <- summary.modes do %>
                 <span class="fares-mode-icon-group"><%= mode_icon(mode) %></span>
               <% end %>

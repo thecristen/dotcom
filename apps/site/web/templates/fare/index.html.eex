@@ -1,4 +1,4 @@
-<div class="card section">
+<div class="card card-section">
   <div class="card-block card-block-no-header">
     <h1>Fares and Passes</h1>
     <p>
@@ -71,6 +71,6 @@
       Learn more about reduced fare eligibility <%= fa "arrow-right" %>
     <% end %></p>
     <h2>Pass Programs</h2>
-    <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups. For more information, take a look at the Pass Program website or call (888) 844-0353. </p>
+    <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups. For more information, take a look at the Pass Program website or call <%= tel_link "(888) 844-0353" %>. </p>
   </div>
 </div>
