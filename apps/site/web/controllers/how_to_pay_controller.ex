@@ -6,6 +6,6 @@ defmodule Site.HowToPayController do
   end
 
   def show(conn, %{"mode" => mode}) do
-    render(conn, "how_to_pay.html", mode: String.to_atom(mode))
+    render(conn, "how_to_pay.html", mode: String.to_existing_atom(mode))
   end
 end

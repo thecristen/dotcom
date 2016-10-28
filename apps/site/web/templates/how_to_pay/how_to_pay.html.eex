@@ -11,7 +11,7 @@
                 end %>
             <%= link to: how_to_pay_path(@conn, :show, mode), class: "btn show-btn alert-show-btn-#{mode} #{selected_class}" do %>
               <%= mode_icon(mode) %>
-              <%= mode_title(mode) %>
+              <%= mode_name(mode) %>
               <%= if mode == @mode do %>
                 <span class="btn-selected-bottom-<%= mode_string(mode) %>"></span>
               <% end %>
@@ -21,7 +21,7 @@
       </nav>
       <a class="btn btn-block btn-primary-outline pull-right show-mode-toggle-btn hidden-sm-up m-t-1" href="#modes" data-toggle="collapse" data-target="#modes">
         <%= mode_icon(@mode) %>
-        <%= mode_title(@mode) %>
+        <%= mode_name(@mode) %>
         <%= fa "angle-down" %>
       </a>
     </div>

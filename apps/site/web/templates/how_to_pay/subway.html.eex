@@ -109,7 +109,7 @@
   </div>
   <div class="row m-t-1">
     <div class="col-md-6 col-xs-12">
-      <a class="btn btn-primary btn-block" role="button" href="/fares/bus_subway">
+      <a class="btn btn-primary btn-block" role="button" href=<%= fare_path(@conn, :show, "bus_subway") %>>
           Learn more about Subway Fares <%= fa "angle-right" %>
       </a>
     </div>

@@ -31,7 +31,7 @@
       <div>
         Bus fares are paid upon boarding at the fare box, which is located at the front of the bus next to the operator. On-board fare boxes accept the following:
         <ul>
-          <li>CharlieCard (<%= link "learn more", to: "/fares/charlie_card" %>)</li>
+          <li>CharlieCard (<%= link "learn more", to: fare_path(@conn, :show, "charlie_card") %>)</li>
           <li>Ticket</li>
           <li>Cash</li>
         </ul>
@@ -82,7 +82,7 @@
   </div>
   <div class="row">
     <div class="col-md-6 col-xs-12">
-      <a class="btn btn-primary btn-block" role="button" href="/fares/bus_subway">
+      <a class="btn btn-primary btn-block" role="button" href=<%= fare_path(@conn, :show, "bus_subway") %>>
           Learn more about Bus Fares <%= fa "angle-right" %>
       </a>
     </div>

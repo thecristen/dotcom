@@ -18,12 +18,4 @@ defmodule Site.HowToPayViewTest do
     assert mode_string(:commuter) == "commuter"
     assert mode_string(:ferry) == "ferry"
   end
-
-  test "mode_title/1 converts the mode atom to a presentable name" do
-    assert mode_title(:the_ride) == "The RIDE"
-    assert mode_title(:bus) == "Bus"
-    assert mode_title(:subway) == "Subway"
-    assert mode_title(:commuter) == "Commuter"
-    assert mode_title(:ferry) == "Ferry"
-  end
 end
