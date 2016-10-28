@@ -2,7 +2,29 @@ defmodule Site.FareControllerTest do
   use Site.ConnCase
   import Site.FareController
   alias Fares.Fare
-  alias Site.FareController.Filter
+  alias Site.FareController.{Summary, Filter}
+
+  describe "index" do
+    test "renders", %{conn: conn} do
+      conn = get conn, fare_path(conn, :index)
+      assert html_response(conn, 200) =~ "Fares and Passes"
+    end
+
+    test "includes 4 summarized bus/subway fares", %{conn: conn} do
+      conn = get conn, fare_path(conn, :index)
+      assert [%Summary{}, _, _, _] = conn.assigns.bus_subway
+    end
+
+    test "includes 2 summarized Commuter Rail fares", %{conn: conn} do
+      conn = get conn, fare_path(conn, :index)
+      assert [%Summary{}, _] = conn.assigns.commuter
+    end
+
+    test "includes 2 summarized Ferry fares", %{conn: conn} do
+      conn = get conn, fare_path(conn, :index)
+      assert [%Summary{}, _] = conn.assigns.ferry
+    end
+  end
 
   test "renders commuter rail", %{conn: conn} do
     conn = get conn, fare_path(conn, :show, :commuter, origin: "place-sstat", destination: "Readville")

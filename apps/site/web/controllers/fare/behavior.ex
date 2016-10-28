@@ -10,7 +10,7 @@ defmodule Site.FareController.Behavior do
   @doc "Given a list of Fares, returns the filters to use/display"
   @callback filters([Fares.Fare.t]) :: [Site.FareController.Filter.t]
 
-  @doc "An optional callback to add additional data to the Plug.Conn"
+  @doc "A callback to add additional data to the Plug.Conn"
   @callback before_render(Plug.Conn.t) :: Plug.Conn.t
 
   use Site.Web, :controller
@@ -18,10 +18,6 @@ defmodule Site.FareController.Behavior do
   defmacro __using__(_) do
     quote location: :keep do
       @behaviour unquote(__MODULE__)
-
-      def before_render(conn), do: conn
-
-      defoverridable [before_render: 1]
     end
   end
 end

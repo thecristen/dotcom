@@ -1,12 +1,40 @@
 defmodule Site.FareController do
   use Site.Web, :controller
 
-  alias Site.FareController.{Commuter, BusSubway, Ferry, Filter}
+  alias Site.FareController.{Commuter, BusSubway, Ferry, Summary, Filter}
 
-  @static_pages ["reduced", "charlie_card"]
+  @static_page_titles %{
+    "reduced" => "Reduced Fare Eligibility",
+    "charlie_card" => "The CharlieCard"
+  }
+  @static_pages Map.keys(@static_page_titles)
+  @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
+                       [name: :local_bus, duration: :single_trip, reduced: nil],
+                       [name: :subway, duration: :week, reduced: nil],
+                       [name: :subway, duration: :month, reduced: nil]]
+  @commuter_filters [[mode: :commuter, duration: :single_trip, reduced: nil],
+                     [mode: :commuter, duration: :month, reduced: nil]]
+  @ferry_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
+                  [mode: :ferry, duration: :month, reduced: nil]]
+  @the_ride_filters [[mode: :the_ride]]
+
+  def index(conn, _params) do
+    render conn, "index.html", [
+      breadcrumbs: ["Fares and Passes"],
+      bus_subway: @bus_subway_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_bus,
+      commuter: @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_commuter,
+      ferry: @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_ferry,
+      the_ride: @the_ride_filters |> Enum.flat_map(&Fares.Repo.all/1)
+    ]
+  end
 
   def show(conn, %{"id" => static}) when static in @static_pages do
-    render conn, "#{static}.html", []
+    render conn, "#{static}.html", [
+      breadcrumbs: [
+        {fare_path(conn, :index), "Fares and Passes"},
+        @static_page_titles[static]
+      ]
+    ]
   end
 
   def show(conn, params) do
@@ -15,14 +43,50 @@ defmodule Site.FareController do
     |> render_fare_module(conn)
   end
 
+  defp summarize_bus(fares) do
+    for [base|_] = chunk <- Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
+      %Summary{
+        name: Fares.Format.full_name(base),
+        modes: [base.mode | base.additional_valid_modes],
+        fares: Enum.map(chunk, &{Fares.Format.media(&1), Fares.Format.price(&1)})
+      }
+    end
+  end
+
+  defp summarize_commuter(fares) do
+    for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
+      min_price = Enum.min_by(chunk, &(&1.cents))
+      max_price = Enum.max_by(chunk, &(&1.cents))
+      %Summary{
+        name: Fares.Format.duration(base),
+        modes: [base.mode | base.additional_valid_modes],
+        fares: [{"Zones 1A-10", [Fares.Format.price(min_price), " - ",
+                                 Fares.Format.price(max_price)]}]
+      }
+    end
+  end
+
+  defp summarize_ferry(fares) do
+    for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
+      min_price = Enum.min_by(chunk, &(&1.cents))
+      max_price = Enum.max_by(chunk, &(&1.cents))
+      %Summary{
+        name: Fares.Format.duration(base),
+        modes: [base.mode | base.additional_valid_modes],
+        fares: [{"All Ferry routes", [Fares.Format.price(min_price), " - ",
+                                      Fares.Format.price(max_price)]}]
+      }
+    end
+  end
+
   defp fare_module("commuter"), do: Commuter
   defp fare_module("ferry"), do: Ferry
   defp fare_module("bus_subway"), do: BusSubway
   defp fare_module(_), do: nil
 
   defp render_fare_module(nil, conn) do
-    # TODO redirect to `fare_path(conn, :index)` when it exists
     conn
+    |> redirect(to: fare_path(conn, :index))
     |> halt
   end
   defp render_fare_module(module, conn) do

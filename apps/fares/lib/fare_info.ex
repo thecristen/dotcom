@@ -375,6 +375,22 @@ defmodule Fares.FareInfo do
     end)
     fares ++ reduced_fares
   end
+  def mapper(["the_ride", ada_ride, premium_ride | _]) do
+    [%Fare{
+        mode: :the_ride,
+        name: :ada_ride,
+        media: [:senior_card],
+        reduced: :senior_disabled,
+        duration: :single_trip,
+        cents: dollars_to_cents(ada_ride)},
+     %Fare{
+       mode: :the_ride,
+       name: :premium_ride,
+       media: [:senior_card],
+       reduced: :senior_disabled,
+       duration: :single_trip,
+       cents: dollars_to_cents(premium_ride)}]
+  end
 
   defp commuter_rail_fare_name(zone) do
     case String.split(zone, "_") do

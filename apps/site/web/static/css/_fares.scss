@@ -3,13 +3,14 @@
 }
 
 .fares-tab-group {
-  border-bottom: 2px solid $brand-primary;
+  border-bottom: $space-2 solid $brand-primary;
   margin: 1em 0 0;
 }
 
 .fares-tab {
   display: inline-block;
-  padding: 1rem 2rem;
+  margin-bottom: -1 * $space-2;
+  padding: $space-6 $space-12;
   text-align: center;
 }
 
@@ -17,21 +18,25 @@
   background-color: $brand-primary;
   color: $white;
 
-  @include hover-focus-active {
-    color: $white;
-    text-decoration: underline;
+  @include media-breakpoint-down(xs) {
+    &:only-child {
+      display: block;
+    }
+  }
+}
+
+a {
+  &.fares-tab-selected {
+    @include hover-focus-active {
+      color: $white;
+      text-decoration: underline;
+    }
   }
 }
 
 .fares-box {
-  border: solid 3px $brand-primary;
+  border: solid .375rem $brand-primary;
   padding: .0625rem .375rem;
-
-  @include media-breakpoint-up(md) {
-    .row > .fares-box-column:first-child {
-      border-right: 1px solid $gray-lightest;
-    }
-  }
 }
 
 .fares-row {
@@ -55,14 +60,27 @@
 }
 
 .fares-box-column {
-  padding: 1.375rem;
+  //scss-lint:disable PlaceholderInExtend
+  @extend .col-xs-12;
+  @extend .col-sm-6;
+  padding: .75rem;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     border-top: 1px solid $gray-lightest;
 
     &:first-child {
       border-top: 0;
     }
+  }
+
+  @include media-breakpoint-up(sm) {
+    &:first-child {
+      border-right: 1px solid $gray-lightest;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    padding: 1.5rem;
   }
 }
 
@@ -73,21 +91,15 @@
     @include route-icon(1.5rem);
     float: none;
     margin-right: .5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 
 .fares-ticket-description {
   margin-bottom: 1.5rem;
-}
-
-.fare-duration {
-  color: $gray-light;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-.fares-mode-icon-group {
-  position: relative;
 }
 
 .fare-mode-row {
@@ -174,7 +186,7 @@
 }
 
 .charlie-card-hours {
-  border: 1px solid $gray-lightest;
+  border: $space-1 solid $gray-lightest;
   padding: 0;
 
   .hours-header {
@@ -219,4 +231,22 @@
     padding-left: 1.5em;
     padding-right: .375em;
   }
+}
+
+.fare-summary-header {
+  display: inline-block;
+
+  .fares-mode-icon {
+    margin-left: $space-12;
+    position: relative;
+    top: -1 * $space-2;
+  }
+}
+
+.fare-summary-row {
+  margin-bottom: $space-6;
+}
+
+.fare-summary-price {
+  float: right;
 }
