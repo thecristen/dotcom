@@ -1,5 +1,13 @@
 @import 'variables';
 
+@mixin btn-selected-bottom-mode($color) {
+  border-bottom: $space-6 solid $color;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
 .show-btn-group {
   width: 100%;
 
@@ -19,15 +27,6 @@
     border-color: $gray-lightest;
     position: relative;
   }
-
-  @mixin btn-selected-bottom-mode($color) {
-    border-bottom: $space-6 solid $color;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
-  }
-
 
   .btn-selected-bottom-access {
     @include btn-selected-bottom-mode($brand-primary);
