@@ -43,9 +43,7 @@ defmodule Site.Router do
     pipe_through :browser
 
     get "/", HowToPayController, :index
-    for mode <- [:commuter, :bus, :subway, :ferry, :the_ride] do
-      get "/#{mode}", HowToPayController, mode
-    end
+    get "/:mode", HowToPayController, :show
   end
 
   scope "/_flags", Laboratory do

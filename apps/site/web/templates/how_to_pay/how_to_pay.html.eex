@@ -9,7 +9,7 @@
                 ^mode -> "show-btn-selected"
                 _ -> ""
                 end %>
-            <%= link to: how_to_pay_path(@conn, mode), class: "btn show-btn alert-show-btn-#{mode} #{selected_class}" do %>
+            <%= link to: how_to_pay_path(@conn, :show, mode), class: "btn show-btn alert-show-btn-#{mode} #{selected_class}" do %>
               <%= mode_icon(mode) %>
               <%= mode_title(mode) %>
               <%= if mode == @mode do %>

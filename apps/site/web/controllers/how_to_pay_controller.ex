@@ -5,9 +5,7 @@ defmodule Site.HowToPayController do
     render(conn, "how_to_pay.html", mode: :subway)
   end
 
-  for mode <- [:commuter, :bus, :subway, :ferry, :the_ride] do
-    def unquote(mode)(conn, _params) do
-       render(conn, "how_to_pay.html", mode: unquote(mode))
-    end
+  def show(conn, %{"mode" => mode} = params) do
+    render(conn, "how_to_pay.html", mode: String.to_atom(mode))
   end
 end
