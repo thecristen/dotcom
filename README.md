@@ -65,6 +65,8 @@ All run from the main folder:
 * `npm run backstop:bless` — allow backstop tests to run after changing the
   backstop.json file without creating new reference images
 * `npm run brunch:build` — builds the static files
+* `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
+  Requires wget (installable with `brew install wget`)
 
 ## Backstop Tests
 
