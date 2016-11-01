@@ -48,6 +48,10 @@
   }
 }
 
+.mode-summary-container {
+  padding-bottom: .75rem;
+}
+
 .mode-summary-box {
   border: 1px solid $gray-lightest;
 }
@@ -60,7 +64,7 @@
   float: right;
 }
 
-.mode-fare-row {
+.media-fare-row {
   border-top: 1px solid $gray-lightest;
   padding: .75rem;
 
@@ -69,16 +73,9 @@
   }
 }
 
-.mode-column {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .col-xs-12;
-  @extend .col-sm-6;
-  padding: .75rem;
-
-  h3 {
-    display: inline-block;
-    padding-bottom: .75rem
-  }
+.mode-fare-header {
+  display: inline-block;
+  padding: .75rem 0;
 }
 
 .mode-route-icon {
