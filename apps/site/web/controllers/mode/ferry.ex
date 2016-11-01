@@ -19,5 +19,4 @@ defmodule Site.Mode.FerryController do
   def fares do
     @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
   end
-
 end

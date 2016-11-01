@@ -2,6 +2,7 @@ defmodule Site.FareController do
   use Site.Web, :controller
 
   alias Site.FareController.{Commuter, BusSubway, Ferry, Filter}
+  alias Fares.{Format, Repo}
 
   @static_page_titles %{
     "reduced" => "Reduced Fare Eligibility",
@@ -22,10 +23,10 @@ defmodule Site.FareController do
   def index(conn, _params) do
     render conn, "index.html", [
       breadcrumbs: ["Fares and Passes"],
-      bus_subway: @bus_subway_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway),
-      commuter: @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:commuter),
-      ferry: @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry),
-      the_ride: @the_ride_filters |> Enum.flat_map(&Fares.Repo.all/1)
+      bus_subway: @bus_subway_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:bus_subway),
+      commuter: @commuter_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:commuter),
+      ferry: @ferry_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:ferry),
+      the_ride: @the_ride_filters |> Enum.flat_map(&Repo.all/1)
     ]
   end
 
