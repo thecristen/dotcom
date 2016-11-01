@@ -3,7 +3,9 @@ defmodule Site.StyleGuideView.CssVariables do
     quote do
       import unquote(__MODULE__)
       Module.register_attribute __MODULE__, :colors, persist: true
+      Module.register_attribute __MODULE__, :font_sizes, persist: true
       @colors parse_scss_variables "_colors"
+      @font_sizes parse_scss_variables("_font-sizes") |> Map.get("variables")
 
       def color_variable_groups do
         ["Primary Colors", "Secondary Colors", "Grays", "Modes and Lines", "Alerts", "Social Media", "General"]
@@ -11,6 +13,10 @@ defmodule Site.StyleGuideView.CssVariables do
     end
   end
 
+  @doc """
+    Reads a css file and returns a map of the variables defined within it. To keep any part of the CSS file from being
+    parsed into the map, put "// parser_ignore" before it.
+  """
   def parse_scss_variables(file_name) do
     File.cwd!
     |> String.split("/apps/site")
@@ -20,15 +26,16 @@ defmodule Site.StyleGuideView.CssVariables do
     |> parse_scss_file
   end
 
-  def parse_scss_file(text) do
+  defp parse_scss_file(text) do
     text
     |> String.split("//\s")
-    |> Enum.reject(&(&1 == ""))
+    |> Enum.reject(&(&1 == "")) # remove empty lines
+    |> Enum.reject(&reject_ignore_lines/1)
     |> Enum.map(&parse_scss_section/1)
     |> Map.new
   end
 
-  def parse_scss_section(text) do
+  defp parse_scss_section(text) do
     [section|variables] = String.split(text, "\n")
     values = variables
     |> Enum.map(&parse_scss_variable/1)
@@ -45,4 +52,8 @@ defmodule Site.StyleGuideView.CssVariables do
     |> Enum.map(&(String.trim(&1)))
     {key, List.first(val)}
   end
+
+  defp reject_ignore_lines("parser_ignore" <> _), do: true
+  defp reject_ignore_lines(_), do: false
+
 end

@@ -28,25 +28,24 @@
   </section>
 
   <section>
-    <h2>Headings</h2>
-    <%= for number <- 1..6 do %>
+    <h2>Font Sizes</h2>
+    <div class="heading">
+      <p class="heading-name"></p>
+      <p class="heading-example"></p>
+      <div class="heading-metadata">
+        <p class="variable-name"><strong>Variable Name</strong></p>
+        <p><strong>Size</strong></p>
+      </div>
+    </div>
+    <%= for {key,val} <- font_size_variables |> Map.to_list  do %>
       <div class="heading">
-        <div class="heading-name"><%= "H#{number}" %></div>
+        <div class="heading-name"><%= get_element_name(key) %></div>
         <div class="heading-example">
-          <h<%= number %>>Welcome to the MBTA</h<%= number %>>
+          <<%= get_tag(key) %> style="font-size: <%= val %>">Welcome to the MBTA</<%= get_tag(key) %>>
         </div>
         <div class="heading-metadata">
-          <p class="meta-key">CSS Variables:</p>
-          <% rem = 1.25 - (0.125 * number) %>
-          <% desktop_rem = if number == 1, do: "1.375rem", else: "$font-size-h#{number + 1}" %>
-          <div>
-            <p class="variable-name">$font-size-h<%= number %>:</p>
-            <p><%= rem %>rem</p>
-          </div>
-          <div>
-            <p class="variable-name">$font-size-h<%= number %>-desktop:</p>
-            <p><%= desktop_rem %></p>
-          </div>
+          <p class="variable-name"><%= key %></p>
+          <p><%= val %></p>
         </div>
       </div>
     <% end %>

@@ -3,7 +3,7 @@
   <div>
     <%= for {name, val} <- @values do %>
       <div class="color">
-        <div class="color-box" style="background: <%= get_color_value(val) %>"></div>
+        <div class="color-box" style="background: <%= get_css_value(val, :colors) %>"></div>
         <h3><%= name %></h3>
         <p><%= val %></p>
       </div>

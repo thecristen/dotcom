@@ -17,7 +17,7 @@ defmodule Site.StyleGuideViewTest do
   end
 
   test "can get actual hex values for CSS variables that reference other variables" do
-    assert Site.StyleGuideView.get_color_value("$brand-secondary") == "#ffce0c"
+    assert Site.StyleGuideView.get_css_value("$brand-secondary", :colors) == "#ffce0c"
   end
 
   test "component_description returns the module documentation" do

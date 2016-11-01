@@ -4,14 +4,23 @@ defmodule Site.StyleGuideView do
   use Site.StyleGuideView.CssVariables
 
   def color_variables, do: @colors
+  def font_size_variables, do: @font_sizes
 
-  def get_color_value("$"<>_ = value), do: do_get_color_value(value)
-  def get_color_value(value), do: value
+  @spec get_css_value(String.t, atom) :: String.t
+  @doc "Replaces any css variables with actual values."
+  def get_css_value("$"<>_ = value, :colors), do: do_get_css_value(value, @colors)
+  def get_css_value("$"<>_ = value, :font_sizes), do: do_get_css_value(value, @font_sizes)
+  def get_css_value(value, _), do: value
 
-  defp do_get_color_value(value) do
-    @colors
+  defp do_get_css_value(value, variable_map) do
+    variable_map
     |> Map.to_list
-    |> Enum.map(fn {_section, values} -> Map.get(values, value) end)
+    |> Enum.map(fn {_section, values} ->
+      case Kernel.is_map(values) do
+        true -> Map.get(values, value)
+        false -> values
+      end
+    end)
     |> Enum.reject(&(&1 == nil))
     |> List.first
   end
@@ -63,6 +72,28 @@ defmodule Site.StyleGuideView do
     |> Map.to_list
     |> length
     |> Kernel.>(idx + 1)
+  end
+
+  @spec get_tag(String.t) :: String.t
+  @doc "Reads a string and parses an HTML tag name from it."
+  def get_tag("$h" <> num), do: get_h_tag(num)
+  def get_tag(_), do: "p"
+
+  defp get_h_tag("1-xxl"), do: "h1"
+  defp get_h_tag("2-xxl"), do: "h2"
+  defp get_h_tag("3-xxl"), do: "h3"
+  defp get_h_tag("4-xxl"), do: "h4"
+  defp get_h_tag(num), do: "h#{num}"
+
+  @spec get_element_name(String.t) :: Phoenix.HTML.Safe.t
+  @doc "Reads a CSS variable name, parses it into human-readable form, and returns it as HTML."
+  def get_element_name("$" <> elem) do
+    elem
+    |> String.replace("-xxl", "<br />(Large Screens)")
+    |> String.split("-")
+    |> Enum.map(&(String.capitalize(&1)))
+    |> Enum.join(" ")
+    |> Phoenix.HTML.raw
   end
 
    @doc """

@@ -8,7 +8,7 @@
   "con_cache": {:hex, :con_cache, "0.11.1", "acbe5a1d10c47faba30d9629c9121e1ef9bca0aa5eddbb86f4e777bd9f9f9b6f", [:mix], [{:exactor, "~> 2.2.0", [hex: :exactor, optional: false]}]},
   "cowboy": {:hex, :cowboy, "1.0.4", "a324a8df9f2316c833a470d918aaf73ae894278b8aa6226ce7a9bf699388f878", [:rebar, :make], [{:cowlib, "~> 1.0.0", [hex: :cowlib, optional: false]}, {:ranch, "~> 1.0", [hex: :ranch, optional: false]}]},
   "cowlib": {:hex, :cowlib, "1.0.2", "9d769a1d062c9c3ac753096f868ca121e2730b9a377de23dec0f7e08b1df84ee", [:make], []},
-  "credo": {:hex, :credo, "0.4.13", "0e9d0479c7e0591e36b093bf17fbdde012e2a69b5571e2df8d0b75b4fc8adc74", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
+  "credo": {:hex, :credo, "0.5.1", "2395862b94628cadf0f5c68975c1440393f425b955f1e70ce1aea267e00187a1", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
   "csv": {:hex, :csv, "1.4.3", "de92e2bc85bc09ec676f19f6ec2daa59ba1f0103d1da96cf0cca36342c90d93f", [:mix], [{:parallel_stream, "~> 1.0.4", [hex: :parallel_stream, optional: false]}]},
   "dialyxir": {:hex, :dialyxir, "0.3.5", "eaba092549e044c76f83165978979f60110dc58dd5b92fd952bf2312f64e9b14", [:mix], []},
   "ehmon": {:git, "https://github.com/heroku/ehmon.git", "8831d2e138d866ac0f23206eb3436877a93633b9", [tag: "v4"]},

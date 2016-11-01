@@ -194,13 +194,19 @@ $padding: 1rem;
   }
 
   .heading-name {
-    width: 60px;
+    width: 120px;
   }
 
   .heading-example {
-    flex: 1;
+    width: 400px;
   }
 
+  .heading-name,
+  .heading-example,
+  .heading-metadata,
+  .heading-metadata p {
+    display: inline-block;
+  }
 
   .meta-key {
     color: $gray-lighter;
@@ -208,20 +214,8 @@ $padding: 1rem;
   }
 }
 
-.heading-metadata {
-  flex: 2;
-
-  div {
-    display: flex;
-  }
-
-  p:first-child {
-    flex: 1;
-  }
-
-  p:last-child {
-    flex: 2;
-  }
+.heading-metadata p:first-child {
+  width: 200px;
 }
 
 .font-variant {
