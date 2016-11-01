@@ -1,10 +1,11 @@
 defmodule Site.Mode.HubBehavior do
+  alias Fares.Summary
   @moduledoc "Behavior for mode hub pages."
 
   @callback routes() :: [Routes.Route.t]
   @callback delays() :: [Alerts.Alert.t]
   @callback mode_name() :: String.t
-  @callback fares() :: [{String.t, String.t}]
+  @callback fares() :: Summary.T
   @callback fare_description() :: String.t
   @callback route_type :: 0..4
   @callback map_pdf_url :: String.t | nil
@@ -22,13 +23,7 @@ defmodule Site.Mode.HubBehavior do
         unquote(__MODULE__).index(__MODULE__, conn, params)
       end
 
-      def fares do
-        [
-          {"CharlieCard", "$2.25"},
-          {"CharlieTicket/Cash-on-board", "$2.75"},
-          {"LinkPass - unlimited travel on Subway plus Local Bus", "$84.50"}
-        ]
-      end
+      def fares, do: %Summary{} 
 
       def routes, do: Routes.Repo.by_type(route_type)
 

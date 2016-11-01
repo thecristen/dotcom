@@ -48,6 +48,50 @@
   }
 }
 
+.mode-summary-box {
+  border: 1px solid $gray-lightest;
+}
+
+.mode-summary-name {
+  padding: .75rem 0;
+}
+
+.mode-summary-price {
+  float: right;
+}
+
+.mode-fare-row {
+  border-top: 1px solid $gray-lightest;
+  padding: .75rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+.mode-column {
+  //scss-lint:disable PlaceholderInExtend
+  @extend .col-xs-12;
+  @extend .col-sm-6;
+  padding: .75rem;
+
+  h3 {
+    display: inline-block;
+    padding-bottom: .75rem
+  }
+}
+
+.mode-route-icon {
+  width: 100%;
+  padding: 0 .5rem;
+
+  .route-icon {
+    @include route-icon(1.5rem);
+    float: none;
+    margin-right: .5rem;
+  }
+}
+
 body {
   &.no-js .system-map {
     max-height: map-get($container-max-widths, md);

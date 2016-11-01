@@ -1,5 +1,9 @@
 defmodule Site.Mode.FerryController do
+  alias Fares.Format
   use Site.Mode.HubBehavior
+
+  @ferry_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
+                  [mode: :ferry, duration: :month, reduced: nil]]
 
   def route_type, do: 4
 
@@ -13,13 +17,10 @@ defmodule Site.Mode.FerryController do
     "Fares differ between Commuter Ferries & Inner Harbor Ferries. Refer to the information below:"
   end
 
+  def display_filters, do: @ferry_filters
+
   def fares do
-    [
-      {"Inner Harbor Ferry", "$4.00"},
-      {"Commuter Ferry", "$5.25"},
-      {"Hingham or Hull to Logan Airport", "$18.50"},
-      {"Zone 1A pass includes travel on Subway, Local Bus, Commuter Zone 1A, & Inner Harbor Ferry", "$84.50"},
-      {"Commuter Ferry Pass includes travel on Commuter Zones 1-5, Subway, Local Bus, & Inner Harbor Ferry", "$308.00"}
-    ]
+    @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
   end
+
 end

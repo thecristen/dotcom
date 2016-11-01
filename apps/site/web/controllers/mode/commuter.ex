@@ -1,8 +1,12 @@
 defmodule Site.Mode.CommuterRailController do
   use Site.Mode.HubBehavior
+  alias Fares.Format
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.ViewHelpers, only: [redirect_path: 2]
+
+  @commuter_filters [[mode: :commuter, duration: :single_trip, reduced: nil],
+                     [mode: :commuter, duration: :month, reduced: nil]]
 
   def route_type, do: 2
 
@@ -18,20 +22,14 @@ defmodule Site.Mode.CommuterRailController do
     "#{link_to_zone_fares} depend on the distance traveled (zones). Refer to the information below:"
   end
 
+  def fares do
+    @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:commuter)
+  end
+
   defp link_to_zone_fares do
     path = redirect_path(Site.Endpoint, "fares_and_passes/rail/")
     tag = content_tag :a, "Commuter Rail Fares", href: path
 
     safe_to_string(tag)
-  end
-
-  def fares do
-    [
-      {"Zones 1A-10", "$2.10 - $11.50"},
-      {"Monthly Pass, unlimited travel to and from your zone plus travel on" <>
-        " all buses, subway, and Inner Harbor Ferry",
-       "$75 - $362"},
-      {"Seniors and Persons with Disabilities", "50% discount"}
-    ]
   end
 end
