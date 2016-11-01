@@ -11,6 +11,7 @@ defmodule JsonApi.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -36,6 +37,7 @@ defmodule JsonApi.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:poison, ">= 0.0.0"},
+     {:excoveralls, "~> 0.5", only: :test},
      {:benchfella, "~> 0.3", only: :dev}]
   end
 end

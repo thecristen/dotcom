@@ -11,6 +11,7 @@ defmodule V3Api.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -36,6 +37,7 @@ defmodule V3Api.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:httpoison, ">= 0.0.0"},
+     {:excoveralls, "~> 0.5", only: :test},
      {:json_api, in_umbrella: true}]
   end
 end

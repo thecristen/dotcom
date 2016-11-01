@@ -11,6 +11,7 @@ defmodule Feedback.Mixfile do
      lockfile: "../../mix.lock",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps()]
   end
 
@@ -35,6 +36,7 @@ defmodule Feedback.Mixfile do
      {:poison, "~> 2.2", override: true},
      {:timex, ">= 2.0.0"},
      {:briefly, "~> 0.3"},
+     {:excoveralls, "~> 0.5", only: :test},
      {:plug, "~> 1.0"}]
   end
 end

@@ -13,6 +13,7 @@ defmodule Site.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -75,7 +76,8 @@ defmodule Site.Mixfile do
      {:fares, in_umbrella: true},
      {:content, in_umbrella: true},
      {:dialyxir, ">= 0.3.5", only: [:test, :dev]},
-     {:benchfella, "~> 0.3", only: :dev}
+     {:benchfella, "~> 0.3", only: :dev},
+     {:excoveralls, "~> 0.5", only: :test}
     ]
   end
 end

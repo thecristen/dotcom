@@ -5,6 +5,7 @@ defmodule DotCom.Mixfile do
     [apps_path: "apps",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      dialyzer: [
        plt_add_apps: [:mix, :porcelain, :phoenix_live_reload]],
      deps: deps]
@@ -23,6 +24,8 @@ defmodule DotCom.Mixfile do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps folder
   defp deps do
-    [{:credo, ">= 0.0.0", only: [:dev, :test]}]
+    [{:credo, ">= 0.0.0", only: [:dev, :test]},
+     {:excoveralls, "~> 0.5", only: :test}]
   end
+
 end
