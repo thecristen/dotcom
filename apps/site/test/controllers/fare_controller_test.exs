@@ -1,8 +1,8 @@
 defmodule Site.FareControllerTest do
   use Site.ConnCase
   import Site.FareController
-  alias Fares.Fare
-  alias Site.FareController.{Summary, Filter}
+  alias Fares.{Fare, Summary}
+  alias Site.FareController.Filter
 
   describe "index" do
     test "renders", %{conn: conn} do
