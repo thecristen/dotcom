@@ -1,6 +1,5 @@
 defmodule Site.Mode.CommuterRailController do
   use Site.Mode.HubBehavior
-  alias Fares.Format
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.ViewHelpers, only: [redirect_path: 2]

@@ -1,6 +1,5 @@
 defmodule Site.Mode.BusController do
   use Site.Mode.HubBehavior
-  require Logger
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.ViewHelpers, only: [redirect_path: 2]
@@ -23,8 +22,6 @@ defmodule Site.Mode.BusController do
   def fares do
     @bus_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
   end
-
-  def display, do: @bus_filters
 
   defp link_to_bus_fares do
     path = redirect_path(Site.Endpoint, "fares_and_passes/bus/")

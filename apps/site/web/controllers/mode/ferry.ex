@@ -1,5 +1,4 @@
 defmodule Site.Mode.FerryController do
-  alias Fares.Format
   use Site.Mode.HubBehavior
 
   @ferry_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
@@ -16,8 +15,6 @@ defmodule Site.Mode.FerryController do
   def fare_description do
     "Fares differ between Commuter Ferries & Inner Harbor Ferries. Refer to the information below:"
   end
-
-  def display_filters, do: @ferry_filters
 
   def fares do
     @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
