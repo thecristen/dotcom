@@ -5,7 +5,7 @@ defmodule Site.Mode.HubBehavior do
   @callback routes() :: [Routes.Route.t]
   @callback delays() :: [Alerts.Alert.t]
   @callback mode_name() :: String.t
-  @callback fares() :: Summary.T
+  @callback fares() :: [Summary.T]
   @callback fare_description() :: String.t
   @callback route_type :: 0..4
   @callback map_pdf_url :: String.t | nil
