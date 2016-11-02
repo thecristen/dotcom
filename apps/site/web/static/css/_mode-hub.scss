@@ -50,6 +50,14 @@
 
 .mode-summary-container {
   padding-bottom: .75rem;
+
+  @include media-breakpoint-only(xs) {
+    padding-top: .75rem;
+
+    &:first-child {
+      padding-top: 0;
+    }
+  }
 }
 
 .mode-summary-box {
@@ -76,6 +84,17 @@
 .mode-fare-header {
   display: inline-block;
   padding: .75rem 0;
+}
+
+.mode-fare-entry {
+  @include media-breakpoint-only(xs) {
+    padding-top: 1.5rem;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+  }
 }
 
 .mode-route-icon {

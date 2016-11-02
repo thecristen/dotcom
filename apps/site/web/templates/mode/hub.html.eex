@@ -39,7 +39,7 @@
           <%= for chunk <- Enum.chunk(@fares, 2, 2, []) do %>
             <div class="mode-summary-container row">
               <%= for summary <- chunk do %>
-                <div class="col-sm-6">
+                <div class="col-sm-6 mode-fare-entry">
                   <h3 class="mode-fare-header">
                     <%= summary.name %>
                     <span class="mode-route-icon">
