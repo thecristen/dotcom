@@ -93,7 +93,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <% fares_path = fare_path(@conn, :index, []) %>
+                  <% fares_path = fare_path(@conn, :index) %>
                   <a class="nav-link" href="<%= fares_path %>">
                     <%= bold_if_active @conn, fares_path, "Fares &amp; Passes" %>
                   </a>
