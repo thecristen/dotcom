@@ -92,7 +92,7 @@
       </div>
       <div class="col-md-4">
         <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199"), class: "mode-group-btn" do %>
-          Red and Oranage Line Cars
+          Red and Orange Line Cars
         <% end %>
       </div>
     </div>
