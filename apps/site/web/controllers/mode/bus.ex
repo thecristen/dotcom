@@ -4,9 +4,6 @@ defmodule Site.Mode.BusController do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.ViewHelpers, only: [redirect_path: 2]
 
-  # @bus_filters [[name: :local_bus, duration: :single_trip, reduced: nil, ],
-  # [name: :subway, duration: :month, reduced: nil]]
-
   @bus_filters [[name: :local_bus, duration: :single_trip, reduced: nil],
                        [name: :subway, duration: :week, reduced: nil],
                        [name: :subway, duration: :month, reduced: nil]]
