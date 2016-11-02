@@ -38,6 +38,7 @@ defmodule Site.Router do
     post "/customer-support", CustomerSupportController, :submit
     resources "/fares", FareController, only: [:index, :show]
     resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
+    get "/about", AboutController, :index
   end
 
 
