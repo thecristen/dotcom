@@ -1,5 +1,8 @@
 defmodule Site.Mode.SubwayController do
   use Site.Mode.HubBehavior
+  @subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
+                       [name: :subway, duration: :week, reduced: nil],
+                       [name: :subway, duration: :month, reduced: nil]]
 
   def route_type, do: 1
 
@@ -7,6 +10,10 @@ defmodule Site.Mode.SubwayController do
     Routes.Repo.all
     |> Routes.Group.group
     |> Dict.get(:subway)
+  end
+
+  def fares do
+    @subway_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
   end
 
   def delays, do: Site.Mode.HubBehavior.mode_delays([0, 1])

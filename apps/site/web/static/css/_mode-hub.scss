@@ -20,9 +20,9 @@
 }
 
 .system-map {
+  font-family: 'object-fit: cover; object-position: 50% 30%;';
   max-height: 240px;
   // Polyfill for IE object-fit support
-  font-family: 'object-fit: cover; object-position: 50% 30%;';
   object-fit: cover;
   object-position: 50% 30%;
   width: 100%;
@@ -45,6 +45,66 @@
   @include media-breakpoint-down(sm) {
     height: 100%;
     max-height: 100%;
+  }
+}
+
+.mode-summary-container {
+  padding-bottom: .75rem;
+
+  @include media-breakpoint-only(xs) {
+    padding-top: .75rem;
+
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+}
+
+.mode-summary-box {
+  border: 1px solid $gray-lightest;
+}
+
+.mode-summary-name {
+  padding: .75rem 0;
+}
+
+.mode-summary-price {
+  float: right;
+}
+
+.media-fare-row {
+  border-top: 1px solid $gray-lightest;
+  padding: .75rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+.mode-fare-header {
+  display: inline-block;
+  padding: .75rem 0;
+}
+
+.mode-fare-entry {
+  @include media-breakpoint-only(xs) {
+    padding-top: 1.5rem;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+  }
+}
+
+.mode-route-icon {
+  padding: 0 .5rem;
+  width: 100%;
+
+  .route-icon {
+    @include route-icon(1.5rem);
+    float: none;
+    margin-right: .5rem;
   }
 }
 

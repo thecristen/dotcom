@@ -1,7 +1,8 @@
 defmodule Site.FareController do
   use Site.Web, :controller
 
-  alias Site.FareController.{Commuter, BusSubway, Ferry, Summary, Filter}
+  alias Site.FareController.{Commuter, BusSubway, Ferry, Filter}
+  alias Fares.{Format, Repo}
 
   @static_page_titles %{
     "reduced" => "Reduced Fare Eligibility",
@@ -22,10 +23,10 @@ defmodule Site.FareController do
   def index(conn, _params) do
     render conn, "index.html", [
       breadcrumbs: ["Fares and Passes"],
-      bus_subway: @bus_subway_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_bus,
-      commuter: @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_commuter,
-      ferry: @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> summarize_ferry,
-      the_ride: @the_ride_filters |> Enum.flat_map(&Fares.Repo.all/1)
+      bus_subway: @bus_subway_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:bus_subway),
+      commuter: @commuter_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:commuter),
+      ferry: @ferry_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:ferry),
+      the_ride: @the_ride_filters |> Enum.flat_map(&Repo.all/1)
     ]
   end
 
@@ -42,42 +43,6 @@ defmodule Site.FareController do
     params["id"]
     |> fare_module
     |> render_fare_module(conn)
-  end
-
-  defp summarize_bus(fares) do
-    for [base|_] = chunk <- Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
-      %Summary{
-        name: Fares.Format.full_name(base),
-        modes: [base.mode | base.additional_valid_modes],
-        fares: Enum.map(chunk, &{Fares.Format.media(&1), Fares.Format.price(&1)})
-      }
-    end
-  end
-
-  defp summarize_commuter(fares) do
-    for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
-      min_price = Enum.min_by(chunk, &(&1.cents))
-      max_price = Enum.max_by(chunk, &(&1.cents))
-      %Summary{
-        name: Fares.Format.duration(base),
-        modes: [base.mode | base.additional_valid_modes],
-        fares: [{"Zones 1A-10", [Fares.Format.price(min_price), " - ",
-                                 Fares.Format.price(max_price)]}]
-      }
-    end
-  end
-
-  defp summarize_ferry(fares) do
-    for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
-      min_price = Enum.min_by(chunk, &(&1.cents))
-      max_price = Enum.max_by(chunk, &(&1.cents))
-      %Summary{
-        name: Fares.Format.duration(base),
-        modes: [base.mode | base.additional_valid_modes],
-        fares: [{"All Ferry routes", [Fares.Format.price(min_price), " - ",
-                                      Fares.Format.price(max_price)]}]
-      }
-    end
   end
 
   defp fare_module("commuter"), do: Commuter

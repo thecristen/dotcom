@@ -1,4 +1,4 @@
-defmodule Site.FareController.Summary do
+defmodule Fares.Summary do
   @moduledoc """
 
   Represents a summarization of fares to display on the index page.
@@ -20,4 +20,5 @@ defmodule Site.FareController.Summary do
     modes: [],
     fares: []
   ]
+
 end
