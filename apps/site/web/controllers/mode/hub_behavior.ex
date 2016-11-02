@@ -23,8 +23,6 @@ defmodule Site.Mode.HubBehavior do
         unquote(__MODULE__).index(__MODULE__, conn, params)
       end
 
-      def fares, do: %Summary{} 
-
       def routes, do: Routes.Repo.by_type(route_type)
 
       def delays, do: unquote(__MODULE__).mode_delays(route_type)
@@ -34,6 +32,8 @@ defmodule Site.Mode.HubBehavior do
       end
 
       def map_image_url, do: "/images/subway-spider.jpg"
+
+      def fares
 
       defoverridable [fares: 0, routes: 0, delays: 0, map_pdf_url: 0, map_image_url: 0]
     end
