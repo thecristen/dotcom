@@ -33,7 +33,7 @@
                 <%= link "MBTA mTicket", to: redirect_path(Site.Endpoint, "fares_and_passes/mTicketing/") %>
               </li>
               <li class="footer-link-sublist-item">
-                <%= link "Passes", to: redirect_path(Site.Endpoint, "fares_and_passes/passes/") %>
+                <%= link "Passes", to: fare_path(Site.Endpoint, :index) %>
               </li>
               <li class="footer-link-sublist-item">
                 <%= link "Reduced Fares Program", to: fare_path(Site.Endpoint, :show, "reduced") %>
