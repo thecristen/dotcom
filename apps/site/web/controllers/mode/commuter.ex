@@ -2,7 +2,6 @@ defmodule Site.Mode.CommuterRailController do
   use Site.Mode.HubBehavior
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import Site.ViewHelpers, only: [redirect_path: 2]
 
   @commuter_filters [[mode: :commuter, duration: :single_trip, reduced: nil],
                      [mode: :commuter, duration: :month, reduced: nil]]
