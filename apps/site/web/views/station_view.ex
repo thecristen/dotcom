@@ -1,14 +1,9 @@
 defmodule Site.StationView do
   use Site.Web, :view
 
-  def fare_redirect_path(:subway), do: do_fare_redirect_path("subway")
-  def fare_redirect_path(:commuter), do: do_fare_redirect_path("rail")
-  def fare_redirect_path(:bus), do: do_fare_redirect_path("bus")
-  def fare_redirect_path(:ferry), do: do_fare_redirect_path("boats")
-
-  defp do_fare_redirect_path(path) do
-    "/fares_and_passes/#{path}/"
-  end
+  def type_mode(:bus), do: :bus_subway
+  def type_mode(:subway), do: :bus_subway
+  def type_mode(type), do: type
 
   def location(station) do
     case station.latitude do

@@ -27,7 +27,7 @@
           <li class="footer-link-list-item">
             <ul class="footer-link-sublist">
               <li class="footer-link-sublist-item">
-                <%= link "Fares & Passes", to: redirect_path(Site.Endpoint, "fares_and_passes/") %>
+                <%= link "Fares & Passes", to: fare_path(Site.Endpoint, :index) %>
               </li>
               <li class="footer-link-sublist-item">
                 <%= link "MBTA mTicket", to: redirect_path(Site.Endpoint, "fares_and_passes/mTicketing/") %>
@@ -36,7 +36,7 @@
                 <%= link "Passes", to: redirect_path(Site.Endpoint, "fares_and_passes/passes/") %>
               </li>
               <li class="footer-link-sublist-item">
-                <%= link "Reduced Fares Program", to: redirect_path(Site.Endpoint, "fares_and_passes/reduced_fare_programs/") %>
+                <%= link "Reduced Fares Program", to: fare_path(Site.Endpoint, :show, :reduced) %>
               </li>
             </ul>
           </li>

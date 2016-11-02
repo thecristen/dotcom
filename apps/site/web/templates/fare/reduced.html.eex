@@ -1,4 +1,4 @@
-<% charlie_card_store_link = link "view details", to: redirect_path @conn, "riding_the_t/accessible_services/default.asp?id=17163" %>
+<% charlie_card_store_link = link "view details", to: fare_path @conn, :show, :reduced %>
 <div class="card card-section">
   <div class="card-block card-block-no-header row">
     <div class="col-xs-12">
