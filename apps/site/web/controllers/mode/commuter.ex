@@ -26,7 +26,7 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   defp link_to_zone_fares do
-    path = fare_path(Site.Endpoint, :show, :commuter)
+    path = fare_path(Site.Endpoint, :show, "commuter")
     tag = content_tag :a, "Commuter Rail Fares", href: path
 
     safe_to_string(tag)

@@ -1,8 +1,8 @@
 defmodule Site.StationView do
   use Site.Web, :view
 
-  def type_mode(:bus), do: :bus_subway
-  def type_mode(:subway), do: :bus_subway
+  def type_mode(:bus), do: "bus_subway"
+  def type_mode(:subway), do: "bus_subway"
   def type_mode(type), do: type
 
   def location(station) do

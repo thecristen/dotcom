@@ -36,7 +36,7 @@
                 <%= link "Passes", to: redirect_path(Site.Endpoint, "fares_and_passes/passes/") %>
               </li>
               <li class="footer-link-sublist-item">
-                <%= link "Reduced Fares Program", to: fare_path(Site.Endpoint, :show, :reduced) %>
+                <%= link "Reduced Fares Program", to: fare_path(Site.Endpoint, :show, "reduced") %>
               </li>
             </ul>
           </li>

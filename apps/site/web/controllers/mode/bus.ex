@@ -21,7 +21,7 @@ defmodule Site.Mode.BusController do
   end
 
   defp link_to_bus_fares do
-    path = fare_path(Site.Endpoint, :show,  :bus_subway)
+    path = fare_path(Site.Endpoint, :show,  "bus_subway")
     tag = content_tag :a, "Bus Fares", href: path
 
     safe_to_string(tag)
