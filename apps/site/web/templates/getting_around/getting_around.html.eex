@@ -1,0 +1,36 @@
+<div class="card card-section">
+  <div class="card-block card-block-no-header">
+    <h1>Getting Around</h1>
+    <hr class="hub-divider">
+
+    <h2>Transit Services</h2>
+    <div class="row">
+      <%= render "_link.html", href: schedule_path(@conn, :show, "subway"), text: "Subway", class: "col-md-4" %>
+      <%= render "_link.html", href: schedule_path(@conn, :show, "bus"), text: "Bus", class: "col-md-4" %>
+      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter"), text: "Commuter Rail", class: "col-md-4" %>
+    </div>
+    <div class="row m-t-1">
+      <%= render "_link.html", href: schedule_path(@conn, :show, "ferry"), text: "Ferry", class: "col-md-4" %>
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), text: "The RIDE", class: "col-md-4" %>
+    </div>
+
+    <h2 class="m-t-3">Plan Your Trip</h2>
+    <div class="row">
+      <%= render "_link.html", href: redirect_path(@conn, "rider_tools/trip_planner/"), text: "Directions", class: "col-md-3" %>
+      <%= render "_link.html", href: station_path(@conn, :index), text: "Station Info", class: "col-md-3" %>
+      <%= render "_link.html", href: alert_path(@conn, :index), text: "Service Alerts", class: "col-md-3" %>
+      <%= render "_link.html", href: redirect_path(@conn, "schedules_and_maps/system_map/"), text: "Maps", class: "col-md-3" %>
+    </div>
+
+    <h2 class="m-t-3">Riding the T</h2>
+    <div class="row">
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/"), text: "Accessibility", class: "col-md-4" %>
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/parking/"), text: "Parking", class: "col-md-4" %>
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/bikes/"), text: "Bikes on the T", class: "col-md-4" %>
+    </div>
+    <div class="row m-t-1">
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/pets/"), text: "Pets on the T", class: "col-md-4" %>
+      <%= render "_link.html", href: redirect_path(@conn, "safety/"), text: "Safety", class: "col-md-4" %>
+    </div>
+  </div>
+</div>

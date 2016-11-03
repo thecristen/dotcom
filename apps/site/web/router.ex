@@ -39,6 +39,7 @@ defmodule Site.Router do
     resources "/fares", FareController, only: [:index, :show]
     resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
     get "/about", AboutController, :index
+    get "/getting-around", GettingAroundController, :index
   end
 
 
