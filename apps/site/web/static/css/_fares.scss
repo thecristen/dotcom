@@ -73,8 +73,13 @@ a {
   }
 
   @include media-breakpoint-up(sm) {
-    &:first-child {
+    &:nth-child(1) {
       border-right: 1px solid $gray-lightest;
+    }
+    &:nth-child(2) {
+      border-left: 1px solid $gray-lightest;
+      position: relative;
+      left: -1px;
     }
   }
 
@@ -297,7 +302,7 @@ a {
 }
 
 .content-section {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .no-wrap {
