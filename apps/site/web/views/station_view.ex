@@ -1,9 +1,11 @@
 defmodule Site.StationView do
   use Site.Web, :view
 
+  @doc "Specify the mode each type is associated with"
+  @spec type_mode(atom) :: String.T
   def type_mode(:bus), do: "bus_subway"
   def type_mode(:subway), do: "bus_subway"
-  def type_mode(type), do: type
+  def type_mode(type), do: Atom.to_string(type)
 
   def location(station) do
     case station.latitude do
