@@ -1,76 +1,94 @@
 <div class="card card-section">
   <div class="card-block card-block-no-header">
     <h1>Fares and Passes</h1>
-    <p>
+    <div class="content-section">
+      <p>
       Fares for each MBTA service differ based on the mode you are traveling on. Find your mode below for more information on the fare cost, how to purchase a ticket or pass, and how to pay your fare.
-    </p>
-    <h2>Paying Your Fare</h2>
-    <p>There are four primary payment methods: The CharlieCard, a ticket, the mTicket app, or by cash on-board.  Each mode accepts a variety of these.</p>
-    <p><%= link to: fare_path(@conn, :show, :payment_methods) do %>
-      Learn about payment methods <%= fa "arrow-right" %>
-    <% end %></p>
-    <p>Learn where to purchase a ticket or pass and how to pay your fare.</p>
-    <p><%= link to: "" do %><%# TODO %>
-      Learn about how to pay your fare <%= fa "arrow-right" %>
-    <% end %></p>
-    <h2>Bus and Subway Fares</h2>
-    <p>Subway fares can be bought as Single Rides, Stored Value, and 1-Day, 7-Day, or Monthly Passes.</p>
-    <p><%= render "_summary.html", title: "Bus and Subway", summary: @bus_subway %></p>
-    <p><%= link to: fare_path(@conn, :show, :bus_subway) do %>
-      View All Bus and Subway Fares <%= fa "arrow-right" %>
-    <% end %></p>
-    <h2>Commuter Rail Fares</h2>
-    <p>Commuter Rail fares are separated into ten zones based on your origin and destination.  Fares can be bought as One Way, Round Trip, and Monthly Passes. Shown below are the ranges for each zone.</p>
-    <p><%= render "_summary.html", title: "Commuter Rail", summary: @commuter %></p>
-    <p><%= link to: fare_path(@conn, :show, :commuter) do %>
-      Find your Commuter Rail Fare <%= fa "arrow-right" %>
-    <% end %></p>
-    <h2>Ferry Fares</h2>
-    <p>Ferry fares are based on your origin and destination. Shown below are the ranges for the most frequently used Ferry fares.</p>
-    <p><%= render "_summary.html", title: "Ferry", summary: @ferry %></p>
-    <p><%= link to: fare_path(@conn, :show, :ferry) do %>
-      Find your Ferry Fare <%= fa "arrow-right" %>
-    <% end %></p>
-    <h2>The RIDE</h2>
-    <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
-    <p>
-      <div class="row">
-        <span class="fares-tab fares-tab-selected">The RIDE Fares</span>
+      </p>
+    </div>
+    <div class="content-section">
+      <h2>Paying Your Fare</h2>
+
+      <p>There are four primary payment methods: The CharlieCard, a ticket, the mTicket app, or by cash on-board.  Each mode accepts a variety of these.</p>
+      <p><%= link to: fare_path(@conn, :show, :payment_methods) do %>
+        Learn about payment <span class="no-wrap">methods <%= fa "arrow-right" %></span>
+      <% end %></p>
+      <p><%= link to: how_to_pay_path(@conn, :index) do %>
+        Learn about how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %></p>
+    </div>
+    <div class="content-section">
+      <h2>Bus and Subway Fares</h2>
+      <p>Subway fares can be bought as Single Rides, Stored Value, and 1-Day, 7-Day, or Monthly Passes.</p>
+      <p><%= render "_summary.html", title: "Bus and Subway", summary: @bus_subway %></p>
+      <p><%= link to: fare_path(@conn, :show, :bus_subway) do %>
+        View All Bus and Subway Fares <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %></p>
+    </div>
+    <div class="content-section">
+      <h2>Commuter Rail Fares</h2>
+      <p>Commuter Rail fares are separated into ten zones based on your origin and destination.  Fares can be bought as One Way, Round Trip, and Monthly Passes. Shown below are the ranges for each zone.</p>
+      <p><%= render "_summary.html", title: "Commuter Rail", summary: @commuter %></p>
+      <p><%= link to: fare_path(@conn, :show, :commuter) do %>
+        Find your Commuter Rail Fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %></p>
+    </div>
+    <div class="content-section">
+      <h2>Ferry Fares</h2>
+      <p>Ferry fares are based on your origin and destination. Shown below are the ranges for the most frequently used Ferry fares.</p>
+      <p><%= render "_summary.html", title: "Ferry", summary: @ferry %></p>
+      <p><%= link to: fare_path(@conn, :show, :ferry) do %>
+        Find your Ferry Fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %></p>
+    </div>
+    <div class="content-section">
+      <h2>The RIDE</h2>
+      <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
+      <div class="fares-tab fares-tab-selected">
+        The RIDE Fares
       </div>
-      <div class="row fares-box">
-        <%= for fare <- @the_ride do %>
-          <div class="fares-box-column">
-            <div>
-              <h3 class="fare-summary-header">
-                <%= Fares.Format.full_name(fare) %>
-                <span class="fares-mode-icon">
-                  <span class="fares-mode-icon-group">
-                    <%= mode_icon(fare.mode) %>
+      <div class="fares-box">
+        <div class="row">
+          <%= for fare <- @the_ride do %>
+            <div class="fares-box-column">
+              <div>
+                <h3 class="fare-summary-header">
+                  <%= Fares.Format.full_name(fare) %>
+                  <span class="fares-mode-icon">
+                    <span class="fares-mode-icon-group">
+                      <%= mode_icon(fare.mode) %>
+                    </span>
                   </span>
+                </h3>
+                <span class="fare-summary-price">
+                  <%= Fares.Format.price(fare) %>
                 </span>
-              </h3>
-              <span class="fare-summary-price">
-                <%= Fares.Format.price(fare) %>
-              </span>
+              </div>
+              <div>
+                <%= description(fare) %>
+              </div>
             </div>
-            <div>
-              <%= description(fare) %>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
-    </p>
-    <h2>The CharlieCard</h2>
-    <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare. </p>
-    <p><%= link to: fare_path(@conn, :show, :charlie_card) do %>
-      Learn more about CharlieCards <%= fa "arrow-right" %>
-    <% end %></p>
-    <h2>Reduced Fare Elegibility</h2>
-    <p>Children age 11 and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced fares on all modes, depending on the type of fare they purchase. </p>
-    <p><%= link to: fare_path(@conn, :show, :reduced) do %>
-      Learn more about reduced fare eligibility <%= fa "arrow-right" %>
-    <% end %></p>
-    <h2>Pass Programs</h2>
-    <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups. For more information, take a look at the Pass Program website or call <%= tel_link "(888) 844-0353" %>. </p>
+    </div>
+    <div class="content-section">
+      <h2>The CharlieCard</h2>
+      <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare. </p>
+      <p><%= link to: fare_path(@conn, :show, :charlie_card) do %>
+        Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %></p>
+    </div>
+    <div class="content-section">
+      <h2>Reduced Fare Elegibility</h2>
+      <p>Children age 11 and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced fares on all modes, depending on the type of fare they purchase. </p>
+      <p><%= link to: fare_path(@conn, :show, :reduced) do %>
+        Learn more about reduced fare eligibility <span class="no-wrap"><%= fa "arrow-right" %></span>
+      <% end %></p>
+    </div>
+    <div class="content-section">
+      <h2>Pass Programs</h2>
+      <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups. For more information, take a look at the <a href="https://passprogram.mbta.com/">Pass Program website</a> or call <%= tel_link "(888) 844-0353" %>. </p>
+    </div>
   </div>
 </div>

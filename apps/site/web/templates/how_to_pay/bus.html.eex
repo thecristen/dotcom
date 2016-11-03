@@ -19,7 +19,7 @@
       MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
       <p>
         <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
-          Find a store near you <%= fa "angle-right" %>
+          Find a store near you <%= fa "arrow-right" %>
         <% end %>
       </p>
 
@@ -83,7 +83,7 @@
   <div class="row">
     <div class="col-md-6 col-xs-12">
       <a class="btn btn-primary btn-block" role="button" href=<%= fare_path(@conn, :show, "bus_subway") %>>
-          Learn more about Bus Fares <%= fa "angle-right" %>
+          Learn more about Bus Fares <%= fa "arrow-right" %>
       </a>
     </div>
   </div>

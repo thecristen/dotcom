@@ -13,7 +13,7 @@
         </p>
         <p>
           <%= link to: fare_path(@conn, :show, "charlie_card") do %>
-            Learn more about the CharlieCard <%= fa "angle-right" %>
+            Learn more about the CharlieCard <%= fa "arrow-right" %>
           <% end %>
         </p>
       </div>

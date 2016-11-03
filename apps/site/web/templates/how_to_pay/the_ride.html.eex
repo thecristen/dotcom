@@ -9,11 +9,11 @@
       If you have an account with the RIDE, you can add value to your account online.
       <hr />
       <%= link to: "https://commerce.mbta.com/TheRide/" do %>
-        Log into RIDE account <%= fa "angle-right" %>
+        Log into RIDE account <%= fa "arrow-right" %>
       <% end %>
       <hr />
       <%= link to: "https://commerce.mbta.com/TheRide/Account/Register" do %>
-        Register a new RIDE account <%= fa "angle-right" %>
+        Register a new RIDE account <%= fa "arrow-right" %>
       <% end %>
       <hr />
       <h3>Mail</h3>

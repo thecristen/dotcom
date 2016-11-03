@@ -32,7 +32,7 @@
   <p class="fares-zone-map-link">
     <%= link to: redirect_path(
         @conn, "uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg") do %>
-      View map of fare zones <%= fa "angle-right" %>
+      View map of fare zones <%= fa "arrow-right" %>
     <% end %></p>
 </div>
 
@@ -48,54 +48,49 @@
   <%= render "_fares_display.html", selected_filter: @selected_filter, filters: @filters, conn: @conn, fare_type: @fare_type %>
 <% end %>
 
+<h2>Purchasing Tickets or Passes</h2>
 <div class="row">
-  <div class="col-xs-12">
-    <h2>Purchasing Tickets or Passes</h2>
-  </div>
-  <div class="col-md-6 col-xs-12">
-    <div class="fares-purchasing-option">
-      <h3>mTicket App</h3>
-      <p>
-        <%= @mode_name %> riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.  Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
-      </p>
-      <div>
-        <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
-          <span class="sr-only">Download on the app store</span>
-          <%= svg "download_on_the_app_store.svg" %>
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
-          <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
-        </a>
-      </div>
-    </div>
-
-    <div class="fares-purchasing-option">
-      <h3>On-Board</h3>
-      <p>
-        One way or round trip tickets can be purchased on-board by cash.  If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.
-      </p>
+  <div class="col-sm-6 col-xs-12 fares-purchasing-option">
+    <h3>mTicket App</h3>
+    <p>
+    <%= @mode_name %> riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.  Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
+    </p>
+    <div>
+      <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
+        <span class="sr-only">Download on the app store</span>
+        <%= svg "download_on_the_app_store.svg" %>
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
+        <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
+      </a>
     </div>
   </div>
 
-  <div class="col-md-6 col-xs-12">
-    <div class="fares-purchasing-option">
-      <h3>Fare Vending Machine</h3>
-      <p>
-        One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
-        <%= vending_machine_stations %>
-      </p>
-    </div>
+  <div class="col-sm-6 col-xs-12 fares-purchasing-option">
+    <h3>On-Board</h3>
+    <p>
+    One way or round trip tickets can be purchased on-board by cash.  If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-xs-12 fares-purchasing-option">
+    <h3>Fare Vending Machine</h3>
+    <p>
+    One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
+    <%= vending_machine_stations %>
+    </p>
+  </div>
 
-    <div class="fares-purchasing-option">
-      <h3>Retail Sales Locations</h3>
-      <p>
-        MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
-      </p>
-      <p>
-        <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
-          Find a store near you <%= fa "angle-right" %>
-        <% end %>
-      </p>
-    </div>
+  <div class="col-sm-6 col-xs-12 fares-purchasing-option">
+    <h3>Retail Sales Locations</h3>
+    <p>
+    MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.
+    </p>
+    <p>
+    <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+      Find a store near you <%= fa "arrow-right" %>
+    <% end %>
+    </p>
   </div>
 </div>
