@@ -14,7 +14,7 @@
             </ul>
           </div>
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "plan-your-trip.svg" %></span> <strong>Plan Your Trip</strong></p>
+            <p><span class="header-image"><%= fa "map-o" %></span> <strong>Plan Your Trip</strong></p>
             <ul>
               <li><%= link "Directions", to: redirect_path(@conn, "rider_tools/trip_planner/") %></li>
               <li><%= link "Station Info", to: station_path(@conn, :index) %></li>

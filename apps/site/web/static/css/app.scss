@@ -445,6 +445,14 @@ div {
   position: absolute;
   width: 1.5rem;
 
+  .fa {
+    color: $homepage-bg-color;
+    font-size: .875rem;
+    left: 3px;
+    position: absolute;
+    top: 5px;
+  }
+
   img {
     border-radius: 50%;
     position: relative;
