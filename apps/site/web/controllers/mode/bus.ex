@@ -2,7 +2,6 @@ defmodule Site.Mode.BusController do
   use Site.Mode.HubBehavior
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import Site.ViewHelpers, only: [redirect_path: 2]
 
   @bus_filters [[name: :local_bus, duration: :single_trip, reduced: nil],
                        [name: :subway, duration: :week, reduced: nil],
@@ -21,7 +20,7 @@ defmodule Site.Mode.BusController do
   end
 
   defp link_to_bus_fares do
-    path = redirect_path(Site.Endpoint, "fares_and_passes/bus/")
+    path = fare_path(Site.Endpoint, :show,  "bus_subway")
     tag = content_tag :a, "Bus Fares", href: path
 
     safe_to_string(tag)

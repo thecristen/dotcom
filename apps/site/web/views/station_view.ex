@@ -1,14 +1,11 @@
 defmodule Site.StationView do
   use Site.Web, :view
 
-  def fare_redirect_path(:subway), do: do_fare_redirect_path("subway")
-  def fare_redirect_path(:commuter), do: do_fare_redirect_path("rail")
-  def fare_redirect_path(:bus), do: do_fare_redirect_path("bus")
-  def fare_redirect_path(:ferry), do: do_fare_redirect_path("boats")
-
-  defp do_fare_redirect_path(path) do
-    "/fares_and_passes/#{path}/"
-  end
+  @doc "Specify the mode each type is associated with"
+  @spec fare_group(atom) :: String.t
+  def fare_group(:bus), do: "bus_subway"
+  def fare_group(:subway), do: "bus_subway"
+  def fare_group(type), do: Atom.to_string(type)
 
   def location(station) do
     case station.latitude do

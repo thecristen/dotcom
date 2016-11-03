@@ -1,4 +1,4 @@
-<% charlie_card_store_link = link "view details", to: redirect_path @conn, "riding_the_t/accessible_services/default.asp?id=17163" %>
+<% charlie_card_store_link = link "view details", to: fare_path @conn, :show, "reduced" %>
 <div class="card card-section">
   <div class="card-block card-block-no-header row">
     <div class="col-xs-12">
@@ -13,7 +13,7 @@
     <div class="col-xs-12">
       <h3>Seniors</h3>
       <p>
-        Those who are 65 or older are eligible for reduced fares on MBTA services.  Seniors must have a Senior CharlieCard in order to receive the reduced fare. Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>), or at a Senior CharlieCard Event (<a href="<%= redirect_path @conn, "/fares_and_passes/reduced_fare_programs/" %>">view details</a>).
+        Those who are 65 or older are eligible for reduced fares on MBTA services.  Seniors must have a Senior CharlieCard in order to receive the reduced fare. Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>), or at a Senior CharlieCard Event (<a href="<%= fare_path @conn, :show, "reduced" %>">view details</a>).
       </p>
     </div>
 

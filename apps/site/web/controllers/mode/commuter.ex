@@ -2,7 +2,6 @@ defmodule Site.Mode.CommuterRailController do
   use Site.Mode.HubBehavior
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import Site.ViewHelpers, only: [redirect_path: 2]
 
   @commuter_filters [[mode: :commuter, duration: :single_trip, reduced: nil],
                      [mode: :commuter, duration: :month, reduced: nil]]
@@ -26,7 +25,7 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   defp link_to_zone_fares do
-    path = redirect_path(Site.Endpoint, "fares_and_passes/rail/")
+    path = fare_path(Site.Endpoint, :show, "commuter")
     tag = content_tag :a, "Commuter Rail Fares", href: path
 
     safe_to_string(tag)
