@@ -10,12 +10,12 @@
       <h2>Paying Your Fare</h2>
 
       <p>There are four primary payment methods: The CharlieCard, a ticket, the mTicket app, or by cash on-board.  Each mode accepts a variety of these.</p>
-      <p><%= link to: how_to_pay_path(@conn, :index) do %>
+      <div><%= link to: how_to_pay_path(@conn, :index) do %>
         Learn about payment <span class="no-wrap">methods <%= fa "arrow-right" %></span>
-      <% end %></p>
-      <p><%= link to: how_to_pay_path(@conn, :index) do %>
+      <% end %></div>
+      <div><%= link to: how_to_pay_path(@conn, :index) do %>
         Learn about how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %></p>
+      <% end %></div>
     </div>
     <div class="content-section">
       <h2>Bus and Subway Fares</h2>
