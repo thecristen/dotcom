@@ -5,7 +5,6 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-6 payment-method">
-        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
         <h2>CharlieCard</h2>
         <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= mode_icon(:subway) %> <%= mode_icon(:bus) %></span></p>
         <p>
@@ -18,7 +17,6 @@
         </p>
       </div>
       <div class="col-xs-12 col-md-6 payment-method">
-        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
         <h2>CharlieTicket</h2>
         <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= mode_icon(:subway) %> <%= mode_icon(:bus) %></span></p>
         <p>
@@ -28,7 +26,6 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-6 payment-method">
-        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
         <h2>mTicket App</h2>
         <p class="payment-usage">
           Use it on:
@@ -39,7 +36,6 @@
         </p>
       </div>
       <div class="col-xs-12 col-md-6 payment-method">
-        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
         <h2>Ticket</h2>
         <p class="payment-usage">
           Use it on:
@@ -52,7 +48,6 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-6 payment-method">
-        <img src="<%= static_path @conn, "/images/charlie_card.jpg" %>" alt="An image of a CharlieCard in a person's hand. The card is plastic and the size of a credit card. The front of the card is shown. It has the words CharlieCard and an illustration of the Charlie character riding the T, as well as the card's unique ID number in the bottom left corner."/>
         <h2>Cash On-Board</h2>
         <p class="payment-usage">
           Use it on: All Modes
