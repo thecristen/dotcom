@@ -1,0 +1,116 @@
+@import 'variables';
+
+$footer-xs: 145px;
+$footer-sm: 117px;
+$footer-md-up: 428px;
+
+.body-wrapper {
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $footer-xs;
+  }
+
+  @include media-breakpoint-only(sm) {
+    margin-bottom: $footer-sm;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: $footer-md-up;
+  }
+}
+
+.footer {
+  background-color: $footer-color;
+  bottom: 0;
+  font-size: $font-size-sm;
+  padding-top: 1rem;
+  position: absolute;
+  width: 100%;
+
+  @include media-breakpoint-only(xs) {
+    height: $footer-xs;
+  }
+
+  @include media-breakpoint-only(sm) {
+    height: $footer-sm;
+  }
+
+  @include media-breakpoint-up(md) {
+    color: $white;
+    height: $footer-md-up;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-top: -.75rem;
+    padding-top: .75rem;
+  }
+
+  @include media-breakpoint-down(md) {
+    text-align: center;
+  }
+}
+
+// scss-lint:disable PlaceholderInExtend
+.footer-link-list {
+  @extend .col-xs-12;
+
+  margin-bottom: 0;
+  padding: 0 0 1rem;
+}
+
+.footer-link-sublist {
+  list-style: none;
+  padding: 0;
+ }
+
+// scss-lint:disable PlaceholderInExtend
+.footer-link-list-item {
+  @extend .col-xs-12;
+  @extend .col-md-3;
+
+  list-style: none;
+  text-align: left;
+
+  @include media-breakpoint-down(sm) {
+    margin: .75rem 0;
+    text-align: center;
+  }
+}
+
+.footer-link-sublist-item {
+  margin: .25rem 0;
+
+  @include media-breakpoint-down(sm) {
+    display: inline;
+  }
+
+  @include media-breakpoint-down(sm) {
+    &:last-child::after {
+      content: '';
+    }
+
+    &::after {
+      color: $white;
+      content: '●';
+      font-size: .75em;
+      margin: 0 .25em;
+    }
+  }
+
+  > a {
+    color: $brand-primary-light;
+    font-weight: lighter;
+  }
+}
+
+.footer-copyright {
+  display: inline-block;
+  font-weight: lighter;
+  margin-bottom: 0;
+  padding: 1rem 0;
+
+  @include media-breakpoint-down(md) {
+    color: $white;
+    padding-top: 0;
+    text-align: center;
+  }
+}
