@@ -87,32 +87,27 @@
             <nav class="collapse navbar navbar-toggleable-sm" id="navbar" role="navigation">
               <ul class="nav navbar-nav">
                 <li class="nav-item">
-                  <% schedules_path = mode_path(@conn, :index, []) %>
-                  <a class="nav-link" href="<%= schedules_path %>">
-                    <%= bold_if_active @conn, schedules_path, "Schedules &amp; Maps" %>
+                  <% getting_around_link = static_page_path(@conn, :getting_around) %>
+                  <a class="nav-link" href="<%= getting_around_link %>">
+                    <%= bold_if_active @conn, getting_around_link, "Getting Around" %>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <% fares_path = fare_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= fares_path %>">
-                    <%= bold_if_active @conn, fares_path, "Fares &amp; Passes" %>
+                  <% fares_link = fare_path(@conn, :index) %>
+                  <a class="nav-link" href="<%= fares_link %>">
+                    <%= bold_if_active @conn, fares_link, "Fares" %>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <% riding_path = redirect_path @conn, "riding_the_t/" %>
-                  <a class="nav-link" href="<%= riding_path %>">
-                    <%= bold_if_active @conn, riding_path, "Riding the T" %>
+                  <% contact_us_link = customer_support_path(@conn, :index) %>
+                  <a class="nav-link" href="<%= contact_us_link %>">
+                    <%= bold_if_active @conn, contact_us_link, "Contact Us" %>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <% alerts_path = alert_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= alerts_path %>/subway">
-                    <%= bold_if_active @conn, alerts_path, "Service Alerts" %>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="<%= feedback_form_url %>" target="_blank">
-                    Website Feedback
+                  <% more_link = static_page_path(@conn, :about) %>
+                  <a class="nav-link" href="<%= more_link %>">
+                    <%= bold_if_active @conn, more_link, "More" %>
                   </a>
                 </li>
               </ul>

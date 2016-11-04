@@ -1,6 +1,8 @@
 defmodule Site.Router do
   use Site.Web, :router
 
+  alias Site.StaticPage
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -38,8 +40,9 @@ defmodule Site.Router do
     post "/customer-support", CustomerSupportController, :submit
     resources "/fares", FareController, only: [:index, :show]
     resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
-    get "/about", AboutController, :index
-    get "/getting-around", GettingAroundController, :index
+    for static_page <- StaticPage.static_pages do
+      get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
+    end
   end
 
 
