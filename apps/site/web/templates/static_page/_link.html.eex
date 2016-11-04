@@ -1,0 +1,5 @@
+<div class="<%= @class %>">
+  <%= link to: @href, class: "mode-group-btn" do %>
+    <%= @text %>
+  <% end %>
+</div>
