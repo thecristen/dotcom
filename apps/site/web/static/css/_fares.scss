@@ -80,10 +80,11 @@ a {
     &:nth-child(1) {
       border-right: 1px solid $gray-lightest;
     }
+
     &:nth-child(2) {
       border-left: 1px solid $gray-lightest;
-      position: relative;
       left: -1px;
+      position: relative;
     }
   }
 
@@ -196,11 +197,11 @@ a {
 .row {
   @include media-breakpoint-up(sm) {
     .fares-purchasing-option:nth-child(1) {
-       padding-right: 2rem;
-     }
+      padding-right: 2rem;
+    }
 
     .fares-purchasing-option:nth-child(2) {
-       padding-left: 2rem;
+      padding-left: 2rem;
     }
   }
 }
