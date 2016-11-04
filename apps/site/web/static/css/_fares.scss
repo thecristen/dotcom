@@ -11,6 +11,10 @@
   display: inline-block;
   margin-bottom: -1 * $space-2;
   padding: $space-6 $space-12;
+
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
 }
 
 .fares-tab-selected {
