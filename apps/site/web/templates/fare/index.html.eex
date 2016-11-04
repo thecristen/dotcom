@@ -10,7 +10,7 @@
       <h2>Paying Your Fare</h2>
 
       <p>There are four primary payment methods: The CharlieCard, a ticket, the mTicket app, or by cash on-board.  Each mode accepts a variety of these.</p>
-      <div><%= link to: how_to_pay_path(@conn, :index) do %>
+      <div><%= link to: fare_path(@conn, :show, "payment_methods") do %>
         Learn about payment <span class="no-wrap">methods <%= fa "arrow-right" %></span>
       <% end %></div>
       <div><%= link to: how_to_pay_path(@conn, :index) do %>
