@@ -40,7 +40,7 @@
       <p>MBTA riders can get blank CharlieCards and purchase passes at stores located throughout the Greater Boston and Providence area.</p>
       <p>
         <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
-          Find a store near you <%= fa "angle-right" %>
+          Find a store near you <%= fa "arrow-right" %>
         <% end %>
       </p>
     </div>
@@ -95,15 +95,15 @@
     </div>
 
     <div class="charlie-card-link-container col-xs-12 col-md-6">
-      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Log in to MyCharlie account <span class="pull-xs-right"><%= fa "angle-right" %></span></a>
-      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account <span class="pull-xs-right"><%= fa "angle-right" %></span></a>
+      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Log in to MyCharlie account <span class="pull-xs-right"><%= fa "arrow-right" %></span></a>
+      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account <span class="pull-xs-right"><%= fa "arrow-right" %></span></a>
     </div>
     <div class="charlie-card-link-container col-xs-12 col-md-6">
-      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/loginIV.jsf">Reload CharlieCard <span class="pull-xs-right"><%= fa "angle-right" %></span></a>
+      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/loginIV.jsf">Reload CharlieCard <span class="pull-xs-right"><%= fa "arrow-right" %></span></a>
       <a class="charlie-card-link" href="https://commerce.mbta.com/">
-        <span class="hidden-sm-down">Buy Commuter Rail, Ferry, Express Bus pass</span>
-        <span class="hidden-md-up">Buy Commuter Rail, Ferry, Express B&hellip;</span>
-        <span class="pull-xs-right"><%= fa "angle-right" %></span>
+        <span class="hidden-md-down">Buy Commuter Rail, Ferry, Express Bus pass</span>
+        <span class="hidden-lg-up">Buy Commuter Rail, Ferry, Express B&hellip;</span>
+        <span class="pull-xs-right"><%= fa "arrow-right" %></span>
       </a>
     </div>
   </div>

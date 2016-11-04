@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-md-6 fares-callout-container">
+<div class="col-xs-12 col-sm-6 fares-callout-container">
   <div class="fares-callout <%= @class %>">
     <h3><%= @title %></h3>
     <hr class="line" />

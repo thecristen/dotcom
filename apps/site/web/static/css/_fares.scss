@@ -11,7 +11,10 @@
   display: inline-block;
   margin-bottom: -1 * $space-2;
   padding: $space-6 $space-12;
-  text-align: center;
+
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
 }
 
 .fares-tab-selected {
@@ -74,8 +77,14 @@ a {
   }
 
   @include media-breakpoint-up(sm) {
-    &:first-child {
+    &:nth-child(1) {
       border-right: 1px solid $gray-lightest;
+    }
+
+    &:nth-child(2) {
+      border-left: 1px solid $gray-lightest;
+      left: -1px;
+      position: relative;
     }
   }
 
@@ -182,7 +191,19 @@ a {
 }
 
 .fares-purchasing-option {
-  padding: 1rem 0;
+  padding: 1rem .375rem;
+}
+
+.row {
+  @include media-breakpoint-up(sm) {
+    .fares-purchasing-option:nth-child(1) {
+      padding-right: 2rem;
+    }
+
+    .fares-purchasing-option:nth-child(2) {
+      padding-left: 2rem;
+    }
+  }
 }
 
 .charlie-card-hours {
@@ -271,7 +292,6 @@ a {
   }
 
   .payment-usage {
-    border-bottom: 1px solid $gray-lightest;
     padding-bottom: .5rem;
   }
 
@@ -283,4 +303,12 @@ a {
       margin-right: .25rem;
     }
   }
+}
+
+.content-section {
+  margin-bottom: 3rem;
+}
+
+.no-wrap {
+  white-space: nowrap;
 }

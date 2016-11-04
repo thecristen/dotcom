@@ -1,7 +1,7 @@
-<div class="row">
-  <span class="fares-tab fares-tab-selected">Common <%= @title %> Fares</span>
+<div class="fares-tab fares-tab-selected">
+  Common <%= @title %> Fares
 </div>
-<div class="row fares-box">
+<div class="fares-box">
   <%= for chunk <- @summary |> Enum.chunk(2, 2, []) do %>
     <div class="row fares-row">
       <%= for summary <- chunk do %>
