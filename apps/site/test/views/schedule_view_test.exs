@@ -125,11 +125,6 @@ defmodule Site.ScheduleViewTest do
       assert str =~ safe_to_string(Site.ViewHelpers.fa("map-o"))
       assert str =~ "View station information for South Station"
     end
-
-    test "generates an empty string for other stops" do
-      stop = %Schedules.Stop{id: "Boat-Long"}
-      assert safe_to_string(ScheduleView.station_info_link(stop)) == ""
-    end
   end
 
   describe "trip/3" do

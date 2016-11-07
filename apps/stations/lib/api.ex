@@ -112,6 +112,10 @@ defmodule Stations.Api do
     end)
   end
 
+  defp merge_v3(station, %{status_code: 404}) do
+    # failed v3 response, just return the station as-is
+    station
+  end
   defp merge_v3(nil, v3_response) do
     stop = List.first(v3_response.data)
     %Station{
@@ -125,10 +129,6 @@ defmodule Stations.Api do
   end
   defp merge_v3(station, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
     %Station{station | latitude: latitude, longitude: longitude}
-  end
-  defp merge_v3(station, %{status_code: 404}) do
-    # failed v3 response, just return the station as-is
-    station
   end
 
   defp vending_machine_stations do
