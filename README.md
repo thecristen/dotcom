@@ -47,9 +47,6 @@ make sure everything passes.
 Dialyzer is a static analysis tool which looks at type information. We use it
 verify our type specifcations and make sure we're calling functions properly.
 
-* `mix dialyzer.plt` — builds the Persistent Lookup Table that Dialyzer
-  needs. You should only need to run this once for a given Elixir/OTP
-  version.
 * `mix dialyzer` — Runs the actual type checks.
 
 Currently, there are some spurious "The variable _ can never match ..."

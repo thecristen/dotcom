@@ -17,8 +17,13 @@ defmodule Util do
   end
 
   @doc "The current datetime in the America/New_York timezone."
-  def now do
-    Timex.now("America/New_York")
+  @spec now() :: DateTime.t
+  @spec now((() -> DateTime.t)) :: DateTime.t
+  def now(utc_now_fn \\ &Timex.now/0) do
+    case Timex.Timezone.convert(utc_now_fn.(), "America/New_York") do
+      %Timex.AmbiguousDateTime{before: before} -> before
+      time -> time
+    end
   end
 
   @doc "Today's date in the America/New_York timezone."
