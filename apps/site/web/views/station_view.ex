@@ -69,4 +69,14 @@ defmodule Site.StationView do
   end
   def parking_type("basic"), do: "Parking"
   def parking_type(type), do: type |> String.capitalize
+
+  @spec template_for_tab(String.t) :: String.t
+  def template_for_tab("info"), do: "_info.html"
+  def template_for_tab(_tab), do: "_schedule.html"
+
+  @spec tab_class(String.t, String.t) :: String.t
+  def tab_class("schedule", nil), do: "stations-tab stations-tab-selected"
+  def tab_class(tab, selected) do
+    "stations-tab" <> if tab == selected, do: " stations-tab-selected", else: ""
+  end
 end
