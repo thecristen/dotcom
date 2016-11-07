@@ -112,8 +112,16 @@ defmodule Stations.Api do
     end)
   end
 
-  defp merge_v3(nil, _) do
-    nil
+  defp merge_v3(nil, v3_response) do
+    stop = List.first(v3_response.data)
+    %Station{
+      id: stop.id,
+      name: stop.attributes["name"],
+      accessibility: (if (stop.attributes["wheelchair_boarding"] == 1), do: ["accessible"], else: []),
+      parking_lots: [],
+      latitude: stop.attributes["latitude"],
+      longitude: stop.attributes["longitude"]
+    }
   end
   defp merge_v3(station, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
     %Station{station | latitude: latitude, longitude: longitude}
