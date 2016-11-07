@@ -114,3 +114,39 @@ $footer-md-up: 428px;
     text-align: center;
   }
 }
+
+.social-nav {
+  padding-top: 7px;
+
+  a {
+    border-radius: 100%;
+    color: $white;
+    height: 1.5em;
+    text-align: center;
+    width: 1.5em;
+  }
+
+  .nav-item {
+    margin-left: 0;
+
+    + .nav-item {
+      margin-left: .5rem;
+    }
+  }
+
+  .social-nav-instagram {
+    background-color: $white;
+
+    .fa {
+      color: $instagram;
+    }
+  }
+
+  .social-nav-youtube {
+    background-color: $youtube;
+  }
+
+  .social-nav-twitter {
+    background-color: $twitter;
+  }
+}
