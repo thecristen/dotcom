@@ -18,3 +18,13 @@
   word-wrap: break-word;
   word-break: break-word;
 }
+
+@mixin truncate($margin-right: 1em, $fallback-width: 95%) {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // scss-lint:disable DuplicateProperty
+  width: $fallback-width; // fallback for browsers which don't support calc()
+  width: calc(100% - $margin-right);
+}

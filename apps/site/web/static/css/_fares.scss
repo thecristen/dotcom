@@ -226,6 +226,10 @@ a {
   display: block;
   padding: .75em .5em;
 
+  .charlie-card-truncate {
+    @include truncate();
+  }
+
   @include media-breakpoint-up(md) {
     &:last-child {
       border-bottom: 1px solid $gray-lightest;
