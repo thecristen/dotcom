@@ -45,6 +45,27 @@ body {
       @include sr-only();
     }
   }
+
+  // Only show the main content on the mTicket app's view
+  &.mticket {
+    @include media-breakpoint-down(sm) {
+      .card-section:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .announcement-container,
+    .header,
+    .footer,
+    .smartbanner {
+      display: none;
+    }
+
+    // Remove space reserved for the footer
+    .body-wrapper {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .main-container {

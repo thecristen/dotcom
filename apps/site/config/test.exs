@@ -12,3 +12,6 @@ config :logger, level: :warn
 # Don't fetch tz data in test mode; can cause a race if we're doing TZ
 # operations while it updates.
 config :tzdata, :autoupdate, :disabled
+
+config :site, Site.BodyClass,
+  mticket_header: "x-mticket"

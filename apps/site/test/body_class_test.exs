@@ -23,5 +23,12 @@ defmodule Site.BodyClassTest do
 
       assert class_name(conn) == "js not-found"
     end
+
+    test "returns mticket if the requisite header is present" do
+      conn = build_conn
+      |> put_req_header(Application.get_env(:site, Site.BodyClass)[:mticket_header], "")
+
+      assert class_name(conn) == "no-js mticket"
+    end
   end
 end
