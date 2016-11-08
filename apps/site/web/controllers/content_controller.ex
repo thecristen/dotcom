@@ -3,11 +3,11 @@ defmodule Site.ContentController do
   require Logger
 
   def page(conn, %{"url" => url_parts}) do
-    url = url_parts
+    path = url_parts
     |> Enum.join("/")
 
     conn
-    |> render_content(Content.Repo.page(url: url))
+    |> render_content(Content.Repo.page(path: path))
   end
 
   defp render_content(conn, {:ok, %Content.Page{} = page}) do

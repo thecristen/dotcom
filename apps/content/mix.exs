@@ -38,6 +38,9 @@ defmodule Content.Mixfile do
   defp deps do
     [{:httpoison, ">= 0.0.0"},
      {:poison, ">= 0.0.0"},
-     {:timex, ">= 0.0.0"}]
+     {:timex, ">= 0.0.0"},
+     {:bypass, "~> 0.1", only: :test},
+     {:excheck, "~> 0.5", only: :test},
+     {:triq, github: "triqng/triq", only: :test}]
   end
 end
