@@ -1,4 +1,4 @@
-defmodule StationsTest do
+defmodule StopsTest do
   use ExUnit.Case
   doctest Stops
 
