@@ -1,3 +1,3 @@
-# Stations
+# Stops
 
-Domain model for Stations
+Domain model for Stops
