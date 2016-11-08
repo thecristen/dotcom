@@ -22,9 +22,9 @@ defmodule Site.FareViewTest do
     end
   end
 
-  describe "vending_machine_stops/0" do
+  describe "vending_machine_stations/0" do
     test "generates a list of links to stops with fare vending machines" do
-      content = vending_machine_stops
+      content = vending_machine_stations
       |> Enum.map(&raw/1)
       |> Enum.map(&safe_to_string/1)
       |> Enum.join("")
@@ -44,9 +44,9 @@ defmodule Site.FareViewTest do
     end
   end
 
-  describe "charlie_card_stops/0" do
+  describe "charlie_card_stations/0" do
     test "generates a list of links to stops where a customer can buy a CharlieCard" do
-      content = charlie_card_stops
+      content = charlie_card_stations
       |> Enum.map(&raw/1)
       |> Enum.map(&safe_to_string/1)
       |> Enum.join("")

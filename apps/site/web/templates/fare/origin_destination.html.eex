@@ -78,7 +78,7 @@
     <h3>Fare Vending Machine</h3>
     <p>
     One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
-    <%= vending_machine_stops %>
+    <%= vending_machine_stations %>
     </p>
   </div>
 

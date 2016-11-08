@@ -43,9 +43,6 @@ defmodule Site.ScheduleView do
     do_stop_info_link(Stops.Repo.get(stop.id))
   end
 
-  defp do_stop_info_link(nil) do
-    raw ""
-  end
   defp do_stop_info_link(%{id: id, name: name}) do
     title = "View stop information for #{name}"
     body = ~e(

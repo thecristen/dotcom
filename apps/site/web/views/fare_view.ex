@@ -40,15 +40,15 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   end
   def callout_description(%Fare{}), do: ""
 
-  @spec vending_machine_stops :: [Phoenix.HTML.Safe.t]
-  def vending_machine_stops do
-    Stops.Repo.all
+  @spec vending_machine_stations :: [Phoenix.HTML.Safe.t]
+  def vending_machine_stations do
+    Stops.Repo.stations
     |> Enum.filter(fn stop -> stop.has_fare_machine end)
     |> stop_link_list
   end
 
-  def charlie_card_stops do
-    Stops.Repo.all
+  def charlie_card_stations do
+    Stops.Repo.stations
     |> Enum.filter(fn stop -> stop.has_charlie_card_vendor end)
     |> stop_link_list
   end

@@ -7,7 +7,7 @@ defmodule Site.StopController do
   alias Stops.Repo
 
   def index(conn, _params) do
-    stops = Repo.all
+    stops = Repo.stations
     render(conn, "index.html", stops: stops, breadcrumbs: ["Stops"])
   end
 

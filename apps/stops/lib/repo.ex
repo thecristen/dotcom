@@ -4,7 +4,7 @@ defmodule Stops.Repo do
   """
   use RepoCache, ttl: :timer.hours(1)
 
-  def all do
+  def stations do
     cache [], fn _ ->
       Stops.Api.all
       |> Enum.sort_by(&(&1.name))

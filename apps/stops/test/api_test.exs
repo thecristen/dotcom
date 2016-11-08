@@ -27,4 +27,13 @@ defmodule Stops.ApiTest do
   test "by_gtfs_id returns nil if stop is not found" do
     assert Stops.Api.by_gtfs_id("-1") == nil
   end
+
+  test "by_gtfs_id returns a stop even if the stop is not a station" do
+    stop = Stops.Api.by_gtfs_id("411")
+
+    assert stop.id == "411"
+    assert stop.name == "Warren St @ Brunswick St"
+    assert stop.latitude != nil
+    assert stop.longitude != nil
+  end
 end
