@@ -11,12 +11,14 @@ defmodule Site.StationController do
     render(conn, "index.html", stations: stations, breadcrumbs: ["Stations"])
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, params) do
+    id = params["id"]
     station = Repo.get!(id |> String.replace("+", " "))
     conn
     |> assign(:map_url, Stations.Maps.by_name(station.name))
     |> assign(:grouped_routes, grouped_routes(id))
     |> assign(:breadcrumbs, [{station_path(conn, :index), "Stations"}, station.name])
+    |> assign(:tab, params["tab"])
     |> render("show.html", station: station)
   end
 

@@ -3,16 +3,26 @@
     <div class="p-x-g">
       <h1>
         <%= @station.name %>
-
+        <span class="station-mode-icon">
+          <%= for {type, _} <- @grouped_routes do %>
+            <%= mode_icon(type) %>
+          <% end %>
+        </span>
         <%= if "accessible" in @station.accessibility do %>
           <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
-               alt="Accessible" />
+               alt="Accessible"
+               class="stations-access-icon"/>
         <% end %>
       </h1>
     </div>
-    <p class="p-x-g"><%= @station.address %></p>
+    <p class="stations-address m-x-g">
+      <%= @station.address %>
+        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>
+          <span class="no-wrap">Plan a trip <%= fa "arrow-right" %></span>
+        <% end %>
+    </p>
 
-    <div class="row p-x-g station-map-container">
+    <div class="row station-map-container m-x-g">
       <div class="embed-responsive embed-responsive-21by9">
         <div class="station-info-map">
           <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>
@@ -48,63 +58,13 @@
         </div>
       </div>
 
-      <div class="btn-group">
-        <%= if @map_url && @map_url != "" do %>
-          <%= link to: @map_url, class: "btn btn-link" do %>
-            <%= fa "search-plus" %> View Neighborhood Map as PDF
-          <% end %>
-        <% end %>
-        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank", class: "btn btn-link hidden-sm-down" do %>
-          Enlarge map and get directions&nbsp;&nbsp;<%= fa "external-link" %>
-        <% end %>
-      </div>
+    <div class="stations-tab-group row show-btn-group">
+      <% schedule_link = link "Schedule", to: update_url(@conn, tab: "schedule"), class: tab_class("schedule", @tab)  %>
+      <% info_link = link "Station Info", to: update_url(@conn, tab: "info"), class: tab_class("info", @tab) %>
+      <%= schedule_link %><%= info_link %>
     </div>
 
-    <div class="row p-x-g">
-      <div class="col-xs-12">
-        <%= for {type, routes} <- @grouped_routes do %>
-          <%= render Site.ModeView, "_mode.html", conn: @conn, route_type: type, grouped_routes: %{type => routes}, truncate: false %>
-          <div class="mode-group-footer">
-            <%= link "View #{mode_name type} Fares and Passes »", to: fare_path @conn, :show, fare_group(type) %>
-          </div>
-        <% end %>
-      </div>
+    <%= render template_for_tab(@tab), forward_assigns(@conn) %>
 
-      <%= if @station.parking_lots != [] do %>
-        <div class="col-xs-12">
-          <div class="mode-group">
-            <div class="mode-group-header">
-              <h2>Parking</h2>
-            </div>
-            <div class="mode-group-block">
-              <%= for lot <- @station.parking_lots do %>
-                <%= render "_parking_lot.html", lot: lot %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-
-      <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
-        <div class="col-xs-12">
-          <div class="mode-group p-b-0">
-            <div class="mode-group-header">
-              <h2>Accessibility</h2>
-            </div>
-            <div class="mode-group-block">
-              <p>The following accessibility services are available at <%= @station.name %>:</p>
-              <ul>
-                <%= for accessibility <- @station.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
-                  <li><%= accessibility |> pretty_accessibility %></li>
-                <% end %>
-              </ul>
-              <p>
-                <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">Learn more about accessibility at the T</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
   </div>
 </div>

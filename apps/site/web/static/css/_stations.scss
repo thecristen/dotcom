@@ -13,6 +13,69 @@
   margin: 1em .5em 0;
 }
 
+.stations-address {
+  border-top: $space-4 solid $brand-primary;
+  padding-top: .5rem;
+}
+
+.station-mode-icon {
+  width: 100%;
+
+  .route-icon {
+    @include route-icon(1.5rem);
+    float: none;
+    margin-bottom: .375rem;
+    margin-right: .5rem;
+
+    &:first-child {
+      margin-left: .5rem;
+    }
+
+  }
+}
+
+.stations-tab-group {
+  border-bottom: $space-4 solid $brand-primary-dark;
+  margin: 1em 0 0;
+}
+
+.stations-tab {
+  border: 1px solid $brand-primary;
+  display: inline-block;
+  margin-bottom: -1 * $space-2;
+  padding: .5rem  1.75rem;
+  text-align: center;
+
+  @include media-breakpoint-down(xs) {
+    padding: .5rem;
+    width: 50%;
+  }
+}
+
+.stations-tab-selected {
+  background-color: $brand-primary;
+  color: $white;
+
+  @include media-breakpoint-down(xs) {
+    &:only-child {
+      display: block;
+    }
+  }
+}
+
+a {
+  &.stations-tab-selected {
+    @include hover-focus-active {
+      color: $white;
+      text-decoration: underline;
+    }
+  }
+}
+
+.stations-access-icon {
+  margin-bottom: .375rem;
+}
+
 .station-list {
   list-style: none;
   padding: .5em;
