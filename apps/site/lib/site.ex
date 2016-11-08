@@ -6,6 +6,10 @@ defmodule Site do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    # hack to pull the STATIC_SCHEME variable out of the environment
+    Application.put_env(:site, Site.Endpoint,
+      update_static_url(Application.get_env(:site, Site.Endpoint)))
+
     children = [
       # Start the endpoint when the application starts
       supervisor(Site.Endpoint, []),
@@ -24,4 +28,18 @@ defmodule Site do
     Site.Endpoint.config_change(changed, removed)
     :ok
   end
+
+  defp update_static_url([{:static_url, static_url_parts} | rest]) do
+    static_url_parts = Keyword.update(static_url_parts, :scheme, nil, &update_static_url_scheme/1)
+    [{:static_url, static_url_parts} | update_static_url(rest)]
+  end
+  defp update_static_url([first | rest]) do
+    [first | update_static_url(rest)]
+  end
+  defp update_static_url([]) do
+    []
+  end
+
+  defp update_static_url_scheme({:system, env_var}), do: System.get_env(env_var)
+  defp update_static_url_scheme(scheme), do: scheme
 end

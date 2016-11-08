@@ -14,7 +14,11 @@ use Mix.Config
 config :site, Site.Endpoint,
   http: [port: {:system, "PORT"}, compress: true],
   url: [host: {:system, "HOST"}, port: 80],
-  static_url: [host: {:system, "STATIC_HOST"}, port: {:system, "STATIC_PORT"}],
+  static_url: [
+    scheme: {:system, "STATIC_SCHEME"},
+    host: {:system, "STATIC_HOST"},
+    port: {:system, "STATIC_PORT"}
+  ],
   cache_static_manifest: "priv/static/manifest.json"
 
 # Do not print debug messages in production
@@ -49,9 +53,11 @@ config :logger, :logentries,
 # We also recommend setting `force_ssl`, ensuring no data is
 # ever sent via http, always redirecting to https:
 #
-#     config :site, Site.Endpoint,
-#       force_ssl: [hsts: true]
-#
+config :site, Site.Endpoint,
+  force_ssl: [
+    rewrite_on: [:x_forwarded_proto]
+  ]
+
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
 # ## Using releases

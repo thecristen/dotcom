@@ -65,7 +65,7 @@ defmodule Backstop.Servers.Phoenix do
 
   @lint {Credo.Check.Readability.MaxLineLength, false}
   def command do
-    "MIX_ENV=prod PORT=8082 STATIC_HOST=localhost STATIC_PORT=8082 V3_URL=http://localhost:8080 mix do clean, deps.compile, compile, phoenix.server"
+    "MIX_ENV=prod PORT=8082 STATIC_SCHEMA=http STATIC_HOST=localhost STATIC_PORT=8082 V3_URL=http://localhost:8080 mix do clean, deps.compile, compile, phoenix.server"
   end
 
   def started_regex do
