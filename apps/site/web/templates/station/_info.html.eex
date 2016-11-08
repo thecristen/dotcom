@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row no-gutter station-info-section">
+    <h2>Parking</h2>
+    <%= if !Enum.empty?(@station.parking_lots) do %>
+      <%= for lot <- @station.parking_lots do %>
+        <%= render "_parking_lot.html", lot: lot%>
+      <% end %>
+      <%= else %>
+      <p>No parking information is available for this station.</p>
+    <% end %>
+  </div>
+
+  <div class="row no-gutter station-info-section" >
+    <h2>Accessibility</h2>
+    <p><%= format_accessibility(@station.name, @station.accessibility) %></p>
+    <%= if @station.accessibility && !Enum.empty?(@station.accessibility) do %>
+      <p><%= @station.accessibility |> Enum.filter(&(&1 != "accessible")) |> Enum.map(&pretty_accessibility/1) |> Enum.join(", ") %></p>
+    <% end %>
+  </div>
+
+  <div class="row no-gutter station-info-section">
+    <h2>Fares</h2>
+    <%= render "_commuter_fare.html", conn: @conn, station: @station %>
+    <%= render "_bus_subway_fare.html", conn: @conn %>
+  </div>
+</div>

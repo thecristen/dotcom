@@ -1,5 +1,6 @@
-<div class="row no-gutter">
+<div class="row">
   <div class="col-md-4">
+    <h3>Availability</h3>
     <%= if !Enum.empty?(@lot.spots) do %>
       <ul class="list-unstyled">
         <%= for parking <- @lot.spots do %>
@@ -7,34 +8,43 @@
         <% end %>
       </ul>
       <%= else %>
-      <p>No Parking availability information available</p>
+      <em>No Parking availability information available</em>
     <% end %>
   </div>
   <div class="col-md-4">
+    <h3>Payment</h3>
     <%= if @lot.rate && @lot.rate != "" do %>
       <strong>Parking Rate:</strong> <%= @lot.rate |> HtmlSanitizeEx.strip_tags %>
-      <%= else %>
-      <p>No payment information available</p>
+    <%= else %>
+      <em>No payment information available</em>
     <% end %>
   </div>
   <div class="col-md-4">
-    <ul class="list-unstyled">
-      <%= if @lot.manager.name && @lot.manager.name != "" do %>
-        <li><strong>Managed by:</strong> <%= @lot.manager.name %></li>
-        <%= end %>
-        <%= if @lot.manager.phone do %>
-          <li><strong>Phone:</strong> <%= @lot.manager.phone %></li>
-        <% end %>
-        <%= @lot.manager.website |> optional_link("View #{@lot.manager.name}'s Website »") |> optional_li %>
-    </ul>
+    <h3>Who to Contact</h3>
+    <%= if @lot.manager do %>
+      <ul class="list-unstyled">
+        <%= if @lot.manager.name && @lot.manager.name != "" do %>
+          <li><strong>Managed by:</strong> <%= @lot.manager.name %></li>
+          <%= end %>
+          <%= if @lot.manager.phone do %>
+            <li><strong>Phone:</strong> <%= @lot.manager.phone %></li>
+          <% end %>
+          <%= if @lot.manager.website do %>
+            <%= link to: external_link(@lot.manager.website) do %>
+              <span class="no-wrap">View <%= @lot.manager.name%>'s Website <%= fa "arrow-right" %></span>
+            <% end %>
+          <% end %>
+      </ul>
+      <%= else %>
+      <em>No contact information available</em>
+    <% end %>
   </div>
 </div>
 <%= if @lot.note && @lot.note != "" do %>
-  <div class="fares-callout-box">
+  <div class="row station-callout-box">
     <strong>Note:</strong>
-    <%= @lot.note |> HtmlSanitizeEx.string_tags %>
+    <%= @lot.note |> HtmlSanitizeEx.strip_tags %>
   </div>
-
 <% end %>
 
 

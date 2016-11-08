@@ -1,6 +1,11 @@
 defmodule Site.StopView do
   use Site.Web, :view
 
+  @subway_fare_filters [[name: :subway, duration: :single_trip, reduced: nil],
+                        [name: :local_bus, duration: :single_trip, reduced: nil],
+                        [name: :subway, duration: :week, reduced: nil],
+                        [name: :subway, duration: :month, reduced: nil]]
+
   @doc "Specify the mode each type is associated with"
   @spec fare_group(atom) :: String.t
   def fare_group(:bus), do: "bus_subway"
@@ -49,13 +54,14 @@ defmodule Site.StopView do
     nil
   end
   def optional_link(href, value) do
-    href_value = case href do
-                   <<"http://", _::binary>> -> href
-                   <<"https://", _::binary>> -> href
-                   _ -> "http://" <> href
-                 end
-    content_tag(:a, value, href: href_value, target: "_blank")
+    content_tag(:a, value, href: external_link(href), target: "_blank")
   end
+
+  @spec external_link(String.t) :: String.t
+  @doc "Adds protocol if one is needed"
+  def external_link(href = <<"http://", _::binary>>), do: href
+  def external_link(href = <<"https://", _::binary>>), do: href
+  def external_link(href), do: "http://" <> href
 
   def sort_parking_spots(spots) do
     spots
@@ -67,16 +73,22 @@ defmodule Site.StopView do
       end
     end)
   end
-  
-  # TODO: SPEC
-  # TODO: DOC
+
   # TODO: TEST
+  @spec fare_summaries() :: [Fares.Summary.T]
+  @doc "Fare summaries for filters"
+  def fare_summaries() do
+    @subway_fare_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
+  end
+
+  @spec format_accessibility(String.t, [String.t]) :: String.t
+  @doc "Describes a given station with the given accessibility features"
   def format_accessibility(name, nil), do: "#{name} does not have any accessible services"
   def format_accessibility(name, []), do: "#{name} does not have any accessible services"
   def format_accessibility(name, ["accessible"]) do
     "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices."
   end
-  def format_accessibility(name, _features), do: "#{name} has the folloiwing accessibility features:"
+  def format_accessibility(name, _features), do: "#{name} has the following accessibility features:"
 
   def parking_type("basic"), do: "Parking"
   def parking_type(type), do: type |> String.capitalize

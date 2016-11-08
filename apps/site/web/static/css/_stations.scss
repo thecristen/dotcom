@@ -94,3 +94,24 @@ a {
   padding-right:0;
   padding-left:0;
 }
+
+.station-callout-box {
+  background-color: $gray-lightest;
+  padding: .5rem;
+  margin-left: .0375rem;
+  margin-bottom: 1.5rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.station-info-section {
+  margin-top: 1.5rem;
+  border-bottom: 1px solid $gray-lightest;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+}
