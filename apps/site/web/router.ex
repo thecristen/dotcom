@@ -50,8 +50,9 @@ defmodule Site.Router do
     forward "/", Router
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Site do
-  #   pipe_through :api
-  # end
+  # This needs to go last so that it catches any URLs that fall through.
+  scope "/", Site do
+    pipe_through [:browser]
+    get "/*url", ContentController, :page
+  end
 end

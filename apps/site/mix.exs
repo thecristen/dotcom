@@ -23,7 +23,7 @@ defmodule Site.Mixfile do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
             :stations, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
-            :logster, :sizeable, :feedback, :zones, :fares]
+            :logster, :sizeable, :feedback, :zones, :fares, :content]
 
     apps = if Mix.env == :prod do
       [:ehmon | apps]
@@ -73,6 +73,7 @@ defmodule Site.Mixfile do
      {:porcelain, "~> 2.0"},
      {:zones, in_umbrella: true},
      {:fares, in_umbrella: true},
+     {:content, in_umbrella: true},
      {:dialyxir, ">= 0.3.5", only: [:test, :dev]},
      {:benchfella, "~> 0.3", only: :dev}
     ]
