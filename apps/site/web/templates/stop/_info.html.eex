@@ -12,14 +12,20 @@
         </div>
       </div>
     </div>
+    <%= for lot <- @station.parking_lots do %>
+      <%= render "_parking_lot.html", lot: lot%>
+    <% end %>
+    <%= else %>
+    <p>No parking information is available for this station.</p>
   <% end %>
+  </div>
 
-  <div class="col-xs-12">
-    <%= for {type, routes} <- @grouped_routes do %>
-      <%= render Site.ModeView, "_mode.html", conn: @conn, route_type: type, grouped_routes: %{type => routes}, truncate: false %>
-      <div class="mode-group-footer">
-        <%= link "View #{mode_name type} Fares and Passes »", to: fare_path @conn, :show, fare_group(type) %>
-      </div>
+
+  <div class="row no-gutter">
+    <h2>Accessibility</h2>
+    <p><%= format_accessibility(@station.name, @station.accessibility) %></p>
+    <%= if @station.accessibility && !Enum.empty?(@station.accessibility) do %>
+      <p><%= @station.accessibility |> Enum.filter(&(&1 != "accessible")) |> Enum.map(&pretty_accessibility/1) |> Enum.join(", ") %></p>
     <% end %>
   </div>
 
@@ -44,3 +50,21 @@
     </div>
   <% end %>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

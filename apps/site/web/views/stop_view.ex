@@ -67,6 +67,17 @@ defmodule Site.StopView do
       end
     end)
   end
+  
+  # TODO: SPEC
+  # TODO: DOC
+  # TODO: TEST
+  def format_accessibility(name, nil), do: "#{name} does not have any accessible services"
+  def format_accessibility(name, []), do: "#{name} does not have any accessible services"
+  def format_accessibility(name, ["accessible"]) do
+    "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices."
+  end
+  def format_accessibility(name, _features), do: "#{name} has the folloiwing accessibility features:"
+
   def parking_type("basic"), do: "Parking"
   def parking_type(type), do: type |> String.capitalize
 

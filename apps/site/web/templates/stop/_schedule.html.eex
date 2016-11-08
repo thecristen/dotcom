@@ -1,3 +1,4 @@
+<<<<<<< HEAD:apps/site/web/templates/stop/_schedule.html.eex
 <div class="row p-x-g">
   <%= if @stop.parking_lots != [] do %>
     <div class="col-xs-12">
@@ -43,4 +44,7 @@
       </div>
     </div>
   <% end %>
+=======
+<div>
+>>>>>>> change layout on station info tab:apps/site/web/templates/station/_schedule.html.eex
 </div>
