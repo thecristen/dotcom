@@ -26,7 +26,7 @@ defmodule Content.RepoTest do
         Plug.Conn.resp(conn, 200, @page_body)
       end
 
-      assert {:ok, %Content.Page{}} = Content.Repo.page(path: "/page")
+      assert {:ok, %Content.Page{}} = Content.Repo.page("/page")
     end
 
     test "returns an error if the page isn't found", %{bypass: bypass} do
@@ -34,13 +34,13 @@ defmodule Content.RepoTest do
         Plug.Conn.resp(conn, 404, @page_body)
       end
 
-      assert {:error, _} = Content.Repo.page(path: "/page")
+      assert {:error, _} = Content.Repo.page("/page")
     end
 
     test "returns an error if Drupal is down", %{bypass: bypass} do
       Bypass.down(bypass)
 
-      assert {:error, _} = Content.Repo.page(path: "/page")
+      assert {:error, _} = Content.Repo.page("/page")
 
       Bypass.up(bypass)
     end

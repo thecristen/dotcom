@@ -1,18 +1,20 @@
 defmodule Content.Repo do
-  @spec page([...]) :: {:ok, Content.Page.t} | {:error, any}
-  def page(opts) when is_list(opts) do
-    path = Keyword.fetch!(opts, :path)
-    opts = opts
-    |> Keyword.drop([:path])
-    |> Keyword.put(:_format, "json")
+  @doc """
+
+  Fetches a %Content.Page{} for a given path.
+
+  """
+  @spec page(String.t) :: {:ok, Content.Page.t} | {:error, any}
+  def page(path) when is_binary(path) do
+    params = [{:_format, "json"}]
 
     with {:ok, full_url} <- build_url(path),
-         {:ok, response} <- HTTPoison.get(full_url, [], params: opts),
+         {:ok, response} <- HTTPoison.get(full_url, [], params: params),
          %{status_code: 200, body: body} <- response do
       Content.Parse.Page.parse(body)
     else
       tuple = {:error, _} -> tuple
-      error -> {:error, "while fetching page #{path}:#{inspect opts}: #{inspect error}"}
+      error -> {:error, "while fetching page #{path}: #{inspect error}"}
     end
   end
 

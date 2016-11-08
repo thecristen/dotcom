@@ -7,7 +7,7 @@ defmodule Site.ContentController do
     |> Enum.join("/")
 
     conn
-    |> render_content(Content.Repo.page(path: path))
+    |> render_content(Content.Repo.page(path))
   end
 
   defp render_content(conn, {:ok, %Content.Page{} = page}) do
