@@ -77,8 +77,7 @@ defmodule Site.StationView do
 
   @spec tab_class(String.t, String.t) :: String.t
   @doc "Given a station tab, and the selected tab, returns the CSS class for the given station tab"
+  def tab_class(tab, tab), do: "stations-tab stations-tab-selected"
   def tab_class("schedule", nil), do: "stations-tab stations-tab-selected"
-  def tab_class(tab, selected) do
-    "stations-tab" <> if tab == selected, do: " stations-tab-selected", else: ""
-  end
+  def tab_class(_, _), do: "stations-tab"
 end
