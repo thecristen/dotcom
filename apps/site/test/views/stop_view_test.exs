@@ -11,4 +11,23 @@ defmodule Site.StopViewTest do
       assert StopView.fare_group(:ferry) == "ferry"
     end
   end
+
+  describe "template_for_tab/1" do
+    test "correct template for selected tab" do
+      assert StopView.template_for_tab(nil) == "_schedule.html"
+      assert StopView.template_for_tab("info") == "_info.html"
+      assert StopView.template_for_tab("schedule") == "_schedule.html"
+    end
+  end
+
+  describe "tab_class/2" do
+    test "CSS class for selected tab" do
+      selected_class = "stations-tab stations-tab-selected"
+      non_selected_class = "stations-tab"
+      assert StopView.tab_class("schedule", nil) == selected_class
+      assert StopView.tab_class("info", nil) == non_selected_class
+      assert StopView.tab_class("schedule", "info") == non_selected_class
+      assert StopView.tab_class("info", "info") == selected_class
+    end
+  end
 end
