@@ -1,6 +1,6 @@
-defmodule Stations.StationInfoApi do
+defmodule Stops.StopInfoApi do
   @moduledoc """
-  Wrapper around the remote station information service.
+  Wrapper around the remote stop information service.
   """
   use HTTPoison.Base
 
@@ -29,7 +29,7 @@ defmodule Stations.StationInfoApi do
   end
 
   defp process_url(url) do
-    base_url = case Application.get_env(:stations, :base_url) do
+    base_url = case Application.get_env(:stops, :base_url) do
                  {:system, envvar, default} ->
                    System.get_env(envvar) || default
                  value -> value

@@ -43,7 +43,7 @@ defmodule Site.ScheduleControllerTest do
   test "shows station info link if a station page exists", %{conn: conn} do
     conn = get conn, schedule_path(conn, :show, "28")
     response = html_response(conn, 200)
-    assert response =~ "View station info"
+    assert response =~ "View stop info"
   end
 
   test "returns 404 if a nonexistent route is given", %{conn: conn} do

@@ -1,20 +1,20 @@
-defmodule Stations.Api do
+defmodule Stops.Api do
   @moduledoc """
-  Wrapper around the remote station information service.
+  Wrapper around the remote stop information service.
   """
-  alias Stations.StationInfoApi
-  alias Stations.Station
+  alias Stops.StopInfoApi
+  alias Stops.Stop
 
-  @spec all :: [Station.t]
+  @spec all :: [Stop.t]
   def all do
-    StationInfoApi.all
+    StopInfoApi.all
     |> map_json_api
   end
 
-  @spec by_gtfs_id(String.t) :: Station.t | nil
+  @spec by_gtfs_id(String.t) :: Stop.t | nil
   def by_gtfs_id(gtfs_id) do
-    station_info_task = Task.async fn -> gtfs_id
-      |> StationInfoApi.by_gtfs_id
+    stop_info_task = Task.async fn -> gtfs_id
+      |> StopInfoApi.by_gtfs_id
       |> map_json_api
       |> List.first
     end
@@ -22,17 +22,17 @@ defmodule Stations.Api do
       gtfs_id
       |> V3Api.Stops.by_gtfs_id
     end
-    merge_v3(Task.await(station_info_task), Task.await(v3_task))
+    merge_v3(Task.await(stop_info_task), Task.await(v3_task))
   end
 
   defp map_json_api(%JsonApi{data: data}) do
     data
-    |> Enum.map(&parse_station/1)
+    |> Enum.map(&parse_stop/1)
   end
 
-  defp parse_station(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
+  defp parse_stop(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
     id = attributes["gtfs_id"]
-    %Station{
+    %Stop{
       id: id,
       name: attributes["name"],
       address: attributes["address"],
@@ -40,8 +40,8 @@ defmodule Stations.Api do
       accessibility: attributes["accessibility"],
       images: images(relationships["images"]),
       parking_lots: parking_lots(relationships),
-      has_fare_machine: Enum.member?(vending_machine_stations, id),
-      has_charlie_card_vendor: Enum.member?(charlie_card_stations, id)
+      has_fare_machine: Enum.member?(vending_machine_stops, id),
+      has_charlie_card_vendor: Enum.member?(charlie_card_stops, id)
     }
   end
 
@@ -53,26 +53,26 @@ defmodule Stations.Api do
     []
   end
   defp parking_lots(%{"parkings" => [first|_] = parkings}) do
-    # previous version of the Station Info API
+    # previous version of the Stop Info API
     manager = parse_manager(first.relationships["manager"])
     rate = first.attributes["rate"]
     note = first.attributes["note"]
     [
-      %Station.ParkingLot{
+      %Stop.ParkingLot{
         name: "",
         average_availability: "",
         rate: rate,
         note: note,
         manager: manager,
         spots: parkings |> Enum.map(fn parking ->
-          %Station.Parking{
+          %Stop.Parking{
             type: parking.attributes["type"],
             spots: parking.attributes["spots"]} end)}
     ]
   end
 
   defp parse_parking_lot(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
-    %Station.ParkingLot{
+    %Stop.ParkingLot{
       name: attributes["name"],
       average_availability: attributes["average_availability"],
       rate: attributes["rate"],
@@ -83,14 +83,14 @@ defmodule Stations.Api do
   end
 
   defp parse_spot(%{"type" => type, "spots" => spots}) do
-    %Station.Parking{
+    %Stop.Parking{
       type: type,
       spots: spots
     }
   end
 
   defp parse_manager([%JsonApi.Item{attributes: attributes}]) do
-    %Station.Manager{
+    %Stop.Manager{
       name: attributes["name"],
       website: attributes["website"],
       phone: attributes["phone"],
@@ -105,20 +105,20 @@ defmodule Stations.Api do
   defp images(items) do
     items
     |> Enum.map(fn image ->
-      %Station.Image{
+      %Stop.Image{
         description: image.attributes["description"],
         url: image.attributes["url"],
         sort_order: image.attributes["sort_order"]}
     end)
   end
 
-  defp merge_v3(station, %{status_code: 404}) do
-    # failed v3 response, just return the station as-is
-    station
+  defp merge_v3(stop, %{status_code: 404}) do
+    # failed v3 response, just return the stop as-is
+    stop
   end
   defp merge_v3(nil, v3_response) do
     stop = List.first(v3_response.data)
-    %Station{
+    %Stop{
       id: stop.id,
       name: stop.attributes["name"],
       accessibility: (if (stop.attributes["wheelchair_boarding"] == 1), do: ["accessible"], else: []),
@@ -127,17 +127,17 @@ defmodule Stations.Api do
       longitude: stop.attributes["longitude"]
     }
   end
-  defp merge_v3(station, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
-    %Station{station | latitude: latitude, longitude: longitude}
+  defp merge_v3(stop, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
+    %Stop{stop | latitude: latitude, longitude: longitude}
   end
 
-  defp vending_machine_stations do
+  defp vending_machine_stops do
     ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl",
       "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr",
       "place-brntn"]
   end
 
-  defp charlie_card_stations do
+  defp charlie_card_stops do
     [
       "place-alfcl",
       "place-armnl",

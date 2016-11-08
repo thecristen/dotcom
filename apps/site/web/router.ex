@@ -23,7 +23,7 @@ defmodule Site.Router do
 
     get "/", PageController, :index
     get "/redirect/*path", RedirectController, :show
-    resources "/stations", StationController, only: [:index, :show]
+    resources "/stops", StopController, only: [:index, :show]
     get "/schedules", ModeController, :index
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus

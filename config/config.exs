@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :stations,
+config :stops,
   base_url: {:system, "STATION_URL", "http://mbta-station-info-dev.us-east-1.elasticbeanstalk.com"}
 
 config :v3_api,

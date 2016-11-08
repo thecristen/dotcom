@@ -1,4 +1,4 @@
-defmodule Site.StationView do
+defmodule Site.StopView do
   use Site.Web, :view
 
   @doc "Specify the mode each type is associated with"

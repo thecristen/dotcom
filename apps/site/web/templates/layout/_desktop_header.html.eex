@@ -17,7 +17,7 @@
             <p><span class="header-image"><%= fa "map-o" %></span> <strong>Plan Your Trip</strong></p>
             <ul>
               <li><%= link "Directions", to: redirect_path(@conn, "rider_tools/trip_planner/") %></li>
-              <li><%= link "Station Info", to: station_path(@conn, :index) %></li>
+              <li><%= link "Station Info", to: stop_path(@conn, :index) %></li>
               <li><%= link "Service Alerts", to: alert_path(@conn, :index) %></li>
               <li><%= link "Maps", to: redirect_path(@conn, "schedules_and_maps/system_map/") %></li>
             </ul>

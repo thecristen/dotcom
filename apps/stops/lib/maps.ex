@@ -1,4 +1,4 @@
-defmodule Stations.Maps do
+defmodule Stops.Maps do
   use HTTPoison.Base
   use RepoCache, ttl: :timer.hours(12)
 

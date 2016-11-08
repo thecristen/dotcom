@@ -1,9 +1,9 @@
-defmodule Stations.Mixfile do
+defmodule Stops.Mixfile do
   @moduledoc false
   use Mix.Project
 
   def project do
-    [app: :stations,
+    [app: :stops,
      version: "0.0.1",
      elixir: "~> 1.2",
      build_path: "../../_build",
@@ -20,7 +20,7 @@ defmodule Stations.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger, :httpoison, :json_api, :repo_cache, :v3_api],
-     mod: {Stations, []}]
+     mod: {Stops, []}]
   end
 
   # Dependencies can be Hex packages:

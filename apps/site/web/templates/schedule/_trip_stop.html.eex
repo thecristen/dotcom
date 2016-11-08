@@ -21,7 +21,7 @@
       <%= if Alerts.Match.match(@alerts, %Alerts.InformedEntity{stop: @trip_schedule.stop.id}) != [] do %>
         <%= Site.AlertView.tooltip %>
       <% end %>
-      <%= station_info_link(@trip_schedule.stop) %>
+      <%= stop_info_link(@trip_schedule.stop) %>
     </span>
     <%= if @origin do %>
       <span class="trip-stop-suffix">(origin)</span>
