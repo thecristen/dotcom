@@ -53,10 +53,16 @@ config :logger, :logentries,
 # We also recommend setting `force_ssl`, ensuring no data is
 # ever sent via http, always redirecting to https:
 #
-config :site, Site.Endpoint,
-  force_ssl: [
-    rewrite_on: [:x_forwarded_proto]
-  ]
+
+# because this is evaluated at compile time, it won't get used when we're
+# running the Backstop tests.  It should still be included in the production
+# build.
+unless System.get_env("PORT") do
+  config :site, Site.Endpoint,
+    force_ssl: [
+      rewrite_on: [:x_forwarded_proto]
+    ]
+end
 
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
