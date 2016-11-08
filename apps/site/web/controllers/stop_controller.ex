@@ -11,12 +11,14 @@ defmodule Site.StopController do
     render(conn, "index.html", stops: stops, breadcrumbs: ["Stops"])
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, params) do
+    id = params["id"]
     stop = Repo.get!(id |> String.replace("+", " "))
     conn
     |> assign(:map_url, Stops.Maps.by_name(stop.name))
     |> assign(:grouped_routes, grouped_routes(id))
     |> assign(:breadcrumbs, [{stop_path(conn, :index), "Stops"}, stop.name])
+    |> assign(:tab, params["tab"])
     |> render("show.html", stop: stop)
   end
 
