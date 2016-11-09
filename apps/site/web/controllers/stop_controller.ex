@@ -15,7 +15,6 @@ defmodule Site.StopController do
     id = params["id"]
     stop = Repo.get!(id |> String.replace("+", " "))
     conn
-    |> assign(:map_url, Stops.Maps.by_name(stop.name))
     |> assign(:grouped_routes, grouped_routes(id))
     |> assign(:breadcrumbs, [{stop_path(conn, :index), "Stops"}, stop.name])
     |> assign(:tab, params["tab"])
