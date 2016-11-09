@@ -13,7 +13,7 @@ defmodule Stops.Api do
 
   @spec by_gtfs_id(String.t) :: Stop.t | nil
   def by_gtfs_id(gtfs_id) do
-    stop_info_task = Task.async fn -> gtfs_id
+    station_info_task = Task.async fn -> gtfs_id
       |> StationInfoApi.by_gtfs_id
       |> map_json_api
       |> List.first
@@ -41,7 +41,7 @@ defmodule Stops.Api do
       images: images(relationships["images"]),
       parking_lots: parking_lots(relationships),
       has_fare_machine: Enum.member?(vending_machine_stations, id),
-      has_charlie_card_vendor: Enum.member?(charlie_card_stops, id)
+      has_charlie_card_vendor: Enum.member?(charlie_card_stations, id)
     }
   end
 
@@ -137,7 +137,7 @@ defmodule Stops.Api do
       "place-brntn"]
   end
 
-  defp charlie_card_stops do
+  defp charlie_card_stations do
     [
       "place-alfcl",
       "place-armnl",
