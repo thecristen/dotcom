@@ -4,7 +4,7 @@ defmodule Site.ContentController do
 
   @doc """
 
-  Effectively a callback from Content.Controller, this is responsible for
+  Effectively a callback from Content.Router, this is responsible for
   doing the actual rendering.
 
   """
@@ -23,7 +23,7 @@ defmodule Site.ContentController do
   end
   defp render_page(conn, {:error, error}) do
     Logger.debug("error while fetching page: #{inspect error}")
-    page(conn, nil)
+    render_page(conn, nil)
   end
   defp render_page(conn, _) do
     conn

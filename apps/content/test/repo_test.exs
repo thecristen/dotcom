@@ -8,12 +8,13 @@ defmodule Content.RepoTest do
   |> File.read!
 
   setup_all _ do
-    original_drupal_root = Application.get_env(:content, :drupal_root)
+    original_drupal_config = Application.get_env(:content, :drupal)
     bypass = Bypass.open
-    Application.put_env(:content, :drupal_root, "http://localhost:#{bypass.port}")
+    Application.put_env(:content, :drupal,
+      put_in(original_drupal_config[:root], "http://localhost:#{bypass.port}"))
 
     on_exit fn ->
-      Application.put_env(:content, :drupal_root, original_drupal_root)
+      Application.put_env(:content, :drupal, original_drupal_config)
     end
     %{bypass: bypass}
   end

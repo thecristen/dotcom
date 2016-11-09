@@ -33,6 +33,4 @@ config :content,
   drupal: [
     root: {:system, "DRUPAL_ROOT"},
     static_path: "/sites/default/files"
-  ],
-  static_mfa: {Site.Router.Helpers, :static_url, [Site.Endpoint]},
-  page_mfa: {Site.ContentController, :page, []}
+  ]

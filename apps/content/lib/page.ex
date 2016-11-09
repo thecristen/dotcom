@@ -25,10 +25,8 @@ defmodule Content.Page do
 
   def rewrite_static_files(%Content.Page{body: body} = page) when is_binary(body) do
     static_path = Content.Config.static_path
-    {module, func, args} = Application.get_env(:content, :static_mfa)
-    # rewrites strings like "/static/root/image.jpg" with "/static-content/image.jpg"
     new_body = Regex.replace(~r/"(#{static_path}[^"]+)"/, body, fn _, path ->
-      ['"', apply(module, func, args ++ [path]), '"']
+      ['"', Content.Config.apply(:static, [path]), '"']
     end)
     %{page | body: new_body}
   end

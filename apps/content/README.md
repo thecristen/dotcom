@@ -1,6 +1,7 @@
 # Content
 
-**TODO: Add description**
+This wraps our Drupal installation, and handles the communication with the
+installation.
 
 ## Installation
 
@@ -21,4 +22,3 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
       [applications: [:content]]
     end
     ```
-
