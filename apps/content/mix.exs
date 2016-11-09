@@ -18,7 +18,7 @@ defmodule Content.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :timex, :httpoison, :poison],
+    [applications: [:logger, :timex, :httpoison, :poison, :plug],
      mod: {Content, []}]
   end
 
@@ -39,6 +39,7 @@ defmodule Content.Mixfile do
     [{:httpoison, ">= 0.0.0"},
      {:poison, ">= 0.0.0"},
      {:timex, ">= 0.0.0"},
+     {:plug, ">= 0.0.0"},
      {:bypass, "~> 0.1", only: :test},
      {:excheck, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test}]
