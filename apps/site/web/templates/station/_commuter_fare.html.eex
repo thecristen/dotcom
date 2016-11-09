@@ -3,7 +3,7 @@
   <p>
   Your Commuter Rail Fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
   <%= link to: fare_path(@conn, :show, "commuter") do %>
-    Find your fare <%= fa "arrow-right "%>
+    <span class="no-wrap">Find your fare <%= fa "arrow-right "%></span>
   <% end %>
   </p>
 

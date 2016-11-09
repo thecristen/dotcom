@@ -16,9 +16,9 @@
       </h1>
     </div>
     <p class="stations-address m-x-g">
-      <%= @stop.address %>
-        <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
-          <span class="no-wrap">Plan a trip <%= fa "arrow-right" %></span>
+      <%= @station.address %>
+        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>
+          <span class="no-wrap">Get directions <%= fa "arrow-right" %></span>
         <% end %>
     </p>
 

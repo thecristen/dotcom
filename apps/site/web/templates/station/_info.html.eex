@@ -19,8 +19,17 @@
   </div>
 
   <div class="row no-gutter station-info-section">
-    <h2>Fares</h2>
-    <%= render "_commuter_fare.html", conn: @conn, station: @station %>
-    <%= render "_bus_subway_fare.html", conn: @conn %>
+    <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
+    <%= if !Enum.empty?(types ) do %>
+      <h2>Fares</h2>
+      <%= if :commuter in types do %>
+        <%= render "_commuter_fare.html", conn: @conn, station: @station %>
+      <% end %>
+      <%= if :ferry in types do %>
+      <% end %>
+      <%= if :subway in types || :bus in types do %>
+        <%= render "_bus_subway_fare.html", conn: @conn %>
+      <% end %>
+    <% end %>
   </div>
 </div>
