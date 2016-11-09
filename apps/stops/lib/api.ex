@@ -22,7 +22,7 @@ defmodule Stops.Api do
       gtfs_id
       |> V3Api.Stops.by_gtfs_id
     end
-    merge_v3(Task.await(stop_info_task), Task.await(v3_task))
+    merge_v3(Task.await(station_info_task), Task.await(v3_task))
   end
 
   defp map_json_api(%JsonApi{data: data}) do
