@@ -52,7 +52,7 @@ defmodule Site.ScheduleView do
 
     link(
       to: stop_path(Site.Endpoint, :show, id),
-      class: "stop-info-link",
+      class: "station-info-link",
       data: [
         toggle: "tooltip"
       ],
