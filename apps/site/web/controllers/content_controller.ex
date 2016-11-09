@@ -2,24 +2,30 @@ defmodule Site.ContentController do
   use Site.Web, :controller
   require Logger
 
-  def page(conn, %{"url" => url_parts}) do
-    path = url_parts
-    |> Enum.join("/")
+  @doc """
 
+  Effectively a callback from Content.Controller, this is responsible for
+  doing the actual rendering.
+
+  """
+  @spec page(Plug.Conn.t, {:ok, Content.Page.t} | {:error, any}) :: Plug.Conn.t
+  def page(conn, maybe_page) do
     conn
-    |> render_content(Content.Repo.page(path))
+    |> put_layout({Site.LayoutView, :app})
+    |> render_page(maybe_page)
   end
 
-  defp render_content(conn, {:ok, %Content.Page{} = page}) do
-    render(conn, "page.html",
+  defp render_page(conn, {:ok, page}) do
+    conn
+    |> render(Site.ContentView, "page.html",
       breadcrumbs: [page.title],
       page: page)
   end
-  defp render_content(conn, {:error, error}) do
+  defp render_page(conn, {:error, error}) do
     Logger.debug("error while fetching page: #{inspect error}")
-    render_content(conn, nil)
+    page(conn, nil)
   end
-  defp render_content(conn, _) do
+  defp render_page(conn, _) do
     conn
     |> put_status(:not_found)
     |> render(Site.ErrorView, "404.html", [])

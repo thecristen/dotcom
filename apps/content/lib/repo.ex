@@ -18,23 +18,10 @@ defmodule Content.Repo do
     end
   end
 
-  defp build_url(path = "/" <> _) do
-    base_url = case Application.get_env(:content, :drupal_root) do
-                 {:system, envvar} -> System.get_env(envvar)
-                 value -> value
-               end
-    merge_urls(base_url, path)
-  end
-  defp build_url(path) when is_binary(path) do
-    build_url("/" <> path)
-  end
-
-  defp merge_urls(nil, _) do
-    {:error, "undefined DRUPAL_ROOT"}
-  end
-  defp merge_urls(base_url, path) do
-    {:ok, base_url
-    |> URI.merge(path)
-    |> URI.to_string}
+  defp build_url(path) do
+    case Content.Config.url(path) do
+      nil -> {:error, "undefined Drupal root"}
+      url -> {:ok, url}
+    end
   end
 end

@@ -46,13 +46,16 @@ defmodule Site.Router do
   end
 
 
-  scope "/_flags", Laboratory do
-    forward "/", Router
+  scope "/_flags" do
+    pipe_through [:browser]
+
+    forward "/", Laboratory.Router
   end
 
   # This needs to go last so that it catches any URLs that fall through.
-  scope "/", Site do
+  scope "/" do
     pipe_through [:browser]
-    get "/*url", ContentController, :page
+
+    forward "/", Content.Router
   end
 end

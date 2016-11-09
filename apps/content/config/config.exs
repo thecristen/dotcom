@@ -29,4 +29,6 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
-config :content, drupal_root: {:system, "DRUPAL_ROOT"}
+config :content,
+  drupal_root: {:system, "DRUPAL_ROOT"},
+  page: {Site.ContentController, :page, []}
