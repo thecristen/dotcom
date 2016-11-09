@@ -16,8 +16,8 @@ defmodule Content.Controller do
 
   def show(conn, _params) do
     maybe_page = Content.Repo.page(conn.request_path)
-    {module, fun, args} = Application.get_env(:content, :page)
-    apply(module, fun, [conn, maybe_page | args])
+    {module, fun, args} = Application.get_env(:content, :page_mfa)
+    apply(module, fun, args ++ [conn, maybe_page])
   end
 
   defp forward_response(conn, %{body: body, headers: headers}) do

@@ -10,8 +10,9 @@ defmodule Content.Repo do
 
     with {:ok, full_url} <- build_url(path),
          {:ok, response} <- HTTPoison.get(full_url, [], params: params),
-         %{status_code: 200, body: body} <- response do
-      Content.Parse.Page.parse(body)
+         %{status_code: 200, body: body} <- response,
+         {:ok, page} <- Content.Parse.Page.parse(body) do
+      {:ok, Content.Page.rewrite_static_files(page)}
     else
       tuple = {:error, _} -> tuple
       error -> {:error, "while fetching page #{path}: #{inspect error}"}
