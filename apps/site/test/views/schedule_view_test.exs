@@ -125,6 +125,14 @@ defmodule Site.ScheduleViewTest do
       assert str =~ safe_to_string(Site.ViewHelpers.fa("map-o"))
       assert str =~ "View stop information for South Station"
     end
+
+    test "generates a stop link on a map icon for a bus stop that is not a station" do
+      stop = %Stop{id: "1736"}
+      str = safe_to_string(ScheduleView.stop_info_link(stop))
+      assert str =~ stop_path(Site.Endpoint, :show, "1736")
+      assert str =~ safe_to_string(Site.ViewHelpers.fa("map-o"))
+      assert str =~ "View stop information for Blue Hill Ave opp Health Ctr"
+    end
   end
 
   describe "trip/3" do

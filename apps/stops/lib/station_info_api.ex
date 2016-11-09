@@ -1,4 +1,4 @@
-defmodule Stops.StopInfoApi do
+defmodule Stops.StationInfoApi do
   @moduledoc """
   Wrapper around the remote stop information service.
   """

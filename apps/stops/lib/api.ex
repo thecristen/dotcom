@@ -2,19 +2,19 @@ defmodule Stops.Api do
   @moduledoc """
   Wrapper around the remote stop information service.
   """
-  alias Stops.StopInfoApi
+  alias Stops.StationInfoApi
   alias Stops.Stop
 
   @spec all :: [Stop.t]
   def all do
-    StopInfoApi.all
+    StationInfoApi.all
     |> map_json_api
   end
 
   @spec by_gtfs_id(String.t) :: Stop.t | nil
   def by_gtfs_id(gtfs_id) do
     stop_info_task = Task.async fn -> gtfs_id
-      |> StopInfoApi.by_gtfs_id
+      |> StationInfoApi.by_gtfs_id
       |> map_json_api
       |> List.first
     end
@@ -40,7 +40,7 @@ defmodule Stops.Api do
       accessibility: attributes["accessibility"],
       images: images(relationships["images"]),
       parking_lots: parking_lots(relationships),
-      has_fare_machine: Enum.member?(vending_machine_stops, id),
+      has_fare_machine: Enum.member?(vending_machine_stations, id),
       has_charlie_card_vendor: Enum.member?(charlie_card_stops, id)
     }
   end
@@ -131,7 +131,7 @@ defmodule Stops.Api do
     %Stop{stop | latitude: latitude, longitude: longitude}
   end
 
-  defp vending_machine_stops do
+  defp vending_machine_stations do
     ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl",
       "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr",
       "place-brntn"]
