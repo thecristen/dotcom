@@ -21,6 +21,20 @@ defmodule Stops.Repo do
       stop -> stop
     end
   end
+
+  def find_closest(%JsonApi{data: stops}, lat, long, number \\ 12) do
+    stops
+    |> distances(lat, long)
+    |> Enum.take(number)
+    |> Enum.map(fn stop -> Stops.Repo.get(stop.stop) end)
+  end
+
+  defp distances(stops, lat, long) do
+    Enum.map(stops, fn stop ->
+             %{stop: stop.id, dist: :math.pow(lat - stop.attributes["latitude"], 2) + :math.pow(long - stop.attributes["longitude"], 2)}
+      end)
+    |> Enum.sort(&(&1.dist < &2.dist))
+  end
 end
 
 defmodule Stops.NotFoundError do
