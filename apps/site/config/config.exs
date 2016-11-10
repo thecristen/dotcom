@@ -40,6 +40,12 @@ config :laboratory,
 config :site, Site.BodyClass,
   mticket_header: "X-mTicket"
 
+config :content,
+  mfa: [
+    static: {Site.Router.Helpers, :static_url, [Site.Endpoint]},
+    page: {Site.ContentController, :page, []}
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

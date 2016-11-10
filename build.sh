@@ -13,7 +13,6 @@ rm -rf rel/$APP rel/$APP.tar.gz
 docker cp $CONTAINER:/root/${PREFIX}rel/$APP/releases/$VERSION/$APP.tar.gz rel/$APP.tar.gz
 
 docker kill $CONTAINER
-docker rm $CONTAINER
 tar -zxf rel/$APP.tar.gz -C rel/
 rm rel/$APP.tar.gz
 

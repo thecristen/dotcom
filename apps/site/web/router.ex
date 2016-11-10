@@ -46,12 +46,16 @@ defmodule Site.Router do
   end
 
 
-  scope "/_flags", Laboratory do
-    forward "/", Router
+  scope "/_flags" do
+    pipe_through [:browser]
+
+    forward "/", Laboratory.Router
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Site do
-  #   pipe_through :api
-  # end
+  # This needs to go last so that it catches any URLs that fall through.
+  scope "/" do
+    pipe_through [:browser]
+
+    forward "/", Content.Router
+  end
 end
