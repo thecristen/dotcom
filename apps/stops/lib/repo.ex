@@ -22,6 +22,7 @@ defmodule Stops.Repo do
     end
   end
 
+  @spec closest(float, float, integer) :: [Stop.t]
   def closest(lat, long, number \\ 12) do
     stops = V3Api.Stops.all(latitude: lat, longitude: long, radius: 1)
 
@@ -29,6 +30,7 @@ defmodule Stops.Repo do
     |> find_closest(lat, long, number)
   end
 
+  @spec find_closest([Stop.t], float, float, integer) :: [Stop.t]
   def find_closest(%JsonApi{data: stops}, lat, long, number \\ 12) do
     stops
     |> distances(lat, long)
