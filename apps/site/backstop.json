@@ -78,6 +78,14 @@
       "misMatchThreshold": 0.1
     },
     {
+      "label": "Station Info Tab (South Station)",
+      "url": "http://localhost:8082/stops/place-sstat?tab=info&date=2016-09-25",
+      "hideSelectors": [".station-info-map"],
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
+    },
+    {
       "label": "Station Info (Framingham)",
       "url": "http://localhost:8082/stops/Framingham?date=2016-09-25",
       "hideSelectors": [".station-info-map"],
