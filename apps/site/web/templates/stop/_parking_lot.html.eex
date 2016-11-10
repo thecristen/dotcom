@@ -1,6 +1,6 @@
 <div class="row">
   <%= if !Enum.empty?(@lot.spots) || (@lot.rate && @lot.rate != "") || @lot.manager do %>
-    <div class="col-md-4">
+    <div class="col-sm-4">
       <h3 class="parking-header">Availability</h3>
       <%= if !Enum.empty?(@lot.spots) do %>
         <ul class="list-unstyled">
@@ -12,7 +12,7 @@
         <em>No Parking availability information available</em>
       <% end %>
     </div>
-    <div class="col-md-4 payment-info">
+    <div class="col-sm-4 payment-info">
       <h3 class="parking-header">Payment</h3>
       <%= if @lot.rate && @lot.rate != "" do %>
         <strong>Parking Rate:</strong> <%= @lot.rate |> HtmlSanitizeEx.strip_tags %>
@@ -20,7 +20,7 @@
         <em>No payment information available</em>
       <% end %>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4">
       <h3 class="parking-header">Who to Contact</h3>
       <%= if @lot.manager do %>
         <ul class="list-unstyled">

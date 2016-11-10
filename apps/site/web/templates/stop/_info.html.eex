@@ -1,70 +1,50 @@
-<div class="row p-x-g">
-  <%= if @stop.parking_lots != [] do %>
-    <div class="col-xs-12">
-      <div class="mode-group">
-        <div class="mode-group-header">
-          <h2>Parking</h2>
-        </div>
-        <div class="mode-group-block">
-          <%= for lot <- @stop.parking_lots do %>
-            <%= render "_parking_lot.html", lot: lot %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    <%= for lot <- @station.parking_lots do %>
-      <%= render "_parking_lot.html", lot: lot%>
+<div class="container-fluid">
+  <div class="row no-gutter station-info-section">
+    <h2>Parking</h2>
+    <%= if !Enum.empty?(@stop.parking_lots) do %>
+      <%= for lot <- @stop.parking_lots do %>
+        <%= render "_parking_lot.html", lot: lot%>
+      <% end %>
+      <%= else %>
+      <p>No parking information is available for this station.</p>
     <% end %>
-    <%= else %>
-    <p>No parking information is available for this station.</p>
-  <% end %>
   </div>
 
-
-  <div class="row no-gutter">
+  <div class="row no-gutter station-info-section" >
     <h2>Accessibility</h2>
-    <p><%= format_accessibility(@station.name, @station.accessibility) %></p>
-    <%= if @station.accessibility && !Enum.empty?(@station.accessibility) do %>
-      <p><%= @station.accessibility |> Enum.filter(&(&1 != "accessible")) |> Enum.map(&pretty_accessibility/1) |> Enum.join(", ") %></p>
+    <p><%= format_accessibility(@stop.name, @stop.accessibility) %></p>
+    <%= if @stop.accessibility && !Enum.empty?(@stop.accessibility) do %>
+      <p><%= @stop.accessibility |> Enum.filter(&(&1 != "accessible")) |> Enum.map(&pretty_accessibility/1) |> Enum.join(", ") %></p>
     <% end %>
   </div>
 
-  <%= if @stop.accessibility != [] && @stop.accessibility != ["accessible"] do %>
-    <div class="col-xs-12">
-      <div class="mode-group p-b-0">
-        <div class="mode-group-header">
-          <h2>Accessibility</h2>
-        </div>
-        <div class="mode-group-block">
-          <p>The following accessibility services are available at <%= @stop.name %>:</p>
-          <ul>
-            <%= for accessibility <- @stop.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
-              <li><%= accessibility |> pretty_accessibility %></li>
-            <% end %>
-          </ul>
-          <p>
-          <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">Learn more about accessibility at the T</a>
-          </p>
-        </div>
-      </div>
+  <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
+  <%= if !Enum.empty?(types ) do %>
+    <div class="row no-gutter station-info-section">
+      <h2>Fares</h2>
+      <%= if :commuter in types do %>
+        <%= render "_commuter_fare.html", conn: @conn, stop: @stop, zone_name: @zone_name %>
+      <% end %>
+      <%= if :ferry in types do %>
+        <h3 class="station-fare-subheader">Ferry Fares</h3>
+        <%= render "_fare_summaries.html", summaries: ferry_summaries() %>
+        <%= link to: fare_path(@conn, :show, "ferry") do %>
+          <p>View all Ferry fares <%= fa "arrow-right" %></p>
+        <% end %>
+      <% end %>
+      <%= if :subway in types || :bus in types do %>
+        <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
+        <%= render "_fare_summaries.html", summaries: bus_subway_summaries(types) %>
+        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
+          <p>View all Bus and Subway fares <%= fa "arrow-right" %></p>
+        <% end %>
+      <% end %>
     </div>
   <% end %>
+
+  <div class="row">
+    <%= link to: customer_support_path(@conn, :index) do %>
+      <p class="m-y-2">Submit a comment or complaint about this <span class="no-wrap">station <%= fa "arrow-right" %></span></p>
+    <% end %>
+  </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

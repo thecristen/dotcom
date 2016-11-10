@@ -11,19 +11,22 @@
 
   <div class="row">
     <div class="col-sm-6 col-xs-12">
-      <%= if @station.has_fare_machine do %>
+      <%= if @stop.has_fare_machine do %>
         <p class="commute-fare-charge">
           This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
         </p>
-        <strong>There will be a $3.00 surcharge if a ticket is purchased on-board trains leaving from <%= @station.name %>.</strong>
+        <strong>There will be a $3.00 surcharge if a ticket is purchased on-board trains leaving from <%= @stop.name %>.</strong>
       <% end %>
     </div>
 
-    <%= if @station.has_fare_machine do %>
+    <%= if @stop.has_fare_machine do %>
       <div class="col-sm-6 col-xs-12">
         <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>" class="img-fluid commuter-fare-img">
       </div>
     <% end %>
   </div>
 
+  <div class="m-y-1">
+    <%= render "_fare_summaries.html", summaries: commuter_summaries(@zone_name) %>
+  </div>
 </div>

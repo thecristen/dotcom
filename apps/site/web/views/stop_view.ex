@@ -45,22 +45,6 @@ defmodule Site.StopView do
     content_tag :li, value
   end
 
-  def phone("") do
-    ""
-  end
-  def phone(value) do
-    content_tag(:a, value, href: "tel:#{value}")
-  end
-
-  def email("") do
-    ""
-  end
-  def email(value) do
-    display_value = value
-    |> String.replace("@", "@\u200B")
-    content_tag(:a, display_value, href: "mailto:#{value}")
-  end
-
   def optional_link("", _) do
     nil
   end
@@ -89,14 +73,14 @@ defmodule Site.StopView do
     filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
   end
 
-  @spec ferry_summaries() :: [Fares.Summary.T]
+  @spec ferry_summaries() :: [Fares.Summary.t]
   @doc "Ferry fare summaries for filters"
   def ferry_summaries() do
     @ferry_fare_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
   end
 
-  #TODO: DOC / TEST
-  @spec bus_subway_summaries([Atom.t]) :: [Fares.Summary.T]
+  @spec bus_subway_summaries([Atom.t]) :: [Fares.Summary.t]
+  @doc "Returns the bus and subway filters for the given types"
   def bus_subway_summaries(types) do
     filters = cond do
                 :subway in types && :bus in types -> @bus_subway_filters
@@ -104,6 +88,14 @@ defmodule Site.StopView do
                 true -> @subway_only_filters
               end
     summaries_for_filters(filters)
+  end
+
+  @spec commuter_summaries({Atom.t, String.t}) :: [Fares.Summary.t]
+  def commuter_summaries(zone_name) do
+    commuter_filters =  [[mode: :commuter, duration: :single_trip, reduced: nil, name: zone_name],
+                         [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: zone_name]]
+    commuter_mode_only = fn(summary) -> %{summary | modes: [:commuter]} end
+    summaries_for_filters(commuter_filters) |> Enum.map(commuter_mode_only)
   end
 
   @spec format_accessibility(String.t, [String.t]) :: String.t

@@ -18,6 +18,7 @@ defmodule Site.StopController do
     |> assign(:grouped_routes, grouped_routes(id))
     |> assign(:breadcrumbs, [{stop_path(conn, :index), "Stops"}, stop.name])
     |> assign(:tab, params["tab"])
+    |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
     |> render("show.html", stop: stop)
   end
 

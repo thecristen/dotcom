@@ -8,19 +8,17 @@
             <%= for {type, _} <- @grouped_routes do %>
               <%= mode_icon(type) %>
             <% end %>
-          </span>
-          <%= if "accessible" in @station.accessibility do %>
-            <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
-                 alt="Accessible"
-                 class="stations-access-icon"/>
+          <%= if "accessible" in @stop.accessibility do %>
+            <%= mode_icon(:access) %>
          <% end %>
+          </span>
         </span>
       </h1>
     </div>
     <p class="m-x-g">
-      <%= @station.address %>
+      <%= @stop.address %>
       <span class="no-wrap">
-        <%= link to: "https://maps.google.com/?q=#{location(@station)}", target: "_blank" do %>
+        <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
           &nbsp;Get directions <%= fa "arrow-right" %>
         <% end %>
       </span>
