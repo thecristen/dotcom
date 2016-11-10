@@ -1,10 +1,21 @@
 defmodule Site.StopView do
   use Site.Web, :view
 
-  @subway_fare_filters [[name: :subway, duration: :single_trip, reduced: nil],
+  @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
                         [name: :local_bus, duration: :single_trip, reduced: nil],
                         [name: :subway, duration: :week, reduced: nil],
                         [name: :subway, duration: :month, reduced: nil]]
+
+  @bus_only_filters [[name: :local_bus, duration: :single_trip, reduced: nil],
+                       [name: :subway, duration: :week, reduced: nil],
+                       [name: :subway, duration: :month, reduced: nil]]
+
+  @subway_only_filters [[name: :subway, duration: :single_trip, reduced: nil],
+                       [name: :subway, duration: :week, reduced: nil],
+                       [name: :subway, duration: :month, reduced: nil]]
+
+  @ferry_fare_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
+                      [mode: :ferry, duration: :month, reduced: nil]]
 
   @doc "Specify the mode each type is associated with"
   @spec fare_group(atom) :: String.t
@@ -74,21 +85,39 @@ defmodule Site.StopView do
     end)
   end
 
-  # TODO: TEST
-  @spec fare_summaries() :: [Fares.Summary.T]
-  @doc "Fare summaries for filters"
-  def fare_summaries() do
-    @subway_fare_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
+  def summaries_for_filters(filters) do
+    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
+  end
+
+  @spec ferry_summaries() :: [Fares.Summary.T]
+  @doc "Ferry fare summaries for filters"
+  def ferry_summaries() do
+    @ferry_fare_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
+  end
+
+  #TODO: DOC / TEST
+  @spec bus_subway_summaries([Atom.t]) :: [Fares.Summary.T]
+  def bus_subway_summaries(types) do
+    filters = cond do
+                :subway in types && :bus in types -> @bus_subway_filters
+                :bus in types -> @bus_only_filters
+                true -> @subway_only_filters
+              end
+    summaries_for_filters(filters)
   end
 
   @spec format_accessibility(String.t, [String.t]) :: String.t
   @doc "Describes a given station with the given accessibility features"
-  def format_accessibility(name, nil), do: "#{name} does not have any accessible services"
-  def format_accessibility(name, []), do: "#{name} does not have any accessible services"
+  def format_accessibility(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
+  def format_accessibility(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
   def format_accessibility(name, ["accessible"]) do
-    "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices."
+    content_tag(:span, "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices.")
   end
-  def format_accessibility(name, _features), do: "#{name} has the following accessibility features:"
+  def format_accessibility(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
+
+  @spec no_parking_note() :: String.t
+  @doc "Parking text when no parking information is available"
+  def no_parking_note(), do: "No MBTA parking. Street or private parking may exist."
 
   def parking_type("basic"), do: "Parking"
   def parking_type(type), do: type |> String.capitalize

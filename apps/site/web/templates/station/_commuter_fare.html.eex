@@ -1,16 +1,29 @@
 <div>
-  <h3>Commuter Rail Fares</h3>
+  <h3 class="station-fare-subheader">Commuter Rail Fares</h3>
   <p>
-  Your Commuter Rail Fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
-  <%= link to: fare_path(@conn, :show, "commuter") do %>
-    <span class="no-wrap">Find your fare <%= fa "arrow-right "%></span>
-  <% end %>
+    Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
+    <span class="no-wrap">
+      <%= link to: fare_path(@conn, :show, "commuter") do %>
+        Find your fare <%= fa "arrow-right "%>
+      <% end %>
+    </span>
   </p>
 
-  <%= if @station.has_fare_machine do %>
-    <p>This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.</p>
-  <% end %>
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <%= if @station.has_fare_machine do %>
+        <p class="commute-fare-charge">
+          This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
+        </p>
+        <strong>There will be a $3.00 surcharge if a ticket is purchased on-board trains leaving from <%= @station.name %>.</strong>
+      <% end %>
+    </div>
 
-  <strong>There will be a $3.00 surcharge if a ticket is purchased on-board trains leavin from <%= @station.name %>.</strong>
+    <%= if @station.has_fare_machine do %>
+      <div class="col-sm-6 col-xs-12">
+        <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>" class="img-fluid commuter-fare-img">
+      </div>
+    <% end %>
+  </div>
 
 </div>

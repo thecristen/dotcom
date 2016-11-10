@@ -1,7 +1,0 @@
-<div>
-  <h3>Bus and Subway Fares</h3>
-  <%= render Site.ModeView, "_fare_summaries.html", summaries: fare_summaries() %>
-  <%= link to: fare_path(@conn, :show, :bus_subway) do %>
-    View All Bus and Subway fares <%= fa "arrow-right" %>
-  <% end %>
-</div>

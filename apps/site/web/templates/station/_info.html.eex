@@ -18,18 +18,33 @@
     <% end %>
   </div>
 
-  <div class="row no-gutter station-info-section">
-    <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
-    <%= if !Enum.empty?(types ) do %>
+  <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
+  <%= if !Enum.empty?(types ) do %>
+    <div class="row no-gutter station-info-section">
       <h2>Fares</h2>
       <%= if :commuter in types do %>
         <%= render "_commuter_fare.html", conn: @conn, station: @station %>
       <% end %>
       <%= if :ferry in types do %>
+        <h3 class="station-fare-subheader">Ferry Fares</h3>
+        <%= render "_fare_summaries.html", summaries: ferry_summaries() %>
+        <%= link to: fare_path(@conn, :show, "ferry") do %>
+          View all Ferry fares <%= fa "arrow-right" %>
+        <% end %>
       <% end %>
       <%= if :subway in types || :bus in types do %>
-        <%= render "_bus_subway_fare.html", conn: @conn %>
+        <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
+        <%= render "_fare_summaries.html", summaries: bus_subway_summaries(types) %>
+        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
+          <p>View all Bus and Subway fares <%= fa "arrow-right" %></p>
+        <% end %>
       <% end %>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <%= link to: customer_support_path(@conn, :index) do %>
+      <p class="m-y-2">Submit a comment or complaint about this station <%= fa "arrow-right" %></p>
     <% end %>
   </div>
 </div>
