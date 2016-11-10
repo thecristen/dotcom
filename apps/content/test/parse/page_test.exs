@@ -2,15 +2,12 @@ defmodule Content.Parse.PageTest do
   use ExUnit.Case, async: true
   use ExCheck
 
-  @body __ENV__.file
-  |> Path.dirname
-  |> Path.join("..")
-  |> Path.join("fixtures")
-  |> Path.join("page.json")
+  @body [Path.dirname(__ENV__.file), "..", "fixtures", "page.json"]
+  |> Path.join
   |> File.read!
 
   describe "parse/1" do
-    test "parses a binary into a Cotnent.Page struct" do
+    test "parses a binary into a %Content.Page{}" do
       expected = {:ok, %Content.Page{
                      title: "Privacy Policy",
                      body: "<p><strong>MBTA'S WEBSITE AND ELECTRONIC FARE MEDIA PRIVACY POLICY</strong><br />",

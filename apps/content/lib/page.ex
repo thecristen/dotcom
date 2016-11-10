@@ -1,26 +1,18 @@
-defmodule Content.Page.Missing do
-  @doc "Represents a field value that wasn't loaded"
-  defstruct [:field]
-  @opaque t :: %__MODULE__{field: atom}
-end
-
 defmodule Content.Page do
   @moduledoc """
 
   A standalone page.
 
   """
-  alias Content.Page.Missing
-
   @type t :: %__MODULE__{
     title: String.t,
     body: String.t,
     updated_at: DateTime.t
   }
   defstruct [
-    title: %Missing{field: :title},
-    body: %Missing{field: :body},
-    updated_at: %Missing{field: :updated_at}
+    title: {:missing, :title},
+    body: {:missing, :body},
+    updated_at: {:missing, :updated_at}
   ]
 
   def rewrite_static_files(%Content.Page{body: body} = page) when is_binary(body) do

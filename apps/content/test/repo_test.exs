@@ -1,10 +1,8 @@
 defmodule Content.RepoTest do
   use ExUnit.Case
 
-  @page_body __ENV__.file
-  |> Path.dirname
-  |> Path.join("fixtures")
-  |> Path.join("page.json")
+  @page_body [Path.dirname(__ENV__.file), "fixtures", "page.json"]
+  |> Path.join
   |> File.read!
 
   setup_all _ do
