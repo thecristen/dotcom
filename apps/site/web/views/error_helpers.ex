@@ -37,6 +37,6 @@ defmodule Site.ErrorHelpers do
 end
 
 
-defimpl Plug.Exception, for: Stations.NotFoundError do
+defimpl Plug.Exception, for: Stops.NotFoundError do
   def status(_), do: 404
 end

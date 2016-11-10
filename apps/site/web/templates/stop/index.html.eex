@@ -6,9 +6,9 @@
   </div>
   <div class="row">
     <ul class="station-list">
-      <%= for station <- @stations do %>
+      <%= for stop <- @stops do %>
         <li class="col-xs-12">
-          <%= link station.name, to: station_path(@conn, :show, station) %>
+          <%= link stop.name, to: stop_path(@conn, :show, stop) %>
         </li>
       <% end %>
     </ul>

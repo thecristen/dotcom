@@ -39,22 +39,19 @@ defmodule Site.ScheduleView do
     schedule_path(conn, :show, route, new_query |> Enum.into([]))
   end
 
-  def station_info_link(station) do
-    do_station_info_link(Stations.Repo.get(station.id))
+  def stop_info_link(stop) do
+    do_stop_info_link(Stops.Repo.get(stop.id))
   end
 
-  defp do_station_info_link(nil) do
-    raw ""
-  end
-  defp do_station_info_link(%{id: id, name: name}) do
-    title = "View station information for #{name}"
+  defp do_stop_info_link(%{id: id, name: name}) do
+    title = "View stop information for #{name}"
     body = ~e(
       <%= fa "map-o" %>
       <span class="sr-or-no-js"> <%= title %>
     )
 
     link(
-      to: station_path(Site.Endpoint, :show, id),
+      to: stop_path(Site.Endpoint, :show, id),
       class: "station-info-link",
       data: [
         toggle: "tooltip"

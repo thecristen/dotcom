@@ -1,12 +1,12 @@
 <div class="row p-x-g">
-  <%= if @station.parking_lots != [] do %>
+  <%= if @stop.parking_lots != [] do %>
     <div class="col-xs-12">
       <div class="mode-group">
         <div class="mode-group-header">
           <h2>Parking</h2>
         </div>
         <div class="mode-group-block">
-          <%= for lot <- @station.parking_lots do %>
+          <%= for lot <- @stop.parking_lots do %>
             <%= render "_parking_lot.html", lot: lot %>
           <% end %>
         </div>
@@ -23,16 +23,16 @@
     <% end %>
   </div>
 
-  <%= if @station.accessibility != [] && @station.accessibility != ["accessible"] do %>
+  <%= if @stop.accessibility != [] && @stop.accessibility != ["accessible"] do %>
     <div class="col-xs-12">
       <div class="mode-group p-b-0">
         <div class="mode-group-header">
           <h2>Accessibility</h2>
         </div>
         <div class="mode-group-block">
-          <p>The following accessibility services are available at <%= @station.name %>:</p>
+          <p>The following accessibility services are available at <%= @stop.name %>:</p>
           <ul>
-            <%= for accessibility <- @station.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
+            <%= for accessibility <- @stop.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
               <li><%= accessibility |> pretty_accessibility %></li>
             <% end %>
           </ul>

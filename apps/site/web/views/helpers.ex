@@ -205,14 +205,14 @@ defmodule Site.ViewHelpers do
   defp empty_value?({_, nil}), do: true
   defp empty_value?({_, _}), do: false
 
-  @doc "Link a station's name to its page."
-  @spec station_link(Stations.Station.t | String.t) :: Phoenix.HTML.Safe.t
-  def station_link(%Stations.Station{} = station) do
-    link station.name, to: station_path(Site.Endpoint, :show, station.id)
+  @doc "Link a stop's name to its page."
+  @spec stop_link(Stops.Stop.t | String.t) :: Phoenix.HTML.Safe.t
+  def stop_link(%Stops.Stop{} = stop) do
+    link stop.name, to: stop_path(Site.Endpoint, :show, stop.id)
   end
-  def station_link(station_id) do
-    station_id
-    |> Stations.Repo.get
-    |> station_link
+  def stop_link(stop_id) do
+    stop_id
+    |> Stops.Repo.get
+    |> stop_link
   end
 end

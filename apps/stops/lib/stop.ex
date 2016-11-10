@@ -1,61 +1,61 @@
-defmodule Stations.Station do
+defmodule Stops.Stop do
   @moduledoc """
-  Domain model for a station.
+  Domain model for a Stop.
   """
-  alias Stations.Station
+  alias Stops.Stop
 
   defstruct [:id, :name, :note, :accessibility, :address,
    :parking_lots, :latitude, :longitude, :images, :has_fare_machine, :has_charlie_card_vendor]
-  @type t :: %Station{
+  @type t :: %Stop{
     id: String.t,
     name: String.t,
     note: String.t,
     accessibility: [String.t],
     address: String.t,
-    parking_lots: [Station.ParkingLot.t],
+    parking_lots: [Stop.ParkingLot.t],
     latitude: float,
     longitude: float,
-    images: [Station.Image.t],
+    images: [Stop.Image.t],
     has_fare_machine: boolean,
     has_charlie_card_vendor: boolean
   }
 end
 
-defmodule Stations.Station.ParkingLot do
+defmodule Stops.Stop.ParkingLot do
   @moduledoc """
-  A group of parking spots at a station.
+  A group of parking spots at a Stop.
   """
   defstruct [:name, :spots, :average_availability, :rate, :note, :manager]
-  @type t :: %Stations.Station.ParkingLot{
+  @type t :: %Stops.Stop.ParkingLot{
     name: String.t,
-    spots: [Stations.Station.Parking],
+    spots: [Stops.Stop.Parking],
     average_availability: float,
     rate: String.t,
     note: String.t,
-    manager: Stations.Station.Manager.t | nil
+    manager: Stops.Stop.Manager.t | nil
   }
 end
 
-defmodule Stations.Station.Parking do
+defmodule Stops.Stop.Parking do
   @moduledoc """
-  A type of a parking at a station.
+  A type of a parking at a Stop.
   """
   defstruct [:type, :spots, :rate, :note, :manager]
-  @type t :: %Stations.Station.Parking{
+  @type t :: %Stops.Stop.Parking{
     type: String.t,
     spots: non_neg_integer,
     rate: String.t,
     note: String.t,
-    manager: Stations.Station.Manager.t | nil
+    manager: Stops.Stop.Manager.t | nil
   }
 end
 
-defmodule Stations.Station.Manager do
+defmodule Stops.Stop.Manager do
   @moduledoc """
   A manager of a parking lot.
   """
   defstruct [:name, :phone, :email, :website]
-  @type t :: %Stations.Station.Manager{
+  @type t :: %Stops.Stop.Manager{
     name: String.t,
     phone: String.t,
     email: String.t,
@@ -63,12 +63,12 @@ defmodule Stations.Station.Manager do
   }
 end
 
-defmodule Stations.Station.Image do
+defmodule Stops.Stop.Image do
   @moduledoc """
-  A picture/PDF of the station.
+  A picture/PDF of the Stop.
   """
   defstruct [:description, :url, :sort_order]
-  @type t :: %Stations.Station.Image{
+  @type t :: %Stops.Stop.Image{
     description: String.t,
     url: String.t,
     sort_order: non_neg_integer

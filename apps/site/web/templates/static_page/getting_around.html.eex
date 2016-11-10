@@ -15,7 +15,7 @@
     <h2>Plan Your Trip</h2>
     <div class="row">
       <%= render "_link.html", href: redirect_path(@conn, "rider_tools/trip_planner/"), text: "Directions", class: "col-sm-3" %>
-      <%= render "_link.html", href: station_path(@conn, :index), text: "Station Info", class: "col-sm-3" %>
+      <%= render "_link.html", href: stop_path(@conn, :index), text: "Station Info", class: "col-sm-3" %>
       <%= render "_link.html", href: alert_path(@conn, :index), text: "Service Alerts", class: "col-sm-3" %>
       <%= render "_link.html", href: redirect_path(@conn, "schedules_and_maps/system_map/"), text: "Maps", class: "col-sm-3" %>
     </div>

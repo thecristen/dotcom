@@ -51,19 +51,19 @@ defmodule Site.ViewHelpersTest do
     end
   end
 
-  describe "station_link/1" do
-    test "given a station, returns a link to that station" do
-      link = %Stations.Station{id: "place-sstat", name: "South Station"}
-      |> station_link
+  describe "stop_link/1" do
+    test "given a stop, returns a link to that stop" do
+      link = %Stops.Stop{id: "place-sstat", name: "South Station"}
+      |> stop_link
       |> Phoenix.HTML.safe_to_string
-      assert link == ~s(<a href="/stations/place-sstat">South Station</a>)
+      assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
 
-    test "given a station ID, returns a link to that station" do
+    test "given a stop ID, returns a link to that stop" do
       link = "place-sstat"
-      |> station_link
+      |> stop_link
       |> Phoenix.HTML.safe_to_string
-      assert link == ~s(<a href="/stations/place-sstat">South Station</a>)
+      assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
   end
 

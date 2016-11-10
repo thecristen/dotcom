@@ -1,4 +1,4 @@
-defmodule Site.StationView do
+defmodule Site.StopView do
   use Site.Web, :view
 
   @doc "Specify the mode each type is associated with"
@@ -7,10 +7,10 @@ defmodule Site.StationView do
   def fare_group(:subway), do: "bus_subway"
   def fare_group(type), do: Atom.to_string(type)
 
-  def location(station) do
-    case station.latitude do
-      nil -> URI.encode(station.address, &URI.char_unreserved?/1)
-      _ -> "#{station.latitude},#{station.longitude}"
+  def location(stop) do
+    case stop.latitude do
+      nil -> URI.encode(stop.address, &URI.char_unreserved?/1)
+      _ -> "#{stop.latitude},#{stop.longitude}"
     end
   end
 

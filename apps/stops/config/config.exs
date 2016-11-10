@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :stations, key: :value
+#     config :stops, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:stations, :key)
+#     Application.get_env(:stops, :key)
 #
 # Or configure a 3rd-party app:
 #

@@ -28,10 +28,10 @@
     <div class="col-xs-12 charlie-card-hours m-y-1">
       <div class="hours-header">Additional stations &amp; hours</div>
       <div class="hours-body">
-        <p><%= station_link "place-kencl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 10:30 AM - 7:00PM</p>
-        <p><%= station_link "place-mvbcl" %>: Mon - Fri & Sun 7:00 AM - 7:00 PM, Sat 7:00 AM - 2:00 PM, 4:30 PM - 7:00PM</p>
-        <p><%= station_link "place-haecl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
-        <p><%= station_link "place-wondl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+        <p><%= stop_link "place-kencl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 10:30 AM - 7:00PM</p>
+        <p><%= stop_link "place-mvbcl" %>: Mon - Fri &amp; Sun 7:00 AM - 7:00 PM, Sat 7:00 AM - 2:00 PM, 4:30 PM - 7:00PM</p>
+        <p><%= stop_link "place-haecl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+        <p><%= stop_link "place-wondl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
       </div>
     </div>
 

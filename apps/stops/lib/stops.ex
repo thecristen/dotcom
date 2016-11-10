@@ -1,4 +1,4 @@
-defmodule Stations do
+defmodule Stops do
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
@@ -8,12 +8,12 @@ defmodule Stations do
 
     children = [
       # Define workers and child supervisors to be supervised
-      # worker(Stations.Worker, [arg1, arg2, arg3]),
+      # worker(Stops.Worker, [arg1, arg2, arg3]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Stations.Supervisor]
+    opts = [strategy: :one_for_one, name: Stops.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

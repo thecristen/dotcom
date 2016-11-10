@@ -21,7 +21,7 @@ defmodule Site.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-            :stations, :routes, :alerts, :news, :schedules, :predictions, :timex,
+            :stops, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
             :logster, :sizeable, :feedback, :zones, :fares]
 
@@ -52,7 +52,7 @@ defmodule Site.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:timex, ">= 2.0.0"},
-     {:stations, in_umbrella: true},
+     {:stops, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:alerts, in_umbrella: true},
      {:news, in_umbrella: true},
