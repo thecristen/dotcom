@@ -30,4 +30,12 @@ defmodule Site.StopViewTest do
       assert StopView.tab_class("info", "info") == selected_class
     end
   end
+
+  describe "external_link/1" do
+    test "Protocol is added when one is not included" do
+      assert StopView.external_link("http://www.google.com") == "http://www.google.com"
+      assert StopView.external_link("www.google.com") == "http://www.google.com"
+      assert StopView.external_link("https://google.com") == "https://google.com"
+    end
+  end
 end

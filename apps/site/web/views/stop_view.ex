@@ -1,6 +1,8 @@
 defmodule Site.StopView do
   use Site.Web, :view
 
+  alias Fares.Summary
+
   @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
                         [name: :local_bus, duration: :single_trip, reduced: nil],
                         [name: :subway, duration: :week, reduced: nil],
@@ -69,17 +71,18 @@ defmodule Site.StopView do
     end)
   end
 
+  @spec summaries_for_filters([keyword()]) :: [Summary.T]
   def summaries_for_filters(filters) do
     filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
   end
 
-  @spec ferry_summaries() :: [Fares.Summary.t]
+  @spec ferry_summaries() :: [Summary.T]
   @doc "Ferry fare summaries for filters"
   def ferry_summaries() do
     @ferry_fare_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
   end
 
-  @spec bus_subway_summaries([Atom.t]) :: [Fares.Summary.t]
+  @spec bus_subway_summaries([atom]) :: [Summary.T]
   @doc "Returns the bus and subway filters for the given types"
   def bus_subway_summaries(types) do
     filters = cond do
@@ -90,7 +93,7 @@ defmodule Site.StopView do
     summaries_for_filters(filters)
   end
 
-  @spec commuter_summaries({Atom.t, String.t}) :: [Fares.Summary.t]
+  @spec commuter_summaries({atom, String.t}) :: [Summary.T]
   def commuter_summaries(zone_name) do
     commuter_filters =  [[mode: :commuter, duration: :single_trip, reduced: nil, name: zone_name],
                          [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: zone_name]]
@@ -98,7 +101,7 @@ defmodule Site.StopView do
     summaries_for_filters(commuter_filters) |> Enum.map(commuter_mode_only)
   end
 
-  @spec format_accessibility(String.t, [String.t]) :: String.t
+  @spec format_accessibility(String.t, [String.t]) :: Phoenix.HTML.Safe.t
   @doc "Describes a given station with the given accessibility features"
   def format_accessibility(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
   def format_accessibility(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
