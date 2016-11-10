@@ -42,7 +42,7 @@ defmodule Stops.Repo do
     Enum.map(stops, fn stop ->
              %{stop: stop.id, dist: :math.pow(lat - stop.attributes["latitude"], 2) + :math.pow(long - stop.attributes["longitude"], 2)}
       end)
-    |> Enum.sort(&(&1.dist < &2.dist))
+    |> Enum.sort_by(&(&1.dist))
   end
 end
 
