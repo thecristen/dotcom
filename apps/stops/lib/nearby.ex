@@ -18,16 +18,49 @@ defmodule Stops.Nearby do
   @total 12
 
   import Stops.Distance
+  alias Stops.Position
 
-  @spec nearby(Stops.Position.t) :: [Stops.Stop.t]
+  @spec nearby(Position.t) :: [Stops.Stop.t]
   def nearby(position) do
-    latitude = Stops.Position.latitude(position)
-    longitude = Stops.Position.longitude(position)
+    commuter_rail_stops = api_around_task(position, radius: @mile_in_degrees * 50, route_type: 2)
+    subway_stops = api_around_task(position, radius: @mile_in_degrees * 30, route_type: "0,1")
+    bus_stops = api_around_task(position, radius: @mile_in_degrees, route_type: 3)
 
-    commuter_rail_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: @mile_in_degrees * 50, route_type: 2)
-    subway_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: @mile_in_degrees * 30, route_type: "0,1")
-    bus_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: @mile_in_degrees, route_type: 3)
-    gather_stops(position, commuter_rail_stops, subway_stops, bus_stops)
+    position
+    |> gather_stops(
+      Task.await(commuter_rail_stops),
+      Task.await(subway_stops),
+      Task.await(bus_stops))
+    |> Enum.map(&Stops.Repo.get(&1.id))
+  end
+
+  def api_around_task(position, opts) do
+    Task.async(__MODULE__, :do_api_around, [position, opts])
+  end
+  def do_api_around(position, opts) do
+    opts
+    |> Keyword.merge([
+      latitude: Position.latitude(position),
+      longitude: Position.longitude(position)
+    ])
+    |> Keyword.put(:"fields[stop]", "latitude,longitude")
+    |> Keyword.put(:include, "parent_station")
+    |> V3Api.Stops.all
+    |> Map.get(:data)
+    |> Enum.map(&item_to_position/1)
+    |> Enum.uniq
+  end
+
+  defp item_to_position(%JsonApi.Item{relationships: %{"parent_station" => [station]}}) do
+    item_to_position(station)
+  end
+  defp item_to_position(%JsonApi.Item{id: id, attributes: %{"latitude" => latitude,
+                                                            "longitude" => longitude}}) do
+    %{
+      id: id,
+      latitude: latitude,
+      longitude: longitude
+    }
   end
 
   @doc """
@@ -36,6 +69,7 @@ defmodule Stops.Nearby do
   according to the algorithm.
 
   """
+  @spec gather_stops(Position.t, [Position.t], [Position.t], [Position.t]) :: [Position.t]
   def gather_stops(_, [], [], []) do
     []
   end

@@ -88,9 +88,6 @@ defmodule Stops.NearbyTest do
       actual = gather_stops(@position, commuter, subway, bus)
 
       assert length(actual) == 12
-
-      # TODO assert that we're filling with subway, not doing something else
-      assert false
     end
 
     test "does not include duplicate stops" do
