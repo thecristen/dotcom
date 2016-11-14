@@ -12,10 +12,7 @@
 
   <div class="row no-gutter station-info-section" >
     <h2>Accessibility</h2>
-    <p><%= format_accessibility(@stop.name, @stop.accessibility) %></p>
-    <%= if @stop.accessibility && !Enum.empty?(@stop.accessibility) do %>
-      <p><%= @stop.accessibility |> Enum.filter(&(&1 != "accessible")) |> Enum.map(&pretty_accessibility/1) |> Enum.join(", ") %></p>
-    <% end %>
+    <%=accessibility_info(@stop) %>
   </div>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
@@ -27,14 +24,14 @@
       <% end %>
       <%= if :ferry in types do %>
         <h3 class="station-fare-subheader">Ferry Fares</h3>
-        <%= render "_fare_summaries.html", summaries: ferry_summaries() %>
+        <%= render "_fare_summaries.html", summaries: mode_summaries(:ferry, {}, []) %>
         <%= link to: fare_path(@conn, :show, "ferry") do %>
           <p>View all Ferry fares <%= fa "arrow-right" %></p>
         <% end %>
       <% end %>
       <%= if :subway in types || :bus in types do %>
         <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
-        <%= render "_fare_summaries.html", summaries: bus_subway_summaries(types) %>
+        <%= render "_fare_summaries.html", summaries: mode_summaries(:bus_subway, {}, types) %>
         <%= link to: fare_path(@conn, :show, "bus_subway") do %>
           <p>View all Bus and Subway fares <%= fa "arrow-right" %></p>
         <% end %>

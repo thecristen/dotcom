@@ -3,22 +3,6 @@ defmodule Site.StopView do
 
   alias Fares.Summary
 
-  @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
-                        [name: :local_bus, duration: :single_trip, reduced: nil],
-                        [name: :subway, duration: :week, reduced: nil],
-                        [name: :subway, duration: :month, reduced: nil]]
-
-  @bus_only_filters [[name: :local_bus, duration: :single_trip, reduced: nil],
-                       [name: :local_bus, duration: :week, reduced: nil],
-                       [name: :local_bus, duration: :month, reduced: nil]]
-
-  @subway_only_filters [[name: :subway, duration: :single_trip, reduced: nil],
-                       [name: :subway, duration: :week, reduced: nil],
-                       [name: :subway, duration: :month, reduced: nil]]
-
-  @ferry_fare_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
-                      [mode: :ferry, duration: :month, reduced: nil]]
-
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
 
   @doc "Specify the mode each type is associated with"
@@ -67,40 +51,69 @@ defmodule Site.StopView do
     end)
   end
 
-  @spec ferry_summaries() :: [Summary.T]
-  @doc "Ferry fare summaries for given filters"
-  def ferry_summaries() do
-    summaries_for_filters(@ferry_fare_filters, :ferry)
+  def mode_filters(:ferry, _name, _types) do
+    [[mode: :ferry, duration: :single_trip, reduced: nil],
+     [mode: :ferry, duration: :month, reduced: nil]]
+  end
+  def mode_filters(:commuter, name, types) do
+    [[mode: :commuter, duration: :single_trip, reduced: nil, name: name],
+     [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: name]]
+  end
+  def mode_filters(mode, name, types) do
+    subway_filters = [[name: :subway, duration: :single_trip, reduced: nil],
+                      [name: :subway, duration: :week, reduced: nil],
+                      [name: :subway, duration: :month, reduced: nil]]
+    bus_filters = [[name: :local_bus, duration: :single_trip, reduced: nil],
+                   [name: :local_bus, duration: :week, reduced: nil],
+                   [name: :local_bus, duration: :month, reduced: nil]]
+    separate_bus_subway_filters(types, bus_filters, subway_filters)
   end
 
-  @spec bus_subway_summaries([atom]) :: [Summary.T]
-  @doc "Returns the bus and subway filters for the given types"
-  def bus_subway_summaries(types) do
-    filters = cond do
-                :subway in types && :bus in types -> @bus_subway_filters
-                :bus in types -> @bus_only_filters
-                true -> @subway_only_filters
-              end
-    summaries_for_filters(filters)
+  defp separate_bus_subway_filters(types, bus_filters, subway_filters) do
+    cond do
+      :subway in types && :bus in types -> 
+      [[name: :local_bus, duration: :single_trip, reduced: nil] | subway_filters]
+      :bus in types -> bus_filters
+      true -> subway_filters
+    end
   end
 
-  @spec commuter_summaries({atom, String.t}) :: [Summary.T]
-  @doc "Returns the summarized commuter fares for the given zone"
-  def commuter_summaries(zone_name) do
-    commuter_filters =  [[mode: :commuter, duration: :single_trip, reduced: nil, name: zone_name],
-                         [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: zone_name]]
-    commuter_mode_only = fn(summary) -> %{summary | modes: [:commuter]} end
-    summaries_for_filters(commuter_filters) |> Enum.map(commuter_mode_only)
+  @spec mode_summaries(atom, {atom, String.t}, [atom]) :: [Summary.T]
+  @doc "Return the fare summaries for the given mode"
+  def mode_summaries(:commuter, name, types) do
+    filters = mode_filters(:commuter, name, [])
+    summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter]} end)
+  end
+  def mode_summaries(mode, name, types) do
+    summaries_for_filters(mode_filters(mode, name, types), mode)
+  end
+
+  @spec accessibility_info(Stops.Stop.t) :: [Phoenix.HTML.Safe.t]
+  @doc "Accessibility content for given stop"
+  def accessibility_info(stop) do
+    [(content_tag :p, format_accessibility(stop.name, stop.accessibility)),
+    format_accessibility_options(stop)]
+  end
+
+  @spec format_accessibility_options(Stops.Stop.t) :: Phoenix.HTML.Safe.t | nil
+  defp format_accessibility_options(stop) do
+    if stop.accessibility && !Enum.empty?(stop.accessibility) do
+      content_tag :p do
+        stop.accessibility 
+        |> Enum.filter(&(&1 != "accessible")) 
+        |> Enum.map(&pretty_accessibility/1) 
+        |> Enum.join(", ")
+      end
+    end
   end
 
   @spec format_accessibility(String.t, [String.t]) :: Phoenix.HTML.Safe.t
-  @doc "Describes a given station with the given accessibility features"
-  def format_accessibility(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
-  def format_accessibility(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
-  def format_accessibility(name, ["accessible"]) do
+  defp format_accessibility(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
+  defp format_accessibility(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
+  defp format_accessibility(name, ["accessible"]) do
     content_tag(:span, "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices.")
   end
-  def format_accessibility(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
+  defp format_accessibility(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
 
   @spec show_fares?(Stop.t) :: boolean
   @doc "Determines if the fare information for the given stop should be displayed"
