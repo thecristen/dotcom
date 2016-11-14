@@ -8,7 +8,7 @@
             <li><strong><%= parking.type |> parking_type %> <%= Inflex.inflect("Space", parking.spots) %>:</strong> <%= parking.spots %></li>
           <% end %>
         </ul>
-        <%= else %>
+      <%= else %>
         <em>No Parking availability information available</em>
       <% end %>
     </div>
@@ -47,7 +47,7 @@
     <strong>Note:</strong>
     <%= @lot.note |> HtmlSanitizeEx.strip_tags %>
   </div>
-  <%= else %>
+<%= else %>
   <div class="row station-callout-box">
     <strong>Note:</strong>
     No MBTA parking. Street or private parking may exist.

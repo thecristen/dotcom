@@ -31,16 +31,8 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "external_link/1" do
-    test "Protocol is added when one is not included" do
-      assert StopView.external_link("http://www.google.com") == "http://www.google.com"
-      assert StopView.external_link("www.google.com") == "http://www.google.com"
-      assert StopView.external_link("https://google.com") == "https://google.com"
-    end
-  end
-
   describe "show_fares?/1" do
-    test "Only return false for origin destinations" do
+    test "Do not show fare information for Origin stations" do
       north_station = %Stops.Stop{id: "place-north"}
       back_bay = %Stops.Stop{id: "place-bbsta"}
       salem = %Stops.Stop{id: "Salem"}

@@ -215,4 +215,11 @@ defmodule Site.ViewHelpers do
     |> Stops.Repo.get
     |> stop_link
   end
+
+  @spec external_link(String.t) :: String.t
+  @doc "Adds protocol if one is needed"
+  def external_link(href = <<"http://", _::binary>>), do: href
+  def external_link(href = <<"https://", _::binary>>), do: href
+  def external_link(href), do: "http://" <> href
+
 end

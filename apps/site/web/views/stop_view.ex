@@ -9,8 +9,8 @@ defmodule Site.StopView do
                         [name: :subway, duration: :month, reduced: nil]]
 
   @bus_only_filters [[name: :local_bus, duration: :single_trip, reduced: nil],
-                       [name: :subway, duration: :week, reduced: nil],
-                       [name: :subway, duration: :month, reduced: nil]]
+                       [name: :local_bus, duration: :week, reduced: nil],
+                       [name: :local_bus, duration: :month, reduced: nil]]
 
   @subway_only_filters [[name: :subway, duration: :single_trip, reduced: nil],
                        [name: :subway, duration: :week, reduced: nil],
@@ -56,12 +56,6 @@ defmodule Site.StopView do
     content_tag(:a, value, href: external_link(href), target: "_blank")
   end
 
-  @spec external_link(String.t) :: String.t
-  @doc "Adds protocol if one is needed"
-  def external_link(href = <<"http://", _::binary>>), do: href
-  def external_link(href = <<"https://", _::binary>>), do: href
-  def external_link(href), do: "http://" <> href
-
   def sort_parking_spots(spots) do
     spots
     |> Enum.sort_by(fn %{type: type} ->
@@ -76,7 +70,7 @@ defmodule Site.StopView do
   @spec ferry_summaries() :: [Summary.T]
   @doc "Ferry fare summaries for given filters"
   def ferry_summaries() do
-    @ferry_fare_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
+    summaries_for_filters(@ferry_fare_filters, :ferry)
   end
 
   @spec bus_subway_summaries([atom]) :: [Summary.T]
@@ -114,9 +108,9 @@ defmodule Site.StopView do
     !stop.id in @origin_stations
   end
 
-  @spec summaries_for_filters([keyword()]) :: [Summary.T]
-  defp summaries_for_filters(filters) do
-    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
+  @spec summaries_for_filters([keyword()], Atom.t) :: [Summary.T]
+  defp summaries_for_filters(filters, mode \\ :bus_subway) do
+    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
   end
 
   def parking_type("basic"), do: "Parking"

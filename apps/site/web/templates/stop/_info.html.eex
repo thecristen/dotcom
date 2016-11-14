@@ -1,11 +1,11 @@
-<div class="container-fluid">
+<div class="container-fluid" id="station-info">
   <div class="row no-gutter station-info-section">
     <h2>Parking</h2>
     <%= if !Enum.empty?(@stop.parking_lots) do %>
       <%= for lot <- @stop.parking_lots do %>
         <%= render "_parking_lot.html", lot: lot%>
       <% end %>
-      <%= else %>
+    <%= else %>
       <p>No parking information is available for this station.</p>
     <% end %>
   </div>
