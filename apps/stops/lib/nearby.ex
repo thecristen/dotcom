@@ -14,12 +14,17 @@ defmodule Stops.Nearby do
   * Return Subway stops in 5 mi radius
   """
 
-  @spec nearby(number, number) :: [Stops.Stop.t]
-  def nearby(latitude, longitude) when is_number(latitude) and is_number(longitude) do
+  import Stops.Distance
+
+  @spec nearby(Stops.Position.t) :: [Stops.Stop.t]
+  def nearby(position) do
+    latitude = Stops.Position.latitude(position)
+    longitude = Stops.Position.longitude(position)
+
     commuter_rail_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: 1, route_type: 2)
     subway_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: 0.6, route_type: "0,1")
     bus_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: 0.02, route_type: 3)
-    gather_stops(latitude, longitude, commuter_rail_stops, subway_stops, bus_stops)
+    gather_stops(position, commuter_rail_stops, subway_stops, bus_stops)
   end
 
   @doc """
@@ -28,7 +33,29 @@ defmodule Stops.Nearby do
   according to the algorithm.
 
   """
-  def gather_stops(latitude, longitude, commuter_rail, subway, bus) do
+  def gather_stops(_, [], [], []) do
     []
+  end
+  def gather_stops(position, commuter_rail, subway, _bus) do
+    {first_cr, sorted_commuter_rail} = closest_and_rest(commuter_rail, position)
+    {first_subway, sorted_subway} = closest_and_rest(subway, position)
+
+    initial = (first_cr ++ first_subway) |> Enum.uniq
+    rest = (sorted_commuter_rail ++ sorted_subway) |> Enum.uniq
+
+    initial ++ closest(rest, position, 4 - length(initial))
+  end
+
+  # Returns the closest item (in a list) as well as the rest of the list.  In
+  # the case of an empty initial list, returns a tuple of two empty lists.
+  # The first list represents a kind of Maybe: [item] :: Just item and [] :: Nothing
+  @spec closest_and_rest([Position.t], Position.t) :: {[Position.t], [Position.t]}
+  defp closest_and_rest([], _) do
+    {[], []}
+  end
+  defp closest_and_rest(items, position) do
+    [first | rest] = sort(items, position)
+
+    {[first], rest}
   end
 end

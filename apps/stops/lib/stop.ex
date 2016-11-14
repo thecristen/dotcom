@@ -19,6 +19,11 @@ defmodule Stops.Stop do
     has_fare_machine: boolean,
     has_charlie_card_vendor: boolean
   }
+
+  defimpl Stops.Position do
+    def latitude(stop), do: stop.latitude
+    def longitude(stop), do: stop.longitude
+  end
 end
 
 defmodule Stops.Stop.ParkingLot do

@@ -30,19 +30,22 @@ defmodule Stops.Repo do
     |> find_closest(lat, long, number)
   end
 
-  @spec find_closest([Stop.t], float, float, integer) :: [Stop.t]
+  @spec find_closest(JsonApi.t, float, float, integer) :: [Stop.t]
   def find_closest(%JsonApi{data: stops}, lat, long, number \\ 12) do
     stops
-    |> distances(lat, long)
+    |> Enum.map(&position/1)
+    |> Stops.Distance.sort({lat, long})
     |> Enum.take(number)
-    |> Enum.map(fn stop -> Stops.Repo.get(stop.stop) end)
+    |> Enum.map(&Stops.Repo.get(&1.id))
   end
 
-  defp distances(stops, lat, long) do
-    Enum.map(stops, fn stop ->
-             %{stop: stop.id, dist: :math.pow(lat - stop.attributes["latitude"], 2) + :math.pow(long - stop.attributes["longitude"], 2)}
-      end)
-    |> Enum.sort_by(&(&1.dist))
+  defp position(%JsonApi.Item{id: id, attributes: %{"latitude" => latitude,
+                                                    "longitude" => longitude}}) do
+    %{
+      id: id,
+      latitude: latitude,
+      longitude: longitude
+    }
   end
 end
 
