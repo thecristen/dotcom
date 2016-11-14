@@ -38,4 +38,18 @@ defmodule Site.StopViewTest do
       assert StopView.external_link("https://google.com") == "https://google.com"
     end
   end
+
+  describe "show_fares?/1" do
+    test "Only return false for origin destinations" do
+      north_station = %Stops.Stop{id: "place-north"}
+      back_bay = %Stops.Stop{id: "place-bbsta"}
+      salem = %Stops.Stop{id: "Salem"}
+      westborough = %Stops.Stop{id: "Westborough"}
+
+      assert !StopView.show_fares?(north_station)
+      assert !StopView.show_fares?(back_bay)
+      assert StopView.show_fares?(salem)
+      assert StopView.show_fares?(westborough)
+    end
+  end
 end

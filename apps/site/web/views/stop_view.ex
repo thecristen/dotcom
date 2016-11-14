@@ -19,6 +19,8 @@ defmodule Site.StopView do
   @ferry_fare_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
                       [mode: :ferry, duration: :month, reduced: nil]]
 
+  @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
+
   @doc "Specify the mode each type is associated with"
   @spec fare_group(atom) :: String.t
   def fare_group(:bus), do: "bus_subway"
@@ -71,13 +73,8 @@ defmodule Site.StopView do
     end)
   end
 
-  @spec summaries_for_filters([keyword()]) :: [Summary.T]
-  def summaries_for_filters(filters) do
-    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
-  end
-
   @spec ferry_summaries() :: [Summary.T]
-  @doc "Ferry fare summaries for filters"
+  @doc "Ferry fare summaries for given filters"
   def ferry_summaries() do
     @ferry_fare_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
   end
@@ -94,6 +91,7 @@ defmodule Site.StopView do
   end
 
   @spec commuter_summaries({atom, String.t}) :: [Summary.T]
+  @doc "Returns the summarized commuter fares for the given zone"
   def commuter_summaries(zone_name) do
     commuter_filters =  [[mode: :commuter, duration: :single_trip, reduced: nil, name: zone_name],
                          [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: zone_name]]
@@ -110,9 +108,16 @@ defmodule Site.StopView do
   end
   def format_accessibility(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
 
-  @spec no_parking_note() :: String.t
-  @doc "Parking text when no parking information is available"
-  def no_parking_note(), do: "No MBTA parking. Street or private parking may exist."
+  @spec show_fares?(Stop.t) :: boolean
+  @doc "Determines if the fare information for the given stop should be displayed"
+  def show_fares?(stop) do
+    !stop.id in @origin_stations
+  end
+
+  @spec summaries_for_filters([keyword()]) :: [Summary.T]
+  defp summaries_for_filters(filters) do
+    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
+  end
 
   def parking_type("basic"), do: "Parking"
   def parking_type(type), do: type |> String.capitalize

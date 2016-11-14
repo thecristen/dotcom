@@ -130,6 +130,11 @@ a {
   @include media-breakpoint-down(xs) {
     margin-top: .75rem;
   }
+
+  @include media-breakpoint-up(lg) {
+    float: right;
+    max-width: 85%;
+  }
 }
 
 .commute-fare-charge {
@@ -144,6 +149,12 @@ a {
 
 .payment-info {
   @include media-breakpoint-up(md) {
+    padding-right: 1.5rem;
+  }
+}
+
+.commuter-info {
+  @include media-breakpoint-up(lg) {
     padding-right: 1.5rem;
   }
 }

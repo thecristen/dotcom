@@ -1,2 +1,46 @@
-<div>
+<div class="row p-x-g">
+  <%= if @stop.parking_lots != [] do %>
+    <div class="col-xs-12">
+      <div class="mode-group">
+        <div class="mode-group-header">
+          <h2>Parking</h2>
+        </div>
+        <div class="mode-group-block">
+          <%= for lot <- @stop.parking_lots do %>
+            <%= render "_parking_lot.html", lot: lot %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="col-xs-12">
+    <%= for {type, routes} <- @grouped_routes do %>
+      <%= render Site.ModeView, "_mode.html", conn: @conn, route_type: type, grouped_routes: %{type => routes}, truncate: false %>
+      <div class="mode-group-footer">
+        <%= link "View #{mode_name type} Fares and Passes »", to: fare_path @conn, :show, fare_group(type) %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= if @stop.accessibility != [] && @stop.accessibility != ["accessible"] do %>
+    <div class="col-xs-12">
+      <div class="mode-group p-b-0">
+        <div class="mode-group-header">
+          <h2>Accessibility</h2>
+        </div>
+        <div class="mode-group-block">
+          <p>The following accessibility services are available at <%= @stop.name %>:</p>
+          <ul>
+            <%= for accessibility <- @stop.accessibility |> Enum.filter(&(&1 != "accessible")) do %>
+              <li><%= accessibility |> pretty_accessibility %></li>
+            <% end %>
+          </ul>
+          <p>
+          <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>">Learn more about accessibility at the T</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

@@ -50,6 +50,6 @@
   <%= else %>
   <div class="row station-callout-box">
     <strong>Note:</strong>
-    <%= no_parking_note() %>
+    No MBTA parking. Street or private parking may exist.
   </div>
 <% end %>
