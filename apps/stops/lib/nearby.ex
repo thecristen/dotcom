@@ -56,7 +56,11 @@ defmodule Stops.Nearby do
     initial = (first_cr ++ first_subway) |> Enum.uniq
     rest = (sorted_commuter_rail ++ sorted_subway) |> Enum.uniq
 
-    initial ++ closest(rest, position, 4 - length(initial))
+    next_four = position
+    |> gather_non_duplicates(rest, initial)
+    |> Enum.take(4 - length(initial))
+
+    initial ++ next_four
   end
 
   defp gather_non_duplicates(position, items, existing) do

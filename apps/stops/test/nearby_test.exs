@@ -14,8 +14,8 @@ defmodule Stops.NearbyTest do
     end
 
     test "takes the 4 closest commuter and subway stops" do
-      commuter = Enum.map(0..10, fn _ -> random_stop end)
-      subway = Enum.map(0..10, fn _ -> random_stop end)
+      commuter = random_stops(10)
+      subway = random_stops(10)
 
       actual = gather_stops(@position, commuter, subway, [])
 
@@ -28,14 +28,14 @@ defmodule Stops.NearbyTest do
     end
 
     test "if there are no CR or Bus stops, takes the 12 closest subway" do
-      subway = Enum.map(0..20, fn _ -> random_stop end)
+      subway = random_stops(20)
 
       actual = gather_stops(@position, [], subway, [])
       assert Stops.Distance.closest(subway, @position, 12) == actual
     end
 
     test "if there are no Subway or Bus stops, takes the 4 closest CR" do
-      commuter = Enum.map(0..10, fn _ -> random_stop end)
+      commuter = random_stops(10)
 
       actual = gather_stops(@position, commuter, [], [])
       assert Stops.Distance.closest(commuter, @position, 4) == actual
@@ -48,8 +48,16 @@ defmodule Stops.NearbyTest do
       assert Stops.Distance.closest(both, @position, 12) == actual
     end
 
+    test "if non-closest subway and CR stops overlap, does not return duplicates" do
+      commuter = random_stops(1)
+      subway = [%{id: "very close", latitude: @latitude, longitude: @longitude}]
+
+      actual = gather_stops(@position, commuter, subway ++ commuter, [])
+      assert [_, _] = actual
+    end
+
     test "returns 12 closest bus stops" do
-      bus = Enum.map(0..20, fn _ -> random_stop end)
+      bus = random_stops(20)
 
       actual = gather_stops(@position, [], [], bus)
       assert Stops.Distance.closest(bus, @position, 12) == actual
@@ -67,6 +75,9 @@ defmodule Stops.NearbyTest do
       for stop <- Stops.Distance.closest(bus, @position, 8) do
         assert stop in actual
       end
+
+      assert (commuter |> Stops.Distance.closest(@position, 1) |> List.first) in actual
+      assert (subway |> Stops.Distance.closest(@position, 1) |> List.first) in actual
     end
 
     test "without enough bus stops, fill with subway" do
@@ -78,7 +89,8 @@ defmodule Stops.NearbyTest do
 
       assert length(actual) == 12
 
-      # TODO
+      # TODO assert that we're filling with subway, not doing something else
+      assert false
     end
 
     test "does not include duplicate stops" do
@@ -96,7 +108,7 @@ defmodule Stops.NearbyTest do
   end
 
   def random_stops(count) do
-    Enum.map(0..count, fn _ -> random_stop end)
+    Enum.map(1..count, fn _ -> random_stop end)
   end
 
   defp random_stop do
@@ -109,7 +121,7 @@ defmodule Stops.NearbyTest do
     }
   end
 
-  defp random_around(float, range \\ 1000) do
+  defp random_around(float, range \\ 10000) do
     integer = :crypto.rand_uniform(-1 * range, range)
     float + (integer / range)
   end
