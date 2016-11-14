@@ -131,10 +131,6 @@ a {
     margin-top: .75rem;
   }
 
-  @include media-breakpoint-up(lg) {
-    float: right;
-    max-width: 85%;
-  }
 }
 
 .commute-fare-charge {

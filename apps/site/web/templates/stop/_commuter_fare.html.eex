@@ -8,7 +8,7 @@
   </p>
 
   <div class="row">
-    <div class="col-md-7 col-sm-6 col-xs-12">
+    <div class="col-md-8 col-sm-6 col-xs-12">
       <%= if @stop.has_fare_machine do %>
         <p class="commute-fare-charge">
           This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
@@ -18,7 +18,7 @@
     </div>
 
     <%= if @stop.has_fare_machine do %>
-      <div class="col-md-5 col-sm-6 col-xs-12">
+      <div class="col-md-4 col-sm-6 col-xs-12">
         <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>" 
              class="img-fluid commuter-fare-img"
              alt="Two MBTA fare vending machines">
