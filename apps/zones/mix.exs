@@ -11,6 +11,7 @@ defmodule Zones.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -36,6 +37,7 @@ defmodule Zones.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:excoveralls, "~> 0.5", only: :test},
       {:csv, "~> 1.4.2"}
     ]
   end

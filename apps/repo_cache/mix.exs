@@ -11,6 +11,7 @@ defmodule RepoCache.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -36,6 +37,8 @@ defmodule RepoCache.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:con_cache, "~> 0.11.0"}]
+    [{:con_cache, "~> 0.11.0"},
+     {:excoveralls, "~> 0.5", only: :test}
+    ]
   end
 end

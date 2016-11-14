@@ -11,6 +11,7 @@ defmodule News.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -40,6 +41,7 @@ defmodule News.Mixfile do
      {:excheck, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test},
      {:repo_cache, in_umbrella: true},
+     {:excoveralls, "~> 0.5", only: :test},
      {:html_sanitize_ex, "~> 1.0.0"}]
   end
 end

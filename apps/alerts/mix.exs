@@ -11,6 +11,7 @@ defmodule Alerts.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -40,6 +41,7 @@ defmodule Alerts.Mixfile do
      {:repo_cache, in_umbrella: true},
      {:con_cache, "~> 0.11.0"},
      {:timex, ">= 0.0.0"},
+     {:excoveralls, "~> 0.5", only: :test},
      {:benchfella, "~> 0.3", only: :dev}]
   end
 end
