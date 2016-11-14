@@ -41,9 +41,10 @@ defmodule Stops.Nearby do
   end
   def gather_stops(position, commuter_rail, subway, bus) do
     hub_stations = gather_hub_stations(position, commuter_rail, subway)
-    bus = gather_bus_stops(position, bus, hub_stations)
+    bus = gather_non_duplicates(position, bus, hub_stations)
+    subway = gather_non_duplicates(position, subway, bus ++ hub_stations)
 
-    [hub_stations, bus]
+    [hub_stations, bus, subway]
     |> Enum.concat
     |> sort(position)
   end
@@ -58,8 +59,8 @@ defmodule Stops.Nearby do
     initial ++ closest(rest, position, 4 - length(initial))
   end
 
-  defp gather_bus_stops(position, bus, existing) do
-    bus
+  defp gather_non_duplicates(position, items, existing) do
+    items
     |> Enum.reject(&(&1 in existing))
     |> closest(position, @total - length(existing))
   end
