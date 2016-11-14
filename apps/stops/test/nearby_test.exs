@@ -47,6 +47,44 @@ defmodule Stops.NearbyTest do
       actual = gather_stops(@position, both, both, [])
       assert Stops.Distance.closest(both, @position, 4) == actual
     end
+
+    test "returns 12 closest bus stops" do
+      bus = Enum.map(0..20, fn _ -> random_stop end)
+
+      actual = gather_stops(@position, [], [], bus)
+      assert Stops.Distance.closest(bus, @position, 12) == actual
+    end
+
+    test "with subway and commuter, returns 8 bus stops" do
+      commuter = random_stops(10)
+      subway = random_stops(10)
+      bus = random_stops(10)
+
+      actual = gather_stops(@position, commuter, subway, bus)
+
+      assert length(actual) == 12
+
+      for stop <- Stops.Distance.closest(bus, @position, 8) do
+        assert stop in actual
+      end
+    end
+
+    test "does not include duplicate stops" do
+      all = random_stops(20)
+
+      actual = gather_stops(@position, all, all, all)
+      assert Stops.Distance.closest(all, @position, 12) == actual
+    end
+
+    test "stops are always globally sorted" do
+      actual = gather_stops(@position, random_stops(10), random_stops(10), random_stops(10))
+
+      assert Stops.Distance.sort(actual, @position) == actual
+    end
+  end
+
+  def random_stops(count) do
+    Enum.map(0..count, fn _ -> random_stop end)
   end
 
   defp random_stop do

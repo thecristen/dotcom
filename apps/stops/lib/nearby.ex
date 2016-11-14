@@ -14,6 +14,9 @@ defmodule Stops.Nearby do
   * Return Subway stops in 5 mi radius
   """
 
+  @mile_in_degrees 0.02
+  @total 12
+
   import Stops.Distance
 
   @spec nearby(Stops.Position.t) :: [Stops.Stop.t]
@@ -21,9 +24,9 @@ defmodule Stops.Nearby do
     latitude = Stops.Position.latitude(position)
     longitude = Stops.Position.longitude(position)
 
-    commuter_rail_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: 1, route_type: 2)
-    subway_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: 0.6, route_type: "0,1")
-    bus_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: 0.02, route_type: 3)
+    commuter_rail_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: @mile_in_degrees * 50, route_type: 2)
+    subway_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: @mile_in_degrees * 30, route_type: "0,1")
+    bus_stops = V3Api.Stops.all(latitude: latitude, longitude: longitude, radius: @mile_in_degrees, route_type: 3)
     gather_stops(position, commuter_rail_stops, subway_stops, bus_stops)
   end
 
@@ -36,7 +39,16 @@ defmodule Stops.Nearby do
   def gather_stops(_, [], [], []) do
     []
   end
-  def gather_stops(position, commuter_rail, subway, _bus) do
+  def gather_stops(position, commuter_rail, subway, bus) do
+    hub_stations = gather_hub_stations(position, commuter_rail, subway)
+    bus = gather_bus_stops(position, bus, hub_stations)
+
+    [hub_stations, bus]
+    |> Enum.concat
+    |> sort(position)
+  end
+
+  defp gather_hub_stations(position, commuter_rail, subway) do
     {first_cr, sorted_commuter_rail} = closest_and_rest(commuter_rail, position)
     {first_subway, sorted_subway} = closest_and_rest(subway, position)
 
@@ -44,6 +56,12 @@ defmodule Stops.Nearby do
     rest = (sorted_commuter_rail ++ sorted_subway) |> Enum.uniq
 
     initial ++ closest(rest, position, 4 - length(initial))
+  end
+
+  defp gather_bus_stops(position, bus, existing) do
+    bus
+    |> Enum.reject(&(&1 in existing))
+    |> closest(position, @total - length(existing))
   end
 
   # Returns the closest item (in a list) as well as the rest of the list.  In
