@@ -2,6 +2,7 @@ defmodule Site.StopView do
   use Site.Web, :view
 
   alias Fares.Summary
+  alias Stops.Stop
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
 
@@ -51,7 +52,7 @@ defmodule Site.StopView do
     end)
   end
 
-  @spec mode_summaries(atom, {atom, String.t}) :: [Summary.T]
+  @spec mode_summaries(atom, {atom, String.t}) :: [Summary.t]
   @doc "Return the fare summaries for the given mode"
   def mode_summaries(:commuter, name) do
     filters = mode_filters(:commuter, name)
@@ -92,14 +93,14 @@ defmodule Site.StopView do
     end
   end
 
-  @spec accessibility_info(Stops.Stop.t) :: [Phoenix.HTML.Safe.t]
+  @spec accessibility_info(Stop.t) :: [Phoenix.HTML.Safe.t]
   @doc "Accessibility content for given stop"
   def accessibility_info(stop) do
     [(content_tag :p, format_accessibility_text(stop.name, stop.accessibility)),
     format_accessibility_options(stop)]
   end
 
-  @spec format_accessibility_options(Stops.Stop.t) :: Phoenix.HTML.Safe.t | nil
+  @spec format_accessibility_options(Stop.t) :: Phoenix.HTML.Safe.t | nil
   defp format_accessibility_options(stop) do
     if stop.accessibility && !Enum.empty?(stop.accessibility) do
       content_tag :p do
@@ -127,7 +128,7 @@ defmodule Site.StopView do
     !stop.id in @origin_stations
   end
 
-  @spec summaries_for_filters([keyword()], atom) :: [Summary.T]
+  @spec summaries_for_filters([keyword()], atom) :: [Summary.t]
   defp summaries_for_filters(filters, mode) do
     filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
   end
