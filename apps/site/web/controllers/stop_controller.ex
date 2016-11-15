@@ -2,6 +2,7 @@ defmodule Site.StopController do
   use Site.Web, :controller
 
   plug Site.Plugs.Date
+  plug Site.Plugs.DateTime
   plug Site.Plugs.Alerts
 
   alias Stops.Repo
@@ -22,9 +23,15 @@ defmodule Site.StopController do
     |> render("show.html", stop: stop)
   end
 
-  def grouped_routes(stop_id) do
+  defp grouped_routes(stop_id) do
     stop_id
     |> Routes.Repo.by_stop
-    |> Routes.Group.group
+    |> Enum.group_by(&Routes.Route.type_atom/1)
+    |> Enum.sort_by(&sorter/1)
   end
+
+  defp sorter({:commuter, _}), do: 0
+  defp sorter({:subway, _}), do: 1
+  defp sorter({:bus, _}), do: 2
+  defp sorter({:ferry, _}), do: 3
 end

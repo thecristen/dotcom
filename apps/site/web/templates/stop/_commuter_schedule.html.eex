@@ -1,0 +1,58 @@
+<div class="station-schedule-row station-schedule-header">
+  <div class="col-xs-12 col-md-5">
+    <strong><%= mode_name @mode %></strong>
+  </div>
+  <div class="col-md-2 hidden-xs-down">
+    <strong>Train #</strong>
+  </div>
+  <div class="col-md-2 hidden-xs-down">
+    <strong>Departure</strong>
+  </div>
+  <div class="col-md-3 hidden-xs-down">
+    <strong>Status</strong>
+  </div>
+</div>
+<%= for route <- @routes do %>
+  <%= for direction_id <- [0, 1] do %>
+    <%= if schedule = upcoming_commuter_departures(@conn, @stop.id, route.id, direction_id) do %>
+      <div class="station-schedule-row">
+        <div class="row">
+          <div class="col-sm-1 col-xs-2">
+            <%= mode_icon route %>
+          </div>
+          <div class="col-sm-11 col-xs-10">
+            <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-sm-11 col-xs-10 col-sm-offset-1 col-xs-offset-2">
+            <%= direction(direction_id, route.id) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
+            <%= if has_alerts?(@conn, route) do %>
+              <span class="pull-xs-right"><%= render Site.AlertView, "tooltip.html" %></span>
+            <% end %>
+          </div>
+          <div class="spacer"></div>
+          <div class="col-md-2 col-xs-6">
+            <span class="hidden-md-up"><strong>Train #</strong><br /></span>
+            No. <%= schedule.trip.name %>
+          </div>
+          <div class="col-md-2 col-xs-6">
+            <span class="hidden-md-up"><strong>Departure</strong><br /></span>
+            <% prediction = Predictions.Repo.all(stop: @stop.id, route: route.id, direction_id: direction_id) |> Enum.find(&(&1.trip_id == schedule.trip.id)) %>
+            <%= render_commuter_departure_time(route.id, direction_id, schedule, prediction) %>
+          </div>
+          <div class="spacer"></div>
+          <div class="col-md-3 col-xs-12">
+            <span class="hidden-md-up"><strong>Status</strong><br /></span>
+            <%= if prediction do %>
+              <%= prediction.status || "On Time" %>
+              <%= if prediction.track do %>
+                on track <%= prediction.track %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -154,3 +154,39 @@ a {
     padding-right: 1.5rem;
   }
 }
+
+.station-schedule-icon {
+  color: $gray-light;
+}
+
+// scss-lint:disable PlaceholderInExtend
+.station-schedule-row {
+  @extend .col-xs-12;
+
+  border-bottom: 1px solid $gray-lightest;
+  border-left: 1px solid $gray-lightest;
+  border-right: 1px solid $gray-lightest;
+  padding-bottom: .5em;
+  padding-top: .5em;
+
+  .route-icon {
+    @include route-icon(1.5rem, $space-4);
+  }
+
+  .route-info {
+    display: inline-block;
+  }
+
+  .spacer {
+    @extend .col-xs-12;
+    margin-top: .5rem;
+
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+
+  &.station-schedule-header {
+    background-color: $gray-lightest;
+  }
+}
