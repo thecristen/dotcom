@@ -8,7 +8,7 @@ defmodule Stops.NearbyTest do
   @longitude -71.225
   @position {@latitude, @longitude}
 
-  describe "gather_stops/5" do
+  describe "gather_stops/4" do
     test "given no results, returns an empty list" do
       assert gather_stops(@position, [], [], []) == []
     end
