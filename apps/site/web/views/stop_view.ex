@@ -51,45 +51,41 @@ defmodule Site.StopView do
     end)
   end
 
-  @spec mode_summaries(atom, {atom, String.t}, [atom]) :: [Summary.T]
+  @spec mode_summaries(atom, {atom, String.t}) :: [Summary.T]
   @doc "Return the fare summaries for the given mode"
-  def mode_summaries(:commuter, name, _types) do
-    filters = mode_filters(:commuter, name, [])
+  def mode_summaries(:commuter, name) do
+    filters = mode_filters(:commuter, name)
     summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter]} end)
   end
-  def mode_summaries(mode, name, types) do
-    summaries_for_filters(mode_filters(mode, name, types), mode)
+  def mode_summaries(mode, name) do
+    summaries_for_filters(mode_filters(mode, name), mode)
   end
 
-  @spec mode_filters(atom, {atom, String.t}, [atom]) :: [keyword()]
-  defp mode_filters(:ferry, _name, _types) do
+  @spec mode_filters(atom, {atom, String.t}) :: [keyword()]
+  defp mode_filters(:ferry, _name) do
     [[mode: :ferry, duration: :single_trip, reduced: nil],
      [mode: :ferry, duration: :month, reduced: nil]]
   end
-  defp mode_filters(:commuter, name, _types) do
+  defp mode_filters(:commuter, name) do
     [[mode: :commuter, duration: :single_trip, reduced: nil, name: name],
      [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: name]]
   end
-  defp mode_filters(_mode, _name, types) do
-    subway_filters = [[name: :subway, duration: :single_trip, reduced: nil],
-                      [name: :subway, duration: :week, reduced: nil],
-                      [name: :subway, duration: :month, reduced: nil]]
-    bus_filters = [[name: :local_bus, duration: :single_trip, reduced: nil],
-                   [name: :local_bus, duration: :week, reduced: nil],
-                   [name: :local_bus, duration: :month, reduced: nil]]
-    separate_bus_subway_filters(types, bus_filters, subway_filters)
+  defp mode_filters(:bus_subway, name) do
+    [[name: :local_bus, duration: :single_trip, reduced: nil] | mode_filters(:subway, name)]
+  end
+  defp mode_filters(mode, name) do
+    [[name: mode, duration: :single_trip, reduced: nil],
+     [name: mode, duration: :week, reduced: nil],
+     [name: mode, duration: :month, reduced: nil]]
   end
 
-  @spec separate_bus_subway_filters([atom], [keyword()], [keyword()]) :: [keyword()]
-  defp separate_bus_subway_filters(types, bus_filters, subway_filters) do
+  def fare_mode(types) do
     cond do
-      :subway in types && :bus in types -> 
-        [[name: :local_bus, duration: :single_trip, reduced: nil] | subway_filters]
-      :bus in types -> bus_filters
-      true -> subway_filters
+      :subway in types && :bus in types -> :bus_subway
+      :subway in types -> :subway
+      :bus in types -> :bus
     end
   end
-
 
   @spec accessibility_info(Stops.Stop.t) :: [Phoenix.HTML.Safe.t]
   @doc "Accessibility content for given stop"

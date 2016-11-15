@@ -28,7 +28,7 @@
 
   <%= if show_fares?(@stop) do %>
     <div class="m-y-1">
-      <%= render "_fare_summaries.html", summaries: mode_summaries(:commuter, @zone_name, []) %>
+      <%= render "_fare_summaries.html", summaries: mode_summaries(:commuter, @zone_name) %>
     </div>
   <% end %>
 </div>

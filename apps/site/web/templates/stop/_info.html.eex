@@ -24,14 +24,14 @@
       <% end %>
       <%= if :ferry in types do %>
         <h3 class="station-fare-subheader">Ferry Fares</h3>
-        <%= render "_fare_summaries.html", summaries: mode_summaries(:ferry, @zone_name, []) %>
+        <%= render "_fare_summaries.html", summaries: mode_summaries(:ferry, @zone_name) %>
         <%= link to: fare_path(@conn, :show, "ferry") do %>
           <p>View all Ferry fares <%= fa "arrow-right" %></p>
         <% end %>
       <% end %>
       <%= if :subway in types || :bus in types do %>
         <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
-        <%= render "_fare_summaries.html", summaries: mode_summaries(:bus_subway, @zone_name, types) %>
+        <%= render "_fare_summaries.html", summaries: mode_summaries(fare_mode(types), @zone_name) %>
         <%= link to: fare_path(@conn, :show, "bus_subway") do %>
           <p>View all Bus and Subway fares <%= fa "arrow-right" %></p>
         <% end %>

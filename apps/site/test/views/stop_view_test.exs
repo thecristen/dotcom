@@ -54,5 +54,9 @@ defmodule Site.StopViewTest do
       summaries = StopView.mode_summaries(:bus_subway, {:bus, ""}, [:bus, :commuter, :ferry])
       assert Enum.all?(summaries, fn summary -> summary.modes == [:bus] end)
     end
+    test "Bus_subway summaries only return bus and subway information" do
+      summaries = StopView.mode_summaries(:bus_subway, {:bus, ""}, [:subway, :commuter, :ferry])
+      assert Enum.all?(summaries, fn summary -> :subway in summary.modes && :bus in summary.modes end)
+    end
   end
 end
