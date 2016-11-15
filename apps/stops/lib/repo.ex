@@ -22,30 +22,9 @@ defmodule Stops.Repo do
     end
   end
 
-  @spec closest(float, float, integer) :: [Stop.t]
-  def closest(lat, long, number \\ 12) do
-    stops = V3Api.Stops.all(latitude: lat, longitude: long, radius: 1)
-
-    stops
-    |> find_closest(lat, long, number)
-  end
-
-  @spec find_closest(JsonApi.t, float, float, integer) :: [Stop.t]
-  def find_closest(%JsonApi{data: stops}, lat, long, number \\ 12) do
-    stops
-    |> Enum.map(&position/1)
-    |> Stops.Distance.sort({lat, long})
-    |> Enum.take(number)
-    |> Enum.map(&Stops.Repo.get(&1.id))
-  end
-
-  defp position(%JsonApi.Item{id: id, attributes: %{"latitude" => latitude,
-                                                    "longitude" => longitude}}) do
-    %{
-      id: id,
-      latitude: latitude,
-      longitude: longitude
-    }
+  @spec closest(Position.t) :: [Stop.t]
+  def closest(position) do
+    Stops.Nearby.nearby(position)
   end
 end
 
