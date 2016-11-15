@@ -41,10 +41,10 @@ defmodule Stops.Nearby do
     opts
     |> Keyword.merge([
       latitude: Position.latitude(position),
-      longitude: Position.longitude(position)
+      longitude: Position.longitude(position),
+      include: "parent_station"
     ])
     |> Keyword.put(:"fields[stop]", "latitude,longitude")
-    |> Keyword.put(:include, "parent_station")
     |> V3Api.Stops.all
     |> Map.get(:data)
     |> Enum.map(&item_to_position/1)

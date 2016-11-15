@@ -4,6 +4,7 @@ defmodule Stops.Distance do
   Helper functions for working with distances between Stop.Position items.
 
   """
+  alias Stops.Position
   import Stops.Position
 
   @doc "Sorts the items by their distance from position."

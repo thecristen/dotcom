@@ -3,6 +3,8 @@ defmodule Stops.Repo do
   Matches the Ecto API, but fetches Stops from the Stop Info API instead.
   """
   use RepoCache, ttl: :timer.hours(1)
+  alias Stops.Position
+  alias Stops.Stop
 
   def stations do
     cache [], fn _ ->
