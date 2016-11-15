@@ -51,18 +51,26 @@ defmodule Site.StopView do
     end)
   end
 
+  @spec mode_summaries(atom, {atom, String.t}, [atom]) :: [Summary.T]
+  @doc "Return the fare summaries for the given mode"
+  def mode_summaries(:commuter, name, _types) do
+    filters = mode_filters(:commuter, name, [])
+    summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter]} end)
+  end
+  def mode_summaries(mode, name, types) do
+    summaries_for_filters(mode_filters(mode, name, types), mode)
+  end
 
   @spec mode_filters(atom, {atom, String.t}, [atom]) :: [keyword()]
-  @doc "Return the fare summaries to display for the given mode"
-  def mode_filters(:ferry, _name, _types) do
+  defp mode_filters(:ferry, _name, _types) do
     [[mode: :ferry, duration: :single_trip, reduced: nil],
      [mode: :ferry, duration: :month, reduced: nil]]
   end
-  def mode_filters(:commuter, name, _types) do
+  defp mode_filters(:commuter, name, _types) do
     [[mode: :commuter, duration: :single_trip, reduced: nil, name: name],
      [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: name]]
   end
-  def mode_filters(_mode, _name, types) do
+  defp mode_filters(_mode, _name, types) do
     subway_filters = [[name: :subway, duration: :single_trip, reduced: nil],
                       [name: :subway, duration: :week, reduced: nil],
                       [name: :subway, duration: :month, reduced: nil]]
@@ -82,20 +90,11 @@ defmodule Site.StopView do
     end
   end
 
-  @spec mode_summaries(atom, {atom, String.t}, [atom]) :: [Summary.T]
-  @doc "Return the fare summaries for the given mode"
-  def mode_summaries(:commuter, name, _types) do
-    filters = mode_filters(:commuter, name, [])
-    summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter]} end)
-  end
-  def mode_summaries(mode, name, types) do
-    summaries_for_filters(mode_filters(mode, name, types), mode)
-  end
 
   @spec accessibility_info(Stops.Stop.t) :: [Phoenix.HTML.Safe.t]
   @doc "Accessibility content for given stop"
   def accessibility_info(stop) do
-    [(content_tag :p, format_accessibility(stop.name, stop.accessibility)),
+    [(content_tag :p, format_accessibility_text(stop.name, stop.accessibility)),
     format_accessibility_options(stop)]
   end
 
@@ -108,16 +107,18 @@ defmodule Site.StopView do
         |> Enum.map(&pretty_accessibility/1) 
         |> Enum.join(", ")
       end
+    else
+      content_tag :span, ""
     end
   end
 
-  @spec format_accessibility(String.t, [String.t]) :: Phoenix.HTML.Safe.t
-  defp format_accessibility(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
-  defp format_accessibility(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
-  defp format_accessibility(name, ["accessible"]) do
+  @spec format_accessibility_text(String.t, [String.t]) :: Phoenix.HTML.Safe.t
+  defp format_accessibility_text(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
+  defp format_accessibility_text(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
+  defp format_accessibility_text(name, ["accessible"]) do
     content_tag(:span, "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices.")
   end
-  defp format_accessibility(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
+  defp format_accessibility_text(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
 
   @spec show_fares?(Stop.t) :: boolean
   @doc "Determines if the fare information for the given stop should be displayed"
@@ -126,8 +127,8 @@ defmodule Site.StopView do
   end
 
   @spec summaries_for_filters([keyword()], atom) :: [Summary.T]
-  defp summaries_for_filters(filters, mode, get_fares \\ &Fares.Repo.all/1) do
-    filters |> Enum.flat_map(get_fares) |> Fares.Format.summarize(mode)
+  defp summaries_for_filters(filters, mode) do
+    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
   end
 
   def parking_type("basic"), do: "Parking"
