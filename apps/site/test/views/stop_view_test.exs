@@ -45,18 +45,42 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "mode_summaries/3" do
+  describe "fare_mode/1" do
+    test "types are separated as bus, subway or both" do
+      assert StopView.fare_mode([:bus, :commuter, :ferry]) == :bus
+      assert StopView.fare_mode([:subway, :commuter, :ferry]) == :subway
+      assert StopView.fare_mode([:subway, :commuter, :ferry, :bus]) == :bus_subway
+    end
+  end
+
+  describe "accessibility_info" do
+    test "Accessibility description reflects features" do
+      no_accessibility = %Stops.Stop{name: "test", accessibility: nil}
+      no_accessible_feature = %Stops.Stop{id: "north", name: "test", accessibility: []}
+      only_accessible_feature = %Stops.Stop{name: "test", accessibility: ["accessible"]}
+      many_feature = %Stops.Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
+      tag_has_text = fn(tag, text) -> Phoenix.HTML.safe_to_string(Enum.at(tag, 0)) =~ text end
+
+      assert tag_has_text.(StopView.accessibility_info(no_accessibility), "No accessibility")
+      assert tag_has_text.(StopView.accessibility_info(no_accessible_feature), "No accessibility")
+      assert tag_has_text.(StopView.accessibility_info(only_accessible_feature), "wheeled mobility devices")
+      assert tag_has_text.(StopView.accessibility_info(many_feature), "has the following")
+    end
+  end
+
+  describe "mode_summaries/2" do
     test "commuter summaries only include commuter mode" do
-      summaries = StopView.mode_summaries(:commuter, {:zone, "7"}, [])
+      summaries = StopView.mode_summaries(:commuter, {:zone, "7"})
       assert Enum.all?(summaries, fn(summary) -> summary.modes == [:commuter] end)
     end
     test "Bus summaries only return bus fare information" do
-      summaries = StopView.mode_summaries(:bus_subway, {:bus, ""}, [:bus, :commuter, :ferry])
+      summaries = StopView.mode_summaries(:bus, {:bus, ""})
       assert Enum.all?(summaries, fn summary -> summary.modes == [:bus] end)
     end
-    test "Bus_subway summaries only return bus and subway information" do
-      summaries = StopView.mode_summaries(:bus_subway, {:bus, ""}, [:subway, :commuter, :ferry])
-      assert Enum.all?(summaries, fn summary -> :subway in summary.modes && :bus in summary.modes end)
+    test "Bus_subway summaries return both bus and subway information" do
+      summaries = StopView.mode_summaries(:bus_subway, {:bus, ""})
+      mode_present = fn(summary, mode) -> mode in summary.modes end
+      assert Enum.any?(summaries, &(mode_present.(&1,:bus))) && Enum.any?(summaries, &(mode_present.(&1,:subway)))
     end
   end
 end

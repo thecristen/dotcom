@@ -57,8 +57,11 @@ defmodule Site.StopView do
     filters = mode_filters(:commuter, name)
     summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter]} end)
   end
+  def mode_summaries(:ferry, name) do
+    summaries_for_filters(mode_filters(:ferry, name), :ferry)
+  end
   def mode_summaries(mode, name) do
-    summaries_for_filters(mode_filters(mode, name), mode)
+    summaries_for_filters(mode_filters(mode, name), :bus_subway)
   end
 
   @spec mode_filters(atom, {atom, String.t}) :: [keyword()]
@@ -73,12 +76,14 @@ defmodule Site.StopView do
   defp mode_filters(:bus_subway, name) do
     [[name: :local_bus, duration: :single_trip, reduced: nil] | mode_filters(:subway, name)]
   end
-  defp mode_filters(mode, name) do
+  defp mode_filters(mode, _name) do
     [[name: mode, duration: :single_trip, reduced: nil],
      [name: mode, duration: :week, reduced: nil],
      [name: mode, duration: :month, reduced: nil]]
   end
 
+  @spec fare_mode([atom]) :: atom
+  @doc "Determine what combination of bus and subway are present in given types"
   def fare_mode(types) do
     cond do
       :subway in types && :bus in types -> :bus_subway
