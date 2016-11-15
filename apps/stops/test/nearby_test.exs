@@ -90,17 +90,29 @@ defmodule Stops.NearbyTest do
       assert length(actual) == 12
     end
 
-    test "does not include duplicate stops" do
-      all = random_stops(20)
+    @tag iterations: 100
+    test "basic properties", %{iterations: iterations} do
+      for _ <- 1..iterations do
+        stops = random_stops(30)
+        commuter = Enum.take_random(stops, Enum.random(0..10))
+        subway = Enum.take_random(stops, Enum.random(0..10))
+        bus = Enum.take_random(stops, Enum.random(0..10))
 
-      actual = gather_stops(@position, all, all, all)
-      assert Stops.Distance.closest(all, @position, 12) == actual
-    end
+        actual = gather_stops(@position, commuter, subway, bus)
 
-    test "stops are always globally sorted" do
-      actual = gather_stops(@position, random_stops(10), random_stops(10), random_stops(10))
-
-      assert Stops.Distance.sort(actual, @position) == actual
+        # returns results if there are inputs
+        if (commuter ++ subway ++ bus) == [] do
+          assert actual == []
+        else
+          refute actual == []
+        end
+        # globally sorted
+        assert Stops.Distance.sort(actual, @position) == actual
+        # no duplicates
+        assert Enum.uniq(actual) == actual
+        # no more than 12 items
+        assert length(actual) <= 12
+      end
     end
   end
 
