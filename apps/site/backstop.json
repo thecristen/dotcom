@@ -144,6 +144,14 @@
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Station Info Tab (South Station)",
+      "url": "http://localhost:8082/stops/place-sstat?date=2016-09-25&tab=info",
+      "hideSelectors": [".station-info-map"],
+      "selectors": ["#station-info"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
     }
   ],
   "paths": {

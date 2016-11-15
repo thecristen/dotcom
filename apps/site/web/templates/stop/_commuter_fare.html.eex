@@ -1,0 +1,34 @@
+<div>
+  <h3 class="station-fare-subheader">Commuter Rail Fares</h3>
+  <p>
+    Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
+      <%= link to: fare_path(@conn, :show, "commuter") do %>
+        Find your fare <span class="no-wrap"><%= fa "arrow-right "%></span>
+      <% end %>
+  </p>
+
+  <div class="row">
+    <div class="col-md-8 col-sm-6 col-xs-12">
+      <%= if @stop.has_fare_machine do %>
+        <p class="commute-fare-charge">
+          This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
+        </p>
+        <strong>There will be a $3.00 surcharge if a ticket is purchased on-board trains leaving from <%= @stop.name %>.</strong>
+      <% end %>
+    </div>
+
+    <%= if @stop.has_fare_machine do %>
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>" 
+             class="img-fluid commuter-fare-img"
+             alt="Two MBTA fare vending machines">
+      </div>
+    <% end %>
+  </div>
+
+  <%= if show_fares?(@stop) do %>
+    <div class="m-y-1">
+      <%= render "_fare_summaries.html", summaries: mode_summaries(:commuter, @zone_name) %>
+    </div>
+  <% end %>
+</div>

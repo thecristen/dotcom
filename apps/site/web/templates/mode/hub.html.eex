@@ -36,30 +36,7 @@
         <div class="col-xs-12" id="fares">
           <h2><strong><%= @mode_name %> Fares</strong></h2>
           <p><%= @fare_description |> raw %></p>
-          <%= for chunk <- Enum.chunk(@fares, 2, 2, []) do %>
-            <div class="mode-summary-container row">
-              <%= for summary <- chunk do %>
-                <div class="col-sm-6 mode-fare-entry">
-                  <h3 class="mode-fare-header">
-                    <%= summary.name %>
-                    <span class="mode-route-icon">
-                      <%= for mode <- summary.modes do %>
-                        <span class="fares-mode-icon-group"><%= mode_icon(mode) %></span>
-                      <% end %>
-                    </span>
-                  </h3>
-                  <div class="mode-summary-box">
-                    <%= for {title, price} <- summary.fares do %>
-                      <div class="media-fare-row">
-                        <span class="mode-summary-name"><%= title %></span>
-                        <span class="mode-summary-price"><%= price %></span>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
+          <%= render "_fare_summaries.html", summaries: @fares%>
         </div>
       </div>
     </div>

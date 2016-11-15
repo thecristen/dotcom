@@ -3,23 +3,25 @@
     <div class="p-x-g">
       <h1>
         <%= @stop.name %>
-        <span class="station-mode-icon">
-          <%= for {type, _} <- @grouped_routes do %>
-            <%= mode_icon(type) %>
-          <% end %>
+        <span class="no-wrap">
+          <span class="station-mode-icon">
+            <%= for {type, _} <- @grouped_routes do %>
+              <%= mode_icon(type) %>
+            <% end %>
+          <%= if "accessible" in @stop.accessibility do %>
+            <%= mode_icon(:access) %>
+         <% end %>
+          </span>
         </span>
-        <%= if "accessible" in @stop.accessibility do %>
-          <img src="<%= static_url(@conn, "/images/access_accessible.gif") %>"
-               alt="Accessible"
-               class="stations-access-icon"/>
-        <% end %>
       </h1>
     </div>
-    <p class="stations-address m-x-g">
+    <p class="m-x-g">
       <%= @stop.address %>
+      <span class="no-wrap">
         <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
-          <span class="no-wrap">Plan a trip <%= fa "arrow-right" %></span>
+          &nbsp;Get directions <%= fa "arrow-right" %>
         <% end %>
+      </span>
     </p>
 
     <div class="row station-map-container m-x-g">

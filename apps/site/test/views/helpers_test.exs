@@ -75,4 +75,12 @@ defmodule Site.ViewHelpersTest do
       assert mode_icon(:the_ride) == expected
     end
   end
+
+  describe "external_link/1" do
+    test "Protocol is added when one is not included" do
+      assert external_link("http://www.google.com") == "http://www.google.com"
+      assert external_link("www.google.com") == "http://www.google.com"
+      assert external_link("https://google.com") == "https://google.com"
+    end
+  end
 end
