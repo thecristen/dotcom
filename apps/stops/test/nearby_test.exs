@@ -1,5 +1,6 @@
 defmodule Stops.NearbyTest do
   use ExUnit.Case, async: true
+  doctest Stops.Nearby
 
   alias Stops.Stop
   import Stops.Nearby

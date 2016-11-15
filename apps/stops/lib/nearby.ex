@@ -20,23 +20,35 @@ defmodule Stops.Nearby do
   import Stops.Distance
   alias Stops.Position
 
+  defmodule Options do
+    defstruct [
+      api_fn: &Stops.Nearby.do_api_around/2,
+      keys_fn: &Stops.Nearby.keys/1,
+      fetch_fn: &Stops.Repo.get/1
+    ]
+  end
+
   @spec nearby(Position.t) :: [Stops.Stop.t]
-  def nearby(position) do
-    commuter_rail_stops = api_around_task(position, radius: @mile_in_degrees * 50, route_type: 2)
-    subway_stops = api_around_task(position, radius: @mile_in_degrees * 30, route_type: "0,1")
-    bus_stops = api_around_task(position, radius: @mile_in_degrees, route_type: 3)
+  def nearby(position, opts \\ %{}) do
+    opts = %Options{}
+    |> Map.merge(opts)
+
+    commuter_rail_stops = api_around_task(position, opts, radius: @mile_in_degrees * 50, route_type: 2)
+    subway_stops = api_around_task(position, opts, radius: @mile_in_degrees * 30, route_type: "0,1")
+    bus_stops = api_around_task(position, opts, radius: @mile_in_degrees, route_type: 3)
 
     position
     |> gather_stops(
       Task.await(commuter_rail_stops),
-      Task.await(subway_stops),
-      Task.await(bus_stops))
-    |> Enum.map(&Stops.Repo.get(&1.id))
+      Task.await(subway_stops) |> sort(position) |> no_more_than(1, opts.keys_fn),
+      Task.await(bus_stops) |> sort(position) |> no_more_than(2, opts.keys_fn))
+    |> Enum.map(&opts.fetch_fn.(&1.id))
   end
 
-  def api_around_task(position, opts) do
-    Task.async(__MODULE__, :do_api_around, [position, opts])
+  def api_around_task(position, %{api_fn: api_fn}, opts) do
+    Task.async(Kernel, :apply, [api_fn, [position, opts]])
   end
+
   def do_api_around(position, opts) do
     opts
     |> Keyword.merge([
@@ -61,6 +73,15 @@ defmodule Stops.Nearby do
       latitude: latitude,
       longitude: longitude
     }
+  end
+
+  def keys(%{id: id}) do
+    0..1
+    |> Enum.flat_map(fn direction_id ->
+      id
+      |> Routes.Repo.by_stop(direction_id: direction_id)
+      |> Enum.map(&{&1.id, direction_id})
+    end)
   end
 
   @doc """
@@ -114,5 +135,42 @@ defmodule Stops.Nearby do
     [first | rest] = sort(items, position)
 
     {[first], rest}
+  end
+
+  @doc """
+
+  Filters an enumerable such that the keys (returned by the key_fn) do not
+  appear more than twice.
+
+  iex> Stops.Nearby.no_more_than([1, 2, 3, 4, 5], 2, fn i -> [rem(i, 2)] end)
+  [1, 2, 3, 4]
+
+  iex> Stops.Nearby.no_more_than([1, 2, 3, 4, 5], 2, fn i -> [rem(i, 2), div(i, 2)] end)
+  [1, 2, 4, 5]
+
+  iex> Stops.Nearby.no_more_than([1, 2, 3, 4, 5], 1, fn i -> [rem(i, 2)] end)
+  [1, 2]
+  """
+  @spec no_more_than(Enum.t, pos_integer, ((any) -> [any])) :: Enum.t
+  def no_more_than(enum, max_count, keys_fn) do
+    {items, _} = enum
+    |> Enum.reduce({[], %{}}, fn item, {existing, all_keys} ->
+      still_valid_keys =
+        item
+        |> keys_fn.()
+        |> Enum.reject(&(Map.get(all_keys, &1) == max_count))
+
+      if still_valid_keys == [] do
+        {existing, all_keys}
+      else
+        updated_keys = still_valid_keys
+        |> Enum.reduce(all_keys, fn key, keys ->
+          Map.update(keys, key, 1, &(&1 + 1))
+        end)
+        {[item | existing], updated_keys}
+      end
+    end)
+
+    Enum.reverse(items)
   end
 end

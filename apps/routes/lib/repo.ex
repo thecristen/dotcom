@@ -51,12 +51,14 @@ defmodule Routes.Repo do
 
   """
   @spec by_stop(String.t) :: [Routes.Route.t]
-  def by_stop(stop_id) do
-    cache stop_id, fn stop_id ->
-      stop_id
-      |> V3Api.Routes.by_stop
+  def by_stop(stop_id, opts \\ []) do
+    {:ok, routes} = cache {stop_id, opts}, fn {stop_id, opts} ->
+      {:ok, stop_id
+      |> V3Api.Routes.by_stop(opts)
       |> handle_response
+      }
     end
+    routes
   end
 
   @doc """
