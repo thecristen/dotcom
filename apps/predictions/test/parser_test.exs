@@ -14,7 +14,7 @@ defmodule Predictions.ParserTest do
           "status" => "On Time",
           "direction_id" => 0,
           "departure_time" => "2016-09-15T15:40:00-04:00",
-          "arrival_time" => nil
+          "arrival_time" => "2016-01-01T00:00:00-04:00"
         },
         relationships: %{
           "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],

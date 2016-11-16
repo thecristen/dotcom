@@ -134,4 +134,29 @@ defmodule Site.AlertViewTest do
       assert text =~ "However, there are 2 upcoming alerts."
     end
   end
+
+  describe "inline/2" do
+    test "raises an exception if time is not an option" do
+      assert catch_error(
+        Site.AlertView.inline(Site.Endpoint, [])
+      )
+    end
+
+    test "renders nothing if no alerts are passed in" do
+      result = Site.AlertView.inline(Site.Endpoint,
+        alerts: [],
+        time: Util.service_date)
+
+      assert result == ""
+    end
+
+    test "renders if a list of alerts and times is passed in" do
+      result = Site.AlertView.inline(Site.Endpoint,
+        alerts: [%Alerts.Alert{effect_name: "Delay", lifecycle: "Upcoming",
+                               updated_at: Util.now}],
+        time: Util.service_date)
+
+      refute safe_to_string(result) == ""
+    end
+  end
 end
