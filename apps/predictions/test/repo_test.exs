@@ -8,6 +8,20 @@ defmodule Predictions.RepoTest do
       assert is_list(predictions)
     end
 
+    test "can filter by route / stop" do
+      stops = Repo.all(route: "Red", stop: "place-sstat")
+      for stop <- stops do
+        assert %{route_id: "Red", stop_id: "place-sstat"} = stop
+      end
+    end
+
+    test "can filter by stop / direction" do
+      directions = Repo.all(stop: "place-sstat", direction_id: 1)
+      for direction <- directions do
+        assert %{stop_id: "place-sstat", direction_id: 1} = direction
+      end
+    end
+
     @tag :capture_log
     test "returns a list even if the server is down" do
       v3_url = Application.get_env(:v3_api, :base_url)

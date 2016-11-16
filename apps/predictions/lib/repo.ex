@@ -3,7 +3,7 @@ defmodule Predictions.Repo do
   require Logger
 
   @default_params [
-    "fields[prediction]": "track,status,departure_time,arrival_time",
+    "fields[prediction]": "track,status,departure_time,arrival_time,direction_id",
     "fields[stop]": "",
     "include": "stop"
   ]
