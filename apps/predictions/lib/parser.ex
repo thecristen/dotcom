@@ -7,7 +7,7 @@ defmodule Predictions.Parser do
       stop_id: stop_id(relationships["stop"]),
       trip_id: List.first(relationships["trip"]).id,
       direction_id: attributes["direction_id"],
-      time: [attributes["arrival_time"], attributes["departure_time"]] |> first_time,
+      time: [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
       track: attributes["track"],
       status: attributes["status"]
     }
