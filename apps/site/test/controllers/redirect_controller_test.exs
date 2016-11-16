@@ -28,4 +28,10 @@ defmodule Site.RedirectControllerTest do
     response = html_response(conn, 200)
     assert response =~ "http://www.mbta.com/news?entry=123"
   end
+
+  test "handles pass program subdomain", %{conn: conn} do
+    conn = get conn, redirect_path(conn, :show, ["pass_program"])
+    response = html_response(conn, 200)
+    assert response =~ "https://passprogram.mbta.com/"
+  end
 end

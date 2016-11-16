@@ -88,7 +88,8 @@
     </div>
     <div class="content-section">
       <h2>Pass Programs</h2>
-      <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups. For more information, take a look at the <a href="https://passprogram.mbta.com/">Pass Program website</a> or call <%= tel_link "(888) 844-0353" %>. </p>
+      <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups.
+      For more information, take a look at the <%= link "Pass Program Website", to: redirect_path(@conn, "passprogram")%> or call <%= tel_link "(888) 844-0353" %>. </p>
     </div>
   </div>
 </div>

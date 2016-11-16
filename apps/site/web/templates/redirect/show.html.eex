@@ -4,7 +4,7 @@
   </h1>
 
   <p class="m-t-1">
-    <a class="btn btn-primary<%= if @mobile_enabled do %> btn-small hidden-sm-down<% else %> btn-block<% end %>" role="button" href="http://www.mbta.com/<%= raw @redirect %>">
+    <a class="btn btn-primary<%= if @mobile_enabled do %> btn-small hidden-sm-down<% else %> btn-block<% end %>" role="button" href=<%= redirect_url(@subdomain, @redirect)%>>
       Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
     </a>
     <%= if @mobile_enabled do %>
