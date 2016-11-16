@@ -1,0 +1,19 @@
+{
+  "uuid" : "99e4ae3d-f687-3849-a787-5eb6e6b6e384",
+  "request" : {
+    "url" : "/schedules/?include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&trip=31161896-CR_MAY2016-hxn16011-Weekday-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-6Aivw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:32 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "tcn8g55fk24bsvmps9fhafpr1qt3qdkj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

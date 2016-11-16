@@ -1,0 +1,19 @@
+{
+  "uuid" : "311fad7c-b98f-3ad3-9cdf-4a086b99cc1f",
+  "request" : {
+    "url" : "/schedules/?include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&trip=31562380",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-S364J.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:38 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "1cqboiedj7u09bm70n5c5ht7np7srg3t",
+      "Connection" : "keep-alive"
+    }
+  }
+}

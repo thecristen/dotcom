@@ -1,0 +1,19 @@
+{
+  "uuid" : "2a6603e6-de66-35a9-897a-17bda3effad0",
+  "request" : {
+    "url" : "/trips/32021721",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-32021721-HeCe5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:39 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "qrsd5sv0pi6b6vk8iaqgab2anvr1996p",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "b07849cb-6b73-352a-812b-d933278b6139",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&route=CR-Greenbush&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time&fields%5Bstop%5D=&include=stop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-6p3AT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:30 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "6b4bqesutdbfojsbhie4v37j8apu7ula",
+      "Connection" : "keep-alive"
+    }
+  }
+}

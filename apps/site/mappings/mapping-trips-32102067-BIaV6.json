@@ -1,0 +1,19 @@
+{
+  "uuid" : "7d53bbe2-828d-363d-ae2b-ddfc8e8c2474",
+  "request" : {
+    "url" : "/trips/32102067",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-32102067-BIaV6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:42 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "drramr5s59povp3s4tc2aq3gc1rih39d",
+      "Connection" : "keep-alive"
+    }
+  }
+}

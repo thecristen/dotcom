@@ -1,0 +1,19 @@
+{
+  "uuid" : "d65c036e-3fbe-3382-a311-9081ff98532d",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&route=CR-Kingston&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time&fields%5Bstop%5D=&include=stop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-sNMwu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:30 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "5p0g13qidkvt2ad3o9rl2en444fnja3l",
+      "Connection" : "keep-alive"
+    }
+  }
+}

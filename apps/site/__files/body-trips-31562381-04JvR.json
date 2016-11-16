@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"trip","relationships":{"vehicle":{},"service":{"data":{"type":"service","id":"RTL42016-hms46011-Weekday-01"}},"route":{"data":{"type":"route","id":"Red"}},"predictions":{}},"links":{"self":"/trips/31562381"},"id":"31562381","attributes":{"wheelchair_accessible":1,"name":"","headsign":"Braintree","direction_id":0}}}
