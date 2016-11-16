@@ -1,4 +1,4 @@
 set -e
 
-MIX_ENV=test mix coveralls.json
+MIX_ENV=test mix coveralls.json -u
 cd apps/site && npm test && cd -
