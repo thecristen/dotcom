@@ -117,12 +117,16 @@ defmodule JsonApi do
     Map.get(included, {type, id}, item)
   end
 
-  defp parse_included(%{"included" => included}) do
+  defp parse_included(params) do
+    included = Map.get(params, "included", [])
+    data = case Map.get(params, "data") do
+             nil -> []
+             list when is_list(list) -> list
+             item -> [item]
+           end
     included
+    |> Enum.concat(data)
     |> Map.new(fn %{"type" => type, "id" => id} = item ->
       {{type, id}, item} end)
-  end
-  defp parse_included(_) do
-    %{}
   end
 end

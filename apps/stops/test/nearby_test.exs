@@ -9,6 +9,127 @@ defmodule Stops.NearbyTest do
   @longitude -71.225
   @position {@latitude, @longitude}
 
+  describe "nearby/1" do
+    test "gets CR/subway/bus stops, gathers then, and fetches them" do
+      commuter = random_stops(5)
+      subway = random_stops(5)
+      bus = random_stops(5)
+      route_type_map = %{
+        "0,1" => subway,
+        2 => commuter,
+        3 => bus
+      }
+      api_fn = fn _, opts -> route_type_map[opts[:route_type]] end
+      keys_fn = fn %{id: id} -> [id] end
+      fetch_fn = fn id -> {:fetch, id} end
+
+      actual = nearby(@position, api_fn: api_fn, keys_fn: keys_fn, fetch_fn: fetch_fn)
+      expected = @position
+      |> gather_stops(commuter, subway, bus)
+      |> Enum.map(&{:fetch, &1.id}) # verifies calling fetch
+
+      assert expected == actual
+    end
+
+    test "does not include more than two bus stops with a given key" do
+      bus = [
+        %{id: 1,
+          latitude: @latitude,
+          longitude: @longitude,
+          keys: [1, 2]
+         },
+        %{id: 2,
+          latitude: @latitude,
+          longitude: @longitude,
+          keys: [1]
+        },
+        %{id: 3,
+          latitude: @latitude,
+          longitude: @longitude,
+          keys: [1],
+        },
+        %{id: 4,
+          latitude: @latitude,
+          longitude: @latitude,
+          keys: [2]
+        }]
+
+      api_fn = fn _, opts -> if opts[:route_type] == 3, do: bus, else: [] end
+      keys_fn = fn %{keys: keys} -> keys end
+      fetch_fn = fn id -> id end
+
+      actual = nearby(@position, api_fn: api_fn, keys_fn: keys_fn, fetch_fn: fetch_fn)
+      expected = [1, 2, 4]
+
+      assert expected == actual
+    end
+
+    test "does not include more than one subway stop with a given key" do
+      subway = [
+        %{id: 1,
+          latitude: @latitude,
+          longitude: @longitude,
+          keys: [1, 2]
+         },
+        %{id: 2,
+          latitude: @latitude,
+          longitude: @longitude,
+          keys: [1]
+        },
+        %{id: 3,
+          latitude: @latitude,
+          longitude: @latitude,
+          keys: [2]
+        }]
+
+      api_fn = fn _, opts -> if opts[:route_type] == "0,1", do: subway, else: [] end
+      keys_fn = fn %{keys: keys} -> keys end
+      fetch_fn = fn id -> id end
+
+      actual = nearby(@position, api_fn: api_fn, keys_fn: keys_fn, fetch_fn: fetch_fn)
+      expected = [1]
+
+      assert expected == actual
+    end
+  end
+
+  describe "api_around/2" do
+    test "returns positions around a lat/long" do
+      actual = @position |> api_around(radius: 0.06) |> distance_sort
+      expected = [
+        %{id: "North Billerica", latitude: 42.593248, longitude: -71.280995},
+        %{id: "Wilmington", latitude: 42.546624, longitude: -71.174334},
+        %{id: "6902", latitude: 42.519675, longitude: -71.21163}]
+      assert expected == actual
+    end
+
+    test "returns the parent station if it exists" do
+      # south station
+      actual = {42.352271, -71.055242} |> api_around(radius: 0.001) |> distance_sort
+      expected = [
+        %{id: "place-sstat", latitude: 42.352271, longitude: -71.055242},
+        %{id: "6538", latitude: 42.35176, longitude: -71.056003}
+      ]
+      assert expected == actual
+    end
+  end
+
+  describe "keys/1" do
+    test "returns a list of {route_id, direction_id} tuples" do
+      actual = %{id: "place-brdwy"} |> keys |> Enum.sort
+      expected = [{"11", 0}, {"11", 1}, {"47", 0}, {"47", 1}, {"9", 0}, {"9", 1}, {"Red", 0}, {"Red", 1}]
+
+      assert expected == actual
+    end
+
+    test "returns one direction of stops if that's all there is" do
+      actual = %{id: "46"} |> keys |> Enum.sort
+      expected = [{"10", 1}, {"5", 1}]
+
+      assert expected == actual
+    end
+  end
+
   describe "gather_stops/4" do
     test "given no results, returns an empty list" do
       assert gather_stops(@position, [], [], []) == []
