@@ -17,14 +17,14 @@ defmodule Site.ScheduleController.Trip do
   end
   def call(%{params: %{"trip" => trip_id}} = conn, []) when not is_nil(trip_id) do
     conn
-    |> do_selected_trip(Schedules.Repo.trip(trip_id))
+    |> do_selected_trip(Schedules.Repo.schedule_for_trip(trip_id))
   end
   def call(%{assigns: %{schedules: schedules}} = conn, []) do
     case current_trip(schedules) do
       nil -> conn
       |> assign(:trip, nil)
       |> assign(:trip_schedule, nil)
-      trip_id -> do_selected_trip(conn, Schedules.Repo.trip(trip_id))
+      trip_id -> do_selected_trip(conn, Schedules.Repo.schedule_for_trip(trip_id))
     end
   end
   def call(conn, []) do

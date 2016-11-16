@@ -46,7 +46,7 @@ defmodule Schedules.Repo do
     end)
   end
 
-  def trip(trip_id) do
+  def schedule_for_trip(trip_id) do
     @default_params
     |> Keyword.merge([
       trip: trip_id
@@ -82,6 +82,13 @@ defmodule Schedules.Repo do
     route
     |> stops(direction_id: direction_id)
     |> Enum.any?(&(&1.id == stop_id))
+  end
+
+  @spec trip(String.t) :: Schedules.Trip.t
+  def trip(trip_id) do
+    trip_id
+    |> V3Api.Trips.by_id
+    |> Schedules.Parser.trip
   end
 
   defp all_from_params(params) do

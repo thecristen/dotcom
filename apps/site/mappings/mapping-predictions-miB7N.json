@@ -1,0 +1,19 @@
+{
+  "uuid" : "f3aaa152-3036-3dc6-a182-9b96598e3e5c",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&route=CR-Needham&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time&fields%5Bstop%5D=&include=stop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-miB7N.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:31 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "ivbgv4d0oghvsvak6m485tpe7c6voq3n",
+      "Connection" : "keep-alive"
+    }
+  }
+}

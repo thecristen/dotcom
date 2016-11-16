@@ -33,13 +33,27 @@ defmodule Schedules.Parser do
     }
   end
 
-  defp trip(%JsonApi.Item{
+  def trip(%JsonApi.Item{
         relationships: %{
           "trip" => [%JsonApi.Item{id: id,
                                    attributes: %{"name" => name,
                                                  "headsign" => headsign,
                                                  "direction_id" => direction_id}}]
         }}) do
+    %Schedules.Trip{
+      id: id,
+      headsign: headsign,
+      name: name,
+      direction_id: direction_id
+    }
+  end
+  def trip(%JsonApi{
+        data: [%JsonApi.Item{
+                  id: id, attributes: %{
+                    "headsign" => headsign,
+                    "name" => name,
+                    "direction_id" => direction_id}}]
+           }) do
     %Schedules.Trip{
       id: id,
       headsign: headsign,

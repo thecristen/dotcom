@@ -61,9 +61,9 @@ defmodule Schedules.RepoTest do
     refute (response |> Enum.at(1)).id == "place-sull"
   end
 
-  test ".trip returns stops in order of their stop_sequence for a given trip" do
+  test ".schedule_for_trip returns stops in order of their stop_sequence for a given trip" do
     trip_id = "31174481-CR_MAY2016-hxl16011-Weekday-01"
-    response = Schedules.Repo.trip(trip_id)
+    response = Schedules.Repo.schedule_for_trip(trip_id)
     assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
     assert List.first(response).stop.id == "Lowell"
     assert List.last(response).stop.id == "place-north"

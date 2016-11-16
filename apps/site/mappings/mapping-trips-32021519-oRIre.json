@@ -1,0 +1,19 @@
+{
+  "uuid" : "029f7862-748d-3645-90f7-2516cfbb71df",
+  "request" : {
+    "url" : "/trips/32021519",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-32021519-oRIre.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 16 Nov 2016 14:33:41 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "vltpcejsjin2trkg2f8gde9fk0ikoms0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

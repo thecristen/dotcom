@@ -146,4 +146,81 @@ defmodule Site.StopView do
   def tab_class(tab, tab), do: "stations-tab stations-tab-selected"
   def tab_class("schedule", nil), do: "stations-tab stations-tab-selected"
   def tab_class(_, _), do: "stations-tab"
+
+  @spec schedule_template(Routes.Route.route_type) :: String.t
+  @doc "Returns the template to render schedules for the given mode."
+  def schedule_template(:commuter), do: "_commuter_schedule.html"
+  def schedule_template(_), do: "_mode_schedule.html"
+
+  @spec has_alerts?(Plug.Conn.t, Routes.Route.t) :: boolean
+  @doc "Returns true if the given route has alerts. The date is supplied by the conn."
+  def has_alerts?(conn, route) do
+    Alerts.Repo.all
+    |> Enum.reject(&Alerts.Alert.is_notice?/1)
+    |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id, route_type: route.type}, conn.assigns[:date])
+    |> Enum.empty?
+    |> Kernel.not
+  end
+
+  @spec upcoming_commuter_departures(Plug.Conn.t, String.t, String.t, integer) :: Schedules.Schedule.t | nil
+  @doc "Returns the next departure for the given stop, CR line, and direction."
+  def upcoming_commuter_departures(conn, stop, route, direction_id) do
+    stop
+    |> Schedules.Repo.schedule_for_stop(route: route, date: conn.assigns[:date], direction_id: direction_id)
+    |> Enum.find(&(Timex.after?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip.id, stop)))
+  end
+
+  @spec upcoming_departures(Plug.Conn.t, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
+  @doc "Returns the next departures for the given stop, route, and direction."
+  def upcoming_departures(conn, stop_id, route_id, direction_id) do
+    predicted = [stop: stop_id, route: route_id, direction_id: direction_id]
+    |> Predictions.Repo.all
+    |> Enum.filter_map(
+      &(upcoming?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip_id, stop_id)),
+      (&{:predicted, Schedules.Repo.trip(&1.trip_id).headsign, &1.time})
+    )
+
+    scheduled = stop_id
+    |> Schedules.Repo.schedule_for_stop(route: route_id, date: conn.assigns[:date], direction_id: direction_id)
+    |> Enum.filter_map(&(upcoming?(&1.time, conn.assigns[:date_time])), &{:scheduled, &1.trip.headsign, &1.time})
+
+    predicted
+    |> Enum.concat(scheduled)
+    |> Enum.sort_by(&(elem(&1, 2)))
+    |> Enum.group_by(&(elem(&1, 1)))
+    |> Enum.map(fn {headsign, departures} ->
+      {headsign, Enum.take(departures, 3)}
+    end)
+  end
+
+  def render_commuter_departure_time(route_id, direction_id, schedule, prediction) do
+    formatted_scheduled = Timex.format!(schedule.time, "{h12}:{m} {AM}")
+    path = schedule_path(Site.Endpoint, :show, route_id, trip: schedule.trip.id, direction_id: direction_id)
+    do_render_commuter_departure_time(path, formatted_scheduled, prediction)
+  end
+
+  defp do_render_commuter_departure_time(path, formatted_scheduled, nil) do
+    [link(formatted_scheduled, to: path)]
+  end
+  defp do_render_commuter_departure_time(path, formatted_scheduled, prediction) do
+    formatted_predicted = Timex.format!(prediction.time, "{h12}:{m} {AM}")
+    if formatted_predicted != formatted_scheduled do
+      [content_tag(:s, formatted_scheduled), tag(:br), link(formatted_predicted, to: path)]
+    else
+      [link(formatted_scheduled, to: path)]
+    end
+  end
+
+  defp departing?(trip, stop) do
+    trip
+    |> Schedules.Repo.schedule_for_trip
+    |> Enum.drop_while(&(&1.stop.id != stop))
+    |> (fn (schedules) -> match?([_, _ | _], schedules) end).()
+  end
+
+  defp upcoming?(time, now) do
+    time
+    |> Timex.diff(now, :minutes)
+    |> Kernel.>=(0)
+  end
 end
