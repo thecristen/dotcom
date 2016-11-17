@@ -164,12 +164,12 @@ defmodule Site.StopView do
   def schedule_template(:commuter), do: "_commuter_schedule.html"
   def schedule_template(_), do: "_mode_schedule.html"
 
-  @spec has_alerts?(Plug.Conn.t, Routes.Route.t) :: boolean
+  @spec has_alerts?(Plug.Conn.t, Alerts.InformedEntity.t) :: boolean
   @doc "Returns true if the given route has alerts. The date is supplied by the conn."
-  def has_alerts?(conn, route) do
+  def has_alerts?(conn, informed_entity) do
     Alerts.Repo.all
     |> Enum.reject(&Alerts.Alert.is_notice?/1)
-    |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id, route_type: route.type}, conn.assigns[:date])
+    |> Alerts.Match.match(informed_entity, conn.assigns[:date])
     |> Enum.empty?
     |> Kernel.not
   end
