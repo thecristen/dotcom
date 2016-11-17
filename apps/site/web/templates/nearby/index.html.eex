@@ -4,12 +4,12 @@
       <div class="col-xs-12">
         <% pattern = "-?[0-9]+([.][0-9]+)?" %>
         <%= form_for @conn, nearby_path(@conn, :index), [method: :get, as: :position, id: :position], fn f -> %>
-        <button type="button" id="geolocate" class="btn btn-secondary-outline btn-sm"><%= fa "location-arrow" %></button>
-        <%= text_input f, :latitude, pattern: pattern, placeholder: "Latitude" %>
-        <%= text_input f, :longitude, pattern: pattern, placeholder: "Longitude" %>
-        <button type="submit" class="btn btn-primary">Search</button>
-    <% end %>
-    <div id="geolocation-error" class="text-warning"></div>
+          <button type="button" id="geolocate" class="btn btn-secondary-outline btn-sm"><%= fa "location-arrow" %></button>
+          <%= text_input f, :latitude, pattern: pattern, placeholder: "Latitude" %>
+          <%= text_input f, :longitude, pattern: pattern, placeholder: "Longitude" %>
+          <button type="submit" class="btn btn-primary">Search</button>
+        <% end %>
+        <div id="geolocation-error" class="text-warning"></div>
       </div>
     </div>
 

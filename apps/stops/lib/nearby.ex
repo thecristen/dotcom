@@ -140,8 +140,8 @@ defmodule Stops.Nearby do
 
   @doc """
 
-  Filters an enumerable such that the keys (returned by the key_fn) do not
-  appear more than twice.
+  Filters an enumerable such that the keys (returned by `keys_fn`) do not
+  appear more than `max_count` times.
 
   iex> Stops.Nearby.no_more_than([1, 2, 3, 4, 5], 2, fn i -> [rem(i, 2)] end)
   [1, 2, 3, 4]
