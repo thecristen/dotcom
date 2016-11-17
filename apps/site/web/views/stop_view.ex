@@ -237,7 +237,7 @@ defmodule Site.StopView do
   end
 
   def predicted_icon(:predicted) do
-      ~s(<i class="fa fa-rss station-schedule-icon"></i><span class="sr-only">Predicted departure time: </span>)
+      ~s(<i data-toggle="tooltip" title="Real Time Service" class="fa fa-rss station-schedule-icon"></i><span class="sr-only">Predicted departure time: </span>)
       |> Phoenix.HTML.raw
   end
   def predicted_icon(_), do: ""
