@@ -1,6 +1,6 @@
 <%= for {mode, routes} <- @grouped_routes do %>
   <%= render schedule_template(mode), Map.merge(forward_assigns(@conn), %{mode: mode, routes: routes}) %>
 <% end %>
-<span aria-hidden="true">
+<div aria-hidden="true" class="col-xs-12 p-x-0 m-t-1">
   <%= fa "rss station-schedule-icon" %> Real time service
-</span>
+</div>
