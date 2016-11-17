@@ -43,7 +43,7 @@
         Middle and High School students are eligible for a reduced fare if their school issues them a Student CharlieCard. All Student CharlieCards expire on August 31st each year and are reissued by schools for the following year. Please direct all questions and concerns regarding lost, stolen, and/or replacements of Student CharlieCards to your school administrator.
       </p>
       <p>
-        School administrators can learn more by <a href="https://passprogram.mbta.com/">visiting the pass program website</a> or by calling <%= tel_link "(617) 222-5710" %>.
+        School administrators can learn more by <%= link "visiting the pass program website", to: redirect_path(@conn, "pass_program") %> or by calling <%= tel_link "(617) 222-5710" %>.
       </p>
     </div>
 

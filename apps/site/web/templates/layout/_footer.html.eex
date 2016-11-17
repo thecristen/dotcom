@@ -35,7 +35,7 @@
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Fare Information by Mode", to: fare_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced") %></li>
-          <li class="footer-link-sublist-item"><%= link "Pass Programs", to: fare_path(@conn, :index) %></li>
+          <li class="footer-link-sublist-item"><%= link "Pass Programs", to: redirect_path(@conn, "pass_program") %></li>
           <li class="footer-link-sublist-item"><%= link "Ways to Pay", to: fare_path(@conn, :show, "payment_methods") %></li>
         </ul>
       </li>

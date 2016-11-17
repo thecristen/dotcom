@@ -103,7 +103,7 @@
             <ul>
               <li><%= link "Fare Information by Mode", to: fare_path(@conn, :index) %></li>
               <li><%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced") %></li>
-              <li><%= link "Pass Programs", to: fare_path(@conn, :index) %></li>
+              <li><%= link "Pass Programs", to: redirect_path(@conn, "pass_program") %></li>
               <li><%= link "Ways to Pay", to: fare_path(@conn, :show, "payment_methods") %></li>
             </ul>
           </div>
