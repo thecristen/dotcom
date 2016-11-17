@@ -30,8 +30,21 @@ defmodule Site.RedirectControllerTest do
   end
 
   test "handles pass program subdomain", %{conn: conn} do
-    conn = get conn, redirect_path(conn, :show, ["pass_program"])
+    conn = get conn, "/redirect/pass_program"
     response = html_response(conn, 200)
     assert response =~ "https://passprogram.mbta.com/"
   end
+
+  test "handles pass program subdomain with slashes", %{conn: conn} do
+    conn = get conn, "/redirect/pass_program/Public/transit"
+    response = html_response(conn, 200)
+    assert response =~ "https://passprogram.mbta.com/Public/transit"
+  end
+
+  test "handles pass program subdomain with query param", %{conn: conn} do
+    conn = get conn, redirect_path(conn, :show, ["pass_program", "news"], entry: "123")
+    response = html_response(conn, 200)
+    assert response =~ "https://passprogram.mbta.com/news?entry=123"
+  end
+
 end

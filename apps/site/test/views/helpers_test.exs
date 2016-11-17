@@ -83,4 +83,12 @@ defmodule Site.ViewHelpersTest do
       assert external_link("https://google.com") == "https://google.com"
     end
   end
+
+  describe "strip_protocol/1" do
+    test "Protocol is removed when one is present" do
+      assert strip_protocol("http://www.google.com") == "www.google.com"
+      assert strip_protocol("www.google.com") == "www.google.com"
+      assert strip_protocol("https://google.com") == "google.com"
+    end
+  end
 end

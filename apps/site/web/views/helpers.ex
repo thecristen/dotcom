@@ -222,4 +222,10 @@ defmodule Site.ViewHelpers do
   def external_link(href = <<"https://", _::binary>>), do: href
   def external_link(href), do: "http://" <> href
 
+  @spec strip_protocol(String.t) :: String.t
+  @doc "Returns given url without a protocol"
+  def strip_protocol("http://" <> url), do: url
+  def strip_protocol("https://" <> url), do: url
+  def strip_protocol(url), do: url
+
 end
