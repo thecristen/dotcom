@@ -96,6 +96,8 @@ defmodule Site.StopView do
     end
   end
 
+  @spec aggregate_routes([map()]) :: [map()]
+  @doc "Combine multipe routes on the same subway line"
   def aggregate_routes(routes) do
     routes
     |> Enum.map(&(if String.starts_with?(&1.name, "Green"), do: %{&1 | name: "Green"}, else: &1))
