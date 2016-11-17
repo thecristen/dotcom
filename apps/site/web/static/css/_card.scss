@@ -1,6 +1,6 @@
 $card-section-padding-sm: 0.75rem;
-$card-section-padding-md: 1.5rem;
-$card-section-padding-xxl: 2rem;
+$card-section-padding-md: 0;
+$card-section-padding-xxl: 0;
 
 .card-section {
   background-color: white;
@@ -19,7 +19,6 @@ $card-section-padding-xxl: 2rem;
       margin-top: $card-section-padding-sm;
     }
   }
-
 
   &.card-narrow {
     margin-left: $card-section-padding-sm;

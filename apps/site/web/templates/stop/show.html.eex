@@ -1,21 +1,19 @@
 <div class="card card-section station">
   <div class="card-block card-block-no-header">
-    <div class="p-x-g">
-      <h1>
-        <%= @stop.name %>
-        <span class="no-wrap">
-          <span class="station-mode-icon">
-            <%= for {type, _} <- @grouped_routes do %>
-              <%= mode_icon(type) %>
-            <% end %>
-          <%= if "accessible" in @stop.accessibility do %>
-            <%= mode_icon(:access) %>
-         <% end %>
-          </span>
+    <h1>
+      <%= @stop.name %>
+      <span class="no-wrap">
+        <span class="station-mode-icon">
+          <%= for {type, _} <- @grouped_routes do %>
+            <%= svg_icon_with_circle(%{icon: type}) %>
+          <% end %>
         </span>
-      </h1>
-    </div>
-    <p class="m-x-g">
+        <%= if "accessible" in @stop.accessibility do %>
+          <%= svg_icon_with_circle(%{icon: :accessible}) %>
+        <% end %>
+      </span>
+    </h1>
+    <p class="stations-address">
       <%= @stop.address %>
       <span class="no-wrap">
         <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
@@ -24,7 +22,7 @@
       </span>
     </p>
 
-    <div class="row station-map-container m-x-g">
+    <div class="row station-map-container">
       <div class="embed-responsive embed-responsive-21by9">
         <div class="station-info-map">
           <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>

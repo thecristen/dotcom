@@ -1,0 +1,134 @@
+//scss-lint:disable SelectorFormat
+.mbta-custom-icon {
+  display: inline-block;
+
+  svg {
+    height: 2rem;
+    vertical-align: middle;
+    width: 2rem;
+  }
+
+  &.icon-with-circle {
+    margin-right: .5rem;
+  }
+
+  &.icon-small {
+    svg {
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+  }
+
+  &.icon-large {
+    svg {
+      height: 1rem;
+      width: 4rem;
+    }
+  }
+
+  &.icon-blue_line,
+  &.icon-red_line,
+  &.icon-orange_line,
+  &.icon-green_line,
+  &.icon-mattapan_line {
+    svg {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+  }
+}
+
+.icon-image {
+  fill: $white;
+}
+
+.icon-alert {
+  margin-right: 0;
+
+  &.icon-with-circle {
+    svg {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+  }
+
+  svg {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .icon-image {
+    fill: $brand-navy-dark;
+  }
+}
+
+.icon-globe {
+  .icon-image {
+    fill: $white;
+    stroke: $brand-navy-dark;
+  }
+}
+
+.icon-bus {
+  .icon-image {
+    fill: $gray-dark;
+  }
+
+  .icon-circle {
+    fill: $brand-secondary;
+  }
+}
+
+.icon-subway {
+  .icon-circle {
+    fill: $gray;
+  }
+}
+
+.icon-commuter {
+  .icon-circle {
+    fill: $brand-commuter;
+  }
+}
+
+.icon-ferry {
+  .icon-circle {
+    fill: $brand-primary-light;
+  }
+}
+
+.icon-blue_line,
+.blue {
+  .icon-circle {
+    fill: $brand-blue-line;
+  }
+}
+
+.icon-red_line,
+.icon-mattapan_line,
+.red,
+.mattapan {
+  .icon-circle {
+    fill: $brand-red-line;
+  }
+}
+
+.icon-orange_line,
+.orange {
+  .icon-circle {
+    fill: $brand-orange-line;
+  }
+}
+
+.icon-green_line,
+.green {
+  .icon-circle {
+    fill: $brand-green-line;
+  }
+}
+
+.icon-accessible {
+  .icon-circle {
+    fill: $brand-primary;
+  }
+}

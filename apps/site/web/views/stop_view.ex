@@ -104,9 +104,9 @@ defmodule Site.StopView do
   defp format_accessibility_options(stop) do
     if stop.accessibility && !Enum.empty?(stop.accessibility) do
       content_tag :p do
-        stop.accessibility 
-        |> Enum.filter(&(&1 != "accessible")) 
-        |> Enum.map(&pretty_accessibility/1) 
+        stop.accessibility
+        |> Enum.filter(&(&1 != "accessible"))
+        |> Enum.map(&pretty_accessibility/1)
         |> Enum.join(", ")
       end
     else
@@ -198,6 +198,34 @@ defmodule Site.StopView do
     path = schedule_path(Site.Endpoint, :show, route_id, trip: schedule.trip.id, direction_id: direction_id)
     do_render_commuter_departure_time(path, formatted_scheduled, prediction)
   end
+
+  @doc """
+    Finds the difference between now and a time, and displays either the difference in minutes or the formatted time
+    if the difference is greater than an hour.
+  """
+  @spec schedule_display_time(DateTime.t) :: String.t
+  def schedule_display_time(time) do
+    Timex.diff(time, Util.now, :minutes)
+    |> do_schedule_display_time(time)
+  end
+
+  def do_schedule_display_time(diff, time) when diff > 60 or diff < -1  do
+    time
+    |> Timex.format!("{h12}:{m} {AM}")
+  end
+
+  def do_schedule_display_time(diff, _) do
+    case diff do
+      1 -> "#{diff} min"
+      _ -> "#{diff} mins"
+    end
+  end
+
+  def predicted_icon(:predicted) do
+      ~s(<i class="fa fa-rss station-schedule-icon"></i><span class="sr-only">Predicted departure time: </span>)
+      |> Phoenix.HTML.raw
+  end
+  def predicted_icon(_), do: ""
 
   defp do_render_commuter_departure_time(path, formatted_scheduled, nil) do
     [link(formatted_scheduled, to: path)]

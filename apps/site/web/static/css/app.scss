@@ -1,8 +1,10 @@
 @import 'variables';
 @import 'bootstrap';
+@import 'font-sizes';
 @import 'vendor/font-awesome-4.6.3/scss/font-awesome';
 @import 'vendor/fixedsticky';
 @import 'helpers';
+@import 'icons';
 @import 'route-icon';
 @import 'mode-group';
 @import 'font-sizes';
@@ -25,6 +27,9 @@
 
 body {
   background-color: $homepage-bg-color;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 
   &.no-js {
     .collapse:target {
@@ -85,6 +90,12 @@ body {
   display: block;
 }
 
+@include media-breakpoint-down(md) {
+  .container {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+}
 
 @include media-breakpoint-down(sm) {
   // hide SM down, but remain visible to screen readers

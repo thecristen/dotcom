@@ -1,6 +1,11 @@
 <div class="schedule-route-name">
   <div class="schedule-route-name-container">
-    <h1><%= mode_icon(@route) %><%= route_header_text(@route) %></h1>
+    <h1>
+      <span class="<%= @route.id |> String.downcase %>">
+        <%= svg_icon_with_circle(%{icon: Routes.Route.type_atom(@route)}) %>
+      </span>
+      <%= route_header_text(@route) %>
+    </h1>
     <%= render "_date.html", date: @date, conn: @conn %>
   </div>
 </div>

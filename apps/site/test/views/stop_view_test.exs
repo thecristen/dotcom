@@ -83,4 +83,19 @@ defmodule Site.StopViewTest do
       assert Enum.any?(summaries, &(mode_present.(&1,:bus))) && Enum.any?(summaries, &(mode_present.(&1,:subway)))
     end
   end
+
+  describe "schedule_display_time/1" do
+    test "returns difference in minutes when difference is less than 60" do
+      diff = Timex.shift(Util.now, minutes: 10)
+      |> StopView.schedule_display_time
+      assert diff == "9 mins"
+    end
+
+    test "returns formatted time when difference is greater than 60" do
+      time = Timex.shift(Util.now, hours: 2)
+      diff = time
+      |> StopView.schedule_display_time
+      assert diff == time |> Timex.format!("{h12}:{m} {AM}")
+    end
+  end
 end

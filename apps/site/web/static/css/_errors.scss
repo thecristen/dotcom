@@ -7,8 +7,6 @@
   text-align: center;
 
   @include media-breakpoint-up(sm) {
-    background: rgba($gray-dark, .5);
-    color: $white;
     margin: 5rem;
     padding-bottom: 1em;
   }

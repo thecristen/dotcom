@@ -18,6 +18,7 @@
   @include button-variant($link-color, white, $gray-lightest);
   @extend .btn-block;
 
+  line-height: 2rem;
   margin-bottom: .75rem;
 
   @include media-breakpoint-down(sm) {
@@ -25,9 +26,10 @@
     @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
   }
 
-  .fa-exclamation-triangle {
-    color: $gray-dark;
+  > .icon-alert {
+    margin-left: .375rem;
   }
+
 }
 
 .mode-group-footer {

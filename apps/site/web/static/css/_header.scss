@@ -1,32 +1,18 @@
 @import 'variables';
+$icon-size: 1.75rem;
 
 .header-image {
   background-color: $white;
   border-radius: 50%;
-  height: 1.5rem;
-  left: .75rem;
-  position: absolute;
-  width: 1.5rem;
+  color: $brand-navy-dark;
+  display: inline-block;
+  height: $icon-size;
+  margin-right: .5rem;
+  text-align: center;
+  width: $icon-size;
 
   .fa {
-    color: $homepage-bg-color;
-    font-size: .875rem;
-    left: 3px;
-    position: absolute;
-    top: 5px;
-  }
-
-  img {
-    border-radius: 50%;
-    position: relative;
-    top: -2px;
-    width: 1.5rem;
-  }
-
-  svg {
-    left: .25rem;
-    position: relative;
-    width: 1rem;
+    margin: .3rem;
   }
 }
 
@@ -71,7 +57,7 @@
 }
 
 .desktop-menu {
-  background-color: $homepage-bg-color;
+  background-color: $brand-navy-dark;
   padding: 0;
 
   .route-icon {
@@ -94,10 +80,13 @@
 }
 
 .menu-card {
-  background-color: $homepage-bg-color;
   border: 0;
   color: $white;
-  margin: 0;
+  margin-bottom: 0;
+
+  &.card {
+    background-color: initial;
+  }
 
   ul {
     list-style: none;
@@ -105,20 +94,124 @@
   }
 }
 
+// scss-lint:disable IdSelector
+// scss-lint:disable SelectorFormat
+#gettingAround,
+#contactUs,
+#more {
+  .mbta-custom-icon {
+    width: $icon-size;
+  }
+
+  .icon-circle {
+    fill: $white;
+  }
+
+  .icon-image {
+    fill: $brand-navy-dark;
+  }
+
+  .map-image {
+    fill: $white;
+    stroke: $brand-navy-dark;
+    stroke-width: 1.5px;
+  }
+
+  .globe-image {
+    fill: $white;
+    stroke: $brand-navy-dark;
+  }
+}
+
+#faresDrawer {
+  .mbta-custom-icon {
+    margin-right: 0;
+    width: $icon-size * .8;
+  }
+}
+
 .menu-row {
-  padding: 1rem;
+  padding: 2rem 0;
+}
+
+.header-column {
+  border-left: 1px solid $white;
+  border-right: 1px solid $white;
+  display: inline-block;
+  padding: 0 2.5rem;
+
+  @include media-breakpoint-up(md) {
+    width: 33%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+  }
 
   > div {
-    border-right: 1px solid $white;
-    padding: 0 2rem;
+    display: inline-block;
+  }
 
-    &:last-child {
-      border-right: 0;
+  &:nth-child(2),
+  &:nth-child(3) {
+    margin-left: -1px;
+  }
+
+  &:first-child {
+    border-left-width: 0;
+  }
+
+  &:last-child {
+    border-right-width: 0;
+  }
+}
+
+.nav-title {
+  font-weight: bold;
+  margin-bottom: .5rem;
+}
+
+.social-nav {
+  padding-top: 7px;
+
+  @include media-breakpoint-down(md) {
+    // move social icons up on tablets
+    bottom: 3rem;
+    height: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  a {
+    border-radius: 100%;
+    color: $white;
+    height: 1.5em;
+    text-align: center;
+    width: 1.5em;
+  }
+
+  .nav-item {
+    margin-left: 0;
+
+    + .nav-item {
+      margin-left: .5rem;
     }
   }
 
-  .header-column {
-    padding-left: 3rem;
+  .social-nav-instagram {
+    background-color: $white;
+
+    .fa {
+      color: $instagram;
+    }
+  }
+
+  .social-nav-youtube {
+    background-color: $youtube;
+  }
+
+  .social-nav-twitter {
+    background-color: $twitter;
   }
 }
 

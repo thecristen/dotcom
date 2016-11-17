@@ -41,15 +41,6 @@ defmodule Site.AlertView do
   end
 
   @doc """
-
-  Renders a small icon along with a message
-
-  """
-  def tooltip() do
-    render(__MODULE__, "tooltip.html", %{})
-  end
-
-  @doc """
   """
   def alert_effects(alerts, upcoming_count)
   def alert_effects([], 0), do: "There are no alerts for today."

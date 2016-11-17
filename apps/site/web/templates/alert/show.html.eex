@@ -24,7 +24,7 @@
       </div>
     </nav>
     <a class="btn btn-block btn-primary-outline hidden-md-up pull-right show-mode-toggle-btn" href="#modes" data-toggle="collapse" data-target="#modes">
-      <%= route_type_name(@id) %> <%= fa "angle-down" %>
+      <%= Routes.Route.type_name(@id) %> <%= fa "angle-down" %>
     </a>
     <div class="clearfix"></div>
   </div>
@@ -33,7 +33,7 @@
       <div class="alert-show-row">
         <div class="alert-show-title-container">
           <span class="alert-show-title alert-show-title-<%= @id %>">
-            <span><%= raw route_circle(route.type, route.name) %><%= route.name %></span>
+            <span><%= svg_icon_with_circle(%{icon: route}) %><%= route.name %></span>
           </span>
           <span class="alert-show-title-background"></span>
         </div>

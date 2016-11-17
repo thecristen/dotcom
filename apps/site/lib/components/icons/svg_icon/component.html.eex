@@ -1,0 +1,15 @@
+<% icon = get_icon_atom(args.icon) %>
+<span class="mbta-custom-icon icon-<%= icon %>">
+  <%= if icon == :alert do %>
+  <span data-toggle="tooltip" title="There is an alert for this service that may affect your trip">
+  <% end %>
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon-<%= icon %>" viewbox="0 0 <%= viewbox(icon) %>">
+        <title><%= icon %>-icon</title>
+        <g fill-rule="evenodd" class="icon-image <%= icon %>-image">
+            <%= get_path(icon) %>
+        </g>
+    </svg>
+  <%= if icon == :alert do %>
+  </span>
+  <% end %>
+</span>

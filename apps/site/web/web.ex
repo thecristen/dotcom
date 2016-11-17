@@ -47,7 +47,6 @@ defmodule Site.Web do
       import Site.ErrorHelpers
       import Site.Gettext
       import Site.ViewHelpers
-      import Site.ViewHelpers.RouteLink
 
       @dialyzer :no_match
     end

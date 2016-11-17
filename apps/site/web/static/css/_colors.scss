@@ -10,6 +10,10 @@ $brand-secondary: #ffce0c;
 $brand-secondary-dark: #d8ac00;
 $brand-secondary-light: #ffe372;
 
+// Background Colors
+$brand-navy-dark: #071d2e;
+$brand-purple: #3324ae;
+
 // Grays
 $gray: #494f5c;
 $gray-dark: #1c1e23;
@@ -39,8 +43,8 @@ $twitter: #55acee;
 $youtube: #cd201f;
 
 // General
-$homepage-bg-color: #071d2e;
-$footer-color: $homepage-bg-color;
+$homepage-bg-color: #fff;
+$footer-color: $brand-navy-dark;
 $input-color: $gray-dark;
 $list-group-link-color: $gray-dark;
 $nav-mobile-link-color: #fff;

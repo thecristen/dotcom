@@ -1,46 +1,34 @@
-<div class="station-schedule-row station-schedule-header">
-  <div class="col-xs-12 col-sm-5">
-    <strong><%= mode_name @mode %></strong>
+<div class="station-route-row station-schedule-header">
+  <div class="column-name station-route-schedule-name">
+    <%= mode_name @mode %>
   </div>
-  <div class="col-sm-7 hidden-xs-down">
-    <strong>Upcoming Departures</strong>
+  <div class="hidden-xs-down station-route-schedule-times">
+    Upcoming Departures
   </div>
 </div>
 <%= for route <- @routes do %>
   <%= for direction_id <- [0, 1] do %>
     <%= if (departure_groups = upcoming_departures(@conn, @stop.id, route.id, direction_id)) != [] do %>
-      <div class="station-schedule-row">
-        <div class="row">
-          <div class="col-sm-1 col-xs-2">
-            <%= mode_icon route %>
-          </div>
-          <div class="col-sm-11 col-xs-10">
-            <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
-          </div>
-        </div>
+      <div class="station-route-row">
+        <p class="station-route-name "> <%#col-xs-offset-2 col-xs-offset-1 col-xs-12 %>
+          <%= svg_icon_with_circle(%{icon: route}) %>
+          <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
+        </p>
         <%= for {headsign, departures} <- departure_groups do %>
-          <div class="row">
-            <div class="col-md-4 col-sm-11 col-xs-10 col-sm-offset-1 col-xs-offset-2">
+          <div class="station-route-schedule">
+            <p class="station-route-schedule-name"> <%#col-md-4 col-sm-11 col-xs-10 %>
               <%= direction(direction_id, route.id) %> <%= fa "arrow-right" %> <%= headsign %>
               <%= if has_alerts?(@conn, route) do %>
-                <span class="pull-xs-right"><%= render Site.AlertView, "tooltip.html" %></span>
+                <%= svg_icon(%{icon: :alert}) %>
               <% end %>
-            </div>
-            <div class="col-sm-7 col-xs-12">
-              <span class="hidden-md-up"><strong>Upcoming Departures</strong><br /></span>
+            </p>
+            <div class="station-route-schedule-times row"><%#  col-sm-7 col-xs-12 %>
+              <!-- <div class="hidden-md-up column-name">Upcoming Departures</div> -->
               <%= for {type, _, time} <- departures do %>
-                <% diff = Timex.diff(time, Util.now, :minutes) %>
-                <div class="col-xs-4 p-x-0">
-                  <%= if type == :predicted do %>
-                    <%= fa "rss station-schedule-icon" %>
-                    <span class="sr-only">Predicted departure time: </span>
-                  <% end %>
+                <div class="time-column">
+                  <%= predicted_icon(type) %>
                   <%= link to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) do %>
-                    <%= if diff <= 60 do %>
-                      <%= diff %> mins
-                    <%= else %>
-                      <%= time |> Timex.format!("{h12}:{m} {AM}") %>
-                    <% end %>
+                    <%= schedule_display_time(time) %>
                   <% end %>
                 </div>
               <% end %>

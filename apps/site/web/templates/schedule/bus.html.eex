@@ -7,7 +7,7 @@
       <strong><%= hour |> Kernel.*(3600) |> DateTime.from_unix! |> Timex.format!("{kitchen}") %></strong>
       <%= if trip_alerts != [] do %>
         <span class="pull-xs-right">
-          <%= Site.AlertView.tooltip %>
+          <%= svg_icon(%{icon: :alert}) %>
         </span>
       <% end %>
     </span>

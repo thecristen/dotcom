@@ -148,13 +148,6 @@ defmodule Site.ViewHelpers do
     |> Enum.join(" ")
   end
 
-  def route_type_name(:commuter), do: "Commuter Rail"
-  def route_type_name(atom) do
-    atom
-    |> Atom.to_string
-    |> String.capitalize
-  end
-
   def update_query(%{params: params}, query) do
     params = params || %{}
     query_map = query

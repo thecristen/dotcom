@@ -2,14 +2,16 @@
   <div class="mode-group col-xs-12<%= if @route_type == :commuter do %> mode-group-first<% end %>">
     <div class="mode-group-header">
       <h2>
-        <%= mode_icon @route_type %>
-        <span><%= route_type_name @route_type %> </span>
-        <%= Site.PageView.schedule_separator %>
-        <small>
-          <a href="<%= mode_path(@conn, @route_type) %>">View&nbsp;All&nbsp;&raquo;</a>
-        </small>
+        <%= svg_icon_with_circle %{icon: @route_type} %>
+        <span><%= Routes.Route.type_name @route_type %> </span>
       </h2>
     </div>
-    <%= mode_button_list %Site.Components.Buttons.ModeButtonList{routes: get_route_group(@route_type, @grouped_routes, @truncate), alerts: @conn.assigns.all_alerts, date: @conn.assigns.date} %>
+    <%= mode_button_list %Site.Components.Buttons.ModeButtonList{
+      routes: get_route_group(@route_type, @grouped_routes, @truncate),
+      alerts: @conn.assigns.all_alerts,
+      date: @conn.assigns.date,
+      include_all_link: true
+      }
+    %>
   </div>
 </div>

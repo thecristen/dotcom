@@ -1,14 +1,18 @@
 // variables
 $base-font-size: 16px;
 $base-font-size-xxl: 18px;
-$h1: 1.625rem;
-$h1-xxl: 1.667rem;
-$h2: 1.375rem;
-$h2-xxl: 1.444rem;
-$h3: 1.125rem;
-$h3-xxl: 1.222rem;
-$h4: $h3;
-$h4-xxl: $h3-xxl;
+$font-size-h1: 1.375rem;
+$font-size-h1-xxl: 1.667rem;
+$font-size-h2: 1.25rem;
+$font-size-h2-xxl: 1.444rem;
+$font-size-h3: 1.125rem;
+$font-size-h3-xxl: 1.222rem;
+$font-size-h4: 1.1rem;
+$font-size-h4-xxl: 1.125rem;
+$font-size-h5: 1rem;
+$font-size-h5-xxl: $font-size-h5;
+$font-size-h6: $font-size-h5;
+$font-size-h6-xxl: $font-size-h5;
 
 // parser_ignore
 html {
@@ -19,44 +23,48 @@ html {
 
 h1,
 .h1 {
-  @include media-breakpoint-up(md) {
-    font-size: $h1;
+  border-bottom: .25rem solid $brand-purple;
+
+  @include media-breakpoint-down(lg) {
+    font-size: $font-size-h1;
+    margin-bottom: .25em;
+    padding-bottom: .25em;
   }
 
   @include media-breakpoint-up(xxl) {
-    font-size: $h1-xxl;
+    font-size: $font-size-h1-xxl;
   }
 }
 
 h2,
 .h2 {
-  @include media-breakpoint-up(md) {
-    font-size: $h2;
+  @include media-breakpoint-down(lg) {
+    font-size: $font-size-h2;
   }
 
   @include media-breakpoint-up(xxl) {
-    font-size: $h2-xxl;
+    font-size: $font-size-h2-xxl;
   }
 }
 
 h3,
 .h3 {
-  @include media-breakpoint-up(md) {
-    font-size: $h3;
+  @include media-breakpoint-down(lg) {
+    font-size: $font-size-h3;
   }
 
   @include media-breakpoint-up(xxl) {
-    font-size: $h3-xxl;
+    font-size: $font-size-h3-xxl;
   }
 }
 
 h4,
 .h4 {
-  @include media-breakpoint-up(md) {
-    font-size: $h4;
+  @include media-breakpoint-down(lg) {
+    font-size: $font-size-h4;
   }
 
   @include media-breakpoint-up(xxl) {
-    font-size: $h4-xxl;
+    font-size: $font-size-h4-xxl;
   }
 }

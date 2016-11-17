@@ -1,9 +1,10 @@
 <div>
   <div class="card card-section">
-    <div class="card-block card-block-no-header">
-      <div>
-        <h1><%= mode_icon %Routes.Route{type: @route_type} %><%= @mode_name %> Schedules and Maps</h1>
-      </div>
+    <div class="card-block card-block-no-header mode-hub">
+      <h1>
+        <%= svg_icon_with_circle(%{icon: @route_type |> Routes.Route.type_atom}) %>
+        <%= @mode_name %> Schedules and Maps
+      </h1>
       <div class="row">
         <div class="col-xs-12 p-b-1">
           <h2><strong>System Map</strong></h2>
@@ -21,22 +22,11 @@
         </div>
         <div class="col-xs-12 p-b-1">
           <h2><strong>Line Schedules</strong></h2>
-          <div class="mode-group mode-group-first">
-            <div class="mode-group-block">
-              <div class="row">
-                <%= for route <- @routes do %>
-                  <div class="<%= route_spacing_class(@route_type)%>">
-                  <%= route_link @conn, route %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
+          <%= mode_button_list(%Site.Components.Buttons.ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts}) %>
         </div>
         <div class="col-xs-12" id="fares">
           <h2><strong><%= @mode_name %> Fares</strong></h2>
           <p><%= @fare_description |> raw %></p>
-          <%= render "_fare_summaries.html", summaries: @fares%>
         </div>
       </div>
     </div>

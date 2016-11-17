@@ -6,7 +6,7 @@ defmodule Site.FareView do
   defdelegate description(fare), to: Site.FareView.Description
 
   def eligibility(%Fare{mode: mode, reduced: :student}) do
-    "Middle and high school students are eligible for reduced fares on the #{route_type_name(mode)}. \
+    "Middle and high school students are eligible for reduced fares on the #{Routes.Route.type_name(mode)}. \
 In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. \
 One Way fares and Stored Value are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are \
 not. College students may be eligible for reduced fares through a Semester Pass Program. For more information, \
@@ -14,7 +14,7 @@ please contact an administrator at your school."
   end
   def eligibility(%Fare{mode: mode, reduced: :senior_disabled}) do
     "Those who are 65 years of age or older and persons with disabilities qualify for a reduced fare on the \
-#{route_type_name(mode)}. In order to receive a reduced fare, seniors must obtain a Senior CharlieCard and \
+#{Routes.Route.type_name(mode)}. In order to receive a reduced fare, seniors must obtain a Senior CharlieCard and \
 persons with disabilities must apply for a Transportation Access Pass (TAP). One Way fares and Stored Value \
 are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are not."
   end

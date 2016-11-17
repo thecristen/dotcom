@@ -8,7 +8,7 @@ defmodule Site.StyleGuideView.CssVariables do
       @font_sizes parse_scss_variables("_font-sizes") |> Map.get("variables")
 
       def color_variable_groups do
-        ["Primary Colors", "Secondary Colors", "Grays", "Modes and Lines", "Alerts", "Social Media", "General"]
+        ["Primary Colors", "Secondary Colors", "Background Colors", "Grays", "Modes and Lines", "Alerts", "Social Media", "General"]
       end
     end
   end

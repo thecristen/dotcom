@@ -23,4 +23,16 @@ defmodule Site.LayoutView do
   @spec styleguide_main_content_class(map) :: String.t
   def styleguide_main_content_class(%{all_subpages: _}), do: " col-md-10"
   def styleguide_main_content_class(_), do: ""
+
+  def get_page_classes(module, template) do
+    module_class = module
+    |> Module.split
+    |> Enum.slice(1..-1)
+    |> Enum.join("-")
+    |> String.downcase
+
+    template_class = template |> String.replace(".html", "-template")
+
+    "#{module_class} #{template_class}"
+  end
 end

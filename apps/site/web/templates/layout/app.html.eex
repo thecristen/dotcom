@@ -114,6 +114,7 @@
             </nav>
           </div>
         </div>
+        <%= render "_desktop_header.html", conn: @conn %>
         <%= if breadcrumbs != [] do %>
           <div class="container-fluid breadcrumb-container">
             <div class="container">
@@ -135,10 +136,9 @@
             </div>
           </div>
         <% end %>
-        <%= render "_desktop_header.html", conn: @conn %>
       </header>
       <div class="container">
-        <main class="full-width" id="main" tabindex="-1">
+        <main class="full-width <%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
           <%= render @view_module, @view_template, assigns %>
         </main>
       </div> <%# /container %>

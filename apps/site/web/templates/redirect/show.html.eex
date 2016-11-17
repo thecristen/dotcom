@@ -1,16 +1,18 @@
-<div class="error-card">
-  <h1>
-    While we're working on the new site, we haven't moved everything over yet.  We're sending you back to the original site for the content you requested.
-  </h1>
+<div class="error-page">
+  <div class="error-card">
+    <p>
+      While we're working on the new site, we haven't moved everything over yet.  We're sending you back to the original site for the content you requested.
+    </p>
 
-  <p class="m-t-1">
-    <a class="btn btn-primary<%= if @mobile_enabled do %> btn-small hidden-sm-down<% else %> btn-block<% end %>" role="button" href=<%= @redirect  %>>
-      Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
-    </a>
-    <%= if @mobile_enabled do %>
-      <a class="btn btn-primary btn-block hidden-md-up" role="button" href="http://mobile.usablenet.com/mt/<%= strip_protocol(@redirect) %>">
-        Take me there<span class="sr-only"> (mobile version)</span> <%= fa "arrow-right" %>
+    <p class="m-t-1">
+      <a class="btn btn-primary<%= if @mobile_enabled do %> btn-small hidden-sm-down<% else %> btn-block<% end %>" role="button" href=<%= @redirect  %>>
+        Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
       </a>
-    <% end %>
-  </p>
+      <%= if @mobile_enabled do %>
+        <a class="btn btn-primary btn-block hidden-md-up" role="button" href="http://mobile.usablenet.com/mt/<%= strip_protocol(@redirect) %>">
+          Take me there<span class="sr-only"> (mobile version)</span> <%= fa "arrow-right" %>
+        </a>
+      <% end %>
+    </p>
+  </div>
 </div>

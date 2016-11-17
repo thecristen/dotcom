@@ -7,3 +7,8 @@
     <% end %>
   </div>
 </div>
+<%= if args.include_all_link == true do %>
+  <div class="mode-group-footer">
+    <%= all_link(args.routes) %>
+  </div>
+<%= end %>

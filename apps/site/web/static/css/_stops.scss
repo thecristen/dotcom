@@ -14,12 +14,16 @@
 }
 
 .stations-address {
-  border-top: $space-4 solid $brand-primary;
   padding-top: .5rem;
 }
 
 .station-mode-icon {
   width: 100%;
+
+  &.mbta-custom-icon.icon-with-circle {
+    margin-left: .5rem;
+    margin-right: 0;
+  }
 
   .route-icon {
     @include route-icon(1.5rem);
@@ -37,10 +41,6 @@
 .stations-tab-group {
   border-bottom: $space-4 solid $brand-primary-dark;
   margin: 1em 0 0;
-
-  @include media-breakpoint-down(xs) {
-    border-bottom: 0;
-  }
 }
 
 .stations-tab {
@@ -160,7 +160,7 @@ a {
 }
 
 // scss-lint:disable PlaceholderInExtend
-.station-schedule-row {
+.station-route-row {
   @extend .col-xs-12;
 
   border-bottom: 1px solid $gray-lightest;
@@ -169,24 +169,79 @@ a {
   padding-bottom: .5em;
   padding-top: .5em;
 
-  .route-icon {
-    @include route-icon(1.5rem, $space-4);
-  }
-
   .route-info {
     display: inline-block;
   }
 
-  .spacer {
-    @extend .col-xs-12;
-    margin-top: .5rem;
-
-    @include media-breakpoint-up(md) {
-      display: none;
-    }
+  .column-name {
+    font-weight: bold;
   }
 
   &.station-schedule-header {
     background-color: $gray-lightest;
+    white-space: nowrap;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .station-route-name,
+  .station-route-schedule-name,
+  .station-route-schedule-times {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .station-route-name,
+  .station-route-schedule-name,
+  .station-route-schedule-time {
+    padding-left: 2rem;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .station-route-schedule {
+    white-space: nowrap;
+  }
+
+  .station-route-schedule-name {
+    display: inline-block;
+    width: 50%;
+  }
+
+  .station-route-schedule-times {
+    display: inline-block;
+    width: 50%;
+  }
+}
+
+.station-route-name {
+  margin-bottom: 0;
+
+  .mbta-custom-icon {
+    svg {
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+  }
+}
+
+.station-route-schedule-name {
+  margin-bottom: 0;
+  white-space: normal;
+
+  .fa-arrow-right {
+    color: $gray-light;
+    margin: 0 .375rem;
+  }
+}
+
+.station-route-schedule-times {
+  white-space: nowrap;
+
+  .time-column {
+    display: inline-block;
+    width: 33.33333%;
   }
 }

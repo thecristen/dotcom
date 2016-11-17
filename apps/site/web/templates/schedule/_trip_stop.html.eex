@@ -19,7 +19,7 @@
         <span class="schedule-flag">F</span>
       <% end %>
       <%= if Alerts.Match.match(@alerts, %Alerts.InformedEntity{stop: @trip_schedule.stop.id}) != [] do %>
-        <%= Site.AlertView.tooltip %>
+        <%= svg_icon(%{icon: :alert}) %>
       <% end %>
       <%= stop_info_link(@trip_schedule.stop) %>
     </span>

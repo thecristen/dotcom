@@ -34,7 +34,7 @@
           (to <%= schedule.trip.headsign %>)
       <% end %>
       <%= if trip_alerts != [] do %>
-        <%= Site.AlertView.tooltip %>
+        <%= svg_icon(%{icon: :alert}) %>
       <% end %>
     </span>
     <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>

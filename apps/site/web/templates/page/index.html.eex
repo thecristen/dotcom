@@ -1,9 +1,9 @@
 <div class="index">
   <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false, card_class: "card-narrow" %>
 
-  <%= render "_news_card.html", news: @news, conn: @conn, class: "" %>
+  <%= render "_news_card.html", news: @news, conn: @conn %>
 
-  <div class="card card-section card-narrow">
+  <div class="card card-section card-narrow homepage-footer">
     <div class="card-block card-block-no-header">
       <div class="row">
         <div class="col-md-6">
@@ -23,7 +23,7 @@
             </a></li>
           </ul>
           <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>" class="bg-primary d-block">
-            <img class="img-fluid center-block m-b-1 p-a-1 bg-primary" src="<%= static_url(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width=348 height=96"/>
+            <img class="img-fluid center-block m-b-1 p-a-1 bg-primary" src="<%= static_url(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width="348" height="96"/>
           </a>
         </div>
         <div class="col-md-6">

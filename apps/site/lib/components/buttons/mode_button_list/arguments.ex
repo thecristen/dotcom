@@ -12,7 +12,8 @@ defmodule Site.Components.Buttons.ModeButtonList do
               %{id: "CR-Worcester", key_route?: false, name: "Framingham/Worcester Line", type: 2}
             ],
             alerts:    [],
-            date: nil
+            date: nil,
+            include_all_link: false
 
   def get_alert(route, alerts, date \\ nil) do
     date = date || Util.now
@@ -20,6 +21,26 @@ defmodule Site.Components.Buttons.ModeButtonList do
     alerts
     |> Enum.reject(&Alerts.Alert.is_notice?(&1, date))
     |> Alerts.Match.match(entity, date)
+  end
+
+  def all_link([%{type: type}|_]) when type in [0,1] do
+    path = Site.Router.Helpers.mode_path(Site.Endpoint, :subway)
+    ~s(<a href="#{path}">View all subway <span class="no-wrap">lines <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
+  end
+
+  def all_link([%{type: 2}|_]) do
+    path = Site.Router.Helpers.mode_path(Site.Endpoint, :commuter)
+    ~s(<a href="#{path}">View all commuter rail <span class="no-wrap">lines <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
+  end
+
+  def all_link([%{type: 3}|_]) do
+    path = Site.Router.Helpers.mode_path(Site.Endpoint, :bus)
+    ~s(<a href="#{path}">View all bus <span class="no-wrap">routes <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
+    end
+
+  def all_link([%{type: 4}|_]) do
+    path = Site.Router.Helpers.mode_path(Site.Endpoint, :ferry)
+    ~s(<a href="#{path}">View all ferry <span class="no-wrap">routes <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
   end
 
 end

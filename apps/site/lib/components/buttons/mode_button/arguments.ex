@@ -40,7 +40,7 @@ defmodule Site.Components.Buttons.ModeButton do
 
   defp render_subway_color_icon(name), do: fa("circle fa-color-subway-#{name}")
 
-  def alert_icon(nil), do: ""
-  def alert_icon([]), do: ""
-  def alert_icon(_), do: Site.AlertView.tooltip()
+  def has_alert?(nil), do: false
+  def has_alert?([]), do: false
+  def has_alert?(_), do: true
 end

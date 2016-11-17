@@ -1,10 +1,13 @@
 <div class="container-fluid hidden-sm-down desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
   <div class="container">
-    <div class="card menu-card panel">
-      <div id="gettingAround" class="collapse" role="tabpanel">
+    <div class="menu-card card panel">
+      <div id="gettingAround" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "m-b-t-a.svg" %></span> <strong>Transit Services</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :t_logo}) %>
+              <span>Transit Services</span>
+            </p>
             <ul>
               <li><%= link "Subway", to: schedule_path(@conn, :show, "subway") %></li>
               <li><%= link "Bus", to: schedule_path(@conn, :show, "bus") %></li>
@@ -14,7 +17,10 @@
             </ul>
           </div>
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= fa "map-o" %></span> <strong>Plan Your Trip</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :map}) %>
+              <span>Plan Your Trip</span>
+            </p>
             <ul>
               <li><%= link "Directions", to: redirect_path(@conn, "rider_tools/trip_planner/") %></li>
               <li><%= link "Station Info", to: stop_path(@conn, :index) %></li>
@@ -23,7 +29,10 @@
             </ul>
           </div>
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "bus.svg" %></span> <strong>Riding the T</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :bus}) %>
+              <span>Riding the T</span>
+            </p>
             <ul>
               <li><%= link "Accessibility", to: redirect_path(@conn, "riding_the_t/accessible_services/") %></li>
               <li><%= link "Parking", to: redirect_path(@conn, "riding_the_t/parking/") %></li>
@@ -35,13 +44,13 @@
         </div>
       </div>
     </div>
-    <div class="card menu-card panel">
-      <div id="faresDrawer" class="collapse" role="tabpanel">
+    <div class="menu-card card panel">
+      <div id="faresDrawer" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-8">
             <div class="row">
               <div class="col-xs-6">
-                <p>Subway Single Ride <%= mode_icon :subway %></p>
+                <p class="nav-title">Subway Single Ride <%= svg_icon_with_circle %{icon: :subway} %></p>
                 <ul class="header-fares">
                   <li>
                     CharlieCard
@@ -54,7 +63,7 @@
                 </ul>
               </div>
               <div class="col-xs-6">
-                <p>Local Bus Single Ride <%= mode_icon :bus %></p>
+                <p class="nav-title">Local Bus Single Ride <%= svg_icon_with_circle %{icon: :bus} %></p>
                 <ul class="header-fares">
                   <li>
                     CharlieCard
@@ -69,12 +78,12 @@
             </div>
             <div class="row">
               <div class="col-xs-6">
-                <p>
+                <p class="nav-title">
                   7-Day Pass
-                  <%= mode_icon :bus %>
-                  <%= mode_icon :subway %>
-                  <%= mode_icon :commuter %>
-                  <%= mode_icon :ferry %>
+                  <%= svg_icon_with_circle %{icon: :bus} %>
+                  <%= svg_icon_with_circle %{icon: :subway} %>
+                  <%= svg_icon_with_circle %{icon: :commuter} %>
+                  <%= svg_icon_with_circle %{icon: :ferry} %>
                 </p>
                 <ul class="header-fares">
                   <li>
@@ -84,10 +93,10 @@
                 </ul>
               </div>
               <div class="col-xs-6">
-                <p>
+                <p class="nav-title">
                   Monthly LinkPass
-                  <%= mode_icon :bus %>
-                  <%= mode_icon :subway %>
+                  <%= svg_icon_with_circle %{icon: :bus} %>
+                  <%= svg_icon_with_circle %{icon: :subway} %>
                 </p>
                 <ul class="header-fares">
                   <li>
@@ -110,11 +119,14 @@
         </div>
       </div>
     </div>
-    <div class="card menu-card panel">
-      <div id="contactUs" class="collapse" role="tabpanel">
+    <div class="menu-card card panel">
+      <div id="contactUs" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "contact.svg" %></span> <strong>Telephone Customer Support</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :phone}) %>
+              <span> Telephone Customer Support</span>
+            </p>
             <p>
               (617) 222-3200<br />
               TTY (617) 222-5146<br />
@@ -125,7 +137,10 @@
             <%= link "View all contact numbers", to: customer_support_path(@conn, :index) %>
           </div>
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "online-support.svg" %></span> <strong>Online Customer Support</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :globe}) %>
+              <span> Online Customer Support</span>
+            </p>
             <ul>
               <li><%= link "Submit complaints and comments", to: customer_support_path(@conn, :index) %></li>
               <li><%= link "Report MBTA fraud and abuse", to: "http://www.mass.gov/ig/about-us/contact-the-office.html#isauhotline", target: "_blank" %></li>
@@ -133,7 +148,10 @@
             </ul>
           </div>
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "alert.svg" %></span> <strong>Sign Up for T-Alerts</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :alert}) %>
+              <span>Sign Up for T-Alerts</span>
+            </p>
             <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
             <p>
               <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank" do %>
@@ -144,11 +162,14 @@
         </div>
       </div>
     </div>
-    <div class="card menu-card panel">
-      <div id="more" class="collapse" role="tabpanel">
+    <div class="menu-card card panel">
+      <div id="more" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "m-b-t-a.svg" %></span> <strong>About Us</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :t_logo}) %>
+              <span>About Us</span>
+            </p>
             <div class="col-xs-6 p-a-0">
               <ul>
                 <li><%= link "Leadership", to: redirect_path(@conn, "about_the_mbta/leadership/") %></li>
@@ -167,7 +188,10 @@
             </div>
           </div>
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "business.svg" %></span> <strong>Business Center</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle(%{icon: :suitcase})  %>
+              <span>Business Center</span>
+            </p>
             <ul>
               <li><%= link "Business Opportunities", to: redirect_path(@conn, "business_center/DBE/") %></li>
               <li><%= link "Careers", to: redirect_path(@conn, "about_the_mbta/career_opps/") %></li>
@@ -177,7 +201,10 @@
             </ul>
           </div>
           <div class="col-xs-4 header-column">
-            <p><span class="header-image"><%= svg "projects.svg" %></span> <strong>Improvements &amp; Projects</strong></p>
+            <p class="nav-title">
+              <%= svg_icon_with_circle %{icon: :tools} %>
+              <span>Improvements and Projects</span>
+            </p>
             <ul>
               <li><%= link "Green Line Extension", to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), target: "_blank" %></li>
               <li><%= link "Silver Line Gateway", to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), target: "_blank" %></li>
