@@ -30,7 +30,7 @@
             <%= if @lot.manager.phone do %>
               <li><strong>Phone:</strong> <%= @lot.manager.phone %></li>
             <% end %>
-            <%= if @lot.manager.website do %>
+            <%= if @lot.manager.website && @lot.manager.website != "" do %>
               <%= link to: external_link(@lot.manager.website) do %>
                 View <%= @lot.manager.name%>'s <span class="no-wrap">Website <%= fa "arrow-right" %></span>
               <% end %>
