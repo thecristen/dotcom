@@ -227,5 +227,4 @@ defmodule Site.ViewHelpers do
   def strip_protocol("http://" <> url), do: url
   def strip_protocol("https://" <> url), do: url
   def strip_protocol(url), do: url
-
 end
