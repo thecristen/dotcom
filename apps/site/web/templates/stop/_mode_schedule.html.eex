@@ -22,12 +22,11 @@
                 <%= svg_icon(%{icon: :alert}) %>
               <% end %>
             </p>
-            <div class="station-route-schedule-times row"><%#  col-sm-7 col-xs-12 %>
-              <!-- <div class="hidden-md-up column-name">Upcoming Departures</div> -->
-              <%= for {type, _, time} <- departures do %>
+            <div class="station-route-schedule-times row">
+              <%= for {type, trip, time} <- departures do %>
                 <div class="time-column">
                   <%= predicted_icon(type) %>
-                  <%= link to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) do %>
+                  <%= link to: schedule_path(@conn, :show, route.id, origin: @stop.id, trip: trip.id, direction_id: direction_id) do %>
                     <%= schedule_display_time(time) %>
                   <% end %>
                 </div>

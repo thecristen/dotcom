@@ -189,17 +189,20 @@ defmodule Site.StopView do
     |> Predictions.Repo.all
     |> Enum.filter_map(
       &(upcoming?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip_id, stop_id)),
-      (&{:predicted, Schedules.Repo.trip(&1.trip_id).headsign, &1.time})
+      (&{:predicted, Schedules.Repo.trip(&1.trip_id), &1.time})
     )
 
     scheduled = stop_id
     |> Schedules.Repo.schedule_for_stop(route: route_id, date: conn.assigns[:date], direction_id: direction_id)
-    |> Enum.filter_map(&(upcoming?(&1.time, conn.assigns[:date_time])), &{:scheduled, &1.trip.headsign, &1.time})
+    |> Enum.filter_map(
+      &(upcoming?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip.id, stop_id)),
+      &{:scheduled, &1.trip, &1.time}
+    )
 
     predicted
     |> Enum.concat(scheduled)
     |> Enum.sort_by(&(elem(&1, 2)))
-    |> Enum.group_by(&(elem(&1, 1)))
+    |> Enum.group_by(&(elem(&1, 1).headsign))
     |> Enum.map(fn {headsign, departures} ->
       {headsign, Enum.take(departures, 3)}
     end)
@@ -228,8 +231,8 @@ defmodule Site.StopView do
 
   def do_schedule_display_time(diff, _) do
     case diff do
-      1 -> "#{diff} min"
-      _ -> "#{diff} mins"
+      0 -> "< 1 min"
+      x -> "#{x} #{Inflex.inflect("min", x)}"
     end
   end
 
