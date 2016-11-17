@@ -61,6 +61,9 @@ defmodule Site.StopView do
   def mode_summaries(:ferry, name) do
     summaries_for_filters(mode_filters(:ferry, name), :ferry)
   end
+  def mode_summaries(:bus, name) do
+    summaries_for_filters(mode_filters(:local_bus, name), :bus_subway)
+  end
   def mode_summaries(mode, name) do
     summaries_for_filters(mode_filters(mode, name), :bus_subway)
   end
@@ -91,6 +94,12 @@ defmodule Site.StopView do
       :subway in types -> :subway
       :bus in types -> :bus
     end
+  end
+
+  def aggregate_routes(routes) do
+    routes
+    |> Enum.map(&(if String.starts_with?(&1.name, "Green"), do: %{&1 | name: "Green"}, else: &1))
+    |> Enum.uniq_by(&(&1.name))
   end
 
   @spec accessibility_info(Stop.t) :: [Phoenix.HTML.Safe.t]
