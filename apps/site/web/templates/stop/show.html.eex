@@ -4,13 +4,21 @@
       <%= @stop.name %>
       <span class="no-wrap">
         <span class="station-mode-icon">
-          <%= for {type, _} <- @grouped_routes do %>
-            <%= svg_icon_with_circle(%{icon: type}) %>
+          <%= for {type, routes} <- @grouped_routes do %>
+            <%= if type == :subway do %>
+              <%= for route <- aggregate_routes(routes) do %>
+                <%= svg_icon_with_circle(%{icon: route}) %>
+                <span class="station-mode-description hidden-md-down"><%= subway_name(route.name) %></span>
+              <% end %>
+            <% else %>
+              <%= svg_icon_with_circle(%{icon: type}) %>
+              <span class="station-mode-description hidden-md-down"><%= mode_name(type) %></span>
+            <% end %>
+          <% end %>
+          <%= if "accessible" in @stop.accessibility do %>
+            <%= svg_icon_with_circle(%{icon: :accessible}) %>
           <% end %>
         </span>
-        <%= if "accessible" in @stop.accessibility do %>
-          <%= svg_icon_with_circle(%{icon: :accessible}) %>
-        <% end %>
       </span>
     </h1>
     <p class="stations-address">
@@ -22,7 +30,7 @@
       </span>
     </p>
 
-    <div class="row station-map-container">
+    <div class="row station-map-container m-x-0">
       <div class="embed-responsive embed-responsive-21by9">
         <div class="station-info-map">
           <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>

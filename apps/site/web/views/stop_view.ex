@@ -99,6 +99,7 @@ defmodule Site.StopView do
   def aggregate_routes(routes) do
     routes
     |> Enum.map(&(if String.starts_with?(&1.name, "Green"), do: %{&1 | name: "Green"}, else: &1))
+    |> Enum.map(&(if &1.name == "Mattapan", do: %{&1 | name: "Red"}, else: &1))
     |> Enum.uniq_by(&(&1.name))
   end
 
