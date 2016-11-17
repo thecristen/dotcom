@@ -14,7 +14,7 @@ defmodule Stops.DistanceTest do
     test "given a list of positions, returns a list of the closest items" do
       assert closest(@stops, @position, 1) == [Enum.at(@stops, 1)]
       assert closest(@stops, @position, 2) == [Enum.at(@stops, 1),
-                                               Enum.at(@stops, 3)]
+                                               Enum.at(@stops, 0)]
     end
   end
 
@@ -22,9 +22,22 @@ defmodule Stops.DistanceTest do
     test "given a list of positions, sorts them all by distance" do
       assert sort(@stops, @position) == [
         Enum.at(@stops, 1),
+        Enum.at(@stops, 0),
         Enum.at(@stops, 3),
-        Enum.at(@stops, 2),
-        Enum.at(@stops, 0)]
+        Enum.at(@stops, 2)]
+    end
+  end
+
+  describe "haversine/2" do
+    test "returns the Haversine distance between two points" do
+      # test from http://rosettacode.org/wiki/Haversine_formula
+      one = {36.12, -86.67}
+      two = {33.94, -118.40}
+
+      expected = 2887.25995
+      actual = haversine(one, two)
+
+      assert_in_delta expected, actual, 0.0001
     end
   end
 end

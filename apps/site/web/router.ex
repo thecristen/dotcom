@@ -43,6 +43,7 @@ defmodule Site.Router do
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end
+    get "/_nearby", NearbyController, :index
   end
 
 
