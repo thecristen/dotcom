@@ -94,7 +94,7 @@ defmodule Site.StopViewTest do
       green_count = line_list |> Site.StopView.aggregate_routes |> Enum.filter(&(&1.name == "Green")) |> Enum.count
 
       assert green_count == 1
-        assert Enum.count(Site.StopView.aggregate_routes(line_list)) == 2
+      assert Enum.count(Site.StopView.aggregate_routes(line_list)) == 2
     end
   end
 
