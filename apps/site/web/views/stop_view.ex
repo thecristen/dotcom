@@ -201,6 +201,7 @@ defmodule Site.StopView do
 
     predicted
     |> Enum.concat(scheduled)
+    |> dedup_trips
     |> Enum.sort_by(&(elem(&1, 2)))
     |> Enum.group_by(&(elem(&1, 1).headsign))
     |> Enum.map(fn {headsign, departures} ->
@@ -269,5 +270,22 @@ defmodule Site.StopView do
     time
     |> Timex.diff(now, :minutes)
     |> Kernel.>=(0)
+  end
+
+  # If we have both a schedule and a prediction for a trip, prefer the predicted version.
+  defp dedup_trips(departures) do
+    departures
+    |> Enum.reduce({%{}, []}, &dedup_trip_reducer/2)
+    |> elem(1)
+  end
+
+  defp dedup_trip_reducer({:predicted, trip, _} = departure, {seen, final}) do
+    {Map.put(seen, trip.id, :predicted), [departure | final]}
+  end
+  defp dedup_trip_reducer({:scheduled, trip, _} = departure, {seen, final} = acc) do
+    case Map.get(seen, trip.id) do
+      :predicted -> acc
+      _ -> {Map.put(seen, trip.id, :scheduled), [departure | final]}
+    end
   end
 end
