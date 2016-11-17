@@ -243,3 +243,16 @@ a {
     width: 33.33333%;
   }
 }
+
+// scss-lint:disable PlaceholderInExtend
+.station-schedules-empty {
+  @extend .col-xs-12;
+
+  display: none;
+
+  &:nth-child(2) {
+    &:last-child {
+      display: initial;
+    }
+  }
+}

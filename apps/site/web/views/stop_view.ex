@@ -214,6 +214,10 @@ defmodule Site.StopView do
     do_render_commuter_departure_time(path, formatted_scheduled, prediction)
   end
 
+  def station_schedule_empty_msg(mode) do
+    content_tag :div, "There are no upcoming #{mode |> mode_name |> String.downcase} departures until the start of tomorrow's service.", class: "station-schedules-empty station-route-row"
+  end
+
   @doc """
     Finds the difference between now and a time, and displays either the difference in minutes or the formatted time
     if the difference is greater than an hour.

@@ -1,40 +1,43 @@
-<div class="station-route-row station-schedule-header">
-  <div class="column-name station-route-schedule-name">
-    <%= mode_name @mode %>
+<div>
+  <div class="station-route-row station-schedule-header">
+    <div class="column-name station-route-schedule-name">
+      <%= mode_name @mode %>
+    </div>
+    <div class="hidden-xs-down station-route-schedule-times">
+      Upcoming Departures
+    </div>
   </div>
-  <div class="hidden-xs-down station-route-schedule-times">
-    Upcoming Departures
-  </div>
-</div>
-<%= for route <- @routes do %>
-  <%= for direction_id <- [0, 1] do %>
-    <%= if (departure_groups = upcoming_departures(@conn, @stop.id, route.id, direction_id)) != [] do %>
-      <div class="station-route-row">
-        <p class="station-route-name">
-          <%= svg_icon_with_circle(%{icon: route}) %>
-          <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
-        </p>
-        <%= for {headsign, departures} <- departure_groups do %>
-          <div class="station-route-schedule">
-            <p class="station-route-schedule-name">
-              <%= direction(direction_id, route.id) %> <%= fa "arrow-right" %> <%= headsign %>
-              <%= if has_alerts?(@conn, %Alerts.InformedEntity{route: route.id, direction_id: direction_id}) do %>
-                <%= svg_icon(%{icon: :alert}) %>
-              <% end %>
-            </p>
-            <div class="station-route-schedule-times row">
-              <%= for {type, trip, time} <- departures do %>
-                <div class="time-column">
-                  <%= predicted_icon(type) %>
-                  <%= link to: schedule_path(@conn, :show, route.id, origin: @stop.id, trip: trip.id, direction_id: direction_id) do %>
-                    <%= schedule_display_time(time) %>
-                  <% end %>
-                </div>
-              <% end %>
+  <%= for route <- @routes do %>
+    <%= for direction_id <- [0, 1] do %>
+      <%= if (departure_groups = upcoming_departures(@conn, @stop.id, route.id, direction_id)) != [] do %>
+        <div class="station-route-row">
+          <p class="station-route-name">
+            <%= svg_icon_with_circle(%{icon: route}) %>
+            <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
+          </p>
+          <%= for {headsign, departures} <- departure_groups do %>
+            <div class="station-route-schedule">
+              <p class="station-route-schedule-name">
+                <%= direction(direction_id, route.id) %> <%= fa "arrow-right" %> <%= headsign %>
+                <%= if has_alerts?(@conn, %Alerts.InformedEntity{route: route.id, direction_id: direction_id}) do %>
+                  <%= svg_icon(%{icon: :alert}) %>
+                <% end %>
+              </p>
+              <div class="station-route-schedule-times row">
+                <%= for {type, trip, time} <- departures do %>
+                  <div class="time-column">
+                    <%= predicted_icon(type) %>
+                    <%= link to: schedule_path(@conn, :show, route.id, origin: @stop.id, trip: trip.id, direction_id: direction_id) do %>
+                      <%= schedule_display_time(time) %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
             </div>
-          </div>
-        <% end %>
-      </div>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+  <%= station_schedule_empty_msg(@mode) %>
+</div>
