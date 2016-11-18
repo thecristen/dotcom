@@ -107,11 +107,9 @@ defmodule Site.ViewHelpers do
 
   @spec subway_name(String.t) :: String.t
   @doc "Textual version of subway line"
-  def subway_name("Red"<>_line), do: "Red Line"
-  def subway_name("Green"<>_line), do: "Green Line"
-  def subway_name("Blue"<>_line), do: "Blue Line"
-  def subway_name("Orange"<>_line), do: "Orange Line"
   def subway_name("Mattapan"<>_line), do: "Red Line"
+  def subway_name("Green"<>_line), do: "Green Line"
+  def subway_name(color) when color in ["Red Line", "Blue Line", "Orange Line"], do: color
 
   @doc "Prefix route name with route for bus lines"
   def route_header_text(%{type: 3, name: name}), do: ["Route ", name]

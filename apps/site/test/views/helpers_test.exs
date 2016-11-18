@@ -100,10 +100,10 @@ defmodule Site.ViewHelpersTest do
       assert subway_name("Green-E") == "Green Line"
     end
     test "Lines show correct display name" do
-      assert subway_name("Red") == "Red Line"
+      assert subway_name("Red Line") == "Red Line"
       assert subway_name("Mattapan") == "Red Line"
-      assert subway_name("Blue") == "Blue Line"
-      assert subway_name("Orange") == "Orange Line"
+      assert subway_name("Blue Line") == "Blue Line"
+      assert subway_name("Orange Line") == "Orange Line"
     end
   end
 end
