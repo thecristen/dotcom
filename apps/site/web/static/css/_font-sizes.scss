@@ -68,3 +68,26 @@ h4,
     font-size: $font-size-h4-xxl;
   }
 }
+
+h5,
+.h5 {
+  @include media-breakpoint-down(lg) {
+    font-size: $font-size-h5;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h5-xxl;
+  }
+}
+
+
+h6,
+.h6 {
+  @include media-breakpoint-down(lg) {
+    font-size: $font-size-h6;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h6-xxl;
+  }
+}
