@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"trip","relationships":{"vehicle":{},"service":{"data":{"type":"service","id":"BUS42016-hbc46011-Weekday-02"}},"route":{"data":{"type":"route","id":"7"}},"predictions":{}},"links":{"self":"/trips/32102009"},"id":"32102009","attributes":{"wheelchair_accessible":1,"name":"","headsign":"City Point","direction_id":0}}}

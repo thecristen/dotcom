@@ -1,0 +1,19 @@
+{
+  "uuid" : "09d0cca8-489d-37a9-86cb-506e2c9b4b35",
+  "request" : {
+    "url" : "/schedules/?include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&trip=31562609",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-Tesy9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 18 Nov 2016 20:22:51 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "kdvn06dh8bvju83ml4maikc6t7v3k5ap",
+      "Connection" : "keep-alive"
+    }
+  }
+}
