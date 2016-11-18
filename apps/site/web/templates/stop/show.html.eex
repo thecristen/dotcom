@@ -68,7 +68,9 @@
 
     <div class="stations-tab-group row show-btn-group">
       <% schedule_link = link "Schedule", to: update_url(@conn, tab: "schedule"), class: tab_class("schedule", @tab)  %>
-      <% info_link = link "Station Info", to: update_url(@conn, tab: "info"), class: tab_class("info", @tab) %>
+      <% info_link = link  to: update_url(@conn, tab: "info"), class: tab_class("info", @tab) do %>
+        Station Info<span class="hidden-sm-down">rmation</span>
+      <% end %>
       <%= schedule_link %><%= info_link %>
     </div>
 
