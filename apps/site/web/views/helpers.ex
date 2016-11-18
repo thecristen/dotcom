@@ -105,6 +105,12 @@ defmodule Site.ViewHelpers do
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
 
+  @spec subway_name(String.t) :: String.t
+  @doc "Textual version of subway line"
+  def subway_name("Mattapan"<>_line), do: "Red Line"
+  def subway_name("Green"<>_line), do: "Green Line"
+  def subway_name(color) when color in ["Red Line", "Blue Line", "Orange Line"], do: color
+
   @doc "Prefix route name with route for bus lines"
   def route_header_text(%{type: 3, name: name}), do: ["Route ", name]
   def route_header_text(%{type: 2, name: name}), do: clean_route_name(name)

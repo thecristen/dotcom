@@ -84,6 +84,20 @@ defmodule Site.StopViewTest do
     end
   end
 
+  describe "aggregate_routes/1" do
+    test "All green line routes are aggregated" do
+      e_line = %{name: "Green-E"}
+      d_line = %{name: "Green-D"}
+      c_line = %{name: "Green-C"}
+      orange_line = %{name: "Orange"}
+      line_list = [e_line, d_line, c_line, orange_line]
+      green_count = line_list |> Site.StopView.aggregate_routes |> Enum.filter(&(&1.name == "Green")) |> Enum.count
+
+      assert green_count == 1
+      assert Enum.count(Site.StopView.aggregate_routes(line_list)) == 2
+    end
+  end
+
   describe "schedule_display_time/1" do
     test "returns difference in minutes when difference is less than 60" do
       diff = Timex.shift(Util.now, minutes: 10)

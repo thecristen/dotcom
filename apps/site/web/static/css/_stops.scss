@@ -9,6 +9,11 @@
   display: inline-block;
 }
 
+.station-mode-description {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
 .station-list-heading {
   margin: 1em .5em 0;
 }
@@ -20,21 +25,14 @@
 .station-mode-icon {
   width: 100%;
 
-  &.mbta-custom-icon.icon-with-circle {
+  .mbta-custom-icon {
     margin-left: .5rem;
     margin-right: 0;
-  }
 
-  .route-icon {
-    @include route-icon(1.5rem);
-    float: none;
-    margin-bottom: .375rem;
-    margin-right: .5rem;
-
-    &:first-child {
-      margin-left: .5rem;
+    svg {
+      height: 1.5rem;
+      width: 1.5rem;
     }
-
   }
 }
 

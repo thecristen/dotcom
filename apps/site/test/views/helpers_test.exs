@@ -91,4 +91,19 @@ defmodule Site.ViewHelpersTest do
       assert strip_protocol("https://google.com") == "google.com"
     end
   end
+
+  describe "subway_name/1" do
+    test "All Green line routes display \"Green Line\"" do
+      assert subway_name("Green-B") == "Green Line"
+      assert subway_name("Green-C") == "Green Line"
+      assert subway_name("Green-D") == "Green Line"
+      assert subway_name("Green-E") == "Green Line"
+    end
+    test "Lines show correct display name" do
+      assert subway_name("Red Line") == "Red Line"
+      assert subway_name("Mattapan") == "Red Line"
+      assert subway_name("Blue Line") == "Blue Line"
+      assert subway_name("Orange Line") == "Orange Line"
+    end
+  end
 end
