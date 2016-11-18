@@ -182,20 +182,20 @@ defmodule Site.StopView do
     |> Enum.find(&(Timex.after?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip.id, stop)))
   end
 
-  @spec upcoming_departures(Plug.Conn.t, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
+  @spec upcoming_departures(%{atom => any}, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
   @doc "Returns the next departures for the given stop, route, and direction."
-  def upcoming_departures(conn, stop_id, route_id, direction_id) do
+  def upcoming_departures(%{date_time: date_time, date: date, mode: mode}, stop_id, route_id, direction_id) do
     predicted = [stop: stop_id, route: route_id, direction_id: direction_id]
     |> Predictions.Repo.all
     |> Enum.filter_map(
-      &(upcoming?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip_id, stop_id)),
+      &(upcoming?(&1.time, date_time, mode) && departing?(&1.trip_id, stop_id)),
       (&{:predicted, Schedules.Repo.trip(&1.trip_id), &1.time})
     )
 
     scheduled = stop_id
-    |> Schedules.Repo.schedule_for_stop(route: route_id, date: conn.assigns[:date], direction_id: direction_id)
+    |> Schedules.Repo.schedule_for_stop(route: route_id, date: date, direction_id: direction_id)
     |> Enum.filter_map(
-      &(upcoming?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip.id, stop_id)),
+      &(upcoming?(&1.time, date_time, mode) && departing?(&1.trip.id, stop_id)),
       &{:scheduled, &1.trip, &1.time}
     )
 
@@ -266,10 +266,19 @@ defmodule Site.StopView do
     |> (fn (schedules) -> match?([_, _ | _], schedules) end).()
   end
 
-  defp upcoming?(time, now) do
-    time
+  defp upcoming?(date_time, now, mode) do
+    date_time
     |> Timex.diff(now, :minutes)
-    |> Kernel.>=(0)
+    |> do_upcoming?(date_time, mode)
+  end
+
+  defp do_upcoming?(diff, date_time, :subway) do
+    # show all upcoming subway departures during early morning hours
+    # without service; otherwise limit it to within 30 minutes
+    diff >= 0 && (date_time.hour <= 5 || diff <= 30)
+  end
+  defp do_upcoming?(diff, _date_time, _mode) do
+    diff >= 0
   end
 
   # If we have both a schedule and a prediction for a trip, prefer the predicted version.
