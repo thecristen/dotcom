@@ -205,8 +205,25 @@ defmodule Site.StopView do
     |> Enum.sort_by(&(elem(&1, 2)))
     |> Enum.group_by(&(elem(&1, 1).headsign))
     |> Enum.map(fn {headsign, departures} ->
-      {headsign, Enum.take(departures, 3)}
+      {headsign, limit_departures(departures)}
     end)
+  end
+
+  # Find the first three predicted departures to display. If there are
+  # fewer than three, fill out the list with scheduled departures
+  # which leave after the last predicted departure.
+  defp limit_departures(departures) do
+    scheduled_after_predictions = departures
+    |> Enum.reverse
+    |> Enum.take_while(&(match?({:scheduled, _, _}, &1)))
+    |> Enum.reverse
+
+    predictions = departures
+    |> Enum.filter(&(match?({:predicted, _, _}, &1)))
+
+    predictions
+    |> Stream.concat(scheduled_after_predictions)
+    |> Enum.take(3)
   end
 
   def render_commuter_departure_time(route_id, direction_id, schedule, prediction) do
