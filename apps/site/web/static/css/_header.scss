@@ -56,6 +56,26 @@ $icon-size: 1.75rem;
   }
 }
 
+.header > .container > .navbar > .mobile-menu {
+  .down {
+    display: none;
+  }
+
+  .up {
+    display: initial;
+  }
+
+  &.collapsed {
+    .down {
+      display: initial;
+    }
+
+    .up {
+      display: none;
+    }
+  }
+}
+
 .desktop-menu {
   background-color: $brand-navy-dark;
   padding: 0;
