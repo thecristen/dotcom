@@ -114,4 +114,16 @@ defmodule Site.StopViewTest do
       assert diff == time |> Timex.format!("{h12}:{m} {AM}")
     end
   end
+
+  describe "center_query/1" do
+    test "returns the location of the stop as the map center if it does not have GPS coordinates associated with it" do
+      stop = %Stops.Stop{latitude: nil, longitude: nil, address: "10 Park Plaza"}
+      assert Site.StopView.center_query(stop) == %{center: Site.StopView.location(stop)}
+    end
+
+    test "returns a $brand-primary marker at the stop if it has GPS coordinates" do
+      stop = %Stops.Stop{latitude: "42.346684", longitude: "-71.097229"}
+      assert Site.StopView.center_query(stop) == %{markers: "color:0x1c77c3|42.346684,-71.097229"}
+    end
+  end
 end

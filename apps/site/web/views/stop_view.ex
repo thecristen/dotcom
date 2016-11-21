@@ -265,6 +265,40 @@ defmodule Site.StopView do
   end
   def predicted_icon(_), do: ""
 
+  @doc "URL for the embedded Google map image for the stop."
+  @spec map_url(Stops.Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
+  def map_url(stop, width, height, scale) do
+    query = %{
+      size: "#{width}x#{height}",
+      channel: "beta_mbta_station_info",
+      zoom: 16,
+      scale: scale
+    }
+    |> Map.merge(center_query(stop))
+    |> URI.encode_query
+
+    "/maps/api/staticmap?"
+    |> Kernel.<>(query)
+    |> GoogleMaps.signed_url
+  end
+
+  @doc """
+  Returns a map of query params to determine the center of the Google map image. If the stop has 
+  GPS coordinates, places a marker at its location. Otherwise, it centers the map around the stop without 
+  a marker.
+  """
+  @spec center_query(Stops.Stop.t) :: %{atom => String.t}
+  def center_query(stop = %Stops.Stop{latitude: nil, longitude: nil}) do
+    %{center: location(stop)}
+  end
+  def center_query(stop) do
+    color = "$brand-primary"
+    |> Site.StyleGuideView.get_css_value(:colors)
+    |> String.replace("#", "0x")
+
+    %{markers: "color:#{color}|#{location(stop)}"}
+  end
+
   defp do_render_commuter_departure_time(path, formatted_scheduled, nil) do
     [link(formatted_scheduled, to: path)]
   end

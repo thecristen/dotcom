@@ -53,14 +53,14 @@
                           end)
                         |> Enum.sort_by(fn {width, _, scale} -> width * scale end)
                         |> Enum.map(fn {width, height, scale} ->
-                          {"#{width * scale}", GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@stop)}&zoom=16&scale=#{scale}&channel=beta_mbta_station_info&size=#{width}x#{height}")}
+                          {"#{width * scale}", map_url(@stop, width, height, scale)}
                           end)
                         |> Picture.srcset %>"
             sizes="(min-width: 1344px) 1099w,
                    (min-width: 1088px) 734w,
                    (min-width: 800px) 694w,
                    calc(100vw - 1.5rem)"
-            src="<%= GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@stop)}&zoom=16&size=735x314&scale=2") %>"/>
+            src="<%= map_url(@stop, 735, 314, 2) %>"/>
         <% end %>
       </div>
     </div>
