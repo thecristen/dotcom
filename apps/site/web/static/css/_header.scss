@@ -275,6 +275,10 @@ $icon-size: 1.75rem;
     a {
       height: 3rem;
     }
+
+    @include media-breakpoint-down(md) {
+      padding-bottom: .75rem;
+    }
   }
 
   .full-width {
@@ -293,4 +297,8 @@ $icon-size: 1.75rem;
   svg {
     fill: $gray-dark;
   }
+}
+
+.menu-description {
+  color: $gray-lightest
 }

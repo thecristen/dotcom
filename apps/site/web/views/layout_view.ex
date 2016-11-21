@@ -2,7 +2,8 @@ defmodule Site.LayoutView do
   use Site.Web, :view
 
   def bold_if_active(conn, path, text) do
-    if String.starts_with?(conn.request_path, path) do
+    requested_path = Enum.at(String.split(conn.request_path, "/"), 1)
+    if requested_path == String.trim(path, "/") do
       raw "<strong>#{text}</strong>"
     else
       raw text

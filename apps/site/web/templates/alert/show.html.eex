@@ -5,7 +5,7 @@
       <div class="btn-group show-btn-group">
         <%= for {name, display} <- [
             bus: "Bus",
-            commuter: "Commuter",
+            commuter: "Commuter Rail",
             subway: "Subway",
             ferry: "Ferry",
             access: "Access",] do %>
