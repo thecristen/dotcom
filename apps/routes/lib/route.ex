@@ -14,7 +14,7 @@ defmodule Routes.Route do
   @type gtfs_route_type :: :subway | :commuter | :bus | :ferry
   @type route_type :: gtfs_route_type | :the_ride
 
-  @spec type_atom(t) :: gtfs_route_type
+  @spec type_atom(t | 0..4) :: gtfs_route_type
   def type_atom(%Routes.Route{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway

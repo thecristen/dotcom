@@ -40,8 +40,9 @@ defmodule Stops.Api do
       accessibility: attributes["accessibility"],
       images: images(relationships["images"]),
       parking_lots: parking_lots(relationships),
-      has_fare_machine: Enum.member?(vending_machine_stations, id),
-      has_charlie_card_vendor: Enum.member?(charlie_card_stations, id)
+      station?: true,
+      has_fare_machine?: Enum.member?(vending_machine_stations, id),
+      has_charlie_card_vendor?: Enum.member?(charlie_card_stations, id)
     }
   end
 

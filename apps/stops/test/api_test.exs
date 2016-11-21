@@ -14,6 +14,7 @@ defmodule Stops.ApiTest do
 
     assert stop.id == "Anderson/ Woburn"
     assert stop.name == "Anderson/Woburn"
+    assert stop.station?
     assert stop.accessibility != []
     assert stop.parking_lots != []
     for parking_lot <- stop.parking_lots do
@@ -35,5 +36,6 @@ defmodule Stops.ApiTest do
     assert stop.name == "Warren St @ Brunswick St"
     assert stop.latitude != nil
     assert stop.longitude != nil
+    refute stop.station?
   end
 end

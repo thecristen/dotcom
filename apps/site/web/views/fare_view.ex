@@ -43,13 +43,13 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   @spec vending_machine_stations :: [Phoenix.HTML.Safe.t]
   def vending_machine_stations do
     Stops.Repo.stations
-    |> Enum.filter(fn stop -> stop.has_fare_machine end)
+    |> Enum.filter(fn stop -> stop.has_fare_machine? end)
     |> stop_link_list
   end
 
   def charlie_card_stations do
     Stops.Repo.stations
-    |> Enum.filter(fn stop -> stop.has_charlie_card_vendor end)
+    |> Enum.filter(fn stop -> stop.has_charlie_card_vendor? end)
     |> stop_link_list
   end
 
