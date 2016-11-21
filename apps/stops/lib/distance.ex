@@ -8,7 +8,7 @@ defmodule Stops.Distance do
   import Stops.Position
 
   @degrees_to_radians :math.pi / 180
-  @globe_diameter_km 6372.8 * 2
+  @globe_diameter 3958.7613 * 2 # mean diameter in miles
 
   @doc "Sorts the items by their distance from position."
   @spec sort([Position.t], Position.t) :: [Position.t]
@@ -38,7 +38,7 @@ defmodule Stops.Distance do
     lat1_radians = lat1 * @degrees_to_radians
     lat2_radians = lat2 * @degrees_to_radians
 
-    @globe_diameter_km * :math.asin(
+    @globe_diameter * :math.asin(
       :math.sqrt(
         sin2(delta_lat / 2) +
         (:math.cos(lat1_radians) *

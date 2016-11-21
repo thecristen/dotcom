@@ -34,7 +34,7 @@ defmodule Stops.DistanceTest do
       one = {36.12, -86.67}
       two = {33.94, -118.40}
 
-      expected = 2887.25995
+      expected = 1793.55589
       actual = haversine(one, two)
 
       assert_in_delta expected, actual, 0.0001
