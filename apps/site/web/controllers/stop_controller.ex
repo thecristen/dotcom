@@ -23,6 +23,7 @@ defmodule Site.StopController do
     |> render("show.html", stop: stop)
   end
 
+  @spec grouped_routes(String.t) :: [{Routes.Route.gtfs_route_type, Routes.Route.t}]
   defp grouped_routes(stop_id) do
     stop_id
     |> Routes.Repo.by_stop
@@ -30,11 +31,13 @@ defmodule Site.StopController do
     |> Enum.sort_by(&sorter/1)
   end
 
+  @spec sorter({Routes.Route.gtfs_route_type, Routes.Route.t}) :: non_neg_integer
   defp sorter({:commuter, _}), do: 0
   defp sorter({:subway, _}), do: 1
   defp sorter({:bus, _}), do: 2
   defp sorter({:ferry, _}), do: 3
 
+  @spec breadcrumbs(Stops.Stop.t) :: [{String.t, String.t} | String.t]
   defp breadcrumbs(%Stops.Stop{station?: true, name: name}) do
     [{stop_path(Site.Endpoint, :index), "Stations"}, name]
   end

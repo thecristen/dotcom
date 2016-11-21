@@ -125,7 +125,7 @@ defmodule Stops.Api do
       accessibility: (if (stop.attributes["wheelchair_boarding"] == 1), do: ["accessible"], else: []),
       parking_lots: [],
       latitude: stop.attributes["latitude"],
-      longitude: stop.attributes["longitude"],
+      longitude: stop.attributes["longitude"]
     }
   end
   defp merge_v3(stop, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
