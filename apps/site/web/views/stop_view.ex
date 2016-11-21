@@ -182,7 +182,7 @@ defmodule Site.StopView do
     |> Enum.find(&(Timex.after?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip.id, stop)))
   end
 
-  @spec upcoming_departures(%{atom => any}, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
+  @spec upcoming_departures(%{date_time: DateTime.t, date: Date.t, mode: Routes.Route.route_type}, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
   @doc "Returns the next departures for the given stop, route, and direction."
   def upcoming_departures(%{date_time: date_time, date: date, mode: mode}, stop_id, route_id, direction_id) do
     predicted = [stop: stop_id, route: route_id, direction_id: direction_id]
