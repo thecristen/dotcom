@@ -28,7 +28,7 @@
                   <div class="time-column">
                     <%= predicted_icon(type) %>
                     <%= link to: schedule_path(@conn, :show, route.id, origin: @stop.id, trip: trip.id, direction_id: direction_id) do %>
-                      <%= schedule_display_time(time) %>
+                      <%= schedule_display_time(time, @date_time) %>
                     <% end %>
                   </div>
                 <% end %>

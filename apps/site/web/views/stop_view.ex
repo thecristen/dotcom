@@ -240,9 +240,10 @@ defmodule Site.StopView do
     Finds the difference between now and a time, and displays either the difference in minutes or the formatted time
     if the difference is greater than an hour.
   """
-  @spec schedule_display_time(DateTime.t) :: String.t
-  def schedule_display_time(time) do
-    Timex.diff(time, Util.now, :minutes)
+  @spec schedule_display_time(DateTime.t, DateTime.t) :: String.t
+  def schedule_display_time(time, now) do
+    time
+    |> Timex.diff(now, :minutes)
     |> do_schedule_display_time(time)
   end
 

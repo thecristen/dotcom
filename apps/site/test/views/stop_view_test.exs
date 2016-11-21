@@ -98,17 +98,19 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "schedule_display_time/1" do
+  describe "schedule_display_time/2" do
     test "returns difference in minutes when difference is less than 60" do
-      diff = Timex.shift(Util.now, minutes: 10)
-      |> StopView.schedule_display_time
-      assert diff == "9 mins"
+      now = Util.now
+      diff = Timex.shift(now, minutes: 10)
+      |> StopView.schedule_display_time(now)
+      assert diff == "10 mins"
     end
 
     test "returns formatted time when difference is greater than 60" do
-      time = Timex.shift(Util.now, hours: 2)
+      now = Util.now
+      time = Timex.shift(now, hours: 2)
       diff = time
-      |> StopView.schedule_display_time
+      |> StopView.schedule_display_time(now)
       assert diff == time |> Timex.format!("{h12}:{m} {AM}")
     end
   end
