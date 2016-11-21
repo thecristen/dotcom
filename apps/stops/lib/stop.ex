@@ -4,8 +4,20 @@ defmodule Stops.Stop do
   """
   alias Stops.Stop
 
-  defstruct [:id, :name, :note, :accessibility, :address,
-   :parking_lots, :latitude, :longitude, :images, :has_fare_machine, :has_charlie_card_vendor]
+  defstruct [
+    id: nil,
+    name: nil,
+    note: nil,
+    accessibility: [],
+    address: nil,
+    parking_lots: [],
+    latitude: nil,
+    longitude: nil,
+    images: [],
+    station?: false,
+    has_fare_machine?: false,
+    has_charlie_card_vendor?: false]
+
   @type t :: %Stop{
     id: String.t,
     name: String.t,
@@ -16,8 +28,9 @@ defmodule Stops.Stop do
     latitude: float,
     longitude: float,
     images: [Stop.Image.t],
-    has_fare_machine: boolean,
-    has_charlie_card_vendor: boolean
+    station?: boolean,
+    has_fare_machine?: boolean,
+    has_charlie_card_vendor?: boolean
   }
 
   defimpl Stops.Position do
