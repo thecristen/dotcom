@@ -1,0 +1,19 @@
+{
+  "uuid" : "459d371d-32df-35c4-9517-6e69c9fc933c",
+  "request" : {
+    "url" : "/trips/32021329",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-32021329-QmStz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 18 Nov 2016 20:23:03 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "8kercqn8vbfj2r8rg9srg9g1greh4bcd",
+      "Connection" : "keep-alive"
+    }
+  }
+}

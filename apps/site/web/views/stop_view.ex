@@ -164,12 +164,12 @@ defmodule Site.StopView do
   def schedule_template(:commuter), do: "_commuter_schedule.html"
   def schedule_template(_), do: "_mode_schedule.html"
 
-  @spec has_alerts?(Plug.Conn.t, Routes.Route.t) :: boolean
+  @spec has_alerts?(Plug.Conn.t, Alerts.InformedEntity.t) :: boolean
   @doc "Returns true if the given route has alerts. The date is supplied by the conn."
-  def has_alerts?(conn, route) do
+  def has_alerts?(conn, informed_entity) do
     Alerts.Repo.all
     |> Enum.reject(&Alerts.Alert.is_notice?/1)
-    |> Alerts.Match.match(%Alerts.InformedEntity{route: route.id, route_type: route.type}, conn.assigns[:date])
+    |> Alerts.Match.match(informed_entity, conn.assigns[:date])
     |> Enum.empty?
     |> Kernel.not
   end
@@ -182,27 +182,48 @@ defmodule Site.StopView do
     |> Enum.find(&(Timex.after?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip.id, stop)))
   end
 
-  @spec upcoming_departures(Plug.Conn.t, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
+  @spec upcoming_departures(%{date_time: DateTime.t, date: Date.t, mode: Routes.Route.route_type}, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
   @doc "Returns the next departures for the given stop, route, and direction."
-  def upcoming_departures(conn, stop_id, route_id, direction_id) do
+  def upcoming_departures(%{date_time: date_time, date: date, mode: mode}, stop_id, route_id, direction_id) do
     predicted = [stop: stop_id, route: route_id, direction_id: direction_id]
     |> Predictions.Repo.all
     |> Enum.filter_map(
-      &(upcoming?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip_id, stop_id)),
-      (&{:predicted, Schedules.Repo.trip(&1.trip_id).headsign, &1.time})
+      &(upcoming?(&1.time, date_time, mode) && departing?(&1.trip_id, stop_id)),
+      (&{:predicted, Schedules.Repo.trip(&1.trip_id), &1.time})
     )
 
     scheduled = stop_id
-    |> Schedules.Repo.schedule_for_stop(route: route_id, date: conn.assigns[:date], direction_id: direction_id)
-    |> Enum.filter_map(&(upcoming?(&1.time, conn.assigns[:date_time])), &{:scheduled, &1.trip.headsign, &1.time})
+    |> Schedules.Repo.schedule_for_stop(route: route_id, date: date, direction_id: direction_id)
+    |> Enum.filter_map(
+      &(upcoming?(&1.time, date_time, mode) && departing?(&1.trip.id, stop_id)),
+      &{:scheduled, &1.trip, &1.time}
+    )
 
     predicted
     |> Enum.concat(scheduled)
+    |> dedup_trips
     |> Enum.sort_by(&(elem(&1, 2)))
-    |> Enum.group_by(&(elem(&1, 1)))
+    |> Enum.group_by(&(elem(&1, 1).headsign))
     |> Enum.map(fn {headsign, departures} ->
-      {headsign, Enum.take(departures, 3)}
+      {headsign, limit_departures(departures)}
     end)
+  end
+
+  # Find the first three predicted departures to display. If there are
+  # fewer than three, fill out the list with scheduled departures
+  # which leave after the last predicted departure.
+  defp limit_departures(departures) do
+    scheduled_after_predictions = departures
+    |> Enum.reverse
+    |> Enum.take_while(&(match?({:scheduled, _, _}, &1)))
+    |> Enum.reverse
+
+    predictions = departures
+    |> Enum.filter(&(match?({:predicted, _, _}, &1)))
+
+    predictions
+    |> Stream.concat(scheduled_after_predictions)
+    |> Enum.take(3)
   end
 
   def render_commuter_departure_time(route_id, direction_id, schedule, prediction) do
@@ -211,13 +232,18 @@ defmodule Site.StopView do
     do_render_commuter_departure_time(path, formatted_scheduled, prediction)
   end
 
+  def station_schedule_empty_msg(mode) do
+    content_tag :div, "There are no upcoming #{mode |> mode_name |> String.downcase} departures until the start of tomorrow's service.", class: "station-schedules-empty station-route-row"
+  end
+
   @doc """
     Finds the difference between now and a time, and displays either the difference in minutes or the formatted time
     if the difference is greater than an hour.
   """
-  @spec schedule_display_time(DateTime.t) :: String.t
-  def schedule_display_time(time) do
-    Timex.diff(time, Util.now, :minutes)
+  @spec schedule_display_time(DateTime.t, DateTime.t) :: String.t
+  def schedule_display_time(time, now) do
+    time
+    |> Timex.diff(now, :minutes)
     |> do_schedule_display_time(time)
   end
 
@@ -228,13 +254,13 @@ defmodule Site.StopView do
 
   def do_schedule_display_time(diff, _) do
     case diff do
-      1 -> "#{diff} min"
-      _ -> "#{diff} mins"
+      0 -> "< 1 min"
+      x -> "#{x} #{Inflex.inflect("min", x)}"
     end
   end
 
   def predicted_icon(:predicted) do
-      ~s(<i class="fa fa-rss station-schedule-icon"></i><span class="sr-only">Predicted departure time: </span>)
+      ~s(<i data-toggle="tooltip" title="Real Time Service" class="fa fa-rss station-schedule-icon"></i><span class="sr-only">Predicted departure time: </span>)
       |> Phoenix.HTML.raw
   end
   def predicted_icon(_), do: ""
@@ -258,9 +284,35 @@ defmodule Site.StopView do
     |> (fn (schedules) -> match?([_, _ | _], schedules) end).()
   end
 
-  defp upcoming?(time, now) do
-    time
+  defp upcoming?(date_time, now, mode) do
+    date_time
     |> Timex.diff(now, :minutes)
-    |> Kernel.>=(0)
+    |> do_upcoming?(date_time, mode)
+  end
+
+  defp do_upcoming?(diff, date_time, :subway) do
+    # show all upcoming subway departures during early morning hours
+    # without service; otherwise limit it to within 30 minutes
+    diff >= 0 && (date_time.hour <= 5 || diff <= 30)
+  end
+  defp do_upcoming?(diff, _date_time, _mode) do
+    diff >= 0
+  end
+
+  # If we have both a schedule and a prediction for a trip, prefer the predicted version.
+  defp dedup_trips(departures) do
+    departures
+    |> Enum.reduce({%{}, []}, &dedup_trip_reducer/2)
+    |> elem(1)
+  end
+
+  defp dedup_trip_reducer({:predicted, trip, _} = departure, {seen, final}) do
+    {Map.put(seen, trip.id, :predicted), [departure | final]}
+  end
+  defp dedup_trip_reducer({:scheduled, trip, _} = departure, {seen, final} = acc) do
+    case Map.get(seen, trip.id) do
+      :predicted -> acc
+      _ -> {Map.put(seen, trip.id, :scheduled), [departure | final]}
+    end
   end
 end

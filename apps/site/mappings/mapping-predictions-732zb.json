@@ -1,0 +1,19 @@
+{
+  "uuid" : "524e4677-a5df-3a3e-8fd3-fa3543cab9e7",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&route=449&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id&fields%5Bstop%5D=&include=stop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-732zb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 18 Nov 2016 20:23:24 GMT",
+      "Server" : "nginx/1.8.1",
+      "x-request-id" : "7a7tp5763gkvtpsf1jlg0dqnguknuvfu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

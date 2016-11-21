@@ -63,6 +63,7 @@
             src="<%= GoogleMaps.signed_url("/maps/api/staticmap?center=#{location(@stop)}&zoom=16&size=735x314&scale=2") %>"/>
         <% end %>
       </div>
+    </div>
 
     <div class="stations-tab-group row show-btn-group">
       <% schedule_link = link "Schedule", to: update_url(@conn, tab: "schedule"), class: tab_class("schedule", @tab)  %>

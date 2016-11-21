@@ -1,55 +1,58 @@
-<div class="station-route-row station-schedule-header">
-  <div class="station-route-schedule-name">
-    <strong><%= mode_name @mode %></strong>
+<div>
+  <div class="station-route-row station-schedule-header">
+    <div class="station-route-schedule-name">
+      <strong><%= mode_name @mode %></strong>
+    </div>
+    <div class="station-route-schedule-times">
+      <div class="hidden-xs-down column-label time-column">
+        Train #
+      </div>
+      <div class="hidden-xs-down column-label time-column">
+        Departure
+      </div>
+      <div class="hidden-xs-down column-label time-column">
+        Status
+      </div>
+    </div>
   </div>
-  <div class="station-route-schedule-times">
-    <div class="hidden-xs-down column-label time-column">
-      Train #
-    </div>
-    <div class="hidden-xs-down column-label time-column">
-      Departure
-    </div>
-    <div class="hidden-xs-down column-label time-column">
-      Status
-    </div>
-  </div>
-</div>
-<%= for route <- @routes do %>
-  <%= for direction_id <- [0, 1] do %>
-    <%= if schedule = upcoming_commuter_departures(@conn, @stop.id, route.id, direction_id) do %>
-      <div class="station-route-row">
-        <p class="station-route-name">
-          <%= svg_icon_with_circle(%{icon: :commuter}) %>
-          <span>
-            <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
-          </span>
-        </p>
-        <div class="station-route-schedule">
-          <div class="station-route-schedule-name">
-            <%= direction(direction_id, route.id) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
-            <%= if has_alerts?(@conn, route) do %>
-              <%= svg_icon(%{icon: :alert}) %>
-            <% end %>
-          </div>
-          <div class="station-route-schedule-times"> <%# col-md-2 col-xs-6 %>
-            <div class="time-column">
-              No. <%= schedule.trip.name %>
-            </div>
-            <div class="time-column">
-              <% prediction = Predictions.Repo.all(stop: @stop.id, route: route.id, direction_id: direction_id) |> Enum.find(&(&1.trip_id == schedule.trip.id)) %>
-              <%= render_commuter_departure_time(route.id, direction_id, schedule, prediction) %>
-            </div>
-            <div class="time-column">
-              <%= if prediction do %>
-                <%= prediction.status || "On Time" %>
-                <%= if prediction.track do %>
-                  on track <%= prediction.track %>
-                <% end %>
+  <%= for route <- @routes do %>
+    <%= for direction_id <- [0, 1] do %>
+      <%= if schedule = upcoming_commuter_departures(@conn, @stop.id, route.id, direction_id) do %>
+        <div class="station-route-row">
+          <p class="station-route-name">
+            <%= svg_icon_with_circle(%{icon: :commuter}) %>
+            <span>
+              <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
+            </span>
+          </p>
+          <div class="station-route-schedule">
+            <div class="station-route-schedule-name">
+              <%= direction(direction_id, route.id) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
+              <%= if has_alerts?(@conn, %Alerts.InformedEntity{trip: schedule.trip.id, route: route.id}) do %>
+                <%= svg_icon(%{icon: :alert}) %>
               <% end %>
+            </div>
+            <div class="station-route-schedule-times">
+              <div class="time-column">
+                No. <%= schedule.trip.name %>
+              </div>
+              <div class="time-column">
+                <% prediction = Predictions.Repo.all(stop: @stop.id, route: route.id, direction_id: direction_id) |> Enum.find(&(&1.trip_id == schedule.trip.id)) %>
+                <%= render_commuter_departure_time(route.id, direction_id, schedule, prediction) %>
+              </div>
+              <div class="time-column">
+                <%= if prediction do %>
+                  <%= prediction.status || "On Time" %>
+                  <%= if prediction.track do %>
+                    on track <%= prediction.track %>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+  <%= station_schedule_empty_msg(@mode) %>
+</div>
