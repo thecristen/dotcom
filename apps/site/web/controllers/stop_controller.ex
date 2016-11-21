@@ -17,7 +17,7 @@ defmodule Site.StopController do
     stop = Repo.get!(id |> String.replace("+", " "))
     conn
     |> assign(:grouped_routes, grouped_routes(id))
-    |> assign(:breadcrumbs, [{stop_path(conn, :index), "Stops"}, stop.name])
+    |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, params["tab"])
     |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
     |> render("show.html", stop: stop)
@@ -34,4 +34,11 @@ defmodule Site.StopController do
   defp sorter({:subway, _}), do: 1
   defp sorter({:bus, _}), do: 2
   defp sorter({:ferry, _}), do: 3
+
+  defp breadcrumbs(%Stops.Stop{station?: true, name: name}) do
+    [{stop_path(Site.Endpoint, :index), "Stations"}, name]
+  end
+  defp breadcrumbs(%Stops.Stop{name: name}) do
+    [name]
+  end
 end
