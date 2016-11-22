@@ -22,7 +22,7 @@
           <p class="station-route-name">
             <%= svg_icon_with_circle(%{icon: :commuter}) %>
             <span>
-              <%= link route.name, to: schedule_path(@conn, :show, route.id) %>
+              <%= link route.name, to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) %>
             </span>
           </p>
           <div class="station-route-schedule">
