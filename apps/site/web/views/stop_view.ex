@@ -266,7 +266,7 @@ defmodule Site.StopView do
   def predicted_icon(_), do: ""
 
   @doc "URL for the embedded Google map image for the stop."
-  @spec map_url(Stops.Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
+  @spec map_url(Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
   def map_url(stop, width, height, scale) do
     query = %{
       size: "#{width}x#{height}",
@@ -287,16 +287,12 @@ defmodule Site.StopView do
   GPS coordinates, places a marker at its location. Otherwise, it centers the map around the stop without 
   a marker.
   """
-  @spec center_query(Stops.Stop.t) :: %{atom => String.t}
-  def center_query(stop = %Stops.Stop{latitude: nil, longitude: nil}) do
+  @spec center_query(Stop.t) :: %{atom => String.t}
+  def center_query(stop = %Stop{latitude: nil, longitude: nil}) do
     %{center: location(stop)}
   end
   def center_query(stop) do
-    color = "$brand-primary"
-    |> Site.StyleGuideView.get_css_value(:colors)
-    |> String.replace("#", "0x")
-
-    %{markers: "color:#{color}|#{location(stop)}"}
+    %{markers: location(stop)}
   end
 
   defp do_render_commuter_departure_time(path, formatted_scheduled, nil) do
