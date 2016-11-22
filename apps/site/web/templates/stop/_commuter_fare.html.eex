@@ -2,7 +2,7 @@
   <h3 class="station-fare-subheader">Commuter Rail Fares</h3>
 
   <div class="row">
-    <div class="col-md-8 col-sm-6 col-xs-12">
+    <div class="col-md-8 col-sm-12">
       <p>
         Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
         <%= link to: fare_path(@conn, :show, "commuter") do %>
@@ -18,8 +18,8 @@
     </div>
 
     <%= if @stop.has_fare_machine? do %>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-        <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>"
+      <div class="col-md-4 col-sm-12">
+        <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>" 
              class="img-fluid commuter-fare-img"
              alt="Two MBTA fare vending machines">
       </div>
