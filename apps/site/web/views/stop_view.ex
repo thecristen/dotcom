@@ -288,11 +288,16 @@ defmodule Site.StopView do
   a marker.
   """
   @spec center_query(Stop.t) :: %{atom => String.t}
-  def center_query(stop = %Stop{latitude: nil, longitude: nil}) do
-    %{center: location(stop)}
-  end
   def center_query(stop) do
-    %{markers: location(stop)}
+    bus_stop? = stop.id
+    |> Routes.Repo.by_stop
+    |> Enum.all?(&(&1.type == 3))
+
+    if bus_stop? do
+      %{markers: location(stop)}
+    else
+      %{center: location(stop)}
+    end
   end
 
   defp do_render_commuter_departure_time(path, formatted_scheduled, nil) do

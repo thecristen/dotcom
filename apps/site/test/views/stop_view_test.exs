@@ -117,14 +117,16 @@ defmodule Site.StopViewTest do
   end
 
   describe "center_query/1" do
-    test "returns the location of the stop as the map center if it does not have GPS coordinates associated with it" do
-      stop = %Stop{latitude: nil, longitude: nil, address: "10 Park Plaza"}
+    test "returns a marker at the stop if it only has buses" do
+      stop = %Stop{id: "2438", latitude: "42.37497", longitude: "-71.102529"}
+      assert Site.StopView.center_query(stop) == %{markers: "42.37497,-71.102529"}
+    end
+
+    test "returns the location of the stop as the map center if it serves other modes" do
+      stop = %Stop{id: "place-sstat", latitude: "42.352271", longitude: "-71.055242"}
       assert Site.StopView.center_query(stop) == %{center: Site.StopView.location(stop)}
     end
 
-    test "returns a marker at the stop if it has GPS coordinates" do
-      stop = %Stop{latitude: "42.346684", longitude: "-71.097229"}
-      assert Site.StopView.center_query(stop) == %{markers: "42.346684,-71.097229"}
-    end
+
   end
 end
