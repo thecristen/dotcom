@@ -41,7 +41,7 @@
       <header class="header">
         <div class="container">
           <div class="navbar">
-            <button class="navbar-toggler hidden-md-up pull-right collapsed mobile-menu" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
+            <button class="navbar-toggler hidden-md-up pull-right collapsed mobile-dropdown-menu" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
               <small>
                 Menu
                 <%= fa "angle-down", class: "down" %>

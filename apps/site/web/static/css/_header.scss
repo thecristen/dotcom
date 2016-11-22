@@ -56,7 +56,7 @@ $icon-size: 1.75rem;
   }
 }
 
-.header > .container > .navbar > .mobile-menu {
+.mobile-dropdown-menu {
   .down {
     display: none;
   }
@@ -288,16 +288,16 @@ $icon-size: 1.75rem;
     text-align: center;
     width: 100%;
 
+    @include media-breakpoint-down(md) {
+      padding-bottom: .75rem;
+    }
+
     + .nav-item {
       margin-left: 0;
     }
 
     a {
       height: 3rem;
-    }
-
-    @include media-breakpoint-down(md) {
-      padding-bottom: .75rem;
     }
   }
 
@@ -320,5 +320,5 @@ $icon-size: 1.75rem;
 }
 
 .menu-description {
-  color: $gray-lightest
+  color: $gray-lightest;
 }
