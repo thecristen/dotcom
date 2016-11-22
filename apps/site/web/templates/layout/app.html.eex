@@ -94,7 +94,7 @@
                   <% home_link = page_path(@conn, :index) %>
                   <a class="nav-link" href="<%= home_link %>">
                     <%= bold_if_active @conn, home_link, "Home" %>
-                    <p class="small menu-description"></p>
+                    <p class="small menu-description">Home</p>
                   </a>
                 </li>
                 <li class="nav-item">
