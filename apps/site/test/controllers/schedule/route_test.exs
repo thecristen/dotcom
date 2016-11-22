@@ -49,6 +49,6 @@ defmodule Site.ScheduleControllerTest do
   test "returns 404 if a nonexistent route is given", %{conn: conn} do
     conn = get conn, schedule_path(conn, :show, "Teal")
     response = html_response(conn, 404)
-    assert response =~ "the page you're looking for has been derailed and cannot be found."
+    assert response =~ "This page is no longer in service"
   end
 end

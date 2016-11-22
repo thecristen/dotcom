@@ -10,17 +10,13 @@ defmodule Site.ErrorViewTest do
   end
 
   test "renders 404.html" do
-    expected = "the page you're looking for has been derailed and cannot be found."
+    expected = "This page is no longer in service"
     actual = render_to_string(Site.ErrorView, "404.html", [])
     assert actual =~ expected
   end
 
   test "render 500.html" do
     assert render_to_string(Site.ErrorView, "500.html", []) =~ "It looks like we have our signals crossed"
-  end
-
-  test "crash pages links to the Google form" do
-    assert render_to_string(Site.ErrorView, "500.html", []) =~ Site.ViewHelpers.feedback_form_url
   end
 
   test "render any other" do
