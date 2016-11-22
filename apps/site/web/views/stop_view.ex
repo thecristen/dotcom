@@ -284,18 +284,18 @@ defmodule Site.StopView do
     |> (fn (schedules) -> match?([_, _ | _], schedules) end).()
   end
 
-  defp upcoming?(date_time, now, mode) do
-    date_time
+  defp upcoming?(trip_time, now, mode) do
+    trip_time
     |> Timex.diff(now, :minutes)
-    |> do_upcoming?(date_time, mode)
+    |> do_upcoming?(now, mode)
   end
 
-  defp do_upcoming?(diff, date_time, :subway) do
+  defp do_upcoming?(diff, now, :subway) do
     # show all upcoming subway departures during early morning hours
     # without service; otherwise limit it to within 30 minutes
-    diff >= 0 && (date_time.hour <= 5 || diff <= 30)
+    diff >= 0 && (now.hour <= 5 || diff <= 30)
   end
-  defp do_upcoming?(diff, _date_time, _mode) do
+  defp do_upcoming?(diff, _now, _mode) do
     diff >= 0
   end
 
