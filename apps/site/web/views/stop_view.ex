@@ -168,8 +168,8 @@ defmodule Site.StopView do
   @doc "Returns true if the given route has alerts. The date is supplied by the conn."
   def has_alerts?(conn, informed_entity) do
     Alerts.Repo.all
-    |> Enum.reject(&Alerts.Alert.is_notice?/1)
-    |> Alerts.Match.match(informed_entity, conn.assigns[:date])
+    |> Enum.reject(&Alerts.Alert.is_notice?(&1, conn.assigns.date))
+    |> Alerts.Match.match(informed_entity, conn.assigns.date)
     |> Enum.empty?
     |> Kernel.not
   end

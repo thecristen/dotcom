@@ -121,14 +121,14 @@ defmodule Site.AlertViewTest do
 
   describe "modal.html" do
     test "text for no current alerts and 1 upcoming alert" do
-      response = Site.AlertView.render("modal.html", alerts: [], upcoming_alert_count: 1, route: @route)
+      response = Site.AlertView.render("modal.html", alerts: [], upcoming_alert_count: 1, route: @route, time: Util.now)
       text = safe_to_string(response)
       assert text =~ "There are currently no service alerts affecting the #{@route.name} today."
       assert text =~ "However, there is 1 upcoming alert."
     end
 
     test "text for no current alerts and 2 upcoming alerts" do
-      response = Site.AlertView.render("modal.html", alerts: [], upcoming_alert_count: 2, route: @route)
+      response = Site.AlertView.render("modal.html", alerts: [], upcoming_alert_count: 2, route: @route, time: Util.now)
       text = safe_to_string(response)
       assert text =~ "There are currently no service alerts affecting the #{@route.name} today."
       assert text =~ "However, there are 2 upcoming alerts."

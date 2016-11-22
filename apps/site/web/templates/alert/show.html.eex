@@ -43,7 +43,7 @@
               <span><strong>Regular Service:</strong> There are no current or upcoming service alerts.</span>
             </div>
           <% else %>
-            <%= Site.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true %>
+            <%= Site.AlertView.modal alerts: alerts, route: route, hide_t_alerts: true, time: @date %>
           <% end %>
         </div>
       </div>
