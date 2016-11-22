@@ -26,10 +26,8 @@ defmodule Alerts.Alert do
   use Timex
 
   @doc "Returns true if the Alert should be displayed as a less-prominent notice"
-  @spec is_notice?(%__MODULE__{}) :: boolean
-  def is_notice?(%__MODULE__{} = alert) do
-    is_notice?(alert, Timex.now("America/New_York"))
-  end
+  @spec is_notice?(Alerts.Alert.t, DateTime.t | Date.t) :: boolean
+  def is_notice?(alert_list, time_or_date)
   def is_notice?(%__MODULE__{effect_name: "Delay"}, _) do
     # Delays are never notices
     false

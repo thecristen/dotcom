@@ -3,7 +3,7 @@
     id -> "-#{id}"
     end %>
 <span class="alert-item-effect-container">
-  <%= render "_icon.html", alert: @alert %>
+  <%= render "_icon.html", alert: @alert, time: @time %>
   <span class="alert-item-effect">
     <strong><%= effect_name(@alert) %></strong>
   </span>

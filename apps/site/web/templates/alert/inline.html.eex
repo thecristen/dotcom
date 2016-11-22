@@ -1,8 +1,8 @@
-<% unique_id = :rand.uniform |> Float.to_string |> String.slice(2..10) %>
+<% unique_id = Integer.to_string(:erlang.unique_integer) %>
 <ul class="alert-list">
   <%= for alert <- @alerts do %>
     <li class="alert-list-item">
-      <%= render "_item.html", alert: alert, extra_id: unique_id %>
+      <%= render "_item.html", alert: alert, extra_id: unique_id, time: @time %>
     </li>
   <% end %>
 </ul>

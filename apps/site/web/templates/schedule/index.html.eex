@@ -5,7 +5,7 @@
       <%= render "_filters.html", forward_assigns(@conn) %>
       <%= if @alerts != [] || @upcoming_alerts != [] do %>
         <div class="m-t-1">
-          <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route %>
+          <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date %>
         </div>
       <% end %>
     </div>
