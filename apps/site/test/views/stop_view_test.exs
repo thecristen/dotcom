@@ -1,6 +1,7 @@
 defmodule Site.StopViewTest do
   @moduledoc false
   alias Site.StopView
+  alias Stops.Stop
   use Site.ConnCase, async: true
 
   describe "fare_group/1" do
@@ -33,10 +34,10 @@ defmodule Site.StopViewTest do
 
   describe "show_fares?/1" do
     test "Do not show fare information for Origin stations" do
-      north_station = %Stops.Stop{id: "place-north"}
-      back_bay = %Stops.Stop{id: "place-bbsta"}
-      salem = %Stops.Stop{id: "Salem"}
-      westborough = %Stops.Stop{id: "Westborough"}
+      north_station = %Stop{id: "place-north"}
+      back_bay = %Stop{id: "place-bbsta"}
+      salem = %Stop{id: "Salem"}
+      westborough = %Stop{id: "Westborough"}
 
       assert !StopView.show_fares?(north_station)
       assert !StopView.show_fares?(back_bay)
@@ -55,10 +56,10 @@ defmodule Site.StopViewTest do
 
   describe "accessibility_info" do
     test "Accessibility description reflects features" do
-      no_accessibility = %Stops.Stop{name: "test", accessibility: nil}
-      no_accessible_feature = %Stops.Stop{id: "north", name: "test", accessibility: []}
-      only_accessible_feature = %Stops.Stop{name: "test", accessibility: ["accessible"]}
-      many_feature = %Stops.Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
+      no_accessibility = %Stop{name: "test", accessibility: nil}
+      no_accessible_feature = %Stop{id: "north", name: "test", accessibility: []}
+      only_accessible_feature = %Stop{name: "test", accessibility: ["accessible"]}
+      many_feature = %Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
       tag_has_text = fn(tag, text) -> Phoenix.HTML.safe_to_string(Enum.at(tag, 0)) =~ text end
 
       assert tag_has_text.(StopView.accessibility_info(no_accessibility), "No accessibility")
@@ -113,5 +114,19 @@ defmodule Site.StopViewTest do
       |> StopView.schedule_display_time(now)
       assert diff == time |> Timex.format!("{h12}:{m} {AM}")
     end
+  end
+
+  describe "center_query/1" do
+    test "returns a marker at the stop if it only has buses" do
+      stop = %Stop{id: "2438", latitude: "42.37497", longitude: "-71.102529"}
+      assert Site.StopView.center_query(stop) == %{markers: "42.37497,-71.102529"}
+    end
+
+    test "returns the location of the stop as the map center if it serves other modes" do
+      stop = %Stop{id: "place-sstat", latitude: "42.352271", longitude: "-71.055242"}
+      assert Site.StopView.center_query(stop) == %{center: Site.StopView.location(stop)}
+    end
+
+
   end
 end
