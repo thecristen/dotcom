@@ -1,4 +1,19 @@
 defmodule Holiday.Repo.Helpers do
+  @moduledoc """
+
+  Helper functions used by the compilation of Holiday.Repo.
+
+  """
+
+  @doc """
+
+  Generates a list of Holidays from the shorthand.
+
+  iex> Holiday.Repo.Helpers.make_holiday({"Name", [{1, 2}, {3, 4}]}, 1000)
+  [%Holiday{date: ~D[1000-01-02], name: "Name"},
+   %Holiday{date: ~D[1001-03-04], name: "Name"}]
+  """
+  @spec make_holiday({String.t, [{1..2, 1..31}]}, non_neg_integer) :: [Holiday.t]
   def make_holiday({name, list_of_dates}, start_year) do
     list_of_dates
     |> Enum.with_index(start_year)
@@ -9,7 +24,17 @@ defmodule Holiday.Repo.Helpers do
     end)
   end
 
-  @doc "If a holiday falls on a Sunday, it is observed on that Monday"
+  @doc """
+
+  If a holiday falls on a Sunday, it is observed on that Monday.
+
+  iex> Holiday.Repo.Helpers.observe_holiday(%Holiday{date: ~D[2018-11-11], name: "Name"})
+  [%Holiday{date: ~D[2018-11-11], name: "Name"},
+   %Holiday{date: ~D[2018-11-12], name: "Name (Observed)"}]
+
+  iex> Holiday.Repo.Helpers.observe_holiday(%Holiday{date: ~D[2018-01-01], name: "Name"})
+  [%Holiday{date: ~D[2018-01-01], name: "Name"}]
+  """
   @spec observe_holiday(Holiday.t) :: [Holiday.t]
   def observe_holiday(%Holiday{date: date} = holiday) do
     if Timex.weekday(date) == 7 do # Sunday
@@ -22,6 +47,13 @@ defmodule Holiday.Repo.Helpers do
     end
   end
 
+  @doc """
+
+  Used by Map.new to build the Holiday map: returns the date as the key for the Map.
+
+  iex> Holiday.Repo.Helpers.build_map(%Holiday{date: ~D[2016-01-01], name: "Name"})
+  {~D[2016-01-01], %Holiday{date: ~D[2016-01-01], name: "Name"}}
+  """
   def build_map(%Holiday{date: date} = holiday) do
     {date, holiday}
   end

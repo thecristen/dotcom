@@ -29,3 +29,8 @@ defmodule Holiday.RepoTest do
     end
   end
 end
+
+defmodule Holiday.Repo.HelpersTest do
+  use ExUnit.Case
+  doctest Holiday.Repo.Helpers
+end
