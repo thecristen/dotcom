@@ -56,6 +56,26 @@ $icon-size: 1.75rem;
   }
 }
 
+.mobile-dropdown-menu {
+  .down {
+    display: none;
+  }
+
+  .up {
+    display: initial;
+  }
+
+  &.collapsed {
+    .down {
+      display: initial;
+    }
+
+    .up {
+      display: none;
+    }
+  }
+}
+
 .desktop-menu {
   background-color: $brand-navy-dark;
   padding: 0;
@@ -268,6 +288,10 @@ $icon-size: 1.75rem;
     text-align: center;
     width: 100%;
 
+    @include media-breakpoint-down(md) {
+      padding-bottom: .75rem;
+    }
+
     + .nav-item {
       margin-left: 0;
     }
@@ -293,4 +317,8 @@ $icon-size: 1.75rem;
   svg {
     fill: $gray-dark;
   }
+}
+
+.menu-description {
+  color: $gray-lightest;
 }

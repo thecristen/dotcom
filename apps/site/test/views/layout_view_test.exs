@@ -10,6 +10,12 @@ defmodule Site.LayoutViewTest do
     assert bold_if_active(conn, "/schedules", "test") == raw("<strong>test</strong>")
   end
 
+  test "bold_if_active only makes text bold if the current request is made to root path", %{conn: conn} do
+    conn = get conn, "/"
+    assert bold_if_active(conn, "/", "test") == raw("<strong>test</strong>")
+    refute bold_if_active(conn, "/schedules", "test") == raw("<strong>test</strong>")
+  end
+
   describe "format_header_fare/1" do
     test "given a list of fare filters, finds the fare that fits and formats its price" do
       assert format_header_fare(mode: :subway, duration: :single_trip, media: [:charlie_card]) == "$2.25"
