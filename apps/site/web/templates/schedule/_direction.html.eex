@@ -1,6 +1,6 @@
 <div class="btn-group direction-btn-group" role="group">
   <%= for direction_id <- [1, 0] do %>
-    <%= if @headsigns[direction_id] != [] do %>
+    <%= unless Enum.empty?(@headsigns[direction_id])do %>
       <% button_class = if direction_id == @direction_id do
           "btn-primary"
           else
@@ -15,12 +15,12 @@
           </span>
         <% end %>
         <span class="direction-btn-label<%= if direction_id == @direction_id do %> direction-btn-label-selected<% end %>">
-          <%= direction(direction_id, @route.id) %><%= if @headsigns[direction_id] != [] do %> to:<br>
+          <%= direction(direction_id, @route.id) %>
+          to:<br>
           <strong>
             <%= @headsigns[direction_id] |> Enum.map(&clean_route_name/1) |> Enum.join(" • ") %>
           </strong>
         </span>
-          <% end %>
       <% end %>
     <% end %>
   <% end %>

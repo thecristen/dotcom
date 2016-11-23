@@ -20,7 +20,7 @@
           <%= time |> Timex.format!("{kitchen}") %>
         </div>
       <% end %>
-      <%= if valid_predictions == [] do %>
+      <%= if Enum.empty?(valid_predictions) do %>
         <div class="col-xs-12">
           No upcoming departures.
         </div>
