@@ -62,7 +62,13 @@ defmodule Schedules.RepoTest do
   end
 
   test ".schedule_for_trip returns stops in order of their stop_sequence for a given trip" do
-    trip_id = "31174481-CR_MAY2016-hxl16011-Weekday-01"
+    # find a Lowell trip ID
+    trip_id = "Lowell"
+    |> Schedules.Repo.schedule_for_stop(direction_id: 1)
+    |> List.first
+    |> Map.get(:trip)
+    |> Map.get(:id)
+
     response = Schedules.Repo.schedule_for_trip(trip_id)
     assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
     assert List.first(response).stop.id == "Lowell"
