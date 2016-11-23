@@ -17,7 +17,7 @@ defmodule Site.ComponentsTest do
       mattapan = mode_button(%ModeButton{
           route: %Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Line", type: 1}
         }) |> safe_to_string
-      assert mattapan =~ "icon-mattapan_line"
+      assert mattapan =~ "icon-mattapan-line"
       assert mattapan =~ "icon-circle"
       assert mattapan =~ "t_logo-image"
     end
