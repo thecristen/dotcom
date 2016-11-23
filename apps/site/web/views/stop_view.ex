@@ -54,9 +54,9 @@ defmodule Site.StopView do
 
   @spec mode_summaries(atom, {atom, String.t}) :: [Summary.t]
   @doc "Return the fare summaries for the given mode"
-  def mode_summaries(:commuter, name) do
-    filters = mode_filters(:commuter, name)
-    summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter]} end)
+  def mode_summaries(:commuter_rail, name) do
+    filters = mode_filters(:commuter_rail, name)
+    summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter_rail]} end)
   end
   def mode_summaries(:ferry, name) do
     summaries_for_filters(mode_filters(:ferry, name), :ferry)
@@ -73,9 +73,9 @@ defmodule Site.StopView do
     [[mode: :ferry, duration: :single_trip, reduced: nil],
      [mode: :ferry, duration: :month, reduced: nil]]
   end
-  defp mode_filters(:commuter, name) do
-    [[mode: :commuter, duration: :single_trip, reduced: nil, name: name],
-     [mode: :commuter, duration: :month, media: [:commuter_ticket], reduced: nil, name: name]]
+  defp mode_filters(:commuter_rail, name) do
+    [[mode: :commuter_rail, duration: :single_trip, reduced: nil, name: name],
+     [mode: :commuter_rail, duration: :month, media: [:commuter_ticket], reduced: nil, name: name]]
   end
   defp mode_filters(:bus_subway, name) do
     [[name: :local_bus, duration: :single_trip, reduced: nil] | mode_filters(:subway, name)]
@@ -161,7 +161,7 @@ defmodule Site.StopView do
 
   @spec schedule_template(Routes.Route.route_type) :: String.t
   @doc "Returns the template to render schedules for the given mode."
-  def schedule_template(:commuter), do: "_commuter_schedule.html"
+  def schedule_template(:commuter_rail), do: "_commuter_schedule.html"
   def schedule_template(_), do: "_mode_schedule.html"
 
   @spec has_alerts?(Plug.Conn.t, Alerts.InformedEntity.t) :: boolean

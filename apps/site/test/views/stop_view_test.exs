@@ -8,7 +8,7 @@ defmodule Site.StopViewTest do
     test "return correct fare group for all modes" do
       assert StopView.fare_group(:bus) == "bus_subway"
       assert StopView.fare_group(:subway) == "bus_subway"
-      assert StopView.fare_group(:commuter) == "commuter"
+      assert StopView.fare_group(:commuter_rail) == "commuter_rail"
       assert StopView.fare_group(:ferry) == "ferry"
     end
   end
@@ -48,9 +48,9 @@ defmodule Site.StopViewTest do
 
   describe "fare_mode/1" do
     test "types are separated as bus, subway or both" do
-      assert StopView.fare_mode([:bus, :commuter, :ferry]) == :bus
-      assert StopView.fare_mode([:subway, :commuter, :ferry]) == :subway
-      assert StopView.fare_mode([:subway, :commuter, :ferry, :bus]) == :bus_subway
+      assert StopView.fare_mode([:bus, :commuter_rail, :ferry]) == :bus
+      assert StopView.fare_mode([:subway, :commuter_rail, :ferry]) == :subway
+      assert StopView.fare_mode([:subway, :commuter_rail, :ferry, :bus]) == :bus_subway
     end
   end
 
@@ -71,8 +71,8 @@ defmodule Site.StopViewTest do
 
   describe "mode_summaries/2" do
     test "commuter summaries only include commuter mode" do
-      summaries = StopView.mode_summaries(:commuter, {:zone, "7"})
-      assert Enum.all?(summaries, fn(summary) -> summary.modes == [:commuter] end)
+      summaries = StopView.mode_summaries(:commuter_rail, {:zone, "7"})
+      assert Enum.all?(summaries, fn(summary) -> summary.modes == [:commuter_rail] end)
     end
     test "Bus summaries only return bus fare information" do
       summaries = StopView.mode_summaries(:bus, {:bus, ""})

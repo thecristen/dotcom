@@ -6,7 +6,7 @@ defmodule Site.HowToPayViewTest do
   test "mode_template/1 finds the correct template to render" do
     assert mode_template(:the_ride) == "the_ride.html"
     assert mode_template(:bus) == "bus.html"
-    assert mode_template(:commuter) == "commuter.html"
+    assert mode_template(:commuter_rail) == "commuter_rail.html"
     assert mode_template(:subway) == "subway.html"
     assert mode_template(:ferry) == "ferry.html"
   end
@@ -15,7 +15,7 @@ defmodule Site.HowToPayViewTest do
     assert mode_string(:the_ride) == "the-ride"
     assert mode_string(:bus) == "bus"
     assert mode_string(:subway) == "subway"
-    assert mode_string(:commuter) == "commuter"
+    assert mode_string(:commuter_rail) == "commuter-rail"
     assert mode_string(:ferry) == "ferry"
   end
 end

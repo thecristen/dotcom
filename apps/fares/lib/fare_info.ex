@@ -19,7 +19,7 @@ defmodule Fares.FareInfo do
   @spec mapper([String.t]) :: [Fare.t]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
     base = %Fare{
-      mode: :commuter,
+      mode: :commuter_rail,
       name: commuter_rail_fare_name(zone)
     }
     [
@@ -135,14 +135,14 @@ defmodule Fares.FareInfo do
         media: [:charlie_card, :charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(week_pass_price),
-        additional_valid_modes: [:bus, :commuter, :ferry]
+        additional_valid_modes: [:bus, :commuter_rail, :ferry]
       },
       %{base |
         duration: :day,
         media: [:charlie_card, :charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(day_pass_price),
-        additional_valid_modes: [:bus, :commuter, :ferry]
+        additional_valid_modes: [:bus, :commuter_rail, :ferry]
       },
     ]
   end
@@ -279,7 +279,7 @@ defmodule Fares.FareInfo do
         media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_month_price),
-        additional_valid_modes: [:subway, :bus, :commuter]
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
       },
       %Fare{
         mode: :ferry,
@@ -336,7 +336,7 @@ defmodule Fares.FareInfo do
         media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_month_price),
-        additional_valid_modes: [:subway, :bus, :commuter]
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
       },
       %Fare{
         mode: :ferry,

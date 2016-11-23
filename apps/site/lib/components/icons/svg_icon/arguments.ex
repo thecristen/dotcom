@@ -13,7 +13,7 @@ defmodule Site.Components.Icons.SvgIcon do
         m0-.176c-1.007 0-1.824-.817-1.824-1.824 0-1.007.817-1.824 1.824-1.824 1.007 0 1.824.817 1.824 1.824 0 1.007-.817
          1.824-1.824 1.824zM8.68 15.02h2.64v.61h-.98v1.632h-.676V15.63h-.98l-.004-.61z"},
 
-    {:commuter,
+    {:commuter_rail,
         "M5.077 22l.578-1h8.69l.578 1H5.077zM4.5 23l-.567.982-.866-.5L4.5 21H1.993C1.445 21 1 20.556 1 20v-1h18v1c0
         .552-.445 1-.993 1H15.5l1.433 2.482-.866.5L15.5 23h-11zM19 6.6V3.817c0-.565-.424-1.144-.946-1.318L10.946.13
         c-.512-.17-1.37-.175-1.892 0L1.946 2.5C1.434 2.67 1 3.262 1 3.816V6.6L0 7v10.004c0 .55.444.996.992.996h18.016
@@ -122,7 +122,7 @@ defmodule Site.Components.Icons.SvgIcon do
   def get_icon_atom("Orange"<>_line), do: :orange_line
   def get_icon_atom("Mattapan"<>_line), do: :red_line
   def get_icon_atom("Green"<>_line), do: :green_line
-  def get_icon_atom("CR-" <> _line), do: :commuter
+  def get_icon_atom("CR-" <> _line), do: :commuter_rail
   def get_icon_atom("Elevator"), do: :accessible
   def get_icon_atom("Escalator"), do: :accessible
   def get_icon_atom(arg) when arg in [0,1,2,3,4], do: Routes.Route.type_atom(arg)

@@ -9,10 +9,7 @@ defmodule Site.HowToPayView do
   end
 
   @spec mode_string(atom) :: String.t
-  def mode_string(:the_ride) do
-    "the-ride"
-  end
-  def mode_string(mode) do
-    "#{mode}"
-  end
+  def mode_string(:the_ride), do: "the-ride"
+  def mode_string(:commuter_rail), do: "commuter-rail"
+  def mode_string(mode), do: "#{mode}"
 end

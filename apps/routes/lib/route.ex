@@ -11,18 +11,18 @@ defmodule Routes.Route do
     name: String.t,
     key_route?: boolean
   }
-  @type gtfs_route_type :: :subway | :commuter | :bus | :ferry
+  @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry
   @type route_type :: gtfs_route_type | :the_ride
 
   @spec type_atom(t | 0..4) :: gtfs_route_type
   def type_atom(%Routes.Route{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway
-  def type_atom(2), do: :commuter
+  def type_atom(2), do: :commuter_rail
   def type_atom(3), do: :bus
   def type_atom(4), do: :ferry
 
-  def type_name(:commuter), do: "Commuter Rail"
+  def type_name(:commuter_rail), do: "Commuter Rail"
   def type_name(:the_ride), do: "The Ride"
   def type_name(atom) do
     atom

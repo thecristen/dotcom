@@ -14,6 +14,6 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:red_line), do: translate(:t_logo)
   def translate(:mattapan_line), do: translate(:t_logo)
   def translate(icon) when icon in [:phone, :tools, :ferry, :alert], do: "8,8"
-  def translate(icon) when icon in [:bus, :subway, :commuter], do: "10,8"
+  def translate(icon) when icon in [:bus, :subway, :commuter_rail], do: "10,8"
   def translate(_), do: "4,4"
 end

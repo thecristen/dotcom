@@ -81,10 +81,11 @@ defmodule Site.ViewHelpers do
     do_mode_icon(String.downcase(id), "subway", :subway)
   end
   def mode_icon(%Routes.Route{type: 1}), do: do_mode_icon("subway", "subway", :subway)
-  def mode_icon(%Routes.Route{type: 2}), do: do_mode_icon("commuter", "commuter", :commuter)
+  def mode_icon(%Routes.Route{type: 2}), do: do_mode_icon("commuter-rail", "commuter-rail", :commuter_rail)
   def mode_icon(%Routes.Route{type: 3}), do: do_mode_icon("bus", "bus", :bus)
   def mode_icon(%Routes.Route{type: 4}), do: do_mode_icon("ferry", "ferry", :ferry)
   def mode_icon(:the_ride), do: do_mode_icon("the-ride", "the-ride", :the_ride)
+  def mode_icon(:commuter_rail), do: do_mode_icon("commuter-rail", "commuter-rail", :commuter_rail)
   def mode_icon(atom) when is_atom(atom) do
     string = Atom.to_string(atom)
     do_mode_icon(string, string, atom)
@@ -99,7 +100,7 @@ defmodule Site.ViewHelpers do
   @doc "Textual version of a mode ID or type"
   @spec mode_name(0..4 | Routes.Route.route_type | :access) :: String.t
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"
-  def mode_name(type) when type in [2, :commuter], do: "Commuter Rail"
+  def mode_name(type) when type in [2, :commuter_rail], do: "Commuter Rail"
   def mode_name(type) when type in [3, :bus], do: "Bus"
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
   def mode_name(:access), do: "Access"

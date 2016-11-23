@@ -28,8 +28,8 @@
     <div class="content-section">
       <h2>Commuter Rail Fares</h2>
       <p>Commuter Rail fares are separated into ten zones based on your origin and destination.  Fares can be bought as One Way, Round Trip, and Monthly Passes. Shown below are the ranges for each zone.</p>
-      <p><%= render "_summary.html", title: "Commuter Rail", summary: @commuter %></p>
-      <p><%= link to: fare_path(@conn, :show, :commuter) do %>
+      <p><%= render "_summary.html", title: "Commuter Rail", summary: @commuter_rail %></p>
+      <p><%= link to: fare_path(@conn, :show, :commuter_rail) do %>
         Find your Commuter Rail Fare <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>

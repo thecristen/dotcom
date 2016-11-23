@@ -3,8 +3,8 @@ defmodule Site.Mode.CommuterRailController do
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  @commuter_filters [[mode: :commuter, duration: :single_trip, reduced: nil],
-                     [mode: :commuter, duration: :month, reduced: nil]]
+  @commuter_filters [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
+                     [mode: :commuter_rail, duration: :month, reduced: nil]]
 
   def route_type, do: 2
 
@@ -21,11 +21,11 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   def fares do
-    @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:commuter)
+    @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:commuter_rail)
   end
 
   defp link_to_zone_fares do
-    path = fare_path(Site.Endpoint, :show, "commuter")
+    path = fare_path(Site.Endpoint, :show, "commuter_rail")
     tag = content_tag :a, "Commuter Rail Fares", href: path
 
     safe_to_string(tag)

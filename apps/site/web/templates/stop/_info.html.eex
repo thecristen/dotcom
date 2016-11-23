@@ -19,7 +19,7 @@
   <%= if !Enum.empty?(types ) do %>
     <div class="row no-gutter station-info-section">
       <h2>Fares</h2>
-      <%= if :commuter in types do %>
+      <%= if :commuter_rail in types do %>
         <%= render "_commuter_fare.html", conn: @conn, stop: @stop, zone_name: @zone_name %>
       <% end %>
       <%= if :ferry in types do %>

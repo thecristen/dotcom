@@ -29,7 +29,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   end
 
   def all_link([%{type: 2}|_]) do
-    path = Site.Router.Helpers.mode_path(Site.Endpoint, :commuter)
+    path = Site.Router.Helpers.mode_path(Site.Endpoint, :commuter_rail)
     ~s(<a href="#{path}">View all commuter rail <span class="no-wrap">lines <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
   end
 
