@@ -74,6 +74,13 @@ defmodule Site.ViewHelpersTest do
       end
       assert mode_icon(:the_ride) == expected
     end
+
+    test "correctly finds the icon for commuter rail" do
+      expected = content_tag :span, title: "Commuter Rail", class: "route-icon route-icon-commuter-rail" do
+        svg("commuter-rail.svg")
+      end
+      assert mode_icon(:commuter_rail) == expected
+    end
   end
 
   describe "external_link/1" do
@@ -104,6 +111,16 @@ defmodule Site.ViewHelpersTest do
       assert subway_name("Mattapan") == "Red Line"
       assert subway_name("Blue Line") == "Blue Line"
       assert subway_name("Orange Line") == "Orange Line"
+    end
+  end
+
+  describe "mode_string/1" do
+    test "converts the atom to a dash delimted string" do
+      assert hyphenated_mode_string(:the_ride) == "the-ride"
+      assert hyphenated_mode_string(:bus) == "bus"
+      assert hyphenated_mode_string(:subway) == "subway"
+      assert hyphenated_mode_string(:commuter_rail) == "commuter-rail"
+      assert hyphenated_mode_string(:ferry) == "ferry"
     end
   end
 end

@@ -1,8 +1,8 @@
 <% icon = Site.Components.Icons.SvgIcon.get_icon_atom(args.icon) %>
-<span class="mbta-custom-icon icon-with-circle icon-<%= icon %>">
+<span class="mbta-custom-icon icon-with-circle icon-<%= hyphenated_mode_string(icon) %>">
   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 40 40">
       <circle r="20" cx="20" cy="20" class="icon-circle"></circle>
-      <g fill-rule="evenodd" class="icon-image <%= icon %>-image" transform="translate(<%= translate(icon) %>)">
+      <g fill-rule="evenodd" class="icon-image <%= hyphenated_mode_string(icon) %>-image" transform="translate(<%= translate(icon) %>)">
           <%= Site.Components.Icons.SvgIcon.get_path(icon) %>
       </g>
   </svg>

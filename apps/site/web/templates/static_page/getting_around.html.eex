@@ -6,7 +6,7 @@
     <div class="row">
       <%= render "_link.html", href: schedule_path(@conn, :show, "subway"), text: "Subway", class: "col-sm-3 col-md-4" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "bus"), text: "Bus", class: "col-sm-3 col-md-4" %>
-      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter"), text: "Commuter Rail", class: "col-sm-3 col-md-4" %>
+      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter_rail"), text: "Commuter Rail", class: "col-sm-3 col-md-4" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "ferry"), text: "Ferry", class: "col-sm-3 col-md-4" %>
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), text: "The RIDE", class: "col-sm-3 col-md-4" %>
     </div>

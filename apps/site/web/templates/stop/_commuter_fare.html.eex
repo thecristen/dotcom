@@ -5,7 +5,7 @@
     <div class="col-md-8 col-sm-12">
       <p>
         Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
-        <%= link to: fare_path(@conn, :show, "commuter") do %>
+        <%= link to: fare_path(@conn, :show, "commuter_rail") do %>
           <p>Find your <span class="no-wrap">fare <%= fa "arrow-right "%></span></p>
         <% end %>
       </p>
@@ -28,7 +28,7 @@
 
   <%= if show_fares?(@stop) do %>
     <div class="m-y-1">
-      <%= render "_fare_summaries.html", summaries: mode_summaries(:commuter, @zone_name) %>
+      <%= render "_fare_summaries.html", summaries: mode_summaries(:commuter_rail, @zone_name) %>
     </div>
   <% end %>
 </div>

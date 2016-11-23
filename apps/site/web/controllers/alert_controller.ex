@@ -19,7 +19,7 @@ defmodule Site.AlertController do
   def show(conn, %{"id" => "subway"}) do
     render_routes(conn, [0, 1])
   end
-  def show(conn, %{"id" => "commuter"}) do
+  def show(conn, %{"id" => "commuter_rail"}) do
     render_routes(conn, 2)
   end
   def show(conn, %{"id" => "bus"}) do

@@ -29,7 +29,7 @@
         <h2>mTicket App</h2>
         <p class="payment-usage">
           Use it on:
-          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter) %> <%= mode_icon(:ferry) %></span>
+          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter_rail) %> <%= mode_icon(:ferry) %></span>
         </p>
         <p>
           Commuter Rail and Ferry riders can easily purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
@@ -39,7 +39,7 @@
         <h2>Ticket</h2>
         <p class="payment-usage">
           Use it on:
-          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter) %> <%= mode_icon(:ferry) %></span>
+          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter_rail) %> <%= mode_icon(:ferry) %></span>
         </p>
         <p>
           Commuter Rail and Ferry riders can purchase tickets for One-Way, Round Trip, and Monthly Passes. These tickets are only valid for the Commuter Rail fare zone or Ferry route they were purchased for. They cannot store additional value.
@@ -54,7 +54,7 @@
           <span class="payment-method-modes">
             <%= mode_icon(:subway) %>
             <%= mode_icon(:bus) %>
-            <%= mode_icon(:commuter) %>
+            <%= mode_icon(:commuter_rail) %>
             <%= mode_icon(:ferry) %>
           </span>
         </p>

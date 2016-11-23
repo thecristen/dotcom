@@ -32,7 +32,7 @@ defmodule Site.StopController do
   end
 
   @spec sorter({Routes.Route.gtfs_route_type, Routes.Route.t}) :: non_neg_integer
-  defp sorter({:commuter, _}), do: 0
+  defp sorter({:commuter_rail, _}), do: 0
   defp sorter({:subway, _}), do: 1
   defp sorter({:bus, _}), do: 2
   defp sorter({:ferry, _}), do: 3

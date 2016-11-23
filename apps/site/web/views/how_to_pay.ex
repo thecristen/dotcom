@@ -7,12 +7,4 @@ defmodule Site.HowToPayView do
   def mode_template(mode) do
     "#{mode}.html"
   end
-
-  @spec mode_string(atom) :: String.t
-  def mode_string(:the_ride) do
-    "the-ride"
-  end
-  def mode_string(mode) do
-    "#{mode}"
-  end
 end

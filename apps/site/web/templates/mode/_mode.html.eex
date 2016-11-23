@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="mode-group col-xs-12<%= if @route_type == :commuter do %> mode-group-first<% end %>">
+  <div class="mode-group col-xs-12<%= if @route_type == :commuter_rail do %> mode-group-first<% end %>">
     <div class="mode-group-header">
       <h2>
         <%= svg_icon_with_circle %{icon: @route_type} %>

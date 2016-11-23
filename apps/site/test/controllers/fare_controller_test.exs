@@ -17,7 +17,7 @@ defmodule Site.FareControllerTest do
 
     test "includes 2 summarized Commuter Rail fares", %{conn: conn} do
       conn = get conn, fare_path(conn, :index)
-      assert [%Summary{}, _] = conn.assigns.commuter
+      assert [%Summary{}, _] = conn.assigns.commuter_rail
     end
 
     test "includes 2 summarized Ferry fares", %{conn: conn} do
@@ -27,7 +27,7 @@ defmodule Site.FareControllerTest do
   end
 
   test "renders commuter rail", %{conn: conn} do
-    conn = get conn, fare_path(conn, :show, :commuter, origin: "place-sstat", destination: "Readville")
+    conn = get conn, fare_path(conn, :show, :commuter_rail, origin: "place-sstat", destination: "Readville")
     assert html_response(conn, 200) =~ "Commuter Rail Fares"
   end
 

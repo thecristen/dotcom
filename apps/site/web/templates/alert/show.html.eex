@@ -5,7 +5,7 @@
       <div class="btn-group show-btn-group">
         <%= for {name, display} <- [
             bus: "Bus",
-            commuter: "Commuter Rail",
+            commuter_rail: "Commuter Rail",
             subway: "Subway",
             ferry: "Ferry",
             access: "Access",] do %>
@@ -13,7 +13,7 @@
               ^name -> "show-btn-selected"
               _ -> ""
               end %>
-          <%= link to: alert_path(@conn, :show, name), class: "btn show-btn alert-show-btn-#{name} #{selected_class}" do %>
+          <%= link to: alert_path(@conn, :show, name), class: "btn show-btn alert-show-btn-#{hyphenated_mode_string(name)} #{selected_class}" do %>
             <%= mode_icon(name) %>
             <%= display %>
             <%= if name == @id do %>

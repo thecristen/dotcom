@@ -13,4 +13,9 @@ defmodule Site.ScheduleController.AllStopsTest do
 
     assert length(all_stops) == length(Enum.uniq_by(all_stops, &(&1.id)))
   end
+
+  test "Renders Commuter Rail", %{conn: conn} do
+    conn = get conn, schedule_path(conn, :show, :commuter_rail)
+    assert html_response(conn, 200) =~ "Commuter Rail Schedules and Maps"
+  end
 end

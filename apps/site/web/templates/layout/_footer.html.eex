@@ -6,7 +6,7 @@
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Subway", to: schedule_path(@conn, :show, "subway") %></li>
           <li class="footer-link-sublist-item"><%= link "Bus", to: schedule_path(@conn, :show, "bus") %></li>
-          <li class="footer-link-sublist-item"><%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter") %></li>
+          <li class="footer-link-sublist-item"><%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter_rail") %></li>
           <li class="footer-link-sublist-item"><%= link "Ferry", to: schedule_path(@conn, :show, "ferry") %></li>
           <li class="footer-link-sublist-item"><%= link "The RIDE", to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") %></li>
         </ul>

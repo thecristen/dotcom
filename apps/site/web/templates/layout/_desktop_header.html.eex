@@ -11,7 +11,7 @@
             <ul>
               <li><%= link "Subway", to: schedule_path(@conn, :show, "subway") %></li>
               <li><%= link "Bus", to: schedule_path(@conn, :show, "bus") %></li>
-              <li><%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter") %></li>
+              <li><%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter_rail") %></li>
               <li><%= link "Ferry", to: schedule_path(@conn, :show, "ferry") %></li>
               <li><%= link "The RIDE", to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") %></li>
             </ul>
@@ -82,7 +82,7 @@
                   7-Day Pass
                   <%= svg_icon_with_circle %{icon: :bus} %>
                   <%= svg_icon_with_circle %{icon: :subway} %>
-                  <%= svg_icon_with_circle %{icon: :commuter} %>
+                  <%= svg_icon_with_circle %{icon: :commuter_rail} %>
                   <%= svg_icon_with_circle %{icon: :ferry} %>
                 </p>
                 <ul class="header-fares">

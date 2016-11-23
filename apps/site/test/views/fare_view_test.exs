@@ -7,17 +7,17 @@ defmodule Site.FareViewTest do
 
   describe "eligibility/1" do
     test "returns eligibility information for student fares" do
-      assert eligibility(%Fare{mode: :commuter, reduced: :student}) =~
+      assert eligibility(%Fare{mode: :commuter_rail, reduced: :student}) =~
         "Middle and high school students are eligible"
     end
 
     test "returns eligibility information for senior fares" do
-      assert eligibility(%Fare{mode: :commuter, reduced: :senior_disabled}) =~
+      assert eligibility(%Fare{mode: :commuter_rail, reduced: :senior_disabled}) =~
         "Those who are 65 years of age or older"
     end
 
     test "returns eligibility information for adult fares" do
-      assert eligibility(%Fare{mode: :commuter, reduced: nil}) =~
+      assert eligibility(%Fare{mode: :commuter_rail, reduced: nil}) =~
         "Those who are 12 years of age or older qualify for Adult fare pricing."
     end
   end

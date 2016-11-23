@@ -14,8 +14,8 @@ defmodule Site.FareController do
                        [name: :local_bus, duration: :single_trip, reduced: nil],
                        [name: :subway, duration: :week, reduced: nil],
                        [name: :subway, duration: :month, reduced: nil]]
-  @commuter_filters [[mode: :commuter, duration: :single_trip, reduced: nil],
-                     [mode: :commuter, duration: :month, reduced: nil]]
+  @commuter_filters [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
+                     [mode: :commuter_rail, duration: :month, reduced: nil]]
   @ferry_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
                   [mode: :ferry, duration: :month, reduced: nil]]
   @the_ride_filters [[mode: :the_ride]]
@@ -24,7 +24,7 @@ defmodule Site.FareController do
     render conn, "index.html", [
       breadcrumbs: ["Fares and Passes"],
       bus_subway: @bus_subway_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:bus_subway),
-      commuter: @commuter_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:commuter),
+      commuter_rail: @commuter_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:commuter_rail),
       ferry: @ferry_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:ferry),
       the_ride: @the_ride_filters |> Enum.flat_map(&Repo.all/1)
     ]
@@ -45,7 +45,7 @@ defmodule Site.FareController do
     |> render_fare_module(conn)
   end
 
-  defp fare_module("commuter"), do: Commuter
+  defp fare_module("commuter_rail"), do: Commuter
   defp fare_module("ferry"), do: Ferry
   defp fare_module("bus_subway"), do: BusSubway
   defp fare_module(_), do: nil
