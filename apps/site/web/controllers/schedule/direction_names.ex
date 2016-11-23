@@ -26,7 +26,10 @@ defmodule Site.ScheduleController.DirectionNames do
   end
 
   defp find_stop(stop_id, all_stops) do
-    all_stops
-    |> Enum.find(&(&1.id == stop_id))
+    case all_stops
+    |> Enum.find(&(&1.id == stop_id)) do
+      nil -> %Schedules.Stop{id: nil}
+      stop -> stop
+    end
   end
 end
