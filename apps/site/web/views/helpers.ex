@@ -97,14 +97,22 @@ defmodule Site.ViewHelpers do
     end
   end
 
-  @doc "Textual version of a mode ID or type"
   @spec mode_name(0..4 | Routes.Route.route_type | :access) :: String.t
+  @doc "Textual version of a mode ID or type"
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"
   def mode_name(type) when type in [2, :commuter_rail], do: "Commuter Rail"
   def mode_name(type) when type in [3, :bus], do: "Bus"
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
+
+  @spec hyphenated_mode_string(atom) :: String.t
+  @doc "Returns hyphenated mode string"
+  def hyphenated_mode_string(mode) do
+    mode
+    |> Atom.to_string
+    |> String.replace("_", "-")
+  end
 
   @spec subway_name(String.t) :: String.t
   @doc "Textual version of subway line"

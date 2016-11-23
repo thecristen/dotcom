@@ -26,11 +26,11 @@
     }
   }
 
-  &.icon-blue_line,
-  &.icon-red_line,
-  &.icon-orange_line,
-  &.icon-green_line,
-  &.icon-mattapan_line {
+  &.icon-blue-line,
+  &.icon-red-line,
+  &.icon-orange-line,
+  &.icon-green-line,
+  &.icon-mattapan-line {
     svg {
       height: 1.2rem;
       width: 1.2rem;
@@ -85,7 +85,7 @@
   }
 }
 
-.icon-commuter_rail {
+.icon-commuter-rail {
   .icon-circle {
     fill: $brand-commuter;
   }
@@ -97,15 +97,15 @@
   }
 }
 
-.icon-blue_line,
+.icon-blue-line,
 .blue {
   .icon-circle {
     fill: $brand-blue-line;
   }
 }
 
-.icon-red_line,
-.icon-mattapan_line,
+.icon-red-line,
+.icon-mattapan-line,
 .red,
 .mattapan {
   .icon-circle {
@@ -113,14 +113,14 @@
   }
 }
 
-.icon-orange_line,
+.icon-orange-line,
 .orange {
   .icon-circle {
     fill: $brand-orange-line;
   }
 }
 
-.icon-green_line,
+.icon-green-line,
 .green {
   .icon-circle {
     fill: $brand-green-line;

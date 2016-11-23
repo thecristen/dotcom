@@ -9,11 +9,11 @@
                 ^mode -> "show-btn-selected"
                 _ -> ""
                 end %>
-            <%= link to: how_to_pay_path(@conn, :show, mode), class: "btn show-btn alert-show-btn-#{mode_string(mode)} #{selected_class}" do %>
+            <%= link to: how_to_pay_path(@conn, :show, mode), class: "btn show-btn alert-show-btn-#{hyphenated_mode_string(mode)} #{selected_class}" do %>
               <%= mode_icon(mode) %>
               <%= mode_name(mode) %>
               <%= if mode == @mode do %>
-                <span class="btn-selected-bottom-<%= mode_string(mode) %>"></span>
+                <span class="btn-selected-bottom-<%= hyphenated_mode_string(mode) %>"></span>
               <% end %>
             <% end %>
           <% end %>

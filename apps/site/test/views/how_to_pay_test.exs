@@ -10,12 +10,4 @@ defmodule Site.HowToPayViewTest do
     assert mode_template(:subway) == "subway.html"
     assert mode_template(:ferry) == "ferry.html"
   end
-
-  test "mode_string/1 converts the atom to a dash delimted string" do
-    assert mode_string(:the_ride) == "the-ride"
-    assert mode_string(:bus) == "bus"
-    assert mode_string(:subway) == "subway"
-    assert mode_string(:commuter_rail) == "commuter-rail"
-    assert mode_string(:ferry) == "ferry"
-  end
 end

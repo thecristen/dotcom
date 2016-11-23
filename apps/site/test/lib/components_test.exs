@@ -10,7 +10,7 @@ defmodule Site.ComponentsTest do
       blue = mode_button(%ModeButton{
           route: %Routes.Route{id: "Blue", key_route?: true, name: "Blue Line", type: 1}
         }) |> safe_to_string
-      assert blue =~ "icon-blue_line"
+      assert blue =~ "icon-blue-line"
       assert blue =~ "icon-circle"
       assert blue =~ "t_logo-image"
 

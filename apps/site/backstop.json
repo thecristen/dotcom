@@ -119,7 +119,7 @@
     },
     {
       "label": "Commuter Rail Fares",
-      "url": "http://localhost:8082/fares/commuter-rail?destination=Framingham&fare_type=adult&origin=place-sstat",
+      "url": "http://localhost:8082/fares/commuter_rail?destination=Framingham&fare_type=adult&origin=place-sstat",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold" : 0.1

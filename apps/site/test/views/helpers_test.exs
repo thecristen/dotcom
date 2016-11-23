@@ -106,4 +106,14 @@ defmodule Site.ViewHelpersTest do
       assert subway_name("Orange Line") == "Orange Line"
     end
   end
+
+  describe "mode_string/1" do
+    test "converts the atom to a dash delimted string" do
+      assert hyphenated_mode_string(:the_ride) == "the-ride"
+      assert hyphenated_mode_string(:bus) == "bus"
+      assert hyphenated_mode_string(:subway) == "subway"
+      assert hyphenated_mode_string(:commuter_rail) == "commuter-rail"
+      assert hyphenated_mode_string(:ferry) == "ferry"
+    end
+  end
 end
