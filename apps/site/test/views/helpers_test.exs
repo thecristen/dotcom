@@ -74,6 +74,13 @@ defmodule Site.ViewHelpersTest do
       end
       assert mode_icon(:the_ride) == expected
     end
+
+    test "correctly finds the icon for commuter rail" do
+      expected = content_tag :span, title: "Commuter Rail", class: "route-icon route-icon-commuter-rail" do
+        svg("commuter-rail.svg")
+      end
+      assert mode_icon(:commuter_rail) == expected
+    end
   end
 
   describe "external_link/1" do

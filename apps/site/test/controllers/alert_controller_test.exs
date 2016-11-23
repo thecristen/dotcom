@@ -4,6 +4,12 @@ defmodule Site.AlertControllerTest do
   alias Alerts.Alert
   import Site.AlertController
 
+
+  test "renders commuter rail", %{conn: conn} do
+    conn = get conn, alert_path(conn, :show, :commuter_rail)
+    assert html_response(conn, 200) =~ "Commuter Rail"
+  end
+
   describe "group_access_alerts/1" do
     test "given a list of alerts, groups the access alerts by type" do
       alerts = [
