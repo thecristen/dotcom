@@ -17,7 +17,7 @@ defmodule Site.ScheduleController.Defaults do
   end
 
   defp index_params(%{params: params} = conn) do
-    direction_id = default_direction_id(params)
+    direction_id = default_direction_id(conn)
 
     show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(service_date, conn.assigns.date)
 
@@ -38,12 +38,19 @@ defmodule Site.ScheduleController.Defaults do
     ]
   end
 
-  defp default_direction_id(%{"direction_id" => direction_str}) when is_binary(direction_str) do
+  defp default_direction_id(%{params: %{"direction_id" => direction_str}}) when is_binary(direction_str) do
     case Integer.parse(direction_str) do
-      {0, _} -> 0
-      {1, _} -> 1
+      {0, ""} -> 0
+      {1, ""} -> 1
       _ -> default_direction_id(nil) # fallback to the default
     end
+  end
+  # if there's no headsign for a direction, default to the other direction
+  defp default_direction_id(%{assigns: %{headsigns: %{0 => []}}}) do
+    1
+  end
+  defp default_direction_id(%{assigns: %{headsigns: %{1 => []}}}) do
+    0
   end
   defp default_direction_id(_) do
     if Util.now.hour <= 13 do
