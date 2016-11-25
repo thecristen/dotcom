@@ -3,6 +3,14 @@ defmodule Fares.FareInfoTest do
   alias Fares.Fare
   import Fares.FareInfo
 
+  describe "fare_info/0" do
+    test "returns a non-empty list of Fare objects" do
+      actual = fare_info
+      assert fare_info != []
+      assert Enum.all?(actual, &match?(%Fare{}, &1))
+    end
+  end
+
   describe "mapper/1" do
     test "maps the fares for a zone into one way and round trip tickets, and monthly ticket and mticket prices" do
       assert mapper(["commuter", "zone_1a","2.25","1.10","84.50"]) == [

@@ -9,14 +9,20 @@
       </div>
     </div>
     <div class="schedule-list-group-item">
-      <%= for %{time: time} <- @predictions
+      <% valid_predictions = @predictions
           |> Enum.filter(fn %{stop_id: stop_id, route_id: route_id} ->
             stop_id == @stop && route_id == @route
             end)
           |> Enum.sort_by(&(Timex.to_unix(&1.time)))
-          |> Enum.take(6) do %>
+          |> Enum.take(6) %>
+      <%= for %{time: time} <- valid_predictions do %>
         <div class="col-xs-4 col-sm-3 col-md-2">
           <%= time |> Timex.format!("{kitchen}") %>
+        </div>
+      <% end %>
+      <%= if Enum.empty?(valid_predictions) do %>
+        <div class="col-xs-12">
+          No upcoming departures.
         </div>
       <% end %>
       <div class="col-xs-12">
