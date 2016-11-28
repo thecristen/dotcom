@@ -1,16 +1,37 @@
 <div class="card card-section">
-  <div class="row">
-    <div class="col-xs-12">
-      <h1 class="h2 station-list-heading">Name</h1>
-    </div>
-  </div>
-  <div class="row">
-    <ul class="station-list">
-      <%= for stop <- @stops do %>
-        <li class="col-xs-12">
-          <%= link stop.name, to: stop_path(@conn, :show, stop) %>
-        </li>
+  <h1>MBTA Stops</h1>
+  <nav class="collapse navbar-toggleable-xs m-y-1" id="modes" role="navigation">
+    <div class="btn-group show-btn-group">
+      <%= for mode <- [:commuter_rail, :subway, :ferry] do %>
+        <% selected_class = case @mode do
+        ^mode -> "show-btn-selected"
+        _ -> ""
+        end %>
+        <%= link to: stop_path(@conn, :show, mode), class: "btn show-btn alert-show-btn-#{hyphenated_mode_string(mode)} #{selected_class}" do %>
+          <%= mode_icon(mode) %>
+          <%= mode_name(mode) %>
+          <%= if mode == @mode do %>
+            <span class="btn-selected-bottom-<%= hyphenated_mode_string(mode) %>"></span>
+          <% end %>
+        <% end %>
       <% end %>
-    </ul>
-  </div>
+    </div>
+  </nav>
+  <a class="btn btn-block btn-primary-outline hidden-sm-up pull-right show-mode-toggle-btn" href="#modes" data-toggle="collapse" data-target="#modes">
+    <%= mode_name(@mode) %> <%= fa "angle-down" %>
+  </a>
+  <%= for {route, stops} <- @stop_info do %>
+    <h2><%= route.name |> clean_route_name %></h2>
+    <div class="mode-group-block">
+      <div class="row">
+        <%= for stop <- stops do %>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-xxl-3">
+            <a class="mode-group-btn stop-link" href="<%= stop_path(@conn, :show, stop.id) %>">
+              <%= stop.name %>
+            </a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>

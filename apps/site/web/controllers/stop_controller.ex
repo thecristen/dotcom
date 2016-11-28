@@ -8,10 +8,12 @@ defmodule Site.StopController do
   alias Stops.Repo
 
   def index(conn, _params) do
-    stops = Repo.stations
-    render(conn, "index.html", stops: stops, breadcrumbs: ["Stops"])
+    redirect conn, to: stop_path(conn, :show, :subway)
   end
 
+  def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
+    render_mode(conn, String.to_existing_atom(mode))
+  end
   def show(conn, params) do
     id = params["id"]
     stop = Repo.get!(id |> String.replace("+", " "))
@@ -22,6 +24,36 @@ defmodule Site.StopController do
     |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
     |> render("show.html", stop: stop)
   end
+
+  @spec render_mode(Plug.Conn.t, Routes.Route.gtfs_route_type) :: Plug.Conn.t
+  defp render_mode(conn, mode) do
+    stop_info = mode
+    |> types_for_mode
+    |> Routes.Repo.by_type
+    |> Enum.map(&{&1, Schedules.Repo.stops(&1.id, [])})
+    |> gather_green_line(mode)
+    |> Enum.into(%{})
+
+    render(conn, "index.html", mode: mode, stop_info: stop_info, breadcrumbs: ["Stops"])
+  end
+
+  @spec gather_green_line([{Routes.Route.t, [Stops.Stop.t]}], Routes.Route.gtfs_route_type) :: [{Routes.Route.t, [Stops.Stop.t]}]
+  defp gather_green_line(stop_info, :subway) do
+    {green_branches, others} = stop_info
+    |> Enum.partition(&String.starts_with?(elem(&1, 0).id, "Green-"))
+
+    green_stops = green_branches
+    |> Enum.flat_map(&elem(&1, 1))
+    |> Enum.uniq
+
+    [{%{name: "Green"}, green_stops} | others]
+  end
+  defp gather_green_line(stop_info, _mode), do: stop_info
+
+  @spec types_for_mode(Routes.Route.gtfs_route_type) :: [0..4]
+  defp types_for_mode(:subway), do: [0, 1]
+  defp types_for_mode(:commuter_rail), do: [2]
+  defp types_for_mode(:ferry), do: [4]
 
   @spec grouped_routes(String.t) :: [{Routes.Route.gtfs_route_type, Routes.Route.t}]
   defp grouped_routes(stop_id) do
