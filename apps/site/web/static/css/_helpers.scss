@@ -28,3 +28,7 @@
   width: $fallback-width; // fallback for browsers which don't support calc()
   width: calc(100% - $margin-right);
 }
+
+.no-wrap {
+  white-space: nowrap;
+}
