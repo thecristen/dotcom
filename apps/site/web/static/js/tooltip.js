@@ -1,11 +1,13 @@
 export default function($) {
   $ = $ || window.jQuery;
 
+  const selector = '[data-toggle="tooltip"]';
+
   function addTooltips() {
-    $('[data-toggle="tooltip"]').tooltip();
+    $(selector).tooltip();
   };
   function clearTooltips() {
-    $(".tooltip.in").remove();
+    $(selector).tooltip('dispose');
   };
 
   $(document).on('turbolinks:load', addTooltips);
