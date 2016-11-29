@@ -14,7 +14,7 @@
           rows=3
           placeholder="Make sure to include (if applicable) the time and date of the incident, the route, and the vehicle number."
           required><%= Map.get @existing_params, "comments", "" %></textarea>
-        <small class="form-text text-muted pull-right">3000 characters maximum</small>
+        <small class="form-text pull-right">3000 characters maximum</small>
         <div class="support-error-container support-comments-error-container col-xs-12 <%= unless "comments" in @errors, do: "hidden-xs-up" %>">
           <span class="support-comments-error">Please enter a comment to continue.</span>
         </div>
