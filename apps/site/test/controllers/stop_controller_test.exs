@@ -1,9 +1,17 @@
 defmodule Site.StopControllerTest do
   use Site.ConnCase, async: true
 
-  test "lists all entries on index", %{conn: conn} do
+  test "redirects to subway stops on index", %{conn: conn} do
     conn = get conn, stop_path(conn, :index)
-    assert html_response(conn, 200) =~ "Alewife"
+    assert redirected_to(conn) == stop_path(conn, :show, :subway)
+  end
+
+  test "shows stations by mode", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, :subway)
+    response = html_response(conn, 200)
+    for line <- ["Green", "Red", "Blue", "Orange", "Mattapan"] do
+      assert response =~ line
+    end
   end
 
   test "shows stations", %{conn: conn} do
