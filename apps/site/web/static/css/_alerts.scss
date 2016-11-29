@@ -136,18 +136,18 @@
   z-index: 1;
 
   &.fixedsticky-on {
-    width: calc(100% - 1.5rem - 2px);
+    width: calc(100% - 2.5rem + 2px);
 
     @include media-breakpoint-up(md) {
-      width: map-get($container-max-widths, md) + 2px - 16px * 4;
+      width: map-get($container-max-widths, md) - 26px;
     }
 
     @include media-breakpoint-up(lg) {
-      width: map-get($container-max-widths, lg) + 2px - 16px * 4;
+      width: map-get($container-max-widths, lg) - 14px;
     }
 
     @include media-breakpoint-up(xxl) {
-      width: map-get($container-max-widths, xxl) + 2px - 18px * 5;
+      width: map-get($container-max-widths, xxl) - 15.5px;
     }
   }
 }
