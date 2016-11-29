@@ -137,7 +137,12 @@ defmodule Site.StopView do
   @spec show_fares?(Stop.t) :: boolean
   @doc "Determines if the fare information for the given stop should be displayed"
   def show_fares?(stop) do
-    !stop.id in @origin_stations
+    !origin_station?(stop)
+  end
+
+  @spec origin_station?(Stop.t) :: boolean
+  def origin_station?(stop) do
+    stop.id in @origin_stations
   end
 
   @spec summaries_for_filters([keyword()], atom) :: [Summary.t]

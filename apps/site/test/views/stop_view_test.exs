@@ -126,7 +126,5 @@ defmodule Site.StopViewTest do
       stop = %Stop{id: "place-sstat", latitude: "42.352271", longitude: "-71.055242"}
       assert Site.StopView.center_query(stop) == %{center: Site.StopView.location(stop)}
     end
-
-
   end
 end

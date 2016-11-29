@@ -41,4 +41,16 @@ defmodule Site.StopControllerTest do
       get conn, stop_path(conn, :show, -1)
     end
   end
+
+  test "assigns the terminal station of CR lines from a station", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn")
+    assert conn.assigns.terminal_station == "place-north"
+    conn = get conn, stop_path(conn, :show, "Readville")
+    assert conn.assigns.terminal_station == "place-sstat"
+  end
+
+  test "assigns an empty terminal station for non-CR stations", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "22")
+    assert conn.assigns.terminal_station == ""
+  end
 end
