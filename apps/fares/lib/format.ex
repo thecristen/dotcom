@@ -13,7 +13,7 @@ defmodule Fares.Format do
   @doc "Formats the fare media (card, &c) as a string"
   @spec media(Fare.t | [Fare.media] | Fare.media) :: String.t
   def media(%Fare{media: list}), do: media(list)
-  def media([:charlie_card, :charlie_ticket]), do: "CharlieCard or Ticket"
+  def media([:charlie_card, :charlie_ticket]), do: "CharlieCard or CharlieTicket"
   def media(list) when is_list(list) do
     list
     |> Enum.map(&media/1)
@@ -36,9 +36,6 @@ defmodule Fares.Format do
 
   @doc "Formats the duration of the Fare"
   @spec duration(Fare.t) :: String.t
-  def duration(%Fare{mode: mode, duration: :single_trip}) when mode in [:subway, :bus] do
-    "Single Ride"
-  end
   def duration(%Fare{duration: :single_trip}) do
     "One Way"
   end

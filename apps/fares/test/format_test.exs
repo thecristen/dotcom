@@ -30,7 +30,7 @@ defmodule Fares.FormatTest do
     assert duration(%Fare{duration: :round_trip}) == "Round Trip"
     assert duration(%Fare{duration: :month}) == "Monthly Pass"
     assert duration(%Fare{duration: :month, media: [:mticket]}) == "Monthly Pass on mTicket App"
-    assert duration(%Fare{mode: :subway, duration: :single_trip}) == "Single Ride"
-    assert duration(%Fare{mode: :bus, duration: :single_trip}) == "Single Ride"
+    assert duration(%Fare{mode: :subway, duration: :single_trip}) == "One Way"
+    assert duration(%Fare{mode: :bus, duration: :single_trip}) == "One Way"
   end
 end
