@@ -190,7 +190,7 @@ defmodule Site.ScheduleView do
   @spec build_date_links(Enum.t, Plug.Conn.t, Date.t) :: [Phoenix.HTML.Safe.t]
   defp build_date_links(days, conn, date) do
     format_day = fn d -> Timex.format!({date.year,date.month, d}, "%Y-%m-%d", :strftime) end
-    date_link = fn 0 -> link("", to: "/")
+    date_link = fn 0 -> content_tag(:span, "")
                    d -> link(d, to: update_schedule_url(conn, date: format_day.(d))) end
     Enum.map(days, date_link)
   end
