@@ -249,4 +249,18 @@ defmodule Site.ScheduleViewTest do
       refute response =~ "est. departure"
     end
   end
+
+  describe "Shifting months" do
+    test "Months are not skipped when shifting" do
+      date = ~D[2016-02-28]
+      assert ScheduleView.add_month(date).month == 3
+      assert ScheduleView.decrement_month(date).month == 1
+    end
+    test "Years are incremented on when shifting to new year" do
+      date = ~D[2016-12-31]
+      shifted_date = ScheduleView.add_month(date)
+      assert shifted_date.month == 1
+      assert shifted_date.year == 2017
+    end
+  end
 end

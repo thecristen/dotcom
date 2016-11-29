@@ -143,4 +143,55 @@ defmodule Site.ScheduleView do
   def schedule_display_limit do
     @schedule_display_initial + @schedule_display_buffer
   end
+
+  @doc "Subtract one month from given date"
+  @spec decrement_month(Date.t) :: Date.t
+  def decrement_month(date), do: shift_month(date, -1)
+
+  @doc "Add one month from given date"
+  @spec add_month(Date.t) :: Date.t
+  def add_month(date), do: shift_month(date, 1)
+
+  @spec shift_month(Date.t, integer) :: Date.t
+  defp shift_month(date, delta) do
+    date
+    |> Timex.beginning_of_month
+    |> Timex.shift(months: delta)
+  end
+
+  @doc "Builds the links that will be displayed on the calendar"
+  @spec build_calendar(Date.t, Plug.Conn.t) :: [Phoenix.HTML.Safe.t]
+  def build_calendar(date, conn) do
+    first_day = date |> Timex.beginning_of_month |> Timex.weekday
+    last_day = Timex.end_of_month(date).day
+    do_build_calendar(rem(first_day, 7), last_day, 1, [])
+    |> Enum.reverse
+    |> build_date_links(conn, date)
+    |> additional_dates(conn, date)
+  end
+
+  @spec do_build_calendar(integer, integer, integer, [integer]) :: [integer]
+  defp do_build_calendar(first_day, last_day, current_day, days) do
+    cond do
+      Enum.count(days) < first_day -> do_build_calendar(first_day, last_day, 1, [0 | days])
+      current_day <= last_day -> do_build_calendar(first_day, last_day, current_day + 1, [current_day | days])
+      true -> days
+    end
+  end
+
+  # Fill up the remaining week and add 1 additional week
+  @spec additional_dates([integer], Plug.Conn.t, Date.t) :: [Phoenix.HTML.Safe.t]
+  defp additional_dates(days, conn, date) do
+    links_needed = min((7 - rem(Enum.count(days), 7)) + 7, 13)
+    additional = 1..links_needed |> build_date_links(conn, add_month(date))
+    Enum.concat(days, additional)
+  end
+
+  @spec build_date_links(Enum.t, Plug.Conn.t, Date.t) :: [Phoenix.HTML.Safe.t]
+  defp build_date_links(days, conn, date) do
+    format_day = fn d -> Timex.format!({date.year,date.month, d}, "%Y-%m-%d", :strftime) end
+    date_link = fn 0 -> link("", to: "/")
+                   d -> link(d, to: schedule_path(conn, :show, conn.params["route"], date: format_day.(d))) end
+    Enum.map(days, date_link)
+  end
 end
