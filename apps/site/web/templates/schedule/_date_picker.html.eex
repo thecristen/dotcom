@@ -3,10 +3,10 @@
   <thead>
     <tr>
       <td colspan=7>
-        <%= link("<", to: schedule_path(@conn, :show, @conn.params["route"], date: Date.to_string(decrement_month(@date))))%>
+        <%= link("<", to: update_schedule_url(@conn, date: Date.to_string(decrement_month(@date))))%>
         <%= Timex.month_name(@date.month)%> 
         <%= @date.year %>
-        <%= link(">", to: schedule_path(@conn, :show, @conn.params["route"], date: Date.to_string(add_month(@date))))%>
+        <%= link(">", to: update_schedule_url(@conn, date: Date.to_string(add_month(@date))))%>
       </td>
     </tr>
     <tr>

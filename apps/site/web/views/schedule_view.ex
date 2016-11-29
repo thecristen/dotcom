@@ -36,7 +36,7 @@ defmodule Site.ScheduleView do
 
     {route, new_query} = Map.pop(new_query, "route")
 
-    schedule_path(conn, :show, route, new_query |> Enum.into([]))
+    schedule_path(conn, :show, route || "Green" , new_query |> Enum.into([]))
   end
 
   def stop_info_link(stop) do
@@ -191,7 +191,7 @@ defmodule Site.ScheduleView do
   defp build_date_links(days, conn, date) do
     format_day = fn d -> Timex.format!({date.year,date.month, d}, "%Y-%m-%d", :strftime) end
     date_link = fn 0 -> link("", to: "/")
-                   d -> link(d, to: schedule_path(conn, :show, conn.params["route"], date: format_day.(d))) end
+                   d -> link(d, to: update_schedule_url(conn, date: format_day.(d))) end
     Enum.map(days, date_link)
   end
 end
