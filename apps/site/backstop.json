@@ -90,7 +90,8 @@
       "url": "http://localhost:8082/not-found",
       "referenceUrl": "http://beta.mbta.com/not-found",
       "selectors": ["body"],
-      "delay": 100
+      "delay": 100,
+      "hideSelectors": [".error-card img"]
     },
     {
       "label": "Commuter Rail Schedule",
@@ -155,13 +156,16 @@
     }
   ],
   "paths": {
-    "bitmaps_reference": "../../backstop_data/bitmaps_reference",
-    "bitmaps_test": "../../backstop_data/bitmaps_test",
-    "compare_data": "../../backstop_data/bitmaps_test/compare.json",
-    "casper_scripts": "../../backstop_data/casper_scripts"
+    "bitmaps_reference": "backstop_data/bitmaps_reference",
+    "bitmaps_test": "backstop_data/bitmaps_test",
+    "compare_data": "backstop_data/bitmaps_test/compare.json",
+    "casper_scripts": "backstop_data/casper_scripts",
+    "html_report": "backstop_data/html_report"
   },
+  "id": "MBTA_Backstop",
+  "fileNameTemplate": "{scenarioIndex}_{selectorIndex}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
   "engine": "phantomjs",
-  "report": ["CLI", "browser"],
+  "report": ["browser"],
   "casperFlags": [],
   "debug": false,
   "port": 3001
