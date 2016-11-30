@@ -9,11 +9,9 @@ defmodule Mix.Tasks.Backstop.Tests do
   """
 
   def run(_args) do
-    {:ok, _started} = Application.ensure_all_started(:porcelain)
-    pid = self()
-    phoenix_pid = spawn_link(Backstop.Servers.Phoenix, :run, [pid])
+    {:ok, phoenix_pid} = Backstop.Servers.Phoenix.start_link(self)
     _ = Logger.info "Phoenix started with pid #{inspect phoenix_pid}"
-    wiremock_pid = spawn_link(Backstop.Servers.Wiremock, :run, [pid])
+    {:ok, wiremock_pid} = Backstop.Servers.Wiremock.start_link(self)
     _ = Logger.info "Wiremock started with pid #{inspect wiremock_pid}"
     loop({phoenix_pid, :not_started}, {wiremock_pid, :not_started})
   end
