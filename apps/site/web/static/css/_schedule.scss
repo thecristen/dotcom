@@ -188,6 +188,10 @@ a {
     border-color: $brand-primary-dark;
     color: $white;
 
+    .alert-image {
+      fill: $white;
+    }
+
     @include hover-focus-active {
       // we override the default and keep the same colors in the hover state.
       // iOS doesn't distinguish between these cases and it looks strange

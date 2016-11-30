@@ -20,7 +20,7 @@
     <div class="row no-gutter station-info-section">
       <h2>Fares</h2>
       <%= if :commuter_rail in types do %>
-        <%= render "_commuter_fare.html", conn: @conn, stop: @stop, zone_name: @zone_name %>
+        <%= render "_commuter_fare.html", conn: @conn, stop: @stop, zone_name: @zone_name, terminal_station: @terminal_station %>
       <% end %>
       <%= if :ferry in types do %>
         <h3 class="station-fare-subheader">Ferry Fares</h3>

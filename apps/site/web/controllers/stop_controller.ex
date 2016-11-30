@@ -22,6 +22,7 @@ defmodule Site.StopController do
     |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, params["tab"])
     |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
+    |> assign(:terminal_station, terminal_station(stop))
     |> render("show.html", stop: stop)
   end
 
@@ -75,5 +76,26 @@ defmodule Site.StopController do
   end
   defp breadcrumbs(%Stops.Stop{name: name}) do
     [name]
+  end
+
+  # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string
+  # if the stop doesn't serve commuter rail. Note that this assumes that all CR lines at a station have the
+  # same terminal, which is currently true but could conceivably change in the future.
+  @spec terminal_station(Stop.t) :: String.t
+  defp terminal_station(stop) do
+    stop.id
+    |> Routes.Repo.by_stop
+    |> Enum.filter(&(&1.type == 2))
+    |> List.first
+    |> do_terminal_station
+  end
+
+  # Filter out non-CR stations.
+  defp do_terminal_station(nil), do: ""
+  defp do_terminal_station(route) do
+    terminal = route.id
+    |> Schedules.Repo.stops(direction_id: 0)
+    |> List.first
+    terminal.id
   end
 end
