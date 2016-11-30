@@ -109,7 +109,7 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "mbta-custom-icon"
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-subway"
-      assert rendered =~ "translate(10,8)"
+      assert rendered =~ "translate(12,9)"
     end
   end
 

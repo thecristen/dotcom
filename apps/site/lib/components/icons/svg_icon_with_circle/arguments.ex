@@ -2,18 +2,15 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   defstruct icon: :bus,
             small: false
 
-  def translate(:globe), do: "5,5"
-  def translate(:suitcase), do: "8,10"
-  def translate(:t_logo), do: "7,10"
-  def translate(:phone), do: "11,8"
-  def translate(:map), do: "7,8"
-  def translate(:accessible), do: "8,6"
-  def translate(:green_line), do: translate(:t_logo)
-  def translate(:orange_line), do: translate(:t_logo)
-  def translate(:blue_line), do: translate(:t_logo)
-  def translate(:red_line), do: translate(:t_logo)
-  def translate(:mattapan_line), do: translate(:t_logo)
-  def translate(icon) when icon in [:phone, :tools, :ferry, :alert], do: "8,8"
-  def translate(icon) when icon in [:bus, :subway, :commuter_rail], do: "10,8"
-  def translate(_), do: "4,4"
+  def translate(:globe), do: "6,6"
+  def translate(:suitcase), do: "9,11"
+  def translate(:t_logo), do: "8,11"
+  def translate(:map), do: "8,9"
+  def translate(:accessible), do: "9,7"
+  def translate(icon) when icon in [:phone, :subway], do: "12,9"
+  def translate(icon) when icon in [:tools, :ferry, :alert], do: "9,9"
+  def translate(icon) when icon in [:bus, :commuter_rail], do: "11,9"
+  def translate(icon) when icon in [:green_line, :orange_line,
+                                    :blue_line, :red_line, :mattapan_line], do: translate(:t_logo)
+  def translate(_), do: "5,5"
 end
