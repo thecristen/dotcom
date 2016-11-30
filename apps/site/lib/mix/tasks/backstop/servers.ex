@@ -3,7 +3,7 @@ defmodule Backstop.Servers do
   use GenServer
 
   @callback directory() :: String.t
-  @callback environment() :: [{String.t, String.t | false}]
+  @callback environment() :: [{charlist, charlist}]
   @callback command() :: String.t
   @callback started_regex() :: String.t | Regex.t
   @callback error_regex() :: String.t | Regex.t
@@ -22,11 +22,12 @@ defmodule Backstop.Servers do
   def init([module, parent]) do
     port = Port.open(
       {:spawn, module.command},
-      [:stderr_to_stdout,
-       :exit_status,
-       line: 65_536,
-       cd: module.directory,
-       env: remap_env(module.environment),
+      [
+        :stderr_to_stdout,
+        :exit_status,
+        line: 65_536,
+        cd: module.directory,
+        env: module.environment
       ])
 
     {:ok, %State{module: module,
@@ -88,14 +89,6 @@ defmodule Backstop.Servers do
     end
   end
 
-  @spec remap_env([{String.t, String.t}]) :: [{charlist, charlist}]
-  def remap_env(env) do
-    env
-    |> Enum.map(fn {name, val} ->
-      {String.to_charlist(name), String.to_charlist(val)}
-    end)
-  end
-
   defmacro __using__([]) do
     quote location: :keep do
       require Logger
@@ -120,12 +113,12 @@ defmodule Backstop.Servers.Phoenix do
 
   def environment do
     [
-      {"MIX_ENV", "prod"},
-      {"PORT", "8082"},
-      {"STATIC_SCHEME", "http"},
-      {"STATIC_HOST", "localhost"},
-      {"STATIC_PORT", "8082"},
-      {"V3_URL", "http://localhost:8080"}
+      {'MIX_ENV', 'prod'},
+      {'PORT', '8082'},
+      {'STATIC_SCHEME', 'http'},
+      {'STATIC_HOST', 'localhost'},
+      {'STATIC_PORT', '8082'},
+      {'V3_URL', 'http://localhost:8080'}
     ]
   end
 
