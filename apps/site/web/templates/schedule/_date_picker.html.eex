@@ -1,0 +1,32 @@
+<% month = Enum.chunk(build_calendar(@date, @conn), 7, 7) %>
+<table class="table table-bordered schedule-date-picker">
+  <thead>
+    <tr>
+      <td colspan=7>
+        <%= link("<", to: update_schedule_url(@conn, date: Date.to_string(decrement_month(@date))))%>
+        <%= Timex.month_name(@date.month)%> 
+        <%= @date.year %>
+        <%= link(">", to: update_schedule_url(@conn, date: Date.to_string(add_month(@date))))%>
+      </td>
+    </tr>
+    <tr>
+      <td>Sun</td>
+      <td>Mon</td>
+      <td>Tue</td>
+      <td>Wed</td>
+      <td>Thu</td>
+      <td>Fri</td>
+      <td>Sat</td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= for week <- month do %>
+      <tr>
+        <%= for day <- week do %>
+          <td><%= day %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
