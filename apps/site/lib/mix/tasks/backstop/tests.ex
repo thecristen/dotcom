@@ -2,6 +2,8 @@ defmodule Mix.Tasks.Backstop.Tests do
   use Mix.Task
 
   require Logger
+  import Backstop.Servers
+  alias Backstop.Servers.{Wiremock, Phoenix}
 
   @shortdoc "Run Backstop tests."
   @moduledoc """
@@ -9,59 +11,37 @@ defmodule Mix.Tasks.Backstop.Tests do
   """
 
   def run(_args) do
-    {:ok, phoenix_pid} = Backstop.Servers.Phoenix.start_link(self)
-    _ = Logger.info "Phoenix started with pid #{inspect phoenix_pid}"
-    {:ok, wiremock_pid} = Backstop.Servers.Wiremock.start_link(self)
+    {:ok, wiremock_pid} = Wiremock.start_link
     _ = Logger.info "Wiremock started with pid #{inspect wiremock_pid}"
-    loop({phoenix_pid, :not_started}, {wiremock_pid, :not_started})
-  end
 
-  def loop({phoenix_pid, :started}, {wiremock_pid, :started}) do
-    try do
-      _ = Logger.info "starting Backstop"
-      {_stream, status} = System.cmd "npm", ["run", "backstop:test"], into: IO.stream(:stdio, :line)
-      shutdown_all(phoenix_pid, wiremock_pid, status)
-    rescue
-      RuntimeError ->
-        _ = Logger.error "Backstop did not start; shutting down"
-        shutdown_all(phoenix_pid, wiremock_pid, 1)
-    end
-  end
-  def loop({phoenix_pid, phoenix_status}, {wiremock_pid, wiremock_status}) do
-    receive do
-      {^phoenix_pid, :started} ->
-        _ = Logger.info "started Phoenix"
-        loop({phoenix_pid, :started}, {wiremock_pid, wiremock_status})
-      {^wiremock_pid, :started} ->
-        _ = Logger.info "started Wiremock"
-        loop({phoenix_pid, phoenix_status}, {wiremock_pid, :started})
-      {^phoenix_pid, :error} ->
-        _ = Logger.error "error starting Phoenix"
-        shutdown_all(phoenix_pid, wiremock_pid, 1)
-      {^wiremock_pid, :error} ->
-        _ = Logger.error "error starting Wiremock"
-        shutdown_all(phoenix_pid, wiremock_pid, 1)
-    after
-      60_000 -> # 1 minute timeout
-        _ = Logger.error "timed out waiting for servers; shutting down"
-        shutdown_all(phoenix_pid, wiremock_pid, 1)
+    {:ok, phoenix_pid} = Phoenix.start_link
+    _ = Logger.info "Phoenix started with pid #{inspect phoenix_pid}"
+
+    pids = [wiremock_pid, phoenix_pid]
+    case Enum.map(pids, &await/1) do
+      [:started, :started] ->
+        run_backstop(pids)
+      _ ->
+        shutdown_all(pids, 1)
     end
   end
 
-  def shutdown(pid) do
-    if Process.alive? pid do
-      send pid, {self(), :shutdown}
-      receive do
-        {^pid, :finished} -> nil # wait for the process to acknowledge exit
-      end
-    end
-    _ = Logger.info "#{inspect pid} finished"
+  defp run_backstop(pids) do
+    status = try do
+               _ = Logger.info "starting Backstop"
+               {_stream, status} = System.cmd "npm", ["run", "backstop:test"], into: IO.stream(:stdio, :line)
+               status
+             rescue
+               RuntimeError ->
+                 _ = Logger.error "Backstop did not start; shutting down"
+                 1
+             end
+    shutdown_all(pids, status)
   end
 
-  @spec shutdown_all(pid, pid, non_neg_integer) :: no_return
-  def shutdown_all(phoenix_pid, wiremock_pid, status) do
-    :ok = shutdown(phoenix_pid)
-    :ok = shutdown(wiremock_pid)
+  @spec shutdown_all([pid], non_neg_integer) :: no_return
+  def shutdown_all(pids, status) do
+    Enum.each(pids, &shutdown/1)
     _ = Logger.flush
     System.halt status
   end

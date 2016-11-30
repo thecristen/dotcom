@@ -19,12 +19,43 @@ defmodule Backstop.Servers do
 
   alias Backstop.Servers.State
 
+  def await(pid) do
+    receive do
+      {^pid, :started} -> :started
+      {^pid, :error} ->
+        :finished = shutdown(pid)
+        :error
+    after
+      60_000 -> # 1 minute timeout
+        shutdown(pid)
+        :timeout
+    end
+  end
+
+  @doc "Shut down the given server"
+  @spec shutdown(pid) :: :finished | :timeout
+  def shutdown(pid) do
+    if Process.alive? pid do
+      send pid, {self, :shutdown}
+
+      receive do
+        {^pid, :finished} ->
+          _ = Logger.info "#{inspect pid} finished"
+          :finished
+      after
+        60_000 -> :timeout
+      end
+    else
+      _ = Logger.info "#{inspect pid} finished"
+      :finished
+    end
+  end
+
   def init([module, parent]) do
     port = Port.open(
       {:spawn, module.command},
       [
         :stderr_to_stdout,
-        :exit_status,
         line: 65_536,
         cd: module.directory,
         env: module.environment
@@ -47,7 +78,7 @@ defmodule Backstop.Servers do
 
   def handle_info({port, {:data, {_flag, data_list}}}, %{module: module, port: port} = state) do
     data = :erlang.iolist_to_binary(data_list)
-    IO.write [server_name(state), " => ", data, "\n"]
+    _ = Logger.info [server_name(module), " => ", data_list]
     if data =~ module.started_regex do
       send_parent(state, :started)
     end
@@ -56,12 +87,8 @@ defmodule Backstop.Servers do
     end
     {:noreply, state}
   end
-  def handle_info({port, {:exit_status, _status}}, %{port: port} = state) do
-    send_parent(state, :finished)
-    {:stop, :normal, state}
-  end
   def handle_info({parent, :shutdown}, %{parent: parent} = state) do
-    _ = Logger.info "shutting down #{server_name(state)}"
+    _ = Logger.info "shutting down #{server_name(state.module)}"
     kill_port(state.port)
     send_parent(state, :finished)
     {:stop, :normal, state}
@@ -72,8 +99,8 @@ defmodule Backstop.Servers do
     send parent, {self(), message}
   end
 
-  @spec server_name(State.t) :: String.t
-  defp server_name(%{module: module}) do
+  @spec server_name(atom) :: String.t
+  defp server_name(module) do
     module
     |> Module.split
     |> List.last
@@ -95,8 +122,8 @@ defmodule Backstop.Servers do
 
       @behaviour unquote(__MODULE__)
 
-      def start_link(parent) do
-        GenServer.start_link(unquote(__MODULE__), [__MODULE__, parent])
+      def start_link do
+        GenServer.start_link(unquote(__MODULE__), [__MODULE__, self()])
       end
     end
   end
