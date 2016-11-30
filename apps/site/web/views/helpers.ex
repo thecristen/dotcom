@@ -105,6 +105,13 @@ defmodule Site.ViewHelpers do
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
+  def mode_name(subway_atom) when subway_atom in [:red_line, :blue_line, :orange_line, :green_line, :mattapan_line] do
+    subway_atom
+    |> Atom.to_string
+    |> String.split("_")
+    |> Enum.map(&String.capitalize/1)
+    |> Enum.join(" ")
+  end
 
   @spec hyphenated_mode_string(atom) :: String.t
   @doc "Returns hyphenated mode string"

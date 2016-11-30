@@ -6,7 +6,9 @@ defmodule Routes.Group do
   """
   alias Routes.Route
 
-  @spec group([Route]) :: [{Route.route_type, [Route.t]}]
+  @type t :: {Routes.Route.route_type, Routes.Route.t}
+
+  @spec group([Route.t]) :: [Routes.Group.t]
   def group(routes) do
     routes
     |> Enum.reverse

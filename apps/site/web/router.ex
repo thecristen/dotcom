@@ -34,6 +34,7 @@ defmodule Site.Router do
     get "/style_guide", StyleGuideController, :index
     get "/style_guide/:section", StyleGuideController, :index
     get "/style_guide/:section/:subpage", StyleGuideController, :show
+    get "/service-near-me", ServiceNearMeController, :index
     resources "/alerts", AlertController, only: [:index, :show]
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
@@ -43,7 +44,6 @@ defmodule Site.Router do
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end
-    get "/_nearby", NearbyController, :index
   end
 
 

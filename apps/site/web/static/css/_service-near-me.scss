@@ -1,0 +1,112 @@
+@import 'variables';
+
+.service-near-me-header {
+  margin: 3rem 0;
+
+  .route-type-icons {
+    margin: 3rem 0;
+  }
+
+  svg {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .icon-circle {
+    fill: transparent;
+    stroke: $gray-dark;
+  }
+
+  .icon-image {
+    fill: $gray-dark;
+  }
+
+  p {
+    text-align: center;
+  }
+
+}
+
+.service-near-me {
+  background-color: $white;
+  min-height: 600px; // remove this
+
+  .form-group {
+    border: 1px solid $gray-lightest;
+    border-radius: $default-border-radius;
+    display: block;
+    padding: $space-2 0;
+    text-align: right;
+  }
+
+  input {
+    border-width: 0;
+    display: block;
+    float: left;
+    margin: .375rem 0 .375rem .5rem;
+    outline: 0;
+    // scss-lint:disable DuplicateProperty
+    width: 80%; // fallback for browsers that don't support calc
+    width: calc(100% - 5rem);
+
+    &:focus {
+      border-width: 0;
+      outline: 0;
+    }
+  }
+
+  button {
+    display: block;
+    float: right;
+    margin-right: .125rem;
+    width: 4rem;
+  }
+
+  .clear {
+    clear: both;
+  }
+}
+
+.service-near-me-results {
+  background: $gray-lightest;
+  border-radius: $default-border-radius;
+  margin: 0 0 3rem;
+  margin-right: 0;
+  padding: $grid-gutter-width * 1.5;
+
+  &.empty {
+    display: none;
+  }
+
+  .col-xs-12,
+  .col-md-3 {
+    margin: 0;
+    padding: $grid-gutter-width / 2;
+  }
+}
+
+.service-card {
+  background: $white;
+  border: 1px solid $gray-lightest;
+  border-radius: $default-border-radius;
+  padding: $grid-gutter-width;
+
+  .service-route {
+    font-size: .8rem;
+    margin-bottom: .25rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .mbta-custom-icon {
+    margin-right: .25rem;
+
+    svg {
+      height: 1rem;
+      vertical-align: text-bottom;
+      width: 1rem;
+    }
+  }
+}

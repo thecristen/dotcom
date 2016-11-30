@@ -68,9 +68,9 @@ defmodule Schedules.RepoTest do
     |> List.first
     |> Map.get(:trip)
     |> Map.get(:id)
-
     response = Schedules.Repo.schedule_for_trip(trip_id)
     assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
+    refute response == []
     assert List.first(response).stop.id == "Lowell"
     assert List.last(response).stop.id == "place-north"
   end
