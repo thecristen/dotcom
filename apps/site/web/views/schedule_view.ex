@@ -36,7 +36,10 @@ defmodule Site.ScheduleView do
 
     {route, new_query} = Map.pop(new_query, "route")
 
-    schedule_path(conn, :show, route || "Green" , new_query |> Enum.into([]))
+    case route do
+      nil -> green_path(conn, :green, new_query |> Enum.into([]))
+      route -> schedule_path(conn, :show, route, new_query |> Enum.into([]))
+    end
   end
 
   def stop_info_link(stop) do
@@ -162,9 +165,9 @@ defmodule Site.ScheduleView do
   @doc "Builds the links that will be displayed on the calendar"
   @spec build_calendar(Date.t, Plug.Conn.t) :: [Phoenix.HTML.Safe.t]
   def build_calendar(date, conn) do
-    first_day = date |> Timex.beginning_of_month |> Timex.weekday
+    first_day = date |> Timex.beginning_of_month |> Timex.weekday |> Kernel.rem(7)
     last_day = Timex.end_of_month(date).day
-    do_build_calendar(rem(first_day, 7), last_day, 1, [])
+    do_build_calendar(first_day, last_day, 1, [])
     |> Enum.reverse
     |> build_date_links(conn, date)
     |> additional_dates(conn, date)
@@ -173,7 +176,8 @@ defmodule Site.ScheduleView do
   @spec do_build_calendar(integer, integer, integer, [integer]) :: [integer]
   defp do_build_calendar(first_day, last_day, current_day, days) do
     cond do
-      Enum.count(days) < first_day -> do_build_calendar(first_day, last_day, 1, [0 | days])
+      first_day == 0 && Enum.empty?(days) -> do_build_calendar(first_day, last_day, current_day + 1, [1 | days])
+      Enum.at(days, max(first_day - 1, 0)) == nil -> do_build_calendar(first_day, last_day, 1, [0 | days])
       current_day <= last_day -> do_build_calendar(first_day, last_day, current_day + 1, [current_day | days])
       true -> days
     end
