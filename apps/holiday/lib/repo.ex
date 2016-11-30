@@ -94,4 +94,14 @@ defmodule Holiday.Repo do
       _ -> []
     end
   end
+
+  @doc "Returns the list of holidays in the given month that occur after given day"
+  @spec upcoming_holidays(Date.t) :: [Holiday.t]
+  def upcoming_holidays(date) do
+    @holidays
+    |> Enum.map(fn({_d, h}) -> h end)
+    |> Enum.filter(fn(h) -> h.date.year == date.year end)
+    |> Enum.filter(fn(h) -> h.date.month == date.month end)
+    |> Enum.filter(fn(h) -> h.date.day == date.day or Timex.after?(h.date, date) end)
+  end
 end
