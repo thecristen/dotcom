@@ -1,31 +1,14 @@
 <div class="card card-section">
   <div class="card-header">
     <h1>Service Alerts and Notices</h1>
-    <nav class="collapse navbar-toggleable-sm" id="modes" role="navigation">
-      <div class="btn-group show-btn-group">
-        <%= for {name, display} <- [
-            bus: "Bus",
-            commuter_rail: "Commuter Rail",
-            subway: "Subway",
-            ferry: "Ferry",
-            access: "Access",] do %>
-          <% selected_class = case @id do
-              ^name -> "show-btn-selected"
-              _ -> ""
-              end %>
-          <%= link to: alert_path(@conn, :show, name), class: "btn show-btn alert-show-btn-#{hyphenated_mode_string(name)} #{selected_class}" do %>
-            <%= mode_icon(name) %>
-            <%= display %>
-            <%= if name == @id do %>
-              <span class="btn-selected-bottom"></span>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
-    </nav>
-    <a class="btn btn-block btn-primary-outline hidden-md-up pull-right show-mode-toggle-btn" href="#modes" data-toggle="collapse" data-target="#modes">
-      <%= Routes.Route.type_name(@id) %> <%= fa "angle-down" %>
-    </a>
+    <%= mode_tab_list %ModeTabList{
+      class: "navbar-toggleable-sm",
+      links: for mode <- [:bus, :commuter_rail, :subway, :ferry, :access] do
+        {mode, alert_path(@conn, :show, mode)}
+      end,
+      selected_mode: @id,
+      btn_class: "hidden-md-up"
+    } %>
     <div class="clearfix"></div>
   </div>
   <div class="card-block">

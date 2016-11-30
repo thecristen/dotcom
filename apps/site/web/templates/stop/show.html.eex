@@ -16,7 +16,7 @@
             <% end %>
           <% end %>
           <%= if "accessible" in @stop.accessibility do %>
-            <%= svg_icon_with_circle(%{icon: :accessible}) %>
+            <%= svg_icon_with_circle(%{icon: :access}) %>
           <% end %>
         </span>
       </span>

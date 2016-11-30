@@ -1,0 +1,17 @@
+<nav class="collapse <%= args.class %>" id="<%= args.id %>" role="navigation">
+  <div class="btn-group show-btn-group">
+    <%= for {mode, href} <- args.links do %>
+      <% selected_class = if selected?(mode, args.selected_mode), do: "show-btn-selected", else: "" %>
+      <%= Phoenix.HTML.Link.link to: href, class: "btn show-btn alert-show-btn-#{hyphenated_mode_string(mode)} #{selected_class}" do %>
+        <%= svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode}) %>
+        <%= mode_name(mode) %>
+        <%= if selected?(mode, args.selected_mode) do %>
+          <span class="btn-selected-bottom-<%= hyphenated_mode_string(mode) %>"></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</nav>
+<a class="btn btn-block btn-primary-outline pull-right show-mode-toggle-btn <%= args.btn_class %>" href="#<%= args.id %>" data-toggle="collapse" data-target="#<%= args.id %>">
+  <%= mode_name(args.selected_mode) %> <%= fa "angle-down" %>
+</a>

@@ -127,8 +127,14 @@
   }
 }
 
-.icon-accessible {
+.icon-access {
   .icon-circle {
     fill: $brand-primary;
+  }
+}
+
+.icon-the-ride {
+  svg {
+    fill: $brand-the-ride;
   }
 }

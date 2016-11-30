@@ -2,28 +2,12 @@
   <div class="card-block row">
     <div class="col-xs-12">
       <h1>How to Pay</h1>
-      <nav class="collapse navbar-toggleable-xs m-y-1" id="modes" role="navigation">
-        <div class="btn-group show-btn-group">
-          <%= for mode <- [:subway, :bus, :commuter_rail, :ferry, :the_ride] do %>
-            <% selected_class = case @mode do
-                ^mode -> "show-btn-selected"
-                _ -> ""
-                end %>
-            <%= link to: how_to_pay_path(@conn, :show, mode), class: "btn show-btn alert-show-btn-#{hyphenated_mode_string(mode)} #{selected_class}" do %>
-              <%= mode_icon(mode) %>
-              <%= mode_name(mode) %>
-              <%= if mode == @mode do %>
-                <span class="btn-selected-bottom-<%= hyphenated_mode_string(mode) %>"></span>
-              <% end %>
-            <% end %>
-          <% end %>
-        </div>
-      </nav>
-      <a class="btn btn-block btn-primary-outline pull-right show-mode-toggle-btn hidden-sm-up m-t-1" href="#modes" data-toggle="collapse" data-target="#modes">
-        <%= mode_icon(@mode) %>
-        <%= mode_name(@mode) %>
-        <%= fa "angle-down" %>
-      </a>
+      <%= mode_tab_list %ModeTabList{
+        links: for mode <- [:subway, :bus, :commuter_rail, :ferry, :the_ride] do
+          {mode, how_to_pay_path(@conn, :show, mode)}
+        end,
+        selected_mode: @mode
+      } %>
     </div>
     <div class="clearfix"></div>
     <%= render mode_template(@mode), conn: @conn %>

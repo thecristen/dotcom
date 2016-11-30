@@ -23,7 +23,7 @@ defmodule Backstop.Servers do
       {^pid, :started} -> :started
       {^pid, :error} -> :error
     after
-      60_000 -> # 1 minute timeout
+      180_000 -> # 1 minute timeout
         :timeout
     end
   end
