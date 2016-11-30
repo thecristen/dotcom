@@ -44,7 +44,7 @@
                 <%= if prediction do %>
                   <%= prediction.status || "On Time" %>
                   <%= if prediction.track do %>
-                    on track <%= prediction.track %>
+                    on <span class="no-wrap">track <%= prediction.track %></span>
                   <% end %>
                 <% end %>
               </div>
