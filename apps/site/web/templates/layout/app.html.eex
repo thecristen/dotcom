@@ -152,7 +152,7 @@
           </div>
         <% end %>
       </header>
-      <div class="container">
+      <div class="container page-container">
         <main class="full-width <%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
           <%= render @view_module, @view_template, assigns %>
         </main>
