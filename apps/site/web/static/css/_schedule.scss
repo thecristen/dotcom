@@ -370,6 +370,59 @@ a {
   }
 }
 
+// scss-lint:disable NestingDepth
+// scss-lint:disable SelectorDepth
 .schedule-date-picker {
+  border-color: $gray-lighter;
   text-align: center;
+
+  thead .month {
+    background-color: $brand-primary-darkest;
+    color: $white;
+
+    a {
+      color: $white;
+    }
+  }
+
+  a {
+    color: $gray;
+  }
+
+  tbody {
+    td {
+      &:first-child {
+        background-color: $gray-lightest;
+      }
+
+      &:last-child {
+        background-color: $gray-lightest;
+      }
+    }
+  }
+}
+
+.schedule-holiday {
+  //scss-lint:disable ImportantRule
+  //scss-lint:disable ColorVariable
+  background-color: #dcd3e8 !important;
+}
+
+.schedule-today {
+  //scss-lint:disable ImportantRule
+  background-color: $brand-primary !important;
+
+  a {
+    color: $white;
+  }
+}
+
+.schedule-next-month {
+  a {
+    color: $gray-light;
+  }
+}
+
+.schedule-weekend {
+  background-color: $gray-lightest;
 }
