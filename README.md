@@ -83,7 +83,6 @@ In order to make sure the tests are reproducible, we use
 
 1. (once) Download
    [WireMock](http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.1.10/wiremock-standalone-2.1.10.jar), and place it in the `bin/` directory.
-1. (once) Download [Goon](https://github.com/alco/goon/releases/download/v1.1.1/goon_darwin_amd64.tar.gz), untar it with `tar -xf goon_darwin_amd64.tar.gz`, and place it in the `bin/` directory.
 1. Install JDK if you do not have it already. Type `java` at the command line and follow the prompts.
 1. Build the static files:
   * `npm run brunch:build`

@@ -1,59 +1,125 @@
 defmodule Backstop.Servers do
-  alias Porcelain.Process
   require Logger
+  use GenServer
 
-  @callback run(parent :: pid) :: any
+  @callback environment() :: [{charlist, charlist}]
   @callback command() :: String.t
-  @callback started_regex() :: String.t | Regex.t
-  @callback error_regex() :: String.t | Regex.t
+  @callback started_match() :: String.t
+  @callback error_match() :: String.t
 
-  def loop(proc = %Process{pid: pid}, parent, server) do
-    server_name = server
-    |> Module.split
-    |> List.last
+  defmodule State do
+    @type t :: %__MODULE__{
+      module: atom,
+      parent: pid,
+      port: port
+    }
+    defstruct [:module, :parent, :port]
+  end
+
+  alias Backstop.Servers.State
+
+  def await(pid) do
     receive do
-      {^pid, :data, :out, data} ->
-        IO.write [server_name, " => ", data]
-        if data =~ server.started_regex do
-          send parent, {self(), :started}
-        end
-        loop(proc, parent, server)
-      {^pid, :data, :err, data} ->
-        IO.write [server_name, " (error) ", data]
-        if data =~ server.error_regex do
-          send parent, {self(), :error}
-        end
-        loop(proc, parent, server)
-      {^pid, :result, _result} ->
-        send parent, {self(), :finished}
-      {^parent, :shutdown} ->
-        server_name = server
-        |> Module.split
-        |> List.last
-
-        _ = Logger.info "shutting down " <> server_name
-        # NB: the spec for Process.signal says it outputs :int, but the
-        # actual return is {:signal, :int} -ps
-        _ = Process.signal proc, :int
-        send parent, {self(), :finished}
+      {^pid, :started} -> :started
+      {^pid, :error} -> :error
+    after
+      60_000 -> # 1 minute timeout
+        :timeout
     end
   end
 
-  defmacro __using__([]) do
-    quote location: :keep do
-      alias Porcelain.Process
-      require Logger
+  @doc "Shut down the given server"
+  @spec shutdown(pid) :: :ok
+  def shutdown(pid) do
+    try do
+      :ok = GenServer.stop(pid, :normal, 60_000)
+    catch # if the process is already dead, return ok
+      :exit, :noproc -> :ok
+    end
+  end
 
+  def init([module, parent]) do
+    port = Port.open(
+      {:spawn, module.command},
+      [
+        :stderr_to_stdout,
+        line: 65_536,
+        cd: directory,
+        env: module.environment
+      ])
+
+    _ = Logger.info [server_name(module), " started with pid ", inspect self]
+
+    {:ok, %State{module: module,
+                 parent: parent,
+                 port: port}}
+  end
+
+  def terminate(reason, %{port: port} = state) do
+    _ = Logger.info "shutting down #{server_name(state.module)}"
+    :ok = kill_port(port)
+    true = try do
+             Port.close(port)
+           rescue
+             ArgumentError -> true
+           end
+    reason
+  end
+
+  def handle_info({port, {:data, {_flag, data_list}}}, %{module: module, port: port} = state) do
+    data = :erlang.iolist_to_binary(data_list)
+    _ = Logger.info [server_name(module), " => ", data_list]
+    if data =~ module.started_match do
+      send_parent(state, :started)
+    end
+    if data =~ module.error_match do
+      send_parent(state, :error)
+    end
+    {:noreply, state}
+  end
+
+  @spec send_parent(State.t, atom) :: :ok
+  defp send_parent(%{parent: parent}, message) do
+    send parent, {self(), message}
+  end
+
+  @spec server_name(atom) :: String.t
+  defp server_name(module) do
+    module
+    |> Module.split
+    |> List.last
+  end
+
+  @spec kill_port(port) :: :ok
+  defp kill_port(port) do
+    case Port.info(port, :os_pid) do
+      {:os_pid, pid} ->
+        _ = System.cmd("kill", [Integer.to_string(pid)], stderr_to_stdout: true)
+        :ok
+      nil -> :ok
+    end
+  end
+
+  defp directory do
+    :site
+    |> Application.app_dir
+    |> String.replace("_build/#{Mix.env}/lib", "apps")
+  end
+
+
+  defmacro __using__([]) do
+    quote do
       @behaviour unquote(__MODULE__)
 
-      def spawn_server do
-        Porcelain.spawn_shell(
-          command,
-          in: :receive,
-          out: {:send, self()},
-          err: {:send, self()}
-        )
+      def start_link do
+        GenServer.start_link(unquote(__MODULE__), [__MODULE__, self()])
       end
+
+      def environment do
+        []
+      end
+
+      defoverridable [environment: 0]
     end
   end
 end
@@ -63,22 +129,27 @@ defmodule Backstop.Servers.Phoenix do
 
   use Backstop.Servers
 
-  @lint {Credo.Check.Readability.MaxLineLength, false}
-  def command do
-    "MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=localhost STATIC_PORT=8082 V3_URL=http://localhost:8080 mix do clean, deps.compile, compile, phoenix.server"
+  def environment do
+    [
+      {'MIX_ENV', 'prod'},
+      {'PORT', '8082'},
+      {'STATIC_SCHEME', 'http'},
+      {'STATIC_HOST', 'localhost'},
+      {'STATIC_PORT', '8082'},
+      {'V3_URL', 'http://localhost:8080'}
+    ]
   end
 
-  def started_regex do
+  def command do
+    "mix do clean, deps.compile, compile, phoenix.server"
+  end
+
+  def started_match do
     "Running Site.Endpoint"
   end
 
-  def error_regex do
-    ~r(.)
-  end
-
-  def run(parent) do
-    proc = spawn_server()
-    Backstop.Servers.loop(proc, parent, __MODULE__)
+  def error_match do
+    "[error]"
   end
 end
 
@@ -91,23 +162,29 @@ defmodule Backstop.Servers.Wiremock do
     "java -jar #{Application.get_env(:site, :wiremock_path)}"
   end
 
-  def started_regex do
-    ~R(port:\s+8080)
+  def started_match do
+    "8080"
   end
 
-  def error_regex do
+  def error_match do
     "Address already in use"
   end
+end
 
-  def run(parent) do
-    cwd = File.cwd!
-    file_dir = :site
-    |> Application.app_dir
-    |> String.replace("_build/#{Mix.env}/lib", "apps")
-    File.cd! file_dir # apps/site has the Wiremock configuration
+defmodule Backstop.Servers.Helpers do
+  import Backstop.Servers
+  require Logger
 
-    proc = spawn_server()
-    File.cd! cwd # cd back up to the root directory
-    Backstop.Servers.loop(proc, parent, __MODULE__)
+  @doc "Runs a given fn once the server pids have started.  Returns a status code."
+  @spec run_with_pids([pid], (() -> non_neg_integer)) :: non_neg_integer
+  def run_with_pids(pids, func) do
+    expected = Enum.map(pids, fn _ -> :started end)
+    status = case Enum.map(pids, &await/1) do
+               ^expected -> func.()
+               _ -> 1
+             end
+    Enum.each(pids, &shutdown/1)
+    _ = Logger.flush
+    status
   end
 end

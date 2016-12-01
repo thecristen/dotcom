@@ -71,7 +71,6 @@ defmodule Site.Mixfile do
      {:poison, "~> 2.2", override: true},
      {:feedback, in_umbrella: true},
      {:laboratory, github: "paulswartz/laboratory", ref: "cookie_opts"},
-     {:porcelain, "~> 2.0"},
      {:zones, in_umbrella: true},
      {:fares, in_umbrella: true},
      {:content, in_umbrella: true},
