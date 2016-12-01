@@ -152,6 +152,18 @@ $icon-size: 1.75rem;
     margin-right: 0;
     width: $icon-size * .8;
   }
+
+  .fares-column {
+    padding: 0 1.5rem;
+
+    &:first-child {
+      padding-left: .5rem;
+    }
+
+    &:last-child {
+      padding-right: .5rem;
+    }
+  }
 }
 
 .menu-row {
