@@ -2,6 +2,7 @@ defmodule Site.ScheduleView do
   use Site.Web, :view
   alias Routes.Route
   alias Schedules.Schedule
+  defdelegate build_calendar(date, holidays, conn), to: Site.ScheduleView.Calendar
 
   @schedule_display_initial 12
   @schedule_display_buffer 6
@@ -160,42 +161,5 @@ defmodule Site.ScheduleView do
     date
     |> Timex.beginning_of_month
     |> Timex.shift(months: delta)
-  end
-
-  @doc "Builds the links that will be displayed on the calendar"
-  @spec build_calendar(Date.t, Plug.Conn.t) :: [Phoenix.HTML.Safe.t]
-  def build_calendar(date, conn) do
-    first_day = date |> Timex.beginning_of_month |> Timex.weekday |> Kernel.rem(7)
-    last_day = Timex.end_of_month(date).day
-    do_build_calendar(first_day, last_day, 1, [])
-    |> Enum.reverse
-    |> build_date_links(conn, date)
-    |> additional_dates(conn, date)
-  end
-
-  @spec do_build_calendar(integer, integer, integer, [integer]) :: [integer]
-  defp do_build_calendar(first_day, last_day, current_day, days) do
-    cond do
-      first_day == 0 && Enum.empty?(days) -> do_build_calendar(first_day, last_day, current_day + 1, [1 | days])
-      Enum.at(days, max(first_day - 1, 0)) == nil -> do_build_calendar(first_day, last_day, 1, [0 | days])
-      current_day <= last_day -> do_build_calendar(first_day, last_day, current_day + 1, [current_day | days])
-      true -> days
-    end
-  end
-
-  # Fill up the remaining week and add 1 additional week
-  @spec additional_dates([integer], Plug.Conn.t, Date.t) :: [Phoenix.HTML.Safe.t]
-  defp additional_dates(days, conn, date) do
-    links_needed = min((7 - rem(Enum.count(days), 7)) + 7, 13)
-    additional = 1..links_needed |> build_date_links(conn, add_month(date))
-    Enum.concat(days, additional)
-  end
-
-  @spec build_date_links(Enum.t, Plug.Conn.t, Date.t) :: [Phoenix.HTML.Safe.t]
-  defp build_date_links(days, conn, date) do
-    format_day = fn d -> Timex.format!({date.year,date.month, d}, "%Y-%m-%d", :strftime) end
-    date_link = fn 0 -> content_tag(:span, "")
-                   d -> link(d, to: update_schedule_url(conn, date: format_day.(d))) end
-    Enum.map(days, date_link)
   end
 end

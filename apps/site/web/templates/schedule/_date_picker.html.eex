@@ -1,32 +1,49 @@
-<% month = Enum.chunk(build_calendar(@date, @conn), 7, 7) %>
-<table class="table table-bordered schedule-date-picker">
-  <thead>
-    <tr>
-      <td colspan=7>
-        <%= link("<", to: update_schedule_url(@conn, date: Date.to_string(decrement_month(@date))))%>
-        <%= Timex.month_name(@date.month)%> 
-        <%= @date.year %>
-        <%= link(">", to: update_schedule_url(@conn, date: Date.to_string(add_month(@date))))%>
-      </td>
-    </tr>
-    <tr>
-      <td>Sun</td>
-      <td>Mon</td>
-      <td>Tue</td>
-      <td>Wed</td>
-      <td>Thu</td>
-      <td>Fri</td>
-      <td>Sat</td>
-    </tr>
-  </thead>
-
-  <tbody>
-    <%= for week <- month do %>
+<% holidays = Holiday.Repo.upcoming_holidays(@date) %>
+<% month = Enum.chunk(build_calendar(@date, holidays, @conn), 7, 7) %>
+<p>Schedules For <%= Timex.format!(@date, "%b %e", :strftime)%></p>
+<div class="row">
+  <table class="col-md-9 table table-bordered schedule-date-picker">
+    <thead>
       <tr>
-        <%= for day <- week do %>
-          <td><%= day %></td>
-        <% end %>
+        <td colspan=7 class="month">
+          <strong>
+            <%= link("<", to: update_schedule_url(@conn, date: Date.to_string(decrement_month(@date))))%>
+            <%= Timex.month_name(@date.month)%>
+            <%= @date.year %>
+            <%= link(">", to: update_schedule_url(@conn, date: Date.to_string(add_month(@date))))%>
+          </strong>
+        </td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tr>
+        <td class="schedule-weekend">Sun</td>
+        <td>Mon</td>
+        <td>Tue</td>
+        <td>Wed</td>
+        <td>Thu</td>
+        <td>Fri</td>
+        <td class="schedule-weekend">Sat</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= for week <- month do %>
+        <tr>
+          <%= for day <- week do %>
+            <%= day %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-3">
+    <strong>Upcoming Holidays</strong>
+    <ul>
+      <%= for holiday <- holidays do %>
+        <li style="list-style-type: none;">
+          <%= link holiday.name, to: update_schedule_url(@conn, date: Timex.format!(holiday.date, "%Y-%m-%d", :strftime))%>
+          <p><%= Timex.format!(holiday.date, "%a, %b %e", :strftime)%></p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

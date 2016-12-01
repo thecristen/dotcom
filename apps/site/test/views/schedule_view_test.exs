@@ -263,30 +263,4 @@ defmodule Site.ScheduleViewTest do
       assert shifted_date.year == 2017
     end
   end
-  describe "Building calendar" do
-    test "Calendars do not have empty weeks", %{conn: conn} do
-      conn = %{conn | params: %{"route" => "route"}}
-
-      sunday_start = ~D[2017-01-01]
-      monday_start = ~D[2017-05-01]
-      sunday_start_links = ScheduleView.build_calendar(sunday_start, conn)
-      monday_start_links = ScheduleView.build_calendar(monday_start, conn)
-
-      sunday_blank_dates = sunday_start_links |> Enum.take_while(fn x -> not(safe_to_string(x) =~ "href") end)
-      monday_blank_dates = monday_start_links |> Enum.take_while(fn x -> not(safe_to_string(x) =~ "href") end)
-
-      assert Enum.count(sunday_blank_dates) == 0
-      assert Enum.count(monday_blank_dates) == 1
-    end
-    test "There are no empty dates at end of calendar", %{conn: conn} do
-      conn = %{conn | params: %{"route" => "route"}}
-      sunday_start = ~D[2017-01-01]
-      saturday_start = ~D[2017-07-01]
-      sunday_start_links = ScheduleView.build_calendar(sunday_start, conn)
-      saturday_start_links = ScheduleView.build_calendar(saturday_start, conn)
-
-      assert rem(Enum.count(sunday_start_links), 7) == 0
-      assert rem(Enum.count(saturday_start_links), 7) == 0
-    end
-  end
 end
