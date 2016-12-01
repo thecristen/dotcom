@@ -45,7 +45,7 @@
     </div>
 
     <div class="col-xs-12 m-t-1">
-      <h3>CharlieCard Store</h3>
+      <h3 id="store">CharlieCard Store</h3>
       <p>The CharlieCard store is located at the Downtown Crossing station in the underground concourse between the Red and Orange lines.</p>
 
       <h4>Services Available</h4>
