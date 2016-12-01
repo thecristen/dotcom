@@ -2,10 +2,6 @@ defmodule Backstop.ServersTest do
   defmodule TestServer do
     use Backstop.Servers
 
-    def directory do
-      File.cwd!
-    end
-
     def environment do
       [{'VAR', 'value'}]
     end
@@ -14,11 +10,11 @@ defmodule Backstop.ServersTest do
       "echo $VAR"
     end
 
-    def started_regex do
+    def started_match do
       "value"
     end
 
-    def error_regex do
+    def error_match do
       "goodbye"
     end
   end
@@ -26,23 +22,15 @@ defmodule Backstop.ServersTest do
   defmodule ErrorServer do
     use Backstop.Servers
 
-    def directory do
-      File.cwd!
-    end
-
-    def environment do
-      []
-    end
-
     def command do
       "sh -c 'echo error; sleep 10'"
     end
 
-    def started_regex do
+    def started_match do
       "value"
     end
 
-    def error_regex do
+    def error_match do
       "error"
     end
   end
@@ -53,18 +41,18 @@ defmodule Backstop.ServersTest do
   test "can run and finish" do
     {:ok, pid} = Backstop.ServersTest.TestServer.start_link
     assert :started = Backstop.Servers.await(pid)
-    assert :finished = Backstop.Servers.shutdown(pid)
+    assert :ok = Backstop.Servers.shutdown(pid)
     refute Process.alive? pid
-    assert :finished = Backstop.Servers.shutdown(pid)
+    assert :ok = Backstop.Servers.shutdown(pid)
   end
 
   @tag :capture_log
   test "can handle an error" do
     {:ok, pid} = Backstop.ServersTest.ErrorServer.start_link
     assert :error = Backstop.Servers.await(pid)
-    assert :finished = Backstop.Servers.shutdown(pid)
+    assert :ok = Backstop.Servers.shutdown(pid)
     refute Process.alive? pid
-    assert :finished = Backstop.Servers.shutdown(pid)
+    assert :ok = Backstop.Servers.shutdown(pid)
   end
 
   @tag :capture_log

@@ -2,11 +2,10 @@ defmodule Backstop.Servers do
   require Logger
   use GenServer
 
-  @callback directory() :: String.t
   @callback environment() :: [{charlist, charlist}]
   @callback command() :: String.t
-  @callback started_regex() :: String.t | Regex.t
-  @callback error_regex() :: String.t | Regex.t
+  @callback started_match() :: String.t
+  @callback error_match() :: String.t
 
   defmodule State do
     @type t :: %__MODULE__{
@@ -30,21 +29,12 @@ defmodule Backstop.Servers do
   end
 
   @doc "Shut down the given server"
-  @spec shutdown(pid) :: :finished | :timeout
+  @spec shutdown(pid) :: :ok
   def shutdown(pid) do
-    if Process.alive? pid do
-      send pid, {self, :shutdown}
-
-      receive do
-        {^pid, :finished} ->
-          _ = Logger.info "#{inspect pid} finished"
-          :finished
-      after
-        60_000 -> :timeout
-      end
-    else
-      _ = Logger.info "#{inspect pid} finished"
-      :finished
+    try do
+      :ok = GenServer.stop(pid, :normal, 60_000)
+    catch # if the process is already dead, return ok
+      :exit, :noproc -> :ok
     end
   end
 
@@ -54,7 +44,7 @@ defmodule Backstop.Servers do
       [
         :stderr_to_stdout,
         line: 65_536,
-        cd: module.directory,
+        cd: directory,
         env: module.environment
       ])
 
@@ -65,7 +55,8 @@ defmodule Backstop.Servers do
                  port: port}}
   end
 
-  def terminate(reason, %{port: port}) do
+  def terminate(reason, %{port: port} = state) do
+    _ = Logger.info "shutting down #{server_name(state.module)}"
     :ok = kill_port(port)
     true = try do
              Port.close(port)
@@ -78,19 +69,13 @@ defmodule Backstop.Servers do
   def handle_info({port, {:data, {_flag, data_list}}}, %{module: module, port: port} = state) do
     data = :erlang.iolist_to_binary(data_list)
     _ = Logger.info [server_name(module), " => ", data_list]
-    if data =~ module.started_regex do
+    if data =~ module.started_match do
       send_parent(state, :started)
     end
-    if data =~ module.error_regex do
+    if data =~ module.error_match do
       send_parent(state, :error)
     end
     {:noreply, state}
-  end
-  def handle_info({parent, :shutdown}, %{parent: parent} = state) do
-    _ = Logger.info "shutting down #{server_name(state.module)}"
-    kill_port(state.port)
-    send_parent(state, :finished)
-    {:stop, :normal, state}
   end
 
   @spec send_parent(State.t, atom) :: :ok
@@ -115,13 +100,26 @@ defmodule Backstop.Servers do
     end
   end
 
+  defp directory do
+    :site
+    |> Application.app_dir
+    |> String.replace("_build/#{Mix.env}/lib", "apps")
+  end
+
+
   defmacro __using__([]) do
-    quote location: :keep do
+    quote do
       @behaviour unquote(__MODULE__)
 
       def start_link do
         GenServer.start_link(unquote(__MODULE__), [__MODULE__, self()])
       end
+
+      def environment do
+        []
+      end
+
+      defoverridable [environment: 0]
     end
   end
 end
@@ -130,10 +128,6 @@ defmodule Backstop.Servers.Phoenix do
   @moduledoc "Run the Phoenix server."
 
   use Backstop.Servers
-
-  def directory do
-    File.cwd!
-  end
 
   def environment do
     [
@@ -150,11 +144,11 @@ defmodule Backstop.Servers.Phoenix do
     "mix do clean, deps.compile, compile, phoenix.server"
   end
 
-  def started_regex do
+  def started_match do
     "Running Site.Endpoint"
   end
 
-  def error_regex do
+  def error_match do
     "[error]"
   end
 end
@@ -164,25 +158,15 @@ defmodule Backstop.Servers.Wiremock do
 
   use Backstop.Servers
 
-  def directory do
-    :site
-    |> Application.app_dir
-    |> String.replace("_build/#{Mix.env}/lib", "apps")
-  end
-
-  def environment do
-    []
-  end
-
   def command do
     "java -jar #{Application.get_env(:site, :wiremock_path)}"
   end
 
-  def started_regex do
-    ~R(port:\s+8080)
+  def started_match do
+    "8080"
   end
 
-  def error_regex do
+  def error_match do
     "Address already in use"
   end
 end
