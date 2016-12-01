@@ -41,7 +41,7 @@ defmodule Holiday.RepoTest do
     test "Past holidays are not included" do
       date = ~D[2016-11-12]
       for holiday <- Holiday.Repo.upcoming_holidays(date) do
-        Timex.after?(holiday.date, date)
+        assert Timex.after?(holiday.date, date)
       end
     end
   end

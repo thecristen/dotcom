@@ -62,7 +62,7 @@ defmodule Site.ScheduleView.Calendar do
   end
 
   @spec date_link({String.t, integer}, Plug.Conn.t, Date.t) :: Phoenix.HTML.Safe.t
-  defp date_link({_class, 0}, _conn ,_date) do
+  defp date_link({_class, 0}, _conn, _date) do
     content_tag :td do
       content_tag(:span, "")
     end
