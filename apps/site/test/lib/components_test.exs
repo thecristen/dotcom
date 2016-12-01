@@ -3,6 +3,7 @@ defmodule Site.ComponentsTest do
   use Site.Components.Precompiler
   alias Site.Components.Buttons.ModeButton
   alias Site.Components.Buttons.ModeButtonList
+  alias Site.Components.Tabs.ModeTabList
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "buttons > mode_button" do
@@ -84,7 +85,7 @@ defmodule Site.ComponentsTest do
       red_line = svg_icon(%{icon: :red_line})
       assert svg_icon(%{icon: "Mattapan Line"}) == red_line
       assert svg_icon(%{icon: %Routes.Route{type: 1, id: "Red"}}) == red_line
-      assert svg_icon(%{icon: "Escalator"}) == svg_icon(%{icon: :accessible})
+      assert svg_icon(%{icon: "Escalator"}) == svg_icon(%{icon: :access})
     end
 
     test "icons render an svg with correct classes" do
@@ -110,6 +111,36 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-subway"
       assert rendered =~ "translate(12,9)"
+    end
+  end
+
+  describe "tabs > mode_tab_list" do
+    def tab_args do
+      %ModeTabList{
+        class: "navbar-toggleable-sm",
+        links: [{:bus, "/bus"}, {:subway, "/subway"}, {:the_ride, "/the-ride"}, {:access, "/access"}],
+        selected_mode: :bus,
+      }
+    end
+
+    test "renders a list of tabs for with links for modes, including access and the ride" do
+      rendered = tab_args |> mode_tab_list |> safe_to_string
+      for link <- ["/bus", "/subway", "/the-ride", "/access"] do
+        assert rendered =~ ~s(href="#{link}")
+      end
+    end
+
+    test "displays the selected tab as such" do
+      rendered = tab_args |> mode_tab_list |> safe_to_string
+      assert rendered =~ "alert-show-btn-bus show-btn-selected"
+      assert rendered =~ "btn-selected-bottom-bus"
+    end
+
+    test "renders icons for each mode" do
+      rendered = tab_args |> mode_tab_list |> safe_to_string
+      for mode <- ["bus", "subway", "the-ride", "access"] do
+        assert rendered =~ "icon-#{mode}"
+      end
     end
   end
 

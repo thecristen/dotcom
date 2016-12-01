@@ -67,6 +67,11 @@
   .route-icon {
     @include route-icon($alert-route-icon-diameter, $space-4);
   }
+
+  svg {
+    height: 24px;
+    width: 24px;
+  }
 }
 
 .show-btn-selected {

@@ -6,7 +6,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:suitcase), do: "9,11"
   def translate(:t_logo), do: "8,11"
   def translate(:map), do: "8,9"
-  def translate(:accessible), do: "9,7"
+  def translate(:access), do: "9,7"
   def translate(icon) when icon in [:phone, :subway], do: "12,9"
   def translate(icon) when icon in [:tools, :ferry, :alert], do: "9,9"
   def translate(icon) when icon in [:bus, :commuter_rail], do: "11,9"
