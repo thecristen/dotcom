@@ -22,12 +22,9 @@ defmodule Backstop.Servers do
   def await(pid) do
     receive do
       {^pid, :started} -> :started
-      {^pid, :error} ->
-        :finished = shutdown(pid)
-        :error
+      {^pid, :error} -> :error
     after
       60_000 -> # 1 minute timeout
-        shutdown(pid)
         :timeout
     end
   end
@@ -60,6 +57,8 @@ defmodule Backstop.Servers do
         cd: module.directory,
         env: module.environment
       ])
+
+    _ = Logger.info [server_name(module), " started with pid ", inspect self]
 
     {:ok, %State{module: module,
                  parent: parent,
@@ -118,8 +117,6 @@ defmodule Backstop.Servers do
 
   defmacro __using__([]) do
     quote location: :keep do
-      require Logger
-
       @behaviour unquote(__MODULE__)
 
       def start_link do
@@ -187,5 +184,23 @@ defmodule Backstop.Servers.Wiremock do
 
   def error_regex do
     "Address already in use"
+  end
+end
+
+defmodule Backstop.Servers.Helpers do
+  import Backstop.Servers
+  require Logger
+
+  @doc "Runs a given fn once the server pids have started.  Returns a status code."
+  @spec run_with_pids([pid], (() -> non_neg_integer)) :: non_neg_integer
+  def run_with_pids(pids, func) do
+    expected = Enum.map(pids, fn _ -> :started end)
+    status = case Enum.map(pids, &await/1) do
+               ^expected -> func.()
+               _ -> 1
+             end
+    Enum.each(pids, &shutdown/1)
+    _ = Logger.flush
+    status
   end
 end

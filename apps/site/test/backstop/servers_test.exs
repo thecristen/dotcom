@@ -35,7 +35,7 @@ defmodule Backstop.ServersTest do
     end
 
     def command do
-      "echo error"
+      "sh -c 'echo error; sleep 10'"
     end
 
     def started_regex do
@@ -55,6 +55,7 @@ defmodule Backstop.ServersTest do
     assert :started = Backstop.Servers.await(pid)
     assert :finished = Backstop.Servers.shutdown(pid)
     refute Process.alive? pid
+    assert :finished = Backstop.Servers.shutdown(pid)
   end
 
   @tag :capture_log
@@ -63,5 +64,21 @@ defmodule Backstop.ServersTest do
     assert :error = Backstop.Servers.await(pid)
     assert :finished = Backstop.Servers.shutdown(pid)
     refute Process.alive? pid
+    assert :finished = Backstop.Servers.shutdown(pid)
+  end
+
+  @tag :capture_log
+  describe "run_with_pids/2" do
+    test "returns fn status code if servers start" do
+      {:ok, pid} = Backstop.ServersTest.TestServer.start_link
+      assert 2 == Backstop.Servers.Helpers.run_with_pids([pid], fn -> 2 end)
+      refute Process.alive?(pid)
+    end
+
+    test "returns 1 if the server fails to start" do
+      {:ok, pid} = Backstop.ServersTest.ErrorServer.start_link
+      assert 1 == Backstop.Servers.Helpers.run_with_pids([pid], fn -> 2 end)
+      refute Process.alive?(pid)
+    end
   end
 end
