@@ -9,6 +9,7 @@ defmodule Mix.Tasks.Backstop.Tests do
   Run Wiremock and the Phoenix server in the background, then run the Backstop tests and report their result.
   """
 
+  @spec run(any) :: no_return
   def run(_args) do
     [Wiremock, Phoenix]
     |> Enum.map(fn module ->

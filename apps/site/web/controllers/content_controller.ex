@@ -17,7 +17,7 @@ defmodule Site.ContentController do
 
   defp render_page(conn, {:ok, page}) do
     conn
-    |> render(Site.ContentView, "page.html",
+    |> render(Site.ContentView, "#{page.type}.html",
       breadcrumbs: [page.title],
       page: page)
   end
