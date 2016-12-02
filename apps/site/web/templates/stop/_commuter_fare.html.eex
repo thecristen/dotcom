@@ -14,7 +14,7 @@
         <p class="commute-fare-charge">
           This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
         </p>
-        <strong>You may purchase a One Way or Round Tip Pass on-board the train with cash, but doing so will result in a $3.00 fee added onto your regular Commuter Rail fare. Round Trip Passes purchased on-board will be valid until the end of service that same day</strong>
+        <strong>You may purchase a One Way or Round Tip Pass on-board the train with cash, but doing so will result in a $3.00 fee added onto your regular Commuter Rail fare. Round Trip Passes purchased on-board will be valid until the end of service that same day.</strong>
       <% end %>
     </div>
 
