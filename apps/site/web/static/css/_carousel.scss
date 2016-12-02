@@ -16,13 +16,8 @@
   }
 }
 
-.js .carousel {
-  height: 3rem;
-}
-
 .js .carousel-item {
   float: left;
-  height: 3rem;
   width: 5.375rem;
   padding: $space-6;
   cursor: pointer;
@@ -34,4 +29,12 @@
   &:last-child {
     padding-right: 0;
   }
+}
+
+.js .carousel-item figure {
+  margin: 0;
+}
+
+.js .carousel-item figcaption {
+  display: none;
 }

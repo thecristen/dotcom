@@ -9,11 +9,15 @@
     <%= @page.body |> raw %>
     <div class="carousel-active" id="carousel-target"></div>
     <ul class="carousel" data-target="#carousel-target">
-      <%= for image <- Map.get(@page.fields, :photo_gallery, []) do %>
-        <li class="carousel-item">
-          <img class="img-fluid"  alt="<%= image.alt %>" src="<%= image.url %>"/>
+      <%= for {image, index} <- @page.fields |> Map.get(:photo_gallery, []) |> Enum.with_index do %>
+        <li class="carousel-item" tabindex="0">
+          <figure>
+            <img class="img-fluid" aria-described-by="caption-<%= index %>" src="<%= image.url %>" />
+            <figcaption id="caption-<%= index %>"><%= image.alt %></figcaption>
+          </figure>
         </li>
       <% end %>
+      <li class="clearfix"></li>
     </ul>
     <% files = Map.get(@page.fields, :downloads, []) %>
     <%= if files != [] do %>
