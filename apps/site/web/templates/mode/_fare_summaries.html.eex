@@ -7,7 +7,7 @@
           <span class="mode-route-icon">
             <%= for mode <- summary.modes do %>
               <span class="fares-mode-icon-group">
-                <%= svg_icon_with_circle(%{icon: mode, small: true}) %>
+                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode}) %>
               </span>
             <% end %>
           </span>

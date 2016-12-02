@@ -5,7 +5,7 @@
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :t_logo}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo}) %>
               <span>Transit Services</span>
             </p>
             <ul>
@@ -28,7 +28,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :map}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :map}) %>
               <span>Plan Your Trip</span>
             </p>
             <ul>
@@ -48,7 +48,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :bus}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
               <span>Riding the T</span>
             </p>
             <ul>
@@ -78,7 +78,7 @@
           <div class="col-xs-8 fares-column">
             <div class="row">
               <div class="col-xs-6">
-                <p class="nav-title">Subway Single Ride <%= svg_icon_with_circle %{icon: :subway} %></p>
+                <p class="nav-title">Subway Single Ride <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %></p>
                 <ul class="header-fares">
                   <li>
                     CharlieCard
@@ -91,7 +91,7 @@
                 </ul>
               </div>
               <div class="col-xs-6">
-                <p class="nav-title">Local Bus Single Ride <%= svg_icon_with_circle %{icon: :bus} %></p>
+                <p class="nav-title">Local Bus Single Ride <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %></p>
                 <ul class="header-fares">
                   <li>
                     CharlieCard
@@ -108,10 +108,10 @@
               <div class="col-xs-6">
                 <p class="nav-title">
                   7-Day Pass
-                  <%= svg_icon_with_circle %{icon: :bus} %>
-                  <%= svg_icon_with_circle %{icon: :subway} %>
-                  <%= svg_icon_with_circle %{icon: :commuter_rail} %>
-                  <%= svg_icon_with_circle %{icon: :ferry} %>
+                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %>
+                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %>
+                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :commuter_rail} %>
+                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :ferry} %>
                 </p>
                 <ul class="header-fares">
                   <li>
@@ -123,8 +123,8 @@
               <div class="col-xs-6">
                 <p class="nav-title">
                   Monthly LinkPass
-                  <%= svg_icon_with_circle %{icon: :bus} %>
-                  <%= svg_icon_with_circle %{icon: :subway} %>
+                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %>
+                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %>
                 </p>
                 <ul class="header-fares">
                   <li>
@@ -160,7 +160,7 @@
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :phone}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :phone}) %>
               <span> Telephone Customer Support</span>
             </p>
             <p>
@@ -176,7 +176,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :globe}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :globe}) %>
               <span> Online Customer Support</span>
             </p>
             <ul>
@@ -194,7 +194,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :alert}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :alert}) %>
               <span>Sign Up for T-Alerts</span>
             </p>
             <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
@@ -212,7 +212,7 @@
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :t_logo}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo}) %>
               <span>About Us</span>
             </p>
             <div class="col-xs-6 p-a-0">
@@ -250,7 +250,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%{icon: :suitcase})  %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :suitcase})  %>
               <span>Business Center</span>
             </p>
             <ul>
@@ -273,7 +273,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle %{icon: :tools} %>
+              <%= svg_icon_with_circle %SvgIconWithCircle{icon: :tools} %>
               <span>Improvements and Projects</span>
             </p>
             <ul>

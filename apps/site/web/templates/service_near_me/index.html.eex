@@ -1,10 +1,10 @@
 <div class="service-near-me-header">
   <h1>Find Transit Near You</h1>
   <p class="route-type-icons" aria-hidden="true">
-    <%= svg_icon_with_circle(%{icon: :bus}) %>
-    <%= svg_icon_with_circle(%{icon: :subway}) %>
-    <%= svg_icon_with_circle(%{icon: :commuter_rail}) %>
-    <%= svg_icon_with_circle(%{icon: :ferry}) %>
+    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
+    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) %>
+    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
+    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry}) %>
   </p>
   <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
 </div>

@@ -21,7 +21,7 @@
           <div>
             <%= for {type, routes} <- routes do %>
               <p class="service-route">
-                <%= svg_icon_with_circle(%{icon: type}) %>
+                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %>
                 <%= get_type_list(type, routes) %>
               </p>
             <% end %>

@@ -20,7 +20,7 @@
       <%= if schedule = upcoming_commuter_departures(@conn, @stop.id, route.id, direction_id) do %>
         <div class="station-route-row">
           <p class="station-route-name">
-            <%= svg_icon_with_circle(%{icon: :commuter_rail}) %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
             <span>
               <%= link route.name, to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) %>
             </span>
