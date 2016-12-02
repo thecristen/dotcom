@@ -47,12 +47,13 @@ defmodule Content.Page.Image do
   ]
 
   def rewrite_url(url, opts \\ []) when is_binary(url) do
-    root = opts[:root]
-    |> Kernel.||(Content.Config.root)
-    |> String.replace_suffix("/", "")
+    root = case opts[:root] || Content.Config.root do
+             nil -> "missing-host-should-not-match"
+             host -> String.replace_suffix(host, "/", "")
+           end
     static_path = opts[:static_path] || Content.Config.static_path
 
-    Regex.replace(~r/#{root}(#{static_path}[^"]+)/, url, fn _, path ->
+    Regex.replace(~r/^#{root}(#{static_path}[^"]+)/, url, fn _, path ->
       Content.Config.apply(:static, [path])
     end)
   end

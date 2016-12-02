@@ -53,6 +53,10 @@ defmodule Content.Parse.Page do
     [featured_image: parse_image(image)]
   end
 
+  def parse_field_photo_gallery(images) do
+    [photo_gallery: Enum.map(images, &parse_image/1)]
+  end
+
   defp parse_image(%{"url" => url, "alt" => alt, "width" => width, "height" => height}) do
     %Content.Page.Image{
       url: Content.Page.Image.rewrite_url(url),

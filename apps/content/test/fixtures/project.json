@@ -109,7 +109,18 @@
       "url": "https://drupal-host/sites/default/files/image.png"
     }
   ],
-  "field_photo_gallery": [],
+  "field_photo_gallery": [
+    {
+      "target_id": "7",
+      "alt": "Photo Gallery",
+      "title": "",
+      "width": "4128",
+      "height": "2322",
+      "target_type": "file",
+      "target_uuid": "499a208a-31f5-4913-b2ef-8dbbe2065d36",
+      "url": "https://drupal-host/sites/default/files/gallery_photo.jpg"
+    }
+  ],
   "field_status": [
     {
       "value": "Construction"

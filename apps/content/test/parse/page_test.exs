@@ -20,12 +20,19 @@ defmodule Content.Parse.PageTest do
                      body: "project value\r\n",
                      updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
                      fields: %{
-                       :status => "Construction",
+                       status: "Construction",
                        featured_image: %Content.Page.Image{
                          alt: "Alt Text",
                          height: 368,
                          url: "https://drupal-host/sites/default/files/image.png",
-                         width: 667}
+                         width: 667},
+                       photo_gallery: [
+                         %Content.Page.Image{
+                           alt: "Photo Gallery",
+                           height: 2322,
+                           url: "https://drupal-host/sites/default/files/gallery_photo.jpg",
+                           width: 4128}
+                       ]
                      }}}
       actual = "project.json" |> fixture |> Content.Parse.Page.parse
       assert actual == expected
