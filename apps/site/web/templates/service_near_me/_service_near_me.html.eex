@@ -10,8 +10,7 @@
     <% end %>
   </div>
   <div class="service-near-me-results row<%= if @stops_with_routes == [] do %> empty<% end %>">
-    <%= for  %{stop: stop, routes: routes} <- @stops_with_routes do %>
-      <div class="col-md-3 col-xs-12">
+    <%= for %{stop: stop, routes: routes} <- @stops_with_routes do %>
         <div class="service-card">
           <p class="station-name">
             <%= link to: stop_path(@conn, :show, stop.id) do %>
@@ -27,7 +26,6 @@
             <% end %>
           </div>
         </div>
-      </div>
     <% end %>
   </div>
 </div>

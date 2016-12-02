@@ -67,29 +67,43 @@
   }
 }
 
+// scss-lint:disable VendorPrefix
+@mixin set-breakpoint-columns($breakpoint, $column-count) {
+  @include media-breakpoint-only($breakpoint) {
+    -moz-column-count: $column-count;
+    -webkit-column-count: $column-count;
+    column-count: $column-count;
+  }
+}
+
 .service-near-me-results {
+  @include set-breakpoint-columns(sm, 2);
+  @include set-breakpoint-columns(md, 3);
+  @include set-breakpoint-columns(lg, 4);
+  @include set-breakpoint-columns(xxl, 4);
   background: $gray-lightest;
   border-radius: $default-border-radius;
+  -moz-column-gap: $grid-gutter-width;
+  -webkit-column-gap: $grid-gutter-width;
+  column-gap: $grid-gutter-width;
   margin: 0 0 3rem;
-  margin-right: 0;
   padding: $grid-gutter-width * 1.5;
+  padding-top: $grid-gutter-width / 2;
 
   &.empty {
     display: none;
   }
-
-  .col-xs-12,
-  .col-md-3 {
-    margin: 0;
-    padding: $grid-gutter-width / 2;
-  }
 }
+
 
 .service-card {
   background: $white;
   border: 1px solid $gray-lightest;
   border-radius: $default-border-radius;
+  display: inline-block;
+  margin-top: $grid-gutter-width;
   padding: $grid-gutter-width;
+  width: 100%;
 
   .service-route {
     font-size: .8rem;

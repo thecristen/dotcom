@@ -51,7 +51,7 @@ defmodule Site.ServiceNearMeControllerTest do
     end
 
     test "parses api response into stops nearby", %{conn: conn, query: query} do
-      conn = put_private_function conn
+      conn = put_private conn, :nearby_stops, &mock_response/1
       [%{stop: %Stops.Stop{}, routes: routes}|_] = conn
       |> get_encoded_query(query)
       |> Controller.call_google_api
@@ -62,15 +62,15 @@ defmodule Site.ServiceNearMeControllerTest do
     end
   end
 
-  def search_near_office(conn) do
-    conn
-    |> Plug.Conn.put_private(:nearby_stops, &response_data/1)
-    |> get(service_near_me_path(conn, :index, %{"location" => %{"address" => @address}}))
-  end
-
-  def response_data(_) do
+  def mock_response(_) do
     @stop_ids
     |> Enum.map(&Stops.Repo.get/1)
+  end
+
+  def search_near_office(conn) do
+    conn
+    |> put_private(:nearby_stops, &mock_response/1)
+    |> get(service_near_me_path(conn, :index, %{"location" => %{"address" => @address}}))
   end
 
   def get_encoded_query(conn, query) do
@@ -101,12 +101,6 @@ defmodule Site.ServiceNearMeControllerTest do
     :rand.uniform
     |> Kernel.*(0.0001)
     |> Kernel.+(coord)
-  end
-
-
-  def put_private_function(conn) do
-    conn
-    |> Plug.Conn.put_private(:nearby_stops, &response_data/1)
   end
 
   defp do_get_random_location({:ok, %{"results" => [%{"formatted_address" => address}|_]}}), do: %{"location" => %{"address" => address}}
