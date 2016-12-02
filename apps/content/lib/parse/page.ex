@@ -57,12 +57,24 @@ defmodule Content.Parse.Page do
     [photo_gallery: Enum.map(images, &parse_image/1)]
   end
 
+  def parse_field_downloads(downloads) do
+    [downloads: Enum.map(downloads, &parse_file/1)]
+  end
+
   defp parse_image(%{"url" => url, "alt" => alt, "width" => width, "height" => height}) do
     %Content.Page.Image{
       url: Content.Page.Image.rewrite_url(url),
       alt: alt,
       width: String.to_integer(width),
       height: String.to_integer(height)
+    }
+  end
+
+  defp parse_file(%{"url" => url, "description" => description}) do
+    %Content.Page.File{
+      url: Content.Page.File.rewrite_url(url),
+      description: description,
+      type: Content.Page.File.find_type(url)
     }
   end
 end

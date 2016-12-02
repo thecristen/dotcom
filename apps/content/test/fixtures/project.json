@@ -96,7 +96,15 @@
       "summary": ""
     }
   ],
-  "field_downloads": [],
+  "field_downloads": [
+    {
+      "target_id": "10",
+      "display": "1",
+      "description": "Presentation",
+      "target_type": "file",
+      "target_uuid": "0227954f-b10f-4c86-b0de-5fed18a63051",
+      "url": "https://drupal-host/sites/default/files/presentation.pdf"
+    }],
   "field_featured_image": [
     {
       "target_id": "5",

@@ -32,6 +32,12 @@ defmodule Content.Parse.PageTest do
                            height: 2322,
                            url: "https://drupal-host/sites/default/files/gallery_photo.jpg",
                            width: 4128}
+                       ],
+                       downloads: [
+                         %Content.Page.File{
+                           url: "https://drupal-host/sites/default/files/presentation.pdf",
+                           description: "Presentation",
+                           type: :pdf}
                        ]
                      }}}
       actual = "project.json" |> fixture |> Content.Parse.Page.parse

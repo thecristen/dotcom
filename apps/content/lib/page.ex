@@ -58,3 +58,32 @@ defmodule Content.Page.Image do
     end)
   end
 end
+
+defmodule Content.Page.File do
+  @type t :: %__MODULE__{
+    url: String.t,
+    description: String.t,
+    type: :pdf | :text | :unknown
+  }
+
+  defstruct [
+    url: {:missing, :url},
+    description: {:missing, :description},
+    type: :unknown
+  ]
+
+  @extension_types %{
+    "pdf" => :pdf,
+    "txt" => :text
+  }
+
+  defdelegate rewrite_url(url, opts \\ []), to: Content.Page.Image
+
+  def find_type(url) do
+    extension = url
+    |> String.split(".", parts: :infinity)
+    |> List.last
+
+    Map.get(@extension_types, extension, :unknown)
+  end
+end
