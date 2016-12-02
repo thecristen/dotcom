@@ -61,6 +61,7 @@ defmodule Site.Components.Precompiler do
       import Site.ViewHelpers
       import Site.Components.Helpers
       import unquote(module)
+      alias unquote(module)
 
       @spec unquote(component)(Dict.t) :: Phoenix.HTML.Safe.t
       EEx.function_from_file(

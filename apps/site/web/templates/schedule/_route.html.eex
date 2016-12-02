@@ -2,7 +2,7 @@
   <div class="schedule-route-name-container">
     <h1>
       <span class="<%= @route.id |> String.downcase %>">
-        <%= svg_icon_with_circle(%{icon: Routes.Route.type_atom(@route)}) %>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(@route)}) %>
       </span>
       <%= route_header_text(@route) %>
     </h1>

@@ -3,7 +3,6 @@ defmodule Site.StopView do
 
   alias Fares.Summary
   alias Stops.Stop
-  alias Site.Components.Tabs.ModeTabList
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
 

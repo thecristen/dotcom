@@ -73,30 +73,6 @@ defmodule Site.ViewHelpers do
   def direction(1, _), do: "Inbound"
   def direction(_, _), do: "Unknown"
 
-  @doc "HTML for an icon representing the mode of %Routes.Route."
-  @spec mode_icon(Routes.Route.t | Routes.Route.route_type | :access) :: Phoenix.HTML.Safe.t
-  def mode_icon(%Routes.Route{type: 0, id: "Mattapan"}), do: do_mode_icon("mattapan", "subway", :subway)
-  def mode_icon(%Routes.Route{type: 0}), do: do_mode_icon("green", "subway", :subway)
-  def mode_icon(%Routes.Route{type: 1, id: id}) do
-    do_mode_icon(String.downcase(id), "subway", :subway)
-  end
-  def mode_icon(%Routes.Route{type: 1}), do: do_mode_icon("subway", "subway", :subway)
-  def mode_icon(%Routes.Route{type: 2}), do: do_mode_icon("commuter-rail", "commuter-rail", :commuter_rail)
-  def mode_icon(%Routes.Route{type: 3}), do: do_mode_icon("bus", "bus", :bus)
-  def mode_icon(%Routes.Route{type: 4}), do: do_mode_icon("ferry", "ferry", :ferry)
-  def mode_icon(:the_ride), do: do_mode_icon("the-ride", "the-ride", :the_ride)
-  def mode_icon(:commuter_rail), do: do_mode_icon("commuter-rail", "commuter-rail", :commuter_rail)
-  def mode_icon(atom) when is_atom(atom) do
-    string = Atom.to_string(atom)
-    do_mode_icon(string, string, atom)
-  end
-
-  defp do_mode_icon(name, svg_name, mode_type) do
-    content_tag :span, title: mode_name(mode_type), class: "route-icon route-icon-#{name}" do
-      svg("#{svg_name}.svg")
-    end
-  end
-
   @spec mode_name(0..4 | Routes.Route.route_type | :access) :: String.t
   @doc "Textual version of a mode ID or type"
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"

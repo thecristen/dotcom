@@ -2,7 +2,7 @@
   <div class="card card-section">
     <div class="card-block card-block-no-header mode-hub">
       <h1>
-        <%= svg_icon_with_circle(%{icon: @route_type |> Routes.Route.type_atom}) %>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: @route_type |> Routes.Route.type_atom}) %>
         <%= @mode_name %> Schedules and Maps
       </h1>
       <div class="row">
@@ -22,7 +22,7 @@
         </div>
         <div class="col-xs-12 p-b-1">
           <h2><strong>Line Schedules</strong></h2>
-          <%= mode_button_list(%Site.Components.Buttons.ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts}) %>
+          <%= mode_button_list(%ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts}) %>
         </div>
         <div class="col-xs-12" id="fares">
           <h2><strong><%= @mode_name %> Fares</strong></h2>

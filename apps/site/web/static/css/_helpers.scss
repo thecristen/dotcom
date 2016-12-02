@@ -26,7 +26,7 @@
   white-space: nowrap;
   // scss-lint:disable DuplicateProperty
   width: $fallback-width; // fallback for browsers which don't support calc()
-  width: calc(100% - $margin-right);
+  width: calc(100% - #{$margin-right});
 }
 
 .no-wrap {

@@ -1,6 +1,6 @@
 defmodule Site.Components.Icons.SvgIconWithCircle do
-  defstruct icon: :bus,
-            small: false
+  defstruct icon:  :bus,
+            class: ""
 
   def translate(:globe), do: "6,6"
   def translate(:suitcase), do: "9,11"

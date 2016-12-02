@@ -1,6 +1,5 @@
 defmodule Site.Components.Icons.SvgIcon do
-  defstruct icon:    :bus,
-            small:   false
+  defstruct icon: :bus
 
   @icons [
     {:bus,

@@ -1,8 +1,6 @@
 defmodule Site.AlertView do
   use Site.Web, :view
 
-  alias Site.Components.Tabs.ModeTabList
-
   @doc """
 
   Used by the schedule view to render a link/modal with relevant alerts.

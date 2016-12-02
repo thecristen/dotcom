@@ -11,7 +11,7 @@
             <span class="fares-mode-icon">
               <span class="sr-only">Supported Modes:</span>
               <%= for mode <- summary.modes do %>
-                <span class="fares-mode-icon-group" aria-hidden="true"><%= mode_icon(mode) %></span>
+                <span class="fares-mode-icon-group" aria-hidden="true"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %></span>
                 <span class="sr-only"><%= mode_name(mode) %></span>
               <% end %>
             </span>

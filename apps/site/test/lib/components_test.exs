@@ -105,12 +105,17 @@ defmodule Site.ComponentsTest do
 
   describe "icons > svg_icon_with_circle" do
     test "icons render an svg with a background circle and an icon positioned correctly" do
-      rendered = svg_icon_with_circle(%{icon: :subway}) |> safe_to_string
+      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) |> safe_to_string
       assert rendered =~ "</svg>"
       assert rendered =~ "mbta-custom-icon"
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-subway"
       assert rendered =~ "translate(12,9)"
+    end
+
+    test "optionally accepts a class argument" do
+      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "test-class"}) |> safe_to_string
+      assert rendered =~ ~r(class.*test-class)
     end
   end
 
