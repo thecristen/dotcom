@@ -70,7 +70,7 @@ defmodule Site.FareController do
     conn
     |> render(
       "show.html",
-      fare_template: module.template,
+      fare_template: apply(module, :template, []),
       selected_filter: selected_filter,
       filters: filters)
   end

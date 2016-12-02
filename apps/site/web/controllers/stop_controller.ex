@@ -6,6 +6,8 @@ defmodule Site.StopController do
   plug Site.Plugs.Alerts
 
   alias Stops.Repo
+  alias Stops.Stop
+  alias Routes.Route
 
   def index(conn, _params) do
     redirect conn, to: stop_path(conn, :show, :subway)
@@ -26,7 +28,7 @@ defmodule Site.StopController do
     |> render("show.html", stop: stop)
   end
 
-  @spec render_mode(Plug.Conn.t, Routes.Route.gtfs_route_type) :: Plug.Conn.t
+  @spec render_mode(Plug.Conn.t, Route.gtfs_route_type) :: Plug.Conn.t
   defp render_mode(conn, mode) do
     stop_info = mode
     |> types_for_mode
@@ -38,7 +40,7 @@ defmodule Site.StopController do
     render(conn, "index.html", mode: mode, stop_info: stop_info, breadcrumbs: ["Stops"])
   end
 
-  @spec gather_green_line([{Routes.Route.t, [Stops.Stop.t]}], Routes.Route.gtfs_route_type) :: [{Routes.Route.t, [Stops.Stop.t]}]
+  @spec gather_green_line([{Route.t, [Stop.t]}], Route.gtfs_route_type) :: [{Route.t, [Stop.t]}]
   defp gather_green_line(stop_info, :subway) do
     {green_branches, others} = stop_info
     |> Enum.partition(&String.starts_with?(elem(&1, 0).id, "Green-"))
@@ -51,30 +53,30 @@ defmodule Site.StopController do
   end
   defp gather_green_line(stop_info, _mode), do: stop_info
 
-  @spec types_for_mode(Routes.Route.gtfs_route_type) :: [0..4]
+  @spec types_for_mode(Route.gtfs_route_type) :: [0..4]
   defp types_for_mode(:subway), do: [0, 1]
   defp types_for_mode(:commuter_rail), do: [2]
   defp types_for_mode(:ferry), do: [4]
 
-  @spec grouped_routes(String.t) :: [{Routes.Route.gtfs_route_type, Routes.Route.t}]
+  @spec grouped_routes(String.t) :: [{Route.gtfs_route_type, Route.t}]
   defp grouped_routes(stop_id) do
     stop_id
     |> Routes.Repo.by_stop
-    |> Enum.group_by(&Routes.Route.type_atom/1)
+    |> Enum.group_by(&Route.type_atom/1)
     |> Enum.sort_by(&sorter/1)
   end
 
-  @spec sorter({Routes.Route.gtfs_route_type, Routes.Route.t}) :: non_neg_integer
+  @spec sorter({Route.gtfs_route_type, Route.t}) :: non_neg_integer
   defp sorter({:commuter_rail, _}), do: 0
   defp sorter({:subway, _}), do: 1
   defp sorter({:bus, _}), do: 2
   defp sorter({:ferry, _}), do: 3
 
-  @spec breadcrumbs(Stops.Stop.t) :: [{String.t, String.t} | String.t]
-  defp breadcrumbs(%Stops.Stop{station?: true, name: name}) do
+  @spec breadcrumbs(Stop.t) :: [{String.t, String.t} | String.t]
+  defp breadcrumbs(%Stop{station?: true, name: name}) do
     [{stop_path(Site.Endpoint, :index), "Stations"}, name]
   end
-  defp breadcrumbs(%Stops.Stop{name: name}) do
+  defp breadcrumbs(%Stop{name: name}) do
     [name]
   end
 

@@ -69,10 +69,10 @@ defmodule Backstop.Servers do
   def handle_info({port, {:data, {_flag, data_list}}}, %{module: module, port: port} = state) do
     data = :erlang.iolist_to_binary(data_list)
     _ = Logger.info [server_name(module), " => ", data_list]
-    if data =~ module.started_match do
+    if data =~ apply(module, :started_match, []) do
       send_parent(state, :started)
     end
-    if data =~ module.error_match do
+    if data =~ apply( module, :error_match, []) do
       send_parent(state, :error)
     end
     {:noreply, state}
