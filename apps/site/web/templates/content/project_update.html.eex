@@ -2,6 +2,10 @@
   <div class="card-block card-block-no-header">
     <h1><%= @page.title |> raw %></h1>
     <img style="width: 100%;" class="img-fluid" alt="<%= @page.fields.featured_image.alt %>" src="<%= @page.fields.featured_image.url %>"/>
+    <ul class="list-unstyled">
+      <li><strong>Posted on:</strong> <%= Timex.format!(@page.updated_at, "{Mfull} {D}, {YYYY}") %></li>
+      <li><strong>Status:</strong> <%= @page.fields.status %></li>
+    </ul>
     <%= @page.body |> raw %>
   </div>
 </div>
