@@ -6,7 +6,7 @@
         <span><%= Routes.Route.type_name @route_type %> </span>
       </h2>
     </div>
-    <%= mode_button_list %Site.Components.Buttons.ModeButtonList{
+    <%= mode_button_list %ModeButtonList{
       routes: get_route_group(@route_type, @grouped_routes, @truncate),
       alerts: @conn.assigns.all_alerts,
       date: @conn.assigns.date,

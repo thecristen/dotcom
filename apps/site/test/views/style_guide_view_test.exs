@@ -36,7 +36,7 @@ defmodule Site.StyleGuideViewTest do
   end
 
   test "Can determine if a component's argument needs a comma after it" do
-    {_, index} = %Site.Components.Buttons.ModeButton{}
+    {_, index} = %ModeButton{}
     |> Map.from_struct
     |> Map.keys
     |> Enum.with_index

@@ -5,6 +5,7 @@ defmodule Site.Components.Buttons.ModeButton do
 
   """
   import Site.ViewHelpers
+  alias Site.Components.Buttons.ModeButton
 
   defstruct class:           nil,
             id:              nil,
@@ -15,14 +16,14 @@ defmodule Site.Components.Buttons.ModeButton do
     [
       {
         "Mode Button with Alert",
-        %Site.Components.Buttons.ModeButton{
+        %ModeButton{
           route: List.last(Routes.Repo.all),
           alert: List.first(Alerts.Repo.all)
         }
       },
       {
         "Subway Mode Button (includes color circle)",
-        %Site.Components.Buttons.ModeButton{
+        %ModeButton{
           route: List.first(Routes.Repo.all)
         }
       }
