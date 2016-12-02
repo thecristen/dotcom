@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-xs-12 col-md-6 payment-method">
         <h2>CharlieCard</h2>
-        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= mode_icon(:subway) %> <%= mode_icon(:bus) %></span></p>
+        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %></span></p>
         <p>
           The CharlieCard is a reusable, durable card that can be used for the Bus and Subway. In order to use it to pay your fare, you will need to get a blank CharlieCard from an MBTA agent or a retail sales location and load value onto it.
         </p>
@@ -18,7 +18,7 @@
       </div>
       <div class="col-xs-12 col-md-6 payment-method">
         <h2>CharlieTicket</h2>
-        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= mode_icon(:subway) %> <%= mode_icon(:bus) %></span></p>
+        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %></span></p>
         <p>
           CharlieTickets are paper tickets that are dispensed from fare vending machines and on-board fare-boxes, where you can also add value to a CharlieTicket. These tickets come with a surcharge if you are purchasing Stored Value.
         </p>
@@ -29,7 +29,7 @@
         <h2>mTicket App</h2>
         <p class="payment-usage">
           Use it on:
-          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter_rail) %> <%= mode_icon(:ferry) %></span>
+          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry, class: "icon-small"}) %></span>
         </p>
         <p>
           Commuter Rail and Ferry riders can easily purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
@@ -39,7 +39,7 @@
         <h2>Ticket</h2>
         <p class="payment-usage">
           Use it on:
-          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= mode_icon(:commuter_rail) %> <%= mode_icon(:ferry) %></span>
+          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry, class: "icon-small"}) %></span>
         </p>
         <p>
           Commuter Rail and Ferry riders can purchase tickets for One-Way, Round Trip, and Monthly Passes. These tickets are only valid for the Commuter Rail fare zone or Ferry route they were purchased for. They cannot store additional value.
@@ -52,10 +52,10 @@
         <p class="payment-usage">
           Use it on: All Modes
           <span class="payment-method-modes">
-            <%= mode_icon(:subway) %>
-            <%= mode_icon(:bus) %>
-            <%= mode_icon(:commuter_rail) %>
-            <%= mode_icon(:ferry) %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry, class: "icon-small"}) %>
           </span>
         </p>
         <p>

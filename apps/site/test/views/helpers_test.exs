@@ -3,7 +3,7 @@ defmodule Site.ViewHelpersTest do
   use Site.ConnCase, async: true
 
   import Site.ViewHelpers
-  import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
+  import Phoenix.HTML.Tag, only: [tag: 2]
   alias Routes.Route
 
   describe "route_header_text/2" do
@@ -64,22 +64,6 @@ defmodule Site.ViewHelpersTest do
       |> stop_link
       |> Phoenix.HTML.safe_to_string
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
-    end
-  end
-
-  describe "mode_icon/1" do
-    test "correctly finds the icon for the ride" do
-      expected = content_tag :span, title: "The Ride", class: "route-icon route-icon-the-ride" do
-        svg("the-ride.svg")
-      end
-      assert mode_icon(:the_ride) == expected
-    end
-
-    test "correctly finds the icon for commuter rail" do
-      expected = content_tag :span, title: "Commuter Rail", class: "route-icon route-icon-commuter-rail" do
-        svg("commuter-rail.svg")
-      end
-      assert mode_icon(:commuter_rail) == expected
     end
   end
 

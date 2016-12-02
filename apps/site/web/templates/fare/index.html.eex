@@ -56,7 +56,7 @@
                   <%= Fares.Format.full_name(fare) %>
                   <span class="fares-mode-icon">
                     <span class="fares-mode-icon-group">
-                      <%= mode_icon(fare.mode) %>
+                      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
                     </span>
                   </span>
                 </h3>
