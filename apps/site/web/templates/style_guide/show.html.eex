@@ -19,8 +19,8 @@
         <h3>Call signature and default values: </h3>
         <div class="code">
           <code>
-            <%= component %>(%{
-              <%= for {{name, val}, idx} <- component_args(component, @subpage) |> Enum.with_index do %>
+            <%= component %>(%<%= display_component_module(component, @subpage) %>{
+              <%= for {{name, val}, idx} <- component_args(component, @subpage) |> Map.from_struct |> Enum.with_index do %>
                 <span><%= name %>:</span>
                 <span>
                   <%= inspect val %>

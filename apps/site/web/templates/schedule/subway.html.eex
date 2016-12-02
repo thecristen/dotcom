@@ -26,7 +26,7 @@
     <span class="schedule-col-group-subway">
       <%= render "_schedule_group.html", schedules: schedules %>
         <%= if trip_alerts != [] do %>
-          <%= svg_icon(%{icon: :alert}) %>
+          <%= svg_icon(%SvgIcon{icon: :alert}) %>
         <% end %>
     </span>
     <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>

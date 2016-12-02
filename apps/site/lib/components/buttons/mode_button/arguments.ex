@@ -6,11 +6,19 @@ defmodule Site.Components.Buttons.ModeButton do
   """
   import Site.ViewHelpers
   alias Site.Components.Buttons.ModeButton
+  alias Phoenix.HTML.Tag
 
-  defstruct class:           nil,
+  defstruct class:           "",
             id:              nil,
             alert:           nil,
             route:           %{id: "CR-Fitchburg", key_route?: false, name: "Fitchburg Line", type: 2}
+
+  @type t :: %__MODULE__{
+    class: String.t,
+    id: String.t | nil,
+    alert: Alerts.Alert.t,
+    route: Routes.Route.t
+  }
 
   def variants do
     [
@@ -44,4 +52,8 @@ defmodule Site.Components.Buttons.ModeButton do
   def has_alert?(nil), do: false
   def has_alert?([]), do: false
   def has_alert?(_), do: true
+
+  def link_tag(args) do
+    Tag.tag :a, class: "mode-group-btn #{args.class}", id: args.id, href: Site.Router.Helpers.schedule_path(Site.Endpoint, :show, args.route.id)
+  end
 end

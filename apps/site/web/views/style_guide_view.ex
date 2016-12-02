@@ -69,6 +69,7 @@ defmodule Site.StyleGuideView do
   def needs_comma?(component, group, idx) do
     component
     |> component_args(group)
+    |> Map.from_struct
     |> Map.to_list
     |> length
     |> Kernel.>(idx + 1)
@@ -105,6 +106,12 @@ defmodule Site.StyleGuideView do
      component
      |> component_module(section)
      |> struct
-     |> Map.from_struct
+   end
+
+   defp display_component_module(component, section) do
+     component
+     |> component_module(section)
+     |> Module.split
+     |> Enum.join(".")
    end
 end

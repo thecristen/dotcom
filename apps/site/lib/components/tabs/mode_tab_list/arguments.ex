@@ -14,6 +14,14 @@ defmodule Site.Components.Tabs.ModeTabList do
     btn_class: "hidden-sm-up"
   ]
 
+  @type t :: %__MODULE__{
+    id: String.t,
+    class: String.t,
+    links: [{atom, String.t}],
+    selected_mode: atom,
+    btn_class: String.t
+  }
+
   def selected?(mode, mode), do: true
   def selected?(_, _), do: false
 end
