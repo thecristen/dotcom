@@ -31,7 +31,6 @@ $holiday-color: #dcd3e8;
   border-radius: 0;
   margin-bottom: .75rem;
   padding: .5em;
-  table-layout: fixed;
 
   @include media-breakpoint-down(xs) {
     margin: .5em auto;
@@ -457,7 +456,6 @@ a {
   li {
     margin-top: .75rem;
   }
-
 }
 
 .graph-legend {

@@ -27,7 +27,7 @@ defmodule Site.ScheduleController do
   def show(conn, params) do
     conn
     |> assign(:date_select, params["date_select"] == "true")
-    |> render "index.html"
+    |> render("index.html")
   end
 
   @doc "Disable previews when we're showing predictions"
