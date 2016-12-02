@@ -1,0 +1,37 @@
+.carousel {
+  @extend .list-unstyled;
+}
+
+.no-js .carousel-item:not(:empty) {
+  display: block;
+  padding-bottom: 1rem;
+  width: 100%;
+
+  > * {
+    margin: 0 auto;
+  }
+
+  img {
+    @extend .img-fluid;
+  }
+}
+
+.js .carousel {
+  height: 3rem;
+}
+
+.js .carousel-item {
+  float: left;
+  height: 3rem;
+  width: 5.375rem;
+  padding: $space-6;
+  cursor: pointer;
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+}

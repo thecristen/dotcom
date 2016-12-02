@@ -7,10 +7,11 @@
       <li><strong>Status:</strong> <%= @page.fields.status %></li>
     </ul>
     <%= @page.body |> raw %>
-    <ul class="list-unstyled">
+    <div class="carousel-active" id="carousel-target"></div>
+    <ul class="carousel" data-target="#carousel-target">
       <%= for image <- Map.get(@page.fields, :photo_gallery, []) do %>
-        <li class="text-xs-center">
-          <img class="p-b-1" style="width: 80%;" class="img-fluid" alt="<%= image.alt %>" src="<%= image.url %>"/>
+        <li class="carousel-item">
+          <img class="img-fluid"  alt="<%= image.alt %>" src="<%= image.url %>"/>
         </li>
       <% end %>
     </ul>
