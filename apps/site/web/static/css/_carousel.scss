@@ -2,7 +2,13 @@
   @extend .list-unstyled;
 }
 
-.no-js .carousel-item:not(:empty) {
+.carousel,
+.carousel-active {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.no-js .carousel-item {
   display: block;
   padding-bottom: 1rem;
   width: 100%;
