@@ -15,8 +15,10 @@ defmodule Site.ScheduleController.Green do
   plug ScheduleController.RouteBreadcrumbs
   plug :headsigns
 
-  def green(conn, _) do
-    render conn, Site.ScheduleView, "green.html", []
+  def green(conn, params) do
+    conn
+    |> assign(:date_select, params["date_select"] == "true")
+    |> render Site.ScheduleView, "green.html", []
   end
 
   def route(conn, []) do
