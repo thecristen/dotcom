@@ -1,5 +1,4 @@
 @import 'variables';
-$holiday-color: #dcd3e8;
 
 .schedule-route-name-container {
   padding-bottom: 1rem;
@@ -377,13 +376,13 @@ a {
   table-layout: fixed;
   text-align: center;
 
-  @include media-breakpoint-down(xs) {
-    table-layout: auto;
-  }
-
   thead {
     td {
       border: 1px solid $gray-lighter;
+
+      @include media-breakpoint-down(xs) {
+        padding: 0;
+      }
     }
 
     .month {
