@@ -23,3 +23,33 @@ defmodule Content.PageTest do
     end
   end
 end
+
+defmodule Content.Page.ImageTest do
+  use ExUnit.Case, async: true
+
+  describe "rewrite_url" do
+    test "rewrites URLS to go through the static handler" do
+      root = "https://test-domain"
+      static_path = "/sites/default/files"
+
+      expected = Content.Config.apply(:static, ["#{static_path}/converted.png"])
+      actual = Content.Page.Image.rewrite_url(
+        "https://test-domain/sites/default/files/converted.png",
+        root: root,
+        static_path: static_path)
+      assert actual == expected
+    end
+
+    test "handles domains with a trailing slash" do
+      root = "https://test-domain/"
+      static_path = "/sites/default/files"
+
+      expected = Content.Config.apply(:static, ["#{static_path}/converted.png"])
+      actual = Content.Page.Image.rewrite_url(
+        "https://test-domain/sites/default/files/converted.png",
+        root: root,
+        static_path: static_path)
+      assert actual == expected
+    end
+  end
+end

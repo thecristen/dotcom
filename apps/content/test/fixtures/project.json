@@ -1,0 +1,137 @@
+{
+  "nid": [
+    {
+      "value": "3"
+    }
+  ],
+  "uuid": [
+    {
+      "value": "173f23c7-facf-4a45-91ec-0c73221e5c3b"
+    }
+  ],
+  "vid": [
+    {
+      "value": "9"
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "project_update",
+      "target_type": "node_type",
+      "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+    }
+  ],
+  "title": [
+    {
+      "value": "Government Center Construction"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": "1",
+      "target_type": "user",
+      "target_uuid": "4a887460-7f79-4e33-9f24-2cdbbbf7a4c1",
+      "url": "/user/1"
+    }
+  ],
+  "status": [
+    {
+      "value": "1"
+    }
+  ],
+  "created": [
+    {
+      "value": "1480612626"
+    }
+  ],
+  "changed": [
+    {
+      "value": "1480613031"
+    }
+  ],
+  "promote": [
+    {
+      "value": "0"
+    }
+  ],
+  "sticky": [
+    {
+      "value": "0"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": "1480613031"
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": "1",
+      "target_type": "user",
+      "target_uuid": "4a887460-7f79-4e33-9f24-2cdbbbf7a4c1",
+      "url": "/user/1"
+    }
+  ],
+  "revision_log": [],
+  "revision_translation_affected": [
+    {
+      "value": "1"
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": "1"
+    }
+  ],
+  "path": [],
+  "body": [
+    {
+      "value": "project value\r\n",
+      "format": "basic_html",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [
+    {
+      "target_id": "10",
+      "display": "1",
+      "description": "Presentation",
+      "target_type": "file",
+      "target_uuid": "0227954f-b10f-4c86-b0de-5fed18a63051",
+      "url": "https://drupal-host/sites/default/files/presentation.pdf"
+    }],
+  "field_featured_image": [
+    {
+      "target_id": "5",
+      "alt": "Alt Text",
+      "title": "",
+      "width": "667",
+      "height": "368",
+      "target_type": "file",
+      "target_uuid": "7dd02ad9-3b33-4971-970f-ce10a0fe8ca4",
+      "url": "https://drupal-host/sites/default/files/image.png"
+    }
+  ],
+  "field_photo_gallery": [
+    {
+      "target_id": "7",
+      "alt": "Photo Gallery",
+      "title": "",
+      "width": "4128",
+      "height": "2322",
+      "target_type": "file",
+      "target_uuid": "499a208a-31f5-4913-b2ef-8dbbe2065d36",
+      "url": "https://drupal-host/sites/default/files/gallery_photo.jpg"
+    }
+  ],
+  "field_status": [
+    {
+      "value": "Construction"
+    }
+  ]
+}

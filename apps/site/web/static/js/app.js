@@ -31,6 +31,7 @@ import supportForm from './support-form.js';
 import objectFitImages from 'object-fit-images';
 import fixedsticky from './fixedsticky';
 import menuCtrlClick from './menu-ctrl-click';
+import carousel from './carousel';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
@@ -45,5 +46,6 @@ supportForm();
 fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
+carousel();
 
 $("body").removeClass("no-js").addClass("js");
