@@ -8,7 +8,11 @@
   margin: 0 auto;
 }
 
-.no-js .carousel-item {
+.carousel-active {
+  display: none;
+}
+
+.carousel-item {
   display: block;
   padding-bottom: 1rem;
   width: 100%;
@@ -22,25 +26,31 @@
   }
 }
 
-.js .carousel-item {
-  float: left;
-  width: 5.375rem;
-  padding: $space-6;
-  cursor: pointer;
+@include media-breakpoint-up(sm) {
+  .js .carousel-active {
+    display: block
+  };
 
-  &:first-child {
-    padding-left: 0;
+  .js .carousel-item {
+    float: left;
+    width: 5.375rem;
+    padding: $space-6;
+    cursor: pointer;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 
-  &:last-child {
-    padding-right: 0;
+  .js .carousel-item figure {
+    margin: 0;
   }
-}
 
-.js .carousel-item figure {
-  margin: 0;
-}
-
-.js .carousel-item figcaption {
-  display: none;
+  .js .carousel-item figcaption {
+    display: none;
+  }
 }

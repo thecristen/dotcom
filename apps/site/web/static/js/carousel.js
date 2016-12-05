@@ -20,7 +20,7 @@ export default function($) {
     ev.preventDefault();
     const $item = $(ev.currentTarget);
     const $target = $(ev.delegateTarget.getAttribute("data-target"));
-    $target.html($item.html());
+    $target.html($item.children().clone());
   }
 
   $(document).on('turbolinks:load', setupCarousel);
