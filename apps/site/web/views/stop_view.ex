@@ -145,6 +145,11 @@ defmodule Site.StopView do
     stop.id in @origin_stations
   end
 
+  @spec fare_surcharge?(Stop.t) :: boolean
+  def fare_surcharge?(stop) do
+    stop.id in ["place-bbsta", "place-north", "place-sstat"]
+  end
+
   @spec summaries_for_filters([keyword()], atom) :: [Summary.t]
   defp summaries_for_filters(filters, mode) do
     filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)

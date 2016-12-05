@@ -16,7 +16,7 @@ defmodule Site.StopController do
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
     render_mode(conn, String.to_existing_atom(mode))
   end
-  def show(conn, params) do
+  def show(%Plug.Conn{assigns: %{all_alerts: alerts}} = conn, params) do
     id = params["id"]
     stop = Repo.get!(id |> String.replace("+", " "))
     conn
@@ -25,7 +25,7 @@ defmodule Site.StopController do
     |> assign(:tab, params["tab"])
     |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
     |> assign(:terminal_station, terminal_station(stop))
-    |> assign_access_alerts(stop)
+    |> assign(:access_alerts, access_alerts(alerts, stop))
     |> render("show.html", stop: stop)
   end
 
@@ -102,12 +102,10 @@ defmodule Site.StopController do
     terminal.id
   end
 
-  @spec assign_access_alerts(Plug.Conn.t, Stop.t) :: Plug.Conn.t
-  defp assign_access_alerts(%Plug.Conn{assigns: %{all_alerts: alerts}} = conn, stop) do
-    access_alerts = alerts
+  @spec access_alerts([Alerts.Alert.t], Stop.t) :: [Alerts.Alert.t]
+  def access_alerts(alerts, stop) do
+    alerts
     |> Enum.filter(&(&1.effect_name == "Access Issue"))
     |> Alerts.Match.match(%Alerts.InformedEntity{stop: stop.id})
-
-    assign(conn, :access_alerts, access_alerts)
   end
 end

@@ -127,4 +127,12 @@ defmodule Site.StopViewTest do
       assert Site.StopView.center_query(stop) == %{center: Site.StopView.location(stop)}
     end
   end
+
+  describe "fare_surcharge?/1" do
+    test "returns true for South, North, and Back Bay stations" do
+      for stop_id <- ["place-bbsta", "place-north", "place-sstat"] do
+        assert Site.StopView.fare_surcharge?(%Stop{id: stop_id})
+      end
+    end
+  end
 end

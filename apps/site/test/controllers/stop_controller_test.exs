@@ -1,6 +1,8 @@
 defmodule Site.StopControllerTest do
   use Site.ConnCase, async: true
 
+  alias Site.StopController
+
   test "redirects to subway stops on index", %{conn: conn} do
     conn = get conn, stop_path(conn, :index)
     assert redirected_to(conn) == stop_path(conn, :show, :subway)
@@ -52,5 +54,25 @@ defmodule Site.StopControllerTest do
   test "assigns an empty terminal station for non-CR stations", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "22")
     assert conn.assigns.terminal_station == ""
+  end
+
+  describe "access_alerts/2" do
+    alias Alerts.Alert
+    alias Alerts.InformedEntity, as: IE
+
+    def alerts do
+      [
+        %Alert{effect_name: "Delay", informed_entity: [%IE{route: "Red", stop: "place-sstat"}]},
+        %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-pktrm"}]},
+        %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}]}
+      ]
+    end
+
+    test "returns only access issues which affect the given stop" do
+      assert StopController.access_alerts(alerts, %Stops.Stop{id: "place-sstat"}) == [
+        %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}]}
+      ]
+      assert StopController.access_alerts(alerts, %Stops.Stop{id: "place-davis"}) == []
+    end
   end
 end
