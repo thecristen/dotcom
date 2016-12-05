@@ -46,36 +46,4 @@ defmodule Site.ServiceNearMeControllerTest do
     |> put_private(:nearby_stops, &mock_response/1)
     |> get(service_near_me_path(conn, :index, %{"location" => %{"address" => @address}}))
   end
-
-  def get_encoded_query(conn, query) do
-    %{query_string: query_string} = get conn, service_near_me_path(conn, :index, query)
-    query_string
-    |> String.split("=")
-    |> List.last
-  end
-
-  def get_random_location do
-    get_lat_lng
-    |> GoogleMAps.Geocode.geocode
-    |> do_get_random_location
-  end
-
-  def get_lat_lng do
-    lat = @lat
-    |> tiny_move
-    |> Float.to_string
-    lng = @lng
-    |> tiny_move
-    |> Kernel.-(:rand.uniform * :rand.uniform)
-    |> Float.to_string
-    "#{lat},#{lng}"
-  end
-
-  def tiny_move(coord) do
-    :rand.uniform
-    |> Kernel.*(0.0001)
-    |> Kernel.+(coord)
-  end
-
-  defp do_get_random_location({:ok, [address | _]}), do: address
 end

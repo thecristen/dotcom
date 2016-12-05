@@ -1,5 +1,5 @@
 defmodule GoogleMaps.Geocode do
-  @type t :: {:ok, [GoogleMaps.Geocode.Address.t]} | {:error, error_status, any}
+  @type t :: {:ok, [__MODULE__.Address.t]} | {:error, error_status, any}
   @type error_status :: :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
 
   defmodule Address do
@@ -20,7 +20,7 @@ defmodule GoogleMaps.Geocode do
     end
   end
 
-  alias GoogleMaps.Geocode.Address
+  alias __MODULE__.Address
 
   @spec geocode(String.t) :: t
   def geocode(address) when is_binary(address) do
