@@ -475,3 +475,12 @@ a {
 .mobile-legend {
   padding-left: .375rem;
 }
+
+.schedule-date-cancel {
+  margin: .75rem;
+
+  @include media-breakpoint-down(xs) {
+    margin-bottom: 1.5rem;
+    margin-left: 0;
+  }
+}
