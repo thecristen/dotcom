@@ -1,13 +1,14 @@
 defmodule Site.ServiceNearMeControllerTest do
   use Site.ConnCase
-  alias Site.ServiceNearMeController, as: Controller
 
   @lat 42.3515322
   @lng -71.0668452
   @address "10 park plaza, boston ma"
-  @stop_ids [ "place-sstat", # commuter
-              "place-tumnl", "place-chncl", "place-boyls", #subway
-              "8279", "1241", "91856", "9983", "6567", "6537", "6542", "8281" ] #bus
+  @stop_ids [
+    "place-sstat", # commuter
+    "place-tumnl", # subway
+    "8279" # bus
+  ]
 
   describe "Service Near Me" do
     test "shows no results when params don't contain an address", %{conn: conn} do
@@ -35,33 +36,6 @@ defmodule Site.ServiceNearMeControllerTest do
     end
   end
 
-  describe "external service requests:" do
-    setup do
-      {:ok, query: get_random_location}
-    end
-
-    test "calls google maps api and parses response", %{conn: conn, query: query} do
-      {:ok, response} = conn
-      |> get_encoded_query(query)
-      |> Controller.call_google_api
-      assert Map.get(response, :error) == nil
-      %{"results" => [%{"geometry" => %{"location" => %{"lat" => lat, "lng" => lng}}}|_]} = response
-      assert is_float(lat) == true
-      assert is_float(lng) == true
-    end
-
-    test "parses api response into stops nearby", %{conn: conn, query: query} do
-      conn = put_private conn, :nearby_stops, &mock_response/1
-      [%{stop: %Stops.Stop{}, routes: routes}|_] = conn
-      |> get_encoded_query(query)
-      |> Controller.call_google_api
-      |> Controller.get_stops_nearby(conn)
-      assert is_list(routes)
-      Enum.map(routes, fn {type, _} -> assert type in [:bus, :subway, :commuter_rail, :ferry,
-                                              :red_line, :orange_line, :blue_line, :green_line, :mattapan_line] end)
-    end
-  end
-
   def mock_response(_) do
     @stop_ids
     |> Enum.map(&Stops.Repo.get/1)
@@ -82,7 +56,7 @@ defmodule Site.ServiceNearMeControllerTest do
 
   def get_random_location do
     get_lat_lng
-    |> Controller.call_google_api
+    |> GoogleMAps.Geocode.geocode
     |> do_get_random_location
   end
 
@@ -103,6 +77,5 @@ defmodule Site.ServiceNearMeControllerTest do
     |> Kernel.+(coord)
   end
 
-  defp do_get_random_location({:ok, %{"results" => [%{"formatted_address" => address}|_]}}), do: %{"location" => %{"address" => address}}
-
+  defp do_get_random_location({:ok, [address | _]}), do: address
 end
