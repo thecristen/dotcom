@@ -13,6 +13,11 @@ defmodule GoogleMaps.Geocode do
       latitude: 0.0,
       longitude: 0.0
     ]
+
+    defimpl Stops.Position do
+      def latitude(address), do: address.latitude
+      def longitude(address), do: address.longitude
+    end
   end
 
   alias GoogleMaps.Geocode.Address
