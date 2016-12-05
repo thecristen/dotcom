@@ -373,15 +373,26 @@ a {
 // scss-lint:disable NestingDepth
 // scss-lint:disable SelectorDepth
 .schedule-date-picker {
-  border-color: $gray-lighter;
+  table-layout: fixed;
   text-align: center;
 
-  thead .month {
-    background-color: $brand-primary-darkest;
-    color: $white;
+  thead {
+    td {
+      border: 1px solid $gray-lighter;
 
-    a {
+      @include media-breakpoint-down(xs) {
+        padding: 0;
+      }
+    }
+
+    .month {
+      background-color: $brand-primary-darkest;
+      border-color: $brand-primary-darkest;
       color: $white;
+
+      a {
+        color: $white;
+      }
     }
   }
 
@@ -390,7 +401,12 @@ a {
   }
 
   tbody {
+    border-bottom: 0;
+
     td {
+      border: 1px solid $gray-lighter;
+      padding: 0;
+
       &:first-child {
         background-color: $gray-lightest;
       }
@@ -398,18 +414,23 @@ a {
       &:last-child {
         background-color: $gray-lightest;
       }
+
+      a {
+        display: block;
+        padding: .75rem;
+        text-decoration: none;
+      }
     }
   }
 }
 
+//scss-lint:disable ImportantRule
 .schedule-holiday {
-  //scss-lint:disable ImportantRule
-  //scss-lint:disable ColorVariable
-  background-color: #dcd3e8 !important;
+  background-color: $holiday-color !important;
 }
 
-.schedule-today {
   //scss-lint:disable ImportantRule
+.schedule-today {
   background-color: $brand-primary !important;
 
   a {
@@ -425,4 +446,32 @@ a {
 
 .schedule-weekend {
   background-color: $gray-lightest;
+}
+
+.holiday-list {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    margin-top: .75rem;
+  }
+}
+
+.graph-legend {
+  display: inline-block;
+  height: 1rem;
+  margin-right: .5rem;
+  width: 1rem;
+
+  &.holiday {
+    background-color: $holiday-color;
+  }
+
+  &.weekend {
+    background-color: $gray-lightest;
+  }
+}
+
+.mobile-legend {
+  padding-left: .375rem;
 }

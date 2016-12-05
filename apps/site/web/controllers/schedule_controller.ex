@@ -24,8 +24,11 @@ defmodule Site.ScheduleController do
     new_path = schedule_path(conn, :show, new_route_id, Map.delete(params, "route"))
     redirect conn, to: new_path
   end
-  def show(conn, _params) do
-    render conn, "index.html"
+  def show(conn, params) do
+    conn
+    |> assign(:date_select, params["date_select"] == "true")
+    |> assign(:holidays, Holiday.Repo.upcoming_holidays(conn.assigns[:date]))
+    |> render("index.html")
   end
 
   @doc "Disable previews when we're showing predictions"

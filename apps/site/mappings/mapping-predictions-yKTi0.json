@@ -1,0 +1,19 @@
+{
+  "uuid" : "71e86401-02fc-3b50-b19f-637d029d69b5",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id&fields%5Bstop%5D=&include=stop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-yKTi0.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 02 Dec 2016 20:40:19 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "gp88e1v9ro3b2p69k96cvo2c74sdf8nv",
+      "Connection" : "keep-alive"
+    }
+  }
+}
