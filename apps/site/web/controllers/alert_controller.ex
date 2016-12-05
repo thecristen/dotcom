@@ -47,13 +47,13 @@ defmodule Site.AlertController do
     render_route_alerts(conn, route_alerts)
   end
 
-  def render_route_alerts(conn, route_alerts) do
+  def render_route_alerts(%{params: %{"id" => id}} = conn, route_alerts) do
     route_alerts = route_alerts
     |> Enum.reject(&match?({_, []}, &1))
 
     conn
     |> render("show.html",
-    id: String.to_existing_atom(conn.params["id"]),
+    id: String.to_existing_atom(id),
     route_alerts: route_alerts,
     breadcrumbs: ["Alerts"]
     )

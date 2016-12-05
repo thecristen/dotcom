@@ -16,9 +16,8 @@
       <div class="alert-show-row">
         <div class="alert-show-title-container">
           <span class="alert-show-title alert-show-title-<%= @id %>">
-            <span><%= svg_icon_with_circle(%SvgIconWithCircle{icon: route}) %><%= route.name %></span>
+            <%= if show_mode_icon?(route), do: svg_icon_with_circle(%SvgIconWithCircle{icon: route}) %><%= route.name %>
           </span>
-          <span class="alert-show-title-background"></span>
         </div>
         <div class="alert-show-body">
           <%= if alerts == [] do %>

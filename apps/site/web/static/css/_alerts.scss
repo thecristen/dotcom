@@ -26,24 +26,29 @@
 }
 
 .alert-show-title-container {
+  margin-bottom: .75rem;
   position: relative;
   text-align: center;
+
+  &::before {
+    border-top: 1px solid $gray-lightest;
+    content: '';
+    left: 0;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+  }
 }
 
 .alert-show-title {
   background: $white;
   display: inline-block;
   font-weight: bold;
-  height: 2.25rem;
   margin: 0 auto;
   padding-left: 1rem;
   padding-right: 1rem;
   position: relative;
   z-index: 5;
-
-  > span {
-    vertical-align: sub;
-  }
 }
 
 .alert-show-title-subway {
@@ -57,7 +62,7 @@
   display: block;
   height: $space-1;
   position: absolute;
-  top: 50%;
+  top: 40%;
   width: 100%;
   z-index: 4;
 }
