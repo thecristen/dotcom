@@ -11,6 +11,7 @@ defmodule Content.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
      deps: deps]
   end
 
@@ -42,6 +43,7 @@ defmodule Content.Mixfile do
      {:plug, ">= 0.0.0"},
      {:bypass, "~> 0.1", only: :test},
      {:excheck, "~> 0.5", only: :test},
-     {:triq, github: "triqng/triq", only: :test}]
+     {:triq, github: "triqng/triq", only: :test},
+     {:excoveralls, "~> 0.5", only: :test}]
   end
 end
