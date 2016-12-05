@@ -11,12 +11,11 @@ fi
 OUTPUT_DIR=$(mktemp -d "${TMPDIR:-/tmp/}$(basename $0).XXXXXXXXXXXX")
 OUTPUT_FILE=$OUTPUT_DIR/wget_output
 touch $OUTPUT_FILE
-if time wget -D $HOST --spider --delete-after -nv -t 1 -e robots=off -r "http://$DOMAIN/" -o $OUTPUT_FILE "$@"; then
+if time wget -D $HOST --spider --delete-after --timeout 30 -nv -e robots=off -r "http://$DOMAIN/" -o $OUTPUT_FILE "$@"; then
     rm -r $OUTPUT_DIR
     echo PASSED!
 else
-    grep --before-context=1 ERROR $OUTPUT_FILE
-    rm -r $OUTPUT_DIR
+    grep -v 'URL:' $OUTPUT_FILE
     echo FAILED!
     exit 1
 fi
