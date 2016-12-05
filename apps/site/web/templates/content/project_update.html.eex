@@ -1,6 +1,6 @@
 <h1><%= @page.title |> raw %></h1>
 
-<img style="width: 100%;" class="img-fluid" alt="<%= @page.fields.featured_image.alt %>" src="<%= @page.fields.featured_image.url %>"/>
+<img class="project-update-featured-image" alt="<%= @page.fields.featured_image.alt %>" src="<%= @page.fields.featured_image.url %>"/>
 
 <ul class="project-update-metadata">
   <li><strong>Posted on:</strong> <%= Timex.format!(@page.updated_at, "{Mfull} {D}, {YYYY}") %></li>

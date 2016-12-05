@@ -81,7 +81,7 @@ defmodule Content.Page.File do
 
   def find_type(url) do
     extension = url
-    |> String.split(".", parts: :infinity)
+    |> String.split(".")
     |> List.last
 
     Map.get(@extension_types, extension, :unknown)
