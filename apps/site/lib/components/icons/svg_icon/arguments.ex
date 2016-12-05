@@ -1,5 +1,6 @@
 defmodule Site.Components.Icons.SvgIcon do
   defstruct icon: :bus
+  @type t :: %__MODULE__{icon: atom}
 
   @icons [
     {:bus,

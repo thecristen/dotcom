@@ -1,8 +1,9 @@
-<a class="mode-group-btn <%= args.class %>" id="<%= args.id %>" href="<%= Site.Router.Helpers.schedule_path Site.Endpoint, :show, args.route.id %>" >
-  <%= if args.route.type in [0,1], do: svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: "#{args.route.id}_line" |> String.downcase |> String.to_atom}) %>
+<% alias Site.Components.Icons %>
+<%= link_tag(args) %>
+  <%= if args.route.type in [0,1], do: svg_icon_with_circle(%Icons.SvgIconWithCircle{icon: "#{args.route.id}_line" |> String.downcase |> String.to_atom}) %>
   <%= Site.ViewHelpers.clean_route_name(args.route.name) %>
   <%= if has_alert?(args.alert) do %>
-      <%= svg_icon(%{icon: :alert}) %>
+      <%= svg_icon(%Icons.SvgIcon{icon: :alert}) %>
     </span>
   <% end %>
 </a>

@@ -50,7 +50,7 @@ defmodule Site.ScheduleView do
   defp do_stop_info_link(%{id: id, name: name}) do
     title = "View stop information for #{name}"
     body = ~e(
-      <%= svg_icon %{icon: :map} %>
+      <%= svg_icon %SvgIcon{icon: :map} %>
       <span class="sr-or-no-js"> <%= title %>
     )
 

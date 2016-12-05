@@ -1,6 +1,10 @@
 defmodule Site.Components.Icons.SvgIconWithCircle do
   defstruct icon:  :bus,
             class: ""
+  @type t :: %__MODULE__{
+    icon: atom,
+    class: String.t
+  }
 
   def translate(:globe), do: "6,6"
   def translate(:suitcase), do: "9,11"

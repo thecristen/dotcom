@@ -5,7 +5,9 @@ defmodule Site.Components.Buttons.ModeButtonList do
 
   """
 
-  defstruct class:     nil,
+  alias Phoenix.HTML.Tag
+
+  defstruct class:     "",
             id:        nil,
             routes:    [
               %{id: "CR-Fitchburg", key_route?: false, name: "Fitchburg Line", type: 2},
@@ -15,12 +17,22 @@ defmodule Site.Components.Buttons.ModeButtonList do
             date: nil,
             include_all_link: false
 
+  @type t :: %__MODULE__{
+    class: String.t,
+    id: String.t | nil,
+    routes: [Routes.Route.t],
+    alerts: [Alerts.Alert.t],
+    date: Date.t | nil,
+    include_all_link: boolean
+  }
+
   def get_alert(route, alerts, date \\ nil) do
     date = date || Util.now
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
     alerts
     |> Enum.reject(&Alerts.Alert.is_notice?(&1, date))
     |> Alerts.Match.match(entity, date)
+    |> List.first
   end
 
   def all_link([%{type: type}|_]) when type in [0,1] do
@@ -43,4 +55,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
     ~s(<a href="#{path}">View all ferry <span class="no-wrap">routes <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
   end
 
+  def opening_div(args) do
+    Tag.tag :div, class: "mode-group-block #{args.class}", id: args.id
+  end
 end

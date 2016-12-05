@@ -31,7 +31,7 @@ defmodule Site.StyleGuideViewTest do
 
   test "component_args returns a map of a component's default arguments" do
     assert Site.StyleGuideView.component_args(:mode_button, :buttons) ==
-      %{class: nil, id: nil, alert: nil,
+      %ModeButton{class: "", id: nil, alert: nil,
         route: %{id: "CR-Fitchburg", key_route?: false, name: "Fitchburg Line", type: 2}}
   end
 

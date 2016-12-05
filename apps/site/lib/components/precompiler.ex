@@ -63,7 +63,7 @@ defmodule Site.Components.Precompiler do
       import unquote(module)
       alias unquote(module)
 
-      @spec unquote(component)(Dict.t) :: Phoenix.HTML.Safe.t
+      @spec unquote(component)(unquote(module).t) :: Phoenix.HTML.Safe.t
       EEx.function_from_file(
         :def,
         unquote(component),

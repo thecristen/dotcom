@@ -1,4 +1,4 @@
-<div class="mode-group-block <%= args.class %>" id="<%= args.id %>">
+<%= opening_div(args) %>
   <div class="row">
     <%= for route <- args.routes do %>
       <div class="<%= Site.ViewHelpers.route_spacing_class(route.type) %>">
