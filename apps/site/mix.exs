@@ -24,7 +24,7 @@ defmodule Site.Mixfile do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
             :stops, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
-            :logster, :sizeable, :feedback, :zones, :fares, :content]
+            :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday]
 
     apps = if Mix.env == :prod do
       [:ehmon | apps]
@@ -56,6 +56,7 @@ defmodule Site.Mixfile do
      {:stops, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:alerts, in_umbrella: true},
+     {:holiday, in_umbrella: true},
      {:news, in_umbrella: true},
      {:schedules, in_umbrella: true},
      {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
