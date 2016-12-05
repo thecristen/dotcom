@@ -28,10 +28,10 @@ defmodule GoogleMaps do
     |> do_signed_url(opts[:client_id], opts[:signing_key], opts)
   end
 
-  defp default_options do
+  def default_options do
     [
       client_id: get_env(:client_id),
-      key: Application.get_env(:site, Site.ViewHelpers)[:google_api_key],
+      key: get_env(:google_api_key),
       signing_key: get_env(:signing_key)
     ]
   end

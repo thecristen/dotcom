@@ -36,10 +36,6 @@ defmodule Site.ViewHelpers do
     end
   end
 
-  def google_api_key do
-    env(:google_api_key)
-  end
-
   def font_awesome_id do
     env(:font_awesome_id)
   end

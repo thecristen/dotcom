@@ -1,6 +1,7 @@
 defmodule Site.ServiceNearMeController do
   use Site.Web, :controller
   alias Routes.Route
+  alias Stops.Stop
 
   @doc """
     Handles GET requests both with and without parameters. Calling with an address parameter (String.t) will assign
@@ -8,48 +9,40 @@ defmodule Site.ServiceNearMeController do
         @stops_with_routes :: [%{stop: %Stops.Stop{}, routes: [%Route{}]}]
   """
   def index(conn, %{"location" => %{"address" => address}}) do
-    address
-    |> call_google_api
+    results = address
+    |> GoogleMaps.Geocode.geocode
+
+    results
     |> get_stops_nearby(conn)
-    |> send_response(conn, address)
+    |> stops_with_routes
+    |> send_response(conn, address(results))
   end
   def index(conn, _) do
     send_response([], conn)
   end
 
-
-  @spec call_google_api(String.t) :: {:ok, GoogleMaps.t} | {:error, :invalid | {:invalid, String.t}}
-  def call_google_api(address) do
-    maps_request_url
-    |> HTTPoison.get([], params: %{address: address, key: Site.ViewHelpers.google_api_key })
-    |> parse_results
-  end
-
-
-  @spec parse_results({:ok, HTTPoison.Response.t} | {:error, any}) :: {:ok, GoogleMaps.t} | {:error, :invalid | {:invalid, String.t}}
-  defp parse_results({:error, error}), do: throw error
-  defp parse_results({:ok, %HTTPoison.Response{body: response_body}}) do
-    response_body
-    |> Poison.Parser.parse
-  end
-
-
   #TODO handle differently when multiple results are returned?
   @doc """
     Retrieves stops close to a location and parses into the correct configuration
   """
-  @spec get_stops_nearby({:ok, GoogleMaps.t} | {:error, {:invalid, String.t}}, Plug.Conn.t) :: [%{stop: Stops.Stop.t, routes: [Routes.Group.t]}]
-  def get_stops_nearby({:ok, %{"results" => [ %{"geometry" => %{"location" => %{"lat" => lat, "lng" => lng}}} | _]}},
+  @spec get_stops_nearby(GoogleMaps.Geocode.t, Plug.Conn.t) :: [Stop.t]
+  def get_stops_nearby({:ok, [location | _]},
                        %{private: private}) do
     private
     |> Map.get(:nearby_stops, &Stops.Nearby.nearby/1)
-    |> Kernel.apply([{lat, lng}])
-    |> Enum.map(fn stop -> {stop, Routes.Repo.by_stop(stop.id)} end)
-    |> Enum.map(fn {stop, route_list} -> %{stop: stop, routes: get_route_groups(route_list)} end)
+    |> Kernel.apply([location])
   end
-  def get_stops_nearby({:ok, %{"results" => [], "status" => "ZERO_RESULTS"}}, _), do: []
-  def get_stops_nearby({:error, error}), do: throw error
+  def get_stops_nearby({:ok, []}), do: []
+  def get_stops_nearby({:error, _error}), do: []
 
+
+  @spec stops_with_routes([Stop.t]) :: [%{stop: Stop.t, routes: [Route.t]}]
+  def stops_with_routes(stops) do
+    stops
+    |> Enum.map(fn stop ->
+      %{stop: stop, routes: stop.id |> Routes.Repo.by_stop |> get_route_groups}
+    end)
+  end
 
   @spec get_route_groups([Route.t]) :: [Routes.Group.t]
   def get_route_groups(route_list) do
@@ -88,7 +81,7 @@ defmodule Site.ServiceNearMeController do
   end
 
 
-  @spec send_response([%{stop: Stops.Stop.t, routes: [Routes.Group.t]}], Plug.Conn.t, String.t) :: Plug.Conn.t
+  @spec send_response([%{stop: Stop.t, routes: [Routes.Group.t]}], Plug.Conn.t, String.t) :: Plug.Conn.t
   defp send_response(stops_with_routes, conn, address \\ "") do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
@@ -96,12 +89,8 @@ defmodule Site.ServiceNearMeController do
     |> render("index.html", breadcrumbs: ["Service Near Me"])
   end
 
-
-  defp base_url do
-    "https://maps.googleapis.com"
+  def address({:ok, [%{formatted: address} | _]}) do
+    address
   end
-
-  defp maps_request_url do
-    base_url <> "/maps/api/geocode/json"
-  end
+  def address(_), do: ""
 end
