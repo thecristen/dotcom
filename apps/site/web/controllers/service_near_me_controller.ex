@@ -1,6 +1,7 @@
 defmodule Site.ServiceNearMeController do
   use Site.Web, :controller
   alias Routes.Route
+  alias Stops.Stop
 
   @doc """
     Handles GET requests both with and without parameters. Calling with an address parameter (String.t) will assign
@@ -24,7 +25,7 @@ defmodule Site.ServiceNearMeController do
   @doc """
     Retrieves stops close to a location and parses into the correct configuration
   """
-  @spec get_stops_nearby(GoogleMaps.Geocode.t, Plug.Conn.t) :: [Stops.Stop.t]
+  @spec get_stops_nearby(GoogleMaps.Geocode.t, Plug.Conn.t) :: [Stop.t]
   def get_stops_nearby({:ok, [location | _]},
                        %{private: private}) do
     private
@@ -35,7 +36,7 @@ defmodule Site.ServiceNearMeController do
   def get_stops_nearby({:error, _error}), do: []
 
 
-  @spec stops_with_routes([Stop.t]) :: [%{stop: Stops.Stop.t, routes: [Route.Route.t]}]
+  @spec stops_with_routes([Stop.t]) :: [%{stop: Stop.t, routes: [Route.t]}]
   def stops_with_routes(stops) do
     stops
     |> Enum.map(fn stop ->
@@ -80,7 +81,7 @@ defmodule Site.ServiceNearMeController do
   end
 
 
-  @spec send_response([%{stop: Stops.Stop.t, routes: [Routes.Group.t]}], Plug.Conn.t, String.t) :: Plug.Conn.t
+  @spec send_response([%{stop: Stop.t, routes: [Routes.Group.t]}], Plug.Conn.t, String.t) :: Plug.Conn.t
   defp send_response(stops_with_routes, conn, address \\ "") do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
