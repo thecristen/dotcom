@@ -33,3 +33,7 @@
     <% end %>
   </div>
 <% end %>
+
+<hr>
+<small class="text-muted">Share with friends</small>
+<%= social_button_list %Site.Components.Buttons.SocialButtonList{url: "#{Site.Endpoint.url}#{@conn.request_path}"} %>
