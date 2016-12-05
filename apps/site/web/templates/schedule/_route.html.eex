@@ -6,6 +6,6 @@
       </span>
       <%= route_header_text(@route) %>
     </h1>
-    <%= render "_date_picker.html", date: @date, date_select: @date_select, conn: @conn %>
+    <%= render "_date_picker.html", date: @date, holidays: @holidays, date_select: @date_select, conn: @conn %>
   </div>
 </div>

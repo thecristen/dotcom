@@ -27,6 +27,7 @@ defmodule Site.ScheduleController do
   def show(conn, params) do
     conn
     |> assign(:date_select, params["date_select"] == "true")
+    |> assign(:holidays, Holiday.Repo.upcoming_holidays(conn.assigns[:date]))
     |> render("index.html")
   end
 

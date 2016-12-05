@@ -18,6 +18,7 @@ defmodule Site.ScheduleController.Green do
   def green(conn, params) do
     conn
     |> assign(:date_select, params["date_select"] == "true")
+    |> assign(:holidays, Holiday.Repo.upcoming_holidays(conn.assigns[:date]))
     |> render(Site.ScheduleView, "green.html", [])
   end
 
