@@ -1,6 +1,6 @@
 defmodule GoogleMaps.Geocode do
-  @type t :: {:ok, [GoogleMaps.Geocode.Address.t]} | {:error, error_status, String.t}
-  @type error_status :: :ok | :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
+  @type t :: {:ok, [GoogleMaps.Geocode.Address.t]} | {:error, error_status, any}
+  @type error_status :: :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
 
   defmodule Address do
     @type t :: %__MODULE__{
@@ -30,11 +30,18 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp call_google_api(address) do
-    HTTPoison.get(geocode_url, [], params: [address: address, key: Site.ViewHelpers.google_api_key])
+    HTTPoison.get(
+      geocode_url,
+      [],
+      params: [address: address, key: GoogleMaps.default_options[:google_api_key]])
   end
 
   defp geocode_url do
-    "https://maps.googleapis.com/maps/api/geocode/json"
+    "#{geocode_domain}/maps/api/geocode/json"
+  end
+
+  defp geocode_domain do
+    Application.get_env(:site, GoogleMaps)[:domain] || "https://maps.google.com"
   end
 
   defp parse_google_response({:error, error}) do
@@ -60,7 +67,7 @@ defmodule GoogleMaps.Geocode do
   defp parse_result_json({:ok, %{"status" => status} = parsed}) when status != "OK" do
     {:error,
      status |> String.downcase |> String.to_existing_atom,
-     Map.get(parsed, "message", "")}
+     Map.get(parsed, "error_message", "")}
   end
   defp parse_result_json({:ok, %{"results" => results}}) do
     {:ok, Enum.map(results, &parse_result/1)}

@@ -21,14 +21,14 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :site, Site.ViewHelpers,
-  google_api_key: System.get_env("GOOGLE_API_KEY"),
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
   feedback_form_url:
     "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
 config :site, GoogleMaps,
-  client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
-  signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
+      google_api_key: System.get_env("GOOGLE_API_KEY"),
+      client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
+      signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
 
 config :laboratory,
   features: [{:date_picker, "Date Picker", "Enables new calendar based date picker"}],
