@@ -1,0 +1,8 @@
+.project-update-metadata {
+  //scss-lint:disable PlaceholderInExtend
+  @extend .list-unstyled;
+
+  > li {
+    padding-top: $space-12;
+  }
+}

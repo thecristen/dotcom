@@ -1,11 +1,12 @@
 .carousel {
+  //scss-lint:disable PlaceholderInExtend
   @extend .list-unstyled;
 }
 
 .carousel,
 .carousel-active {
-  width: 85%;
   margin: 0 auto;
+  width: 85%;
 }
 
 .carousel-active {
@@ -22,20 +23,28 @@
   }
 
   img {
+    //scss-lint:disable PlaceholderInExtend
     @extend .img-fluid;
+  }
+}
+
+.carousel-item,
+.carousel-active {
+  figcaption {
+    font-size: $font-size-sm;
   }
 }
 
 @include media-breakpoint-up(sm) {
   .js .carousel-active {
-    display: block
+    display: block;
   };
 
   .js .carousel-item {
-    float: left;
-    width: 5.375rem;
-    padding: $space-6;
     cursor: pointer;
+    float: left;
+    padding: $space-6;
+    width: 5.375rem;
 
     &:first-child {
       padding-left: 0;
