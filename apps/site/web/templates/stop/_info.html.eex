@@ -12,7 +12,14 @@
 
   <div class="row no-gutter station-info-section" >
     <h2>Accessibility</h2>
-    <%=accessibility_info(@stop) %>
+    <%= accessibility_info(@stop) %>
+    <ul class="alert-list">
+      <%= for alert <- @access_alerts do %>
+        <li class="alert-list-item">
+          <%= render Site.AlertView, "_item.html", alert: alert, time: @date %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>

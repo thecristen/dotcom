@@ -25,6 +25,7 @@ defmodule Site.StopController do
     |> assign(:tab, params["tab"])
     |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
     |> assign(:terminal_station, terminal_station(stop))
+    |> assign_access_alerts(stop)
     |> render("show.html", stop: stop)
   end
 
@@ -99,5 +100,14 @@ defmodule Site.StopController do
     |> Schedules.Repo.stops(direction_id: 0)
     |> List.first
     terminal.id
+  end
+
+  @spec assign_access_alerts(Plug.Conn.t, Stop.t) :: Plug.Conn.t
+  defp assign_access_alerts(%Plug.Conn{assigns: %{all_alerts: alerts}} = conn, stop) do
+    access_alerts = alerts
+    |> Enum.filter(&(&1.effect_name == "Access Issue"))
+    |> Alerts.Match.match(%Alerts.InformedEntity{stop: stop.id})
+
+    assign(conn, :access_alerts, access_alerts)
   end
 end
