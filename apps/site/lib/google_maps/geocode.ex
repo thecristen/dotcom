@@ -2,7 +2,6 @@ defmodule GoogleMaps.Geocode do
   @type t :: {:ok, [__MODULE__.Address.t]} | {:error, error_status, any}
   @type error_status :: :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
 
-
   defmodule Address do
     @type t :: %__MODULE__{
       formatted: String.t,
