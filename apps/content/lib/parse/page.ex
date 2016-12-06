@@ -77,4 +77,12 @@ defmodule Content.Parse.Page do
       type: Content.Page.File.find_type(url)
     }
   end
+
+  def parse_field_media_contact([%{"value" => value}]) do
+    [media_contact: value]
+  end
+
+  def parse_field_media_phone([%{"value" => value}]) do
+    [media_phone: value]
+  end
 end

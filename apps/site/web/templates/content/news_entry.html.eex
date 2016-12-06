@@ -1,0 +1,24 @@
+<h1><%= @page.title |> raw %></h1>
+
+<img class="project-update-featured-image" alt="<%= @page.fields.featured_image.alt %>" src="<%= @page.fields.featured_image.url %>"/>
+
+<ul class="project-update-metadata">
+  <li><strong>Posted on:</strong> <%= Timex.format!(@page.updated_at, "{Mfull} {D}, {YYYY}") %></li>
+</ul>
+
+<%= @page.body |> raw %>
+
+<%= if Map.get(@page.fields, :media_contact) do %>
+  <h2>Media Contact</h2>
+  <ul class="list-unstyled">
+    <li><strong>Contact:</strong> <%= @page.fields.media_contact %></li>
+    <% phone = Map.get(@page.fields, :media_phone) %>
+    <%= cond do %>
+      <% phone =~ "@" -> %><li><strong>E-mail:</strong> <%= phone %></li>
+      <% !is_nil(phone) -> %><li><strong>Phone:</strong> <%= tel_link phone %></li>
+      <% true -> %>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= render "_social.html", path: @conn.request_path %>

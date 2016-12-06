@@ -13,7 +13,7 @@ defmodule Content.Parse.PageTest do
       assert actual == expected
     end
 
-    test "parses additional fields" do
+    test "parses project pages" do
       expected = {:ok, %Content.Page{
                      type: "project_update",
                      title: "Government Center Construction",
@@ -41,6 +41,25 @@ defmodule Content.Parse.PageTest do
                        ]
                      }}}
       actual = "project.json" |> fixture |> Content.Parse.Page.parse
+      assert actual == expected
+    end
+
+    test "parses news pages" do
+      expected = {:ok, %Content.Page{
+                     type: "news_entry",
+                     title: "Government Center Construction",
+                     body: "project value\r\n",
+                     updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
+                     fields: %{
+                       media_contact: "MassDOT",
+                       media_phone: "(123) 456-7890",
+                       featured_image: %Content.Page.Image{
+                         alt: "Alt Text",
+                         height: 368,
+                         url: "https://drupal-host/sites/default/files/image.png",
+                         width: 667}
+                     }}}
+      actual = "news.json" |> fixture |> Content.Parse.Page.parse
       assert actual == expected
     end
 
