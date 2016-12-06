@@ -10,7 +10,7 @@
     <h2><%= route.name |> clean_route_name %></h2>
     <div class="mode-group-block">
       <div class="row">
-        <%= for stop <- stops do %>
+        <%= for stop <- stops |> Enum.sort_by(&(&1.name)) do %>
           <div class="col-xs-12 col-sm-6 col-md-4 col-xxl-3">
             <a class="mode-group-btn stop-link" href="<%= stop_path(@conn, :show, stop.id) %>">
               <%= stop.name %>
