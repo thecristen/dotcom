@@ -74,8 +74,7 @@ defmodule GoogleMaps.Geocode do
     {:ok, Enum.map(results, &parse_result/1)}
   end
 
-  @spec parse_status(String.t) :: :ok | error_status
-  defp parse_status("OK"), do: :ok
+  @spec parse_status(String.t) :: error_status
   defp parse_status("ZERO_RESULTS"), do: :zero_results
   defp parse_status("OVER_QUERY_LIMIT"), do: :over_query_limit
   defp parse_status("REQUEST_DENIED"), do: :request_denied
