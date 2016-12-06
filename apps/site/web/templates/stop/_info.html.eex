@@ -17,7 +17,7 @@
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <%= if !Enum.empty?(types ) do %>
-    <div class="row no-gutter station-info-section">
+    <div class="row no-gutter">
       <h2>Fares</h2>
       <%= if :commuter_rail in types do %>
         <%= render "_commuter_fare.html", conn: @conn, stop: @stop, zone_name: @zone_name, terminal_station: @terminal_station %>
@@ -40,6 +40,8 @@
   <% end %>
 
   <div class="row">
+    <h2>Feedback</h2>
+    <p>Please report issues with cleanliness, signage, and any other concerns you may have. We will do our best to address the issue as soon as possible.</p>
     <%= link to: customer_support_path(@conn, :index) do %>
       <p class="m-y-2">Submit a comment or complaint about this <span class="no-wrap">station <%= fa "arrow-right" %></span></p>
     <% end %>
