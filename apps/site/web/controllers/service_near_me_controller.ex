@@ -85,18 +85,18 @@ defmodule Site.ServiceNearMeController do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
     |> assign(:address, address)
-    |> alert_if_error(stops_with_routes)
+    |> flash_if_error(stops_with_routes)
     |> render("index.html", breadcrumbs: ["Service Near Me"])
   end
 
-  @spec alert_if_error(Plug.Conn.t, [%{stop: Stop.t, routes: [Routes.Group.t]}]) :: Plug.Conn.t
-  defp alert_if_error(%Plug.Conn{params: %{"location" => %{"address" => ""}}} = conn, []) do
+  @spec flash_if_error(Plug.Conn.t, [%{stop: Stop.t, routes: [Routes.Group.t]}]) :: Plug.Conn.t
+  defp flash_if_error(%Plug.Conn{params: %{"location" => %{"address" => ""}}} = conn, []) do
     put_flash(conn, :info, "No address provided. Please try again.")
   end
-  defp alert_if_error(%Plug.Conn{params: %{"location" => %{"address" => _addr}}} = conn, []) do
+  defp flash_if_error(%Plug.Conn{params: %{"location" => %{"address" => _addr}}} = conn, []) do
     put_flash(conn, :info, "No stations found near given address.")
   end
-  defp alert_if_error(conn, _routes), do: conn
+  defp flash_if_error(conn, _routes), do: conn
 
   def address({:ok, [%{formatted: address} | _]}) do
     address
