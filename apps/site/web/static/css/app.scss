@@ -169,3 +169,18 @@ div {
     padding-bottom: 3rem;
   }
 }
+
+%callout {
+  background-color: $gray-lightest;
+  border-radius: 0;
+  padding: .5em;
+}
+
+.callout {
+  @extend %callout;
+  margin: .5em 0;
+}
+
+.d-inline {
+  display: inline;
+}

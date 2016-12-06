@@ -26,10 +26,8 @@
 }
 
 .schedule-callout {
-  background-color: $gray-lightest;
-  border-radius: 0;
+  @extend %callout;
   margin-bottom: .75rem;
-  padding: .5em;
 
   @include media-breakpoint-down(xs) {
     margin: .5em auto;
