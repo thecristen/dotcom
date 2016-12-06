@@ -64,13 +64,13 @@ defmodule GoogleMaps.Geocode do
   defp parse_result_json({:error, error}) do
     {:error, :unknown_error, error}
   end
-  defp parse_result_json({:ok, %{"status" => status} = parsed}) when status != "OK" do
+  defp parse_result_json({:ok, %{"results" => results, "status" => "OK"}}) do
+    {:ok, Enum.map(results, &parse_result/1)}
+  end
+  defp parse_result_json({:ok, %{"status" => status} = parsed}) do
     {:error,
      parse_status(status),
      Map.get(parsed, "error_message", "")}
-  end
-  defp parse_result_json({:ok, %{"results" => results}}) do
-    {:ok, Enum.map(results, &parse_result/1)}
   end
 
   @spec parse_status(String.t) :: error_status

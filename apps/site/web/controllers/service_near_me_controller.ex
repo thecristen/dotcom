@@ -91,10 +91,10 @@ defmodule Site.ServiceNearMeController do
 
   @spec flash_if_error(Plug.Conn.t, [%{stop: Stop.t, routes: [Routes.Group.t]}]) :: Plug.Conn.t
   defp flash_if_error(%Plug.Conn{params: %{"location" => %{"address" => ""}}} = conn, []) do
-    put_flash(conn, :info, "No address provided. Please try again.")
+    put_flash(conn, :info, "No address provided. Please enter a valid address below.")
   end
   defp flash_if_error(%Plug.Conn{params: %{"location" => %{"address" => _addr}}} = conn, []) do
-    put_flash(conn, :info, "No stations found near given address.")
+    put_flash(conn, :info, "There doesn't seem to be any stations found near the given address. Please try a different address to continue.")
   end
   defp flash_if_error(conn, _routes), do: conn
 
