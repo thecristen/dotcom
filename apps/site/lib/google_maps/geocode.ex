@@ -1,5 +1,6 @@
 defmodule GoogleMaps.Geocode do
-  @type t :: {:ok, [__MODULE__.Address.t]} | {:error, String.t, any}
+  @type t :: {:ok, [__MODULE__.Address.t]} | {:error, error_status, any}
+  @type error_status :: :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
 
 
   defmodule Address do
@@ -53,7 +54,7 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp parse_http_response(%{status_code: code, body: body}) when code != 200 do
-    {:error, "unknown_error", body}
+    {:error, :unknown_error, body}
   end
   defp parse_http_response(%{body: body}) do
     body
@@ -62,16 +63,24 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp parse_result_json({:error, error}) do
-    {:error, "unknown_error", error}
+    {:error, :unknown_error, error}
   end
   defp parse_result_json({:ok, %{"status" => status} = parsed}) when status != "OK" do
     {:error,
-     status |> String.downcase,
+     parse_status(status),
      Map.get(parsed, "error_message", "")}
   end
   defp parse_result_json({:ok, %{"results" => results}}) do
     {:ok, Enum.map(results, &parse_result/1)}
   end
+
+  @spec parse_status(String.t) :: :ok | error_status
+  defp parse_status("OK"), do: :ok
+  defp parse_status("ZERO_RESULTS"), do: :zero_results
+  defp parse_status("OVER_QUERY_LIMIT"), do: :over_query_limit
+  defp parse_status("REQUEST_DENIED"), do: :request_denied
+  defp parse_status("INVALID_REQUEST"), do: :invalid_request
+  defp parse_status("UNKNOWN_ERROR"), do: :unknown_error
 
   defp parse_result(%{"geometry" => %{"location" => %{"lat" => lat, "lng" => lng}}, "formatted_address" => address}) do
     %Address{

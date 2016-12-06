@@ -8,7 +8,7 @@ defmodule GoogleMaps.GeocodeTest do
   describe "geocode/1" do
     test "returns an error for invalid addresses" do
       actual = geocode("234k-rw0e8r0kew5")
-      assert {:error, "zero_results", _msg} = actual
+      assert {:error, :zero_results, _msg} = actual
     end
 
     test "returns :ok for valid responses" do
@@ -40,7 +40,7 @@ defmodule GoogleMaps.GeocodeTest do
       end
 
       actual = geocode(@address)
-      assert {:error, "invalid_request", "Message"} == actual
+      assert {:error, :invalid_request, "Message"} == actual
     end
 
     test "returns :error if the status != 200" do
