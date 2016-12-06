@@ -2,6 +2,10 @@
 .mbta-custom-icon {
   display: inline-block;
 
+  @include hover-focus-active {
+    text-decoration: none;
+  }
+
   svg {
     height: 2rem;
     vertical-align: middle;
@@ -136,5 +140,17 @@
 .icon-the-ride {
   svg {
     fill: $brand-the-ride;
+  }
+}
+
+.icon-twitter {
+  circle {
+    fill: $twitter;
+  }
+}
+
+.icon-facebook {
+  circle {
+    fill: $facebook;
   }
 }

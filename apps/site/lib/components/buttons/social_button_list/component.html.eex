@@ -1,0 +1,7 @@
+<% import Phoenix.HTML.Link %>
+<div class="social-button-block <%= args.class %>" id="<%= args.id %>">
+  <%= for site <- [:twitter, :facebook] do %>
+    <%= link to: url(site, args), target: "_blank" do %>
+      <%= svg_icon_with_circle %Site.Components.Icons.SvgIconWithCircle{icon: site} %><% end %>
+  <% end %>
+</div>
