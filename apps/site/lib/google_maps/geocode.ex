@@ -1,6 +1,6 @@
 defmodule GoogleMaps.Geocode do
-  @type t :: {:ok, [__MODULE__.Address.t]} | {:error, error_status, any}
-  @type error_status :: :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
+  @type t :: {:ok, [__MODULE__.Address.t]} | {:error, String.t, any}
+
 
   defmodule Address do
     @type t :: %__MODULE__{
@@ -53,7 +53,7 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp parse_http_response(%{status_code: code, body: body}) when code != 200 do
-    {:error, :unknown_error, body}
+    {:error, "unknown_error", body}
   end
   defp parse_http_response(%{body: body}) do
     body

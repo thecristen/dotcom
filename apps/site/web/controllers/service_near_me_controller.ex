@@ -32,7 +32,7 @@ defmodule Site.ServiceNearMeController do
     |> Map.get(:nearby_stops, &Stops.Nearby.nearby/1)
     |> Kernel.apply([location])
   end
-  def get_stops_nearby({:ok, []}), do: []
+  def get_stops_nearby({:ok, []}, _conn), do: []
   def get_stops_nearby({:error, _error_code, _error_str}, _conn), do: []
 
 
@@ -89,6 +89,7 @@ defmodule Site.ServiceNearMeController do
     |> render("index.html", breadcrumbs: ["Service Near Me"])
   end
 
+  @spec alert_if_error(Plug.Conn.t, [%{stop: Stop.t, routes: [Routes.Group.t]}]) :: Plug.Conn.t
   defp alert_if_error(%Plug.Conn{params: %{"location" => %{"address" => ""}}} = conn, []) do
     put_flash(conn, :info, "No address provided. Please try again.")
   end
