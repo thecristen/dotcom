@@ -90,7 +90,7 @@ defmodule Site.ServiceNearMeController do
   end
 
   defp alert_if_error(%Plug.Conn{params: %{"location" => %{"address" => ""}}} = conn, []) do
-    put_flash(conn, :info, "No address given. Please try again.")
+    put_flash(conn, :info, "No address provided. Please try again.")
   end
   defp alert_if_error(%Plug.Conn{params: %{"location" => %{"address" => _addr}}} = conn, []) do
     put_flash(conn, :info, "No stations found near given address.")
