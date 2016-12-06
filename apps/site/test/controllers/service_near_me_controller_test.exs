@@ -45,7 +45,7 @@ defmodule Site.ServiceNearMeControllerTest do
       response = conn
       |> search_near_address("randomnonsensicalstringnoresults")
       |> html_response(200)
-      assert response =~ "No stations found"
+      assert response =~ "any stations found"
     end
   end
 
