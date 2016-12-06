@@ -33,7 +33,7 @@ defmodule Site.ServiceNearMeController do
     |> Kernel.apply([location])
   end
   def get_stops_nearby({:ok, []}), do: []
-  def get_stops_nearby({:error, _error}), do: []
+  def get_stops_nearby({:error, _error_code, _error_str}, _conn), do: []
 
 
   @spec stops_with_routes([Stop.t]) :: [%{stop: Stop.t, routes: [Route.t]}]
@@ -80,14 +80,22 @@ defmodule Site.ServiceNearMeController do
     Keyword.put(routes, :red_line, [route])
   end
 
-
   @spec send_response([%{stop: Stop.t, routes: [Routes.Group.t]}], Plug.Conn.t, String.t) :: Plug.Conn.t
   defp send_response(stops_with_routes, conn, address \\ "") do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
     |> assign(:address, address)
+    |> alert_if_error(stops_with_routes)
     |> render("index.html", breadcrumbs: ["Service Near Me"])
   end
+
+  defp alert_if_error(%Plug.Conn{params: %{"location" => %{"address" => ""}}} = conn, []) do
+    put_flash(conn, :info, "No address given. Please try again.")
+  end
+  defp alert_if_error(%Plug.Conn{params: %{"location" => %{"address" => _addr}}} = conn, []) do
+    put_flash(conn, :info, "No stations found near given address.")
+  end
+  defp alert_if_error(conn, _routes), do: conn
 
   def address({:ok, [%{formatted: address} | _]}) do
     address

@@ -62,11 +62,11 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp parse_result_json({:error, error}) do
-    {:error, :unknown_error, error}
+    {:error, "unknown_error", error}
   end
   defp parse_result_json({:ok, %{"status" => status} = parsed}) when status != "OK" do
     {:error,
-     status |> String.downcase |> String.to_existing_atom,
+     status |> String.downcase,
      Map.get(parsed, "error_message", "")}
   end
   defp parse_result_json({:ok, %{"results" => results}}) do
