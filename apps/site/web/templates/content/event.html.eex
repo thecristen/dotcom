@@ -1,22 +1,37 @@
-<h1><%= @page.title |> raw %></h1>
+<div class="row p-a-g">
+  <div class="col-xs-12">
+    <h1><%= @page.title |> raw %></h1>
+    <%= @page.body |> raw %>
+  </div>
+</div>
 
-<%= @page.body |> raw %>
+<div class="row">
+  <img class="img-fluid" src="<%= map_url @page.fields.map_address || @page.fields.address, 640, 480, 1 %>" />
+</div>
 
-<img class="img-fluid" src="<%= map_url @page.fields.map_address || @page.fields.address, 640, 480, 1 %>" />
+<div class="row p-a-g">
+  <div class="col-xs-12 col-md-4">
+    <h2>When</h2>
+    <%= event_duration(@page.fields.start_time, @page.fields.end_time) %>
+  </div>
+  <div class="col-xs-12 col-md-4">
+    <h2>Where</h2>
+    <%= @page.fields.address %>
+  </div>
+  <div class="col-xs-12 col-md-4">
+    <h2>Who</h2>
+    <%= @page.fields.who %>
+  </div>
+</div>
 
-<h2>When</h2>
-<%= event_duration(@page.fields.start_time, @page.fields.end_time) %>
+<div class="row p-x-g">
+  <div class="col-xs-12">
+    <h2>Notes</h2>
+    <%= @page.fields.notes |> raw %>
 
-<h2>Where</h2>
-<%= @page.fields.address %>
+    <h2>Agenda</h2>
+    <%= @page.fields.agenda |> raw %>
 
-<h2>Who</h2>
-<%= @page.fields.who %>
-
-<h2>Notes</h2>
-<%= @page.fields.notes |> raw %>
-
-<h2>Agenda</h2>
-<%= @page.fields.agenda |> raw %>
-
-<%= render "_social.html", path: @conn.request_path %>
+    <%= render "_social.html", path: @conn.request_path %>
+  </div>
+</div>
