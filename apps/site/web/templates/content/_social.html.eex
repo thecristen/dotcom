@@ -1,0 +1,5 @@
+<div class="callout">
+  <span class="p-r-g">Share with friends</span>
+  <%= social_button_list %Site.Components.Buttons.SocialButtonList{url: "#{Site.Endpoint.url}#{@path}", class: "d-inline"} %>
+</div>
+</div>
