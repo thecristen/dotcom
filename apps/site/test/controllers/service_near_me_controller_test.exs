@@ -34,6 +34,19 @@ defmodule Site.ServiceNearMeControllerTest do
       refute Keyword.get(route_list, :red_line) == nil
       assert Keyword.get(route_list, :subway) == nil
     end
+
+    test "display message if no address", %{conn: conn} do
+      response = conn
+      |> search_near_address("")
+      |> html_response(200)
+      assert response =~ "No address provided"
+    end
+    test "display message if no results", %{conn: conn} do
+      response = conn
+      |> search_near_address("randomnonsensicalstringnoresults")
+      |> html_response(200)
+      assert response =~ "any stations found"
+    end
   end
 
   def mock_response(_) do
@@ -42,8 +55,12 @@ defmodule Site.ServiceNearMeControllerTest do
   end
 
   def search_near_office(conn) do
+    search_near_address(conn, @address)
+  end
+
+  def search_near_address(conn, address) do
     conn
     |> put_private(:nearby_stops, &mock_response/1)
-    |> get(service_near_me_path(conn, :index, %{"location" => %{"address" => @address}}))
+    |> get(service_near_me_path(conn, :index, %{"location" => %{"address" => address}}))
   end
 end

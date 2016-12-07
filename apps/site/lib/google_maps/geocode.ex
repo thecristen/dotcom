@@ -64,14 +64,21 @@ defmodule GoogleMaps.Geocode do
   defp parse_result_json({:error, error}) do
     {:error, :unknown_error, error}
   end
-  defp parse_result_json({:ok, %{"status" => status} = parsed}) when status != "OK" do
-    {:error,
-     status |> String.downcase |> String.to_existing_atom,
-     Map.get(parsed, "error_message", "")}
-  end
-  defp parse_result_json({:ok, %{"results" => results}}) do
+  defp parse_result_json({:ok, %{"results" => results, "status" => "OK"}}) do
     {:ok, Enum.map(results, &parse_result/1)}
   end
+  defp parse_result_json({:ok, %{"status" => status} = parsed}) do
+    {:error,
+     parse_status(status),
+     Map.get(parsed, "error_message", "")}
+  end
+
+  @spec parse_status(String.t) :: error_status
+  defp parse_status("ZERO_RESULTS"), do: :zero_results
+  defp parse_status("OVER_QUERY_LIMIT"), do: :over_query_limit
+  defp parse_status("REQUEST_DENIED"), do: :request_denied
+  defp parse_status("INVALID_REQUEST"), do: :invalid_request
+  defp parse_status("UNKNOWN_ERROR"), do: :unknown_error
 
   defp parse_result(%{"geometry" => %{"location" => %{"lat" => lat, "lng" => lng}}, "formatted_address" => address}) do
     %Address{
