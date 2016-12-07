@@ -186,13 +186,13 @@
   border-width: $space-1 $space-2;
   padding: $space-12;
 
-  &:first-child {
-    border-top-width: 0;
-  }
-
   &:last-child {
     border-bottom-width: $space-2;
   }
+}
+
+.alert-container .alert-list-item:first-child {
+  border-top-width: 0;
 }
 
 .alert-list-toggle {
