@@ -15,7 +15,7 @@
     <% phone = Map.get(@page.fields, :media_phone) %>
     <%= cond do %>
       <% phone =~ "@" -> %><li><strong>E-mail:</strong> <%= phone %></li>
-      <% !is_nil(phone) -> %><li><strong>Phone:</strong> <%= tel_link phone %></li>
+      <% phone -> %><li><strong>Phone:</strong> <%= tel_link phone %></li>
       <% true -> %>
     <% end %>
   </ul>
