@@ -1,6 +1,8 @@
 defmodule Site.ContentView do
   use Site.Web, :view
 
+  @doc "Returns the srcset attribute for maps at a given set of sizes."
+  @spec scaled_map_srcset([{number, number}], String.t) :: String.t
   def scaled_map_srcset(sizes, address) do
     sizes
     |> GoogleMaps.scale
@@ -10,7 +12,7 @@ defmodule Site.ContentView do
     |> Picture.srcset
   end
 
-  @doc "URL for the embedded Google map image for the stop."
+  @doc "URL for the embedded Google map image for an address."
   @spec map_url(String.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
   def map_url(address, width, height, scale) do
     %{
