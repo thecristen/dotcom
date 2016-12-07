@@ -1,0 +1,19 @@
+{
+  "uuid" : "0f918ed6-70b5-3651-a6bd-4c5016cb0213",
+  "request" : {
+    "url" : "/routes/?stop=888&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FsLXA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:06:02 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "fdosddsfavgo5chhqr3107adoamuapf7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

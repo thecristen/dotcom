@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/91856"},"id":"91856","attributes":{"wheelchair_boarding":0,"name":"Stuart St @ Tremont St","longitude":-71.064763,"latitude":42.351136}}}

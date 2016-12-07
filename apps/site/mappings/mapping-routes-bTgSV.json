@@ -1,0 +1,19 @@
+{
+  "uuid" : "60b196e0-ee94-3bbd-b303-eaa9e1f1d9bc",
+  "request" : {
+    "url" : "/routes/?stop=place-mlmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bTgSV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:48 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "32bpouu6kk124lgn89ilbtu8ishcphid",
+      "Connection" : "keep-alive"
+    }
+  }
+}

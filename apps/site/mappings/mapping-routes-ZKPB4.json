@@ -1,0 +1,19 @@
+{
+  "uuid" : "10012779-3d9e-3d62-a9a1-455cb377f72f",
+  "request" : {
+    "url" : "/routes/?stop=place-aport&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZKPB4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:40 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "0333egpais3172h731gfm33svm3066oc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "408b3def-cc16-3548-8c92-c3a01e93f9dc",
+  "request" : {
+    "url" : "/routes/?stop=place-symcl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DKhaw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:37 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "pu1rus3eldhic1kdushh5e5r4skqsjnj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "0e8fe20e-182a-3b32-94dd-1f30c5747f80",
+  "request" : {
+    "url" : "/routes/?stop=236&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-orkcF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:06:04 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "73e6s4st1sgekra4uilhc6v2mjghdd1j",
+      "Connection" : "keep-alive"
+    }
+  }
+}

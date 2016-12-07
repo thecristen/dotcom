@@ -1,0 +1,19 @@
+{
+  "uuid" : "fae823bc-ff0c-3999-bbd8-01852fe44bb3",
+  "request" : {
+    "url" : "/routes/?stop=place-davis&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-hhd7w.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:47 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "vlv8na24kesug0jg2u2gq9b3vb18rjd7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

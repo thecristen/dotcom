@@ -1,0 +1,19 @@
+{
+  "uuid" : "b82da1a2-3c38-3ac2-8fde-dbd4caf6c8a2",
+  "request" : {
+    "url" : "/routes/?stop=place-aqucl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Lhqb4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:36 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "di008a6rn2r8h4hnhsp3vrtpbu4sbsn8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

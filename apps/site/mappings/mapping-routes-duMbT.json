@@ -1,0 +1,19 @@
+{
+  "uuid" : "085588e7-17cd-313d-ad20-9028e0148282",
+  "request" : {
+    "url" : "/routes/?stop=6550&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-duMbT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:54 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "svcuvmb7bh83moqidqjte4399srh23sr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

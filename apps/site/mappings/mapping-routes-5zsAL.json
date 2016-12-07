@@ -1,0 +1,19 @@
+{
+  "uuid" : "cd36bc69-5b14-3300-bab2-2cb6518bb7cc",
+  "request" : {
+    "url" : "/routes/?stop=place-wondl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-5zsAL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:49 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "q28ead0spb2lvruhu121e788ictn7fc4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

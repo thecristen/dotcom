@@ -1,0 +1,19 @@
+{
+  "uuid" : "991cf02c-2794-3cc5-b608-2c8ee5d76be3",
+  "request" : {
+    "url" : "/routes/?stop=place-sthld&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Z9QdE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:47 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "f7n7v1i1stgrrhnqu0tuoti27475rb7d",
+      "Connection" : "keep-alive"
+    }
+  }
+}
