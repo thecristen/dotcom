@@ -1,0 +1,19 @@
+{
+  "uuid" : "65a2ad6d-4baf-3b84-b4ec-fb2a9a92de2b",
+  "request" : {
+    "url" : "/routes/?stop=1252&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-cyCFN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:06:12 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "un2nmfj7cgaiqai271nctokmgr6irn0r",
+      "Connection" : "keep-alive"
+    }
+  }
+}

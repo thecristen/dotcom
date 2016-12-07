@@ -1,0 +1,19 @@
+{
+  "uuid" : "85b3719a-2838-30ca-b61d-4476263785c0",
+  "request" : {
+    "url" : "/routes/?stop=place-prmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HfOgo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:36 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "8etdnompvne91l66ip2t8teps992molf",
+      "Connection" : "keep-alive"
+    }
+  }
+}

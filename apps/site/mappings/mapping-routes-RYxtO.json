@@ -1,0 +1,19 @@
+{
+  "uuid" : "f38df414-c8d0-3c6a-bad5-962d52fffd41",
+  "request" : {
+    "url" : "/routes/?stop=place-grnst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RYxtO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:45 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "1dus0gbo43v1ukp3dr7dvgggdeh3lbcb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

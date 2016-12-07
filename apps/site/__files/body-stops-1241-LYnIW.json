@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/1241"},"id":"1241","attributes":{"wheelchair_boarding":0,"name":"Charles St S @ Park Plaza","longitude":-71.067101,"latitude":42.351748}}}

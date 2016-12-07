@@ -1,0 +1,19 @@
+{
+  "uuid" : "cf7ad47f-bdb5-3881-9679-29ab0a06830e",
+  "request" : {
+    "url" : "/routes/?stop=place-shmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DzdHV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:41 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "c3hv3m8o201lfqm4a242lo5mcb940iam",
+      "Connection" : "keep-alive"
+    }
+  }
+}

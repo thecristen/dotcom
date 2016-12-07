@@ -1,0 +1,19 @@
+{
+  "uuid" : "bd54e65a-cc0d-30b8-8c0d-6922fd686fe3",
+  "request" : {
+    "url" : "/routes/?stop=36539&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LzRAB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 07 Dec 2016 18:05:54 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "756be3nqq3bmjbgob8rtsdhl7gv73l2f",
+      "Connection" : "keep-alive"
+    }
+  }
+}
