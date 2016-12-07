@@ -1,6 +1,15 @@
 defmodule Site.ContentView do
   use Site.Web, :view
 
+  def scaled_map_srcset(sizes, address) do
+    sizes
+    |> GoogleMaps.scale
+    |> Enum.map(fn {width, height, scale} ->
+      {"#{width * scale}", map_url(address, width, height, scale)}
+    end)
+    |> Picture.srcset
+  end
+
   @doc "URL for the embedded Google map image for the stop."
   @spec map_url(String.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
   def map_url(address, width, height, scale) do

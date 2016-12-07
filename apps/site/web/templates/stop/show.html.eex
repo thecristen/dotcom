@@ -47,11 +47,7 @@
                         {400, 172},
                         {520, 222}
                         ]
-                        |> Enum.flat_map(fn {width, height} ->
-                          [{width, height, 1},
-                            {width, height, 2}]
-                          end)
-                        |> Enum.sort_by(fn {width, _, scale} -> width * scale end)
+                        |> GoogleMaps.scale
                         |> Enum.map(fn {width, height, scale} ->
                           {"#{width * scale}", map_url(@stop, width, height, scale)}
                           end)

@@ -97,6 +97,17 @@ defmodule GoogleMaps do
     Base.url_encode64(binary_hash)
   end
 
+  def scale(list_of_width_height_pairs) do
+    list_of_width_height_pairs
+    |> Enum.flat_map(fn {width, height} ->
+      [
+        {width, height, 1},
+        {width, height, 2}
+      ]
+    end)
+    |> Enum.sort_by(fn {width, _, scale} -> width * scale end)
+  end
+
   @type t :: %{
     :results => [address],
     :status => String.t,
