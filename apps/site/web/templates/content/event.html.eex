@@ -1,0 +1,22 @@
+<h1><%= @page.title |> raw %></h1>
+
+<%= @page.body |> raw %>
+
+<img class="img-fluid" src="<%= map_url @page.fields.map_address || @page.fields.address, 640, 480, 1 %>" />
+
+<h2>When</h2>
+<%= event_duration(@page.fields.start_time, @page.fields.end_time) %>
+
+<h2>Where</h2>
+<%= @page.fields.address %>
+
+<h2>Who</h2>
+<%= @page.fields.who %>
+
+<h2>Notes</h2>
+<%= @page.fields.notes |> raw %>
+
+<h2>Agenda</h2>
+<%= @page.fields.agenda |> raw %>
+
+<%= render "_social.html", path: @conn.request_path %>

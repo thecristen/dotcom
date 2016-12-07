@@ -85,4 +85,48 @@ defmodule Content.Parse.Page do
   def parse_field_media_phone([%{"value" => value}]) do
     [media_phone: value]
   end
+
+  def parse_field_address([%{"value" => value}]) do
+    [address: value]
+  end
+
+  def parse_field_map_address([%{"value" => value}]) do
+    [map_address: value]
+  end
+
+  def parse_field_who([%{"value" => value}]) do
+    [who: value]
+  end
+
+  def parse_field_notes([%{"value" => value}]) do
+    [notes: value]
+  end
+
+  def parse_field_agenda([%{"value" => value}]) do
+    [agenda: value]
+  end
+
+  def parse_field_start_time([%{"value" => value}]) do
+    case parse_iso_datetime(value) do
+      {:ok, dt} -> [start_time: dt]
+      _error -> []
+    end
+  end
+
+  def parse_field_end_time([]) do
+    [end_time: nil]
+  end
+  def parse_field_end_date([%{"value" => value}]) do
+    case parse_iso_datetime(value) do
+      {:ok, dt} -> [end_time: dt]
+      _error -> []
+    end
+  end
+
+  defp parse_iso_datetime(value) do
+    case Timex.parse(value, "{ISOdate}T{ISOtime}") do
+      {:ok, dt} -> {:ok, Timex.to_datetime(dt, "Etc/UTC")}
+      error -> error
+    end
+  end
 end

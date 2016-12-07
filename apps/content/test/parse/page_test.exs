@@ -2,6 +2,8 @@ defmodule Content.Parse.PageTest do
   use ExUnit.Case, async: true
   use ExCheck
 
+  import Content.Parse.Page
+
   describe "parse/1" do
     test "parses a binary into a %Content.Page{}" do
       expected = {:ok, %Content.Page{
@@ -9,7 +11,7 @@ defmodule Content.Parse.PageTest do
                      title: "Privacy Policy",
                      body: "<p><strong>MBTA'S WEBSITE AND ELECTRONIC FARE MEDIA PRIVACY POLICY</strong><br />",
                      updated_at: Timex.to_datetime(~N[2016-11-07T15:55:35], "Etc/UTC")}}
-      actual = Content.Parse.Page.parse(fixture("page.json"))
+      actual = parse(fixture("page.json"))
       assert actual == expected
     end
 
@@ -40,7 +42,7 @@ defmodule Content.Parse.PageTest do
                            type: :pdf}
                        ]
                      }}}
-      actual = "project.json" |> fixture |> Content.Parse.Page.parse
+      actual = "project.json" |> fixture |> parse
       assert actual == expected
     end
 
@@ -59,15 +61,43 @@ defmodule Content.Parse.PageTest do
                          url: "https://drupal-host/sites/default/files/image.png",
                          width: 667}
                      }}}
-      actual = "news.json" |> fixture |> Content.Parse.Page.parse
+      actual = "news.json" |> fixture |> parse
+      assert actual == expected
+    end
+
+    test "parses event pages" do
+      expected = {:ok, %Content.Page{
+                     type: "event",
+                     title: "Board Meeting",
+                     body: "project value\r\n",
+                     updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
+                     fields: %{
+                       start_date: Timex.to_datetime(~N[2016-11-14T17:00:00], "Etc/UTC")
+                     }}}
+      actual = "event.json" |> fixture |> parse
       assert actual == expected
     end
 
     property "always returns either {:ok, %Page{}} or {:error, any}" do
       for_all body in unicode_binary do
-        result = Content.Parse.Page.parse(body)
+        result = parse(body)
         match?({:ok, %Content.Page{}}, result) || match?({:error, _}, result)
       end
+    end
+  end
+
+  describe "parse_field_end_date/1" do
+    test "returns nil if there's no value" do
+      assert parse_field_end_date([]) == [end_date: nil]
+    end
+
+    test "returns a UTC datetime if it's valid" do
+      assert parse_field_end_date([%{"value" => "2016-01-01T00:00:00"}]) ==
+        [end_date: Timex.to_datetime(~N[2016-01-01T00:00:00], "Etc/UTC")]
+    end
+
+    test "returns nothing if the time is invalid" do
+      assert parse_field_end_date([%{"value" => "not a time"}]) == []
     end
   end
 
