@@ -72,7 +72,7 @@ defmodule Content.Parse.PageTest do
                      body: "project value\r\n",
                      updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
                      fields: %{
-                       start_date: Timex.to_datetime(~N[2016-11-14T17:00:00], "Etc/UTC")
+                       start_time: Timex.to_datetime(~N[2016-11-14T17:00:00], "Etc/UTC")
                      }}}
       actual = "event.json" |> fixture |> parse
       assert actual == expected
@@ -86,18 +86,18 @@ defmodule Content.Parse.PageTest do
     end
   end
 
-  describe "parse_field_end_date/1" do
+  describe "parse_field_end_time/1" do
     test "returns nil if there's no value" do
-      assert parse_field_end_date([]) == [end_date: nil]
+      assert parse_field_end_time([]) == [end_time: nil]
     end
 
     test "returns a UTC datetime if it's valid" do
-      assert parse_field_end_date([%{"value" => "2016-01-01T00:00:00"}]) ==
-        [end_date: Timex.to_datetime(~N[2016-01-01T00:00:00], "Etc/UTC")]
+      assert parse_field_end_time([%{"value" => "2016-01-01T00:00:00"}]) ==
+        [end_time: Timex.to_datetime(~N[2016-01-01T00:00:00], "Etc/UTC")]
     end
 
     test "returns nothing if the time is invalid" do
-      assert parse_field_end_date([%{"value" => "not a time"}]) == []
+      assert parse_field_end_time([%{"value" => "not a time"}]) == []
     end
   end
 

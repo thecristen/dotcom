@@ -21,5 +21,14 @@ defmodule Site.ContentViewTest do
       expected = "Monday, November 14th 12:00 PM until Thursday, December 1st 2:30 PM"
       assert expected == actual
     end
+
+    test "with DateTimes, shifts them to America/New_York" do
+      actual = event_duration(
+        Timex.to_datetime(~N[2016-11-05T05:00:00], "Etc/UTC"),
+        Timex.to_datetime(~N[2016-11-06T06:00:00], "Etc/UTC"))
+      # could also be November 6th, 1:00 AM
+      expected = "Saturday, November 5th 1:00 AM until Sunday, November 6th 2:00 AM"
+      assert expected == actual
+    end
   end
 end

@@ -20,15 +20,21 @@ defmodule Util do
   @spec now() :: DateTime.t
   @spec now((() -> DateTime.t)) :: DateTime.t
   def now(utc_now_fn \\ &Timex.now/0) do
-    case Timex.Timezone.convert(utc_now_fn.(), "America/New_York") do
-      %Timex.AmbiguousDateTime{before: before} -> before
-      time -> time
-    end
+    to_local_time(utc_now_fn.())
   end
 
   @doc "Today's date in the America/New_York timezone."
   def today do
     now |> Timex.to_date
+  end
+
+  @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
+  @spec to_local_time(DateTime.t) :: DateTime.t
+  def to_local_time(time) do
+    case Timex.Timezone.convert(time, "America/New_York") do
+      %Timex.AmbiguousDateTime{before: before} -> before
+      time -> time
+    end
   end
 
   @doc """

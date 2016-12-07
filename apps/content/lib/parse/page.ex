@@ -116,7 +116,7 @@ defmodule Content.Parse.Page do
   def parse_field_end_time([]) do
     [end_time: nil]
   end
-  def parse_field_end_date([%{"value" => value}]) do
+  def parse_field_end_time([%{"value" => value}]) do
     case parse_iso_datetime(value) do
       {:ok, dt} -> [end_time: dt]
       _error -> []
