@@ -167,7 +167,7 @@ defmodule Backstop.Servers.Wiremock do
   end
 
   def error_match do
-    "Address already in use"
+    ~r/(Address already in use)|(unable to access jarfile)/
   end
 end
 
