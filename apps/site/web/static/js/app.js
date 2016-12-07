@@ -32,6 +32,7 @@ import objectFitImages from 'object-fit-images';
 import fixedsticky from './fixedsticky';
 import menuCtrlClick from './menu-ctrl-click';
 import carousel from './carousel';
+import geoLocation from './geolocation';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
@@ -47,5 +48,6 @@ fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
 carousel();
+geoLocation();
 
 $("body").removeClass("no-js").addClass("js");
