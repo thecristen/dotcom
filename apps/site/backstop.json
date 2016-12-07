@@ -153,6 +153,13 @@
       "selectors": ["#station-info"],
       "delay": 100,
       "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Service Near Me",
+      "url": "http://localhost:8082/service-near-me?_utf8=✓&location%5Baddress%5D=42.351310%2C+-71.066159",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
     }
   ],
   "paths": {
