@@ -47,6 +47,15 @@ defmodule Site.ServiceNearMeControllerTest do
       |> html_response(200)
       assert response =~ "any stations found"
     end
+
+    test "can take a lat/long as query parameters", %{conn: conn} do
+      response = conn
+      |> put_private(:nearby_stops, &mock_response/1)
+      |> get(service_near_me_path(conn, :index, %{"latitude" => "#{@lat}", "longitude" => "#{@lng}"}))
+      |> html_response(200)
+      assert response =~ "Find Transit Near You"
+      assert response =~ "service-card"
+    end
   end
 
   def mock_response(_) do
