@@ -1,5 +1,6 @@
 defmodule Site.ServiceNearMeController do
   use Site.Web, :controller
+  alias GoogleMaps.Geocode
   alias Routes.Route
   alias Stops.Stop
 
@@ -9,23 +10,43 @@ defmodule Site.ServiceNearMeController do
         @stops_with_routes :: [%{stop: %Stops.Stop{}, routes: [%Route{}]}]
   """
   def index(conn, %{"location" => %{"address" => address}}) do
-    results = address
-    |> GoogleMaps.Geocode.geocode
+    address
+    |> Geocode.geocode
+    |> do_index(conn)
+  end
+  # Used in Backstop tests to avoid calling Google Maps
+  def index(conn, %{"latitude" => latitude, "longitude" => longitude} = params) do
+    formatted = params
+    |> Map.get("location", %{})
+    |> Map.get("address", "#{latitude}, #{longitude}")
 
+    {:ok, [
+        %Geocode.Address{
+          latitude: String.to_float(latitude),
+          longitude: String.to_float(longitude),
+          formatted: formatted
+        }
+      ]
+    }
+    |> do_index(conn)
+  end
+  def index(conn, _) do
+    send_response([], conn)
+  end
+
+  @spec do_index(Geocode.t, Plug.Conn.t) :: Plug.Conn.t
+  defp do_index(results, conn) do
     results
     |> get_stops_nearby(conn)
     |> stops_with_routes
     |> send_response(conn, address(results))
-  end
-  def index(conn, _) do
-    send_response([], conn)
   end
 
   #TODO handle differently when multiple results are returned?
   @doc """
     Retrieves stops close to a location and parses into the correct configuration
   """
-  @spec get_stops_nearby(GoogleMaps.Geocode.t, Plug.Conn.t) :: [Stop.t]
+  @spec get_stops_nearby(Geocode.t, Plug.Conn.t) :: [Stop.t]
   def get_stops_nearby({:ok, [location | _]},
                        %{private: private}) do
     private
@@ -64,7 +85,6 @@ defmodule Site.ServiceNearMeController do
   def separate_subway_lines([{:subway, subway_lines}|_] = routes) do
     subway_lines
     |> Enum.reduce(routes, &subway_reducer/2)
-    # |> Keyword.delete(:subway)
   end
   def separate_subway_lines(routes), do: routes
 
