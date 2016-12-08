@@ -203,17 +203,15 @@ defmodule Site.StopView do
 
     scheduled = stop_id
     |> Schedules.Repo.schedule_for_stop(route: route_id, date: date, direction_id: direction_id)
-    |> Enum.filter_map(
-      &(upcoming?(&1.time, date_time, mode)),
-      &{:scheduled, &1.trip, &1.time}
-    )
+    |> Enum.filter(&(upcoming?(&1.time, date_time, mode)))
+    |> Enum.map(&{:scheduled, &1.trip, &1.time})
 
     predicted
     |> Enum.concat(scheduled)
     |> dedup_trips
     |> Enum.sort_by(&(elem(&1, 2)))
     |> Enum.group_by(&(elem(&1, 1).headsign))
-    |> Enum.filter(fn({k,v}) -> departing?(elem(List.first(v), 1).id, stop_id) end)
+    |> Enum.filter(fn({_k,v}) -> departing?(elem(List.first(v), 1).id, stop_id) end)
     |> Enum.map(fn {headsign, departures} ->
       {headsign, limit_departures(departures)}
     end)
