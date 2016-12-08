@@ -1,110 +1,141 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 m-t-1">
+    <div class="col-xs-12 how-to-pay-section">
       <h2>Step 1: Purchase a Ticket or Pass</h2>
-      <div>Fares for the Subway can be purchased in the following ways:</div>
-    </div>
-  </div>
-  <div class="row m-t-1">
-    <div class="col-md-4 col-xs-12">
-      <h3>Fare Vending Machines</h3>
-      Single Ride, Stored Value, 1-Day, 7-Day, and Monthly LinkPasses can be loaded onto a CharlieCard (learn more) or ticket at fare vending machines, found at all Subway stations.
-    </div>
-    <div class="col-md-4 col-xs-12">
-      <h3>On-Board</h3>
-      Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.
-    </div>
-    <div class="col-md-4 col-xs-12">
-      <h3>Retail Sales Locations</h3>
-      MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
-      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
-        Find a store near you <%= fa "arrow-right" %>
+      <p>
+        You can purchase your Subway fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board (only accepted at above-ground Green Line stops). Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharlieCard versus a CharlieTicket or cash on-board.
+      </p>
+      <p>
+      <%= link to: fare_path(@conn, :show, :charlie_card) do %>
+        Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
       <% end %>
-    </div>
-  </div>
-  <div class="row m-t-1">
-    <div class="col-xs-12">
-      <h2>Step 2: Pay Your Fare</h2>
-      <p>The type of Subway stop you are boarding at determines how the fare will be paid. Most Subway stops have fare entry gates that must be passed through before entering onto the platform.</p>
-      <p>The Green line has some above-ground stops where riders pay at a fare box upon boarding the train.</p>
-      <p>Accepted methods of payment are:</p>
-      <ul>
-        <li>CharlieCard</li>
-        <li>Ticket</li>
-        <li>Cash (on-board fare boxes only)</li>
-      </ul>
+      <div class="row">
+        <figure class="col-sm-6 col-xs-12">
+          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" alt="Charlie Card" />
+          <figcaption class="how-to-pay-image-caption">CharlieCard</figcaption>
+        </figure>
+        <figure class="col-sm-6 col-xs-12">
+          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-ticket.jpg") %>" alt="Charlie Ticket" />
+          <figcaption class="how-to-pay-image-caption">CharlieTicket</figcaption>
+        </figure>
+      </div>
+      <p>You can purchase your Subway fare at a fare vending machine, on-board at above-ground Green Line stops, or at retail sales locations.</p>
     </div>
   </div>
   <div class="row">
-    <figure class="col-sm-6 col-xs-12">
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+      <h3>Fare Vending Machines</h3>
+      <p>
+      You can load any amount of money for One Way fares or a pass (1-Day, 7-Day, Monthly) onto a CharlieCard or CharlieTicket at fare vending machines found at all Subway stations and the following Commuter Rail stations:
+      </p>
+      <p>
+      <%= Site.FareView.vending_machine_stations %>
+      </p>
+      </p>
+    </div>
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+      <h3>Retail Sales Locations</h3>
+      <p>
+      MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
+      </p>
+      <p>
+      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+        Find a store near you <%= fa "arrow-right" %>
+      <% end %>
+      </p>
+    </div>
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+      <h3>On-Board</h3>
+      Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 how-to-pay-section">
+      <h2>Step 2: Pay Your Fare</h2>
+      <p>
+      The type of stop you are boarding the Subway determines how your fare will be paid. Most Subway stops have stations with fare entry gates that you must pay your fare at in order to enter the platform.
+      </p>
+      <p>
+      The Green Line has some above-ground stops. You have the option to pay with cash at these stops in addition to the CharlieCard or CharlieTicket payment methods. Fares are paid at fare boxes located in the front of Subway cars next to the driver.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+      <h3>Fare Entry Gates</h3>
+    </div>
+  </div>
+  <div class="row">
+    <figure class="col-sm-8 col-md-push-6 col-md-6 col-xs-12">
       <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/HAF24.jpg"
         alt="Fare entry Gate" class="how-to-pay-image how-to-pay-image-oversize" width="100%">
       <figcaption class="how-to-pay-image-caption">Fare entry gate</figcaption>
     </figure>
-    <figure class="col-sm-6 col-xs-12">
+    <div class="col-md-pull-6 col-md-6 col-xs-12">
+      <div class="how-to-pay-sub-section">
+        <h4>Entry with CharlieCard</h4>
+        <ol class="how-to-pay-steps">
+          <li><div>Tap your CharlieCard on the black card target.</div></li>
+          <li><div>“Enter” will appear on the screen.</div></li>
+          <li><div>The fare gate will open and you can proceed to the platform.</div></li>
+        </ol>
+      </div>
+      <div class="how-to-pay-sub-section">
+        <h4>Entry with a CharlieTicket</h4>
+        <ol class="how-to-pay-steps">
+          <li><div>Insert the ticket into the ticket slot with the arrow facing away from you.</div></li>
+          <li><div>The screen will say “Enter” and show the remaining value on the ticket.</div></li>
+          <li><div>Remove your ticket from the slot and proceed to the platform.</div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+      <h3>On-Board Fare Boxes</h3>
+    </div>
+  </div>
+  <div class="row">
+    <figure class="col-sm-8 col-md-push-6 col-md-6 col-xs-12">
       <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/Farebox3.JPG"
         alt="On-board fare box" class="how-to-pay-image how-to-pay-image-oversize">
       <figcaption class="how-to-pay-image-caption">On-board fare box</figcaption>
     </figure>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <h3>Fare Entry Gates</h3>
-      <hr />
-    </div>
-    <div class="col-md-6 col-xs-12">
-      <h4>Entry with CharlieCard</h4>
-      <ol class="how-to-pay-steps">
-        <li><div>Tap your CharlieCard on the black card target</div></li>
-        <li><div>“Enter” will appear on the screen</div></li>
-        <li><div>The fare gate will open and you can proceed to the platform</div></li>
-      </ol>
-    </div>
-    <div class="col-md-6 col-xs-12">
-      <h4>Entry with a Ticket</h4>
-      <ol class="how-to-pay-steps">
-        <li><div>Insert the ticket into the ticket slot with the arrow facing away from you</div></li>
-        <li><div>The screen will say “Enter” and show the remaining value on the ticket</div></li>
-        <li><div>Remove your ticket from the slot and proceed to the platform</div></li>
-      </ol>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <h3>On-Board Fare Boxes</h3>
-      <hr />
-    </div>
-    <div class="col-md-6 col-xs-12">
-      <h4>Paying by Cash</h4>
-      <div>On-board fare boxes accept coins and bills up to $20. Exact change is encouraged.</div>
-      <hr />
-      <ol class="how-to-pay-steps">
-        <li><div>Enter fare amount into coin slot and dollar insert.</div></li>
-        <li><div>The fare box will beep once to inform you that you have paid the right amount.</div></li>
-      </ol>
-    </div>
-    <div class="col-md-6 col-xs-12">
-      <h3>Paying by Ticket</h3>
-      <ol class="how-to-pay-steps">
-        <li><div>Insert your ticket into the ticket slot with the arrow facing away from you</div></li>
-        <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div>
-          <hr />
-          Three quick beeps from the farebox lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.
-        </li>
-      </ol>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-xs-12">
-      <h3>Paying by CharlieCard</h3>
-      <ol class="how-to-pay-steps">
-        <li><div>Tap the CharlieCard onto the black card target.</div></li>
-        <li>
-          <div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard</div>
-          <hr />
-          Three quick beeps from the farebox lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.
-        </li>
-      </ol>
+    <div class="col-md-pull-6 col-md-6 col-xs-12">
+      <div class="how-to-pay-sub-section">
+        <h4>Paying by Cash</h4>
+        <div>On-board fare boxes accept coins and bills up to $20. Exact change is encouraged.</div>
+        <ol class="how-to-pay-steps">
+          <li><div>Enter fare amount into coin slot and dollar insert.</div></li>
+          <li><div>The fare box will beep once to inform you that you have paid the right amount.</div></li>
+        </ol>
+        <p>
+        <strong>Tip:</strong> If you insert more money than it costs for a One Way fare, the difference will be loaded onto a
+        CharlieTicket dispensed from the on-board fare box.
+        </p>
+      </div>
+      <div class="how-to-pay-sub-section">
+        <h4>Paying by CharlieTicket</h4>
+        <ol class="how-to-pay-steps">
+          <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
+          <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
+        </ol>
+        <p>
+        <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your
+        card properly or that you do not have enough money on your card to pay the fare.
+        </p>
+      </div>
+      <div class="how-to-pay-sub-section">
+        <h4>Paying by CharlieCard</h4>
+        <ol class="how-to-pay-steps">
+          <li><div>Tap the CharlieCard onto the black card target.</div></li>
+          <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard.</div></li>
+        </ol>
+        <p>
+        <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card
+        properly or that you do not have enough money on your card to pay the fare.
+        </p>
+      </div>
     </div>
   </div>
   <div class="row m-t-1">

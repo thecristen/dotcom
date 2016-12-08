@@ -1,41 +1,62 @@
 <div class="container">
-  <p>In order to schedule a trip with The RIDE you will need to first have funds in your account.</p>
-  <p>THE RIDE fare is debited from your account as you board the vehicle. You are not charged for a trip you don't take. If a refund is needed, please call The RIDE at (888) 844-0355.</p>
-  <p>You can determine your account balance via your RIDE contractor's website, your RIDE reservationist, or by calling the MBTA's Office for Transportation Access.</p>
-  <p>Listed below are the ways funds can be added to your RIDE account.</p>
+  <div class="how-to-pay-section">
+    <h2>Paying for The RIDE</h2>
+    <p>You will need funds in your account before scheduling a trip with The RIDE.</p>
+    <p>Your fare for The RIDE will be debited from your account as you board the vehicle. You will not be charged for a trip you don't take. Please call The RIDE at (888) 844-0355 if you need a refund.</p>
+    <p>You can determine your account balance via your RIDE contractor's website, your RIDE reservationist, or by calling the MBTA's Office for Transportation Access.</p>
+    <p>You may add funds to your RIDE account online, by phone, by mail, or in person at the CharlieCard store.</p>
+  </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-xs-12 how-to-pay-sub-section">
       <h3>Online</h3>
       If you have an account with the RIDE, you can add value to your account online.
-      <hr />
-      <%= link to: "https://commerce.mbta.com/TheRide/" do %>
-        Log into RIDE account <%= fa "arrow-right" %>
-      <% end %>
-      <hr />
-      <%= link to: "https://commerce.mbta.com/TheRide/Account/Register" do %>
-        Register a new RIDE account <%= fa "arrow-right" %>
-      <% end %>
-      <hr />
-      <h3>Mail</h3>
-      <p>Funds can be added by sending a check or money order in the mail.</p>
-      <p>Make checks or money orders payable to "MBTA - THE RIDE Fares" and note your RIDE ID# in the memo portion of your check or money order. Allow five business days for posting.</p>
-      <h3>Address</h3>
+      <div class="p-y-1">
+        <span class=" how-to-pay-ride-link">
+          <%= link to: "https://commerce.mbta.com/TheRide/" do %>
+            Log into RIDE account <%= fa "arrow-right" %>
+          <% end %>
+        </span>
+        <span class=" how-to-pay-ride-link">
+          <%= link to: "https://commerce.mbta.com/TheRide/Account/Register" do %>
+            Register a new RIDE account <%= fa "arrow-right" %>
+          <% end %>
+        </span>
+      </div>
+      <div class="how-to-pay-sub-section">
+        <h3>Mail</h3>
+        <p>Funds can be added by sending a check or money order in the mail. Make checks or money orders payable to "MBTA - The RIDE Fares" and note your RIDE ID# in the memo portion of your check or money order. Allow five business days for posting.</p>
+      </div>
       <div>
-        MBTA - THE RIDE<br>
-        Fares 10 Park Plaza - Rm. 5000<br>
-        Boston, MA 02116
+        <strong>Address</strong>
+        <div>
+          <p>MBTA - THE RIDE<br>
+          Fares 10 Park Plaza - Rm. 5000<br>
+          Boston, MA 02116</p>
+        </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <h3>Phone</h3>
-      You can add funds to your RIDE account by calling  <%= tel_link "(888) 844-0355" %>.
-      <h3>Hours</h3>
-      Monday - Friday: 7:00 AM until 8:00 PM<br>
-      Saturday and Sunday: 9:00 until 5:00 PM (including holidays)
-      <h3>Accepted Payment Methods</h3>
-      Visa, Discover or American Express credit cards and debit cards supported by MasterCard or Visa. Funds post to your account within one (1) hour.
-      <h3>In-Person</h3>
-      Visit the CharlieCard Store at Downtown Crossing Station anytime Monday through Friday, 8 AM to 5:30 PM. The accessible entrance is at 32 Summer Street via the 101 Arch Street building in Boston. Cash, checks, money orders and major credit/debit cards are accepted. Funds post to your account within one (1) hour.
+    <div class="col-xs-12 how-to-pay-sub-section">
+      <div>
+        <h3>Phone</h3>
+        <p>You can add funds to your RIDE account by calling  <%= tel_link "(888) 844-0355" %>.</p>
+      </div>
+      <div>
+        <strong>Hours</strong>
+        <p>
+        Monday - Friday: 7:00 AM until 8:00 PM<br>
+        Saturday and Sunday: 9:00 until 5:00 PM (including holidays)
+        </p>
+      </div>
+      <div>
+        <strong>Accepted Payment Methods</strong>
+        <p>
+        Visa, Discover or American Express credit cards and debit cards supported by MasterCard or Visa. Funds post to your account within one (1) hour.
+        </p>
+      </div>
+      <div class="how-to-pay-sub-section">
+        <h3>In-Person</h3>
+        Visit the <%= link "CharlieCard Store", to: fare_path(@conn, :show, :charlie_card) %> at Downtown Crossing Station anytime Monday through Friday, 8 AM to 5:30 PM. The accessible entrance is at 32 Summer Street via the 101 Arch Street building in Boston. Cash, checks, money orders and major credit/debit cards are accepted. Funds post to your account within one (1) hour.
+      </div>
     </div>
   </div>
 </div>
