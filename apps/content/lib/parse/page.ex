@@ -6,6 +6,7 @@ defmodule Content.Parse.Page do
   end
 
   defp parse_json(%{
+        "nid" => [%{"value" => id}],
         "type" => [%{"target_id" => type}],
         "title" => [%{"value" => title}],
         "body" => [%{"value" => body}],
@@ -18,6 +19,7 @@ defmodule Content.Parse.Page do
           title: title,
           body: body,
           updated_at: updated_at,
+          id: id,
           fields: parse_fields(json)}}
     else
       _ ->
