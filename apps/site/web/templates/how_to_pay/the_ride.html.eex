@@ -11,12 +11,12 @@
       <h3>Online</h3>
       If you have an account with the RIDE, you can add value to your account online.
       <div class="p-y-1">
-        <span class="col-sm-6 col-xs-12 how-to-pay-ride-link">
+        <span class=" how-to-pay-ride-link">
           <%= link to: "https://commerce.mbta.com/TheRide/" do %>
             Log into RIDE account <%= fa "arrow-right" %>
           <% end %>
         </span>
-        <span class="col-sm-6 col-xs-12 how-to-pay-ride-link">
+        <span class=" how-to-pay-ride-link">
           <%= link to: "https://commerce.mbta.com/TheRide/Account/Register" do %>
             Register a new RIDE account <%= fa "arrow-right" %>
           <% end %>
