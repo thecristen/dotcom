@@ -19,13 +19,6 @@ defmodule Site.ContentController do
     conn
     |> render(Site.ContentView, "event_list.html", list: list)
   end
-  defp render_page(conn, {:ok, []}) do
-    render_page(conn, nil)
-  end
-  defp render_page(conn, {:ok, [page | _] = list}) do
-    conn
-    |> render(Site.ContentView, "#{page.type}_list.html", list: list)
-  end
   defp render_page(conn, {:ok, page}) do
     conn
     |> render(Site.ContentView, "#{page.type}.html",
