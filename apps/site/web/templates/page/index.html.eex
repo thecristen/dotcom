@@ -1,10 +1,10 @@
 <div class="index">
-  <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false, card_class: "card-narrow" %>
+  <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false, card_class: "page-section-narrow" %>
 
   <%= render "_news_card.html", news: @news, conn: @conn %>
 
-  <div class="card card-section card-narrow homepage-footer">
-    <div class="card-block card-block-no-header">
+  <div class="page-section page-section-narrow homepage-footer">
+    <div class="page-block page-block-no-header">
       <div class="row">
         <div class="col-md-6">
           <h1>Riding the T</h1>

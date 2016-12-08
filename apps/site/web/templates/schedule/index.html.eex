@@ -1,5 +1,5 @@
-<div class="card card-section">
-  <div class="card-block card-block-no-header">
+<div class="page-section">
+  <div class="page-block page-block-no-header">
     <div class="schedule-header">
       <%= render "_locations.html", forward_assigns(@conn) %>
       <%= render "_filters.html", forward_assigns(@conn) %>

@@ -1,6 +1,6 @@
 <div class="container-fluid hidden-sm-down desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
   <div class="container">
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="gettingAround" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="faresDrawer" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-8 fares-column">
@@ -155,7 +155,7 @@
         </div>
       </div>
     </div>
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="contactUs" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
@@ -207,7 +207,7 @@
         </div>
       </div>
     </div>
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="more" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">

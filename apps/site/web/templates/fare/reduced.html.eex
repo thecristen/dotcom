@@ -1,6 +1,6 @@
 <% charlie_card_store_link = link "view details", to: Path.join(fare_path(@conn, :show, :charlie_card), "#store"), "data-turbolinks": "false" %>
-<div class="card card-section">
-  <div class="card-block card-block-no-header row">
+<div class="page-section">
+  <div class="page-block page-block-no-header row">
     <div class="col-xs-12">
       <h1>Reduced Fare Eligibility</h1>
       <hr />
