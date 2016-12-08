@@ -30,16 +30,10 @@
   padding: .5rem 0;
 }
 
-.how-to-pay-callout-top {
-  border-bottom: solid 1px $gray-lightest;
+.how-to-pay-note {
+  background-color: $gray-lightest;
   margin: .5rem 0;
-  padding: .5rem 0;
-}
-
-.how-to-pay-callout-bottom {
-  border-top: solid 1px $gray-lightest;
-  margin: .5rem;
-  padding: .5rem 0;
+  padding: .5rem;
 }
 
 .how-to-pay-block {
@@ -70,6 +64,7 @@
 
 .how-to-pay-image-caption {
   text-align: center;
+  font-size: .875rem;
   width: 100%;
 }
 
@@ -77,4 +72,16 @@
   @include media-breakpoint-up(sm) {
     border-left: 1px solid $gray-lightest;
   }
+}
+
+.how-to-pay-ride-link {
+  padding-right: 1rem;
+}
+
+.how-to-pay-section {
+  padding-top: 2rem;
+}
+
+.how-to-pay-sub-section {
+  padding-top: 1rem;
 }

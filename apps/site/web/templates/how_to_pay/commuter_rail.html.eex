@@ -1,14 +1,39 @@
 <div class="container">
-  <div class="row m-t-1">
+  <div class="row">
+    <div class="col-xs-12 how-to-pay-section">
+      <h2>Paying Your Commuter Rail Fare</h2>
+      <div class="how-to-pay-sub-section">
+        <h3>Step 1: Purchase a Ticket or Pass</h3>
+        <p>
+          You can purchase your Commuter Rail fare with the following payment methods: CharlieTicket, mTicket app ticket, and cash on-board. Fare costs, transfers, and the type of passes available for purchase may vary based on your payment method.
+        </p>
+        <figure class="col-md-4 col-sm-8 col-xs-12">
+          <img src="<%= static_url(@conn, "/images/mticket-app.png") %>" alt="mTicket App" width="100%" />
+          <figcaption class="how-to-pay-image-caption">mTicket app</figcaption>
+        </figure>
+        <figure class="col-md-4 col-sm-8 col-xs-12">
+          <img src="<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %>" alt="One Way Charlie Ticket" width="100%" />
+          <figcaption class="how-to-pay-image-caption">One Way Charlie Ticket</figcaption>
+        </figure>
+        <figure class="col-md-4">
+          <img src="<%= static_url(@conn, "/images/charlie-ticket-month-pass.jpg") %>" alt="Mothly Psas on Charlie Ticket" width="100%" />
+          <figcaption class="how-to-pay-image-caption">Monthly Pass on Charlie Ticket</figcaption>
+        </figure>
+      </div>
+    </div>
     <div class="col-xs-12">
-      <h2>Step 1: Purchase a Ticket or Pass</h2>
-      <div>Fares for the Commuter Rail can be purchased in the following ways:</div>
+      <p>
+      You can buy your Commuter Rail fare using the mTicket app, at a fare vending machine, on-board, or at select retail sales locations.
+      </p>
     </div>
   </div>
-  <div class="row m-t-1">
-    <div class="col-md-6 col-xs-12">
+  <div class="row">
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
       <h3>mTicket App</h3>
-      Commuter rail riders can easily purchase a One way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
+      <p>
+      You can purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, passes purchased through mTicket app are not valid for use on Bus and Subway like they are on a CharlieTicket. Available on the iPhone App Store and Google Play.
+      </p>
+      <p>
       <div>
         <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
           <span class="sr-only">Download on the app store</span>
@@ -18,72 +43,70 @@
           <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
         </a>
       </div>
+      </p>
     </div>
-    <div class="col-md-6 col-xs-12">
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
       <h3>Fare Vending Machine</h3>
       <p>
-        One way tickets, Monthly Passes up to Zone 8, and Stored Value  on a ticket or CharlieCard can be bought at fare vending machines at all Subway stations and the following Commuter Rail stations:
+      You can load One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and Subway travel as well) Passes onto a CharlieTicket at a fare vending machine, found in all Subway stations and the following Commuter Rail stations:
       </p>
       <p><%= Site.FareView.vending_machine_stations %></p>
     </div>
-    <div class="col-md-6 col-xs-12">
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+      <h3>On-Board</h3>
+      <p>One way or round trip tickets can be purchased on-board by cash. If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.</p>
+    </div>
+    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
       <h3>Retail Sales Location</h3>
       <p>MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.</p>
+      <p>
       <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
         Find a store near you <%= fa "arrow-right" %>
       <% end %>
-    </div>
-    <div class="col-md-6 col-xs-12">
-      <h3>On-Board</h3>
-      <p>One way or round trip tickets can be purchased on-board by cash. If tickets are purchased on-board at a station that has a fare vending machine, there may be a surcharge of $3.00. Round-trip tickets purchased on board will be valid until the end of service that same day.</p>
+      </p>
     </div>
   </div>
   <div class="row m-t-1">
     <div class="col-xs-12">
-      <h2>Step 2: Pay Your Fare</h2>
-      Commuter rail fares are paid after boarding the train. A conductor will come to check your ticket or collect payment if you have not already bought a ticket. The following payment methods are accepted:
-      <ul>
-        <li><div>mTicket App</div></li>
-        <li><div>Ticket or pass</div></li>
-        <li><div>Cash</div></li>
-      </ul>
+      <h2>Step 2: Present Your Ticket or Pass to the Conductor</h2>
+      <p>Commuter Rail fares are collected after you board the train. A conductor will come to check your mTicket app or CharlieTicket, or collect payment if you have not already purchased your fare. Fare prices depend on what zones you are traveling to and from, so make sure you purchase the <%= link "correct fare", to: fare_path(@conn, :show, "commuter_rail") %> for your trip before you board the train. If you are paying with cash on-board, make sure to tell the train conductor what your destination stop is.</p>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-xs-12">
-      <h3>mTicket App</h3>
+    <div class="col-xs-12 how-to-pay-sub-section">
+      <h3>Paying with the mTicket App</h3>
+      <p>
       <ol class="how-to-pay-steps">
         <li><div>Activate your ticket</div></li>
         <li><div>Show your phone with the activated ticket to the conductor</div></li>
         <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
       </ol>
+      </p>
     </div>
-    <figure class="col-md-6 col-xs-12">
-      <img class="how-to-pay-image" src="<%= static_url(@conn, "/images/mticket_screenshot.png") %>" alt="Activated mTicket">
-      <figcaption class="how-to-pay-image-caption">Activated mTicket</figcaption>
-    </figure>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-xs-12">
-      <h3>Cash On-Board</h3>
+    <div class="col-xs-12 how-to-pay-sub-section">
+      <h3>Paying with a CharlieTicket</h3>
+      <p>
+      <ol class="how-to-pay-steps">
+        <li><div>Show your ticket or pass to the conductor</div></li>
+        <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
+      </ol>
+      </p>
+    </div>
+    <div class="col-xs-12 how-to-pay-sub-section">
+      <h3>Paying with Cash On-Board</h3>
+      <p>
       <ol class="how-to-pay-steps">
         <li><div>Tell the conductor which station you are traveling to and if you are purchasing a one way or round trip ticket.</div></li>
         <li><div>The conductor will tell you the cost of the fare and collect your payment.</div></li>
         <li>
           <div>You will be given a ticket marking your origin and destination stops and the fare zone you are traveling in.</div>
-          <div class="how-to-pay-callout">
-            If you are traveling round-trip, remember to save this ticket and present it to the conductor on your next trip.
+          <div class="how-to-pay-note">
+            <strong>Note:</strong> If you are traveling round-trip, remember to save this ticket and present it to the conductor on your next trip.
           </div>
         </li>
         <li><div>The conductor will mark your seat with a slip of paper that indicates your destination.</div></li>
       </ol>
-    </div>
-    <div class="col-md-6 col-xs-12">
-      <h3>Ticket or Pass</h3>
-      <ol class="how-to-pay-steps">
-        <li><div>Show your ticket or pass to the conductor</div></li>
-        <li><div>The conductor will mark your seat with a slip of paper that indicates your destination</div></li>
-      </ol>
+      </p>
     </div>
   </div>
   <div class="row">
