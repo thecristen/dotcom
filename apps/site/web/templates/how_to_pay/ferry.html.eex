@@ -14,7 +14,7 @@
         <figcaption class="how-to-pay-image-caption">One Way Charlie Ticket</figcaption>
       </figure>
       <figure class="col-md-4 col-sm-8 col-xs-12">
-        <img src="<%= static_url(@conn, "/images/charlie-ticket-month-pass.jpg") %>" alt="Mothly Psas on Charlie Ticket" width="100%" />
+        <img src="<%= static_url(@conn, "/images/charlie-ticket-month-pass.jpg") %>" alt="Monthly Psas on Charlie Ticket" width="100%" />
         <figcaption class="how-to-pay-image-caption">Monthly Pass on Charlie Ticket</figcaption>
       </figure>
     </div>

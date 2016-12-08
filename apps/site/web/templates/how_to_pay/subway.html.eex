@@ -75,17 +75,17 @@
       <div class="how-to-pay-sub-section">
         <h4>Entry with CharlieCard</h4>
         <ol class="how-to-pay-steps">
-          <li><div>Tap your CharlieCard on the black card target</div></li>
-          <li><div>“Enter” will appear on the screen</div></li>
-          <li><div>The fare gate will open and you can proceed to the platform</div></li>
+          <li><div>Tap your CharlieCard on the black card target.</div></li>
+          <li><div>“Enter” will appear on the screen.</div></li>
+          <li><div>The fare gate will open and you can proceed to the platform.</div></li>
         </ol>
       </div>
       <div class="how-to-pay-sub-section">
         <h4>Entry with a CharlieTicket</h4>
         <ol class="how-to-pay-steps">
-          <li><div>Insert the ticket into the ticket slot with the arrow facing away from you</div></li>
-          <li><div>The screen will say “Enter” and show the remaining value on the ticket</div></li>
-          <li><div>Remove your ticket from the slot and proceed to the platform</div></li>
+          <li><div>Insert the ticket into the ticket slot with the arrow facing away from you.</div></li>
+          <li><div>The screen will say “Enter” and show the remaining value on the ticket.</div></li>
+          <li><div>Remove your ticket from the slot and proceed to the platform.</div></li>
         </ol>
       </div>
     </div>
@@ -117,11 +117,11 @@
       <div class="how-to-pay-sub-section">
         <h4>Paying by CharlieTicket</h4>
         <ol class="how-to-pay-steps">
-          <li><div>Insert your ticket into the ticket slot with the arrow facing away from you</div></li>
+          <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
           <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
         </ol>
         <p>
-        <strong>Tip:</strong> Three quick beeps from the farebox lets you know that either the machine was unable to read your
+        <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your
         card properly or that you do not have enough money on your card to pay the fare.
         </p>
       </div>
@@ -129,10 +129,10 @@
         <h4>Paying by CharlieCard</h4>
         <ol class="how-to-pay-steps">
           <li><div>Tap the CharlieCard onto the black card target.</div></li>
-          <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard</div></li>
+          <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard.</div></li>
         </ol>
         <p>
-        <strong>Tip:</strong> Three quick beeps from the farebox lets you know that either the machine was unable to read your card
+        <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card
         properly or that you do not have enough money on your card to pay the fare.
         </p>
       </div>

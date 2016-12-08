@@ -2,7 +2,7 @@
   <div class="row">
     <div class="how-to-pay-section col-xs-12">
       <h2>Step 1: Purchase a Ticket or Pass</h2>
-      <p>You can pay your Bus fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board. Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharieCard versus a CharlieTicket or cash on-board.</p>
+      <p>You can pay your Bus fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board. Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharlieCard versus a CharlieTicket or cash on-board.</p>
       <p>
         <%= link to: fare_path(@conn, :show, "charlie_card") do %>
           Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
@@ -25,7 +25,7 @@
     <div class="how-to-pay-sub-section col-md-6 col-xs-12">
       <h3>Fare Vending Machines</h3>
       <p>You can load any amount of money for One Way fares or a pass (1-Day, 7-Day, Monthly) onto a CharlieCard or CharlieTicket at fare vending machines found at all Subway stations and the following Commuter Rail stations:</p>
-      <p><%= Site.FareView.vending_machine_stations %>
+      <p><%= Site.FareView.vending_machine_stations %></p>
     </div>
     <div class="how-to-pay-sub-section col-md-6 col-xs-12">
       <h3>Retail Sales Locations</h3>
@@ -79,10 +79,10 @@
         <h4>Paying by CharlieTicket</h4>
         <p>
         <ol class="how-to-pay-steps">
-          <li><div>Insert your ticket into the ticket slot with the arrow facing away from you</div></li>
+          <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
           <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
         </ol>
-        <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the farebox lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
+        <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
         </p>
       </div>
       <div class="how-to-pay-sub-section">
@@ -92,7 +92,7 @@
           <li><div>Tap the CharlieCard onto the black card target.</div></li>
           <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard.</div></li>
         </ol>
-        <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the farebox lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
+        <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
         </p>
       </div>
     </div>
