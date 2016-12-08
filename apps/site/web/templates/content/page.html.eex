@@ -1,5 +1,5 @@
 <div class="page-section">
-  <div class="page-block page-block-no-header">
+  <div class="page-block">
     <h1><%= @page.title |> raw %></h1>
     <%= @page.body |> raw %>
   </div>

@@ -1,5 +1,5 @@
 <div class="page-section">
-  <div class="page-block page-block-no-header">
+  <div class="page-block">
     <%= render @fare_template, forward_assigns(@conn) %>
 
     <div class="row fares-callout-row">

@@ -1,5 +1,5 @@
 <div class="page-section station">
-  <div class="page-block page-block-no-header">
+  <div class="page-block">
     <h1>
       <%= @stop.name %>
       <span class="no-wrap">

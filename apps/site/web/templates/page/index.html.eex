@@ -4,7 +4,7 @@
   <%= render "_news_card.html", news: @news, conn: @conn %>
 
   <div class="page-section page-section-narrow homepage-footer">
-    <div class="page-block page-block-no-header">
+    <div class="page-block">
       <div class="row">
         <div class="col-md-6">
           <h1>Riding the T</h1>

@@ -1,5 +1,5 @@
 <div class="page-section <%= assigns[:card_class] %>" id="schedules">
-  <div class="page-block page-block-no-header">
+  <div class="page-block">
     <h1>Schedules and Maps</h1>
     <%= for route_type <- [:commuter_rail, :bus, :subway, :ferry] do %>
       <%= render Site.ModeView, "_mode.html", route_type: route_type, grouped_routes: @grouped_routes, conn: @conn, truncate: true %>
