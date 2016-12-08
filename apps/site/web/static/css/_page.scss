@@ -1,0 +1,82 @@
+$page-section-padding-sm: .75rem;
+$page-section-padding-md: 0;
+$page-section-padding-xxl: 0;
+
+.page-section {
+  // TODO get rid of the border. However, the Backstop tests currently expect
+  // it for spacing even though it isn't visible. -p
+  background-color: $white;
+  border: 1px solid $white;
+  margin-bottom: $page-section-padding-sm;
+
+  @include media-breakpoint-up(md) {
+    &:first-child {
+      margin-top: $page-section-padding-sm;
+    }
+  }
+
+  &:empty {
+    // don't show anything for empty sections
+    display: none;
+  }
+}
+
+.page-section-narrow {
+  margin-left: $page-section-padding-sm;
+  margin-right: $page-section-padding-sm;
+
+  @include media-breakpoint-up(md) {
+    // only narrow on mobile
+    margin-left: inherit;
+    margin-right: inherit;
+  }
+}
+
+.page-header {
+  background-color: $white;
+  border-bottom: 1px solid $white;
+  padding: $page-section-padding-sm;
+
+  @include media-breakpoint-up(md) {
+    padding-left: $page-section-padding-md;
+    padding-right: $page-section-padding-md;
+    padding-top: $page-section-padding-md;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    padding-left: $page-section-padding-xxl;
+    padding-right: $page-section-padding-xxl;
+    padding-top: $page-section-padding-xxl;
+  }
+}
+
+.page-block {
+  margin-top: $page-section-padding-sm;
+  padding: 1.25rem $page-section-padding-sm $page-section-padding-sm;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: $page-section-padding-md;
+    padding-left: $page-section-padding-md;
+    padding-right: $page-section-padding-md;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    padding-bottom: $page-section-padding-xxl;
+    padding-left: $page-section-padding-xxl;
+    padding-right: $page-section-padding-xxl;
+  }
+}
+
+// formerly page-block-no-header
+.page-block:first-child {
+  //  we don't want to undo the margin
+  margin-top: 0;
+  padding-top: $page-section-padding-sm;
+
+  @include media-breakpoint-up(md) {
+    padding-top: $page-section-padding-md;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    padding-top: $page-section-padding-xxl;}
+}

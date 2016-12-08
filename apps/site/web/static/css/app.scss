@@ -8,7 +8,7 @@
 @import 'route-icon';
 @import 'mode-group';
 @import 'font-sizes';
-@import 'card';
+@import 'page';
 @import 'index';
 @import 'alerts';
 @import 'schedule';
@@ -57,7 +57,7 @@ body {
   // Only show the main content on the mTicket app's view
   &.mticket {
     @include media-breakpoint-down(sm) {
-      .card-section:last-child {
+      .page-section:last-child {
         margin-bottom: 0;
       }
     }

@@ -1,6 +1,6 @@
 <div>
-  <div class="card card-section">
-    <div class="card-header">
+  <div class="page-section">
+    <div class="page-header">
       <div class="row">
         <%= render "_route.html", forward_assigns(@conn) %>
       </div>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="card-block">
+    <div class="page-block">
       <div class="list-group schedule-list-group">
         <%= for {route, schedules, from} <- @green_schedules do %>
           <a class="list-group-item"
