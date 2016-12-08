@@ -15,6 +15,13 @@ defmodule Site.ContentController do
     |> render_page(maybe_page)
   end
 
+  defp render_page(conn, {:ok, []}) do
+    render_page(conn, nil)
+  end
+  defp render_page(conn, {:ok, [page | _] = list}) do
+    conn
+    |> render(Site.ContentView, "#{page.type}_list.html", list: list)
+  end
   defp render_page(conn, {:ok, page}) do
     conn
     |> render(Site.ContentView, "#{page.type}.html",

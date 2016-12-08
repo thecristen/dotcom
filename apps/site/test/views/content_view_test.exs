@@ -2,7 +2,6 @@ defmodule Site.ContentViewTest do
   use ExUnit.Case, async: true
 
   import Site.ContentView
-  import GoogleMaps
 
   describe "scaled_map_srcset/2" do
     test "returns a srcset for the scaled map sizes" do

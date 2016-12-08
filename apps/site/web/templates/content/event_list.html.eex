@@ -1,0 +1,34 @@
+<div c;ass="row">
+  <div class="col-xs-12">
+    <h1>Public Meetings</h1>
+  </div>
+</div>
+
+<% start_time = Map.get(@conn.params, "field_start_time_gt") %>
+<% {title, short} = if start_time do
+    title = start_time |> Timex.parse!("{ISOdate}") |> Timex.format!("{Mfull}")
+    {title, "meetings in #{title}"}
+else
+    {"Upcoming Meetings", "upcoming meetings"}
+end %>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <%= title %>
+      </div>
+      <%= if @list == [] do %>
+        Sorry, there are no <%= short %>.
+      <% else %>
+        <ul class="list-group list-group-flush">
+          <%= for event <- @list do %>
+            <li class="list-group-item">
+              <div><%= event_duration(event.fields.start_time, event.fields.end_time) %></div>
+              <div><%= link event.title, to: "/node/#{event.id}" %></div>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+</div>
