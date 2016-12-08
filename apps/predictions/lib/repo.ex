@@ -24,18 +24,22 @@ defmodule Predictions.Repo do
   end
 
   defp fetch(params) do
-    try do
-      params
-      |> V3Api.Predictions.all
-      |> Map.get(:data)
-      |> Enum.map(&Predictions.Parser.parse/1)
-    rescue
-      e -> warn_error(e)
+    case V3Api.Predictions.all(params) do
+      {:error, error} -> warn_error(params, error)
+      %JsonApi{data: data} -> Enum.flat_map(data, &parse/1)
     end
   end
 
-  defp warn_error(e) do
-    _ = Logger.warn("error during prediction: #{inspect e}")
+  defp parse(item) do
+    try do
+      [Predictions.Parser.parse(item)]
+    rescue
+      e -> warn_error(item, e)
+    end
+  end
+
+  defp warn_error(item, e) do
+    _ = Logger.warn("error during Prediction (#{inspect item}): #{inspect e}")
     []
   end
 end

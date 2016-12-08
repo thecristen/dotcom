@@ -31,7 +31,58 @@ defmodule Predictions.RepoTest do
 
       Application.put_env(:v3_api, :base_url, "")
 
-      assert Repo.all(route: nil) == []
+      assert Repo.all(route: "test_down_server") == []
+    end
+
+    @tag :capture_log
+    test "returns valid entries even if some don't parse" do
+      bypass = Bypass.open
+      v3_url = Application.get_env(:v3_api, :base_url)
+      on_exit fn ->
+        Application.put_env(:v3_api, :base_url, v3_url)
+      end
+
+      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+
+      Bypass.expect bypass, fn conn ->
+        # return a Prediction with a valid stop, and one with an invalid stop
+        Plug.Conn.resp(conn, 200, ~s(
+              {
+                "included": [
+                  {"type": "route", "id": "route", "attributes": {}, "relationships": {}},
+                  {"type": "trip", "id": "trip", "attributes": {}, "relationships": {}},
+                  {"type": "stop", "id": "stop", "attributes": {}, "relationships": {}}
+                ],
+                "data": [
+                  {
+                    "type": "prediction",
+                    "id": "1",
+                    "attributes": {
+                      "arrival_time": "2016-01-01T00:00:00-05:00"
+                    },
+                    "relationships": {
+                      "route": {"data": {"type": "route", "id": "route"}},
+                      "trip": {"data": {"type": "trip", "id": "trip"}},
+                      "stop": null
+                    }
+                  },
+                  {
+                    "type": "prediction",
+                    "id": "1",
+                    "attributes": {
+                      "arrival_time": "2016-01-01T00:00:00-05:00"
+                    },
+                    "relationships": {
+                      "route": {"data": {"type": "route", "id": "route"}},
+                      "trip": {"data": {"type": "trip", "id": "trip"}},
+                      "stop": {"data": {"type": "stop", "id": "stop"}}
+                    }
+                  }
+                ]
+              }))
+      end
+
+      refute Repo.all(route: "test_partial_parse") == []
     end
   end
 end
