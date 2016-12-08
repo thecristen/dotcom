@@ -15,16 +15,11 @@ defmodule Site.ContentView do
   @doc "URL for the embedded Google map image for an address."
   @spec map_url(String.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
   def map_url(address, width, height, scale) do
-    %{
-      size: "#{width}x#{height}",
+    GoogleMaps.static_map_url(width, height,
       channel: "beta_mbta_content",
       zoom: 16,
       scale: scale,
-      markers: address
-    }
-    |> URI.encode_query
-    |> (fn query -> "/maps/api/staticmap?#{query}" end).()
-    |> GoogleMaps.signed_url
+      markers: address)
   end
 
   @doc "Nicely renders the duration of an event, given two DateTimes."
@@ -60,14 +55,8 @@ defmodule Site.ContentView do
     "#{format_date(start_time)} #{format_time(start_time)} until #{format_date(end_time)} #{format_time(end_time)}"
   end
 
-  defp ordinal_number(number)
-  defp ordinal_number(1), do: "1st"
-  defp ordinal_number(2), do: "2nd"
-  defp ordinal_number(3), do: "3rd"
-  defp ordinal_number(number) when is_number(number), do: "#{number}th"
-
   defp format_date(date) do
-    Timex.format!(date, "{WDfull}, {Mfull} #{date.day |> ordinal_number}")
+    Timex.format!(date, "{WDfull}, {Mfull} #{date.day |> Inflex.Ordinalize.ordinalize}")
   end
 
   defp format_time(time) do

@@ -11,7 +11,7 @@ defmodule Content.Parse.PageTest do
                      title: "Privacy Policy",
                      body: "<p><strong>MBTA'S WEBSITE AND ELECTRONIC FARE MEDIA PRIVACY POLICY</strong><br />",
                      updated_at: Timex.to_datetime(~N[2016-11-07T15:55:35], "Etc/UTC")}}
-      actual = parse(fixture("page.json"))
+      actual = "page.json" |> fixture |> parse
       assert actual == expected
     end
 

@@ -36,6 +36,17 @@ defmodule GoogleMaps do
     ]
   end
 
+  @doc "Given an width, and height returns a URL to a static map image."
+  @spec static_map_url(pos_integer, pos_integer, Keyword.t) :: String.t
+  def static_map_url(width, height, opts) do
+    opts
+    |> Keyword.put(:size, "#{width}x#{height}")
+    |> URI.encode_query
+    |> (fn query -> "/maps/api/staticmap?#{query}" end).()
+    |> signed_url
+  end
+
+
   defp get_env(key) do
     env = Application.get_env(:site, __MODULE__, [])
     case Keyword.get(env, key, "") do
