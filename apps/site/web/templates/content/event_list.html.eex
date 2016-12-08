@@ -1,34 +1,48 @@
-<div c;ass="row">
-  <div class="col-xs-12">
-    <h1>Public Meetings</h1>
-  </div>
-</div>
-
-<% start_time = Map.get(@conn.params, "field_start_time_gt") %>
-<% {title, short} = if start_time do
-    title = start_time |> Timex.parse!("{ISOdate}") |> Timex.format!("{Mfull}")
-    {title, "meetings in #{title}"}
-else
-    {"Upcoming Meetings", "upcoming meetings"}
-end %>
-<div class="row">
-  <div class="col-xs-12">
-    <div class="card">
-      <div class="card-header">
-        <%= title %>
+<div class="page-section">
+  <div class="page-block">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Public Meetings</h1>
       </div>
-      <%= if @list == [] do %>
-        Sorry, there are no <%= short %>.
-      <% else %>
-        <ul class="list-group list-group-flush">
-          <%= for event <- @list do %>
-            <li class="list-group-item">
-              <div><%= event_duration(event.fields.start_time, event.fields.end_time) %></div>
-              <div><%= link event.title, to: "/node/#{event.id}" %></div>
-            </li>
+    </div>
+
+    <% start_time = Map.get(@conn.params, "field_start_time_gt") %>
+    <% {title, short} = if start_time do
+        title = start_time |> Timex.parse!("{ISOdate}") |> Timex.format!("{Mfull}")
+        {title, "meetings in #{title}"}
+        else
+        {"Upcoming Meetings", "upcoming meetings"}
+        end %>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="card">
+          <div class="card-header card-header-primary-darkest text-xs-center">
+            <h2 class="h3">
+              <%= link to: shift_month_url(@conn, :field_start_time, -1) do %>
+                <span class="sr-only">Previous Month</span>
+                <%= fa "chevron-circle-left" %>
+              <% end %>
+              <%= title %>
+              <%= link to: shift_month_url(@conn, :field_start_time, 1) do %>
+                <span class="sr-only">Next Month</span>
+                <%= fa "chevron-circle-right" %>
+              <% end %>
+            </h2>
+          </div>
+          <%= if @list == [] do %>
+            <div class="p-a-1">Sorry, there are no <%= short %>.</div>
+          <% else %>
+            <ul class="list-group list-group-flush">
+              <%= for event <- @list do %>
+                <li class="list-group-item">
+                  <div><%= event_duration(event.fields.start_time, event.fields.end_time) %></div>
+                  <div><%= link event.title, to: "/node/#{event.id}" %></div>
+                </li>
+              <% end %>
+            </ul>
           <% end %>
-        </ul>
-      <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
