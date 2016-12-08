@@ -1,0 +1,66 @@
+<div class="row p-a-g">
+  <div class="col-xs-12">
+    <h1><%= @page.title |> raw %></h1>
+    <%= @page.body |> raw %>
+  </div>
+</div>
+
+<% address = @page.fields.map_address || @page.fields.address %>
+<div class="event-map-container">
+  <picture>
+    <source
+      media="(min-width: 800px)"
+      sizes="(min-width: 1344px) 1200w,
+             (min-width: 1088px) 900w,
+             768w"
+      srcset="<%= [
+                  {600, 172},
+                  {480, 138},
+                  {384, 110}] |> scaled_map_srcset(address) %>">
+    <source
+      media="(min-width: 544px)"
+      sizes="100vw"
+      srcset="<%= [{400, 134}] |> scaled_map_srcset(address) %>">
+    <img
+      alt=""
+      class="img-fluid"
+      srcset="<%= [{400, 266}] |> scaled_map_srcset(address) %>"
+      sizes="100vw"
+      src="<%= map_url(address, 400, 266, 2) %>" />
+  </picture>
+</div>
+
+<div class="row p-a-g event-meta-row">
+  <div class="col-xs-12 col-md-3 event-meta-col">
+    <h2>When</h2>
+    <%= event_duration(@page.fields.start_time, @page.fields.end_time) %>
+  </div>
+  <div class="col-xs-12 col-md-3 col-md-offset-1 event-meta-col">
+    <h2>Where</h2>
+    <%= @page.fields.address %>
+    <div class="no-wrap p-t-1">
+      <%= link to: "https://maps.google.com/?q=#{URI.encode(address)}", target: "_blank" do %>
+        Get directions <%= fa "arrow-right" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-3 col-md-offset-1 event-meta-col">
+    <h2>Who</h2>
+    <%= @page.fields.who %>
+  </div>
+</div>
+
+<div class="row p-x-g event-meta-row">
+  <div class="col-xs-12 event-meta-col">
+    <h2>Notes</h2>
+    <%= @page.fields.notes |> raw %>
+  </div>
+</div>
+<div class="row p-x-g event-meta-row">
+  <div class="col-xs-12 event-meta-col">
+    <h2>Agenda</h2>
+    <%= @page.fields.agenda |> raw %>
+  </div>
+</div>
+
+<%= render "_social.html", path: @conn.request_path %>

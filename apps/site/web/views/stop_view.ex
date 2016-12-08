@@ -278,23 +278,18 @@ defmodule Site.StopView do
   @doc "URL for the embedded Google map image for the stop."
   @spec map_url(Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
   def map_url(stop, width, height, scale) do
-    query = %{
-      size: "#{width}x#{height}",
+    opts = [
       channel: "beta_mbta_station_info",
       zoom: 16,
       scale: scale
-    }
-    |> Map.merge(center_query(stop))
-    |> URI.encode_query
+    ] |> Keyword.merge(center_query(stop))
 
-    "/maps/api/staticmap?"
-    |> Kernel.<>(query)
-    |> GoogleMaps.signed_url
+    GoogleMaps.static_map_url(width, height, opts)
   end
 
   @doc """
-  Returns a map of query params to determine the center of the Google map image. If the stop has 
-  GPS coordinates, places a marker at its location. Otherwise, it centers the map around the stop without 
+  Returns a map of query params to determine the center of the Google map image. If the stop has
+  GPS coordinates, places a marker at its location. Otherwise, it centers the map around the stop without
   a marker.
   """
   @spec center_query(Stop.t) :: %{atom => String.t}
@@ -304,9 +299,9 @@ defmodule Site.StopView do
     |> Enum.all?(&(&1.type == 3))
 
     if bus_stop? do
-      %{markers: location(stop)}
+      [markers: location(stop)]
     else
-      %{center: location(stop)}
+      [center: location(stop)]
     end
   end
 

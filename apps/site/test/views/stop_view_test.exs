@@ -102,7 +102,8 @@ defmodule Site.StopViewTest do
   describe "schedule_display_time/2" do
     test "returns difference in minutes when difference is less than 60" do
       now = Util.now
-      diff = Timex.shift(now, minutes: 10)
+      diff = now
+      |> Timex.shift(minutes: 10)
       |> StopView.schedule_display_time(now)
       assert diff == "10 mins"
     end
@@ -119,12 +120,12 @@ defmodule Site.StopViewTest do
   describe "center_query/1" do
     test "returns a marker at the stop if it only has buses" do
       stop = %Stop{id: "2438", latitude: "42.37497", longitude: "-71.102529"}
-      assert Site.StopView.center_query(stop) == %{markers: "42.37497,-71.102529"}
+      assert Site.StopView.center_query(stop) == [markers: "42.37497,-71.102529"]
     end
 
     test "returns the location of the stop as the map center if it serves other modes" do
       stop = %Stop{id: "place-sstat", latitude: "42.352271", longitude: "-71.055242"}
-      assert Site.StopView.center_query(stop) == %{center: Site.StopView.location(stop)}
+      assert Site.StopView.center_query(stop) == [center: Site.StopView.location(stop)]
     end
   end
 
