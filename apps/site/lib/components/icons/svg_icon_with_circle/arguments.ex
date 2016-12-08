@@ -2,7 +2,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   defstruct icon:  :bus,
             class: ""
   @type t :: %__MODULE__{
-    icon: atom,
+    icon: Site.Components.Icons.SvgIcon.icon_arg,
     class: String.t
   }
 

@@ -1,6 +1,7 @@
 defmodule Site.Components.Icons.SvgIcon do
   defstruct icon: :bus
-  @type t :: %__MODULE__{icon: atom}
+  @type t :: %__MODULE__{icon: icon_arg}
+  @type icon_arg :: atom | String.t | Routes.Route.t | 0..4
 
   @icons [
     {:bus,
@@ -139,6 +140,7 @@ defmodule Site.Components.Icons.SvgIcon do
   end
   def get_path(arg), do: get_path(get_icon_atom(arg))
 
+  @spec get_icon_atom(icon_arg) :: atom
   def get_icon_atom(arg) when is_atom(arg), do: arg
   def get_icon_atom("Red"<>_line), do: :red_line
   def get_icon_atom("Blue"<>_line), do: :blue_line
