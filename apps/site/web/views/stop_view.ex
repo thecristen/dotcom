@@ -197,7 +197,7 @@ defmodule Site.StopView do
   def upcoming_departures(%{date_time: date_time, mode: mode, stop_schedule: stop_schedule, stop_predictions: stop_predictions}, stop_id, route_id, direction_id) do
     predicted =
       case route_id do
-        "Green"<>line -> [] # Skip Greenline predictions
+        "Green"<>_line -> [] # Skip Greenline predictions
         _ -> stop_predictions
         |> route_predictions(route_id, direction_id)
         |> Enum.filter(&(upcoming?(&1.time, date_time, mode)))
