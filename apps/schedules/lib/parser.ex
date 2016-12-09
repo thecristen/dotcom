@@ -61,9 +61,6 @@ defmodule Schedules.Parser do
       direction_id: direction_id
     }
   end
-  def trip(_) do
-    nil
-  end
 
   def stop(%JsonApi.Item{
         relationships: %{

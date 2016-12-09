@@ -192,17 +192,20 @@ defmodule Site.StopView do
     |> Enum.find(&(Timex.after?(&1.time, conn.assigns[:date_time]) && departing?(&1.trip.id, stop)))
   end
 
-  @spec upcoming_departures(%{date_time: DateTime.t, date: Date.t, mode: Routes.Route.route_type}, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
+  @spec upcoming_departures(%{date_time: DateTime.t, mode: Routes.Route.route_type, stop_schedule: [Schedules.Schedule.t], stop_predictions: [Predictions.Prediction.t]}, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
   @doc "Returns the next departures for the given stop, route, and direction."
-  def upcoming_departures(%{date_time: date_time, date: date, mode: mode}, stop_id, route_id, direction_id) do
-    predicted = [stop: stop_id, route: route_id, direction_id: direction_id]
-    |> Predictions.Repo.all
-    |> Enum.filter(&(upcoming?(&1.time, date_time, mode)))
-    |> Enum.map(&({:predicted, Schedules.Repo.trip(&1.trip_id), &1.time}))
-    |> Enum.reject(&(is_nil(elem(&1, 1))))
+  def upcoming_departures(%{date_time: date_time, mode: mode, stop_schedule: stop_schedule, stop_predictions: stop_predictions}, stop_id, route_id, direction_id) do
+    predicted =
+      case route_id do
+        "Green"<>line -> [] # Skip Greenline predictions
+        _ -> stop_predictions
+             |> route_predictions(route_id, direction_id)
+             |> Enum.filter(&(upcoming?(&1.time, date_time, mode)))
+             |> Enum.map(&({:predicted, Schedules.Repo.trip(&1.trip_id), &1.time}))
+      end
 
-    scheduled = stop_id
-    |> Schedules.Repo.schedule_for_stop(route: route_id, date: date, direction_id: direction_id)
+    scheduled = stop_schedule
+    |> route_schedule(route_id, direction_id)
     |> Enum.filter(&(upcoming?(&1.time, date_time, mode)))
     |> Enum.map(&{:scheduled, &1.trip, &1.time})
 
@@ -216,6 +219,19 @@ defmodule Site.StopView do
       {headsign, limit_departures(departures)}
     end)
   end
+
+  @spec route_predictions([Predictions.Prediction.t], integer, integer) :: [Predictions.Prediction.t]
+  defp route_predictions(predictions, route_id, direction_id) do
+    predictions
+    |> Enum.filter(&(&1.route_id == route_id and &1.direction_id == direction_id))
+  end
+
+  @spec route_schedule([Schedules.Schedule.t], integer, integer) :: [Schedules.Schedule.t]
+  defp route_schedule(schedules, route_id, direction_id) do
+    schedules
+    |> Enum.filter(&(&1.route.id == route_id and &1.trip.direction_id == direction_id))
+  end
+
 
   # Find the first three predicted departures to display. If there are
   # fewer than three, fill out the list with scheduled departures
