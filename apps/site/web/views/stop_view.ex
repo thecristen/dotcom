@@ -184,16 +184,16 @@ defmodule Site.StopView do
     |> Kernel.not
   end
 
-  @spec upcoming_commuter_departures(Plug.Conn.t, String.t, String.t, integer) :: Schedules.Schedule.t | nil
+  @spec upcoming_commuter_departures(Plug.Conn.t, integer, integer) :: Schedules.Schedule.t | nil
   @doc "Returns the next departure for the given stop, CR line, and direction."
-  def upcoming_commuter_departures(conn, stop, route, direction_id) do
+  def upcoming_commuter_departures(conn, route, direction_id) do
     conn.assigns.stop_schedule
     |> Enum.reject(&(&1.pickup_type == 1))
     |> route_schedule(route, direction_id)
     |> Enum.find(&(Timex.after?(&1.time, conn.assigns[:date_time])))
   end
 
-  @spec upcoming_departures(%{date_time: DateTime.t, mode: Routes.Route.route_type, stop_schedule: [Schedules.Schedule.t], stop_predictions: [Predictions.Prediction.t]}, String.t, String.t, integer) :: [{:scheduled | :predicted, String.t, DateTime.t}]
+  @spec upcoming_departures(%{date_time: DateTime.t, mode: Routes.Route.route_type, stop_schedule: [Schedules.Schedule.t], stop_predictions: [Predictions.Prediction.t]}, String.t, integer, integer) :: [{String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}]
   @doc "Returns the next departures for the given stop, route, and direction."
   def upcoming_departures(%{date_time: date_time, mode: mode, stop_schedule: stop_schedule, stop_predictions: stop_predictions}, stop_id, route_id, direction_id) do
     predicted =
@@ -214,10 +214,17 @@ defmodule Site.StopView do
     |> dedup_trips
     |> Enum.sort_by(&(elem(&1, 2)))
     |> Enum.group_by(&(elem(&1, 1).headsign))
-    |> Enum.filter(fn({_k,v}) -> departing?(List.first(v), stop_id) end)
-    |> Enum.map(fn {headsign, departures} ->
-      {headsign, limit_departures(departures)}
-    end)
+    |> Enum.filter_map(&(more_stops?(&1, stop_id)), &format_groups(&1))
+  end
+
+  @spec more_stops?({String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}, String.t) :: boolean
+  defp more_stops?({_headsign, trips}, stop_id) do
+    departing?(List.first(trips), stop_id)
+  end
+
+  @spec format_groups({String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}) :: {String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}
+  def format_groups({headsign, departures}) do
+    {headsign, limit_departures(departures)}
   end
 
   @spec route_predictions([Predictions.Prediction.t], integer, integer) :: [Predictions.Prediction.t]
@@ -336,7 +343,7 @@ defmodule Site.StopView do
     |> Enum.drop_while(&(&1.stop.id != stop))
     |> (fn (schedules) -> match?([_, _ | _], schedules) end).()
   end
-  defp departing?({:scheduled, _, _} = departure, stop) do
+  defp departing?({:scheduled, _, _} = departure, _stop) do
     departure
   end
 
