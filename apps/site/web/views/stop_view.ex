@@ -292,7 +292,7 @@ defmodule Site.StopView do
   GPS coordinates, places a marker at its location. Otherwise, it centers the map around the stop without
   a marker.
   """
-  @spec center_query(Stop.t) :: %{atom => String.t}
+  @spec center_query(Stop.t) :: [markers: String.t] | [center: String.t]
   def center_query(stop) do
     bus_stop? = stop.id
     |> Routes.Repo.by_stop
