@@ -1,7 +1,6 @@
 <div class="service-near-me">
   <div class="service-near-me-form">
     <h2 class="h5">Enter your location</h2>
-    
     <%= form_for @conn, service_near_me_path(@conn, :index), [as: :location, method: :get, class: "form"], fn f ->  %>
     <div class="form-group">
       <button class="btn location-btn" data-geolocation-target="place-input">
@@ -18,13 +17,16 @@
     <p class="service-near-me-error hidden-xs-up">We couldn't fetch your location &mdash; please wait a minute and try again, or enter your address.</p>
   </div>
   <div class="service-near-me-results row<%= if @stops_with_routes == [] do %> empty<% end %>">
-    <%= for %{stop: stop, routes: routes} <- @stops_with_routes do %>
+    <%= for %{stop: stop, distance: distance, routes: routes} <- @stops_with_routes do %>
         <div class="service-card">
-          <p class="station-name">
-            <%= link to: stop_path(@conn, :show, stop.id) do %>
-              <%= stop.name %>
-            <% end %>
-          </p>
+          <div class="station-name row">
+            <p class="col-xs-8">
+              <%= link to: stop_path(@conn, :show, stop.id) do %>
+                <%= stop.name %>
+              <% end %>
+            </p>
+            <p class="distance col-xs-4"><%= distance %></p>
+          </div>
           <div>
             <%= for {type, routes} <- routes do %>
               <p class="service-route">

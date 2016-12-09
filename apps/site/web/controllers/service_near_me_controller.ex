@@ -2,7 +2,7 @@ defmodule Site.ServiceNearMeController do
   use Site.Web, :controller
   alias GoogleMaps.Geocode
   alias Routes.Route
-  alias Stops.Stop
+  alias Stops.{Stop, Distance}
 
   @doc """
     Handles GET requests both with and without parameters. Calling with an address parameter (String.t) will assign
@@ -38,7 +38,7 @@ defmodule Site.ServiceNearMeController do
   defp do_index(results, conn) do
     results
     |> get_stops_nearby(conn)
-    |> stops_with_routes
+    |> stops_with_routes(results)
     |> send_response(conn, address(results))
   end
 
@@ -57,12 +57,41 @@ defmodule Site.ServiceNearMeController do
   def get_stops_nearby({:error, _error_code, _error_str}, _conn), do: []
 
 
-  @spec stops_with_routes([Stop.t]) :: [%{stop: Stop.t, routes: [Route.t]}]
-  def stops_with_routes(stops) do
-    stops
-    |> Enum.map(fn stop ->
-      %{stop: stop, routes: stop.id |> Routes.Repo.by_stop |> get_route_groups}
+  @doc """
+    Gathers all routes available at a stop, and calculates distance to the stop.
+  """
+  @spec stops_with_routes([Stop.t], Geocode.t) :: [%{stop: Stop.t, routes: [Route.t]}]
+  def stops_with_routes(stops, {:ok, [location|_]}) do
+    Enum.map(stops, fn stop ->
+      %{
+        stop: stop,
+        distance: get_distance(stop, location),
+        routes: stop.id |> Routes.Repo.by_stop |> get_route_groups
+      }
     end)
+  end
+  def stops_with_routes([], {:error, _, _}), do: []
+
+  @spec get_distance(Stop.t, Geocode.t) :: String.t
+  defp get_distance(stop, location) do
+    stop
+    |> Distance.haversine(location)
+    |> round_distance
+  end
+
+  @spec round_distance(float) :: String.t
+  defp round_distance(distance) when distance < 0.1 do
+    distance
+    |> Kernel.*(5820)
+    |> round
+    |> Integer.to_string
+    |> Kernel.<>(" ft")
+  end
+  defp round_distance(distance) do
+    distance
+    |> Float.round(1)
+    |> Float.to_string
+    |> Kernel.<>(" mi")
   end
 
   @spec get_route_groups([Route.t]) :: [Routes.Group.t]
@@ -118,8 +147,6 @@ defmodule Site.ServiceNearMeController do
   end
   defp flash_if_error(conn, _routes), do: conn
 
-  def address({:ok, [%{formatted: address} | _]}) do
-    address
-  end
+  def address({:ok, [%{formatted: address} | _]}), do: address
   def address(_), do: ""
 end

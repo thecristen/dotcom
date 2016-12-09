@@ -7,7 +7,8 @@ defmodule Site.ServiceNearMeControllerTest do
   @stop_ids [
     "place-sstat", # commuter
     "place-tumnl", # subway
-    "8279" # bus
+    "8279", # bus
+    "1241" # bus < 0.1mi
   ]
 
   describe "Service Near Me" do
@@ -25,6 +26,14 @@ defmodule Site.ServiceNearMeControllerTest do
       |> html_response(200)
       assert response =~ "Find Transit Near You"
       assert response =~ "service-card"
+    end
+
+    test "calculates distance to stop as feet for stops < 0.1mi and miles for farther stops", %{conn: conn} do
+      response = conn
+      |> search_near_office
+      |> html_response(200)
+      assert response =~ "115 ft"
+      assert response =~ "0.6 mi"
     end
 
     test "separates subway lines in response", %{conn: conn} do
