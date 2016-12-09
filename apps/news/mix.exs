@@ -38,6 +38,7 @@ defmodule News.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:yamerl, github: "yakaz/yamerl"},
+     {:httpoison, ">= 0.0.0"},
      {:excheck, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test},
      {:repo_cache, in_umbrella: true},
