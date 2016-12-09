@@ -1,0 +1,17 @@
+<%= form_for @conn, @conn.request_path, [as: :location, method: :get, class: "form"], fn f ->  %>
+  <div class="form-group">
+    <button class="btn location-btn" data-geolocation-target="place-input">
+      <%= fa "location-arrow" %>
+      <span class="sr-only">Use my location</span>
+      <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
+      <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
+    </button>
+    <%= text_input f, :address, value: @address, class: "service-near-me-input", id: "place-input" %>
+    <button type="submit" class="btn btn-primary">GO</button>
+    <div class="clear"></div>
+  </div>
+<% end %>
+<p class="service-near-me-error hidden-xs-up">We couldn't fetch your location &mdash; please wait a minute and try again, or enter your address.</p>
+
+<script type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>
+<script>new google.maps.places.Autocomplete(document.getElementById("place-input"));</script>

@@ -1,4 +1,12 @@
 <div class="index">
+
+  <h4>Find Transit Near You</h4>
+  <div class="service-near-me">
+    <div class="service-near-me-form">
+      <%= render Site.ServiceNearMeView, "_input.html", address: @address, conn: @conn %>
+    </div>
+  </div>
+  <%= render Site.ServiceNearMeView, "_results.html", stops_with_routes: @stops_with_routes, conn: @conn %>
   <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false, card_class: "card-narrow" %>
 
   <%= render "_news_card.html", news: @news, conn: @conn %>
