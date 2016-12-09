@@ -23,7 +23,7 @@ defmodule Content.Router do
   end
 
   get "/*_path" do
-    maybe_page = Content.Repo.page(conn.request_path)
+    maybe_page = Content.Repo.page(conn.request_path, conn.query_params)
     Content.Config.apply(:page, [conn, maybe_page])
   end
 

@@ -5,7 +5,14 @@ defmodule Content.Parse.Page do
     end
   end
 
+  defp parse_json(list) when is_list(list) do
+    case Enum.reduce(list, [], &parse_list_reducer/2) do
+      parsed when is_list(parsed) -> {:ok, Enum.reverse(parsed)}
+      error -> error
+    end
+  end
   defp parse_json(%{
+        "nid" => [%{"value" => id}],
         "type" => [%{"target_id" => type}],
         "title" => [%{"value" => title}],
         "body" => [%{"value" => body}],
@@ -15,6 +22,7 @@ defmodule Content.Parse.Page do
          updated_at <- Timex.from_unix(timestamp) do
       {:ok, %Content.Page{
           type: type,
+          id: id,
           title: title,
           body: body,
           updated_at: updated_at,
@@ -26,6 +34,14 @@ defmodule Content.Parse.Page do
   end
   defp parse_json(_) do
     {:error, "missing fields in JSON"}
+  end
+
+  defp parse_list_reducer(_, {:error, _} = error), do: error
+  defp parse_list_reducer(entry, acc) do
+    case parse_json(entry) do
+      {:ok, parsed} -> [parsed | acc]
+      {:error, _} = error -> error
+    end
   end
 
   defp parse_fields(json) do

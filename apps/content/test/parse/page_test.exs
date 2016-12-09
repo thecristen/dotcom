@@ -8,6 +8,7 @@ defmodule Content.Parse.PageTest do
     test "parses a binary into a %Content.Page{}" do
       expected = {:ok, %Content.Page{
                      type: "page",
+                     id: "1",
                      title: "Privacy Policy",
                      body: "<p><strong>MBTA'S WEBSITE AND ELECTRONIC FARE MEDIA PRIVACY POLICY</strong><br />",
                      updated_at: Timex.to_datetime(~N[2016-11-07T15:55:35], "Etc/UTC")}}
@@ -18,6 +19,7 @@ defmodule Content.Parse.PageTest do
     test "parses project pages" do
       expected = {:ok, %Content.Page{
                      type: "project_update",
+                     id: "3",
                      title: "Government Center Construction",
                      body: "project value\r\n",
                      updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
@@ -49,6 +51,7 @@ defmodule Content.Parse.PageTest do
     test "parses news pages" do
       expected = {:ok, %Content.Page{
                      type: "news_entry",
+                     id: "3",
                      title: "Government Center Construction",
                      body: "project value\r\n",
                      updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
@@ -68,6 +71,7 @@ defmodule Content.Parse.PageTest do
     test "parses event pages" do
       expected = {:ok, %Content.Page{
                      type: "event",
+                     id: "3",
                      title: "Board Meeting",
                      body: "project value\r\n",
                      updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
@@ -76,6 +80,21 @@ defmodule Content.Parse.PageTest do
                      }}}
       actual = "event.json" |> fixture |> parse
       assert actual == expected
+    end
+
+    test "parses list of pages" do
+      body = ~s([#{fixture("event.json")},#{fixture("news.json")}])
+      {:ok, event} = "event.json" |> fixture |> parse
+      {:ok, news} = "news.json" |> fixture |> parse
+      expected = {:ok, [event, news]}
+      actual = body |> parse
+      assert actual == expected
+    end
+
+    test "returns error if it's unable to parse the list" do
+      body = ~s([#{fixture("news.json")}, {}])
+      actual = body |> parse
+      assert {:error, _} = actual
     end
 
     property "always returns either {:ok, %Page{}} or {:error, any}" do

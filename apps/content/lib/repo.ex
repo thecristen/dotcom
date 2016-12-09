@@ -5,17 +5,20 @@ defmodule Content.Repo do
 
   """
   @spec page(String.t) :: {:ok, Content.Page.t} | {:error, any}
-  def page(path) when is_binary(path) do
-    params = [{:_format, "json"}]
+  def page(path, params \\ []) when is_binary(path) do
+    params = put_in params[:_format], "json"
 
     with {:ok, full_url} <- build_url(path),
          {:ok, response} <- HTTPoison.get(full_url, [], params: params),
          %{status_code: 200, body: body} <- response,
          {:ok, page} <- Content.Parse.Page.parse(body) do
-      {:ok, Content.Page.rewrite_static_files(page)}
+      case page do
+        %Content.Page{} -> {:ok, Content.Page.rewrite_static_files(page)}
+        list when is_list(list) -> {:ok, list}
+      end
     else
       tuple = {:error, _} -> tuple
-      error -> {:error, "while fetching page #{path}: #{inspect error}"}
+      error -> {:error, "while fetching page #{path}?#{URI.encode_query(params)}: #{inspect error}"}
     end
   end
 
