@@ -9,7 +9,7 @@ defmodule Fares.Repo do
     @fares
   end
   def all(opts) when is_list(opts) do
-    all
+    all()
     |> filter(opts)
   end
 

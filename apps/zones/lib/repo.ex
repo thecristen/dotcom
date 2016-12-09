@@ -12,7 +12,7 @@ end
 
 defmodule Zones.Repo do
   import Zones.Repo.StationZones
-  @station_zones zone_info
+  @station_zones zone_info()
 
   def get(stop) do
     @station_zones[stop]
