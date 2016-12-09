@@ -160,6 +160,42 @@
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Header (Getting Around)",
+      "url": "http://localhost:8082/?date=2016-09-25",
+      "selectors": ["#gettingAround"],
+      "readyEvent": null,
+      "delay": 100,
+      "misMatchThreshold" : 0.1,
+      "onReadyScript": "header.js"
+    },
+    {
+      "label": "Header (Fares)",
+      "url": "http://localhost:8082/?date=2016-09-25",
+      "selectors": ["#faresDrawer"],
+      "readyEvent": null,
+      "delay": 100,
+      "misMatchThreshold" : 0.1,
+      "onReadyScript": "header.js"
+    },
+    {
+      "label": "Header (Contact Us)",
+      "url": "http://localhost:8082/?date=2016-09-25",
+      "selectors": ["#contactUs"],
+      "readyEvent": null,
+      "delay": 100,
+      "misMatchThreshold" : 0.1,
+      "onReadyScript": "header.js"
+    },
+    {
+      "label": "Header (More)",
+      "url": "http://localhost:8082/?date=2016-09-25",
+      "selectors": ["#more"],
+      "readyEvent": null,
+      "delay": 100,
+      "misMatchThreshold" : 0.1,
+      "onReadyScript": "header.js"
     }
   ],
   "paths": {

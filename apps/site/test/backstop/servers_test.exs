@@ -69,4 +69,12 @@ defmodule Backstop.ServersTest do
       refute Process.alive?(pid)
     end
   end
+
+  describe "error_match/0" do
+    test "matches error strings" do
+      assert "[error] something or other" =~ Backstop.Servers.Phoenix.error_match
+      assert "Unable to access jarfile blah.jar" =~ Backstop.Servers.Wiremock.error_match
+      assert "Address already in use" =~ Backstop.Servers.Wiremock.error_match
+    end
+  end
 end
