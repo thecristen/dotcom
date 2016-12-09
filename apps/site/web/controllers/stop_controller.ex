@@ -120,5 +120,4 @@ defmodule Site.StopController do
   defp stop_predictions(stop_id) do
     Predictions.Repo.all(stop: stop_id)
   end
-
 end

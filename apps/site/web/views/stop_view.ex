@@ -199,9 +199,9 @@ defmodule Site.StopView do
       case route_id do
         "Green"<>line -> [] # Skip Greenline predictions
         _ -> stop_predictions
-             |> route_predictions(route_id, direction_id)
-             |> Enum.filter(&(upcoming?(&1.time, date_time, mode)))
-             |> Enum.map(&({:predicted, Schedules.Repo.trip(&1.trip_id), &1.time}))
+        |> route_predictions(route_id, direction_id)
+        |> Enum.filter(&(upcoming?(&1.time, date_time, mode)))
+        |> Enum.map(&({:predicted, Schedules.Repo.trip(&1.trip_id), &1.time}))
       end
 
     scheduled = stop_schedule
@@ -231,7 +231,6 @@ defmodule Site.StopView do
     schedules
     |> Enum.filter(&(&1.route.id == route_id and &1.trip.direction_id == direction_id))
   end
-
 
   # Find the first three predicted departures to display. If there are
   # fewer than three, fill out the list with scheduled departures
