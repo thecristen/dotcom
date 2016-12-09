@@ -9,7 +9,7 @@ defmodule Site.ScheduleController.Predictions do
   def init([]), do: []
 
   def call(conn, []) do
-    assign_predictions(conn, Util.service_date)
+    assign_predictions(conn, Util.service_date())
   end
 
   @doc """

@@ -76,7 +76,7 @@ defmodule Site.ScheduleController.Schedules do
     after_now?(arrival)
   end
   defp after_now?(%Schedules.Schedule{time: time}) do
-    Timex.after?(time, Util.now)
+    Timex.after?(time, Util.now())
   end
 
   defp direction_id([]) do

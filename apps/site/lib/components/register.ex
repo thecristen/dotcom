@@ -11,7 +11,7 @@ defmodule Site.Components.Register do
       import Site.Components.Helpers
       Module.register_attribute(__MODULE__, :components, persist: true)
 
-      @components unquote(build_component_list)
+      @components unquote(build_component_list())
     end
   end
 
@@ -20,9 +20,9 @@ defmodule Site.Components.Register do
   """
   @spec build_component_list :: [{atom, [atom]}]
   def build_component_list do
-    components_folder_path
+    components_folder_path()
     |> File.ls!
-    |> Enum.filter(&(File.dir?(Path.join(components_folder_path, &1))))
+    |> Enum.filter(&(File.dir?(Path.join(components_folder_path(), &1))))
     |> Enum.map(&({String.to_atom(&1), list_component_names(&1)}))
   end
 
@@ -32,7 +32,7 @@ defmodule Site.Components.Register do
   @spec list_component_names(String.t) :: [atom]
   def list_component_names(section) do
     # path var needs to be defined here because it's used again in Enum.filter
-    path = Path.join(components_folder_path, section)
+    path = Path.join(components_folder_path(), section)
 
     path
     |> File.ls!

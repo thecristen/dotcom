@@ -31,7 +31,7 @@ defmodule Site.AlertControllerTest do
     defp render_alerts_page(conn, mode, alerts) do
       conn
       |> put_view(Site.AlertView)
-      |> render("show.html", id: mode, route_alerts: alerts, breadcrumbs: ["Alerts"], date: Util.now)
+      |> render("show.html", id: mode, route_alerts: alerts, breadcrumbs: ["Alerts"], date: Util.now())
       |> html_response(200)
     end
 
@@ -57,9 +57,9 @@ defmodule Site.AlertControllerTest do
 
     defp do_create_alert(route, mode) do
       {route, [%Alert{
-        active_period: [{Util.now |> Timex.shift(days: -2), nil}],
+        active_period: [{Util.now() |> Timex.shift(days: -2), nil}],
         informed_entity: [informed_entity(mode)],
-        updated_at: Util.now |> Timex.shift(days: -2),
+        updated_at: Util.now() |> Timex.shift(days: -2),
         effect_name: effect_name(mode)
       }]}
     end

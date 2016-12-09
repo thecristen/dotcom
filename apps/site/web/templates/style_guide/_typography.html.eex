@@ -37,7 +37,7 @@
         <p><strong>Size</strong></p>
       </div>
     </div>
-    <%= for {key,val} <- font_size_variables |> Map.to_list  do %>
+    <%= for {key,val} <- font_size_variables()  do %>
       <div class="heading">
         <div class="heading-name"><%= get_element_name(key) %></div>
         <div class="heading-example">

@@ -13,7 +13,7 @@ defmodule Fares.Repo do
     |> filter(opts)
   end
 
-  @spec filter([Fare.t], Dict.t) :: [Fare.t]
+  @spec filter([Fare.t], Keyword.t) :: [Fare.t]
   def filter(fares, opts) do
     fares
     |> filter_all(Map.new(opts))

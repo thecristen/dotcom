@@ -15,12 +15,12 @@ defmodule Site.Plugs.Date do
   end
 
   defp date(nil) do
-    Util.service_date
+    Util.service_date()
   end
   defp date(str) when is_binary(str) do
     case Timex.parse(str, "{ISOdate}") do
       {:ok, value} -> Timex.to_date(value)
-      _ -> Util.service_date
+      _ -> Util.service_date()
     end
   end
 end

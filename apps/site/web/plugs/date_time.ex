@@ -15,12 +15,12 @@ defmodule Site.Plugs.DateTime do
   end
 
   defp date_time(nil) do
-    Util.now
+    Util.now()
   end
   defp date_time(str) when is_binary(str) do
     case Timex.parse(str, "{ISO:Extended}") do
       {:ok, value} -> Timex.to_datetime(value, "America/New_York")
-      _ -> Util.now
+      _ -> Util.now()
     end
   end
 end
