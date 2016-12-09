@@ -44,4 +44,38 @@ defmodule Site.ContentViewTest do
       assert expected == actual
     end
   end
+
+  describe "shift_month_url/3" do
+    test "without any params, returns shifted URLs for the current month" do
+      today = Util.today
+      previous = Timex.shift(today, months: -1)
+      path = "/path"
+      gt = Timex.format!(previous, "{ISOdate}")
+      lt = Timex.format!(today, "{ISOdate}")
+
+      actual = shift_month_url(%{request_path: path, params: %{}}, :field, -1)
+      expected = ~s(/path?field_gt=#{gt}&field_lt=#{lt})
+
+      assert expected == actual
+    end
+
+    test "with a param, shifts the gt and lt values by that much" do
+      params = %{
+        "field_gt" => "2016-12-01"
+      }
+      path = "/path"
+      actual = shift_month_url(%{request_path: path, params: params}, :field, 1)
+      expected = "/path?field_gt=2017-01-01&field_lt=2017-02-01"
+
+      assert expected == actual
+    end
+
+    test "with an invalid param, works the same as if no params was passed" do
+      path = "/path"
+      actual = shift_month_url(%{request_path: path, params: %{"field_gt" => "invalid"}}, :field, 1)
+      expected = shift_month_url(%{request_path: path, params: %{}}, :field, 1)
+
+      assert expected == actual
+    end
+  end
 end

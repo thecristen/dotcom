@@ -82,6 +82,21 @@ defmodule Content.Parse.PageTest do
       assert actual == expected
     end
 
+    test "parses list of pages" do
+      body = ~s([#{fixture("event.json")},#{fixture("news.json")}])
+      {:ok, event} = "event.json" |> fixture |> parse
+      {:ok, news} = "news.json" |> fixture |> parse
+      expected = {:ok, [event, news]}
+      actual = body |> parse
+      assert actual == expected
+    end
+
+    test "returns error if it's unable to parse the list" do
+      body = ~s([#{fixture("news.json")}, {}])
+      actual = body |> parse
+      assert {:error, _} = actual
+    end
+
     property "always returns either {:ok, %Page{}} or {:error, any}" do
       for_all body in unicode_binary do
         result = parse(body)
