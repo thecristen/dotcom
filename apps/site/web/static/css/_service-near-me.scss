@@ -152,13 +152,13 @@
 }
 
 .service-near-me-wrapper {
-  width: 100%;
-  background: url(/images/transit-near-me-bkg.png), linear-gradient(to bottom right, $brand-primary-dark, #3191E1);
-  background-size: cover;
+  background: url('/images/transit-near-me-bkg.png'), linear-gradient(to bottom right, $brand-primary-dark, $gradient-color-light);
   background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
 }
 
 .snm-front-door-header {
-  padding-top: 1rem;
   color: $white;
+  padding-top: 1rem;
 }
