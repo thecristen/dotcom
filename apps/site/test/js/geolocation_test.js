@@ -1,7 +1,6 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
 import { clickHandler, locationHandler, locationError } from '../../web/static/js/geolocation';
-import sinon from 'sinon';
 
 describe('geolocation', () => {
   var $;
@@ -48,19 +47,21 @@ describe('geolocation', () => {
     const lat = 42.3509448,
           long = -71.0651448;
 
+    afterEach(() => {
+      window.Turbolinks = undefined;
+    });
+
     beforeEach(() => {
       $('#test').html(`
         <button data-geolocation-target="target">
           locate me
           <span class="loading-indicator"></span>
         </button>
-        <form id="testForm">
-          <input type="text" id="target" />
-        </form>
       `);
     });
 
     it('hides the loading indicator', () => {
+      window.Turbolinks = {visit: () => {}};
       assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
       locationHandler($, $('button'))({
         coords: {
@@ -71,18 +72,13 @@ describe('geolocation', () => {
       assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
     });
 
-    it('fills the form with latitude and longitude', () => {
-      locationHandler($, $('button'))({
-        coords: {
-          latitude: lat,
-          longitude: long
+    it('loads the location URL', (done) => {
+      window.Turbolinks = {
+        visit: (url) => {
+          assert.isTrue(new RegExp(`\\?location%5Baddress%5D=${lat},%20${long}`).test(url));
+          done();
         }
-      });
-      assert.equal($('#target').val(), `${lat}, ${long}`);
-    });
-
-    it('submits the form', (done) => {
-      $('#testForm').submit((event) => { done(); });
+      };
       locationHandler($, $('button'))({
         coords: {
           latitude: lat,
