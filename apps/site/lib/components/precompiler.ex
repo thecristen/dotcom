@@ -12,7 +12,7 @@ defmodule Site.Components.Precompiler do
     quote do
       require EEx
       import unquote(__MODULE__)
-      precompile_components
+      precompile_components()
     end
   end
 
@@ -22,7 +22,7 @@ defmodule Site.Components.Precompiler do
   """
   # not sure if this spec is correct -- does it return a def?
   defmacro precompile_components do
-    sections = File.ls!(components_folder_path)
+    sections = File.ls!(components_folder_path())
     for section <- Enum.map(sections, &String.to_atom/1) do
       if File.dir?(components_section_path(section)) do
         get_components(section)

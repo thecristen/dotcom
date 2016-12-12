@@ -50,7 +50,7 @@ defmodule Site.ScheduleController.Green do
     # update the route in the conn for this request
     conn = %{conn|params:
              conn.params
-             |> Dict.put("route", route_id)}
+             |> Map.put("route", route_id)}
              |> assign(:all_stops, stops)
              |> ScheduleController.Schedules.call([])
              |> ScheduleController.DirectionNames.call([])

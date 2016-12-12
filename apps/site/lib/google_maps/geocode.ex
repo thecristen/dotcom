@@ -31,13 +31,13 @@ defmodule GoogleMaps.Geocode do
 
   defp call_google_api(address) do
     HTTPoison.get(
-      geocode_url,
+      geocode_url(),
       [],
       params: [address: address, key: GoogleMaps.default_options[:google_api_key]])
   end
 
   defp geocode_url do
-    "#{geocode_domain}/maps/api/geocode/json"
+    "#{geocode_domain()}/maps/api/geocode/json"
   end
 
   defp geocode_domain do

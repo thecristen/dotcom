@@ -5,6 +5,25 @@ defmodule Stops.Api do
   alias Stops.StationInfoApi
   alias Stops.Stop
 
+  @vending_machine_stations ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl",
+                             "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr",
+                             "place-brntn"]
+                             |> MapSet.new
+  @charlie_card_stations [
+    "place-alfcl",
+    "place-armnl",
+    "place-asmnl",
+    "place-bbsta",
+    "64000",
+    "place-forhl",
+    "place-harsq",
+    "place-north",
+    "place-ogmnl",
+    "place-pktrm",
+    "place-rugg"
+  ]
+  |> MapSet.new
+
   @spec all :: [Stop.t]
   def all do
     StationInfoApi.all
@@ -41,8 +60,8 @@ defmodule Stops.Api do
       images: images(relationships["images"]),
       parking_lots: parking_lots(relationships),
       station?: true,
-      has_fare_machine?: Enum.member?(vending_machine_stations, id),
-      has_charlie_card_vendor?: Enum.member?(charlie_card_stations, id)
+      has_fare_machine?: MapSet.member?(@vending_machine_stations, id),
+      has_charlie_card_vendor?: MapSet.member?(@charlie_card_stations, id)
     }
   end
 
@@ -130,27 +149,5 @@ defmodule Stops.Api do
   end
   defp merge_v3(stop, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
     %Stop{stop | latitude: latitude, longitude: longitude}
-  end
-
-  defp vending_machine_stations do
-    ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl",
-      "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr",
-      "place-brntn"]
-  end
-
-  defp charlie_card_stations do
-    [
-      "place-alfcl",
-      "place-armnl",
-      "place-asmnl",
-      "place-bbsta",
-      "64000",
-      "place-forhl",
-      "place-harsq",
-      "place-north",
-      "place-ogmnl",
-      "place-pktrm",
-      "place-rugg"
-    ]
   end
 end

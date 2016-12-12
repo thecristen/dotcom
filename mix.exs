@@ -9,7 +9,7 @@ defmodule DotCom.Mixfile do
      test_coverage: [tool: ExCoveralls],
      dialyzer: [
        plt_add_apps: [:mix, :phoenix_live_reload]],
-     deps: deps]
+     deps: deps()]
   end
 
   # Dependencies can be Hex packages:

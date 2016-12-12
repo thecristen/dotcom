@@ -11,7 +11,7 @@ defmodule Content.Config do
   @doc "Returns a full URL for the given path, or nil if the root URL is not defined."
   @spec url(String.t) :: String.t | nil
   def url(path) when is_binary(path) do
-    case root do
+    case root() do
       nil -> nil
       base_url -> base_url |> URI.merge(path) |> URI.to_string
     end

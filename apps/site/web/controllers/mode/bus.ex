@@ -12,7 +12,7 @@ defmodule Site.Mode.BusController do
   def mode_name, do: "Bus"
 
   def fare_description do
-    "For Inner and Outer Express Bus fares, read the complete #{link_to_bus_fares} page."
+    "For Inner and Outer Express Bus fares, read the complete #{link_to_bus_fares()} page."
   end
 
   def fares do

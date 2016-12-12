@@ -25,7 +25,7 @@ defmodule Util do
 
   @doc "Today's date in the America/New_York timezone."
   def today do
-    now |> Timex.to_date
+    now() |> Timex.to_date
   end
 
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
@@ -44,7 +44,7 @@ defmodule Util do
 
   """
   def service_date(current_time \\ nil) do
-    current_time = current_time || Util.now
+    current_time = current_time || Util.now()
 
     current_time
     |> Timex.shift(hours: -3)

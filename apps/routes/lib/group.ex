@@ -30,7 +30,7 @@ defmodule Routes.Group do
 
   defp reducer(route, acc) do
     acc
-    |> Dict.update(Route.type_atom(route), [route], fn(value) -> [route|value] end)
+    |> Keyword.update(Route.type_atom(route), [route], fn(value) -> [route|value] end)
   end
 
   def sorter({:subway, _}), do: 0

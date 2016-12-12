@@ -92,7 +92,7 @@ defmodule Content.Parse.PageTest do
     end
 
     test "returns error if it's unable to parse the list" do
-      body = ~s([#{fixture("news.json")}, {}])
+      body = ~s([#{fixture("news.json")}, {}, {}])
       actual = body |> parse
       assert {:error, _} = actual
     end

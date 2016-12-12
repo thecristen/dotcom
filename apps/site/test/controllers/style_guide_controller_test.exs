@@ -3,7 +3,7 @@ defmodule Site.StyleGuideControllerTest do
   use Site.ConnCase, async: true
 
   test "all known pages render", %{conn: conn} do
-    for {section_name, subpages} <- Site.StyleGuideController.known_pages do
+    for {section_name, subpages} <- Site.StyleGuideController.known_pages() do
       conn = get conn, "style_guide/#{section_name}"
       valid = case conn.status do
         200 -> true

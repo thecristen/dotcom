@@ -10,12 +10,12 @@ defmodule Mix.Tasks.Backstop.Update do
   @reference_dir "apps/site/backstop_data/bitmaps_test"
 
   def run([]) do
-    latest_test_dir
+    latest_test_dir()
     |> latest_failures
     |> Enum.each(&copy_file/1)
   end
   def run(filenames) do
-    test_dir = latest_test_dir
+    test_dir = latest_test_dir()
 
     filenames
     |> Enum.map(fn path ->

@@ -20,7 +20,7 @@
     <div class="col-xs-12 charlie-card-hours">
       <div class="hours-header">Open every day 7:00 AM until 7:00 PM</div>
       <div class="hours-body">
-        <p><%= charlie_card_stations %></p>
+        <p><%= charlie_card_stations() %></p>
       </div>
     </div>
 

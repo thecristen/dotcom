@@ -92,7 +92,7 @@ defmodule Site.StyleGuideController do
 
   defp assign_all_subpages(conn, %{"section" => section}) do
     conn
-    |> assign(:all_subpages, Keyword.get(known_pages, String.to_existing_atom(section)))
+    |> assign(:all_subpages, Keyword.get(known_pages(), String.to_existing_atom(section)))
   end
 
 end

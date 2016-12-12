@@ -1,6 +1,6 @@
 <h1>Colors</h1>
 <div class="colors">
-  <%= for group <- color_variable_groups do %>
-    <%= render "_color_section.html", section: group, values: color_variables[group] %>
+  <%= for group <- color_variable_groups() do %>
+    <%= render "_color_section.html", section: group, values: color_variables()[group] %>
   <% end %>
 </div>

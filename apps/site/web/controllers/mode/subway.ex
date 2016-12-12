@@ -9,7 +9,7 @@ defmodule Site.Mode.SubwayController do
   def routes do
     Routes.Repo.all
     |> Routes.Group.group
-    |> Dict.get(:subway)
+    |> Keyword.get(:subway)
   end
 
   def fares do

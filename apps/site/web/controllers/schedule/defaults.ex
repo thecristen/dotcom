@@ -19,7 +19,7 @@ defmodule Site.ScheduleController.Defaults do
   defp index_params(%{params: params} = conn) do
     direction_id = default_direction_id(conn)
 
-    show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(service_date, conn.assigns.date)
+    show_all_schedules = params["all_schedules"] != nil || not Timex.equal?(service_date(), conn.assigns.date)
 
     show_full_list = params["full_list"] != nil
 
@@ -53,7 +53,7 @@ defmodule Site.ScheduleController.Defaults do
     0
   end
   defp default_direction_id(_) do
-    if Util.now.hour <= 13 do
+    if now().hour <= 13 do
       1 # Inbound
     else
       0

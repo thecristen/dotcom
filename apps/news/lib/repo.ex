@@ -10,9 +10,9 @@ defmodule News.Repo do
     cache opts, fn opts ->
       case Keyword.get(opts, :limit, :infinity) do
         :infinity ->
-          do_all(repo.all_ids)
+          do_all(repo().all_ids)
         limit when is_integer(limit) ->
-          repo.all_ids
+          repo().all_ids
           |> Enum.sort
           |> Enum.reverse
           |> Enum.take(limit)
@@ -39,7 +39,7 @@ defmodule News.Repo do
   end
 
   defp parse_contents(filename) do
-    with {:ok, contents} <- repo.get(filename),
+    with {:ok, contents} <- repo().get(filename),
          {:ok, post} <- News.Jekyll.parse(contents),
            post <- put_in(post.id, parse_id(filename)) do
       {:ok, post}

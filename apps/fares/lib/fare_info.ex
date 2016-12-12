@@ -405,4 +405,6 @@ defmodule Fares.FareInfo do
     |> Kernel.*(100)
     |> round
   end
+
+  _ = @lint # fix warning
 end

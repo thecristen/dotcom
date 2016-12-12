@@ -21,7 +21,7 @@ defmodule Routes.Repo do
   """
   @spec get(String.t) :: Routes.Route.t | nil
   def get(id) do
-    all
+    all()
     |> Enum.find(fn
       %{id: ^id} -> true
       _ -> false
@@ -35,13 +35,13 @@ defmodule Routes.Repo do
   """
   @spec by_type([0..4] | 0..4) :: [Routes.Route.t]
   def by_type(types) when is_list(types) do
-    all
+    all()
     |> Enum.filter(fn %{type: type} ->
       type in types
     end)
   end
   def by_type(type) do
-    all
+    all()
     |> Enum.filter(&match?(%{type: ^type}, &1))
   end
 

@@ -20,7 +20,7 @@ defmodule Site.ModeController do
   def index(conn, _params) do
     conn
     |> render("index.html",
-      datetime: Util.now,
+      datetime: Util.now(),
       grouped_routes: Routes.Repo.all |> Routes.Group.group,
       breadcrumbs: ["Schedules & Maps"],
       include_ride: true

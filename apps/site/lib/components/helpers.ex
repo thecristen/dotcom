@@ -25,13 +25,13 @@ defmodule Site.Components.Helpers do
   end
 
   def components_section_path(section) when is_atom(section) do
-    components_folder_path
+    components_folder_path()
     |> Path.join("#{section}")
   end
 
   def component_folder_path(component, section) when is_atom(component) and is_atom(section) do
     section
-    |> components_section_path
+    |> components_section_path()
     |> Path.join("/")
     |> Path.join("#{component}")
   end
