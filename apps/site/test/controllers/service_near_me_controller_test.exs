@@ -1,6 +1,8 @@
 defmodule Site.ServiceNearMeControllerTest do
   use Site.ConnCase
 
+  alias Site.ServiceNearMeController
+
   @lat 42.3515322
   @lng -71.0668452
   @address "10 park plaza, boston ma"
