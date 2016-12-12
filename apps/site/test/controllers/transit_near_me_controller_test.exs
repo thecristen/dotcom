@@ -1,4 +1,4 @@
-defmodule Site.ServiceNearMeControllerTest do
+defmodule Site.TransitNearMeControllerTest do
   use Site.ConnCase
 
   @lat 42.3515322
@@ -11,13 +11,13 @@ defmodule Site.ServiceNearMeControllerTest do
     "1241" # bus < 0.1mi
   ]
 
-  describe "Service Near Me" do
+  describe "Transit Near Me" do
     test "shows no results when params don't contain an address", %{conn: conn} do
       response = conn
-      |> get(service_near_me_path(conn, :index))
+      |> get(transit_near_me_path(conn, :index))
       |> html_response(200)
       assert response =~ "Find Transit Near You"
-      refute response =~ "service-card"
+      refute response =~ "transit-card"
     end
 
     test "shows results when params contain an address", %{conn: conn} do
@@ -25,7 +25,7 @@ defmodule Site.ServiceNearMeControllerTest do
       |> search_near_office
       |> html_response(200)
       assert response =~ "Find Transit Near You"
-      assert response =~ "service-card"
+      assert response =~ "transit-card"
     end
 
     test "calculates distance to stop as feet for stops < 0.1mi and miles for farther stops", %{conn: conn} do
@@ -60,10 +60,10 @@ defmodule Site.ServiceNearMeControllerTest do
     test "can take a lat/long as query parameters", %{conn: conn} do
       response = conn
       |> put_private(:nearby_stops, &mock_response/1)
-      |> get(service_near_me_path(conn, :index, %{"latitude" => "#{@lat}", "longitude" => "#{@lng}"}))
+      |> get(transit_near_me_path(conn, :index, %{"latitude" => "#{@lat}", "longitude" => "#{@lng}"}))
       |> html_response(200)
       assert response =~ "Find Transit Near You"
-      assert response =~ "service-card"
+      assert response =~ "transit-card"
     end
   end
 
@@ -79,6 +79,6 @@ defmodule Site.ServiceNearMeControllerTest do
   def search_near_address(conn, address) do
     conn
     |> put_private(:nearby_stops, &mock_response/1)
-    |> get(service_near_me_path(conn, :index, %{"location" => %{"address" => address}}))
+    |> get(transit_near_me_path(conn, :index, %{"location" => %{"address" => address}}))
   end
 end

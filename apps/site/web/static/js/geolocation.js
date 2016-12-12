@@ -14,7 +14,7 @@ export function clickHandler($) {
     event.preventDefault();
     const $btn = $(event.target);
     $btn.find('.loading-indicator').removeClass('hidden-xs-up');
-    $('.service-near-me-error').addClass('hidden-xs-up');
+    $('.transit-near-me-error').addClass('hidden-xs-up');
     navigator.geolocation.getCurrentPosition(
       locationHandler($, $btn),
       locationError($, $btn)
@@ -35,7 +35,7 @@ export function locationError($, $btn) {
   return (error) => {
     $btn.find('.loading-indicator').addClass('hidden-xs-up');
     if (error.code == error.TIMEOUT || error.code == error.POSITION_UNAVAILABLE) {
-      $('.service-near-me-error').removeClass('hidden-xs-up');
+      $('.transit-near-me-error').removeClass('hidden-xs-up');
     }
   };
 }

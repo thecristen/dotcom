@@ -34,7 +34,7 @@ defmodule Site.Router do
     get "/style_guide", StyleGuideController, :index
     get "/style_guide/:section", StyleGuideController, :index
     get "/style_guide/:section/:subpage", StyleGuideController, :show
-    get "/service-near-me", ServiceNearMeController, :index
+    get "/transit-near-me", TransitNearMeController, :index
     resources "/alerts", AlertController, only: [:index, :show]
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks

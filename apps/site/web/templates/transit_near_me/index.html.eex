@@ -1,4 +1,4 @@
-<div class="service-near-me-header">
+<div class="transit-near-me-header">
   <h1>Find Transit Near You</h1>
   <p><strong><%= get_flash(@conn, :info) %></strong></p>
   <p class="route-type-icons" aria-hidden="true">
@@ -9,4 +9,4 @@
   </p>
   <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
 </div>
-<%= render "_service_near_me.html", stops_with_routes: @stops_with_routes, conn: @conn, address: @address%>
+<%= render "_transit_near_me.html", stops_with_routes: @stops_with_routes, conn: @conn, address: @address%>

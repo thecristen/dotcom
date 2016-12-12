@@ -1,4 +1,4 @@
-defmodule Site.ServiceNearMeController do
+defmodule Site.TransitNearMeController do
   use Site.Web, :controller
   alias GoogleMaps.Geocode
   alias Routes.Route
@@ -134,7 +134,7 @@ defmodule Site.ServiceNearMeController do
     |> assign(:stops_with_routes, stops_with_routes)
     |> assign(:address, address)
     |> flash_if_error(stops_with_routes)
-    |> render("index.html", breadcrumbs: ["Service Near Me"])
+    |> render("index.html", breadcrumbs: ["Transit Near Me"])
   end
 
   @spec flash_if_error(Plug.Conn.t, [%{stop: Stop.t, routes: [Routes.Group.t]}]) :: Plug.Conn.t
