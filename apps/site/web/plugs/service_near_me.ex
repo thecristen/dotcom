@@ -1,5 +1,6 @@
 defmodule Site.Plugs.ServiceNearMe do
   import Plug.Conn
+  import Phoenix.Controller, [only: [put_flash: 3]]
   alias Routes.Route
   alias Stops.Stop
 
@@ -12,6 +13,10 @@ defmodule Site.Plugs.ServiceNearMe do
 
   def init([]), do: %Options{}
 
+  def call(%{assigns: %{stops_with_routes: stops_with_routes}} = conn, _options) when is_list(stops_with_routes) do
+    conn
+    |> flash_if_error()
+  end
   def call(%{params: %{"location" => %{"address" => address}}} = conn, options) do
     results = address
               |> GoogleMaps.Geocode.geocode
@@ -27,11 +32,13 @@ defmodule Site.Plugs.ServiceNearMe do
     conn
     |> assign_stops_with_routes(stops_with_routes)
     |> assign_address(address)
+    |> flash_if_error()
   end
   def call(conn, _options) do
     conn
     |> assign_stops_with_routes([])
     |> assign_address("")
+    |> flash_if_error()
   end
 
   #TODO handle differently when multiple results are returned?
@@ -39,15 +46,6 @@ defmodule Site.Plugs.ServiceNearMe do
     Retrieves stops close to a location and parses into the correct configuration
   """
   @spec get_stops_nearby(GoogleMaps.Geocode.t, Plug.Conn.t) :: [Stop.t]
-  #def get_stops_nearby({:ok, [location | _]},
-  #                     %{private: private}) do
-  #  private
-  #  |> Map.get(:nearby_stops, &Stops.Nearby.nearby/1)
-  #  |> Kernel.apply([location])
-  #end
-  #def get_stops_nearby({:ok, []}, _conn), do: []
-  #def get_stops_nearby({:error, _error_code, _error_str}, _conn), do: []
-
   def get_stops_nearby({:ok, [location | _]}, nearby_fn) do
     nearby_fn.(location)
   end
@@ -113,4 +111,13 @@ defmodule Site.Plugs.ServiceNearMe do
     address
   end
   def address(_), do: ""
+
+  @spec flash_if_error(Plug.Conn.t) :: Plug.Conn.t
+  def flash_if_error(%Plug.Conn{assigns: %{address: ""}} = conn) do
+    put_flash(conn, :info, "No address provided. Please enter a valid address below.")
+  end
+  def flash_if_error(%Plug.Conn{assigns: %{stops_with_routes: []}} = conn) do
+    put_flash(conn, :info, "There doesn't seem to be any stations found near the given address. Please try a different address to continue.")
+  end
+  def flash_if_error(conn), do: conn
 end

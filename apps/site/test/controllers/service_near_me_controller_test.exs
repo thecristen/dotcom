@@ -16,25 +16,6 @@ defmodule Site.ServiceNearMeControllerTest do
     end
   end
 
-  describe "put_flash_if_error/2" do
-    test "does nothing if there are stops_with_routes", %{conn: conn} do
-      conn = conn
-      |> assign(:stops_on_routes, [{%Stops.Stop{}, []}])
-      |> assign(:address, "address")
-      assert Site.ServiceNearMeController.flash_if_error(conn) == conn
-    end
-
-    test "shows message if there's no address", %{conn: conn} do
-      conn = conn
-             |> assign(:address, "")
-             |> bypass_through(Site.Router, :browser)
-             |> get("/")
-             |> Site.ServiceNearMeController.flash_if_error()
-
-      assert Phoenix.Controller.get_flash(conn)["info"] =~ "No address"
-    end
-  end
-
   def search_near_address(conn, address) do
     conn
     |> assign(:stops_with_routes, [])
@@ -42,6 +23,7 @@ defmodule Site.ServiceNearMeControllerTest do
     |> Phoenix.Controller.put_view(Site.ServiceNearMeView)
     |> bypass_through(Site.Router, :browser)
     |> get("/")
+    |> Site.Plugs.ServiceNearMe.call(Site.Plugs.ServiceNearMe.init([]))
     |> Site.ServiceNearMeController.index([])
   end
 end

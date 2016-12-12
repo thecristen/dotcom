@@ -28,21 +28,40 @@ defmodule Site.Plugs.ServiceNearMeTest do
       options = %Options{nearby_fn: &mock_response/1}
 
       conn = conn
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
       |> assign_query_params(%{"location" => %{"address" => @address}})
-      |> fetch_query_params
       |> call(options)
 
       assert :stops_with_routes in Map.keys conn.assigns
       assert :address in Map.keys conn.assigns
+      assert get_flash(conn) == %{}
     end
 
     test "assigns no stops and empty address if none is provided", %{conn: conn} do
       conn = conn
       |> assign_query_params(%{})
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
       |> call(%Options{})
 
       assert conn.assigns.stops_with_routes == []
       assert conn.assigns.address == ""
+      assert get_flash(conn)["info"] =~ "No address"
+    end
+
+    test "flashes message if no results are returned", %{conn: conn} do
+      options = %Options{nearby_fn: fn _ -> [] end}
+
+      conn = conn
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> assign_query_params(%{"location" => %{"address" => @address}})
+      |> call(options)
+
+      assert conn.assigns.stops_with_routes == []
+      assert conn.assigns.address == "10 Park Plaza, Boston, MA 02116, USA"
+      assert get_flash(conn)["info"] =~ "doesn't seem to be any stations"
     end
   end
 
@@ -115,6 +134,38 @@ defmodule Site.Plugs.ServiceNearMeTest do
 
       assert get_route_groups(route_list) == [red_line: [red_line]]
 
+    end
+  end
+
+  describe "put_flash_if_error/2" do
+    test "does nothing if there are stops_with_routes", %{conn: conn} do
+      conn = conn
+      |> assign(:stops_with_routes, [{%Stops.Stop{}, []}])
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> flash_if_error
+
+      assert get_flash(conn) == %{}
+    end
+
+    test "shows message if there's no address", %{conn: conn} do
+      conn = conn
+      |> assign(:address, "")
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> flash_if_error
+
+      assert get_flash(conn)["info"] =~ "No address"
+    end
+
+    test "shows message if there's no stops_with_routes", %{conn: conn} do
+      conn = conn
+      |> assign(:stops_with_routes, [])
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> flash_if_error
+
+      assert get_flash(conn)["info"] =~ "There doesn't seem to be any stations"
     end
   end
 
