@@ -31,7 +31,9 @@ config :site, GoogleMaps,
       signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
 
 config :laboratory,
-  features: [],
+  features: [
+    {:transit_near_me_frontdoor, "Transit Near Me Frontdoor", "Show the Transit Near Me content on the Front Door"}
+  ],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
     http_only: true

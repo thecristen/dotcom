@@ -101,7 +101,6 @@
   @include set-breakpoint-columns(md, 3);
   @include set-breakpoint-columns(lg, 4);
   @include set-breakpoint-columns(xxl, 4);
-  background: $gray-lightest;
   border-radius: $default-border-radius;
   -moz-column-gap: $grid-gutter-width;
   -webkit-column-gap: $grid-gutter-width;
@@ -115,6 +114,13 @@
   }
 }
 
+.service-near-me-gray {
+  background: $gray-lightest;
+}
+
+.service-near-me-white {
+  background: $white;
+}
 
 .service-card {
   background: $white;
@@ -143,4 +149,16 @@
       width: 1rem;
     }
   }
+}
+
+.service-near-me-wrapper {
+  width: 100%;
+  background: url(/images/transit-near-me-bkg.png), linear-gradient(to bottom right, $brand-primary-dark, #3191E1);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.snm-front-door-header {
+  padding-top: 1rem;
+  color: $white;
 }
