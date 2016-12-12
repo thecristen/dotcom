@@ -83,14 +83,13 @@ defmodule Site.ServiceNearMeController do
   defp round_distance(distance) when distance < 0.1 do
     distance
     |> Kernel.*(5820)
-    |> round
-    |> Integer.to_string
+    |> round()
+    |> :erlang.integer_to_binary()
     |> Kernel.<>(" ft")
   end
   defp round_distance(distance) do
     distance
-    |> Float.round(1)
-    |> Float.to_string
+    |> :erlang.float_to_binary(decimals: 1)
     |> Kernel.<>(" mi")
   end
 
