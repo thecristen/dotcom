@@ -12,8 +12,8 @@ defmodule Site.Plugs.ServiceNearMe do
 
   def init([]), do: %Options{}
 
-  def call(conn, options) do
-    results = conn.params["location"]["address"]
+  def call(%{params: %{"location" => %{"address" => address}}} = conn, options) do
+    results = address
               |> GoogleMaps.Geocode.geocode
 
     nearby_fn = options.nearby_fn
@@ -27,6 +27,11 @@ defmodule Site.Plugs.ServiceNearMe do
     conn
     |> assign_stops_with_routes(stops_with_routes)
     |> assign_address(address)
+  end
+  def call(conn, _options) do
+    conn
+    |> assign_stops_with_routes([])
+    |> assign_address("")
   end
 
   #TODO handle differently when multiple results are returned?

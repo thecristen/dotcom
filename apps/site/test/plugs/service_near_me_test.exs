@@ -3,6 +3,7 @@ defmodule Site.Plugs.ServiceNearMeTest do
 
   import Site.Plugs.ServiceNearMe
 
+  alias Site.Plugs.ServiceNearMe.Options
   alias Routes.Route
   alias Stops.Stop
   alias GoogleMaps.Geocode
@@ -24,7 +25,7 @@ defmodule Site.Plugs.ServiceNearMeTest do
     end
 
     test "assigns address and stops with routes", %{conn: conn} do
-      options = %Site.Plugs.ServiceNearMe.Options{nearby_fn: &mock_response/1}
+      options = %Options{nearby_fn: &mock_response/1}
 
       conn = conn
       |> assign_query_params(%{"location" => %{"address" => @address}})
@@ -34,11 +35,20 @@ defmodule Site.Plugs.ServiceNearMeTest do
       assert :stops_with_routes in Map.keys conn.assigns
       assert :address in Map.keys conn.assigns
     end
+
+    test "assigns no stops and empty address if none is provided", %{conn: conn} do
+      conn = conn
+      |> assign_query_params(%{})
+      |> call(%Options{})
+
+      assert conn.assigns.stops_with_routes == []
+      assert conn.assigns.address == ""
+    end
   end
 
   describe "init/1" do
     test "it returns a default options struct" do
-      assert init([]) == %Site.Plugs.ServiceNearMe.Options{}
+      assert init([]) == %Options{}
     end
   end
 
@@ -118,7 +128,7 @@ defmodule Site.Plugs.ServiceNearMeTest do
   end
 
   def search_near_address(conn, address) do
-    options = %Site.Plugs.ServiceNearMe.Options{nearby_fn: &mock_response/1}
+    options = %Options{nearby_fn: &mock_response/1}
 
     conn
     |> assign_query_params(%{"location" => %{"address" => address}})
