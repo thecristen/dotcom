@@ -7,20 +7,20 @@ defmodule Site.Plugs.DateTime do
   """
   import Plug.Conn, only: [assign: 3]
 
-  def init([]), do: []
+  def init([]), do: &Util.now/0
 
-  def call(conn, []) do
+  def call(conn, now_fn) do
     conn
-    |> assign(:date_time, date_time(conn.params["date_time"]))
+    |> assign(:date_time, date_time(conn.params["date_time"], now_fn))
   end
 
-  defp date_time(nil) do
-    Util.now()
+  defp date_time(nil, now_fn) do
+    now_fn.()
   end
-  defp date_time(str) when is_binary(str) do
+  defp date_time(str, now_fn) when is_binary(str) do
     case Timex.parse(str, "{ISO:Extended}") do
       {:ok, value} -> Timex.to_datetime(value, "America/New_York")
-      _ -> Util.now()
+      _ -> now_fn.()
     end
   end
 end

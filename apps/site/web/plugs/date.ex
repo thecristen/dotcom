@@ -7,20 +7,20 @@ defmodule Site.Plugs.Date do
   """
   import Plug.Conn, only: [assign: 3]
 
-  def init([]), do: []
+  def init([]), do: &Util.service_date/0
 
-  def call(conn, []) do
+  def call(conn, date_fn) do
     conn
-    |> assign(:date, date(conn.params["date"]))
+    |> assign(:date, date(conn.params["date"], date_fn))
   end
 
-  defp date(nil) do
-    Util.service_date()
+  defp date(nil, date_fn) do
+    date_fn.()
   end
-  defp date(str) when is_binary(str) do
+  defp date(str, date_fn) when is_binary(str) do
     case Timex.parse(str, "{ISOdate}") do
       {:ok, value} -> Timex.to_date(value)
-      _ -> Util.service_date()
+      _ -> date_fn.()
     end
   end
 end
