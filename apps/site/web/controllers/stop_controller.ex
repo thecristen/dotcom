@@ -26,6 +26,8 @@ defmodule Site.StopController do
     |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
     |> assign(:terminal_station, terminal_station(stop))
     |> assign(:access_alerts, access_alerts(alerts, stop))
+    |> assign(:stop_schedule, stop_schedule(id, conn.assigns.date))
+    |> assign(:stop_predictions, stop_predictions(id))
     |> render("show.html", stop: stop)
   end
 
@@ -107,5 +109,15 @@ defmodule Site.StopController do
     alerts
     |> Enum.filter(&(&1.effect_name == "Access Issue"))
     |> Alerts.Match.match(%Alerts.InformedEntity{stop: stop.id})
+  end
+
+  @spec stop_schedule(String.t, DateTime.t) :: [Schedules.Schedule.t]
+  defp stop_schedule(stop_id, date) do
+    Schedules.Repo.schedule_for_stop(stop_id, date: date)
+  end
+
+  @spec stop_predictions(String.t) :: [Predictions.Prediction.t]
+  defp stop_predictions(stop_id) do
+    Predictions.Repo.all(stop: stop_id)
   end
 end
