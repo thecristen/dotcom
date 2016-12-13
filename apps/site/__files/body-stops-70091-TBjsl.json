@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-smmnl"}}},"links":{"self":"/stops/70091"},"id":"70091","attributes":{"wheelchair_boarding":0,"name":"Shawmut - Outbound","longitude":-71.06573796,"latitude":42.29312583}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "2c1c9892-ae40-3d60-be38-dcfb4571f1a5",
+  "request" : {
+    "url" : "/routes/?stop=215&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PHIOp.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:11 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "hsc1qdf8u6vtmo9l48kdt3kdear6q0ic"
+    }
+  }
+}

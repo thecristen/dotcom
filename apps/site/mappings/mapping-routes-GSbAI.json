@@ -1,0 +1,19 @@
+{
+  "uuid" : "8358b552-5728-3610-ac36-14f4f70fc927",
+  "request" : {
+    "url" : "/routes/?stop=15088&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GSbAI.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:12 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "0ve808vl82de1qg537flhlsub7cno579"
+    }
+  }
+}

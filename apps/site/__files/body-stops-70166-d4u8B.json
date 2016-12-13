@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-eliot"}}},"links":{"self":"/stops/70166"},"id":"70166","attributes":{"wheelchair_boarding":0,"name":"Eliot - Inbound","longitude":-71.216713,"latitude":42.319023}}}

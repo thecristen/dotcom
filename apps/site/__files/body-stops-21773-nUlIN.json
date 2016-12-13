@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/21773"},"id":"21773","attributes":{"wheelchair_boarding":0,"name":"Vassar St @ Mass Ave","longitude":-71.093953,"latitude":42.360559}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "b480bbcd-a28e-3ab0-9ed2-eea7d07b81fb",
+  "request" : {
+    "url" : "/routes/?stop=49003&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CAXtv.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:04 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "5fap0lq8mpundc79gfvo33o14niv27gc"
+    }
+  }
+}

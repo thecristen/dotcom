@@ -1,0 +1,19 @@
+{
+  "uuid" : "88aa3220-5dc4-35db-a2e0-9eff680066cf",
+  "request" : {
+    "url" : "/routes/?stop=place-qamnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RgI0m.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:00 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "4sie44fc50rck69p7gdj1a0rnf9adkaf"
+    }
+  }
+}

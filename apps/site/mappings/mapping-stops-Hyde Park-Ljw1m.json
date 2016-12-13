@@ -1,0 +1,19 @@
+{
+  "uuid" : "bdefce8c-e9db-3532-8c27-69b56eef871b",
+  "request" : {
+    "url" : "/stops/Hyde%20Park",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Hyde Park-Ljw1m.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:44:13 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "s9o4g09fbgcjburg6u20uo7orfhdjhr8"
+    }
+  }
+}

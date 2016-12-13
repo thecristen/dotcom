@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-fldcr"}}},"links":{"self":"/stops/70089"},"id":"70089","attributes":{"wheelchair_boarding":0,"name":"Fields Corner - Outbound","longitude":-71.061667,"latitude":42.300093}}}

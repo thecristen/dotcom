@@ -1,0 +1,19 @@
+{
+  "uuid" : "7d3f043f-a1f5-3d0a-9816-751223ce30d3",
+  "request" : {
+    "url" : "/routes/?stop=226&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TycVK.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:12 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "3cq99di182aqrigmf4534s2s1ui6q62e"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "944c46af-555e-3a92-b8ce-cb2a06262692",
+  "request" : {
+    "url" : "/routes/?stop=place-ogmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ftcRq.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:00 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "4s7m6g039ijgb4hqp68k7fn5omn97igv"
+    }
+  }
+}

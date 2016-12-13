@@ -1,0 +1,19 @@
+{
+  "uuid" : "3691c351-eddd-39fd-97f2-b4fe069a630c",
+  "request" : {
+    "url" : "/routes/?stop=Framingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-i1Yht.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:44:03 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "5vcftk4nlk6r5f3uc12k81k5m12e78bv"
+    }
+  }
+}

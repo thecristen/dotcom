@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/82133"},"id":"82133","attributes":{"wheelchair_boarding":0,"name":"Central Ave @ Reservoir St","longitude":-71.228917,"latitude":42.311066}}}

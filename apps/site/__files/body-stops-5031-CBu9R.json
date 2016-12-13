@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/5031"},"id":"5031","attributes":{"wheelchair_boarding":0,"name":"Main St @ High St","longitude":-71.110125,"latitude":42.417908}}}

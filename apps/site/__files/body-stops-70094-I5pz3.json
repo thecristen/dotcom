@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-asmnl"}}},"links":{"self":"/stops/70094"},"id":"70094","attributes":{"wheelchair_boarding":0,"name":"Ashmont - Inbound","longitude":-71.064489,"latitude":42.284652}}}

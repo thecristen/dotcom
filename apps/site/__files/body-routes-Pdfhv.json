@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/742"},"id":"742","attributes":{"type":3,"short_name":"SL2","long_name":"Silver Line SL2","description":"Rapid Transit"}},{"type":"route","links":{"self":"/routes/4"},"id":"4","attributes":{"type":3,"short_name":"4","long_name":"","description":"Limited Service"}}]}
