@@ -1,5 +1,5 @@
 defmodule Site.FareController.CommuterTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
 
   test "finds fares based on origin and destination" do
     origin = Stops.Repo.get("place-north")
