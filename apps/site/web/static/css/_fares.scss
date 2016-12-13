@@ -121,6 +121,14 @@ a {
   background-color: $gray-lightest;
   margin-bottom: .75rem;
   padding: .5rem;
+
+  @include media-breakpoint-only(sm) {
+    font-size: .85rem;
+  }
+
+  @include media-breakpoint-only(xs) {
+    font-size: .85rem;
+  }
 }
 
 .adult-fares-tab {
@@ -276,6 +284,10 @@ a {
 
 .fare-summary-row {
   margin-bottom: $space-6;
+
+  @include media-breakpoint-down(xs) {
+    font-size: .85rem;
+  }
 }
 
 .fare-summary-price {
