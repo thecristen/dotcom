@@ -20,7 +20,7 @@ defmodule Fares.Format do
   end
   def media(:charlie_card), do: "CharlieCard"
   def media(:charlie_ticket), do: "CharlieTicket"
-  def media(:commuter_ticket), do: "Ticket"
+  def media(:commuter_ticket), do: "CharlieTicket"
   def media(:mticket), do: "mTicket App"
   def media(:cash), do: "Cash"
   def media(:senior_card), do: "Senior CharlieCard or TAP ID"

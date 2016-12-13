@@ -101,6 +101,10 @@ $icon-size: 1.75rem;
     color: $gray-dark;
     padding: .5rem;
 
+    @include media-breakpoint-only(md) {
+      font-size: .85rem;
+    }
+
     &:first-child {
       border-top: 0;
     }
