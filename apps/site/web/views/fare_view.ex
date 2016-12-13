@@ -63,4 +63,12 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   def update_fare_type(conn, reduced_type) do
     update_url(conn, fare_type: reduced_type)
   end
+
+  def fare_mode_icons(modes) do
+    content_tag :span, class: "payment-method-modes" do
+      for mode <- modes do
+        svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"})
+      end
+    end
+  end
 end
