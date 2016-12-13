@@ -3,7 +3,7 @@
     <h2 class="h5">Enter your location</h2>
     <%= form_for @conn, service_near_me_path(@conn, :index), [as: :location, method: :get, class: "form"], fn f ->  %>
     <div class="form-group">
-      <button class="btn location-btn" data-geolocation-target="place-input">
+      <button type="button" class="btn location-btn" data-geolocation-target="place-input">
         <%= fa "location-arrow" %>
         <span class="sr-only">Use my location</span>
         <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
