@@ -11,10 +11,10 @@
       </p>
       <div class="row p-b-1">
         <div class="col-lg-5 col-md-6 col-xs-12">
-          <img src=<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%> alt= />
+          <img src=<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%> alt="" class="img-fluid" />
         </div>
         <div class="col-lg-7 col-md-6 col-xs-12 payment-image">
-          <img src=<%= static_url(@conn, "/images/charlie-card.jpg")%> alt= />
+          <img src=<%= static_url(@conn, "/images/charlie-card.jpg")%> alt="" class="img-fluid" />
         </div>
       </div>
       <p>
@@ -34,7 +34,7 @@
       </p>
       <p>
         <%= link to: fare_path(@conn, :show, :charlie_card) do %>
-          Learn more about the CharlieCard <%= fa "arrow-right" %>
+          Learn more about the <span class="no-warp">CharlieCard <%= fa "arrow-right" %></span>
         <% end %>
       </p>
     </div>
@@ -47,7 +47,7 @@
       </p>
       <h4>Using CharlieTickets on the Bus and Subway</h4>
       <div class="charlie-ticket-image">
-        <img src=<%= static_url(@conn, "/images/charlie-ticket.jpg") %> alt="CharlieTicket with Stored Value" />
+        <img src=<%= static_url(@conn, "/images/charlie-ticket.jpg") %> alt="CharlieTicket with Stored Value" class="img-fluid"/>
         <p class="small ticket-description">CharlieTicket with Stored Value</p>
       </div>
       <p>
@@ -60,7 +60,7 @@
       </p>
       <h4>Using CharlieTickets on the Commuter Rail and Ferry</h4>
       <div class="charlie-ticket-image">
-      <img src=<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %> alt="Zone 1 One Way Pass on a CharlieTicket" />
+      <img src=<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %> alt="Zone 1 One Way Pass on a CharlieTicket" class="img-fluid" />
         <p class="small ticket-description">Zone 1 One Way Pass on a CharlieTicket</p>
       </div>
       <p>
@@ -77,7 +77,7 @@
         <strong>Use it on:</strong>
         Commuter Rail and Ferry <%= fare_mode_icons([:commuter_rail, :ferry]) %>
       </p>
-      <img src=<%= static_url(@conn, "/images/mticket-app.png") %> />
+      <img src=<%= static_url(@conn, "/images/mticket-app.png") %> class="img-fluid"/>
       <p class=m-t-1>
         Commuter Rail and Ferry riders can easily purchase any pass (One Way, Round Trip, 10-Ride, or Monthly) through the mTicket app.
         Push “activate” right before boarding and show your mTicket to the conductor upon request.
@@ -115,7 +115,7 @@
         At these stops, you may use cash to pay your fare on-board if you do not have a CharlieCard or CharlieTicket with money or a pass loaded onto it.
       </p>
       <p>
-        *Visit the <%= link "Bus and Subway fares page", to: fare_path(@conn, :show, :bus_subway) %>
+        *Visit the <%= link "Bus and Subway fares page", to: fare_path(@conn, :show, :bus_subway) %> to view transfer limitations
       </p>
     </div>
 </div>

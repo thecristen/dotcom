@@ -300,6 +300,10 @@ a {
   .mbta-custom-icon {
     margin-right: .0375rem;
   }
+
+  @include media-breakpoint-down(xs) {
+    margin: auto;
+  }
 }
 
 .payment-method {

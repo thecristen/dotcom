@@ -65,7 +65,7 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   end
 
   def fare_mode_icons(modes) do
-    content_tag :span, class: "payment-method-modes" do
+    content_tag :span, class: "payment-method-modes no-wrap" do
       for mode <- modes do
         svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"})
       end
