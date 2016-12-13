@@ -20,7 +20,7 @@ defmodule Site.FareView.Description do
      valid_commuter_zones(name),
      " as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."]
   end
-  def description(%Fare{mode: :ferry, duration: duration} = fare) when duration in [:round_trip, :single_trip] do
+  def description(%Fare{mode: :ferry, duration: duration} = fare) when duration in [:round_trip, :single_trip, :day, :week] do
     [
       "Valid for the ",
       Fares.Format.name(fare),
@@ -105,9 +105,9 @@ defmodule Site.FareView.Description do
   end
   def description(%Fare{name: :premium_ride}) do
     ["A trip qualifies as premium if it has been booked for same-day service or if a reservation has been changed after 5:00PM for service the next day.",
-     "<br><br>",
+     "<br><br>" |> Phoenix.HTML.raw,
      "A trip also qualifies if it is not within the core ADA area of service, or has a destination more than 3/4 miles away from an active MBTA Bus or Subway service."
-    ] |> Phoenix.HTML.raw
+    ]
   end
 
   defp valid_commuter_zones({:zone, "1A"}) do
