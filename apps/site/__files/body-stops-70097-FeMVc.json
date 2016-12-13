@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-nqncy"}}},"links":{"self":"/stops/70097"},"id":"70097","attributes":{"wheelchair_boarding":0,"name":"North Quincy - Outbound","longitude":-71.029583,"latitude":42.275275}}}

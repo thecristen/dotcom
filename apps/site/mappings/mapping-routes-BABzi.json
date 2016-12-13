@@ -1,0 +1,19 @@
+{
+  "uuid" : "11d02aec-0bdd-327a-82ff-6df17d1891ce",
+  "request" : {
+    "url" : "/routes/?stop=9980&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BABzi.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:04 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ogejb4b88uk3t8ijb4mcvemge62oo4jm"
+    }
+  }
+}

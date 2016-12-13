@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"trip","relationships":{"vehicle":{},"service":{"data":{"type":"service","id":"BUS42016-hbc46011-Weekday-02"}},"route":{"data":{"type":"route","id":"11"}},"predictions":{}},"links":{"self":"/trips/32101496"},"id":"32101496","attributes":{"wheelchair_accessible":1,"name":"","headsign":"Bayview","direction_id":0}}}

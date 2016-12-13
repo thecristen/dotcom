@@ -1,0 +1,19 @@
+{
+  "uuid" : "f5144758-36c1-315f-8722-cbf0f86c6e03",
+  "request" : {
+    "url" : "/stops/70027",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70027-PtoYs.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:43:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "s51fufokb7eetgda98cjcbcha292pe2r"
+    }
+  }
+}

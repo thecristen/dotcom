@@ -1,0 +1,19 @@
+{
+  "uuid" : "a8952012-c8b1-38ac-90f7-2d4cef077026",
+  "request" : {
+    "url" : "/stops/9983",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-9983-mrPPI.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:13 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "lo67jkd1dlcit61deuhp2vm5365roo70"
+    }
+  }
+}

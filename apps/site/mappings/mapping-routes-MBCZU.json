@@ -1,0 +1,19 @@
+{
+  "uuid" : "903b8ceb-792f-3f6b-947f-0a500fc6b15b",
+  "request" : {
+    "url" : "/routes/?stop=855&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MBCZU.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:13 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "9p3r0v35bv9f8cgqmpbcklb7g8t916bk"
+    }
+  }
+}

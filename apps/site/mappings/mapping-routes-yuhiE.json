@@ -1,0 +1,19 @@
+{
+  "uuid" : "09ea62fe-0ad1-3cf2-84e4-98f797a440d3",
+  "request" : {
+    "url" : "/routes/?stop=place-clmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-yuhiE.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:44:59 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "f17peluke3f2b3chkqmbhos1gjj4cr6g"
+    }
+  }
+}

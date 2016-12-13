@@ -1,0 +1,19 @@
+{
+  "uuid" : "52ce8f9e-9a8c-35ca-ad8a-d13ac2873bf0",
+  "request" : {
+    "url" : "/stops/22628",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-22628-sDILY.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:43:43 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "itjm21bb7rc40osjc2714p321gj9rad1"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "29e6e994-7d61-3dbe-85bb-873e25a2f147",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&date=2016-12-25&include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Broute%5D=type%2Clong_name%2Cshort_name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-qVhdp.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:43:59 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "q6pgov2322cu170op3h0v23n9i91e34l"
+    }
+  }
+}

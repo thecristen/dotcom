@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/15618"},"id":"15618","attributes":{"wheelchair_boarding":0,"name":"525 Washington St opp Marion St","longitude":-71.176684,"latitude":42.243889}}}

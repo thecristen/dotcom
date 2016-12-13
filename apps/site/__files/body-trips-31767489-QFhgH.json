@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"trip","relationships":{"vehicle":{},"service":{"data":{"type":"service","id":"BUS42016-hba46011-Weekday-02"}},"route":{"data":{"type":"route","id":"4"}},"predictions":{}},"links":{"self":"/trips/31767489"},"id":"31767489","attributes":{"wheelchair_accessible":1,"name":"","headsign":"Tide St via South Station","direction_id":1}}}

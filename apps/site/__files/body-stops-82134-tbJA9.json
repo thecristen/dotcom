@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/82134"},"id":"82134","attributes":{"wheelchair_boarding":0,"name":"Central Ave @ Saint Mary St","longitude":-71.231303,"latitude":42.310029}}}

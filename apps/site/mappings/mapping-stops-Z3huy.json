@@ -1,0 +1,19 @@
+{
+  "uuid" : "b433cbc6-0115-3fd3-95df-99c8959715b8",
+  "request" : {
+    "url" : "/stops/?direction_id=1&route=1&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Z3huy.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:44:22 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "0cvgl6qs23mongavk675h12q976fvj6c"
+    }
+  }
+}

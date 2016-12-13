@@ -1,0 +1,19 @@
+{
+  "uuid" : "4d5741e9-6adb-3cd2-8746-47bc8fbe2e4e",
+  "request" : {
+    "url" : "/routes/?stop=1399&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OrtHa.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:10 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "5ukak5gejek4as98h9cmlevpvit6590t"
+    }
+  }
+}
