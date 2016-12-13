@@ -1,0 +1,19 @@
+{
+  "uuid" : "a3ce8184-60da-3b58-bb7e-bc13c3288690",
+  "request" : {
+    "url" : "/routes/?stop=place-stplb&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-EKt3e.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:44:57 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "51qah2ehu2otk7pctu991bhim7g2i8q5"
+    }
+  }
+}

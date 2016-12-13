@@ -1,0 +1,19 @@
+{
+  "uuid" : "0cfb0709-ff3c-3cd5-934b-f84a4b64d0b7",
+  "request" : {
+    "url" : "/routes/?stop=place-longw&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-cWMvV.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:44:57 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ku17fadkb0ek6io813tl9vseirpatcll"
+    }
+  }
+}

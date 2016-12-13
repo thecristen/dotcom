@@ -1,0 +1,19 @@
+{
+  "uuid" : "b292d743-1019-317f-af9e-4078cedd90d1",
+  "request" : {
+    "url" : "/stops/8281",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-8281-OMapG.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:13 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "0n3c55kdd6d1eblh8aa7c1qcrj5utipd"
+    }
+  }
+}

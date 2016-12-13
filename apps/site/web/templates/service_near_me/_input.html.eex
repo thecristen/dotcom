@@ -1,6 +1,6 @@
 <%= form_for @conn, @conn.request_path, [as: :location, method: :get, class: "form"], fn f ->  %>
   <div class="form-group">
-    <button class="btn location-btn" data-geolocation-target="place-input">
+    <button type="button" class="btn location-btn" data-geolocation-target="place-input">
       <%= fa "location-arrow" %>
       <span class="sr-only">Use my location</span>
       <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
@@ -15,3 +15,4 @@
 
 <script type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>
 <script>new google.maps.places.Autocomplete(document.getElementById("place-input"));</script>
+

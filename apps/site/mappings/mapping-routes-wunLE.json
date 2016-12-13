@@ -1,0 +1,19 @@
+{
+  "uuid" : "2238fd35-0ba9-356e-a35c-62751eb91cca",
+  "request" : {
+    "url" : "/routes/?stop=1397&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wunLE.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:09 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "icm72jf45ni7vhgp0r3rpf3iupb0upee"
+    }
+  }
+}

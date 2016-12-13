@@ -1,0 +1,19 @@
+{
+  "uuid" : "6166dac1-f806-305a-bf92-addaee5dd275",
+  "request" : {
+    "url" : "/routes/?stop=place-harsq&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AraMI.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:44:58 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "gb3thp584572l214aajpucf0qfsqd3l1"
+    }
+  }
+}

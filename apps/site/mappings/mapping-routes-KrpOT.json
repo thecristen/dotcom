@@ -1,0 +1,19 @@
+{
+  "uuid" : "830e764b-fbfd-3272-b145-6fe14918cdfe",
+  "request" : {
+    "url" : "/routes/?stop=28310&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KrpOT.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:45:09 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "lhvqmm4p7s8iphbijdde8nlsih4l4skm"
+    }
+  }
+}

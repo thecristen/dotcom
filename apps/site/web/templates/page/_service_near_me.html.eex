@@ -1,4 +1,4 @@
-<%= if !Laboratory.enabled?(@conn, :transit_near_me_frontdoor) do %>
+<%= if Laboratory.enabled?(@conn, :transit_near_me_frontdoor) do %>
   <div class="service-near-me-wrapper">
     <div class="container">
     <h4 class="snm-front-door-header">Find Transit Near You</h4>

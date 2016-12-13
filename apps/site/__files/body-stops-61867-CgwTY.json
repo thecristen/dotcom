@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/61867"},"id":"61867","attributes":{"wheelchair_boarding":0,"name":"Washington St @ Metcalf St","longitude":-71.176993,"latitude":42.24336}}}

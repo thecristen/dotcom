@@ -1,0 +1,19 @@
+{
+  "uuid" : "80adc8d6-3ebd-3a3e-b1ea-fbb4146bf35f",
+  "request" : {
+    "url" : "/stops/Bradford",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Bradford-oPQMG.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Tue, 13 Dec 2016 18:43:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ekss1j6gikls6pmccvce3tdu76101ljt"
+    }
+  }
+}

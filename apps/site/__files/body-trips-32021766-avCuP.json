@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"trip","relationships":{"vehicle":{},"service":{"data":{"type":"service","id":"BUS42016-hbs46sw1-Weekday-02"}},"route":{"data":{"type":"route","id":"741"}},"predictions":{}},"links":{"self":"/trips/32021766"},"id":"32021766","attributes":{"wheelchair_accessible":1,"name":"","headsign":"Logan Airport","direction_id":0}}}
