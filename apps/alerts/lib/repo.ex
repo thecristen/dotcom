@@ -3,7 +3,7 @@ defmodule Alerts.Repo do
 
   def all do
     cache nil, fn _ ->
-      V3Api.Alerts.all.data
+      V3Api.Alerts.all().data
       |> Enum.map(fn alert ->
         Task.async(fn ->
           alert
@@ -16,7 +16,7 @@ defmodule Alerts.Repo do
   end
 
   def by_id(id) do
-    all
+    all()
     |> Enum.find(&(&1.id == id))
   end
 

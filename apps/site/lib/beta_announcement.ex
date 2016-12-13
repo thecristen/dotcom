@@ -5,7 +5,7 @@ defmodule BetaAnnouncement do
 
   @doc "Whether or not to show the announcement banner."
   def show_announcement?(conn) do
-    Map.get(conn.cookies, beta_announcement_cookie, nil) == nil
+    Map.get(conn.cookies, beta_announcement_cookie(), nil) == nil
   end
 end
 
@@ -20,7 +20,7 @@ defmodule BetaAnnouncement.Plug do
   def call(%{params: %{@hide_cookie_param => param}} = conn, []) when is_binary(param) do
     conn
     |> put_resp_cookie(
-      BetaAnnouncement.beta_announcement_cookie,
+      BetaAnnouncement.beta_announcement_cookie(),
       "true",
       max_age: 60 * 60 * 24 * 365 * 100,
       path: "/")

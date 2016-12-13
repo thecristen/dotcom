@@ -1,7 +1,5 @@
 defmodule Site.ServiceNearMeController do
   use Site.Web, :controller
-  alias Stops.Stop
-
   plug Site.Plugs.ServiceNearMe
 
   @doc """

@@ -40,15 +40,15 @@ defmodule Backstop.Servers do
 
   def init([module, parent]) do
     port = Port.open(
-      {:spawn, module.command},
+      {:spawn, module.command()},
       [
         :stderr_to_stdout,
         line: 65_536,
-        cd: directory,
-        env: module.environment
+        cd: directory(),
+        env: module.environment()
       ])
 
-    _ = Logger.info [server_name(module), " started with pid ", inspect self]
+    _ = Logger.info [server_name(module), " started with pid ", inspect self()]
 
     {:ok, %State{module: module,
                  parent: parent,

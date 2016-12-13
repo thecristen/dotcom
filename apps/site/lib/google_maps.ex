@@ -20,7 +20,7 @@ defmodule GoogleMaps do
   configuration in config.exs
   """
   def signed_url(path, opts \\ []) do
-    opts = default_options
+    opts = default_options()
     |> Keyword.merge(opts)
 
     path

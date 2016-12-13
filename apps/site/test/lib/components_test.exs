@@ -154,7 +154,7 @@ defmodule Site.ComponentsTest do
   end
 
   defp period_shift(period) do
-    {Util.now |> Timex.shift(period), nil}
+    {Util.now() |> Timex.shift(period), nil}
   end
 
 end

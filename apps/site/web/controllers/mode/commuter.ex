@@ -17,7 +17,7 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   def fare_description do
-    "#{link_to_zone_fares} depend on the distance traveled (zones). Refer to the information below:"
+    "#{link_to_zone_fares()} depend on the distance traveled (zones). Refer to the information below:"
   end
 
   def fares do

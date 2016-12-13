@@ -5,7 +5,8 @@ defmodule Schedules.Parser do
       trip: trip(item),
       stop: stop(item),
       time: time(item),
-      flag?: flag?(item)
+      flag?: flag?(item),
+      pickup_type: pickup_type(item)
     }
   end
 
@@ -110,5 +111,9 @@ defmodule Schedules.Parser do
     # * 3: Must coordinate with driver to arrange drop off
     # Flag trips are those which need coordination.
     pickup_type == 3 || drop_off_type == 3
+  end
+
+  defp pickup_type(%JsonApi.Item{attributes: %{"pickup_type" => pickup_type}}) do
+    pickup_type
   end
 end

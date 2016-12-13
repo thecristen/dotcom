@@ -4,7 +4,7 @@
       <p>Please leave your comments, complaints, or inquiries below and they will be sent to our Customer Support team.</p>
     </div>
     <form id="support-form" action="<%= customer_support_path @conn, :submit %>" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="_csrf_token" value="<%= get_csrf_token %>" />
+      <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>" />
       <div class="form-group col-xs-12 <%= if "comments" in @errors, do: "has-danger" %>">
         <textarea
           id="comments"

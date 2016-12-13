@@ -62,4 +62,28 @@ defmodule Site.ContentView do
   defp format_time(time) do
     Timex.format!(time, "{h12}:{m} {AM}")
   end
+
+  @doc ""
+  @spec shift_month_url(Plug.Conn.t, atom, integer) :: String.t
+  def shift_month_url(conn, field, shift) do
+    current_month = current_month(conn, field)
+
+    %{
+      "#{field}_gt" => current_month |> Timex.shift(months: shift) |> Timex.format!("{ISOdate}"),
+      "#{field}_lt" => current_month |> Timex.shift(months: shift + 1) |> Timex.format!("{ISOdate}")
+    }
+    |> URI.encode_query
+    |> (fn query -> "#{conn.request_path}?#{query}" end).()
+  end
+
+  defp current_month(conn, field) do
+    field_name = "#{field}_gt"
+    case Map.get(conn.params, field_name) do
+      nil -> Util.today
+      date_str -> case Timex.parse(date_str, "{ISOdate}") do
+                    {:ok, date} -> date
+                    {:error, _} -> Util.today
+                  end
+    end
+  end
 end

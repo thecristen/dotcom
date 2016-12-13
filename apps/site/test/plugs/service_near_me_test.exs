@@ -63,33 +63,27 @@ defmodule Site.Plugs.ServiceNearMeTest do
       assert conn.assigns.address == "10 Park Plaza, Boston, MA 02116, USA"
       assert get_flash(conn)["info"] =~ "doesn't seem to be any stations"
     end
+
+    test "can take a lat/long as query parameters", %{conn: conn} do
+      options = %Options{nearby_fn: &mock_response/1}
+      lat = 42.3515322
+      lng = -71.0668452
+
+      conn = conn
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> assign_query_params(%{"latitude" => "#{lat}", "longitude" => "#{lng}"})
+      |> call(options)
+
+      assert :stops_with_routes in Map.keys conn.assigns
+      assert :address in Map.keys conn.assigns
+      assert get_flash(conn) == %{}
+    end
   end
 
   describe "init/1" do
     test "it returns a default options struct" do
       assert init([]) == %Options{}
-    end
-  end
-
-  describe "assign_stops_with_routes/2" do
-    test "it assigns the stops_with routes on the conn", %{conn: conn} do
-      stops_with_routes = [%{stop: %Stop{}, routes: [%Route{}]}]
-
-      conn = conn
-      |> assign_stops_with_routes(stops_with_routes)
-
-      assert :stops_with_routes in Map.keys conn.assigns
-    end
-  end
-
-  describe "assign_address/2" do
-    test "it assigns address on the conn", %{conn: conn} do
-      address = "10 Park Plaza"
-
-      conn = conn
-      |> assign_address(address)
-
-      assert :address in Map.keys conn.assigns
     end
   end
 

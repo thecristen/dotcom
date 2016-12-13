@@ -5,7 +5,7 @@ defmodule Predictions.Prediction do
     stop_id: String.t,
     route_id: String.t,
     direction_id: 0 | 1,
-    time: Timex.DateTime.t,
+    time: DateTime.t,
     track: String.t | nil,
     status: String.t | nil
   }

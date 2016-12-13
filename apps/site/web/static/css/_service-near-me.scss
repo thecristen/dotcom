@@ -132,6 +132,7 @@
   width: 100%;
 
   .service-route {
+    color: $gray-dark;
     font-size: .8rem;
     margin-bottom: .25rem;
 
@@ -148,6 +149,11 @@
       vertical-align: text-bottom;
       width: 1rem;
     }
+  }
+
+  .distance {
+    color: $gray-light;
+    text-align: right;
   }
 }
 

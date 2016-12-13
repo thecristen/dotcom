@@ -6,6 +6,7 @@ defmodule Content.Page do
   """
   @type t :: %__MODULE__{
     type: String.t,
+    id: String.t,
     title: String.t,
     body: String.t,
     updated_at: DateTime.t,
@@ -13,6 +14,7 @@ defmodule Content.Page do
   }
   defstruct [
     type: {:missing, :type},
+    id: {:missing, :id},
     title: {:missing, :title},
     body: {:missing, :body},
     updated_at: {:missing, :updated_at},

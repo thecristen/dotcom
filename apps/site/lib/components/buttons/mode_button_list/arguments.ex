@@ -27,7 +27,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   }
 
   def get_alert(route, alerts, date \\ nil) do
-    date = date || Util.now
+    date = date || Util.now()
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
     alerts
     |> Enum.reject(&Alerts.Alert.is_notice?(&1, date))

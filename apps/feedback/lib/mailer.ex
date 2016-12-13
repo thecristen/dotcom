@@ -23,6 +23,6 @@ defmodule Feedback.Mailer do
       opts
     end
 
-    Mailgun.Client.send_email config, opts
+    Mailgun.Client.send_email config(), opts
   end
 end

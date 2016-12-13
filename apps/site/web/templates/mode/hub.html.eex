@@ -1,6 +1,6 @@
 <div>
-  <div class="card card-section">
-    <div class="card-block card-block-no-header mode-hub">
+  <div class="page-section">
+    <div class="page-block mode-hub">
       <h1>
         <%= svg_icon_with_circle(%SvgIconWithCircle{icon: @route_type |> Routes.Route.type_atom}) %>
         <%= @mode_name %> Schedules and Maps

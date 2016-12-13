@@ -7,9 +7,9 @@ defmodule Site.Mode.HubBehavior do
   @callback mode_name() :: String.t
   @callback fares() :: [Summary.t]
   @callback fare_description() :: String.t
-  @callback route_type :: 0..4
-  @callback map_pdf_url :: String.t | nil
-  @callback map_image_url :: String.t
+  @callback route_type() :: 0..4
+  @callback map_pdf_url() :: String.t | nil
+  @callback map_image_url() :: String.t
 
   use Site.Web, :controller
 
@@ -23,9 +23,9 @@ defmodule Site.Mode.HubBehavior do
         unquote(__MODULE__).index(__MODULE__, conn, params)
       end
 
-      def routes, do: Routes.Repo.by_type(route_type)
+      def routes, do: Routes.Repo.by_type(route_type())
 
-      def delays, do: unquote(__MODULE__).mode_delays(route_type)
+      def delays, do: unquote(__MODULE__).mode_delays(route_type())
 
       def map_pdf_url do
         "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
@@ -41,15 +41,15 @@ defmodule Site.Mode.HubBehavior do
 
   def index(mode_strategy, conn, _params) do
     render(conn, "hub.html",
-      route_type: mode_strategy.route_type,
-      routes: mode_strategy.routes,
-      delays: mode_strategy.delays,
-      mode_name: mode_strategy.mode_name,
-      fares: mode_strategy.fares,
-      fare_description: mode_strategy.fare_description,
-      map_pdf_url: mode_strategy.map_pdf_url,
-      map_image_url: static_url(Site.Endpoint, mode_strategy.map_image_url),
-      breadcrumbs: [{mode_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name]
+      route_type: mode_strategy.route_type(),
+      routes: mode_strategy.routes(),
+      delays: mode_strategy.delays(),
+      mode_name: mode_strategy.mode_name(),
+      fares: mode_strategy.fares(),
+      fare_description: mode_strategy.fare_description(),
+      map_pdf_url: mode_strategy.map_pdf_url(),
+      map_image_url: static_url(Site.Endpoint, mode_strategy.map_image_url()),
+      breadcrumbs: [{mode_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name()]
     )
   end
 
@@ -62,7 +62,7 @@ defmodule Site.Mode.HubBehavior do
   end
   def mode_delays(route_type) do
     Alerts.Repo.all
-    |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, Util.now)
+    |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type}, Util.now())
     |> Enum.filter(&(&1.effect_name == "Delay" && &1.lifecycle != "Ongoing"))
   end
 end

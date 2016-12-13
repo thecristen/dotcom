@@ -12,7 +12,7 @@ defmodule News.Repo.Directory do
   @behaviour News.Repo
   import News.Repo.Directory.PostDirectory
 
-  @post_filenames post_dir
+  @post_filenames post_dir()
   |> File.ls!
 
   def all_ids do
@@ -20,7 +20,7 @@ defmodule News.Repo.Directory do
   end
 
   def get(id) do
-    post_dir
+    post_dir()
     |> Path.join(id)
     |> File.read
   end

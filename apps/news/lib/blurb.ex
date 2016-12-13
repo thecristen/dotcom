@@ -29,13 +29,13 @@ defmodule News.Blurb do
     ""
   end
   def blurb(text) do
-    if String.length(text) > max_length do
-      blurb_length = max_length - String.length(suffix)
+    if String.length(text) > max_length() do
+      blurb_length = max_length() - String.length(suffix())
       text
       |> HtmlSanitizeEx.strip_tags
       |> String.strip
       |> String.slice(Range.new(0, blurb_length - 1))
-      |> Kernel.<>(suffix)
+      |> Kernel.<>(suffix())
     else
       text
     end

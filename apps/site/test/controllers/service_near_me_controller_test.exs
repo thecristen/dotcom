@@ -8,6 +8,7 @@ defmodule Site.ServiceNearMeControllerTest do
       |> html_response(200)
       assert response =~ "No address provided"
     end
+
     test "display message if no results", %{conn: conn} do
       response = conn
       |> search_near_address("randomnonsensicalstringnoresults")

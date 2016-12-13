@@ -186,7 +186,7 @@ defmodule Site.ViewHelpers do
   """
   def forward_assigns(%{assigns: assigns} = conn) do
     assigns
-    |> Dict.put(:conn, conn)
+    |> Map.put(:conn, conn)
   end
 
   defp empty_value?({_, nil}), do: true

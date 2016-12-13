@@ -9,11 +9,11 @@ defmodule Fares.Repo do
     @fares
   end
   def all(opts) when is_list(opts) do
-    all
+    all()
     |> filter(opts)
   end
 
-  @spec filter([Fare.t], Dict.t) :: [Fare.t]
+  @spec filter([Fare.t], Keyword.t) :: [Fare.t]
   def filter(fares, opts) do
     fares
     |> filter_all(Map.new(opts))

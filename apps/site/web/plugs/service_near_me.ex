@@ -1,8 +1,9 @@
 defmodule Site.Plugs.ServiceNearMe do
   import Plug.Conn
   import Phoenix.Controller, [only: [put_flash: 3]]
+  alias GoogleMaps.Geocode
   alias Routes.Route
-  alias Stops.Stop
+  alias Stops.{Stop, Distance}
 
   defmodule Options do
     defstruct [
@@ -18,26 +19,52 @@ defmodule Site.Plugs.ServiceNearMe do
     |> flash_if_error()
   end
   def call(%{params: %{"location" => %{"address" => address}}} = conn, options) do
-    results = address
+    location = address
               |> GoogleMaps.Geocode.geocode
 
     nearby_fn = options.nearby_fn
 
-    stops_with_routes = results
+    stops_with_routes = location
     |> get_stops_nearby(nearby_fn)
-    |> stops_with_routes(options.routes_by_stop_fn)
+    |> stops_with_routes(location, options.routes_by_stop_fn)
 
-    address = address(results)
+    address = address(location)
 
     conn
-    |> assign_stops_with_routes(stops_with_routes)
-    |> assign_address(address)
+    |> assign(:stops_with_routes, stops_with_routes)
+    |> assign(:address, address)
+    |> flash_if_error()
+  end
+  # Used in Backstop tests to avoid calling Google Maps
+  def call(%{params: %{"latitude" => latitude, "longitude" => longitude}} = conn, options) do
+    formatted = conn.params
+    |> Map.get("location", %{})
+    |> Map.get("address", "#{latitude}, #{longitude}")
+
+    location = {:ok, [
+        %Geocode.Address{
+          latitude: String.to_float(latitude),
+          longitude: String.to_float(longitude),
+          formatted: formatted
+        }
+      ]
+    }
+
+    stops_with_routes = location
+    |> get_stops_nearby(options.nearby_fn)
+    |> stops_with_routes(location, options.routes_by_stop_fn)
+
+    address = address(location)
+
+    conn
+    |> assign(:stops_with_routes, stops_with_routes)
+    |> assign(:address, address)
     |> flash_if_error()
   end
   def call(conn, _options) do
     conn
-    |> assign_stops_with_routes([])
-    |> assign_address("")
+    |> assign(:stops_with_routes, [])
+    |> assign(:address, "")
     |> flash_if_error()
   end
 
@@ -54,22 +81,36 @@ defmodule Site.Plugs.ServiceNearMe do
   end
 
 
-  @spec stops_with_routes([Stop.t], ((String.t) -> [Route.t])) :: [%{stop: Stop.t, routes: [Route.Group.t]}]
-  def stops_with_routes(stops, routes_by_stop_fn) do
+  @spec stops_with_routes([Stop.t], Geocode.t, ((String.t) -> [Route.t])) :: [%{stop: Stop.t, distance: String.t, routes: [Route.Group.t]}]
+  def stops_with_routes(stops, {:ok, [location|_]}, routes_by_stop_fn) do
     stops
     |> Enum.map(fn stop ->
-      %{stop: stop, routes: stop.id |> routes_by_stop_fn.() |> get_route_groups}
+      %{stop: stop,
+        distance: get_distance(stop, location),
+        routes: stop.id |> routes_by_stop_fn.() |> get_route_groups}
     end)
   end
+  def stops_with_routes([], {:error, _, _}, _), do: []
 
-  def assign_stops_with_routes(conn, stops_with_routes) do
-    conn
-    |> assign(:stops_with_routes, stops_with_routes)
+  @spec get_distance(Stop.t, Geocode.t) :: String.t
+  defp get_distance(stop, location) do
+    stop
+    |> Distance.haversine(location)
+    |> round_distance
   end
 
-  def assign_address(conn, address) do
-    conn
-    |> assign(:address, address)
+  @spec round_distance(float) :: String.t
+  defp round_distance(distance) when distance < 0.1 do
+    distance
+    |> Kernel.*(5820)
+    |> round()
+    |> :erlang.integer_to_binary()
+    |> Kernel.<>(" ft")
+  end
+  defp round_distance(distance) do
+    distance
+    |> :erlang.float_to_binary(decimals: 1)
+    |> Kernel.<>(" mi")
   end
 
   @spec get_route_groups([Route.t]) :: [Routes.Group.t]

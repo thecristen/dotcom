@@ -12,7 +12,7 @@ defmodule Holiday.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      test_coverage: [tool: ExCoveralls],
-     deps: deps]
+     deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -36,6 +36,9 @@ defmodule Holiday.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:excoveralls, "~> 0.5", only: :test}]
+    [
+      {:timex, ">= 0.0.0"},
+      {:excoveralls, "~> 0.5", only: :test}
+    ]
   end
 end

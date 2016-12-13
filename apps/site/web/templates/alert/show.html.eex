@@ -1,5 +1,5 @@
-<div class="card card-section">
-  <div class="card-header">
+<div class="page-section">
+  <div class="page-header">
     <h1>Service Alerts and Notices</h1>
     <%= mode_tab_list %ModeTabList{
       class: "navbar-toggleable-sm",
@@ -11,7 +11,7 @@
     } %>
     <div class="clearfix"></div>
   </div>
-  <div class="card-block">
+  <div class="page-block">
     <%= for {route, alerts} <- @route_alerts do %>
       <div class="alert-show-row">
         <div class="alert-show-title-container">

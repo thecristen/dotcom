@@ -1,6 +1,6 @@
 <div class="container-fluid hidden-sm-down desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
   <div class="container">
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="gettingAround" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="faresDrawer" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-8 fares-column">
@@ -81,11 +81,11 @@
                 <p class="nav-title">Subway Single Ride <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %></p>
                 <ul class="header-fares">
                   <li>
-                    CharlieCard
+                    <%= Fares.Format.media(:charlie_card) %>
                     <span class="pull-right"><%= format_header_fare mode: :subway, duration: :single_trip, media: [:charlie_card] %></span>
                   </li>
                   <li>
-                    Ticket or Cash
+                    <%= Fares.Format.media([:charlie_ticket, :cash]) %>
                     <span class="pull-right"><%= format_header_fare mode: :subway, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
                   </li>
                 </ul>
@@ -94,11 +94,11 @@
                 <p class="nav-title">Local Bus Single Ride <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %></p>
                 <ul class="header-fares">
                   <li>
-                    CharlieCard
+                    <%= Fares.Format.media(:charlie_card) %>
                     <span class="pull-right"><%= format_header_fare name: :local_bus, duration: :single_trip, media: [:charlie_card] %></span>
                   </li>
                   <li>
-                    Ticket or Cash
+                    <%= Fares.Format.media([:charlie_ticket, :cash]) %>
                     <span class="pull-right"><%= format_header_fare name: :local_bus, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
                   </li>
                 </ul>
@@ -107,29 +107,27 @@
             <div class="row">
               <div class="col-xs-6">
                 <p class="nav-title">
-                  7-Day Pass
-                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %>
-                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %>
-                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :commuter_rail} %>
-                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :ferry} %>
-                </p>
-                <ul class="header-fares">
-                  <li>
-                    CharlieCard or Ticket
-                    <span class="pull-right"><%= format_header_fare duration: :week, media: [:charlie_card, :charlie_ticket] %></span>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-xs-6">
-                <p class="nav-title">
                   Monthly LinkPass
                   <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %>
                   <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %>
                 </p>
                 <ul class="header-fares">
                   <li>
-                    CharlieCard or Ticket
+                    <%= Fares.Format.media([:charlie_card, :charlie_ticket]) %>
                     <span class="pull-right"><%= format_header_fare duration: :month, media: [:charlie_card, :charlie_ticket] %></span>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-xs-6">
+                <p class="nav-title">
+                  Commuter Rail One Way
+                  <%= svg_icon_with_circle %SvgIconWithCircle{icon: :commuter_rail} %>
+                </p>
+                <ul class="header-fares">
+                  <li>
+                    <% {media, price_range} = commuter_rail_fare_range() %>
+                    <%= media %>
+                    <span class="pull-right"><%= price_range %></span>
                   </li>
                 </ul>
               </div>
@@ -138,24 +136,30 @@
           <div class="col-xs-4 fares-column">
             <p>More Fares Info</p>
             <ul>
-              <li><%= link to: fare_path(@conn, :index) do %></li>
-                <%= fa "caret-right" %> Fare Information by Mode
+              <li><%= link to: fare_path(@conn, :show, "bus_subway") do %></li>
+                <%= fa "caret-right" %> Bus and Subway Fares
+              <% end %>
+              <li><%= link to: fare_path(@conn, :show, "commuter_rail") do %></li>
+                <%= fa "caret-right" %> Commuter Rail Fares
+              <% end %>
+              <li><%= link to: fare_path(@conn, :show, "ferry") do %></li>
+                <%= fa "caret-right" %> Ferry Fares
               <% end %>
               <li><%= link to: fare_path(@conn, :show, "reduced") do %></li>
                 <%= fa "caret-right" %> Reduced Fares
               <% end %>
-              <li><%= link to: redirect_path(@conn, "pass_program") do %></li>
-                <%= fa "caret-right" %> Pass Programs
-              <% end %>
               <li><%= link to: fare_path(@conn, :show, "payment_methods") do %></li>
-                <%= fa "caret-right" %> Ways to Pay
+                <%= fa "caret-right" %> Payment Methods
+              <% end %>
+              <li><%= link to: fare_path(@conn, :index) do %></li>
+                <%= fa "caret-right" %> View All Fares Info
               <% end %>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="contactUs" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
@@ -207,7 +211,7 @@
         </div>
       </div>
     </div>
-    <div class="menu-card card panel">
+    <div class="menu-card panel">
       <div id="more" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">

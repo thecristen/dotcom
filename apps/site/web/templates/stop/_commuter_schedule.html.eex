@@ -17,7 +17,7 @@
   </div>
   <%= for route <- @routes do %>
     <%= for direction_id <- [0, 1] do %>
-      <%= if schedule = upcoming_commuter_departures(@conn, @stop.id, route.id, direction_id) do %>
+      <%= if schedule = upcoming_commuter_departures(@conn, route.id, direction_id) do %>
         <div class="station-route-row">
           <p class="station-route-name">
             <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>

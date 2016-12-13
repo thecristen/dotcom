@@ -50,7 +50,7 @@
       <p>
       You can load One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and Subway travel as well) Passes onto a CharlieTicket at a fare vending machine, found in all Subway stations and the following Commuter Rail stations:
       </p>
-      <p><%= Site.FareView.vending_machine_stations %></p>
+      <p><%= Site.FareView.vending_machine_stations() %></p>
     </div>
   </div>
   <div class="row">

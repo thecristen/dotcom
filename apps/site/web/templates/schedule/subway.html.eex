@@ -41,7 +41,7 @@
           </div>
         <% end %>
       </div>
-      <%= if Enum.count(schedules) > schedule_display_limit do %>
+      <%= if Enum.count(schedules) > schedule_display_limit() do %>
         <%= if !@show_full_list do %>
           <a href="<%= update_schedule_url(@conn, full_list: "full_list") %>"/>
             Show more times
