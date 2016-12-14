@@ -196,17 +196,17 @@ a {
   padding: .5rem .125rem 0;
 }
 
-.fares-purchasing-option {
+.fares-info-column {
   padding: 1rem .375rem;
 }
 
 .row {
   @include media-breakpoint-up(sm) {
-    .fares-purchasing-option:nth-child(1) {
+    .fares-info-column:nth-child(1) {
       padding-right: 2rem;
     }
 
-    .fares-purchasing-option:nth-child(2) {
+    .fares-info-column:nth-child(2) {
       padding-left: 2rem;
     }
   }
@@ -317,4 +317,21 @@ a {
 
 .content-section {
   margin-bottom: 3rem;
+}
+
+.fares-related-page {
+  border: 1px solid $gray-lightest;
+  border-left: 0;
+  padding: .5em 1em;
+  position: relative;
+
+  &::before {
+    border-left: 4px solid $brand-primary-dark;
+    content: ' ';
+    display: block;
+    height: calc(100% + 2px);
+    left: 0;
+    position: absolute;
+    top: -1px;
+  }
 }
