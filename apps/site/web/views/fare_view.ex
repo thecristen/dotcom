@@ -64,6 +64,8 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
     update_url(conn, fare_type: reduced_type)
   end
 
+  @doc "Returns the svg icons for the modes passed in"
+  @spec fare_mode_icons([:bus | :subway | :commuter_rail | :ferry]) :: [Phoenix.HTML.Safe.t]
   def fare_mode_icons(modes) do
     content_tag :span, class: "payment-method-modes no-wrap" do
       for mode <- modes do
