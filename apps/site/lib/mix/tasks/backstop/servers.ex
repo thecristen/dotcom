@@ -141,7 +141,7 @@ defmodule Backstop.Servers.Phoenix do
   end
 
   def command do
-    "mix do clean, deps.compile, compile, phoenix.server"
+    "mix do deps.compile --force, compile --no-deps-check --force, phoenix.server"
   end
 
   def started_match do
