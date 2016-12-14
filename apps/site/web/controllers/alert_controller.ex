@@ -1,7 +1,7 @@
 defmodule Site.AlertController do
   use Site.Web, :controller
 
-  plug Site.Plugs.Route
+  #plug Site.Plugs.Route
   plug Site.Plugs.Date
   plug Site.Plugs.Alerts
 

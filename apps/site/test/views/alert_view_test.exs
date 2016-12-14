@@ -27,16 +27,16 @@ defmodule Site.AlertViewTest do
         %Alerts.Alert{effect_name: "Cancellation"}
       ]
 
-      expected = {"Suspension", "+2 more"}
+      expected = {"Suspension", ["+", "2", " more"]}
       actual = alert_effects(alerts, 0)
 
       assert expected == actual
     end
 
     test "returns text when there are no current alerts" do
-     assert alert_effects([], 0) == "There are no alerts for today."
-     assert alert_effects([], 1) == "There are no alerts for today; 1 upcoming alert."
-     assert alert_effects([], 2) == "There are no alerts for today; 2 upcoming alerts."
+     assert [] |> alert_effects(0) |> :erlang.iolist_to_binary == "There are no alerts for today."
+     assert [] |> alert_effects(1) |> :erlang.iolist_to_binary == "There are no alerts for today; 1 upcoming alert."
+     assert [] |> alert_effects(2) |> :erlang.iolist_to_binary == "There are no alerts for today; 2 upcoming alerts."
     end
   end
 
@@ -46,7 +46,9 @@ defmodule Site.AlertViewTest do
       date = ~D[2016-10-05]
       alert = %Alerts.Alert{updated_at: now}
 
-      assert alert_updated(alert, date) == "Last Updated: Today at 12:02 AM"
+      expected = "Last Updated: Today at 12:02 AM"
+      actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary
+      assert actual == expected
     end
 
     test "alerts from further in the past use a date" do
@@ -55,7 +57,9 @@ defmodule Site.AlertViewTest do
 
       alert = %Alerts.Alert{updated_at: now}
 
-      assert alert_updated(alert, date) == "Last Updated: 10/5/2016 12:02 AM"
+      expected = "Last Updated: 10/5/2016 12:02 AM"
+      actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary
+      assert actual == expected
     end
   end
 
@@ -66,12 +70,12 @@ defmodule Site.AlertViewTest do
 
     test "anything more than 60 characters gets chomped to 60 characters" do
       long = String.duplicate("x", 61)
-      assert String.length(clamp_header(long)) == 60
+      assert long |> clamp_header |> :erlang.iolist_to_binary |> String.length == 60
     end
 
     test "clamps that end in a space have it trimmed" do
       text = String.duplicate(" ", 61)
-      assert String.length(clamp_header(text)) == 1
+      assert text |> clamp_header |> :erlang.iolist_to_binary |> String.length == 1
     end
   end
 

@@ -46,26 +46,23 @@ defmodule Site.AlertView do
   def alert_effects(alerts, upcoming_count)
   def alert_effects([], 0), do: "There are no alerts for today."
   def alert_effects([], 1), do: "There are no alerts for today; 1 upcoming alert."
-  def alert_effects([], count), do: "There are no alerts for today; #{count} upcoming alerts."
+  def alert_effects([], count), do: ["There are no alerts for today; ", count |> Integer.to_string, " upcoming alerts."]
   def alert_effects([alert], _) do
     {alert.effect_name,
      ""}
   end
   def alert_effects([alert|rest], _) do
     {alert.effect_name,
-     "+#{length rest} more"}
+     ["+", rest |> length |> Integer.to_string, " more"]}
   end
 
   def effect_name(%{effect_name: name, lifecycle: "New"}) do
     name
   end
   def effect_name(%{effect_name: name, lifecycle: lifecycle}) do
-    "#{name} (#{lifecycle})"
+    [name, "(", lifecycle, ")"]
   end
 
-  def alert_updated(alert) do
-    alert_updated(alert, Util.today)
-  end
   def alert_updated(alert, relative_to) do
     date = if Timex.equal?(relative_to, alert.updated_at) do
       "Today at"
@@ -74,16 +71,13 @@ defmodule Site.AlertView do
     end
     time = Timex.format!(alert.updated_at, "{h12}:{m} {AM}")
 
-    "Last Updated: #{date} #{time}"
+    ["Last Updated: ", date, 32, time]
   end
 
-  def clamp_header(header) do
-    clamp_header(header, 0)
-  end
-  def clamp_header(header, extra_remove) do
+  def clamp_header(header, extra_remove \\ 0) do
     case String.split_at(header, 59 - extra_remove) do
       {short, ""} -> short
-      {short, _} -> String.trim(short) <> "…" # ellipsis
+      {short, _} -> [String.trim(short), "…"] # ellipsis
     end
   end
 
