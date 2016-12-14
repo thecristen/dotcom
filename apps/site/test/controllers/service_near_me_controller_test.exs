@@ -17,6 +17,7 @@ defmodule Site.ServiceNearMeControllerTest do
     end
   end
 
+  @spec search_near_address(Plug.Conn.t, String.t) :: Plug.Conn.t
   def search_near_address(conn, address) do
     conn
     |> assign(:stops_with_routes, [])

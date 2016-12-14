@@ -81,7 +81,7 @@ defmodule Site.Plugs.ServiceNearMe do
   end
 
 
-  @spec stops_with_routes([Stop.t], Geocode.t, ((String.t) -> [Route.t])) :: [%{stop: Stop.t, distance: String.t, routes: [Route.Group.t]}]
+  @spec stops_with_routes([Stop.t], Geocode.t, ((String.t) -> [Route.t])) :: [%{stop: Stop.t, distance: String.t, routes: [Routes.Group.t]}]
   def stops_with_routes(stops, {:ok, [location|_]}, routes_by_stop_fn) do
     stops
     |> Enum.map(fn stop ->
@@ -148,6 +148,7 @@ defmodule Site.Plugs.ServiceNearMe do
     Keyword.put(routes, :red_line, [route])
   end
 
+  @spec address(GoogleMaps.Geocode.t) :: String.t
   def address({:ok, [%{formatted: address} | _]}) do
     address
   end
