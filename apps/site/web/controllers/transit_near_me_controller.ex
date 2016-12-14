@@ -9,6 +9,6 @@ defmodule Site.TransitNearMeController do
   """
   def index(conn, _params) do
     conn
-    |> render("index.html", breadcrumbs: ["TransitNear Me"])
+    |> render("index.html", breadcrumbs: ["Transit Near Me"])
   end
 end

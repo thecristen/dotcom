@@ -20,20 +20,15 @@ defmodule Site.Plugs.TransitNearMe do
   end
   def call(%{params: %{"location" => %{"address" => address}}} = conn, options) do
     location = address
-              |> GoogleMaps.Geocode.geocode
-
-    nearby_fn = options.nearby_fn
+      |> GoogleMaps.Geocode.geocode
 
     stops_with_routes = location
-    |> get_stops_nearby(nearby_fn)
+    |> get_stops_nearby(options.nearby_fn)
     |> stops_with_routes(location, options.routes_by_stop_fn)
 
     address = address(location)
 
-    conn
-    |> assign(:stops_with_routes, stops_with_routes)
-    |> assign(:address, address)
-    |> flash_if_error()
+    do_call(conn, stops_with_routes, address)
   end
   # Used in Backstop tests to avoid calling Google Maps
   def call(%{params: %{"latitude" => latitude, "longitude" => longitude}} = conn, options) do
@@ -56,15 +51,16 @@ defmodule Site.Plugs.TransitNearMe do
 
     address = address(location)
 
+    do_call(conn, stops_with_routes, address)
+  end
+  def call(conn, _options) do
+    do_call(conn, [], "")
+  end
+
+  defp do_call(conn, stops_with_routes, address) do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
     |> assign(:address, address)
-    |> flash_if_error()
-  end
-  def call(conn, _options) do
-    conn
-    |> assign(:stops_with_routes, [])
-    |> assign(:address, "")
     |> flash_if_error()
   end
 
