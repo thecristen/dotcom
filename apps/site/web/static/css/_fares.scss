@@ -240,14 +240,14 @@ a {
   display: block;
   padding: .75em .5em;
 
-  .charlie-card-truncate {
-    @include truncate();
-  }
-
   @include media-breakpoint-up(md) {
     &:last-child {
       border-bottom: 1px solid $gray-lightest;
     }
+  }
+
+  .charlie-card-truncate {
+    @include truncate();
   }
 }
 
@@ -297,13 +297,14 @@ a {
 .payment-method-modes {
   margin-left: .5rem;
 
+  @include media-breakpoint-down(xs) {
+    margin: auto;
+  }
+
   .mbta-custom-icon {
     margin-right: .0375rem;
   }
 
-  @include media-breakpoint-down(xs) {
-    margin: auto;
-  }
 }
 
 .payment-method {
@@ -311,8 +312,19 @@ a {
   margin-bottom: 1.75rem;
   padding-bottom: .75rem;
 
+  .payment-image {
+
+    height: auto;
+    width: 100%;
+  }
+
+  .ticket-description {
+    margin-top: .5rem;
+    text-align: center;
+  }
+
   &:last-child {
-    border-bottom: none;
+    border-bottom: 0;
     margin-bottom: 0;
   }
 
@@ -324,10 +336,6 @@ a {
       margin-top: .5rem;
     }
 
-    .ticket-description {
-      margin-top: .5rem;
-      text-align: center;
-    }
   }
 }
 

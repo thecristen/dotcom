@@ -10,11 +10,11 @@
         Bus and Subway <%= fare_mode_icons([:bus, :subway])%>
       </p>
       <div class="row p-b-1">
-        <div class="col-lg-5 col-md-6 col-xs-12">
-          <img src=<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%> alt="" class="img-fluid" />
+        <div class="col-sm-6 col-xs-12">
+          <img src=<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%> alt="The reverse side of a CharlieCard" class="img-fluid payment-image" />
         </div>
-        <div class="col-lg-7 col-md-6 col-xs-12 payment-image">
-          <img src=<%= static_url(@conn, "/images/charlie-card.jpg")%> alt="" class="img-fluid" />
+        <div class="col-sm-6 col-xs-12">
+          <img src=<%= static_url(@conn, "/images/charlie-card.jpg")%> alt="CharlieCard" class="img-fluid payment-image" />
         </div>
       </div>
       <p>
@@ -46,9 +46,11 @@
         All Modes <%= fare_mode_icons([:commuter_rail, :bus, :subway, :ferry])%>
       </p>
       <h4>Using CharlieTickets on the Bus and Subway</h4>
-      <div class="charlie-ticket-image">
-        <img src=<%= static_url(@conn, "/images/charlie-ticket.jpg") %> alt="CharlieTicket with Stored Value" class="img-fluid"/>
+      <div class="row m-t-g">
+        <div class="col-sm-6 col-xs-12">
+        <img src=<%= static_url(@conn, "/images/charlie-ticket.jpg") %> alt="CharlieTicket with Stored Value" class="img-fluid payment-image" />
         <p class="small ticket-description">CharlieTicket with Stored Value</p>
+        </div>
       </div>
       <p>
         You may store any amount of money for One Way fares or purchase a pass (1-Day, 7-Day, Monthly) on a CharlieTicket for use on Bus and Subway.
@@ -59,9 +61,11 @@
         However, CharlieTickets are more convenient to get, as they are only available at select CharlieCard locations.
       </p>
       <h4>Using CharlieTickets on the Commuter Rail and Ferry</h4>
-      <div class="charlie-ticket-image">
-      <img src=<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %> alt="Zone 1 One Way Pass on a CharlieTicket" class="img-fluid" />
-        <p class="small ticket-description">Zone 1 One Way Pass on a CharlieTicket</p>
+      <div class="row m-t-1">
+        <div class="col-sm-6 col-xs-12">
+          <img src=<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %> alt="Zone 1 One Way Pass on a CharlieTicket" class="img-fluid payment-image" />
+          <p class="small ticket-description">Zone 1 One Way Pass on a CharlieTicket</p>
+        </div>
       </div>
       <p>
         For Commuter Rail and Ferry, you may store a pass (One Way, Round Trip, Monthly) on a CharlieTicket. 
