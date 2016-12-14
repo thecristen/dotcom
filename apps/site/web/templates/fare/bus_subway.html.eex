@@ -1,4 +1,8 @@
 <h1>Bus and Subway Fares</h1>
+  <p class="p-y-1">
+    People aged 12 years or older who do not qualify for reduced fares will be charged the standard adult fare.
+    If you are a student, senior, or someone with disabilities who qualifies for reduced fares, click on the correct category below to see applicable fares. People aged 11 and younger ride on MBTA services for free.
+  </p>
 <%= render "_fares_display.html",
     selected_filter: @selected_filter,
     filters: @filters,
