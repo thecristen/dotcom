@@ -20,12 +20,9 @@ defmodule Site.Plugs.TransitNearMe do
   end
   def call(%{params: %{"location" => %{"address" => address}}} = conn, options) do
     location = address
-      |> GoogleMaps.Geocode.geocode
+    |> GoogleMaps.Geocode.geocode
 
-    stops_with_routes = location
-    |> get_stops_nearby(options.nearby_fn)
-    |> stops_with_routes(location, options.routes_by_stop_fn)
-
+    stops_with_routes = calculate_stops_with_routes(location, options)
     address = address(location)
 
     do_call(conn, stops_with_routes, address)
@@ -45,10 +42,7 @@ defmodule Site.Plugs.TransitNearMe do
       ]
     }
 
-    stops_with_routes = location
-    |> get_stops_nearby(options.nearby_fn)
-    |> stops_with_routes(location, options.routes_by_stop_fn)
-
+    stops_with_routes = calculate_stops_with_routes(location, options)
     address = address(location)
 
     do_call(conn, stops_with_routes, address)
@@ -76,7 +70,6 @@ defmodule Site.Plugs.TransitNearMe do
     []
   end
 
-
   @spec stops_with_routes([Stop.t], Geocode.t, ((String.t) -> [Route.t])) :: [%{stop: Stop.t, distance: String.t, routes: [Routes.Group.t]}]
   def stops_with_routes(stops, {:ok, [location|_]}, routes_by_stop_fn) do
     stops
@@ -87,6 +80,12 @@ defmodule Site.Plugs.TransitNearMe do
     end)
   end
   def stops_with_routes([], {:error, _, _}, _), do: []
+
+  defp calculate_stops_with_routes(location, options) do
+    location
+    |> get_stops_nearby(options.nearby_fn)
+    |> stops_with_routes(location, options.routes_by_stop_fn)
+  end
 
   @spec get_distance(Stop.t, Geocode.t) :: String.t
   defp get_distance(stop, location) do
