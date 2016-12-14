@@ -1,4 +1,4 @@
-defmodule Site.ServiceNearMeView do
+defmodule Site.TransitNearMeView do
   use Site.Web, :view
   alias Routes.Route
 

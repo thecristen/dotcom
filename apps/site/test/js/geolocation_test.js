@@ -95,7 +95,7 @@ describe('geolocation', () => {
           locate me
           <span class="loading-indicator"></span>
         </button>
-        <p class="service-near-me-error hidden-xs-up">error</p>
+        <p class="transit-near-me-error hidden-xs-up">error</p>
       `);
     });
 
@@ -107,7 +107,7 @@ describe('geolocation', () => {
 
     it('shows an error message on timeout or geolocation failure', () => {
       locationError($, $('button'))({code: 'timeout', TIMEOUT: 'timeout'});
-      assert.isFalse($('.service-near-me-error').hasClass('hidden-xs-up'));
+      assert.isFalse($('.transit-near-me-error').hasClass('hidden-xs-up'));
     });
   });
 });

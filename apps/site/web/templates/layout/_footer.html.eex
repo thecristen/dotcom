@@ -17,6 +17,7 @@
           <li class="footer-link-sublist-item"><%= link "Directions", to: redirect_path(@conn, "rider_tools/trip_planner/") %></li>
           <li class="footer-link-sublist-item"><%= link "Station Info", to: stop_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Service Alerts", to: redirect_path(@conn, "rider_tools/transit_updates/") %></li>
+          <li class="footer-link-sublist-item"><%= link "Transit Near Me", to: transit_near_me_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Maps", to: redirect_path(@conn, "schedules_and_maps/system_map/") %></li>
         </ul>
       </li>
