@@ -59,7 +59,7 @@
       <p>
         You may store any amount of money for One Way fares or purchase a pass (1-Day, 7-Day, Monthly) on a CharlieTicket for use on Bus and Subway.
       </p>
-      <p>
+      <p class="charlie-ticket-method">
         <strong>Tip:</strong>
         One Way fares are more expensive when you pay with a CharlieTicket than they are when paying with a CharlieCard. 
         However, CharlieTickets are more convenient to get, as they are only available at select CharlieCard locations.

@@ -137,7 +137,7 @@ a {
 
 .fare-callout-box {
   background-color: $gray-lightest;
-  padding: .5rem;
+  padding: .75rem;
 
   &:empty {
     display: none;
@@ -308,7 +308,6 @@ a {
 }
 
 .payment-method {
-  border-bottom: 1px solid $gray-lightest;
   margin-bottom: 1.75rem;
   padding-bottom: .75rem;
 
@@ -337,6 +336,10 @@ a {
     }
 
   }
+}
+
+.charlie-ticket-method {
+  margin-bottom: 1.5rem;
 }
 
 .payment-image {
