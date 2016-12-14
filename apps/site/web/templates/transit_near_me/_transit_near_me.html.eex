@@ -1,44 +1,8 @@
 <div class="transit-near-me">
   <div class="transit-near-me-form">
     <h2 class="h5">Enter your location</h2>
-    <%= form_for @conn, transit_near_me_path(@conn, :index), [as: :location, method: :get, class: "form"], fn f ->  %>
-    <div class="form-group">
-      <button type="button" class="btn location-btn" data-geolocation-target="place-input">
-        <%= fa "location-arrow" %>
-        <span class="sr-only">Use my location</span>
-        <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
-        <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
-      </button>
-      <%= text_input f, :address, value: @address, class: "transit-near-me-input", id: "place-input" %>
-      <button type="submit" class="btn btn-primary">GO</button>
-      <div class="clear"></div>
-    </div>
-    <% end %>
-    <p class="transit-near-me-error hidden-xs-up">We couldn't fetch your location &mdash; please wait a minute and try again, or enter your address.</p>
   </div>
-  <div class="transit-near-me-results row<%= if @stops_with_routes == [] do %> empty<% end %>">
-    <%= for %{stop: stop, distance: distance, routes: routes} <- @stops_with_routes do %>
-      <%= link to: stop_path(@conn, :show, stop.id) do %>
-        <div class="transit-card">
-          <div class="station-name row">
-            <p class="col-xs-8">
-                <%= stop.name %>
-            </p>
-            <p class="distance col-xs-4"><%= distance %></p>
-          </div>
-          <div>
-            <%= for {type, routes} <- routes do %>
-              <p class="transit-route">
-                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %>
-                <%= get_type_list(type, routes) %>
-              </p>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-</div>
 
-<script type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>
-<script>new google.maps.places.Autocomplete(document.getElementById("place-input"));</script>
+  <%= render "_input.html", address: @address, conn: @conn %>
+  <%= render "_results.html", class: "transit-near-me-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
+</div>
