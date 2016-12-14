@@ -24,10 +24,9 @@ export function clickHandler($) {
 
 export function locationHandler($, $btn) {
   return (location) => {
-    const $input = $(`#${$btn.data('geolocation-target')}`);
-    $input.val(`${location.coords.latitude}, ${location.coords.longitude}`);
     $btn.find('.loading-indicator').addClass('hidden-xs-up');
-    $input.parents('form').submit();
+    const loc = window.location;
+    window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}`));
   };
 }
 
