@@ -23,27 +23,11 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
-      <h3>Fare Vending Machines</h3>
-      <p>
-      You can load any amount of money for One Way fares or a pass (1-Day, 7-Day, Monthly) onto a CharlieCard or CharlieTicket at fare vending machines found at all Subway stations and the following Commuter Rail stations:
-      </p>
-      <p>
-      <%= Site.FareView.vending_machine_stations() %>
-      </p>
-      </p>
-    </div>
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
-      <h3>Retail Sales Locations</h3>
-      <p>
-      MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
-      </p>
-      <p>
-      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
-        Find a store near you <%= fa "arrow-right" %>
-      <% end %>
-      </p>
-    </div>
+    <%= render "_fare_machines.html", forward_assigns(@conn) %>
+    <%= render "_charlie_card_stations.html", forward_assigns(@conn) %>
+  </div>
+  <div class="row">
+    <%= render "_retail_sales.html", forward_assigns(@conn) %>
     <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
       <h3>On-Board</h3>
       Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.
