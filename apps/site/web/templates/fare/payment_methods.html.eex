@@ -45,6 +45,10 @@
         <strong>Use it on:</strong>
         All Modes <%= fare_mode_icons([:commuter_rail, :bus, :subway, :ferry])%>
       </p>
+      <p>
+        CharlieTickets are paper tickets that may be used on all modes of transportation.
+        You can get a CharlieTicket from fare vending machines, select retail locations, and on-board most modes of transportation.
+      </p>
       <h4>Using CharlieTickets on the Bus and Subway</h4>
       <div class="row m-t-g">
         <div class="col-sm-6 col-xs-12">
