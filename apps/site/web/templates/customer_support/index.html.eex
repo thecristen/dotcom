@@ -1,4 +1,4 @@
-<div class="card card-section p-a-1">
+<div class="page-section p-a-1">
   <h1>Customer Support</h1>
   <%= if @show_form do %>
     <%= render "_form.html", forward_assigns(@conn) %>
