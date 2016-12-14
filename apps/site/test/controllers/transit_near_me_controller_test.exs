@@ -1,7 +1,7 @@
-defmodule Site.ServiceNearMeControllerTest do
+defmodule Site.TransitNearMeControllerTest do
   use Site.ConnCase
 
-  describe "Service Near Me" do
+  describe "Transit Near Me" do
     test "display message if no address", %{conn: conn} do
       response = conn
       |> search_near_address("")
@@ -22,10 +22,10 @@ defmodule Site.ServiceNearMeControllerTest do
     conn
     |> assign(:stops_with_routes, [])
     |> assign(:address, address)
-    |> Phoenix.Controller.put_view(Site.ServiceNearMeView)
+    |> Phoenix.Controller.put_view(Site.TransitNearMeView)
     |> bypass_through(Site.Router, :browser)
     |> get("/")
-    |> Site.Plugs.ServiceNearMe.call(Site.Plugs.ServiceNearMe.init([]))
-    |> Site.ServiceNearMeController.index([])
+    |> Site.Plugs.TransitNearMe.call(Site.Plugs.TransitNearMe.init([]))
+    |> Site.TransitNearMeController.index([])
   end
 end

@@ -1,6 +1,6 @@
-defmodule Site.ServiceNearMeController do
+defmodule Site.TransitNearMeController do
   use Site.Web, :controller
-  plug Site.Plugs.ServiceNearMe
+  plug Site.Plugs.TransitNearMe
 
   @doc """
     Handles GET requests both with and without parameters. Calling with an address parameter (String.t) will assign
@@ -9,6 +9,6 @@ defmodule Site.ServiceNearMeController do
   """
   def index(conn, _params) do
     conn
-    |> render("index.html", breadcrumbs: ["Service Near Me"])
+    |> render("index.html", breadcrumbs: ["TransitNear Me"])
   end
 end

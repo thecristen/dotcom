@@ -1,4 +1,4 @@
-defmodule Site.Plugs.ServiceNearMe do
+defmodule Site.Plugs.TransitNearMe do
   import Plug.Conn
   import Phoenix.Controller, [only: [put_flash: 3]]
   alias GoogleMaps.Geocode

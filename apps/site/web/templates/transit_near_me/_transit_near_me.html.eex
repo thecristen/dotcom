@@ -1,0 +1,8 @@
+<div class="transit-near-me">
+  <div class="transit-near-me-form">
+    <h2 class="h5">Enter your location</h2>
+  </div>
+
+  <%= render "_input.html", address: @address, conn: @conn %>
+  <%= render "_results.html", class: "transit-near-me-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
+</div>

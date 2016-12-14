@@ -155,8 +155,8 @@
       "misMatchThreshold": 0.1
     },
     {
-      "label": "Service Near Me",
-      "url": "http://localhost:8082/service-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159",
+      "label": "Transit Near Me",
+      "url": "http://localhost:8082/transit-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1

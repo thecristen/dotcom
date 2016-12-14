@@ -1,6 +1,6 @@
 @import 'variables';
 
-.service-near-me-header {
+.transit-near-me-header {
   margin: 3rem 0;
 
   .route-type-icons {
@@ -27,7 +27,7 @@
 
 }
 
-.service-near-me {
+.transit-near-me {
   background-color: $white;
 
   .form-group {
@@ -77,7 +77,7 @@
     }
   }
 
-  .service-near-me-error {
+  .transit-near-me-error {
     background-color: $form-error-message;
     padding: .5em;
   }
@@ -96,7 +96,7 @@
   }
 }
 
-.service-near-me-results {
+.transit-near-me-results {
   @include set-breakpoint-columns(sm, 2);
   @include set-breakpoint-columns(md, 3);
   @include set-breakpoint-columns(lg, 4);
@@ -114,15 +114,15 @@
   }
 }
 
-.service-near-me-gray {
+.transit-near-me-gray {
   background: $gray-lightest;
 }
 
-.service-near-me-white {
+.transit-near-me-white {
   background: $white;
 }
 
-.service-card {
+.transit-card {
   background: $white;
   border: 1px solid $gray-lightest;
   border-radius: $default-border-radius;
@@ -131,7 +131,7 @@
   padding: $grid-gutter-width;
   width: 100%;
 
-  .service-route {
+  .transit-route {
     color: $gray-dark;
     font-size: .8rem;
     margin-bottom: .25rem;
@@ -157,7 +157,7 @@
   }
 }
 
-.service-near-me-wrapper {
+.transit-near-me-wrapper {
   background: url('/images/transit-near-me-bkg.png'), linear-gradient(to bottom right, $brand-primary-dark, $gradient-color-light);
   background-repeat: no-repeat;
   background-size: cover;

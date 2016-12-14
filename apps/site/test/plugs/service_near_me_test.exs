@@ -1,9 +1,9 @@
-defmodule Site.Plugs.ServiceNearMeTest do
+defmodule Site.Plugs.TransitNearMeTest do
   use Site.ConnCase
 
-  import Site.Plugs.ServiceNearMe
+  import Site.Plugs.TransitNearMe
 
-  alias Site.Plugs.ServiceNearMe.Options
+  alias Site.Plugs.TransitNearMe.Options
   alias Routes.Route
   alias Stops.Stop
   alias GoogleMaps.Geocode
@@ -177,7 +177,7 @@ defmodule Site.Plugs.ServiceNearMeTest do
 
     conn
     |> assign_query_params(%{"location" => %{"address" => address}})
-    |> Site.Plugs.ServiceNearMe.call(options)
+    |> Site.Plugs.TransitNearMe.call(options)
   end
 
   def assign_query_params(conn, params) do

@@ -41,6 +41,9 @@
               <li><%= link to: alert_path(@conn, :index) do %></li>
                 <%= fa "caret-right" %> Service Alerts
               <% end %>
+              <li><%= link to: transit_near_me_path(@conn, :index) do %></li>
+                <%= fa "caret-right" %> Transit Near Me
+              <% end %>
               <li><%= link to: redirect_path(@conn, "schedules_and_maps/system_map/") do %></li>
                 <%= fa "caret-right" %> Maps
               <% end %>
