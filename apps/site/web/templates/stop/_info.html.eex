@@ -23,7 +23,7 @@
   </div>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
-  <%= if !Enum.empty?(types ) do %>
+  <%= unless Enum.empty?(types) do %>
     <div class="row no-gutter">
       <h2>Fares</h2>
       <%= if :commuter_rail in types do %>

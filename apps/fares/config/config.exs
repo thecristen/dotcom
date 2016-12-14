@@ -17,9 +17,9 @@ use Mix.Config
 #     Application.get_env(:fares, :key)
 #
 # Or configure a 3rd-party app:
-#
-#     config :logger, level: :info
-#
+
+config :logger, level: :info, colors: [enabled: true]
+
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment

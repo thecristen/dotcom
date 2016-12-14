@@ -39,6 +39,7 @@ defmodule Stops.Mixfile do
      {:json_api, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:excoveralls, "~> 0.5", only: :test},
-     {:repo_cache, in_umbrella: true}]
+     {:repo_cache, in_umbrella: true}
+   ]
   end
 end
