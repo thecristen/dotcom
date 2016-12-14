@@ -5,7 +5,7 @@ defmodule Backstop.Servers do
   @callback environment() :: [{charlist, charlist}]
   @callback command() :: String.t
   @callback started_match() :: String.t
-  @callback error_match() :: String.t
+  @callback error_match() :: String.t | Regex.t
 
   defmodule State do
     @type t :: %__MODULE__{
@@ -72,7 +72,7 @@ defmodule Backstop.Servers do
     if data =~ apply(module, :started_match, []) do
       send_parent(state, :started)
     end
-    if data =~ apply( module, :error_match, []) do
+    if data =~ apply(module, :error_match, []) do
       send_parent(state, :error)
     end
     {:noreply, state}
@@ -167,7 +167,7 @@ defmodule Backstop.Servers.Wiremock do
   end
 
   def error_match do
-    ~r/(Address already in use)|(unable to access jarfile)/
+    ~r/(Address already in use)|(Unable to access jarfile)/
   end
 end
 
