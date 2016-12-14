@@ -1,8 +1,8 @@
 <div class="col-sm-6 col-xs-12 fares-info-column">
   <div class="fares-related-page">
-    <h4><%= @title %></h4>
+    <h5><%= @title %></h5>
     <p><%= @body %></p>
-    <%= link to: @href do %>
+    <%= link to: @href, class: "fares-related-link" do %>
       Learn More <%= fa "arrow-right" %>
     <% end %>
   </div>

@@ -1,10 +1,5 @@
 <div class="page-section">
   <div class="page-block">
     <%= render @fare_template, forward_assigns(@conn) %>
-
-    <div class="row fares-callout-row">
-      <%= render "_callout_box.html", title: Phoenix.HTML.raw(~s(Ask your employer about our <span class="no-wrap">Corporate Pass Program</span>)), body: "Many employers offer pass programs that have benefits such as discounted fares, automatic monthly re-loads, and online employer account management.", href: "https://passprogram.mbta.com/", class: "fares-callout-corporate" %>
-      <%= render "_callout_box.html", title: "You may be eligible for a reduced fare", body: "Middle and high school students, seniors, and persons with disabilities are eligible for reduced fares on all MBTA services.", href: "#TODO", class: "fares-callout-reduced" %>
-    </div>
   </div>
 </div>

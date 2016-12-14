@@ -200,10 +200,6 @@ a {
   }
 }
 
-.fares-zone-map-link {
-  padding: .5rem .125rem 0;
-}
-
 .fares-info-column {
   padding: 1rem .375rem;
 }
@@ -211,11 +207,11 @@ a {
 .row {
   @include media-breakpoint-up(sm) {
     .fares-info-column:nth-child(1) {
-      padding-right: 2rem;
+      padding-right: .75rem;
     }
 
     .fares-info-column:nth-child(2) {
-      padding-left: 2rem;
+      padding-left: .75rem;
     }
   }
 }
@@ -335,15 +331,38 @@ a {
   border: 1px solid $gray-lightest;
   border-left: 0;
   padding: .5em 1em;
-  position: relative;
+
+  @include media-breakpoint-up(sm) {
+    position: relative;
+  }
+
+  @include media-breakpoint-up(md) {
+    height: 156px;
+  }
+
+  @include media-breakpoint-only(sm) {
+    height: 192px;
+  }
 
   &::before {
-    border-left: 4px solid $brand-primary-dark;
+    border-left: 6px solid $brand-primary-dark;
     content: ' ';
     display: block;
     height: calc(100% + 2px);
     left: 0;
     position: absolute;
     top: -1px;
+
+    @include media-breakpoint-only(xs) {
+      height: calc(100% - 2rem);
+      top: 1rem;
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .fares-related-link {
+    bottom: 10px;
+    position: absolute;
   }
 }

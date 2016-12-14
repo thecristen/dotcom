@@ -7,14 +7,14 @@
 %>
 <h2>Purchasing Tickets or Passes</h2>
 <div class="row">
-  <div class="col-sm-6 col-xs-12 fares-purchasing-option">
+  <div class="col-sm-6 col-xs-12 fares-info-column">
     <h3>Fare Vending Machine</h3>
     <p>
       Single Ride, Stored Value, 1-Day, 7-Day, and Monthly LinkPasses can be loaded onto a CharlieCard or ticket at fare vending machines, found at all Subway stations and some Bus stations.
     </p>
   </div>
 
-  <div class="col-sm-6 col-xs-12 fares-purchasing-option">
+  <div class="col-sm-6 col-xs-12 fares-info-column">
     <h3>On-Board</h3>
     <p>
       Single Ride tickets or Stored Value can be purchased using cash when on board the Bus, above-ground stops on the Green line,  and Mattapan trolley on the Red line.  Exact change is encouraged.
@@ -23,7 +23,7 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-6 col-xs-12 fares-purchasing-option">
+  <div class="col-sm-6 col-xs-12 fares-info-column">
     <h3>Retail Sales Locations</h3>
     <p>
       MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
