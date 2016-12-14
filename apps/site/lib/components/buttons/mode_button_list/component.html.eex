@@ -1,4 +1,4 @@
-<%= opening_div(args) %>
+<div class="mode-group-block <%= args.class %>" id="<%= args.id %>">
   <div class="row">
     <%= for route <- args.routes do %>
       <div class="<%= Site.ViewHelpers.route_spacing_class(route.type) %>">
@@ -7,7 +7,7 @@
     <% end %>
   </div>
 </div>
-<%= if args.include_all_link == true do %>
+<%= if args.include_all_link do %>
   <div class="mode-group-footer">
     <%= all_link(args.routes) %>
   </div>

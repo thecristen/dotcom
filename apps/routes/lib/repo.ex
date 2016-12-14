@@ -71,7 +71,7 @@ defmodule Routes.Repo do
   def headsigns(id) do
     cache id, fn id ->
       id
-      |> V3Api.Trips.by_route
+      |> V3Api.Trips.by_route([{"fields[trip]", "direction_id,headsign"}])
       |> (fn api -> api.data end).()
       |> do_headsigns
     end

@@ -99,11 +99,12 @@ defmodule Schedules.RepoTest do
     end
 
     test "does not return duplicate trips if a stop hits multiple stops with the same parent" do
-      next_tuesday = Util.today
+      next_tuesday = "America/New_York"
+      |> Timex.now()
       |> Timex.end_of_week(:wed)
       |> Timex.format!("{ISOdate}")
       # stops multiple times at ruggles
-      response = Schedules.Repo.origin_destination("place-rugg", "1237", date: next_tuesday)
+      response = Schedules.Repo.origin_destination("place-rugg", "1237", route: "43", date: next_tuesday)
       trips = Enum.map(response, fn {origin, _} -> origin.trip.id end)
       assert trips == Enum.uniq(trips)
     end

@@ -31,7 +31,7 @@ defmodule Site.ScheduleController.PairsTest do
 
   test "handles a missing direction ID", %{conn: conn} do
     response = conn
-    |> get(schedule_path(conn, :show, "Red", origin: "place-alfcl", dest: "place-harsq"))
+    |> get(schedule_path(conn, :show, "Red", origin: "place-davis", dest: "place-harsq"))
     |> html_response(200)
 
     assert response =~ ~s(Southbound)
