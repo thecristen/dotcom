@@ -3,31 +3,59 @@
     <h1>Fares and Passes</h1>
     <div class="content-section">
       <p>
-      Fares differ based on the type of transportation (mode) you are traveling on. Find your mode below for more information on typical fare costs, how to purchase a ticket or pass, and how to pay your fare.
+        To determine your fare, you will first have to consider which type of transportation (mode) you are traveling on and which
+        types of payment methods that mode accepts. Payment methods include: CharlieCard, CharlieTicket, mTicket App, and cash
+        on-board. Your chosen payment method may affect how much your fare costs, which passes you can purchase, and your
+        eligibility to make discounted transfers.
       </p>
     </div>
     <div class="content-section">
       <h2>Paying Your Fare</h2>
-
-      <p>There are four primary payment methods: The CharlieCard, a ticket, the mTicket app, or by cash on-board.  Each mode accepts a variety of these.</p>
-      <div><%= link to: fare_path(@conn, :show, "payment_methods") do %>
-        Learn about payment <span class="no-wrap">methods <%= fa "arrow-right" %></span>
-      <% end %></div>
-      <div><%= link to: how_to_pay_path(@conn, :index) do %>
-        Learn about how to pay your fare <span class="no-wrap"><%= fa "arrow-right" %></span>
-      <% end %></div>
+      <p>
+        There are four primary payment methods: CharlieCard, CharlieTicket, mTicket app, and cash on-board. Each mode accepts
+        a variety of these methods. Your chosen payment method may affect how much your fare costs, which passes you can purchase,
+        and your eligibility to make discounted transfers.
+      </p>
+      <div class="row">
+        <div class="col-sm-3">
+          <%= link to: fare_path(@conn, :show, "payment_methods") do %>
+            Payment methods by <span class="no-wrap">mode <%= fa "arrow-right" %></span>
+          <% end %>
+        </div>
+        <div class="col-sm-3">
+          <%= link to: how_to_pay_path(@conn, :index) do %>
+            How to pay your <span class="no-wrap">fare <%= fa "arrow-right" %></span>
+          <% end %>
+        </div>
+      </div>
     </div>
     <div class="content-section">
       <h2>Bus and Subway Fares</h2>
-      <p>Subway fares can be bought as Single Rides, Stored Value, and 1-Day, 7-Day, or Monthly Passes.</p>
-      <p><%= render "_summary.html", title: "Bus and Subway", summary: @bus_subway %></p>
+      <p>
+        Bus fares vary based on the route. The three categories of Bus routes are: Local Bus, Inner Express Bus, and Outer Express Bus.
+      </p>
+      <p>
+        A 1-Day, 7-Day, or Monthly Pass (also called a LinkPass) for Subway will allow you to ride Local Bus for free until the pass
+        expires. Payment of Subway One Way fares with a CharlieCard or CharlieTicket will allow you to transfer to Local Bus for free
+        within 2 hours of paying your original Subway fare.
+      </p>
+      <p>
+        Below are the most common Bus and Subway Fares.
+      </p>
+      <p><%= render "_summary.html", summary: @bus_subway %></p>
       <p><%= link to: fare_path(@conn, :show, :bus_subway) do %>
         View All Bus and Subway Fares <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
     <div class="content-section">
       <h2>Commuter Rail Fares</h2>
-      <p>Commuter Rail fares are separated into ten zones based on your origin and destination.  Fares can be bought as One Way, Round Trip, and Monthly Passes. Shown below are the ranges for each zone.</p>
+      <p>
+        Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
+        Fares can be bought as One Way, Round Trip, and Monthly Passes.
+      </p>
+      <p>
+        Below are the ranges in prices (based on zone) for the most common Commuter Rail fares.
+      </p>
       <p><%= render "_summary.html", title: "Commuter Rail", summary: @commuter_rail %></p>
       <p><%= link to: fare_path(@conn, :show, :commuter_rail) do %>
         Find your Commuter Rail Fare <span class="no-wrap"><%= fa "arrow-right" %></span>
@@ -35,7 +63,12 @@
     </div>
     <div class="content-section">
       <h2>Ferry Fares</h2>
-      <p>Ferry fares are based on your origin and destination. Shown below are the ranges for the most frequently used Ferry fares.</p>
+      <p>
+        Your Ferry fare will depend on your origin and destination. Fares can be bought as One Way, Round Trip, and Monthly Passes.
+      </p>
+      <p>
+        Below are the ranges in prices for the most common Ferry fares.
+      </p>
       <p><%= render "_summary.html", title: "Ferry", summary: @ferry %></p>
       <p><%= link to: fare_path(@conn, :show, :ferry) do %>
         Find your Ferry Fare <span class="no-wrap"><%= fa "arrow-right" %></span>
@@ -44,37 +77,35 @@
     <div class="content-section">
       <h2>The RIDE</h2>
       <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
-      <div class="fares-tab fares-tab-selected">
-        The RIDE Fares
-      </div>
-      <div class="fares-box">
-        <div class="row">
-          <%= for fare <- @the_ride do %>
-            <div class="fares-box-column">
-              <div>
-                <h3 class="fare-summary-header">
-                  <%= Fares.Format.full_name(fare) %>
-                  <span class="fares-mode-icon">
-                    <span class="fares-mode-icon-group">
-                      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
-                    </span>
+      <div class="row">
+        <%= for fare <- @the_ride do %>
+          <div class="fares-box-column">
+            <div>
+              <h3 class="fare-summary-header">
+                <%= Fares.Format.full_name(fare) %>
+                <span class="fares-mode-icon">
+                  <span class="fares-mode-icon-group">
+                    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
                   </span>
-                </h3>
-                <span class="fare-summary-price">
-                  <%= Fares.Format.price(fare) %>
                 </span>
-              </div>
-              <div>
-                <%= description(fare, @conn.assigns) %>
-              </div>
+              </h3>
+              <p class="fare-summary-price">
+                <%= Fares.Format.price(fare) %>
+              </p>
             </div>
-          <% end %>
-        </div>
+            <div>
+              <%= description(fare, @conn.assigns) %>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="content-section">
       <h2>The CharlieCard</h2>
-      <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare. </p>
+      <p>
+        CharlieCards are reusable, durable cards that can be used on Bus and Subway. You can load money onto a CharlieCard to get
+        a discounted One Way fare or purchase any pass (1-Day, 7-Day, Monthly) at the standard fare.
+      </p>
       <p><%= link to: fare_path(@conn, :show, :charlie_card) do %>
         Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
@@ -83,7 +114,7 @@
       <h2>Reduced Fare Elegibility</h2>
       <p>Children age 11 and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced fares on all modes, depending on the type of fare they purchase. </p>
       <p><%= link to: fare_path(@conn, :show, :reduced) do %>
-        Learn more about reduced fare eligibility <span class="no-wrap"><%= fa "arrow-right" %></span>
+        Learn more about reduced fare <span class="no-wrap">eligibility <%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
     <div class="content-section">

@@ -1,29 +1,24 @@
-<div class="fares-tab fares-tab-selected">
-  Common <%= @title %> Fares
-</div>
-<div class="fares-box">
-  <%= for chunk <- @summary |> Enum.chunk(2, 2, []) do %>
-    <div class="row fares-row">
-      <%= for summary <- chunk do %>
-        <div class="fares-box-column">
-          <h3 class="fare-summary-header">
-            <%= summary.name %>
-            <span class="fares-mode-icon">
-              <span class="sr-only">Supported Modes:</span>
-              <%= for mode <- summary.modes do %>
-                <span class="fares-mode-icon-group" aria-hidden="true"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %></span>
-                <span class="sr-only"><%= mode_name(mode) %></span>
-              <% end %>
-            </span>
-          </h3>
-            <%= for {fare, price} <- summary.fares do %>
-              <div class="fare-summary-row">
-                <span class="fare-summary-name"><%= fare %></span>
-                <span class="fare-summary-price"><%= price %></span>
-              </div>
+<%= for chunk <- @summary |> Enum.chunk(2, 2, []) do %>
+  <div class="row">
+    <%= for summary <- chunk do %>
+      <div class="fares-box-column">
+        <h3 class="fare-summary-header">
+          <%= summary.name %>
+          <span class="fares-mode-icon">
+            <span class="sr-only">Supported Modes:</span>
+            <%= for mode <- summary.modes do %>
+              <span class="fares-mode-icon-group" aria-hidden="true"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %></span>
+              <span class="sr-only"><%= mode_name(mode) %></span>
             <% end %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+          </span>
+        </h3>
+        <%= for {fare, price} <- summary.fares do %>
+          <div class="fare-summary-row">
+            <span class="fare-summary-name"><%= fare %></span>
+            <span class="fare-summary-price"><%= price %></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
