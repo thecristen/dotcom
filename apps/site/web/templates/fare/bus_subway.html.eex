@@ -5,20 +5,20 @@
     conn: @conn,
         fare_type: @fare_type
 %>
-<h2>Purchasing Tickets or Passes</h2>
+<h2>Where to Get a CharlieCard or CharlieTicket</h2>
 <div class="row">
   <div class="col-sm-6 col-xs-12 fares-info-column">
     <h3>Fare Vending Machine</h3>
     <p>
-      Single Ride, Stored Value, 1-Day, 7-Day, and Monthly LinkPasses can be loaded onto a CharlieCard or ticket at fare vending machines, found at all Subway stations and some Bus stations.
+      Load a pass (1-Day, 7-Day, Monthly) or money for One Way fares onto a CharlieCard or CharlieTicket at fare vending machines found at all Subway stations and the following Commuter Rail stations:
     </p>
+    <p><%= vending_machine_stations() %></p>
   </div>
 
   <div class="col-sm-6 col-xs-12 fares-info-column">
-    <h3>On-Board</h3>
-    <p>
-      Single Ride tickets or Stored Value can be purchased using cash when on board the Bus, above-ground stops on the Green line,  and Mattapan trolley on the Red line.  Exact change is encouraged.
-    </p>
+    <h3>Select Bus and Subway Stations</h3>
+    <p>To take advantage of discounted One Way fares, you can get a blank CharlieCard from an MBTA Customer Service agent working at the following stations: </p>
+    <p><%= charlie_card_stations() %></p>
   </div>
 </div>
 
@@ -26,12 +26,18 @@
   <div class="col-sm-6 col-xs-12 fares-info-column">
     <h3>Retail Sales Locations</h3>
     <p>
-      MBTA riders can get blank CharlieCards and purchase Stored Value and passes at stores located throughout the Greater Boston and Providence area.
+      Get a free, blank CharlieCard and load a pass (1-Day, 7-Day, Monthly) or money for One Way fares at stores located throughout the Greater Boston and Providence areas.
     </p>
     <p>
       <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
         Find a store near you <%= fa "arrow-right" %>
       <% end %>
+    </p>
+  </div>
+  <div class="col-sm-6 col-xs-12 fares-info-column">
+    <h3>On-Board</h3>
+    <p>
+      Single Ride tickets or Stored Value can be purchased using cash when on board the Bus, above-ground stops on the Green line, and Mattapan trolley on the Red line. Exact change is encouraged.
     </p>
   </div>
 </div>
