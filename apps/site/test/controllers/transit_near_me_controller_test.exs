@@ -1,5 +1,5 @@
 defmodule Site.TransitNearMeControllerTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
 
   describe "Transit Near Me" do
     test "display message if no address", %{conn: conn} do

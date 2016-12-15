@@ -18,7 +18,7 @@
         <% end %>
       </div>
       <div class="col-sm-3 col-xs-12">
-        <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>" 
+        <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>"
              class="img-fluid commuter-fare-img"
              alt="Two MBTA fare vending machines">
       </div>

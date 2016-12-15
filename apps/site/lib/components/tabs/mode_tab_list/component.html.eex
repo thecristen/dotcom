@@ -2,11 +2,12 @@
   <div class="btn-group show-btn-group">
     <%= for {mode, href} <- args.links do %>
       <% selected_class = if selected?(mode, args.selected_mode), do: "show-btn-selected", else: "" %>
-      <%= Phoenix.HTML.Link.link to: href, class: "btn show-btn alert-show-btn-#{hyphenated_mode_string(mode)} #{selected_class}" do %>
+      <% mode_string = hyphenated_mode_string(mode) %>
+      <%= Phoenix.HTML.Link.link to: href, class: "btn show-btn alert-show-btn-#{mode_string} #{selected_class}" do %>
         <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode}) %>
         <%= mode_name(mode) %>
-        <%= if selected?(mode, args.selected_mode) do %>
-          <span class="btn-selected-bottom-<%= hyphenated_mode_string(mode) %>"></span>
+        <%= if selected_class != "" do %>
+          <span class="btn-selected-bottom-<%= mode_string %>"></span>
         <% end %>
       <% end %>
     <% end %>

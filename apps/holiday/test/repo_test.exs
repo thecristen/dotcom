@@ -1,5 +1,5 @@
 defmodule Holiday.RepoTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   describe "all/0" do
     test "returns a list of Holidays" do
@@ -48,6 +48,6 @@ defmodule Holiday.RepoTest do
 end
 
 defmodule Holiday.Repo.HelpersTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Holiday.Repo.Helpers
 end

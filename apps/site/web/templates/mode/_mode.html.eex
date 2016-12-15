@@ -7,9 +7,9 @@
       </h2>
     </div>
     <%= mode_button_list %ModeButtonList{
-      routes: get_route_group(@route_type, @grouped_routes, @truncate),
-      alerts: @conn.assigns.all_alerts,
-      date: @conn.assigns.date,
+      routes: @routes,
+      alerts: @alerts,
+      date: @date,
       include_all_link: true
       }
     %>

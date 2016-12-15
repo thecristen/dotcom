@@ -1,5 +1,5 @@
 <div class="index">
-  <%= render Site.ModeView, "index.html", conn: @conn, grouped_routes: @grouped_routes, include_ride: false, card_class: "page-section-narrow" %>
+  <%= render Site.ModeView, "index.html", grouped_routes: @grouped_routes, include_ride: false, card_class: "page-section-narrow", alerts: @alerts, date: @date %>
 
   <%= render "_news_card.html", news: @news, conn: @conn %>
 

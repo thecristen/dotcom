@@ -70,24 +70,25 @@ defmodule Routes.Repo do
   @spec headsigns(String.t) :: %{0 => [String.t], 1 => [String.t]}
   def headsigns(id) do
     cache id, fn id ->
-      id
-      |> V3Api.Trips.by_route
-      |> (fn api -> api.data end).()
-      |> do_headsigns
+      [zero_task, one_task] = for direction_id <- [0, 1] do
+        Task.async(__MODULE__, :do_headsigns, [id, direction_id])
+      end
+      %{
+        0 => Task.await(zero_task),
+        1 => Task.await(one_task)
+      }
     end
   end
 
-  def do_headsigns(routes) do
-    routes
-    |> Enum.flat_map(&direction_headsign_pair_from_trip/1)
-    |> Enum.group_by(&(elem(&1, 0)))
-    |> Map.new(fn {key, value_pairs} ->
-      {key, value_pairs
-      |> Enum.map(&(elem(&1, 1)))
-      |> order_by_frequency}
-    end)
-    |> Map.put_new(0, []) # make sure there are default values
-    |> Map.put_new(1, [])
+  def do_headsigns(route_id, direction_id) do
+    route_id
+    |> V3Api.Trips.by_route([{"fields[trip]", "headsign"}, {:direction_id, direction_id}])
+    |> (fn %{data: data} -> data end).()
+    |> Enum.filter_map(
+      fn %{attributes: attributes} -> attributes["headsign"] != "" end,
+      fn %{attributes: attributes} -> attributes["headsign"] end
+    )
+    |> order_by_frequency
   end
 
   defp handle_response(%{data: data}) do
@@ -130,14 +131,6 @@ defmodule Routes.Repo do
   defp key_route?(_, "Key Bus Route (Frequent Service)"), do: true
   defp key_route?(name, "Rapid Transit") when name != "Mattapan Trolley", do: true
   defp key_route?(_, _), do: false
-
-  defp direction_headsign_pair_from_trip(%JsonApi.Item{attributes: %{"headsign" => ""}}) do
-    # empty headsign, don't count it for the pair
-    []
-  end
-  defp direction_headsign_pair_from_trip(%JsonApi.Item{attributes: attributes}) do
-    [{attributes["direction_id"], attributes["headsign"]}]
-  end
 
   defp order_by_frequency(enum) do
     # the complicated function in the middle collapses some lengths which are

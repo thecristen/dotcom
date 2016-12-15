@@ -1,7 +1,6 @@
 defmodule Site.Mode.CommuterRailController do
   use Site.Mode.HubBehavior
-  import Phoenix.HTML.Tag, only: [content_tag: 3]
-  import Phoenix.HTML, only: [safe_to_string: 1]
+  import Phoenix.HTML.Link, only: [link: 2]
 
   @commuter_filters [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
                      [mode: :commuter_rail, duration: :month, reduced: nil]]
@@ -17,7 +16,10 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   def fare_description do
-    "#{link_to_zone_fares()} depend on the distance traveled (zones). Refer to the information below:"
+    [
+      link_to_zone_fares(),
+      " depend on the distance traveled (zones). Refer to the information below:"
+    ]
   end
 
   def fares do
@@ -26,8 +28,6 @@ defmodule Site.Mode.CommuterRailController do
 
   defp link_to_zone_fares do
     path = fare_path(Site.Endpoint, :show, "commuter_rail")
-    tag = content_tag :a, "Commuter Rail Fares", href: path
-
-    safe_to_string(tag)
+    link "Commuter Rail Fares", to: path
   end
 end

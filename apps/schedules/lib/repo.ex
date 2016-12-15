@@ -84,11 +84,15 @@ defmodule Schedules.Repo do
     |> Enum.any?(&(&1.id == stop_id))
   end
 
-  @spec trip(String.t) :: Schedules.Trip.t
+  @spec trip(String.t) :: Schedules.Trip.t | nil
   def trip(trip_id) do
-    trip_id
-    |> V3Api.Trips.by_id
-    |> Schedules.Parser.trip
+    cache trip_id, fn trip_id ->
+      case trip_id
+      |> V3Api.Trips.by_id do
+        %{status_code: 404} -> nil
+        response -> Schedules.Parser.trip(response)
+      end
+    end
   end
 
   defp all_from_params(params) do

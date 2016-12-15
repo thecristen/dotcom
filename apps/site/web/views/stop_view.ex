@@ -369,6 +369,10 @@ defmodule Site.StopView do
     |> elem(1)
   end
 
+  defp dedup_trip_reducer({:predicted, nil, _}, acc) do
+    # invalid trip IDs aren't fetched from the API and return nil instead
+    acc
+  end
   defp dedup_trip_reducer({:predicted, trip, _} = departure, {seen, final}) do
     {Map.put(seen, trip.id, :predicted), [departure | final]}
   end
