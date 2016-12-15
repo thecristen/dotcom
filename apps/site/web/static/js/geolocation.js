@@ -1,10 +1,9 @@
 export default function($ = window.jQuery) {
-  const $locateBtn = $("[data-geolocation-target]");
-  if ("geolocation" in navigator) {
-    $locateBtn.click(clickHandler($));
+  if ('geolocation' in navigator) {
+    $(document).on('click', '[data-geolocation-target]', clickHandler($));
   }
   else {
-    $locateBtn.hide();
+    $('html').addClass('geolocation-disabled');
   }
 }
 
