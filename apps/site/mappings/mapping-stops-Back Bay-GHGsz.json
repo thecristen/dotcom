@@ -1,0 +1,19 @@
+{
+  "uuid" : "3c48e8d0-a798-35cf-8927-395d377387dd",
+  "request" : {
+    "url" : "/stops/Back%20Bay",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-GHGsz.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "gphpat3o5gn8h5e4i6j6um8mtuue2sj1"
+    }
+  }
+}

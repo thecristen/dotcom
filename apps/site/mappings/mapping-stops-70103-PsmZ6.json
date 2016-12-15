@@ -1,0 +1,19 @@
+{
+  "uuid" : "23068176-5bcf-3558-bb04-8391e5bc87f3",
+  "request" : {
+    "url" : "/stops/70103",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70103-PsmZ6.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "27hvq8n8qmhahgs5dva6tv99jiv8lf18"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-rsmnl"}}},"links":{"self":"/stops/70175"},"id":"70175","attributes":{"wheelchair_boarding":0,"name":"Reservoir - Outbound","longitude":-71.148952,"latitude":42.335027}}}

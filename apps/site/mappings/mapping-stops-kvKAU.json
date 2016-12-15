@@ -1,0 +1,19 @@
+{
+  "uuid" : "b4ecfadd-d3f0-39c5-b446-17d4e2f4474d",
+  "request" : {
+    "url" : "/stops/?direction_id=1&route=1&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-kvKAU.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:15 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "2lnisa01n6juoauhtddkegidduslbg7m"
+    }
+  }
+}

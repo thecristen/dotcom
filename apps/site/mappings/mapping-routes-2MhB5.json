@@ -1,0 +1,19 @@
+{
+  "uuid" : "c31b01d5-d27e-3583-8509-ef7a638061f7",
+  "request" : {
+    "url" : "/routes/?stop=place-rvrwy&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-2MhB5.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "hdfkdc11vdf5lur15pq5rjh6bu2cogvr"
+    }
+  }
+}

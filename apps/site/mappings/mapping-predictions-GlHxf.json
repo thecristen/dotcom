@@ -1,0 +1,19 @@
+{
+  "uuid" : "e92ae7ed-775d-3e13-bcd2-7f51bcc24dd8",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&route=CR-Providence&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id&fields%5Bstop%5D=&include=stop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-GlHxf.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:53 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "fram58s7fek1ohkkh0g94jn5m15ievpv"
+    }
+  }
+}

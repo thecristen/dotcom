@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-chhil"}}},"links":{"self":"/stops/70172"},"id":"70172","attributes":{"wheelchair_boarding":0,"name":"Chestnut Hill - Inbound","longitude":-71.165314,"latitude":42.326653}}}

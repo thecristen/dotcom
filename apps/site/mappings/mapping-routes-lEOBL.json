@@ -1,0 +1,19 @@
+{
+  "uuid" : "aef75934-71f1-331e-997f-023547c8e759",
+  "request" : {
+    "url" : "/routes/?stop=2832&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lEOBL.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:46:04 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "btr6mc0u6ct2um5kcs7edsl8b2n5j7sj"
+    }
+  }
+}

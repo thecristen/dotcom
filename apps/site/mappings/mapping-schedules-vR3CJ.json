@@ -1,0 +1,19 @@
+{
+  "uuid" : "3bcd208e-5ad7-34cd-8a70-f277d1e20693",
+  "request" : {
+    "url" : "/schedules/?stop=Framingham&date=2016-12-25&include=trip.route%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Bstop%5D=name&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Broute%5D=type%2Clong_name%2Cshort_name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-vR3CJ.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:56 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ur4bjhth6va6nut5gi4cftgrpf67feri"
+    }
+  }
+}

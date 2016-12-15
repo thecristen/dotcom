@@ -6,28 +6,28 @@ defmodule Site.ScheduleController.Trip do
 
   import Plug.Conn, only: [assign: 3]
 
-  def init([]), do: []
+  def init([]), do: &Schedules.Repo.schedule_for_trip/1
 
-  def call(%{params: %{"trip" => ""}} = conn, []) do
+  def call(%{params: %{"trip" => ""}} = conn, _) do
     # if we explicitly set trip to an empty string, then don't include a
     # default trip
     conn
     |> assign(:trip, nil)
     |> assign(:trip_schedule, nil)
   end
-  def call(%{params: %{"trip" => trip_id}} = conn, []) when not is_nil(trip_id) do
+  def call(%{params: %{"trip" => trip_id}} = conn, schedule_for_trip_fn) when not is_nil(trip_id) do
     conn
-    |> do_selected_trip(Schedules.Repo.schedule_for_trip(trip_id))
+    |> do_selected_trip(schedule_for_trip_fn.(trip_id))
   end
-  def call(%{assigns: %{schedules: schedules}} = conn, []) do
+  def call(%{assigns: %{schedules: schedules}} = conn, schedule_for_trip_fn) do
     case current_trip(schedules) do
       nil -> conn
       |> assign(:trip, nil)
       |> assign(:trip_schedule, nil)
-      trip_id -> do_selected_trip(conn, Schedules.Repo.schedule_for_trip(trip_id))
+      trip_id -> do_selected_trip(conn, schedule_for_trip_fn.(trip_id))
     end
   end
-  def call(conn, []) do
+  def call(conn, _) do
     conn
     |> do_selected_trip(nil)
   end
