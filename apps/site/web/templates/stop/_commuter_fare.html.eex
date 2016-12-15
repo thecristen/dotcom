@@ -9,19 +9,12 @@
   </p>
   <%= if @stop.has_fare_machine? do %>
     <div class="col-xs-12 station-callout-box">
-      <div class="col-sm-9 col-xs-12">
-        <p class="commute-fare-charge">
-          <strong>Note:</strong> This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
-        </p>
-        <%= if fare_surcharge?(@stop) do %>
-          <p>There will be a $3.00 surcharge if a ticket is purchased on-board trains leaving from <%= @stop.name %>.</p>
-        <% end %>
-      </div>
-      <div class="col-sm-3 col-xs-12">
-        <img src="<%= static_url(@conn, "/images/fare-vending-machine.jpeg")%>"
-             class="img-fluid commuter-fare-img"
-             alt="Two MBTA fare vending machines">
-      </div>
+      <p>
+        <strong>Note:</strong> This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
+      </p>
+      <%= if fare_surcharge?(@stop) do %>
+        <p>There will be a <strong>$3.00 surcharge</strong> if a ticket is purchased on-board trains leaving from <%= @stop.name %>.</p>
+      <% end %>
     </div>
   <% end %>
 
