@@ -5,12 +5,14 @@ defmodule Site.FareView do
 
   defdelegate description(fare), to: Site.FareView.Description
 
-  def fare_type_note(%Fare{mode: mode, reduced: :student}) do
+  @doc "Return the reduced fare note for the given fare"
+  @spec fare_type_note(Fare.t) :: Phoenix.HTML.Safe.t | nil
+  def fare_type_note(%Fare{reduced: :student}) do
     content_tag :span do
       "Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. Student discounts apply to One Way fares only -- discounts for passes not available. College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."
     end
   end
-  def fare_type_note(%Fare{mode: mode, reduced: :senior_disabled}) do
+  def fare_type_note(%Fare{reduced: :senior_disabled}) do
     content_tag :span do
     ["People 65 or older and persons with disabilities qualify for a reduced fare on Bus and Subway. Seniors must obtain a Senior CharlieCard and persons with disabilities must apply for a ",
      (link "Transportation Access Pass (TAP) ", to: fare_path(Site.Endpoint, :show, :reduced)<>"#reduced-disability", data: [turbolinks: "false"]),
@@ -65,6 +67,8 @@ defmodule Site.FareView do
     update_url(conn, fare_type: reduced_type)
   end
 
+  @doc "Returns image description and image path"
+  @spec reduced_image(:student | :senior_disabled | nil) :: [{String.t, String.t}]
   def reduced_image(:student) do
     [{"Front of Student CharlieCard", "/images/student-charlie.jpg"}, {"Back of Student CharlieCard","/images/student-charlie-back.jpg"}]
   end
