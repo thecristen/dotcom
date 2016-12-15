@@ -80,7 +80,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   defp arrow_text(text) do
     content_tag :span, [
       text,
-      32, # space
+      ' ',
       content_tag(:i, "", class: "fa fa-arrow-right")
     ], class: "no-wrap"
   end

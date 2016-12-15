@@ -71,8 +71,8 @@ defmodule Routes.Repo do
   def headsigns(id) do
     cache id, fn id ->
       [zero_task, one_task] = for direction_id <- [0, 1] do
-          Task.async(__MODULE__, :do_headsigns, [id, direction_id])
-        end
+        Task.async(__MODULE__, :do_headsigns, [id, direction_id])
+      end
       %{
         0 => Task.await(zero_task),
         1 => Task.await(one_task)

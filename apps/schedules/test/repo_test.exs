@@ -106,7 +106,7 @@ defmodule Schedules.RepoTest do
     test "returns a %Schedule.Trip{} for a given ID" do
       schedules = all(route: "1", date: Timex.today |> Timex.shift(days: 1), stop_sequence: :first, direction_id: 0)
       scheduled_trip = List.first(schedules).trip
-      assert ^scheduled_trip = trip(scheduled_trip.id)
+      assert scheduled_trip == trip(scheduled_trip.id)
     end
   end
 
