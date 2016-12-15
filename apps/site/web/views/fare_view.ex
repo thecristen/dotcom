@@ -96,5 +96,19 @@ defmodule Site.FareView do
   end
   def reduced_image(_) do
     []
+  def format_name(%Fare{mode: :ferry} = base_fare, %Schedules.Stop{name: origin_name}, %Schedules.Stop{name: destination_name}) do
+    content_tag :span do
+      [origin_name,
+     " ",
+     fa("arrow-right"),
+     " ",
+     destination_name,
+     " ",
+     Fares.Format.duration(base_fare)
+   ]
+    end
+  end
+  def format_name(base_fare, _origin, _destination) do
+    Fares.Format.full_name(base_fare)
   end
 end
