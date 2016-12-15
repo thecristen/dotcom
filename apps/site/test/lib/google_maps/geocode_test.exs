@@ -1,5 +1,5 @@
 defmodule GoogleMaps.GeocodeTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   import GoogleMaps.Geocode
   alias GoogleMaps.Geocode.Address
 

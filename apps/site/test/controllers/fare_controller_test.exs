@@ -1,5 +1,5 @@
 defmodule Site.FareControllerTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
   import Site.FareController
   alias Fares.{Fare, Summary}
   alias Site.FareController.Filter

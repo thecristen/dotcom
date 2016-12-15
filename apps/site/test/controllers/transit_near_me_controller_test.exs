@@ -1,5 +1,5 @@
 defmodule Site.TransitNearMeControllerTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
 
   @lat 42.3515322
   @lng -71.0668452

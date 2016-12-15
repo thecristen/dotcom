@@ -1,5 +1,5 @@
 defmodule AlertsTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   use Timex
   alias Alerts.Alert
 

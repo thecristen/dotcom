@@ -1,5 +1,5 @@
 defmodule FaresTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Fares
 
   test "when the origin is zone 6, finds the zone 6 fares" do
