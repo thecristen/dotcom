@@ -13,20 +13,30 @@ defmodule Site.FareViewTest do
     end
   end
 
-  describe "eligibility/1" do
-    test "returns eligibility information for student fares" do
-      assert eligibility(%Fare{mode: :commuter_rail, reduced: :student}) =~
+  describe "fare_type_note/1" do
+    test "returns fare note for students" do
+      assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: :student})) =~
         "Middle and high school students are eligible"
     end
 
-    test "returns eligibility information for senior fares" do
-      assert eligibility(%Fare{mode: :commuter_rail, reduced: :senior_disabled}) =~
-        "Those who are 65 years of age or older"
+    test "returns fare note for seniors" do
+      assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
+        "People 65 or older and persons with disabilities"
     end
 
-    test "returns eligibility information for adult fares" do
-      assert eligibility(%Fare{mode: :commuter_rail, reduced: nil}) =~
-        "Those who are 12 years of age or older qualify for Adult fare pricing."
+    test "returns fare note for bus and subway" do
+      assert safe_to_string(fare_type_note(%Fare{mode: :bus, reduced: nil})) =~
+        "To view prices and details for fare passes"
+    end
+
+    test "returns fare note for ferry" do
+      assert safe_to_string(fare_type_note(%Fare{mode: :ferry, reduced: nil})) =~
+      "You may pay for your Ferry fare on-board"
+    end
+
+    test "returns fare note for commuter rail" do
+      assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: nil})) =~
+      "If you pay for a Round Trip "
     end
   end
 
@@ -71,5 +81,23 @@ defmodule Site.FareViewTest do
       assert content =~ "place-pktrm"
       assert content =~ "place-rugg"
     end
+  end
+
+  describe "reduced_image/1" do
+    test "student descriptions given" do
+      descriptions = reduced_image(:student)
+                     |> Enum.map(&(elem(&1, 0)))
+      assert descriptions == ["Back of Student CharlieCard", "Front of Student CharlieCard"]
+    end
+  end
+
+  test "senior descriptions given" do
+    descriptions = reduced_image(:senior_disabled)
+                   |> Enum.map(&(elem(&1, 0)))
+    assert descriptions == ["Transportation Access Pass", "Senior CharlieCard"]
+  end
+
+  test "No images given for non-reduced fare" do
+    assert Enum.empty?(reduced_image(:adult))
   end
 end

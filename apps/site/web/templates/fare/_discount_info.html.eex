@@ -6,14 +6,14 @@
     <%= note %>
     </p>
     <div>
-      <% reduced_images = reduced_image(@fare_type.reduced) %>
-      <%= for {description, img_path} <- reduced_images do  %>
-        <div class="fare-card-image">
-          <img src=<%= img_path%> />
-          <div class="small m-t-g"><%= description %></div>
-        </div>
-      <% end %>
-      <%= unless Enum.empty?(reduced_images) do %>
+      <%= if @fare_type.reduced do %>
+        <% reduced_images = reduced_image(@fare_type.reduced) %>
+        <%= for {description, img_path} <- reduced_images do  %>
+          <div class="fare-card-image">
+            <img src=<%= img_path%> />
+            <div class="small m-t-g"><%= description %></div>
+          </div>
+        <% end %>
         <p class="m-y-1">
         <%= link to: fare_path(Site.Endpoint, :show, :reduced) do %>
           Learn more about reduced fares <%= fa "arrow-right"%>
