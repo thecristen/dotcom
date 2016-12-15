@@ -5,7 +5,7 @@
       <div class="how-to-pay-sub-section">
         <h3>Step 1: Purchase a Ticket or Pass</h3>
         <p>
-          You can purchase your Commuter Rail fare with the following payment methods: CharlieTicket, mTicket app ticket, and cash on-board. Fare costs, transfers, and the type of passes available for purchase may vary based on your payment method.
+          You can purchase your Commuter Rail fare with the following payment methods: an mTicket app ticket, a CharlieTicket, or with cash on-board. Fare costs, transfers, and the type of passes available for purchase may vary based on your payment method.
         </p>
         <figure class="col-md-4 col-sm-8 col-xs-12">
           <img src="<%= static_url(@conn, "/images/mticket-app.png") %>" alt="mTicket App" width="100%" />
