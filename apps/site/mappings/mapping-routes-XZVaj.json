@@ -1,0 +1,19 @@
+{
+  "uuid" : "231e8aad-a26b-3df1-8e7f-1698936eefd8",
+  "request" : {
+    "url" : "/routes/?stop=place-mfa&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XZVaj.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:49 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "j7on4jakcbaaq0vemamnp2ou1p30v40p"
+    }
+  }
+}

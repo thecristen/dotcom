@@ -1,0 +1,19 @@
+{
+  "uuid" : "45203ad6-5164-3944-8efb-bdacef62a76d",
+  "request" : {
+    "url" : "/stops/70206",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70206-ILSWE.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "bd9t5b9vb66vk3i4u79rjukgtgeth9n4"
+    }
+  }
+}

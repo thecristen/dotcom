@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-waban"}}},"links":{"self":"/stops/70164"},"id":"70164","attributes":{"wheelchair_boarding":0,"name":"Waban - Inbound","longitude":-71.230728,"latitude":42.325943}}}

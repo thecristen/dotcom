@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/61866"},"id":"61866","attributes":{"wheelchair_boarding":0,"name":"Washington St @ Dedham Plaza","longitude":-71.177777,"latitude":42.242465}}}

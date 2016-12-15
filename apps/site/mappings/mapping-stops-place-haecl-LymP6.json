@@ -1,0 +1,19 @@
+{
+  "uuid" : "c292a66d-03ce-3f3c-89a2-5e1a3da06935",
+  "request" : {
+    "url" : "/stops/place-haecl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-haecl-LymP6.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:33 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "mduupejg8vejtbgbbtb6a2o5t8rlfehj"
+    }
+  }
+}

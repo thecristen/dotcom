@@ -1,0 +1,19 @@
+{
+  "uuid" : "2f7e7e98-c435-362d-a7a1-16e50e309451",
+  "request" : {
+    "url" : "/routes/?stop=251&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4Idoo.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:46:04 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "btu2403aqutee7s6h26gpokd31uvi983"
+    }
+  }
+}
