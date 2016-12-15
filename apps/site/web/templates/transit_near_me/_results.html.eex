@@ -1,4 +1,4 @@
-<div id="transit-results" class="transit-near-me-results <%= @class %> row<%= if @stops_with_routes == [] do %> empty<% end %>">
+<div class="transit-near-me-results <%= @class %> row<%= if @stops_with_routes == [] do %> empty<% end %>">
   <%= for %{stop: stop, distance: distance, routes: routes} <- @stops_with_routes do %>
     <%= link to: stop_path(@conn, :show, stop.id) do %>
       <div class="transit-card">
