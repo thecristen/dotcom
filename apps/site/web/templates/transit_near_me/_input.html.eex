@@ -1,4 +1,4 @@
-<%= form_for @conn, @conn.request_path, [as: :location, method: :get, class: "form"], fn f ->  %>
+<%= form_for @conn, @conn.request_path<>"#transit-results", [as: :location, method: :get, class: "form"], fn f ->  %>
   <div class="form-group">
     <button type="button" class="btn location-btn" data-geolocation-target="place-input">
       <%= fa "location-arrow" %>
