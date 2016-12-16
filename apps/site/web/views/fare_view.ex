@@ -5,23 +5,36 @@ defmodule Site.FareView do
 
   defdelegate description(fare), to: Site.FareView.Description
 
-  def eligibility(%Fare{mode: mode, reduced: :student}) do
-    "Middle and high school students are eligible for reduced fares on the #{Routes.Route.type_name(mode)}. \
-In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. \
-One Way fares and Stored Value are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are \
-not. College students may be eligible for reduced fares through a Semester Pass Program. For more information, \
-please contact an administrator at your school."
+  @doc "Return the reduced fare note for the given fare"
+  @spec fare_type_note(Fare.t) :: Phoenix.HTML.Safe.t | nil
+  def fare_type_note(%Fare{reduced: :student}) do
+    content_tag :span do
+      "Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. Student discounts apply to One Way fares only -- discounts for passes not available. College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."
+    end
   end
-  def eligibility(%Fare{mode: mode, reduced: :senior_disabled}) do
-    "Those who are 65 years of age or older and persons with disabilities qualify for a reduced fare on the \
-#{Routes.Route.type_name(mode)}. In order to receive a reduced fare, seniors must obtain a Senior CharlieCard and \
-persons with disabilities must apply for a Transportation Access Pass (TAP). One Way fares and Stored Value \
-are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are not."
+  def fare_type_note(%Fare{reduced: :senior_disabled}) do
+    content_tag :span do
+      ["People 65 or older and persons with disabilities qualify for a reduced fare on Bus and Subway. Seniors must obtain a Senior CharlieCard and persons with disabilities must apply for a ",
+     (link "Transportation Access Pass (TAP) ", to: fare_path(Site.Endpoint, :show, :reduced)<>"#reduced-disability", data: [turbolinks: "false"]),
+      "in order to receive a reduced fare. Discounts apply to One Way fares only -- discounts for passes not available."]
+    end
   end
-  def eligibility(%Fare{reduced: nil}) do
-    "Those who are 12 years of age or older qualify for Adult fare pricing."
+  def fare_type_note(%Fare{reduced: nil, mode: mode}) when mode in [:bus, :subway] do
+    content_tag :span do
+      "To view prices and details for fare passes, click on the “Passes” tab below."
+    end
   end
-  def eligibility(_) do
+  def fare_type_note(%Fare{reduced: nil, mode: :ferry}) do
+    content_tag :span do
+      "You may pay for your Ferry fare on-board if there is no ticket office at your terminal."
+    end
+  end
+  def fare_type_note(%Fare{reduced: nil, mode: :commuter_rail}) do
+    content_tag :span do
+      "If you pay for a Round Trip with cash on-board, your ticket for your return trip will only be valid until the end of service that same day."
+    end
+  end
+  def fare_type_note(_) do
     nil
   end
 
@@ -62,5 +75,17 @@ are eligible for the reduced rate, however 1-Day, 7-Day, and Monthly Passes are 
   @spec update_fare_type(Plug.Conn.t, Fare.reduced) :: Plug.Conn.t
   def update_fare_type(conn, reduced_type) do
     update_url(conn, fare_type: reduced_type)
+  end
+
+  @doc "Returns image description and image path"
+  @spec reduced_image(:student | :senior_disabled | nil) :: [{String.t, String.t}]
+  def reduced_image(:student) do
+    [{"Back of Student CharlieCard","/images/student-charlie-back.jpg"}, {"Front of Student CharlieCard", "/images/student-charlie.jpg"}]
+  end
+  def reduced_image(:senior_disabled) do
+    [{"Transportation Access Pass", "/images/transportation-access-card.jpg"}, {"Senior CharlieCard","/images/senior-id.jpg"}]
+  end
+  def reduced_image(_) do
+    []
   end
 end

@@ -366,3 +366,12 @@ a {
     position: absolute;
   }
 }
+
+.fare-card-image {
+  display: inline-block;
+  text-align: center;
+
+  &:nth-of-type(2n) {
+    margin-left: 2rem;
+  }
+}

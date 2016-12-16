@@ -1,7 +1,6 @@
-<% example_fare = List.first(@selected_filter.fares) %>
 <div class="m-b-1">
-  <div class="fare-callout-box m-y-1">
-    <%= eligibility(example_fare) %>
+  <div class="m-y-1">
+    <%= render "_discount_info.html", fare_type: List.first(@selected_filter.fares)  %>
   </div>
   <div class="container">
     <div class="row">
