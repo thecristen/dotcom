@@ -1,7 +1,7 @@
 <%= for chunk <- @summary |> Enum.chunk(2, 2, []) do %>
   <div class="row">
     <%= for summary <- chunk do %>
-      <div class="fares-box-column">
+      <div class="col-md-6 col-sm-12">
         <span class="fare-summary-header">
           <%= summary.name %>
           <span class="fares-mode-icon">
