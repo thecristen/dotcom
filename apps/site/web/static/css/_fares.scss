@@ -66,9 +66,14 @@ a {
 .fares-row {
   border-top: 1px solid $gray-lightest;
 
+  @include media-breakpoint-down(sm) {
+    font-size: .85rem;
+  }
+
   &:first-child {
     border-top: 0;
   }
+
 }
 
 .fare-name {
@@ -87,6 +92,7 @@ a {
   //scss-lint:disable PlaceholderInExtend
   @extend .col-xs-12;
   @extend .col-sm-6;
+
   padding: .75rem;
 
   @include media-breakpoint-down(xs) {
@@ -101,14 +107,12 @@ a {
     &:nth-child(1) {
       border-right: 1px solid $gray-lightest;
     }
-
     &:nth-child(2) {
       border-left: 1px solid $gray-lightest;
       left: -1px;
       position: relative;
     }
   }
-
   @include media-breakpoint-up(md) {
     padding: 1.5rem;
   }
@@ -136,10 +140,6 @@ a {
   background-color: $gray-lightest;
   margin-bottom: .75rem;
   padding: .5rem;
-
-  @include media-breakpoint-only(sm) {
-    font-size: .85rem;
-  }
 
   @include media-breakpoint-only(xs) {
     font-size: .85rem;
@@ -285,6 +285,9 @@ a {
 
 .fare-summary-header {
   display: inline-block;
+  font-weight: bold;
+  padding-bottom: .75rem;
+  padding-top: 1.5rem;
 
   .fares-mode-icon {
     margin-left: $space-12;
@@ -294,10 +297,14 @@ a {
 }
 
 .fare-summary-row {
-  margin-bottom: $space-6;
+  border: 1px solid $gray-lightest;
+  margin-bottom: 0;
+  padding: .5rem;
 
-  @include media-breakpoint-down(xs) {
-    font-size: .85rem;
+
+  &:last-child {
+    margin-bottom: 1rem;
+    margin-top: -1px;
   }
 }
 
