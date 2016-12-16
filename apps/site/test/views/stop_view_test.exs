@@ -2,6 +2,9 @@ defmodule Site.StopViewTest do
   @moduledoc false
   alias Site.StopView
   alias Stops.Stop
+  alias Schedules.Schedule
+  alias Schedules.Trip
+  alias Predictions.Prediction
   use Site.ConnCase, async: true
 
   describe "fare_group/1" do
@@ -113,7 +116,58 @@ defmodule Site.StopViewTest do
       time = Timex.shift(now, hours: 2)
       diff = time
       |> StopView.schedule_display_time(now)
-      assert diff == time |> Timex.format!("{h12}:{m} {AM}")
+      assert diff == time |> formatted_time
+    end
+  end
+
+  describe "commuter schedules" do
+    test "display scheduled time, predicted time, and realtime icon for routes with delays " do
+      route_id = "CR-Fairmount"
+      direction_id = 1
+      trip_id = 1
+      now = Util.now
+      later = Util.now |> Timex.shift(minutes: 15)
+      schedule = %Schedule{trip: %Trip{id: trip_id}, time: now}
+      predictions = [%Prediction{trip_id: trip_id, time: later}]
+      rendered = route_id
+                 |> StopView.render_commuter_departure_time(direction_id, schedule, predictions)
+                 |> Enum.map(&Phoenix.HTML.safe_to_string/1)
+                 |> Enum.join("")
+      assert rendered =~ formatted_time(now)
+      assert rendered =~ "fa fa-rss station-schedule-icon"
+      assert rendered =~ formatted_time(later)
+    end
+
+    test "only display scheduled time for routes without delays" do
+      route_id = "CR-Fairmount"
+      direction_id = 1
+      trip_id = 1
+      now = Util.now
+      schedule = %Schedule{trip: %Trip{id: trip_id}, time: now}
+      predictions = [%Prediction{trip_id: trip_id, time: now}]
+      rendered = route_id
+                 |> StopView.render_commuter_departure_time(direction_id, schedule, predictions)
+                 |> Phoenix.HTML.safe_to_string
+      assert rendered =~ formatted_time(now)
+      refute rendered =~ "<s>" <> formatted_time(now)
+      refute rendered =~ "fa fa-rss station-schedule-icon"
+    end
+
+    test "show track number when available" do
+      trip_id = 20
+      rendered = %Schedule{trip: %Trip{id: trip_id}}
+      |> StopView.render_commuter_status([%Prediction{trip_id: trip_id, status: "Now Boarding", track: 5}])
+      |> Enum.map(&Phoenix.HTML.safe_to_string/1)
+      |> Enum.join("")
+      assert rendered =~ "Now Boarding"
+      assert rendered =~ "track 5"
+    end
+
+    test "show on time when status is nil" do
+      trip_id = 20
+      rendered = %Schedule{trip: %Trip{id: trip_id}}
+      |> StopView.render_commuter_status([%Prediction{trip_id: trip_id}])
+      assert rendered =~ "On Time"
     end
   end
 
@@ -136,4 +190,6 @@ defmodule Site.StopViewTest do
       end
     end
   end
+
+  def formatted_time(time), do: time |> Timex.format!("{h12}:{m} {AM}")
 end

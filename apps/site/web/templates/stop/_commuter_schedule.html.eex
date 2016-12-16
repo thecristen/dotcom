@@ -37,16 +37,10 @@
                 No. <%= schedule.trip.name %>
               </div>
               <div class="time-column">
-                <% prediction = Predictions.Repo.all(stop: @stop.id, route: route.id, direction_id: direction_id) |> Enum.find(&(&1.trip_id == schedule.trip.id)) %>
-                <%= render_commuter_departure_time(route.id, direction_id, schedule, prediction) %>
+                <%= render_commuter_departure_time(route.id, direction_id, schedule, @stop_predictions) %>
               </div>
               <div class="time-column">
-                <%= if prediction do %>
-                  <%= prediction.status || "On Time" %>
-                  <%= if prediction.track do %>
-                    on <span class="no-wrap">track <%= prediction.track %></span>
-                  <% end %>
-                <% end %>
+                <%= render_commuter_status(schedule, @stop_predictions) %>
               </div>
             </div>
           </div>
