@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-aqucl"}}},"links":{"self":"/stops/70043"},"id":"70043","attributes":{"wheelchair_boarding":0,"name":"Aquarium - Inbound","longitude":-71.051652,"latitude":42.359784}}}

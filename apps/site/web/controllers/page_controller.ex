@@ -3,12 +3,14 @@ defmodule Site.PageController do
 
   plug Site.Plugs.Date
   plug Site.Plugs.Alerts
+  plug Site.Plugs.TransitNearMe
 
   def index(conn, _params) do
     conn
     |> async_assign(:grouped_routes, &grouped_routes/0)
     |> async_assign(:news, &news/0)
     |> await_assign_all
+    |> assign(:pre_container_template, "_transit_near_me.html")
     |> render("index.html")
   end
 

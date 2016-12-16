@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-newto"}}},"links":{"self":"/stops/70170"},"id":"70170","attributes":{"wheelchair_boarding":0,"name":"Newton Centre - Inbound","longitude":-71.192429,"latitude":42.329391}}}

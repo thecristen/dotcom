@@ -1,0 +1,19 @@
+{
+  "uuid" : "3e0b01a4-5ee0-3c96-958d-1713014ce92b",
+  "request" : {
+    "url" : "/routes/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UBZWv.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:38 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "hqbk2avhuuprjqs1f86bamhcgtpf3n75"
+    }
+  }
+}

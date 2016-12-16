@@ -3,7 +3,7 @@
     <h1>Service Alerts and Notices</h1>
     <%= mode_tab_list %ModeTabList{
       class: "navbar-toggleable-sm",
-      links: for mode <- [:bus, :commuter_rail, :subway, :ferry, :access] do
+      links: for mode <- ~w(bus commuter_rail subway ferry access)a do
         {mode, alert_path(@conn, :show, mode)}
       end,
       selected_mode: @id,

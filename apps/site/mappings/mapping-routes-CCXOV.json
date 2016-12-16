@@ -1,0 +1,19 @@
+{
+  "uuid" : "3d4d3035-5501-36c0-b708-172c60603603",
+  "request" : {
+    "url" : "/routes/?stop=place-babck&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CCXOV.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "6kn7dd6o0r6lbeuq6tpmr6mqjqjcnmbc"
+    }
+  }
+}

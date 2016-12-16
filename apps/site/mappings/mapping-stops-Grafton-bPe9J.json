@@ -1,0 +1,19 @@
+{
+  "uuid" : "df95f4d3-077d-3385-9d47-93c790cb742a",
+  "request" : {
+    "url" : "/stops/Grafton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Grafton-bPe9J.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "1epgtrak10tc43b9775gnrnmn04jp6bn"
+    }
+  }
+}

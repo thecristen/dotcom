@@ -1,0 +1,19 @@
+{
+  "uuid" : "bb5870c0-ee31-382b-b964-653616b1039b",
+  "request" : {
+    "url" : "/stops/70172",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70172-t69YB.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "kik8ah3n0bif2nnuga727s1proprqqrb"
+    }
+  }
+}

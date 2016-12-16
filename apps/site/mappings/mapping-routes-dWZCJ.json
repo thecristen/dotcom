@@ -1,0 +1,19 @@
+{
+  "uuid" : "0aa746fb-e5bb-34b4-b3ef-8d0fe5e67cdb",
+  "request" : {
+    "url" : "/routes/?stop=place-chncl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dWZCJ.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:48 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "2t6c5mmve0dep460fagh7jno1msuql0f"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "d0617097-48c5-3e97-b6b5-1f7a7a9f3eab",
+  "request" : {
+    "url" : "/stops/?fields%5Bparent_station%5D=latitude%2Clongitude&fields%5Bstop%5D=latitude%2Clongitude&radius=0.6&route_type=0%2C1&latitude=42.35131&longitude=-71.066159&include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-B99i7.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:47 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "7o60l5n622hnq6jctob1dl9ode2j7rll"
+    }
+  }
+}

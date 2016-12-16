@@ -1,0 +1,19 @@
+{
+  "uuid" : "88982530-e747-305a-9365-f921f863abab",
+  "request" : {
+    "url" : "/stops/70098",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70098-TgptD.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "0gmf7ocdn52u17apub66afaob9a6caht"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "03ed1246-570f-394d-a99c-8139311f50af",
+  "request" : {
+    "url" : "/stops/70044",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70044-NDFjs.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "en2pf1c96qqjgcio6su18p9d18jqjkgg"
+    }
+  }
+}

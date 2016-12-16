@@ -1,0 +1,19 @@
+{
+  "uuid" : "91d7eeb6-22b2-3639-97a9-a5fe07d9937d",
+  "request" : {
+    "url" : "/predictions/?direction_id=1&stop=Framingham&route=CR-Worcester&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id&fields%5Bstop%5D=&include=stop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-Ou5PT.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:57 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "tmjd1dbdt4jflfb55qcjjqrebg46hb6j"
+    }
+  }
+}

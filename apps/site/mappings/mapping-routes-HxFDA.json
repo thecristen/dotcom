@@ -1,0 +1,19 @@
+{
+  "uuid" : "e275a377-7f81-352e-8913-44b9bcdf797b",
+  "request" : {
+    "url" : "/routes/?stop=place-sstat&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HxFDA.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:45:48 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "nuner6b2ojcv0dqkuq7em9g2c66mghch"
+    }
+  }
+}

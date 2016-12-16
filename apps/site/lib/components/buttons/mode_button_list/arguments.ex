@@ -5,7 +5,8 @@ defmodule Site.Components.Buttons.ModeButtonList do
 
   """
 
-  alias Phoenix.HTML.Tag
+  import Phoenix.HTML.Link, only: [link: 2]
+  import Phoenix.HTML.Tag, only: [content_tag: 3]
 
   defstruct class:     "",
             id:        nil,
@@ -26,36 +27,61 @@ defmodule Site.Components.Buttons.ModeButtonList do
     include_all_link: boolean
   }
 
-  def get_alert(route, alerts, date \\ nil) do
+  def get_alert(route, alerts, date) do
     date = date || Util.now()
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
     alerts
-    |> Enum.reject(&Alerts.Alert.is_notice?(&1, date))
-    |> Alerts.Match.match(entity, date)
-    |> List.first
+    |> Enum.find(nil, fn alert ->
+      (not Alerts.Alert.is_notice?(alert, date)) &&
+        Alerts.Match.match([alert], entity, date) == [alert]
+    end)
   end
 
   def all_link([%{type: type}|_]) when type in [0,1] do
     path = Site.Router.Helpers.mode_path(Site.Endpoint, :subway)
-    ~s(<a href="#{path}">View all subway <span class="no-wrap">lines <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
+    link to: path do
+      [
+        "View all subway ",
+        arrow_text("lines")
+      ]
+    end
   end
 
   def all_link([%{type: 2}|_]) do
     path = Site.Router.Helpers.mode_path(Site.Endpoint, :commuter_rail)
-    ~s(<a href="#{path}">View all commuter rail <span class="no-wrap">lines <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
+    link to: path do
+      [
+        "View all commuter rail ",
+        arrow_text("lines")
+      ]
+    end
   end
 
   def all_link([%{type: 3}|_]) do
     path = Site.Router.Helpers.mode_path(Site.Endpoint, :bus)
-    ~s(<a href="#{path}">View all bus <span class="no-wrap">routes <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
+    link to: path do
+      [
+        "View all bus ",
+        arrow_text("routes")
+      ]
+    end
     end
 
   def all_link([%{type: 4}|_]) do
     path = Site.Router.Helpers.mode_path(Site.Endpoint, :ferry)
-    ~s(<a href="#{path}">View all ferry <span class="no-wrap">routes <i class="fa fa-arrow-right"></i></span></a>) |> Phoenix.HTML.raw
+    link to: path do
+      [
+        "View all ferry ",
+        arrow_text("routes")
+      ]
+    end
   end
 
-  def opening_div(args) do
-    Tag.tag :div, class: "mode-group-block #{args.class}", id: args.id
+  defp arrow_text(text) do
+    content_tag :span, [
+      text,
+      ' ',
+      content_tag(:i, "", class: "fa fa-arrow-right")
+    ], class: "no-wrap"
   end
 end

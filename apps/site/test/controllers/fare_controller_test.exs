@@ -1,5 +1,5 @@
 defmodule Site.FareControllerTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
   import Site.FareController
   alias Fares.{Fare, Summary}
   alias Site.FareController.Filter
@@ -39,6 +39,22 @@ defmodule Site.FareControllerTest do
   test "renders bus/subway", %{conn: conn} do
     conn = get conn, fare_path(conn, :show, :bus_subway)
     assert html_response(conn, 200) =~ "Bus and Subway Fares"
+  end
+
+  test "lists vending machine stations on bus/subway page", %{conn: conn} do
+    conn = get conn, fare_path(conn, :show, :bus_subway)
+    for station  <- ["Back Bay", "Braintree", "Forest Hills", "JFK/UMass", "Lynn", "Malden Center", "North Station",
+    "Porter Square", "Quincy Center", "Ruggles", "South Station", "Worcester/Union"] do
+      assert html_response(conn, 200) =~ station
+    end
+  end
+
+  test "lists charliecard stations on bus/subway page", %{conn: conn} do
+    conn = get conn, fare_path(conn, :show, :bus_subway)
+    for station <- ["Alewife", "Arlington", "Ashmont", "Back Bay", "Dudley Square", "Forest Hills", "Harvard Square",
+    "North Station", "Oak Grove", "Park", "Ruggles"] do
+      assert html_response(conn, 200) =~ station
+    end
   end
 
   describe "filter_reduced/2" do

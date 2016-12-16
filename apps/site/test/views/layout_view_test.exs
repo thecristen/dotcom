@@ -5,15 +5,17 @@ defmodule Site.LayoutViewTest do
 
   import Site.LayoutView
 
-  test "bold_if_active makes text bold if the current request is made against the given path", %{conn: conn} do
-    conn = get conn, "/schedules/subway"
-    assert bold_if_active(conn, "/schedules", "test") == raw("<strong>test</strong>")
-  end
+  describe "bold_if_active/3" do
+    test "bold_if_active makes text bold if the current request is made against the given path", %{conn: conn} do
+      conn = %{conn | request_path: "/schedules/subway"}
+      assert bold_if_active(conn, "/schedules", "test") == raw("<strong>test</strong>")
+    end
 
-  test "bold_if_active only makes text bold if the current request is made to root path", %{conn: conn} do
-    conn = get conn, "/"
-    assert bold_if_active(conn, "/", "test") == raw("<strong>test</strong>")
-    refute bold_if_active(conn, "/schedules", "test") == raw("<strong>test</strong>")
+    test "bold_if_active only makes text bold if the current request is made to root path", %{conn: conn} do
+      conn = %{conn | request_path: "/"}
+      assert bold_if_active(conn, "/", "test") == raw("<strong>test</strong>")
+      assert bold_if_active(conn, "/schedules", "test") == raw("test")
+    end
   end
 
   describe "format_header_fare/1" do

@@ -1,0 +1,19 @@
+{
+  "uuid" : "7974ede5-25f2-3444-9051-3bbfb5032351",
+  "request" : {
+    "url" : "/stops/11366",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-stops-11366-1yQeu.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Thu, 15 Dec 2016 19:44:36 GMT",
+      "Content-Type" : "application/json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "iiqp37cmvs7jmn6r8u39hmvqs1md8oaf"
+    }
+  }
+}
