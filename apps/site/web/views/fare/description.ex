@@ -3,38 +3,40 @@ defmodule Site.FareView.Description do
   import AndJoin
 
   @spec description(Fare.t) :: String.t | iolist
-  def description(%Fare{mode: :commuter_rail, duration: :single_trip, name: name}) do
+  def description(%Fare{mode: :commuter_rail, duration: :single_trip, name: name}, _assigns) do
     ["Valid for travel on Commuter Rail ", valid_commuter_zones(name), " only."]
   end
-  def description(%Fare{mode: :commuter_rail, duration: :round_trip, name: name}) do
+  def description(%Fare{mode: :commuter_rail, duration: :round_trip, name: name}, _assigns) do
     ["Valid for travel on Commuter Rail ", valid_commuter_zones(name), " only."]
   end
-  def description(%Fare{mode: :commuter_rail, duration: :month, media: [:mticket], name: name}) do
+  def description(%Fare{mode: :commuter_rail, duration: :month, media: [:mticket], name: name}, _assigns) do
     ["Valid for one calendar month of travel on the commuter rail ",
      valid_commuter_zones(name),
      " only."
     ]
   end
-  def description(%Fare{mode: :commuter_rail, duration: :month, name: name}) do
+  def description(%Fare{mode: :commuter_rail, duration: :month, name: name}, _assigns) do
     ["Valid for one calendar month of unlimited travel on Commuter Rail ",
      valid_commuter_zones(name),
      " as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."]
   end
-  def description(%Fare{mode: :ferry, duration: duration} = fare) when duration in [:round_trip, :single_trip, :day, :week] do
+  def description(%Fare{mode: :ferry, duration: duration} = fare, %{origin: origin, destination: destination}) when duration in [:round_trip, :single_trip, :day, :week] do
     [
-      "Valid for the ",
-      Fares.Format.name(fare),
+      "Valid between ",
+      origin.name,
+      " and ",
+      destination.name,
       " only."
     ]
   end
-  def description(%Fare{mode: :ferry, duration: :month, media: [:mticket]} = fare) do
+  def description(%Fare{mode: :ferry, duration: :month, media: [:mticket]} = fare, _assigns) do
        [
          "Valid for one calendar month of unlimited travel on the ",
          Fares.Format.name(fare),
          " only."
        ]
   end
-  def description(%Fare{mode: :ferry, duration: :month} = fare) do
+  def description(%Fare{mode: :ferry, duration: :month} = fare, _assigns) do
     [
       "Valid for one calendar month of unlimited travel on the ",
       Fares.Format.name(fare),
@@ -42,11 +44,11 @@ defmodule Site.FareView.Description do
  Subway, Express Buses, and Commuter Rail up to Zone 5."
     ]
   end
-  def description(%Fare{name: name, duration: :single_trip, media: [:charlie_ticket, :cash]})
+  def description(%Fare{name: name, duration: :single_trip, media: [:charlie_ticket, :cash]}, _assigns)
   when name in [:inner_express_bus, :outer_express_bus] do
     "No free or discounted transfers."
   end
-  def description(%Fare{mode: :subway, media: media, duration: :single_trip} = fare)
+  def description(%Fare{mode: :subway, media: media, duration: :single_trip} = fare, _assigns)
   when media != [:charlie_ticket, :cash] do
 
     [
@@ -55,43 +57,43 @@ defmodule Site.FareView.Description do
       " Must be done within 2 hours of your original ride."
     ]
   end
-  def description(%Fare{mode: :subway, media: [:charlie_ticket, :cash]}) do
+  def description(%Fare{mode: :subway, media: [:charlie_ticket, :cash]}, _assigns) do
     "Free transfer to Subway, route SL4, and route SL5 when done within 2 hours of purchasing a ticket."
   end
-  def description(%Fare{mode: :bus, media: [:charlie_ticket, :cash]}) do
+  def description(%Fare{mode: :bus, media: [:charlie_ticket, :cash]}, _assigns) do
     "Free transfer to one additional Local Bus included."
   end
-  def description(%Fare{mode: :subway, duration: :month, reduced: :student}) do
+  def description(%Fare{mode: :subway, duration: :month, reduced: :student}, _assigns) do
     ["Unlimited travel for one calendar month on the Subway",
      "Local Bus",
      "Inner Express Bus",
      "Outer Express Bus."
     ] |> and_join
   end
-  def description(%Fare{mode: :subway, duration: :month}) do
+  def description(%Fare{mode: :subway, duration: :month}, _assigns) do
     "Unlimited travel for one calendar month on the Local Bus and Subway."
   end
-  def description(%Fare{mode: :subway, duration: duration}) when duration in [:day, :week] do
+  def description(%Fare{mode: :subway, duration: duration}, _assigns) when duration in [:day, :week] do
     "Can be used for the Subway, Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
   end
-  def description(%Fare{name: :local_bus, duration: :month}) do
+  def description(%Fare{name: :local_bus, duration: :month}, _assigns) do
     "Unlimited travel for one calendar month on the Local Bus (not including routes SL1 or SL2)."
   end
-  def description(%Fare{name: :inner_express_bus, duration: :month}) do
+  def description(%Fare{name: :inner_express_bus, duration: :month}, _assigns) do
     ["Unlimited travel for one calendar month on the Inner Express Bus",
      "Local Bus",
      "Commuter Rail Zone 1A",
      "the Charlestown Ferry."
     ] |> and_join
   end
-  def description(%Fare{name: :outer_express_bus, duration: :month}) do
+  def description(%Fare{name: :outer_express_bus, duration: :month}, _assigns) do
     ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
      "Local Bus",
      "Commuter Rail Zone 1A",
      "the Charlestown Ferry."
     ] |> and_join
   end
-  def description(%Fare{mode: :bus, media: media} = fare)
+  def description(%Fare{mode: :bus, media: media} = fare, _assigns)
   when media != [:charlie_ticket, :cash] do
     [
       "Valid for the Local Bus (includes route SL4 and SL5). ",
@@ -99,11 +101,11 @@ defmodule Site.FareView.Description do
       " Must be done within 2 hours of your original ride."
     ]
   end
-  def description(%Fare{name: :ada_ride}) do
+  def description(%Fare{name: :ada_ride}, _assigns) do
     ["A trip qualifies as ADA if it is booked 1-7 days beforehand. ",
      "It must also be within 3/4 miles from an active MBTA Bus or Subway service, or be in the core ADA area."]
   end
-  def description(%Fare{name: :premium_ride}) do
+  def description(%Fare{name: :premium_ride}, _assigns) do
     ["A trip qualifies as premium if it has been booked for same-day service or if a reservation has been changed after 5:00PM for service the next day.",
      "<br><br>" |> Phoenix.HTML.raw,
      "A trip also qualifies if it is not within the core ADA area of service, or has a destination more than 3/4 miles away from an active MBTA Bus or Subway service."

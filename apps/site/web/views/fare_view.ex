@@ -3,7 +3,7 @@ defmodule Site.FareView do
 
   alias Fares.Fare
 
-  defdelegate description(fare), to: Site.FareView.Description
+  defdelegate description(fare, assigns), to: Site.FareView.Description
 
   @doc "Return the reduced fare note for the given fare"
   @spec fare_type_note(Fare.t) :: Phoenix.HTML.Safe.t | nil
@@ -104,8 +104,7 @@ defmodule Site.FareView do
      " ",
      destination_name,
      " ",
-     Fares.Format.duration(base_fare)
-   ]
+     content_tag(:span, Fares.Format.duration(base_fare), class: "no-wrap")
     end
   end
   def format_name(base_fare, _origin, _destination) do

@@ -65,7 +65,7 @@
                 </span>
               </div>
               <div>
-                <%= description(fare) %>
+                <%= description(fare, @conn.assigns) %>
               </div>
             </div>
           <% end %>
