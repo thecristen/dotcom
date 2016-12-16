@@ -62,8 +62,8 @@ defmodule Stops.Stop.Parking do
   @type t :: %Stops.Stop.Parking{
     type: String.t,
     spots: non_neg_integer,
-    rate: String.t,
-    note: String.t,
+    rate: String.t | nil,
+    note: String.t | nil,
     manager: Stops.Stop.Manager.t | nil
   }
 end
