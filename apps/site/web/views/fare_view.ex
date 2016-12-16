@@ -96,15 +96,18 @@ defmodule Site.FareView do
   end
   def reduced_image(_) do
     []
+  end
   def format_name(%Fare{mode: :ferry} = base_fare, %{origin: origin, destination: destination}) do
     content_tag :span do
-      [origin.name,
-     " ",
-     fa("arrow-right"),
-     " ",
-     destination.name,
-     " ",
-     content_tag(:span, Fares.Format.duration(base_fare), class: "no-wrap")
+      [
+        origin.name,
+        " ",
+        fa("arrow-right"),
+        " ",
+        destination.name,
+        " ",
+        content_tag(:span, Fares.Format.duration(base_fare), class: "no-wrap")
+      ]
     end
   end
   def format_name(base_fare, _assigns) do
