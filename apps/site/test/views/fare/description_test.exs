@@ -6,14 +6,14 @@ defmodule Site.FareView.DescriptionTest do
   import AndJoin
 
   describe "description/1" do
-    test "fare description for one way CR is for commuter rail only" do
-      fare = %Fare{duration: :single_trip, mode: :commuter_rail}
-      assert description(fare) == "Valid for Commuter Rail only."
+    test "fare description for one way CR is for commuter rail between the appropriate zones only" do
+      fare = %Fare{duration: :single_trip, mode: :commuter_rail, name: {:interzone, "3"}}
+      assert fare |> description |> iodata_to_binary == "Valid for travel on Commuter Rail between 3 zones outside of Zone 1A only."
     end
 
-    test "fare description for CR round trip is for commuter rail only" do
-      fare = %Fare{duration: :round_trip, mode: :commuter_rail}
-      assert description(fare) == "Valid for Commuter Rail only."
+    test "fare description for CR round trip is for commuter rail between the appropriate zones only" do
+      fare = %Fare{duration: :round_trip, mode: :commuter_rail, name: {:interzone, "3"}}
+      assert fare |> description |> iodata_to_binary == "Valid for travel on Commuter Rail between 3 zones outside of Zone 1A only."
     end
 
     test "fare description for month is describes the modes it can be used on" do
