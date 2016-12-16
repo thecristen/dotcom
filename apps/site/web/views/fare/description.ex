@@ -20,12 +20,19 @@ defmodule Site.FareView.Description do
      valid_commuter_zones(name),
      " as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."]
   end
-  def description(%Fare{mode: :ferry, duration: duration} = fare, %{origin: origin, destination: destination}) when duration in [:round_trip, :single_trip, :day, :week] do
+  def description(%Fare{mode: :ferry, duration: duration}, %{origin: origin, destination: destination}) when duration in [:round_trip, :single_trip, :day, :week] do
     [
       "Valid between ",
       origin.name,
       " and ",
       destination.name,
+      " only."
+    ]
+  end
+  def description(%Fare{mode: :ferry, duration: duration} = fare, _assigns) when duration in [:round_trip, :single_trip, :day, :week] do
+    [
+      "Valid for the ",
+      Fares.Format.name(fare),
       " only."
     ]
   end

@@ -1,7 +1,7 @@
 <% base_fare = List.first(@fares) %>
 <div class="fares-box-column">
   <div>
-    <h3 class="fare-name"><%= format_name(base_fare, @conn.assigns.origin, @conn.assigns.destination)%></h3>
+    <h3 class="fare-name"><%= format_name(base_fare, @conn.assigns) %></h3>
     <%# fare callout is one line so that it can collapse when empty %>
     <% callout_description = callout_description(base_fare) %>
     <%= if callout_description != "" do %>

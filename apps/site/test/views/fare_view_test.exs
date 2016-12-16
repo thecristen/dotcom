@@ -8,7 +8,7 @@ defmodule Site.FareViewTest do
 
   property :description do
     for_all fare in elements(Fares.Repo.all()) do
-      result = description(fare)
+      result = description(fare, %{})
       is_list(result) || is_binary(result)
     end
   end
