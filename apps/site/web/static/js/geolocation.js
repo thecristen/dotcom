@@ -26,7 +26,7 @@ export function locationHandler($, $btn) {
   return (location) => {
     $btn.find('.loading-indicator').addClass('hidden-xs-up');
     const loc = window.location;
-    window.location.href = (encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}#transit-input`));
+    window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}#transit-input`));
   };
 }
 
