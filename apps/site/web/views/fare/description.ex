@@ -2,7 +2,7 @@ defmodule Site.FareView.Description do
   alias Fares.Fare
   import AndJoin
 
-  @spec description(Fare.t) :: String.t | iolist
+  @spec description(Fare.t, map()) :: String.t | iolist
   def description(%Fare{mode: :commuter_rail, duration: :single_trip, name: name}, _assigns) do
     ["Valid for travel on Commuter Rail ", valid_commuter_zones(name), " only."]
   end
