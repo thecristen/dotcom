@@ -3,11 +3,11 @@ defmodule Site.FareView.Description do
   import AndJoin
 
   @spec description(Fare.t) :: String.t | iolist
-  def description(%Fare{mode: :commuter_rail, duration: :single_trip}) do
-    "Valid for Commuter Rail only."
+  def description(%Fare{mode: :commuter_rail, duration: :single_trip, name: name}) do
+    ["Valid for travel on Commuter Rail ", valid_commuter_zones(name), " only."]
   end
-  def description(%Fare{mode: :commuter_rail, duration: :round_trip}) do
-    "Valid for Commuter Rail only."
+  def description(%Fare{mode: :commuter_rail, duration: :round_trip, name: name}) do
+    ["Valid for travel on Commuter Rail ", valid_commuter_zones(name), " only."]
   end
   def description(%Fare{mode: :commuter_rail, duration: :month, media: [:mticket], name: name}) do
     ["Valid for one calendar month of travel on the commuter rail ",
