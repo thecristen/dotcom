@@ -8,7 +8,7 @@ defmodule Site.FareViewTest do
 
   property :description do
     for_all fare in elements(Fares.Repo.all()) do
-      result = description(fare)
+      result = description(fare, %{})
       is_list(result) || is_binary(result)
     end
   end
@@ -88,6 +88,20 @@ defmodule Site.FareViewTest do
       descriptions = reduced_image(:student)
                      |> Enum.map(&(elem(&1, 0)))
       assert descriptions == ["Back of Student CharlieCard", "Front of Student CharlieCard"]
+    end
+  end
+
+  describe "format_name/2" do
+    test "uses ferry origin and destination" do
+      origin = %Schedules.Stop{name: "North"}
+      dest = %Schedules.Stop{name: "South"}
+      tag = format_name(%Fare{mode: :ferry, duration: :week}, %{origin: origin, destination: dest})
+      assert safe_to_string(tag) =~ "North"
+      assert safe_to_string(tag) =~ "South"
+    end
+    test "Non ferry mode uses full name" do
+      fare = %Fare{mode: :bus, duration: :week, name: "local_bus"}
+      assert format_name(fare, %{}) == Fares.Format.full_name(fare)
     end
   end
 

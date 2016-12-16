@@ -1,7 +1,7 @@
 <% base_fare = List.first(@fares) %>
 <div class="fares-box-column">
   <div>
-    <h2 class="fare-name"><%= Fares.Format.full_name(base_fare) %></h2>
+    <h3 class="fare-name"><%= format_name(base_fare, @conn.assigns) %></h3>
     <%# fare callout is one line so that it can collapse when empty %>
     <% callout_description = callout_description(base_fare) %>
     <%= if callout_description != "" do %>
@@ -14,7 +14,7 @@
       <p class="fare-mode-row">
         <strong><%= Fares.Format.media(fare) %></strong>
         <span class="fare-price"><%= Fares.Format.price(fare) %></span>
-        <div class="fares-ticket-description"><%= description(fare) %></div>
+        <div class="fares-ticket-description"><%= description(fare, @conn.assigns) %></div>
       </p>
     <% end %>
   </div>
