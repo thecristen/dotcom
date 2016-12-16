@@ -3,68 +3,127 @@
     <div class="m-b-1">
       <h1>Payment Methods</h1>
     </div>
-    <div class="row">
-      <div class="col-xs-12 col-md-6 payment-method">
-        <h2>CharlieCard</h2>
-        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %></span></p>
-        <p>
-          The CharlieCard is a reusable, durable card that can be used for the Bus and Subway. In order to use it to pay your fare, you will need to get a blank CharlieCard from an MBTA agent or a retail sales location and load value onto it.
-        </p>
-        <p>
-          <%= link to: fare_path(@conn, :show, "charlie_card") do %>
-            Learn more about the CharlieCard <%= fa "arrow-right" %>
-          <% end %>
-        </p>
+    <div class="payment-method">
+      <h2>CharlieCard</h2>
+      <p>
+        <strong>Use it on:</strong> 
+        Bus and Subway <%= fare_mode_icons([:bus, :subway])%>
+      </p>
+      <div class="row p-b-1">
+        <div class="col-sm-6 col-xs-12">
+          <img src=<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%> alt="The reverse side of a CharlieCard" class="img-fluid payment-image" />
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <img src=<%= static_url(@conn, "/images/charlie-card.jpg")%> alt="CharlieCard" class="img-fluid payment-image" />
+        </div>
       </div>
-      <div class="col-xs-12 col-md-6 payment-method">
-        <h2>CharlieTicket</h2>
-        <p class="payment-usage">Use it on: Subway and Bus  <span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %></span></p>
-        <p>
-          CharlieTickets are paper tickets that are dispensed from fare vending machines and on-board fare-boxes, where you can also add value to a CharlieTicket. These tickets come with a surcharge if you are purchasing Stored Value.
-        </p>
-      </div>
+      <p>
+        CharlieCards are durable, plastic cards that may be used to pay fares on Bus and Subway. 
+        You can load any amount of money for One Way fares and/or store any pass (1-Day, 7-Day, Monthly) on them. 
+        CharlieCards are available at limited locations, so you will need to find a convenient CharlieCard location 
+        to pick up yours, free of charge.
+      </p>
+      <p>
+        <strong>Tip:</strong> CharlieCards have many benefits vs. CharlieTickets such as:
+        <ul>
+          <li>Durability</li>
+          <li>Reduced One Way fares</li>
+          <li>Ability to reload online and at fate vending machines</li>
+          <li>Easy tap-to-enter-gate system</li>
+        </ul>
+      </p>
+      <p>
+        <%= link to: fare_path(@conn, :show, :charlie_card) do %>
+          Learn more about the <span class="no-warp">CharlieCard <%= fa "arrow-right" %></span>
+        <% end %>
+      </p>
     </div>
-    <div class="row">
-      <div class="col-xs-12 col-md-6 payment-method">
-        <h2>mTicket App</h2>
-        <p class="payment-usage">
-          Use it on:
-          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry, class: "icon-small"}) %></span>
-        </p>
-        <p>
-          Commuter Rail and Ferry riders can easily purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Push “activate” right before boarding and show your mTicket to the conductor upon request. Available on the iPhone App Store and Google Play.
-        </p>
+
+    <div class="payment-method">
+      <h2>CharlieTicket</h2>
+      <p>
+        <strong>Use it on:</strong>
+        All Modes <%= fare_mode_icons([:commuter_rail, :bus, :subway, :ferry])%>
+      </p>
+      <p>
+        CharlieTickets are paper tickets that may be used on all modes of transportation.
+        You can get a CharlieTicket from fare vending machines, select retail locations, and on-board most modes of transportation.
+      </p>
+      <h4>Using CharlieTickets on the Bus and Subway</h4>
+      <div class="row m-t-g">
+        <div class="col-sm-6 col-xs-12">
+        <img src=<%= static_url(@conn, "/images/charlie-ticket.jpg") %> alt="CharlieTicket with Stored Value" class="img-fluid payment-image" />
+        <p class="small ticket-description">CharlieTicket with Stored Value</p>
+        </div>
       </div>
-      <div class="col-xs-12 col-md-6 payment-method">
-        <h2>Ticket</h2>
-        <p class="payment-usage">
-          Use it on:
-          <br class="hidden-md-up" />Commuter Rail and Ferry<span class="payment-method-modes"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %> <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry, class: "icon-small"}) %></span>
-        </p>
-        <p>
-          Commuter Rail and Ferry riders can purchase tickets for One-Way, Round Trip, and Monthly Passes. These tickets are only valid for the Commuter Rail fare zone or Ferry route they were purchased for. They cannot store additional value.
-        </p>
+      <p>
+        You may store any amount of money for One Way fares or purchase a pass (1-Day, 7-Day, Monthly) on a CharlieTicket for use on Bus and Subway.
+      </p>
+      <p class="charlie-ticket-method">
+        <strong>Tip:</strong>
+        One Way fares are more expensive when you pay with a CharlieTicket than they are when paying with a CharlieCard. 
+        However, CharlieTickets are more convenient to get, as they are only available at select CharlieCard locations.
+      </p>
+      <h4>Using CharlieTickets on the Commuter Rail and Ferry</h4>
+      <div class="row m-t-1">
+        <div class="col-sm-6 col-xs-12">
+          <img src=<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %> alt="Zone 1 One Way Pass on a CharlieTicket" class="img-fluid payment-image" />
+          <p class="small ticket-description">Zone 1 One Way Pass on a CharlieTicket</p>
+        </div>
       </div>
+      <p>
+        For Commuter Rail and Ferry, you may store a pass (One Way, Round Trip, Monthly) on a CharlieTicket. 
+        The money you put on a CharlieTicket must represent the exact value of one of the passes listed above; 
+        you may not store any amount of money to be used for multiple One Way trips. 
+        Monthly passes for Commuter Rail and Ferry on a CharlieTicket are also valid for use on Bus and Subway.
+      </p>
     </div>
-    <div class="row">
-      <div class="col-xs-12 col-md-6 payment-method">
-        <h2>Cash On-Board</h2>
-        <p class="payment-usage">
-          Use it on: All Modes
-          <span class="payment-method-modes">
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %>
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %>
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry, class: "icon-small"}) %>
-          </span>
-        </p>
-        <p>
-          Each mode accepts cash on-board, however certain restrictions apply such as limited transfers on Bus and Subway and surcharges on the Commuter Rail.
-        </p>
-        <p class="fare-callout-box">
-          <strong>Note:</strong> When using the Subway, cash is only accepted on-board at above-ground stops on the Green Line.
-        </p>
-      </div>
+
+    <div class="payment-method">
+      <h2>mTicket App</h2>
+      <p>
+        <strong>Use it on:</strong>
+        Commuter Rail and Ferry <%= fare_mode_icons([:commuter_rail, :ferry]) %>
+      </p>
+      <img src=<%= static_url(@conn, "/images/mticket-app.png") %> class="img-fluid"/>
+      <p class=m-t-1>
+        Commuter Rail and Ferry riders can easily purchase any pass (One Way, Round Trip, 10-Ride, or Monthly) through the mTicket app.
+        Push “activate” right before boarding and show your mTicket to the conductor upon request.
+      </p>
+      <p>
+        <strong>Tip:</strong>
+        This is a very convenient option for smartphone owners and eliminates the risk of misplacing your physical pass.
+        Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket.
+        However, passes purchased through mTicket app are not valid for use on Bus and Subway like they are on a CharlieTicket. 
+      </p>
+      <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
+        <span class="sr-only">Download on the app store</span>
+        <%= svg "download_on_the_app_store.svg" %>
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
+        <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
+      </a>
     </div>
-  </div>
+
+    <div class="payment-method">
+      <h2>Cash On-Board</h2>
+      <p>
+        <strong>Use it on:</strong>
+        All Modes <%= fare_mode_icons([:commuter_rail, :bus, :subway, :ferry])%>
+      </p>
+      <p>
+        Each mode accepts cash on-board; however, certain restrictions apply such as limited transfers* 
+        on Bus and Subway and a $3.00 fee added onto your regular fare on Commuter Rail if you board the train at a station with a fare vending machine.
+        Round Trip Passes purchased on-board Commuter Rail will be valid until the end of service that same day.
+      </p>
+      <p class="fare-callout-box">
+        <strong>Note:</strong>
+        For underground Subway stops, you will buy your fare and load it onto a CharlieCard or CharlieTicket at the station’s fare vending machines.
+        However, most above-ground Green Line stops do not have fare vending machines.
+        At these stops, you may use cash to pay your fare on-board if you do not have a CharlieCard or CharlieTicket with money or a pass loaded onto it.
+      </p>
+      <p>
+        *Visit the <%= link "Bus and Subway fares page", to: fare_path(@conn, :show, :bus_subway) %> to view transfer limitations
+      </p>
+    </div>
 </div>

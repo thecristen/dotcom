@@ -152,7 +152,7 @@ a {
 
 .fare-callout-box {
   background-color: $gray-lightest;
-  padding: .5rem;
+  padding: .75rem;
 
   &:empty {
     display: none;
@@ -251,14 +251,14 @@ a {
   display: block;
   padding: .75em .5em;
 
-  .charlie-card-truncate {
-    @include truncate();
-  }
-
   @include media-breakpoint-up(md) {
     &:last-child {
       border-bottom: 1px solid $gray-lightest;
     }
+  }
+
+  .charlie-card-truncate {
+    @include truncate();
   }
 }
 
@@ -305,36 +305,45 @@ a {
   float: right;
 }
 
+.payment-method-modes {
+  margin-left: .5rem;
+
+  @include media-breakpoint-down(xs) {
+    margin: auto;
+  }
+
+  .mbta-custom-icon {
+    margin-right: .0375rem;
+  }
+
+}
+
 .payment-method {
-  margin-bottom: .5rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: .75rem;
 
-  h2 {
-    margin: .5rem 0;
+  .payment-image {
+    height: auto;
+    width: 100%;
   }
 
-  img {
-    @include media-breakpoint-down(sm) {
-      height: 214px;
-      width: 296px;
-    }
-
-    @include media-breakpoint-up(md) {
-      height: 321px;
-      width: 443px;
-    }
+  .ticket-description {
+    margin-top: .5rem;
+    text-align: center;
   }
 
-  .payment-usage {
-    padding-bottom: .5rem;
+  &:last-child {
+    margin-bottom: 0;
   }
+}
 
-  .payment-method-modes {
-    margin-left: .5rem;
+.charlie-ticket-method {
+  margin-bottom: 1.5rem;
+}
 
-    .route-icon {
-      @include route-icon(1.5rem);
-      margin-right: .25rem;
-    }
+.payment-image {
+  @include media-breakpoint-down(sm) {
+    margin-top: 1rem;
   }
 }
 

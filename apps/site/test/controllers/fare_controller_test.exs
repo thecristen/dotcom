@@ -99,10 +99,9 @@ defmodule Site.FareControllerTest do
     test "renders payment info" do
       conn = get build_conn(), fare_path(Site.Endpoint, :show, "payment_methods")
       content = html_response(conn, 200)
-      assert content =~ "The CharlieCard is a reusable, durable card"
-      assert content =~ "CharlieTickets are paper tickets"
-      assert content =~ "purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app"
-      assert content =~ "Commuter Rail and Ferry riders can purchase tickets"
+      assert content =~ "CharlieCards are durable, plastic cards"
+      assert content =~ "CharlieTickets are more convenient"
+      assert content =~ "Commuter Rail and Ferry riders can easily purchase any pass"
       assert content =~ "Each mode accepts cash on-board"
     end
   end

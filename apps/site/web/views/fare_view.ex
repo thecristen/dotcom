@@ -77,6 +77,15 @@ defmodule Site.FareView do
     update_url(conn, fare_type: reduced_type)
   end
 
+  @doc "Returns the svg icons for the modes passed in"
+  @spec fare_mode_icons([:bus | :subway | :commuter_rail | :ferry]) :: Phoenix.HTML.Safe.t
+  def fare_mode_icons(modes) do
+    content_tag :span, class: "payment-method-modes no-wrap" do
+      for mode <- modes do
+        svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"})
+      end
+    end
+  end
   @doc "Returns image description and image path"
   @spec reduced_image(:student | :senior_disabled | nil) :: [{String.t, String.t}]
   def reduced_image(:student) do
