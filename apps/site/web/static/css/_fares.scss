@@ -86,7 +86,7 @@ a {
 .fares-box-column {
   //scss-lint:disable PlaceholderInExtend
   @extend .col-xs-12;
-  @extend .col-sm-6;
+  @extend .col-md-6;
 
   margin-bottom: 0;
 
@@ -94,7 +94,7 @@ a {
     padding-bottom: 1rem;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     &:nth-child(1) {
       padding-right: 1.5rem;
     }
@@ -128,13 +128,6 @@ a {
   margin-bottom: .75rem;
   padding: .5rem;
 
-  @include media-breakpoint-only(sm) {
-    font-size: .85rem;
-  }
-
-  @include media-breakpoint-only(xs) {
-    font-size: .85rem;
-  }
 }
 
 .adult-fares-tab {
@@ -275,7 +268,10 @@ a {
 }
 
 .fare-summary-header {
+  font-weight: bold;
   display: inline-block;
+  padding-top: 1.5rem;
+  padding-bottom: .75rem;
 
   .fares-mode-icon {
     margin-left: $space-12;
@@ -289,9 +285,6 @@ a {
   margin-bottom: 0;
   padding: .5rem;
 
-  @include media-breakpoint-down(xs) {
-    font-size: .85rem;
-  }
 
   &:last-child {
     margin-bottom: 1rem;

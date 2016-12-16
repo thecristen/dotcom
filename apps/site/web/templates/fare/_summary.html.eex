@@ -2,7 +2,7 @@
   <div class="row">
     <%= for summary <- chunk do %>
       <div class="fares-box-column">
-        <h3 class="fare-summary-header">
+        <span class="fare-summary-header">
           <%= summary.name %>
           <span class="fares-mode-icon">
             <span class="sr-only">Supported Modes:</span>
@@ -11,13 +11,15 @@
               <span class="sr-only"><%= mode_name(mode) %></span>
             <% end %>
           </span>
-        </h3>
-        <%= for {fare, price} <- summary.fares do %>
-          <div class="fare-summary-row">
-            <span class="fare-summary-name"><%= fare %></span>
-            <span class="fare-summary-price"><%= price %></span>
-          </div>
-        <% end %>
+        </span>
+        <div class="mode-summary-box">
+          <%= for {fare, price} <- summary.fares do %>
+            <div class="media-fare-row">
+              <span class="mode-summary-name"><%= fare %></span>
+              <span class="mode-summary-price"><%= price %></span>
+            </div>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>

@@ -17,12 +17,12 @@
         and your eligibility to make discounted transfers.
       </p>
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-5">
           <%= link to: fare_path(@conn, :show, :payment_methods) do %>
             Payment methods by <span class="no-wrap">mode <%= fa "arrow-right" %></span>
           <% end %>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <%= link to: how_to_pay_path(@conn, :index) do %>
             How to pay your <span class="no-wrap">fare <%= fa "arrow-right" %></span>
           <% end %>
@@ -44,7 +44,7 @@
       </p>
       <p><%= render "_summary.html", summary: @bus_subway %></p>
       <p><%= link to: fare_path(@conn, :show, :bus_subway) do %>
-        View All Bus and Subway Fares <span class="no-wrap"><%= fa "arrow-right" %></span>
+        View all Bus and Subway fares <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
     <div class="content-section">
@@ -58,7 +58,7 @@
       </p>
       <p><%= render "_summary.html", title: "Commuter Rail", summary: @commuter_rail %></p>
       <p><%= link to: fare_path(@conn, :show, :commuter_rail) do %>
-        Find your Commuter Rail Fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+        Find your Commuter Rail fare <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
     <div class="content-section">
@@ -71,7 +71,7 @@
       </p>
       <p><%= render "_summary.html", title: "Ferry", summary: @ferry %></p>
       <p><%= link to: fare_path(@conn, :show, :ferry) do %>
-        Find your Ferry Fare <span class="no-wrap"><%= fa "arrow-right" %></span>
+        Find your Ferry fare <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
     <div class="content-section">
@@ -111,7 +111,7 @@
       <% end %></p>
     </div>
     <div class="content-section">
-      <h2>Reduced Fare Elegibility</h2>
+      <h2>Reduced Fare Eligibility</h2>
       <p>Children age 11 and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced fares on all modes, depending on the type of fare they purchase. </p>
       <p><%= link to: fare_path(@conn, :show, :reduced) do %>
         Learn more about reduced fare <span class="no-wrap">eligibility <%= fa "arrow-right" %></span>
