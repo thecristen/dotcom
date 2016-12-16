@@ -18,7 +18,7 @@
       </p>
       <div class="row">
         <div class="col-sm-3">
-          <%= link to: fare_path(@conn, :show, "payment_methods") do %>
+          <%= link to: fare_path(@conn, :show, :payment_methods) do %>
             Payment methods by <span class="no-wrap">mode <%= fa "arrow-right" %></span>
           <% end %>
         </div>
