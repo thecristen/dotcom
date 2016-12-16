@@ -87,6 +87,10 @@
   display: none;
 }
 
+.geolocation-disabled .location-btn {
+  display: none;
+}
+
 // scss-lint:disable VendorPrefix
 @mixin set-breakpoint-columns($breakpoint, $column-count) {
   @include media-breakpoint-only($breakpoint) {

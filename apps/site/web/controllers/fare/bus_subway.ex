@@ -26,7 +26,7 @@ defmodule Site.FareController.BusSubway do
     [
       %Filter{
         id: "single",
-        name: "Single Ride",
+        name: "One Way",
         fares: single_rides
       },
       %Filter{

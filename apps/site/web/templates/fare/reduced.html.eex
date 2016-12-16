@@ -20,7 +20,7 @@
     </div>
 
     <div class="col-xs-12">
-      <h3>Persons with Disabilities</h3>
+      <h3 id="reduced-disability">Persons with Disabilities</h3>
       <p>
         Persons with disabilities may receive reduced fares on MBTA services with a Transport Access Pass (TAP). Transport Access Passes can be requested with a completed TAP application at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>).
       </p>
