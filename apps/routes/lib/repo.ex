@@ -80,9 +80,10 @@ defmodule Routes.Repo do
     end
   end
 
+  @spec do_headsigns(String.t, non_neg_integer) :: any
   def do_headsigns(route_id, direction_id) do
     route_id
-    |> V3Api.Trips.by_route([{"fields[trip]", "headsign"}, {:direction_id, direction_id}])
+    |> V3Api.Trips.by_route("fields[trip]": "headsign", direction_id: direction_id)
     |> (fn %{data: data} -> data end).()
     |> Enum.filter_map(
       fn %{attributes: attributes} -> attributes["headsign"] != "" end,

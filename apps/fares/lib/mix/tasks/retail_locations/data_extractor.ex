@@ -69,8 +69,8 @@ defmodule Fares.RetailLocations.Extractor do
   @doc """
   Extracts fare sales location data from /priv/content.csv and writes it to a new file at the path provided.
   """
-  @spec start(map, binary) :: :ok | {:error, any}
-  def start(%{ bypass: api_func, input_file: input_file, output_file: output_file }, {parent, _}) do
+  @spec start(map, {pid, any}) :: :ok | {:error, any}
+  def start(%{bypass: api_func, input_file: input_file, output_file: output_file}, {parent, _}) do
     log "Extracting fare location data from #{input_file} to #{output_file}..."
     :ok = input_file
     |> File.stream!
