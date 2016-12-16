@@ -286,16 +286,16 @@ a {
 
 .fare-summary-row {
   border: 1px solid $gray-lightest;
-  padding: .5rem;
   margin-bottom: 0;
+  padding: .5rem;
 
   @include media-breakpoint-down(xs) {
     font-size: .85rem;
   }
 
   &:last-child {
-    margin-top: -1px;
     margin-bottom: 1rem;
+    margin-top: -1px;
   }
 }
 
