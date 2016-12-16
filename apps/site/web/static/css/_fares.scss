@@ -66,13 +66,14 @@ a {
 .fares-row {
   border-top: 1px solid $gray-lightest;
 
+  @include media-breakpoint-down(sm) {
+    font-size: .85rem;
+  }
+
   &:first-child {
     border-top: 0;
   }
 
-  @include media-breakpoint-down(sm) {
-    font-size: .85rem;
-  }
 }
 
 .fare-name {

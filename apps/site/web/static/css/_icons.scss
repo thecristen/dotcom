@@ -14,6 +14,10 @@
 
   &.icon-with-circle {
     margin-right: .5rem;
+
+    &.icon-small {
+      margin-right: .375rem;
+    }
   }
 
   &.icon-small {
@@ -21,10 +25,6 @@
       height: 1.5rem;
       width: 1.5rem;
     }
-  }
-
-  &.icon-with-circle.icon-small {
-    margin-right: .375rem;
   }
 
   &.icon-large {
