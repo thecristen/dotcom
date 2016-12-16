@@ -97,6 +97,9 @@ defmodule Site.FareView do
   def reduced_image(_) do
     []
   end
+
+  @doc "Display name for given fare"
+  @spec format_name(Fare.t, map()) :: Phoenix.HTML.Safe.t
   def format_name(%Fare{mode: :ferry} = base_fare, %{origin: origin, destination: destination}) do
     content_tag :span do
       [
