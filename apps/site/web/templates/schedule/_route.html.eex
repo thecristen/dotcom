@@ -1,7 +1,7 @@
 <div class="schedule-route-name">
   <div class="schedule-route-name-container">
     <h1>
-      <span class="<%= @route.id |> String.downcase %>">
+      <span class="<%= @route.id |> String.downcase |> String.replace(~r/-.*/, "")%>">
         <%= svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(@route)}) %>
       </span>
       <%= route_header_text(@route) %>
