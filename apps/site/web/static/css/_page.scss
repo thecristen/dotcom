@@ -81,17 +81,13 @@ $page-section-padding-xxl: 0;
     padding-top: $page-section-padding-xxl;}
 }
 
-.pre-container-header {
+.pre-container-tnm {
   color: $white;
   padding-top: 1rem;
+}
 
-  .pre-container-welcome {
-    border-bottom: 0;
-    margin-bottom: 0;
-    padding-bottom: .5rem;
-    text-align: center;
-  }
 
+.pre-container-header {
   .route-type-icons {
     margin-bottom: 3rem;
   }
@@ -113,8 +109,18 @@ $page-section-padding-xxl: 0;
   p {
     text-align: center;
   }
-
 }
+
+.pre-container-welcome {
+  color: $white;
+  padding-top: 3rem;
+
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: .5rem;
+  text-align: center;
+}
+
 
 .pre-container-wrapper {
   background: url('/images/transit-near-me-bkg.png'), linear-gradient(to bottom right, $brand-primary-dark, $gradient-color-light);
