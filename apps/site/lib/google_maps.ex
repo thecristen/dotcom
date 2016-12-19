@@ -7,6 +7,8 @@ defmodule GoogleMaps do
 
   @host "https://maps.googleapis.com"
   @host_uri URI.parse(@host)
+  @web "https://maps.google.com"
+  @web_uri URI.parse(@web)
 
   @doc """
   Given a path, returns a full URL with a signature.
@@ -26,6 +28,16 @@ defmodule GoogleMaps do
     path
     |> URI.parse
     |> do_signed_url(opts[:client_id], opts[:signing_key], opts)
+  end
+
+  @doc """
+  Returns the url to view directions to a location on https://maps.google.com.
+  """
+  @spec direction_map_url({float, float}, {float, float}) :: String.t
+  def direction_map_url({origin_lat, origin_lng}, {dest_lat, dest_lng}) do
+    path = Path.join(["/", "maps", "dir", URI.encode("#{origin_lat},#{origin_lng}"), URI.encode("#{dest_lat},#{dest_lng}")])
+    %{@web_uri | path: path}
+    |> prepend_host(@web)
   end
 
   def default_options do
@@ -81,8 +93,8 @@ defmodule GoogleMaps do
     %{uri | query: "#{query}&#{key}=#{value}"}
   end
 
-  defp prepend_host(uri) do
-    @host_uri
+  defp prepend_host(uri, host \\ @host_uri) do
+    host
     |> URI.merge(uri)
     |> URI.to_string
   end

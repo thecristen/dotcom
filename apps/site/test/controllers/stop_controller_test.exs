@@ -56,6 +56,22 @@ defmodule Site.StopControllerTest do
     assert conn.assigns.terminal_station == ""
   end
 
+  test "assigns nearby fare retail locations", %{conn: conn} do
+    assert %Plug.Conn{assigns: %{fare_sales_locations: locations}} = get conn, stop_path(conn, :show, "place-sstat")
+    assert is_list(locations)
+    assert length(locations) == 3
+    assert {%Fares.RetailLocations.Location{agent: "Patriot News"}, _} = List.first(locations)
+  end
+
+  test "renders a google maps link for every fare retail location", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat", %{"tab" => "info"})
+    assert %Plug.Conn{assigns: %{fare_sales_locations: locations, stop: %{latitude: stop_lat, longitude: stop_lng}}} = conn
+    for location <- locations do
+      assert {%{latitude: retail_lat, longitude: retail_lng}, _distance} = location
+      assert html_response(conn, 200) =~ "https://maps.google.com/maps/dir/#{stop_lat},#{stop_lng}/#{retail_lat},#{retail_lng}"
+    end
+  end
+
   describe "access_alerts/2" do
     alias Alerts.Alert
     alias Alerts.InformedEntity, as: IE

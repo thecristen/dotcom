@@ -27,6 +27,7 @@ defmodule Site.StopController do
     |> assign(:terminal_station, terminal_station(stop))
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:stop_schedule, stop_schedule(id, conn.assigns.date))
+    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
     |> assign(:stop_predictions, stop_predictions(id))
     |> render("show.html", stop: stop)
   end

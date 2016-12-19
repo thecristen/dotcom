@@ -3,6 +3,7 @@ defmodule Site.StopView do
 
   alias Fares.Summary
   alias Stops.Stop
+  alias Fares.RetailLocations.Location
   alias Schedules.Schedule
   alias Schedules.Trip
   alias Routes.Route
@@ -427,5 +428,18 @@ defmodule Site.StopView do
       :predicted -> acc
       _ -> {Map.put(seen, trip.id, :scheduled), [departure | final]}
     end
+  end
+
+  @spec clean_city(String.t) :: String.t
+  defp clean_city(city) do
+    city = city |> String.split("/") |> List.first
+    "#{city}, MA"
+  end
+
+  @doc "Returns the url for a map showing directions from a stop to a retail location."
+  @spec retail_location_directions_link(Location.t, Stop.t) :: Phoenix.HTML.Safe.t
+  def retail_location_directions_link(%Location{latitude: retail_lat, longitude: retail_lng}, %Stop{latitude: stop_lat, longitude: stop_lng}) do
+    href = GoogleMaps.direction_map_url({stop_lat, stop_lng}, {retail_lat, retail_lng})
+    content_tag :a, ["View on map ", fa("arrow-right")], href: href, class: "no-wrap"
   end
 end

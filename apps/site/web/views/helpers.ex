@@ -214,4 +214,19 @@ defmodule Site.ViewHelpers do
   def strip_protocol("http://" <> url), do: url
   def strip_protocol("https://" <> url), do: url
   def strip_protocol(url), do: url
+
+  @spec round_distance(float) :: String.t
+  def round_distance(distance) when distance < 0.1 do
+    distance
+    |> Kernel.*(5820)
+    |> round()
+    |> :erlang.integer_to_binary()
+    |> Kernel.<>(" ft")
+  end
+  def round_distance(distance) do
+    distance
+    |> :erlang.float_to_binary(decimals: 1)
+    |> Kernel.<>(" mi")
+  end
+
 end

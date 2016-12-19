@@ -112,6 +112,7 @@ a {
 .station-info-section {
   border-bottom: 1px solid $gray-lightest;
   margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .station-fare-subheader {
@@ -151,6 +152,33 @@ a {
   @include media-breakpoint-up(lg) {
     padding-right: 1.5rem;
   }
+}
+
+.fare-sales-location {
+  padding: 0;
+
+  &:nth-child(2n+1) {
+    padding: 0 2rem;
+
+    @include media-breakpoint-down(sm) {
+      padding: 1rem 0;
+    }
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.fare-agent-name-distance {
+  p {
+    display: inline-block;
+  }
+}
+
+.fare-agent-distance {
+  color: $gray-light;
+  text-align: right;
 }
 
 .station-schedule-icon {

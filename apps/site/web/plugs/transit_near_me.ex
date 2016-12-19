@@ -75,7 +75,7 @@ defmodule Site.Plugs.TransitNearMe do
     stops
     |> Enum.map(fn stop ->
       %{stop: stop,
-        distance: get_distance(stop, location),
+        distance: Distance.haversine(stop, location),
         routes: stop.id |> routes_by_stop_fn.() |> get_route_groups}
     end)
   end
@@ -85,27 +85,6 @@ defmodule Site.Plugs.TransitNearMe do
     location
     |> get_stops_nearby(options.nearby_fn)
     |> stops_with_routes(location, options.routes_by_stop_fn)
-  end
-
-  @spec get_distance(Stop.t, Geocode.t) :: String.t
-  defp get_distance(stop, location) do
-    stop
-    |> Distance.haversine(location)
-    |> round_distance
-  end
-
-  @spec round_distance(float) :: String.t
-  defp round_distance(distance) when distance < 0.1 do
-    distance
-    |> Kernel.*(5820)
-    |> round()
-    |> :erlang.integer_to_binary()
-    |> Kernel.<>(" ft")
-  end
-  defp round_distance(distance) do
-    distance
-    |> :erlang.float_to_binary(decimals: 1)
-    |> Kernel.<>(" mi")
   end
 
   @spec get_route_groups([Route.t]) :: [Routes.Group.t]

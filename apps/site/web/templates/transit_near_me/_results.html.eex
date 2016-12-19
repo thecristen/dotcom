@@ -6,7 +6,7 @@
           <p class="col-xs-8">
           <%= stop.name %>
           </p>
-          <p class="distance col-xs-4"><%= distance %></p>
+          <p class="distance col-xs-4"><%= round_distance(distance) %></p>
         </div>
         <div>
           <%= for {type, routes} <- routes do %>

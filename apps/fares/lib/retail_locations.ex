@@ -1,4 +1,5 @@
 defmodule Fares.RetailLocations do
+  alias Stops.Stop
   defmodule Location do
     defstruct [:agent,
                :city,
@@ -19,4 +20,24 @@ defmodule Fares.RetailLocations do
   end
 
   @locations __MODULE__.Data.get
+
+  @doc """
+    Takes a latitude and longitude and returns the three closest retail locations for purchasing fares.
+  """
+  @spec get_nearby(Stop.t) :: [Location.t]
+  def get_nearby(stop) do
+    @locations
+    |> Enum.map(&{&1, get_distance(&1, stop)})
+    |> Enum.sort(&sort_by_closest/2)
+    |> Enum.take(3)
+  end
+
+  @spec get_distance(Location.t, Stop.t) :: float
+  defp get_distance(%Location{latitude: lat, longitude: lng}, stop) do
+    %{latitude: lat, longitude: lng}
+    |> Stops.Distance.haversine(stop)
+  end
+
+  @spec sort_by_closest({Location.t, float}, {Location.t, float}) :: boolean
+  defp sort_by_closest({_, prev}, {_,next}), do: prev <= next
 end
