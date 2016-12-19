@@ -162,4 +162,17 @@ defmodule Site.ScheduleView do
     |> Timex.beginning_of_month
     |> Timex.shift(months: delta)
   end
+
+  @doc """
+  Class for the previous month link in the date picker. If the given date is during the current month
+  or before it is disabled; otherwise it's left as is.
+  """
+  @spec previous_month_class(Date.t) :: String.t
+  def previous_month_class(date) do
+    if Util.today.month == date.month or Timex.before?(date, Util.today) do
+      " disabled"
+    else
+      ""
+    end
+  end
 end

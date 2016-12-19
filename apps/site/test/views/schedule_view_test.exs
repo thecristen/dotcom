@@ -263,4 +263,18 @@ defmodule Site.ScheduleViewTest do
       assert shifted_date.year == 2017
     end
   end
+
+  describe "previous_month_class/1" do
+    test "disables the link if the given date is in the current month" do
+      assert ScheduleView.previous_month_class(Util.today) == " disabled"
+    end
+
+    test "disables the link if the given date is in a previous month" do
+      assert Util.today |> Timex.shift(months: -2) |> ScheduleView.previous_month_class == " disabled"
+    end
+
+    test "leaves the link enabled if the given date is in a future month" do
+      assert Util.today |> Timex.shift(months: 2) |> ScheduleView.previous_month_class == ""
+    end
+  end
 end

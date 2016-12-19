@@ -19,6 +19,11 @@
   word-break: break-word;
 }
 
+.disabled {
+  opacity: .4;
+  pointer-events: none;
+}
+
 @mixin truncate($margin-right: 1em, $fallback-width: 95%) {
   display: inline-block;
   overflow: hidden;
