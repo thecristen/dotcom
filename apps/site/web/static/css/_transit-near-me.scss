@@ -36,6 +36,7 @@
     display: block;
     padding: $space-2 0;
     text-align: right;
+    margin-bottom: .1875rem;
   }
 
   input {
@@ -161,14 +162,3 @@
   }
 }
 
-.transit-near-me-wrapper {
-  background: url('/images/transit-near-me-bkg.png'), linear-gradient(to bottom right, $brand-primary-dark, $gradient-color-light);
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 100%;
-}
-
-.tnm-front-door-header {
-  color: $white;
-  padding-top: 1rem;
-}

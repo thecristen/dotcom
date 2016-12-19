@@ -10,7 +10,7 @@ defmodule Site.PageController do
     |> async_assign(:grouped_routes, &grouped_routes/0)
     |> async_assign(:news, &news/0)
     |> await_assign_all
-    |> assign(:pre_container_template, "_transit_near_me.html")
+    |> assign(:pre_container_template, "_pre_container.html")
     |> render("index.html")
   end
 
