@@ -2,7 +2,7 @@
 <p>
   Schedules For <%= Timex.format!(@date, "%b %e", :strftime)%> -
   <%= if @date_select do %>
-    <%= link  to: update_schedule_url(@conn, date_select: false) do %>
+    <%= link to: update_schedule_url(@conn, date_select: false) do %>
       Change date <%= fa "angle-up" %>
     <% end %>
   <%= else %>
@@ -25,8 +25,8 @@
               <p><%= Timex.format!(holiday.date, "%a, %b %e", :strftime)%></p>
             </li>
           <% end %>
-        <% end %>
         </ul>
+      <% end %>
       <div class="m-t-g"><div class="graph-legend weekend"></div><span>Weekends</span></div>
       <div class="m-t-g"><div class="graph-legend holiday"></div><span>Holidays</span></div>
     </div>
@@ -36,7 +36,7 @@
           <tr>
             <td colspan=7 class="month">
               <strong>
-                <%= link(to: update_schedule_url(@conn, date: Date.to_string(decrement_month(@date))), class: "p-x-g") do %>
+                <%= link(to: update_schedule_url(@conn, date: Date.to_string(decrement_month(@date))), class: "p-x-g#{previous_month_class(@date)}") do %>
                   <%= fa "chevron-circle-left"%>
                 <% end %>
                 <%= Timex.month_name(@date.month)%>
