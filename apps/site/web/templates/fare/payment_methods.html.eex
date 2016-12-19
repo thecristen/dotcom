@@ -5,7 +5,7 @@
     </div>
     <div class="payment-method">
       <h2>CharlieCard</h2>
-      <p class="m-b-g">
+      <p class="charliecard-uses">
         <strong>Use it on:</strong> 
         Bus and Subway <%= fare_mode_icons([:bus, :subway])%>
       </p>
