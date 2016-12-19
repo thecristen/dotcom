@@ -2,14 +2,14 @@
   <div class="pre-container-wrapper">
     <div class="container">
       <div class="pre-container-header">
-      <h1 class="pre-container-welcome">Welcome to the MBTA</h1>
-      <p class="route-type-icons" aria-hidden="true">
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) %>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry}) %>
-      </p>
-    </div>
+        <h1 class="pre-container-welcome">Welcome to the MBTA</h1>
+        <p class="route-type-icons" aria-hidden="true">
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) %>
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry}) %>
+        </p>
+      </div>
       <h4 class="pre-container-tnm">Find Transit Near You</h4>
       <div class="transit-near-me">
         <div class="transit-near-me-form">
