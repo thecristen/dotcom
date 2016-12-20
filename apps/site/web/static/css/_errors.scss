@@ -28,6 +28,6 @@
 
 .error-message {
   background-color: $form-error-message;
-  color: #4d1e1e;
+  color: $error-text;
   padding: .375rem .75rem;
 }
