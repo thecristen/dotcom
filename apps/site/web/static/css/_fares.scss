@@ -448,3 +448,9 @@ a {
 .reduced-image {
   width: 100%;
 }
+
+.reduced-tap-links {
+  @include media-breakpoint-up(lg) {
+    padding-left: 1.5rem;
+  }
+}
