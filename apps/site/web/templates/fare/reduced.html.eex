@@ -3,11 +3,12 @@
   <div class="page-block row">
     <div class="col-xs-12">
       <h1>Reduced Fare Eligibility</h1>
-      <hr />
     </div>
 
-    <div class="col-xs-12 fare-callout-box m-b-1">
-      <strong>Note:</strong> Children age 11 and under and persons who are blind or visually impaired ride all MBTA services for free.
+    <div class="col-xs-12 m-b-1">
+      <div class="fare-callout-box">
+        <strong>Note:</strong> Children age 11 and under and persons who are blind or visually impaired ride all MBTA services for free.
+      </div>
     </div>
 
     <div class="col-xs-12">
