@@ -8,7 +8,8 @@
         <div class="fares-tab-group">
           <%= for filter <- @filters do %>
             <% selected_class = if filter.id == @selected_filter.id, do: "fares-tab-selected", else: "" %>
-            <%= link filter.name, to: update_url(@conn, filter: filter.id), class: "fares-tab #{selected_class}" %>
+            <% stacking_class = if length(@filters) == 2, do: "side-by-side", else: "" %>
+            <%= link filter.name, to: update_url(@conn, filter: filter.id), class: "fares-tab #{stacking_class} #{selected_class}" %>
           <% end %>
         </div>
       </div>

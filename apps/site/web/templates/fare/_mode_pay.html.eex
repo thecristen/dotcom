@@ -1,0 +1,1 @@
+<%= render "_related_page_card.html", title: "How to Pay Your #{mode_name(@mode)} Fare", body: "Accepted payment methods, where to purchase, and paying your fare", href: how_to_pay_path(Site.Endpoint, :show, @mode) %>

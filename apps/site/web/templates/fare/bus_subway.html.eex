@@ -1,5 +1,5 @@
 <h1>Bus and Subway Fares</h1>
-  <p class="p-y-1">
+  <p class="fares-info-lead">
     People aged 12 years or older who do not qualify for reduced fares will be charged the standard adult fare.
     If you are a student, senior, or someone with disabilities who qualifies for reduced fares, click on the correct category below to see applicable fares. People aged 11 and younger ride on MBTA services for free.
   </p>
@@ -44,4 +44,13 @@
       Single Ride tickets or Stored Value can be purchased using cash when on board the Bus, above-ground stops on the Green line, and Mattapan trolley on the Red line. Exact change is encouraged.
     </p>
   </div>
+</div>
+<h2>Related Pages</h2>
+<div class="row">
+  <%= render "_mode_pay.html", mode: :subway %>
+  <%= render "_mode_pay.html", mode: :bus %>
+</div>
+<div class="row">
+  <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
+  <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: "Online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups", href: "https://passprogram.mbta.com/" %>
 </div>
