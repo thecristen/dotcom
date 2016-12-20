@@ -196,6 +196,13 @@
       "delay": 100,
       "misMatchThreshold" : 0.1,
       "onReadyScript": "header.js"
+    },
+    {
+      "label": "Fares Payment Methods",
+      "url": "http://localhost:8082/fares/payment_methods",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold" : 0.1
     }
   ],
   "paths": {

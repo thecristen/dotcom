@@ -5,15 +5,15 @@
     </div>
     <div class="payment-method">
       <h2>CharlieCard</h2>
-      <p>
+      <p class="charliecard-uses">
         <strong>Use it on:</strong> 
         Bus and Subway <%= fare_mode_icons([:bus, :subway])%>
       </p>
       <div class="row p-b-1">
-        <div class="col-sm-6 col-xs-12">
+        <div class="col-sm-6 col-xs-12 payment-image-container">
           <img src=<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%> alt="The reverse side of a CharlieCard" class="img-fluid payment-image" />
         </div>
-        <div class="col-sm-6 col-xs-12">
+        <div class="col-sm-6 col-xs-12 payment-image-container">
           <img src=<%= static_url(@conn, "/images/charlie-card.jpg")%> alt="CharlieCard" class="img-fluid payment-image" />
         </div>
       </div>

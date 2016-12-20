@@ -348,9 +348,13 @@ a {
   margin-bottom: 1.5rem;
 }
 
-.payment-image {
-  @include media-breakpoint-down(sm) {
-    margin-top: 1rem;
+.payment-image-container {
+  @include media-breakpoint-only(xs) {
+    margin-top: 1.5rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 }
 
@@ -405,4 +409,8 @@ a {
   &:nth-of-type(2n) {
     margin-left: 2rem;
   }
+}
+
+.charliecard-uses {
+  margin-bottom: .75rem;
 }
