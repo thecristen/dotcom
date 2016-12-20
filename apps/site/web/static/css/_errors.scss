@@ -25,3 +25,9 @@
     margin-bottom: 3rem;
   }
 }
+
+.error-message {
+  background-color: $form-error-message;
+  color: #4d1e1e;
+  padding: .375rem .75rem;
+}

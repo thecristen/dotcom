@@ -6,7 +6,7 @@
       <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
       <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
     </button>
-    <%= text_input f, :address, value: @address, class: "transit-near-me-input", id: "place-input" %>
+    <%= text_input f, :address, value: @address, class: "transit-near-me-input", id: "place-input", required: true %>
     <button type="submit" class="btn btn-primary">GO</button>
     <div class="clear"></div>
   </div>

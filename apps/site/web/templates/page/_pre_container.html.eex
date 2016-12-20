@@ -16,6 +16,7 @@
           <%= render Site.TransitNearMeView, "_input.html", address: @address, conn: @conn %>
         </div>
       </div>
+      <div class="error-message"><%= get_flash(@conn, :info) %></div>
       <%= render Site.TransitNearMeView, "_results.html", class: "transit-near-me-white", stops_with_routes: @stops_with_routes, conn: @conn %>
     </div>
   </div>

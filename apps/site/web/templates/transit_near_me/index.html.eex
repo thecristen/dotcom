@@ -1,6 +1,6 @@
 <div class="transit-near-me-header">
   <h1>Find Transit Near You</h1>
-  <p><strong><%= get_flash(@conn, :info) %></strong></p>
+  <div class="error-message"><%= get_flash(@conn, :info) %></div>
   <p class="route-type-icons" aria-hidden="true">
     <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
     <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) %>

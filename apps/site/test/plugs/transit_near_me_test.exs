@@ -47,7 +47,6 @@ defmodule Site.Plugs.TransitNearMeTest do
 
       assert conn.assigns.stops_with_routes == []
       assert conn.assigns.address == ""
-      assert get_flash(conn)["info"] =~ "No address"
     end
 
     test "flashes message if no results are returned", %{conn: conn} do
@@ -142,19 +141,10 @@ defmodule Site.Plugs.TransitNearMeTest do
       assert get_flash(conn) == %{}
     end
 
-    test "shows message if there's no address", %{conn: conn} do
-      conn = conn
-      |> assign(:address, "")
-      |> bypass_through(Site.Router, :browser)
-      |> get("/")
-      |> flash_if_error
-
-      assert get_flash(conn)["info"] =~ "No address"
-    end
-
-    test "shows message if there's no stops_with_routes", %{conn: conn} do
+    test "shows message if there's no stops_with_routes and there is an addres", %{conn: conn} do
       conn = conn
       |> assign(:stops_with_routes, [])
+      |> assign(:address, "123 main st")
       |> bypass_through(Site.Router, :browser)
       |> get("/")
       |> flash_if_error
