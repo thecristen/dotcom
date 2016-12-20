@@ -130,7 +130,11 @@ defmodule Site.Plugs.TransitNearMe do
 
   @spec flash_if_error(Plug.Conn.t) :: Plug.Conn.t
   def flash_if_error(%Plug.Conn{assigns: %{stops_with_routes: [], address: address}} = conn) when address != "" do
-    put_flash(conn, :info, "There doesn't seem to be any stations found near the given address. Please try a different address to continue.")
+    message = Phoenix.HTML.Tag.content_tag(:div,
+      "There doesn't seem to be any stations found near the given address. Please try a different address to continue.",
+      class: "error-message")
+
+    put_flash(conn, :info, message)
   end
   def flash_if_error(conn), do: conn
 end
