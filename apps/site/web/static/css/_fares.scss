@@ -111,12 +111,14 @@ a {
     &:nth-child(1) {
       border-right: 1px solid $gray-lightest;
     }
+
     &:nth-child(2) {
       border-left: 1px solid $gray-lightest;
       left: -1px;
       position: relative;
     }
   }
+
   @include media-breakpoint-up(md) {
     padding: 1.5rem;
   }
@@ -338,11 +340,6 @@ a {
     width: 100%;
   }
 
-  .ticket-description {
-    margin-top: .5rem;
-    text-align: center;
-  }
-
   &:last-child {
     margin-bottom: 0;
   }
@@ -432,5 +429,28 @@ a {
 
   @include media-breakpoint-up(sm) {
     padding-bottom: 1rem;
+  }
+}
+
+.fares-reduced-section {
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.fare-image-description {
+  margin-top: .5rem;
+  text-align: center;
+}
+
+.reduced-image {
+  width: 100%;
+}
+
+.reduced-tap-links {
+  @include media-breakpoint-up(lg) {
+    padding-left: 1.5rem;
   }
 }
