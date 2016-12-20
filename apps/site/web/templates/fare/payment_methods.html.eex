@@ -53,7 +53,7 @@
       <div class="row m-t-g">
         <div class="col-sm-6 col-xs-12">
         <img src=<%= static_url(@conn, "/images/charlie-ticket.jpg") %> alt="CharlieTicket with Stored Value" class="img-fluid payment-image" />
-        <p class="small ticket-description">CharlieTicket with Stored Value</p>
+        <p class="small fare-image-description">CharlieTicket with Stored Value</p>
         </div>
       </div>
       <p>
@@ -68,7 +68,7 @@
       <div class="row m-t-1">
         <div class="col-sm-6 col-xs-12">
           <img src=<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %> alt="Zone 1 One Way Pass on a CharlieTicket" class="img-fluid payment-image" />
-          <p class="small ticket-description">Zone 1 One Way Pass on a CharlieTicket</p>
+          <p class="small fare-image-description">Zone 1 One Way Pass on a CharlieTicket</p>
         </div>
       </div>
       <p>
