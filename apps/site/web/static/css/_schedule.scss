@@ -376,7 +376,7 @@ a {
 
   thead {
     td {
-      border: 1px solid $gray-lighter;
+      border: 1px solid $gray-lightest;
 
       @include media-breakpoint-down(xs) {
         padding: 0;
@@ -400,22 +400,22 @@ a {
   }
 
   a {
-    color: $gray;
+    color: $gray-dark;
   }
 
   tbody {
     border-bottom: 0;
 
     td {
-      border: 1px solid $gray-lighter;
+      border: 1px solid $gray-lightest;
       padding: 0;
 
       &:first-child {
-        background-color: $gray-lightest;
+        background-color: $weekend-color;
       }
 
       &:last-child {
-        background-color: $gray-lightest;
+        background-color: $weekend-color;
       }
 
       a {
@@ -435,6 +435,7 @@ a {
   //scss-lint:disable ImportantRule
 .schedule-today {
   background-color: $brand-primary !important;
+  border: 1px solid $brand-primary !important;
 
   a {
     color: $white;
@@ -448,7 +449,7 @@ a {
 }
 
 .schedule-weekend {
-  background-color: $gray-lightest;
+  background-color: $weekend-color;
 }
 
 .holiday-list {
@@ -471,7 +472,7 @@ a {
   }
 
   &.weekend {
-    background-color: $gray-lightest;
+    background-color: $weekend-color;
   }
 }
 
