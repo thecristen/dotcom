@@ -148,11 +148,11 @@
     }
 
     @include media-breakpoint-up(lg) {
-      width: map-get($container-max-widths, lg) - 14px;
+      width: map-get($container-max-widths, lg) - 2px;
     }
 
     @include media-breakpoint-up(xxl) {
-      width: map-get($container-max-widths, xxl) - 15.5px;
+      width: map-get($container-max-widths, xxl) - 2px;
     }
   }
 }
