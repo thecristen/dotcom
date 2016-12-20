@@ -60,7 +60,9 @@ defmodule Site.Plugs.TransitNearMeTest do
 
       assert conn.assigns.stops_with_routes == []
       assert conn.assigns.address == "10 Park Plaza, Boston, MA 02116, USA"
-      assert get_flash(conn)["info"] =~ "doesn't seem to be any stations"
+      test_val = Phoenix.HTML.safe_to_string(get_flash(conn)["info"])
+
+      assert test_val =~ "seem to be any stations"
     end
 
     test "can take a lat/long as query parameters", %{conn: conn} do
@@ -149,7 +151,9 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> get("/")
       |> flash_if_error
 
-      assert get_flash(conn)["info"] =~ "There doesn't seem to be any stations"
+      test_val = Phoenix.HTML.safe_to_string(get_flash(conn)["info"])
+
+      assert test_val =~ "seem to be any stations"
     end
   end
 
