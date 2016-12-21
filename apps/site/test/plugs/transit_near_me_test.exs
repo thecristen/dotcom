@@ -155,6 +155,50 @@ defmodule Site.Plugs.TransitNearMeTest do
 
       assert test_val =~ "seem to be any stations"
     end
+
+    test "flashes errors from private if there are any", %{conn: conn} do
+      conn = conn
+      |> put_private(:error, "bad address")
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> flash_if_error
+
+      test_val = Phoenix.HTML.safe_to_string(get_flash(conn)["info"])
+
+      assert test_val =~ "bad address"
+    end
+  end
+
+  describe "assign_address/2" do
+    test "it assigns address when there are no errors", %{conn: conn} do
+      google_maps_result = {:ok, [%{formatted: "10 park plaza"}]}
+
+      conn = conn
+      |> assign_address(google_maps_result)
+
+      assert conn.assigns.address == "10 park plaza"
+    end
+
+
+    test "when geocoding fails, it tells the user they had a bad address", %{conn: conn} do
+      google_maps_result = {:error, :zero_results, "error message that should not show up"}
+
+      conn = conn
+      |> assign_address(google_maps_result)
+
+      assert conn.assigns.address == ""
+      assert conn.private[:error] == "Please enter a valid address below"
+    end
+
+    test "when there are other errors from google, it gives the google error text", %{conn: conn} do
+      google_maps_result = {:error, :bad_address, "bad address"}
+
+      conn = conn
+      |> assign_address(google_maps_result)
+
+      assert conn.assigns.address == ""
+      assert conn.private[:error] == "bad address"
+    end
   end
 
   def mock_response(_) do
