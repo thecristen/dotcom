@@ -187,7 +187,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> assign_address(google_maps_result)
 
       assert conn.assigns.address == ""
-      assert conn.private[:error] == "Please enter a valid address below"
+      assert conn.private[:error] == "The address you've listed appears to be invalid. Please try a new address to continue."
     end
 
     test "when there are other errors from google, it gives the google error text", %{conn: conn} do

@@ -133,7 +133,7 @@ defmodule Site.Plugs.TransitNearMe do
   def assign_address(conn, {:error, :zero_results, _}) do
     conn
     |> assign(:address, "")
-    |> put_private(:error, "Please enter a valid address below")
+    |> put_private(:error, "The address you've listed appears to be invalid. Please try a new address to continue.")
   end
   def assign_address(conn, {:error, _status, message}) do
     conn
