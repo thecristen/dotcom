@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
 import { clickHandler, locationHandler, locationError } from '../../web/static/js/geolocation';
+import sinon from 'sinon';
 
 describe('geolocation', () => {
   var $;
@@ -46,9 +47,11 @@ describe('geolocation', () => {
   describe('locationHandler', () => {
     const lat = 42.3509448,
           long = -71.0651448;
+    var onSpy;
 
     afterEach(() => {
       window.Turbolinks = undefined;
+      onSpy.reset();
     });
 
     beforeEach(() => {
@@ -58,6 +61,7 @@ describe('geolocation', () => {
           <span class="loading-indicator"></span>
         </button>
       `);
+      onSpy = sinon.spy($.fn, 'on');
     });
 
     it('hides the loading indicator', () => {
@@ -69,6 +73,8 @@ describe('geolocation', () => {
           longitude: long
         }
       });
+      assert.equal(onSpy.args[0][0], 'turbolinks:before-visit');
+      onSpy.args[0][1]();
       assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
     });
 

@@ -23,8 +23,10 @@ export function clickHandler($) {
 
 export function locationHandler($, $btn) {
   return (location) => {
-    $btn.find('.loading-indicator').addClass('hidden-xs-up');
     const loc = window.location;
+    $(document).on('turbolinks:before-visit', () => {
+      $btn.find('.loading-indicator').addClass('hidden-xs-up');
+    });
     window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}#transit-input`));
   };
 }
