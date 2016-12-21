@@ -1,6 +1,6 @@
 defmodule Site.FareController.OriginDestinationFareBehavior do
-  @doc "The display name of the mode"
-  @callback mode_name() :: String.t
+  @doc "Atom for the mode."
+  @callback mode() :: atom()
 
   @callback route_type() :: integer
   @callback key_stops() :: [Schedules.Stop.t]
@@ -39,9 +39,9 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
     conn
     |> assign(:breadcrumbs, [
           {fare_path(conn, :index), "Fares and Passes"},
-          module.mode_name
+          Site.ViewHelpers.mode_name(module.mode)
         ])
-    |> assign(:mode_name,  module.mode_name)
+    |> assign(:mode,  module.mode)
     |> assign(:route_type, module.route_type)
     |> assign(:origin_stops, origin_stop_list)
     |> assign(:destination_stops, destination_stop_list)

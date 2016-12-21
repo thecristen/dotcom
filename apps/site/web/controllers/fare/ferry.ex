@@ -5,7 +5,7 @@ defmodule Site.FareController.Ferry do
 
   def route_type, do: 4
 
-  def mode_name, do: "Ferry"
+  def mode, do: :ferry
 
   def fares(%{assigns: %{origin: %Stop{id: origin}, destination: %Stop{id: destination}}}) do
     Fares.Repo.all(name: fare_name(origin, destination))

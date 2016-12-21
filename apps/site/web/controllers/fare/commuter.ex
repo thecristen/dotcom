@@ -5,7 +5,7 @@ defmodule Site.FareController.Commuter do
 
   def route_type, do: 2
 
-  def mode_name, do: "Commuter Rail"
+  def mode, do: :commuter_rail
 
   def fares(%{assigns: %{origin: origin, destination: destination}}) when not is_nil(origin) and not is_nil(destination) do
     fare_name = Fares.calculate(Zones.Repo.get(origin.id), Zones.Repo.get(destination.id))
