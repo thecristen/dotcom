@@ -34,9 +34,9 @@
     border: 1px solid $gray-lightest;
     border-radius: $default-border-radius;
     display: block;
+    margin-bottom: .1875rem;
     padding: $space-2 0;
     text-align: right;
-    margin-bottom: .1875rem;
   }
 
   input {
@@ -110,7 +110,7 @@
   -moz-column-gap: $grid-gutter-width;
   -webkit-column-gap: $grid-gutter-width;
   column-gap: $grid-gutter-width;
-  margin: 0 0 3rem;
+  margin: 0;
   padding: $grid-gutter-width * 1.5;
   padding-top: $grid-gutter-width / 2;
 
