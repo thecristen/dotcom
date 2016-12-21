@@ -41,6 +41,9 @@ defmodule Fares.Format do
   def duration(%Fare{duration: :round_trip}) do
     "Round Trip"
   end
+  def duration(%Fare{name: :ferry_inner_harbor, duration: :day}) do
+    "One-Day Pass"
+  end
   def duration(%Fare{duration: :day}) do
     "Day Pass"
   end
