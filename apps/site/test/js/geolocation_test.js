@@ -17,7 +17,8 @@ describe('geolocation', () => {
   });
 
   describe('clickHandler', () => {
-    var geolocationCalled;
+    var geolocationCalled,
+        onSpy;
 
     beforeEach(() => {
       $('#test').html(`
@@ -30,6 +31,11 @@ describe('geolocation', () => {
       window.navigator.geolocation = {
         getCurrentPosition: () => { geolocationCalled = true; }
       };
+      onSpy = sinon.spy($.fn, 'on');
+    });
+
+    afterEach(() => {
+      onSpy.reset();
     });
 
     it("gets the user's location", () => {
@@ -42,16 +48,22 @@ describe('geolocation', () => {
       clickHandler($)({preventDefault: () => {}, target: $('button')[0]});
       assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
     });
+
+    it('adds a hook to clear the UI state', () => {
+      clickHandler($);
+      assert.equal(onSpy.args[0][0], 'turbolinks:before-visit');
+      onSpy.args[0][1]();
+      assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
+    });
+
   });
 
   describe('locationHandler', () => {
     const lat = 42.3509448,
           long = -71.0651448;
-    var onSpy;
 
     afterEach(() => {
       window.Turbolinks = undefined;
-      onSpy.reset();
     });
 
     beforeEach(() => {
@@ -61,21 +73,6 @@ describe('geolocation', () => {
           <span class="loading-indicator"></span>
         </button>
       `);
-      onSpy = sinon.spy($.fn, 'on');
-    });
-
-    it('hides the loading indicator', () => {
-      window.Turbolinks = {visit: () => {}};
-      assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
-      locationHandler($, $('button'))({
-        coords: {
-          latitude: lat,
-          longitude: long
-        }
-      });
-      assert.equal(onSpy.args[0][0], 'turbolinks:before-visit');
-      onSpy.args[0][1]();
-      assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
     });
 
     it('loads the location URL', (done) => {
@@ -101,7 +98,8 @@ describe('geolocation', () => {
           locate me
           <span class="loading-indicator"></span>
         </button>
-        <p class="transit-near-me-error hidden-xs-up">error</p>
+        <p id="tnm-unavailable-error" class="hidden-xs-up">error</p>
+        <p id="tnm-permission-error" class="hidden-xs-up">error</p>
       `);
     });
 
@@ -113,7 +111,12 @@ describe('geolocation', () => {
 
     it('shows an error message on timeout or geolocation failure', () => {
       locationError($, $('button'))({code: 'timeout', TIMEOUT: 'timeout'});
-      assert.isFalse($('.transit-near-me-error').hasClass('hidden-xs-up'));
+      assert.isFalse($('#tnm-unavailable-error').hasClass('hidden-xs-up'));
+    });
+
+    it('shows an error message if permission is denied', () => {
+      locationError($, $('button'))({code: 'permission', PERMISSION_DENIED: 'permission'});
+      assert.isFalse($('#tnm-permission-error').hasClass('hidden-xs-up'));
     });
   });
 });
