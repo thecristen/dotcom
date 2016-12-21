@@ -143,7 +143,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       assert get_flash(conn) == %{}
     end
 
-    test "shows message if there's no stops_with_routes and there is an addres", %{conn: conn} do
+    test "shows message if there's no stops_with_routes and there is an address", %{conn: conn} do
       conn = conn
       |> assign(:stops_with_routes, [])
       |> assign(:address, "123 main st")

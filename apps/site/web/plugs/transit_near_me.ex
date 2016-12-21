@@ -49,10 +49,10 @@ defmodule Site.Plugs.TransitNearMe do
     do_call(conn, [], "")
   end
 
-  defp do_call(conn, stops_with_routes, address) do
+  defp do_call(conn, stops_with_routes, location) do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
-    |> assign_address(address)
+    |> assign_address(location)
     |> flash_if_error()
   end
 
