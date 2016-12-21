@@ -79,7 +79,7 @@
   }
 
   .transit-near-me-error {
-    @extend .error-message;
+    @extend %error-message;
 
     &:empty {
       display: none;
