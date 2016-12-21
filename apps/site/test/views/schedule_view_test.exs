@@ -277,4 +277,11 @@ defmodule Site.ScheduleViewTest do
       assert Util.today |> Timex.shift(months: 2) |> ScheduleView.previous_month_class == ""
     end
   end
+
+  describe "Green line schedules" do
+    test "User is alerted that when schedules are available" do
+      green_template = Site.ScheduleView.render("_schedule_group.html", schedules: [], date: Timex.today())
+      assert safe_to_string(green_template) =~ "No scheduled trips"
+    end
+  end
 end
