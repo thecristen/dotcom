@@ -112,7 +112,7 @@
   column-gap: $grid-gutter-width;
   margin: 0;
   padding: $grid-gutter-width * 1.5;
-  padding-top: $grid-gutter-width / 2;
+  padding-bottom: .375rem;
 
   &.empty {
     display: none;
@@ -127,13 +127,23 @@
   background: $white;
 }
 
+.transit-card-link {
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
 .transit-card {
   background: $white;
   border: 1px solid $gray-lightest;
   border-radius: $default-border-radius;
   display: inline-block;
-  margin-top: $grid-gutter-width;
+  margin-bottom: .4rem;
   padding: $grid-gutter-width;
+  position: relative;
   width: 100%;
 
   .transit-route {
@@ -147,7 +157,6 @@
   }
 
   .mbta-custom-icon {
-    margin-right: .25rem;
 
     svg {
       height: 1rem;
@@ -162,3 +171,12 @@
   }
 }
 
+.transit-route-icon {
+  padding-right: 0;
+  width: 1.75rem;
+}
+
+.transit-route-name {
+  margin-bottom: 0;
+  padding-left: 0;
+}
