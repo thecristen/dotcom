@@ -24,7 +24,7 @@
       </span>
     </span>
     <span class="schedule-col-group-subway">
-      <%= render "_schedule_group.html", schedules: schedules %>
+      <%= render "_schedule_group.html", schedules: schedules, date: @date %>
         <%= if trip_alerts != [] do %>
           <%= svg_icon(%SvgIcon{icon: :alert}) %>
         <% end %>

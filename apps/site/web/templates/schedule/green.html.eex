@@ -17,10 +17,16 @@
              href="<%= update_schedule_url @conn, route: route.id %>">
             <div class="row">
               <div class="col-xs-6">
-                <span class="green-route-name"><%= route.name %> - <%= from.name %></span>
+                <span class="green-route-name">
+                  <%= if !Enum.empty?(schedules) do %>
+                    <%= route.name %> - <%= from.name %>
+                  <% else %>
+                    Green Line <%= route.name %>
+                  <% end %>
+                </span>
               </div>
               <div class="col-xs-6">
-                <%= render "_schedule_group.html", schedules: schedules %>
+                <%= render "_schedule_group.html", schedules: schedules, date: @date %>
               </div>
             </div>
           </a>
