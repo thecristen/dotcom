@@ -10,7 +10,6 @@
           <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry}) %>
         </p>
       </div>
-      <h4 class="pre-container-tnm">Find Transit Near You</h4>
       <%= render Site.TransitNearMeView, "_input.html", address: @address, conn: @conn %>
       <%= render Site.TransitNearMeView, "_results.html", class: "transit-near-me-white", stops_with_routes: @stops_with_routes, conn: @conn %>
     </div>

@@ -62,10 +62,6 @@ describe('geolocation', () => {
     const lat = 42.3509448,
           long = -71.0651448;
 
-    afterEach(() => {
-      window.Turbolinks = undefined;
-    });
-
     beforeEach(() => {
       $('#test').html(`
         <button data-geolocation-target="target">
@@ -75,19 +71,15 @@ describe('geolocation', () => {
       `);
     });
 
-    it('loads the location URL', (done) => {
-      window.Turbolinks = {
-        visit: (url) => {
-          assert.isTrue(new RegExp(`\\?location%5Baddress%5D=${lat},%20${long}`).test(url));
-          done();
-        }
-      };
-      locationHandler($, $('button'))({
+    it('loads the location URL', () => {
+      const mockLocation = {};
+      locationHandler($, $('button'), mockLocation)({
         coords: {
           latitude: lat,
           longitude: long
         }
       });
+      assert.isTrue(new RegExp(`\\?location%5Baddress%5D=${lat},%20${long}`).test(mockLocation.href));
     });
   });
 
