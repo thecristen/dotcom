@@ -84,9 +84,9 @@
       <p>Tickets are collected after boarding. If you have not purchased a ticket yet, you may purchase one on-board.</p>
     </div>
   </div>
-  <div class="row m-t-1">
+  <div class="row">
     <div class="col-md-6 col-xs-12">
-      <a class="btn btn-primary btn-block" role="button" href=<%= fare_path(@conn, :show, "ferry") %>>
+      <a href=<%= fare_path(@conn, :show, "ferry") %>>
         Learn more about Ferry Fares <%= fa "arrow-right" %>
       </a>
     </div>
