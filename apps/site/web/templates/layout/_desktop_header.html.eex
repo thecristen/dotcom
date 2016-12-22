@@ -191,8 +191,8 @@
                 <%= fa "caret-right" %> Submit complaints and comments
               <% end %>
               </li>
-              <li><%= link to: "http://www.mass.gov/ig/about-us/contact-the-office.html#isauhotline", target: "_blank" do %></li>
-                <%= fa "caret-right" %> Report MBTA fraud and abuse
+              <li><%= link to: "https://twitter.com/MBTA", target: "_blank" do %></li>
+                <%= fa "caret-right" %> @MBTA Twitter Updates
               <% end %>
               <li><%= link to: redirect_path(@conn, "transitpolice") do %></li>
                 <%= fa "caret-right" %> Transit Police
