@@ -9,11 +9,17 @@ export default function($ = window.jQuery) {
 
 // These functions are exported for testing
 export function clickHandler($) {
+  $(document).on(
+    'turbolinks:before-visit', () => {
+      $('.loading-indicator').addClass('hidden-xs-up');
+      $('.transit-near-me-error').addClass('hidden-xs-up');
+    }
+  );
   return (event) => {
     event.preventDefault();
     const $btn = $(event.target);
     $btn.find('.loading-indicator').removeClass('hidden-xs-up');
-    $('.transit-near-me-error').addClass('hidden-xs-up');
+    $('.error-message').addClass('hidden-xs-up');
     navigator.geolocation.getCurrentPosition(
       locationHandler($, $btn),
       locationError($, $btn)
@@ -24,9 +30,6 @@ export function clickHandler($) {
 export function locationHandler($, $btn) {
   return (location) => {
     const loc = window.location;
-    $(document).on('turbolinks:before-visit', () => {
-      $btn.find('.loading-indicator').addClass('hidden-xs-up');
-    });
     window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}#transit-input`));
   };
 }
@@ -35,7 +38,10 @@ export function locationError($, $btn) {
   return (error) => {
     $btn.find('.loading-indicator').addClass('hidden-xs-up');
     if (error.code == error.TIMEOUT || error.code == error.POSITION_UNAVAILABLE) {
-      $('.transit-near-me-error').removeClass('hidden-xs-up');
+      $('#tnm-unavailable-error').removeClass('hidden-xs-up');
+    }
+    else if (error.code == error.PERMISSION_DENIED) {
+      $('#tnm-permission-error').removeClass('hidden-xs-up');
     }
   };
 }
