@@ -35,7 +35,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
   window.location.href = encodeURI(location_url);
 });
 
-function validateForm() {
+function validateTNMForm() {
   var text_input = document.getElementById('place-input');
   if (text_input.value == "<%= @conn.params["place_name"] %>") {
     location.reload();
