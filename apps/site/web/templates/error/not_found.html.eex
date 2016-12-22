@@ -1,7 +1,8 @@
 <div class="error-page">
   <div class="error-card">
     <h1><strong>404</strong></h1>
-    <h2>Your stop cannot be found. This page is no longer in service. Let's get you to your intended destination &mdash; <a href="/">return to the homepage.</a></h2>
+    <p>Your stop cannot be found. This page is no longer in service.</p>
+    <p><a href="/">Return to the homepage.</a></p>
     <img src="<%= static_url(Site.Endpoint, "/images/error-bus.gif") %>" />
   </div>
 </div>
