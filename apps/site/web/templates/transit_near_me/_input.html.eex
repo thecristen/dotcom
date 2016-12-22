@@ -23,8 +23,9 @@
 autocomplete = new google.maps.places.Autocomplete(document.getElementById("place-input"));
 google.maps.event.addListener(autocomplete, 'place_changed', function() {
   var place = autocomplete.getPlace();
+  var loc = window.location
   if (place.geometry) {
-    window.Turbolinks.visit(encodeURI(`${window.location.protocol}//${window.location.host}${window.location.pathname}?location[address]=${place.geometry.location.lat()}, ${place.geometry.location.lng()}#transit-input`));
+    window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${place.geometry.location.lat()}, ${place.geometry.location.lng()}#transit-input`));
   }
   else {
     window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${place.name}#transit-input`));
