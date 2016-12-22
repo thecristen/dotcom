@@ -18,4 +18,17 @@
 <p id="tnm-unavailable-error" class="transit-near-me-error hidden-xs-up">We couldn't fetch your location &mdash; please wait a minute and try again, or enter your address.</p>
 
 <script data-turbolinks-eval="false" type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>
-<script>new google.maps.places.Autocomplete(document.getElementById("place-input"));</script>
+
+<script>
+autocomplete = new google.maps.places.Autocomplete(document.getElementById("place-input"));
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+  var place = autocomplete.getPlace();
+  if (place.geometry) {
+    window.Turbolinks.visit(encodeURI(`${window.location.protocol}//${window.location.host}${window.location.pathname}?location[address]=${place.geometry.location.lat()}, ${place.geometry.location.lng()}#transit-input`));
+  }
+  else {
+    window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${place.name}#transit-input`));
+  }
+});
+</script>
+
