@@ -1,10 +1,13 @@
 <div class="error-page">
   <div class="error-card">
+    <h1>Hold On&hellip;</h1>
     <p>
-      While we're working on the new site, we haven't moved everything over yet.  We're sending you back to the original site for the content you requested.
+      While we're working on the new site, we haven't moved everything over yet.
+      <br />
+      We're sending you back to the original site for the content you requested.
     </p>
 
-    <p class="m-t-1">
+    <p class="redirect-button">
       <a class="btn btn-primary<%= if @mobile_enabled do %> btn-small hidden-sm-down<% else %> btn-block<% end %>" role="button" href=<%= @redirect  %>>
         Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
       </a>
@@ -14,5 +17,6 @@
         </a>
       <% end %>
     </p>
+    <img src="<%= static_url(Site.Endpoint, "/images/transfer.gif") %>" />
   </div>
 </div>

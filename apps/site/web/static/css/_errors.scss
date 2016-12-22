@@ -1,5 +1,15 @@
 @import 'variables';
 
+.error-page {
+  @include media-breakpoint-down(sm) {
+    margin-bottom: -1.5rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: -3rem;
+  }
+}
+
 .error-card {
   background: $white;
   color: $gray-dark;
@@ -30,4 +40,14 @@
   background-color: $form-error-message;
   color: $error-text;
   padding: .375rem .75rem;
+}
+
+.redirect-button {
+  @include media-breakpoint-up(md) {
+    margin-bottom: 100px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-bottom: 50px;
+  }
 }
