@@ -135,10 +135,10 @@ defmodule Site.Plugs.TransitNearMe do
     |> assign(:address, "")
     |> put_private(:error, "The address you've listed appears to be invalid. Please try a new address to continue.")
   end
-  def assign_address(conn, {:error, _status, message}) do
+  def assign_address(conn, {:error, _status, _message}) do
     conn
     |> assign(:address, "")
-    |> put_private(:error, message)
+    |> put_private(:error, "Invalid Request")
   end
   def assign_address(conn, _) do
     conn
