@@ -37,10 +37,14 @@ export function locationError($, $btn) {
   return (error) => {
     $btn.find('.loading-indicator').addClass('hidden-xs-up');
     if (error.code == error.TIMEOUT || error.code == error.POSITION_UNAVAILABLE) {
-      $('#tnm-unavailable-error').removeClass('hidden-xs-up');
+      $('.transit-near-me-error').addClass('hidden-xs-up');
+      $('#tnm-geolocation-error').removeClass('hidden-xs-up');
+      $('#tnm-geolocation-error').text("We couldn't fetch your location &mdash; please wait a minute and try again, or enter your address.");
     }
     else if (error.code == error.PERMISSION_DENIED) {
-      $('#tnm-permission-error').removeClass('hidden-xs-up');
+      $('.transit-near-me-error').addClass('hidden-xs-up');
+      $('#tnm-geolocation-error').removeClass('hidden-xs-up');
+      $('#tnm-geolocation-error').text("It looks like you haven't granted permission to fetch your location - to use geolocation, update your browser's settings and try again.");
     }
   };
 }
