@@ -40,6 +40,7 @@ export function locationError($, $btn) {
       $('#tnm-unavailable-error').removeClass('hidden-xs-up');
     }
     else if (error.code == error.PERMISSION_DENIED) {
+      $('.transit-near-me-error').addClass('hidden-xs-up');
       $('#tnm-permission-error').removeClass('hidden-xs-up');
     }
   };
