@@ -21,16 +21,15 @@ export function clickHandler($) {
     $btn.find('.loading-indicator').removeClass('hidden-xs-up');
     $('.error-message').addClass('hidden-xs-up');
     navigator.geolocation.getCurrentPosition(
-      locationHandler($, $btn),
+      locationHandler($, $btn, window.location),
       locationError($, $btn)
     );
   };
 }
 
-export function locationHandler($, $btn) {
+export function locationHandler($, $btn, loc) {
   return (location) => {
-    const loc = window.location;
-    window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}#transit-input`));
+    loc.href = encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}#transit-input`);
   };
 }
 
