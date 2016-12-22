@@ -47,7 +47,6 @@ defmodule Site.Plugs.TransitNearMeTest do
 
       assert conn.assigns.stops_with_routes == []
       assert conn.assigns.address == ""
-      assert get_flash(conn)["info"] =~ "No address"
     end
 
     test "flashes message if no results are returned", %{conn: conn} do
@@ -61,7 +60,9 @@ defmodule Site.Plugs.TransitNearMeTest do
 
       assert conn.assigns.stops_with_routes == []
       assert conn.assigns.address == "10 Park Plaza, Boston, MA 02116, USA"
-      assert get_flash(conn)["info"] =~ "doesn't seem to be any stations"
+      test_val = get_flash(conn)["info"]
+
+      assert test_val =~ "seem to be any stations"
     end
 
     test "can take a lat/long as query parameters", %{conn: conn} do
@@ -142,24 +143,61 @@ defmodule Site.Plugs.TransitNearMeTest do
       assert get_flash(conn) == %{}
     end
 
-    test "shows message if there's no address", %{conn: conn} do
-      conn = conn
-      |> assign(:address, "")
-      |> bypass_through(Site.Router, :browser)
-      |> get("/")
-      |> flash_if_error
-
-      assert get_flash(conn)["info"] =~ "No address"
-    end
-
-    test "shows message if there's no stops_with_routes", %{conn: conn} do
+    test "shows message if there's no stops_with_routes and there is an address", %{conn: conn} do
       conn = conn
       |> assign(:stops_with_routes, [])
+      |> assign(:address, "123 main st")
       |> bypass_through(Site.Router, :browser)
       |> get("/")
       |> flash_if_error
 
-      assert get_flash(conn)["info"] =~ "There doesn't seem to be any stations"
+      test_val = get_flash(conn)["info"]
+
+      assert test_val =~ "seem to be any stations"
+    end
+
+    test "flashes errors from private if there are any", %{conn: conn} do
+      conn = conn
+      |> put_private(:error, "bad address")
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> flash_if_error
+
+      test_val = get_flash(conn)["info"]
+
+      assert test_val =~ "bad address"
+    end
+  end
+
+  describe "assign_address/2" do
+    test "it assigns address when there are no errors", %{conn: conn} do
+      google_maps_result = {:ok, [%{formatted: "10 park plaza"}]}
+
+      conn = conn
+      |> assign_address(google_maps_result)
+
+      assert conn.assigns.address == "10 park plaza"
+    end
+
+
+    test "when geocoding fails, it tells the user they had a bad address", %{conn: conn} do
+      google_maps_result = {:error, :zero_results, "error message that should not show up"}
+
+      conn = conn
+      |> assign_address(google_maps_result)
+
+      assert conn.assigns.address == ""
+      assert conn.private[:error] == "The address you've listed appears to be invalid. Please try a new address to continue."
+    end
+
+    test "when there are other errors from google, it gives the google error text", %{conn: conn} do
+      google_maps_result = {:error, :bad_address, "bad address"}
+
+      conn = conn
+      |> assign_address(google_maps_result)
+
+      assert conn.assigns.address == ""
+      assert conn.private[:error] == "bad address"
     end
   end
 

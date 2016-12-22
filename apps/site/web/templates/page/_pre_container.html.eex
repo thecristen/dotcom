@@ -11,11 +11,7 @@
         </p>
       </div>
       <h4 class="pre-container-tnm">Find Transit Near You</h4>
-      <div class="transit-near-me">
-        <div class="transit-near-me-form">
-          <%= render Site.TransitNearMeView, "_input.html", address: @address, conn: @conn %>
-        </div>
-      </div>
+      <%= render Site.TransitNearMeView, "_input.html", address: @address, conn: @conn %>
       <%= render Site.TransitNearMeView, "_results.html", class: "transit-near-me-white", stops_with_routes: @stops_with_routes, conn: @conn %>
     </div>
   </div>

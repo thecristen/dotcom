@@ -23,9 +23,8 @@ defmodule Site.Plugs.TransitNearMe do
     |> GoogleMaps.Geocode.geocode
 
     stops_with_routes = calculate_stops_with_routes(location, options)
-    address = address(location)
 
-    do_call(conn, stops_with_routes, address)
+    do_call(conn, stops_with_routes, location)
   end
   # Used in Backstop tests to avoid calling Google Maps
   def call(%{params: %{"latitude" => latitude, "longitude" => longitude}} = conn, options) do
@@ -43,18 +42,17 @@ defmodule Site.Plugs.TransitNearMe do
     }
 
     stops_with_routes = calculate_stops_with_routes(location, options)
-    address = address(location)
 
-    do_call(conn, stops_with_routes, address)
+    do_call(conn, stops_with_routes, location)
   end
   def call(conn, _options) do
     do_call(conn, [], "")
   end
 
-  defp do_call(conn, stops_with_routes, address) do
+  defp do_call(conn, stops_with_routes, location) do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
-    |> assign(:address, address)
+    |> assign_address(location)
     |> flash_if_error()
   end
 
@@ -128,12 +126,33 @@ defmodule Site.Plugs.TransitNearMe do
   end
   def address(_), do: ""
 
-  @spec flash_if_error(Plug.Conn.t) :: Plug.Conn.t
-  def flash_if_error(%Plug.Conn{assigns: %{address: ""}} = conn) do
-    put_flash(conn, :info, "No address provided. Please enter a valid address below.")
+  def assign_address(conn, {:ok, [%{formatted: address} | _]}) do
+    conn
+    |> assign(:address, address)
   end
-  def flash_if_error(%Plug.Conn{assigns: %{stops_with_routes: []}} = conn) do
+  def assign_address(conn, {:error, :zero_results, _}) do
+    conn
+    |> assign(:address, "")
+    |> put_private(:error, "The address you've listed appears to be invalid. Please try a new address to continue.")
+  end
+  def assign_address(conn, {:error, _status, message}) do
+    conn
+    |> assign(:address, "")
+    |> put_private(:error, message)
+  end
+  def assign_address(conn, _) do
+    conn
+    |> assign(:address, "")
+  end
+
+  @spec flash_if_error(Plug.Conn.t) :: Plug.Conn.t
+  def flash_if_error(%Plug.Conn{assigns: %{stops_with_routes: [], address: address}} = conn) when address != "" do
+
     put_flash(conn, :info, "There doesn't seem to be any stations found near the given address. Please try a different address to continue.")
+
+  end
+  def flash_if_error(%Plug.Conn{private: %{error: error}} = conn) when error != nil do
+    put_flash(conn, :info, error)
   end
   def flash_if_error(conn), do: conn
 end

@@ -79,8 +79,11 @@
   }
 
   .transit-near-me-error {
-    background-color: $form-error-message;
-    padding: .5em;
+    @extend %error-message;
+
+    &:empty {
+      display: none;
+    }
   }
 }
 
