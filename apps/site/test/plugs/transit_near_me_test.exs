@@ -181,23 +181,13 @@ defmodule Site.Plugs.TransitNearMeTest do
 
 
     test "when geocoding fails, it tells the user they had a bad address", %{conn: conn} do
-      google_maps_result = {:error, :zero_results, "error message that should not show up"}
+      google_maps_result = {:error, :error_code, "error message that should not show up"}
 
       conn = conn
       |> assign_address(google_maps_result)
 
       assert conn.assigns.address == ""
       assert conn.private[:error] == "The address you've listed appears to be invalid. Please try a new address to continue."
-    end
-
-    test "when there are other errors from google, it gives a human readable error message", %{conn: conn} do
-      google_maps_result = {:error, :bad_address, "bad address"}
-
-      conn = conn
-      |> assign_address(google_maps_result)
-
-      assert conn.assigns.address == ""
-      assert conn.private[:error] == "Invalid Request"
     end
   end
 
