@@ -11,6 +11,25 @@
 .fares-tab-group {
   border-bottom: .25rem solid $brand-primary;
   margin: 1em 0 0;
+
+  &:empty {
+    border-bottom: 1px solid $brand-primary;
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  .fares-tab-group.show-btn-group {
+    border: 0;
+
+    .fares-tab {
+      border: 1px solid $brand-primary;
+      border-top: 0;
+
+      &:first-child {
+        border-top: 1px solid $brand-primary;
+      }
+    }
+  }
 }
 
 .fares-tab {
@@ -70,14 +89,9 @@ a {
 .fares-row {
   border-top: 1px solid $gray-lightest;
 
-  @include media-breakpoint-down(sm) {
-    font-size: .85rem;
-  }
-
   &:first-child {
     border-top: 0;
   }
-
 }
 
 .fare-name {
@@ -90,6 +104,13 @@ a {
   float: right;
   margin-top: -.5rem;
   padding: .5em;
+
+  @include media-breakpoint-only(sm) {
+    display: block;
+    float: none;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .fares-box-column {
