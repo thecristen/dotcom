@@ -46,7 +46,7 @@
           <span class="hidden-xs-down">|</span><span class="hidden-sm-up"><br /></span>
           <%= @origin.name %> <i class="fa fa-arrow-right"></i> <%= @destination.name %>
         </p>
-        <p>
+        <p class="fares-info-lead">
           People aged 12 years or older and do not qualify for reduced fares will be charged the standard adult
           fare. If you are a student, senior, or someone with disabilities who qualifies for
           <%= link "reduced fares", to: fare_path(@conn, :show, "reduced") %>, click on the correct category

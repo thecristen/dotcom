@@ -1,17 +1,12 @@
 <% reduced_types = ~w(nil student senior_disabled)a %>
 <div>
-  <nav class="collapse navbar-toggleable-xs" id="fare_type" role="navigation">
-    <div class="fares-tab-group row show-btn-group">
-      <%= for reduced_type <- reduced_types do %>
-        <a class="fares-tab <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= update_fare_type(@conn, reduced_type) %>">
-          <%= Fares.Format.customers(reduced_type) %>
-        </a>
-      <% end %>
-    </div>
-  </nav>
-  <a class="btn btn-block btn-primary-outline pull-right show-mode-toggle-btn hidden-sm-up m-t-1" href="#fare_type" data-toggle="collapse" data-target="#fare_type">
-    <%= Fares.Format.customers(@fare_type) %> Fares <%= fa "angle-down" %>
-  </a>
+  <div class="fares-tab-group row show-btn-group">
+    <%= for reduced_type <- reduced_types do %>
+      <a class="fares-tab <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= update_fare_type(@conn, reduced_type) %>">
+        <%= Fares.Format.customers(reduced_type) %>
+      </a>
+    <% end %>
+  </div>
   <div class="clearfix"></div>
 </div>
 <%= render "_fare_info.html", selected_filter: @selected_filter, filters: @filters, conn: @conn %>
