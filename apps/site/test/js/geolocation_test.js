@@ -90,8 +90,8 @@ describe('geolocation', () => {
           locate me
           <span class="loading-indicator"></span>
         </button>
-        <p id="tnm-unavailable-error" class="transit-near-me-error hidden-xs-up">error</p>
-        <p id="tnm-permission-error" class="transit-near-me-error hidden-xs-up">error</p>
+        <div class="transit-near-me-error">flash error</div>
+        <p id="tnm-geolocation-error" class="transit-near-me-error hidden-xs-up">error</p>
       `);
     });
 
@@ -103,18 +103,17 @@ describe('geolocation', () => {
 
     it('shows an error message on timeout or geolocation failure', () => {
       locationError($, $('button'))({code: 'timeout', TIMEOUT: 'timeout'});
-      assert.isFalse($('#tnm-unavailable-error').hasClass('hidden-xs-up'));
+      assert.isFalse($('#tnm-geolocation-error').hasClass('hidden-xs-up'));
     });
 
     it('shows a single error message', () => {
-      locationError($, $('button'))({code: 'timeout', TIMEOUT: 'timeout'});
       locationError($, $('button'))({code: 'permission', PERMISSION_DENIED: 'permission'});
       assert.equal($('.transit-near-me-error').not('.hidden-xs-up').length, 1);
     });
 
     it('shows an error message if permission is denied', () => {
       locationError($, $('button'))({code: 'permission', PERMISSION_DENIED: 'permission'});
-      assert.isFalse($('#tnm-permission-error').hasClass('hidden-xs-up'));
+      assert.isFalse($('#tnm-geolocation-error').hasClass('hidden-xs-up'));
     });
   });
 });
