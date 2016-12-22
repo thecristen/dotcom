@@ -20,16 +20,17 @@
 <script data-turbolinks-eval="false" type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>
 
 <script>
-autocomplete = new google.maps.places.Autocomplete(document.getElementById("place-input"));
+var autocomplete = new google.maps.places.Autocomplete(document.getElementById("place-input"));
 google.maps.event.addListener(autocomplete, 'place_changed', function() {
-  var place = autocomplete.getPlace();
-  var loc = window.location
+  var place = autocomplete.getPlace(); var loc = window.location;
+  var location_url = loc.protocol + "//" + loc.host + loc.pathname + "?location[address]=";
   if (place.geometry) {
-    window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${place.geometry.location.lat()}, ${place.geometry.location.lng()}#transit-input`));
+    location_url = location_url + place.geometry.location.lat() + ", " + place.geometry.location.lng() + "#transit-input";
   }
   else {
-    window.Turbolinks.visit(encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${place.name}#transit-input`));
+    location_url = location_url + place.name + "#transit-input";
   }
+  window.location.href = encodeURI(location_url);
 });
 </script>
 
