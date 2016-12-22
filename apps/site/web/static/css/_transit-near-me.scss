@@ -81,13 +81,13 @@
       pointer-events: none;
     }
   }
+}
 
-  .transit-near-me-error {
-    @extend %error-message;
+.transit-near-me-error {
+  @extend %error-message;
 
-    &:empty {
-      display: none;
-    }
+  &:empty {
+    display: none;
   }
 }
 
