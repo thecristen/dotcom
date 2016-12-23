@@ -86,47 +86,47 @@
                 </li>
               </ul>
             </nav>
-          </div>
-          <div class="hidden-md-up">
-            <nav class="collapse navbar navbar-toggleable-sm" id="navbar" role="navigation">
-              <ul class="nav navbar-nav">
-                <li class="nav-item">
-                  <% home_link = page_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= home_link %>">
-                    <%= bold_if_active @conn, home_link, "Home" %>
-                    <p class="small menu-description">Home</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% getting_around_link = static_page_path(@conn, :getting_around) %>
-                  <a class="nav-link" href="<%= getting_around_link %>">
-                    <%= bold_if_active @conn, getting_around_link, "Getting Around" %>
-                    <p class="small menu-description">Transit Services, Plan Your Trip, Riding...</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% fares_link = fare_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= fares_link %>">
-                    <%= bold_if_active @conn, fares_link, "Fares" %>
-                    <p class="small menu-description">Fares By Mode, Reduced Fares, Passes...</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% contact_us_link = customer_support_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= contact_us_link %>">
-                    <%= bold_if_active @conn, contact_us_link, "Contact Us" %>
-                    <p class="small menu-description">Phone And Online Support, T-Alerts</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% more_link = static_page_path(@conn, :about) %>
-                  <a class="nav-link" href="<%= more_link %>">
-                    <%= bold_if_active @conn, more_link, "More" %>
-                    <p class="small menu-description">About Us, Business Center, Projects...</p>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <div class="hidden-md-up">
+              <nav class="collapse navbar navbar-toggleable-sm" id="navbar" role="navigation">
+                <ul class="nav navbar-nav">
+                  <li class="nav-item">
+                    <% home_link = page_path(@conn, :index) %>
+                    <a class="nav-link" href="<%= home_link %>">
+                      <%= bold_if_active @conn, home_link, "Home" %>
+                      <p class="small menu-description">Home</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <% getting_around_link = static_page_path(@conn, :getting_around) %>
+                    <a class="nav-link" href="<%= getting_around_link %>">
+                      <%= bold_if_active @conn, getting_around_link, "Getting Around" %>
+                      <p class="small menu-description">Transit Services, Plan Your Trip, Riding...</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <% fares_link = fare_path(@conn, :index) %>
+                    <a class="nav-link" href="<%= fares_link %>">
+                      <%= bold_if_active @conn, fares_link, "Fares" %>
+                      <p class="small menu-description">Fares By Mode, Reduced Fares, Passes...</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <% contact_us_link = customer_support_path(@conn, :index) %>
+                    <a class="nav-link" href="<%= contact_us_link %>">
+                      <%= bold_if_active @conn, contact_us_link, "Contact Us" %>
+                      <p class="small menu-description">Phone And Online Support, T-Alerts</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <% more_link = static_page_path(@conn, :about) %>
+                    <a class="nav-link" href="<%= more_link %>">
+                      <%= bold_if_active @conn, more_link, "More" %>
+                      <p class="small menu-description">About Us, Business Center, Projects...</p>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
         <%= render "_desktop_header.html", conn: @conn %>

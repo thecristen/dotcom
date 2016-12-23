@@ -23,8 +23,12 @@ $icon-size: 1.75rem;
 }
 
 .desktop-menu-nav {
-  margin-top: 1.75rem;
+  margin-top: 1.5rem;
   padding: 0;
+
+  @include media-breakpoint-up(xxl) {
+    margin-top: 1.25rem;
+  }
 
   .nav-link {
     border-bottom: 6px solid $brand-secondary;
