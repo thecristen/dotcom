@@ -4,7 +4,7 @@ defmodule Site.TransitNearMeViewTest do
   alias Site.TransitNearMeView, as: View
 
   @stop_with_routes %{
-    distance: "0.5 mi",
+    distance: 0.52934802,
     routes: [
      orange_line: [%Routes.Route{id: "Orange", key_route?: true, name: "Orange Line", type: 1}],
      commuter_rail: [
@@ -35,6 +35,19 @@ defmodule Site.TransitNearMeViewTest do
     @stop_with_routes
     |> Map.get(:routes)
     |> Enum.each(&test_get_type_list/1)
+  end
+
+  test "result_container_classes/2 assigns the correct class based on the result set size" do
+    large_set = Enum.map(0..8, fn _ -> @stop_with_routes end)
+    assert View.result_container_classes("different-class", large_set) == "different-class large-set"
+
+    six_set = Enum.map(0..6, fn _ -> @stop_with_routes end)
+    assert View.result_container_classes("different-class", six_set) == "different-class small-set"
+
+    small_set = Enum.map(0..4, fn _ -> @stop_with_routes end)
+    assert View.result_container_classes("different-class", small_set) == "different-class small-set"
+
+    assert View.result_container_classes("different-class", []) == "different-class empty"
   end
 
   defp test_get_type_list({:bus, routes}) do

@@ -26,7 +26,7 @@ defmodule Site.Plugs.TransitNearMe do
 
     do_call(conn, stops_with_routes, location)
   end
-  # Used in Backstop tests to avoid calling Google Maps
+  # Used in Backstop tests to avoid calling Google Maps and control the number of results that get returned
   def call(%{params: %{"latitude" => latitude, "longitude" => longitude}} = conn, options) do
     formatted = conn.params
     |> Map.get("location", %{})
@@ -42,7 +42,6 @@ defmodule Site.Plugs.TransitNearMe do
     }
 
     stops_with_routes = calculate_stops_with_routes(location, options)
-
     do_call(conn, stops_with_routes, location)
   end
   def call(conn, _options) do

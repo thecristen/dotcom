@@ -156,7 +156,7 @@
     },
     {
       "label": "Transit Near Me",
-      "url": "http://localhost:8082/transit-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159",
+      "url": "http://localhost:8082/transit-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159&location[client_width]=0",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1

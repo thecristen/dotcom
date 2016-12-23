@@ -2,7 +2,7 @@
   <h2 class="h5">Find Transit Near You</h2>
 </div>
 <div class="transit-near-me">
-  <%= form_for @conn, @conn.request_path<>"#transit-input", [as: :location, method: :get, class: "form", onsubmit: "return validateTNMForm();"], fn f ->  %>
+  <%= form_for @conn, @conn.request_path<>"#transit-input", [as: :location, method: :get, class: "form"], fn f ->  %>
     <div class="form-group">
       <button type="button" class="btn location-btn" data-geolocation-target="place-input">
         <%= fa "location-arrow" %>
@@ -11,7 +11,8 @@
         <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
       </button>
       <% address = @conn.params["place_name"] || @address %>
-      <%= text_input f, :address, value: address, class: "transit-near-me-input", id: "place-input", required: true %>
+      <%= text_input f, :address, value: address, class: "transit-near-me-input", id: "place-input", data: [place_name: @conn.params["place_name"]], required: true %>
+      <%= text_input f, :client_width, id: "client-width", type: "hidden", value: 0 %>
       <button type="submit" class="btn btn-primary">GO</button>
       <div class="clear"></div>
     </div>
@@ -21,27 +22,3 @@
 <p id="tnm-geolocation-error" class="transit-near-me-error hidden-xs-up"></p>
 
 <script data-turbolinks-eval="false" type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>
-<script>
-var autocomplete = new google.maps.places.Autocomplete(document.getElementById("place-input"));
-google.maps.event.addListener(autocomplete, 'place_changed', function() {
-  var place = autocomplete.getPlace(); var loc = window.location;
-  var location_url = loc.protocol + "//" + loc.host + loc.pathname + "?location[address]=";
-  if (place.geometry) {
-    location_url = location_url + place.geometry.location.lat() + ", " + place.geometry.location.lng() + "&place_name=" + place.formatted_address + "#transit-input";
-  }
-  else {
-    location_url = location_url + place.name + "#transit-input";
-  }
-  window.location.href = encodeURI(location_url);
-});
-
-function validateTNMForm() {
-  var text_input = document.getElementById('place-input');
-  if (text_input.value == "<%= @conn.params["place_name"] %>") {
-    location.reload();
-    return false;
-  }
-  return true;
-}
-</script>
-

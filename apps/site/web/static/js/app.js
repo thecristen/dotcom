@@ -33,6 +33,7 @@ import fixedsticky from './fixedsticky';
 import menuCtrlClick from './menu-ctrl-click';
 import carousel from './carousel';
 import geoLocation from './geolocation';
+import transitNearMe from './transit-near-me';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
@@ -49,5 +50,6 @@ objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
 carousel();
 geoLocation();
+transitNearMe();
 
 $("body").removeClass("no-js").addClass("js");

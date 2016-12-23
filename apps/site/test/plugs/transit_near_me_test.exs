@@ -76,8 +76,8 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> assign_query_params(%{"latitude" => "#{lat}", "longitude" => "#{lng}"})
       |> call(options)
 
-      assert :stops_with_routes in Map.keys conn.assigns
-      assert :address in Map.keys conn.assigns
+      assert %{assigns: %{stops_with_routes: stops, address: _}} = conn
+      assert length(stops) == 3
       assert get_flash(conn) == %{}
     end
   end

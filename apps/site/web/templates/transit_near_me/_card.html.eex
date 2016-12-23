@@ -1,0 +1,17 @@
+<div class="transit-card">
+  <div class="station-name row">
+    <p class="col-xs-8">
+      <%= link @stop.name, to: stop_path(@conn, :show, @stop.id) %>
+    </p>
+    <p class="distance col-xs-4"><%= round_distance(@distance) %></p>
+  </div>
+  <div>
+    <%= for {type, routes} <- @routes do %>
+      <div class="transit-route row">
+        <div class="col-xs-2 transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %></div>
+        <p class="col-xs-10 transit-route-name"><%= get_type_list(type, routes) %></p>
+      </div>
+    <% end %>
+  </div>
+  <%= link "", to: stop_path(@conn, :show, @stop.id), class: "transit-card-link" %>
+</div>
