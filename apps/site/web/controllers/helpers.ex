@@ -47,7 +47,7 @@ defmodule Site.ControllerHelpers do
 
   @spec get_group_number(integer) :: integer
   defp get_group_number(width) when width >= 960, do: 4
-  defp get_group_number(width) when width >= 800, do: 3
+  defp get_group_number(width) when width >= 768, do: 3
   defp get_group_number(width) when width >= 543, do: 2
   defp get_group_number(_), do: 1
 end

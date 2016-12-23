@@ -83,7 +83,6 @@ $page-section-padding-xxl: 0;
 
 .pre-container-tnm {
   color: $white;
-  padding-top: 1rem;
 }
 
 
@@ -126,4 +125,8 @@ $page-section-padding-xxl: 0;
   background-size: cover;
   padding-bottom: 3rem;
   width: 100%;
+
+  .transit-input-label {
+    color: $white;
+  }
 }

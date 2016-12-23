@@ -1,8 +1,6 @@
-<div id="transit-input" class="transit-near-me-form pre-container-tnm">
-  <h2 class="h5">Find Transit Near You</h2>
-</div>
+<h2 id="transit-input" class="h5 transit-input-label">Find Transit Near You</h2>
 <div class="transit-near-me">
-  <%= form_for @conn, @conn.request_path<>"#transit-input", [as: :location, method: :get, class: "form"], fn f ->  %>
+  <%= form_for @conn, @conn.request_path<>"#transit-input", [as: :location, method: :get, class: "form transit-near-me-form"], fn f ->  %>
     <div class="form-group">
       <button type="button" class="btn location-btn" data-geolocation-target="place-input">
         <%= fa "location-arrow" %>

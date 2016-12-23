@@ -33,6 +33,7 @@
       "hideSelectors": [],
       "removeSelectors": [".index-news-group"],
       "selectors": [
+        ".pre-container-wrapper",
         "main",
         "header",
         "footer"

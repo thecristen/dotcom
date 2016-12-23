@@ -28,13 +28,9 @@
 }
 
 .transit-near-me {
-  background-color: $white;
-
-  .transit-near-me-form {
-    color: initial;
-  }
 
   .form-group {
+    background-color: $white;
     border: 1px solid $gray-lightest;
     border-radius: $default-border-radius;
     display: block;
@@ -106,6 +102,10 @@
     -webkit-column-count: $column-count;
     column-count: $column-count;
   }
+}
+
+.transit-input-label {
+  padding-top: 1rem;
 }
 
 .transit-card {

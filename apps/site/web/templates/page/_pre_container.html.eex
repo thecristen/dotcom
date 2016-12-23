@@ -1,17 +1,15 @@
-<%= if Laboratory.enabled?(@conn, :transit_near_me_frontdoor) do %>
-  <div class="pre-container-wrapper">
-    <div class="container">
-      <div class="pre-container-header">
-        <h1 class="pre-container-welcome">Welcome to the MBTA</h1>
-        <p class="route-type-icons" aria-hidden="true">
-          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
-          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) %>
-          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
-          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry}) %>
-        </p>
-      </div>
-      <%= render Site.TransitNearMeView, "_input.html", address: @address, conn: @conn %>
-      <%= render Site.TransitNearMeView, "_results.html", class: "transit-near-me-white", stops_with_routes: @stops_with_routes, stop_groups: @stop_groups, conn: @conn %>
+<div class="pre-container-wrapper">
+  <div class="container">
+    <div class="pre-container-header">
+      <h1 class="pre-container-welcome">Welcome to the MBTA</h1>
+      <p class="route-type-icons" aria-hidden="true">
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) %>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry}) %>
+      </p>
     </div>
+    <%= render Site.TransitNearMeView, "_input.html", address: @address, conn: @conn %>
+    <%= render Site.TransitNearMeView, "_results.html", class: "transit-near-me-white", stops_with_routes: @stops_with_routes, stop_groups: @stop_groups, conn: @conn %>
   </div>
-<% end %>
+</div>
