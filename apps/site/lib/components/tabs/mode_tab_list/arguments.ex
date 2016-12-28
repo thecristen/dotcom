@@ -1,17 +1,17 @@
 defmodule Site.Components.Tabs.ModeTabList do
   @moduledoc """
-  Renders a list of tabs for transport modes, as well as The Ride and accessibility. By default, collapses
-  at the smallest breakpoint with a button to expand.
+  Renders a list of tabs for transport modes, as well as The Ride and accessibility. Can optionally collapse
+  at xs or sm breakpoints.
   """
 
   defstruct [
     id: "modes",
-    class: "navbar-toggleable-xs m-y-1",
+    class: "m-y-1",
     links: for mode <- [:bus, :commuter_rail, :subway, :ferry] do
              {mode, Site.Router.Helpers.schedule_path(Site.Endpoint, :show, mode)}
            end,
     selected_mode: :bus,
-    btn_class: "hidden-sm-up"
+    collapse: nil
   ]
 
   @type t :: %__MODULE__{
@@ -19,9 +19,17 @@ defmodule Site.Components.Tabs.ModeTabList do
     class: String.t,
     links: [{atom, String.t}],
     selected_mode: atom,
-    btn_class: String.t
+    collapse: String.t | nil
   }
 
   def selected?(mode, mode), do: true
   def selected?(_, _), do: false
+
+  def btn_class("xs"), do: "hidden-sm-up"
+  def btn_class("sm"), do: "hidden-md-up"
+  def btn_class(_collapse), do: ""
+
+  def nav_class("xs"), do: "collapse navbar-toggleable-xs"
+  def nav_class("sm"), do: "collapse navbar-toggleable-sm"
+  def nav_class(_collapse), do: ""
 end

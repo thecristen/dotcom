@@ -4,7 +4,8 @@
     links: for mode <- [:commuter_rail, :subway, :ferry] do
       {mode, stop_path(@conn, :show, mode)}
     end,
-    selected_mode: @mode
+    selected_mode: @mode,
+    collapse: "xs"
   } %>
   <%= for {route, stops} <- @stop_info do %>
     <h2><%= route.name |> clean_route_name %></h2>

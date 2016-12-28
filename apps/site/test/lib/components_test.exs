@@ -157,6 +157,18 @@ defmodule Site.ComponentsTest do
         assert rendered =~ "icon-#{mode}"
       end
     end
+
+    test "btn_class/1" do
+      assert btn_class("xs") == "hidden-sm-up"
+      assert btn_class("sm") == "hidden-md-up"
+      assert btn_class(nil) == ""
+    end
+
+    test "nav_class/1" do
+      assert nav_class("xs") == "collapse navbar-toggleable-xs"
+      assert nav_class("sm") == "collapse navbar-toggleable-sm"
+      assert nav_class(nil) == ""      
+    end
   end
 
   def current_active_period do
