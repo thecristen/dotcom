@@ -34,7 +34,9 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
     origin = get_stop(conn, "origin", origin_stop_list)
 
     destination_stop_list = destination_stops(origin, module.route_type)
-    destination = get_stop(conn, "destination", destination_stop_list)
+    destination = conn
+                  |> get_stop("destination", destination_stop_list)
+                  |> guess_destination(destination_stop_list)
 
     conn
     |> assign(:breadcrumbs, [
@@ -87,6 +89,15 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
     |> Enum.sort_by(&(&1.name))
     |> Enum.dedup
     |> Enum.reject(&(&1.id == origin))
+  end
+
+  @doc "Returns a destination if there is only one possibility"
+  @spec guess_destination(Schedules.Stop.t | nil, [Schedules.Stop.t]) :: Schedules.Stop.t | nil
+  def guess_destination(nil, [_origin, destination]) do
+    destination
+  end
+  def guess_destination(destination, _stops) do
+    destination
   end
 
   def get_stop(conn, stop_field, all_stops) do
