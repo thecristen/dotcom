@@ -24,10 +24,6 @@
           <h2><strong>Line Schedules</strong></h2>
           <%= mode_button_list(%ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
         </div>
-        <div class="col-xs-12" id="fares">
-          <h2><strong><%= @mode_name %> Fares</strong></h2>
-          <p><%= @fare_description %></p>
-        </div>
       </div>
     </div>
   </div>
