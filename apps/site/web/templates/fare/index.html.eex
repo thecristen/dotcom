@@ -3,10 +3,7 @@
     <h1>Fares and Passes</h1>
     <div class="content-section">
       <p>
-        To determine your fare, you will first have to consider which type of transportation (mode) you are traveling on and which
-        types of payment methods that mode accepts. Payment methods include: CharlieCard, CharlieTicket, mTicket App, and cash
-        on-board. Your chosen payment method may affect how much your fare costs, which passes you can purchase, and your
-        eligibility to make discounted transfers.
+        Your fare is determined by your mode of travel (subway, bus, light rail, commuter rail, or ferry) and the way you pay (Cash, CharlieCard, CharlieTicket, or mobile app).
       </p>
     </div>
     <div class="content-section">
