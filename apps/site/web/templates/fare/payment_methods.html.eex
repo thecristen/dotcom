@@ -6,15 +6,15 @@
     <div class="payment-method">
       <h2>CharlieCard</h2>
       <p class="charliecard-uses">
-        <strong>Use it on:</strong> 
+        <strong>Use it on:</strong>
         Bus and Subway <%= fare_mode_icons([:bus, :subway])%>
       </p>
       <div class="row p-b-1">
-        <div class="col-sm-6 col-xs-12 payment-image-container">
-          <img src=<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%> alt="The reverse side of a CharlieCard" class="img-fluid payment-image" />
+        <div class="col-sm-6 col-xs-12 payment-image">
+          <img src="<%= static_url(@conn, "/images/charlie-card-reverse.jpg")%>" alt="The reverse side of a CharlieCard" class="img-fluid" />
         </div>
-        <div class="col-sm-6 col-xs-12 payment-image-container">
-          <img src=<%= static_url(@conn, "/images/charlie-card.jpg")%> alt="CharlieCard" class="img-fluid payment-image" />
+        <div class="col-sm-6 col-xs-12 payment-image">
+          <img src="<%= static_url(@conn, "/images/charlie-card.jpg")%>" alt="CharlieCard" class="img-fluid" />
         </div>
       </div>
       <p>
@@ -49,9 +49,9 @@
       </p>
       <h4>Using CharlieTickets on the Bus and Subway</h4>
       <div class="row m-t-g">
-        <div class="col-sm-6 col-xs-12">
-        <img src=<%= static_url(@conn, "/images/charlie-ticket.jpg") %> alt="CharlieTicket with Stored Value" class="img-fluid payment-image" />
-        <p class="small fare-image-description">CharlieTicket with Stored Value</p>
+        <div class="col-sm-6 payment-image">
+          <img src="<%= static_url(@conn, "/images/charlie-ticket.jpg") %>" alt="CharlieTicket with Stored Value" class="img-fluid payment-image" />
+          <p class="small fare-image-description">CharlieTicket with Stored Value</p>
         </div>
       </div>
       <p>
@@ -63,13 +63,13 @@
       </p>
       <h4>Using CharlieTickets on the Commuter Rail and Ferry</h4>
       <div class="row m-t-1">
-        <div class="col-sm-6 col-xs-12">
-          <img src=<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %> alt="Zone 1 One Way Pass on a CharlieTicket" class="img-fluid payment-image" />
+        <div class="col-sm-6 payment-image">
+          <img src="<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %>" alt="Zone 1 One Way Pass on a CharlieTicket" class="img-fluid payment-image" />
           <p class="small fare-image-description">Zone 1 One Way Pass on a CharlieTicket</p>
         </div>
       </div>
       <p>
-        For Commuter Rail and Ferry, you may store a pass (One Way, Round Trip, Monthly) on a CharlieTicket. 
+        For Commuter Rail and Ferry, you may store a pass (One Way, Round Trip, Monthly) on a CharlieTicket.
         In this case, the CharlieTicket cannot be used to also store any amount of money to be used for for Bus and Subway One Way fares.
         Monthly passes for Commuter Rail and Ferry on a CharlieTicket are also valid for use on Bus and Subway.
       </p>
@@ -81,8 +81,11 @@
         <strong>Use it on:</strong>
         Commuter Rail and Ferry <%= fare_mode_icons([:commuter_rail, :ferry]) %>
       </p>
-      <img src=<%= static_url(@conn, "/images/mticket-app.png") %> class="img-fluid"/>
-      <p class=m-t-1>
+      <p>
+        <img src="<%= static_url(@conn, "/images/mticket-app.png") %>" class="img-fluid"/>
+      </p>
+
+      <p class="m-t-1">
         Commuter Rail and Ferry riders can easily purchase any pass (One Way, Round Trip, 10-Ride, or Monthly) through the mTicket app.
         Push “activate” right before boarding and show your mTicket to the conductor upon request.
       </p>
@@ -90,7 +93,7 @@
         <strong>Tip:</strong>
         This is a very convenient option for smartphone owners and eliminates the risk of misplacing your physical pass.
         Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket.
-        However, passes purchased through mTicket app are not valid for use on Bus and Subway like they are on a CharlieTicket. 
+        However, passes purchased through mTicket app are not valid for use on Bus and Subway like they are on a CharlieTicket.
       </p>
       <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
         <span class="sr-only">Download on the app store</span>
@@ -108,7 +111,7 @@
         All Modes <%= fare_mode_icons([:commuter_rail, :bus, :subway, :ferry])%>
       </p>
       <p>
-        Each mode accepts cash on-board; however, certain restrictions apply such as limited transfers* 
+        Each mode accepts cash on-board; however, certain restrictions apply such as limited transfers*
         on Bus and Subway and a $3.00 fee added onto your regular fare on Commuter Rail if you board the train at a station with a fare vending machine.
         Round Trip Passes purchased on-board Commuter Rail will be valid until the end of service that same day.
       </p>

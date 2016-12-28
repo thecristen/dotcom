@@ -258,55 +258,36 @@ a {
   }
 }
 
-.charlie-card-hours {
-  border: $space-1 solid $gray-lightest;
-  padding: 0;
-
-  .hours-header {
-    background-color: $gray-lightest;
-    font-weight: bold;
-    padding: .5em;
+//scss-lint:disable SelectorFormat
+.charlie_card-template {
+  .h4 {
+    margin-top: 1.5rem;
   }
 
-  .hours-body {
-    padding: .5em .5em 0;
+  .page-section {
+    margin-bottom: 2rem;
   }
+}
+//scss-lint:enable SelectorFormat
+
+.charlie-card-hours,
+.charlie-store-info,
+.expired-address {
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.charlie-card-stations {
+  margin-top: .75rem;
 }
 
 .charlie-card-link {
-  border-top: 1px solid $gray-lightest;
-  display: block;
-  padding: .75em .5em;
-
-  @include media-breakpoint-up(md) {
-    &:last-child {
-      border-bottom: 1px solid $gray-lightest;
-    }
-  }
+  //scss-lint:disable PlaceholderInExtend
+  @extend .mode-group-btn;
 
   .charlie-card-truncate {
     @include truncate();
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  .charlie-card-link-container ~ .charlie-card-link-container {
-    margin-bottom: 1em;
-
-    .charlie-card-link:last-child {
-      border-bottom: 1px solid $gray-lightest;
-    }
-  }
-}
-
-@include media-breakpoint-up(md) {
-  .charlie-card-link-container {
-    padding-right: 1.5em;
-  }
-
-  .charlie-card-link-container ~ .charlie-card-link-container {
-    padding-left: 1.5em;
-    padding-right: .375em;
   }
 }
 
@@ -356,9 +337,14 @@ a {
   margin-bottom: 1.75rem;
   padding-bottom: .75rem;
 
-  .payment-image {
-    height: auto;
-    width: 100%;
+  .card-image {
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 
   &:last-child {
@@ -370,7 +356,7 @@ a {
   margin-bottom: 1.5rem;
 }
 
-.payment-image-container {
+.payment-image {
   @include media-breakpoint-only(xs) {
     margin-top: 1.5rem;
 
@@ -378,6 +364,20 @@ a {
       margin-top: 0;
     }
   }
+
+  img {
+    height: auto;
+    width: 100%;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
 }
 
 .content-section {

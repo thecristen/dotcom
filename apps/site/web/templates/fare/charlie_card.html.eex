@@ -1,108 +1,117 @@
-<div class="page-section">
-  <div class="page-block row">
-    <div class="col-xs-12">
-      <h1>The CharlieCard</h1>
-    </div>
+<div class="page-block">
+  <h1>The CharlieCard</h1>
 
-    <div class="col-xs-12">
-      <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare.</p>
+  <div class="page-section">
+    <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare.</p>
+    <div class="payment-method row">
+      <p class="col-sm-6 payment-image">
+        <img class="image-fluid" src="<%= static_url(@conn, "/images/charlie-card-reverse.jpg") %>" />
+      </p>
+      <p class="col-sm-6 payment-image">
+        <img class="image-fluid" src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" />
+      </p>
     </div>
+  </div>
 
-    <div class="col-xs-12 m-b-1">
-      <h3>Where to Get a CharlieCard</h3>
+
+  <div class="page-section">
+    <h2>Where to Get a CharlieCard</h2>
+    <h3 class="h4">Select Bus &amp; Subway Stations</h3>
+    <p>You can get a free, blank CharlieCard from an MBTA Customer Service Agent working at the Bus and Subway stations listed below.</p>
+    <div class="row">
+      <div class="charlie-card-hours col-md-4">
+        <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p><strong>Sunday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p class="charlie-card-stations"><%= charlie_card_stations() %></p>
+      </div>
+      <div class="charlie-card-hours col-md-4">
+        <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p><strong>Sunday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p class="charlie-card-stations"><%= stop_link "place-haecl" %>, <%= stop_link "place-wondl" %></p>
+      </div>
+      <div class="charlie-card-hours col-md-4">
+        <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p><strong>Sunday hours:</strong> 10:30 AM - 7:00 PM</p>
+        <p class="charlie-card-stations"><%= stop_link "place-kencl" %></p>
+      </div>
     </div>
-
-    <div class="col-xs-12">
-      <h4>Bus &amp; Subway Stations</h4>
-      <p>You can get a blank CharlieCard from an MBTA Customer Service agent working at the following stations:</p>
-    </div>
-
-    <div class="col-xs-12 charlie-card-hours">
-      <div class="hours-header">Open every day 7:00 AM until 7:00 PM</div>
-      <div class="hours-body">
-        <p><%= charlie_card_stations() %></p>
+    <div class="row m-t-2">
+      <div class="charlie-card-hours col-md-4">
+        <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
+        <p><strong>Saturday hours:</strong> 7:00 AM - 2:00 PM, 4:30 PM - 7:00 PM</p>
+        <p><strong>Sunday hours:</strong> 10:30 AM - 7:00 PM</p>
+        <p class="charlie-card-stations"><%= stop_link "place-mvbcl" %></p>
       </div>
     </div>
 
-    <div class="col-xs-12 charlie-card-hours m-y-1">
-      <div class="hours-header">Additional stations &amp; hours</div>
-      <div class="hours-body">
-        <p><%= stop_link "place-kencl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 10:30 AM - 7:00PM</p>
-        <p><%= stop_link "place-mvbcl" %>: Mon - Fri &amp; Sun 7:00 AM - 7:00 PM, Sat 7:00 AM - 2:00 PM, 4:30 PM - 7:00PM</p>
-        <p><%= stop_link "place-haecl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
-        <p><%= stop_link "place-wondl" %>: Mon - Sat 7:00 AM - 7:00 PM, Sun 7:00 AM - 2:30 PM</p>
+    <h3 class="h4">Retail Sales Locations</h3>
+    <p>MBTA riders can get blank CharlieCards and purchase passes to load onto them at designated retail stores located throughout the Greater Boston and Providence area.</p>
+    <p>
+      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+        Find a store near you <%= fa "arrow-right" %>
+      <% end %>
+    </p>
+  </div>
+
+  <div class="page-section">
+    <h2 id="store">CharlieCard Store</h2>
+    <p>The CharlieCard store is open to all MBTA riders for CharlieCard services and is conveniently located at the Downtown Crossing Station in the underground concourse between the Red and Orange lines.</p>
+
+    <h3 class="h4">Services Available</h3>
+    <ul>
+      <li>Replace damaged or expired CharlieCard</li>
+      <li>Request Senior CharlieCard, Transport Access Pass, or Blind Access Pass</li>
+      <li>Add credit to RIDE account</li>
+    </ul>
+    <div class="row charlie-store-info">
+      <div class="col-md-4">
+        <p><strong>Hours:</strong></p>
+        <p>Monday - Friday, 8:30 AM until 5:00 PM</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Phone:</strong></p>
+        <p><%= tel_link "(617) 222-3200" %></p>
+        <p><%= tel_link "(617) 222-5854" %> (for the deaf or hard of hearing)</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Mailing Address:</strong><p>
+        <p>Downtown Crossing Station</p>
+        <p>7 Chauncy Street</p>
+        <p>Boston, MA 02111</p>
       </div>
     </div>
+  </div>
 
-    <div class="col-xs-12">
-      <h4>Retail Sales Locations</h4>
-      <p>MBTA riders can get blank CharlieCards and purchase passes at stores located throughout the Greater Boston and Providence area.</p>
-      <p>
-        <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
-          Find a store near you <%= fa "arrow-right" %>
-        <% end %>
-      </p>
+  <div class="page-section">
+    <h2>Replacing CharlieCards</h3>
+    <h3 class="h4">Lost, Stolen, or Damaged</h3>
+    <p>Lost, stolen, or damaged CharlieCards can only be replaced if they have already been registered with a MyCharlie account. If you have a MyCharlie account, login and request a replacement card to be mailed to you or call 1-888-844-0355.</p>
+    <h3 class="h4">Expired</h3>
+    <p>Expired CharlieCards (including Senior and TAP CharlieCards) can be replaced at the CharlieCard Store located in Downtown Crossing. An agent will transfer any remaining balance on an expired CharlieCard to a new card.</p>
+    <p>If you have an expired Senior or TAP CharlieCard, you may also send it in the mail in order to get a new one mailed back to you. Please send expired cards to:</p>
+    <div class="expired-address">
+      <p>MBTA</p>
+      <p>Revenue Department</p>
+      <p>10 Park Plaza Rm 4730</p>
+      <p>Boston, MA 02116</p>
     </div>
+  </div>
 
-    <div class="col-xs-12 m-t-1">
-      <h3 id="store">CharlieCard Store</h3>
-      <p>The CharlieCard store is located at the Downtown Crossing station in the underground concourse between the Red and Orange lines.</p>
-
-      <h4>Services Available</h4>
-      <ul>
-        <li>Replace damaged or expired CharlieCard</li>
-        <li>Request Senior CharlieCard, Transport Access Pass, or Blind Access Pass</li>
-        <li>Add credit to RIDE account</li>
-      </ul>
-    </div>
-
-    <div class="col-xs-12 col-md-4">
-      <p>
-        <strong>Hours:</strong><br />
-        Monday &mdash; Friday<br />
-        8:30 AM until 5:00 PM
-      </p>
-    </div>
-    <div class="col-xs-12 col-md-4">
-      <p>
-        <strong>Phone:</strong><br />
-        <%= tel_link "(617) 222-3200" %><br />
-        <%= tel_link "(617) 222-5854" %><br />
-        (for the deaf or hard of hearing)
-      </p>
-    </div>
-    <div class="col-xs-12 col-md-4">
-      <p>
-        <strong>Mailing Address:</strong><br />
-        Downtown Crossing Station<br />
-        7 Chauncy Street<br />
-        Boston, MA 02111
-      </p>
-    </div>
-
-    <div class="col-xs-12 m-t-1">
-      <h3>Replacing CharlieCards</h3>
-      <h4>Lost or Stolen</h4>
-      <p>Lost or stolen CharlieCards can only be replaced if they have already been registered with a MyCharlie account.  If you have a MyCharlie account, you can request a replacement card to be mailed to you.</p>
-      <h4>Damaged or Expired</h4>
-      <p>Damaged or expired CharlieCards can be replaced at the CharlieCard Store located in Downtown Crossing. The remaining Stored Value on an expired CharlieCard will be transferred to the new card.</p>
-    </div>
-
-    <div class="col-xs-12 m-t-1">
-      <h3>Online CharlieCard Services</h3>
-      <p>Bus and Subway riders can create a MyCharlie account to set up recurring monthly pass purchases and have protection against loss, theft, or damage to their CharlieCard. Those who do not want a MyCharlie can reload their CharlieCard with up to $50. Commuter Rail, Boat, and Express Bus riders can order monthly passes online.</p>
-    </div>
-
-    <div class="charlie-card-link-container col-xs-12 col-md-6">
-      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Log in to MyCharlie account <span class="pull-xs-right"><%= fa "arrow-right" %></span></a>
-      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account <span class="pull-xs-right"><%= fa "arrow-right" %></span></a>
-    </div>
-    <div class="charlie-card-link-container col-xs-12 col-md-6">
-      <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/loginIV.jsf">Reload CharlieCard <span class="pull-xs-right"><%= fa "arrow-right" %></span></a>
-      <a class="charlie-card-link" href="https://commerce.mbta.com/">
-        <span class="charlie-card-truncate">Buy Commuter Rail, Ferry, Express Bus pass</span>
-        <span class="pull-xs-right"><%= fa "arrow-right" %></span>
-      </a>
+  <div class="page-section">
+    <h2>Online CharlieCard Services</h2>
+    <p>Bus and Subway riders can create a MyCharlie account to set up recurring monthly pass purchases and have protection against loss, theft, or damage to their CharlieCard. Those who do not want a MyCharlie can reload their CharlieCard with up to $50. Commuter Rail, Boat, and Express Bus riders can order monthly passes online.</p>
+    <div class="row">
+      <div class="col-md-6">
+        <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Log in to MyCharlie account</a>
+        <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account</a>
+      </div>
+      <div class="col-md-6">
+        <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/loginIV.jsf">Reload CharlieCard</a>
+        <a class="charlie-card-link charlie-card-truncate" href="https://commerce.mbta.com/">Buy Commuter Rail, Ferry, Express Bus pass</a>
+      </div>
     </div>
   </div>
 </div>
