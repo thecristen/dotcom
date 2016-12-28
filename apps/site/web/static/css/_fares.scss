@@ -337,6 +337,7 @@ a {
 
 .fare-summary-price {
   float: right;
+  padding-top: 1.5rem;
 }
 
 .payment-method-modes {
@@ -479,5 +480,17 @@ a {
 @include media-breakpoint-down(sm) {
   .fare-selector-container {
     padding-bottom: .75rem;
+  }
+}
+
+.the-ride-column {
+  @include media-breakpoint-up(sm) {
+    &:nth-child(1) {
+      padding-right: 1.5rem;
+    }
+
+    &:nth-child(2) {
+      padding-left: 1.5rem;
+    }
   }
 }

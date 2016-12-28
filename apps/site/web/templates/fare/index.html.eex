@@ -79,7 +79,7 @@
       <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
       <div class="row">
         <%= for fare <- @the_ride do %>
-          <div class="fares-box-column">
+          <div class="col-xs-12 col-sm-6 the-ride-column">
             <div>
               <h3 class="fare-summary-header">
                 <%= Fares.Format.full_name(fare) %>
