@@ -316,7 +316,7 @@ a {
   padding-bottom: .75rem;
   padding-top: 1.5rem;
 
-  .fares-mode-icon {
+  + .fares-mode-icon {
     margin-left: $space-12;
     position: relative;
     top: -1 * $space-2;
@@ -485,11 +485,11 @@ a {
 
 .the-ride-column {
   @include media-breakpoint-up(sm) {
-    &:nth-child(1) {
+    &:nth-child(odd) {
       padding-right: 1.5rem;
     }
 
-    &:nth-child(2) {
+    &:nth-child(even) {
       padding-left: 1.5rem;
     }
   }

@@ -75,12 +75,12 @@
             <div>
               <h3 class="fare-summary-header">
                 <%= Fares.Format.full_name(fare) %>
-                <span class="fares-mode-icon">
-                  <span class="fares-mode-icon-group">
-                    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
-                  </span>
-                </span>
               </h3>
+              <span class="fares-mode-icon">
+                <span class="fares-mode-icon-group">
+                  <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
+                </span>
+              </span>
               <p class="fare-summary-price">
                 <%= Fares.Format.price(fare) %>
               </p>
