@@ -23,7 +23,7 @@
                   <%= svg_icon(%SvgIcon{icon: :alert}) %>
                 <% end %>
               </p>
-              <div class="station-route-schedule-times row">
+              <div class="station-route-schedule-times">
                 <%= for {type, trip, time} <- departures do %>
                   <div class="time-column">
                     <%= predicted_icon(type) %>
