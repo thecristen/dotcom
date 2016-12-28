@@ -28,7 +28,7 @@
             selected: (if @destination, do: @destination.id, else: nil),
             disabled: (if @origin, do: @origin.id, else: nil),
             all_stops: @destination_stops,
-            key_stops: [],
+            key_stops: destination_key_stops(@destination_stops, @key_stops),
             label_text: "Destination",
             route_type: @route_type
         %>
