@@ -111,8 +111,8 @@
   </div>
   <div class="row">
     <div class="col-md-6 col-xs-12">
-      <a class="btn btn-primary btn-block" role="button" href=<%= fare_path(@conn, :show, "commuter_rail") %>>
-          Learn more about Commuter Rail Fares <%= fa "arrow-right" %>
+      <a href=<%= fare_path(@conn, :show, "commuter_rail") %>>
+        Learn more about Commuter Rail Fares <%= fa "arrow-right" %>
       </a>
     </div>
   </div>
