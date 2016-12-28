@@ -111,11 +111,21 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-subway"
       assert rendered =~ "translate(12,9)"
+      assert rendered =~ "title=\"Subway\""
     end
 
     test "optionally accepts a class argument" do
       rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "test-class"}) |> safe_to_string
       assert rendered =~ ~r(class.*test-class)
+    end
+
+    test "title/1" do
+      assert title(:blue_line) == "Blue Line"
+      assert title(%Routes.Route{id: "Orange"}) == "Orange Line"
+      assert title(%Routes.Route{id: "Red"}) == "Red Line"
+      assert title(%Routes.Route{id: "Blue"}) == "Blue Line"
+      assert title(%Routes.Route{id: "Mattapan"}) == "Mattapan Line"
+      assert title(%Routes.Route{id: "Green-B"}) == "Green Line"
     end
   end
 
