@@ -95,15 +95,6 @@
   display: none;
 }
 
-// scss-lint:disable VendorPrefix
-@mixin set-breakpoint-columns($breakpoint, $column-count) {
-  @include media-breakpoint-only($breakpoint) {
-    -moz-column-count: $column-count;
-    -webkit-column-count: $column-count;
-    column-count: $column-count;
-  }
-}
-
 .transit-input-label {
   padding-top: 1rem;
 }
@@ -113,7 +104,21 @@
 
 }
 
+// scss-lint:disable VendorPrefix
+@mixin set-breakpoint-columns($breakpoint, $column-count) {
+  @include media-breakpoint-only($breakpoint) {
+    -moz-column-count: $column-count;
+    -webkit-column-count: $column-count;
+    column-count: $column-count;
+  }
+}
+
 .transit-near-me-results {
+  @include set-breakpoint-columns(sm, 2);
+  @include set-breakpoint-columns(md, 3);
+  @include set-breakpoint-columns(lg, 4);
+  @include set-breakpoint-columns(xxl, 4);
+
   border-radius: $default-border-radius;
   -moz-column-gap: $grid-gutter-width;
   -webkit-column-gap: $grid-gutter-width;
@@ -128,43 +133,13 @@
 
   &.small-set {
     @include media-breakpoint-up(sm) {
+      -moz-column-count: 2;
+      -webkit-column-count: 2;
       column-count: 2;
     }
-  }
-
-  &.grouped {
-    @include media-breakpoint-only(xs) {
-      column-count: 1;
-    }
-
-    @include media-breakpoint-only(sm) {
-      column-count: 2;
-    }
-
-    @include media-breakpoint-only(md) {
-      column-count: 3;
-    }
-
-    @include media-breakpoint-up(lg) {
-      column-count: 4;
-      // column-width: 350px;
-    }
-  }
-
-  &.ungrouped {
-    &.large-set {
-      @include set-breakpoint-columns(sm, 2);
-      @include set-breakpoint-columns(md, 3);
+    &.grouped {
       @include set-breakpoint-columns(lg, 4);
       @include set-breakpoint-columns(xxl, 4);
-    }
-
-    &.small-set {
-      @include media-breakpoint-up(sm) {
-        -moz-column-count: 2;
-        -webkit-column-count: 2;
-        column-count: 2;
-      }
     }
   }
 }
