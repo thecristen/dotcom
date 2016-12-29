@@ -237,7 +237,7 @@ defmodule Site.ViewHelpers do
     |> Kernel.<>(" mi")
   end
 
-  @spec mode_summaries(atom, {atom, String.t}) :: [Summary.t]
+  @spec mode_summaries(atom, {atom, String.t} | nil) :: [Summary.t]
   @doc "Return the fare summaries for the given mode"
   def mode_summaries(:commuter_rail, nil) do
     filters = mode_filters(:commuter_rail, nil)
@@ -257,7 +257,7 @@ defmodule Site.ViewHelpers do
     summaries_for_filters(mode_filters(mode, name), :bus_subway)
   end
 
-  @spec mode_filters(atom, {atom, String.t}) :: [keyword()]
+  @spec mode_filters(atom, {atom, String.t} | nil) :: [keyword()]
   defp mode_filters(:ferry, _name) do
     [[mode: :ferry, duration: :single_trip, reduced: nil],
      [mode: :ferry, duration: :month, reduced: nil]]
