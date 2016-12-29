@@ -9,7 +9,7 @@ defmodule Site.ModeViewTest do
       commuter_note = fares_note("Commuter Rail")
       commuter_text = "Commuter Rail fares are separated"
       assert safe_to_string(commuter_note) =~ commuter_text
-      refute safe_to_string(fares_note("Ferry")) =~ commuter_text
+      assert fares_note("Ferry") == ""
     end
   end
 end
