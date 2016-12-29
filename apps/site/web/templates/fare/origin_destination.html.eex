@@ -1,10 +1,6 @@
 <h1><%= mode_name(@mode) %> Fares</h1>
 <h2>Find Your Fare</h2>
-<p>
-  <% zone_map_url = "http://www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg" %>
-  Fares for the <%= @mode |> mode_name |> String.downcase %> are separated into zones that depend on your origin and
-  destination<%= if @mode == :commuter_rail, do: [" ", link("(view map of fare zones)", to: zone_map_url)] %>.
-</p>
+<%= origin_destination_description(@mode) %>
 <div class="fare-callout-box m-b-1">
   <div class="row">
     <div class="col-xs-12 col-md-6 fare-selector-container">
