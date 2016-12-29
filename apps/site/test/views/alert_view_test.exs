@@ -109,7 +109,7 @@ defmodule Site.AlertViewTest do
     end
 
     test "<strong>ifies a header" do
-      expected = {:safe, "hi<hr><strong>Header:</strong><br />7:30"}
+      expected = {:safe, "hi<br /><strong>Header:</strong><br />7:30"}
       actual = format_alert_description("hi\nHeader:\n7:30")
 
       assert expected == actual

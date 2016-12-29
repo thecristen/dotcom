@@ -13,7 +13,7 @@
     <%= @alert.header %>
   </div>
   <span class="alert-item-body collapse" id="alert-body-<%= @alert.id %><%= extra_id %>">
-    <hr>
+    <br />
     <%= format_alert_description(@alert.description) %>
   </span>
   <%= if @alert.description  do %>
