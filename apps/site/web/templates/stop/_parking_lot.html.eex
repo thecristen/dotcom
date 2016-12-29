@@ -4,7 +4,7 @@
       <h3 class="parking-header">Availability</h3>
       <%= if !Enum.empty?(@lot.spots) do %>
         <ul class="list-unstyled">
-          <%= for parking <- @lot.spots do %>
+          <%= for parking <- sort_parking_spots(@lot.spots) do %>
             <li><strong><%= parking.type |> parking_type %> <%= Inflex.inflect("Space", parking.spots) %>:</strong> <%= parking.spots %></li>
           <% end %>
         </ul>
