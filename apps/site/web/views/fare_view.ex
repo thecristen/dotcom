@@ -124,4 +124,19 @@ defmodule Site.FareView do
     destination_stops
     |> Enum.filter(&(&1.id in key_stop_ids))
   end
+
+  @doc "Summary copy for describing origin-destination modes."
+  @spec origin_destination_description(:commuter_rail | :ferry) :: Phoenix.HTML.Safe.t
+  def origin_destination_description(:commuter_rail) do
+    content_tag :p do
+      [
+        "Fares for the Commuter Rail are separated into zones that depend on your origin and destination ",
+        link("(view map of fare zones)", to: "http://www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg"),
+        "."
+      ]
+    end
+  end
+  def origin_destination_description(:ferry) do
+    content_tag :p, do: "Ferry fares depend on your origin and destination."
+  end
 end

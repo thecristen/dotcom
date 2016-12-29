@@ -128,4 +128,17 @@ defmodule Site.FareViewTest do
   test "No images given for non-reduced fare" do
     assert Enum.empty?(reduced_image(:adult))
   end
+
+  describe "origin_destination_description/2" do
+    test "for CR" do
+      content = :commuter_rail |> origin_destination_description |> safe_to_string
+      assert content =~ "Fares for the Commuter Rail"
+      assert content =~ "www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg"
+    end
+
+    test "for ferry" do
+      content = :ferry |> origin_destination_description |> safe_to_string
+      assert content =~ "Ferry fares depend on your origin and destination." 
+    end
+  end
 end
