@@ -24,7 +24,7 @@
           <h2><strong>Line Schedules</strong></h2>
           <%= mode_button_list(%ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
         </div>
-        <div class="col-xs-12 p-b-1">
+        <div id="fares" class="col-xs-12 p-b-1">
           <h2><%= @mode_name %> Fares</h2>
           <%= fares_note(@mode_name) %>
           <%= Site.StopView.render "_fare_summaries.html", summaries: @mode_name |> mode_atom |> mode_summaries(nil) %>
