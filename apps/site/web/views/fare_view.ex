@@ -116,4 +116,12 @@ defmodule Site.FareView do
   def format_name(base_fare, _assigns) do
     Fares.Format.full_name(base_fare)
   end
+
+  @doc "Filter out key stops that are not in possible destinations"
+  @spec destination_key_stops([Schedules.Stop.t], [Schedules.Stop.t]) :: [Schedules.Stop.t]
+  def destination_key_stops(destination_stops, key_stops) do
+    key_stop_ids = Enum.map(key_stops, &(&1.id))
+    destination_stops
+    |> Enum.filter(&(&1.id in key_stop_ids))
+  end
 end

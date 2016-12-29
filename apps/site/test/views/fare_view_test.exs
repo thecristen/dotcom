@@ -91,6 +91,20 @@ defmodule Site.FareViewTest do
     end
   end
 
+  describe "destination_key_stops/2" do
+    test "Unavailable key stops are filtered out" do
+      key_stop1 = %Schedules.Stop{id: 1}
+      key_stop2 = %Schedules.Stop{id: 2}
+      dest_stop1 = %Schedules.Stop{id: 4}
+      dest_stop2 = %Schedules.Stop{id: 5}
+      dest_stop3 = %Schedules.Stop{id: 2}
+
+      filtered = destination_key_stops([dest_stop1, dest_stop2, dest_stop3], [key_stop1, key_stop2])
+      assert Enum.count(filtered) == 1
+      assert List.first(filtered).id == 2
+    end
+  end
+
   describe "format_name/2" do
     test "uses ferry origin and destination" do
       origin = %Schedules.Stop{name: "North"}
