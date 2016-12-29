@@ -297,7 +297,7 @@ a {
   padding-bottom: .75rem;
   padding-top: 1.5rem;
 
-  .fares-mode-icon {
+  + .fares-mode-icon {
     margin-left: $space-12;
     position: relative;
     top: -1 * $space-2;
@@ -318,6 +318,7 @@ a {
 
 .fare-summary-price {
   float: right;
+  padding-top: 1.5rem;
 }
 
 .payment-method-modes {
@@ -479,5 +480,17 @@ a {
 @include media-breakpoint-down(sm) {
   .fare-selector-container {
     padding-bottom: .75rem;
+  }
+}
+
+.the-ride-column {
+  @include media-breakpoint-up(sm) {
+    &:nth-child(odd) {
+      padding-right: 1.5rem;
+    }
+
+    &:nth-child(even) {
+      padding-left: 1.5rem;
+    }
   }
 }

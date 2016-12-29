@@ -27,4 +27,17 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def circle_args(:twitter), do: "r=200 cx=200 cy=200"
   def circle_args(:facebook), do: "r=37 cx=37 cy=37"
   def circle_args(_icon), do: "r=20 cx=20 cy=20"
+
+  def title(icon) when icon in [
+    :bus, :subway, :ferry, :commuter_rail, :the_ride, :access,
+    :orange_line, :green_line, :red_line, :blue_line, :mattapan_line
+  ] do
+    Site.ViewHelpers.mode_name(icon)
+  end
+  def title(%Routes.Route{id: "Orange"}), do: Site.ViewHelpers.mode_name(:orange_line)
+  def title(%Routes.Route{id: "Red"}), do: Site.ViewHelpers.mode_name(:red_line)
+  def title(%Routes.Route{id: "Blue"}), do: Site.ViewHelpers.mode_name(:blue_line)
+  def title(%Routes.Route{id: "Mattapan"}), do: Site.ViewHelpers.mode_name(:mattapan_line)
+  def title(%Routes.Route{id: "Green" <> _}), do: Site.ViewHelpers.mode_name(:green_line)
+  def title(_icon), do: ""
 end

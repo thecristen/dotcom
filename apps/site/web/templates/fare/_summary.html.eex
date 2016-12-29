@@ -4,13 +4,13 @@
       <div class="col-md-6 col-sm-12">
         <span class="fare-summary-header">
           <%= summary.name %>
-          <span class="fares-mode-icon">
-            <span class="sr-only">Supported Modes:</span>
-            <%= for mode <- summary.modes do %>
-              <span class="fares-mode-icon-group" aria-hidden="true"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %></span>
-              <span class="sr-only"><%= mode_name(mode) %></span>
-            <% end %>
-          </span>
+        </span>
+        <span class="fares-mode-icon">
+          <span class="sr-only">Supported Modes:</span>
+          <%= for mode <- summary.modes do %>
+            <span class="fares-mode-icon-group" aria-hidden="true"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %></span>
+            <span class="sr-only"><%= mode_name(mode) %></span>
+          <% end %>
         </span>
         <div class="mode-summary-box">
           <%= for {fare, price} <- summary.fares do %>

@@ -14,16 +14,8 @@
         and your eligibility to make discounted transfers.
       </p>
       <div class="row">
-        <div class="col-sm-5">
-          <%= link to: fare_path(@conn, :show, :payment_methods) do %>
-            Payment methods by <span class="no-wrap">mode <%= fa "arrow-right" %></span>
-          <% end %>
-        </div>
-        <div class="col-sm-4">
-          <%= link to: how_to_pay_path(@conn, :index) do %>
-            How to pay your <span class="no-wrap">fare <%= fa "arrow-right" %></span>
-          <% end %>
-        </div>
+        <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: "Accepted payment methods, where to purchase, and paying your fare", href: how_to_pay_path(@conn, :index) %>
+        <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
       </div>
     </div>
     <div class="content-section">
@@ -76,16 +68,16 @@
       <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
       <div class="row">
         <%= for fare <- @the_ride do %>
-          <div class="fares-box-column">
+          <div class="col-xs-12 col-sm-6 the-ride-column">
             <div>
               <h3 class="fare-summary-header">
                 <%= Fares.Format.full_name(fare) %>
-                <span class="fares-mode-icon">
-                  <span class="fares-mode-icon-group">
-                    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
-                  </span>
-                </span>
               </h3>
+              <span class="fares-mode-icon">
+                <span class="fares-mode-icon-group">
+                  <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
+                </span>
+              </span>
               <p class="fare-summary-price">
                 <%= Fares.Format.price(fare) %>
               </p>
