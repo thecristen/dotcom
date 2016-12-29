@@ -1,24 +1,29 @@
 <div class="page-section">
   <div class="page-block">
-    <div class="schedule-header">
-      <%= render "_locations.html", forward_assigns(@conn) %>
-      <%= render "_filters.html", forward_assigns(@conn) %>
-      <%= if @alerts != [] || @upcoming_alerts != [] do %>
-        <div class="m-t-1">
-          <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date %>
-        </div>
+    <%= render "_route.html", forward_assigns(@conn) %>
+    <div class="schedule-content">
+      <%= if @date_select do %>
+        <div class="datepicker-content-screen"></div>
       <% end %>
-    </div>
-    <div class="schedule-block">
-      <div class="schedule-list-group">
-        <%= render @list_group_template, forward_assigns(@conn) %>
+      <div class="schedule-header">
+        <%= render "_filters.html", forward_assigns(@conn) %>
+        <%= if @alerts != [] || @upcoming_alerts != [] do %>
+          <div class="m-t-1">
+            <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date %>
+          </div>
+        <% end %>
       </div>
-      <%= if not @show_all_schedules && @schedules != [] do %>
-        <a class="btn btn-primary-outline btn-block text-xs-center m-t-1"
-          href="<%= update_schedule_url @conn, all_schedules: "all_schedules" %>">
-          Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
-        </a>
-      <% end %>
+      <div class="schedule-block">
+        <div class="schedule-list-group">
+          <%= render @list_group_template, forward_assigns(@conn) %>
+        </div>
+        <%= if not @show_all_schedules && @schedules != [] do %>
+          <a class="btn btn-primary-outline btn-block text-xs-center m-t-1"
+            href="<%= update_schedule_url @conn, all_schedules: "all_schedules" %>">
+            Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
+          </a>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

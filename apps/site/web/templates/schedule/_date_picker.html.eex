@@ -1,14 +1,9 @@
 <% month = Enum.chunk(build_calendar(@date, @holidays, @conn), 7, 7) %>
 <p>
   Schedules For <%= Timex.format!(@date, "%b %e", :strftime)%> -
-  <%= if @date_select do %>
-    <%= link to: update_schedule_url(@conn, date_select: false) do %>
-      Change date <%= fa "angle-up" %>
-    <% end %>
-  <%= else %>
-    <%= link  to: update_schedule_url(@conn, date_select: true) do %>
-      Change date <%= fa "angle-down" %>
-    <% end %>
+  <%= link to: update_schedule_url(@conn, date_select: !@date_select) do %>
+    <% icon_class = if @date_select, do: "angle-up", else: "angle-down" %>
+    Change date <%= fa icon_class %>
   <% end %>
 </p>
 <%= if @date_select do %>

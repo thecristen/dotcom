@@ -33,15 +33,14 @@ defmodule Site.ScheduleView do
   end
 
   def update_schedule_url(conn, query) do
-    new_query = Site.ViewHelpers.update_query(conn, query)
-
-    {route, new_query} = Map.pop(new_query, "route")
-
-    case route do
-      nil -> green_path(conn, :green, new_query |> Enum.into([]))
-      route -> schedule_path(conn, :show, route, new_query |> Enum.into([]))
-    end
+    conn
+    |> Site.ViewHelpers.update_query(query)
+    |> Map.pop("route")
+    |> do_update_schedule_url(conn)
   end
+
+  defp do_update_schedule_url({nil, new_query}, conn), do: green_path(conn, :green, new_query |> Enum.into([]))
+  defp do_update_schedule_url({route, new_query}, conn), do: schedule_path(conn, :show, route, new_query |> Enum.into([]))
 
   def stop_info_link(stop) do
     do_stop_info_link(Stops.Repo.get(stop.id))

@@ -27,7 +27,7 @@ defmodule Site.ScheduleView.Calendar do
   @spec mark_holidays([integer], [Holiday.t]) :: [{String.t, integer}]
   defp mark_holidays(days, holidays) do
     holiday_days = holidays |> Enum.map(&(&1.date.day))
-    days 
+    days
     |> Enum.map(fn d -> mark_holiday(d, holiday_days) end)
   end
 
@@ -41,8 +41,8 @@ defmodule Site.ScheduleView.Calendar do
 
   @spec do_build_calendar(integer, integer, integer, [integer], integer) :: [integer]
   defp do_build_calendar(first_day, last_day, current_day, days, count) do
-    build_with_days = fn(current, days) -> 
-      do_build_calendar(first_day, last_day, current, days, count + 1) 
+    build_with_days = fn(current, days) ->
+      do_build_calendar(first_day, last_day, current, days, count + 1)
     end
     cond do
       count < first_day -> build_with_days.(1, [0 | days])
@@ -55,7 +55,7 @@ defmodule Site.ScheduleView.Calendar do
   @spec additional_dates([integer], Plug.Conn.t, Date.t) :: [Phoenix.HTML.Safe.t]
   defp additional_dates(days, conn, date) do
     links_needed = min((7 - rem(Enum.count(days), 7)) + 7, 13)
-    additional = 1..links_needed 
+    additional = 1..links_needed
                  |> Enum.map(fn d -> {"schedule-next-month", d} end)
                  |> build_date_links(conn, ScheduleView.add_month(date))
     Enum.concat(days, additional)
@@ -68,9 +68,9 @@ defmodule Site.ScheduleView.Calendar do
     end
   end
   defp date_link({class, day}, conn, date) do
-    formatted_date = Timex.format!({date.year,date.month, day}, "%Y-%m-%d", :strftime) 
+    formatted_date = Timex.format!({date.year,date.month, day}, "%Y-%m-%d", :strftime)
     content_tag :td, class: class do
-      link(day, to: ScheduleView.update_schedule_url(conn, date: formatted_date))
+      link(day, to: ScheduleView.update_schedule_url(conn, date: formatted_date, date_select: false))
     end
   end
 

@@ -26,7 +26,7 @@ defmodule Site.ScheduleController do
   end
   def show(conn, params) do
     conn
-    |> assign(:date_select, params["date_select"] == "true")
+    |> assign(:date_select, show_datepicker?(params))
     |> assign(:holidays, Holiday.Repo.upcoming_holidays(conn.assigns[:date]))
     |> render("index.html")
   end
@@ -38,4 +38,7 @@ defmodule Site.ScheduleController do
   def disable_cache(conn, []) do
     conn
   end
+
+  def show_datepicker?(%{"date_select" => "true"}), do: true
+  def show_datepicker?(_), do: false
 end

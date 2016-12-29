@@ -1,3 +1,8 @@
+<div class="row">
+  <div class="col-xs-12 schedule-direction">
+    <%= render "_direction.html", forward_assigns(@conn) %>
+  </div>
+</div>
 <div class="row row-equal">
   <div class="col-xs-12 col-sm-6 col-equal">
     <% label_text =

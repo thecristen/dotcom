@@ -16,13 +16,6 @@
 
 .schedule-direction {
   margin-bottom: .5em;
-  @include media-breakpoint-up(sm) {
-    // better aligned with the route selector
-    margin-top: -5px;
-  }
-  @include media-breakpoint-down(xs) {
-    margin-top: -1em;
-  }
 }
 
 .schedule-callout {
@@ -425,6 +418,19 @@ a {
       }
     }
   }
+}
+
+.schedule-content {
+  position: relative;
+}
+
+.datepicker-content-screen {
+  background-color: $white;
+  height: 100%;
+  opacity: .7;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
 }
 
 //scss-lint:disable ImportantRule
