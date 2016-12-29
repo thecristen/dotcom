@@ -74,7 +74,7 @@ defmodule Fares.Format do
   @spec full_name(Fare.t) :: String.t | iolist
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"
   def full_name(%Fare{duration: :week}), do: "7-Day Pass"
-  def full_name(%Fare{duration: :day}), do: "One-Day Pass"
+  def full_name(%Fare{duration: :day}), do: "1-Day Pass"
   def full_name(%Fare{name: :ada_ride}), do: "ADA Ride"
   def full_name(%Fare{name: :premium_ride}), do: "Premium Ride"
   def full_name(fare) do
