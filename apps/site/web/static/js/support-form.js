@@ -136,35 +136,42 @@ function displaySuccess($, selector) {
 }
 
 function validateForm($) {
-  const $privacy = $('#privacy'),
-        $textarea = $('#comments'),
-        $contacts = $('.contacts');
-  var valid = true;
+  const privacy = '#privacy',
+        comments = '#comments',
+        contacts = '.contacts',
+        errors = [];
   // Main textarea
   if(!validators.comments($)) {
-    displayError($, '#comments');
-    valid = false;
+    displayError($, comments);
+    errors.push(comments);
   }
   else {
-    displaySuccess($, '#comments');
+    displaySuccess($, comments);
   }
   // Phone and email
   if(!validators.contacts($)) {
-    displayError($, '.contacts');
-    valid = false;
+    displayError($, contacts);
+    errors.push(contacts)
   }
   else {
-    displaySuccess($, '.contacts');
+    displaySuccess($, contacts);
   }
   // Privacy checkbox
   if(!validators.privacy($)) {
-    displayError($, '#privacy');
-    valid = false;
+    displayError($, privacy);
+    errors.push(privacy)
   }
   else {
-    displaySuccess($, '#privacy');
+    displaySuccess($, privacy);
   }
-  return valid;
+  focusError($, errors);
+  return errors.length === 0;
+}
+
+function focusError($, errors) {
+  if (errors.length > 0) {
+    $(`.support-${errors[0].slice(1)}-error-container`).focus();
+  }
 }
 
 export function handleSubmitClick($) {

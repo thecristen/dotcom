@@ -27,7 +27,7 @@
             <li><strong>Customer Support Representatives:</strong><br /><%= tel_link "(617)-222-3200" %> or <%= tel_link "(800)-392-6100" %></li>
             <li><strong>TTY (for the deaf or hard of hearing):</strong><br /><%= tel_link "(617)-222-5146" %></li>
             <li><strong>Hours:</strong><br />
-              Monday &ndash; Friday: 6:30 AM until 8:00 PM<br />
+              Monday &ndash; Friday: 6:30 AM until 6:00 PM<br />
               Saturday &ndash; Sunday: 7:20 AM until 6:00 PM
             </li>
             <li><strong>Accessibility Hotline:</strong><br /><%= tel_link "(617)-222-2828" %></li>
