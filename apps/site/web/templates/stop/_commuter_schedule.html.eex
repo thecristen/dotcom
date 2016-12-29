@@ -18,6 +18,7 @@
   <%= for route <- @routes do %>
     <%= for direction_id <- [0, 1] do %>
       <%= if schedule = upcoming_commuter_departures(@conn, route.id, direction_id) do %>
+        <% %Schedule{trip: %Trip{id: trip_id}, time: scheduled_time} = schedule %>
         <div class="station-route-row">
           <p class="station-route-name">
             <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
@@ -37,10 +38,10 @@
                 No. <%= schedule.trip.name %>
               </div>
               <div class="time-column">
-                <%= render_commuter_departure_time(route.id, direction_id, schedule, @stop_predictions) %>
+                <%= render_commuter_departure_time(route.id, direction_id, trip_id, scheduled_time, @stop_predictions) %>
               </div>
               <div class="time-column">
-                <%= render_commuter_status(schedule, @stop_predictions) %>
+                <%= render_commuter_status(trip_id, @stop_predictions) %>
               </div>
             </div>
           </div>

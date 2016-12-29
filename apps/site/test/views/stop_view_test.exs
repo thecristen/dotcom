@@ -2,8 +2,6 @@ defmodule Site.StopViewTest do
   @moduledoc false
   alias Site.StopView
   alias Stops.Stop
-  alias Schedules.Schedule
-  alias Schedules.Trip
   alias Predictions.Prediction
   use Site.ConnCase, async: true
 
@@ -126,13 +124,11 @@ defmodule Site.StopViewTest do
       direction_id = 1
       trip_id = 1
       now = Util.now
-      later = Util.now |> Timex.shift(minutes: 15)
-      schedule = %Schedule{trip: %Trip{id: trip_id}, time: now}
+      later = Util.now |> Timex.shift(minutes: 1)
       predictions = [%Prediction{trip_id: trip_id, time: later}]
       rendered = route_id
-                 |> StopView.render_commuter_departure_time(direction_id, schedule, predictions)
-                 |> Enum.map(&Phoenix.HTML.safe_to_string/1)
-                 |> Enum.join("")
+                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
+                 |> do_safe_to_string
       assert rendered =~ formatted_time(now)
       assert rendered =~ "fa fa-rss station-schedule-icon"
       assert rendered =~ formatted_time(later)
@@ -143,29 +139,57 @@ defmodule Site.StopViewTest do
       direction_id = 1
       trip_id = 1
       now = Util.now
-      schedule = %Schedule{trip: %Trip{id: trip_id}, time: now}
       predictions = [%Prediction{trip_id: trip_id, time: now}]
       rendered = route_id
-                 |> StopView.render_commuter_departure_time(direction_id, schedule, predictions)
-                 |> Phoenix.HTML.safe_to_string
+                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
+                 |> do_safe_to_string
       assert rendered =~ formatted_time(now)
       refute rendered =~ "<s>" <> formatted_time(now)
       refute rendered =~ "fa fa-rss station-schedule-icon"
     end
 
+    test "only display scheduled time if rendered prediction and rendered schedule are the same" do
+      route_id = "CR-Fairmount"
+      direction_id = 1
+      trip_id = 1
+      now = Timex.to_datetime {Timex.to_erl(Timex.today), {14,0,0}}
+      later = Timex.shift now, seconds: 45
+      predictions = [%Prediction{trip_id: trip_id, time: later}]
+      rendered = route_id
+                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
+                 |> do_safe_to_string
+      assert rendered =~ formatted_time(now)
+      assert rendered =~ formatted_time(later)
+      refute rendered =~ "fa fa-rss station-schedule-icon"
+    end
+
+    test "do not show commuter rail predictions that are earlier than the scheduled departure" do
+      route_id = "CR-Fairmount"
+      direction_id = 1
+      trip_id = 1
+      now = Util.now
+      earlier = Timex.shift(now, minutes: -2)
+      predictions = [%Prediction{trip_id: trip_id, time: earlier}]
+      rendered = route_id
+                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
+                 |> do_safe_to_string
+      assert rendered =~ formatted_time(now)
+      refute rendered =~ formatted_time(earlier)
+      refute rendered =~ "fa fa-rss station-schedule-icon"
+    end
+
     test "show track number when available" do
       trip_id = 20
-      rendered = %Schedule{trip: %Trip{id: trip_id}}
+      rendered = trip_id
       |> StopView.render_commuter_status([%Prediction{trip_id: trip_id, status: "Now Boarding", track: 5}])
-      |> Enum.map(&Phoenix.HTML.safe_to_string/1)
-      |> Enum.join("")
+      |> do_safe_to_string
       assert rendered =~ "Now Boarding"
       assert rendered =~ "track 5"
     end
 
     test "show on time when status is nil" do
       trip_id = 20
-      rendered = %Schedule{trip: %Trip{id: trip_id}}
+      rendered = trip_id
       |> StopView.render_commuter_status([%Prediction{trip_id: trip_id}])
       assert rendered =~ "On Time"
     end
@@ -192,4 +216,11 @@ defmodule Site.StopViewTest do
   end
 
   def formatted_time(time), do: time |> Timex.format!("{h12}:{m} {AM}")
+
+  def do_safe_to_string(elements) when is_list(elements) do
+    elements
+    |> Enum.map(&Phoenix.HTML.safe_to_string/1)
+    |> Enum.join("")
+  end
+  def do_safe_to_string(element), do: Phoenix.HTML.safe_to_string(element)
 end
