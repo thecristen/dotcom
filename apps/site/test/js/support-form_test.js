@@ -133,13 +133,13 @@ describe('support form', () => {
         <div class="form-container">
           <form id="support-form" action="/customer-support">
             <textarea id="comments"></textarea>
-            <div class="support-comments-error-container hidden-xs-up"><div class="support-comments-error"></div></div>
+            <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <input id="photo" type="file" />
             <input id="phone" />
             <input id="email" />
-            <div class="support-contacts-error-container hidden-xs-up"><div class="support-contacts-error"></div></div>
+            <div class="support-contacts-error-container hidden-xs-up" tabindex="-1"><div class="support-contacts-error"></div></div>
             <input id="privacy" type="checkbox" />
-            <div class="support-privacy-error-container hidden-xs-up"><div class="support-privacy-error"></div></div>
+            <div class="support-privacy-error-container hidden-xs-up" tabindex="-1"><div class="support-privacy-error"></div></div>
             <div class="support-form-expanded" style="display: none"></div>
             <button id="support-submit"></button>
           </form>
@@ -181,6 +181,17 @@ describe('support form', () => {
       $('#email').val('test@email.com');
       $('#support-submit').click();
       assert.isTrue($('.support-contacts-error-container').hasClass('hidden-xs-up'));
+    });
+
+    it('focuses to the highest error message on the page', () => {
+      $('#support-submit').click();
+      assert.equal(document.activeElement, $('.support-comments-error-container')[0]);
+      $('#comments').val('A comment');
+      $('#support-submit').click();
+      assert.equal(document.activeElement, $('.support-contacts-error-container')[0]);
+      $('#email').val('test@email.com');
+      $('#support-submit').click();
+      assert.equal(document.activeElement, $('.support-privacy-error-container')[0]);
     });
 
     it('hides the form and shows a message on success', () => {
