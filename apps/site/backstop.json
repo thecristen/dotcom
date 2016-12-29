@@ -50,6 +50,7 @@
       "selectors": [
           ".system-map",
           ".mode-group-block",
+          "#fares",
           ".breadcrumb-container"
       ],
       "readyEvent": null,
