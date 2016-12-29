@@ -85,6 +85,14 @@ defmodule Site.ViewHelpers do
     |> Enum.join(" ")
   end
 
+  @spec mode_atom(String.t) :: atom
+  def mode_atom(type_string) do
+    type_string
+    |> String.downcase
+    |> String.replace(" ", "_")
+    |> String.to_existing_atom
+  end
+
   @spec hyphenated_mode_string(atom) :: String.t
   @doc "Returns hyphenated mode string"
   def hyphenated_mode_string(mode) do
@@ -229,4 +237,50 @@ defmodule Site.ViewHelpers do
     |> Kernel.<>(" mi")
   end
 
+  @spec mode_summaries(atom, {atom, String.t}) :: [Summary.t]
+  @doc "Return the fare summaries for the given mode"
+  def mode_summaries(:commuter_rail, nil) do
+    filters = mode_filters(:commuter_rail, nil)
+    summaries_for_filters(filters, :commuter_rail)
+  end
+  def mode_summaries(:commuter_rail, name) do
+    filters = mode_filters(:commuter_rail, name)
+    summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter_rail]} end)
+  end
+  def mode_summaries(:ferry, name) do
+    summaries_for_filters(mode_filters(:ferry, name), :ferry)
+  end
+  def mode_summaries(:bus, name) do
+    summaries_for_filters(mode_filters(:local_bus, name), :bus_subway)
+  end
+  def mode_summaries(mode, name) do
+    summaries_for_filters(mode_filters(mode, name), :bus_subway)
+  end
+
+  @spec mode_filters(atom, {atom, String.t}) :: [keyword()]
+  defp mode_filters(:ferry, _name) do
+    [[mode: :ferry, duration: :single_trip, reduced: nil],
+     [mode: :ferry, duration: :month, reduced: nil]]
+  end
+  defp mode_filters(:commuter_rail, nil) do
+    [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
+     [mode: :commuter_rail, duration: :month, reduced: nil]]
+  end
+  defp mode_filters(:commuter_rail, name) do
+    mode_filters(:commuter_rail, nil)
+    |> Enum.map(&(Keyword.put(&1, :name, name)))
+  end
+  defp mode_filters(:bus_subway, name) do
+    [[name: :local_bus, duration: :single_trip, reduced: nil] | mode_filters(:subway, name)]
+  end
+  defp mode_filters(mode, _name) do
+    [[name: mode, duration: :single_trip, reduced: nil],
+     [name: mode, duration: :week, reduced: nil],
+     [name: mode, duration: :month, reduced: nil]]
+  end
+
+  @spec summaries_for_filters([keyword()], atom) :: [Summary.t]
+  defp summaries_for_filters(filters, mode) do
+    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
+  end
 end

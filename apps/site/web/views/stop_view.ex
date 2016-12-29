@@ -1,7 +1,6 @@
 defmodule Site.StopView do
   use Site.Web, :view
 
-  alias Fares.Summary
   alias Stops.Stop
   alias Fares.RetailLocations.Location
   alias Schedules.Schedule
@@ -55,40 +54,6 @@ defmodule Site.StopView do
         _ -> 2
       end
     end)
-  end
-
-  @spec mode_summaries(atom, {atom, String.t}) :: [Summary.t]
-  @doc "Return the fare summaries for the given mode"
-  def mode_summaries(:commuter_rail, name) do
-    filters = mode_filters(:commuter_rail, name)
-    summaries_for_filters(filters, :bus_subway) |> Enum.map(fn(summary) -> %{summary | modes: [:commuter_rail]} end)
-  end
-  def mode_summaries(:ferry, name) do
-    summaries_for_filters(mode_filters(:ferry, name), :ferry)
-  end
-  def mode_summaries(:bus, name) do
-    summaries_for_filters(mode_filters(:local_bus, name), :bus_subway)
-  end
-  def mode_summaries(mode, name) do
-    summaries_for_filters(mode_filters(mode, name), :bus_subway)
-  end
-
-  @spec mode_filters(atom, {atom, String.t}) :: [keyword()]
-  defp mode_filters(:ferry, _name) do
-    [[mode: :ferry, duration: :single_trip, reduced: nil],
-     [mode: :ferry, duration: :month, reduced: nil]]
-  end
-  defp mode_filters(:commuter_rail, name) do
-    [[mode: :commuter_rail, duration: :single_trip, reduced: nil, name: name],
-     [mode: :commuter_rail, duration: :month, media: [:commuter_ticket], reduced: nil, name: name]]
-  end
-  defp mode_filters(:bus_subway, name) do
-    [[name: :local_bus, duration: :single_trip, reduced: nil] | mode_filters(:subway, name)]
-  end
-  defp mode_filters(mode, _name) do
-    [[name: mode, duration: :single_trip, reduced: nil],
-     [name: mode, duration: :week, reduced: nil],
-     [name: mode, duration: :month, reduced: nil]]
   end
 
   @spec fare_mode([atom]) :: atom
@@ -153,11 +118,6 @@ defmodule Site.StopView do
   @spec fare_surcharge?(Stop.t) :: boolean
   def fare_surcharge?(stop) do
     stop.id in ["place-bbsta", "place-north", "place-sstat"]
-  end
-
-  @spec summaries_for_filters([keyword()], atom) :: [Summary.t]
-  defp summaries_for_filters(filters, mode) do
-    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
   end
 
   def parking_type("basic"), do: "Parking"
