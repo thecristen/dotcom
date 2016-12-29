@@ -1,298 +1,330 @@
-<h1>Terms</h1>
-<h2>Abbreviations</h2>
-<p>Copy Trends to Avoid</p>
-<p>While the MBTA strives to provide its riders information in a clear and personal way, there are a few words that should not be used on the website.</p><ul>
-	<li>Informal exclamations/colloquialisms</li>
-</ul>
-<ul>
-	<li>Example: Ouch, Bummer, Oh dear!</li>
-</ul>
-<ul>
-	<li>Informal Idioms</li>
-</ul>
-<ul>
-	<li>Example: poke around, take a peak</li>
-</ul><p></p>
-<h2>Lines, bus routes, ferries</h2>
-<ul>
-	<li>SL1, SL2, SL4, SL5</li>
-	<li>Green Line, Orange Line, Blue Line, Red Line, Mattapan Trolley</li>
-	<li>Hingham Ferry, Hull Ferry, Charlestown Ferry</li>
-	<li>Fairmount Line, Fitchburg/South Acton Line, Framingham/Worcester Line, Franklin Line, Greenbush Line, Haverhill Line, Lowell Line, Needham Line, Newburyport/Rockport Line, Providence/Stoughton Line, Kingston/Plymouth Line, Middleborough/Lakeville Line</li>
-</ul>
-<h2>Heavy rail, light rail, and bus station names</h2>
-<ul>
-	<li>Alewife Station</li>
-	<li>Allston St. Station</li>
-	<li>Andrew Station</li>
-	<li>Airport Station</li>
-	<li>Aquarium Station</li>
-	<li>Arlington Station</li>
-	<li>Ashmont Station</li>
-	<li>Babcock St. Station</li>
-	<li>Back Bay Station</li>
-	<li>Back of the Hill Station</li>
-	<li>Beaconsfield Station</li>
-	<li>Washington Sq. Station</li>
-	<li>Blandford St. Station</li>
-	<li>Beachmont Station</li>
-	<li>Brandon Hall Station</li>
-	<li>Bowdoin Station</li>
-	<li>Boylston Station</li>
-	<li>Broadway Station</li>
-	<li>Packards Corner Station</li>
-	<li>Brookline Hills Station</li>
-	<li>Brigham Circle Station</li>
-	<li>Braintree Station</li>
-	<li>Boston Univ. Central Station</li>
-	<li>Boston Univ. East Station</li>
-	<li>Butler Station</li>
-	<li>Boston Univ. West Station</li>
-	<li>Brookline Village Station</li>
-	<li>Capen St. Station</li>
-	<li>Community College Station</li>
-	<li>Cedar Grove Station</li>
-	<li>Central Ave. Station</li>
-	<li>Chestnut Hill Station</li>
-	<li>Chestnut Hill Ave. Station</li>
-	<li>Charles/MGH Station</li>
-	<li>Chinatown Station</li>
-	<li>Chiswick Rd. Station</li>
-	<li>Cleveland Circle Station</li>
-	<li>Central Square Station</li>
-	<li>Copley Station</li>
-	<li>Coolidge Corner Station</li>
-	<li>Courthouse Station</li>
-	<li>Davis Station</li>
-	<li>Dean Rd. Station</li>
-	<li>Downtown Crossing Station</li>
-	<li>Eliot Station</li>
-	<li>Englewood Ave. Station</li>
-	<li>Fairbanks St. Station</li>
-	<li>Fenwood Rd. Station</li>
-	<li>Fenway Station</li>
-	<li>Fields Corner Station</li>
-	<li>Forest Hills Station</li>
-	<li>Government Center Station</li>
-	<li>Griggs St. Station</li>
-	<li>Green St. Station</li>
-	<li>Haymarket Station</li>
-	<li>Harvard Square Station</li>
-	<li>Harvard Ave. Station</li>
-	<li>Heath St. Station</li>
-	<li>Hawes St. Station</li>
-	<li>Hynes Convention Center Station</li>
-	<li>Jackson Square Station</li>
-	<li>JFK/UMass Station</li>
-	<li>Kenmore Station</li>
-	<li>Kendall/MIT Station</li>
-	<li>Kent St. Station</li>
-	<li>Boston College Station</li>
-	<li>Lechmere Station</li>
-	<li>Longwood Medical Area Station</li>
-	<li>Longwood Station</li>
-	<li>Massachusetts Ave. Station</li>
-	<li>Mattapan Station</li>
-	<li>Museum of Fine Arts Station</li>
-	<li>Milton Station</li>
-	<li>Mission Park Station</li>
-	<li>Malden Center Station</li>
-	<li>Maverick Station</li>
-	<li>Newton Highlands Station</li>
-	<li>Newton Centre Station</li>
-	<li>North Station</li>
-	<li>North Quincy Station</li>
-	<li>Northeastern University Station</li>
-	<li>Oak Grove Station</li>
-	<li>Orient Heights Station</li>
-	<li>Park St. Station</li>
-	<li>Pleasant St. Station</li>
-	<li>Porter Square Station</li>
-	<li>Prudential Station</li>
-	<li>Quincy Adams Station</li>
-	<li>Quincy Center Station</li>
-	<li>Revere Beach Station</li>
-	<li>Roxbury Crossing Station</li>
-	<li>Riverside Station</li>
-	<li>Reservoir Station</li>
-	<li>Ruggles Station</li>
-	<li>Riverway Station</li>
-	<li>Stony Brook Station</li>
-	<li>Suffolk Downs Station</li>
-	<li>Savin Hill Station</li>
-	<li>Saint Mary St. Station</li>
-	<li>Shawmut Station</li>
-	<li>South St. Station</li>
-	<li>Science Park Station</li>
-	<li>South Station</li>
-	<li>State St. Station</li>
-	<li>Sutherland Rd. Station</li>
-	<li>Saint Paul St. Station</li>
-	<li>Saint Paul St. Station</li>
-	<li>Sullivan Station</li>
-	<li>Summit Ave. Station</li>
-	<li>Symphony Station</li>
-	<li>Tappan St. Station</li>
-	<li>Tufts Medical Center Station</li>
-	<li>Valley Rd. Station</li>
-	<li>Waban Station</li>
-	<li>Washington St. Station</li>
-	<li>Washington Square Station</li>
-	<li>Wellington Station</li>
-	<li>Wood Island Station</li>
-	<li>Wollaston Station</li>
-	<li>Wonderland Station</li>
-	<li>Woodland Station</li>
-	<li>Warren St. Station</li>
-	<li>World Trade Center Station</li>
-</ul>
-<h2>Commuter rail station names</h2>
-<ul>
-	<li>Wickford Junction</li>
-	<li>Talbot Avenue</li>
-	<li>Four Corners/Geneva</li>
-	<li>Newmarket</li>
-	<li>Abington</li>
-	<li>Anderson/ Woburn</li>
-	<li>Andover</li>
-	<li>Ashland</li>
-	<li>Attleboro</li>
-	<li>Auburndale</li>
-	<li>Ayer</li>
-	<li>Back Bay</li>
-	<li>Ballardvale</li>
-	<li>Bellevue</li>
-	<li>Belmont</li>
-	<li>Beverly</li>
-	<li>Beverly Farms</li>
-	<li>Bradford</li>
-	<li>Braintree</li>
-	<li>Brandeis/Roberts</li>
-	<li>Bridgewater</li>
-	<li>Brockton</li>
-	<li>Campello</li>
-	<li>Canton Center</li>
-	<li>Canton Junction</li>
-	<li>Chelsea</li>
-	<li>Cohasset</li>
-	<li>Concord</li>
-	<li>Dedham Corp Center</li>
-	<li>East Weymouth</li>
-	<li>Endicott</li>
-	<li>Fairmount</li>
-	<li>Fitchburg</li>
-</ul>
-<p>Forest Hills</p>
-<p>Forge Park/495</p>
-<p>Framingham</p>
-<p>Franklin</p>
-<p>Gloucester</p>
-<p>Grafton</p>
-<p>Greenbush</p>
-<p>Greenwood</p>
-<p>Halifax</p>
-<p>Hamilton/ Wenham</p>
-<p>Hanson</p>
-<p>Hastings</p>
-<p>Haverhill</p>
-<p>Hersey</p>
-<p>Highland</p>
-<p>Holbrook/Randolph</p>
-<p>Hyde Park</p>
-<p>Ipswich</p>
-<p>Islington</p>
-<p>JFK/UMASS</p>
-<p>Kendal Green</p>
-<p>Kingston</p>
-<p>Lawrence</p>
-<p>Lincoln</p>
-<p>Littleton/Rte 495</p>
-<p>Lowell</p>
-<p>Lynn</p>
-<p>Malden Center</p>
-<p>Manchester</p>
-<p>Mansfield</p>
-<p>Melrose Cedar Park</p>
-<p>Melrose Highlands</p>
-<p>Middleborough/ Lakeville</p>
-<p>Mishawum</p>
-<p>Montello</p>
-<p>Montserrat</p>
-<p>Morton Street</p>
-<p>Nantasket Junction</p>
-<p>Natick</p>
-<p>Needham Center</p>
-<p>Needham Heights</p>
-<p>Needham Junction</p>
-<p>Newburyport</p>
-<p>Newtonville</p>
-<p>Norfolk</p>
-<p>North Beverly</p>
-<p>North Billerica</p>
-<p>North Leominster</p>
-<p>North Scituate</p>
-<p>North Station</p>
-<p>North Wilmington</p>
-<p>Norwood Central</p>
-<p>Norwood Depot</p>
-<p>Plimptonville</p>
-<p>Plymouth</p>
-<p>Porter Square</p>
-<p>Prides Crossing</p>
-<p>Providence</p>
-<p>Quincy Center</p>
-<p>Reading</p>
-<p>Readville</p>
-<p>River Works/GE Employees Only</p>
-<p>Rockport</p>
-<p>Roslindale Village</p>
-<p>Route 128</p>
-<p>Rowley</p>
-<p>Ruggles</p>
-<p>Salem</p>
-<p>Sharon</p>
-<p>Shirley</p>
-<p>Silver Hill</p>
-<p>South Acton</p>
-<p>South Attleboro</p>
-<p>South Station</p>
-<p>South Weymouth</p>
-<p>Southborough</p>
-<p>Stoughton</p>
-<p>Swampscott</p>
-<p>Uphams Corner</p>
-<p>Wakefield</p>
-<p>Walpole</p>
-<p>Waltham</p>
-<p>Waverley</p>
-<p>Wedgemere</p>
-<p>Wellesley Farms</p>
-<p>Wellesley Hills</p>
-<p>Wellesley Square</p>
-<p>West Concord</p>
-<p>West Gloucester</p>
-<p>West Hingham</p>
-<p>West Medford</p>
-<p>West Natick</p>
-<p>West Newton</p>
-<p>West Roxbury</p>
-<p>Westborough</p>
-<p>Weymouth Landing/East Braintree</p>
-<p>Whitman</p>
-<p>Wilmington</p>
-<p>Winchester Center</p>
-<p>Windsor Gardens</p>
-<p>Worcester / Union Station</p>
-<p>Wyoming Hill</p>
-<p>Yawkey</p>
-<p>TF Green Airport</p>
-<h2>Boat station/dock names</h2>
-<p>Pemberton Point, Hull</p>
-<p>Logan Ferry Terminal</p>
-<p>Central Wharf (Aquarium), Boston</p>
-<p>Long Wharf, Boston</p>
-<p>Charlestown Navy Yard</p>
-<p>George&#39;s Island</p>
-<p>Grape Island</p>
-<p>Rowes Wharf, Boston</p>
-<p>Hewitt&#39;s Cove, Hingham</p>
+	<h1>Terms</h1>
+	<h2>Modes of Transportation</h2>
+	<p> Modes of transportation are not to be preceeded by an article (ex. "the" or 'a') unless you are refering to a specific Bus, Subway, Commuter Rail, or Ferry
+		<h4>Bus</h4>
+		<ul>
+			<li><strong>Silver Line:</strong> SL1, SL2, SL4, SL5</li>
+		</ul>
+		<h4>Subway</h4>
+		<ul>
+			<li>Green Line</li>
+			<li>Orange Line</li>
+			<li>Blue Line</li>
+			<li>Red Line</li>
+			<li>Mattapan Trolle</li>
+		</ul>
+		<h4>Commuter Rail</h4>
+		<ul>
+			<li>Fairmount Line</li>
+			<li>Fitchburg/South Acton Line</li>
+			<li>Framingham/Worcester Line</li>
+			<li>Franklin Line</li>
+			<li>Greenbush Line</li>
+			<li>Haverhill Line</li>
+			<li>Lowell Line</li>
+			<li>Needham Line</li>
+			<li>Newburyport/Rockport Line</li>
+			<li>Providence/Stoughton Line</li>
+			<li>Kingston/Plymouth Line</li>
+			<li>Middleborough/Lakeville Line</li>
+		</ul>
+		<h4>Ferry</h4>
+		<ul>
+			<li>Hingham Ferry</li>
+			<li>Hull Ferry</li>
+			<li>Charlestown Ferry</li>
+		</ul>
+		<h2>Fares</h2>
+		<p>Accepted payment methods and tickets/passes will depend on the mode of transportation taken. Not all modes take all of the following.</p>
+		<h4>Payment Methods</h4>
+		<ul>
+			<li>CharlieCard</li>
+			<li>CharlieTicket</li>
+			<li>mTicket app ticket</li>
+			<li>cash on-board</li>
+		</ul>
+		<h4>Tickets and Passes</h4>
+		<ul>
+			<li>One Way</li>
+			<li>Round Trip</li>
+			<li>Monthly</li>
+			<li>7-Day</li>
+			<li>1-Day</li>
+			<li>10-Ride</li>
+		</ul>
+		<h2>Heavy Rail, Light Rail, and Bus Station Names</h2>
+		<ul>
+			<li>Airport Station</li>
+			<li>Alewife Station</li>
+			<li>Allston St. Station</li>
+			<li>Andrew Station</li>
+			<li>Aquarium Station</li>
+			<li>Arlington Station</li>
+			<li>Ashmont Station</li>
+			<li>Babcock St. Station</li>
+			<li>Back Bay Station</li>
+			<li>Back of the Hill Station</li>
+			<li>Beaconsfield Station</li>
+			<li>Blandford St. Station</li>
+			<li>Beachmont Station</li>
+			<li>Boston College Station</li>
+			<li>Boston Univ. Central Station</li>
+			<li>Boston Univ. East Station</li>
+			<li>Boston Univ. West Station</li>
+			<li>Brookline Village Station</li>
+			<li>Bowdoin Station</li>
+			<li>Boylston Station</li>
+			<li>Brandon Hall Station</li>
+			<li>Brigham Circle Station</li>
+			<li>Broadway Station</li>
+			<li>Brookline Hills Station</li>
+			<li>Braintree Station</li>
+			<li>Butler Station</li>
+			<li>Capen St. Station</li>
+			<li>Cedar Grove Station</li>
+			<li>Central Ave. Station</li>
+			<li>Charles/MGH Station</li>
+			<li>Central Square Station</li>
+			<li>Chestnut Hill Station</li>
+			<li>Chestnut Hill Ave. Station</li>
+			<li>Chinatown Station</li>
+			<li>Chiswick Rd. Station</li>
+			<li>Cleveland Circle Station</li>
+			<li>Community College Station</li>
+			<li>Copley Station</li>
+			<li>Coolidge Corner Station</li>
+			<li>Courthouse Station</li>
+			<li>Davis Station</li>
+			<li>Dean Rd. Station</li>
+			<li>Downtown Crossing Station</li>
+			<li>Eliot Station</li>
+			<li>Englewood Ave. Station</li>
+			<li>Fairbanks St. Station</li>
+			<li>Fenway Station</li>
+			<li>Fenwood Rd. Station</li>
+			<li>Fields Corner Station</li>
+			<li>Forest Hills Station</li>
+			<li>Government Center Station</li>
+			<li>Griggs St. Station</li>
+			<li>Green St. Station</li>
+			<li>Harvard Square Station</li>
+			<li>Harvard Ave. Station</li>
+			<li>Haymarket Station</li>
+			<li>Hawes St. Station</li>
+			<li>Heath St. Station</li>
+			<li>Hynes Convention Center Station</li>
+			<li>Jackson Square Station</li>
+			<li>JFK/UMass Station</li>
+			<li>Kendall/MIT Station</li>
+			<li>Kenmore Station</li>
+			<li>Kent St. Station</li>
+			<li>Lechmere Station</li>
+			<li>Longwood Medical Area Station</li>
+			<li>Longwood Station</li>
+			<li>Malden Center Station</li>
+			<li>Massachusetts Ave. Station</li>
+			<li>Mattapan Station</li>
+			<li>Maverick Station</li>
+			<li>Milton Station</li>
+			<li>Mission Park Station</li>
+			<li>Museum of Fine Arts Station</li>
+			<li>Newton Centre Station</li>
+			<li>Newton Highlands Station</li>
+			<li>North Station</li>
+			<li>North Quincy Station</li>
+			<li>Northeastern University Station</li>
+			<li>Oak Grove Station</li>
+			<li>Orient Heights Station</li>
+			<li>Packards Corner Station</li>
+			<li>Park St. Station</li>
+			<li>Pleasant St. Station</li>
+			<li>Porter Square Station</li>
+			<li>Prudential Station</li>
+			<li>Quincy Adams Station</li>
+			<li>Quincy Center Station</li>
+			<li>Revere Beach Station</li>
+			<li>Reservoir Station</li>
+			<li>Riverside Station</li>
+			<li>Riverway Station</li>
+			<li>Roxbury Crossing Station</li>
+			<li>Ruggles Station</li>
+			<li>Saint Mary St. Station</li>
+			<li>Saint Paul St. Station</li>
+			<li>Savin Hill Station</li>
+			<li>Science Park Station</li>
+			<li>Shawmut Station</li>
+			<li>Stony Brook Station</li>
+			<li>South St. Station</li>
+			<li>South Station</li>
+			<li>State St. Station</li>
+			<li>Suffolk Downs Station</li>
+			<li>Sutherland Rd. Station</li>
+			<li>Sullivan Station</li>
+			<li>Summit Ave. Station</li>
+			<li>Symphony Station</li>
+			<li>Tappan St. Station</li>
+			<li>Tufts Medical Center Station</li>
+			<li>Valley Rd. Station</li>
+			<li>Waban Station</li>
+			<li>Warren St. Station</li>
+			<li>Washington St. Station</li>
+			<li>Washington Square Station</li>
+			<li>Wellington Station</li>
+			<li>Wollaston Station</li>
+			<li>Wonderland Station</li>
+			<li>Wood Island Station</li>
+			<li>Woodland Station</li>
+			<li>World Trade Center Station</li>
+		</ul>
+		<h2>Commuter Rail Station Names</h2>
+		<ul>
+			<li>Abington</li>
+			<li>Anderson/ Woburn</li>
+			<li>Andover</li>
+			<li>Ashland</li>
+			<li>Attleboro</li>
+			<li>Auburndale</li>
+			<li>Ayer</li>
+			<li>Back Bay</li>
+			<li>Ballardvale</li>
+			<li>Bellevue</li>
+			<li>Belmont</li>
+			<li>Beverly</li>
+			<li>Beverly Farms</li>
+			<li>Bradford</li>
+			<li>Braintree</li>
+			<li>Brandeis/Roberts</li>
+			<li>Bridgewater</li>
+			<li>Brockton</li>
+			<li>Campello</li>
+			<li>Canton Center</li>
+			<li>Canton Junction</li>
+			<li>Chelsea</li>
+			<li>Cohasset</li>
+			<li>Concord</li>
+			<li>Dedham Corp Center</li>
+			<li>East Weymouth</li>
+			<li>Endicott</li>
+			<li>Fairmount</li>
+			<li>Fitchburg</li>
+			<li>Forest Hills</li>
+			<li>Forge Park/495</li>
+			<li>Four Corners/Geneva</li>
+			<li>Framingham</li>
+			<li>Franklin</li>
+			<li>Gloucester</li>
+			<li>Grafton</li>
+			<li>Greenbush</li>
+			<li>Greenwood</li>
+			<li>Halifax</li>
+			<li>Hamilton/ Wenham</li>
+			<li>Hanson</li>
+			<li>Hastings</li>
+			<li>Haverhill</li>
+			<li>Hersey</li>
+			<li>Highland</li>
+			<li>Holbrook/Randolph</li>
+			<li>Hyde Park</li>
+			<li>Ipswich</li>
+			<li>Islington</li>
+			<li>JFK/UMASS</li>
+			<li>Kendal Green</li>
+			<li>Kingston</li>
+			<li>Lawrence</li>
+			<li>Lincoln</li>
+			<li>Littleton/Rte 495</li>
+			<li>Lowell</li>
+			<li>Lynn</li>
+			<li>Malden Center</li>
+			<li>Manchester</li>
+			<li>Mansfield</li>
+			<li>Melrose Cedar Park</li>
+			<li>Melrose Highlands</li>
+			<li>Middleborough/ Lakeville</li>
+			<li>Mishawum</li>
+			<li>Montello</li>
+			<li>Montserrat</li>
+			<li>Morton Street</li>
+			<li>Nantasket Junction</li>
+			<li>Natick</li>
+			<li>Needham Center</li>
+			<li>Needham Heights</li>
+			<li>Needham Junction</li>
+			<li>Newburyport</li>
+			<li>Newmarket</li>
+			<li>Newtonville</li>
+			<li>Norfolk</li>
+			<li>North Beverly</li>
+			<li>North Billerica</li>
+			<li>North Leominster</li>
+			<li>North Scituate</li>
+			<li>North Station</li>
+			<li>North Wilmington</li>
+			<li>Norwood Central</li>
+			<li>Norwood Depot</li>
+			<li>Plimptonville</li>
+			<li>Plymouth</li>
+			<li>Porter Square</li>
+			<li>Prides Crossing</li>
+			<li>Providence</li>
+			<li>Quincy Center</li>
+			<li>Reading</li>
+			<li>Readville</li>
+			<li>River Works/GE Employees Only</li>
+			<li>Rockport</li>
+			<li>Roslindale Village</li>
+			<li>Route 128</li>
+			<li>Rowley</li>
+			<li>Ruggles</li>
+			<li>Salem</li>
+			<li>Sharon</li>
+			<li>Shirley</li>
+			<li>Silver Hill</li>
+			<li>South Acton</li>
+			<li>South Attleboro</li>
+			<li>South Station</li>
+			<li>South Weymouth</li>
+			<li>Southborough</li>
+			<li>Stoughton</li>
+			<li>Swampscott</li>
+			<li>Talbot Avenue</li>
+			<li>Uphams Corner</li>
+			<li>Wakefield</li>
+			<li>Walpole</li>
+			<li>Waltham</li>
+			<li>Waverley</li>
+			<li>Wedgemere</li>
+			<li>Wellesley Farms</li>
+			<li>Wellesley Hills</li>
+			<li>Wellesley Square</li>
+			<li>West Concord</li>
+			<li>West Gloucester</li>
+			<li>West Hingham</li>
+			<li>West Medford</li>
+			<li>West Natick</li>
+			<li>West Newton</li>
+			<li>West Roxbury</li>
+			<li>Westborough</li>
+			<li>Weymouth Landing/East Braintree</li>
+			<li>Wickford Junction</li>
+			<li>Whitman</li>
+			<li>Wilmington</li>
+			<li>Winchester Center</li>
+			<li>Windsor Gardens</li>
+			<li>Worcester / Union Station</li>
+			<li>Wyoming Hill</li>
+			<li>Yawkey</li>
+			<li>TF Green Airport</li>
+		</ul>
+		<h2>Boat station/dock names</h2>
+		<ul>
+			<li>Central Wharf (Aquarium), Boston</li>
+			<li>Charlestown Navy Yard</li>
+			<li>George&#39;s Island</li>
+			<li>Grape Island</li>
+			<li>Hewitt&#39;s Cove, Hingham</li>
+			<li>Logan Ferry Terminal</li>
+			<li>Long Wharf, Boston</li>
+			<li>Pemberton Point, Hull</li>
+			<li>Rowes Wharf, Boston</li>
+		</ul>
