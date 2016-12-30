@@ -160,6 +160,10 @@ defmodule Site.Components.Icons.SvgIcon do
     |> String.to_atom
   end
 
+  @spec icon_title(atom) :: String.t
+  def icon_title(:alert), do: "Service alert or delay"
+  def icon_title(icon), do: "#{icon} icon"
+
   def build_path(path, atom), do: ~s(<path class="icon-image #{atom}-image" d="#{path}"></path>) |> Phoenix.HTML.raw
 
   def viewbox(:map), do: "26 24"

@@ -4,7 +4,7 @@
   <span data-toggle="tooltip" title="There is an alert for this service that may affect your trip">
   <% end %>
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon-<%= hyphenated_mode_string(icon) %>" viewbox="0 0 <%= viewbox(icon) %>">
-        <title><%= icon %>-icon</title>
+        <title><%= icon_title(icon) %></title>
         <g fill-rule="evenodd" class="icon-image <%= icon %>-image">
             <%= get_path(icon) %>
         </g>

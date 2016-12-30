@@ -101,6 +101,11 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "mbta-custom-icon"
       refute rendered =~ "icon-circle"
     end
+
+    test "alert icons have an accessible title" do
+      rendered = svg_icon(%{icon: :alert}) |> safe_to_string
+      assert rendered =~ "Service alert or delay"
+    end
   end
 
   describe "icons > svg_icon_with_circle" do
@@ -167,7 +172,7 @@ defmodule Site.ComponentsTest do
     test "nav_class/1" do
       assert nav_class("xs") == "collapse navbar-toggleable-xs"
       assert nav_class("sm") == "collapse navbar-toggleable-sm"
-      assert nav_class(nil) == ""      
+      assert nav_class(nil) == ""
     end
   end
 
