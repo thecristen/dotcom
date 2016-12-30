@@ -95,12 +95,12 @@ defmodule Holiday.Repo do
     end
   end
 
-  @doc "Returns the list of holidays in the given month that occur after or on given date"
-  @spec upcoming_holidays(Date.t) :: [Holiday.t]
-  def upcoming_holidays(date) do
+  @doc "Returns the list of holidays in the given month."
+  @spec holidays_in_month(Date.t) :: [Holiday.t]
+  def holidays_in_month(date) do
     same_time_frame? = fn(tf, d) -> Map.fetch!(d, tf) == Map.fetch!(date, tf) end
     upcoming? = fn(%Holiday{date: h}) ->
-      same_time_frame?.(:year, h) and same_time_frame?.(:month, h) and (same_time_frame?.(:day, h) or Timex.after?(h, date))
+      same_time_frame?.(:year, h) and same_time_frame?.(:month, h)
     end
 
     @holidays
