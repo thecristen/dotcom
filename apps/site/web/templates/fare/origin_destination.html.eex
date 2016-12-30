@@ -13,7 +13,7 @@
         disabled: nil,
         all_stops: @origin_stops,
         key_stops: @key_stops,
-        label_text: "Origin",
+        label_text: "Enter your origin",
         exclude: ["destination"],
         route_type: @route_type
         %>
@@ -27,7 +27,7 @@
           disabled: (if @origin, do: @origin.id, else: nil),
             all_stops: @destination_stops,
             key_stops: destination_key_stops(@destination_stops, @key_stops),
-            label_text: "Destination",
+            label_text: "Enter your destination",
             route_type: @route_type
             %>
           </div>
