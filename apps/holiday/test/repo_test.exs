@@ -28,20 +28,14 @@ defmodule Holiday.RepoTest do
       assert Holiday.Repo.by_date(date) == []
     end
   end
-  describe "upcoming_holidays/1" do
-    test "Returns November Holidays" do
-      date = ~D[2016-11-01]
-      assert %Holiday{date: ~D[2016-11-11], name: "Veterans’ Day"} in Holiday.Repo.upcoming_holidays(date)
-      assert %Holiday{date: ~D[2016-11-24], name: "Thanksgiving Day"} in Holiday.Repo.upcoming_holidays(date)
-    end
-    test "Includes holiday on current day" do
-      date = ~D[2016-11-11]
-      assert %Holiday{date: ~D[2016-11-11], name: "Veterans’ Day"} in Holiday.Repo.upcoming_holidays(date)
-    end
-    test "Past holidays are not included" do
-      date = ~D[2016-11-12]
-      for holiday <- Holiday.Repo.upcoming_holidays(date) do
-        assert Timex.after?(holiday.date, date)
+
+  describe "holidays_in_month/1" do
+    test "returns all holidays in the given month" do
+      for date <- [~D[2016-12-01], ~D[2016-12-25], ~D[2016-12-31]] do
+        assert Holiday.Repo.holidays_in_month(date) == [
+          %Holiday{date: ~D[2016-12-25], name: "Christmas Day"},
+          %Holiday{date: ~D[2016-12-26], name: "Christmas Day (Observed)"}
+        ]
       end
     end
   end

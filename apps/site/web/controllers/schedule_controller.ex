@@ -27,7 +27,7 @@ defmodule Site.ScheduleController do
   def show(conn, params) do
     conn
     |> assign(:date_select, show_datepicker?(params))
-    |> assign(:holidays, Holiday.Repo.upcoming_holidays(conn.assigns[:date]))
+    |> assign(:holidays, Holiday.Repo.holidays_in_month(conn.assigns[:date]))
     |> render("index.html")
   end
 
