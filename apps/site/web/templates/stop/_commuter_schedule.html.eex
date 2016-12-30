@@ -41,7 +41,7 @@
                 <%= render_commuter_departure_time(route.id, direction_id, trip_id, scheduled_time, @stop_predictions) %>
               </div>
               <div class="time-column">
-                <%= render_commuter_status(trip_id, @stop_predictions) %>
+                <%= render_commuter_status(trip_id, scheduled_time, @stop_predictions) %>
               </div>
             </div>
           </div>

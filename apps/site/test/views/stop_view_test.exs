@@ -122,7 +122,7 @@ defmodule Site.StopViewTest do
     test "display scheduled time, predicted time, and realtime icon for routes with delays " do
       route_id = "CR-Fairmount"
       direction_id = 1
-      trip_id = 1
+      trip_id = "CR-Weekday-Fall-16-823"
       now = Util.now
       later = Util.now |> Timex.shift(minutes: 1)
       predictions = [%Prediction{trip_id: trip_id, time: later}]
@@ -137,7 +137,7 @@ defmodule Site.StopViewTest do
     test "only display scheduled time for routes without delays" do
       route_id = "CR-Fairmount"
       direction_id = 1
-      trip_id = 1
+      trip_id = "CR-Weekday-Fall-16-823"
       now = Util.now
       predictions = [%Prediction{trip_id: trip_id, time: now}]
       rendered = route_id
@@ -151,7 +151,7 @@ defmodule Site.StopViewTest do
     test "only display scheduled time if rendered prediction and rendered schedule are the same" do
       route_id = "CR-Fairmount"
       direction_id = 1
-      trip_id = 1
+      trip_id = "CR-Weekday-Fall-16-823"
       now = Timex.to_datetime {Timex.to_erl(Timex.today), {14,0,0}}
       later = Timex.shift now, seconds: 45
       predictions = [%Prediction{trip_id: trip_id, time: later}]
@@ -166,7 +166,7 @@ defmodule Site.StopViewTest do
     test "do not show commuter rail predictions that are earlier than the scheduled departure" do
       route_id = "CR-Fairmount"
       direction_id = 1
-      trip_id = 1
+      trip_id = "CR-Weekday-Fall-16-823"
       now = Util.now
       earlier = Timex.shift(now, minutes: -2)
       predictions = [%Prediction{trip_id: trip_id, time: earlier}]
@@ -179,19 +179,28 @@ defmodule Site.StopViewTest do
     end
 
     test "show track number when available" do
-      trip_id = 20
+      trip_id = "CR-Weekday-Fall-16-823"
       rendered = trip_id
-      |> StopView.render_commuter_status([%Prediction{trip_id: trip_id, status: "Now Boarding", track: 5}])
+      |> StopView.render_commuter_status(Util.now, [%Prediction{trip_id: trip_id, status: "Now Boarding", track: 5}])
       |> do_safe_to_string
       assert rendered =~ "Now Boarding"
       assert rendered =~ "track 5"
     end
 
-    test "show on time when status is nil" do
-      trip_id = 20
+    test "shows \"Delayed X min\" when status is nil and train is delayed" do
+      now = Util.now
+      trip_id = "CR-Weekday-Fall-16-823"
       rendered = trip_id
-      |> StopView.render_commuter_status([%Prediction{trip_id: trip_id}])
-      assert rendered =~ "On Time"
+      |> StopView.render_commuter_status(now, [%Prediction{trip_id: trip_id, time: Timex.shift(now, minutes: 2)}])
+      |> do_safe_to_string
+      assert rendered =~ "Delayed"
+      assert rendered =~ "2 min"
+    end
+
+    test "shows \"On Time\" when status is nil and train is not delayed" do
+      now = Util.now
+      trip_id = "CR-Weekday-Fall-16-823"
+      assert StopView.render_commuter_status(trip_id, now, [%Prediction{trip_id: trip_id, time: now}]) =~ "On Time"
     end
   end
 
@@ -222,5 +231,6 @@ defmodule Site.StopViewTest do
     |> Enum.map(&Phoenix.HTML.safe_to_string/1)
     |> Enum.join("")
   end
+  def do_safe_to_string(string) when is_binary(string), do: string
   def do_safe_to_string(element), do: Phoenix.HTML.safe_to_string(element)
 end
