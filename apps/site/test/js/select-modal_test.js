@@ -168,7 +168,7 @@ describe('selectModal', () => {
     });
 
     it('renders the label', () => {
-      assert.equal($modal.find('.select-modal-label h1').text(), 'Label');
+      assert.equal($modal.find('#select-modal-label').text(), 'Label');
     });
 
     it('creates a search input', () => {
