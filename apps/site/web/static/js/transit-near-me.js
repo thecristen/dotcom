@@ -10,12 +10,12 @@ export default function() {
         function onPlaceChanged() {
           var place = autocomplete.getPlace(),
           loc = window.location,
-          location_url = loc.protocol + "//" + loc.host + loc.pathname + "?location[address]=",
+          location_url = loc.protocol + "//" + loc.host + loc.pathname,
           addr = $(".transit-near-me form").find('input[name="location[address]"]').val();
           if (place.geometry) {
-            location_url = location_url + place.geometry.location.lat() + ", " + place.geometry.location.lng() + "&location[client_width]=" + ($("#transit-input").width() || 0) + "&place_name=" + addr +  "#transit-input";
+            location_url = "?latitude=" + place.geometry.location.lat() + "&longitude=" + place.geometry.location.lng() + "&location[client_width]=" + ($("#transit-input").width() || 0) + "&location[address]=" + addr +  "#transit-input";
           } else {
-            location_url = location_url + place.name + "&location[client_width]=" + ($("#transit-input").width() || 0) + "#transit-input";
+            location_url = "?location[address]=" + location_url + place.name + "&location[client_width]=" + ($("#transit-input").width() || 0) + "#transit-input";
           }
           window.location.href = encodeURI(location_url);
         }
@@ -26,7 +26,7 @@ export default function() {
 
       function validateTNMForm($event) {
         var val = $(".transit-near-me form").find('input[name="location[address]"]').val();
-        if (val == getUrlParameter('place_name')) {
+        if (val == getUrlParameter('location[address]')) {
           location.reload();
           return false;
         }
