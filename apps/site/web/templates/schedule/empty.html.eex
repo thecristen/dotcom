@@ -1,15 +1,12 @@
-<div class="row">
-  <div class="col-sm-12">
-    <h1 class="h4">
-      Currently, there are no scheduled trips
-      <%= case Enum.find(@all_stops, &(&1.id == @origin)) do
-          nil -> ""
-          %{name: name} -> "from #{name}"
-          end %>
-      <%= case Enum.find(@all_stops, &(&1.id == @destination)) do
-          nil -> ""
-          %{name: name} -> "to #{name}"
-          end %>
-      on <%= @date |> Timex.format!("{Mfull} {D}, {YYYY}") %>.
-  </div>
-</div>
+<p class="schedule-empty">
+  Currently, there are no scheduled trips
+  <%= case Enum.find(@all_stops, &(&1.id == @origin)) do
+      nil -> ""
+      %{name: name} -> "from #{name}"
+      end %>
+  <%= case Enum.find(@all_stops, &(&1.id == @destination)) do
+      nil -> ""
+      %{name: name} -> "to #{name}"
+      end %>
+  on <%= @date |> Timex.format!("{Mfull} {D}, {YYYY}") %>.
+</p>
