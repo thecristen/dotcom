@@ -2,8 +2,6 @@
 <h2>Find Your Fare</h2>
 <%= origin_destination_description(@mode) %>
 <div class="fare-callout-box m-b-1">
-  <h2>Find a Fare</h2>
-  <p><%= @mode |> mode_name |> String.split(" ") |> Enum.map(&String.capitalize/1) |> Enum.join(" ") %> fares are separated into zones that depend on your origin and destination.</p>
   <div class="row">
     <div class="col-xs-12 col-md-6 fare-selector-container">
       <%= render "_stop_selector.html",
