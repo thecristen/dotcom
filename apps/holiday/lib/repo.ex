@@ -80,13 +80,15 @@ defmodule Holiday.Repo do
   |> Enum.flat_map(&observe_holiday/1)
   |> Map.new(&build_map/1)
 
-  @doc "Returns the list of Holidays"
+  @doc "Returns the list of Holidays, sorted by date."
   @spec all :: [Holiday.t]
   def all do
-    Map.values(@holidays)
+    @holidays
+    |> Map.values
+    |> Enum.sort_by(&(&1.date), &(Timex.compare(&1, &2) == -1))
   end
 
-  @doc "Returns the list of holidays for the given Date"
+  @doc "Returns the list of holidays for the given Date."
   @spec by_date(Date.t) :: [Holiday.t]
   def by_date(date) do
     case Map.fetch(@holidays, date) do
@@ -103,8 +105,7 @@ defmodule Holiday.Repo do
       same_time_frame?.(:year, h) and same_time_frame?.(:month, h)
     end
 
-    @holidays
-    |> Map.values
+    all
     |> Enum.filter(upcoming?)
   end
 end

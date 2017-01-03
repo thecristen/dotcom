@@ -2,11 +2,12 @@ defmodule Holiday.RepoTest do
   use ExUnit.Case, async: true
 
   describe "all/0" do
-    test "returns a list of Holidays" do
+    test "returns a list of Holidays sorted by date" do
       actual = Holiday.Repo.all
 
       assert actual != []
       assert Enum.all?(actual, &match?(%Holiday{}, &1))
+      assert actual == Enum.sort_by(actual, &(&1.date), &(Timex.compare(&1, &2) == -1))
     end
   end
 
