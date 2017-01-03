@@ -8,6 +8,7 @@ defmodule Predictions.Parser do
       trip_id: List.first(relationships["trip"]).id,
       direction_id: attributes["direction_id"],
       time: [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
+      relationship: relationship(attributes["relationship"]),
       track: attributes["track"],
       status: attributes["status"]
     }
@@ -26,4 +27,11 @@ defmodule Predictions.Parser do
       _ -> stop.id
     end
   end
+
+  defp relationship("ADDED"), do: :added
+  defp relationship("UNSCHEDULED"), do: :unscheduled
+  defp relationship("CANCELED"), do: :canceled
+  defp relationship("SKIPPED"), do: :skipped
+  defp relationship("NO_DATA"), do: :no_data
+  defp relationship(_), do: nil
 end

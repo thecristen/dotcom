@@ -4,16 +4,14 @@ defmodule Schedules.Repo do
 
   @default_timeout 10_000
   @default_params [
-      include: "trip.route,stop.parent_station",
+      include: "trip,route,stop.parent_station",
       "fields[schedule]": "departure_time,drop_off_type,pickup_type",
+      "fields[route]": "long_name,type,short_name",
+      "fields[trip]": "name,headsign,direction_id",
       "fields[stop]": "name"
   ]
   def all(opts) do
-    params = Keyword.merge(@default_params, [
-          "fields[trip]": "name,headsign,direction_id",
-          "fields[route]": "type,long_name,short_name"
-        ])
-    params
+    @default_params
     |> add_optional_param(opts, :route)
     |> add_optional_param(opts, :date)
     |> add_optional_param(opts, :direction_id)

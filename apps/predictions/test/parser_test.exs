@@ -53,31 +53,62 @@ defmodule Predictions.ParserTest do
 
       assert Parser.parse(item).time == ~N[2016-09-15T14:40:00] |> Timezone.convert("Etc/GMT-1")
     end
-  end
 
-  test "uses parent station ID if present" do
-    item = %Item{
-      attributes: %{
-        "track" => nil,
-        "status" => "On Time",
-        "direction_id" => 0,
-        "departure_time" => "2016-09-15T15:40:00-04:00",
-        "arrival_time" => nil
-      },
-      relationships: %{
-        "route" => [%Item{id: "route_id"}],
-        "stop" => [%Item{id: "stop_id",
-                         relationships: %{
-                           "parent_station" => [
-                           %Item{id: "parent_id"}
-                         ]
-                         }}],
-        "trip" => [%Item{id: "trip_id"}]
+    test "uses parent station ID if present" do
+      item = %Item{
+        attributes: %{
+          "track" => nil,
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => "2016-09-15T15:40:00-04:00",
+          "arrival_time" => nil
+        },
+        relationships: %{
+          "route" => [%Item{id: "route_id"}],
+          "stop" => [%Item{id: "stop_id",
+                           relationships: %{
+                             "parent_station" => [
+                             %Item{id: "parent_id"}
+                           ]
+                           }}],
+          "trip" => [%Item{id: "trip_id"}]
+        }
       }
-    }
-    expected = "parent_id"
-    actual = Parser.parse(item).stop_id
+      expected = "parent_id"
+      actual = Parser.parse(item).stop_id
 
-    assert actual == expected
+      assert actual == expected
+    end
+
+    test "can parse possible schedule relationships" do
+      base_item = %Item{
+        attributes: %{
+          "track" => nil,
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => "2016-09-15T15:40:00-04:00",
+          "arrival_time" => "2016-01-01T00:00:00-04:00"
+        },
+        relationships: %{
+          "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
+          "trip" => [%Item{id: "trip_id"}, %Item{id: "wrong"}]
+        }
+      }
+
+      for {json, expected} <- [
+            {nil, nil},
+            {"unknown", nil},
+            {"ADDED", :added},
+            {"SKIPPED", :skipped},
+            {"CANCELED", :canceled},
+            {"UNSCHEDULED", :unscheduled},
+            {"NO_DATA", :no_data}
+          ] do
+          # update the item to set the given JSON relationship
+          item = %{base_item | attributes: Map.put(base_item.attributes, "relationship", json)}
+          assert Parser.parse(item).relationship == expected
+      end
+    end
   end
 end
