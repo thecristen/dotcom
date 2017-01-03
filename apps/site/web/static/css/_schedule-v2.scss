@@ -6,3 +6,50 @@
     padding: .75rem (.75rem - $grid-gutter-width / 2);
   }
 }
+
+.btn.schedule-v2-direction-btn {
+  display: table-cell;
+  float: none;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  width: 50%;
+  font-size: 1rem;
+  padding-top: .75rem;
+  padding-bottom: 1rem;
+}
+
+.schedule-v2-direction-btn-group {
+  display: table;
+  width: 100%;
+  margin-bottom: .75rem;
+}
+
+.schedule-v2-direction-btn-selected-icon {
+  @include pull-left();
+  font-size: 1.7rem;
+  display: block;
+  padding-right: .333rem;
+}
+
+.schedule-v2-direction-btn-label {
+  @include pull-left();
+  display: block;
+  padding-left: .5rem;
+  max-width: 90%;
+}
+
+.schedule-v2-direction-btn-label-selected {
+  // leave room for the checkbox on the first line
+  max-width: 85%;
+  font-weight: bold;
+
+  @include media-breakpoint-up(sm) {
+    max-width: 90%;
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: 90%;
+  }
+}
+

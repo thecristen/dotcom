@@ -1,0 +1,30 @@
+<form method="GET" action="#<%= @query_key %>" data-submit-on-change>
+  <% extra_excludes = assigns[:exclude] || [] %>
+  <% include = assigns[:include] || %{} %>
+  <%= hidden_query_params @conn, exclude: ["trip", "name", "full_list", @query_key] ++ extra_excludes, include: include %>
+  <div>
+    <label class="select-modal-label"  for="<%= @query_key %>"><%= @label_text %><%= Site.ScheduleV2View.render "_loading.html" %></label><br class="hidden-lg-up">
+    <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
+    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal>
+      <%= if assigns[:include_empty?] && !selected do %><option value="">Select a stop</option><% end %>
+      <%= for stop <- @all_stops do %>
+        <% stop_id = stop.id %>
+        <% disabled = Enum.find(@disabled_values, &match?({^stop_id, _}, &1)) %>
+        <% selected = stop_id == @selected %>
+        <option value="<%= stop_id %>"<%= if selected do %> selected<% end %><%= if disabled do %> disabled<% end %>>
+          <%= stop.name %>
+          <%= case disabled do
+              {_, msg} -> "(#{msg})"
+              _ -> ""
+              end %>
+        </option>
+      <% end %>
+    </select>
+    <%= if selected do %>
+      <%= stop_info_link(selected) %>
+    <% end %>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary-outline btn-sm"><%= @change_text %></button>
+  </div>
+</form>
