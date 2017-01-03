@@ -23,10 +23,11 @@ defmodule Site.StopController do
     |> Repo.get!
 
     conn
-    |> assign(:grouped_routes, grouped_routes(stop.id))
+    |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
     |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, params["tab"])
     |> tab_assigns(stop)
+    |> await_assign(:grouped_routes)
     |> render("show.html", stop: stop)
   end
 
@@ -61,8 +62,9 @@ defmodule Site.StopController do
   end
   defp tab_assigns(%{assigns: %{tab: schedule}} = conn, stop) when schedule in [nil, "schedule"] do
     conn
-    |> assign(:stop_schedule, stop_schedule(stop.id, conn.assigns.date))
+    |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> assign(:stop_predictions, stop_predictions(stop.id))
+    |> await_assign(:stop_schedule)
   end
 
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string
@@ -71,8 +73,7 @@ defmodule Site.StopController do
   @spec terminal_station(Stop.t) :: String.t
   defp terminal_station(stop) do
     stop.id
-    |> Routes.Repo.by_stop
-    |> Enum.filter(&(&1.type == 2))
+    |> Routes.Repo.by_stop(type: 2)
     |> List.first
     |> do_terminal_station
   end

@@ -5,7 +5,7 @@ defmodule Site.StopController.ModeController do
     stop_info = mode
     |> types_for_mode
     |> Routes.Repo.by_type
-    |> Enum.map(&{&1, Schedules.Repo.stops(&1.id, [])})
+    |> ParallelStream.map(&{&1, Schedules.Repo.stops(&1.id, [])})
     |> gather_green_line(mode)
 
     render(conn, "index.html", mode: mode, stop_info: stop_info, breadcrumbs: ["Stops"])
@@ -22,7 +22,7 @@ defmodule Site.StopController.ModeController do
 
     [{%{name: "Green"}, green_stops} | others]
   end
-  defp gather_green_line(stop_info, _mode), do: stop_info
+  defp gather_green_line(stop_info, _mode), do: Enum.into(stop_info, [])
 
   @spec types_for_mode(Route.gtfs_route_type) :: [0..4]
   defp types_for_mode(:subway), do: [0, 1]
