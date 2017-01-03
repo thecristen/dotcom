@@ -45,19 +45,19 @@ defmodule Site.StopControllerTest do
   end
 
   test "assigns the terminal station of CR lines from a station", %{conn: conn} do
-    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn")
+    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
     assert conn.assigns.terminal_station == "place-north"
-    conn = get conn, stop_path(conn, :show, "Readville")
+    conn = get conn, stop_path(conn, :show, "Readville", tab: "info")
     assert conn.assigns.terminal_station == "place-sstat"
   end
 
   test "assigns an empty terminal station for non-CR stations", %{conn: conn} do
-    conn = get conn, stop_path(conn, :show, "22")
+    conn = get conn, stop_path(conn, :show, "22", tab: "info")
     assert conn.assigns.terminal_station == ""
   end
 
   test "assigns nearby fare retail locations", %{conn: conn} do
-    assert %Plug.Conn{assigns: %{fare_sales_locations: locations}} = get conn, stop_path(conn, :show, "place-sstat")
+    assert %Plug.Conn{assigns: %{fare_sales_locations: locations}} = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
     assert is_list(locations)
     assert length(locations) == 3
     assert {%Fares.RetailLocations.Location{agent: "Patriot News"}, _} = List.first(locations)

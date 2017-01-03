@@ -16,19 +16,16 @@ defmodule Site.StopController do
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
     render_mode(conn, String.to_existing_atom(mode))
   end
-  def show(%Plug.Conn{assigns: %{all_alerts: alerts}} = conn, params) do
-    id = params["id"]
-    stop = Repo.get!(id |> String.replace("+", " "))
+  def show(conn, %{"id" => id} = params) do
+    stop = id
+    |> URI.decode_www_form
+    |> Repo.get!
+
     conn
-    |> assign(:grouped_routes, grouped_routes(id))
+    |> assign(:grouped_routes, grouped_routes(stop.id))
     |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, params["tab"])
-    |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
-    |> assign(:terminal_station, terminal_station(stop))
-    |> assign(:access_alerts, access_alerts(alerts, stop))
-    |> assign(:stop_schedule, stop_schedule(id, conn.assigns.date))
-    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
-    |> assign(:stop_predictions, stop_predictions(id))
+    |> tab_assigns(stop)
     |> render("show.html", stop: stop)
   end
 
@@ -82,6 +79,19 @@ defmodule Site.StopController do
   end
   defp breadcrumbs(%Stop{name: name}) do
     [name]
+  end
+
+  defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
+    conn
+    |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
+    |> assign(:terminal_station, terminal_station(stop))
+    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
+    |> assign(:access_alerts, access_alerts(alerts, stop))
+  end
+  defp tab_assigns(%{assigns: %{tab: schedule}} = conn, stop) when schedule in [nil, "schedule"] do
+    conn
+    |> assign(:stop_schedule, stop_schedule(stop.id, conn.assigns.date))
+    |> assign(:stop_predictions, stop_predictions(stop.id))
   end
 
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string
