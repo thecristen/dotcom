@@ -3,21 +3,18 @@ defmodule Site.ScheduleV2.BusController do
 
   plug Site.Plugs.Route, required: true
   plug Site.Plugs.Date
+  plug Site.Plugs.Holidays
   plug Site.Plugs.Alerts
   plug Site.ScheduleController.Defaults
   plug Site.ScheduleController.Schedules
-  plug Site.Plugs.ScheduleV2.Headsigns
-  plug Site.Plugs.ScheduleV2.Trip
-  plug Site.Plugs.ScheduleV2.AllStops
-  plug Site.Plugs.ScheduleV2.DirectionNames
-  plug Site.Plugs.ScheduleV2.DestinationStops
+  plug Site.ScheduleController.Headsigns
+  plug Site.ScheduleController.AllStops
 
 
   def show(conn, params) do
     conn
     |> assign(:date_select, params["date_select"] == "true")
     |> assign(:route_type, 3)
-    |> assign(:holidays, Holiday.Repo.holidays_in_month(conn.assigns[:date]))
     |> render("show.html")
   end
 

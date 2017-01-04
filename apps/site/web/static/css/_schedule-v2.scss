@@ -36,20 +36,14 @@
   @include pull-left();
   display: block;
   padding-left: .5rem;
-  max-width: 90%;
+  max-width: 85%;
+
+  @include media-breakpoint-up(xs) {
+    max-width: 70%;
+  }
 }
 
 .schedule-v2-direction-btn-label-selected {
-  // leave room for the checkbox on the first line
-  max-width: 85%;
   font-weight: bold;
-
-  @include media-breakpoint-up(sm) {
-    max-width: 90%;
-  }
-
-  @include media-breakpoint-up(md) {
-    max-width: 90%;
-  }
 }
 
