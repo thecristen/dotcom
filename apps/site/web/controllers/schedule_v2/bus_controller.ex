@@ -16,6 +16,7 @@ defmodule Site.ScheduleV2.BusController do
   def show(conn, params) do
     conn
     |> assign(:date_select, params["date_select"] == "true")
+    |> assign(:route_type, 3)
     |> assign(:holidays, Holiday.Repo.holidays_in_month(conn.assigns[:date]))
     |> render("show.html")
   end
