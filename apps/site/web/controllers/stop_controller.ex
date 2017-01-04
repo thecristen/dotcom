@@ -8,59 +8,28 @@ defmodule Site.StopController do
   alias Stops.Repo
   alias Stops.Stop
   alias Routes.Route
+  alias Site.StopController.ModeController
 
   def index(conn, _params) do
     redirect conn, to: stop_path(conn, :show, :subway)
   end
 
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
-    render_mode(conn, String.to_existing_atom(mode))
+    ModeController.show(conn, String.to_existing_atom(mode))
   end
-  def show(%Plug.Conn{assigns: %{all_alerts: alerts}} = conn, params) do
-    id = params["id"]
-    stop = Repo.get!(id |> String.replace("+", " "))
+  def show(conn, %{"id" => id} = params) do
+    stop = id
+    |> URI.decode_www_form
+    |> Repo.get!
+
     conn
-    |> assign(:grouped_routes, grouped_routes(id))
+    |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
     |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, params["tab"])
-    |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
-    |> assign(:terminal_station, terminal_station(stop))
-    |> assign(:access_alerts, access_alerts(alerts, stop))
-    |> assign(:stop_schedule, stop_schedule(id, conn.assigns.date))
-    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
-    |> assign(:stop_predictions, stop_predictions(id))
+    |> tab_assigns(stop)
+    |> await_assign(:grouped_routes)
     |> render("show.html", stop: stop)
   end
-
-  @spec render_mode(Plug.Conn.t, Route.gtfs_route_type) :: Plug.Conn.t
-  defp render_mode(conn, mode) do
-    stop_info = mode
-    |> types_for_mode
-    |> Routes.Repo.by_type
-    |> Enum.map(&{&1, Schedules.Repo.stops(&1.id, [])})
-    |> gather_green_line(mode)
-    |> Enum.into(%{})
-
-    render(conn, "index.html", mode: mode, stop_info: stop_info, breadcrumbs: ["Stops"])
-  end
-
-  @spec gather_green_line([{Route.t, [Stop.t]}], Route.gtfs_route_type) :: [{Route.t, [Stop.t]}]
-  defp gather_green_line(stop_info, :subway) do
-    {green_branches, others} = stop_info
-    |> Enum.partition(&String.starts_with?(elem(&1, 0).id, "Green-"))
-
-    green_stops = green_branches
-    |> Enum.flat_map(&elem(&1, 1))
-    |> Enum.uniq
-
-    [{%{name: "Green"}, green_stops} | others]
-  end
-  defp gather_green_line(stop_info, _mode), do: stop_info
-
-  @spec types_for_mode(Route.gtfs_route_type) :: [0..4]
-  defp types_for_mode(:subway), do: [0, 1]
-  defp types_for_mode(:commuter_rail), do: [2]
-  defp types_for_mode(:ferry), do: [4]
 
   @spec grouped_routes(String.t) :: [{Route.gtfs_route_type, Route.t}]
   defp grouped_routes(stop_id) do
@@ -84,14 +53,27 @@ defmodule Site.StopController do
     [name]
   end
 
+  defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
+    conn
+    |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
+    |> assign(:terminal_station, terminal_station(stop))
+    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
+    |> assign(:access_alerts, access_alerts(alerts, stop))
+  end
+  defp tab_assigns(%{assigns: %{tab: schedule}} = conn, stop) when schedule in [nil, "schedule"] do
+    conn
+    |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
+    |> assign(:stop_predictions, stop_predictions(stop.id))
+    |> await_assign(:stop_schedule)
+  end
+
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string
   # if the stop doesn't serve commuter rail. Note that this assumes that all CR lines at a station have the
   # same terminal, which is currently true but could conceivably change in the future.
   @spec terminal_station(Stop.t) :: String.t
   defp terminal_station(stop) do
     stop.id
-    |> Routes.Repo.by_stop
-    |> Enum.filter(&(&1.type == 2))
+    |> Routes.Repo.by_stop(type: 2)
     |> List.first
     |> do_terminal_station
   end
