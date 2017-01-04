@@ -10,11 +10,14 @@ defmodule Site.ScheduleV2.BusController do
   plug Site.ScheduleController.Headsigns
   plug Site.ScheduleController.AllStops
 
+  # This may be good to have as a behavior when doing integration for all modes
+  @route_type 3
+
 
   def show(conn, params) do
     conn
     |> assign(:date_select, params["date_select"] == "true")
-    |> assign(:route_type, 3)
+    |> assign(:route_type, @route_type)
     |> render("show.html")
   end
 
