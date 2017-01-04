@@ -4,6 +4,31 @@ defmodule Content.RouterTest do
   import Content.Router
   import Plug.Conn
 
+  @doc "Used as a test version of the :page handler for content."
+  def test_page(conn, page) do
+    conn
+    |> put_private(:page, page)
+  end
+
+  describe "match/2 + dispatch/2" do
+    setup do
+      old_mfa = Application.get_env(:content, :mfa)
+      new_mfa = put_in old_mfa[:page], {__MODULE__, :test_page, []}
+      Application.put_env(:content, :mfa, new_mfa)
+      on_exit fn ->
+        Application.put_env(:content, :mfa, old_mfa)
+      end
+      :ok
+    end
+    test "doesn't crash when given an OPTIONS request" do
+      conn = %{build_conn() | method: :options}
+      response = conn
+      |> match([])
+      |> dispatch([])
+      assert {:error, _} = response.private.page
+    end
+  end
+
   describe "forward_response/2" do
     test "returns a 404 if there's an error" do
       response = forward_response(build_conn, {:error, "something"})
