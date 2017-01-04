@@ -10,7 +10,7 @@
       disabled: nil,
       all_stops: @all_stops,
       key_stops: [],
-      label_text: "Enter your origin",
+      label_text: "Departure times from:",
       exclude: ["destination"],
       route_type: @route_type,
       change_text: "",

@@ -46,7 +46,7 @@ defmodule Site.ScheduleV2ViewTest do
       assert expected == actual
     end
 
-    test 'setting a value to "" keeps it from the URL', %{conn: conn} do
+    test "setting a value to \"\" keeps it from the URL", %{conn: conn} do
       conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
 
       actual = update_schedule_url(conn, trip: "")
@@ -58,16 +58,18 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "stop_info_link/1" do
     test "generates a stop link on a map icon when the stop has stop information" do
-      stop = %Stop{id: "place-sstat"}
-      str = safe_to_string(stop_info_link(stop))
+      str = %Stop{id: "place-sstat"}
+            |> stop_info_link()
+            |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "place-sstat")
       assert str =~ safe_to_string(svg_icon(%{icon: :map}))
       assert str =~ "View stop information for South Station"
     end
 
     test "generates a stop link on a map icon for a bus stop that is not a station" do
-      stop = %Stop{id: "1736"}
-      str = safe_to_string(stop_info_link(stop))
+      str =  %Stop{id: "1736"}
+             |> stop_info_link()
+             |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "1736")
       assert str =~ safe_to_string(svg_icon(%{icon: :map}))
       assert str =~ "View stop information for Blue Hill Ave opp Health Ctr"
