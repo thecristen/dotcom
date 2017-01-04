@@ -101,13 +101,13 @@ defmodule Predictions.ParserTest do
             {"unknown", nil},
             {"ADDED", :added},
             {"SKIPPED", :skipped},
-            {"CANCELED", :canceled},
+            {"CANCELLED", :cancelled},
             {"UNSCHEDULED", :unscheduled},
             {"NO_DATA", :no_data}
           ] do
           # update the item to set the given JSON relationship
-          item = %{base_item | attributes: Map.put(base_item.attributes, "relationship", json)}
-          assert Parser.parse(item).relationship == expected
+          item = %{base_item | attributes: Map.put(base_item.attributes, "schedule_relationship", json)}
+          assert Parser.parse(item).schedule_relationship == expected
       end
     end
   end
