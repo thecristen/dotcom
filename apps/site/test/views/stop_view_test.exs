@@ -70,22 +70,6 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "mode_summaries/2" do
-    test "commuter summaries only include commuter mode" do
-      summaries = StopView.mode_summaries(:commuter_rail, {:zone, "7"})
-      assert Enum.all?(summaries, fn(summary) -> summary.modes == [:commuter_rail] end)
-    end
-    test "Bus summaries only return bus fare information" do
-      summaries = StopView.mode_summaries(:bus, {:bus, ""})
-      assert Enum.all?(summaries, fn summary -> summary.modes == [:bus] end)
-    end
-    test "Bus_subway summaries return both bus and subway information" do
-      summaries = StopView.mode_summaries(:bus_subway, {:bus, ""})
-      mode_present = fn(summary, mode) -> mode in summary.modes end
-      assert Enum.any?(summaries, &(mode_present.(&1,:bus))) && Enum.any?(summaries, &(mode_present.(&1,:subway)))
-    end
-  end
-
   describe "aggregate_routes/1" do
     test "All green line routes are aggregated" do
       e_line = %{name: "Green-E"}

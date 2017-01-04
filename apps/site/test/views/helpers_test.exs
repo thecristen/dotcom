@@ -107,4 +107,29 @@ defmodule Site.ViewHelpersTest do
       assert hyphenated_mode_string(:ferry) == "ferry"
     end
   end
+
+  describe "mode_summaries/2" do
+    test "commuter rail summaries only include commuter_rail mode" do
+      summaries = mode_summaries(:commuter_rail, {:zone, "7"})
+      assert Enum.all?(summaries, fn(summary) -> summary.modes == [:commuter_rail] end)
+    end
+    test "Bus summaries only return bus fare information" do
+      summaries = mode_summaries(:bus, {:bus, ""})
+      assert Enum.all?(summaries, fn summary -> summary.modes == [:bus] end)
+    end
+    test "Bus_subway summaries return both bus and subway information" do
+      summaries = mode_summaries(:bus_subway, {:bus, ""})
+      mode_present = fn(summary, mode) -> mode in summary.modes end
+      assert Enum.any?(summaries, &(mode_present.(&1,:bus))) && Enum.any?(summaries, &(mode_present.(&1,:subway)))
+    end
+  end
+
+  describe "mode_atom/1" do
+    test "Mode atoms do not contain spaces" do
+      assert mode_atom("Commuter Rail") == :commuter_rail
+      assert mode_atom("Red Line") == :red_line
+      assert mode_atom("Ferry") == :ferry
+    end
+  end
+
 end
