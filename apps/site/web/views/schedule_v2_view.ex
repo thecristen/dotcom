@@ -3,20 +3,6 @@ defmodule Site.ScheduleV2View do
 
   defdelegate build_calendar(date, holidays, conn), to: Site.ScheduleV2.Calendar
 
-  @doc """
-  Given a list of schedules, returns a display of the route direction. Assumes all
-  schedules have the same route and direction.
-  """
-  @spec display_direction([Schedules.Schedule.t]) :: iodata
-  def display_direction([
-    %Schedules.Schedule{
-      route: %Routes.Route{id: route_id},
-      trip: %Schedules.Trip{direction_id: direction_id}}
-    | _]) do
-    [direction(direction_id, route_id), " to"]
-  end
-  def display_direction([]), do: ""
-
   def update_schedule_url(conn, query) do
     conn
     |> Site.ViewHelpers.update_query(query)
