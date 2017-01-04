@@ -24,7 +24,8 @@ defmodule Site.Mixfile do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
             :stops, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
-            :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday]
+            :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday,
+            :parallel_stream]
 
     apps = if Mix.env == :prod do
       [:ehmon | apps]
