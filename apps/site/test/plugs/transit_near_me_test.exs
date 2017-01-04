@@ -80,6 +80,16 @@ defmodule Site.Plugs.TransitNearMeTest do
       assert length(stops) == 3
       assert get_flash(conn) == %{}
     end
+
+    test "assigns google maps requirement", %{conn: conn} do
+      conn = conn
+      |> assign_query_params(%{})
+      |> bypass_through(Site.Router, :browser)
+      |> get("/")
+      |> call(%Options{})
+
+      assert conn.assigns.requires_google_maps?
+    end
   end
 
   describe "init/1" do

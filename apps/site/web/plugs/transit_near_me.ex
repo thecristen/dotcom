@@ -52,6 +52,7 @@ defmodule Site.Plugs.TransitNearMe do
     conn
     |> assign(:stops_with_routes, stops_with_routes)
     |> assign_address(location)
+    |> assign(:requires_google_maps?, true)
     |> flash_if_error()
   end
 
