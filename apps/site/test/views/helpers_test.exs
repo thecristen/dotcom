@@ -109,7 +109,7 @@ defmodule Site.ViewHelpersTest do
   end
 
   describe "mode_summaries/2" do
-    test "commuter summaries only include commuter mode" do
+    test "commuter rail summaries only include commuter_rail mode" do
       summaries = mode_summaries(:commuter_rail, {:zone, "7"})
       assert Enum.all?(summaries, fn(summary) -> summary.modes == [:commuter_rail] end)
     end
