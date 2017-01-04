@@ -10,33 +10,33 @@
 .btn.schedule-v2-direction-btn {
   display: table-cell;
   float: none;
+  font-size: 1rem;
+  padding-bottom: 1rem;
+  padding-top: .75rem;
   text-align: left;
   vertical-align: top;
   white-space: normal;
   width: 50%;
-  font-size: 1rem;
-  padding-top: .75rem;
-  padding-bottom: 1rem;
 }
 
 .schedule-v2-direction-btn-group {
   display: table;
-  width: 100%;
   margin-bottom: .75rem;
+  width: 100%;
 }
 
 .schedule-v2-direction-btn-selected-icon {
   @include pull-left();
-  font-size: 1.7rem;
   display: block;
+  font-size: 1.7rem;
   padding-right: .333rem;
 }
 
 .schedule-v2-direction-btn-label {
   @include pull-left();
   display: block;
-  padding-left: .5rem;
   max-width: 85%;
+  padding-left: .5rem;
 
   @include media-breakpoint-up(xs) {
     max-width: 70%;

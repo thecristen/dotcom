@@ -6,7 +6,7 @@ defmodule Site.Plugs.Holidays do
   """
   import Plug.Conn, only: [assign: 3, halt: 1]
 
-  def init([]), do: %{}
+  def init(default), do: default
 
   def call(%{assigns: %{date: date}} = conn, _params) do
     conn
