@@ -1,1 +1,8 @@
 @import 'variables';
+
+.schedule-v2 {
+  .schedule-list-group-item {
+    // left/right padding is reduced to account for the column padding
+    padding: .75rem (.75rem - $grid-gutter-width / 2);
+  }
+}
