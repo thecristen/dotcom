@@ -1,1 +1,20 @@
-<h1>Route</h1>
+<%= Site.ScheduleV2View.render "_route.html", forward_assigns(@conn) %>
+<%= Site.ScheduleV2View.render "_direction.html", forward_assigns(@conn) %>
+<p>To view schedules for a specific stop, please enter your origin and destination</p>
+<div class="row">
+  <div class="col-md-6">
+    <%= Site.ScheduleV2View.render "_stop_selector.html",
+    conn: @conn,
+    query_key: "origin",
+    selected: (if @origin, do: @origin, else: nil),
+      disabled: nil,
+      all_stops: @all_stops,
+      key_stops: [],
+      label_text: "Departure times from:",
+      exclude: ["destination"],
+      route_type: @route_type,
+      change_text: "",
+      disabled_values: []
+    %>
+  </div>
+</div>

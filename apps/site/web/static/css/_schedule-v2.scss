@@ -6,3 +6,44 @@
     padding: .75rem (.75rem - $grid-gutter-width / 2);
   }
 }
+
+.btn.schedule-v2-direction-btn {
+  display: table-cell;
+  float: none;
+  font-size: 1rem;
+  padding-bottom: 1rem;
+  padding-top: .75rem;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  width: 50%;
+}
+
+.schedule-v2-direction-btn-group {
+  display: table;
+  margin-bottom: .75rem;
+  width: 100%;
+}
+
+.schedule-v2-direction-btn-selected-icon {
+  @include pull-left();
+  display: block;
+  font-size: 1.7rem;
+  padding-right: .333rem;
+}
+
+.schedule-v2-direction-btn-label {
+  @include pull-left();
+  display: block;
+  max-width: 85%;
+  padding-left: .5rem;
+
+  @include media-breakpoint-up(xs) {
+    max-width: 70%;
+  }
+}
+
+.schedule-v2-direction-btn-label-selected {
+  font-weight: bold;
+}
+
