@@ -18,5 +18,3 @@
 </div>
 <div class="transit-near-me-error"><%= get_flash(@conn, :info) %></div>
 <p id="tnm-geolocation-error" class="transit-near-me-error hidden-xs-up"></p>
-
-<script data-turbolinks-eval="false" type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>

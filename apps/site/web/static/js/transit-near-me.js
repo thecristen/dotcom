@@ -1,28 +1,28 @@
 export default function() {
   function setupTNM() {
     if (typeof google != "undefined") { // only load on pages that are using TNM
-      window.addEventListener("resize", set_client_width);
-      set_client_width();
-      var autocomplete = new google.maps.places.Autocomplete(document.getElementById("place-input"));
-      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-      $(".transit-near-me form").submit(validateTNMForm)
-
-        function onPlaceChanged() {
-          var place = autocomplete.getPlace(),
-          loc = window.location,
-          location_url = loc.protocol + "//" + loc.host + loc.pathname,
-          addr = $(".transit-near-me form").find('input[name="location[address]"]').val();
-          if (place.geometry) {
-            location_url = "?latitude=" + place.geometry.location.lat() + "&longitude=" + place.geometry.location.lng() + "&location[client_width]=" + ($("#transit-input").width() || 0) + "&location[address]=" + addr +  "#transit-input";
-          } else {
-            location_url = "?location[address]=" + location_url + place.name + "&location[client_width]=" + ($("#transit-input").width() || 0) + "#transit-input";
-          }
-          window.location.href = encodeURI(location_url);
-        }
-
-      function set_client_width() {
-        $("#client-width").val($("#transit-input").width() || 0);
+      var placeInput = document.getElementById("place-input")
+      if (placeInput == null) {
+        return;
       }
+      var autocomplete = new google.maps.places.Autocomplete(placeInput);
+
+      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+      $(".transit-near-me form").submit(validateTNMForm);
+
+      function onPlaceChanged() {
+        var place = autocomplete.getPlace(),
+            loc = window.location,
+            location_url = loc.protocol + "//" + loc.host + loc.pathname,
+            addr = $(".transit-near-me form").find('input[name="location[address]"]').val();
+        if (place.geometry) {
+          location_url = "?latitude=" + place.geometry.location.lat() + "&longitude=" + place.geometry.location.lng() + "&location[client_width]=" + ($("#transit-input").width() || 0) + "&location[address]=" + addr +  "#transit-input";
+        } else {
+          location_url = "?location[address]=" + location_url + place.name + "&location[client_width]=" + ($("#transit-input").width() || 0) + "#transit-input";
+        }
+        window.location.href = encodeURI(location_url);
+      }
+
 
       function validateTNMForm($event) {
         var val = $(".transit-near-me form").find('input[name="location[address]"]').val();
@@ -49,6 +49,13 @@ export default function() {
       };
     }
   }
-  $(document).on("ready", setupTNM);
+
+  function setClientWidth() {
+    $("#client-width").val($("#transit-input").width() || 0);
+  }
+  window.addEventListener("resize", setClientWidth);
+  setClientWidth();
+
+  $(document).on('turbolinks:load', setupTNM);
 
 }
