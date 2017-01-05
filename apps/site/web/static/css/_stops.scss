@@ -202,6 +202,7 @@ a {
 
   &.station-schedule-header {
     background-color: $gray-lightest;
+    font-weight: bold;
     white-space: nowrap;
   }
 }
@@ -265,9 +266,9 @@ a {
 
   .time-column {
     display: inline-block;
+    vertical-align: top;
     white-space: initial;
     width: 32%;
-    vertical-align: top;
   }
 }
 
