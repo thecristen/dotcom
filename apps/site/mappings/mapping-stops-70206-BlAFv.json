@@ -1,0 +1,19 @@
+{
+  "uuid" : "f11bcb3c-18aa-348b-9d67-34039bfea57a",
+  "request" : {
+    "url" : "/stops/70206",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70206-BlAFv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:21:22 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "9aahcou5gij1rerqv5eit5p15fd0icd5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

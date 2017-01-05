@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-qamnl"}}},"links":{"self":"/stops/70103"},"id":"70103","attributes":{"wheelchair_boarding":0,"name":"Quincy Adams - Outbound","longitude":-71.007153,"latitude":42.233391}}}

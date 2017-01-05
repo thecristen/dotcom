@@ -74,13 +74,12 @@ defmodule Site.StopController do
   defp terminal_station(stop) do
     stop.id
     |> Routes.Repo.by_stop(type: 2)
-    |> List.first
     |> do_terminal_station
   end
 
   # Filter out non-CR stations.
-  defp do_terminal_station(nil), do: ""
-  defp do_terminal_station(route) do
+  defp do_terminal_station([]), do: ""
+  defp do_terminal_station([route | _]) do
     terminal = route.id
     |> Schedules.Repo.stops(direction_id: 0)
     |> List.first

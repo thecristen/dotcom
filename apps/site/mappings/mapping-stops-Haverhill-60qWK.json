@@ -1,0 +1,19 @@
+{
+  "uuid" : "479cf667-2b60-3aab-91c4-37e4ab0bcfc6",
+  "request" : {
+    "url" : "/stops/Haverhill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Haverhill-60qWK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:21:22 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "rb2if8tb4hielud90o4e5pghfu24ul1q",
+      "Connection" : "keep-alive"
+    }
+  }
+}

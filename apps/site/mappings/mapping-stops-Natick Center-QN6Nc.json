@@ -1,0 +1,19 @@
+{
+  "uuid" : "5ebb11a0-20ab-3bb1-b982-019f7d59177c",
+  "request" : {
+    "url" : "/stops/Natick%20Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Natick Center-QN6Nc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:21:22 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "fepjb5mnmf7k0uk9ekm3eq9ntcg1bfq5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

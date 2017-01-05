@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-newtn"}}},"links":{"self":"/stops/70169"},"id":"70169","attributes":{"wheelchair_boarding":0,"name":"Newton Highlands - Outbound","longitude":-71.206116,"latitude":42.321735}}}

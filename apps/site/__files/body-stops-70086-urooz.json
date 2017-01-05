@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-jfk"}}},"links":{"self":"/stops/70086"},"id":"70086","attributes":{"wheelchair_boarding":0,"name":"JFK/UMASS Ashmont - Inbound","longitude":-71.052391,"latitude":42.320685}}}

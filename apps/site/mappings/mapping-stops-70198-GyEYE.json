@@ -1,0 +1,19 @@
+{
+  "uuid" : "725e54f8-5060-335b-9469-8ebcc1a24f70",
+  "request" : {
+    "url" : "/stops/70198",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70198-GyEYE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:21:22 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "gi9oecfsli9vnqncq8h1430aqsep765k",
+      "Connection" : "keep-alive"
+    }
+  }
+}

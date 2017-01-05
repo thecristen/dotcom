@@ -1,0 +1,19 @@
+{
+  "uuid" : "f3d90abc-c1d1-30e9-912a-490b5e935476",
+  "request" : {
+    "url" : "/stops/6537",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-6537-GLnpN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:23:13 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "rslveo2vbu97mqv36qihkbqo1jesk0cc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

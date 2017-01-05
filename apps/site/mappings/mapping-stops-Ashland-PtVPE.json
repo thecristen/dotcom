@@ -1,0 +1,19 @@
+{
+  "uuid" : "fa75b2e0-80ba-3c1e-b6aa-4955e0069a29",
+  "request" : {
+    "url" : "/stops/Ashland",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Ashland-PtVPE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:21:22 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "tdhsduai9f42198se8drj3pm6dtvpkc2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

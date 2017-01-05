@@ -1,0 +1,19 @@
+{
+  "uuid" : "9a03f247-25f2-3a8f-bfa1-27e78722048b",
+  "request" : {
+    "url" : "/stops/9983",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-9983-SDrXK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:23:12 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "5tn8fl206iahjtofvl83fei1ep1jqrb6",
+      "Connection" : "keep-alive"
+    }
+  }
+}

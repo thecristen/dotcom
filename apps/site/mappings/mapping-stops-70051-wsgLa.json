@@ -1,0 +1,19 @@
+{
+  "uuid" : "f342f2b2-e643-3ff1-aefb-4229fb5144c8",
+  "request" : {
+    "url" : "/stops/70051",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70051-wsgLa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:21:22 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "ebcgu0dfhpu20244dlhb8jtrcucojhml",
+      "Connection" : "keep-alive"
+    }
+  }
+}

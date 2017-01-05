@@ -1,0 +1,19 @@
+{
+  "uuid" : "4993f4ab-5881-3d46-ab3b-e569e9d14329",
+  "request" : {
+    "url" : "/routes/?stop=place-wlsta&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vIjRG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:51 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "qe4980f90mjtc4udfgc2j8t4skfdggrc",
+      "Connection" : "keep-alive"
+    }
+  }
+}
