@@ -51,6 +51,13 @@ defmodule Site.TransitNearMeControllerTest do
     end
   end
 
+  test "it contains the google maps scripts", %{conn: conn} do
+    conn = conn
+    |> get(transit_near_me_path(conn, :index))
+
+    assert html_response(conn, 200) =~ "https://maps.googleapis.com/maps/api/js?libraries=places"
+  end
+
   @spec search_near_address(Plug.Conn.t, String.t, [Stop.t], String.t) :: Plug.Conn.t
   def search_near_address(conn, address, stops \\ [], width \\ "1200") do
     conn
