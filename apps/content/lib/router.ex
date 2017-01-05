@@ -27,6 +27,12 @@ defmodule Content.Router do
     Content.Config.apply(:page, [conn, maybe_page])
   end
 
+  # handle all types of request
+  match "/*_path" do
+    error = {:error, "page not found"}
+    Content.Config.apply(:page, [conn, error])
+  end
+
   @doc """
 
   Responsible for forwarding an HTTPoison response back to the client.  If there's a problem with the response, returns a 404 Not Found.
