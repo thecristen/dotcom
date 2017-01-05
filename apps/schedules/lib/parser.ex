@@ -39,7 +39,7 @@ defmodule Schedules.Parser do
           "trip" => [%JsonApi.Item{id: id,
                                    attributes: %{"name" => name,
                                                  "headsign" => headsign,
-                                                 "direction_id" => direction_id}}]
+                                                 "direction_id" => direction_id}} | _]
         }}) do
     %Schedules.Trip{
       id: id,

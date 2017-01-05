@@ -109,7 +109,9 @@ defmodule Site.StopViewTest do
       trip_id = "CR-Weekday-Fall-16-823"
       now = Util.now
       later = Util.now |> Timex.shift(minutes: 1)
-      predictions = [%Prediction{trip_id: trip_id, time: later}]
+      predictions = [
+        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: later}
+      ]
       rendered = route_id
                  |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
                  |> do_safe_to_string
@@ -123,7 +125,9 @@ defmodule Site.StopViewTest do
       direction_id = 1
       trip_id = "CR-Weekday-Fall-16-823"
       now = Util.now
-      predictions = [%Prediction{trip_id: trip_id, time: now}]
+      predictions = [
+        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: now}
+      ]
       rendered = route_id
                  |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
                  |> do_safe_to_string
@@ -138,7 +142,9 @@ defmodule Site.StopViewTest do
       trip_id = "CR-Weekday-Fall-16-823"
       now = Timex.to_datetime {Timex.to_erl(Timex.today), {14,0,0}}
       later = Timex.shift now, seconds: 45
-      predictions = [%Prediction{trip_id: trip_id, time: later}]
+      predictions = [
+        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: later}
+      ]
       rendered = route_id
                  |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
                  |> do_safe_to_string
@@ -153,7 +159,9 @@ defmodule Site.StopViewTest do
       trip_id = "CR-Weekday-Fall-16-823"
       now = Util.now
       earlier = Timex.shift(now, minutes: -2)
-      predictions = [%Prediction{trip_id: trip_id, time: earlier}]
+      predictions = [
+        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: earlier}
+      ]
       rendered = route_id
                  |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
                  |> do_safe_to_string
@@ -165,7 +173,13 @@ defmodule Site.StopViewTest do
     test "show track number when available" do
       trip_id = "CR-Weekday-Fall-16-823"
       rendered = trip_id
-      |> StopView.render_commuter_status(Util.now, [%Prediction{trip_id: trip_id, status: "Now Boarding", track: 5}])
+      |> StopView.render_commuter_status(
+        Util.now, [
+          %Prediction{
+            trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"},
+            status: "Now Boarding",
+            track: 5}
+        ])
       |> do_safe_to_string
       assert rendered =~ "Now Boarding"
       assert rendered =~ "track 5"
@@ -175,7 +189,12 @@ defmodule Site.StopViewTest do
       now = Util.now
       trip_id = "CR-Weekday-Fall-16-823"
       rendered = trip_id
-      |> StopView.render_commuter_status(now, [%Prediction{trip_id: trip_id, time: Timex.shift(now, minutes: 2)}])
+      |> StopView.render_commuter_status(
+        now, [
+          %Prediction{
+            trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"},
+            time: Timex.shift(now, minutes: 2)}
+        ])
       |> do_safe_to_string
       assert rendered =~ "Delayed"
       assert rendered =~ "2 min"
@@ -184,7 +203,11 @@ defmodule Site.StopViewTest do
     test "shows \"On Time\" when status is nil and train is not delayed" do
       now = Util.now
       trip_id = "CR-Weekday-Fall-16-823"
-      assert StopView.render_commuter_status(trip_id, now, [%Prediction{trip_id: trip_id, time: now}]) =~ "On Time"
+      assert StopView.render_commuter_status(
+        trip_id,
+        now,
+        [%Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: now}]
+      ) =~ "On Time"
     end
   end
 

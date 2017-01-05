@@ -3,6 +3,7 @@ defmodule Predictions.ParserTest do
 
   alias Predictions.Parser
   alias Predictions.Prediction
+  alias Schedules.Trip
   alias JsonApi.Item
   alias Timex.Timezone
 
@@ -19,11 +20,20 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],
           "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
-          "trip" => [%Item{id: "trip_id"}, %Item{id: "wrong"}]
+          "trip" => [%Item{id: "trip_id", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }},
+                     %Item{id: "wrong", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }}]
         }
       }
       expected = %Prediction{
-        trip_id: "trip_id",
+        trip: %Trip{id: "trip_id", name: "trip_name", direction_id: "0", headsign: "trip_headsign"},
         stop_id: "stop_id",
         route_id: "route_id",
         direction_id: 0,
@@ -47,7 +57,16 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],
           "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
-          "trip" => [%Item{id: "trip_id"}, %Item{id: "wrong"}]
+          "trip" => [%Item{id: "trip_id", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }},
+                     %Item{id: "wrong", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }}]
         }
       }
 
@@ -71,7 +90,11 @@ defmodule Predictions.ParserTest do
                              %Item{id: "parent_id"}
                            ]
                            }}],
-          "trip" => [%Item{id: "trip_id"}]
+          "trip" => [%Item{id: "trip_id", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }}]
         }
       }
       expected = "parent_id"
@@ -92,7 +115,16 @@ defmodule Predictions.ParserTest do
         relationships: %{
           "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],
           "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
-          "trip" => [%Item{id: "trip_id"}, %Item{id: "wrong"}]
+          "trip" => [%Item{id: "trip_id", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }},
+                     %Item{id: "wrong", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }}]
         }
       }
 
@@ -109,6 +141,34 @@ defmodule Predictions.ParserTest do
           item = %{base_item | attributes: Map.put(base_item.attributes, "schedule_relationship", json)}
           assert Parser.parse(item).schedule_relationship == expected
       end
+    end
+
+    test "can handle empty trip relationships" do
+      item = %Item{
+        attributes: %{
+          "track" => nil,
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => "2016-09-15T15:40:00-04:00",
+          "arrival_time" => "2016-01-01T00:00:00-04:00"
+        },
+        relationships: %{
+          "route" => [%Item{id: "route_id"}],
+          "stop" => [%Item{id: "stop_id"}],
+          "trip" => []
+        }
+      }
+      expected = %Prediction{
+        trip: nil,
+        stop_id: "stop_id",
+        route_id: "route_id",
+        direction_id: 0,
+        time: ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
+        track: nil,
+        status: "On Time"
+      }
+
+      assert Parser.parse(item) == expected
     end
   end
 end
