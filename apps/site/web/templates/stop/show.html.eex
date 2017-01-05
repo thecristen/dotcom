@@ -22,12 +22,14 @@
       </span>
     </h1>
     <p class="stations-address">
+    <%= if @stop.address && @stop.address != "" do %>
       <%= @stop.address %>
       <span class="no-wrap">
         <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
-          &nbsp;Get directions <%= fa "arrow-right" %>
+          Get directions <%= fa "arrow-right" %>
         <% end %>
       </span>
+    <% end %>
     </p>
 
     <div class="station-map-container">

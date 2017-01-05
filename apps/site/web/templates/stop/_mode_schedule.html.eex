@@ -4,7 +4,7 @@
       <%= mode_name @mode %>
     </div>
     <div class="hidden-xs-down station-route-schedule-times">
-      Upcoming Departures
+      <strong>Upcoming Departures</strong>
     </div>
   </div>
   <%= for route <- @routes do %>
