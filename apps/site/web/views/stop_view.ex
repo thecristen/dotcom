@@ -166,7 +166,7 @@ defmodule Site.StopView do
         "Green"<>_line -> [] # Skip Greenline predictions
         _ -> stop_predictions
         |> route_predictions(route_id, direction_id)
-        |> Enum.filter_map(&(upcoming?(&1.time, date_time, mode)), &({:predicted, Schedules.Repo.trip(&1.trip_id), &1.time}))
+        |> Enum.filter_map(&(upcoming?(&1.time, date_time, mode)), &({:predicted, &1.trip, &1.time}))
       end
 
     scheduled = stop_schedule
@@ -305,7 +305,12 @@ defmodule Site.StopView do
   defp do_set_prediction_status(prediction, _, _), do: Map.put(prediction, :status, "Delayed")
 
   @spec get_commuter_prediction([Prediction.t], String.t) :: Prediction.t | nil
-  defp get_commuter_prediction(stop_predictions, trip_id), do: Enum.find(stop_predictions, fn %Prediction{trip_id: id} -> id == trip_id end)
+  defp get_commuter_prediction(stop_predictions, trip_id) do
+    Enum.find(
+      stop_predictions,
+      &match?(%Prediction{trip: %Trip{id: ^trip_id}}, &1)
+    )
+  end
 
   @spec get_schedule_path(String.t, String.t, integer) :: String.t
   defp get_schedule_path(route_id, trip_id, direction_id) do

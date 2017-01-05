@@ -1,7 +1,7 @@
 defmodule Site.ScheduleView do
   use Site.Web, :view
   alias Routes.Route
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, Trip}
   defdelegate build_calendar(date, holidays, conn), to: Site.ScheduleView.Calendar
 
   @schedule_display_initial 12
@@ -133,10 +133,9 @@ defmodule Site.ScheduleView do
 
   def prediction_for_schedule(predictions, %Schedule{trip: %{id: trip_id}, stop: %{id: stop_id}}) do
     predictions
-    |> Enum.find(fn
-      %{trip_id: ^trip_id, stop_id: ^stop_id} -> true
-      _ -> false
-    end)
+    |> Enum.find(
+      &match?(%{trip: %Trip{id: ^trip_id}, stop_id: ^stop_id}, &1)
+    )
   end
 
   def schedule_display_initial do

@@ -50,7 +50,7 @@ defmodule Predictions.RepoTest do
               {
                 "included": [
                   {"type": "route", "id": "route", "attributes": {}, "relationships": {}},
-                  {"type": "trip", "id": "trip", "attributes": {}, "relationships": {}},
+                  {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
                   {"type": "stop", "id": "stop", "attributes": {}, "relationships": {}}
                 ],
                 "data": [

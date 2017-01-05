@@ -78,7 +78,7 @@ defmodule Site.ScheduleViewTest do
       conn = conn
       |> assign(:predictions, [
             %Prediction{
-              trip_id: second_schedule.trip.id,
+              trip: second_schedule.trip,
               stop_id: second_schedule.stop.id,
               route_id: second_schedule.route.id,
               direction_id: second_schedule.trip.direction_id,
@@ -101,7 +101,7 @@ defmodule Site.ScheduleViewTest do
       conn = conn
       |> assign(:predictions, [
             %Prediction{
-              trip_id: schedule.trip.id,
+              trip: schedule.trip,
               stop_id: schedule.stop.id,
               route_id: schedule.route.id,
               direction_id: schedule.trip.direction_id,
