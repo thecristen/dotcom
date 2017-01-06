@@ -88,11 +88,11 @@ defmodule Site.Plugs.TransitNearMe do
   @spec get_route_groups([Route.t]) :: [Routes.Group.t]
   def get_route_groups(route_list) do
     route_list
-    |> Routes.Group.group
+    |> Enum.group_by(&Route.type_atom/1)
+    |> Keyword.new
     |> separate_subway_lines
     |> Keyword.delete(:subway)
   end
-
 
   @doc """
     Returns the grouped routes list with subway lines elevated to the top level, eg:
@@ -102,12 +102,11 @@ defmodule Site.Plugs.TransitNearMe do
 
   """
   @spec separate_subway_lines([Routes.Group.t]) :: [{Routes.Route.gtfs_route_type | Route.subway_lines_type, [Route.t]}]
-  def separate_subway_lines([{:subway, subway_lines}|_] = routes) do
-    subway_lines
+  def separate_subway_lines(routes) do
+    routes
+    |> Keyword.get(:subway, [])
     |> Enum.reduce(routes, &subway_reducer/2)
   end
-  def separate_subway_lines(routes), do: routes
-
 
   @spec subway_reducer(Route.t, [Routes.Group.t]) :: [{Routes.Route.subway_lines_type, [Route.t]}]
   defp subway_reducer(%Route{id: id, type: 1} = route, routes) do
