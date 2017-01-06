@@ -3,12 +3,14 @@ defmodule Routes.Route do
     id: "",
     type: 0,
     name: "",
+    direction_names: %{0 => "Outbound", 1 => "Inbound"},
     key_route?: false
   ]
   @type t :: %__MODULE__{
     id: String.t,
     type: 0..4,
     name: String.t,
+    direction_names: %{0 => String.t, 1 => String.t},
     key_route?: boolean
   }
   @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry

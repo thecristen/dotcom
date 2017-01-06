@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/553"},"id":"553","attributes":{"type":3,"short_name":"553","long_name":"","direction_names":["Outbound","Inbound"],"description":"Express Bus"}}]}

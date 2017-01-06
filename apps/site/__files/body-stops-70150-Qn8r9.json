@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-kencl"}}},"links":{"self":"/stops/70150"},"id":"70150","attributes":{"wheelchair_boarding":0,"name":"Kenmore - Inbound","longitude":-71.095169,"latitude":42.348949}}}

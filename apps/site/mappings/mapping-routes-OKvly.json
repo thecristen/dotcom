@@ -1,0 +1,19 @@
+{
+  "uuid" : "faabd2db-8afe-3431-850e-be19218431a2",
+  "request" : {
+    "url" : "/routes/?stop=place-sdmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OKvly.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:35 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "l9ai4gibtdec8k813grt233hun8s88cr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

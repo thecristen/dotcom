@@ -1,0 +1,19 @@
+{
+  "uuid" : "152de248-3a64-3b8a-8a3b-4d7a08d3be92",
+  "request" : {
+    "url" : "/routes/?stop=place-ogmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MJEub.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:36 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "bsa788vk2vcdiveuoeq8iodemrj0jes8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

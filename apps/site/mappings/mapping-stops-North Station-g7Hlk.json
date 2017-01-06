@@ -1,0 +1,19 @@
+{
+  "uuid" : "913d0193-f49c-3722-b140-c4ef00f3b662",
+  "request" : {
+    "url" : "/stops/North%20Station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-North Station-g7Hlk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:44:06 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "umffgb1jfdgl3n13brdhijrh37s1g617",
+      "Connection" : "keep-alive"
+    }
+  }
+}

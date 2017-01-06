@@ -11,8 +11,10 @@ defmodule Site.ScheduleV2.BusViewTest do
     end
 
     test "given a non-empty list of schedules, displays the direction of the first schedule's route" do
+      route = %Routes.Route{direction_names: %{1 => "Northbound"}}
+      trip = %Trip{direction_id: 1}
       schedules = [
-        %Schedules.Schedule{route: %Routes.Route{id: "Red"}, trip: %Schedules.Trip{direction_id: 1}}
+        %Schedules.Schedule{route: route, trip: trip}
       ]
       assert schedules |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end

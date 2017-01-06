@@ -1,0 +1,19 @@
+{
+  "uuid" : "16ba9576-2a44-3f62-8fc1-716b7f3b57a5",
+  "request" : {
+    "url" : "/stops/8279",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-8279-JHlAU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:51 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "rsl8lmoj18q4u4c8sg9e3o27e115p7s2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

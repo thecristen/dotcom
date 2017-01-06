@@ -1,0 +1,19 @@
+{
+  "uuid" : "9697058c-3c46-3945-ba47-2d27abe24380",
+  "request" : {
+    "url" : "/routes/?stop=place-masta&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BmUiA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:29 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "epui8l37prn3b5ja3avj6h63g12cm8uo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

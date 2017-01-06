@@ -1,0 +1,19 @@
+{
+  "uuid" : "e3195c86-11e2-3d6d-b103-335faedd7671",
+  "request" : {
+    "url" : "/routes/?stop=223&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lAPQC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:47 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "9qo854t142okrat99sb0d859k5d5laoq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

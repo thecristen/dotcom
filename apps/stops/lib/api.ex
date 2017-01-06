@@ -8,7 +8,8 @@ defmodule Stops.Api do
   @vending_machine_stations ["place-north", "place-sstat", "place-bbsta", "place-portr", "place-mlmnl",
                              "Lynn", "Worcester", "place-rugg", "place-forhl", "place-jfk", "place-qnctr",
                              "place-brntn"]
-                             |> MapSet.new
+                             |> Map.new(&{&1, true})
+
   @charlie_card_stations [
     "place-alfcl",
     "place-armnl",
@@ -22,7 +23,8 @@ defmodule Stops.Api do
     "place-pktrm",
     "place-rugg"
   ]
-  |> MapSet.new
+  |> Map.new(&{&1, true})
+
 
   @spec all :: [Stop.t]
   def all do
@@ -60,8 +62,8 @@ defmodule Stops.Api do
       images: images(relationships["images"]),
       parking_lots: parking_lots(relationships),
       station?: true,
-      has_fare_machine?: MapSet.member?(@vending_machine_stations, id),
-      has_charlie_card_vendor?: MapSet.member?(@charlie_card_stations, id)
+      has_fare_machine?: Map.get(@vending_machine_stations, id, false),
+      has_charlie_card_vendor?: Map.get(@charlie_card_stations, id, false)
     }
   end
 

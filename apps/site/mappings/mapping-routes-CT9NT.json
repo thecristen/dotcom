@@ -1,0 +1,19 @@
+{
+  "uuid" : "037c5617-a81c-3a63-be3d-2cf46fa68b30",
+  "request" : {
+    "url" : "/routes/?stop=place-wascm&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CT9NT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:34 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "d3vjrq6egaqg4km28ae8fuarbu677l2f",
+      "Connection" : "keep-alive"
+    }
+  }
+}
