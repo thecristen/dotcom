@@ -6,6 +6,7 @@ defmodule Site.ScheduleV2.BusController do
   plug Site.Plugs.Holidays
   plug Site.Plugs.Alerts
   plug Site.ScheduleController.Defaults
+  plug Site.ScheduleV2Controller.Predictions
   plug Site.ScheduleController.Schedules
   plug Site.ScheduleController.Headsigns
   plug Site.ScheduleController.AllStops

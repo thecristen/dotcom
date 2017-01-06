@@ -4,13 +4,14 @@
       <div class="col-xs-6">Scheduled</div>
       <div class="col-xs-6"><%= display_direction(@schedules) %></div>
     </div>
-    <%= for schedule <- @schedules do %>
+    <%= for departure <- merge_predictions_and_schedules(@predictions, @schedules) do %>
       <a class="schedule-list-group-item" <%# href="TODO" %>>
         <div class="col-xs-6">
-          <%= schedule.time |> Timex.format!("{0h12}:{m}{AM}") %>
+          <%= if match?(%Predictions.Prediction{}, departure), do: fa("rss") %>
+          <%= departure.time |> Timex.format!("{0h12}:{m}{AM}") %>
         </div>
         <div class="col-xs-6">
-          <%= schedule.trip.headsign %>
+          <%= departure.trip.headsign %>
         </div>
       </a>
     <% end %>

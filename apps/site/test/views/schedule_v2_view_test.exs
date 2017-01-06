@@ -5,19 +5,6 @@ defmodule Site.ScheduleV2ViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   alias Schedules.Stop
 
-  describe "display_direction/1" do
-    test "given no schedules, returns no content" do
-      assert display_direction([]) == ""
-    end
-
-    test "given a non-empty list of schedules, displays the direction of the first schedule's route" do
-      schedules = [
-        %Schedules.Schedule{route: %Routes.Route{id: "Red"}, trip: %Schedules.Trip{direction_id: 1}}
-      ]
-      assert schedules |> display_direction |> IO.iodata_to_binary == "Northbound to"
-    end
-  end
-
   describe "update_schedule_url/2" do
     test "adds additional parameters to a conn", %{conn: conn} do
       conn = %{conn | params: %{"route" => "route"}}
