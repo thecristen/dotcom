@@ -16,7 +16,7 @@
         key_stops: [],
         label_text: label_text,
         change_text: "Change Departure",
-        disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route.id) |> String.downcase} stop"}) %>
+        disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"}) %>
   </div>
   <%= if @destination == nil do %>
     <%# need both to handle the margins correctly on the small screen but also have a full-height background on desktop %>

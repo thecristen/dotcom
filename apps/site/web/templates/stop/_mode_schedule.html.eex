@@ -18,7 +18,7 @@
           <%= for {headsign, departures} <- departure_groups do %>
             <div class="station-route-schedule">
               <p class="station-route-schedule-name">
-                <%= direction(direction_id, route.id) %> <%= fa "arrow-right" %> <%= headsign %>
+                <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= headsign %>
                 <%= if has_alerts?(@conn, %Alerts.InformedEntity{route: route.id, direction_id: direction_id}) do %>
                   <%= svg_icon(%SvgIcon{icon: :alert}) %>
                 <% end %>

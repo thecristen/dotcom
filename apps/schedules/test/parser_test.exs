@@ -33,6 +33,7 @@ defmodule Schedules.ParserTest do
                 %JsonApi.Item{
                   attributes: %{
                     "long_name" => "Lowell Line",
+                    "direction_names" => ["Outbound", "Inbound"],
                     "type" => 2
                   },
                   id: "CR-Lowell",
@@ -78,6 +79,7 @@ defmodule Schedules.ParserTest do
                                          "type" => 3,
                                          "short_name" => "9",
                                          "long_name" => "",
+                                         "direction_names" => ["Outbound", "Inbound"],
                                          "description" => "Local Bus"
                                        }}]}}]}}
     assert Schedules.Parser.route(api_item) ==

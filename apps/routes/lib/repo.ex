@@ -1,6 +1,8 @@
 defmodule Routes.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
+  import Routes.Parser
+
   @doc """
 
   Returns a list of all the routes
@@ -115,23 +117,6 @@ defmodule Routes.Repo do
   defp hidden_routes(%{id: "Logan-" <> _}), do: true
   defp hidden_routes(%{id: "CapeFlyer"}), do: true
   defp hidden_routes(_), do: false
-
-  defp parse_json(%JsonApi.Item{id: id, attributes: attributes}) do
-    %Routes.Route{
-      id: id,
-      type: attributes["type"],
-      name: name(attributes),
-      key_route?: key_route?(name(attributes), attributes["description"])
-    }
-  end
-
-  defp name(%{"type" => 3, "short_name" => short_name}), do: short_name
-  defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
-  defp name(%{"long_name" => long_name}), do: long_name
-
-  defp key_route?(_, "Key Bus Route (Frequent Service)"), do: true
-  defp key_route?(name, "Rapid Transit") when name != "Mattapan Trolley", do: true
-  defp key_route?(_, _), do: false
 
   defp order_by_frequency(enum) do
     # the complicated function in the middle collapses some lengths which are

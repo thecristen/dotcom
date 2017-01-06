@@ -11,6 +11,7 @@ defmodule Routes.RepoTest do
         id: "Blue",
         type: 1,
         name: "Blue Line",
+        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
         key_route?: true
       }
     end
@@ -22,6 +23,7 @@ defmodule Routes.RepoTest do
         id: "Green-B",
         type: 0,
         name: "Green Line B",
+        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
         key_route?: true
       }
     end

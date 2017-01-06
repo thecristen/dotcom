@@ -11,10 +11,10 @@ defmodule Site.ScheduleV2.BusView do
   @spec display_direction([Schedule.t]) :: iodata
   def display_direction([
     %Schedule{
-      route: %Routes.Route{id: route_id},
+      route: route,
       trip: %Trip{direction_id: direction_id}}
     | _]) do
-    [direction(direction_id, route_id), " to"]
+    [direction(direction_id, route), " to"]
   end
   def display_direction([]), do: ""
 

@@ -16,22 +16,11 @@ defmodule Schedules.Parser do
         "trip" => [
         %JsonApi.Item{
           relationships: %{
-            "route" => [
-            %JsonApi.Item{id: id,
-                          attributes: %{"long_name" => long_name,
-                                        "type" => type} = attributes}
-            | _]
+            "route" => [route | _]
           }} | _]
       }
     }) do
-    %Routes.Route{
-      id: id,
-      type: type,
-      name: case long_name do
-              "" -> attributes["short_name"]
-              _ -> long_name
-            end
-    }
+    Routes.Parser.parse_json(route)
   end
 
   def trip(%JsonApi.Item{
