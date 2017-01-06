@@ -60,7 +60,7 @@ defmodule Site.ViewHelpers do
     route.direction_names[direction_id]
   end
 
-  @spec mode_name(0..4 | Routes.Route.route_type | :access) :: String.t
+  @spec mode_name(0..4 | Routes.Route.route_type | Routes.Route.subway_lines_type | :access) :: String.t
   @doc "Textual version of a mode ID or type"
   def mode_name(type) when type in [0, 1, :subway], do: "Subway"
   def mode_name(type) when type in [2, :commuter_rail], do: "Commuter Rail"
@@ -228,7 +228,7 @@ defmodule Site.ViewHelpers do
     |> Kernel.<>(" mi")
   end
 
-  @spec mode_summaries(atom, {atom, String.t} | nil) :: [Summary.t]
+  @spec mode_summaries(atom, {atom, String.t} | nil) :: [Fares.Summary.t]
   @doc "Return the fare summaries for the given mode"
   def mode_summaries(:commuter_rail, nil) do
     :commuter_rail
@@ -279,7 +279,7 @@ defmodule Site.ViewHelpers do
      [name: mode, duration: :month, reduced: nil]]
   end
 
-  @spec summaries_for_filters([keyword()], atom) :: [Summary.t]
+  @spec summaries_for_filters([keyword()], atom) :: [Fares.Summary.t]
   defp summaries_for_filters(filters, mode) do
     filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
   end

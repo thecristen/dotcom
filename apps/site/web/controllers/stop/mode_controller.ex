@@ -1,11 +1,16 @@
 defmodule Site.StopController.ModeController do
   use Site.Web, :controller
 
+  alias Routes.Route
+  alias Stops.Stop
+
+  @spec show(Plug.Conn.t, Route.gtfs_route_type) :: Plug.Conn.t
   def show(conn, mode) do
     stop_info = mode
     |> types_for_mode
     |> Routes.Repo.by_type
     |> ParallelStream.map(&{&1, Schedules.Repo.stops(&1.id, [])})
+    |> Enum.into([])
     |> gather_green_line(mode)
 
     render(conn, "index.html", mode: mode, stop_info: stop_info, breadcrumbs: ["Stops"])
