@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/92"},"id":"92","attributes":{"type":3,"short_name":"92","long_name":"","description":"Local Bus"}},{"type":"route","links":{"self":"/routes/93"},"id":"93","attributes":{"type":3,"short_name":"93","long_name":"","description":"Local Bus"}}]}

@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/Green-D"},"id":"Green-D","attributes":{"type":0,"short_name":"D","long_name":"Green Line D","description":"Rapid Transit"}},{"type":"route","links":{"self":"/routes/558"},"id":"558","attributes":{"type":3,"short_name":"558","long_name":"","description":"Express Bus"}}]}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "9ea647ca-858f-3cce-b070-893806077df5",
+  "request" : {
+    "url" : "/routes/?stop=1251&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-8NEsa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:49 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "sjs3df3n0g1ma04uf0qg3l4s2ljl9ups",
+      "Connection" : "keep-alive"
+    }
+  }
+}

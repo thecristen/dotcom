@@ -1,0 +1,19 @@
+{
+  "uuid" : "4b93c2cd-4bda-3b73-b57b-f0412c1391e9",
+  "request" : {
+    "url" : "/stops/1409",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-1409-DlWDY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:44:05 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "p8kmgl9o33001oltvf6ijg14o1u39akl",
+      "Connection" : "keep-alive"
+    }
+  }
+}

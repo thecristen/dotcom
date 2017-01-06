@@ -1,0 +1,19 @@
+{
+  "uuid" : "9b294c7f-0955-3522-96a5-91843c23e9d5",
+  "request" : {
+    "url" : "/stops/70205",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70205-UKcmC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:44:06 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "1j8i3m3vqt1r0f54vd18i9v9me757b4d",
+      "Connection" : "keep-alive"
+    }
+  }
+}

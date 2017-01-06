@@ -1,0 +1,19 @@
+{
+  "uuid" : "da2e42dc-151e-3046-8240-37415ef4eac8",
+  "request" : {
+    "url" : "/stops/?direction_id=1&route=1&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-7PZLO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:44:49 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "6gdbjsj6o18fmkp6udqu12nbk0l9eij8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

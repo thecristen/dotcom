@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/5632"},"id":"5632","attributes":{"wheelchair_boarding":0,"name":"Washington Ave @ Columbus St","longitude":-71.031285,"latitude":42.411242}}}

@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":[{"type":"route","links":{"self":"/routes/Green-C"},"id":"Green-C","attributes":{"type":0,"short_name":"C","long_name":"Green Line C","description":"Rapid Transit"}},{"type":"route","links":{"self":"/routes/66"},"id":"66","attributes":{"type":3,"short_name":"66","long_name":"","description":"Key Bus Route (Frequent Service)"}}]}

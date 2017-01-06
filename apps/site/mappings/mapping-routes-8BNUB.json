@@ -1,0 +1,19 @@
+{
+  "uuid" : "e7675bf1-6c40-3d90-b81b-a59395cc8dca",
+  "request" : {
+    "url" : "/routes/?stop=Framingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-8BNUB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:44:29 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "cc1ne130gm6nsbtcao3s3pm41rq661ni",
+      "Connection" : "keep-alive"
+    }
+  }
+}

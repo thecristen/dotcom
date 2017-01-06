@@ -1,0 +1,19 @@
+{
+  "uuid" : "9cf28c00-7326-3a21-9aef-775aa99f944b",
+  "request" : {
+    "url" : "/stops/Wickford%20Junction",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Wickford Junction-r1Wua.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:44:39 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "jc816626l0q1vjf4eicp41kn8kntd8ic",
+      "Connection" : "keep-alive"
+    }
+  }
+}

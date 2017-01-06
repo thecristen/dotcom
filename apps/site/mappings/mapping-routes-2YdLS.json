@@ -1,0 +1,19 @@
+{
+  "uuid" : "3c53ac8a-b063-32bc-8c82-705dd1ed9a00",
+  "request" : {
+    "url" : "/routes/?stop=place-river&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-2YdLS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:36 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "sv096m5cmsl9m8crp3latl560ujsjfgv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "8d9fe035-77ac-3eca-9916-855d2d789a69",
+  "request" : {
+    "url" : "/routes/?stop=place-harsq&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nTuGY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 06 Jan 2017 18:45:34 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "vjk66hohs8m0243ivl3uv5eqdlt6cknr",
+      "Connection" : "keep-alive"
+    }
+  }
+}
