@@ -2,7 +2,6 @@
 <%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
   <div class="schedule-v2-frequency-row">
     <div class="schedule-v2-frequency-col">
-      <% last_departure_time = List.last(schedules).time %>
       <%= case name do
           :am_rush -> "OPEN - 9:00AM"
           :midday -> "9:00AM - 3:30PM"
@@ -12,6 +11,7 @@
           end
       %>
       <%= if name == :late_night do %>
+        <% last_departure_time = List.last(schedules).time %>
         <div class="schedule-v2-frequency-time">
           Last Departure at <%= Timex.format!(last_departure_time, "%I:%M %p", :strftime) %>
         </div>

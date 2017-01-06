@@ -33,8 +33,7 @@ defmodule Site.ScheduleV2.BusController do
   end
 
   def frequency(conn, _params) do
-    conn
-    |> render("_frequency.html")
+    render(conn, "_frequency.html")
   end
 end
 
