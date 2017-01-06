@@ -47,3 +47,22 @@
   font-weight: bold;
 }
 
+.schedule-v2-frequency-header {
+  background-color: $brand-primary-darkest;
+  color: $white;
+  padding: .5rem;
+}
+
+.schedule-v2-frequency-row {
+  border: solid .5px $gray-lightest;
+  padding: .5rem;
+}
+
+.schedule-v2-frequency-col {
+  width: 40%;
+  display: inline-block;
+}
+
+.schedule-v2-frequency-time {
+  font-size: .875rem;
+}
