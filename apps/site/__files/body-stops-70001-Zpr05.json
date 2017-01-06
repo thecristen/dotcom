@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-forhl"}}},"links":{"self":"/stops/70001"},"id":"70001","attributes":{"wheelchair_boarding":0,"name":"Forest Hills Orange Line","longitude":-71.113686,"latitude":42.300523}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "cb7f3258-7f82-372b-bd7a-75973011add3",
+  "request" : {
+    "url" : "/routes/?stop=place-brdwy&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mekOa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:42 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "0qda87hh8b81hl53jfd3js6u2tfulren",
+      "Connection" : "keep-alive"
+    }
+  }
+}

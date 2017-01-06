@@ -1,0 +1,19 @@
+{
+  "uuid" : "17f7f066-3f63-3700-a767-0164c8b86a1d",
+  "request" : {
+    "url" : "/routes/?stop=place-dwnxg&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-tbkKY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:40 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "32184cr5rbo3p9eo7f9cebdbcjmjnl2f",
+      "Connection" : "keep-alive"
+    }
+  }
+}

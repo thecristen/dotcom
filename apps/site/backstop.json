@@ -29,7 +29,7 @@
   "scenarios": [
     {
       "label": "Homepage",
-      "url": "http://localhost:8082/?date=2016-12-25",
+      "url": "http://localhost:8082/?date=2017-02-14",
       "hideSelectors": [],
       "removeSelectors": [".index-news-group"],
       "selectors": [
@@ -44,7 +44,7 @@
     },
     {
       "label": "Subway Hub",
-      "url": "http://localhost:8082/schedules/subway?date=2016-12-25",
+      "url": "http://localhost:8082/schedules/subway?date=2017-02-14",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
@@ -59,7 +59,7 @@
     },
     {
       "label": "All Schedules",
-      "url": "http://localhost:8082/schedules?date=2016-12-25",
+      "url": "http://localhost:8082/schedules?date=2017-02-14",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
@@ -72,7 +72,7 @@
     },
     {
       "label": "Station Info (South Station)",
-      "url": "http://localhost:8082/stops/place-sstat?date=2016-12-25&date_time=2016-12-25T17%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".station-info-map"],
       "selectors": ["main"],
       "delay": 100,
@@ -80,7 +80,7 @@
     },
     {
       "label": "Station Info (Framingham)",
-      "url": "http://localhost:8082/stops/Framingham?date=2016-12-25&date_time=2016-12-25T17%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/Framingham?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".station-info-map"],
       "selectors": ["main"],
       "delay": 100,
@@ -96,19 +96,19 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence?all_schedules=all_schedules&date=2016-12-31&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "url": "http://localhost:8082/schedules/CR-Providence?all_schedules=all_schedules&date=2017-02-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red?all_schedules=all_schedules&date=2016-12-31&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://localhost:8082/schedules/Red?all_schedules=all_schedules&date=2017-02-14&direction_id=1&origin=place-sstat&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1?all_schedules=all_schedules&date=2016-12-31&direction_id=0&trip=",
+      "url": "http://localhost:8082/schedules/1?all_schedules=all_schedules&date=2017-02-14&direction_id=0&trip=",
       "selectors": ["main"],
       "delay": 100
     },
@@ -149,7 +149,7 @@
     },
     {
       "label": "Station Info Tab (South Station)",
-      "url": "http://localhost:8082/stops/place-sstat?date=2016-12-25&tab=info",
+      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&tab=info",
       "hideSelectors": [".station-info-map"],
       "selectors": ["#station-info"],
       "delay": 100,
@@ -164,7 +164,7 @@
     },
     {
       "label": "Header (Getting Around)",
-      "url": "http://localhost:8082/?date=2016-09-25",
+      "url": "http://localhost:8082/?date=2017-02-14",
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 100,
@@ -173,7 +173,7 @@
     },
     {
       "label": "Header (Fares)",
-      "url": "http://localhost:8082/?date=2016-09-25",
+      "url": "http://localhost:8082/?date=2017-02-14",
       "selectors": ["#faresDrawer"],
       "readyEvent": null,
       "delay": 100,
@@ -182,7 +182,7 @@
     },
     {
       "label": "Header (Contact Us)",
-      "url": "http://localhost:8082/?date=2016-09-25",
+      "url": "http://localhost:8082/?date=2017-02-14",
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 100,
@@ -191,7 +191,7 @@
     },
     {
       "label": "Header (More)",
-      "url": "http://localhost:8082/?date=2016-09-25",
+      "url": "http://localhost:8082/?date=2017-02-14",
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 100,

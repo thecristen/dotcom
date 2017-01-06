@@ -1,0 +1,19 @@
+{
+  "uuid" : "3c9f88ed-45db-3858-982f-a83eae866cb2",
+  "request" : {
+    "url" : "/routes/?stop=91856",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0Jedu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:23:14 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "fp76mp4hbkgu1v8ebjb58jr7sdei16gk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

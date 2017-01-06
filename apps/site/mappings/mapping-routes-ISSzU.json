@@ -1,0 +1,19 @@
+{
+  "uuid" : "8d00cdf9-14a7-3247-8b44-9aa7bb00cfce",
+  "request" : {
+    "url" : "/routes/?stop=222&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ISSzU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:23:02 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "29mjele7gjckiv7h4opntet1racb7afn",
+      "Connection" : "keep-alive"
+    }
+  }
+}

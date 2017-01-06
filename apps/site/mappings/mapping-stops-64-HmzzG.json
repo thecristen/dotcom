@@ -1,0 +1,19 @@
+{
+  "uuid" : "fc2f3063-b3e6-33d9-8405-2bf5052ab5cb",
+  "request" : {
+    "url" : "/stops/64",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-64-HmzzG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:03 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "kdiibuldisettipo6ms3j7s2r005ec6g",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "7e5412ea-93fd-31c7-a0ff-e3ee8ab2faee",
+  "request" : {
+    "url" : "/routes/?stop=place-sull&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-tKPVH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:46 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "hijcv7e3ispv77temv165gpmrv5jdf92",
+      "Connection" : "keep-alive"
+    }
+  }
+}

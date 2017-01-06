@@ -1,0 +1,19 @@
+{
+  "uuid" : "592ff944-5b02-395e-9ce4-6539a888d06b",
+  "request" : {
+    "url" : "/stops/?direction_id=1&route=1&include=parent_station&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-YtMeE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:02 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "39fqqp8qiddr9c59ccr9eqoln6n8a49n",
+      "Connection" : "keep-alive"
+    }
+  }
+}

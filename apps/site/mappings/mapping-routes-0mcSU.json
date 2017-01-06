@@ -1,0 +1,19 @@
+{
+  "uuid" : "1e1abfe9-b5c9-382d-84ec-3b481922ef77",
+  "request" : {
+    "url" : "/routes/?stop=place-mvbcl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0mcSU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:44 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "3f5rn2bj4vhgicenldn4j04glcl1cp5h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-orhte"}}},"links":{"self":"/stops/70052"},"id":"70052","attributes":{"wheelchair_boarding":0,"name":"Orient Heights - Outbound","longitude":-71.004736,"latitude":42.386867}}}

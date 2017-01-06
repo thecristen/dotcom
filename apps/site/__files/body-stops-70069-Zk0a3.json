@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-cntsq"}}},"links":{"self":"/stops/70069"},"id":"70069","attributes":{"wheelchair_boarding":0,"name":"Central - Inbound","longitude":-71.103802,"latitude":42.365486}}}

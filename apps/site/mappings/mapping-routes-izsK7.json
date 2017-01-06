@@ -1,0 +1,19 @@
+{
+  "uuid" : "b349bcf7-d7a3-39f6-9fb1-8153c9b50b07",
+  "request" : {
+    "url" : "/routes/?stop=place-sstat&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-izsK7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 05 Jan 2017 15:22:41 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "f5lmihb7vf6j7fl669uhmmm89v0hhg2r",
+      "Connection" : "keep-alive"
+    }
+  }
+}
