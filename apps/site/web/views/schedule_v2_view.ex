@@ -74,4 +74,12 @@ defmodule Site.ScheduleV2View do
       title: title,
       do: body)
   end
+
+  def pretty_date(date) do
+    if date == Timex.today do
+      "Today"
+    else
+      Timex.format!(date, "{Mshort} {D}")
+    end
+  end
 end
