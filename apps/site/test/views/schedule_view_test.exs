@@ -280,7 +280,7 @@ defmodule Site.ScheduleViewTest do
 
   describe "Green line schedules" do
     test "User is alerted when no schedules are available" do
-      green_template = Site.ScheduleView.render("_schedule_group.html", schedules: [], date: Timex.today())
+      green_template = Site.ScheduleView.render("_schedule_group.html", schedules: [], date: Util.service_date())
       assert safe_to_string(green_template) =~ "No scheduled trips"
     end
   end

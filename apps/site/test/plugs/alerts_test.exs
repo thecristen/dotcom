@@ -9,7 +9,7 @@ defmodule Site.Plugs.AlertsTest do
 
   test "assigns alerts, upcoming_alerts" do
     conn = build_conn
-    |> assign(:date, Timex.today)
+    |> assign(:date, Util.service_date)
     |> Alerts.call(fn -> [] end)
 
     assert conn.assigns.all_alerts == []
@@ -42,7 +42,7 @@ defmodule Site.Plugs.AlertsTest do
   end
 
   property "sorts the notices by their updated at times (newest to oldest)" do
-    date = Timex.today |> Timex.shift(days: 1) # put them in the future
+    date = Util.service_date |> Timex.shift(days: 1) # put them in the future
     for_all times in list(pos_integer) do
       # create alerts with a bunch of updated_at times
       alerts = for time <- times do
