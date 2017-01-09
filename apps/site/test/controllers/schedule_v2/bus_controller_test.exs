@@ -19,4 +19,16 @@ defmodule Site.ScheduleV2.BusControllerTest do
     assert response =~ "Departure"
     assert response =~ "Arrival"
   end
+
+  test "destination selector appears when origin is selected", %{conn: conn} do
+    conn = get(conn, bus_path(conn, :show, "71", origin: "8178"))
+    response = html_response(conn, 200)
+    assert response =~ "Arriving at:"
+  end
+
+  test "destination selector is not visible when no origin has been selected", %{conn: conn} do
+    conn = get(conn, bus_path(conn, :show, "60"))
+    response = html_response(conn, 200)
+    refute response =~ "Arriving at:"
+  end
 end
