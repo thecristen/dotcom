@@ -8,6 +8,6 @@ defmodule Predictions.Prediction do
     time: DateTime.t,
     schedule_relationship: nil | :added | :unscheduled | :canceled | :skipped | :no_data,
     track: String.t | nil,
-    status: String.t | nil,
+    status: String.t | nil
   }
 end

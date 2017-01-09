@@ -39,7 +39,7 @@ defmodule Predictions.ParserTest do
         direction_id: 0,
         time: ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
         track: nil,
-        status: "On Time",
+        status: "On Time"
       }
 
       assert Parser.parse(item) == expected
@@ -165,7 +165,7 @@ defmodule Predictions.ParserTest do
         direction_id: 0,
         time: ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
         track: nil,
-        status: "On Time",
+        status: "On Time"
       }
 
       assert Parser.parse(item) == expected
