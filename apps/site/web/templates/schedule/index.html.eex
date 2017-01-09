@@ -8,7 +8,7 @@
       <div class="schedule-header">
         <%= render "_filters.html", forward_assigns(@conn) %>
         <%= if @alerts != [] || @upcoming_alerts != [] do %>
-          <div class="m-t-1">
+          <div class="schedule-alert-container">
             <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date %>
           </div>
         <% end %>
@@ -18,7 +18,7 @@
           <%= render @list_group_template, forward_assigns(@conn) %>
         </div>
         <%= if not @show_all_schedules && @schedules != [] do %>
-          <a class="btn btn-primary-outline btn-block text-xs-center m-t-1"
+          <a class="btn btn-primary-outline btn-block text-xs-center"
             href="<%= update_schedule_url @conn, all_schedules: "all_schedules" %>">
             Show full schedule for <%= @date |> Timex.format!("{M}/{D}") %>
           </a>

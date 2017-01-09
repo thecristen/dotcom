@@ -99,11 +99,6 @@
   padding-top: 1rem;
 }
 
-.transit-card {
-  display: inline-block;
-
-}
-
 // scss-lint:disable VendorPrefix
 @mixin set-breakpoint-columns($breakpoint, $column-count) {
   @include media-breakpoint-only($breakpoint) {
@@ -124,8 +119,7 @@
   -webkit-column-gap: $grid-gutter-width;
   column-gap: $grid-gutter-width;
   margin: 0;
-  padding: $grid-gutter-width * 1.5;
-  padding-bottom: .375rem;
+  padding: $grid-gutter-width;
 
   &.empty {
     display: none;
@@ -166,42 +160,50 @@
   border: 1px solid $gray-lightest;
   border-radius: $default-border-radius;
   display: inline-block;
-  margin-bottom: .4rem;
-  padding: $grid-gutter-width;
+  margin-bottom: $grid-gutter-width / 4;
+  margin-top: $grid-gutter-width / 4;
+  padding: $space-12;
   position: relative;
   width: 100%;
+}
 
-  .transit-route {
-    color: $gray-dark;
-    font-size: .8rem;
+.transit-route {
+  clear: both;
+  color: $gray-dark;
+  font-size: $font-size-sm;
+
+  &:not(:last-child) {
     margin-bottom: .25rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
   .mbta-custom-icon {
-
     svg {
-      height: 1rem;
+      height: $space-16;
       vertical-align: text-bottom;
-      width: 1rem;
+      width: $space-16;
     }
-  }
-
-  .distance {
-    color: $gray-light;
-    text-align: right;
   }
 }
 
 .transit-route-icon {
-  padding-right: 0;
-  width: 1.75rem;
+  float: left;
+  width: $space-24;
 }
 
 .transit-route-name {
-  margin-bottom: 0;
-  padding-left: 0;
+  float: left;
+  width: 83%;
+}
+
+.transit-card-name {
+  float: left;
+  margin-bottom: $space-16;
+  width: 66.666%;
+}
+
+.transit-card-distance {
+  color: $gray-light;
+  float: left;
+  text-align: right;
+  width: 33.333%;
 }

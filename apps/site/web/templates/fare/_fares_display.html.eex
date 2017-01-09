@@ -1,12 +1,10 @@
 <% reduced_types = ~w(nil student senior_disabled)a %>
-<div>
-  <div class="fares-tab-group row show-btn-group">
-    <%= for reduced_type <- reduced_types do %>
-      <a class="fares-tab <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= update_fare_type(@conn, reduced_type) %>">
-        <%= Fares.Format.customers(reduced_type) %>
+<div class="fares-tab-group show-btn-group">
+  <%= for reduced_type <- reduced_types do %>
+    <a class="fares-tab <%=if @fare_type == reduced_type, do: "fares-tab-selected" %>" href="<%= update_fare_type(@conn, reduced_type) %>">
+      <%= Fares.Format.customers(reduced_type) %>
       </a>
-    <% end %>
-  </div>
-  <div class="clearfix"></div>
+  <% end %>
 </div>
+<div class="clearfix"></div>
 <%= render "_fare_info.html", selected_filter: @selected_filter, filters: @filters, conn: @conn %>

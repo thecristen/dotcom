@@ -1,15 +1,14 @@
 .mode-group-first {
   padding-top: 0;
-  margin-top: -.5rem;
 }
 
 .mode-group-header {
   font-weight: bold;
-  margin: 1rem 0;
 }
 
 .mode-group-block {
-  padding-top: .5rem;
+  margin-bottom: $base-spacing / 2;
+  margin-top: $base-spacing / -2;
 }
 
 .mode-group-btn {
@@ -18,8 +17,9 @@
   @include button-variant($link-color, white, $gray-lightest);
   @extend .btn-block;
 
-  line-height: 2rem;
-  margin-bottom: .75rem;
+  line-height: 2;
+  margin-bottom: $grid-gutter-width / 4;
+  margin-top: $grid-gutter-width / 4;
 
   @include media-breakpoint-down(sm) {
     // small button
@@ -30,9 +30,4 @@
     margin-left: .375rem;
   }
 
-}
-
-.mode-group-footer {
-  @extend .col-xs-12;
-  margin-bottom: 1rem;
 }

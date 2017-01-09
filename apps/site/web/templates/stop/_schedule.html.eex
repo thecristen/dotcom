@@ -1,6 +1,6 @@
 <%= for {mode, routes} <- @grouped_routes do %>
   <%= render schedule_template(mode), forward_assigns(@conn |> Plug.Conn.assign(:mode, mode) |> Plug.Conn.assign(:routes, routes)) %>
 <% end %>
-<div aria-hidden="true" class="col-xs-12 p-x-0 m-t-1">
+<p aria-hidden="true">
   <%= fa "rss station-schedule-icon" %> Real time service
-</div>
+</p>

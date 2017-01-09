@@ -1,7 +1,7 @@
 <div>
   <% note = fare_type_note(@fare_type) %>
   <%= if note do %>
-    <p>
+    <p class="fare-tip">
     <strong>Tip:</strong>
     <%= note %>
     </p>
@@ -9,12 +9,12 @@
       <%= if @fare_type.reduced do %>
         <% reduced_images = reduced_image(@fare_type.reduced) %>
         <%= for {description, img_path} <- reduced_images do  %>
-          <div class="fare-card-image hidden-sm-down">
-            <img src=<%= img_path%> />
-            <div class="small m-t-g"><%= description %></div>
-          </div>
+          <figure class="fare-card-image hidden-sm-down">
+            <img src="<%= img_path %>" />
+            <figcaption><%= description %></figcaption>
+          </figure>
         <% end %>
-        <p class="m-y-1">
+        <p>
         <%= link to: fare_path(Site.Endpoint, :show, :reduced) do %>
           Learn more about reduced fares <%= fa "arrow-right"%>
         <% end %>

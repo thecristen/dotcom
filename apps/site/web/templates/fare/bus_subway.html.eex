@@ -11,7 +11,7 @@
 %>
 <h2>Where to Get a CharlieCard or CharlieTicket</h2>
 <div class="row">
-  <div class="col-sm-6 col-xs-12 fares-info-column">
+  <div class="col-sm-6 col-xs-12">
     <h3>Fare Vending Machine</h3>
     <p>
       Load a pass (1-Day, 7-Day, Monthly) or money for One Way fares onto a CharlieCard or CharlieTicket at fare vending machines found at all Subway stations and the following Commuter Rail stations:
@@ -19,7 +19,7 @@
     <p><%= vending_machine_stations() %></p>
   </div>
 
-  <div class="col-sm-6 col-xs-12 fares-info-column">
+  <div class="col-sm-6 col-xs-12">
     <h3>Select Bus and Subway Stations</h3>
     <p>To take advantage of discounted One Way fares, you can get a blank CharlieCard from an MBTA Customer Service agent working at the following stations: </p>
     <p><%= charlie_card_stations() %></p>
@@ -27,7 +27,7 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-6 col-xs-12 fares-info-column">
+  <div class="col-sm-6 col-xs-12">
     <h3>Retail Sales Locations</h3>
     <p>
       Get a free, blank CharlieCard and load a pass (1-Day, 7-Day, Monthly) or money for One Way fares at stores located throughout the Greater Boston and Providence areas.
@@ -38,7 +38,7 @@
       <% end %>
     </p>
   </div>
-  <div class="col-sm-6 col-xs-12 fares-info-column">
+  <div class="col-sm-6 col-xs-12">
     <h3>On-Board</h3>
     <p>
       Single Ride tickets or Stored Value can be purchased using cash when on board the Bus, above-ground stops on the Green line, and Mattapan trolley on the Red line. Exact change is encouraged.
@@ -47,10 +47,18 @@
 </div>
 <h2>Related Pages</h2>
 <div class="row">
-  <%= render "_mode_pay.html", mode: :subway %>
-  <%= render "_mode_pay.html", mode: :bus %>
+  <div class="col-xs-12 col-sm-6">
+    <%= render "_mode_pay.html", mode: :subway %>
+  </div>
+  <div class="col-xs-12 col-sm-6">
+    <%= render "_mode_pay.html", mode: :bus %>
+  </div>
 </div>
 <div class="row">
-  <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
-  <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: "Online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups", href: "https://passprogram.mbta.com/" %>
+  <div class="col-xs-12 col-sm-6">
+    <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
+  </div>
+  <div class="col-xs-12 col-sm-6">
+    <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: "Online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups", href: "https://passprogram.mbta.com/" %>
+  </div>
 </div>

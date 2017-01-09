@@ -1,12 +1,12 @@
 <div class="page-section">
   <div class="page-block">
     <h1>Fares and Passes</h1>
-    <div class="content-section">
+    <div>
       <p>
         Your fare is determined by your mode of travel (subway, bus, light rail, commuter rail, or ferry) and the way you pay (Cash, CharlieCard, CharlieTicket, or mobile app).
       </p>
     </div>
-    <div class="content-section">
+    <div>
       <h2>Paying Your Fare</h2>
       <p>
         There are four primary payment methods: CharlieCard, CharlieTicket, mTicket app, and cash on-board. Each mode accepts
@@ -14,11 +14,15 @@
         and your eligibility to make discounted transfers.
       </p>
       <div class="row">
-        <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: "Accepted payment methods, where to purchase, and paying your fare", href: how_to_pay_path(@conn, :index) %>
-        <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
+        <div class="col-xs-12 col-sm-6">
+          <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: "Accepted payment methods, where to purchase, and paying your fare", href: how_to_pay_path(@conn, :index) %>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
+        </div>
       </div>
     </div>
-    <div class="content-section">
+    <div>
       <h2>Bus and Subway Fares</h2>
       <p>
         Bus fares vary based on the route. The three categories of Bus routes are: Local Bus, Inner Express Bus, and Outer Express Bus.
@@ -31,12 +35,12 @@
       <p>
         Below are the most common Bus and Subway Fares.
       </p>
-      <p><%= render "_summary.html", summary: @bus_subway %></p>
+      <%= Site.FareView.summarize @bus_subway %>
       <p><%= link to: fare_path(@conn, :show, :bus_subway) do %>
         View all Bus and Subway fares <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
-    <div class="content-section">
+    <div>
       <h2>Commuter Rail Fares</h2>
       <p>
         Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
@@ -45,12 +49,12 @@
       <p>
         Below are the ranges in prices (based on zone) for the most common Commuter Rail fares.
       </p>
-      <p><%= render "_summary.html", title: "Commuter Rail", summary: @commuter_rail %></p>
+      <%= Site.FareView.summarize @commuter_rail %>
       <p><%= link to: fare_path(@conn, :show, :commuter_rail) do %>
         Find your Commuter Rail fare <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
-    <div class="content-section">
+    <div>
       <h2>Ferry Fares</h2>
       <p>
         Your Ferry fare will depend on your origin and destination. Fares can be bought as One Way, Round Trip, and Monthly Passes.
@@ -58,38 +62,36 @@
       <p>
         Below are the ranges in prices for the most common Ferry fares.
       </p>
-      <p><%= render "_summary.html", title: "Ferry", summary: @ferry %></p>
+      <%= Site.FareView.summarize @ferry %>
       <p><%= link to: fare_path(@conn, :show, :ferry) do %>
         Find your Ferry fare <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
-    <div class="content-section">
+    <div>
       <h2>The RIDE</h2>
       <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
-      <div class="row">
+      <div class="fare-summary-container">
         <%= for fare <- @the_ride do %>
-          <div class="col-xs-12 col-sm-6 the-ride-column">
-            <div>
-              <h3 class="fare-summary-header">
-                <%= Fares.Format.full_name(fare) %>
-              </h3>
-              <span class="fares-mode-icon">
+          <div class="fare-summary-entry">
+            <div class="fare-summary-name">
+              <%= Fares.Format.full_name(fare) %>
+              <span class="fare-summary-mode-icons" aria-hidden="true">
                 <span class="fares-mode-icon-group">
                   <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
                 </span>
               </span>
-              <p class="fare-summary-price">
+              <div class="fare-summary-fare-price">
                 <%= Fares.Format.price(fare) %>
-              </p>
+              </div>
             </div>
-            <div>
+            <div class="fare-summary-box">
               <%= description(fare, @conn.assigns) %>
             </div>
           </div>
         <% end %>
       </div>
     </div>
-    <div class="content-section">
+    <div>
       <h2>The CharlieCard</h2>
       <p>
         CharlieCards are reusable, durable cards that can be used on Bus and Subway. You can load money onto a CharlieCard to get
@@ -99,14 +101,14 @@
         Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
-    <div class="content-section">
+    <div>
       <h2>Reduced Fare Eligibility</h2>
       <p>Children age 11 and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced fares on all modes, depending on the type of fare they purchase. </p>
       <p><%= link to: fare_path(@conn, :show, :reduced) do %>
         Learn more about reduced fare <span class="no-wrap">eligibility <%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
-    <div class="content-section">
+    <div>
       <h2>Pass Programs</h2>
       <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups.
       For more information, take a look at the <%= link "Pass Program Website", to: redirect_path(@conn, "pass_program")%> or call <%= tel_link "(888) 844-0353" %>. </p>

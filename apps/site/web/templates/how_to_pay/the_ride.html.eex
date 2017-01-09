@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="how-to-pay-section">
+  <div>
     <h2>Paying for The RIDE</h2>
     <p>You will need funds in your account before scheduling a trip with The RIDE.</p>
     <p>Your fare for The RIDE will be debited from your account as you board the vehicle. You will not be charged for a trip you don't take. Please call The RIDE at (888) 844-0355 if you need a refund.</p>
@@ -7,22 +7,22 @@
     <p>You may add funds to your RIDE account online, by phone, by mail, or in person at the CharlieCard store.</p>
   </div>
   <div class="row">
-    <div class="col-xs-12 how-to-pay-sub-section">
+    <div class="col-xs-12">
       <h3>Online</h3>
-      If you have an account with the RIDE, you can add value to your account online.
-      <div class="p-y-1">
-        <span class=" how-to-pay-ride-link">
+      <p>If you have an account with the RIDE, you can add value to your account online.</p>
+      <p>
+        <span class="how-to-pay-ride-link">
           <%= link to: "https://commerce.mbta.com/TheRide/" do %>
             Log into RIDE account <%= fa "arrow-right" %>
           <% end %>
         </span>
-        <span class=" how-to-pay-ride-link">
+        <span class="how-to-pay-ride-link">
           <%= link to: "https://commerce.mbta.com/TheRide/Account/Register" do %>
             Register a new RIDE account <%= fa "arrow-right" %>
           <% end %>
         </span>
-      </div>
-      <div class="how-to-pay-sub-section">
+      </p>
+      <div>
         <h3>Mail</h3>
         <p>Funds can be added by sending a check or money order in the mail. Make checks or money orders payable to "MBTA - The RIDE Fares" and note your RIDE ID# in the memo portion of your check or money order. Allow five business days for posting.</p>
       </div>
@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 how-to-pay-sub-section">
+    <div class="col-xs-12">
       <div>
         <h3>Phone</h3>
         <p>You can add funds to your RIDE account by calling  <%= tel_link "(888) 844-0355" %>.</p>
@@ -53,7 +53,7 @@
         Visa, Discover or American Express credit cards and debit cards supported by MasterCard or Visa. Funds post to your account within one (1) hour.
         </p>
       </div>
-      <div class="how-to-pay-sub-section">
+      <div>
         <h3>In-Person</h3>
         Visit the <%= link "CharlieCard Store", to: fare_path(@conn, :show, :charlie_card) %> at Downtown Crossing Station anytime Monday through Friday, 8 AM to 5:30 PM. The accessible entrance is at 32 Summer Street via the 101 Arch Street building in Boston. Cash, checks, money orders and major credit/debit cards are accepted. Funds post to your account within one (1) hour.
       </div>

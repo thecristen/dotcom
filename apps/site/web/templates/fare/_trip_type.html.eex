@@ -14,7 +14,7 @@
       <p class="fare-mode-row">
         <strong><%= Fares.Format.media(fare) %></strong>
         <span class="fare-price"><%= Fares.Format.price(fare) %></span>
-        <div class="fares-ticket-description"><%= description(fare, @conn.assigns) %></div>
+        <p><%= description(fare, @conn.assigns) %></p>
       </p>
     <% end %>
   </div>

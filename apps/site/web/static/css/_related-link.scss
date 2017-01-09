@@ -1,0 +1,58 @@
+.related-link {
+  border: solid $gray-lightest;
+  border-width: 1px 1px 1px 0;
+  display: block;
+  margin-bottom: $base-spacing;
+  padding: $space-8 $space-16;
+  position: relative;
+
+  @include media-breakpoint-up(sm) {
+    height: $space-24 * 6;
+  }
+
+  @include hover-focus-active {
+    background-color: $brand-primary-light;
+    border-color: $brand-primary-light;
+    text-decoration: none;
+
+    > * {
+      color: $white;
+    }
+  }
+
+  &::before {
+    border-left: 6px solid $brand-primary-dark;
+    content: ' ';
+    display: block;
+    height: calc(100% + 2px);
+    left: 0;
+    position: absolute;
+    top: -1px;
+  }
+
+  > * {
+    color: $gray-dark;
+  }
+
+}
+
+.related-link-title {
+  font-weight: bold;
+}
+
+.related-link-group {
+  @include make-row();
+
+  display: table;
+  width: 100%;
+
+  .related-link {
+    display: table-cell;
+
+    @include media-breakpoint-up(md) {
+      margin-left: $grid-gutter-width / 2;
+      margin-right: $grid-gutter-width / 2;
+      width: 50%;
+    }
+  }
+}

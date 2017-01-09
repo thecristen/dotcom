@@ -22,8 +22,8 @@
           <% end %>
         </ul>
       <% end %>
-      <div class="m-t-g"><div class="graph-legend weekend"></div><span>Weekends</span></div>
-      <div class="m-t-g"><div class="graph-legend holiday"></div><span>Holidays</span></div>
+      <div><div class="graph-legend weekend"></div><span>Weekends</span></div>
+      <div><div class="graph-legend holiday"></div><span>Holidays</span></div>
     </div>
     <span class="col-sm-9 col-xs-12">
       <table class="table schedule-date-picker">

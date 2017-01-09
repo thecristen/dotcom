@@ -2,33 +2,26 @@
   <div class="page-section">
     <div class="page-block mode-hub">
       <h1>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: @route_type |> Routes.Route.type_atom}) %>
         <%= @mode_name %> Schedules and Maps
       </h1>
-      <div class="row">
-        <div class="col-xs-12 p-b-1">
-          <h2><strong>System Map</strong></h2>
-          <% mode_downcase = @mode_name |> String.downcase %>
-          <% mode_class = mode_downcase |> String.replace(" ", "-") %>
-          <a href="<%= @map_pdf_url %>" target="_blank">
-            <img src="<%= @map_image_url %>" class="system-map <%= mode_class %>" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
-          </a>
-          <p>
-            <a href="<%= @map_pdf_url %>" target="_blank">
-              <%= fa "search-plus" %>
-              View <%= mode_downcase %> map as a PDF
-            </a>
-          </p>
-        </div>
-        <div class="col-xs-12 p-b-1">
-          <h2><strong>Line Schedules</strong></h2>
-          <%= mode_button_list(%ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
-        </div>
-        <div id="fares" class="col-xs-12 p-b-1">
-          <h2><%= @mode_name %> Fares</h2>
-          <%= fares_note(@mode_name) %>
-          <%= Site.StopView.render "_fare_summaries.html", summaries: @mode_name |> mode_atom |> mode_summaries(nil) %>
-        </div>
+      <h2><strong>System Map</strong></h2>
+      <% mode_downcase = @mode_name |> String.downcase %>
+      <% mode_class = mode_downcase |> String.replace(" ", "-") %>
+      <a href="<%= @map_pdf_url %>" target="_blank">
+        <img src="<%= @map_image_url %>" class="system-map <%= mode_class %>" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
+      </a>
+      <p>
+        <a href="<%= @map_pdf_url %>" target="_blank">
+          <%= fa "search-plus" %>
+          View <%= mode_downcase %> map as a PDF
+        </a>
+      </p>
+      <h2><strong>Line Schedules</strong></h2>
+      <%= mode_button_list(%ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
+      <div id="fares">
+        <h2><%= @mode_name %> Fares</h2>
+        <%= fares_note(@mode_name) %>
+        <%= Site.FareView.summarize(@mode_name |> mode_atom |> mode_summaries(nil)) %>
       </div>
     </div>
   </div>

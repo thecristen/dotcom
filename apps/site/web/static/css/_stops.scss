@@ -1,28 +1,10 @@
-.station-map-container {
-
-  .btn:first-child {
-    padding-left: 0;
-  }
-}
-
-.mode-name-heading {
-  display: inline-block;
-}
-
 .station-mode-description {
   font-size: 1rem;
   font-weight: normal;
 }
 
-.station-list-heading {
-  margin: 1em .5em 0;
-}
-
-.stations-address {
-  padding-top: .5rem;
-}
-
 .station-mode-icon {
+  white-space: nowrap;
   width: 100%;
 
   .mbta-custom-icon {
@@ -78,113 +60,24 @@ a {
   margin-bottom: .375rem;
 }
 
-.station-list {
-  list-style: none;
-  padding: .5em;
-
-  li {
-    border-bottom: 1px solid $gray-lightest;
-    padding: .5em;
-
-    &:last-child {
-      border: 0;
-    }
-  }
-}
-
-.no-gutter > [class*='col-'] {
-  padding-left: 0;
-  padding-right: 0;
-}
-
 .station-callout-box {
-  background-color: $gray-lightest;
-  margin-bottom: 1.5rem;
-  margin-left: .0375rem;
-  margin-top: 1rem;
-  padding: .5rem;
-
-  &:empty {
-    display: none;
-  }
-}
-
-.station-info-section {
-  margin-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
-.station-fare-subheader {
-  margin-top: 1.5rem;
-}
-
-.parking-header {
-  @include media-breakpoint-down(sm) {
-    margin-top: .75rem;
-  }
-}
-
-.commuter-fare-img {
-  @include media-breakpoint-down(xs) {
-    margin-top: .75rem;
-  }
-
-}
-
-.commute-fare-charge {
-  @include media-breakpoint-only(md) {
-    margin-bottom: 1.75rem;
-  }
-
-  @include media-breakpoint-up(lg) {
-    margin-bottom: 3rem;
-  }
-}
-
-.payment-info {
-  @include media-breakpoint-up(md) {
-    padding-right: 1.5rem;
-  }
-}
-
-.commuter-info {
-  @include media-breakpoint-up(lg) {
-    padding-right: 1.5rem;
-  }
-}
-
-.fare-sales-location {
-  padding: 0;
-
-  &:nth-child(2n+1) {
-    padding: 0 2rem;
-
-    @include media-breakpoint-down(sm) {
-      padding: 1rem 0;
-    }
-  }
-
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.fare-agent-name-distance {
-  p {
-    display: inline-block;
-  }
+  @extend %callout;
 }
 
 .fare-agent-distance {
   color: $gray-light;
   text-align: right;
+  float: right;
 }
 
 .station-schedule-icon {
   color: $gray-light;
 }
 
-// scss-lint:disable PlaceholderInExtend
+.station-route-container {
+  margin-bottom: $space-16;
+}
+
 .station-route-row {
   border-bottom: 1px solid $gray-lightest;
   border-left: 1px solid $gray-lightest;

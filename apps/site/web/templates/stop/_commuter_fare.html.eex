@@ -8,7 +8,7 @@
     <% end %>
   </p>
   <%= if @stop.has_fare_machine? do %>
-    <div class="col-xs-12 station-callout-box">
+    <div class="station-callout-box">
       <p>
         <strong>Note:</strong> This station is equipped with fare vending machines where passengers can purchase One Way, Round Trip, or Monthly Passes up to Zone 8.
       </p>
@@ -19,8 +19,6 @@
   <% end %>
 
   <%= if show_fares?(@stop) do %>
-    <div class="m-y-1">
-      <%= render "_fare_summaries.html", summaries: mode_summaries(:commuter_rail, @zone_name) %>
-    </div>
+    <%= Site.FareView.summarize(mode_summaries(:commuter_rail, @zone_name)) %>
   <% end %>
 </div>

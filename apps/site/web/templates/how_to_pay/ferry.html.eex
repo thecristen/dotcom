@@ -1,21 +1,21 @@
 <div class="container">
-  <div class="row m-t-1">
-    <div class="col-xs-12 how-to-pay-section">
+  <div class="row">
+    <div class="col-xs-12">
       <h2>Step 1: Purchase One Way Fare or a Pass</h2>
       <p>You can pay your Ferry fare with the following payment methods: CharlieTicket, mTicket app ticket, and cash on-board. Fare costs, transfers, and the type of passes available for purchase may vary based on your payment method.</p>
     </div>
     <div class="row">
       <figure class="col-md-4 col-sm-8 col-xs-12">
         <img src="<%= static_url(@conn, "/images/mticket-app.png") %>" alt="mTicket App" width="100%" />
-        <figcaption class="how-to-pay-image-caption">mTicket app</figcaption>
+        <figcaption>mTicket app</figcaption>
       </figure>
       <figure class="col-md-4 col-sm-8 col-xs-12">
         <img src="<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %>" alt="One Way Charlie Ticket" width="100%" />
-        <figcaption class="how-to-pay-image-caption">One Way Charlie Ticket</figcaption>
+        <figcaption>One Way Charlie Ticket</figcaption>
       </figure>
       <figure class="col-md-4 col-sm-8 col-xs-12">
         <img src="<%= static_url(@conn, "/images/charlie-ticket-month-pass.jpg") %>" alt="Monthly Pass on Charlie Ticket" width="100%" />
-        <figcaption class="how-to-pay-image-caption">Monthly Pass on Charlie Ticket</figcaption>
+        <figcaption>Monthly Pass on Charlie Ticket</figcaption>
       </figure>
     </div>
     <p>
@@ -23,13 +23,12 @@
     </p>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+    <div class="col-md-6 col-xs-12">
       <h3>mTicket App</h3>
       <p>
       You can purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, passes purchased through mTicket app are not valid for use on other modes like they are on a CharlieTicket Monthly Pass. Available on the iPhone App Store and Google Play.
       </p>
       <p>
-      <div>
         <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
           <span class="sr-only">Download on the app store</span>
           <%= svg "download_on_the_app_store.svg" %>
@@ -37,10 +36,9 @@
         <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
           <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
         </a>
-      </div>
       </p>
     </div>
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+    <div class="col-md-6 col-xs-12">
       <h3>Ticket Offices</h3>
       <p>Tickets and passes can be purchased at ticket offices at the following ferry terminals:</p>
       <p><div><strong>Hewitt’s Cove, Hingham Hours:</strong> 7:00AM - 6:15 PM</div>
@@ -48,7 +46,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+    <div class="col-md-6 col-xs-12">
       <h3>Fare Vending Machine</h3>
       <p>
       <div>You can load One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and Subway travel as well) Passes onto a CharlieTicket at a fare vending machine, found in all Subway stations and the following Commuter Rail stations:</div>
@@ -61,7 +59,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+    <div class="col-md-6 col-xs-12">
       <h3>Retail Sales Location</h3>
       <p>MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout the Greater Boston and Providence area.</p>
       <p>
@@ -71,24 +69,26 @@
       </p>
     </div>
   </div>
-  <div class="row m-t-1">
-    <div class="col-xs-12 how-to-pay-section">
+  <div class="row">
+    <div class="col-xs-12">
       <h2>Step 2: Pay Your Fare</h2>
     </div>
-    <div class="col-xs-12 how-to-pay-sub-section">
+    <div class="col-xs-12">
       <h3>Hingham and Hull Ferries</h3>
       <p>Tickets are collected as you board. If you have a pass, or have purchased one on the mTicket app, simply show it to the person collecting tickets.</p>
     </div>
-    <div class="col-xs-12 how-to-pay-sub-section">
+    <div class="col-xs-12">
       <h3>Charlestown Ferry</h3>
       <p>Tickets are collected after boarding. If you have not purchased a ticket yet, you may purchase one on-board.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6 col-xs-12">
-      <a href=<%= fare_path(@conn, :show, "ferry") %>>
-        Learn more about Ferry Fares <%= fa "arrow-right" %>
-      </a>
+      <p>
+        <a href=<%= fare_path(@conn, :show, "ferry") %>>
+          Learn more about Ferry Fares <%= fa "arrow-right" %>
+        </a>
+      </p>
     </div>
   </div>
 </div>

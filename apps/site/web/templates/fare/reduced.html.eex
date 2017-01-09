@@ -1,88 +1,79 @@
 <% charlie_card_store_link = link "view details", to: Path.join(fare_path(@conn, :show, :charlie_card), "#store"), "data-turbolinks": "false", class: "no-wrap" %>
 <div class="page-section">
-  <div class="page-block row">
-    <div class="col-xs-12">
-      <h1>Reduced Fare Eligibility</h1>
+  <div class="page-block">
+    <h1>Reduced Fare Eligibility</h1>
+
+    <div class="fare-callout-box">
+      <strong>Note:</strong> Children age 11 and under and persons who are blind or visually impaired ride all MBTA services for free.
     </div>
 
-    <div class="col-xs-12 m-b-2">
-      <div class="fare-callout-box">
-        <strong>Note:</strong> Children age 11 and under and persons who are blind or visually impaired ride all MBTA services for free.
+    <h2>Seniors</h2>
+    <p>
+      People aged 65 and older are eligible for reduced fares on MBTA services.
+      Seniors must have a Senior CharlieCard in order to receive the reduced fare.
+      Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>),
+      or at a Senior CharlieCard Event
+      <span class="no-wrap">
+        (<%= link "view details", to: redirect_path(@conn, "fares_and_passes/reduced_fare_programs") %>).
+      </span>
+    </p>
+
+    <div class="row">
+      <div class= "col-md-4 col-sm-6 col-xs-12">
+        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/senior-id.jpg")%> alt="A senior ID card" />
+        <p class="small fare-image-description">Senior CharlieCard</p>
       </div>
     </div>
 
-    <div class="col-xs-12 fares-reduced-section">
-      <h2>Seniors</h2>
-      <p>
-        People aged 65 and older are eligible for reduced fares on MBTA services.
-        Seniors must have a Senior CharlieCard in order to receive the reduced fare.
-        Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>),
-        or at a Senior CharlieCard Event
-        <span class="no-wrap">
-          (<%= link "view details", to: redirect_path(@conn, "fares_and_passes/reduced_fare_programs") %>).
-        </span>
-      </p>
-      <div class="row">
-        <div class= "col-md-4 col-sm-6 col-xs-12">
-          <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/senior-id.jpg")%> alt="A senior ID card" />
-          <p class="small fare-image-description">Senior CharlieCard</p>
-        </div>
+    <h2 id="reduced-disability">Persons With Disabilities</h2>
+    <p>
+      Persons with disabilities may receive reduced fares on MBTA services with a Transport Access Pass (TAP). Transport Access Passes can be requested with a completed TAP application at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>).
+    </p>
+
+    <div class="row">
+      <div class= "col-md-4 col-sm-6 col-xs-12">
+        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/transportation-access-card.jpg")%> alt="A transport access pass" />
+        <p class="small fare-image-description">Transport Access Pass</p>
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <strong>Transport Access Pass Application</strong>
+        <a href="http://www.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassPDF.pdf" class="mode-group-btn">
+          <%= fa "file-pdf-o" %> Download TAP application <%= fa "download" %>
+          <span class="sr-only">(PDF version)</span>
+        </a>
+        <a href="http://www.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassWord.doc" class="mode-group-btn">
+          <%= fa "file-word-o" %> Download TAP application <%= fa "download" %>
+          <span class="sr-only">(Word version)</span>
+        </a>
       </div>
     </div>
 
-    <div class="col-xs-12 fares-reduced-section">
-      <h2 id="reduced-disability">Persons With Disabilities</h2>
-      <p>
-        Persons with disabilities may receive reduced fares on MBTA services with a Transport Access Pass (TAP). Transport Access Passes can be requested with a completed TAP application at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>).
-      </p>
-      <div class="row">
-        <div class= "col-md-4 col-sm-6 col-xs-12">
-          <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/transportation-access-card.jpg")%> alt="A transport access pass" />
-          <p class="small fare-image-description">Transport Access Pass</p>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12 reduced-tap-links">
-          <strong>Transport Access Pass Application</strong>
-          <a href="http://www.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassPDF.pdf" class="mode-group-btn m-t-g">
-            <%= fa "file-pdf-o" %> Download TAP application <%= fa "download" %>
-            <span class="sr-only">(PDF version)</span>
-          </a>
-          <a href="http://www.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassWord.doc" class="mode-group-btn">
-            <%= fa "file-word-o" %> Download TAP application <%= fa "download" %>
-            <span class="sr-only">(Word version)</span>
-          </a>
-        </div>
+    <h2>Students</h2>
+    <p>
+      Middle and High School students are eligible for a reduced fare if their school issues them a Student CharlieCard. All Student CharlieCards expire on August 31st each year and are reissued by schools for the following year. Please direct all questions and concerns regarding lost, stolen, and/or replacements of Student CharlieCards to your school administrator.
+    </p>
+    <p>
+      School administrators can learn more by <%= link "visiting the pass program website", to: redirect_path(@conn, "pass_program") %> or by calling <%= tel_link "(617) 222-5710" %>.
+    </p>
+
+    <div class="row">
+      <div class= "col-md-4 col-sm-6 col-xs-12">
+        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/student-charlie-back.jpg")%> alt="A Student CharlieCard" />
+        <p class="small fare-image-description">Student CharlieCard</p>
       </div>
     </div>
 
-    <div class="col-xs-12 fares-reduced-section">
-      <h2>Students</h2>
-      <p>
-        Middle and High School students are eligible for a reduced fare if their school issues them a Student CharlieCard. All Student CharlieCards expire on August 31st each year and are reissued by schools for the following year. Please direct all questions and concerns regarding lost, stolen, and/or replacements of Student CharlieCards to your school administrator.
-      </p>
-      <p>
-        School administrators can learn more by <%= link "visiting the pass program website", to: redirect_path(@conn, "pass_program") %> or by calling <%= tel_link "(617) 222-5710" %>.
-      </p>
-      <div class="row">
-        <div class= "col-md-4 col-sm-6 col-xs-12">
-          <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/student-charlie-back.jpg")%> alt="A Student CharlieCard" />
-          <p class="small fare-image-description">Student CharlieCard</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xs-12 fares-reduced-section">
-      <h2>Persons Who are Blind or Visually Impaired</h2>
-      <p>
-        People who are blind or visually impaired ride all MBTA services for free with a Blind Access CharlieCard, available at the CharlieCard Store (<%= charlie_card_store_link %>).
-      </p>
-      <p>
-        Guides accompanying blind or visually impaired customers will also ride for free.
-      </p>
-      <p>
-        In order to receive a Blind Access CharlieCard, you must have a valid, non-expired ID from the Massachusetts Registry of Motor Vehicles 
-        and a recently dated certificate from the Massachusetts Commission for the Blind.
-        Out-of-state customers may bring documentation from their permanent state of residence to be reviewed for eligibility.
-      </p>
-    </div>
+    <h2>Persons Who are Blind or Visually Impaired</h2>
+    <p>
+      People who are blind or visually impaired ride all MBTA services for free with a Blind Access CharlieCard, available at the CharlieCard Store (<%= charlie_card_store_link %>).
+    </p>
+    <p>
+      Guides accompanying blind or visually impaired customers will also ride for free.
+    </p>
+    <p>
+      In order to receive a Blind Access CharlieCard, you must have a valid, non-expired ID from the Massachusetts Registry of Motor Vehicles
+      and a recently dated certificate from the Massachusetts Commission for the Blind.
+      Out-of-state customers may bring documentation from their permanent state of residence to be reviewed for eligibility.
+    </p>
   </div>
 </div>

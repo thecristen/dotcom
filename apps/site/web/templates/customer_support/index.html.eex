@@ -1,18 +1,18 @@
-<div class="page-section p-a-1">
+<div class="page-section">
   <h1>Customer Support</h1>
   <%= if @show_form do %>
     <%= render "_form.html", forward_assigns(@conn) %>
   <% end %>
   <div class="row">
     <div class="col-xs-12 col-lg-9 support-thank-you <%= if @show_form, do: "hidden-xs-up" %>" tabindex="-1">
-      <div class="support-success m-b-1">
+      <div class="support-success">
         <%= fa "check-circle" %>
         Thank you for your feedback.
       </div>
       <p>Your comments have been sent to our Customer Support team, who will follow up with you shortly.</p>
     </div>
     <div class="col-xs-12 support-form-error hidden-xs-up" tabindex="-1">
-      <div class="support-error m-b-1">
+      <div class="support-error">
         <%= fa "exclamation-circle" %>
         We had an issue submitting your feedback -- please try again in a few minutes.
       </div>
@@ -42,15 +42,15 @@
             <li><strong>MBTA Transit Police Non-Emergency:</strong><br /><%= tel_link "(617)-222-1000" %></li>
           </ul>
         </div>
-        <div class="col-xs-12">
-          <div class="col-xs-12 col-sm-6 p-x-0 support-section">
-            <h2 class="support-header"><strong>Mailing Address</strong></h2>
-            <p>
-              MBTA <br />
-              10 Park Plaza, Suite 3910 <br />
-              Boston, MA 02116
-            </p>
-          </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Mailing Address</strong></h2>
+          <p>
+            MBTA <br />
+            10 Park Plaza, Suite 3910 <br />
+            Boston, MA 02116
+          </p>
         </div>
       </div>
     </div>

@@ -1,131 +1,133 @@
 <div class="row">
   <div class="col-xs-12 col-lg-9">
-    <div class="col-xs-12">
-      <p>Please leave your comments, complaints, or inquiries below and they will be sent to our Customer Support team.</p>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>Please leave your comments, complaints, or inquiries below and they will be sent to our Customer Support team.</p>
+      </div>
+      <form id="support-form" action="<%= customer_support_path @conn, :submit %>" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>" />
+        <div class="form-group col-xs-12 <%= if "comments" in @errors, do: "has-danger" %>">
+          <textarea
+            id="comments"
+            name="comments"
+            class="form-control"
+            maxlength=3000
+            rows=3
+            placeholder="Make sure to include (if applicable) the time and date of the incident, the route, and the vehicle number."
+            required><%= Map.get @existing_params, "comments", "" %></textarea>
+          <small class="form-text pull-right">3000 characters maximum</small>
+          <div class="support-error-container support-comments-error-container col-xs-12 <%= unless "comments" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
+            <span class="support-comments-error">Please enter a comment to continue.</span>
+          </div>
+        </div>
+        <div class="col-xs-12 photo-preview-container <%= unless "photo" in Map.keys(@existing_params), do: "hidden-xs-up" %>" tabindex="-1">
+          <button class="btn btn-link pull-right clear-photo hidden-xs-up"><%= fa "times-circle" %><span class="sr-only">Clear Photo Uploads</span></button>
+          <div class="photo-preview">
+            <%= with {encoded, content_type, name, size} <- photo_info(@existing_params) do %>
+              <img src="data:<%= content_type %>;base64,<%= encoded %>" width="100" height="100" alt="Uploaded image <%= name %> preview"></img>
+              <span><%= name %> &mdash; <%= size %></span>
+              <input type="hidden" name="photo-fallback-data" value="<%= encoded %>" />
+              <input type="hidden" name="photo-fallback-name" value="<%= name %>" />
+            <% end %>
+          </div>
+        </div>
+        <div class="form-group col-xs-12 col-sm-4 col-md-3">
+          <button class="btn btn-block upload-photo-button" type="button" tabindex="-1"><label for="photo" tabindex="0"><%= fa "camera" %> Upload Photo</label></button>
+          <input type="file" accept="image/*" id="photo" name="photo" />
+        </div>
+        <div class="support-form-expanded col-xs-12">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-6">
+              <label for="name" class="col-form-label"><strong>Name</strong></label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                autocomplete="name"
+                class="form-control"
+                placeholder="Jane Smith"
+                <%= if "name" in Map.keys @existing_params do %>
+                value="<%= Map.get @existing_params, "name" %>"
+                <% end %>
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-6 <%= if "contacts" in @errors, do: "has-danger" %>">
+              <label for="email"><strong>Email</strong></label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                class="form-control contacts"
+                placeholder="janesmith@email.com"
+                <%= if "email" in Map.keys @existing_params do %>
+                value="<%= Map.get @existing_params, "email" %>"
+                <% end %>
+              />
+            </div>
+            <div class="form-group col-xs-12 col-sm-6 <%= if "contacts" in @errors, do: "has-danger" %>">
+              <label for="phone"><strong>Phone number</strong></label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                autocomplete="tel"
+                class="form-control contacts"
+                placeholder="(617)-555-1234" <%# fake Boston-area phone number %>
+                <%= if "phone" in Map.keys @existing_params do %>
+                value="<%= Map.get @existing_params, "phone" %>"
+                <% end %>
+              />
+            </div>
+            <div class="col-xs-12">
+              <div class="support-error-container support-contacts-error-container <%= unless "contacts" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
+                <span class="support-contacts-error">Please enter either a valid email or phone number to continue.</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-xs-12 support-check-container">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    type="checkbox"
+                    id="privacy"
+                    name="privacy"
+                    class="form-check-input"
+                    required
+                    <%= if Map.get(@existing_params, "privacy", "") === "on" do %>
+                    checked
+                    <% end %>
+                  /> I have read and agree to the <a href="<%= redirect_path @conn, "customer_support/privacy_policy/" %>" target="_blank">Privacy Policy</a>.
+                  <div class="support-error-container support-privacy-error-container col-xs-12 <%= unless "privacy" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
+                    <span class="support-privacy-error">You must agree to our Privacy Policy before submitting your feedback.</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="col-xs-12 support-check-container">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    type="checkbox"
+                    id="promotions"
+                    name="promotions"
+                    class="form-check-input"
+                    <%= if Map.get(@existing_params, "promotions", "") === "on" do %>
+                    checked
+                    <% end %>
+                  /> I would like to receive email updates on new MBTA services and promotions.
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-xs-12 col-sm-4 col-md-3">
+          <button class="btn btn-primary btn-block" type="submit" id="support-submit">Submit</button>
+        </div>
+      </form>
     </div>
-    <form id="support-form" action="<%= customer_support_path @conn, :submit %>" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>" />
-      <div class="form-group col-xs-12 <%= if "comments" in @errors, do: "has-danger" %>">
-        <textarea
-          id="comments"
-          name="comments"
-          class="form-control"
-          maxlength=3000
-          rows=3
-          placeholder="Make sure to include (if applicable) the time and date of the incident, the route, and the vehicle number."
-          required><%= Map.get @existing_params, "comments", "" %></textarea>
-        <small class="form-text pull-right">3000 characters maximum</small>
-        <div class="support-error-container support-comments-error-container col-xs-12 <%= unless "comments" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
-          <span class="support-comments-error">Please enter a comment to continue.</span>
-        </div>
-      </div>
-      <div class="col-xs-12 photo-preview-container m-b-1 <%= unless "photo" in Map.keys(@existing_params), do: "hidden-xs-up" %>" tabindex="-1">
-        <button class="btn btn-link pull-right clear-photo hidden-xs-up"><%= fa "times-circle" %><span class="sr-only">Clear Photo Uploads</span></button>
-        <div class="photo-preview">
-          <%= with {encoded, content_type, name, size} <- photo_info(@existing_params) do %>
-            <img src="data:<%= content_type %>;base64,<%= encoded %>" width="100" height="100" class="m-r-1" alt="Uploaded image <%= name %> preview"></img>
-            <span><%= name %> &mdash; <%= size %></span>
-            <input type="hidden" name="photo-fallback-data" value="<%= encoded %>" />
-            <input type="hidden" name="photo-fallback-name" value="<%= name %>" />
-          <% end %>
-        </div>
-      </div>
-      <div class="form-group col-xs-12 col-sm-4 col-md-3">
-        <button class="btn btn-block upload-photo-button" type="button" tabindex="-1"><label for="photo" class="m-b-0" tabindex="0"><%= fa "camera" %> Upload Photo</label></button>
-        <input type="file" accept="image/*" id="photo" name="photo" />
-      </div>
-      <div class="support-form-expanded col-xs-12">
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-6">
-            <label for="name" class="col-form-label"><strong>Name</strong></label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              autocomplete="name"
-              class="form-control"
-              placeholder="Jane Smith"
-              <%= if "name" in Map.keys @existing_params do %>
-              value="<%= Map.get @existing_params, "name" %>"
-              <% end %>
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-6 <%= if "contacts" in @errors, do: "has-danger" %>">
-            <label for="email"><strong>Email</strong></label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autocomplete="email"
-              class="form-control contacts"
-              placeholder="janesmith@email.com"
-              <%= if "email" in Map.keys @existing_params do %>
-              value="<%= Map.get @existing_params, "email" %>"
-              <% end %>
-            />
-          </div>
-          <div class="form-group col-xs-12 col-sm-6 <%= if "contacts" in @errors, do: "has-danger" %>">
-            <label for="phone"><strong>Phone number</strong></label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              autocomplete="tel"
-              class="form-control contacts"
-              placeholder="(617)-555-1234" <%# fake Boston-area phone number %>
-              <%= if "phone" in Map.keys @existing_params do %>
-              value="<%= Map.get @existing_params, "phone" %>"
-              <% end %>
-            />
-          </div>
-          <div class="col-xs-12">
-            <div class="support-error-container support-contacts-error-container <%= unless "contacts" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
-              <span class="support-contacts-error">Please enter either a valid email or phone number to continue.</span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-xs-12 support-check-container">
-            <div class="form-check">
-              <label class="form-check-label">
-                <input
-                  type="checkbox"
-                  id="privacy"
-                  name="privacy"
-                  class="form-check-input"
-                  required
-                  <%= if Map.get(@existing_params, "privacy", "") === "on" do %>
-                  checked
-                  <% end %>
-                /> I have read and agree to the <a href="<%= redirect_path @conn, "customer_support/privacy_policy/" %>" target="_blank">Privacy Policy</a>.
-                <div class="support-error-container support-privacy-error-container col-xs-12 <%= unless "privacy" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
-                  <span class="support-privacy-error">You must agree to our Privacy Policy before submitting your feedback.</span>
-                </div>
-              </label>
-            </div>
-          </div>
-          <div class="col-xs-12 support-check-container">
-            <div class="form-check">
-              <label class="form-check-label">
-                <input
-                  type="checkbox"
-                  id="promotions"
-                  name="promotions"
-                  class="form-check-input"
-                  <%= if Map.get(@existing_params, "promotions", "") === "on" do %>
-                  checked
-                  <% end %>
-                /> I would like to receive email updates on new MBTA services and promotions.
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group col-xs-12 col-sm-4 col-md-3">
-        <button class="btn btn-primary btn-block" type="submit" id="support-submit">Submit</button>
-      </div>
-    </form>
   </div>
 </div>

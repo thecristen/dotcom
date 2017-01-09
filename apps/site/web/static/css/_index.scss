@@ -1,13 +1,15 @@
 .index-news-group {
+  //scss-lint:disable PlaceholderInExtend
   @extend .list-group;
   @extend .list-group-flush;
 }
 
 .index-news-item {
+  //scss-lint:disable PlaceholderInExtend
   @extend .list-group-item;
+  @extend .list-group-item-flush;
 
   background-color: initial;
-  padding-left: 0;
 }
 
 .news-card {
@@ -23,15 +25,19 @@
 
 .list-group-item-flush {
   padding-left: 0;
-}
 
-.index {
-  margin-top: .75rem;
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
 }
 
 @include media-breakpoint-down(sm) {
   .index {
-    padding-bottom: 12px;
+    padding-bottom: $base-spacing;
   }
 }
 

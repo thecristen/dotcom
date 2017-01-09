@@ -1,7 +1,7 @@
 <h1><%= mode_name(@mode) %> Fares</h1>
 <h2>Find Your Fare</h2>
 <%= origin_destination_description(@mode) %>
-<div class="fare-callout-box m-b-1">
+<div class="fare-callout-box">
   <div class="row">
     <div class="col-xs-12 col-md-6 fare-selector-container">
       <%= render "_stop_selector.html",
@@ -36,7 +36,7 @@
       <%= unless @selected_filter == nil do %>
       <%= if @origin && @destination do %>
       <div class="row">
-        <div class="col-xs-12 m-t-1">
+        <div class="col-xs-12">
           <p>
             <strong><%= Fares.Format.name(List.first(@selected_filter.fares)) %> Fare</strong>
             <span class="hidden-xs-down">|</span><span class="hidden-sm-up"><br /></span>
@@ -56,12 +56,12 @@
 
       <h2>Where to Get a Ticket or Pass</h2>
       <div class="row">
-        <div class="col-sm-6 col-xs-12 fares-info-column">
+        <div class="col-sm-6 col-xs-12">
           <h3>mTicket App</h3>
           <p>
             You can purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app. Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, passes purchased through mTicket app are not valid for use on Bus and Subway like they are on a CharlieTicket. Available on the iPhone App Store and Google Play.
           </p>
-          <div>
+          <p>
             <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
               <span class="sr-only">Download on the app store</span>
               <%= svg "download_on_the_app_store.svg" %>
@@ -69,9 +69,9 @@
             <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
               <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
             </a>
-          </div>
+          </p>
         </div>
-        <div class="col-sm-6 col-xs-12 fares-info-column">
+        <div class="col-sm-6 col-xs-12">
           <h3>Fare Vending Machines</h3>
           <p>
             You can load One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and Subway travel as well) Passes onto a CharlieTicket at a fare vending machine, found in all Subway stations and the following Commuter Rail stations:
@@ -80,13 +80,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-6 col-xs-12 fares-info-column">
+        <div class="col-sm-6 col-xs-12">
           <h3>On-Board</h3>
           <p>
             You can purchase a One Way or Round Trip Pass on-board with cash. If you board the train at a station that has a fare vending machine, using cash on-board may result in an additional $3.00 fee on top of your regular fare. Round Trip Passes purchased on-board will be valid until the end of service that same day.
           </p>
         </div>
-        <div class="col-sm-6 col-xs-12 fares-info-column">
+        <div class="col-sm-6 col-xs-12">
           <h3>Retail Sales Locations</h3>
           <p>
             You can get One Way, Round Trip, and Monthly (valid for Bus and Subway travel as well) Passes on a CharlieTicket at retail stores located throughout the Greater Boston and Providence areas.
@@ -100,10 +100,18 @@
       </div>
       <h2>Related Pages</h2>
       <div class="row">
-        <%= render "_mode_pay.html", mode: @mode %>
-        <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
+        <div class="col-xs-12 col-sm-6">
+          <%= render "_mode_pay.html", mode: @mode %>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <%= render "_related_page_card.html", title: "Payment Methods", body: "Different ways to pay your fare, the modes they are accepted on, and what fares you can load onto them", href: fare_path(@conn, :show, :payment_methods) %>
+        </div>
       </div>
       <div class="row">
-        <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: "Online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups", href: "https://passprogram.mbta.com/" %>
-        <%= render "_related_page_card.html", title: "Reduced Fares", body: "Find out if you qualify and how to get your reduced fares", href: fare_path(@conn, :show, :reduced) %>
+        <div class="col-xs-12 col-sm-6">
+          <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: "Online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups", href: "https://passprogram.mbta.com/" %>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <%= render "_related_page_card.html", title: "Reduced Fares", body: "Find out if you qualify and how to get your reduced fares", href: fare_path(@conn, :show, :reduced) %>
+        </div>
       </div>

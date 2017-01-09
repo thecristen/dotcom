@@ -322,11 +322,6 @@ $icon-size: 1.75rem;
       height: 3rem;
     }
   }
-
-  .full-width {
-    // removes the margins on the outside
-    @include make-row();
-  }
 }
 
 .navbar-logo {

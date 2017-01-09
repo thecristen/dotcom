@@ -1,76 +1,70 @@
-<div class="container-fluid" id="station-info">
-  <div class="row no-gutter station-info-section">
-    <h2>Parking</h2>
-    <%= if !Enum.empty?(@stop.parking_lots) do %>
-      <%= for lot <- @stop.parking_lots do %>
-        <%= render "_parking_lot.html", lot: lot%>
-      <% end %>
-    <%= else %>
-      <p>No parking information is available for this station.</p>
+<div id="station-info">
+  <h2>Parking</h2>
+  <%= if !Enum.empty?(@stop.parking_lots) do %>
+    <%= for lot <- @stop.parking_lots do %>
+      <%= render "_parking_lot.html", lot: lot%>
     <% end %>
-  </div>
+  <%= else %>
+    <p>No parking information is available for this station.</p>
+  <% end %>
 
-  <div class="row no-gutter station-info-section" >
-    <h2>Accessibility</h2>
-    <%= accessibility_info(@stop) %>
-    <ul class="alert-list">
-      <%= for alert <- @access_alerts do %>
-        <li class="alert-list-item">
-          <%= render Site.AlertView, "_item.html", alert: alert, time: @date %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+  <h2>Accessibility</h2>
+  <%= accessibility_info(@stop) %>
+  <ul class="alert-list">
+    <%= for alert <- @access_alerts do %>
+      <li class="alert-list-item">
+        <%= render Site.AlertView, "_item.html", alert: alert, time: @date %>
+      </li>
+    <% end %>
+  </ul>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <%= unless Enum.empty?(types) do %>
-    <div class="row no-gutter station-info-section">
-      <h2>Fares</h2>
-      <%= if :commuter_rail in types do %>
-        <%= render "_commuter_fare.html", conn: @conn, stop: @stop, zone_name: @zone_name, terminal_station: @terminal_station %>
-      <% end %>
-      <%= if :ferry in types do %>
-        <h3 class="station-fare-subheader">Ferry Fares</h3>
-        <%= render "_fare_summaries.html", summaries: mode_summaries(:ferry, @zone_name) %>
-        <p>
-          <%= link to: fare_path(@conn, :show, "ferry") do %>
-            View all Ferry fares <%= fa "arrow-right" %></p>
-          <% end %>
-        </p>
-      <% end %>
-      <%= if :subway in types || :bus in types do %>
-        <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
-        <%= render "_fare_summaries.html", summaries: mode_summaries(fare_mode(types), @zone_name) %>
-        <p>
-          <%= link to: fare_path(@conn, :show, "bus_subway") do %>
-            View all Bus and Subway fares <%= fa "arrow-right" %>
-            <% end %>
-        </p>
-      <% end %>
-      <%= if length(@fare_sales_locations) > 0 do %>
-        <div class="fare-sales-locations">
-          <h5>Nearby MBTA fare retail sales locations:</h5>
+    <h2>Fares</h2>
+    <%= if :commuter_rail in types do %>
+      <%= render "_commuter_fare.html", conn: @conn, stop: @stop, zone_name: @zone_name, terminal_station: @terminal_station %>
+    <% end %>
+    <%= if :ferry in types do %>
+      <h3 class="station-fare-subheader">Ferry Fares</h3>
+      <%= Site.FareView.summarize(mode_summaries(:ferry, @zone_name)) %>
+      <p>
+        <%= link to: fare_path(@conn, :show, "ferry") do %>
+          View all Ferry fares <%= fa "arrow-right" %>
+        <% end %>
+      </p>
+    <% end %>
+    <%= if :subway in types || :bus in types do %>
+      <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
+      <%= Site.FareView.summarize(mode_summaries(fare_mode(types), @zone_name)) %>
+      <p>
+        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
+          View all Bus and Subway fares <%= fa "arrow-right" %>
+        <% end %>
+      </p>
+    <% end %>
+    <%= if length(@fare_sales_locations) > 0 do %>
+      <div class="fare-sales-locations">
+        <h4>Nearby MBTA fare retail sales locations:</h4>
+        <div class="row">
           <%= for {%Location{agent: agent, location: street, city: city} = location, distance} <- @fare_sales_locations do %>
-            <div class="col-md-4 fare-sales-location">
-              <div class="fare-agent-name-distance">
-                <p><%= agent %></p>
-                <p class="fare-agent-distance pull-right"><%= round_distance(distance) %></p>
-              </div>
-              <p><%= street %></p>
-              <p><%= clean_city(city) %></p>
-              <p><%= retail_location_directions_link(location, @stop) %></p>
+            <div class="col-md-4 col-xs-12 fare-sales-location">
+              <p class="fare-agent-distance"><%= round_distance(distance) %></p>
+              <p>
+                <%= agent %><br>
+                <%= street %><br>
+                <%= clean_city(city) %><br>
+                <%= retail_location_directions_link(location, @stop) %>
+              </p>
             </div>
           <% end %>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 
-  <div class="row no-gutter station-info-section">
-    <h2>Feedback</h2>
-    <p>Please report issues with cleanliness, signage, and any other concerns you may have. We will do our best to address the issue as soon as possible.</p>
-    <%= link to: customer_support_path(@conn, :index) do %>
-      <p class="m-y-2">Submit a comment or complaint about this <span class="no-wrap">station <%= fa "arrow-right" %></span></p>
-    <% end %>
-  </div>
+  <h2>Feedback</h2>
+  <p>Please report issues with cleanliness, signage, and any other concerns you may have. We will do our best to address the issue as soon as possible.</p>
+  <%= link to: customer_support_path(@conn, :index) do %>
+    <p>Submit a comment or complaint about this <span class="no-wrap">station <%= fa "arrow-right" %></span></p>
+  <% end %>
 </div>

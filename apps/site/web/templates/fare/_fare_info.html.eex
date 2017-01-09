@@ -1,25 +1,17 @@
-<div class="m-b-3">
-  <div class="m-y-1">
-    <%= render "_discount_info.html", fare_type: List.first(@selected_filter.fares)  %>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="fares-tab-group"><%= if length(@filters) > 1 do %>
-        <%= for filter <- @filters do %>
-          <% selected_class = if filter.id == @selected_filter.id, do: "fares-tab-selected", else: "" %>
-          <% stacking_class = if length(@filters) == 2, do: "side-by-side", else: "" %>
-          <%= link filter.name, to: update_url(@conn, filter: filter.id), class: "fares-tab #{stacking_class} #{selected_class}" %>
-        <% end %>
-      <% end %></div><%# This should stay formatted this way so that whitespace doesn't interfere with CSS using :empty (until :blank is supported)  %>
+<%= render "_discount_info.html", fare_type: List.first(@selected_filter.fares)  %>
+<div class="fares-tab-group"><%= if length(@filters) > 1 do %>
+  <%= for filter <- @filters do %>
+    <% selected_class = if filter.id == @selected_filter.id, do: "fares-tab-selected", else: "" %>
+    <% stacking_class = if length(@filters) == 2, do: "side-by-side", else: "" %>
+    <%= link filter.name, to: update_url(@conn, filter: filter.id), class: "fares-tab #{stacking_class} #{selected_class}" %>
+  <% end %>
+<% end %></div><%# This should stay formatted this way so that whitespace doesn't interfere with CSS using :empty (until :blank is supported)  %>
+<div class="fares-box">
+  <%= for pairs <- @selected_filter.fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk(2, 2, []) do %>
+    <div class="fares-row">
+      <%= for fares <- pairs do %>
+        <%= render "_trip_type.html", conn: @conn, fares: fares %>
+      <% end %>
     </div>
-  </div>
-  <div class="row fares-box">
-    <%= for pairs <- @selected_filter.fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk(2, 2, []) do %>
-      <div class="row fares-row">
-        <%= for fares <- pairs do %>
-          <%= render "_trip_type.html", conn: @conn, fares: fares %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <% end %>
 </div>

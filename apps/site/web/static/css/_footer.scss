@@ -22,9 +22,10 @@ $footer-md-up: 428px;
   background-color: $footer-color;
   bottom: 0;
   font-size: $font-size-sm;
-  padding-top: 1rem;
+  padding-top: $base-spacing;
   position: absolute;
   width: 100%;
+  text-align: center;
 
   @include media-breakpoint-only(xs) {
     height: $footer-xs;
@@ -37,64 +38,52 @@ $footer-md-up: 428px;
   @include media-breakpoint-up(md) {
     color: $white;
     height: $footer-md-up;
-  }
-
-  @include media-breakpoint-down(sm) {
-    margin-top: -.75rem;
-    padding-top: .75rem;
-  }
-
-  @include media-breakpoint-down(md) {
-    text-align: center;
+    text-align: inherit;
   }
 }
 
-// scss-lint:disable PlaceholderInExtend
 .footer-link-list {
-  @extend .col-xs-12;
+  @include list-unstyled;
+  clear: both;
+  float: left;
+  width: 100%;
 
-  margin-bottom: 0;
-  padding: 0 0 1rem;
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.footer-link-list-small {
+  display: none;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
 }
 
 .footer-link-sublist {
-  list-style: none;
-  padding: 0;
+  @include list-unstyled;
  }
 
-// scss-lint:disable PlaceholderInExtend
 .footer-link-list-item {
-  @extend .col-xs-12;
-  @extend .col-md-3;
-
+  float: left;
   list-style: none;
   text-align: left;
+  width: 25%;
+}
 
-  @include media-breakpoint-down(sm) {
-    margin: .75rem 0;
-    text-align: center;
+.footer-link-item-small {
+  display: inline;
+
+  &:not(:last-child)::after {
+    color: $white;
+    content: '●';
+    margin: 0 .25em;
   }
 }
 
 .footer-link-sublist-item {
   margin: .25rem 0;
-
-  @include media-breakpoint-down(sm) {
-    display: inline;
-  }
-
-  @include media-breakpoint-down(sm) {
-    &:last-child::after {
-      content: '';
-    }
-
-    &::after {
-      color: $white;
-      content: '●';
-      font-size: .75em;
-      margin: 0 .25em;
-    }
-  }
 
   > a {
     color: $brand-primary-light;
@@ -103,9 +92,8 @@ $footer-md-up: 428px;
 
 .footer-copyright {
   display: inline-block;
-  font-weight: lighter;
-  margin-bottom: 0;
-  padding: 1rem 0;
+  font-size: $font-size-xs;
+  margin-bottom: 1rem;
 
   @include media-breakpoint-down(md) {
     color: $white;
@@ -115,7 +103,7 @@ $footer-md-up: 428px;
 }
 
 .social-nav {
-  padding-top: 7px;
+  padding: .5rem 0 0;
 
   a {
     border-radius: 100%;

@@ -1,5 +1,5 @@
 <%= if @predictions != [] do %>
-  <div class="schedule-list-group p-b-1">
+  <div class="schedule-list-group">
     <div class="schedule-list-group-item schedule-list-group-header">
       <div class="schedule-col-group">
         <%= fa "rss" %> Upcoming Departures

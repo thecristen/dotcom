@@ -77,14 +77,14 @@ defmodule Site.StyleGuideView do
 
   @spec get_tag(String.t) :: String.t
   @doc "Reads a string and parses an HTML tag name from it."
-  def get_tag("$h" <> num), do: get_h_tag(num)
+  def get_tag("$font-size-h" <> num), do: get_h_tag(num)
   def get_tag(_), do: "p"
 
-  defp get_h_tag("1-xxl"), do: "h1"
-  defp get_h_tag("2-xxl"), do: "h2"
-  defp get_h_tag("3-xxl"), do: "h3"
-  defp get_h_tag("4-xxl"), do: "h4"
-  defp get_h_tag(num), do: "h#{num}"
+  defp get_h_tag("1-xxl"), do: :h1
+  defp get_h_tag("2-xxl"), do: :h2
+  defp get_h_tag("3-xxl"), do: :h3
+  defp get_h_tag("4-xxl"), do: :h4
+  defp get_h_tag(num), do: :"h#{num}"
 
   @spec get_element_name(String.t) :: Phoenix.HTML.Safe.t
   @doc "Reads a CSS variable name, parses it into human-readable form, and returns it as HTML."
