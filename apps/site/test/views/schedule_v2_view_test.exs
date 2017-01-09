@@ -90,4 +90,15 @@ defmodule Site.ScheduleV2ViewTest do
       assert Util.today |> Timex.shift(months: 2) |> previous_month_class == ""
     end
   end
+
+  describe "pretty_date/1" do
+    test "it is today when the date given is todays date" do
+      assert pretty_date(Timex.today) == "Today"
+    end
+
+    test "it abbreviates the month when the date is not today" do
+      date = ~D[2017-01-01]
+      assert pretty_date(date) == "Jan 1"
+    end
+  end
 end

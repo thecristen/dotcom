@@ -1,4 +1,4 @@
-<div class="schedule-v2-frequency-header">Schedules For Today</div>
+<div class="schedule-v2-frequency-header">Schedules For <%= Site.ScheduleV2View.pretty_date(@date) %></div>
 <%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
   <div class="schedule-v2-frequency-row">
     <div class="schedule-v2-frequency-col">
@@ -21,7 +21,7 @@
       <%= case TimeGroup.frequency(schedules) do %>
         <%# XXX - the Enum.max([1, min]) is a temporary fix while the GTFS schedule has some trips which are scheduled to be at the same stop at the same time. -ps %>
         <%= {min, max} -> %>Every <%= Enum.max([1, min]) %>-<%= max %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
-        <%= nil -> %>No scheduled trips on <%= Timex.format!(@date, "{Mfull} {D}, {YYYY}")%>
+        <%= nil -> %>No service between these hours
         <%= value -> %>Every <%= value %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
       <% end %>
     </div>
