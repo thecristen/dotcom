@@ -35,7 +35,7 @@
 .schedule-v2-direction-btn-label {
   @include pull-left();
   display: block;
-  max-width: 85%;
+  max-width: 90%;
   padding-left: .5rem;
 
   @include media-breakpoint-up(xs) {
