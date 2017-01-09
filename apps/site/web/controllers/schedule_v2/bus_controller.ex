@@ -10,6 +10,8 @@ defmodule Site.ScheduleV2.BusController do
   plug Site.ScheduleController.Schedules
   plug Site.ScheduleController.Headsigns
   plug Site.ScheduleController.AllStops
+  plug Site.ScheduleController.DirectionNames
+  plug Site.ScheduleController.DestinationStops
 
   # This may be good to have as a behavior when doing integration for all modes
   @route_type 3

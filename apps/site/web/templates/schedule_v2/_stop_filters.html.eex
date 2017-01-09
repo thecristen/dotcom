@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-6">
+    <%= Site.ScheduleV2View.render "_stop_selector.html",
+      conn: @conn,
+      query_key: "origin",
+      selected: @origin,
+      disabled_values: [],
+      all_stops: @all_stops,
+      key_stops: [],
+      label_text: "Departure times from:",
+      route_type: @route_type,
+      disabled_values: []
+    %>
+  </div>
+  <%= if @origin do %>
+    <div class="col-xs-12 col-sm-6 col-equal>">
+      <%= Site.ScheduleV2View.render "_stop_selector.html",
+          conn: @conn,
+          query_key: "dest",
+          selected: @destination,
+          all_stops: @all_stops,
+          key_stops: [],
+          label_text: "Arriving at:",
+          route_type: @route_type,
+          disabled_values: [
+            {@origin, "departure stop"},
+            {@from.id, "departure stop"}] ++ (
+              @excluded_destination_stops # filter out non-destination stops because they're on a different branch
+              |> Enum.map(&({&1, "not on branch"})))
+      %>
+    </div>
+  <% end %>
+</div>
