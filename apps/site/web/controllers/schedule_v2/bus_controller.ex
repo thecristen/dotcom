@@ -26,8 +26,10 @@ defmodule Site.ScheduleV2.BusController do
     render(conn, "_origin_trip.html")
   end
 
-  def origin_destination(conn, _params) do
-    render(conn, "_origin_destination_trip.html")
+  def origin_destination(conn, params) do
+    conn
+    |> assign(:destination_predictions, Predictions.Repo.all([route: params["route"], stop: params["dest"]]))
+    |> render("_origin_destination_trip.html")
   end
 end
 

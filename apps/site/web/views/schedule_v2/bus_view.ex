@@ -46,4 +46,61 @@ defmodule Site.ScheduleV2.BusView do
     predictions
     |> Enum.concat(scheduled_after_predictions)
   end
+
+  def display_time(scheduled, nil) do
+    content_tag :span do
+      do_display_time(scheduled.time)
+    end
+  end
+  def display_time(_scheduled, prediction) do
+    content_tag :span do
+      [
+        fa("rss"),
+        " ",
+        do_display_time(prediction.time)
+      ]
+    end
+  end
+
+  defp do_display_time(nil), do: ""
+  defp do_display_time(time) do
+    content_tag :span do
+      Timex.format!(time, "{0h12}:{m}{AM}")
+    end
+  end
+
+  def group_trips(schedules, origin_predictions, destination_predictions) do
+    departure_predictions = Enum.map(origin_predictions, &({:departure, &1}))
+    arrival_predictions = Enum.map(destination_predictions, &({:arrival, &1}))
+
+    schedules
+    |> Enum.concat(departure_predictions)
+    |> Enum.concat(arrival_predictions)
+    |> Enum.group_by(&group_schedule/1)
+    |> Enum.map(&normalize_group/1)
+    |> Enum.reject(&is_nil/1)
+    |> Enum.filter(&(Timex.after?(elem(&1, 0).time, Timex.now))) # Don't show anything that has already left
+    |> Enum.sort_by(&(elem(&1, 0).time))
+  end
+
+  # Provides the trip id for the prediction or schedule
+  defp group_schedule({_label, %Prediction{trip: trip}}), do: trip.id
+  defp group_schedule({%Schedule{trip: trip}, _destination}), do: trip.id
+
+  # Formats all groups as {schedule, destination, departure_prediction, arrival_prediction}
+  defp normalize_group({_, [{schedule, destination}, {:departure, departure_prediction}, {:arrival, arrival_prediction}]}) do
+    {schedule, destination, departure_prediction, arrival_prediction}
+  end
+  defp normalize_group({_, [{schedule, destination}, {:departure, prediction}]}) do
+    {schedule, destination, prediction, nil}
+  end
+  defp normalize_group({_, [{schedule, destination}, {:arrival, prediction}]}) do
+    {schedule, destination, nil, prediction}
+  end
+  defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination}]}) do
+    {schedule, destination, nil, nil}
+  end
+  defp normalize_group(_) do # Prediction without available trip
+    nil
+  end
 end

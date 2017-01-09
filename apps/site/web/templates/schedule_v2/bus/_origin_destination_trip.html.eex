@@ -4,13 +4,13 @@
       <div class="col-xs-6">Departure</div>
       <div class="col-xs-6">Arrival</div>
     </div>
-    <%= for {schedule, destination} <- @schedules do %>
+    <%= for {schedule, destination, departure_pred, arrival_pred} <- group_trips(@schedules, @predictions, @destination_predictions) do %>
       <a class="schedule-list-group-item" <%# href="TODO" %>>
         <div class="col-xs-6">
-          <%= schedule.time |> Timex.format!("{0h12}:{m}{AM}") %>
+          <%= display_time(schedule, departure_pred) %>
         </div>
         <div class="col-xs-6">
-          <%= destination.time |> Timex.format!("{0h12}:{m}{AM}") %>
+          <%= display_time(destination, arrival_pred)%>
         </div>
       </a>
     <% end %>

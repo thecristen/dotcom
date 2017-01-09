@@ -11,8 +11,6 @@ defmodule Predictions.Parser do
       schedule_relationship: schedule_relationship(attributes["schedule_relationship"]),
       track: attributes["track"],
       status: attributes["status"],
-      departure_time: prediction_time(attributes["departure_time"]),
-      arrival_time: prediction_time(attributes["arrival_time"])
     }
   end
 
@@ -29,9 +27,6 @@ defmodule Predictions.Parser do
       _ -> stop.id
     end
   end
-
-  defp prediction_time(nil), do: nil
-  defp prediction_time(time), do: Timex.parse!(time, "{ISO:Extended}")
 
   defp schedule_relationship("ADDED"), do: :added
   defp schedule_relationship("UNSCHEDULED"), do: :unscheduled
