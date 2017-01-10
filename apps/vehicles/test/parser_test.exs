@@ -42,5 +42,34 @@ defmodule Vehicles.ParserTest do
       }
       assert Parser.parse(item) == expected
     end
+
+    test "parses parent stop relationships if present" do
+      item = %JsonApi.Item{
+        attributes: %{
+          "current_status" => "IN_TRANSIT_TO",
+          "direction_id" => 0,
+        },
+        id: "544B1E1A",
+        relationships: %{
+          "route" => [%JsonApi.Item{id: "Red"}],
+          "stop" => [%JsonApi.Item{id: "70068", relationships: %{
+                                      "parent_station" => [%JsonApi.Item{id: "place-harsq"}]
+                                   }}],
+          "trip" => [%JsonApi.Item{id: "32542428"}]
+        },
+        type: "vehicle"
+      }
+
+      expected = %Vehicle{
+        id: "544B1E1A",
+        route_id: "Red",
+        stop_id: "place-harsq",
+        trip_id: "32542428",
+        direction_id: 0,
+        status: :in_transit
+      }
+
+      assert Parser.parse(item) == expected
+    end
   end
 end

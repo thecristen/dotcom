@@ -3,6 +3,12 @@ defmodule Vehicles.Repo do
 
   alias Vehicles.{Vehicle, Parser}
 
+  @default_params [
+    "fields[vehicle]": "direction_id,current_status",
+    "fields[stop]": "",
+    "include": "stop"
+  ]
+
   @spec route(String.t) :: [Vehicle.t]
   def route(route_id) do
     [route: route_id]
@@ -18,8 +24,8 @@ defmodule Vehicles.Repo do
 
   @spec fetch(keyword(String.t)) :: [Vehicle.t]
   defp fetch(params) do
-    params
-    |> Keyword.put(:"fields[vehicle]", "direction_id,current_status")
+    @default_params
+    |> Keyword.merge(params)
     |> V3Api.Vehicles.all
     |> Map.get(:data)
     |> Enum.map(&Parser.parse/1)

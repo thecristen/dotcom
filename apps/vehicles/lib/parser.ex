@@ -7,7 +7,7 @@ defmodule Vehicles.Parser do
       id: id,
       route_id: List.first(relationships["route"]).id,
       trip_id: trip_id(relationships["trip"]),
-      stop_id: List.first(relationships["stop"]).id,
+      stop_id: stop_id(relationships["stop"]),
       direction_id: attributes["direction_id"],
       status: status(attributes["current_status"])
     }
@@ -20,5 +20,14 @@ defmodule Vehicles.Parser do
 
   @spec trip_id([JsonApi.Item.t]) :: String.t | nil
   defp trip_id(nil), do: nil
-  defp trip_id([%{id: id}]), do: id
+  defp trip_id([%JsonApi.Item{id: id}]), do: id
+
+  @spec stop_id([JsonApi.Item.t]) :: String.t
+  defp stop_id([%JsonApi.Item{
+                   relationships: %{
+                     "parent_station" => [%JsonApi.Item{id: stop_id}]}}
+               ]) do
+    stop_id
+  end
+  defp stop_id([%JsonApi.Item{id: stop_id}]), do: stop_id
 end
