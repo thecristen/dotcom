@@ -4,7 +4,7 @@ defmodule Site.ScheduleV2.BusView do
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
 
-  @type schedule_with_predictions :: {Schedule.t, Schedule.t, Prediction.t | nil, Prediction.t | nil}
+  @type schedules_with_predictions :: {Schedule.t, Schedule.t, Prediction.t | nil, Prediction.t | nil}
 
   @doc """
   Given a list of schedules, returns a display of the route direction. Assumes all
@@ -49,6 +49,8 @@ defmodule Site.ScheduleV2.BusView do
     |> Enum.concat(scheduled_after_predictions)
   end
 
+  @doc "Display the time for a prediction if one is available"
+  @spec display_time(Schedule.t, Prediction.t | nil) :: Phoenix.HTML.Safe.t
   def display_time(scheduled, nil) do
     content_tag :span do
       Timex.format!(scheduled.time, "{0h12}:{m}{AM}")
@@ -65,7 +67,7 @@ defmodule Site.ScheduleV2.BusView do
   end
 
   @doc "Group Schedules and Predictions by trip id"
-  @spec group_trips([{Schedule.t, Schedule.t}], [Prediction.t], [Prediction.t]) :: [schedule_with_predictions]
+  @spec group_trips([{Schedule.t, Schedule.t}], [Prediction.t], [Prediction.t]) :: [schedules_with_predictions]
   def group_trips(schedules, origin_predictions, destination_predictions) do
     departure_predictions = Enum.map(origin_predictions, &({:departure, &1}))
     arrival_predictions = Enum.map(destination_predictions, &({:arrival, &1}))
@@ -76,9 +78,13 @@ defmodule Site.ScheduleV2.BusView do
     |> Enum.group_by(&get_trip_id/1)
     |> Enum.map(&normalize_group/1)
     |> Enum.reject(&is_nil/1)
-    |> Enum.filter(&(Timex.after?(elem(&1, 0).time, Timex.now))) # Don't show anything that has already left
     |> Enum.sort_by(&(elem(&1, 0).time))
+    |> Enum.sort_by(&sort_predictions/1)
   end
+
+  @spec sort_predictions(schedules_with_predictions) :: integer
+  defp sort_predictions({_schedule, _destination, nil, nil}), do: 1
+  defp sort_predictions({_schedule, _destination, _departure, _arrival}), do: 0
 
   # Provides the trip id for the prediction or schedule
   @spec get_trip_id({:arrival | :departure, Prediction.t} | {Schedule.t, Schedule.t}) :: String.t
@@ -86,14 +92,14 @@ defmodule Site.ScheduleV2.BusView do
   defp get_trip_id({%Schedule{trip: trip}, _destination}), do: trip.id
 
   # Formats all groups as {schedule, destination, departure_prediction, arrival_prediction}
-  @spec normalize_group({String.t, [{Schedule.t, Schedule.t} | {:arrival | :departure, Prediction.t}]}) :: schedule_with_predictions
-  defp normalize_group({_, [{schedule, destination}, {:departure, departure_prediction}, {:arrival, arrival_prediction}]}) do
+  @spec normalize_group({String.t, [{Schedule.t, Schedule.t} | {:arrival | :departure, Prediction.t}]}) :: schedules_with_predictions
+  defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination}, {:departure, departure_prediction}, {:arrival, arrival_prediction}]}) do
     {schedule, destination, departure_prediction, arrival_prediction}
   end
-  defp normalize_group({_, [{schedule, destination}, {:departure, prediction}]}) do
+  defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination}, {:departure, prediction}]}) do
     {schedule, destination, prediction, nil}
   end
-  defp normalize_group({_, [{schedule, destination}, {:arrival, prediction}]}) do
+  defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination}, {:arrival, prediction}]}) do
     {schedule, destination, nil, prediction}
   end
   defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination}]}) do

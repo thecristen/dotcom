@@ -20,7 +20,22 @@ defmodule Site.ScheduleV2Controller.Predictions do
   """
   def assign_predictions(%{assigns: %{date: date}} = conn, service_date, _)
   when date != service_date do
-    assign(conn, :predictions, [])
+    conn
+    |> assign(:predictions, [])
+    |> assign(:destination_predictions, [])
+  end
+  def assign_predictions(%{assigns: %{
+                              origin: stop_id,
+                              destination: dest_id,
+                              route: %{id: route_id},
+                              direction_id: direction_id}} = conn, _, predictions_fn)
+  when not is_nil(stop_id) and not is_nil(dest_id) do
+    predictions = [direction_id: direction_id, stop: stop_id, route: route_id]
+    |> predictions_fn.()
+
+    conn
+    |> assign(:predictions, predictions)
+    |> assign_destination_predictions(route_id, stop_id, predictions_fn)
   end
   def assign_predictions(%{assigns: %{
                               origin: stop_id,
@@ -34,5 +49,9 @@ defmodule Site.ScheduleV2Controller.Predictions do
   end
   def assign_predictions(conn, _, _) do
     assign(conn, :predictions, [])
+  end
+
+  defp assign_destination_predictions(conn, route_id, stop_id, predictions_fn) do
+    assign(conn, :destination_predictions, predictions_fn.([route: route_id, stop: stop_id]))
   end
 end

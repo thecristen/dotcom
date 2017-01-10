@@ -32,6 +32,17 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       ]
     end
 
+    test "assigns destination predictions when destination is given" do
+      conn = build_conn()
+      |> assign(:origin, "place-sstat")
+      |> assign(:destination, "889")
+      |> assign(:route, %{id: "4"})
+      |> assign(:direction_id, "0")
+      |> call([predictions_fn: fn (opts) -> opts end])
+
+      assert Map.has_key?(conn.assigns, :destination_predictions)
+    end
+
     test "otherwise, assigns no predictions" do
       conn = build_conn()
       |> call([])
