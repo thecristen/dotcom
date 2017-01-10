@@ -35,7 +35,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
     conn
     |> assign(:predictions, predictions)
-    |> assign_destination_predictions(route_id, stop_id, predictions_fn)
+    |> assign_destination_predictions(route_id, dest_id, predictions_fn)
   end
   def assign_predictions(%{assigns: %{
                               origin: stop_id,

@@ -90,14 +90,14 @@ defmodule Site.ScheduleV2.BusViewTest do
   end
 
   describe "group_trips/3" do
-      @trip0  %Trip{id: 0}
-      @trip1  %Trip{id: 1}
-      @trip2  %Trip{id: 2}
-      @time Timex.now()
+    @trip0  %Trip{id: 0}
+    @trip1  %Trip{id: 1}
+    @trip2  %Trip{id: 2}
+    @time Timex.now()
 
-      @schedule_pair0  {%Schedule{time: @time, trip: @trip0}, %Schedule{time: @time, trip: @trip0}}
-      @schedule_pair1  {%Schedule{time: @time, trip: @trip1}, %Schedule{time: @time, trip: @trip1}}
-      @schedule_pair2  {%Schedule{time: @time, trip: @trip2}, %Schedule{time: @time, trip: @trip2}}
+    @schedule_pair0  {%Schedule{time: @time, trip: @trip0}, %Schedule{time: @time, trip: @trip0}}
+    @schedule_pair1  {%Schedule{time: @time, trip: @trip1}, %Schedule{time: @time, trip: @trip1}}
+    @schedule_pair2  {%Schedule{time: @time, trip: @trip2}, %Schedule{time: @time, trip: @trip2}}
     test "schedules are grouped by trip id" do
       origin_predictions = [%Prediction{time: @time, trip: @trip0}, %Prediction{time: @time, trip: @trip1}]
       destination_predictions = [%Prediction{time: @time, trip: @trip0}, %Prediction{time: @time, trip: @trip1}]
@@ -114,11 +114,19 @@ defmodule Site.ScheduleV2.BusViewTest do
       destination_predictions = [%Prediction{time: @time, trip: @trip2}]
       grouped_trips = group_trips([@schedule_pair0, @schedule_pair1, @schedule_pair2], origin_predictions, destination_predictions)
       prediction? = fn ({_,_,nil, nil}) -> false
-                       ({_,_, _, _}) -> true
+                      ({_,_, _, _}) -> true
                     end
 
       predictions = Enum.take_while(grouped_trips, &(prediction?.(&1)))
       assert Enum.count(predictions) == 2
+    end
+    test "with no predictions, returns all scheduled" do
+      grouped_trips = group_trips([@schedule_pair1, @schedule_pair2], [], [])
+      assert Enum.count(grouped_trips) == 2
+      for {_scheduled, _destination, departure_prediction, arrival_prediction} <- grouped_trips do
+        assert is_nil(departure_prediction)
+        assert is_nil(arrival_prediction)
+      end
     end
   end
 end

@@ -102,7 +102,7 @@ defmodule Site.ScheduleV2.BusView do
   defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination}, {:arrival, prediction}]}) do
     {schedule, destination, nil, prediction}
   end
-  defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination}]}) do
+  defp normalize_group({_, [{%Schedule{} = schedule, %Schedule{} = destination} | _]}) do
     {schedule, destination, nil, nil}
   end
   defp normalize_group(_) do # Prediction without available trip
