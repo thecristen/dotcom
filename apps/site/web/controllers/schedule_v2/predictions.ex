@@ -29,29 +29,14 @@ defmodule Site.ScheduleV2Controller.Predictions do
                               destination: dest_id,
                               route: %{id: route_id},
                               direction_id: direction_id}} = conn, _, predictions_fn)
-  when not is_nil(stop_id) and not is_nil(dest_id) do
-    predictions = [direction_id: direction_id, stop: stop_id, route: route_id]
-    |> predictions_fn.()
-
-    conn
-    |> assign(:predictions, predictions)
-    |> assign_destination_predictions(route_id, dest_id, predictions_fn)
-  end
-  def assign_predictions(%{assigns: %{
-                              origin: stop_id,
-                              route: %{id: route_id},
-                              direction_id: direction_id}} = conn, _, predictions_fn)
   when not is_nil(stop_id) do
-    predictions = [direction_id: direction_id, stop: stop_id, route: route_id]
+    stops = Enum.join([stop_id, dest_id], ",")
+    predictions = [direction_id: direction_id, stop: stops, route: route_id]
     |> predictions_fn.()
 
     assign(conn, :predictions, predictions)
   end
   def assign_predictions(conn, _, _) do
     assign(conn, :predictions, [])
-  end
-
-  defp assign_destination_predictions(conn, route_id, stop_id, predictions_fn) do
-    assign(conn, :destination_predictions, predictions_fn.([route: route_id, stop: stop_id]))
   end
 end
