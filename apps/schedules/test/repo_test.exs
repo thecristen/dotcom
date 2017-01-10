@@ -8,7 +8,7 @@ defmodule Schedules.RepoTest do
     test "can take a route/direction/sequence/date" do
       response = all(
         route: "CR-Lowell",
-        date: Timex.today,
+        date: Util.service_date,
         direction_id: 1,
         stop_sequence: "first")
       assert response != []
@@ -18,7 +18,7 @@ defmodule Schedules.RepoTest do
     test "returns the parent station as the stop" do
       response = all(
         route: "Red",
-        date: Timex.today,
+        date: Util.service_date,
         direction_id: 0,
         stop_sequence: "first")
       assert response != []
@@ -47,7 +47,7 @@ defmodule Schedules.RepoTest do
     test "returns a list of stops in order of their stop_sequence" do
       response = stops(
         "CR-Lowell",
-        date: Timex.today,
+        date: Util.service_date,
         direction_id: 1)
 
       assert response != []
@@ -76,7 +76,7 @@ defmodule Schedules.RepoTest do
       # stops multiple times at Sullivan
       response = stops(
         "86",
-        date: Timex.today,
+        date: Util.service_date,
         direction_id: 1)
 
       assert response != []
@@ -104,7 +104,7 @@ defmodule Schedules.RepoTest do
     end
 
     test "returns a %Schedule.Trip{} for a given ID" do
-      schedules = all(route: "1", date: Timex.today |> Timex.shift(days: 1), stop_sequence: :first, direction_id: 0)
+      schedules = all(route: "1", date: Util.service_date |> Timex.shift(days: 1), stop_sequence: :first, direction_id: 0)
       scheduled_trip = List.first(schedules).trip
       assert scheduled_trip == trip(scheduled_trip.id)
     end
@@ -112,7 +112,7 @@ defmodule Schedules.RepoTest do
 
   describe "origin_destination/3" do
     test "returns pairs of Schedule items" do
-      today = Timex.today |> Timex.format!("{ISOdate}")
+      today = Util.service_date |> Timex.format!("{ISOdate}")
       response = origin_destination("Anderson/ Woburn", "North Station",
         date: today, direction_id: 1)
       [{origin, dest}|_] = response
@@ -124,7 +124,7 @@ defmodule Schedules.RepoTest do
     end
 
     test "does not require a direction id" do
-      today = Timex.today |> Timex.format!("{ISOdate}")
+      today = Util.service_date |> Timex.format!("{ISOdate}")
       no_direction_id = origin_destination("Anderson/ Woburn", "North Station",
         date: today)
       direction_id = origin_destination("Anderson/ Woburn", "North Station",

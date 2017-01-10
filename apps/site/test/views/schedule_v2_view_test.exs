@@ -93,7 +93,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "pretty_date/1" do
     test "it is today when the date given is todays date" do
-      assert pretty_date(Timex.today) == "Today"
+      assert pretty_date(Util.service_date) == "Today"
     end
 
     test "it abbreviates the month when the date is not today" do

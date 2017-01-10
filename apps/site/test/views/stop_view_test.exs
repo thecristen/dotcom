@@ -140,7 +140,7 @@ defmodule Site.StopViewTest do
       route_id = "CR-Fairmount"
       direction_id = 1
       trip_id = "CR-Weekday-Fall-16-823"
-      now = Timex.to_datetime {Timex.to_erl(Timex.today), {14,0,0}}
+      now = Timex.to_datetime {Timex.to_erl(Util.service_date), {14,0,0}}
       later = Timex.shift now, seconds: 45
       predictions = [
         %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: later}
