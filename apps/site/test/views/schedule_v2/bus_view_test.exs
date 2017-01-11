@@ -68,65 +68,20 @@ defmodule Site.ScheduleV2.BusViewTest do
     end
   end
 
-  describe "display_time/2" do
-    test "Prediction is used if one is given" do
-      prediction_time = Timex.parse!("Tue, 05 Mar 2013 23:25:19 Z", "{RFC1123z}")
-      prediction = %Prediction{time: prediction_time}
-      scheduled = %Schedule{time: Timex.parse!("Tue, 05 Mar 2013 11:02:19 Z", "{RFC1123z}")}
-      actual = safe_to_string(display_time(scheduled, prediction))
+  describe "display_scheduled_prediction/1" do
+    @schedule_time Timex.now
+    @prediction_time Timex.shift(@schedule, hours: 1)
 
-      assert actual =~ Timex.format!(prediction_time, "{0h12}:{m}{AM}")
-      assert actual =~ "fa fa-rss"
+    test "Prediction is used if one is given" do
+      display_time = display_scheduled_prediction({%Schedule{time: @schedule_time}, %Prediction{time: @prediction_time}})
+      assert safe_to_string(display_time) =~ format_schedule_time(@prediction_time)
+      assert safe_to_string(display_time) =~ "fa fa-rss"
     end
 
     test "Scheduled time is used if no prediction is available" do
-      scheduled_time = Timex.parse!("Tue, 05 Mar 2013 23:25:19 Z", "{RFC1123z}")
-      scheduled = %Schedule{time: scheduled_time}
-      actual = safe_to_string(display_time(scheduled, nil))
-
-      assert actual =~ Timex.format!(scheduled_time, "{0h12}:{m}{AM}")
-      refute actual =~ "fa fa-rss"
-    end
-  end
-
-  describe "group_trips/3" do
-    @trip0  %Trip{id: 0}
-    @trip1  %Trip{id: 1}
-    @trip2  %Trip{id: 2}
-    @time Timex.now()
-
-    @schedule_pair0  {%Schedule{time: @time, trip: @trip0}, %Schedule{time: @time, trip: @trip0}}
-    @schedule_pair1  {%Schedule{time: @time, trip: @trip1}, %Schedule{time: @time, trip: @trip1}}
-    @schedule_pair2  {%Schedule{time: @time, trip: @trip2}, %Schedule{time: @time, trip: @trip2}}
-    test "schedules are grouped by trip id" do
-      origin_predictions = [%Prediction{time: @time, trip: @trip0}, %Prediction{time: @time, trip: @trip1}]
-      destination_predictions = [%Prediction{time: @time, trip: @trip0}, %Prediction{time: @time, trip: @trip1}]
-      grouped_trips = group_trips([@schedule_pair0, @schedule_pair1], origin_predictions, destination_predictions)
-
-      assert Enum.count(grouped_trips) == 2
-      for {scheduled, _, departure_prediction, arrival_prediction} <- grouped_trips do
-        assert scheduled.trip.id == departure_prediction.trip.id
-        assert scheduled.trip.id == arrival_prediction.trip.id
-      end
-    end
-    test "Predictions are shown first" do
-      origin_predictions = [%Prediction{time: @time, trip: @trip1}]
-      destination_predictions = [%Prediction{time: @time, trip: @trip2}]
-      grouped_trips = group_trips([@schedule_pair0, @schedule_pair1, @schedule_pair2], origin_predictions, destination_predictions)
-      prediction? = fn ({_,_,nil, nil}) -> false
-                      ({_,_, _, _}) -> true
-                    end
-
-      predictions = Enum.take_while(grouped_trips, &(prediction?.(&1)))
-      assert Enum.count(predictions) == 2
-    end
-    test "with no predictions, returns all scheduled" do
-      grouped_trips = group_trips([@schedule_pair1, @schedule_pair2], [], [])
-      assert Enum.count(grouped_trips) == 2
-      for {_scheduled, _destination, departure_prediction, arrival_prediction} <- grouped_trips do
-        assert is_nil(departure_prediction)
-        assert is_nil(arrival_prediction)
-      end
+      display_time = display_scheduled_prediction({%Schedule{time: @schedule_time}, nil})
+      assert safe_to_string(display_time) =~ format_schedule_time(@schedule_time)
+      refute safe_to_string(display_time) =~ "fa fa-rss"
     end
   end
 end

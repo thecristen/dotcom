@@ -4,7 +4,7 @@
       <div class="col-xs-6">Departure</div>
       <div class="col-xs-6">Arrival</div>
     </div>
-    <%= for {departure, arrival} <- group_trips(@schedules, @predictions) do %>
+    <%= for {departure, arrival} <- group_trips(@schedules, @predictions, @origin, @destination) do %>
       <a class="schedule-list-group-item" <%# href="TODO" %>>
         <div class="col-xs-6">
           <%= display_scheduled_prediction(departure) %>

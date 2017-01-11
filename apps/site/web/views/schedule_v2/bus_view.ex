@@ -4,7 +4,8 @@ defmodule Site.ScheduleV2.BusView do
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
 
-  @type scheduled_prediction :: {Schedule.t, Prediction.t | nil}
+  @type optional_schedule :: Schedule.t | nil
+  @type scheduled_prediction :: {optional_schedule, Prediction.t | nil}
 
   @doc """
   Given a list of schedules, returns a display of the route direction. Assumes all
@@ -51,7 +52,8 @@ defmodule Site.ScheduleV2.BusView do
 
 
   @doc "Display Prediction time with rss icon if available. Otherwise display scheduled time"
-  @spec display_scheduled_prediction(scheduled_prediction) :: Phoenix.HTML.Safe.t
+  @spec display_scheduled_prediction(scheduled_prediction) :: Phoenix.HTML.Safe.t | String.t
+  def display_scheduled_prediction({nil, nil}), do: ""
   def display_scheduled_prediction({scheduled, nil}) do
     content_tag :span do
       format_schedule_time(scheduled.time)
@@ -68,23 +70,25 @@ defmodule Site.ScheduleV2.BusView do
   end
 
   @doc "Group schedules and predictions together according to trip_id and stop_id"
-  @spec group_trips([Schedule.t], [Prediction.t]) :: [{scheduled_prediction, scheduled_prediction}]
-  def group_trips(schedules, predictions) do
+  @spec group_trips([Schedule.t], [Prediction.t], String.t, String.t) :: [{scheduled_prediction, scheduled_prediction}]
+  def group_trips(schedules, predictions, origin, dest) do
     schedule_map = Map.new(schedules, &trip_id_and_schedule_pair/1)
-    prediction_map = Map.new(predictions, &trip_stop_and_prediction/1)
+    prediction_map = Enum.reduce(predictions, %{}, &build_prediction_map/2)
 
     schedule_map
     |> get_trip_ids(predictions)
-    |> Enum.map(&(predicted_schedule_pairs(&1, schedule_map, prediction_map)))
+    |> Enum.map(&(predicted_schedule_pairs(&1, schedule_map, prediction_map, origin, dest)))
     |> Enum.sort_by(&prediction_sorter/1)
   end
 
-  @spec predicted_schedule_pairs(String.t, %{String.t => {Schedule.t, Schedule.t}}, %{{String.t, String.t} => Prediction.t}) :: {scheduled_prediction, scheduled_prediction}
-  defp predicted_schedule_pairs(trip_id, schedule_map, prediction_map) do
-    {departure, arrival} = Map.get(schedule_map, trip_id)
-    departure_prediction = {departure, Map.get(prediction_map, {trip_id, departure.stop.id})}
-    arrival_prediction = {arrival, Map.get(prediction_map, {trip_id, arrival.stop.id})}
-    {departure_prediction, arrival_prediction}
+  @spec predicted_schedule_pairs(String.t, %{String.t => {Schedule.t, Schedule.t}}, %{{String.t, String.t} => Prediction.t}, String.t, String.t) :: {scheduled_prediction, scheduled_prediction}
+  defp predicted_schedule_pairs(trip_id, schedule_map, prediction_map, origin, dest) do
+    departure_prediction = get_in(prediction_map, [trip_id, origin])
+    arrival_prediction = get_in(prediction_map, [trip_id, dest])
+    case Map.get(schedule_map, trip_id) do
+      {departure, arrival} -> {{departure, departure_prediction}, {arrival, arrival_prediction}}
+      nil -> {{nil, departure_prediction}, {nil, arrival_prediction}}
+    end
   end
 
   @spec get_trip_ids(%{String.t => {Schedule.t, Schedule.t}}, [Prediction.t]) :: [String.t]
@@ -100,12 +104,23 @@ defmodule Site.ScheduleV2.BusView do
     {schedule.trip.id, {schedule, destination}}
   end
 
+  defp build_prediction_map(prediction, prediction_map) do
+    case Map.has_key?(prediction_map, prediction.trip.id) do
+      false -> Map.put(prediction_map, prediction.trip.id, %{prediction.stop_id => prediction})
+      true -> put_in(prediction_map, [prediction.trip.id, prediction.stop_id], prediction)
+    end
+  end
+
   @spec trip_stop_and_prediction(Prediction.t) :: {{String.t, String.t}, Prediction.t}
   defp trip_stop_and_prediction(prediction) do
-    {{prediction.trip.id, prediction.stop_id}, prediction}
+    {prediction.trip.id, %{prediction.stop_id => prediction}}
   end
 
   @spec prediction_sorter({scheduled_prediction, scheduled_prediction}) :: {integer, DateTime.t}
-  defp prediction_sorter({{departure, nil}, {_arrival, nil}}), do: {1, departure.time}
-  defp prediction_sorter({{departure, _departure_prediction}, {_arrival, _arrival_prediction}}), do: {0, departure.time}
+  defp prediction_sorter({{nil, departure}, {nil, _arrival}}) when not is_nil(departure), do: {0, departure.time}
+  defp prediction_sorter({{nil, _departure}, {nil, arrival}}), do: {0, arrival.time}
+  defp prediction_sorter({{_departure, departure_prediction}, {_, _}}) when not is_nil(departure_prediction), do: {0, departure_prediction.time}
+  defp prediction_sorter({{_departure, nil}, {_arrival, arrival_prediction}}) when not is_nil(arrival_prediction), do: {0, arrival_prediction.time}
+  defp prediction_sorter({{departure, _}, {_arrival, _}}), do: {1, departure.time}
+
 end
