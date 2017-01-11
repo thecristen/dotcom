@@ -39,5 +39,6 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def title(%Routes.Route{id: "Blue"}), do: Site.ViewHelpers.mode_name(:blue_line)
   def title(%Routes.Route{id: "Mattapan"}), do: Site.ViewHelpers.mode_name(:mattapan_line)
   def title(%Routes.Route{id: "Green" <> _}), do: Site.ViewHelpers.mode_name(:green_line)
+  def title(%Routes.Route{type: type}), do: Site.ViewHelpers.mode_name(type)
   def title(_icon), do: ""
 end
