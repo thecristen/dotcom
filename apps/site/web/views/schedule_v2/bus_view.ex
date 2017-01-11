@@ -69,7 +69,12 @@ defmodule Site.ScheduleV2.BusView do
     end
   end
 
-  @doc "Group schedules and predictions together according to trip_id and stop_id"
+  @doc """
+  Groups schedules and predictions together according to trip_id and stop_id.
+  The end is results is a list of {scheduled_prediction, scheduled_prediction}.
+  Each {scheduled_prediction, scheduled_prediction} tuple belongs to the same trip.
+  Each scheduled_prediction is a schedule and prediction that belong to the same stop.
+  """
   @spec group_trips([Schedule.t], [Prediction.t], String.t, String.t) :: [{scheduled_prediction, scheduled_prediction}]
   def group_trips(schedules, predictions, origin, dest) do
     schedule_map = Map.new(schedules, &trip_id_and_schedule_pair/1)
@@ -83,8 +88,8 @@ defmodule Site.ScheduleV2.BusView do
 
   @spec predicted_schedule_pairs(String.t, %{String.t => {Schedule.t, Schedule.t}}, %{String.t => %{String.t => Prediction.t}}, String.t, String.t) :: {scheduled_prediction, scheduled_prediction}
   defp predicted_schedule_pairs(trip_id, schedule_map, prediction_map, origin, dest) do
-    departure_prediction = get_in(prediction_map, [trip_id, origin])
-    arrival_prediction = get_in(prediction_map, [trip_id, dest])
+    departure_prediction = prediction_map[trip_id][origin]
+    arrival_prediction = prediction_map[trip_id][dest]
     case Map.get(schedule_map, trip_id) do
       {departure, arrival} -> {{departure, departure_prediction}, {arrival, arrival_prediction}}
       nil -> {{nil, departure_prediction}, {nil, arrival_prediction}}
@@ -100,18 +105,19 @@ defmodule Site.ScheduleV2.BusView do
   end
 
   @spec trip_id_and_schedule_pair({Schedule.t, Schedule.t}) :: {String.t, {Schedule.t, Schedule.t}}
-  defp trip_id_and_schedule_pair({schedule, destination}) do
-    {schedule.trip.id, {schedule, destination}}
+  defp trip_id_and_schedule_pair({departure, arrival}) do
+    {departure.trip.id, {departure, arrival}}
   end
 
   @spec build_prediction_map(Prediction.t, %{String.t => %{String.t => Prediction.t}}) :: %{String.t => %{String.t => Prediction.t}}
   defp build_prediction_map(prediction, prediction_map) do
-    case Map.has_key?(prediction_map, prediction.trip.id) do
-      false -> Map.put(prediction_map, prediction.trip.id, %{prediction.stop_id => prediction})
-      true -> put_in(prediction_map, [prediction.trip.id, prediction.stop_id], prediction)
-    end
+    updater = fn(trip_id_map) -> Map.merge(trip_id_map, %{prediction.stop_id => prediction}) end
+    Map.update(prediction_map, prediction.trip.id, %{prediction.stop_id => prediction}, updater)
   end
 
+  # The expected result is a tuple: {int, time}.
+  # Predictions are of the form {0, time} and schedules are of the form {1, time}
+  # This ensures predictions are shown first, and then sorted by ascending time
   @spec prediction_sorter({scheduled_prediction, scheduled_prediction}) :: {integer, DateTime.t}
   defp prediction_sorter({{nil, departure}, {nil, _arrival}}) when not is_nil(departure), do: {0, departure.time}
   defp prediction_sorter({{nil, _departure}, {nil, arrival}}), do: {0, arrival.time}
