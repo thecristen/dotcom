@@ -81,7 +81,7 @@ defmodule Site.ScheduleV2.BusView do
     |> Enum.sort_by(&prediction_sorter/1)
   end
 
-  @spec predicted_schedule_pairs(String.t, %{String.t => {Schedule.t, Schedule.t}}, %{{String.t, String.t} => Prediction.t}, String.t, String.t) :: {scheduled_prediction, scheduled_prediction}
+  @spec predicted_schedule_pairs(String.t, %{String.t => {Schedule.t, Schedule.t}}, %{String.t => %{String.t => Prediction.t}}, String.t, String.t) :: {scheduled_prediction, scheduled_prediction}
   defp predicted_schedule_pairs(trip_id, schedule_map, prediction_map, origin, dest) do
     departure_prediction = get_in(prediction_map, [trip_id, origin])
     arrival_prediction = get_in(prediction_map, [trip_id, dest])
@@ -104,16 +104,12 @@ defmodule Site.ScheduleV2.BusView do
     {schedule.trip.id, {schedule, destination}}
   end
 
+  @spec build_prediction_map(Prediction.t, %{String.t => %{String.t => Prediction.t}}) :: %{String.t => %{String.t => Prediction.t}}
   defp build_prediction_map(prediction, prediction_map) do
     case Map.has_key?(prediction_map, prediction.trip.id) do
       false -> Map.put(prediction_map, prediction.trip.id, %{prediction.stop_id => prediction})
       true -> put_in(prediction_map, [prediction.trip.id, prediction.stop_id], prediction)
     end
-  end
-
-  @spec trip_stop_and_prediction(Prediction.t) :: {{String.t, String.t}, Prediction.t}
-  defp trip_stop_and_prediction(prediction) do
-    {prediction.trip.id, %{prediction.stop_id => prediction}}
   end
 
   @spec prediction_sorter({scheduled_prediction, scheduled_prediction}) :: {integer, DateTime.t}

@@ -27,7 +27,7 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
 
       assert conn.assigns[:predictions] == [
         direction_id: "0",
-        stop: "place-sstat",
+        stop: "place-sstat,",
         route: "4"
       ]
     end
