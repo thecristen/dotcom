@@ -1,0 +1,38 @@
+<div class="col-xs-12">
+  <table class="schedule-v2-timetable">
+    <thead>
+      <tr>
+        <td>
+          Stop
+        </td>
+        <td class="time-column-header"><%= earlier_link(@conn) %></td>
+        <% header_schedules = offset_schedules(@all_schedules, @conn) %>
+        <%= for schedule <- header_schedules do %>
+          <td>
+            <%= schedule.trip.name %>
+          </td>
+        <% end %>
+        <td class="time-column-header"><%= later_link(@conn) %></td>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for stop <- @all_stops do %>
+        <tr>
+          <td>
+            <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
+          </td>
+          <td class="time-column"></td>
+          <%= for schedule <- header_schedules do %>
+            <% trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] %>
+            <td>
+              <%= if trip_schedule do %>
+                <%= format_schedule_time(trip_schedule.time) %>
+              <% end %>
+            </td>
+          <% end %>
+          <td class="time-column"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

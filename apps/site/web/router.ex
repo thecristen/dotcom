@@ -59,6 +59,7 @@ defmodule Site.Router do
     get "/bus/origin_destination/:route", BusController, :origin_destination
     get "/bus/:route", BusController, :show
     get "/frequency/:route", BusController, :frequency
+    get "/commuter_rail/timetable/:route", CommuterRailController, :timetable
   end
 
   # This needs to go last so that it catches any URLs that fall through.
