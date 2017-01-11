@@ -20,9 +20,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
   """
   def assign_predictions(%{assigns: %{date: date}} = conn, service_date, _)
   when date != service_date do
-    conn
-    |> assign(:predictions, [])
-    |> assign(:destination_predictions, [])
+    assign(conn, :predictions, [])
   end
   def assign_predictions(%{assigns: %{
                               origin: stop_id,
