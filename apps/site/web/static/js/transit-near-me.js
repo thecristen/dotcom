@@ -1,4 +1,5 @@
-export default function() {
+export default function($) {
+  $ = $ || window.jQuery;
   function setupTNM() {
     if (typeof google != "undefined") { // only load on pages that are using TNM
       var placeInput = document.getElementById("place-input")
@@ -56,6 +57,5 @@ export default function() {
   window.addEventListener("resize", setClientWidth);
   setClientWidth();
 
-  $(document).on('turbolinks:load', setupTNM);
-
+  $(window).on("google_ready", setupTNM);
 }
