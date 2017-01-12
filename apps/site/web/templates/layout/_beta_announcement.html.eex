@@ -1,14 +1,11 @@
-<div class="col-xs-10 col-md-11">
-  We’re in BETA, and we’re only releasing a few features at a time to get your feedback. Please check out the new site and <%= link to: feedback_form_url() do %><u>submit your thoughts</u><% end %> to help us make the best possible website for you.
+<div class="beta-announcement">
+  We’re in BETA, and we’re only releasing a few features at a time to get your feedback. Please check out the new site and <%= link to: feedback_form_url(), class: "beta-announcement-link" do %>submit your thoughts<% end %> to help us make the best possible website for you.
 </div>
-<div class="col-xs-2 col-md-1 text-xs-right">
-  <a
-      id="beta-announcement-dismiss"
-      class="btn btn-s btn-link p-a-0"
-      href="<%= @conn.request_path %>?<%= BetaAnnouncement.Plug.hide_cookie_param() %>&<%= @conn.query_string %>"
-      role="button"
-      data-cookie-name="<%= BetaAnnouncement.beta_announcement_cookie() %>"
-  >
-    <%= fa "times-circle" %><span class="sr-only">Dismiss this announcement</span>
-  </a>
-</div>
+<a
+  id="beta-announcement-dismiss"
+  class="pull-xs-right"
+  href="<%= @conn.request_path %>?<%= BetaAnnouncement.Plug.hide_cookie_param() %>&<%= @conn.query_string %>"
+  role="button"
+  data-cookie-name="<%= BetaAnnouncement.beta_announcement_cookie() %>">
+  <%= fa "times-circle" %><span class="sr-only">Dismiss this announcement</span>
+</a>
