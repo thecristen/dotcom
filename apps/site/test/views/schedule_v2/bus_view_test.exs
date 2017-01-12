@@ -4,6 +4,7 @@ defmodule Site.ScheduleV2.BusViewTest do
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
   import Site.ScheduleV2.BusView
+  import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
@@ -66,4 +67,75 @@ defmodule Site.ScheduleV2.BusViewTest do
       assert merged == List.flatten [predictions, List.last(schedules)]
     end
   end
+
+  describe "display_scheduled_prediction/1" do
+    @schedule_time Timex.now
+    @prediction_time Timex.shift(@schedule_time, hours: 1)
+
+    test "Prediction is used if one is given" do
+      display_time = display_scheduled_prediction({%Schedule{time: @schedule_time}, %Prediction{time: @prediction_time}})
+      assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@prediction_time)
+      assert safe_to_string(display_time) =~ "fa fa-rss"
+    end
+
+    test "Scheduled time is used if no prediction is available" do
+      display_time = display_scheduled_prediction({%Schedule{time: @schedule_time}, nil})
+      assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@schedule_time)
+      refute safe_to_string(display_time) =~ "fa fa-rss"
+    end
+
+    test "Empty string returned if no value available in predicted_schedule pair" do
+      assert display_scheduled_prediction({nil, nil}) == ""
+    end
+  end
+
+  describe "group_trips/4" do
+    @schedule_time Timex.now
+    @prediction_time Timex.shift(@schedule_time, hours: 1)
+    @origin "origin"
+    @dest "dest"
+
+    @trip1 %Trip{id: 1}
+    @trip2 %Trip{id: 2}
+    @trip3 %Trip{id: 3}
+
+    @schedule_pair1 {%Schedule{trip: @trip1, time: @schedule_time}, %Schedule{trip: @trip1, time: @prediction_time}}
+    @schedule_pair2 {%Schedule{trip: @trip2, time: @schedule_time}, %Schedule{trip: @trip2, time: @prediction_time}}
+    @schedule_pair3 {%Schedule{trip: @trip3, time: @schedule_time}, %Schedule{trip: @trip3, time: @prediction_time}}
+
+    @origin_prediction1 %Prediction{trip: @trip1, stop_id: @origin, time: @prediction_time}
+    @dest_prediction1 %Prediction{trip: @trip1, stop_id: @dest, time: @prediction_time}
+    @origin_prediction2 %Prediction{trip: @trip2, stop_id: @origin, time: @prediction_time}
+    @dest_prediction2 %Prediction{trip: @trip2, stop_id: @dest, time: @prediction_time}
+
+    test "Predictions are shown if there are no corresponding schedules" do
+      trips = group_trips([@schedule_pair3], [@origin_prediction1, @dest_prediction1, @dest_prediction2], @origin, @dest)
+      assert Enum.count(trips) == 3
+      assert match?({{nil, _prediction}, {nil, _prediction2}}, List.first(trips))
+      assert match?({{_departure, nil}, {_arrival, nil}}, List.last(trips))
+    end
+
+    test "Predictions are shown first" do
+      schedules = [@schedule_pair1, @schedule_pair2, @schedule_pair3]
+      predictions = [@origin_prediction1, @dest_prediction1, @dest_prediction2, @origin_prediction2]
+      trips = group_trips(schedules, predictions, @origin, @dest)
+
+      predicted_schedules = Enum.take_while(trips, &prediction?/1)
+      assert Enum.count(predicted_schedules) == 2
+    end
+
+    test "Predictions are paired by origin and destination" do
+      schedules = [@schedule_pair1, @schedule_pair2]
+      predictions = [@origin_prediction1, @dest_prediction1, @dest_prediction2, @origin_prediction2]
+      trips = group_trips(schedules, predictions, @origin, @dest)
+
+      for {{_departure, departure_prediction}, {_arrival, arrival_prediction}} <- trips do
+        assert departure_prediction.stop_id == @origin
+        assert arrival_prediction.stop_id == @dest
+      end
+    end
+  end
+
+  defp prediction?({{_, nil}, {_, nil}}), do: false
+  defp prediction?(_), do: true
 end

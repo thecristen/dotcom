@@ -27,7 +27,8 @@ defmodule Site.ScheduleV2Controller.Predictions do
                               route: %{id: route_id},
                               direction_id: direction_id}} = conn, _, predictions_fn)
   when not is_nil(stop_id) do
-    predictions = [direction_id: direction_id, stop: stop_id, route: route_id]
+    stops = Enum.join([stop_id, Map.get(conn.assigns, :destination)], ",")
+    predictions = [direction_id: direction_id, stop: stops, route: route_id]
     |> predictions_fn.()
 
     assign(conn, :predictions, predictions)
