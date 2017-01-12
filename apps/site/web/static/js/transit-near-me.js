@@ -49,6 +49,12 @@ export default function($) {
         }
       };
     }
+    else {
+      window.setupTNM = function() {
+        window.setupTNM = undefined;
+        setupTNM();
+      }
+    }
   }
 
   function setClientWidth() {
@@ -57,5 +63,5 @@ export default function($) {
   window.addEventListener("resize", setClientWidth);
   setClientWidth();
 
-  $(window).on("google_ready", setupTNM);
+  $(document).on('turbolinks:load', setupTNM);
 }

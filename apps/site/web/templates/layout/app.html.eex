@@ -24,6 +24,11 @@
     <link rel="preload" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" as="script">
     <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">
     <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
+    <%= if assigns[:requires_google_maps?] do %>
+      <script async defer src="<%= raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places&callback=setupTNM") %>">
+        window.setupTNM = function() {};
+      </script>
+    <% end %>
   </head>
 
   <body class="<%= Site.BodyClass.class_name(@conn) %>">
@@ -164,19 +169,6 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" data-turbolinks-eval="false"></script>
     <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
-    <%= if assigns[:requires_google_maps?] do %>
-      <script>
-        if (typeof google === "undefined") {
-          var api_url = "<%= raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>";
-          $.getScript(api_url, function(data, status, jqxhr) {
-            $(window).trigger("google_ready");
-          });
-        }
-        else {
-          $(window).trigger("google_ready");
-        }
-      </script>
-    <% end %>
     <%= if google_tag_manager_id() do %>
       <noscript><iframe src="//www.googletagmanager.com/ns.html?id=<%= google_tag_manager_id() %>" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','<%= google_tag_manager_id() %>');</script>
     <% end %>
