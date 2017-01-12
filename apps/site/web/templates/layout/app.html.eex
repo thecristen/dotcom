@@ -25,7 +25,9 @@
     <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">
     <link rel=icon href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
     <%= if assigns[:requires_google_maps?] do %>
-      <script type="text/javascript" src=<%= GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places") %>></script>
+      <script async defer src="<%= raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places&callback=setupTNM") %>">
+        window.setupTNM = function() {};
+      </script>
     <% end %>
   </head>
 

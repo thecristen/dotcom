@@ -1,4 +1,5 @@
-export default function() {
+export default function($) {
+  $ = $ || window.jQuery;
   function setupTNM() {
     if (typeof google != "undefined") { // only load on pages that are using TNM
       var placeInput = document.getElementById("place-input")
@@ -48,6 +49,12 @@ export default function() {
         }
       };
     }
+    else {
+      window.setupTNM = function() {
+        window.setupTNM = undefined;
+        setupTNM();
+      }
+    }
   }
 
   function setClientWidth() {
@@ -57,5 +64,4 @@ export default function() {
   setClientWidth();
 
   $(document).on('turbolinks:load', setupTNM);
-
 }
