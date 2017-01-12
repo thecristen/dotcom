@@ -166,9 +166,9 @@ defmodule Site.Plugs.TransitNearMeTest do
       assert test_val =~ "seem to be any stations"
     end
 
-    test "flashes errors from private if there are any", %{conn: conn} do
+    test "flashes errors if there are any", %{conn: conn} do
       conn = conn
-      |> put_private(:error, "bad address")
+      |> assign(:error, "bad address")
       |> bypass_through(Site.Router, :browser)
       |> get("/")
       |> flash_if_error
@@ -197,7 +197,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> assign_address(google_maps_result)
 
       assert conn.assigns.address == ""
-      assert conn.private[:error] == "The address you've listed appears to be invalid. Please try a new address to continue."
+      assert conn.assigns.error == "The address you've listed appears to be invalid. Please try a new address to continue."
     end
   end
 
