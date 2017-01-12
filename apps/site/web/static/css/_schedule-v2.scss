@@ -66,3 +66,45 @@
 .schedule-v2-frequency-time {
   font-size: .875rem;
 }
+
+.schedule-v2-timetable {
+  border-bottom: 2rem solid $brand-primary-darkest;
+  max-width: 100%;
+  width: 100%;
+
+  td {
+    padding: .5rem 1rem;
+
+    &.time-column-header {
+      padding: 0;
+    }
+  }
+
+  thead {
+    background-color: $brand-primary-darkest;
+    color: $white;
+    font-weight: bold;
+
+    a {
+      color: $white;
+
+      @include hover-focus-active {
+        color: $white;
+      }
+    }
+  }
+
+  tbody td {
+    border-bottom: 1px solid $gray-lightest;
+
+    &.time-column {
+      background-color: $gray-lightest;
+      border: 0;
+    }
+  }
+
+  // scss-lint:disable SelectorDepth
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+}
