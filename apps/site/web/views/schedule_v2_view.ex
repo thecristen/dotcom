@@ -7,11 +7,16 @@ defmodule Site.ScheduleV2View do
     conn
     |> Site.ViewHelpers.update_query(query)
     |> Map.pop("route")
-    |> do_update_schedule_url(conn)
+    |> elem(1)
+    |> do_update_url(conn)
   end
 
-  defp do_update_schedule_url({nil, new_query}, conn), do: green_path(conn, :green, new_query |> Enum.into([]))
-  defp do_update_schedule_url({route, new_query}, conn), do: bus_path(conn, :show, route, new_query |> Enum.into([]))
+  defp do_update_url(updated, conn) when updated == %{} do
+    conn.request_path
+  end
+  defp do_update_url(updated, conn) do
+    "#{conn.request_path}?#{URI.encode_query(updated)}"
+  end
 
   @doc "Subtract one month from given date"
   @spec decrement_month(Date.t) :: Date.t

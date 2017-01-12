@@ -21,7 +21,7 @@ defmodule Site.ScheduleV2.CommuterRailView do
   @spec earlier_link(Plug.Conn.t) :: Phoenix.HTML.Safe.t
   def earlier_link(%Plug.Conn{assigns: %{offset: offset}} = conn) do
     schedule_time_link(
-      update_url(conn, offset: offset - 1),
+      Site.ScheduleV2View.update_schedule_url(conn, offset: offset - 1),
       "earlier",
       "angle-left",
       offset == 0
@@ -32,7 +32,7 @@ defmodule Site.ScheduleV2.CommuterRailView do
   @spec later_link(Plug.Conn.t) :: Phoenix.HTML.Safe.t
   def later_link(%Plug.Conn{assigns: %{offset: offset, all_schedules: all_schedules}} = conn) do
     schedule_time_link(
-      update_url(conn, offset: offset + 1),
+      Site.ScheduleV2View.update_schedule_url(conn, offset: offset + 1),
       "later",
       "angle-right",
       offset >= length(all_schedules) - num_schedules()
@@ -53,4 +53,13 @@ defmodule Site.ScheduleV2.CommuterRailView do
       ]
     end
   end
+
+  @doc """
+  Displays the CR icon if given a non-nil vehicle location. Otherwise, displays nothing.
+  """
+  @spec vehicle_location(Vehicles.Vehicle.t | nil) :: Phoenix.HTML.Safe.t
+  def vehicle_location(%Vehicles.Vehicle{}) do
+    svg_icon %SvgIcon{icon: :commuter_rail}
+  end
+  def vehicle_location(_location), do: ""
 end

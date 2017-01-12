@@ -48,4 +48,17 @@ defmodule Site.ScheduleV2.CommuterRailViewTest do
       assert result =~ "There are no later trips"
     end
   end
+
+  describe "vehicle_location/1" do
+    test "given nil, returns the empty string" do
+      assert vehicle_location(nil) == ""
+    end
+
+    test "otherwise, displays the CR icon" do
+      for status <- [:in_transit, :incoming, :stopped] do
+        icon = svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail})
+        assert vehicle_location(%Vehicles.Vehicle{status: status}) == icon
+      end
+    end
+  end
 end
