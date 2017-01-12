@@ -9,7 +9,7 @@
         <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
       </button>
       <% address = @conn.params["place_name"] || @address %>
-      <%= text_input f, :address, value: address, class: "transit-near-me-input", id: "place-input", data: [place_name: @conn.params["place_name"]], required: true %>
+      <%= text_input f, :address, placeholder: "Enter a location", value: address, class: "transit-near-me-input", id: "place-input", data: [place_name: @conn.params["place_name"]], required: true %>
       <%= text_input f, :client_width, id: "client-width", type: "hidden", value: 0 %>
       <button type="submit" class="btn btn-primary">GO</button>
       <div class="clear"></div>
