@@ -62,7 +62,7 @@ defmodule Site.TransitNearMeControllerTest do
   def search_near_address(conn, address, stops \\ [], width \\ "1200") do
     conn
     |> assign(:stops_with_routes, stops)
-    |> assign(:address, address)
+    |> assign(:tnm_address, address)
     |> Phoenix.Controller.put_view(Site.TransitNearMeView)
     |> bypass_through(Site.Router, :browser)
     |> get(transit_near_me_path(conn, :index, %{"location" => %{"client_width" => width}}))
