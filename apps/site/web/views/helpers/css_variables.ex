@@ -5,7 +5,7 @@ defmodule Site.StyleGuideView.CssVariables do
       Module.register_attribute __MODULE__, :colors, persist: true
       Module.register_attribute __MODULE__, :font_sizes, persist: true
       @colors parse_scss_variables "_colors"
-      @font_sizes parse_scss_variables("_font-sizes") |> Map.get("variables")
+      @font_sizes "_variables" |> parse_scss_variables |> Map.get("Font Sizes")
 
       def color_variable_groups do
         ["Primary Colors", "Secondary Colors", "Background Colors", "Grays", "Modes and Lines", "Alerts", "Social Media", "General"]

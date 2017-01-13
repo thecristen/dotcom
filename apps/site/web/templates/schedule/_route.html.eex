@@ -1,10 +1,6 @@
 <div class="schedule-route-name">
   <div class="schedule-route-name-container">
     <h1>
-      <% # This removes any route-specific names on the icon class %>
-      <span class="<%= @route.id |> String.downcase |> String.replace(~r/-.*/, "")%>">
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(@route)}) %>
-      </span>
       <%= route_header_text(@route) %>
     </h1>
     <%= render "_date_picker.html", date: @date, holidays: @holidays, date_select: @date_select, conn: @conn %>

@@ -1,22 +1,24 @@
-<%= for chunk <- @summary |> Enum.chunk(2, 2, []) do %>
-  <div class="row">
+<%= for chunk <- Enum.chunk(@summaries, 2, 2, []) do %>
+  <div class="fare-summary-container">
     <%= for summary <- chunk do %>
-      <div class="col-md-6 col-sm-12">
-        <span class="fare-summary-header">
+      <div class="fare-summary-entry">
+        <div class="fare-summary-name">
           <%= summary.name %>
-        </span>
-        <span class="fares-mode-icon">
-          <span class="sr-only">Supported Modes:</span>
-          <%= for mode <- summary.modes do %>
-            <span class="fares-mode-icon-group" aria-hidden="true"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %></span>
-            <span class="sr-only"><%= mode_name(mode) %></span>
-          <% end %>
-        </span>
-        <div class="mode-summary-box">
-          <%= for {fare, price} <- summary.fares do %>
-            <div class="media-fare-row">
-              <span class="mode-summary-name"><%= fare %></span>
-              <span class="mode-summary-price"><%= price %></span>
+          <span class="fare-summary-mode-icons">
+            <span class="sr-only">Valid on:</span>
+            <%= for mode <- summary.modes do %>
+              <span class="sr-only"><%= mode_name(mode) %></span>
+              <span class="fares-mode-icon-group" aria-hidden="true">
+                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %>
+              </span>
+            <% end %>
+          </span>
+        </div>
+        <div class="fare-summary-box">
+          <%= for {title, price} <- summary.fares do %>
+            <div class="fare-summary-fare">
+              <span class="fare-summary-fare-name"><%= title %></span>
+              <span class="fare-summary-fare-price"><%= price %></span>
             </div>
           <% end %>
         </div>

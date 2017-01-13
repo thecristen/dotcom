@@ -6,7 +6,7 @@ defmodule Site.Components.Tabs.ModeTabList do
 
   defstruct [
     id: "modes",
-    class: "m-y-1",
+    class: "",
     links: for mode <- [:bus, :commuter_rail, :subway, :ferry] do
              {mode, Site.Router.Helpers.schedule_path(Site.Endpoint, :show, mode)}
            end,

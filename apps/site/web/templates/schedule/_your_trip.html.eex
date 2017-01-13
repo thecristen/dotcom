@@ -43,7 +43,7 @@
   </strong>
 </p>
 <%= if Enum.any?(filtered_schedules, &Schedules.Schedule.flag?/1) do %>
-  <p class="schedule-callout m-t-1 m-b-0">
+  <p class="schedule-callout">
     <span class="schedule-flag">F</span>
     Indicates that the train stops to discharge passengers on notice to the Conductor and to pick up passengers on platform visible to Engineer.
   </p>

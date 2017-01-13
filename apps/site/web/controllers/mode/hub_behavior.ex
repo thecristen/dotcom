@@ -39,7 +39,6 @@ defmodule Site.Mode.HubBehavior do
     fares_task = Task.async(mode_strategy, :fares, [])
 
     render(conn, "hub.html",
-      route_type: mode_strategy.route_type(),
       routes: Task.await(routes_task),
       mode_name: mode_strategy.mode_name(),
       fares: Task.await(fares_task),

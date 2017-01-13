@@ -41,7 +41,7 @@
       <div class="heading">
         <div class="heading-name"><%= get_element_name(key) %></div>
         <div class="heading-example">
-          <<%= get_tag(key) %> style="font-size: <%= val %>">Welcome to the MBTA</<%= get_tag(key) %>>
+          <<%= get_tag(key) %> style="font-size: <%= val %>;">Welcome to the MBTA</<%= get_tag(key) %>>
         </div>
         <div class="heading-metadata">
           <p class="variable-name"><%= key %></p>

@@ -1,30 +1,17 @@
 @import 'variables';
 
-.schedule-route-name-container {
-  padding-bottom: 1rem;
-}
-
 .form-control.schedule-route-selector {
   // leave room for the route icon
   max-width: 80%;
   float: left;
 }
 
-.schedule-separator {
-  font-weight: 300;
-}
-
-.schedule-direction {
-  margin-bottom: .5em;
-}
-
 .schedule-callout {
   @extend %callout;
-  margin-bottom: .75rem;
 
   @include media-breakpoint-down(xs) {
-    margin: .5em auto;
     font-size: $font-size-sm;
+    margin: $space-8 auto;
 
     button {
       font-size: $font-size-sm;
@@ -38,12 +25,13 @@
 }
 
 .schedule-block {
-  padding-top: $space-12;
+  margin-top: $base-spacing;
 }
 
 .schedule-list-group {
   //scss-lint:disable PlaceholderInExtend
   @extend .list-group;
+  margin-bottom: $base-spacing;
 }
 
 .schedule-list-group-item {
@@ -51,8 +39,7 @@
   @extend .list-group-item;
   @include clearfix;
   display: block;
-  // left/right padding is reduced to account for the column padding
-  padding: .5rem (.5rem - $grid-gutter-width / 2);
+  padding: $base-spacing-sm;
 
   &:first-child {
     border-radius: 0;
@@ -279,7 +266,7 @@ a {
 
 .direction-btn-group {
   display: table;
-  margin-bottom: .5rem;
+  margin-bottom: $base-spacing;
   width: 100%;
 }
 
@@ -426,6 +413,10 @@ a {
 
 .schedule-content {
   position: relative;
+}
+
+.schedule-alert-container {
+  margin-top: $base-spacing;
 }
 
 .datepicker-content-screen {

@@ -1,22 +1,14 @@
 @import 'variables';
 
 .support-section {
-  margin-bottom: 1em;
-
   ul {
-    list-style: none;
-    padding-left: 0;
-
-    li {
-      margin: .5em 0;
-    }
+    @include list-unstyled();
+    margin: 0;
   }
-}
 
-.support-header {
-  line-height: 1.5em;
-  margin-top: 1rem;
-  padding-bottom: .25em;
+  li {
+    margin: $space-8 0;
+  }
 }
 
 .support-error-container {
@@ -67,8 +59,12 @@
   background-color: $gray-light;
   color: $white;
 
+  label {
+    margin: 0;
+  }
+
   + input {
-    padding: .5em 0;
+    padding: $space-8 0;
   }
 }
 

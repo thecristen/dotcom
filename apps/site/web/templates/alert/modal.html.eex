@@ -26,7 +26,7 @@
       <li class="alert-list-item">
         <div class="row">
           <%= if @upcoming_alert_count != 0 do %>
-            <div class="col-xs-12 col-sm-6 pull-sm-right p-b-1">
+            <div class="col-xs-12 col-sm-6 pull-sm-right">
               <%= link to: (alert_path(Site.Endpoint, :show, Routes.Route.type_atom(@route)) <> "#alerts-" <> @route.id), data: [turbolinks: "false"] do %>
                 View <%= @upcoming_alert_count %> upcoming <%= Inflex.inflect("alert", @upcoming_alert_count) %> &raquo;
               <% end %>

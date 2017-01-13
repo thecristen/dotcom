@@ -1,7 +1,5 @@
 .how-to-pay-steps {
-  list-style-type: none;
-  margin-left: 0;
-  padding-right: 0;
+  @include list-unstyled();
 
   li {
     counter-increment: step-counter;
@@ -26,31 +24,18 @@
 .how-to-pay-callout {
   border-bottom: solid 1px $gray-lightest;
   border-top: solid 1px $gray-lightest;
-  margin: .5rem 0;
-  padding: .5rem 0;
 }
 
 .how-to-pay-note {
   background-color: $gray-lightest;
-  margin: .5rem 0;
-  padding: .5rem;
 }
 
 .how-to-pay-block {
   border: 1px solid $gray-lightest;
-
-  &:last-child {
-    padding-right: 0;
-  }
 }
 
 .how-to-pay-block-container {
   display: inline-block;
-  padding: 0 1em;
-}
-
-.how-to-pay-block-tab {
-  padding: 1em 0;
 }
 
 .how-to-pay-image {
@@ -62,12 +47,6 @@
   width: 100%;
 }
 
-.how-to-pay-image-caption {
-  text-align: center;
-  font-size: .875rem;
-  width: 100%;
-}
-
 .how-to-pay-ferry-box {
   @include media-breakpoint-up(sm) {
     border-left: 1px solid $gray-lightest;
@@ -76,13 +55,8 @@
 
 .how-to-pay-ride-link {
   display: inline-block;
-  padding-right: 1rem;
-}
 
-.how-to-pay-section {
-  padding-top: 2rem;
-}
-
-.how-to-pay-sub-section {
-  padding-top: 1rem;
+  + .how-to-pay-ride-link {
+    padding-left: $space-16;
+  }
 }

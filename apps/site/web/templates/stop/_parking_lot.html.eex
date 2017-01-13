@@ -43,12 +43,12 @@
   <% end %>
 </div>
 <%= if @lot.note && @lot.note != "" do %>
-  <div class="row station-callout-box">
+  <div class="station-callout-box">
     <strong>Note:</strong>
     <%= @lot.note |> HtmlSanitizeEx.strip_tags %>
   </div>
 <%= else %>
-  <div class="row station-callout-box">
+  <div class="station-callout-box">
     <strong>Note:</strong>
     No MBTA parking. Street or private parking may exist.
   </div>

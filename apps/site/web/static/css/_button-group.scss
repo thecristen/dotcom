@@ -9,6 +9,7 @@
 }
 
 .show-btn-group {
+  margin-bottom: $base-spacing;
   width: 100%;
 
   @include media-breakpoint-up(sm) {
@@ -62,15 +63,13 @@
     width: 100%;
   }
 
-  $alert-route-icon-diameter: 1.5rem;
-
   .route-icon {
-    @include route-icon($alert-route-icon-diameter, $space-4);
+    @include route-icon($space-24, $space-4);
   }
 
   svg {
-    height: 24px;
-    width: 24px;
+    height: $space-24;
+    width: $space-24;
   }
 }
 

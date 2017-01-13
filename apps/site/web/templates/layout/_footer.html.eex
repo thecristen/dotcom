@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class="container">
-    <ul class="footer-link-list m-a-0 hidden-sm-down">
+    <ul class="footer-link-list">
       <li class="footer-link-list-item">
         Transit Services
         <ul class="footer-link-sublist">
@@ -41,8 +41,8 @@
         </ul>
       </li>
     </ul>
-    <ul class="footer-link-list m-a-0">
-      <li class="footer-link-list-item hidden-sm-down">
+    <ul class="footer-link-list">
+      <li class="footer-link-list-item">
         About Us
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Leadership", to: redirect_path(@conn, "about_the_mbta/leadership/") %></li>
@@ -52,7 +52,7 @@
           <li class="footer-link-sublist-item"><%= link "FMCB", to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/") %></li>
         </ul>
       </li>
-      <li class="footer-link-list-item hidden-sm-down">
+      <li class="footer-link-list-item">
         Business Center
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Business Opportunities", to: redirect_path(@conn, "business_center/") %></li>
@@ -62,7 +62,7 @@
           <li class="footer-link-sublist-item"><%= link "Innovation", to: redirect_path(@conn, "business_center/innovation_proposals/") %></li>
         </ul>
       </li>
-      <li class="footer-link-list-item hidden-sm-down">
+      <li class="footer-link-list-item">
         Customer Support
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index) %></li>
@@ -70,9 +70,9 @@
           <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: redirect_path(@conn, "customer_support/privacy_policy/") %></li>
         </ul>
       </li>
-      <li class="footer-link-list-item hidden-sm-down">
+      <li class="footer-link-list-item">
         Follow Us Online
-        <ul class="social-nav nav-inline m-b-0 p-x-0">
+        <ul class="social-nav nav-inline">
           <li class="nav-item">
             <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
               <%= fa "instagram" %>
@@ -93,14 +93,12 @@
           </li>
         </ul>
       </li>
-      <li class="footer-link-list-item hidden-md-up">
-        <ul class="footer-link-sublist">
-          <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index) %></li>
-          <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: redirect_path(@conn, "customer_support/privacy_policy/") %></li>
-          <li class="footer-link-sublist-item"><%= link "Terms of Use", to: customer_support_path(@conn, :index) %></li>
-        </ul>
-      </li>
     </ul>
-    <p class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
+    <ul class="footer-link-list footer-link-list-small">
+      <li class="footer-link-item-small"><%= link "Contact Us", to: customer_support_path(@conn, :index) %></li>
+      <li class="footer-link-item-small"><%= link "Privacy Policy", to: redirect_path(@conn, "customer_support/privacy_policy/") %></li>
+      <li class="footer-link-item-small"><%= link "Terms of Use", to: customer_support_path(@conn, :index) %></li>
+    </ul>
+    <div class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</div>
   </div>
 </footer>

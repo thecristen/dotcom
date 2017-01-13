@@ -28,13 +28,6 @@
   }
 }
 
-.carousel-item,
-.carousel-active {
-  figcaption {
-    font-size: $font-size-sm;
-  }
-}
-
 @include media-breakpoint-up(sm) {
   .js .carousel-active {
     display: block;

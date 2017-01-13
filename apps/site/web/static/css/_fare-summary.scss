@@ -1,0 +1,39 @@
+.fare-summary-container {
+  @include make-row();
+  margin-bottom: $space-12;
+  width: 100%;
+}
+
+.fare-summary-entry {
+  @extend %grid-column;
+  @include make-col-span(12);
+  float: left;
+
+  @include media-breakpoint-up(md) {
+    @include make-col-span(6);
+  }
+}
+
+.fare-summary-name {
+  font-weight: bold;
+  margin-bottom: $base-spacing;
+}
+
+.fare-summary-mode-icons {
+  padding-left: $space-8;
+}
+
+.fare-summary-fare {
+  border: 1px solid $gray-lightest;
+  border-collapse: collapse;
+  padding: $space-12;
+
+  &:not(:first-child) {
+    border-top: 0;
+  }
+}
+
+.fare-summary-fare-price {
+  float: right;
+  font-weight: normal;
+}

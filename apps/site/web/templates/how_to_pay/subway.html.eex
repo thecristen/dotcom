@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 how-to-pay-section">
+    <div class="col-xs-12">
       <h2>Step 1: Purchase a Ticket or Pass</h2>
       <p>
         You can purchase your Subway fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board (only accepted at above-ground Green Line stops). Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharlieCard versus a CharlieTicket or cash on-board.
@@ -12,11 +12,11 @@
       <div class="row">
         <figure class="col-sm-6 col-xs-12">
           <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" alt="Charlie Card" />
-          <figcaption class="how-to-pay-image-caption">CharlieCard</figcaption>
+          <figcaption>CharlieCard</figcaption>
         </figure>
         <figure class="col-sm-6 col-xs-12">
           <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-ticket.jpg") %>" alt="Charlie Ticket" />
-          <figcaption class="how-to-pay-image-caption">CharlieTicket</figcaption>
+          <figcaption>CharlieTicket</figcaption>
         </figure>
       </div>
       <p>You can purchase your Subway fare at a fare vending machine, on-board at above-ground Green Line stops, or at retail sales locations.</p>
@@ -28,13 +28,13 @@
   </div>
   <div class="row">
     <%= render "_retail_sales.html", forward_assigns(@conn) %>
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+    <div class="col-md-6 col-xs-12 ">
       <h3>On-Board</h3>
       Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12 how-to-pay-section">
+    <div class="col-xs-12">
       <h2>Step 2: Pay Your Fare</h2>
       <p>
       The type of stop you are boarding the Subway determines how your fare will be paid. Most Subway stops have stations with fare entry gates that you must pay your fare at in order to enter the platform.
@@ -45,7 +45,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+    <div class="col-md-6 col-xs-12 ">
       <h3>Fare Entry Gates</h3>
     </div>
   </div>
@@ -53,10 +53,10 @@
     <figure class="col-sm-8 col-md-push-6 col-md-6 col-xs-12">
       <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/HAF24.jpg"
         alt="Fare entry Gate" class="how-to-pay-image how-to-pay-image-oversize" width="100%">
-      <figcaption class="how-to-pay-image-caption">Fare entry gate</figcaption>
+      <figcaption>Fare entry gate</figcaption>
     </figure>
     <div class="col-md-pull-6 col-md-6 col-xs-12">
-      <div class="how-to-pay-sub-section">
+      <div class="">
         <h4>Entry with CharlieCard</h4>
         <ol class="how-to-pay-steps">
           <li><div>Tap your CharlieCard on the black card target.</div></li>
@@ -64,7 +64,7 @@
           <li><div>The fare gate will open and you can proceed to the platform.</div></li>
         </ol>
       </div>
-      <div class="how-to-pay-sub-section">
+      <div class="">
         <h4>Entry with a CharlieTicket</h4>
         <ol class="how-to-pay-steps">
           <li><div>Insert the ticket into the ticket slot with the arrow facing away from you.</div></li>
@@ -75,7 +75,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xs-12 how-to-pay-sub-section">
+    <div class="col-md-6 col-xs-12 ">
       <h3>On-Board Fare Boxes</h3>
     </div>
   </div>
@@ -83,10 +83,10 @@
     <figure class="col-sm-8 col-md-push-6 col-md-6 col-xs-12">
       <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/Farebox3.JPG"
         alt="On-board fare box" class="how-to-pay-image how-to-pay-image-oversize">
-      <figcaption class="how-to-pay-image-caption">On-board fare box</figcaption>
+      <figcaption>On-board fare box</figcaption>
     </figure>
     <div class="col-md-pull-6 col-md-6 col-xs-12">
-      <div class="how-to-pay-sub-section">
+      <div class="">
         <h4>Paying by Cash</h4>
         <div>On-board fare boxes accept coins and bills up to $20. Exact change is encouraged.</div>
         <ol class="how-to-pay-steps">
@@ -98,7 +98,7 @@
         CharlieTicket dispensed from the on-board fare box.
         </p>
       </div>
-      <div class="how-to-pay-sub-section">
+      <div>
         <h4>Paying by CharlieTicket</h4>
         <ol class="how-to-pay-steps">
           <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
@@ -109,7 +109,7 @@
         card properly or that you do not have enough money on your card to pay the fare.
         </p>
       </div>
-      <div class="how-to-pay-sub-section">
+      <div>
         <h4>Paying by CharlieCard</h4>
         <ol class="how-to-pay-steps">
           <li><div>Tap the CharlieCard onto the black card target.</div></li>
@@ -124,9 +124,11 @@
   </div>
   <div class="row">
     <div class="col-md-6 col-xs-12">
-      <a href="<%= fare_path @conn, :show, ~s(bus_subway)  %>">
-        Learn more about Subway Fares <%= fa "arrow-right" %>
-      </a>
+      <p>
+        <a href="<%= fare_path @conn, :show, ~s(bus_subway)  %>">
+          Learn more about Subway Fares <%= fa "arrow-right" %>
+        </a>
+      </p>
     </div>
   </div>
 </div>

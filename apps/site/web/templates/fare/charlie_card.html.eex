@@ -5,10 +5,10 @@
     <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare.</p>
     <div class="payment-method row">
       <p class="col-sm-6 payment-image">
-        <img class="image-fluid" src="<%= static_url(@conn, "/images/charlie-card-reverse.jpg") %>" />
+        <img src="<%= static_url(@conn, "/images/charlie-card-reverse.jpg") %>" />
       </p>
       <p class="col-sm-6 payment-image">
-        <img class="image-fluid" src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" />
+        <img src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" />
       </p>
     </div>
   </div>
@@ -19,19 +19,19 @@
     <h3 class="h4">Select Bus &amp; Subway Stations</h3>
     <p>You can get a free, blank CharlieCard from an MBTA Customer Service Agent working at the Bus and Subway stations listed below.</p>
     <div class="row">
-      <div class="charlie-card-hours col-md-4">
+      <div class="charlie-card-hours col-xs-12 col-md-4">
         <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p><strong>Sunday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p class="charlie-card-stations"><%= charlie_card_stations() %></p>
       </div>
-      <div class="charlie-card-hours col-md-4">
+      <div class="charlie-card-hours col-xs-12  col-md-4">
         <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p><strong>Sunday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p class="charlie-card-stations"><%= stop_link "place-haecl" %>, <%= stop_link "place-wondl" %></p>
       </div>
-      <div class="charlie-card-hours col-md-4">
+      <div class="charlie-card-hours col-xs-12 col-md-4">
         <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p><strong>Sunday hours:</strong> 10:30 AM - 7:00 PM</p>
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="row m-t-2">
-      <div class="charlie-card-hours col-md-4">
+      <div class="charlie-card-hours col-xs-12 col-md-4">
         <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
         <p><strong>Saturday hours:</strong> 7:00 AM - 2:00 PM, 4:30 PM - 7:00 PM</p>
         <p><strong>Sunday hours:</strong> 10:30 AM - 7:00 PM</p>

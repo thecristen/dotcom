@@ -1,4 +1,4 @@
-<div>
+<div class="station-route-container">
   <div class="station-route-row station-schedule-header">
     <div class="column-name station-route-schedule-name">
       <%= mode_name @mode %>

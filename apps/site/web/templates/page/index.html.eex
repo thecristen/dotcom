@@ -3,49 +3,47 @@
 
   <%= render "_news_card.html", news: @news, conn: @conn %>
 
-  <div class="page-section page-section-narrow homepage-footer">
-    <div class="page-block">
-      <div class="row">
-        <div class="col-md-6">
-          <h1>Riding the T</h1>
-          <ul class="list-group list-group-flush p-b-1">
-            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "rider_tools/" %>">
-              Rider Tools
-              <%= fa "angle-right fa-pull-right" %>
-            </a></li>
-            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "riding_the_t/logan/" %>">
-              Getting to and from Logan <span class="hidden-xs-down">Airport</span>
-              <%= fa "angle-right fa-pull-right" %>
-            </a></li>
-            <li class="list-group-item list-group-item-flush"><a href="<%= fare_path @conn, :index %>">
-              Fares and Passes
-              <%= fa "angle-right fa-pull-right" %>
-            </a></li>
-          </ul>
-          <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>" class="bg-primary d-block">
-            <img class="img-fluid center-block m-b-1 p-a-1 bg-primary" src="<%= static_url(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width="348" height="96"/>
-          </a>
-        </div>
-        <div class="col-md-6">
-          <h1>Get Involved</h1>
-          <ul class="list-group list-group-flush p-b-1">
-            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "about_the_mbta/board_meetings/fmcb/" %>">
-              Fiscal and Management Control Board
-              <%= fa "angle-right fa-pull-right" %>
-            </a></li>
-            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "about_the_mbta/public_meetings/" %>">
-              Public Meetings
-              <%= fa "angle-right fa-pull-right" %>
-            </a></li>
-            <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "business_center/" %>">
-              Business Center
-              <%= fa "angle-right fa-pull-right" %>
-            </a></li>
-          </ul>
-          <a href="http://www.mbtabackontrack.com/performance/index.html#/home" target="_blank" class="bg-gray-light d-block">
-            <img class="img-fluid center-block p-a-1 bg-gray-light" src="<%= static_url(@conn, "/images/see_our_performance.png") %>" alt="See Our Performance" width=348 height=96 />
-          </a>
-        </div>
+  <div class="homepage-footer page-section">
+    <div class="row">
+      <div class="col-md-6 page-block-2">
+        <h1>Riding the T</h1>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "rider_tools/" %>">
+            Rider Tools
+            <%= fa "angle-right fa-pull-right" %>
+          </a></li>
+          <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "riding_the_t/logan/" %>">
+            Getting to and from Logan <span class="hidden-xs-down">Airport</span>
+            <%= fa "angle-right fa-pull-right" %>
+          </a></li>
+          <li class="list-group-item list-group-item-flush"><a href="<%= fare_path @conn, :index %>">
+            Fares and Passes
+            <%= fa "angle-right fa-pull-right" %>
+          </a></li>
+        </ul>
+        <a href="<%= redirect_path @conn, "riding_the_t/accessible_services/" %>" class="bg-primary page-img-block">
+          <img class="bg-primary" src="<%= static_url(@conn, "/images/accessibility_at_t.png") %>" alt="Accessibility at the T" width="348" height="96"/>
+        </a>
+      </div>
+      <div class="col-md-6 page-block-2">
+        <h1>Get Involved</h1>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "about_the_mbta/board_meetings/fmcb/" %>">
+            Fiscal and Management Control Board
+            <%= fa "angle-right fa-pull-right" %>
+          </a></li>
+          <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "about_the_mbta/public_meetings/" %>">
+            Public Meetings
+            <%= fa "angle-right fa-pull-right" %>
+          </a></li>
+          <li class="list-group-item list-group-item-flush"><a href="<%= redirect_path @conn, "business_center/" %>">
+            Business Center
+            <%= fa "angle-right fa-pull-right" %>
+          </a></li>
+        </ul>
+        <a href="http://www.mbtabackontrack.com/performance/index.html#/home" target="_blank" class="page-img-block bg-gray-light">
+          <img class="bg-gray-light" src="<%= static_url(@conn, "/images/see_our_performance.png") %>" alt="See Our Performance" width=348 height=96 />
+        </a>
       </div>
     </div>
   </div>

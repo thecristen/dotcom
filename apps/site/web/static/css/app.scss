@@ -7,7 +7,6 @@
 @import 'icons';
 @import 'route-icon';
 @import 'mode-group';
-@import 'font-sizes';
 @import 'page';
 @import 'card';
 @import 'index';
@@ -21,6 +20,7 @@
 @import 'errors';
 @import 'customer-support';
 @import 'fares';
+@import 'fare-summary';
 @import 'how_to_pay';
 @import 'button-group';
 @import 'footer';
@@ -29,6 +29,7 @@
 @import 'transit-near-me';
 @import 'carousel';
 @import 'content';
+@import 'related-link';
 
 body {
   background-color: $homepage-bg-color;
@@ -91,10 +92,6 @@ body {
   background-color: $gray-light;
 }
 
-.d-block {
-  display: block;
-}
-
 @include media-breakpoint-up(md) {
   .container {
     padding-left: 0;
@@ -103,11 +100,6 @@ body {
 }
 
 @include media-breakpoint-down(sm) {
-  .container {
-    padding-left: .75rem;
-    padding-right: .75rem;
-  }
-
   // hide SM down, but remain visible to screen readers
   .focusable-sm-down {
     @include sr-only();
@@ -201,26 +193,32 @@ div {
 }
 
 .page-container {
-  @include media-breakpoint-down(sm) {
-    padding-bottom: 1.5rem;
-  }
-
-  @include media-breakpoint-up(md) {
-    padding-bottom: 3rem;
-  }
+  margin-bottom: $base-spacing;
 }
 
 %callout {
   background-color: $gray-lightest;
   border-radius: 0;
-  padding: .5em;
+  margin-bottom: $base-spacing;
+  padding: $space-12;
+
+  &:empty {
+    display: none;
+  }
 }
 
 .callout {
   @extend %callout;
-  margin: .5em 0;
+  margin: $space-12 0;
 }
 
 .d-inline {
   display: inline;
+}
+
+figcaption {
+  font-size: $font-size-sm;
+  padding-top: $space-12;
+  text-align: center;
+  width: 100%;
 }
