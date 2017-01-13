@@ -124,6 +124,16 @@ defmodule Site.ScheduleV2.BusViewTest do
       assert Enum.count(predicted_schedules) == 2
     end
 
+    test "scheduled_predictions are shown in the order: Predicted arrivals without departures, predictions, schedules" do
+      schedules = [@schedule_pair2, @schedule_pair3]
+      predictions = [@dest_prediction1, @origin_prediction2]
+      trips = group_trips(schedules, predictions, @origin, @dest)
+
+      assert {{nil, nil}, {nil, %Prediction{trip: @trip1}}} = Enum.at(trips, 0)
+      assert {{%Schedule{trip: @trip2}, %Prediction{trip: @trip2}}, {_arrival, nil}} = Enum.at(trips, 1)
+      assert {{%Schedule{trip: @trip3}, nil}, {%Schedule{trip: @trip3}, nil}} = Enum.at(trips, 2)
+    end
+
     test "Predictions are paired by origin and destination" do
       schedules = [@schedule_pair1, @schedule_pair2]
       predictions = [@origin_prediction1, @dest_prediction1, @dest_prediction2, @origin_prediction2]
