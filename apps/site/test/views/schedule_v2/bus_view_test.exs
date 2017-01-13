@@ -98,15 +98,18 @@ defmodule Site.ScheduleV2.BusViewTest do
     @trip1 %Trip{id: 1}
     @trip2 %Trip{id: 2}
     @trip3 %Trip{id: 3}
+    @trip4 %Trip{id: 4}
 
     @schedule_pair1 {%Schedule{trip: @trip1, time: @schedule_time}, %Schedule{trip: @trip1, time: @prediction_time}}
     @schedule_pair2 {%Schedule{trip: @trip2, time: @schedule_time}, %Schedule{trip: @trip2, time: @prediction_time}}
     @schedule_pair3 {%Schedule{trip: @trip3, time: @schedule_time}, %Schedule{trip: @trip3, time: @prediction_time}}
+    @schedule_pair4 {%Schedule{trip: @trip4, time: @schedule_time}, %Schedule{trip: @trip4, time: @prediction_time}}
 
     @origin_prediction1 %Prediction{trip: @trip1, stop_id: @origin, time: @prediction_time}
     @dest_prediction1 %Prediction{trip: @trip1, stop_id: @dest, time: @prediction_time}
     @origin_prediction2 %Prediction{trip: @trip2, stop_id: @origin, time: @prediction_time}
     @dest_prediction2 %Prediction{trip: @trip2, stop_id: @dest, time: @prediction_time}
+    @dest_prediction4 %Prediction{trip: @trip4, stop_id: @dest, time: @prediction_time}
 
     test "Predictions are shown if there are no corresponding schedules" do
       trips = group_trips([@schedule_pair3], [@origin_prediction1, @dest_prediction1, @dest_prediction2], @origin, @dest)
@@ -125,13 +128,14 @@ defmodule Site.ScheduleV2.BusViewTest do
     end
 
     test "scheduled_predictions are shown in the order: Predicted arrivals without departures, predictions, schedules" do
-      schedules = [@schedule_pair2, @schedule_pair3]
-      predictions = [@dest_prediction1, @origin_prediction2]
+      schedules = [@schedule_pair2, @schedule_pair3, @schedule_pair4]
+      predictions = [@dest_prediction1, @origin_prediction2, @dest_prediction4]
       trips = group_trips(schedules, predictions, @origin, @dest)
 
       assert {{nil, nil}, {nil, %Prediction{trip: @trip1}}} = Enum.at(trips, 0)
-      assert {{%Schedule{trip: @trip2}, %Prediction{trip: @trip2}}, {_arrival, nil}} = Enum.at(trips, 1)
-      assert {{%Schedule{trip: @trip3}, nil}, {%Schedule{trip: @trip3}, nil}} = Enum.at(trips, 2)
+      assert {{%Schedule{trip: @trip4}, nil}, {_arrival, %Prediction{trip: @trip4}}} = Enum.at(trips, 1)
+      assert {{%Schedule{trip: @trip2}, %Prediction{trip: @trip2}}, {_arrival, nil}} = Enum.at(trips, 2)
+      assert {{%Schedule{trip: @trip3}, nil}, {%Schedule{trip: @trip3}, nil}} = Enum.at(trips, 3)
     end
 
     test "Predictions are paired by origin and destination" do
