@@ -12,7 +12,7 @@ defmodule Alerts.RepoTest do
   end
 
   describe "do_banner/1" do
-    test "if there are no items with a banner, returns {:ok, nil}" do
+    test "if there are no items with a banner, returns nil" do
       api = %JsonApi{
         data: [
           %JsonApi.Item{
@@ -22,10 +22,10 @@ defmodule Alerts.RepoTest do
               "banner" => nil,
               "description" => "description"
             }}]}
-      assert do_banner(fn -> api end) == {:ok, nil}
+      assert do_banner(fn -> api end) == nil
     end
 
-    test "if there are any items with a banner, returns {:ok, <banner>} with the first" do
+    test "if there are any items with a banner, returns <banner> with the first" do
       api = %JsonApi{
         data: [
           %JsonApi.Item{
@@ -47,7 +47,7 @@ defmodule Alerts.RepoTest do
         id: "id",
         title: "banner",
         description: "description"}
-      assert do_banner(fn -> api end) == {:ok, banner}
+      assert do_banner(fn -> api end) == banner
     end
   end
 end

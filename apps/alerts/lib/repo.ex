@@ -1,6 +1,8 @@
 defmodule Alerts.Repo do
   use RepoCache, ttl: :timer.minutes(1)
 
+  alias Alerts.Parser
+
   @spec all() :: [Alerts.Alert.t]
   def all do
     cache nil, fn _ ->
@@ -8,7 +10,7 @@ defmodule Alerts.Repo do
       |> Enum.map(fn alert ->
         Task.async(fn ->
           alert
-          |> Alerts.Parser.parse
+          |> Parser.Alert.parse
           |> include_parents
         end)
       end)
@@ -24,16 +26,14 @@ defmodule Alerts.Repo do
 
   @spec banner() :: Alerts.Banner.t | nil
   def banner() do
-    {:ok, result} = cache(&V3Api.Alerts.all/0, &do_banner/1)
-    result
+    cache(&V3Api.Alerts.all/0, &do_banner/1)
   end
 
   @spec do_banner((() -> JsonApi.t)) :: {:ok, Alerts.Banner.t | nil}
   def do_banner(alert_fn) do
-    result = alert_fn.().data
-      |> Enum.flat_map(&build_banner/1)
-      |> List.first
-    {:ok, result}
+    alert_fn.().data
+    |> Enum.flat_map(&Parser.Banner.parse/1)
+    |> List.first
   end
 
   defp include_parents(alert) do
@@ -66,23 +66,5 @@ defmodule Alerts.Repo do
         _ -> [stop_id]
       end
     end)
-  end
-
-  @spec build_banner(JsonApi.Item.t) :: [Alerts.Banner.t]
-  defp build_banner(%JsonApi.Item{
-        id: id,
-        attributes: %{
-          "banner" => title,
-          "description" => description
-        }}) when title != nil do
-    [
-      %Alerts.Banner{
-        id: id,
-        title: title,
-        description: description}
-    ]
-  end
-  defp build_banner(%JsonApi.Item{}) do
-    []
   end
 end
