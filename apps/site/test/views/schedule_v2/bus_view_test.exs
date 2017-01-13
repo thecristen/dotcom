@@ -133,8 +133,8 @@ defmodule Site.ScheduleV2.BusViewTest do
       trips = group_trips(schedules, predictions, @origin, @dest)
 
       assert {{nil, nil}, {nil, %Prediction{trip: @trip1}}} = Enum.at(trips, 0)
-      assert {{%Schedule{trip: @trip4}, nil}, {_arrival, %Prediction{trip: @trip4}}} = Enum.at(trips, 1)
-      assert {{%Schedule{trip: @trip2}, %Prediction{trip: @trip2}}, {_arrival, nil}} = Enum.at(trips, 2)
+      assert {{%Schedule{trip: @trip2}, %Prediction{trip: @trip2}}, {_arrival, nil}} = Enum.at(trips, 1)
+      assert {{%Schedule{trip: @trip4}, nil}, {_arrival, %Prediction{trip: @trip4}}} = Enum.at(trips, 2)
       assert {{%Schedule{trip: @trip3}, nil}, {%Schedule{trip: @trip3}, nil}} = Enum.at(trips, 3)
     end
 
