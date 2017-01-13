@@ -11,6 +11,7 @@ defmodule Site.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug BetaAnnouncement.Plug
+    plug Site.Plugs.Banner
     plug Turbolinks.Plug
   end
 

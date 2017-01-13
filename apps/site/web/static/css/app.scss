@@ -115,16 +115,13 @@ body {
   }
 }
 
-.top-bar {
-  padding: .5em 0;
-
-  @include media-breakpoint-down(sm) {
-    padding-left: .5em;
-  }
+%top-bar {
+  padding-bottom: $space-8;
+  padding-top: $space-8;
 }
 
 .breadcrumb-container {
-  @extend .top-bar;
+  @extend %top-bar;
   background-color: $gray-lightest;
   color: $gray-dark;
 
@@ -135,18 +132,59 @@ body {
 }
 
 .announcement-container {
-  @extend .top-bar;
+  @extend %top-bar;
   background-color: $brand-primary-dark;
   color: $white;
-  font-weight: 300;
+  font-size: $font-size-sm;
+}
 
-  a {
+.beta-announcement {
+  float: left;
+  width: 91%; // 11 columns
+
+  @include media-breakpoint-up(md) {
+    width: 83%; // 10 columns
+  }
+
+  + a {
     color: $white;
-    font-weight: initial;
 
-    &.btn-link:hover {
+    @include hover-focus-active {
       color: $white;
     }
+  }
+
+}
+
+.beta-announcement-link {
+  color: $white;
+  text-decoration: underline;
+}
+
+.alert-announcement-container {
+  @extend %top-bar;
+  background-color: $brand-secondary;
+  color: $gray-dark;
+  font-size: $font-size-base;
+  padding-bottom: $space-16;
+  padding-top: $space-16;
+
+  a {
+    @include hover-focus-active {
+      text-decoration: none;
+    }
+  }
+}
+
+.alert-announcement-header {
+  color: $gray-dark;
+
+  @include hover-focus-active {
+    color: $gray-dark;
+  }
+
+  .alert-item-icon {
+    margin-top: 0;
   }
 }
 

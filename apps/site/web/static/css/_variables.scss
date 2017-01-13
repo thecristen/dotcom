@@ -50,11 +50,13 @@ $spacers: (
 $font-family-base: 'Lato', $font-family-sans-serif;
 $route-icon-diameter: 2.25rem;
 
-$space-12: $grid-gutter-width; // 12px real, 6px Zeplin
-$space-6: $grid-gutter-width / 2; // 6px real, 3px Zeplin
-$space-4: $grid-gutter-width / 4; // 3px real, 1.5px Zeplin
-$space-2: $grid-gutter-width / 6; // 2px real, 1px Zeplin
-$space-1: $grid-gutter-width / 12; // 1px real, 0.5px Zeplin
+$space-16: 1rem;
+$space-12: $space-16 * .75; // 12px real, 6px Zeplin
+$space-8: $space-16 / 2; // 8px real, 4px Zeplin
+$space-6: $space-12 / 2; // 6px real, 3px Zeplin
+$space-4: $space-12 / 4; // 3px real, 1.5px Zeplin
+$space-2: $space-12 / 6; // 2px real, 1px Zeplin
+$space-1: $space-12 / 12; // 1px real, 0.5px Zeplin
 
 $default-border-radius: $space-4;
 

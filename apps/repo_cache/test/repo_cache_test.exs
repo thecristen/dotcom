@@ -52,24 +52,4 @@ defmodule RepoCacheTest do
   test "returns different values for the same key on different methods" do
     assert Repo.time(1) != Repo.always(1)
   end
-
-  test "nil values aren't cached" do
-    # We create an agent with a nil value, then change it to a different
-    # value to assert that the cache picked up the new value
-    {:ok, pid} = Agent.start_link(fn -> nil end)
-    assert Repo.agent_state(pid) == nil
-    Agent.update(pid, fn nil -> :value end)
-    purge_cache
-    assert Repo.agent_state(pid) == :value
-  end
-
-  test "empty lists aren't cached" do
-    # We create an agent with a empty list value, then change it to a
-    # different value to assert that the cache picked up the new value
-    {:ok, pid} = Agent.start_link(fn -> [] end)
-    assert Repo.agent_state(pid) == []
-    Agent.update(pid, fn [] -> [1] end)
-    purge_cache
-    assert Repo.agent_state(pid) == [1]
-  end
 end

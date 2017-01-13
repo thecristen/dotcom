@@ -34,12 +34,10 @@
   <body class="<%= Site.BodyClass.class_name(@conn) %>">
     <div class="body-wrapper">
       <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
-      <%= if BetaAnnouncement.show_announcement?(@conn) do %>
-        <div class="container-fluid announcement-container">
+      <%= if assigns[:banner_template] do %>
+        <div class="announcement-container <%= assigns[:banner_class] %>">
           <div class="container">
-            <div class="col-xs-12 p-l-0">
-              <%= render __MODULE__, "_beta_announcement.html", assigns %>
-            </div>
+            <%= render __MODULE__, @banner_template, assigns %>
           </div>
         </div>
       <% end %>
@@ -136,23 +134,21 @@
         </div>
         <%= render "_desktop_header.html", conn: @conn %>
         <%= if breadcrumbs != [] do %>
-          <div class="container-fluid breadcrumb-container">
+          <div class="breadcrumb-container">
             <div class="container">
-              <div class="col-xs-12 p-l-0">
-                <% breadcrumb_length = length @breadcrumbs %>
-                <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
+              <% breadcrumb_length = length @breadcrumbs %>
+              <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
 
-                <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
-                <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
+              <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
+              <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
 
-                <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
-                  <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
-                    <a href="<%= link %>"><%= text %></a>
-                    <%= fa "angle-right" %>
-                  </span>
-                <% end %>
-                <%= last_text %>
-              </div>
+              <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
+                <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
+                  <a href="<%= link %>"><%= text %></a>
+                  <%= fa "angle-right" %>
+                </span>
+              <% end %>
+              <%= last_text %>
             </div>
           </div>
         <% end %>
