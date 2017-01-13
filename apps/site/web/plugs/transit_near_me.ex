@@ -127,25 +127,23 @@ defmodule Site.Plugs.TransitNearMe do
 
   def assign_address(conn, {:ok, [%{formatted: address} | _]}) do
     conn
-    |> assign(:address, address)
+    |> assign(:tnm_address, address)
   end
   def assign_address(conn, {:error, _status, _message}) do
     conn
-    |> assign(:address, "")
-    |> put_private(:error, "The address you've listed appears to be invalid. Please try a new address to continue.")
+    |> assign(:tnm_address, "")
+    |> assign(:tnm_address_error, "The address you've listed appears to be invalid. Please try a new address to continue.")
   end
   def assign_address(conn, _) do
     conn
-    |> assign(:address, "")
+    |> assign(:tnm_address, "")
   end
 
   @spec flash_if_error(Plug.Conn.t) :: Plug.Conn.t
-  def flash_if_error(%Plug.Conn{assigns: %{stops_with_routes: [], address: address}} = conn) when address != "" do
-
+  def flash_if_error(%Plug.Conn{assigns: %{stops_with_routes: [], tnm_address: address}} = conn) when address != "" do
     put_flash(conn, :info, "There doesn't seem to be any stations found near the given address. Please try a different address to continue.")
-
   end
-  def flash_if_error(%Plug.Conn{private: %{error: error}} = conn) when error != nil do
+  def flash_if_error(%Plug.Conn{assigns: %{tnm_address_error: error}} = conn) when error != nil do
     put_flash(conn, :info, error)
   end
   def flash_if_error(conn), do: conn

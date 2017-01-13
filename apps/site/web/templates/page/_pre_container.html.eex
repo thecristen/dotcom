@@ -8,7 +8,7 @@
         <% end %>
       </p>
     </div>
-    <%= render Site.TransitNearMeView, "_input.html", address: @address, conn: @conn %>
+    <%= render Site.TransitNearMeView, "_input.html", tnm_address: @tnm_address, conn: @conn %>
     <%= render Site.TransitNearMeView, "_results.html", class: "transit-near-me-white", stops_with_routes: @stops_with_routes, stop_groups: @stop_groups, conn: @conn %>
   </div>
 </div>

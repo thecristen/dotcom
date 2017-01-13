@@ -8,7 +8,7 @@ defmodule Site.Plugs.TransitNearMeTest do
   alias Stops.Stop
   alias GoogleMaps.Geocode
 
-  @address "10 park plaza, boston ma"
+  @tnm_address "10 park plaza, boston ma"
   @stop_ids [
     "place-sstat", # commuter
     "place-tumnl", # subway
@@ -30,11 +30,11 @@ defmodule Site.Plugs.TransitNearMeTest do
       conn = conn
       |> bypass_through(Site.Router, :browser)
       |> get("/")
-      |> assign_query_params(%{"location" => %{"address" => @address}})
+      |> assign_query_params(%{"location" => %{"address" => @tnm_address}})
       |> call(options)
 
       assert :stops_with_routes in Map.keys conn.assigns
-      assert :address in Map.keys conn.assigns
+      assert :tnm_address in Map.keys conn.assigns
       assert get_flash(conn) == %{}
     end
 
@@ -46,7 +46,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> call(%Options{})
 
       assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.address == ""
+      assert conn.assigns.tnm_address == ""
     end
 
     test "flashes message if no results are returned", %{conn: conn} do
@@ -55,11 +55,11 @@ defmodule Site.Plugs.TransitNearMeTest do
       conn = conn
       |> bypass_through(Site.Router, :browser)
       |> get("/")
-      |> assign_query_params(%{"location" => %{"address" => @address}})
+      |> assign_query_params(%{"location" => %{"address" => @tnm_address}})
       |> call(options)
 
       assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.address == "10 Park Plaza, Boston, MA 02116, USA"
+      assert conn.assigns.tnm_address == "10 Park Plaza, Boston, MA 02116, USA"
       test_val = get_flash(conn)["info"]
 
       assert test_val =~ "seem to be any stations"
@@ -76,7 +76,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> assign_query_params(%{"latitude" => "#{lat}", "longitude" => "#{lng}"})
       |> call(options)
 
-      assert %{assigns: %{stops_with_routes: stops, address: _}} = conn
+      assert %{assigns: %{stops_with_routes: stops, tnm_address: _}} = conn
       assert length(stops) == 3
       assert get_flash(conn) == %{}
     end
@@ -156,7 +156,7 @@ defmodule Site.Plugs.TransitNearMeTest do
     test "shows message if there's no stops_with_routes and there is an address", %{conn: conn} do
       conn = conn
       |> assign(:stops_with_routes, [])
-      |> assign(:address, "123 main st")
+      |> assign(:tnm_address, "123 main st")
       |> bypass_through(Site.Router, :browser)
       |> get("/")
       |> flash_if_error
@@ -166,9 +166,9 @@ defmodule Site.Plugs.TransitNearMeTest do
       assert test_val =~ "seem to be any stations"
     end
 
-    test "flashes errors from private if there are any", %{conn: conn} do
+    test "flashes errors if there are any", %{conn: conn} do
       conn = conn
-      |> put_private(:error, "bad address")
+      |> assign(:tnm_address_error, "bad address")
       |> bypass_through(Site.Router, :browser)
       |> get("/")
       |> flash_if_error
@@ -186,7 +186,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       conn = conn
       |> assign_address(google_maps_result)
 
-      assert conn.assigns.address == "10 park plaza"
+      assert conn.assigns.tnm_address == "10 park plaza"
     end
 
 
@@ -196,8 +196,8 @@ defmodule Site.Plugs.TransitNearMeTest do
       conn = conn
       |> assign_address(google_maps_result)
 
-      assert conn.assigns.address == ""
-      assert conn.private[:error] == "The address you've listed appears to be invalid. Please try a new address to continue."
+      assert conn.assigns.tnm_address == ""
+      assert conn.assigns.tnm_address_error == "The address you've listed appears to be invalid. Please try a new address to continue."
     end
   end
 
@@ -207,7 +207,7 @@ defmodule Site.Plugs.TransitNearMeTest do
   end
 
   def search_near_office(conn) do
-    search_near_address(conn, @address)
+    search_near_address(conn, @tnm_address)
   end
 
   def search_near_address(conn, address) do
