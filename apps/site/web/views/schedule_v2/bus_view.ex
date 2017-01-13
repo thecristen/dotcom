@@ -121,10 +121,10 @@ defmodule Site.ScheduleV2.BusView do
   # Arrival predictions that have no corresponding departures are shown first.
   @spec prediction_sorter({scheduled_prediction, scheduled_prediction}) :: {integer, DateTime.t}
   defp prediction_sorter({{nil, nil}, {nil, arrival_prediction}}), do: {0, arrival_prediction.time}
-  defp prediction_sorter({{_dep, departure_prediction}, {_arr, _arr_pred}}) when not is_nil(departure_prediction) do
+  defp prediction_sorter({{_, departure_prediction}, _}) when not is_nil(departure_prediction) do
     {1, departure_prediction.time}
   end
-  defp prediction_sorter({{departure, nil}, {_arr, _arr_pred}}) when not is_nil(departure) do
+  defp prediction_sorter({{departure, nil}, _}) when not is_nil(departure) do
     {2, departure.time}
   end
 end
