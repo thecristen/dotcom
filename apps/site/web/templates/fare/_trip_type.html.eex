@@ -20,7 +20,7 @@
   </div>
   <div class="fares-mode-icon">
     <%= for mode <- [base_fare.mode | base_fare.additional_valid_modes] do %>
-      <span class="fares-mode-icon-group"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %></span>
+      <span class="fares-mode-icon-group"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode}) %></span>
     <% end %>
   </div>
 </div>

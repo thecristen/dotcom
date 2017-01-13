@@ -5,7 +5,7 @@
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
               <span>Transit Services</span>
             </p>
             <ul>
@@ -28,7 +28,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :map}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :map, class: "icon-boring"}) %>
               <span>Plan Your Trip</span>
             </p>
             <ul>
@@ -51,7 +51,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-boring"}) %>
               <span>Riding the T</span>
             </p>
             <ul>
@@ -167,7 +167,7 @@
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :phone}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :phone, class: "icon-boring"}) %>
               <span> Telephone Customer Support</span>
             </p>
             <p>
@@ -183,7 +183,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :globe}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :globe, class: "icon-boring"}) %>
               <span> Online Customer Support</span>
             </p>
             <ul>
@@ -201,7 +201,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :alert}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :alert, class: "icon-boring"}) %>
               <span>Sign Up for T-Alerts</span>
             </p>
             <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
@@ -219,7 +219,7 @@
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo}) %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
               <span>About Us</span>
             </p>
             <div class="col-xs-6 p-a-0">
@@ -257,7 +257,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :suitcase})  %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :suitcase, class: "icon-boring"})  %>
               <span>Business Center</span>
             </p>
             <ul>
@@ -280,7 +280,7 @@
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
-              <%= svg_icon_with_circle %SvgIconWithCircle{icon: :tools} %>
+              <%= svg_icon_with_circle %SvgIconWithCircle{icon: :tools, class: "icon-boring"} %>
               <span>Improvements and Projects</span>
             </p>
             <ul>

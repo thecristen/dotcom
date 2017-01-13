@@ -42,24 +42,20 @@ defmodule Site.ScheduleView do
   defp do_update_schedule_url({route, new_query}, conn), do: schedule_path(conn, :show, route, new_query |> Enum.into([]))
 
   def stop_info_link(stop) do
-    do_stop_info_link(Stops.Repo.get(stop.id))
-  end
-
-  defp do_stop_info_link(%{id: id, name: name}) do
+    %Stops.Stop{id: id, name: name} = Stops.Repo.get(stop.id)
     title = "View stop information for #{name}"
-    body = ~e(
-      <%= svg_icon %SvgIcon{icon: :map} %>
-      <span class="sr-or-no-js"> <%= title %>
-    )
 
-    link(
+    link [
       to: stop_path(Site.Endpoint, :show, id),
       class: "station-info-link",
-      data: [
-        toggle: "tooltip"
-      ],
-      title: title,
-      do: body)
+      data: [toggle: "tooltip"],
+      title: title
+    ] do
+      [
+        svg_icon(%SvgIcon{icon: :map, class: "icon-small"}),
+        content_tag(:span, title, class: "sr-or-no-js")
+      ]
+    end
   end
 
   def reverse_direction_opts(origin, dest, route_id, direction_id) do

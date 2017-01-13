@@ -1,160 +1,225 @@
+@import 'variables';
+
 //scss-lint:disable SelectorFormat
-.mbta-custom-icon {
+.icon {
   display: inline-block;
+  font-size: 1rem;
+  line-height: 1rem;
+  vertical-align: text-bottom;
+
+  svg {
+    height: $icon-size;
+    width: $icon-size;
+  }
 
   @include hover-focus-active {
     text-decoration: none;
   }
+}
 
-  svg {
-    height: 2rem;
-    vertical-align: middle;
-    width: 2rem;
-  }
-
-  &.icon-with-circle {
-    margin-right: .5rem;
-
-    &.icon-small {
-      margin-right: .375rem;
-    }
-  }
-
-  &.icon-small {
-    svg {
-      height: 1.5rem;
-      width: 1.5rem;
-    }
-  }
-
-  &.icon-large {
-    svg {
-      height: 1rem;
-      width: 4rem;
-    }
-  }
-
-  &.icon-blue-line,
-  &.icon-red-line,
-  &.icon-orange-line,
-  &.icon-green-line,
-  &.icon-mattapan-line {
-    svg {
-      height: 1.2rem;
-      width: 1.2rem;
-    }
+// Adjust icon position relative to headers
+h1,
+.h1 {
+  .icon {
+    bottom: .15rem;
+    position: relative;
   }
 }
 
+h2,
+.h2 {
+  .icon {
+    bottom: .075rem;
+    position: relative;
+  }
+}
+
+// Sizes
+.icon-small {
+  svg {
+    height: $icon-size-sm;
+    width: $icon-size-sm;
+  }
+}
+
+.icon-large {
+  svg {
+    height: $icon-size-lg;
+    width: $icon-size-lg;
+  }
+}
+
+// Groups
+
+.icon-group {
+  margin-left: -1 * $base-spacing-sm;
+  margin-right: -1 * $base-spacing-sm;
+
+  .icon {
+    margin-left: $base-spacing-sm / 2;
+    margin-right: $base-spacing-sm / 2;
+  }
+}
+
+// Default colors
 .icon-image {
+  fill: $gray-dark;
+}
+
+.icon-circle {
   fill: $white;
 }
 
-.icon-alert {
-  margin-right: 0;
+// Icon-specifc colors
+.icon-map-image,
+.icon-globe-image {
+  fill: transparent;
+  stroke: $gray-dark;
+}
 
-  &.icon-with-circle {
-    svg {
-      height: 1.75rem;
-      width: 1.75rem;
+a {
+  .icon-map-image,
+  .icon-globe-image {
+    .icon-image {
+      stroke: $link-color;
     }
   }
+}
 
-  svg {
-    height: 1rem;
-    width: 1rem;
-  }
+.icon-alert-circle {
+  fill: $gray-dark;
 
-  .icon-image {
-    fill: $brand-navy-dark;
+  + .icon-alert-image {
+    fill: $alert-color;
   }
 }
 
-.icon-globe {
-  .icon-image {
+.icon-bus-circle {
+  fill: $brand-secondary;
+}
+
+.icon-commuter-rail-circle {
+  fill: $brand-commuter-rail;
+
+  + .icon-commuter-rail-image {
     fill: $white;
-    stroke: $brand-navy-dark;
   }
 }
 
-.icon-bus {
+.icon-subway-circle {
+  fill: $brand-subway;
+
+  + .icon-subway-image {
+    fill: $white;
+  }
+}
+
+.icon-ferry-circle {
+  fill: $brand-ferry;
+
+  + .icon-ferry-image {
+    fill: $white;
+  }
+}
+
+.icon-blue-line-circle {
+  fill: $brand-blue-line;
+
+  + .icon-blue-line-image {
+    fill: $white;
+  }
+}
+
+.icon-red-line-circle,
+.icon-mattapan-line-circle {
+  fill: $brand-red-line;
+
+  + .icon-image {
+    fill: $white;
+  }
+}
+
+.icon-orange-line-circle {
+  fill: $brand-orange-line;
+
+  + .icon-orange-line-image {
+    fill: $white;
+  }
+}
+
+.icon-green-line-circle {
+  fill: $brand-green-line;
+
+  + .icon-green-line-image {
+    fill: $white;
+  }
+}
+
+.icon-access-circle {
+  fill: $brand-primary;
+
+  + .icon-access-image {
+    fill: $white;
+  }
+}
+
+.icon-the-ride-circle {
+  fill: $brand-the-ride;
+
+  + .icon-the-ride-image {
+    fill: $white;
+  }
+}
+
+.icon-twitter-circle {
+  fill: $twitter;
+}
+
+.icon-facebook-circle {
+  fill: $facebook;
+
+  + .icon-facebook-image {
+    fill: $white;
+  }
+}
+
+// Overrides
+
+.icon-boring {
+  // normal fill for content, white circle with gray border
+  .icon-circle {
+    fill: $white;
+    stroke: $gray-dark;
+  }
+
   .icon-image {
     fill: $gray-dark;
   }
 
+  // some overrides
+  .icon-map-image,
+  .icon-globe-image {
+    fill: transparent;
+    stroke: $gray-dark;
+  }
+}
+
+.icon-inverse {
+  // white fill, white border, transparent fill
   .icon-circle {
-    fill: $brand-secondary;
+    fill: transparent;
+    stroke: $white;
   }
-}
 
-.icon-subway {
-  .icon-circle {
-    fill: $gray;
+  .icon-image {
+    fill: $white;
+    stroke: transparent;
   }
-}
 
-.icon-commuter-rail {
-  .icon-circle {
-    fill: $brand-commuter;
-  }
-}
-
-.icon-ferry {
-  .icon-circle {
-    fill: $brand-primary-light;
-  }
-}
-
-.icon-blue-line,
-.blue {
-  .icon-circle {
-    fill: $brand-blue-line;
-  }
-}
-
-.icon-red-line,
-.icon-mattapan-line,
-.red,
-.mattapan {
-  .icon-circle {
-    fill: $brand-red-line;
-  }
-}
-
-.icon-orange-line,
-.orange {
-  .icon-circle {
-    fill: $brand-orange-line;
-  }
-}
-
-.icon-green-line,
-.green {
-  .icon-circle {
-    fill: $brand-green-line;
-  }
-}
-
-.icon-access {
-  .icon-circle {
-    fill: $brand-primary;
-  }
-}
-
-.icon-the-ride {
-  svg {
-    fill: $brand-the-ride;
-  }
-}
-
-.icon-twitter {
-  circle {
-    fill: $twitter;
-  }
-}
-
-.icon-facebook {
-  circle {
-    fill: $facebook;
+  // some overrides
+  .icon-map-image,
+  .icon-globe-image {
+    fill: transparent;
+    stroke: $white;
   }
 }

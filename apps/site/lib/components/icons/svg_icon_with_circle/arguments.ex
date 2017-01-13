@@ -6,6 +6,21 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
     class: String.t
   }
 
+  def variants() do
+    for {title, svg_icon} <- Site.Components.Icons.SvgIcon.variants,
+      {class_title, class} <- [
+        {"", ""},
+        {" (Small)", "icon-small"},
+        {" (Large)", "icon-large"},
+        {" (Boring)", "icon-boring"},
+        {" (Inverse)", "icon-inverse"}] do
+      {
+        "#{title} with circle#{class_title}",
+        %__MODULE__{icon: svg_icon.icon, class: class}
+      }
+    end
+  end
+
   def circle_viewbox(:twitter), do: "400 400"
   def circle_viewbox(:facebook), do: "75 75"
   def circle_viewbox(_icon), do: "42 42"
@@ -28,8 +43,11 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def circle_args(:facebook), do: "r=37 cx=37 cy=37"
   def circle_args(_icon), do: "r=20 cx=20 cy=20"
 
+  def title(:access) do
+    "Accessible"
+  end
   def title(icon) when icon in [
-    :bus, :subway, :ferry, :commuter_rail, :the_ride, :access,
+    :bus, :subway, :ferry, :commuter_rail, :the_ride,
     :orange_line, :green_line, :red_line, :blue_line, :mattapan_line
   ] do
     Site.ViewHelpers.mode_name(icon)

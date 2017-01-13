@@ -2,9 +2,9 @@
   <div class="container">
     <div class="pre-container-header">
       <h1 class="pre-container-welcome">Welcome to the MBTA</h1>
-      <p class="route-type-icons" aria-hidden="true">
+      <p class="route-type-icons icon-group" aria-hidden="true">
         <%= for mode <- ~w(commuter_rail bus subway ferry)a do %>
-          <%= link svg_icon_with_circle(%SvgIconWithCircle{icon: mode}), to: "##{mode}" %>
+          <%= link svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-large icon-inverse"}), to: "##{mode}" %>
         <% end %>
       </p>
     </div>

@@ -58,6 +58,7 @@ $space-1: $space-12 / 12; // 1px real, 0.5px Zeplin
 
 $base-spacing: $space-16;
 $base-spacing-sm: $space-8;
+$base-spacing-lg: $space-24;
 
 $font-family-base: 'Lato', $font-family-sans-serif;
 
@@ -81,6 +82,8 @@ $font-size-h6-xxl: $font-size-h5;
 $headings-margin-bottom: $space-16;
 
 $default-border-radius: $space-4;
-$route-icon-diameter: $space-36;
+$icon-size: $space-16 * 1.5;
+$icon-size-sm: $space-16;
+$icon-size-lg: $space-16 * 3;
 
 $desktop-header-pattern: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAM0lEQVQYV2Nkl9X7z4AGnIz0GBjRJUCC+85dQpWACYIMgOtAFoRLoAuCJTz9Y/6DzEQHAIosF48Uujm+AAAAAElFTkSuQmCC);

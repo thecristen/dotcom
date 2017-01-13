@@ -1,5 +1,6 @@
 defmodule Site.Components.Icons.SvgIcon do
   defstruct [icon: :bus, class: ""]
+
   @type t :: %__MODULE__{icon: icon_arg, class: String.t}
   @type icon_arg :: atom | String.t | Routes.Route.t | 0..4
 
@@ -62,8 +63,7 @@ defmodule Site.Components.Icons.SvgIcon do
         "M0,0 l0,7 l9,0 l0,15.5 l7,0 l0,-15.5 l9,0 l0,-7 Z"},
 
     {:alert,
-        "M10.515 1.073c.818-1.436 2.15-1.425 2.962 0l10.166 17.865c.818 1.437.142 2.602-1.52 2.602H1.864c-1.657
-        0-2.33-1.176-1.52-2.602L10.516 1.073zm-.36 6.92h3v6h-3v-6zm0 7.53h3v3h-3v-3z"},
+        "m10.981,1.436c0.818,-1.436 2.15,-1.425 2.962,0l10.166,17.865c0.818,1.437 0.142,2.602 -1.52,2.602l-20.259,0c-1.657,0 -2.33,-1.176 -1.52,-2.602l10.172,-17.865l-0.001,0zm-0.359,6.92l3,0l0,6l-3,0l0,-6zm0,7.53l3,0l0,3l-3,0l0,-3z"},
 
     {:access,
         "M17 22.4c-1.5 3-4.6 5-8 5-5 0-9-4-9-9 0-3.5 2-6.7 5.3-8.2l.2 2.7c-2 1-3 3.2-3 5.4C2.5 22 5.5 25 9 25
@@ -126,17 +126,27 @@ defmodule Site.Components.Icons.SvgIcon do
     {:facebook,
      "M40.43,21.739h-7.645v-5.014c0-1.883,1.248-2.322,2.127-2.322c0.877,0,5.395,0,5.395,0V6.125l-7.43-0.029  c-8.248,0-10.125,6.174-10.125,10.125v5.518h-4.77v8.53h4.77c0,10.947,0,24.137,0,24.137h10.033c0,0,0-13.32,0-24.137h6.77  L40.43,21.739z"
     }
-  ]
+  ] |> Map.new
+
+  def variants() do
+    # remove the default icon
+    other_icons = Map.drop(@icons, [%__MODULE__{}.icon])
+    for {icon, _path} <- other_icons do
+      {icon_title(icon),
+       %__MODULE__{
+         icon: icon
+       }}
+    end
+  end
 
   def get_path(atom) when atom in [:green_line, :red_line, :blue_line, :orange_line, :mattapan_line], do: get_path(:t_logo)
   def get_path(atom) when is_atom(atom) do
     @icons
-    |> Map.new
     |> Map.get(atom)
     |> String.replace(~r/\n/, "")
     |> String.replace(~r/\t/, "")
     |> String.replace(~r/\s\s/, " ")
-    |> build_path(atom)
+    |> build_path
   end
   def get_path(arg), do: get_path(get_icon_atom(arg))
 
@@ -164,10 +174,10 @@ defmodule Site.Components.Icons.SvgIcon do
   def icon_title(:alert), do: "Service alert or delay"
   def icon_title(icon), do: "#{icon} icon"
 
-  def build_path(path, atom), do: ~s(<path class="icon-image #{atom}-image" d="#{path}"></path>) |> Phoenix.HTML.raw
+  def build_path(path), do: Phoenix.HTML.Tag.tag :path, d: path
 
   def viewbox(:map), do: "26 24"
-  def viewbox(:alert), do: "24 22"
+  def viewbox(:alert), do: "24 24"
   def viewbox(:the_ride), do: "36 36"
   def viewbox(:twitter), do: "400 400"
   def viewbox(:facebook), do: "75 75"

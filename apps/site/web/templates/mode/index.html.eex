@@ -10,9 +10,7 @@
           <div class="mode-group">
             <div class="mode-group-header">
               <h2>
-                <span class="route-icon route-icon-the-ride">
-                  <%= svg "the-ride.svg" %>
-                </span>
+                <%= svg_icon_with_circle %SvgIconWithCircle{icon: :the_ride} %>
                 <span>The RIDE</span>
               </h2>
             </div>

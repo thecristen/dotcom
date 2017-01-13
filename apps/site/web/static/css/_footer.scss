@@ -1,20 +1,20 @@
 @import 'variables';
 
-$footer-xs: 145px;
-$footer-sm: 117px;
-$footer-md-up: 428px;
+$footer-xs: 9rem;
+$footer-sm: 7.3125rem;
+$footer-md-up: 26rem;
 
 .body-wrapper {
   @include media-breakpoint-only(xs) {
-    margin-bottom: $footer-xs;
+    margin-bottom: $footer-xs + $base-spacing;
   }
 
   @include media-breakpoint-only(sm) {
-    margin-bottom: $footer-sm;
+    margin-bottom: $footer-sm + $base-spacing;
   }
 
   @include media-breakpoint-up(md) {
-    margin-bottom: $footer-md-up;
+    margin-bottom: $footer-md-up + $base-spacing;
   }
 }
 

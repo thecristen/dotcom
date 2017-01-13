@@ -42,7 +42,7 @@
   }
 
   .btn-selected-bottom-commuter-rail {
-    @include btn-selected-bottom-mode($brand-commuter);
+    @include btn-selected-bottom-mode($brand-commuter-rail);
   }
 
   .btn-selected-bottom-ferry {
@@ -61,15 +61,6 @@
 .show-btn {
   @include media-breakpoint-down(xs) {
     width: 100%;
-  }
-
-  .route-icon {
-    @include route-icon($space-24, $space-4);
-  }
-
-  svg {
-    height: $space-24;
-    width: $space-24;
   }
 }
 

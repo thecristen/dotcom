@@ -91,11 +91,6 @@ $icon-size: 1.75rem;
   a {
     color: $brand-primary-light;
   }
-
-  .route-icon {
-    @include route-icon(1.5rem);
-    margin: 0 0 0 .25rem;
-  }
 }
 
 .header-fares {
@@ -127,34 +122,6 @@ $icon-size: 1.75rem;
 }
 
 // scss-lint:disable IdSelector
-// scss-lint:disable SelectorFormat
-#gettingAround,
-#contactUs,
-#more {
-  .mbta-custom-icon {
-    width: $icon-size;
-  }
-
-  .icon-circle {
-    fill: $white;
-  }
-
-  .icon-image {
-    fill: $brand-navy-dark;
-  }
-
-  .map-image {
-    fill: $white;
-    stroke: $brand-navy-dark;
-    stroke-width: 1.5px;
-  }
-
-  .globe-image {
-    fill: $white;
-    stroke: $brand-navy-dark;
-  }
-}
-
 #faresDrawer {
   .fares-column {
     padding: 0 1.5rem;

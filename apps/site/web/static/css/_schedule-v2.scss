@@ -24,12 +24,6 @@
     border-bottom: 1px solid $gray-lightest;
     position: relative;
 
-    .mbta-custom-icon {
-      left: 6px;
-      position: absolute;
-      top: 3px;
-    }
-
     &::before {
       border-left: $space-4 solid $brand-primary-dark;
       content: '';

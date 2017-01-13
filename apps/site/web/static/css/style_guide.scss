@@ -4,8 +4,6 @@
 $padding: 1rem;
 
 .style-guide {
-  @import 'app';
-
   background: none;
 
   @include media-breakpoint-down(sm) {
@@ -261,4 +259,11 @@ $padding: 1rem;
     height: 200px;
     width: 100%;
   }
+}
+
+// add a background since these icons are displayed on a dark background
+.icon-inverse,
+.icon-boring {
+  background: $gray-dark;
+  padding: $padding / 2;
 }
