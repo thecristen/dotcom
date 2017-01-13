@@ -140,10 +140,10 @@ body {
 
 .beta-announcement {
   float: left;
-  width: 83%;
+  width: 91%; // 11 columns
 
   @include media-breakpoint-up(md) {
-    width: 91%;
+    width: 83%; // 10 columns
   }
 
   + a {
