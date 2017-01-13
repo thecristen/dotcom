@@ -131,6 +131,7 @@ defmodule Site.ComponentsTest do
       assert title(%Routes.Route{id: "Blue"}) == "Blue Line"
       assert title(%Routes.Route{id: "Mattapan"}) == "Mattapan Line"
       assert title(%Routes.Route{id: "Green-B"}) == "Green Line"
+      assert title(%Routes.Route{type: 4}) == "Ferry"
     end
   end
 
