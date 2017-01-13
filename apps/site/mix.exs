@@ -25,7 +25,7 @@ defmodule Site.Mixfile do
             :stops, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
             :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday,
-            :parallel_stream]
+            :parallel_stream, :vehicles]
 
     apps = if Mix.env == :prod do
       [:ehmon | apps]
@@ -80,7 +80,8 @@ defmodule Site.Mixfile do
      {:bypass, "~> 0.1", only: :test},
      {:dialyxir, ">= 0.3.5", only: [:test, :dev]},
      {:benchfella, "~> 0.3", only: :dev},
-     {:excoveralls, "~> 0.5", only: :test}
+     {:excoveralls, "~> 0.5", only: :test},
+     {:vehicles, in_umbrella: true}
     ]
   end
 end

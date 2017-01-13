@@ -13,6 +13,13 @@ defmodule Vehicles.RepoTest do
     test "if there are no vehicles on the route, returns the empty list" do
       assert Repo.route("bogus") == []
     end
+
+    test "optionally takes a direction_id parameter" do
+      vehicles = Repo.route("CR-Lowell", direction_id: 1)
+      for vehicle <- vehicles do
+        assert match?(%Vehicle{route_id: "CR-Lowell", direction_id: 1}, vehicle)
+      end
+    end
   end
 
   describe "trip/1" do

@@ -85,6 +85,10 @@
     color: $white;
     font-weight: bold;
 
+    .icon-image {
+      fill: $white;
+    }
+
     a {
       color: $white;
 
@@ -94,10 +98,22 @@
     }
   }
 
-  tbody td {
-    border-bottom: 1px solid $gray-lightest;
+  tbody {
+    .mbta-custom-icon {
+      left: .25rem;
+      position: relative;
+      top: .25rem;
+    }
 
-    &.time-column {
+    .icon-image {
+      fill: $gray-dark;
+    }
+
+    td {
+      border-bottom: 1px solid $gray-lightest;
+    }
+
+    .time-column {
       background-color: $gray-lightest;
       border: 0;
     }

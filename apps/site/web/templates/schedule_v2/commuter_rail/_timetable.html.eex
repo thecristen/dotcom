@@ -23,12 +23,12 @@
           </td>
           <td class="time-column"></td>
           <%= for schedule <- header_schedules do %>
-            <% trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] %>
             <td>
-              <%= if trip_schedule do %>
+              <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
                 <%= format_schedule_time(trip_schedule.time) %>
               <% end %>
-            </td>
+              <%= vehicle_location(@vehicle_locations[{schedule.trip.id, stop.id}]) %>
+             </td>
           <% end %>
           <td class="time-column"></td>
         </tr>

@@ -9,9 +9,10 @@ defmodule Vehicles.Repo do
     "include": "stop"
   ]
 
-  @spec route(String.t) :: [Vehicle.t]
-  def route(route_id) do
+  @spec route(String.t, Keyword.t) :: [Vehicle.t]
+  def route(route_id, opts \\ []) do
     [route: route_id]
+    |> Keyword.merge(opts)
     |> cache(&fetch/1)
   end
 

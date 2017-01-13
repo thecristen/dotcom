@@ -6,8 +6,10 @@ defmodule Site.ScheduleV2ViewTest do
   alias Schedules.Stop
 
   describe "update_schedule_url/2" do
-    test "adds additional parameters to a conn", %{conn: conn} do
-      conn = %{conn | params: %{"route" => "route"}}
+    test "adds additional parameters to a conn" do
+      conn = :get
+      |> build_conn(bus_path(Site.Endpoint, :show, "route"))
+      |> fetch_query_params
 
       actual = update_schedule_url(conn, trip: "trip")
       expected = bus_path(conn, :show, "route", trip: "trip")
@@ -15,8 +17,10 @@ defmodule Site.ScheduleV2ViewTest do
       assert expected == actual
     end
 
-    test "updates existing parameters in a conn", %{conn: conn} do
-      conn = %{conn | params: %{"route" => "route", "trip" => "old"}}
+    test "updates existing parameters in a conn" do
+      conn = :get
+      |> build_conn(bus_path(Site.Endpoint, :show, "route", trip: "old"))
+      |> fetch_query_params
 
       actual = update_schedule_url(conn, trip: "trip")
       expected = bus_path(conn, :show, "route", trip: "trip")
@@ -24,8 +28,10 @@ defmodule Site.ScheduleV2ViewTest do
       assert expected == actual
     end
 
-    test "setting a value to nil removes it from the URL", %{conn: conn} do
-      conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
+    test "setting a value to nil removes it from the URL" do
+      conn = :get
+      |> build_conn(bus_path(Site.Endpoint, :show, "route", trip: "trip"))
+      |> fetch_query_params
 
       actual = update_schedule_url(conn, trip: nil)
       expected = bus_path(conn, :show, "route")
@@ -33,8 +39,10 @@ defmodule Site.ScheduleV2ViewTest do
       assert expected == actual
     end
 
-    test "setting a value to \"\" keeps it from the URL", %{conn: conn} do
-      conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
+    test "setting a value to \"\" keeps it from the URL" do
+      conn = :get
+      |> build_conn(bus_path(Site.Endpoint, :show, "route", trip: "trip"))
+      |> fetch_query_params
 
       actual = update_schedule_url(conn, trip: "")
       expected = bus_path(conn, :show, "route", trip: "")
