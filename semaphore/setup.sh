@@ -1,5 +1,8 @@
 set -e
 
+kiex install 1.4.0
+kiex use 1.4.0
+
 mix local.hex --force
 mix local.rebar --force
 MIX_ENV=test mix do deps.get, deps.compile
