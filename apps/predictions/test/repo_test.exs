@@ -29,7 +29,7 @@ defmodule Predictions.RepoTest do
         Application.put_env(:v3_api, :base_url, v3_url)
       end
 
-      Application.put_env(:v3_api, :base_url, "")
+      Application.put_env(:v3_api, :base_url, "http://localhost:0/")
 
       assert Repo.all(route: "test_down_server") == []
     end

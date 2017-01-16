@@ -19,7 +19,7 @@ defmodule Content.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :timex, :httpoison, :poison, :plug],
+    [applications: [:logger, :timex, :httpoison, :poison, :plug, :tzdata],
      mod: {Content, []}]
   end
 
