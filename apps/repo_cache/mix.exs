@@ -37,7 +37,7 @@ defmodule RepoCache.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:con_cache, "~> 0.11.0"},
+    [{:con_cache, "~> 0.12.0"},
      {:excoveralls, "~> 0.5", only: :test}
     ]
   end
