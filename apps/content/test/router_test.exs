@@ -31,13 +31,13 @@ defmodule Content.RouterTest do
 
   describe "forward_response/2" do
     test "returns a 404 if there's an error" do
-      response = forward_response(build_conn, {:error, "something"})
+      response = forward_response(build_conn(), {:error, "something"})
       assert response.status == 404
       assert response.state == :sent
     end
 
     test "returns a 404 if the remote side returned a 404" do
-      response = forward_response(build_conn, {:ok, %HTTPoison.Response{status_code: 404}})
+      response = forward_response(build_conn(), {:ok, %HTTPoison.Response{status_code: 404}})
       assert response.status == 404
       assert response.state == :sent
     end
@@ -51,7 +51,7 @@ defmodule Content.RouterTest do
                   {"Date", "date"},
                   {"Content-Length", "5"}]
       }
-      response = forward_response(build_conn, {:ok, remote_response})
+      response = forward_response(build_conn(), {:ok, remote_response})
       assert response.status == 200
       assert response.resp_body == remote_response.body
       assert get_resp_header(response, "content-type") == ["text/plain"]

@@ -12,8 +12,8 @@ defmodule Site.AlertControllerTest do
   end
 
   describe "mode icons" do
-    setup do
-      {:ok, conn: build_conn, alerts: Enum.map([:bus, :subway, :commuter_rail, :ferry, :access], &create_alert/1)}
+    setup %{conn: conn} do
+      {:ok, conn: conn, alerts: Enum.map([:bus, :subway, :commuter_rail, :ferry, :access], &create_alert/1)}
     end
 
     test "are shown on subway alerts", %{conn: conn, alerts: alerts} do

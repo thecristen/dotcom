@@ -223,7 +223,7 @@ defmodule Stops.NearbyTest do
         actual = gather_stops(@position, commuter, subway, bus)
 
         # returns results if there are inputs
-        if (commuter ++ subway ++ bus) == [] do
+        if [] == (commuter ++ subway ++ bus) do
           assert actual == []
         else
           refute actual == []
@@ -239,7 +239,7 @@ defmodule Stops.NearbyTest do
   end
 
   def random_stops(count) do
-    Enum.map(1..count, fn _ -> random_stop end)
+    Enum.map(1..count, fn _ -> random_stop() end)
   end
 
   defp random_stop do
@@ -252,7 +252,7 @@ defmodule Stops.NearbyTest do
     }
   end
 
-  defp random_around(float, range \\ 10000) do
+  defp random_around(float, range \\ 10_000) do
     integer = :crypto.rand_uniform(-1 * range, range)
     float + (integer / range)
   end

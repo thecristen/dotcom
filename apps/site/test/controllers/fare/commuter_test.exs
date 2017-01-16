@@ -1,10 +1,10 @@
 defmodule Site.FareController.CommuterTest do
   use Site.ConnCase, async: true
 
-  test "finds fares based on origin and destination" do
+  test "finds fares based on origin and destination", %{conn: conn} do
     origin = Stops.Repo.get("place-north")
     destination = Stops.Repo.get("Concord")
-    conn = build_conn
+    conn = conn
     |> assign(:origin, origin)
     |> assign(:destination, destination)
 

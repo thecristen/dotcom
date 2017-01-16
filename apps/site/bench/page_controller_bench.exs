@@ -6,7 +6,7 @@ defmodule PageControllerBench do
 
   setup_all do
     Application.ensure_all_started(:site)
-    conn = get build_conn, "/"
+    conn = get build_conn(), "/"
     200 = conn.status
     {:ok, nil}
   end

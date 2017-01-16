@@ -98,7 +98,7 @@ defmodule Content.Parse.PageTest do
     end
 
     property "always returns either {:ok, %Page{}} or {:error, any}" do
-      for_all body in unicode_binary do
+      for_all body in unicode_binary() do
         result = parse(body)
         match?({:ok, %Content.Page{}}, result) || match?({:error, _}, result)
       end
