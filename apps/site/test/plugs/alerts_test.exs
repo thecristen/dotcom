@@ -4,12 +4,16 @@ defmodule Site.Plugs.AlertsTest do
 
   alias Alerts.{Alert, InformedEntity}
   alias Site.Plugs.Alerts
-  import Phoenix.ConnTest, only: [build_conn: 0]
   import Plug.Conn, only: [assign: 3, fetch_query_params: 1]
 
-  test "assigns alerts, upcoming_alerts" do
-    conn = build_conn
-    |> assign(:date, Util.service_date)
+  setup _ do
+    conn = Phoenix.ConnTest.build_conn
+    {:ok, %{conn: conn}}
+  end
+
+  test "assigns alerts, upcoming_alerts", %{conn: conn} do
+    conn = conn
+    |> assign(:date, Util.service_date())
     |> Alerts.call(fn -> [] end)
 
     assert conn.assigns.all_alerts == []
@@ -17,7 +21,7 @@ defmodule Site.Plugs.AlertsTest do
     assert conn.assigns.alerts == []
   end
 
-  test "includes alerts which only match the route type" do
+  test "includes alerts which only match the route type", %{conn: conn} do
     route = %Routes.Route{
       type: 2
     }
@@ -32,7 +36,7 @@ defmodule Site.Plugs.AlertsTest do
       updated_at: Util.now
     }
 
-    conn = build_conn
+    conn = conn
     |> assign(:date, Util.today)
     |> assign(:route, route)
     |> fetch_query_params
@@ -41,9 +45,9 @@ defmodule Site.Plugs.AlertsTest do
     assert conn.assigns.all_alerts == [cr_alert]
   end
 
-  property "sorts the notices by their updated at times (newest to oldest)" do
-    date = Util.service_date |> Timex.shift(days: 1) # put them in the future
-    for_all times in list(pos_integer) do
+  property "sorts the notices by their updated at times (newest to oldest)", %{conn: conn} do
+    date = Util.service_date() |> Timex.shift(days: 1) # put them in the future
+    for_all times in list(pos_integer()) do
       # create alerts with a bunch of updated_at times
       alerts = for time <- times do
         dt = date |> Timex.shift(seconds: time)
@@ -52,7 +56,7 @@ defmodule Site.Plugs.AlertsTest do
                active_period: [{nil, nil}]}
       end
 
-      conn = build_conn
+      conn = conn
       |> assign(:date, date)
       |> Alerts.call(fn -> alerts end)
 

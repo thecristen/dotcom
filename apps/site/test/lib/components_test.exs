@@ -60,7 +60,7 @@ defmodule Site.ComponentsTest do
                   informed_entity: [%Alerts.InformedEntity{route: "106", route_type: 3}],
                   lifecycle: "New",
                   severity: "Moderate",
-                  active_period: current_active_period
+                  active_period: current_active_period()
         }]}) |> safe_to_string
       assert rendered =~ "icon-alert"
       refute rendered =~ "icon-circle"
@@ -145,20 +145,20 @@ defmodule Site.ComponentsTest do
     end
 
     test "renders a list of tabs for with links for modes, including access and the ride" do
-      rendered = tab_args |> mode_tab_list |> safe_to_string
+      rendered = tab_args() |> mode_tab_list() |> safe_to_string()
       for link <- ["/bus", "/subway", "/the-ride", "/access"] do
         assert rendered =~ ~s(href="#{link}")
       end
     end
 
     test "displays the selected tab as such" do
-      rendered = tab_args |> mode_tab_list |> safe_to_string
+      rendered = tab_args() |> mode_tab_list() |> safe_to_string()
       assert rendered =~ "alert-show-btn-bus show-btn-selected"
       assert rendered =~ "btn-selected-bottom-bus"
     end
 
     test "renders icons for each mode" do
-      rendered = tab_args |> mode_tab_list |> safe_to_string
+      rendered = tab_args() |> mode_tab_list() |> safe_to_string()
       for mode <- ["bus", "subway", "the-ride", "access"] do
         assert rendered =~ "icon-#{mode}"
       end

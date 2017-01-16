@@ -11,13 +11,13 @@ defmodule UtilTest do
     end
 
     property "always returns an element from the list" do
-      for_all l in non_empty(list(int)) do
+      for_all l in non_empty(list(int())) do
         Enum.member?(l, most_frequent_value(l))
       end
     end
 
     property "count of most_frequent value is equal or greater than the count of other elements" do
-      for_all l in non_empty(list(int)) do
+      for_all l in non_empty(list(int())) do
         most_frequent_value = most_frequent_value(l)
         most_frequent_count = Enum.count(l, &(&1 === most_frequent_value))
         Enum.all?(l, fn value ->
@@ -36,14 +36,14 @@ defmodule UtilTest do
           ] do
 
           utc_fn = fn -> Timex.set(time, timezone: "UTC") end
-          assert utc_fn |> now |> Timex.format("{ISO:Extended}") == {:ok, expected}
+          assert utc_fn |> now() |> Timex.format("{ISO:Extended}") == {:ok, expected}
       end
     end
   end
 
   describe "service_date/0" do
     test "returns the service date for the current time" do
-      assert service_date == service_date(now)
+      assert service_date() == service_date(now())
     end
   end
 

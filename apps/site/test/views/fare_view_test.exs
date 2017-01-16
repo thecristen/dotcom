@@ -42,7 +42,7 @@ defmodule Site.FareViewTest do
 
   describe "vending_machine_stations/0" do
     test "generates a list of links to stations with fare vending machines" do
-      content = vending_machine_stations
+      content = vending_machine_stations()
       |> Enum.map(&raw/1)
       |> Enum.map(&safe_to_string/1)
       |> Enum.join("")
@@ -64,7 +64,7 @@ defmodule Site.FareViewTest do
 
   describe "charlie_card_stations/0" do
     test "generates a list of links to stations where a customer can buy a CharlieCard" do
-      content = charlie_card_stations
+      content = charlie_card_stations()
       |> Enum.map(&raw/1)
       |> Enum.map(&safe_to_string/1)
       |> Enum.join("")
@@ -138,7 +138,7 @@ defmodule Site.FareViewTest do
 
     test "for ferry" do
       content = :ferry |> origin_destination_description |> safe_to_string
-      assert content =~ "Ferry fares depend on your origin and destination." 
+      assert content =~ "Ferry fares depend on your origin and destination."
     end
   end
 end

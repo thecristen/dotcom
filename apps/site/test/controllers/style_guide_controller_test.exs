@@ -28,9 +28,9 @@ defmodule Site.StyleGuideControllerTest do
     end)
   end
 
-  test "@components gets assigned to conn when visiting /style_guide/*" do
+  test "@components gets assigned to conn when visiting /style_guide/*", %{conn: conn} do
     assigned_components =
-      build_conn
+      conn
       |> bypass_through(:browser)
       |> get("/style_guide")
       |> Map.get(:assigns)
@@ -39,10 +39,10 @@ defmodule Site.StyleGuideControllerTest do
     assert @components == assigned_components
   end
 
-  test "component pages in style guide do not cause 500 errors" do
+  test "component pages in style guide do not cause 500 errors", %{conn: conn} do
     @components
-    |> Enum.map(&get_component_section_conn/1)
-    |> Enum.each(&(assert %{conn: %{status: 200}} = &1))
+    |> Enum.map(&get_component_section_conn(conn, &1))
+    |> Enum.each(&(assert &1.status == 200))
   end
 
   test "/style_guide/content redirects to /style_guide/content/audience_goals_tone", %{conn: conn} do
@@ -64,11 +64,10 @@ defmodule Site.StyleGuideControllerTest do
   # HELPER FUNCTIONS
   ###########################
 
-  def get_component_section_conn({section, components}) do
-    conn = build_conn
+  def get_component_section_conn(conn, {section, _components}) do
+    conn
     |> bypass_through(:browser)
     |> get("/style_guide/components/#{section}")
-    %{conn: conn, section: section, components: components}
   end
 
 end

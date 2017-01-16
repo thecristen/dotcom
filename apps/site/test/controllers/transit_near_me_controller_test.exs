@@ -39,14 +39,22 @@ defmodule Site.TransitNearMeControllerTest do
       assert response =~ "any stations found"
     end
 
-    test "assigns results into different number of groups based on column width" do
-      [{"1200", 12, 4}, {"800", 12, 3}, {"600", 12, 2}, {"300", 12, 1}]
-      |> Enum.each(&test_column_assignment/1)
+    test "assigns results into different number of groups based on column width", %{conn: conn} do
+      for {width, num_results, expected_columns} <- [
+            {"1200", 12, 4},
+            {"800", 12, 3},
+            {"600", 12, 2},
+            {"300", 12, 1}] do
+          stops = stops_with_routes(num_results)
+          conn = search_near_address(conn, "10 park plaza, boston ma", stops, width)
+          number_of_groups = Map.size(conn.assigns.stop_groups)
+          assert {width, expected_columns} == {width, number_of_groups}
+      end
     end
 
-    test "does not generate column groups if client_width is 0" do
+    test "does not generate column groups if client_width is 0", %{conn: conn} do
       stops = stops_with_routes(12)
-      assert %{assigns: assigns} = search_near_address(build_conn, "10 park plaza, boston ma", stops, "0")
+      assert %{assigns: assigns} = search_near_address(conn, "10 park plaza, boston ma", stops, "0")
       refute Map.get(assigns, :stop_groups)
     end
   end
@@ -71,15 +79,5 @@ defmodule Site.TransitNearMeControllerTest do
   end
 
   @spec stops_with_routes(integer) :: [Stop.t]
-  def stops_with_routes(num), do: Enum.map 1..num, fn _ -> @stop_with_routes end
-
-  @spec test_column_assignment({String.t, integer, integer}) :: :ok
-  defp test_column_assignment({width, num_results, expected}) do
-    stops = stops_with_routes(num_results)
-    assert %{assigns: %{stop_groups: groups}} = search_near_address(build_conn, "10 park plaza, boston ma", stops, width)
-    assert {width, groups
-                   |> Map.keys
-                   |> length} == {width, expected}
-    :ok
-  end
+  def stops_with_routes(num), do: List.duplicate(@stop_with_routes, num)
 end

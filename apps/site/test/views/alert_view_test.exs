@@ -5,10 +5,7 @@ defmodule Site.AlertViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.AlertView
 
-  @stop %Schedules.Stop{id: "stop_id"}
-  @trip %Schedules.Trip{id: "trip_id"}
   @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
-  @schedule %Schedules.Schedule{stop: @stop, trip: @trip, route: @route}
 
   describe "alert_effects/1" do
     test "returns one alert for one effect" do

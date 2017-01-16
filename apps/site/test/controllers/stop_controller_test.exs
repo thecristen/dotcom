@@ -85,10 +85,10 @@ defmodule Site.StopControllerTest do
     end
 
     test "returns only access issues which affect the given stop" do
-      assert StopController.access_alerts(alerts, %Stops.Stop{id: "place-sstat"}) == [
+      assert StopController.access_alerts(alerts(), %Stops.Stop{id: "place-sstat"}) == [
         %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}]}
       ]
-      assert StopController.access_alerts(alerts, %Stops.Stop{id: "place-davis"}) == []
+      assert StopController.access_alerts(alerts(), %Stops.Stop{id: "place-davis"}) == []
     end
   end
 end

@@ -15,7 +15,7 @@ defmodule Site.CustomerSupportControllerTest do
     end
 
     test "shows a thank you message on success and sends an email", %{conn: conn} do
-      conn = post conn, customer_support_path(conn, :submit), valid_post_data
+      conn = post conn, customer_support_path(conn, :submit), valid_post_data()
       response = html_response(conn, 302)
       refute response =~ "form id=\"support-form\""
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
@@ -23,30 +23,30 @@ defmodule Site.CustomerSupportControllerTest do
     end
 
     test "validates presence of comments", %{conn: conn} do
-      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data, "comments", "")
+      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data(), "comments", "")
       assert "comments" in conn.assigns.errors
     end
 
     test "invalid with no email or phone", %{conn: conn} do
-      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data, "email", "")
+      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data(), "email", "")
       assert "contacts" in conn.assigns.errors
     end
 
     test "requires a real email", %{conn: conn} do
-      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data, "email", "not an email")
+      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data(), "email", "not an email")
       assert "contacts" in conn.assigns.errors
     end
 
     test "valid with a phone number", %{conn: conn} do
       conn = post conn,
         customer_support_path(conn, :submit),
-        Map.merge(valid_post_data, %{"email" => "", "phone" => "555-555-5555"})
+        Map.merge(valid_post_data(), %{"email" => "", "phone" => "555-555-5555"})
       refute html_response(conn, 302) =~ "form id=\"support-form\""
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
     end
 
     test "validates presence of privacy checkbox", %{conn: conn} do
-      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data, "privacy", "")
+      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data(), "privacy", "")
       assert "privacy" in conn.assigns.errors
     end
   end
