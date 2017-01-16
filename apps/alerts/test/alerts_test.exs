@@ -6,32 +6,32 @@ defmodule AlertsTest do
   describe "is_notice?/2" do
     test "Delay alerts are not notices" do
       delay = %Alert{effect_name: "Delay"}
-      refute Alert.is_notice? delay, now
+      refute Alert.is_notice? delay, now()
     end
 
     test "Suspension alerts are not notices" do
       suspension = %Alert{effect_name: "Suspension"}
-      refute Alert.is_notice? suspension, now
+      refute Alert.is_notice? suspension, now()
     end
 
     test "Track Change is a notice" do
       change = %Alert{effect_name: "Track Change"}
-      assert Alert.is_notice? change, now
+      assert Alert.is_notice? change, now()
     end
 
     test "Minor Service Change is a notice" do
       change = %Alert{effect_name: "Service Change", severity: "Minor"}
-      assert Alert.is_notice? change, now
+      assert Alert.is_notice? change, now()
     end
 
     test "Current non-minor Service Change is an alert" do
-      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(now, days: -1), nil}]}
-      refute Alert.is_notice? change, now
+      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(now(), days: -1), nil}]}
+      refute Alert.is_notice? change, now()
     end
 
     test "Future non-minor Service Change is a notice" do
-      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(now, days: 5), nil}]}
-      assert Alert.is_notice? change, now
+      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(now(), days: 5), nil}]}
+      assert Alert.is_notice? change, now()
     end
 
     test "Shuttle is an alert if it's active and not Ongoing" do
@@ -48,12 +48,12 @@ defmodule AlertsTest do
       shuttle = %Alert{effect_name: "Shuttle",
                        active_period: [{Timex.shift(today, days: -1), nil}],
                        lifecycle: "Ongoing"}
-      assert Alert.is_notice? shuttle, now
+      assert Alert.is_notice? shuttle, now()
     end
 
     test "Cancellation is an alert if it's today" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
-      future = now |> Timex.shift(minutes: 5)
+      future = Timex.shift(now(), minutes: 5)
       cancellation = %Alert{effect_name: "Cancellation",
                             active_period: [{future, future}],
                             lifecycle: "New"}
