@@ -60,8 +60,7 @@ defmodule GoogleMaps do
 
 
   defp get_env(key) do
-    env = Application.get_env(:site, __MODULE__, [])
-    case Keyword.get(env, key, "") do
+    case Application.get_env(:google_maps, key) do
       "${" <> _ ->
         # relx configuration that wasn't overriden; ignore
         ""

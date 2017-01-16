@@ -5,8 +5,8 @@ defmodule Fares.FareInfoTest do
 
   describe "fare_info/0" do
     test "returns a non-empty list of Fare objects" do
-      actual = fare_info
-      assert fare_info != []
+      actual = fare_info()
+      refute actual == []
       assert Enum.all?(actual, &match?(%Fare{}, &1))
     end
   end

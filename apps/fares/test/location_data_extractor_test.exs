@@ -1,7 +1,6 @@
 defmodule Fares.RetailLocationsDataExtractorTest do
   use ExUnit.Case, async: false
-  # IO.warn Code.loaded_files
-  # require GoogleMaps.Geocode
+
   alias GoogleMaps.Geocode.Address
   alias Fares.RetailLocations.{Location, Data, Extractor}
 
@@ -17,7 +16,7 @@ defmodule Fares.RetailLocationsDataExtractorTest do
     end
 
     test "writes extracted data to a valid json file" do
-      make_test_file
+      make_test_file()
       location = %Location{location: "10 Park Plaza", city: "Boston"}
       refute File.exists? @test_output_path
 
@@ -37,19 +36,19 @@ defmodule Fares.RetailLocationsDataExtractorTest do
       |> Poison.decode!
 
       assert written == expected
-      remove_test_files
+      remove_test_files()
     end
 
     test "extracts data from content.csv" do
-      make_test_file
-      assert :ok = run_mix_task
+      make_test_file()
+      assert :ok = run_mix_task()
       @test_output_file
       |> Data.get
       |> Enum.each(fn %Location{latitude: lat, longitude: lng} ->
         assert is_float(lat)
         assert is_float(lng)
       end)
-      remove_test_files
+      remove_test_files()
     end
 
     test "logs information" do
@@ -89,12 +88,12 @@ defmodule Fares.RetailLocationsDataExtractorTest do
     end
 
     test "can run and finish" do
-      make_test_file
-      assert :ok = run_mix_task
-      remove_test_files
+      make_test_file()
+      assert :ok = run_mix_task()
+      remove_test_files()
     end
 
-    def make_test_file, do: File.write! @test_input_path, fare_location_data
+    def make_test_file, do: File.write! @test_input_path, fare_location_data()
 
     def remove_test_files do
       File.rm @test_input_path

@@ -29,7 +29,7 @@ defmodule Mix.Tasks.Fares.Locations do
   end
   def start(true, arguments) do
     {:ok, _} = Application.ensure_all_started(:fares)
-    {:ok, _} = Application.ensure_all_started(:site)
+    {:ok, _} = Application.ensure_all_started(:google_maps)
 
     {:ok, pid} = GenServer.start_link(Extractor, arguments)
     GenServer.call(pid, :start, 1000 * 60 * 5)
@@ -50,8 +50,6 @@ defmodule Fares.RetailLocations.Extractor do
   """
 
   @type api_fn :: {atom, atom}
-
-  @csv "content.csv"
 
   def init(args) do
     {:ok, args}

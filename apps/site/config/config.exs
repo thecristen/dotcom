@@ -25,11 +25,6 @@ config :site, Site.ViewHelpers,
   feedback_form_url:
     "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
-config :site, GoogleMaps,
-      google_api_key: System.get_env("GOOGLE_API_KEY"),
-      client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
-      signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
-
 config :laboratory,
   features: [],
   cookie: [
