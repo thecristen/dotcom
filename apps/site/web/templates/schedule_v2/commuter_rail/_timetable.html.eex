@@ -10,6 +10,9 @@
         <%= for schedule <- header_schedules do %>
           <td>
             <%= schedule.trip.name %>
+            <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: schedule.time, route: @route.id, direction_id: @direction_id) != [] do %>
+              <%= svg_icon(%SvgIcon{icon: :alert}) %>
+            <% end %>
           </td>
         <% end %>
         <td class="time-column-header"><%= later_link(@conn) %></td>
@@ -20,6 +23,9 @@
         <tr>
           <td>
             <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
+            <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
+              <%= svg_icon(%SvgIcon{icon: :alert}) %>
+            <% end %>
           </td>
           <td class="time-column"></td>
           <%= for schedule <- header_schedules do %>
