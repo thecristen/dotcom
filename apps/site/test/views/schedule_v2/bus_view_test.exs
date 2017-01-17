@@ -164,6 +164,17 @@ defmodule Site.ScheduleV2.BusViewTest do
       assert get_valid_trip(schedule_pair3) == "1"
     end
   end
+  describe "all_trips/1" do
+    test "limits trips if passed false value" do
+      schedule = %Schedule{trip: %Trip{id: 1}}
+      many_schedules = [schedule] |> Stream.cycle |> Enum.take(50)
+      limited_trips = all_trips(many_schedules, false)
+      complete_trips = all_trips(many_schedules, true)
+
+      assert Enum.count(limited_trips) < Enum.count(many_schedules)
+      assert complete_trips == many_schedules
+    end
+  end
 
   defp prediction?({{_, nil}, {_, nil}}), do: false
   defp prediction?(_), do: true

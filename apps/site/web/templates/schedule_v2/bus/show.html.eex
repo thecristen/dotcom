@@ -4,11 +4,7 @@
 <%= Site.ScheduleV2View.render "_stop_filters.html", forward_assigns(@conn) %>
 <%= if @origin do %>
   <div class="row">
-    <%= if @destination do %>
-      <%= render "_origin_destination_trip.html", forward_assigns(@conn) %>
-    <% else %>
-      <%= render "_origin_trip.html", forward_assigns(@conn) %>
-    <% end %>
+    <%= render "_origin_trip.html", forward_assigns(@conn) %>
     <%= if @trip_schedule && @trip_schedule != [] do %>
       <%= render "_trip_info.html", forward_assigns(@conn) %>
     <% end %>

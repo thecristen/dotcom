@@ -1,20 +1,46 @@
 <div class="col-xs-6 schedule-v2">
   <div class="schedule-list-group">
     <div class="schedule-list-group-item schedule-list-group-header">
-      <div class="col-xs-6">Scheduled</div>
-      <div class="col-xs-6"><%= display_direction(@schedules) %></div>
+      <%= if @destination do %>
+        <div class="col-xs-6">Departure</div>
+        <div class="col-xs-6">Arrival</div>
+      <% else %>
+        <div class="col-xs-6">Scheduled</div>
+        <div class="col-xs-6"><%= display_direction(@schedules) %></div>
+      <% end %>
     </div>
-    <%= for departure <- merge_predictions_and_schedules(@predictions, @schedules) do %>
-      <%= link to: update_url(@conn, trip: departure.trip.id), class: "schedule-list-group-item" do %>
+    <%= if @destination do %>
+      <% display_trips = @schedules |> group_trips(@predictions, @origin, @destination) |> all_trips(@show_all_trips) %>
+      <%= for {departure, arrival} <- display_trips do %>
+        <%= link to: update_url(@conn, trip: departure |> elem(0) |> Map.get(:trip) |> Map.get(:id)), class: "schedule-list-group-item" do %>
+          <div class="col-xs-6">
+            <%= display_scheduled_prediction(departure) %>
+          </div>
+          <div class="col-xs-6">
+            <%= display_scheduled_prediction(arrival)%>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% display_trips = @predictions |> merge_predictions_and_schedules(@schedules) |> all_trips(@show_all_trips) %>
+      <%= for departure <- display_trips do %>
+        <%= link to: update_url(@conn, trip: departure.trip.id), class: "schedule-list-group-item" do %>
+          <div class="col-xs-6">
+            <%= if match?(%Predictions.Prediction{}, departure), do: fa("rss") %>
+            <%= departure.time |> Timex.format!("{0h12}:{m}{AM}") %>
+          </div>
+          <div class="col-xs-6">
+            <%= departure.trip.headsign %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= unless @show_all_trips do %>
+      <%= link to: update_url(@conn, show_all_trips: true) do %>
         <div class="col-xs-6">
-          <%= if match?(%Predictions.Prediction{}, departure), do: fa("rss") %>
-          <%= departure.time |> Timex.format!("{0h12}:{m}{AM}") %>
-        </div>
-        <div class="col-xs-6">
-          <%= departure.trip.headsign %>
+          Show all trips for <%= Site.ScheduleV2View.pretty_date(@date) %>
         </div>
       <% end %>
     <% end %>
-    <%= link "Show All Trips", to: update_url(@conn, show_all_trips: true)%>
   </div>
 </div>
