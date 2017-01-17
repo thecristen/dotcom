@@ -5,6 +5,28 @@
     // left/right padding is reduced to account for the column padding
     padding: .75rem (.75rem - $grid-gutter-width / 2);
   }
+
+  .trip-info-content {
+    padding-left: $grid-gutter-width;
+    padding-right: $grid-gutter-width;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .trip-info-row {
+    padding-bottom: $grid-gutter-width;
+    padding-top: $grid-gutter-width;
+  }
+
+  .schedule-row {
+    border-bottom: 1px solid $gray-lightest;
+
+    &:last-child {
+      border-bottom-width: 0;
+    }
+  }
 }
 
 .btn.schedule-v2-direction-btn {

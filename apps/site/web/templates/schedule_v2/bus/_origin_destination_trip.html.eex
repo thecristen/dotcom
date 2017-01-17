@@ -1,18 +1,18 @@
-<div class="row schedule-v2">
-  <div class="col-xs-6 schedule-list-group">
+<div class="col-xs-6 schedule-v2">
+  <div class="schedule-list-group">
     <div class="schedule-list-group-item schedule-list-group-header">
       <div class="col-xs-6">Departure</div>
       <div class="col-xs-6">Arrival</div>
     </div>
     <%= for {departure, arrival} <- group_trips(@schedules, @predictions, @origin, @destination) do %>
-      <a class="schedule-list-group-item" <%# href="TODO" %>>
+      <%= link to: update_url(@conn, trip: departure |> elem(0) |> Map.get(:trip) |> Map.get(:id)), class: "schedule-list-group-item" do %>
         <div class="col-xs-6">
           <%= display_scheduled_prediction(departure) %>
         </div>
         <div class="col-xs-6">
           <%= display_scheduled_prediction(arrival)%>
         </div>
-      </a>
+      <% end %>
     <% end %>
     <% # TODO: Add expanded list link %>
   </div>

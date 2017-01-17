@@ -1,0 +1,4 @@
+<p class="trip-info-row schedule-row row">
+  <%= link @link_text, to: @href, class: "col-xs-6" %>
+  <%= content_tag :span, Timex.format!(@time,"{0h12}:{m}{AM}"), class: "col-xs-6" %>
+</p>

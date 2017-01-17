@@ -1,5 +1,6 @@
 defmodule Site.ScheduleV2.BusView do
   use Site.Web, :view
+  import Site.ScheduleV2.TripInfoView
 
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
@@ -12,11 +13,10 @@ defmodule Site.ScheduleV2.BusView do
   schedules have the same route and direction.
   """
   @spec display_direction([Schedule.t]) :: iodata
-  def display_direction([
-    %Schedule{
-      route: route,
-      trip: %Trip{direction_id: direction_id}}
-    | _]) do
+  def display_direction([%Schedule{route: route, trip: %Trip{direction_id: direction_id}}|_]) do
+    [direction(direction_id, route), " to"]
+  end
+  def display_direction([{%Schedule{route: route, trip: %Trip{direction_id: direction_id}}, _} | _]) do
     [direction(direction_id, route), " to"]
   end
   def display_direction([]), do: ""
@@ -50,6 +50,25 @@ defmodule Site.ScheduleV2.BusView do
     |> Enum.concat(scheduled_after_predictions)
   end
 
+  def schedules_between_stops(schedules, from_id, to_id) do
+    schedules
+    |> filter_beginning(from_id)
+    |> filter_end(to_id)
+  end
+
+  defp filter_beginning(schedules, from_id) do
+    Enum.drop_while(schedules, &(&1.stop.id !== from_id))
+  end
+
+  defp filter_end(schedules, nil) do
+    schedules
+  end
+  defp filter_end(schedules, to_id) do
+    schedules
+    |> Enum.reverse
+    |> Enum.drop_while(&(&1.stop.id !== to_id))
+    |> Enum.reverse
+  end
 
   @doc "Display Prediction time with rss icon if available. Otherwise display scheduled time"
   @spec display_scheduled_prediction(scheduled_prediction) :: Phoenix.HTML.Safe.t | String.t
