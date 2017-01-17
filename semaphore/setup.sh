@@ -1,8 +1,10 @@
 set -e
 
+export MIX_HOME=$SEMAPHORE_CACHE_DIR
+
 . /home/runner/.kerl/installs/19.1/activate
-kiex install 1.3.4
-kiex use 1.3.4
+kiex install 1.4.0
+kiex use 1.4.0
 
 mix local.hex --force
 mix local.rebar --force

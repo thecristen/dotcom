@@ -1,10 +1,7 @@
 defmodule Site.ScheduleV2.TripInfoTest do
   use Site.ConnCase, async: true
-  alias Routes.Route
   alias Site.ScheduleV2.TripInfo
   alias Schedules.{Stop, Schedule, Trip}
-
-  @route %Route{id: "1", name: "1", key_route?: true, type: 3}
 
   @origin %Stop{id: "64", name: "Dudley Station"}
   @destination  %Stop{id: "110", name: "Massachusetts Ave @ Holyoke St"}
