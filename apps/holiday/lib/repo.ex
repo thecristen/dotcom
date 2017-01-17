@@ -105,7 +105,7 @@ defmodule Holiday.Repo do
       same_time_frame?.(:year, h) and same_time_frame?.(:month, h)
     end
 
-    all
+    all()
     |> Enum.filter(upcoming?)
   end
 end

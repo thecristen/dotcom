@@ -7,7 +7,7 @@ defmodule Site.BetaAnnouncementTest do
     assert show_announcement?(conn)
 
     conn = conn
-    |> put_req_cookie(beta_announcement_cookie, "true")
+    |> put_req_cookie(beta_announcement_cookie(), "true")
     |> Plug.Conn.fetch_cookies
 
     refute show_announcement?(conn)

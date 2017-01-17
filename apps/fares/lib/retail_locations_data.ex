@@ -4,10 +4,8 @@ defmodule Fares.RetailLocations.Data do
   """
   alias Fares.RetailLocations.Location
 
-  def file, do: "fare_location_data.json"
-
   @spec get(String.t) :: [Location.t]
-  def get(output_file \\ file) do
+  def get(output_file \\ "fare_location_data.json") do
     output_file
     |> file_path
     |> File.read!

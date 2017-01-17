@@ -20,25 +20,6 @@ defmodule RepoCacheTest do
   use ExUnit.Case, async: true
   alias RepoCacheTest.Repo
 
-  defp purge_cache do
-    # We send a bunch of :check_purge messages to force the ConCache.Owner
-    # process to expire values.  Normally, we'd have to wait at least a
-    # second, possibly 2, to have items expire automatically.
-    pid = Process.whereis(:repo_cache_cache)
-    Enum.each(0..2, fn _ ->
-      send pid, :check_purge
-    end)
-    wait_for_empty_queue(pid)
-  end
-
-  defp wait_for_empty_queue(pid) do
-    case Process.info(pid)[:message_queue_len] do
-      0 -> :ok
-      _ -> wait_for_empty_queue(pid)
-    end
-  end
-
-
   test "returns the cache result multiple times for the same key" do
     first = Repo.time(1)
     second = Repo.time(1)

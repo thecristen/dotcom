@@ -41,7 +41,7 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp geocode_domain do
-    Application.get_env(:site, GoogleMaps)[:domain] || "https://maps.google.com"
+    Application.get_env(:google_maps, :domain) || "https://maps.google.com"
   end
 
   defp parse_google_response({:error, error}) do

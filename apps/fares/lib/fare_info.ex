@@ -15,7 +15,7 @@ defmodule Fares.FareInfo do
     |> Enum.flat_map(&mapper/1)
   end
 
-  @lint {Credo.Check.Refactor.ABCSize, false}
+  _ = @lint {Credo.Check.Refactor.ABCSize, false}
   @spec mapper([String.t]) :: [Fare.t]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
     base = %Fare{

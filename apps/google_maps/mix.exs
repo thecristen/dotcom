@@ -1,17 +1,16 @@
-defmodule Alerts.Mixfile do
+defmodule GoogleMaps.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :alerts,
-     version: "0.0.1",
+    [app: :google_maps,
+     version: "0.1.0",
      build_path: "../../_build",
      config_path: "../../config/config.exs",
      deps_path: "../../deps",
      lockfile: "../../mix.lock",
-     elixir: "~> 1.2",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     test_coverage: [tool: ExCoveralls],
      deps: deps()]
   end
 
@@ -19,29 +18,27 @@ defmodule Alerts.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :timex, :repo_cache, :con_cache, :tzdata],
-     mod: {Alerts, []}]
+    # Specify extra applications you'll use from Erlang/Elixir
+    [extra_applications: [:logger]]
   end
 
   # Dependencies can be Hex packages:
   #
-  #   {:mydep, "~> 0.3.0"}
+  #   {:my_dep, "~> 0.3.0"}
   #
   # Or git/path repositories:
   #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
+  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
   #
   # To depend on another app inside the umbrella:
   #
-  #   {:myapp, in_umbrella: true}
+  #   {:my_app, in_umbrella: true}
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:v3_api, in_umbrella: true},
-     {:repo_cache, in_umbrella: true},
-     {:con_cache, "~> 0.11.0"},
-     {:timex, ">= 0.0.0"},
-     {:excoveralls, "~> 0.5", only: :test},
-     {:benchfella, "~> 0.3", only: :dev}]
+    [
+      {:stops, in_umbrella: true},
+      {:bypass, ">= 0.0.0", only: :test}
+    ]
   end
 end

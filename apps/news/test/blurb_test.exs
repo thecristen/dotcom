@@ -9,13 +9,13 @@ defmodule News.BlurbTest do
   @max_blurb_length_padding String.duplicate("x", Blurb.max_length + 1)
 
   property "keeps string under or equal to max_length characters" do
-    for_all x in unicode_binary do
+    for_all x in unicode_binary() do
       String.length(Blurb.blurb(x)) <= Blurb.max_length
     end
   end
 
   property "ends with ... if original string was > max_length characters" do
-    for_all x in unicode_binary do
+    for_all x in unicode_binary() do
       text = @max_blurb_length_padding <> x
       String.slice(Blurb.blurb(text), @suffix_range) == Blurb.suffix
     end
@@ -29,14 +29,14 @@ defmodule News.BlurbTest do
   end
 
   property "removes a paragraph if it contains 'Media Contact'" do
-    for_all {a, b, c, d} in {unicode_binary, unicode_binary, unicode_binary, unicode_binary} do
+    for_all {a, b, c, d} in {unicode_binary(), unicode_binary(), unicode_binary(), unicode_binary()} do
       text = "<p>" <> a <> "Media Contact" <> b <> "</p>" <> c <> "<p>" <> d <> "</p>"
       Blurb.blurb(text) == Blurb.blurb(d)
     end
   end
 
   property "returns a blurb from the first non-empty paragraph" do
-    for_all {a, b, c} in {unicode_binary, unicode_binary, unicode_binary} do
+    for_all {a, b, c} in {unicode_binary(), unicode_binary(), unicode_binary()} do
       text = "<p>" <> a <> "</p>" <> b <> "<p>" <> c <> "</p>"
       actual = Blurb.blurb(text)
       expected = if String.strip(a) == "" do
@@ -49,7 +49,8 @@ defmodule News.BlurbTest do
     end
   end
 
-  _ = @lint {Credo.Check.Readability.MaxLineLength, false}
+  @lint {Credo.Check.Readability.MaxLineLength, false}
+  _ = @lint
   test "removes a paragraph if it contains 'Media Contact'" do
     text = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p>MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features Performance Trends over Time</p>"
     expected = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features P..."
@@ -58,7 +59,8 @@ defmodule News.BlurbTest do
     assert actual == expected
   end
 
-  _ = @lint {Credo.Check.Readability.MaxLineLength, false}
+  @lint {Credo.Check.Readability.MaxLineLength, false}
+  _ = @lint
   test "removes a paragraph if it contains 'Media Contact' and strips HTML tags" do
     text = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p><b>MBTA Debuts Performance Dashboard 2.0.</b> Updated Dashboard Features Performance Trends over Time</p>"
     expected = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features P..."

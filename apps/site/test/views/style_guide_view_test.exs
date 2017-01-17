@@ -46,14 +46,14 @@ defmodule Site.StyleGuideViewTest do
 
   describe "CSS variable parser" do
     test "scss variables are parsed into the correct structure" do
-      assert sorted_color_groups ==
+      assert sorted_color_groups() ==
         Site.StyleGuideView.CssVariables.parse_scss_variables("_colors")
         |> Map.keys
         |> Enum.sort
     end
 
     test "`use Site.StyleGuideView.CssVariables` parses scss variables into an attribute at compile time" do
-      assert sorted_color_groups ==
+      assert sorted_color_groups() ==
         @colors
         |> Map.keys
         |> Enum.sort

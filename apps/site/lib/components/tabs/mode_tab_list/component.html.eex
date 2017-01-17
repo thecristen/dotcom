@@ -4,7 +4,7 @@
       <% selected_class = if selected?(mode, args.selected_mode), do: "show-btn-selected", else: "" %>
       <% mode_string = hyphenated_mode_string(mode) %>
       <%= Phoenix.HTML.Link.link to: href, class: "btn show-btn alert-show-btn-#{mode_string} #{selected_class}" do %>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode}) %>
+        <%= svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode}) %>
         <%= mode_name(mode) %>
         <%= if selected_class != "" do %>
           <span class="btn-selected-bottom-<%= mode_string %>"></span>

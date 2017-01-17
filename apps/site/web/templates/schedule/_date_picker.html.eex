@@ -31,12 +31,12 @@
           <tr>
             <td colspan=7 class="month">
               <strong>
-                <%= link(to: update_schedule_url(@conn, date: Date.to_string(decrement_month(@date))), class: "p-x-g#{previous_month_class(@date)}") do %>
+                <%= link(to: update_schedule_url(@conn, date: Timex.format!(decrement_month(@date), "{ISOdate}")), class: "p-x-g#{previous_month_class(@date)}") do %>
                   <%= fa "chevron-circle-left"%>
                 <% end %>
                 <%= Timex.month_name(@date.month)%>
                 <%= @date.year %>
-                <%= link(to: update_schedule_url(@conn, date: Date.to_string(add_month(@date))), class: "p-x-g") do %>
+                <%= link(to: update_schedule_url(@conn, date: Timex.format(add_month(@date), "{ISOdate}")), class: "p-x-g") do %>
                   <%= fa "chevron-circle-right"%>
                 <% end %>
               </strong>

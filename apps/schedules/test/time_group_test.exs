@@ -27,7 +27,7 @@ defmodule TimeGroupTest do
   end
 
   property "by_hour keeps schedules globally ordered" do
-    for_all seconds in list(non_neg_integer) do
+    for_all seconds in list(non_neg_integer()) do
       times = seconds
       |> Enum.map(fn seconds -> DateTime.from_unix!(seconds) end)
 

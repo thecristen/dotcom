@@ -1,5 +1,5 @@
 defmodule Site.Plugs.TransitNearMeTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
 
   import Site.Plugs.TransitNearMe
 

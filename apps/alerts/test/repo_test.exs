@@ -6,7 +6,7 @@ defmodule Alerts.RepoTest do
   @tag :external
   describe "banner/0" do
     test "returns a banner or nil" do
-      actual = banner
+      actual = banner()
       assert match?(%Alerts.Banner{}, actual) or actual == nil
     end
   end

@@ -5,9 +5,8 @@ defmodule Site.ScheduleController.DefaultsTest do
 
   @opts Defaults.init([])
 
-  setup do
-    conn = build_conn
-    |> assign(:date, Util.today)
+  setup %{conn: conn} do
+    conn = assign(conn, :date, Util.today)
     {:ok, %{conn: conn}}
   end
 

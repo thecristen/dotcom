@@ -68,11 +68,10 @@ defmodule GoogleMaps.GeocodeTest do
     end
 
     defp set_domain(new_domain) do
-      env = Application.get_env(:site, GoogleMaps)
-      Application.put_env(:site, GoogleMaps,
-        put_in(env[:domain], new_domain))
+      old_domain = Application.get_env(:google_maps, :domain)
+      Application.put_env(:google_maps, :domain, new_domain)
       on_exit fn ->
-        Application.put_env(:site, GoogleMaps, env)
+        Application.put_env(:google_maps, :domain, old_domain)
       end
     end
   end
