@@ -1,5 +1,6 @@
 set -e
 
+. /home/runner/.kerl/installs/19.1/activate
 kiex install 1.4.0
 kiex use 1.4.0
 
