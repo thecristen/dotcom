@@ -80,6 +80,14 @@ defmodule Site.ScheduleV2Controller.OffsetTest do
     |> assign(:timetable_schedules, Enum.flat_map(0..2, &make_one_trip(&1, now)))
   end
 
+  # makes a list of schedules that look like this:
+  #
+  #       | trip0       | trip1         | trip2
+  # ------+-------------+---------------+-------------
+  # stop0 | now+0min    | now+1h        | now+2h
+  # stop1 | now+10min   | now+1h+10min  | now+2h+10min
+  # stop2 | how+20min   | now+1h+20min  | now+2h+20min
+
   defp make_one_trip(i, now) do
     Enum.map(0..2, 
       &make_schedule(
