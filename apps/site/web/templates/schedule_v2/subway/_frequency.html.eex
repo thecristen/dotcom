@@ -1,5 +1,5 @@
 <div class="schedule-v2-frequency-header">Schedules For <%= Site.ScheduleV2View.pretty_date(@date) %></div>
-<%= for {name, schedules} <- TimeGroup.by_subway_period(@schedules) do %>
+<%= for {name, schedules} <- TimeGroup.by_subway_period(@all_schedules) do %>
   <div class="schedule-v2-frequency-row">
     <div class="schedule-v2-frequency-col">
       <%= case name do

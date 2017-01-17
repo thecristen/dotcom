@@ -57,7 +57,7 @@ defmodule Site.Router do
   scope "/schedules_v2", Site.ScheduleV2 do
     pipe_through [:browser]
     get "/bus/:route", BusController, :show
-    get "/frequency/:route", BusController, :frequency
+    get "/subway/frequency/:route", SubwayController, :frequency
     get "/commuter_rail/timetable/:route", CommuterRailController, :timetable
   end
 

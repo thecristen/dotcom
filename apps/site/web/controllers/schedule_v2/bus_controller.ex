@@ -20,8 +20,4 @@ defmodule Site.ScheduleV2.BusController do
     conn
     |> render("show.html")
   end
-
-  def frequency(conn, _) do
-    render(conn, "_frequency.html")
-  end
 end

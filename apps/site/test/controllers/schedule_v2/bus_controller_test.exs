@@ -37,10 +37,4 @@ defmodule Site.ScheduleV2.BusControllerTest do
     response = html_response(conn, 200)
     refute response =~ "Arriving at:"
   end
-
-  test "Renders frequency of transit on a line", %{conn: conn} do
-    conn = get(conn, bus_path(conn, :frequency, "11"))
-    response = html_response(conn, 200)
-    assert response =~ "Schedules For Today"
-  end
 end
