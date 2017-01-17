@@ -46,7 +46,8 @@ defmodule Fares.Mixfile do
       {:csv, "~> 1.4.2"},
       {:excoveralls, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},
-      {:stops, in_umbrella: true}
+      {:stops, in_umbrella: true},
+      {:google_maps, in_umbrella: true}
     ]
   end
 end
