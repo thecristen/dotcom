@@ -167,7 +167,7 @@ defmodule Site.ScheduleV2.BusViewTest do
   describe "all_trips/1" do
     test "limits trips if passed false value" do
       schedule = %Schedule{trip: %Trip{id: 1}}
-      many_schedules = [schedule] |> Stream.cycle |> Enum.take(50)
+      many_schedules = List.duplicate(schedule, 50)
       limited_trips = all_trips(many_schedules, false)
       complete_trips = all_trips(many_schedules, true)
 

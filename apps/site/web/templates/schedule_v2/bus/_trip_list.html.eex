@@ -27,7 +27,7 @@
         <%= link to: update_url(@conn, trip: departure.trip.id), class: "schedule-list-group-item" do %>
           <div class="col-xs-6">
             <%= if match?(%Predictions.Prediction{}, departure), do: fa("rss") %>
-            <%= departure.time |> Timex.format!("{0h12}:{m}{AM}") %>
+            <%= format_schedule_time(departure.time) %>
           </div>
           <div class="col-xs-6">
             <%= departure.trip.headsign %>

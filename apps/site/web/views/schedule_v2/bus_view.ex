@@ -162,5 +162,5 @@ defmodule Site.ScheduleV2.BusView do
   def all_trips(trips, true), do: trips
 
   @spec trips_limit() :: integer
-  defp trips_limit, do: 14
+  defp trips_limit(), do: 14
 end
