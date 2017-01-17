@@ -18,6 +18,15 @@ defmodule Fares.Mixfile do
   # Configuration for the OTP application
   #
   # Type "mix help compile.app" for more information
+  def application do
+    applications = [:logger]
+    applications = if Mix.env != :prod do
+      [:csv, :sweet_xml | applications]
+    else
+      applications
+    end
+    [applications: applications]
+  end
 
   # Dependencies can be Hex packages:
   #
@@ -37,8 +46,7 @@ defmodule Fares.Mixfile do
       {:csv, "~> 1.4.2"},
       {:excoveralls, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},
-      {:stops, in_umbrella: true},
-      {:google_maps, in_umbrella: true}
+      {:stops, in_umbrella: true}
     ]
   end
 end
