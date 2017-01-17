@@ -1,8 +1,8 @@
 set -e
 
 . /home/runner/.kerl/installs/19.1/activate
-kiex install 1.4.0
-kiex use 1.4.0
+kiex install 1.3.4
+kiex use 1.3.4
 
 mix local.hex --force
 mix local.rebar --force
