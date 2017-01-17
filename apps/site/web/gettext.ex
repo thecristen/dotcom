@@ -24,6 +24,7 @@ defmodule Site.Gettext do
              {:nowarn_function, 'MACRO-dgettext': 4},
              {:nowarn_function, 'MACRO-dngettext': 5},
              {:nowarn_function, 'MACRO-dngettext': 6},
+             {:nowarn_function, 'MACRO-ngettext_noop': 3},
              {:nowarn_function, lngettext: 6}
             ]
   use Gettext, otp_app: :site

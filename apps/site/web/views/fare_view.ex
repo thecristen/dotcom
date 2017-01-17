@@ -1,12 +1,12 @@
 defmodule Site.FareView do
   use Site.Web, :view
 
-  alias Fares.Fare
+  alias Fares.{Fare, Summary}
 
   defdelegate description(fare, assigns), to: Site.FareView.Description
 
   @doc "Renders a summary of fares into HTML"
-  @spec summarize([Fare.Summary.t]) :: Phoenix.HTML.Safe.t
+  @spec summarize([Summary.t]) :: Phoenix.HTML.Safe.t
   def summarize(summaries) do
     render("_summary.html", summaries: summaries)
   end
