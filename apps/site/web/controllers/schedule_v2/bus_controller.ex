@@ -20,12 +20,4 @@ defmodule Site.ScheduleV2.BusController do
     conn
     |> render("show.html")
   end
-
-  def origin(conn, _params) do
-    render(conn, "_origin_trip.html")
-  end
-
-  def origin_destination(conn, _params) do
-    render(conn, "_origin_destination_trip.html")
-  end
 end
