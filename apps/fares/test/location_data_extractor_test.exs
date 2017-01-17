@@ -71,8 +71,8 @@ defmodule Fares.RetailLocationsDataExtractorTest do
 
     @tag :capture_log
     test "sets lat/lng to 0.0/0.0 for addresses that return multiple results" do
-      expected = %{city: "Boston", latitude: 0.0, location: "10 Huntington Ave.", longitude: 0.0}
-      assert Extractor.get_lat_lng(%{location: "10 Huntington Ave.", city: "Boston", latitude: "", longitude: ""}, nil) == expected
+      expected = %{city: "Boston", latitude: 0.0, location: "10 Park", longitude: 0.0}
+      assert Extractor.get_lat_lng(%{location: "10 Park", city: "Boston", latitude: "", longitude: ""}, nil) == expected
     end
 
     @tag :capture_log
