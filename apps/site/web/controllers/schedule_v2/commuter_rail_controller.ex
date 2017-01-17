@@ -9,6 +9,7 @@ defmodule Site.ScheduleV2.CommuterRailController do
   plug Site.ScheduleController.AllStops
   plug Site.ScheduleV2Controller.Offset
   plug Site.ScheduleV2Controller.VehicleLocations
+  plug Site.Plugs.Alerts
 
   def timetable(conn, _params) do
     conn
