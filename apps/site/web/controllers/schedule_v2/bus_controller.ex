@@ -21,7 +21,11 @@ defmodule Site.ScheduleV2.BusController do
     |> render("show.html")
   end
 
-  def frequency(conn, _) do
-    render(conn, "_frequency.html")
+  def origin(conn, _params) do
+    render(conn, "_origin_trip.html")
+  end
+
+  def origin_destination(conn, _params) do
+    render(conn, "_origin_destination_trip.html")
   end
 end
