@@ -65,7 +65,7 @@ defmodule Site.Mixfile do
      {:exrm, ">= 0.0.0", only: :prod},
      {:inflex, "~> 1.8.0"},
      {:html_sanitize_ex, "~> 1.1.0"},
-     {:logster, "~> 0.3.0"},
+     {:logster, "~> 0.4.0"},
      {:logger_logentries_backend, github: "paulswartz/logger_logentries_backend"},
      {:excheck, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test},

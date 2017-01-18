@@ -30,7 +30,7 @@
   "jsx": {:hex, :jsx, "2.8.1", "1453b4eb3615acb3e2cd0a105d27e6761e2ed2e501ac0b390f5bbec497669846", [:mix, :rebar3], []},
   "laboratory": {:git, "https://github.com/paulswartz/laboratory.git", "24adbe2cb18d8368e140ab5e13c8f5b75adea742", [ref: "cookie_opts"]},
   "logger_logentries_backend": {:git, "https://github.com/paulswartz/logger_logentries_backend.git", "78c199ae08d9187e1315f6d4e9c03ffd22442349", []},
-  "logster": {:hex, :logster, "0.3.0", "d005f56ddc544fa104c2f089d2a96a048be659c1d0298d221377e53b17395b47", [], [{:plug, "~> 1.0", [hex: :plug, optional: false]}, {:poison, "~> 1.5 or ~> 2.0", [hex: :poison, optional: false]}]},
+  "logster": {:hex, :logster, "0.4.3", "a20e9c60e94847e60064d99042d10b1d03abac354c2b360842bf9b3386e56b4a", [:mix], [{:plug, "~> 1.0", [hex: :plug, optional: false]}, {:poison, "~> 1.5 or ~> 2.0 or ~> 3.0", [hex: :poison, optional: false]}]},
   "mailgun": {:hex, :mailgun, "0.1.2", "37c1306675cf27a66a13dea3c9d479da2a990f0aed296b5addbd0b07529b667d", [], [{:poison, "~> 1.4", [hex: :poison, optional: false]}]},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [], []},
   "mime": {:hex, :mime, "1.0.1", "05c393850524767d13a53627df71beeebb016205eb43bfbd92d14d24ec7a1b51", [], []},
