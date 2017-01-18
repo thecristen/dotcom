@@ -22,14 +22,12 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "tab_class/2" do
-    test "CSS class for selected tab" do
-      selected_class = "stations-tab stations-tab-selected"
-      non_selected_class = "stations-tab"
-      assert StopView.tab_class("schedule", nil) == selected_class
-      assert StopView.tab_class("info", nil) == non_selected_class
-      assert StopView.tab_class("schedule", "info") == non_selected_class
-      assert StopView.tab_class("info", "info") == selected_class
+  describe "tab_selected?/2" do
+    test "true for the selected tab, false otherwise" do
+      assert StopView.tab_selected?("schedule", nil)
+      refute StopView.tab_selected?("info", nil)
+      refute StopView.tab_selected?("schedule", "info")
+      assert StopView.tab_selected?("info", "info")
     end
   end
 

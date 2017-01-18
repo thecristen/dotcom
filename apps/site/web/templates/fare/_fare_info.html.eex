@@ -1,11 +1,13 @@
 <%= render "_discount_info.html", fare_type: List.first(@selected_filter.fares)  %>
-<div class="fares-tab-group"><%= if length(@filters) > 1 do %>
-  <%= for filter <- @filters do %>
-    <% selected_class = if filter.id == @selected_filter.id, do: "fares-tab-selected", else: "" %>
-    <% stacking_class = if length(@filters) == 2, do: "side-by-side", else: "" %>
-    <%= link filter.name, to: update_url(@conn, filter: filter.id), class: "fares-tab #{stacking_class} #{selected_class}" %>
-  <% end %>
-<% end %></div><%# This should stay formatted this way so that whitespace doesn't interfere with CSS using :empty (until :blank is supported)  %>
+<div class="fares-filter-list"><%= if length(@filters) > 1 do %>
+    <%= tab_list(%TabList{
+      links: for filter <- @filters do
+      {filter.name, update_url(@conn, filter: filter.id), filter.id == @selected_filter.id}
+      end,
+      class: "side-by-side"
+    })
+    %>
+  <% end %></div><%# This should stay formatted this way so that whitespace doesn't interfere with CSS using :empty (until :blank is supported) %>
 <div class="fares-box">
   <%= for pairs <- @selected_filter.fares |> Enum.chunk_by(&{&1.name, &1.duration, &1.additional_valid_modes}) |> Enum.chunk(2, 2, []) do %>
     <div class="fares-row">
