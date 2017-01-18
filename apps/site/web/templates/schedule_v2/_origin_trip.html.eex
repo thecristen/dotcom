@@ -2,9 +2,9 @@
   <div class="schedule-list-group">
     <div class="schedule-list-group-item schedule-list-group-header">
       <div class="col-xs-6">Scheduled</div>
-      <div class="col-xs-6"><%= Site.ScheduleV2.BusView.display_direction(@schedules) %></div>
+      <div class="col-xs-6"><%= display_direction(@schedules) %></div>
     </div>
-    <%= for departure <- Site.ScheduleV2.BusView.merge_predictions_and_schedules(@predictions, @schedules) do %>
+    <%= for departure <- merge_predictions_and_schedules(@predictions, @schedules) do %>
       <%= link to: update_url(@conn, trip: departure.trip.id), class: "schedule-list-group-item" do %>
         <div class="col-xs-6">
           <%= if match?(%Predictions.Prediction{}, departure), do: fa("rss") %>

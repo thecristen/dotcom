@@ -46,7 +46,7 @@ defmodule Site.Router do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end
 
-    get "/schedules_v2/:route", ScheduleV2Controller, :show
+    # get "/schedules_v2/:route", ScheduleV2Controller, :show
   end
 
 
@@ -56,11 +56,11 @@ defmodule Site.Router do
     forward "/", Laboratory.Router
   end
 
-  scope "/schedules_v2", Site.ScheduleV2 do
+  scope "/schedules_v2", Site do
     pipe_through [:browser]
-    get "/bus/:route", BusController, :show
-    get "/subway/frequency/:route", SubwayController, :frequency
-    get "/commuter_rail/timetable/:route", CommuterRailController, :timetable
+    get "/:route", ScheduleV2Controller, :show
+    get "/frequency/:route", ScheduleV2Controller, :frequency
+    get "/commuter_rail/timetable/:route", ScheduleV2.CommuterRailController, :timetable
   end
 
   # This needs to go last so that it catches any URLs that fall through.

@@ -16,7 +16,7 @@
       <span class="col-xs-6"><strong>Stops:</strong></span>
       <span class="col-xs-6"><strong>Times:</strong></span>
     </p>
-    <%= for %Schedules.Schedule{stop: stop, time: time} <- Site.ScheduleV2.BusView.schedules_between_stops(@trip_schedule, @origin, @destination) do %>
+    <%= for %Schedules.Schedule{stop: stop, time: time} <- schedules_between_stops(@trip_schedule, @origin, @destination) do %>
       <%= render "_trip_info_row.html", href: stop_path(@conn, :show, stop.id), link_text: stop.name, time: time %>
     <% end %>
     <p class="trip-info-row">

@@ -4,13 +4,13 @@
       <div class="col-xs-6">Departure</div>
       <div class="col-xs-6">Arrival</div>
     </div>
-    <%= for {departure, arrival} <- Site.ScheduleV2.BusView.group_trips(@schedules, @predictions, @origin, @destination) do %>
-      <%= link to: update_url(@conn, trip: Site.ScheduleV2.BusView.get_valid_trip({departure, arrival})), class: "schedule-list-group-item" do %>
+    <%= for {departure, arrival} <- group_trips(@schedules, @predictions, @origin, @destination) do %>
+      <%= link to: update_url(@conn, trip: get_valid_trip({departure, arrival})), class: "schedule-list-group-item" do %>
         <div class="col-xs-6">
-          <%= Site.ScheduleV2.BusView.display_scheduled_prediction(departure) %>
+          <%= display_scheduled_prediction(departure) %>
         </div>
         <div class="col-xs-6">
-          <%= Site.ScheduleV2.BusView.display_scheduled_prediction(arrival)%>
+          <%= display_scheduled_prediction(arrival)%>
         </div>
       <% end %>
     <% end %>
