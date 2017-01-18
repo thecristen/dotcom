@@ -153,7 +153,7 @@ defmodule Site.ScheduleV2.BusView do
   def get_valid_trip({{nil, nil}, {_, prediction}}), do: prediction.trip.id
   def get_valid_trip({{departure, _}, _}), do: departure.trip.id
 
-  @spec all_trips([scheduled_prediction] | [Schedule.t | Prediction.t], boolean) :: [scheduled_prediction] | [Schedule.t | Prediction.t]
+  @spec all_trips([any], boolean) :: [any]
   @doc """
   Takes a list of trips, and a boolean. If false, the trip list will be limited to `trips_limit()` trips.
   Otherwise, all trips are returned
