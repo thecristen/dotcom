@@ -16,9 +16,18 @@ defmodule Site.ScheduleV2Controller.Offset do
       _ -> 0
     end
   end
-  defp find_offset(%Plug.Conn{assigns: %{all_schedules: all_schedules, date_time: date_time}}) do
-    all_schedules
+  defp find_offset(%Plug.Conn{assigns: %{timetable_schedules: timetable_schedules, date_time: date_time}}) do
+    timetable_schedules
+    |> last_stop_schedules
     |> Enum.find_index(&Timex.after?(&1.time, date_time))
     |> Kernel.||(0)
   end
+
+  defp last_stop_schedules(timetable_schedules) do
+    timetable_schedules
+    |> Enum.reverse
+    |> Enum.uniq_by(& &1.trip)
+    |> Enum.reverse
+  end
+
 end
