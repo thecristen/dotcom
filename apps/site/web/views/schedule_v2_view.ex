@@ -238,4 +238,15 @@ end
   def get_valid_trip({{nil, prediction}, _}) when not is_nil(prediction), do: prediction.trip.id
   def get_valid_trip({{nil, nil}, {_, prediction}}), do: prediction.trip.id
   def get_valid_trip({{departure, _}, _}), do: departure.trip.id
+
+  @spec all_trips([any], boolean) :: [any]
+  @doc """
+  Takes a list of trips, and a boolean. If false, the trip list will be limited to `trips_limit()` trips.
+  Otherwise, all trips are returned
+  """
+  def all_trips(trips, false), do: Enum.take(trips, trips_limit())
+  def all_trips(trips, true), do: trips
+
+  @spec trips_limit() :: integer
+  defp trips_limit(), do: 14
 end
