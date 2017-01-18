@@ -58,7 +58,7 @@ defmodule Site.Router do
     pipe_through [:browser]
     get "/bus/:route", BusController, :show
     get "/subway/frequency/:route", SubwayController, :frequency
-    get "/commuter_rail/timetable/:route", CommuterRailController, :timetable
+    get "/commuter_rail/:route", CommuterRailController, :show
   end
 
   # This needs to go last so that it catches any URLs that fall through.
