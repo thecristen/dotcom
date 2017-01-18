@@ -150,7 +150,7 @@ defmodule Site.ScheduleV2.BusView do
   @doc "Given a scheduled_prediction, returns a valid trip id for the trip_pair"
   @spec get_valid_trip(scheduled_prediction) :: String.t
   def get_valid_trip({{nil, prediction}, _}) when not is_nil(prediction), do: prediction.trip.id
-  def get_valid_trip({_, {prediction, _}}), do: prediction.trip.id
+  def get_valid_trip({{nil, nil}, {_, prediction}}), do: prediction.trip.id
   def get_valid_trip({{departure, _}, _}), do: departure.trip.id
 
 end

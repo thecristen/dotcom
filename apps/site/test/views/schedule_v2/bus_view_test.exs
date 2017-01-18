@@ -156,8 +156,8 @@ defmodule Site.ScheduleV2.BusViewTest do
       prediction = %Prediction{trip: %Trip{id: "8"}}
 
       schedule_pair1 = {{nil, prediction}, {nil, nil}}
-      schedule_pair2 = {{nil, nil}, {prediction, nil}}
-      schedule_pair3 = {{schedule, prediction}, {schedule, nil}}
+      schedule_pair2 = {{nil, nil}, {nil, prediction}}
+      schedule_pair3 = {{schedule, nil}, {schedule, nil}}
 
       assert get_valid_trip(schedule_pair1) == "8"
       assert get_valid_trip(schedule_pair2) == "8"
