@@ -2,7 +2,6 @@ defmodule Site.ScheduleView do
   use Site.Web, :view
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-  defdelegate build_calendar(date, holidays, conn), to: Site.ScheduleView.Calendar
 
   @schedule_display_initial 12
   @schedule_display_buffer 6

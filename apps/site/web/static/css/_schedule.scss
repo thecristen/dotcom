@@ -371,12 +371,17 @@ a {
       background-color: $brand-primary-darkest;
       border-color: $brand-primary-darkest;
       color: $white;
+      font-weight: bold;
+
+      > * {
+        padding-left: $base-spacing;
+        padding-right: $base-spacing;
+      }
 
       a {
         color: $white;
 
-        &:hover,
-        &:focus {
+        @include hover-focus-active {
           text-decoration: none;
         }
       }
@@ -393,14 +398,6 @@ a {
     td {
       border: 1px solid $gray-lightest;
       padding: 0;
-
-      &:first-child {
-        background-color: $weekend-color;
-      }
-
-      &:last-child {
-        background-color: $weekend-color;
-      }
 
       a {
         display: block;
@@ -428,15 +425,17 @@ a {
   z-index: 1000;
 }
 
-//scss-lint:disable ImportantRule
-.schedule-holiday {
-  background-color: $holiday-color !important;
+.schedule-weekend {
+  background-color: $weekend-color;
 }
 
-  //scss-lint:disable ImportantRule
-.schedule-today {
-  background-color: $brand-primary !important;
-  border: 1px solid $brand-primary !important;
+.schedule-holiday {
+  background-color: $holiday-color;
+}
+
+.schedule-selected {
+  background-color: $brand-primary;
+  border: 1px solid $brand-primary;
 
   a {
     color: $white;
@@ -449,10 +448,6 @@ a {
   }
 }
 
-.schedule-weekend {
-  background-color: $weekend-color;
-}
-
 .holiday-list {
   list-style: none;
   padding-left: 0;
@@ -460,6 +455,10 @@ a {
   li {
     margin-top: .75rem;
   }
+}
+
+.holiday-list-empty {
+  font-style: italic;
 }
 
 .graph-legend {
@@ -477,15 +476,6 @@ a {
   }
 }
 
-.mobile-legend {
-  padding-left: .375rem;
-}
-
 .schedule-date-cancel {
-  margin: .75rem;
-
-  @include media-breakpoint-down(xs) {
-    margin-bottom: 1.5rem;
-    margin-left: 0;
-  }
+  margin-bottom: $base-spacing;
 }
