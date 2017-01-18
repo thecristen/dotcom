@@ -150,20 +150,17 @@ defmodule Site.ScheduleV2.BusViewTest do
     end
   end
 
-  describe "get_valid_trip/1" do
-    test "Returns a trip id" do
+  describe "get_valid_trip/2" do
+    test "Returns a trip id, preferring a prediction" do
       schedule = %Schedule{trip: %Trip{id: "1"}}
       prediction = %Prediction{trip: %Trip{id: "8"}}
 
-      schedule_pair1 = {{nil, prediction}, {nil, nil}}
-      schedule_pair2 = {{nil, nil}, {nil, prediction}}
-      schedule_pair3 = {{schedule, nil}, {schedule, nil}}
-
-      assert get_valid_trip(schedule_pair1) == "8"
-      assert get_valid_trip(schedule_pair2) == "8"
-      assert get_valid_trip(schedule_pair3) == "1"
+      assert get_valid_trip({nil, prediction}, {nil, nil}) == "8"
+      assert get_valid_trip({nil, nil}, {nil, prediction}) == "8"
+      assert get_valid_trip({schedule, nil}, {schedule, nil}) == "1"
     end
   end
+
   describe "all_trips/1" do
     test "limits trips if passed false value" do
       schedule = %Schedule{trip: %Trip{id: 1}}
