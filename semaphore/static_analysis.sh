@@ -9,4 +9,4 @@ mix compile --force --warnings-as-errors
 # Make sure stativ build happened
 test -f apps/site/priv/static/css/app.css && test -f apps/site/priv/static/js/app.js
 
-npm run dialyzer
+mix dialyzer --fullpath --halt-exit-status
