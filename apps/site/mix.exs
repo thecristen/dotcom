@@ -82,7 +82,13 @@ defmodule Site.Mixfile do
      {:benchfella, "~> 0.3", only: :dev},
      {:excoveralls, "~> 0.5", only: :test},
      {:vehicles, in_umbrella: true},
-     {:google_maps, in_umbrella: true}
-    ]
+     {:google_maps, in_umbrella: true},
+     {:floki, "~> 0.12.0", only: :test},
+     {:mochiweb, "~> 2.15.0", override: true}]
+      # NOTE: mochiweb override added to resolve dependency conflict
+      # between html_sanitize_ex (2.12.2) and floki (2.15.0). Overriding does not
+      # affect the functions we currently use html_sanitize_ex for. This should be
+      # removed as soon as html_sanitize_ex updates to ~> 2.15.0, as it's never
+      # used directly in our app.
   end
 end
