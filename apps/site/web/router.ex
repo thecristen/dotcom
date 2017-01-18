@@ -45,6 +45,8 @@ defmodule Site.Router do
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end
+
+    get "/schedules_v2/:route", ScheduleV2Controller, :show
   end
 
 
