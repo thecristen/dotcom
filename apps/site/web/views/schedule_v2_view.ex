@@ -1,6 +1,5 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
-  import Site.ScheduleV2.TripInfoView
 
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction

@@ -75,7 +75,7 @@ defmodule Site.ScheduleV2Controller.OffsetTest do
   end
 
   defp make_timetable_schedules(now) do
-    conn = build_conn()
+    build_conn()
     |> assign(:date_time, now)
     |> assign(:timetable_schedules, Enum.flat_map(0..2, &make_one_trip(&1, now)))
   end
