@@ -6,6 +6,7 @@ defmodule Site.ScheduleController do
   plug Site.Plugs.Route, required: true
   plug Site.Plugs.Date
   plug Site.Plugs.Alerts
+  plug ScheduleController.DatePicker
   plug ScheduleController.Headsigns
   plug ScheduleController.Defaults
   plug ScheduleController.RouteBreadcrumbs
@@ -24,10 +25,8 @@ defmodule Site.ScheduleController do
     new_path = schedule_path(conn, :show, new_route_id, Map.delete(params, "route"))
     redirect conn, to: new_path
   end
-  def show(conn, params) do
+  def show(conn, _params) do
     conn
-    |> assign(:date_select, show_datepicker?(params))
-    |> assign(:holidays, Holiday.Repo.holidays_in_month(conn.assigns[:date]))
     |> render("index.html")
   end
 
@@ -38,7 +37,4 @@ defmodule Site.ScheduleController do
   def disable_cache(conn, []) do
     conn
   end
-
-  def show_datepicker?(%{"date_select" => "true"}), do: true
-  def show_datepicker?(_), do: false
 end

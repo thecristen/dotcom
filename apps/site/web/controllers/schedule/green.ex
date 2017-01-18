@@ -13,12 +13,11 @@ defmodule Site.ScheduleController.Green do
   plug :green_schedules
   plug ScheduleController.DateTime
   plug ScheduleController.RouteBreadcrumbs
+  plug ScheduleController.DatePicker
   plug :headsigns
 
-  def green(conn, params) do
+  def green(conn, _params) do
     conn
-    |> assign(:date_select, params["date_select"] == "true")
-    |> assign(:holidays, Holiday.Repo.holidays_in_month(conn.assigns[:date]))
     |> render(Site.ScheduleView, "green.html", [])
   end
 
