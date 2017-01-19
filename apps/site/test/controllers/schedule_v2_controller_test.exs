@@ -37,12 +37,4 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.predictions != nil
     end
   end
-
-  describe "Subway only:" do
-    test "has the full list of schedules so in order to calculate frequencys for all time blocks", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :frequency, "11"))
-      html_response(conn, 200)
-      assert conn.assigns.all_schedules != nil
-    end
-  end
 end
