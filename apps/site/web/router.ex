@@ -58,6 +58,7 @@ defmodule Site.Router do
     pipe_through [:browser]
     get "/:route", ScheduleV2Controller, :show
     get "/frequency/:route", ScheduleV2Controller, :frequency
+    get "/commuter_rail/:route", ScheduleV2.CommuterRailController, :show
     get "/commuter_rail/timetable/:route", ScheduleV2.CommuterRailController, :timetable
   end
 
