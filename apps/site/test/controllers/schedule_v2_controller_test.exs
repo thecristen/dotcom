@@ -21,7 +21,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "finds a trip when origin has been selected", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167"))
+      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", direction_id: "1"))
       html_response(conn, 200)
       assert conn.assigns.origin == "2167"
       assert conn.assigns.trip != nil
