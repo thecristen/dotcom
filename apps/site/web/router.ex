@@ -54,11 +54,12 @@ defmodule Site.Router do
     forward "/", Laboratory.Router
   end
 
-  scope "/schedules_v2", Site.ScheduleV2 do
+  scope "/schedules_v2", Site do
     pipe_through [:browser]
-    get "/bus/:route", BusController, :show
-    get "/subway/frequency/:route", SubwayController, :frequency
-    get "/commuter_rail/:route", CommuterRailController, :show
+    get "/:route", ScheduleV2Controller, :show
+    get "/frequency/:route", ScheduleV2Controller, :frequency
+    get "/commuter_rail/:route", ScheduleV2.CommuterRailController, :show
+    get "/commuter_rail/timetable/:route", ScheduleV2.CommuterRailController, :timetable
   end
 
   # This needs to go last so that it catches any URLs that fall through.
