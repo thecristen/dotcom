@@ -16,10 +16,6 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.DirectionNames
   plug Site.ScheduleV2.TripInfo
 
-  def frequency(conn, _params) do
-    render(conn, "_frequency.html")
-  end
-
   def show(conn, _) do
     conn
     |> render("show.html")
