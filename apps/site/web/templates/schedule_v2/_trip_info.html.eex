@@ -4,7 +4,7 @@
   </div>
   <div class="trip-info-content">
     <p class="trip-info-row">
-      <%= Site.ScheduleV2.TripInfoView.full_route_name(@route) %> to
+      <%= full_route_name(@route) %> to
       <%= if destination = @trip_schedule |> List.last do %>
       <%= destination.stop.name %>
       <% else %>
@@ -21,6 +21,6 @@
     <% end %>
     <p class="trip-info-row">
       <strong>Scheduled Duration:</strong>
-      <%= Site.ScheduleV2.TripInfoView.scheduled_duration(@trip_schedule) %> minutes</p>
+      <%= scheduled_duration(@trip_schedule) %> minutes</p>
   </div>
 </div>

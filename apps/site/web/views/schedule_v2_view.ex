@@ -3,6 +3,8 @@ defmodule Site.ScheduleV2View do
 
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
+  alias Routes.Route
+  alias Schedules.Schedule
 
   @type optional_schedule :: Schedule.t | nil
   @type scheduled_prediction :: {optional_schedule, Prediction.t | nil}
@@ -57,11 +59,11 @@ defmodule Site.ScheduleV2View do
     new_dest = dest && origin
     [trip: nil, direction_id: direction_id, route: route_id]
     |> Keyword.merge(
-if Schedules.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
-  [dest: new_dest, origin: new_origin]
-else
-  [dest: nil, origin: nil]
-end
+      if Schedules.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
+        [dest: new_dest, origin: new_origin]
+      else
+        [dest: nil, origin: nil]
+      end
     )
   end
 
@@ -72,9 +74,9 @@ end
   defp do_stop_info_link(%{id: id, name: name}) do
     title = "View stop information for #{name}"
     body = ~e(
-              <%= svg_icon %SvgIcon{icon: :map} %>
-              <span class="sr-or-no-js"> <%= title %>
-            )
+      <%= svg_icon %SvgIcon{icon: :map} %>
+      <span class="sr-or-no-js"> <%= title %>
+    )
 
       link(
            to: stop_path(Site.Endpoint, :show, id),
@@ -125,12 +127,12 @@ end
   @spec limit_departures([Prediction.t | Schedule.t]) :: [Prediction.t | Schedule.t]
   defp limit_departures(departures) do
     scheduled_after_predictions = departures
-                                  |> Enum.reverse
-                                  |> Enum.take_while(&(match?(%Schedule{}, &1)))
-                                  |> Enum.reverse
+    |> Enum.reverse
+    |> Enum.take_while(&(match?(%Schedule{}, &1)))
+    |> Enum.reverse
 
     predictions = departures
-                  |> Enum.filter(&(match?(%Prediction{}, &1)))
+    |> Enum.filter(&(match?(%Prediction{}, &1)))
 
     predictions
     |> Enum.concat(scheduled_after_predictions)
@@ -234,7 +236,7 @@ end
   end
 
   @doc "Given a scheduled_prediction, returns a valid trip id for the trip_pair"
-  @spec get_valid_trip(scheduled_prediction) :: String.t
+  @spec get_valid_trip({scheduled_prediction, scheduled_prediction}) :: String.t
   def get_valid_trip({{nil, prediction}, _}) when not is_nil(prediction), do: prediction.trip.id
   def get_valid_trip({{nil, nil}, {_, prediction}}), do: prediction.trip.id
   def get_valid_trip({{departure, _}, _}), do: departure.trip.id
@@ -249,4 +251,30 @@ end
 
   @spec trips_limit() :: integer
   defp trips_limit(), do: 14
+
+  @doc """
+  Turns route into a human-readable string:
+    - "Bus Route" <> route.name for bus routes
+    - route.name for all other route types
+  """
+  @spec full_route_name(Route.t) :: String.t
+  def full_route_name(%Route{type: 3, name: name}), do: "Bus Route " <> name
+  def full_route_name(%Route{name: name}), do: name
+
+
+  @doc """
+  Calculates the difference in minutes between the start and end of the trip.
+  """
+  @spec scheduled_duration([Schedule.t]) :: String.t
+  def scheduled_duration(trip_schedules) do
+    do_scheduled_duration List.first(trip_schedules), List.last(trip_schedules)
+  end
+
+  @spec do_scheduled_duration(Schedule.t, Schedule.t) :: String.t
+  defp do_scheduled_duration(%Schedule{time: origin}, %Schedule{time: destination}) do
+    destination
+    |> Timex.diff(origin, :minutes)
+    |> Integer.to_string
+  end
+  defp do_scheduled_duration(nil, nil), do: ""
 end

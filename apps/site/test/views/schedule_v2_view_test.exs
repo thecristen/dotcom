@@ -3,6 +3,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip, Stop}
+  alias Routes.Route
   import Site.ScheduleV2View
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -280,6 +281,19 @@ defmodule Site.ScheduleV2ViewTest do
       assert Enum.count(limited_trips) < Enum.count(many_schedules)
       assert complete_trips == many_schedules
     end
+  end
+
+  test "full_route_name/1 adds \"Bus Route\" to route name for bus routes, does not change other routes" do
+    assert full_route_name(%Route{type: 3, name: "1"}) == "Bus Route 1"
+    assert full_route_name(%Route{type: 2, name: "Commuter Rail"}) == "Commuter Rail"
+    assert full_route_name(%Route{type: 1, name: "Subway"}) == "Subway"
+    assert full_route_name(%Route{type: 4, name: "Ferry"}) == "Ferry"
+  end
+
+  test "scheduled_duration/1 calculates the time between two stops" do
+    schedule_list = [%Schedule{time: Timex.shift(Util.now, minutes: -10)}, %Schedule{time: Timex.shift(Util.now, minutes: 10)}]
+    assert scheduled_duration(schedule_list) == "20"
+    assert scheduled_duration([]) == ""
   end
 
   defp prediction?({{_, nil}, {_, nil}}), do: false
