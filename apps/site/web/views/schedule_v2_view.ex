@@ -276,4 +276,17 @@ defmodule Site.ScheduleV2View do
     |> Integer.to_string
   end
   defp do_scheduled_duration(nil, nil), do: ""
+
+  @doc """
+  Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
+  class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
+  """
+  @spec location_display(Vehicles.Vehicle.t | nil, 0..4, boolean) :: Phoenix.HTML.Safe.t
+  def location_display(nil, _route_type, _terminus), do: ""
+  def location_display(%Vehicles.Vehicle{}, route_type, true) do
+    svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle vehicle-terminus"})
+  end
+  def location_display(%Vehicles.Vehicle{}, route_type, false) do
+    svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle"})
+  end
 end

@@ -22,11 +22,49 @@
 
   .schedule-row {
     border-bottom: 1px solid $gray-lightest;
+    position: relative;
+
+    .mbta-custom-icon {
+      left: 6px;
+      position: absolute;
+      top: 3px;
+    }
+
+    &::before {
+      border-left: $space-4 solid $brand-primary-dark;
+      content: '';
+      height: 100%;
+      left: calc(-#{$space-4} - 2px);
+      position: absolute;
+      top: 2rem;
+      width: $space-1;
+    }
+
+    &:last-child::before {
+      height: $space-6;
+    }
 
     &:last-child {
       border-bottom-width: 0;
     }
   }
+}
+
+.vehicle {
+  .icon-image {
+    fill: $gray-dark;
+  }
+
+  &.vehicle-terminus .icon-image {
+    fill: $white;
+  }
+}
+
+.trip-info-bubble {
+  float: left;
+  left: -1rem;
+  margin-right: -2rem;
+  position: relative;
 }
 
 .btn.schedule-v2-direction-btn {
@@ -135,14 +173,14 @@
       border-bottom: 1px solid $gray-lightest;
     }
 
+    // scss-lint:disable SelectorDepth
+    tr:last-child td {
+      border-bottom: 0;
+    }
+    // scss-lint:enable SelectorDepth
     .time-column {
       background-color: $gray-lightest;
       border: 0;
     }
-  }
-
-  // scss-lint:disable SelectorDepth
-  tbody tr:last-child td {
-    border-bottom: 0;
   }
 }

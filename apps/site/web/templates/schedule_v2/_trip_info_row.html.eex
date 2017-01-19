@@ -1,4 +1,12 @@
 <p class="trip-info-row schedule-row row">
-  <%= link @link_text, to: @href, class: "col-xs-6" %>
-  <%= content_tag :span, Timex.format!(@time,"{0h12}:{m}{AM}"), class: "col-xs-6" %>
+  <span class="trip-info-bubble" aria-hidden="true">
+    <%= if @terminus? do %>
+      <%= svg "trip-circle-filled.svg" %>
+    <% else %>
+      <%= svg "trip-circle-open.svg" %>
+    <% end %>
+    <%= location_display(@vehicle_locations[{@trip.id, @stop.id}], @route.type, @terminus?) %>
+  </span>
+  <%= link @stop.name, to: @href, class: "col-xs-6" %>
+  <%= content_tag :span, format_schedule_time(@time), class: "col-xs-6" %>
 </p>
