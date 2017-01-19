@@ -5,7 +5,6 @@ defmodule Site.ScheduleV2ControllerTest do
     test "all stops is assigned for a route", %{conn: conn} do
       conn = get(conn, schedule_v2_path(conn, :show, "1"))
       html_response(conn, 200)
-      IO.inspect Map.keys(conn.assigns)
       assert conn.assigns.all_stops != nil
     end
 

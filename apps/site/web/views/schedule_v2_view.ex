@@ -261,7 +261,6 @@ defmodule Site.ScheduleV2View do
   def full_route_name(%Route{type: 3, name: name}), do: "Bus Route " <> name
   def full_route_name(%Route{name: name}), do: name
 
-
   @doc """
   Calculates the difference in minutes between the start and end of the trip.
   """
