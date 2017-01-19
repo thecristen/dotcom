@@ -59,7 +59,7 @@ defmodule Site.ScheduleV2ViewTest do
             |> stop_info_link()
             |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "place-sstat")
-      assert str =~ safe_to_string(svg_icon(%{icon: :map}))
+      assert str =~ safe_to_string(svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
       assert str =~ "View stop information for South Station"
     end
 
@@ -68,7 +68,7 @@ defmodule Site.ScheduleV2ViewTest do
              |> stop_info_link()
              |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "1736")
-      assert str =~ safe_to_string(svg_icon(%{icon: :map}))
+      assert str =~ safe_to_string(svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
       assert str =~ "View stop information for Blue Hill Ave opp Health Ctr"
     end
   end
