@@ -42,16 +42,15 @@
         <% end %>
       </div>
     </div>
-
-    <div class="stations-tab-group row show-btn-group">
-      <% schedule_link = link "Schedule", to: update_url(@conn, tab: "schedule"), class: tab_class("schedule", @tab)  %>
-      <% info_link = link  to: update_url(@conn, tab: "info"), class: tab_class("info", @tab) do %>
-        Station Info<span class="hidden-sm-down">rmation</span>
-      <% end %>
-      <%= schedule_link %><%= info_link %>
+    <div class="m-b-1">
+      <%= tab_list(%TabList{
+        links: [
+          {"Schedule", update_url(@conn, tab: "schedule"), tab_selected?("schedule", @tab)},
+          {~e(Station Info<span class="hidden-sm-down">rmation</span>), update_url(@conn, tab: "info"), tab_selected?("info", @tab)}
+        ],
+        class: "side-by-side"
+      }) %>
     </div>
-
     <%= render template_for_tab(@tab), forward_assigns(@conn) %>
-
   </div>
 </div>

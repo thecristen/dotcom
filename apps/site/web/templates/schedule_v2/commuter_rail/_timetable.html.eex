@@ -1,44 +1,42 @@
-<div class="col-xs-12">
-  <table class="schedule-v2-timetable">
-    <thead>
+<table class="schedule-v2-timetable">
+  <thead>
+    <tr>
+      <td>
+        Stop
+      </td>
+      <td class="time-column-header"><%= earlier_link(@conn) %></td>
+      <% header_schedules = offset_schedules(@all_schedules, @conn) %>
+      <%= for schedule <- header_schedules do %>
+        <td>
+          <%= schedule.trip.name %>
+          <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: schedule.time, route: @route.id, direction_id: @direction_id) != [] do %>
+            <%= svg_icon(%SvgIcon{icon: :alert}) %>
+          <% end %>
+        </td>
+      <% end %>
+      <td class="time-column-header"><%= later_link(@conn) %></td>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for stop <- @all_stops do %>
       <tr>
         <td>
-          Stop
+          <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
+          <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
+            <%= svg_icon(%SvgIcon{icon: :alert}) %>
+          <% end %>
         </td>
-        <td class="time-column-header"><%= earlier_link(@conn) %></td>
-        <% header_schedules = offset_schedules(@all_schedules, @conn) %>
+        <td class="time-column"></td>
         <%= for schedule <- header_schedules do %>
           <td>
-            <%= schedule.trip.name %>
-            <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: schedule.time, route: @route.id, direction_id: @direction_id) != [] do %>
-              <%= svg_icon(%SvgIcon{icon: :alert}) %>
+            <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
+              <%= format_schedule_time(trip_schedule.time) %>
             <% end %>
+            <%= vehicle_location(@vehicle_locations[{schedule.trip.id, stop.id}]) %>
           </td>
         <% end %>
-        <td class="time-column-header"><%= later_link(@conn) %></td>
+        <td class="time-column"></td>
       </tr>
-    </thead>
-    <tbody>
-      <%= for stop <- @all_stops do %>
-        <tr>
-          <td>
-            <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
-            <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
-              <%= svg_icon(%SvgIcon{icon: :alert}) %>
-            <% end %>
-          </td>
-          <td class="time-column"></td>
-          <%= for schedule <- header_schedules do %>
-            <td>
-              <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
-                <%= format_schedule_time(trip_schedule.time) %>
-              <% end %>
-              <%= vehicle_location(@vehicle_locations[{schedule.trip.id, stop.id}]) %>
-             </td>
-          <% end %>
-          <td class="time-column"></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <% end %>
+  </tbody>
+</table>

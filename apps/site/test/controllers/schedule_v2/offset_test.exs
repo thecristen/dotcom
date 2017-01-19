@@ -89,10 +89,10 @@ defmodule Site.ScheduleV2Controller.OffsetTest do
   # stop2 | how+20min   | now+1h+20min  | now+2h+20min
 
   defp make_one_trip(i, now) do
-    Enum.map(0..2, 
+    Enum.map(0..2,
       &make_schedule(
-        Timex.shift(now, minutes: &1*10, hours: i), 
-        "trip" <> Integer.to_string(i), 
+        Timex.shift(now, minutes: &1*10, hours: i),
+        "trip" <> Integer.to_string(i),
         "stop" <> Integer.to_string(&1)))
   end
 

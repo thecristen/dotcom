@@ -4,23 +4,24 @@ defmodule Site.ScheduleV2.CommuterRailController do
   plug Site.Plugs.Route, required: true
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
+  plug Site.ScheduleV2.Defaults
+  plug Site.Plugs.Holidays
   plug Site.ScheduleController.Defaults
-  plug :assign_trip_schedules
   plug Site.ScheduleController.AllStops
-  plug Site.ScheduleV2Controller.Offset
   plug Site.ScheduleV2Controller.VehicleLocations
-  plug Site.Plugs.Alerts
+  plug Site.ScheduleController.Headsigns
 
-  def timetable(conn, _params) do
+  def show(conn, params) do
     conn
-    |> render("_timetable.html")
+    |> assign(:tab, Map.get(params, "tab", "timetable"))
+    |> tab_assigns()
+    |> render("show.html")
   end
 
-  defp assign_trip_schedules(conn, _) do
+  defp assign_trip_schedules(conn) do
     timetable_schedules = timetable_schedules(conn)
     all_schedules = all_schedules(timetable_schedules)
-    trip_schedules = 
-      Map.new(timetable_schedules, & {{&1.trip.id, &1.stop.id}, &1})
+    trip_schedules = Map.new(timetable_schedules, & {{&1.trip.id, &1.stop.id}, &1})
 
     conn 
     |> assign(:timetable_schedules, timetable_schedules)
@@ -35,5 +36,17 @@ defmodule Site.ScheduleV2.CommuterRailController do
   defp all_schedules(timetable_schedules) do
     Enum.uniq_by(timetable_schedules, & &1.trip)
   end
-      
+
+  defp tab_assigns(%Plug.Conn{assigns: %{tab: "trip-view"}} = conn) do
+    conn
+    |> Site.ScheduleController.Schedules.call([])
+    |> Site.ScheduleController.DirectionNames.call([])
+    |> Site.ScheduleController.DestinationStops.call([])
+  end
+  defp tab_assigns(conn) do
+    conn
+    |> assign_trip_schedules
+    |> Site.ScheduleV2Controller.Offset.call([])
+    |> Site.Plugs.Alerts.call(Site.Plugs.Alerts.init([]))
+  end
 end
