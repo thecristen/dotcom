@@ -1,16 +1,11 @@
 @import 'variables';
 
-//scss-lint:disable SelectorFormat
 .icon {
   display: inline-block;
-  font-size: 1rem;
-  line-height: 1rem;
-  vertical-align: text-bottom;
-
-  svg {
-    height: $icon-size;
-    width: $icon-size;
-  }
+  font-weight: normal;
+  height: $icon-size;
+  vertical-align: top;
+  width: $icon-size;
 
   @include hover-focus-active {
     text-decoration: none;
@@ -21,36 +16,38 @@
 h1,
 .h1 {
   .icon {
-    bottom: .15rem;
-    position: relative;
+    margin-top: (($font-size-h1 * 1.5) - $icon-size) / 2;
+
+    @include media-breakpoint-up(xxl) {
+      margin-top: (($font-size-h1-xxl * 1.5) - $icon-size) / 2;
+    }
   }
 }
 
 h2,
 .h2 {
   .icon {
-    bottom: .075rem;
-    position: relative;
+    margin-top: (($font-size-h2 * 1.5) - $icon-size) / 2;
+
+    @include media-breakpoint-up(xxl) {
+      margin-top: (($font-size-h2-xxl * 1.5) - $icon-size) / 2;
+    }
   }
 }
 
 // Sizes
 .icon-small {
-  svg {
-    height: $icon-size-sm;
-    width: $icon-size-sm;
-  }
+  height: $icon-size-sm;
+  margin-top: .25em;
+  width: $icon-size-sm;
 }
 
 .icon-large {
-  svg {
-    height: $icon-size-lg;
-    width: $icon-size-lg;
-  }
+  height: $icon-size-lg;
+  width: $icon-size-lg;
 }
 
 // Groups
-
 .icon-group {
   margin-left: -1 * $base-spacing-sm;
   margin-right: -1 * $base-spacing-sm;

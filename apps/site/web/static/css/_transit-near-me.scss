@@ -75,10 +75,6 @@
   display: none;
 }
 
-.transit-input-label {
-  padding-top: 1rem;
-}
-
 // scss-lint:disable VendorPrefix
 @mixin set-breakpoint-columns($breakpoint, $column-count) {
   @include media-breakpoint-only($breakpoint) {

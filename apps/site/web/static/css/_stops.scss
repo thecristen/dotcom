@@ -1,6 +1,9 @@
 .station-mode-description {
+  display: inline-block;
   font-size: 1rem;
   font-weight: normal;
+  padding-top: .5rem;
+  vertical-align: top;
 
   @include media-breakpoint-down(sm) {
     display: none;

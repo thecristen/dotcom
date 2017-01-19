@@ -1,10 +1,8 @@
 <% icon = get_icon_atom(args.icon) %>
 <% hyphenated_class = "icon-#{hyphenated_mode_string(icon)}" %>
-<span class="icon <%= hyphenated_class %> <%= args.class %>">
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon-<%= hyphenated_mode_string(icon) %>" viewbox="0 0 <%= viewbox(icon) %>">
-        <title><%= icon_title(icon) %></title>
-        <g fill-rule="evenodd" class="icon-image <%= hyphenated_class %>-image">
-            <%= get_path(icon) %>
-        </g>
-    </svg>
-</span>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon <%= hyphenated_class %> <%= args.class %>" viewbox="0 0 <%= viewbox(icon) %>">
+  <title><%= icon_title(icon) %></title>
+  <g fill-rule="evenodd" class="icon-image <%= hyphenated_class %>-image">
+    <%= get_path(icon) %>
+  </g>
+</svg>
