@@ -1,0 +1,17 @@
+<p>To view schedules for a specific stop, please enter your origin and destination</p>
+<%= Site.ScheduleV2View.render "_stop_filters.html", forward_assigns(@conn) %>
+<%= if @origin do %>
+  <div class="row">
+    <%= render "_trip_list.html", forward_assigns(@conn) %>
+    <%= if @trip_schedule && @trip_schedule != [] do %>
+      <%= render "_trip_info.html", forward_assigns(@conn) %>
+    <% end %>
+  </div>
+<% end %>
+<%= if Route.type_atom(@route.type) == :subway do %>
+  <div class="row schedule-block">
+    <div class="col-md-6">
+      <%= render "_frequency.html", forward_assigns(@conn) %>
+    </div>
+  </div>
+<% end %>

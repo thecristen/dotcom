@@ -57,8 +57,6 @@ defmodule Site.Router do
   scope "/schedules_v2", Site do
     pipe_through [:browser]
     get "/:route", ScheduleV2Controller, :show
-    get "/commuter_rail/:route", ScheduleV2.CommuterRailController, :show
-    get "/commuter_rail/timetable/:route", ScheduleV2.CommuterRailController, :timetable
   end
 
   # This needs to go last so that it catches any URLs that fall through.
