@@ -4,11 +4,11 @@
       <%= route_header_text(@route) %>
     </h1>
     <p>
-    Schedules For <%= Timex.format!(@date, "%b %e", :strftime)%> -
-    <%= link to: update_schedule_url(@conn, date_select: !@date_select) do %>
-      <% icon_class = if @date_select, do: "angle-up", else: "angle-down" %>
-      Change date <%= fa icon_class %>
-    <% end %>
+      Schedules For <%= Timex.format!(@date, "%b %e", :strftime)%> -
+      <%= link to: update_schedule_url(@conn, date_select: !@date_select) do %>
+        <% icon_class = if @date_select, do: "angle-up", else: "angle-down" %>
+        Change date <%= fa icon_class %>
+      <% end %>
     </p>
     <%= if @date_select do %>
       <%= render "_date_picker.html", conn: @conn, date: @date, holidays: @holidays, calendar: @calendar %>
