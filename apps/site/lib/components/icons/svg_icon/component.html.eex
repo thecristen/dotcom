@@ -1,5 +1,5 @@
 <% icon = get_icon_atom(args.icon) %>
-<span class="mbta-custom-icon icon-<%= hyphenated_mode_string(icon) %>">
+<span class="mbta-custom-icon icon-<%= hyphenated_mode_string(icon) %> <%= args.class %>">
   <%= if icon == :alert do %>
   <span data-toggle="tooltip" title="There is an alert for this service that may affect your trip">
   <% end %>

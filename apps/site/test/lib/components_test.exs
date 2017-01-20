@@ -79,31 +79,31 @@ defmodule Site.ComponentsTest do
 
   describe "icons > svg_icon" do
     test "icon can take multiple argument types and render the correct atom" do
-      bus = svg_icon(%{icon: :bus})
-      assert svg_icon(%{icon: %Routes.Route{type: 3}}) == bus
-      assert svg_icon(%{icon: 3}) == bus
-      red_line = svg_icon(%{icon: :red_line})
-      assert svg_icon(%{icon: "Mattapan Line"}) == red_line
-      assert svg_icon(%{icon: %Routes.Route{type: 1, id: "Red"}}) == red_line
-      assert svg_icon(%{icon: "Escalator"}) == svg_icon(%{icon: :access})
+      bus = svg_icon(%SvgIcon{icon: :bus})
+      assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 3}}) == bus
+      assert svg_icon(%SvgIcon{icon: 3}) == bus
+      red_line = svg_icon(%SvgIcon{icon: :red_line})
+      assert svg_icon(%SvgIcon{icon: "Mattapan Line"}) == red_line
+      assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 1, id: "Red"}}) == red_line
+      assert svg_icon(%SvgIcon{icon: "Escalator"}) == svg_icon(%SvgIcon{icon: :access})
     end
 
     test "icons render an svg with correct classes" do
-      rendered = svg_icon(%{icon: :map}) |> safe_to_string
+      rendered = svg_icon(%SvgIcon{icon: :map}) |> safe_to_string
       assert rendered =~ "</svg>"
       assert rendered =~ "icon-map"
       assert rendered =~ "mbta-custom-icon"
     end
 
     test "icons do not render with a background circle" do
-      rendered = svg_icon(%{icon: :subway}) |> safe_to_string
+      rendered = svg_icon(%SvgIcon{icon: :subway}) |> safe_to_string
       assert rendered =~ "icon-subway"
       assert rendered =~ "mbta-custom-icon"
       refute rendered =~ "icon-circle"
     end
 
     test "alert icons have an accessible title" do
-      rendered = svg_icon(%{icon: :alert}) |> safe_to_string
+      rendered = svg_icon(%SvgIcon{icon: :alert}) |> safe_to_string
       assert rendered =~ "Service alert or delay"
     end
   end

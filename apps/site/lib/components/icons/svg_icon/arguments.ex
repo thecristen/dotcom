@@ -1,6 +1,6 @@
 defmodule Site.Components.Icons.SvgIcon do
-  defstruct icon: :bus
-  @type t :: %__MODULE__{icon: icon_arg}
+  defstruct [icon: :bus, class: ""]
+  @type t :: %__MODULE__{icon: icon_arg, class: String.t}
   @type icon_arg :: atom | String.t | Routes.Route.t | 0..4
 
   @icons [

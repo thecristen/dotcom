@@ -59,7 +59,7 @@ defmodule Site.ScheduleV2ViewTest do
             |> stop_info_link()
             |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "place-sstat")
-      assert str =~ safe_to_string(svg_icon(%{icon: :map}))
+      assert str =~ safe_to_string(svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
       assert str =~ "View stop information for South Station"
     end
 
@@ -68,7 +68,7 @@ defmodule Site.ScheduleV2ViewTest do
              |> stop_info_link()
              |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "1736")
-      assert str =~ safe_to_string(svg_icon(%{icon: :map}))
+      assert str =~ safe_to_string(svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
       assert str =~ "View stop information for Blue Hill Ave opp Health Ctr"
     end
   end
@@ -298,4 +298,21 @@ defmodule Site.ScheduleV2ViewTest do
 
   defp prediction?({{_, nil}, {_, nil}}), do: false
   defp prediction?(_), do: true
+
+  describe "location_display/3" do
+    test "given nil, returns the empty string" do
+      assert location_display(nil, %Routes.Route{id: "Red", type: 1}, false) == ""
+    end
+
+    test "given a vehicle and a route, returns the icon for the route" do
+      rendered = safe_to_string(location_display(%Vehicles.Vehicle{}, 1, false))
+      assert rendered =~ "icon-subway"
+      assert rendered =~ "icon-small"
+    end
+
+    test "when the last parameter is true, adds the vehicle-terminus class" do
+      rendered = safe_to_string(location_display(%Vehicles.Vehicle{}, 1, true))
+      assert rendered =~ "vehicle-terminus"
+    end
+  end
 end

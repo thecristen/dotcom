@@ -15,6 +15,7 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.AllStops
   plug Site.ScheduleController.DirectionNames
   plug Site.ScheduleV2.TripInfo
+  plug Site.ScheduleV2Controller.VehicleLocations
 
   def show(conn, _) do
     conn

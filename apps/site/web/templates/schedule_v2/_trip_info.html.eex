@@ -16,9 +16,13 @@
       <span class="col-xs-6"><strong>Stops:</strong></span>
       <span class="col-xs-6"><strong>Times:</strong></span>
     </p>
-    <%= for %Schedules.Schedule{stop: stop, time: time} <- schedules_between_stops(@trip_schedule, @origin, @destination) do %>
-      <%= render "_trip_info_row.html", href: stop_path(@conn, :show, stop.id), link_text: stop.name, time: time %>
-    <% end %>
+    <div>
+      <% stop_schedules = schedules_between_stops(@trip_schedule, @origin, @destination) %>
+      <% last_index = length(stop_schedules) - 1 %>
+      <%= for {%Schedules.Schedule{stop: stop, time: time, trip: trip}, index} <- Enum.with_index(stop_schedules) do %>
+        <%= render "_trip_info_row.html", href: stop_path(@conn, :show, stop.id), time: time, route: @route, vehicle_locations: @vehicle_locations, stop: stop, trip: trip, terminus?: index in [0, last_index] %>
+      <% end %>
+    </div>
     <p class="trip-info-row">
       <strong>Scheduled Duration:</strong>
       <%= scheduled_duration(@trip_schedule) %> minutes</p>
