@@ -32,7 +32,7 @@
             <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
               <%= format_schedule_time(trip_schedule.time) %>
             <% end %>
-            <%= vehicle_location(@vehicle_locations[{schedule.trip.id, stop.id}]) %>
+            <%= timetable_location_display(@vehicle_locations[{schedule.trip.id, stop.id}]) %>
           </td>
         <% end %>
         <td class="time-column"></td>

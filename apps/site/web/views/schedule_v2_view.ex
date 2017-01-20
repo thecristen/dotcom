@@ -281,12 +281,88 @@ defmodule Site.ScheduleV2View do
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
   """
-  @spec location_display(Vehicles.Vehicle.t | nil, 0..4, boolean) :: Phoenix.HTML.Safe.t
-  def location_display(nil, _route_type, _terminus), do: ""
-  def location_display(%Vehicles.Vehicle{}, route_type, true) do
+  @spec stop_bubble_location_display(Vehicles.Vehicle.t | nil, 0..4, boolean) :: Phoenix.HTML.Safe.t
+  def stop_bubble_location_display(nil, _route_type, _terminus), do: ""
+  def stop_bubble_location_display(%Vehicles.Vehicle{}, route_type, true) do
     svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle vehicle-terminus"})
   end
-  def location_display(%Vehicles.Vehicle{}, route_type, false) do
+  def stop_bubble_location_display(%Vehicles.Vehicle{}, route_type, false) do
     svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle"})
+  end
+
+  @doc """
+  Takes a list of schedules and a conn with `offset` assigned, and selects the range of schedules to be displayed.
+  """
+  @spec offset_schedules([Schedule.t], Plug.Conn.t) :: [Schedule.t]
+  def offset_schedules(schedules, %Plug.Conn{assigns: %{offset: offset}}) do
+    schedules
+    |> Enum.drop(offset)
+    |> Enum.take(num_schedules())
+  end
+
+  @doc "The number of trip schedules to show at a time."
+  @spec num_schedules :: non_neg_integer
+  def num_schedules(), do: 6
+
+  @doc "The link to see earlier schedules."
+  @spec earlier_link(Plug.Conn.t) :: Phoenix.HTML.Safe.t
+  def earlier_link(%Plug.Conn{assigns: %{offset: offset}} = conn) do
+    schedule_time_link(
+      Site.ScheduleV2View.update_schedule_url(conn, offset: offset - 1),
+      "earlier",
+      "angle-left",
+      offset == 0
+    )
+  end
+
+  @doc "The link to see later schedules."
+  @spec later_link(Plug.Conn.t) :: Phoenix.HTML.Safe.t
+  def later_link(%Plug.Conn{assigns: %{offset: offset, all_schedules: all_schedules}} = conn) do
+    schedule_time_link(
+      Site.ScheduleV2View.update_schedule_url(conn, offset: offset + 1),
+      "later",
+      "angle-right",
+      offset >= length(all_schedules) - num_schedules()
+    )
+  end
+
+  @spec schedule_time_link(String.t, String.t, String.t, boolean) :: Phoenix.HTML.Safe.t
+  defp schedule_time_link(url, time_text, icon, disabled?) do
+    text = if disabled? do
+      ["There are no ", time_text, " trips"]
+    else
+      ["Show ", time_text, " times"]
+    end
+    link to: url, class: "#{if disabled?, do: "disabled ", else: ""}btn btn-link" do
+      [
+        fa(icon),
+        content_tag(:span, text, class: "sr-only")
+      ]
+    end
+  end
+
+  @doc """
+  Displays the CR icon if given a non-nil vehicle location. Otherwise, displays nothing.
+  """
+  @spec timetable_location_display(Vehicles.Vehicle.t | nil) :: Phoenix.HTML.Safe.t
+  def timetable_location_display(%Vehicles.Vehicle{}) do
+    svg_icon %SvgIcon{icon: :commuter_rail}
+  end
+  def timetable_location_display(_location), do: ""
+
+  @spec tab_selected?(tab :: String.t, current_tab :: String.t | nil) :: boolean()
+  @doc """
+  Given a schedule tab, and the selected tab, returns whether or not the schedule tab should be rendered as selected.
+  """
+  def tab_selected?(tab, tab), do: true
+  def tab_selected?(_, _), do: false
+
+  @spec template_for_tab(String.t) :: String.t
+  @doc "Returns the template for the selected tab."
+  def template_for_tab("trip-view"), do: "_trip_view.html"
+  def template_for_tab("timetable"), do: "_timetable.html"
+
+  def display_train_number({%Schedule{trip: %Trip{name: name}}, _predicted}) do
+    name
   end
 end

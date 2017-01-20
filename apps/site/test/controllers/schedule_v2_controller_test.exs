@@ -37,4 +37,28 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.predictions != nil
     end
   end
+
+  describe "commuter rail" do
+    test "assigns the tab parameter if none is provided", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester"))
+      assert conn.assigns.tab == "timetable"
+    end
+
+    test "assigns information for the trip view", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester", tab: "trip-view"))
+      assert conn.assigns.tab == "trip-view"
+      refute conn.assigns.schedules == nil
+      refute conn.assigns.from == nil
+      refute conn.assigns.predictions == nil
+      refute conn.assigns.trip == nil
+    end
+
+    test "assigns information for the timetable", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester", tab: "timetable"))
+      assert conn.assigns.tab == "timetable"
+      refute conn.assigns.offset == nil
+      refute conn.assigns.alerts == nil
+      refute conn.assigns.vehicle_locations == nil
+    end
+  end
 end
