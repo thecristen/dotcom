@@ -261,14 +261,15 @@ defmodule Site.ScheduleV2View do
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
   """
-  @spec stop_bubble_location_display(boolean, 0..4, boolean) :: Phoenix.HTML.Safe.t
-  def stop_bubble_location_display(vehicle?, route_type, terminus?)
-  def stop_bubble_location_display(false, _route_type, _terminus), do: ""
-  def stop_bubble_location_display(true, route_type, true) do
-    svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle vehicle-terminus"})
+
+  @spec stop_bubble_location_display(boolean, Routes.Route.t, boolean) :: Phoenix.HTML.Safe.t
+  def stop_bubble_location_display(vehicle?, route, terminus?)
+  def stop_bubble_location_display(false, _route, _terminus), do: ""
+  def stop_bubble_location_display(true, route, true) do
+    svg_icon(%SvgIcon{icon: route, class: "icon-small icon-inverse"})
   end
-  def stop_bubble_location_display(true, route_type, false) do
-    svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle"})
+  def stop_bubble_location_display(true, route, false) do
+    svg_icon(%SvgIcon{icon: route, class: "icon-small icon-boring"})
   end
 
   @doc """
@@ -327,7 +328,7 @@ defmodule Site.ScheduleV2View do
   """
   @spec timetable_location_display(Vehicles.Vehicle.t | nil) :: Phoenix.HTML.Safe.t
   def timetable_location_display(%Vehicles.Vehicle{}) do
-    svg_icon %SvgIcon{icon: :commuter_rail}
+    svg_icon %SvgIcon{icon: :commuter_rail, class: "icon-small"}
   end
   def timetable_location_display(_location), do: ""
 

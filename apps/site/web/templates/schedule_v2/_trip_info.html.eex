@@ -12,7 +12,7 @@
     </p>
     <div>
       <%= for {%Schedules.Schedule{stop: stop, time: time}, flags} <- TripInfo.times_with_flags(@trip_info) do %>
-        <%= render "_trip_info_row.html", name: stop.name, href: stop_path(Site.Endpoint, :show, stop.id), time: time, route_type: @trip_info.route.type, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
+        <%= render "_trip_info_row.html", name: stop.name, href: stop_path(Site.Endpoint, :show, stop.id), time: time, route: @trip_info.route, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
       <% end %>
     </div>
     <p class="trip-info-row">

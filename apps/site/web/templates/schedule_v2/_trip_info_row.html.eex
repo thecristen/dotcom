@@ -5,7 +5,7 @@
     <% else %>
       <%= svg "trip-circle-open.svg" %>
     <% end %>
-    <%= stop_bubble_location_display(@vehicle?, @route_type, @terminus?) %>
+    <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
   </span>
   <%= link @name, to: @href, class: "col-xs-6" %>
   <%= content_tag :span, format_schedule_time(@time), class: "col-xs-6" %>

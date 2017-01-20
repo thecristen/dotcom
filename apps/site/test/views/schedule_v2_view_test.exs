@@ -313,7 +313,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "when the last parameter is true, adds the vehicle-terminus class" do
       rendered = safe_to_string(stop_bubble_location_display(true, 1, true))
-      assert rendered =~ "vehicle-terminus"
+      assert rendered =~ "icon-inverse"
     end
   end
 
@@ -370,7 +370,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "otherwise, displays the CR icon" do
       for status <- [:in_transit, :incoming, :stopped] do
-        icon = svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail})
+        icon = svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail, class: "icon-small"})
         assert timetable_location_display(%Vehicles.Vehicle{status: status}) == icon
       end
     end

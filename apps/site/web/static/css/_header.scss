@@ -1,5 +1,4 @@
 @import 'variables';
-$icon-size: 1.75rem;
 
 .header-image {
   background-color: $white;
@@ -132,12 +131,6 @@ $icon-size: 1.75rem;
 
     &:last-child {
       padding-right: .5rem;
-    }
-  }
-
-  .nav-title {
-    .icon-with-circle:first-child {
-      margin-left: .5rem;
     }
   }
 }

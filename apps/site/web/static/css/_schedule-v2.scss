@@ -44,21 +44,18 @@
   }
 }
 
-.vehicle {
-  .icon-image {
-    fill: $gray-dark;
-  }
-
-  &.vehicle-terminus .icon-image {
-    fill: $white;
-  }
-}
-
 .trip-info-bubble {
   float: left;
   left: -1rem;
   margin-right: -2rem;
   position: relative;
+  width: $space-24;
+
+  .icon {
+    left: .333rem;
+    position: absolute;
+    top: 0;
+  }
 }
 
 .btn.schedule-v2-direction-btn {
@@ -153,16 +150,6 @@
   }
 
   tbody {
-    .icon-commuter-rail {
-      left: .25rem;
-      position: relative;
-      top: .25rem;
-    }
-
-    .icon-image {
-      fill: $gray-dark;
-    }
-
     td {
       border-bottom: 1px solid $gray-lightest;
     }
