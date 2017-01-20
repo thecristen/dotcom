@@ -1,75 +1,70 @@
-<% month = Enum.chunk(build_calendar(@date, @holidays, @conn), 7, 7) %>
-<p>
-  Schedules For <%= Timex.format!(@date, "%b %e", :strftime)%> -
-  <%= link to: update_schedule_url(@conn, date_select: !@date_select) do %>
-    <% icon_class = if @date_select, do: "angle-up", else: "angle-down" %>
-    Change date <%= fa icon_class %>
-  <% end %>
-</p>
-<%= if @date_select do %>
-  <div class="row">
-    <div class="col-sm-3 hidden-xs-down">
-      <h4>Upcoming Holidays</h4>
-      <%= if Enum.empty?(@holidays) do %>
-        <em>No upcoming holidays</em>
-      <% else %>
-        <ul class="holiday-list">
-          <%= for holiday <- @holidays do %>
-            <li>
-              <%= link holiday.name, to: update_schedule_url(@conn, date: Timex.format!(holiday.date, "%Y-%m-%d", :strftime))%>
-              <p><%= Timex.format!(holiday.date, "%a, %b %e", :strftime)%></p>
-            </li>
-          <% end %>
-        </ul>
+<div class="row">
+  <div class="col-sm-3 hidden-xs-down">
+    <h4>Upcoming Holidays</h4>
+    <ul class="holiday-list">
+    <%= if @holidays == [] do %>
+      <li class="holiday-list-empty">No upcoming holidays</li>
+    <% else %>
+      <%= for holiday <- @holidays do %>
+        <li>
+          <%= link holiday.name, to: update_schedule_url(@conn, date: Timex.format!(holiday.date, "{ISOdate}"), date_select: nil) %>
+          <p><%= Timex.format!(holiday.date, "%a, %b %e", :strftime)%></p>
+        </li>
       <% end %>
-      <div class="m-t-g"><div class="graph-legend weekend"></div><span>Weekends</span></div>
-      <div class="m-t-g"><div class="graph-legend holiday"></div><span>Holidays</span></div>
-    </div>
-    <span class="col-sm-9 col-xs-12">
-      <table class="table schedule-date-picker">
-        <thead>
-          <tr>
-            <td colspan=7 class="month">
-              <strong>
-                <%= link(to: update_schedule_url(@conn, date: Timex.format!(decrement_month(@date), "{ISOdate}")), class: "p-x-g#{previous_month_class(@date)}") do %>
-                  <%= fa "chevron-circle-left"%>
-                <% end %>
-                <%= Timex.month_name(@date.month)%>
-                <%= @date.year %>
-                <%= link(to: update_schedule_url(@conn, date: Timex.format!(add_month(@date), "{ISOdate}")), class: "p-x-g") do %>
-                  <%= fa "chevron-circle-right"%>
-                <% end %>
-              </strong>
-            </td>
-          </tr>
-          <tr>
-            <td class="schedule-weekend">Sun</td>
-            <td>Mon</td>
-            <td>Tue</td>
-            <td>Wed</td>
-            <td>Thu</td>
-            <td>Fri</td>
-            <td class="schedule-weekend">Sat</td>
-          </tr>
-        </thead>
-
-        <tbody>
-          <%= for week <- month do %>
-            <tr>
-              <%= for day <- week do %>
-                <%= day %>
-              <% end %>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </span>
-    <div class="hidden-sm-up mobile-legend m-y-2">
-      <div class="graph-legend weekend"></div><span class="p-r-1">Weekends</span>
-      <div class="graph-legend holiday"></div><span>Holidays</span>
-    </div>
-    <div class="row">
-      <%= link "Cancel", to: update_schedule_url(@conn, date_select: false), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
-    </div>
+    <% end %>
+    </ul>
+    <div><div class="graph-legend weekend"></div><span>Weekends</span></div>
+    <%= if @holidays !=[] do %><div><div class="graph-legend holiday"></div><span>Holidays</span></div><% end %>
   </div>
-<% end %>
+  <span class="col-sm-9 col-xs-12">
+    <table class="table schedule-date-picker">
+      <thead>
+        <tr>
+          <td colspan=7 class="month">
+            <%= if @calendar.previous_month_url do %>
+              <%= link to: @calendar.previous_month_url do %>
+                <%= fa "chevron-circle-left" %>
+              <% end %>
+            <% else %>
+              <span class="disabled">
+                <%= fa "chevron-circle-left" %>
+              </span>
+            <% end %>
+            <span>
+              <%= Timex.format!(@date, "{Mfull} {YYYY}") %>
+            </span>
+            <%= link to: @calendar.next_month_url do %>
+              <%= fa "chevron-circle-right"%>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td class="schedule-weekend">Sun</td>
+          <td>Mon</td>
+          <td>Tue</td>
+          <td>Wed</td>
+          <td>Thu</td>
+          <td>Fri</td>
+          <td class="schedule-weekend">Sat</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%= for week <- BuildCalendar.Calendar.weeks(@calendar) do %>
+          <tr>
+            <%= for day <- week do %>
+              <%= BuildCalendar.Day.td(day) %>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </span>
+  <div class="hidden-sm-up mobile-legend col-xs-12">
+    <div class="graph-legend weekend"></div><span>Weekends</span>
+    <%= if @holidays != [] do %><div class="graph-legend holiday"></div><span>Holidays</span><% end %>
+  </div>
+  <div class="col-xs-12">
+    <%= link "Cancel", to: update_schedule_url(@conn, date_select: nil), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
+  </div>
+</div>

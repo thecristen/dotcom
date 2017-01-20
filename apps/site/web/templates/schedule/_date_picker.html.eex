@@ -61,7 +61,7 @@
     </table>
   </span>
   <div class="hidden-sm-up mobile-legend col-xs-12">
-    <div class="graph-legend weekend"></div><span">Weekends</span>
+    <div class="graph-legend weekend"></div><span>Weekends</span>
     <%= if @holidays != [] do %><div class="graph-legend holiday"></div><span>Holidays</span><% end %>
   </div>
   <div class="col-xs-12">
