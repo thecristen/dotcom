@@ -115,7 +115,7 @@ In order to make sure the tests are reproducible, we use
 ### Updating the API responses
 
 1. In `apps/site` run the WireMock server in record-mappings mode:
-  * `java -jar ${WIREMOCK_PATH} --proxy-all="http://mbta-api-prod.us-east-1.elasticbeanstalk.com" --record-mappings`
+  * `java -jar ${WIREMOCK_PATH} --proxy-all="https://api.mbtace.com" --record-mappings`
 1. In the root of `dotcom` run the mock server with `npm run server:mocked`
 1. Run the backstop tests with `npm run backstop:test`
 1. The new mappings will be generated in `apps/site/mappings` and `apps/site/__files`
@@ -124,7 +124,7 @@ In order to make sure the tests are reproducible, we use
 
 You should have the following variables set in your development environment.
 
-* `GOOGLE_API_KEY` - You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key). 
+* `GOOGLE_API_KEY` - You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
 This will ensure any javascript that uses Google's API will work correctly.
 * `WIREMOCK_PATH` - The path to your wiremock `.jar` file. This ensures backstop tests will work properly.
 

@@ -6,7 +6,7 @@ config :stops,
   base_url: {:system, "STATION_URL", "http://mbta-station-info-dev.us-east-1.elasticbeanstalk.com"}
 
 config :v3_api,
-  base_url: {:system, "V3_URL", "http://mbta-api-dev.us-east-1.elasticbeanstalk.com"}
+  base_url: {:system, "V3_URL", "https://dev.api.mbtace.com/"}
 
 # By default, the umbrella project as well as each child
 # application will require this configuration file, ensuring

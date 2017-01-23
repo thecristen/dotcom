@@ -134,16 +134,17 @@ defmodule Stops.Api do
     end)
   end
 
-  defp merge_v3(stop, %{status_code: 404}) do
-    # failed v3 response, just return the stop as-is
-    stop
-  end
-  defp merge_v3(nil, v3_response) do
-    stop = List.first(v3_response.data)
+  defp merge_v3(station_info_stop, v3_stop_response)
+  defp merge_v3(nil, %JsonApi{data: [stop | _]}) do
+    accessibility = if stop.attributes["wheelchair_boarding"] == 1 do
+      ["accessible"]
+    else
+      []
+    end
     %Stop{
       id: stop.id,
       name: stop.attributes["name"],
-      accessibility: (if (stop.attributes["wheelchair_boarding"] == 1), do: ["accessible"], else: []),
+      accessibility: accessibility,
       parking_lots: [],
       latitude: stop.attributes["latitude"],
       longitude: stop.attributes["longitude"]
@@ -151,5 +152,9 @@ defmodule Stops.Api do
   end
   defp merge_v3(stop, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
     %Stop{stop | latitude: latitude, longitude: longitude}
+  end
+  defp merge_v3(stop, %{status_code: 404}) do
+    # failed v3 response, just return the stop as-is
+    stop
   end
 end
