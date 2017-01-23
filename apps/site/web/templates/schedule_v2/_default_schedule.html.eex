@@ -3,8 +3,8 @@
 <%= if @origin do %>
   <div class="row">
     <%= render "_trip_list.html", forward_assigns(@conn) %>
-    <%= if @trip_schedule && @trip_schedule != [] do %>
-      <%= render "_trip_info.html", forward_assigns(@conn) %>
+    <%= if @trip_info do %>
+      <%= render "_trip_info.html", trip_info: @trip_info %>
     <% end %>
   </div>
 <% end %>

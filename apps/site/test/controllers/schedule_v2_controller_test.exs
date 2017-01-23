@@ -24,7 +24,7 @@ defmodule Site.ScheduleV2ControllerTest do
       conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", direction_id: "1"))
       html_response(conn, 200)
       assert conn.assigns.origin == "2167"
-      assert conn.assigns.trip != nil
+      assert conn.assigns.trip_info
     end
 
     test "finds a trip list with origin and destination", %{conn: conn} do
@@ -32,7 +32,7 @@ defmodule Site.ScheduleV2ControllerTest do
       html_response(conn, 200)
       assert conn.assigns.origin == "8178"
       assert conn.assigns.destination == "2065"
-      assert conn.assigns.trip != nil
+      assert conn.assigns.trip_info
       assert conn.assigns.schedules != nil
       assert conn.assigns.predictions != nil
     end
@@ -50,7 +50,7 @@ defmodule Site.ScheduleV2ControllerTest do
       refute conn.assigns.schedules == nil
       refute conn.assigns.from == nil
       refute conn.assigns.predictions == nil
-      refute conn.assigns.trip == nil
+      assert conn.assigns.trip_info
     end
 
     test "assigns information for the timetable", %{conn: conn} do
@@ -58,7 +58,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.tab == "timetable"
       refute conn.assigns.offset == nil
       refute conn.assigns.alerts == nil
-      refute conn.assigns.vehicle_locations == nil
+      assert conn.assigns.trip_info
     end
   end
 end
