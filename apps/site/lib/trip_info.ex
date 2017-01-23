@@ -72,6 +72,38 @@ defmodule TripInfo do
     do_times_with_flags(times, vehicle, [])
   end
 
+  defp do_times_with_flags(times, vehicle, acc)
+  defp do_times_with_flags([time], vehicle, acc) do
+    flag = %Flags{
+      terminus?: true,
+      vehicle?: has_vehicle?(time, vehicle)
+    }
+    [{time, flag} | acc]
+    |> Enum.reverse
+  end
+  defp do_times_with_flags([time | rest], vehicle, []) do
+    flag = %Flags{
+      terminus?: true,
+      vehicle?: has_vehicle?(time, vehicle)
+    }
+    do_times_with_flags(rest, vehicle, [{time, flag}])
+  end
+  defp do_times_with_flags([time | rest], vehicle, acc) do
+    flag = %Flags{
+      vehicle?: has_vehicle?(time, vehicle)
+    }
+    do_times_with_flags(rest, vehicle, [{time, flag} | acc])
+  end
+
+  defp has_vehicle?(
+    %Schedules.Schedule{stop: %{id: id}},
+    %Vehicles.Vehicle{stop_id: id}) do
+    true
+  end
+  defp has_vehicle?(%Schedules.Schedule{}, _vehicle) do
+    false
+  end
+
   # Filters the list of times to those between origin and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
@@ -111,37 +143,5 @@ defmodule TripInfo do
 
   defp destination([_ | _] = times) do
     List.last(times).stop.name
-  end
-
-  defp do_times_with_flags(times, vehicle, acc)
-  defp do_times_with_flags([time], vehicle, acc) do
-    flag = %Flags{
-      terminus?: true,
-      vehicle?: has_vehicle?(time, vehicle)
-    }
-    [{time, flag} | acc]
-    |> Enum.reverse
-  end
-  defp do_times_with_flags([time | rest], vehicle, []) do
-    flag = %Flags{
-      terminus?: true,
-      vehicle?: has_vehicle?(time, vehicle)
-    }
-    do_times_with_flags(rest, vehicle, [{time, flag}])
-  end
-  defp do_times_with_flags([time | rest], vehicle, acc) do
-    flag = %Flags{
-      vehicle?: has_vehicle?(time, vehicle)
-    }
-    do_times_with_flags(rest, vehicle, [{time, flag} | acc])
-  end
-
-  defp has_vehicle?(
-    %Schedules.Schedule{stop: %{id: id}},
-    %Vehicles.Vehicle{stop_id: id}) do
-    true
-  end
-  defp has_vehicle?(%Schedules.Schedule{}, _vehicle) do
-    false
   end
 end
