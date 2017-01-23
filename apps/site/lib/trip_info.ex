@@ -6,6 +6,8 @@ defmodule TripInfo do
   @type time_list :: [time]
   @type t :: %__MODULE__{
     route: Routes.Route.t,
+    origin: String.t,
+    destination: String.t,
     vehicle: Vehicles.Vehicle.t | nil,
     status: String.t,
     times: time_list,
@@ -14,6 +16,8 @@ defmodule TripInfo do
 
   defstruct [
     route: nil,
+    origin: nil,
+    destination: nil,
     vehicle: nil,
     status: "operating at normal schedule",
     times: [],
@@ -34,14 +38,19 @@ defmodule TripInfo do
   alias __MODULE__.Flags
 
   @spec from_list(time_list, Keyword.t) :: TripInfo.t | {:error, any}
-  def from_list(times, opts \\ []) do
-    times = clamp_times_to_origin_destination(times, opts[:origin], opts[:destination])
+  def from_list(times, opts \\ [])
+  def from_list([_, _ | _] = times, opts) do
+    origin = opts[:origin] || List.first(times).stop.id
+    destination = opts[:destination] || List.last(times).stop.id
+    times = clamp_times_to_origin_destination(times, origin, destination)
     case times do
       [time, _ | _] ->
         route = time.route
         duration = duration(times)
         %TripInfo{
           route: route,
+          origin: origin,
+          destination: destination,
           vehicle: opts[:vehicle],
           times: times,
           duration: duration
@@ -49,6 +58,9 @@ defmodule TripInfo do
       _ ->
         {:error, "not enough times to build a trip"}
     end
+  end
+  def from_list(_times, _opts) do
+    {:error, "not enough times to build a trip"}
   end
 
   @spec full_status(TripInfo.t) :: iolist
@@ -68,56 +80,26 @@ defmodule TripInfo do
   Returns the times for this trip, tagging the first/last stops.
   """
   @spec times_with_flags(TripInfo.t) :: [{time, Flags.t}]
-  def times_with_flags(%TripInfo{times: times, vehicle: vehicle}) do
-    do_times_with_flags(times, vehicle, [])
+  def times_with_flags(%TripInfo{times: times} = info) do
+    Enum.map(times, &do_time_with_flag(&1, info))
   end
 
-  defp do_times_with_flags(times, vehicle, acc)
-  defp do_times_with_flags([time], vehicle, acc) do
-    flag = %Flags{
-      terminus?: true,
-      vehicle?: has_vehicle?(time, vehicle)
+  defp do_time_with_flag(time, info) do
+    {time, %Flags{
+        terminus?: time.stop.id in [info.origin, info.destination],
+        vehicle?: info.vehicle != nil and info.vehicle.stop_id == time.stop.id
+     }
     }
-    [{time, flag} | acc]
-    |> Enum.reverse
-  end
-  defp do_times_with_flags([time | rest], vehicle, []) do
-    flag = %Flags{
-      terminus?: true,
-      vehicle?: has_vehicle?(time, vehicle)
-    }
-    do_times_with_flags(rest, vehicle, [{time, flag}])
-  end
-  defp do_times_with_flags([time | rest], vehicle, acc) do
-    flag = %Flags{
-      vehicle?: has_vehicle?(time, vehicle)
-    }
-    do_times_with_flags(rest, vehicle, [{time, flag} | acc])
-  end
-
-  defp has_vehicle?(
-    %Schedules.Schedule{stop: %{id: id}},
-    %Vehicles.Vehicle{stop_id: id}) do
-    true
-  end
-  defp has_vehicle?(%Schedules.Schedule{}, _vehicle) do
-    false
   end
 
   # Filters the list of times to those between origin and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
-  @spec clamp_times_to_origin_destination(time_list, String.t | nil, String.t | nil) :: time_list
+  @spec clamp_times_to_origin_destination(time_list, String.t, String.t) :: time_list
   defp clamp_times_to_origin_destination(times, origin_id, destination_id)
-  defp clamp_times_to_origin_destination(times, nil, nil) do
-    times
-  end
-  defp clamp_times_to_origin_destination(times, origin_id, nil) do
-    Enum.drop_while(times, & &1.stop.id != origin_id)
-  end
   defp clamp_times_to_origin_destination(times, origin_id, destination_id) do
     times
-    |> clamp_times_to_origin_destination(origin_id, nil)
+    |> Enum.drop_while(& &1.stop.id != origin_id)
     |> clamp_to_destination(destination_id, [])
   end
 

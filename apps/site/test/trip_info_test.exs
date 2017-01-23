@@ -11,6 +11,8 @@ defmodule TripInfoTest do
   @route %Route{id: "1", name: "1", type: 2}
   @info %TripInfo{
     route: @route,
+    origin: "place-sstat",
+    destination: "place-pktrm",
     duration: 60 * 24 * 2, # 2 day duration trip
     times: [%Schedule{
                time: ~N[2017-01-01T00:00:00],
@@ -32,6 +34,12 @@ defmodule TripInfoTest do
   describe "from_list/1" do
     test "creates a TripInfo from a list of Schedules" do
       actual = from_list(@info.times)
+      expected = @info
+      assert actual == expected
+    end
+
+    test "creates a TripInfo with origin/destination even when they are passed in as nil" do
+      actual = from_list(@info.times, origin: nil, destination: nil)
       expected = @info
       assert actual == expected
     end
