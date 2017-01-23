@@ -13,8 +13,7 @@ defmodule News.Repo do
           do_all(repo().all_ids)
         limit when is_integer(limit) ->
           repo().all_ids
-          |> Enum.sort
-          |> Enum.reverse
+          |> Enum.sort_by(& &1, &>=/2)
           |> Enum.take(limit)
           |> do_all
       end
