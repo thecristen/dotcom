@@ -11,8 +11,18 @@
       <span class="col-xs-6"><strong>Times:</strong></span>
     </p>
     <div>
-      <%= for {%Schedules.Schedule{stop: stop, time: time}, flags} <- TripInfo.times_with_flags(@trip_info) do %>
-        <%= render "_trip_info_row.html", name: stop.name, href: stop_path(Site.Endpoint, :show, stop.id), time: time, route: @trip_info.route, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
+      <%= for times_or_separator <- TripInfo.times_with_flags_and_separators(@trip_info) do %>
+        <%= if times_or_separator == :separator do %>
+          <div class="trip-info-row schedule-row row">
+            <%= link to: update_url(@conn, show_collapsed_trip_stops?: "") do %>
+              Show All Stops
+            <% end %>
+          </div>
+        <% else %>
+          <%= for {%Schedules.Schedule{stop: stop, time: time}, flags} <- times_or_separator do %>
+            <%= render "_trip_info_row.html", name: stop.name, href: stop_path(@conn, :show, stop.id), time: time, route: @trip_info.route, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
+          <% end %>
+        <% end %>
       <% end %>
     </div>
     <p class="trip-info-row">

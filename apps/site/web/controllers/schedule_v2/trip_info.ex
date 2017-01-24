@@ -53,9 +53,10 @@ defmodule Site.ScheduleV2.TripInfo do
     trip_id
     |> opts[:trip_fn].()
     |> TripInfo.from_list(
+      collapse?: is_nil(conn.query_params["show_collapsed_trip_stops?"]),
       vehicle: opts[:vehicle_fn].(trip_id),
-      origin: conn.assigns[:origin],
-      destination: conn.assigns[:destination])
+      origin_id: conn.query_params["origin"],
+      destination_id: conn.query_params["destination"])
   end
 
   # If there are more trips left in a day, finds the next trip based on the current time.
