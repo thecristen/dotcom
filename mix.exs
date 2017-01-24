@@ -11,12 +11,12 @@ defmodule DotCom.Mixfile do
        plt_add_apps: [:mix, :phoenix_live_reload]],
      deps: deps(),
 
-    #docs
-    name: "MBTA Website",
-    source_url: "https://github.com/mbta/dotcom",
-    homepage_url: "https://beta.mbta.com/",
-    docs: [main: "Site", # The main page in the docs
-           logo: "apps/site/web/static/assets/images/mbta-logo-t.png"]
+     #docs
+     name: "MBTA Website",
+     source_url: "https://github.com/mbta/dotcom",
+     homepage_url: "https://beta.mbta.com/",
+     docs: [main: "Site", # The main page in the docs
+            logo: "apps/site/web/static/assets/images/mbta-logo-t.png"]
     ]
   end
 
