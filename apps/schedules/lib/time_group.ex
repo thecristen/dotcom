@@ -51,6 +51,14 @@ defmodule TimeGroup do
     nil
   end
 
+  def frequency_for_time(schedules, time_block) do
+    time_range = schedules
+    |> Enum.filter(fn schedule -> subway_period(schedule.time) == time_block end)
+    |> frequency
+
+    %Schedules.Frequency{time_block: time_block, min_headway: elem(time_range, 0), max_headway: elem(time_range, 1)}
+  end
+
   defp do_by_fn([], _) do
     []
   end

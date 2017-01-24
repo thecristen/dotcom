@@ -78,4 +78,26 @@ defmodule TimeGroupTest do
   test "frequency returns nil if there's only one scheduled trip" do
     assert TimeGroup.frequency([@schedule]) == nil
   end
+
+  describe "frequency_for_time/2" do
+    test "gets a range of wait times for a stop during the am_rush" do
+      first_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
+      first_schedule = %Schedule{time: first_time}
+      second_time = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
+      second_schedule = %Schedule{time: second_time}
+      schedules = [@schedule, first_schedule, second_schedule]
+
+      assert TimeGroup.frequency_for_time(schedules, :am_rush) == %Schedules.Frequency{time_block: :am_rush, min_headway: 9, max_headway: 11}
+    end
+
+    test "gets nil when there are no times during the given time" do
+      first_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
+      first_schedule = %Schedule{time: first_time}
+      second_time = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
+      second_schedule = %Schedule{time: second_time}
+      schedules = [@schedule, first_schedule, second_schedule]
+
+      assert TimeGroup.frequency_for_time(schedules, :midday) == nil
+    end
+  end
 end

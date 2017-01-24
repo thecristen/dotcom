@@ -29,3 +29,12 @@ defmodule Schedules.Stop do
     name: String.t
   }
 end
+
+defmodule Schedules.Frequency do
+  defstruct [:time_block, :min_headway, :max_headway]
+  @type t :: %Schedules.Stop{
+    time_block: atom,
+    min_headway: integer,
+    max_headway: integer
+  }
+end
