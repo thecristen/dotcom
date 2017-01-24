@@ -53,7 +53,7 @@ defmodule Site.ScheduleV2.TripInfo do
     trip_id
     |> opts[:trip_fn].()
     |> TripInfo.from_list(
-      show_between?: conn.query_params["show_between?"] != nil,
+      collapse?: is_nil(conn.query_params["show_collapsed_trip_stops?"]),
       vehicle: opts[:vehicle_fn].(trip_id),
       origin_id: conn.query_params["origin"],
       destination_id: conn.query_params["destination"])

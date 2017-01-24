@@ -61,22 +61,20 @@ defmodule TripInfoTest do
       assert actual.duration == 60 * 12 # 12 hour trip
     end
 
-    test "if show_between? is false, shows the origin + 1 after, destination + 1 before" do
-      actual = from_list(@info.times, show_between?: false)
+    test "if collapse? is true, shows the origin + 1 after, destination + 1 before" do
+      actual = from_list(@info.times, collapse?: true)
       assert actual.times_before == Enum.take(@info.times, 2)
-      assert actual.times == Enum.drop(@info.times, 3)
-      refute actual.show_between?
+      assert actual.times == Enum.take(@info.times, -2)
     end
 
-    test "if show_between? is false but there are not enough stops, display them all" do
-      actual = from_list(@info.times, origin_id: "place-north", show_between?: false)
+    test "if collapse? is false but there are not enough stops, display them all" do
+      actual = from_list(@info.times, origin_id: "place-north", collapse?: true)
       assert actual.times_before == []
       assert actual.times == Enum.drop(@info.times, 1)
-      assert actual.show_between?
     end
 
     test "if there are not enough times, returns an error" do
-      actual = from_list(@info.times |> Enum.take(1))
+      actual = @info.times |> Enum.take(1) |> from_list
       assert {:error, _} = actual
     end
   end
@@ -122,6 +120,25 @@ defmodule TripInfoTest do
     test "if given a field param, fetches those times instead" do
       info = %{@info | times_before: @info.times, times: []}
       assert times_with_flags(info, :before) == times_with_flags(@info)
+    end
+  end
+
+  describe "times_with_flags_and_separators/1" do
+    test "if we're showing all stops, returns one list with the times" do
+      actual = times_with_flags_and_separators(@info)
+      expected = [times_with_flags(@info)]
+      assert expected == actual
+    end
+
+    test "if we have before stops, returns a list with a separator" do
+      info = %{@info | times_before: Enum.take(@info.times, 1)}
+      actual = times_with_flags_and_separators(info)
+      expected = [
+        times_with_flags(info, :before),
+        :separator,
+        times_with_flags(info)
+      ]
+      assert expected == actual
     end
   end
 end

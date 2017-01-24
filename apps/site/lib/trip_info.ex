@@ -12,7 +12,6 @@ defmodule TripInfo do
   * times: a list of %Schedules.Schedule{} for stops between either
     1) the origin and destination or 2) the break and destination
   * times_before: a list of %Schedules.Schedule{} before the "show all stops" break
-  * show_between?: whether we're showing all stops between origin_id and destination_id
   * duration: the number of minutes the trip takes between origin_id and destination_id
   """
   @type time :: Schedules.Schedule.t
@@ -25,7 +24,6 @@ defmodule TripInfo do
     status: String.t,
     times: time_list,
     times_before: time_list,
-    show_between?: boolean,
     duration: pos_integer
   }
 
@@ -38,7 +36,6 @@ defmodule TripInfo do
     times: [],
     times_before: [],
     duration: -1,
-    show_between?: true
   ]
 
   defmodule Flags do
@@ -62,7 +59,7 @@ defmodule TripInfo do
     times = clamp_times_to_origin_destination(times, origin_id, destination_id)
     case times do
       [time, _ | _] ->
-        {before, times, show_between?} = show_between?(times, opts[:show_between?])
+        {before, times} = split_around_break(times, opts[:collapse?])
         route = time.route
         duration = duration(times)
         %TripInfo{
@@ -72,7 +69,6 @@ defmodule TripInfo do
           vehicle: opts[:vehicle],
           times_before: before,
           times: times,
-          show_between?: show_between?,
           duration: duration
         }
       _ ->
@@ -93,6 +89,23 @@ defmodule TripInfo do
       destination(times),
       " ",
       status
+    ]
+  end
+
+  @doc """
+  Returns a list of either :separator or [{time, Flags.t}].  If we've
+  collapsed the times for any reason, :separator will be returned to
+  represent stops that are not being returned.
+  """
+  @spec times_with_flags_and_separators(TripInfo.t) :: [:separator | [{time, Flags.t}]]
+  def times_with_flags_and_separators(%TripInfo{times_before: []} = info) do
+    [times_with_flags(info)]
+  end
+  def times_with_flags_and_separators(%TripInfo{} = info) do
+    [
+      times_with_flags(info, :before),
+      :separator,
+      times_with_flags(info)
     ]
   end
 
@@ -137,14 +150,14 @@ defmodule TripInfo do
     clamp_to_destination(rest, id, [time | acc])
   end
 
-  defp show_between?(times, show_between?)
-  defp show_between?([_, _, _, _, _ | _] = times, false) do
+  defp split_around_break(times, collapse?)
+  defp split_around_break([_, _, _, _, _ | _] = times, true) do
     before = Enum.take(times, 2)
     times = Enum.take(times, -2)
-    {before, times, false}
+    {before, times}
   end
-  defp show_between?(times, _) do
-    {[], times, true}
+  defp split_around_break(times, _) do
+    {[], times}
   end
 
 

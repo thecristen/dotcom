@@ -37,13 +37,18 @@ defmodule Site.ScheduleV2.TripInfoTest do
     @trip_schedules
   end
   defp trip_fn("long_trip") do
+    # add some extra schedule data so that we can collapse this trip
     @trip_schedules
     |> Enum.concat([
       %Schedule{
         stop: %Stop{id: "after_first"}
       },
-      %Schedule{},
-      %Schedule{},
+      %Schedule{
+        stop: %Stop{}
+      },
+      %Schedule{
+        stop: %Stop{}
+      },
       %Schedule{
         stop: %Stop{id: "new_last"},
         time: List.last(@all_schedules).time
@@ -95,14 +100,14 @@ defmodule Site.ScheduleV2.TripInfoTest do
     assert conn.assigns.trip_info == TripInfo.from_list(trip_fn("long_trip"), origin_id: "after_first", destination_id: "new_last")
   end
 
-  test "show_between? defaults to false if there are enough schedules", %{conn: conn} do
+  test "there's a separator if there are enough schedules", %{conn: conn} do
     conn = conn_builder(conn, [], trip: "long_trip")
-    refute conn.assigns.trip_info.show_between?
+    assert :separator in TripInfo.times_with_flags_and_separators(conn.assigns.trip_info)
   end
 
-  test "show_between? as true if present in the URL", %{conn: conn} do
-    conn = conn_builder(conn, [], trip: "long_trip", show_between?: "")
-    assert conn.assigns.trip_info.show_between?
+  test "no separator if show_collapsed_trip_stops? present in the URL", %{conn: conn} do
+    conn = conn_builder(conn, [], trip: "long_trip", show_collapsed_trip_stops?: "")
+    refute :separator in TripInfo.times_with_flags_and_separators(conn.assigns.trip_info)
   end
 
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do
