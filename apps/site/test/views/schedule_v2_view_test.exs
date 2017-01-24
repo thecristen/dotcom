@@ -300,22 +300,22 @@ defmodule Site.ScheduleV2ViewTest do
   defp prediction?(_), do: true
 
   describe "stop_bubble_location_display/3" do
-    test "given nil, returns the empty string" do
-      assert stop_bubble_location_display(nil, %Routes.Route{id: "Red", type: 1}, false) == ""
+    test "given false, returns the empty string" do
+      assert stop_bubble_location_display(false, 1, false) == ""
     end
 
     test "given a vehicle and a route, returns the icon for the route" do
-      rendered = safe_to_string(stop_bubble_location_display(%Vehicles.Vehicle{}, 1, false))
+      rendered = safe_to_string(stop_bubble_location_display(true, 1, false))
       assert rendered =~ "icon-subway"
       assert rendered =~ "icon-small"
     end
 
     test "when the last parameter is true, adds the vehicle-terminus class" do
-      rendered = safe_to_string(stop_bubble_location_display(%Vehicles.Vehicle{}, 1, true))
+      rendered = safe_to_string(stop_bubble_location_display(true, 1, true))
       assert rendered =~ "vehicle-terminus"
     end
   end
-  
+
   describe "offset_schedules/1" do
     test "drops a number of schedules as assigned in the conn, and takes num_schedules() more", %{conn: conn} do
       assert offset_schedules(0..10, assign(conn, :offset, 2)) == [2, 3, 4, 5, 6, 7]

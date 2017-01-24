@@ -138,26 +138,6 @@ defmodule Site.ScheduleV2View do
     |> Enum.concat(scheduled_after_predictions)
   end
 
-  def schedules_between_stops(schedules, from_id, to_id) do
-    schedules
-    |> filter_beginning(from_id)
-    |> filter_end(to_id)
-  end
-
-  defp filter_beginning(schedules, from_id) do
-    Enum.drop_while(schedules, &(&1.stop.id !== from_id))
-  end
-
-  defp filter_end(schedules, nil) do
-    schedules
-  end
-  defp filter_end(schedules, to_id) do
-    schedules
-    |> Enum.reverse
-    |> Enum.drop_while(&(&1.stop.id !== to_id))
-    |> Enum.reverse
-  end
-
   @doc "Display Prediction time with rss icon if available. Otherwise display scheduled time"
   @spec display_scheduled_prediction(scheduled_prediction) :: Phoenix.HTML.Safe.t | String.t
   def display_scheduled_prediction({nil, nil}), do: ""
@@ -281,12 +261,13 @@ defmodule Site.ScheduleV2View do
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
   """
-  @spec stop_bubble_location_display(Vehicles.Vehicle.t | nil, 0..4, boolean) :: Phoenix.HTML.Safe.t
-  def stop_bubble_location_display(nil, _route_type, _terminus), do: ""
-  def stop_bubble_location_display(%Vehicles.Vehicle{}, route_type, true) do
+  @spec stop_bubble_location_display(boolean, 0..4, boolean) :: Phoenix.HTML.Safe.t
+  def stop_bubble_location_display(vehicle?, route_type, terminus?)
+  def stop_bubble_location_display(false, _route_type, _terminus), do: ""
+  def stop_bubble_location_display(true, route_type, true) do
     svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle vehicle-terminus"})
   end
-  def stop_bubble_location_display(%Vehicles.Vehicle{}, route_type, false) do
+  def stop_bubble_location_display(true, route_type, false) do
     svg_icon(%SvgIcon{icon: route_type, class: "icon-small vehicle"})
   end
 

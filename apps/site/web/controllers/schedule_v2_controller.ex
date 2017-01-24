@@ -55,7 +55,6 @@ defmodule Site.ScheduleV2Controller do
     |> Site.ScheduleController.DirectionNames.call([])
     |> Site.ScheduleController.DestinationStops.call([])
     |> Site.ScheduleV2Controller.Predictions.call(Site.ScheduleV2Controller.Predictions.init([]))
-    |> Site.ScheduleV2.TripInfo.call([])
   end
   defp tab_assigns(conn) do
     conn

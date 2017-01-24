@@ -4,27 +4,19 @@
   </div>
   <div class="trip-info-content">
     <p class="trip-info-row">
-      <%= full_route_name(@route) %> to
-      <%= if destination = @trip_schedule |> List.last do %>
-      <%= destination.stop.name %>
-      <% else %>
-      <%=  List.first(@all_schedules).headsign %>
-      <% end %>
-      operating at normal schedule <%# SchedulesV2 TODO: handle delays %>
+      <%= TripInfo.full_status(@trip_info) %>
     </p>
     <p class="trip-info-row row">
       <span class="col-xs-6"><strong>Stops:</strong></span>
       <span class="col-xs-6"><strong>Times:</strong></span>
     </p>
     <div>
-      <% stop_schedules = schedules_between_stops(@trip_schedule, @origin, @destination) %>
-      <% last_index = length(stop_schedules) - 1 %>
-      <%= for {%Schedules.Schedule{stop: stop, time: time, trip: trip}, index} <- Enum.with_index(stop_schedules) do %>
-        <%= render "_trip_info_row.html", href: stop_path(@conn, :show, stop.id), time: time, route: @route, vehicle_locations: @vehicle_locations, stop: stop, trip: trip, terminus?: index in [0, last_index] %>
+      <%= for {%Schedules.Schedule{stop: stop, time: time}, flags} <- TripInfo.times_with_flags(@trip_info) do %>
+        <%= render "_trip_info_row.html", name: stop.name, href: stop_path(Site.Endpoint, :show, stop.id), time: time, route_type: @trip_info.route.type, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
       <% end %>
     </div>
     <p class="trip-info-row">
       <strong>Scheduled Duration:</strong>
-      <%= scheduled_duration(@trip_schedule) %> minutes</p>
+      <%= @trip_info.duration %> minutes</p>
   </div>
 </div>
