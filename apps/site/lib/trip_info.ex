@@ -1,27 +1,42 @@
 defmodule TripInfo do
   @moduledoc """
   Wraps the important information about a trip.
+
+  * route: the %Routes.Route{} the trip is on
+  * origin_id: the ID of the stop where we consider the trip to start.
+    This is either the real start, or the origin the user selected.
+  * destination_id: the ID of the stop where we consider the trip to end.
+    This is either the real end, or the destination that the user selected.
+  * vehicle: a %Vehicles.Vehicle{} that's on this trip, or nil
+  * status: a text status of the trip relative to the schedule
+  * times: a list of %Schedules.Schedule{} for stops between either
+    1) the origin and destination or 2) the break and destination
+  * times_before: a list of %Schedules.Schedule{} before the "show all stops" break
+  * show_between?: whether we're showing all stops between origin_id and destination_id
+  * duration: the number of minutes the trip takes between origin_id and destination_id
   """
   @type time :: Schedules.Schedule.t
   @type time_list :: [time]
   @type t :: %__MODULE__{
     route: Routes.Route.t,
-    origin: String.t,
-    destination: String.t,
+    origin_id: String.t,
+    destination_id: String.t,
     vehicle: Vehicles.Vehicle.t | nil,
     status: String.t,
     times: time_list,
+    times_before: time_list,
+    show_between?: boolean,
     duration: pos_integer
   }
 
   defstruct [
     route: nil,
-    origin: nil,
-    destination: nil,
+    origin_id: nil,
+    destination_id: nil,
     vehicle: nil,
     status: "operating at normal schedule",
-    times_before: [],
     times: [],
+    times_before: [],
     duration: -1,
     show_between?: true
   ]
@@ -42,9 +57,9 @@ defmodule TripInfo do
   @spec from_list(time_list, Keyword.t) :: TripInfo.t | {:error, any}
   def from_list(times, opts \\ [])
   def from_list([_, _ | _] = times, opts) do
-    origin = opts[:origin] || List.first(times).stop.id
-    destination = opts[:destination] || List.last(times).stop.id
-    times = clamp_times_to_origin_destination(times, origin, destination)
+    origin_id = opts[:origin_id] || List.first(times).stop.id
+    destination_id = opts[:destination_id] || List.last(times).stop.id
+    times = clamp_times_to_origin_destination(times, origin_id, destination_id)
     case times do
       [time, _ | _] ->
         {before, times, show_between?} = show_between?(times, opts[:show_between?])
@@ -52,13 +67,13 @@ defmodule TripInfo do
         duration = duration(times)
         %TripInfo{
           route: route,
-          origin: origin,
-          destination: destination,
+          origin_id: origin_id,
+          destination_id: destination_id,
           vehicle: opts[:vehicle],
           times_before: before,
           times: times,
-          duration: duration,
-          show_between?: show_between?
+          show_between?: show_between?,
+          duration: duration
         }
       _ ->
         {:error, "not enough times to build a trip"}
@@ -97,7 +112,7 @@ defmodule TripInfo do
 
   defp do_time_with_flag(time, info) do
     {time, %Flags{
-        terminus?: time.stop.id in [info.origin, info.destination],
+        terminus?: time.stop.id in [info.origin_id, info.destination_id],
         vehicle?: info.vehicle != nil and info.vehicle.stop_id == time.stop.id
      }
     }

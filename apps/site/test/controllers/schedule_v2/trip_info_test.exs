@@ -39,13 +39,14 @@ defmodule Site.ScheduleV2.TripInfoTest do
   defp trip_fn("long_trip") do
     @trip_schedules
     |> Enum.concat([
-      %Schedule{},
+      %Schedule{
+        stop: %Stop{id: "after_first"}
+      },
       %Schedule{},
       %Schedule{},
       %Schedule{
-        trip: %Trip{id: "32893585"},
-        stop: %Stop{id: "1"},
-        time: Timex.shift(Util.now, minutes: 4)
+        stop: %Stop{id: "new_last"},
+        time: List.last(@all_schedules).time
       }
     ])
   end
@@ -87,6 +88,11 @@ defmodule Site.ScheduleV2.TripInfoTest do
   test "assigns trip_info when all_schedules is a list of schedule tuples", %{conn: conn} do
     conn = conn_builder(conn, @all_schedules |> Enum.map(fn sched -> {sched, %Schedule{}} end))
     assert conn.assigns.trip_info == TripInfo.from_list(@trip_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
+  end
+
+  test "assigns trip_info when origin/destination are selected", %{conn: conn} do
+    conn = conn_builder(conn, @all_schedules, trip: "long_trip", origin: "after_first", last: "new_last")
+    assert conn.assigns.trip_info == TripInfo.from_list(trip_fn("long_trip"), origin_id: "after_first", destination_id: "new_last")
   end
 
   test "show_between? defaults to false if there are enough schedules", %{conn: conn} do

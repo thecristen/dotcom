@@ -11,8 +11,8 @@ defmodule TripInfoTest do
   @route %Route{id: "1", name: "1", type: 2}
   @info %TripInfo{
     route: @route,
-    origin: "place-sstat",
-    destination: "place-pktrm",
+    origin_id: "place-sstat",
+    destination_id: "place-pktrm",
     duration: 60 * 24 * 2, # 2 day duration trip
     times: [%Schedule{
                time: ~N[2017-01-01T00:00:00],
@@ -43,19 +43,19 @@ defmodule TripInfoTest do
     end
 
     test "creates a TripInfo with origin/destination even when they are passed in as nil" do
-      actual = from_list(@info.times, origin: nil, destination: nil)
+      actual = from_list(@info.times, origin_id: nil, destination_id: nil)
       expected = @info
       assert actual == expected
     end
 
     test "given an origin, limits the times to just those after origin" do
-      actual = from_list(@info.times, origin: "place-north")
+      actual = from_list(@info.times, origin_id: "place-north")
       assert List.first(actual.times).stop.id == "place-north"
       assert actual.duration == 60 * 24 # 1 day trip
     end
 
     test "given an origin and destination, limits both sides" do
-      actual = from_list(@info.times, origin: "place-north", destination: "place-censq")
+      actual = from_list(@info.times, origin_id: "place-north", destination_id: "place-censq")
       assert List.first(actual.times).stop.id == "place-north"
       assert List.last(actual.times).stop.id == "place-censq"
       assert actual.duration == 60 * 12 # 12 hour trip
@@ -69,7 +69,7 @@ defmodule TripInfoTest do
     end
 
     test "if show_between? is false but there are not enough stops, display them all" do
-      actual = from_list(@info.times, origin: "place-north", show_between?: false)
+      actual = from_list(@info.times, origin_id: "place-north", show_between?: false)
       assert actual.times_before == []
       assert actual.times == Enum.drop(@info.times, 1)
       assert actual.show_between?
