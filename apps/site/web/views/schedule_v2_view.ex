@@ -9,8 +9,6 @@ defmodule Site.ScheduleV2View do
   @type optional_schedule :: Schedule.t | nil
   @type scheduled_prediction :: {optional_schedule, Prediction.t | nil}
 
-  defdelegate build_calendar(date, holidays, conn), to: Site.ScheduleV2.Calendar
-
   def update_schedule_url(conn, query) do
     conn
     |> Site.ViewHelpers.update_query(query)
