@@ -2,7 +2,7 @@ set -e
 
 export MIX_HOME=$SEMAPHORE_CACHE_DIR
 
-. /home/runner/.kerl/installs/19.1/activate
+. /home/runner/.kerl/installs/19/activate
 kiex install 1.4.0
 kiex use 1.4.0
 
