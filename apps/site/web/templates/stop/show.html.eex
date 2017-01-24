@@ -1,6 +1,26 @@
 <div class="page-section station">
   <div class="page-block">
-    <h1><%= @stop.name %></h1>
+    <h1>
+      <%= @stop.name %>
+      <span class="station-mode-icon">
+        <%= for {type, routes} <- @grouped_routes do %>
+          <%= if type == :subway do %>
+            <%= for route <- aggregate_routes(routes) do %>
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route}) %>
+              <span class="station-mode-description"><%= subway_name(route.name) %></span>
+            <% end %>
+          <% else %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %>
+            <span class="station-mode-description"><%= mode_name(type) %></span>
+          <% end %>
+        <% end %>
+        <%= if "accessible" in @stop.accessibility do %>
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
+          <span class="station-mode-description">Accessible</span>
+        <% end %>
+      </span>
+      </span>
+    </h1>
     <p class="stations-address">
     <%= if @stop.address && @stop.address != "" do %>
       <%= @stop.address %>

@@ -1,21 +1,17 @@
 .station-mode-description {
+  display: inline-block;
   font-size: 1rem;
   font-weight: normal;
+  padding-top: .5rem;
+  vertical-align: top;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
 }
 
 .station-mode-icon {
   white-space: nowrap;
-  width: 100%;
-
-  .mbta-custom-icon {
-    margin-left: .5rem;
-    margin-right: 0;
-
-    svg {
-      height: 1.5rem;
-      width: 1.5rem;
-    }
-  }
 }
 
 .stations-tab-group {
@@ -135,13 +131,6 @@ a {
 
 .station-route-name {
   margin-bottom: 0;
-
-  .mbta-custom-icon {
-    svg {
-      height: 1.5rem;
-      width: 1.5rem;
-    }
-  }
 }
 
 .station-route-schedule-name {

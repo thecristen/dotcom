@@ -21,7 +21,7 @@
         <% %Schedule{trip: %Trip{id: trip_id}, time: scheduled_time} = schedule %>
         <div class="station-route-row">
           <p class="station-route-name">
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
             <span>
               <%= link route.name, to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) %>
             </span>

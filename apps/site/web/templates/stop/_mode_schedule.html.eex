@@ -12,7 +12,7 @@
       <%= if (departure_groups = upcoming_departures(@conn.assigns, @stop.id, route.id, direction_id)) != [] do %>
         <div class="station-route-row">
           <p class="station-route-name">
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route}) %>
+            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route, class: "icon-small"}) %>
             <%= link route.name, to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) %>
           </p>
           <%= for {headsign, departures} <- departure_groups do %>

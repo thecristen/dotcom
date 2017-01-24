@@ -1,26 +1,6 @@
 @import 'variables';
 
-.transit-near-me-header {
-  margin: 3rem 0;
-
-  .route-type-icons {
-    margin: 3rem 0;
-  }
-
-  svg {
-    height: 3rem;
-    width: 3rem;
-  }
-
-  .icon-circle {
-    fill: transparent;
-    stroke: $gray-dark;
-  }
-
-  .icon-image {
-    fill: $gray-dark;
-  }
-
+.transit-near-me-page {
   p {
     text-align: center;
   }
@@ -93,10 +73,6 @@
 
 .geolocation-disabled .location-btn {
   display: none;
-}
-
-.transit-input-label {
-  padding-top: 1rem;
 }
 
 // scss-lint:disable VendorPrefix
@@ -174,14 +150,6 @@
 
   &:not(:last-child) {
     margin-bottom: .25rem;
-  }
-
-  .mbta-custom-icon {
-    svg {
-      height: $space-16;
-      vertical-align: text-bottom;
-      width: $space-16;
-    }
   }
 }
 

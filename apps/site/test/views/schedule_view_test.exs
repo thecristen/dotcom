@@ -7,6 +7,7 @@ defmodule Site.ScheduleViewTest do
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Stop, Trip}
+  alias Site.Components.Icons.SvgIcon
 
   @stop %Stop{id: "stop_id"}
   @trip %Trip{id: "trip_id"}
@@ -122,7 +123,7 @@ defmodule Site.ScheduleViewTest do
       stop = %Stop{id: "place-sstat"}
       str = safe_to_string(ScheduleView.stop_info_link(stop))
       assert str =~ stop_path(Site.Endpoint, :show, "place-sstat")
-      assert str =~ safe_to_string(ScheduleView.svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
+      assert str =~ safe_to_string(ScheduleView.svg_icon(%SvgIcon{icon: :map, class: "icon-small"}))
       assert str =~ "View stop information for South Station"
     end
 
@@ -130,7 +131,7 @@ defmodule Site.ScheduleViewTest do
       stop = %Stop{id: "1736"}
       str = safe_to_string(ScheduleView.stop_info_link(stop))
       assert str =~ stop_path(Site.Endpoint, :show, "1736")
-      assert str =~ safe_to_string(ScheduleView.svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
+      assert str =~ safe_to_string(ScheduleView.svg_icon(%SvgIcon{icon: :map, class: "icon-small"}))
       assert str =~ "View stop information for Blue Hill Ave opp Health Ctr"
     end
   end

@@ -1,6 +1,7 @@
 <div class="schedule-route-name">
   <div class="schedule-route-name-container">
     <h1>
+      <%= svg_icon_with_circle %SvgIconWithCircle{icon: @route} %>
       <%= route_header_text(@route) %>
     </h1>
     <p>

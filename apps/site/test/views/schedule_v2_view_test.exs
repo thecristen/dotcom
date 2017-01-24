@@ -4,6 +4,7 @@ defmodule Site.ScheduleV2ViewTest do
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip, Stop}
   alias Routes.Route
+  alias Site.Components.Icons.SvgIcon
   import Site.ScheduleV2View
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -59,7 +60,7 @@ defmodule Site.ScheduleV2ViewTest do
             |> stop_info_link()
             |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "place-sstat")
-      assert str =~ safe_to_string(svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
+      assert str =~ safe_to_string(svg_icon(%SvgIcon{icon: :map}))
       assert str =~ "View stop information for South Station"
     end
 
@@ -68,7 +69,7 @@ defmodule Site.ScheduleV2ViewTest do
              |> stop_info_link()
              |> safe_to_string()
       assert str =~ stop_path(Site.Endpoint, :show, "1736")
-      assert str =~ safe_to_string(svg_icon(%Site.Components.Icons.SvgIcon{icon: :map}))
+      assert str =~ safe_to_string(svg_icon(%SvgIcon{icon: :map}))
       assert str =~ "View stop information for Blue Hill Ave opp Health Ctr"
     end
   end
@@ -312,7 +313,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "when the last parameter is true, adds the vehicle-terminus class" do
       rendered = safe_to_string(stop_bubble_location_display(true, 1, true))
-      assert rendered =~ "vehicle-terminus"
+      assert rendered =~ "icon-inverse"
     end
   end
 
@@ -369,7 +370,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "otherwise, displays the CR icon" do
       for status <- [:in_transit, :incoming, :stopped] do
-        icon = svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail})
+        icon = svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail, class: "icon-small"})
         assert timetable_location_display(%Vehicles.Vehicle{status: status}) == icon
       end
     end

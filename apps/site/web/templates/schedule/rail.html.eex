@@ -34,7 +34,7 @@
           (to <%= schedule.trip.headsign %>)
       <% end %>
       <%= if trip_alerts != [] do %>
-        <%= svg_icon(%SvgIcon{icon: :alert}) %>
+        <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
       <% end %>
     </span>
     <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>

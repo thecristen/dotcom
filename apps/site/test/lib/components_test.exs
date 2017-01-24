@@ -3,6 +3,7 @@ defmodule Site.ComponentsTest do
   use Site.Components.Precompiler
   alias Site.Components.Buttons.ModeButton
   alias Site.Components.Buttons.ModeButtonList
+  alias Site.Components.Icons.SvgIcon
   alias Site.Components.Tabs.ModeTabList
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -13,14 +14,12 @@ defmodule Site.ComponentsTest do
         }) |> safe_to_string
       assert blue =~ "icon-blue-line"
       assert blue =~ "icon-circle"
-      assert blue =~ "t_logo-image"
 
       mattapan = mode_button(%ModeButton{
           route: %Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Line", type: 1}
         }) |> safe_to_string
       assert mattapan =~ "icon-mattapan-line"
       assert mattapan =~ "icon-circle"
-      assert mattapan =~ "t_logo-image"
     end
 
     test "non-subway buttons do not render with color circles" do
@@ -89,21 +88,21 @@ defmodule Site.ComponentsTest do
     end
 
     test "icons render an svg with correct classes" do
-      rendered = svg_icon(%SvgIcon{icon: :map}) |> safe_to_string
+      rendered = %SvgIcon{icon: :map} |> svg_icon |> safe_to_string
       assert rendered =~ "</svg>"
       assert rendered =~ "icon-map"
-      assert rendered =~ "mbta-custom-icon"
+      assert rendered =~ "icon "
     end
 
     test "icons do not render with a background circle" do
-      rendered = svg_icon(%SvgIcon{icon: :subway}) |> safe_to_string
+      rendered = %SvgIcon{icon: :subway} |> svg_icon |> safe_to_string
       assert rendered =~ "icon-subway"
-      assert rendered =~ "mbta-custom-icon"
+      assert rendered =~ "icon "
       refute rendered =~ "icon-circle"
     end
 
     test "alert icons have an accessible title" do
-      rendered = svg_icon(%SvgIcon{icon: :alert}) |> safe_to_string
+      rendered = %SvgIcon{icon: :alert} |> svg_icon |> safe_to_string
       assert rendered =~ "Service alert or delay"
     end
   end
@@ -112,7 +111,7 @@ defmodule Site.ComponentsTest do
     test "icons render an svg with a background circle and an icon positioned correctly" do
       rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) |> safe_to_string
       assert rendered =~ "</svg>"
-      assert rendered =~ "mbta-custom-icon"
+      assert rendered =~ "icon "
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-subway"
       assert rendered =~ "translate(12,9)"

@@ -6,7 +6,7 @@
 
   <%= for {type, routes} <- @routes do %>
     <div class="transit-route">
-      <div class="transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %></div>
+      <div class="transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type, class: "icon-small"}) %></div>
       <div class="transit-route-name"><%= get_type_list(type, routes) %></div>
     </div>
   <% end %>

@@ -1,11 +1,14 @@
-<div class="transit-near-me-header">
-  <h1>Find Transit Near You</h1>
-  <p class="route-type-icons" aria-hidden="true">
-    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}) %>
-    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) %>
-    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail}) %>
-    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry}) %>
-  </p>
-  <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
+<div class="page-section transit-near-me-page">
+  <div class="page-block">
+    <h1>Find Transit Near You</h1>
+    <p class="route-type-icons icon-group" aria-hidden="true">
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-large icon-boring"}) %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-large icon-boring"}) %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-large icon-boring"}) %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :ferry, class: "icon-large icon-boring"}) %>
+    </p>
+    <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
+
+    <%= render "_transit_near_me.html", stop_groups: @stop_groups, stops_with_routes: @stops_with_routes, conn: @conn, tnm_address: @tnm_address%>
+  </div>
 </div>
-<%= render "_transit_near_me.html", stop_groups: @stop_groups, stops_with_routes: @stops_with_routes, conn: @conn, tnm_address: @tnm_address%>
