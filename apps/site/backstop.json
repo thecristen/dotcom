@@ -89,7 +89,6 @@
     {
       "label": "404 Page",
       "url": "http://localhost:8082/not-found",
-      "referenceUrl": "http://beta.mbta.com/not-found",
       "selectors": ["body"],
       "delay": 100,
       "hideSelectors": [".error-card img"]
