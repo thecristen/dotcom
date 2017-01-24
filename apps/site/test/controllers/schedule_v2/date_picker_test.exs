@@ -5,7 +5,7 @@ defmodule Site.ScheduleV2.DatePickerTest do
 
   @opts init([])
 
-  test "assigns date_select == false when there are no params", %{conn: conn} do
+  test "assigns date_select == false when there are no params, does not assign holidays or calendar", %{conn: conn} do
     conn = %{conn | query_params: %{}}
     |> call(@opts)
 

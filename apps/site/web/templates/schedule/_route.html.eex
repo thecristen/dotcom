@@ -11,7 +11,7 @@
       <% end %>
     </p>
     <%= if @date_select do %>
-      <%= render "_date_picker.html", conn: @conn, date: @date, holidays: @holidays, calendar: @calendar %>
+      <%= render "_date_picker.html", conn: @conn, date: @date, calendar: @calendar %>
     <% end %>
   </div>
 </div>

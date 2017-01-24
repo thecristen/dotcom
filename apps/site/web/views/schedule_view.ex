@@ -145,31 +145,4 @@ defmodule Site.ScheduleView do
     @schedule_display_initial + @schedule_display_buffer
   end
 
-  @doc "Subtract one month from given date"
-  @spec decrement_month(Date.t) :: Date.t
-  def decrement_month(date), do: shift_month(date, -1)
-
-  @doc "Add one month from given date"
-  @spec add_month(Date.t) :: Date.t
-  def add_month(date), do: shift_month(date, 1)
-
-  @spec shift_month(Date.t, integer) :: Date.t
-  defp shift_month(date, delta) do
-    date
-    |> Timex.beginning_of_month
-    |> Timex.shift(months: delta)
-  end
-
-  @doc """
-  Class for the previous month link in the date picker. If the given date is during the current month
-  or before it is disabled; otherwise it's left as is.
-  """
-  @spec previous_month_class(Date.t) :: String.t
-  def previous_month_class(date) do
-    if Util.today.month == date.month or Timex.before?(date, Util.today) do
-      " disabled"
-    else
-      ""
-    end
-  end
 end

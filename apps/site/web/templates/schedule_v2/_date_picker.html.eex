@@ -14,7 +14,7 @@
     <% end %>
     </ul>
     <div><div class="graph-legend weekend"></div><span>Weekends</span></div>
-    <%= if @calendar.holidays !=[] do %><div><div class="graph-legend holiday"></div><span>Holidays</span></div><% end %>
+    <%= if @calendar.holidays != [] do %><div><div class="graph-legend holiday"></div><span>Holidays</span></div><% end %>
   </div>
   <span class="col-sm-9 col-xs-12">
     <table class="table schedule-date-picker">
