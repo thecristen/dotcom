@@ -155,3 +155,9 @@ This will build the release in a Docker container, and put the files in
 
 You should now be able to see the new site at
 http://mbta-dotcom-dev-green.us-east-1.elasticbeanstalk.com/
+
+## Documentation
+
+You can generate documentation for the project by running `$ mix docs` from the root directory.
+You can then view the genereated documentation in the `doc/` directory
+`$ open doc/index.html`

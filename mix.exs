@@ -9,7 +9,13 @@ defmodule DotCom.Mixfile do
      test_coverage: [tool: ExCoveralls],
      dialyzer: [
        plt_add_apps: [:mix, :phoenix_live_reload]],
-     deps: deps()]
+     deps: deps(),
+
+    #docs
+    name: "MBTA Website",
+    source_url: "https://github.com/mbta/dotcom",
+    homepage_url: "https://beta.mbta.com/"
+    ]
   end
 
   # Dependencies can be Hex packages:
@@ -26,7 +32,8 @@ defmodule DotCom.Mixfile do
   # and cannot be accessed from applications inside the apps folder
   defp deps do
     [{:credo, ">= 0.0.0", only: [:dev, :test]},
-     {:excoveralls, "~> 0.5", only: :test}]
+     {:excoveralls, "~> 0.5", only: :test},
+     {:ex_doc, "~> 0.14", only: :dev}]
   end
 
 end
