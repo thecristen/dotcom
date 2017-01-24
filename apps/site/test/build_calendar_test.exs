@@ -66,6 +66,13 @@ defmodule BuildCalendarTest do
       end
     end
 
+    test "Holidays are included in calendar struct" do
+      date =  ~D[2017-01-02]
+      holidays = Holiday.Repo.holidays_in_month(date)
+      calendar = build(date, holidays, &url_fn/1)
+      assert calendar.holidays == holidays
+    end
+
     test "selected is marked" do
       selected = Util.service_date()
       calendar = build(selected, [], &url_fn/1)

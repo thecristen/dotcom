@@ -9,8 +9,6 @@ defmodule Site.ScheduleV2View do
   @type optional_schedule :: Schedule.t | nil
   @type scheduled_prediction :: {optional_schedule, Prediction.t | nil}
 
-  defdelegate build_calendar(date, holidays, conn), to: Site.ScheduleV2.Calendar
-
   def update_schedule_url(conn, query) do
     conn
     |> Site.ViewHelpers.update_query(query)
@@ -24,34 +22,6 @@ defmodule Site.ScheduleV2View do
   end
   defp do_update_url(updated, conn) do
     "#{conn.request_path}?#{URI.encode_query(updated)}"
-  end
-
-  @doc "Subtract one month from given date"
-  @spec decrement_month(Date.t) :: Date.t
-  def decrement_month(date), do: shift_month(date, -1)
-
-  @doc "Add one month from given date"
-  @spec add_month(Date.t) :: Date.t
-  def add_month(date), do: shift_month(date, 1)
-
-  @spec shift_month(Date.t, integer) :: Date.t
-  defp shift_month(date, delta) do
-    date
-    |> Timex.beginning_of_month
-    |> Timex.shift(months: delta)
-  end
-
-  @doc """
-  Class for the previous month link in the date picker. If the given date is during the current month
-  or before it is disabled; otherwise it's left as is.
-  """
-  @spec previous_month_class(Date.t) :: String.t
-  def previous_month_class(date) do
-    if Util.today.month == date.month or Timex.before?(date, Util.today) do
-      " disabled"
-    else
-      ""
-    end
   end
 
   def reverse_direction_opts(origin, dest, route_id, direction_id) do

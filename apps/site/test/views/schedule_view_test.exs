@@ -251,34 +251,6 @@ defmodule Site.ScheduleViewTest do
     end
   end
 
-  describe "Shifting months" do
-    test "Months are not skipped when shifting" do
-      date = ~D[2016-02-28]
-      assert ScheduleView.add_month(date).month == 3
-      assert ScheduleView.decrement_month(date).month == 1
-    end
-    test "Years are incremented on when shifting to new year" do
-      date = ~D[2016-12-31]
-      shifted_date = ScheduleView.add_month(date)
-      assert shifted_date.month == 1
-      assert shifted_date.year == 2017
-    end
-  end
-
-  describe "previous_month_class/1" do
-    test "disables the link if the given date is in the current month" do
-      assert ScheduleView.previous_month_class(Util.today) == " disabled"
-    end
-
-    test "disables the link if the given date is in a previous month" do
-      assert Util.today |> Timex.shift(months: -2) |> ScheduleView.previous_month_class == " disabled"
-    end
-
-    test "leaves the link enabled if the given date is in a future month" do
-      assert Util.today |> Timex.shift(months: 2) |> ScheduleView.previous_month_class == ""
-    end
-  end
-
   describe "Green line schedules" do
     test "User is alerted when no schedules are available" do
       green_template = Site.ScheduleView.render("_schedule_group.html", schedules: [], date: Util.service_date())

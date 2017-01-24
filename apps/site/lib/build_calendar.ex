@@ -13,12 +13,14 @@ defmodule BuildCalendar do
     @type t :: %__MODULE__{
       previous_month_url: String.t | nil,
       next_month_url: String.t,
-      days: [BuildCalendar.Day.t]
+      days: [BuildCalendar.Day.t],
+      holidays: [Holiday.t]
     }
     defstruct [
       previous_month_url: nil,
       next_month_url: "",
-      days: []
+      days: [],
+      holidays: []
     ]
 
     @doc "Breaks the days of a Calendar into 1-week chunks."
@@ -94,7 +96,8 @@ defmodule BuildCalendar do
     %BuildCalendar.Calendar{
       previous_month_url: previous_month_url(selected, Util.service_date(), url_fn),
       next_month_url: next_month_url(selected, url_fn),
-      days: build_days(selected, holiday_set, url_fn)
+      days: build_days(selected, holiday_set, url_fn),
+      holidays: holidays
     }
   end
 
