@@ -1,34 +1,34 @@
 defmodule Site.ScheduleV2.TripInfoTest do
   use Site.ConnCase, async: true
   import Site.ScheduleV2.TripInfo
-  alias Schedules.{Schedule, Trip, Stop}
+  alias Schedules.{Schedule, Trip}
 
   @all_schedules [
     %Schedule{
       trip: %Trip{id: "past_trip"},
-      stop: %Stop{},
+      stop: %Schedules.Stop{},
       time: Timex.shift(Util.now, hours: -1)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
-      stop: %Stop{},
+      stop: %Schedules.Stop{},
       time: Timex.shift(Util.now, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "far_future_trip"},
-      stop: %Stop{},
+      stop: %Schedules.Stop{},
       time: Timex.shift(Util.now, hours: 1)
     }
   ]
   @trip_schedules [
     %Schedule{
       trip: %Trip{id: "32893585"},
-      stop: %Stop{id: "first"},
+      stop: %Schedules.Stop{id: "first"},
       time: Timex.shift(Util.now, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
-      stop: %Stop{id: "last"},
+      stop: %Schedules.Stop{id: "last"},
       time: Timex.shift(Util.now, minutes: 4)
     }
   ]
@@ -41,16 +41,16 @@ defmodule Site.ScheduleV2.TripInfoTest do
     @trip_schedules
     |> Enum.concat([
       %Schedule{
-        stop: %Stop{id: "after_first"}
+        stop: %Schedules.Stop{id: "after_first"}
       },
       %Schedule{
-        stop: %Stop{}
+        stop: %Schedules.Stop{}
       },
       %Schedule{
-        stop: %Stop{}
+        stop: %Schedules.Stop{}
       },
       %Schedule{
-        stop: %Stop{id: "new_last"},
+        stop: %Schedules.Stop{id: "new_last"},
         time: List.last(@all_schedules).time
       }
     ])

@@ -52,30 +52,43 @@ defmodule TripInfo do
   alias __MODULE__.Flags
 
   @spec from_list(time_list, Keyword.t) :: TripInfo.t | {:error, any}
-  def from_list(times, opts \\ [])
-  def from_list([_, _ | _] = times, opts) do
-    origin_id = opts[:origin_id] || List.first(times).stop.id
-    destination_id = opts[:destination_id] || List.last(times).stop.id
-    times = clamp_times_to_origin_destination(times, origin_id, destination_id)
-    case times do
-      [time, _ | _] ->
-        {before, times} = split_around_break(times, opts[:collapse?])
-        route = time.route
-        duration = duration(times)
-        %TripInfo{
-          route: route,
-          origin_id: origin_id,
-          destination_id: destination_id,
-          vehicle: opts[:vehicle],
-          times_before: before,
-          times: times,
-          duration: duration
-        }
-      _ ->
-        {:error, "not enough times to build a trip"}
-    end
+  def from_list(times, opts \\ []) do
+    origin_id = time_stop_id(opts[:origin_id], times, :first)
+    destination_id = time_stop_id(opts[:destination_id], times, :last)
+    times
+    |> clamp_times_to_origin_destination(origin_id, destination_id)
+    |> do_from_list(origin_id, destination_id, opts)
   end
-  def from_list(_times, _opts) do
+
+  # finds a stop ID.  If one isn't provided, or is provided as nil, then
+  # use a List function to get the stop ID from the times list.
+  @spec time_stop_id(String.t, time_list, :first | :last) :: String.t | nil
+  defp time_stop_id(stop_id_from_opts, times, list_function)
+  defp time_stop_id(stop_id, _, _) when is_binary(stop_id) do
+    stop_id
+  end
+  defp time_stop_id(_, [], _) do
+    nil
+  end
+  defp time_stop_id(_, times, list_function) do
+    apply(List, list_function, [times]).stop.id
+  end
+
+  defp do_from_list([time, _ | _] = times, origin_id, destination_id, opts) do
+    {before, times} = split_around_break(times, opts[:collapse?])
+    route = time.route
+    duration = duration(times)
+    %TripInfo{
+      route: route,
+      origin_id: origin_id,
+      destination_id: destination_id,
+      vehicle: opts[:vehicle],
+      times_before: before,
+      times: times,
+      duration: duration
+    }
+  end
+  defp do_from_list(_times, _origin_id, _destination_id, _opts) do
     {:error, "not enough times to build a trip"}
   end
 
@@ -135,13 +148,17 @@ defmodule TripInfo do
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
   @spec clamp_times_to_origin_destination(time_list, String.t, String.t) :: time_list
-  defp clamp_times_to_origin_destination(times, origin_id, destination_id)
-  defp clamp_times_to_origin_destination(times, origin_id, destination_id) do
+  defp clamp_times_to_origin_destination(times, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
     times
     |> Enum.drop_while(& &1.stop.id != origin_id)
     |> clamp_to_destination(destination_id, [])
   end
 
+  defp clamp_to_destination([], _id, _acc) do
+    # if we get to the end of the list without finding the destination, don't
+    # return anything.
+    []
+  end
   defp clamp_to_destination([%Schedules.Schedule{stop: %{id: id}} = time | _], id, acc) do
     [time | acc]
     |> Enum.reverse
