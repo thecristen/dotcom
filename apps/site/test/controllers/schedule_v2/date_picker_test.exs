@@ -22,7 +22,7 @@ defmodule Site.ScheduleV2.DatePickerTest do
     |> call(@opts)
 
     assert conn.assigns.date_select == true
-    assert conn.assigns.holidays == Holiday.Repo.holidays_in_month(~D[2017-01-15])
+    assert conn.assigns.calendar.holidays == Holiday.Repo.holidays_in_month(~D[2017-01-15])
 
     calendar = conn.assigns.calendar
     assert %BuildCalendar.Calendar{} = calendar

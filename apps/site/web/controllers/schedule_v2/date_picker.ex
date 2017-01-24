@@ -21,7 +21,6 @@ defmodule Site.ScheduleV2.DatePicker do
     calendar = BuildCalendar.build(date, holidays, &update_schedule_url(conn, &1))
 
     conn
-    |> assign(:holidays, holidays)
     |> assign(:calendar, calendar)
   end
 
