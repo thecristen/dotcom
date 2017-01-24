@@ -58,14 +58,14 @@ defmodule TripInfo do
   def from_list(times, opts \\ []) do
     origin_id = time_stop_id(opts[:origin_id], times, :first)
     destination_id = time_stop_id(opts[:destination_id], times, :last)
-    origin_ids = if opts[:vehicle] do
+    starting_stop_ids = if opts[:vehicle] do
       [origin_id, opts[:vehicle].stop_id]
     else
       [origin_id]
     end
     times
-    |> clamp_times_to_origin_destination(origin_ids, destination_id)
-    |> do_from_list(origin_ids, destination_id, opts)
+    |> clamp_times_to_origin_destination(starting_stop_ids, destination_id)
+    |> do_from_list(starting_stop_ids, destination_id, opts)
   end
 
   # finds a stop ID.  If one isn't provided, or is provided as nil, then
@@ -82,12 +82,12 @@ defmodule TripInfo do
     apply(List, list_function, [times]).stop.id
   end
 
-  defp do_from_list([time, _ | _] = times, [origin_id | _] = origin_ids, destination_id, opts)
+  defp do_from_list([time, _ | _] = times, [origin_id | _] = starting_stop_ids, destination_id, opts)
   when is_binary(origin_id) and is_binary(destination_id) do
     route = time.route
     duration = duration(times, origin_id)
     sections = if opts[:collapse?] do
-      TripInfo.Split.split(times, origin_ids, destination_id)
+      TripInfo.Split.split(times, starting_stop_ids)
     else
       [times]
     end
@@ -102,7 +102,7 @@ defmodule TripInfo do
       duration: duration
     }
   end
-  defp do_from_list(_times, _origin_ids, _destination_id, _opts) do
+  defp do_from_list(_times, _starting_stop_ids, _destination_id, _opts) do
     {:error, "not enough times to build a trip"}
   end
 
@@ -157,9 +157,9 @@ defmodule TripInfo do
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
   @spec clamp_times_to_origin_destination(time_list, [String.t], String.t) :: time_list
-  defp clamp_times_to_origin_destination(times, origin_ids, destination_id) do
+  defp clamp_times_to_origin_destination(times, starting_stop_ids, destination_id) do
     times
-    |> Enum.drop_while(& not(&1.stop.id in origin_ids))
+    |> Enum.drop_while(& not(&1.stop.id in starting_stop_ids))
     |> clamp_to_destination(destination_id, [])
   end
 
