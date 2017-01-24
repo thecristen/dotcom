@@ -35,7 +35,6 @@ defmodule TripInfoTest do
     origin_id: "place-sstat",
     destination_id: "place-pktrm",
     duration: 60 * 24 * 2, # 2 day duration trip
-    times: @time_list,
     sections: [@time_list]}
 
   describe "from_list/1" do
@@ -53,28 +52,28 @@ defmodule TripInfoTest do
 
     test "given an origin, limits the times to just those after origin" do
       actual = from_list(@time_list, origin_id: "place-north")
-      assert List.first(actual.times).stop.id == "place-north"
+      assert List.first(List.first(actual.sections)).stop.id == "place-north"
       assert actual.duration == 60 * 24 # 1 day trip
     end
 
     test "given an origin and destination, limits both sides" do
       actual = from_list(@time_list, origin_id: "place-north", destination_id: "place-censq")
-      assert List.first(actual.times).stop.id == "place-north"
-      assert List.last(actual.times).stop.id == "place-censq"
+      assert List.first(List.first(actual.sections)).stop.id == "place-north"
+      assert List.last(List.last(actual.sections)).stop.id == "place-censq"
       assert actual.duration == 60 * 12 # 12 hour trip
     end
 
     test "given an origin/destination/vehicle, keeps stops before the origin if the vehicle is there" do
       actual = from_list(@time_list, origin_id: "place-censq", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-north"})
-      assert List.first(actual.times).stop.id == "place-north"
-      assert List.last(actual.times).stop.id == "place-harsq"
+      assert List.first(List.first(actual.sections)).stop.id == "place-north"
+      assert List.last(List.last(actual.sections)).stop.id == "place-harsq"
       assert actual.duration == 60 * 6 # 6 hour trip from censq to harsq
     end
 
     test "given an origin/destination/vehicle, does not keep stops before the origin if the vehicle is after the origin" do
       actual = from_list(@time_list, origin_id: "place-north", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-censq"})
-      assert List.first(actual.times).stop.id == "place-north"
-      assert List.last(actual.times).stop.id == "place-harsq"
+      assert List.first(List.first(actual.sections)).stop.id == "place-north"
+      assert List.last(List.last(actual.sections)).stop.id == "place-harsq"
       assert actual.duration == 60 * 18
     end
 
@@ -109,35 +108,31 @@ defmodule TripInfoTest do
     end
   end
 
-  describe "times_with_flags/1" do
-    test "returns the times, tagging the first and last stops as termini" do
-      actual = times_with_flags(@info)
-      expected = Enum.zip(@time_list, [%Flags{terminus?: true},
-                                        %Flags{terminus?: false},
-                                        %Flags{terminus?: false},
-                                        %Flags{terminus?: false},
-                                        %Flags{terminus?: true}])
-      assert expected == actual
-    end
-
-    test "if vehicle is present, then tags that as well" do
-      time = List.last(@time_list)
-      vehicle = %Vehicle{stop_id: time.stop.id}
-      info = from_list(@time_list, vehicle: vehicle)
-      actual = times_with_flags(info)
-      expected = Enum.zip(@time_list, [%Flags{terminus?: true},
-                                        %Flags{terminus?: false},
-                                        %Flags{terminus?: false},
-                                        %Flags{terminus?: false},
-                                        %Flags{terminus?: true, vehicle?: true}])
-      assert expected == actual
-    end
-  end
-
   describe "times_with_flags_and_separators/1" do
     test "if we're showing all stops, returns one list with the times" do
       actual = times_with_flags_and_separators(@info)
-      expected = [times_with_flags(@info)]
+      expected = [
+        Enum.zip(@time_list, [%Flags{terminus?: true},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: true}])
+      ]
+      assert expected == actual
+    end
+
+    test "if vehicle is present, tags that as well" do
+      time = List.last(@time_list)
+      vehicle = %Vehicle{stop_id: time.stop.id}
+      info = from_list(@time_list, vehicle: vehicle)
+      actual = times_with_flags_and_separators(info)
+      expected = [
+        Enum.zip(@time_list, [%Flags{terminus?: true},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: true, vehicle?: true}])
+      ]
       assert expected == actual
     end
 

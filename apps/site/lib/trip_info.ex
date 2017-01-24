@@ -22,7 +22,6 @@ defmodule TripInfo do
     destination_id: String.t,
     vehicle: Vehicles.Vehicle.t | nil,
     status: String.t,
-    times: time_list,
     sections: [time_list],
     duration: pos_integer
   }
@@ -33,7 +32,6 @@ defmodule TripInfo do
     destination_id: nil,
     vehicle: nil,
     status: "operating at normal schedule",
-    times: [],
     sections: [],
     duration: -1,
   ]
@@ -98,7 +96,6 @@ defmodule TripInfo do
       destination_id: destination_id,
       vehicle: opts[:vehicle],
       sections: sections,
-      times: times,
       duration: duration
     }
   end
@@ -111,12 +108,12 @@ defmodule TripInfo do
   """
   @spec full_status(TripInfo.t) :: iolist
   def full_status(%TripInfo{route: route,
-                            times: times,
+                            sections: sections,
                             status: status}) do
     [
       route_name(route),
       " to ",
-      destination(times),
+      destination(List.last(sections)),
       " ",
       status
     ]
@@ -132,14 +129,6 @@ defmodule TripInfo do
     sections
     |> Enum.map(&do_times_with_flag(&1, info))
     |> Enum.intersperse(:separator)
-  end
-
-  @doc """
-  Returns the times for this trip, tagging the first/last stops.
-  """
-  @spec times_with_flags(TripInfo.t) :: [{time, Flags.t}]
-  def times_with_flags(%TripInfo{times: times} = info) do
-    do_times_with_flag(times, info)
   end
 
   defp do_times_with_flag(times, info) do
