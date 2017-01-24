@@ -150,11 +150,13 @@ defmodule TripInfo do
     clamp_to_destination(rest, id, [time | acc])
   end
 
+  @spec split_around_break(time_list, boolean) :: {time_list, time_list}
   defp split_around_break(times, collapse?)
   defp split_around_break([_, _, _, _, _ | _] = times, true) do
-    before = Enum.take(times, 2)
-    times = Enum.take(times, -2)
-    {before, times}
+    # the match makes sure we have at least 5 items to split on
+    first_two = Enum.take(times, 2)
+    last_two = Enum.take(times, -2)
+    {first_two, last_two}
   end
   defp split_around_break(times, _) do
     {[], times}
