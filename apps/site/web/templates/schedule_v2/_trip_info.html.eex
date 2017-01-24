@@ -11,6 +11,16 @@
       <span class="col-xs-6"><strong>Times:</strong></span>
     </p>
     <div>
+      <%= for {%Schedules.Schedule{stop: stop, time: time}, flags} <- TripInfo.times_with_flags(@trip_info, :before) do %>
+        <%= render "_trip_info_row.html", name: stop.name, href: stop_path(@conn, :show, stop.id), time: time, route_type: @trip_info.route.type, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
+      <% end %>
+      <%= unless @trip_info.show_between? do %>
+        <div class="trip-info-row schedule-row row">
+          <%= link to: update_url(@conn, show_between?: "") do %>
+            Show All Stops
+          <% end %>
+        </div>
+      <% end %>
       <%= for {%Schedules.Schedule{stop: stop, time: time}, flags} <- TripInfo.times_with_flags(@trip_info) do %>
         <%= render "_trip_info_row.html", name: stop.name, href: stop_path(Site.Endpoint, :show, stop.id), time: time, route: @trip_info.route, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
       <% end %>

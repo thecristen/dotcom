@@ -20,8 +20,10 @@ defmodule TripInfo do
     destination: nil,
     vehicle: nil,
     status: "operating at normal schedule",
+    times_before: [],
     times: [],
     duration: -1,
+    show_between?: true
   ]
 
   defmodule Flags do
@@ -45,6 +47,7 @@ defmodule TripInfo do
     times = clamp_times_to_origin_destination(times, origin, destination)
     case times do
       [time, _ | _] ->
+        {before, times, show_between?} = show_between?(times, opts[:show_between?])
         route = time.route
         duration = duration(times)
         %TripInfo{
@@ -52,8 +55,10 @@ defmodule TripInfo do
           origin: origin,
           destination: destination,
           vehicle: opts[:vehicle],
+          times_before: before,
           times: times,
-          duration: duration
+          duration: duration,
+          show_between?: show_between?
         }
       _ ->
         {:error, "not enough times to build a trip"}
@@ -79,8 +84,14 @@ defmodule TripInfo do
   @doc """
   Returns the times for this trip, tagging the first/last stops.
   """
-  @spec times_with_flags(TripInfo.t) :: [{time, Flags.t}]
-  def times_with_flags(%TripInfo{times: times} = info) do
+  @spec times_with_flags(TripInfo.t, atom) :: [{time, Flags.t}]
+  def times_with_flags(%TripInfo{} = info, field \\ nil) do
+    times = case field do
+              nil ->
+                info.times
+              :before ->
+                info.times_before
+            end
     Enum.map(times, &do_time_with_flag(&1, info))
   end
 
@@ -110,6 +121,17 @@ defmodule TripInfo do
   defp clamp_to_destination([time | rest], id, acc) do
     clamp_to_destination(rest, id, [time | acc])
   end
+
+  defp show_between?(times, show_between?)
+  defp show_between?([_, _, _, _, _ | _] = times, false) do
+    before = Enum.take(times, 2)
+    times = Enum.take(times, -2)
+    {before, times, false}
+  end
+  defp show_between?(times, _) do
+    {[], times, true}
+  end
+
 
   defp duration([first | rest]) do
     last = List.last(rest)

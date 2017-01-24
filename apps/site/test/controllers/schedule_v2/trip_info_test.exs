@@ -36,6 +36,19 @@ defmodule Site.ScheduleV2.TripInfoTest do
   defp trip_fn("32893585") do
     @trip_schedules
   end
+  defp trip_fn("long_trip") do
+    @trip_schedules
+    |> Enum.concat([
+      %Schedule{},
+      %Schedule{},
+      %Schedule{},
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Stop{id: "1"},
+        time: Timex.shift(Util.now, minutes: 4)
+      }
+    ])
+  end
   defp trip_fn("not_in_schedule") do
     []
   end
@@ -43,7 +56,7 @@ defmodule Site.ScheduleV2.TripInfoTest do
   defp vehicle_fn("32893585") do
     %Vehicles.Vehicle{}
   end
-  defp vehicle_fn("not_in_schedule") do
+  defp vehicle_fn(_) do
     nil
   end
 
@@ -74,6 +87,16 @@ defmodule Site.ScheduleV2.TripInfoTest do
   test "assigns trip_info when all_schedules is a list of schedule tuples", %{conn: conn} do
     conn = conn_builder(conn, @all_schedules |> Enum.map(fn sched -> {sched, %Schedule{}} end))
     assert conn.assigns.trip_info == TripInfo.from_list(@trip_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
+  end
+
+  test "show_between? defaults to false if there are enough schedules", %{conn: conn} do
+    conn = conn_builder(conn, [], trip: "long_trip")
+    refute conn.assigns.trip_info.show_between?
+  end
+
+  test "show_between? as true if present in the URL", %{conn: conn} do
+    conn = conn_builder(conn, [], trip: "long_trip", show_between?: "")
+    assert conn.assigns.trip_info.show_between?
   end
 
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do

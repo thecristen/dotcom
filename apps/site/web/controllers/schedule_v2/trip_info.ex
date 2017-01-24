@@ -53,6 +53,7 @@ defmodule Site.ScheduleV2.TripInfo do
     trip_id
     |> opts[:trip_fn].()
     |> TripInfo.from_list(
+      show_between?: conn.query_params["show_between?"] != nil,
       vehicle: opts[:vehicle_fn].(trip_id),
       origin: conn.assigns[:origin],
       destination: conn.assigns[:destination])

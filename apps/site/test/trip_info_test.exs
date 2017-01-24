@@ -27,6 +27,10 @@ defmodule TripInfoTest do
               route: @route,
               stop: %Stop{id: "place-censq", name: "Central Square"}},
             %Schedule{
+              time: ~N[2017-01-02T18:00:00],
+              route: @route,
+              stop: %Stop{id: "place-harsq", name: "Harvard Square"}},
+            %Schedule{
               time: ~N[2017-01-03T00:00:00],
               route: @route,
               stop: %Stop{id: "place-pktrm", name: "Park Street"}}]}
@@ -57,6 +61,20 @@ defmodule TripInfoTest do
       assert actual.duration == 60 * 12 # 12 hour trip
     end
 
+    test "if show_between? is false, shows the origin + 1 after, destination + 1 before" do
+      actual = from_list(@info.times, show_between?: false)
+      assert actual.times_before == Enum.take(@info.times, 2)
+      assert actual.times == Enum.drop(@info.times, 3)
+      refute actual.show_between?
+    end
+
+    test "if show_between? is false but there are not enough stops, display them all" do
+      actual = from_list(@info.times, origin: "place-north", show_between?: false)
+      assert actual.times_before == []
+      assert actual.times == Enum.drop(@info.times, 1)
+      assert actual.show_between?
+    end
+
     test "if there are not enough times, returns an error" do
       actual = from_list(@info.times |> Enum.take(1))
       assert {:error, _} = actual
@@ -83,6 +101,7 @@ defmodule TripInfoTest do
       expected = Enum.zip(@info.times, [%Flags{terminus?: true},
                                         %Flags{terminus?: false},
                                         %Flags{terminus?: false},
+                                        %Flags{terminus?: false},
                                         %Flags{terminus?: true}])
       assert expected == actual
     end
@@ -95,8 +114,14 @@ defmodule TripInfoTest do
       expected = Enum.zip(@info.times, [%Flags{terminus?: true},
                                         %Flags{terminus?: false},
                                         %Flags{terminus?: false},
+                                        %Flags{terminus?: false},
                                         %Flags{terminus?: true, vehicle?: true}])
       assert expected == actual
+    end
+
+    test "if given a field param, fetches those times instead" do
+      info = %{@info | times_before: @info.times, times: []}
+      assert times_with_flags(info, :before) == times_with_flags(@info)
     end
   end
 end
