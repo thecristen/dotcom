@@ -15,6 +15,7 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.AllStops
   plug Site.ScheduleController.DirectionNames
   plug Site.ScheduleV2.TripInfo
+  plug Site.ScheduleV2.StopTimes
   plug Site.ScheduleV2Controller.VehicleLocations
 
   def show(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, params) do
@@ -49,18 +50,14 @@ defmodule Site.ScheduleV2Controller do
     Enum.uniq_by(timetable_schedules, & &1.trip)
   end
 
-  defp tab_assigns(%Plug.Conn{assigns: %{tab: "trip-view"}} = conn) do
-    conn
-    |> Site.ScheduleController.Schedules.call([])
-    |> Site.ScheduleController.DirectionNames.call([])
-    |> Site.ScheduleController.DestinationStops.call([])
-    |> Site.ScheduleV2Controller.Predictions.call(Site.ScheduleV2Controller.Predictions.init([]))
-  end
-  defp tab_assigns(conn) do
+  defp tab_assigns(%Plug.Conn{assigns: %{tab: "timetable"}} = conn) do
     conn
     |> assign_trip_schedules
-    |> Site.ScheduleV2Controller.Offset.call([])
-    |> Site.Plugs.Alerts.call(Site.Plugs.Alerts.init([]))
-    |> Site.ScheduleV2Controller.VehicleLocations.call(Site.ScheduleV2Controller.VehicleLocations.init([]))
+    |> call_plug(Site.ScheduleV2Controller.Offset)
+  end
+  defp tab_assigns(conn), do: conn
+
+  defp call_plug(conn, module) do
+    module.call(conn, module.init([]))
   end
 end

@@ -7,13 +7,12 @@
         <div class="col-xs-4">Train</div>
       <% else %>
         <div class="col-xs-6">Scheduled</div>
-        <div class="col-xs-6"><%= display_direction(@schedules) %></div>
+        <div class="col-xs-6"><%= display_direction(@stop_times) %></div>
       <% end %>
     </div>
-    <%= if @destination do %>
-      <% display_trips = @schedules |> group_trips(@predictions, @origin, @destination) |> all_trips(@show_all_trips) %>
-      <%= for {departure, arrival} <- display_trips do %>
-        <%= link to: update_url(@conn, trip: get_valid_trip({departure, arrival})), class: "schedule-list-group-item" do %>
+    <%= for %StopTimeList.StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+      <%= link to: update_url(@conn, trip: trip.id), class: "schedule-list-group-item" do %>
+        <%= if @destination do %>
           <div class="col-xs-4">
             <%= display_scheduled_prediction(departure) %>
           </div>
@@ -23,23 +22,17 @@
           <div class="col-xs-4">
             <%= display_train_number(departure) %>
           </div>
-        <% end %>
-      <% end %>
-    <% else %>
-      <% display_trips = @predictions |> merge_predictions_and_schedules(@schedules) |> all_trips(@show_all_trips) %>
-      <%= for departure <- display_trips do %>
-        <%= link to: update_url(@conn, trip: departure.trip.id), class: "schedule-list-group-item" do %>
+        <% else %>
           <div class="col-xs-6">
-            <%= if match?(%Predictions.Prediction{}, departure), do: fa("rss") %>
-            <%= format_schedule_time(departure.time) %>
+            <%= display_scheduled_prediction(departure) %>
           </div>
           <div class="col-xs-6">
-            <%= departure.trip.headsign %>
+            <%= trip.headsign %>
           </div>
         <% end %>
       <% end %>
     <% end %>
-    <%= unless @show_all_trips do %>
+    <%= unless @stop_times.showing_all? do %>
       <%= link to: update_url(@conn, show_all_trips: true) do %>
         <div class="col-xs-6">
           Show all trips for <%= pretty_date(@date) %>
