@@ -55,8 +55,13 @@ defmodule TripInfo do
   def from_list(times, opts \\ []) do
     origin_id = time_stop_id(opts[:origin_id], times, :first)
     destination_id = time_stop_id(opts[:destination_id], times, :last)
+    origin_ids = if opts[:vehicle] do
+      [origin_id, opts[:vehicle].stop_id]
+    else
+      [origin_id]
+    end
     times
-    |> clamp_times_to_origin_destination(origin_id, destination_id)
+    |> clamp_times_to_origin_destination(origin_ids, destination_id)
     |> do_from_list(origin_id, destination_id, opts)
   end
 
@@ -74,10 +79,11 @@ defmodule TripInfo do
     apply(List, list_function, [times]).stop.id
   end
 
-  defp do_from_list([time, _ | _] = times, origin_id, destination_id, opts) do
-    {before, times} = split_around_break(times, opts[:collapse?])
+  defp do_from_list([time, _ | _] = times, origin_id, destination_id, opts)
+  when is_binary(origin_id) and is_binary(destination_id) do
     route = time.route
-    duration = duration(times)
+    duration = duration(times, origin_id)
+    {before, times} = split_around_break(times, opts[:collapse?])
     %TripInfo{
       route: route,
       origin_id: origin_id,
@@ -144,13 +150,13 @@ defmodule TripInfo do
     }
   end
 
-  # Filters the list of times to those between origin and destination,
+  # Filters the list of times to those between origins and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
-  @spec clamp_times_to_origin_destination(time_list, String.t, String.t) :: time_list
-  defp clamp_times_to_origin_destination(times, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
+  @spec clamp_times_to_origin_destination(time_list, [String.t], String.t) :: time_list
+  defp clamp_times_to_origin_destination(times, origin_ids, destination_id) do
     times
-    |> Enum.drop_while(& &1.stop.id != origin_id)
+    |> Enum.drop_while(& not(&1.stop.id in origin_ids))
     |> clamp_to_destination(destination_id, [])
   end
 
@@ -179,9 +185,9 @@ defmodule TripInfo do
     {[], times}
   end
 
-
-  defp duration([first | rest]) do
-    last = List.last(rest)
+  defp duration(times, origin_id) do
+    first = Enum.find(times, & &1.stop.id == origin_id)
+    last = List.last(times)
     Timex.diff(last.time, first.time, :minutes)
   end
 

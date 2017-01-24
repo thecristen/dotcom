@@ -61,6 +61,20 @@ defmodule TripInfoTest do
       assert actual.duration == 60 * 12 # 12 hour trip
     end
 
+    test "given an origin/destination/vehicle, keeps stops before the origin if the vehicle is there" do
+      actual = from_list(@info.times, origin_id: "place-censq", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-north"})
+      assert List.first(actual.times).stop.id == "place-north"
+      assert List.last(actual.times).stop.id == "place-harsq"
+      assert actual.duration == 60 * 6 # 6 hour trip from censq to harsq
+    end
+
+    test "given an origin/destination/vehicle, does not keep stops before the origin if the vehicle is after the origin" do
+      actual = from_list(@info.times, origin_id: "place-north", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-censq"})
+      assert List.first(actual.times).stop.id == "place-north"
+      assert List.last(actual.times).stop.id == "place-harsq"
+      assert actual.duration == 60 * 18
+    end
+
     test "if collapse? is true, shows the origin + 1 after, destination + 1 before" do
       actual = from_list(@info.times, collapse?: true)
       assert actual.times_before == Enum.take(@info.times, 2)
