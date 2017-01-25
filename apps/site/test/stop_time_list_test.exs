@@ -98,6 +98,51 @@ defmodule StopTimeTest do
     }
   ]
 
+  @origin_destination_predictions [
+    %Prediction{
+      time: ~N[2017-01-01T08:05:00],
+      route_id: @route.id,
+      stop_id: "1",
+      trip: %Trip{id: "t1"}
+    },
+    %Prediction{
+      time: ~N[2017-01-01T08:16:00],
+      route_id: @route.id,
+      stop_id: "1",
+      trip: %Trip{id: "t2"}
+    },
+    %Prediction{
+      time: ~N[2017-01-01T08:32:00],
+      route_id: @route.id,
+      stop_id: "1",
+      trip: %Trip{id: "t3"}
+    },
+    %Prediction{
+      time: ~N[2017-01-01T08:16:00],
+      route_id: @route.id,
+      stop_id: "1",
+      trip: %Trip{id: "t4"}
+    },
+    %Prediction{
+      time: ~N[2017-01-01T08:16:00],
+      route_id: @route.id,
+      stop_id: "1",
+      trip: %Trip{id: "t5"}
+    },
+    %Prediction{
+      time: ~N[2017-01-01T08:16:00],
+      route_id: @route.id,
+      stop_id: "1",
+      trip: %Trip{id: "t6"}
+    },
+    %Prediction{
+      time: ~N[2017-01-01T08:16:00],
+      route_id: @route.id,
+      stop_id: "3",
+      trip: %Trip{id: "t6"}
+    }
+  ]
+
   describe "build/1 with no origin or destination" do
     test "returns no times" do
       assert build(@origin_schedules, @predictions, nil, nil, true) == %StopTimeList{times: [], showing_all?: true}
@@ -311,6 +356,34 @@ defmodule StopTimeTest do
           },
           nil
         }}
+    end
+  end
+
+  describe "build_predictions_only/3" do
+    test "Results contain no schedules for origin" do
+      result = build_predictions_only(@origin_destination_predictions, "1", nil)
+      for stop_time <- result.times do
+        assert %StopTimeList.StopTime{departure: {nil, _}, arrival: nil} = stop_time
+      end
+    end
+
+    test "Results contain no schedules for origin and destination" do
+      result = build_predictions_only(@origin_destination_predictions, "1", "3")
+      for stop_time <- result.times do
+        assert %StopTimeList.StopTime{departure: {nil, _}, arrival: {nil, _}} = stop_time
+      end
+    end
+
+    test "limited to five StopTimes" do
+      result = build_predictions_only(@origin_destination_predictions, "1", nil)
+      assert Enum.count(result.times) == 5
+    end
+
+    test "All times have a departure predictions" do
+      result = build_predictions_only(@origin_destination_predictions, "1", "3")
+      for stop_time <- result.times do
+        assert elem(stop_time.departure, 1) != nil
+      end
     end
   end
 end

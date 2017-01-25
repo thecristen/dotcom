@@ -6,6 +6,8 @@ defmodule StopTimeList do
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
 
+  @prediction_limit 5
+
   defstruct [
     times: [],
     showing_all?: false
@@ -33,33 +35,50 @@ defmodule StopTimeList do
   end
 
   @spec build([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
-  def build(schedules, predictions, origin, destination, showing_all?)
-  def build(schedules, predictions, origin, destination, showing_all?) when is_binary(origin) and is_binary(destination) do
-    times = group_trips(
+  def build(schedules, predictions, origin, destination, showing_all?) do
+    times = build_times(schedules, predictions, origin, destination)
+    from_times(times, showing_all?)
+  end
+
+  @doc """
+  Build a StopTimeList using only predictions. This will also filter out predictions that are
+  missing departure_predictions, and limit results to 5 times.
+  """
+  @spec build_predictions_only([Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
+  def build_predictions_only(predictions, origin, destination) do
+    times = build_times([], predictions, origin, destination)
+            |> Enum.filter(&has_departure_prediction?/1)
+            |> limit_predictions()
+    from_times(times, true)
+  end
+
+  @spec build_times([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
+  defp build_times(schedules, predictions, origin, destination) when is_binary(origin) and is_binary(destination) do
+    group_trips(
       schedules,
       predictions,
       &build_schedule_pair_map/2,
       &predicted_schedule_pairs(&1, &2, &3, origin, destination)
     )
-    %__MODULE__{
-      times: limit_trips(times, showing_all?),
-      showing_all?: showing_all?
-    }
   end
-  def build(schedules, predictions, origin, nil, showing_all?) when is_binary(origin) do
-    times = group_trips(
+
+  defp build_times(schedules, predictions, origin, nil) when is_binary(origin) do
+    group_trips(
       schedules,
       predictions,
       &build_schedule_map/2,
       &predicted_departures(&1, &2, &3, origin)
     )
+  end
+  defp build_times(_schedules, _predictions, _origin, _destination), do: []
+
+  # Creates a StopTimeList object from a list of times and the showing_all? flag
+  @spec from_times([StopTime.t], boolean) :: __MODULE__.t
+  defp from_times(stop_times, showing_all?) do
     %__MODULE__{
-      times: limit_trips(times, showing_all?),
+      times: limit_trips(stop_times, showing_all?),
       showing_all?: showing_all?
     }
-  end
-  def build(_schedules, _predictions, _origin, _destination, showing_all?) do
-    %__MODULE__{times: [], showing_all?: showing_all?}
   end
 
   defp group_trips(schedules, predictions, build_schedule_map_fn, trip_mapper_fn) do
@@ -83,6 +102,27 @@ defmodule StopTimeList do
     [first | rest]
   end
   defp remove_first_scheduled(stop_times), do: stop_times
+
+  # Expects a list of sorted StopTimes.
+  # Keeps the first `@prediction_limit` predictions and additional schedules
+  # Sorting order is maintained
+  @spec limit_predictions([StopTime.t]) :: [StopTime.t]
+  defp limit_predictions(stop_times) do
+    do_limit_predictions(stop_times, 0, [])
+    |> Enum.reverse
+  end
+
+  @spec do_limit_predictions([StopTime.t], non_neg_integer, [StopTime.t]) :: [StopTime.t]
+  defp do_limit_predictions([], _, acc), do: acc
+  defp do_limit_predictions([first | rest], count, acc) do
+    new_count = count + 1
+    over_limit = new_count > @prediction_limit
+    cond do
+      prediction?(first) and over_limit -> do_limit_predictions(rest, new_count, acc) # Limit has been reached, discard time
+      prediction?(first)-> do_limit_predictions(rest, new_count, [first | acc]) # limit has not been reached, keep time
+      true -> do_limit_predictions(rest, count + 1, [first | acc]) # Not a prediction, keep time
+    end
+  end
 
   @spec predicted_schedule_pairs(Trip.t, %{Trip.t => {Schedule.t, Schedule.t}}, %{Trip.t => %{String.t => Prediction.t}}, String.t, String.t) :: StopTime.t
   defp predicted_schedule_pairs(trip, schedule_map, prediction_map, origin, dest) do
@@ -169,4 +209,15 @@ defmodule StopTimeList do
 
   @spec trips_limit() :: integer
   defp trips_limit(), do: 14
+
+  # Determines if this stop time has a prediction
+  @spec prediction?(StopTime.t) :: boolean
+  defp prediction?(%StopTime{departure: {_, departure_prediction}, arrival: {_, arrival_prediction}}) do
+    is_map(departure_prediction) or is_map(arrival_prediction)
+  end
+  defp prediction?(%StopTime{departure: {_, departure_prediction}}), do: is_map(departure_prediction)
+
+  @spec has_departure_prediction?(StopTime.t) :: boolean
+  defp has_departure_prediction?(%StopTime{departure: {_, nil}}), do: false
+  defp has_departure_prediction?(_stop_time), do: true
 end
