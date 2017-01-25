@@ -46,6 +46,7 @@ defmodule TimeGroup do
     nil
   end
 
+  @spec frequency_for_time([Schedule.t], atom) :: %Schedules.Frequency{} | nil
   def frequency_for_time(schedules, time_block) do
     time_range = schedules
     |> Enum.filter(fn schedule -> subway_period(schedule.time) == time_block end)
@@ -58,6 +59,7 @@ defmodule TimeGroup do
     end
   end
 
+  @spec frequency_for_time_block([Schedule.t]) :: [%Schedules.Frequency{} | nil]
   def frequency_by_time_block(schedules) do
     Enum.map([:am_rush, :midday, :pm_rush, :evening, :late_night],
              fn time_block ->
