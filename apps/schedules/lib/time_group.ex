@@ -37,7 +37,7 @@ defmodule TimeGroup do
   """
   @spec frequency([Schedule.t]) :: {non_neg_integer, non_neg_integer} | non_neg_integer | nil
   def frequency([_,_|_] = schedules) do
-    {min, max} = schedules
+    schedules
     |> Enum.zip(Enum.drop(schedules, 1))
     |> Enum.map(fn {x, y} -> Timex.diff(y.time, x.time, :minutes) end)
     |> Enum.min_max
