@@ -61,10 +61,18 @@ defmodule Site.ScheduleV2View do
   schedules have the same route and direction.
   """
   @spec display_direction(StopTimeList.t) :: iodata
-  def display_direction(%StopTimeList{times: [%StopTimeList.StopTime{departure: {scheduled, _}} | _]}) do
+  def display_direction(%StopTimeList{times: times}) do
+    do_display_direction(times)
+  end
+
+  @spec do_display_direction([StopTimeList.StopTime.t]) :: iodata
+  defp do_display_direction([%StopTimeList.StopTime{departure: {nil, _}} | rest]) do
+    do_display_direction(rest)
+  end
+  defp do_display_direction([%StopTimeList.StopTime{departure: {scheduled, _}} | _]) do
     [direction(scheduled.trip.direction_id, scheduled.route), " to"]
   end
-  def display_direction(%StopTimeList{times: []}), do: ""
+  defp do_display_direction([]), do: ""
 
   @doc "Display Prediction time with rss icon if available. Otherwise display scheduled time"
   @spec display_scheduled_prediction(StopTimeList.StopTime.predicted_schedule) :: Phoenix.HTML.Safe.t | String.t

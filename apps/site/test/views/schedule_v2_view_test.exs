@@ -101,6 +101,20 @@ defmodule Site.ScheduleV2ViewTest do
       )
       assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end
+
+    test "finds later schedules if the first is nil" do
+      route = %Routes.Route{direction_names: %{1 => "Northbound"}, id: "1"}
+      stop = %Stop{id: "stop"}
+      now = Timex.now
+      stop_times = StopTimeList.build(
+        [%Schedules.Schedule{route: route, trip: %Trip{direction_id: 1, id: "t2"}, stop: stop, time: now}],
+        [%Predictions.Prediction{route_id: route.id, stop_id: stop.id, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
+        stop.id,
+        nil,
+        true
+      )
+      assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
+    end
   end
 
   describe "display_scheduled_prediction/1" do
