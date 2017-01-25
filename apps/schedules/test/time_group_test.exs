@@ -57,15 +57,6 @@ defmodule TimeGroupTest do
     ]
   end
 
-  test "frequency returns a single value if there's a single headway" do
-    first_time = Timex.to_datetime({{2016, 1, 1}, {5, 26, 1}})
-    first_schedule = %Schedule{time: first_time}
-    second_time = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
-    second_schedule = %Schedule{time: second_time}
-
-    assert TimeGroup.frequency([@schedule, first_schedule, second_schedule]) == 10
-  end
-
   test "frequency returns a min/max if there are different values" do
     first_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
     first_schedule = %Schedule{time: first_time}
@@ -98,6 +89,27 @@ defmodule TimeGroupTest do
       schedules = [@schedule, first_schedule, second_schedule]
 
       assert TimeGroup.frequency_for_time(schedules, :midday) == nil
+    end
+  end
+
+  describe "frequency_by_time_block/1" do
+    test "returns a list of frequency objects which cover the time ranges included in the schedules" do
+      am_rush_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
+      am_rush_schedule = %Schedule{time: am_rush_time }
+      am_rush_time_2 = Timex.to_datetime({{2016, 1, 1}, {5, 36, 1}})
+      am_rush_schedule_2 = %Schedule{time: am_rush_time_2}
+      midday_time = Timex.to_datetime({{2016, 1, 1}, {9, 36, 1}})
+      midday_schedule = %Schedule{time: midday_time}
+      midday_time_2 = Timex.to_datetime({{2016, 1, 1}, {10, 36, 1}})
+      midday_schedule_2 = %Schedule{time: midday_time_2}
+
+      schedules = [am_rush_schedule, am_rush_schedule_2, midday_schedule, midday_schedule_2]
+
+      assert TimeGroup.frequency_by_time_block(schedules) == [
+        %Schedules.Frequency{time_block: :am_rush, min_headway: 11, max_headway: 11},
+        %Schedules.Frequency{time_block: :midday, min_headway: 60, max_headway: 60},
+        nil, nil, nil
+      ]
     end
   end
 end

@@ -41,11 +41,6 @@ defmodule TimeGroup do
     |> Enum.zip(Enum.drop(schedules, 1))
     |> Enum.map(fn {x, y} -> Timex.diff(y.time, x.time, :minutes) end)
     |> Enum.min_max
-
-    case {min, max} do
-      {value, value} -> value
-      _ -> {min, max}
-    end
   end
   def frequency(_) do
     nil
@@ -56,7 +51,18 @@ defmodule TimeGroup do
     |> Enum.filter(fn schedule -> subway_period(schedule.time) == time_block end)
     |> frequency
 
-    %Schedules.Frequency{time_block: time_block, min_headway: elem(time_range, 0), max_headway: elem(time_range, 1)}
+    if time_range == nil do
+      nil
+    else
+      %Schedules.Frequency{time_block: time_block, min_headway: elem(time_range, 0), max_headway: elem(time_range, 1)}
+    end
+  end
+
+  def frequency_by_time_block(schedules) do
+    Enum.map([:am_rush, :midday, :pm_rush, :evening, :late_night],
+             fn time_block ->
+               frequency_for_time(schedules, time_block)
+             end)
   end
 
   defp do_by_fn([], _) do
