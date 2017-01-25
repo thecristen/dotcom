@@ -37,7 +37,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "finds later schedules if the first is nil" do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}, id: "1"}
-      stop = %Stop{id: "stop"}
+      stop = %Schedules.Stop{id: "stop"}
       now = Timex.now
       stop_times = StopTimeList.build(
         [%Schedules.Schedule{route: route, trip: %Trip{direction_id: 1, id: "t2"}, stop: stop, time: now}],
