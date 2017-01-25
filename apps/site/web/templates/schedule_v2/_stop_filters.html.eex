@@ -5,12 +5,11 @@
       conn: @conn,
       query_key: "origin",
       selected: origin,
-      disabled_values: [],
       all_stops: @all_stops,
       key_stops: [],
       label_text: "Departure times from:",
       route: @route,
-      disabled_values: []
+      disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"})
     %>
   </div>
   <%= if @origin do %>
