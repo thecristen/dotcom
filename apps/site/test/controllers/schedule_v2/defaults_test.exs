@@ -20,19 +20,6 @@ defmodule Site.ScheduleV2.DefaultsTest do
     end
   end
 
-  describe "assign show_all_trips to" do
-    test "true when show_all_trips in params", %{conn: conn} do
-      conn = %{conn | params: %{"show_all_trips" => "true"}}
-      conn = Defaults.call(conn, [])
-      assert conn.assigns.show_all_trips == true
-    end
-
-    test "false when show_all_trips not in params", %{conn: conn} do
-      conn = Defaults.call(conn, [])
-      assert conn.assigns.show_all_trips == false
-    end
-  end
-
   test "assign route_type to integer when route has been assigned", %{conn: conn} do
     conn = Defaults.call(conn, [])
     assert conn.assigns.route_type == 3
