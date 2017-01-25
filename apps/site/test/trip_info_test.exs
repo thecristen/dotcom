@@ -8,7 +8,7 @@ defmodule TripInfoTest do
   alias Vehicles.Vehicle
   import :erlang, only: [iolist_to_binary: 1]
 
-  @route %Route{id: "1", name: "1", type: 2}
+  @route %Route{id: "1", name: "1", type: 3}
   @time_list [
     %Schedule{
       time: ~N[2017-01-01T00:00:00],

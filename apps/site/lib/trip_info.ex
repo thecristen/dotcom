@@ -171,7 +171,7 @@ defmodule TripInfo do
     Timex.diff(last.time, first.time, :minutes)
   end
 
-  defp route_name(%Routes.Route{type: 2, name: name}) do
+  defp route_name(%Routes.Route{type: 3, name: name}) do
     ["Bus Route ", name]
   end
   defp route_name(%Routes.Route{name: name}) do
