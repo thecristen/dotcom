@@ -1,9 +1,9 @@
-defmodule Site.ScheduleV2.TripInfoTest do
+defmodule Site.ScheduleV2Controller.TripInfoTest do
   use Site.ConnCase, async: true
-  import Site.ScheduleV2.TripInfo
+  import Site.ScheduleV2Controller.TripInfo
   alias Schedules.{Schedule, Trip}
 
-  @all_schedules [
+  @schedules [
     %Schedule{
       trip: %Trip{id: "past_trip"},
       stop: %Schedules.Stop{},
@@ -51,7 +51,7 @@ defmodule Site.ScheduleV2.TripInfoTest do
       },
       %Schedule{
         stop: %Schedules.Stop{id: "new_last"},
-        time: List.last(@all_schedules).time
+        time: List.last(@schedules).time
       }
     ])
   end
@@ -66,7 +66,7 @@ defmodule Site.ScheduleV2.TripInfoTest do
     nil
   end
 
-  defp conn_builder(conn, all_schedules, params \\ []) do
+  defp conn_builder(conn, schedules, params \\ []) do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
     query_params = Map.new(params, fn {key,val} -> {Atom.to_string(key), val} end)
     params = put_in query_params["route"], "1"
@@ -75,28 +75,28 @@ defmodule Site.ScheduleV2.TripInfoTest do
       request_path: schedule_v2_path(conn, :show, "1"),
       query_params: query_params,
       params: params}
-    |> assign(:all_schedules, all_schedules)
+    |> assign(:schedules, schedules)
     |> assign(:date_time, Util.now)
     |> call(init)
   end
 
-  test "does not assign a trip when all_schedules is empty", %{conn: conn} do
+  test "does not assign a trip when schedules is empty", %{conn: conn} do
     conn = conn_builder(conn, [])
     assert conn.assigns.trip_info == nil
   end
 
-  test "assigns trip_info when all_schedules is a list of schedules", %{conn: conn} do
-    conn = conn_builder(conn, @all_schedules)
+  test "assigns trip_info when schedules is a list of schedules", %{conn: conn} do
+    conn = conn_builder(conn, @schedules)
     assert conn.assigns.trip_info == TripInfo.from_list(@trip_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
   end
 
-  test "assigns trip_info when all_schedules is a list of schedule tuples", %{conn: conn} do
-    conn = conn_builder(conn, @all_schedules |> Enum.map(fn sched -> {sched, %Schedule{}} end))
+  test "assigns trip_info when schedules is a list of schedule tuples", %{conn: conn} do
+    conn = conn_builder(conn, @schedules |> Enum.map(fn sched -> {sched, %Schedule{}} end))
     assert conn.assigns.trip_info == TripInfo.from_list(@trip_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
   end
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
-    conn = conn_builder(conn, @all_schedules, trip: "long_trip", origin: "after_first", last: "new_last")
+    conn = conn_builder(conn, @schedules, trip: "long_trip", origin: "after_first", last: "new_last")
     assert conn.assigns.trip_info == TripInfo.from_list(trip_fn("long_trip"), origin_id: "after_first", destination_id: "new_last")
   end
 
@@ -111,7 +111,7 @@ defmodule Site.ScheduleV2.TripInfoTest do
   end
 
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do
-    conn = conn_builder(conn, [List.first(@all_schedules)])
+    conn = conn_builder(conn, [List.first(@schedules)])
     assert conn.assigns.trip_info == nil
   end
 

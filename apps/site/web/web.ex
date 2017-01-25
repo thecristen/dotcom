@@ -47,6 +47,7 @@ defmodule Site.Web do
       import Site.ErrorHelpers
       import Site.Gettext
       import Site.ViewHelpers
+      import UrlHelpers
 
       @dialyzer :no_match
     end

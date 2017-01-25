@@ -7,7 +7,7 @@
     <% else %>
       <%= for holiday <- @calendar.holidays do %>
         <li>
-          <%= link holiday.name, to: update_schedule_url(@conn, date: Timex.format!(holiday.date, "{ISOdate}"), date_select: nil) %>
+          <%= link holiday.name, to: update_url(@conn, date: Timex.format!(holiday.date, "{ISOdate}"), show_date_select?: nil) %>
           <p><%= Timex.format!(holiday.date, "%a, %b %e", :strftime)%></p>
         </li>
       <% end %>
@@ -48,7 +48,6 @@
           <td class="schedule-weekend">Sat</td>
         </tr>
       </thead>
-
       <tbody>
         <%= for week <- BuildCalendar.Calendar.weeks(@calendar) do %>
           <tr>
@@ -65,6 +64,6 @@
     <%= if @calendar.holidays != [] do %><div class="graph-legend holiday"></div><span>Holidays</span><% end %>
   </div>
   <div class="col-xs-12">
-    <%= link "Cancel", to: update_schedule_url(@conn, date_select: nil), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
+    <%= link "Cancel", to: update_schedule_url(@conn, show_date_select?: nil), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
   </div>
 </div>

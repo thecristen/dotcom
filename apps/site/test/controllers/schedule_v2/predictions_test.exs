@@ -20,7 +20,8 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
 
     test "assigns predictions for a route, stop, and direction ID" do
       conn = build_conn()
-      |> assign(:origin, "place-sstat")
+      |> assign(:origin, %Stops.Stop{id: "place-sstat"})
+      |> assign(:destination, nil)
       |> assign(:route, %{id: "4"})
       |> assign(:direction_id, "0")
       |> call([predictions_fn: fn (opts) -> opts end])
@@ -41,8 +42,8 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
 
     test "destination predictions are assigned if destination is assigned" do
       conn = build_conn()
-      |> assign(:origin, "1148")
-      |> assign(:destination, "21148")
+      |> assign(:origin, %Stops.Stop{id: "1148"})
+      |> assign(:destination, %Stops.Stop{id: "21148"})
       |> assign(:route, %{id: "66"})
       |> assign(:direction_id, "0")
       |> call([predictions_fn: fn (opts) -> opts end])

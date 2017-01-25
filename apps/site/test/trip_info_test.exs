@@ -4,7 +4,7 @@ defmodule TripInfoTest do
   alias TripInfo.Flags
 
   alias Routes.Route
-  alias Schedules.{Schedule, Stop}
+  alias Schedules.Schedule
   alias Vehicles.Vehicle
   import :erlang, only: [iolist_to_binary: 1]
 
@@ -17,23 +17,23 @@ defmodule TripInfoTest do
     times: [%Schedule{
                time: ~N[2017-01-01T00:00:00],
                route: @route,
-               stop: %Stop{id: "place-sstat", name: "South Station"}},
+               stop: %Schedules.Stop{id: "place-sstat", name: "South Station"}},
             %Schedule{
               time: ~N[2017-01-02T00:00:00],
               route: @route,
-              stop: %Stop{id: "place-north", name: "North Station"}},
+              stop: %Schedules.Stop{id: "place-north", name: "North Station"}},
             %Schedule{
               time: ~N[2017-01-02T12:00:00],
               route: @route,
-              stop: %Stop{id: "place-censq", name: "Central Square"}},
+              stop: %Schedules.Stop{id: "place-censq", name: "Central Square"}},
             %Schedule{
               time: ~N[2017-01-02T18:00:00],
               route: @route,
-              stop: %Stop{id: "place-harsq", name: "Harvard Square"}},
+              stop: %Schedules.Stop{id: "place-harsq", name: "Harvard Square"}},
             %Schedule{
               time: ~N[2017-01-03T00:00:00],
               route: @route,
-              stop: %Stop{id: "place-pktrm", name: "Park Street"}}]}
+              stop: %Schedules.Stop{id: "place-pktrm", name: "Park Street"}}]}
 
   describe "from_list/1" do
     test "creates a TripInfo from a list of Schedules" do

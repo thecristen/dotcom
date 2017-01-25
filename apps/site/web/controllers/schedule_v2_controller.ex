@@ -6,16 +6,15 @@ defmodule Site.ScheduleV2Controller do
   plug Site.Plugs.DateTime
   plug Site.ScheduleV2.DatePicker
   plug Site.Plugs.Alerts
-  plug Site.ScheduleController.Defaults
-  plug Site.ScheduleV2.Defaults
+  plug Site.ScheduleV2Controller.Defaults
   plug Site.ScheduleController.DestinationStops
-  plug Site.ScheduleController.Schedules
+  plug Site.ScheduleV2Controller.Schedules
   plug Site.ScheduleV2Controller.Predictions
   plug Site.ScheduleController.Headsigns
   plug Site.ScheduleController.AllStops
   plug Site.ScheduleController.DirectionNames
-  plug Site.ScheduleV2.TripInfo
-  plug Site.ScheduleV2.StopTimes
+  plug Site.ScheduleV2Controller.StopTimes
+  plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.VehicleLocations
 
   def show(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, params) do
@@ -33,12 +32,12 @@ defmodule Site.ScheduleV2Controller do
 
   defp assign_trip_schedules(conn) do
     timetable_schedules = timetable_schedules(conn)
-    all_schedules = all_schedules(timetable_schedules)
+    header_schedules = header_schedules(timetable_schedules)
     trip_schedules = Map.new(timetable_schedules, & {{&1.trip.id, &1.stop.id}, &1})
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
-    |> assign(:all_schedules, all_schedules)
+    |> assign(:header_schedules, header_schedules)
     |> assign(:trip_schedules, trip_schedules)
   end
 
@@ -46,7 +45,7 @@ defmodule Site.ScheduleV2Controller do
     Schedules.Repo.all(date: date, route: route.id, direction_id: direction_id)
   end
 
-  defp all_schedules(timetable_schedules) do
+  defp header_schedules(timetable_schedules) do
     Enum.uniq_by(timetable_schedules, & &1.trip)
   end
 

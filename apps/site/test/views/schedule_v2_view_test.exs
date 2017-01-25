@@ -2,76 +2,9 @@ defmodule Site.ScheduleV2ViewTest do
   use Site.ConnCase, async: true
 
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Trip, Stop}
-  alias Site.Components.Icons.SvgIcon
+  alias Schedules.{Schedule, Trip}
   import Site.ScheduleV2View
   import Phoenix.HTML, only: [safe_to_string: 1]
-
-  describe "update_schedule_url/2" do
-    test "adds additional parameters to a conn" do
-      conn = :get
-      |> build_conn(schedule_v2_path(Site.Endpoint, :show, "route"))
-      |> fetch_query_params
-
-      actual = update_schedule_url(conn, trip: "trip")
-      expected = schedule_v2_path(conn, :show, "route", trip: "trip")
-
-      assert expected == actual
-    end
-
-    test "updates existing parameters in a conn" do
-      conn = :get
-      |> build_conn(schedule_v2_path(Site.Endpoint, :show, "route", trip: "old"))
-      |> fetch_query_params
-
-      actual = update_schedule_url(conn, trip: "trip")
-      expected = schedule_v2_path(conn, :show, "route", trip: "trip")
-
-      assert expected == actual
-    end
-
-    test "setting a value to nil removes it from the URL" do
-      conn = :get
-      |> build_conn(schedule_v2_path(Site.Endpoint, :show, "route", trip: "trip"))
-      |> fetch_query_params
-
-      actual = update_schedule_url(conn, trip: nil)
-      expected = schedule_v2_path(conn, :show, "route")
-
-      assert expected == actual
-    end
-
-    test "setting a value to \"\" keeps it from the URL" do
-      conn = :get
-      |> build_conn(schedule_v2_path(Site.Endpoint, :show, "route", trip: "trip"))
-      |> fetch_query_params
-
-      actual = update_schedule_url(conn, trip: "")
-      expected = schedule_v2_path(conn, :show, "route", trip: "")
-
-      assert expected == actual
-    end
-  end
-
-  describe "stop_info_link/1" do
-    test "generates a stop link on a map icon when the stop has stop information" do
-      str = %Stop{id: "place-sstat"}
-            |> stop_info_link()
-            |> safe_to_string()
-      assert str =~ stop_path(Site.Endpoint, :show, "place-sstat")
-      assert str =~ safe_to_string(svg_icon(%SvgIcon{icon: :map}))
-      assert str =~ "View stop information for South Station"
-    end
-
-    test "generates a stop link on a map icon for a bus stop that is not a station" do
-      str =  %Stop{id: "1736"}
-             |> stop_info_link()
-             |> safe_to_string()
-      assert str =~ stop_path(Site.Endpoint, :show, "1736")
-      assert str =~ safe_to_string(svg_icon(%SvgIcon{icon: :map}))
-      assert str =~ "View stop information for Blue Hill Ave opp Health Ctr"
-    end
-  end
 
   describe "pretty_date/1" do
     test "it is today when the date given is todays date" do
@@ -93,7 +26,7 @@ defmodule Site.ScheduleV2ViewTest do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}}
       trip = %Trip{direction_id: 1}
       stop_times = StopTimeList.build(
-        [%Schedules.Schedule{route: route, trip: trip, stop: %Stop{id: "stop"}}],
+        [%Schedules.Schedule{route: route, trip: trip, stop: %Schedules.Stop{id: "stop"}}],
         [],
         "stop",
         nil,
@@ -165,7 +98,7 @@ defmodule Site.ScheduleV2ViewTest do
     :get
     |> build_conn("/schedules_v2/CR-Lowell")
     |> fetch_query_params
-    |> assign(:all_schedules, Enum.to_list(0..10))
+    |> assign(:header_schedules, Enum.to_list(0..10))
     |> assign(:offset, offset)
     |> link_fn.()
     |> Phoenix.HTML.safe_to_string

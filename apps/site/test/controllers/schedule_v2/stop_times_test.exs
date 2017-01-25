@@ -1,8 +1,8 @@
-defmodule Site.ScheduleV2.StopTimesTest do
+defmodule Site.ScheduleV2Controller.StopTimesTest do
   use Site.ConnCase, async: true
 
-  import Site.ScheduleV2.StopTimes
-  import Plug.Conn, only: [assign: 3]
+  import Site.ScheduleV2Controller.StopTimes
+  import Plug.Conn, only: [assign: 3, fetch_query_params: 1]
 
   describe "init/1" do
     test "takes no options" do
@@ -15,8 +15,7 @@ defmodule Site.ScheduleV2.StopTimesTest do
       conn = conn
       |> assign(:schedules, [])
       |> assign(:predictions, [])
-      |> assign(:origin, nil)
-      |> assign(:destination, nil)
+      |> fetch_query_params
       |> call([])
 
       assert conn.assigns.stop_times != nil

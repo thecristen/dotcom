@@ -9,13 +9,13 @@
     </h1>
     <p>
       Schedules For <%= Timex.format!(@date, "%b %e", :strftime) %> -
-      <%= link to: update_schedule_url(@conn, date_select: !@date_select) do %>
-        <% icon_class = if @date_select, do: "angle-up", else: "angle-down" %>
+      <%= link to: update_schedule_url(@conn, show_date_select?: !@show_date_select?) do %>
+        <% icon_class = if @show_date_select?, do: "angle-up", else: "angle-down" %>
         Change date <%= fa icon_class %>
       <% end %>
     </p>
-    <%= if @date_select do %>
-      <%= Site.ScheduleV2View.render "_date_picker.html", date: @date, date_select: @date_select, conn: @conn, calendar: @calendar %>
+    <%= if @show_date_select? do %>
+      <%= Site.ScheduleV2View.render "_date_picker.html", date: @date, show_date_select?: @show_date_select?, conn: @conn, calendar: @calendar %>
     <% end %>
   </div>
 </div>

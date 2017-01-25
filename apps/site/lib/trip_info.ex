@@ -154,17 +154,17 @@ defmodule TripInfo do
     |> clamp_to_destination(destination_id, [])
   end
 
-  defp clamp_to_destination([], _id, _acc) do
+  defp clamp_to_destination([], _destination_id, _acc) do
     # if we get to the end of the list without finding the destination, don't
     # return anything.
     []
   end
-  defp clamp_to_destination([%Schedules.Schedule{stop: %{id: id}} = time | _], id, acc) do
+  defp clamp_to_destination([%Schedules.Schedule{stop: %{id: destination_id}} = time | _], destination_id, acc) do
     [time | acc]
     |> Enum.reverse
   end
-  defp clamp_to_destination([time | rest], id, acc) do
-    clamp_to_destination(rest, id, [time | acc])
+  defp clamp_to_destination([time | rest], destination_id, acc) do
+    clamp_to_destination(rest, destination_id, [time | acc])
   end
 
   @spec split_around_break(time_list, boolean) :: {time_list, time_list}

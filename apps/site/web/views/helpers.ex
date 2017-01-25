@@ -141,33 +141,8 @@ defmodule Site.ViewHelpers do
     |> Enum.join(" ")
   end
 
-  def update_query(%{params: params}, query) do
-    params = params || %{}
-    query_map = query
-    |> Enum.map(fn {key, value} -> {Atom.to_string(key), value} end)
-    |> Enum.into(%{})
-
-    params
-    |> Map.merge(query_map)
-    |> Enum.reject(&empty_value?/1)
-    |> Enum.into(%{})
-  end
-
-  def update_url(%Plug.Conn{} = conn, query) do
-    conn
-    |> update_query(query)
-    |> do_update_url(conn)
-  end
-
   @spec format_schedule_time(DateTime.t) :: String.t
   def format_schedule_time(time), do: Timex.format!(time, "{0h12}:{m}{AM}")
-
-  defp do_update_url(updated, conn) when updated == %{} do
-    conn.request_path
-  end
-  defp do_update_url(updated, conn) do
-    "#{conn.request_path}?#{URI.encode_query(updated)}"
-  end
 
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
@@ -190,9 +165,6 @@ defmodule Site.ViewHelpers do
     assigns
     |> Map.put(:conn, conn)
   end
-
-  defp empty_value?({_, nil}), do: true
-  defp empty_value?({_, _}), do: false
 
   @doc "Link a stop's name to its page."
   @spec stop_link(Stops.Stop.t | String.t) :: Phoenix.HTML.Safe.t

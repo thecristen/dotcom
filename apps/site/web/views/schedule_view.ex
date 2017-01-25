@@ -31,12 +31,28 @@ defmodule Site.ScheduleView do
     trip_alerts_for(alerts, [schedule])
   end
 
+  def update_schedule_query(%{params: params}, query) do
+    params = params || %{}
+    query_map =
+      query
+      |> Enum.map(fn {key, value} -> {Atom.to_string(key), value} end)
+      |> Enum.into(%{})
+
+    params
+    |> Map.merge(query_map)
+    |> Enum.reject(&empty_value?/1)
+    |> Enum.into(%{})
+  end
+
   def update_schedule_url(conn, query) do
     conn
-    |> Site.ViewHelpers.update_query(query)
+    |> update_schedule_query(query)
     |> Map.pop("route")
     |> do_update_schedule_url(conn)
   end
+
+  defp empty_value?({_, nil}), do: true
+  defp empty_value?({_, _}), do: false
 
   defp do_update_schedule_url({nil, new_query}, conn), do: green_path(conn, :green, new_query |> Enum.into([]))
   defp do_update_schedule_url({route, new_query}, conn), do: schedule_path(conn, :show, route, new_query |> Enum.into([]))

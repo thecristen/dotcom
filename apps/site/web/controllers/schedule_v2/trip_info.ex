@@ -1,4 +1,4 @@
-defmodule Site.ScheduleV2.TripInfo do
+defmodule Site.ScheduleV2Controller.TripInfo do
   @moduledoc """
 
   Assigns :trip_info to either a TripInfo struct or nil, depending on whether
@@ -9,6 +9,7 @@ defmodule Site.ScheduleV2.TripInfo do
   alias Plug.Conn
   import Plug.Conn, only: [assign: 3]
   import Phoenix.Controller, only: [redirect: 2]
+  import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
 
   @default_opts [
@@ -32,8 +33,8 @@ defmodule Site.ScheduleV2.TripInfo do
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end
-  defp trip_id(%Conn{assigns: %{all_schedules: all_schedules, date_time: date_time}}) when all_schedules != [] do
-    current_trip(all_schedules, date_time)
+  defp trip_id(%Conn{assigns: %{schedules: schedules, date_time: date_time}}) when schedules != [] do
+    current_trip(schedules, date_time)
   end
   defp trip_id(%Conn{}) do
     nil
@@ -42,7 +43,7 @@ defmodule Site.ScheduleV2.TripInfo do
   defp handle_trip(conn, selected_trip_id, opts) do
     case build_info(selected_trip_id, conn, opts) do
       {:error, _} ->
-        url = Site.ScheduleV2View.update_schedule_url(conn, trip: nil, origin: nil, destination: nil)
+        url = update_url(conn, trip: nil, origin: nil, destination: nil)
         redirect conn, to: url
       info ->
         assign(conn, :trip_info, info)

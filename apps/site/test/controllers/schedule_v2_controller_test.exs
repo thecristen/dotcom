@@ -15,23 +15,23 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "has the origin when it has been selected", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167"))
+      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", direction_id: "1"))
       html_response(conn, 200)
-      assert conn.assigns.origin == "2167"
+      assert conn.assigns.origin.id == "2167"
     end
 
     test "finds a trip when origin has been selected", %{conn: conn} do
       conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", direction_id: "1"))
       html_response(conn, 200)
-      assert conn.assigns.origin == "2167"
+      assert conn.assigns.origin.id == "2167"
       assert conn.assigns.trip_info
     end
 
     test "finds a trip list with origin and destination", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "71", origin: "8178", dest: "2065"))
+      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", destination: "82", direction_id: "1"))
       html_response(conn, 200)
-      assert conn.assigns.origin == "8178"
-      assert conn.assigns.destination == "2065"
+      assert conn.assigns.origin.id == "2167"
+      assert conn.assigns.destination.id == "82"
       assert conn.assigns.trip_info
       assert conn.assigns.schedules != nil
       assert conn.assigns.predictions != nil

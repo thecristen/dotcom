@@ -1,7 +1,7 @@
 defmodule Site.ScheduleController.DatePicker do
   use Plug.Builder
   alias Plug.Conn
-  import Site.ScheduleView, only: [update_schedule_url: 2]
+  import UrlHelpers, only: [update_url: 2]
 
   plug :assign_date_select
   plug :build_calendar
@@ -18,7 +18,7 @@ defmodule Site.ScheduleController.DatePicker do
   end
   def build_calendar(%Conn{assigns: %{date: date}} = conn, []) do
     holidays = Holiday.Repo.holidays_in_month(date)
-    calendar = BuildCalendar.build(date, holidays, &update_schedule_url(conn, &1))
+    calendar = BuildCalendar.build(date, holidays, &update_url(conn, &1))
 
     conn
     |> assign(:holidays, holidays)

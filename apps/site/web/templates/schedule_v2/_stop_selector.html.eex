@@ -8,7 +8,7 @@
       <%= if !selected do %><option disabled selected value="">Select a stop</option><% end %>
       <%= for stop <- @key_stops do %>
         <option value="<%= stop.id %>" data-key-option="true"
-                <%= if @route_type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>"
+                <%= if @route.type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>"
                 <%= if @disabled == stop.id do %> disabled <% end %> >
           <%= stop.name %>
         </option>
@@ -19,7 +19,7 @@
         <% selected = stop_id == @selected %>
         <option value="<%= stop_id %>"<%= if selected do %> selected<% end %>
                 <%= if disabled do %> disabled<% end %>
-                <%= if @route_type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>" >
+                <%= if @route.type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>" >
           <%= stop.name %>
         </option>
       <% end %>

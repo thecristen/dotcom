@@ -15,9 +15,10 @@ defmodule Site.ScheduleController.DatePickerTest do
   end
 
   test "assigns date_select, holidays, calendar when date_select == true", %{conn: conn} do
-    conn = %{conn |
-             params: %{"route" => "route", "date_select" => "true"},
-             query_params: %{"date_select" => "true"}}
+    path = "/schedules/route"
+    conn = %{conn | request_path: path,
+                    params: %{"route" => "route", "date_select" => "true"},
+                    query_params: %{"date_select" => "true"}}
     |> assign(:date, ~D[2017-01-01])
     |> call(@opts)
 

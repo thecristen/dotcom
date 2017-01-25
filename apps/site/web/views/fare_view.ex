@@ -78,11 +78,6 @@ defmodule Site.FareView do
     |> Enum.intersperse(", ")
   end
 
-  @spec update_fare_type(Plug.Conn.t, Fare.reduced) :: Plug.Conn.t
-  def update_fare_type(conn, reduced_type) do
-    update_url(conn, fare_type: reduced_type)
-  end
-
   @doc "Returns the svg icons for the modes passed in"
   @spec fare_mode_icons([:bus | :subway | :commuter_rail | :ferry]) :: Phoenix.HTML.Safe.t
   def fare_mode_icons(modes) do
@@ -92,6 +87,7 @@ defmodule Site.FareView do
       end
     end
   end
+
   @doc "Returns image description and image path"
   @spec reduced_image(:student | :senior_disabled | nil) :: [{String.t, String.t}]
   def reduced_image(:student) do

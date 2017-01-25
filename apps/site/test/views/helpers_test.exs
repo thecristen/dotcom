@@ -26,31 +26,6 @@ defmodule Site.ViewHelpersTest do
     end
   end
 
-  describe "update_query/2" do
-    test "maintains existing parameters while updating passed params" do
-      assert update_query(%{params: %{"param1" => "one", "param2" => "two"}}, %{param2: "2"}) == %{"param1" => "one", "param2" => "2"}
-    end
-
-    test "when given no new parameters, does not change its input" do
-      params = %{"param1" => "one", "param2" => "two"}
-      assert update_query(%{params: params}, []) == params
-    end
-  end
-
-  describe "update_url/2" do
-    test "doesn't include a ? when there aren't any query strings" do
-      conn = build_conn(:get, "/path")
-      conn = fetch_query_params(conn, [])
-      assert update_url(conn, []) == "/path"
-    end
-
-    test "includes params when they're updated" do
-      conn = build_conn(:get, "/path")
-      conn = fetch_query_params(conn, [])
-      assert update_url(conn, param: "eter") == "/path?param=eter"
-    end
-  end
-
   describe "stop_link/1" do
     test "given a stop, returns a link to that stop" do
       link = %Stops.Stop{id: "place-sstat", name: "South Station"}

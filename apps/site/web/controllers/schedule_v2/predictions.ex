@@ -5,6 +5,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
   """
   import Plug.Conn, only: [assign: 3]
+  alias Stops.Stop
 
   def init([]), do: []
 
@@ -23,11 +24,11 @@ defmodule Site.ScheduleV2Controller.Predictions do
     assign(conn, :predictions, [])
   end
   def assign_predictions(%{assigns: %{
-                              origin: stop_id,
+                              origin: %Stop{id: stop_id},
                               route: %{id: route_id},
                               direction_id: direction_id}} = conn, _, predictions_fn)
-  when not is_nil(stop_id) do
-    stops = Enum.join([stop_id, Map.get(conn.assigns, :destination)], ",")
+  do
+    stops = Enum.join([stop_id, get_destination_id(conn.assigns.destination)], ",")
     predictions = [direction_id: direction_id, stop: stops, route: route_id]
     |> predictions_fn.()
 
@@ -36,4 +37,8 @@ defmodule Site.ScheduleV2Controller.Predictions do
   def assign_predictions(conn, _, _) do
     assign(conn, :predictions, [])
   end
+
+  defp get_destination_id(%Stop{id: stop_id}), do: stop_id
+  defp get_destination_id(_), do: ""
+
 end

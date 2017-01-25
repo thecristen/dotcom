@@ -5,48 +5,7 @@ defmodule Site.ScheduleV2View do
   alias Routes.Route
   alias Schedules.Schedule
 
-  def update_schedule_url(conn, query) do
-    conn
-    |> Site.ViewHelpers.update_query(query)
-    |> Map.pop("route")
-    |> elem(1)
-    |> do_update_url(conn)
-  end
-
-  defp do_update_url(updated, conn) when updated == %{} do
-    conn.request_path
-  end
-  defp do_update_url(updated, conn) do
-    "#{conn.request_path}?#{URI.encode_query(updated)}"
-  end
-
-  def reverse_direction_opts(origin, dest, route_id, direction_id) do
-    new_origin = dest || origin
-    new_dest = dest && origin
-    [trip: nil, direction_id: direction_id, route: route_id]
-    |> Keyword.merge(
-      if Schedules.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
-        [dest: new_dest, origin: new_origin]
-      else
-        [dest: nil, origin: nil]
-      end
-    )
-  end
-
-  def stop_info_link(stop) do
-    do_stop_info_link(Stops.Repo.get(stop.id))
-  end
-
-  defp do_stop_info_link(%{id: id, name: name}) do
-    title = "View stop information for #{name}"
-    body = ~e(<%= svg_icon %SvgIcon{icon: :map} %><span class="sr-or-no-js"><%= title %></span>)
-
-    link body,
-      to: stop_path(Site.Endpoint, :show, id),
-      class: "station-info-link",
-      data: [toggle: "tooltip"],
-      title: title
-  end
+  defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
   def pretty_date(date) do
     if date == Util.service_date do
@@ -124,7 +83,7 @@ defmodule Site.ScheduleV2View do
   @spec earlier_link(Plug.Conn.t) :: Phoenix.HTML.Safe.t
   def earlier_link(%Plug.Conn{assigns: %{offset: offset}} = conn) do
     schedule_time_link(
-      Site.ScheduleV2View.update_schedule_url(conn, offset: offset - 1),
+      update_url(conn, offset: offset - 1),
       "earlier",
       "angle-left",
       offset == 0
@@ -133,12 +92,12 @@ defmodule Site.ScheduleV2View do
 
   @doc "The link to see later schedules."
   @spec later_link(Plug.Conn.t) :: Phoenix.HTML.Safe.t
-  def later_link(%Plug.Conn{assigns: %{offset: offset, all_schedules: all_schedules}} = conn) do
+  def later_link(%Plug.Conn{assigns: %{offset: offset, header_schedules: header_schedules}} = conn) do
     schedule_time_link(
-      Site.ScheduleV2View.update_schedule_url(conn, offset: offset + 1),
+      update_url(conn, offset: offset + 1),
       "later",
       "angle-right",
-      offset >= length(all_schedules) - num_schedules()
+      offset >= length(header_schedules) - num_schedules()
     )
   end
 
