@@ -50,6 +50,9 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         stop: %Schedules.Stop{}
       },
       %Schedule{
+        stop: %Schedules.Stop{}
+      },
+      %Schedule{
         stop: %Schedules.Stop{id: "new_last"},
         time: List.last(@schedules).time
       }

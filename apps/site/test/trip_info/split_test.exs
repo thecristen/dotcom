@@ -10,13 +10,17 @@ defmodule TripInfo.SplitTest do
     %Schedules.Schedule{stop: %Schedules.Stop{id: stop_id}}
   end
 
-  test "splits into three sections if the vehicle is before the origin" do
+  test "splits into three sections if the vehicle is before the origin and we'd remove 3 stops" do
     times = [
       time(@vehicle_id),
       time("with_vehicle"),
       time(),
+      time(),
+      time(),
       time(@origin_id),
       time("with_origin"),
+      time(),
+      time(),
       time(),
       time("with_destination"),
       time(@destination_id)
@@ -35,6 +39,8 @@ defmodule TripInfo.SplitTest do
       time(@vehicle_id),
       time("with_vehicle"),
       time(),
+      time(),
+      time(),
       time(@origin_id),
       time(@destination_id)
     ]
@@ -50,6 +56,8 @@ defmodule TripInfo.SplitTest do
     times = [
       time(@vehicle_id),
       time("with_vehicle"),
+      time(),
+      time(),
       time(),
       time(@origin_id),
       time("between_origin_destination"),
@@ -68,6 +76,8 @@ defmodule TripInfo.SplitTest do
       time(@vehicle_id),
       time("with_vehicle"),
       time(),
+      time(),
+      time(),
       time(@origin_id),
       time("with_origin"),
       time("with_destination"),
@@ -81,11 +91,34 @@ defmodule TripInfo.SplitTest do
     assert actual == expected
   end
 
+  test "keeps the origin and destination in a single section if they're separated by three" do
+    times = [
+      time(@vehicle_id),
+      time("with_vehicle"),
+      time(),
+      time(),
+      time(),
+      time(@origin_id),
+      time("with_origin"),
+      time("between_origin_destination"),
+      time("with_destination"),
+      time(@destination_id)
+    ]
+    actual = split(times, [@origin_id, @vehicle_id])
+    expected = [
+      [time(@vehicle_id), time("with_vehicle")],
+      [time(@origin_id), time("with_origin"), time("between_origin_destination"), time("with_destination"), time(@destination_id)]
+    ]
+    assert actual == expected
+  end
+
   test "keeps starting IDs together if they're adjacent" do
     times = [
       time(@vehicle_id),
       time(@origin_id),
       time("with_origin"),
+      time(),
+      time(),
       time(),
       time("with_destination"),
       time(@destination_id)
@@ -105,6 +138,8 @@ defmodule TripInfo.SplitTest do
       time(@origin_id),
       time("with_origin"),
       time(),
+      time(),
+      time(),
       time("with_destination"),
       time(@destination_id)
     ]
@@ -116,13 +151,60 @@ defmodule TripInfo.SplitTest do
     assert actual == expected
   end
 
+  test "keeps starting IDs together if they are separated by two" do
+    times = [
+      time(@vehicle_id),
+      time("between_vehicle_origin"),
+      time("between_vehicle_origin"),
+      time(@origin_id),
+      time("with_origin"),
+      time(),
+      time(),
+      time(),
+      time("with_destination"),
+      time(@destination_id)
+    ]
+    actual = split(times, [@origin_id, @vehicle_id])
+    expected = [
+      [time(@vehicle_id), time("between_vehicle_origin"), time("between_vehicle_origin"), time(@origin_id), time("with_origin")],
+      [time("with_destination"), time(@destination_id)]
+    ]
+    assert actual == expected
+  end
+
+  test "keeps starting IDs together if they are separated by three" do
+    times = [
+      time(@vehicle_id),
+      time("with_vehicle"),
+      time("between_vehicle_origin"),
+      time("before_origin"),
+      time(@origin_id),
+      time("with_origin"),
+      time(),
+      time(),
+      time(),
+      time("with_destination"),
+      time(@destination_id)
+    ]
+    actual = split(times, [@origin_id, @vehicle_id])
+    expected = [
+      [time(@vehicle_id), time("with_vehicle"), time("between_vehicle_origin"), time("before_origin"), time(@origin_id), time("with_origin")],
+      [time("with_destination"), time(@destination_id)]
+    ]
+    assert actual == expected
+  end
+
   test "order of the starting IDs does not matter" do
     times = [
       time(@origin_id),
       time("with_origin"),
       time(),
+      time(),
+      time(),
       time(@vehicle_id),
       time("with_vehicle"),
+      time(),
+      time(),
       time(),
       time("with_destination"),
       time(@destination_id)
@@ -141,6 +223,8 @@ defmodule TripInfo.SplitTest do
       time(@origin_id),
       time("with_origin"),
       time(),
+      time(),
+      time(),
       time("with_destination"),
       time(@destination_id)
     ]
@@ -153,13 +237,15 @@ defmodule TripInfo.SplitTest do
   end
 
   test "if there are too few trips, does not break into sections" do
-    for times <- [
-          [time(@origin_id), time(@destination_id)],
-          [time(@origin_id), time("between_origin_destination"), time(@destination_id)],
-          [time(@origin_id), time("with_origin"), time("with_destination"), time(@destination_id)]] do
-        actual = split(times, [@origin_id])
-        expected = [times]
-        assert actual == expected
+    for number_between <- 0..3 do
+      times = Enum.concat([
+        [time(@origin_id)],
+        List.duplicate(time("between"), number_between),
+        [time(@destination_id)]
+      ])
+      actual = split(times, [@origin_id])
+      expected = [times]
+      assert actual == expected
     end
   end
 

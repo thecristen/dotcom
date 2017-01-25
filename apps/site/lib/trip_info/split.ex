@@ -34,31 +34,30 @@ defmodule TripInfo.Split do
         do_handle_end(first, until_next_origin)
       [next_section | other_sections] ->
         case until_next_origin do
-          [] ->
-            # next origin starts with the next item, so prepend first to the next section
-            [[first | next_section] | other_sections]
-          [one_between] ->
-            # one time between us and the next section, so prepend both to the next section
-            [[first, one_between | next_section] | other_sections]
-          [next | _skipped] ->
-            # there's at least one item to so, only hang onto the next time
+          [next, _, _, _ | _skipped] ->
+            # there's at least three items to skip, only hang onto the next time
             [[first, next], next_section | other_sections]
+          keep ->
+            # otherwise, keep everything
+            [Enum.concat([[first], keep, next_section]) | other_sections]
+          # [] ->
+          #   # next origin starts with the next item, so prepend first to the next section
+          #   [[first | next_section] | other_sections]
+          # [one_between] ->
+          #   # one time between us and the next section, so prepend both to the next section
+          #   [[first, one_between | next_section] | other_sections]
         end
     end
   end
 
-  defp do_handle_end(first, [one, last]) do
-    # origin is separated from the destination by one, so group them togehter
-    [[first, one, last]]
-  end
-  defp do_handle_end(first, [one, two, last]) do
-    # origin is separated from the destination by two, so group them together
-    [[first, one, two, last]]
-  end
-  defp do_handle_end(first, [in_previous_section, _, _, _ |_] = rest) do
-    # origin is separated from destination by more than two, so the first
+  defp do_handle_end(first, [in_previous_section, _, _, _, _ |_] = rest) do
+    # origin is separated from destination by more than three, so the first
     # remaining one is part of the origin section.  The destination section
     # is the last two items.
     [[first, in_previous_section], Enum.take(rest, -2)]
+  end
+  defp do_handle_end(first, rest) do
+    # origin is close to the destination, so keep them all
+    [[first | rest]]
   end
 end

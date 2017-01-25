@@ -14,6 +14,8 @@ defmodule TripInfoTest do
       time: ~N[2017-01-01T00:00:00],
       route: @route,
       stop: %Schedules.Stop{id: "place-sstat", name: "South Station"}},
+    %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}},
+    %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}},
     %Schedule{
       time: ~N[2017-01-02T00:00:00],
       route: @route,
@@ -85,7 +87,7 @@ defmodule TripInfoTest do
 
     test "if collapse? is false but there are not enough stops, display them all" do
       actual = from_list(@time_list, origin_id: "place-north", collapse?: true)
-      assert actual.sections == [Enum.drop(@time_list, 1)]
+      assert actual.sections == [Enum.drop_while(@time_list, & &1.stop.id != "place-north")]
     end
 
     test "if there are not enough times, returns an error" do
@@ -116,6 +118,8 @@ defmodule TripInfoTest do
                               %Flags{terminus?: false},
                               %Flags{terminus?: false},
                               %Flags{terminus?: false},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: false},
                               %Flags{terminus?: true}])
       ]
       assert expected == actual
@@ -131,6 +135,8 @@ defmodule TripInfoTest do
                               %Flags{terminus?: false},
                               %Flags{terminus?: false},
                               %Flags{terminus?: false},
+                              %Flags{terminus?: false},
+                              %Flags{terminus?: false},
                               %Flags{terminus?: true, vehicle?: true}])
       ]
       assert expected == actual
@@ -143,7 +149,7 @@ defmodule TripInfoTest do
       assert length(first_section) == 2
       assert length(last_section) == 2
       assert List.first(first_section) == {List.first(@time_list), %Flags{terminus?: true}}
-      assert List.first(last_section) == {Enum.at(@time_list, 3), %Flags{terminus?: false}}
+      assert List.first(last_section) == {Enum.at(@time_list, -2), %Flags{terminus?: false}}
     end
   end
 end
