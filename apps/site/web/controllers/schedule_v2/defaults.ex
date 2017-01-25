@@ -2,11 +2,11 @@ defmodule Site.ScheduleV2Controller.Defaults do
   @moduledoc """
 
   Responsible for assigning:
-    origin:         %Stop{} | nil
-    destination:    %Stop{} | nil
-    route_type:     integer
-    date_select:    true | false
-    show_all_trips: true | false
+    headsigns:         %{0 => [String.t], 1 => [String.t]
+    direction_id:      0 | 1
+    origin:            %Stop{} | nil
+    destination:       %Stop{} | nil
+    show_date_select?: boolean
   """
   use Plug.Builder
   alias Plug.Conn

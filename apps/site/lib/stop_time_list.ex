@@ -23,6 +23,13 @@ defmodule StopTimeList do
       trip: Trip.t
     }
     @type predicted_schedule :: {Schedule.t | nil, Prediction.t | nil}
+
+    def time(%StopTime{departure: {schedule, nil}}) do
+      schedule.time
+    end
+    def time(%StopTime{departure: {_, prediction}}) do
+      prediction.time
+    end
   end
 
   @spec build([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
@@ -62,8 +69,6 @@ defmodule StopTimeList do
     schedule_map
     |> get_trips(predictions)
     |> Enum.map(&(trip_mapper_fn.(&1, schedule_map, prediction_map)))
-    |> Enum.sort_by(&prediction_sorter/1)
-    |> remove_first_scheduled
   end
 
   # Handle cases where we have a scheduled departure and then a
@@ -151,8 +156,16 @@ defmodule StopTimeList do
   end
 
   @spec limit_trips([any], boolean) :: [any]
-  defp limit_trips(trips, false), do: Enum.take(trips, trips_limit())
-  defp limit_trips(trips, true), do: trips
+  defp limit_trips(trips, false) do
+    trips
+    |> Enum.sort_by(&prediction_sorter/1)
+    |> remove_first_scheduled
+    |> Enum.take(trips_limit())
+  end
+  defp limit_trips(trips, true) do
+    trips
+    |> Enum.sort_by(&StopTime.time/1)
+  end
 
   @spec trips_limit() :: integer
   defp trips_limit(), do: 14
