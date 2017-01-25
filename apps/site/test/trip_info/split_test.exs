@@ -1,5 +1,6 @@
 defmodule TripInfo.SplitTest do
   use ExUnit.Case, async: true
+  use ExCheck
   import TripInfo.Split
 
   @origin_id "origin"
@@ -253,5 +254,39 @@ defmodule TripInfo.SplitTest do
     actual = split([], [@origin_id])
     expected = []
     assert actual == expected
+  end
+
+  property :split do
+    possible_middle_ids = [@origin_id, @vehicle_id, nil]
+    for_all {first_extra, second_extra, middle_id} in {non_neg_integer(), non_neg_integer(), elements(possible_middle_ids)} do
+      times = Enum.concat([
+        [time(@origin_id)],
+        List.duplicate(time(), first_extra),
+        [time(middle_id)],
+        List.duplicate(time(), second_extra),
+        [time(@destination_id)]
+      ])
+      actual = split(times, [@origin_id, @vehicle_id])
+      actual_count = length(actual)
+      expected_count = cond do
+        is_nil(middle_id) and first_extra + second_extra < 4 ->
+          # no middle ID, and fewer than 4 extras means we collapse due to
+          # hiding fewer than 3 stops
+          1
+        is_nil(middle_id) ->
+          # no middle ID and enough extra means a first section and end section
+          2
+        first_extra > 3 and second_extra > 4 ->
+          # more than three on start side and more than 4 on second: 3 sections
+          3
+        first_extra > 3 or second_extra > 4 ->
+          # enough on only one side, collapse into two sections
+          2
+        true ->
+          # not collapsing
+          1
+      end
+      actual_count == expected_count
+    end
   end
 end
