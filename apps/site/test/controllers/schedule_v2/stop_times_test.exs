@@ -20,6 +20,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
 
       assert conn.assigns.stop_times != nil
     end
+
     test "assigns stop_times for subway", %{conn: conn} do
       conn = conn
       |> assign(:route, %Routes.Route{type: 1})

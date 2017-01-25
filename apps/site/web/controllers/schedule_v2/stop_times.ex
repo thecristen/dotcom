@@ -26,5 +26,4 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     )
     assign(conn, :stop_times, stop_times)
   end
-
 end

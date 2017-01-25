@@ -116,11 +116,11 @@ defmodule StopTimeList do
   defp do_limit_predictions([], _, acc), do: acc
   defp do_limit_predictions([first | rest], count, acc) do
     new_count = count + 1
-    over_limit = new_count > @prediction_limit
+    over_limit? = new_count > @prediction_limit
     cond do
-      prediction?(first) and over_limit -> do_limit_predictions(rest, new_count, acc) # Limit has been reached, discard time
+      prediction?(first) and over_limit? -> do_limit_predictions(rest, new_count, acc) # Limit has been reached, discard time
       prediction?(first)-> do_limit_predictions(rest, new_count, [first | acc]) # limit has not been reached, keep time
-      true -> do_limit_predictions(rest, count + 1, [first | acc]) # Not a prediction, keep time
+      true -> do_limit_predictions(rest, new_count, [first | acc]) # Not a prediction, keep time
     end
   end
 

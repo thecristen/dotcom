@@ -118,25 +118,25 @@ defmodule StopTimeTest do
       trip: %Trip{id: "t3"}
     },
     %Prediction{
-      time: ~N[2017-01-01T08:16:00],
+      time: ~N[2017-01-01T08:35:00],
       route_id: @route.id,
       stop_id: "1",
       trip: %Trip{id: "t4"}
     },
     %Prediction{
-      time: ~N[2017-01-01T08:16:00],
+      time: ~N[2017-01-01T08:36:00],
       route_id: @route.id,
       stop_id: "1",
       trip: %Trip{id: "t5"}
     },
     %Prediction{
-      time: ~N[2017-01-01T08:16:00],
+      time: ~N[2017-01-01T08:37:00],
       route_id: @route.id,
       stop_id: "1",
       trip: %Trip{id: "t6"}
     },
     %Prediction{
-      time: ~N[2017-01-01T08:16:00],
+      time: ~N[2017-01-01T08:38:00],
       route_id: @route.id,
       stop_id: "3",
       trip: %Trip{id: "t6"}
@@ -379,7 +379,19 @@ defmodule StopTimeTest do
       assert Enum.count(result.times) == 5
     end
 
-    test "All times have a departure predictions" do
+    test "Earlier times are kept" do
+      earliest_predictions = @origin_destination_predictions
+      |> Enum.sort_by(& &1.time)
+      |> Enum.take(5)
+
+      result = build_predictions_only(@origin_destination_predictions, "1", "3")
+      zipped_results = Enum.zip(result.times, earliest_predictions)
+      for {stop_time, prediction} <- zipped_results do
+        assert elem(stop_time.departure, 1).time == prediction.time
+      end
+    end
+
+    test "All times have departure predictions" do
       result = build_predictions_only(@origin_destination_predictions, "1", "3")
       for stop_time <- result.times do
         assert elem(stop_time.departure, 1) != nil
