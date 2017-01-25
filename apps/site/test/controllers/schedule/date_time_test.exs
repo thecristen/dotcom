@@ -23,7 +23,7 @@ defmodule Site.ScheduleController.DateTimeTest do
   end
 
   test "if the date is today, uses now", %{conn: conn} do
-    now = Timex.now
+    now = Util.now
 
     conn = conn
     |> assign(:date, now |> Timex.to_date)
