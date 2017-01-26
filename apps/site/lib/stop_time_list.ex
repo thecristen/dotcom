@@ -33,33 +33,50 @@ defmodule StopTimeList do
   end
 
   @spec build([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
-  def build(schedules, predictions, origin, destination, showing_all?)
-  def build(schedules, predictions, origin, destination, showing_all?) when is_binary(origin) and is_binary(destination) do
-    times = group_trips(
+  def build(schedules, predictions, origin, destination, showing_all?) do
+    times = build_times(schedules, predictions, origin, destination)
+    from_times(times, showing_all?)
+  end
+
+  @doc """
+  Build a StopTimeList using only predictions. This will also filter out predictions that are
+  missing departure_predictions.
+  """
+  @spec build_predictions_only([Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
+  def build_predictions_only(predictions, origin, destination) do
+    []
+    |> build_times(predictions, origin, destination)
+    |> Enum.filter(&has_departure_prediction?/1)
+    |> from_times(true)
+  end
+
+  @spec build_times([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
+  defp build_times(schedules, predictions, origin, destination) when is_binary(origin) and is_binary(destination) do
+    group_trips(
       schedules,
       predictions,
       &build_schedule_pair_map/2,
       &predicted_schedule_pairs(&1, &2, &3, origin, destination)
     )
-    %__MODULE__{
-      times: limit_trips(times, showing_all?),
-      showing_all?: showing_all?
-    }
   end
-  def build(schedules, predictions, origin, nil, showing_all?) when is_binary(origin) do
-    times = group_trips(
+
+  defp build_times(schedules, predictions, origin, nil) when is_binary(origin) do
+    group_trips(
       schedules,
       predictions,
       &build_schedule_map/2,
       &predicted_departures(&1, &2, &3, origin)
     )
+  end
+  defp build_times(_schedules, _predictions, _origin, _destination), do: []
+
+  # Creates a StopTimeList object from a list of times and the showing_all? flag
+  @spec from_times([StopTime.t], boolean) :: __MODULE__.t
+  defp from_times(stop_times, showing_all?) do
     %__MODULE__{
-      times: limit_trips(times, showing_all?),
+      times: limit_trips(stop_times, showing_all?),
       showing_all?: showing_all?
     }
-  end
-  def build(_schedules, _predictions, _origin, _destination, showing_all?) do
-    %__MODULE__{times: [], showing_all?: showing_all?}
   end
 
   defp group_trips(schedules, predictions, build_schedule_map_fn, trip_mapper_fn) do
@@ -169,4 +186,8 @@ defmodule StopTimeList do
 
   @spec trips_limit() :: integer
   defp trips_limit(), do: 14
+
+  @spec has_departure_prediction?(StopTime.t) :: boolean
+  defp has_departure_prediction?(%StopTime{departure: {_, nil}}), do: false
+  defp has_departure_prediction?(_stop_time), do: true
 end

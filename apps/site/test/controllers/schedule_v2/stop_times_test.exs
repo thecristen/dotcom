@@ -57,5 +57,16 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
 
       assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, true)
     end
+
+    test "assigns stop_times for subway", %{conn: conn} do
+      conn = conn
+      |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:schedules, [])
+      |> assign(:predictions, [])
+      |> fetch_query_params
+      |> call([])
+
+      assert conn.assigns.stop_times != nil
+    end
   end
 end
