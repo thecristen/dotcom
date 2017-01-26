@@ -6,8 +6,6 @@ defmodule StopTimeList do
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
 
-  @prediction_limit 5
-
   defstruct [
     times: [],
     showing_all?: false
@@ -42,14 +40,13 @@ defmodule StopTimeList do
 
   @doc """
   Build a StopTimeList using only predictions. This will also filter out predictions that are
-  missing departure_predictions, and limit results to 5 times.
+  missing departure_predictions.
   """
   @spec build_predictions_only([Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
   def build_predictions_only(predictions, origin, destination) do
     []
     |> build_times(predictions, origin, destination)
     |> Enum.filter(&has_departure_prediction?/1)
-    |> limit_predictions()
     |> from_times(true)
   end
 
@@ -103,26 +100,6 @@ defmodule StopTimeList do
     [first | rest]
   end
   defp remove_first_scheduled(stop_times), do: stop_times
-
-  # Expects a list of sorted StopTimes.
-  # Keeps the first `@prediction_limit` predictions and additional schedules
-  # Sorting order is maintained
-  @spec limit_predictions([StopTime.t]) :: [StopTime.t]
-  defp limit_predictions(stop_times) do
-    stop_times
-    |> Enum.reduce({0, []}, &do_limit_predictions/2)
-    |> elem(1)
-  end
-
-  @spec do_limit_predictions(StopTime.t, {non_neg_integer, [StopTime.t]}) :: {non_neg_integer, [StopTime.t]}
-  defp do_limit_predictions(time, {count, acc}) do
-    new_count = count + 1
-    over_limit? = new_count > @prediction_limit
-    cond do
-      prediction?(time) and over_limit? -> {new_count, acc} # Limit has been reached, discard prediction
-      true -> {new_count, [time | acc]}
-    end
-  end
 
   @spec predicted_schedule_pairs(Trip.t, %{Trip.t => {Schedule.t, Schedule.t}}, %{Trip.t => %{String.t => Prediction.t}}, String.t, String.t) :: StopTime.t
   defp predicted_schedule_pairs(trip, schedule_map, prediction_map, origin, dest) do
@@ -209,13 +186,6 @@ defmodule StopTimeList do
 
   @spec trips_limit() :: integer
   defp trips_limit(), do: 14
-
-  # Determines if this stop time has a prediction
-  @spec prediction?(StopTime.t) :: boolean
-  defp prediction?(%StopTime{departure: {_, departure_prediction}, arrival: {_, arrival_prediction}}) do
-    is_map(departure_prediction) or is_map(arrival_prediction)
-  end
-  defp prediction?(%StopTime{departure: {_, departure_prediction}}), do: is_map(departure_prediction)
 
   @spec has_departure_prediction?(StopTime.t) :: boolean
   defp has_departure_prediction?(%StopTime{departure: {_, nil}}), do: false

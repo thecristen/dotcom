@@ -374,23 +374,6 @@ defmodule StopTimeTest do
       end
     end
 
-    test "limited to five StopTimes" do
-      result = build_predictions_only(@origin_destination_predictions, "1", nil)
-      assert Enum.count(result.times) == 5
-    end
-
-    test "Earlier times are kept" do
-      earliest_predictions = @origin_destination_predictions
-      |> Enum.sort_by(& &1.time)
-      |> Enum.take(5)
-
-      result = build_predictions_only(@origin_destination_predictions, "1", "3")
-      zipped_results = Enum.zip(result.times, earliest_predictions)
-      for {stop_time, prediction} <- zipped_results do
-        assert elem(stop_time.departure, 1).time == prediction.time
-      end
-    end
-
     test "All times have departure predictions" do
       result = build_predictions_only(@origin_destination_predictions, "1", "3")
       for stop_time <- result.times do
