@@ -149,7 +149,7 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
       conn = conn
       |> assign_frequency_table(@bus_od_schedules)
 
-      refute :frequency_table in conn.assigns
+      refute :frequency_table in Map.keys(conn.assigns)
     end
   end
 end
