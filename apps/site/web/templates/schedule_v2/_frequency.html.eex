@@ -1,8 +1,8 @@
 <div class="schedule-v2-frequency-header">Schedules For <%= Site.ScheduleV2View.pretty_date(@date) %></div>
-<%= for {name, schedules} <- TimeGroup.by_subway_period(@all_schedules) do %>
+<%= for frequency <- @frequency_table do %>
   <div class="schedule-v2-frequency-row">
     <div class="schedule-v2-frequency-col">
-      <%= case name do
+      <%= case frequency.time_block do
           :am_rush -> "OPEN - 9:00AM"
           :midday -> "9:00AM - 3:30PM"
           :pm_rush -> "3:30PM - 6:30PM"
@@ -10,19 +10,17 @@
           :late_night -> "8:00PM - CLOSE"
           end
       %>
-      <%= if name == :late_night do %>
-        <% last_departure_time = List.last(schedules).time %>
+      <%= if frequency.time_block == :late_night do %>
         <div class="schedule-v2-frequency-time">
-          Last Departure at <%= Timex.format!(last_departure_time, "%I:%M %p", :strftime) %>
+          Last Departure at <%= Timex.format!(last_departure(@schedules), "%I:%M %p", :strftime) %>
         </div>
       <% end %>
     </div>
     <div class="schedule-v2-frequency-col">
-      <%= case TimeGroup.frequency(schedules) do %>
-        <%# XXX - the Enum.max([1, min]) is a temporary fix while the GTFS schedule has some trips which are scheduled to be at the same stop at the same time. -ps %>
-        <%= {min, max} -> %>Every <%= Enum.max([1, min]) %>-<%= max %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
-        <%= nil -> %>No service between these hours
-        <%= value -> %>Every <%= value %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
+      <%= if Schedules.Frequency.has_service?(frequency) do %>
+        Every <%= TimeGroup.display_frequency_range(frequency) %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
+      <% else %>
+        No service between these hours
       <% end %>
     </div>
   </div>

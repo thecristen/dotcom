@@ -29,3 +29,28 @@ defmodule Schedules.Stop do
     name: String.t
   }
 end
+
+defmodule Schedules.Frequency do
+  defstruct [
+    time_block: nil,
+    min_headway: :infinity,
+    max_headway: :infinity
+  ]
+
+  @type t :: %Schedules.Frequency{
+    time_block: atom,
+    min_headway: integer | :infinity,
+    max_headway: integer | :infinity
+  }
+
+  @doc """
+  True if the block has headways during the timeframe.
+  """
+  @spec has_service?(t) :: boolean
+  def has_service?(%Schedules.Frequency{min_headway: :infinity}) do
+    false
+  end
+  def has_service?(%Schedules.Frequency{}) do
+    true
+  end
+end

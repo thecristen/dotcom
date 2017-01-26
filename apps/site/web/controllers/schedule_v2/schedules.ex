@@ -9,25 +9,54 @@ defmodule Site.ScheduleV2Controller.Schedules do
 
   def init([]), do: []
 
+  def call(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do
+    conn
+  end
   def call(conn, []) do
     schedules = schedules(conn)
     conn
     |> assign(:schedules, schedules)
     |> assign_direction_id(schedules)
+    |> assign_frequency_table(schedules)
   end
 
   def schedules(%{assigns: %{
                      date: date,
+                     route: %Routes.Route{type: route_type},
                      origin: %Stops.Stop{id: origin_id},
                      destination: %Stops.Stop{id: destination_id}}}) do
     # with an origin, destination, we return pairs
-    Schedules.Repo.origin_destination(origin_id, destination_id, date: date)
+    origin_destination_pairs = Schedules.Repo.origin_destination(origin_id, destination_id, date: date)
+
+    Enum.filter(origin_destination_pairs, &match?({%Schedules.Schedule{route: %{type: ^route_type}}, _}, &1))
   end
   def schedules(conn) do
     # otherwise, fall back to the generated query
     conn
     |> Query.schedule_query
     |> Schedules.Repo.all
+  end
+
+  @spec assign_frequency_table(Plug.Conn.t, [{Schedules.Schedule.t, Schedules.Schedule.t}]) :: Plug.Conn.t
+  def assign_frequency_table(conn, [{%Schedules.Schedule{route: %Routes.Route{type: type}}, _} | _] = schedules)
+  when type in [0, 1] do
+    frequencies = schedules
+    |> Enum.map(fn schedule -> elem(schedule, 0) end)
+    |> TimeGroup.frequency_by_time_block
+
+    conn
+    |> assign(:frequency_table, frequencies)
+  end
+  def assign_frequency_table(conn, [%Schedules.Schedule{route: %Routes.Route{type: type}} | _] = schedules)
+  when type in [0, 1] do
+    frequencies = schedules
+    |> TimeGroup.frequency_by_time_block
+
+    conn
+    |> assign(:frequency_table, frequencies)
+  end
+  def assign_frequency_table(conn, _schedules) do
+    conn
   end
 
   def assign_direction_id(conn, schedules) do

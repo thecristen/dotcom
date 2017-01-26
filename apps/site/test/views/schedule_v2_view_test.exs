@@ -17,6 +17,19 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
+  describe "last_departure/1" do
+    test "when schedules are a list of schedules, gives the time of the last one" do
+      schedules = [%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}, %Schedule{time: ~N[2017-01-01T20:30:00]}]
+      assert last_departure(schedules) == ~N[2017-01-01T20:30:00]
+    end
+
+    test "when schedules are a list of origin destination schedule pairs, gives the time of the last origin" do
+      schedules = [{%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}},
+       {%Schedule{time: ~N[2017-01-01T19:30:00]}, %Schedule{time: ~N[2017-01-01T21:30:00]}}]
+      assert last_departure(schedules) == ~N[2017-01-01T19:30:00]
+    end
+  end
+
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
       assert display_direction(%StopTimeList{}) == ""
@@ -183,6 +196,35 @@ defmodule Site.ScheduleV2ViewTest do
       expected = [trip: nil, direction_id: "1", destination: nil, origin: "place-davis"]
       actual = reverse_direction_opts(%Stops.Stop{id: "place-davis"}, nil, "1")
       assert Enum.sort(expected) == Enum.sort(actual)
+    end
+  end
+
+  describe "_frequency.html" do
+    test "renders a no service message if the block doesn't have service" do
+      frequency_table = [%Schedules.Frequency{time_block: :am_rush}]
+      schedules = [%Schedules.Schedule{time: Util.now}]
+      date = Util.service_date
+      safe_output = Site.ScheduleV2View.render(
+        "_frequency.html",
+        frequency_table: frequency_table,
+        schedules: schedules,
+        date: date)
+      output = safe_to_string(safe_output)
+      assert output =~ "No service between these hours"
+    end
+
+    test "renders a headway if the block has service" do
+      frequency = %Schedules.Frequency{time_block: :am_rush, min_headway: 5, max_headway: 10}
+      frequency_table = [frequency]
+      schedules = [%Schedules.Schedule{time: Util.now}]
+      date = Util.service_date
+      safe_output = Site.ScheduleV2View.render(
+        "_frequency.html",
+        frequency_table: frequency_table,
+        schedules: schedules,
+        date: date)
+      output = safe_to_string(safe_output)
+      assert output =~ TimeGroup.display_frequency_range(frequency)
     end
   end
 end

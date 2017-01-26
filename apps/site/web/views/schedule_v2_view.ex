@@ -2,7 +2,6 @@ defmodule Site.ScheduleV2View do
   use Site.Web, :view
 
   alias Schedules.{Schedule}
-  alias Routes.Route
   alias Schedules.Schedule
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
@@ -13,6 +12,18 @@ defmodule Site.ScheduleV2View do
     else
       Timex.format!(date, "{Mshort} {D}")
     end
+  end
+
+  @spec last_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
+  def last_departure([{%Schedule{}, %Schedule{}} | _] = schedules) do
+    schedule = schedules
+    |> List.last
+    |> elem(0)
+
+    schedule.time
+  end
+  def last_departure(schedules) do
+    List.last(schedules).time
   end
 
   @doc """

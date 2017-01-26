@@ -10,8 +10,8 @@ defmodule Site.ScheduleController.DatePickerTest do
     |> call(@opts)
 
     assert conn.assigns.date_select == false
-    refute :holidays in conn.assigns
-    refute :calendar in conn.assigns
+    refute :holidays in Map.keys(conn.assigns)
+    refute :calendar in Map.keys(conn.assigns)
   end
 
   test "assigns date_select, holidays, calendar when date_select == true", %{conn: conn} do

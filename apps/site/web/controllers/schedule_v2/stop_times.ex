@@ -7,7 +7,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
 
   def init([]), do: []
   
-  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}}} = conn, _) when route_type in [0, 1] do
+  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: _schedules}} = conn, _) when route_type in [0, 1] do
     stop_times = StopTimeList.build_predictions_only(
       conn.assigns.predictions,
       conn.params["origin"],
@@ -15,8 +15,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     )
     assign(conn, :stop_times, stop_times)
   end
-
-  def call(conn, []) do
+  def call(%Plug.Conn{assigns: %{schedules: _schedules}}= conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
     stop_times = StopTimeList.build(
       filtered_schedules(conn.assigns, show_all_trips?),
@@ -26,6 +25,9 @@ defmodule Site.ScheduleV2Controller.StopTimes do
       show_all_trips?
     )
     assign(conn, :stop_times, stop_times)
+  end
+  def call(conn, []) do
+    conn
   end
 
   defp filtered_schedules(%{schedules: schedules, date_time: date_time}, show_all_trips?) do
