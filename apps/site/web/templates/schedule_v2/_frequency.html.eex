@@ -1,5 +1,5 @@
 <div class="schedule-v2-frequency-header">Schedules For <%= Site.ScheduleV2View.pretty_date(@date) %></div>
-<%= for frequency <- TimeGroup.frequency_by_time_block(@schedules) do %>
+<%= for frequency <- @frequency_table do %>
   <div class="schedule-v2-frequency-row">
     <div class="schedule-v2-frequency-col">
       <%= case frequency.time_block do
@@ -11,9 +11,8 @@
           end
       %>
       <%= if frequency.time_block == :late_night do %>
-        <% last_departure_time = List.last(@schedules).time %>
         <div class="schedule-v2-frequency-time">
-          Last Departure at <%= Timex.format!(last_departure_time, "%I:%M %p", :strftime) %>
+          Last Departure at <%= Timex.format!(last_departure(@schedules), "%I:%M %p", :strftime) %>
         </div>
       <% end %>
     </div>

@@ -15,6 +15,17 @@ defmodule Site.ScheduleV2View do
     end
   end
 
+  def last_departure([{%Schedule{}, %Schedule{}} | _] = schedules) do
+    schedule = schedules
+    |> List.last
+    |> elem(0)
+
+    schedule.time
+  end
+  def last_departure(schedules) do
+    List.last(schedules).time
+  end
+
   @doc """
   Given a list of schedules, returns a display of the route direction. Assumes all
   schedules have the same route and direction.

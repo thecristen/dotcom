@@ -17,6 +17,19 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
+  describe "last_departure/1" do
+    test "when schedules are a list of schedules, gives the time of the last one" do
+      schedules = [%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}, %Schedule{time: ~N[2017-01-01T20:30:00]}]
+      assert last_departure(schedules) == ~N[2017-01-01T20:30:00]
+    end
+
+    test "when schedules are a list of origin destination schedule pairs, gives the time of the last origin" do
+      schedules = [{%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}},
+       {%Schedule{time: ~N[2017-01-01T19:30:00]}, %Schedule{time: ~N[2017-01-01T21:30:00]}}]
+      assert last_departure(schedules) == ~N[2017-01-01T19:30:00]
+    end
+  end
+
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
       assert display_direction(%StopTimeList{}) == ""

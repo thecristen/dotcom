@@ -14,6 +14,7 @@ defmodule Site.ScheduleV2Controller.Schedules do
     conn
     |> assign(:schedules, schedules)
     |> assign_direction_id(schedules)
+    |> assign_frequency_table(schedules)
   end
 
   def schedules(%{assigns: %{
@@ -28,6 +29,26 @@ defmodule Site.ScheduleV2Controller.Schedules do
     conn
     |> Query.schedule_query
     |> Schedules.Repo.all
+  end
+
+  @spec assign_frequency_table(Plug.Conn.t, [{Schedule.t, Schedule.t}]) :: Plug.Conn.t
+  def assign_frequency_table(conn, [{%Schedules.Schedule{route: %Routes.Route{type: 1}}, _} | _] = schedules) do
+    frequencies = schedules
+    |> Enum.map(fn schedule -> elem(schedule, 0) end)
+    |> TimeGroup.frequency_by_time_block
+
+    conn
+    |> assign(:frequency_table, frequencies)
+  end
+  def assign_frequency_table(conn, [%Schedules.Schedule{route: %Routes.Route{type: 1}} | _] = schedules) do
+    frequencies = schedules
+    |> TimeGroup.frequency_by_time_block
+
+    conn
+    |> assign(:frequency_table, frequencies)
+  end
+  def assign_frequency_table(conn, _schedules) do
+    conn
   end
 
   def assign_direction_id(conn, schedules) do
