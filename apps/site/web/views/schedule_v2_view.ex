@@ -157,4 +157,28 @@ defmodule Site.ScheduleV2View do
 
     [trip: nil, direction_id: direction_id, destination: new_dest_id, origin: new_origin_id]
   end
+
+  @doc """
+  Returns a message containing the maximum delay between scheduled and predicted times for an arrival
+  and departure, or the empty string if there's no delay.
+  """
+  @spec display_delay(StopTimeList.StopTime.predicted_schedule, StopTimeList.StopTime.predicted_schedule) :: iodata
+  def display_delay(departure, arrival) do
+    case Enum.max([get_delay(departure), get_delay(arrival)]) do
+      delay when delay > 0 -> [
+        "Delayed ",
+        Integer.to_string(delay),
+        " ",
+        Inflex.inflect("minute", delay)
+      ]
+      _ -> ""
+    end
+  end
+
+  @spec get_delay(StopTimeList.StopTime.predicted_schedule | nil) :: integer
+  defp get_delay(nil), do: 0
+  defp get_delay({schedule, prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
+  defp get_delay({schedule, prediction}) do
+    Timex.diff(prediction.time, schedule.time, :minutes)
+  end
 end

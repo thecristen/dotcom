@@ -233,4 +233,45 @@ defmodule Site.ScheduleV2ViewTest do
       assert output =~ TimeGroup.display_frequency_range(frequency)
     end
   end
+
+  describe "display_delay/2" do
+    test "returns a readable message if there's a difference between the scheduled and predicted times" do
+      now = Util.now
+      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, {nil, nil})
+
+      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
+    end
+
+    test "returns the empty string if the predicted and scheduled times are the same" do
+      now = Util.now
+      result = display_delay({%Schedule{time: now}, %Prediction{time: now}}, {nil, nil})
+
+      assert IO.iodata_to_binary(result) == ""
+    end
+
+    test "takes the max of the departure and arrival time delays" do
+      departure = Util.now
+      arrival = Timex.shift(departure, minutes: 30)
+      result = display_delay(
+        {%Schedule{time: departure}, %Prediction{time: Timex.shift(departure, minutes: 5)}},
+        {%Schedule{time: arrival}, %Prediction{time: Timex.shift(arrival, minutes: 10)}}
+      )
+
+      assert IO.iodata_to_binary(result) == "Delayed 10 minutes"
+    end
+
+    test "handles nil arrivals" do
+      now = Util.now
+      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, nil)
+
+      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
+    end
+
+    test "inflects the delay correctly" do
+      now = Util.now
+      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
+
+      assert IO.iodata_to_binary(result) == "Delayed 1 minute"
+    end
+  end
 end
