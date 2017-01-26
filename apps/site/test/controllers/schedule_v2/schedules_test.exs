@@ -7,6 +7,23 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
   import Site.ScheduleV2Controller.Schedules
 
   @route %Route{id: "Red", type: 1, name: "Red"}
+  @schedules [
+    %Schedule{
+      time: ~N[2017-01-01T07:00:00],
+      route: @route
+    },
+    %Schedule{
+      time: ~N[2017-01-01T07:30:00],
+      route: @route
+    },
+    %Schedule{
+      time: ~N[2017-01-01T07:35:00],
+        route: @route
+    },
+    %Schedule{
+      time: ~N[2017-01-01T07:40:00],
+      route: @route
+    }]
   @od_schedules [
     {
       %Schedule{
@@ -101,27 +118,10 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
 
   describe "assign_frequency_table/1" do
     test "when schedules are assigned as a list, assigns a frequency table", %{conn: conn} do
-      schedules = [
-      %Schedule{
-        time: ~N[2017-01-01T07:00:00],
-        route: @route
-      },
-      %Schedule{
-        time: ~N[2017-01-01T07:30:00],
-        route: @route
-      },
-      %Schedule{
-        time: ~N[2017-01-01T07:35:00],
-        route: @route
-      },
-      %Schedule{
-        time: ~N[2017-01-01T07:40:00],
-        route: @route
-      }]
       conn = conn
-      |> assign_frequency_table(schedules)
+      |> assign_frequency_table(@schedules)
 
-      assert conn.assigns.frequency_table == TimeGroup.frequency_by_time_block(schedules)
+      assert conn.assigns.frequency_table == TimeGroup.frequency_by_time_block(@schedules)
     end
 
     test "when schedules are assigned, assigns a frequency table", %{conn: conn} do
@@ -130,6 +130,17 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
 
       schedules = @od_schedules # grab the departure schedule
       |> Enum.map(&elem(&1, 0))
+
+      assert conn.assigns.frequency_table == TimeGroup.frequency_by_time_block(schedules)
+    end
+
+    test "when schedules are light rail, assigns a frequency table", %{conn: conn} do
+      route = %Routes.Route{type: 0, id: "Green-B", name: "Green B"}
+      schedules = @schedules
+      |> Enum.map(& %{&1 | route: route})
+
+      conn = conn
+      |> assign_frequency_table(schedules)
 
       assert conn.assigns.frequency_table == TimeGroup.frequency_by_time_block(schedules)
     end

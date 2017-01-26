@@ -38,7 +38,8 @@ defmodule Site.ScheduleV2Controller.Schedules do
   end
 
   @spec assign_frequency_table(Plug.Conn.t, [{Schedules.Schedule.t, Schedules.Schedule.t}]) :: Plug.Conn.t
-  def assign_frequency_table(conn, [{%Schedules.Schedule{route: %Routes.Route{type: 1}}, _} | _] = schedules) do
+  def assign_frequency_table(conn, [{%Schedules.Schedule{route: %Routes.Route{type: type}}, _} | _] = schedules)
+  when type in [0, 1] do
     frequencies = schedules
     |> Enum.map(fn schedule -> elem(schedule, 0) end)
     |> TimeGroup.frequency_by_time_block
@@ -46,7 +47,8 @@ defmodule Site.ScheduleV2Controller.Schedules do
     conn
     |> assign(:frequency_table, frequencies)
   end
-  def assign_frequency_table(conn, [%Schedules.Schedule{route: %Routes.Route{type: 1}} | _] = schedules) do
+  def assign_frequency_table(conn, [%Schedules.Schedule{route: %Routes.Route{type: type}} | _] = schedules)
+  when type in [0, 1] do
     frequencies = schedules
     |> TimeGroup.frequency_by_time_block
 
