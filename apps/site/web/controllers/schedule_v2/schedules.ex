@@ -31,7 +31,7 @@ defmodule Site.ScheduleV2Controller.Schedules do
     |> Schedules.Repo.all
   end
 
-  @spec assign_frequency_table(Plug.Conn.t, [{Schedule.t, Schedule.t}]) :: Plug.Conn.t
+  @spec assign_frequency_table(Plug.Conn.t, [{Schedules.Schedule.t, Schedules.Schedule.t}]) :: Plug.Conn.t
   def assign_frequency_table(conn, [{%Schedules.Schedule{route: %Routes.Route{type: 1}}, _} | _] = schedules) do
     frequencies = schedules
     |> Enum.map(fn schedule -> elem(schedule, 0) end)

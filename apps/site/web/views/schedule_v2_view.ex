@@ -15,6 +15,7 @@ defmodule Site.ScheduleV2View do
     end
   end
 
+  @spec last_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
   def last_departure([{%Schedule{}, %Schedule{}} | _] = schedules) do
     schedule = schedules
     |> List.last

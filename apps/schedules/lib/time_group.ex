@@ -62,7 +62,7 @@ defmodule TimeGroup do
   @spec frequency_by_time_block([Schedule.t]) :: [%Schedules.Frequency{} | nil]
   def frequency_by_time_block(schedules) do
     Enum.map([:am_rush, :midday, :pm_rush, :evening, :late_night],
-             &(frequency_for_time(schedules, &1)))
+             &frequency_for_time(schedules, &1))
   end
 
   defp do_by_fn([], _) do
