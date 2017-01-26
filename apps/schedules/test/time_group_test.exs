@@ -112,4 +112,18 @@ defmodule TimeGroupTest do
       ]
     end
   end
+
+  describe "display_frequency_range/1" do
+    test "when min headway and max headway are the same does not display both" do
+      assert TimeGroup.display_frequency_range(%Schedules.Frequency{time_block: :am_rush, min_headway: 5, max_headway: 5}) == "5"
+    end
+
+    test "when min headway and max headway are different, displays the range" do
+      assert TimeGroup.display_frequency_range(%Schedules.Frequency{time_block: :am_rush, min_headway: 2, max_headway: 5}) == "2-5"
+    end
+
+    test "when min headway is 0, displays 1 minute" do
+      assert TimeGroup.display_frequency_range(%Schedules.Frequency{time_block: :am_rush, min_headway: 0, max_headway: 5}) == "1-5"
+    end
+  end
 end

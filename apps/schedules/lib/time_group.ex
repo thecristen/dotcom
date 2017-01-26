@@ -118,4 +118,11 @@ defmodule TimeGroup do
         :late_night
     end
   end
+
+  def display_frequency_range(%Schedules.Frequency{min_headway: value, max_headway: value}) do
+    "#{value}"
+  end
+  def display_frequency_range(%Schedules.Frequency{min_headway: min, max_headway: max}) do
+    "#{Enum.max([1, min])}-#{max}"
+  end
 end

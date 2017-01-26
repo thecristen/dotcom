@@ -20,7 +20,7 @@
     <div class="schedule-v2-frequency-col">
       <%= case frequency do %>
         <%= nil -> %>No service between these hours
-        <%= frequency -> %>Every <%= Enum.max([1, frequency.min_headway]) %>-<%= frequency.max_headway %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
+        <%= frequency -> %>Every <%= TimeGroup.display_frequency_range(frequency) %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
       <% end %>
     </div>
   </div>
