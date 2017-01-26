@@ -10,8 +10,8 @@ defmodule TripInfo do
   * vehicle: a %Vehicles.Vehicle{} that's on this trip, or nil
   * status: a text status of the trip relative to the schedule
   * times: a list of %Schedules.Schedule{} for stops between either
-    1) the origin and destination or 2) the break and destination
-  * times_before: a list of %Schedules.Schedule{} before the "show all stops" break
+    1) the origin and destination or 2) the vehicle and destination
+  * sections a list of lists of times, breaking the times into groups to hide some stops
   * duration: the number of minutes the trip takes between origin_id and destination_id
   """
   @type time :: Schedules.Schedule.t
@@ -22,8 +22,7 @@ defmodule TripInfo do
     destination_id: String.t,
     vehicle: Vehicles.Vehicle.t | nil,
     status: String.t,
-    times: time_list,
-    times_before: time_list,
+    sections: [time_list],
     duration: pos_integer
   }
 
@@ -33,8 +32,7 @@ defmodule TripInfo do
     destination_id: nil,
     vehicle: nil,
     status: "operating at normal schedule",
-    times: [],
-    times_before: [],
+    sections: [],
     duration: -1,
   ]
 
@@ -51,13 +49,21 @@ defmodule TripInfo do
   end
   alias __MODULE__.Flags
 
+  @doc """
+  Given a list of times and options, creates a new TripInfo struct or returns an error.
+  """
   @spec from_list(time_list, Keyword.t) :: TripInfo.t | {:error, any}
   def from_list(times, opts \\ []) do
     origin_id = time_stop_id(opts[:origin_id], times, :first)
     destination_id = time_stop_id(opts[:destination_id], times, :last)
+    starting_stop_ids = if opts[:vehicle] do
+      [origin_id, opts[:vehicle].stop_id]
+    else
+      [origin_id]
+    end
     times
-    |> clamp_times_to_origin_destination(origin_id, destination_id)
-    |> do_from_list(origin_id, destination_id, opts)
+    |> clamp_times_to_origin_destination(starting_stop_ids, destination_id)
+    |> do_from_list(starting_stop_ids, destination_id, opts)
   end
 
   # finds a stop ID.  If one isn't provided, or is provided as nil, then
@@ -74,32 +80,40 @@ defmodule TripInfo do
     apply(List, list_function, [times]).stop.id
   end
 
-  defp do_from_list([time, _ | _] = times, origin_id, destination_id, opts) do
-    {before, times} = split_around_break(times, opts[:collapse?])
+  defp do_from_list([time, _ | _] = times, [origin_id | _] = starting_stop_ids, destination_id, opts)
+  when is_binary(origin_id) and is_binary(destination_id) do
     route = time.route
-    duration = duration(times)
+    duration = duration(times, origin_id)
+    sections = if opts[:collapse?] do
+      TripInfo.Split.split(times, starting_stop_ids)
+    else
+      [times]
+    end
+
     %TripInfo{
       route: route,
       origin_id: origin_id,
       destination_id: destination_id,
       vehicle: opts[:vehicle],
-      times_before: before,
-      times: times,
+      sections: sections,
       duration: duration
     }
   end
-  defp do_from_list(_times, _origin_id, _destination_id, _opts) do
+  defp do_from_list(_times, _starting_stop_ids, _destination_id, _opts) do
     {:error, "not enough times to build a trip"}
   end
 
+  @doc """
+  Returns a long status string suitable for display to a user.
+  """
   @spec full_status(TripInfo.t) :: iolist
   def full_status(%TripInfo{route: route,
-                            times: times,
+                            sections: sections,
                             status: status}) do
     [
       route_name(route),
       " to ",
-      destination(times),
+      destination(List.last(sections)),
       " ",
       status
     ]
@@ -111,46 +125,30 @@ defmodule TripInfo do
   represent stops that are not being returned.
   """
   @spec times_with_flags_and_separators(TripInfo.t) :: [:separator | [{time, Flags.t}]]
-  def times_with_flags_and_separators(%TripInfo{times_before: []} = info) do
-    [times_with_flags(info)]
-  end
-  def times_with_flags_and_separators(%TripInfo{} = info) do
-    [
-      times_with_flags(info, :before),
-      :separator,
-      times_with_flags(info)
-    ]
+  def times_with_flags_and_separators(%TripInfo{sections: sections} = info) do
+    sections
+    |> Enum.map(&do_times_with_flag(&1, info))
+    |> Enum.intersperse(:separator)
   end
 
-  @doc """
-  Returns the times for this trip, tagging the first/last stops.
-  """
-  @spec times_with_flags(TripInfo.t, atom) :: [{time, Flags.t}]
-  def times_with_flags(%TripInfo{} = info, field \\ nil) do
-    times = case field do
-              nil ->
-                info.times
-              :before ->
-                info.times_before
-            end
-    Enum.map(times, &do_time_with_flag(&1, info))
+  defp do_times_with_flag(times, info) do
+    times
+    |> Enum.map(fn time ->
+      {time, %Flags{
+          terminus?: time.stop.id in [info.origin_id, info.destination_id],
+          vehicle?: info.vehicle != nil and info.vehicle.stop_id == time.stop.id
+       }
+      }
+    end)
   end
 
-  defp do_time_with_flag(time, info) do
-    {time, %Flags{
-        terminus?: time.stop.id in [info.origin_id, info.destination_id],
-        vehicle?: info.vehicle != nil and info.vehicle.stop_id == time.stop.id
-     }
-    }
-  end
-
-  # Filters the list of times to those between origin and destination,
+  # Filters the list of times to those between origins and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
-  @spec clamp_times_to_origin_destination(time_list, String.t, String.t) :: time_list
-  defp clamp_times_to_origin_destination(times, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
+  @spec clamp_times_to_origin_destination(time_list, [String.t], String.t) :: time_list
+  defp clamp_times_to_origin_destination(times, starting_stop_ids, destination_id) do
     times
-    |> Enum.drop_while(& &1.stop.id != origin_id)
+    |> Enum.drop_while(& not(&1.stop.id in starting_stop_ids))
     |> clamp_to_destination(destination_id, [])
   end
 
@@ -167,25 +165,13 @@ defmodule TripInfo do
     clamp_to_destination(rest, destination_id, [time | acc])
   end
 
-  @spec split_around_break(time_list, boolean) :: {time_list, time_list}
-  defp split_around_break(times, collapse?)
-  defp split_around_break([_, _, _, _, _ | _] = times, true) do
-    # the match makes sure we have at least 5 items to split on
-    first_two = Enum.take(times, 2)
-    last_two = Enum.take(times, -2)
-    {first_two, last_two}
-  end
-  defp split_around_break(times, _) do
-    {[], times}
-  end
-
-
-  defp duration([first | rest]) do
-    last = List.last(rest)
+  defp duration(times, origin_id) do
+    first = Enum.find(times, & &1.stop.id == origin_id)
+    last = List.last(times)
     Timex.diff(last.time, first.time, :minutes)
   end
 
-  defp route_name(%Routes.Route{type: 2, name: name}) do
+  defp route_name(%Routes.Route{type: 3, name: name}) do
     ["Bus Route ", name]
   end
   defp route_name(%Routes.Route{name: name}) do

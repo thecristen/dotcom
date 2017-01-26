@@ -41,3 +41,6 @@
     <% end %>
   </div>
 </div>
+<%= if @trip_info do %>
+  <%= render "_trip_info.html", trip_info: @trip_info, conn: @conn %>
+<% end %>
