@@ -11,13 +11,6 @@ defmodule TripInfo.Split do
   """
   @spec split(TripInfo.time_list, [String.t]) :: [TripInfo.time_list]
   def split(times, starting_stop_ids)
-  def split([second_to_last, last], _starting_stop_ids) do
-    # we're always keeping the last two
-    [[second_to_last, last]]
-  end
-  def split([last], _starting_stop_ids) do
-    [[last]]
-  end
   def split([], _starting_stop_ids) do
     # with no times, return no sections
     []
@@ -25,39 +18,44 @@ defmodule TripInfo.Split do
   def split([first | rest], starting_stop_ids) do
     # split the rest of the list into two: the first part being everything up
     # to the next origin, the second part being the rest.
-    {until_next_origin, next_origin_and_rest} = Enum.split_while(rest, & ! &1.stop.id in starting_stop_ids)
+    {until_next_start, next_start_and_rest} = Enum.split_while(rest, & ! &1.stop.id in starting_stop_ids)
 
-    # split the next origin and everything else into sections
-    case split(next_origin_and_rest, starting_stop_ids) do
-      [] ->
-        # the last section is a special case
-        do_handle_end(first, until_next_origin)
-      [next_section | other_sections] ->
-        case until_next_origin do
-          [next, _, _, _ | _skipped] ->
-            # there's at least three items to skip, only hang onto the next time
-            [[first, next], next_section | other_sections]
-          keep ->
-            # otherwise, keep everything
-            [Enum.concat([[first], keep, next_section]) | other_sections]
-          # [] ->
-          #   # next origin starts with the next item, so prepend first to the next section
-          #   [[first | next_section] | other_sections]
-          # [one_between] ->
-          #   # one time between us and the next section, so prepend both to the next section
-          #   [[first, one_between | next_section] | other_sections]
-        end
-    end
+    do_split([first | until_next_start], next_start_and_rest)
   end
 
-  defp do_handle_end(first, [in_previous_section, _, _, _, _ |_] = rest) do
-    # origin is separated from destination by more than three, so the first
-    # remaining one is part of the origin section.  The destination section
-    # is the last two items.
-    [[first, in_previous_section], Enum.take(rest, -2)]
+  defp do_split([first, second, _, _, _ | _], [next_first, next_second, _, _, _, _before_destination, _destination | _] = last_section) do
+    # there are enough stops in both the first and second groups to break into three sections
+    [
+      [first, second],
+      [next_first, next_second],
+      Enum.take(last_section, -2)
+    ]
   end
-  defp do_handle_end(first, rest) do
-    # origin is close to the destination, so keep them all
-    [[first | rest]]
+  defp do_split([first, second, _, _, _ | _], [_ | _] = last_section) do
+    # the first section is big enough to split, but the second is not
+    [
+      [first, second],
+      last_section
+    ]
+  end
+  defp do_split([first, second, _, _, _, _before_destination, _destination | _] = first_section, []) do
+    # there's no middle ID (second section is empty), so break into two sections
+    [
+      [first, second],
+      Enum.take(first_section, -2)
+    ]
+  end
+  defp do_split(first_section, [next_first, next_second, _, _, _, _before_destination, _destination | _] = last_section) do
+    # the second section is big enough to split, but the first is not
+    [
+      Enum.concat(first_section, [next_first, next_second]),
+      Enum.take(last_section, -2)
+    ]
+  end
+  defp do_split(first_section, last_section) do
+    # both are small, so concat them
+    [
+      Enum.concat(first_section, last_section)
+    ]
   end
 end
