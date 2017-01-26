@@ -7,7 +7,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   """
   @behaviour Plug
   alias Plug.Conn
-  import Plug.Conn, only: [assign: 3]
+  import Plug.Conn, only: [assign: 3, halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
   import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
@@ -43,8 +43,10 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp handle_trip(conn, selected_trip_id, opts) do
     case build_info(selected_trip_id, conn, opts) do
       {:error, _} ->
-        url = update_url(conn, trip: nil, origin: nil, destination: nil)
-        redirect conn, to: url
+        url = update_url(conn, trip: nil)
+        conn
+        |> redirect(to: url)
+        |> halt
       info ->
         assign(conn, :trip_info, info)
     end

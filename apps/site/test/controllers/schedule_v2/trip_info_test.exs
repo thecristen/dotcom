@@ -125,7 +125,8 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       origin: "fake",
       destination: "fake",
       param: "param")
-    expected_path = schedule_v2_path(conn, :show, "1", param: "param")
+    expected_path = schedule_v2_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
+    assert conn.halted
     assert redirected_to(conn) == expected_path
   end
 end
