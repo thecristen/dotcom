@@ -8,13 +8,44 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   def init([]), do: []
 
   def call(conn, []) do
+    show_all_trips? = conn.params["show_all_trips"] == "true"
     stop_times = StopTimeList.build(
-      conn.assigns.schedules,
+      filtered_schedules(conn.assigns, show_all_trips?),
       conn.assigns.predictions,
       conn.params["origin"],
       conn.params["destination"],
-      conn.params["show_all_trips"] == "true"
+      show_all_trips?
     )
     assign(conn, :stop_times, stop_times)
+  end
+
+  defp filtered_schedules(%{schedules: schedules, date_time: date_time}, show_all_trips?) do
+    schedules
+    |> upcoming_schedules(show_all_trips?, date_time)
+  end
+
+  defp upcoming_schedules(schedules, true, _date_time) do
+    schedules
+  end
+  defp upcoming_schedules(schedules, false, date_time) do
+    do_upcoming_schedules(schedules, date_time)
+  end
+
+  defp do_upcoming_schedules([_first, second | rest] = schedules, date_time) do
+    if after_now?(second, date_time) do
+      schedules
+    else
+      do_upcoming_schedules([second | rest], date_time)
+    end
+  end
+  defp do_upcoming_schedules(schedules, _date_time) do
+    schedules
+  end
+
+  defp after_now?({_, arrival}, date_time) do
+    after_now?(arrival, date_time)
+  end
+  defp after_now?(%Schedules.Schedule{time: time}, date_time) do
+    Timex.after?(time, date_time)
   end
 end
