@@ -2,7 +2,6 @@ defmodule Site.ScheduleV2View do
   use Site.Web, :view
 
   alias Schedules.{Schedule}
-  alias Routes.Route
   alias Schedules.Schedule
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
