@@ -3,7 +3,7 @@
     <h1>
       <% # This removes any route-specific names on the icon class %>
       <span class="<%= @route.id |> String.downcase |> String.replace(~r/-.*/, "")%>">
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(@route)}) %>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: @route}) %>
       </span>
       <%= route_header_text(@route) %>
     </h1>

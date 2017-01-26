@@ -1,7 +1,6 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
 
-  alias Schedules.{Schedule}
   alias Schedules.Schedule
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
@@ -70,10 +69,10 @@ defmodule Site.ScheduleV2View do
   def stop_bubble_location_display(vehicle?, route, terminus?)
   def stop_bubble_location_display(false, _route, _terminus), do: ""
   def stop_bubble_location_display(true, route, true) do
-    svg_icon(%SvgIcon{icon: route, class: "icon-small icon-inverse"})
+    svg_icon(%SvgIcon{icon: Routes.Route.type_atom(route), class: "icon-small icon-inverse"})
   end
   def stop_bubble_location_display(true, route, false) do
-    svg_icon(%SvgIcon{icon: route, class: "icon-small icon-boring"})
+    svg_icon(%SvgIcon{icon: Routes.Route.type_atom(route), class: "icon-small icon-boring"})
   end
 
   @doc """
