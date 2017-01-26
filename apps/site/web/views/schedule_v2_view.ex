@@ -159,26 +159,22 @@ defmodule Site.ScheduleV2View do
   end
 
   @doc """
-  Returns a message containing the maximum delay between scheduled and predicted times for an arrival
-  and departure, or the empty string if there's no delay.
+  If scheduled and predicted times differ, displays the scheduled time crossed out, with the predicted
+  time below it. Otherwise just displays the time as display_scheduled_prediction/1 does.
   """
-  @spec display_delay(StopTimeList.StopTime.predicted_schedule, StopTimeList.StopTime.predicted_schedule) :: iodata
-  def display_delay(departure, arrival) do
-    case Enum.max([get_delay(departure), get_delay(arrival)]) do
-      delay when delay > 0 -> [
-        "Delayed ",
-        Integer.to_string(delay),
+  @spec display_commuter_scheduled_prediction(StopTimeList.StopTime.predicted_schedule) :: Phoenix.HTML.Safe.t | String.t
+  def display_commuter_scheduled_prediction({schedule, prediction} = stop_time) do
+    case StopTimeList.delay(stop_time) do
+      # if we're going to show both, make sure they are different times
+      delay when delay > 0 -> content_tag :span, do: [
+        content_tag(:del, format_schedule_time(schedule.time)),
+        tag(:br),
+        fa("rss"),
         " ",
-        Inflex.inflect("minute", delay)
+        format_schedule_time(prediction.time)
       ]
-      _ -> ""
+        # otherwise just show the scheduled or predicted time as appropriate
+      _ -> display_scheduled_prediction(stop_time)
     end
-  end
-
-  @spec get_delay(StopTimeList.StopTime.predicted_schedule | nil) :: integer
-  defp get_delay(nil), do: 0
-  defp get_delay({schedule, prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
-  defp get_delay({schedule, prediction}) do
-    Timex.diff(prediction.time, schedule.time, :minutes)
   end
 end

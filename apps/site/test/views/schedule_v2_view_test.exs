@@ -120,7 +120,7 @@ defmodule Site.ScheduleV2ViewTest do
     |> assign(:header_schedules, Enum.to_list(0..10))
     |> assign(:offset, offset)
     |> link_fn.()
-    |> Phoenix.HTML.safe_to_string
+    |> safe_to_string
   end
 
   describe "earlier_link/1" do
@@ -234,44 +234,40 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "display_delay/2" do
-    test "returns a readable message if there's a difference between the scheduled and predicted times" do
+  describe "display_commuter_scheduled_prediction/1" do
+    test "if the scheduled and predicted times differ crosses out the scheduled one" do
       now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, {nil, nil})
+      then = Timex.shift(now, minutes: 5)
 
-      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
+      result = {%Schedule{time: now}, %Prediction{time: then}}
+      |> display_commuter_scheduled_prediction
+      |> safe_to_string
+
+      assert result =~ "<del>#{Site.ViewHelpers.format_schedule_time(now)}</del>"
+      assert result =~ Site.ViewHelpers.format_schedule_time(then)
+      assert result =~ "fa fa-rss"
     end
 
-    test "returns the empty string if the predicted and scheduled times are the same" do
+    test "if the times do not differ, just returns the same result as display_scheduled_prediction/1" do
       now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: now}}, {nil, nil})
+      stop_time = {%Schedule{time: now}, %Prediction{time: now}}
+      result = display_commuter_scheduled_prediction(stop_time)
 
-      assert IO.iodata_to_binary(result) == ""
+      assert result == display_scheduled_prediction(stop_time)
     end
 
-    test "takes the max of the departure and arrival time delays" do
-      departure = Util.now
-      arrival = Timex.shift(departure, minutes: 30)
-      result = display_delay(
-        {%Schedule{time: departure}, %Prediction{time: Timex.shift(departure, minutes: 5)}},
-        {%Schedule{time: arrival}, %Prediction{time: Timex.shift(arrival, minutes: 10)}}
-      )
+    test "handles nil schedules" do
+      stop_time = {nil, %Prediction{time: Util.now}}
+      result = display_commuter_scheduled_prediction(stop_time)
 
-      assert IO.iodata_to_binary(result) == "Delayed 10 minutes"
+      assert result == display_scheduled_prediction(stop_time)
     end
 
-    test "handles nil arrivals" do
-      now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, nil)
+    test "handles nil predictions" do
+      stop_time = {%Schedule{time: Util.now}, nil}
+      result = display_commuter_scheduled_prediction(stop_time)
 
-      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
-    end
-
-    test "inflects the delay correctly" do
-      now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
-
-      assert IO.iodata_to_binary(result) == "Delayed 1 minute"
+      assert result == display_scheduled_prediction(stop_time)
     end
   end
 end
