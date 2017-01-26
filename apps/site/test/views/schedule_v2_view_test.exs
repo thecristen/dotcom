@@ -166,9 +166,23 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "display_train_number/1" do
-    test "returns the train number of a schedule" do
-      assert display_train_number({%Schedules.Schedule{trip: %Trip{name: "500"}}, nil}) == "500"
+  describe "reverse_direction_opts/4" do
+    test "reverses direction when the stop exists in the other direction" do
+      expected = [trip: nil, direction_id: "1", destination: "place-harsq", origin: "place-davis"]
+      actual = reverse_direction_opts(%Stops.Stop{id: "place-harsq"}, %Stops.Stop{id: "place-davis"}, "1")
+      assert Enum.sort(expected) == Enum.sort(actual)
+    end
+
+    test "reverses direction when origin and destination aren't selected" do
+      expected = [trip: nil, direction_id: "1", destination: nil, origin: nil]
+      actual = reverse_direction_opts(nil, nil, "1")
+      assert Enum.sort(expected) == Enum.sort(actual)
+    end
+
+    test "maintains origin when there's no destination selected" do
+      expected = [trip: nil, direction_id: "1", destination: nil, origin: "place-davis"]
+      actual = reverse_direction_opts(%Stops.Stop{id: "place-davis"}, nil, "1")
+      assert Enum.sort(expected) == Enum.sort(actual)
     end
   end
 end

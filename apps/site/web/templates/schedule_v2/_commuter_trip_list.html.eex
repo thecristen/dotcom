@@ -20,7 +20,7 @@
             <%= display_scheduled_prediction(arrival)%>
           </div>
           <div class="col-xs-4">
-            <%= display_train_number(departure) %>
+            <%= trip.name %>
           </div>
         <% else %>
           <div class="col-xs-6">
