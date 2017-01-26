@@ -46,10 +46,11 @@ defmodule StopTimeList do
   """
   @spec build_predictions_only([Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
   def build_predictions_only(predictions, origin, destination) do
-    times = build_times([], predictions, origin, destination)
-            |> Enum.filter(&has_departure_prediction?/1)
-            |> limit_predictions()
-    from_times(times, true)
+    []
+    |> build_times(predictions, origin, destination)
+    |> Enum.filter(&has_departure_prediction?/1)
+    |> limit_predictions()
+    |> from_times(true)
   end
 
   @spec build_times([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
@@ -108,19 +109,18 @@ defmodule StopTimeList do
   # Sorting order is maintained
   @spec limit_predictions([StopTime.t]) :: [StopTime.t]
   defp limit_predictions(stop_times) do
-    do_limit_predictions(stop_times, 0, [])
-    |> Enum.reverse
+    stop_times
+    |> Enum.reduce({0, []}, &do_limit_predictions/2)
+    |> elem(1)
   end
 
-  @spec do_limit_predictions([StopTime.t], non_neg_integer, [StopTime.t]) :: [StopTime.t]
-  defp do_limit_predictions([], _, acc), do: acc
-  defp do_limit_predictions([first | rest], count, acc) do
+  @spec do_limit_predictions(StopTime.t, {non_neg_integer, [StopTime.t]}) :: {non_neg_integer, [StopTime.t]}
+  defp do_limit_predictions(time, {count, acc}) do
     new_count = count + 1
     over_limit? = new_count > @prediction_limit
     cond do
-      prediction?(first) and over_limit? -> do_limit_predictions(rest, new_count, acc) # Limit has been reached, discard time
-      prediction?(first)-> do_limit_predictions(rest, new_count, [first | acc]) # limit has not been reached, keep time
-      true -> do_limit_predictions(rest, new_count, [first | acc]) # Not a prediction, keep time
+      prediction?(time) and over_limit? -> {new_count, acc} # Limit has been reached, discard prediction
+      true -> {new_count, [time | acc]}
     end
   end
 
