@@ -1,10 +1,14 @@
 set -e
+ELIXIR_VERSION=1.4.0
+ERLANG_VERSION=19
 
 export MIX_HOME=$SEMAPHORE_CACHE_DIR
 
-. /home/runner/.kerl/installs/19/activate
-kiex install 1.4.0
-kiex use 1.4.0
+. /home/runner/.kerl/installs/$ERLANG_VERSION/activate
+if ! kiex use $ELIXIR_VERSION; then
+    kiex install $ELIXIR_VERSION
+    kiex use $ELIXIR_VERSION
+fi
 
 mix local.hex --force
 mix local.rebar --force
