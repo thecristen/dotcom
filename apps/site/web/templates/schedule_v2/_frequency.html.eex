@@ -17,9 +17,10 @@
       <% end %>
     </div>
     <div class="schedule-v2-frequency-col">
-      <%= case frequency do %>
-        <%= nil -> %>No service between these hours
-        <%= frequency -> %>Every <%= TimeGroup.display_frequency_range(frequency) %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
+      <%= if Schedules.Frequency.has_service?(frequency) do %>
+        Every <%= TimeGroup.display_frequency_range(frequency) %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
+      <% else %>
+        No service between these hours
       <% end %>
     </div>
   </div>

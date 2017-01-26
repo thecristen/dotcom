@@ -1,6 +1,6 @@
 defmodule Site.ScheduleV2Controller.SchedulesTest do
   use Site.ConnCase, async: true
-  alias Schedules.{Schedule, Trip, Stop, Frequency}
+  alias Schedules.{Schedule, Trip, Stop}
   alias Routes.Route
   alias Routes.Route
 
@@ -121,14 +121,17 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
       conn = conn
       |> assign_frequency_table(schedules)
 
-      assert conn.assigns.frequency_table == [%Frequency{time_block: :am_rush, min_headway: 5, max_headway: 30}, nil, nil,nil, nil]
+      assert conn.assigns.frequency_table == TimeGroup.frequency_by_time_block(schedules)
     end
 
     test "when schedules are assigned, assigns a frequency table", %{conn: conn} do
       conn = conn
       |> assign_frequency_table(@od_schedules)
 
-      assert conn.assigns.frequency_table == [%Frequency{time_block: :am_rush, min_headway: 20, max_headway: 40}, nil, nil,nil, nil]
+      schedules = @od_schedules # grab the departure schedule
+      |> Enum.map(&elem(&1, 0))
+
+      assert conn.assigns.frequency_table == TimeGroup.frequency_by_time_block(schedules)
     end
 
     test "does not assign a frequency table for non-subway routes", %{conn: conn} do

@@ -198,4 +198,33 @@ defmodule Site.ScheduleV2ViewTest do
       assert Enum.sort(expected) == Enum.sort(actual)
     end
   end
+
+  describe "_frequency.html" do
+    test "renders a no service message if the block doesn't have service" do
+      frequency_table = [%Schedules.Frequency{time_block: :am_rush}]
+      schedules = [%Schedules.Schedule{time: Util.now}]
+      date = Util.service_date
+      safe_output = Site.ScheduleV2View.render(
+        "_frequency.html",
+        frequency_table: frequency_table,
+        schedules: schedules,
+        date: date)
+      output = safe_to_string(safe_output)
+      assert output =~ "No service between these hours"
+    end
+
+    test "renders a headway if the block has service" do
+      frequency = %Schedules.Frequency{time_block: :am_rush, min_headway: 5, max_headway: 10}
+      frequency_table = [frequency]
+      schedules = [%Schedules.Schedule{time: Util.now}]
+      date = Util.service_date
+      safe_output = Site.ScheduleV2View.render(
+        "_frequency.html",
+        frequency_table: frequency_table,
+        schedules: schedules,
+        date: date)
+      output = safe_to_string(safe_output)
+      assert output =~ TimeGroup.display_frequency_range(frequency)
+    end
+  end
 end

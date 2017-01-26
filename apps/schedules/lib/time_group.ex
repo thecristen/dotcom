@@ -46,20 +46,22 @@ defmodule TimeGroup do
     nil
   end
 
-  @spec frequency_for_time([Schedule.t], atom) :: %Schedules.Frequency{} | nil
+  @spec frequency_for_time([Schedule.t], atom) :: Schedules.Frequency.t
   def frequency_for_time(schedules, time_block) do
     time_range = schedules
     |> Enum.filter(fn schedule -> subway_period(schedule.time) == time_block end)
     |> frequency
 
-    if time_range == nil do
-      nil
-    else
-      %Schedules.Frequency{time_block: time_block, min_headway: elem(time_range, 0), max_headway: elem(time_range, 1)}
-    end
+    {min, max} = case time_range do
+                  nil ->
+                    {:infinity, :infinity}
+                  {min, max} ->
+                     {min, max}
+                 end
+    %Schedules.Frequency{time_block: time_block, min_headway: min, max_headway: max}
   end
 
-  @spec frequency_by_time_block([Schedule.t]) :: [%Schedules.Frequency{} | nil]
+  @spec frequency_by_time_block([Schedule.t]) :: [Schedules.Frequency.t]
   def frequency_by_time_block(schedules) do
     Enum.map([:am_rush, :midday, :pm_rush, :evening, :late_night],
              &frequency_for_time(schedules, &1))
@@ -117,6 +119,7 @@ defmodule TimeGroup do
     end
   end
 
+  @spec display_frequency_range(Schedules.Frequency.t) :: String.t
   def display_frequency_range(%Schedules.Frequency{min_headway: value, max_headway: value}) do
     "#{value}"
   end
