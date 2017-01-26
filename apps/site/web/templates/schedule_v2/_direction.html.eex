@@ -8,7 +8,7 @@
         end
       %>
       <%= if direction_id == @direction_id do %>
-        <%= link to: update_url(@conn, []), class: "btn btn-sm #{button_class} schedule-v2-direction-btn" do %>
+        <%= link to: "", class: "btn btn-sm #{button_class} schedule-v2-direction-btn" do %>
           <span class="schedule-v2-direction-btn-selected-icon">
             <%= fa "check-circle" %>
             <span class="sr-only">Current direction: </span>
@@ -21,9 +21,7 @@
           </span>
         <% end %>
       <% else %>
-        <% origin_id = if @origin, do: @origin.id, else: nil %>
-        <% destination_id = if @destination, do: @destination.id, else: nil %>
-        <%= link to: update_url(@conn, origin: destination_id, destination: origin_id), class: "btn btn-sm #{button_class} schedule-v2-direction-btn" do %>
+        <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, direction_id)), class: "btn btn-sm #{button_class} schedule-v2-direction-btn" do %>
           <span class="schedule-v2-direction-btn-selected-icon">
             <%= fa "circle-thin" %>
             <span class="sr-only">Current direction: </span>

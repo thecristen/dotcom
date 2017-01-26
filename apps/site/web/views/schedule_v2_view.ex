@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
 
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.{Schedule}
   alias Routes.Route
   alias Schedules.Schedule
 
@@ -137,8 +137,14 @@ defmodule Site.ScheduleV2View do
   def template_for_tab("trip-view"), do: "_trip_view.html"
   def template_for_tab("timetable"), do: "_timetable.html"
 
-  @spec display_train_number(StopTimeList.StopTime.predicted_schedule) :: String.t
-  def display_train_number({%Schedule{trip: %Trip{name: name}}, _predicted}) do
-    name
+  @spec reverse_direction_opts(Stops.Stop.t | nil, Stops.Stop.t | nil, 0..1) :: Keyword.t
+  def reverse_direction_opts(origin, destination, direction_id) do
+    origin_id = if origin, do: origin.id, else: nil
+    destination_id = if destination, do: destination.id, else: nil
+
+    new_origin_id = destination_id || origin_id
+    new_dest_id = destination_id && origin_id
+
+    [trip: nil, direction_id: direction_id, destination: new_dest_id, origin: new_origin_id]
   end
 end
