@@ -61,4 +61,15 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.trip_info
     end
   end
+
+  describe "subway" do
+    test "assigns schedules, frequency table, origin, and destination", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy"))
+      assert conn.assigns.schedules
+      assert conn.assigns.frequency_table
+      assert conn.assigns.origin
+      assert conn.assigns.destination
+    end
+  end
+
 end

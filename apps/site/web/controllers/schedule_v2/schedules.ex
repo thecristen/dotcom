@@ -19,10 +19,13 @@ defmodule Site.ScheduleV2Controller.Schedules do
 
   def schedules(%{assigns: %{
                      date: date,
+                     route: %Routes.Route{type: route_type},
                      origin: %Stops.Stop{id: origin_id},
                      destination: %Stops.Stop{id: destination_id}}}) do
     # with an origin, destination, we return pairs
-    Schedules.Repo.origin_destination(origin_id, destination_id, date: date)
+    origin_destination_pairs = Schedules.Repo.origin_destination(origin_id, destination_id, date: date)
+
+    Enum.filter(origin_destination_pairs, &match?({%Schedules.Schedule{route: %{type: ^route_type}}, _}, &1))
   end
   def schedules(conn) do
     # otherwise, fall back to the generated query
@@ -47,7 +50,7 @@ defmodule Site.ScheduleV2Controller.Schedules do
     conn
     |> assign(:frequency_table, frequencies)
   end
-  def assign_frequency_table(conn, _schedules) do
+  def assign_frequency_table(conn, schedules) do
     conn
   end
 
