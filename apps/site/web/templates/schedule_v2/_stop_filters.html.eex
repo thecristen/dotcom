@@ -24,11 +24,8 @@
           key_stops: [],
           label_text: "Arriving at:",
           route: @route,
-          disabled_values: [
-            {@origin.id, "departure stop"},
-            {@from.id, "departure stop"}] ++ (
-              @excluded_destination_stops # filter out non-destination stops because they're on a different branch
-              |> Enum.map(&({&1, "not on branch"})))
+          disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))]
+          # filter out non-destination stops because they're on a different branch
       %>
     </div>
   <% end %>

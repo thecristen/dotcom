@@ -45,10 +45,9 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns information for the trip view", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester", tab: "trip-view"))
+      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester", tab: "trip-view", origin: "Westborough"))
       assert conn.assigns.tab == "trip-view"
       refute conn.assigns.schedules == nil
-      refute conn.assigns.from == nil
       refute conn.assigns.predictions == nil
       assert conn.assigns.trip_info
     end
@@ -56,9 +55,9 @@ defmodule Site.ScheduleV2ControllerTest do
     test "assigns information for the timetable", %{conn: conn} do
       conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester", tab: "timetable"))
       assert conn.assigns.tab == "timetable"
-      refute conn.assigns.offset == nil
-      refute conn.assigns.alerts == nil
-      assert conn.assigns.trip_info
+      assert conn.assigns.offset
+      assert conn.assigns.alerts
+      assert conn.assigns.trip_schedules
     end
   end
 
@@ -70,6 +69,12 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.origin
       assert conn.assigns.destination
     end
-  end
 
+    test "frequency table not assigned when no origin is selected", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "Red"))
+      refute :frequency_table in Map.keys(conn.assigns)
+      refute conn.assigns.origin
+      refute :schedules in Map.keys(conn.assigns)
+    end
+  end
 end

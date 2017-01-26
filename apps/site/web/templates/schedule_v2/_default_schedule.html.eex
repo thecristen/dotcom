@@ -8,7 +8,7 @@
     <% end %>
   </div>
 <% end %>
-<%= if Route.type_atom(@route.type) == :subway do %>
+<%= if assigns[:frequency_table] do %>
   <div class="row schedule-block">
     <div class="col-md-6">
       <%= render "_frequency.html", forward_assigns(@conn) %>

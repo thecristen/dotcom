@@ -9,6 +9,9 @@ defmodule Site.ScheduleV2Controller.Schedules do
 
   def init([]), do: []
 
+  def call(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do
+    conn
+  end
   def call(conn, []) do
     schedules = schedules(conn)
     conn
@@ -50,7 +53,7 @@ defmodule Site.ScheduleV2Controller.Schedules do
     conn
     |> assign(:frequency_table, frequencies)
   end
-  def assign_frequency_table(conn, schedules) do
+  def assign_frequency_table(conn, _schedules) do
     conn
   end
 
