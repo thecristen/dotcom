@@ -14,6 +14,7 @@ defmodule Predictions.Repo do
     |> add_optional_param(opts, :route)
     |> add_optional_param(opts, :stop)
     |> add_optional_param(opts, :direction_id)
+    |> add_optional_param(opts, :trip)
     |> cache(&fetch/1)
   end
 

@@ -11,6 +11,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   import Phoenix.Controller, only: [redirect: 2]
   import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
+  alias Routes.Route
 
   @default_opts [
     trip_fn: &Schedules.Repo.schedule_for_trip/1,
@@ -55,6 +56,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp build_info(trip_id, conn, opts) do
     trip_id
     |> opts[:trip_fn].()
+    |> build_trip_times(conn.assigns, trip_id)
     |> TripInfo.from_list(
       collapse?: is_nil(conn.query_params["show_collapsed_trip_stops?"]),
       vehicle: opts[:vehicle_fn].(trip_id),
@@ -86,4 +88,19 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp is_after_now?(%Schedules.Schedule{time: time}, now) do
     Timex.after?(time, now)
   end
+
+  defp build_trip_times(schedules, assigns, trip_id) do
+    assigns
+    |> get_trip_predictions(Util.service_date(), trip_id)
+    |> TripTime.build(schedules)
+  end
+
+  defp get_trip_predictions(%{date: date}, service_date, _)
+  when date != service_date do
+    []
+  end
+  defp get_trip_predictions(%{direction_id: direction_id, route: %Route{id: route_id}}, _date, trip_id) do
+    Predictions.Repo.all([direction_id: direction_id, trip: trip_id, route: route_id])
+  end
+  defp get_trip_predictions(_assigns, _date, _trip_id), do: []
 end

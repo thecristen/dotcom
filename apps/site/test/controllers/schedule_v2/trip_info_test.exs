@@ -33,6 +33,21 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     }
   ]
 
+  @predictions [
+    %Prediction{
+      trip: %Trip{id: "32893585"},
+      stop_id: "first"
+    },
+    %Prediction{
+      trip: %Trip{id: "32893585"},
+      stop_id: "last"
+    }
+  ]
+
+  defp prediction_fn(_) do
+    @predictions
+  end
+
   defp trip_fn("32893585") do
     @trip_schedules
   end
@@ -41,16 +56,20 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     @trip_schedules
     |> Enum.concat([
       %Schedule{
-        stop: %Schedules.Stop{id: "after_first"}
+        stop: %Schedules.Stop{id: "after_first"},
+        time: Timex.shift(List.last(@schedules).time, minutes: -4)
       },
       %Schedule{
-        stop: %Schedules.Stop{}
+        stop: %Schedules.Stop{id: "1"},
+        time: Timex.shift(List.last(@schedules).time, minutes: -3)
       },
       %Schedule{
-        stop: %Schedules.Stop{}
+        stop: %Schedules.Stop{id: "2"},
+        time: Timex.shift(List.last(@schedules).time, minutes: -2)
       },
       %Schedule{
-        stop: %Schedules.Stop{}
+        stop: %Schedules.Stop{id: "3"},
+        time: Timex.shift(List.last(@schedules).time, minutes: -1)
       },
       %Schedule{
         stop: %Schedules.Stop{id: "new_last"},
@@ -83,6 +102,10 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
   end
 
+  defp schedules_to_trip_times(schedules) do
+    Enum.map(schedules, & %TripTime{schedule: &1})
+  end
+
   test "does not assign a trip when schedules is empty", %{conn: conn} do
     conn = conn_builder(conn, [])
     assert conn.assigns.trip_info == nil
@@ -90,17 +113,20 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "assigns trip_info when schedules is a list of schedules", %{conn: conn} do
     conn = conn_builder(conn, @schedules)
-    assert conn.assigns.trip_info == TripInfo.from_list(@trip_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
+    trip_times = schedules_to_trip_times(@trip_schedules)
+    assert conn.assigns.trip_info == TripInfo.from_list(trip_times, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
   end
 
   test "assigns trip_info when schedules is a list of schedule tuples", %{conn: conn} do
     conn = conn_builder(conn, @schedules |> Enum.map(fn sched -> {sched, %Schedule{}} end))
-    assert conn.assigns.trip_info == TripInfo.from_list(@trip_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
+    trip_times = schedules_to_trip_times(@trip_schedules)
+    assert conn.assigns.trip_info == TripInfo.from_list(trip_times, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
   end
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
-    conn = conn_builder(conn, @schedules, trip: "long_trip", origin: "after_first", last: "new_last")
-    assert conn.assigns.trip_info == TripInfo.from_list(trip_fn("long_trip"), origin_id: "after_first", destination_id: "new_last")
+    conn = conn_builder(conn, @schedules, trip: "long_trip", origin: "after_first", destination: "new_last")
+    trip_times = schedules_to_trip_times(trip_fn("long_trip"))
+    assert conn.assigns.trip_info == TripInfo.from_list(trip_times, origin_id: "after_first", destination_id: "new_last", collapse?: true, vehicle: nil)
   end
 
   test "there's a separator if there are enough schedules", %{conn: conn} do
@@ -128,5 +154,31 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     expected_path = schedule_v2_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
     assert conn.halted
     assert redirected_to(conn) == expected_path
+  end
+
+  test "Trip predictions are not fetched if date is not service day", %{conn: conn} do
+    conn =  conn
+    |> conn_assigner(Timex.shift(Util.service_date(), days: 2))
+    |> conn_builder([], trip: "long_trip")
+    for %TripTime{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
+      refute prediction
+    end
+  end
+
+  test "Trip predictions are not fetched if no route is given", %{conn: conn} do
+    conn = conn
+    |> assign(:date, Util.service_date())
+    |> conn_builder([], trip: "long_trip")
+    for %TripTime{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
+      refute prediction
+    end
+  end
+
+  test "Trip predictions are fetched if date is service day", %{conn: conn} do
+    conn = conn
+    |> conn_assigner(Util.service_date())
+    |> conn_builder([], trip: "long_trip")
+    trip_times = List.flatten(conn.assigns.trip_info.sections)
+    assert %TripTime{prediction: %Prediction{}} = List.first(trip_times)
   end
 end

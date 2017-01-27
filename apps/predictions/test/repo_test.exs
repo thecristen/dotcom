@@ -22,6 +22,13 @@ defmodule Predictions.RepoTest do
       end
     end
 
+    test "can filter by trip" do
+      trips = Repo.all(trip: "32542509")
+      for prediction <- trips do
+        assert prediction.trip.id == "32542509"
+      end
+    end
+
     @tag :capture_log
     test "returns a list even if the server is down" do
       v3_url = Application.get_env(:v3_api, :base_url)
