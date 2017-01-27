@@ -1,5 +1,5 @@
 .tab-list-group {
-  margin: 0;
+  margin: 0 0 $space-16 0;
 
   @include media-breakpoint-up(sm) {
     border-bottom: $space-4 solid $brand-primary;
