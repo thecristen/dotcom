@@ -56,6 +56,33 @@ defmodule StopTimeList do
     |> from_times(true)
   end
 
+  @doc """
+  Returns a message containing the maximum delay between scheduled and predicted times for an arrival
+  and departure, or the empty string if there's no delay.
+  """
+  @spec display_delay(StopTimeList.StopTime.predicted_schedule, StopTimeList.StopTime.predicted_schedule) :: iodata
+  def display_delay(departure, arrival) do
+    case Enum.max([delay(departure), delay(arrival)]) do
+      delay when delay > 0 -> [
+        "Delayed ",
+        Integer.to_string(delay),
+        " ",
+        Inflex.inflect("minute", delay)
+      ]
+      _ -> ""
+    end
+  end
+
+  @doc """
+  Returns the time difference between a schedule and prediction. If either is nil, returns 0.
+  """
+  @spec delay(StopTimeList.StopTime.predicted_schedule | nil) :: integer
+  def delay(nil), do: 0
+  def delay({schedule, prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
+  def delay({schedule, prediction}) do
+    Timex.diff(prediction.time, schedule.time, :minutes)
+  end
+
   @spec build_times([Schedule.t | schedule_pair], [Predictions.Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
   defp build_times(schedules, predictions, origin, destination) when is_binary(origin) and is_binary(destination) do
     group_trips(

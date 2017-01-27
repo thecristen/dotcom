@@ -120,7 +120,7 @@ defmodule Site.ScheduleV2ViewTest do
     |> assign(:header_schedules, Enum.to_list(0..10))
     |> assign(:offset, offset)
     |> link_fn.()
-    |> Phoenix.HTML.safe_to_string
+    |> safe_to_string
   end
 
   describe "earlier_link/1" do
@@ -231,6 +231,43 @@ defmodule Site.ScheduleV2ViewTest do
         date: date)
       output = safe_to_string(safe_output)
       assert output =~ TimeGroup.display_frequency_range(frequency)
+    end
+  end
+
+  describe "display_commuter_scheduled_prediction/1" do
+    test "if the scheduled and predicted times differ crosses out the scheduled one" do
+      now = Util.now
+      then = Timex.shift(now, minutes: 5)
+
+      result = {%Schedule{time: now}, %Prediction{time: then}}
+      |> display_commuter_scheduled_prediction
+      |> safe_to_string
+
+      assert result =~ "<del>#{Site.ViewHelpers.format_schedule_time(now)}</del>"
+      assert result =~ Site.ViewHelpers.format_schedule_time(then)
+      assert result =~ "fa fa-rss"
+    end
+
+    test "if the times do not differ, just returns the same result as display_scheduled_prediction/1" do
+      now = Util.now
+      stop_time = {%Schedule{time: now}, %Prediction{time: now}}
+      result = display_commuter_scheduled_prediction(stop_time)
+
+      assert result == display_scheduled_prediction(stop_time)
+    end
+
+    test "handles nil schedules" do
+      stop_time = {nil, %Prediction{time: Util.now}}
+      result = display_commuter_scheduled_prediction(stop_time)
+
+      assert result == display_scheduled_prediction(stop_time)
+    end
+
+    test "handles nil predictions" do
+      stop_time = {%Schedule{time: Util.now}, nil}
+      result = display_commuter_scheduled_prediction(stop_time)
+
+      assert result == display_scheduled_prediction(stop_time)
     end
   end
 end

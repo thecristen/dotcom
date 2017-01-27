@@ -15,17 +15,20 @@
       <%= link to: update_url(@conn, trip: trip.id), class: "schedule-list-group-item" do %>
         <%= if @destination do %>
           <div class="col-xs-4">
-            <%= display_scheduled_prediction(departure) %>
+            <%= display_commuter_scheduled_prediction(departure) %>
           </div>
           <div class="col-xs-4">
-            <%= display_scheduled_prediction(arrival)%>
+            <%= display_commuter_scheduled_prediction(arrival)%>
           </div>
           <div class="col-xs-4">
             <%= trip.name %>
           </div>
+          <div class="col-xs-12">
+            <%= StopTimeList.display_delay(departure, arrival) %>
+          </div>
         <% else %>
           <div class="col-xs-5">
-            <%= display_scheduled_prediction(departure) %>
+            <%= display_commuter_scheduled_prediction(departure) %>
           </div>
           <div class="col-xs-2">
             <%= trip.name %>

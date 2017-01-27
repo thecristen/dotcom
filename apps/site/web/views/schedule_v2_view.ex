@@ -157,4 +157,24 @@ defmodule Site.ScheduleV2View do
 
     [trip: nil, direction_id: direction_id, destination: new_dest_id, origin: new_origin_id]
   end
+
+  @doc """
+  If scheduled and predicted times differ, displays the scheduled time crossed out, with the predicted
+  time below it. Otherwise just displays the time as display_scheduled_prediction/1 does.
+  """
+  @spec display_commuter_scheduled_prediction(StopTimeList.StopTime.predicted_schedule) :: Phoenix.HTML.Safe.t | String.t
+  def display_commuter_scheduled_prediction({schedule, prediction} = stop_time) do
+    case StopTimeList.delay(stop_time) do
+      # if we're going to show both, make sure they are different times
+      delay when delay > 0 -> content_tag :span, do: [
+        content_tag(:del, format_schedule_time(schedule.time)),
+        tag(:br),
+        fa("rss"),
+        " ",
+        format_schedule_time(prediction.time)
+      ]
+        # otherwise just show the scheduled or predicted time as appropriate
+      _ -> display_scheduled_prediction(stop_time)
+    end
+  end
 end
