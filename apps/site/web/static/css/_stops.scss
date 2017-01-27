@@ -14,44 +14,6 @@
   white-space: nowrap;
 }
 
-.stations-tab-group {
-  border-bottom: $space-4 solid $brand-primary;
-  margin: 1em 0 0;
-}
-
-.stations-tab {
-  border: 1px solid $brand-primary;
-  display: inline-block;
-  margin-bottom: -1 * $space-2;
-  padding: .5rem  1.75rem;
-  text-align: center;
-
-  @include media-breakpoint-down(xs) {
-    padding: .5rem;
-    width: 50%;
-  }
-}
-
-.stations-tab-selected {
-  background-color: $brand-primary;
-  color: $white;
-
-  @include media-breakpoint-down(xs) {
-    &:only-child {
-      display: block;
-    }
-  }
-}
-
-a {
-  &.stations-tab-selected {
-    @include hover-focus-active {
-      color: $white;
-      text-decoration: underline;
-    }
-  }
-}
-
 .stations-access-icon {
   margin-bottom: .375rem;
 }

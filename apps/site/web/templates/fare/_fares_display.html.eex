@@ -3,5 +3,4 @@
     {Fares.Format.customers(reduced_type), update_url(@conn, fare_type: reduced_type), @fare_type == reduced_type}
   end
 }) %>
-<div class="clearfix m-b-1"></div>
 <%= render "_fare_info.html", selected_filter: @selected_filter, filters: @filters, conn: @conn %>
