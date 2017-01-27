@@ -4,32 +4,38 @@ defmodule TripInfoTest do
   alias TripInfo.Flags
 
   alias Routes.Route
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, Trip}
   alias Vehicles.Vehicle
   import :erlang, only: [iolist_to_binary: 1]
 
   @route %Route{id: "1", name: "1", type: 3}
+  @trip %Trip{id: "trip_id"}
   @time_list [
     %Schedule{
       time: ~N[2017-01-01T00:00:00],
+      trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-sstat", name: "South Station"}},
     %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}},
     %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}},
     %Schedule{
       time: ~N[2017-01-02T00:00:00],
+      trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-north", name: "North Station"}},
     %Schedule{
       time: ~N[2017-01-02T12:00:00],
+      trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-censq", name: "Central Square"}},
     %Schedule{
       time: ~N[2017-01-02T18:00:00],
+      trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-harsq", name: "Harvard Square"}},
     %Schedule{
       time: ~N[2017-01-03T00:00:00],
+      trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-pktrm", name: "Park Street"}}]
   @info %TripInfo{
@@ -93,6 +99,24 @@ defmodule TripInfoTest do
     test "if there are not enough times, returns an error" do
       actual = @time_list |> Enum.take(1) |> from_list
       assert {:error, _} = actual
+    end
+  end
+
+  describe "is_current_trip?/2" do
+    test "returns false there is no TripInfo to compare to" do
+      assert is_current_trip?(nil, "trip_id") == false
+    end
+
+    test "returns false when TripInfo sections is an empty list" do
+      assert is_current_trip?(%TripInfo{sections: []}, "trip_id") == false
+    end
+
+    test "returns false when first trip in TripInfo sections doesn't match provided id" do
+      assert is_current_trip?(@info, "not_trip_id") == false
+    end
+
+    test "returns true when first trip in TripInfo sections matches provided id" do
+      assert is_current_trip?(@info, "trip_id") == true
     end
   end
 

@@ -66,6 +66,16 @@ defmodule TripInfo do
     |> do_from_list(starting_stop_ids, destination_id, opts)
   end
 
+  @doc """
+  Checks whether a trip id matches the trip being represented by the TripInfo.
+  """
+  @spec is_current_trip?(TripInfo.t, String.t) :: boolean
+  def is_current_trip?(nil, _), do: false
+  def is_current_trip?(%TripInfo{sections: []}, _), do: false
+  def is_current_trip?(%TripInfo{sections: [[%Schedules.Schedule{trip: trip} | _] | _]}, trip_id) do
+    trip.id == trip_id
+  end
+
   # finds a stop ID.  If one isn't provided, or is provided as nil, then
   # use a List function to get the stop ID from the times list.
   @spec time_stop_id(String.t, time_list, :first | :last) :: String.t | nil
