@@ -9,7 +9,7 @@
     </h1>
     <p>
       Schedules For <%= Timex.format!(@date, "%b %e", :strftime) %> -
-      <%= link to: update_schedule_url(@conn, show_date_select?: !@show_date_select?) do %>
+      <%= link to: update_schedule_url(@conn, date_select: (if @show_date_select?, do: nil, else: true)) do %>
         <% icon_class = if @show_date_select?, do: "angle-up", else: "angle-down" %>
         Change date <%= fa icon_class %>
       <% end %>
