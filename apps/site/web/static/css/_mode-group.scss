@@ -17,21 +17,17 @@
   @include button-variant($link-color, white, $gray-lightest);
   @extend .btn-block;
 
-  line-height: 2;
   margin-bottom: $grid-gutter-width / 4;
   margin-top: $grid-gutter-width / 4;
+  padding-bottom: $base-spacing-sm;
+  padding-top: $base-spacing-sm;
 
   @include media-breakpoint-down(sm) {
     // small button
-    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
+    @include button-size($btn-padding-y, $btn-padding-x, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
   }
 
   > .icon-alert {
     margin-left: .375rem;
-  }
-
-  .icon-small {
-    // adjust for the larger line-height
-    margin-top: .5rem;
   }
 }
