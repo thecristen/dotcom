@@ -89,9 +89,15 @@ defmodule Site.ScheduleV2ViewTest do
       assert stop_bubble_location_display(false, 1, false) == ""
     end
 
-    test "given a vehicle and a route, returns the icon for the route" do
+    test "given a vehicle and the subway route_type, returns the icon for the subway" do
       rendered = safe_to_string(stop_bubble_location_display(true, 1, false))
       assert rendered =~ "icon-subway"
+      assert rendered =~ "icon-small"
+    end
+
+    test "given a vehicle and the bus route_type, returns the icon for the bus" do
+      rendered = safe_to_string(stop_bubble_location_display(true, 3, false))
+      assert rendered =~ "icon-bus"
       assert rendered =~ "icon-small"
     end
 
