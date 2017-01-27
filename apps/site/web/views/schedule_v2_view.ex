@@ -177,4 +177,12 @@ defmodule Site.ScheduleV2View do
       _ -> display_scheduled_prediction(stop_time)
     end
   end
+
+  @spec show_trips(DateTime.t, integer) :: boolean
+  def show_trips(date, route_type) when route_type in [0, 1] do
+    date == Util.today
+  end
+  def show_trips(_date, _route_type) do
+    true
+  end
 end

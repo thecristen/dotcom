@@ -1,6 +1,6 @@
 <p>To view schedules for a specific stop, please enter your origin and destination</p>
 <%= Site.ScheduleV2View.render "_stop_filters.html", forward_assigns(@conn) %>
-<%= if @origin do %>
+<%= if @origin && show_trips(@date, @route.type) do %>
   <div class="row">
     <%= render "_trip_list.html", forward_assigns(@conn) %>
     <%= if @trip_info do %>

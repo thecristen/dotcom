@@ -288,4 +288,28 @@ defmodule Site.ScheduleV2ViewTest do
       assert safe_output =~ "rss"
     end
   end
+
+  describe "show_trips/2" do
+    test "it is false when looking at a future date for subway" do
+      day = Timex.shift(Util.now, days: 1)
+      assert Site.ScheduleV2View.show_trips(day, 1) == false
+    end
+
+    test "is true when looking at the subway today" do
+      day = Util.today
+      assert Site.ScheduleV2View.show_trips(day, 1) == true
+    end
+
+    test "has the same behavior for light rail as for subway" do
+      day = Util.today
+      assert Site.ScheduleV2View.show_trips(day, 0) == true
+      day = Timex.shift(Util.now, days: 1)
+      assert Site.ScheduleV2View.show_trips(day, 0) == false
+    end
+
+    test "is true when looking at any non-subway route" do
+      day = Timex.shift(Util.now, days: 1)
+      assert Site.ScheduleV2View.show_trips(day, 3) == true
+    end
+  end
 end
