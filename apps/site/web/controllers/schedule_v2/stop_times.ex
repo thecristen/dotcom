@@ -6,7 +6,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   import Plug.Conn, only: [assign: 3]
 
   def init([]), do: []
-  
+
   def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: _schedules}} = conn, _) when route_type in [0, 1] do
     stop_times = StopTimeList.build_predictions_only(
       conn.assigns.predictions,
@@ -15,7 +15,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     )
     assign(conn, :stop_times, stop_times)
   end
-  def call(%Plug.Conn{assigns: %{schedules: _schedules}}= conn, []) do
+  def call(%Plug.Conn{assigns: %{schedules: _schedules}} = conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
     stop_times = StopTimeList.build(
       filtered_schedules(conn.assigns, show_all_trips?),

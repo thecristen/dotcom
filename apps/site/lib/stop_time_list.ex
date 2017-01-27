@@ -14,25 +14,31 @@ defmodule StopTimeList do
     times: [__MODULE__.StopTime.t],
     showing_all?: boolean
   }
+  @type stop_id :: String.t
+  @type schedule_pair :: {Schedule.t, Schedule.t}
+  @type schedule_map :: %{Trip.t => %{stop_id => Schedule.t}}
+  @type schedule_pair_map :: %{Trip.t => schedule_pair}
+  @type prediction_map :: %{Trip.t => %{stop_id => Prediction.t}}
 
   defmodule StopTime do
     defstruct [:departure, :arrival, :trip]
     @type t :: %__MODULE__{
       departure: predicted_schedule,
       arrival: predicted_schedule | nil,
-      trip: Trip.t
+      trip: Trip.t | nil
     }
     @type predicted_schedule :: {Schedule.t | nil, Prediction.t | nil}
 
-    def time(%StopTime{departure: {schedule, nil}}) do
+    @spec time(t) :: DateTime.t
+    def time(%StopTime{departure: {schedule, nil}}) when not is_nil(schedule) do
       schedule.time
     end
-    def time(%StopTime{departure: {_, prediction}}) do
+    def time(%StopTime{departure: {_, prediction}}) when not is_nil(prediction) do
       prediction.time
     end
   end
 
-  @spec build([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
+  @spec build([Schedule.t | schedule_pair], [Predictions.Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
   def build(schedules, predictions, origin, destination, showing_all?) do
     times = build_times(schedules, predictions, origin, destination)
     from_times(times, showing_all?)
@@ -50,7 +56,7 @@ defmodule StopTimeList do
     |> from_times(true)
   end
 
-  @spec build_times([Schedules.Schedule.t], [Predictions.Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
+  @spec build_times([Schedule.t | schedule_pair], [Predictions.Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
   defp build_times(schedules, predictions, origin, destination) when is_binary(origin) and is_binary(destination) do
     group_trips(
       schedules,
@@ -59,7 +65,6 @@ defmodule StopTimeList do
       &predicted_schedule_pairs(&1, &2, &3, origin, destination)
     )
   end
-
   defp build_times(schedules, predictions, origin, nil) when is_binary(origin) do
     group_trips(
       schedules,
@@ -101,7 +106,7 @@ defmodule StopTimeList do
   end
   defp remove_first_scheduled(stop_times), do: stop_times
 
-  @spec predicted_schedule_pairs(Trip.t, %{Trip.t => {Schedule.t, Schedule.t}}, %{Trip.t => %{String.t => Prediction.t}}, String.t, String.t) :: StopTime.t
+  @spec predicted_schedule_pairs(Trip.t | nil, schedule_pair_map, prediction_map, stop_id, stop_id) :: StopTime.t
   defp predicted_schedule_pairs(trip, schedule_map, prediction_map, origin, dest) do
     departure_prediction = prediction_map[trip][origin]
     arrival_prediction = prediction_map[trip][dest]
@@ -119,7 +124,7 @@ defmodule StopTimeList do
     end
   end
 
-  @spec predicted_departures(Trip.t, %{Trip.t => %{String.t => Schedule.t}}, %{Trip.t => %{String.t => Prediction.t}}, String.t) :: StopTime.t
+  @spec predicted_departures(Trip.t | nil, schedule_map, prediction_map, stop_id) :: StopTime.t
   defp predicted_departures(trip, schedule_map, prediction_map, origin) do
     departure_schedule = schedule_map[trip][origin]
     departure_prediction = prediction_map[trip][origin]
@@ -130,26 +135,26 @@ defmodule StopTimeList do
     }
   end
 
-  @spec get_trips(%{String.t => {Schedule.t, Schedule.t}}, [Prediction.t]) :: [String.t]
+  @spec get_trips(%{Trip.t => any}, [Prediction.t]) :: [Trip.t]
   defp get_trips(schedule_map, predictions) do
     predictions
-    |> Enum.map(&(&1.trip))
+    |> Enum.map(& &1.trip)
     |> Enum.concat(Map.keys(schedule_map))
     |> Enum.uniq
   end
 
-  @spec build_schedule_pair_map({Schedule.t, Schedule.t}, %{Trip.t => {Schedule.t, Schedule.t}}) :: %{Trip.t => {Schedule.t, Schedule.t}}
+  @spec build_schedule_pair_map({Schedule.t, Schedule.t}, schedule_pair_map) :: schedule_pair_map
   defp build_schedule_pair_map({departure, arrival}, schedule_pair_map) do
     Map.put(schedule_pair_map, departure.trip, {departure, arrival})
   end
 
-  @spec build_prediction_map(Prediction.t, %{String.t => %{String.t => Prediction.t}}) :: %{String.t => %{String.t => Prediction.t}}
+  @spec build_prediction_map(Prediction.t, prediction_map) :: prediction_map
   defp build_prediction_map(prediction, prediction_map) do
     updater = fn(trip_map) -> Map.merge(trip_map, %{prediction.stop_id => prediction}) end
     Map.update(prediction_map, prediction.trip, %{prediction.stop_id => prediction}, updater)
   end
 
-  @spec build_schedule_map(Schedule.t, %{String.t => %{String.t => Schedule.t}}) :: %{String.t => %{String.t => Schedule.t}}
+  @spec build_schedule_map(Schedule.t, schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
     updater = fn(trip_map) -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
     Map.update(schedule_map, schedule.trip, %{schedule.stop.id => schedule}, updater)

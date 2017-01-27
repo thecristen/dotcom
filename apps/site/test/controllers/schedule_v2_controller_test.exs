@@ -1,7 +1,8 @@
 defmodule Site.ScheduleV2ControllerTest do
   use Site.ConnCase, async: true
+  @moduletag :external
 
-  describe "Bus and Subway:" do
+  describe "Bus" do
     test "all stops is assigned for a route", %{conn: conn} do
       conn = get(conn, schedule_v2_path(conn, :show, "1"))
       html_response(conn, 200)
@@ -65,16 +66,46 @@ defmodule Site.ScheduleV2ControllerTest do
     test "assigns schedules, frequency table, origin, and destination", %{conn: conn} do
       conn = get(conn, schedule_v2_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy"))
       assert conn.assigns.schedules
+      refute conn.assigns.schedules == []
+      refute conn.assigns.stop_times.times == []
       assert conn.assigns.frequency_table
       assert conn.assigns.origin
       assert conn.assigns.destination
     end
 
-    test "frequency table not assigned when no origin is selected", %{conn: conn} do
+    test "assigns schedules, frequency table, and origin", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "Red", origin: "place-sstat"))
+      assert conn.assigns.schedules
+      assert conn.assigns.frequency_table
+      refute conn.assigns.stop_times.times == []
+      assert conn.assigns.origin
+      refute conn.assigns.destination
+    end
+
+   test "frequency table not assigned when no origin is selected", %{conn: conn} do
       conn = get(conn, schedule_v2_path(conn, :show, "Red"))
       refute :frequency_table in Map.keys(conn.assigns)
       refute conn.assigns.origin
       refute :schedules in Map.keys(conn.assigns)
+    end
+
+    test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "Green-C", origin: "place-pktrm"))
+      assert conn.assigns.schedules
+      refute conn.assigns.stop_times.times == []
+      assert conn.assigns.frequency_table
+      assert conn.assigns.origin
+      refute conn.assigns.destination
+    end
+
+    test "assigns schedules, frequency table, origin, destination for green line", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "Green-B", origin: "place-chill", destination: "place-pktrm", direction_id: "1"))
+      assert conn.assigns.schedules
+      refute conn.assigns.schedules == []
+      refute conn.assigns.stop_times.times == []
+      assert conn.assigns.frequency_table
+      assert conn.assigns.origin
+      assert conn.assigns.destination
     end
   end
 end

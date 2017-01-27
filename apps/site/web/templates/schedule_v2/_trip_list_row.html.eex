@@ -1,0 +1,16 @@
+<div class="schedule-list-group-item">
+  <div class="col-xs-6">
+    <%= display_scheduled_prediction(@departure) %>
+  </div>
+  <%= if @arrival do %>
+    <div class="col-xs-6">
+      <%= display_scheduled_prediction(@arrival)%>
+    </div>
+  <% else %>
+    <div class="col-xs-6">
+      <%= if assigns[:trip] do %>
+        <%= @trip.headsign %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

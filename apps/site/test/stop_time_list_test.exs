@@ -362,6 +362,7 @@ defmodule StopTimeTest do
   describe "build_predictions_only/3" do
     test "Results contain no schedules for origin" do
       result = build_predictions_only(@origin_destination_predictions, "1", nil)
+      refute result == []
       for stop_time <- result.times do
         assert %StopTimeList.StopTime{departure: {nil, _}, arrival: nil} = stop_time
       end
@@ -369,6 +370,7 @@ defmodule StopTimeTest do
 
     test "Results contain no schedules for origin and destination" do
       result = build_predictions_only(@origin_destination_predictions, "1", "3")
+      refute result == []
       for stop_time <- result.times do
         assert %StopTimeList.StopTime{departure: {nil, _}, arrival: {nil, _}} = stop_time
       end
@@ -376,9 +378,55 @@ defmodule StopTimeTest do
 
     test "All times have departure predictions" do
       result = build_predictions_only(@origin_destination_predictions, "1", "3")
+      refute result == []
       for stop_time <- result.times do
         assert elem(stop_time.departure, 1) != nil
       end
+    end
+
+    test "handles predictions not associated with a trip" do
+      prediction = %Prediction{
+        time: Util.now,
+        route_id: @route.id,
+        stop_id: "1",
+        trip: nil
+      }
+      result = build_predictions_only([prediction], "1", nil)
+      assert result == %StopTimeList{
+        showing_all?: true,
+        times: [
+          %StopTimeList.StopTime{
+            trip: nil,
+            departure: {
+              nil,
+              prediction
+            }}
+        ]}
+    end
+
+    test "handles predictions not associated with a trip given an origin and destination" do
+      prediction = %Prediction{
+        time: Util.now,
+        route_id: @route.id,
+        stop_id: "1",
+        trip: nil
+      }
+      arrival_prediction = %{prediction | stop_id: "3"}
+      predictions = [prediction, arrival_prediction]
+      result = build_predictions_only(predictions, "1", "3")
+      assert result == %StopTimeList{
+        showing_all?: true,
+        times: [
+          %StopTimeList.StopTime{
+            trip: nil,
+            departure: {
+              nil,
+              prediction
+            },
+            arrival: {
+              nil,
+              arrival_prediction}}
+        ]}
     end
   end
 end

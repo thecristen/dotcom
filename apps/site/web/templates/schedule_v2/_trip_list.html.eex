@@ -10,19 +10,12 @@
       <% end %>
     </div>
     <%= for %StopTimeList.StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
-      <%= link to: update_url(@conn, trip: trip.id), class: "schedule-list-group-item" do %>
-        <div class="col-xs-6">
-          <%= display_scheduled_prediction(departure) %>
-        </div>
-        <%= if @destination do %>
-          <div class="col-xs-6">
-            <%= display_scheduled_prediction(arrival)%>
-          </div>
-        <% else %>
-          <div class="col-xs-6">
-            <%= trip.headsign %>
-          </div>
+      <%= if trip do %>
+        <%= link to: update_url(@conn, trip: trip.id) do %>
+          <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip %>
         <% end %>
+      <% else %>
+        <%= render "_trip_list_row.html", departure: departure, arrival: arrival %>
       <% end %>
     <% end %>
     <%= unless @stop_times.showing_all? do %>
