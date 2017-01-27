@@ -92,7 +92,7 @@ defmodule Site.ScheduleV2ControllerTest do
     test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
       conn = get(conn, schedule_v2_path(conn, :show, "Green-C", origin: "place-pktrm"))
       assert conn.assigns.schedules
-      refute conn.assigns.stop_times.times == []
+      assert conn.assigns.stop_times.times
       assert conn.assigns.frequency_table
       assert conn.assigns.origin
       refute conn.assigns.destination
@@ -102,7 +102,7 @@ defmodule Site.ScheduleV2ControllerTest do
       conn = get(conn, schedule_v2_path(conn, :show, "Green-B", origin: "place-chill", destination: "place-pktrm", direction_id: "1"))
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
-      refute conn.assigns.stop_times.times == []
+      assert conn.assigns.stop_times.times
       assert conn.assigns.frequency_table
       assert conn.assigns.origin
       assert conn.assigns.destination
