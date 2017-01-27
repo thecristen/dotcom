@@ -1,6 +1,9 @@
 defmodule TripTime do
   @moduledoc """
-  TODO://
+  Wraps information about a trip time
+
+  * schedule: The schedule for this trip
+  * prediction: The prediction for this trip (optional)
   """
   alias Schedules.Schedule
   alias Predictions.Prediction
@@ -12,7 +15,14 @@ defmodule TripTime do
     prediction: Prediction.t | nil
   }
 
-  def build(predictions, schedules) do
+
+  @doc """
+  Given a list of predictions and a list of schedules, will create
+  a list of TripTimes. Predictions and schedules are merged together
+  by stop ID to build a TripTime.
+  """
+  @spec build_times([Prediction.t], [Schedule.t]) :: [TripTime.t]
+  def build_times(predictions, schedules) do
     schedule_map = Map.new(schedules, &({&1.stop.id, &1}))
     prediction_map = Map.new(predictions, &({&1.stop_id, &1}))
 

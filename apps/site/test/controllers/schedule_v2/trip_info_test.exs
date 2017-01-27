@@ -2,6 +2,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   use Site.ConnCase, async: true
   import Site.ScheduleV2Controller.TripInfo
   alias Schedules.{Schedule, Trip}
+  alias Predictions.Prediction
 
   @schedules [
     %Schedule{
@@ -89,7 +90,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   defp conn_builder(conn, schedules, params \\ []) do
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
     query_params = Map.new(params, fn {key,val} -> {Atom.to_string(key), val} end)
     params = put_in query_params["route"], "1"
 
@@ -100,6 +101,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> assign(:schedules, schedules)
     |> assign(:date_time, Util.now)
     |> call(init)
+  end
+
+  defp conn_assigner(conn, date) do
+    conn
+    |> assign(:date, date)
+    |> assign(:direction_id, 1)
+    |> assign(:route, %Routes.Route{id: 1})
   end
 
   defp schedules_to_trip_times(schedules) do

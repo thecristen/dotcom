@@ -15,7 +15,8 @@ defmodule Site.ScheduleV2Controller.TripInfo do
 
   @default_opts [
     trip_fn: &Schedules.Repo.schedule_for_trip/1,
-    vehicle_fn: &Vehicles.Repo.trip/1
+    vehicle_fn: &Vehicles.Repo.trip/1,
+    prediction_fn: &Predictions.Repo.all/1
   ]
 
   def init(opts) do
@@ -56,7 +57,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp build_info(trip_id, conn, opts) do
     trip_id
     |> opts[:trip_fn].()
-    |> build_trip_times(conn.assigns, trip_id)
+    |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
     |> TripInfo.from_list(
       collapse?: is_nil(conn.query_params["show_collapsed_trip_stops?"]),
       vehicle: opts[:vehicle_fn].(trip_id),
@@ -89,18 +90,18 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     Timex.after?(time, now)
   end
 
-  defp build_trip_times(schedules, assigns, trip_id) do
+  defp build_trip_times(schedules, assigns, trip_id, prediction_fn) do
     assigns
-    |> get_trip_predictions(Util.service_date(), trip_id)
-    |> TripTime.build(schedules)
+    |> get_trip_predictions(Util.service_date(), trip_id, prediction_fn)
+    |> TripTime.build_times(schedules)
   end
 
-  defp get_trip_predictions(%{date: date}, service_date, _)
+  defp get_trip_predictions(%{date: date}, service_date, _, _prediction_fn)
   when date != service_date do
     []
   end
-  defp get_trip_predictions(%{direction_id: direction_id, route: %Route{id: route_id}}, _date, trip_id) do
-    Predictions.Repo.all([direction_id: direction_id, trip: trip_id, route: route_id])
+  defp get_trip_predictions(%{direction_id: direction_id, route: %Route{id: route_id}}, _, trip_id, prediction_fn) do
+    prediction_fn.([direction_id: direction_id, trip: trip_id, route: route_id])
   end
-  defp get_trip_predictions(_assigns, _date, _trip_id), do: []
+  defp get_trip_predictions(_assigns, _date, _trip_id, _prediction_fn), do: []
 end
