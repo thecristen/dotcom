@@ -22,10 +22,6 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     Keyword.merge(@default_opts, opts)
   end
 
-
-  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}}} = conn, opts) when route_type in [0, 1] do
-    assign(conn, :trip_info, nil)
-  end
   def call(conn, opts) do
     case trip_id(conn) do
       nil ->
@@ -37,6 +33,13 @@ defmodule Site.ScheduleV2Controller.TripInfo do
 
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
+  end
+  defp trip_id(%Conn{assigns: %{schedules: schedules, route: route, date: user_selected_date}} = conn) when schedules != [] do
+    if(show_trips(user_selected_date, route.type)) do
+      current_trip(schedules, user_selected_date)
+    else
+      nil
+    end
   end
   defp trip_id(%Conn{assigns: %{schedules: schedules, date_time: date_time}}) when schedules != [] do
     current_trip(schedules, date_time)
@@ -105,5 +108,13 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   end
   defp get_trip_predictions(_, _, trip_id, prediction_fn) do
     prediction_fn.([trip: trip_id])
+  end
+
+  @spec show_trips(DateTime.t, integer) :: boolean
+  def show_trips(date, route_type) when route_type in [0, 1] do
+    Timex.format!(date, "{YYYY}-{0M}-{0D}") == Timex.format!(Util.today, "{YYYY}-{0M}-{0D}")
+  end
+  def show_trips(_date, _route_type) do
+    true
   end
 end
