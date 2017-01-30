@@ -8,5 +8,12 @@
     <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
   </span>
   <%= link @name, to: @href, class: "col-xs-6" %>
-  <%= content_tag :span, format_schedule_time(@time), class: "col-xs-6" %>
+  <%= if @prediction do %>
+    <%= content_tag :span, class: "col-xs-6" do %>
+      <%= fa "rss" %>
+      <%= format_schedule_time(@prediction.time) %>
+    <% end %>
+  <% else %>
+    <%= content_tag :span, format_schedule_time(@scheduled_time), class: "col-xs-6" %>
+  <% end %>
 </p>

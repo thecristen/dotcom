@@ -9,12 +9,12 @@ defmodule TripInfo do
     This is either the real end, or the destination that the user selected.
   * vehicle: a %Vehicles.Vehicle{} that's on this trip, or nil
   * status: a text status of the trip relative to the schedule
-  * times: a list of %Schedules.Schedule{} for stops between either
+  * sections: a list of lists of PredictedSchedule's, for stops between either
     1) the origin and destination or 2) the vehicle and destination
-  * sections a list of lists of times, breaking the times into groups to hide some stops
+    These are broken into groups to hide some stops.
   * duration: the number of minutes the trip takes between origin_id and destination_id
   """
-  @type time :: Schedules.Schedule.t
+  @type time :: PredictedSchedule.t
   @type time_list :: [time]
   @type t :: %__MODULE__{
     route: Routes.Route.t,
@@ -72,7 +72,7 @@ defmodule TripInfo do
   @spec is_current_trip?(TripInfo.t, String.t) :: boolean
   def is_current_trip?(nil, _), do: false
   def is_current_trip?(%TripInfo{sections: []}, _), do: false
-  def is_current_trip?(%TripInfo{sections: [[%Schedules.Schedule{trip: trip} | _] | _]}, trip_id) do
+  def is_current_trip?(%TripInfo{sections: [[%PredictedSchedule{schedule: %Schedules.Schedule{trip: trip}} | _] | _]}, trip_id) do
     trip.id == trip_id
   end
 
@@ -87,12 +87,14 @@ defmodule TripInfo do
     nil
   end
   defp time_stop_id(_, times, list_function) do
-    apply(List, list_function, [times]).stop.id
+    List
+    |> apply(list_function, [times])
+    |> PredictedSchedule.stop_id()
   end
 
   defp do_from_list([time, _ | _] = times, [origin_id | _] = starting_stop_ids, destination_id, opts)
   when is_binary(origin_id) and is_binary(destination_id) do
-    route = time.route
+    route = time.schedule.route
     duration = duration(times, origin_id)
     sections = if opts[:collapse?] do
       TripInfo.Split.split(times, starting_stop_ids)
@@ -145,8 +147,8 @@ defmodule TripInfo do
     times
     |> Enum.map(fn time ->
       {time, %Flags{
-          terminus?: time.stop.id in [info.origin_id, info.destination_id],
-          vehicle?: info.vehicle != nil and info.vehicle.stop_id == time.stop.id
+          terminus?: PredictedSchedule.stop_id(time) in [info.origin_id, info.destination_id],
+          vehicle?: info.vehicle != nil and info.vehicle.stop_id == PredictedSchedule.stop_id(time)
        }
       }
     end)
@@ -158,7 +160,7 @@ defmodule TripInfo do
   @spec clamp_times_to_origin_destination(time_list, [String.t], String.t) :: time_list
   defp clamp_times_to_origin_destination(times, starting_stop_ids, destination_id) do
     times
-    |> Enum.drop_while(& not(&1.stop.id in starting_stop_ids))
+    |> Enum.drop_while(& not(PredictedSchedule.stop_id(&1) in starting_stop_ids))
     |> clamp_to_destination(destination_id, [])
   end
 
@@ -167,7 +169,7 @@ defmodule TripInfo do
     # return anything.
     []
   end
-  defp clamp_to_destination([%Schedules.Schedule{stop: %{id: destination_id}} = time | _], destination_id, acc) do
+  defp clamp_to_destination([%PredictedSchedule{schedule: %Schedules.Schedule{stop: %{id: destination_id}}} = time | _], destination_id, acc) do
     [time | acc]
     |> Enum.reverse
   end
@@ -176,9 +178,9 @@ defmodule TripInfo do
   end
 
   defp duration(times, origin_id) do
-    first = Enum.find(times, & &1.stop.id == origin_id)
+    first = Enum.find(times, & PredictedSchedule.stop_id(&1) == origin_id)
     last = List.last(times)
-    Timex.diff(last.time, first.time, :minutes)
+    Timex.diff(last.schedule.time, first.schedule.time, :minutes)
   end
 
   defp route_name(%Routes.Route{type: 3, name: name}) do
@@ -189,6 +191,6 @@ defmodule TripInfo do
   end
 
   defp destination([_ | _] = times) do
-    List.last(times).stop.name
+    List.last(times).schedule.stop.name
   end
 end

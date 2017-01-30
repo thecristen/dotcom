@@ -270,4 +270,22 @@ defmodule Site.ScheduleV2ViewTest do
       assert result == display_scheduled_prediction(stop_time)
     end
   end
+
+  describe "_trip_info_row.html" do
+    test "real time icon shown when prediction is available" do
+      time = Util.now
+      prediction = %Predictions.Prediction{time: time}
+      output = Site.ScheduleV2View.render(
+        "_trip_info_row.html",
+        prediction: prediction,
+        scheduled_time: time,
+        name: "name",
+        href: "",
+        vehicle?: true,
+        terminus?: true,
+        route: %Routes.Route{id: 1})
+      safe_output = safe_to_string(output)
+      assert safe_output =~ "rss"
+    end
+  end
 end

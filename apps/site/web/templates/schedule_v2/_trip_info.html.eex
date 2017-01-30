@@ -19,8 +19,15 @@
             <% end %>
           </div>
         <% else %>
-          <%= for {%Schedules.Schedule{stop: stop, time: time}, flags} <- times_or_separator do %>
-            <%= render "_trip_info_row.html", name: stop.name, href: stop_path(@conn, :show, stop.id), time: time, route: @trip_info.route, vehicle?: flags.vehicle?, terminus?: flags.terminus? %>
+          <%= for {%PredictedSchedule{schedule: schedule, prediction: prediction}, flags} <- times_or_separator do %>
+            <%= render "_trip_info_row.html",
+                       name: schedule.stop.name,
+                       href: stop_path(@conn, :show, schedule.stop.id),
+                       scheduled_time: schedule.time,
+                       prediction: prediction,
+                       route: @trip_info.route,
+                       vehicle?: flags.vehicle?,
+                       terminus?: flags.terminus? %>
           <% end %>
         <% end %>
       <% end %>
