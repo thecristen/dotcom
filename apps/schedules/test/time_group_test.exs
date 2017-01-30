@@ -66,8 +66,19 @@ defmodule TimeGroupTest do
     assert TimeGroup.frequency([@schedule, first_schedule, second_schedule]) == {9, 11}
   end
 
+
+  test "does not get a 0-minute headway if multiple trains have the same time" do
+    first_time = Timex.to_datetime({{2016, 1, 1}, {5, 25, 1}})
+    first_schedule = %Schedule{time: first_time}
+    schedules = [@schedule, @schedule, first_schedule, first_schedule]
+
+    {min, _max} = TimeGroup.frequency(schedules)
+    refute min == 0
+  end
+
   test "frequency returns nil if there's only one scheduled trip" do
     assert TimeGroup.frequency([@schedule]) == nil
+    assert TimeGroup.frequency([@schedule, @schedule, @schedule]) == nil
   end
 
   describe "frequency_for_time/2" do
@@ -125,11 +136,7 @@ defmodule TimeGroupTest do
     end
 
     test "when min headway and max headway are different, displays the range" do
-      assert TimeGroup.display_frequency_range(%Schedules.Frequency{time_block: :am_rush, min_headway: 2, max_headway: 5}) == "2-5"
-    end
-
-    test "when min headway is 0, displays 1 minute" do
-      assert TimeGroup.display_frequency_range(%Schedules.Frequency{time_block: :am_rush, min_headway: 0, max_headway: 5}) == "1-5"
+      assert TimeGroup.display_frequency_range(%Schedules.Frequency{time_block: :am_rush, min_headway: 2, max_headway: 5}) == ["2", "-", "5"]
     end
   end
 end
