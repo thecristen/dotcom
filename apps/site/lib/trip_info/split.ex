@@ -18,7 +18,7 @@ defmodule TripInfo.Split do
   def split([first | rest], starting_stop_ids) do
     # split the rest of the list into two: the first part being everything up
     # to the next origin, the second part being the rest.
-    {until_next_start, next_start_and_rest} = Enum.split_while(rest, & ! &1.schedule.stop.id in starting_stop_ids)
+    {until_next_start, next_start_and_rest} = Enum.split_while(rest, & ! PredictedSchedule.stop_id(&1) in starting_stop_ids)
 
     do_split([first | until_next_start], next_start_and_rest)
   end

@@ -11,7 +11,6 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   import Phoenix.Controller, only: [redirect: 2]
   import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
-  alias Routes.Route
 
   @default_opts [
     trip_fn: &Schedules.Repo.schedule_for_trip/1,
@@ -93,15 +92,14 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp build_trip_times(schedules, assigns, trip_id, prediction_fn) do
     assigns
     |> get_trip_predictions(Util.service_date(), trip_id, prediction_fn)
-    |> TripTime.build_times(schedules)
+    |> PredictedSchedule.group_by_trip(schedules)
   end
 
   defp get_trip_predictions(%{date: date}, service_date, _, _prediction_fn)
   when date != service_date do
     []
   end
-  defp get_trip_predictions(%{direction_id: direction_id, route: %Route{id: route_id}}, _, trip_id, prediction_fn) do
-    prediction_fn.([direction_id: direction_id, trip: trip_id, route: route_id])
+  defp get_trip_predictions(_, _, trip_id, prediction_fn) do
+    prediction_fn.([trip: trip_id])
   end
-  defp get_trip_predictions(_assigns, _date, _trip_id, _prediction_fn), do: []
 end

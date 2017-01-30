@@ -103,15 +103,8 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
   end
 
-  defp conn_assigner(conn, date) do
-    conn
-    |> assign(:date, date)
-    |> assign(:direction_id, 1)
-    |> assign(:route, %Routes.Route{id: 1})
-  end
-
-  defp schedules_to_trip_times(schedules) do
-    Enum.map(schedules, & %TripTime{schedule: &1})
+  defp schedules_to_predicted_schedules(schedules) do
+    Enum.map(schedules, & %PredictedSchedule{schedule: &1})
   end
 
   test "does not assign a trip when schedules is empty", %{conn: conn} do
@@ -121,20 +114,20 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "assigns trip_info when schedules is a list of schedules", %{conn: conn} do
     conn = conn_builder(conn, @schedules)
-    trip_times = schedules_to_trip_times(@trip_schedules)
-    assert conn.assigns.trip_info == TripInfo.from_list(trip_times, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
+    predicted_schedules = PredictedSchedule.group_by_trip(@predictions, @trip_schedules)
+    assert conn.assigns.trip_info == TripInfo.from_list(predicted_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
   end
 
   test "assigns trip_info when schedules is a list of schedule tuples", %{conn: conn} do
     conn = conn_builder(conn, @schedules |> Enum.map(fn sched -> {sched, %Schedule{}} end))
-    trip_times = schedules_to_trip_times(@trip_schedules)
-    assert conn.assigns.trip_info == TripInfo.from_list(trip_times, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
+    predicted_schedules = PredictedSchedule.group_by_trip(@predictions, @trip_schedules)
+    assert conn.assigns.trip_info == TripInfo.from_list(predicted_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
   end
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
     conn = conn_builder(conn, @schedules, trip: "long_trip", origin: "after_first", destination: "new_last")
-    trip_times = schedules_to_trip_times(trip_fn("long_trip"))
-    assert conn.assigns.trip_info == TripInfo.from_list(trip_times, origin_id: "after_first", destination_id: "new_last", collapse?: true, vehicle: nil)
+    predicted_schedules = schedules_to_predicted_schedules(trip_fn("long_trip"))
+    assert conn.assigns.trip_info == TripInfo.from_list(predicted_schedules, origin_id: "after_first", destination_id: "new_last", collapse?: true, vehicle: nil)
   end
 
   test "there's a separator if there are enough schedules", %{conn: conn} do
@@ -166,27 +159,18 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "Trip predictions are not fetched if date is not service day", %{conn: conn} do
     conn =  conn
-    |> conn_assigner(Timex.shift(Util.service_date(), days: 2))
+    |> assign(:date, Timex.shift(Util.service_date(), days: 2))
     |> conn_builder([], trip: "long_trip")
-    for %TripTime{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
-      refute prediction
-    end
-  end
-
-  test "Trip predictions are not fetched if no route is given", %{conn: conn} do
-    conn = conn
-    |> assign(:date, Util.service_date())
-    |> conn_builder([], trip: "long_trip")
-    for %TripTime{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
+    for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
       refute prediction
     end
   end
 
   test "Trip predictions are fetched if date is service day", %{conn: conn} do
     conn = conn
-    |> conn_assigner(Util.service_date())
+    |> assign(:date, Util.service_date())
     |> conn_builder([], trip: "long_trip")
-    trip_times = List.flatten(conn.assigns.trip_info.sections)
-    assert %TripTime{prediction: %Prediction{}} = List.first(trip_times)
+    predicted_schedules = List.flatten(conn.assigns.trip_info.sections)
+    assert %PredictedSchedule{prediction: %Prediction{}} = List.first(predicted_schedules)
   end
 end

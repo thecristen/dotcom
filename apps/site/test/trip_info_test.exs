@@ -11,29 +11,29 @@ defmodule TripInfoTest do
   @route %Route{id: "1", name: "1", type: 3}
   @trip %Trip{id: "trip_id"}
   @time_list [
-    %TripTime{schedule: %Schedule{
+    %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-01T00:00:00],
       trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-sstat", name: "South Station"}}},
-    %TripTime{schedule: %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}}},
-    %TripTime{schedule: %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}}},
-    %TripTime{schedule: %Schedule{
+    %PredictedSchedule{schedule: %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}}},
+    %PredictedSchedule{schedule: %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}}},
+    %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-02T00:00:00],
       trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-north", name: "North Station"}}},
-    %TripTime{schedule: %Schedule{
+    %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-02T12:00:00],
       trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-censq", name: "Central Square"}}},
-    %TripTime{schedule: %Schedule{
+    %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-02T18:00:00],
       trip: @trip,
       route: @route,
       stop: %Schedules.Stop{id: "place-harsq", name: "Harvard Square"}}},
-    %TripTime{schedule: %Schedule{
+    %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-03T00:00:00],
       trip: @trip,
       route: @route,
@@ -46,7 +46,7 @@ defmodule TripInfoTest do
     sections: [@time_list]}
 
   describe "from_list/1" do
-    test "creates a TripInfo from a list of TripTimes" do
+    test "creates a TripInfo from a list of PredictedSchedules" do
       actual = from_list(@time_list)
       expected = @info
       assert actual == expected
@@ -60,28 +60,35 @@ defmodule TripInfoTest do
 
     test "given an origin, limits the times to just those after origin" do
       actual = from_list(@time_list, origin_id: "place-north")
-      assert List.first(List.first(actual.sections)).schedule.stop.id == "place-north"
+      first_predicted_schedule = List.first(List.first(actual.sections))
+      assert PredictedSchedule.stop_id(first_predicted_schedule) == "place-north"
       assert actual.duration == 60 * 24 # 1 day trip
     end
 
     test "given an origin and destination, limits both sides" do
       actual = from_list(@time_list, origin_id: "place-north", destination_id: "place-censq")
-      assert List.first(List.first(actual.sections)).schedule.stop.id == "place-north"
-      assert List.last(List.last(actual.sections)).schedule.stop.id == "place-censq"
+      first = List.first(List.first(actual.sections))
+      last = List.last(List.last(actual.sections))
+      assert PredictedSchedule.stop_id(first) == "place-north"
+      assert PredictedSchedule.stop_id(last) == "place-censq"
       assert actual.duration == 60 * 12 # 12 hour trip
     end
 
     test "given an origin/destination/vehicle, keeps stops before the origin if the vehicle is there" do
       actual = from_list(@time_list, origin_id: "place-censq", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-north"})
-      assert List.first(List.first(actual.sections)).schedule.stop.id == "place-north"
-      assert List.last(List.last(actual.sections)).schedule.stop.id == "place-harsq"
+      first = List.first(List.first(actual.sections))
+      last = List.last(List.last(actual.sections))
+      assert PredictedSchedule.stop_id(first)== "place-north" assert PredictedSchedule.stop_id(last) == "place-harsq"
+      rigin
       assert actual.duration == 60 * 6 # 6 hour trip from censq to harsq
     end
 
     test "given an origin/destination/vehicle, does not keep stops before the origin if the vehicle is after the origin" do
       actual = from_list(@time_list, origin_id: "place-north", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-censq"})
-      assert List.first(List.first(actual.sections)).schedule.stop.id == "place-north"
-      assert List.last(List.last(actual.sections)).schedule.stop.id == "place-harsq"
+      first = List.first(List.first(actual.sections))
+      last = List.last(List.last(actual.sections))
+      assert PredictedSchedule.stop_id(first) == "place-north"
+      assert PredictedSchedule.stop_id(last) == "place-harsq"
       assert actual.duration == 60 * 18
     end
 
@@ -93,7 +100,7 @@ defmodule TripInfoTest do
 
     test "if collapse? is false but there are not enough stops, display them all" do
       actual = from_list(@time_list, origin_id: "place-north", collapse?: true)
-      assert actual.sections == [Enum.drop_while(@time_list, & &1.schedule.stop.id != "place-north")]
+      assert actual.sections == [Enum.drop_while(@time_list, & PredictedSchedule.stop_id(&1) != "place-north")]
     end
 
     test "if there are not enough times, returns an error" do
@@ -151,7 +158,7 @@ defmodule TripInfoTest do
 
     test "if vehicle is present, tags that as well" do
       time = List.last(@time_list)
-      vehicle = %Vehicle{stop_id: time.schedule.stop.id}
+      vehicle = %Vehicle{stop_id: PredictedSchedule.stop_id(time)}
       info = from_list(@time_list, vehicle: vehicle)
       actual = times_with_flags_and_separators(info)
       expected = [
