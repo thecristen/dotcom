@@ -129,47 +129,4 @@ defmodule GoogleMaps do
     end)
     |> Enum.sort_by(fn {width, _, scale} -> width * scale end)
   end
-
-  @type t :: %{
-    :results => [address],
-    :status => String.t,
-    :error_message => String.t
-  }
-
-  @type address :: %{
-    :address_components => [address_component],
-    :formatted_address => String.t, # "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA"
-    :geometry => geometry,
-    :types => [ String.t ],
-    :place_id => String.t,
-    :partial_match => boolean   # indicates that the geocoder did not return an exact match
-  }                             # for the original request, though it was able to match part of the requested address.
-
-  @type geometry :: %{
-    :location => lat_lng,
-    :location_type => String.t,
-    :viewport => viewport,
-    :bounds => viewport # Optionally returned
-  }
-
-  @type address_component :: %{
-    :long_name => String.t | integer,
-    :short_name => String.t | integer,
-    :types => [ String.t ]
-  }
-
-  @type lat_lng :: %{ :lat => float, :lng => float  }
-
-  @type viewport :: %{
-    :northeast => lat_lng,
-    :southwest => lat_lng
-  }
-
-  # possible status codes:
-  #   OK
-  #   ZERO_RESULTS
-  #   OVER_QUERY_LIMIT
-  #   REQUEST_DENIED
-  #   INVALID_REQUEST
-  #   UNKNOWN_ERROR
 end
