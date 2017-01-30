@@ -34,7 +34,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end
-  defp trip_id(%Conn{assigns: %{schedules: schedules, route: route, date: user_selected_date}} = conn) when schedules != [] do
+  defp trip_id(%Conn{assigns: %{schedules: schedules, route: route, date: user_selected_date}}) when schedules != [] do
     if(show_trips(user_selected_date, route.type)) do
       current_trip(schedules, user_selected_date)
     else
@@ -112,7 +112,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
 
   @spec show_trips(DateTime.t, integer) :: boolean
   def show_trips(date, route_type) when route_type in [0, 1] do
-    Timex.format!(date, "{YYYY}-{0M}-{0D}") == Timex.format!(Util.today, "{YYYY}-{0M}-{0D}")
+    Timex.diff(date, Util.today, :days) == 0
   end
   def show_trips(_date, _route_type) do
     true
