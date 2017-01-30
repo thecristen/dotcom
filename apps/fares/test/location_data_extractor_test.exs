@@ -68,31 +68,36 @@ defmodule Fares.RetailLocationsDataExtractorTest do
 
   describe "get_lat_lng/2" do
     test "geocodes locations that do not have latitude/longitude" do
-      geocoded = Extractor.get_lat_lng %{latitude: "", longitude: "", location: "10 Park Plaza", city: "Boston"}, nil
-      assert geocoded == %{city: "Boston", latitude: 42.3515322, location: "10 Park Plaza", longitude: -71.0668452}
+      geocoded = Extractor.get_lat_lng %{latitude: "", longitude: "", location: "10 Park Plaza", city: "Boston"}, &fake_geocode/1
+      assert geocoded == %{city: "Boston", latitude: @lat, location: "10 Park Plaza", longitude: @lng}
     end
 
     test "does not geocode locations that already have latitude/longitude" do
-      geocoded = Extractor.get_lat_lng %{latitude: "42.3515322", longitude: "-71.0668452"}, nil
+      geocoded = Extractor.get_lat_lng %{latitude: "42.3515322", longitude: "-71.0668452"}, &zero_results/1
       assert %{latitude: 42.3515322, longitude: -71.0668452} = geocoded
     end
 
     @tag :capture_log
     test "sets lat/lng to 0.0/0.0 for addresses that return multiple results" do
+      multi_results = fn _ ->
+        {:ok, [%Address{}, %Address{}]}
+      end
+      actual = Extractor.get_lat_lng(%{location: "10 Park", city: "Boston", latitude: "", longitude: ""}, multi_results)
       expected = %{city: "Boston", latitude: 0.0, location: "10 Park", longitude: 0.0}
-      assert Extractor.get_lat_lng(%{location: "10 Park", city: "Boston", latitude: "", longitude: ""}, nil) == expected
+      assert actual == expected
     end
 
     @tag :capture_log
     test "sets lat/lng to 0.0/0.0 for addresses that return zero results" do
       expected = %{city: "", latitude: 0.0, location: "Not a real street", longitude: 0.0}
-      assert Extractor.get_lat_lng(%{location: "Not a real street", city: "", latitude: "", longitude: ""}, nil) == expected
+      actual = Extractor.get_lat_lng(%{location: "Not a real street", city: "", latitude: "", longitude: ""}, &zero_results/1)
+      assert actual == expected
     end
 
     test "cleans data before attempting to geocode" do
       bad_coords = %{location: "10 Park Plaza", city: "Boston", latitude: ",42.3515322", longitude: "71.0668452"}
       expected = %{location: "10 Park Plaza", city: "Boston", latitude: 42.3515322, longitude: -71.0668452}
-      assert expected == Extractor.get_lat_lng(bad_coords, nil)
+      assert expected == Extractor.get_lat_lng(bad_coords, &zero_results/1)
     end
   end
 
@@ -103,10 +108,14 @@ defmodule Fares.RetailLocationsDataExtractorTest do
     File.rm @test_output_path
   end
 
-  def run_mix_task, do: Mix.Tasks.Fares.Locations.run [@test_input_path, @test_output_path, &bypass_api/1]
+  def run_mix_task, do: Mix.Tasks.Fares.Locations.run [@test_input_path, @test_output_path, &fake_geocode/1]
 
-  def bypass_api(string) do
+  def fake_geocode(string) do
     {:ok, [%Address{latitude: @lat, longitude: @lng, formatted: string}]}
+  end
+
+  def zero_results(_) do
+    {:error, :zero_results, "no results"}
   end
 
   def fare_location_data do
