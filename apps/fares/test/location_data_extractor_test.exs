@@ -10,7 +10,7 @@ defmodule Fares.RetailLocationsDataExtractorTest do
   @test_output_path @test_output_file |> Data.file_path
   @test_input_path "content.csv" |> Data.file_path
 
-  describe "CSV Data Extractor:" do
+  describe "mix task" do
     test "does not run if file is missing" do
       assert :error == Mix.Tasks.Fares.Locations.run ["nonexistant_file.csv"]
     end
@@ -59,6 +59,14 @@ defmodule Fares.RetailLocationsDataExtractorTest do
       Logger.configure(level: :warn)
     end
 
+    test "can run and finish" do
+      make_test_file()
+      assert :ok = run_mix_task()
+      remove_test_files()
+    end
+  end
+
+  describe "get_lat_lng/2" do
     test "geocodes locations that do not have latitude/longitude" do
       geocoded = Extractor.get_lat_lng %{latitude: "", longitude: "", location: "10 Park Plaza", city: "Boston"}, nil
       assert geocoded == %{city: "Boston", latitude: 42.3515322, location: "10 Park Plaza", longitude: -71.0668452}
@@ -86,25 +94,20 @@ defmodule Fares.RetailLocationsDataExtractorTest do
       expected = %{location: "10 Park Plaza", city: "Boston", latitude: 42.3515322, longitude: -71.0668452}
       assert expected == Extractor.get_lat_lng(bad_coords, nil)
     end
+  end
 
-    test "can run and finish" do
-      make_test_file()
-      assert :ok = run_mix_task()
-      remove_test_files()
-    end
+  def make_test_file, do: File.write! @test_input_path, fare_location_data()
 
-    def make_test_file, do: File.write! @test_input_path, fare_location_data()
+  def remove_test_files do
+    File.rm @test_input_path
+    File.rm @test_output_path
+  end
 
-    def remove_test_files do
-      File.rm @test_input_path
-      File.rm @test_output_path
-    end
+  def run_mix_task, do: Mix.Tasks.Fares.Locations.run [@test_input_path, @test_output_path, &bypass_api/1]
 
-    def run_mix_task, do: Mix.Tasks.Fares.Locations.run [@test_input_path, @test_output_file, {__MODULE__, :bypass_api}]
-
-    def bypass_api(string) do
-      {:ok, [%Address{latitude: @lat, longitude: @lng, formatted: string}]}
-    end
+  def bypass_api(string) do
+    {:ok, [%Address{latitude: @lat, longitude: @lng, formatted: string}]}
+  end
 
     def fare_location_data do
       """
