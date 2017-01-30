@@ -171,6 +171,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> assign(:date, Util.service_date())
     |> conn_builder([], trip: "long_trip")
     predicted_schedules = List.flatten(conn.assigns.trip_info.sections)
-    assert %PredictedSchedule{prediction: %Prediction{}} = List.first(predicted_schedules)
+    assert Enum.find(predicted_schedules, &match?(%PredictedSchedule{prediction: %Prediction{}}, &1))
   end
 end
