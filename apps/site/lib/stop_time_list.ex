@@ -23,17 +23,16 @@ defmodule StopTimeList do
   defmodule StopTime do
     defstruct [:departure, :arrival, :trip]
     @type t :: %__MODULE__{
-      departure: predicted_schedule,
-      arrival: predicted_schedule | nil,
+      departure: PredictedSchedule.t,
+      arrival: PredictedSchedule.t | nil,
       trip: Trip.t | nil
     }
-    @type predicted_schedule :: {Schedule.t | nil, Prediction.t | nil}
 
     @spec time(t) :: DateTime.t
-    def time(%StopTime{departure: {schedule, nil}}) when not is_nil(schedule) do
+    def time(%StopTime{departure: %PredictedSchedule{schedule: schedule, prediction: nil}}) when not is_nil(schedule) do
       schedule.time
     end
-    def time(%StopTime{departure: {_, prediction}}) when not is_nil(prediction) do
+    def time(%StopTime{departure: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
       prediction.time
     end
 
@@ -41,7 +40,7 @@ defmodule StopTimeList do
     Returns a message containing the maximum delay between scheduled and predicted times for an arrival
     and departure, or the empty string if there's no delay.
     """
-    @spec display_status(__MODULE__.predicted_schedule | nil, __MODULE__.predicted_schedule | nil) :: iodata
+    @spec display_status(PredictedSchedule.t | nil, PredictedSchedule.t | nil) :: iodata
     def display_status(departure, arrival \\ nil)
     def display_status({_, %Prediction{status: status, track: track}}, _) when not is_nil(status) do
       case track do
@@ -64,7 +63,7 @@ defmodule StopTimeList do
     @doc """
     Returns the time difference between a schedule and prediction. If either is nil, returns 0.
     """
-    @spec delay(__MODULE__.predicted_schedule | nil) :: integer
+    @spec delay(PredictedSchedule.t | nil) :: integer
     def delay(nil), do: 0
     def delay({schedule, prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
     def delay({schedule, prediction}) do
@@ -97,7 +96,7 @@ defmodule StopTimeList do
       schedules,
       predictions,
       &build_schedule_pair_map/2,
-      &predicted_schedule_pairs(&1, &2, &3, origin, destination)
+      &build_stop_time(&1, &2, &3, origin, destination)
     )
   end
   defp build_times(schedules, predictions, origin, nil) when is_binary(origin) do
@@ -133,27 +132,27 @@ defmodule StopTimeList do
   # scheduled departure and just show the prediction.
   @spec remove_first_scheduled([StopTime.t]) :: [StopTime.t]
   defp remove_first_scheduled([
-    %StopTime{departure: {%Schedule{}, %Prediction{time: prediction_time}}} = first,
-    %StopTime{departure: {%Schedule{time: schedule_time}, nil}}
+    %StopTime{departure: %PredictedSchedule{schedule: %Schedule{}, prediction: %Prediction{time: prediction_time}}} = first,
+    %StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: schedule_time}, prediction: nil}}
     | rest])
   when schedule_time < prediction_time do
     [first | rest]
   end
   defp remove_first_scheduled(stop_times), do: stop_times
 
-  @spec predicted_schedule_pairs(Trip.t | nil, schedule_pair_map, prediction_map, stop_id, stop_id) :: StopTime.t
-  defp predicted_schedule_pairs(trip, schedule_map, prediction_map, origin, dest) do
+  @spec build_stop_time(Trip.t | nil, schedule_pair_map, prediction_map, stop_id, stop_id) :: StopTime.t
+  defp build_stop_time(trip, schedule_map, prediction_map, origin, dest) do
     departure_prediction = prediction_map[trip][origin]
     arrival_prediction = prediction_map[trip][dest]
     case Map.get(schedule_map, trip) do
       {departure, arrival} -> %StopTime{
-                              departure: {departure, departure_prediction},
-                              arrival: {arrival, arrival_prediction},
+                              departure: %PredictedSchedule{schedule: departure, prediction: departure_prediction},
+                              arrival: %PredictedSchedule{schedule: arrival, prediction: arrival_prediction},
                               trip: trip
                           }
       nil -> %StopTime{
-             departure: {nil, departure_prediction},
-             arrival: {nil, arrival_prediction},
+             departure: %PredictedSchedule{schedule: nil, prediction: departure_prediction},
+             arrival: %PredictedSchedule{schedule: nil, prediction: arrival_prediction},
              trip: trip
          }
     end
@@ -164,7 +163,7 @@ defmodule StopTimeList do
     departure_schedule = schedule_map[trip][origin]
     departure_prediction = prediction_map[trip][origin]
     %StopTime{
-      departure: {departure_schedule, departure_prediction},
+      departure: %PredictedSchedule{schedule: departure_schedule, prediction: departure_prediction},
       arrival: nil,
       trip: trip
     }
@@ -200,15 +199,15 @@ defmodule StopTimeList do
   # This ensures predictions are shown first, and then sorted by ascending time
   # Arrival predictions that have no corresponding departures are shown first.
   @spec prediction_sorter(StopTime.t) :: {integer, DateTime.t}
-  defp prediction_sorter(%StopTime{departure: {nil, nil}, arrival: {nil, arrival_prediction}}), do: {0, arrival_prediction.time}
-  defp prediction_sorter(%StopTime{departure: {scheduled_departure, nil}, arrival: {departure_prediction, arrival_prediction}})
+  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{schedule: nil, prediction: nil}, arrival: %PredictedSchedule{schedule: nil, prediction: arrival_prediction}}), do: {0, arrival_prediction.time}
+  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{schedule: scheduled_departure, prediction: nil}, arrival: %PredictedSchedule{schedule: departure_prediction, prediction: arrival_prediction}})
   when not is_nil(departure_prediction) and not is_nil(arrival_prediction) do
     {0, scheduled_departure.time}
   end
-  defp prediction_sorter(%StopTime{departure: {_, departure_prediction}}) when not is_nil(departure_prediction) do
+  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{prediction: departure_prediction}}) when not is_nil(departure_prediction) do
     {1, departure_prediction.time}
   end
-  defp prediction_sorter(%StopTime{departure: {departure, nil}}) when not is_nil(departure) do
+  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{schedule: departure, prediction: nil}}) when not is_nil(departure) do
     {2, departure.time}
   end
 
@@ -228,6 +227,7 @@ defmodule StopTimeList do
   defp trips_limit(), do: 14
 
   @spec has_departure_prediction?(StopTime.t) :: boolean
-  defp has_departure_prediction?(%StopTime{departure: {_, nil}}), do: false
-  defp has_departure_prediction?(_stop_time), do: true
+  defp has_departure_prediction?(%StopTime{departure: departure}) do
+    PredictedSchedule.has_prediction?(departure)
+  end
 end

@@ -35,23 +35,23 @@ defmodule Site.ScheduleV2View do
   end
 
   @spec do_display_direction([StopTimeList.StopTime.t]) :: iodata
-  defp do_display_direction([%StopTimeList.StopTime{departure: {nil, _}} | rest]) do
+  defp do_display_direction([%StopTimeList.StopTime{departure: %PredictedSchedule{schedule: nil}} | rest]) do
     do_display_direction(rest)
   end
-  defp do_display_direction([%StopTimeList.StopTime{departure: {scheduled, _}} | _]) do
+  defp do_display_direction([%StopTimeList.StopTime{departure: %PredictedSchedule{schedule: scheduled}} | _]) do
     [direction(scheduled.trip.direction_id, scheduled.route), " to"]
   end
   defp do_display_direction([]), do: ""
 
   @doc "Display Prediction time with rss icon if available. Otherwise display scheduled time"
-  @spec display_scheduled_prediction(StopTimeList.StopTime.predicted_schedule) :: Phoenix.HTML.Safe.t | String.t
-  def display_scheduled_prediction({nil, nil}), do: ""
-  def display_scheduled_prediction({scheduled, nil}) do
+  @spec display_scheduled_prediction(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
+  def display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}), do: ""
+  def display_scheduled_prediction(%PredictedSchedule{schedule: scheduled, prediction: nil}) do
     content_tag :span do
       format_schedule_time(scheduled.time)
     end
   end
-  def display_scheduled_prediction({_scheduled, prediction}) do
+  def display_scheduled_prediction(%PredictedSchedule{prediction: prediction}) do
     content_tag :span do
       [
         fa("rss"),
@@ -163,8 +163,8 @@ defmodule Site.ScheduleV2View do
   time below it. Otherwise just displays the time as display_scheduled_prediction/1 does.
   """
   @spec display_commuter_scheduled_prediction(StopTimeList.StopTime.predicted_schedule) :: Phoenix.HTML.Safe.t | String.t
-  def display_commuter_scheduled_prediction({schedule, prediction} = stop_time) do
-    case StopTimeList.StopTime.delay(stop_time) do
+  def display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction} = stop_time) do
+    case PredictedSchedule.delay(stop_time) do
       # if we're going to show both, make sure they are different times
       delay when delay > 0 -> content_tag :span, do: [
         content_tag(:del, format_schedule_time(schedule.time)),
