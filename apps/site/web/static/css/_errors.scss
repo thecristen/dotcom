@@ -1,13 +1,7 @@
 @import 'variables';
 
 .error-page {
-  @include media-breakpoint-down(sm) {
-    margin-bottom: -1.5rem;
-  }
-
-  @include media-breakpoint-up(md) {
-    margin-bottom: -3rem;
-  }
+  margin-bottom: -1 * $base-spacing;
 }
 
 .error-card {
@@ -18,8 +12,9 @@
 
   @include media-breakpoint-down(md) {
     img {
-      width: 300px;
-    }
+      max-width: 300px;
+      width: 100%;
+   }
   }
 
   @include media-breakpoint-up(md) {
