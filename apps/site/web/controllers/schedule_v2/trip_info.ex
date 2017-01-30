@@ -22,6 +22,10 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     Keyword.merge(@default_opts, opts)
   end
 
+
+  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}}} = conn, opts) when route_type in [0, 1] do
+    assign(conn, :trip_info, nil)
+  end
   def call(conn, opts) do
     case trip_id(conn) do
       nil ->
