@@ -59,7 +59,7 @@ defmodule PredictedScheduleTest do
   ]
 
   describe "build_times/2" do
-    test "TripTimes are paired by stop" do
+    test "PredictedSchedules are paired by stop" do
       predicted_schedules = PredictedSchedule.group_by_trip(@predictions, Enum.shuffle(@schedules))
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 3) do
         assert schedule.stop.id == prediction.stop_id
@@ -71,7 +71,7 @@ defmodule PredictedScheduleTest do
       assert Enum.map(predicted_schedules, & &1.schedule) == @schedules
     end
 
-    test "TripTimes are returned in order of ascending time" do
+    test "PredictedSchedules are returned in order of ascending time" do
       predicted_schedules = PredictedSchedule.group_by_trip(Enum.shuffle(@predictions), Enum.shuffle(@schedules))
       assert Enum.map(predicted_schedules, & &1.schedule) == @schedules
     end

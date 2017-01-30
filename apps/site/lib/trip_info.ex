@@ -9,9 +9,9 @@ defmodule TripInfo do
     This is either the real end, or the destination that the user selected.
   * vehicle: a %Vehicles.Vehicle{} that's on this trip, or nil
   * status: a text status of the trip relative to the schedule
-  * times: a list of %Schedules.Schedule{} for stops between either
+  * sections: a list of lists of PredictedSchedule's, for stops between either
     1) the origin and destination or 2) the vehicle and destination
-  * sections a list of lists of times, breaking the times into groups to hide some stops
+    These are broken into groups to hide some stops.
   * duration: the number of minutes the trip takes between origin_id and destination_id
   """
   @type time :: PredictedSchedule.t

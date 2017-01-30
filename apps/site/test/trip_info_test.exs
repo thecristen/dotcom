@@ -78,8 +78,8 @@ defmodule TripInfoTest do
       actual = from_list(@time_list, origin_id: "place-censq", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-north"})
       first = List.first(List.first(actual.sections))
       last = List.last(List.last(actual.sections))
-      assert PredictedSchedule.stop_id(first)== "place-north" assert PredictedSchedule.stop_id(last) == "place-harsq"
-      rigin
+      assert PredictedSchedule.stop_id(first) == "place-north"
+      assert PredictedSchedule.stop_id(last) == "place-harsq"
       assert actual.duration == 60 * 6 # 6 hour trip from censq to harsq
     end
 
