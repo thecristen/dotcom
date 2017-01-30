@@ -19,6 +19,10 @@ defmodule Fares.RetailLocations.Data do
     Returns the full path to a file within the Fares app.
   """
   @spec file_path(String.t) :: String.t
+  def file_path(<< ?/ >> <>  _rest_of_path = path) do
+    # got a full path, use that
+    path
+  end
   def file_path(file) do
     :fares
     |> Application.app_dir

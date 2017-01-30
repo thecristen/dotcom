@@ -15,7 +15,7 @@ defmodule Mix.Tasks.Fares.Locations do
     arguments = %{
       input_file: Enum.at(args, 0, Data.file_path("content.csv")),
       output_file: Enum.at(args, 1, "fare_location_data.json"),
-      bypass: Enum.at(args, 2, {Extractor, :call_api})
+      geocode_fn: Enum.at(args, 2, &Fares.RetailLocations.Extractor.geocode/1)
     }
     arguments
     |> Map.get(:input_file)
@@ -68,13 +68,13 @@ defmodule Fares.RetailLocations.Extractor do
   Extracts fare sales location data from /priv/content.csv and writes it to a new file at the path provided.
   """
   @spec start(map, {pid, any}) :: :ok | {:error, any}
-  def start(%{bypass: api_func, input_file: input_file, output_file: output_file}, {parent, _}) do
+  def start(%{geocode_fn: geocode_fn, input_file: input_file, output_file: output_file}, {parent, _}) do
     log "Extracting fare location data from #{input_file} to #{output_file}..."
     :ok = input_file
     |> File.stream!
     |> Enum.filter(&find_xml_string/1)
     |> Enum.map(&parse_location/1)
-    |> Enum.map(&(get_lat_lng(&1, api_func)))
+    |> Enum.map(&(get_lat_lng(&1, geocode_fn)))
     |> Poison.encode
     |> write_to_file(output_file)
     send parent, {:ok, output_file}
@@ -143,19 +143,20 @@ defmodule Fares.RetailLocations.Extractor do
     |> Enum.join("")
   end
 
-  @spec get_lat_lng(map, {atom | tuple, atom} | nil) :: map
-  def get_lat_lng(%{latitude: "", longitude: ""} = data, api_func) do
-    do_get_lat_lng(data, api_func)
+  @spec get_lat_lng(map, (String.t -> GoogleMaps.Geocode.t)) :: map
+  def get_lat_lng(%{latitude: "", longitude: ""} = data, geocode_fn) do
+    do_get_lat_lng(data, geocode_fn)
   end
-  def get_lat_lng(%{latitude: lat, longitude: lng} = data, _), do: put_lat_lng([lat,lng], data)
+  def get_lat_lng(%{latitude: lat, longitude: lng} = data, _)  do
+    put_lat_lng([lat,lng], data)
+  end
 
-  defp do_get_lat_lng(data, nil), do: do_get_lat_lng(data, {__MODULE__, :call_api})
-  defp do_get_lat_lng(%{location: street, city: city} = data, {module, function}) do
+  defp do_get_lat_lng(%{location: street, city: city} = data, geocode_fn) do
     address = clean_street(street) <> ", " <> clean_city(city) <> " MA"
     log "Geocoding #{address}..."
 
-    module
-    |> apply(function, [address])
+    address
+    |> geocode_fn.()
     |> handle_geocoding_response(data)
   end
 
@@ -193,7 +194,7 @@ defmodule Fares.RetailLocations.Extractor do
     put_lat_lng(["0.0","0.0"], data)
   end
 
-  def call_api(address) do
+  def geocode(address) do
     :timer.sleep(200)
     GoogleMaps.Geocode.geocode(address)
   end
