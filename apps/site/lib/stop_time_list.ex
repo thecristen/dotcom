@@ -38,7 +38,7 @@ defmodule StopTimeList do
     end
   end
 
-  @spec build([Schedule.t | schedule_pair], [Predictions.Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
+  @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
   def build(schedules, predictions, origin, destination, showing_all?) do
     times = build_times(schedules, predictions, origin, destination)
     from_times(times, showing_all?)
@@ -83,7 +83,7 @@ defmodule StopTimeList do
     Timex.diff(prediction.time, schedule.time, :minutes)
   end
 
-  @spec build_times([Schedule.t | schedule_pair], [Predictions.Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
+  @spec build_times([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
   defp build_times(schedules, predictions, origin, destination) when is_binary(origin) and is_binary(destination) do
     group_trips(
       schedules,

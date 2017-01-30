@@ -5,29 +5,57 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   """
   import Plug.Conn, only: [assign: 3]
 
+  alias Schedules.{Schedule, Trip, Stop}
+  alias Predictions.Prediction
+
   def init([]), do: []
 
-  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: _schedules}} = conn, _) when route_type in [0, 1] do
+  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) when route_type in [0, 1] do
+    destination = conn.params["destination"]
     stop_times = StopTimeList.build_predictions_only(
-      conn.assigns.predictions,
+      filtered_predictions(conn.assigns.predictions, schedules, destination),
       conn.params["origin"],
-      conn.params["destination"]
+      destination
     )
     assign(conn, :stop_times, stop_times)
   end
-  def call(%Plug.Conn{assigns: %{schedules: _schedules}} = conn, []) do
+  def call(%Plug.Conn{assigns: %{schedules: schedules}} = conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
+    destination = conn.params["destination"]
     stop_times = StopTimeList.build(
       filtered_schedules(conn.assigns, show_all_trips?),
-      conn.assigns.predictions,
+      filtered_predictions(conn.assigns.predictions, schedules, destination),
       conn.params["origin"],
-      conn.params["destination"],
+      destination,
       show_all_trips?
     )
     assign(conn, :stop_times, stop_times)
   end
   def call(conn, []) do
     conn
+  end
+
+  # Remove any predictions for trips that don't go through the
+  # destination stop, by checking the list of schedules to ensure that
+  # there's an O/D pair for each prediction's trip.
+  defp filtered_predictions(predictions, _schedules, nil), do: predictions
+  defp filtered_predictions(predictions, schedules, destination) do
+    schedule_pair_trip_ids = MapSet.new(
+      schedules,
+      fn
+        {_, %Schedule{trip: %Trip{id: trip_id}, stop: %Stop{id: ^destination}}} -> trip_id
+        _ -> nil
+      end
+    )
+
+    Enum.filter(
+      predictions,
+      fn
+        %Prediction{trip: nil} -> false
+        %Prediction{stop_id: ^destination} -> true
+        %Prediction{trip: %Trip{id: trip_id}} -> trip_id in schedule_pair_trip_ids
+      end
+    )
   end
 
   defp filtered_schedules(%{schedules: schedules, date_time: date_time}, show_all_trips?) do
@@ -56,7 +84,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   defp after_now?({_, arrival}, date_time) do
     after_now?(arrival, date_time)
   end
-  defp after_now?(%Schedules.Schedule{time: time}, date_time) do
+  defp after_now?(%Schedule{time: time}, date_time) do
     Timex.after?(time, date_time)
   end
 end
