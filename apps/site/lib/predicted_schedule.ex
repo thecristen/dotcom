@@ -49,6 +49,22 @@ defmodule PredictedSchedule do
   def has_prediction?(%PredictedSchedule{prediction: nil}), do: false
   def has_prediction?(_), do: true
 
+  @doc """
+  Returns a time tuple for the given PredictedSchedule. The return value is a two pair,
+  consisting of an atom, :prediction or :scheduled, which represents if the returned time
+  is predicted or scheduled, and the time. **Schedule Times are preferred**.
+  """
+  @spec time(PredictedSchedule.t) :: {:prediction | :schedule, DateTime.t}
+  def time(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {:prediction, prediction.time}
+  def time(%PredictedSchedule{schedule: schedule}), do: {:schedule, schedule.time}
+
+  @doc """
+  Returns a time value for the given PredictedSchedule. Returned value can be either a scheduled time
+  for a prediction time. **Scheduled Times are preferred**
+  """
+  @spec time!(PredictedSchedule.t) :: DateTime.t
+  def time!(predicted_schedule), do: elem(time(predicted_schedule), 1)
+
   # Returns unique list of all stop_id's from given schedules and predictions
   @spec stop_ids(%{String.t => Schedule.t}, %{String.t => Prediction.t}) :: [String.t]
   defp stop_ids(schedule_map, prediction_map) do

@@ -104,10 +104,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
   end
 
-  defp schedules_to_predicted_schedules(schedules) do
-    Enum.map(schedules, & %PredictedSchedule{schedule: &1})
-  end
-
   test "does not assign a trip when schedules is empty", %{conn: conn} do
     conn = conn_builder(conn, [])
     assert conn.assigns.trip_info == nil
@@ -126,9 +122,12 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
+    expected_stops = ["after_first", "1", "2", "3", "new_last"]
     conn = conn_builder(conn, @schedules, trip: "long_trip", origin: "after_first", destination: "new_last")
-    predicted_schedules = schedules_to_predicted_schedules(trip_fn("long_trip"))
-    assert conn.assigns.trip_info == TripInfo.from_list(predicted_schedules, origin_id: "after_first", destination_id: "new_last", collapse?: true, vehicle: nil)
+    actual_stops = conn.assigns.trip_info.sections
+    |> List.flatten
+    |> Enum.map(& &1.schedule.stop.id)
+    assert actual_stops == expected_stops
   end
 
   test "there's a separator if there are enough schedules", %{conn: conn} do
