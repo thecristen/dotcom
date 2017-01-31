@@ -5,6 +5,7 @@ defmodule StopTimeTest do
   alias Schedules.{Schedule, Trip, Stop}
   alias Predictions.Prediction
   alias Routes.Route
+  alias StopTimeList.StopTime
 
   @route %Route{id: "86", type: 3, name: "86"}
   @origin_schedules [
@@ -430,17 +431,35 @@ defmodule StopTimeTest do
     end
   end
 
-  describe "display_delay/2" do
+  describe "StopTime.display_status/1" do
+    test "returns the same as StopTime.display_status/2 with a nil second argument" do
+      assert StopTime.display_status({nil, %Prediction{status: "On Time"}}) == StopTime.display_status({nil, %Prediction{status: "On Time"}}, nil)
+    end
+  end
+
+  describe "StopTime.display_status/2" do
+    test "uses the departure status if it exists" do
+      result = StopTime.display_status({nil, %Prediction{status: "On Time"}}, nil)
+
+      assert IO.iodata_to_binary(result) == "On Time"
+    end
+
+    test "includes track number if present" do
+      result = StopTime.display_status({nil, %Prediction{status: "All Aboard", track: "5"}}, nil)
+
+      assert IO.iodata_to_binary(result) == "All Aboard on track 5"
+    end
+
     test "returns a readable message if there's a difference between the scheduled and predicted times" do
       now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, {nil, nil})
+      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, {nil, nil})
 
       assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
     end
 
     test "returns the empty string if the predicted and scheduled times are the same" do
       now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: now}}, {nil, nil})
+      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: now}}, {nil, nil})
 
       assert IO.iodata_to_binary(result) == ""
     end
@@ -448,7 +467,7 @@ defmodule StopTimeTest do
     test "takes the max of the departure and arrival time delays" do
       departure = Util.now
       arrival = Timex.shift(departure, minutes: 30)
-      result = display_delay(
+      result = StopTime.display_status(
         {%Schedule{time: departure}, %Prediction{time: Timex.shift(departure, minutes: 5)}},
         {%Schedule{time: arrival}, %Prediction{time: Timex.shift(arrival, minutes: 10)}}
       )
@@ -458,32 +477,32 @@ defmodule StopTimeTest do
 
     test "handles nil arrivals" do
       now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, nil)
+      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, nil)
 
       assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
     end
 
     test "inflects the delay correctly" do
       now = Util.now
-      result = display_delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
+      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
 
       assert IO.iodata_to_binary(result) == "Delayed 1 minute"
     end
   end
 
-  describe "delay/1" do
+  describe "StopTime.delay/1" do
     test "returns the difference between a schedule and prediction" do
       now = Util.now
 
-      assert delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 14)}}) == 14
+      assert StopTime.delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 14)}}) == 14
     end
 
     test "returns 0 if either time is nil, or if the argument itself is nil" do
       now = Util.now
-      assert delay({nil, %Prediction{time: Timex.shift(now, minutes: 14)}}) == 0
-      assert delay({%Schedule{time: now}, nil}) == 0
-      assert delay({nil, nil}) == 0
-      assert delay(nil) == 0
+      assert StopTime.delay({nil, %Prediction{time: Timex.shift(now, minutes: 14)}}) == 0
+      assert StopTime.delay({%Schedule{time: now}, nil}) == 0
+      assert StopTime.delay({nil, nil}) == 0
+      assert StopTime.delay(nil) == 0
     end
   end
 end

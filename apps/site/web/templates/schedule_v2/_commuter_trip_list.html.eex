@@ -18,13 +18,10 @@
             <%= display_commuter_scheduled_prediction(departure) %>
           </div>
           <div class="col-xs-4">
-            <%= display_commuter_scheduled_prediction(arrival)%>
+            <%= display_commuter_scheduled_prediction(arrival) %>
           </div>
           <div class="col-xs-4">
             <%= trip.name %>
-          </div>
-          <div class="col-xs-12">
-            <%= StopTimeList.display_delay(departure, arrival) %>
           </div>
         <% else %>
           <div class="col-xs-5">
@@ -37,6 +34,9 @@
             <%= trip.headsign %>
           </div>
         <% end %>
+        <div class="col-xs-12">
+          <%= StopTimeList.StopTime.display_status(departure, arrival) %>
+        </div>
       <% end %>
     <% end %>
     <%= unless @stop_times.showing_all? do %>

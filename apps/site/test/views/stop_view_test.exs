@@ -2,7 +2,6 @@ defmodule Site.StopViewTest do
   @moduledoc false
   alias Site.StopView
   alias Stops.Stop
-  alias Predictions.Prediction
   use Site.ConnCase, async: true
 
   describe "fare_group/1" do
@@ -97,115 +96,6 @@ defmodule Site.StopViewTest do
       diff = time
       |> StopView.schedule_display_time(now)
       assert diff == time |> formatted_time
-    end
-  end
-
-  describe "commuter schedules" do
-    test "display scheduled time, predicted time, and realtime icon for routes with delays " do
-      route_id = "CR-Fairmount"
-      direction_id = 1
-      trip_id = "CR-Weekday-Fall-16-823"
-      now = Util.now
-      later = Util.now |> Timex.shift(minutes: 1)
-      predictions = [
-        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: later}
-      ]
-      rendered = route_id
-                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
-                 |> do_safe_to_string
-      assert rendered =~ formatted_time(now)
-      assert rendered =~ "fa fa-rss station-schedule-icon"
-      assert rendered =~ formatted_time(later)
-    end
-
-    test "only display scheduled time for routes without delays" do
-      route_id = "CR-Fairmount"
-      direction_id = 1
-      trip_id = "CR-Weekday-Fall-16-823"
-      now = Util.now
-      predictions = [
-        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: now}
-      ]
-      rendered = route_id
-                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
-                 |> do_safe_to_string
-      assert rendered =~ formatted_time(now)
-      refute rendered =~ "<s>" <> formatted_time(now)
-      refute rendered =~ "fa fa-rss station-schedule-icon"
-    end
-
-    test "only display scheduled time if rendered prediction and rendered schedule are the same" do
-      route_id = "CR-Fairmount"
-      direction_id = 1
-      trip_id = "CR-Weekday-Fall-16-823"
-      now = Timex.to_datetime {Timex.to_erl(Util.service_date), {14,0,0}}
-      later = Timex.shift now, seconds: 45
-      predictions = [
-        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: later}
-      ]
-      rendered = route_id
-                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
-                 |> do_safe_to_string
-      assert rendered =~ formatted_time(now)
-      assert rendered =~ formatted_time(later)
-      refute rendered =~ "fa fa-rss station-schedule-icon"
-    end
-
-    test "do not show commuter rail predictions that are earlier than the scheduled departure" do
-      route_id = "CR-Fairmount"
-      direction_id = 1
-      trip_id = "CR-Weekday-Fall-16-823"
-      now = Util.now
-      earlier = Timex.shift(now, minutes: -2)
-      predictions = [
-        %Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: earlier}
-      ]
-      rendered = route_id
-                 |> StopView.render_commuter_departure_time(direction_id, trip_id, now, predictions)
-                 |> do_safe_to_string
-      assert rendered =~ formatted_time(now)
-      refute rendered =~ formatted_time(earlier)
-      refute rendered =~ "fa fa-rss station-schedule-icon"
-    end
-
-    test "show track number when available" do
-      trip_id = "CR-Weekday-Fall-16-823"
-      rendered = trip_id
-      |> StopView.render_commuter_status(
-        Util.now, [
-          %Prediction{
-            trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"},
-            status: "Now Boarding",
-            track: 5}
-        ])
-      |> do_safe_to_string
-      assert rendered =~ "Now Boarding"
-      assert rendered =~ "track 5"
-    end
-
-    test "shows \"Delayed X min\" when status is nil and train is delayed" do
-      now = Util.now
-      trip_id = "CR-Weekday-Fall-16-823"
-      rendered = trip_id
-      |> StopView.render_commuter_status(
-        now, [
-          %Prediction{
-            trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"},
-            time: Timex.shift(now, minutes: 2)}
-        ])
-      |> do_safe_to_string
-      assert rendered =~ "Delayed"
-      assert rendered =~ "2 min"
-    end
-
-    test "shows \"On Time\" when status is nil and train is not delayed" do
-      now = Util.now
-      trip_id = "CR-Weekday-Fall-16-823"
-      assert StopView.render_commuter_status(
-        trip_id,
-        now,
-        [%Prediction{trip: %Schedules.Trip{id: trip_id, headsign: "", name: "", direction_id: "1"}, time: now}]
-      ) =~ "On Time"
     end
   end
 

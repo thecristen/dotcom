@@ -223,100 +223,15 @@ defmodule Site.StopView do
     |> Enum.take(3)
   end
 
-  @doc """
-    Renders the departure time for a commuter rail line. If the line has a prediction, it shows the original time
-    crossed out and the predicted time and realtime icon on the next line.
-  """
-  @spec render_commuter_departure_time(String.t, integer, String.t, DateTime.t, [Prediction.t]) :: Phoenix.HTML.Safe.t | [Phoenix.HTML.Safe.t]
-  def render_commuter_departure_time(route_id, direction_id, trip_id, scheduled_time, stop_predictions) do
-    stop_predictions
-    |> get_commuter_prediction(trip_id)
-    |> do_render_commuter_departure_time(scheduled_time, route_id, trip_id, direction_id)
-  end
-
-  @spec do_render_commuter_departure_time(Prediction.t | nil, DateTime.t, String.t, String.t, integer) :: Phoenix.HTML.safe | [Phoenix.HTML.safe]
-  defp do_render_commuter_departure_time(nil, time, route_id, trip_id, direction_id) do
-    link formatted_time(time), to: get_schedule_path(route_id, trip_id, direction_id)
-  end
-  defp do_render_commuter_departure_time(%Prediction{time: predicted}, scheduled, route_id, trip_id, direction_id) when scheduled > predicted do
-    do_render_commuter_departure_time(nil, scheduled, route_id, trip_id, direction_id)
-  end
-  defp do_render_commuter_departure_time(%Prediction{time: predicted}, scheduled, route_id, trip_id, direction_id) do
-    formatted_predicted = formatted_time(predicted)
-    formatted_scheduled = formatted_time(scheduled)
-    if formatted_predicted == formatted_scheduled do
-      do_render_commuter_departure_time(nil, scheduled, route_id, trip_id, direction_id)
-    else
-      [
-        content_tag(:s, formatted_scheduled),
-        tag(:br),
-        content_tag(:i, "", class: "fa fa-rss station-schedule-icon", data: [toggle: "tooltip"], title: "Real Time Service"),
-        content_tag(:span, "Predicted departure time: ", class: "sr-only"),
-        link(" "  <> formatted_predicted, to: get_schedule_path(route_id, trip_id, direction_id))
-      ]
-    end
-  end
-
   @spec formatted_time(DateTime.t) :: String.t
   defp formatted_time(time), do: Timex.format!(time, "{h12}:{m} {AM}")
 
-  @doc """
-    Renders the status for commuter rail. Adds track number when available.
-  """
-  @spec render_commuter_status(String.t, DateTime.t, [Prediction.t]) :: String.t | [Phoenix.HTML.Safe.t]
-  def render_commuter_status(trip_id, scheduled_time, stop_predictions) do
-    stop_predictions
-    |> get_commuter_prediction(trip_id)
-    |> do_render_commuter_status(scheduled_time)
-  end
-
-  @spec do_render_commuter_status(nil | Prediction.t, DateTime.t) :: String.t | [Phoenix.HTML.Safe.t]
-  defp do_render_commuter_status(nil, _), do: ""
-  defp do_render_commuter_status(%Prediction{status: nil} = prediction, scheduled_time) do
-    prediction
-    |> set_prediction_status(scheduled_time)
-    |> do_render_commuter_status(scheduled_time)
-  end
-  defp do_render_commuter_status(%Prediction{status: "Delayed", time: predicted}, scheduled) do
-    diff = Timex.diff(predicted, scheduled, :minutes)
-    content_tag(:span, class: delay_class(diff)) do
-      [
-        "Delayed ",
-        content_tag(:span, "#{diff} min", class: "no-wrap")
-      ]
-    end
-  end
-  defp do_render_commuter_status(%Prediction{status: status, track: nil}, _scheduled_time), do: status
-  defp do_render_commuter_status(%Prediction{status: status, track: track}, _scheduled_time) do
-    [
-      content_tag(:span, status),
-      content_tag(:span, " on track #{track}", class: "no-wrap")
-    ]
-  end
-
-  @spec delay_class(integer) :: String.t
-  defp delay_class(diff) when diff >= 5, do: "severe-delay"
-  defp delay_class(_), do: nil
-
-  @spec set_prediction_status(Prediction.t, DateTime.t) :: Prediction.t
-  defp set_prediction_status(%Prediction{time: predicted} = prediction, scheduled) when scheduled < predicted, do: do_set_prediction_status(prediction, formatted_time(predicted), formatted_time(scheduled))
-  defp set_prediction_status(prediction, _), do: Map.put(prediction, :status, "On Time")
-
-  @spec do_set_prediction_status(Prediction.t, String.t, String.t) :: Prediction.t
-  defp do_set_prediction_status(prediction, formatted, formatted), do: Map.put(prediction, :status, "On Time")
-  defp do_set_prediction_status(prediction, _, _), do: Map.put(prediction, :status, "Delayed")
-
-  @spec get_commuter_prediction([Prediction.t], String.t) :: Prediction.t | nil
-  defp get_commuter_prediction(stop_predictions, trip_id) do
+  @spec commuter_prediction([Prediction.t], String.t) :: Prediction.t | nil
+  def commuter_prediction(stop_predictions, trip_id) do
     Enum.find(
       stop_predictions,
       &match?(%Prediction{trip: %Trip{id: ^trip_id}}, &1)
     )
-  end
-
-  @spec get_schedule_path(String.t, String.t, integer) :: String.t
-  defp get_schedule_path(route_id, trip_id, direction_id) do
-    schedule_path(Site.Endpoint, :show, route_id, trip: trip_id, direction_id: direction_id)
   end
 
   def station_schedule_empty_msg(mode) do

@@ -36,6 +36,40 @@ defmodule StopTimeList do
     def time(%StopTime{departure: {_, prediction}}) when not is_nil(prediction) do
       prediction.time
     end
+
+    @doc """
+    Returns a message containing the maximum delay between scheduled and predicted times for an arrival
+    and departure, or the empty string if there's no delay.
+    """
+    @spec display_status(__MODULE__.predicted_schedule | nil, __MODULE__.predicted_schedule | nil) :: iodata
+    def display_status(departure, arrival \\ nil)
+    def display_status({_, %Prediction{status: status, track: track}}, _) when not is_nil(status) do
+      case track do
+        nil -> status
+        track -> [status, " on track ", track]
+      end
+    end
+    def display_status(departure, arrival) do
+      case Enum.max([delay(departure), delay(arrival)]) do
+        delay when delay > 0 -> [
+          "Delayed ",
+          Integer.to_string(delay),
+          " ",
+          Inflex.inflect("minute", delay)
+        ]
+        _ -> ""
+      end
+    end
+
+    @doc """
+    Returns the time difference between a schedule and prediction. If either is nil, returns 0.
+    """
+    @spec delay(__MODULE__.predicted_schedule | nil) :: integer
+    def delay(nil), do: 0
+    def delay({schedule, prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
+    def delay({schedule, prediction}) do
+      Timex.diff(prediction.time, schedule.time, :minutes)
+    end
   end
 
   @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, boolean) :: __MODULE__.t
@@ -54,33 +88,6 @@ defmodule StopTimeList do
     |> build_times(predictions, origin, destination)
     |> Enum.filter(&has_departure_prediction?/1)
     |> from_times(true)
-  end
-
-  @doc """
-  Returns a message containing the maximum delay between scheduled and predicted times for an arrival
-  and departure, or the empty string if there's no delay.
-  """
-  @spec display_delay(StopTimeList.StopTime.predicted_schedule, StopTimeList.StopTime.predicted_schedule) :: iodata
-  def display_delay(departure, arrival) do
-    case Enum.max([delay(departure), delay(arrival)]) do
-      delay when delay > 0 -> [
-        "Delayed ",
-        Integer.to_string(delay),
-        " ",
-        Inflex.inflect("minute", delay)
-      ]
-      _ -> ""
-    end
-  end
-
-  @doc """
-  Returns the time difference between a schedule and prediction. If either is nil, returns 0.
-  """
-  @spec delay(StopTimeList.StopTime.predicted_schedule | nil) :: integer
-  def delay(nil), do: 0
-  def delay({schedule, prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
-  def delay({schedule, prediction}) do
-    Timex.diff(prediction.time, schedule.time, :minutes)
   end
 
   @spec build_times([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
