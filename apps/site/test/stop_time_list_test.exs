@@ -430,11 +430,10 @@ defmodule StopTimeTest do
         ]}
     end
   end
-<<<<<<< HEAD
 
   describe "StopTime.display_status/1" do
     test "returns the same as StopTime.display_status/2 with a nil second argument" do
-      assert StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}) == StopTime.display_status(schedule: {nil, prediction: %Prediction{status: "On Time"}}, nil)
+      assert StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}) == StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}, nil)
     end
   end
 
@@ -453,7 +452,7 @@ defmodule StopTimeTest do
 
     test "returns a readable message if there's a difference between the scheduled and predicted times" do
       now = Util.now
-      result = StopTime.display_status(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, {nil, nil})
+      result = StopTime.display_status(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, %PredictedSchedule{schedule: nil, prediction: nil})
 
       assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
     end

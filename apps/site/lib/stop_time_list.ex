@@ -42,7 +42,7 @@ defmodule StopTimeList do
     """
     @spec display_status(PredictedSchedule.t | nil, PredictedSchedule.t | nil) :: iodata
     def display_status(departure, arrival \\ nil)
-    def display_status({_, %Prediction{status: status, track: track}}, _) when not is_nil(status) do
+    def display_status(%PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}}, _) when not is_nil(status) do
       case track do
         nil -> status
         track -> [status, " on track ", track]
@@ -65,8 +65,8 @@ defmodule StopTimeList do
     """
     @spec delay(PredictedSchedule.t | nil) :: integer
     def delay(nil), do: 0
-    def delay({schedule, prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
-    def delay({schedule, prediction}) do
+    def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
+    def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
       Timex.diff(prediction.time, schedule.time, :minutes)
     end
   end

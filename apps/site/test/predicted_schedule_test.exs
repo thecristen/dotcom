@@ -118,19 +118,14 @@ defmodule PredictedScheduleTest do
     end
   end
 
-  describe "delay/1" do
-    test "returns the difference between a schedule and prediction" do
-      now = Util.now
-      delay = PredictedSchedule.delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 14)}})
-      assert delay == 14
+  describe "time!/1" do
+    test "Scheduled time is given if one is available" do
+      predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.last(@predictions)}
+      assert PredictedSchedule.time!(predicted_schedule) == List.first(@schedules).time
     end
-
-    test "returns 0 if either time is nil, or if the argument itself is nil" do
-      now = Util.now
-      assert PredictedSchedule.delay(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: Timex.shift(now, minutes: 14)}}) == 0
-      assert PredictedSchedule.delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: nil}) == 0
-      assert PredictedSchedule.delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
-      assert PredictedSchedule.delay(nil) == 0
+    test "Predicted time is used if no schedule present" do
+      predicted_schedule = %PredictedSchedule{schedule: nil, prediction: List.last(@predictions)}
+      assert PredictedSchedule.time!(predicted_schedule) == List.last(@predictions).time
     end
   end
 
@@ -153,11 +148,11 @@ defmodule PredictedScheduleTest do
       departure = Util.now
       arrival = Timex.shift(departure, minutes: 30)
       result = PredictedSchedule.display_delay(
-        %PredictedSchedule{schedule: %Schedule{time: departure}, prediction: %Prediction{time: Timex.shift(departure, minutes: 5)}},
-        %PredictedSchedule{schedule: %Schedule{time: arrival}, prediction: %Prediction{time: Timex.shift(arrival, minutes: 10)}}
-      )
+                                               %PredictedSchedule{schedule: %Schedule{time: departure}, prediction: %Prediction{time: Timex.shift(departure, minutes: 5)}},
+                                               %PredictedSchedule{schedule: %Schedule{time: arrival}, prediction: %Prediction{time: Timex.shift(arrival, minutes: 10)}}
+                                             )
 
-      assert IO.iodata_to_binary(result) == "Delayed 10 minutes"
+        assert IO.iodata_to_binary(result) == "Delayed 10 minutes"
     end
 
     test "handles nil arrivals" do
@@ -172,17 +167,6 @@ defmodule PredictedScheduleTest do
       result = PredictedSchedule.display_delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
 
       assert IO.iodata_to_binary(result) == "Delayed 1 minute"
-    end
-  end
-
-  describe "time!/1" do
-    test "Scheduled time is given if one is available" do
-      predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.last(@predictions)}
-      assert PredictedSchedule.time!(predicted_schedule) == List.first(@schedules).time
-    end
-    test "Predicted time is used if no schedule present" do
-      predicted_schedule = %PredictedSchedule{schedule: nil, prediction: List.last(@predictions)}
-      assert PredictedSchedule.time!(predicted_schedule) == List.last(@predictions).time
     end
   end
 end

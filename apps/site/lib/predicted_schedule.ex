@@ -47,7 +47,7 @@ defmodule PredictedSchedule do
   """
   @spec has_prediction?(PredictedSchedule.t) :: boolean
   def has_prediction?(%PredictedSchedule{prediction: nil}), do: false
-  def has_prediction?(_), do: true
+  def has_prediction?(%PredictedSchedule{}), do: true
 
   @doc """
   Returns a time tuple for the given PredictedSchedule. The return value is a two pair,
@@ -65,32 +65,13 @@ defmodule PredictedSchedule do
   @spec time!(PredictedSchedule.t) :: DateTime.t
   def time!(predicted_schedule), do: elem(time(predicted_schedule), 1)
 
-  # Returns unique list of all stop_id's from given schedules and predictions
-  @spec stop_ids(%{String.t => Schedule.t}, %{String.t => Prediction.t}) :: [String.t]
-  defp stop_ids(schedule_map, prediction_map) do
-    schedule_map
-    |> Map.keys()
-    |> Enum.concat(Map.keys(prediction_map))
-    |> Enum.uniq
-  end
-
-  @doc """
-  Returns the time difference between a schedule and prediction. If either is nil, returns 0.
-  """
-  @spec delay(PredictedSchedule.t | nil) :: integer
-  def delay(nil), do: 0
-  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
-  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
-    Timex.diff(prediction.time, schedule.time, :minutes)
-  end
-
   @doc """
   Returns a message containing the maximum delay between scheduled and predicted times for an arrival
   and departure, or the empty string if there's no delay.
   """
   @spec display_delay(PredictedSchedule.t, PredictedSchedule.t) :: iodata
   def display_delay(departure, arrival) do
-    case Enum.max([delay(departure), delay(arrival)]) do
+    case Enum.max([StopTimeList.StopTime.delay(departure), StopTimeList.StopTime.delay(arrival)]) do
       delay when delay > 0 -> [
         "Delayed ",
         Integer.to_string(delay),
@@ -99,6 +80,15 @@ defmodule PredictedSchedule do
       ]
       _ -> ""
     end
+  end
+
+  # Returns unique list of all stop_id's from given schedules and predictions
+  @spec stop_ids(%{String.t => Schedule.t}, %{String.t => Prediction.t}) :: [String.t]
+  defp stop_ids(schedule_map, prediction_map) do
+    schedule_map
+    |> Map.keys()
+    |> Enum.concat(Map.keys(prediction_map))
+    |> Enum.uniq
   end
 
   @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, DateTime.t}
