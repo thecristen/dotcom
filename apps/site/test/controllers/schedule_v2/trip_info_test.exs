@@ -100,6 +100,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       params: params}
     |> assign(:schedules, schedules)
     |> assign(:date_time, Util.now)
+    |> assign(:date, Util.service_date())
     |> call(init)
   end
 
@@ -158,9 +159,15 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "Trip predictions are not fetched if date is not service day", %{conn: conn} do
-    conn =  conn
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "1"),
+      query_params: %{"trip" =>  "long_trip"}}
+    |> assign(:schedules, [])
+    |> assign(:date_time, Util.now)
     |> assign(:date, Timex.shift(Util.service_date(), days: 2))
-    |> conn_builder([], trip: "long_trip")
+    |> call(init)
+
     for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
       refute prediction
     end
@@ -168,7 +175,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "Trip predictions are fetched if date is service day", %{conn: conn} do
     conn = conn
-    |> assign(:date, Util.service_date())
     |> conn_builder([], trip: "long_trip")
     predicted_schedules = List.flatten(conn.assigns.trip_info.sections)
     assert Enum.find(predicted_schedules, &match?(%PredictedSchedule{prediction: %Prediction{}}, &1))
