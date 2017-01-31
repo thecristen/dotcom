@@ -362,25 +362,25 @@ defmodule StopTimeTest do
 
   describe "build_predictions_only/3" do
     test "Results contain no schedules for origin" do
-      result = build_predictions_only(@origin_destination_predictions, "1", nil)
-      refute result == []
-      for stop_time <- result.times do
+      result = build_predictions_only(@origin_destination_predictions, "1", nil).times
+      assert length(result) == 5
+      for stop_time <- result do
         assert %StopTimeList.StopTime{departure: {nil, _}, arrival: nil} = stop_time
       end
     end
 
     test "Results contain no schedules for origin and destination" do
-      result = build_predictions_only(@origin_destination_predictions, "1", "3")
-      refute result == []
-      for stop_time <- result.times do
+      result = build_predictions_only(@origin_destination_predictions, "1", "3").times
+      assert length(result) == 5
+      for stop_time <- result do
         assert %StopTimeList.StopTime{departure: {nil, _}, arrival: {nil, _}} = stop_time
       end
     end
 
     test "All times have departure predictions" do
-      result = build_predictions_only(@origin_destination_predictions, "1", "3")
-      refute result == []
-      for stop_time <- result.times do
+      result = build_predictions_only(@origin_destination_predictions, "1", "3").times
+      assert length(result) == 5
+      for stop_time <- result do
         assert elem(stop_time.departure, 1) != nil
       end
     end
