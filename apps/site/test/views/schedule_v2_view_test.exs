@@ -230,7 +230,7 @@ defmodule Site.ScheduleV2ViewTest do
         schedules: schedules,
         date: date)
       output = safe_to_string(safe_output)
-      assert output =~ TimeGroup.display_frequency_range(frequency)
+      assert output =~ "5-10"
     end
   end
 

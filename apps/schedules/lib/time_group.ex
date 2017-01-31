@@ -36,13 +36,19 @@ defmodule TimeGroup do
   variation, or a single integer.  Otherwise, returns nil.
   """
   @spec frequency([Schedule.t]) :: {non_neg_integer, non_neg_integer} | non_neg_integer | nil
-  def frequency([_,_|_] = schedules) do
+  def frequency(schedules) do
+    schedules
+    |> Enum.uniq_by(& &1.time)
+    |> do_frequency
+  end
+
+  defp do_frequency([_,_|_] = schedules) do
     schedules
     |> Enum.zip(Enum.drop(schedules, 1))
     |> Enum.map(fn {x, y} -> Timex.diff(y.time, x.time, :minutes) end)
     |> Enum.min_max
   end
-  def frequency(_) do
+  defp do_frequency(_) do
     nil
   end
 
@@ -119,11 +125,15 @@ defmodule TimeGroup do
     end
   end
 
-  @spec display_frequency_range(Schedules.Frequency.t) :: String.t
+  @spec display_frequency_range(Schedules.Frequency.t) :: iodata
   def display_frequency_range(%Schedules.Frequency{min_headway: value, max_headway: value}) do
-    "#{value}"
+    Integer.to_string(value)
   end
   def display_frequency_range(%Schedules.Frequency{min_headway: min, max_headway: max}) do
-    "#{Enum.max([1, min])}-#{max}"
+    [
+      Integer.to_string(min),
+      "-",
+      Integer.to_string(max)
+    ]
   end
 end
