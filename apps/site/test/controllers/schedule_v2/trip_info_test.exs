@@ -123,7 +123,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
     expected_stops = ["after_first", "1", "2", "3", "new_last"]
-    conn = conn_builder(conn, @schedules, trip: "long_trip", origin: "after_first", destination: "new_last")
+    conn = conn_builder(conn, [], trip: "long_trip", origin: "after_first", destination: "new_last")
     actual_stops = conn.assigns.trip_info.sections
     |> List.flatten
     |> Enum.map(& &1.schedule.stop.id)
