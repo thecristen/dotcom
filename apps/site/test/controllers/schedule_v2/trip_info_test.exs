@@ -173,4 +173,136 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     predicted_schedules = List.flatten(conn.assigns.trip_info.sections)
     assert Enum.find(predicted_schedules, &match?(%PredictedSchedule{prediction: %Prediction{}}, &1))
   end
+
+  test "does not assign trips for the subway if the date is in the future", %{conn: conn} do
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 25),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, minutes: 26),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 27),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+    day = Timex.shift(Util.now, days: 1)
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "Red"),
+      query_params: nil
+    }
+    |> assign(:schedules, schedules)
+    |> assign(:date, day)
+    |> assign(:route, %Routes.Route{type: 1})
+    |> call(init)
+
+    assert conn.assigns.trip_info == nil
+  end
+
+  test "does assign trips for the subway if the date is today", %{conn: conn} do
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 25),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, minutes: 26),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 27),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+    day = Util.now
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "Red"),
+      query_params: nil
+    }
+    |> assign(:schedules, schedules)
+    |> assign(:date, day)
+    |> assign(:route, %Routes.Route{type: 1})
+    |> call(init)
+
+    assert conn.assigns.trip_info != nil
+  end
+
+  test "does assign trips for the bus if the date is in the future", %{conn: conn} do
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 25),
+        route: %Routes.Route{type: 3}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 26),
+        route: %Routes.Route{type: 3}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 27),
+        route: %Routes.Route{type: 3}
+      }
+    ]
+    day = Timex.shift(Util.now, days: 1)
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "1"),
+      query_params: nil
+    }
+    |> assign(:schedules, schedules)
+    |> assign(:date, day)
+    |> assign(:route, %Routes.Route{type: 3})
+    |> call(init)
+
+    assert conn.assigns.trip_info != nil
+  end
+
+  describe "show_trips/2" do
+    test "it is false when looking at a future date for subway" do
+      day = Timex.shift(Util.now, days: 1)
+      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 1) == false
+    end
+
+    test "is true when looking at the subway today" do
+      day = Util.today
+      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 1) == true
+    end
+
+    test "has the same behavior for light rail as for subway" do
+      day = Util.today
+      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 0) == true
+      day = Timex.shift(Util.now, days: 1)
+      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 0) == false
+    end
+
+    test "is true when looking at any non-subway route" do
+      day = Timex.shift(Util.now, days: 1)
+      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 3) == true
+    end
+  end
 end
