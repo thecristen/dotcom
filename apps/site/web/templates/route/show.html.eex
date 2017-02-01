@@ -1,0 +1,15 @@
+<div class="route-info">
+  <div class="col-xs-12 col-md-6">
+    <%= for stop <- @stops do %>
+      <div class="route-row">
+        <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
+        <%= for icon <- @stop_features[stop.id] do %>
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: icon}) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-xs-12 col-md-6">
+    <img src="<%= @map_img_src %>">
+  </div>
+</div>
