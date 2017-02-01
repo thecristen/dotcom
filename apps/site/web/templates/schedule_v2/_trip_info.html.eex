@@ -23,12 +23,11 @@
             <%= render "_trip_info_row.html",
                        name: schedule.stop.name,
                        href: stop_path(@conn, :show, schedule.stop.id),
-                       scheduled_time: schedule.time,
-                       prediction: prediction,
                        route: @trip_info.route,
                        vehicle?: flags.vehicle?,
                        terminus?: flags.terminus?,
-                       alerts: stop_alerts(predicted_schedule, @all_alerts, @route.id, @direction_id)%>
+                       alerts: stop_alerts(predicted_schedule, @all_alerts, @route.id, @direction_id),
+                       predicted_schedule: predicted_schedule %>
           <% end %>
         <% end %>
       <% end %>
