@@ -8,9 +8,12 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   alias Schedules.{Schedule, Trip, Stop}
   alias Predictions.Prediction
 
+  require Routes.Route
+  alias Routes.Route
+
   def init([]), do: []
 
-  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) when route_type in [0, 1] do
+  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) when Route.subway?(route_type) do
     destination = conn.params["destination"]
     stop_times = StopTimeList.build_predictions_only(
       filtered_predictions(conn.assigns.predictions, schedules, destination),
