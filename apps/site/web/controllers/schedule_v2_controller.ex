@@ -11,7 +11,7 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleV2Controller.Predictions
   plug Site.ScheduleController.Headsigns
   plug Site.ScheduleController.AllStops
-  plug Site.ScheduleV2Controller.DestinationStops
+  plug Site.ScheduleV2Controller.ExcludedStops
   plug Site.ScheduleV2Controller.StopTimes
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.VehicleLocations
