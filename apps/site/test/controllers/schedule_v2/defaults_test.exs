@@ -2,7 +2,6 @@ defmodule Site.ScheduleV2Controller.DefaultsTest do
   use Site.ConnCase, async: true
   alias Site.ScheduleV2Controller.Defaults
   alias Routes.Route
-  alias Stops.Stop
 
   setup %{conn: conn} do
     conn =

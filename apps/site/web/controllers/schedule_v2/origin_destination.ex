@@ -12,14 +12,19 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
   plug :assign_origin
   plug :assign_destination
 
-  def assign_origin(%Conn{query_params: %{"origin" => _}} = conn, _) do
-    conn = assign_stop(conn, :origin)
-    if conn.assigns.origin == nil do
+  def assign_origin(%Conn{query_params: %{"origin" => _}, assigns: %{route: route}} = conn, _) do
+    origin = get_stop(conn, :origin)
+    excluded_stops = ExcludedStops.excluded_origin_stops(
+      conn.assigns.direction_id,
+      route.id,
+      conn.assigns.all_stops
+    )
+    if origin && not origin.id in excluded_stops do
+      assign(conn, :origin, origin)
+    else
       conn
       |> redirect(to: update_url(conn, origin: nil, destination: nil))
       |> halt
-    else
-      conn
     end
   end
   def assign_origin(conn, _) do
@@ -27,28 +32,29 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
   end
 
   def assign_destination(%Conn{query_params: %{"destination" => _}} = conn, _) do
-    conn = assign_stop(conn, :destination)
-    if conn.assigns.destination == nil do
+    destination = get_stop(conn, :destination)
+    excluded_stops = ExcludedStops.excluded_destination_stops(
+      conn.assigns.route.id,
+      conn.assigns.origin && conn.assigns.origin.id
+    )
+    if destination && not destination.id in excluded_stops do
+      assign(conn, :destination, destination)
+    else
       conn
       |> redirect(to: update_url(conn, destination: nil))
       |> halt
-    else
-      conn
     end
   end
   def assign_destination(conn, _) do
     assign(conn, :destination, nil)
   end
 
-  def assign_stop(conn, key) do
+  def get_stop(conn, key) do
     stop_id = Map.get(conn.query_params, Atom.to_string(key))
     if Schedules.Repo.stop_exists_on_route?(stop_id, conn.assigns.route.id, conn.assigns.direction_id) do
-      do_assign_stop(stop_id, conn, key)
+      Stops.Repo.get(stop_id)
     else
-      conn
-      |> assign(key, nil)
+      nil
     end
   end
-
-  defp do_assign_stop(stop_id, conn, key), do: assign(conn, key, Stops.Repo.get(stop_id))
 end

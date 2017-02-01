@@ -1,15 +1,16 @@
 defmodule Site.ScheduleV2Controller.OriginDestinationTest do
   use Site.ConnCase, async: true
   alias Site.ScheduleV2Controller.OriginDestination
-  alias Routes.Route
+  alias Stops.Stop
 
   defp setup_conn(conn) do
     conn
-    |> assign(:route, %Route{id: "1", type: 3})
+    |> Site.Plugs.Route.call([])
     |> assign(:date_time, Util.now())
     |> assign(:date, Util.service_date())
     |> fetch_query_params()
     |> Site.ScheduleV2Controller.Defaults.call([])
+    |> Site.ScheduleController.AllStops.call([])
     |> OriginDestination.call([])
   end
 
@@ -20,7 +21,7 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
     end
 
     test "a %Stop{} when id in params", %{conn: conn} do
-      conn = setup_conn(%{conn | query_params: %{"origin" => "2167", "direction_id" => "1"}})
+      conn = setup_conn(%{conn | params: %{"route" => "1"}, query_params: %{"origin" => "2167", "direction_id" => "1"}})
       assert %Stop{id: "2167"} = conn.assigns.origin
     end
   end
@@ -34,7 +35,8 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
     test "a %Stop{} when id in params", %{conn: conn} do
       conn = setup_conn(
         %{conn |
-          query_params: %{"origin" => "64", "destination" => "place-hymnl", "direction_id" => "0"}
+          query_params: %{"origin" => "64", "destination" => "place-hymnl", "direction_id" => "0"},
+          params: %{"route" => "1"}
         }
       )
       assert %Stop{id: "place-hymnl"} = conn.assigns.destination
@@ -92,6 +94,30 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
         }
       )
       assert redirected_to(conn, 302) == path <> "?direction_id=1"
+    end
+
+    test "when origin exists but is at the end of the line, redirects to the page with no origin selected", %{conn: conn} do
+      conn = setup_conn(
+        %{conn |
+          params: %{"route" => "Orange"},
+          request_path: schedule_v2_path(conn, :show, "Orange"),
+          query_params: %{"origin" => "place-ogmnl", "direction_id" => "1"}
+        }
+      )
+
+      assert redirected_to(conn, 302) == schedule_v2_path(conn, :show, "Orange", direction_id: "1")
+    end
+
+    test "when origin and destination are on opposite Red Line branches, redirects to the page with no destination", %{conn: conn} do
+      conn = setup_conn(
+        %{conn |
+          params: %{"route" => "Red"},
+          request_path: schedule_v2_path(conn, :show, "Red"),
+          query_params: %{"destination" => "place-asmnl", "origin" => "place-qamnl", "direction_id" => "0"}
+        }
+      )
+
+      assert redirected_to(conn, 302) == schedule_v2_path(conn, :show, "Red", direction_id: "0", origin: "place-qamnl")
     end
   end
 end
