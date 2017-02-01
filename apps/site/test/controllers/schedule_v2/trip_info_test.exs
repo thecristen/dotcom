@@ -4,33 +4,35 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
 
+  @time Util.now()
+
   @schedules [
     %Schedule{
       trip: %Trip{id: "past_trip"},
       stop: %Schedules.Stop{},
-      time: Timex.shift(Util.now, hours: -1)
+      time: Timex.shift(@time, hours: -1)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
       stop: %Schedules.Stop{},
-      time: Timex.shift(Util.now, minutes: 5)
+      time: Timex.shift(@time, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "far_future_trip"},
       stop: %Schedules.Stop{},
-      time: Timex.shift(Util.now, hours: 1)
+      time: Timex.shift(@time, hours: 1)
     }
   ]
   @trip_schedules [
     %Schedule{
       trip: %Trip{id: "32893585"},
       stop: %Schedules.Stop{id: "first"},
-      time: Timex.shift(Util.now, minutes: 5)
+      time: Timex.shift(@time, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
       stop: %Schedules.Stop{id: "last"},
-      time: Timex.shift(Util.now, minutes: 4)
+      time: Timex.shift(@time, minutes: 4)
     }
   ]
 
@@ -99,7 +101,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       query_params: query_params,
       params: params}
     |> assign(:schedules, schedules)
-    |> assign(:date_time, Util.now)
+    |> assign(:date_time, @time)
     |> assign(:date, Util.service_date())
     |> call(init)
   end
@@ -163,7 +165,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_v2_path(conn, :show, "1"),
       query_params: %{"trip" =>  "long_trip"}}
     |> assign(:schedules, [])
-    |> assign(:date_time, Util.now)
+    |> assign(:date_time, @time)
     |> assign(:date, Timex.shift(Util.service_date(), days: 2))
     |> call(init)
 
