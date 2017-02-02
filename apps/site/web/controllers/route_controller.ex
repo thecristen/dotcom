@@ -14,7 +14,7 @@ defmodule Site.RouteController do
       stops: stops,
       active_lines: active_lines(stops, stop_route_id_set),
       stop_features: stop_features(stops, route),
-      map_img_src: map_img_src(stops, 0)
+      map_img_src: map_img_src(stops, route.type)
   end
   def show(conn, %{"route" => "Red"}) do
     stops = stops("Red", 0)
@@ -42,6 +42,11 @@ defmodule Site.RouteController do
       map_img_src: map_img_src(stops, conn.assigns.route.type)
   end
 
+  @doc """
+
+  Return all the Stops.Stop.t that are on the given route (by ID) and direction.
+
+  """
   @spec stops(Routes.Route.id_t, 0 | 1) :: [Stops.Stop.t]
   def stops(route_id, direction_id) do
     route_id
@@ -50,6 +55,13 @@ defmodule Site.RouteController do
     |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
+  @doc """
+
+  Stop features are a list of atoms for icons at a given stop.  We ignore the
+  feature we're currently display, since by definition all the stops would
+  have that feature.
+
+  """
   @spec stop_features([Stops.Stop.t], Routes.Route.t) :: %{Stops.Stop.id_t => [atom]}
   def stop_features(stops, route) do
     Map.new(stops,
@@ -95,6 +107,13 @@ defmodule Site.RouteController do
   defp route_feature(%Routes.Route{id: "Green" <> _}), do: :green_line
   defp route_feature(%Routes.Route{} = route), do: Routes.Route.type_atom(route)
 
+  @doc """
+
+  Returns an image to display on the right/bottom part of the page.  For CR,
+  we display a Google Map with the stops.  For others, we display a spider
+  map.
+
+  """
   @spec map_img_src([Stops.Stop.t], 0..4) :: String.t
   def map_img_src(stops, route_type)
   def map_img_src(_, type) when type in [0, 1, 3] do # subway or bus
@@ -120,11 +139,11 @@ defmodule Site.RouteController do
 
   defp path(stops) do
     stops
-    |> Enum.map(&position/1)
+    |> Enum.map(&position_string/1)
     |> Enum.join("|")
   end
 
-  defp position(%{latitude: latitude, longitude: longitude}) do
+  defp position_string(%{latitude: latitude, longitude: longitude}) do
     "#{latitude},#{longitude}"
   end
 
@@ -132,8 +151,13 @@ defmodule Site.RouteController do
     static_url(Site.Endpoint, "/images/mbta-logo-t-favicon.png")
   end
 
+  @doc """
+
+  Returns the stops that are on a given branch of the Green line (along with the route ID)
+
+  """
   @spec green_line_stops(Routes.Route.id_t) :: {Routes.Route.id_t, [Stops.Stop.t]}
-  defp green_line_stops(route_id) do
+  def green_line_stops(route_id) do
     {route_id, route_id
     |> stops(0)
     |> green_line_filter(route_id)}
@@ -144,7 +168,14 @@ defmodule Site.RouteController do
     |> Enum.drop_while(&stop_or_terminus(&1.id, route_id) != :terminus)
   end
 
-  defp merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, stop_route_id_set}) do
+  @doc """
+
+  Returns the current full list of stops on the Green line, along with a
+  MapSet for all {stop_id, route_id} pairs where that stop in on that route.
+
+  """
+  # the {:ok, _} part of the pattern match is due to using Task.async_stream.
+  def merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, stop_route_id_set}) do
     # update stop_route_id_set to tag the routes the stop is one
     stop_route_id_set = line_stops
     |> Enum.reduce(stop_route_id_set, fn %{id: stop_id}, set ->
@@ -158,13 +189,17 @@ defmodule Site.RouteController do
     {current_stops, stop_route_id_set}
   end
 
-  # Builds %{stop_id => active_map}.  active map is %{route_id => nil | :empty | :line | :stop | :terminus}
-  # :empty means we should take up space for that route, but not display anything
-  # :line means we should display a line
-  # :stop means we should display a bordered bubble with the route letter
-  # :terminus means we should display a filled bubble with the route letter
-  # nil (not present) means we shouldn't take up space for that route
-  defp active_lines(stops, stop_route_id_set) do
+  @doc """
+
+  Builds %{stop_id => active_map}.  active map is %{route_id => nil | :empty | :line | :stop | :terminus}
+  :empty means we should take up space for that route, but not display anything
+  :line means we should display a line
+  :stop means we should display a bordered bubble with the route letter
+  :terminus means we should display a filled bubble with the route letter
+  nil (not present) means we shouldn't take up space for that route
+
+  """
+  def active_lines(stops, stop_route_id_set) do
     {map, _} = stops
     |> Enum.reverse
     |> Enum.reduce({%{}, %{}}, &do_active_line(&1, &2, stop_route_id_set))
