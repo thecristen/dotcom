@@ -18,7 +18,7 @@ defmodule Site.RouteController do
   end
   def show(conn, %{"route" => "Red"}) do
     stops = stops("Red", 0)
-    {ashmont, braintree} = split_at(stops, "place-nqncy")
+    {ashmont, braintree} = Enum.split_while(stops, & &1.id != "place-nqncy")
     render conn, "show.html",
       stop_list_template: "_stop_list_red.html",
       stops: ashmont,
@@ -130,18 +130,6 @@ defmodule Site.RouteController do
 
   defp icon_path() do
     static_url(Site.Endpoint, "/images/mbta-logo-t-favicon.png")
-  end
-
-  # splits the stop list into two, where the first stop in the second list is stop_id
-  defp split_at(stops, stop_id) do
-    do_split_at(stops, stop_id, [])
-  end
-
-  defp do_split_at([%{id: stop_id}| _] = stops, stop_id, acc) do
-    {Enum.reverse(acc), stops}
-  end
-  defp do_split_at([stop | rest], stop_id, acc) do
-    do_split_at(rest, stop_id, [stop | acc])
   end
 
   @spec green_line_stops(Routes.Route.id_t) :: {Routes.Route.id_t, [Stops.Stop.t]}
