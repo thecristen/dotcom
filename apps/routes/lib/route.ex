@@ -37,4 +37,10 @@ defmodule Routes.Route do
   def key_route?(%__MODULE__{key_route?: key_route?}) do
     key_route?
   end
+
+  defmacro subway?(expr) do
+    quote do
+      unquote(expr) in [0, 1]
+    end
+  end
 end

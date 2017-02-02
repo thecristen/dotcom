@@ -12,6 +12,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
 
+  require Routes.Route
+  alias Routes.Route
+
   @default_opts [
     trip_fn: &Schedules.Repo.schedule_for_trip/1,
     vehicle_fn: &Vehicles.Repo.trip/1,
@@ -111,7 +114,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   end
 
   @spec show_trips(DateTime.t, integer) :: boolean
-  def show_trips(date, route_type) when route_type in [0, 1] do
+  def show_trips(date, route_type) when Route.subway?(route_type) do
     Timex.diff(date, Util.today, :days) == 0
   end
   def show_trips(_date, _route_type) do
