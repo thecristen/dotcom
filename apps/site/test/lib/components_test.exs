@@ -82,7 +82,7 @@ defmodule Site.ComponentsTest do
       assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 3}}) == bus
       assert svg_icon(%SvgIcon{icon: 3}) == bus
       red_line = svg_icon(%SvgIcon{icon: :red_line})
-      assert svg_icon(%SvgIcon{icon: "Mattapan Line"}) == red_line
+      assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 0, id: "Mattapan"}}) == red_line
       assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 1, id: "Red"}}) == red_line
       assert svg_icon(%SvgIcon{icon: "Escalator"}) == svg_icon(%SvgIcon{icon: :access})
     end

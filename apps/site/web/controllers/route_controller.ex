@@ -71,7 +71,7 @@ defmodule Site.RouteController do
   end
 
   defp do_stop_features(stop, route) do
-    route_feature = route_feature(route)
+    route_feature = Routes.Route.icon_atom(route)
     routes = stop.id
     |> Routes.Repo.by_stop
     |> Enum.group_by(&Routes.Route.type_atom/1)
@@ -94,18 +94,12 @@ defmodule Site.RouteController do
 
   defp deaggregate_routes({:subway, routes}) do
     routes
-    |> Enum.map(&route_feature/1)
+    |> Enum.map(&Routes.Route.icon_atom/1)
     |> Enum.uniq
   end
   defp deaggregate_routes({other_type, _routes}) do
     [other_type]
   end
-
-  defp route_feature(%Routes.Route{id: "Red"}), do: :red_line
-  defp route_feature(%Routes.Route{id: "Orange"}), do: :orange_line
-  defp route_feature(%Routes.Route{id: "Blue"}), do: :blue_line
-  defp route_feature(%Routes.Route{id: "Green" <> _}), do: :green_line
-  defp route_feature(%Routes.Route{} = route), do: Routes.Route.type_atom(route)
 
   @doc """
 

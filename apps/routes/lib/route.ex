@@ -26,6 +26,14 @@ defmodule Routes.Route do
   def type_atom(3), do: :bus
   def type_atom(4), do: :ferry
 
+  @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
+  def icon_atom(%Routes.Route{id: "Red"}), do: :red_line
+  def icon_atom(%Routes.Route{id: "Mattapan"}), do: :red_line
+  def icon_atom(%Routes.Route{id: "Orange"}), do: :orange_line
+  def icon_atom(%Routes.Route{id: "Blue"}), do: :blue_line
+  def icon_atom(%Routes.Route{id: "Green" <> _}), do: :green_line
+  def icon_atom(%Routes.Route{} = route), do: type_atom(route.type)
+
   def type_name(:commuter_rail), do: "Commuter Rail"
   def type_name(:the_ride), do: "The Ride"
   def type_name(atom) do
