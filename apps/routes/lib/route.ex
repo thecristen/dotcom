@@ -6,8 +6,9 @@ defmodule Routes.Route do
     direction_names: %{0 => "Outbound", 1 => "Inbound"},
     key_route?: false
   ]
+  @type id_t :: String.t
   @type t :: %__MODULE__{
-    id: String.t,
+    id: id_t,
     type: 0..4,
     name: String.t,
     direction_names: %{0 => String.t, 1 => String.t},
@@ -24,6 +25,14 @@ defmodule Routes.Route do
   def type_atom(2), do: :commuter_rail
   def type_atom(3), do: :bus
   def type_atom(4), do: :ferry
+
+  @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
+  def icon_atom(%Routes.Route{id: "Red"}), do: :red_line
+  def icon_atom(%Routes.Route{id: "Mattapan"}), do: :red_line
+  def icon_atom(%Routes.Route{id: "Orange"}), do: :orange_line
+  def icon_atom(%Routes.Route{id: "Blue"}), do: :blue_line
+  def icon_atom(%Routes.Route{id: "Green" <> _}), do: :green_line
+  def icon_atom(%Routes.Route{} = route), do: type_atom(route.type)
 
   def type_name(:commuter_rail), do: "Commuter Rail"
   def type_name(:the_ride), do: "The Ride"

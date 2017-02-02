@@ -1,0 +1,11 @@
+<%= for stop <- @stops do %>
+  <div class="route-row">
+    <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
+    <%= for icon <- @stop_features[stop.id] do %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: icon}) %>
+    <% end %>
+    <%= if stop.id == @merge_stop_id do %>
+      <%= render "_stop_list.html", conn: @conn, stops: @braintree_branch_stops, stop_features: @stop_features %>
+    <% end %>
+  </div>
+<% end %>

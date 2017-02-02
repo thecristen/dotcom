@@ -165,3 +165,15 @@
     }
   }
 }
+
+.route-row {
+  > .route-row {
+    // branch
+    padding-left: 1rem;
+  }
+}
+
+.route-green-bubble {
+  display: inline-block;
+  width: $icon-size * 1.5;
+}

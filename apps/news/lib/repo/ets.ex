@@ -17,7 +17,7 @@ defmodule News.Repo.Ets do
   end
 
   def all_ids do
-    :ets.foldr(fn {id, _}, ids -> [id | ids] end, [], @ets_table)
+    :ets.select(@ets_table, [{{:"$1", :_}, [], [:"$1"]}])
   end
 
   def get(id) do

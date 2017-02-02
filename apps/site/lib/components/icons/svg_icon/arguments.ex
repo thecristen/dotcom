@@ -152,17 +152,10 @@ defmodule Site.Components.Icons.SvgIcon do
 
   @spec get_icon_atom(icon_arg) :: atom
   def get_icon_atom(arg) when is_atom(arg), do: arg
-  def get_icon_atom("Red"<>_line), do: :red_line
-  def get_icon_atom("Blue"<>_line), do: :blue_line
-  def get_icon_atom("Orange"<>_line), do: :orange_line
-  def get_icon_atom("Mattapan"<>_line), do: :red_line
-  def get_icon_atom("Green"<>_line), do: :green_line
-  def get_icon_atom("CR-" <> _line), do: :commuter_rail
   def get_icon_atom("Elevator"), do: :access
   def get_icon_atom("Escalator"), do: :access
-  def get_icon_atom(arg) when arg in [0,1,2,3,4], do: Routes.Route.type_atom(arg)
-  def get_icon_atom(%Routes.Route{type: type, id: id}) when type in [0,1], do: get_icon_atom(id)
-  def get_icon_atom(%Routes.Route{type: type}), do: get_icon_atom(type)
+  def get_icon_atom(route_type) when route_type in [0,1,2,3,4], do: Routes.Route.type_atom(route_type)
+  def get_icon_atom(%Routes.Route{} = route), do: Routes.Route.icon_atom(route)
   def get_icon_atom(arg) when is_binary(arg) do
     arg
     |> String.downcase
