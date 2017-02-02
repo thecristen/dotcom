@@ -64,42 +64,32 @@ defmodule Site.RouteController do
   """
   @spec stop_features([Stops.Stop.t], Routes.Route.t) :: %{Stops.Stop.id_t => [atom]}
   def stop_features(stops, route) do
-    Map.new(stops,
-      fn stop ->
-        {stop.id, do_stop_features(stop, route)}
-      end)
+    stops
+    |> Task.async_stream(&do_stop_features(&1, route))
+    |> Map.new(fn {:ok, key_value} -> key_value end)
   end
 
   defp do_stop_features(stop, route) do
     route_feature = Routes.Route.icon_atom(route)
     routes = stop.id
     |> Routes.Repo.by_stop
-    |> Enum.group_by(&Routes.Route.type_atom/1)
-    |> Enum.sort_by(&sort_routes_by_type/1)
-    |> Enum.flat_map(&deaggregate_routes/1)
+    |> Enum.map(&Routes.Route.icon_atom/1)
     |> Enum.reject(& &1 == route_feature)
+    |> Enum.uniq()
+    |> Enum.sort_by(&sort_routes_by_icon/1)
+
     accessibility = if "accessible" in stop.accessibility do
       [:access]
     else
       []
     end
 
-    routes ++ accessibility
+    {stop.id, routes ++ accessibility}
   end
 
-  defp sort_routes_by_type({:commuter_rail, _}), do: 0
-  defp sort_routes_by_type({:subway, _}), do: 1
-  defp sort_routes_by_type({:bus, _}), do: 2
-  defp sort_routes_by_type({_, _}), do: 3
-
-  defp deaggregate_routes({:subway, routes}) do
-    routes
-    |> Enum.map(&Routes.Route.icon_atom/1)
-    |> Enum.uniq
-  end
-  defp deaggregate_routes({other_type, _routes}) do
-    [other_type]
-  end
+  defp sort_routes_by_icon(:commuter_rail), do: 0
+  defp sort_routes_by_icon(:bus), do: 2
+  defp sort_routes_by_icon(_), do: 1
 
   @doc """
 
