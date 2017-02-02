@@ -108,4 +108,11 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.destination
     end
   end
+
+  describe "all modes" do
+    test "assigns breadcrumbs", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "1"))
+      assert conn.assigns.breadcrumbs
+    end
+  end
 end

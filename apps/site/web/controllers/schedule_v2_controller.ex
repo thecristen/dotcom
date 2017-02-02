@@ -16,6 +16,7 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleV2Controller.StopTimes
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.VehicleLocations
+  plug Site.ScheduleController.RouteBreadcrumbs
 
   def show(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, params) do
     conn
