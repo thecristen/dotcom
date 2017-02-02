@@ -10,8 +10,6 @@
         <%= @trip.headsign %>
       <% end %>
     <% end %>
-    <%= if @alerts != [] do %>
-      <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-    <% end %>
+    <%= display_alerts(@alerts) %>
   </div>
 </div>

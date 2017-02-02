@@ -203,4 +203,10 @@ defmodule Site.ScheduleV2View do
   def stop_alerts(%PredictedSchedule{schedule: schedule}, alerts, route_id, direction_id) do
     Alerts.Stop.match(alerts, schedule.stop.id, time: schedule.time, route: route_id, direction_id: direction_id)
   end
+
+
+  @doc "If alerts are given, display alert icon"
+  @spec display_alerts([Alerts.Alert.t]) :: Phoenix.HTML.Safe.t | nil
+  def display_alerts([]), do: nil
+  def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 end

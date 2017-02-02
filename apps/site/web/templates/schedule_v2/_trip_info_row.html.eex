@@ -10,13 +10,8 @@
   <%= link @name, to: @href, class: "col-xs-6" %>
   <%= if @route.type == 2 do %>
     <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
-    <%= if @alerts != [] do %>
-      <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-    <% end %>
   <% else %>
     <%= display_scheduled_prediction(@predicted_schedule) %>
-    <%= if @alerts != [] do %>
-      <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-    <% end %>
   <% end %>
+  <%= display_alerts(@alerts)%>
 </p>
