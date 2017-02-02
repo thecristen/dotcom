@@ -60,6 +60,14 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.alerts
       assert conn.assigns.trip_schedules
     end
+
+    test "header schedules are sorted correctly", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "timetable"))
+
+      assert conn.assigns.header_schedules == conn.assigns.timetable_schedules
+      |> Schedules.Sort.sort_by_first_times
+      |> Enum.map(&List.first/1)
+    end
   end
 
   describe "subway" do
