@@ -177,4 +177,30 @@ defmodule Site.ScheduleV2View do
       _ -> display_scheduled_prediction(stop_time)
     end
   end
+
+  @doc """
+  Returns Trip Alerts by the trip id and time from the given predicted_schedule, route and direction_id
+  If no schedule is available, the prediction is used to match against alerts
+  """
+  @spec trip_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
+  def trip_alerts(nil, _alerts, _route_id, _direction_id), do: []
+  def trip_alerts(%PredictedSchedule{schedule: nil, prediction: prediction}, alerts, route_id, direction_id) do
+    Alerts.Trip.match(alerts, prediction.trip.id, time: prediction.time, route: route_id, direction_id: direction_id)
+  end
+  def trip_alerts(%PredictedSchedule{schedule: schedule}, alerts, route_id, direction_id) do
+    Alerts.Trip.match(alerts, schedule.trip.id, time: schedule.time, route: route_id, direction_id: direction_id)
+  end
+
+  @doc """
+  Matches the given alerts with the stop id and time from the given predicted_schedule, route and direction_id
+  If no schedule is available, the prediction is used to match against alerts
+  """
+  @spec stop_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
+  def stop_alerts(nil, _alerts, _route_id, _direction_id), do: []
+  def stop_alerts(%PredictedSchedule{schedule: nil, prediction: prediction}, alerts, route_id, direction_id) do
+    Alerts.Stop.match(alerts, prediction.stop_id, time: prediction.time, route: route_id, direction_id: direction_id)
+  end
+  def stop_alerts(%PredictedSchedule{schedule: schedule}, alerts, route_id, direction_id) do
+    Alerts.Stop.match(alerts, schedule.stop.id, time: schedule.time, route: route_id, direction_id: direction_id)
+  end
 end

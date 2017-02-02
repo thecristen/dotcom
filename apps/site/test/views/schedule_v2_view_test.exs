@@ -271,21 +271,76 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
+  describe "Schedule Alerts" do
+    @schedule %Schedule{trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
+    @prediction %Prediction{trip: %Trip{id: "trip_pred"}, stop_id: "stop_pred"}
+
+    @alerts [
+        %Alerts.Alert{
+          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1", trip: "trip"}]
+        },
+        %Alerts.Alert{
+          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1", trip: "trip_pred"}]
+        },
+        %Alerts.Alert{
+          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1",  stop: "stop"}]
+        },
+        %Alerts.Alert{
+          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1",  stop: "stop_pred"}]
+        }
+      ]
+
+      test "trip alerts use schedule for match" do
+        alert = List.first(trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, "1", 1))
+        assert List.first(alert.informed_entity).trip == "trip"
+      end
+
+      test "trip alerts use prediction if no schedule is available" do
+        alert = List.first(trip_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, "1", 1))
+        assert List.first(alert.informed_entity).trip == "trip_pred"
+      end
+
+      test "No trip alerts returned if no predicted schedule is given" do
+        alerts = trip_alerts(nil, @alerts, "1", 1)
+        assert Enum.empty?(alerts)
+      end
+
+      test "stop alerts use schedule for match" do
+        alert = List.first(stop_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, "1", 1))
+        assert List.first(alert.informed_entity).stop == "stop"
+      end
+
+      test "stop alerts use prediction if no schedule is avaulable" do
+        alert = List.first(stop_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, "1", 1))
+        assert List.first(alert.informed_entity).stop == "stop_pred"
+      end
+
+      test "No stop alerts returned if no predicted schedule is given" do
+        alerts = stop_alerts(nil, @alerts, "1", 1)
+        assert Enum.empty?(alerts)
+      end
+  end
+
   describe "_trip_info_row.html" do
+    @time Util.now()
+    @output Site.ScheduleV2View.render(
+            "_trip_info_row.html",
+            prediction: %Predictions.Prediction{time: @time},
+            scheduled_time: @time,
+            name: "name",
+            href: "",
+            vehicle?: true,
+            terminus?: true,
+            alerts: ["alert"],
+            route: %Routes.Route{id: 1})
     test "real time icon shown when prediction is available" do
-      time = Util.now
-      prediction = %Predictions.Prediction{time: time}
-      output = Site.ScheduleV2View.render(
-        "_trip_info_row.html",
-        prediction: prediction,
-        scheduled_time: time,
-        name: "name",
-        href: "",
-        vehicle?: true,
-        terminus?: true,
-        route: %Routes.Route{id: 1})
-      safe_output = safe_to_string(output)
+      safe_output = safe_to_string(@output)
       assert safe_output =~ "rss"
+    end
+
+    test "Alert icon is shown when alerts are not empty" do
+      safe_output = safe_to_string(@output)
+      assert safe_output =~ "icon-alert"
     end
   end
 end
