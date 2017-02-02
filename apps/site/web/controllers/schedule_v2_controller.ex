@@ -45,7 +45,9 @@ defmodule Site.ScheduleV2Controller do
   end
 
   defp header_schedules(timetable_schedules) do
-    Enum.uniq_by(timetable_schedules, & &1.trip)
+    timetable_schedules
+    |> Schedules.Sort.sort_by_first_times
+    |> Enum.map(&List.first/1)
   end
 
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "timetable"}} = conn) do
