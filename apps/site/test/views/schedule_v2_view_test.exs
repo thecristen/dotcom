@@ -469,4 +469,39 @@ defmodule Site.ScheduleV2ViewTest do
       assert prediction_tooltip(prediction) =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
     end
   end
+
+  describe "should_display_trip_info?/2" do
+    test "Non subway will show trip info" do
+      commuter_info = %TripInfo{route: %Routes.Route{type: 4}}
+      assert should_display_trip_info?(commuter_info)
+    end
+
+    test "Subway will show trip info" do
+      subway_info = %TripInfo{sections: [%PredictedSchedule{prediction: %Prediction{time: Util.now()}}], route: %Routes.Route{type: 1}}
+      assert should_display_trip_info?(subway_info)
+    end
+
+    test "Will not should trip info if there is no trip info" do
+      refute should_display_trip_info?(nil)
+    end
+  end
+
+  describe "display_frequency_departure/2" do
+    @schedules [
+      %Schedule{time: Util.now()},
+      %Schedule{time: Util.now()}
+    ]
+    test "AM Rush displays first departure" do
+      assert safe_to_string(display_frequency_departure(:am_rush, @schedules)) =~ "First Departure"
+    end
+
+    test "Late Night displays last departure" do
+      assert safe_to_string(display_frequency_departure(:late_night, @schedules)) =~ "Last Departure"
+    end
+
+    test "Other time blocks do no give departure" do
+      refute display_frequency_departure(:midday, @schedules)
+      refute display_frequency_departure(:evening, @schedules)
+    end
+  end
 end

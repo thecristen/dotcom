@@ -154,6 +154,14 @@ defmodule TripInfo do
     end)
   end
 
+  @doc "Determines if given TripInfo contains any predictions"
+  @spec any_predictions?(TripInfo.t) :: boolean
+  def any_predictions?(%TripInfo{sections: sections}) do
+    sections
+    |> List.flatten
+    |> Enum.any?(&PredictedSchedule.has_prediction?/1)
+  end
+
   # Filters the list of times to those between origins and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
