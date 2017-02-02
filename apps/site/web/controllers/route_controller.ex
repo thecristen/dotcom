@@ -4,16 +4,17 @@ defmodule Site.RouteController do
   plug Site.Plugs.Route
 
   def show(conn, %{"route" => "Green"}) do
-    {stops, stop_route_id_map} = ~w(Green-B Green-C Green-D Green-E)s
+    route = %Routes.Route{id: "Green", type: 0}
+    {stops, stop_route_id_set} = ~w(Green-B Green-C Green-D Green-E)s
     |> Task.async_stream(&green_line_stops/1)
-    |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)
+    |> Enum.reduce({[], MapSet.new}, &merge_green_line_stops/2)
 
     render conn, "show.html",
       stop_list_template: "_stop_list_green.html",
       stops: stops,
-      active_lines: active_lines(stops, stop_route_id_map),
-      stop_features: stop_features(stops, %Routes.Route{id: "Green", type: 0}),
-      map_img_src: static_url(conn, "/images/subway-spider.jpg")
+      active_lines: active_lines(stops, stop_route_id_set),
+      stop_features: stop_features(stops, route),
+      map_img_src: map_img_src(stops, 0)
   end
   def show(conn, %{"route" => "Red"}) do
     stops = stops("Red", 0)
@@ -24,7 +25,7 @@ defmodule Site.RouteController do
       merge_stop_id: "place-jfk",
       braintree_branch_stops: braintree,
       stop_features: stop_features(stops, conn.assigns.route),
-      map_img_src: static_url(conn, "/images/subway-spider.jpg")
+      map_img_src: map_img_src(stops, conn.assigns.route.type)
   end
   def show(%Plug.Conn{assigns: %{route: nil}} = conn, _params) do
     conn
@@ -38,9 +39,10 @@ defmodule Site.RouteController do
       stop_list_template: "_stop_list.html",
       stops: stops,
       stop_features: stop_features(stops, conn.assigns.route),
-      map_img_src: map_img_src(stops)
+      map_img_src: map_img_src(stops, conn.assigns.route.type)
   end
 
+  @spec stops(Routes.Route.id_t, 0 | 1) :: [Stops.Stop.t]
   def stops(route_id, direction_id) do
     route_id
     |> Schedules.Repo.stops(direction_id: direction_id) # Inbound
@@ -48,6 +50,7 @@ defmodule Site.RouteController do
     |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
+  @spec stop_features([Stops.Stop.t], Routes.Route.t) :: %{Stops.Stop.id_t => [atom]}
   def stop_features(stops, route) do
     Map.new(stops,
       fn stop ->
@@ -92,12 +95,20 @@ defmodule Site.RouteController do
   defp route_feature(%Routes.Route{id: "Green" <> _}), do: :green_line
   defp route_feature(%Routes.Route{} = route), do: Routes.Route.type_atom(route)
 
-  def map_img_src(stops) do
+  @spec map_img_src([Stops.Stop.t], 0..4) :: String.t
+  def map_img_src(stops, route_type)
+  def map_img_src(_, type) when type in [0, 1, 3] do # subway or bus
+    static_url(Site.Endpoint, "/images/subway-spider.jpg")
+  end
+  def map_img_src(stops, 2) do
     opts = [
       markers: markers(stops),
       path: path(stops)
     ]
     GoogleMaps.static_map_url(500, 500, opts)
+  end
+  def map_img_src(_, 4) do # ferry
+    static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
 
   defp markers(stops) do
@@ -117,7 +128,7 @@ defmodule Site.RouteController do
     "#{latitude},#{longitude}"
   end
 
-  def icon_path() do
+  defp icon_path() do
     static_url(Site.Endpoint, "/images/mbta-logo-t-favicon.png")
   end
 
@@ -133,72 +144,63 @@ defmodule Site.RouteController do
     do_split_at(rest, stop_id, [stop | acc])
   end
 
+  @spec green_line_stops(Routes.Route.id_t) :: {Routes.Route.id_t, [Stops.Stop.t]}
   defp green_line_stops(route_id) do
     {route_id, route_id
     |> stops(0)
     |> green_line_filter(route_id)}
   end
 
-  defp green_line_filter(stops, "Green-B") do
+  defp green_line_filter(stops, route_id) do
     stops
-    |> Enum.drop_while(& &1.id != "place-pktrm")
-  end
-  defp green_line_filter(stops, "Green-C") do
-    stops
-    |> Enum.drop_while(& &1.id != "place-north")
-  end
-  defp green_line_filter(stops, "Green-D") do
-    stops
-    |> Enum.drop_while(& &1.id != "place-gover")
-  end
-  defp green_line_filter(stops, "Green-E") do
-    stops
+    |> Enum.drop_while(&stop_or_terminus(&1.id, route_id) != :terminus)
   end
 
-  defp merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, stop_route_id_map}) do
-    # update stop_route_id_map to tag the routes the stop is one
-    stop_route_id_map = line_stops
-    |> Enum.reduce(stop_route_id_map, fn %{id: stop_id}, map ->
-      put_in map[{stop_id, route_id}], true
+  defp merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, stop_route_id_set}) do
+    # update stop_route_id_set to tag the routes the stop is one
+    stop_route_id_set = line_stops
+    |> Enum.reduce(stop_route_id_set, fn %{id: stop_id}, set ->
+      MapSet.put(set, {stop_id, route_id})
     end)
 
     current_stops = line_stops
     |> List.myers_difference(current_stops)
     |> Enum.flat_map(fn {_op, stops} -> stops end)
 
-    {current_stops, stop_route_id_map}
+    {current_stops, stop_route_id_set}
   end
 
-  # Builds %{stop_id => active_map}.  active map is %{route_id => nil | :line | :stop | :terminus}
-  # nil means we should take up space for that route, but not display anything
+  # Builds %{stop_id => active_map}.  active map is %{route_id => nil | :empty | :line | :stop | :terminus}
+  # :empty means we should take up space for that route, but not display anything
   # :line means we should display a line
   # :stop means we should display a bordered bubble with the route letter
   # :terminus means we should display a filled bubble with the route letter
-  defp active_lines(stops, stop_route_id_map) do
+  # nil (not present) means we shouldn't take up space for that route
+  defp active_lines(stops, stop_route_id_set) do
     {map, _} = stops
     |> Enum.reverse
-    |> Enum.reduce({%{}, %{}}, &do_active_line(&1, &2, stop_route_id_map))
+    |> Enum.reduce({%{}, %{}}, &do_active_line(&1, &2, stop_route_id_set))
     map
   end
 
-  defp do_active_line(stop, {map, currently_active}, stop_route_id_map) do
-    currently_active = update_active(stop.id, currently_active, stop_route_id_map)
+  defp do_active_line(stop, {map, currently_active}, stop_route_id_set) do
+    currently_active = update_active(stop.id, currently_active, stop_route_id_set)
     map = put_in map[stop.id], currently_active
     {map, currently_active}
   end
 
-  defp update_active(stop_id, currently_active, stop_route_id_map) do
+  defp update_active(stop_id, currently_active, stop_route_id_set) do
     ~w(Green-B Green-C Green-D Green-E)s
     |> Enum.reduce(currently_active, fn route_id, currently_active ->
-      if stop_route_id_map[{stop_id, route_id}] do
+      if MapSet.member?(stop_route_id_set, {stop_id, route_id}) do
         stop_or_terminus = stop_or_terminus(stop_id, route_id)
         put_in currently_active[route_id], stop_or_terminus
       else
-        case Map.fetch(currently_active, route_id) do
-          :error ->
+        case Map.get(currently_active, route_id) do
+          nil ->
             # don't add an entry if we don't have one already
             currently_active
-          {:ok, current_value} ->
+          current_value ->
             put_in currently_active[route_id], update_active_line(current_value)
         end
       end

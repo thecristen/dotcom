@@ -6,8 +6,9 @@ defmodule Routes.Route do
     direction_names: %{0 => "Outbound", 1 => "Inbound"},
     key_route?: false
   ]
+  @type id_t :: String.t
   @type t :: %__MODULE__{
-    id: String.t,
+    id: id_t,
     type: 0..4,
     name: String.t,
     direction_names: %{0 => String.t, 1 => String.t},

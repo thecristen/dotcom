@@ -33,6 +33,16 @@ defmodule Site.RouteControllerTest do
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
+    test "Ferry data", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Boat-F1")
+      assert conn.status == 200
+      assert List.first(conn.assigns.stops).id == "Boat-Hingham"
+      assert List.last(conn.assigns.stops).id == "Boat-Long"
+
+      # Map
+      assert conn.assigns.map_img_src =~ "ferry-spider"
+    end
+
     test "Red Line data", %{conn: conn} do
       conn = get conn, route_path(conn, :show, "Red")
       assert conn.status == 200

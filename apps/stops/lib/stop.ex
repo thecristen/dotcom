@@ -18,8 +18,9 @@ defmodule Stops.Stop do
     has_fare_machine?: false,
     has_charlie_card_vendor?: false]
 
+  @type id_t :: String.t
   @type t :: %Stop{
-    id: String.t,
+    id: id_t,
     name: String.t,
     note: String.t,
     accessibility: [String.t],
