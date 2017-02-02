@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "install": "cd apps/site && npm install",
+    "install": "cd apps/site && npm install --no-optional",
     "test": "mix test && npm run test:js && mix backstop.tests",
     "backstop:test": "cd apps/site/node_modules/backstopjs && npm run test",
     "backstop:reference": "cd apps/site/node_modules/backstopjs && npm run reference",

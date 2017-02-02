@@ -16,6 +16,8 @@ MIX_ENV=test mix do deps.get, deps.compile
 nvm use 6.2
 rbenv local 2.4
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems gem install -g gem.deps.rb sass pronto pronto-credo pronto-eslint pronto-scss -N
-NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run install
+# drop phantomjs/backstop/casper from the deps to install
+sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/package.json
+NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run install --no-optional
 npm run brunch:build
 MIX_ENV=test mix compile --force
