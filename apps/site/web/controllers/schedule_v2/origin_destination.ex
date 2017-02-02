@@ -27,6 +27,12 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
       |> halt
     end
   end
+  # For inbound commuter rail trips, preselect the origin as the
+  # terminal (i.e. either North or South stations).
+  def assign_origin(%Conn{assigns: %{route: %Routes.Route{type: 2}, direction_id: 0}} = conn, _) do
+    %Schedules.Stop{id: id, name: name} = List.first(conn.assigns.all_stops)
+    assign(conn, :origin, %Stops.Stop{id: id, name: name})
+  end
   def assign_origin(conn, _) do
     assign(conn, :origin, nil)
   end
