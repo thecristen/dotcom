@@ -6,6 +6,15 @@ defmodule Site.RouteController do
   def show(conn, %{"route" => "Green"}) do
   end
   def show(conn, %{"route" => "Red"}) do
+    stops = stops("Red", 0)
+    {ashmont, braintree} = split_at(stops, "place-nqncy")
+    render conn, "show.html",
+      stop_list_template: "_stop_list_red.html",
+      stops: ashmont,
+      merge_stop_id: "place-jfk",
+      braintree_branch_stops: braintree,
+      stop_features: stop_features(stops, conn.assigns.route),
+      map_img_src: static_url(conn, "/images/subway-spider.jpg")
   end
   def show(%Plug.Conn{assigns: %{route: nil}} = conn, _params) do
     conn
@@ -14,15 +23,19 @@ defmodule Site.RouteController do
     |> halt
   end
   def show(conn, %{"route" => route_id}) do
-    stops = route_id
-    |> Schedules.Repo.stops(direction_id: 1) # Inbound
-    |> Task.async_stream(&Stops.Repo.get(&1.id))
-    |> Enum.map(fn {:ok, stop} -> stop end)
-
+    stops = stops(route_id, 1)
     render conn, "show.html",
+      stop_list_template: "_stop_list.html",
       stops: stops,
       stop_features: stop_features(stops, conn.assigns.route),
       map_img_src: map_img_src(stops)
+  end
+
+  def stops(route_id, direction_id) do
+    route_id
+    |> Schedules.Repo.stops(direction_id: direction_id) # Inbound
+    |> Task.async_stream(&Stops.Repo.get(&1.id))
+    |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
   def stop_features(stops, route) do
@@ -97,5 +110,17 @@ defmodule Site.RouteController do
 
   def icon_path() do
     static_url(Site.Endpoint, "/images/mbta-logo-t-favicon.png")
+  end
+
+  # splits the stop list into two, where the first stop in the second list is stop_id
+  defp split_at(stops, stop_id) do
+    do_split_at(stops, stop_id, [])
+  end
+
+  defp do_split_at([%{id: stop_id} = stop | _] = stops, stop_id, acc) do
+    {Enum.reverse(acc), stops}
+  end
+  defp do_split_at([stop | rest], stop_id, acc) do
+    do_split_at(rest, stop_id, [stop | acc])
   end
 end
