@@ -204,9 +204,64 @@ defmodule Site.ScheduleV2View do
     Alerts.Stop.match(alerts, schedule.stop.id, time: schedule.time, route: route_id, direction_id: direction_id)
   end
 
-
   @doc "If alerts are given, display alert icon"
   @spec display_alerts([Alerts.Alert.t]) :: Phoenix.HTML.Safe.t | nil
   def display_alerts([]), do: nil
   def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
+
+  @spec prediction_status_text(Predictions.Prediction.t | nil) :: String.t
+  def prediction_status_text(nil) do
+    nil
+  end
+  def prediction_status_text(%Predictions.Prediction{track: nil}) do
+    nil
+  end
+  def prediction_status_text(%Predictions.Prediction{status: status, track: track}) when not is_nil(track) do
+    "#{status} on Track #{track}"
+  end
+
+  @spec prediction_time_text(Predictions.Prediction.t | nil) :: String.t
+  def prediction_time_text(nil) do
+    nil
+  end
+  def prediction_time_text(%Predictions.Prediction{time: nil}) do
+    nil
+  end
+  def prediction_time_text(%Predictions.Prediction{time: time}) do
+    "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+  end
+
+  @spec prediction_tooltip(String.t | nil, String.t | nil) :: Phoenix.HTML.Tag.t
+  def prediction_tooltip(nil, nil) do
+    nil
+  end
+  def prediction_tooltip(time_text, nil) do
+    content_tag :span do
+      time_text
+    end
+  end
+  def prediction_tooltip(nil, status_text) do
+    content_tag :span do
+      status_text
+    end
+  end
+  def prediction_tooltip(time_text, status_text) do
+    time_tag = content_tag(:p, time_text, class: 'prediction-tooltip')
+    status_tag = content_tag(:p, status_text, class: 'prediction-tooltip')
+
+    content_tag :span do
+      [time_tag, status_tag]
+    end
+    |> safe_to_string
+    |> String.replace(~s("), ~s('))
+  end
+
+  @spec prediction_for_vehicle_location(Plug.Conn.t, String.t, String.t) :: Predictions.Prediction.t
+  def prediction_for_vehicle_location(%{assigns: %{vehicle_predictions: vehicle_predictions}}, stop_id, trip_id) do
+    vehicle_predictions
+    |> Enum.find(fn prediction -> prediction.stop_id == stop_id && prediction.trip.id == trip_id end)
+  end
+  def prediction_for_vehicle_location(conn, _stop_id, _trip_id) do
+    conn
+  end
 end

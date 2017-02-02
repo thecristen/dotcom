@@ -10,12 +10,12 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.AllStops
   plug Site.ScheduleV2Controller.OriginDestination
   plug Site.ScheduleV2Controller.Schedules
+  plug Site.ScheduleV2Controller.VehicleLocations
   plug Site.ScheduleV2Controller.Predictions
   plug Site.ScheduleController.Headsigns
   plug Site.ScheduleV2Controller.ExcludedStops
   plug Site.ScheduleV2Controller.StopTimes
   plug Site.ScheduleV2Controller.TripInfo
-  plug Site.ScheduleV2Controller.VehicleLocations
   plug Site.ScheduleController.RouteBreadcrumbs
 
   def show(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, params) do

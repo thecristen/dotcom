@@ -55,4 +55,22 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       ]
     end
   end
+
+  describe "gather_vehicle_predictions/2" do
+    test "assigns a list containing predictions for every stop with a vehicle at it" do
+      vehicle_locations = %{
+        {"1", "place-sstat"} => %Vehicles.Vehicle{trip_id: "1", stop_id: "place-sstat", status: :incoming},
+        {"2", "place-north"} =>  %Vehicles.Vehicle{trip_id: "2", stop_id: "place-north", status: :stopped}
+      }
+      conn = build_conn()
+      |> assign(:origin, %Stops.Stop{id: "1148"})
+      |> assign(:destination, %Stops.Stop{id: "21148"})
+      |> assign(:route, %{id: "66"})
+      |> assign(:direction_id, "0")
+      |> assign(:vehicle_locations, vehicle_locations)
+      |> gather_vehicle_predictions(fn x -> x end)
+
+      assert conn.assigns.vehicle_predictions == [trip: "1", stop: "place-sstat", trip: "2", stop: "place-north"]
+    end
+  end
 end
