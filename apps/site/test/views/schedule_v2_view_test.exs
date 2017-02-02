@@ -68,19 +68,19 @@ defmodule Site.ScheduleV2ViewTest do
     @prediction_time Timex.shift(@schedule_time, hours: 1)
 
     test "Prediction is used if one is given" do
-      display_time = display_scheduled_prediction({%Schedule{time: @schedule_time}, %Prediction{time: @prediction_time}})
+      display_time = display_scheduled_prediction(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: %Prediction{time: @prediction_time}})
       assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@prediction_time)
       assert safe_to_string(display_time) =~ "fa fa-rss"
     end
 
     test "Scheduled time is used if no prediction is available" do
-      display_time = display_scheduled_prediction({%Schedule{time: @schedule_time}, nil})
+      display_time = display_scheduled_prediction(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: nil})
       assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@schedule_time)
       refute safe_to_string(display_time) =~ "fa fa-rss"
     end
 
     test "Empty string returned if no value available in predicted_schedule pair" do
-      assert display_scheduled_prediction({nil, nil}) == ""
+      assert display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}) == ""
     end
   end
 
@@ -239,7 +239,7 @@ defmodule Site.ScheduleV2ViewTest do
       now = Util.now
       then = Timex.shift(now, minutes: 5)
 
-      result = {%Schedule{time: now}, %Prediction{time: then}}
+      result = %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: then}}
       |> display_commuter_scheduled_prediction
       |> safe_to_string
 
@@ -250,21 +250,21 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "if the times do not differ, just returns the same result as display_scheduled_prediction/1" do
       now = Util.now
-      stop_time = {%Schedule{time: now}, %Prediction{time: now}}
+      stop_time = %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}}
       result = display_commuter_scheduled_prediction(stop_time)
 
       assert result == display_scheduled_prediction(stop_time)
     end
 
     test "handles nil schedules" do
-      stop_time = {nil, %Prediction{time: Util.now}}
+      stop_time = %PredictedSchedule{schedule: nil, prediction: %Prediction{time: Util.now}}
       result = display_commuter_scheduled_prediction(stop_time)
 
       assert result == display_scheduled_prediction(stop_time)
     end
 
     test "handles nil predictions" do
-      stop_time = {%Schedule{time: Util.now}, nil}
+      stop_time = %PredictedSchedule{schedule: %Schedule{time: Util.now}, prediction: nil}
       result = display_commuter_scheduled_prediction(stop_time)
 
       assert result == display_scheduled_prediction(stop_time)

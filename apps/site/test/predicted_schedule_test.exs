@@ -19,7 +19,7 @@ defmodule PredictedScheduleTest do
       time: Timex.shift(@base_time, minutes: 20) 
     },
     %Schedule{
-      stop: %Schedules.Stop{id: "fourthd"},
+      stop: %Schedules.Stop{id: "fourth"},
       time: Timex.shift(@base_time, minutes: 30) 
     },
     %Schedule{
@@ -106,6 +106,67 @@ defmodule PredictedScheduleTest do
     test "Returns stop_id when only prediction is available" do
       predicted_schedule = %PredictedSchedule{prediction: List.first(@predictions)}
       assert PredictedSchedule.stop_id(predicted_schedule) == "first"
+    end
+  end
+
+  describe "has_prediction?/1" do
+    test "determines if PredictedSchedule has prediction" do
+      with_prediction = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.first(@predictions)}
+      without_prediction = %PredictedSchedule{schedule: List.first(@schedules), prediction: nil}
+      assert PredictedSchedule.has_prediction?(with_prediction) == true
+      assert PredictedSchedule.has_prediction?(without_prediction) == false
+    end
+  end
+
+  describe "time!/1" do
+    test "Scheduled time is given if one is available" do
+      predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.last(@predictions)}
+      assert PredictedSchedule.time!(predicted_schedule) == List.first(@schedules).time
+    end
+    test "Predicted time is used if no schedule present" do
+      predicted_schedule = %PredictedSchedule{schedule: nil, prediction: List.last(@predictions)}
+      assert PredictedSchedule.time!(predicted_schedule) == List.last(@predictions).time
+    end
+  end
+
+  describe "display_delay/2" do
+    test "returns a readable message if there's a difference between the scheduled and predicted times" do
+      now = Util.now
+      result = PredictedSchedule.display_delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, %PredictedSchedule{schedule: nil, prediction: nil})
+
+      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
+    end
+
+    test "returns the empty string if the predicted and scheduled times are the same" do
+      now = Util.now
+      result = PredictedSchedule.display_delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}}, %PredictedSchedule{schedule: nil, prediction: nil})
+
+      assert IO.iodata_to_binary(result) == ""
+    end
+
+    test "takes the max of the departure and arrival time delays" do
+      departure = Util.now
+      arrival = Timex.shift(departure, minutes: 30)
+      result = PredictedSchedule.display_delay(
+                                               %PredictedSchedule{schedule: %Schedule{time: departure}, prediction: %Prediction{time: Timex.shift(departure, minutes: 5)}},
+                                               %PredictedSchedule{schedule: %Schedule{time: arrival}, prediction: %Prediction{time: Timex.shift(arrival, minutes: 10)}}
+                                             )
+
+        assert IO.iodata_to_binary(result) == "Delayed 10 minutes"
+    end
+
+    test "handles nil arrivals" do
+      now = Util.now
+      result = PredictedSchedule.display_delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, nil)
+
+      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
+    end
+
+    test "inflects the delay correctly" do
+      now = Util.now
+      result = PredictedSchedule.display_delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
+
+      assert IO.iodata_to_binary(result) == "Delayed 1 minute"
     end
   end
 end

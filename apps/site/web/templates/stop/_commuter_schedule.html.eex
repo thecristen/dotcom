@@ -40,11 +40,11 @@
               </div>
               <div class="time-column">
                 <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, direction_id: direction_id) do %>
-                  <%= Site.ScheduleV2View.display_commuter_scheduled_prediction({schedule, prediction}) %>
+                  <%= Site.ScheduleV2View.display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
                 <% end %>
               </div>
               <div class="time-column">
-                <%= StopTimeList.StopTime.display_status({schedule, prediction}, nil) %>
+                <%= StopTimeList.StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
               </div>
             </div>
           </div>

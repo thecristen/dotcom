@@ -4,33 +4,35 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
 
+  @time Util.now()
+
   @schedules [
     %Schedule{
       trip: %Trip{id: "past_trip"},
       stop: %Schedules.Stop{},
-      time: Timex.shift(Util.now, hours: -1)
+      time: Timex.shift(@time, hours: -1)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
       stop: %Schedules.Stop{},
-      time: Timex.shift(Util.now, minutes: 5)
+      time: Timex.shift(@time, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "far_future_trip"},
       stop: %Schedules.Stop{},
-      time: Timex.shift(Util.now, hours: 1)
+      time: Timex.shift(@time, hours: 1)
     }
   ]
   @trip_schedules [
     %Schedule{
       trip: %Trip{id: "32893585"},
       stop: %Schedules.Stop{id: "first"},
-      time: Timex.shift(Util.now, minutes: 5)
+      time: Timex.shift(@time, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
       stop: %Schedules.Stop{id: "last"},
-      time: Timex.shift(Util.now, minutes: 4)
+      time: Timex.shift(@time, minutes: 4)
     }
   ]
 
@@ -99,12 +101,9 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       query_params: query_params,
       params: params}
     |> assign(:schedules, schedules)
-    |> assign(:date_time, Util.now)
+    |> assign(:date_time, @time)
+    |> assign(:date, Util.service_date())
     |> call(init)
-  end
-
-  defp schedules_to_predicted_schedules(schedules) do
-    Enum.map(schedules, & %PredictedSchedule{schedule: &1})
   end
 
   test "does not assign a trip when schedules is empty", %{conn: conn} do
@@ -125,9 +124,12 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
-    conn = conn_builder(conn, @schedules, trip: "long_trip", origin: "after_first", destination: "new_last")
-    predicted_schedules = schedules_to_predicted_schedules(trip_fn("long_trip"))
-    assert conn.assigns.trip_info == TripInfo.from_list(predicted_schedules, origin_id: "after_first", destination_id: "new_last", collapse?: true, vehicle: nil)
+    expected_stops = ["after_first", "1", "2", "3", "new_last"]
+    conn = conn_builder(conn, [], trip: "long_trip", origin: "after_first", destination: "new_last")
+    actual_stops = conn.assigns.trip_info.sections
+    |> List.flatten
+    |> Enum.map(& &1.schedule.stop.id)
+    assert actual_stops == expected_stops
   end
 
   test "there's a separator if there are enough schedules", %{conn: conn} do
@@ -158,9 +160,15 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "Trip predictions are not fetched if date is not service day", %{conn: conn} do
-    conn =  conn
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "1"),
+      query_params: %{"trip" =>  "long_trip"}}
+    |> assign(:schedules, [])
+    |> assign(:date_time, @time)
     |> assign(:date, Timex.shift(Util.service_date(), days: 2))
-    |> conn_builder([], trip: "long_trip")
+    |> call(init)
+
     for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
       refute prediction
     end
@@ -168,7 +176,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "Trip predictions are fetched if date is service day", %{conn: conn} do
     conn = conn
-    |> assign(:date, Util.service_date())
     |> conn_builder([], trip: "long_trip")
     predicted_schedules = List.flatten(conn.assigns.trip_info.sections)
     assert Enum.find(predicted_schedules, &match?(%PredictedSchedule{prediction: %Prediction{}}, &1))

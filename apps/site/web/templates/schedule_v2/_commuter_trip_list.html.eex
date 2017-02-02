@@ -23,6 +23,9 @@
           <div class="col-xs-4">
             <%= trip.name %>
           </div>
+          <div class="col-xs-12">
+            <%= PredictedSchedule.display_delay(departure, arrival) %>
+          </div>
         <% else %>
           <div class="col-xs-5">
             <%= display_commuter_scheduled_prediction(departure) %>

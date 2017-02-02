@@ -158,14 +158,14 @@ defmodule StopTimeTest do
         times: [
           %StopTimeList.StopTime{
             arrival: nil,
-            departure: {
-              %Schedule{
+            departure: %PredictedSchedule{
+              schedule: %Schedule{
                 time: ~N[2017-01-01T08:00:00],
                 route: @route,
                 stop: %Stop{id: "1"},
                 trip: %Trip{id: "t2"}
               },
-              %Prediction{
+              prediction: %Prediction{
                 time: ~N[2017-01-01T08:05:00],
                 route_id: @route.id,
                 stop_id: "1",
@@ -176,14 +176,14 @@ defmodule StopTimeTest do
           },
           %StopTimeList.StopTime{
             arrival: nil,
-            departure: {
-              %Schedule{
+            departure: %PredictedSchedule{
+              schedule: %Schedule{
                 time: ~N[2017-01-01T09:00:00],
                 route: @route,
                 stop: %Stop{id: "1"},
                 trip: %Trip{id: "t3"}
               },
-              nil
+              prediction: nil
             },
             trip: %Trip{id: "t3"}
           }
@@ -203,9 +203,9 @@ defmodule StopTimeTest do
 
       assert List.first(result.times) == %StopTimeList.StopTime{
         arrival: nil,
-        departure: {
-          nil,
-          prediction
+        departure: %PredictedSchedule{
+          schedule: nil,
+          prediction: prediction
         },
         trip: %Trip{id: "t1"}
       }
@@ -215,14 +215,14 @@ defmodule StopTimeTest do
       result = build(@origin_schedules, @predictions, "1", nil, true)
       assert List.first(result.times) == %StopTimeList.StopTime{
         trip: %Trip{id: "t1"},
-        departure: {
-          %Schedule{
+        departure: %PredictedSchedule{
+          schedule: %Schedule{
             time: ~N[2017-01-01T07:00:00],
             route: @route,
             stop: %Stop{id: "1"},
             trip: %Trip{id: "t1"}
           },
-          nil
+          prediction: nil
         }}
     end
   end
@@ -234,28 +234,28 @@ defmodule StopTimeTest do
       assert result == %StopTimeList{
         times: [
           %StopTimeList.StopTime{
-            arrival: {
-              %Schedule{
+            arrival: %PredictedSchedule{
+              schedule: %Schedule{ 
                 time: ~N[2017-01-01T08:30:00],
                 route: @route,
                 stop: %Stop{id: "3"},
                 trip: %Trip{id: "t2"}
               },
-              %Prediction{
+              prediction: %Prediction{
                 time: ~N[2017-01-01T08:32:00],
                 route_id: @route.id,
                 stop_id: "3",
                 trip: %Trip{id: "t2"}
               }
             },
-            departure: {
-              %Schedule{
+            departure: %PredictedSchedule{
+              schedule: %Schedule{
                 time: ~N[2017-01-01T08:00:00],
                 route: @route,
                 stop: %Stop{id: "1"},
                 trip: %Trip{id: "t2"}
               },
-              %Prediction{
+              prediction: %Prediction{
                 time: ~N[2017-01-01T08:05:00],
                 route_id: @route.id,
                 stop_id: "1",
@@ -264,23 +264,23 @@ defmodule StopTimeTest do
             },
             trip: %Trip{id: "t2"}},
           %StopTimeList.StopTime{
-            arrival: {
-              %Schedule{
+            arrival: %PredictedSchedule{
+              schedule: %Schedule{
                 time: ~N[2017-01-01T09:30:00],
                 route: @route,
                 stop: %Stop{id: "3"},
                 trip: %Trip{id: "t3"}
               },
-              nil
+              prediction: nil
             },
-            departure: {
-              %Schedule{
+            departure: %PredictedSchedule{
+              schedule: %Schedule{
                 time: ~N[2017-01-01T09:00:00],
                 route: @route,
                 stop: %Stop{id: "1"},
                 trip: %Trip{id: "t3"}
               },
-              nil
+            prediction: nil
             },
             trip: %Trip{id: "t3"}
           }
@@ -299,8 +299,8 @@ defmodule StopTimeTest do
       result = build(@od_schedules, [prediction | @predictions], "1", "3", false)
 
       assert List.first(result.times) == %StopTimeList.StopTime{
-        arrival: {nil, prediction},
-        departure: {nil, nil},
+        arrival: %PredictedSchedule{schedule: nil, prediction: prediction},
+        departure: %PredictedSchedule{schedule: nil, prediction: nil},
         trip: %Schedules.Trip{id: "t_new"}
       }
     end
@@ -329,8 +329,8 @@ defmodule StopTimeTest do
       result = build([schedule_pair | @od_schedules], [prediction | @predictions], "1", "3", false)
 
       assert List.first(result.times) == %StopTimeList.StopTime{
-        departure: {elem(schedule_pair, 0), nil},
-        arrival: {elem(schedule_pair, 1), prediction},
+        departure: %PredictedSchedule{schedule: elem(schedule_pair, 0), prediction: nil},
+        arrival: %PredictedSchedule{schedule: elem(schedule_pair, 1), prediction: prediction},
         trip: %Schedules.Trip{id: "t_new"}
       }
     end
@@ -339,23 +339,23 @@ defmodule StopTimeTest do
       result = build(@od_schedules, @predictions, "1", "3", true)
       assert List.first(result.times) == %StopTimeList.StopTime{
         trip: %Trip{id: "t1"},
-        departure: {
-          %Schedule{
+        departure: %PredictedSchedule{
+          schedule: %Schedule{
             time: ~N[2017-01-01T07:00:00],
             route: @route,
             stop: %Stop{id: "1"},
             trip: %Trip{id: "t1"}
           },
-          nil
+          prediction: nil
         },
-        arrival: {
-          %Schedule{
+        arrival: %PredictedSchedule{
+          schedule: %Schedule{
             time: ~N[2017-01-01T07:30:00],
             route: @route,
             stop: %Stop{id: "3"},
             trip: %Trip{id: "t1"}
           },
-          nil
+          prediction: nil
         }}
     end
   end
@@ -365,7 +365,7 @@ defmodule StopTimeTest do
       result = build_predictions_only(@origin_destination_predictions, "1", nil).times
       assert length(result) == 5
       for stop_time <- result do
-        assert %StopTimeList.StopTime{departure: {nil, _}, arrival: nil} = stop_time
+        assert %StopTimeList.StopTime{departure: %PredictedSchedule{schedule: nil}, arrival: nil} = stop_time
       end
     end
 
@@ -373,7 +373,7 @@ defmodule StopTimeTest do
       result = build_predictions_only(@origin_destination_predictions, "1", "3").times
       assert length(result) == 5
       for stop_time <- result do
-        assert %StopTimeList.StopTime{departure: {nil, _}, arrival: {nil, _}} = stop_time
+        assert %StopTimeList.StopTime{departure: %PredictedSchedule{schedule: nil}, arrival: %PredictedSchedule{schedule: nil}} = stop_time
       end
     end
 
@@ -381,7 +381,7 @@ defmodule StopTimeTest do
       result = build_predictions_only(@origin_destination_predictions, "1", "3").times
       assert length(result) == 5
       for stop_time <- result do
-        assert elem(stop_time.departure, 1) != nil
+        assert stop_time.departure.prediction != nil
       end
     end
 
@@ -398,9 +398,9 @@ defmodule StopTimeTest do
         times: [
           %StopTimeList.StopTime{
             trip: nil,
-            departure: {
-              nil,
-              prediction
+            departure: %PredictedSchedule{
+              schedule: nil,
+              prediction: prediction
             }}
         ]}
     end
@@ -420,46 +420,46 @@ defmodule StopTimeTest do
         times: [
           %StopTimeList.StopTime{
             trip: nil,
-            departure: {
-              nil,
-              prediction
+            departure: %PredictedSchedule{
+              schedule: nil,
+              prediction: prediction
             },
-            arrival: {
-              nil,
-              arrival_prediction}}
+            arrival: %PredictedSchedule{
+              schedule: nil,
+              prediction: arrival_prediction}}
         ]}
     end
   end
 
   describe "StopTime.display_status/1" do
     test "returns the same as StopTime.display_status/2 with a nil second argument" do
-      assert StopTime.display_status({nil, %Prediction{status: "On Time"}}) == StopTime.display_status({nil, %Prediction{status: "On Time"}}, nil)
+      assert StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}) == StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}, nil)
     end
   end
 
   describe "StopTime.display_status/2" do
     test "uses the departure status if it exists" do
-      result = StopTime.display_status({nil, %Prediction{status: "On Time"}}, nil)
+      result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}, nil)
 
       assert IO.iodata_to_binary(result) == "On Time"
     end
 
     test "includes track number if present" do
-      result = StopTime.display_status({nil, %Prediction{status: "All Aboard", track: "5"}}, nil)
+      result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "All Aboard", track: "5"}}, nil)
 
       assert IO.iodata_to_binary(result) == "All Aboard on track 5"
     end
 
     test "returns a readable message if there's a difference between the scheduled and predicted times" do
       now = Util.now
-      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, {nil, nil})
+      result = StopTime.display_status(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, %PredictedSchedule{schedule: nil, prediction: nil})
 
       assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
     end
 
     test "returns the empty string if the predicted and scheduled times are the same" do
       now = Util.now
-      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: now}}, {nil, nil})
+      result = StopTime.display_status(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}}, %PredictedSchedule{schedule: nil, prediction: nil})
 
       assert IO.iodata_to_binary(result) == ""
     end
@@ -468,8 +468,8 @@ defmodule StopTimeTest do
       departure = Util.now
       arrival = Timex.shift(departure, minutes: 30)
       result = StopTime.display_status(
-        {%Schedule{time: departure}, %Prediction{time: Timex.shift(departure, minutes: 5)}},
-        {%Schedule{time: arrival}, %Prediction{time: Timex.shift(arrival, minutes: 10)}}
+        %PredictedSchedule{schedule: %Schedule{time: departure}, prediction: %Prediction{time: Timex.shift(departure, minutes: 5)}},
+        %PredictedSchedule{schedule: %Schedule{time: arrival}, prediction: %Prediction{time: Timex.shift(arrival, minutes: 10)}}
       )
 
       assert IO.iodata_to_binary(result) == "Delayed 10 minutes"
@@ -477,14 +477,14 @@ defmodule StopTimeTest do
 
     test "handles nil arrivals" do
       now = Util.now
-      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 5)}}, nil)
+      result = StopTime.display_status(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, nil)
 
       assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
     end
 
     test "inflects the delay correctly" do
       now = Util.now
-      result = StopTime.display_status({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
+      result = StopTime.display_status(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 1)}}, nil)
 
       assert IO.iodata_to_binary(result) == "Delayed 1 minute"
     end
@@ -494,14 +494,14 @@ defmodule StopTimeTest do
     test "returns the difference between a schedule and prediction" do
       now = Util.now
 
-      assert StopTime.delay({%Schedule{time: now}, %Prediction{time: Timex.shift(now, minutes: 14)}}) == 14
+      assert StopTime.delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 14)}}) == 14
     end
 
     test "returns 0 if either time is nil, or if the argument itself is nil" do
       now = Util.now
-      assert StopTime.delay({nil, %Prediction{time: Timex.shift(now, minutes: 14)}}) == 0
-      assert StopTime.delay({%Schedule{time: now}, nil}) == 0
-      assert StopTime.delay({nil, nil}) == 0
+      assert StopTime.delay(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: Timex.shift(now, minutes: 14)}}) == 0
+      assert StopTime.delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: nil}) == 0
+      assert StopTime.delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
       assert StopTime.delay(nil) == 0
     end
   end
