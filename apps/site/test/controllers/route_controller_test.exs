@@ -51,7 +51,29 @@ defmodule Site.RouteControllerTest do
       assert %{} = conn.assigns.stop_features
       assert conn.assigns.stop_features["place-nqncy"] == [:bus, :access]
 
-      # builds a map
+      # spider map
+      assert conn.assigns.map_img_src =~ "subway-spider"
+    end
+
+    test "Green Line data", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Green")
+      assert conn.status == 200
+
+      # stops are in Westbound order, Lechmere -> Boston College (last stop on B)
+      assert List.first(conn.assigns.stops).id == "place-lech"
+      assert List.last(conn.assigns.stops).id == "place-lake"
+      # List template
+      assert conn.assigns.stop_list_template == "_stop_list_green.html"
+      # Active lines
+      assert conn.assigns.active_lines["place-north"] == %{"Green-B" => :empty, "Green-C" => :terminus, "Green-D" => :empty, "Green-E" => :stop}
+      assert conn.assigns.active_lines["place-hsmnl"] == %{"Green-B" => :line, "Green-C" => :line, "Green-D" => :line, "Green-E" => :terminus} # Health
+      assert conn.assigns.active_lines["place-hymnl"] == %{"Green-B" => :stop, "Green-C" => :stop, "Green-D" => :stop}
+
+      # includes the stop features
+      assert %{} = conn.assigns.stop_features
+      assert conn.assigns.stop_features["place-pktrm"] == [:red_line, :access]
+
+      # spider map
       assert conn.assigns.map_img_src =~ "subway-spider"
     end
   end
