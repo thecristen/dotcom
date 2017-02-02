@@ -46,10 +46,13 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
   @spec gather_vehicle_predictions(Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: [Predictions.Prediction.t]
   def gather_vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}} = conn, predictions_fn) do
-    vehicle_predictions = vehicle_locations
-    |> Enum.flat_map(fn {{trip, stop}, _vehicle} ->
-      predictions_fn.(trip: trip, stop: stop)
+    {stops, trips} = vehicle_locations
+    |> Enum.reduce({"", ""}, fn ({{trip, stop}, _vehicle}, {stops, trips}) ->
+      {"#{stop}," <> stops,
+       "#{trip}," <> trips}
     end)
+
+    vehicle_predictions = predictions_fn.(trip: trips, stop: stops)
 
     conn
     |> assign(:vehicle_predictions, vehicle_predictions)

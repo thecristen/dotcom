@@ -373,7 +373,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "prediction_time_text/1" do
     test "when there is no prediction, there is no prediction time" do
-      assert Site.ScheduleV2View.prediction_time_text(nil) == nil
+      assert Site.ScheduleV2View.prediction_time_text(nil) == ""
     end
 
     test "when a prediction has a time, gives the arrival time" do
@@ -384,7 +384,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "when a prediction does not have a time, gives nothing" do
       prediction = %Predictions.Prediction{time: nil}
-      assert Site.ScheduleV2View.prediction_time_text(prediction) == nil
+      assert Site.ScheduleV2View.prediction_time_text(prediction) == ""
     end
   end
 
@@ -396,21 +396,21 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "when a prediction does not have a track, gives nothing" do
       prediction = %Predictions.Prediction{status: "Now Boarding", track: nil}
-      assert Site.ScheduleV2View.prediction_status_text(prediction) == nil
+      assert Site.ScheduleV2View.prediction_status_text(prediction) == ""
     end
   end
 
-  describe "prediction_tooltip/1" do
+  describe "build_prediction_tooltip/2" do
     test "when there is no time or status for the prediction, gives no tooltip" do
-      assert prediction_tooltip(nil, nil) == nil
+      assert build_prediction_tooltip("", "") == nil
     end
 
     test "when there is a time but no status for the prediction, gives a tooltip with arrival time" do
-      assert prediction_tooltip("time", nil) == Phoenix.HTML.Tag.content_tag(:span, "time")
+      assert build_prediction_tooltip("time", "") == Phoenix.HTML.Tag.content_tag(:span, "time")
     end
 
     test "when there is a status but no time for the prediction, gives a tooltip with the status" do
-      assert prediction_tooltip(nil, "now boarding") == Phoenix.HTML.Tag.content_tag(:span, "now boarding")
+      assert build_prediction_tooltip("", "now boarding") == Phoenix.HTML.Tag.content_tag(:span, "now boarding")
     end
 
     test "when there is a status and a time for the prediction, gives a tooltip with both and also replaces double quotes with single quotes" do
@@ -422,7 +422,17 @@ defmodule Site.ScheduleV2ViewTest do
       |> Phoenix.HTML.safe_to_string
       |> String.replace(~s("), ~s('))
 
-      assert prediction_tooltip("time", "now boarding") == test_tooltip
+      assert build_prediction_tooltip("time", "now boarding") == test_tooltip
+    end
+  end
+
+  describe "prediction_tooltip/1" do
+    test "creates a tooltip for the prediction" do
+      time = Util.now
+      prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: 4}
+
+      assert prediction_tooltip(prediction) =~ "Now Boarding on Track 4"
+      assert prediction_tooltip(prediction) =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
     end
   end
 end

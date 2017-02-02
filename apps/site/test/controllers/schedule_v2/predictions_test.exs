@@ -70,7 +70,8 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> assign(:vehicle_locations, vehicle_locations)
       |> gather_vehicle_predictions(fn x -> x end)
 
-      assert conn.assigns.vehicle_predictions == [trip: "1", stop: "place-sstat", trip: "2", stop: "place-north"]
+      # we transform the data into this form so that we only need to make one repo call
+      assert conn.assigns.vehicle_predictions == [trip: "2,1,", stop: "place-north,place-sstat,"]
     end
   end
 end

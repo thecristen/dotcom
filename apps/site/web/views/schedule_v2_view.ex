@@ -210,50 +210,53 @@ defmodule Site.ScheduleV2View do
   def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 
   @spec prediction_status_text(Predictions.Prediction.t | nil) :: String.t
-  def prediction_status_text(nil) do
-    nil
-  end
-  def prediction_status_text(%Predictions.Prediction{track: nil}) do
-    nil
-  end
   def prediction_status_text(%Predictions.Prediction{status: status, track: track}) when not is_nil(track) do
     "#{status} on Track #{track}"
+  end
+  def prediction_status_text(_) do
+    ""
   end
 
   @spec prediction_time_text(Predictions.Prediction.t | nil) :: String.t
   def prediction_time_text(nil) do
-    nil
+    ""
   end
   def prediction_time_text(%Predictions.Prediction{time: nil}) do
-    nil
+    ""
   end
   def prediction_time_text(%Predictions.Prediction{time: time}) do
     "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
   end
 
-  @spec prediction_tooltip(String.t | nil, String.t | nil) :: Phoenix.HTML.Tag.t
-  def prediction_tooltip(nil, nil) do
+  @spec build_prediction_tooltip(String.t, String.t) :: Phoenix.HTML.Tag.t
+  def build_prediction_tooltip("", "") do
     nil
   end
-  def prediction_tooltip(time_text, nil) do
+  def build_prediction_tooltip(time_text, "") do
     content_tag :span do
       time_text
     end
   end
-  def prediction_tooltip(nil, status_text) do
+  def build_prediction_tooltip("", status_text) do
     content_tag :span do
       status_text
     end
   end
-  def prediction_tooltip(time_text, status_text) do
+  def build_prediction_tooltip(time_text, status_text) do
     time_tag = content_tag(:p, time_text, class: 'prediction-tooltip')
     status_tag = content_tag(:p, status_text, class: 'prediction-tooltip')
 
-    content_tag :span do
-      [time_tag, status_tag]
-    end
+    :span
+    |> content_tag([time_tag, status_tag])
     |> safe_to_string
     |> String.replace(~s("), ~s('))
+  end
+
+  def prediction_tooltip(prediction) do
+    time_text = prediction_time_text(prediction)
+    status_text = prediction_status_text(prediction)
+
+    build_prediction_tooltip(time_text, status_text)
   end
 
   @spec prediction_for_vehicle_location(Plug.Conn.t, String.t, String.t) :: Predictions.Prediction.t
