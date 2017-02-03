@@ -18,7 +18,7 @@ defmodule Site.ScheduleController.DatePicker do
   end
   def build_calendar(%Conn{assigns: %{date: date}} = conn, []) do
     holidays = Holiday.Repo.holidays_in_month(date)
-    calendar = BuildCalendar.build(date, holidays, &update_url(conn, &1))
+    calendar = BuildCalendar.build(date, Util.service_date(), holidays, &update_url(conn, &1))
 
     conn
     |> assign(:holidays, holidays)

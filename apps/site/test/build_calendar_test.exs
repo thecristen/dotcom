@@ -13,7 +13,7 @@ defmodule BuildCalendarTest do
   describe "build/2" do
     test "days starts on Sunday" do
       date = ~D[2017-01-02]
-      calendar = build(date, [], &url_fn/1)
+      calendar = build(date, Util.service_date(), [], &url_fn/1)
       first_day = List.first(calendar.days)
       assert first_day == %BuildCalendar.Day{
         date: ~D[2017-01-01],
@@ -26,7 +26,7 @@ defmodule BuildCalendarTest do
 
     test "days at the end of the previous month are invisible" do
       date = ~D[2017-05-01]
-      calendar = build(date, [], &url_fn/1)
+      calendar = build(date, Util.service_date(), [], &url_fn/1)
       first_day = List.first(calendar.days)
       assert first_day.month_relation == :previous
       assert Enum.at(calendar.days, 1).month_relation == :current # 2017-05-01
@@ -34,7 +34,7 @@ defmodule BuildCalendarTest do
 
     test "calendars always have a number of days divisible by 7 and end in the next month" do
       for date <- [~D[2017-01-02], ~D[2017-05-01], ~D[2017-07-01]] do
-        calendar = build(date, [], &url_fn/1)
+        calendar = build(date, Util.service_date(), [], &url_fn/1)
         assert Integer.mod(length(calendar.days), 7) == 0
         assert List.last(calendar.days).month_relation == :next
       end
@@ -42,21 +42,21 @@ defmodule BuildCalendarTest do
 
     test "calendars that end on saturday have an extra week at the end" do
       date = ~D[2017-09-15]
-      calendar = build(date, [], &url_fn/1)
+      calendar = build(date, Util.service_date(), [], &url_fn/1)
       assert length(calendar.days) == 7 * 6
       assert List.last(calendar.days).month_relation == :next
     end
 
     test "calendars that end on friday have 8 extra days" do
       date = ~D[2017-03-15]
-      calendar = build(date, [], &url_fn/1)
+      calendar = build(date, Util.service_date(), [], &url_fn/1)
       assert length(calendar.days) == 7 * 6
       assert List.last(calendar.days).month_relation == :next
     end
 
     test "days that are holidays are marked" do
       holiday = Enum.random(Holiday.Repo.all)
-      calendar = build(holiday.date, [holiday], &url_fn/1)
+      calendar = build(holiday.date, Util.service_date(), [holiday], &url_fn/1)
       for day <- calendar.days do
         if day.date == holiday.date do
           assert day.holiday?
@@ -69,13 +69,13 @@ defmodule BuildCalendarTest do
     test "Holidays are included in calendar struct" do
       date =  ~D[2017-01-02]
       holidays = Holiday.Repo.holidays_in_month(date)
-      calendar = build(date, holidays, &url_fn/1)
+      calendar = build(date, Util.service_date(), holidays, &url_fn/1)
       assert calendar.holidays == holidays
     end
 
     test "selected is marked" do
       selected = Util.service_date()
-      calendar = build(selected, [], &url_fn/1)
+      calendar = build(selected, Timex.shift(selected, days: -1), [], &url_fn/1)
       for day <- calendar.days do
         if day.date == selected do
           assert day.selected?
@@ -85,30 +85,45 @@ defmodule BuildCalendarTest do
       end
     end
 
+    test "today is marked" do
+      service_date = Util.service_date()
+      calendar = build(Timex.shift(service_date, days: 1), service_date, [], &url_fn/1)
+      for day <- calendar.days do
+        if day.date == service_date do
+          assert day.today?
+        else
+          refute day.today?
+        end
+      end
+    end
+
     test "previous_month_url is nil if the date is the current month" do
-      calendar = build(Util.service_date(), [], &url_fn/1)
+      service_date = Util.service_date()
+      calendar = build(service_date, service_date, [], &url_fn/1)
       assert calendar.previous_month_url == nil
     end
 
     test "previous_month_url is the first day of the previous month" do
       next_month = Timex.shift(Util.service_date(), months: 1)
       first_of_month = Timex.beginning_of_month(Util.service_date())
-      calendar = build(next_month, [], &url_fn/1)
+      calendar = build(next_month, Util.service_date(), [], &url_fn/1)
       assert calendar.previous_month_url == url_fn(date: Timex.format!(first_of_month, "{ISOdate}"))
     end
 
     test "next_month_url is the first day of the next month" do
+      service_date = Util.service_date()
       first_of_next_month = Util.service_date()
       |> Timex.shift(months: 1)
       |> Timex.beginning_of_month
-      calendar = build(Util.service_date(), [], &url_fn/1)
+      calendar = build(service_date, service_date, [], &url_fn/1)
       assert calendar.next_month_url == url_fn(date: Timex.format!(first_of_next_month, "{ISOdate}"))
     end
   end
 
   describe "Calendar.weeks/1" do
     test "breaks the days of the calendar into week blocks" do
-      calendar = build(Util.service_date(), [], &url_fn/1)
+      service_date = Util.service_date()
+      calendar = build(service_date, service_date, [], &url_fn/1)
       weeks = Calendar.weeks(calendar)
       assert length(weeks) == length(calendar.days) / 7
       for week <- weeks do
