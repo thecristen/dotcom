@@ -85,25 +85,38 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "stop_bubble_location_display/3" do
-    test "given false, returns the empty string" do
-      assert stop_bubble_location_display(false, 1, false) == ""
+    test "when vehicle is not at stop and stop is not a terminus, returns an empty circle" do
+      rendered = safe_to_string(stop_bubble_location_display(false, 1, false))
+      assert rendered =~ "trip-bubble-open"
+      assert rendered =~ "svg"
+    end
+
+    test "when vehicle is not at stop and stop is a terminus, returns a filled circle" do
+      rendered = safe_to_string(stop_bubble_location_display(false, 1, true))
+      assert rendered =~ "trip-bubble-filled"
+      assert rendered =~ "svg"
+    end
+
+    test "when vehicle is at stop and stop is not a terminus, returns a normal vehicle circle icon" do
+      rendered = safe_to_string(stop_bubble_location_display(true, 1, false))
+      assert rendered =~ "icon-circle"
+      assert rendered =~ "icon-boring"
+    end
+
+    test "when vehicle is at stop and stop is a terminus, returns an inverse vehicle circle icon" do
+      rendered = safe_to_string(stop_bubble_location_display(true, 1, true))
+      assert rendered =~ "icon-circle"
+      assert rendered =~ "icon-inverse"
     end
 
     test "given a vehicle and the subway route_type, returns the icon for the subway" do
       rendered = safe_to_string(stop_bubble_location_display(true, 1, false))
       assert rendered =~ "icon-subway"
-      assert rendered =~ "icon-small"
     end
 
     test "given a vehicle and the bus route_type, returns the icon for the bus" do
       rendered = safe_to_string(stop_bubble_location_display(true, 3, false))
       assert rendered =~ "icon-bus"
-      assert rendered =~ "icon-small"
-    end
-
-    test "when the last parameter is true, adds the vehicle-terminus class" do
-      rendered = safe_to_string(stop_bubble_location_display(true, 1, true))
-      assert rendered =~ "icon-inverse"
     end
   end
 
@@ -214,7 +227,8 @@ defmodule Site.ScheduleV2ViewTest do
         "_frequency.html",
         frequency_table: frequency_table,
         schedules: schedules,
-        date: date)
+        date: date,
+        route: %Routes.Route{id: "1", type: 3, name: "1"})
       output = safe_to_string(safe_output)
       assert output =~ "No service between these hours"
     end
@@ -228,7 +242,8 @@ defmodule Site.ScheduleV2ViewTest do
         "_frequency.html",
         frequency_table: frequency_table,
         schedules: schedules,
-        date: date)
+        date: date,
+        route: %Routes.Route{id: "1", type: 3, name: "1"})
       output = safe_to_string(safe_output)
       assert output =~ "5-10"
     end
@@ -323,7 +338,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "display_alerts/1" do
     test "alerts are not displayed if no alerts are given" do
-      refute display_alerts([])
+      assert safe_to_string(display_alerts([])) == ""
     end
 
     test "Icon is displayed if alerts are given" do
@@ -332,17 +347,16 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "_trip_info_row.html" do
-    @time Util.now()
     @output Site.ScheduleV2View.render(
             "_trip_info_row.html",
-            scheduled_time: @time,
             name: "name",
             href: "",
             vehicle?: true,
             terminus?: true,
             alerts: ["alert"],
-            predicted_schedule: %PredictedSchedule{prediction: %Prediction{time: @time}},
-            route: %Routes.Route{id: 1})
+            predicted_schedule: %PredictedSchedule{prediction: @prediction, schedule: @schedule},
+            route: %Routes.Route{id: "1", type: 3})
+
     test "real time icon shown when prediction is available" do
       safe_output = safe_to_string(@output)
       assert safe_output =~ "rss"
@@ -351,6 +365,26 @@ defmodule Site.ScheduleV2ViewTest do
     test "Alert icon is shown when alerts are not empty" do
       safe_output = safe_to_string(@output)
       assert safe_output =~ "icon-alert"
+    end
+
+    test "shows vehicle icon when vehicle location is available" do
+      safe_output = safe_to_string(@output)
+      assert safe_output =~ "icon-bus"
+    end
+  end
+
+  describe "frequency_times/2" do
+    test "returns \"Every X mins\" if there is service during a time block" do
+      frequency = %Schedules.Frequency{max_headway: 11, min_headway: 3, time_block: :am_rush}
+      rendered = true |> Site.ScheduleV2View.frequency_times(frequency) |> safe_to_string
+      assert rendered =~ "Every 3-11"
+      assert rendered =~ "mins"
+      assert rendered =~ "minutes"
+    end
+
+    test "returns \"No service between these hours\" if there is no service" do
+      actual = false |> Site.ScheduleV2View.frequency_times(%Schedules.Frequency{}) |> safe_to_string
+      assert actual == "<span>No service between these hours</span>"
     end
   end
 

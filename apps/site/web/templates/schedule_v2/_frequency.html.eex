@@ -1,27 +1,19 @@
-<div class="schedule-v2-frequency-header">Schedules For <%= Site.ScheduleV2View.pretty_date(@date) %></div>
-<%= for frequency <- @frequency_table do %>
-  <div class="schedule-v2-frequency-row">
-    <div class="schedule-v2-frequency-col">
-      <%= case frequency.time_block do
-          :am_rush -> "OPEN - 9:00AM"
-          :midday -> "9:00AM - 3:30PM"
-          :pm_rush -> "3:30PM - 6:30PM"
-          :evening -> "6:30PM - 8:00PM"
-          :late_night -> "8:00PM - CLOSE"
-          end
-      %>
-      <%= if frequency.time_block == :late_night do %>
-        <div class="schedule-v2-frequency-time">
-          Last Departure at <%= Timex.format!(last_departure(@schedules), "%I:%M %p", :strftime) %>
+<div class="schedule-frequencies">
+  <div class="header"><%= route_header_text(@route) %> Schedule For <%= Site.ScheduleV2View.pretty_date(@date) %></div>
+  <div class="rows">
+    <%= for frequency <- @frequency_table do %>
+      <div class="frequency">
+        <div class="time-block-name">
+          <%= content_tag :div, frequency_block_name(frequency) %>
+          <%= if frequency.time_block == :late_night do
+             last_departure = Timex.format!(last_departure(@schedules), "%I:%M %p", :strftime)
+             content_tag :div, "Last departure at #{last_departure}"
+          end %>
         </div>
-      <% end %>
-    </div>
-    <div class="schedule-v2-frequency-col">
-      <%= if Schedules.Frequency.has_service?(frequency) do %>
-        Every <%= TimeGroup.display_frequency_range(frequency) %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
-      <% else %>
-        No service between these hours
-      <% end %>
-    </div>
+        <div class="time-block-times">
+          <%= frequency |> Schedules.Frequency.has_service? |> frequency_times(frequency) %>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

@@ -1,3 +1,19 @@
-<%= Site.ScheduleV2View.render "_route.html", forward_assigns(@conn) %>
-<%= Site.ScheduleV2View.render "_direction.html", forward_assigns(@conn) %>
-<%= render @schedule_template, forward_assigns(@conn) %>
+<h1 class="schedule-route-name">
+  <% # This removes any route-specific names on the icon class %>
+  <span class="<%= @route.id |> String.downcase |> String.replace(~r/-.*/, "")%>">
+    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: @route}) %>
+  </span>
+  <%= route_header_text(@route) %>
+</h1>
+<%= render "_trip_view_filters.html", forward_assigns(@conn) %>
+
+<%# alerts div should go here when it gets added %>
+<%= if @route.type == 2 do %>
+  <%= tab_list(%TabList{
+    links: [
+      {"Time Table", update_url(@conn, tab: "timetable"), tab_selected?("timetable", @tab)},
+      {"Trip View", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)}
+    ]
+  }) %>
+<% end %>
+<%= render template_for_tab(@tab), forward_assigns(@conn) %>

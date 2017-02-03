@@ -1,30 +1,35 @@
-<div class="col-xs-6 schedule-v2">
-  <div class="schedule-list-group">
-    <div class="schedule-list-group-item schedule-list-group-header">
-      <%= if @destination do %>
-        <div class="col-xs-6">Departure</div>
-        <div class="col-xs-6">Arrival</div>
-      <% else %>
-        <div class="col-xs-6">Scheduled</div>
-        <div class="col-xs-6"><%= display_direction(@stop_times) %></div>
-      <% end %>
-    </div>
-    <%= for %StopTimeList.StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
-      <%= if trip do %>
-        <%= link to: update_url(@conn, trip: trip.id) do %>
-          <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
-          <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, alerts: alerts %>
+<div class="schedule-trip-list-container<%= if @trip_info == nil do %> center-trip-list row<% end %>">
+  <%= if assigns[:stop_times] && @trip_info != nil do %>
+    <div class="schedule-trip-list">
+      <div class="header">
+        <%= if @destination do %>
+          <div>Departure</div>
+          <div>Arrival</div>
+        <% else %>
+          <div>Scheduled</div>
+          <div><%= display_direction(@stop_times) %></div>
         <% end %>
-      <% else %>
-        <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: []%>
-      <% end %>
-    <% end %>
-    <%= unless @stop_times.showing_all? do %>
-      <%= link to: update_url(@conn, show_all_trips: true) do %>
-        <div class="col-xs-6">
-          Show all trips for <%= pretty_date(@date) %>
-        </div>
-      <% end %>
+      </div>
+      <div class="rows">
+        <%= for %StopTimeList.StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+          <%= if trip do %>
+            <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
+            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, trip_info: @trip_info, alerts: alerts, conn: @conn %>
+          <% else %>
+            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: nil, trip_info: nil, alerts: [], conn: @conn%>
+          <% end %>
+        <% end %>
+        <%= unless @stop_times.showing_all? do %>
+          <%= link to: update_url(@conn, show_all_trips: true) do %>
+            <div class="col-xs-6">
+              Show all trips for <%= pretty_date(@date) %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
   </div>
+  <%= if assigns[:frequency_table] do %>
+    <%= render "_frequency.html", forward_assigns(@conn) %>
+  <% end %>
 </div>

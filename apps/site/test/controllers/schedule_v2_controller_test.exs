@@ -37,6 +37,11 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.schedules != nil
       assert conn.assigns.predictions != nil
     end
+
+    test "assigns tab to \"trip-view\"", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "1"))
+      assert conn.assigns.tab == "trip-view"
+    end
   end
 
   describe "commuter rail" do

@@ -1,122 +1,425 @@
+@import 'table';
+@import 'buttons';
 @import 'variables';
 
-.schedule-v2 {
-  .schedule-list-group-item {
-    // left/right padding is reduced to account for the column padding
-    padding: .75rem (.75rem - $grid-gutter-width / 2);
+$location-line-width: $space-4;
+$vehicle-location-width: 1.85rem;
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// MIXINS & FUNCTIONS
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+@mixin vehicle-location-mode-color($class, $color) {
+// scss-lint:disable NestingDepth
+// scss-lint:disable SelectorDepth
+// changes the color for the vehicle location graphic per route type
+  .schedule-trip-info {
+    &#{$class} {
+      .icon-boring,
+      .trip-bubble-open {
+        circle {
+          fill: $white;
+          stroke: $color;
+          stroke-width: 3px;
+        }
+      }
+
+      .icon-inverse,
+      .trip-bubble-filled {
+        circle {
+          fill: $color;
+          stroke: $color;
+          stroke-width: 3px;
+        }
+      }
+
+      .vehicle-location::before,
+      .vehicle-location::after {
+        border-left-color: $color;
+      }
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///   GENERAL PAGE STYLES
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.filter-label {
+  font-weight: bold;
+  margin-bottom: $space-6;
+}
+
+.schedule-filter-row {
+  @include clearfix();
+  margin-bottom: $space-16;
+}
+
+%schedule-list {
+  @extend %table-with-header;
+  @extend %two-equal-columns;
+
+  .rows {
+    @extend %two-equal-columns;
+    @extend %table;
+  }
+}
+
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// TRIP LIST
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.schedule-trip-list-container {
+  @include media-breakpoint-up(sm) {
+    float: left;
+    padding-right: $horizontal-padding;
+    width: 50%;
+  }
+}
+
+.schedule-trip-list:not(.commuter) {
+  @extend %table-with-header;
+
+  .header,
+  .trip-list-row {
+    @extend %two-equal-columns;
+  }
+}
+
+.schedule-trip-list {
+  .header {
+    @extend %table-header;
   }
 
-  .trip-info-content {
-    padding-left: $grid-gutter-width;
-    padding-right: $grid-gutter-width;
+  .trip-list-row {
+    @extend %unpadded-table-row;
+    @extend %block-level-link;
+  }
 
-    p {
-      margin-bottom: 0;
+  .current-trip {
+    background: $brand-primary-lightest;
+    border-color: $brand-primary-lightest;
+  }
+
+  &.commuter {
+    // scss-lint:disable NestingDepth
+    // scss-lint:disable SelectorDepth
+    .commuter-times,
+    .header {
+      > div {
+        @include column;
+        width: grid-width(2);
+      }
+
+      > div:first-child {
+        @include first-column;
+        width: grid-width(3);
+      }
+
+      > div:last-child {
+        @include last-column;
+        width: grid-width(7);
+      }
     }
   }
 
-  .trip-info-row {
-    padding-bottom: $grid-gutter-width;
-    padding-top: $grid-gutter-width;
+  .commuter-status {
+    @include first-column;
   }
 
-  .schedule-row {
-    border-bottom: 1px solid $gray-lightest;
-    position: relative;
+  .commuter-times {
+    @include clearfix();
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// FREQUENCY TABLE
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.schedule-frequencies {
+  @extend %table-with-header;
+
+  .frequency {
+    @extend %two-equal-columns;
+
+    div:first-child {
+      text-align: left;
+    }
+  }
+
+  .last-departure {
+    font-size: .875rem;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// TRIP INFO
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// VEHICLE LOCATION GRAPHIC
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+%location-line {
+  border-bottom-color: transparent;
+  border-bottom-width: 0;
+  border-left-style: solid;
+  border-left-width: $location-line-width;
+  border-right-style: solid;
+  border-right-width: 0;
+  border-top-color: transparent;
+  border-top-width: 0;
+  content: '';
+  height: 150%;
+  left: 50%;
+  position: absolute;
+  z-index: -1;
+}
+
+%location-line-both {
+  @include unpadded-column;
+
+  &::before {
+    @extend %location-line;
+    top: -3px; // overlap slightly to cover table row border
+  }
+}
+
+%location-line-above-only {
+  @extend %location-line-both;
+
+  &::before {
+    height: 100%;
+    top: -$icon-size;
+  }
+}
+
+%location-line-below-only {
+  @extend %location-line-both;
+
+  &::before {
+    top: 50%;
+  }
+}
+
+%vehicle-location-element {
+  @extend %location-line-both;
+  display: table-cell;
+  padding-bottom: $vertical-padding;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: $vertical-padding;
+  position: relative;
+  width: auto;
+
+  svg {
+    margin-top: -$vertical-padding;
+    overflow: visible;
+  }
+}
+
+// "Show all stops" row -- dotted lines
+.collapsed-row {
+  .vehicle-location {
+    @extend %vehicle-location-element;
+    @extend %location-line-both;
+    width: $icon-size;
 
     &::before {
-      border-left: $space-4 solid $brand-primary-dark;
-      content: '';
-      height: 100%;
-      left: calc(-#{$space-4} - 2px);
-      position: absolute;
-      top: 2rem;
-      width: $space-1;
+      background: $white;
+      border-style: dotted;
     }
+  }
 
-    &:last-child::before {
-      height: $space-6;
-    }
+  .expand-link {
+    @extend %stop-name-and-time-column;
+  }
+}
 
-    &:last-child {
-      border-bottom-width: 0;
+// the first stop in the list
+.stop-group:first-child {
+  .schedule-trip-stop:first-child {
+    .vehicle-location {
+      @extend %location-line-below-only;
     }
   }
 }
 
-.trip-info-bubble {
-  float: left;
-  left: -1rem;
-  margin-right: -2rem;
+// the last stop in the list
+.stop-group:last-child {
+  .schedule-trip-stop.terminus:last-child {
+    .vehicle-location {
+      @extend %location-line-above-only;
+    }
+
+    .stop-info {
+      border-bottom: 0;
+    }
+  }
+}
+
+@include vehicle-location-mode-color(".commuter-rail", $brand-commuter-rail);
+@include vehicle-location-mode-color(".red-line", $brand-red-line);
+@include vehicle-location-mode-color(".blue-line", $brand-blue-line);
+@include vehicle-location-mode-color(".orange-line", $brand-orange-line);
+@include vehicle-location-mode-color(".green-line", $brand-green-line);
+@include vehicle-location-mode-color(".bus", $brand-bus);
+@include vehicle-location-mode-color(".ferry", $brand-ferry);
+
+
+%trip-stop {
+  @extend %unpadded-table-row;
+  background-color: transparent;
+  border-bottom: 0;
+  border-top: 0;
   position: relative;
-  width: $space-24;
+  z-index: 1;
 
-  .icon {
-    left: .333rem;
-    position: absolute;
-    top: 0;
+  .vehicle-location {
+    @extend %vehicle-location-element;
+  }
+
+  .stop-info {
+    @extend %stop-name-and-time-column;
+    border-bottom: 1px solid $gray-lightest;
+    padding-bottom: $base-spacing;
   }
 }
 
-.btn.schedule-v2-direction-btn {
+%stop-name-column {
+  float: left;
+  width: 67%;
+}
+
+%stop-time-column {
+  float: left;
+  width: 33%;
+}
+
+%stop-name-and-time-column {
+  @include unpadded-column;
   display: table-cell;
-  float: none;
-  font-size: 1rem;
-  padding-bottom: 1rem;
-  padding-top: .75rem;
-  text-align: left;
-  vertical-align: top;
-  white-space: normal;
-  width: 50%;
-}
+  margin-left: $base-spacing;
+  width: grid-width(10);
 
-.schedule-v2-direction-btn-group {
-  display: table;
-  margin-bottom: .75rem;
-  width: 100%;
-}
+  span:first-child {
+    @extend %stop-name-column;
+  }
 
-.schedule-v2-direction-btn-selected-icon {
-  @include pull-left();
-  display: block;
-  font-size: 1.7rem;
-  padding-right: .333rem;
-}
-
-.schedule-v2-direction-btn-label {
-  @include pull-left();
-  display: block;
-  max-width: 90%;
-  padding-left: .5rem;
-
-  @include media-breakpoint-up(xs) {
-    max-width: 70%;
+  span:last-child {
+    @extend %stop-time-column;
   }
 }
 
-.schedule-v2-direction-btn-label-selected {
+// trip info parent container
+.schedule-trip-info {
+  @include media-breakpoint-up(sm) {
+    float: right;
+    padding-left: $horizontal-padding;
+    width: 50%;
+  }
+
+  .header {
+    @extend %table-header;
+  }
+}
+
+.schedule-trip-stop,
+.collapsed-row {
+  @extend %trip-stop;
+}
+
+.route-status,
+.trip-duration {
+  @extend %table-row;
+}
+
+.trip-info-labels {
+  @extend %unpadded-table-row;
+  border-bottom-width: 0;
   font-weight: bold;
+
+  .vehicle-location {
+    @extend %vehicle-location-element;
+    width: $icon-size;
+
+    &::before {
+      border-left-color: transparent;
+      border-left-width: 0;
+    }
+  }
+
+  .stop-info {
+    @extend %stop-name-and-time-column;
+  }
 }
 
-.schedule-v2-frequency-header {
-  background-color: $brand-primary-darkest;
-  color: $white;
-  padding: .5rem;
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// DATE AND DIRECTION FILTER BUTTONS
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+%schedule-filter-button-label {
+  font-weight: bold;
+  margin-bottom: $space-6;
+
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $space-12;
+  }
 }
 
-.schedule-v2-frequency-row {
-  border: solid .5px $gray-lightest;
-  padding: .5rem;
+%schedule-filter-button {
+  position: relative;
+
+  @include media-breakpoint-up(sm) {
+    float: left;
+    margin-right: $horizontal-padding;
+    width: 45%;
+  }
+
+  .filter-label {
+    @extend %schedule-filter-button-label;
+  }
+
+  .filter-button {
+    @extend %button-primary-outline;
+    @extend %block-level-link;
+    position: relative;
+    text-align: left;
+    width: 100%;
+  }
+
+  .inner-label {
+    color: $gray-dark;
+  }
 }
 
-.schedule-v2-frequency-col {
-  display: inline-block;
-  width: 40%;
+.direction-filter,
+.date-filter {
+  @extend %schedule-filter-button;
 }
 
-.schedule-v2-frequency-time {
-  font-size: .875rem;
-}
+
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///// COMMUTER RAIL TIMETABLE
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 .schedule-v2-timetable {
   border-bottom: 2rem solid $brand-primary-darkest;
@@ -176,6 +479,47 @@
 .route-green-bubble {
   display: inline-block;
   width: $icon-size * 1.5;
+}
+
+/// Schedule V@ direction buttons
+.btn.schedule-v2-direction-btn {
+  display: table-cell;
+  float: none;
+  font-size: 1rem;
+  padding-bottom: 1rem;
+  padding-top: .75rem;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  width: 50%;
+}
+
+.schedule-v2-direction-btn-group {
+  display: table;
+  margin-bottom: .75rem;
+  width: 100%;
+}
+
+.schedule-v2-direction-btn-selected-icon {
+  @include pull-left();
+  display: block;
+  font-size: 1.7rem;
+  padding-right: .333rem;
+}
+
+.schedule-v2-direction-btn-label {
+  @include pull-left();
+  display: block;
+  max-width: 90%;
+  padding-left: .5rem;
+
+  @include media-breakpoint-up(xs) {
+    max-width: 70%;
+  }
+}
+
+.schedule-v2-direction-btn-label-selected {
+  font-weight: bold;
 }
 
 .prediction-tooltip {

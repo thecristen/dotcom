@@ -2,10 +2,10 @@
   <% extra_excludes = assigns[:exclude] || [] %>
   <%= hidden_query_params @conn, exclude: [@query_key | extra_excludes] %>
   <div>
-    <label class="select-modal-label m-b-g" for="<%= @query_key %>"><%= @label_text %><%= render Site.ScheduleView, "_loading.html" %></label><br>
+    <label class="trip-view-filter-label select-modal-label" for="<%= @query_key %>"><%= @label_text %><%= render Site.ScheduleView, "_loading.html" %></label><br>
     <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
     <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-no-conversion>
-      <%= if !selected do %><option disabled selected value="">Select a stop</option><% end %>
+      <%= if !selected do %><option disabled selected value="">Select <%= @placeholder_text %></option><% end %>
       <%= for stop <- @key_stops do %>
         <option value="<%= stop.id %>" data-key-option="true"
                 <%= if @route.type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>"

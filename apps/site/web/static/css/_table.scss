@@ -1,0 +1,154 @@
+@import 'variables';
+@import 'colors';
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///
+///   MIXINS AND FUNCTIONS
+///
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+@function grid-width($column-count) {
+  @return (100% / 12 * $column-count);
+}
+
+@mixin column($width) {
+  @include column;
+  width: grid-width($width);
+}
+
+@mixin force-width {
+// ensures that an element will always get assigned a width, even if it is empty.
+// the reason min-height ensures a width is because CSS.
+  min-height: 1px;
+}
+
+@mixin column($left-padding: $horizontal-padding, $right-padding: $horizontal-padding) {
+// a column with equal padding on both sides.
+  @include force-width;
+  float: left;
+  padding-left: $left-padding;
+  padding-right: $right-padding;
+}
+
+@mixin unpadded-column {
+  @include column(0, 0);
+}
+
+@mixin first-column {
+// the far-left column in a group of columns; simply removes padding from the left side of a normal column.
+  @include column(0);
+}
+
+@mixin last-column {
+// the far-right column in a group of columns; simply removes padding from the right side of a normal column.
+  @include column($right-padding: 0);
+}
+
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///
+///   PLACEHOLDERS
+///
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+
+$vertical-padding: $base-spacing-sm;
+$horizontal-padding: $grid-gutter-width / 2;
+
+%two-equal-columns {
+  // When a parent element uses `@extend %two-equal-columns`, its first and last div or span elements are styled
+  // as columns and are given 50% width. This placeholder is opinionated and assumes that the parent element has only
+  // two children that are intended to be rendered inside of the DOM flow, and that they are both of the same type.
+  // Any other child elements are set to position: absolute, and therefore may cause unintended rendering errors
+  // if not used with caution.
+  position: relative;
+
+  > div:first-of-type,
+  > div:last-of-type,
+  > span:first-of-type,
+  > span:last-of-type {
+    display: inline-block;
+    width: grid-width(6);
+  }
+
+  > div:not(div:first-of-type, div:last-of-type),
+  > span:not(span:first-of-type, span:last-of-type) {
+    position: absolute;
+  }
+}
+
+%unpadded-table-row {
+  @include clearfix();
+
+  background-color: $white;
+  border: 1px solid $gray-lightest;
+  margin-bottom: -$space-1;
+  margin-left: -$space-1;
+  margin-right: -$space-1;
+  padding: $vertical-padding $horizontal-padding;
+  position: relative;
+}
+
+%table-row {
+  // An opinionated placeholder which assumes that all direct child divs of the parent element are intended to be
+  // rendered as columns.
+  @extend %unpadded-table-row;
+
+  > div {
+    @include column;
+  }
+
+  > div:first-of-type:not(:last-of-type) {
+    @include first-column;
+  }
+
+  > div:last-of-type:not(:first-of-type) {
+    @include last-column;
+  }
+}
+
+%table-header {
+  @extend %table-row;
+  background-color: $brand-primary-darkest;
+  color: $white;
+}
+
+%table {
+  // an opinionated placeholder which assumes that all direct child divs of the parent element are intended to be
+  // rendered as rows.
+
+  border: 1px solid $gray-lightest;
+  margin-bottom: $grid-gutter-width;
+
+  > div {
+    @extend %table-row;
+  }
+}
+
+%table-with-header {
+  // An opinionated table structure that assumes an element has the following layout. Not using this layout
+  // (including the .header and .rows class names) will likely cause unintended rendering issues.
+  // For more flexibility, %table, %table-row, or %table-column can be targeted individually instead of using this
+  // placeholder.
+  //
+  // <div> # <-- parent element that extends %table
+  //   <div class="header"></div> # <-- extends %table-row plus has a darker background color with white text
+  //   <div class="rows">
+  //     <div></div> # <-- extends %table-row
+  //     <div></div> # <-- extends %table-row
+  //     <div></div> # <-- extends %table-row
+  //   </div>
+  // </div>
+
+  .header {
+    @extend %table-header;
+  }
+
+  .rows {
+    @extend %table;
+  }
+}

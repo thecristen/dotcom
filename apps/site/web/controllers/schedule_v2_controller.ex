@@ -27,6 +27,7 @@ defmodule Site.ScheduleV2Controller do
   end
   def show(conn, _) do
     conn
+    |> assign(:tab, "trip-view")
     |> assign(:schedule_template, "_default_schedule.html")
     |> render("show.html")
   end

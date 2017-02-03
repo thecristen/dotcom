@@ -1,19 +1,18 @@
-<p class="trip-info-row schedule-row row">
-  <span class="trip-info-bubble" aria-hidden="true">
-    <%= if @terminus? do %>
-      <%= svg "trip-circle-filled.svg" %>
-    <% else %>
-      <%= svg "trip-circle-open.svg" %>
-    <% end %>
+<div class="schedule-trip-stop<%= if @terminus? do %> terminus<% end %><%= if @vehicle? do %> vehicle<% end %>">
+  <div class="vehicle-location">
     <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
-  </span>
-  <%= link @name, to: @href, class: "col-xs-6" %>
-  <%= content_tag :span, class: "col-xs-6" do %>
-    <%= if @route.type == 2 do %>
-      <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
-    <% else %>
-      <%= display_scheduled_prediction(@predicted_schedule) %>
-    <% end %>
-    <%= display_alerts(@alerts)%>
-  <% end %>
-</p>
+  </div>
+  <div class="stop-info">
+    <span>
+      <%= link @name, to: @href %>
+    </span>
+    <span>
+      <%= if @route.type == 2 do %>
+        <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
+      <% else %>
+        <%= display_scheduled_prediction(@predicted_schedule) %>
+      <% end %>
+      <%= display_alerts(@alerts)%>
+    </span>
+  </div>
+</div>

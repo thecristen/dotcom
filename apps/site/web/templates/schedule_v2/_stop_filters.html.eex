@@ -1,31 +1,36 @@
-<div class="row">
-  <div class="col-md-6">
-    <% origin = if @origin, do: @origin.id, else: nil %>
-    <%= Site.ScheduleV2View.render "_stop_selector.html",
-      conn: @conn,
-      query_key: "origin",
-      selected: origin,
-      all_stops: @all_stops,
-      key_stops: [],
-      label_text: "Departure times from:",
-      route: @route,
-      disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"})
-    %>
-  </div>
-  <%= if @origin do %>
-    <div class="col-xs-12 col-sm-6 col-equal>">
-      <% destination = if @destination, do: @destination.id, else: nil %>
+<div class="stop-filters schedule-filter-row">
+  <p>To view schedules for a specific stop, please enter your origin and destination.</p>
+  <div class="row">
+    <div class="col-md-6">
+      <% origin = if @origin, do: @origin.id, else: nil %>
       <%= Site.ScheduleV2View.render "_stop_selector.html",
-          conn: @conn,
-          query_key: "destination",
-          selected: destination,
-          all_stops: @all_stops,
-          key_stops: [],
-          label_text: "Arriving at:",
-          route: @route,
-          disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))]
-          # filter out non-destination stops because they're on a different branch
+        conn: @conn,
+        query_key: "origin",
+        selected: origin,
+        all_stops: @all_stops,
+        key_stops: [],
+        label_text: "Departure times from:",
+        placeholder_text: "origin",
+        route: @route,
+        disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"})
       %>
     </div>
-  <% end %>
+    <%= if @origin do %>
+      <div class="col-xs-12 col-sm-6 col-equal>">
+        <% destination = if @destination, do: @destination.id, else: nil %>
+        <%= Site.ScheduleV2View.render "_stop_selector.html",
+            conn: @conn,
+            query_key: "destination",
+            selected: destination,
+            all_stops: @all_stops,
+            key_stops: [],
+            label_text: "Arriving at:",
+            placeholder_text: "destination",
+            route: @route,
+            disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))]
+            # filter out non-destination stops because they're on a different branch
+        %>
+      </div>
+    <% end %>
+  </div>
 </div>

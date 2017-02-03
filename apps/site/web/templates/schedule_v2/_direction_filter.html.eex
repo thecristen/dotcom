@@ -3,9 +3,9 @@
     <%= unless Enum.empty?(@headsigns[direction_id]) do %>
       <% button_class = if direction_id == @direction_id do
           "btn-primary"
-        else
+          else
           "btn-primary-outline"
-        end
+          end
       %>
       <%= if direction_id == @direction_id do %>
         <%= link to: "", class: "btn btn-sm #{button_class} schedule-v2-direction-btn" do %>
@@ -35,6 +35,6 @@
           </span>
         <% end %>
       <% end %>
+    <% end %>
   <% end %>
-<% end %>
 </div>

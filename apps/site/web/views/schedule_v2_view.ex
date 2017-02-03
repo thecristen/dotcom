@@ -67,12 +67,23 @@ defmodule Site.ScheduleV2View do
   """
   @spec stop_bubble_location_display(boolean, integer, boolean) :: Phoenix.HTML.Safe.t
   def stop_bubble_location_display(vehicle?, route_type, terminus?)
-  def stop_bubble_location_display(false, _route_type, _terminus), do: ""
   def stop_bubble_location_display(true, route_type, true) do
-    svg_icon(%SvgIcon{icon: Routes.Route.type_atom(route_type), class: "icon-small icon-inverse"})
+    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-inverse"})
   end
   def stop_bubble_location_display(true, route_type, false) do
-    svg_icon(%SvgIcon{icon: Routes.Route.type_atom(route_type), class: "icon-small icon-boring"})
+    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-boring"})
+  end
+  def stop_bubble_location_display(false, _route_type, true) do
+    stop_bubble_icon(:filled)
+  end
+  def stop_bubble_location_display(false, _, false) do
+    stop_bubble_icon(:open)
+  end
+
+  defp stop_bubble_icon(class) do
+    content_tag :svg, viewBox: "0 0 42 42", class: "icon trip-bubble-#{class}" do
+      tag :circle, r: 20, cx: 20, cy: 20, transform: "translate(2,2)"
+    end
   end
 
   @doc """
@@ -205,8 +216,8 @@ defmodule Site.ScheduleV2View do
   end
 
   @doc "If alerts are given, display alert icon"
-  @spec display_alerts([Alerts.Alert.t]) :: Phoenix.HTML.Safe.t | nil
-  def display_alerts([]), do: nil
+  @spec display_alerts([Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
+  def display_alerts([]), do: raw ""
   def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 
   @spec prediction_status_text(Predictions.Prediction.t | nil) :: String.t
@@ -268,4 +279,27 @@ defmodule Site.ScheduleV2View do
   def prediction_for_vehicle_location(conn, _stop_id, _trip_id) do
     conn
   end
+
+  @doc """
+  Returns vehicle frequency for the frequency table, either "Every X minutes" or "No service between these hours".
+  """
+  @spec frequency_times(boolean, Schedules.Frequency.t) :: Phoenix.HTML.Safe.t
+  def frequency_times(false, _), do: content_tag :span, "No service between these hours"
+  def frequency_times(true, frequency) do
+    content_tag :span do
+      [
+        "Every ",
+        TimeGroup.display_frequency_range(frequency),
+        content_tag(:span, " minutes", class: "sr-only"),
+        content_tag(:span, " mins", aria_hidden: true)
+      ]
+    end
+  end
+
+  @spec frequency_block_name(Schedules.Frequency.t) :: String.t
+  defp frequency_block_name(%Schedules.Frequency{time_block: :am_rush}), do: "OPEN - 9:00AM"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :midday}), do: "9:00AM - 3:30PM"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}), do: "3:30PM - 6:30PM"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :evening}), do: "6:30PM - 8:00PM"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :late_night}), do: "8:00PM - CLOSE"
 end

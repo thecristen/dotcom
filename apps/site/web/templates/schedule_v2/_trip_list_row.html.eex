@@ -1,17 +1,19 @@
-<div class="schedule-list-group-item">
-  <div class="col-xs-6">
-    <%= display_scheduled_prediction(@departure) %>
+<% link_url = update_url(@conn, trip: @trip.id) %>
+<%= content_tag :div, class: "trip-list-row #{if assigns[:trip] && TripInfo.is_current_trip?(assigns[:trip_info], assigns[:trip].id), do: " current-trip"}" do %>
+  <div>
+    <%= link display_scheduled_prediction(@departure), to: link_url %>
   </div>
-  <div class="col-xs-3">
+  <div>
     <%= if @arrival do %>
-      <%= display_scheduled_prediction(@arrival)%>
+      <%= link display_scheduled_prediction(@arrival), to: link_url %>
     <% else %>
       <%= if assigns[:trip] do %>
-        <%= @trip.headsign %>
+        <%= link @trip.headsign, to: link_url %>
       <% end %>
     <% end %>
   </div>
-  <div class="col-xs-3">
+  <div>
     <%= display_alerts(@alerts) %>
   </div>
-</div>
+  <%= link "", to: link_url, class: "schedule-list-link", aria: [hidden: true] %>
+<% end %>
