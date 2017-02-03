@@ -225,6 +225,72 @@ defmodule StopTimeTest do
           prediction: nil
         }}
     end
+
+    test "removes all scheduled time before the last prediction" do
+      prediction = %Prediction{
+        time: ~N[2017-01-01T09:05:00],
+        route_id: @route.id,
+        stop_id: "1",
+        trip: %Trip{id: "t4"}
+      }
+      schedule = %Schedule{
+        time: ~N[2017-01-01T10:00:00],
+        route: @route,
+        stop: %Stop{id: "1"},
+        trip: %Trip{id: "t5"}
+      }
+
+      result = build([schedule | @origin_schedules], [prediction | @predictions], "1", nil, false)
+      assert result == %StopTimeList{
+        times: [
+          %StopTimeList.StopTime{
+            arrival: nil,
+            departure: %PredictedSchedule{
+              schedule: %Schedule{
+                time: ~N[2017-01-01T08:00:00],
+                route: @route,
+                stop: %Stop{id: "1"},
+                trip: %Trip{id: "t2"}
+              },
+              prediction: %Prediction{
+                time: ~N[2017-01-01T08:05:00],
+                route_id: @route.id,
+                stop_id: "1",
+                trip: %Trip{id: "t2"}
+              }
+            },
+            trip: %Trip{id: "t2"}
+          },
+          %StopTimeList.StopTime{
+            arrival: nil,
+            departure: %PredictedSchedule{
+              schedule: nil,
+              prediction: %Prediction{
+                time: ~N[2017-01-01T09:05:00],
+                route_id: @route.id,
+                stop_id: "1",
+                trip: %Trip{id: "t4"}
+              }
+            },
+            trip: %Trip{id: "t4"}
+          },
+          %StopTimeList.StopTime{
+            arrival: nil,
+            departure: %PredictedSchedule{
+              schedule: %Schedule{
+                time: ~N[2017-01-01T10:00:00],
+                route: @route,
+                stop: %Stop{id: "1"},
+                trip: %Trip{id: "t5"}
+              },
+              prediction: nil
+            },
+            trip: %Trip{id: "t5"}
+          },
+        ],
+        showing_all?: false
+      }
+    end
   end
 
   describe "build/1 with origin and destination" do
@@ -326,7 +392,9 @@ defmodule StopTimeTest do
         stop_id: "3",
         trip: %Trip{id: "t_new"}
       }
+      IO.puts("---")
       result = build([schedule_pair | @od_schedules], [prediction | @predictions], "1", "3", false)
+      IO.puts("===")
 
       assert List.first(result.times) == %StopTimeList.StopTime{
         departure: %PredictedSchedule{schedule: elem(schedule_pair, 0), prediction: nil},
