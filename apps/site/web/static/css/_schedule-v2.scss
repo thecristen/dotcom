@@ -59,6 +59,10 @@ $vehicle-location-width: 1.85rem;
   margin-bottom: $space-16;
 }
 
+.schedule-v2-alert-container{
+  margin-bottom: $space-16;
+}
+
 %schedule-list {
   @extend %table-with-header;
   @extend %two-equal-columns;
