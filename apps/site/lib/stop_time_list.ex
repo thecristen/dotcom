@@ -36,6 +36,36 @@ defmodule StopTimeList do
       prediction.time
     end
 
+    @spec departure_time(t) :: DateTime.t | nil
+    def departure_time(%StopTime{departure: %PredictedSchedule{schedule: schedule, prediction: nil}}) when not is_nil(schedule) do
+      schedule.time
+    end
+    def departure_time(%StopTime{departure: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
+      prediction.time
+    end
+    def departure_time(%StopTime{}) do
+      nil
+    end
+
+    @spec arrival_time(t) :: DateTime.t | nil
+    def arrival_time(%StopTime{arrival: %PredictedSchedule{schedule: schedule, prediction: nil}}) when not is_nil(schedule) do
+      schedule.time
+    end
+    def arrival_time(%StopTime{arrival: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
+      prediction.time
+    end
+    def arrival_time(%StopTime{}) do
+      nil
+    end
+
+    @spec prediction_time(t) :: DateTime.t | nil
+    def prediction_time(%StopTime{departure: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
+      prediction.time
+    end
+    def prediction_time(%StopTime{}) do
+      nil
+    end
+
     @doc """
     Returns a message containing the maximum delay between scheduled and predicted times for an arrival
     and departure, or the empty string if there's no delay.
@@ -211,15 +241,39 @@ defmodule StopTimeList do
     {2, departure.time}
   end
 
+  defp stop_time_comparator(left, right) do
+    left_departure_time = StopTime.departure_time(left)
+    right_departure_time = StopTime.departure_time(right)
+
+    if (left_departure_time != nil && right_departure_time != nil) do
+      left_departure_time < right_departure_time
+    else
+      left_arrival_time = StopTime.arrival_time(left)
+      right_arrival_time = StopTime.arrival_time(right)
+
+      cmp = left_arrival_time != nil && (right_arrival_time == nil || left_arrival_time < right_arrival_time)
+    end
+  end
+
   @spec limit_trips([any], boolean) :: [any]
-  defp limit_trips(trips, false) do
-    trips
-    |> Enum.sort_by(&prediction_sorter/1)
-    |> remove_first_scheduled
+  defp limit_trips(stop_times, false) do
+    max_pred_stop_time = Enum.max_by(stop_times, &StopTime.prediction_time/1)
+    filtered_stop_times = if max_pred_stop_time != nil do
+      max = max_pred_stop_time.departure.prediction.time
+      Enum.filter(stop_times, 
+        & (&1.departure == nil || &1.departure.schedule == nil || # no departure schedule
+              &1.departure.prediction != nil || (&1.arrival != nil && &1.arrival.prediction != nil) || # has prediction
+              &1.departure.schedule.time >= max)) # schedule after max prediction time
+    else
+      stop_times
+    end
+
+    filtered_stop_times
+    |> Enum.sort(&stop_time_comparator/2)
     |> Enum.take(trips_limit())
   end
-  defp limit_trips(trips, true) do
-    trips
+  defp limit_trips(stop_times, true) do
+    stop_times
     |> Enum.sort_by(&StopTime.time/1)
   end
 
