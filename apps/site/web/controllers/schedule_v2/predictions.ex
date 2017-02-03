@@ -44,7 +44,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
   defp get_destination_id(_), do: ""
 
 
-  @spec gather_vehicle_predictions(Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: [Predictions.Prediction.t]
+  @spec gather_vehicle_predictions(Plug.Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: [Predictions.Prediction.t]
   def gather_vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}} = conn, predictions_fn) do
     {stops, trips} = vehicle_locations
     |> Enum.reduce({"", ""}, fn ({{trip, stop}, _vehicle}, {stops, trips}) ->

@@ -228,7 +228,7 @@ defmodule Site.ScheduleV2View do
     "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
   end
 
-  @spec build_prediction_tooltip(String.t, String.t) :: Phoenix.HTML.Tag.t
+  @spec build_prediction_tooltip(String.t, String.t) :: Phoenix.HTML.Safe.t
   def build_prediction_tooltip("", "") do
     nil
   end
