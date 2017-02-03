@@ -252,7 +252,7 @@ defmodule Site.ScheduleV2View do
     |> String.replace(~s("), ~s('))
   end
 
-  @spec prediction_tooltip(%Predictions.Prediction.t) :: Phoenix.HTML.Safe.t
+  @spec prediction_tooltip(Predictions.Prediction.t) :: Phoenix.HTML.Safe.t
   def prediction_tooltip(prediction) do
     time_text = prediction_time_text(prediction)
     status_text = prediction_status_text(prediction)
