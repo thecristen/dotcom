@@ -46,12 +46,12 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
   @spec gather_vehicle_predictions(Plug.Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: Plug.Conn.t
   def gather_vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}} = conn, predictions_fn) do
-    {stops, trips} = vehicle_locations
-    |> Enum.reduce({"", ""}, fn ({{trip, stop}, _vehicle}, {stops, trips}) ->
-      {"#{stop}," <> stops,
-       "#{trip}," <> trips}
-    end)
+    {trips, stops} = vehicle_locations
+    |> Map.keys
+    |> Enum.unzip
 
+    stops = Enum.join(stops, ",")
+    trips  = Enum.join(trips , ",")
     vehicle_predictions = predictions_fn.(trip: trips, stop: stops)
 
     conn
