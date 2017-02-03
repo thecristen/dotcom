@@ -62,7 +62,7 @@ defmodule Site.StopViewTest do
 
       assert tag_has_text.(StopView.accessibility_info(no_accessibility), "No accessibility")
       assert tag_has_text.(StopView.accessibility_info(no_accessible_feature), "No accessibility")
-      assert tag_has_text.(StopView.accessibility_info(only_accessible_feature), "wheeled mobility devices")
+      assert tag_has_text.(StopView.accessibility_info(only_accessible_feature), "is an accessible station")
       assert tag_has_text.(StopView.accessibility_info(many_feature), "has the following")
     end
   end
@@ -116,6 +116,32 @@ defmodule Site.StopViewTest do
       for stop_id <- ["place-bbsta", "place-north", "place-sstat"] do
         assert Site.StopView.fare_surcharge?(%Stop{id: stop_id})
       end
+    end
+  end
+
+  describe "info_tab_name/1" do
+    test "is stop info when given a bus line" do
+      grouped_routes = [bus: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+        id: "742", key_route?: true, name: "SL2", type: 3}]]
+
+      text = Site.StopView.info_tab_name(grouped_routes)
+      |> Phoenix.HTML.safe_to_string
+      |> Floki.text
+      assert text == "Stop Information"
+    end
+
+    test "is station info when given any other line" do
+      grouped_routes = [
+        bus: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+          id: "742", key_route?: true, name: "SL2", type: 3}],
+        subway: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+          id: "Red", key_route?: true, name: "Red", type: 1}]
+      ]
+
+      text = Site.StopView.info_tab_name(grouped_routes)
+      |> Phoenix.HTML.safe_to_string
+      |> Floki.text
+      assert text == "Station Information"
     end
   end
 
