@@ -353,6 +353,7 @@ defmodule Site.StopView do
     content_tag :a, ["View on map ", fa("arrow-right")], href: href, class: "no-wrap"
   end
 
+  @spec info_tab_name([Routes.Group.t]) :: Phoenix.HTML.Safe.t
   def info_tab_name([bus: _]) do
     content_tag :span do
       [ "Stop Info",
