@@ -119,6 +119,32 @@ defmodule Site.StopViewTest do
     end
   end
 
+  describe "info_tab_name/1" do
+    test "is stop info when given a bus line" do
+      grouped_routes = [bus: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+        id: "742", key_route?: true, name: "SL2", type: 3}]]
+
+      text = Site.StopView.info_tab_name(grouped_routes)
+      |> Phoenix.HTML.safe_to_string
+      |> Floki.text
+      assert text == "Stop Information"
+    end
+
+    test "is station info when given any other line" do
+      grouped_routes = [
+        bus: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+          id: "742", key_route?: true, name: "SL2", type: 3}],
+        subway: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+          id: "Red", key_route?: true, name: "Red", type: 1}]
+      ]
+
+      text = Site.StopView.info_tab_name(grouped_routes)
+      |> Phoenix.HTML.safe_to_string
+      |> Floki.text
+      assert text == "Station Information"
+    end
+  end
+
   def formatted_time(time), do: time |> Timex.format!("{h12}:{m} {AM}")
 
   def do_safe_to_string(elements) when is_list(elements) do

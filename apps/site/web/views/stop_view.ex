@@ -352,4 +352,19 @@ defmodule Site.StopView do
     href = GoogleMaps.direction_map_url({stop_lat, stop_lng}, {retail_lat, retail_lng})
     content_tag :a, ["View on map ", fa("arrow-right")], href: href, class: "no-wrap"
   end
+
+  def info_tab_name([bus: _]) do
+    content_tag :span do
+      [ "Stop Info",
+        content_tag(:span, [class: "hidden-sm-down"], do: "rmation")
+      ]
+    end
+  end
+  def info_tab_name(_) do
+    content_tag :span do
+      [ "Station Info",
+        content_tag(:span, [class: "hidden-sm-down"], do: "rmation")
+      ]
+    end
+  end
 end
