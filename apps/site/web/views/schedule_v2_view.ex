@@ -27,6 +27,10 @@ defmodule Site.ScheduleV2View do
     List.last(schedules).time
   end
 
+  @doc """
+  Returns the time of the First Schedule in the given list of schedules
+  """
+  @spec first_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
   def first_departure([{%Schedule{} = schedule, %Schedule{}} | _]) do
     schedule.time
   end

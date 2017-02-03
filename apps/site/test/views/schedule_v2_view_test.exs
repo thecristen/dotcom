@@ -30,6 +30,20 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
+  describe "first_departure/1" do
+    test "Returns first time from list of schedule tuples" do
+      first_time = Util.now()
+      schedules = [{%Schedule{time: first_time}, %Schedule{time: Timex.shift(first_time, hours: 1)}}, {%Schedule{}, %Schedule{}}]
+      assert first_departure(schedules) == first_time
+    end
+
+    test "Returns first time from list of schedules" do
+      time = Util.now()
+      schedules = [%Schedule{time: time}, %Schedule{time: Timex.shift(time, hours: 1)}, %Schedule{time: Timex.shift(time, hours: 2)}]
+      assert first_departure(schedules) == time
+    end
+  end
+
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
       assert display_direction(%StopTimeList{}) == ""
@@ -476,12 +490,12 @@ defmodule Site.ScheduleV2ViewTest do
       assert should_display_trip_info?(commuter_info)
     end
 
-    test "Subway will show trip info" do
+    test "Subway will show trip info if predictions are given" do
       subway_info = %TripInfo{sections: [%PredictedSchedule{prediction: %Prediction{time: Util.now()}}], route: %Routes.Route{type: 1}}
       assert should_display_trip_info?(subway_info)
     end
 
-    test "Will not should trip info if there is no trip info" do
+    test "Will not show trip info if there is no trip info" do
       refute should_display_trip_info?(nil)
     end
   end
