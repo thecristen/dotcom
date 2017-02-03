@@ -392,9 +392,7 @@ defmodule StopTimeTest do
         stop_id: "3",
         trip: %Trip{id: "t_new"}
       }
-      IO.puts("---")
       result = build([schedule_pair | @od_schedules], [prediction | @predictions], "1", "3", false)
-      IO.puts("===")
 
       assert List.first(result.times) == %StopTimeList.StopTime{
         departure: %PredictedSchedule{schedule: elem(schedule_pair, 0), prediction: nil},
