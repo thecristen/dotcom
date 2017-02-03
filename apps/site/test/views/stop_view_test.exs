@@ -62,7 +62,7 @@ defmodule Site.StopViewTest do
 
       assert tag_has_text.(StopView.accessibility_info(no_accessibility), "No accessibility")
       assert tag_has_text.(StopView.accessibility_info(no_accessible_feature), "No accessibility")
-      assert tag_has_text.(StopView.accessibility_info(only_accessible_feature), "wheeled mobility devices")
+      assert tag_has_text.(StopView.accessibility_info(only_accessible_feature), "is an accessible station")
       assert tag_has_text.(StopView.accessibility_info(many_feature), "has the following")
     end
   end

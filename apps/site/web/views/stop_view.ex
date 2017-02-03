@@ -100,7 +100,7 @@ defmodule Site.StopView do
   defp format_accessibility_text(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
   defp format_accessibility_text(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
   defp format_accessibility_text(name, ["accessible"]) do
-    content_tag(:span, "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices.")
+    content_tag(:span, "#{name} is an accessible station.")
   end
   defp format_accessibility_text(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
 
