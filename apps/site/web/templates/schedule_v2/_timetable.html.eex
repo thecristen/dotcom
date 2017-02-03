@@ -1,33 +1,27 @@
-<table class="schedule-v2-timetable">
-  <thead>
+<div class="schedule-v2-timetable-container">
+  <table class="schedule-v2-timetable">
     <tr>
-      <td>
+      <th class="schedule-v2-timetable-name-col fixedsticky">
         Stop
-      </td>
-      <td class="time-column-header"><%= earlier_link(@conn) %></td>
-      <% header_schedules = offset_schedules(@header_schedules, @conn) %>
-      <%= for schedule <- header_schedules do %>
-        <td>
+      </th>
+      <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
+        <th<%= if index == @offset, do: " data-scroll-to" %>>
           <%= schedule.trip.name %>
           <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: schedule.time, route: @route.id, direction_id: @direction_id) != [] do %>
             <%= svg_icon(%SvgIcon{icon: :alert}) %>
           <% end %>
-        </td>
+        </th>
       <% end %>
-      <td class="time-column-header"><%= later_link(@conn) %></td>
     </tr>
-  </thead>
-  <tbody>
     <%= for stop <- @all_stops do %>
       <tr>
-        <td>
+        <td class="schedule-v2-timetable-name-col fixedsticky">
           <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
           <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
             <%= svg_icon(%SvgIcon{icon: :alert}) %>
           <% end %>
         </td>
-        <td class="time-column"></td>
-        <%= for schedule <- header_schedules do %>
+        <%= for schedule <- @header_schedules do %>
           <td>
             <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
               <%= format_schedule_time(trip_schedule.time) %>
@@ -39,8 +33,7 @@
             </span>
           </td>
         <% end %>
-        <td class="time-column"></td>
       </tr>
     <% end %>
-  </tbody>
-</table>
+  </table>
+</div>

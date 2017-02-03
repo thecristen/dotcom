@@ -34,6 +34,7 @@ import menuCtrlClick from './menu-ctrl-click';
 import carousel from './carousel';
 import geoLocation from './geolocation';
 import transitNearMe from './transit-near-me';
+import scrollTo from './scroll-to';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
@@ -51,5 +52,6 @@ menuCtrlClick();
 carousel();
 geoLocation();
 transitNearMe();
+scrollTo();
 
 $("body").removeClass("no-js").addClass("js");

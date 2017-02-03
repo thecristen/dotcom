@@ -414,7 +414,6 @@ $vehicle-location-width: 1.85rem;
 }
 
 
-
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ///// COMMUTER RAIL TIMETABLE
@@ -423,18 +422,33 @@ $vehicle-location-width: 1.85rem;
 
 .schedule-v2-timetable {
   border-bottom: 2rem solid $brand-primary-darkest;
+}
+
+.schedule-v2-timetable-container {
   max-width: 100%;
   width: 100%;
+  overflow-y: scroll;
+}
 
-  td {
+.schedule-v2-timetable-name-col {
+  left: 0;
+}
+
+.schedule-v2-timetable {
+  border-bottom: 2rem solid $brand-primary-darkest;
+  position: relative;
+
+  td,
+  th {
+    min-width: 6rem + $icon-size;
     padding: .5rem 1rem;
-
-    &.time-column-header {
-      padding: 0;
-    }
   }
 
-  thead {
+  td {
+    background-color: $white;
+  }
+
+  th {
     background-color: $brand-primary-darkest;
     color: $white;
     font-weight: bold;
@@ -452,20 +466,9 @@ $vehicle-location-width: 1.85rem;
     }
   }
 
-  tbody {
-    td {
-      border-bottom: 1px solid $gray-lightest;
-    }
-
-    // scss-lint:disable SelectorDepth
-    tr:last-child td {
-      border-bottom: 0;
-    }
-    // scss-lint:enable SelectorDepth
-    .time-column {
-      background-color: $gray-lightest;
-      border: 0;
-    }
+  tr:not(:last-child) td {
+    // border on the bottom of every row except the last
+    border-bottom: 1px solid $gray-lightest;
   }
 }
 
