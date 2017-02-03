@@ -9,14 +9,11 @@
   </span>
   <%= link @name, to: @href, class: "col-xs-6" %>
   <%= content_tag :span, class: "col-xs-6" do %>
-    <%= if @prediction do %>
-      <%= fa "rss" %>
-      <%= format_schedule_time(@prediction.time) %>
+    <%= if @route.type == 2 do %>
+      <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
     <% else %>
-      <%= format_schedule_time(@scheduled_time) %>
+      <%= display_scheduled_prediction(@predicted_schedule) %>
     <% end %>
-    <%= if @alerts != [] do %>
-      <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-    <% end %>
+    <%= display_alerts(@alerts)%>
   <% end %>
 </p>

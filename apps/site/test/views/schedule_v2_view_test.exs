@@ -321,17 +321,27 @@ defmodule Site.ScheduleV2ViewTest do
       end
   end
 
+  describe "display_alerts/1" do
+    test "alerts are not displayed if no alerts are given" do
+      refute display_alerts([])
+    end
+
+    test "Icon is displayed if alerts are given" do
+      assert safe_to_string(display_alerts(["alert"])) =~ "icon-alert"
+    end
+  end
+
   describe "_trip_info_row.html" do
     @time Util.now()
     @output Site.ScheduleV2View.render(
             "_trip_info_row.html",
-            prediction: %Predictions.Prediction{time: @time},
             scheduled_time: @time,
             name: "name",
             href: "",
             vehicle?: true,
             terminus?: true,
             alerts: ["alert"],
+            predicted_schedule: %PredictedSchedule{prediction: %Prediction{time: @time}},
             route: %Routes.Route{id: 1})
     test "real time icon shown when prediction is available" do
       safe_output = safe_to_string(@output)

@@ -2,7 +2,7 @@
   <div class="col-xs-6">
     <%= display_scheduled_prediction(@departure) %>
   </div>
-  <div class="col-xs-6">
+  <div class="col-xs-3">
     <%= if @arrival do %>
       <%= display_scheduled_prediction(@arrival)%>
     <% else %>
@@ -10,8 +10,8 @@
         <%= @trip.headsign %>
       <% end %>
     <% end %>
-    <%= if @alerts != [] do %>
-      <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-    <% end %>
+  </div>
+  <div class="col-xs-3">
+    <%= display_alerts(@alerts) %>
   </div>
 </div>
