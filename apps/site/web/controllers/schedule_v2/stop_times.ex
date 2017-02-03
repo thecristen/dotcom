@@ -14,22 +14,24 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   def init([]), do: []
 
   def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) when Route.subway?(route_type) do
-    destination = conn.params["destination"]
+    destination_id = stop_id(conn.assigns.destination)
+    origin_id = stop_id(conn.assigns.origin)
     stop_times = StopTimeList.build_predictions_only(
-      filtered_predictions(conn.assigns.predictions, schedules, destination),
-      conn.params["origin"],
-      destination
+      filtered_predictions(conn.assigns.predictions, schedules, destination_id),
+      origin_id,
+      destination_id
     )
     assign(conn, :stop_times, stop_times)
   end
   def call(%Plug.Conn{assigns: %{schedules: schedules}} = conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
-    destination = conn.params["destination"]
+    destination_id = stop_id(conn.assigns.destination)
+    origin_id = stop_id(conn.assigns.origin)
     stop_times = StopTimeList.build(
       filtered_schedules(conn.assigns, show_all_trips?),
-      filtered_predictions(conn.assigns.predictions, schedules, destination),
-      conn.params["origin"],
-      destination,
+      filtered_predictions(conn.assigns.predictions, schedules, destination_id),
+      origin_id,
+      destination_id,
       show_all_trips?
     )
     assign(conn, :stop_times, stop_times)
@@ -90,4 +92,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   defp after_now?(%Schedule{time: time}, date_time) do
     Timex.after?(time, date_time)
   end
+
+  defp stop_id(%{id: id}), do: id
+  defp stop_id(_), do: nil
 end

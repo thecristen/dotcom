@@ -13,17 +13,19 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
   end
 
   describe "call/2" do
-    defp setup_conn(params, schedules, predictions, now) do
-      %{build_conn() | params: params}
+    defp setup_conn(schedules, predictions, now, origin, destination, show_all_trips \\ "false") do
+      %{build_conn() | params: %{"show_all_trips" => show_all_trips}}
       |> assign(:schedules, schedules)
       |> assign(:predictions, predictions)
       |> assign(:date_time, now)
+      |> assign(:origin, origin)
+      |> assign(:destination, destination)
       |> fetch_query_params
       |> call([])
     end
 
     test "assigns stop_times" do
-      conn = setup_conn(%{}, [], [], Util.now)
+      conn = setup_conn([], [], Util.now, nil, nil)
 
       assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: false}
     end
@@ -38,7 +40,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
           stop: stop
         }
       end
-      conn = setup_conn(%{"origin" => stop.id}, schedules, [], now)
+      conn = setup_conn(schedules, [], now, stop, nil)
 
       assert conn.assigns.stop_times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, false)
     end
@@ -53,12 +55,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
           stop: stop
         }
       end
-      conn = setup_conn(
-        %{"origin" => stop.id, "show_all_trips" => "true"},
-        schedules,
-        [],
-        now
-      )
+      conn = setup_conn(schedules, [], now, stop, nil, "true")
 
       assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, true)
     end
@@ -68,6 +65,8 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       |> assign(:route, %Routes.Route{type: 1})
       |> assign(:schedules, [])
       |> assign(:predictions, [])
+      |> assign(:origin, nil)
+      |> assign(:destination, nil)
       |> fetch_query_params
       |> call([])
 
@@ -121,10 +120,11 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
 
       conn = setup_conn(
-        %{"origin" => origin.id, "destination" => destination.id},
         all_schedules,
         destination_predictions ++ extra_predictions,
-        now
+        now,
+        origin,
+        destination
       )
 
       assert conn.assigns.stop_times == StopTimeList.build(
