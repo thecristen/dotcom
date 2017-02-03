@@ -15,6 +15,7 @@
     </ul>
     <div><div class="graph-legend weekend"></div><span>Weekends</span></div>
     <%= if @calendar.holidays != [] do %><div><div class="graph-legend holiday"></div><span>Holidays</span></div><% end %>
+    <div class="graph-legend today"></div><span>Today</span>
   </div>
   <span class="col-sm-9 col-xs-12">
     <table class="table schedule-date-picker">
@@ -62,6 +63,7 @@
   <div class="hidden-sm-up mobile-legend col-xs-12">
     <div class="graph-legend weekend"></div><span>Weekends</span>
     <%= if @calendar.holidays != [] do %><div class="graph-legend holiday"></div><span>Holidays</span><% end %>
+    <div class="graph-legend today"></div><span>Today</span>
   </div>
   <div class="col-xs-12">
     <%= link "Cancel", to: update_schedule_url(@conn, date_select: nil), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
