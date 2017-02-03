@@ -10,7 +10,9 @@ defmodule Site.ScheduleV2Controller.Predictions do
   def init([]), do: []
 
   def call(conn, opts) do
-    assign_predictions(conn, Util.service_date(), Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1))
+    conn
+    |> assign_predictions(Util.service_date(), Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1))
+    |> gather_vehicle_predictions(Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1))
   end
 
   @doc """
@@ -41,4 +43,21 @@ defmodule Site.ScheduleV2Controller.Predictions do
   defp get_destination_id(%Stop{id: stop_id}), do: stop_id
   defp get_destination_id(_), do: ""
 
+
+  @spec gather_vehicle_predictions(Plug.Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: Plug.Conn.t
+  def gather_vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}} = conn, predictions_fn) do
+    {trips, stops} = vehicle_locations
+    |> Map.keys
+    |> Enum.unzip
+
+    stops = Enum.join(stops, ",")
+    trips  = Enum.join(trips , ",")
+    vehicle_predictions = predictions_fn.(trip: trips, stop: stops)
+
+    conn
+    |> assign(:vehicle_predictions, vehicle_predictions)
+  end
+  def gather_vehicle_predictions(conn, _) do
+    conn
+  end
 end

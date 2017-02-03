@@ -353,4 +353,86 @@ defmodule Site.ScheduleV2ViewTest do
       assert safe_output =~ "icon-alert"
     end
   end
+
+  describe "prediction_for_vehicle_location/2" do
+    test "when there are no predictions matching the stop and trip returns nil", %{conn: conn} do
+      conn = conn
+      |> assign(:vehicle_predictions, [])
+
+      assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == nil
+    end
+
+    test "when there is a prediction for the stop and trip, returns that prediction", %{conn: conn} do
+      prediction = %Predictions.Prediction{stop_id: "place-sstat", trip: %Schedules.Trip{id: "1234"}, status: "Now Boarding", track: 4}
+      conn = conn
+      |> assign(:vehicle_predictions, [prediction])
+
+      assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == prediction
+    end
+  end
+
+  describe "prediction_time_text/1" do
+    test "when there is no prediction, there is no prediction time" do
+      assert Site.ScheduleV2View.prediction_time_text(nil) == ""
+    end
+
+    test "when a prediction has a time, gives the arrival time" do
+      time = Timex.shift(Util.now, hours: 2)
+      prediction = %Predictions.Prediction{time: time}
+      assert Site.ScheduleV2View.prediction_time_text(prediction) == "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+    end
+
+    test "when a prediction does not have a time, gives nothing" do
+      prediction = %Predictions.Prediction{time: nil}
+      assert Site.ScheduleV2View.prediction_time_text(prediction) == ""
+    end
+  end
+
+  describe "prediction_status_text/1" do
+    test "when a prediction has a track, gives the time, the status and the track" do
+      prediction = %Predictions.Prediction{status: "Now Boarding", track: 4}
+      assert Site.ScheduleV2View.prediction_status_text(prediction) == "Now Boarding on Track 4"
+    end
+
+    test "when a prediction does not have a track, gives nothing" do
+      prediction = %Predictions.Prediction{status: "Now Boarding", track: nil}
+      assert Site.ScheduleV2View.prediction_status_text(prediction) == ""
+    end
+  end
+
+  describe "build_prediction_tooltip/2" do
+    test "when there is no time or status for the prediction, gives no tooltip" do
+      assert build_prediction_tooltip("", "") == nil
+    end
+
+    test "when there is a time but no status for the prediction, gives a tooltip with arrival time" do
+      assert build_prediction_tooltip("time", "") == Phoenix.HTML.Tag.content_tag(:span, "time")
+    end
+
+    test "when there is a status but no time for the prediction, gives a tooltip with the status" do
+      assert build_prediction_tooltip("", "now boarding") == Phoenix.HTML.Tag.content_tag(:span, "now boarding")
+    end
+
+    test "when there is a status and a time for the prediction, gives a tooltip with both and also replaces double quotes with single quotes" do
+      test_tooltip = Phoenix.HTML.Tag.content_tag :span do [
+        Phoenix.HTML.Tag.content_tag(:p, "time", class: 'prediction-tooltip'),
+        Phoenix.HTML.Tag.content_tag(:p, "now boarding", class: 'prediction-tooltip')
+      ]
+      end
+      |> Phoenix.HTML.safe_to_string
+      |> String.replace(~s("), ~s('))
+
+      assert build_prediction_tooltip("time", "now boarding") == test_tooltip
+    end
+  end
+
+  describe "prediction_tooltip/1" do
+    test "creates a tooltip for the prediction" do
+      time = Util.now
+      prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: 4}
+
+      assert prediction_tooltip(prediction) =~ "Now Boarding on Track 4"
+      assert prediction_tooltip(prediction) =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+    end
+  end
 end

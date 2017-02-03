@@ -32,7 +32,11 @@
             <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
               <%= format_schedule_time(trip_schedule.time) %>
             <% end %>
-            <%= timetable_location_display(@vehicle_locations[{schedule.trip.id, stop.id}]) %>
+            <% prediction = prediction_for_vehicle_location(@conn, stop.id, schedule.trip.id) %>
+            <span data-html=true data-toggle="tooltip"
+              title="<%= prediction_tooltip(prediction) %>">
+              <%= timetable_location_display(@vehicle_locations[{schedule.trip.id, stop.id}]) %>
+            </span>
           </td>
         <% end %>
         <td class="time-column"></td>
