@@ -8,10 +8,12 @@
     <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
   </span>
   <%= link @name, to: @href, class: "col-xs-6" %>
-  <%= if @route.type == 2 do %>
-    <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
-  <% else %>
-    <%= display_scheduled_prediction(@predicted_schedule) %>
+  <%= content_tag :span, class: "col-xs-6" do %>
+    <%= if @route.type == 2 do %>
+      <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
+    <% else %>
+      <%= display_scheduled_prediction(@predicted_schedule) %>
+    <% end %>
+    <%= display_alerts(@alerts)%>
   <% end %>
-  <%= display_alerts(@alerts)%>
 </p>

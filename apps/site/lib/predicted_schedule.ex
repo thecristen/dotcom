@@ -65,23 +65,6 @@ defmodule PredictedSchedule do
   @spec time!(PredictedSchedule.t) :: DateTime.t
   def time!(predicted_schedule), do: elem(time(predicted_schedule), 1)
 
-  @doc """
-  Returns a message containing the maximum delay between scheduled and predicted times for an arrival
-  and departure, or the empty string if there's no delay.
-  """
-  @spec display_delay(PredictedSchedule.t, PredictedSchedule.t) :: iodata
-  def display_delay(departure, arrival) do
-    case Enum.max([StopTimeList.StopTime.delay(departure), StopTimeList.StopTime.delay(arrival)]) do
-      delay when delay > 0 -> [
-        "Delayed ",
-        Integer.to_string(delay),
-        " ",
-        Inflex.inflect("minute", delay)
-      ]
-      _ -> ""
-    end
-  end
-
   # Returns unique list of all stop_id's from given schedules and predictions
   @spec stop_ids(%{String.t => Schedule.t}, %{String.t => Prediction.t}) :: [String.t]
   defp stop_ids(schedule_map, prediction_map) do
