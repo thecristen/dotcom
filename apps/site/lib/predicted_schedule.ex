@@ -5,7 +5,7 @@ defmodule PredictedSchedule do
   * schedule: The schedule for this trip (optional)
   * prediction: The prediction for this trip (optional)
   """
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
 
   defstruct [
@@ -91,6 +91,16 @@ defmodule PredictedSchedule do
       nil -> map_optional(predicted_schedule, rest, default, func)
       prediction -> func.(prediction)
     end
+  end
+  @doc """
+  Returns the trip associated with this Predicted Schedule
+  """
+  @spec trip(PredictedSchedule.t) :: Trip
+  def trip(%PredictedSchedule{schedule: nil, prediction: prediction}) do
+    prediction.trip
+  end
+  def trip(%PredictedSchedule{schedule: schedule}) do
+    schedule.trip
   end
 
   # Returns unique list of all stop_id's from given schedules and predictions

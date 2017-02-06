@@ -10,7 +10,6 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   import Plug.Conn, only: [assign: 3, halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
   import UrlHelpers, only: [update_url: 2]
-  alias Schedules.Schedule
 
   require Routes.Route
   alias Routes.Route
@@ -37,15 +36,15 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end
-  defp trip_id(%Conn{assigns: %{schedules: schedules, route: route, date: user_selected_date}}) when schedules != [] do
+  defp trip_id(%Conn{assigns: %{stop_times: %StopTimeList{times: times}, route: route, date: user_selected_date}}) when times != [] do
     if(show_trips(user_selected_date, route.type)) do
-      current_trip(schedules, user_selected_date)
+      current_trip(times, user_selected_date)
     else
       nil
     end
   end
-  defp trip_id(%Conn{assigns: %{schedules: schedules, date_time: date_time}}) when schedules != [] do
-    current_trip(schedules, date_time)
+  defp trip_id(%Conn{assigns: %{stop_times: %StopTimeList{times: times}, date_time: date_time}}) when times != [] do
+    current_trip(times, date_time)
   end
   defp trip_id(%Conn{}) do
     nil
@@ -75,28 +74,23 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   end
 
   # If there are more trips left in a day, finds the next trip based on the current time.
-  @spec current_trip([Schedule.t | {Schedule.t, Schedule.t}], DateTime.t) :: String.t | nil
-  defp current_trip([%Schedule{} | _] = schedules, now) do
-    do_current_trip schedules, now
-  end
-  defp current_trip([{%Schedule{}, %Schedule{}} | _] = schedules, now) do
-    schedules
-    |> Enum.map(&(elem(&1, 0)))
-    |> do_current_trip(now)
+  @spec current_trip([StopTimeList.StopTime.t], DateTime.t) :: String.t | nil
+  defp current_trip([%StopTimeList.StopTime{} | _] = times, now) do
+    do_current_trip times, now
   end
   defp current_trip([], _now), do: nil
 
-  @spec do_current_trip([Schedule.t], DateTime.t) :: String.t | nil
-  defp do_current_trip(schedules, now) do
-    case Enum.find(schedules, &is_after_now?(&1, now)) do
+  @spec do_current_trip([StopTimeList.StopTime.t], DateTime.t) :: String.t | nil
+  defp do_current_trip(times, now) do
+    case Enum.find(times, &is_after_now?(&1, now)) do
       nil -> nil
-      schedule -> schedule.trip.id
+      time -> PredictedSchedule.trip(time.departure).id
     end
   end
 
-  @spec is_after_now?(Schedule.t, DateTime.t) :: boolean
-  defp is_after_now?(%Schedules.Schedule{time: time}, now) do
-    Timex.after?(time, now)
+  @spec is_after_now?(StopTimeList.StopTime.t, DateTime.t) :: boolean
+  defp is_after_now?(%StopTimeList.StopTime{departure: departure}, now) do
+    Timex.after?(PredictedSchedule.time!(departure), now)
   end
 
   defp build_trip_times(schedules, assigns, trip_id, prediction_fn) do

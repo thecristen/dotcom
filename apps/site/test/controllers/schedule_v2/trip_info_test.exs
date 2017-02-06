@@ -95,12 +95,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
     query_params = Map.new(params, fn {key,val} -> {Atom.to_string(key), val} end)
     params = put_in query_params["route"], "1"
+    stop_times = Enum.map(schedules, & %StopTimeList.StopTime{departure: %PredictedSchedule{schedule: &1}})
 
     %{conn |
       request_path: schedule_v2_path(conn, :show, "1"),
       query_params: query_params,
       params: params}
-    |> assign(:schedules, schedules)
+    |> assign(:stop_times, %StopTimeList{times: stop_times})
     |> assign(:date_time, @time)
     |> assign(:date, Util.service_date())
     |> call(init)
@@ -109,18 +110,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   test "does not assign a trip when schedules is empty", %{conn: conn} do
     conn = conn_builder(conn, [])
     assert conn.assigns.trip_info == nil
-  end
-
-  test "assigns trip_info when schedules is a list of schedules", %{conn: conn} do
-    conn = conn_builder(conn, @schedules)
-    predicted_schedules = PredictedSchedule.group_by_trip(@predictions, @trip_schedules)
-    assert conn.assigns.trip_info == TripInfo.from_list(predicted_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
-  end
-
-  test "assigns trip_info when schedules is a list of schedule tuples", %{conn: conn} do
-    conn = conn_builder(conn, @schedules |> Enum.map(fn sched -> {sched, %Schedule{}} end))
-    predicted_schedules = PredictedSchedule.group_by_trip(@predictions, @trip_schedules)
-    assert conn.assigns.trip_info == TripInfo.from_list(predicted_schedules, vehicle: %Vehicles.Vehicle{}, origin: "first", destination: "last")
   end
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
@@ -217,6 +206,44 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
+  test "Default Trip id is taken from stop_times if one is not provided", %{conn: conn} do
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 25),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, minutes: 26),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 27),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    stop_times = Enum.map(schedules, & %StopTimeList.StopTime{departure: %PredictedSchedule{schedule: &1}})
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "Red"),
+      query_params: nil
+    }
+    |> assign(:stop_times, %StopTimeList{times: stop_times})
+    |> assign(:date, Util.service_date())
+    |> assign(:route, %Routes.Route{type: 1})
+    |> call(init)
+
+    for time <- List.flatten(conn.assigns.trip_info.sections) do
+      assert PredictedSchedule.trip(time).id == "32893585"
+    end
+  end
+
   test "does assign trips for the subway if the date is today", %{conn: conn} do
     schedules = [
       %Schedule{
@@ -240,12 +267,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     ]
     day = Util.now
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    stop_times = Enum.map(schedules, & %StopTimeList.StopTime{departure: %PredictedSchedule{schedule: &1}})
 
     conn = %{conn |
       request_path: schedule_v2_path(conn, :show, "Red"),
       query_params: nil
     }
-    |> assign(:schedules, schedules)
+    |> assign(:stop_times, %StopTimeList{times: stop_times})
     |> assign(:date, day)
     |> assign(:route, %Routes.Route{type: 1})
     |> call(init)
@@ -276,12 +304,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     ]
     day = Timex.shift(Util.now, days: 1)
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    stop_times = Enum.map(schedules, & %StopTimeList.StopTime{departure: %PredictedSchedule{schedule: &1}})
 
     conn = %{conn |
       request_path: schedule_v2_path(conn, :show, "1"),
       query_params: nil
     }
-    |> assign(:schedules, schedules)
+    |> assign(:stop_times, %StopTimeList{times: stop_times})
     |> assign(:date, day)
     |> assign(:route, %Routes.Route{type: 3})
     |> call(init)
