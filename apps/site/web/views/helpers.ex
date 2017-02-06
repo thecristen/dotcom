@@ -94,8 +94,8 @@ defmodule Site.ViewHelpers do
 
   @spec subway_name(String.t) :: String.t
   @doc "Textual version of subway line"
-  def subway_name("Mattapan"<>_line), do: "Red Line"
-  def subway_name("Green"<>_line), do: "Green Line"
+  def subway_name("Mattapan" <> _line), do: "Red Line"
+  def subway_name("Green" <> _line), do: "Green Line"
   def subway_name(color) when color in ["Red Line", "Blue Line", "Orange Line"], do: color
 
   @doc "Prefix route name with route for bus lines"
@@ -104,12 +104,24 @@ defmodule Site.ViewHelpers do
   def route_header_text(%{name: name}), do: name
 
   @doc "Clean up a GTFS route name for better presentation"
+  @spec clean_route_name(String.t) :: String.t
   def clean_route_name(name) do
     name
     |> String.replace_suffix(" Line", "")
     |> String.replace_suffix(" Trolley", "")
-    |> String.replace("/", "/​") # slash replaced with a slash with a ZERO
-                                # WIDTH SPACE afer
+    |> break_text_at_slash
+  end
+
+  @doc """
+
+  Replaces slashes in a given name with a slash + ZERO_WIDTH_SPACE.  It's
+  visually the same, but allows browsers to break the text into multiple lines.
+
+  """
+  @spec break_text_at_slash(String.t) :: String.t
+  def break_text_at_slash(name) do
+    name
+    |> String.replace("/", "/​")
   end
 
   def route_spacing_class(0), do: "col-xs-6 col-md-3 col-lg-2"
