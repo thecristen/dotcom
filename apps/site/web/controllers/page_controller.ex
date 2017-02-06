@@ -12,6 +12,7 @@ defmodule Site.PageController do
     |> await_assign_all
     |> assign_tnm_column_groups
     |> assign(:pre_container_template, "_pre_container.html")
+    |> assign(:post_container_template, "_post_container.html")
     |> render("index.html")
   end
 
