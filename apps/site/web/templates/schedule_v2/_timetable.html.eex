@@ -4,6 +4,9 @@
       <th class="schedule-v2-timetable-name-col fixedsticky">
         Stop
       </th>
+      <th class="time-column time-column-earlier fixedsticky">
+        <%= fa "angle-left" %>
+      </th>
       <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
         <th<%= if index == @offset, do: " data-scroll-to" %>>
           <%= schedule.trip.name %>
@@ -12,6 +15,9 @@
           <% end %>
         </th>
       <% end %>
+      <th class="time-column time-column-later fixedsticky">
+        <%= fa "angle-right" %>
+      </th>
     </tr>
     <%= for stop <- @all_stops do %>
       <tr>
@@ -21,6 +27,7 @@
             <%= svg_icon(%SvgIcon{icon: :alert}) %>
           <% end %>
         </td>
+        <td class="time-column time-column-earlier fixedsticky"></td>
         <%= for schedule <- @header_schedules do %>
           <td>
             <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
@@ -33,6 +40,7 @@
             </span>
           </td>
         <% end %>
+        <td class="time-column time-column-later fixedsticky"></td>
       </tr>
     <% end %>
   </table>

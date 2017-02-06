@@ -432,15 +432,49 @@ $vehicle-location-width: 1.85rem;
 
 .schedule-v2-timetable-name-col {
   left: 0;
+  text-align: left !important;
+}
+
+.time-column-earlier {
+  left: 6rem + $icon-size;
+}
+
+.time-column-later {
+  right: 0;
 }
 
 .schedule-v2-timetable {
   border-bottom: 2rem solid $brand-primary-darkest;
   position: relative;
 
+  .time-column {
+    min-width: .5rem;
+    border: 0;
+    padding: 0 !important;
+    text-align: center;
+  }
+
+  td.time-column {
+    background-color: rgba($gray-lightest, .5);
+  }
+
+
+  &.hide-earlier {
+    .time-column-earlier {
+      display: none;
+    }
+  }
+
+  &.hide-later {
+    .time-column-later {
+      display: none;
+    }
+  }
+
   td,
   th {
-    min-width: 6rem + $icon-size;
+    // min-width: 4rem + $icon-size;
+    text-align: center;
     padding: .5rem 1rem;
   }
 
