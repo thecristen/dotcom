@@ -34,13 +34,15 @@ defmodule Schedules.Frequency do
   defstruct [
     time_block: nil,
     min_headway: :infinity,
-    max_headway: :infinity
+    max_headway: :infinity,
+    terminal_departure: nil
   ]
 
   @type t :: %Schedules.Frequency{
     time_block: atom,
     min_headway: integer | :infinity,
-    max_headway: integer | :infinity
+    max_headway: integer | :infinity,
+    terminal_departure: DateTime.t | nil
   }
 
   @doc """

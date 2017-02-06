@@ -17,33 +17,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "last_departure/1" do
-    test "when schedules are a list of schedules, gives the time of the last one" do
-      schedules = [%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}, %Schedule{time: ~N[2017-01-01T20:30:00]}]
-      assert last_departure(schedules) == ~N[2017-01-01T20:30:00]
-    end
-
-    test "when schedules are a list of origin destination schedule pairs, gives the time of the last origin" do
-      schedules = [{%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}},
-       {%Schedule{time: ~N[2017-01-01T19:30:00]}, %Schedule{time: ~N[2017-01-01T21:30:00]}}]
-      assert last_departure(schedules) == ~N[2017-01-01T19:30:00]
-    end
-  end
-
-  describe "first_departure/1" do
-    test "Returns first time from list of schedule tuples" do
-      first_time = Util.now()
-      schedules = [{%Schedule{time: first_time}, %Schedule{time: Timex.shift(first_time, hours: 1)}}, {%Schedule{}, %Schedule{}}]
-      assert first_departure(schedules) == first_time
-    end
-
-    test "Returns first time from list of schedules" do
-      time = Util.now()
-      schedules = [%Schedule{time: time}, %Schedule{time: Timex.shift(time, hours: 1)}, %Schedule{time: Timex.shift(time, hours: 2)}]
-      assert first_departure(schedules) == time
-    end
-  end
-
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
       assert display_direction(%StopTimeList{}) == ""
@@ -501,21 +474,17 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "display_frequency_departure/2" do
-    @schedules [
-      %Schedule{time: Util.now()},
-      %Schedule{time: Util.now()}
-    ]
     test "AM Rush displays first departure" do
-      assert safe_to_string(display_frequency_departure(:am_rush, @schedules)) =~ "First Departure"
+      assert safe_to_string(display_frequency_departure(%Schedules.Frequency{time_block: :am_rush})) =~ "First Departure"
     end
 
     test "Late Night displays last departure" do
-      assert safe_to_string(display_frequency_departure(:late_night, @schedules)) =~ "Last Departure"
+      assert safe_to_string(display_frequency_departure(%Schedules.Frequency{time_block: :late_night})) =~ "Last Departure"
     end
 
     test "Other time blocks do no give departure" do
-      refute display_frequency_departure(:midday, @schedules)
-      refute display_frequency_departure(:evening, @schedules)
+      refute display_frequency_departure(%Schedules.Frequency{time_block: :midday})
+      refute display_frequency_departure(%Schedules.Frequency{time_block: :evening})
     end
   end
 end

@@ -1,6 +1,8 @@
 defmodule TimeGroup do
   alias Schedules.Schedule
 
+  @type time_block :: :am_rush | :midday | :pm_rush | :evening | :late_night
+
   @doc """
   Given a list of schedules, returns those schedules grouped by the hour of day.
 
@@ -23,7 +25,7 @@ defmodule TimeGroup do
 
   Returns a keyword list, and expects that the schedules are already sorted.
   """
-  @type subway_schedule :: :am_rush|:midday|:pm_rush|:evening|:late_night
+  @type subway_schedule :: time_block
   @spec by_subway_period([Schedule.t]) :: [{subway_schedule, [Schedule.t]}]
   def by_subway_period(schedules) do
     schedules
@@ -54,18 +56,19 @@ defmodule TimeGroup do
 
   @spec frequency_for_time([Schedule.t], atom) :: Schedules.Frequency.t
   def frequency_for_time(schedules, time_block) do
-    time_range = schedules
+    {min, max} = schedules
     |> Enum.filter(fn schedule -> subway_period(schedule.time) == time_block end)
     |> frequency
+    |> verify_min_max
 
-    {min, max} = case time_range do
-                  nil ->
-                    {:infinity, :infinity}
-                  {min, max} ->
-                     {min, max}
-                 end
-    %Schedules.Frequency{time_block: time_block, min_headway: min, max_headway: max}
+    terminal_departure = terminal_departure(schedules, time_block)
+    %Schedules.Frequency{time_block: time_block, min_headway: min, max_headway: max, terminal_departure: terminal_departure}
   end
+
+  @spec verify_min_max({integer, integer} | nil) :: {:infinity, :infinity} | {integer, integer}
+  defp verify_min_max(nil), do: {:infinity, :infinity}
+  defp verify_min_max({_min, _max} = min_max), do: min_max
+
 
   @spec frequency_by_time_block([Schedule.t]) :: [Schedules.Frequency.t]
   def frequency_by_time_block(schedules) do
@@ -136,4 +139,39 @@ defmodule TimeGroup do
       Integer.to_string(max)
     ]
   end
+
+  @doc """
+  If the the given timeblock is am_rush, return first departure of schedule
+  If it is late night, return final departure of schedule
+  otherwise return nil
+  """
+  @spec terminal_departure([Schedule.t | {Schedule.t, Schedule.t}], time_block) :: DateTime.t | nil
+  def terminal_departure(schedules, :am_rush), do: first_departure(schedules)
+  def terminal_departure(schedules, :late_night), do: last_departure(schedules)
+  def terminal_departure(_schedules, _time_block), do: nil
+
+
+  @spec last_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
+  defp last_departure([{%Schedule{}, %Schedule{}} | _] = schedules) do
+    schedule = schedules
+    |> List.last
+    |> elem(0)
+
+    schedule.time
+  end
+  defp last_departure(schedules) do
+    List.last(schedules).time
+  end
+
+  @doc """
+  Returns the time of the First Schedule in the given list of schedules
+  """
+  @spec first_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
+  def first_departure([{%Schedule{} = schedule, %Schedule{}} | _]) do
+    schedule.time
+  end
+  def first_departure([schedule | _]) do
+    schedule.time
+  end
+
 end

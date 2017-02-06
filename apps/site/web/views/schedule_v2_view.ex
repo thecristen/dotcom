@@ -15,29 +15,6 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec last_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
-  def last_departure([{%Schedule{}, %Schedule{}} | _] = schedules) do
-    schedule = schedules
-    |> List.last
-    |> elem(0)
-
-    schedule.time
-  end
-  def last_departure(schedules) do
-    List.last(schedules).time
-  end
-
-  @doc """
-  Returns the time of the First Schedule in the given list of schedules
-  """
-  @spec first_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
-  def first_departure([{%Schedule{} = schedule, %Schedule{}} | _]) do
-    schedule.time
-  end
-  def first_departure([schedule | _]) do
-    schedule.time
-  end
-
   @doc """
   Given a list of schedules, returns a display of the route direction. Assumes all
   schedules have the same route and direction.
@@ -321,24 +298,21 @@ defmodule Site.ScheduleV2View do
   The last departure will be shown if it is the Late Night time block
   Otherwise, nothing is shown
   """
-  @spec display_frequency_departure(:am_rush | :midday | :pm_rush | :evening | :late_night, [Schedule.t]) :: Phoenix.HTML.Safe.t
-  def display_frequency_departure(time_block, schedules) when time_block in [:am_rush, :late_night] do
+  @spec display_frequency_departure(Schedules.Frequency.t) :: Phoenix.HTML.Safe.t
+  def display_frequency_departure(%Schedules.Frequency{time_block: time_block, terminal_departure: terminal_departure}) when time_block in [:am_rush, :late_night] do
     content_tag :div, class: "schedule-v2-frequency-time" do
       case time_block do
-        :am_rush -> "First Departure at #{format_schedule_time(first_departure(schedules))}"
-        :late_night -> "Last Departure at #{format_schedule_time(last_departure(schedules))}"
+        :am_rush -> "First Departure at #{format_schedule_time(terminal_departure)}"
+        :late_night -> "Last Departure at #{format_schedule_time(terminal_departure)}"
       end
     end
   end
-  def display_frequency_departure(_, _), do: nil
+  def display_frequency_departure(_), do: nil
 
   @doc "Determines if the trip info box should be displayed"
   @spec should_display_trip_info?(TripInfo.t | nil) :: boolean
   def should_display_trip_info?(nil), do: false
   def should_display_trip_info?(trip_info) do
-    case Route.subway?(trip_info.route.type) do
-      true -> TripInfo.any_predictions?(trip_info)
-      false -> true
-    end
+    not Route.subway?(trip_info.route.type) or TripInfo.any_predictions?(trip_info)
   end
 end

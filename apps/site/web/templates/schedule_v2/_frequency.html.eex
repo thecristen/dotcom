@@ -5,7 +5,7 @@
       <div class="frequency">
         <div class="time-block-name">
           <%= content_tag :div, frequency_block_name(frequency) %>
-        <%= display_frequency_departure(frequency.time_block, @schedules) %>
+        <%= display_frequency_departure(frequency) %>
         </div>
         <div class="time-block-times">
           <%= frequency |> Schedules.Frequency.has_service? |> frequency_times(frequency) %>
