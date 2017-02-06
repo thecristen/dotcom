@@ -1,5 +1,5 @@
 <div class="post-container-wrapper">
   <div class="container">
-    <%= render Site.PageView, "_news_card.html", conn: @conn %>
+    <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
   </div>
 </div>
