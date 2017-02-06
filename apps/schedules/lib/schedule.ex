@@ -34,15 +34,13 @@ defmodule Schedules.Frequency do
   defstruct [
     time_block: nil,
     min_headway: :infinity,
-    max_headway: :infinity,
-    terminal_departure: nil
+    max_headway: :infinity
   ]
 
   @type t :: %Schedules.Frequency{
     time_block: atom,
     min_headway: integer | :infinity,
-    max_headway: integer | :infinity,
-    terminal_departure: DateTime.t | nil
+    max_headway: integer | :infinity
   }
 
   @doc """
@@ -55,4 +53,18 @@ defmodule Schedules.Frequency do
   def has_service?(%Schedules.Frequency{}) do
     true
   end
+end
+
+defmodule Schedules.FrequencyList do
+  defstruct [
+    frequencies: [],
+    first_departure: nil,
+    last_departure: nil
+  ]
+
+  @type t :: %Schedules.FrequencyList {
+    frequencies: [Schedules.Frequency.t],
+    first_departure: DateTime.t | nil,
+    last_departure: DateTime.t | nil
+  }
 end

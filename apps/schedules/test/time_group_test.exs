@@ -89,7 +89,7 @@ defmodule TimeGroupTest do
       second_schedule = %Schedule{time: second_time}
       schedules = [@schedule, first_schedule, second_schedule]
 
-      assert TimeGroup.frequency_for_time(schedules, :am_rush) == %Schedules.Frequency{time_block: :am_rush, min_headway: 9, max_headway: 11, terminal_departure: List.first(schedules).time}
+      assert TimeGroup.frequency_for_time(schedules, :am_rush) == %Schedules.Frequency{time_block: :am_rush, min_headway: 9, max_headway: 11}
     end
 
     test "gets an infinite frequency when there are no times during the given time" do
@@ -121,11 +121,11 @@ defmodule TimeGroupTest do
       schedules = [am_rush_schedule, am_rush_schedule_2, midday_schedule, midday_schedule_2]
 
       assert TimeGroup.frequency_by_time_block(schedules) == [
-        %Schedules.Frequency{time_block: :am_rush, min_headway: 11, max_headway: 11, terminal_departure: List.first(schedules).time},
+        %Schedules.Frequency{time_block: :am_rush, min_headway: 11, max_headway: 11},
         %Schedules.Frequency{time_block: :midday, min_headway: 60, max_headway: 60},
         %Schedules.Frequency{time_block: :pm_rush},
         %Schedules.Frequency{time_block: :evening},
-        %Schedules.Frequency{time_block: :late_night, terminal_departure: List.last(schedules).time}
+        %Schedules.Frequency{time_block: :late_night}
       ]
     end
   end
@@ -140,20 +140,14 @@ defmodule TimeGroupTest do
     end
   end
 
-  describe "terminal_departure/1" do
+  describe "build_frequency_list/1" do
     @time Timex.now()
     @schedules [%Schedule{time: @time}, %Schedule{time: Timex.shift(@time, hours: 1)}, %Schedule{time: Timex.shift(@time, hours: 2)}]
-    test "First schedule is returned for am_rush" do
-      assert TimeGroup.terminal_departure(@schedules, :am_rush) == List.first(@schedules).time
-    end
 
-    test "last schedule is returned for late night" do
-      assert TimeGroup.terminal_departure(@schedules, :late_night) == List.last(@schedules).time
-    end
-
-    test "nil is returned for non temrinal time_blocks" do
-      refute TimeGroup.terminal_departure(@schedules, :evening)
-      refute TimeGroup.terminal_departure(@schedules, :midday)
+    test "first and last departures are returned with a FrequencyList" do
+      frequency_list = TimeGroup.build_frequency_list(@schedules)
+      assert frequency_list.first_departure == List.first(@schedules).time
+      assert frequency_list.last_departure == List.last(@schedules).time
     end
   end
 end

@@ -298,16 +298,16 @@ defmodule Site.ScheduleV2View do
   The last departure will be shown if it is the Late Night time block
   Otherwise, nothing is shown
   """
-  @spec display_frequency_departure(Schedules.Frequency.t) :: Phoenix.HTML.Safe.t
-  def display_frequency_departure(%Schedules.Frequency{time_block: time_block, terminal_departure: terminal_departure}) when time_block in [:am_rush, :late_night] do
+  @spec display_frequency_departure(TimeGroup.time_block, DateTime.t | nil, DateTime.t | nil) :: Phoenix.HTML.Safe.t
+  def display_frequency_departure(time_block, first_departure, last_departure) when time_block in [:am_rush, :late_night] do
     content_tag :div, class: "schedule-v2-frequency-time" do
       case time_block do
-        :am_rush -> "First Departure at #{format_schedule_time(terminal_departure)}"
-        :late_night -> "Last Departure at #{format_schedule_time(terminal_departure)}"
+        :am_rush -> "First Departure at #{format_schedule_time(first_departure)}"
+        :late_night -> "Last Departure at #{format_schedule_time(last_departure)}"
       end
     end
   end
-  def display_frequency_departure(_), do: nil
+  def display_frequency_departure(_time_block, _first, _last), do: nil
 
   @doc "Determines if the trip info box should be displayed"
   @spec should_display_trip_info?(TripInfo.t | nil) :: boolean

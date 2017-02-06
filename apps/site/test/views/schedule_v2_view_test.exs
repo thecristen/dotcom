@@ -207,7 +207,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "_frequency.html" do
     test "renders a no service message if the block doesn't have service" do
-      frequency_table = [%Schedules.Frequency{time_block: :am_rush}]
+      frequency_table = %Schedules.FrequencyList{frequencies: [%Schedules.Frequency{time_block: :am_rush}]}
       schedules = [%Schedules.Schedule{time: Util.now}]
       date = Util.service_date
       safe_output = Site.ScheduleV2View.render(
@@ -222,7 +222,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "renders a headway if the block has service" do
       frequency = %Schedules.Frequency{time_block: :am_rush, min_headway: 5, max_headway: 10}
-      frequency_table = [frequency]
+      frequency_table = %Schedules.FrequencyList{frequencies: [frequency]}
       schedules = [%Schedules.Schedule{time: Util.now}]
       date = Util.service_date
       safe_output = Site.ScheduleV2View.render(
@@ -475,16 +475,16 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "display_frequency_departure/2" do
     test "AM Rush displays first departure" do
-      assert safe_to_string(display_frequency_departure(%Schedules.Frequency{time_block: :am_rush})) =~ "First Departure"
+      assert safe_to_string(display_frequency_departure(:am_rush, Util.now(), Util.now())) =~ "First Departure"
     end
 
     test "Late Night displays last departure" do
-      assert safe_to_string(display_frequency_departure(%Schedules.Frequency{time_block: :late_night})) =~ "Last Departure"
+      assert safe_to_string(display_frequency_departure(:late_night, Util.now(), Util.now())) =~ "Last Departure"
     end
 
     test "Other time blocks do no give departure" do
-      refute display_frequency_departure(%Schedules.Frequency{time_block: :midday})
-      refute display_frequency_departure(%Schedules.Frequency{time_block: :evening})
+      refute display_frequency_departure(:evening, Util.now(), Util.now())
+      refute display_frequency_departure(:midday, Util.now(), Util.now())
     end
   end
 end

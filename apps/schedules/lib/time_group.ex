@@ -61,8 +61,7 @@ defmodule TimeGroup do
     |> frequency
     |> verify_min_max
 
-    terminal_departure = terminal_departure(schedules, time_block)
-    %Schedules.Frequency{time_block: time_block, min_headway: min, max_headway: max, terminal_departure: terminal_departure}
+    %Schedules.Frequency{time_block: time_block, min_headway: min, max_headway: max}
   end
 
   @spec verify_min_max({integer, integer} | nil) :: {:infinity, :infinity} | {integer, integer}
@@ -74,6 +73,13 @@ defmodule TimeGroup do
   def frequency_by_time_block(schedules) do
     Enum.map([:am_rush, :midday, :pm_rush, :evening, :late_night],
              &frequency_for_time(schedules, &1))
+  end
+
+  @spec build_frequency_list([Schedule.t]) :: Schedules.FrequencyList.t
+  def build_frequency_list(schedules) do
+    %Schedules.FrequencyList{frequencies: frequency_by_time_block(schedules),
+                             first_departure: List.first(schedules).time,
+                             last_departure: List.last(schedules).time}
   end
 
   defp do_by_fn([], _) do
@@ -139,39 +145,4 @@ defmodule TimeGroup do
       Integer.to_string(max)
     ]
   end
-
-  @doc """
-  If the the given timeblock is am_rush, return first departure of schedule
-  If it is late night, return final departure of schedule
-  otherwise return nil
-  """
-  @spec terminal_departure([Schedule.t | {Schedule.t, Schedule.t}], time_block) :: DateTime.t | nil
-  def terminal_departure(schedules, :am_rush), do: first_departure(schedules)
-  def terminal_departure(schedules, :late_night), do: last_departure(schedules)
-  def terminal_departure(_schedules, _time_block), do: nil
-
-
-  @spec last_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
-  defp last_departure([{%Schedule{}, %Schedule{}} | _] = schedules) do
-    schedule = schedules
-    |> List.last
-    |> elem(0)
-
-    schedule.time
-  end
-  defp last_departure(schedules) do
-    List.last(schedules).time
-  end
-
-  @doc """
-  Returns the time of the First Schedule in the given list of schedules
-  """
-  @spec first_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
-  def first_departure([{%Schedule{} = schedule, %Schedule{}} | _]) do
-    schedule.time
-  end
-  def first_departure([schedule | _]) do
-    schedule.time
-  end
-
 end
