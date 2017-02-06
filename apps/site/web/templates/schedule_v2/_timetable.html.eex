@@ -11,7 +11,7 @@
         <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
           <%= schedule.trip.name %>
           <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: schedule.time, route: @route.id, direction_id: @direction_id) != [] do %>
-            <%= svg_icon(%SvgIcon{icon: :alert}) %>
+            <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
           <% end %>
         </th>
       <% end %>
@@ -24,7 +24,7 @@
         <td class="schedule-v2-timetable-name-col fixedsticky">
           <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>
           <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
-            <%= svg_icon(%SvgIcon{icon: :alert}) %>
+            <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
           <% end %>
         </td>
         <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier fixedsticky"></td>
