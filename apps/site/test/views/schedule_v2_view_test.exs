@@ -470,5 +470,10 @@ defmodule Site.ScheduleV2ViewTest do
       refute display_frequency_departure(:evening, Util.now(), Util.now())
       refute display_frequency_departure(:midday, Util.now(), Util.now())
     end
+
+    test "Ultimate departure text not shown if not given time" do
+      refute display_frequency_departure(:am_rush, nil, Util.now())
+      refute display_frequency_departure(:late_night, Util.now(), nil)
+    end
   end
 end

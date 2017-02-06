@@ -297,12 +297,14 @@ defmodule Site.ScheduleV2View do
   Otherwise, nothing is shown
   """
   @spec display_frequency_departure(TimeGroup.time_block, DateTime.t | nil, DateTime.t | nil) :: Phoenix.HTML.Safe.t
-  def display_frequency_departure(time_block, first_departure, last_departure) when time_block in [:am_rush, :late_night] do
+  def display_frequency_departure(:am_rush, first_departure, _last_departure) when not is_nil(first_departure) do
     content_tag :div, class: "schedule-v2-frequency-time" do
-      case time_block do
-        :am_rush -> "First Departure at #{format_schedule_time(first_departure)}"
-        :late_night -> "Last Departure at #{format_schedule_time(last_departure)}"
-      end
+      "First Departure at #{format_schedule_time(first_departure)}"
+    end
+  end
+  def display_frequency_departure(:late_night, _first_departure, last_departure) when not is_nil(last_departure) do
+    content_tag :div, class: "schedule-v2-frequency-time" do
+      "Last Departure at #{format_schedule_time(last_departure)}"
     end
   end
   def display_frequency_departure(_time_block, _first, _last), do: nil
