@@ -7,11 +7,7 @@
 </h1>
 <%= render "_trip_view_filters.html", forward_assigns(@conn) %>
 
-<%= if @alerts != [] || @upcoming_alerts != [] do %>
-  <div class="schedule-v2-alert-container">
-    <%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date %>
-  </div>
-<% end %>
+<%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date %>
 
 <%= if @route.type == 2 do %>
   <%= tab_list(%TabList{
