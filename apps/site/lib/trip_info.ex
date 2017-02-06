@@ -1,4 +1,6 @@
 defmodule TripInfo do
+  require Routes.Route
+  alias Routes.Route
   @moduledoc """
   Wraps the important information about a trip.
 
@@ -200,5 +202,12 @@ defmodule TripInfo do
 
   defp destination([_ | _] = times) do
     List.last(times).schedule.stop.name
+  end
+
+  @doc "Determines if the trip info box should be displayed"
+  @spec should_display_trip_info?(TripInfo.t | nil) :: boolean
+  def should_display_trip_info?(nil), do: false
+  def should_display_trip_info?(trip_info) do
+    not Route.subway?(trip_info.route.type) or TripInfo.any_predictions?(trip_info)
   end
 end

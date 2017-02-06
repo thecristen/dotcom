@@ -457,22 +457,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "should_display_trip_info?/2" do
-    test "Non subway will show trip info" do
-      commuter_info = %TripInfo{route: %Routes.Route{type: 4}}
-      assert should_display_trip_info?(commuter_info)
-    end
-
-    test "Subway will show trip info if predictions are given" do
-      subway_info = %TripInfo{sections: [%PredictedSchedule{prediction: %Prediction{time: Util.now()}}], route: %Routes.Route{type: 1}}
-      assert should_display_trip_info?(subway_info)
-    end
-
-    test "Will not show trip info if there is no trip info" do
-      refute should_display_trip_info?(nil)
-    end
-  end
-
   describe "display_frequency_departure/2" do
     test "AM Rush displays first departure" do
       assert safe_to_string(display_frequency_departure(:am_rush, Util.now(), Util.now())) =~ "First Departure"
