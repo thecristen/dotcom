@@ -420,90 +420,73 @@ $vehicle-location-width: 1.85rem;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.schedule-v2-timetable {
-  border-bottom: 2rem solid $brand-primary-darkest;
-}
-
 .schedule-v2-timetable-container {
   max-width: 100%;
   width: 100%;
   overflow-y: scroll;
 }
 
+.schedule-v2-timetable {
+  border-bottom: 2rem solid $brand-primary-darkest;
+}
+
+.schedule-v2-timetable-hide-earlier .schedule-v2-timetable-time-col-earlier,
+.schedule-v2-timetable-hide-later .schedule-v2-timetable-time-col-later {
+  display: none;
+}
+
+.schedule-v2-timetable-col,
+.schedule-v2-timetable-name-col,
+.schedule-v2-timetable-header-col {
+  padding: .5rem 1rem;
+}
+
+.schedule-v2-timetable-col,
+.schedule-v2-timetable-header-col {
+  text-align: center;
+}
+
+.schedule-v2-timetable-col,
+.schedule-v2-timetable-name-col:not(.schedule-v2-timetable-header-col) {
+  background-color: $white;
+}
+
+.schedule-v2-timetable-header-col {
+  background-color: $brand-primary-darkest;
+  color: $white;
+  font-weight: bold;
+
+  .icon-image {
+    fill: $white;
+  }
+
+  a {
+    color: $white;
+
+    @include hover-focus-active {
+      color: $white;
+    }
+  }
+}
+
+.schedule-v2-timetable-row:not(:last-child) {
+  // border on the bottom of every row except the last
+  border-bottom: 1px solid $gray-lightest;
+}
+
 .schedule-v2-timetable-name-col {
   left: 0;
-  text-align: left !important;
+  text-align: left;
 }
 
-.time-column-earlier {
-  left: 6rem + $icon-size;
-}
-
-.time-column-later {
+.schedule-v2-timetable-time-col-later {
   right: 0;
 }
 
-.schedule-v2-timetable {
-  border-bottom: 2rem solid $brand-primary-darkest;
-  position: relative;
-
-  .time-column {
-    min-width: .5rem;
-    border: 0;
-    padding: 0 !important;
-    text-align: center;
-  }
-
-  td.time-column {
-    background-color: rgba($gray-lightest, .5);
-  }
-
-
-  &.hide-earlier {
-    .time-column-earlier {
-      display: none;
-    }
-  }
-
-  &.hide-later {
-    .time-column-later {
-      display: none;
-    }
-  }
-
-  td,
-  th {
-    // min-width: 4rem + $icon-size;
-    text-align: center;
-    padding: .5rem 1rem;
-  }
-
-  td {
-    background-color: $white;
-  }
-
-  th {
-    background-color: $brand-primary-darkest;
-    color: $white;
-    font-weight: bold;
-
-    .icon-image {
-      fill: $white;
-    }
-
-    a {
-      color: $white;
-
-      @include hover-focus-active {
-        color: $white;
-      }
-    }
-  }
-
-  tr:not(:last-child) td {
-    // border on the bottom of every row except the last
-    border-bottom: 1px solid $gray-lightest;
-  }
+.schedule-v2-timetable-time-col {
+  background-color: rgba($gray-lightest, .5);
+  min-width: .5rem;
+  text-align: center;
 }
 
 .route-row {
