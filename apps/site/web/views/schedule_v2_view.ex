@@ -308,11 +308,4 @@ defmodule Site.ScheduleV2View do
     end
   end
   def display_frequency_departure(_time_block, _first, _last), do: nil
-
-  @doc "Determines if the trip info box should be displayed"
-  @spec should_display_trip_info?(TripInfo.t | nil) :: boolean
-  def should_display_trip_info?(nil), do: false
-  def should_display_trip_info?(trip_info) do
-    not Route.subway?(trip_info.route.type) or TripInfo.any_predictions?(trip_info)
-  end
 end

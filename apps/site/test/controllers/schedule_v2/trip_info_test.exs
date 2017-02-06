@@ -217,7 +217,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
-  test "does assign trips for the subway if the date is today", %{conn: conn} do
+  test "does assign trips for the subway if the date is today and predictions are given", %{conn: conn} do
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
@@ -238,8 +238,8 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         route: %Routes.Route{type: 1}
       }
     ]
-    day = Util.now
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    day = Util.today()
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
     conn = %{conn |
       request_path: schedule_v2_path(conn, :show, "Red"),
@@ -251,6 +251,42 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
 
     assert conn.assigns.trip_info != nil
+  end
+
+  test "does not assign trip info for the subway if predictions not are given", %{conn: conn} do
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 25),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, minutes: 26),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(Util.now, hours: 27),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+    day = Util.today()
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: fn(_) -> [] end)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "Red"),
+      query_params: nil
+    }
+    |> assign(:schedules, schedules)
+    |> assign(:date, day)
+    |> assign(:route, %Routes.Route{type: 1})
+    |> call(init)
+
+    refute conn.assigns.trip_info
   end
 
   test "does assign trips for the bus if the date is in the future", %{conn: conn} do

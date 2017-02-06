@@ -59,8 +59,17 @@ defmodule Site.ScheduleV2Controller.TripInfo do
         |> redirect(to: url)
         |> halt
       info ->
-        assign(conn, :trip_info, info)
+        assign_trip_info(conn, info)
     end
+  end
+
+  defp assign_trip_info(%Conn{assigns: %{route: %Route{type: route_type}}} = conn, info)
+  when Route.subway?(route_type) do
+    assigned_info = if TripInfo.any_predictions?(info), do: info, else: nil
+    assign(conn, :trip_info, assigned_info)
+  end
+  defp assign_trip_info(conn, info) do
+    assign(conn, :trip_info, info)
   end
 
   defp build_info(trip_id, conn, opts) do
