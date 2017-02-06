@@ -1,7 +1,7 @@
 <%= render "_stop_filters.html", forward_assigns(@conn) %>
 <%= if @origin do %>
   <div class="trip-view-main">
-    <%= if @trip_info, do: render "_trip_info.html", forward_assigns(@conn) %>
+    <%= if should_display_trip_info?(@trip_info), do: render "_trip_info.html", forward_assigns(@conn) %>
     <%= if @route.type == 2 do %>
       <%= render "_commuter_trip_list.html", forward_assigns(@conn) %>
     <% else %>
