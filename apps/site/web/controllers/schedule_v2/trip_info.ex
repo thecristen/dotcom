@@ -84,13 +84,15 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp do_current_trip(times, now) do
     case Enum.find(times, &is_after_now?(&1, now)) do
       nil -> nil
-      time -> PredictedSchedule.trip(time.departure).id
+      time -> PredictedSchedule.trip_id(time.departure)
     end
   end
 
   @spec is_after_now?(StopTimeList.StopTime.t, DateTime.t) :: boolean
   defp is_after_now?(%StopTimeList.StopTime{departure: departure}, now) do
-    Timex.after?(PredictedSchedule.time!(departure), now)
+    PredictedSchedule.map_optional(departure, [:schedule, :prediction], false, fn x ->
+        Timex.after?(x.time, now)
+    end)
   end
 
   defp build_trip_times(schedules, assigns, trip_id, prediction_fn) do
