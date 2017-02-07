@@ -1,4 +1,4 @@
-<div class="post-container-wrapper">
+<div class="whats-happening-section">
   <div class="container">
     <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
   </div>
