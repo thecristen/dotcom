@@ -320,6 +320,11 @@ defmodule Site.ScheduleV2ViewTest do
         assert Enum.empty?(alerts)
       end
 
+      test "No trip alerts return if empty predicted schedule is given" do
+        alerts = trip_alerts(%PredictedSchedule{}, @alerts, "1", 1)
+        assert alerts == []
+      end
+
       test "stop alerts use schedule for match" do
         alert = List.first(stop_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, "1", 1))
         assert List.first(alert.informed_entity).stop == "stop"
@@ -333,6 +338,11 @@ defmodule Site.ScheduleV2ViewTest do
       test "No stop alerts returned if no predicted schedule is given" do
         alerts = stop_alerts(nil, @alerts, "1", 1)
         assert Enum.empty?(alerts)
+      end
+
+      test "No stop alerts return if empty predicted schedule is given" do
+        alerts = stop_alerts(%PredictedSchedule{}, @alerts, "1", 1)
+        assert alerts == []
       end
   end
 
