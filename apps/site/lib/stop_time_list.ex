@@ -36,13 +36,11 @@ defmodule StopTimeList do
     def departure_time(%StopTime{departure: departure}), do: PredictedSchedule.time(departure)
 
     @spec arrival_time(StopTime.t) :: DateTime.t | nil
-    def departure_time(%StopTime{arrival: nil}), do: nil
+    def arrival_time(%StopTime{arrival: nil}), do: nil
     def arrival_time(%StopTime{arrival: arrival}), do: PredictedSchedule.time(arrival)
 
     @spec departure_prediction_time(StopTime.t) :: DateTime.t | nil
-    def departure_prediction_time(%StopTime{departure: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
-      prediction.time
-    end
+    def departure_prediction_time(%StopTime{departure: %PredictedSchedule{prediction: %Prediction{time: time}}}), do: time
     def departure_prediction_time(_), do: nil
     
 
