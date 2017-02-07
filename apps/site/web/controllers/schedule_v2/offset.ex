@@ -7,16 +7,12 @@ defmodule Site.ScheduleV2Controller.Offset do
   def init([]), do: []
 
   def call(conn, []) do
-    assign(conn, :offset, find_offset(conn))
+    offset = find_offset(conn.assigns.timetable_schedules, conn.assigns.date_time)
+    assign(conn, :offset, offset)
   end
 
-  defp find_offset(%Plug.Conn{params: %{"offset" => offset}}) do
-    case Integer.parse(offset) do
-      {integer_offset, ""} -> integer_offset
-      _ -> 0
-    end
-  end
-  defp find_offset(%Plug.Conn{assigns: %{timetable_schedules: timetable_schedules, date_time: date_time}}) do
+  # find the index of the
+  defp find_offset(timetable_schedules, date_time) do
     timetable_schedules
     |> last_stop_schedules
     |> Enum.find_index(&Timex.after?(&1.time, date_time))
