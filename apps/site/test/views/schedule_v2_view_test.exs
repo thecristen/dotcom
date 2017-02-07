@@ -17,19 +17,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "last_departure/1" do
-    test "when schedules are a list of schedules, gives the time of the last one" do
-      schedules = [%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}, %Schedule{time: ~N[2017-01-01T20:30:00]}]
-      assert last_departure(schedules) == ~N[2017-01-01T20:30:00]
-    end
-
-    test "when schedules are a list of origin destination schedule pairs, gives the time of the last origin" do
-      schedules = [{%Schedule{time: ~N[2017-01-01T09:30:00]}, %Schedule{time: ~N[2017-01-01T13:30:00]}},
-       {%Schedule{time: ~N[2017-01-01T19:30:00]}, %Schedule{time: ~N[2017-01-01T21:30:00]}}]
-      assert last_departure(schedules) == ~N[2017-01-01T19:30:00]
-    end
-  end
-
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
       assert display_direction(%StopTimeList{}) == ""
@@ -220,7 +207,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "_frequency.html" do
     test "renders a no service message if the block doesn't have service" do
-      frequency_table = [%Schedules.Frequency{time_block: :am_rush}]
+      frequency_table = %Schedules.FrequencyList{frequencies: [%Schedules.Frequency{time_block: :am_rush}]}
       schedules = [%Schedules.Schedule{time: Util.now}]
       date = Util.service_date
       safe_output = Site.ScheduleV2View.render(
@@ -235,7 +222,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "renders a headway if the block has service" do
       frequency = %Schedules.Frequency{time_block: :am_rush, min_headway: 5, max_headway: 10}
-      frequency_table = [frequency]
+      frequency_table = %Schedules.FrequencyList{frequencies: [frequency]}
       schedules = [%Schedules.Schedule{time: Util.now}]
       date = Util.service_date
       safe_output = Site.ScheduleV2View.render(
@@ -467,6 +454,26 @@ defmodule Site.ScheduleV2ViewTest do
 
       assert prediction_tooltip(prediction) =~ "Now Boarding on Track 4"
       assert prediction_tooltip(prediction) =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+    end
+  end
+
+  describe "display_frequency_departure/2" do
+    test "AM Rush displays first departure" do
+      assert safe_to_string(display_frequency_departure(:am_rush, Util.now(), Util.now())) =~ "First Departure"
+    end
+
+    test "Late Night displays last departure" do
+      assert safe_to_string(display_frequency_departure(:late_night, Util.now(), Util.now())) =~ "Last Departure"
+    end
+
+    test "Other time blocks do no give departure" do
+      refute display_frequency_departure(:evening, Util.now(), Util.now())
+      refute display_frequency_departure(:midday, Util.now(), Util.now())
+    end
+
+    test "Ultimate departure text not shown if not given time" do
+      refute display_frequency_departure(:am_rush, nil, Util.now())
+      refute display_frequency_departure(:late_night, Util.now(), nil)
     end
   end
 end

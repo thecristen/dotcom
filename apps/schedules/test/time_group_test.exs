@@ -139,4 +139,15 @@ defmodule TimeGroupTest do
       assert TimeGroup.display_frequency_range(%Schedules.Frequency{time_block: :am_rush, min_headway: 2, max_headway: 5}) == ["2", "-", "5"]
     end
   end
+
+  describe "build_frequency_list/1" do
+    @time Timex.now()
+    @schedules [%Schedule{time: @time}, %Schedule{time: Timex.shift(@time, hours: 1)}, %Schedule{time: Timex.shift(@time, hours: 2)}]
+
+    test "first and last departures are returned with a FrequencyList" do
+      frequency_list = TimeGroup.build_frequency_list(@schedules)
+      assert frequency_list.first_departure == List.first(@schedules).time
+      assert frequency_list.last_departure == List.last(@schedules).time
+    end
+  end
 end

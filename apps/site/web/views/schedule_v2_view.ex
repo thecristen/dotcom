@@ -13,18 +13,6 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec last_departure([{Schedule.t, Schedule.t}] | [Schedule.t]) :: DateTime.t
-  def last_departure([{%Schedule{}, %Schedule{}} | _] = schedules) do
-    schedule = schedules
-    |> List.last
-    |> elem(0)
-
-    schedule.time
-  end
-  def last_departure(schedules) do
-    List.last(schedules).time
-  end
-
   @doc """
   Given a list of schedules, returns a display of the route direction. Assumes all
   schedules have the same route and direction.
@@ -302,4 +290,22 @@ defmodule Site.ScheduleV2View do
   defp frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}), do: "3:30PM - 6:30PM"
   defp frequency_block_name(%Schedules.Frequency{time_block: :evening}), do: "6:30PM - 8:00PM"
   defp frequency_block_name(%Schedules.Frequency{time_block: :late_night}), do: "8:00PM - CLOSE"
+
+  @doc """
+  The first departure will be shown if it is the AM rush timeblock
+  The last departure will be shown if it is the Late Night time block
+  Otherwise, nothing is shown
+  """
+  @spec display_frequency_departure(TimeGroup.time_block, DateTime.t | nil, DateTime.t | nil) :: Phoenix.HTML.Safe.t
+  def display_frequency_departure(:am_rush, first_departure, _last_departure) when not is_nil(first_departure) do
+    content_tag :div, class: "schedule-v2-frequency-time" do
+      "First Departure at #{format_schedule_time(first_departure)}"
+    end
+  end
+  def display_frequency_departure(:late_night, _first_departure, last_departure) when not is_nil(last_departure) do
+    content_tag :div, class: "schedule-v2-frequency-time" do
+      "Last Departure at #{format_schedule_time(last_departure)}"
+    end
+  end
+  def display_frequency_departure(_time_block, _first, _last), do: nil
 end

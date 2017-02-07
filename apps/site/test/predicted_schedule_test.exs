@@ -128,4 +128,16 @@ defmodule PredictedScheduleTest do
       assert PredictedSchedule.time!(predicted_schedule) == List.last(@predictions).time
     end
   end
+
+  describe "any_predictions?/1" do
+    @scheduled_predictions [
+      %PredictedSchedule{prediction: %Prediction{}},
+      %PredictedSchedule{schedule: %Schedule{}, prediction: %Prediction{}},
+      %PredictedSchedule{schedule: %Schedule{}}
+    ]
+    test "Determines if Trip info object has predictions" do
+      assert TripInfo.any_predictions?(%TripInfo{sections: [@scheduled_predictions]})
+      refute TripInfo.any_predictions?(%TripInfo{sections: [List.last(@scheduled_predictions)]})
+    end
+  end
 end

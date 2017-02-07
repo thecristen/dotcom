@@ -1,6 +1,8 @@
 defmodule TimeGroup do
   alias Schedules.Schedule
 
+  @type time_block :: :am_rush | :midday | :pm_rush | :evening | :late_night
+
   @doc """
   Given a list of schedules, returns those schedules grouped by the hour of day.
 
@@ -23,7 +25,7 @@ defmodule TimeGroup do
 
   Returns a keyword list, and expects that the schedules are already sorted.
   """
-  @type subway_schedule :: :am_rush|:midday|:pm_rush|:evening|:late_night
+  @type subway_schedule :: time_block
   @spec by_subway_period([Schedule.t]) :: [{subway_schedule, [Schedule.t]}]
   def by_subway_period(schedules) do
     schedules
@@ -54,23 +56,30 @@ defmodule TimeGroup do
 
   @spec frequency_for_time([Schedule.t], atom) :: Schedules.Frequency.t
   def frequency_for_time(schedules, time_block) do
-    time_range = schedules
+    {min, max} = schedules
     |> Enum.filter(fn schedule -> subway_period(schedule.time) == time_block end)
     |> frequency
+    |> verify_min_max
 
-    {min, max} = case time_range do
-                  nil ->
-                    {:infinity, :infinity}
-                  {min, max} ->
-                     {min, max}
-                 end
     %Schedules.Frequency{time_block: time_block, min_headway: min, max_headway: max}
   end
+
+  @spec verify_min_max({integer, integer} | nil) :: {:infinity, :infinity} | {integer, integer}
+  defp verify_min_max(nil), do: {:infinity, :infinity}
+  defp verify_min_max({_min, _max} = min_max), do: min_max
+
 
   @spec frequency_by_time_block([Schedule.t]) :: [Schedules.Frequency.t]
   def frequency_by_time_block(schedules) do
     Enum.map([:am_rush, :midday, :pm_rush, :evening, :late_night],
              &frequency_for_time(schedules, &1))
+  end
+
+  @spec build_frequency_list([Schedule.t]) :: Schedules.FrequencyList.t
+  def build_frequency_list(schedules) do
+    %Schedules.FrequencyList{frequencies: frequency_by_time_block(schedules),
+                             first_departure: List.first(schedules).time,
+                             last_departure: List.last(schedules).time}
   end
 
   defp do_by_fn([], _) do
