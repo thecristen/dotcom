@@ -5,9 +5,7 @@ defmodule Site.RouteController do
 
   def show(conn, %{"route" => "Green"}) do
     route = %Routes.Route{id: "Green", type: 0}
-    {stops, stop_route_id_set} = ~w(Green-B Green-C Green-D Green-E)s
-    |> Task.async_stream(&green_line_stops/1)
-    |> Enum.reduce({[], MapSet.new}, &merge_green_line_stops/2)
+    {stops, stop_route_id_set} = GreenLine.stops_on_routes()
 
     render conn, "show.html",
       stop_list_template: "_stop_list_green.html",
@@ -17,7 +15,7 @@ defmodule Site.RouteController do
       map_img_src: map_img_src(stops, route.type)
   end
   def show(conn, %{"route" => "Red"}) do
-    stops = stops("Red", 0)
+    stops = Stops.Repo.by_route("Red", 0)
     {ashmont, braintree} = Enum.split_while(stops, & &1.id != "place-nqncy")
     render conn, "show.html",
       stop_list_template: "_stop_list_red.html",
@@ -34,25 +32,12 @@ defmodule Site.RouteController do
     |> halt
   end
   def show(conn, %{"route" => route_id}) do
-    stops = stops(route_id, 1)
+    stops = Stops.Repo.by_route(route_id, 1)
     render conn, "show.html",
       stop_list_template: "_stop_list.html",
       stops: stops,
       stop_features: stop_features(stops, conn.assigns.route),
       map_img_src: map_img_src(stops, conn.assigns.route.type)
-  end
-
-  @doc """
-
-  Return all the Stops.Stop.t that are on the given route (by ID) and direction.
-
-  """
-  @spec stops(Routes.Route.id_t, 0 | 1) :: [Stops.Stop.t]
-  def stops(route_id, direction_id) do
-    route_id
-    |> Schedules.Repo.stops(direction_id: direction_id) # Inbound
-    |> Task.async_stream(&Stops.Repo.get(&1.id))
-    |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
   @doc """
@@ -137,23 +122,6 @@ defmodule Site.RouteController do
 
   @doc """
 
-  Returns the stops that are on a given branch of the Green line (along with the route ID)
-
-  """
-  @spec green_line_stops(Routes.Route.id_t) :: {Routes.Route.id_t, [Stops.Stop.t]}
-  def green_line_stops(route_id) do
-    {route_id, route_id
-    |> stops(0)
-    |> green_line_filter(route_id)}
-  end
-
-  defp green_line_filter(stops, route_id) do
-    stops
-    |> Enum.drop_while(&stop_or_terminus(&1.id, route_id) != :terminus)
-  end
-
-  @doc """
-
   Returns the current full list of stops on the Green line, along with a
   MapSet for all {stop_id, route_id} pairs where that stop in on that route.
 
@@ -200,7 +168,7 @@ defmodule Site.RouteController do
     ~w(Green-B Green-C Green-D Green-E)s
     |> Enum.reduce(currently_active, fn route_id, currently_active ->
       if MapSet.member?(stop_route_id_set, {stop_id, route_id}) do
-        stop_or_terminus = stop_or_terminus(stop_id, route_id)
+        stop_or_terminus = if GreenLine.terminus?(stop_id, route_id), do: :terminus, else: :stop
         put_in currently_active[route_id], stop_or_terminus
       else
         case Map.get(currently_active, route_id) do
@@ -212,22 +180,6 @@ defmodule Site.RouteController do
         end
       end
     end)
-  end
-
-  defp stop_or_terminus(stop_id, "Green-B") when stop_id in ["place-lake", "place-pktrm"] do
-    :terminus
-  end
-  defp stop_or_terminus(stop_id, "Green-C") when stop_id in ["place-north", "place-clmnl"] do
-    :terminus
-  end
-  defp stop_or_terminus(stop_id, "Green-D") when stop_id in ["place-river", "place-gover"] do
-    :terminus
-  end
-  defp stop_or_terminus(stop_id, "Green-E") when stop_id in ["place-lech", "place-hsmnl"] do
-    :terminus
-  end
-  defp stop_or_terminus(_, _) do
-    :stop
   end
 
   defp update_active_line(:empty), do: :empty

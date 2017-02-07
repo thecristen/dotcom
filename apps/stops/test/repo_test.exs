@@ -1,0 +1,32 @@
+defmodule Stops.RepoTest do
+  use ExUnit.Case, async: true
+
+  import Stops.Repo
+  alias Stops.Stop
+
+  describe "by_route/2" do
+    test "returns a list of stops in order of their stop_sequence" do
+      response = by_route("CR-Lowell", 1)
+
+      assert response != []
+      assert match?(%Stop{id: "Lowell", name: "Lowell"}, List.first(response))
+      assert match?(%Stop{id: "place-north", name: "North Station"}, List.last(response))
+      assert response == Enum.uniq(response)
+    end
+
+    test "uses the parent station name" do
+      response = by_route("Green-B", 1)
+
+      assert response != []
+      assert match?(%Stop{id: "place-lake", name: "Boston College"}, List.first(response))
+    end
+
+    test "does not include a parent station multiple times" do
+      # stops multiple times at Sullivan
+      response = by_route("86", 1)
+
+      assert response != []
+      refute (response |> Enum.at(1)).id == "place-sull"
+    end
+  end
+end

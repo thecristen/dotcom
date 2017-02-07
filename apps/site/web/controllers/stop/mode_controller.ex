@@ -9,7 +9,7 @@ defmodule Site.StopController.ModeController do
     stop_info = mode
     |> types_for_mode
     |> Routes.Repo.by_type
-    |> ParallelStream.map(&{&1, Schedules.Repo.stops(&1.id, [])})
+    |> ParallelStream.map(&{&1, Stops.Repo.by_route(&1.id, 0)})
     |> Enum.into([])
     |> gather_green_line(mode)
 

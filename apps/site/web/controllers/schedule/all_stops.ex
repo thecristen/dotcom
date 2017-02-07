@@ -19,9 +19,6 @@ defmodule Site.ScheduleController.AllStops do
   end
 
   defp get_all_stops(conn, route_id) do
-    Schedules.Repo.stops(
-      route_id,
-      direction_id: conn.assigns[:direction_id]
-    )
+    Stops.Repo.by_route(route_id, conn.assigns[:direction_id])
   end
 end
