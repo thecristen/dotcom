@@ -93,6 +93,17 @@ defmodule PredictedSchedule do
     end
   end
 
+  @doc """
+  Returns the trip_id associated with this Predicted Schedule.
+  Returns nil if there is no schedule or prediction
+  """
+  @spec trip_id(PredictedSchedule.t) :: String.t | nil
+  def trip_id(%PredictedSchedule{} = predicted_schedule) do
+    map_optional(predicted_schedule, [:schedule, :prediction], nil, fn x ->
+      x.trip.id
+    end)
+  end
+
   # Returns unique list of all stop_id's from given schedules and predictions
   @spec stop_ids(%{String.t => Schedule.t}, %{String.t => Prediction.t}) :: [String.t]
   defp stop_ids(schedule_map, prediction_map) do
