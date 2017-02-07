@@ -103,7 +103,7 @@ $vehicle-location-width: 1.85rem;
     @extend %block-level-link;
   }
 
-  .current-trip {
+  .trip-list-row-selected {
     background: $brand-primary-lightest;
     border-color: $brand-primary-lightest;
   }

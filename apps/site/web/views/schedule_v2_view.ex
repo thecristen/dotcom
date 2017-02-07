@@ -182,12 +182,10 @@ defmodule Site.ScheduleV2View do
   If no schedule is available, the prediction is used to match against alerts
   """
   @spec trip_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
-  def trip_alerts(nil, _alerts, _route_id, _direction_id), do: []
-  def trip_alerts(%PredictedSchedule{schedule: nil, prediction: prediction}, alerts, route_id, direction_id) do
-    Alerts.Trip.match(alerts, prediction.trip.id, time: prediction.time, route: route_id, direction_id: direction_id)
-  end
-  def trip_alerts(%PredictedSchedule{schedule: schedule}, alerts, route_id, direction_id) do
-    Alerts.Trip.match(alerts, schedule.trip.id, time: schedule.time, route: route_id, direction_id: direction_id)
+  def trip_alerts(predicted_schedule, alerts, route_id, direction_id) do
+    PredictedSchedule.map_optional(predicted_schedule, [:schedule, :prediction], [], fn x ->
+      Alerts.Trip.match(alerts, x.trip.id, time: x.time, route: route_id, direction_id: direction_id)
+    end)
   end
 
   @doc """
@@ -195,12 +193,11 @@ defmodule Site.ScheduleV2View do
   If no schedule is available, the prediction is used to match against alerts
   """
   @spec stop_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
-  def stop_alerts(nil, _alerts, _route_id, _direction_id), do: []
-  def stop_alerts(%PredictedSchedule{schedule: nil, prediction: prediction}, alerts, route_id, direction_id) do
-    Alerts.Stop.match(alerts, prediction.stop_id, time: prediction.time, route: route_id, direction_id: direction_id)
-  end
-  def stop_alerts(%PredictedSchedule{schedule: schedule}, alerts, route_id, direction_id) do
-    Alerts.Stop.match(alerts, schedule.stop.id, time: schedule.time, route: route_id, direction_id: direction_id)
+  def stop_alerts(predicted_schedule, alerts, route_id, direction_id) do
+    PredictedSchedule.map_optional(predicted_schedule, [:schedule, :prediction], [], fn x ->
+      stop_id = Map.get(x, :stop_id) || x.stop.id
+      Alerts.Stop.match(alerts, stop_id, time: x.time, route: route_id, direction_id: direction_id)
+    end)
   end
 
   @doc "If alerts are given, display alert icon"

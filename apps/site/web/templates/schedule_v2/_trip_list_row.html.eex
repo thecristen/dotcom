@@ -1,19 +1,26 @@
-<% link_url = update_url(@conn, trip: @trip.id) %>
-<%= content_tag :div, class: "trip-list-row #{if assigns[:trip] && TripInfo.is_current_trip?(assigns[:trip_info], assigns[:trip].id), do: " current-trip"}" do %>
+<% # if we got a URL, then link each of the parts of the row; otherwise use a <div>
+{tag, attributes} = if assigns[:url] do
+  {:a, [href: @url]}
+else
+  {:div, []}
+end %>
+<div class="trip-list-row <%= assigns[:class] %>">
   <div>
-    <%= link display_scheduled_prediction(@departure), to: link_url %>
+    <%= content_tag tag, attributes, do: display_scheduled_prediction(@departure) %>
   </div>
   <div>
-    <%= if @arrival do %>
-      <%= link display_scheduled_prediction(@arrival), to: link_url %>
-    <% else %>
-      <%= if assigns[:trip] do %>
-        <%= link @trip.headsign, to: link_url %>
-      <% end %>
+    <%= cond do %>
+      <% @arrival -> %>
+      <%= content_tag tag, attributes, do: display_scheduled_prediction(@arrival) %>
+      <% assigns[:trip] -> %>
+      <%= content_tag tag, attributes, do: @trip.headsign %>
+      <% true -> %>
     <% end %>
   </div>
   <div>
     <%= display_alerts(@alerts) %>
   </div>
-  <%= link "", to: link_url, class: "schedule-list-link", aria: [hidden: true] %>
-<% end %>
+  <%= if assigns[:url] do %>
+    <%= link "", to: @url, class: "schedule-list-link", aria: [hidden: true] %>
+  <% end %>
+</div>
