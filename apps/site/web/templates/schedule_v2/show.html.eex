@@ -7,7 +7,8 @@
 </h1>
 <%= render "_trip_view_filters.html", forward_assigns(@conn) %>
 
-<%# alerts div should go here when it gets added %>
+<%= Site.AlertView.modal alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date %>
+
 <%= if @route.type == 2 do %>
   <%= tab_list(%TabList{
     links: [
