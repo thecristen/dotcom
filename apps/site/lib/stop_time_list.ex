@@ -197,7 +197,7 @@ defmodule StopTimeList do
 
   # remove_schedule_stop_times_before_predictions(stop_times, show_all?)
   # remove all the stop_times without predictions (just schedule) before the predicted ones
-  @spec remove_schedule_stop_times_before_predictions([StopTime.t], boolean) :: [any]
+  @spec remove_schedule_stop_times_before_predictions([StopTime.t], boolean) :: [StopTime.t]
   defp remove_schedule_stop_times_before_predictions(stop_times, true) do
     stop_times
   end
@@ -211,7 +211,7 @@ defmodule StopTimeList do
     filter_scheduled_trips_before(stop_times, latest_predicted_time)
   end
 
-  @spec filter_scheduled_trips_before([StopTime.t], DateTime.t) :: [any]
+  @spec filter_scheduled_trips_before([StopTime.t], DateTime.t) :: [StopTime.t]
   defp filter_scheduled_trips_before(stop_times, nil), do: stop_times
   defp filter_scheduled_trips_before(stop_times, max_time) do
     Enum.filter(stop_times, 
