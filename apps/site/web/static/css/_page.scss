@@ -148,3 +148,16 @@
     @extend .center-block;
   }
 }
+
+.important-whats-happening {
+  background-color: $gray-lightest;
+  margin: $space-16 0;
+}
+
+.important-whats-happening-text {
+  margin: $base-spacing-sm 0;
+}
+
+.important-whats-happening-image {
+  padding-left: 0;
+}

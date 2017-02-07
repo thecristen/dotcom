@@ -5,7 +5,7 @@ defmodule Site.PageController do
   plug Site.Plugs.Alerts
   plug Site.Plugs.TransitNearMe
 
-  def index(conn, _params) do
+  def index(conn, params) do
     conn
     |> async_assign(:grouped_routes, &grouped_routes/0)
     |> async_assign(:news, &news/0)
@@ -13,6 +13,7 @@ defmodule Site.PageController do
     |> assign_tnm_column_groups
     |> assign(:pre_container_template, "_pre_container.html")
     |> assign(:post_container_template, "_post_container.html")
+    |> whats_happening_banner(params)
     |> render("index.html")
   end
 
@@ -24,4 +25,9 @@ defmodule Site.PageController do
     Routes.Repo.all
     |> Routes.Group.group
   end
+
+  defp whats_happening_banner(conn, %{"whats_happening_banner" => _}) do
+    assign(conn, :whats_happening_banner, true)
+  end
+  defp whats_happening_banner(conn, _params), do: conn
 end

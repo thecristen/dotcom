@@ -157,6 +157,13 @@
         <%= render_existing @view_module, assigns[:pre_container_template], assigns %>
       <% end %>
       <div class="container page-container">
+      <%= if assigns[:whats_happening_banner] do %>
+        <%= render "_whats_happening_banner.html",
+            text: "The Red Line north passageway at Downtown Crossing station will be out of service to allow for the construction of a new elevator.",
+            href: "http://www.mbta.com/about_the_mbta/news_events/",
+            image_url: static_url(@conn, "/images/southstation.jpg"),
+            image_description: "South station" %>
+      <% end %>
         <main class="<%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
           <%= render @view_module, @view_template, assigns %>
         </main>
