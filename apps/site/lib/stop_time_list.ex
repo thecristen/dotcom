@@ -195,7 +195,7 @@ defmodule StopTimeList do
     {_, left_departure_time} = StopTime.departure_time(left)
     {_, right_departure_time} = StopTime.departure_time(right)
 
-    if (!is_nil(left_departure_time) && !is_nil(right_departure_time) do
+    if !is_nil(left_departure_time) && !is_nil(right_departure_time) do
       left_departure_time < right_departure_time
     else
       {_, left_arrival_time} = StopTime.arrival_time(left)
