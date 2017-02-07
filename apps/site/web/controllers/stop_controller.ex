@@ -81,7 +81,7 @@ defmodule Site.StopController do
   defp do_terminal_station([]), do: ""
   defp do_terminal_station([route | _]) do
     terminal = route.id
-    |> Schedules.Repo.stops(direction_id: 0)
+    |> Stops.Repo.by_route(0)
     |> List.first
     terminal.id
   end

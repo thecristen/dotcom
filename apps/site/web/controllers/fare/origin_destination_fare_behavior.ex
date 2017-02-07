@@ -73,7 +73,7 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   defp origin_stops(route_type) do
     route_type
     |> Routes.Repo.by_type
-    |> Enum.flat_map(&Schedules.Repo.stops &1.id, [])
+    |> Enum.flat_map(&Stops.Repo.by_route(&1.id, 0))
     |> Enum.sort_by(&(&1.name))
     |> Enum.dedup
   end
@@ -84,7 +84,7 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   defp destination_stops(origin, route_type) do
     origin.id
     |> Routes.Repo.by_stop
-    |> Enum.filter_map(&(&1.type == route_type), &(Schedules.Repo.stops &1.id, []))
+    |> Enum.filter_map(&(&1.type == route_type), &(Stops.Repo.by_route(&1.id, 0)))
     |> Enum.concat
     |> Enum.sort_by(&(&1.name))
     |> Enum.dedup

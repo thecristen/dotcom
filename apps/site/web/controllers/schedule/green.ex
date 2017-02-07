@@ -42,9 +42,7 @@ defmodule Site.ScheduleController.Green do
   defp schedule_for_route(
     %{id: route_id} = route,
     %{assigns: %{direction_id: direction_id}} = conn) do
-    stops = Schedules.Repo.stops(
-      route_id,
-      direction_id: direction_id)
+    stops = Stops.Repo.by_route(route_id, direction_id)
 
     # update the route in the conn for this request
     conn = %{conn|params:

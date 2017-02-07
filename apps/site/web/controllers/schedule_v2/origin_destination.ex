@@ -30,8 +30,8 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
   # For inbound commuter rail trips, preselect the origin as the
   # terminal (i.e. either North or South stations).
   def assign_origin(%Conn{assigns: %{route: %Routes.Route{type: 2}, direction_id: 0}} = conn, _) do
-    %Schedules.Stop{id: id, name: name} = List.first(conn.assigns.all_stops)
-    assign(conn, :origin, %Stops.Stop{id: id, name: name})
+
+    assign(conn, :origin, List.first(conn.assigns.all_stops))
   end
   def assign_origin(conn, _) do
     assign(conn, :origin, nil)
@@ -57,7 +57,7 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
 
   def get_stop(conn, key) do
     stop_id = Map.get(conn.query_params, Atom.to_string(key))
-    if Schedules.Repo.stop_exists_on_route?(stop_id, conn.assigns.route.id, conn.assigns.direction_id) do
+    if Stops.Repo.stop_exists_on_route?(stop_id, conn.assigns.route.id, conn.assigns.direction_id) do
       Stops.Repo.get(stop_id)
     else
       nil
