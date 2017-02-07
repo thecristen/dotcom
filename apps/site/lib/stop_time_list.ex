@@ -36,35 +36,11 @@ defmodule StopTimeList do
       prediction.time
     end
 
-    @spec departure_time(t) :: DateTime.t | nil
-    def departure_time(%StopTime{departure: %PredictedSchedule{schedule: schedule, prediction: nil}}) when not is_nil(schedule) do
-      schedule.time
-    end
-    def departure_time(%StopTime{departure: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
-      prediction.time
-    end
-    def departure_time(%StopTime{}) do
-      nil
-    end
+    @spec departure_time(StopTime.t) :: {:prediction | :schedule, DateTime.t}
+    def departure_time(%StopTime{departure: departure}), do: PredictedSchedule.time(departure)
 
-    @spec arrival_time(t) :: DateTime.t | nil
-    def arrival_time(%StopTime{arrival: %PredictedSchedule{schedule: schedule, prediction: nil}}) when not is_nil(schedule) do
-      schedule.time
-    end
-    def arrival_time(%StopTime{arrival: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
-      prediction.time
-    end
-    def arrival_time(%StopTime{}) do
-      nil
-    end
-
-    @spec prediction_time(t) :: DateTime.t | nil
-    def prediction_time(%StopTime{departure: %PredictedSchedule{prediction: prediction}}) when not is_nil(prediction) do
-      prediction.time
-    end
-    def prediction_time(%StopTime{}) do
-      nil
-    end
+    @spec arrival_time(StopTime.t) :: {:prediction | :schedule, DateTime.t}
+    def arrival_time(%StopTime{arrival: arrival}), do: PredictedSchedule.time(arrival)
 
     @doc """
     Returns a message containing the maximum delay between scheduled and predicted times for an arrival
@@ -143,7 +119,11 @@ defmodule StopTimeList do
   @spec from_times([StopTime.t], boolean) :: __MODULE__.t
   defp from_times(stop_times, showing_all?) do
     %__MODULE__{
-      times: limit_trips(stop_times, showing_all?),
+      times:
+        stop_times 
+        |> remove_schedule_stop_times_before_predictions(showing_all?)
+        |> sort_stop_times
+        |> limit_stop_times,
       showing_all?: showing_all?
     }
   end
@@ -156,19 +136,6 @@ defmodule StopTimeList do
     |> get_trips(predictions)
     |> Enum.map(&(trip_mapper_fn.(&1, schedule_map, prediction_map)))
   end
-
-  # Handle cases where we have a scheduled departure and then a
-  # prediction which occurs later. If this happens, remove the
-  # scheduled departure and just show the prediction.
-  @spec remove_first_scheduled([StopTime.t]) :: [StopTime.t]
-  defp remove_first_scheduled([
-    %StopTime{departure: %PredictedSchedule{schedule: %Schedule{}, prediction: %Prediction{time: prediction_time}}} = first,
-    %StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: schedule_time}, prediction: nil}}
-    | rest])
-  when schedule_time < prediction_time do
-    [first | rest]
-  end
-  defp remove_first_scheduled(stop_times), do: stop_times
 
   @spec build_stop_time(Trip.t | nil, schedule_pair_map, prediction_map, stop_id, stop_id) :: StopTime.t
   defp build_stop_time(trip, schedule_map, prediction_map, origin, dest) do
@@ -224,26 +191,9 @@ defmodule StopTimeList do
     Map.update(schedule_map, schedule.trip, %{schedule.stop.id => schedule}, updater)
   end
 
-  # The expected result is a tuple: {int, time}.
-  # Predictions are of the form {0, time} and schedules are of the form {1, time}
-  # This ensures predictions are shown first, and then sorted by ascending time
-  # Arrival predictions that have no corresponding departures are shown first.
-  @spec prediction_sorter(StopTime.t) :: {integer, DateTime.t}
-  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{schedule: nil, prediction: nil}, arrival: %PredictedSchedule{schedule: nil, prediction: arrival_prediction}}), do: {0, arrival_prediction.time}
-  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{schedule: scheduled_departure, prediction: nil}, arrival: %PredictedSchedule{schedule: departure_prediction, prediction: arrival_prediction}})
-  when not is_nil(departure_prediction) and not is_nil(arrival_prediction) do
-    {0, scheduled_departure.time}
-  end
-  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{prediction: departure_prediction}}) when not is_nil(departure_prediction) do
-    {1, departure_prediction.time}
-  end
-  defp prediction_sorter(%StopTime{departure: %PredictedSchedule{schedule: departure, prediction: nil}}) when not is_nil(departure) do
-    {2, departure.time}
-  end
-
   defp stop_time_comparator(left, right) do
-    left_departure_time = StopTime.departure_time(left)
-    right_departure_time = StopTime.departure_time(right)
+    {_, left_departure_time} = StopTime.departure_time(left)
+    {_, right_departure_time} = StopTime.departure_time(right)
 
     if (left_departure_time != nil && right_departure_time != nil) do
       left_departure_time < right_departure_time
@@ -251,14 +201,21 @@ defmodule StopTimeList do
       left_arrival_time = StopTime.arrival_time(left)
       right_arrival_time = StopTime.arrival_time(right)
 
-      cmp = left_arrival_time != nil && (right_arrival_time == nil || left_arrival_time < right_arrival_time)
+      left_arrival_time != nil && (right_arrival_time == nil || left_arrival_time < right_arrival_time)
     end
   end
 
-  @spec limit_trips([any], boolean) :: [any]
-  defp limit_trips(stop_times, false) do
-    max_pred_stop_time = Enum.max_by(stop_times, &StopTime.prediction_time/1)
-    filtered_stop_times = if max_pred_stop_time != nil do
+  # remove_schedule_stop_times_before_predictions(stop_times, show_all?)
+  # remove all the stop_times without predictions (just schedule) before the predicted ones
+  @spec remove_schedule_stop_times_before_predictions([any], boolean) :: [any]
+  defp remove_schedule_stop_times_before_predictions(stop_times, false) do
+    max_pred_stop_time = 
+      unless Enum.empty?(stop_times) do 
+        Enum.max_by(
+          stop_times, &(unless is_nil(&1.departure) || is_nil(&1.departure.prediction), do: &1.departure.prediction.time))
+      end
+
+    unless is_nil(max_pred_stop_time) || is_nil(max_pred_stop_time.departure) || is_nil(max_pred_stop_time.departure.prediction) do
       max = max_pred_stop_time.departure.prediction.time
       Enum.filter(stop_times, 
         & (&1.departure == nil || &1.departure.schedule == nil || # no departure schedule
@@ -267,18 +224,18 @@ defmodule StopTimeList do
     else
       stop_times
     end
-
-    filtered_stop_times
-    |> Enum.sort(&stop_time_comparator/2)
-    |> Enum.take(trips_limit())
   end
-  defp limit_trips(stop_times, true) do
+  defp remove_schedule_stop_times_before_predictions(stop_times, true) do
     stop_times
-    |> Enum.sort_by(&StopTime.time/1)
   end
 
-  @spec trips_limit() :: integer
-  defp trips_limit(), do: 14
+  defp sort_stop_times(stop_times) do
+    Enum.sort(stop_times, &stop_time_comparator/2)
+  end
+
+  defp limit_stop_times(stop_times) do
+    Enum.take(stop_times, 14)
+  end
 
   @spec has_departure_prediction?(StopTime.t) :: boolean
   defp has_departure_prediction?(%StopTime{departure: departure}) do
