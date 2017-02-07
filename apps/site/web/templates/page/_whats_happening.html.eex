@@ -1,36 +1,32 @@
-<div class="page-section page-section-narrow news-card">
-  <div class="page-block">
-    <div>
-      <h2>What's Happening at the MBTA</h2>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <img src="<%= static_url @conn, "/images/southstation-01.jpg" %>"
-          alt="South Station interior"
-          class="news-image">
-        The Red Line north passageway at Downtown Crossing station will be out of service to allow for the construction of a new elevator.
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457424&month=&year=") do %>
-          <span class="no-wrap">Read <%= fa "arrow-right" %></span>
-        <% end %>
-      </div>
-      <div class="col-md-4">
-        <img src="<%= static_url @conn, "/images/commuter-01.jpg" %>"
-          alt="Commuter Rail train at North Station"
-          class="news-image">
-        We'd like your opinion on the Worcester Line proposed schedues for the Spring of 2017.
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457397&month=&year=") do %>
-          <span class="no-wrap">Read <%= fa "arrow-right" %></span>
-        <% end %>
-      </div>
-      <div class="col-md-4">
-        <img src="<%= static_url @conn, "/images/green-01.jpg" %>"
-          alt="Outside Green Line Stop"
-          class="news-image">
-        Buses will replace Green Line D branch service between Newton Highlands and Riverside Stations from 9:00 am to 3:00 pm on February 1-2...
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493&month=&year=") do %>
-          <span class="no-wrap">Read <%= fa "arrow-right" %></span>
-        <% end %>
-      </div>
-    </div>
+<div class="page-section news-card">
+  <h2>What's Happening at the MBTA</h2>
+  <div class="row">
+    <p class="col-md-4">
+      <img src="<%= static_url @conn, "/images/southstation-01.jpg" %>"
+        alt="South Station interior"
+        class="news-image">
+      The Red Line north passageway at Downtown Crossing station will be out of service to allow for the construction of a new elevator.
+      <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457424&month=&year=") do %>
+        <span class="no-wrap">Read <%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
+    <p class="col-md-4">
+      <img src="<%= static_url @conn, "/images/commuter-01.jpg" %>"
+        alt="Commuter Rail train at North Station"
+        class="news-image">
+      We'd like your opinion on the Worcester Line proposed schedues for the Spring of 2017.
+      <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457397&month=&year=") do %>
+        <span class="no-wrap">Read <%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
+    <p class="col-md-4">
+      <img src="<%= static_url @conn, "/images/green-01.jpg" %>"
+        alt="Outside Green Line Stop"
+        class="news-image">
+      Buses will replace Green Line D branch service between Newton Highlands and Riverside Stations from 9:00 am to 3:00 pm on February 1-2...
+      <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493&month=&year=") do %>
+        <span class="no-wrap">Read <%= fa "arrow-right" %></span>
+      <% end %>
+    </p>
   </div>
 </div>
