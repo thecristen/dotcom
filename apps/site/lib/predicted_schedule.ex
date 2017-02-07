@@ -17,9 +17,6 @@ defmodule PredictedSchedule do
     prediction: Prediction.t | nil
   }
 
-  @spec make_predicted_schedule(Schedule.t, Prediction.t) :: PredictedSchedule.t
-  def make_predicted_schedule(schedule, prediction), do: %PredictedSchedule{schedule: schedule, prediction: prediction}
-
   @doc """
   The given predictions and schedules will be merged together according to
   stop_id to create PredictedSchedules. The final result is a sorted list of
@@ -67,7 +64,6 @@ defmodule PredictedSchedule do
   for a prediction time. **Scheduled Times are preferred**
   """
   @spec time!(PredictedSchedule.t) :: DateTime.t
-  def time!(nil), do: nil
   def time!(predicted_schedule), do: elem(time(predicted_schedule), 1)
 
   # Returns unique list of all stop_id's from given schedules and predictions
