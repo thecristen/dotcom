@@ -7,39 +7,140 @@ defmodule StopTimeTest do
   alias Routes.Route
   alias StopTimeList.StopTime
 
+   
+  @route %Route{id: "86", type: 3, name: "86"}
+
+  @sched_stop1_trip1__7_00 %Schedule{
+    time: ~N[2017-01-01T07:00:00],
+    route: @route,
+    stop: %Stop{id: "stop1"},
+    trip: %Trip{id: "trip1"}
+  }
+
+  @sched_stop1_trip2__8_00 %Schedule{
+    time: ~N[2017-01-01T08:00:00],
+    route: @route,
+    stop: %Stop{id: "stop1"},
+    trip: %Trip{id: "trip2"}
+  }
+
+  @sched_stop1_trip3__9_00 %Schedule{
+    time: ~N[2017-01-01T09:00:00],
+    route: @route,
+    stop: %Stop{id: "stop1"},
+    trip: %Trip{id: "trip3"}
+  }
+
+  @sched_stop2_trip2__8_15 %Schedule{
+    time: ~N[2017-01-01T08:15:00],
+    route: @route,
+    stop: %Stop{id: "stop2"},
+    trip: %Trip{id: "trip2"}
+  }
+
+  @sched_stop3_trip1__7_30 %Schedule{
+    time: ~N[2017-01-01T07:30:00],
+    route: @route,
+    stop: %Stop{id: "stop3"},
+    trip: %Trip{id: "trip1"}
+  }
+
+  @sched_stop3_trip2__8_30 %Schedule{
+    time: ~N[2017-01-01T08:30:00],
+    route: @route,
+    stop: %Stop{id: "stop3"},
+    trip: %Trip{id: "trip2"}
+  }
+
+  @sched_stop3_trip3__9_30 %Schedule{
+    time: ~N[2017-01-01T09:30:00],
+    route: @route,
+    stop: %Stop{id: "stop3"},
+    trip: %Trip{id: "trip3"}
+  }
+
+  @pred_stop1_trip2__8_05 %Prediction{
+    time: ~N[2017-01-01T08:05:00],
+    route_id: @route.id,
+    stop_id: "stop1",
+    trip: %Trip{id: "trip2"}
+  }
+
+  @pred_stop2_trip2__8_16 %Prediction{
+    time: ~N[2017-01-01T08:16:00],
+    route_id: @route.id,
+    stop_id: "stop2",
+    trip: %Trip{id: "trip2"}
+  }
+
+  @pred_stop3_trip2__8_32 %Prediction{
+    time: ~N[2017-01-01T08:32:00],
+    route_id: @route.id,
+    stop_id: "stop3",
+    trip: %Trip{id: "trip2"} 
+  }
+
+  @pred_stop1_trip1__8_05 %Prediction{
+      time: ~N[2017-01-01T08:05:00],
+      route_id: @route.id,
+      stop_id: "stop1",
+      trip: %Trip{id: "trip1"} 
+  }
+
+  @pred_stop1_trip2__8_16 %Prediction{
+      time: ~N[2017-01-01T08:16:00],
+      route_id: @route.id,
+      stop_id: "stop1",
+      trip: %Trip{id: "trip2"} 
+  }
+
+  @pred_stop1_trip3__8_32 %Prediction{
+      time: ~N[2017-01-01T08:32:00],
+      route_id: @route.id,
+      stop_id: "stop1",
+      trip: %Trip{id: "trip3"} 
+  }
+  
+  @pred_stop1_trip4__8_35 %Prediction{
+      time: ~N[2017-01-01T08:35:00],
+      route_id: @route.id,
+      stop_id: "stop1",
+      trip: %Trip{id: "trip4"} 
+  }
+
+  @pred_stop1_trip5__8_36 %Prediction{
+      time: ~N[2017-01-01T08:36:00],
+      route_id: @route.id,
+      stop_id: "stop1",
+      trip: %Trip{id: "trip5"} 
+  }
+
+  @pred_stop1_trip6__8_37 %Prediction{
+      time: ~N[2017-01-01T08:37:00],
+      route_id: @route.id,
+      stop_id: "stop1",
+      trip: %Trip{id: "trip6"} 
+  }
+
+  @pred_stop3_trip6__8_38 %Prediction{
+      time: ~N[2017-01-01T08:38:00],
+      route_id: @route.id,
+      stop_id: "stop3",
+      trip: %Trip{id: "trip6"} 
+  }
+
   # ------------------------------
   #         trip1 | trip2 | trip3
   # ------------------------------
-  # stop1 | 7:00  |       |
-  # stop2 | 8:00  | 8:15  |
-  # stop3 | 9:00  |       |
-   
-  @route %Route{id: "86", type: 3, name: "86"}
-  @origin_schedules [
-    %Schedule{
-      time: ~N[2017-01-01T09:00:00],
-      route: @route,
-      stop: %Stop{id: "stop1"},
-      trip: %Trip{id: "trip3"}
-    },
-    %Schedule{
-      time: ~N[2017-01-01T07:00:00],
-      route: @route,
-      stop: %Stop{id: "stop1"},
-      trip: %Trip{id: "trip1"}
-    },
-    %Schedule{
-      time: ~N[2017-01-01T08:00:00],
-      route: @route,
-      stop: %Stop{id: "stop1"},
-      trip: %Trip{id: "trip2"}
-    },
-    %Schedule{
-      time: ~N[2017-01-01T08:15:00],
-      route: @route,
-      stop: %Stop{id: "stop2"},
-      trip: %Trip{id: "trip2"}
-    }
+  # stop1 | 7:00  | 8:00  | 9:00
+  # stop2 |       | 8:15  |
+  # stop3 |       |       |
+
+  @origin_schedules [ 
+      @sched_stop1_trip3__9_00, 
+      @sched_stop1_trip1__7_00, 
+      @sched_stop1_trip2__8_00, 
+      @sched_stop2_trip2__8_15, 
   ]
 
   # ------------------------------
@@ -50,48 +151,9 @@ defmodule StopTimeTest do
   # stop3 | 7:30  | 8:30  | 9:30
 
   @od_schedules [
-    {
-      %Schedule{
-        time: ~N[2017-01-01T08:00:00],
-        route: @route,
-        stop: %Stop{id: "stop1"},
-        trip: %Trip{id: "trip2"}
-      },
-      %Schedule{
-        time: ~N[2017-01-01T08:30:00],
-        route: @route,
-        stop: %Stop{id: "stop3"},
-        trip: %Trip{id: "trip2"}
-      }
-    },
-    {
-      %Schedule{
-        time: ~N[2017-01-01T07:00:00],
-        route: @route,
-        stop: %Stop{id: "stop1"},
-        trip: %Trip{id: "trip1"}
-      },
-      %Schedule{
-        time: ~N[2017-01-01T07:30:00],
-        route: @route,
-        stop: %Stop{id: "stop3"},
-        trip: %Trip{id: "trip1"}
-      }
-    },
-    {
-      %Schedule{
-        time: ~N[2017-01-01T09:00:00],
-        route: @route,
-        stop: %Stop{id: "stop1"},
-        trip: %Trip{id: "trip3"}
-      },
-      %Schedule{
-        time: ~N[2017-01-01T09:30:00],
-        route: @route,
-        stop: %Stop{id: "stop3"},
-        trip: %Trip{id: "trip3"}
-      }
-    }
+      { @sched_stop1_trip2__8_00, @sched_stop3_trip2__8_30 },
+      { @sched_stop1_trip1__7_00, @sched_stop3_trip1__7_30 },
+      { @sched_stop1_trip3__9_00, @sched_stop3_trip3__9_30 },
   ]
 
   # ------------------------------
@@ -102,24 +164,9 @@ defmodule StopTimeTest do
   # stop3 |       | 8:32  |     
 
   @predictions [
-    %Prediction{
-      time: ~N[2017-01-01T08:05:00],
-      route_id: @route.id,
-      stop_id: "stop1",
-      trip: %Trip{id: "trip2"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:16:00],
-      route_id: @route.id,
-      stop_id: "stop2",
-      trip: %Trip{id: "trip2"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:32:00],
-      route_id: @route.id,
-      stop_id: "stop3",
-      trip: %Trip{id: "trip2"}
-    }
+    @pred_stop1_trip2__8_05,
+    @pred_stop2_trip2__8_16,
+    @pred_stop3_trip2__8_32,
   ]
 
   # -----------------------------------------------------
@@ -130,48 +177,13 @@ defmodule StopTimeTest do
   # stop3 |       |       |       |       |       | 8:38
 
   @origin_destination_predictions [
-    %Prediction{
-      time: ~N[2017-01-01T08:05:00],
-      route_id: @route.id,
-      stop_id: "stop1",
-      trip: %Trip{id: "trip1"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:16:00],
-      route_id: @route.id,
-      stop_id: "stop1",
-      trip: %Trip{id: "trip2"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:32:00],
-      route_id: @route.id,
-      stop_id: "stop1",
-      trip: %Trip{id: "trip3"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:35:00],
-      route_id: @route.id,
-      stop_id: "stop1",
-      trip: %Trip{id: "trip4"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:36:00],
-      route_id: @route.id,
-      stop_id: "stop1",
-      trip: %Trip{id: "trip5"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:37:00],
-      route_id: @route.id,
-      stop_id: "stop1",
-      trip: %Trip{id: "trip6"}
-    },
-    %Prediction{
-      time: ~N[2017-01-01T08:38:00],
-      route_id: @route.id,
-      stop_id: "stop3",
-      trip: %Trip{id: "trip6"}
-    }
+    @pred_stop1_trip1__8_05,
+    @pred_stop1_trip2__8_16,
+    @pred_stop1_trip3__8_32,
+    @pred_stop1_trip4__8_35,
+    @pred_stop1_trip5__8_36,
+    @pred_stop1_trip6__8_37,
+    @pred_stop3_trip6__8_38,
   ]
 
   describe "build/1 with no origin or destination" do
@@ -182,6 +194,15 @@ defmodule StopTimeTest do
 
   describe "build/1 with only origin" do
     test "returns StopTimes at that origin sorted by time with predictions first" do
+
+      # --------------------------------------------
+      #         trip1   | trip2           | trip3
+      # --------------------------------------------
+      # stop1 | 7:00(s) | 8:00(s) 8:05(p) | 9:00(s)
+      # stop2 |         | 8:15(s) 8:16(p) |
+      # stop3 |         | 8:32(p)         |
+
+
       result = build(@origin_schedules, @predictions, "stop1", nil, false)
 
       assert result == %StopTimeList{
@@ -324,7 +345,15 @@ defmodule StopTimeTest do
   end
 
   describe "build/1 with origin and destination" do
+
     test "with origin and destination provided, returns StopTimes with arrivals and departures" do
+      # --------------------------------------------
+      #         trip1   | trip2           | trip3
+      # --------------------------------------------
+      # stop1 | 7:00(s) | 8:00(s) 8:05(p) | 9:00(s)
+      # stop2 |         | 8:16(p)         |
+      # stop3 | 7:30(s) | 8:30(s) 8:32(p) | 9:30(s)
+
       result = build(@od_schedules, @predictions, "stop1", "stop3", false)
 
       assert result == %StopTimeList{
