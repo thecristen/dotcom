@@ -79,7 +79,7 @@ defmodule Site.ScheduleView do
     new_dest = dest && origin
     [trip: nil, direction_id: direction_id, route: route_id]
     |> Keyword.merge(
-      if Schedules.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
+      if Stops.Repo.stop_exists_on_route?(new_origin, route_id, direction_id) do
         [dest: new_dest, origin: new_origin]
       else
         [dest: nil, origin: nil]

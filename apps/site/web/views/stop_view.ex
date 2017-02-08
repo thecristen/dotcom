@@ -100,7 +100,7 @@ defmodule Site.StopView do
   defp format_accessibility_text(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
   defp format_accessibility_text(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
   defp format_accessibility_text(name, ["accessible"]) do
-    content_tag(:span, "#{name} is an accessible station. Accessible stations can be accessed by wheeled mobility devices.")
+    content_tag(:span, "#{name} is an accessible station.")
   end
   defp format_accessibility_text(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
 
@@ -351,5 +351,22 @@ defmodule Site.StopView do
   def retail_location_directions_link(%Location{latitude: retail_lat, longitude: retail_lng}, %Stop{latitude: stop_lat, longitude: stop_lng}) do
     href = GoogleMaps.direction_map_url({stop_lat, stop_lng}, {retail_lat, retail_lng})
     content_tag :a, ["View on map ", fa("arrow-right")], href: href, class: "no-wrap"
+  end
+
+  @doc "Creates the name to be used for station info tab"
+  @spec info_tab_name([Routes.Group.t]) :: Phoenix.HTML.Safe.t
+  def info_tab_name([bus: _]) do
+    content_tag :span do
+      [ "Stop Info",
+        content_tag(:span, "rmation", class: "hidden-sm-down")
+      ]
+    end
+  end
+  def info_tab_name(_) do
+    content_tag :span do
+      [ "Station Info",
+        content_tag(:span, "rmation", class: "hidden-sm-down")
+      ]
+    end
   end
 end

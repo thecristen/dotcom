@@ -1,14 +1,11 @@
 <div class="schedule-frequencies">
   <div class="header"><%= route_header_text(@route) %> Schedule For <%= Site.ScheduleV2View.pretty_date(@date) %></div>
   <div class="rows">
-    <%= for frequency <- @frequency_table do %>
+    <%= for frequency <- @frequency_table.frequencies do %>
       <div class="frequency">
         <div class="time-block-name">
           <%= content_tag :div, frequency_block_name(frequency) %>
-          <%= if frequency.time_block == :late_night do
-             last_departure = Timex.format!(last_departure(@schedules), "%I:%M %p", :strftime)
-             content_tag :div, "Last departure at #{last_departure}"
-          end %>
+        <%= display_frequency_departure(frequency.time_block, @frequency_table.first_departure, @frequency_table.last_departure) %>
         </div>
         <div class="time-block-times">
           <%= frequency |> Schedules.Frequency.has_service? |> frequency_times(frequency) %>

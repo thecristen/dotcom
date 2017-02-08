@@ -58,6 +58,45 @@ defmodule PredictedSchedule do
   def time(%PredictedSchedule{schedule: nil, prediction: prediction}), do: prediction.time
   def time(%PredictedSchedule{schedule: schedule}), do: schedule.time
 
+  @doc """
+
+  Given a Predicted schedule and an order of keys, call the given function
+  with the prediction/schedule that's not nil.  If all are nil, then return
+  the default value.
+
+  """
+  @spec map_optional(PredictedSchedule.t, [:schedule | :prediction], any, ((Schedule.t | Prediction.t) -> any)) :: any
+  def map_optional(predicted_schedule, ordering, default \\ nil, func)
+  def map_optional(nil, _ordering, default, _func) do
+    default
+  end
+  def map_optional(_predicted_schedule, [], default, _func) do
+    default
+  end
+  def map_optional(predicted_schedule, [:schedule | rest], default, func) do
+    case predicted_schedule.schedule do
+      nil -> map_optional(predicted_schedule, rest, default, func)
+      schedule -> func.(schedule)
+    end
+  end
+  def map_optional(predicted_schedule, [:prediction | rest], default, func) do
+    case predicted_schedule.prediction do
+      nil -> map_optional(predicted_schedule, rest, default, func)
+      prediction -> func.(prediction)
+    end
+  end
+
+  @doc """
+  Returns the trip_id associated with this Predicted Schedule.
+  Returns nil if there is no schedule or prediction
+  """
+  @spec trip_id(PredictedSchedule.t) :: String.t | nil
+  def trip_id(%PredictedSchedule{} = predicted_schedule) do
+    map_optional(predicted_schedule, [:schedule, :prediction], nil, fn x ->
+      x.trip.id
+    end)
+  end
+
   # Returns unique list of all stop_id's from given schedules and predictions
   @spec stop_ids(%{String.t => Schedule.t}, %{String.t => Prediction.t}) :: [String.t]
   defp stop_ids(schedule_map, prediction_map) do

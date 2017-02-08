@@ -4,6 +4,7 @@ defmodule TripInfoTest do
   alias TripInfo.Flags
 
   alias Routes.Route
+  alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
   alias Vehicles.Vehicle
   import :erlang, only: [iolist_to_binary: 1]
@@ -181,6 +182,22 @@ defmodule TripInfoTest do
       assert length(last_section) == 2
       assert List.first(first_section) == {List.first(@time_list), %Flags{terminus?: true}}
       assert List.first(last_section) == {Enum.at(@time_list, -2), %Flags{terminus?: false}}
+    end
+  end
+
+  describe "should_display_trip_info?/2" do
+    test "Non subway will show trip info" do
+      commuter_info = %TripInfo{route: %Routes.Route{type: 4}}
+      assert should_display_trip_info?(commuter_info)
+    end
+
+    test "Subway will show trip info if predictions are given" do
+      subway_info = %TripInfo{sections: [%PredictedSchedule{prediction: %Prediction{time: Util.now()}}], route: %Routes.Route{type: 1}}
+      assert should_display_trip_info?(subway_info)
+    end
+
+    test "Will not show trip info if there is no trip info" do
+      refute should_display_trip_info?(nil)
     end
   end
 end

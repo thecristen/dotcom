@@ -42,6 +42,7 @@ defmodule Stops.Api do
     v3_task = Task.async fn ->
       gtfs_id
       |> V3Api.Stops.by_gtfs_id
+      |> extract_v3_response
     end
     merge_v3(Task.await(station_info_task), Task.await(v3_task))
   end
@@ -49,6 +50,37 @@ defmodule Stops.Api do
   defp map_json_api(%JsonApi{data: data}) do
     data
     |> Enum.map(&parse_stop/1)
+  end
+
+  def by_route({route_id, direction_id}) do
+    params = [
+      route: route_id,
+      include: "parent_station",
+      direction_id: direction_id
+    ]
+
+    params
+    |> V3Api.Stops.all
+    |> (fn api -> api.data end).()
+    |> Enum.uniq_by(&get_v3_id/1)
+    |> Task.async_stream(fn (item) ->
+      station_info = item
+      |> get_v3_id
+      |> StationInfoApi.by_gtfs_id
+      |> map_json_api
+      |> List.first
+
+      merge_v3(station_info, item)
+    end)
+    |> Enum.map(fn {:ok, stop} -> stop end)
+    |> Enum.uniq # filter out stops which hit multiple parts of the same parent
+  end
+
+  defp get_v3_id(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: parent_id}]}}) do
+    parent_id
+  end
+  defp get_v3_id(item) do
+    item.id
   end
 
   defp parse_stop(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
@@ -134,8 +166,17 @@ defmodule Stops.Api do
     end)
   end
 
+  defp extract_v3_response(%{status_code: 404}) do
+    # In the case of a failed V3 response, just return nil
+    nil
+  end
+  defp extract_v3_response(%JsonApi{data: [item | _]}) do
+    item
+  end
+
   defp merge_v3(station_info_stop, v3_stop_response)
-  defp merge_v3(nil, %JsonApi{data: [stop | _]}) do
+  defp merge_v3(stop, nil), do: stop
+  defp merge_v3(nil, stop) do
     accessibility = if stop.attributes["wheelchair_boarding"] == 1 do
       ["accessible"]
     else
@@ -150,11 +191,7 @@ defmodule Stops.Api do
       longitude: stop.attributes["longitude"]
     }
   end
-  defp merge_v3(stop, %JsonApi{data: [%JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}]}) do
+  defp merge_v3(stop, %JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}) do
     %Stop{stop | latitude: latitude, longitude: longitude}
-  end
-  defp merge_v3(stop, %{status_code: 404}) do
-    # failed v3 response, just return the stop as-is
-    stop
   end
 end

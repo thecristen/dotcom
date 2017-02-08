@@ -437,6 +437,10 @@ a {
   }
 }
 
+.schedule-today {
+  background-color: $today-color;
+}
+
 .holiday-list {
   list-style: none;
   padding-left: 0;
@@ -462,6 +466,10 @@ a {
 
   &.weekend {
     background-color: $weekend-color;
+  }
+
+  &.today {
+    background-color: $today-color;
   }
 }
 

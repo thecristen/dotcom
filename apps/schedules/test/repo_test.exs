@@ -43,47 +43,6 @@ defmodule Schedules.RepoTest do
     end
   end
 
-  describe "stops/2" do
-    test "returns a list of stops in order of their stop_sequence" do
-      response = stops(
-        "CR-Lowell",
-        date: Util.service_date,
-        direction_id: 1)
-
-      assert response != []
-      assert List.first(response) == %Stop{id: "Lowell", name: "Lowell"}
-      assert List.last(response) == %Stop{id: "place-north", name: "North Station"}
-      assert response == Enum.uniq(response)
-    end
-
-    test "uses the parent station name" do
-      next_weekday = "America/New_York"
-      |> Timex.now()
-      |> Timex.to_date
-      |> Timex.end_of_week(:mon)
-      |> Timex.shift(days: 3)
-
-      response = stops(
-        "Green-B",
-        date: next_weekday,
-        direction_id: 0)
-
-      assert response != []
-      assert List.first(response) == %Stop{id: "place-pktrm", name: "Park Street"}
-    end
-
-    test "does not include a parent station multiple times" do
-      # stops multiple times at Sullivan
-      response = stops(
-        "86",
-        date: Util.service_date,
-        direction_id: 1)
-
-      assert response != []
-      refute (response |> Enum.at(1)).id == "place-sull"
-    end
-  end
-
   test ".schedule_for_trip returns stops in order of their stop_sequence for a given trip" do
     # find a Lowell trip ID
     trip_id = "Lowell"

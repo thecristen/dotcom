@@ -54,6 +54,6 @@ defmodule Site.ScheduleController.PairsTest do
       date: "1970-01-01"
     )
     response = html_response(conn, 200)
-    assert response =~ ~R(Currently, there are no scheduled trips\s+from Alewife\s+to Harvard\s+on January 1, 1970.)
+    assert response =~ ~R(Currently, there are no scheduled trips\s+from Alewife\s+to Harvard Square\s+on January 1, 1970.)
   end
 end

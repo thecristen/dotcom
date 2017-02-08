@@ -23,26 +23,6 @@ defmodule Schedules.Repo do
     end)
   end
 
-  def stops(route, opts) do
-    params = [
-      route: route,
-      include: "parent_station",
-      "fields[stop]": "name"
-    ]
-    params = params
-    |> add_optional_param(opts, :direction_id)
-    |> add_optional_param(opts, :date)
-
-    params
-    |> cache(fn params ->
-      params
-      |> V3Api.Stops.all
-      |> (fn api -> api.data end).()
-      |> Enum.map(&simple_stop/1)
-      |> Enum.uniq # filter out stops which hit multiple parts of the same parent
-    end)
-  end
-
   def schedule_for_trip(trip_id) do
     @default_params
     |> Keyword.merge([
@@ -73,12 +53,6 @@ defmodule Schedules.Repo do
       stop: stop_id
     ])
     |> all
-  end
-
-  def stop_exists_on_route?(stop_id, route, direction_id) do
-    route
-    |> stops(direction_id: direction_id)
-    |> Enum.any?(&(&1.id == stop_id))
   end
 
   @spec trip(String.t) :: Schedules.Trip.t | nil
@@ -118,12 +92,5 @@ defmodule Schedules.Repo do
   end
   defp to_string(other) do
     Kernel.to_string(other)
-  end
-
-  defp simple_stop(%JsonApi.Item{relationships: %{"parent_station" => [item]}}) do
-    simple_stop(item)
-  end
-  defp simple_stop(%JsonApi.Item{id: id, attributes: %{"name" => name}}) do
-    %Schedules.Stop{id: id, name: name}
   end
 end
