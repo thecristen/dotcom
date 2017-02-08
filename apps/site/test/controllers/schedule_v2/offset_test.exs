@@ -10,14 +10,6 @@ defmodule Site.ScheduleV2Controller.OffsetTest do
   end
 
   describe "call/2" do
-    test "if an offset parameter is given, uses it" do
-      conn = :get
-      |> build_conn("/", offset: "12")
-      |> call([])
-
-      assert conn.assigns.offset == 12
-    end
-
     test "when time is before the first trip offset is 0" do
       now = Util.now
 

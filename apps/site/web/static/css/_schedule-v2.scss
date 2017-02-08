@@ -414,59 +414,67 @@ $vehicle-location-width: 1.85rem;
 }
 
 
-
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ///// COMMUTER RAIL TIMETABLE
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.schedule-v2-timetable {
-  border-bottom: 2rem solid $brand-primary-darkest;
+.schedule-v2-timetable-container {
   max-width: 100%;
   width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
 
-  td {
-    padding: .5rem 1rem;
+.schedule-v2-timetable-hide-earlier .schedule-v2-timetable-time-col-earlier,
+.schedule-v2-timetable-hide-later .schedule-v2-timetable-time-col-later {
+  background-color: $white;
+  color: $white;
+}
 
-    &.time-column-header {
-      padding: 0;
-    }
-  }
+.schedule-v2-timetable-hide-earlier .schedule-v2-timetable-header-col.schedule-v2-timetable-time-col-earlier,
+.schedule-v2-timetable-hide-later .schedule-v2-timetable-header-col.schedule-v2-timetable-time-col-later {
+  background-color: $brand-primary-darkest;
+  color: $brand-primary-darkest;
+}
 
-  thead {
-    background-color: $brand-primary-darkest;
-    color: $white;
-    font-weight: bold;
+.schedule-v2-timetable-col,
+.schedule-v2-timetable-name-col,
+.schedule-v2-timetable-header-col {
+  padding: .5rem 1rem;
+}
 
-    .icon-image {
-      fill: $white;
-    }
+.schedule-v2-timetable-col,
+.schedule-v2-timetable-header-col {
+  text-align: center;
+}
 
-    a {
-      color: $white;
+.schedule-v2-timetable-col,
+.schedule-v2-timetable-name-col:not(.schedule-v2-timetable-header-col) {
+  background-color: $white;
+}
 
-      @include hover-focus-active {
-        color: $white;
-      }
-    }
-  }
+.schedule-v2-timetable-header-col {
+  background-color: $brand-primary-darkest;
+  color: $white;
+  font-weight: bold;
+}
 
-  tbody {
-    td {
-      border-bottom: 1px solid $gray-lightest;
-    }
+.schedule-v2-timetable-row:not(:last-child) {
+  // border on the bottom of every row except the last
+  border-bottom: 1px solid $gray-lightest;
+}
 
-    // scss-lint:disable SelectorDepth
-    tr:last-child td {
-      border-bottom: 0;
-    }
-    // scss-lint:enable SelectorDepth
-    .time-column {
-      background-color: $gray-lightest;
-      border: 0;
-    }
-  }
+.schedule-v2-timetable-name-col {
+  text-align: left;
+}
+
+.schedule-v2-timetable-time-col {
+  background-color: rgba($gray-lightest, .5);
+  min-width: .5rem;
+  padding: 0;
+  text-align: center;
 }
 
 .route-row {
@@ -526,4 +534,10 @@ $vehicle-location-width: 1.85rem;
   margin: 0;
   padding: 0;
   text-align: left;
+}
+
+[data-sticky-container] {
+  [data-sticky] {
+    position: sticky;
+  }
 }

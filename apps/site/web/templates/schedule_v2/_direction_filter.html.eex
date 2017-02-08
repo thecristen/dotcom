@@ -16,7 +16,7 @@
           <span class="schedule-v2-direction-btn-label schedule-v2-direction-btn-label-selected">
             <%= direction(direction_id, @route) %> to:<br>
             <span>
-              <%= @headsigns[direction_id] |> Enum.map(&clean_route_name/1) |> Enum.join(" • ") %>
+              <%= @headsigns[direction_id] |> Enum.map(&break_text_at_slash/1) |> Enum.join(" • ") %>
             </span>
           </span>
         <% end %>
@@ -30,7 +30,7 @@
             <%= direction(direction_id, @route) %>
             to:<br>
             <span>
-              <%= @headsigns[direction_id] |> Enum.map(&clean_route_name/1) |> Enum.join(" • ") %>
+              <%= @headsigns[direction_id] |> Enum.map(&break_text_at_slash/1) |> Enum.join(" • ") %>
             </span>
           </span>
         <% end %>
