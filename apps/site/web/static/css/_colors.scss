@@ -47,6 +47,12 @@ $twitter: #55acee;
 $facebook: #395185;
 $youtube: #cd201f;
 
+// Gradients
+$whats-happening-gradient-end: #eff0f2;
+$hp-hero-gradient-start: rgba(28, 30, 35, .4);
+$hp-hero-gradient-end: rgba(28, 30, 35, .8);
+$hp-hero-gradient: linear-gradient(to bottom, $hp-hero-gradient-start, $hp-hero-gradient-end);
+
 // General
 $homepage-bg-color: #fff;
 $footer-color: $brand-navy-dark;
@@ -60,4 +66,3 @@ $white: #fff;
 $holiday-color: #dcd3e8;
 $weekend-color: #f2f3f5;
 $today-color: $brand-primary-lightest;
-$whats-happening-gradient-end: #eff0f2;

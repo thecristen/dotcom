@@ -101,6 +101,10 @@
 
 
 .pre-container-header {
+  @include media-breakpoint-only(xs) {
+    display: none;
+  }
+
   .route-type-icons {
     margin-bottom: 3rem;
   }
@@ -120,14 +124,26 @@
 }
 
 .pre-container-wrapper {
-  background: url('/images/transit-near-me-bkg.png'), linear-gradient(to bottom right, $brand-primary-dark, $gradient-color-light);
+  // scss-lint:disable ColorVariable
+  background-image: $hp-hero-gradient, url('/images/td-garden-zakim.jpg');
+  background-position-x: 50%;
+  background-position-y: 0%;
   background-repeat: no-repeat;
   background-size: cover;
   padding-bottom: 3rem;
   width: 100%;
+  // scss-lint:enable ColorVariable
+
+  @include media-breakpoint-only(xs) {
+    padding-bottom: 0;
+  }
 
   .transit-input-label {
     color: $white;
+
+    @include media-breakpoint-only(xs) {
+      padding-top: $grid-gutter-width;
+    }
   }
 }
 

@@ -1,3 +1,15 @@
+<%= if @stops_with_routes == [] do %>
+<p class="tnm-mode-links">
+  Or view by mode:
+  <a href="#commuter_rail">Commuter Rail</a>,
+  <a href="#bus">Bus</a>,
+  <a href="#subway">Subway</a>,
+  <span class="no-wrap">
+    <a href="#ferry">Ferry</a>
+    <i class="fa fa-arrow-right"></i>
+  </span>
+</p>
+<% end %>
 <%= if @stop_groups do %>
   <%= render "_results_grouped.html", class: "transit-near-me-gray", stop_groups: @stop_groups, stops_with_routes: @stops_with_routes, conn: @conn %>
 <% else %>

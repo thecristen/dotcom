@@ -175,3 +175,13 @@
   text-align: right;
   width: 33.333%;
 }
+
+.tnm-mode-links {
+  color: $white;
+  margin-top: $grid-gutter-width / 2;
+
+  a {
+    color: $white;
+    text-decoration: underline;
+  }
+}
