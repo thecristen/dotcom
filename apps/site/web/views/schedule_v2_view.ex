@@ -195,6 +195,7 @@ defmodule Site.ScheduleV2View do
   """
   @spec trip_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
   def trip_alerts(nil, _alerts, _route_id, _direction_id), do: []
+  def trip_alerts(%PredictedSchedule{schedule: nil, prediction: nil}, _alerts, _route_id, _direction_id), do: []
   def trip_alerts(%PredictedSchedule{schedule: nil, prediction: prediction}, alerts, route_id, direction_id) do
     Alerts.Trip.match(alerts, prediction.trip.id, time: prediction.time, route: route_id, direction_id: direction_id)
   end
