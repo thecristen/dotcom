@@ -30,6 +30,7 @@ import turbolinks from './turbolinks';
 import supportForm from './support-form.js';
 import objectFitImages from 'object-fit-images';
 import fixedsticky from './fixedsticky';
+import horizsticky from './horizsticky';
 import menuCtrlClick from './menu-ctrl-click';
 import carousel from './carousel';
 import geoLocation from './geolocation';
@@ -47,6 +48,7 @@ modal();
 turbolinks();
 supportForm();
 fixedsticky();
+horizsticky();
 objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
 carousel();

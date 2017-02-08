@@ -1,10 +1,10 @@
-<div class="schedule-v2-timetable-container">
+<div class="schedule-v2-timetable-container" data-sticky-container>
   <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later">
     <tr>
-      <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col fixedsticky">
+      <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
         Stop
       </th>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier fixedsticky">
+      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" data-sticky="left">
         <%= fa "angle-left" %>
       </th>
       <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
@@ -15,19 +15,19 @@
           <% end %>
         </th>
       <% end %>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later fixedsticky">
+      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right">
         <%= fa "angle-right" %>
       </th>
     </tr>
     <%= for stop <- @all_stops do %>
       <tr class="schedule-v2-timetable-row">
-        <td class="schedule-v2-timetable-name-col fixedsticky">
+        <td class="schedule-v2-timetable-name-col" data-sticky="left">
           <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>
           <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
             <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
           <% end %>
         </td>
-        <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier fixedsticky"></td>
+        <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier" data-sticky="left"></td>
         <%= for schedule <- @header_schedules do %>
           <td class="schedule-v2-timetable-col">
             <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
@@ -40,7 +40,7 @@
             </span>
           </td>
         <% end %>
-        <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later fixedsticky"></td>
+        <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later" data-sticky="right"></td>
       </tr>
     <% end %>
   </table>
