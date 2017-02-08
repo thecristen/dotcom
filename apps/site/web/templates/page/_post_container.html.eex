@@ -3,3 +3,8 @@
     <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
   </div>
 </div>
+<div class="">
+  <div class="container">
+    <%= render Site.PageView, "_about_the_mbta.html", conn: @conn %>
+  </div>
+</div>

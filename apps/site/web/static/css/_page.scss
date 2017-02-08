@@ -182,3 +182,16 @@
 .important-whats-happening-image {
   padding-left: 0;
 }
+
+.homepage-about-link {
+  img {
+    font-family: 'object-fit: cover; object-position: 100% 63%;';
+    object-fit: cover;
+    object-position: 100% 63%;
+    width: 100%
+  }
+  .about-title {
+    padding-top: $base-spacing;
+    padding-bottom: $base-spacing * 2;
+  }
+}
