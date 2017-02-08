@@ -53,3 +53,25 @@ defmodule Content.Page.ImageTest do
     end
   end
 end
+
+defmodule Content.Page.FileTest do
+  use ExUnit.Case, async: true
+
+  describe "rewrite_url" do
+    test "uses the image version of rewrite url" do
+      root = "https://test-domain"
+      static_path = "/sites/default/files"
+
+      expected = Content.Page.Image.rewrite_url(
+        "https://test-domain/sites/default/files/converted.png",
+        root: root,
+        static_path: static_path)
+
+      actual = Content.Page.File.rewrite_url(
+        "https://test-domain/sites/default/files/converted.png",
+        root: root,
+        static_path: static_path)
+      assert actual == expected
+    end
+  end
+end
