@@ -288,7 +288,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "does assign trips for the bus if the date is in the future", %{conn: conn} do
-    IO.inspect(conn)
 
     schedules = [
       %Schedule{
@@ -312,8 +311,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     ]
     day = Timex.shift(@time, days: 1)
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
-
-    IO.inspect(conn.assigns)
 
     conn = %{conn |
       request_path: schedule_v2_path(conn, :show, "1"),
