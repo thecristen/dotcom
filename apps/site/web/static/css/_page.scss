@@ -132,7 +132,7 @@
 }
 
 .whats-happening-section {
-  background-color: $gray-lightest;
+  background: $gray-lightest, linear-gradient(130deg, $homepage-gradient-end 0%, $homepage-gradient-end 10%, $gray-lightest 10%, $gray-lightest 90%, $homepage-gradient-end 90%, $homepage-gradient-end 100%);
   padding: 1rem;
   width: 100%;
 }
