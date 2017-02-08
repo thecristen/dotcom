@@ -4,7 +4,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   alias Schedules.{Schedule, Trip}
   alias Predictions.Prediction
 
-  @time Util.now()
+  @time ~N[2017-02-10T20:00:00]
 
   @schedules [
     %Schedule{
@@ -46,6 +46,11 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       stop_id: "last"
     }
   ]
+
+  setup %{conn: conn} do
+    conn = assign(conn, :date_time, @time)
+    {:ok, %{conn: conn}}
+  end
 
   defp prediction_fn(_) do
     @predictions
@@ -102,7 +107,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       params: params}
     |> assign_stop_times_from_schedules(schedules)
     |> assign(:date_time, @time)
-    |> assign(:date, Util.service_date())
+    |> assign(:date, Util.service_date(@time))
     |> call(init)
   end
 
@@ -159,7 +164,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       query_params: %{"trip" =>  "long_trip"}}
     |> assign(:schedules, [])
     |> assign(:date_time, @time)
-    |> assign(:date, Timex.shift(Util.service_date(), days: 2))
+    |> assign(:date, Timex.shift(Util.service_date(@time), days: 2))
     |> call(init)
 
     for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
@@ -179,23 +184,23 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, hours: 25),
+        time: Timex.shift(@time, hours: 25),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, minutes: 26),
+        time: Timex.shift(@time, minutes: 26),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, hours: 27),
+        time: Timex.shift(@time, hours: 27),
         route: %Routes.Route{type: 1}
       }
     ]
-    day = Timex.shift(Util.now, days: 1)
+    day = Timex.shift(@time, days: 1)
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
@@ -211,24 +216,23 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "Default Trip id is taken from stop_times if one is not provided", %{conn: conn} do
-    time = Util.now()
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(time, minutes: 10),
+        time: Timex.shift(@time, minutes: 10),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(time, minutes: 15),
+        time: Timex.shift(@time, minutes: 15),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(time, minutes: 20),
+        time: Timex.shift(@time, minutes: 20),
         route: %Routes.Route{type: 1}
       }
     ]
@@ -239,7 +243,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       query_params: nil
     }
     |> assign_stop_times_from_schedules(schedules)
-    |> assign(:date, Util.service_date())
     |> assign(:route, %Routes.Route{type: 1})
     |> call(init)
 
@@ -253,23 +256,23 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, hours: 25),
+        time: Timex.shift(@time, hours: 25),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, minutes: 26),
+        time: Timex.shift(@time, minutes: 26),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, hours: 27),
+        time: Timex.shift(@time, hours: 27),
         route: %Routes.Route{type: 1}
       }
     ]
-    day = Util.now
+    day = @time
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
@@ -285,27 +288,28 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "does assign trips for the bus if the date is in the future", %{conn: conn} do
+
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, hours: 25),
+        time: Timex.shift(@time, hours: 25),
         route: %Routes.Route{type: 3}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, hours: 26),
+        time: Timex.shift(@time, hours: 26),
         route: %Routes.Route{type: 3}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
         stop: %Schedules.Stop{},
-        time: Timex.shift(Util.now, hours: 27),
+        time: Timex.shift(@time, hours: 27),
         route: %Routes.Route{type: 3}
       }
     ]
-    day = Timex.shift(Util.now, days: 1)
+    day = Timex.shift(@time, days: 1)
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
@@ -320,27 +324,25 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     assert conn.assigns.trip_info != nil
   end
 
-  describe "show_trips/2" do
+  describe "show_trips?/3" do
     test "it is false when looking at a future date for subway" do
-      day = Timex.shift(Util.now, days: 1)
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 1) == false
+      next_day = Timex.shift(@time, days: 1)
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(next_day, @time, 1) == false
     end
 
     test "is true when looking at the subway today" do
-      day = Util.today
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 1) == true
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(@time, @time, 1) == true
     end
 
     test "has the same behavior for light rail as for subway" do
-      day = Util.today
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 0) == true
-      day = Timex.shift(Util.now, days: 1)
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 0) == false
+      next_day = Timex.shift(@time, days: 1)
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(@time, @time, 0) == true
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(next_day, @time, 0) == false
     end
 
     test "is true when looking at any non-subway route" do
-      day = Timex.shift(Util.now, days: 1)
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(day, 3) == true
+      next_day = Timex.shift(@time, days: 1)
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(next_day, @time, 3) == true
     end
   end
 end

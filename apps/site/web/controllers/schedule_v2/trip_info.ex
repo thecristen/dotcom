@@ -36,8 +36,12 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end
-  defp trip_id(%Conn{assigns: %{stop_times: %StopTimeList{times: times}, route: route, date: user_selected_date}}) when times != [] do
-    if(show_trips(user_selected_date, route.type)) do
+  defp trip_id(%Conn{assigns: 
+                %{stop_times: %StopTimeList{times: times}, 
+                  route: route, 
+                  date: user_selected_date,
+                  date_time: date_time}}) when times != [] do
+    if(show_trips?(user_selected_date, date_time, route.type)) do
       current_trip(times, user_selected_date)
     else
       nil
@@ -95,9 +99,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     end)
   end
 
-  defp build_trip_times(schedules, assigns, trip_id, prediction_fn) do
+  defp build_trip_times(schedules, %{date_time: date_time} = assigns, trip_id, prediction_fn) do
     assigns
-    |> get_trip_predictions(Util.service_date(), trip_id, prediction_fn)
+    |> get_trip_predictions(Util.service_date(date_time), trip_id, prediction_fn)
     |> PredictedSchedule.group_by_trip(schedules)
   end
 
@@ -109,11 +113,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     prediction_fn.([trip: trip_id])
   end
 
-  @spec show_trips(DateTime.t, integer) :: boolean
-  def show_trips(date, route_type) when Route.subway?(route_type) do
-    Timex.diff(date, Util.today, :days) == 0
+  @spec show_trips?(DateTime.t, DateTime.t, integer) :: boolean
+  def show_trips?(user_selected_date, current_date_time, route_type) when Route.subway?(route_type) do
+    Timex.diff(user_selected_date, current_date_time, :days) == 0
   end
-  def show_trips(_date, _route_type) do
-    true
-  end
+  def show_trips?(_date, _current_date_time, _route_type), do: true
 end
