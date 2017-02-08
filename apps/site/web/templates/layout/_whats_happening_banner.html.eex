@@ -1,0 +1,11 @@
+<div class="row important-whats-happening">
+  <div class="important-whats-happening-image hidden-sm-down col-md-7">
+    <img src="<%= @image_url%>" alt=<%= @image_description %> class="img-fluid" />
+  </div>
+  <div class="important-whats-happening-text col-md-5 col-xs-12">
+    <%= @text %>
+    <%= link to: @href do %>
+      <span class="no-wrap">Read <%= fa "arrow-right"%></span>
+    <% end %>
+  </div>
+</div>
