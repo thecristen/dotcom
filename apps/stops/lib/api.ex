@@ -62,10 +62,10 @@ defmodule Stops.Api do
     params
     |> V3Api.Stops.all
     |> (fn api -> api.data end).()
-    |> Enum.uniq_by(&get_v3_id/1)
+    |> Enum.uniq_by(&v3_id/1)
     |> Task.async_stream(fn (item) ->
       station_info = item
-      |> get_v3_id
+      |> v3_id
       |> StationInfoApi.by_gtfs_id
       |> map_json_api
       |> List.first
@@ -76,11 +76,18 @@ defmodule Stops.Api do
     |> Enum.uniq # filter out stops which hit multiple parts of the same parent
   end
 
-  defp get_v3_id(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: parent_id}]}}) do
+  defp v3_id(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: parent_id}]}}) do
     parent_id
   end
-  defp get_v3_id(item) do
+  defp v3_id(item) do
     item.id
+  end
+
+  defp v3_name(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{attributes: %{"name" => parent_name}}]}}) do
+    parent_name
+  end
+  defp v3_name(item) do
+    item.attributes["name"]
   end
 
   defp parse_stop(%JsonApi.Item{attributes: attributes, relationships: relationships}) do
@@ -183,8 +190,8 @@ defmodule Stops.Api do
       []
     end
     %Stop{
-      id: stop.id,
-      name: stop.attributes["name"],
+      id: v3_id(stop),
+      name: v3_name(stop),
       accessibility: accessibility,
       parking_lots: [],
       latitude: stop.attributes["latitude"],

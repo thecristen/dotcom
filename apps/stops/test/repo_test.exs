@@ -19,6 +19,7 @@ defmodule Stops.RepoTest do
 
       assert response != []
       assert match?(%Stop{id: "place-lake", name: "Boston College"}, List.first(response))
+      assert Enum.filter(response, &match?(%Stop{name: "South Street", id: "place-sougr"}, &1)) != []
     end
 
     test "does not include a parent station multiple times" do
