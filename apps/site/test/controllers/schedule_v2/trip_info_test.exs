@@ -324,25 +324,25 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     assert conn.assigns.trip_info != nil
   end
 
-  describe "show_trips/3" do
+  describe "show_trips?/3" do
     test "it is false when looking at a future date for subway" do
       next_day = Timex.shift(@time, days: 1)
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(next_day, @time, 1) == false
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(next_day, @time, 1) == false
     end
 
     test "is true when looking at the subway today" do
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(@time, @time, 1) == true
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(@time, @time, 1) == true
     end
 
     test "has the same behavior for light rail as for subway" do
       next_day = Timex.shift(@time, days: 1)
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(@time, @time, 0) == true
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(next_day, @time, 0) == false
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(@time, @time, 0) == true
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(next_day, @time, 0) == false
     end
 
     test "is true when looking at any non-subway route" do
       next_day = Timex.shift(@time, days: 1)
-      assert Site.ScheduleV2Controller.TripInfo.show_trips(next_day, @time, 3) == true
+      assert Site.ScheduleV2Controller.TripInfo.show_trips?(next_day, @time, 3) == true
     end
   end
 end
