@@ -131,6 +131,12 @@
   }
 }
 
+.whats-happening-section {
+  background: $gray-lightest, linear-gradient(130deg, $whats-happening-gradient-end 0%, $whats-happening-gradient-end 10%, $gray-lightest 10%, $gray-lightest 90%, $whats-happening-gradient-end 90%, $whats-happening-gradient-end 100%);
+  padding: 1rem;
+  width: 100%;
+}
+
 .page-img-block {
   display: block;
   margin-top: 1.5rem;
