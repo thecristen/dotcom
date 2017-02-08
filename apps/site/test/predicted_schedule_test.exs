@@ -122,11 +122,11 @@ defmodule PredictedScheduleTest do
   describe "time/1" do
     test "Scheduled time is given if one is available" do
       predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.last(@predictions)}
-      assert time!(predicted_schedule) == List.first(@schedules).time
+      assert time(predicted_schedule) == List.first(@schedules).time
     end
     test "Predicted time is used if no schedule present" do
       predicted_schedule = %PredictedSchedule{schedule: nil, prediction: List.last(@predictions)}
-      assert time!(predicted_schedule) == List.last(@predictions).time
+      assert time(predicted_schedule) == List.last(@predictions).time
     end
   end
 
