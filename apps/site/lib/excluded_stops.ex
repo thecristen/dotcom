@@ -40,10 +40,17 @@ defmodule ExcludedStops do
   def excluded_destination_stops("Green", origin_id) do
     stops_on_routes = GreenLine.stops_on_routes(0)
 
-    # Determine which lines the origin is *not* on, and union together all their stops.
-    ~w(Green-B Green-C Green-D Green-E)
-    |> Enum.reject(& GreenLine.stop_on_route?(origin_id, &1, stops_on_routes))
+    # Determine which lines the origin could be on and take the
+    # difference of those stops with all the GL stops
+    possible_stop_ids = ~w(Green-B Green-C Green-D Green-E)
+    |> Enum.filter(& GreenLine.stop_on_route?(origin_id, &1, stops_on_routes))
     |> Enum.reduce(MapSet.new, & MapSet.union(GreenLine.route_stops(&1, stops_on_routes), &2))
+
+    all_stop_ids = stops_on_routes
+    |> GreenLine.all_stops
+    |> MapSet.new(& &1.id)
+
+    MapSet.difference(all_stop_ids, possible_stop_ids)
   end
   def excluded_destination_stops(_route_id, _origin_id), do: []
 end
