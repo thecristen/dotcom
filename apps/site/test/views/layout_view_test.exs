@@ -18,12 +18,6 @@ defmodule Site.LayoutViewTest do
     end
   end
 
-  describe "format_header_fare/1" do
-    test "given a list of fare filters, finds the fare that fits and formats its price" do
-      assert format_header_fare(mode: :subway, duration: :single_trip, media: [:charlie_card]) == "$2.25"
-    end
-  end
-
   test "renders breadcrumbs in the title", %{conn: conn} do
     conn = get conn, "/schedules/subway"
     body = html_response(conn, 200)

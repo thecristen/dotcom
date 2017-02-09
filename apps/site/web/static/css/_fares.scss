@@ -223,3 +223,25 @@ a {
     }
   }
 }
+
+.common-fare {
+  > p {
+    font-weight: bold;
+    margin-bottom: $space-8;
+  }
+
+  li {
+    background-color: $white;
+    border-top: 1px solid $gray-lightest;
+    color: $gray-dark;
+    padding: $space-8;
+
+    @include media-breakpoint-only(md) {
+      font-size: .85rem;
+    }
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+}

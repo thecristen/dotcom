@@ -141,4 +141,10 @@ defmodule Site.FareViewTest do
       assert content =~ "Ferry fares depend on your origin and destination."
     end
   end
+
+  describe "format_price/1" do
+    test "given a list of fare filters, finds the fare that fits and formats its price" do
+      assert format_price(mode: :subway, duration: :single_trip, media: [:charlie_card]) == "$2.25"
+    end
+  end
 end
