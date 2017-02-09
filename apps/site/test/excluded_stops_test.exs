@@ -56,5 +56,12 @@ defmodule ExcludedStopsTest do
       assert "place-fenwy" in excluded_destination_stops("Green", "place-hsmnl")
       assert "place-spmnl" in excluded_destination_stops("Green", "place-hymnl")
     end
+
+    test "doesn't exclude stops that are shared between branches of the consolidated Green line" do
+      refute "place-pktrm" in excluded_destination_stops("Green", "place-cool")
+      refute "place-gover" in excluded_destination_stops("Green", "place-river")
+      refute "place-kencl" in excluded_destination_stops("Green", "place-denrd")
+      refute "place-north" in excluded_destination_stops("Green", "place-lech")
+    end
   end
 end
