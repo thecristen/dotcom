@@ -59,17 +59,6 @@ $vehicle-location-width: 1.85rem;
   margin-bottom: $space-16;
 }
 
-%schedule-list {
-  @extend %table-with-header;
-  @extend %two-equal-columns;
-
-  .rows {
-    @extend %two-equal-columns;
-    @extend %table;
-  }
-}
-
-
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ///// TRIP LIST
