@@ -1,17 +1,9 @@
 defmodule Site.FareViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
-  use ExCheck
   import Site.FareView
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   alias Fares.Fare
-
-  property :description do
-    for_all fare in elements(Fares.Repo.all()) do
-      result = description(fare, %{})
-      is_list(result) || is_binary(result)
-    end
-  end
 
   describe "fare_type_note/1" do
     test "returns fare note for students" do
