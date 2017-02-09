@@ -1,7 +1,6 @@
 <%= link to: alert_path(@conn, :index), class: "alert-announcement-header" do %>
   <%= render Site.AlertView, "_icon.html", alert: nil %>
   <strong><%= @alert_banner.title %></strong>
-  <%= @alert_banner.description %>
   <span class="alert-list-toggle">
     View
   </span>
