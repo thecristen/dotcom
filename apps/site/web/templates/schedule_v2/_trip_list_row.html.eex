@@ -16,8 +16,6 @@ end %>
       <%= content_tag tag, attributes, do: @trip.headsign %>
       <% true -> %>
     <% end %>
-  </div>
-  <div>
     <%= display_alerts(@alerts) %>
   </div>
   <%= if assigns[:url] do %>
