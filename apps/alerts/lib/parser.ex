@@ -44,14 +44,12 @@ defmodule Alerts.Parser do
     def parse(%JsonApi.Item{
           id: id,
           attributes: %{
-            "banner" => title,
-            "description" => description
+            "banner" => title
           }}) when title != nil do
       [
       %Alerts.Banner{
         id: id,
-        title: title,
-        description: description}
+        title: title}
       ]
     end
     def parse(%JsonApi.Item{}) do

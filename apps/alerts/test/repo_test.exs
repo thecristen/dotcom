@@ -45,8 +45,7 @@ defmodule Alerts.RepoTest do
         ]}
       banner = %Alerts.Banner{
         id: "id",
-        title: "banner",
-        description: "description"}
+        title: "banner"}
       assert do_banner(fn -> api end) == banner
     end
   end
