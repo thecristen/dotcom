@@ -78,13 +78,13 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   end
 
   # If there are more trips left in a day, finds the next trip based on the current time.
-  @spec current_trip([StopTimeList.StopTime.t], DateTime.t) :: String.t | nil
-  defp current_trip([%StopTimeList.StopTime{} | _] = times, now) do
+  @spec current_trip([StopTime.t], DateTime.t) :: String.t | nil
+  defp current_trip([%StopTime{} | _] = times, now) do
     do_current_trip times, now
   end
   defp current_trip([], _now), do: nil
 
-  @spec do_current_trip([StopTimeList.StopTime.t], DateTime.t) :: String.t | nil
+  @spec do_current_trip([StopTime.t], DateTime.t) :: String.t | nil
   defp do_current_trip(times, now) do
     case Enum.find(times, &is_after_now?(&1, now)) do
       nil -> nil
@@ -92,8 +92,8 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     end
   end
 
-  @spec is_after_now?(StopTimeList.StopTime.t, DateTime.t) :: boolean
-  defp is_after_now?(%StopTimeList.StopTime{departure: departure}, now) do
+  @spec is_after_now?(StopTime.t, DateTime.t) :: boolean
+  defp is_after_now?(%StopTime{departure: departure}, now) do
     PredictedSchedule.map_optional(departure, [:schedule, :prediction], false, fn x ->
         Timex.after?(x.time, now)
     end)

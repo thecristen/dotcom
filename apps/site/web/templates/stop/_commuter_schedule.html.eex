@@ -44,7 +44,7 @@
                 <% end %>
               </div>
               <div class="time-column">
-                <%= StopTimeList.StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
+                <%= StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
               </div>
             </div>
           </div>

@@ -4,7 +4,12 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
   import Site.ScheduleV2Controller.StopTimes
   import Plug.Conn, only: [assign: 3, fetch_query_params: 1]
 
+  alias Routes.Route
   alias Schedules.{Schedule, Trip, Stop}
+
+ @route %Route{id: "86", type: 3, name: "86"}
+ @date_time ~N[2017-02-11T22:30:00]
+ @cal_date  ~N[2017-02-11T12:00:00]
 
   describe "init/1" do
     test "takes no options" do
@@ -13,11 +18,13 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
   end
 
   describe "call/2" do
-    defp setup_conn(schedules, predictions, now, origin, destination, show_all_trips \\ "false") do
+    defp setup_conn(route, schedules, predictions, now, selected_date, origin, destination, show_all_trips \\ "false") do
       %{build_conn() | params: %{"show_all_trips" => show_all_trips}}
+      |> assign(:route, route)
       |> assign(:schedules, schedules)
       |> assign(:predictions, predictions)
       |> assign(:date_time, now)
+      |> assign(:date, selected_date)
       |> assign(:origin, origin)
       |> assign(:destination, destination)
       |> fetch_query_params
@@ -25,13 +32,14 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
     end
 
     test "assigns stop_times" do
-      conn = setup_conn([], [], Util.now, nil, nil)
+      conn = setup_conn(@route, [], [], @date_time, @cal_date, nil, nil)
 
       assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: false}
     end
 
     test "filters out schedules in the past by default, leaving the last entry before now" do
-      now = Util.now
+      now = ~N[2017-02-11T12:00:00]
+
       stop = %Stop{id: "stop"}
       schedules = for hour <- [-3, -2, -1, 1, 2, 3] do
         %Schedule{
@@ -40,13 +48,13 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
           stop: stop
         }
       end
-      conn = setup_conn(schedules, [], now, stop, nil)
+      conn = setup_conn(%Route{id: "CR-Lowell", type: 2, name: "Lowell"}, schedules, [], now, now, stop, nil)
 
-      assert conn.assigns.stop_times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, false)
+      assert conn.assigns.stop_times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, :last_trip_and_upcoming, now)
     end
 
-    test "if show_all_trips is true, doesn't filter schedules" do
-      now = Util.now
+    test "if filter_flag is :keep_all is true, doesn't filter schedules" do
+      now = @date_time
       stop = %Stop{id: "stop"}
       schedules = for hour <- [-3, -2, -1, 1, 2, 3] do
         %Schedule{
@@ -55,9 +63,9 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
           stop: stop
         }
       end
-      conn = setup_conn(schedules, [], now, stop, nil, "true")
+      conn = setup_conn(@route, schedules, [], now, @cal_date, stop, nil, "true")
 
-      assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, true)
+      assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, :keep_all, @date_time)
     end
 
     test "assigns stop_times for subway", %{conn: conn} do
@@ -74,7 +82,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
     end
 
     test "filters out predictions belonging to a trip that doesn't go to the destination" do
-      now = Util.now
+      now = @date_time
       origin = %Stop{id: "origin"}
       destination = %Stop{id: "destination"}
       elsewhere = %Stop{id: "elsewhere"}
@@ -120,9 +128,11 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
 
       conn = setup_conn(
+        @route,
         all_schedules,
         destination_predictions ++ extra_predictions,
         now,
+        @cal_date,
         origin,
         destination
       )
@@ -132,7 +142,8 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
         destination_predictions,
         origin.id,
         destination.id,
-        false
+        :predictions_then_schedules,
+        @date_time
       )
     end
   end

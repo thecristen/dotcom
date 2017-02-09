@@ -20,11 +20,11 @@ defmodule Site.ScheduleV2View do
     do_display_direction(times)
   end
 
-  @spec do_display_direction([StopTimeList.StopTime.t]) :: iodata
-  defp do_display_direction([%StopTimeList.StopTime{departure: %PredictedSchedule{schedule: nil}} | rest]) do
+  @spec do_display_direction([StopTime.t]) :: iodata
+  defp do_display_direction([%StopTime{departure: %PredictedSchedule{schedule: nil}} | rest]) do
     do_display_direction(rest)
   end
-  defp do_display_direction([%StopTimeList.StopTime{departure: %PredictedSchedule{schedule: scheduled}} | _]) do
+  defp do_display_direction([%StopTime{departure: %PredictedSchedule{schedule: scheduled}} | _]) do
     [direction(scheduled.trip.direction_id, scheduled.route), " to"]
   end
   defp do_display_direction([]), do: ""
@@ -110,7 +110,7 @@ defmodule Site.ScheduleV2View do
   """
   @spec display_commuter_scheduled_prediction(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
   def display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction} = stop_time) do
-    case StopTimeList.StopTime.delay(stop_time) do
+    case StopTime.delay(stop_time) do
       # if we're going to show both, make sure they are different times
       delay when delay > 0 -> content_tag :span, do: [
         content_tag(:del, format_schedule_time(schedule.time)),

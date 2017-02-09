@@ -43,6 +43,13 @@ defmodule PredictedSchedule do
   def stop_id(%{prediction: %Prediction{stop_id: stop_id}}), do: stop_id
 
   @doc """
+  Determines if the given PredictedSchedule has a schedule
+  """
+  @spec has_schedule?(PredictedSchedule.t) :: boolean
+  def has_schedule?(%PredictedSchedule{schedule: nil}), do: false
+  def has_schedule?(%PredictedSchedule{}), do: true
+
+  @doc """
   Determines if the given PredictedSchedule has a prediction
   """
   @spec has_prediction?(PredictedSchedule.t) :: boolean
@@ -95,6 +102,12 @@ defmodule PredictedSchedule do
     map_optional(predicted_schedule, [:schedule, :prediction], nil, fn x ->
       x.trip.id
     end)
+  end
+
+  @spec is_schedule_after?(PredictedSchedule.t, DateTime.t) :: boolean
+  def is_schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
+  def is_schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
+    Timex.after?(schedule.time, time)
   end
 
   # Returns unique list of all stop_id's from given schedules and predictions

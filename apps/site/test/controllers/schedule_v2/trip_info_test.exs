@@ -112,7 +112,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   defp assign_stop_times_from_schedules(conn, schedules) do
-    stop_times = Enum.map(schedules, & %StopTimeList.StopTime{departure: %PredictedSchedule{schedule: &1}})
+    stop_times = Enum.map(schedules, & %StopTime{departure: %PredictedSchedule{schedule: &1}})
     assign(conn, :stop_times, %StopTimeList{times: stop_times})
   end
 

@@ -50,4 +50,14 @@ defmodule Util do
     |> Timex.shift(hours: -3)
     |> Timex.to_date
   end
+
+  @doc """
+
+  Returns an id property in a struct or nil 
+
+  """
+
+  def safe_id(%{id: id}), do: id
+  def safe_id(nil), do: nil
+  
 end
