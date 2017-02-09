@@ -1,32 +1,32 @@
-<div class="news-and-updates-section">
-<h2>News & Updates</h2>
-<div class="row">
-  <div class="col-md-5 hidden-sm-down">
-  <img class="img-fluid" src=<%= static_path(@conn, "/images/news-and-updates.jpg")%> alt="Statue of the MBTA logo" />
+<div class="container page-section">
+  <h2>News &amp Updates</h2>
+  <div class="row">
+    <div class="col-md-5 hidden-sm-down">
+      <img class="img-fluid" src=<%= static_path(@conn, "/images/news-and-updates.jpg")%> alt="Statue of the MBTA logo" />
+    </div>
+    <div class="col-md-7 col-sm-12">
+      <ul class="index-news-group">
+        <li class="index-news-item">
+          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493") do %>
+            Buses to replace Green Line trolleys on D branch to allow for tree removal work
+          <% end %>
+        </li>
+        <li class="index-news-item">
+          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457492") do %>
+            MBTA Youth Pass Program launches Wednesday, February 1
+          <% end %>
+        </li>
+        <li class="index-news-item">
+          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457485&month=&year=") do %>
+            MBTA releases Overnight Service Survey Data
+          <% end %>
+        </li>
+        <li class="index-news-item">
+          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/") do %>
+            View all news <%= fa "arrow-right" %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="col-md-7 col-sm-12">
-    <ul class="index-news-group">
-      <li class="index-news-item">
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493") do %>
-          Buses to replace Green Line trolleys on D branch to allow for tree removal work
-        <% end %>
-      </li>
-      <li class="index-news-item">
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457492") do %>
-          MBTA Youth Pass Program launches Wednesday, February 1
-        <% end %>
-      </li>
-      <li class="index-news-item">
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457485&month=&year=") do %>
-          MBTA releases Overnight Service Survey Data
-        <% end %>
-      </li>
-      <li class="index-news-item">
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/") do %>
-          View all news <%= fa "arrow-right" %>
-        <% end %>
-      </li>
-    </ul>
-  </div>
-</div>
 </div>
