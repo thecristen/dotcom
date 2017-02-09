@@ -182,3 +182,14 @@
 .important-whats-happening-image {
   padding-left: 0;
 }
+
+.homepage-about-link {
+  img {
+    width: 100%;
+  }
+
+  .about-title {
+    padding-bottom: $base-spacing * 2;
+    padding-top: $base-spacing;
+  }
+}

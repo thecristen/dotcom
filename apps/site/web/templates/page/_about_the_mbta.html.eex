@@ -1,0 +1,86 @@
+<h2>About the MBTA</h2>
+<div class="row">
+  <div class="col-md-3">
+    <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/public-meetings.jpg" %>"
+        alt="A speaker at a public meeting" />
+        <div class="about-title">Public Meetings</div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/FMCB.jpg" %>"
+        alt="Members of the Fiscal Management Control Board" />
+        <div class="about-title">FMCB</div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/performance.jpg" %>"
+        alt="A graph" />
+        <div class="about-title">Performance</div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/working-at-the-t.jpg" %>"
+        alt="A bus driver" />
+        <div class="about-title">Working at the T</div>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <%= link to: redirect_path(@conn, "business_center/DBE/"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/business-opportunities.jpg" %>"
+        alt="Advertisements in a subway station" />
+        <div class="about-title">Business Opportunities</div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= link to: redirect_path(@conn, "about_the_mbta/environment/"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/sustainability.jpg" %>"
+        alt="A windmill" />
+        <div class="about-title">Sustainability</div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= link to: redirect_path(@conn, "business_center/innovation_proposals"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/Innovation.jpg" %>"
+        alt="Officials inspecting a site" />
+        <div class="about-title">Innovation</div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= link to: "http://transitapp.com", class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/transit.jpg" %>"
+        alt="Transit app logo" />
+        <div class="about-title">Transit</div>
+    <% end %>
+  </div>
+</div>
+
+<h2>Improvements and Projects</h2>
+<div class="row">
+  <div class="col-md-4">
+    <%= link to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/projects-01.jpg" %>"
+        alt="Red and Orange Line Cars" />
+        <div class="about-title">Red and Orange Line Cars</div>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/projects-02.jpg" %>"
+        alt="Silver Line Gateway Project" />
+        <div class="about-title">Silver Line Gateway</div>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199"), class: "homepage-about-link" do %>
+      <img src="<%= static_url @conn, "/images/projects-03.jpg" %>"
+        alt="Green Line Extension Project" />
+        <div class="about-title">Green Line Extension (GLX) Project</div>
+    <% end %>
+  </div>
+</div>
