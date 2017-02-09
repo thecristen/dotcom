@@ -22,11 +22,11 @@
 }
 
 .desktop-menu-nav {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   padding: 0;
 
   @include media-breakpoint-up(xxl) {
-    margin-top: 1.25rem;
+    margin-top: 1rem;
   }
 
   .nav-link {
