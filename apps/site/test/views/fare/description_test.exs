@@ -32,8 +32,15 @@ defmodule Site.FareView.DescriptionTest do
     end
 
     test "fare description for an inner express bus describes the modes you can use it on" do
-      assert description(%Fare{name: :inner_express_bus, duration: :month}, %{}) |> :erlang.iolist_to_binary  ==
+      assert %Fare{name: :inner_express_bus, duration: :month} |> description(%{}) |> iodata_to_binary ==
         "Unlimited travel for one calendar month on the Inner Express Bus, Local Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
+    end
+
+    test "can make a description for every fare" do
+      for fare <- Fares.Repo.all() do
+        result = description(fare, %{})
+        assert result |> Phoenix.HTML.html_escape |> Phoenix.HTML.safe_to_string |> is_binary
+      end
     end
   end
 
@@ -48,7 +55,7 @@ defmodule Site.FareView.DescriptionTest do
     end
 
     test "if current fare is most expensive, should have free transfers to other fares" do
-      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card], cents: 40000}
+      fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card], cents: 40_000}
       result = fare |> transfers |> iodata_to_binary
       expected = ["Free transfers to Subway",
                   "Local Bus",
