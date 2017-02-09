@@ -28,6 +28,10 @@
           <% end %>
         <% end %>
       </div>
+    <% else %>
+      <div class="col-xs-12">
+        There are no scheduled trips at this time.
+      </div>
     <% end %>
   </div>
   <%= if assigns[:frequency_table] do %>
