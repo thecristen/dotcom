@@ -1,13 +1,11 @@
 defmodule Alerts.Banner do
   defstruct [
     id: "",
-    title: "",
-    description: ""
+    title: ""
   ]
 
   @type t :: %__MODULE__{
     id: String.t,
-    title: String.t,
-    description: String.t
+    title: String.t
   }
 end
