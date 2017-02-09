@@ -9,7 +9,7 @@
   </div>
   <div class="col-md-3">
     <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), class: "homepage-about-link" do %>
-      <img src="<%= static_url @conn, "/images/FMCB.jpg" %>"
+      <img src="<%= static_url @conn, "/images/fmcb.jpg" %>"
         alt="Members of the Fiscal Management Control Board" />
         <div class="about-title">FMCB</div>
     <% end %>
