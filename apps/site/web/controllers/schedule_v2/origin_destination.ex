@@ -37,6 +37,9 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
     assign(conn, :origin, nil)
   end
 
+  def assign_destination(%Conn{query_params: %{"destination" => destination, "origin" => destination}} = conn, _) do
+    reset_destination(conn)
+  end
   def assign_destination(%Conn{query_params: %{"destination" => _}} = conn, _) do
     destination = get_stop(conn, :destination)
     excluded_stops = ExcludedStops.excluded_destination_stops(
@@ -46,9 +49,7 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
     if destination && not destination.id in excluded_stops do
       assign(conn, :destination, destination)
     else
-      conn
-      |> redirect(to: update_url(conn, destination: nil))
-      |> halt
+      reset_destination(conn)
     end
   end
   def assign_destination(conn, _) do
@@ -62,5 +63,11 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
     else
       nil
     end
+  end
+
+  defp reset_destination(conn) do
+    conn
+    |> redirect(to: update_url(conn, destination: nil))
+    |> halt
   end
 end
