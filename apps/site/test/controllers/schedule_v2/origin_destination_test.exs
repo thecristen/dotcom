@@ -129,5 +129,17 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
 
       assert redirected_to(conn, 302) == schedule_v2_path(conn, :show, "Red", direction_id: "0", origin: "place-qamnl")
     end
+
+    test "when origin and destination are the same, redirects with only origin selected", %{conn: conn} do
+      conn = setup_conn(
+        %{conn |
+          params: %{"route" => "CR-Lowell"},
+          request_path: schedule_v2_path(conn, :show, "CR-Lowell"),
+          query_params: %{"destination" => "West Medford", "origin" => "West Medford", "direction_id" => "0"}
+        }
+      )
+
+      assert redirected_to(conn, 302) == schedule_v2_path(conn, :show, "CR-Lowell", direction_id: "0", origin: "West Medford")
+    end
   end
 end
