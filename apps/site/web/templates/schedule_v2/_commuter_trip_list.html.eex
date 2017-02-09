@@ -1,26 +1,30 @@
 <div class="schedule-trip-list-container">
   <div class="schedule-trip-list commuter">
-    <div class="header">
-      <%= if @destination do %>
-        <div>Departure</div>
-        <div>Arrival</div>
-        <div>Train</div>
-      <% else %>
-        <div>Departure</div>
-        <div>Train</div>
-        <div><%= display_direction(@stop_times) %></div>
+    <%= if Enum.empty?(@stop_times.times) do %>
+      There are no trips scheduled at this time.
+    <% else %>
+      <div class="header">
+        <%= if @destination do %>
+          <div>Departure</div>
+          <div>Arrival</div>
+          <div>Train</div>
+        <% else %>
+          <div>Departure</div>
+          <div>Train</div>
+          <div><%= display_direction(@stop_times) %></div>
+        <% end %>
+      </div>
+      <%= for %StopTimeList.StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+        <%= if trip do %>
+          <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
+          <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
+          <% url = update_url(@conn, trip: trip.id) %>
+          <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, name: trip.name, headsign: trip.headsign, alerts: alerts, url: url, class: class %>
+        <% else %>
+          <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
+        <% end %>
       <% end %>
-    </div>
-    <%= for %StopTimeList.StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
-      <%= if trip do %>
-        <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
-        <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
-        <% url = update_url(@conn, trip: trip.id) %>
-        <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, name: trip.name, headsign: trip.headsign, alerts: alerts, url: url, class: class %>
-      <% else %>
-        <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
-      <% end %>
+      <%= unless @stop_times.showing_all?, do: link "Show all trips for #{pretty_date(@date)}", to: update_url(@conn, show_all_trips: true) %>
     <% end %>
-    <%= unless @stop_times.showing_all?, do: link "Show all trips for #{pretty_date(@date)}", to: update_url(@conn, show_all_trips: true) %>
   </div>
 </div>
