@@ -51,6 +51,15 @@ defmodule AlertsTest do
       assert Alert.is_notice? shuttle, now()
     end
 
+    test "Non on-going alerts are notices if they arent happening now" do
+      today = Util.now
+      tomorrow = Timex.shift(Util.now, days: 1)
+      shuttle = %Alert{effect_name: "Shuttle",
+                       active_period: [{tomorrow, nil}],
+                       lifecycle: "Service Change"}
+      assert Alert.is_notice? shuttle, today
+    end
+
     test "Cancellation is an alert if it's today" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
       future = Timex.shift(now(), minutes: 5)
