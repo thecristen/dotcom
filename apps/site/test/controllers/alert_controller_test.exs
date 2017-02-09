@@ -127,5 +127,17 @@ defmodule Site.AlertControllerTest do
         %Routes.Route{id: "Lift", name: "Lift"} => [],
       }
     end
+
+    test "includes alerts that don't start with the type" do
+      alert = %Alert{
+        effect_name: "Access Issue",
+        header: "This has the word 'Escalator' in it"
+      }
+      assert group_access_alerts([alert]) == %{
+        %Routes.Route{id: "Elevator", name: "Elevator"} => [],
+        %Routes.Route{id: "Escalator", name: "Escalator"} => [alert],
+        %Routes.Route{id: "Lift", name: "Lift"} => []
+      }
+    end
   end
 end

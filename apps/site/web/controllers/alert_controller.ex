@@ -4,7 +4,8 @@ defmodule Site.AlertController do
   plug Site.Plugs.Date
   plug Site.Plugs.Alerts
 
-  @access_routes ["Elevator", "Escalator", "Lift"]
+  @access_route_ids ["Elevator", "Escalator", "Lift"]
+  @access_routes @access_route_ids
   |> Enum.map(&(%Routes.Route{id: &1, name: &1}))
   @access_route_map @access_routes
   |> Enum.reduce(%{}, fn route, map -> put_in map[route], [] end)
@@ -79,11 +80,16 @@ defmodule Site.AlertController do
   end
 
   defp access_route(%Alerts.Alert{header: header}) do
-    # create a fake "Route" for grouping access alerts
-    type = header
-    |> String.splitter(" ")
-    |> Enum.at(0)
+    # create a fake "Route" for grouping access alerts. We want it to be
+    # something from @access_route_types, so we find the first one that
+    # matches the header
+    type = @access_route_ids
+    |> Enum.find(&String.contains?(header, &1))
 
-    %Routes.Route{id: type, name: type}
+    # fail if we didn't find anything
+    case type do
+      type when is_binary(type) ->
+        %Routes.Route{id: type, name: type}
+    end
   end
 end
