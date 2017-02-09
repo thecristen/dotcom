@@ -64,7 +64,7 @@ defmodule TripInfo do
       [origin_id]
     end
     times
-    |> clamp_times_to_origin_destination(starting_stop_ids, destination_id)
+    |> clamp_times_to_origin_destination(origin_id, destination_id)
     |> do_from_list(starting_stop_ids, destination_id, opts)
   end
 
@@ -164,13 +164,13 @@ defmodule TripInfo do
     |> Enum.any?(&PredictedSchedule.has_prediction?/1)
   end
 
-  # Filters the list of times to those between origins and destination,
+  # Filters the list of times to those between origin and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
-  @spec clamp_times_to_origin_destination(time_list, [String.t], String.t) :: time_list
-  defp clamp_times_to_origin_destination(times, starting_stop_ids, destination_id) do
+  @spec clamp_times_to_origin_destination(time_list, String.t, String.t) :: time_list
+  defp clamp_times_to_origin_destination(times, origin_id, destination_id) do
     times
-    |> Enum.drop_while(& not(PredictedSchedule.stop_id(&1) in starting_stop_ids))
+    |> Enum.drop_while(& origin_id != PredictedSchedule.stop_id(&1))
     |> clamp_to_destination(destination_id, [])
   end
 
