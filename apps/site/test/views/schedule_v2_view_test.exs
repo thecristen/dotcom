@@ -30,7 +30,8 @@ defmodule Site.ScheduleV2ViewTest do
         [],
         "stop",
         nil,
-        true
+        :keep_all,
+        ~N[2017-01-01T06:30:00]
       )
       assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end
@@ -44,7 +45,8 @@ defmodule Site.ScheduleV2ViewTest do
         [%Predictions.Prediction{route_id: route.id, stop_id: stop.id, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
         stop.id,
         nil,
-        true
+        :keep_all,
+        ~N[2017-01-01T06:30:00]
       )
       assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end

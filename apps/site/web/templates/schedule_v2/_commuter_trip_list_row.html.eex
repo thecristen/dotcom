@@ -18,7 +18,7 @@ end
     <div><%= content_tag tag, attributes, do: display_alerts(@alerts) %></div>
   </div>
   <div class="commuter-status">
-    <%= StopTimeList.StopTime.display_status(@departure, @arrival) %>
+    <%= StopTime.display_status(@departure, @arrival) %>
   </div>
   <%= if assigns[:url] do %>
     <%= link "", to: @url, class: "schedule-list-link", aria: [hidden: true] %>

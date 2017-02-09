@@ -14,7 +14,7 @@
           <div><%= display_direction(@stop_times) %></div>
         <% end %>
       </div>
-      <%= for %StopTimeList.StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+      <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
         <%= if trip do %>
           <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
           <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
