@@ -184,4 +184,10 @@
     color: $white;
     text-decoration: underline;
   }
+
+  > .no-wrap {
+    @media (max-width: 280px) {
+      white-space: normal;
+    }
+  }
 }

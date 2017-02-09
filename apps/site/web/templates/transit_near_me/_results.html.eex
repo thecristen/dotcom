@@ -1,12 +1,14 @@
 <%= if @stops_with_routes == [] do %>
 <p class="tnm-mode-links">
-  Or view by mode:
-  <a href="#commuter_rail">Commuter Rail</a>,
-  <a href="#bus">Bus</a>,
-  <a href="#subway">Subway</a>,
+  <span>Or view by mode:</span>
   <span class="no-wrap">
-    <a href="#ferry">Ferry</a>
-    <i class="fa fa-arrow-right"></i>
+    <a href="#commuter_rail">Commuter Rail</a>,
+    <a href="#bus">Bus</a>,
+    <a href="#subway">Subway</a>,
+    <span class="no-wrap">
+      <a href="#ferry">Ferry</a>
+      <i class="fa fa-arrow-right"></i>
+    </span>
   </span>
 </p>
 <% end %>

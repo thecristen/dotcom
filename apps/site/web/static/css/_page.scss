@@ -130,12 +130,12 @@
   background-position-y: 0%;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: 3rem;
+  padding: $base-spacing * 3;
   width: 100%;
   // scss-lint:enable ColorVariable
 
   @include media-breakpoint-only(xs) {
-    padding-bottom: 0;
+    padding: 0;
   }
 
   .transit-input-label {
