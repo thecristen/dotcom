@@ -5,6 +5,7 @@
 }
 
 .index-news-item {
+  @include truncate();
   //scss-lint:disable PlaceholderInExtend
   @extend .list-group-item;
   @extend .list-group-item-flush;

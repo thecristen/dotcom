@@ -8,7 +8,7 @@
     <ul class="index-news-group">
       <li class="index-news-item">
         <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493") do %>
-          Buses to replace Green Line trolleys on D branch to allow for...
+          Buses to replace Green Line trolleys on D branch to allow for tree removal work
         <% end %>
       </li>
       <li class="index-news-item">
