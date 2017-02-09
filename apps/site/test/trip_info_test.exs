@@ -75,11 +75,11 @@ defmodule TripInfoTest do
       assert actual.duration == 60 * 12 # 12 hour trip
     end
 
-    test "given an origin/destination/vehicle, keeps stops before the origin if the vehicle is there" do
+    test "given an origin/destination/vehicle, does not keep stop before the origin if the vehicle is there" do
       actual = from_list(@time_list, origin_id: "place-censq", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-north"})
       first = List.first(List.first(actual.sections))
       last = List.last(List.last(actual.sections))
-      assert PredictedSchedule.stop_id(first) == "place-north"
+      assert PredictedSchedule.stop_id(first) == "place-censq"
       assert PredictedSchedule.stop_id(last) == "place-harsq"
       assert actual.duration == 60 * 6 # 6 hour trip from censq to harsq
     end
