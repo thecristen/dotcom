@@ -30,6 +30,11 @@ defmodule Site.FareView.DescriptionTest do
       assert fare |> description(%{}) |> iodata_to_binary ==
         "Valid for one calendar month of travel on the commuter rail from Zones 1A-5 only."
     end
+
+    test "fare description for an inner express bus describes the modes you can use it on" do
+      assert description(%Fare{name: :inner_express_bus, duration: :month}, %{}) |> :erlang.iolist_to_binary  ==
+        "Unlimited travel for one calendar month on the Inner Express Bus, Local Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
+    end
   end
 
   describe "transfers/1" do
