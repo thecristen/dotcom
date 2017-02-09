@@ -21,7 +21,7 @@
         <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
       <% end %>
     <% end %>
-    <%= if length(@stop_times.times) == 0 do %>
+    <%= if Enum.empty?(@stop_times.times) do %>
       There are no trips scheduled at this time.
     <% else %>
       <%= unless @stop_times.showing_all?, do: link "Show all trips for #{pretty_date(@date)}", to: update_url(@conn, show_all_trips: true) %>
