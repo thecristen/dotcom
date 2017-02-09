@@ -4,30 +4,30 @@ defmodule GreenListTest do
   import GreenLine
 
   describe "stops_on_routes/0" do
-    test "returns ordered stops on the green line" do
-      {stops, _} = stops_on_routes()
+    test "returns ordered stops on the green line by direction ID" do
+      {stops, _} = stops_on_routes(0)
 
       assert %Stops.Stop{id: "place-lech", name: "Lechmere"} = List.first(stops)
       assert %Stops.Stop{id: "place-lake", name: "Boston College"} = List.last(stops)
     end
 
     test "returns a set of {stop_id, route_id} pairs" do
-      {_, stop_route_id_set} = stops_on_routes()
+      {_, route_id_stop_map} = stops_on_routes(1)
 
-      refute {"place-lech", "Green-B"} in stop_route_id_set
-      refute {"place-lech", "Green-C"} in stop_route_id_set
-      refute {"place-lech", "Green-D"} in stop_route_id_set
-      assert {"place-lech", "Green-E"} in stop_route_id_set
+      refute "place-lech" in route_id_stop_map["Green-B"]
+      refute "place-lech" in route_id_stop_map["Green-C"]
+      refute "place-lech" in route_id_stop_map["Green-D"]
+      assert "place-lech" in route_id_stop_map["Green-E"]
 
-      assert {"place-coecl", "Green-B"} in stop_route_id_set
-      assert {"place-coecl", "Green-C"} in stop_route_id_set
-      assert {"place-coecl", "Green-D"} in stop_route_id_set
-      assert {"place-coecl", "Green-E"} in stop_route_id_set
+      assert "place-coecl" in route_id_stop_map["Green-B"]
+      assert "place-coecl" in route_id_stop_map["Green-C"]
+      assert "place-coecl" in route_id_stop_map["Green-D"]
+      assert "place-coecl" in route_id_stop_map["Green-E"]
 
-      assert {"place-kencl", "Green-B"} in stop_route_id_set
-      assert {"place-kencl", "Green-C"} in stop_route_id_set
-      assert {"place-kencl", "Green-D"} in stop_route_id_set
-      refute {"place-kencl", "Green-E"} in stop_route_id_set
+      assert "place-kencl" in route_id_stop_map["Green-B"]
+      assert "place-kencl" in route_id_stop_map["Green-C"]
+      assert "place-kencl" in route_id_stop_map["Green-D"]
+      refute "place-kencl" in route_id_stop_map["Green-E"]
     end
   end
 

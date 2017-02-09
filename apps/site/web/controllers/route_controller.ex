@@ -5,12 +5,13 @@ defmodule Site.RouteController do
 
   def show(conn, %{"route" => "Green"}) do
     route = %Routes.Route{id: "Green", type: 0}
-    {stops, stop_route_id_set} = GreenLine.stops_on_routes()
+    stops_on_routes = GreenLine.stops_on_routes(0)
+    stops = GreenLine.all_stops(stops_on_routes)
 
     render conn, "show.html",
       stop_list_template: "_stop_list_green.html",
       stops: stops,
-      active_lines: active_lines(stops, stop_route_id_set),
+      active_lines: active_lines(stops_on_routes),
       stop_features: stop_features(stops, route),
       map_img_src: map_img_src(stops, route.type)
   end
@@ -122,27 +123,6 @@ defmodule Site.RouteController do
 
   @doc """
 
-  Returns the current full list of stops on the Green line, along with a
-  MapSet for all {stop_id, route_id} pairs where that stop in on that route.
-
-  """
-  # the {:ok, _} part of the pattern match is due to using Task.async_stream.
-  def merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, stop_route_id_set}) do
-    # update stop_route_id_set to tag the routes the stop is one
-    stop_route_id_set = line_stops
-    |> Enum.reduce(stop_route_id_set, fn %{id: stop_id}, set ->
-      MapSet.put(set, {stop_id, route_id})
-    end)
-
-    current_stops = line_stops
-    |> List.myers_difference(current_stops)
-    |> Enum.flat_map(fn {_op, stops} -> stops end)
-
-    {current_stops, stop_route_id_set}
-  end
-
-  @doc """
-
   Builds %{stop_id => active_map}.  active map is %{route_id => nil | :empty | :line | :stop | :terminus}
   :empty means we should take up space for that route, but not display anything
   :line means we should display a line
@@ -151,23 +131,24 @@ defmodule Site.RouteController do
   nil (not present) means we shouldn't take up space for that route
 
   """
-  def active_lines(stops, stop_route_id_set) do
-    {map, _} = stops
+  def active_lines(stops_on_routes) do
+    {map, _} = stops_on_routes
+    |> GreenLine.all_stops
     |> Enum.reverse
-    |> Enum.reduce({%{}, %{}}, &do_active_line(&1, &2, stop_route_id_set))
+    |> Enum.reduce({%{}, %{}}, &do_active_line(&1, &2, stops_on_routes))
     map
   end
 
-  defp do_active_line(stop, {map, currently_active}, stop_route_id_set) do
-    currently_active = update_active(stop.id, currently_active, stop_route_id_set)
+  defp do_active_line(stop, {map, currently_active}, stops_on_routes) do
+    currently_active = update_active(stop.id, currently_active, stops_on_routes)
     map = put_in map[stop.id], currently_active
     {map, currently_active}
   end
 
-  defp update_active(stop_id, currently_active, stop_route_id_set) do
+  defp update_active(stop_id, currently_active, stops_on_routes) do
     ~w(Green-B Green-C Green-D Green-E)s
     |> Enum.reduce(currently_active, fn route_id, currently_active ->
-      if MapSet.member?(stop_route_id_set, {stop_id, route_id}) do
+      if GreenLine.stop_on_route?(stop_id, route_id, stops_on_routes) do
         stop_or_terminus = if GreenLine.terminus?(stop_id, route_id), do: :terminus, else: :stop
         put_in currently_active[route_id], stop_or_terminus
       else
