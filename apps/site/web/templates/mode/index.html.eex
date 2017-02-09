@@ -1,28 +1,21 @@
 <div class="page-section <%= assigns[:card_class] %>" id="schedules">
   <div class="page-block">
     <h1>Schedules and Maps</h1>
-    <%= for route_type <- ~w(commuter_rail bus subway ferry)a do %>
-      <%= render Site.ModeView, "_mode.html", route_type: route_type, routes: get_route_group(route_type, @grouped_routes), alerts: @alerts, date: @date %>
-    <% end %>
-    <%= if @include_ride do %>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="mode-group">
-            <div class="mode-group-header">
-              <h2>
-                <%= svg_icon_with_circle %SvgIconWithCircle{icon: :the_ride} %>
-                <span>The RIDE</span>
-              </h2>
-            </div>
-            <div class="mode-group-block">
-              <div class="row">
-                <div class="col-xs-12 col-md-4">
-                  <%= link "MBTA Paratransit Program", class: "mode-group-btn", to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <% the_ride = if @include_ride, do: [:the_ride], else: [] %>
+    <%= for route_type <- [:commuter_rail, :bus, :subway, :ferry] ++ the_ride do %>
+      <div class="mode-group" id="<%= route_type %>">
+        <h2 class="mode-group-header">
+          <%= svg_icon_with_circle %SvgIconWithCircle{icon: route_type} %>
+          <%= content_tag :span, do: Routes.Route.type_name route_type %>
+        </h2>
+        <%= mode_button_list %ModeButtonList{
+          routes: get_route_group(route_type, @grouped_routes),
+          route_type: route_type,
+          alerts: @alerts,
+          date: @date,
+          truncated_list?: route_type == :bus
+          }
+        %>
       </div>
     <% end %>
   </div>

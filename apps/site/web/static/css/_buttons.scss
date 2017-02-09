@@ -2,17 +2,28 @@
 @import 'colors';
 
 %button {
-  border: 1px solid transparent;
-  border-radius: $border-radius;
+  border-color: $gray-lightest;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 1px;
   cursor: pointer;
   display: inline-block;
   font-weight: normal;
   line-height: $base-font-size * 1.5;
-  padding: .375rem 1rem;
+  padding: $grid-gutter-width / 2;
   text-align: center;
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-sm;
+    line-height: $line-height-sm;
+  }
+
+  > .icon-alert {
+    margin-left: $space-6;
+  }
 }
 
 %button-primary {
@@ -66,4 +77,31 @@
     top: 0;
     width: 100%;
   }
+}
+
+%button-group {
+  @include clearfix();
+  margin: 0 auto $grid-gutter-width / 2;
+  width: 100%;
+
+  .button-container {
+    background: $white;
+    float: left;
+    margin-top: 1px;
+    outline: 1px solid $gray-lightest;
+    padding: 0;
+
+    .button {
+      border-width: 0;
+      width: 100%;
+    }
+  }
+}
+
+.button {
+  @extend %button;
+}
+
+.button-group {
+  @extend %button-group;
 }

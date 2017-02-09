@@ -1,14 +1,35 @@
-.mode-group-first {
-  padding-top: 0;
-}
-
-.mode-group-header {
-  font-weight: bold;
-}
-
-.mode-group-block {
+.mode-button-group {
   margin-bottom: $base-spacing / 2;
   margin-top: $base-spacing / -2;
+  padding: $grid-gutter-width / 2 1px;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  h1,
+  h2 {
+    font-weight: bold;
+    margin-bottom: $grid-gutter-width / 2;
+  }
+
+  .mode-group-block {
+    margin-top: $grid-gutter-width / 2;
+  }
+
+  &.truncated {
+    @include media-breakpoint-up(xs) {
+      .button-container:last-child {
+        width: 66.6%;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      .button-container:last-child {
+        width: 33.3%;
+      }
+    }
+  }
 }
 
 .mode-group-btn {

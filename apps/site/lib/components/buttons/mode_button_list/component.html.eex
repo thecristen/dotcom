@@ -1,14 +1,8 @@
-<div class="mode-group-block <%= args.class %>" id="<%= args.id %>">
-  <div class="row">
-    <%= for route <- args.routes do %>
-      <div class="<%= Site.ViewHelpers.route_spacing_class(route.type) %>">
-        <%= mode_button %ModeButton{route: route, alert: get_alert(route, args.alerts, args.date)} %>
-      </div>
-    <% end %>
-  </div>
-</div>
-<%= if args.include_all_link do %>
-  <p>
-    <%= all_link(args.routes) %>
-  </p>
-<%= end %>
+<%= Phoenix.HTML.Tag.content_tag :div, class: list_class(args) do %>
+  <%= button_group(%ButtonGroup{
+    class: "#{args.class}",
+    id: args.id,
+    links: make_buttons(args),
+    breakpoint_widths: mode_breakpoint_widths(args.route_type)
+  }) %>
+<% end %>

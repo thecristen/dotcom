@@ -47,7 +47,7 @@
       "removeSelectors": [],
       "selectors": [
           ".system-map",
-          ".mode-group-block",
+          ".mode-button-group",
           "#fares",
           ".breadcrumb-container"
       ],

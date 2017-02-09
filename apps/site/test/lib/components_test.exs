@@ -1,59 +1,59 @@
 defmodule Site.ComponentsTest do
   use Site.ConnCase, async: true
   use Site.Components.Precompiler
-  alias Site.Components.Buttons.ModeButton
-  alias Site.Components.Buttons.ModeButtonList
+  alias Site.Components.Buttons.{ModeButtonList, ButtonGroup}
   alias Site.Components.Icons.SvgIcon
   alias Site.Components.Tabs.ModeTabList
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  describe "buttons > mode_button" do
+  def check_mode_button_widths(routes, route_type, %{xs: xs, sm: sm, md: md, xxl: xxl}) do
+    list = mode_button_list(%ModeButtonList{routes: routes, route_type: route_type}) |> safe_to_string
+    [link_class] = list |> Floki.find(".button-container") |> List.first |> Floki.attribute("class")
+    assert link_class =~ "col-xs-#{xs}"
+    assert link_class =~ "col-sm-#{sm}"
+    assert link_class =~ "col-md-#{md}"
+    assert link_class =~ "col-xxl-#{xxl}"
+  end
+
+  describe "buttons > mode_button_list" do
+    test "buttons render at the correct widths" do
+      check_mode_button_widths([%Routes.Route{id: "Red", name: "Red Line", type: 1}], :subway,
+        %{xs: 6, sm: 6, md: 3, xxl: 3})
+      check_mode_button_widths([%Routes.Route{id: "CR-Fitchburg", name: "Fitchburg Line", type: 2}], :commuter_rail,
+        %{xs: 12, sm: 6, md: 4, xxl: 3})
+      check_mode_button_widths([%Routes.Route{id: "Boat-F4", name: "Hull Ferry", type: 4}], :ferry,
+        %{xs: 12, sm: 4, md: 4, xxl: 4})
+      check_mode_button_widths(Site.ModeView.get_route_group(:the_ride, []), :the_ride, %{xs: 12, sm: 6, md: 6, xxl: 3})
+    end
+
     test "subway buttons render with T logo in a colored circle" do
-      blue = mode_button(%ModeButton{
-          route: %Routes.Route{id: "Blue", key_route?: true, name: "Blue Line", type: 1}
-        }) |> safe_to_string
+      blue = mode_button_list(%ModeButtonList{
+          routes: [%Routes.Route{id: "Blue", key_route?: true, name: "Blue Line", type: 1}],
+          route_type: :subway,
+      }) |> safe_to_string
       assert blue =~ "icon-blue-line"
       assert blue =~ "icon-circle"
 
-      mattapan = mode_button(%ModeButton{
-          route: %Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Line", type: 1}
+      mattapan = mode_button_list(%ModeButtonList{
+          routes: [%Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Line", type: 1}],
+          route_type: :subway
         }) |> safe_to_string
       assert mattapan =~ "icon-mattapan-line"
       assert mattapan =~ "icon-circle"
     end
 
     test "non-subway buttons do not render with color circles" do
-      rendered = mode_button(%ModeButton{
-          route: %Routes.Route{id: "701", key_route?: false, name: "CT1", type: 3}
+      rendered = mode_button_list(%ModeButtonList{
+          routes: [%Routes.Route{id: "701", key_route?: false, name: "CT1", type: 3}],
+          route_type: :bus
         }) |> safe_to_string
       refute rendered =~ "fa-color-subway-blue"
     end
 
-    test "buttons for routes with an alert get rendered with an alert icon" do
-      rendered = mode_button(%ModeButton{
-        route: %Routes.Route{id: "106", key_route?: false, name: "106", type: 3},
-        alert: %Alerts.Alert{
-                  effect_name: "Delay",
-                  informed_entity: [%Alerts.InformedEntity{route: "106", route_type: 3}],
-                  lifecycle: "New",
-                  severity: "Moderate"
-        }}) |> safe_to_string
-        assert rendered =~ "icon-alert"
-        refute rendered =~ "icon-circle"
-    end
-
-    test "buttons for routes with notices do not render with an alert icon" do
-      rendered = mode_button(%ModeButton{
-        route: %Routes.Route{id: "106", key_route?: false, name: "106", type: 3}
-        }) |> safe_to_string
-      refute rendered =~ "icon-alert"
-    end
-  end
-
-  describe "buttons > mode_button_list" do
     test "routes with alerts get rendered with an alert" do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "106", key_route?: false, name: "106", type: 3}],
+        route_type: :bus,
         alerts: [%Alerts.Alert{
                   effect_name: "Delay",
                   informed_entity: [%Alerts.InformedEntity{route: "106", route_type: 3}],
@@ -62,7 +62,6 @@ defmodule Site.ComponentsTest do
                   active_period: current_active_period()
         }]}) |> safe_to_string
       assert rendered =~ "icon-alert"
-      refute rendered =~ "icon-circle"
     end
 
     test "routes with notices but no alerts do not get rendered with an alert" do
@@ -73,6 +72,90 @@ defmodule Site.ComponentsTest do
                   informed_entity: [%Alerts.InformedEntity{route: "CR-Haverhill", route_type: 2}]
         }]}) |> safe_to_string
       refute rendered =~ "icon-alert"
+    end
+
+    test "includes a 'view all' link as last link if :truncated_list? is true and route_type is bus" do
+      rendered = mode_button_list(%ModeButtonList{
+        routes: [%Routes.Route{id: "1", name: "1", type: 3}],
+        route_type: :bus,
+        truncated_list?: true
+      }) |> safe_to_string
+      links = Floki.find(rendered, ".button-container")
+      assert length(links) > 1
+      assert links |> List.last |> Floki.text == "View all buses "
+      assert links |> List.last |> Floki.find("a") |> Floki.attribute("href") == ["/schedules/bus"]
+    end
+
+    test "does not include a 'view all' link if route_type is bus and :truncated_list? != true" do
+      rendered = mode_button_list(%ModeButtonList{
+        routes: [%Routes.Route{id: "1", name: "1", type: 3}],
+        route_type: :bus
+        }) |> safe_to_string
+      links = Floki.find(rendered, ".button-container")
+      for link <- links do
+        refute link |> Floki.text |> String.downcase =~ "view all buses"
+        refute link |> Floki.find("a") |> Floki.attribute("href") == ["/schedules/bus"]
+      end
+    end
+
+    test "does not include a 'view all' link for subway regardless of :truncated_list?" do
+      rendered = mode_button_list(%ModeButtonList{
+        routes: [%Routes.Route{id: "Red", name: "Red", type: 0}],
+        route_type: :subway,
+        truncated_list?: true
+      }) |> safe_to_string
+      refute Floki.find(rendered, ~s([href="/schedules/Red"])) == []
+      assert Floki.find(rendered, ~s([href="/schedules/subway"])) == []
+      refute rendered |> Floki.text |> String.downcase =~ "view all"
+    end
+
+    test "does not include a 'view all' link for commuter rail regardless of :truncated_list?" do
+      rendered = mode_button_list(%ModeButtonList{
+        routes: [%Routes.Route{id: "CR-Fitchburg", name: "Fitchburg Line", type: 2}],
+        route_type: :commuter_rail,
+        truncated_list?: true
+      }) |> safe_to_string
+      refute Floki.find(rendered, ~s([href="/schedules/CR-Fitchburg"])) == []
+      assert Floki.find(rendered, ~s([href="/schedules/commuter_rail"])) == []
+      refute rendered |> Floki.text |> String.downcase =~ "view all"
+    end
+
+    test "does not include a 'view all' link for ferry regardless of :truncated_list?" do
+      rendered = mode_button_list(%ModeButtonList{
+        routes: [%Routes.Route{id: "Boat-F4", name: "Hull Ferry", type: 4}],
+        route_type: :ferry,
+        truncated_list?: true
+      }) |> safe_to_string
+      refute Floki.find(rendered, ~s([href="/schedules/Boat-F4"])) == []
+      assert Floki.find(rendered, ~s([href="/schedules/ferry"])) == []
+      refute rendered |> Floki.text |> String.downcase =~ "view all"
+    end
+
+  end
+
+  describe "buttons > button_group" do
+    test "breakpoint_widths/1 returns a string of column classes" do
+      args = %ButtonGroup{
+        breakpoint_widths: %{
+          xs: 10,
+          md: 6
+        }
+      }
+      result = ButtonGroup.breakpoint_widths(args)
+      assert result =~ "col-xs-10"
+      assert result =~ "col-sm-6" # default
+      assert result =~ "col-md-6"
+      assert result =~ "col-xxl-3" # default
+    end
+
+    test "button list renders with default widths when args.breakpoint_widths doesn't exist" do
+      rendered = button_group(%ButtonGroup{
+        links: [{"Link 1", "/link-1"}, {"Link 2", "/link-2"}]
+      }) |> safe_to_string
+      assert [{"div", [{"class", "button-group"}], links}] = Floki.find(rendered, ".button-group")
+      for link <- links do
+        assert Floki.attribute(link, "class") == ["button-container col-md-4 col-sm-6 col-xs-12 col-xxl-3"]
+      end
     end
   end
 
