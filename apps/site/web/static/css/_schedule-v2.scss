@@ -66,10 +66,14 @@ $z-index-trip-line: -1;
 ////////////////////////////////////////////////////////////////////////
 
 .schedule-trip-list-container {
-  @include media-breakpoint-up(sm) {
-    float: left;
-    padding-right: $horizontal-padding;
-    width: 50%;
+  * > .header,
+  * > .trip-list-row {
+    @include media-breakpoint-up(md) {
+      float: left;
+      clear: left;
+      padding-right: $horizontal-padding;
+      width: 50%;
+    }
   }
 }
 
@@ -87,6 +91,7 @@ $z-index-trip-line: -1;
 
 .schedule-trip-list {
   margin-bottom: $base-spacing;
+  position: relative;
 
   .header {
     @extend %table-header;
@@ -273,15 +278,17 @@ $z-index-trip-line: -1;
 
 // trip info parent container
 .schedule-trip-info {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
     float: right;
-    padding-left: $horizontal-padding;
-    width: 50%;
   }
 }
 
 .schedule-trip-info-header {
   @extend %table-header;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
 }
 
 .schedule-trip-stop,

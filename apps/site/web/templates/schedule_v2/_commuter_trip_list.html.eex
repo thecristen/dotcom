@@ -20,6 +20,7 @@
           <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
           <% url = update_url(@conn, trip: trip.id) %>
           <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, name: trip.name, headsign: trip.headsign, alerts: alerts, url: url, class: class %>
+          <%= if TripInfo.is_current_trip?(@trip_info, trip.id) and TripInfo.should_display_trip_info?(@trip_info), do: render "_trip_info.html", forward_assigns(@conn) %>
         <% else %>
           <%= render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
         <% end %>
