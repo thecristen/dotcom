@@ -22,8 +22,8 @@
 
 
 .how-to-pay-callout {
-  border-bottom: solid 1px $gray-lightest;
-  border-top: solid 1px $gray-lightest;
+  border-bottom: $border;
+  border-top: $border;
 }
 
 .how-to-pay-note {
@@ -31,7 +31,7 @@
 }
 
 .how-to-pay-block {
-  border: 1px solid $gray-lightest;
+  border: $border;
 }
 
 .how-to-pay-block-container {
@@ -49,7 +49,7 @@
 
 .how-to-pay-ferry-box {
   @include media-breakpoint-up(sm) {
-    border-left: 1px solid $gray-lightest;
+    border-left: $border;
   }
 }
 

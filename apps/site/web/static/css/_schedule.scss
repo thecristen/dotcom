@@ -349,7 +349,7 @@ a {
 
   thead {
     td {
-      border: 1px solid $gray-lightest;
+      border: $border;
 
       @include media-breakpoint-down(xs) {
         padding: 0;
@@ -385,7 +385,7 @@ a {
     border-bottom: 0;
 
     td {
-      border: 1px solid $gray-lightest;
+      border: $border;
       padding: 0;
 
       a {

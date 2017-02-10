@@ -11,7 +11,7 @@
 
   .form-group {
     background-color: $white;
-    border: 1px solid $gray-lightest;
+    border: $border;
     border-radius: $default-border-radius;
     display: block;
     margin-bottom: .1875rem;
@@ -133,7 +133,7 @@
 
 .transit-card {
   background: $white;
-  border: 1px solid $gray-lightest;
+  border: $border;
   border-radius: $default-border-radius;
   display: inline-block;
   margin-bottom: $grid-gutter-width / 4;

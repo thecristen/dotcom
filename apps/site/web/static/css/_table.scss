@@ -85,7 +85,7 @@ $horizontal-padding: $grid-gutter-width / 2;
   @include clearfix();
 
   background-color: $white;
-  border: 1px solid $gray-lightest;
+  border: $border;
   margin-bottom: -$space-1;
   margin-left: -$space-1;
   margin-right: -$space-1;
@@ -121,7 +121,7 @@ $horizontal-padding: $grid-gutter-width / 2;
   // an opinionated placeholder which assumes that all direct child divs of the parent element are intended to be
   // rendered as rows.
 
-  border: 1px solid $gray-lightest;
+  border: $border;
   margin-bottom: $grid-gutter-width;
 
   > div {

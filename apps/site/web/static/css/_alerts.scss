@@ -77,7 +77,7 @@
 }
 
 .alert-show-empty {
-  border: $space-1 solid $gray-lightest;
+  border: $border;
   padding: $space-6;
 }
 
@@ -115,7 +115,7 @@
 
 .alert-link {
   background-color: $alert-color-lighter;
-  border: 1px solid $gray-lightest;
+  border: $border;
   display: block;
   padding: $space-12;
 }

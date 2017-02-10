@@ -84,7 +84,7 @@ $padding: 1rem;
 
   .code {
     background: $gray-lightest;
-    border: 1px solid $gray-lighter;
+    border: $border;
     border-radius: 3px;
     padding: $padding;
 
@@ -159,7 +159,7 @@ $padding: 1rem;
 
 .subpage-nav {
   li {
-    $border: 1px solid $gray-lighter;
+    $border: $border;
 
     @include media-breakpoint-up(md) {
       border-top: $border;
