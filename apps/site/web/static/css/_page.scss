@@ -193,10 +193,10 @@
   }
 
   .about-title {
+    padding: $space-12 0;
+
     @include media-breakpoint-down(xs) {
       border-bottom: 1px solid $gray-lightest;
     }
-
-    padding: $space-12 0;
   }
 }
