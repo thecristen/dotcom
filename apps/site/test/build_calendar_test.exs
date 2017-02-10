@@ -20,7 +20,7 @@ defmodule BuildCalendarTest do
         month_relation: :current,
         selected?: false,
         holiday?: false,
-        url: ~s([date: "2017-01-01", date_select: nil])
+        url: ~s([date: "2017-01-01", date_select: nil, shift: nil])
       }
     end
 
@@ -97,26 +97,45 @@ defmodule BuildCalendarTest do
       end
     end
 
+    test "shifting moves the month" do
+      date = ~D[2017-02-15]
+      calendar = build(date, date, [], &url_fn/1, shift: 1)
+      assert List.first(calendar.days) == %Day{
+        date: ~D[2017-02-26], # last sunday in February
+        month_relation: :previous,
+        url: url_fn(date: "2017-02-26", date_select: nil, shift: nil)
+      }
+      assert List.last(calendar.days) == %Day{
+        date: ~D[2017-04-08], # second Saturday in April
+        month_relation: :next,
+        url: url_fn(date: "2017-04-08", date_select: nil, shift: nil)
+      }
+      assert calendar.active_date == ~D[2017-03-15]
+    end
+
     test "previous_month_url is nil if the date is the current month" do
       service_date = Util.service_date()
       calendar = build(service_date, service_date, [], &url_fn/1)
       assert calendar.previous_month_url == nil
     end
 
-    test "previous_month_url is the first day of the previous month" do
-      next_month = Timex.shift(Util.service_date(), months: 1)
-      first_of_month = Timex.beginning_of_month(Util.service_date())
-      calendar = build(next_month, Util.service_date(), [], &url_fn/1)
-      assert calendar.previous_month_url == url_fn(date: Timex.format!(first_of_month, "{ISOdate}"))
+    test "previous_month_url is nil if the date is in the future but we're shifted back" do
+      today = ~D[2017-02-15]
+      future = ~D[2017-03-15]
+      calendar = build(future, today, [], &url_fn/1, shift: -1)
+      assert calendar.previous_month_url == nil
     end
 
-    test "next_month_url is the first day of the next month" do
+    test "previous_month_url is shifted back by 1" do
+      next_month = Timex.shift(Util.service_date(), months: 1)
+      calendar = build(next_month, Util.service_date(), [], &url_fn/1)
+      assert calendar.previous_month_url == url_fn(shift: -1)
+    end
+
+    test "next_month_url is shifted forward by 1" do
       service_date = Util.service_date()
-      first_of_next_month = Util.service_date()
-      |> Timex.shift(months: 1)
-      |> Timex.beginning_of_month
       calendar = build(service_date, service_date, [], &url_fn/1)
-      assert calendar.next_month_url == url_fn(date: Timex.format!(first_of_next_month, "{ISOdate}"))
+      assert calendar.next_month_url == url_fn(shift: 1)
     end
   end
 
@@ -162,6 +181,17 @@ defmodule BuildCalendarTest do
           url: ""
         })
       assert safe_to_string(actual) =~ ~s(class="schedule-selected")
+    end
+
+    test "if the day is selected but in the past, does not add a class" do
+      actual = Day.td(
+        %Day{
+          date: ~D[2000-12-01],
+          selected?: true,
+          month_relation: :previous,
+          url: ""
+        })
+      refute safe_to_string(actual) =~ ~s(class="schedule-selected")
     end
 
     test "if the day is a weekend, adds a class" do

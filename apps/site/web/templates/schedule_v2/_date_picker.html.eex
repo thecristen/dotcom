@@ -7,7 +7,7 @@
     <% else %>
       <%= for holiday <- @calendar.holidays do %>
         <li>
-          <%= link holiday.name, to: update_url(@conn, date: Timex.format!(holiday.date, "{ISOdate}"), date_select: nil) %>
+          <%= link holiday.name, to: update_url(@conn, date: Timex.format!(holiday.date, "{ISOdate}"), date_select: nil, shift: nil) %>
           <p><%= Timex.format!(holiday.date, "%a, %b %e", :strftime)%></p>
         </li>
       <% end %>
@@ -32,7 +32,7 @@
               </span>
             <% end %>
             <span>
-              <%= Timex.format!(@date, "{Mfull} {YYYY}") %>
+              <%= Timex.format!(@calendar.active_date, "{Mfull} {YYYY}") %>
             </span>
             <%= link to: @calendar.next_month_url do %>
               <%= fa "chevron-circle-right"%>
@@ -66,6 +66,6 @@
     <div class="graph-legend today"></div><span>Today</span>
   </div>
   <div class="col-xs-12">
-    <%= link "Cancel", to: update_schedule_url(@conn, date_select: nil), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
+    <%= link "Cancel", to: update_schedule_url(@conn, date_select: nil, shift: nil), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
   </div>
 </div>

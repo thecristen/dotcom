@@ -4,7 +4,7 @@ defmodule Site.ScheduleV2Controller do
   plug Site.Plugs.Route, required: true
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
-  plug Site.ScheduleV2.DatePicker
+  plug Site.ScheduleController.DatePicker
   plug Site.Plugs.Alerts
   plug Site.ScheduleV2Controller.Defaults
   plug Site.ScheduleController.AllStops

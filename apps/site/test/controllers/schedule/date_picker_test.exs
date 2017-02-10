@@ -10,11 +10,10 @@ defmodule Site.ScheduleController.DatePickerTest do
     |> call(@opts)
 
     assert conn.assigns.date_select == false
-    refute :holidays in Map.keys(conn.assigns)
     refute :calendar in Map.keys(conn.assigns)
   end
 
-  test "assigns date_select, holidays, calendar when date_select == true", %{conn: conn} do
+  test "assigns date_select, calendar when date_select == true", %{conn: conn} do
     path = "/schedules/route"
     conn = %{conn | request_path: path,
                     params: %{"route" => "route", "date_select" => "true"},
@@ -23,10 +22,25 @@ defmodule Site.ScheduleController.DatePickerTest do
     |> call(@opts)
 
     assert conn.assigns.date_select == true
-    assert conn.assigns.holidays == Holiday.Repo.holidays_in_month(~D[2017-01-15])
 
     calendar = conn.assigns.calendar
     assert %BuildCalendar.Calendar{} = calendar
     assert List.first(calendar.days).url =~ "/schedules/route?date=2017-01-01"
+  end
+
+  test "shifts holidays and calendar when shift is in the query params", %{conn: conn} do
+    conn = %{conn |
+             request_path: "/",
+             query_params: %{"date_select" => "true", "shift" => "1"}
+            }
+            |> assign(:date, ~D[2017-01-01])
+    |> call(@opts)
+
+    assert conn.assigns.calendar == BuildCalendar.build(
+      ~D[2017-01-01],
+      Util.service_date(),
+      Holiday.Repo.holidays_in_month(~D[2017-02-01]),
+      &UrlHelpers.update_url(conn, &1),
+      shift: 1)
   end
 end

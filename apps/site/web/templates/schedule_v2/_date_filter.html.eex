@@ -1,6 +1,6 @@
 <p>
   Schedules For <%= Timex.format!(@date, "%b %e", :strftime) %> -
-  <%= link to: update_schedule_url(@conn, date_select: (if @show_date_select?, do: nil, else: true)) do %>
+  <%= link to: update_schedule_url(@conn, shift: nil, date_select: (if @show_date_select?, do: nil, else: true)) do %>
     <% icon_class = if @show_date_select?, do: "angle-up", else: "angle-down" %>
     Change date <%= fa icon_class %>
   <% end %>

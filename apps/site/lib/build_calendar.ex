@@ -13,12 +13,14 @@ defmodule BuildCalendar do
     @type t :: %__MODULE__{
       previous_month_url: String.t | nil,
       next_month_url: String.t,
+      active_date: Date.t,
       days: [BuildCalendar.Day.t],
       holidays: [Holiday.t]
     }
     defstruct [
       previous_month_url: nil,
       next_month_url: "",
+      active_date: nil,
       days: [],
       holidays: []
     ]
@@ -78,7 +80,7 @@ defmodule BuildCalendar do
       case [
         {Timex.weekday(day.date) > 5, "schedule-weekend"},
         {day.holiday?, "schedule-holiday"},
-        {day.selected?, "schedule-selected"},
+        {day.selected? && day.month_relation == :current, "schedule-selected"},
         {day.month_relation == :next, "schedule-next-month"},
         {day.today?, "schedule-today"}
       ]
@@ -94,41 +96,47 @@ defmodule BuildCalendar do
 
   @doc "Builds the links that will be displayed on the calendar."
   @spec build(Date.t, Date.t, [Holiday.t], url_fn) :: BuildCalendar.Calendar.t
-  def build(selected, today, holidays, url_fn) do
+  @spec build(Date.t, Date.t, [Holiday.t], url_fn, Keyword.t) :: BuildCalendar.Calendar.t
+  def build(selected, today, holidays, url_fn, opts \\ []) do
     holiday_set = MapSet.new(holidays, & &1.date)
+    shift = opts[:shift] || 0
     %BuildCalendar.Calendar{
-      previous_month_url: previous_month_url(selected, Util.service_date(), url_fn),
-      next_month_url: next_month_url(selected, url_fn),
-      days: build_days(selected, today, holiday_set, url_fn),
+      previous_month_url: previous_month_url(selected, today, shift, url_fn),
+      next_month_url: next_month_url(shift, url_fn),
+      active_date: Timex.shift(selected, months: shift),
+      days: build_days(selected, today, shift, holiday_set, url_fn),
       holidays: holidays
     }
   end
 
-  @spec previous_month_url(Date.t, Date.t, url_fn) :: String.t | nil
-  defp previous_month_url(%Date{year: year, month: month}, %Date{year: year, month: month}, _) do
-    nil
-  end
-  defp previous_month_url(date, _selected, url_fn) do
-    url_fn.(date: date |> Timex.beginning_of_month |> Timex.shift(months: -1) |> format_date)
-  end
-
-  @spec next_month_url(Date.t, url_fn) :: String.t
-  defp next_month_url(date, url_fn) do
-    url_fn.(date: date |> Timex.beginning_of_month |> Timex.shift(months: 1) |> format_date)
+  @spec previous_month_url(Date.t, Date.t, integer, url_fn) :: String.t | nil
+  defp previous_month_url(selected, today, shift, url_fn) do
+    shifted = Timex.shift(selected, months: shift)
+    if {shifted.month, shifted.year} == {today.month, today.year} do
+      nil
+    else
+      url_fn.(shift: shift - 1)
+    end
   end
 
-  @spec build_days(Date.t, Date.t, MapSet.t, url_fn) :: [BuildCalendar.Day.t]
-  defp build_days(selected, today, holiday_set, url_fn) do
-    last_day_of_previous_month = selected
+  @spec next_month_url(integer, url_fn) :: String.t
+  defp next_month_url(shift, url_fn) do
+    url_fn.(shift: shift + 1)
+  end
+
+  @spec build_days(Date.t, Date.t, integer, MapSet.t, url_fn) :: [BuildCalendar.Day.t]
+  defp build_days(selected, today, shift, holiday_set, url_fn) do
+    shifted = Timex.shift(selected, months: shift)
+    last_day_of_previous_month = shifted
     |> Timex.beginning_of_month
     |> Timex.shift(days: -1)
 
-    last_day_of_this_month = Timex.end_of_month(selected)
+    last_day_of_this_month = Timex.end_of_month(shifted)
 
-    for date <- day_enum(first_day(selected), last_day(selected)) do
+    for date <- day_enum(first_day(shifted), last_day(shifted)) do
       %BuildCalendar.Day{
         date: date,
-        url: url_fn.(date: format_date(date), date_select: nil),
+        url: url_fn.(date: format_date(date), date_select: nil, shift: nil),
         month_relation: month_relation(date, last_day_of_previous_month, last_day_of_this_month),
         selected?: date == selected,
         holiday?: MapSet.member?(holiday_set, date),
