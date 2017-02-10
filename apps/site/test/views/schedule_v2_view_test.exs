@@ -364,7 +364,11 @@ defmodule Site.ScheduleV2ViewTest do
     test "when a prediction has a time, gives the arrival time" do
       time = Timex.shift(Util.now, hours: 2)
       prediction = %Predictions.Prediction{time: time}
-      assert Site.ScheduleV2View.prediction_time_text(prediction) == "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+      result = prediction
+               |> Site.ScheduleV2View.prediction_time_text
+               |> IO.iodata_to_binary
+
+      assert result == "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
     end
 
     test "when a prediction does not have a time, gives nothing" do
@@ -375,8 +379,12 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "prediction_status_text/1" do
     test "when a prediction has a track, gives the time, the status and the track" do
-      prediction = %Predictions.Prediction{status: "Now Boarding", track: 4}
-      assert Site.ScheduleV2View.prediction_status_text(prediction) == "Now Boarding on Track 4"
+      prediction = %Predictions.Prediction{status: "Now Boarding", track: "4"}
+      result = prediction
+               |> Site.ScheduleV2View.prediction_status_text
+               |> IO.iodata_to_binary
+
+      assert result == "Now boarding on track 4"
     end
 
     test "when a prediction does not have a track, gives nothing" do
@@ -414,10 +422,13 @@ defmodule Site.ScheduleV2ViewTest do
   describe "prediction_tooltip/1" do
     test "creates a tooltip for the prediction" do
       time = Util.now
-      prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: 4}
+      prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
+      result = prediction
+               |> Site.ScheduleV2View.prediction_tooltip
+               |> IO.iodata_to_binary
 
-      assert prediction_tooltip(prediction) =~ "Now Boarding on Track 4"
-      assert prediction_tooltip(prediction) =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+      assert result =~ "Now boarding on track 4"
+      assert result =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
     end
   end
 

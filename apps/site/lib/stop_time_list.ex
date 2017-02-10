@@ -51,6 +51,7 @@ defmodule StopTimeList do
     @spec display_status(PredictedSchedule.t | nil, PredictedSchedule.t | nil) :: iodata
     def display_status(departure, arrival \\ nil)
     def display_status(%PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}}, _) when not is_nil(status) do
+      status = String.capitalize(status)
       case track do
         nil -> status
         track -> [status, " on track ", track]
