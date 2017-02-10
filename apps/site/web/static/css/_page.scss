@@ -148,9 +148,14 @@
 }
 
 .whats-happening-section {
-  background: $gray-lightest, linear-gradient(130deg, $whats-happening-gradient-end 0%, $whats-happening-gradient-end 10%, $gray-lightest 10%, $gray-lightest 90%, $whats-happening-gradient-end 90%, $whats-happening-gradient-end 100%);
-  padding: 1rem;
+  background: $gray-lightest;
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
   width: 100%;
+
+  @include media-breakpoint-up(md) {
+    background: linear-gradient(130deg, $whats-happening-gradient-end 0%, $whats-happening-gradient-end 10%, $gray-lightest 10%, $gray-lightest 90%, $whats-happening-gradient-end 90%, $whats-happening-gradient-end 100%);
+  }
 }
 
 .page-img-block {
@@ -189,7 +194,7 @@
   }
 
   .about-title {
-    padding-bottom: $base-spacing * 2;
-    padding-top: $base-spacing;
+    padding-bottom: $space-12;
+    padding-top: $space-12;
   }
 }

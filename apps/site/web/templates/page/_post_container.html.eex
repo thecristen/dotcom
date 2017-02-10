@@ -1,7 +1,5 @@
 <div class="whats-happening-section">
-  <div class="container">
-    <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
-  </div>
+  <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
 </div>
 <%= render Site.PageView, "_news_and_updates.html", conn: @conn %>
 <%= render Site.PageView, "_about_the_mbta.html", conn: @conn %>
