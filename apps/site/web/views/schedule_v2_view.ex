@@ -152,15 +152,15 @@ defmodule Site.ScheduleV2View do
   def display_alerts([]), do: raw ""
   def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 
-  @spec prediction_status_text(Predictions.Prediction.t | nil) :: String.t
+  @spec prediction_status_text(Predictions.Prediction.t | nil) :: iodata
   def prediction_status_text(%Predictions.Prediction{status: status, track: track}) when not is_nil(track) do
-    "#{String.capitalize(status)} on track #{track}"
+    [String.capitalize(status), " on track ", track]
   end
   def prediction_status_text(_) do
     ""
   end
 
-  @spec prediction_time_text(Predictions.Prediction.t | nil) :: String.t
+  @spec prediction_time_text(Predictions.Prediction.t | nil) :: iodata
   def prediction_time_text(nil) do
     ""
   end
@@ -168,10 +168,10 @@ defmodule Site.ScheduleV2View do
     ""
   end
   def prediction_time_text(%Predictions.Prediction{time: time}) do
-    "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+    ["Arrival: ", Timex.format!(time, "{h12}:{m} {AM}")]
   end
 
-  @spec build_prediction_tooltip(String.t, String.t) :: Phoenix.HTML.Safe.t
+  @spec build_prediction_tooltip(iodata, iodata) :: Phoenix.HTML.Safe.t
   def build_prediction_tooltip("", "") do
     nil
   end
