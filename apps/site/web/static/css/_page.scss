@@ -149,8 +149,7 @@
 
 .whats-happening-section {
   background: $gray-lightest;
-  padding-bottom: $base-spacing;
-  padding-top: $base-spacing;
+  padding: $base-spacing 0;
   width: 100%;
 
   @include media-breakpoint-up(sm) {
@@ -194,7 +193,10 @@
   }
 
   .about-title {
-    padding-bottom: $space-12;
-    padding-top: $space-12;
+    @include media-breakpoint-down(xs) {
+      border-bottom: 1px solid $gray-lightest;
+    }
+
+    padding: $space-12 0;
   }
 }
