@@ -36,9 +36,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end
-  defp trip_id(%Conn{assigns: 
-                %{stop_times: %StopTimeList{times: times}, 
-                  route: route, 
+  defp trip_id(%Conn{assigns:
+                %{stop_times: %StopTimeList{times: times},
+                  route: route,
                   date: user_selected_date,
                   date_time: date_time}}) when times != [] do
     if(show_trips?(user_selected_date, date_time, route.type)) do

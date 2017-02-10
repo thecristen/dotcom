@@ -7,7 +7,13 @@ defmodule Site.ScheduleV2Controller.Predictions do
   import Plug.Conn, only: [assign: 3]
   alias Stops.Stop
 
-  def init([]), do: []
+  @default_opts [
+    predictions_fn: &Predictions.Repo.all/1,
+  ]
+
+  def init(opts) do
+    Keyword.merge(@default_opts, opts)
+  end
 
   def call(conn, opts) do
     conn
@@ -29,7 +35,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
                               origin: %Stop{id: stop_id},
                               route: %{id: route_id},
                               direction_id: direction_id}} = conn, _, predictions_fn)
-  do
+    do
     stops = Enum.join([stop_id, get_destination_id(conn.assigns.destination)], ",")
     predictions = [direction_id: direction_id, stop: stops, route: route_id]
     |> predictions_fn.()

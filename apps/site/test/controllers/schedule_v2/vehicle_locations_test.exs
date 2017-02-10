@@ -1,15 +1,14 @@
 defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
   use Site.ConnCase, async: true
 
-  alias Site.ScheduleV2Controller.VehicleLocations.Options
   import Site.ScheduleV2Controller.VehicleLocations
 
   describe "init/1" do
     test "takes no options" do
-      assert init([]) == %Options{
+      assert init([]) == [
         location_fn: &Vehicles.Repo.route/2,
         schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/1
-      }
+      ]
     end
   end
 
@@ -24,7 +23,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
       conn = build_conn()
       |> assign(:route, %{id: ""})
       |> assign(:direction_id, nil)
-      |> call(%Options{location_fn: fn (_, _) -> Enum.take(@locations, 2) end})
+      |> call(location_fn: fn (_, _) -> Enum.take(@locations, 2) end)
 
       assert conn.assigns.vehicle_locations == %{
         {"1", "place-sstat"} => Enum.at(@locations, 0),
@@ -36,7 +35,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
       conn = build_conn()
       |> assign(:route, %{id: ""})
       |> assign(:direction_id, nil)
-      |> call(%Options{location_fn: fn (_, _) -> Enum.take(@locations, 1) end})
+      |> call(location_fn: fn (_, _) -> Enum.take(@locations, 1) end)
 
       assert conn.assigns.vehicle_locations == %{{"1", "place-sstat"} => Enum.at(@locations, 0)}
     end
@@ -46,7 +45,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
       |> assign(:route, %{id: ""})
       |> assign(:direction_id, nil)
       |> call(
-        %Options{
+        [
           location_fn: fn (_, _) -> Enum.drop(@locations, 2) end,
           schedule_for_trip_fn: fn _ -> [
             %Schedules.Schedule{stop: %Schedules.Stop{id: "Yawkey"}},
@@ -54,7 +53,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
             %Schedules.Schedule{stop: %Schedules.Stop{id: "place-sstat"}}
           ]
           end
-        }
+        ]
       )
 
       assert conn.assigns.vehicle_locations == %{

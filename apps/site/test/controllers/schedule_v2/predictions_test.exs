@@ -4,8 +4,8 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
   import Site.ScheduleV2Controller.Predictions
 
   describe "init/1" do
-    test "takes no options" do
-      assert init([]) == []
+    test "defaults to using Predictions.Repo.all" do
+      assert init([]) == [predictions_fn: &Predictions.Repo.all/1]
     end
   end
 

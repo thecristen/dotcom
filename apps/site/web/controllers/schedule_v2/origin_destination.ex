@@ -58,7 +58,7 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
 
   def get_stop(conn, key) do
     stop_id = Map.get(conn.query_params, Atom.to_string(key))
-    if Stops.Repo.stop_exists_on_route?(stop_id, conn.assigns.route.id, conn.assigns.direction_id) do
+    if Enum.find(conn.assigns.all_stops, & &1.id == stop_id) do
       Stops.Repo.get(stop_id)
     else
       nil

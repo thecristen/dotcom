@@ -146,7 +146,7 @@ defmodule Site.RouteController do
   end
 
   defp update_active(stop_id, currently_active, stops_on_routes) do
-    ~w(Green-B Green-C Green-D Green-E)s
+    GreenLine.branch_ids()
     |> Enum.reduce(currently_active, fn route_id, currently_active ->
       if GreenLine.stop_on_route?(stop_id, route_id, stops_on_routes) do
         stop_or_terminus = if GreenLine.terminus?(stop_id, route_id), do: :terminus, else: :stop

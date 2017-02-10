@@ -14,7 +14,7 @@ defmodule Site.Plugs.AlertsTest do
   test "assigns alerts, upcoming_alerts", %{conn: conn} do
     conn = conn
     |> assign(:date, Util.service_date())
-    |> Alerts.call(fn -> [] end)
+    |> Alerts.call(alerts_fn: fn -> [] end)
 
     assert conn.assigns.all_alerts == []
     assert conn.assigns.upcoming_alerts == []
@@ -40,7 +40,7 @@ defmodule Site.Plugs.AlertsTest do
     |> assign(:date, Util.today)
     |> assign(:route, route)
     |> fetch_query_params
-    |> Alerts.call(fn -> [cr_alert, ferry_alert] end)
+    |> Alerts.call(alerts_fn: fn -> [cr_alert, ferry_alert] end)
 
     assert conn.assigns.all_alerts == [cr_alert]
   end
@@ -58,7 +58,7 @@ defmodule Site.Plugs.AlertsTest do
 
       conn = conn
       |> assign(:date, date)
-      |> Alerts.call(fn -> alerts end)
+      |> Alerts.call(alerts_fn: fn -> alerts end)
 
       sorted = alerts
       |> Enum.sort_by(&(&1.id))

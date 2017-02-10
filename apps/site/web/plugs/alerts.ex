@@ -1,6 +1,5 @@
 defmodule Site.Plugs.Alerts do
   @moduledoc """
-
   Assigns some variables to the conn for relevant alerts:
 
   * all_alerts: any alert, regardless of time, that matches a query parameter
@@ -9,12 +8,18 @@ defmodule Site.Plugs.Alerts do
   """
   import Plug.Conn, only: [assign: 3]
 
-  def init([]), do: &Alerts.Repo.all/0
+  @default_opts [
+    alerts_fn: &Alerts.Repo.all/0
+  ]
+
+  def init(opts) do
+    Keyword.merge(@default_opts, opts)
+  end
 
   # can pass in a different function to use for getting all the alerts
-  def call(conn, alert_fn) do
+  def call(conn, opts) do
     conn
-    |> assign_all_alerts(alert_fn)
+    |> assign_all_alerts(Keyword.get(opts, :alerts_fn))
     |> assign_current_upcoming
   end
 
