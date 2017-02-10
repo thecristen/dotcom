@@ -3,5 +3,5 @@
   <%= render "_direction_filter.html", forward_assigns(@conn) %>
 </div>
 <%= if @show_date_select? do %>
-  <%= Site.ScheduleV2View.render "_date_picker.html", date: @date, show_date_select?: @show_date_select?, conn: @conn, calendar: @calendar %>
+  <%= Site.ScheduleV2View.render "_date_picker.html", conn: @conn, calendar: @calendar %>
 <% end %>
