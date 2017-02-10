@@ -153,7 +153,7 @@
   padding-top: $base-spacing;
   width: 100%;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     background: linear-gradient(130deg, $whats-happening-gradient-end 0%, $whats-happening-gradient-end 10%, $gray-lightest 10%, $gray-lightest 90%, $whats-happening-gradient-end 90%, $whats-happening-gradient-end 100%);
   }
 }

@@ -1,7 +1,7 @@
 <div class="container page-section">
   <h2>What's Happening at the MBTA</h2>
   <div class="row">
-    <div class="col-md-4 homepage-about-link">
+    <div class="col-sm-4 homepage-about-link">
       <img src="<%= static_url @conn, "/images/southstation-01.jpg" %>"
         alt="South Station interior"
         >
@@ -11,21 +11,21 @@
         <% end %>
       </div>
     </div>
-    <div class="col-md-4 homepage-about-link">
+    <div class="col-sm-4 homepage-about-link">
       <img src="<%= static_url @conn, "/images/commuter-01.jpg" %>"
         alt="Commuter Rail train at North Station"
-        class="hidden-sm-down">
+        class="hidden-xs-down">
       <div class="about-title">We'd like your opinion on the Worcester Line proposed schedues for the Spring of 2017.
         <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457397&month=&year=") do %>
           <span class="no-wrap">Read <%= fa "arrow-right" %></span>
         <% end %>
       </div>
     </div>
-    <div class="col-md-4 homepage-about-link">
+    <div class="col-sm-4 homepage-about-link">
       <img src="<%= static_url @conn, "/images/green-01.jpg" %>"
         alt="Outside Green Line Stop"
-        class="hidden-sm-down">
-      <div class="about-title">Buses will replace Green Line D branch service between Newton Highlands and Riverside Stations from 9:00 am to 3:00 pm on February 1-2...
+        class="hidden-xs-down">
+      <div class="about-title">Buses will replace Green Line D branch service between Newton Highlands and Riverside Stations from 9:00 am to 3:00 pm on...
         <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493&month=&year=") do %>
           <span class="no-wrap">Read <%= fa "arrow-right" %></span>
         <% end %>
