@@ -366,7 +366,7 @@ defmodule Site.ScheduleV2ViewTest do
       prediction = %Predictions.Prediction{time: time}
       result = prediction
                |> Site.ScheduleV2View.prediction_time_text
-               |> :erlang.iolist_to_binary
+               |> IO.iodata_to_binary
 
       assert result == "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
     end
@@ -382,7 +382,7 @@ defmodule Site.ScheduleV2ViewTest do
       prediction = %Predictions.Prediction{status: "Now Boarding", track: "4"}
       result = prediction
                |> Site.ScheduleV2View.prediction_status_text
-               |> :erlang.iolist_to_binary
+               |> IO.iodata_to_binary
 
       assert result == "Now boarding on track 4"
     end
@@ -425,7 +425,7 @@ defmodule Site.ScheduleV2ViewTest do
       prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
       result = prediction
                |> Site.ScheduleV2View.prediction_tooltip
-               |> :erlang.iolist_to_binary
+               |> IO.iodata_to_binary
 
       assert result =~ "Now boarding on track 4"
       assert result =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
