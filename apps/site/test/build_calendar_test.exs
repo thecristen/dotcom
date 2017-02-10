@@ -183,6 +183,17 @@ defmodule BuildCalendarTest do
       assert safe_to_string(actual) =~ ~s(class="schedule-selected")
     end
 
+    test "if the day is selected but in the past, does not add a class" do
+      actual = Day.td(
+        %Day{
+          date: ~D[2000-12-01],
+          selected?: true,
+          month_relation: :previous,
+          url: ""
+        })
+      refute safe_to_string(actual) =~ ~s(class="schedule-selected")
+    end
+
     test "if the day is a weekend, adds a class" do
       sunday = Day.td(
         %Day{

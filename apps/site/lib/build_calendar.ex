@@ -80,7 +80,7 @@ defmodule BuildCalendar do
       case [
         {Timex.weekday(day.date) > 5, "schedule-weekend"},
         {day.holiday?, "schedule-holiday"},
-        {day.selected?, "schedule-selected"},
+        {day.selected? && day.month_relation == :current, "schedule-selected"},
         {day.month_relation == :next, "schedule-next-month"},
         {day.today?, "schedule-today"}
       ]
