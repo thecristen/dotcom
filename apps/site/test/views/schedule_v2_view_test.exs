@@ -376,7 +376,7 @@ defmodule Site.ScheduleV2ViewTest do
   describe "prediction_status_text/1" do
     test "when a prediction has a track, gives the time, the status and the track" do
       prediction = %Predictions.Prediction{status: "Now Boarding", track: 4}
-      assert Site.ScheduleV2View.prediction_status_text(prediction) == "Now Boarding on Track 4"
+      assert Site.ScheduleV2View.prediction_status_text(prediction) == "Now boarding on track 4"
     end
 
     test "when a prediction does not have a track, gives nothing" do
@@ -416,7 +416,7 @@ defmodule Site.ScheduleV2ViewTest do
       time = Util.now
       prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: 4}
 
-      assert prediction_tooltip(prediction) =~ "Now Boarding on Track 4"
+      assert prediction_tooltip(prediction) =~ "Now boarding on track 4"
       assert prediction_tooltip(prediction) =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
     end
   end

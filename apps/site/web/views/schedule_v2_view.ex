@@ -154,7 +154,7 @@ defmodule Site.ScheduleV2View do
 
   @spec prediction_status_text(Predictions.Prediction.t | nil) :: String.t
   def prediction_status_text(%Predictions.Prediction{status: status, track: track}) when not is_nil(track) do
-    "#{status} on Track #{track}"
+    "#{String.capitalize(status)} on track #{track}"
   end
   def prediction_status_text(_) do
     ""

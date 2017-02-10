@@ -566,13 +566,19 @@ defmodule StopTimeTest do
     test "uses the departure status if it exists" do
       result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}, nil)
 
-      assert IO.iodata_to_binary(result) == "On Time"
+      assert IO.iodata_to_binary(result) == "On time"
     end
 
     test "includes track number if present" do
       result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "All Aboard", track: "5"}}, nil)
 
-      assert IO.iodata_to_binary(result) == "All Aboard on track 5"
+      assert IO.iodata_to_binary(result) == "All aboard on track 5"
+    end
+
+    test "uses sentence case" do
+      result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "All Aboard", track: "5"}}, nil)
+
+      assert IO.iodata_to_binary(result) == "All aboard on track 5"
     end
 
     test "returns a readable message if there's a difference between the scheduled and predicted times" do
