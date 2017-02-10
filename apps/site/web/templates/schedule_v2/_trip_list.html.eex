@@ -10,27 +10,25 @@
           <div><%= display_direction(@stop_times) %></div>
         <% end %>
       </div>
-      <div class="rows">
-        <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
-          <%= if trip do %>
-            <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
-            <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
-            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route_id(departure)) %>
-          <% else %>
-            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
-          <% end %>
+      <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+        <%= if trip do %>
+          <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
+          <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
+          <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route_id(departure)) %>
+        <% else %>
+          <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
         <% end %>
-        <%= unless @stop_times.showing_all? do %>
-          <%= link to: update_url(@conn, show_all_trips: true) do %>
-            <div class="col-xs-6">
-              Show all trips for <%= pretty_date(@date) %>
-            </div>
-          <% end %>
+      <% end %>
+      <%= unless @stop_times.showing_all? do %>
+        <%= link to: update_url(@conn, show_all_trips: true) do %>
+          <div class="trip-list-row">
+            Show all trips for <%= pretty_date(@date) %>
+          </div>
         <% end %>
-      </div>
+      <% end %>
     </div>
   <% else %>
-    <div class="col-xs-12">
+    <div class="trip-list-row">
       There are no scheduled trips at this time.
     </div>
   <% end %>

@@ -117,18 +117,6 @@ $horizontal-padding: $grid-gutter-width / 2;
   color: $white;
 }
 
-%table {
-  // an opinionated placeholder which assumes that all direct child divs of the parent element are intended to be
-  // rendered as rows.
-
-  border: $border;
-  margin-bottom: $grid-gutter-width;
-
-  > div {
-    @extend %table-row;
-  }
-}
-
 %table-with-header {
   // An opinionated table structure that assumes an element has the following layout. Not using this layout
   // (including the .header and .rows class names) will likely cause unintended rendering issues.
@@ -149,6 +137,11 @@ $horizontal-padding: $grid-gutter-width / 2;
   }
 
   .rows {
-    @extend %table;
+    border: $border;
+    margin-bottom: $grid-gutter-width;
+
+    > div {
+      @extend %table-row;
+    }
   }
 }

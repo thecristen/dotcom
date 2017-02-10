@@ -74,15 +74,20 @@ $z-index-trip-line: -1;
 }
 
 .schedule-trip-list:not(.commuter) {
-  @extend %table-with-header;
+  .header {
+    @extend %two-equal-columns;
+  }
 
-  .header,
   .trip-list-row {
     @extend %two-equal-columns;
+    @extend %table-row;
+    @extend %block-level-link;
   }
 }
 
 .schedule-trip-list {
+  margin-bottom: $base-spacing;
+
   .header {
     @extend %table-header;
   }
@@ -273,10 +278,10 @@ $z-index-trip-line: -1;
     padding-left: $horizontal-padding;
     width: 50%;
   }
+}
 
-  .header {
-    @extend %table-header;
-  }
+.schedule-trip-info-header {
+  @extend %table-header;
 }
 
 .schedule-trip-stop,
