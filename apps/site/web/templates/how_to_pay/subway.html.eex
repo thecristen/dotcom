@@ -8,17 +8,17 @@
       <p>
       <div class="row">
         <figure class="col-sm-6 col-xs-12">
-          <strong>CharlieCard</strong>
+          <h4>CharlieCard</h4>
           <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-with-model.jpg") %>" alt="Charlie Card" />
+          <%= link to: fare_path(@conn, :show, :charlie_card) do %>
+            Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
+          <% end %>
         </figure>
         <figure class="col-sm-6 col-xs-12">
-          <strong>CharlieTicket</strong>
+          <h4>CharlieTicket</h4>
           <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlieticket-with-model.jpg") %>" alt="Charlie Ticket" />
         </figure>
       </div>
-      <%= link to: fare_path(@conn, :show, :charlie_card) do %>
-        Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
-      <% end %>
       <p>You can purchase your Subway fare at a fare vending machine, on-board at above-ground Green Line stops, or at retail sales locations.</p>
     </div>
   </div>
@@ -35,12 +35,12 @@
   </div>
   <h2>Step 2: Pay Your Fare</h2>
   <div class="row">
-    <div class="col-md-6 col-xs-12">
+    <div class="hidden-sm-down col-md-6 col-xs-12">
       <figure>
         <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/fare-entry-gate-enter.jpg") %>" alt="Customer scanning into a fare gate" />
       </figure>
     </div>
-    <div class="col-md-6 col-xs-12">
+    <div class="hidden-sm-down col-md-6 col-xs-12">
       <figure>
         <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/fare-entry-gate-enter-2.jpg") %>" alt="Customer scanning into a fare gate" />
       </figure>
