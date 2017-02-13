@@ -65,77 +65,73 @@ $z-index-trip-line: -1;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.trip-list-container {
-  * > .header,
-  * > .trip-list-row {
-    @include media-breakpoint-up(md) {
-      float: left;
-      clear: left;
-      padding-right: $horizontal-padding;
-      width: 50%;
-    }
+.trip-list-v2-container {
+  padding-left: $grid-gutter-width / 2;
+  padding-right: $grid-gutter-width / 2;
+
+  @include media-breakpoint-up(md) {
+    margin-top: -$base-spacing;
   }
 }
 
-.trip-list:not(.commuter) {
-  .header {
-    @extend %two-equal-columns;
-  }
+.trip-list-v2-row {
+  @extend %unpadded-table-row;
+  @extend %block-level-link;
+  margin-right: $grid-gutter-width / -2;
+  margin-left: $grid-gutter-width / -2;
 
-  .trip-list-row {
-    @extend %two-equal-columns;
-    @extend %table-row;
-    @extend %block-level-link;
+  @include media-breakpoint-up(md) {
+    clear: left;
+    float: left;
+    width: 50%;
   }
 }
 
-.trip-list {
+.trip-list-v2 {
   margin-bottom: $base-spacing;
-  position: relative;
+}
 
-  .header {
-    @extend %table-header;
-  }
+.trip-list-v2-header {
+  @extend %table-header;
+  margin-top: $base-spacing;
+}
 
-  .trip-list-row {
-    @extend %unpadded-table-row;
-    @extend %block-level-link;
-  }
+.trip-list-v2-row-2-col {
+  @extend %table-row;
+  @extend %two-equal-columns;
+}
 
-  .trip-list-row-selected {
-    background: $brand-primary-lightest;
-    border-color: $brand-primary-lightest;
-  }
+.trip-list-v2-row-selected {
+  background: $brand-primary-lightest;
+  border-color: $brand-primary-lightest;
+}
 
-  &.commuter {
-    // scss-lint:disable NestingDepth
-    // scss-lint:disable SelectorDepth
-    .commuter-times,
-    .header {
-      > div {
-        @include column;
-        width: grid-width(2);
-      }
+.trip-list-v2-footer {
+  clear: left;
+  display: block;
+}
 
-      > div:first-child {
-        @include first-column;
-        width: grid-width(3);
-      }
+.commuter-times {
+  @include clearfix();
 
-      > div:last-child {
-        @include last-column;
-        width: grid-width(7);
-      }
-    }
-  }
-
-  .commuter-status {
+  div:first-child {
     @include first-column;
+    width: grid-width(3);
   }
 
-  .commuter-times {
-    @include clearfix();
+  div:not(:first-child):not(:last-child) {
+    @include column;
+    width: grid-width(2);
   }
+
+  div:last-child {
+    @include last-column;
+    width: grid-width(7);
+  }
+}
+
+.commuter-status {
+  @include first-column;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -144,20 +140,8 @@ $z-index-trip-line: -1;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.schedule-frequencies {
-  @extend %table-with-header;
-
-  .frequency {
-    @extend %two-equal-columns;
-
-    div:first-child {
-      text-align: left;
-    }
-  }
-
-  .last-departure {
-    font-size: .875rem;
-  }
+.schedule-v2-frequency-time {
+  font-size: $font-size-sm;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -278,13 +262,18 @@ $z-index-trip-line: -1;
 
 // trip info parent container
 .schedule-trip-info {
+  margin-right: $grid-gutter-width / -2;
+  margin-left: $grid-gutter-width / -2;
+
   @include media-breakpoint-up(md) {
     float: right;
+    width: 50%;
   }
 }
 
 .schedule-trip-info-header {
   @extend %table-header;
+  @extend %table-row;
 
   @include media-breakpoint-down(sm) {
     display: none;

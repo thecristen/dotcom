@@ -87,8 +87,7 @@ $horizontal-padding: $grid-gutter-width / 2;
   background-color: $white;
   border: $border;
   margin-bottom: -$space-1;
-  margin-left: -$space-1;
-  margin-right: -$space-1;
+  margin-top: -$space-1;
   padding: $vertical-padding $horizontal-padding;
   position: relative;
 }
@@ -112,8 +111,8 @@ $horizontal-padding: $grid-gutter-width / 2;
 }
 
 %table-header {
-  @extend %table-row;
   background-color: $brand-primary-darkest;
+  border-color: $brand-primary-darkest;
   color: $white;
 }
 
@@ -134,6 +133,7 @@ $horizontal-padding: $grid-gutter-width / 2;
 
   .header {
     @extend %table-header;
+    @extend %table-row;
   }
 
   .rows {
