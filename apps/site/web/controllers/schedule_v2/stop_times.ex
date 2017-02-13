@@ -5,94 +5,52 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   """
   import Plug.Conn, only: [assign: 3]
 
-  alias Schedules.{Schedule, Trip, Stop}
-  alias Predictions.Prediction
-
   require Routes.Route
   alias Routes.Route
 
   def init([]), do: []
 
   def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) when Route.subway?(route_type) do
-    destination_id = stop_id(conn.assigns.destination)
-    origin_id = stop_id(conn.assigns.origin)
-    stop_times = StopTimeList.build_predictions_only(
-      filtered_predictions(conn.assigns.predictions, schedules, destination_id),
-      origin_id,
-      destination_id
-    )
+    destination_id = Util.safe_id(conn.assigns.destination)
+    origin_id = Util.safe_id(conn.assigns.origin)
+    predictions = conn.assigns.predictions
+
+    stop_times = StopTimeList.build_predictions_only(schedules, predictions, origin_id, destination_id)
+
     assign(conn, :stop_times, stop_times)
   end
-  def call(%Plug.Conn{assigns: %{schedules: schedules}} = conn, []) do
+
+  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
-    destination_id = stop_id(conn.assigns.destination)
-    origin_id = stop_id(conn.assigns.origin)
-    stop_times = StopTimeList.build(
-      filtered_schedules(conn.assigns, show_all_trips?),
-      filtered_predictions(conn.assigns.predictions, schedules, destination_id),
-      origin_id,
-      destination_id,
-      show_all_trips?
-    )
+    destination_id = Util.safe_id(conn.assigns.destination)
+    origin_id = Util.safe_id(conn.assigns.origin)
+    predictions = conn.assigns.predictions
+    current_time = conn.assigns.date_time
+    user_selected_date = conn.assigns.date
+    current_date_time = conn.assigns.date_time
+    filter_flag = filter_flag(user_selected_date, current_date_time, route_type, show_all_trips?)
+
+    stop_times = 
+      StopTimeList.build(schedules, predictions, origin_id, destination_id, filter_flag, current_time)
+
     assign(conn, :stop_times, stop_times)
   end
+
   def call(conn, []) do
     conn
   end
 
-  # Remove any predictions for trips that don't go through the
-  # destination stop, by checking the list of schedules to ensure that
-  # there's an O/D pair for each prediction's trip.
-  defp filtered_predictions(predictions, _schedules, nil), do: predictions
-  defp filtered_predictions(predictions, schedules, destination) do
-    schedule_pair_trip_ids = MapSet.new(
-      schedules,
-      fn
-        {_, %Schedule{trip: %Trip{id: trip_id}, stop: %Stop{id: ^destination}}} -> trip_id
-        _ -> nil
-      end
-    )
-
-    Enum.filter(
-      predictions,
-      fn
-        %Prediction{trip: nil} -> false
-        %Prediction{stop_id: ^destination} -> true
-        %Prediction{trip: %Trip{id: trip_id}} -> trip_id in schedule_pair_trip_ids
-      end
-    )
-  end
-
-  defp filtered_schedules(%{schedules: schedules, date_time: date_time}, show_all_trips?) do
-    schedules
-    |> upcoming_schedules(show_all_trips?, date_time)
-  end
-
-  defp upcoming_schedules(schedules, true, _date_time) do
-    schedules
-  end
-  defp upcoming_schedules(schedules, false, date_time) do
-    do_upcoming_schedules(schedules, date_time)
-  end
-
-  defp do_upcoming_schedules([_first, second | rest] = schedules, date_time) do
-    if after_now?(second, date_time) do
-      schedules
-    else
-      do_upcoming_schedules([second | rest], date_time)
+  defp filter_flag(user_selected_date, current_date_time, route_type, show_all) do
+    cond do 
+      Timex.diff(user_selected_date, current_date_time, :days) == 0 ->
+        filter_flag_for_today(route_type, show_all)
+      true ->
+        :keep_all
     end
   end
-  defp do_upcoming_schedules(schedules, _date_time) do
-    schedules
-  end
 
-  defp after_now?({_, arrival}, date_time) do
-    after_now?(arrival, date_time)
-  end
-  defp after_now?(%Schedule{time: time}, date_time) do
-    Timex.after?(time, date_time)
-  end
-
-  defp stop_id(%{id: id}), do: id
-  defp stop_id(_), do: nil
+  defp filter_flag_for_today(2, false), do: :last_trip_and_upcoming
+  defp filter_flag_for_today(3, false), do: :predictions_then_schedules
+  defp filter_flag_for_today(_route_type, _show_all), do: :keep_all
+  
 end
