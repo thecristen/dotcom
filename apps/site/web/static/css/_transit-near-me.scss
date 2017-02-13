@@ -94,7 +94,7 @@
   -moz-column-gap: $grid-gutter-width;
   -webkit-column-gap: $grid-gutter-width;
   column-gap: $grid-gutter-width;
-  margin: 0;
+  margin: 0 0 $base-spacing;
   padding: $grid-gutter-width;
 
   &.empty {
