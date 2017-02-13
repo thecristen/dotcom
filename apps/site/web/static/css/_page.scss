@@ -171,12 +171,12 @@
 
 .important-whats-happening {
   background-color: $gray-lightest;
-  margin: $space-16 0;
+  margin: $space-24 0;
 }
 
 .important-whats-happening-text {
-  margin: $base-spacing-sm 0;
-  padding-left: 0;
+  font-size: $font-size-h3;
+  padding: $space-24;
 
   @include media-breakpoint-down(sm) {
     padding: 0 $space-12;
