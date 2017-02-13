@@ -4,22 +4,16 @@
       <h2>Step 1: Purchase One Way Fare or a Pass</h2>
       <p>You can pay your Ferry fare with the following payment methods: CharlieTicket, mTicket app ticket, and cash on-board. Fare costs, transfers, and the type of passes available for purchase may vary based on your payment method.</p>
     </div>
-    <div class="row">
-      <figure class="col-md-4 col-sm-8 col-xs-12">
-        <img src="<%= static_url(@conn, "/images/mticket-app.png") %>" alt="mTicket App" width="100%" />
-        <figcaption>mTicket app</figcaption>
-      </figure>
-      <figure class="col-md-4 col-sm-8 col-xs-12">
-        <img src="<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %>" alt="One Way Charlie Ticket" width="100%" />
-        <figcaption>One Way Charlie Ticket</figcaption>
-      </figure>
-      <figure class="col-md-4 col-sm-8 col-xs-12">
-        <img src="<%= static_url(@conn, "/images/charlie-ticket-month-pass.jpg") %>" alt="Monthly Pass on Charlie Ticket" width="100%" />
-        <figcaption>Monthly Pass on Charlie Ticket</figcaption>
-      </figure>
-    </div>
-    <p>
-    You can buy your Ferry fare using the mTicket app, at a ticket office, fare vending machine, retail sales location, or on-board the Ferry.
+    <figure class="col-sm-6 col-xs-12">
+      <h4>Monthly Pass CharlieTicket</h4>
+      <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/cr-monthly-pass-with-model.jpg") %>" alt="Commuter Rail monthly pass" />
+    </figure>
+    <figure class="col-sm-6 col-xs-12">
+      <h4>mTicket App</h4>
+      <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/activated-mticket.jpg") %>" alt="mTicket app with an activated ticket" />
+    </figure>
+    <p class="col-xs-12">
+      You can buy your Ferry fare using the mTicket app, at a ticket office, fare vending machine, retail sales location, or on-board the Ferry.
     </p>
   </div>
   <div class="row">

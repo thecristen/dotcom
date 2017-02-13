@@ -6,17 +6,17 @@
         You can purchase your Subway fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board (only accepted at above-ground Green Line stops). Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharlieCard versus a CharlieTicket or cash on-board.
       </p>
       <p>
-      <%= link to: fare_path(@conn, :show, :charlie_card) do %>
-        Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
-      <% end %>
       <div class="row">
         <figure class="col-sm-6 col-xs-12">
-          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" alt="Charlie Card" />
-          <figcaption>CharlieCard</figcaption>
+          <h4>CharlieCard</h4>
+          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-with-model.jpg") %>" alt="Charlie Card" />
+          <%= link to: fare_path(@conn, :show, :charlie_card) do %>
+            Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
+          <% end %>
         </figure>
         <figure class="col-sm-6 col-xs-12">
-          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-ticket.jpg") %>" alt="Charlie Ticket" />
-          <figcaption>CharlieTicket</figcaption>
+          <h4>CharlieTicket</h4>
+          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlieticket-with-model.jpg") %>" alt="Charlie Ticket" />
         </figure>
       </div>
       <p>You can purchase your Subway fare at a fare vending machine, on-board at above-ground Green Line stops, or at retail sales locations.</p>
@@ -33,93 +33,87 @@
       Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.
     </div>
   </div>
+  <h2>Step 2: Pay Your Fare</h2>
   <div class="row">
+    <div class="hidden-sm-down col-md-6 col-xs-12">
+      <figure>
+        <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/fare-entry-gate-enter.jpg") %>" alt="Customer scanning into a fare gate" />
+      </figure>
+    </div>
+    <div class="hidden-sm-down col-md-6 col-xs-12">
+      <figure>
+        <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/fare-entry-gate-enter-2.jpg") %>" alt="Customer scanning into a fare gate" />
+      </figure>
+    </div>
     <div class="col-xs-12">
-      <h2>Step 2: Pay Your Fare</h2>
       <p>
       The type of stop you are boarding the Subway determines how your fare will be paid. Most Subway stops have stations with fare entry gates that you must pay your fare at in order to enter the platform.
       </p>
       <p>
-      The Green Line has some above-ground stops. You have the option to pay with cash at these stops in addition to the CharlieCard or CharlieTicket payment methods. Fares are paid at fare boxes located in the front of Subway cars next to the driver.
+        The Green Line has some above-ground stops. You have the option to pay with cash at these stops in addition to the CharlieCard or CharlieT icket payment methods. Fares are paid at fare boxes located in the front of Subway cars next to the driver.
       </p>
     </div>
   </div>
+  <h3>Fare Entry Gates</h3>
   <div class="row">
-    <div class="col-md-6 col-xs-12 ">
-      <h3>Fare Entry Gates</h3>
+    <div class="col-md-6 col-xs-12">
+      <figure>
+        <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-fare-entry-gate.png") %>" alt="Customer scanning a CharlieCard at a fare entry gate" />
+      </figure>
+      <h4>Entry with CharlieCard</h4>
+      <ol class="how-to-pay-steps">
+        <li><div>Tap your CharlieCard on the black card target.</div></li>
+        <li><div>“Enter” will appear on the screen.</div></li>
+        <li><div>The fare gate will open and you can proceed to the platform.</div></li>
+      </ol>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <figure>
+        <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlieticket-fare-entry-gate.jpg") %>" alt="Customer inserting a CharlieTicke into a fare entry gate" />
+      </figure>
+      <h4>Entry with a CharlieTicket</h4>
+      <ol class="how-to-pay-steps">
+        <li><div>Insert the ticket into the ticket slot with the arrow facing away from you.</div></li>
+        <li><div>The screen will say “Enter” and show the remaining value on the ticket.</div></li>
+        <li><div>Remove your ticket from the slot and proceed to the platform.</div></li>
+      </ol>
     </div>
   </div>
+  <h3>On-Board Fare Boxes</h3>
   <div class="row">
-    <figure class="col-sm-8 col-md-push-6 col-md-6 col-xs-12">
-      <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/HAF24.jpg"
-        alt="Fare entry Gate" class="how-to-pay-image how-to-pay-image-oversize" width="100%">
-      <figcaption>Fare entry gate</figcaption>
-    </figure>
-    <div class="col-md-pull-6 col-md-6 col-xs-12">
-      <div class="">
-        <h4>Entry with CharlieCard</h4>
-        <ol class="how-to-pay-steps">
-          <li><div>Tap your CharlieCard on the black card target.</div></li>
-          <li><div>“Enter” will appear on the screen.</div></li>
-          <li><div>The fare gate will open and you can proceed to the platform.</div></li>
-        </ol>
-      </div>
-      <div class="">
-        <h4>Entry with a CharlieTicket</h4>
-        <ol class="how-to-pay-steps">
-          <li><div>Insert the ticket into the ticket slot with the arrow facing away from you.</div></li>
-          <li><div>The screen will say “Enter” and show the remaining value on the ticket.</div></li>
-          <li><div>Remove your ticket from the slot and proceed to the platform.</div></li>
-        </ol>
-      </div>
+    <div class="col-md-6 col-xs-12">
+      <h4>Paying by Cash</h4>
+      <div>On-board fare boxes accept coins and bills up to $20. Exact change is encouraged.</div>
+      <ol class="how-to-pay-steps">
+        <li><div>Enter fare amount into coin slot and dollar insert.</div></li>
+        <li><div>The fare box will beep once to inform you that you have paid the right amount.</div></li>
+      </ol>
+      <p>
+      <strong>Tip:</strong> If you insert more money than it costs for a One Way fare, the difference will be loaded onto a
+      CharlieTicket dispensed from the on-board fare box.
+      </p>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-xs-12 ">
-      <h3>On-Board Fare Boxes</h3>
+    <div class="col-md-6 col-xs-12">
+      <h4>Paying by CharlieTicket</h4>
+      <ol class="how-to-pay-steps">
+        <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
+        <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
+      </ol>
+      <p>
+      <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your
+      card properly or that you do not have enough money on your card to pay the fare.
+      </p>
     </div>
-  </div>
-  <div class="row">
-    <figure class="col-sm-8 col-md-push-6 col-md-6 col-xs-12">
-      <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/Farebox3.JPG"
-        alt="On-board fare box" class="how-to-pay-image how-to-pay-image-oversize">
-      <figcaption>On-board fare box</figcaption>
-    </figure>
-    <div class="col-md-pull-6 col-md-6 col-xs-12">
-      <div class="">
-        <h4>Paying by Cash</h4>
-        <div>On-board fare boxes accept coins and bills up to $20. Exact change is encouraged.</div>
-        <ol class="how-to-pay-steps">
-          <li><div>Enter fare amount into coin slot and dollar insert.</div></li>
-          <li><div>The fare box will beep once to inform you that you have paid the right amount.</div></li>
-        </ol>
-        <p>
-        <strong>Tip:</strong> If you insert more money than it costs for a One Way fare, the difference will be loaded onto a
-        CharlieTicket dispensed from the on-board fare box.
-        </p>
-      </div>
-      <div>
-        <h4>Paying by CharlieTicket</h4>
-        <ol class="how-to-pay-steps">
-          <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
-          <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
-        </ol>
-        <p>
-        <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your
-        card properly or that you do not have enough money on your card to pay the fare.
-        </p>
-      </div>
-      <div>
-        <h4>Paying by CharlieCard</h4>
-        <ol class="how-to-pay-steps">
-          <li><div>Tap the CharlieCard onto the black card target.</div></li>
-          <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard.</div></li>
-        </ol>
-        <p>
-        <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card
-        properly or that you do not have enough money on your card to pay the fare.
-        </p>
-      </div>
+    <div class="col-md-6 col-xs-12">
+      <h4>Paying by CharlieCard</h4>
+      <ol class="how-to-pay-steps">
+        <li><div>Tap the CharlieCard onto the black card target.</div></li>
+        <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard.</div></li>
+      </ol>
+      <p>
+      <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card
+      properly or that you do not have enough money on your card to pay the fare.
+      </p>
     </div>
   </div>
   <div class="row">

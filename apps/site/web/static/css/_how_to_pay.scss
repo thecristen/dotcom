@@ -1,6 +1,8 @@
 .how-to-pay-steps {
   @include list-unstyled();
 
+  padding: 0 $space-36;
+
   li {
     counter-increment: step-counter;
     margin-top: -1rem;
