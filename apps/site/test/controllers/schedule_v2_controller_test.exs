@@ -73,6 +73,14 @@ defmodule Site.ScheduleV2ControllerTest do
       |> Schedules.Sort.sort_by_first_times
       |> Enum.map(&List.first/1)
     end
+
+    test "assigns a map of stop ID to zone", %{conn: conn} do
+      conn = get(conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "trip-view"))
+      zone_map = conn.assigns.zone_map
+
+      assert "North Billerica" in Map.keys(zone_map)
+      assert zone_map["North Billerica"] == "5"
+    end
   end
 
   describe "subway" do

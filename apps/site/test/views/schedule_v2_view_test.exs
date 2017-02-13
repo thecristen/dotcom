@@ -6,6 +6,30 @@ defmodule Site.ScheduleV2ViewTest do
   import Site.ScheduleV2View
   import Phoenix.HTML, only: [safe_to_string: 1]
 
+  describe "stop_selector_suffix/2" do
+    test "returns zones for commuter rail", %{conn: conn} do
+      conn = conn
+      |> assign(:route, %Routes.Route{type: 2})
+      |> assign(:zone_map, %{"Lowell" => "6"})
+
+      assert conn |> stop_selector_suffix("Lowell") |> IO.iodata_to_binary == "Zone 6"
+    end
+
+    test "returns a comma-separated list of lines for the green line", %{conn: conn} do
+      conn = conn
+      |> assign(:route, %Routes.Route{id: "Green"})
+      |> assign(:stops_on_routes, GreenLine.stops_on_routes(0))
+
+      assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary == "B,C,D,E"
+      assert conn |> stop_selector_suffix("place-lech") |> IO.iodata_to_binary == "E"
+      assert conn |> stop_selector_suffix("place-kencl") |> IO.iodata_to_binary == "B,C,D"
+    end
+
+    test "for other lines, returns the empty string", %{conn: conn} do
+      assert stop_selector_suffix(conn, "place-harsq") == ""
+    end
+  end
+
   describe "pretty_date/1" do
     test "it is today when the date given is todays date" do
       assert pretty_date(Util.service_date) == "Today"

@@ -135,4 +135,10 @@ defmodule Site.ScheduleV2Controller.GreenTest do
 
     assert conn.assigns.breadcrumbs
   end
+
+  test "assigns stops_on_routes", %{conn: conn} do
+    conn = get(conn, schedule_v2_path(conn, :show, "Green", direction_id: 1))
+
+    assert conn.assigns.stops_on_routes == GreenLine.stops_on_routes(1)
+  end
 end
