@@ -15,7 +15,7 @@ defmodule GreenLine do
   """
   @spec stops_on_routes(0 | 1) :: stop_routes_pair
   def stops_on_routes(direction_id) do
-    ~w(Green-B Green-C Green-D Green-E)s
+    branch_ids()
     |> Task.async_stream(&green_line_stops(&1, direction_id))
     |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)
   end
@@ -53,6 +53,14 @@ defmodule GreenLine do
   @spec route_stops(Route.id_t, stop_routes_pair) :: MapSet.t
   def route_stops(route_id, {_, map}) do
     map[route_id]
+  end
+
+  @doc """
+  All the branch IDs of the Green Line.
+  """
+  @spec branch_ids() :: [Route.id_t]
+  def branch_ids() do
+    ~w(Green-B Green-C Green-D Green-E)s
   end
 
   # Returns the stops that are on a given branch of the Green line,

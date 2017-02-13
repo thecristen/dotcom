@@ -1,7 +1,7 @@
 <%= for stop <- @stops do %>
   <div class="route-row">
     <% active_lines = @active_lines[stop.id] %>
-    <%= for route_id <- ~w(Green-B Green-C Green-D Green-E)s do %>
+    <%= for route_id <- GreenLine.branch_ids() do %>
       <%= case active_lines[route_id] do %>
         <% nil -> %>
         <% display -> %>

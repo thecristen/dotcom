@@ -42,7 +42,7 @@ defmodule ExcludedStops do
 
     # Determine which lines the origin could be on and take the
     # difference of those stops with all the GL stops
-    possible_stop_ids = ~w(Green-B Green-C Green-D Green-E)
+    possible_stop_ids = GreenLine.branch_ids()
     |> Enum.filter(& GreenLine.stop_on_route?(origin_id, &1, stops_on_routes))
     |> Enum.reduce(MapSet.new, & MapSet.union(GreenLine.route_stops(&1, stops_on_routes), &2))
 

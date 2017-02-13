@@ -4,14 +4,14 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
   """
   import Plug.Conn, only: [assign: 3]
 
-  defmodule Options do
-    defstruct [
-      location_fn: &Vehicles.Repo.route/2,
-      schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/1
-    ]
-  end
+  @default_opts [
+    location_fn: &Vehicles.Repo.route/2,
+    schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/1
+  ]
 
-  def init([]), do: %Options{}
+  def init(opts) do
+    Keyword.merge(@default_opts, opts)
+  end
 
   def call(conn, opts) do
     assign(conn, :vehicle_locations, find_locations(conn, opts))
@@ -19,8 +19,8 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
 
   defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id}}, opts) do
     route.id
-    |> opts.location_fn.(direction_id: direction_id)
-    |> Map.new(&{location_key(&1, opts.schedule_for_trip_fn), &1})
+    |> opts[:location_fn].(direction_id: direction_id)
+    |> Map.new(&{location_key(&1, opts[:schedule_for_trip_fn]), &1})
   end
 
   defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, schedule_for_trip_fn) do
