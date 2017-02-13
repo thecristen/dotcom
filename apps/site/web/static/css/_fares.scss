@@ -253,3 +253,10 @@ a {
     }
   }
 }
+
+.charlie-card-or-ticket {
+  @include media-breakpoint-only(sm) {
+    float: left;
+    width: 50%;
+  }
+}

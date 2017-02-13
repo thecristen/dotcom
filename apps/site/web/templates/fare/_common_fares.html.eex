@@ -44,7 +44,7 @@
   <div class="row">
     <div class="col-sm-6 common-fare">
       <p>
-        <%= link to: fare_path(@conn, :show, :commuter_rail) do
+        <%= link to: fare_path(@conn, :show, :bus_subway, filter: :passes) do
           [
             content_tag(:span, "Monthly LinkPass"),
             svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}),
@@ -54,7 +54,7 @@
       </p>
       <ul>
         <li>
-          <%= Fares.Format.media([:charlie_card, :charlie_ticket]) %>
+          <%= content_tag :span, [class: "charlie-card-or-ticket"], do: Fares.Format.media([:charlie_card, :charlie_ticket]) %>
           <span class="pull-right"><%= format_price duration: :month, media: [:charlie_card, :charlie_ticket] %></span>
         </li>
       </ul>

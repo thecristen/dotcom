@@ -147,6 +147,190 @@
   }
 }
 
+.riding-the-t {
+  background-color: $riding-the-t-bg;
+  color: $white;
+  margin-bottom: 0;
+  padding-bottom: $base-spacing * 3;
+  padding-top: $base-spacing * 2;
+
+  @include media-breakpoint-up(md) {
+    background-image: $riding-the-t-gradient, url('/images/riding-the-t.jpg');
+    background-size: cover;
+  }
+
+  @include media-breakpoint-down(md) {
+    .get-directions {
+      background-image: url('/images/directions.jpg');
+    }
+
+    .getting-to-logan {
+      background-image: url('/images/getting-to-logan.jpg');
+    }
+
+    .accessibility-at-t {
+      background-image: url('/images/accessibility-blue.jpg');
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .get-directions {
+      background-image: url('/images/directions@2x.jpg');
+    }
+
+    .getting-to-logan {
+      background-image: url('/images/getting-to-logan@2x.jpg');
+    }
+
+    .accessibility-at-t {
+      background-image: url('/images/accessibility-blue@2x.jpg');
+    }
+  }
+
+  .getting-to-logan {
+    @include media-breakpoint-only(md) {
+      // "Getting to and from Logan Airport" is ever so slightly too long at md,
+      // and the line break messes up the layout
+      font-size: .9rem;
+      line-height: $line-height + .2;
+    }
+  }
+
+  h1,
+  h2 {
+    color: $white;
+  }
+
+  h1 {
+    border-bottom-color: $white;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  .common-fares {
+    background-color: $white;
+
+    p {
+      color: initial;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      border: 0;
+      list-style-position: outside;
+      list-style-type: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .row {
+      border-bottom: $border;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .all-fares-link {
+    background: $white;
+    margin-bottom: $base-spacing;
+    margin-left: 0;
+    margin-right: 0;
+
+    p {
+      margin-bottom: $base-spacing / 2;
+      margin-top: $base-spacing / 2;
+    }
+  }
+
+  .plan-your-trip {
+    @include clearfix();
+    background-color: transparent;
+    padding: 0;
+
+    @include media-breakpoint-up(md) {
+      margin-left: -($grid-gutter-width / 2);
+      margin-right: -($grid-gutter-width / 2);
+    }
+  }
+
+  .plan-trip-link {
+    @include media-breakpoint-only(xs) {
+      margin-bottom: $base-spacing-sm;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    @include media-breakpoint-only(sm) {
+      float: left;
+      padding-bottom: $base-spacing-sm / 2;
+      width: 50%;
+
+      &:first-child,
+      &:last-child {
+        padding-right: $base-spacing-sm / 2;
+      }
+
+      &:nth-child(2) {
+        padding-left: $base-spacing-sm / 2;
+      }
+
+      &:last-child {
+        clear: both;
+        padding-top: $base-spacing-sm / 2;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      float: left;
+      padding-left: $base-spacing;
+      padding-right: $base-spacing;
+      width: 33.3%;
+    }
+
+    a {
+      background-size: cover;
+      display: block;
+      padding-top: 50%;
+      width: 100%;
+    }
+
+    span {
+      background-color: transparentize($white, .15);
+      display: block;
+      padding: $base-spacing / 2;
+      width: 100%;
+    }
+  }
+
+  .common-fare {
+    padding: $base-spacing;
+
+    &:first-child {
+      border-right: 1px solid $gray-lightest;
+    }
+
+    ul:last-child {
+      // scss-lint:disable NestingDepth, SelectorDepth
+      li:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .row {
+    padding: 0;
+
+  }
+}
+
 .whats-happening-section {
   background: $gray-lightest;
   padding: $base-spacing 0;

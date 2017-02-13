@@ -1,3 +1,4 @@
+<%= render Site.PageView, "_riding_the_t.html", conn: @conn %>
 <div class="whats-happening-section">
   <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
 </div>
