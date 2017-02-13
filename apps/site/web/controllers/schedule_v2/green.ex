@@ -14,6 +14,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug Site.ScheduleController.DatePicker
   plug :alerts
   plug Site.ScheduleV2Controller.Defaults
+  plug :stops_on_routes
   plug :all_stops
   plug Site.ScheduleV2Controller.OriginDestination
   plug :headsigns
@@ -39,12 +40,12 @@ defmodule Site.ScheduleV2Controller.Green do
     assign(conn, :route, @route)
   end
 
-  def all_stops(%Plug.Conn{assigns: %{direction_id: direction_id}} = conn, _params) do
-    all_stops = direction_id
-    |> GreenLine.stops_on_routes
-    |> GreenLine.all_stops
+  def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id}} = conn, _opts) do
+    assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id))
+  end
 
-    assign(conn, :all_stops, all_stops)
+  def all_stops(%Plug.Conn{assigns: %{stops_on_routes: stops_on_routes}} = conn, _params) do
+    assign(conn, :all_stops, GreenLine.all_stops(stops_on_routes))
   end
 
   def headsigns(conn, _opts) do

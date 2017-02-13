@@ -252,4 +252,26 @@ defmodule Site.ScheduleV2View do
     end
   end
   def display_frequency_departure(_time_block, _first, _last), do: nil
+
+  @doc """
+  Returns the suffix to be shown in the stop selector.
+  """
+  @spec stop_selector_suffix(Plug.Conn.t, Stops.Stop.id_t) :: iodata
+  def stop_selector_suffix(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, stop_id) do
+    ["Zone ", conn.assigns.zone_map[stop_id]]
+  end
+  def stop_selector_suffix(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, stop_id) do
+    GreenLine.branch_ids()
+    |> Enum.flat_map(fn route_id ->
+      if GreenLine.stop_on_route?(stop_id, route_id, conn.assigns.stops_on_routes) do
+        [String.at(route_id, -1)]
+      else
+        []
+      end
+    end)
+    |> Enum.join(",")
+  end
+  def stop_selector_suffix(_conn, _stop_id) do
+    ""
+  end
 end

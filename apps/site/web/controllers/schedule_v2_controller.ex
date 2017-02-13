@@ -58,7 +58,9 @@ defmodule Site.ScheduleV2Controller do
     |> assign_trip_schedules
     |> call_plug(Site.ScheduleV2Controller.Offset)
   end
-  defp tab_assigns(conn), do: conn
+  defp tab_assigns(%Plug.Conn{assigns: %{tab: "trip-view", all_stops: all_stops}} = conn) do
+    assign(conn, :zone_map, Map.new(all_stops, &{&1.id, Zones.Repo.get(&1.id)}))
+  end
 
   defp call_plug(conn, module) do
     module.call(conn, module.init([]))
