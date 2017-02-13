@@ -244,4 +244,12 @@ a {
       border-top: 0;
     }
   }
+
+  a:hover {
+    text-decoration: none;
+
+    span {
+      text-decoration: underline;
+    }
+  }
 }

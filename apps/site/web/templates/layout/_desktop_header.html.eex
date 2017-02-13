@@ -79,7 +79,7 @@
       <div id="faresDrawer" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-8 fares-column">
-            <%= render Site.FareView, "_common_fares.html" %>
+            <%= render Site.FareView, "_common_fares.html", conn: @conn %>
           </div>
           <div class="col-xs-4 fares-column">
             <p>More Fares Info</p>

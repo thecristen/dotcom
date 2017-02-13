@@ -1,56 +1,80 @@
-<div class="row">
-  <div class="col-xs-6 common-fare">
-    <p>Subway Single Ride <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %></p>
-    <ul>
-      <li>
-        <%= Fares.Format.media(:charlie_card) %>
-        <span class="pull-right"><%= format_price mode: :subway, duration: :single_trip, media: [:charlie_card] %></span>
-      </li>
-      <li>
-        <%= Fares.Format.media([:charlie_ticket, :cash]) %>
-        <span class="pull-right"><%= format_price mode: :subway, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
-      </li>
-    </ul>
+<div class="common-fares">
+  <div class="row">
+    <div class="col-sm-6 common-fare">
+      <p>
+        <%= link to: fare_path(@conn, :show, :bus_subway) do
+          [
+            content_tag(:span, "Subway Single Ride"),
+            svg_icon_with_circle(%SvgIconWithCircle{icon: :subway})
+          ]
+        end %>
+      </p>
+      <ul>
+        <li>
+          <%= Fares.Format.media(:charlie_card) %>
+          <span class="pull-right"><%= format_price mode: :subway, duration: :single_trip, media: [:charlie_card] %></span>
+        </li>
+        <li>
+          <%= Fares.Format.media([:charlie_ticket, :cash]) %>
+          <span class="pull-right"><%= format_price mode: :subway, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-6 common-fare">
+      <p>
+        <%= link to: fare_path(@conn, :show, :bus_subway) do
+          [
+            content_tag(:span, "Local Bus Single Ride"),
+            svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
+          ]
+        end %>
+      </p>
+      <ul>
+        <li>
+          <%= Fares.Format.media(:charlie_card) %>
+          <span class="pull-right"><%= format_price name: :local_bus, duration: :single_trip, media: [:charlie_card] %></span>
+        </li>
+        <li>
+          <%= Fares.Format.media([:charlie_ticket, :cash]) %>
+          <span class="pull-right"><%= format_price name: :local_bus, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="col-xs-6 common-fare">
-    <p>Local Bus Single Ride <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %></p>
-    <ul>
-      <li>
-        <%= Fares.Format.media(:charlie_card) %>
-        <span class="pull-right"><%= format_price name: :local_bus, duration: :single_trip, media: [:charlie_card] %></span>
-      </li>
-      <li>
-        <%= Fares.Format.media([:charlie_ticket, :cash]) %>
-        <span class="pull-right"><%= format_price name: :local_bus, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-6 common-fare">
-    <p>
-      Monthly LinkPass
-      <%= svg_icon_with_circle %SvgIconWithCircle{icon: :bus} %>
-      <%= svg_icon_with_circle %SvgIconWithCircle{icon: :subway} %>
-    </p>
-    <ul>
-      <li>
-        <%= Fares.Format.media([:charlie_card, :charlie_ticket]) %>
-        <span class="pull-right"><%= format_price duration: :month, media: [:charlie_card, :charlie_ticket] %></span>
-      </li>
-    </ul>
-  </div>
-  <div class="col-xs-6 common-fare">
-    <p>
-      Commuter Rail One Way
-      <%= svg_icon_with_circle %SvgIconWithCircle{icon: :commuter_rail} %>
-    </p>
-    <ul>
-      <li>
-        <% {media, price_range} = commuter_rail_fare_range() %>
-        <%= media %>
-        <span class="pull-right"><%= price_range %></span>
-      </li>
-    </ul>
+  <div class="row">
+    <div class="col-sm-6 common-fare">
+      <p>
+        <%= link to: fare_path(@conn, :show, :commuter_rail) do
+          [
+            content_tag(:span, "Monthly LinkPass"),
+            svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}),
+            svg_icon_with_circle(%SvgIconWithCircle{icon: :subway})
+          ]
+        end %>
+      </p>
+      <ul>
+        <li>
+          <%= Fares.Format.media([:charlie_card, :charlie_ticket]) %>
+          <span class="pull-right"><%= format_price duration: :month, media: [:charlie_card, :charlie_ticket] %></span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-6 common-fare">
+      <p>
+        <%= link to: fare_path(@conn, :show, :commuter_rail) do
+          [
+            content_tag(:span, "Commuter Rail One Way"),
+            svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail})
+          ]
+        end %>
+      </p>
+      <ul>
+        <li>
+          <% {media, price_range} = commuter_rail_fare_range() %>
+          <%= media %>
+          <span class="pull-right"><%= price_range %></span>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
