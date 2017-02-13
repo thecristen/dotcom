@@ -44,7 +44,7 @@
     <% end %>
     <%= if length(@fare_sales_locations) > 0 do %>
       <div class="fare-sales-locations">
-        <h4>Nearby MBTA fare retail sales locations:</h4>
+        <h3>Nearby MBTA fare retail sales locations</h3>
         <div class="transit-near-me-results transit-near-me-gray small-set grouped">
           <%= for {%Location{agent: agent, location: street, city: city} = location, distance} <- @fare_sales_locations do %>
             <div class="transit-column">
