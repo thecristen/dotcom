@@ -3,19 +3,17 @@
     <div class="col-xs-12">
       <h2>Step 1: Purchase a Ticket or Pass</h2>
       <p>You can pay your Bus fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board. Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharlieCard versus a CharlieTicket or cash on-board.</p>
-      <p>
-        <%= link to: fare_path(@conn, :show, "charlie_card") do %>
-          Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
-        <% end %>
-      </p>
       <div class="row">
         <figure class="col-sm-6 col-xs-12">
-          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" alt="Charlie Card" />
-          <figcaption>CharlieCard</figcaption>
+          <h4>CharlieCard</h4>
+          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-with-model.jpg") %>" alt="Charlie Card" />
+          <%= link to: fare_path(@conn, :show, :charlie_card) do %>
+            Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
+          <% end %>
         </figure>
         <figure class="col-sm-6 col-xs-12">
-          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlie-ticket.jpg") %>" alt="Charlie Ticket" />
-          <figcaption>CharlieTicket</figcaption>
+          <h4>CharlieTicket</h4>
+          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlieticket-with-model.jpg") %>" alt="Charlie Ticket" />
         </figure>
       </div>
       <p>You can purchase your Bus fare at a fare vending machine, on-board the bus, or at retail sales locations.</p>
@@ -40,17 +38,33 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12">
-      <h3>On-Board Fare Boxes</h3>
+    <div class="col-md-6 col-xs-12">
+      <figure>
+        <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-fare-entry-gate.png") %>" alt="Customer scanning a CharlieCard at a fare entry gate" />
+      </figure>
+      <h4>Paying by CharlieCard</h4>
+      <p>
+      <ol class="how-to-pay-steps">
+        <li><div>Tap the CharlieCard onto the black card target.</div></li>
+        <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard.</div></li>
+      </ol>
+      <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
+      </p>
     </div>
-  </div>
-  <div class="row">
-    <figure class="col-sm-8 col-md-push-6 col-md-6 col-xs-12">
-      <img src="http://www.mbta.com/uploadedimages/Riding_the_T/Accessible_Services/Accessible_Services_List/Farebox3.JPG"
-        alt="On-board fare box" width="100%">
-      <figcaption>On-board fare box</figcaption>
-    </figure>
-    <div class="col-md-pull-6 col-md-6 col-xs-12">
+    <div class="col-md-6 col-xs-12">
+      <figure>
+        <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlieticket-fare-entry-gate.jpg") %>" alt="Customer inserting a CharlieTicke into a fare entry gate" />
+      </figure>
+      <h4>Paying by CharlieTicket</h4>
+      <p>
+      <ol class="how-to-pay-steps">
+        <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
+        <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
+      </ol>
+      <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
+      </p>
+    </div>
+    <div class="col-md-6 col-xs-12">
       <div class="how-to-pay-sub-section">
         <h4>Paying by Cash</h4>
         <p>
@@ -64,26 +78,6 @@
         </p>
         <p>
         <strong>Tip:</strong> If you insert more money than it costs for a One Way fare, the difference will be loaded onto a CharlieTicket dispensed from the on-board fare box.
-        </p>
-      </div>
-      <div>
-        <h4>Paying by CharlieTicket</h4>
-        <p>
-        <ol class="how-to-pay-steps">
-          <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
-          <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
-        </ol>
-        <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
-        </p>
-      </div>
-      <div>
-        <h4>Paying by CharlieCard</h4>
-        <p>
-        <ol class="how-to-pay-steps">
-          <li><div>Tap the CharlieCard onto the black card target.</div></li>
-          <li><div>The fare box will beep once to inform you the appropriate amount has been deducted from your CharlieCard.</div></li>
-        </ol>
-        <div class="how-to-pay-callout-bottom"><strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your card properly or that you do not have enough money on your card to pay the fare.</div>
         </p>
       </div>
     </div>

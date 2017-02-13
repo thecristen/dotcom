@@ -9,28 +9,21 @@
           mTicket app ticket, CharlieTicket, and cash on-board. Fare costs, transfers,
           and the type of passes available for purchase may vary based on your payment method.
         </p>
-        <figure class="col-md-4 col-sm-8 col-xs-12">
-          <img src="<%= static_url(@conn, "/images/mticket-app.png") %>" alt="mTicket App" width="100%" />
-          <figcaption>mTicket app</figcaption>
-        </figure>
-        <figure class="col-md-4 col-sm-8 col-xs-12">
-          <img src="<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %>" alt="One Way Charlie Ticket" width="100%" />
-          <figcaption>One Way Charlie Ticket</figcaption>
-        </figure>
-        <figure class="col-md-4 col-sm-8 col-xs-12">
-          <img src="<%= static_url(@conn, "/images/charlie-ticket-month-pass.jpg") %>" alt="Monthly Pass on Charlie Ticket" width="100%" />
-          <figcaption>Monthly Pass on Charlie Ticket</figcaption>
-        </figure>
       </div>
-    </div>
-    <div class="col-xs-12">
-      <p>
-        You can buy your Commuter Rail fare using the mTicket app, at a fare vending
-        machine, on-board, or at select retail sales locations.
-      </p>
     </div>
   </div>
   <div class="row">
+    <figure class="col-sm-6 col-xs-12">
+      <h4>Monthly Pass CharlieTicket</h4>
+      <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/cr-monthly-pass-with-model.jpg") %>" alt="Commuter Rail monthly pass" />
+    </figure>
+    <figure class="col-sm-6 col-xs-12">
+      <h4>mTicket App</h4>
+      <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/activated-mticket.jpg") %>" alt="mTicket app with an activated ticket" />
+    </figure>
+    <p class="col-xs-12">
+      You can buy your Commuter Rail fare using the mTicket app, at a fare vending machine, on-board, or at select retail sales locations.
+    </p>
     <div class="col-md-6 col-xs-12">
       <h3>mTicket App</h3>
       <p>
