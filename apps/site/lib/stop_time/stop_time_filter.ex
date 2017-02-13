@@ -53,6 +53,7 @@ defmodule StopTimeFilter do
   def find_max_earlier_departure_schedule_time(stop_times, time) do
     stop_times
     |> Enum.reject(&is_nil(&1))
+    |> Enum.filter(&StopTime.has_departure_schedule?(&1))
     |> Enum.reject(&StopTime.departure_schedule_after?(&1, time))
     |> Enum.max_by(&StopTime.departure_schedule_time(&1), fn -> nil end)
     |> StopTime.departure_schedule_time
