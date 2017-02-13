@@ -11,12 +11,12 @@ defmodule Fares.RetailLocationsTest do
       assert length(locations) > 0
     end
 
-    test "returns no more than three locations" do
-      assert length(Fares.RetailLocations.get_nearby(@with_nearby)) == 3
+    test "returns no more than 4 locations" do
+      assert length(Fares.RetailLocations.get_nearby(@with_nearby)) == 4
     end
 
     test "returns the closest locations possible" do
-      {_, top_distance} = Fares.RetailLocations.get_nearby(@with_nearby) |> List.first
+      {_, top_distance} = @with_nearby |> Fares.RetailLocations.get_nearby() |> List.first
 
       assert Fares.RetailLocations.Data.get
       |> Enum.map(&Map.from_struct/1)

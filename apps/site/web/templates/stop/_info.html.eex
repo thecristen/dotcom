@@ -45,16 +45,20 @@
     <%= if length(@fare_sales_locations) > 0 do %>
       <div class="fare-sales-locations">
         <h4>Nearby MBTA fare retail sales locations:</h4>
-        <div class="row">
+        <div class="transit-near-me-results transit-near-me-gray small-set grouped">
           <%= for {%Location{agent: agent, location: street, city: city} = location, distance} <- @fare_sales_locations do %>
-            <div class="col-md-4 col-xs-12 fare-sales-location">
-              <p class="fare-agent-distance"><%= round_distance(distance) %></p>
-              <p>
-                <%= agent %><br>
-                <%= street %><br>
-                <%= clean_city(city) %><br>
-                <%= retail_location_directions_link(location, @stop) %>
-              </p>
+            <div class="transit-column">
+              <div class="transit-card">
+                <div class="transit-card-name">
+                  <%= link agent, to: GoogleMaps.direction_map_url(@stop, location) %>
+                </div>
+                <div class="transit-card-distance"><%= round_distance(distance) %></div>
+                <div class="transit-route">
+                  <%= street %><br>
+                  <%= clean_city(city) %>
+                </div>
+                <%= link "", to: GoogleMaps.direction_map_url(@stop, location), class: "transit-card-link" %>
+              </div>
             </div>
           <% end %>
         </div>

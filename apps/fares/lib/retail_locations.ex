@@ -17,6 +17,11 @@ defmodule Fares.RetailLocations do
     @type t :: %__MODULE__{ agent: String.t, city: String.t, dates_sold: String.t, hours_of_operation: String.t,
                             latitude: float, longitude: float, method_of_payment: String.t, name: String.t,
                             telephone: String.t, type_of_passes_on_sale2007: String.t}
+
+    defimpl Stops.Position do
+      def latitude(%@for{latitude: latitude}), do: latitude
+      def longitude(%@for{longitude: longitude}), do: longitude
+    end
   end
 
   @locations __MODULE__.Data.get
@@ -29,7 +34,7 @@ defmodule Fares.RetailLocations do
     @locations
     |> Enum.map(&{&1, get_distance(&1, stop)})
     |> Enum.sort(&sort_by_closest/2)
-    |> Enum.take(3)
+    |> Enum.take(4)
   end
 
   @spec get_distance(Location.t, Stop.t) :: float
