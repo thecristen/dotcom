@@ -1,6 +1,6 @@
-<div class="schedule-trip-list-container<%= if @trip_info == nil do %> center-trip-list<% end %>">
+<div class="trip-list-container<%= if @trip_info == nil do %> center-trip-list row<% end %>">
   <%= if assigns[:stop_times] && @stop_times.times != [] do %>
-    <div class="schedule-trip-list">
+    <div class="trip-list">
       <div class="header">
         <%= if @destination do %>
           <div>Departure</div>

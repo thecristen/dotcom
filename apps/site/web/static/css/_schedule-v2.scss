@@ -65,7 +65,7 @@ $z-index-trip-line: -1;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.schedule-trip-list-container {
+.trip-list-container {
   * > .header,
   * > .trip-list-row {
     @include media-breakpoint-up(md) {
@@ -77,7 +77,7 @@ $z-index-trip-line: -1;
   }
 }
 
-.schedule-trip-list:not(.commuter) {
+.trip-list:not(.commuter) {
   .header {
     @extend %two-equal-columns;
   }
@@ -89,7 +89,7 @@ $z-index-trip-line: -1;
   }
 }
 
-.schedule-trip-list {
+.trip-list {
   margin-bottom: $base-spacing;
   position: relative;
 
