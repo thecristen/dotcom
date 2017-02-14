@@ -136,7 +136,7 @@ defmodule BuildCalendar do
     for date <- day_enum(first_day(shifted), last_day(shifted)) do
       %BuildCalendar.Day{
         date: date,
-        url: url_fn.(date: format_date(date), date_select: nil, shift: nil),
+        url: build_url(url_fn, date, today),
         month_relation: month_relation(date, last_day_of_previous_month, last_day_of_this_month),
         selected?: date == selected,
         holiday?: MapSet.member?(holiday_set, date),
@@ -178,6 +178,14 @@ defmodule BuildCalendar do
     acc = [first | acc]
     next = Timex.shift(first, days: 1)
     do_day_enum(next, last, acc)
+  end
+
+  @spec build_url(url_fn, Date.t, Date.t) :: String.t
+  defp build_url(url_fn, today, today) do
+    url_fn.(date: nil, date_select: nil, shift: nil)
+  end
+  defp build_url(url_fn, date, _) do
+    url_fn.(date: format_date(date), date_select: nil, shift: nil)
   end
 
   @spec format_date(Date.t) :: String.t
