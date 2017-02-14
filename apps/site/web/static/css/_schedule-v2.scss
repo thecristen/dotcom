@@ -66,8 +66,7 @@ $z-index-trip-line: -1;
 ////////////////////////////////////////////////////////////////////////
 
 .trip-list-v2-container {
-  padding-left: $grid-gutter-width / 2;
-  padding-right: $grid-gutter-width / 2;
+  @include make-container();
 
   @include media-breakpoint-up(md) {
     margin-top: -$base-spacing;
@@ -77,8 +76,7 @@ $z-index-trip-line: -1;
 .trip-list-v2-row {
   @extend %unpadded-table-row;
   @extend %block-level-link;
-  margin-right: $grid-gutter-width / -2;
-  margin-left: $grid-gutter-width / -2;
+  @include make-row();
 
   @include media-breakpoint-up(md) {
     clear: left;
@@ -262,8 +260,7 @@ $z-index-trip-line: -1;
 
 // trip info parent container
 .schedule-trip-info {
-  margin-right: $grid-gutter-width / -2;
-  margin-left: $grid-gutter-width / -2;
+  @include make-row();
 
   @include media-breakpoint-up(md) {
     float: right;

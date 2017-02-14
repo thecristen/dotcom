@@ -115,33 +115,3 @@ $horizontal-padding: $grid-gutter-width / 2;
   border-color: $brand-primary-darkest;
   color: $white;
 }
-
-%table-with-header {
-  // An opinionated table structure that assumes an element has the following layout. Not using this layout
-  // (including the .header and .rows class names) will likely cause unintended rendering issues.
-  // For more flexibility, %table, %table-row, or %table-column can be targeted individually instead of using this
-  // placeholder.
-  //
-  // <div> # <-- parent element that extends %table
-  //   <div class="header"></div> # <-- extends %table-row plus has a darker background color with white text
-  //   <div class="rows">
-  //     <div></div> # <-- extends %table-row
-  //     <div></div> # <-- extends %table-row
-  //     <div></div> # <-- extends %table-row
-  //   </div>
-  // </div>
-
-  .header {
-    @extend %table-header;
-    @extend %table-row;
-  }
-
-  .rows {
-    border: $border;
-    margin-bottom: $grid-gutter-width;
-
-    > div {
-      @extend %table-row;
-    }
-  }
-}
