@@ -25,6 +25,16 @@ defmodule Alerts.Alert do
 
   use Timex
 
+  @ongoing_effects [
+    "Shuttle",
+    "Stop Closure",
+    "Snow Route",
+    "Cancellation",
+    "Detour",
+    "No Service",
+    "Service Change"
+  ]
+
   @doc "Returns true if the Alert should be displayed as a less-prominent notice"
   @spec is_notice?(Alerts.Alert.t, DateTime.t | Date.t) :: boolean
   def is_notice?(alert_list, time_or_date)
@@ -43,23 +53,13 @@ defmodule Alerts.Alert do
     # minor service changes are never alerts
     true
   end
-  for effect <- [
-        "Shuttle",
-        "Stop Closure",
-        "Snow Route",
-        "Cancellation",
-        "Detour",
-        "No Service",
-        "Service Change"
-                ] do
-    def is_notice?(%__MODULE__{effect_name: unquote(effect), lifecycle: "Ongoing" <> _}, _) do
-      # Ongoing alerts are notices
-      true
-    end
-    def is_notice?(%__MODULE__{effect_name: unquote(effect)} = alert, dt) do
-      # non-Ongoing alerts are notices if they aren't happening now
-      !Alerts.Match.any_time_match?(alert, dt)
-    end
+  def is_notice?(%__MODULE__{effect_name: effect, lifecycle: "Ongoing" <> _}, _) when effect in @ongoing_effects do
+    # Ongoing alerts are notices
+    true
+  end
+  def is_notice?(%__MODULE__{effect_name: effect} = alert, dt) when effect in @ongoing_effects do
+    # non-Ongoing alerts are notices if they aren't happening now
+    !Alerts.Match.any_time_match?(alert, dt)
   end
   def is_notice?(%__MODULE__{}, _) do
     # Default to true

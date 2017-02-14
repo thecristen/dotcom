@@ -52,8 +52,8 @@ defmodule AlertsTest do
     end
 
     test "Non on-going alerts are notices if they arent happening now" do
-      today = Util.now
-      tomorrow = Timex.shift(Util.now, days: 1)
+      today = ~N[2017-01-01T12:00:00]
+      tomorrow = Timex.shift(today, days: 1)
       shuttle = %Alert{effect_name: "Shuttle",
                        active_period: [{tomorrow, nil}],
                        lifecycle: "Service Change"}
