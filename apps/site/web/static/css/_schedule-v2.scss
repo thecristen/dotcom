@@ -3,7 +3,7 @@
 @import 'variables';
 
 $location-line-width: $space-4;
-$vehicle-location-width: 1.85rem;
+$z-index-trip-line: -1;
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -162,57 +162,23 @@ $vehicle-location-width: 1.85rem;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-%location-line {
-  border-bottom-color: transparent;
-  border-bottom-width: 0;
-  border-left-style: solid;
-  border-left-width: $location-line-width;
-  border-right-style: solid;
-  border-right-width: 0;
-  border-top-color: transparent;
-  border-top-width: 0;
-  content: '';
-  height: 150%;
-  left: 50%;
-  position: absolute;
-  z-index: -1;
-}
 
-%location-line-both {
+.vehicle-location {
   @include unpadded-column;
+  height: 100%;
+  padding: $vertical-padding 0;
+  position: absolute;
+  width: $icon-size;
 
   &::before {
-    @extend %location-line;
-    top: -3px; // overlap slightly to cover table row border
-  }
-}
-
-%location-line-above-only {
-  @extend %location-line-both;
-
-  &::before {
+    border-left-style: solid;
+    border-left-width: $location-line-width;
+    content: '';
     height: 100%;
-    top: -$icon-size;
+    left: 50%;
+    position: absolute;
+    z-index: $z-index-trip-line;
   }
-}
-
-%location-line-below-only {
-  @extend %location-line-both;
-
-  &::before {
-    top: 50%;
-  }
-}
-
-%vehicle-location-element {
-  @extend %location-line-both;
-  display: table-cell;
-  padding-bottom: $vertical-padding;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: $vertical-padding;
-  position: relative;
-  width: auto;
 
   svg {
     margin-top: -$vertical-padding;
@@ -223,35 +189,27 @@ $vehicle-location-width: 1.85rem;
 // "Show all stops" row -- dotted lines
 .collapsed-row {
   .vehicle-location {
-    @extend %vehicle-location-element;
-    @extend %location-line-both;
-    width: $icon-size;
-
     &::before {
       background: $white;
-      border-style: dotted;
+      border-left-style: dotted;
+      // taller and adjusted up so it moves up towards the previous stop
+      height: 150%;
+      top: -$space-16 - $space-4;
     }
   }
 
   .expand-link {
     @extend %stop-name-and-time-column;
+    // add spacing between link and the next stop
+    margin-bottom: $base-spacing;
   }
 }
 
-// the first stop in the list
-.stop-group:first-child {
-  .schedule-trip-stop:first-child {
-    .vehicle-location {
-      @extend %location-line-below-only;
-    }
-  }
-}
-
-// the last stop in the list
+// the last stop in the list, don't display the line
 .stop-group:last-child {
-  .schedule-trip-stop.terminus:last-child {
-    .vehicle-location {
-      @extend %location-line-above-only;
+  .terminus:last-child {
+    .vehicle-location::before {
+      display: none;
     }
 
     .stop-info {
@@ -275,11 +233,6 @@ $vehicle-location-width: 1.85rem;
   border-bottom: 0;
   border-top: 0;
   position: relative;
-  z-index: 1;
-
-  .vehicle-location {
-    @extend %vehicle-location-element;
-  }
 
   .stop-info {
     @extend %stop-name-and-time-column;
@@ -301,7 +254,7 @@ $vehicle-location-width: 1.85rem;
 %stop-name-and-time-column {
   @include unpadded-column;
   display: table-cell;
-  margin-left: $base-spacing;
+  margin-left: $base-spacing + $icon-size;
   width: grid-width(10);
 
   span:first-child {
@@ -341,14 +294,9 @@ $vehicle-location-width: 1.85rem;
   border-bottom-width: 0;
   font-weight: bold;
 
-  .vehicle-location {
-    @extend %vehicle-location-element;
-    width: $icon-size;
-
-    &::before {
-      border-left-color: transparent;
-      border-left-width: 0;
-    }
+  .vehicle-location::before {
+    border-left-color: transparent;
+    border-left-width: 0;
   }
 
   .stop-info {
