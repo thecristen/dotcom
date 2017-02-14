@@ -33,7 +33,7 @@
     <div class="row">
       <figure class= "col-sm-6 col-xs-12">
         <p class="fare-image-title">Transportation Access Pass</p>
-        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/tap-pass.jpg")%> alt="A transport access pass" />
+        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/tap-pass.jpg")%> alt="A transportation access pass" />
       </figure>
       <div class="col-sm-6 col-xs-12">
         <strong>Transport Access Pass Application</strong>
