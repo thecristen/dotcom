@@ -46,7 +46,7 @@
       </p>
       <div class="row">
         <figure class="hidden-xs-down col-sm-6 payment-image">
-          <img src="<%= static_url(@conn, "/images/charlie-ticket.jpg") %>" alt="CharlieTicket with Stored Value" />
+          <img src="<%= static_url(@conn, "/images/charlie-ticket-product.jpg") %>" alt="CharlieTicket with Stored Value" />
         </figure>
         <figure class="col-sm-6 payment-image">
           <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlieticket-fare-entry-gate.jpg") %>" alt="Customer inserting a CharlieTicke into a fare entry gate" />
@@ -72,7 +72,7 @@
       <h4>Using CharlieTickets on the Commuter Rail and Ferry</h4>
       <div class="row">
         <div class="col-sm-4 col-sm-push-8 payment-image">
-          <img src="<%= static_url(@conn, "/images/charlie-ticket-one-way.jpg") %>" alt="Zone 1 One Way Pass on a CharlieTicket" />
+          <img src="<%= static_url(@conn, "/images/zone-1-one-way-adult-product.jpg") %>" alt="Zone 1 One Way Pass on a CharlieTicket" />
         </div>
         <div class="col-sm-8 col-sm-pull-4">
           <p>
