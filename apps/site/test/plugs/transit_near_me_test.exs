@@ -88,7 +88,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> get("/")
       |> call(%Options{})
 
-      assert conn.assigns.requires_google_maps?
+      assert conn.assigns.requires_google_places?
     end
   end
 

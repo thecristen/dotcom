@@ -59,6 +59,7 @@ defmodule Site.StopController do
     |> assign(:terminal_station, terminal_station(stop))
     |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
     |> assign(:access_alerts, access_alerts(alerts, stop))
+    |> assign(:requires_google_maps?, true)
   end
   defp tab_assigns(%{assigns: %{tab: schedule}} = conn, stop) when schedule in [nil, "schedule"] do
     conn
