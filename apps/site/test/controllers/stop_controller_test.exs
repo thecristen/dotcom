@@ -59,7 +59,7 @@ defmodule Site.StopControllerTest do
   test "assigns nearby fare retail locations", %{conn: conn} do
     assert %Plug.Conn{assigns: %{fare_sales_locations: locations}} = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
     assert is_list(locations)
-    assert length(locations) == 3
+    assert length(locations) == 4
     assert {%Fares.RetailLocations.Location{agent: "Patriot News"}, _} = List.first(locations)
   end
 

@@ -4,6 +4,7 @@ defmodule GoogleMaps do
   Helper functions for working with the Google Maps API.
 
   """
+  alias Stops.Position
 
   @host "https://maps.googleapis.com"
   @host_uri URI.parse(@host)
@@ -33,8 +34,12 @@ defmodule GoogleMaps do
   @doc """
   Returns the url to view directions to a location on https://maps.google.com.
   """
-  @spec direction_map_url({float, float}, {float, float}) :: String.t
-  def direction_map_url({origin_lat, origin_lng}, {dest_lat, dest_lng}) do
+  @spec direction_map_url(Position.t, Position.t) :: String.t
+  def direction_map_url(origin, destination) do
+    origin_lat = Position.latitude(origin)
+    origin_lng = Position.longitude(origin)
+    dest_lat = Position.latitude(destination)
+    dest_lng = Position.longitude(destination)
     path = Path.join(["/", "maps", "dir", URI.encode("#{origin_lat},#{origin_lng}"), URI.encode("#{dest_lat},#{dest_lng}")])
     %{@web_uri | path: path}
     |> prepend_host(@web)
