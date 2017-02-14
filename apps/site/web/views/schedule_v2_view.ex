@@ -264,7 +264,7 @@ defmodule Site.ScheduleV2View do
     GreenLine.branch_ids()
     |> Enum.flat_map(fn route_id ->
       if GreenLine.stop_on_route?(stop_id, route_id, conn.assigns.stops_on_routes) do
-        [String.at(route_id, -1)]
+        [display_branch_name(route_id)]
       else
         []
       end
@@ -274,4 +274,11 @@ defmodule Site.ScheduleV2View do
   def stop_selector_suffix(_conn, _stop_id) do
     ""
   end
+
+  @doc """
+  Pulls out the branch name of a Green Line route ID.
+  """
+  @spec display_branch_name(Routes.Route.id_t) :: String.t | nil
+  def display_branch_name(<<"Green-", branch :: binary>>), do: branch
+  def display_branch_name(_), do: nil
 end
