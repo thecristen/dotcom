@@ -172,7 +172,7 @@ $vehicle-location-width: 1.85rem;
   border-top-color: transparent;
   border-top-width: 0;
   content: '';
-  height: 150%;
+  height: 100%;
   left: 50%;
   position: absolute;
   z-index: -1;
@@ -183,35 +183,17 @@ $vehicle-location-width: 1.85rem;
 
   &::before {
     @extend %location-line;
-    top: -3px; // overlap slightly to cover table row border
-  }
-}
-
-%location-line-above-only {
-  @extend %location-line-both;
-
-  &::before {
-    height: 100%;
-    top: -$icon-size;
-  }
-}
-
-%location-line-below-only {
-  @extend %location-line-both;
-
-  &::before {
-    top: 50%;
   }
 }
 
 %vehicle-location-element {
   @extend %location-line-both;
-  display: table-cell;
+  height: 100%;
   padding-bottom: $vertical-padding;
   padding-left: 0;
   padding-right: 0;
   padding-top: $vertical-padding;
-  position: relative;
+  position: absolute;
   width: auto;
 
   svg {
@@ -230,6 +212,8 @@ $vehicle-location-width: 1.85rem;
     &::before {
       background: $white;
       border-style: dotted;
+      top: -50%;
+      height: 150%;
     }
   }
 
@@ -238,20 +222,13 @@ $vehicle-location-width: 1.85rem;
   }
 }
 
-// the first stop in the list
-.stop-group:first-child {
-  .schedule-trip-stop:first-child {
-    .vehicle-location {
-      @extend %location-line-below-only;
-    }
-  }
-}
-
-// the last stop in the list
+// the last stop in the list, don't display the line
 .stop-group:last-child {
   .schedule-trip-stop.terminus:last-child {
     .vehicle-location {
-      @extend %location-line-above-only;
+      &::before {
+        display: none;
+      }
     }
 
     .stop-info {
@@ -301,7 +278,7 @@ $vehicle-location-width: 1.85rem;
 %stop-name-and-time-column {
   @include unpadded-column;
   display: table-cell;
-  margin-left: $base-spacing;
+  margin-left: $base-spacing + $icon-size;
   width: grid-width(10);
 
   span:first-child {
