@@ -12,7 +12,7 @@ defmodule StopTimeList do
     showing_all?: false
   ]
   @type t :: %__MODULE__{
-    times: [__MODULE__.StopTime.t],
+    times: [StopTime.t],
     showing_all?: boolean
   }
   @type stop_id :: String.t
@@ -71,7 +71,7 @@ defmodule StopTimeList do
   defp from_times(stop_times, filter_flag, current_time) do
     %__MODULE__{
       times:
-        stop_times 
+        stop_times
         |> StopTimeFilter.filter(filter_flag, current_time)
         |> StopTimeFilter.sort
         |> StopTimeFilter.limit(filter_flag),
