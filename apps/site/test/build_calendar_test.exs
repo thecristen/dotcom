@@ -86,10 +86,11 @@ defmodule BuildCalendarTest do
     end
 
     test "today is marked" do
-      service_date = Util.service_date()
+      service_date = ~D[2016-12-31]
       calendar = build(Timex.shift(service_date, days: 1), service_date, [], &url_fn/1)
       for day <- calendar.days do
         if day.date == service_date do
+          assert day.url == url_fn(date: nil, date_select: nil, shift: nil)
           assert day.today?
         else
           refute day.today?
