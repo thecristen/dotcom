@@ -59,7 +59,7 @@
     <div class="row">
       <figure class= "col-sm-6 col-xs-12">
         <p class="fare-image-title">Student CharlieCard</p>
-        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/student-charlie-card.jpg")%> alt="A Student CharlieCard" />
+        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/student-back.jpg")%> alt="A Student CharlieCard" />
       </figure>
     </div>
 
