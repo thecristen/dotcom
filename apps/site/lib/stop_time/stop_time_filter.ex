@@ -9,10 +9,10 @@ defmodule StopTimeFilter do
   # Currently, the following options are supported:
   # * :keep_all -- do not do any filtering (for example, when user selected 'Show all trips')
   # * :last_trip_and_upcoming -- only leave upcoming trips and one before (used for Commuter Rail)
-  # * :predictions_then_schedules -- remove all scheduled trips before predictions. 
+  # * :predictions_then_schedules -- remove all scheduled trips before predictions.
   #                                  That is, make sure the list starts with predictions, followed by schedules
   #
-  @spec filter([StopTime.t], filter_flag, DateTime.t | nil) :: [StopTime.t] 
+  @spec filter([StopTime.t], filter_flag, DateTime.t | nil) :: [StopTime.t]
   def filter(stop_times, :keep_all, _current_time), do: stop_times
   def filter(stop_times, _filter_flag, nil), do: stop_times
   def filter(stop_times, :last_trip_and_upcoming, current_time) do
@@ -25,8 +25,7 @@ defmodule StopTimeFilter do
   # remove all stop_times without predictions (that just have schedule) before the predicted ones
   @spec remove_departure_schedules_before_predictions([StopTime.t]) :: [StopTime.t]
   def remove_departure_schedules_before_predictions(stop_times) do
-    max_prediction_time =
-      find_max_departure_prediction_time(stop_times)
+    max_prediction_time = find_max_departure_prediction_time(stop_times)
 
     remove_departure_schedules_before(stop_times, max_prediction_time)
   end
@@ -35,8 +34,7 @@ defmodule StopTimeFilter do
   # except for the most recent one
   @spec remove_departure_schedules_before_last_trip([StopTime.t], DateTime.t | nil) :: [StopTime.t]
   def remove_departure_schedules_before_last_trip(stop_times, current_time) do
-    last_trip_time = 
-      find_max_earlier_departure_schedule_time(stop_times, current_time)
+    last_trip_time = find_max_earlier_departure_schedule_time(stop_times, current_time)
 
     remove_departure_schedules_before(stop_times, last_trip_time)
   end
@@ -64,9 +62,8 @@ defmodule StopTimeFilter do
   def remove_departure_schedules_before(stop_times, time) do
     stop_times
     |> Enum.reject(&is_nil(&1))
-    |> Enum.filter(& StopTime.has_prediction?(&1) or not StopTime.departure_schedule_before?(&1, time))
+    |> Enum.filter(&StopTime.has_prediction?(&1) or not StopTime.departure_schedule_before?(&1, time))
   end
-
 
   def sort(stop_times) do
     Enum.sort(stop_times, &StopTime.before?/2)
@@ -76,5 +73,4 @@ defmodule StopTimeFilter do
   def limit(stop_times, _filter_flag) do
     Enum.take(stop_times, 14)
   end
-
 end
