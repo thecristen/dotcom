@@ -1,5 +1,5 @@
-<div class="schedule-trip-list-container<%= if @trip_info == nil do %> center-trip-list row<% end %>">
-  <%= if assigns[:stop_times] && @trip_info != nil do %>
+<div class="schedule-trip-list-container<%= if @trip_info == nil do %> center-trip-list<% end %>">
+  <%= if assigns[:stop_times] && @stop_times.times != [] do %>
     <div class="schedule-trip-list">
       <div class="header">
         <%= if @destination do %>
@@ -15,7 +15,7 @@
           <%= if trip do %>
             <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
             <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
-            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class %>
+            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route_id(departure)) %>
           <% else %>
             <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
           <% end %>
