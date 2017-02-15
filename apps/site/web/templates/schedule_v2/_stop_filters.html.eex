@@ -16,7 +16,7 @@
       %>
     </div>
     <%= if @origin do %>
-      <div class="col-xs-12 col-sm-6 col-equal>">
+      <div class="col-sm-6">
         <% destination = if @destination, do: @destination.id, else: nil %>
         <%= Site.ScheduleV2View.render "_stop_selector.html",
             conn: @conn,
