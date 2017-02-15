@@ -396,13 +396,23 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "when a prediction has a time, gives the arrival time" do
-      time = Timex.shift(Util.now, hours: 2)
+      time = ~N[2017-01-01T13:00:00]
       prediction = %Predictions.Prediction{time: time}
       result = prediction
-               |> Site.ScheduleV2View.prediction_time_text
-               |> IO.iodata_to_binary
+      |> Site.ScheduleV2View.prediction_time_text
+      |> IO.iodata_to_binary
 
-      assert result == "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+      assert result == "Arrival: 1:00 PM"
+    end
+
+    test "when a prediction is departing, gives the departing time" do
+      time = ~N[2017-01-01T12:00:00]
+      prediction = %Predictions.Prediction{time: time, departing?: true}
+      result = prediction
+      |> Site.ScheduleV2View.prediction_time_text
+      |> IO.iodata_to_binary
+
+      assert result == "Departure: 12:00 PM"
     end
 
     test "when a prediction does not have a time, gives nothing" do
