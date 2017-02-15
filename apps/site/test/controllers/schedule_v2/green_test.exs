@@ -102,6 +102,8 @@ defmodule Site.ScheduleV2Controller.GreenTest do
 
   test "assigns vehicle locations for all branches", %{conn: conn} do
     conn = conn
+    |> assign(:date, ~D[2017-01-01])
+    |> assign(:date_time, ~N[2017-01-01T12:00:00])
     |> assign(:direction_id, 0)
     |> assign(:route, @green_line)
     |> vehicle_locations([

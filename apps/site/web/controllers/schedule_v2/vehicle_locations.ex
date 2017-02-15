@@ -14,7 +14,12 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
   end
 
   def call(conn, opts) do
-    assign(conn, :vehicle_locations, find_locations(conn, opts))
+    locations = if conn.assigns.date == Util.service_date(conn.assigns.date_time) do
+      find_locations(conn, opts)
+    else
+      %{}
+    end
+    assign(conn, :vehicle_locations, locations)
   end
 
   defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id}}, opts) do
