@@ -1,7 +1,7 @@
 <div class="stop-filters schedule-filter-row">
   <p>To view schedules for a specific stop, please enter your origin and destination.</p>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <% origin = if @origin, do: @origin.id, else: nil %>
       <%= Site.ScheduleV2View.render "_stop_selector.html",
         conn: @conn,
