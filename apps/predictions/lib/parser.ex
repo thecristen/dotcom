@@ -10,7 +10,8 @@ defmodule Predictions.Parser do
       time: [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
       schedule_relationship: schedule_relationship(attributes["schedule_relationship"]),
       track: attributes["track"],
-      status: attributes["status"]
+      status: attributes["status"],
+      departing?: !is_nil(attributes["departure_time"])
     }
   end
 

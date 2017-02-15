@@ -167,8 +167,15 @@ defmodule Site.ScheduleV2View do
   def prediction_time_text(%Predictions.Prediction{time: nil}) do
     ""
   end
+  def prediction_time_text(%Predictions.Prediction{time: time, departing?: true}) do
+    do_prediction_time_text("Departure", time)
+  end
   def prediction_time_text(%Predictions.Prediction{time: time}) do
-    ["Arrival: ", Timex.format!(time, "{h12}:{m} {AM}")]
+    do_prediction_time_text("Arrival", time)
+  end
+
+  defp do_prediction_time_text(prefix, time) do
+    [prefix, ": ", Timex.format!(time, "{h12}:{m} {AM}")]
   end
 
   @spec build_prediction_tooltip(iodata, iodata) :: Phoenix.HTML.Safe.t
