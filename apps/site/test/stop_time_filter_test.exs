@@ -3,6 +3,7 @@ defmodule StopTimeListFilterTest do
   import StopTimeFilter
 
   alias Schedules.Schedule
+  alias Predictions.Prediction
 
   describe "StopTime.find_max_earlier_departure_schedule_time/2" do
     test "finds max earlier departure time" do
@@ -67,6 +68,30 @@ defmodule StopTimeListFilterTest do
       # [ 9:00, 8:00, 7:00 ] @ 8:10 the next day -> [ 9:00 ]
       result3 = filter([stop_time3, stop_time2, stop_time1], :last_trip_and_upcoming, ~N[2017-03-02T08:10:00])
       assert result3 == [ stop_time3 ]
+    end
+
+
+    test "filters trips with no departure schedule" do
+      # { nil -- 10:00(p) }
+      stop_time1 = 
+        %StopTime{
+          departure: %PredictedSchedule{schedule: nil, prediction: nil},
+          arrival: %PredictedSchedule{schedule: nil, prediction: %Schedule{time: ~N[2017-03-01T10:00:00]}}}
+
+      # { 9:00(s) 9:00(p) -- 11:00(p) }
+      stop_time2 = 
+        %StopTime{
+          departure: 
+            %PredictedSchedule{
+              schedule: %Schedule{time: ~N[2017-03-01T09:00:00]}, 
+              prediction: %Prediction{time: ~N[2017-03-01T09:00:00]}},
+          arrival: 
+            %PredictedSchedule{
+              schedule: nil, 
+              prediction: %Schedule{time: ~N[2017-03-01T11:00:00]}}}
+
+      # [ { nil -- 10:00(p), { 9:00(s) 9:00(p) -- 11:00(p) } ] @ 10:30 -> [ { nil -- 10:00(p), { 9:00(s) 9:00(p) -- 11:00(p) } ]
+      assert filter([stop_time1, stop_time2], :last_trip_and_upcoming, ~N[2017-03-01T10:00:00]) == [ stop_time1, stop_time2 ]
     end
 
   end
