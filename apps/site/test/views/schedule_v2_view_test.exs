@@ -15,6 +15,14 @@ defmodule Site.ScheduleV2ViewTest do
       assert conn |> stop_selector_suffix("Lowell") |> IO.iodata_to_binary == "Zone 6"
     end
 
+    test "if the stop has no zone, returns the empty string", %{conn: conn} do
+      conn = conn
+      |> assign(:route, %Routes.Route{type: 2})
+      |> assign(:zone_map, %{})
+
+      assert stop_selector_suffix(conn, "Wachusett")  == ""
+    end
+
     test "returns a comma-separated list of lines for the green line", %{conn: conn} do
       conn = conn
       |> assign(:route, %Routes.Route{id: "Green"})
