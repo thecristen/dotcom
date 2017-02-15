@@ -2,15 +2,17 @@
   <h1>The CharlieCard</h1>
 
   <div class="page-section">
-    <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare.</p>
     <div class="payment-method row">
-      <p class="col-sm-6 payment-image">
-        <img src="<%= static_url(@conn, "/images/charlie-card-reverse.jpg") %>" />
+      <p class="hidden-xs-down col-sm-6 payment-image">
+        <img src="<%= static_url(@conn, "/images/charliecard-with-model.jpg") %>"
+             alt="Charlie Card"/>
       </p>
       <p class="col-sm-6 payment-image">
-        <img src="<%= static_url(@conn, "/images/charlie-card.jpg") %>" />
+        <img src="<%= static_url(@conn, "/images/charliecard-fare-entry-gate.png") %>"
+             alt="Customer scanning a CharlieCard at a fare entry gate" />
       </p>
     </div>
+    <p>CharlieCards are reusable, durable cards that can be used for the Bus and Subway to purchase Stored Value at a discounted fare, or purchase One-Day, 7-Day, or Monthly Passes at the standard fare.</p>
   </div>
 
 
