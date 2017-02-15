@@ -258,7 +258,11 @@ defmodule Site.ScheduleV2View do
   """
   @spec stop_selector_suffix(Plug.Conn.t, Stops.Stop.id_t) :: iodata
   def stop_selector_suffix(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, stop_id) do
-    ["Zone ", conn.assigns.zone_map[stop_id]]
+    if zone = conn.assigns.zone_map[stop_id] do
+      ["Zone ", zone]
+    else
+      ""
+    end
   end
   def stop_selector_suffix(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, stop_id) do
     GreenLine.branch_ids()
