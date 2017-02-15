@@ -43,7 +43,7 @@ defmodule Site.Web do
       use Phoenix.HTML
       use Site.Components.Precompiler
 
-      import Site.Router.Helpers
+      import Site.Router.Helpers, except: [schedule_path: 3, schedule_path: 4]
       import Site.ErrorHelpers
       import Site.Gettext
       import Site.ViewHelpers

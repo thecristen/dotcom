@@ -17,7 +17,7 @@
         </a>
       </p>
       <h2><strong>Line Schedules</strong></h2>
-      <%= mode_button_list(%ModeButtonList{class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
+      <%= mode_button_list(%ModeButtonList{conn: @conn, class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
       <div id="fares">
         <h2><%= @mode_name %> Fares</h2>
         <%= fares_note(@mode_name) %>

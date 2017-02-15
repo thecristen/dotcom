@@ -22,11 +22,12 @@ config :logger, :console,
 
 config :site, Site.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
-  feedback_form_url:
-    "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
+  feedback_form_url: "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
 config :laboratory,
-  features: [],
+  features: [
+    {:schedules_v2, "Schedules V2", "Switches links for schedules to V2"}
+  ],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
     http_only: true

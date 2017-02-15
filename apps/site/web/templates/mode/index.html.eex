@@ -9,6 +9,7 @@
           <%= content_tag :span, do: Routes.Route.type_name route_type %>
         </h2>
         <%= mode_button_list %ModeButtonList{
+          conn: @conn,
           routes: get_route_group(route_type, @grouped_routes),
           route_type: route_type,
           alerts: @alerts,
