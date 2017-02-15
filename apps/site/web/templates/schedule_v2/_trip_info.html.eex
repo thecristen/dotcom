@@ -17,9 +17,7 @@
         <div class="collapsed-row">
           <div class="vehicle-location"><div>&nbsp;</div></div>
           <div class="expand-link">
-            <%= link to: update_url(@conn, show_collapsed_trip_stops?: "") do %>
-              Show All Stops
-            <% end %>
+            <%= link "Show All Stops", to: update_url(@conn, show_collapsed_trip_stops?: "") %>
           </div>
         </div>
       <% else %>
