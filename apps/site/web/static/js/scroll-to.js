@@ -2,8 +2,7 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function scrollTo() {
-    $("[data-scroll-to]").each(doScrollTo)
-      .parents("table").parent().on('scroll', handleScroll);
+    $("[data-scroll-to]").each(doScrollTo);
   }
 
   function handleScroll(ev) {
@@ -36,7 +35,9 @@ export default function($) {
     // visible area.  we scroll by an additional firstSiblingWidth and
     // timeHeaderWidth to get us past the first two column headers.
     const scrollLeft = childLeft - parentLeft - firstSiblingWidth - timeHeaderWidth;
-    $(el).parents("table").parent().animate({scrollLeft}, 200);
+    $(el).parents("table").parent()
+      .animate({scrollLeft}, 200)
+      .on('scroll', handleScroll);
   }
 
   $(document).on('turbolinks:load', scrollTo);

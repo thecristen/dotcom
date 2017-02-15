@@ -7,8 +7,12 @@ export default function($) {
     function(f) { window.setTimeout(f, 15); };
 
   function bindScrollContainers() {
-    $('[data-sticky-container]').on('scroll', onScroll)
-      .trigger('scroll');
+    $('[data-sticky-container]').on('scroll', onScroll);
+    triggerScrollContainers();
+  }
+
+  function triggerScrollContainers() {
+    $('[data-sticky-container]').trigger('scroll');
   }
 
   const waitingFor = {};
@@ -52,4 +56,5 @@ export default function($) {
   }
 
   $(document).on('turbolinks:load', bindScrollContainers);
+  $(window).on('resize', triggerScrollContainers);
 }
