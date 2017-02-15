@@ -1,7 +1,10 @@
 export default function($) {
   $ = $ || window.jQuery;
   function initMap() {
-    if (typeof google != "undefined" && $("#map").length) {
+    if(!$("#map").length) {
+      return;
+    }
+    if (typeof google != "undefined") {
       $("#map").addClass("google-map");
       $("#static-map").hide();
       var lat = parseFloat($("#map").attr("data-latitude"));
@@ -11,8 +14,10 @@ export default function($) {
     }
 
     else {
-      window.initMap = function() {
-        window.initMap = undefined;
+      const existingCallback = window.mapsCallback || function() {};
+      window.mapsCallback = function() {
+        window.mapsCallback = undefined;
+        existingCallback();
         initMap();
       }
     }

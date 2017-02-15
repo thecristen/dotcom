@@ -1,11 +1,11 @@
 export default function($) {
   $ = $ || window.jQuery;
   function setupTNM() {
+    if(!$("#place-input").length) {
+      return;
+    }
     if (typeof google != "undefined") { // only load on pages that are using TNM
       var placeInput = document.getElementById("place-input")
-      if (placeInput == null) {
-        return;
-      }
       var autocomplete = new google.maps.places.Autocomplete(placeInput);
 
       google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
@@ -50,8 +50,10 @@ export default function($) {
       };
     }
     else {
-      window.setupTNM = function() {
-        window.setupTNM = undefined;
+      const existingCallback = window.mapsCallback || function() {};
+      window.mapsCallback = function() {
+        window.mapsCallback = undefined;
+        existingCallback();
         setupTNM();
       }
     }
