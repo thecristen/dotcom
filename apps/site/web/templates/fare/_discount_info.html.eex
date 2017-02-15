@@ -10,7 +10,8 @@
         <% reduced_images = reduced_image(@fare_type.reduced) %>
         <%= for {description, img_path} <- reduced_images do  %>
           <figure class="hidden-sm-down col-md-4">
-            <img class="reduced-image" src="<%= img_path %>" />
+            <img class="reduced-image" src="<%= img_path %>"
+                 alt="<%= description %>" />
             <figcaption><%= description %></figcaption>
           </figure>
         <% end %>
