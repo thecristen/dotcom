@@ -1,9 +1,9 @@
-defmodule StopTimeFilter do
+defmodule StopTime.Filter do
   @moduledoc """
   Helpful functions for filtering and sorting StopTimes
   """
 
-  @type filter_flag :: :keep_all | :last_trip_and_upcoming | :predictions_then_schedules
+  @type filter_flag_t :: :keep_all | :last_trip_and_upcoming | :predictions_then_schedules
 
   # filter the stop times based on the filter_flag
   # Currently, the following options are supported:
@@ -12,7 +12,7 @@ defmodule StopTimeFilter do
   # * :predictions_then_schedules -- remove all scheduled trips before predictions.
   #                                  That is, make sure the list starts with predictions, followed by schedules
   #
-  @spec filter([StopTime.t], filter_flag, DateTime.t | nil) :: [StopTime.t]
+  @spec filter([StopTime.t], filter_flag_t, DateTime.t | nil) :: [StopTime.t] 
   def filter(stop_times, :keep_all, _current_time), do: stop_times
   def filter(stop_times, _filter_flag, nil), do: stop_times
   def filter(stop_times, :last_trip_and_upcoming, current_time) do
