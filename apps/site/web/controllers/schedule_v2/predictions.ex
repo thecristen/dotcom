@@ -16,25 +16,21 @@ defmodule Site.ScheduleV2Controller.Predictions do
   end
 
   def call(conn, opts) do
-    conn
-    |> assign_predictions(Util.service_date(), Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1))
-    |> gather_vehicle_predictions(Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1))
+    if conn.assigns.date == Util.service_date(conn.assigns.date_time) do
+      conn
+      |> assign_predictions(opts[:predictions_fn])
+      |> gather_vehicle_predictions(opts[:predictions_fn])
+    else
+      conn
+      |> assign(:predictions, [])
+      |> assign(:vehicle_predictions, [])
+    end
   end
 
-  @doc """
-
-  If we have an origin selected, then use that for the predictions.
-  Otherwise, we use @from, assigned out of the schedules
-
-  """
-  def assign_predictions(%{assigns: %{date: date}} = conn, service_date, _)
-  when date != service_date do
-    assign(conn, :predictions, [])
-  end
   def assign_predictions(%{assigns: %{
                               origin: %Stop{id: stop_id},
                               route: %{id: route_id},
-                              direction_id: direction_id}} = conn, _, predictions_fn)
+                              direction_id: direction_id}} = conn, predictions_fn)
     do
     stops = Enum.join([stop_id, get_destination_id(conn.assigns.destination)], ",")
     predictions = [direction_id: direction_id, stop: stops, route: route_id]
@@ -42,7 +38,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
     assign(conn, :predictions, predictions)
   end
-  def assign_predictions(conn, _, _) do
+  def assign_predictions(conn,  _) do
     assign(conn, :predictions, [])
   end
 
@@ -65,5 +61,6 @@ defmodule Site.ScheduleV2Controller.Predictions do
   end
   def gather_vehicle_predictions(conn, _) do
     conn
+    |> assign(:vehicle_predictions, [])
   end
 end

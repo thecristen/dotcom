@@ -87,6 +87,8 @@ defmodule Site.ScheduleV2Controller.GreenTest do
 
   test "assigns predictions for all branches", %{conn: conn} do
     conn = conn
+    |> assign(:date, ~D[2017-01-01])
+    |> assign(:date_time, ~N[2017-01-01T12:00:00])
     |> assign(:origin, %Stops.Stop{id: "place-north"})
     |> assign(:destination, nil)
     |> assign(:direction_id, 0)
@@ -95,9 +97,7 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       [%Predictions.Prediction{route_id: params[:route]}]
     end)
 
-    assert conn.assigns.predictions
-    |> Enum.map(& &1.route_id)
-    |> Kernel.==(GreenLine.branch_ids())
+    assert Enum.map(conn.assigns.predictions, & &1.route_id) == GreenLine.branch_ids()
   end
 
   test "assigns vehicle locations for all branches", %{conn: conn} do
