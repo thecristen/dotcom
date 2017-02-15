@@ -4,7 +4,7 @@
 else
   {:div, []}
 end %>
-<div class="trip-list-row <%= assigns[:class] %>">
+<div class="trip-list-v2-row trip-list-v2-row-2-col <%= assigns[:class] %>">
   <div>
     <%= content_tag tag, attributes, do: display_scheduled_prediction(@departure) %>
   </div>

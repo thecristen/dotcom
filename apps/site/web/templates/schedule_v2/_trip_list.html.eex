@@ -1,40 +1,37 @@
-<div class="schedule-trip-list-container<%= if @trip_info == nil do %> center-trip-list<% end %>">
-  <%= if assigns[:stop_times] && @stop_times.times != [] do %>
-    <div class="schedule-trip-list">
-      <div class="header">
-        <%= if @destination do %>
-          <div>Departure</div>
-          <div>Arrival</div>
-        <% else %>
-          <div>Scheduled</div>
-          <div><%= display_direction(@stop_times) %></div>
-        <% end %>
-      </div>
-      <div class="rows">
-        <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
-          <%= if trip do %>
-            <% alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id) %>
-            <% class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-row-selected" %>
-            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route_id(departure)) %>
-          <% else %>
-            <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
-          <% end %>
-        <% end %>
-        <%= unless @stop_times.showing_all? do %>
-          <%= link to: update_url(@conn, show_all_trips: true) do %>
-            <div class="col-xs-6">
-              Show all trips for <%= pretty_date(@date) %>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
+<%= if assigns[:stop_times] && @stop_times.times != [] do %>
+  <div class="trip-list-v2">
+    <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col">
+      <%= if @destination do %>
+        <div>Departure</div>
+        <div>Arrival</div>
+      <% else %>
+        <div>Scheduled</div>
+        <div><%= display_direction(@stop_times) %></div>
+      <% end %>
     </div>
-  <% else %>
-    <div class="col-xs-12">
-      There are no scheduled trips at this time.
-    </div>
-  <% end %>
-  <%= if assigns[:frequency_table] do %>
-    <%= render "_frequency.html", forward_assigns(@conn) %>
-  <% end %>
-</div>
+    <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+      <%= if trip do %>
+        <%= alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id)
+            class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-v2-row-selected"
+            render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route_id(departure)) %>
+        <%= if TripInfo.is_current_trip?(@trip_info, trip.id) and TripInfo.should_display_trip_info?(@trip_info) do %>
+          <%= render "_trip_info.html", forward_assigns(@conn) %>
+        <% end %>
+      <% else %>
+        <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [] %>
+      <% end %>
+    <% end %>
+    <%= unless @stop_times.showing_all? do %>
+      <%= link to: update_url(@conn, show_all_trips: true), class: "trip-list-v2-row trip-list-v2-footer" do %>
+        Show all trips for <%= pretty_date(@date) %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="trip-list-v2-row">
+    There are no scheduled trips at this time.
+  </div>
+<% end %>
+<%= if assigns[:frequency_table] do %>
+  <%= render "_frequency.html", forward_assigns(@conn) %>
+<% end %>

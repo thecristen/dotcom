@@ -87,8 +87,7 @@ $horizontal-padding: $grid-gutter-width / 2;
   background-color: $white;
   border: $border;
   margin-bottom: -$space-1;
-  margin-left: -$space-1;
-  margin-right: -$space-1;
+  margin-top: -$space-1;
   padding: $vertical-padding $horizontal-padding;
   position: relative;
 }
@@ -112,43 +111,7 @@ $horizontal-padding: $grid-gutter-width / 2;
 }
 
 %table-header {
-  @extend %table-row;
   background-color: $brand-primary-darkest;
+  border-color: $brand-primary-darkest;
   color: $white;
-}
-
-%table {
-  // an opinionated placeholder which assumes that all direct child divs of the parent element are intended to be
-  // rendered as rows.
-
-  border: $border;
-  margin-bottom: $grid-gutter-width;
-
-  > div {
-    @extend %table-row;
-  }
-}
-
-%table-with-header {
-  // An opinionated table structure that assumes an element has the following layout. Not using this layout
-  // (including the .header and .rows class names) will likely cause unintended rendering issues.
-  // For more flexibility, %table, %table-row, or %table-column can be targeted individually instead of using this
-  // placeholder.
-  //
-  // <div> # <-- parent element that extends %table
-  //   <div class="header"></div> # <-- extends %table-row plus has a darker background color with white text
-  //   <div class="rows">
-  //     <div></div> # <-- extends %table-row
-  //     <div></div> # <-- extends %table-row
-  //     <div></div> # <-- extends %table-row
-  //   </div>
-  // </div>
-
-  .header {
-    @extend %table-header;
-  }
-
-  .rows {
-    @extend %table;
-  }
 }
