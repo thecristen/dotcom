@@ -19,10 +19,10 @@
     </p>
 
     <div class="row">
-      <div class= "col-md-4 col-sm-6 col-xs-12">
+      <figure class= "col-sm-6 col-xs-12">
         <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/senior-id.jpg")%> alt="A senior ID card" />
-        <p class="small fare-image-description">Senior CharlieCard</p>
-      </div>
+        <figcaption>Senior CharlieCard</figcaption>
+      </figure>
     </div>
 
     <h2 id="reduced-disability">Persons With Disabilities</h2>
@@ -31,11 +31,11 @@
     </p>
 
     <div class="row">
-      <div class= "col-md-4 col-sm-6 col-xs-12">
-        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/transportation-access-card.jpg")%> alt="A transport access pass" />
-        <p class="small fare-image-description">Transport Access Pass</p>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
+      <figure class= "col-sm-6 col-xs-12">
+        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/tap-pass.jpg")%> alt="A transportation access pass" />
+        <figcaption>Transportation Access Pass</figcaption>
+      </figure>
+      <div class="col-sm-6 col-xs-12">
         <strong>Transport Access Pass Application</strong>
         <a href="http://www.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassPDF.pdf" class="mode-group-btn">
           <%= fa "file-pdf-o" %> Download TAP application <%= fa "download" %>
@@ -57,10 +57,10 @@
     </p>
 
     <div class="row">
-      <div class= "col-md-4 col-sm-6 col-xs-12">
-        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/student-charlie-back.jpg")%> alt="A Student CharlieCard" />
-        <p class="small fare-image-description">Student CharlieCard</p>
-      </div>
+      <figure class= "col-sm-6 col-xs-12">
+        <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/student-back.jpg")%> alt="A Student CharlieCard" />
+        <figcaption>Student CharlieCard</figcaption>
+      </figure>
     </div>
 
     <h2>Persons Who are Blind or Visually Impaired</h2>

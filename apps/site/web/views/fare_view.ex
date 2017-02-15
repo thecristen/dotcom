@@ -91,10 +91,10 @@ defmodule Site.FareView do
   @doc "Returns image description and image path"
   @spec reduced_image(:student | :senior_disabled | nil) :: [{String.t, String.t}]
   def reduced_image(:student) do
-    [{"Back of Student CharlieCard","/images/student-charlie-back.jpg"}, {"Front of Student CharlieCard", "/images/student-charlie.jpg"}]
+    [{"Back of Student CharlieCard","/images/student-back.jpg"}, {"Front of Student CharlieCard", "/images/student-front.jpg"}]
   end
   def reduced_image(:senior_disabled) do
-    [{"Transportation Access Pass", "/images/transportation-access-card.jpg"}, {"Senior CharlieCard","/images/senior-id.jpg"}]
+    [{"Transportation Access Pass", "/images/tap-pass.jpg"}, {"Senior CharlieCard","/images/senior-id.jpg"}]
   end
   def reduced_image(_) do
     []
