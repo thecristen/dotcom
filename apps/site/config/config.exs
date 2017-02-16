@@ -34,7 +34,7 @@ config :laboratory,
   ]
 
 config :site, Site.BodyClass,
-  mticket_header: "X-mTicket"
+  mticket_header: "x-mticket"
 
 config :content,
   mfa: [
