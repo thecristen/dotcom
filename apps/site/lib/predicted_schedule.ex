@@ -45,9 +45,9 @@ defmodule PredictedSchedule do
   @doc """
   Returns the route id for a given PredictedSchedule.
   """
-  @spec route_id(PredictedSchedule.t) :: Routes.Route.id_t
-  def route_id(%{schedule: %Schedule{route: route}}), do: route.id
-  def route_id(%{prediction: %Prediction{route_id: route_id}}), do: route_id
+  @spec route(PredictedSchedule.t) :: Routes.Route.t
+  def route(%{schedule: %Schedule{route: route}}), do: route
+  def route(%{prediction: %Prediction{route: route}}), do: route
 
   @doc """
   Determines if the given PredictedSchedule has a schedule

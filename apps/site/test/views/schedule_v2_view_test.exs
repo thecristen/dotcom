@@ -74,7 +74,7 @@ defmodule Site.ScheduleV2ViewTest do
       now = Timex.now
       stop_times = StopTimeList.build(
         [%Schedules.Schedule{route: route, trip: %Trip{direction_id: 1, id: "t2"}, stop: stop, time: now}],
-        [%Predictions.Prediction{route_id: route.id, stop_id: stop.id, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
+        [%Predictions.Prediction{route: route, stop_id: stop.id, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
         stop.id,
         nil,
         :keep_all,

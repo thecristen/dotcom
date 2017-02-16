@@ -6,36 +6,38 @@ defmodule PredictedScheduleTest do
 
   @base_time  ~N[2017-01-02T12:00:00]
 
+  @route %Routes.Route{id: "Teal"}
+
   @schedules [
     %Schedule{
       stop: %Schedules.Stop{id: "first"},
       time: @base_time,
-      route: %Routes.Route{id: "Teal"}
+      route: @route
     },
     %Schedule{
       stop: %Schedules.Stop{id: "second"},
       time: Timex.shift(@base_time, minutes: 10),
-      route: %Routes.Route{id: "Teal"}
+      route: @route
     },
     %Schedule{
       stop: %Schedules.Stop{id: "third"},
       time: Timex.shift(@base_time, minutes: 20),
-      route: %Routes.Route{id: "Teal"}
+      route: @route
     },
     %Schedule{
       stop: %Schedules.Stop{id: "fourth"},
       time: Timex.shift(@base_time, minutes: 30),
-      route: %Routes.Route{id: "Teal"}
+      route: @route
     },
     %Schedule{
       stop: %Schedules.Stop{id: "fifth"},
       time: Timex.shift(@base_time, minutes: 40),
-      route: %Routes.Route{id: "Teal"}
+      route: @route
     },
     %Schedule{
       stop: %Schedules.Stop{id: "last"},
       time: Timex.shift(@base_time, minutes: 50),
-      route: %Routes.Route{id: "Teal"}
+      route: @route
     }
   ]
 
@@ -43,17 +45,17 @@ defmodule PredictedScheduleTest do
     %Prediction{
       stop_id: "first",
       time: Timex.shift(@base_time, minutes: 12),
-      route_id: "Teal"
+      route: @route
     },
     %Prediction{
       stop_id: "second",
       time: Timex.shift(@base_time, minutes: 22),
-      route_id: "Teal"
+      route: @route
     },
     %Prediction{
       stop_id: "third",
       time: Timex.shift(@base_time, minutes: 32),
-      route_id: "Teal"
+      route: @route
     }
   ]
 
@@ -119,15 +121,15 @@ defmodule PredictedScheduleTest do
     end
   end
 
-  describe "route_id/1" do
-    test "Returns route_id when schedule is available" do
+  describe "route/1" do
+    test "Returns route when schedule is available" do
       predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.first(@predictions)}
-      assert route_id(predicted_schedule) == "Teal"
+      assert route(predicted_schedule) == @route
     end
 
-    test "Returns route_id when only prediction is available" do
+    test "Returns route when only prediction is available" do
       predicted_schedule = %PredictedSchedule{prediction: List.first(@predictions)}
-      assert route_id(predicted_schedule) == "Teal"
+      assert route(predicted_schedule) == @route
     end
   end
 

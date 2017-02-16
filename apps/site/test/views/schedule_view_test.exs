@@ -81,7 +81,7 @@ defmodule Site.ScheduleViewTest do
             %Prediction{
               trip: second_schedule.trip,
               stop_id: second_schedule.stop.id,
-              route_id: second_schedule.route.id,
+              route: second_schedule.route,
               direction_id: second_schedule.trip.direction_id,
               time: Util.now,
               status: "All Aboard",
@@ -104,7 +104,7 @@ defmodule Site.ScheduleViewTest do
             %Prediction{
               trip: schedule.trip,
               stop_id: schedule.stop.id,
-              route_id: schedule.route.id,
+              route: schedule.route,
               direction_id: schedule.trip.direction_id,
               time: time
             }
