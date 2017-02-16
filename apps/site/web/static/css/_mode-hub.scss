@@ -1,5 +1,8 @@
+@import 'variables';
+
 .system-map {
   font-family: 'object-fit: cover; object-position: 50% 30%;';
+  margin-bottom: $base-spacing;
   max-height: 240px;
   // Polyfill for IE object-fit support
   object-fit: cover;
