@@ -18,9 +18,12 @@
       </a>
     </p>
     <div id="fares">
-      <h2><%= @mode_name %> Fares</h2>
+      <h2>Common Fares</h2>
       <%= fares_note(@mode_name) %>
-      <%= Site.FareView.summarize(@mode_name |> mode_atom |> mode_summaries(nil)) %>
+      <%= Site.FareView.summarize(@mode_name |> mode_atom() |> mode_summaries(nil)) %>
+      <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom() |> Site.StopView.fare_group()) do %>
+        View <%= @mode_name %> fares <%= fa "arrow-right" %>
+      <% end %>
     </div>
   </div>
 </div>
