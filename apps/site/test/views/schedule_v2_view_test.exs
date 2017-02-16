@@ -352,6 +352,13 @@ defmodule Site.ScheduleV2ViewTest do
       assert safe_output =~ "icon-alert"
     end
 
+    test "Alert icon is shown with tooltip attributes" do
+      safe_output = safe_to_string(@output)
+      alert = Floki.find(safe_output, ".icon-alert")
+      assert Floki.attribute(alert, "data-toggle") == ["tooltip"]
+      assert Floki.attribute(alert, "title") == ["Service alert or delay"]
+    end
+
     test "shows vehicle icon when vehicle location is available" do
       safe_output = safe_to_string(@output)
       assert safe_output =~ "icon-bus"
