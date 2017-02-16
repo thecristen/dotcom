@@ -3,7 +3,7 @@ defmodule Site.FareViewTest do
   use ExUnit.Case, async: true
   import Site.FareView
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
-  alias Fares.Fare
+  alias Fares.{Fare, Summary}
 
   describe "fare_type_note/1" do
     test "returns fare note for students" do
@@ -29,6 +29,26 @@ defmodule Site.FareViewTest do
     test "returns fare note for commuter rail" do
       assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: nil})) =~
       "If you pay for a Round Trip "
+    end
+  end
+
+  describe "summary_url/1" do
+    test "links to bus_subway for bus/subway summaries" do
+      expected = Site.Router.Helpers.fare_path(Site.Endpoint, :show, "bus_subway")
+      assert summary_url(%Summary{modes: [:bus]}) == expected
+      assert summary_url(%Summary{modes: [:subway, :commuter_rail]}) == expected
+    end
+
+    test "links to passes if that's the duration" do
+      expected = Site.Router.Helpers.fare_path(Site.Endpoint, :show, "bus_subway", filter: "passes")
+      assert summary_url(%Summary{modes: [:bus], duration: :week}) == expected
+    end
+
+    test "links directly for commuter rail/ferry" do
+      for mode <- [:commuter_rail, :ferry] do
+        expected = Site.Router.Helpers.fare_path(Site.Endpoint, :show, mode)
+        assert summary_url(%Summary{modes: [mode, :bus]}) == expected
+      end
     end
   end
 

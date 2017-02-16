@@ -1,7 +1,7 @@
 <%= for chunk <- Enum.chunk(@summaries, 2, 2, []) do %>
   <div class="fare-summary-container">
     <%= for summary <- chunk do %>
-      <% url = fare_path(Site.Endpoint, :show, summary.modes |> List.first |> Site.StopView.fare_group) %>
+      <% url = summary_url(summary) %>
       <div class="fare-summary-entry">
         <div class="fare-summary-name">
           <%= link summary.name, to: url %>

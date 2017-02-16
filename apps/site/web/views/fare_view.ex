@@ -44,6 +44,23 @@ defmodule Site.FareView do
     nil
   end
 
+  @spec summary_url(Summary.t) :: String.t
+  def summary_url(%Summary{modes: [subway_or_bus | _], duration: duration}) when subway_or_bus in [:subway, :bus] do
+    opts = if duration in ~w(day week month)a do
+      [filter: "passes"]
+    else
+      []
+    end
+    do_summary_url(:bus_subway, opts)
+  end
+  def summary_url(%Summary{modes: [mode | _]}) do
+    do_summary_url(mode)
+  end
+
+  defp do_summary_url(name, opts \\ []) do
+    fare_path(Site.Endpoint, :show, name, opts)
+  end
+
   @spec callout(Fare.t) :: String.t | iolist
   def callout(%Fare{name: :inner_express_bus}) do
     AndJoin.and_join ~w(170 325 326 351 424 426 428 434 449 450 459 501 502 504

@@ -11,12 +11,14 @@ defmodule Fares.Summary do
   """
   @type t :: %__MODULE__{
     name: String.t,
+    duration: Fares.Fare.duration,
     modes: [Routes.Route.route_type],
     fares: [{String.t, String.t | iolist}]
   }
 
   defstruct [
     name: "",
+    duration: :single_trip,
     modes: [],
     fares: []
   ]
