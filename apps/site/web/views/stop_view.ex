@@ -197,7 +197,7 @@ defmodule Site.StopView do
   @spec route_predictions([Prediction.t], integer, integer) :: [Prediction.t]
   defp route_predictions(predictions, route_id, direction_id) do
     predictions
-    |> Enum.filter(&(&1.route_id == route_id and &1.direction_id == direction_id))
+    |> Enum.filter(&(&1.route.id == route_id and &1.direction_id == direction_id))
   end
 
   @spec route_schedule([Schedule.t], integer, integer) :: [Schedule.t]

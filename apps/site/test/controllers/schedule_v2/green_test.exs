@@ -94,10 +94,10 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     |> assign(:direction_id, 0)
     |> assign(:route, @green_line)
     |> predictions(predictions_fn: fn params ->
-      [%Predictions.Prediction{route_id: params[:route]}]
+      [%Predictions.Prediction{route: %Routes.Route{id: params[:route]}}]
     end)
 
-    assert Enum.map(conn.assigns.predictions, & &1.route_id) == GreenLine.branch_ids()
+    assert Enum.map(conn.assigns.predictions, & &1.route.id) == GreenLine.branch_ids()
   end
 
   test "assigns vehicle locations for all branches", %{conn: conn} do

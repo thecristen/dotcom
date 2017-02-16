@@ -37,7 +37,8 @@ defmodule Predictions.Mixfile do
      {:excoveralls, "~> 0.5", only: :test},
      {:bypass, ">= 0.0.0", only: :test},
      {:repo_cache, in_umbrella: true},
-     {:schedules, in_umbrella: true}
+     {:schedules, in_umbrella: true},
+     {:routes, in_umbrella: true}
     ]
   end
 end

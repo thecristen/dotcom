@@ -4,6 +4,7 @@ defmodule Predictions.ParserTest do
   alias Predictions.Parser
   alias Predictions.Prediction
   alias Schedules.Trip
+  alias Routes.Route
   alias JsonApi.Item
   alias Timex.Timezone
 
@@ -18,7 +19,12 @@ defmodule Predictions.ParserTest do
           "arrival_time" => "2016-01-01T00:00:00-04:00"
         },
         relationships: %{
-          "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 5
+                            }},
+                      %Item{id: "wrong"}],
           "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
@@ -35,7 +41,13 @@ defmodule Predictions.ParserTest do
       expected = %Prediction{
         trip: %Trip{id: "trip_id", name: "trip_name", direction_id: "0", headsign: "trip_headsign"},
         stop_id: "stop_id",
-        route_id: "route_id",
+        route: %Route{
+          id: "route_id",
+          name: "Route",
+          key_route?: false,
+          direction_names: %{0 => "Eastbound", 1 => "Westbound"},
+          type: 5
+        },
         direction_id: 0,
         time: ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
         track: nil,
@@ -56,7 +68,12 @@ defmodule Predictions.ParserTest do
           "arrival_time" => "2016-09-15T15:40:00+01:00",
         },
         relationships: %{
-          "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 5
+                            }},
+                      %Item{id: "wrong"}],
           "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
@@ -86,7 +103,11 @@ defmodule Predictions.ParserTest do
           "arrival_time" => nil
         },
         relationships: %{
-          "route" => [%Item{id: "route_id"}],
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 5
+                            }}],
           "stop" => [%Item{id: "stop_id",
                            relationships: %{
                              "parent_station" => [
@@ -116,7 +137,12 @@ defmodule Predictions.ParserTest do
           "arrival_time" => "2016-01-01T00:00:00-04:00"
         },
         relationships: %{
-          "route" => [%Item{id: "route_id"}, %Item{id: "wrong"}],
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 5
+                            }},
+                      %Item{id: "wrong"}],
           "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
@@ -156,7 +182,11 @@ defmodule Predictions.ParserTest do
           "arrival_time" => "2016-01-01T00:00:00-04:00"
         },
         relationships: %{
-          "route" => [%Item{id: "route_id"}],
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 5
+                            }}],
           "stop" => [%Item{id: "stop_id"}],
           "trip" => []
         }
@@ -164,7 +194,13 @@ defmodule Predictions.ParserTest do
       expected = %Prediction{
         trip: nil,
         stop_id: "stop_id",
-        route_id: "route_id",
+        route: %Route{
+          id: "route_id",
+          name: "Route",
+          key_route?: false,
+          direction_names: %{0 => "Eastbound", 1 => "Westbound"},
+          type: 5
+        },
         direction_id: 0,
         time: ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
         track: nil,

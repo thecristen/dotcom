@@ -3,7 +3,7 @@ defmodule Predictions.Parser do
 
   def parse(%JsonApi.Item{attributes: attributes, relationships: relationships} = item) do
     %Prediction{
-      route_id: List.first(relationships["route"]).id,
+      route: route(List.first(relationships["route"])),
       stop_id: stop_id(relationships["stop"]),
       trip: trip(item),
       direction_id: attributes["direction_id"],
@@ -41,5 +41,9 @@ defmodule Predictions.Parser do
   end
   defp trip(item) do
     Schedules.Parser.trip(item)
+  end
+
+  defp route(item) do
+    Routes.Parser.parse_json(item)
   end
 end

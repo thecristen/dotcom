@@ -11,7 +11,7 @@ defmodule Predictions.RepoTest do
     test "can filter by route / stop" do
       stops = Repo.all(route: "Red", stop: "place-sstat")
       for stop <- stops do
-        assert %{route_id: "Red", stop_id: "place-sstat"} = stop
+        assert %{route: %Routes.Route{id: "Red"}, stop_id: "place-sstat"} = stop
       end
     end
 
@@ -56,7 +56,7 @@ defmodule Predictions.RepoTest do
         Plug.Conn.resp(conn, 200, ~s(
               {
                 "included": [
-                  {"type": "route", "id": "route", "attributes": {}, "relationships": {}},
+                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["Southbound", "Northbound"], "description": "Rapid Transit"}, "relationships": {}},
                   {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
                   {"type": "stop", "id": "stop", "attributes": {}, "relationships": {}}
                 ],
@@ -68,7 +68,7 @@ defmodule Predictions.RepoTest do
                       "arrival_time": "2016-01-01T00:00:00-05:00"
                     },
                     "relationships": {
-                      "route": {"data": {"type": "route", "id": "route"}},
+                      "route": {"data": {"type": "route", "id": "Red"}},
                       "trip": {"data": {"type": "trip", "id": "trip"}},
                       "stop": null
                     }
@@ -80,7 +80,7 @@ defmodule Predictions.RepoTest do
                       "arrival_time": "2016-01-01T00:00:00-05:00"
                     },
                     "relationships": {
-                      "route": {"data": {"type": "route", "id": "route"}},
+                      "route": {"data": {"type": "route", "id": "Red"}},
                       "trip": {"data": {"type": "trip", "id": "trip"}},
                       "stop": {"data": {"type": "stop", "id": "stop"}}
                     }
