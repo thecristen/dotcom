@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2Controller.TripInfoTest do
   use Site.ConnCase, async: true
   import Site.ScheduleV2Controller.TripInfo
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.{Schedule, Stop, Trip}
   alias Predictions.Prediction
 
   @time ~N[2017-02-10T20:00:00]
@@ -39,11 +39,11 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   @predictions [
     %Prediction{
       trip: %Trip{id: "32893585"},
-      stop_id: "first"
+      stop: %Stop{id: "first"}
     },
     %Prediction{
       trip: %Trip{id: "32893585"},
-      stop_id: "last"
+      stop: %Stop{id: "last"}
     }
   ]
 

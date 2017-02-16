@@ -1,6 +1,7 @@
 defmodule Predictions.RepoTest do
   use ExUnit.Case
   alias Predictions.Repo
+  alias Schedules.Stop
 
   describe "all/1" do
     test "returns a list" do
@@ -11,14 +12,14 @@ defmodule Predictions.RepoTest do
     test "can filter by route / stop" do
       stops = Repo.all(route: "Red", stop: "place-sstat")
       for stop <- stops do
-        assert %{route: %Routes.Route{id: "Red"}, stop_id: "place-sstat"} = stop
+        assert %{route: %Routes.Route{id: "Red"}, stop: %Stop{id: "place-sstat"}} = stop
       end
     end
 
     test "can filter by stop / direction" do
       directions = Repo.all(stop: "place-sstat", direction_id: 1)
       for direction <- directions do
-        assert %{stop_id: "place-sstat", direction_id: 1} = direction
+        assert %{stop: %Stop{id: "place-sstat"}, direction_id: 1} = direction
       end
     end
 

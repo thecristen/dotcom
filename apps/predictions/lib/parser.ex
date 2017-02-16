@@ -4,7 +4,7 @@ defmodule Predictions.Parser do
   def parse(%JsonApi.Item{attributes: attributes, relationships: relationships} = item) do
     %Prediction{
       route: route(List.first(relationships["route"])),
-      stop_id: stop_id(relationships["stop"]),
+      stop: stop(relationships["stop"]),
       trip: trip(item),
       direction_id: attributes["direction_id"],
       time: [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
@@ -22,10 +22,10 @@ defmodule Predictions.Parser do
     |> Timex.parse!("{ISO:Extended}")
   end
 
-  defp stop_id([stop | _]) do
+  defp stop([stop | _]) do
     case stop.relationships["parent_station"] do
-      [%{id: parent_id} | _] -> parent_id
-      _ -> stop.id
+      [%{id: parent_id, attributes: %{"name" => parent_name}} | _] -> %Schedules.Stop{name: parent_name, id: parent_id}
+      _ -> %Schedules.Stop{id: stop.id, name: stop.attributes["name"]}
     end
   end
 

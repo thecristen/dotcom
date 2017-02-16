@@ -132,8 +132,8 @@ defmodule StopTimeList do
 
   @spec build_prediction_map(Prediction.t, prediction_map) :: prediction_map
   defp build_prediction_map(prediction, prediction_map) do
-    updater = fn(trip_map) -> Map.merge(trip_map, %{prediction.stop_id => prediction}) end
-    Map.update(prediction_map, prediction.trip, %{prediction.stop_id => prediction}, updater)
+    updater = fn(trip_map) -> Map.merge(trip_map, %{prediction.stop.id => prediction}) end
+    Map.update(prediction_map, prediction.trip, %{prediction.stop.id => prediction}, updater)
   end
 
   @spec build_schedule_map(Schedule.t, schedule_map) :: schedule_map
@@ -160,7 +160,7 @@ defmodule StopTimeList do
       predictions,
       fn
         %Prediction{trip: nil} -> false
-        %Prediction{stop_id: ^destination} -> true
+        %Prediction{stop: %Stop{id: ^destination}} -> true
         %Prediction{trip: %Trip{id: trip_id}} -> trip_id in schedule_pair_trip_ids
       end
     )

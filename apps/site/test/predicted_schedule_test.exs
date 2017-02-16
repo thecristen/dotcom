@@ -1,6 +1,6 @@
 defmodule PredictedScheduleTest do
   use ExUnit.Case, async: true
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, Stop}
   alias Predictions.Prediction
   import PredictedSchedule
 
@@ -10,32 +10,32 @@ defmodule PredictedScheduleTest do
 
   @schedules [
     %Schedule{
-      stop: %Schedules.Stop{id: "first"},
+      stop: %Stop{id: "first"},
       time: @base_time,
       route: @route
     },
     %Schedule{
-      stop: %Schedules.Stop{id: "second"},
+      stop: %Stop{id: "second"},
       time: Timex.shift(@base_time, minutes: 10),
       route: @route
     },
     %Schedule{
-      stop: %Schedules.Stop{id: "third"},
+      stop: %Stop{id: "third"},
       time: Timex.shift(@base_time, minutes: 20),
       route: @route
     },
     %Schedule{
-      stop: %Schedules.Stop{id: "fourth"},
+      stop: %Stop{id: "fourth"},
       time: Timex.shift(@base_time, minutes: 30),
       route: @route
     },
     %Schedule{
-      stop: %Schedules.Stop{id: "fifth"},
+      stop: %Stop{id: "fifth"},
       time: Timex.shift(@base_time, minutes: 40),
       route: @route
     },
     %Schedule{
-      stop: %Schedules.Stop{id: "last"},
+      stop: %Stop{id: "last"},
       time: Timex.shift(@base_time, minutes: 50),
       route: @route
     }
@@ -43,17 +43,17 @@ defmodule PredictedScheduleTest do
 
   @predictions [
     %Prediction{
-      stop_id: "first",
+      stop: %Stop{id: "first"},
       time: Timex.shift(@base_time, minutes: 12),
       route: @route
     },
     %Prediction{
-      stop_id: "second",
+      stop: %Stop{id: "second"},
       time: Timex.shift(@base_time, minutes: 22),
       route: @route
     },
     %Prediction{
-      stop_id: "third",
+      stop: %Stop{id: "third"},
       time: Timex.shift(@base_time, minutes: 32),
       route: @route
     }
@@ -61,11 +61,11 @@ defmodule PredictedScheduleTest do
 
   @non_matching_predictions [
     %Prediction{
-      stop_id: "stop1",
+      stop: %Stop{id: "stop1"},
       time: Timex.shift(@base_time, minutes: 12)
     },
     %Prediction{
-      stop_id: "stop2",
+      stop: %Stop{id: "stop2"},
       time: Timex.shift(@base_time, minutes: 32)
     }
   ]
@@ -74,7 +74,7 @@ defmodule PredictedScheduleTest do
     test "PredictedSchedules are paired by stop" do
       predicted_schedules = group_by_trip(@predictions, Enum.shuffle(@schedules))
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 3) do
-        assert schedule.stop.id == prediction.stop_id
+        assert schedule.stop == prediction.stop
       end
     end
 
@@ -109,15 +109,15 @@ defmodule PredictedScheduleTest do
     end
   end
 
-  describe "stop_id/1" do
-    test "Returns stop_id when schedule is available" do
+  describe "stop/1" do
+    test "Returns stop when schedule is available" do
       predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.first(@predictions)}
-      assert stop_id(predicted_schedule) == "first"
+      assert stop(predicted_schedule).id == "first"
     end
 
-    test "Returns stop_id when only prediction is available" do
+    test "Returns stop when only prediction is available" do
       predicted_schedule = %PredictedSchedule{prediction: List.first(@predictions)}
-      assert stop_id(predicted_schedule) == "first"
+      assert stop(predicted_schedule).id == "first"
     end
   end
 

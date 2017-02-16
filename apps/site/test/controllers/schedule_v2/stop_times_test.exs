@@ -120,11 +120,11 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
 
       # Predictions at the destination
       destination_predictions = for hour <- [1, 2, 3] do
-        %Predictions.Prediction{trip: %Trip{id: "trip-#{hour}"}, stop_id: destination.id}
+        %Predictions.Prediction{trip: %Trip{id: "trip-#{hour}"}, stop: destination}
       end
       # Predictions that should be filtered out
       extra_predictions = for hour <- [4, 5, 6] do
-        %Predictions.Prediction{trip: %Trip{id: "trip-#{hour}"}, stop_id: elsewhere.id}
+        %Predictions.Prediction{trip: %Trip{id: "trip-#{hour}"}, stop: elsewhere}
       end
 
       conn = setup_conn(

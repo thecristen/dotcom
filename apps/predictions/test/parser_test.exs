@@ -3,6 +3,7 @@ defmodule Predictions.ParserTest do
 
   alias Predictions.Parser
   alias Predictions.Prediction
+  alias Schedules.Stop
   alias Schedules.Trip
   alias Routes.Route
   alias JsonApi.Item
@@ -25,7 +26,7 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
-          "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
                               "direction_id" => "0",
@@ -40,7 +41,7 @@ defmodule Predictions.ParserTest do
       }
       expected = %Prediction{
         trip: %Trip{id: "trip_id", name: "trip_name", direction_id: "0", headsign: "trip_headsign"},
-        stop_id: "stop_id",
+        stop: %Stop{id: "stop_id", name: "Stop"},
         route: %Route{
           id: "route_id",
           name: "Route",
@@ -74,7 +75,7 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
-          "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
                               "direction_id" => "0",
@@ -93,7 +94,7 @@ defmodule Predictions.ParserTest do
       refute parsed.departing?
     end
 
-    test "uses parent station ID if present" do
+    test "uses parent station ID and name if present" do
       item = %Item{
         attributes: %{
           "track" => nil,
@@ -109,9 +110,10 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }}],
           "stop" => [%Item{id: "stop_id",
+                           attributes: %{"name" => "Stop - Outbound"},
                            relationships: %{
                              "parent_station" => [
-                             %Item{id: "parent_id"}
+                             %Item{id: "parent_id", attributes: %{"name" => "Parent Name"}}
                            ]
                            }}],
           "trip" => [%Item{id: "trip_id", attributes: %{
@@ -121,8 +123,8 @@ defmodule Predictions.ParserTest do
                            }}]
         }
       }
-      expected = "parent_id"
-      actual = Parser.parse(item).stop_id
+      expected = %Stop{name: "Parent Name", id: "parent_id"}
+      actual = Parser.parse(item).stop
 
       assert actual == expected
     end
@@ -143,7 +145,7 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
-          "stop" => [%Item{id: "stop_id"}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
                               "direction_id" => "0",
@@ -187,13 +189,13 @@ defmodule Predictions.ParserTest do
                                "direction_names" => ["Eastbound", "Westbound"],
                                "type" => 5
                             }}],
-          "stop" => [%Item{id: "stop_id"}],
+          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}],
           "trip" => []
         }
       }
       expected = %Prediction{
         trip: nil,
-        stop_id: "stop_id",
+        stop: %Stop{id: "stop_id", name: "Stop"},
         route: %Route{
           id: "route_id",
           name: "Route",
