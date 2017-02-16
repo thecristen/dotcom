@@ -5,25 +5,29 @@
     </h1>
     <h2>Line Schedules</h2>
     <%= mode_button_list(%ModeButtonList{conn: @conn, class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
-    <h2>System Map</h2>
-    <% mode_downcase = @mode_name |> String.downcase %>
-    <% mode_class = mode_downcase |> String.replace(" ", "-") %>
-    <a href="<%= @map_pdf_url %>" target="_blank">
-      <img src="<%= @map_image_url %>" class="system-map <%= mode_class %>" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
-    </a>
-    <p>
-      <a href="<%= @map_pdf_url %>" target="_blank">
-        <%= fa "search-plus" %>
-        View <%= mode_downcase %> map as a PDF
-      </a>
-    </p>
-    <div id="fares">
-      <h2>Common Fares</h2>
-      <%= fares_note(@mode_name) %>
-      <%= Site.FareView.summarize(@mode_name |> mode_atom() |> mode_summaries(nil)) %>
-      <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom() |> Site.StopView.fare_group()) do %>
-        View <%= @mode_name %> fares <%= fa "arrow-right" %>
-      <% end %>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>System Map</h2>
+        <% mode_downcase = @mode_name |> String.downcase %>
+        <% mode_class = mode_downcase |> String.replace(" ", "-") %>
+        <a href="<%= @map_pdf_url %>" target="_blank">
+          <img src="<%= @map_image_url %>" class="system-map <%= mode_class %>" alt="<%= @mode_name %> Map" title="<%= @mode_name %> Map (click to expand)" aria-hidden="true">
+        </a>
+        <p>
+          <a href="<%= @map_pdf_url %>" target="_blank">
+            <%= fa "search-plus" %>
+            View <%= mode_downcase %> map as a PDF
+          </a>
+        </p>
+      </div>
+      <div id="fares" class="col-md-6">
+        <h2>Common Fares</h2>
+        <%= Site.FareView.summarize(@mode_name |> mode_atom() |> mode_summaries(nil)) %>
+        <%= fares_note(@mode_name) %>
+        <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom() |> Site.StopView.fare_group()) do %>
+          View <%= @mode_name %> fares <%= fa "arrow-right" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
