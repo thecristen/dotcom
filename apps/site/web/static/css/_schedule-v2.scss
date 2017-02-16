@@ -102,6 +102,21 @@ $z-index-trip-line: -1;
 .trip-list-v2-row-selected {
   background: $brand-primary-lightest;
   border-color: $brand-primary-lightest;
+
+  @include media-breakpoint-up(md) {
+    &::after {
+      background: url('/images/selected-triangle.svg') no-repeat;
+      background-size: cover;
+      bottom: -2px;
+      content: ' ';
+      display: block;
+      margin-top: -1px;
+      position: absolute;
+      right: -1.5rem;
+      top: -2px;
+      width: 1.5rem;
+    }
+  }
 }
 
 .trip-list-v2-footer {
