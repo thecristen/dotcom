@@ -11,10 +11,11 @@
     </div>
     <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
       <%= if trip do %>
+        <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
         <%= alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id)
-            class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-v2-row-selected"
+            class = if is_current_trip?, do: "trip-list-v2-row-selected"
             render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route(departure).id) %>
-        <%= if TripInfo.is_current_trip?(@trip_info, trip.id) and TripInfo.should_display_trip_info?(@trip_info) do %>
+        <%= if is_current_trip? and TripInfo.should_display_trip_info?(@trip_info) do %>
           <%= render "_trip_info.html", forward_assigns(@conn) %>
         <% end %>
       <% else %>
@@ -29,7 +30,7 @@
   </div>
 <% else %>
   <div class="trip-list-v2-row">
-    There are no scheduled trips at this time.
+    <%= no_stop_times_message(@route) %>
   </div>
 <% end %>
 <%= if assigns[:frequency_table] do %>

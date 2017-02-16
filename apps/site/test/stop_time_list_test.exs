@@ -585,7 +585,7 @@ defmodule StopTimeListTest do
 
   describe "build_predictions_only/3" do
     test "Results contain no schedules for origin" do
-      result = build_predictions_only([], @origin_destination_predictions, "stop1", nil).times
+      result = build_predictions_only(@origin_destination_predictions, "stop1", nil).times
       assert length(result) == 5
       for stop_time <- result do
         assert %StopTime{departure: %PredictedSchedule{schedule: nil}, arrival: nil} = stop_time
@@ -601,7 +601,7 @@ defmodule StopTimeListTest do
       # stop2 |       |       |       |       |       |
       # stop3 |       |       |       |       |       | 8:38
 
-      result = build_predictions_only([], @origin_destination_predictions, "stop1", "stop3").times
+      result = build_predictions_only(@origin_destination_predictions, "stop1", "stop3").times
 
       assert length(result) == 1
 
@@ -619,7 +619,7 @@ defmodule StopTimeListTest do
       # stop2 |       |       |       |       |       |
       # stop3 |       |       |       |       |       | 8:38
 
-      result = build_predictions_only([], @origin_destination_predictions, "stop1", "stop3").times
+      result = build_predictions_only(@origin_destination_predictions, "stop1", "stop3").times
       assert length(result) == 1
 
       stop_time = hd(result)
@@ -634,7 +634,7 @@ defmodule StopTimeListTest do
         stop: %Stop{id: "stop1"},
         trip: nil
       }
-      result = build_predictions_only([], [prediction], "stop1", nil)
+      result = build_predictions_only([prediction], "stop1", nil)
       assert result == %StopTimeList{
         showing_all?: true,
         times: [
@@ -656,7 +656,7 @@ defmodule StopTimeListTest do
       }
       arrival_prediction = %{prediction | stop: %Stop{id: "stop3"}}
       predictions = [prediction, arrival_prediction]
-      result = build_predictions_only([], predictions, "stop1", "stop3")
+      result = build_predictions_only(predictions, "stop1", "stop3")
       assert result == %StopTimeList{
         showing_all?: true,
         times: [

@@ -71,7 +71,6 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
     test "assigns stop_times for subway", %{conn: conn} do
       conn = conn
       |> assign(:route, %Routes.Route{type: 1})
-      |> assign(:schedules, [])
       |> assign(:predictions, [])
       |> assign(:origin, nil)
       |> assign(:destination, nil)

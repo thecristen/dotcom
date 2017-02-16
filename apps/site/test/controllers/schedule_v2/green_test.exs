@@ -34,9 +34,9 @@ defmodule Site.ScheduleV2Controller.GreenTest do
   end
 
   test "assigns alerts for all branches", %{conn: conn} do
-    {:ok, date_time, _} = DateTime.from_iso8601("2017-02-10T11:28:02.639258-05:00")
+    date_time = ~N[2017-02-10T11:28:02]
     conn = conn
-    |> assign(:date, DateTime.to_date(date_time))
+    |> assign(:date, NaiveDateTime.to_date(date_time))
     |> assign(:date_time, date_time)
     |> assign(:route, @green_line)
     |> fetch_query_params

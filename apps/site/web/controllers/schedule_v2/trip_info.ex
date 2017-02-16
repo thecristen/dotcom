@@ -33,6 +33,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     end
   end
 
+
+  # Returns the selected trip ID based on the conn's query params or stop times.
+  @spec trip_id(Conn.t) :: String.t | nil
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end
@@ -54,6 +57,12 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     nil
   end
 
+  # Checks if trips should be collapsed, based on the conn.
+  @spec collapse?(Conn.t) :: boolean
+  defp collapse?(conn) do
+    is_nil(conn.query_params["show_collapsed_trip_stops?"])
+  end
+
   defp handle_trip(conn, selected_trip_id, opts) do
     case build_info(selected_trip_id, conn, opts) do
       {:error, _} ->
@@ -71,7 +80,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     |> opts[:trip_fn].()
     |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
     |> TripInfo.from_list(
-      collapse?: is_nil(conn.query_params["show_collapsed_trip_stops?"]),
+      collapse?: collapse?(conn),
       vehicle: opts[:vehicle_fn].(trip_id),
       origin_id: conn.query_params["origin"],
       destination_id: conn.query_params["destination"])
