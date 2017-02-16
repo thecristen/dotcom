@@ -1,5 +1,5 @@
 defmodule Site.ViewHelpers do
-  import Site.Router.Helpers
+  import Site.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
   import Phoenix.HTML, only: [raw: 1]
   import Phoenix.HTML.Link, only: [link: 2]
   import Phoenix.HTML.Tag, only: [content_tag: 3, tag: 2]
@@ -269,5 +269,18 @@ defmodule Site.ViewHelpers do
   @spec summaries_for_filters([keyword()], atom) :: [Fares.Summary.t]
   defp summaries_for_filters(filters, mode) do
     filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
+  end
+
+  def schedule_path(conn_or_endpoint, method, arg, opts \\ [])
+  def schedule_path(%Plug.Conn{} = conn, method, arg, opts) do
+    helper = if Laboratory.enabled?(conn, :schedules_v2) do
+      :schedule_v2_path
+    else
+      :schedule_path
+    end
+    apply(Site.Router.Helpers, helper, [conn, method, arg, opts])
+  end
+  def schedule_path(endpoint, method, arg, opts) do
+    Site.Router.Helpers.schedule_path(endpoint, method, arg, opts)
   end
 end

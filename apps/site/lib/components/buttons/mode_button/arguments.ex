@@ -10,6 +10,7 @@ defmodule Site.Components.Buttons.ModeButton do
 
   defstruct class:           "",
             id:              nil,
+            conn:            Site.Endpoint, # not a conn but works in the link helpers
             alert:           nil,
             route:           %{id: "CR-Fitchburg", key_route?: false, name: "Fitchburg Line", type: 2}
 
@@ -54,6 +55,6 @@ defmodule Site.Components.Buttons.ModeButton do
   def has_alert?(_), do: true
 
   def link_tag(args) do
-    Tag.tag :a, class: "mode-group-btn #{args.class}", id: args.id, href: Site.Router.Helpers.schedule_path(Site.Endpoint, :show, args.route.id)
+    Tag.tag :a, class: "mode-group-btn #{args.class}", id: args.id, href: Site.ViewHelpers.schedule_path(args.conn, :show, args.route.id)
   end
 end

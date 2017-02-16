@@ -10,6 +10,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
 
   defstruct class:     "",
             id:        nil,
+            conn:      Site.Endpoint,  # not a conn, but works in the link helpers
             routes:    [
               %Routes.Route{id: "CR-Fitchburg", key_route?: false, name: "Fitchburg Line", type: 2},
               %Routes.Route{id: "CR-Worcester", key_route?: false, name: "Framingham/Worcester Line", type: 2}
@@ -22,6 +23,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   @type t :: %__MODULE__{
     class: String.t,
     id: String.t | nil,
+    conn: Plug.Conn.t,
     routes: [Routes.Route.t | ButtonGroup.button_arguments],
     alerts: [Alerts.Alert.t] | nil,
     date: DateTime.t | nil,
@@ -68,12 +70,12 @@ defmodule Site.Components.Buttons.ModeButtonList do
   2. The url that the link should point to.
   """
   @spec button_content(Routes.Route.t, __MODULE__.t) :: {[String.t | Phoenix.HTML.Safe.t], String.t}
-  def button_content(route, %__MODULE__{alerts: alerts, date: date}) do
+  def button_content(route, %__MODULE__{conn: conn, alerts: alerts, date: date}) do
     {[
       icon_if_subway(route),
       Site.ViewHelpers.clean_route_name(route.name),
       alert_icon(route, alerts, date)
-    ], Site.Router.Helpers.schedule_path(Site.Endpoint, :show, route.id)}
+    ], Site.ViewHelpers.schedule_path(conn, :show, route.id)}
   end
 
   @doc """
