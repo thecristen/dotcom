@@ -32,36 +32,10 @@
     <% end %>
     </p>
 
-    <div class="station-map-container">
-      <div class="embed-responsive embed-responsive-21by9 station-info-map">
-        <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
-          <%# This generates a srcset for our responsive image component,
-              based on the sizes of the current iframe.  It generates a
-              srcset entry for each width/height pair, as well as a
-              double-width entry for the 2x scaled Google Maps image. %>
-          <img
-            class="img-fluid"
-            alt=""
-            srcset="<%= [
-                        {140, 60},
-                        {280, 120},
-                        {340, 146},
-                        {400, 172},
-                        {520, 222}
-                        ]
-                        |> GoogleMaps.scale
-                        |> Enum.map(fn {width, height, scale} ->
-                          {"#{width * scale}", map_url(@stop, width, height, scale)}
-                          end)
-                        |> Picture.srcset %>"
-            sizes="(min-width: 1344px) 1099w,
-                   (min-width: 1088px) 734w,
-                   (min-width: 800px) 694w,
-                   calc(100vw - 1.5rem)"
-            src="<%= map_url(@stop, 735, 314, 2) %>"/>
-        <% end %>
-      </div>
-    </div>
+    <%= if @tab == "info" do %>
+      <%= render "_map.html", forward_assigns(@conn) %>
+    <% end %>
+
     <%= tab_list(%TabList{
       links: [
         {"Schedule", update_url(@conn, tab: "schedule"), tab_selected?("schedule", @tab)},

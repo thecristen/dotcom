@@ -26,8 +26,8 @@
     <link rel="icon" href="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png") %>" sizes="32x32" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
     <%= if assigns[:requires_google_maps?] do %>
-      <script type="application/javascript">window.setupTNM = function() {};</script>
-      <script async defer src="<%= raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places&callback=setupTNM") %>"></script>
+      <script type="application/javascript">window.mapsCallback = function() {};</script>
+      <script async defer src="<%= raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places&callback=mapsCallback") %>"></script>
     <% end %>
   </head>
 

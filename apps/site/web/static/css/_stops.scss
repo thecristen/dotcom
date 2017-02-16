@@ -138,4 +138,17 @@
 
 .station-map-container {
   margin-bottom: 1rem;
+
+  .google-map {
+    height: 16.5rem;
+    width: 100%;
+
+    @include media-breakpoint-only(md) {
+      height: 14.375rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      height: 10rem;
+    }
+  }
 }

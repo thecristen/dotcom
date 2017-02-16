@@ -72,6 +72,20 @@ defmodule Site.StopControllerTest do
     end
   end
 
+  test "assigns the google maps requirement only when info tab is selected", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
+    assert conn.assigns.requires_google_maps?
+    conn = get conn, stop_path(conn, :show, "Readville", tab: "schedule")
+    refute conn.assigns[:requires_google_maps?]
+  end
+
+  test "Only render map when info tab is selected", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
+    assert html_response(conn, 200) =~ "station-map-container"
+    conn = get conn, stop_path(conn, :show, "Readville", tab: "schedule")
+    refute html_response(conn, 200) =~ "station-map-container"
+  end
+
   describe "access_alerts/2" do
     alias Alerts.Alert
     alias Alerts.InformedEntity, as: IE
