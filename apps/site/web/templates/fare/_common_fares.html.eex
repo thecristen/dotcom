@@ -1,13 +1,12 @@
+<% dark? = assigns[:dark] == true %>
+<% fare_class =  if dark?, do: "col-sm-5 common-fare-dark", else: "common-fare col-sm-6" %>
 <div class="common-fares">
   <div class="row">
-    <div class="col-sm-6 common-fare">
+    <%= link to: fare_path(@conn, :show, :bus_subway), class: fare_class do %>
       <p>
-        <%= link to: fare_path(@conn, :show, :bus_subway) do
-          [
-            content_tag(:span, "Subway Single Ride"),
-            svg_icon_with_circle(%SvgIconWithCircle{icon: :subway})
-          ]
-        end %>
+      <%= content_tag(:span, "Subway Single Ride") %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %>
+
       </p>
       <ul>
         <li>
@@ -19,15 +18,11 @@
           <span class="pull-right"><%= format_price mode: :subway, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
         </li>
       </ul>
-    </div>
-    <div class="col-sm-6 common-fare">
+    <% end %>
+    <%= link to: fare_path(@conn, :show, :bus_subway), class: fare_class do %>
       <p>
-        <%= link to: fare_path(@conn, :show, :bus_subway) do
-          [
-            content_tag(:span, "Local Bus Single Ride"),
-            svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
-          ]
-        end %>
+      <%= content_tag(:span, "Local Bus Single Ride") %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %>
       </p>
       <ul>
         <li>
@@ -39,18 +34,14 @@
           <span class="pull-right"><%= format_price name: :local_bus, duration: :single_trip, media: [:charlie_ticket, :cash] %></span>
         </li>
       </ul>
-    </div>
+    <% end %>
   </div>
   <div class="row">
-    <div class="col-sm-6 common-fare">
+    <%= link to: fare_path(@conn, :show, :bus_subway, filter: :passes), class: fare_class do %>
       <p>
-        <%= link to: fare_path(@conn, :show, :bus_subway, filter: :passes) do
-          [
-            content_tag(:span, "Monthly LinkPass"),
-            svg_icon_with_circle(%SvgIconWithCircle{icon: :bus}),
-            svg_icon_with_circle(%SvgIconWithCircle{icon: :subway})
-          ]
-        end %>
+      <%= content_tag(:span, "Monthly LinkPass") %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-small"}) %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, class: "icon-small"}) %>
       </p>
       <ul>
         <li>
@@ -58,15 +49,11 @@
           <span class="pull-right"><%= format_price duration: :month, media: [:charlie_card, :charlie_ticket] %></span>
         </li>
       </ul>
-    </div>
-    <div class="col-sm-6 common-fare">
+    <% end %>
+    <%= link to: fare_path(@conn, :show, :commuter_rail), class: "#{fare_class} commuter-fare" do %>
       <p>
-        <%= link to: fare_path(@conn, :show, :commuter_rail) do
-          [
-            content_tag(:span, "Commuter Rail One Way"),
-            svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail})
-          ]
-        end %>
+      <%= content_tag(:span, "Commuter Rail One Way") %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
       </p>
       <ul>
         <li>
@@ -75,6 +62,6 @@
           <span class="pull-right"><%= price_range %></span>
         </li>
       </ul>
-    </div>
+    <% end %>
   </div>
 </div>

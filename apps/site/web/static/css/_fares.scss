@@ -226,7 +226,6 @@ a {
   }
 
   li {
-    background-color: $white;
     border-top: 1px solid $gray-lightest;
     color: $gray-dark;
     padding: $space-8;
@@ -240,11 +239,48 @@ a {
     }
   }
 
-  a:hover {
+  &:hover {
+    background-color: $brand-primary-lightest;
     text-decoration: none;
+  }
+}
 
-    span {
-      text-decoration: underline;
+.common-fare-dark {
+  border: 1px solid $brand-primary-dark;
+  border-left: 6px solid $brand-primary-light;
+  margin-right: $space-16;
+  padding-top: $space-8;
+
+  &:first-child {
+    margin-bottom: $space-12;
+  }
+
+  ul {
+    margin-bottom: $space-8;
+  }
+
+  li {
+    border-top: 0;
+    color: $white;
+    padding: $space-4;
+
+    @include media-breakpoint-only(md) {
+      @include clearfix();
+      .charlie-card-or-ticket {
+        float: left;
+        width: 60%;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: $fare-highlight-background;
+    text-decoration: none;
+  }
+
+  &.commuter-fare {
+    @include media-breakpoint-only(md) {
+      padding-bottom: $space-24;
     }
   }
 }
