@@ -80,7 +80,7 @@ defmodule Site.ScheduleViewTest do
       |> assign(:predictions, [
             %Prediction{
               trip: second_schedule.trip,
-              stop_id: second_schedule.stop.id,
+              stop: second_schedule.stop,
               route: second_schedule.route,
               direction_id: second_schedule.trip.direction_id,
               time: Util.now,
@@ -103,7 +103,7 @@ defmodule Site.ScheduleViewTest do
       |> assign(:predictions, [
             %Prediction{
               trip: schedule.trip,
-              stop_id: schedule.stop.id,
+              stop: schedule.stop,
               route: schedule.route,
               direction_id: schedule.trip.direction_id,
               time: time

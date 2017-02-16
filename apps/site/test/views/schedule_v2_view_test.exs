@@ -74,7 +74,7 @@ defmodule Site.ScheduleV2ViewTest do
       now = Timex.now
       stop_times = StopTimeList.build(
         [%Schedules.Schedule{route: route, trip: %Trip{direction_id: 1, id: "t2"}, stop: stop, time: now}],
-        [%Predictions.Prediction{route: route, stop_id: stop.id, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
+        [%Predictions.Prediction{route: route, stop: stop, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
         stop.id,
         nil,
         :keep_all,
@@ -263,7 +263,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "Schedule Alerts" do
     @schedule %Schedule{trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
-    @prediction %Prediction{trip: %Trip{id: "trip_pred"}, stop_id: "stop_pred"}
+    @prediction %Prediction{trip: %Trip{id: "trip_pred"}, stop: %Schedules.Stop{id: "stop_pred"}}
 
     @alerts [
         %Alerts.Alert{
@@ -382,7 +382,7 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "when there is a prediction for the stop and trip, returns that prediction", %{conn: conn} do
-      prediction = %Predictions.Prediction{stop_id: "place-sstat", trip: %Schedules.Trip{id: "1234"}, status: "Now Boarding", track: 4}
+      prediction = %Predictions.Prediction{stop: %Schedules.Stop{id: "place-sstat"}, trip: %Schedules.Trip{id: "1234"}, status: "Now Boarding", track: 4}
       conn = conn
       |> assign(:vehicle_predictions, [prediction])
 

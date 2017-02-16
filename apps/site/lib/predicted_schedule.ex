@@ -26,7 +26,7 @@ defmodule PredictedSchedule do
   @spec group_by_trip([Prediction.t], [Schedule.t]) :: [PredictedSchedule.t]
   def group_by_trip(predictions, schedules) do
     schedule_map = Map.new(schedules, &({&1.stop.id, &1}))
-    prediction_map = Map.new(predictions, &({&1.stop_id, &1}))
+    prediction_map = Map.new(predictions, &({&1.stop.id, &1}))
 
     schedule_map
     |> stop_ids(prediction_map)
@@ -36,14 +36,14 @@ defmodule PredictedSchedule do
   end
 
   @doc """
-  Returns the stop id for a given PredictedSchedule
+  Returns the stop for a given PredictedSchedule
   """
-  @spec stop_id(PredictedSchedule.t) :: String.t
-  def stop_id(%{schedule: %Schedule{stop: stop}}), do: stop.id
-  def stop_id(%{prediction: %Prediction{stop_id: stop_id}}), do: stop_id
+  @spec stop(PredictedSchedule.t) :: Schedules.Stop.t
+  def stop(%{schedule: %Schedule{stop: stop}}), do: stop
+  def stop(%{prediction: %Prediction{stop: stop}}), do: stop
 
   @doc """
-  Returns the route id for a given PredictedSchedule.
+  Returns the route for a given PredictedSchedule.
   """
   @spec route(PredictedSchedule.t) :: Routes.Route.t
   def route(%{schedule: %Schedule{route: route}}), do: route

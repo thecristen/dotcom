@@ -1,7 +1,7 @@
 defmodule Site.ScheduleView do
   use Site.Web, :view
   alias Routes.Route
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.{Schedule, Trip, Stop}
 
   @schedule_display_initial 12
   @schedule_display_buffer 6
@@ -145,7 +145,7 @@ defmodule Site.ScheduleView do
   def prediction_for_schedule(predictions, %Schedule{trip: %{id: trip_id}, stop: %{id: stop_id}}) do
     predictions
     |> Enum.find(
-      &match?(%{trip: %Trip{id: ^trip_id}, stop_id: ^stop_id}, &1)
+      &match?(%{trip: %Trip{id: ^trip_id}, stop: %Stop{id: ^stop_id}}, &1)
     )
   end
 

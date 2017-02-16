@@ -142,8 +142,7 @@ defmodule Site.ScheduleV2View do
   @spec stop_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
   def stop_alerts(predicted_schedule, alerts, route_id, direction_id) do
     PredictedSchedule.map_optional(predicted_schedule, [:schedule, :prediction], [], fn x ->
-      stop_id = Map.get(x, :stop_id) || x.stop.id
-      Alerts.Stop.match(alerts, stop_id, time: x.time, route: route_id, direction_id: direction_id)
+      Alerts.Stop.match(alerts, x.stop.id, time: x.time, route: route_id, direction_id: direction_id)
     end)
   end
 
@@ -213,7 +212,7 @@ defmodule Site.ScheduleV2View do
   @spec prediction_for_vehicle_location(Plug.Conn.t, String.t, String.t) :: Predictions.Prediction.t
   def prediction_for_vehicle_location(%{assigns: %{vehicle_predictions: vehicle_predictions}}, stop_id, trip_id) do
     vehicle_predictions
-    |> Enum.find(fn prediction -> prediction.stop_id == stop_id && prediction.trip.id == trip_id end)
+    |> Enum.find(fn prediction -> prediction.stop.id == stop_id && prediction.trip.id == trip_id end)
   end
   def prediction_for_vehicle_location(conn, _stop_id, _trip_id) do
     conn

@@ -1,8 +1,8 @@
 defmodule Predictions.Prediction do
-  defstruct [:trip, :stop_id, :route, :direction_id, :time, :schedule_relationship, :track, :status, :departing?]
+  defstruct [:trip, :stop, :route, :direction_id, :time, :schedule_relationship, :track, :status, :departing?]
   @type t :: %__MODULE__{
     trip: Schedules.Trip.t | nil,
-    stop_id: String.t,
+    stop: Schedules.Stop.t,
     route: Routes.Route.t,
     direction_id: 0 | 1,
     time: DateTime.t,

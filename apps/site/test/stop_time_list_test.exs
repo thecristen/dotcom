@@ -61,70 +61,70 @@ defmodule StopTimeListTest do
   @pred_stop1_trip2__8_05 %Prediction{
     time: ~N[2017-01-01T08:05:00],
     route: @route,
-    stop_id: "stop1",
+    stop: %Stop{id: "stop1"},
     trip: %Trip{id: "trip2"}
   }
 
   @pred_stop2_trip2__8_16 %Prediction{
     time: ~N[2017-01-01T08:16:00],
     route: @route,
-    stop_id: "stop2",
+    stop: %Stop{id: "stop2"},
     trip: %Trip{id: "trip2"}
   }
 
   @pred_stop3_trip2__8_32 %Prediction{
     time: ~N[2017-01-01T08:32:00],
     route: @route,
-    stop_id: "stop3",
+    stop: %Stop{id: "stop3"},
     trip: %Trip{id: "trip2"}
   }
 
   @pred_stop1_trip1__8_05 %Prediction{
       time: ~N[2017-01-01T08:05:00],
       route: @route,
-      stop_id: "stop1",
+      stop: %Stop{id: "stop1"},
       trip: %Trip{id: "trip1"}
   }
 
   @pred_stop1_trip2__8_16 %Prediction{
       time: ~N[2017-01-01T08:16:00],
       route: @route,
-      stop_id: "stop1",
+      stop: %Stop{id: "stop1"},
       trip: %Trip{id: "trip2"}
   }
 
   @pred_stop1_trip3__8_32 %Prediction{
       time: ~N[2017-01-01T08:32:00],
       route: @route,
-      stop_id: "stop1",
+      stop: %Stop{id: "stop1"},
       trip: %Trip{id: "trip3"}
   }
 
   @pred_stop1_trip4__8_35 %Prediction{
       time: ~N[2017-01-01T08:35:00],
       route: @route,
-      stop_id: "stop1",
+      stop: %Stop{id: "stop1"},
       trip: %Trip{id: "trip4"}
   }
 
   @pred_stop1_trip5__8_36 %Prediction{
       time: ~N[2017-01-01T08:36:00],
       route: @route,
-      stop_id: "stop1",
+      stop: %Stop{id: "stop1"},
       trip: %Trip{id: "trip5"}
   }
 
   @pred_stop1_trip6__8_37 %Prediction{
       time: ~N[2017-01-01T08:37:00],
       route: @route,
-      stop_id: "stop1",
+      stop: %Stop{id: "stop1"},
       trip: %Trip{id: "trip6"}
   }
 
   @pred_stop3_trip6__8_38 %Prediction{
       time: ~N[2017-01-01T08:38:00],
       route: @route,
-      stop_id: "stop3",
+      stop: %Stop{id: "stop3"},
       trip: %Trip{id: "trip6"}
   }
 
@@ -218,7 +218,7 @@ defmodule StopTimeListTest do
               prediction: %Prediction{
                 time: ~N[2017-01-01T08:05:00],
                 route: @route,
-                stop_id: "stop1",
+                stop: %Stop{id: "stop1"},
                 trip: %Trip{id: "trip2"}
               }
             },
@@ -246,7 +246,7 @@ defmodule StopTimeListTest do
       prediction = %Prediction{
         time: ~N[2017-01-01T07:05:00],
         route: @route,
-        stop_id: "stop1",
+        stop: %Stop{id: "stop1"},
         trip: %Trip{id: "trip1"}
       }
       result = build(Enum.filter(@origin_schedules, & &1.trip.id != "trip1"), [prediction | @predictions], "stop1", nil, :predictions_then_schedules, @time)
@@ -280,7 +280,7 @@ defmodule StopTimeListTest do
       prediction = %Prediction{
         time: ~N[2017-01-01T09:05:00],
         route: @route,
-        stop_id: "stop1",
+        stop: %Stop{id: "stop1"},
         trip: %Trip{id: "trip4"}
       }
       schedule = %Schedule{
@@ -305,7 +305,7 @@ defmodule StopTimeListTest do
               prediction: %Prediction{
                 time: ~N[2017-01-01T08:05:00],
                 route: @route,
-                stop_id: "stop1",
+                stop: %Stop{id: "stop1"},
                 trip: %Trip{id: "trip2"}
               }
             },
@@ -318,7 +318,7 @@ defmodule StopTimeListTest do
               prediction: %Prediction{
                 time: ~N[2017-01-01T09:05:00],
                 route: @route,
-                stop_id: "stop1",
+                stop: %Stop{id: "stop1"},
                 trip: %Trip{id: "trip4"}
               }
             },
@@ -472,7 +472,7 @@ defmodule StopTimeListTest do
               prediction: %Prediction{
                 time: ~N[2017-01-01T08:32:00],
                 route: @route,
-                stop_id: "stop3",
+                stop: %Stop{id: "stop3"},
                 trip: %Trip{id: "trip2"}
               }
             },
@@ -486,7 +486,7 @@ defmodule StopTimeListTest do
               prediction: %Prediction{
                 time: ~N[2017-01-01T08:05:00],
                 route: @route,
-                stop_id: "stop1",
+                stop: %Stop{id: "stop1"},
                 trip: %Trip{id: "trip2"}
               }
             },
@@ -521,7 +521,7 @@ defmodule StopTimeListTest do
       prediction = %Prediction{
         time: ~N[2017-01-01T07:31:00],
         route: @route,
-        stop_id: "stop3",
+        stop: %Stop{id: "stop3"},
         trip: %Trip{id: "t_new"}
       }
       result = build(@od_schedules, [prediction | @predictions], "stop1", "stop3", :predictions_then_schedules, @time)
@@ -551,7 +551,7 @@ defmodule StopTimeListTest do
       prediction = %Prediction{
         time: ~N[2017-01-01T07:31:00],
         route: @route,
-        stop_id: "stop3",
+        stop: %Stop{id: "stop3"},
         trip: %Trip{id: "t_new"}
       }
       result = build([schedule_pair | @od_schedules], [prediction | @predictions], "stop1", "stop3", :predictions_then_schedules, @time)
@@ -617,7 +617,7 @@ defmodule StopTimeListTest do
       prediction = %Prediction{
         time: Util.now,
         route: @route,
-        stop_id: "stop1",
+        stop: %Stop{id: "stop1"},
         trip: nil
       }
       result = build_predictions_only(nil, [prediction], "stop1", nil)
@@ -637,10 +637,10 @@ defmodule StopTimeListTest do
       prediction = %Prediction{
         time: Util.now,
         route: @route,
-        stop_id: "stop1",
+        stop: %Stop{id: "stop1"},
         trip: nil
       }
-      arrival_prediction = %{prediction | stop_id: "stop3"}
+      arrival_prediction = %{prediction | stop: %Stop{id: "stop3"}}
       predictions = [prediction, arrival_prediction]
       result = build_predictions_only(nil, predictions, "stop1", "stop3")
       assert result == %StopTimeList{
