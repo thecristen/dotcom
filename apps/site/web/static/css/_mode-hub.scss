@@ -1,6 +1,6 @@
 @import 'variables';
 
 .system-map {
-  @extend .img-fluid;
+  @include img-fluid();
   margin-bottom: $base-spacing;
 }
