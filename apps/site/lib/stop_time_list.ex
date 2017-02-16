@@ -5,7 +5,7 @@ defmodule StopTimeList do
   """
 
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Stop, Trip}
+  alias Schedules.{Schedule, Trip}
 
   defstruct [
     times: [],
@@ -19,16 +19,11 @@ defmodule StopTimeList do
   @type schedule_pair :: {Schedule.t, Schedule.t}
   @type schedule_map :: %{Trip.t => %{stop_id => Schedule.t}}
   @type schedule_pair_map :: %{Trip.t => schedule_pair}
-  @type prediction_map :: %{Trip.t => %{stop_id => Prediction.t}}
 
-  @type filter_flag :: :keep_all | :last_trip_and_upcoming | :predictions_then_schedules
-
-  @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, filter_flag, DateTime.t | nil) :: __MODULE__.t
-  def build(schedules, predictions, origin, destination, filter_flag, current_time) do
-    filtered_predictions = filtered_predictions(predictions, schedules, destination)
-
+  @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil) :: __MODULE__.t
+  def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time) do
     schedules
-    |> build_times(filtered_predictions, origin, destination)
+    |> build_times(predictions, origin_id, destination_id)
     |> from_times(filter_flag, current_time)
   end
 
@@ -37,60 +32,62 @@ defmodule StopTimeList do
   missing departure_predictions. Limits to 5 predictions at most.
   """
   @spec build_predictions_only([Schedule.t | schedule_pair | nil], [Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
-  def build_predictions_only(schedules, predictions, origin, destination) do
-    filtered_predictions = filtered_predictions(predictions, schedules, destination)
-
-    []
-    |> build_times(filtered_predictions, origin, destination)
+  def build_predictions_only(schedules, predictions, origin_id, destination_id) do
+    schedules
+    |> build_times(predictions, origin_id, destination_id)
     |> Enum.filter(&StopTime.has_departure_prediction?/1)
     |> Enum.take(5)
     |> from_times(:keep_all, nil)
   end
 
   @spec build_times([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
-  defp build_times(schedules, predictions, origin, destination) when is_binary(origin) and is_binary(destination) do
+  defp build_times(schedules, predictions, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
     group_trips(
       schedules,
       predictions,
+      origin_id,
+      destination_id,
       &build_schedule_pair_map/2,
-      &build_stop_time(&1, &2, &3, origin, destination)
+      &build_stop_time(&1, &2, &3, origin_id, destination_id)
     )
   end
-  defp build_times(schedules, predictions, origin, nil) when is_binary(origin) do
+  defp build_times(schedules, predictions, origin_id, nil) when is_binary(origin_id) do
     group_trips(
       schedules,
       predictions,
+      origin_id,
+      nil,
       &build_schedule_map/2,
-      &predicted_departures(&1, &2, &3, origin)
+      &predicted_departures(&1, &2, &3, origin_id)
     )
   end
-  defp build_times(_schedules, _predictions, _origin, _destination), do: []
+  defp build_times(_schedules, _predictions, _origin_id, _destination_id), do: []
 
   # Creates a StopTimeList object from a list of times and the showing_all? flag
-  @spec from_times([StopTime.t], filter_flag, DateTime.t | nil) :: __MODULE__.t
+  @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil) :: __MODULE__.t
   defp from_times(stop_times, filter_flag, current_time) do
     %__MODULE__{
       times:
-        stop_times
-        |> StopTimeFilter.filter(filter_flag, current_time)
-        |> StopTimeFilter.sort
-        |> StopTimeFilter.limit(filter_flag),
+        stop_times 
+        |> StopTime.Filter.filter(filter_flag, current_time)
+        |> StopTime.Filter.sort
+        |> StopTime.Filter.limit(filter_flag),
       showing_all?: filter_flag == :keep_all
     }
   end
 
-  defp group_trips(schedules, predictions, build_schedule_map_fn, trip_mapper_fn) do
-    prediction_map = Enum.reduce(predictions, %{}, &build_prediction_map/2)
+  defp group_trips(schedules, predictions, origin_id, destination_id, build_schedule_map_fn, trip_mapper_fn) do
+    prediction_map = PredictedSchedule.Group.build_prediction_map(predictions, schedules, origin_id, destination_id)
     schedule_map = Enum.reduce(schedules, %{}, build_schedule_map_fn)
 
     schedule_map
-    |> get_trips(predictions)
+    |> get_trips(prediction_map)
     |> Enum.map(&(trip_mapper_fn.(&1, schedule_map, prediction_map)))
   end
 
-  @spec build_stop_time(Trip.t | nil, schedule_pair_map, prediction_map, stop_id, stop_id) :: StopTime.t
-  defp build_stop_time(trip, schedule_map, prediction_map, origin, dest) do
-    departure_prediction = prediction_map[trip][origin]
+  @spec build_stop_time(Trip.t | nil, schedule_pair_map, PredictedSchedule.Group.prediction_map_t, stop_id, stop_id) :: StopTime.t
+  defp build_stop_time(trip, schedule_map, prediction_map, origin_id, dest) do
+    departure_prediction = prediction_map[trip][origin_id]
     arrival_prediction = prediction_map[trip][dest]
     case Map.get(schedule_map, trip) do
       {departure, arrival} -> %StopTime{
@@ -106,10 +103,10 @@ defmodule StopTimeList do
     end
   end
 
-  @spec predicted_departures(Trip.t | nil, schedule_map, prediction_map, stop_id) :: StopTime.t
-  defp predicted_departures(trip, schedule_map, prediction_map, origin) do
-    departure_schedule = schedule_map[trip][origin]
-    departure_prediction = prediction_map[trip][origin]
+  @spec predicted_departures(Trip.t | nil, schedule_map, PredictedSchedule.Group.prediction_map_t, stop_id) :: StopTime.t
+  defp predicted_departures(trip, schedule_map, prediction_map, origin_id) do
+    departure_schedule = schedule_map[trip][origin_id]
+    departure_prediction = prediction_map[trip][origin_id]
     %StopTime{
       departure: %PredictedSchedule{schedule: departure_schedule, prediction: departure_prediction},
       arrival: nil,
@@ -117,10 +114,9 @@ defmodule StopTimeList do
     }
   end
 
-  @spec get_trips(%{Trip.t => any}, [Prediction.t]) :: [Trip.t]
-  defp get_trips(schedule_map, predictions) do
-    predictions
-    |> Enum.map(& &1.trip)
+  @spec get_trips(%{Trip.t => any}, PredictedSchedule.Group.prediction_map_t) :: [Trip.t]
+  defp get_trips(schedule_map, prediction_map) do
+    Map.keys(prediction_map)
     |> Enum.concat(Map.keys(schedule_map))
     |> Enum.uniq
   end
@@ -130,39 +126,9 @@ defmodule StopTimeList do
     Map.put(schedule_pair_map, departure.trip, {departure, arrival})
   end
 
-  @spec build_prediction_map(Prediction.t, prediction_map) :: prediction_map
-  defp build_prediction_map(prediction, prediction_map) do
-    updater = fn(trip_map) -> Map.merge(trip_map, %{prediction.stop.id => prediction}) end
-    Map.update(prediction_map, prediction.trip, %{prediction.stop.id => prediction}, updater)
-  end
-
   @spec build_schedule_map(Schedule.t, schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
     updater = fn(trip_map) -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
     Map.update(schedule_map, schedule.trip, %{schedule.stop.id => schedule}, updater)
-  end
-
-  # Remove any predictions for trips that don't go through the
-  # destination stop, by checking the list of schedules to ensure that
-  # there's an O/D pair for each prediction's trip.
-  defp filtered_predictions(predictions, _schedules, nil), do: predictions
-  defp filtered_predictions(predictions, nil, _destination), do: predictions
-  defp filtered_predictions(predictions, schedules, destination) do
-    schedule_pair_trip_ids = MapSet.new(
-      schedules,
-      fn
-        {_, %Schedule{trip: %Trip{id: trip_id}, stop: %Stop{id: ^destination}}} -> trip_id
-        _ -> nil
-      end
-    )
-
-    Enum.filter(
-      predictions,
-      fn
-        %Prediction{trip: nil} -> false
-        %Prediction{stop: %Stop{id: ^destination}} -> true
-        %Prediction{trip: %Trip{id: trip_id}} -> trip_id in schedule_pair_trip_ids
-      end
-    )
   end
 end

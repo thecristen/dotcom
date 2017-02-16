@@ -1,6 +1,6 @@
 defmodule StopTimeListFilterTest do
   use ExUnit.Case, async: true
-  import StopTimeFilter
+  import StopTime.Filter
 
   alias Schedules.Schedule
   alias Predictions.Prediction
