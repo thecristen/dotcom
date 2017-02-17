@@ -107,6 +107,10 @@
   padding: 2.25rem 0;
 }
 
+.menu-link-row {
+  padding-bottom: $space-24;
+}
+
 .header-column {
   border-left: 1px solid $white;
   border-right: 1px solid $white;
@@ -240,6 +244,10 @@ header {
 
   @include media-breakpoint-up(md) {
     display: none;
+
+    a {
+      height: 3rem;
+    }
   }
 }
 
@@ -252,9 +260,27 @@ header {
   @include hover-focus-active {
     color: $white;
   }
+
+  &.old-site-mobile-link {
+    background-color: $brand-primary-dark;
+    color: $gray-lightest;
+    height: ($space-16 * 4);
+    margin-bottom: -$space-16 * 2;
+    margin-left: -$grid-gutter-width / 2;
+    margin-right: -$grid-gutter-width / 2;
+    padding-top: 1.2rem;
+  }
 }
 
 .mobile-nav-description {
   color: $gray-lightest;
   font-size: $font-size-sm;
+}
+
+.old-site-desktop-link {
+  background-color: $white;
+  border-radius: 3px;
+  font-weight: bold;
+  padding: $space-12 0;
+  text-align: center;
 }

@@ -73,6 +73,7 @@
             </ul>
           </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
     <div class="menu-card panel">
@@ -105,6 +106,7 @@
             <%= render Site.FareView, "_common_fares.html", conn: @conn, dark: true %>
           </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
     <div class="menu-card panel">
@@ -157,6 +159,7 @@
             </p>
           </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
     <div class="menu-card panel">
@@ -241,6 +244,7 @@
             </ul>
           </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
   </div>
