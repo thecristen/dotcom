@@ -1,6 +1,6 @@
 defmodule Fares.FormatTest do
   use ExUnit.Case, async: true
-  alias Fares.Fare
+  alias Fares.{Fare, Summary}
   import Fares.Format
 
   test "fare price gets a string version of the price formatted nicely" do
@@ -33,5 +33,72 @@ defmodule Fares.FormatTest do
     assert duration(%Fare{mode: :subway, duration: :single_trip}) == "One Way"
     assert duration(%Fare{mode: :bus, duration: :single_trip}) == "One Way"
     assert duration(%Fare{name: :ferry_inner_harbor, duration: :day}) == "One-Day Pass"
+  end
+
+  describe "summarize/2" do
+    test "bus subway groups them by name/duration/modes" do
+      base = %Fare{name: :subway, mode: :subway}
+      single_trip_cash = %{base | duration: :single_trip, media: [:cash], cents: 100}
+      single_trip_charlie_card = %{base | duration: :single_trip, media: [:charlie_card], cents: 200}
+      week_pass = %{base | duration: :week, media: [:charlie_card], cents: 300, additional_valid_modes: [:bus]}
+      month_pass = %{base | duration: :month, media: [:charlie_card, :charlie_ticket], cents: 400}
+
+      actual = summarize([single_trip_cash, single_trip_charlie_card, week_pass, month_pass], :bus_subway)
+      expected = [
+        %Summary{
+          name: ["Subway", " ", "One Way"],
+          duration: :single_trip,
+          fares: [{"Cash", "$1.00"}, {"CharlieCard", "$2.00"}],
+          modes: [:subway]
+        },
+        %Summary{
+          name: "7-Day Pass",
+          duration: :week,
+          fares: [{"CharlieCard", "$3.00"}],
+          modes: [:subway, :bus]
+        },
+        %Summary{
+          name: "Monthly LinkPass",
+          duration: :month,
+          fares: [{"CharlieCard or CharlieTicket", "$4.00"}],
+          modes: [:subway]
+        }
+      ]
+      assert actual == expected
+    end
+
+    test "commuter rail groups them by single/multiple trip and groups prices" do
+      base = %Fare{name: :commuter_rail, mode: :commuter_rail, duration: :single_trip}
+      cheap = %{base | name: {:zone, "1"}, cents: 100}
+      expensive = %{base | name: {:zone, "10"}, cents: 200}
+
+      actual = summarize([cheap, expensive], :commuter_rail)
+      expected = [
+        %Summary{
+          name: "One Way",
+          duration: :single_trip,
+          fares: [{"Zones 1A-10", ["$1.00", " - ", "$2.00"]}],
+          modes: [:commuter_rail]
+        }
+      ]
+      assert actual == expected
+    end
+
+    test "ferry groups them by single/multiple trip and groups prices" do
+      base = %Fare{name: :ferry, mode: :ferry, duration: :single_trip, name: :ferry}
+      cheap = %{base | cents: 100}
+      expensive = %{base | cents: 200}
+
+      actual = summarize([cheap, expensive], :ferry)
+      expected = [
+        %Summary{
+          name: "One Way",
+          duration: :single_trip,
+          fares: [{"All Ferry routes", ["$1.00", " - ", "$2.00"]}],
+          modes: [:ferry]
+        }
+      ]
+      assert actual == expected
+    end
   end
 end
