@@ -19,7 +19,7 @@ defmodule Site.ModeView do
   @doc "Returns a note describing fares for the given mode"
   def fares_note("Commuter Rail") do
     content_tag :p do
-      "Commuter Rail fares are separated into ten zones based on your origin and destination. Fares can be bought as One Way, Round Trip, and Monthly Passes. Shown below are the ranges for each fare zone."
+      "Fares for the Commuter Rail are separated into zones that depend on your origin and destination. Find your fare cost by entering your origin and destination."
     end
   end
   def fares_note(_mode) do
