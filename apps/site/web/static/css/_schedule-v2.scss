@@ -225,6 +225,10 @@ $z-index-trip-line: -1;
   }
 }
 
+.stop-info-column {
+  min-width: 8rem;
+}
+
 @include vehicle-location-mode-color(".commuter-rail", $brand-commuter-rail);
 @include vehicle-location-mode-color(".red-line", $brand-red-line);
 @include vehicle-location-mode-color(".blue-line", $brand-blue-line);

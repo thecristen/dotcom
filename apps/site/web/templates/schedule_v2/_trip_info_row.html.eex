@@ -3,16 +3,16 @@
     <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
   </div>
   <div class="stop-info">
-    <span>
+    <span class="stop-info-column">
+      <%= display_alerts(@alerts)%>
       <%= link @name, to: @href %>
     </span>
-    <span>
+    <span class="no-wrap stop-info-column">
       <%= if @route.type == 2 do %>
         <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
       <% else %>
         <%= display_scheduled_prediction(@predicted_schedule) %>
       <% end %>
-      <%= display_alerts(@alerts)%>
     </span>
   </div>
 </div>
