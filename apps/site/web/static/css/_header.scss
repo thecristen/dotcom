@@ -1,79 +1,59 @@
 @import 'variables';
 
-.header-image {
-  background-color: $white;
-  border-radius: 50%;
-  color: $brand-navy-dark;
-  display: inline-block;
-  height: $icon-size;
-  margin-right: .5rem;
-  text-align: center;
-  width: $icon-size;
-
-  .fa {
-    margin: .3rem;
-  }
-}
-
-@include media-breakpoint-up(md) {
-  .header > .container > .navbar {
-    padding-bottom: 0;
-  }
-}
-
 .desktop-menu-nav {
-  margin-top: 1.25rem;
-  padding: 0;
+  float: right;
+  margin-top: $space-12;
 
-  @include media-breakpoint-up(xxl) {
-    margin-top: 1rem;
-  }
-
-  .nav-link {
-    border-bottom: 6px solid $brand-secondary;
-    color: $link-color;
-    font-weight: bold;
-
-    .down {
-      display: none;
-    }
-
-    .up {
-      display: initial;
-    }
-
-    // scss-lint:disable NestingDepth
-    &.collapsed {
-      border-bottom: 6px solid $white;
-      color: $gray-dark;
-      font-weight: normal;
-
-      .down {
-        display: initial;
-      }
-
-      .up {
-        display: none;
-      }
-    }
-  }
-}
-
-.mobile-dropdown-menu {
-  .down {
+  @include media-breakpoint-down(sm) {
     display: none;
   }
 
-  .up {
+}
+
+.desktop-nav-link {
+  color: $link-color;
+  font-weight: bold;
+  height: $space-36;
+  position: relative;
+  top: $space-6;
+
+  &::after {
+    border-bottom: $space-6 solid $brand-secondary;
+    bottom: -$space-6;
+    content: '';
+    position: absolute;
+    width: 100%;
+  }
+
+  &.nav-link {
+    padding: 0; // nested to override the Bootstrap default
+  }
+
+  &.collapsed {
+    color: $gray-dark;
+    font-weight: normal;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.toggle-up-down {
+  > .down {
+    display: none;
+  }
+
+  > .up {
     display: initial;
   }
 
   &.collapsed {
-    .down {
+    > .down {
       display: initial;
     }
 
-    .up {
+    > .up {
       display: none;
     }
   }
@@ -86,6 +66,10 @@
   background-position: 0 0, 6px 6px, 12px 12px, 18px 18px;
   background-repeat: repeat no-repeat;
   padding: 0;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
 
   a {
     color: $brand-primary-light;
@@ -101,6 +85,11 @@
     list-style: none;
     padding: 0;
   }
+}
+
+.menu-panel {
+  padding-left: $grid-gutter-width / 2;
+  padding-right: $grid-gutter-width / 2;
 }
 
 // scss-lint:disable IdSelector
@@ -161,15 +150,10 @@
 }
 
 .social-nav {
-  padding-top: 7px;
-
-  @include media-breakpoint-down(md) {
-    // move social icons up on tablets
-    bottom: 3rem;
-    height: 0;
-    padding: 0;
-    position: relative;
-  }
+  bottom: 3rem;
+  height: 0;
+  padding: 0;
+  position: relative;
 
   a {
     border-radius: 100%;
@@ -186,99 +170,95 @@
       margin-left: .5rem;
     }
   }
-
-  .social-nav-instagram {
-    background-color: $white;
-
-    .fa {
-      color: $instagram;
-    }
-  }
-
-  .social-nav-youtube {
-    background-color: $youtube;
-  }
-
-  .social-nav-twitter {
-    background-color: $twitter;
-  }
 }
 
-.header {
+.social-nav-instagram {
   background-color: $white;
-}
 
-@include media-breakpoint-up(md) {
-  .navbar-brand,
-  .nav-link {
-    color: $gray-dark;
+  .fa {
+    color: $instagram;
   }
 }
 
-@include media-breakpoint-down(sm) {
-  .header {
-    background-color: $brand-primary;
-    color: $nav-mobile-link-color;
+.social-nav-youtube {
+  background-color: $youtube;
+}
+
+.social-nav-twitter {
+  background-color: $twitter;
+}
+
+header {
+  background-color: $brand-primary;
+  color: $white;
+
+  @include media-breakpoint-up(md) {
+    background-color: $body-bg;
+    color: $body-color;
   }
+}
 
-  .navbar-brand,
-  .nav-link {
-    color: $nav-mobile-link-color;
+.header-navbar {
+  @include clearfix();
+  position: relative;
+}
 
-    @include hover-focus-active {
-      color: $nav-mobile-link-color;
-      text-decoration: underline;
-    }
-  }
+.navbar-logo {
+  float: left;
+  height: $space-36;
+  margin-bottom: $space-12;
+  margin-top: $space-12;
+  width: auto;
 
-  .navbar-brand {
-    max-width: 12rem;
-  }
+  svg {
+    height: 100%;
+    width: auto;
 
-  .navbar-logo {
-    svg {
-      left: 4px;
-      position: absolute;
-      top: 4px;
-      width: 150px;
-
+    @include media-breakpoint-down(sm) {
       g {
         fill: $white;
       }
     }
   }
+}
 
+.navbar-toggle {
+  background-color: $brand-primary;
+  border: 0;
+  float: right;
+  font-size: $font-size-sm;
+  height: 100%;
+  padding: $base-spacing-sm $base-spacing;
+  position: absolute;
+  right: -$space-12;
 
-  .navbar-nav .nav-item {
-    text-align: center;
-    width: 100%;
-
-    @include media-breakpoint-down(md) {
-      padding-bottom: .75rem;
-    }
-
-    + .nav-item {
-      margin-left: 0;
-    }
-
-    a {
-      height: 3rem;
-    }
+  @include media-breakpoint-up(md) {
+    display: none;
   }
 }
 
-.navbar-logo {
+.mobile-nav {
+  @include list-unstyled();
+  text-align: center;
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.mobile-nav-link {
+  color: $white;
   display: block;
-  float: left;
-  height: 36px;
-  margin-right: .5rem;
-  width: 36px;
+  height: 3rem;
+  margin-bottom: $base-spacing;
 
-  svg {
-    fill: $gray-dark;
+  @include hover-focus-active {
+    color: $white;
   }
 }
 
-.menu-description {
+.mobile-nav-description {
   color: $gray-lightest;
+  font-size: $font-size-sm;
 }
