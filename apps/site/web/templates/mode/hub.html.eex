@@ -22,7 +22,7 @@
       </div>
       <div id="fares" class="col-md-6">
         <h2>Common Fares</h2>
-        <%= Site.FareView.summarize(@mode_name |> mode_atom() |> mode_summaries(nil)) %>
+        <%= Site.FareView.summarize(@fares) %>
         <%= fares_note(@mode_name) %>
         <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom() |> Site.StopView.fare_group()) do %>
           View <%= @mode_name %> fares <%= fa "arrow-right" %>

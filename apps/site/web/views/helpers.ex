@@ -217,6 +217,7 @@ defmodule Site.ViewHelpers do
 
   @spec mode_summaries(atom, {atom, String.t} | nil) :: [Fares.Summary.t]
   @doc "Return the fare summaries for the given mode"
+  def mode_summaries(mode_atom, name \\ nil)
   def mode_summaries(:commuter_rail, nil) do
     :commuter_rail
     |> mode_filters(nil)
@@ -225,7 +226,7 @@ defmodule Site.ViewHelpers do
   def mode_summaries(:commuter_rail, name) do
     :commuter_rail
     |> mode_filters(name)
-    |> summaries_for_filters(:bus_subway)
+    |> summaries_for_filters(:commuter_rail)
     |> Enum.map(fn(summary) -> %{summary | modes: [:commuter_rail]} end)
   end
   def mode_summaries(:ferry, name) do
@@ -254,8 +255,16 @@ defmodule Site.ViewHelpers do
      [mode: :commuter_rail, duration: :month, reduced: nil]]
   end
   defp mode_filters(:commuter_rail, name) do
-    mode_filters(:commuter_rail, nil)
+    :commuter_rail
+    |> mode_filters(nil)
     |> Enum.map(&(Keyword.put(&1, :name, name)))
+  end
+  defp mode_filters(:local_bus, _name) do
+    [
+      [name: :local_bus, duration: :single_trip, reduced: nil],
+      [name: :subway, duration: :week, reduced: nil],
+      [name: :subway, duration: :month, reduced: nil]
+    ]
   end
   defp mode_filters(:bus_subway, name) do
     [[name: :local_bus, duration: :single_trip, reduced: nil] | mode_filters(:subway, name)]

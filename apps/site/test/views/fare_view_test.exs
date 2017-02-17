@@ -39,7 +39,7 @@ defmodule Site.FareViewTest do
       assert summary_url(%Summary{modes: [:subway, :commuter_rail]}) == expected
     end
 
-    test "links to passes if that's the duration" do
+    test "if the summary has a duration, link to the passes filter" do
       expected = Site.Router.Helpers.fare_path(Site.Endpoint, :show, "bus_subway", filter: "passes")
       assert summary_url(%Summary{modes: [:bus], duration: :week}) == expected
     end

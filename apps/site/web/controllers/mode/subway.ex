@@ -1,8 +1,5 @@
 defmodule Site.Mode.SubwayController do
   use Site.Mode.HubBehavior
-  @subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
-                       [name: :subway, duration: :week, reduced: nil],
-                       [name: :subway, duration: :month, reduced: nil]]
 
   def route_type, do: 1
 
@@ -13,7 +10,7 @@ defmodule Site.Mode.SubwayController do
   end
 
   def fares do
-    @subway_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
+    Site.ViewHelpers.mode_summaries(:subway)
   end
 
   def mode_name, do: "Subway"

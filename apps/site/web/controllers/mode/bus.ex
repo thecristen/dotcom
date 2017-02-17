@@ -3,10 +3,6 @@ defmodule Site.Mode.BusController do
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  @bus_filters [[name: :local_bus, duration: :single_trip, reduced: nil],
-                       [name: :subway, duration: :week, reduced: nil],
-                       [name: :subway, duration: :month, reduced: nil]]
-
   def route_type, do: 3
 
   def mode_name, do: "Bus"
@@ -16,7 +12,7 @@ defmodule Site.Mode.BusController do
   end
 
   def fares do
-    @bus_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:bus_subway)
+    Site.ViewHelpers.mode_summaries(:bus)
   end
 
   defp link_to_bus_fares do
