@@ -1,9 +1,6 @@
 defmodule Site.Mode.FerryController do
   use Site.Mode.HubBehavior
 
-  @ferry_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
-                  [mode: :ferry, duration: :month, reduced: nil]]
-
   def route_type, do: 4
 
   def mode_name, do: "Ferry"
@@ -17,6 +14,6 @@ defmodule Site.Mode.FerryController do
   end
 
   def fares do
-    @ferry_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:ferry)
+    Site.ViewHelpers.mode_summaries(:ferry)
   end
 end

@@ -89,35 +89,30 @@ defmodule Fares.Format do
     for [base|_] = chunk <- Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
       %Summary{
         name: Fares.Format.full_name(base),
+        duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
         fares: Enum.map(chunk, &{Fares.Format.media(&1), Fares.Format.price(&1)})
       }
     end
   end
   def summarize(fares, :commuter_rail) do
-    for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
-      min_price = Enum.min_by(chunk, &(&1.cents))
-      max_price = Enum.max_by(chunk, &(&1.cents))
-      %Summary{
-        name: Fares.Format.duration(base),
-        modes: [base.mode | base.additional_valid_modes],
-        fares: [{"Zones 1A-10", [Fares.Format.price(min_price), " - ",
-                                 Fares.Format.price(max_price)]}]
-      }
-    end
+    do_price_summary(fares, "Zones 1A-10")
   end
   def summarize(fares, :ferry) do
+    do_price_summary(fares, "All Ferry routes")
+  end
+
+  defp do_price_summary(fares, summary_name) do
     for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
       min_price = Enum.min_by(chunk, &(&1.cents))
       max_price = Enum.max_by(chunk, &(&1.cents))
       %Summary{
         name: Fares.Format.duration(base),
+        duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
-        fares: [{"All Ferry routes", [Fares.Format.price(min_price), " - ",
-                                      Fares.Format.price(max_price)]}]
+        fares: [{summary_name, [Fares.Format.price(min_price), " - ",
+                                Fares.Format.price(max_price)]}]
       }
     end
   end
-
-
 end

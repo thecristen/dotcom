@@ -1,38 +1,6 @@
 @import 'variables';
 
 .system-map {
-  font-family: 'object-fit: cover; object-position: 50% 30%;';
+  @include img-fluid();
   margin-bottom: $base-spacing;
-  max-height: 240px;
-  // Polyfill for IE object-fit support
-  object-fit: cover;
-  object-position: 50% 30%;
-  width: 100%;
-
-  @include media-breakpoint-up(sm) {
-    cursor: pointer;
-    transition: max-height 1s ease, object-position 1s ease;
-
-    &.expanded {
-      max-height: map-get($container-max-widths, md);
-      object-position: initial;
-
-      &.commuter {
-        max-height: map-get($container-max-widths, md) + 30px;
-      }
-    }
-  }
-
-  // Leave the map fully expanded on mobile
-  @include media-breakpoint-down(sm) {
-    height: 100%;
-    max-height: 100%;
-  }
-}
-
-body {
-  &.no-js .system-map {
-    max-height: map-get($container-max-widths, md);
-    object-position: initial;
-  }
 }

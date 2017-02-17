@@ -2,9 +2,6 @@ defmodule Site.Mode.CommuterRailController do
   use Site.Mode.HubBehavior
   import Phoenix.HTML.Link, only: [link: 2]
 
-  @commuter_filters [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
-                     [mode: :commuter_rail, duration: :month, reduced: nil]]
-
   def route_type, do: 2
 
   def mode_name, do: "Commuter Rail"
@@ -23,7 +20,7 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   def fares do
-    @commuter_filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(:commuter_rail)
+    Site.ViewHelpers.mode_summaries(:commuter_rail)
   end
 
   defp link_to_zone_fares do

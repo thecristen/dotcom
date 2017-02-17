@@ -1,36 +1,56 @@
 .fare-summary-container {
-  @include make-row();
-  margin-bottom: $space-12;
-  width: 100%;
+  @include clearfix();
+  margin-bottom: $base-spacing;
+
+  + .fare-summary-container {
+    margin-top: -$base-spacing;
+  }
 }
 
 .fare-summary-entry {
-  @extend %grid-column;
-  @include make-col-span(12);
+  @extend %block-level-link;
+  border: $space-1 solid $gray-lightest;
+  display: table-cell;
   float: left;
+  margin-top: -$space-1;
+  padding: $base-spacing;
+  width: 100%;
 
-  @include media-breakpoint-up(md) {
-    @include make-col-span(6);
+  @include hover-focus-active {
+    background-color: $gray-lightest;
+  }
+}
+
+div:not(.col-md-6) > .fare-summary-container {
+  // only make it smaller if we're not inside a shrinking column already
+  @include media-breakpoint-up(sm) {
+    border-collapse: collapse;
+    display: table;
+    width: 100%;
+
+    + .fare-summary-container {
+      margin-top: -$base-spacing - $space-1;
+    }
+
+    .fare-summary-entry {
+      display: table-cell;
+      float: none;
+      width: 50%;
+    }
   }
 }
 
 .fare-summary-name {
   font-weight: bold;
-  margin-bottom: $base-spacing;
+  margin-bottom: $base-spacing-sm;
 }
 
 .fare-summary-mode-icons {
-  padding-left: $space-8;
+  padding-left: $base-spacing-sm;
 }
 
 .fare-summary-fare {
-  border: $border;
-  border-collapse: collapse;
-  padding: $space-12;
-
-  &:not(:first-child) {
-    border-top: 0;
-  }
+  padding: $base-spacing-sm 0;
 }
 
 .fare-summary-fare-price {

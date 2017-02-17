@@ -1,9 +1,10 @@
 <%= for chunk <- Enum.chunk(@summaries, 2, 2, []) do %>
   <div class="fare-summary-container">
     <%= for summary <- chunk do %>
+      <% url = summary_url(summary) %>
       <div class="fare-summary-entry">
         <div class="fare-summary-name">
-          <%= summary.name %>
+          <%= link summary.name, to: url %>
           <span class="fare-summary-mode-icons">
             <span class="sr-only">Valid on:</span>
             <%= for mode <- summary.modes do %>
@@ -22,6 +23,7 @@
             </div>
           <% end %>
         </div>
+        <%= link "", to: url %>
       </div>
     <% end %>
   </div>
