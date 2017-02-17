@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2Controller do
   use Site.Web, :controller
 
-  alias Routes.Route
+  alias Site.ScheduleV2Controller, as: SV2C
 
   plug Site.Plugs.Route, required: true
   plug :tab
@@ -9,13 +9,13 @@ defmodule Site.ScheduleV2Controller do
   plug Site.Plugs.DateTime
   plug Site.ScheduleController.DatePicker
   plug Site.Plugs.Alerts
-  plug Site.ScheduleV2Controller.Defaults
+  plug SV2C.Defaults
   plug Site.ScheduleController.AllStops
-  plug Site.ScheduleV2Controller.OriginDestination
-  plug Site.ScheduleV2Controller.VehicleLocations
-  plug Site.ScheduleV2Controller.Predictions
+  plug SV2C.OriginDestination
+  plug SV2C.VehicleLocations
+  plug SV2C.Predictions
   plug Site.ScheduleController.Headsigns
-  plug Site.ScheduleV2Controller.ExcludedStops
+  plug SV2C.ExcludedStops
   plug Site.ScheduleController.RouteBreadcrumbs
   plug :tab_assigns
 
@@ -24,7 +24,7 @@ defmodule Site.ScheduleV2Controller do
     |> render("show.html")
   end
 
-  defp tab(%Plug.Conn{assigns: %{route: %Route{type: 2}}} = conn, _opts) do
+  defp tab(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, _opts) do
     tab = if conn.params["tab"] == "trip-view", do: "trip-view", else: "timetable"
     conn
     |> assign(:tab, tab)
@@ -67,13 +67,13 @@ defmodule Site.ScheduleV2Controller do
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "timetable"}} = conn, _opts) do
     conn
     |> assign_trip_schedules
-    |> call_plug(Site.ScheduleV2Controller.Offset)
+    |> call_plug(SV2C.Offset)
   end
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "trip-view"}} = conn, _opts) do
     conn = conn
-    |> call_plug(Site.ScheduleV2Controller.Schedules)
-    |> call_plug(Site.ScheduleV2Controller.StopTimes)
-    |> call_plug(Site.ScheduleV2Controller.TripInfo)
+    |> call_plug(SV2C.Schedules)
+    |> call_plug(SV2C.StopTimes)
+    |> call_plug(SV2C.TripInfo)
 
     if conn.assigns.route.type == 2 do
       assign(conn, :zone_map, Map.new(conn.assigns.all_stops, &{&1.id, Zones.Repo.get(&1.id)}))

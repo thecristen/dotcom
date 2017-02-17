@@ -1,6 +1,9 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
 
+  require Routes.Route
+  alias Routes.Route
+
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
   def pretty_date(date) do
@@ -291,4 +294,15 @@ defmodule Site.ScheduleV2View do
   @spec display_branch_name(Routes.Route.id_t) :: String.t | nil
   def display_branch_name(<<"Green-", branch :: binary>>), do: branch
   def display_branch_name(_), do: nil
+
+  @doc """
+  The message to show when there are no stop times to show.
+  """
+  @spec no_stop_times_message(Route.t) :: String.t
+  def no_stop_times_message(%Route{type: type}) when Route.subway?(type) do
+    "There are no upcoming departures at this time."
+  end
+  def no_stop_times_message(_) do
+    "There are no scheduled trips at this time."
+  end
 end

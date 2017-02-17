@@ -74,8 +74,8 @@ defmodule TripInfo do
   @spec is_current_trip?(TripInfo.t, String.t) :: boolean
   def is_current_trip?(nil, _), do: false
   def is_current_trip?(%TripInfo{sections: []}, _), do: false
-  def is_current_trip?(%TripInfo{sections: [[%PredictedSchedule{schedule: %Schedules.Schedule{trip: trip}} | _] | _]}, trip_id) do
-    trip.id == trip_id
+  def is_current_trip?(%TripInfo{sections: [[predicted_schedule | _] | _]}, trip_id) do
+    PredictedSchedule.trip_id(predicted_schedule) == trip_id
   end
 
   # finds a stop ID.  If one isn't provided, or is provided as nil, then
@@ -97,7 +97,7 @@ defmodule TripInfo do
 
   defp do_from_list([time, _ | _] = times, [origin_id | _] = starting_stop_ids, destination_id, opts)
   when is_binary(origin_id) and is_binary(destination_id) do
-    route = time.schedule.route
+    route = PredictedSchedule.route(time)
     duration = duration(times, origin_id)
     sections = if opts[:collapse?] do
       TripInfo.Split.split(times, starting_stop_ids)
@@ -180,12 +180,13 @@ defmodule TripInfo do
     # return anything.
     []
   end
-  defp clamp_to_destination([%PredictedSchedule{schedule: %Schedules.Schedule{stop: %{id: destination_id}}} = time | _], destination_id, acc) do
-    [time | acc]
-    |> Enum.reverse
-  end
   defp clamp_to_destination([time | rest], destination_id, acc) do
-    clamp_to_destination(rest, destination_id, [time | acc])
+    if PredictedSchedule.stop(time).id == destination_id do
+      [time | acc]
+      |> Enum.reverse
+    else
+      clamp_to_destination(rest, destination_id, [time | acc])
+    end
   end
 
   defp duration(times, origin_id) do
@@ -202,7 +203,11 @@ defmodule TripInfo do
   end
 
   defp destination([_ | _] = times) do
-    List.last(times).schedule.stop.name
+    stop = times
+    |> List.last
+    |> PredictedSchedule.stop
+
+    stop.name
   end
 
   @doc "Determines if the trip info box should be displayed"

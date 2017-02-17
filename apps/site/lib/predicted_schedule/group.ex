@@ -18,7 +18,7 @@ defmodule PredictedSchedule.Group do
 
   @spec prediction_map_builder(Prediction.t, prediction_map_t) :: prediction_map_t
   defp prediction_map_builder(prediction, prediction_map) do
-    stop_id_prediction_map = 
+    stop_id_prediction_map =
       prediction_map
       |> Map.get(prediction.trip, %{})
       |> Map.put(prediction.stop.id, prediction)
@@ -27,13 +27,13 @@ defmodule PredictedSchedule.Group do
   end
 
   # Only leave the entries where the predictions are for the trips that match user selected origin and destination
-  # If we don't have a destination (only origin), we can safely assume that the `prediction_map` we built only 
+  # If we don't have a destination (only origin), we can safely assume that the `prediction_map` we built only
   # contains the predictions for that origin going in the right direction.
-  # If however we also have a destination, then we need to make sure that the predictions 
-  # for that destination are for the right trips. There might be predictions for arrivals that did not originate 
+  # If however we also have a destination, then we need to make sure that the predictions
+  # for that destination are for the right trips. There might be predictions for arrivals that did not originate
   # at the user selected stop.
-  # So, we filter the predictions so that they 
-  # 1) either match up to the schedule pairs, or 
+  # So, we filter the predictions so that they
+  # 1) either match up to the schedule pairs, or
   # 2) we have two predictions with the same trip_id, and one of them is for the departure stop and the other for the destination.
 
   @spec filter_relevant_predictions(prediction_map_t, [Schedule.t | schedule_pair_t], Stops.Stop.id_t, Stops.Stop.id_t | nil) :: prediction_map_t
@@ -49,10 +49,13 @@ defmodule PredictedSchedule.Group do
   defp prediction_map_entry_relevant?({%Trip{id: trip_id}, stop_id_prediction_map}, origin_id, destination_id, schedule_trip_id_set) do
     (trip_id in schedule_trip_id_set) or Enum.all?([origin_id, destination_id], &Map.has_key?(stop_id_prediction_map, &1))
   end
+  defp prediction_map_entry_relevant?({nil, _stop_id_prediction_map}, _origin_id, _destination_id, _schedule_trip_id_set) do
+    false
+  end
 
   @spec trip_ids_for_destination([schedule_pair_t] | nil, String.t | nil) :: MapSet.t
-  defp trip_ids_for_destination(_schedules, nil), do: MapSet.new() 
-  defp trip_ids_for_destination(nil, _destination_id), do: MapSet.new() 
+  defp trip_ids_for_destination(_schedules, nil), do: MapSet.new()
+  defp trip_ids_for_destination(nil, _destination_id), do: MapSet.new()
   defp trip_ids_for_destination(schedules, destination_id) do
     MapSet.new(
       schedules,

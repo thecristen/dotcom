@@ -472,14 +472,15 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "prediction_tooltip/1" do
     test "creates a tooltip for the prediction" do
-      time = Util.now
+      time = ~N[2017-02-17T05:46:28]
+      formatted_time = Timex.format!(time, "{h12}:{m} {AM}")
       prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
       result = prediction
                |> Site.ScheduleV2View.prediction_tooltip
                |> IO.iodata_to_binary
 
       assert result =~ "Now boarding on track 4"
-      assert result =~ "Arrival: #{Timex.format!(time, "{h12}:{m} {AM}")}"
+      assert result =~ "Arrival: #{formatted_time}"
     end
   end
 
@@ -500,6 +501,20 @@ defmodule Site.ScheduleV2ViewTest do
     test "Ultimate departure text not shown if not given time" do
       refute display_frequency_departure(:am_rush, nil, Util.now())
       refute display_frequency_departure(:late_night, Util.now(), nil)
+    end
+  end
+
+  describe "no_stop_times_message/1" do
+    test "for subways mentions departures" do
+      for type <- [0, 1] do
+        assert no_stop_times_message(%Routes.Route{type: type}) == "There are no upcoming departures at this time."
+      end
+    end
+
+    test "for other modes mentions schedules" do
+      for type <- [2, 3, 4] do
+        assert no_stop_times_message(%Routes.Route{type: type}) == "There are no scheduled trips at this time."
+      end
     end
   end
 end

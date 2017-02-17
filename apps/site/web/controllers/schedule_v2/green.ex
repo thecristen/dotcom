@@ -23,16 +23,12 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :predictions
   plug Site.ScheduleV2Controller.ExcludedStops
   plug Site.ScheduleV2Controller.StopTimes
-  # TODO: https://app.asana.com/0/234523466737812/269737361805728
-  # makes adding TripInfo here essentially useless; it either assigns
-  # trip_info to nil or creates a looping redirect.
-  # plug Site.ScheduleV2Controller.TripInfo
+  plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleController.RouteBreadcrumbs
 
   def green(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
-    |> assign(:trip_info, nil)
     |> render(Site.ScheduleV2View, "show.html")
   end
 

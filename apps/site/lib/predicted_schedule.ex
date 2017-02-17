@@ -102,12 +102,12 @@ defmodule PredictedSchedule do
 
   @doc """
   Returns the trip_id associated with this Predicted Schedule.
-  Returns nil if there is no schedule or prediction
+  Returns nil if there is no schedule or prediction, or if the trip ID is nil.
   """
   @spec trip_id(PredictedSchedule.t) :: String.t | nil
   def trip_id(%PredictedSchedule{} = predicted_schedule) do
     map_optional(predicted_schedule, [:schedule, :prediction], nil, fn x ->
-      x.trip.id
+      Util.safe_id(x.trip)
     end)
   end
 
