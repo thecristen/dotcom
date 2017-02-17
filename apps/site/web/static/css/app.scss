@@ -59,12 +59,6 @@ body {
 
   // Only show the main content on the mTicket app's view
   &.mticket {
-    @include media-breakpoint-down(sm) {
-      .page-section:last-child {
-        margin-bottom: 0;
-      }
-    }
-
     .announcement-container,
     .header,
     .footer,
@@ -75,6 +69,7 @@ body {
     // Remove space reserved for the footer
     .body-wrapper {
       margin-bottom: 0;
+      padding-bottom: 0;
     }
   }
 }
@@ -193,7 +188,8 @@ div {
 }
 
 .page-container {
-  margin-bottom: $base-spacing;
+  margin-bottom: 0;
+  padding-bottom: $base-spacing * 2;
 }
 
 %callout {

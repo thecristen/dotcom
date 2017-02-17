@@ -1,6 +1,6 @@
-<footer class="footer">
+<%= content_tag(:footer, class: "footer#{if @include_photo_credits?, do: " with-photo-credits"}") do %>
   <div class="container">
-    <ul class="footer-link-list">
+    <ul class="footer-link-list footer-link-list-large">
       <li class="footer-link-list-item">
         Transit Services
         <ul class="footer-link-sublist">
@@ -41,7 +41,7 @@
         </ul>
       </li>
     </ul>
-    <ul class="footer-link-list">
+    <ul class="footer-link-list footer-link-list-large">
       <li class="footer-link-list-item">
         About Us
         <ul class="footer-link-sublist">
@@ -99,6 +99,18 @@
       <li class="footer-link-item-small"><%= link "Privacy Policy", to: redirect_path(@conn, "customer_support/privacy_policy/") %></li>
       <li class="footer-link-item-small"><%= link "Terms of Use", to: customer_support_path(@conn, :index) %></li>
     </ul>
-    <div class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</div>
+    <p class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
+    <%= if @include_photo_credits? do %>
+      <div class="footer-photo-credits">
+        <p>
+          Zakim bridge and the TD Garden photo by:
+          <%= link("Robbie Shade", to: "https://www.flickr.com/photos/rjshade/9097726826/") %>
+        </p>
+        <p>
+          Sunset at BU Central photo by:
+          <%= link("Mark Zastrow", to: "https://www.flickr.com/photos/alshain49/8657096870") %>
+        </p>
+      </div>
+    <% end %>
   </div>
-</footer>
+<% end %>

@@ -84,6 +84,16 @@
 .page-section {
   margin-bottom: $base-spacing;
   margin-top: $base-spacing;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .homepage-about-link:last-child {
+    .about-title {
+      border-bottom-width: 0;
+    }
+  }
 }
 
 // used for two blocks side by side

@@ -1,6 +1,8 @@
-<%= render Site.PageView, "_riding_the_t.html", conn: @conn %>
-<div class="whats-happening-section">
-  <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
+<div class="post-container-wrapper">
+  <%= render Site.PageView, "_riding_the_t.html", conn: @conn %>
+  <div class="whats-happening-section">
+    <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
+  </div>
+  <%= render Site.PageView, "_news_and_updates.html", conn: @conn %>
+  <%= render Site.PageView, "_about_the_mbta.html", conn: @conn %>
 </div>
-<%= render Site.PageView, "_news_and_updates.html", conn: @conn %>
-<%= render Site.PageView, "_about_the_mbta.html", conn: @conn %>

@@ -1,20 +1,26 @@
 @import 'variables';
 
-$footer-xs: 9rem;
-$footer-sm: 7.3125rem;
-$footer-md-up: 26rem;
+$footer-padding-top: $base-spacing * 2;
+$footer-padding-bottom: $base-spacing * 2;
+$small-footer-container-height: 4.5rem;
+$large-footer-container-height: 25rem;
+$credit-height: $base-spacing * 4;
 
 .body-wrapper {
-  @include media-breakpoint-only(xs) {
-    margin-bottom: $footer-xs + $base-spacing;
-  }
+  @include media-breakpoint-up(xs) {
+    margin-bottom: $small-footer-container-height + $footer-padding-top + $footer-padding-bottom;
 
-  @include media-breakpoint-only(sm) {
-    margin-bottom: $footer-sm + $base-spacing;
+    &.with-photo-credits {
+      margin-bottom: $small-footer-container-height + $footer-padding-top + $footer-padding-bottom + $credit-height;
+    }
   }
 
   @include media-breakpoint-up(md) {
-    margin-bottom: $footer-md-up + $base-spacing;
+    margin-bottom: $large-footer-container-height + $footer-padding-top + $footer-padding-bottom;
+
+    &.with-photo-credits {
+      margin-bottom: $large-footer-container-height + $footer-padding-top + $footer-padding-bottom + $credit-height;
+    }
   }
 }
 
@@ -22,22 +28,14 @@ $footer-md-up: 26rem;
   background-color: $footer-color;
   bottom: 0;
   font-size: $font-size-sm;
-  padding-top: $base-spacing;
+  padding-bottom: $footer-padding-bottom;
+  padding-top: $footer-padding-top;
   position: absolute;
   width: 100%;
   text-align: center;
 
-  @include media-breakpoint-only(xs) {
-    height: $footer-xs;
-  }
-
-  @include media-breakpoint-only(sm) {
-    height: $footer-sm;
-  }
-
   @include media-breakpoint-up(md) {
     color: $white;
-    height: $footer-md-up;
     text-align: inherit;
   }
 }
@@ -50,6 +48,12 @@ $footer-md-up: 26rem;
 
   @include media-breakpoint-down(sm) {
     display: none;
+  }
+}
+
+.footer-link-list-large {
+  &:nth-child(2n) {
+    margin-bottom: $base-spacing * 3;
   }
 }
 
@@ -90,15 +94,22 @@ $footer-md-up: 26rem;
   }
 }
 
-.footer-copyright {
-  display: inline-block;
+.footer-copyright,
+.footer-photo-credits {
   font-size: $font-size-xs;
-  margin-bottom: 1rem;
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     color: $white;
     padding-top: 0;
     text-align: center;
+  }
+}
+
+.footer-photo-credits {
+  p,
+  a {
+    color: $gray-light;
+    margin-bottom: 0;
   }
 }
 

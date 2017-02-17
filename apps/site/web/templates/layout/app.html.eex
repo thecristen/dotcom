@@ -1,4 +1,7 @@
-<% breadcrumbs = Map.get(@conn.assigns, :breadcrumbs, []) %>
+<%
+  breadcrumbs = Map.get(@conn.assigns, :breadcrumbs, [])
+  include_photo_credits? = @conn.assigns[:pre_container_template] || @conn.assigns[:post_container_template]
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,7 +35,7 @@
   </head>
 
   <body class="<%= Site.BodyClass.class_name(@conn) %>">
-    <div class="body-wrapper">
+    <%= content_tag(:div, class: "body-wrapper#{if include_photo_credits?, do: " with-photo-credits"}") do %>
       <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
       <%= if assigns[:banner_template] do %>
         <div class="announcement-container <%= assigns[:banner_class] %>">
@@ -171,8 +174,8 @@
       <%= if assigns[:post_container_template] do %>
         <%= render_existing @view_module, assigns[:post_container_template], assigns %>
       <% end %>
-      <%= render __MODULE__, "_footer.html", conn: @conn %>
-    </div>
+      <%= render __MODULE__, "_footer.html", conn: @conn, include_photo_credits?: include_photo_credits? %>
+    <% end %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" data-turbolinks-eval="false"></script>
     <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
     <%= if google_tag_manager_id() do %>
