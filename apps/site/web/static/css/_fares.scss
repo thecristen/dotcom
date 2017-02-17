@@ -225,6 +225,16 @@ a {
     margin-bottom: $space-8;
   }
 
+  .common-fare-type {
+    color: $brand-primary;
+  }
+
+  &.commuter-fare {
+    @include media-breakpoint-only(sm) {
+      margin-bottom: $space-24;
+    }
+  }
+
   li {
     border-top: 1px solid $gray-lightest;
     color: $gray-dark;
@@ -238,22 +248,41 @@ a {
       border-top: 0;
     }
   }
+}
+
+.common-fare-dark-row {
+  &:first-child {
+    margin-bottom: $space-8;
+  }
+}
+
+.common-fare-dark-column {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.common-fare-column {
+  border-right: $border;
+
+  @include media-breakpoint-down(xs) {
+    border-right: 0;
+  }
 
   &:hover {
     background-color: $brand-primary-lightest;
     text-decoration: none;
+
+    @include media-breakpoint-down(xs) {
+      background-color: $white;
+    }
   }
 }
 
 .common-fare-dark {
   border: 1px solid $brand-primary-dark;
   border-left: 6px solid $brand-primary-light;
-  margin-right: $space-16;
-  padding-top: $space-8;
-
-  &:first-child {
-    margin-bottom: $space-12;
-  }
+  padding: $space-8;
 
   ul {
     margin-bottom: $space-8;
@@ -263,31 +292,30 @@ a {
     border-top: 0;
     color: $white;
     padding: $space-4;
-
-    @include media-breakpoint-only(md) {
-      @include clearfix();
-      .charlie-card-or-ticket {
-        float: left;
-        width: 60%;
-      }
-    }
   }
 
   &:hover {
-    background-color: $fare-highlight-background;
+    background-color: transparentize($white, .8);
     text-decoration: none;
+  }
+
+  .charlie-card-block {
+    @include media-breakpoint-only(md) {
+      max-width: 75%;
+    }
   }
 
   &.commuter-fare {
     @include media-breakpoint-only(md) {
-      padding-bottom: $space-24;
+      padding-bottom: ($space-16 * 2);
     }
   }
 }
 
-.charlie-card-or-ticket {
+.charlie-card-block {
+  display: inline-block;
+
   @include media-breakpoint-only(sm) {
-    float: left;
-    width: 50%;
+    max-width: 55%;
   }
 }
