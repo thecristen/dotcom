@@ -57,10 +57,10 @@ defmodule Site.ScheduleV2View do
   @spec stop_bubble_location_display(boolean, integer, boolean) :: Phoenix.HTML.Safe.t
   def stop_bubble_location_display(vehicle?, route_type, terminus?)
   def stop_bubble_location_display(true, route_type, true) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-inverse"})
+    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-inverse", show_tooltip?: false})
   end
   def stop_bubble_location_display(true, route_type, false) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-boring"})
+    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-boring", show_tooltip?: false})
   end
   def stop_bubble_location_display(false, _route_type, true) do
     stop_bubble_icon(:filled)

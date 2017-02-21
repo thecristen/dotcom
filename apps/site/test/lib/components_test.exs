@@ -215,6 +215,17 @@ defmodule Site.ComponentsTest do
       assert title(%Routes.Route{id: "Green-B"}) == "Green Line"
       assert title(%Routes.Route{type: 4}) == "Ferry"
     end
+
+    test "Title tooltip is shown if show_tooltip? is not specified" do
+      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway}) |> safe_to_string
+      [data_toggle] = Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle")
+      assert data_toggle == "tooltip"
+    end
+
+    test "Tooltip is not shown if show_tooltip? is false" do
+      rendered = svg_icon_with_circle(%SvgIconWithCircle{icon: :subway, show_tooltip?: false}) |> safe_to_string
+      assert Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle") == []
+    end
   end
 
   describe "tabs > mode_tab_list" do

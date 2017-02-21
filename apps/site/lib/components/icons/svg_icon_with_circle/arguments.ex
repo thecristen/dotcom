@@ -1,9 +1,11 @@
 defmodule Site.Components.Icons.SvgIconWithCircle do
   defstruct icon:  :bus,
-            class: ""
+            class: "",
+            show_tooltip?: true
   @type t :: %__MODULE__{
     icon: Site.Components.Icons.SvgIcon.icon_arg,
-    class: String.t
+    class: String.t,
+    show_tooltip?: boolean
   }
 
   def variants() do
