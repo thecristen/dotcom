@@ -77,6 +77,7 @@ $z-index-trip-line: -1;
   @extend %unpadded-table-row;
   @extend %block-level-link;
   @include make-row();
+  display: block;
 
   @include media-breakpoint-up(md) {
     clear: left;
