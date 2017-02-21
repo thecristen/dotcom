@@ -1,27 +1,25 @@
 <%
+class_name = ["trip-list-v2-row ", assigns[:class] || ""]
 {tag, attributes} = if assigns[:url] do
-  {:a, [href: @url]}
+  {:a, [href: @url, class: class_name]}
 else
-  {:div, []}
+  {:div, [class: class_name]}
 end
 %>
-<div class="trip-list-v2-row <%= assigns[:class] %>">
+<%= content_tag tag, attributes do %>
   <div class="commuter-times">
-    <div><%= content_tag tag, attributes, do: display_commuter_scheduled_prediction(@departure) %></div>
+    <div><%= display_commuter_scheduled_prediction(@departure) %></div>
     <%= if @arrival do %>
-      <div><%= content_tag tag, attributes, do: display_commuter_scheduled_prediction(@arrival) %></div>
-      <div><%= content_tag tag, attributes, do: display_alerts(@alerts) %></div>
-      <div><%= content_tag tag, attributes, do: assigns[:name] %></div>
+      <div><%= display_commuter_scheduled_prediction(@arrival) %></div>
+      <div><%= display_alerts(@alerts) %></div>
+      <div><%= assigns[:name] %></div>
     <% else %>
-      <div><%= content_tag tag, attributes, do: assigns[:name] %></div>
-      <div><%= content_tag tag, attributes, do: display_alerts(@alerts) %></div>
-      <div><%= content_tag tag, attributes, do: assigns[:headsign] %></div>
+      <div><%= assigns[:name] %></div>
+      <div><%= display_alerts(@alerts) %></div>
+      <div><%= assigns[:headsign] %></div>
     <% end %>
   </div>
   <div class="commuter-status">
     <%= StopTime.display_status(@departure, @arrival) %>
   </div>
-  <%= if assigns[:url] do %>
-    <%= link "", to: @url, class: "schedule-list-link", aria: [hidden: true] %>
-  <% end %>
-</div>
+<% end %>
