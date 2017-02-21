@@ -1,7 +1,8 @@
 <% icon = Site.Components.Icons.SvgIcon.get_icon_atom(args.icon) %>
 <% data_toggle = if args.show_tooltip?, do: "data-toggle=tooltip", else: "" %>
+<% title = if args.show_tooltip?, do: title(args.icon), else: "" %>
 <% hyphenated_class = "icon-#{hyphenated_mode_string(icon)}" %>
-<svg class="icon icon-with-circle <%= hyphenated_class %> <%= args.class %>" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 <%= circle_viewbox(icon) %>" <%= data_toggle %> title="<%= title(args.icon) %>" preserveAspectRatio="xMidYMid meet">
+<svg class="icon icon-with-circle <%= hyphenated_class %> <%= args.class %>" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 <%= circle_viewbox(icon) %>" <%= data_toggle %> title="<%= title %>" preserveAspectRatio="xMidYMid meet">
   <circle <%= circle_args(icon) %> class="icon-circle <%= hyphenated_class %>-circle" transform="translate(1,1)"></circle>
   <g fill-rule="evenodd" class="icon-image <%= hyphenated_class %>-image" transform="translate(<%= translate(icon) %>)">
     <%= Site.Components.Icons.SvgIcon.get_path(icon) %>
