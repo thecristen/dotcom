@@ -3,15 +3,15 @@
     There are no trips scheduled at this time.
   <% else %>
     <div class="trip-list-v2-row trip-list-v2-header">
-      <div class="commuter-times">
+      <div class="row">
         <%= if @destination do %>
-          <div>Departure</div>
-          <div>Arrival</div>
-          <div>Train</div>
+          <div class="col-xs-4">Departure</div>
+          <div class="col-xs-4">Arrival</div>
+          <div class="col-xs-4">Train</div>
         <% else %>
-          <div>Departure</div>
-          <div>Train</div>
-          <div><%= display_direction(@stop_times) %></div>
+          <div class="col-xs-4">Departure</div>
+          <div class="col-xs-4">Train</div>
+          <div class="col-xs-4"><%= display_direction(@stop_times) %></div>
         <% end %>
       </div>
     </div>

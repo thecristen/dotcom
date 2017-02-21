@@ -7,16 +7,16 @@ else
 end
 %>
 <%= content_tag tag, attributes do %>
-  <div class="commuter-times">
-    <div><%= display_commuter_scheduled_prediction(@departure) %></div>
+  <div class="row">
+    <div class="col-xs-4 no-wrap"><%= display_commuter_scheduled_prediction(@departure) %></div>
     <%= if @arrival do %>
-      <div><%= display_commuter_scheduled_prediction(@arrival) %></div>
-      <div><%= display_alerts(@alerts) %></div>
-      <div><%= assigns[:name] %></div>
+      <div class="col-xs-4"><%= display_commuter_scheduled_prediction(@arrival) %></div>
+      <div class="col-xs-4"><%= display_alerts(@alerts) %></div>
+      <div class="col-xs-4"><%= assigns[:name] %></div>
     <% else %>
-      <div><%= assigns[:name] %></div>
-      <div><%= display_alerts(@alerts) %></div>
-      <div><%= assigns[:headsign] %></div>
+      <div class="col-xs-4"><%= assigns[:name] %></div>
+      <div class="col-xs-4"><%= display_alerts(@alerts) %></div>
+      <div class="col-xs-4"><%= assigns[:headsign] %></div>
     <% end %>
   </div>
   <div class="commuter-status">
