@@ -1,4 +1,4 @@
-<div class="container-fluid hidden-sm-down desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
+<div class="desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
   <div class="container">
     <div class="menu-card panel">
       <div id="gettingAround" class="menu-panel collapse" role="tabpanel">

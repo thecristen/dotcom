@@ -1,6 +1,6 @@
 defmodule UrlHelpers do
 
-  @spec update_url(Plug.Conn.t, Keyword.t) :: String.t
+  @spec update_url(Plug.Conn.t, Enum.t) :: String.t
   def update_url(conn, query) do
     conn
     |> update_query(query)
@@ -18,8 +18,7 @@ defmodule UrlHelpers do
   def update_query(%{query_params: params}, query) do
     params = params || %{}
     query_map = query
-    |> Enum.map(fn {key, value} -> {Atom.to_string(key), value} end)
-    |> Enum.into(%{})
+    |> Map.new(fn {key, value} -> {to_string(key), value} end)
 
     params
     |> Map.merge(query_map)

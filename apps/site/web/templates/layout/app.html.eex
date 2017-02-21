@@ -46,45 +46,43 @@
       <% end %>
       <header class="header">
         <div class="container">
-          <div class="navbar">
-            <button class="navbar-toggler hidden-md-up pull-right collapsed mobile-dropdown-menu" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
-              <small>
-                Menu
-                <%= fa "angle-down", class: "down" %>
-                <%= fa "angle-up", class: "up" %>
-              </small>
+          <div class="header-navbar">
+            <button class="navbar-toggle collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
+              Menu
+              <%= fa "angle-down", class: "down" %>
+              <%= fa "angle-up", class: "up" %>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="" href="/">
               <span class="sr-only">MBTA Home Page</span>
-              <span class="navbar-logo" aria-hidden="true">
+              <div class="navbar-logo" aria-hidden="true">
                 <%= svg "logo-beta.svg" %>
-              </span>
+              </div>
             </a>
-            <nav class="navbar pull-right hidden-sm-down desktop-menu-nav">
+            <nav class="desktop-menu-nav">
               <ul class="nav navbar-nav">
                 <li class="nav-item">
-                  <a class="nav-link collapsed" data-toggle="collapse" data-parent="#desktop-menu" data-target="#gettingAround" aria-expanded="false" aria-controls="gettingAround" href="<%= static_page_path(@conn, :getting_around) %>">
+                  <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#gettingAround" aria-expanded="false" aria-controls="gettingAround" href="<%= static_page_path(@conn, :getting_around) %>">
                     Getting Around
                     <%= fa "angle-down", class: "down" %>
                     <%= fa "angle-up", class: "up" %>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link collapsed" data-toggle="collapse" data-parent="#desktop-menu" data-target="#faresDrawer" aria-expanded="false" aria-controls="faresDrawer" href="<%= fare_path(@conn, :index) %>">
+                  <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#faresDrawer" aria-expanded="false" aria-controls="faresDrawer" href="<%= fare_path(@conn, :index) %>">
                     Fares
                     <%= fa "angle-down", class: "down" %>
                     <%= fa "angle-up", class: "up" %>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link collapsed" data-toggle="collapse" data-parent="#desktop-menu" data-target="#contactUs" aria-expanded="false" aria-controls="contactUs" href="<%= customer_support_path(@conn, :index) %>">
+                  <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#contactUs" aria-expanded="false" aria-controls="contactUs" href="<%= customer_support_path(@conn, :index) %>">
                     Contact Us
                     <%= fa "angle-down", class: "down" %>
                     <%= fa "angle-up", class: "up" %>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link collapsed" data-toggle="collapse" data-parent="#desktop-menu" data-target="#more" aria-expanded="false" aria-controls="more" href="<%= static_page_path(@conn, :about) %>">
+                  <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#more" aria-expanded="false" aria-controls="more" href="<%= static_page_path(@conn, :about) %>">
                     More
                     <%= fa "angle-down", class: "down" %>
                     <%= fa "angle-up", class: "up" %>
@@ -93,47 +91,45 @@
               </ul>
             </nav>
           </div>
-          <div class="hidden-md-up">
-            <nav class="collapse navbar navbar-toggleable-sm" id="navbar" role="navigation">
-              <ul class="nav navbar-nav">
-                <li class="nav-item">
-                  <% home_link = page_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= home_link %>">
-                    <%= bold_if_active @conn, home_link, "Home" %>
-                    <p class="small menu-description">Home</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% getting_around_link = static_page_path(@conn, :getting_around) %>
-                  <a class="nav-link" href="<%= getting_around_link %>">
-                    <%= bold_if_active @conn, getting_around_link, "Getting Around" %>
-                    <p class="small menu-description">Transit Services, Plan Your Trip, Riding...</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% fares_link = fare_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= fares_link %>">
-                    <%= bold_if_active @conn, fares_link, "Fares" %>
-                    <p class="small menu-description">Fares By Mode, Reduced Fares, Passes...</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% contact_us_link = customer_support_path(@conn, :index) %>
-                  <a class="nav-link" href="<%= contact_us_link %>">
-                    <%= bold_if_active @conn, contact_us_link, "Contact Us" %>
-                    <p class="small menu-description">Phone And Online Support, T-Alerts</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <% more_link = static_page_path(@conn, :about) %>
-                  <a class="nav-link" href="<%= more_link %>">
-                    <%= bold_if_active @conn, more_link, "More" %>
-                    <p class="small menu-description">About Us, Business Center, Projects...</p>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+          <nav class="collapse navbar" id="navbar" role="navigation">
+            <ul class="mobile-nav">
+              <li class="mobile-nav-item">
+                <% home_link = page_path(@conn, :index) %>
+                <a class="mobile-nav-link" href="<%= home_link %>">
+                  <%= bold_if_active @conn, home_link, "Home" %>
+                  <p class="mobile-nav-description">Home</p>
+                </a>
+              </li>
+              <li class="mobile-nav-item">
+                <% getting_around_link = static_page_path(@conn, :getting_around) %>
+                <a class="mobile-nav-link" href="<%= getting_around_link %>">
+                  <%= bold_if_active @conn, getting_around_link, "Getting Around" %>
+                  <p class="mobile-nav-description">Transit Services, Plan Your Trip, Riding...</p>
+                </a>
+              </li>
+              <li class="mobile-nav-item">
+                <% fares_link = fare_path(@conn, :index) %>
+                <a class="mobile-nav-link" href="<%= fares_link %>">
+                  <%= bold_if_active @conn, fares_link, "Fares" %>
+                  <p class="mobile-nav-description">Fares By Mode, Reduced Fares, Passes...</p>
+                </a>
+              </li>
+              <li class="mobile-nav-item">
+                <% contact_us_link = customer_support_path(@conn, :index) %>
+                <a class="mobile-nav-link" href="<%= contact_us_link %>">
+                  <%= bold_if_active @conn, contact_us_link, "Contact Us" %>
+                  <p class="mobile-nav-description">Phone And Online Support, T-Alerts</p>
+                </a>
+              </li>
+              <li class="mobile-nav-item">
+                <% more_link = static_page_path(@conn, :about) %>
+                <a class="mobile-nav-link" href="<%= more_link %>">
+                  <%= bold_if_active @conn, more_link, "More" %>
+                  <p class="mobile-nav-description">About Us, Business Center, Projects...</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
         <%= render "_desktop_header.html", conn: @conn %>
         <%= if breadcrumbs != [] do %>
