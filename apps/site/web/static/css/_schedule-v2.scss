@@ -419,6 +419,14 @@ $z-index-trip-line: -1;
   text-align: left;
 }
 
+.schedule-v2-icon-nowrap > a {
+  padding-right: 20px;
+}
+
+.schedule-v2-icon-nowrap > svg {
+  margin-left: -20px;
+}
+
 .schedule-v2-timetable-time-col {
   background-color: rgba($gray-lightest, .5);
   min-width: .5rem;
