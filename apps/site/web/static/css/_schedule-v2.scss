@@ -124,25 +124,6 @@ $z-index-trip-line: -1;
   display: block;
 }
 
-.commuter-times {
-  @include clearfix();
-
-  div:first-child {
-    @include first-column;
-    width: grid-width(3);
-  }
-
-  div:not(:first-child):not(:last-child) {
-    @include column;
-    width: grid-width(2);
-  }
-
-  div:last-child {
-    @include last-column;
-    width: grid-width(7);
-  }
-}
-
 .commuter-status {
   @include first-column;
 }
@@ -225,6 +206,11 @@ $z-index-trip-line: -1;
   }
 }
 
+.stop-info-column {
+  min-width: 8rem;
+  white-space: nowrap;
+}
+
 @include vehicle-location-mode-color(".commuter-rail", $brand-commuter-rail);
 @include vehicle-location-mode-color(".red-line", $brand-red-line);
 @include vehicle-location-mode-color(".blue-line", $brand-blue-line);
@@ -250,12 +236,12 @@ $z-index-trip-line: -1;
 
 %stop-name-column {
   float: left;
-  width: 67%;
+  width: 50%;
 }
 
 %stop-time-column {
   float: left;
-  width: 33%;
+  width: 50%;
 }
 
 %stop-name-and-time-column {
@@ -264,11 +250,11 @@ $z-index-trip-line: -1;
   margin-left: $base-spacing + $icon-size;
   width: grid-width(10);
 
-  span:first-child {
+  > span:first-child {
     @extend %stop-name-column;
   }
 
-  span:last-child {
+  > span:last-child {
     @extend %stop-time-column;
   }
 }
@@ -314,6 +300,10 @@ $z-index-trip-line: -1;
 
   .stop-info {
     @extend %stop-name-and-time-column;
+
+    @include media-breakpoint-down(xs) {
+      display: none;
+    }
   }
 }
 
