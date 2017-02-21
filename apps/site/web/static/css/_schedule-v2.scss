@@ -478,6 +478,14 @@ $z-index-trip-line: -1;
 
 [data-sticky-container] {
   [data-sticky] {
-    position: sticky;
+    position: relative;
+  }
+
+  [data-sticky=left] {
+    left: 0;
+  }
+
+  [data-sticky=right] {
+    right: 0;
   }
 }
