@@ -6,7 +6,6 @@ export default function($) {
       $(carousel)
         .on("click", ".carousel-item", activateCarouselItem)
         .on("keydown", ".carousel-item", (ev) => {
-          console.log(ev.keyCode);
           if (ev.keyCode === 13 || ev.keyCode === 32) {
             activateCarouselItem(ev);
           }
