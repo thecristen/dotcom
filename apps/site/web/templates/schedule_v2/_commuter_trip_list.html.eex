@@ -10,8 +10,8 @@
           <div class="col-xs-4">Train</div>
         <% else %>
           <div class="col-xs-4">Departure</div>
-          <div class="col-xs-4">Train</div>
-          <div class="col-xs-4"><%= display_direction(@stop_times) %></div>
+          <div class="col-xs-2">Train</div>
+          <div class="col-xs-6"><%= display_direction(@stop_times) %></div>
         <% end %>
       </div>
     </div>
