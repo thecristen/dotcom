@@ -7,7 +7,7 @@
       <%= link @name, to: @href %>
       <%= display_alerts(@alerts)%>
     </span>
-    <span class="no-wrap stop-info-column">
+    <span class="stop-info-column">
       <%= if @route.type == 2 do %>
         <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
       <% else %>

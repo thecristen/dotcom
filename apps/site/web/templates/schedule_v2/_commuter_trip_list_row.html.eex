@@ -10,7 +10,7 @@ end
   <div class="row">
     <div class="col-xs-4 no-wrap"><%= display_commuter_scheduled_prediction(@departure) %></div>
     <%= if @arrival do %>
-      <div class="col-xs-4"><%= display_commuter_scheduled_prediction(@arrival) %></div>
+      <div class="col-xs-4 no-wrap"><%= display_commuter_scheduled_prediction(@arrival) %></div>
       <div class="col-xs-4">
         <%= assigns[:name] %>
         <%= display_alerts(@alerts) %>

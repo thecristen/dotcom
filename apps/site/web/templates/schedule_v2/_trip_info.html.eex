@@ -7,8 +7,8 @@
   <div class="trip-info-labels">
     <div class="vehicle-location"></div>
     <div class="stop-info">
-      <span class="hidden-xs-down">Stops:</span>
-      <span class="hidden-xs-down">Times:</span>
+      <span>Stops:</span>
+      <span>Times:</span>
     </div>
   </div>
   <div class="trip-stops">
