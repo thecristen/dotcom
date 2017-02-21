@@ -4,8 +4,9 @@
       <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
         Stop
       </th>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" data-sticky="left">
+      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" data-sticky="left" aria-hidden="true">
         <%= fa "angle-left" %>
+        <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
       </th>
       <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
         <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
@@ -15,8 +16,9 @@
           <% end %>
         </th>
       <% end %>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right">
+      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
         <%= fa "angle-right" %>
+        <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
       </th>
     </tr>
     <%= for stop <- @all_stops do %>

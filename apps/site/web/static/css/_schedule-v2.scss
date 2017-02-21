@@ -371,6 +371,10 @@ $z-index-trip-line: -1;
 .schedule-v2-timetable-hide-later .schedule-v2-timetable-time-col-later {
   background-color: $white;
   color: $white;
+
+  > .schedule-v2-timetable-time-text {
+    display: none;
+  }
 }
 
 .schedule-v2-timetable-hide-earlier .schedule-v2-timetable-header-col.schedule-v2-timetable-time-col-earlier,
@@ -383,6 +387,10 @@ $z-index-trip-line: -1;
 .schedule-v2-timetable-name-col,
 .schedule-v2-timetable-header-col {
   padding: .5rem 1rem;
+
+  @include media-breakpoint-up(md) {
+    min-width: 9rem;
+  }
 }
 
 .schedule-v2-timetable-col,
@@ -412,9 +420,47 @@ $z-index-trip-line: -1;
 
 .schedule-v2-timetable-time-col {
   background-color: rgba($gray-lightest, .5);
-  min-width: .5rem;
+  min-width: $base-spacing-sm;
   padding: 0;
   text-align: center;
+
+  @include media-breakpoint-up(md) {
+    background-color: $gray-lightest;
+    color: $gray-dark;
+    min-width: $base-spacing-lg;
+  }
+}
+
+.schedule-v2-timetable-time-text {
+  // scss-lint:disable DuplicateProperty
+  display: none;
+  font-size: $font-size-sm;
+  font-weight: normal;
+  left: $space-2;
+  overflow: visible;
+  position: absolute;
+  right: $space-2;
+  -webkit-text-orientation: sideways;
+  text-orientation: sideways;
+  top: $space-8;
+  white-space: nowrap;
+  -webkit-writing-mode: vertical-lr; // Safari
+  writing-mode: tb-lr; // for IE
+  writing-mode: vertical-lr; // for everything else
+  z-index: 1;
+
+  @include media-breakpoint-up(md) {
+    display: block;
+  }
+
+  .fa {
+    padding-bottom: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
+  }
+}
+
+.schedule-v2-timetable-time-col-earlier .schedule-v2-timetable-time-text {
+  transform: rotate(180deg);
 }
 
 .route-row {
@@ -429,7 +475,7 @@ $z-index-trip-line: -1;
   width: $icon-size * 1.5;
 }
 
-/// Schedule V@ direction buttons
+/// Schedule V2 direction buttons
 .btn.schedule-v2-direction-btn {
   display: table-cell;
   float: none;
