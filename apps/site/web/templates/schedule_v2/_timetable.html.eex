@@ -10,7 +10,7 @@
       <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
         <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
           <%= schedule.trip.name %>
-          <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: schedule.time, route: @route.id, direction_id: @direction_id) != [] do %>
+          <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
             <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
           <% end %>
         </th>
