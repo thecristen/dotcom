@@ -458,7 +458,7 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "when there is a status and a time for the prediction, gives a tooltip with both and also replaces double quotes with single quotes" do
-      test_tooltip = Phoenix.HTML.Tag.content_tag :span do [
+      test_tooltip = Phoenix.HTML.Tag.content_tag :div do [
         Phoenix.HTML.Tag.content_tag(:p, "stop", class: 'prediction-tooltip'),
         Phoenix.HTML.Tag.content_tag(:p, "time", class: 'prediction-tooltip'),
         Phoenix.HTML.Tag.content_tag(:p, "now boarding", class: 'prediction-tooltip')
@@ -477,11 +477,22 @@ defmodule Site.ScheduleV2ViewTest do
       formatted_time = Timex.format!(time, "{h12}:{m} {AM}")
       prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
       result = prediction
-               |> Site.ScheduleV2View.prediction_tooltip("stop")
+               |> Site.ScheduleV2View.prediction_tooltip("stop", nil)
                |> IO.iodata_to_binary
 
       assert result =~ "Now boarding on track 4"
       assert result =~ "Arrival: #{formatted_time}"
+    end
+
+    test "Displays text based on vehicle status" do
+      prediction = %Predictions.Prediction{status: "Now Boarding", track: "4"}
+      result1 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :incoming})
+      result2 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :stopped})
+      result3 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :in_transit})
+
+      assert result1 =~ "Train is entering"
+      assert result2 =~ "Train has arrived"
+      assert result3 =~ "Train has left"
     end
   end
 

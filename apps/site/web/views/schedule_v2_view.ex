@@ -180,6 +180,23 @@ defmodule Site.ScheduleV2View do
     [prefix, ": ", Timex.format!(time, "{h12}:{m} {AM}")]
   end
 
+  @spec prediction_stop_text(String.t, Vehicles.Vehicle.t | nil) :: String.t
+  defp prediction_stop_text(_name, nil), do: ""
+  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :incoming}), do: "Train is entering #{name}"
+  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :stopped}), do: "Train has arrived at #{name}"
+  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :in_transit}), do: "Train has left #{name}"
+
+  def build_prediction_tooltip(time_text, status_text, stop_text) do
+    time_tag = do_build_prediction_tooltip(time_text)
+    status_tag = do_build_prediction_tooltip(status_text)
+    stop_tag = do_build_prediction_tooltip(stop_text)
+
+    :div
+    |> content_tag([stop_tag, time_tag, status_tag])
+    |> safe_to_string
+    |> String.replace(~s("), ~s('))
+  end
+
   @spec do_build_prediction_tooltip(iodata) :: Phoenix.HTML.Safe.t
   defp do_build_prediction_tooltip("") do
     ""
@@ -187,22 +204,12 @@ defmodule Site.ScheduleV2View do
   defp do_build_prediction_tooltip(text) do
     content_tag(:p, text, class: 'prediction-tooltip')
   end
-  def build_prediction_tooltip(time_text, status_text, stop_text) do
-    time_tag = do_build_prediction_tooltip(time_text)
-    status_tag = do_build_prediction_tooltip(status_text)
-    stop_tag = do_build_prediction_tooltip(stop_text)
 
-    :span
-    |> content_tag([stop_tag, time_tag, status_tag])
-    |> safe_to_string
-    |> String.replace(~s("), ~s('))
-  end
-
-  @spec prediction_tooltip(Predictions.Prediction.t, String.t) :: Phoenix.HTML.Safe.t
-  def prediction_tooltip(prediction, stop_name) do
+  @spec prediction_tooltip(Predictions.Prediction.t, String.t, Vehicles.Vehicle.t | nil) :: Phoenix.HTML.Safe.t
+  def prediction_tooltip(prediction, stop_name, vehicle) do
     time_text = prediction_time_text(prediction)
     status_text = prediction_status_text(prediction)
-    stop_text = "Last known location: #{stop_name}"
+    stop_text = prediction_stop_text(stop_name, vehicle)
 
     build_prediction_tooltip(time_text, status_text, stop_text)
   end
