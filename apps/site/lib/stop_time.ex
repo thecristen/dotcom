@@ -102,7 +102,7 @@ defmodule StopTime do
     status = String.capitalize(status)
     case track do
       nil -> status
-      track -> [status, " on track ", track]
+      track -> [status, " on track&nbsp;", track]
     end
   end
   def display_status(departure, arrival) do

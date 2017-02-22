@@ -76,10 +76,6 @@
 }
 
 @include media-breakpoint-up(sm) {
-  .station-route-schedule {
-    white-space: nowrap;
-  }
-
   .station-route-schedule-name {
     display: inline-block;
     width: 50%;
@@ -101,17 +97,6 @@
 
   .fa-arrow-right {
     margin: 0 .375rem;
-  }
-}
-
-.station-route-schedule-times {
-  white-space: nowrap;
-
-  .time-column {
-    display: inline-block;
-    vertical-align: top;
-    white-space: initial;
-    width: 32%;
   }
 }
 

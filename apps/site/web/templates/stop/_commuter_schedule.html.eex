@@ -3,15 +3,17 @@
     <div class="station-route-schedule-name">
       <strong><%= mode_name @mode %></strong>
     </div>
-    <div class="station-route-schedule-times">
-      <div class="hidden-xs-down column-label time-column">
+    <div class="station-route-schedule-times row">
+      <div class="hidden-xs-down column-label col-sm-3">
         Train #
       </div>
-      <div class="hidden-xs-down column-label time-column">
-        Departure
-      </div>
-      <div class="hidden-xs-down column-label time-column">
-        Status
+      <div class="col-sm-9">
+        <div class="hidden-xs-down column-label col-sm-6">
+          Departure
+        </div>
+        <div class="hidden-xs-down column-label col-sm-6">
+          Status
+        </div>
       </div>
     </div>
   </div>
@@ -34,17 +36,19 @@
                 <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
               <% end %>
             </div>
-            <div class="station-route-schedule-times">
-              <div class="time-column">
+            <div class="station-route-schedule-times row">
+              <div class="col-xs-3">
                 No. <%= schedule.trip.name %>
               </div>
-              <div class="time-column">
-                <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, direction_id: direction_id) do %>
-                  <%= Site.ScheduleV2View.display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
-                <% end %>
-              </div>
-              <div class="time-column">
-                <%= StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
+              <div class="col-xs-9">
+                <div class="col-xs-6">
+                  <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, direction_id: direction_id) do %>
+                    <%= Site.ScheduleV2View.display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
+                  <% end %>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                  <%= raw StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
+                </div>
               </div>
             </div>
           </div>
