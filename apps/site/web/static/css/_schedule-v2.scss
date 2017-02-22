@@ -3,7 +3,7 @@
 @import 'variables';
 
 $location-line-width: $space-4;
-$z-index-trip-line: -1;
+$z-index-vehicle-position: 2;
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,8 @@ $z-index-trip-line: -1;
 // scss-lint:disable NestingDepth
 // scss-lint:disable SelectorDepth
 // changes the color for the vehicle location graphic per route type
-  .schedule-trip-info {
+  .schedule-trip-info,
+  .schedule-v2-timetable {
     &#{$class} {
       .icon-boring,
       .trip-bubble-open {
@@ -165,12 +166,14 @@ $z-index-trip-line: -1;
     height: 100%;
     left: 50%;
     position: absolute;
-    z-index: $z-index-trip-line;
+    z-index: $z-index-vehicle-position;
   }
 
   svg {
     margin-top: -$vertical-padding;
     overflow: visible;
+    position: absolute;
+    z-index: $z-index-vehicle-position;
   }
 }
 
@@ -194,15 +197,14 @@ $z-index-trip-line: -1;
 }
 
 // the last stop in the list, don't display the line
-.stop-group:last-child {
-  .terminus:last-child {
-    .vehicle-location::before {
-      display: none;
-    }
+.stop-group:last-child .schedule-trip-stop:last-child,
+.schedule-v2-timetable-row:last-child {
+  .vehicle-location::before {
+    display: none;
+  }
 
-    .stop-info {
-      border-bottom: 0;
-    }
+  .stop-info {
+    border-bottom: 0;
   }
 }
 
@@ -416,6 +418,12 @@ $z-index-trip-line: -1;
 
 .schedule-v2-timetable-name-col {
   text-align: left;
+}
+
+.schedule-v2-timetable-name {
+  @include media-breakpoint-up(md) {
+    margin-left: 2.5rem;
+  }
 }
 
 .schedule-v2-timetable-time-col {
