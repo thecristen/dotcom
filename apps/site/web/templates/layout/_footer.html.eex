@@ -1,4 +1,4 @@
-<%= content_tag(:footer, class: "footer#{if @include_photo_credits?, do: " with-photo-credits"}") do %>
+<footer class="footer">
   <div class="container">
     <ul class="footer-link-list footer-link-list-large">
       <li class="footer-link-list-item">
@@ -113,4 +113,4 @@
       </div>
     <% end %>
   </div>
-<% end %>
+</footer>

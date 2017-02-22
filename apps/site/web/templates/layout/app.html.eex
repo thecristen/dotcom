@@ -1,6 +1,6 @@
 <%
   breadcrumbs = Map.get(@conn.assigns, :breadcrumbs, [])
-  include_photo_credits? = @conn.assigns[:pre_container_template] || @conn.assigns[:post_container_template]
+  include_photo_credits? = @view_module == Site.PageView && @view_template == "index.html"
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +35,7 @@
   </head>
 
   <body class="<%= Site.BodyClass.class_name(@conn) %>">
-    <%= content_tag(:div, class: "body-wrapper#{if include_photo_credits?, do: " with-photo-credits"}") do %>
+    <div class="body-wrapper">
       <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
       <%= if assigns[:banner_template] do %>
         <div class="announcement-container <%= assigns[:banner_class] %>">
@@ -161,13 +161,13 @@
         <%= render_existing @view_module, assigns[:pre_container_template], assigns %>
       <% end %>
       <div class="container page-container">
-      <%= if assigns[:whats_happening_banner] do %>
-        <%= render "_whats_happening_banner.html",
-            text: "The Red Line north passageway at Downtown Crossing station will be out of service to allow for the construction of a new elevator.",
-            href: "http://www.mbta.com/about_the_mbta/news_events/",
-            image_url: static_url(@conn, "/images/south-station-wide.jpg"),
-            image_description: "South station" %>
-      <% end %>
+        <%= if assigns[:whats_happening_banner] do %>
+          <%= render "_whats_happening_banner.html",
+              text: "The Red Line north passageway at Downtown Crossing station will be out of service to allow for the construction of a new elevator.",
+              href: "http://www.mbta.com/about_the_mbta/news_events/",
+              image_url: static_url(@conn, "/images/south-station-wide.jpg"),
+              image_description: "South station" %>
+        <% end %>
         <main class="<%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
           <%= render @view_module, @view_template, assigns %>
         </main>
@@ -176,7 +176,7 @@
         <%= render_existing @view_module, assigns[:post_container_template], assigns %>
       <% end %>
       <%= render __MODULE__, "_footer.html", conn: @conn, include_photo_credits?: include_photo_credits? %>
-    <% end %>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" data-turbolinks-eval="false"></script>
     <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
     <%= if google_tag_manager_id() do %>
