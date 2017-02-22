@@ -10,13 +10,22 @@ export default function($) {
     const containerWidth = ev.target.clientWidth;
     const $table = $(ev.target).children("table");
     const width = $table.width();
+    const height = $table.height();
 
     const hideEarlier = scrollPos < 36;
     const hideLater = width - containerWidth - scrollPos < 36;
-
     $table
       .toggleClass('schedule-v2-timetable-hide-earlier', hideEarlier)
-      .toggleClass('schedule-v2-timetable-hide-later', hideLater);
+      .toggleClass('schedule-v2-timetable-hide-later', hideLater)
+      .find(".schedule-v2-timetable-time-text").each(function(index, textEl) {
+        // vertically center the timetable text banners if they're visible
+        const $textEl = $(textEl);
+        if ($textEl.width()) {
+          const top = Math.floor((height - $textEl.height()) / 2);
+          $textEl.css({top});
+        }
+    });
+
   }
 
   function doScrollTo(index, el) {
