@@ -78,10 +78,7 @@
     <div class="menu-card panel">
       <div id="faresDrawer" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
-          <div class="col-xs-8 fares-column">
-            <%= render Site.FareView, "_common_fares.html", conn: @conn %>
-          </div>
-          <div class="col-xs-4 fares-column">
+          <div class="col-xs-3 fares-column">
             <p>More Fares Info</p>
             <ul>
               <li><%= link to: fare_path(@conn, :show, "bus_subway") do %></li>
@@ -103,6 +100,9 @@
                 <%= fa "caret-right" %> View All Fares Info
               <% end %>
             </ul>
+          </div>
+          <div class="col-xs-9 fares-column">
+            <%= render Site.FareView, "_common_fares.html", conn: @conn, dark: true %>
           </div>
         </div>
       </div>
