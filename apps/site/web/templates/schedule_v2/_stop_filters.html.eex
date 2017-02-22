@@ -12,7 +12,8 @@
         label_text: "Departure times from:",
         placeholder_text: "origin",
         route: @route,
-        disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"})
+        disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"}),
+        clearable?: false
       %>
     </div>
     <%= if @origin do %>
@@ -27,8 +28,9 @@
             label_text: "Arriving at:",
             placeholder_text: "destination",
             route: @route,
-            disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))]
-            # filter out non-destination stops because they're on a different branch
+          disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))],
+          # filter out non-destination stops because they're on a different branch
+          clearable?: true
         %>
       </div>
     <% end %>

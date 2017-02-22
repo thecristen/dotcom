@@ -305,4 +305,19 @@ defmodule Site.ScheduleV2View do
   def no_stop_times_message(_) do
     "There are no scheduled trips at this time."
   end
+
+  @spec clear_selector_link(map()) :: Phoenix.HTML.Safe.t
+  def clear_selector_link(%{clearable?: true, selected: selected} = assigns)
+  when not is_nil(selected) do
+    link to: update_url(assigns.conn, [{assigns.query_key, nil}]) do
+      [
+        "(clear",
+        content_tag(:span, [" ", assigns.placeholder_text], class: "sr-only"),
+        ")"
+      ]
+    end
+  end
+  def clear_selector_link(_assigns) do
+    ""
+  end
 end

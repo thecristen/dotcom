@@ -517,4 +517,29 @@ defmodule Site.ScheduleV2ViewTest do
       end
     end
   end
+
+  describe "clear_selector_link/1" do
+    test "returns the empty string when clearable? is false" do
+      assert clear_selector_link(%{clearable?: false, selected: "place-davis"}) == ""
+    end
+
+    test "returns the empty string when selecte is nil" do
+      assert clear_selector_link(%{clearable?: true, selected: nil}) == ""
+    end
+
+    test "otherwise returns a link setting the query_key to nil", %{conn: conn} do
+      result = %{
+        clearable?: true,
+        selected: "place-davis",
+        placeholder_text: "destination",
+        query_key: "destination",
+        conn: fetch_query_params(conn)
+      }
+      |> clear_selector_link()
+      |> safe_to_string
+
+      assert result =~ "(clear<span class=\"sr-only\"> destination</span>)"
+      refute result =~ "place-davis"
+    end
+  end
 end
