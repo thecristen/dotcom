@@ -8,7 +8,7 @@ defmodule StopTimeTest do
 
   describe "StopTime.display_status/1" do
     test "returns the same as StopTime.display_status/2 with a nil second argument" do
-      assert StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}) == 
+      assert StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}) ==
               StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}, nil)
     end
   end
@@ -17,20 +17,20 @@ defmodule StopTimeTest do
     test "uses the departure status if it exists" do
       result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}, nil)
 
-      assert IO.iodata_to_binary(result) == "On Time"
+      assert IO.iodata_to_binary(result) == "On time"
     end
 
     test "includes track number if present" do
       result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "All Aboard", track: "5"}}, nil)
 
-      assert IO.iodata_to_binary(result) == "All Aboard on track 5"
+      assert IO.iodata_to_binary(result) == "All aboard on track 5"
     end
 
     test "returns a readable message if there's a difference between the scheduled and predicted times" do
       now = @time
-      result = 
-        StopTime.display_status( 
-          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, 
+      result =
+        StopTime.display_status(
+          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}},
           %PredictedSchedule{schedule: nil, prediction: nil})
 
       assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
@@ -38,9 +38,9 @@ defmodule StopTimeTest do
 
     test "returns the empty string if the predicted and scheduled times are the same" do
       now = @time
-      result = 
+      result =
         StopTime.display_status(
-          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}}, 
+          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}},
           %PredictedSchedule{schedule: nil, prediction: nil})
 
       assert IO.iodata_to_binary(result) == ""
@@ -49,7 +49,7 @@ defmodule StopTimeTest do
     test "takes the max of the departure and arrival time delays" do
       departure = @time
       arrival = Timex.shift(departure, minutes: 30)
-      result = 
+      result =
         StopTime.display_status(
           %PredictedSchedule{schedule: %Schedule{time: departure}, prediction: %Prediction{time: Timex.shift(departure, minutes: 5)}},
           %PredictedSchedule{schedule: %Schedule{time: arrival}, prediction: %Prediction{time: Timex.shift(arrival, minutes: 10)}}
@@ -60,9 +60,9 @@ defmodule StopTimeTest do
 
     test "handles nil arrivals" do
       now = @time
-      result = 
+      result =
         StopTime.display_status(
-          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}}, 
+          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}},
           nil)
 
       assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
@@ -70,9 +70,9 @@ defmodule StopTimeTest do
 
     test "inflects the delay correctly" do
       now = @time
-      result = 
+      result =
         StopTime.display_status(
-          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 1)}}, 
+          %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 1)}},
           nil)
 
       assert IO.iodata_to_binary(result) == "Delayed 1 minute"
@@ -121,14 +121,14 @@ defmodule StopTimeTest do
     end
 
     test "compares by arrival when departure is nil" do
-      stop_time1 = 
-        %StopTime{departure: nil, 
+      stop_time1 =
+        %StopTime{departure: nil,
                   arrival: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T10:00:00]}}}
-      stop_time2 = 
+      stop_time2 =
         %StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T08:00:00]}},
                   arrival: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T11:00:00]}}}
-      stop_time3 = 
-          %StopTime{departure: nil, 
+      stop_time3 =
+          %StopTime{departure: nil,
                     arrival: nil}
 
       # dep=nil; arr=10:00 before dep=8:00; arr=11:00
@@ -141,10 +141,10 @@ defmodule StopTimeTest do
     end
 
     test "compares when departure and arrival is nil" do
-      dep_time_nil = 
-        %StopTime{departure: nil, 
+      dep_time_nil =
+        %StopTime{departure: nil,
                   arrival: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T10:00:00]}}}
-      arr_time_nil = 
+      arr_time_nil =
         %StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T10:00:00]}},
                   arrival: nil}
 
@@ -157,7 +157,7 @@ defmodule StopTimeTest do
   describe "StopTime.departure_schedule_before?/2" do
     test "compares with time" do
       stop_time = %StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T07:30:00]}}}
-      
+
       assert StopTime.departure_schedule_before?(stop_time, ~N[2017-03-01T07:30:01])
 
       refute StopTime.departure_schedule_before?(stop_time, ~N[2017-03-01T07:29:00])
@@ -169,7 +169,7 @@ defmodule StopTimeTest do
   describe "StopTime.departure_schedule_after?/2" do
     test "compares with time" do
       stop_time = %StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T07:30:00]}}}
-      
+
       assert StopTime.departure_schedule_after?(stop_time, ~N[2017-03-01T07:29:00])
 
       refute StopTime.departure_schedule_after?(stop_time, ~N[2017-03-01T07:31:00])
