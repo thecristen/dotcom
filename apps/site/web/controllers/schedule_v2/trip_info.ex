@@ -45,7 +45,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
                   date: user_selected_date,
                   date_time: date_time}}) when times != [] do
     if(show_trips?(user_selected_date, date_time, route.type)) do
-      current_trip(times, user_selected_date)
+      current_trip(times, date_time)
     else
       nil
     end

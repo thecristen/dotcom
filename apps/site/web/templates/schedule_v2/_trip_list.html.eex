@@ -23,7 +23,7 @@
       <% end %>
     <% end %>
     <%= unless @stop_times.showing_all? do %>
-      <%= link to: update_url(@conn, show_all_trips: true), class: "trip-list-v2-row trip-list-v2-footer" do %>
+      <%= link to: update_url(@conn, show_all_trips: true)<>"#trip-info-box", class: "trip-list-v2-row trip-list-v2-footer", data: [turbolinks: false] do %>
         Show all trips for <%= pretty_date(@date) %>
       <% end %>
     <% end %>
