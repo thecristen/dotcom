@@ -38,7 +38,7 @@
     <% end %>
   </div>
   <div class="trip-duration">
-    <strong>Scheduled Duration:</strong>
+    <strong>Trip duration:</strong>
     <%= @trip_info.duration %> minutes
   </div>
 </div>
