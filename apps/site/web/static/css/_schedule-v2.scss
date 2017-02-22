@@ -163,9 +163,10 @@ $z-index-vehicle-position: 2;
     border-left-style: solid;
     border-left-width: $location-line-width;
     content: '';
-    height: 100%;
+    height: 130%;
     left: 50%;
     position: absolute;
+    top: -25%;
     z-index: $z-index-vehicle-position;
   }
 
@@ -196,6 +197,14 @@ $z-index-vehicle-position: 2;
   }
 }
 
+// first stop in the list, only display the line going down
+.stop-group:first-child .schedule-trip-stop:first-child,
+.schedule-v2-timetable-row:nth-child(2) {
+  .vehicle-location::before {
+    height: 100%;
+    top: 0;
+  }
+}
 // the last stop in the list, don't display the line
 .stop-group:last-child .schedule-trip-stop:last-child,
 .schedule-v2-timetable-row:last-child {
