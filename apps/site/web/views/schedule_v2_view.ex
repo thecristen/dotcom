@@ -298,11 +298,15 @@ defmodule Site.ScheduleV2View do
   @doc """
   The message to show when there are no stop times to show.
   """
-  @spec no_stop_times_message(Route.t) :: String.t
-  def no_stop_times_message(%Route{type: type}) when Route.subway?(type) do
-    "There are no upcoming departures at this time."
+  @spec no_stop_times_message(Routes.Route.t, Date.t) :: String.t
+  def no_stop_times_message(%Route{type: type}, date) when Route.subway?(type) do
+    if Timex.diff(date, Util.service_date(), :days) == 0 do
+      "There are no upcoming departures at this time."
+    else
+      ""
+    end
   end
-  def no_stop_times_message(_) do
+  def no_stop_times_message(_route, _date) do
     "There are no scheduled trips at this time."
   end
 

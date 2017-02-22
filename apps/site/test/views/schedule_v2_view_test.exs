@@ -507,13 +507,19 @@ defmodule Site.ScheduleV2ViewTest do
   describe "no_stop_times_message/1" do
     test "for subways mentions departures" do
       for type <- [0, 1] do
-        assert no_stop_times_message(%Routes.Route{type: type}) == "There are no upcoming departures at this time."
+        result = no_stop_times_message(%Routes.Route{type: type}, Util.service_date())
+        assert result == "There are no upcoming departures at this time."
       end
+    end
+
+    test "on a date other than the current service date for subways, displays nothing" do
+      assert no_stop_times_message(%Routes.Route{type: 1}, Timex.shift(Util.service_date(), weeks: 1)) == ""
     end
 
     test "for other modes mentions schedules" do
       for type <- [2, 3, 4] do
-        assert no_stop_times_message(%Routes.Route{type: type}) == "There are no scheduled trips at this time."
+        result = no_stop_times_message(%Routes.Route{type: type}, ~D[2017-02-23])
+        assert result == "There are no scheduled trips at this time."
       end
     end
   end
