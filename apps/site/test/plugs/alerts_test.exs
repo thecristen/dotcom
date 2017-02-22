@@ -71,4 +71,29 @@ defmodule Site.Plugs.AlertsTest do
       assert conn.assigns.alerts == sorted
     end
   end
+
+  test "filters by direction ID if it is assigned without a query param", %{conn: conn} do
+    date_time = ~N[2017-02-22 12:00:00]
+    alerts = [
+      %Alert{
+        informed_entity: [%InformedEntity{direction_id: 1}],
+        active_period: [{nil, nil}],
+        updated_at: date_time
+      },
+      %Alert{
+        informed_entity: [%InformedEntity{direction_id: 0}],
+        active_period: [{nil, nil}],
+        updated_at: date_time
+      }
+    ]
+
+    conn = conn
+    |> assign(:route, %Routes.Route{type: 1})
+    |> assign(:date, Timex.to_date(date_time))
+    |> assign(:direction_id, 1)
+    |> fetch_query_params
+    |> Alerts.call(alerts_fn: fn -> alerts end)
+
+    assert conn.assigns.all_alerts == [hd(alerts)]
+  end
 end
