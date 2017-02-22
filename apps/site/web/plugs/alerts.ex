@@ -53,8 +53,10 @@ defmodule Site.Plugs.Alerts do
     # if the conn already has alerts from somewhere, use them.
     all_alerts
   end
-  defp alerts(%{params: params, assigns: %{route: route}}, alert_fn) when route != nil do
-    params = put_in params["route_type"], route.type
+  defp alerts(%{params: params, assigns: %{route: route} = assigns}, alert_fn) when route != nil do
+    params = params
+    |> Map.put("route_type", route.type)
+    |> Map.put("direction_id", assigns[:direction_id])
 
     alerts_from_params(params, alert_fn)
   end
@@ -90,11 +92,8 @@ defmodule Site.Plugs.Alerts do
   defp direction_id(nil) do
     nil
   end
-  defp direction_id(str) when is_binary(str) do
-    case Integer.parse(str) do
-      {id, ""} -> id
-      _ -> nil
-    end
+  defp direction_id(id) when is_integer(id) do
+    id
   end
 
   defp sort(alerts) do
