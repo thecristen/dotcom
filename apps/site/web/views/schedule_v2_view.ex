@@ -180,36 +180,31 @@ defmodule Site.ScheduleV2View do
     [prefix, ": ", Timex.format!(time, "{h12}:{m} {AM}")]
   end
 
-  @spec build_prediction_tooltip(iodata, iodata) :: Phoenix.HTML.Safe.t
-  def build_prediction_tooltip("", "") do
-    nil
+  @spec do_build_prediction_tooltip(iodata) :: Phoenix.HTML.Safe.t
+  defp do_build_prediction_tooltip("") do
+    ""
   end
-  def build_prediction_tooltip(time_text, "") do
-    content_tag :span do
-      time_text
-    end
+  defp do_build_prediction_tooltip(text) do
+    content_tag(:p, text, class: 'prediction-tooltip')
   end
-  def build_prediction_tooltip("", status_text) do
-    content_tag :span do
-      status_text
-    end
-  end
-  def build_prediction_tooltip(time_text, status_text) do
-    time_tag = content_tag(:p, time_text, class: 'prediction-tooltip')
-    status_tag = content_tag(:p, status_text, class: 'prediction-tooltip')
+  def build_prediction_tooltip(time_text, status_text, stop_text) do
+    time_tag = do_build_prediction_tooltip(time_text)
+    status_tag = do_build_prediction_tooltip(status_text)
+    stop_tag = do_build_prediction_tooltip(stop_text)
 
     :span
-    |> content_tag([time_tag, status_tag])
+    |> content_tag([stop_tag, time_tag, status_tag])
     |> safe_to_string
     |> String.replace(~s("), ~s('))
   end
 
-  @spec prediction_tooltip(Predictions.Prediction.t) :: Phoenix.HTML.Safe.t
-  def prediction_tooltip(prediction) do
+  @spec prediction_tooltip(Predictions.Prediction.t, String.t) :: Phoenix.HTML.Safe.t
+  def prediction_tooltip(prediction, stop_name) do
     time_text = prediction_time_text(prediction)
     status_text = prediction_status_text(prediction)
+    stop_text = "Last known location: #{stop_name}"
 
-    build_prediction_tooltip(time_text, status_text)
+    build_prediction_tooltip(time_text, status_text, stop_text)
   end
 
   @spec prediction_for_vehicle_location(Plug.Conn.t, String.t, String.t) :: Predictions.Prediction.t
