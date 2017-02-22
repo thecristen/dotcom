@@ -128,6 +128,11 @@
                   <p class="mobile-nav-description">About Us, Business Center, Projects...</p>
                 </a>
               </li>
+              <li class="mobile-nav-item">
+                <%= link to: "http://mobile.usablenet.com/mt/www.mbta.com", class: "mobile-nav-link old-site-mobile-link" do %>
+                  Go to old mbta.com site <%= fa "arrow-right" %>
+                <% end %>
+              </li>
             </ul>
           </nav>
         </div>
