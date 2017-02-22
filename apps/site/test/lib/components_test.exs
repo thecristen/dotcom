@@ -188,6 +188,17 @@ defmodule Site.ComponentsTest do
       rendered = %SvgIcon{icon: :alert} |> svg_icon |> safe_to_string
       assert rendered =~ "Service alert or delay"
     end
+
+    test "Title tooltip is shown if show_tooltip? is not specified" do
+      rendered = svg_icon(%SvgIcon{icon: :subway}) |> safe_to_string
+      [data_toggle] = Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle")
+      assert data_toggle == "tooltip"
+    end
+
+    test "Tooltip is not shown if show_tooltip? is false" do
+      rendered = svg_icon(%SvgIcon{icon: :subway, show_tooltip?: false}) |> safe_to_string
+      assert Floki.find(rendered, "svg") |> List.first |> Floki.attribute("data-toggle") == []
+    end
   end
 
   describe "icons > svg_icon_with_circle" do
