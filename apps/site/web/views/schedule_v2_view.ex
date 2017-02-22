@@ -69,23 +69,6 @@ defmodule Site.ScheduleV2View do
     stop_bubble_icon(:open)
   end
 
-  def with_first_last([]) do
-    []
-  end
-  def with_first_last([only]) do
-    [{only, true}]
-  end
-  def with_first_last([first | rest]) do
-    [{first, true} | do_with_first_last(rest, [])]
-  end
-
-  defp do_with_first_last([last], acc) do
-    Enum.reverse([{last, true} | acc])
-  end
-  defp do_with_first_last([item | rest], acc) do
-    do_with_first_last(rest, [{item, false} | acc])
-  end
-
   defp stop_bubble_icon(class) do
     content_tag :svg, viewBox: "0 0 42 42", class: "icon trip-bubble-#{class}" do
       tag :circle, r: 20, cx: 20, cy: 20, transform: "translate(2,2)"

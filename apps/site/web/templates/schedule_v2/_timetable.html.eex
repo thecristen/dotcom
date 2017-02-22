@@ -21,7 +21,7 @@
         <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
       </th>
     </tr>
-    <%= for {stop, terminus?} <- with_first_last(@all_stops) do %>
+    <%= for {stop, terminus?} <- EnumHelpers.with_first_last(@all_stops) do %>
       <tr class="schedule-v2-timetable-row">
         <td class="schedule-v2-timetable-name-col" data-sticky="left">
           <div class="vehicle-location hidden-sm-down">
