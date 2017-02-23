@@ -13,6 +13,10 @@ export default function($) {
   function handleScroll(ev) {
     const scrollPos = ev.target.scrollLeft;
 
+    if (scrollPos < 0) {
+      ev.target.scrollLeft = 0;
+    }
+
     requestAnimationFrame(function() {
       const containerWidth = ev.target.clientWidth;
       const $table = $(ev.target).children();
@@ -42,12 +46,10 @@ export default function($) {
     const childWidth = $el.outerWidth();
     const parentLeft = el.parentNode.offsetLeft;
     const firstSiblingWidth = $el.siblings("th").first().outerWidth();
-    const timeHeaderWidth = $el.siblings("th").eq(1).outerWidth();
 
     // childLeft - parentLeft scrolls the first row to the start of the
-    // visible area.  we scroll by an additional firstSiblingWidth and
-    // timeHeaderWidth to get us past the first two column headers.
-    const scrollLeft = childLeft - parentLeft - firstSiblingWidth - timeHeaderWidth;
+    // visible area.
+    const scrollLeft = childLeft - parentLeft - firstSiblingWidth;
     $(el).parents("table").parent()
       .animate({scrollLeft}, 200)
       .on('scroll', handleScroll)

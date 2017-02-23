@@ -1,52 +1,59 @@
 export default function($) {
   $ = $ || window.jQuery;
 
-  const requestAnimationFrame = window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    function(f) { window.setTimeout(f, 15); };
-
   function bindScrollContainers() {
-    $('[data-sticky-container]').on('scroll', onScroll);
-    triggerScrollContainers();
+    $('[data-sticky-container]').each(initialPosition);
   }
 
-  function triggerScrollContainers() {
-    $('[data-sticky-container]').trigger('scroll');
-  }
+  function initialPosition() {
+    const $this = $(this),
+          parentLeft = Math.ceil(this.getBoundingClientRect().left),
+          scrollLeft = $this.scrollLeft();
+    // reset scroll position
+    $this.scrollLeft(0);
 
-  const waitingFor = {};
-
-  function onScroll(ev) {
-    if (waitingFor[ev.target]) {
-      return;
-    }
-    waitingFor[ev.target] = true;
-    requestAnimationFrame(function() { reposition(ev.target); });
-  }
-
-  function reposition(parentEl) {
-    delete waitingFor[parentEl];
-    const $parent = $(parentEl),
-          parentWidth = $parent.width(),
-          childWidth = $parent.children().first().width(),
-          offset = $parent.scrollLeft();
-
-    $parent.find("[data-sticky]").each(function(_index, el) {
-      const $el = $(el),
-            sticky = $el.data("sticky");
-      if (sticky === "left") {
-        // once we scroll, we can be off by a pixel.  move left 1 pixel so
-        // no content appears to the left.
-        const newLeft = Math.max(offset - 1, 0);
-        $el.css({position: "relative", left: newLeft});
-      } else if (sticky === "right") {
-        const newRight = childWidth - parentWidth - offset;
-        $el.css({position: "relative", right: newRight});
+    $this.find("[data-sticky=left]").each(function() {
+      // reset the width/height of the element
+      const $child = $(this).css({width: 'auto', height: 'auto', left: '0px', position: 'relative'});
+      // clear a previous sticky replacement
+      var $replacement = $child.prev();
+      if ($replacement.hasClass("sticky-replacement")) {
+        $replacement.remove();
       }
+      const rect = this.getBoundingClientRect();
+      // we add a replacement element so we can push sibling elements out of
+      // the way once we've gone absolute
+      $("<" + this.tagName + ">").addClass("sticky-replacement").text(' ')
+        .css({
+          paddingLeft: Math.ceil(rect.width),
+          height: Math.ceil(rect.height)
+        })
+        .insertBefore($child);
+      // update our CSS position/size
+      $child.css({
+        height: Math.ceil(rect.height),
+        width: Math.ceil(rect.width),
+        left: parentLeft,
+        position: 'absolute'
+      });
     });
+    $this.find("[data-sticky=right]").each(function() {
+      const $child = $(this).css({width: 'auto', height: 'auto', right: '0', position: 'relative'});
+      const rect = this.getBoundingClientRect();
+
+      $child.css({
+        height: Math.ceil(rect.height),
+        width: Math.ceil(rect.width),
+        right: parentLeft,
+        position: 'absolute'
+      });
+    });
+
+    if (scrollLeft) {
+      $(this).scrollLeft(scrollLeft);
+    }
   }
 
   $(document).on('turbolinks:load', bindScrollContainers);
-  $(window).on('resize', triggerScrollContainers);
+  $(window).on('resize', bindScrollContainers);
 }
