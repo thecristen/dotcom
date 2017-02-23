@@ -60,6 +60,7 @@ $space-1: $space-12 / 12; // 1px real, 0.5px Zeplin
 $base-spacing: $space-16;
 $base-spacing-sm: $space-8;
 $base-spacing-lg: $space-24;
+$base-spacing-xl: $space-36;
 
 $font-family-base: 'Lato', $font-family-sans-serif;
 
@@ -76,7 +77,7 @@ $font-size-h4: $font-size-h3;
 $font-size-h4-xxl: 1.125rem;
 $font-size-h5: 1rem;
 $font-size-h5-xxl: $font-size-h5;
-$font-size-h6: $font-size-h5;
+$font-size-h6: .875rem;
 $font-size-h6-xxl: $font-size-h5;
 
 $border-width: $space-1;

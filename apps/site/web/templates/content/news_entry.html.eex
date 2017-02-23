@@ -1,24 +1,29 @@
-<h1><%= @page.title |> raw %></h1>
+<div class="news-entry">
+  <img class="news-featured-image"
+    src="<%= @page.fields.featured_image.url %>"
+    alt="<%= @page.fields.featured_image.alt %>"
+  />
 
-<img class="project-update-featured-image" alt="<%= @page.fields.featured_image.alt %>" src="<%= @page.fields.featured_image.url %>"/>
+  <h1 class="news-title">
+    <%= @page.title |> raw %>
+  </h1>
 
-<ul class="project-update-metadata">
-  <li><strong>Posted on:</strong> <%= format_full_date(@page.updated_at) %></li>
-</ul>
+  <p class="news-metadata">
+    Posted on <%= format_date(@page.updated_at) %>
+  </p>
 
-<%= @page.body |> raw %>
+  <div class="news-entry-body">
+    <%= @page.body |> raw %>
+  </div>
 
-<%= if Map.get(@page.fields, :media_contact) do %>
-  <h2>Media Contact</h2>
-  <ul class="list-unstyled">
-    <li><strong>Contact:</strong> <%= @page.fields.media_contact %></li>
-    <% phone = Map.get(@page.fields, :media_phone) %>
-    <%= cond do %>
-      <% phone =~ "@" -> %><li><strong>E-mail:</strong> <%= phone %></li>
-      <% phone -> %><li><strong>Phone:</strong> <%= tel_link phone %></li>
-      <% true -> %>
+  <div>
+    <%= if field_has_content?(@page.fields.more_information) do %>
+      <h2>More Information</h2>
+      <%= @page.fields.more_information |> raw %>
     <% end %>
-  </ul>
-<% end %>
+  </div>
+</div>
 
-<%= render "_social.html", path: @conn.request_path %>
+<%= if field_has_content?(@metadata.recent_news) do %>
+  <%= render "_recent_news.html", recent_news: @metadata.recent_news %>
+<% end %>
