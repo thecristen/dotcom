@@ -1,31 +1,32 @@
-.modal-content, .modal-body {
-  border-radius: $base-spacing / 4;
+.modal-content,
+.modal-body {
+  border-radius: $border-radius;
 }
 
 .modal-transparent {
   &.modal-dialog {
-    margin-top: 0;
     margin-bottom: 0;
+    margin-top: 0;
   }
 
   .modal-header {
-    border: none;
+    border: 0;
   }
 
   .modal-content {
     background-color: transparent;
-    border: none;
+    border: 0;
   }
 
   .modal-body {
-    background-color: #fff;
+    background-color: $white;
     max-height: calc(100vh - 41px - 2rem);
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .close {
-    color: #fff;
+    color: $white;
     margin-right: -15px; // undo default header padding
     padding-left: 0;
   }
@@ -60,14 +61,13 @@
   font-weight: bold;
 
   &.disabled {
-    background-color: $white;
-    color: $gray-light;
-    cursor: default;
-
     @include hover-focus-active {
       background-color: $white;
       cursor: default;
     }
+    background-color: $white;
+    color: $gray-light;
+    cursor: default;
   }
 
   &.key-option + &:not(.key-option) {
