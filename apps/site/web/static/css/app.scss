@@ -141,12 +141,14 @@ body {
       color: $white;
     }
   }
-
 }
 
 .beta-announcement-link {
   color: $white;
   text-decoration: underline;
+  &:hover {
+    color: $white;
+  }
 }
 
 .alert-announcement-container {
