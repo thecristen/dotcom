@@ -20,7 +20,7 @@ end %>
     <%= display_alerts(@alerts) %>
     <%= if assigns[:line] do %>
       <span class="pull-right">
-        <%= svg "green-line-" <> @line <> ".svg" |> String.downcase %>
+        <%= svg "green-line-#{String.downcase(@line)}.svg" %>
       </span>
     <% end %>
   </div>
