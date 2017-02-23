@@ -129,6 +129,11 @@ $z-index-vehicle-position: 2;
   display: block;
 }
 
+.trip-list-green-line-icon > svg {
+  border-radius: 50%;
+  border: 1px solid $brand-green-line;
+}
+
 .commuter-status {
   @include first-column;
 }
