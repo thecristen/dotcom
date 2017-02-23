@@ -23,7 +23,7 @@ defmodule StopTimeTest do
     test "includes track number if present" do
       result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "All Aboard", track: "5"}}, nil)
 
-      assert IO.iodata_to_binary(result) == "All aboard on track 5"
+      assert IO.iodata_to_binary(result) == "All Aboard on track&nbsp;5"
     end
 
     test "returns a readable message if there's a difference between the scheduled and predicted times" do

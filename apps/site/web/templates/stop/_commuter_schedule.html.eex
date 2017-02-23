@@ -37,7 +37,7 @@
               <% end %>
             </div>
             <div class="station-route-schedule-times row">
-              <div class="col-xs-3">
+              <div class="col-xs-3 no-wrap">
                 No. <%= schedule.trip.name %>
               </div>
               <div class="col-xs-9">
