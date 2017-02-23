@@ -1,7 +1,8 @@
 <div class="page-section">
   <div class="page-block mode-hub">
     <h1>
-      <%= @mode_name %> Schedules and Maps
+      <%= svg_icon_with_circle %SvgIconWithCircle{icon: @mode_name} %>
+      <%= @mode_name %>
     </h1>
     <h2>Line Schedules</h2>
     <%= mode_button_list(%ModeButtonList{conn: @conn, class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>

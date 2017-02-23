@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2Controller.Schedules do
   @moduledoc """
 
-  Responsible for populating @schedules and @direction_id based on parameters.
+  Responsible for populating @schedules and @frequency_table based on parameters.
 
   """
   import Plug.Conn, only: [assign: 3]
@@ -19,7 +19,6 @@ defmodule Site.ScheduleV2Controller.Schedules do
     schedules = schedules(conn)
     conn
     |> assign(:schedules, schedules)
-    |> assign_direction_id(schedules)
     |> assign_frequency_table(schedules)
   end
 
@@ -56,22 +55,5 @@ defmodule Site.ScheduleV2Controller.Schedules do
   end
   def assign_frequency_table(conn, _schedules) do
     conn
-  end
-
-  def assign_direction_id(conn, schedules) do
-    case direction_id(schedules) do
-      nil -> conn # don't update
-      id -> assign(conn, :direction_id, id)
-    end
-  end
-
-  defp direction_id([]) do
-    nil
-  end
-  defp direction_id([{departure, _} | _]) do
-    direction_id([departure])
-  end
-  defp direction_id([%Schedules.Schedule{trip: %{direction_id: direction_id}} | _]) do
-    direction_id
   end
 end

@@ -20,7 +20,7 @@
               <p class="station-route-schedule-name">
                 <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= headsign %>
                 <%= if has_alerts?(@conn, %Alerts.InformedEntity{route: route.id, direction_id: direction_id}) do %>
-                  <%= svg_icon(%SvgIcon{icon: :alert}) %>
+                  <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
                 <% end %>
               </p>
               <div class="station-route-schedule-times">
