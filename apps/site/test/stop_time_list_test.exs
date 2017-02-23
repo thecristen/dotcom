@@ -672,5 +672,18 @@ defmodule StopTimeListTest do
             trip: %Trip{id: "trip1"}}
         ]}
     end
+
+    test "ignores predictions where arrival is before departure" do
+      prediction = %Prediction{
+        time: ~N[2017-01-01T12:00:00],
+        route: @route,
+        stop: %Stop{id: "stop1"},
+        trip: %Trip{id: "trip1"}
+      }
+      arrival_prediction = %{prediction | time: ~N[2016-12-31T12:00:00], stop: %Stop{id: "stop3"}}
+      predictions = [prediction, arrival_prediction]
+      result = build_predictions_only(predictions, "stop1", "stop3")
+      assert result.times == []
+    end
   end
 end

@@ -5,7 +5,6 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
   """
   import Plug.Conn, only: [assign: 3]
-  alias Stops.Stop
 
   @default_opts [
     predictions_fn: &Predictions.Repo.all/1,
@@ -28,12 +27,13 @@ defmodule Site.ScheduleV2Controller.Predictions do
   end
 
   def assign_predictions(%{assigns: %{
-                              origin: %Stop{id: stop_id},
+                              origin: origin,
+                              destination: destination,
                               route: %{id: route_id},
                               direction_id: direction_id}} = conn, predictions_fn)
-    do
-    stops = Enum.join([stop_id, get_destination_id(conn.assigns.destination)], ",")
-    predictions = [direction_id: direction_id, stop: stops, route: route_id]
+  when not is_nil(origin) do
+    predictions = [route: route_id]
+    |> Keyword.merge(prediction_query(origin, destination, direction_id))
     |> predictions_fn.()
 
     assign(conn, :predictions, predictions)
@@ -42,9 +42,12 @@ defmodule Site.ScheduleV2Controller.Predictions do
     assign(conn, :predictions, [])
   end
 
-  defp get_destination_id(%Stop{id: stop_id}), do: stop_id
-  defp get_destination_id(_), do: ""
-
+  defp prediction_query(origin, nil, direction_id) do
+    [stop: origin.id, direction_id: direction_id]
+  end
+  defp prediction_query(origin, destination, _) do
+    [stop: "#{origin.id},#{destination.id}"]
+  end
 
   @spec gather_vehicle_predictions(Plug.Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: Plug.Conn.t
   def gather_vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}} = conn, predictions_fn) do
