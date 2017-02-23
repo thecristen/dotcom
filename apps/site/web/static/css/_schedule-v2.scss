@@ -430,13 +430,14 @@ $z-index-vehicle-position: 2;
 }
 
 .schedule-v2-icon-nowrap > a {
-  padding-right: 1.2rem;
   float: left;
+  padding-right: 1.2rem;
 }
 
 .schedule-v2-icon-nowrap > svg {
-  margin-left: -1rem;
   float: left;
+  margin-left: -$space-16;
+}
 
 .schedule-v2-timetable-name {
   @include media-breakpoint-up(md) {
