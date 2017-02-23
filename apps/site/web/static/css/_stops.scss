@@ -100,6 +100,17 @@
   }
 }
 
+.station-route-schedule-times {
+  white-space: nowrap;
+
+  .time-column {
+    display: inline-block;
+    vertical-align: top;
+    white-space: initial;
+    width: 32%;
+  }
+}
+
 .severe-delay {
   color: $brand-danger;
 }
