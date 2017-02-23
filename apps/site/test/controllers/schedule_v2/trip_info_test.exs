@@ -251,6 +251,42 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     end
   end
 
+  test "Default Trip id is an upcoming trip", %{conn: conn} do
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "long_trip"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: -10),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 15),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "not_in_schedule"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 20),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "66"),
+      query_params: nil
+    }
+    |> assign_stop_times_from_schedules(schedules)
+    |> assign(:route, %Routes.Route{type: 1})
+    |> assign(:date, ~D[2017-02-10])
+    |> assign(:datetime, @time)
+    |> call(init)
+
+    assert TripInfo.is_current_trip?(conn.assigns.trip_info, "32893585")
+  end
+
   test "does assign trips for the subway if the date is today", %{conn: conn} do
     schedules = [
       %Schedule{
