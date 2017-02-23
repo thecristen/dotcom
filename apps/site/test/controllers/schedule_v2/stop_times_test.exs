@@ -3,13 +3,14 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
 
   import Site.ScheduleV2Controller.StopTimes
   import Plug.Conn, only: [assign: 3, fetch_query_params: 1]
+  import UrlHelpers, only: [update_url: 2]
 
   alias Routes.Route
   alias Schedules.{Schedule, Trip, Stop}
 
  @route %Route{id: "86", type: 3, name: "86"}
  @date_time ~N[2017-02-11T22:30:00]
- @cal_date  ~N[2017-02-11T12:00:00]
+ @cal_date  ~D[2017-02-11]
 
   describe "init/1" do
     test "takes no options" do
@@ -21,6 +22,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
     defp setup_conn(route, schedules, predictions, now, selected_date, origin, destination, show_all_trips \\ "false") do
       %{build_conn() | params: %{"show_all_trips" => show_all_trips}}
       |> assign(:route, route)
+      |> assign(:direction_id, 0)
       |> assign(:schedules, schedules)
       |> assign(:predictions, predictions)
       |> assign(:date_time, now)
@@ -31,7 +33,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       |> call([])
     end
 
-    test "assigns stop_times" do
+    test "assigns stop_times even without schedules or predictions" do
       conn = setup_conn(@route, [], [], @date_time, @cal_date, nil, nil)
 
       assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: false}
@@ -78,6 +80,20 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       |> call([])
 
       assert conn.assigns.stop_times != nil
+    end
+
+    test "if the assigned direction_id does not match the trip, redirects to the correct direction_id" do
+      trip = %Trip{id: "trip", direction_id: 1}
+      origin = %Stop{id: "origin"}
+      destination = %Stop{id: "destination"}
+      schedules = [
+        {%Schedule{trip: nil, stop: origin, time: @date_time},
+         %Schedule{trip: nil, stop: destination, time: @date_time}},
+        {%Schedule{trip: trip, stop: origin, time: @date_time},
+         %Schedule{trip: trip, stop: destination, time: @date_time}}]
+      predictions = []
+      conn = setup_conn(@route, schedules, predictions, @date_time, @cal_date, origin, destination)
+      assert redirected_to(conn, 302) == update_url(conn, direction_id: 1)
     end
 
     test "filters out predictions belonging to a trip that doesn't go to the destination" do

@@ -46,9 +46,9 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> call([predictions_fn: fn (opts) -> opts end])
 
       assert conn.assigns[:predictions] == [
-        direction_id: "0",
-        stop: "place-sstat,",
-        route: "4"
+        route: "4",
+        stop: "place-sstat",
+        direction_id: "0"
       ]
     end
 
@@ -68,9 +68,8 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> call([predictions_fn: fn (opts) -> opts end])
 
       assert conn.assigns[:predictions] == [
-        direction_id: "0",
-        stop: "1148,21148",
-        route: "66"
+        route: "66",
+        stop: "1148,21148"
       ]
     end
 

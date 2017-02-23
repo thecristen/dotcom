@@ -42,7 +42,7 @@ defmodule StopTimeList do
 
   @spec build_times([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
   defp build_times(schedules, predictions, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
-    group_trips(
+    stop_times = group_trips(
       schedules,
       predictions,
       origin_id,
@@ -50,6 +50,7 @@ defmodule StopTimeList do
       &build_schedule_pair_map/2,
       &build_stop_time(&1, &2, &3, origin_id, destination_id)
     )
+    Enum.reject(stop_times, &Timex.after?(StopTime.departure_time(&1), StopTime.arrival_time(&1)))
   end
   defp build_times(schedules, predictions, origin_id, nil) when is_binary(origin_id) do
     group_trips(
