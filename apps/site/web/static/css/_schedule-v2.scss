@@ -80,6 +80,10 @@ $z-index-vehicle-position: 2;
   @include make-row();
   display: block;
 
+  &:empty {
+    display: none;
+  }
+
   @include media-breakpoint-up(md) {
     clear: left;
     float: left;

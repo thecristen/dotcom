@@ -507,14 +507,45 @@ defmodule Site.ScheduleV2ViewTest do
   describe "no_stop_times_message/1" do
     test "for subways mentions departures" do
       for type <- [0, 1] do
-        assert no_stop_times_message(%Routes.Route{type: type}) == "There are no upcoming departures at this time."
+        result = no_stop_times_message(%Routes.Route{type: type}, Util.service_date())
+        assert result == "There are no upcoming departures at this time."
       end
+    end
+
+    test "on a date other than the current service date for subways, displays nothing" do
+      assert no_stop_times_message(%Routes.Route{type: 1}, Timex.shift(Util.service_date(), weeks: 1)) == ""
     end
 
     test "for other modes mentions schedules" do
       for type <- [2, 3, 4] do
-        assert no_stop_times_message(%Routes.Route{type: type}) == "There are no scheduled trips at this time."
+        result = no_stop_times_message(%Routes.Route{type: type}, ~D[2017-02-23])
+        assert result == "There are no scheduled trips at this time."
       end
+    end
+  end
+
+  describe "clear_selector_link/1" do
+    test "returns the empty string when clearable? is false" do
+      assert clear_selector_link(%{clearable?: false, selected: "place-davis"}) == ""
+    end
+
+    test "returns the empty string when selecte is nil" do
+      assert clear_selector_link(%{clearable?: true, selected: nil}) == ""
+    end
+
+    test "otherwise returns a link setting the query_key to nil", %{conn: conn} do
+      result = %{
+        clearable?: true,
+        selected: "place-davis",
+        placeholder_text: "destination",
+        query_key: "destination",
+        conn: fetch_query_params(conn)
+      }
+      |> clear_selector_link()
+      |> safe_to_string
+
+      assert result =~ "(clear<span class=\"sr-only\"> destination</span>)"
+      refute result =~ "place-davis"
     end
   end
 end
