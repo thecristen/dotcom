@@ -323,10 +323,6 @@
   .common-fare {
     padding: $base-spacing;
 
-    &:first-child {
-      border-right: 1px solid $gray-lightest;
-    }
-
     ul:last-child {
       // scss-lint:disable NestingDepth, SelectorDepth
       li:last-child {

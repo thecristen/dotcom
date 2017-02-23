@@ -15,7 +15,8 @@ defmodule Site.BodyClass do
     [
       javascript_class(conn),
       error_class(conn),
-      mticket_class(conn)
+      mticket_class(conn),
+      sticky_footer_class(conn)
     ]
     |> Enum.filter(&(&1 != ""))
     |> Enum.join(" ")
@@ -46,4 +47,11 @@ defmodule Site.BodyClass do
       _ -> "mticket"
     end
   end
+
+  defp sticky_footer_class(conn) do
+    do_sticky_footer_class Map.get(conn.private, :phoenix_view), Map.get(conn.private, :phoenix_template)
+  end
+
+  defp do_sticky_footer_class(Site.PageView, "index.html"), do: ""
+  defp do_sticky_footer_class(_, _), do: "sticky-footer"
 end

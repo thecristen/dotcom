@@ -1,4 +1,4 @@
-<div class="container-fluid hidden-sm-down desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
+<div class="desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
   <div class="container">
     <div class="menu-card panel">
       <div id="gettingAround" class="menu-panel collapse" role="tabpanel">
@@ -73,15 +73,13 @@
             </ul>
           </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
     <div class="menu-card panel">
       <div id="faresDrawer" class="menu-panel collapse" role="tabpanel">
         <div class="row menu-row">
-          <div class="col-xs-8 fares-column">
-            <%= render Site.FareView, "_common_fares.html", conn: @conn %>
-          </div>
-          <div class="col-xs-4 fares-column">
+          <div class="col-xs-3 fares-column">
             <p>More Fares Info</p>
             <ul>
               <li><%= link to: fare_path(@conn, :show, "bus_subway") do %></li>
@@ -104,7 +102,11 @@
               <% end %>
             </ul>
           </div>
+          <div class="col-xs-9 fares-column">
+            <%= render Site.FareView, "_common_fares.html", conn: @conn, dark: true %>
+          </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
     <div class="menu-card panel">
@@ -157,6 +159,7 @@
             </p>
           </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
     <div class="menu-card panel">
@@ -241,6 +244,7 @@
             </ul>
           </div>
         </div>
+        <%= render "_old_site_button.html" %>
       </div>
     </div>
   </div>

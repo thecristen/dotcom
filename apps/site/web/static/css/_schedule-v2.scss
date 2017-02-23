@@ -3,7 +3,7 @@
 @import 'variables';
 
 $location-line-width: $space-4;
-$z-index-trip-line: -1;
+$z-index-vehicle-position: 2;
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,8 @@ $z-index-trip-line: -1;
 // scss-lint:disable NestingDepth
 // scss-lint:disable SelectorDepth
 // changes the color for the vehicle location graphic per route type
-  .schedule-trip-info {
+  .schedule-trip-info,
+  .schedule-v2-timetable {
     &#{$class} {
       .icon-boring,
       .trip-bubble-open {
@@ -77,6 +78,7 @@ $z-index-trip-line: -1;
   @extend %unpadded-table-row;
   @extend %block-level-link;
   @include make-row();
+  display: block;
 
   @include media-breakpoint-up(md) {
     clear: left;
@@ -123,25 +125,6 @@ $z-index-trip-line: -1;
   display: block;
 }
 
-.commuter-times {
-  @include clearfix();
-
-  div:first-child {
-    @include first-column;
-    width: grid-width(3);
-  }
-
-  div:not(:first-child):not(:last-child) {
-    @include column;
-    width: grid-width(2);
-  }
-
-  div:last-child {
-    @include last-column;
-    width: grid-width(7);
-  }
-}
-
 .commuter-status {
   @include first-column;
 }
@@ -180,15 +163,18 @@ $z-index-trip-line: -1;
     border-left-style: solid;
     border-left-width: $location-line-width;
     content: '';
-    height: 100%;
+    height: 130%;
     left: 50%;
     position: absolute;
-    z-index: $z-index-trip-line;
+    top: -25%;
+    z-index: $z-index-vehicle-position;
   }
 
   svg {
     margin-top: -$vertical-padding;
     overflow: visible;
+    position: absolute;
+    z-index: $z-index-vehicle-position;
   }
 }
 
@@ -211,17 +197,29 @@ $z-index-trip-line: -1;
   }
 }
 
-// the last stop in the list, don't display the line
-.stop-group:last-child {
-  .terminus:last-child {
-    .vehicle-location::before {
-      display: none;
-    }
-
-    .stop-info {
-      border-bottom: 0;
-    }
+// first stop in the list, only display the line going down
+.stop-group:first-child .schedule-trip-stop:first-child,
+.schedule-v2-timetable-row:nth-child(2) {
+  .vehicle-location::before {
+    height: 100%;
+    top: 0;
   }
+}
+// the last stop in the list, don't display the line
+.stop-group:last-child .schedule-trip-stop:last-child,
+.schedule-v2-timetable-row:last-child {
+  .vehicle-location::before {
+    display: none;
+  }
+
+  .stop-info {
+    border-bottom: 0;
+  }
+}
+
+.stop-info-column {
+  min-width: 8rem;
+  white-space: nowrap;
 }
 
 @include vehicle-location-mode-color(".commuter-rail", $brand-commuter-rail);
@@ -249,12 +247,12 @@ $z-index-trip-line: -1;
 
 %stop-name-column {
   float: left;
-  width: 67%;
+  width: 50%;
 }
 
 %stop-time-column {
   float: left;
-  width: 33%;
+  width: 50%;
 }
 
 %stop-name-and-time-column {
@@ -263,11 +261,11 @@ $z-index-trip-line: -1;
   margin-left: $base-spacing + $icon-size;
   width: grid-width(10);
 
-  span:first-child {
+  > span:first-child {
     @extend %stop-name-column;
   }
 
-  span:last-child {
+  > span:last-child {
     @extend %stop-time-column;
   }
 }
@@ -313,6 +311,10 @@ $z-index-trip-line: -1;
 
   .stop-info {
     @extend %stop-name-and-time-column;
+
+    @include media-breakpoint-down(xs) {
+      display: none;
+    }
   }
 }
 
@@ -380,6 +382,10 @@ $z-index-trip-line: -1;
 .schedule-v2-timetable-hide-later .schedule-v2-timetable-time-col-later {
   background-color: $white;
   color: $white;
+
+  > .schedule-v2-timetable-time-text {
+    display: none;
+  }
 }
 
 .schedule-v2-timetable-hide-earlier .schedule-v2-timetable-header-col.schedule-v2-timetable-time-col-earlier,
@@ -392,6 +398,10 @@ $z-index-trip-line: -1;
 .schedule-v2-timetable-name-col,
 .schedule-v2-timetable-header-col {
   padding: .5rem 1rem;
+
+  @include media-breakpoint-up(md) {
+    min-width: 9rem;
+  }
 }
 
 .schedule-v2-timetable-col,
@@ -427,13 +437,56 @@ $z-index-trip-line: -1;
 .schedule-v2-icon-nowrap > svg {
   margin-left: -1rem;
   float: left;
+
+.schedule-v2-timetable-name {
+  @include media-breakpoint-up(md) {
+    margin-left: 2.5rem;
+  }
 }
 
 .schedule-v2-timetable-time-col {
   background-color: rgba($gray-lightest, .5);
-  min-width: .5rem;
+  min-width: $base-spacing-sm;
   padding: 0;
   text-align: center;
+
+  @include media-breakpoint-up(md) {
+    background-color: $gray-lightest;
+    color: $gray-dark;
+    min-width: $base-spacing-lg;
+  }
+}
+
+.schedule-v2-timetable-time-text {
+  // scss-lint:disable DuplicateProperty
+  display: none;
+  font-size: $font-size-sm;
+  font-weight: normal;
+  left: $space-2;
+  overflow: visible;
+  position: absolute;
+  right: $space-2;
+  -webkit-text-orientation: sideways;
+  text-orientation: sideways;
+  top: $space-8;
+  white-space: nowrap;
+  -webkit-writing-mode: vertical-lr; // Safari
+  writing-mode: tb-lr; // for IE
+  writing-mode: vertical-lr; // for everything else
+  z-index: 1;
+
+  @include media-breakpoint-up(md) {
+    display: block;
+  }
+
+  .fa {
+    padding-bottom: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
+  }
+}
+
+.schedule-v2-timetable-time-col-earlier .schedule-v2-timetable-time-text {
+  transform: rotate(180deg);
 }
 
 .route-row {
@@ -448,7 +501,7 @@ $z-index-trip-line: -1;
   width: $icon-size * 1.5;
 }
 
-/// Schedule V@ direction buttons
+/// Schedule V2 direction buttons
 .btn.schedule-v2-direction-btn {
   display: table-cell;
   float: none;
@@ -497,6 +550,14 @@ $z-index-trip-line: -1;
 
 [data-sticky-container] {
   [data-sticky] {
-    position: sticky;
+    position: relative;
+  }
+
+  [data-sticky=left] {
+    left: 0;
+  }
+
+  [data-sticky=right] {
+    right: 0;
   }
 }

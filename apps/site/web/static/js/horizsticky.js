@@ -35,22 +35,14 @@ export default function($) {
     $parent.find("[data-sticky]").each(function(_index, el) {
       const $el = $(el),
             sticky = $el.data("sticky");
-      var needsScroll = $el.data("horizsticky-enabled");
-      if (!needsScroll && offset !== 0) {
-        needsScroll = true;
-        $el.data("horizsticky-enabled", true);
-      }
-
-      if (needsScroll) {
-        if (sticky === "left") {
-          // once we scroll, we can be off by a pixel.  move left 1 pixel so
-          // no content appears to the left.
-          const newLeft = Math.max(offset - 1, 0);
-          $el.css({position: "relative", left: newLeft});
-        } else if (sticky === "right") {
-          const newRight = childWidth - parentWidth - offset;
-          $el.css({position: "relative", right: newRight});
-        }
+      if (sticky === "left") {
+        // once we scroll, we can be off by a pixel.  move left 1 pixel so
+        // no content appears to the left.
+        const newLeft = Math.max(offset - 1, 0);
+        $el.css({position: "relative", left: newLeft});
+      } else if (sticky === "right") {
+        const newRight = childWidth - parentWidth - offset;
+        $el.css({position: "relative", right: newRight});
       }
     });
   }

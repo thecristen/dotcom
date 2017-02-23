@@ -5,6 +5,15 @@ defmodule Site.LayoutViewTest do
 
   import Site.LayoutView
 
+  describe "_beta_announcement.html" do
+    test "links to the feedback form", %{conn: conn} do
+      conn = fetch_query_params(conn)
+      output = "_beta_announcement.html" |> render(conn: conn) |> safe_to_string
+      assert output =~ Site.ViewHelpers.feedback_form_url()
+      assert output =~ ~s("/?#{BetaAnnouncement.Plug.hide_cookie_param()}=")
+    end
+  end
+
   describe "bold_if_active/3" do
     test "bold_if_active makes text bold if the current request is made against the given path", %{conn: conn} do
       conn = %{conn | request_path: "/schedules/subway"}

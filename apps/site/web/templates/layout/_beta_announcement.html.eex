@@ -1,10 +1,10 @@
 <div class="beta-announcement">
-  We’re in BETA, and we’re only releasing a few features at a time to get your feedback. Please check out the new site and <%= link to: feedback_form_url(), class: "beta-announcement-link" do %>submit your thoughts<% end %> to help us make the best possible website for you.
+  We’re in BETA, and we’re only releasing a few features at a time to get your feedback. Please check out the new site and <%= link "submit your thoughts", to: feedback_form_url(), class: "beta-announcement-link" %> to help us make the best possible website for you.
 </div>
 <a
   id="beta-announcement-dismiss"
   class="pull-xs-right"
-  href="<%= @conn.request_path %>?<%= BetaAnnouncement.Plug.hide_cookie_param() %>&<%= @conn.query_string %>"
+  href="<%= update_url(@conn, %{BetaAnnouncement.Plug.hide_cookie_param() => ""}) %>"
   role="button"
   data-cookie-name="<%= BetaAnnouncement.beta_announcement_cookie() %>">
   <%= fa "times-circle" %><span class="sr-only">Dismiss this announcement</span>

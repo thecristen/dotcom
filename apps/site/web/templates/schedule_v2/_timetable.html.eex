@@ -1,31 +1,38 @@
 <div class="schedule-v2-timetable-container" data-sticky-container>
-  <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later">
+  <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later commuter-rail">
     <tr>
       <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
         Stop
       </th>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" data-sticky="left">
+      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" data-sticky="left" aria-hidden="true">
         <%= fa "angle-left" %>
+        <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
       </th>
       <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
         <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
           <%= schedule.trip.name %>
-          <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: schedule.time, route: @route.id, direction_id: @direction_id) != [] do %>
+          <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
             <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
           <% end %>
         </th>
       <% end %>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right">
+      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
         <%= fa "angle-right" %>
+        <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
       </th>
     </tr>
-    <%= for stop <- @all_stops do %>
+    <%= for {stop, terminus?} <- EnumHelpers.with_first_last(@all_stops) do %>
       <tr class="schedule-v2-timetable-row">
-        <td class="schedule-v2-timetable-name-col schedule-v2-icon-nowrap" data-sticky="left">
-          <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>
-          <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
-            <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-          <% end %>
+        <td class="schedule-v2-timetable-name-col" data-sticky="left">
+          <div class="vehicle-location hidden-sm-down">
+            <%= stop_bubble_location_display(false, @route.type, terminus?) %>
+          </div>
+          <div class="schedule-v2-timetable-name ">
+            <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>
+            <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
+              <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
+            <% end %>
+          </div>
         </td>
         <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier" data-sticky="left"></td>
         <%= for schedule <- @header_schedules do %>
