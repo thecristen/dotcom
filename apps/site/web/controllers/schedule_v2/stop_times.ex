@@ -3,14 +3,18 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   Assigns a list of stop times based on predictions, schedules, origin, and destination. The bulk of
   the work happens in StopTimeList.
   """
-  import Plug.Conn, only: [assign: 3]
+  use Plug.Builder
+  import Plug.Conn, only: [assign: 3, halt: 1]
+  import Phoenix.Controller, only: [redirect: 2]
+  import UrlHelpers, only: [update_url: 2]
 
   require Routes.Route
   alias Routes.Route
 
-  def init([]), do: []
+  plug :assign_stop_times
+  plug :validate_direction_id
 
-  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}}} = conn, []) when Route.subway?(route_type) do
+  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}}} = conn, []) when Route.subway?(route_type) do
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
     predictions = conn.assigns.predictions
@@ -19,8 +23,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
 
     assign(conn, :stop_times, stop_times)
   end
-
-  def call(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) do
+  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
@@ -35,17 +38,34 @@ defmodule Site.ScheduleV2Controller.StopTimes do
 
     assign(conn, :stop_times, stop_times)
   end
+  def assign_stop_times(conn, []) do
+    conn
+  end
 
-  def call(conn, []) do
+  def validate_direction_id(%Plug.Conn{assigns: %{direction_id: direction_id, stop_times: stop_times}} = conn, []) do
+    case Enum.find(stop_times.times, &!is_nil(&1.trip)) do
+      nil ->
+        conn
+      stop_time ->
+        if stop_time.trip.direction_id != direction_id do
+          url = update_url(conn, direction_id: stop_time.trip.direction_id)
+          conn
+          |> redirect(to: url)
+          |> halt
+        else
+          conn
+        end
+    end
+  end
+  def validate_direction_id(conn, []) do
     conn
   end
 
   defp filter_flag(user_selected_date, current_date_time, route_type, show_all) do
-    cond do
-      Timex.diff(user_selected_date, current_date_time, :days) == 0 ->
-        filter_flag_for_today(route_type, show_all)
-      true ->
-        :keep_all
+    if Timex.diff(user_selected_date, current_date_time, :days) == 0 do
+      filter_flag_for_today(route_type, show_all)
+    else
+      :keep_all
     end
   end
 
