@@ -141,12 +141,16 @@ body {
       color: $white;
     }
   }
-
 }
 
 .beta-announcement-link {
   color: $white;
+  font-weight: bold;
   text-decoration: underline;
+
+  &:hover {
+    color: $brand-primary-light;
+  }
 }
 
 .alert-announcement-container {
