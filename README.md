@@ -64,6 +64,24 @@ All run from the main folder:
 * `npm run brunch:build` — builds the static files
 * `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
   Requires wget (installable with `brew install wget`)
+  
+### Pronto
+
+Pronto is a lint runner for various languages.
+
+Installing Pronto on Max OS can be challenging because some of its dependencies are missing or outdated.
+
+Follow these instructions to install:
+
+```
+brew install cmake
+brew install pkg-config
+sudo gem install json -v 1.8
+sudo gem install pronto
+sudo gem install pronto-scss
+```
+
+Run it by calling `pronto run` in the root of your website repository.
 
 ## Backstop Tests
 

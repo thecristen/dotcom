@@ -41,7 +41,7 @@ defmodule Site.ScheduleV2View do
     end
   end
   def display_scheduled_prediction(%PredictedSchedule{prediction: prediction}) do
-    content_tag :span do
+    content_tag :span, class: "no-wrap" do
       [
         fa("rss"),
         " ",
@@ -116,11 +116,11 @@ defmodule Site.ScheduleV2View do
     case StopTime.delay(stop_time) do
       # if we're going to show both, make sure they are different times
       delay when delay > 0 -> content_tag :span, do: [
-        content_tag(:del, format_schedule_time(schedule.time)),
+        content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),
         tag(:br),
-        fa("rss"),
+        content_tag(:span, [fa("rss"),
         " ",
-        format_schedule_time(prediction.time)
+        format_schedule_time(prediction.time)], class: "no-wrap")
       ]
         # otherwise just show the scheduled or predicted time as appropriate
       _ -> display_scheduled_prediction(stop_time)
@@ -130,11 +130,13 @@ defmodule Site.ScheduleV2View do
   @doc """
   Returns Trip Alerts by the trip id and time from the given predicted_schedule, route and direction_id
   If no schedule is available, the prediction is used to match against alerts
+  Does not return alerts for Bus routes
   """
-  @spec trip_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
-  def trip_alerts(predicted_schedule, alerts, route_id, direction_id) do
+  @spec trip_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  Route.t, String.t) :: [Alerts.Alert.t]
+  def trip_alerts(_predicted_schedule, _alerts, %Route{type: 3}, _direction_id), do: []
+  def trip_alerts(predicted_schedule, alerts, route, direction_id) do
     PredictedSchedule.map_optional(predicted_schedule, [:schedule, :prediction], [], fn x ->
-      Alerts.Trip.match(alerts, x.trip.id, time: x.time, route: route_id, direction_id: direction_id)
+      Alerts.Trip.match(alerts, x.trip.id, time: x.time, route: route.id, direction_id: direction_id)
     end)
   end
 

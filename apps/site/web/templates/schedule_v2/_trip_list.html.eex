@@ -12,7 +12,7 @@
     <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
       <%= if trip do %>
         <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
-        <%= alerts = trip_alerts(departure, @all_alerts, @route.id, @direction_id)
+        <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
             class = if is_current_trip?, do: "trip-list-v2-row-selected"
             render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route(departure).id) %>
         <%= if is_current_trip? and TripInfo.should_display_trip_info?(@trip_info) do %>
