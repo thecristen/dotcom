@@ -324,7 +324,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "does assign trips for the bus if the date is in the future", %{conn: conn} do
-
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
@@ -358,6 +357,23 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
 
     assert conn.assigns.trip_info != nil
+  end
+
+  test "does not assign trips if the prediction doesn't have a time", %{conn: conn} do
+    prediction = %Prediction{trip: %Trip{id: "trip"}, stop: %Stop{id: "origin"}, route: %Routes.Route{}}
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "1"),
+      query_params: nil
+    }
+    |> assign(:stop_times, StopTimeList.build_predictions_only([prediction], "origin", nil))
+    |> assign(:date, ~D[2017-01-01])
+    |> assign(:date_time, ~N[2017-01-01T12:00:00])
+    |> assign(:route, %Routes.Route{type: 1})
+    |> call(init)
+
+    assert conn.assigns.trip_info == nil
   end
 
   describe "show_trips?/3" do
