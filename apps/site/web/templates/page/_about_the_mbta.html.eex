@@ -5,7 +5,7 @@
       <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/"), class: "homepage-about-link" do %>
         <img srcset="<%= static_url @conn, "/images/public-meetings.jpg" %> 1199w, /images/public-meetings-2x.jpg 1500w"
           class="hidden-xs-down"
-          alt="A public meetings" />
+          alt="A public meeting" />
         <div class="about-title">Public Meetings</div>
       <% end %>
     </div>
