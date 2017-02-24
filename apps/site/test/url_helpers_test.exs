@@ -61,5 +61,10 @@ defmodule UrlHelpersTest do
       assert updated_url =~ "correct_params=correct"
       refute updated_url =~ "incorrect"
     end
+
+    test "encodes nested URLs" do
+      conn = %{build_conn(:get, @path) | query_params: %{"parent" => %{"nested" => "value"}}}
+      assert update_url(conn, other: "value") == "/path?other=value&parent[nested]=value"
+    end
   end
 end
