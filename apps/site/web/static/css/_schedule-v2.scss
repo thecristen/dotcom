@@ -130,6 +130,7 @@ $z-index-vehicle-position: 2;
 }
 
 .trip-list-green-line-icon > svg {
+  background-color: $white;
   border: 1px solid $brand-green-line;
   border-radius: 50%;
 }
