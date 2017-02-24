@@ -430,8 +430,10 @@ $z-index-vehicle-position: 2;
 }
 
 .schedule-v2-timetable-row:not(:last-child) {
-  // border on the bottom of every row except the last
-  border-bottom: 1px solid $gray-lightest;
+  > :not(.schedule-v2-timetable-name-col) {
+    // border on the bottom of every row except the last
+    border-bottom: 1px solid $gray-lightest;
+  }
 }
 
 .schedule-v2-timetable-name-col {
@@ -449,15 +451,18 @@ $z-index-vehicle-position: 2;
 }
 
 .schedule-v2-timetable-name {
+  margin-right: $base-spacing-sm; // left scroll warning
+
   @include media-breakpoint-up(md) {
-    margin-left: 2.5rem;
+    margin-left: 2.5rem; // bubble
+    margin-right: $base-spacing-lg; // left scroll warning
   }
 }
 
 .schedule-v2-timetable-time-col {
   background-color: rgba($gray-lightest, .5);
   min-width: $base-spacing-sm;
-  padding: 0;
+  padding: $base-spacing-sm 0 0;
   text-align: center;
 
   @include media-breakpoint-up(md) {
@@ -465,6 +470,13 @@ $z-index-vehicle-position: 2;
     color: $gray-dark;
     min-width: $base-spacing-lg;
   }
+}
+
+.schedule-v2-timetable-time-col-earlier {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .schedule-v2-timetable-time-text {
@@ -561,13 +573,5 @@ $z-index-vehicle-position: 2;
 [data-sticky-container] {
   [data-sticky] {
     position: relative;
-  }
-
-  [data-sticky=left] {
-    left: 0;
-  }
-
-  [data-sticky=right] {
-    right: 0;
   }
 }

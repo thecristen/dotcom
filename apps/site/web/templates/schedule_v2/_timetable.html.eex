@@ -3,10 +3,10 @@
     <tr>
       <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
         Stop
-      </th>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" data-sticky="left" aria-hidden="true">
-        <%= fa "angle-left" %>
-        <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
+        <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" aria-hidden="true">
+          <%= fa "angle-left" %>
+          <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
+        </div>
       </th>
       <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
         <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
@@ -27,14 +27,14 @@
           <div class="vehicle-location hidden-sm-down">
             <%= stop_bubble_location_display(false, @route.type, terminus?) %>
           </div>
-          <div class="schedule-v2-timetable-name schedule-v2-icon-nowrap">
+          <div class="schedule-v2-timetable-name">
             <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>
             <%= if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do %>
               <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
             <% end %>
           </div>
+          <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier"></div>
         </td>
-        <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier" data-sticky="left"></td>
         <%= for schedule <- @header_schedules do %>
           <td class="schedule-v2-timetable-col">
             <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
