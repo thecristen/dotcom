@@ -130,11 +130,13 @@ defmodule Site.ScheduleV2View do
   @doc """
   Returns Trip Alerts by the trip id and time from the given predicted_schedule, route and direction_id
   If no schedule is available, the prediction is used to match against alerts
+  Does not return alerts for Bus routes
   """
-  @spec trip_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  String.t, String.t) :: [Alerts.Alert.t]
-  def trip_alerts(predicted_schedule, alerts, route_id, direction_id) do
+  @spec trip_alerts(PredictedSchedule.t | nil, [Alerts.Alert.t],  Route.t, String.t) :: [Alerts.Alert.t]
+  def trip_alerts(_predicted_schedule, _alerts, %Route{type: 3}, _direction_id), do: []
+  def trip_alerts(predicted_schedule, alerts, route, direction_id) do
     PredictedSchedule.map_optional(predicted_schedule, [:schedule, :prediction], [], fn x ->
-      Alerts.Trip.match(alerts, x.trip.id, time: x.time, route: route_id, direction_id: direction_id)
+      Alerts.Trip.match(alerts, x.trip.id, time: x.time, route: route.id, direction_id: direction_id)
     end)
   end
 

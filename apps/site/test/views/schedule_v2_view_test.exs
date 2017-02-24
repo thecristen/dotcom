@@ -265,6 +265,7 @@ defmodule Site.ScheduleV2ViewTest do
   describe "Schedule Alerts" do
     @schedule %Schedule{trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
     @prediction %Prediction{trip: %Trip{id: "trip_pred"}, stop: %Schedules.Stop{id: "stop_pred"}}
+    @route %Routes.Route{type: 1, id: "1"}
 
     @alerts [
         %Alerts.Alert{
@@ -282,22 +283,27 @@ defmodule Site.ScheduleV2ViewTest do
       ]
 
       test "trip alerts use schedule for match" do
-        alert = List.first(trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, "1", 1))
+        alert = List.first(trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, @route, 1))
         assert List.first(alert.informed_entity).trip == "trip"
       end
 
       test "trip alerts use prediction if no schedule is available" do
-        alert = List.first(trip_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, "1", 1))
+        alert = List.first(trip_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, @route, 1))
         assert List.first(alert.informed_entity).trip == "trip_pred"
       end
 
       test "No trip alerts returned if no predicted schedule is given" do
-        alerts = trip_alerts(nil, @alerts, "1", 1)
+        alerts = trip_alerts(nil, @alerts, @route, 1)
         assert Enum.empty?(alerts)
       end
 
       test "No trip alerts return if empty predicted schedule is given" do
-        alerts = trip_alerts(%PredictedSchedule{}, @alerts, "1", 1)
+        alerts = trip_alerts(%PredictedSchedule{}, @alerts, @route, 1)
+        assert alerts == []
+      end
+
+      test "Trip alerts are not returned for bus routes" do
+        alerts = trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, %Routes.Route{type: 3, id: "1"}, 1)
         assert alerts == []
       end
 
