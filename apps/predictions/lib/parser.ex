@@ -16,10 +16,13 @@ defmodule Predictions.Parser do
   end
 
   defp first_time(times) do
-    times
+    case times
     |> Enum.reject(&is_nil/1)
     |> List.first
-    |> Timex.parse!("{ISO:Extended}")
+    |> Timex.parse("{ISO:Extended}") do
+      {:ok, time} -> time
+      _ -> nil
+    end
   end
 
   defp stop([stop | _]) do
