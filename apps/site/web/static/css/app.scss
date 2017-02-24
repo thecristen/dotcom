@@ -145,9 +145,11 @@ body {
 
 .beta-announcement-link {
   color: $white;
+  font-weight: bold;
   text-decoration: underline;
+
   &:hover {
-    color: $white;
+    color: $brand-primary-light;
   }
 }
 
