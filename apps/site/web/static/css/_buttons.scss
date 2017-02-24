@@ -1,20 +1,15 @@
 @import 'variables';
 @import 'colors';
 
+.button,
 %button {
+  // scss-lint:disable PlaceholderInExtend
+  @extend .btn;
   border-color: $gray-lightest;
   border-radius: 0;
   border-style: solid;
   border-width: 1px;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: normal;
-  line-height: $base-font-size * 1.5;
   padding: $grid-gutter-width / 2;
-  text-align: center;
-  user-select: none;
-  vertical-align: middle;
-  white-space: nowrap;
 
   @include media-breakpoint-down(sm) {
     font-size: $font-size-sm;
@@ -22,16 +17,18 @@
   }
 
   > .icon-alert {
-    margin-left: $space-6;
+    margin-left: $base-spacing / 2;
   }
 }
 
+.button-primary,
 %button-primary {
   @extend %button;
   background-color: $brand-primary;
   color: $white;
 }
 
+.button-primary-outline,
 %button-primary-outline {
   @extend %button;
   background-color: transparent;
@@ -50,21 +47,6 @@
 }
 
 %block-level-link {
-  // Covers a block-level element with a clickable link so that the entire element appears to be clickable. The
-  // <a> tag that is meant to cover the parent should be the last element in the block, and its text content should
-  // be an empty string. These links are hidden from screen readers, so for accessibility purposes, there should be
-  // at least one real link inside the parent block which points to the same target as the block-level link and
-  // has useful text content.
-
-  // EXAMPLE:
-  //
-  // <div class="block-element"> # <-- extend %block-level-link on this element
-  //   <div>Here is some content inside of the parent element which will be covered by the block-level-link.</div>
-  //   <%= link "This is a link that will look like a link and can be targeted by screen-readers", to:"link-target.html" %>
-  //   <%= link "", to: "link-target.html", aria: [hidden: true] %>  <--- this is the link that will cover the parent and siblings
-  // </div>
-
-
   @include clearfix();
   @include force-width;
   position: relative;
@@ -79,6 +61,7 @@
   }
 }
 
+.button-group,
 %button-group {
   @include clearfix();
   margin: 0 auto $grid-gutter-width / 2;
@@ -96,12 +79,4 @@
       width: 100%;
     }
   }
-}
-
-.button {
-  @extend %button;
-}
-
-.button-group {
-  @extend %button-group;
 }
