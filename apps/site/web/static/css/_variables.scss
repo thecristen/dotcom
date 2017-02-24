@@ -85,6 +85,8 @@ $border-radius: $base-spacing / 4;
 
 // parser_ignore
 $headings-margin-bottom: $space-16;
+$header-navbar-height-multipler: 3.75;
+$header-navbar-height: $base-spacing * $header-navbar-height-multipler;
 $navbar-padding-vertical: .75rem;
 $navbar-padding-horizontal: 0;
 
