@@ -12,7 +12,7 @@ defmodule UrlHelpers do
     conn.request_path
   end
   defp do_update_url(updated, conn) do
-    "#{conn.request_path}?#{URI.encode_query(updated)}"
+    "#{conn.request_path}?#{Plug.Conn.Query.encode(updated)}"
   end
 
   def update_query(%{query_params: params}, query) do
