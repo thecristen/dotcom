@@ -6,7 +6,6 @@ import sinon from 'sinon';
 import { clearFallbacks,
          handleUploadedPhoto,
          setupTextArea,
-         setupClearPhotoButton,
          handleSubmitClick } from '../../web/static/js/support-form';
 
 describe('support form', () => {
@@ -43,22 +42,6 @@ describe('support form', () => {
     });
   });
 
-  describe('setupClearPhotoButton', () => {
-    beforeEach(() => {
-      $('#test').html(`
-        <input id="photo" />
-        <button class="clear-photo"></button>
-      `);
-      setupClearPhotoButton($);
-    });
-
-    it('clears the photo input and triggers a change event', (done) => {
-      $('#photo').val('test').change(() => { done(); });
-      $('.clear-photo').click();
-      assert.equal($('#photo').val(), '');
-    });
-  });
-
   describe('handleUploadedPhoto', () => {
     beforeEach(() => {
       $('#test').html(`
@@ -66,6 +49,7 @@ describe('support form', () => {
        <strong></strong>
        <div class="photo-preview"></div>
      </div>
+     <input type="file" id="photo" name="photo" />
      <button class="upload-photo-button hidden-xs-up"></button>
      `);
       handleUploadedPhoto(
@@ -83,12 +67,13 @@ describe('support form', () => {
       assert.include($preview.html(), '24 B');
     });
 
-    it('shows a success message', () => {
-      assert.include($('.support-success').text(), 'Photo successfully uploaded.');
-    });
-
     it('hides the upload button', () => {
       assert.isTrue($('.upload-photo-button').hasClass('hidden-xs-up'));
+    });
+
+    it('adds a clear button which clears the photo', () => {
+      $('.clear-photo').click();
+      assert.equal($('#photo').val(), '');
     });
   });
 
@@ -135,8 +120,10 @@ describe('support form', () => {
             <textarea id="comments"></textarea>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <input id="photo" type="file" />
+            <input id="name" />
             <input id="phone" />
             <input id="email" />
+            <div class="support-name-error-container hidden-xs-up" tabindex="-1"><div class="support-name-error"></div></div>
             <div class="support-contacts-error-container hidden-xs-up" tabindex="-1"><div class="support-contacts-error"></div></div>
             <input id="privacy" type="checkbox" />
             <div class="support-privacy-error-container hidden-xs-up" tabindex="-1"><div class="support-privacy-error"></div></div>
@@ -169,6 +156,11 @@ describe('support form', () => {
       assert.isFalse($('.support-privacy-error-container').hasClass('hidden-xs-up'));
     });
 
+    it('requires a name', () => {
+      $('#support-submit').click();
+      assert.isFalse($('.support-name-error-container').hasClass('hidden-xs-up'));
+    });
+
     it('requires either a phone number or an email', () => {
       $('#support-submit').click();
       assert.isFalse($('.support-contacts-error-container').hasClass('hidden-xs-up'));
@@ -188,6 +180,9 @@ describe('support form', () => {
       assert.equal(document.activeElement, $('.support-comments-error-container')[0]);
       $('#comments').val('A comment');
       $('#support-submit').click();
+      assert.equal(document.activeElement, $('.support-name-error-container')[0]);
+      $('#name').val('tom brady');
+      $('#support-submit').click();
       assert.equal(document.activeElement, $('.support-contacts-error-container')[0]);
       $('#email').val('test@email.com');
       $('#support-submit').click();
@@ -196,6 +191,7 @@ describe('support form', () => {
 
     it('hides the form and shows a message on success', () => {
       $('#email').val('test@email.com');
+      $('#name').val('tom brady');
       $('#comments').val('A comment');
       $('#privacy').prop('checked', 'checked');
       $('#support-submit').click();
@@ -210,6 +206,7 @@ describe('support form', () => {
 
     it('shows a message on error', () => {
       $('#email').val('test@email.com');
+      $('#name').val('tom brady');
       $('#comments').val('A comment');
       $('#privacy').prop('checked', 'checked');
       $('#support-submit').click();

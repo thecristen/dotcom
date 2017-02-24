@@ -13,7 +13,6 @@ export default function($ = window.jQuery) {
     setupPhotoPreviews($);
     setupTextArea($);
     setupValidation($);
-    setupClearPhotoButton($);
 
     handleSubmitClick($);
   });
@@ -33,14 +32,6 @@ export function clearFallbacks($) {
     $photoInput.click();
   });
 };
-
-export function setupClearPhotoButton($) {
-  $('.clear-photo').removeClass('hidden-xs-up');
-  $('.clear-photo').click((event) => {
-    event.preventDefault();
-    $('#photo').val('').trigger('change');
-  });
-}
 
 // Adds the uploaded photo previews
 function setupPhotoPreviews($) {
@@ -64,18 +55,20 @@ export function handleUploadedPhoto($, file, $previewDiv, $container) {
   $container.removeClass('hidden-xs-up');
   if (/image\//.test(file.type)) {
     const $imgPreview = $(`
-      <img width="100" height="100" class="m-r-1" alt="Uploaded image ${file.name} preview"></img><span>${file.name} &mdash; ${filesize(file.size)}</span>
+      <p>
+        ${file.name} &mdash; ${filesize(file.size)}
+        <button class="btn btn-link clear-photo"><i class="fa fa-times-circle" aria-hidden="rue"></i><span class="sr-only">Clear Photo Upload</span></button>
+      </p>
+      <img width="100" height="100" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
     `),
           reader = new FileReader();
-    reader.onloadend = () => { $imgPreview[0].src = reader.result; };
+    reader.onloadend = () => { $imgPreview[2].src = reader.result; };
     reader.readAsDataURL(file);
     $previewDiv.append($imgPreview);
-    $previewDiv.append(`
-      <div class="col-xs-12 support-success">
-        <i class="fa fa-check-circle" aria-hidden="true"></i>
-        Photo successfully uploaded.
-      </div>`
-    );
+    $imgPreview.find('.clear-photo').click((event) => {
+      event.preventDefault();
+      $('#photo').val('').trigger('change');
+    });
   }
   else {
     $previewDiv.append($(`
@@ -91,8 +84,17 @@ export function setupTextArea($) {
   // Track the number of characters in the main <textarea>
   $('#comments').keyup(function () {
     const $textarea = $(this),
-          $label = $textarea.siblings('.form-text');
-    $label.text($textarea.val().length + '/3000 characters');
+          $label = $textarea.siblings('.form-text'),
+          commentLength = $textarea.val().length;
+    $label.text(commentLength + '/3000 characters');
+    if (commentLength > 0) {
+      $label.addClass('support-comment-success');
+      $label.parent('.form-group').addClass('has-success');
+    }
+    else {
+      $label.removeClass('support-comment-success');
+      $label.parent('.form-group').removeClass('has-success');
+    }
   }).one('focus', function () { // Once the user has clicked into the form, expand the whole thing
     showExpandedForm($);
   });
@@ -101,6 +103,9 @@ export function setupTextArea($) {
 const validators = {
   'comments': function ($) {
     return $('#comments').val().length !== 0;
+  },
+  'name': function ($) {
+    return $('#name').val().length !== 0;
   },
   'contacts': function ($) {
     return email.valid($('#email').val()) || $('#phone').val() !== '';
@@ -111,20 +116,17 @@ const validators = {
 }
 
 function setupValidation($) {
-  const privacy = '#privacy',
-        comments = '#comments',
-        contacts = '.contacts';
-  ['#privacy', '#comments', '.contacts'].forEach((selector) => {
+  ['#privacy', '#comments', '.contacts', '#name'].forEach((selector) => {
     const $selector = $(selector);
     $selector.on('keyup blur input change', () => {
-      if ($selector.parent().hasClass('has-danger') && validators[selector.slice(1)]($)) {
+      if (validators[selector.slice(1)]($)) {
         displaySuccess($, selector);
       }
     });
   });
 }
 
-function displayError($, selector, errorMessage) {
+function displayError($, selector) {
   const rootSelector = selector.slice(1);
   $(`.support-${rootSelector}-error-container`).removeClass('hidden-xs-up');
   $(selector).parent().addClass('has-danger').removeClass('has-success');
@@ -139,11 +141,20 @@ function validateForm($) {
   const privacy = '#privacy',
         comments = '#comments',
         contacts = '.contacts',
+        name = '#name',
         errors = [];
   // Main textarea
   if(!validators.comments($)) {
     displayError($, comments);
     errors.push(comments);
+  }
+  else {
+    displaySuccess($, comments);
+  }
+  // Name
+  if(!validators.name($)) {
+    displayError($, name);
+    errors.push(name);
   }
   else {
     displaySuccess($, comments);

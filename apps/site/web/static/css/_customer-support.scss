@@ -19,8 +19,12 @@
     display: inline-block;
     margin: .5em;
 
+    // NB this should use the single-colon syntax (i.e. :before); it's
+    // older CSS2 syntax but FA uses it and due to the way SCSS @extend
+    // works we need to match selector syntax.
     // scss-lint:disable PlaceholderInExtend
-    &::before {
+    // scss-lint:disable PseudoElement
+    &:before {
       @extend .fa;
       @extend .fa-exclamation-circle;
       margin-right: .25em;
@@ -90,4 +94,39 @@ body {
       display: none;
     }
   }
+}
+
+.support-comment-success {
+  color: $brand-success;
+}
+
+.support-tel-number:nth-child(2) {
+  margin-left: 1rem;
+}
+
+.support-twitter {
+  background-color: $twitter;
+  border-radius: 100%;
+  color: $white;
+  margin-right: .5rem;
+  padding: .25rem .4rem;
+}
+
+.support-form-control {
+  border-color: $gray-light;
+}
+
+// NB this should use the single-colon syntax (i.e. :before); it's
+// older CSS2 syntax but FA uses it and due to the way SCSS @extend
+// works we need to match selector syntax.
+// scss-lint:disable PlaceholderInExtend
+// scss-lint:disable PseudoElement
+.has-success .support-form-control + span:before {
+  @extend .fa;
+  @extend .fa-check-circle;
+  color: $brand-success;
+  float: right;
+  left: -.5rem;
+  position: relative;
+  top: -1.75rem;
 }
