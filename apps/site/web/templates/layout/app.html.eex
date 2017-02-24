@@ -46,42 +46,42 @@
       <% end %>
       <header class="header">
         <div class="container">
-          <div class="header-navbar">
-            <button class="navbar-toggle collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
+          <div class="header-navbar row">
+            <a class="col-xs-9 col-sm-10 col-md-4 navbar-logo" href="/">
+              <span class="sr-only">MBTA Home Page</span>
+              <div class="svg-container" aria-hidden="true">
+                <%= svg "logo-beta.svg" %>
+              </div>
+            </a>
+            <button class="navbar-toggle collapsed toggle-up-down col-xs-3  col-sm-2 hidden-md-up" aria-expanded="false"  type="button" data-toggle="collapse" data-target="#navbar">
               Menu
               <%= fa "angle-down", class: "down" %>
               <%= fa "angle-up", class: "up" %>
             </button>
-            <a class="" href="/">
-              <span class="sr-only">MBTA Home Page</span>
-              <div class="navbar-logo" aria-hidden="true">
-                <%= svg "logo-beta.svg" %>
-              </div>
-            </a>
-            <nav class="desktop-menu-nav">
-              <ul class="nav navbar-nav">
-                <li class="nav-item">
+            <nav class="desktop-menu-nav col-md-8 hidden-sm-down">
+              <ul class="nav row">
+                <li class="nav-item col-md-5">
                   <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#gettingAround" aria-expanded="false" aria-controls="gettingAround" href="<%= static_page_path(@conn, :getting_around) %>">
                     Getting Around
                     <%= fa "angle-down", class: "down" %>
                     <%= fa "angle-up", class: "up" %>
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item col-md-2">
                   <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#faresDrawer" aria-expanded="false" aria-controls="faresDrawer" href="<%= fare_path(@conn, :index) %>">
                     Fares
                     <%= fa "angle-down", class: "down" %>
                     <%= fa "angle-up", class: "up" %>
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item col-md-3">
                   <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#contactUs" aria-expanded="false" aria-controls="contactUs" href="<%= customer_support_path(@conn, :index) %>">
                     Contact Us
                     <%= fa "angle-down", class: "down" %>
                     <%= fa "angle-up", class: "up" %>
                   </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item col-md-2">
                   <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#more" aria-expanded="false" aria-controls="more" href="<%= static_page_path(@conn, :about) %>">
                     More
                     <%= fa "angle-down", class: "down" %>
@@ -91,7 +91,7 @@
               </ul>
             </nav>
           </div>
-          <nav class="collapse navbar" id="navbar" role="navigation">
+          <nav class="collapse navbar row" id="navbar" role="navigation">
             <ul class="mobile-nav">
               <li class="mobile-nav-item">
                 <% home_link = page_path(@conn, :index) %>
@@ -168,8 +168,10 @@
               image_url: static_url(@conn, "/images/south-station-wide.jpg"),
               image_description: "South station" %>
         <% end %>
-        <main class="<%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
-          <%= render @view_module, @view_template, assigns %>
+        <main class="row <%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
+          <div class="col-xs-12">
+            <%= render @view_module, @view_template, assigns %>
+          </div>
         </main>
       </div> <%# /container %>
       <%= if assigns[:post_container_template] do %>

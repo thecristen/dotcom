@@ -1,7 +1,7 @@
 <div class="desktop-menu" id="desktop-menu" role="tablist" aria-multiselectable="true">
   <div class="container">
-    <div class="menu-card panel">
-      <div id="gettingAround" class="menu-panel collapse" role="tabpanel">
+    <div class="menu-card panel row">
+      <div id="gettingAround" class="menu-panel col-md-12 collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
@@ -76,8 +76,8 @@
         <%= render "_old_site_button.html" %>
       </div>
     </div>
-    <div class="menu-card panel">
-      <div id="faresDrawer" class="menu-panel collapse" role="tabpanel">
+    <div class="menu-card panel row">
+      <div id="faresDrawer" class="menu-panel col-md-12 collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-3 fares-column">
             <p>More Fares Info</p>
@@ -109,8 +109,8 @@
         <%= render "_old_site_button.html" %>
       </div>
     </div>
-    <div class="menu-card panel">
-      <div id="contactUs" class="menu-panel collapse" role="tabpanel">
+    <div class="menu-card panel row">
+      <div id="contactUs" class="menu-panel col-md-12 collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
@@ -162,8 +162,8 @@
         <%= render "_old_site_button.html" %>
       </div>
     </div>
-    <div class="menu-card panel">
-      <div id="more" class="menu-panel collapse" role="tabpanel">
+    <div class="menu-card panel row">
+      <div id="more" class="menu-panel col-md-12 collapse" role="tabpanel">
         <div class="row menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">

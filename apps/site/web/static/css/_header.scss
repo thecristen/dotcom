@@ -1,41 +1,24 @@
 @import 'variables';
 
 .desktop-menu-nav {
-  float: right;
-  margin-top: $space-12;
+  .nav-item {
+    height: $header-navbar-height;
+    text-align: right;
 
-  @include media-breakpoint-down(sm) {
-    display: none;
+    a {
+      line-height: $header-navbar-height-multipler;
+      vertical-align: middle;
+    }
   }
-
 }
 
 .desktop-nav-link {
   color: $link-color;
   font-weight: bold;
-  height: $space-36;
-  position: relative;
-  top: $space-6;
-
-  &::after {
-    border-bottom: $space-6 solid $brand-secondary;
-    bottom: -$space-6;
-    content: '';
-    position: absolute;
-    width: 100%;
-  }
-
-  &.nav-link {
-    padding: 0; // nested to override the Bootstrap default
-  }
 
   &.collapsed {
     color: $gray-dark;
     font-weight: normal;
-
-    &::after {
-      display: none;
-    }
   }
 }
 
@@ -87,24 +70,22 @@
   }
 }
 
-.menu-panel {
-  padding-left: $grid-gutter-width / 2;
-  padding-right: $grid-gutter-width / 2;
-}
-
 // scss-lint:disable IdSelector
-#faresDrawer {
-  .fares-column {
-    padding: 0 1.5rem;
+#more {
+  .header-column {
+    &:first-child {
+      padding-left: $grid-gutter-width / 2;
+    }
 
     &:last-child {
-      padding-right: .5rem;
+      padding-right: $grid-gutter-width / 2;
     }
   }
 }
 
 .menu-row {
-  padding: 2.25rem 0;
+  padding-bottom: 2.25rem;
+  padding-top: 2.25rem;
 }
 
 .menu-link-row {
@@ -113,34 +94,11 @@
 
 .header-column {
   border-left: 1px solid $white;
-  border-right: 1px solid $white;
-  display: inline-block;
-  padding: 0 2.5rem;
-
-  @include media-breakpoint-up(md) {
-    width: 33%;
-  }
-
-  @include media-breakpoint-down(sm) {
-    width: 100%;
-  }
-
-  > div {
-    display: inline-block;
-  }
-
-  &:nth-child(2),
-  &:nth-child(3) {
-    margin-left: -1px;
-  }
+  padding-left: $base-spacing * 3;
+  padding-right: $base-spacing * 3;
 
   &:first-child {
     border-left-width: 0;
-    padding-left: .5rem;
-  }
-
-  &:last-child {
-    border-right-width: 0;
   }
 }
 
@@ -164,11 +122,7 @@
   }
 
   .nav-item {
-    margin-left: 0;
-
-    + .nav-item {
-      margin-left: .5rem;
-    }
+    text-align: right;
   }
 }
 
@@ -198,21 +152,29 @@ header {
   }
 }
 
+.navbar {
+  @include media-breakpoint-up(md) {
+    // bootstrap's default horizontal padding on .navbar is larger than the normal column padding,
+    // and it causes a very small gap on the right side of the nav at the smallest breakpoints;
+    // we reset it here to be the normal column padding used by the grid.
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
+  }
+}
+
 .header-navbar {
-  @include clearfix();
-  position: relative;
+  // required for the mobile button to be vertically centered
+  height: $header-navbar-height;
 }
 
 .navbar-logo {
-  float: left;
-  height: $space-36;
-  margin-bottom: $space-12;
-  margin-top: $space-12;
-  width: auto;
+  display: block;
 
   svg {
-    height: 100%;
-    width: auto;
+    display: block;
+    height: $header-navbar-height;
+    width: $base-spacing * 12; // setting the width keeps the rendered logo proportional,
+                               // while adding space above and below inside the svg.
 
     @include media-breakpoint-down(sm) {
       g {
@@ -225,12 +187,12 @@ header {
 .navbar-toggle {
   background-color: $brand-primary;
   border: 0;
-  float: right;
   font-size: $font-size-sm;
   height: 100%;
-  padding: $base-spacing-sm $base-spacing;
-  position: absolute;
-  right: -$space-12;
+  padding-bottom: $base-spacing-sm;
+  padding-top: $base-spacing-sm;
+  text-align: center;
+  vertical-align: middle;
 
   @include media-breakpoint-up(md) {
     display: none;
