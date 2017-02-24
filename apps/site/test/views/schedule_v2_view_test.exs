@@ -103,6 +103,15 @@ defmodule Site.ScheduleV2ViewTest do
     test "Empty string returned if no value available in predicted_schedule pair" do
       assert display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}) == ""
     end
+
+    test "prediction status is used if the prediction does not have a time" do
+      display_time = display_scheduled_prediction(
+        %PredictedSchedule{
+          schedule: nil,
+          prediction: %Prediction{status: "Text status"}})
+      assert safe_to_string(display_time) =~ "Text status"
+      assert safe_to_string(display_time) =~ "fa fa-rss"
+    end
   end
 
   describe "stop_bubble_location_display/3" do
