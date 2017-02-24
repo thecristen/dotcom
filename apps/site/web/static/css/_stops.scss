@@ -14,6 +14,10 @@
   white-space: nowrap;
 }
 
+.mode-section {
+  margin: $base-spacing 0;
+}
+
 .stations-access-icon {
   margin-bottom: .375rem;
 }
@@ -32,20 +36,12 @@
   color: $gray-light;
 }
 
-.station-route-container {
-  margin-bottom: $space-16;
-}
-
 .station-route-row {
   border-bottom: 1px solid $gray-lightest;
   border-left: 1px solid $gray-lightest;
   border-right: 1px solid $gray-lightest;
   padding-bottom: .5em;
   padding-top: .5em;
-
-  .route-info {
-    display: inline-block;
-  }
 
   .column-name {
     font-weight: bold;
@@ -58,60 +54,15 @@
   }
 }
 
-@include media-breakpoint-down(md) {
-  .station-route-name,
-  .station-route-schedule-name,
-  .station-route-schedule-times {
-    padding-left: .5rem;
-    padding-right: .5rem;
-  }
-}
+.schedule-upcoming-departure {
+  padding: 0;
 
-@include media-breakpoint-up(lg) {
-  .station-route-name,
-  .station-route-schedule-name,
-  .station-route-schedule-time {
-    padding-left: 1rem;
-  }
-}
-
-@include media-breakpoint-up(sm) {
-  .station-route-schedule {
-    white-space: nowrap;
+  &:first-child {
+    padding-left: $grid-gutter-width / 2;
   }
 
-  .station-route-schedule-name {
-    display: inline-block;
-    width: 50%;
-  }
-
-  .station-route-schedule-times {
-    display: inline-block;
-    width: 50%;
-  }
-}
-
-.station-route-name {
-  margin-bottom: 0;
-}
-
-.station-route-schedule-name {
-  margin-bottom: 0;
-  white-space: normal;
-
-  .fa-arrow-right {
-    margin: 0 .375rem;
-  }
-}
-
-.station-route-schedule-times {
-  white-space: nowrap;
-
-  .time-column {
-    display: inline-block;
-    vertical-align: top;
-    white-space: initial;
-    width: 32%;
+  &:last-child {
+    padding-right: $grid-gutter-width / 2;
   }
 }
 

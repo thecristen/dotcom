@@ -1,56 +1,64 @@
-<div class="station-route-container">
-  <div class="station-route-row station-schedule-header">
-    <div class="station-route-schedule-name">
-      <strong><%= mode_name @mode %></strong>
-    </div>
-    <div class="station-route-schedule-times">
-      <div class="hidden-xs-down column-label time-column">
-        Train #
+<div class="row mode-section">
+  <div class="col-xs-12">
+    <div class="row station-schedule-header station-route-row">
+      <div class="col-sm-4 col-xs-12">
+        <%= mode_name @mode %>
       </div>
-      <div class="hidden-xs-down column-label time-column">
-        Departure
-      </div>
-      <div class="hidden-xs-down column-label time-column">
-        Status
+      <div class="row col-sm-8 hidden-xs-down">
+        <div class="col-sm-3">
+          Train #
+        </div>
+        <div class="col-xs-9">
+          <div class="col-sm-6">
+            Departure
+          </div>
+          <div class="col-sm-6">
+            Status
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <%= for route <- @routes do %>
-    <%= for direction_id <- [0, 1] do %>
-      <%= if schedule = upcoming_commuter_departures(@conn, route.id, direction_id) do %>
-        <% %Schedule{trip: %Trip{id: trip_id}} = schedule %>
-        <% prediction = commuter_prediction(@stop_predictions, trip_id) %>
-        <div class="station-route-row">
-          <p class="station-route-name">
-            <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
-            <span>
-              <%= link route.name, to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) %>
-            </span>
-          </p>
-          <div class="station-route-schedule">
-            <div class="station-route-schedule-name">
-              <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
-              <%= if has_alerts?(@conn, %Alerts.InformedEntity{trip: schedule.trip.id, route: route.id}) do %>
-                <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-              <% end %>
-            </div>
-            <div class="station-route-schedule-times">
-              <div class="time-column">
-                No. <%= schedule.trip.name %>
+  <div class="col-xs-12">
+    <div class="row">
+      <%= for route <- @routes do %>
+        <%= for direction_id <- [0, 1] do %>
+          <%= if schedule = upcoming_commuter_departures(@conn, route.id, direction_id) do %>
+            <% %Schedule{trip: %Trip{id: trip_id}} = schedule %>
+            <% prediction = commuter_prediction(@stop_predictions, trip_id) %>
+            <div class="station-route-row">
+              <div class="col-xs-12 mode-route-name">
+                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
+                <%= link route.name, to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) %>
               </div>
-              <div class="time-column">
-                <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, direction_id: direction_id) do %>
-                  <%= Site.ScheduleV2View.display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
-                <% end %>
+              <div class="clearfix">
+                <div class="col-sm-4 col-xs-12">
+                  <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
+                  <%= if has_alerts?(@conn, %Alerts.InformedEntity{trip: schedule.trip.id, route: route.id}) do %>
+                    <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
+                  <% end %>
+                </div>
+                <div class="col-sm-8 col-xs-12">
+                  <div class="row">
+                    <div class="no-wrap col-xs-3">
+                      No. <%= schedule.trip.name %>
+                    </div>
+                    <div class="col-xs-4">
+                      <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, direction_id: direction_id) do %>
+                        <%= Site.ScheduleV2View.display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
+                      <% end %>
+                    </div>
+                    <div class="col-xs-5">
+                      <%= StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="time-column">
-                <%= StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
               </div>
-            </div>
-          </div>
-        </div>
+          <% end %>
+        <% end %>
       <% end %>
-    <% end %>
-  <% end %>
+    </div>
+  </div>
   <%= station_schedule_empty_msg(@mode) %>
 </div>

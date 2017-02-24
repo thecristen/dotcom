@@ -232,8 +232,9 @@ defmodule Site.ScheduleV2ViewTest do
       result = %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: then}}
       |> display_commuter_scheduled_prediction
       |> safe_to_string
+      |> IO.iodata_to_binary
 
-      assert result =~ "<del>#{Site.ViewHelpers.format_schedule_time(now)}</del>"
+      assert result =~ "#{Site.ViewHelpers.format_schedule_time(now)}"
       assert result =~ Site.ViewHelpers.format_schedule_time(then)
       assert result =~ "fa fa-rss"
     end
