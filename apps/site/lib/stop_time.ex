@@ -96,19 +96,19 @@ defmodule StopTime do
   Returns a message containing the maximum delay between scheduled and predicted times for an arrival
   and departure, or the empty string if there's no delay.
   """
-  @spec display_status(PredictedSchedule.t | nil, PredictedSchedule.t | nil) :: iodata
+  @spec display_status(PredictedSchedule.t | nil, PredictedSchedule.t | nil) :: Phoenix.HTML.Safe.t
   def display_status(departure, arrival \\ nil)
   def display_status(%PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}}, _) when not is_nil(status) do
     status = String.capitalize(status)
     case track do
-      nil -> status
-      track -> [status, " on track&nbsp;", track]
+      nil -> Phoenix.HTML.Tag.content_tag(:span, status)
+      track -> Phoenix.HTML.Tag.content_tag(:span, [status, " on ", Phoenix.HTML.Tag.content_tag(:span, ["track ", track], class: "no-wrap")])
     end
   end
   def display_status(departure, arrival) do
     case Enum.max([delay(departure), delay(arrival)]) do
       delay when delay > 0 ->
-        [ "Delayed ", Integer.to_string(delay), " ", Inflex.inflect("minute", delay) ]
+        Phoenix.HTML.Tag.content_tag(:span, [ "Delayed ", Integer.to_string(delay), " ", Inflex.inflect("minute", delay) ])
       _ ->
         ""
     end

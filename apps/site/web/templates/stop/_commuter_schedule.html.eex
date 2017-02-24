@@ -49,7 +49,7 @@
                       <% end %>
                     </div>
                     <div class="col-xs-5">
-                      <%= raw StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
+                      <%= StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
                     </div>
                   </div>
                 </div>

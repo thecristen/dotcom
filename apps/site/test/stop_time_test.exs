@@ -17,13 +17,17 @@ defmodule StopTimeTest do
     test "uses the departure status if it exists" do
       result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "On Time"}}, nil)
 
-      assert IO.iodata_to_binary(result) == "On time"
+      assert result |> Phoenix.HTML.safe_to_string |> Floki.text == "On time"
     end
 
     test "includes track number if present" do
       result = StopTime.display_status(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: "All Aboard", track: "5"}}, nil)
 
-      assert IO.iodata_to_binary(result) == "All aboard on track&nbsp;5"
+      result
+      |> Phoenix.HTML.safe_to_string
+      |> Floki.text
+
+      assert result |> Phoenix.HTML.safe_to_string |> Floki.text == "All aboard on track 5"
     end
 
     test "returns a readable message if there's a difference between the scheduled and predicted times" do
@@ -33,7 +37,7 @@ defmodule StopTimeTest do
           %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}},
           %PredictedSchedule{schedule: nil, prediction: nil})
 
-      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
+      assert result |> Phoenix.HTML.safe_to_string |> Floki.text == "Delayed 5 minutes"
     end
 
     test "returns the empty string if the predicted and scheduled times are the same" do
@@ -43,7 +47,7 @@ defmodule StopTimeTest do
           %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}},
           %PredictedSchedule{schedule: nil, prediction: nil})
 
-      assert IO.iodata_to_binary(result) == ""
+      assert result == ""
     end
 
     test "takes the max of the departure and arrival time delays" do
@@ -55,7 +59,7 @@ defmodule StopTimeTest do
           %PredictedSchedule{schedule: %Schedule{time: arrival}, prediction: %Prediction{time: Timex.shift(arrival, minutes: 10)}}
       )
 
-      assert IO.iodata_to_binary(result) == "Delayed 10 minutes"
+      assert result |> Phoenix.HTML.safe_to_string |> Floki.text == "Delayed 10 minutes"
     end
 
     test "handles nil arrivals" do
@@ -65,7 +69,7 @@ defmodule StopTimeTest do
           %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 5)}},
           nil)
 
-      assert IO.iodata_to_binary(result) == "Delayed 5 minutes"
+      assert result |> Phoenix.HTML.safe_to_string |> Floki.text == "Delayed 5 minutes"
     end
 
     test "inflects the delay correctly" do
@@ -75,7 +79,7 @@ defmodule StopTimeTest do
           %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 1)}},
           nil)
 
-      assert IO.iodata_to_binary(result) == "Delayed 1 minute"
+      assert result |> Phoenix.HTML.safe_to_string |> Floki.text == "Delayed 1 minute"
     end
   end
 
