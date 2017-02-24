@@ -61,13 +61,13 @@
   font-weight: bold;
 
   &.disabled {
+    background-color: $white;
+    color: $gray-light;
+    cursor: default;
     @include hover-focus-active {
       background-color: $white;
       cursor: default;
     }
-    background-color: $white;
-    color: $gray-light;
-    cursor: default;
   }
 
   &.key-option + &:not(.key-option) {
