@@ -3,6 +3,7 @@ defmodule PredictedScheduleGroupTest do
   import PredictedSchedule.Group
 
   alias Predictions.Prediction
+  alias Routes.Route
   alias Schedules.{Schedule, Stop, Trip}
 
   describe "PredictedScheduleGroup.build_prediction_map" do
@@ -11,20 +12,16 @@ defmodule PredictedScheduleGroupTest do
       pred2 = %Prediction{stop: %Stop{id: "stop1"}, trip: %Trip{id: "trip2"}}
       pred3 = %Prediction{stop: %Stop{id: "stop1"}, trip: %Trip{id: "trip3"}}
 
-      sched1 = %Schedule{ stop: %Stop{id: "stop1"}, trip: %Trip{id: "trip1"}}
-      sched2 = %Schedule{ stop: %Stop{id: "stop1"}, trip: %Trip{id: "trip2"}}
+      sched1 = %Schedule{stop: %Stop{id: "stop1"}, trip: %Trip{id: "trip1"}}
+      sched2 = %Schedule{stop: %Stop{id: "stop1"}, trip: %Trip{id: "trip2"}}
 
       result = build_prediction_map([pred1, pred2, pred3], [sched1, sched2], "stop1", nil)
 
       assert Map.size(result) == 3
 
-      assert %Trip{id: "trip1"} in Map.keys(result)
-      assert %Trip{id: "trip2"} in Map.keys(result)
-      assert %Trip{id: "trip3"} in Map.keys(result)
-
-      assert result[%Trip{id: "trip1"}] == %{"stop1" => pred1}
-      assert result[%Trip{id: "trip2"}] == %{"stop1" => pred2}
-      assert result[%Trip{id: "trip3"}] == %{"stop1" => pred3}
+      assert result[{%Trip{id: "trip1"}, nil}] == %{"stop1" => pred1}
+      assert result[{%Trip{id: "trip2"}, nil}] == %{"stop1" => pred2}
+      assert result[{%Trip{id: "trip3"}, nil}] == %{"stop1" => pred3}
     end
 
     test "makes prediction_map with origin and destination matching on schedules" do
@@ -32,20 +29,17 @@ defmodule PredictedScheduleGroupTest do
       pred2 = %Prediction{stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip2"}}
       pred3 = %Prediction{stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip3"}}
 
-      orig_sched1 = %Schedule{ stop: %Stop{id: "orig1"}, trip: %Trip{id: "trip1"}}
-      dest_sched1 = %Schedule{ stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip1"}}
-      orig_sched2 = %Schedule{ stop: %Stop{id: "orig1"}, trip: %Trip{id: "trip2"}}
-      dest_sched2 = %Schedule{ stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip2"}}
+      orig_sched1 = %Schedule{stop: %Stop{id: "orig1"}, trip: %Trip{id: "trip1"}}
+      dest_sched1 = %Schedule{stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip1"}}
+      orig_sched2 = %Schedule{stop: %Stop{id: "orig1"}, trip: %Trip{id: "trip2"}}
+      dest_sched2 = %Schedule{stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip2"}}
 
       result = build_prediction_map([pred1, pred2, pred3], [{orig_sched1, dest_sched1}, {orig_sched2, dest_sched2}], "orig1", "dest1")
 
       assert Map.size(result) == 2
 
-      assert %Trip{id: "trip1"} in Map.keys(result)
-      assert %Trip{id: "trip2"} in Map.keys(result)
-
-      assert result[%Trip{id: "trip1"}] == %{"dest1" => pred1}
-      assert result[%Trip{id: "trip2"}] == %{"dest1" => pred2}
+      assert result[{%Trip{id: "trip1"}, nil}] == %{"dest1" => pred1}
+      assert result[{%Trip{id: "trip2"}, nil}] == %{"dest1" => pred2}
     end
 
     test "makes prediction_map matching on origin and destination" do
@@ -58,9 +52,17 @@ defmodule PredictedScheduleGroupTest do
 
       assert Map.size(result) == 1
 
-      assert %Trip{id: "trip1"} in Map.keys(result)
+      assert result[{%Trip{id: "trip1"}, nil}] == %{"orig1" => pred1, "dest1" => pred2}
+    end
 
-      assert result[%Trip{id: "trip1"}] == %{"orig1" => pred1, "dest1" => pred2}
+    test "makes prediction_map including the route" do
+      prediction = %Prediction{stop: %Stop{id: "orig1"}, trip: %Trip{id: "trip1"}, route: %Route{id: "route"}}
+
+      result = build_prediction_map([prediction], [], "orig1", nil)
+
+      assert result == %{
+        {%Trip{id: "trip1"}, %Route{id: "route"}} => %{"orig1" => prediction}
+      }
     end
   end
 end

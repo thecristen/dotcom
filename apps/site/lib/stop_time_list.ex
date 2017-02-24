@@ -5,7 +5,7 @@ defmodule StopTimeList do
   """
 
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.Schedule
 
   defstruct [
     times: [],
@@ -16,9 +16,10 @@ defmodule StopTimeList do
     showing_all?: boolean
   }
   @type stop_id :: String.t
-  @type schedule_pair :: {Schedule.t, Schedule.t}
-  @type schedule_map :: %{Trip.t => %{stop_id => Schedule.t}}
-  @type schedule_pair_map :: %{Trip.t => schedule_pair}
+  @type schedule_pair :: PredictedSchedule.Group.schedule_pair_t
+  @type map_key_t :: PredictedSchedule.Group.map_key_t
+  @type schedule_map :: %{map_key_t => %{stop_id => Schedule.t}}
+  @type schedule_pair_map :: %{map_key_t => schedule_pair}
 
   @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil) :: __MODULE__.t
   def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time) do
@@ -86,11 +87,11 @@ defmodule StopTimeList do
     |> Enum.map(&(trip_mapper_fn.(&1, schedule_map, prediction_map)))
   end
 
-  @spec build_stop_time(Trip.t | nil, schedule_pair_map, PredictedSchedule.Group.prediction_map_t, stop_id, stop_id) :: StopTime.t
-  defp build_stop_time(trip, schedule_map, prediction_map, origin_id, dest) do
-    departure_prediction = prediction_map[trip][origin_id]
-    arrival_prediction = prediction_map[trip][dest]
-    case Map.get(schedule_map, trip) do
+  @spec build_stop_time(map_key_t, schedule_pair_map, PredictedSchedule.Group.prediction_map_t, stop_id, stop_id) :: StopTime.t
+  defp build_stop_time({trip, _} = key, schedule_map, prediction_map, origin_id, dest) do
+    departure_prediction = prediction_map[key][origin_id]
+    arrival_prediction = prediction_map[key][dest]
+    case Map.get(schedule_map, key) do
       {departure, arrival} -> %StopTime{
                               departure: %PredictedSchedule{schedule: departure, prediction: departure_prediction},
                               arrival: %PredictedSchedule{schedule: arrival, prediction: arrival_prediction},
@@ -104,10 +105,10 @@ defmodule StopTimeList do
     end
   end
 
-  @spec predicted_departures(Trip.t | nil, schedule_map, PredictedSchedule.Group.prediction_map_t, stop_id) :: StopTime.t
-  defp predicted_departures(trip, schedule_map, prediction_map, origin_id) do
-    departure_schedule = schedule_map[trip][origin_id]
-    departure_prediction = prediction_map[trip][origin_id]
+  @spec predicted_departures(map_key_t, schedule_map, PredictedSchedule.Group.prediction_map_t, stop_id) :: StopTime.t
+  defp predicted_departures({trip, _} = key, schedule_map, prediction_map, origin_id) do
+    departure_schedule = schedule_map[key][origin_id]
+    departure_prediction = prediction_map[key][origin_id]
     %StopTime{
       departure: %PredictedSchedule{schedule: departure_schedule, prediction: departure_prediction},
       arrival: nil,
@@ -115,7 +116,7 @@ defmodule StopTimeList do
     }
   end
 
-  @spec get_trips(%{Trip.t => any}, PredictedSchedule.Group.prediction_map_t) :: [Trip.t]
+  @spec get_trips(schedule_pair_map, PredictedSchedule.Group.prediction_map_t) :: [map_key_t]
   defp get_trips(schedule_map, prediction_map) do
     Map.keys(prediction_map)
     |> Enum.concat(Map.keys(schedule_map))
@@ -124,12 +125,14 @@ defmodule StopTimeList do
 
   @spec build_schedule_pair_map({Schedule.t, Schedule.t}, schedule_pair_map) :: schedule_pair_map
   defp build_schedule_pair_map({departure, arrival}, schedule_pair_map) do
-    Map.put(schedule_pair_map, departure.trip, {departure, arrival})
+    key = {departure.trip, departure.route}
+    Map.put(schedule_pair_map, key, {departure, arrival})
   end
 
   @spec build_schedule_map(Schedule.t, schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
+    key = {schedule.trip, schedule.route}
     updater = fn(trip_map) -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
-    Map.update(schedule_map, schedule.trip, %{schedule.stop.id => schedule}, updater)
+    Map.update(schedule_map, key, %{schedule.stop.id => schedule}, updater)
   end
 end
