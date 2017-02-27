@@ -11,7 +11,7 @@ defmodule Site.CustomerSupportControllerTest do
 
   describe "POST" do
     def valid_post_data do
-      %{"comments" => "comments", "email" => "test@gmail.com", "privacy" => "on", "phone" => "", "name" => ""}
+      %{"comments" => "comments", "email" => "test@gmail.com", "privacy" => "on", "phone" => "", "name" => "tom brady"}
     end
 
     test "shows a thank you message on success and sends an email", %{conn: conn} do
@@ -25,6 +25,11 @@ defmodule Site.CustomerSupportControllerTest do
     test "validates presence of comments", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data(), "comments", "")
       assert "comments" in conn.assigns.errors
+    end
+
+    test "validates presence of name", %{conn: conn} do
+      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_post_data(), "name", "")
+      assert "name" in conn.assigns.errors
     end
 
     test "invalid with no email or phone", %{conn: conn} do
