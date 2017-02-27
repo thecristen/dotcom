@@ -28,8 +28,8 @@
             <%= stop_bubble_location_display(false, @route.type, terminus?) %>
           </div>
           <div class="schedule-v2-timetable-name">
-            <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>&nbsp;<%
-            # the Phoenix.HTML representation of an svg_icons is padded with new line chars, this approach removes them 
+            <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>&nbsp;<%=
+            # the Phoenix.HTML representation of an svg_icons is padded with new line chars, this approach removes them
             if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do
               raw(String.trim(safe_to_string(svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}))))
             end %>
