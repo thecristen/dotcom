@@ -153,12 +153,12 @@
           <div class="col-xs-4 header-column">
             <p class="nav-title">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :alert, class: "icon-boring"}) %>
-              <span>Sign Up for T-Alerts</span>
+              <span>Service Updates</span>
             </p>
             <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
             <p>
               <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank" do %>
-                Sign Up Now
+                Sign Up for T-Alerts <%= fa "arrow-circle-right" %>
               <% end %>
               <ul>
                 <li>
