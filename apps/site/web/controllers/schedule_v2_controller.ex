@@ -12,10 +12,11 @@ defmodule Site.ScheduleV2Controller do
   plug Site.Plugs.Alerts
   plug Site.ScheduleController.AllStops
   plug SV2C.OriginDestination
+  plug SV2C.ExcludedStops
+  plug SV2C.PreSelect
   plug SV2C.VehicleLocations
   plug SV2C.Predictions
   plug Site.ScheduleController.Headsigns
-  plug SV2C.ExcludedStops
   plug Site.ScheduleController.RouteBreadcrumbs
   plug :tab_assigns
 
