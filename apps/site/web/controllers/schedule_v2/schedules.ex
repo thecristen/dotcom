@@ -44,14 +44,14 @@ defmodule Site.ScheduleV2Controller.Schedules do
   when Route.subway?(type) do
     frequencies = schedules
     |> Enum.map(fn schedule -> elem(schedule, 0) end)
-    |> TimeGroup.build_frequency_list
+    |> Schedules.FrequencyList.build_frequency_list
 
     conn
     |> assign(:frequency_table, frequencies)
   end
   def assign_frequency_table(conn, [%Schedules.Schedule{route: %Routes.Route{type: type}} | _] = schedules)
   when Route.subway?(type) do
-    assign(conn, :frequency_table, TimeGroup.build_frequency_list(schedules))
+    assign(conn, :frequency_table, Schedules.FrequencyList.build_frequency_list(schedules))
   end
   def assign_frequency_table(conn, _schedules) do
     conn

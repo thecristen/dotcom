@@ -63,6 +63,19 @@ defmodule GreenLine do
     ~w(Green-B Green-C Green-D Green-E)s
   end
 
+  @doc """
+  The Green Line.
+  """
+  @spec green_line() :: Route.t
+  def green_line() do
+    %Routes.Route{
+      id: "Green",
+      name: "Green Line",
+      direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+      type: 0
+    }
+  end
+
   # Returns the stops that are on a given branch of the Green line,
   # along with the route ID.
   @spec green_line_stops(Route.id_t, 0 | 1) :: {Route.id_t, [Stop.t]}
