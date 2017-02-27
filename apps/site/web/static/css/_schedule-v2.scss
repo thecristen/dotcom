@@ -441,16 +441,6 @@ $z-index-vehicle-position: 2;
   text-align: left;
 }
 
-.schedule-v2-icon-nowrap > a {
-  float: left;
-  padding-right: 1.2rem;
-}
-
-.schedule-v2-icon-nowrap > svg {
-  float: left;
-  margin-left: -$space-16;
-}
-
 .schedule-v2-timetable-name {
   margin-right: $base-spacing-sm; // left scroll warning
 
