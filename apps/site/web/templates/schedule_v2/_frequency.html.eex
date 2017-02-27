@@ -8,7 +8,7 @@
     <div class="trip-list-v2-row trip-list-v2-row-2-col">
       <div class="time-block-name">
         <%= content_tag :div, frequency_block_name(frequency) %>
-        <%= display_frequency_departure(frequency.time_block, @frequency_table.first_departure, @frequency_table.last_departure) %>
+        <%= display_frequency_departure(frequency.time_block, @frequency_table.departures.first_departure, @frequency_table.departures.last_departure) %>
       </div>
       <div class="time-block-times">
         <%= frequency |> Schedules.Frequency.has_service? |> frequency_times(frequency) %>

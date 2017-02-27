@@ -122,7 +122,7 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
       |> assign_frequency_table(@schedules)
 
       assert conn.assigns.frequency_table.frequencies == TimeGroup.frequency_by_time_block(@schedules)
-      assert conn.assigns.frequency_table.first_departure == List.first(@schedules).time
+      assert conn.assigns.frequency_table.departures.first_departure == List.first(@schedules).time
     end
 
     test "when schedules are assigned, assigns a frequency table", %{conn: conn} do
@@ -133,7 +133,7 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
       |> Enum.map(&elem(&1, 0))
 
       assert conn.assigns.frequency_table.frequencies == TimeGroup.frequency_by_time_block(schedules)
-      assert conn.assigns.frequency_table.first_departure == elem(List.first(@od_schedules), 0).time
+      assert conn.assigns.frequency_table.departures.first_departure == elem(List.first(@od_schedules), 0).time
     end
 
     test "when schedules are light rail, assigns a frequency table", %{conn: conn} do
@@ -145,7 +145,7 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
       |> assign_frequency_table(schedules)
 
       assert conn.assigns.frequency_table.frequencies == TimeGroup.frequency_by_time_block(schedules)
-      assert conn.assigns.frequency_table.first_departure == List.first(@schedules).time
+      assert conn.assigns.frequency_table.departures.first_departure == List.first(@schedules).time
     end
 
     test "does not assign a frequency table for non-subway routes", %{conn: conn} do

@@ -146,8 +146,8 @@ defmodule TimeGroupTest do
 
     test "first and last departures are returned with a FrequencyList" do
       frequency_list = TimeGroup.build_frequency_list(@schedules)
-      assert frequency_list.first_departure == List.first(@schedules).time
-      assert frequency_list.last_departure == List.last(@schedules).time
+      assert frequency_list.departures.first_departure == List.first(@schedules).time
+      assert frequency_list.departures.last_departure == List.last(@schedules).time
     end
   end
 end

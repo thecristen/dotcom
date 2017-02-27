@@ -78,8 +78,9 @@ defmodule TimeGroup do
   @spec build_frequency_list([Schedule.t]) :: Schedules.FrequencyList.t
   def build_frequency_list(schedules) do
     %Schedules.FrequencyList{frequencies: frequency_by_time_block(schedules),
-                             first_departure: List.first(schedules).time,
-                             last_departure: List.last(schedules).time}
+                             departures: %Schedules.Departures{
+                               first_departure: List.first(schedules).time,
+                               last_departure: List.last(schedules).time}}
   end
 
   defp do_by_fn([], _) do
