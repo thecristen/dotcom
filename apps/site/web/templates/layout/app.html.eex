@@ -168,10 +168,8 @@
               image_url: static_url(@conn, "/images/south-station-wide.jpg"),
               image_description: "South station" %>
         <% end %>
-        <main class="row <%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
-          <div class="col-xs-12">
-            <%= render @view_module, @view_template, assigns %>
-          </div>
+        <main class="<%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
+          <%= render @view_module, @view_template, assigns %>
         </main>
       </div> <%# /container %>
       <%= if assigns[:post_container_template] do %>
