@@ -41,6 +41,9 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
                                     :blue_line, :red_line, :mattapan_line], do: translate(:t_logo)
   def translate(_), do: "5,5"
 
+  def scale(:nineoneone), do: ".25"
+  def scale(_), do: "1"
+
   def circle_args(:twitter), do: "r=200 cx=200 cy=200"
   def circle_args(:facebook), do: "r=37 cx=37 cy=37"
   def circle_args(_icon), do: "r=20 cx=20 cy=20"
