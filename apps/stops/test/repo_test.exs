@@ -29,5 +29,13 @@ defmodule Stops.RepoTest do
       assert response != []
       refute (response |> Enum.at(1)).id == "place-sull"
     end
+
+    test "can take additional fields" do
+      today = Timex.today()
+      weekday = today |> Timex.shift(days: 7) |> Timex.beginning_of_week(:fri)
+      saturday = weekday |> Timex.shift(days: 1)
+
+      assert by_route("CR-Providence", 1, date: weekday) != by_route("CR-Providence", 1, date: saturday)
+    end
   end
 end
