@@ -34,6 +34,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:access), do: "9,7"
   def translate(:twitter), do: "5,10"
   def translate(:facebook), do: "8,8"
+  def translate(:nineoneone), do: "9,9"
   def translate(icon) when icon in [:phone, :subway], do: "12,9"
   def translate(icon) when icon in [:tools, :ferry, :alert], do: "9,9"
   def translate(icon) when icon in [:bus, :commuter_rail], do: "11,9"

@@ -94,8 +94,8 @@
 
 .header-column {
   border-left: 1px solid $white;
-  padding-left: $base-spacing * 3;
-  padding-right: $base-spacing * 3;
+  padding-left: $space-24;
+  padding-right: $space-24;
 
   &:first-child {
     border-left-width: 0;

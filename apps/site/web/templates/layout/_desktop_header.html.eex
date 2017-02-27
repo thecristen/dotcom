@@ -119,8 +119,8 @@
             </p>
             <p>
               (617) 222-3200<br />
-              TTY (617) 222-5146<br />
-              Monday - Friday: 7:30AM - 6:00PM<br />
+              <strong>TTY</strong> <span class="no-wrap">(617) 222-5146</span><br />
+              <strong>Monday - Friday:</strong> 7:30AM - 6:00PM<br />
             </p>
 
             <ul>
@@ -141,12 +141,12 @@
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :nineoneone, class: "icon-boring"}) %>
               <span> Transit Police</span>
               </p>
-                Emergency (617) 222-1212<br />
-                TTY (617) 222-5146<br />
-                Anonymous Text Number 873-873
+                <strong>Emergency:</strong> <span class="no-wrap">(617) 222-1212</span><br />
+                <strong>TTY:</strong> <span class="no-wrap">(617) 222-5146</span><br />
+                <strong>Anonymous Text Number:</strong> <span class="no-wrap">873-873</span>
               </p>
               <p>
-                Non-Emergency (617) 222-1000
+                <strong>Non-Emergency:</strong> <span class="no-wrap">(617) 222-1000</span>
               </p>
             </p>
           </div>
