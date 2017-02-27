@@ -16,6 +16,7 @@ $z-index-calendar-cover: 3;
 // scss-lint:disable NestingDepth
 // scss-lint:disable SelectorDepth
 // changes the color for the vehicle location graphic per route type
+  .route-stop-list,
   .schedule-trip-info,
   .schedule-v2-timetable {
     &#{$class} {
@@ -169,7 +170,6 @@ $z-index-calendar-cover: 3;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-
 .vehicle-location {
   @include unpadded-column;
   height: 100%;
@@ -217,6 +217,7 @@ $z-index-calendar-cover: 3;
 
 // first stop in the list, only display the line going down
 .stop-group:first-child .schedule-trip-stop:first-child,
+.route-stop-list .route-stop:first-child,
 .schedule-v2-timetable-row:nth-child(2) {
   .vehicle-location::before {
     height: 100%;
@@ -224,6 +225,7 @@ $z-index-calendar-cover: 3;
   }
 }
 // the last stop in the list, don't display the line
+.route-stop-list .route-stop:last-child,
 .stop-group:last-child .schedule-trip-stop:last-child,
 .schedule-v2-timetable-row:last-child {
   .vehicle-location::before {
