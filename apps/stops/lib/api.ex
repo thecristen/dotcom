@@ -52,7 +52,7 @@ defmodule Stops.Api do
     |> Enum.map(&parse_stop/1)
   end
 
-  def by_route({route_id, direction_id}) do
+  def by_route({route_id, direction_id, opts}) do
     params = [
       route: route_id,
       include: "parent_station",
@@ -60,6 +60,7 @@ defmodule Stops.Api do
     ]
 
     params
+    |> Keyword.merge(opts)
     |> V3Api.Stops.all
     |> (fn api -> api.data end).()
     |> Enum.uniq_by(&v3_id/1)
