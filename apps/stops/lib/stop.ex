@@ -14,6 +14,7 @@ defmodule Stops.Stop do
     latitude: nil,
     longitude: nil,
     images: [],
+    zone: nil,
     station?: false,
     has_fare_machine?: false,
     has_charlie_card_vendor?: false]
@@ -29,6 +30,7 @@ defmodule Stops.Stop do
     latitude: float,
     longitude: float,
     images: [Stop.Image.t],
+    zone: [String.t],
     station?: boolean,
     has_fare_machine?: boolean,
     has_charlie_card_vendor?: boolean

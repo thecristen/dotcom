@@ -14,6 +14,9 @@ defmodule Site.RouteControllerTest do
       conn = get conn, route_path(conn, :show, "CR-Lowell")
       assert conn.status == 200
 
+      # stops have zones
+      assert List.first(conn.assigns.stops).zone == "6"
+
       # stops are in inbound order
       assert List.first(conn.assigns.stops).id == "Lowell"
       assert List.last(conn.assigns.stops).id == "place-north"

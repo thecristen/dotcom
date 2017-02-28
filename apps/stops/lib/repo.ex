@@ -30,7 +30,6 @@ defmodule Stops.Repo do
   end
 
   def by_route(route_id, direction_id, opts \\ []) do
-    #Stops.Api.by_route(route_id)
     cache {route_id, direction_id, opts}, &Stops.Api.by_route/1
   end
 
