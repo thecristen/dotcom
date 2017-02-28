@@ -21,7 +21,7 @@ defmodule Site.RouteControllerTest do
       assert List.first(conn.assigns.stops).id == "Lowell"
       assert List.last(conn.assigns.stops).id == "place-north"
       # Stop list
-      assert conn.assigns.stop_list_template == "_stop_list.html"
+      assert conn.assigns.stop_list_template == "_stop_list_cr.html"
 
       # includes the stop features
       assert %{} = conn.assigns.stop_features
