@@ -30,7 +30,7 @@
           <div class="schedule-v2-timetable-name">
             <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>&nbsp;<%=
               if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do
-                fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:"title", "Service alert or delay"}]
+                fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}]
               end
             %>
           </div>
