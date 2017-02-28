@@ -6,15 +6,8 @@ defmodule Alerts.Repo do
   @spec all() :: [Alerts.Alert.t]
   def all do
     cache nil, fn _ ->
-      V3Api.Alerts.all().data
-      |> Enum.map(fn alert ->
-        Task.async(fn ->
-          alert
-          |> Parser.Alert.parse
-          |> include_parents
-        end)
-      end)
-      |> Enum.map(&Task.await/1)
+      v3_api_all().data
+      |> Enum.map(&Parser.Alert.parse/1)
     end
   end
 
@@ -26,7 +19,13 @@ defmodule Alerts.Repo do
 
   @spec banner() :: Alerts.Banner.t | nil
   def banner() do
-    cache(&V3Api.Alerts.all/0, &do_banner/1)
+    cache &v3_api_all/0, &do_banner/1
+  end
+
+  defp v3_api_all do
+    cache nil, fn _ ->
+      V3Api.Alerts.all()
+    end
   end
 
   @spec do_banner((() -> JsonApi.t)) :: {:ok, Alerts.Banner.t | nil}
@@ -34,37 +33,5 @@ defmodule Alerts.Repo do
     alert_fn.().data
     |> Enum.flat_map(&Parser.Banner.parse/1)
     |> List.first
-  end
-
-  defp include_parents(alert) do
-    # For alerts which are tied to a child stop, look up the parent stop and
-    # also include it as an informed entity.
-    %{alert |
-      informed_entity: Enum.flat_map(alert.informed_entity, &include_ie_parents/1)
-    }
-  end
-
-  defp include_ie_parents(%{stop: nil} = ie) do
-    [ie]
-  end
-
-  defp include_ie_parents(%{stop: stop_id} = ie) do
-    stop_id
-    |> stop_ids
-    |> Enum.map(&(%{ie | stop: &1}))
-  end
-
-  defp stop_ids(stop_id) do
-    ConCache.get_or_store(:alerts_parent_ids, stop_id, fn ->
-      case V3Api.Stops.by_gtfs_id(stop_id) do
-        %JsonApi{
-          data: [
-            %JsonApi.Item{
-              relationships: %{
-                "parent_station" => [%JsonApi.Item{id: parent_id}]}}]} ->
-          [stop_id, parent_id]
-        _ -> [stop_id]
-      end
-    end)
   end
 end
