@@ -55,6 +55,10 @@
 
 .select-modal-search {
   padding-bottom: .75rem;
+
+  .form-control {
+    margin-bottom: 1rem;
+  }
 }
 
 .select-modal-option {
@@ -77,6 +81,10 @@
   &:focus {
     outline: none;
   }
+}
+
+.select-modal-options > .select-modal-option:first-child {
+  padding-top: .75rem;
 }
 
 .btn-select-modal {
