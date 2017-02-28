@@ -51,7 +51,6 @@ defmodule Site.ViewHelpers do
   @doc "HTML for a FontAwesome icon, with optional attributes"
   def fa(name, attributes \\ []) when is_list(attributes) do
     content_tag :i, [], [{:"aria-hidden", "true"},
-                         {:"style", Keyword.get(attributes, :style, "")},
                          {:class, "fa fa-#{name} " <> Keyword.get(attributes, :class, "")} |
                          Keyword.delete(attributes, :class)]
   end

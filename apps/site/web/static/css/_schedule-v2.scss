@@ -450,6 +450,10 @@ $z-index-vehicle-position: 2;
   }
 }
 
+.schedule-v2-timetable-name > i {
+  display: inline;
+}
+
 .schedule-v2-timetable-time-col {
   background-color: rgba($gray-lightest, .5);
   min-width: $base-spacing-sm;
