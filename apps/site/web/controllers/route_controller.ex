@@ -5,14 +5,19 @@ defmodule Site.RouteController do
   plug Site.Plugs.Date
   plug :hours_of_operation
 
-  def show(conn, %{"route" => "Green"}) do
+  def show(conn, %{"route" => "Green"} = params) do
     route = GreenLine.green_line()
     stops_on_routes = GreenLine.stops_on_routes(0)
+    routes_for_stops = GreenLine.routes_for_stops(stops_on_routes) # Inverse Map
     stops = GreenLine.all_stops(stops_on_routes)
+    {before_branch, after_branch} = Enum.split_while(stops, & &1.id != "place-coecl")
+    expanded = params["expanded"]
+    expanded_stops = green_line_branches(after_branch, routes_for_stops, expanded)
 
     render conn, "show.html",
       stop_list_template: "_stop_list_green.html",
-      stops: stops,
+      stops: before_branch ++ expanded_stops,
+      expanded: expanded,
       active_lines: active_lines(stops_on_routes),
       stop_features: stop_features(stops, route),
       map_img_src: map_img_src(stops, route.type),
@@ -216,6 +221,16 @@ defmodule Site.RouteController do
   defp update_active_line(:empty), do: :empty
   defp update_active_line(:terminus), do: :empty
   defp update_active_line(_), do: :line
+
+
+  defp green_line_branches(stops, stop_map, expanded) do
+    Enum.reject(stops, & do_green_line_branches(&1.id, stop_map[&1.id], expanded))
+  end
+
+  defp do_green_line_branches(stop_id, [route_id], expanded) do
+    route_id != expanded and not GreenLine.terminus?(stop_id, route_id)
+  end
+  defp do_green_line_branches(_stop_id, _routes, _expanded), do: false
 
   defp red_line_branches(stops, %{"expanded" => "braintree"}) do
     {ashmont, braintree} = split_ashmont_braintree(stops)
