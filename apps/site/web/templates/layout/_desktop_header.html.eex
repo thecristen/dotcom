@@ -115,47 +115,58 @@
           <div class="col-xs-4 header-column">
             <p class="nav-title">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :phone, class: "icon-boring"}) %>
-              <span> Telephone Customer Support</span>
+              <span> Customer Support</span>
             </p>
             <p>
               (617) 222-3200<br />
-              TTY (617) 222-5146<br />
-              Monday - Friday:<br />
-              6:30AM - 6:00PM<br />
+              <strong>TTY</strong> <span class="no-wrap">(617) 222-5146</span><br />
+              <strong>Monday - Friday:</strong> 7:30AM - 6:00PM<br />
             </p>
 
-            <%= link to: customer_support_path(@conn, :index) do %>
-              <%= fa "caret-right" %> View all contact numbers
-            <% end %>
-          </div>
-          <div class="col-xs-4 header-column">
-            <p class="nav-title">
-              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :globe, class: "icon-boring"}) %>
-              <span> Online Customer Support</span>
-            </p>
             <ul>
-              <li><%= link to: customer_support_path(@conn, :index) do %>
-                <%= fa "caret-right" %> Submit complaints and comments
-              <% end %>
+              <li>
+                <%= link to: customer_support_path(@conn, :index) do %>
+                  <%= fa "caret-right" %> Submit comments and inquiries
+                <% end %>
               </li>
-              <li><%= link to: "https://twitter.com/MBTA", target: "_blank" do %></li>
-                <%= fa "caret-right" %> @MBTA Twitter Updates
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "transitpolice") do %></li>
-                <%= fa "caret-right" %> Transit Police
-              <% end %>
+              <li>
+                <%= link to: customer_support_path(@conn, :index) do %>
+                  <%= fa "caret-right" %> View all contact numbers
+                <% end %>
+              </li>
             </ul>
           </div>
           <div class="col-xs-4 header-column">
             <p class="nav-title">
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :nineoneone, class: "icon-boring"}) %>
+              <span> Transit Police</span>
+              </p>
+                <strong>Emergency:</strong> <span class="no-wrap">(617) 222-1212</span><br />
+                <strong>TTY:</strong> <span class="no-wrap">(617) 222-5146</span><br />
+                <strong>Anonymous Text Number:</strong> <span class="no-wrap">873-873</span>
+              </p>
+              <p>
+                <strong>Non-Emergency:</strong> <span class="no-wrap">(617) 222-1000</span>
+              </p>
+            </p>
+          </div>
+          <div class="col-xs-4 header-column">
+            <p class="nav-title">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :alert, class: "icon-boring"}) %>
-              <span>Sign Up for T-Alerts</span>
+              <span>Service Updates</span>
             </p>
             <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
             <p>
               <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank" do %>
-                <%= fa "caret-right" %> Sign Up Now
+                Sign Up for T-Alerts <%= fa "arrow-circle-right" %>
               <% end %>
+              <ul>
+                <li>
+                  <%= link to: "https://twitter.com/MBTA", target: "_blank" do %>
+                    <%= fa "caret-right" %> @MBTA Twitter Updates
+                  <% end %>
+                </li>
+              </ul>
             </p>
           </div>
         </div>

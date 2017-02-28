@@ -10,7 +10,7 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.DatePicker
   plug SV2C.Defaults
   plug Site.Plugs.Alerts
-  plug Site.ScheduleController.AllStops
+  plug SV2C.AllStops
   plug SV2C.OriginDestination
   plug SV2C.ExcludedStops
   plug SV2C.PreSelect

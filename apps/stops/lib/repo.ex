@@ -29,8 +29,8 @@ defmodule Stops.Repo do
     Stops.Nearby.nearby(position)
   end
 
-  def by_route(route_id, direction_id) do
-    cache {route_id, direction_id}, &Stops.Api.by_route/1
+  def by_route(route_id, direction_id, opts \\ []) do
+    cache {route_id, direction_id, opts}, &Stops.Api.by_route/1
   end
 
   def stop_exists_on_route?(stop_id, route, direction_id) do

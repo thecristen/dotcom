@@ -15,14 +15,16 @@ defmodule Site.RouteController do
       stop_features: stop_features(stops, route),
       map_img_src: map_img_src(stops, route.type)
   end
-  def show(conn, %{"route" => "Red"}) do
+  def show(conn, %{"route" => "Red"} = params) do
     stops = Stops.Repo.by_route("Red", 0)
-    {ashmont, braintree} = Enum.split_while(stops, & &1.id != "place-nqncy")
+    {shared_stops, branched_stops} = Enum.split_while(stops, & &1.id != "place-shmnl")
+    {ashmont, braintree} = red_line_branches(branched_stops, params)
     render conn, "show.html",
       stop_list_template: "_stop_list_red.html",
-      stops: ashmont,
+      stops: shared_stops,
       merge_stop_id: "place-jfk",
       braintree_branch_stops: braintree,
+      ashmont_branch_stops: ashmont,
       stop_features: stop_features(stops, conn.assigns.route),
       map_img_src: map_img_src(stops, conn.assigns.route.type)
   end
@@ -166,4 +168,20 @@ defmodule Site.RouteController do
   defp update_active_line(:empty), do: :empty
   defp update_active_line(:terminus), do: :empty
   defp update_active_line(_), do: :line
+
+  defp red_line_branches(stops, %{"expanded" => "braintree"}) do
+    {ashmont, braintree} = split_ashmont_braintree(stops)
+    {[List.last(ashmont)], braintree}
+  end
+  defp red_line_branches(stops, %{"expanded" => "ashmont"}) do
+    {Enum.take_while(stops, & &1.id != "place-nqncy"), [List.last(stops)]}
+  end
+  defp red_line_branches(stops, _params) do
+    {ashmont, braintree} = split_ashmont_braintree(stops)
+    {[List.last(ashmont)], [List.last(braintree)]}
+  end
+
+  defp split_ashmont_braintree(stops) do
+    Enum.split_while(stops, & &1.id != "place-nqncy")
+  end
 end
