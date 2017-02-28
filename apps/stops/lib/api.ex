@@ -185,6 +185,7 @@ defmodule Stops.Api do
   defp merge_v3(station_info_stop, v3_stop_response)
   defp merge_v3(stop, nil), do: stop
   defp merge_v3(nil, stop) do
+    IO.inspect("AAA")
     accessibility = if stop.attributes["wheelchair_boarding"] == 1 do
       ["accessible"]
     else
@@ -199,7 +200,9 @@ defmodule Stops.Api do
       longitude: stop.attributes["longitude"]
     }
   end
-  defp merge_v3(stop, %JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}) do
+  defp merge_v3(stop, stop2 = %JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}) do
+    IO.inspect(stop)
+    IO.inspect(stop2)
     %Stop{stop | latitude: latitude, longitude: longitude}
   end
 end
