@@ -577,6 +577,12 @@ $z-index-calendar-cover: 3;
   width: $icon-size * 1.5;
 }
 
+.route-holiday-info {
+  li {
+    margin-left: -$space-18;
+  }
+}
+
 /// Schedule V2 direction buttons
 .btn.schedule-v2-direction-btn {
   display: table-cell;

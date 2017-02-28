@@ -40,6 +40,19 @@ defmodule Holiday.RepoTest do
       end
     end
   end
+
+  describe "following/2" do
+    test "returns the holidays in the set after the date" do
+      holidays = [%Holiday{date: ~D[2016-01-01], name: "New Years Day"},
+                  %Holiday{date: ~D[2016-01-18], name: "Martin Luther King Day"},
+                  %Holiday{date: ~D[2016-02-15], name: "President’s Day"},
+                  %Holiday{date: ~D[2016-04-18], name: "Patriots’ Day"},
+                  %Holiday{date: ~D[2016-05-30], name: "Memorial Day"},
+                  %Holiday{date: ~D[2016-07-04], name: "Independence Day"}]
+      date = ~D[2016-01-10]
+      assert Holiday.Repo.following(date, holidays) == Enum.drop(holidays, 1)
+    end
+  end
 end
 
 defmodule Holiday.Repo.HelpersTest do

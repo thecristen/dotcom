@@ -16,4 +16,10 @@ defmodule Site.RouteViewTest do
       assert row =~ "subway"
     end
   end
+
+  describe "next_3_holidays/0" do
+    test "gets 3 results" do
+      assert Enum.count(next_3_holidays()) == 3
+    end
+  end
 end
