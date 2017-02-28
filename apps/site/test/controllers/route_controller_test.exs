@@ -49,11 +49,8 @@ defmodule Site.RouteControllerTest do
 
       # stops are in southbound order, Ashmont branch
       assert List.first(conn.assigns.stops).id == "place-alfcl"
-      assert List.last(conn.assigns.stops).id == "place-asmnl"
+      assert List.last(conn.assigns.stops).id == "place-jfk"
       assert conn.assigns.merge_stop_id == "place-jfk"
-      # Braintree branch
-      assert List.first(conn.assigns.braintree_branch_stops).id == "place-nqncy"
-      assert List.last(conn.assigns.braintree_branch_stops).id == "place-brntn"
       # List template
       assert conn.assigns.stop_list_template == "_stop_list_red.html"
 
@@ -63,6 +60,29 @@ defmodule Site.RouteControllerTest do
 
       # spider map
       assert conn.assigns.map_img_src =~ "subway-spider"
+    end
+
+    test "Red line initally has no Braintree or Ashmont data besides termini", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Red")
+      assert conn.status == 200
+
+      assert List.first(conn.assigns.braintree_branch_stops).id == "place-brntn"
+      assert List.first(conn.assigns.ashmont_branch_stops).id == "place-asmnl"
+    end
+
+    test "Red line has braintree and ashmont stops when indicated in query params", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Red", expanded: "braintree")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.braintree_branch_stops, & &1.id)
+      assert List.first(stop_ids) == "place-nqncy"
+      assert List.last(stop_ids) == "place-brntn"
+      assert Enum.count(conn.assigns.ashmont_branch_stops) == 1
+
+      conn = get conn, route_path(conn, :show, "Red", expanded: "ashmont")
+      stop_ids = Enum.map(conn.assigns.ashmont_branch_stops, & &1.id)
+      assert List.first(stop_ids) == "place-shmnl"
+      assert List.last(stop_ids) == "place-asmnl"
+      assert Enum.count(conn.assigns.braintree_branch_stops) == 1
     end
 
     test "Green Line data", %{conn: conn} do
