@@ -1,13 +1,6 @@
 defmodule Site.ScheduleV2Controller.Green do
   use Site.Web, :controller
 
-  @route %Routes.Route{
-    id: "Green",
-    name: "Green Line",
-    direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-    type: 0
-  }
-
   plug :route
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
@@ -33,7 +26,7 @@ defmodule Site.ScheduleV2Controller.Green do
   end
 
   def route(conn, _params) do
-    assign(conn, :route, @route)
+    assign(conn, :route, GreenLine.green_line())
   end
 
   def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id}} = conn, _opts) do
