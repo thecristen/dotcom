@@ -112,7 +112,7 @@ describe('selectModal', () => {
       $('body').append('<div id=test />');
       $('#test').html(`
 <label for='sel'>Label</label>
-<select id='sel'></select>
+<select id='sel' data-label="Label"></select>
 `);
     });
 
