@@ -39,6 +39,12 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: false}
     end
 
+    test "Does not initially show all trips for Ferry" do
+      conn = setup_conn(%Route{id: "Boat-F4", type: 4, name: "Boaty McBoatface"}, [], [], @date_time, @cal_date, nil, nil)
+
+      assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: false}
+    end
+
     test "filters out schedules in the past by default, leaving the last entry before now" do
       now = ~N[2017-02-11T12:00:00]
 
