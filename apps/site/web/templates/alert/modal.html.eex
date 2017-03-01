@@ -15,12 +15,6 @@
       <%= if @alerts == [] do %>
         <li class="alert-list-item">
           There are currently no service alerts affecting the <%= @route.name %> today.
-          <%= if @upcoming_alert_count do %>
-            However, there <%= case @upcoming_alert_count do %>
-            <%= 1 -> %>is 1 upcoming alert.
-            <%= more -> %>are <%= more %> upcoming alerts.
-            <% end %>
-          <% end %>
         </li>
       <% end %>
       <%= if !assigns[:hide_t_alerts] do %>
