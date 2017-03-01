@@ -43,21 +43,21 @@
 @include media-breakpoint-up(sm) {
   .modal-dialog {
     max-width: $modal-md;
-    padding: 0 .5rem;
+    padding: 0 ($base-spacing * .5);
   }
 }
 
 .select-modal-label {
   font-weight: bold;
   margin-bottom: 0;
-  padding: .75rem 0;
+  padding: ($base-spacing * .75) 0;
 }
 
 .select-modal-search {
-  padding-bottom: .75rem;
+  padding-bottom: $base-spacing * .75;
 
   .form-control {
-    margin-bottom: 1rem;
+    margin-bottom: $base-spacing;
   }
 }
 
@@ -84,13 +84,13 @@
 }
 
 .select-modal-options > .select-modal-option:first-child {
-  padding-top: .75rem;
+  padding-top: $base-spacing * .75;
 }
 
 .btn-select-modal {
   //scss-lint:disable PlaceholderInExtend
   @extend .btn;
   @extend .btn-link;
-  margin-top: -.5rem;
+  margin-top: ($base-spacing * .5) * -1;
   padding: 0;
 }
