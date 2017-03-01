@@ -111,7 +111,18 @@ $z-index-calendar-cover: 3;
 
 .trip-list-v2-row-2-col {
   @extend %table-row;
-  @extend %two-equal-columns;
+
+  > div {
+    @include make-col();
+
+    &:first-child {
+      @include make-col-span(4);
+    }
+
+    &:last-child {
+      @include make-col-span(8);
+    }
+  }
 }
 
 .trip-list-v2-row-selected {

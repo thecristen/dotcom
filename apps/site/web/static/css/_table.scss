@@ -59,28 +59,6 @@
 $vertical-padding: $base-spacing-sm;
 $horizontal-padding: $grid-gutter-width / 2;
 
-%two-equal-columns {
-  // When a parent element uses `@extend %two-equal-columns`, its first and last div or span elements are styled
-  // as columns and are given 50% width. This placeholder is opinionated and assumes that the parent element has only
-  // two children that are intended to be rendered inside of the DOM flow, and that they are both of the same type.
-  // Any other child elements are set to position: absolute, and therefore may cause unintended rendering errors
-  // if not used with caution.
-  position: relative;
-
-  > div:first-of-type,
-  > div:last-of-type,
-  > span:first-of-type,
-  > span:last-of-type {
-    display: inline-block;
-    width: grid-width(6);
-  }
-
-  > div:not(div:first-of-type, div:last-of-type),
-  > span:not(span:first-of-type, span:last-of-type) {
-    position: absolute;
-  }
-}
-
 %unpadded-table-row {
   @include clearfix();
 
