@@ -1,7 +1,35 @@
-<div class="schedule-filter-row">
-  <%= render "_date_filter.html", forward_assigns(@conn) %>
-  <%= render "_direction_filter.html", forward_assigns(@conn) %>
+<div class="row page-section trip-filters">
+  <div class="date-filter col-xs-12 col-sm-6 col-md-4">
+    <div class="filter-label">Schedules for:</div>
+    <%= link to: update_schedule_url(@conn, shift: nil, date_select: !@show_date_select? || nil), class: "filter-button" do %>
+      <div class="filter-text">
+        <div class="inner-label">Date:</div>
+        <div><%= Timex.format!(@date, "{Mfull} {D}, {YYYY}") %></div>
+      </div>
+      <div class="filter-icon">
+        <div class="filter-icon-border"><%= fa "calendar" %></div>
+      </div>
+    <% end %>
+  </div>
+  <% headsigns = @headsigns[@direction_id] |> Enum.map(&break_text_at_slash/1) |> Enum.join(" • ") %>
+  <%= content_tag :div, class: "direction-filter col-xs-12 col-sm-6 col-md-#{if String.length(headsigns) > 20, do: "8", else: "4"}" do %>
+    <div class="filter-label">Direction of your trip:</div>
+    <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, 1 - @direction_id)), class: "filter-button" do %>
+      <div class="filter-text">
+        <div class="inner-label"><%= direction(@direction_id, @route) %></div>
+        <div>
+          <%= fa "arrow-right" %>
+          <%= headsigns %>
+        </div>
+      </div>
+      <div class="filter-icon">
+        <div class="filter-icon-border"><%= fa "exchange" %></div>
+      </div>
+    <% end %>
+  <% end %>
 </div>
 <%= if @show_date_select? do %>
-  <%= Site.ScheduleV2View.render "_date_picker.html", conn: @conn, calendar: @calendar %>
+  <div class="row page-section">
+    <%= Site.ScheduleV2View.render "_date_picker.html", conn: @conn, calendar: @calendar %>
+  </div>
 <% end %>
