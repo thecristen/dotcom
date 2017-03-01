@@ -229,7 +229,6 @@ $z-index-vehicle-position: 2;
 
 .stop-info-column {
   min-width: 8rem;
-  white-space: nowrap;
 }
 
 @include vehicle-location-mode-color(".commuter-rail", $brand-commuter-rail);
