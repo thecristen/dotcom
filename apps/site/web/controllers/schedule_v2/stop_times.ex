@@ -69,7 +69,9 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     end
   end
 
-  defp filter_flag_for_today(2, false), do: :last_trip_and_upcoming
+  defp filter_flag_for_today(route_type, false) when route_type in [2, 4] do
+    :last_trip_and_upcoming
+  end
   defp filter_flag_for_today(3, false), do: :predictions_then_schedules
   defp filter_flag_for_today(_route_type, _show_all), do: :keep_all
 end
