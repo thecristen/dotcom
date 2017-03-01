@@ -50,6 +50,13 @@ defmodule PredictedSchedule do
   def route(%{prediction: %Prediction{route: route}}), do: route
 
   @doc """
+  Returns the trip for a given PredictedSchedule.
+  """
+  @spec trip(PredictedSchedule.t) :: Trips.Trip.t
+  def trip(%{schedule: %Schedule{trip: trip}}), do: trip
+  def trip(%{prediction: %Prediction{trip: trip}}), do: trip
+
+  @doc """
   Determines if the given PredictedSchedule has a schedule
   """
   @spec has_schedule?(PredictedSchedule.t) :: boolean
@@ -98,17 +105,6 @@ defmodule PredictedSchedule do
       nil -> map_optional(predicted_schedule, rest, default, func)
       prediction -> func.(prediction)
     end
-  end
-
-  @doc """
-  Returns the trip_id associated with this Predicted Schedule.
-  Returns nil if there is no schedule or prediction, or if the trip ID is nil.
-  """
-  @spec trip_id(PredictedSchedule.t) :: String.t | nil
-  def trip_id(%PredictedSchedule{} = predicted_schedule) do
-    map_optional(predicted_schedule, [:schedule, :prediction], nil, fn x ->
-      Util.safe_id(x.trip)
-    end)
   end
 
   @spec is_schedule_after?(PredictedSchedule.t, DateTime.t) :: boolean
