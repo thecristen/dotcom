@@ -28,8 +28,11 @@ defmodule Site.ScheduleV2Controller.PreSelect do
 
   defp do_pre_select_stop(conn, excluded_ids, key) do
     id_map = Map.new(conn.assigns.all_stops, fn(stop) -> {stop.id, stop} end)
+    preselected_key = :"preselected_#{key}?"
     case Map.keys(id_map) -- excluded_ids do
-      [stop_id] -> assign(conn, key, id_map[stop_id])
+      [stop_id] -> conn
+      |> assign(key, id_map[stop_id])
+      |> assign(preselected_key, true)
       _ -> conn
     end
   end

@@ -30,7 +30,7 @@
             route: @route,
           disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))],
           # filter out non-destination stops because they're on a different branch
-          clearable?: true
+          clearable?: !assigns[:preselected_destination?]
         %>
       </div>
     <% end %>

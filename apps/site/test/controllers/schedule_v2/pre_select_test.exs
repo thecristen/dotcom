@@ -32,6 +32,7 @@ defmodule Site.ScheduleV2Controller.PreSelectTest do
              |> PreSelect.call([])
 
       assert conn.assigns.destination.id == "stop 2"
+      assert conn.assigns[:preselected_destination?]
     end
 
     test "Does not preselect if more options are available", %{conn: conn} do
@@ -45,6 +46,7 @@ defmodule Site.ScheduleV2Controller.PreSelectTest do
 
       refute conn.assigns.origin
       refute conn.assigns.destination
+      refute conn.assigns[:preselected_destination?]
     end
 
     test "Does not preselect if origin or destination are already selected", %{conn: conn} do
@@ -58,6 +60,7 @@ defmodule Site.ScheduleV2Controller.PreSelectTest do
 
       assert conn.assigns.origin.id == "stop 1"
       assert conn.assigns.destination.id == "stop 3"
+      refute conn.assigns[:preselected_destination?]
     end
   end
 end
