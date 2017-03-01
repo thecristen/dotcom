@@ -4,5 +4,8 @@
     <%= for icon <- @stop_features[stop.id] do %>
       <%= svg_icon_with_circle(%SvgIconWithCircle{icon: icon}) %>
     <% end %>
+    <%= if assigns[:zones] && @zones[stop.name] do %>
+      <span class="pull-right">Zone <%= @zones[stop.name] %>
+    <%= end %>
   </div>
 <% end %>

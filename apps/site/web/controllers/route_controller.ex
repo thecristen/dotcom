@@ -1,6 +1,5 @@
 defmodule Site.RouteController do
   use Site.Web, :controller
-
   alias Stops.Stop
 
   plug Site.Plugs.Route
@@ -34,17 +33,24 @@ defmodule Site.RouteController do
     |> render(Site.ErrorView, "404.html", [])
     |> halt
   end
-  def show(conn, %{"route" => route_id}) do
+  def show(conn, %{"route" => "CR-"<>_ = route_id}) do
     stops = Stops.Repo.by_route(route_id, 1)
-    |> Enum.map(fn stop ->
-      %Stop{stop |
-        zone: Zones.Repo.get(stop.name)}
-    end)
 
-    stop_list_template = if (String.starts_with? route_id, "CR-"), do: "_stop_list_cr.html", else: "_stop_list.html"
+    zones = Enum.reduce stops, %{}, fn stop, acc ->
+      Map.put(acc, stop.name, Zones.Repo.get(stop.name))
+    end
 
     render conn, "show.html",
-      stop_list_template: stop_list_template,
+      stop_list_template: "_stop_list.html",
+      stops: stops,
+      stop_features: stop_features(stops, conn.assigns.route),
+      map_img_src: map_img_src(stops, conn.assigns.route.type),
+      zones: zones
+  end
+  def show(conn, %{"route" => route_id}) do
+    stops = Stops.Repo.by_route(route_id, 1)
+    render conn, "show.html",
+      stop_list_template: "_stop_list.html",
       stops: stops,
       stop_features: stop_features(stops, conn.assigns.route),
       map_img_src: map_img_src(stops, conn.assigns.route.type)
