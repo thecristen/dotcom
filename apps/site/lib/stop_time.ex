@@ -76,37 +76,59 @@ defmodule StopTime do
   end
   def departure_schedule_after?(%StopTime{}), do: false
 
+  @doc """
+
+  Compares two StopTimes and returns true if the first one (left) is before the second (right).
+
+  * If both have departure times, compares those
+  * If both have arrival times, compares those
+  * If neither have times, compares the status text fields
+
+  """
+  @spec before?(t, t) :: boolean
   def before?(left, right) do
     left_departure_time = StopTime.departure_time(left)
     right_departure_time = StopTime.departure_time(right)
-    left_arrival_time = StopTime.arrival_time(left)
-    right_arrival_time = StopTime.arrival_time(right)
 
-    cmp_departure =
-      if is_nil(left_departure_time) or is_nil(right_departure_time) do
-          0
-      else
-        Timex.compare(left_departure_time, right_departure_time)
-      end
+    cmp_departure = safe_time_compare(left_departure_time, right_departure_time)
 
     cond do
       cmp_departure == -1 ->
         true
       cmp_departure == 1 ->
         false
-      is_nil(left_arrival_time) && is_nil(right_arrival_time) ->
-        # both are nil, sort the statuses
-        status_before?(left, right)
-      is_nil(left_arrival_time) ->
-        true
-      is_nil(right_arrival_time) ->
-        false
       true ->
-        !Timex.after?(left_arrival_time, right_arrival_time)
+        arrival_before?(left, right)
     end
   end
 
-  defp status_before?(left, right) do
+  defp safe_time_compare(left, right) when is_nil(left) or is_nil(right) do
+    0
+  end
+  defp safe_time_compare(left, right) do
+    Timex.compare(left, right)
+  end
+
+  defp arrival_before?(left, right) do
+    left_arrival_time = StopTime.arrival_time(left)
+    right_arrival_time = StopTime.arrival_time(right)
+
+    cmp_arrival = safe_time_compare(left_arrival_time, right_arrival_time)
+
+    cond do
+      is_nil(left_arrival_time) && is_nil(right_arrival_time) ->
+        # both are nil, sort the statuses (if we have predictions)
+        prediction_before?(left, right)
+      cmp_arrival == -1 ->
+        true
+      cmp_arrival == 1 ->
+        false
+      true ->
+        is_nil(left_arrival_time)
+    end
+  end
+
+  defp prediction_before?(left, right) do
     left_prediction = prediction(left)
     right_prediction = prediction(right)
 
@@ -116,8 +138,31 @@ defmodule StopTime do
       is_nil(right_prediction) ->
         false
       true ->
-        left_prediction.status <= right_prediction.status
+        status_before?(left_prediction.status, right_prediction.status)
     end
+  end
+
+  defp status_before?(left, right) when is_binary(left) and is_binary(right) do
+    case {Integer.parse(left), Integer.parse(right)} do
+      {{left_int, _}, {right_int, _}} ->
+        # both stops away, the lower one is before: "1 stop away" <= "2 stops away"
+        left_int <= right_int
+      {{_left_int, _}, _} ->
+        # right int isn't stops away, so it's before: "1 stop away" >= "Boarding"
+        false
+      {_, {_right_int, _}} ->
+        # left int isn't stops away, so it's before: "Boarding" <= "1 stop away"
+        true
+      _ ->
+        # fallback: sort them in reverse order: "Boarding" <= "Approaching"
+        left >= right
+    end
+  end
+  defp status_before?(nil, _) do
+    false
+  end
+  defp status_before?(_, nil) do
+    true
   end
 
   @doc """
