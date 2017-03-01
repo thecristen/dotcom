@@ -6,7 +6,7 @@
     <%= clear_selector_link(assigns) %>
     <br>
     <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
-    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-no-conversion data-label="<%= @label_text %>">
+    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-no-conversion>
       <%= if !selected do %><option disabled selected value="">Select <%= @placeholder_text %></option><% end %>
       <%= for stop <- @key_stops do %>
         <option value="<%= stop.id %>" data-key-option="true"

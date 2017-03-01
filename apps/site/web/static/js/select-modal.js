@@ -153,7 +153,7 @@ export function dataFromSelect($el, $) {
 
 export function optionsFromSelect($el, $) {
   return {
-    label: $el.attr('data-label')
+    label: $(`label[for=${$el.attr('id')}]`).html()
   };
 }
 
