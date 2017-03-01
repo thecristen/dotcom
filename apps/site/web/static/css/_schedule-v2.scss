@@ -505,10 +505,10 @@ $z-index-calendar-cover: 3;
     margin-left: 2.5rem; // bubble
     margin-right: $base-spacing-lg; // left scroll warning
   }
-}
 
-.schedule-v2-timetable-name > i {
-  display: inline;
+  > i {
+    display: inline;
+  }
 }
 
 .schedule-v2-timetable-time-col {
