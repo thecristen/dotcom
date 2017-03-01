@@ -75,7 +75,7 @@ defmodule TripInfo do
   def is_current_trip?(nil, _), do: false
   def is_current_trip?(%TripInfo{sections: []}, _), do: false
   def is_current_trip?(%TripInfo{sections: [[predicted_schedule | _] | _]}, trip_id) do
-    PredictedSchedule.trip_id(predicted_schedule) == trip_id
+    PredictedSchedule.trip(predicted_schedule).id == trip_id
   end
 
   # finds a stop ID.  If one isn't provided, or is provided as nil, then
