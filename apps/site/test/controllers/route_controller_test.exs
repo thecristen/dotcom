@@ -106,6 +106,35 @@ defmodule Site.RouteControllerTest do
       # spider map
       assert conn.assigns.map_img_src =~ "subway-spider"
     end
+
+    test "Green line does not show branched route data", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Green")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+
+      refute "place-kntst" in stop_ids # Green-C
+      refute "place-symcl" in stop_ids # Green-E
+    end
+
+    test "Green line terminals shown if branch not expanded", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Green")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+
+      assert "place-lake" in stop_ids
+      assert "place-clmnl" in stop_ids
+      assert "place-hsmnl" in stop_ids
+    end
+
+    test "Green line shows individual branch when expanded", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Green", expanded: "Green-E")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+
+      assert "place-symcl" in stop_ids
+      assert "place-nuniv" in stop_ids
+      refute "place-kntst" in stop_ids # Green-C
+    end
   end
 
   describe "hours_of_operation/2" do
