@@ -1,6 +1,5 @@
 defmodule Site.RouteController do
   use Site.Web, :controller
-  alias Stops.Stop
 
   plug Site.Plugs.Route
   plug Site.Plugs.Date

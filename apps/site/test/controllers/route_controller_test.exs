@@ -15,13 +15,13 @@ defmodule Site.RouteControllerTest do
       assert conn.status == 200
 
       # stops have zones
-      assert List.first(conn.assigns.stops).zone == "6"
+      assert conn.assigns.zones["Lowell"] == "6"
 
       # stops are in inbound order
       assert List.first(conn.assigns.stops).id == "Lowell"
       assert List.last(conn.assigns.stops).id == "place-north"
       # Stop list
-      assert conn.assigns.stop_list_template == "_stop_list_cr.html"
+      assert conn.assigns.stop_list_template == "_stop_list.html"
 
       # includes the stop features
       assert %{} = conn.assigns.stop_features
