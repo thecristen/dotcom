@@ -647,32 +647,6 @@ defmodule StopTimeListTest do
         ]}
     end
 
-    test "handles predictions not associated with a trip given an origin and destination" do
-      prediction = %Prediction{
-        time: Util.now,
-        route: @route,
-        stop: %Stop{id: "stop1"},
-        trip: %Trip{id: "trip1"}
-      }
-      arrival_prediction = %{prediction | stop: %Stop{id: "stop3"}}
-      predictions = [prediction, arrival_prediction]
-      result = build_predictions_only(predictions, "stop1", "stop3")
-      assert result == %StopTimeList{
-        showing_all?: true,
-        times: [
-          %StopTime{
-            trip: nil,
-            departure: %PredictedSchedule{
-              schedule: nil,
-              prediction: prediction
-            },
-            arrival: %PredictedSchedule{
-              schedule: nil,
-              prediction: arrival_prediction},
-            trip: %Trip{id: "trip1"}}
-        ]}
-    end
-
     test "handles predictions not associated with a trip on different routes" do
       stop = %Stop{id: "stop1"}
       prediction = %Prediction{
