@@ -498,22 +498,16 @@ $z-index-calendar-cover: 3;
   text-align: left;
 }
 
-.schedule-v2-icon-nowrap > a {
-  float: left;
-  padding-right: 1.2rem;
-}
-
-.schedule-v2-icon-nowrap > svg {
-  float: left;
-  margin-left: -$space-16;
-}
-
 .schedule-v2-timetable-name {
   margin-right: $base-spacing-sm; // left scroll warning
 
   @include media-breakpoint-up(md) {
     margin-left: 2.5rem; // bubble
     margin-right: $base-spacing-lg; // left scroll warning
+  }
+
+  > i {
+    display: inline;
   }
 }
 
