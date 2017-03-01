@@ -76,6 +76,7 @@ $credit-height: $base-spacing * 4;
 
 .footer-link-list-item {
   float: left;
+  font-weight: bold;
   list-style: none;
   text-align: left;
   width: 25%;
@@ -89,6 +90,10 @@ $credit-height: $base-spacing * 4;
     content: '●';
     margin: 0 .25em;
   }
+
+  a {
+    color: $brand-primary-light;
+  }
 }
 
 .footer-link-sublist-item {
@@ -96,6 +101,7 @@ $credit-height: $base-spacing * 4;
 
   > a {
     color: $brand-primary-light;
+    font-weight: normal;
   }
 }
 

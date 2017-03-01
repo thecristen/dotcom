@@ -60,7 +60,7 @@ defmodule Site.AlertView do
     name
   end
   def effect_name(%{effect_name: name, lifecycle: lifecycle}) do
-    [name, "(", lifecycle, ")"]
+    [name, " (", lifecycle, ")"]
   end
 
   def alert_updated(alert, relative_to) do
