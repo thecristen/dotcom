@@ -23,6 +23,6 @@
         </div>
       <% end %>
     </div>
-    <%= render "_holidays.html" %>
+    <%= render "_holidays.html", assigns %>
   </div>
 </div>

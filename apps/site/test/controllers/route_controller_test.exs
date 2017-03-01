@@ -135,6 +135,12 @@ defmodule Site.RouteControllerTest do
       assert "place-nuniv" in stop_ids
       refute "place-kntst" in stop_ids # Green-C
     end
+
+    test "assigns 3 holidays", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "CR-Fitchburg")
+
+      assert Enum.count(conn.assigns.holidays) == 3
+    end
   end
 
   describe "hours_of_operation/2" do
@@ -178,6 +184,12 @@ defmodule Site.RouteControllerTest do
 
       assert conn.assigns.hours_of_operation[:week][0].first_departure.hour == 6
       assert conn.assigns.hours_of_operation[:week][0].last_departure.hour == 23
+    end
+  end
+
+  describe "next_3_holidays/0" do
+    test "gets 3 results" do
+      assert Enum.count(Site.RouteController.next_3_holidays()) == 3
     end
   end
 end
