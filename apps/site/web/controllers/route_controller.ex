@@ -41,7 +41,7 @@ defmodule Site.RouteController do
     stops = Stops.Repo.by_route(route_id, 1)
 
     zones = Enum.reduce stops, %{}, fn stop, acc ->
-      Map.put(acc, stop.name, Zones.Repo.get(stop.name))
+      Map.put(acc, stop.id, Zones.Repo.get(stop.id))
     end
 
     render conn, "show.html",
