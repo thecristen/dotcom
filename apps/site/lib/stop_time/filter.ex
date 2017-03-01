@@ -8,7 +8,7 @@ defmodule StopTime.Filter do
   # filter the stop times based on the filter_flag
   # Currently, the following options are supported:
   # * :keep_all -- do not do any filtering (for example, when user selected 'Show all trips')
-  # * :last_trip_and_upcoming -- only leave upcoming trips and one before (used for Commuter Rail)
+  # * :last_trip_and_upcoming -- only leave upcoming trips and one before (used for Commuter Rail and Ferry)
   # * :predictions_then_schedules -- remove all scheduled trips before predictions.
   #                                  That is, make sure the list starts with predictions, followed by schedules
   #
