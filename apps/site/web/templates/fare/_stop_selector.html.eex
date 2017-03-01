@@ -4,7 +4,7 @@
   <div>
     <label class="select-modal-label" for="<%= @query_key %>"><%= @label_text %><%= render Site.ScheduleView, "_loading.html" %></label><br>
     <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
-    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-no-conversion>
+    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-no-conversion data-label="<%= @label_text %>:">
       <%= if !selected do %><option disabled selected value="">Select a stop</option><% end %>
       <%= for stop <- @key_stops do %>
         <option value="<%= stop.id %>" data-key-option="true"

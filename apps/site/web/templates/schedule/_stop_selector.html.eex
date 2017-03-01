@@ -5,7 +5,7 @@
   <div>
     <label class="select-modal-label"  for="<%= @query_key %>"><%= @label_text %><%= render "_loading.html" %></label><br class="hidden-lg-up">
     <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
-    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal>
+    <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-label="<%= @label_text %>">
       <%= if assigns[:include_empty?] && !selected do %><option value="">Select a stop</option><% end %>
       <%= for stop <- @all_stops do %>
         <% stop_id = stop.id %>
