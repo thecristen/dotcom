@@ -1,0 +1,113 @@
+<header class="header">
+  <div class="container">
+    <div class="header-navbar row">
+      <a class="col-xs-9 col-sm-10 col-md-4 navbar-logo" href="/">
+        <span class="sr-only">MBTA Home Page</span>
+        <div class="svg-container" aria-hidden="true">
+          <%= svg "logo-beta.svg" %>
+        </div>
+      </a>
+      <button class="navbar-toggle collapsed toggle-up-down col-xs-3  col-sm-2 hidden-md-up" aria-expanded="false"  type="button" data-toggle="collapse" data-target="#navbar">
+        Menu
+        <%= fa "angle-down", class: "down" %>
+        <%= fa "angle-up", class: "up" %>
+      </button>
+      <nav class="desktop-menu-nav col-md-8 hidden-sm-down">
+        <ul class="nav row">
+          <li class="nav-item col-md-5">
+            <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#gettingAround" aria-expanded="false" aria-controls="gettingAround" href="<%= static_page_path(@conn, :getting_around) %>">
+              Getting Around
+              <%= fa "angle-down", class: "down" %>
+              <%= fa "angle-up", class: "up" %>
+            </a>
+          </li>
+          <li class="nav-item col-md-2">
+            <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#faresDrawer" aria-expanded="false" aria-controls="faresDrawer" href="<%= fare_path(@conn, :index) %>">
+              Fares
+              <%= fa "angle-down", class: "down" %>
+              <%= fa "angle-up", class: "up" %>
+            </a>
+          </li>
+          <li class="nav-item col-md-3">
+            <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#contactUs" aria-expanded="false" aria-controls="contactUs" href="<%= customer_support_path(@conn, :index) %>">
+              Contact Us
+              <%= fa "angle-down", class: "down" %>
+              <%= fa "angle-up", class: "up" %>
+            </a>
+          </li>
+          <li class="nav-item col-md-2">
+            <a class="nav-link desktop-nav-link collapsed toggle-up-down" data-toggle="collapse" data-parent="#desktop-menu" data-target="#more" aria-expanded="false" aria-controls="more" href="<%= static_page_path(@conn, :about) %>">
+              More
+              <%= fa "angle-down", class: "down" %>
+              <%= fa "angle-up", class: "up" %>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <nav class="collapse navbar row" id="navbar" role="navigation">
+      <ul class="mobile-nav">
+        <li class="mobile-nav-item">
+          <% home_link = page_path(@conn, :index) %>
+          <a class="mobile-nav-link" href="<%= home_link %>">
+            <%= bold_if_active @conn, home_link, "Home" %>
+            <p class="mobile-nav-description">Home</p>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <% getting_around_link = static_page_path(@conn, :getting_around) %>
+          <a class="mobile-nav-link" href="<%= getting_around_link %>">
+            <%= bold_if_active @conn, getting_around_link, "Getting Around" %>
+            <p class="mobile-nav-description">Transit Services, Plan Your Trip, Riding...</p>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <% fares_link = fare_path(@conn, :index) %>
+          <a class="mobile-nav-link" href="<%= fares_link %>">
+            <%= bold_if_active @conn, fares_link, "Fares" %>
+            <p class="mobile-nav-description">Fares By Mode, Reduced Fares, Passes...</p>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <% contact_us_link = customer_support_path(@conn, :index) %>
+          <a class="mobile-nav-link" href="<%= contact_us_link %>">
+            <%= bold_if_active @conn, contact_us_link, "Contact Us" %>
+            <p class="mobile-nav-description">Phone And Online Support, T-Alerts</p>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <% more_link = static_page_path(@conn, :about) %>
+          <a class="mobile-nav-link" href="<%= more_link %>">
+            <%= bold_if_active @conn, more_link, "More" %>
+            <p class="mobile-nav-description">About Us, Business Center, Projects...</p>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <%= link to: "http://mobile.usablenet.com/mt/www.mbta.com", class: "mobile-nav-link old-site-mobile-link" do %>
+            Go to old mbta.com site <%= fa "arrow-right" %>
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <%= render "_desktop_header.html", conn: @conn %>
+  <%= if @conn.assigns[:breadcrumbs] do %>
+    <div class="breadcrumb-container">
+      <div class="container">
+        <% breadcrumb_length = length @breadcrumbs %>
+        <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
+
+        <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
+        <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
+
+        <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
+          <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
+            <a href="<%= link %>"><%= text %></a>
+            <%= fa "angle-right" %>
+          </span>
+        <% end %>
+        <%= last_text %>
+      </div>
+    </div>
+  <% end %>
+</header>
