@@ -1,0 +1,57 @@
+.route-stop-list {
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $base-spacing;
+  }
+
+  &:not(.green-line) {
+    .route-stop-name-icons {
+      @extend %stop-name-and-time-column;
+    }
+  }
+
+  &.green-line {
+    .stop-bubbles,
+    .route-stop-name-icons {
+      float: left;
+      width: 50%;
+    }
+
+    .route-icons {
+      height: $icon-size;
+    }
+  }
+}
+
+.route-stop {
+  @extend %trip-stop;
+  border: 0;
+
+  &:first-child {
+    .vehicle-location::before {
+      height: 100%;
+      top: 0;
+    }
+  }
+
+  &:last-child {
+    .vehicle-location::before {
+      display: none;
+    }
+  }
+
+  .vehicle-location {
+    &.start::before {
+      height: 100%;
+      top: 0;
+    }
+
+    &.empty::before,
+    &.end::before {
+      display: none;
+    }
+  }
+}
+
+.branch-link {
+  @extend %stop-name-and-time-column;
+}

@@ -4,11 +4,16 @@ defmodule Site.RouteViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "route_row/3" do
-    test "returns route name with featured icons", %{conn: conn} do
-      row = route_row(conn, [:bus, :subway], %Stops.Stop{id: "stop", name: "Stop Name"})
-      assert safe_to_string(row) =~ "Stop Name"
-      assert safe_to_string(row) =~ "bus"
-      assert safe_to_string(row) =~ "subway"
+    test "returns route name with bubble and featured icons", %{conn: conn} do
+      row =
+        conn
+        |> assign(:route, %Routes.Route{id: "Red", name: "Red Line"})
+        |> route_row(%Stops.Stop{id: "stop", name: "Stop Name"}, [:bus, :subway], false)
+        |> safe_to_string
+      assert row =~ "Stop Name"
+      assert row =~ "trip-bubble"
+      assert row =~ "bus"
+      assert row =~ "subway"
     end
   end
 end
