@@ -31,6 +31,17 @@ defmodule StopTime do
   @spec has_prediction?(StopTime.t) :: boolean
   def has_prediction?(stop_time), do: has_departure_prediction?(stop_time) or has_arrival_prediction?(stop_time)
 
+  @spec prediction(StopTime.t) :: Prediction.t | nil
+  def prediction(stop_time) do
+    cond do
+      has_departure_prediction?(stop_time) ->
+        stop_time.departure.prediction
+      has_arrival_prediction?(stop_time) ->
+        stop_time.arrival.prediction
+      true ->
+        nil
+    end
+  end
 
   @spec time(t) :: DateTime.t | nil
   def time(stop_time), do: departure_time(stop_time)
@@ -72,7 +83,7 @@ defmodule StopTime do
     right_arrival_time = StopTime.arrival_time(right)
 
     cmp_departure =
-      if (is_nil(left_departure_time) or is_nil(right_departure_time)) do
+      if is_nil(left_departure_time) or is_nil(right_departure_time) do
           0
       else
         Timex.compare(left_departure_time, right_departure_time)
@@ -83,12 +94,29 @@ defmodule StopTime do
         true
       cmp_departure == 1 ->
         false
+      is_nil(left_arrival_time) && is_nil(right_arrival_time) ->
+        # both are nil, sort the statuses
+        status_before?(left, right)
       is_nil(left_arrival_time) ->
         true
       is_nil(right_arrival_time) ->
         false
       true ->
         !Timex.after?(left_arrival_time, right_arrival_time)
+    end
+  end
+
+  defp status_before?(left, right) do
+    left_prediction = prediction(left)
+    right_prediction = prediction(right)
+
+    cond do
+      is_nil(left_prediction) ->
+        true
+      is_nil(right_prediction) ->
+        false
+      true ->
+        left_prediction.status <= right_prediction.status
     end
   end
 

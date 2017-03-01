@@ -88,31 +88,36 @@ defmodule StopTimeList do
   end
 
   @spec build_stop_time(map_key_t, schedule_pair_map, PredictedSchedule.Group.prediction_map_t, stop_id, stop_id) :: StopTime.t
-  defp build_stop_time({trip, _} = key, schedule_map, prediction_map, origin_id, dest) do
+  defp build_stop_time(key, schedule_map, prediction_map, origin_id, dest) do
     departure_prediction = prediction_map[key][origin_id]
     arrival_prediction = prediction_map[key][dest]
     case Map.get(schedule_map, key) do
-      {departure, arrival} -> %StopTime{
-                              departure: %PredictedSchedule{schedule: departure, prediction: departure_prediction},
-                              arrival: %PredictedSchedule{schedule: arrival, prediction: arrival_prediction},
-                              trip: trip
-                          }
-      nil -> %StopTime{
-             departure: %PredictedSchedule{schedule: nil, prediction: departure_prediction},
-             arrival: %PredictedSchedule{schedule: nil, prediction: arrival_prediction},
-             trip: trip
-         }
+      {departure, arrival} ->
+        trip = first_trip([departure_prediction, departure, arrival_prediction, arrival])
+
+        %StopTime{
+          departure: %PredictedSchedule{schedule: departure, prediction: departure_prediction},
+          arrival: %PredictedSchedule{schedule: arrival, prediction: arrival_prediction},
+          trip: trip
+        }
+      nil ->
+        trip = first_trip([departure_prediction, arrival_prediction])
+        %StopTime{
+          departure: %PredictedSchedule{schedule: nil, prediction: departure_prediction},
+          arrival: %PredictedSchedule{schedule: nil, prediction: arrival_prediction},
+          trip: trip
+        }
     end
   end
 
   @spec predicted_departures(map_key_t, schedule_map, PredictedSchedule.Group.prediction_map_t, stop_id) :: StopTime.t
-  defp predicted_departures({trip, _} = key, schedule_map, prediction_map, origin_id) do
+  defp predicted_departures(key, schedule_map, prediction_map, origin_id) do
     departure_schedule = schedule_map[key][origin_id]
     departure_prediction = prediction_map[key][origin_id]
     %StopTime{
       departure: %PredictedSchedule{schedule: departure_schedule, prediction: departure_prediction},
       arrival: nil,
-      trip: trip
+      trip: first_trip([departure_prediction, departure_schedule])
     }
   end
 
@@ -125,14 +130,22 @@ defmodule StopTimeList do
 
   @spec build_schedule_pair_map({Schedule.t, Schedule.t}, schedule_pair_map) :: schedule_pair_map
   defp build_schedule_pair_map({departure, arrival}, schedule_pair_map) do
-    key = {departure.trip, departure.route}
+    key = departure.trip || departure.route
     Map.put(schedule_pair_map, key, {departure, arrival})
   end
 
   @spec build_schedule_map(Schedule.t, schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
-    key = {schedule.trip, schedule.route}
+    key = schedule.trip || schedule.route
     updater = fn(trip_map) -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
     Map.update(schedule_map, key, %{schedule.stop.id => schedule}, updater)
+  end
+
+  @spec first_trip([Schedule.t | Prediction.t | nil]) :: Trip.t | nil
+  defp first_trip(list_with_trips) do
+    list_with_trips
+    |> Enum.reject(&is_nil/1)
+    |> List.first
+    |> Map.get(:trip)
   end
 end

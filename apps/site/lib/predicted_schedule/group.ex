@@ -5,7 +5,7 @@ defmodule PredictedSchedule.Group do
 
   @type schedule_pair_t :: {Schedule.t, Schedule.t}
   @type stop_id_to_prediction_map_t :: %{Stops.Stop.id_t => Prediction.t}
-  @type map_key_t :: {Trip.t | nil, Routes.Route.t}
+  @type map_key_t :: Trip.t | Routes.Route.t
   @type prediction_map_entry_t :: {map_key_t, stop_id_to_prediction_map_t}
   @type prediction_map_t :: %{map_key_t => stop_id_to_prediction_map_t}
 
@@ -19,7 +19,7 @@ defmodule PredictedSchedule.Group do
 
   @spec prediction_map_builder(Prediction.t, prediction_map_t) :: prediction_map_t
   defp prediction_map_builder(prediction, prediction_map) do
-    key = {prediction.trip, prediction.route}
+    key = prediction.trip || prediction.route
     stop_id_prediction_map =
       prediction_map
       |> Map.get(key, %{})
@@ -48,7 +48,7 @@ defmodule PredictedSchedule.Group do
   end
 
   @spec prediction_map_entry_relevant?(prediction_map_entry_t, Stops.Stop.id_t, Stops.Stop.id_t, MapSet.t) :: boolean
-  defp prediction_map_entry_relevant?({{%Trip{id: trip_id}, _route}, stop_id_prediction_map}, origin_id, destination_id, schedule_trip_id_set) do
+  defp prediction_map_entry_relevant?({%Trip{id: trip_id}, stop_id_prediction_map}, origin_id, destination_id, schedule_trip_id_set) do
     (trip_id in schedule_trip_id_set) or Enum.all?([origin_id, destination_id], &Map.has_key?(stop_id_prediction_map, &1))
   end
   defp prediction_map_entry_relevant?({_, _stop_id_prediction_map}, _origin_id, _destination_id, _schedule_trip_id_set) do

@@ -342,6 +342,36 @@ defmodule StopTimeListTest do
       }
     end
 
+    test "matches predictions and schedules with the same trip/stop even if the route is different" do
+      prediction = %Prediction{
+        time: ~N[2017-01-01T09:05:00],
+        route: @route,
+        stop: %Stop{id: "stop1"},
+        trip: %Trip{id: "trip4"}
+      }
+      schedule = %Schedule{
+        time: ~N[2017-01-01T10:00:00],
+        route: %{@route | id: "different_route_id"},
+        stop: %Stop{id: "stop1"},
+        trip: %Trip{id: "trip4"}
+      }
+
+      result = build([schedule], [prediction], "stop1", nil, :predictions_then_schedules, @time)
+      assert result == %StopTimeList{
+        times: [
+          %StopTime{
+            arrival: nil,
+            departure: %PredictedSchedule{
+              schedule: schedule,
+              prediction: prediction
+            },
+            trip: %Trip{id: "trip4"}
+          }
+        ],
+        showing_all?: false
+      }
+    end
+
     test "only leaves upcoming trips and one previous" do
 
       # ------------------------------
@@ -651,12 +681,17 @@ defmodule StopTimeListTest do
       stop = %Stop{id: "stop1"}
       prediction = %Prediction{
         route: @route,
-        stop: stop}
+        stop: stop,
+        status: "2 stops away"}
       other_prediction = %Prediction{
         route: %Route{id: "other"},
-        stop: stop}
-      result = build_predictions_only([prediction, other_prediction], "stop1", nil)
-      assert [%StopTime{trip: nil}, %StopTime{trip: nil}] = result.times
+        stop: stop,
+        status: "1 stop away"}
+      result = build_predictions_only([prediction, other_prediction] |> Enum.shuffle, "stop1", nil)
+      assert [
+        %StopTime{trip: nil, departure: %PredictedSchedule{prediction: ^other_prediction}},
+        %StopTime{trip: nil, departure: %PredictedSchedule{prediction: ^prediction}}
+      ] = result.times
     end
 
     test "ignores predictions where arrival is before departure" do
