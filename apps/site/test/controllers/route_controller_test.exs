@@ -106,5 +106,78 @@ defmodule Site.RouteControllerTest do
       # spider map
       assert conn.assigns.map_img_src =~ "subway-spider"
     end
+
+    test "Green line does not show branched route data", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Green")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+
+      refute "place-kntst" in stop_ids # Green-C
+      refute "place-symcl" in stop_ids # Green-E
+    end
+
+    test "Green line terminals shown if branch not expanded", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Green")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+
+      assert "place-lake" in stop_ids
+      assert "place-clmnl" in stop_ids
+      assert "place-hsmnl" in stop_ids
+    end
+
+    test "Green line shows individual branch when expanded", %{conn: conn} do
+      conn = get conn, route_path(conn, :show, "Green", expanded: "Green-E")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+
+      assert "place-symcl" in stop_ids
+      assert "place-nuniv" in stop_ids
+      refute "place-kntst" in stop_ids # Green-C
+    end
+  end
+
+  describe "hours_of_operation/2" do
+    defp schedules_fn(opts) do
+      date_time = Timex.to_datetime(opts[:date])
+      [
+        %Schedules.Schedule{time: Timex.set(date_time, hour: 6), trip: %Schedules.Trip{direction_id: 0}},
+        %Schedules.Schedule{time: Timex.set(date_time, hour: 23), trip: %Schedules.Trip{direction_id: 0}},
+        %Schedules.Schedule{time: Timex.set(date_time, hour: 6), trip: %Schedules.Trip{direction_id: 1}},
+        %Schedules.Schedule{time: Timex.set(date_time, hour: 23), trip: %Schedules.Trip{direction_id: 1}},
+      ]
+    end
+
+    test "if route is nil, assigns nothing", %{conn: conn} do
+      conn = conn
+      |> assign(:route, nil)
+      |> assign(:date, ~D[2017-02-28])
+      |> Site.RouteController.hours_of_operation([])
+
+      refute Map.has_key?(conn.assigns, :hours_of_operation)
+    end
+
+    test "assigns week, saturday, and sunday departures in both directions", %{conn: conn} do
+      conn = %{conn | params: %{"route" => "Teal"}}
+      |> assign(:route, %Routes.Route{id: "Teal"})
+      |> assign(:date, ~D[2017-02-28]) # Tuesday
+      |> Site.RouteController.hours_of_operation(schedules_fn: &schedules_fn/1)
+
+      assert conn.assigns.hours_of_operation[:week][0].first_departure.hour == 6
+      assert conn.assigns.hours_of_operation[:week][0].last_departure.hour == 23
+      assert conn.assigns.hours_of_operation[:week][1].first_departure.day == 27 # Monday
+      assert conn.assigns.hours_of_operation[:sunday][1].first_departure.day == 26
+      assert conn.assigns.hours_of_operation[:saturday][1].first_departure.day == 25
+    end
+
+    test "uses schedules for each Green line branch", %{conn: conn} do
+      conn = %{conn | params: %{"route" => "Green"}}
+      |> assign(:route, nil)
+      |> assign(:date, ~D[2017-02-28])
+      |> Site.RouteController.hours_of_operation(schedules_fn: &schedules_fn/1)
+
+      assert conn.assigns.hours_of_operation[:week][0].first_departure.hour == 6
+      assert conn.assigns.hours_of_operation[:week][0].last_departure.hour == 23
+    end
   end
 end

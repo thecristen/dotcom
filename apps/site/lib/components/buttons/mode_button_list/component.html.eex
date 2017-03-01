@@ -1,5 +1,5 @@
 <%= Phoenix.HTML.Tag.content_tag :div, class: list_class(args) do %>
-  <%= button_group(%ButtonGroup{
+  <%= button_group(%Site.Components.Buttons.ButtonGroup{
     class: "#{args.class}",
     id: args.id,
     links: make_buttons(args),

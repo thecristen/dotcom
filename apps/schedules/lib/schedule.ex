@@ -54,17 +54,3 @@ defmodule Schedules.Frequency do
     true
   end
 end
-
-defmodule Schedules.FrequencyList do
-  defstruct [
-    frequencies: [],
-    first_departure: nil,
-    last_departure: nil
-  ]
-
-  @type t :: %Schedules.FrequencyList {
-    frequencies: [Schedules.Frequency.t],
-    first_departure: DateTime.t | nil,
-    last_departure: DateTime.t | nil
-  }
-end

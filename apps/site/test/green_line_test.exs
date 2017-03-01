@@ -45,4 +45,19 @@ defmodule GreenListTest do
       assert terminus?(stop_id, "Green-E")
     end
   end
+
+  describe "route_for_stops/1" do
+    @stops_on_routes %{
+      "Green-B" => ["shared_stop1", "shared_stop2", "b_stop1", "b_stop2"],
+      "Green-C" => ["shared_stop1", "shared_stop2", "c_stop1", "c_stop2"],
+    }
+
+    test "Returns a map of stop ids associated with the green line routes that stop at that stop" do
+      stop_map = routes_for_stops({nil, @stops_on_routes})
+      assert "Green-C" in stop_map["shared_stop1"] and "Green-B" in stop_map["shared_stop1"]
+      assert "Green-C" in stop_map["shared_stop2"] and "Green-B" in stop_map["shared_stop2"]
+      assert stop_map["b_stop2"] == ["Green-B"]
+      assert stop_map["c_stop1"] == ["Green-C"]
+    end
+  end
 end

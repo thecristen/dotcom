@@ -63,6 +63,34 @@ defmodule GreenLine do
     ~w(Green-B Green-C Green-D Green-E)s
   end
 
+  @doc """
+  The Green Line.
+  """
+  @spec green_line() :: Route.t
+  def green_line() do
+    %Routes.Route{
+      id: "Green",
+      name: "Green Line",
+      direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+      type: 0
+    }
+  end
+
+  @doc """
+  Creates a map %{stop_id => [route_id]}
+  where each stop_id key has a value of the Green line routes
+  that stops at that Stop
+  """
+  @spec routes_for_stops(stop_routes_pair) :: %{Stop.id_t => [Route.id_t]}
+  def routes_for_stops({_, route_sets}) do
+    Enum.reduce(route_sets, Map.new(), &do_routes_for_stops/2)
+  end
+
+  @spec do_routes_for_stops({Route.id_t, MapSet.t}, %{Stop.id_t => [Route.id_t]}) :: %{Stop.id_t => [Route.id_t]}
+  defp do_routes_for_stops({route_id, stop_set}, map) do
+    Enum.reduce(stop_set, map, fn(stop_id, acc_map) -> Map.update(acc_map, stop_id, [route_id], & [route_id | &1]) end)
+  end
+
   # Returns the stops that are on a given branch of the Green line,
   # along with the route ID.
   @spec green_line_stops(Route.id_t, 0 | 1) :: {Route.id_t, [Stop.t]}

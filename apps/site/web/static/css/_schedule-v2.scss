@@ -4,6 +4,7 @@
 
 $location-line-width: $space-4;
 $z-index-vehicle-position: 2;
+$z-index-calendar-cover: 3;
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -50,14 +51,22 @@ $z-index-vehicle-position: 2;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.filter-label {
-  font-weight: bold;
-  margin-bottom: $space-6;
-}
-
 .schedule-filter-row {
   @include clearfix();
   margin-bottom: $space-16;
+}
+
+.calendar-covered {
+  position: relative;
+}
+
+.calendar-cover {
+  background-color: $white;
+  height: 100%;
+  opacity: .7;
+  position: absolute;
+  width: 100%;
+  z-index: $z-index-calendar-cover;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -76,7 +85,6 @@ $z-index-vehicle-position: 2;
 
 .trip-list-v2-row {
   @extend %unpadded-table-row;
-  @extend %block-level-link;
   @include make-row();
   display: block;
 
@@ -229,7 +237,6 @@ $z-index-vehicle-position: 2;
 
 .stop-info-column {
   min-width: 8rem;
-  white-space: nowrap;
 }
 
 @include vehicle-location-mode-color(".commuter-rail", $brand-commuter-rail);
@@ -334,7 +341,79 @@ $z-index-vehicle-position: 2;
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-%schedule-filter-button-label {
+.trip-filters {
+  // We use flexbox to make the filter buttons display as same
+  // height when the headsign is long and text is forced to
+  // wrap. Button heights will simply be uneven equal on browsers
+  // that do not support flexbox (>1% of our visitors).
+
+  @include media-breakpoint-up(sm) {
+    align-items: stretch;
+    display: flex;
+  }
+}
+
+.date-filter,
+.direction-filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-button {
+  @extend %button-primary-outline;
+  @include clearfix();
+  border-radius: $border-radius;
+  display: block;
+  height: 100%;
+  position: relative;
+  text-align: left;
+  white-space: normal;
+
+  &:hover {
+    .filter-icon-border {
+      border-color: $white;
+    }
+  }
+}
+
+.filter-icon,
+.filter-text {
+  @include make-col();
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.filter-text {
+  float: left;
+  max-width: 80%;
+}
+
+.filter-icon {
+  align-items: center;
+  display: flex;
+  float: right;
+  height: 100%;
+}
+
+.filter-icon-border {
+  border: 1px solid $brand-primary;
+  border-radius: 50%;
+  height: 2rem;
+  margin-bottom: 25%;
+  margin-top: 25%;
+  text-align: center;
+  width: 2rem;
+
+  i {
+    height: 100%;
+    line-height: 2rem;
+    margin: -1px auto;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+.filter-label {
   font-weight: bold;
   margin-bottom: $space-6;
 
@@ -343,37 +422,15 @@ $z-index-vehicle-position: 2;
   }
 }
 
-%schedule-filter-button {
-  position: relative;
-
-  @include media-breakpoint-up(sm) {
-    float: left;
-    margin-right: $horizontal-padding;
-    width: 45%;
-  }
-
-  .filter-label {
-    @extend %schedule-filter-button-label;
-  }
-
-  .filter-button {
-    @extend %button-primary-outline;
-    @extend %block-level-link;
-    position: relative;
-    text-align: left;
-    width: 100%;
-  }
-
-  .inner-label {
-    color: $gray-dark;
-  }
+.inner-label {
+  color: $body-color;
 }
 
-.direction-filter,
 .date-filter {
-  @extend %schedule-filter-button;
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $base-spacing;
+  }
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
