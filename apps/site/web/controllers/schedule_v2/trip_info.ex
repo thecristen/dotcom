@@ -97,7 +97,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp do_current_trip(times, now) do
     case Enum.find(times, &is_after_now?(&1, now)) do
       nil -> nil
-      time -> PredictedSchedule.trip_id(time.departure)
+      time -> PredictedSchedule.trip(time.departure).id
     end
   end
 

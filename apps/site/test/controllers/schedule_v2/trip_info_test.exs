@@ -247,7 +247,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
 
     for time <- List.flatten(conn.assigns.trip_info.sections) do
-      assert PredictedSchedule.trip_id(time) == "32893585"
+      assert PredictedSchedule.trip(time).id == "32893585"
     end
   end
 
