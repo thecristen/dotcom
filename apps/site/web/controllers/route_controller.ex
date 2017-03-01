@@ -3,9 +3,11 @@ defmodule Site.RouteController do
   alias Stops.Stop
 
   plug Site.Plugs.Route
+  plug Site.Plugs.Date
+  plug :hours_of_operation
 
   def show(conn, %{"route" => "Green"}) do
-    route = %Routes.Route{id: "Green", type: 0}
+    route = GreenLine.green_line()
     stops_on_routes = GreenLine.stops_on_routes(0)
     stops = GreenLine.all_stops(stops_on_routes)
 
@@ -14,16 +16,19 @@ defmodule Site.RouteController do
       stops: stops,
       active_lines: active_lines(stops_on_routes),
       stop_features: stop_features(stops, route),
-      map_img_src: map_img_src(stops, route.type)
+      map_img_src: map_img_src(stops, route.type),
+      route: route
   end
-  def show(conn, %{"route" => "Red"}) do
+  def show(conn, %{"route" => "Red"} = params) do
     stops = Stops.Repo.by_route("Red", 0)
-    {ashmont, braintree} = Enum.split_while(stops, & &1.id != "place-nqncy")
+    {shared_stops, branched_stops} = Enum.split_while(stops, & &1.id != "place-shmnl")
+    {ashmont, braintree} = red_line_branches(branched_stops, params)
     render conn, "show.html",
       stop_list_template: "_stop_list_red.html",
-      stops: ashmont,
+      stops: shared_stops,
       merge_stop_id: "place-jfk",
       braintree_branch_stops: braintree,
+      ashmont_branch_stops: ashmont,
       stop_features: stop_features(stops, conn.assigns.route),
       map_img_src: map_img_src(stops, conn.assigns.route.type)
   end
@@ -54,6 +59,51 @@ defmodule Site.RouteController do
       stops: stops,
       stop_features: stop_features(stops, conn.assigns.route),
       map_img_src: map_img_src(stops, conn.assigns.route.type)
+  end
+
+  def hours_of_operation(%Plug.Conn{assigns: %{route: route}, params: %{"route" => route_id}} = conn, opts)
+  when (not is_nil(route)) or (route_id == "Green") do
+    dates = get_dates(conn.assigns.date)
+    schedules_fn = schedules_fn(opts)
+    assign(conn, :hours_of_operation, %{
+          :week => get_hours(conn, dates[:week], schedules_fn),
+          :saturday => get_hours(conn, dates[:saturday], schedules_fn),
+          :sunday => get_hours(conn, dates[:sunday], schedules_fn)}
+    )
+  end
+  def hours_of_operation(conn, _opts) do
+    conn
+  end
+
+  defp get_hours(%Plug.Conn{params: %{"route" => "Green"}}, date, schedules_fn) do
+    do_get_hours(Enum.join(GreenLine.branch_ids(), ","), date, schedules_fn)
+  end
+  defp get_hours(%Plug.Conn{assigns: %{route: route}}, date, schedules_fn) do
+    do_get_hours(route.id, date, schedules_fn)
+  end
+
+  defp do_get_hours(route_id, date, schedules_fn) do
+    {inbound, outbound} = [date: date, stop_sequence: "first,last"]
+    |> Keyword.merge(route: route_id)
+    |> schedules_fn.()
+    |> Enum.split_with(& &1.trip.direction_id == 1)
+
+    %{
+      1 => Schedules.Departures.first_and_last_departures(inbound),
+      0 => Schedules.Departures.first_and_last_departures(outbound)
+    }
+  end
+
+  defp get_dates(date) do
+    %{
+      :week => Timex.beginning_of_week(date, 1),
+      :saturday => Timex.beginning_of_week(date, 6),
+      :sunday => Timex.beginning_of_week(date, 7)
+    }
+  end
+
+  defp schedules_fn(opts) do
+    Keyword.get(opts, :schedules_fn, &Schedules.Repo.all/1)
   end
 
   @doc """
@@ -181,4 +231,20 @@ defmodule Site.RouteController do
   defp update_active_line(:empty), do: :empty
   defp update_active_line(:terminus), do: :empty
   defp update_active_line(_), do: :line
+
+  defp red_line_branches(stops, %{"expanded" => "braintree"}) do
+    {ashmont, braintree} = split_ashmont_braintree(stops)
+    {[List.last(ashmont)], braintree}
+  end
+  defp red_line_branches(stops, %{"expanded" => "ashmont"}) do
+    {Enum.take_while(stops, & &1.id != "place-nqncy"), [List.last(stops)]}
+  end
+  defp red_line_branches(stops, _params) do
+    {ashmont, braintree} = split_ashmont_braintree(stops)
+    {[List.last(ashmont)], [List.last(braintree)]}
+  end
+
+  defp split_ashmont_braintree(stops) do
+    Enum.split_while(stops, & &1.id != "place-nqncy")
+  end
 end
