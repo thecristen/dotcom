@@ -659,6 +659,7 @@ defmodule StopTimeListTest do
 
     test "handles predictions not associated with a trip" do
       prediction = %Prediction{
+        id: "pred",
         time: Util.now,
         route: @route,
         stop: %Stop{id: "stop1"},
@@ -680,10 +681,12 @@ defmodule StopTimeListTest do
     test "handles predictions not associated with a trip on different routes" do
       stop = %Stop{id: "stop1"}
       prediction = %Prediction{
+        id: "pred",
         route: @route,
         stop: stop,
         status: "2 stops away"}
       other_prediction = %Prediction{
+        id: "other pred",
         route: %Route{id: "other"},
         stop: stop,
         status: "1 stop away"}

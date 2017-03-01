@@ -55,14 +55,12 @@ defmodule PredictedScheduleGroupTest do
       assert result[%Trip{id: "trip1"}] == %{"orig1" => pred1, "dest1" => pred2}
     end
 
-    test "makes prediction_map including the route if there's no trip" do
+    test "makes prediction_map with a different key if there's no trip" do
       prediction = %Prediction{stop: %Stop{id: "orig1"}, trip: nil, route: %Route{id: "route"}}
 
       result = build_prediction_map([prediction], [], "orig1", nil)
 
-      assert result == %{
-        %Route{id: "route"} => %{"orig1" => prediction}
-      }
+      assert Map.values(result) == [%{"orig1" => prediction}]
     end
   end
 end

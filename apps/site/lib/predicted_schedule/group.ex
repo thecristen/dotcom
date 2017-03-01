@@ -5,7 +5,7 @@ defmodule PredictedSchedule.Group do
 
   @type schedule_pair_t :: {Schedule.t, Schedule.t}
   @type stop_id_to_prediction_map_t :: %{Stops.Stop.id_t => Prediction.t}
-  @type map_key_t :: Trip.t | Routes.Route.t
+  @type map_key_t :: Trip.t | Prediction.id_t
   @type prediction_map_entry_t :: {map_key_t, stop_id_to_prediction_map_t}
   @type prediction_map_t :: %{map_key_t => stop_id_to_prediction_map_t}
 
@@ -19,7 +19,7 @@ defmodule PredictedSchedule.Group do
 
   @spec prediction_map_builder(Prediction.t, prediction_map_t) :: prediction_map_t
   defp prediction_map_builder(prediction, prediction_map) do
-    key = prediction.trip || prediction.route
+    key = prediction.trip || prediction.id
     stop_id_prediction_map =
       prediction_map
       |> Map.get(key, %{})

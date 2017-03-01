@@ -123,20 +123,21 @@ defmodule StopTimeList do
 
   @spec get_trips(schedule_pair_map, PredictedSchedule.Group.prediction_map_t) :: [map_key_t]
   defp get_trips(schedule_map, prediction_map) do
-    Map.keys(prediction_map)
-    |> Enum.concat(Map.keys(schedule_map))
+    [prediction_map, schedule_map]
+    |> Enum.map(&Map.keys/1)
+    |> Enum.concat
     |> Enum.uniq
   end
 
   @spec build_schedule_pair_map({Schedule.t, Schedule.t}, schedule_pair_map) :: schedule_pair_map
   defp build_schedule_pair_map({departure, arrival}, schedule_pair_map) do
-    key = departure.trip || departure.route
+    key = departure.trip
     Map.put(schedule_pair_map, key, {departure, arrival})
   end
 
   @spec build_schedule_map(Schedule.t, schedule_map) :: schedule_map
   defp build_schedule_map(schedule, schedule_map) do
-    key = schedule.trip || schedule.route
+    key = schedule.trip
     updater = fn(trip_map) -> Map.merge(trip_map, %{schedule.stop.id => schedule}) end
     Map.update(schedule_map, key, %{schedule.stop.id => schedule}, updater)
   end
