@@ -16,6 +16,8 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :predictions
   plug Site.ScheduleV2Controller.ExcludedStops
   plug Site.ScheduleV2Controller.StopTimes
+  plug :validate_stop_times
+  plug :hide_destination_selector
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleController.RouteBreadcrumbs
 
@@ -104,6 +106,46 @@ defmodule Site.ScheduleV2Controller.Green do
     |> Enum.reduce(%{}, &Map.merge/2)
 
     assign(conn, :vehicle_locations, vehicle_locations)
+  end
+
+  @doc """
+
+  For a few westbound stops, we don't have trip predictions, only how far
+  away the train is. In those cases, we disabled the destination selector
+  since we can't match pairs of trips.
+
+  """
+  def hide_destination_selector(%{assigns: %{direction_id: 0, origin: %{id: stop_id}}} = conn, [])
+  when stop_id in ["place-spmnl", "place-north", "place-haecl", "place-gover", "place-pktrm", "place-boyls"] do
+    assign(conn, :hide_destination_selector?, true)
+  end
+  def hide_destination_selector(conn, []) do
+    conn
+  end
+
+  @doc """
+
+  If we built an empty stop times list, but we had predictions for the
+  origin, then redirect the user away from their selected destination so they
+  at least get partial results.
+
+  """
+  def validate_stop_times(%{assigns: %{destination: nil}} = conn, []) do
+    conn
+  end
+  def validate_stop_times(%{assigns: %{stop_times: %StopTimeList{times: [_ | _]}}} = conn, []) do
+    conn
+  end
+  def validate_stop_times(conn, []) do
+    origin_predictions = conn.assigns.predictions |> Enum.find(& &1.stop.id == conn.assigns.origin.id)
+    if is_nil(origin_predictions) do
+      conn
+    else
+      url = UrlHelpers.update_url(conn, destination: nil)
+      conn
+      |> redirect(to: url)
+      |> halt
+    end
   end
 
   defp call_plug(conn, module, opts) do
