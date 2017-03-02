@@ -1,7 +1,14 @@
 @import 'variables';
 
 .desktop-menu-nav {
+  .nav {
+    @include make-row();
+    display: inline-block;
+    float: right;
+  }
+
   .nav-item {
+    @include make-col();
     height: $header-navbar-height;
     text-align: right;
 
