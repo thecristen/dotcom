@@ -40,6 +40,16 @@ defmodule Holiday.RepoTest do
       end
     end
   end
+
+  describe "following/2" do
+    test "returns the holidays in the set after the date" do
+      date = ~D[2017-01-10]
+
+      assert date
+             |> Holiday.Repo.following()
+             |> Enum.all?(fn(holiday) -> Timex.before?(date, holiday.date) end)
+    end
+  end
 end
 
 defmodule Holiday.Repo.HelpersTest do

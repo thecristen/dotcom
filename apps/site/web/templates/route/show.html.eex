@@ -5,7 +5,9 @@
   </div>
   <div class="col-xs-12 col-md-8">
     <img src="<%= @map_img_src %>" class="img-fluid">
-    <div class="row page-section">
+  </div>
+  <div class="col-xs-12 col-md-6 col-md-offset-6">
+    <div class="row">
       <h2 class="col-xs-12">Hours of Operation</h2>
       <%= for period <- [:saturday, :sunday, :week] do %>
         <div class="col-xs-12 col-md-6">
@@ -21,5 +23,6 @@
         </div>
       <% end %>
     </div>
+    <%= render "_holidays.html", assigns %>
   </div>
 </div>

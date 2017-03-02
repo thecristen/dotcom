@@ -7,7 +7,6 @@ export default function($) {
 
   function initialPosition() {
     const $this = $(this),
-          parentLeft = Math.ceil(this.getBoundingClientRect().left),
           scrollLeft = $this.scrollLeft();
     // reset scroll position
     $this.scrollLeft(0);
@@ -33,7 +32,7 @@ export default function($) {
       $child.css({
         height: Math.ceil(rect.height),
         width: Math.ceil(rect.width),
-        left: parentLeft,
+        left: 0,
         position: 'absolute'
       });
     });
@@ -44,7 +43,7 @@ export default function($) {
       $child.css({
         height: Math.ceil(rect.height),
         width: Math.ceil(rect.width),
-        right: parentLeft,
+        right: 0,
         position: 'absolute'
       });
     });

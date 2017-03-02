@@ -59,11 +59,25 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns information for the timetable", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester", tab: "timetable"))
+      conn = get(conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "timetable", direction_id: 0))
       assert conn.assigns.tab == "timetable"
       assert conn.assigns.offset
       assert conn.assigns.alerts
       assert conn.assigns.trip_schedules
+      assert conn.assigns.trip_messages
+    end
+
+    test "assigns trip messages for a few route/directions", %{conn: conn} do
+      for {route_id, direction_id, expected_size} <- [
+            {"CR-Lowell", 0, 2},
+            {"CR-Lowell", 1, 0},
+            {"CR-Haverhill", 0, 2},
+            {"CR-Franklin", 1, 4}
+          ] do
+          path = schedule_v2_path(conn, :show, route_id, tab: "timetable", direction_id: direction_id)
+          conn = get(conn, path)
+          assert map_size(conn.assigns.trip_messages) == expected_size
+      end
     end
 
     test "header schedules are sorted correctly", %{conn: conn} do

@@ -153,6 +153,18 @@ defmodule PredictedScheduleTest do
     end
   end
 
+  describe "direction_id/1" do
+    test "uses prediction if available" do
+      predicted_schedule = %PredictedSchedule{prediction: %Prediction{direction_id: 1}}
+      assert direction_id(predicted_schedule) == 1
+    end
+
+    test "uses schedule's trip if there's no prediction" do
+      predicted_schedule = %PredictedSchedule{schedule: %Schedule{trip: %Schedules.Trip{direction_id: 0}}}
+      assert direction_id(predicted_schedule) == 0
+    end
+  end
+
   describe "map_optional/4" do
     test "returns nil if predicted_schedule is nil" do
       assert map_optional(nil, [:schedule], &is_nil/1) == nil

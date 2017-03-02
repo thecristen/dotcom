@@ -47,6 +47,11 @@
               title="<%= prediction_tooltip(prediction, stop.name, vehicle) %>">
               <%= timetable_location_display(vehicle) %>
             </span>
+            <%= if trip_message = @trip_messages[{schedule.trip.name, stop.id}] do %>
+              <span class="schedule-v2-timetable-trip-message">
+                <%= trip_message %>
+              </span>
+            <% end %>
           </td>
         <% end %>
         <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later" data-sticky="right"></td>

@@ -108,4 +108,12 @@ defmodule Holiday.Repo do
     all()
     |> Enum.filter(upcoming?)
   end
+
+  @doc "Returns all holidays after the given date"
+  @spec following(Date.t) :: [Holiday.t]
+  def following(date) do
+    all()
+    |> Enum.drop_while(
+      fn day -> Timex.before?(day.date, date) end)
+  end
 end

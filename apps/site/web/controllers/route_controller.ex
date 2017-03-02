@@ -4,6 +4,7 @@ defmodule Site.RouteController do
   plug Site.Plugs.Route
   plug Site.Plugs.Date
   plug :hours_of_operation
+  plug :next_3_holidays
 
   def show(conn, %{"route" => "Green"} = params) do
     route = GreenLine.green_line()
@@ -14,27 +15,30 @@ defmodule Site.RouteController do
     expanded = params["expanded"]
     expanded_stops = green_line_branches(after_branch, routes_for_stops, expanded)
 
-    render conn, "show.html",
+    conn
+    |> render("show.html",
       stop_list_template: "_stop_list_green.html",
       stops: before_branch ++ expanded_stops,
       expanded: expanded,
       active_lines: active_lines(stops_on_routes),
       stop_features: stop_features(stops, route),
       map_img_src: map_img_src(stops, route.type),
-      route: route
+      route: route)
   end
   def show(conn, %{"route" => "Red"} = params) do
     stops = Stops.Repo.by_route("Red", 0)
     {shared_stops, branched_stops} = Enum.split_while(stops, & &1.id != "place-shmnl")
     {ashmont, braintree} = red_line_branches(branched_stops, params)
-    render conn, "show.html",
+
+    conn
+    |> render("show.html",
       stop_list_template: "_stop_list_red.html",
       stops: shared_stops,
       merge_stop_id: "place-jfk",
       braintree_branch_stops: braintree,
       ashmont_branch_stops: ashmont,
       stop_features: stop_features(stops, conn.assigns.route),
-      map_img_src: map_img_src(stops, conn.assigns.route.type)
+      map_img_src: map_img_src(stops, conn.assigns.route.type))
   end
   def show(%Plug.Conn{assigns: %{route: nil}} = conn, _params) do
     conn
@@ -58,11 +62,12 @@ defmodule Site.RouteController do
   end
   def show(conn, %{"route" => route_id}) do
     stops = Stops.Repo.by_route(route_id, 1)
-    render conn, "show.html",
+    conn
+    |> render("show.html",
       stop_list_template: "_stop_list.html",
       stops: stops,
       stop_features: stop_features(stops, conn.assigns.route),
-      map_img_src: map_img_src(stops, conn.assigns.route.type)
+      map_img_src: map_img_src(stops, conn.assigns.route.type))
   end
 
   def hours_of_operation(%Plug.Conn{assigns: %{route: route}, params: %{"route" => route_id}} = conn, opts)
@@ -260,5 +265,17 @@ defmodule Site.RouteController do
 
   defp split_ashmont_braintree(stops) do
     Enum.split_while(stops, & &1.id != "place-nqncy")
+  end
+
+  def next_3_holidays(%Plug.Conn{assigns: %{date: date}} = conn, _opts) do
+    holidays = date
+    |> Holiday.Repo.following
+    |> Enum.take(3)
+
+    conn
+    |> assign(:holidays, holidays)
+  end
+  def next_3_holidays(conn, _opts) do
+    conn
   end
 end
