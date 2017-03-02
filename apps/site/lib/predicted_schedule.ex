@@ -57,6 +57,17 @@ defmodule PredictedSchedule do
   def trip(%{prediction: %Prediction{trip: trip}}), do: trip
 
   @doc """
+  Returns the direction ID for a given PredictedSchedule
+  """
+  @spec direction_id(PredictedSchedule.t) :: 0 | 1
+  def direction_id(%{prediction: %Prediction{} = prediction}) do
+    prediction.direction_id
+  end
+  def direction_id(%{schedule: %Schedule{trip: trip}}) do
+    trip.direction_id
+  end
+
+  @doc """
   Determines if the given PredictedSchedule has a schedule
   """
   @spec has_schedule?(PredictedSchedule.t) :: boolean
