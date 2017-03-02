@@ -1,50 +1,7 @@
 @import 'table';
 @import 'buttons';
-@import 'variables';
 
-$location-line-width: $space-4;
-$z-index-vehicle-position: 2;
 $z-index-calendar-cover: 3;
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-///// MIXINS & FUNCTIONS
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-@mixin vehicle-location-mode-color($class, $color) {
-// scss-lint:disable NestingDepth
-// scss-lint:disable SelectorDepth
-// changes the color for the vehicle location graphic per route type
-  .route-stop-list,
-  .schedule-trip-info,
-  .schedule-v2-timetable {
-    &#{$class} {
-      .icon-boring,
-      .trip-bubble-open {
-        circle {
-          fill: $white;
-          stroke: $color;
-          stroke-width: 3px;
-        }
-      }
-
-      .icon-inverse,
-      .trip-bubble-filled {
-        circle {
-          fill: $color;
-          stroke: $color;
-          stroke-width: 3px;
-        }
-      }
-
-      .vehicle-location::before,
-      .vehicle-location::after {
-        border-left-color: $color;
-      }
-    }
-  }
-}
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -183,41 +140,11 @@ $z-index-calendar-cover: 3;
 
 .vehicle-location {
   @include unpadded-column;
-  height: 100%;
-  padding: $vertical-padding 0;
-  position: absolute;
-  width: $icon-size;
-
-  &::before {
-    border-left-style: solid;
-    border-left-width: $location-line-width;
-    content: '';
-    height: 130%;
-    left: 50%;
-    position: absolute;
-    top: -25%;
-    z-index: $z-index-vehicle-position;
-  }
-
-  svg {
-    margin-top: -$vertical-padding;
-    overflow: visible;
-    position: absolute;
-    z-index: $z-index-vehicle-position;
-  }
 }
 
 // "Show all stops" row -- dotted lines
 .collapsed-row {
-  .vehicle-location {
-    &::before {
-      background: $white;
-      border-left-style: dotted;
-      // taller and adjusted up so it moves up towards the previous stop
-      height: 150%;
-      top: -$space-16 - $space-4;
-    }
-  }
+  @extend %stop-bubble-collapsed;
 
   .expand-link {
     @extend %stop-name-and-time-column;
@@ -230,18 +157,14 @@ $z-index-calendar-cover: 3;
 .stop-group:first-child .schedule-trip-stop:first-child,
 .route-stop-list .route-stop:first-child,
 .schedule-v2-timetable-row:nth-child(2) {
-  .vehicle-location::before {
-    height: 100%;
-    top: 0;
-  }
+  @extend %stop-bubble-first;
 }
+
 // the last stop in the list, don't display the line
 .route-stop-list .route-stop:last-child,
 .stop-group:last-child .schedule-trip-stop:last-child,
 .schedule-v2-timetable-row:last-child {
-  .vehicle-location::before {
-    display: none;
-  }
+  @extend %stop-bubble-last;
 
   .stop-info {
     border-bottom: 0;
@@ -251,15 +174,6 @@ $z-index-calendar-cover: 3;
 .stop-info-column {
   min-width: 8rem;
 }
-
-@include vehicle-location-mode-color(".commuter-rail", $brand-commuter-rail);
-@include vehicle-location-mode-color(".red-line", $brand-red-line);
-@include vehicle-location-mode-color(".blue-line", $brand-blue-line);
-@include vehicle-location-mode-color(".orange-line", $brand-orange-line);
-@include vehicle-location-mode-color(".green-line", $brand-green-line);
-@include vehicle-location-mode-color(".bus", $brand-bus);
-@include vehicle-location-mode-color(".ferry", $brand-ferry);
-
 
 %trip-stop {
   @extend %unpadded-table-row;
@@ -333,11 +247,6 @@ $z-index-calendar-cover: 3;
   @extend %unpadded-table-row;
   border-bottom-width: 0;
   font-weight: bold;
-
-  .vehicle-location::before {
-    border-left-color: transparent;
-    border-left-width: 0;
-  }
 
   .stop-info {
     @extend %stop-name-and-time-column;

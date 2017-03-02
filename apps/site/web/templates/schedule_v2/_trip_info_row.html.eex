@@ -1,5 +1,5 @@
 <div class="schedule-trip-stop<%= if @terminus? do %> terminus<% end %><%= if @vehicle? do %> vehicle<% end %>">
-  <div class="vehicle-location">
+  <div class="vehicle-location stop-bubble">
     <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
   </div>
   <div class="stop-info">

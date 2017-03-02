@@ -10,7 +10,7 @@
   }
 
   &.green-line {
-    .stop-bubbles,
+    .stop-bubble,
     .route-stop-name-icons {
       float: left;
       width: 50%;
@@ -27,28 +27,11 @@
   border: 0;
 
   &:first-child {
-    .vehicle-location::before {
-      height: 100%;
-      top: 0;
-    }
+    @extend %stop-bubble-first;
   }
 
   &:last-child {
-    .vehicle-location::before {
-      display: none;
-    }
-  }
-
-  .vehicle-location {
-    &.start::before {
-      height: 100%;
-      top: 0;
-    }
-
-    &.empty::before,
-    &.end::before {
-      display: none;
-    }
+    @extend %stop-bubble-last;
   }
 }
 
