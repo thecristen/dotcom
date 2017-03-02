@@ -46,6 +46,7 @@ defmodule Site.ScheduleV2Controller do
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
     |> assign(:trip_schedules, trip_schedules)
+    |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
   end
 
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
@@ -56,6 +57,30 @@ defmodule Site.ScheduleV2Controller do
     timetable_schedules
     |> Schedules.Sort.sort_by_first_times
     |> Enum.map(&List.first/1)
+  end
+
+  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
+    %{
+      {"221", "North Billerica"} => "Via",
+      {"221", "Lowell"} => "Haverhill"
+    }
+  end
+  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
+    %{
+      {"221", "Melrose Highlands"} => "Via",
+      {"221", "Greenwood"} => "Lowell"
+    }
+  end
+  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
+    %{
+      {"790", "place-rugg"} => "Via",
+      {"790", "place-bbsta"} => "Fairmount",
+      {"746", "place-rugg"} => "Via",
+      {"746", "place-bbsta"} => "Fairmount"
+    }
+  end
+  defp trip_messages(_, _) do
+    %{}
   end
 
   defmacrop call_plug(conn, module) do

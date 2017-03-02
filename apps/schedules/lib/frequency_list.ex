@@ -9,7 +9,7 @@ defmodule Schedules.FrequencyList do
     departures: Schedules.Departures.t
   }
 
-  @spec build_frequency_list([Schedule.t]) :: Schedules.FrequencyList.t
+  @spec build_frequency_list([Schedules.Schedule.t]) :: Schedules.FrequencyList.t
   def build_frequency_list(schedules) do
     %Schedules.FrequencyList{frequencies: TimeGroup.frequency_by_time_block(schedules),
                              departures: %Schedules.Departures{

@@ -1,0 +1,16 @@
+<h3>Holiday Schedule Information</h3>
+<ul class="route-holiday-info">
+  <li>Saturday Service on President's Day, and 4th of July</li>
+  <li>Sunday Service on New Year's Day, Memorial Day, Labor Day, Thanksgiving Day, Christmas Day</li>
+  <li>All other holidays regular service is provided</li>
+</ul>
+
+<strong>Upcoming Holidays:</strong>
+
+<ul class="route-holiday-info">
+  <%= for holiday <- @holidays do %>
+    <li>
+      <%= holiday.name %>
+    </li>
+  <% end %>
+</ul>
