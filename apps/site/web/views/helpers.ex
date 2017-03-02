@@ -156,6 +156,9 @@ defmodule Site.ViewHelpers do
   @spec format_schedule_time(DateTime.t) :: String.t
   def format_schedule_time(time), do: Timex.format!(time, "{h12}:{m}{AM}")
 
+  @spec format_full_date(Date.t) :: String.t
+  def format_full_date(date), do: Timex.format!(date, "{Mfull} {D}, {YYYY}")
+
   def hidden_query_params(conn, opts \\ []) do
     exclude = Keyword.get(opts, :exclude, [])
     include = Keyword.get(opts, :include, %{})
