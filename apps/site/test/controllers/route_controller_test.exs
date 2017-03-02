@@ -14,9 +14,9 @@ defmodule Site.RouteControllerTest do
       conn = get conn, route_path(conn, :show, "CR-Lowell")
       assert conn.status == 200
 
-      # zone is a map where both key and value must be strings
-      for {k, v} <- conn.assigns.zones do
-        assert String.length(k) > 0 && String.length(v) > 0
+      # make sure each stop has a zone
+      for stop <- conn.assigns.stops do
+        assert conn.assigns.zones[stop.id]
       end
 
       # stops are in inbound order
