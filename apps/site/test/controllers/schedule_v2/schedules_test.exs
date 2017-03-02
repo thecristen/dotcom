@@ -2,7 +2,6 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
   use Site.ConnCase, async: true
   alias Schedules.{Schedule, Trip, Stop}
   alias Routes.Route
-  alias Routes.Route
 
   import Site.ScheduleV2Controller.Schedules
 

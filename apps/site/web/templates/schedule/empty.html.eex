@@ -8,5 +8,5 @@
       nil -> ""
       %{name: name} -> "to #{name}"
       end %>
-  on <%= @date |> Timex.format!("{Mfull} {D}, {YYYY}") %>.
+  on <%= format_full_date(@date) %>.
 </p>
