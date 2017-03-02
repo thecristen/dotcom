@@ -181,13 +181,40 @@ defmodule Site.StopView do
     |> dedup_trips
     |> Enum.sort_by(&(elem(&1, 2)))
     |> Enum.group_by(&(elem(&1, 1).headsign))
-    |> Enum.filter_map(&(more_stops?(&1, stop_id)), &format_groups(&1))
+    |> filter_more_stops(stop_id)
+    |> Enum.map(&format_groups(&1))
   end
 
-  @spec more_stops?({String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}, String.t) :: boolean
-  defp more_stops?({_headsign, trips}, stop_id) do
-    departing?(List.first(trips), stop_id)
+  @spec filter_more_stops(%{String.t => [{:scheduled | :predicted, Trip.t, DateTime.t}]}, String.t) :: [{String.t, [{:scheduled | :predicted, Trip.t, DateTime.t}]}]
+  defp filter_more_stops(headsign_trip_map, stop_id) do
+    # get the first trip IDs for the predictions
+    prediction_trips = headsign_trip_map
+    |> Enum.flat_map(fn
+      {_, [{:predicted, trip, _} | _]} -> [trip.id]
+      _ -> []
+    end)
+    # build a map of trip ID -> boolean, where the boolean is true if there
+    # are more stops on the trip after our selected stop_id
+    departing_map = prediction_trips
+    |> Enum.join(",")
+    |> Schedules.Repo.schedule_for_trip
+    |> Enum.group_by(& &1.trip.id)
+    |> Map.new(fn {trip_id, schedules} ->
+      departing? = schedules
+      |> Enum.drop_while(& &1.stop.id != stop_id)
+      |> two_or_more?
+      {trip_id, departing?}
+    end)
+    # filter out predictions that don't have a stop afterwards
+    headsign_trip_map
+    |> Enum.filter(fn
+      {_, [{:predicted, trip, _} | _]} -> departing_map[trip.id]
+      _ -> true
+    end)
   end
+
+  defp two_or_more?([_, _ | _]), do: true
+  defp two_or_more?(list) when is_list(list), do: false
 
   @spec format_groups({String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}) :: {String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}
   def format_groups({headsign, departures}) do
@@ -292,16 +319,6 @@ defmodule Site.StopView do
     else
       [center: location(stop)]
     end
-  end
-
-  defp departing?({:predicted, trip, _time}, stop) do
-    trip.id
-    |> Schedules.Repo.schedule_for_trip
-    |> Enum.drop_while(&(&1.stop.id != stop))
-    |> (fn (schedules) -> match?([_, _ | _], schedules) end).()
-  end
-  defp departing?({:scheduled, _, _} = departure, _stop) do
-    departure
   end
 
   defp upcoming?(trip_time, now, mode) do
