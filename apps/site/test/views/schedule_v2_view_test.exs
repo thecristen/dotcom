@@ -199,6 +199,22 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
+  describe "_trip_view.html" do
+    test "renders a message if no scheduled trips" do
+      output = Site.ScheduleV2View.render(
+        "_trip_view.html",
+        conn: build_conn(),
+        all_stops: [],
+        date: ~D[2017-01-01],
+        origin: nil,
+        route: %Routes.Route{},
+        direction_id: 1
+      ) |> safe_to_string
+
+      assert output =~ "Currently, there are no scheduled inbound trips on January 1, 2017."
+    end
+  end
+
   describe "_frequency.html" do
     test "renders a no service message if the block doesn't have service" do
       frequency_table = %Schedules.FrequencyList{frequencies: [%Schedules.Frequency{time_block: :am_rush}]}
