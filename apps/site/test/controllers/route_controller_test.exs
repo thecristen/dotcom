@@ -187,9 +187,20 @@ defmodule Site.RouteControllerTest do
     end
   end
 
-  describe "next_3_holidays/0" do
-    test "gets 3 results" do
-      assert Enum.count(Site.RouteController.next_3_holidays()) == 3
+  describe "next_3_holidays/2" do
+    test "gets 3 results", %{conn: conn} do
+      conn = conn
+      |> assign(:date, ~D[2017-02-28])
+      |> Site.RouteController.next_3_holidays([])
+
+      assert Enum.count(conn.assigns.holidays) == 3
+    end
+
+    test "if there is no date, doesnt assign holidays", %{conn: conn} do
+      conn = conn
+      |> Site.RouteController.next_3_holidays([])
+
+      refute conn.assigns[:holidays]
     end
   end
 end

@@ -47,7 +47,7 @@ defmodule Holiday.RepoTest do
 
       assert date
              |> Holiday.Repo.following()
-             |> Enum.reduce(true, fn(holiday, acc) -> acc && Timex.before?(date, holiday.date) end)
+             |> Enum.all?(fn(holiday) -> Timex.before?(date, holiday.date) end)
     end
   end
 end

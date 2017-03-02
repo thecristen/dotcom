@@ -4,6 +4,7 @@ defmodule Site.RouteController do
   plug Site.Plugs.Route
   plug Site.Plugs.Date
   plug :hours_of_operation
+  plug :next_3_holidays
 
   def show(conn, %{"route" => "Green"} = params) do
     route = GreenLine.green_line()
@@ -15,7 +16,6 @@ defmodule Site.RouteController do
     expanded_stops = green_line_branches(after_branch, routes_for_stops, expanded)
 
     conn
-    |> assign(:holidays, next_3_holidays())
     |> render("show.html",
       stop_list_template: "_stop_list_green.html",
       stops: before_branch ++ expanded_stops,
@@ -31,7 +31,6 @@ defmodule Site.RouteController do
     {ashmont, braintree} = red_line_branches(branched_stops, params)
 
     conn
-    |> assign(:holidays, next_3_holidays())
     |> render("show.html",
       stop_list_template: "_stop_list_red.html",
       stops: shared_stops,
@@ -50,7 +49,6 @@ defmodule Site.RouteController do
   def show(conn, %{"route" => route_id}) do
     stops = Stops.Repo.by_route(route_id, 1)
     conn
-    |> assign(:holidays, next_3_holidays())
     |> render("show.html",
       stop_list_template: "_stop_list.html",
       stops: stops,
@@ -255,9 +253,15 @@ defmodule Site.RouteController do
     Enum.split_while(stops, & &1.id != "place-nqncy")
   end
 
-  @spec next_3_holidays() :: [Holiday.t]
-  def next_3_holidays() do
-    Holiday.Repo.following(Util.today)
+  def next_3_holidays(%Plug.Conn{assigns: %{date: date}} = conn, _opts) do
+    holidays = date
+    |> Holiday.Repo.following
     |> Enum.take(3)
+
+    conn
+    |> assign(:holidays, holidays)
+  end
+  def next_3_holidays(conn, _opts) do
+    conn
   end
 end
