@@ -1,5 +1,6 @@
 defmodule StopTimeTest do
   use ExUnit.Case, async: true
+  import StopTime
 
   alias Schedules.Schedule
   alias Predictions.Prediction
@@ -155,6 +156,24 @@ defmodule StopTimeTest do
       # dep=11; arr=nil before dep=nil; arr=10:00
       assert StopTime.before?(arr_time_nil, dep_time_nil)
       refute StopTime.before?(dep_time_nil, arr_time_nil)
+    end
+
+    test "compares by status if there are no times" do
+      one_away = %StopTime{departure: %PredictedSchedule{prediction: %Prediction{status: "1 stop away"}}}
+      two_away = %StopTime{departure: %PredictedSchedule{prediction: %Prediction{status: "2 stops away"}}}
+      boarding = %StopTime{departure: %PredictedSchedule{prediction: %Prediction{status: "Boarding"}}}
+      approaching = %StopTime{departure: %PredictedSchedule{prediction: %Prediction{status: "Approaching"}}}
+
+      assert before?(boarding, approaching)
+      assert before?(approaching, one_away)
+      assert before?(boarding, one_away)
+      assert before?(one_away, two_away)
+
+      # opposite direction
+      refute before?(approaching, boarding)
+      refute before?(one_away, boarding)
+      refute before?(two_away, boarding)
+      refute before?(two_away, one_away)
     end
   end
 
