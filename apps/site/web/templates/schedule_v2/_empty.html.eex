@@ -1,3 +1,3 @@
 <p class="schedule-empty">
-  Currently, there are no scheduled <%= @direction |> String.downcase %> trips on <%= @date |> Timex.format!("{Mfull} {D}, {YYYY}") %>.
+  Currently, there are no scheduled <%= @direction |> String.downcase %> trips on <%= format_full_date(@date) %>.
 </p>

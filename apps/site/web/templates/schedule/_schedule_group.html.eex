@@ -1,6 +1,6 @@
 <%= case TimeGroup.frequency(@schedules) do %>
   <%# XXX - the Enum.max([1, min]) is a temporary fix while the GTFS schedule has some trips which are scheduled to be at the same stop at the same time. -ps %>
   <%= {min, max} -> %>Every <%= Enum.max([1, min]) %>-<%= max %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
-  <%= nil -> %>No scheduled trips on <%= Timex.format!(@date, "{Mfull} {D}, {YYYY}")%>
+  <%= nil -> %>No scheduled trips on <%= format_full_date(@date) %>
   <%= value -> %>Every <%= value %> <span class="sr-only">minutes</span><span aria-hidden="true">mins</span>
 <% end %>

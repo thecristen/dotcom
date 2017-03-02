@@ -3,7 +3,7 @@
 <img class="project-update-featured-image" alt="<%= @page.fields.featured_image.alt %>" src="<%= @page.fields.featured_image.url %>"/>
 
 <ul class="project-update-metadata">
-  <li><strong>Posted on:</strong> <%= Timex.format!(@page.updated_at, "{Mfull} {D}, {YYYY}") %></li>
+  <li><strong>Posted on:</strong> <%= format_full_date(@page.updated_at) %></li>
   <li><strong>Status:</strong> <%= @page.fields.status %></li>
 </ul>
 

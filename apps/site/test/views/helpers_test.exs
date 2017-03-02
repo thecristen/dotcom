@@ -140,4 +140,10 @@ defmodule Site.ViewHelpersTest do
       |> Site.ViewHelpers.schedule_path(:show, 5, origin: 10) == expected
     end
   end
+
+  describe "format_full_date/1" do
+    test "formats a date" do
+      assert Site.ViewHelpers.format_full_date(~D[2017-03-31]) == "March 31, 2017"
+    end
+  end
 end
