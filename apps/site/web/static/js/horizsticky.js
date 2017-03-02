@@ -33,7 +33,7 @@ export default function($) {
       $child.css({
         height: Math.ceil(rect.height),
         width: Math.ceil(rect.width),
-        left: parentLeft,
+        left: 0,
         position: 'absolute'
       });
     });
@@ -44,7 +44,7 @@ export default function($) {
       $child.css({
         height: Math.ceil(rect.height),
         width: Math.ceil(rect.width),
-        right: parentLeft,
+        right: 0,
         position: 'absolute'
       });
     });
