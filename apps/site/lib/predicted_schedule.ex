@@ -39,22 +39,33 @@ defmodule PredictedSchedule do
   Returns the stop for a given PredictedSchedule
   """
   @spec stop(PredictedSchedule.t) :: Schedules.Stop.t
-  def stop(%{schedule: %Schedule{stop: stop}}), do: stop
-  def stop(%{prediction: %Prediction{stop: stop}}), do: stop
+  def stop(%PredictedSchedule{schedule: %Schedule{stop: stop}}), do: stop
+  def stop(%PredictedSchedule{prediction: %Prediction{stop: stop}}), do: stop
 
   @doc """
   Returns the route for a given PredictedSchedule.
   """
   @spec route(PredictedSchedule.t) :: Routes.Route.t
-  def route(%{schedule: %Schedule{route: route}}), do: route
-  def route(%{prediction: %Prediction{route: route}}), do: route
+  def route(%PredictedSchedule{schedule: %Schedule{route: route}}), do: route
+  def route(%PredictedSchedule{prediction: %Prediction{route: route}}), do: route
 
   @doc """
   Returns the trip for a given PredictedSchedule.
   """
   @spec trip(PredictedSchedule.t) :: Schedules.Trip.t
-  def trip(%{schedule: %Schedule{trip: trip}}), do: trip
-  def trip(%{prediction: %Prediction{trip: trip}}), do: trip
+  def trip(%PredictedSchedule{schedule: %Schedule{trip: trip}}), do: trip
+  def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}), do: trip
+
+  @doc """
+  Returns the direction ID for a given PredictedSchedule
+  """
+  @spec direction_id(PredictedSchedule.t) :: 0 | 1
+  def direction_id(%PredictedSchedule{prediction: %Prediction{} = prediction}) do
+    prediction.direction_id
+  end
+  def direction_id(%PredictedSchedule{schedule: %Schedule{trip: trip}}) do
+    trip.direction_id
+  end
 
   @doc """
   Determines if the given PredictedSchedule has a schedule

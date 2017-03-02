@@ -27,7 +27,7 @@ defmodule Site.ScheduleV2View do
   defp do_display_direction([%StopTime{departure: predicted_schedule} | _]) do
     [
       direction(
-        PredictedSchedule.trip(predicted_schedule).direction_id,
+        PredictedSchedule.direction_id(predicted_schedule),
         PredictedSchedule.route(predicted_schedule)
       ),
       " to"

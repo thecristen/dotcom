@@ -73,7 +73,7 @@ defmodule Site.ScheduleV2ViewTest do
       stop = %Schedules.Stop{id: "stop"}
       now = Timex.now
       stop_times = StopTimeList.build_predictions_only(
-        [%Predictions.Prediction{route: route, stop: stop, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
+        [%Predictions.Prediction{route: route, stop: stop, trip: nil, direction_id: 1, time: Timex.shift(now, hours: -1)}],
         stop.id,
         nil
       )
