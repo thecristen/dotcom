@@ -29,7 +29,7 @@
             <div class="station-route-row">
               <div class="col-xs-12 mode-route-name">
                 <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
-                <%= link route.name, to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") %>
+                <%= link route.name, to: schedule_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") %>
               </div>
               <div class="clearfix">
                 <div class="col-sm-4 col-xs-12">
@@ -44,7 +44,7 @@
                       No. <%= schedule.trip.name %>
                     </div>
                     <div class="col-xs-4">
-                      <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, direction_id: direction_id) do %>
+                      <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, direction_id: direction_id, tab: "trip-view") do %>
                         <%= Site.ScheduleV2View.display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
                       <% end %>
                     </div>
