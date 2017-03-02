@@ -24,3 +24,11 @@
     <% end %>
   </div>
 <% end %>
+
+<%= for route <- GreenLine.branch_ids do %>
+  <%= if route != @expanded do %>
+    <div>
+      <%= link "Expand #{route}", to: update_url(@conn, expanded: route) %>
+    </div>
+  <% end %>
+<% end %>

@@ -143,4 +143,81 @@ defmodule Site.ScheduleV2Controller.GreenTest do
 
     assert conn.assigns.stops_on_routes == GreenLine.stops_on_routes(1)
   end
+
+  test "if we select an origin where we only have non-trip predictions, we hide the destination selector", %{conn: conn} do
+    conn = conn
+    |> assign(:date_time, ~N[2017-01-01T12:00:00])
+    |> assign(:date, ~D[2017-01-01])
+    |> assign(:direction_id, 0)
+    |> assign(:route, @green_line)
+    |> assign(:origin, %Stops.Stop{id: "place-north"})
+    |> hide_destination_selector([])
+
+    assert conn.assigns.hide_destination_selector?
+  end
+
+  describe "validate_stop_times/2" do
+    test "redirects away from a destination if we had origin predictions but not stop_times", %{conn: conn} do
+      conn = %{conn | request_path: "/", query_params: %{"origin" => "stop", "destination" => "destination"}}
+      |> assign(:date_time, ~N[2017-01-01T12:00:00])
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:direction_id, 0)
+      |> assign(:route, @green_line)
+      |> assign(:origin, %Stops.Stop{id: "stop"})
+      |> assign(:destination, %Stops.Stop{id: "destination"})
+      |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}])
+      |> assign(:stop_times, StopTimeList.build_predictions_only([], "stop", "destination"))
+      |> validate_stop_times([])
+
+      assert redirected_to(conn, 302) == "/?origin=stop"
+    end
+
+    test "keeps the destination if there are stop times", %{conn: conn} do
+      predictions = [
+        %Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}
+      ]
+      conn = %{conn | request_path: "/", query_params: %{"origin" => "stop", "destination" => "destination"}}
+      |> assign(:date_time, ~N[2017-01-01T12:00:00])
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:direction_id, 0)
+      |> assign(:route, @green_line)
+      |> assign(:origin, %Stops.Stop{id: "stop"})
+      |> assign(:destination, %Stops.Stop{id: "destination"})
+      |> assign(:predictions, predictions)
+      |> assign(:stop_times, StopTimeList.build_predictions_only(predictions, "stop", nil))
+      |> validate_stop_times([])
+
+      refute conn.halted
+    end
+
+    test "keeps the destination if there are no predictions for the origin", %{conn: conn} do
+      conn = %{conn | request_path: "/", query_params: %{"origin" => "stop", "destination" => "destination"}}
+      |> assign(:date_time, ~N[2017-01-01T12:00:00])
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:direction_id, 0)
+      |> assign(:route, @green_line)
+      |> assign(:origin, %Stops.Stop{id: "stop"})
+      |> assign(:destination, %Stops.Stop{id: "destination"})
+      |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "destination"}}])
+      |> assign(:stop_times, StopTimeList.build_predictions_only([], "stop", "destination"))
+      |> validate_stop_times([])
+
+      refute conn.halted
+    end
+
+    test "does nothing if there's no destination", %{conn: conn} do
+      conn = %{conn | request_path: "/", query_params: %{"origin" => "stop"}}
+      |> assign(:date_time, ~N[2017-01-01T12:00:00])
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:direction_id, 0)
+      |> assign(:route, @green_line)
+      |> assign(:origin, %Stops.Stop{id: "stop"})
+      |> assign(:destination, nil)
+      |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}])
+      |> assign(:stop_times, StopTimeList.build_predictions_only([], "stop", "destination"))
+      |> validate_stop_times([])
+
+      refute conn.halted
+    end
+  end
 end

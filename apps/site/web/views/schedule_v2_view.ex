@@ -24,11 +24,14 @@ defmodule Site.ScheduleV2View do
   end
 
   @spec do_display_direction([StopTime.t]) :: iodata
-  defp do_display_direction([%StopTime{departure: %PredictedSchedule{schedule: nil}} | rest]) do
-    do_display_direction(rest)
-  end
-  defp do_display_direction([%StopTime{departure: %PredictedSchedule{schedule: scheduled}} | _]) do
-    [direction(scheduled.trip.direction_id, scheduled.route), " to"]
+  defp do_display_direction([%StopTime{departure: predicted_schedule} | _]) do
+    [
+      direction(
+        PredictedSchedule.trip(predicted_schedule).direction_id,
+        PredictedSchedule.route(predicted_schedule)
+      ),
+      " to"
+    ]
   end
   defp do_display_direction([]), do: ""
 
@@ -45,9 +48,16 @@ defmodule Site.ScheduleV2View do
       [
         fa("rss"),
         " ",
-        format_schedule_time(prediction.time)
+        format_prediction_time(prediction)
       ]
     end
+  end
+
+  defp format_prediction_time(%{time: nil, status: status}) when is_binary(status) do
+    status
+  end
+  defp format_prediction_time(%{time: time}) do
+    format_schedule_time(time)
   end
 
   @doc """

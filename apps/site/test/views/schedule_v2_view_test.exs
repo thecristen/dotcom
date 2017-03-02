@@ -54,7 +54,7 @@ defmodule Site.ScheduleV2ViewTest do
       assert display_direction(%StopTimeList{}) == ""
     end
 
-    test "given a non-empty list of schedules, displays the direction of the first schedule's route" do
+    test "given a non-empty list of predicted_schedules, displays the direction of the first one's route" do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}}
       trip = %Trip{direction_id: 1}
       stop_times = StopTimeList.build(
@@ -68,17 +68,14 @@ defmodule Site.ScheduleV2ViewTest do
       assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end
 
-    test "finds later schedules if the first is nil" do
+    test "uses predictions if no schedule are available (as on subways)" do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}, id: "1"}
       stop = %Schedules.Stop{id: "stop"}
       now = Timex.now
-      stop_times = StopTimeList.build(
-        [%Schedules.Schedule{route: route, trip: %Trip{direction_id: 1, id: "t2"}, stop: stop, time: now}],
+      stop_times = StopTimeList.build_predictions_only(
         [%Predictions.Prediction{route: route, stop: stop, trip: %Trip{direction_id: 1, id: "t1"}, time: Timex.shift(now, hours: -1)}],
         stop.id,
-        nil,
-        :keep_all,
-        ~N[2017-01-01T06:30:00]
+        nil
       )
       assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end
@@ -102,6 +99,15 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "Empty string returned if no value available in predicted_schedule pair" do
       assert display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}) == ""
+    end
+
+    test "prediction status is used if the prediction does not have a time" do
+      display_time = display_scheduled_prediction(
+        %PredictedSchedule{
+          schedule: nil,
+          prediction: %Prediction{status: "Text status"}})
+      assert safe_to_string(display_time) =~ "Text status"
+      assert safe_to_string(display_time) =~ "fa fa-rss"
     end
   end
 

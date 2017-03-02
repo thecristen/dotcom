@@ -44,7 +44,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
                   route: route,
                   date: user_selected_date,
                   date_time: date_time}}) when times != [] do
-    if(show_trips?(user_selected_date, date_time, route.type)) do
+    if show_trips?(user_selected_date, date_time, route.type) do
       current_trip(times, date_time)
     else
       nil
@@ -97,14 +97,18 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp do_current_trip(times, now) do
     case Enum.find(times, &is_after_now?(&1, now)) do
       nil -> nil
-      time -> PredictedSchedule.trip_id(time.departure)
+      time -> PredictedSchedule.trip(time.departure).id
     end
   end
 
   @spec is_after_now?(StopTime.t, DateTime.t) :: boolean
   defp is_after_now?(%StopTime{departure: departure}, now) do
     PredictedSchedule.map_optional(departure, [:schedule, :prediction], false, fn x ->
+      if x.time do
         Timex.after?(x.time, now)
+      else
+        false
+      end
     end)
   end
 

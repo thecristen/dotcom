@@ -1,11 +1,6 @@
-<%= for stop <- @stops do %>
-  <div class="route-row">
-    <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
-    <%= for icon <- @stop_features[stop.id] do %>
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: icon}) %>
-    <% end %>
-    <%= if assigns[:zones] && @zones[stop.id] do %>
-      <span class="pull-right">Zone <%= @zones[stop.id] %>
-    <%= end %>
-  </div>
-<% end %>
+<%= for {stop, is_terminus?} <- EnumHelpers.with_first_last(@stops) do
+  route_row(@conn, stop, @stop_features[stop.id], is_terminus?)
+  #if assigns[:zones] && @zones[stop.id] do
+    #<span class="pull-right">Zone <%= @zones[stop.id]
+  #end
+end %>

@@ -37,7 +37,7 @@ defmodule Site.PageControllerTest do
   test "non-homepage has sticky-footer class", %{conn: conn} do
     [body_class] =
       build_conn()
-      |> get(stop_path(conn, :show, "place-sstat"))
+      |> get(mode_path(conn, :ferry))
       |> html_response(200)
       |> Floki.find("body")
       |> Floki.attribute("class")
@@ -60,7 +60,7 @@ defmodule Site.PageControllerTest do
     test "are not included in footer when not on the homepage", %{conn: conn} do
       footer_text =
         conn
-        |> get(stop_path(conn, :show, "place-sstat"))
+        |> get(mode_path(conn, :ferry))
         |> html_response(200)
         |> Floki.find("footer")
         |> Floki.text()
