@@ -2,6 +2,7 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
   use Site.ConnCase, async: true
 
   import Site.ScheduleV2Controller.Predictions
+  alias Predictions.Prediction
 
   defmodule PredictionTest do
     # needs to be a separate module so that it's defined before the test uses
@@ -10,6 +11,8 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       []
     end
   end
+
+  @empty [%Prediction{}]
 
   @opts init([predictions_fn: &PredictionsTest.all/1])
 
@@ -43,13 +46,21 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> assign(:destination, nil)
       |> assign(:route, %{id: "4"})
       |> assign(:direction_id, "0")
-      |> call([predictions_fn: fn (opts) -> opts end])
+      |> call([predictions_fn: fn [route: "4", stop: "place-sstat", direction_id: "0"] -> @empty end])
 
-      assert conn.assigns[:predictions] == [
-        route: "4",
-        stop: "place-sstat",
-        direction_id: "0"
-      ]
+      assert conn.assigns[:predictions] == @empty
+    end
+
+    test "ignores predictions which have the origin as their destination", %{conn: conn} do
+      prediction = %Predictions.Prediction{stop: %Stops.Stop{id: "origin"}, departing?: false}
+      conn = conn
+      |> assign(:origin, %Stops.Stop{id: "origin"})
+      |> assign(:destination, nil)
+      |> assign(:route, %{id: "4"})
+      |> assign(:direction_id, "0")
+      |> call([predictions_fn: fn (_) -> [prediction] end])
+
+      assert conn.assigns.predictions == []
     end
 
     test "otherwise, assigns no predictions", %{conn: conn} do
@@ -65,12 +76,9 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> assign(:destination, %Stops.Stop{id: "21148"})
       |> assign(:route, %{id: "66"})
       |> assign(:direction_id, "0")
-      |> call([predictions_fn: fn (opts) -> opts end])
+      |> call([predictions_fn: fn [route: "66", stop: "1148,21148"] -> @empty end])
 
-      assert conn.assigns[:predictions] == [
-        route: "66",
-        stop: "1148,21148"
-      ]
+      assert conn.assigns[:predictions] == @empty
     end
 
     test "assigns a list containing predictions for every stop with a vehicle at it", %{conn: conn} do
@@ -84,10 +92,13 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> assign(:route, %{id: "66"})
       |> assign(:direction_id, "0")
       |> assign(:vehicle_locations, vehicle_locations)
-      |> call([predictions_fn: & &1])
+      |> call([predictions_fn: fn
+                [route: "66", stop: "1148,21148"] -> []
+                # we transform the data into this form so that we only need to make one repo call
+                [trip: "1,2", stop: "place-sstat,place-north"] -> @empty
+              end])
 
-      # we transform the data into this form so that we only need to make one repo call
-      assert conn.assigns.vehicle_predictions == [trip: "1,2", stop: "place-sstat,place-north"]
+      assert conn.assigns.vehicle_predictions == @empty
     end
   end
 end

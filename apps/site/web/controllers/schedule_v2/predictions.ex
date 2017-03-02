@@ -5,6 +5,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
   """
   import Plug.Conn, only: [assign: 3]
+  alias Predictions.Prediction
 
   @default_opts [
     predictions_fn: &Predictions.Repo.all/1,
@@ -35,6 +36,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
     predictions = [route: route_id]
     |> Keyword.merge(prediction_query(origin, destination, direction_id))
     |> predictions_fn.()
+    |> filter_stop_at_origin(origin.id)
 
     assign(conn, :predictions, predictions)
   end
@@ -47,6 +49,14 @@ defmodule Site.ScheduleV2Controller.Predictions do
   end
   defp prediction_query(origin, destination, _) do
     [stop: "#{origin.id},#{destination.id}"]
+  end
+
+  defp filter_stop_at_origin(predictions, origin_id) do
+    predictions
+    |> Enum.reject(fn
+      %Prediction{stop: %{id: ^origin_id}, departing?: false} -> true
+      %Prediction{} -> false
+    end)
   end
 
   @spec gather_vehicle_predictions(Plug.Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: Plug.Conn.t
