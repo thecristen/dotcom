@@ -7,7 +7,6 @@ export default function($) {
 
   function initialPosition() {
     const $this = $(this),
-          parentLeft = Math.ceil(this.getBoundingClientRect().left),
           scrollLeft = $this.scrollLeft();
     // reset scroll position
     $this.scrollLeft(0);
