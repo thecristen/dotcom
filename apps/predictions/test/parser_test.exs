@@ -94,6 +94,41 @@ defmodule Predictions.ParserTest do
       refute parsed.departing?
     end
 
+    test "can parse a prediction with no times" do
+      item = %Item{
+        attributes: %{
+          "track" => nil,
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => nil,
+          "arrival_time" => nil,
+        },
+        relationships: %{
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 5
+                            }},
+                      %Item{id: "wrong"}],
+          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
+          "trip" => [%Item{id: "trip_id", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }},
+                     %Item{id: "wrong", attributes: %{
+                              "name" => "trip_name",
+                              "direction_id" => "0",
+                              "headsign" => "trip_headsign"
+                           }}]
+        }
+      }
+      parsed = Parser.parse(item)
+
+      assert parsed.time == nil
+      refute parsed.departing?
+    end
+
     test "uses parent station ID and name if present" do
       item = %Item{
         attributes: %{

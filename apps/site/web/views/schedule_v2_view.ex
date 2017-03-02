@@ -48,9 +48,16 @@ defmodule Site.ScheduleV2View do
       [
         fa("rss"),
         " ",
-        format_schedule_time(prediction.time)
+        format_prediction_time(prediction)
       ]
     end
+  end
+
+  defp format_prediction_time(%{time: nil, status: status}) when is_binary(status) do
+    status
+  end
+  defp format_prediction_time(%{time: time}) do
+    format_schedule_time(time)
   end
 
   @doc """

@@ -342,6 +342,36 @@ defmodule StopTimeListTest do
       }
     end
 
+    test "matches predictions and schedules with the same trip/stop even if the route is different" do
+      prediction = %Prediction{
+        time: ~N[2017-01-01T09:05:00],
+        route: @route,
+        stop: %Stop{id: "stop1"},
+        trip: %Trip{id: "trip4"}
+      }
+      schedule = %Schedule{
+        time: ~N[2017-01-01T10:00:00],
+        route: %{@route | id: "different_route_id"},
+        stop: %Stop{id: "stop1"},
+        trip: %Trip{id: "trip4"}
+      }
+
+      result = build([schedule], [prediction], "stop1", nil, :predictions_then_schedules, @time)
+      assert result == %StopTimeList{
+        times: [
+          %StopTime{
+            arrival: nil,
+            departure: %PredictedSchedule{
+              schedule: schedule,
+              prediction: prediction
+            },
+            trip: %Trip{id: "trip4"}
+          }
+        ],
+        showing_all?: false
+      }
+    end
+
     test "only leaves upcoming trips and one previous" do
 
       # ------------------------------
@@ -629,6 +659,7 @@ defmodule StopTimeListTest do
 
     test "handles predictions not associated with a trip" do
       prediction = %Prediction{
+        id: "pred",
         time: Util.now,
         route: @route,
         stop: %Stop{id: "stop1"},
@@ -647,30 +678,23 @@ defmodule StopTimeListTest do
         ]}
     end
 
-    test "handles predictions not associated with a trip given an origin and destination" do
+    test "handles predictions not associated with a trip on different routes" do
+      stop = %Stop{id: "stop1"}
       prediction = %Prediction{
-        time: Util.now,
+        id: "pred",
         route: @route,
-        stop: %Stop{id: "stop1"},
-        trip: %Trip{id: "trip1"}
-      }
-      arrival_prediction = %{prediction | stop: %Stop{id: "stop3"}}
-      predictions = [prediction, arrival_prediction]
-      result = build_predictions_only(predictions, "stop1", "stop3")
-      assert result == %StopTimeList{
-        showing_all?: true,
-        times: [
-          %StopTime{
-            trip: nil,
-            departure: %PredictedSchedule{
-              schedule: nil,
-              prediction: prediction
-            },
-            arrival: %PredictedSchedule{
-              schedule: nil,
-              prediction: arrival_prediction},
-            trip: %Trip{id: "trip1"}}
-        ]}
+        stop: stop,
+        status: "2 stops away"}
+      other_prediction = %Prediction{
+        id: "other pred",
+        route: %Route{id: "other"},
+        stop: stop,
+        status: "1 stop away"}
+      result = build_predictions_only([prediction, other_prediction] |> Enum.shuffle, "stop1", nil)
+      assert [
+        %StopTime{trip: nil, departure: %PredictedSchedule{prediction: ^other_prediction}},
+        %StopTime{trip: nil, departure: %PredictedSchedule{prediction: ^prediction}}
+      ] = result.times
     end
 
     test "ignores predictions where arrival is before departure" do
