@@ -115,6 +115,26 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
     }
   ]
 
+  describe "call/2" do
+    test "when only an origin is present, only includes schedules for that stop", %{conn: conn} do
+      route_id = "CR-Providence"
+      direction_id = 0
+      stop_id = "place-sstat"
+      conn = %{conn | params: %{"route" => route_id}}
+      |> assign(:date, Util.service_date())
+      |> assign(:route, %Routes.Route{id: route_id})
+      |> assign(:direction_id, direction_id)
+      |> assign(:origin, %Stops.Stop{id: stop_id})
+      |> assign(:destination, nil)
+      |> call(init([]))
+
+      assert conn.assigns.schedules != []
+      for schedule <- conn.assigns.schedules do
+        assert schedule.stop.id == stop_id
+      end
+    end
+  end
+
   describe "assign_frequency_table/1" do
     test "when schedules are assigned as a list, assigns a frequency table", %{conn: conn} do
       conn = conn
