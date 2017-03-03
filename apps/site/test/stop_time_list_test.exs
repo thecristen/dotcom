@@ -368,7 +368,7 @@ defmodule StopTimeListTest do
             trip: %Trip{id: "trip4"}
           }
         ],
-        showing_all?: false
+        showing_all?: true
       }
     end
 
@@ -485,7 +485,7 @@ defmodule StopTimeListTest do
             trip: %Trip{id: "trip3"}
           },
         ],
-        showing_all?: false
+        showing_all?: true
       }
 
     end
