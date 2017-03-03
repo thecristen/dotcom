@@ -61,10 +61,11 @@ defmodule Site.StopController do
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
   end
-  defp tab_assigns(%{assigns: %{tab: schedule}} = conn, stop) when schedule in [nil, "schedule"] do
+  defp tab_assigns(%{assigns: %{tab: schedule, all_alerts: alerts}} = conn, stop) when schedule in [nil, "schedule"] do
     conn
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> assign(:stop_predictions, stop_predictions(stop.id))
+    |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign(:stop_schedule)
   end
 
@@ -91,7 +92,12 @@ defmodule Site.StopController do
   def access_alerts(alerts, stop) do
     alerts
     |> Enum.filter(&(&1.effect_name == "Access Issue"))
-    |> Alerts.Match.match(%Alerts.InformedEntity{stop: stop.id})
+    |> stop_alerts(stop)
+  end
+
+  @spec stop_alerts([Alerts.Alert.t], Stop.t) :: [Alerts.Alert.t]
+  def stop_alerts(alerts, stop) do
+    Alerts.Stop.match(alerts, stop.id)
   end
 
   @spec stop_schedule(String.t, DateTime.t) :: [Schedules.Schedule.t]
