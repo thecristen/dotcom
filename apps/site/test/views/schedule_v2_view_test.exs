@@ -199,7 +199,7 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "prediction_trip_information/1" do
+  describe "prediction_trip_information/2" do
     @trip_info %TripInfo{
       sections: [[
         %PredictedSchedule{
@@ -207,22 +207,16 @@ defmodule Site.ScheduleV2ViewTest do
             stop: %Schedules.Stop{id: "place-forhl", name: "Forest Hills"},
             trip: %Schedules.Trip{id: "32610405"}}}]]}
 
-    test "route status available", %{conn: conn} do
-      conn = conn
-      |> assign(:trip_info, @trip_info)
-      |> assign(:vehicle_locations, %{{"32610405", "place-forhl"} => %Vehicles.Vehicle{
-        status: :stopped, stop_id: "place-forhl", trip_id: "32610405"}})
+    test "route status available" do
+      vehicle_locations = %{{"32610405", "place-forhl"} => %Vehicles.Vehicle{
+        status: :stopped, stop_id: "place-forhl", trip_id: "32610405"}}
 
-      output = prediction_trip_information(conn) |> safe_to_string
+      output = prediction_trip_information(@trip_info, vehicle_locations) |> safe_to_string
       assert output =~ "Train has arrived at Forest Hills."
     end
 
-    test "route status is not available", %{conn: conn} do
-      conn = conn
-      |> assign(:trip_info, @trip_info)
-      |> assign(:vehicle_locations, %{})
-
-      output = prediction_trip_information(conn)
+    test "route status is not available" do
+      output = prediction_trip_information(@trip_info, %{})
       assert output == ""
     end
   end
