@@ -126,7 +126,7 @@ defmodule Predictions.ParserTest do
       parsed = Parser.parse(item)
 
       assert parsed.time == nil
-      refute parsed.departing?
+      assert parsed.departing?
     end
 
     test "uses parent station ID and name if present" do
