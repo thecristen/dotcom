@@ -5,7 +5,6 @@
     <%= TripInfo.full_status(@trip_info) %>
   </div>
   <div class="trip-info-labels">
-    <div class="vehicle-location"></div>
     <div class="stop-info">
       <span>Stops:</span>
       <span>Times:</span>
@@ -15,7 +14,7 @@
     <%= for times_or_separator <- TripInfo.times_with_flags_and_separators(@trip_info) do %>
       <%= if times_or_separator == :separator do %>
         <div class="collapsed-row">
-          <div class="vehicle-location"><div>&nbsp;</div></div>
+          <div class="vehicle-location stop-bubble"><div>&nbsp;</div></div>
           <div class="expand-link">
             <%= link "Show All Stops", to: update_url(@conn, show_collapsed_trip_stops?: "") %>
           </div>

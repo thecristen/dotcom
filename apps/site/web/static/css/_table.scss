@@ -24,7 +24,7 @@
   min-height: 1px;
 }
 
-@mixin column($left-padding: $horizontal-padding, $right-padding: $horizontal-padding) {
+@mixin column($left-padding: $grid-gutter-width / 2, $right-padding: $grid-gutter-width / 2) {
 // a column with equal padding on both sides.
   @include force-width;
   float: left;
@@ -55,10 +55,6 @@
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-
-$vertical-padding: $base-spacing-sm;
-$horizontal-padding: $grid-gutter-width / 2;
-
 %unpadded-table-row {
   @include clearfix();
 
@@ -66,7 +62,7 @@ $horizontal-padding: $grid-gutter-width / 2;
   border: $border;
   margin-bottom: -$space-1;
   margin-top: -$space-1;
-  padding: $vertical-padding $horizontal-padding;
+  padding: $base-spacing-sm $grid-gutter-width / 2;
   position: relative;
 }
 

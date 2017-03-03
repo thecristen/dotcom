@@ -27,7 +27,7 @@ defmodule Site.RouteView do
 
   @spec stop_bubble(integer, boolean) :: Phoenix.HTML.Safe.t
   defp stop_bubble(route_type, is_terminus?) do
-    content_tag :div, class: "vehicle-location" do
+    content_tag :div, class: "stop-bubble" do
       Site.ScheduleV2View.stop_bubble_location_display(false, route_type, is_terminus?)
     end
   end

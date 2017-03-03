@@ -11,7 +11,7 @@ defmodule Site.RouteViewTest do
         |> route_row(%Stops.Stop{id: "stop", name: "Stop Name"}, [:bus, :subway], false)
         |> safe_to_string
       assert row =~ "Stop Name"
-      assert row =~ "trip-bubble"
+      assert row =~ "stop-bubble"
       assert row =~ "bus"
       assert row =~ "subway"
     end
@@ -27,7 +27,7 @@ defmodule Site.RouteViewTest do
       |> safe_to_string
 
       assert row =~ "Stop Name"
-      assert row =~ "trip-bubble"
+      assert row =~ "stop-bubble"
       assert row =~ "bus"
       assert row =~ "subway"
       assert row =~ "Zone A"
