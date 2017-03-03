@@ -295,4 +295,14 @@ defmodule Site.ViewHelpers do
   def schedule_path(endpoint, method, arg, opts) do
     Site.Router.Helpers.schedule_path(endpoint, method, arg, opts)
   end
+
+  @spec route_type_name(number) :: String.t
+  def route_type_name(route_type) do
+    case route_type do
+      2 ->
+        "Train"
+      3 ->
+        "Bus"
+    end
+  end
 end
