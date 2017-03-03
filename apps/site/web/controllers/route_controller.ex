@@ -105,9 +105,9 @@ defmodule Site.RouteController do
 
   defp get_dates(date) do
     %{
-      :week => Timex.beginning_of_week(date, 1),
-      :saturday => Timex.beginning_of_week(date, 6),
-      :sunday => Timex.beginning_of_week(date, 7)
+      :week => Timex.end_of_week(date, 2),
+      :saturday => Timex.end_of_week(date, 7),
+      :sunday => Timex.end_of_week(date, 1)
     }
   end
 
