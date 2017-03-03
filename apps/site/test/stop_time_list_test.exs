@@ -489,6 +489,20 @@ defmodule StopTimeListTest do
       }
 
     end
+
+    test "returns all trips if they are all in the past" do
+      # ------------------------------
+      #         trip1 | trip2 | trip3
+      # ------------------------------
+      # stop1 | 7:00  | 8:00  | 9:00
+      # stop2 |       | 8:15  |
+      # stop3 |       |       |
+
+      expected = build(@origin_schedules, [], "stop1", nil, :keep_all, ~N[2017-01-01T09:30:00])
+      actual = build(@origin_schedules, [], "stop1", nil, :last_trip_and_upcoming, ~N[2017-01-01T09:30:00])
+
+      assert actual == expected
+    end
   end
 
   describe "build/1 with origin and destination" do

@@ -40,25 +40,36 @@ defmodule StopTime.Filter do
   def remove_departure_schedules_before_last_trip(stop_times, current_time) do
     last_trip_time = find_max_earlier_departure_schedule_time(stop_times, current_time)
 
-    remove_departure_schedules_before(stop_times, last_trip_time)
+    if last_trip_time do
+      remove_departure_schedules_before(stop_times, last_trip_time)
+    else
+      stop_times
+    end
   end
 
   @spec find_max_departure_prediction_time([StopTime.t]) :: DateTime.t | nil
   def find_max_departure_prediction_time(stop_times) do
-      stop_times
-      |> Enum.max_by(&StopTime.departure_prediction_time/1, fn -> nil end)
-      |> StopTime.departure_prediction_time
+    stop_times
+    |> Enum.max_by(&StopTime.departure_prediction_time/1, fn -> nil end)
+    |> StopTime.departure_prediction_time
   end
+
 
   # find the maximum scheduled departure before given time
   @spec find_max_earlier_departure_schedule_time([StopTime.t], DateTime.t) :: DateTime.t | nil
   def find_max_earlier_departure_schedule_time(stop_times, time) do
-    stop_times
+    only_past_schedules = stop_times
     |> Enum.reject(&is_nil(&1))
     |> Enum.filter(&StopTime.has_departure_schedule?(&1))
     |> Enum.reject(&StopTime.departure_schedule_after?(&1, time))
-    |> Enum.max_by(&StopTime.departure_schedule_time(&1), fn -> nil end)
-    |> StopTime.departure_schedule_time
+
+    if only_past_schedules == stop_times do
+      nil
+    else
+      only_past_schedules
+      |> Enum.max_by(&StopTime.departure_schedule_time(&1), fn -> nil end)
+      |> StopTime.departure_schedule_time
+    end
   end
 
   @spec remove_departure_schedules_before([StopTime.t], DateTime.t) :: [StopTime.t]
