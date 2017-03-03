@@ -37,8 +37,17 @@ defmodule Site.RouteView do
     content_tag :div, class: "route-stop-name-icons" do
       [
         link(stop.name, to: stop_path(conn, :show, stop.id)),
+        zone(conn.assigns[:zones], stop),
         content_tag(:div, [class: "route-icons"], do: Enum.map(stop_features, &svg_icon_with_circle(%SvgIconWithCircle{icon: &1})))
       ]
+    end
+  end
+
+  @spec zone(map | nil, Stop.Stop.t) :: Phoenix::HTML.Safe.t
+  defp zone(nil, _stop), do: ""
+  defp zone(zones, stop) do
+    content_tag :span, class: "pull-right" do
+      ["Zone "<>zones[stop.id]]
     end
   end
 end
