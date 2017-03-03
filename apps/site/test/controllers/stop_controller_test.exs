@@ -2,6 +2,14 @@ defmodule Site.StopControllerTest do
   use Site.ConnCase, async: true
 
   alias Site.StopController
+  alias Alerts.Alert
+  alias Alerts.InformedEntity, as: IE
+
+  @alerts [
+    %Alert{effect_name: "Delay", informed_entity: [%IE{route: "Red", stop: "place-sstat"}], updated_at: ~N[2017-01-01T12:00:00]},
+    %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-pktrm"}]},
+    %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}], updated_at: ~N[2017-01-01T12:00:00]}
+  ]
 
   test "redirects to subway stops on index", %{conn: conn} do
     conn = get conn, stop_path(conn, :index)
@@ -56,6 +64,14 @@ defmodule Site.StopControllerTest do
     assert conn.assigns.terminal_station == ""
   end
 
+  test "assigns alerts for the stop", %{conn: conn} do
+    conn = conn
+    |> assign(:all_alerts, @alerts)
+    |> get(stop_path(conn, :show, "place-sstat"))
+
+    assert conn.assigns.stop_alerts == [0, 2] |> Enum.map(&Enum.at(@alerts, &1))
+  end
+
   test "assigns nearby fare retail locations", %{conn: conn} do
     assert %Plug.Conn{assigns: %{fare_sales_locations: locations}} = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
     assert is_list(locations)
@@ -87,22 +103,11 @@ defmodule Site.StopControllerTest do
   end
 
   describe "access_alerts/2" do
-    alias Alerts.Alert
-    alias Alerts.InformedEntity, as: IE
-
-    def alerts do
-      [
-        %Alert{effect_name: "Delay", informed_entity: [%IE{route: "Red", stop: "place-sstat"}]},
-        %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-pktrm"}]},
-        %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}]}
-      ]
-    end
-
     test "returns only access issues which affect the given stop" do
-      assert StopController.access_alerts(alerts(), %Stops.Stop{id: "place-sstat"}) == [
-        %Alert{effect_name: "Access Issue", informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}]}
+      assert StopController.access_alerts(@alerts, %Stops.Stop{id: "place-sstat"}) == [
+        Enum.at(@alerts, 2)
       ]
-      assert StopController.access_alerts(alerts(), %Stops.Stop{id: "place-davis"}) == []
+      assert StopController.access_alerts(@alerts, %Stops.Stop{id: "place-davis"}) == []
     end
   end
 end
