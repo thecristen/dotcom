@@ -417,6 +417,21 @@ defmodule StopTimeListTest do
 
     end
 
+    test "without predictions, :predictions_then_schedules is the same as :last_trip_and_upcoming" do
+
+      # ------------------------------
+      #         trip1 | trip2 | trip3
+      # ------------------------------
+      # stop1 | 7:00  | 8:00  | 9:00
+      # stop2 |       | 8:15  |
+      # stop3 |       |       |
+
+      expected = build(@origin_schedules, [], "stop1", nil, :last_trip_and_upcoming, ~N[2017-01-01T08:30:00])
+      actual = build(@origin_schedules, [], "stop1", nil, :predictions_then_schedules, ~N[2017-01-01T08:30:00])
+
+      assert expected == actual
+    end
+
     test "returns all trips if they are upcoming" do
 
       # ------------------------------

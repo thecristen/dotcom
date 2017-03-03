@@ -12,22 +12,26 @@ defmodule StopTime.Filter do
   # * :predictions_then_schedules -- remove all scheduled trips before predictions.
   #                                  That is, make sure the list starts with predictions, followed by schedules
   #
-  @spec filter([StopTime.t], filter_flag_t, DateTime.t | nil) :: [StopTime.t] 
+  @spec filter([StopTime.t], filter_flag_t, DateTime.t | nil) :: [StopTime.t]
   def filter(stop_times, :keep_all, _current_time), do: stop_times
   def filter(stop_times, _filter_flag, nil), do: stop_times
   def filter(stop_times, :last_trip_and_upcoming, current_time) do
     remove_departure_schedules_before_last_trip(stop_times, current_time)
   end
-  def filter(stop_times, :predictions_then_schedules, _current_time) do
-    remove_departure_schedules_before_predictions(stop_times)
+  def filter(stop_times, :predictions_then_schedules, current_time) do
+    remove_departure_schedules_before_predictions(stop_times, current_time)
   end
 
   # remove all stop_times without predictions (that just have schedule) before the predicted ones
-  @spec remove_departure_schedules_before_predictions([StopTime.t]) :: [StopTime.t]
-  def remove_departure_schedules_before_predictions(stop_times) do
+  @spec remove_departure_schedules_before_predictions([StopTime.t], DateTime.t | nil) :: [StopTime.t]
+  def remove_departure_schedules_before_predictions(stop_times, current_time) do
     max_prediction_time = find_max_departure_prediction_time(stop_times)
 
-    remove_departure_schedules_before(stop_times, max_prediction_time)
+    if max_prediction_time do
+      remove_departure_schedules_before(stop_times, max_prediction_time)
+    else
+      remove_departure_schedules_before_last_trip(stop_times, current_time)
+    end
   end
 
   # remove all stop times without predictions before `current_time`
