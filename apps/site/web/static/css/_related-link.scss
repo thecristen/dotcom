@@ -7,7 +7,7 @@
   position: relative;
 
   @include media-breakpoint-up(sm) {
-    height: $space-24 * 6;
+    min-height: $space-24 * 6;
   }
 
   @include hover-focus-active {
@@ -38,6 +38,7 @@
 
 .related-link-title {
   font-weight: bold;
+  padding-bottom: $space-12;
 }
 
 .related-link-group {
