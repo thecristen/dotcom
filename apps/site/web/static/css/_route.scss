@@ -36,13 +36,23 @@
 }
 
 .branch-link {
-  @extend %stop-name-and-time-column;
-
   background-color: $gray-lightest;
   border-radius: $space-4;
+  display: block;
   padding: .5rem 1rem;
 }
 
 .route-expand-branch {
   @extend %stop-bubble-collapsed;
+}
+
+.commuter-rail {
+  .zone {
+    padding-left: $base-spacing / 2;
+  }
+}
+
+.route-icons {
+  display: inline-block;
+  float: right;
 }

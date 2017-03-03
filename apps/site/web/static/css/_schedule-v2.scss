@@ -203,7 +203,8 @@ $z-index-calendar-cover: 3;
   @include unpadded-column;
   display: table-cell;
   margin-left: $base-spacing + $icon-size;
-  width: grid-width(10);
+  padding-right: $base-spacing + $icon-size;
+  width: 100%;
 
   > span:first-child {
     @extend %stop-name-column;
