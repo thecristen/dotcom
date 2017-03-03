@@ -73,14 +73,14 @@ defmodule Site.ScheduleV2View do
     svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-boring", show_tooltip?: false})
   end
   def stop_bubble_location_display(false, _route_type, true) do
-    stop_bubble_icon(:filled)
+    stop_bubble_icon(:terminus)
   end
   def stop_bubble_location_display(false, _, false) do
-    stop_bubble_icon(:open)
+    stop_bubble_icon(:stop)
   end
 
   defp stop_bubble_icon(class) do
-    content_tag :svg, viewBox: "0 0 42 42", class: "icon trip-bubble-#{class}" do
+    content_tag :svg, viewBox: "0 0 42 42", class: "icon stop-bubble-#{class}" do
       tag :circle, r: 20, cx: 20, cy: 20, transform: "translate(2,2)"
     end
   end

@@ -114,13 +114,13 @@ defmodule Site.ScheduleV2ViewTest do
   describe "stop_bubble_location_display/3" do
     test "when vehicle is not at stop and stop is not a terminus, returns an empty circle" do
       rendered = safe_to_string(stop_bubble_location_display(false, 1, false))
-      assert rendered =~ "trip-bubble-open"
+      assert rendered =~ "stop-bubble-stop"
       assert rendered =~ "svg"
     end
 
     test "when vehicle is not at stop and stop is a terminus, returns a filled circle" do
       rendered = safe_to_string(stop_bubble_location_display(false, 1, true))
-      assert rendered =~ "trip-bubble-filled"
+      assert rendered =~ "stop-bubble-terminus"
       assert rendered =~ "svg"
     end
 

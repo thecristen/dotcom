@@ -14,6 +14,11 @@ defmodule Site.RouteControllerTest do
       conn = get conn, route_path(conn, :show, "CR-Lowell")
       assert conn.status == 200
 
+      # make sure each stop has a zone
+      for stop <- conn.assigns.stops do
+        assert conn.assigns.zones[stop.id]
+      end
+
       # stops are in inbound order
       assert List.first(conn.assigns.stops).id == "Lowell"
       assert List.last(conn.assigns.stops).id == "place-north"
@@ -171,9 +176,9 @@ defmodule Site.RouteControllerTest do
 
       assert conn.assigns.hours_of_operation[:week][0].first_departure.hour == 6
       assert conn.assigns.hours_of_operation[:week][0].last_departure.hour == 23
-      assert conn.assigns.hours_of_operation[:week][1].first_departure.day == 27 # Monday
-      assert conn.assigns.hours_of_operation[:sunday][1].first_departure.day == 26
-      assert conn.assigns.hours_of_operation[:saturday][1].first_departure.day == 25
+      assert conn.assigns.hours_of_operation[:week][1].first_departure.day == 6 # Monday
+      assert conn.assigns.hours_of_operation[:sunday][1].first_departure.day == 5
+      assert conn.assigns.hours_of_operation[:saturday][1].first_departure.day == 4
     end
 
     test "uses schedules for each Green line branch", %{conn: conn} do

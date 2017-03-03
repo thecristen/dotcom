@@ -46,6 +46,20 @@ defmodule Site.RouteController do
     |> render(Site.ErrorView, "404.html", [])
     |> halt
   end
+  def show(conn, %{"route" => "CR-"<>_ = route_id}) do
+    stops = Stops.Repo.by_route(route_id, 1)
+
+    zones = Enum.reduce stops, %{}, fn stop, acc ->
+      Map.put(acc, stop.id, Zones.Repo.get(stop.id))
+    end
+
+    render conn, "show.html",
+      stop_list_template: "_stop_list.html",
+      stops: stops,
+      stop_features: stop_features(stops, conn.assigns.route),
+      map_img_src: map_img_src(stops, conn.assigns.route.type),
+      zones: zones
+  end
   def show(conn, %{"route" => route_id}) do
     stops = Stops.Repo.by_route(route_id, 1)
     conn
@@ -91,9 +105,9 @@ defmodule Site.RouteController do
 
   defp get_dates(date) do
     %{
-      :week => Timex.beginning_of_week(date, 1),
-      :saturday => Timex.beginning_of_week(date, 6),
-      :sunday => Timex.beginning_of_week(date, 7)
+      :week => Timex.end_of_week(date, 2),
+      :saturday => Timex.end_of_week(date, 7),
+      :sunday => Timex.end_of_week(date, 1)
     }
   end
 

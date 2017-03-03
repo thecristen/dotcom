@@ -1,0 +1,93 @@
+$z-index-stop-bubble: 2;
+$location-line-width: $space-6;
+
+@mixin stop-bubble-mode-color($class, $color) {
+// scss-lint:disable NestingDepth
+// scss-lint:disable SelectorDepth
+// Changes the color for the stop bubble based on the route type
+  .route-stop-list,
+  .schedule-trip-info,
+  .schedule-v2-timetable {
+    &#{$class} {
+      .icon-boring,
+      .icon-inverse,
+      .stop-bubble-stop,
+      .stop-bubble-terminus {
+        circle {
+          fill: $white;
+          stroke: $color;
+          stroke-width: $space-2;
+        }
+      }
+
+      .icon-inverse,
+      .stop-bubble-terminus {
+        circle {
+          fill: $color;
+        }
+      }
+
+      .stop-bubble::before {
+        border-left-color: $color;
+      }
+    }
+  }
+}
+
+%stop-bubble-first {
+  .stop-bubble::before {
+    height: 100%;
+    top: $space-2;
+  }
+}
+
+%stop-bubble-last {
+  .stop-bubble::before {
+    display: none;
+  }
+}
+
+%stop-bubble-collapsed {
+  .stop-bubble {
+    &::before {
+      background: $white;
+      border-left-style: dotted;
+      // taller and adjusted up so it moves up towards the previous stop
+      height: 150%;
+      top: -$space-16 - $space-4;
+    }
+  }
+}
+
+.stop-bubble {
+  height: 100%;
+  padding: $base-spacing-sm 0;
+  position: absolute;
+  width: $icon-size;
+
+  &::before {
+    border-left-style: solid;
+    border-left-width: $location-line-width;
+    content: '';
+    height: 130%;
+    left: 40%;
+    position: absolute;
+    top: -25%;
+    z-index: $z-index-stop-bubble;
+  }
+
+  svg {
+    margin-top: -$base-spacing-sm;
+    overflow: visible;
+    position: absolute;
+    z-index: $z-index-stop-bubble;
+  }
+}
+
+@include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);
+@include stop-bubble-mode-color(".red-line", $brand-red-line);
+@include stop-bubble-mode-color(".blue-line", $brand-blue-line);
+@include stop-bubble-mode-color(".orange-line", $brand-orange-line);
+@include stop-bubble-mode-color(".green-line", $brand-green-line);
+@include stop-bubble-mode-color(".bus", $brand-bus);
+@include stop-bubble-mode-color(".ferry", $brand-ferry);
