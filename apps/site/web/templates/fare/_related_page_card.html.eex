@@ -1,4 +1,8 @@
 <%= link to: @href, class: "related-link" do %>
   <div class="related-link-title"><%= @title %></div>
-  <p><%= @body %></p>
+  <ul>
+    <%= for topic <- @body do %>
+      <li><%= topic %></li>
+    <% end %>
+  </ul>
 <% end %>
