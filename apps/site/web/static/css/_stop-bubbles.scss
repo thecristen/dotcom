@@ -1,5 +1,5 @@
 $z-index-stop-bubble: 2;
-$location-line-width: $space-4;
+$location-line-width: $space-6;
 
 @mixin stop-bubble-mode-color($class, $color) {
 // scss-lint:disable NestingDepth
@@ -16,7 +16,7 @@ $location-line-width: $space-4;
         circle {
           fill: $white;
           stroke: $color;
-          stroke-width: $space-4;
+          stroke-width: $space-2;
         }
       }
 
@@ -37,7 +37,7 @@ $location-line-width: $space-4;
 %stop-bubble-first {
   .stop-bubble::before {
     height: 100%;
-    top: 0;
+    top: $space-2;
   }
 }
 
@@ -70,7 +70,7 @@ $location-line-width: $space-4;
     border-left-width: $location-line-width;
     content: '';
     height: 130%;
-    left: 50%;
+    left: 40%;
     position: absolute;
     top: -25%;
     z-index: $z-index-stop-bubble;
