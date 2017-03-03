@@ -75,7 +75,7 @@ defmodule StopTimeList do
 
     %__MODULE__{
       times: filtered_times,
-      showing_all?: filtered_times == stop_times
+      showing_all?: length(filtered_times) == length(stop_times)
     }
   end
 

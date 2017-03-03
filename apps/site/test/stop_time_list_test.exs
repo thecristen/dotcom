@@ -162,10 +162,11 @@ defmodule StopTimeListTest do
   # stop2 |       | 8:16  |
   # stop3 |       | 8:32  |
 
+  # shuffled to make sure we aren't order dependent
   @predictions [
     @pred_stop1_trip2__8_05,
-    @pred_stop2_trip2__8_16,
     @pred_stop3_trip2__8_32,
+    @pred_stop2_trip2__8_16,
   ]
 
   # -----------------------------------------------------
@@ -175,13 +176,14 @@ defmodule StopTimeListTest do
   # stop2 |       |       |       |       |       |
   # stop3 |       |       |       |       |       | 8:38
 
+  # shuffled to make sure we aren't order dependent
   @origin_destination_predictions [
+    @pred_stop1_trip6__8_37,
+    @pred_stop1_trip4__8_35,
+    @pred_stop1_trip3__8_32,
+    @pred_stop1_trip5__8_36,
     @pred_stop1_trip1__8_05,
     @pred_stop1_trip2__8_16,
-    @pred_stop1_trip3__8_32,
-    @pred_stop1_trip4__8_35,
-    @pred_stop1_trip5__8_36,
-    @pred_stop1_trip6__8_37,
     @pred_stop3_trip6__8_38,
   ]
 
@@ -639,6 +641,11 @@ defmodule StopTimeListTest do
           },
           prediction: nil
         }}
+    end
+
+    test "when showing all schedules, sets showing_all? to true" do
+      result = build(@od_schedules, @predictions, "stop1", "stop3", :keep_all, @time)
+      assert result.showing_all?
     end
   end
 
