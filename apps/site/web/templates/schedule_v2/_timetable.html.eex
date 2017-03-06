@@ -24,7 +24,7 @@
     <%= for {stop, terminus?} <- EnumHelpers.with_first_last(@all_stops) do %>
       <tr class="schedule-v2-timetable-row">
         <td class="schedule-v2-timetable-name-col" data-sticky="left">
-          <div class="vehicle-location hidden-sm-down">
+          <div class="stop-bubble hidden-sm-down">
             <%= stop_bubble_location_display(false, @route.type, terminus?) %>
           </div>
           <div class="schedule-v2-timetable-name">

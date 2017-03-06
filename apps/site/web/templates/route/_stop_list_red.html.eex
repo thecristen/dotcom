@@ -1,24 +1,36 @@
 <%= for {stop, is_terminus?} <- EnumHelpers.with_first_last(@stops) do %>
   <%= route_row(@conn, stop, @stop_features[stop.id], is_terminus?) %>
   <%= if stop.id == @merge_stop_id do %>
-    <%= if Enum.count(@braintree_branch_stops) == 1 do %>
-      <div class="route-stop">
-        <div class="stop-bubble"></div>
-        <%= link "View Braintree Branch", to: update_url(@conn, expanded: "braintree"), class: "branch-link" %>
-      </div>
-    <% end %>
-      <%= render "_stop_list.html", conn: @conn,
+    <div class="route-stop route-expand-branch">
+      <div class="stop-bubble"></div>
+      <%= if Enum.count(@braintree_branch_stops) == 1 do %>
+        <%= link to: update_url(@conn, expanded: "braintree"), class: "branch-link" do %>
+           View Braintree Branch <%= fa "caret-down" %>
+        <% end %>
+      <% else %>
+        <%= link to: update_url(@conn, expanded: nil), class: "branch-link" do %>
+          Hide Braintree Branch <%= fa "caret-up" %>
+        <% end %>
+      <% end %>
+    </div>
+    <%= render "_stop_list.html", conn: @conn,
                                     stops: @braintree_branch_stops,
                                     stop_features: @stop_features,
                                     route: %Routes.Route{id: "Red", type: 1} %>
   <% end %>
 <% end %>
-<%= if Enum.count(@ashmont_branch_stops) == 1  do %>
-  <div class="route-stop">
-    <div class="stop-bubble"></div>
-    <%= link "View Ashmont Branch", to: update_url(@conn, expanded: "ashmont"), class: "branch-link" %>
-  </div>
-<% end %>
+<div class="route-stop route-expand-branch">
+  <div class="stop-bubble"></div>
+  <%= if Enum.count(@ashmont_branch_stops) == 1  do %>
+    <%= link to: update_url(@conn, expanded: "ashmont"), class: "branch-link" do %>
+      View Ashmont Branch <%= fa "caret-down" %>
+    <% end %>
+  <% else %>
+    <%= link to: update_url(@conn, expanded: nil), class: "branch-link" do %>
+      Hide Ashmont Branch <%= fa "caret-up" %>
+    <% end %>
+  <% end %>
+</div>
 <%= for {stop, is_terminus?} <- EnumHelpers.with_first_last(@ashmont_branch_stops) do %>
   <%= route_row(@conn, stop, @stop_features[stop.id], is_terminus?) %>
 <% end %>

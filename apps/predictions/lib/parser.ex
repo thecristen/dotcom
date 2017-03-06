@@ -12,7 +12,7 @@ defmodule Predictions.Parser do
       schedule_relationship: schedule_relationship(attributes["schedule_relationship"]),
       track: attributes["track"],
       status: attributes["status"],
-      departing?: !is_nil(attributes["departure_time"])
+      departing?: departing?(attributes)
     }
   end
 
@@ -24,6 +24,16 @@ defmodule Predictions.Parser do
       {:ok, time} -> time
       _ -> nil
     end
+  end
+
+  defp departing?(%{"departure_time" => nil, "arrival_time" => nil, "status" => status}) when is_binary(status) do
+    true
+  end
+  defp departing?(%{"departure_time" => binary}) when is_binary(binary) do
+    true
+  end
+  defp departing?(_) do
+    false
   end
 
   defp stop([stop | _]) do

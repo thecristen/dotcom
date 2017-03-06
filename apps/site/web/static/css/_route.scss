@@ -37,4 +37,12 @@
 
 .branch-link {
   @extend %stop-name-and-time-column;
+
+  background-color: $gray-lightest;
+  border-radius: $space-4;
+  padding: .5rem 1rem;
+}
+
+.route-expand-branch {
+  @extend %stop-bubble-collapsed;
 }
