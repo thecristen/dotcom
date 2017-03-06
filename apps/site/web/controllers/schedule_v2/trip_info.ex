@@ -95,16 +95,17 @@ defmodule Site.ScheduleV2Controller.TripInfo do
 
   @spec do_current_trip([StopTime.t], DateTime.t) :: String.t | nil
   defp do_current_trip(times, now) do
-    case Enum.find(times, &is_after_now?(&1, now)) do
+    case Enum.find(times, &is_trip_after_now?(&1, now)) do
       nil -> nil
       time -> PredictedSchedule.trip(time.departure).id
     end
   end
 
-  @spec is_after_now?(StopTime.t, DateTime.t) :: boolean
-  defp is_after_now?(%StopTime{departure: departure}, now) do
+  @spec is_trip_after_now?(StopTime.t, DateTime.t) :: boolean
+  defp is_trip_after_now?(%StopTime{departure: departure}, now) do
+    # returns true if the StopTime has a trip that's departing in the future
     PredictedSchedule.map_optional(departure, [:schedule, :prediction], false, fn x ->
-      if x.time do
+      if x.time && x.trip do
         Timex.after?(x.time, now)
       else
         false
