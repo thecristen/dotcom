@@ -15,8 +15,9 @@
     <%= if @route.type == 2 do %>
       <%= tab_list(%TabList{
         links: [
-          {"Time Table", update_url(@conn, tab: "timetable"), tab_selected?("timetable", @tab)},
-          {"Trip View", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)}
+          {"Timetable", update_url(@conn, tab: "timetable"), tab_selected?("timetable", @tab)},
+          {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
+          {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
         ]
       }) %>
     <% end %>

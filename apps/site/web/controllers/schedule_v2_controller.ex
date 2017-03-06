@@ -26,7 +26,7 @@ defmodule Site.ScheduleV2Controller do
   end
 
   defp tab(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, _opts) do
-    tab = if conn.params["tab"] == "trip-view", do: "trip-view", else: "timetable"
+    tab = conn.params["tab"] || "timetable"
     conn
     |> assign(:tab, tab)
     |> assign(:schedule_template, "_commuter.html")
@@ -106,5 +106,11 @@ defmodule Site.ScheduleV2Controller do
     else
       conn
     end
+  end
+  defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn, _opts) do
+    conn = conn
+    |> call_plug(SV2C.LineHoursOfOperation)
+    |> call_plug(SV2C.LineNextThreeHolidays)
+    |> call_plug(SV2C.Line)
   end
 end

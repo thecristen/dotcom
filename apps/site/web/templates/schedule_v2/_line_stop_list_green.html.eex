@@ -1,0 +1,34 @@
+<%= for stop <- @stops do %>
+  <div class="route-row">
+    <% active_lines = @active_lines[stop.id] %>
+    <%= for route_id <- GreenLine.branch_ids() do %>
+      <%= case active_lines[route_id] do %>
+        <% nil -> %>
+        <% display -> %>
+        <div class="route-green-bubble route-green-bubble-<%= display %>">
+          <%= case display do %>
+            <% :stop -> %>
+              <%= route_id |> String.split("-") |> List.last %>
+            <% :terminus -> %>
+            (<%= route_id |> String.split("-") |> List.last %>)
+            <% :line -> %>
+            |
+            <% :empty -> %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    <%= link stop.name, to: stop_path(@conn, :show, stop.id) %>
+    <%= for icon <- @stop_features[stop.id] do %>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: icon}) %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= for route <- GreenLine.branch_ids do %>
+  <%= if route != @expanded do %>
+    <div>
+      <%= link "Expand #{route}", to: update_url(@conn, expanded: route) %>
+    </div>
+  <% end %>
+<% end %>
