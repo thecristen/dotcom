@@ -37,6 +37,6 @@ defmodule Feedback.Mixfile do
      {:timex, ">= 2.0.0"},
      {:briefly, "~> 0.3"},
      {:excoveralls, "~> 0.5", only: :test},
-     {:plug, "~> 1.0"}]
+     {:plug, "~> 1.3"}]
   end
 end
