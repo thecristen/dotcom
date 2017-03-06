@@ -167,7 +167,6 @@ $z-index-calendar-cover: 3;
 }
 
 // the last stop in the list, don't display the line
-.route-stop-list .route-stop:last-child,
 .stop-group:last-child .schedule-trip-stop:last-child,
 .schedule-v2-timetable-row:last-child {
   @extend %stop-bubble-last;

@@ -25,11 +25,24 @@ defmodule GreenLine do
   actually on the line.
   """
   @spec terminus?(Stop.id_t, Route.id_t) :: boolean
-  def terminus?(stop_id, "Green-B") when stop_id in ["place-lake", "place-pktrm"], do: true
-  def terminus?(stop_id, "Green-C") when stop_id in ["place-north", "place-clmnl"], do: true
-  def terminus?(stop_id, "Green-D") when stop_id in ["place-river", "place-gover"], do: true
-  def terminus?(stop_id, "Green-E") when stop_id in ["place-lech", "place-hsmnl"], do: true
-  def terminus?(_, _), do: false
+  def terminus?(stop_id, route_id) do
+    terminus?(stop_id, route_id, 0) or terminus?(stop_id, route_id, 1)
+  end
+
+  @doc """
+  Returns whether or not the stop is a terminus for the line in the given direction. Assumes
+  the stop is actually on the line.
+  """
+  @spec terminus?(Stop.id_t, Route.id_t, 0 | 1) :: boolean
+  def terminus?("place-lake", "Green-B", 0), do: true
+  def terminus?("place-clmnl", "Green-C", 0), do: true
+  def terminus?("place-river", "Green-D", 0), do: true
+  def terminus?("place-hsmnl", "Green-E", 0), do: true
+  def terminus?("place-pktrm", "Green-B", 1), do: true
+  def terminus?("place-north", "Green-C", 1), do: true
+  def terminus?("place-gover", "Green-D", 1), do: true
+  def terminus?("place-lech", "Green-E", 1), do: true
+  def terminus?(_, _, _), do: false
 
   @doc """
   Given a stop ID, route ID, and route => stop set map, returns whether the stop is on the route.

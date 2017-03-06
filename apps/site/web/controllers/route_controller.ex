@@ -14,13 +14,15 @@ defmodule Site.RouteController do
     {before_branch, after_branch} = Enum.split_while(stops, & &1.id != "place-coecl")
     expanded = params["expanded"]
     expanded_stops = green_line_branches(after_branch, routes_for_stops, expanded)
+    active_lines = active_lines(stops_on_routes)
 
     conn
     |> render("show.html",
       stop_list_template: "_stop_list_green.html",
-      stops: before_branch ++ expanded_stops,
+      stops_on_routes: stops_on_routes,
+      stops_with_expands: before_branch ++ insert_expands(expanded_stops, active_lines),
       expanded: expanded,
-      active_lines: active_lines(stops_on_routes),
+      active_lines: active_lines,
       stop_features: stop_features(stops, route),
       map_img_src: map_img_src(stops, route.type),
       route: route)
@@ -197,11 +199,14 @@ defmodule Site.RouteController do
 
   @doc """
 
-  Builds %{stop_id => active_map}.  active map is %{route_id => nil | :empty | :line | :stop | :terminus}
+  Builds %{stop_id => active_map}.  active map is
+  %{route_id => nil | :empty | :line | :stop | :eastbound_terminus | :westbound_terminus}.
   :empty means we should take up space for that route, but not display anything
   :line means we should display a line
   :stop means we should display a bordered bubble with the route letter
-  :terminus means we should display a filled bubble with the route letter
+  :westbound_terminus and :eastbound_terminus mean we should display a filled
+    bubble with the route letter. Westbound terminals get styled a bit differently due to
+    the details of the stop bubble display.
   nil (not present) means we shouldn't take up space for that route
 
   """
@@ -223,7 +228,11 @@ defmodule Site.RouteController do
     GreenLine.branch_ids()
     |> Enum.reduce(currently_active, fn route_id, currently_active ->
       if GreenLine.stop_on_route?(stop_id, route_id, stops_on_routes) do
-        stop_or_terminus = if GreenLine.terminus?(stop_id, route_id), do: :terminus, else: :stop
+        stop_or_terminus = cond do
+          GreenLine.terminus?(stop_id, route_id, 0) -> :westbound_terminus
+          GreenLine.terminus?(stop_id, route_id, 1) -> :eastbound_terminus
+          true -> :stop
+        end
         put_in currently_active[route_id], stop_or_terminus
       else
         case Map.get(currently_active, route_id) do
@@ -238,9 +247,9 @@ defmodule Site.RouteController do
   end
 
   defp update_active_line(:empty), do: :empty
-  defp update_active_line(:terminus), do: :empty
+  defp update_active_line(:westbound_terminus), do: :empty
+  defp update_active_line(:eastbound_terminus), do: :empty
   defp update_active_line(_), do: :line
-
 
   defp green_line_branches(stops, stop_map, expanded) do
     Enum.reject(stops, & do_green_line_branches(&1.id, stop_map[&1.id], expanded))
@@ -277,5 +286,28 @@ defmodule Site.RouteController do
   end
   def next_3_holidays(conn, _opts) do
     conn
+  end
+
+  defp insert_expands(stops, active_lines) do
+    stops
+    |> Enum.flat_map(
+      & case expand_route_pair(&1.id, active_lines) do
+          false -> [&1]
+          expand_pair -> [expand_pair, &1]
+        end
+    )
+  end
+
+  defp expand_route_pair(stop_id, active_lines) do
+    Enum.reduce(
+      GreenLine.branch_ids(),
+      false,
+      fn (route_id, acc) ->
+        if active_lines[stop_id][route_id] == :westbound_terminus do
+          {:expand, stop_id, route_id}
+        else
+          acc
+        end
+      end)
   end
 end

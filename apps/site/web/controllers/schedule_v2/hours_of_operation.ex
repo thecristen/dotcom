@@ -4,8 +4,7 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
 
   def init([]), do: []
 
-  def call(%Plug.Conn{assigns: %{route: route}, params: %{"route" => route_id}} = conn, opts)
-  when (not is_nil(route)) or (route_id == "Green") do
+  def call(%Plug.Conn{assigns: %{route: route}} = conn, opts) when not is_nil(route) do
     dates = get_dates(conn.assigns.date)
     schedules_fn = schedules_fn(opts)
     assign(conn, :hours_of_operation, %{
@@ -18,7 +17,7 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
     conn
   end
 
-  defp get_hours(%Plug.Conn{params: %{"route" => "Green"}}, date, schedules_fn) do
+  defp get_hours(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Green"}}}, date, schedules_fn) do
     do_get_hours(Enum.join(GreenLine.branch_ids(), ","), date, schedules_fn)
   end
   defp get_hours(%Plug.Conn{assigns: %{route: route}}, date, schedules_fn) do
