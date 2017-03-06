@@ -1,0 +1,19 @@
+{
+  "uuid" : "2ffe2c73-448b-3d35-a5fb-d68a08ce9535",
+  "request" : {
+    "url" : "/routes/?stop=5095&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-8MuzF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:54 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "luv5n1up586p6rg6620ooh6obtgu8b3a",
+      "Connection" : "keep-alive"
+    }
+  }
+}

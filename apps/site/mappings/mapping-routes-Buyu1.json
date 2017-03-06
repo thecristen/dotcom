@@ -1,0 +1,19 @@
+{
+  "uuid" : "24f5a0a4-528b-36c5-8057-7ccd78ff202a",
+  "request" : {
+    "url" : "/routes/?stop=84&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Buyu1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:59 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "t2i859s899ss9t0pf1tsm3iitg59l4tk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

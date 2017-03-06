@@ -1,0 +1,19 @@
+{
+  "uuid" : "5a196368-6592-3ec2-b873-705f6204f481",
+  "request" : {
+    "url" : "/routes/?stop=place-clmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-w30g9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:48 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "8pi76cs400e7lin6udhd5kpa2nsgppk9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

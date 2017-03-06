@@ -1,0 +1,19 @@
+{
+  "uuid" : "21c29d9a-25b2-3369-8ffc-ec534c5629e8",
+  "request" : {
+    "url" : "/stops/8281",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-8281-tFLiU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:15:00 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "j9fme1e32nqdfi45h9vhtm261vqoenfk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

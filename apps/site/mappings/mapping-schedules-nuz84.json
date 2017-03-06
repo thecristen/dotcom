@@ -1,0 +1,19 @@
+{
+  "uuid" : "74d08625-715f-3c42-ac16-85c499336496",
+  "request" : {
+    "url" : "/schedules/?stop=Wickford+Junction&date=2017-02-14&include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-nuz84.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:16:28 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "ejd8ansg5he28ad4jhd4vafgqjpvng48",
+      "Connection" : "keep-alive"
+    }
+  }
+}

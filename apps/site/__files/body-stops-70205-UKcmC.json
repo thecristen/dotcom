@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-north"}}},"links":{"self":"/stops/70205"},"id":"70205","attributes":{"wheelchair_boarding":0,"name":"North Station - Green Line Outbound","longitude":-71.06129,"latitude":42.365577}}}

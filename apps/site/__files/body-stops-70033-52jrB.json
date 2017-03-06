@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-welln"}}},"links":{"self":"/stops/70033"},"id":"70033","attributes":{"wheelchair_boarding":0,"name":"Wellington - Outbound","longitude":-71.077082,"latitude":42.40237}}}

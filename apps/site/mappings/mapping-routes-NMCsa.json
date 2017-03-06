@@ -1,0 +1,19 @@
+{
+  "uuid" : "82c224cb-a647-34d0-bc74-6a41d62f7b72",
+  "request" : {
+    "url" : "/routes/?stop=9981&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NMCsa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:53 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "ims00k6ivj1s6qhbpibtdc8uk69igvgb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

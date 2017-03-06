@@ -1,0 +1,19 @@
+{
+  "uuid" : "a3154662-fd2a-3093-bb23-b448d24fb693",
+  "request" : {
+    "url" : "/routes/?stop=place-mlmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-T6sDP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:49 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "qhea1j8s6qrdddoqo1vsolpujclh2vhf",
+      "Connection" : "keep-alive"
+    }
+  }
+}

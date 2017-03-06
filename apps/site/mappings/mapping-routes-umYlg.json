@@ -1,0 +1,19 @@
+{
+  "uuid" : "a3767df5-8ed3-3271-9067-53a992aeb823",
+  "request" : {
+    "url" : "/routes/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-umYlg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:02 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "dt0v9c5dcv0tlupi931hqtc0k9ibo52h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

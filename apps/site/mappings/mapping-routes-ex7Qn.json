@@ -1,0 +1,19 @@
+{
+  "uuid" : "43ff39d9-413b-339e-8901-e1c29b9dcdb9",
+  "request" : {
+    "url" : "/routes/?stop=place-north&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ex7Qn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:45 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "ohvlcuf1clhmd6du2k0u2jm42m3e4vvc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

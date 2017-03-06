@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-sull"}}},"links":{"self":"/stops/2874"},"id":"2874","attributes":{"wheelchair_boarding":0,"name":"Sullivan Station - Upper Busway","longitude":-71.076994,"latitude":42.383975}}}

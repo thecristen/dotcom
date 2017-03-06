@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-brdwy"}}},"links":{"self":"/stops/70081"},"id":"70081","attributes":{"wheelchair_boarding":0,"name":"Broadway - Outbound","longitude":-71.056967,"latitude":42.342622}}}
