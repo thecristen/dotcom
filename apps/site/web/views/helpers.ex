@@ -299,6 +299,8 @@ defmodule Site.ViewHelpers do
   @spec route_type_name(number) :: String.t
   def route_type_name(route_type) do
     case route_type do
+      1 ->
+        "Subway"
       2 ->
         "Train"
       3 ->

@@ -193,7 +193,7 @@ defmodule Site.ScheduleV2View do
   end
 
   @spec prediction_stop_text(String.t, Vehicles.Vehicle.t | nil, number) :: String.t
-  defp prediction_stop_text(_name, nil, route_type), do: ""
+  defp prediction_stop_text(_name, nil, _route_type), do: ""
   defp prediction_stop_text(name, %Vehicles.Vehicle{status: :incoming}, route_type), do: "#{route_type_name(route_type)} is entering #{name}"
   defp prediction_stop_text(name, %Vehicles.Vehicle{status: :stopped}, route_type), do: "#{route_type_name(route_type)} has arrived at #{name}"
   defp prediction_stop_text(name, %Vehicles.Vehicle{status: :in_transit}, route_type), do: "#{route_type_name(route_type)} has left #{name}"
@@ -226,28 +226,30 @@ defmodule Site.ScheduleV2View do
     build_prediction_tooltip(time_text, status_text, stop_text)
   end
 
-  #@spec prediction_trip_information(Plug.Conn.t) :: Phoenix.HTML.Safe.t
-  def prediction_trip_information(nil, _), do: ""
+  @spec prediction_trip_information(TripInfo.t) :: Phoenix.HTML.Safe.t
   def prediction_trip_information(%{sections: sections, route: route}, vehicle_locations) do
     prediction_information = Enum.find_value sections, fn section ->
       Enum.find_value section, fn item ->
-        IO.inspect(item.schedule)
-        case item.schedule.trip do
+        case item.schedule do
           nil ->
             false
           _ ->
-            vehicle = vehicle_locations[{item.schedule.trip.id, item.schedule.stop.id}]
-            prediction_text = prediction_stop_text(item.schedule.stop.name, vehicle, route.type)
-            case prediction_text do
-              "" ->
+            case item.schedule.trip do
+              nil ->
                 false
               _ ->
-                prediction_text
+                vehicle = vehicle_locations[{item.schedule.trip.id, item.schedule.stop.id}]
+                prediction_text = prediction_stop_text(item.schedule.stop.name, vehicle, route.type)
+                case prediction_text do
+                  "" ->
+                    false
+                  _ ->
+                    prediction_text
+                end
             end
         end
       end
     end
-
     case prediction_information do
       nil ->
         ""
@@ -255,7 +257,7 @@ defmodule Site.ScheduleV2View do
         content_tag(:div, [prediction_information, "."], class: "route-status")
     end
   end
-  def prediction_trip_information(_, _), do: ""
+  def prediction_trip_information(_), do: ""
 
   @spec prediction_for_vehicle_location(Plug.Conn.t, String.t, String.t) :: Predictions.Prediction.t
   def prediction_for_vehicle_location(%{assigns: %{vehicle_predictions: vehicle_predictions}}, stop_id, trip_id) do
