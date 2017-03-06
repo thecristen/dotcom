@@ -1,24 +1,29 @@
 {
   "viewports": [
     {
-      "name": "xs",
+      "name": "xs-narrow",
       "width": 320,
       "height": 480
     },
     {
-      "name": "sm",
+      "name": "xs-wide",
+      "width": 543,
+      "height": 713
+    },
+    {
+      "name": "sm-narrow",
       "width": 544,
       "height": 714
     },
     {
-      "name": "md",
-      "width": 800,
-      "height": 1024
+      "name": "sm-wide",
+      "width": 799,
+      "height": 1023
     },
     {
-      "name": "lg",
-      "width": 992,
-      "height": 1300
+      "name": "md_lg",
+      "width": 800,
+      "height": 1024
     },
     {
       "name": "xxl",
@@ -69,22 +74,6 @@
       "misMatchThreshold" : 0.1
     },
     {
-      "label": "Station Info (South Station)",
-      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".station-info-map"],
-      "selectors": ["main"],
-      "delay": 100,
-      "misMatchThreshold": 0.1
-    },
-    {
-      "label": "Station Info (Framingham)",
-      "url": "http://localhost:8082/stops/Framingham?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".station-info-map"],
-      "selectors": ["main"],
-      "delay": 100,
-      "misMatchThreshold": 0.1
-    },
-    {
       "label": "404 Page",
       "url": "http://localhost:8082/not-found",
       "selectors": ["body"],
@@ -92,36 +81,11 @@
       "hideSelectors": [".error-card img"]
     },
     {
-      "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence?all_schedules=all_schedules&date=2017-02-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
-      "selectors": ["main"],
-      "delay": 100
-    },
-    {
-      "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red?all_schedules=all_schedules&date=2017-02-14&direction_id=1&origin=place-sstat&trip=",
-      "selectors": ["main"],
-      "delay": 100
-    },
-    {
-      "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1?all_schedules=all_schedules&date=2017-02-14&direction_id=0&trip=",
-      "selectors": ["main"],
-      "delay": 100
-    },
-    {
       "label": "Alerts",
       "url": "http://localhost:8082/alerts/subway?date=2017-02-14#alerts-Orange",
       "selectors": ["document"],
       "delay": 1000,
       "hideSelectors": [".alert-card-footer"]
-    },
-    {
-      "label": "Commuter Rail Fares",
-      "url": "http://localhost:8082/fares/commuter_rail?destination=Framingham&fare_type=adult&origin=place-sstat",
-      "selectors": ["main"],
-      "delay": 100,
-      "misMatchThreshold" : 0.1
     },
     {
       "label": "Charlie Card",
@@ -143,14 +107,6 @@
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold" : 0.1
-    },
-    {
-      "label": "Station Info Tab (South Station)",
-      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&tab=info",
-      "hideSelectors": [".station-info-map"],
-      "selectors": ["#station-info"],
-      "delay": 100,
-      "misMatchThreshold": 0.1
     },
     {
       "label": "Transit Near Me",
@@ -201,6 +157,96 @@
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Station Info Tab (South Station)",
+      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&tab=info",
+      "hideSelectors": [".station-info-map"],
+      "selectors": ["#station-info"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Commuter Rail Fares",
+      "url": "http://localhost:8082/fares/commuter_rail?destination=Framingham&fare_type=adult&origin=place-sstat",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Commuter Rail Fares",
+      "url": "http://localhost:8082/fares/commuter_rail?destination=Framingham&fare_type=adult&origin=place-sstat",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold" : 0.1
+    },
+    {
+      "label": "Bus Schedule",
+      "url": "http://localhost:8082/schedules/1?all_schedules=all_schedules&date=2017-02-14&direction_id=0&trip=",
+      "selectors": ["main"],
+      "delay": 100
+    },
+    {
+      "label": "Bus Schedule",
+      "url": "http://localhost:8082/schedules/1?all_schedules=all_schedules&date=2017-02-14&direction_id=0&trip=",
+      "selectors": ["main"],
+      "delay": 100
+    },
+    {
+      "label": "Subway Schedule",
+      "url": "http://localhost:8082/schedules/Red?all_schedules=all_schedules&date=2017-02-14&direction_id=1&origin=place-sstat&trip=",
+      "selectors": ["main"],
+      "delay": 100
+    },
+    {
+      "label": "Subway Schedule",
+      "url": "http://localhost:8082/schedules/Red?all_schedules=all_schedules&date=2017-02-14&direction_id=1&origin=place-sstat&trip=",
+      "selectors": ["main"],
+      "delay": 100
+    },
+    {
+      "label": "Commuter Rail Schedule",
+      "url": "http://localhost:8082/schedules/CR-Providence?all_schedules=all_schedules&date=2017-02-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "selectors": ["main"],
+      "delay": 100
+    },
+    {
+      "label": "Commuter Rail Schedule",
+      "url": "http://localhost:8082/schedules/CR-Providence?all_schedules=all_schedules&date=2017-02-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "selectors": ["main"],
+      "delay": 100
+    },
+    {
+      "label": "Station Info (South Station)",
+      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
+      "hideSelectors": [".station-info-map"],
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Station Info (Framingham)",
+      "url": "http://localhost:8082/stops/Framingham?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
+      "hideSelectors": [".station-info-map"],
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Station Info (Framingham)",
+      "url": "http://localhost:8082/stops/Framingham?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
+      "hideSelectors": [".station-info-map"],
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Station Info (South Station)",
+      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
+      "hideSelectors": [".station-info-map"],
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
     }
   ],
   "paths": {
