@@ -174,27 +174,8 @@
       "misMatchThreshold" : 0.1
     },
     {
-      "label": "Commuter Rail Fares",
-      "url": "http://localhost:8082/fares/commuter_rail?destination=Framingham&fare_type=adult&origin=place-sstat",
-      "selectors": ["main"],
-      "delay": 100,
-      "misMatchThreshold" : 0.1
-    },
-    {
       "label": "Bus Schedule",
       "url": "http://localhost:8082/schedules/1?all_schedules=all_schedules&date=2017-02-14&direction_id=0&trip=",
-      "selectors": ["main"],
-      "delay": 100
-    },
-    {
-      "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1?all_schedules=all_schedules&date=2017-02-14&direction_id=0&trip=",
-      "selectors": ["main"],
-      "delay": 100
-    },
-    {
-      "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red?all_schedules=all_schedules&date=2017-02-14&direction_id=1&origin=place-sstat&trip=",
       "selectors": ["main"],
       "delay": 100
     },
@@ -209,28 +190,6 @@
       "url": "http://localhost:8082/schedules/CR-Providence?all_schedules=all_schedules&date=2017-02-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "selectors": ["main"],
       "delay": 100
-    },
-    {
-      "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence?all_schedules=all_schedules&date=2017-02-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
-      "selectors": ["main"],
-      "delay": 100
-    },
-    {
-      "label": "Station Info (South Station)",
-      "url": "http://localhost:8082/stops/place-sstat?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".station-info-map"],
-      "selectors": ["main"],
-      "delay": 100,
-      "misMatchThreshold": 0.1
-    },
-    {
-      "label": "Station Info (Framingham)",
-      "url": "http://localhost:8082/stops/Framingham?date=2017-02-14&date_time=2017-02-14T17%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".station-info-map"],
-      "selectors": ["main"],
-      "delay": 100,
-      "misMatchThreshold": 0.1
     },
     {
       "label": "Station Info (Framingham)",
