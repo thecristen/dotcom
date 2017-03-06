@@ -28,8 +28,6 @@
       <% end %>
     <% end %>
   </div>
-<% else %>
-  <div class="trip-list-v2-row"><%= no_stop_times_message(@route, @date) %></div>
 <% end %>
 <%= if assigns[:frequency_table] do %>
   <%= render "_frequency.html", forward_assigns(@conn) %>

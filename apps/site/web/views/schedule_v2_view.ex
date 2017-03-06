@@ -343,19 +343,35 @@ defmodule Site.ScheduleV2View do
   def display_branch_name(_), do: nil
 
   @doc """
-  The message to show when there are no stop times to show.
+  The message to show when there are no trips for the given parameters.
+  Expects either two stops, or a direction.
   """
-  @spec no_stop_times_message(Routes.Route.t, Date.t) :: String.t
-  def no_stop_times_message(%Route{type: type}, date) when Route.subway?(type) do
-    if Timex.diff(date, Util.service_date(), :days) == 0 do
-      "There are no upcoming departures at this time."
-    else
-      ""
-    end
+  @spec no_trips_message(Stops.Stop.t | nil, Stops.Stop.t | nil, String.t | nil, Date.t) :: Phoenix.HTML.Safe.t
+  def no_trips_message(%Stops.Stop{name: origin_name}, %Stops.Stop{name: destination_name}, _, date) do
+    {
+      :safe, [
+        "There are no scheduled trips between ",
+        origin_name,
+        " and ",
+        destination_name,
+        " on ",
+        format_full_date(date),
+        "."
+      ]
+    }
   end
-  def no_stop_times_message(_route, _date) do
-    "There are no scheduled trips at this time."
+  def no_trips_message(_, _, direction, date) when not is_nil(direction) do
+    {
+      :safe, [
+        "There are no scheduled ",
+        String.downcase(direction),
+        " trips on ",
+        format_full_date(date),
+        "."
+      ]
+    }
   end
+  def no_trips_message(_, _, _, _), do: {:safe, ["There are no scheduled trips."]}
 
   @spec clear_selector_link(map()) :: Phoenix.HTML.Safe.t
   def clear_selector_link(%{clearable?: true, selected: selected} = assigns)

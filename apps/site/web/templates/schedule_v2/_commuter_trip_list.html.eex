@@ -1,7 +1,5 @@
 <div class="trip-list-v2 trip-list-v2-commuter">
-  <%= if Enum.empty?(@stop_times.times) do %>
-    There are no trips scheduled at this time.
-  <% else %>
+  <%= if !Enum.empty?(@stop_times.times) do %>
     <div class="trip-list-v2-row trip-list-v2-header">
       <div class="row">
         <%= if @destination do %>

@@ -230,12 +230,13 @@ defmodule Site.ScheduleV2ViewTest do
         conn: build_conn(),
         all_stops: [],
         date: ~D[2017-01-01],
+        destination: nil,
         origin: nil,
         route: %Routes.Route{},
         direction_id: 1
       ) |> safe_to_string
 
-      assert output =~ "Currently, there are no scheduled inbound trips on January 1, 2017."
+      assert output =~ "There are no scheduled inbound trips on January 1, 2017."
     end
   end
 
@@ -569,23 +570,20 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "no_stop_times_message/1" do
-    test "for subways mentions departures" do
-      for type <- [0, 1] do
-        result = no_stop_times_message(%Routes.Route{type: type}, Util.service_date())
-        assert result == "There are no upcoming departures at this time."
-      end
+  describe "no_trips_message/4" do
+    test "when a starting and ending stop are provided" do
+      result = no_trips_message(%Stops.Stop{name: "The Start"}, %Stops.Stop{name: "The End"}, nil, ~D[2017-03-05])
+      assert safe_to_string(result) == "There are no scheduled trips between The Start and The End on March 5, 2017."
     end
 
-    test "on a date other than the current service date for subways, displays nothing" do
-      assert no_stop_times_message(%Routes.Route{type: 1}, Timex.shift(Util.service_date(), weeks: 1)) == ""
+    test "when a direction is provided" do
+      result = no_trips_message(nil, nil, "Inbound", ~D[2017-03-05])
+      assert safe_to_string(result) == "There are no scheduled inbound trips on March 5, 2017."
     end
 
-    test "for other modes mentions schedules" do
-      for type <- [2, 3, 4] do
-        result = no_stop_times_message(%Routes.Route{type: type}, ~D[2017-02-23])
-        assert result == "There are no scheduled trips at this time."
-      end
+    test "fallback when nothing is available" do
+      result = no_trips_message(nil, nil, nil, nil)
+      assert safe_to_string(result) == "There are no scheduled trips."
     end
   end
 
