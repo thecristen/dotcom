@@ -146,4 +146,14 @@ defmodule Site.ViewHelpersTest do
       assert Site.ViewHelpers.format_full_date(~D[2017-03-31]) == "March 31, 2017"
     end
   end
+
+  describe "route_type_name/1" do
+    test "train from route_type" do
+      assert Site.ViewHelpers.route_type_name(2) == "Train"
+    end
+
+    test "bus from route_type" do
+      assert Site.ViewHelpers.route_type_name(3) == "Bus"
+    end
+  end
 end
