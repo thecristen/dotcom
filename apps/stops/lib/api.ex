@@ -199,7 +199,10 @@ defmodule Stops.Api do
       longitude: stop.attributes["longitude"]
     }
   end
-  defp merge_v3(stop, %JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}}) do
-    %Stop{stop | latitude: latitude, longitude: longitude}
+  defp merge_v3(stop, %JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}} = item) do
+    %Stop{stop |
+          latitude: latitude,
+          longitude: longitude,
+          name: v3_name(item)}
   end
 end
