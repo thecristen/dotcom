@@ -5,7 +5,6 @@ defmodule Site.ScheduleV2Controller.Schedules do
 
   """
   import Plug.Conn, only: [assign: 3]
-  alias Site.ScheduleController.Query
 
   require Routes.Route
   alias Routes.Route
@@ -32,11 +31,15 @@ defmodule Site.ScheduleV2Controller.Schedules do
 
     Enum.filter(origin_destination_pairs, &match?({%Schedules.Schedule{route: %{type: ^route_type}}, _}, &1))
   end
-  def schedules(conn) do
-    # otherwise, fall back to the generated query
-    conn
-    |> Query.schedule_query
+  def schedules(%{assigns: %{
+                    date: date,
+                    route: %Routes.Route{id: route_id},
+                    direction_id: direction_id,
+                    origin: %Stops.Stop{id: origin_id}}}) do
+    # return schedules that stop at the origin
+    [stop: origin_id, route: route_id, date: date, direction_id: direction_id]
     |> Schedules.Repo.all
+    |> Enum.reject(&match?(%Schedules.Schedule{pickup_type: 1}, &1))
   end
 
   @spec assign_frequency_table(Plug.Conn.t, [{Schedules.Schedule.t, Schedules.Schedule.t}]) :: Plug.Conn.t

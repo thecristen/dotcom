@@ -68,13 +68,14 @@ defmodule StopTimeList do
   # Creates a StopTimeList object from a list of times and the showing_all? flag
   @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil) :: __MODULE__.t
   defp from_times(stop_times, filter_flag, current_time) do
+    filtered_times = stop_times
+    |> StopTime.Filter.filter(filter_flag, current_time)
+    |> StopTime.Filter.sort
+    |> StopTime.Filter.limit(filter_flag)
+
     %__MODULE__{
-      times:
-        stop_times
-        |> StopTime.Filter.filter(filter_flag, current_time)
-        |> StopTime.Filter.sort
-        |> StopTime.Filter.limit(filter_flag),
-      showing_all?: filter_flag == :keep_all
+      times: filtered_times,
+      showing_all?: length(filtered_times) == length(stop_times)
     }
   end
 

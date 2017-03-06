@@ -115,6 +115,44 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
     }
   ]
 
+  describe "call/2" do
+    test "when only an origin is present, only includes schedules for that stop", %{conn: conn} do
+      route_id = "CR-Providence"
+      direction_id = 0
+      stop_id = "place-sstat"
+      conn = %{conn | params: %{"route" => route_id}}
+      |> assign(:date, Util.service_date())
+      |> assign(:route, %Routes.Route{id: route_id})
+      |> assign(:direction_id, direction_id)
+      |> assign(:origin, %Stops.Stop{id: stop_id})
+      |> assign(:destination, nil)
+      |> call(init([]))
+
+      assert conn.assigns.schedules != []
+      for schedule <- conn.assigns.schedules do
+        assert schedule.stop.id == stop_id
+      end
+    end
+
+    test "does not include schedules which stop at the selected origin", %{conn: conn} do
+      route_id = "CR-Providence"
+      direction_id = 0
+      stop_id = "Providence" # some trips stop at Providence, others keep going
+      conn = %{conn | params: %{"route" => route_id}}
+      |> assign(:date, Util.service_date())
+      |> assign(:route, %Routes.Route{id: route_id})
+      |> assign(:direction_id, direction_id)
+      |> assign(:origin, %Stops.Stop{id: stop_id})
+      |> assign(:destination, nil)
+      |> call(init([]))
+
+      assert conn.assigns.schedules != []
+      for schedule <- conn.assigns.schedules do
+        refute schedule.pickup_type == 1 # pickup_type 1 is "no pickups"
+      end
+    end
+  end
+
   describe "assign_frequency_table/1" do
     test "when schedules are assigned as a list, assigns a frequency table", %{conn: conn} do
       conn = conn

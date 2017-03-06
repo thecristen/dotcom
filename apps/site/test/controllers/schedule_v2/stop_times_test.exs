@@ -36,13 +36,13 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
     test "assigns stop_times even without schedules or predictions" do
       conn = setup_conn(@route, [], [], @date_time, @cal_date, nil, nil)
 
-      assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: false}
+      assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: true}
     end
 
     test "Does not initially show all trips for Ferry" do
       conn = setup_conn(%Route{id: "Boat-F4", type: 4, name: "Boaty McBoatface"}, [], [], @date_time, @cal_date, nil, nil)
 
-      assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: false}
+      assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: true}
     end
 
     test "filters out schedules in the past by default, leaving the last entry before now" do
@@ -58,7 +58,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
       conn = setup_conn(%Route{id: "CR-Lowell", type: 2, name: "Lowell"}, schedules, [], now, now, stop, nil)
 
-      assert conn.assigns.stop_times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, :last_trip_and_upcoming, now)
+      assert conn.assigns.stop_times.times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, :last_trip_and_upcoming, now).times
     end
 
     test "if filter_flag is :keep_all is true, doesn't filter schedules" do
