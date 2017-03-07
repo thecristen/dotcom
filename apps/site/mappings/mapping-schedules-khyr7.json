@@ -1,0 +1,19 @@
+{
+  "uuid" : "70dc6f56-f598-34e3-af8c-ac805a2b0045",
+  "request" : {
+    "url" : "/schedules/?include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name&trip=32893129",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-khyr7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:16:37 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "pfedc8j9p01knv8976tfl5revphhpns4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

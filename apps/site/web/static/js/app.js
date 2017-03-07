@@ -36,6 +36,7 @@ import geoLocation from './geolocation';
 import transitNearMe from './transit-near-me';
 import googleMap from './google-map';
 import scrollTo from './scroll-to';
+import stickyTooltip from './sticky-tooltip';
 
 submitOnEvents(["blur", "change"]);
 dateToggle();
@@ -55,5 +56,6 @@ geoLocation();
 transitNearMe();
 googleMap();
 scrollTo();
+stickyTooltip();
 
 $("body").removeClass("no-js").addClass("js");

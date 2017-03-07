@@ -1,0 +1,19 @@
+{
+  "uuid" : "421405a4-9a36-3966-b10b-4acf7f758dd9",
+  "request" : {
+    "url" : "/routes/?stop=place-cntsq&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-5tEa1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:46 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "4riu7rsfhecf1s3948csgldlrdhdf2l9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

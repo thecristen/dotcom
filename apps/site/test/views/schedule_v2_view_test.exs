@@ -199,6 +199,29 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
+  describe "prediction_trip_information/2" do
+    @trip_info %TripInfo{
+      route: %Routes.Route{type: 2},
+      sections: [[
+        %PredictedSchedule{
+          schedule: %Schedules.Schedule{
+            stop: %Schedules.Stop{id: "place-forhl", name: "Forest Hills"},
+            trip: %Schedules.Trip{id: "32610405"}}}]]}
+
+    test "route status available" do
+      vehicle_locations = %{{"32610405", "place-forhl"} => %Vehicles.Vehicle{
+        status: :stopped, stop_id: "place-forhl", trip_id: "32610405"}}
+
+      output = prediction_trip_information(@trip_info, vehicle_locations) |> safe_to_string
+      assert output =~ "Train has arrived at Forest Hills."
+    end
+
+    test "route status is not available" do
+      output = prediction_trip_information(@trip_info, %{})
+      assert output == ""
+    end
+  end
+
   describe "_trip_view.html" do
     test "renders a message if no scheduled trips" do
       output = Site.ScheduleV2View.render(
@@ -506,7 +529,7 @@ defmodule Site.ScheduleV2ViewTest do
       formatted_time = Timex.format!(time, "{h12}:{m} {AM}")
       prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
       result = prediction
-               |> Site.ScheduleV2View.prediction_tooltip("stop", nil)
+               |> Site.ScheduleV2View.prediction_tooltip("stop", nil, 2)
                |> IO.iodata_to_binary
 
       assert result =~ "Now boarding on track 4"
@@ -515,9 +538,9 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "Displays text based on vehicle status" do
       prediction = %Predictions.Prediction{status: "Now Boarding", track: "4"}
-      result1 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :incoming})
-      result2 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :stopped})
-      result3 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :in_transit})
+      result1 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :incoming}, 2)
+      result2 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :stopped}, 2)
+      result3 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :in_transit}, 2)
 
       assert result1 =~ "Train is entering"
       assert result2 =~ "Train has arrived"

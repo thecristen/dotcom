@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-pktrm"}}},"links":{"self":"/stops/70200"},"id":"70200","attributes":{"wheelchair_boarding":0,"name":"Park Street - Green Line Eastbound","longitude":-71.0624242,"latitude":42.35639457}}}

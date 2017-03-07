@@ -15,8 +15,8 @@ defmodule StopTimeListFilterTest do
       # [ 7:00, 8:00, 9:00 ] @ 8:10 -> 8:00
       assert find_max_earlier_departure_schedule_time([stop_time1, stop_time2, stop_time3], ~N[2017-03-01T08:10:00]) == ~N[2017-03-01T08:00:00]
 
-      # [ 7:00, 8:00, 9:00 ] @ 9:10 -> 9:00
-      assert find_max_earlier_departure_schedule_time([stop_time1, stop_time2, stop_time3], ~N[2017-03-01T09:10:00]) == ~N[2017-03-01T09:00:00]
+      # [ 7:00, 8:00, 9:00 ] @ 9:10 -> nil since the current time is after the last time
+      assert find_max_earlier_departure_schedule_time([stop_time1, stop_time2, stop_time3], ~N[2017-03-01T09:10:00]) == nil
 
       # [ 7:00, 8:00, 9:00 ] @ 7:00 -> 7:00
       assert find_max_earlier_departure_schedule_time([stop_time1, stop_time2, stop_time3], ~N[2017-03-01T07:00:00]) == ~N[2017-03-01T07:00:00]
@@ -65,29 +65,29 @@ defmodule StopTimeListFilterTest do
       result2 = filter([stop_time3, stop_time2, stop_time1], :last_trip_and_upcoming, ~N[2017-02-28T08:10:00])
       assert result2 == [ stop_time3, stop_time2, stop_time1 ]
 
-      # [ 9:00, 8:00, 7:00 ] @ 8:10 the next day -> [ 9:00 ]
+      # [ 9:00, 8:00, 7:00 ] @ 8:10 the next day -> [ 9:00, 8:00, 7:00 ]
       result3 = filter([stop_time3, stop_time2, stop_time1], :last_trip_and_upcoming, ~N[2017-03-02T08:10:00])
-      assert result3 == [ stop_time3 ]
+      assert result3 == [ stop_time3, stop_time2, stop_time1 ]
     end
 
 
     test "filters trips with no departure schedule" do
       # { nil -- 10:00(p) }
-      stop_time1 = 
+      stop_time1 =
         %StopTime{
           departure: %PredictedSchedule{schedule: nil, prediction: nil},
           arrival: %PredictedSchedule{schedule: nil, prediction: %Schedule{time: ~N[2017-03-01T10:00:00]}}}
 
       # { 9:00(s) 9:00(p) -- 11:00(p) }
-      stop_time2 = 
+      stop_time2 =
         %StopTime{
-          departure: 
+          departure:
             %PredictedSchedule{
-              schedule: %Schedule{time: ~N[2017-03-01T09:00:00]}, 
+              schedule: %Schedule{time: ~N[2017-03-01T09:00:00]},
               prediction: %Prediction{time: ~N[2017-03-01T09:00:00]}},
-          arrival: 
+          arrival:
             %PredictedSchedule{
-              schedule: nil, 
+              schedule: nil,
               prediction: %Schedule{time: ~N[2017-03-01T11:00:00]}}}
 
       # [ { nil -- 10:00(p), { 9:00(s) 9:00(p) -- 11:00(p) } ] @ 10:30 -> [ { nil -- 10:00(p), { 9:00(s) 9:00(p) -- 11:00(p) } ]

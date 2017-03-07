@@ -376,6 +376,23 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
+  test "does not assign trips if the prediction doesn't have a trip", %{conn: conn} do
+    prediction = %Prediction{time: ~N[2017-01-01T13:00:00], stop: %Stop{id: "origin"}, route: %Routes.Route{}}
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "1"),
+      query_params: nil
+    }
+    |> assign(:stop_times, StopTimeList.build_predictions_only([prediction], "origin", nil))
+    |> assign(:date, ~D[2017-01-01])
+    |> assign(:date_time, ~N[2017-01-01T12:00:00])
+    |> assign(:route, %Routes.Route{type: 1})
+    |> call(init)
+
+    assert conn.assigns.trip_info == nil
+  end
+
   describe "show_trips?/3" do
     test "it is false when looking at a future date for subway" do
       next_day = Timex.shift(@time, days: 1)

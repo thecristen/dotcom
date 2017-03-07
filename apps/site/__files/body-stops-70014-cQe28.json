@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-bbsta"}}},"links":{"self":"/stops/70014"},"id":"70014","attributes":{"wheelchair_boarding":0,"name":"Back Bay - Outbound","longitude":-71.075727,"latitude":42.34735}}}

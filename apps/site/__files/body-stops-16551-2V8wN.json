@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/16551"},"id":"16551","attributes":{"wheelchair_boarding":0,"name":"Congress St @ Franklin St","longitude":-71.055883,"latitude":42.355731}}}

@@ -53,6 +53,7 @@ defmodule Site.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
+     {:tzdata, github: "paulswartz/tzdata", override: true},
      {:timex, ">= 2.0.0"},
      {:stops, in_umbrella: true},
      {:routes, in_umbrella: true},
@@ -84,7 +85,8 @@ defmodule Site.Mixfile do
      {:vehicles, in_umbrella: true},
      {:google_maps, in_umbrella: true},
      {:floki, "~> 0.12.0", only: :test},
-     {:mochiweb, "~> 2.15.0", override: true}]
+     {:mochiweb, "~> 2.15.0", override: true},
+     {:mock, "~> 0.2.0", only: :test}]
       # NOTE: mochiweb override added to resolve dependency conflict
       # between html_sanitize_ex (2.12.2) and floki (2.15.0). Overriding does not
       # affect the functions we currently use html_sanitize_ex for. This should be

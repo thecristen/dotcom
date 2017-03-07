@@ -1,0 +1,19 @@
+{
+  "uuid" : "460940d0-715f-3180-829b-ae598c734f39",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-HMpog.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:01 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "ds6i98acc6ilgk05mfutpvavauktjsrf",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -44,7 +44,7 @@
             <% prediction = prediction_for_vehicle_location(@conn, stop.id, schedule.trip.id) %>
             <% vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] %>
             <span data-html=true data-toggle="tooltip"
-              title="<%= prediction_tooltip(prediction, stop.name, vehicle) %>">
+              title="<%= prediction_tooltip(prediction, stop.name, vehicle, @route.type) %>">
               <%= timetable_location_display(vehicle) %>
             </span>
             <%= if trip_message = @trip_messages[{schedule.trip.name, stop.id}] do %>
