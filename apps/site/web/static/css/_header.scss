@@ -13,7 +13,7 @@
     text-align: right;
 
     a {
-      line-height: $header-navbar-height-multipler;
+      line-height: $header-navbar-height-multiplier;
       vertical-align: middle;
     }
   }
@@ -22,10 +22,25 @@
 .desktop-nav-link {
   color: $link-color;
   font-weight: bold;
+  position: relative;
+
+  &::before {
+    border-bottom-color: $brand-secondary;
+    border-bottom-style: solid;
+    border-bottom-width: $space-6;
+    bottom: 0;
+    content: ' ';
+    position: absolute;
+    width: 100%;
+  }
 
   &.collapsed {
     color: $gray-dark;
     font-weight: normal;
+
+    &::before {
+      border-bottom-width: 0;
+    }
   }
 }
 
@@ -63,6 +78,10 @@
 
   a {
     color: $brand-primary-light;
+  }
+
+  &.border {
+    border-bottom: $border;
   }
 }
 
