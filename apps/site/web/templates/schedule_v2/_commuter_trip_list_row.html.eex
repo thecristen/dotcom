@@ -8,9 +8,9 @@ end
 %>
 <%= content_tag tag, attributes do %>
   <div class="row">
-    <div class="col-xs-4 no-wrap"><%= display_commuter_scheduled_prediction(@departure) %></div>
+    <div class="col-xs-4 no-wrap"><%= PredictedSchedule.Display.time(@departure) %></div>
     <%= if @arrival do %>
-      <div class="col-xs-4 no-wrap"><%= display_commuter_scheduled_prediction(@arrival) %></div>
+      <div class="col-xs-4 no-wrap"><%= PredictedSchedule.Display.time(@arrival) %></div>
       <div class="col-xs-4 no-wrap">
         <%= assigns[:name] %>
         <%= display_alerts(@alerts) %>

@@ -7,12 +7,12 @@ else
 end %>
 <%= content_tag tag, attributes do %>
   <div>
-    <%= display_scheduled_prediction(@departure) %>
+    <%= PredictedSchedule.Display.time(@departure) %>
   </div>
   <div>
     <%= cond do %>
       <% @arrival -> %>
-      <%= display_scheduled_prediction(@arrival) %>
+      <%= PredictedSchedule.Display.time(@arrival) %>
       <% assigns[:trip] -> %>
       <%= @trip.headsign %>
       <% true -> %>

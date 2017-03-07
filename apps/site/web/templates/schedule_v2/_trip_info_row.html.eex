@@ -8,11 +8,7 @@
       <%= display_alerts(@alerts)%>
     </span>
     <span class="stop-info-column">
-      <%= if @route.type == 2 do %>
-        <%= display_commuter_scheduled_prediction(@predicted_schedule) %>
-      <% else %>
-        <%= display_scheduled_prediction(@predicted_schedule) %>
-      <% end %>
+      <%= PredictedSchedule.Display.time(@predicted_schedule) %>
     </span>
   </div>
 </div>
