@@ -166,7 +166,7 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, %Stops.Stop{id: "destination"})
       |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}])
-      |> assign(:stop_times, StopTimeList.build_predictions_only([], "stop", "destination"))
+      |> assign(:stop_times, StopTimeList.build_predictions_only([], [], "stop", "destination"))
       |> validate_stop_times([])
 
       assert redirected_to(conn, 302) == "/?origin=stop"
@@ -184,7 +184,7 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, %Stops.Stop{id: "destination"})
       |> assign(:predictions, predictions)
-      |> assign(:stop_times, StopTimeList.build_predictions_only(predictions, "stop", nil))
+      |> assign(:stop_times, StopTimeList.build_predictions_only([], predictions, "stop", nil))
       |> validate_stop_times([])
 
       refute conn.halted
@@ -199,7 +199,7 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, %Stops.Stop{id: "destination"})
       |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "destination"}}])
-      |> assign(:stop_times, StopTimeList.build_predictions_only([], "stop", "destination"))
+      |> assign(:stop_times, StopTimeList.build_predictions_only([], [], "stop", "destination"))
       |> validate_stop_times([])
 
       refute conn.halted
@@ -214,7 +214,7 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, nil)
       |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}])
-      |> assign(:stop_times, StopTimeList.build_predictions_only([], "stop", "destination"))
+      |> assign(:stop_times, StopTimeList.build_predictions_only([], [], "stop", "destination"))
       |> validate_stop_times([])
 
       refute conn.halted

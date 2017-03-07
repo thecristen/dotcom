@@ -367,7 +367,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_v2_path(conn, :show, "1"),
       query_params: nil
     }
-    |> assign(:stop_times, StopTimeList.build_predictions_only([prediction], "origin", nil))
+    |> assign(:stop_times, StopTimeList.build_predictions_only([], [prediction], "origin", nil))
     |> assign(:date, ~D[2017-01-01])
     |> assign(:date_time, ~N[2017-01-01T12:00:00])
     |> assign(:route, %Routes.Route{type: 1})
@@ -384,7 +384,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_v2_path(conn, :show, "1"),
       query_params: nil
     }
-    |> assign(:stop_times, StopTimeList.build_predictions_only([prediction], "origin", nil))
+    |> assign(:stop_times, StopTimeList.build_predictions_only([], [prediction], "origin", nil))
     |> assign(:date, ~D[2017-01-01])
     |> assign(:date_time, ~N[2017-01-01T12:00:00])
     |> assign(:route, %Routes.Route{type: 1})

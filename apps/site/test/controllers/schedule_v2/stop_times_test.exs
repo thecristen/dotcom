@@ -7,6 +7,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
 
   alias Routes.Route
   alias Schedules.{Schedule, Trip, Stop}
+  alias Predictions.Prediction
 
  @route %Route{id: "86", type: 3, name: "86"}
  @date_time ~N[2017-02-11T22:30:00]
@@ -79,6 +80,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
     test "assigns stop_times for subway", %{conn: conn} do
       conn = conn
       |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:schedules, [])
       |> assign(:predictions, [])
       |> assign(:origin, nil)
       |> assign(:destination, nil)
@@ -86,6 +88,24 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       |> call([])
 
       assert conn.assigns.stop_times != nil
+    end
+
+    test "assigns prediction-only stop_times", %{conn: conn} do
+      stop = %Stop{id: "stop"}
+      trip = %Trip{id: "trip"}
+      schedules = [%Schedule{trip: trip, stop: stop, time: @date_time}]
+      predictions = [%Prediction{trip: trip, stop: stop, time: @date_time}]
+      conn = conn
+      |> assign(:route, %Routes.Route{type: 1})
+      |> assign(:schedules, schedules)
+      |> assign(:predictions, predictions)
+      |> assign(:origin, stop)
+      |> assign(:destination, nil)
+      |> fetch_query_params
+      |> call([])
+
+      assert conn.assigns.stop_times == StopTimeList.build_predictions_only(
+        schedules, predictions, "stop", nil)
     end
 
     test "if the assigned direction_id does not match the trip, redirects to the correct direction_id" do
@@ -141,11 +161,11 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
 
       # Predictions at the destination
       destination_predictions = for hour <- [1, 2, 3] do
-        %Predictions.Prediction{trip: %Trip{id: "trip-#{hour}"}, stop: destination}
+        %Prediction{trip: %Trip{id: "trip-#{hour}"}, stop: destination}
       end
       # Predictions that should be filtered out
       extra_predictions = for hour <- [4, 5, 6] do
-        %Predictions.Prediction{trip: %Trip{id: "trip-#{hour}"}, stop: elsewhere}
+        %Prediction{trip: %Trip{id: "trip-#{hour}"}, stop: elsewhere}
       end
 
       conn = setup_conn(
