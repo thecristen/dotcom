@@ -9,10 +9,12 @@
 
   <%= if @origin do %>
     <div class="trip-list-v2-container">
-      <%= if @route.type == 2 do %>
-        <%= render "_commuter_trip_list.html", forward_assigns(@conn) %>
-      <% else %>
-        <%= render "_trip_list.html", forward_assigns(@conn) %>
+      <%= if assigns[:stop_times] && @stop_times.times != [] do %>
+        <%= if @route.type == 2 do %>
+          <%= render "_commuter_trip_list.html", forward_assigns(@conn) %>
+        <% else %>
+          <%= render "_trip_list.html", forward_assigns(@conn) %>
+        <% end %>
       <% end %>
     </div>
   <% end %>
