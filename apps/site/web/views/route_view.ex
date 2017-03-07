@@ -43,7 +43,7 @@ defmodule Site.RouteView do
     end
   end
 
-  @spec zone(map | nil, Stop.Stop.t) :: Phoenix::HTML.Safe.t
+  @spec zone(map | nil, Stops.Stop.t) :: Phoenix.HTML.Safe.t
   defp zone(nil, _stop), do: ""
   defp zone(zones, stop) do
     content_tag :span, class: "pull-right zone" do

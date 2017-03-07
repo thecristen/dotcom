@@ -52,7 +52,7 @@ defmodule PredictedSchedule do
   @doc """
   Returns the trip for a given PredictedSchedule.
   """
-  @spec trip(PredictedSchedule.t) :: Schedules.Trip.t
+  @spec trip(PredictedSchedule.t) :: Schedules.Trip.t | nil
   def trip(%PredictedSchedule{schedule: %Schedule{trip: trip}}), do: trip
   def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}), do: trip
 
