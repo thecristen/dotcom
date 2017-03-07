@@ -53,6 +53,7 @@ defmodule Site.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
+     {:tzdata, github: "paulswartz/tzdata", override: true},
      {:timex, ">= 2.0.0"},
      {:stops, in_umbrella: true},
      {:routes, in_umbrella: true},
