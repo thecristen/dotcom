@@ -20,11 +20,14 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.RouteBreadcrumbs
   plug :tab_assigns
 
+  @spec show(Plug.Conn.t, map) :: Phoenix::HTML.Safe.t
   def show(conn, _) do
     conn
     |> render("show.html")
   end
 
+  # Plug that assigns the tab based on a URL parameter or a default value to the connection
+  @spec tab(Plug.Conn.t, map) :: Plug.Conn.t
   defp tab(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, _opts) do
     tab = conn.params["tab"] || "timetable"
     conn
@@ -38,6 +41,8 @@ defmodule Site.ScheduleV2Controller do
     |> assign(:schedule_template, "_default_schedule.html")
   end
 
+  # Plug that assigns trip schedule to the connection
+  @spec assign_trip_schedules(Plug.Conn.t) :: Plug.Conn.t
   defp assign_trip_schedules(conn) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
@@ -50,16 +55,20 @@ defmodule Site.ScheduleV2Controller do
     |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
   end
 
+  # Helper function for obtaining schedule data
+  @spec timetable_schedules(Plug.Conn.t) :: [Schedules.Schedule.t]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     Schedules.Repo.all(date: date, route: route.id, direction_id: direction_id)
   end
 
+  @spec header_schedules(list) :: list
   defp header_schedules(timetable_schedules) do
     timetable_schedules
     |> Schedules.Sort.sort_by_first_times
     |> Enum.map(&List.first/1)
   end
 
+  @spec trip_messages(Routes.Route.t, Integer) :: map
   defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
     %{
       {"221", "North Billerica"} => "Via",
@@ -91,6 +100,8 @@ defmodule Site.ScheduleV2Controller do
     end
   end
 
+  # Plug that calls other plugs depending on which tab is currently set
+  @spec tab_assigns(Plug.Conn.t, map) :: Plug.Conn.t
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "timetable"}} = conn, _opts) do
     conn
     |> assign_trip_schedules
@@ -102,7 +113,6 @@ defmodule Site.ScheduleV2Controller do
     |> call_plug(SV2C.StopTimes)
     |> call_plug(SV2C.TripInfo)
 
-    # add zones for commuter rail
     if conn.assigns.route.type == 2 do
       assign(conn, :zone_map, Map.new(conn.assigns.all_stops, &{&1.id, Zones.Repo.get(&1.id)}))
     else
@@ -110,9 +120,68 @@ defmodule Site.ScheduleV2Controller do
     end
   end
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn, _opts) do
-    conn = conn
+    conn
     |> call_plug(SV2C.LineHoursOfOperation)
     |> call_plug(SV2C.LineNextThreeHolidays)
     |> call_plug(SV2C.Line)
+  end
+
+  @spec hours_of_operation(Plug.Conn.t, map) :: Plug.Conn.t
+  def hours_of_operation(%Plug.Conn{assigns: %{route: route}, params: %{"route" => route_id}} = conn, opts)
+  when (not is_nil(route)) or (route_id == "Green") do
+    dates = get_dates(conn.assigns.date)
+    schedules_fn = schedules_fn(opts)
+    assign(conn, :hours_of_operation, %{
+          :week => get_hours(conn, dates[:week], schedules_fn),
+          :saturday => get_hours(conn, dates[:saturday], schedules_fn),
+          :sunday => get_hours(conn, dates[:sunday], schedules_fn)}
+    )
+  end
+  def hours_of_operation(conn, _opts) do
+    conn
+  end
+
+  defp get_hours(%Plug.Conn{params: %{"route" => "Green"}}, date, schedules_fn) do
+    do_get_hours(Enum.join(GreenLine.branch_ids(), ","), date, schedules_fn)
+  end
+  defp get_hours(%Plug.Conn{assigns: %{route: route}}, date, schedules_fn) do
+    do_get_hours(route.id, date, schedules_fn)
+  end
+
+  defp do_get_hours(route_id, date, schedules_fn) do
+    {inbound, outbound} = [date: date, stop_sequence: "first,last"]
+    |> Keyword.merge(route: route_id)
+    |> schedules_fn.()
+    |> Enum.split_with(& &1.trip.direction_id == 1)
+
+    %{
+      1 => Schedules.Departures.first_and_last_departures(inbound),
+      0 => Schedules.Departures.first_and_last_departures(outbound)
+    }
+  end
+
+  defp get_dates(date) do
+    %{
+      :week => Timex.end_of_week(date, 2),
+      :saturday => Timex.end_of_week(date, 7),
+      :sunday => Timex.end_of_week(date, 1)
+    }
+  end
+
+  defp schedules_fn(opts) do
+    Keyword.get(opts, :schedules_fn, &Schedules.Repo.all/1)
+  end
+
+  @spec next_3_holidays(Plug.Conn.t, map) :: Plug.Conn.t
+  def next_3_holidays(%Plug.Conn{assigns: %{date: date}} = conn, _opts) do
+    holidays = date
+    |> Holiday.Repo.following
+    |> Enum.take(3)
+
+    conn
+    |> assign(:holidays, holidays)
+  end
+  def next_3_holidays(conn, _opts) do
+    conn
   end
 end

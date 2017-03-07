@@ -397,6 +397,7 @@ defmodule Site.ScheduleV2View do
     |> String.capitalize
   end
 
+  # Displays the bubble for the line
   @spec stop_bubble(integer, boolean) :: Phoenix.HTML.Safe.t
   defp stop_bubble(route_type, is_terminus?) do
     content_tag :div, class: "stop-bubble" do
@@ -404,6 +405,7 @@ defmodule Site.ScheduleV2View do
     end
   end
 
+  # Displays the stop name and associated icons and zone
   @spec stop_name_and_icons(Plug.Conn.t, Stops.Stop.t, [atom]) :: Phoenix.HTML.Safe.t
   defp stop_name_and_icons(conn, stop, stop_features) do
     content_tag :div, class: "route-stop-name-icons" do
@@ -415,6 +417,7 @@ defmodule Site.ScheduleV2View do
     end
   end
 
+  # Displays the zone
   @spec zone(map | nil, Stop.Stop.t) :: Phoenix::HTML.Safe.t
   defp zone(nil, _stop), do: ""
   defp zone(zones, stop) do

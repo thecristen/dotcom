@@ -179,7 +179,7 @@ defmodule Site.ScheduleV2Controller.Green do
   end
 
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn, _opts) do
-    conn = conn
+    conn
     |> call_plug(SV2C.LineHoursOfOperation)
     |> call_plug(SV2C.LineNextThreeHolidays)
     |> call_plug(SV2C.Line)
