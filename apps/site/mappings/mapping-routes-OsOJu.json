@@ -1,0 +1,19 @@
+{
+  "uuid" : "ab26a394-af71-304a-8af9-1823f0f6eaae",
+  "request" : {
+    "url" : "/routes/?stop=58&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OsOJu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:15:00 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "fneismimu1sbjt7uejsmsid64v6hg12g",
+      "Connection" : "keep-alive"
+    }
+  }
+}

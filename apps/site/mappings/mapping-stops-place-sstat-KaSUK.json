@@ -1,0 +1,19 @@
+{
+  "uuid" : "6dc2ad72-c2f1-391d-a0b2-2f32368b0585",
+  "request" : {
+    "url" : "/stops/place-sstat",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-sstat-KaSUK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:15:54 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "pjjqlcc9mkve35f3hups0o3mk3as0od3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

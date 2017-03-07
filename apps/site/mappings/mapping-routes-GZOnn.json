@@ -1,0 +1,19 @@
+{
+  "uuid" : "37fa6139-52b9-3cb1-a97d-783fab030ea9",
+  "request" : {
+    "url" : "/routes/?stop=143&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GZOnn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:54 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "cu597qmm2rn6tfnv4c97jglva81q5d9q",
+      "Connection" : "keep-alive"
+    }
+  }
+}

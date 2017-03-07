@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/11366"},"id":"11366","attributes":{"wheelchair_boarding":0,"name":"Pearl St @ Washington St","longitude":-71.116287,"latitude":42.331935}}}

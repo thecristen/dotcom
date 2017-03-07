@@ -1,0 +1,19 @@
+{
+  "uuid" : "ac85b48f-9bc7-3786-8ee6-bf92df3aa362",
+  "request" : {
+    "url" : "/stops/place-haecl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-haecl-mCnxi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 06 Mar 2017 18:14:31 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "28v31qimimlglsllgqd0c66ftd5jtme4",
+      "Connection" : "keep-alive"
+    }
+  }
+}
