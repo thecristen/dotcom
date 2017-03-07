@@ -201,7 +201,7 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "prediction_trip_information/2" do
-    @trip_info %TripInfo{
+    @trip_info_complete %TripInfo{
       route: %Routes.Route{type: 2},
       sections: [[
         %PredictedSchedule{
@@ -213,12 +213,12 @@ defmodule Site.ScheduleV2ViewTest do
       vehicle_locations = %{{"32610405", "place-forhl"} => %Vehicles.Vehicle{
         status: :stopped, stop_id: "place-forhl", trip_id: "32610405"}}
 
-      output = prediction_trip_information(@trip_info, vehicle_locations) |> safe_to_string
+      output = prediction_trip_information(@trip_info_complete, vehicle_locations) |> safe_to_string
       assert output =~ "Train has arrived at Forest Hills."
     end
 
     test "route status is not available" do
-      output = prediction_trip_information(@trip_info, %{})
+      output = prediction_trip_information(@trip_info_complete, %{})
       assert output == ""
     end
   end

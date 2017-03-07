@@ -130,6 +130,19 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     assert actual_stops == expected_stops
   end
 
+  test "assigns trip_info_complete has more trips than trip info based on a range", %{conn: conn} do
+    conn = conn_builder(conn, [], trip: "long_trip", origin: "after_first", destination: "new_last")
+    stops = conn.assigns.trip_info.sections
+    |> List.flatten
+    |> Enum.map(& &1.schedule.stop.id)
+
+    all_stops = conn.assigns.trip_info_complete.sections
+    |> List.flatten
+    |> Enum.map(& &1.schedule.stop.id)
+
+    assert length(stops) < length(all_stops)
+  end
+
   test "there's a separator if there are enough schedules", %{conn: conn} do
     conn = conn_builder(conn, [], trip: "long_trip")
     assert :separator in TripInfo.times_with_flags_and_separators(conn.assigns.trip_info)

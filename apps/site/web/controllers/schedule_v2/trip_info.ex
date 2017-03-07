@@ -28,8 +28,10 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     case trip_id(conn) do
       nil ->
         assign(conn, :trip_info, nil)
+        |> assign(:trip_info_complete, nil)
       selected_trip_id ->
-        handle_trip(conn, selected_trip_id, opts)
+        handle_trip(conn, :trip_info, selected_trip_id, conn.query_params["origin"], conn.query_params["destination"], collapse?(conn), opts)
+        |> handle_trip(:trip_info_complete, selected_trip_id, nil, nil, false, opts)
     end
   end
 
@@ -63,27 +65,27 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     is_nil(conn.query_params["show_collapsed_trip_stops?"])
   end
 
-  defp handle_trip(conn, selected_trip_id, opts) do
-    case build_info(selected_trip_id, conn, opts) do
+  defp handle_trip(conn, key, selected_trip_id, origin, destination, collapse, opts) do
+    case build_info(selected_trip_id, conn, origin, destination, collapse, opts) do
       {:error, _} ->
         url = update_url(conn, trip: nil)
         conn
         |> redirect(to: url)
         |> halt
       info ->
-        assign(conn, :trip_info, info)
+        assign(conn, key, info)
     end
   end
 
-  defp build_info(trip_id, conn, opts) do
+  defp build_info(trip_id, conn, origin, destination, collapse, opts) do
     trip_id
     |> opts[:trip_fn].()
     |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
     |> TripInfo.from_list(
-      collapse?: collapse?(conn),
+      collapse?: collapse,
       vehicle: opts[:vehicle_fn].(trip_id),
-      origin_id: conn.query_params["origin"],
-      destination_id: conn.query_params["destination"])
+      origin_id: origin,
+      destination_id: destination)
   end
 
   # If there are more trips left in a day, finds the next trip based on the current time.

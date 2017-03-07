@@ -192,7 +192,14 @@ defmodule TripInfo do
   defp duration(times, origin_id) do
     first = Enum.find(times, & PredictedSchedule.stop(&1).id == origin_id)
     last = List.last(times)
-    Timex.diff(PredictedSchedule.time(last), PredictedSchedule.time(first), :minutes)
+    first_predicted = PredictedSchedule.time(first)
+    last_predicted = PredictedSchedule.time(last)
+    case last_predicted == nil or first_predicted == nil do
+      true ->
+        nil
+      false ->
+        Timex.diff(last_predicted, first_predicted, :minutes)
+    end
   end
 
   defp route_name(%Routes.Route{type: 3, name: name}) do
