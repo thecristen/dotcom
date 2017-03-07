@@ -8,6 +8,10 @@ html {
 
 h1,
 .h1 {
+  border-bottom-color: $brand-purple;
+  border-bottom-style: solid;
+  border-bottom-width: $base-spacing / 4;
+
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-h1-xxl;
   }
