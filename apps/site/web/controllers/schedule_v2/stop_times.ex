@@ -14,12 +14,12 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   plug :assign_stop_times
   plug :validate_direction_id
 
-  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}}} = conn, []) when Route.subway?(route_type) do
+  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) when Route.subway?(route_type) do
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
     predictions = conn.assigns.predictions
 
-    stop_times = StopTimeList.build_predictions_only(predictions, origin_id, destination_id)
+    stop_times = StopTimeList.build_predictions_only(schedules, predictions, origin_id, destination_id)
 
     assign(conn, :stop_times, stop_times)
   end
