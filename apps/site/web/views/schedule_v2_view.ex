@@ -123,7 +123,7 @@ defmodule Site.ScheduleV2View do
   """
   @spec display_commuter_scheduled_prediction(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
   def display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction} = stop_time) do
-    case StopTime.delay(stop_time) do
+    case PredictedSchedule.delay(stop_time) do
       # if we're going to show both, make sure they are different times
       delay when delay > 0 -> content_tag :span, do: [
         content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),

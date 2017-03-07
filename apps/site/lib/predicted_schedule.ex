@@ -136,4 +136,14 @@ defmodule PredictedSchedule do
   @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, DateTime.t}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.time}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.time}
+
+  @doc """
+  Returns the time difference between a schedule and prediction. If either is nil, returns 0.
+  """
+  @spec delay(PredictedSchedule.t | nil) :: integer
+  def delay(nil), do: 0
+  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
+  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
+    Timex.diff(prediction.time, schedule.time, :minutes)
+  end
 end
