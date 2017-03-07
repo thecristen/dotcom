@@ -7,6 +7,7 @@
     <img src="<%= @map_img_src %>" class="img-fluid">
   </div>
   <div class="col-xs-12 col-md-6 col-md-offset-6">
+    <% if assigns[:hours_of_operation] do %>
     <div class="row">
       <h2 class="col-xs-12">Hours of Operation</h2>
       <%= for period <- [:saturday, :sunday, :week] do %>
@@ -23,6 +24,7 @@
         </div>
       <% end %>
     </div>
+    <% end %>
     <%= render "_holidays.html", assigns %>
   </div>
 </div>

@@ -20,6 +20,13 @@
           {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
         ]
       }) %>
+    <% else %>
+      <%= tab_list(%TabList{
+        links: [
+          {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
+          {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
+        ]
+      }) %>
     <% end %>
     <%= render template_for_tab(@tab), forward_assigns(@conn) %>
   </div>

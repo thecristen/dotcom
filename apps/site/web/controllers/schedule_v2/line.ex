@@ -51,7 +51,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:zones, zones)
     |> assign(:stop_list_template, "_line_stop_list.html")
   end
-  def call(%Plug.Conn{assigns: %{route: route_id}} = conn, _args) do
+  def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
 
     conn

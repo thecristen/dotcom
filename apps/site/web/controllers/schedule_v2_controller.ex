@@ -32,8 +32,9 @@ defmodule Site.ScheduleV2Controller do
     |> assign(:schedule_template, "_commuter.html")
   end
   defp tab(conn, _opts) do
+    tab = conn.params["tab"] || "trip-view"
     conn
-    |> assign(:tab, "trip-view")
+    |> assign(:tab, tab)
     |> assign(:schedule_template, "_default_schedule.html")
   end
 
@@ -101,6 +102,7 @@ defmodule Site.ScheduleV2Controller do
     |> call_plug(SV2C.StopTimes)
     |> call_plug(SV2C.TripInfo)
 
+    # add zones for commuter rail
     if conn.assigns.route.type == 2 do
       assign(conn, :zone_map, Map.new(conn.assigns.all_stops, &{&1.id, Zones.Repo.get(&1.id)}))
     else
