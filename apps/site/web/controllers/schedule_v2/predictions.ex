@@ -54,6 +54,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
   defp filter_stop_at_origin(predictions, origin_id) do
     predictions
     |> Enum.reject(fn
+      %Prediction{time: nil} -> false
       %Prediction{stop: %{id: ^origin_id}, departing?: false} -> true
       %Prediction{} -> false
     end)
