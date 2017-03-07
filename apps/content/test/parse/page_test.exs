@@ -56,8 +56,7 @@ defmodule Content.Parse.PageTest do
                      body: "project value\r\n",
                      updated_at: Timex.to_datetime(~N[2016-12-01T17:23:51], "Etc/UTC"),
                      fields: %{
-                       media_contact: "MassDOT",
-                       media_phone: "(123) 456-7890",
+                       more_information: "<p>Visit T-Alerts for more information</p>",
                        featured_image: %Content.Page.Image{
                          alt: "Alt Text",
                          height: 368,

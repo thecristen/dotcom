@@ -22,6 +22,13 @@ defmodule Site.ContentView do
       markers: address)
   end
 
+  @doc "Returns true if the provided field has content."
+  @spec field_has_content?(String.t | Enum.t) :: boolean
+  def field_has_content?(content) when is_binary(content) do
+     String.strip(content) != ""
+  end
+  def field_has_content?(content), do: !Enum.empty?(content)
+
   @doc "Nicely renders the duration of an event, given two DateTimes."
   @spec event_duration(NaiveDateTime.t | DateTime.t, NaiveDateTime.t | DateTime.t | nil) :: String.t
   def event_duration(start_time, end_time)
@@ -34,6 +41,10 @@ defmodule Site.ContentView do
     start_time
     |> maybe_shift_timezone
     |> do_event_duration(maybe_shift_timezone(end_time))
+  end
+
+  def format_date(date) do
+    Timex.format!(date, "{Mfull} {D}, {YYYY}")
   end
 
   defp maybe_shift_timezone(%NaiveDateTime{} = time) do
@@ -53,10 +64,6 @@ defmodule Site.ContentView do
   end
   defp do_event_duration(start_time, end_time) do
     "#{format_date(start_time)} #{format_time(start_time)} until #{format_date(end_time)} #{format_time(end_time)}"
-  end
-
-  defp format_date(date) do
-    Timex.format!(date, "{WDfull}, {Mfull} #{date.day |> Inflex.Ordinalize.ordinalize}")
   end
 
   defp format_time(time) do

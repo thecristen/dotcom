@@ -108,14 +108,10 @@
       "url": "https://drupal-host/sites/default/files/image.png"
     }
   ],
-  "field_media_contact": [
+  "field_more_information": [
     {
-      "value": "MassDOT"
-    }
-  ],
-  "field_media_phone": [
-    {
-      "value": "(123) 456-7890"
+      "format": "basic_html",
+      "value": "<p>Visit T-Alerts for more information</p>"
     }
   ]
 }
