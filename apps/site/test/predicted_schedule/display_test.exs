@@ -60,6 +60,30 @@ defmodule PredictedSchedule.DisplayTest do
       assert result =~ "fa fa-rss"
     end
 
+    test "if the trip is cancelled, only crosses out the schedule time" do
+      result = %PredictedSchedule{
+        schedule: %Schedule{route: @commuter_route, time: @schedule_time},
+        prediction: %Prediction{route: @commuter_route, schedule_relationship: :canceled}}
+        |> time
+        |> safe_to_string
+
+      assert result =~ "<del"
+      assert result =~ "12:00P"
+      assert result =~ "fa fa-rss"
+    end
+
+    test "if a trip is skipped, crosses out the schedule time" do
+      result = %PredictedSchedule{
+        schedule: %Schedule{time: @schedule_time},
+        prediction: %Prediction{schedule_relationship: :skipped}}
+        |> time
+        |> safe_to_string
+
+      assert result =~ "<del"
+      assert result =~ "12:00P"
+      assert result =~ "fa fa-rss"
+    end
+
     test "handles nil schedules" do
       result = time(%PredictedSchedule{
             schedule: nil,

@@ -212,6 +212,7 @@ defmodule PredictedScheduleTest do
 
     test "returns 0 if either time is nil, or if the argument itself is nil" do
       assert delay(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}}) == 0
+      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: %Prediction{}}) == 0
       assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: nil}) == 0
       assert delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
       assert delay(nil) == 0

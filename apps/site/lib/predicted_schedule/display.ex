@@ -1,6 +1,7 @@
 defmodule PredictedSchedule.Display do
   import Phoenix.HTML.Tag, only: [tag: 1, content_tag: 2, content_tag: 3]
   import Site.ViewHelpers, only: [fa: 1, format_schedule_time: 1]
+  alias Schedules.Schedule
   alias Predictions.Prediction
 
   @doc """
@@ -73,6 +74,12 @@ defmodule PredictedSchedule.Display do
     content_tag :span do
       format_schedule_time(scheduled.time)
     end
+  end
+  defp do_display_time(%PredictedSchedule{
+        schedule: %Schedule{} = schedule,
+        prediction: %Prediction{time: nil, schedule_relationship: relationship}})
+  when relationship in [:canceled, :skipped] do
+    content_tag :del, schedule.time |> format_schedule_time |> do_realtime
   end
   defp do_display_time(%PredictedSchedule{prediction: %Prediction{time: nil, status: nil}}) do
     ""

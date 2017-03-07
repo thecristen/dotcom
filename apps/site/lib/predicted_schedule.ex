@@ -144,6 +144,10 @@ defmodule PredictedSchedule do
   def delay(nil), do: 0
   def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
   def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
-    Timex.diff(prediction.time, schedule.time, :minutes)
+    if prediction.time do
+      Timex.diff(prediction.time, schedule.time, :minutes)
+    else
+      0
+    end
   end
 end
