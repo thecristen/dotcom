@@ -1,0 +1,18 @@
+<div class="recent-news">
+  <h2>Recent News on the T</h2>
+  <div class="row">
+    <%= for article <- @recent_news do %>
+      <div class="col-sm-4">
+        <img
+          class="recent-news-featured-image"
+          src="<%= article.fields.featured_image.url %>"
+          alt="<%= article.fields.featured_image.alt %>"
+        />
+        <p class="news-metadata">
+          <%= format_date(article.updated_at) %>
+        </p>
+        <%= link article.title, to: "/node/#{article.id}", class: "recent-news-title" %>
+      </div>
+    <% end %>
+  </div>
+</div>

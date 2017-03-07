@@ -32,9 +32,9 @@ defmodule StopTimeList do
   Build a StopTimeList using only predictions. This will also filter out predictions that are
   missing departure_predictions. Limits to 5 predictions at most.
   """
-  @spec build_predictions_only([Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
-  def build_predictions_only(predictions, origin_id, destination_id) do
-    []
+  @spec build_predictions_only([Schedules.t], [Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
+  def build_predictions_only(schedules, predictions, origin_id, destination_id) do
+    schedules
     |> build_times(predictions, origin_id, destination_id)
     |> Enum.filter(&StopTime.has_departure_prediction?/1)
     |> Enum.take(5)

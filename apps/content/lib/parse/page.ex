@@ -61,6 +61,13 @@ defmodule Content.Parse.Page do
     []
   end
 
+  def parse_field_more_information([%{"value" => value}]) do
+    [more_information: value]
+  end
+  def parse_field_more_information([]) do
+    [more_information: []]
+  end
+
   def parse_field_status([%{"value" => value}]) do
     [status: value]
   end
@@ -92,14 +99,6 @@ defmodule Content.Parse.Page do
       description: description,
       type: Content.Page.File.find_type(url)
     }
-  end
-
-  def parse_field_media_contact([%{"value" => value}]) do
-    [media_contact: value]
-  end
-
-  def parse_field_media_phone([%{"value" => value}]) do
-    [media_phone: value]
   end
 
   def parse_field_address([%{"value" => value}]) do

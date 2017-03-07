@@ -3,11 +3,13 @@ defmodule ContentControllerTest do
   import Mock
 
   @page %Content.Page{
+    id: 1,
     body: "Stay safe this winter",
     title: "News Title",
     type: "news_entry",
     updated_at: DateTime.utc_now,
     fields: %{
+      more_information: "Visit Alerts for details.",
       featured_image: %Content.Page.Image{
         alt: "alt",
         url: "image_url",
@@ -17,7 +19,10 @@ defmodule ContentControllerTest do
 
   describe "GET - page" do
     test "renders a news entry when the CMS returns the content type: news_entry", %{conn: conn} do
-      with_mock Content.Repo, [page: fn(_path, _params) -> {:ok, @page} end] do
+      with_mocks([
+        {Content.Repo, [], [page: fn(_path, _params) -> {:ok, @page} end]},
+        {Content.Repo, [], [page: fn("/recent-news") -> {:ok, [@page]} end]}
+      ]) do
         conn = get conn, "existing-news-entry"
         assert html_response(conn, 200) =~ @page.title
       end

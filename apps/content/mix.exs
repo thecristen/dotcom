@@ -44,6 +44,7 @@ defmodule Content.Mixfile do
      {:bypass, "~> 0.1", only: :test},
      {:excheck, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test},
-     {:excoveralls, "~> 0.5", only: :test}]
+     {:excoveralls, "~> 0.5", only: :test},
+     {:mock, "~> 0.2.0", only: :test}]
   end
 end

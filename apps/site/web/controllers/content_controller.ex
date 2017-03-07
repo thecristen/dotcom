@@ -21,9 +21,10 @@ defmodule Site.ContentController do
   end
   defp render_page(conn, {:ok, page}) do
     conn
-    |> render(Site.ContentView, "#{page.type}.html",
-      breadcrumbs: [page.title],
-      page: page)
+    |> assign(:metadata, Content.MetaData.for(page.type))
+    |> assign(:breadcrumbs, [page.title])
+    |> assign(:page, page)
+    |> render(Site.ContentView, "#{page.type}.html")
   end
   defp render_page(conn, {:error, error}) do
     Logger.debug("error while fetching page: #{inspect error}")
