@@ -1,12 +1,12 @@
 <% route_mode_class = @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>
-<div class="route-info row page-section">
-  <div class="col-xs-12 col-md-5">
+<div class="route-info row">
+  <div class="col-xs-12 col-md-5 page-section">
     <h2><%= @route.name %> Stops</h2>
     <div class="route-stop-list stop-group <%= route_mode_class %> row">
       <%= render @stop_list_template, assigns %>
     </div>
   </div>
-  <div class="col-xs-12 col-md-7">
+  <div class="col-xs-12 col-md-7 page-section">
     <div class="row">
       <div class="col-xs-12">
         <img src="<%= @map_img_src %>" class="img-fluid">

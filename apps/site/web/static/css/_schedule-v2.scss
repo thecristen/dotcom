@@ -186,6 +186,15 @@ $z-index-calendar-cover: 3;
     @extend %stop-name-and-time-column;
     border-bottom: 1px solid $gray-lightest;
     padding-bottom: $base-spacing;
+
+    // increases selector specificity, to override @extend
+    &.stop-info {
+      // needs to use margin + shorter width instead of padding + 100% width to
+      // prevent the border-bottom from crossing the vehicle location line
+      margin-left: $base-spacing + $icon-size;
+      padding-left: 0;
+      width: grid-width(10);
+    }
   }
 }
 
@@ -201,9 +210,8 @@ $z-index-calendar-cover: 3;
 
 %stop-name-and-time-column {
   @include unpadded-column;
-  display: table-cell;
-  margin-left: $base-spacing + $icon-size;
-  padding-right: $base-spacing + $icon-size;
+  display: block;
+  padding-left: $base-spacing + $icon-size;
   width: 100%;
 
   > span:first-child {
@@ -245,12 +253,12 @@ $z-index-calendar-cover: 3;
 }
 
 .trip-info-labels {
-  @extend %unpadded-table-row;
-  border-bottom-width: 0;
+  @extend %trip-stop;
   font-weight: bold;
 
   .stop-info {
-    @extend %stop-name-and-time-column;
+    border-bottom-width: 0;
+    padding-bottom: 0;
 
     @include media-breakpoint-down(xs) {
       display: none;
