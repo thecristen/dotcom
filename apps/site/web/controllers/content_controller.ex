@@ -15,10 +15,6 @@ defmodule Site.ContentController do
     |> render_page(maybe_page)
   end
 
-  defp render_page(%{request_path: "/events"} = conn, {:ok, list}) do
-    conn
-    |> render(Site.ContentView, "event_list.html", list: list)
-  end
   defp render_page(conn, {:ok, page}) do
     conn
     |> assign(:metadata, Content.MetaData.for(page.type))

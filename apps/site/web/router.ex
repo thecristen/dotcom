@@ -23,6 +23,7 @@ defmodule Site.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/events", EventController, only: [:index, :show]
     get "/redirect/*path", RedirectController, :show
     resources "/stops", StopController, only: [:index, :show]
     get "/schedules", ModeController, :index
