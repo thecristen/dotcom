@@ -4,8 +4,7 @@
   </div>
   <div class="stop-info">
     <span class="stop-info-column">
-      <%= link @name, to: @href %>
-      <%= display_alerts(@alerts)%>
+      <%= stop_name_link_with_alerts(@name, @href, @alerts) %>
     </span>
     <span class="stop-info-column">
       <%= PredictedSchedule.Display.time(@predicted_schedule) %>

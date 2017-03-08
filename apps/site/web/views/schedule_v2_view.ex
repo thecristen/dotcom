@@ -396,4 +396,33 @@ defmodule Site.ScheduleV2View do
       ["Zone "<>zones[stop.id]]
     end
   end
+
+  @spec stop_name_link_with_alerts(String.t, String.t, [Alert.t]) :: Phoenix.HTML.Safe.t
+  def stop_name_link_with_alerts(name, url, []) do
+    link to: url do
+      name
+    end
+  end
+  def stop_name_link_with_alerts(name, url, alerts) do
+    link to: url do
+      add_icon_to_stop_name(name, alerts)
+    end
+  end
+
+  defp add_icon_to_stop_name(stop_name, alerts) do
+    content_tag :span, class: "name-with-icon" do
+      stop_name
+      |> String.split(" ")
+      |> add_icon_to_string(alerts)
+    end
+  end
+
+  defp add_icon_to_string([word | []], alerts) do
+    content_tag :span, class: "inline-block" do
+      [word, display_alerts(alerts)]
+    end
+  end
+  defp add_icon_to_string([word | rest], alerts) do
+    [word, " ", add_icon_to_string(rest, alerts)]
+  end
 end

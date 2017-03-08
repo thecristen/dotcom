@@ -179,6 +179,10 @@ $z-index-calendar-cover: 3;
 
 .stop-info-column {
   min-width: 8rem;
+
+  &:first-child {
+    padding-right: $base-spacing;
+  }
 }
 
 %trip-stop {
@@ -573,5 +577,15 @@ $z-index-calendar-cover: 3;
 [data-sticky-container] {
   [data-sticky] {
     position: relative;
+  }
+}
+
+.name-with-icon {
+  &:hover > * {
+    text-decoration: underline;
+  }
+
+  svg {
+    margin-left: $space-6;
   }
 }
