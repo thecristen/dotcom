@@ -8,9 +8,9 @@ defmodule V3ApiTest do
       refute response.data == %{}
     end
 
-    test "missing endpoints return a response" do
+    test "missing endpoints return an error" do
       response = V3Api.get_json("/missing")
-      refute response.status_code == 200
+      assert {:error, _} = response
     end
   end
 end

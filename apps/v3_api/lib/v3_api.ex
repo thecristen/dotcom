@@ -2,14 +2,18 @@ defmodule V3Api do
   use HTTPoison.Base
   require Logger
 
+  @spec get_json(String.t, Keyword.t) :: JsonApi.t | {:error, any}
   def get_json(url, params \\ [], timeout \\ 30_000) do
     _ = Logger.debug("V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}")
     with {time, response} <- timed_get(url, params, timeout),
-         log_response(url, params, time, response),
+         :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
-         %{body: body, status_code: 200} <- http_response do
+         %{body: body} <- http_response do
       body
       |> JsonApi.parse
+    else
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
     end
   end
 
