@@ -543,4 +543,20 @@ defmodule Site.ScheduleV2ViewTest do
       refute result =~ "place-davis"
     end
   end
+
+  describe "stop_name_link_with_alerts/3" do
+    test "adds a no-wrap around the last word of the link text and the icon" do
+      alerts = [%Alerts.Alert{}]
+      result = stop_name_link_with_alerts("name", "url", alerts)
+      assert result |> Phoenix.HTML.safe_to_string  =~ "<a href=\"url\">"
+      assert result |> Phoenix.HTML.safe_to_string  =~ "<span class=\"inline-block\">name<svg"
+    end
+
+    test "when there are no alerts, just makes a link" do
+      alerts = []
+      result = stop_name_link_with_alerts("name", "url", alerts)
+      assert result |> Phoenix.HTML.safe_to_string  =~ "<a href=\"url\">"
+      refute result |> Phoenix.HTML.safe_to_string  =~ "<svg"
+    end
+  end
 end
