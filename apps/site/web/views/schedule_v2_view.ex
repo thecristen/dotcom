@@ -181,36 +181,10 @@ defmodule Site.ScheduleV2View do
     build_prediction_tooltip(time_text, status_text, stop_text)
   end
 
-  @spec prediction_trip_information(TripInfo.t) :: Phoenix.HTML.Safe.t
-  def prediction_trip_information(%{sections: sections, route: route}, vehicle_locations) do
-    prediction_information = Enum.find_value sections, fn section ->
-      Enum.find_value section, fn item ->
-        case item.schedule do
-          nil ->
-            false
-          _ ->
-            case item.schedule.trip do
-              nil ->
-                false
-              _ ->
-                vehicle = vehicle_locations[{item.schedule.trip.id, item.schedule.stop.id}]
-                prediction_text = prediction_stop_text(item.schedule.stop.name, vehicle, route.type)
-                case prediction_text do
-                  "" ->
-                    false
-                  _ ->
-                    prediction_text
-                end
-            end
-        end
-      end
-    end
-    case prediction_information do
-      nil ->
-        ""
-      _ ->
-        content_tag(:div, [prediction_information, "."], class: "route-status")
-    end
+  @spec prediction_trip_information(map) :: Phoenix.HTML.Safe.t
+  def prediction_trip_information(%{route_type: route_type, stop_name: stop_name, vehicle: vehicle}) do
+    vehicle_status = prediction_stop_text(stop_name, vehicle, route_type)
+    content_tag(:div, [vehicle_status, "."], class: "route-status")
   end
   def prediction_trip_information(_), do: ""
 

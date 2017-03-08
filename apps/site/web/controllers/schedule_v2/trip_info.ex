@@ -28,10 +28,10 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     case trip_id(conn) do
       nil ->
         assign(conn, :trip_info, nil)
-        |> assign(:trip_info_complete, nil)
+        |> assign(:vehicle_status, nil)
       selected_trip_id ->
-        handle_trip(conn, :trip_info, selected_trip_id, conn.query_params["origin"], conn.query_params["destination"], collapse?(conn), opts)
-        |> handle_trip(:trip_info_complete, selected_trip_id, nil, nil, false, opts)
+        handle_trip(conn, selected_trip_id, conn.query_params["origin"], conn.query_params["destination"], collapse?(conn), opts)
+        |> handle_vehicle_status(selected_trip_id, opts)
     end
   end
 
@@ -65,7 +65,37 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     is_nil(conn.query_params["show_collapsed_trip_stops?"])
   end
 
-  defp handle_trip(conn, key, selected_trip_id, origin, destination, collapse, opts) do
+  defp handle_vehicle_status(conn, selected_trip_id, opts) do
+    vehicle_status = case build_info(selected_trip_id, conn, nil, nil, false, opts) do
+      {:error, _} ->
+        url = update_url(conn, trip: nil)
+        conn
+        |> redirect(to: url)
+        |> halt
+      info ->
+        Enum.find_value info.sections, fn section ->
+          Enum.find_value section, fn item ->
+            case item.schedule do
+              nil ->
+                false
+              _ ->
+                case item.schedule.trip do
+                  nil ->
+                    false
+                  _ ->
+                    vehicle = conn.assigns.vehicle_locations[{item.schedule.trip.id, item.schedule.stop.id}]
+                    if vehicle do
+                      %{stop_name: item.schedule.stop.name, vehicle: vehicle, route_type: info.route.type}
+                    end
+                end
+            end
+          end
+        end
+    end
+    assign(conn, :vehicle_status, vehicle_status)
+  end
+
+  defp handle_trip(conn, selected_trip_id, origin, destination, collapse, opts) do
     case build_info(selected_trip_id, conn, origin, destination, collapse, opts) do
       {:error, _} ->
         url = update_url(conn, trip: nil)
@@ -73,7 +103,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
         |> redirect(to: url)
         |> halt
       info ->
-        assign(conn, key, info)
+        assign(conn, :trip_info, info)
     end
   end
 
