@@ -13,7 +13,7 @@
         <% end %>
       <% end %>
     </div>
-    <%= render "_line_stop_list.html", conn: @conn,
+    <%= render "_stop_list.html", conn: @conn,
                                     stops: @braintree_branch_stops,
                                     stop_features: @stop_features,
                                     route: %Routes.Route{id: "Red", type: 1} %>

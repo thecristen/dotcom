@@ -165,7 +165,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert List.first(conn.assigns.stops).id == "Lowell"
       assert List.last(conn.assigns.stops).id == "place-north"
       # Stop list
-      assert conn.assigns.stop_list_template == "_line_stop_list.html"
+      assert conn.assigns.stop_list_template == "_stop_list.html"
 
       # includes the stop features
       assert %{} = conn.assigns.stop_features
@@ -199,7 +199,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert List.last(conn.assigns.stops).id == "place-jfk"
       assert conn.assigns.merge_stop_id == "place-jfk"
       # List template
-      assert conn.assigns.stop_list_template == "_line_stop_list_red.html"
+      assert conn.assigns.stop_list_template == "_stop_list_red.html"
 
       # includes the stop features
       assert %{} = conn.assigns.stop_features
@@ -240,7 +240,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert List.first(conn.assigns.stops).id == "place-lech"
       assert List.last(conn.assigns.stops).id == "place-lake"
       # List template
-      assert conn.assigns.stop_list_template == "_line_stop_list_green.html"
+      assert conn.assigns.stop_list_template == "_stop_list_green.html"
       # Active lines
       assert conn.assigns.active_lines["place-north"] == %{"Green-B" => :empty, "Green-C" => :terminus, "Green-D" => :empty, "Green-E" => :stop}
       assert conn.assigns.active_lines["place-hsmnl"] == %{"Green-B" => :line, "Green-C" => :line, "Green-D" => :line, "Green-E" => :terminus} # Health

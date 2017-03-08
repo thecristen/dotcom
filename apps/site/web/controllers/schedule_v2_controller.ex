@@ -29,13 +29,25 @@ defmodule Site.ScheduleV2Controller do
   # Plug that assigns the tab based on a URL parameter or a default value to the connection
   @spec tab(Plug.Conn.t, map) :: Plug.Conn.t
   defp tab(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, _opts) do
-    tab = conn.params["tab"] || "timetable"
+    tab = case conn.params["tab"] do
+      "trip-view" ->
+        "trip-view"
+      "line" ->
+        "line"
+      _ ->
+        "timetable"
+    end
     conn
     |> assign(:tab, tab)
     |> assign(:schedule_template, "_commuter.html")
   end
   defp tab(conn, _opts) do
-    tab = conn.params["tab"] || "trip-view"
+    tab = case conn.params["tab"] do
+      "line" ->
+        "line"
+      _ ->
+        "trip-view"
+    end
     conn
     |> assign(:tab, tab)
     |> assign(:schedule_template, "_default_schedule.html")
@@ -68,7 +80,7 @@ defmodule Site.ScheduleV2Controller do
     |> Enum.map(&List.first/1)
   end
 
-  @spec trip_messages(Routes.Route.t, Integer) :: map
+  @spec trip_messages(Routes.Route.t, 0 | 1) :: %{{String.t, String.t} => String.t}
   defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
     %{
       {"221", "North Billerica"} => "Via",

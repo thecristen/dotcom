@@ -31,7 +31,12 @@ defmodule Site.ScheduleV2Controller.Green do
   end
 
   defp tab(conn, _opts) do
-    tab = conn.params["tab"] || "trip-view"
+    tab = case conn.params["tab"] do
+      "line" ->
+        "line"
+      _ ->
+        "trip-view"
+    end
     conn
     |> assign(:tab, tab)
   end

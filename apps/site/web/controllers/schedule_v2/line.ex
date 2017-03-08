@@ -15,7 +15,7 @@ defmodule Site.ScheduleV2Controller.Line do
     expanded_stops = green_line_branches(after_branch, routes_for_stops, expanded)
 
     conn
-    |> assign(:stop_list_template, "_line_stop_list_green.html")
+    |> assign(:stop_list_template, "_stop_list_green.html")
     |> assign(:stops, before_branch ++ expanded_stops)
     |> assign(:expanded, expanded)
     |> assign(:active_lines, active_lines(stops_on_routes))
@@ -29,7 +29,7 @@ defmodule Site.ScheduleV2Controller.Line do
     {ashmont, braintree} = red_line_branches(branched_stops, conn.params)
 
     conn
-    |> assign(:stop_list_template, "_line_stop_list_red.html")
+    |> assign(:stop_list_template, "_stop_list_red.html")
     |> assign(:stops, shared_stops)
     |> assign(:merge_stop_id, "place-jfk")
     |> assign(:braintree_branch_stops, braintree)
@@ -49,13 +49,13 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
     |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
     |> assign(:zones, zones)
-    |> assign(:stop_list_template, "_line_stop_list.html")
+    |> assign(:stop_list_template, "_stop_list.html")
   end
   def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
 
     conn
-    |> assign(:stop_list_template, "_line_stop_list.html")
+    |> assign(:stop_list_template, "_stop_list.html")
     |> assign(:stops, stops)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
     |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
