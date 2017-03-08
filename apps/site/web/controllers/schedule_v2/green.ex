@@ -1,8 +1,6 @@
 defmodule Site.ScheduleV2Controller.Green do
   use Site.Web, :controller
 
-  alias Site.ScheduleV2Controller, as: SV2C
-
   plug :route
   plug :tab
   plug Site.Plugs.Date
@@ -176,18 +174,11 @@ defmodule Site.ScheduleV2Controller.Green do
     end)
   end
 
-  defmacrop call_plug(conn, module) do
-    opts = Macro.expand(module, __ENV__).init([])
-    quote do
-      unquote(module).call(unquote(conn), unquote(opts))
-    end
-  end
-
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn, _opts) do
     conn
-    |> call_plug(SV2C.HoursOfOperation)
-    |> call_plug(SV2C.NextThreeHolidays)
-    |> call_plug(SV2C.Line)
+    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
+    |> call_plug(Site.ScheduleV2Controller.Holidays)
+    |> call_plug(Site.ScheduleV2Controller.Line)
   end
   defp tab_assigns(conn, _opts), do: conn
 end

@@ -6,11 +6,11 @@
     </span>
     <%= route_header_text(@route) %>
   </h1>
-  <%= render "_trip_view_filters.html", forward_assigns(@conn) %>
+  <%= if @tab in ["timetable", "trip-view"], do: render "_trip_view_filters.html", forward_assigns(@conn) %>
 
   <div class="calendar-covered">
     <%= if @show_date_select?, do: content_tag(:div, "", [class: "calendar-cover"]) %>
-    <%= Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
+    <%= if @tab in ["timetable", "trip-view"], do: Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
 
     <%= if @route.type == 2 do %>
       <%= tab_list(%TabList{

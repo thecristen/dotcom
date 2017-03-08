@@ -1,13 +1,13 @@
-defmodule Site.ScheduleV2Controller.NextThreeHolidays do
+defmodule Site.ScheduleV2Controller.Holidays do
 
   import Plug.Conn, only: [assign: 3]
 
   def init([]), do: []
 
-  def call(%Plug.Conn{assigns: %{date: date}} = conn, _opts) do
+  def call(%Plug.Conn{assigns: %{date: date}} = conn, opts) do
     holidays = date
     |> Holiday.Repo.following
-    |> Enum.take(3)
+    |> Enum.take(opts[:holiday_limit] || 3)
 
     conn
     |> assign(:holidays, holidays)

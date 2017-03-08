@@ -33,6 +33,13 @@ defmodule Site.ControllerHelpers do
     |> assign(:stop_groups, nil)
   end
 
+  defmacro call_plug(conn, module) do
+    opts = Macro.expand(module, __ENV__).init([])
+    quote do
+      unquote(module).call(unquote(conn), unquote(opts))
+    end
+  end
+
   @spec do_assign_tnm_column_groups(%{integer => [%{stop: Stop.t, distance: float, routes: [Route.t]}]}, Conn.t) :: Conn.t
   defp do_assign_tnm_column_groups(grouped_stops, conn) do
     assign(conn, :stop_groups, grouped_stops)
