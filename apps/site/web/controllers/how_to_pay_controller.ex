@@ -12,7 +12,7 @@ defmodule Site.HowToPayController do
   defp render_view(conn, mode) do
     render(conn, "how_to_pay.html", [
       mode: mode,
-      breadcrumbs: ["Fares and Passes", "How to Pay"]
+      breadcrumbs: [ {fare_path(conn, :index), "Fares and Passes"}, "How to Pay" ]
     ])
   end
 end
