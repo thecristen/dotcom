@@ -7,7 +7,7 @@ defmodule Predictions.Prediction do
     stop: Schedules.Stop.t,
     route: Routes.Route.t,
     direction_id: 0 | 1,
-    time: DateTime.t,
+    time: DateTime.t | nil,
     schedule_relationship: nil | :added | :unscheduled | :canceled | :skipped | :no_data,
     track: String.t | nil,
     status: String.t | nil,

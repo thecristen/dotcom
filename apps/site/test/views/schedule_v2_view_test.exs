@@ -82,36 +82,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "display_scheduled_prediction/1" do
-    @schedule_time Timex.now
-    @prediction_time Timex.shift(@schedule_time, hours: 1)
-
-    test "Prediction is used if one is given" do
-      display_time = display_scheduled_prediction(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: %Prediction{time: @prediction_time}})
-      assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@prediction_time)
-      assert safe_to_string(display_time) =~ "fa fa-rss"
-    end
-
-    test "Scheduled time is used if no prediction is available" do
-      display_time = display_scheduled_prediction(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: nil})
-      assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@schedule_time)
-      refute safe_to_string(display_time) =~ "fa fa-rss"
-    end
-
-    test "Empty string returned if no value available in predicted_schedule pair" do
-      assert display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}) == ""
-    end
-
-    test "prediction status is used if the prediction does not have a time" do
-      display_time = display_scheduled_prediction(
-        %PredictedSchedule{
-          schedule: nil,
-          prediction: %Prediction{status: "Text status"}})
-      assert safe_to_string(display_time) =~ "Text status"
-      assert safe_to_string(display_time) =~ "fa fa-rss"
-    end
-  end
-
   describe "stop_bubble_location_display/3" do
     test "when vehicle is not at stop and stop is not a terminus, returns an empty circle" do
       rendered = safe_to_string(stop_bubble_location_display(false, 1, false))
@@ -230,12 +200,13 @@ defmodule Site.ScheduleV2ViewTest do
         conn: build_conn(),
         all_stops: [],
         date: ~D[2017-01-01],
+        destination: nil,
         origin: nil,
         route: %Routes.Route{},
         direction_id: 1
       ) |> safe_to_string
 
-      assert output =~ "Currently, there are no scheduled inbound trips on January 1, 2017."
+      assert output =~ "There are no scheduled inbound trips on January 1, 2017."
     end
   end
 
@@ -270,48 +241,10 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "display_commuter_scheduled_prediction/1" do
-    test "if the scheduled and predicted times differ crosses out the scheduled one" do
-      now = Util.now
-      then = Timex.shift(now, minutes: 5)
-
-      result = %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: then}}
-      |> display_commuter_scheduled_prediction
-      |> safe_to_string
-      |> IO.iodata_to_binary
-
-      assert result =~ "#{Site.ViewHelpers.format_schedule_time(now)}"
-      assert result =~ Site.ViewHelpers.format_schedule_time(then)
-      assert result =~ "fa fa-rss"
-    end
-
-    test "if the times do not differ, just returns the same result as display_scheduled_prediction/1" do
-      now = Util.now
-      stop_time = %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}}
-      result = display_commuter_scheduled_prediction(stop_time)
-
-      assert result == display_scheduled_prediction(stop_time)
-    end
-
-    test "handles nil schedules" do
-      stop_time = %PredictedSchedule{schedule: nil, prediction: %Prediction{time: Util.now}}
-      result = display_commuter_scheduled_prediction(stop_time)
-
-      assert result == display_scheduled_prediction(stop_time)
-    end
-
-    test "handles nil predictions" do
-      stop_time = %PredictedSchedule{schedule: %Schedule{time: Util.now}, prediction: nil}
-      result = display_commuter_scheduled_prediction(stop_time)
-
-      assert result == display_scheduled_prediction(stop_time)
-    end
-  end
-
   describe "Schedule Alerts" do
-    @schedule %Schedule{trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
-    @prediction %Prediction{trip: %Trip{id: "trip_pred"}, stop: %Schedules.Stop{id: "stop_pred"}}
     @route %Routes.Route{type: 1, id: "1"}
+    @schedule %Schedule{route: @route, trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
+    @prediction %Prediction{route: @route, trip: %Trip{id: "trip_pred"}, stop: %Schedules.Stop{id: "stop_pred"}, status: "Nearby"}
 
     @alerts [
         %Alerts.Alert{
@@ -569,23 +502,20 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "no_stop_times_message/1" do
-    test "for subways mentions departures" do
-      for type <- [0, 1] do
-        result = no_stop_times_message(%Routes.Route{type: type}, Util.service_date())
-        assert result == "There are no upcoming departures at this time."
-      end
+  describe "no_trips_message/4" do
+    test "when a starting and ending stop are provided" do
+      result = no_trips_message(%Stops.Stop{name: "The Start"}, %Stops.Stop{name: "The End"}, nil, ~D[2017-03-05])
+      assert safe_to_string(result) == "There are no scheduled trips between The Start and The End on March 5, 2017."
     end
 
-    test "on a date other than the current service date for subways, displays nothing" do
-      assert no_stop_times_message(%Routes.Route{type: 1}, Timex.shift(Util.service_date(), weeks: 1)) == ""
+    test "when a direction is provided" do
+      result = no_trips_message(nil, nil, "Inbound", ~D[2017-03-05])
+      assert safe_to_string(result) == "There are no scheduled inbound trips on March 5, 2017."
     end
 
-    test "for other modes mentions schedules" do
-      for type <- [2, 3, 4] do
-        result = no_stop_times_message(%Routes.Route{type: type}, ~D[2017-02-23])
-        assert result == "There are no scheduled trips at this time."
-      end
+    test "fallback when nothing is available" do
+      result = no_trips_message(nil, nil, nil, nil)
+      assert safe_to_string(result) == "There are no scheduled trips."
     end
   end
 

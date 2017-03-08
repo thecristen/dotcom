@@ -84,22 +84,6 @@ defmodule StopTimeTest do
     end
   end
 
-  describe "StopTime.delay/1" do
-    test "returns the difference between a schedule and prediction" do
-      now = @time
-
-      assert StopTime.delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: Timex.shift(now, minutes: 14)}}) == 14
-    end
-
-    test "returns 0 if either time is nil, or if the argument itself is nil" do
-      now = @time
-      assert StopTime.delay(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: Timex.shift(now, minutes: 14)}}) == 0
-      assert StopTime.delay(%PredictedSchedule{schedule: %Schedule{time: now}, prediction: nil}) == 0
-      assert StopTime.delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
-      assert StopTime.delay(nil) == 0
-    end
-  end
-
   describe "StopTime.before/2" do
     test "compares by departures" do
       stop_time1 = %StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T07:00:00]}}}

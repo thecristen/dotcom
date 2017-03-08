@@ -35,31 +35,6 @@ defmodule Site.ScheduleV2View do
   end
   defp do_display_direction([]), do: ""
 
-  @doc "Display Prediction time with rss icon if available. Otherwise display scheduled time"
-  @spec display_scheduled_prediction(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
-  def display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}), do: ""
-  def display_scheduled_prediction(%PredictedSchedule{schedule: scheduled, prediction: nil}) do
-    content_tag :span do
-      format_schedule_time(scheduled.time)
-    end
-  end
-  def display_scheduled_prediction(%PredictedSchedule{prediction: prediction}) do
-    content_tag :span, class: "no-wrap" do
-      [
-        fa("rss"),
-        " ",
-        format_prediction_time(prediction)
-      ]
-    end
-  end
-
-  defp format_prediction_time(%{time: nil, status: status}) when is_binary(status) do
-    status
-  end
-  defp format_prediction_time(%{time: time}) do
-    format_schedule_time(time)
-  end
-
   @doc """
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
@@ -116,26 +91,6 @@ defmodule Site.ScheduleV2View do
     new_dest_id = destination_id && origin_id
 
     [trip: nil, direction_id: direction_id, destination: new_dest_id, origin: new_origin_id]
-  end
-
-  @doc """
-  If scheduled and predicted times differ, displays the scheduled time crossed out, with the predicted
-  time below it. Otherwise just displays the time as display_scheduled_prediction/1 does.
-  """
-  @spec display_commuter_scheduled_prediction(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
-  def display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction} = stop_time) do
-    case StopTime.delay(stop_time) do
-      # if we're going to show both, make sure they are different times
-      delay when delay > 0 -> content_tag :span, do: [
-        content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),
-        tag(:br),
-        content_tag(:span, [fa("rss"),
-        " ",
-        format_schedule_time(prediction.time)], class: "no-wrap")
-      ]
-        # otherwise just show the scheduled or predicted time as appropriate
-      _ -> display_scheduled_prediction(stop_time)
-    end
   end
 
   @doc """
@@ -344,19 +299,35 @@ defmodule Site.ScheduleV2View do
   def display_branch_name(_), do: nil
 
   @doc """
-  The message to show when there are no stop times to show.
+  The message to show when there are no trips for the given parameters.
+  Expects either two stops, or a direction.
   """
-  @spec no_stop_times_message(Routes.Route.t, Date.t) :: String.t
-  def no_stop_times_message(%Route{type: type}, date) when Route.subway?(type) do
-    if Timex.diff(date, Util.service_date(), :days) == 0 do
-      "There are no upcoming departures at this time."
-    else
-      ""
-    end
+  @spec no_trips_message(Stops.Stop.t | nil, Stops.Stop.t | nil, String.t | nil, Date.t) :: Phoenix.HTML.Safe.t
+  def no_trips_message(%Stops.Stop{name: origin_name}, %Stops.Stop{name: destination_name}, _, date) do
+    {
+      :safe, [
+        "There are no scheduled trips between ",
+        origin_name,
+        " and ",
+        destination_name,
+        " on ",
+        format_full_date(date),
+        "."
+      ]
+    }
   end
-  def no_stop_times_message(_route, _date) do
-    "There are no scheduled trips at this time."
+  def no_trips_message(_, _, direction, date) when not is_nil(direction) do
+    {
+      :safe, [
+        "There are no scheduled ",
+        String.downcase(direction),
+        " trips on ",
+        format_full_date(date),
+        "."
+      ]
+    }
   end
+  def no_trips_message(_, _, _, _), do: {:safe, ["There are no scheduled trips."]}
 
   @spec clear_selector_link(map()) :: Phoenix.HTML.Safe.t
   def clear_selector_link(%{clearable?: true, selected: selected} = assigns)

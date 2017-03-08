@@ -1,36 +1,33 @@
-<%= if assigns[:stop_times] && @stop_times.times != [] do %>
-  <div class="trip-list-v2">
-    <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col">
-      <%= if @destination do %>
-        <div>Departure</div>
-        <div>Arrival</div>
-      <% else %>
-        <div>Scheduled</div>
-        <div><%= display_direction(@stop_times) %></div>
-      <% end %>
-    </div>
-    <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
-      <%= if trip do %>
-        <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
-        <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
-            class = if is_current_trip?, do: "trip-list-v2-row-selected"
-            render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route(departure).id) %>
-        <%= if is_current_trip? and TripInfo.should_display_trip_info?(@trip_info) do %>
-          <%= render "_trip_info.html", forward_assigns(@conn) %>
-        <% end %>
-      <% else %>
-        <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [], line: display_branch_name(PredictedSchedule.route(departure).id) %>
-      <% end %>
-    <% end %>
-    <%= unless @stop_times.showing_all? do %>
-      <%= link to: update_url(@conn, show_all_trips: true)<>"#trip-info-box", class: "trip-list-v2-row trip-list-v2-footer", data: [turbolinks: false] do %>
-        Show all trips for <%= pretty_date(@date) %>
-      <% end %>
+<div class="trip-list-v2">
+  <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col">
+    <%= if @destination do %>
+      <div>Departure</div>
+      <div>Arrival</div>
+    <% else %>
+      <div>Scheduled</div>
+      <div><%= display_direction(@stop_times) %></div>
     <% end %>
   </div>
-<% else %>
-  <div class="trip-list-v2-row"><%= no_stop_times_message(@route, @date) %></div>
-<% end %>
+  <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+    <%= if trip do %>
+      <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
+      <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
+          class = if is_current_trip?, do: "trip-list-v2-row-selected"
+          render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: update_url(@conn, trip: trip.id), alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route(departure).id) %>
+      <%= if is_current_trip? and TripInfo.should_display_trip_info?(@trip_info) do %>
+        <%= render "_trip_info.html", forward_assigns(@conn) %>
+      <% end %>
+    <% else %>
+      <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [], line: display_branch_name(PredictedSchedule.route(departure).id) %>
+    <% end %>
+  <% end %>
+  <%= unless @stop_times.showing_all? do %>
+    <%= link to: update_url(@conn, show_all_trips: true)<>"#trip-info-box", class: "trip-list-v2-row trip-list-v2-footer", data: [turbolinks: false] do %>
+      Show all trips for <%= pretty_date(@date) %>
+    <% end %>
+  <% end %>
+</div>
+
 <%= if assigns[:frequency_table] do %>
   <%= render "_frequency.html", forward_assigns(@conn) %>
 <% end %>

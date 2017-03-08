@@ -202,4 +202,20 @@ defmodule PredictedScheduleTest do
       refute TripInfo.any_predictions?(%TripInfo{sections: [List.last(@scheduled_predictions)]})
     end
   end
+
+  describe "delay/1" do
+    @time ~N[2017-01-01T12:00:00]
+
+    test "returns the difference between a schedule and prediction" do
+      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}}) == 14
+    end
+
+    test "returns 0 if either time is nil, or if the argument itself is nil" do
+      assert delay(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: Timex.shift(@time, minutes: 14)}}) == 0
+      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: %Prediction{}}) == 0
+      assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: nil}) == 0
+      assert delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
+      assert delay(nil) == 0
+    end
+  end
 end

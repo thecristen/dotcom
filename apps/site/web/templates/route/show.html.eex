@@ -1,28 +1,35 @@
 <% route_mode_class = @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>
-<div class="route-info row page-section">
-  <div class="col-xs-12 col-md-4 route-stop-list stop-group <%= route_mode_class %>">
-    <%= render @stop_list_template, assigns %>
-  </div>
-  <div class="col-xs-12 col-md-8">
-    <img src="<%= @map_img_src %>" class="img-fluid">
-  </div>
-  <div class="col-xs-12 col-md-6 col-md-offset-6">
-    <div class="row">
-      <h2 class="col-xs-12">Hours of Operation</h2>
-      <%= for period <- [:saturday, :sunday, :week] do %>
-        <div class="col-xs-12 col-md-6">
-          <h3><%= schedule_period(period) %>:</h3>
-          <p>
-            <%= Schedules.Departures.display_departures(@hours_of_operation[period][1]) %>
-            (<%= @route.direction_names[1] %>)
-          </p>
-          <p>
-            <%= Schedules.Departures.display_departures(@hours_of_operation[period][0]) %>
-            (<%= @route.direction_names[0] %>)
-          </p>
-        </div>
-      <% end %>
+<div class="route-info row">
+  <div class="col-xs-12 col-md-5 page-section">
+    <h2><%= @route.name %> Stops</h2>
+    <div class="route-stop-list stop-group <%= route_mode_class %> row">
+      <%= render @stop_list_template, assigns %>
     </div>
-    <%= render "_holidays.html", assigns %>
+  </div>
+  <div class="col-xs-12 col-md-7 page-section">
+    <div class="row">
+      <div class="col-xs-12">
+        <img src="<%= @map_img_src %>" class="img-fluid">
+      </div>
+      <div class="col-xs-12 page-section">
+        <h2>Hours of Operation</h2>
+        <div class="row">
+          <%= for period <- [:saturday, :sunday, :week] do %>
+            <div class="col-xs-12 col-md-6">
+              <h3><%= schedule_period(period) %>:</h3>
+              <p>
+                <%= Schedules.Departures.display_departures(@hours_of_operation[period][1]) %>
+                (<%= @route.direction_names[1] %>)
+              </p>
+              <p>
+                <%= Schedules.Departures.display_departures(@hours_of_operation[period][0]) %>
+                (<%= @route.direction_names[0] %>)
+              </p>
+            </div>
+          <% end %>
+        </div>
+        <%= render "_holidays.html", assigns %>
+      </div>
+    </div>
   </div>
 </div>
