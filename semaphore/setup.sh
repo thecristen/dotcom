@@ -14,7 +14,7 @@ mix local.hex --force
 mix local.rebar --force
 MIX_ENV=test mix do deps.get, deps.compile
 nvm use 6.2
-rbenv local 2.4
+rbenv local 2.4.0
 mkdir -p $SEMAPHORE_CACHE_DIR/gems $SEMAPHORE_CACHE_DIR/npm
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems gem install -g gem.deps.rb sass pronto pronto-credo pronto-eslint pronto-scss -N
 # drop phantomjs/backstop/casper from the deps to install

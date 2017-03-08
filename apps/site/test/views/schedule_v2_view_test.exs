@@ -82,36 +82,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "display_scheduled_prediction/1" do
-    @schedule_time Timex.now
-    @prediction_time Timex.shift(@schedule_time, hours: 1)
-
-    test "Prediction is used if one is given" do
-      display_time = display_scheduled_prediction(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: %Prediction{time: @prediction_time}})
-      assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@prediction_time)
-      assert safe_to_string(display_time) =~ "fa fa-rss"
-    end
-
-    test "Scheduled time is used if no prediction is available" do
-      display_time = display_scheduled_prediction(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: nil})
-      assert safe_to_string(display_time) =~ Site.ViewHelpers.format_schedule_time(@schedule_time)
-      refute safe_to_string(display_time) =~ "fa fa-rss"
-    end
-
-    test "Empty string returned if no value available in predicted_schedule pair" do
-      assert display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}) == ""
-    end
-
-    test "prediction status is used if the prediction does not have a time" do
-      display_time = display_scheduled_prediction(
-        %PredictedSchedule{
-          schedule: nil,
-          prediction: %Prediction{status: "Text status"}})
-      assert safe_to_string(display_time) =~ "Text status"
-      assert safe_to_string(display_time) =~ "fa fa-rss"
-    end
-  end
-
   describe "stop_bubble_location_display/3" do
     test "when vehicle is not at stop and stop is not a terminus, returns an empty circle" do
       rendered = safe_to_string(stop_bubble_location_display(false, 1, false))
@@ -271,48 +241,10 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "display_commuter_scheduled_prediction/1" do
-    test "if the scheduled and predicted times differ crosses out the scheduled one" do
-      now = Util.now
-      then = Timex.shift(now, minutes: 5)
-
-      result = %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: then}}
-      |> display_commuter_scheduled_prediction
-      |> safe_to_string
-      |> IO.iodata_to_binary
-
-      assert result =~ "#{Site.ViewHelpers.format_schedule_time(now)}"
-      assert result =~ Site.ViewHelpers.format_schedule_time(then)
-      assert result =~ "fa fa-rss"
-    end
-
-    test "if the times do not differ, just returns the same result as display_scheduled_prediction/1" do
-      now = Util.now
-      stop_time = %PredictedSchedule{schedule: %Schedule{time: now}, prediction: %Prediction{time: now}}
-      result = display_commuter_scheduled_prediction(stop_time)
-
-      assert result == display_scheduled_prediction(stop_time)
-    end
-
-    test "handles nil schedules" do
-      stop_time = %PredictedSchedule{schedule: nil, prediction: %Prediction{time: Util.now}}
-      result = display_commuter_scheduled_prediction(stop_time)
-
-      assert result == display_scheduled_prediction(stop_time)
-    end
-
-    test "handles nil predictions" do
-      stop_time = %PredictedSchedule{schedule: %Schedule{time: Util.now}, prediction: nil}
-      result = display_commuter_scheduled_prediction(stop_time)
-
-      assert result == display_scheduled_prediction(stop_time)
-    end
-  end
-
   describe "Schedule Alerts" do
-    @schedule %Schedule{trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
-    @prediction %Prediction{trip: %Trip{id: "trip_pred"}, stop: %Schedules.Stop{id: "stop_pred"}}
     @route %Routes.Route{type: 1, id: "1"}
+    @schedule %Schedule{route: @route, trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
+    @prediction %Prediction{route: @route, trip: %Trip{id: "trip_pred"}, stop: %Schedules.Stop{id: "stop_pred"}, status: "Nearby"}
 
     @alerts [
         %Alerts.Alert{
@@ -609,6 +541,22 @@ defmodule Site.ScheduleV2ViewTest do
 
       assert result =~ "(clear<span class=\"sr-only\"> destination</span>)"
       refute result =~ "place-davis"
+    end
+  end
+
+  describe "stop_name_link_with_alerts/3" do
+    test "adds a no-wrap around the last word of the link text and the icon" do
+      alerts = [%Alerts.Alert{}]
+      result = stop_name_link_with_alerts("name", "url", alerts)
+      assert result |> Phoenix.HTML.safe_to_string  =~ "<a href=\"url\">"
+      assert result |> Phoenix.HTML.safe_to_string  =~ "<span class=\"inline-block\">name<svg"
+    end
+
+    test "when there are no alerts, just makes a link" do
+      alerts = []
+      result = stop_name_link_with_alerts("name", "url", alerts)
+      assert result |> Phoenix.HTML.safe_to_string  =~ "<a href=\"url\">"
+      refute result |> Phoenix.HTML.safe_to_string  =~ "<svg"
     end
   end
 end

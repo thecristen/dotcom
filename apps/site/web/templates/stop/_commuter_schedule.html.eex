@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-xs-4">
                       <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") do %>
-                        <%= Site.ScheduleV2View.display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
+                        <%= PredictedSchedule.Display.time(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
                       <% end %>
                     </div>
                     <div class="col-xs-5">

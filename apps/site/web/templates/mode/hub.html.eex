@@ -5,7 +5,7 @@
       <%= @mode_name %>
     </h1>
     <h2>Line Schedules</h2>
-    <%= mode_button_list(%ModeButtonList{conn: @conn, class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date}) %>
+    <%= mode_button_list(%ModeButtonList{conn: @conn, class: "mode-group-first mode-group", routes: @routes, alerts: @alerts, date: @date, route_type: @route_type}) %>
     <div class="row">
       <div class="col-md-6">
         <h2>System Map</h2>

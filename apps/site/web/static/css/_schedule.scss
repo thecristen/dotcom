@@ -250,10 +250,6 @@ a {
   margin-right: -2rem;
 }
 
-.trip-stop-text {
-  display: inline-block;
-}
-
 .trip-stop-suffix {
   @include media-breakpoint-down(sm) {
     display: block;

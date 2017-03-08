@@ -35,31 +35,6 @@ defmodule Site.ScheduleV2View do
   end
   defp do_display_direction([]), do: ""
 
-  @doc "Display Prediction time with rss icon if available. Otherwise display scheduled time"
-  @spec display_scheduled_prediction(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
-  def display_scheduled_prediction(%PredictedSchedule{schedule: nil, prediction: nil}), do: ""
-  def display_scheduled_prediction(%PredictedSchedule{schedule: scheduled, prediction: nil}) do
-    content_tag :span do
-      format_schedule_time(scheduled.time)
-    end
-  end
-  def display_scheduled_prediction(%PredictedSchedule{prediction: prediction}) do
-    content_tag :span, class: "no-wrap" do
-      [
-        fa("rss"),
-        " ",
-        format_prediction_time(prediction)
-      ]
-    end
-  end
-
-  defp format_prediction_time(%{time: nil, status: status}) when is_binary(status) do
-    status
-  end
-  defp format_prediction_time(%{time: time}) do
-    format_schedule_time(time)
-  end
-
   @doc """
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
@@ -115,26 +90,6 @@ defmodule Site.ScheduleV2View do
     new_dest_id = destination_id && origin_id
 
     [trip: nil, direction_id: direction_id, destination: new_dest_id, origin: new_origin_id]
-  end
-
-  @doc """
-  If scheduled and predicted times differ, displays the scheduled time crossed out, with the predicted
-  time below it. Otherwise just displays the time as display_scheduled_prediction/1 does.
-  """
-  @spec display_commuter_scheduled_prediction(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
-  def display_commuter_scheduled_prediction(%PredictedSchedule{schedule: schedule, prediction: prediction} = stop_time) do
-    case StopTime.delay(stop_time) do
-      # if we're going to show both, make sure they are different times
-      delay when delay > 0 -> content_tag :span, do: [
-        content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),
-        tag(:br),
-        content_tag(:span, [fa("rss"),
-        " ",
-        format_schedule_time(prediction.time)], class: "no-wrap")
-      ]
-        # otherwise just show the scheduled or predicted time as appropriate
-      _ -> display_scheduled_prediction(stop_time)
-    end
   end
 
   @doc """
@@ -386,5 +341,34 @@ defmodule Site.ScheduleV2View do
   end
   def clear_selector_link(_assigns) do
     ""
+  end
+
+  @spec stop_name_link_with_alerts(String.t, String.t, [Alert.t]) :: Phoenix.HTML.Safe.t
+  def stop_name_link_with_alerts(name, url, []) do
+    link to: url do
+      name
+    end
+  end
+  def stop_name_link_with_alerts(name, url, alerts) do
+    link to: url do
+      add_icon_to_stop_name(name, alerts)
+    end
+  end
+
+  defp add_icon_to_stop_name(stop_name, alerts) do
+    content_tag :span, class: "name-with-icon" do
+      stop_name
+      |> String.split(" ")
+      |> add_icon_to_string(alerts)
+    end
+  end
+
+  defp add_icon_to_string([word | []], alerts) do
+    content_tag :span, class: "inline-block" do
+      [word, display_alerts(alerts)]
+    end
+  end
+  defp add_icon_to_string([word | rest], alerts) do
+    [word, " ", add_icon_to_string(rest, alerts)]
   end
 end

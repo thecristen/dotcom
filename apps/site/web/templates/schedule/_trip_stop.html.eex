@@ -8,7 +8,7 @@
   </span>
   <span class="sr-only">Stop</span>
   <p>
-    <span class="trip-stop-text">
+    <span class="inline-block">
       <%= @trip_schedule.time |> Timex.format!("{kitchen}") %> -
       <%= if @origin || @destination do %>
         <strong><%= @trip_schedule.stop.name %></strong>

@@ -2,10 +2,17 @@ defmodule Site.HowToPayController do
   use Site.Web, :controller
 
   def index(conn, _params) do
-    render(conn, "how_to_pay.html", mode: :subway)
+    render_view(conn, :subway)
   end
 
-  def show(conn, %{"mode" => mode}) do
-    render(conn, "how_to_pay.html", mode: String.to_existing_atom(mode))
+  def show(conn, %{"mode" => mode_string}) do
+    render_view(conn, String.to_existing_atom(mode_string))
+  end
+
+  defp render_view(conn, mode) do
+    render(conn, "how_to_pay.html", [
+      mode: mode,
+      breadcrumbs: [ {fare_path(conn, :index), "Fares and Passes"}, "How to Pay" ]
+    ])
   end
 end
