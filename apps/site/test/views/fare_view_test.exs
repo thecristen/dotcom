@@ -50,6 +50,10 @@ defmodule Site.FareViewTest do
         assert summary_url(%Summary{modes: [mode, :bus]}) == expected
       end
     end
+
+    test "defers to the summary's provided URL if present" do
+      assert summary_url(%Summary{modes: [:bus], url: "/expected_url"}) == "/expected_url"
+    end
   end
 
   describe "vending_machine_stations/0" do

@@ -6,6 +6,7 @@ defmodule Fares.Summary do
   * name: the name of the fare. Something like "Subway One Way" or "Monthly Pass"
   * modes: the list of mode atoms this fare is valid on
   * fares: a list of tuples: {"media name", "price value"}
+  * url: a specific url to link the summary to, if desired. otherwise falls back to heuristics.
 
   `name` and `fares` should already be rendered for display.
   """
@@ -13,14 +14,16 @@ defmodule Fares.Summary do
     name: String.t,
     duration: Fares.Fare.duration,
     modes: [Routes.Route.route_type],
-    fares: [{String.t, String.t | iolist}]
+    fares: [{String.t, String.t | iolist}],
+    url: String.t | nil
   }
 
   defstruct [
     name: "",
     duration: :single_trip,
     modes: [],
-    fares: []
+    fares: [],
+    url: nil
   ]
 
 end
