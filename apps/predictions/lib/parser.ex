@@ -1,6 +1,7 @@
 defmodule Predictions.Parser do
   alias Predictions.Prediction
 
+  @spec parse(JsonApi.Item.t) :: Prediction.t
   def parse(%JsonApi.Item{attributes: attributes, relationships: relationships} = item) do
     %Prediction{
       id: item.id,
@@ -26,9 +27,6 @@ defmodule Predictions.Parser do
     end
   end
 
-  defp departing?(%{"departure_time" => nil, "arrival_time" => nil, "status" => status}) when is_binary(status) do
-    true
-  end
   defp departing?(%{"departure_time" => binary}) when is_binary(binary) do
     true
   end

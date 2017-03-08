@@ -52,7 +52,7 @@ defmodule PredictedSchedule do
   @doc """
   Returns the trip for a given PredictedSchedule.
   """
-  @spec trip(PredictedSchedule.t) :: Schedules.Trip.t
+  @spec trip(PredictedSchedule.t) :: Schedules.Trip.t | nil
   def trip(%PredictedSchedule{schedule: %Schedule{trip: trip}}), do: trip
   def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}), do: trip
 
@@ -136,4 +136,18 @@ defmodule PredictedSchedule do
   @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, DateTime.t}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.time}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.time}
+
+  @doc """
+  Returns the time difference between a schedule and prediction. If either is nil, returns 0.
+  """
+  @spec delay(PredictedSchedule.t | nil) :: integer
+  def delay(nil), do: 0
+  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
+  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
+    if prediction.time do
+      Timex.diff(prediction.time, schedule.time, :minutes)
+    else
+      0
+    end
+  end
 end

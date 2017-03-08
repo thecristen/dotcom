@@ -179,21 +179,11 @@ defmodule StopTime do
     end
   end
   def display_status(departure, arrival) do
-    case Enum.max([delay(departure), delay(arrival)]) do
+    case Enum.max([PredictedSchedule.delay(departure), PredictedSchedule.delay(arrival)]) do
       delay when delay > 0 ->
         Phoenix.HTML.Tag.content_tag(:span, [ "Delayed ", Integer.to_string(delay), " ", Inflex.inflect("minute", delay) ])
       _ ->
         ""
     end
-  end
-
-  @doc """
-  Returns the time difference between a schedule and prediction. If either is nil, returns 0.
-  """
-  @spec delay(PredictedSchedule.t | nil) :: integer
-  def delay(nil), do: 0
-  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction), do: 0
-  def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
-    Timex.diff(prediction.time, schedule.time, :minutes)
   end
 end

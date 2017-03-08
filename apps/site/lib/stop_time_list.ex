@@ -5,7 +5,7 @@ defmodule StopTimeList do
   """
 
   alias Predictions.Prediction
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, Trip}
 
   defstruct [
     times: [],
