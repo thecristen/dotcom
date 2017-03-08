@@ -1,4 +1,5 @@
-$z-index-stop-bubble: 2;
+$z-index-stop-bubble-line: 2;
+$z-index-stop-bubble: 3;
 $location-line-width: $space-6;
 
 @mixin stop-bubble-mode-color($class, $color) {
@@ -73,7 +74,7 @@ $location-line-width: $space-6;
     left: 40%;
     position: absolute;
     top: -25%;
-    z-index: $z-index-stop-bubble;
+    z-index: $z-index-stop-bubble-line;
   }
 
   svg {
