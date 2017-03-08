@@ -9,7 +9,7 @@ defmodule Site.ScheduleV2Controller.Schedules do
   require Routes.Route
   alias Routes.Route
 
-  def init([]), do: []
+  def init(_), do: []
 
   def call(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do
     conn

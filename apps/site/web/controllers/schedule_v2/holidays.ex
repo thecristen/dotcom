@@ -2,12 +2,14 @@ defmodule Site.ScheduleV2Controller.Holidays do
 
   import Plug.Conn, only: [assign: 3]
 
-  def init([]), do: []
+  def init(opts) do
+    Keyword.merge(opts || [], [holiday_limit: 3])
+  end
 
   def call(%Plug.Conn{assigns: %{date: date}} = conn, opts) do
     holidays = date
     |> Holiday.Repo.following
-    |> Enum.take(opts[:holiday_limit] || 3)
+    |> Enum.take(opts[:holiday_limit])
 
     conn
     |> assign(:holidays, holidays)
