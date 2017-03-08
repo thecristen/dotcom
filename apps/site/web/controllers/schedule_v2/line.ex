@@ -213,7 +213,4 @@ defmodule Site.ScheduleV2Controller.Line do
   defp split_ashmont_braintree(stops) do
     Enum.split_while(stops, & &1.id != "place-nqncy")
   end
-
-  # FIXME: figure out why static_url is not available...
-  #defp static_url(_, _), do: ""
 end

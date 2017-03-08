@@ -1,4 +1,4 @@
-defmodule Site.ScheduleV2Controller.LineNextThreeHolidays do
+defmodule Site.ScheduleV2Controller.NextThreeHolidays do
 
   import Plug.Conn, only: [assign: 3]
 

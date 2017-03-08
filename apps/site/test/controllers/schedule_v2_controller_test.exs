@@ -154,7 +154,7 @@ defmodule Site.ScheduleV2ControllerTest do
   describe "line tabs" do
     test "Commuter Rail data", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "line")
-      assert conn.status == 200
+      assert html_response(conn, 200) =~ "Lowell Line"
 
       # make sure each stop has a zone
       for stop <- conn.assigns.stops do
@@ -182,7 +182,7 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "Ferry data", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "Boat-F1", tab: "line")
-      assert conn.status == 200
+      assert html_response(conn, 200) =~ "Hingham Ferry"
       assert List.first(conn.assigns.stops).id == "Boat-Hingham"
       assert List.last(conn.assigns.stops).id == "Boat-Long"
 
@@ -192,7 +192,7 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "Red Line data", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "Red", tab: "line")
-      assert conn.status == 200
+      assert html_response(conn, 200) =~ "Red Line"
 
       # stops are in southbound order, Ashmont branch
       assert List.first(conn.assigns.stops).id == "place-alfcl"
@@ -234,7 +234,7 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "Green Line data", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")
-      assert conn.status == 200
+      assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in Westbound order, Lechmere -> Boston College (last stop on B)
       assert List.first(conn.assigns.stops).id == "place-lech"
@@ -254,15 +254,14 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.map_img_src =~ "subway-spider"
     end
 
-    # FIXME: address this issue when the other recent line work is merged
-    # test "Green line does not show branched route data", %{conn: conn} do
-    #   conn = get conn, schedule_v2_path(conn, :show, "Green")
-    #   assert conn.status == 200
-    #   stop_ids = Enum.map(conn.assigns.stops, & &1.id)
-    #
-    #   refute "place-kntst" in stop_ids # Green-C
-    #   refute "place-symcl" in stop_ids # Green-E
-    # end
+    test "Green line does not show branched route data", %{conn: conn} do
+      conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")
+      assert conn.status == 200
+      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+
+      refute "place-kntst" in stop_ids # Green-C
+      refute "place-symcl" in stop_ids # Green-E
+    end
 
     test "Green line terminals shown if branch not expanded", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")

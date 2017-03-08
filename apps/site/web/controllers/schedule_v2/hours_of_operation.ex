@@ -1,4 +1,4 @@
-defmodule Site.ScheduleV2Controller.LineHoursOfOperation do
+defmodule Site.ScheduleV2Controller.HoursOfOperation do
 
   import Plug.Conn, only: [assign: 3]
 
