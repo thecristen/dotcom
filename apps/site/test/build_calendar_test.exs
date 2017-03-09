@@ -137,6 +137,22 @@ defmodule BuildCalendarTest do
       service_date = Util.service_date()
       calendar = build(service_date, service_date, [], &url_fn/1)
       assert calendar.next_month_url == url_fn(shift: 1)
+      calendar = build(service_date, service_date, [], &url_fn/1, shift: 1)
+      assert calendar.next_month_url == url_fn(shift: 2)
+    end
+
+    test "next_month_url is skipped if it's past the end_date" do
+      selected = ~D[2017-01-01]
+      end_date = ~D[2017-01-15]
+
+      calendar = build(selected, selected, [], &url_fn/1, end_date: end_date)
+      refute calendar.next_month_url
+      calendar = build(selected, selected, [], &url_fn/1, end_date: end_date, shift: -1)
+      assert calendar.next_month_url
+
+      previous_month_after_end_day = ~D[2016-12-29]
+      calendar = build(previous_month_after_end_day, selected, [], &url_fn/1, end_date: end_date)
+      assert calendar.next_month_url
     end
   end
 
