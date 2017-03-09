@@ -21,6 +21,10 @@ defmodule Fares.Repo do
 
   @spec filter_all([Fare.t], %{}) :: [Fare.t]
   defp filter_all(fares, opts) do
-    Enum.filter(fares, fn fare -> match?(^opts, Map.take(fare, Map.keys(opts))) end)
+    {media, opts} = Map.pop(opts, :includes_media)
+
+    Enum.filter(fares, fn fare ->
+      (!media || media in fare.media) && match?(^opts, Map.take(fare, Map.keys(opts)))
+    end)
   end
 end

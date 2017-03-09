@@ -9,6 +9,7 @@ defmodule Fares.RepoTest do
             reduced: :student},
       %Fare{mode: :commuter_rail, cents: 225, duration: :month, name: :zone_2, media: [:commuter_ticket], reduced: :student},
       %Fare{mode: :commuter_rail, cents: 625, duration: :month, name: :zone_3, media: [:charlie_card], reduced: nil},
+      %Fare{mode: :commuter_rail, cents: 1025, duration: :month, name: :zone_6, media: [:commuter_ticket, :cash], reduced: nil},
       %Fare{mode: :subway, cents: 225, duration: :single_trip, name: :subway_charlie_card, media: [:charlie_card],
             reduced: nil},
       %Fare{mode: :subway, cents: 275, duration: :single_trip, name: :subway_ticket, media: [:commuter_ticket], reduced: nil},
@@ -68,6 +69,12 @@ defmodule Fares.RepoTest do
               reduced: nil},
         %Fare{mode: :subway, cents: 3000, duration: :month, name: :subway_student, media: [:charlie_card],
               reduced: :student}
+      ]
+    end
+
+    test "gives fares that includes at least the provided media" do
+      assert Repo.filter(@fares, mode: :commuter_rail, name: :zone_6, includes_media: :cash) == [
+        %Fare{mode: :commuter_rail, cents: 1025, duration: :month, name: :zone_6, media: [:commuter_ticket, :cash], reduced: nil}
       ]
     end
   end
