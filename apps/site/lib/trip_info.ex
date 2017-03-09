@@ -219,21 +219,6 @@ defmodule TripInfo do
     Timex.diff(PredictedSchedule.time(last), PredictedSchedule.time(first), :minutes)
   end
 
-  defp route_name(%Routes.Route{type: 3, name: name}) do
-    ["Bus Route ", name]
-  end
-  defp route_name(%Routes.Route{name: name}) do
-    name
-  end
-
-  defp destination([_ | _] = times) do
-    stop = times
-    |> List.last
-    |> PredictedSchedule.stop
-
-    stop.name
-  end
-
   @doc "Determines if the trip info box should be displayed"
   @spec should_display_trip_info?(TripInfo.t | nil) :: boolean
   def should_display_trip_info?(nil), do: false
