@@ -401,11 +401,14 @@ defmodule Site.ScheduleV2View do
   def stop_name_link_with_alerts(name, url, []) do
     link to: url do
       name
+      |> Site.ViewHelpers.break_text_at_slash
     end
   end
   def stop_name_link_with_alerts(name, url, alerts) do
     link to: url do
-      add_icon_to_stop_name(name, alerts)
+      name
+      |> Site.ViewHelpers.break_text_at_slash
+      |> add_icon_to_stop_name(alerts)
     end
   end
 

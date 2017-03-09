@@ -12,15 +12,15 @@ end
     <%= if @arrival do %>
       <div class="col-xs-4 no-wrap"><%= PredictedSchedule.Display.time(@arrival) %></div>
       <div class="col-xs-4 no-wrap">
-        <%= assigns[:name] %>
+        <%= assigns[:name] |> break_text_at_slash %>
         <%= display_alerts(@alerts) %>
       </div>
     <% else %>
       <div class="col-xs-2 no-wrap">
-        <%= assigns[:name] %>
+        <%= assigns[:name] |> break_text_at_slash %>
         <%= display_alerts(@alerts) %>
       </div>
-      <div class="col-xs-6"><%= assigns[:headsign] %></div>
+      <div class="col-xs-6"><%= assigns[:headsign] |> break_text_at_slash %></div>
     <% end %>
   </div>
   <div class="commuter-status">
