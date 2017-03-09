@@ -27,7 +27,7 @@ defmodule Site.ContentController do
     |> render(Site.ContentView, "#{page.type}.html")
   end
   defp render_page(conn, {:error, error}) do
-    Logger.debug("error while fetching page: #{inspect error}")
+    _ = Logger.debug("error while fetching page: #{inspect error}")
     render_page(conn, nil)
   end
   defp render_page(conn, _) do

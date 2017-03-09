@@ -8,7 +8,27 @@ defmodule DotCom.Mixfile do
      preferred_cli_env: [coveralls: :test, "coveralls.json": :test],
      test_coverage: [tool: ExCoveralls],
      dialyzer: [
-       plt_add_apps: [:mix, :phoenix_live_reload, :laboratory]],
+       plt_add_apps: [:mix, :phoenix_live_reload, :laboratory],
+       ignore_warnings: ".dialyzer.ignore-warnings",
+       flags: [
+         :error_handling,
+         :no_behaviours,
+         :no_contracts,
+         :no_fail_call,
+         :no_fun_app,
+         :no_improper_lists,
+         :no_match,
+         :no_missing_calls,
+         :no_opaque,
+         :no_return,
+         :no_undefined_callbacks,
+         :no_unused,
+         :race_conditions,
+         # :underspecs, # "super type of the success typing"
+         :unmatched_returns,
+         # :overspecs, # "sub type of the success typing"
+         # :specdiffs, # "not equal to the success typing"
+       ]],
      deps: deps(),
 
      #docs

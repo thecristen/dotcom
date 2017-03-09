@@ -21,7 +21,7 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.RouteBreadcrumbs
   plug :tab_assigns
 
-  @spec show(Plug.Conn.t, map) :: Phoenix::HTML.Safe.t
+  @spec show(Plug.Conn.t, map) :: Phoenix.HTML.Safe.t
   def show(conn, _) do
     conn
     |> render("show.html")

@@ -56,18 +56,24 @@ defmodule Fares.RetailLocations.Extractor do
   end
 
   def handle_call(:start, parent, state) do
-    start(state, parent)
+    :ok = start(state, parent)
     {:reply, :ok, state}
   end
 
   def log(data, method \\ nil)
-  def log(data, :warn), do: Logger.warn(inspect(data))
-  def log(data, _) when is_binary(data), do: Logger.info data
+  def log(data, :warn) do
+    _ = Logger.warn(inspect(data))
+    :ok
+  end
+  def log(data, _) when is_binary(data) do
+    _ = Logger.info data
+    :ok
+  end
 
   @doc """
   Extracts fare sales location data from /priv/content.csv and writes it to a new file at the path provided.
   """
-  @spec start(map, {pid, any}) :: :ok | {:error, any}
+  @spec start(map, {pid, any}) :: :ok
   def start(%{geocode_fn: geocode_fn, input_file: input_file, output_file: output_file}, {parent, _}) do
     log "Extracting fare location data from #{input_file} to #{output_file}..."
     :ok = input_file
@@ -78,6 +84,7 @@ defmodule Fares.RetailLocations.Extractor do
     |> Poison.encode
     |> write_to_file(output_file)
     send parent, {:ok, output_file}
+    :ok
   end
 
   @doc """

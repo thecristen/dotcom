@@ -399,7 +399,7 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec stop_name_link_with_alerts(String.t, String.t, [Alert.t]) :: Phoenix.HTML.Safe.t
+  @spec stop_name_link_with_alerts(String.t, String.t, [Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
   def stop_name_link_with_alerts(name, url, []) do
     link to: url do
       name
