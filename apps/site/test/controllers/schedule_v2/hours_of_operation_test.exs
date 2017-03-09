@@ -34,8 +34,8 @@ defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
   end
 
   test "uses schedules for each Green line branch", %{conn: conn} do
-    conn = %{conn | params: %{"route" => "Green"}}
-    |> assign(:route, nil)
+    conn = conn
+    |> assign(:route, GreenLine.green_line())
     |> assign(:date, ~D[2017-02-28])
     |> Site.ScheduleV2Controller.HoursOfOperation.call(schedules_fn: &schedules_fn/1)
 

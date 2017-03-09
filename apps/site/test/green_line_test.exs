@@ -46,6 +46,13 @@ defmodule GreenListTest do
     end
   end
 
+  test "terminus?/3" do
+    assert terminus?("place-lake", "Green-B", 0)
+    refute terminus?("place-lake", "Green-B", 1)
+    refute terminus?("place-lech", "Green-E", 0)
+    assert terminus?("place-lech", "Green-E", 1)
+  end
+
   describe "route_for_stops/1" do
     @stops_on_routes %{
       "Green-B" => ["shared_stop1", "shared_stop2", "b_stop1", "b_stop2"],

@@ -4,11 +4,11 @@
     <div class="route-stop route-expand-branch">
       <div class="stop-bubble"></div>
       <div class="route-stop-name-icons">
+        <% branch_name = "Braintree" %>
         <%= if Enum.count(@braintree_branch_stops) == 1 do %>
-            <%= link to: update_url(@conn, expanded: "braintree"), class: "branch-link" do %>
-               View Braintree Branch <%= fa "caret-down" %>
-            <% end %>
+          <%= view_branch_link(@conn, "braintree", branch_name) %>
         <% else %>
+          <%= hide_branch_link(@conn, branch_name) %>
           <%= link to: update_url(@conn, expanded: nil), class: "branch-link" do %>
             Hide Braintree Branch <%= fa "caret-up" %>
           <% end %>
@@ -24,14 +24,11 @@
 <div class="route-stop route-expand-branch">
   <div class="stop-bubble"></div>
   <div class="route-stop-name-icons">
+    <% branch_name = "Ashmont" %>
     <%= if Enum.count(@ashmont_branch_stops) == 1  do %>
-      <%= link to: update_url(@conn, expanded: "ashmont"), class: "branch-link" do %>
-        View Ashmont Branch <%= fa "caret-down" %>
-      <% end %>
+      <%= view_branch_link(@conn, "ashmont", branch_name) %>
     <% else %>
-      <%= link to: update_url(@conn, expanded: nil), class: "branch-link" do %>
-        Hide Ashmont Branch <%= fa "caret-up" %>
-      <% end %>
+      <%= hide_branch_link(@conn, branch_name) %>
     <% end %>
   </div>
 </div>

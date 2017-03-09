@@ -237,13 +237,13 @@ defmodule Site.ScheduleV2ControllerTest do
       assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in Westbound order, Lechmere -> Boston College (last stop on B)
-      assert List.first(conn.assigns.stops).id == "place-lech"
-      assert List.last(conn.assigns.stops).id == "place-lake"
+      assert List.first(conn.assigns.stops_with_expands).id == "place-lech"
+      assert List.last(conn.assigns.stops_with_expands).id == "place-lake"
       # List template
       assert conn.assigns.stop_list_template == "_stop_list_green.html"
       # Active lines
-      assert conn.assigns.active_lines["place-north"] == %{"Green-B" => :empty, "Green-C" => :terminus, "Green-D" => :empty, "Green-E" => :stop}
-      assert conn.assigns.active_lines["place-hsmnl"] == %{"Green-B" => :line, "Green-C" => :line, "Green-D" => :line, "Green-E" => :terminus} # Health
+      assert conn.assigns.active_lines["place-north"] == %{"Green-B" => :empty, "Green-C" => :eastbound_terminus, "Green-D" => :empty, "Green-E" => :stop}
+      assert conn.assigns.active_lines["place-hsmnl"] == %{"Green-B" => :line, "Green-C" => :line, "Green-D" => :line, "Green-E" => :westbound_terminus} # Health
       assert conn.assigns.active_lines["place-hymnl"] == %{"Green-B" => :stop, "Green-C" => :stop, "Green-D" => :stop}
 
       # includes the stop features
@@ -254,10 +254,17 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.map_img_src =~ "subway-spider"
     end
 
+    defp stop_ids(conn) do
+      Enum.flat_map(conn.assigns.stops_with_expands, fn
+        {:expand, _, _} -> []
+        stop -> [stop.id]
+      end)
+    end
+
     test "Green line does not show branched route data", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")
       assert conn.status == 200
-      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+      stop_ids = stop_ids(conn)
 
       refute "place-kntst" in stop_ids # Green-C
       refute "place-symcl" in stop_ids # Green-E
@@ -266,7 +273,7 @@ defmodule Site.ScheduleV2ControllerTest do
     test "Green line terminals shown if branch not expanded", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")
       assert conn.status == 200
-      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+      stop_ids = stop_ids(conn)
 
       assert "place-lake" in stop_ids
       assert "place-clmnl" in stop_ids
@@ -276,7 +283,7 @@ defmodule Site.ScheduleV2ControllerTest do
     test "Green line shows individual branch when expanded", %{conn: conn} do
       conn = get conn, schedule_v2_path(conn, :show, "Green", expanded: "Green-E", tab: "line")
       assert conn.status == 200
-      stop_ids = Enum.map(conn.assigns.stops, & &1.id)
+      stop_ids = stop_ids(conn)
 
       assert "place-symcl" in stop_ids
       assert "place-nuniv" in stop_ids

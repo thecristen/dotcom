@@ -3,21 +3,11 @@
     margin-bottom: $base-spacing;
   }
 
-  &:not(.green-line) {
-    .route-stop-name-icons {
-      @extend %stop-name-and-time-column;
-    }
-  }
+  .route-stop-name-icons {
+    @extend %stop-name-and-time-column;
 
-  &.green-line {
-    .stop-bubble,
-    .route-stop-name-icons {
-      float: left;
-      width: 50%;
-    }
-
-    .route-icons {
-      height: $icon-size;
+    @include media-breakpoint-only(xs) {
+      padding-left: 1.5rem;
     }
   }
 }
@@ -26,12 +16,14 @@
   @extend %trip-stop;
   border: 0;
 
-  &:first-child {
-    @extend %stop-bubble-first;
-  }
+  &:not(.route-stop-green) {
+    &:first-child {
+      @extend %stop-bubble-first;
+    }
 
-  &:last-child {
-    @extend %stop-bubble-last;
+    &:last-child {
+      @extend %stop-bubble-last;
+    }
   }
 }
 
@@ -44,6 +36,10 @@
   border-radius: $space-4;
   display: block;
   padding: .5rem 1rem;
+
+  @include media-breakpoint-only(xs) {
+    padding-left: .75rem;
+  }
 }
 
 .route-expand-branch {
@@ -82,4 +78,28 @@
 .hours-time {
   display: inline-block;
   text-align: right;
+}
+
+.route-row-green {
+  min-height: 3rem;
+  padding: $space-4 0;
+}
+
+.route-stop-green {
+  &.green-line-collapsed {
+    @extend %stop-bubble-collapsed;
+
+    .green-line-bubble.stop-bubble::before {
+      border-left-width: $space-2;
+      left: 48%;
+    }
+  }
+
+  &.westbound-terminus {
+    @extend %stop-bubble-last;
+  }
+
+  .green-line-bubble {
+    height: 400%;
+  }
 }
