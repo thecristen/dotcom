@@ -562,19 +562,27 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "hide_branch_link/2" do
     test "generates a link to hide the given branch", %{conn: conn} do
-      link = conn |> get("/", expanded: "braintree") |> hide_branch_link("Braintree") |> safe_to_string
+      link = conn
+      |> get("/", expanded: "braintree")
+      |> hide_branch_link("Braintree")
+      |> safe_to_string
+      |> Floki.find(".branch-link")
 
-      assert link =~ "Hide Braintree Branch"
-      refute link =~ "?expanded=braintree"
+      assert link |> Floki.text |> String.trim() =~ "Hide Braintree Branch"
+      refute link |> Floki.attribute("href") |> List.first =~ "?expanded=braintree"
     end
   end
 
   describe "view_branch_link/3" do
     test "generates a link to view the given branch", %{conn: conn} do
-      link = conn |> fetch_query_params |> view_branch_link("braintree", "Braintree") |> safe_to_string
+      link = conn
+      |> fetch_query_params
+      |> view_branch_link("braintree", "Braintree")
+      |> safe_to_string
+      |> Floki.find(".branch-link")
 
-      assert link =~ "View Braintree Branch"
-      assert link =~ "?expanded=braintree"
+      assert link |> Floki.text |> String.trim() =~ "View Braintree Branch"
+      assert link |> Floki.attribute("href") |> List.first =~ "?expanded=braintree"
     end
   end
 

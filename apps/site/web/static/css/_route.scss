@@ -30,12 +30,7 @@
 .branch-link {
   background-color: $gray-lightest;
   border-radius: $space-4;
-  display: block;
   padding: .5rem 1rem;
-
-  @include media-breakpoint-only(xs) {
-    padding-left: .75rem;
-  }
 }
 
 .route-expand-branch {
@@ -77,7 +72,7 @@
 }
 
 .route-row-green {
-  min-height: 3rem;
+  min-height: 4rem;
   padding: $space-4 0;
 
   @include media-breakpoint-only(xs) {
@@ -87,13 +82,22 @@
     [class^="col-"]:last-child {
       padding-right: 0;
     }
+  }
 
-    .name-and-zone {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
+  .col-xs-1 {
+    margin-left: -$space-4;
+    width: 0;
+
+    &:first-child {
+      margin-left: 0;
     }
+  }
+
+  .name-and-zone {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
 
   .route-icons {

@@ -449,12 +449,12 @@ defmodule Site.ScheduleV2View do
 
   @spec do_branch_link(Plug.Conn.t, String.t | nil, String.t, :hide | :view) :: Phoenix.HTML.Safe.t
   defp do_branch_link(conn, expanded, branch_name, action) do
-    action_text = case action do
-                    :hide -> "Hide "
-                    :view -> "View "
-                  end
+    {action_text, caret} = case action do
+                             :hide -> {"Hide ", "up"}
+                             :view -> {"View ", "down"}
+                           end
     link to: update_url(conn, expanded: expanded), class: "branch-link" do
-      [action_text, branch_name, " Branch ", fa("caret-down")]
+      [content_tag(:span, action_text, class: "hidden-sm-down"), branch_name, " Branch ", fa("caret-#{caret}")]
     end
   end
 
