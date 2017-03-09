@@ -35,6 +35,10 @@
   }
 }
 
+.name-and-zone {
+  float: left;
+}
+
 .branch-link {
   background-color: $gray-lightest;
   border-radius: $space-4;
@@ -46,13 +50,36 @@
   @extend %stop-bubble-collapsed;
 }
 
-.commuter-rail {
-  .zone {
-    padding-left: $base-spacing / 2;
+.route-icons {
+  float: right;
+}
+
+.route-hours {
+  p {
+    margin-bottom: 0;
+  }
+
+  h3 {
+    margin-bottom: $base-spacing / 2;
+  }
+
+  .col-xs-12 {
+    margin-bottom: $base-spacing;
   }
 }
 
-.route-icons {
+.hours-directions {
+  @include media-breakpoint-up(md) {
+    width: 75%;
+  }
+}
+
+.hours-direction-name {
   display: inline-block;
-  float: right;
+  width: 40%;
+}
+
+.hours-time {
+  display: inline-block;
+  text-align: right;
 }
