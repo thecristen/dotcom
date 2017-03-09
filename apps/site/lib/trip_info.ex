@@ -63,9 +63,26 @@ defmodule TripInfo do
     else
       [origin_id]
     end
+    opts = add_stop_name_to_vehicle(opts, times)
     times
     |> clamp_times_to_origin_destination(origin_id, destination_id)
     |> do_from_list(starting_stop_ids, destination_id, opts)
+  end
+
+  defp add_stop_name_to_vehicle(opts, times) do
+    if opts[:vehicle] do
+      vehicle_stop_name = times
+      |> Enum.find_value(fn (time) ->
+        if opts[:vehicle].stop_id == time.schedule.stop.id do
+          time.schedule.stop.name
+        else
+          false
+        end
+      end)
+      Keyword.put(opts, :vehicle, %{opts[:vehicle] | :stop_name => vehicle_stop_name})
+    else
+      opts
+    end
   end
 
   @doc """
@@ -124,18 +141,19 @@ defmodule TripInfo do
   @doc """
   Returns a long status string suitable for display to a user.
   """
-  @spec full_status(TripInfo.t) :: iolist
-  def full_status(%TripInfo{route: route,
-                            sections: sections,
-                            status: status}) do
-    [
-      route_name(route),
-      " to ",
-      destination(List.last(sections)),
-      " ",
-      status
-    ]
+  @spec full_status(TripInfo.t) :: String.t
+  def full_status(%TripInfo{vehicle: %{status: status, stop_name: stop_name}, route: %{type: route_type}}) do
+    vehicle = %{1 => "Subway", 2 => "Train", 3 => "Bus"}
+    case status do
+      :incoming ->
+        "#{vehicle[route_type]} is entering #{stop_name}."
+      :stopped ->
+        "#{vehicle[route_type]} has arrived at #{stop_name}."
+      :in_transit ->
+        "#{vehicle[route_type]} has left #{stop_name}."
+    end
   end
+  def full_status(_), do: nil
 
   @doc """
   Returns a list of either :separator or [{time, Flags.t}].  If we've
