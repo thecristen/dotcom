@@ -87,11 +87,10 @@ $border-radius: $base-spacing / 4;
 
 // parser_ignore
 $headings-margin-bottom: $space-16;
-$header-navbar-height-multipler: 3.75;
-$header-navbar-height: $base-spacing * $header-navbar-height-multipler;
-$navbar-padding-vertical: .75rem;
+$header-navbar-height-multiplier: 3;
+$header-navbar-height: $base-spacing * $header-navbar-height-multiplier;
+$navbar-padding-vertical: $base-spacing * .75;
 $navbar-padding-horizontal: 0;
-
 $default-border-radius: $space-4;
 $icon-size: $space-16 * 1.5;
 $icon-size-sm: $space-16;

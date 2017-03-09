@@ -44,7 +44,7 @@
           </div>
         </div>
       <% end %>
-      <%= render "_header.html", forward_assigns(@conn) %>
+      <%= render "_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:pre_container_template] do %>
         <%= render_existing @view_module, assigns[:pre_container_template], assigns %>
       <% end %>
