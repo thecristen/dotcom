@@ -27,42 +27,42 @@ export default function ($) {
   };
 
   const initTooltip = () => {
-    $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'})
-    .on('touchstart', function (e) {
+    const selector = '[data-toggle="tooltip"]';
+
+    $(document).on('touchstart', selector, function (e) {
       $(this).data('lastTouchStart', e.originalEvent);
-    })
-    .on('touchend', function (e) {
+    });
+    $(document).on('touchend', selector, function (e) {
+      e.stopPropagation();
       const $this = $(this);
       $this.data('lastTouchEnd', e.originalEvent);
 
       if (wasTapped($this)) {
         $this.tooltip('toggle');
       }
-    })
-    .on('mouseenter', function (e) {
+    });
+    $(document).on('mouseenter', selector, function (e) {
       const $this = $(this);
       if (wasTouchedRecently($this)) {
         return;
       }
 
       $this.tooltip('show');
-    })
-    .on('mouseleave', function (e) {
+    });
+    $(document).on('mouseleave', selector, function (e) {
       const $this = $(this);
       if (wasTouchedRecently($this)) {
         return;
       }
 
       hideTooltip($this);
-    })
+    });
 
-    $('body').on('touchend', (e) => {
+    $(document).on('touchend', 'body', () => {
       hideTooltip($('[data-toggle="tooltip"]'));
-    })
-    $('[data-toggle="tooltip"]').on('touchend', (e) => {
-      e.stopPropagation();
-    })
+    });
   };
 
-  $(initTooltip);
+  initTooltip();
+  $(document).on('turbolinks:load', () => $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'}));
 };
