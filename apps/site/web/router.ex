@@ -56,7 +56,6 @@ defmodule Site.Router do
 
   scope "/schedules_v2", Site do
     pipe_through [:browser]
-    get "/line/:route", RouteController, :show
     get "/Green", ScheduleV2Controller.Green, :green
     get "/:route", ScheduleV2Controller, :show
   end
