@@ -58,9 +58,8 @@ defmodule Schedules.Repo do
   @spec trip(String.t) :: Schedules.Trip.t | nil
   def trip(trip_id) do
     cache trip_id, fn trip_id ->
-      case trip_id
-      |> V3Api.Trips.by_id do
-        %{status_code: 404} -> nil
+      case V3Api.Trips.by_id(trip_id) do
+        {:error, _} -> nil
         response -> Schedules.Parser.trip(response)
       end
     end

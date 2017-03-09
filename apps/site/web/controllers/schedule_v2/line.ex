@@ -1,121 +1,68 @@
-defmodule Site.RouteController do
-  use Site.Web, :controller
+defmodule Site.ScheduleV2Controller.Line do
 
-  plug Site.Plugs.Route
-  plug Site.Plugs.Date
-  plug :hours_of_operation
-  plug :next_3_holidays
+  import Plug.Conn, only: [assign: 3]
+  import Site.Router.Helpers
 
-  def show(conn, %{"route" => "Green"} = params) do
+  def init([]), do: []
+
+  def call(%Plug.Conn{assigns: %{route: %{id: "Green"}}} = conn, _args) do
     route = GreenLine.green_line()
     stops_on_routes = GreenLine.stops_on_routes(0)
-    routes_for_stops = GreenLine.routes_for_stops(stops_on_routes) # Inverse Map
     stops = GreenLine.all_stops(stops_on_routes)
     {before_branch, after_branch} = Enum.split_while(stops, & &1.id != "place-coecl")
-    expanded = params["expanded"]
+    routes_for_stops = GreenLine.routes_for_stops(stops_on_routes) # Inverse Map
+    expanded = conn.params["expanded"]
     expanded_stops = green_line_branches(after_branch, routes_for_stops, expanded)
     active_lines = active_lines(stops_on_routes)
 
     conn
-    |> render("show.html",
-      stop_list_template: "_stop_list_green.html",
-      stops_on_routes: stops_on_routes,
-      stops_with_expands: before_branch ++ insert_expands(expanded_stops, active_lines),
-      expanded: expanded,
-      active_lines: active_lines,
-      stop_features: stop_features(stops, route),
-      map_img_src: map_img_src(stops, route.type),
-      route: route)
+    |> assign(:stop_list_template, "_stop_list_green.html")
+    |> assign(:stops_on_routes, stops_on_routes)
+    |> assign(:stops_with_expands, before_branch ++ insert_expands(expanded_stops, active_lines))
+    |> assign(:expanded, expanded)
+    |> assign(:active_lines, active_lines)
+    |> assign(:stop_features, stop_features(stops, route))
+    |> assign(:map_img_src, map_img_src(stops, route.type))
+    |> assign(:route, route)
   end
-  def show(conn, %{"route" => "Red"} = params) do
+  def call(%Plug.Conn{assigns: %{route: %{id: "Red"}}} = conn, _args) do
     stops = Stops.Repo.by_route("Red", 0)
     {shared_stops, branched_stops} = Enum.split_while(stops, & &1.id != "place-shmnl")
-    {ashmont, braintree} = red_line_branches(branched_stops, params)
+    {ashmont, braintree} = red_line_branches(branched_stops, conn.params)
 
     conn
-    |> render("show.html",
-      stop_list_template: "_stop_list_red.html",
-      stops: shared_stops,
-      merge_stop_id: "place-jfk",
-      braintree_branch_stops: braintree,
-      ashmont_branch_stops: ashmont,
-      stop_features: stop_features(stops, conn.assigns.route),
-      map_img_src: map_img_src(stops, conn.assigns.route.type))
+    |> assign(:stop_list_template, "_stop_list_red.html")
+    |> assign(:stops, shared_stops)
+    |> assign(:merge_stop_id, "place-jfk")
+    |> assign(:braintree_branch_stops, braintree)
+    |> assign(:ashmont_branch_stops, ashmont)
+    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
+    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
   end
-  def show(%Plug.Conn{assigns: %{route: nil}} = conn, _params) do
-    conn
-    |> put_status(:not_found)
-    |> render(Site.ErrorView, "404.html", [])
-    |> halt
-  end
-  def show(conn, %{"route" => "CR-"<>_ = route_id}) do
+  def call(%Plug.Conn{assigns: %{route: %{id: "CR-"<>_ = route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
 
     zones = Enum.reduce stops, %{}, fn stop, acc ->
       Map.put(acc, stop.id, Zones.Repo.get(stop.id))
     end
 
-    render conn, "show.html",
-      stop_list_template: "_stop_list.html",
-      stops: stops,
-      stop_features: stop_features(stops, conn.assigns.route),
-      map_img_src: map_img_src(stops, conn.assigns.route.type),
-      zones: zones
+    conn
+    |> assign(:stops, stops)
+    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
+    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
+    |> assign(:zones, zones)
+    |> assign(:stop_list_template, "_stop_list.html")
   end
-  def show(conn, %{"route" => route_id}) do
+  def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
+
     conn
-    |> render("show.html",
-      stop_list_template: "_stop_list.html",
-      stops: stops,
-      stop_features: stop_features(stops, conn.assigns.route),
-      map_img_src: map_img_src(stops, conn.assigns.route.type))
+    |> assign(:stop_list_template, "_stop_list.html")
+    |> assign(:stops, stops)
+    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
+    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
   end
 
-  def hours_of_operation(%Plug.Conn{assigns: %{route: route}, params: %{"route" => route_id}} = conn, opts)
-  when (not is_nil(route)) or (route_id == "Green") do
-    dates = get_dates(conn.assigns.date)
-    schedules_fn = schedules_fn(opts)
-    assign(conn, :hours_of_operation, %{
-          :week => get_hours(conn, dates[:week], schedules_fn),
-          :saturday => get_hours(conn, dates[:saturday], schedules_fn),
-          :sunday => get_hours(conn, dates[:sunday], schedules_fn)}
-    )
-  end
-  def hours_of_operation(conn, _opts) do
-    conn
-  end
-
-  defp get_hours(%Plug.Conn{params: %{"route" => "Green"}}, date, schedules_fn) do
-    do_get_hours(Enum.join(GreenLine.branch_ids(), ","), date, schedules_fn)
-  end
-  defp get_hours(%Plug.Conn{assigns: %{route: route}}, date, schedules_fn) do
-    do_get_hours(route.id, date, schedules_fn)
-  end
-
-  defp do_get_hours(route_id, date, schedules_fn) do
-    {inbound, outbound} = [date: date, stop_sequence: "first,last"]
-    |> Keyword.merge(route: route_id)
-    |> schedules_fn.()
-    |> Enum.split_with(& &1.trip.direction_id == 1)
-
-    %{
-      1 => Schedules.Departures.first_and_last_departures(inbound),
-      0 => Schedules.Departures.first_and_last_departures(outbound)
-    }
-  end
-
-  defp get_dates(date) do
-    %{
-      :week => Timex.end_of_week(date, 2),
-      :saturday => Timex.end_of_week(date, 7),
-      :sunday => Timex.end_of_week(date, 1)
-    }
-  end
-
-  defp schedules_fn(opts) do
-    Keyword.get(opts, :schedules_fn, &Schedules.Repo.all/1)
-  end
 
   @doc """
 
@@ -274,18 +221,6 @@ defmodule Site.RouteController do
 
   defp split_ashmont_braintree(stops) do
     Enum.split_while(stops, & &1.id != "place-nqncy")
-  end
-
-  def next_3_holidays(%Plug.Conn{assigns: %{date: date}} = conn, _opts) do
-    holidays = date
-    |> Holiday.Repo.following
-    |> Enum.take(3)
-
-    conn
-    |> assign(:holidays, holidays)
-  end
-  def next_3_holidays(conn, _opts) do
-    conn
   end
 
   defp insert_expands(stops, active_lines) do

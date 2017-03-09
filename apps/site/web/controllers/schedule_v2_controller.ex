@@ -1,5 +1,6 @@
 defmodule Site.ScheduleV2Controller do
   use Site.Web, :controller
+  import Site.ControllerHelpers, only: [call_plug: 2]
 
   alias Site.ScheduleV2Controller, as: SV2C
 
@@ -20,23 +21,41 @@ defmodule Site.ScheduleV2Controller do
   plug Site.ScheduleController.RouteBreadcrumbs
   plug :tab_assigns
 
+  @spec show(Plug.Conn.t, map) :: Phoenix::HTML.Safe.t
   def show(conn, _) do
     conn
     |> render("show.html")
   end
 
+  # Plug that assigns the tab based on a URL parameter or a default value to the connection
+  @spec tab(Plug.Conn.t, list) :: Plug.Conn.t
   defp tab(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, _opts) do
-    tab = if conn.params["tab"] == "trip-view", do: "trip-view", else: "timetable"
+    tab = case conn.params["tab"] do
+      "trip-view" ->
+        "trip-view"
+      "line" ->
+        "line"
+      _ ->
+        "timetable"
+    end
     conn
     |> assign(:tab, tab)
     |> assign(:schedule_template, "_commuter.html")
   end
   defp tab(conn, _opts) do
+    tab = case conn.params["tab"] do
+      "line" ->
+        "line"
+      _ ->
+        "trip-view"
+    end
     conn
-    |> assign(:tab, "trip-view")
+    |> assign(:tab, tab)
     |> assign(:schedule_template, "_default_schedule.html")
   end
 
+  # Plug that assigns trip schedule to the connection
+  @spec assign_trip_schedules(Plug.Conn.t) :: Plug.Conn.t
   defp assign_trip_schedules(conn) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
@@ -49,16 +68,20 @@ defmodule Site.ScheduleV2Controller do
     |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
   end
 
+  # Helper function for obtaining schedule data
+  @spec timetable_schedules(Plug.Conn.t) :: [Schedules.Schedule.t]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     Schedules.Repo.all(date: date, route: route.id, direction_id: direction_id)
   end
 
+  @spec header_schedules(list) :: list
   defp header_schedules(timetable_schedules) do
     timetable_schedules
     |> Schedules.Sort.sort_by_first_times
     |> Enum.map(&List.first/1)
   end
 
+  @spec trip_messages(Routes.Route.t, 0 | 1) :: %{{String.t, String.t} => String.t}
   defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
     %{
       {"221", "North Billerica"} => "Via",
@@ -83,28 +106,29 @@ defmodule Site.ScheduleV2Controller do
     %{}
   end
 
-  defmacrop call_plug(conn, module) do
-    opts = Macro.expand(module, __ENV__).init([])
-    quote do
-      unquote(module).call(unquote(conn), unquote(opts))
-    end
-  end
-
+  # Plug that calls other plugs depending on which tab is currently set
+  @spec tab_assigns(Plug.Conn.t, list) :: Plug.Conn.t
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "timetable"}} = conn, _opts) do
     conn
     |> assign_trip_schedules
-    |> call_plug(SV2C.Offset)
+    |> call_plug(Site.ScheduleV2Controller.Offset)
   end
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "trip-view"}} = conn, _opts) do
     conn = conn
-    |> call_plug(SV2C.Schedules)
-    |> call_plug(SV2C.StopTimes)
-    |> call_plug(SV2C.TripInfo)
+    |> call_plug(Site.ScheduleV2Controller.Schedules)
+    |> call_plug(Site.ScheduleV2Controller.StopTimes)
+    |> call_plug(Site.ScheduleV2Controller.TripInfo)
 
     if conn.assigns.route.type == 2 do
       assign(conn, :zone_map, Map.new(conn.assigns.all_stops, &{&1.id, Zones.Repo.get(&1.id)}))
     else
       conn
     end
+  end
+  defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn, _opts) do
+    conn
+    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
+    |> call_plug(Site.ScheduleV2Controller.Holidays)
+    |> call_plug(Site.ScheduleV2Controller.Line)
   end
 end

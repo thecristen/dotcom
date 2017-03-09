@@ -174,7 +174,7 @@ defmodule Stops.Api do
     end)
   end
 
-  defp extract_v3_response(%{status_code: 404}) do
+  defp extract_v3_response({:error, _}) do
     # In the case of a failed V3 response, just return nil
     nil
   end

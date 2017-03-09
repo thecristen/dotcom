@@ -3,22 +3,8 @@
     margin-bottom: $base-spacing;
   }
 
-  &:not(.green-line) {
-    .route-stop-name-icons {
-      @extend %stop-name-and-time-column;
-    }
-  }
-
-  &.green-line {
-    .stop-bubble,
-    .route-stop-name-icons {
-      float: left;
-      width: 50%;
-    }
-
-    .route-icons {
-      height: $icon-size;
-    }
+  .route-stop-name-icons {
+    @extend %stop-name-and-time-column;
   }
 }
 
@@ -26,12 +12,14 @@
   @extend %trip-stop;
   border: 0;
 
-  &:first-child {
-    @extend %stop-bubble-first;
-  }
+  &:not(.route-stop-green) {
+    &:first-child {
+      @extend %stop-bubble-first;
+    }
 
-  &:last-child {
-    @extend %stop-bubble-last;
+    &:last-child {
+      @extend %stop-bubble-last;
+    }
   }
 }
 
@@ -44,6 +32,10 @@
   border-radius: $space-4;
   display: block;
   padding: .5rem 1rem;
+
+  @include media-breakpoint-only(xs) {
+    padding-left: .75rem;
+  }
 }
 
 .route-expand-branch {
@@ -82,4 +74,58 @@
 .hours-time {
   display: inline-block;
   text-align: right;
+}
+
+.route-row-green {
+  min-height: 3rem;
+  padding: $space-4 0;
+
+  @include media-breakpoint-only(xs) {
+    // At xs, there are a few names that are long enough to need line-breaks and also long enough
+    // to force the icons down to the next line, which causes a gap in the line graphic. To avoid this, we force
+    // all names to be one-line only, and remove the padding-right (which isn't needed on xs anyway)
+    [class^="col-"]:last-child {
+      padding-right: 0;
+    }
+
+    .name-and-zone {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+  }
+
+  .route-icons {
+    float: none;
+  }
+
+  .route-stop-name-icons {
+    @include media-breakpoint-only(xs) {
+      padding-left: $base-spacing * 1.5;
+    }
+
+    @include media-breakpoint-up(sm) {
+      padding-left: $base-spacing;
+    }
+  }
+}
+
+.route-stop-green {
+  &.green-line-collapsed {
+    @extend %stop-bubble-collapsed;
+
+    .green-line-bubble.stop-bubble::before {
+      border-left-width: $space-2;
+      left: 48%;
+    }
+  }
+
+  &.westbound-terminus {
+    @extend %stop-bubble-last;
+  }
+
+  .green-line-bubble {
+    height: 400%;
+  }
 }
