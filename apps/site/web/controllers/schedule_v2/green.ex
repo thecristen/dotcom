@@ -2,6 +2,7 @@ defmodule Site.ScheduleV2Controller.Green do
   use Site.Web, :controller
 
   plug :route
+  plug :tab
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
   plug Site.ScheduleController.DatePicker
@@ -20,11 +21,22 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :hide_destination_selector
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleController.RouteBreadcrumbs
+  plug :tab_assigns
 
   def green(conn, _params) do
     conn
-    |> assign(:tab, "trip-view")
     |> render(Site.ScheduleV2View, "show.html")
+  end
+
+  defp tab(conn, _opts) do
+    tab = case conn.params["tab"] do
+      "line" ->
+        "line"
+      _ ->
+        "trip-view"
+    end
+    conn
+    |> assign(:tab, tab)
   end
 
   def route(conn, _params) do
@@ -161,4 +173,12 @@ defmodule Site.ScheduleV2Controller.Green do
        }
     end)
   end
+
+  defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn, _opts) do
+    conn
+    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
+    |> call_plug(Site.ScheduleV2Controller.Holidays)
+    |> call_plug(Site.ScheduleV2Controller.Line)
+  end
+  defp tab_assigns(conn, _opts), do: conn
 end
