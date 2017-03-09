@@ -7,7 +7,6 @@ defmodule TripInfoTest do
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
   alias Vehicles.Vehicle
-  import :erlang, only: [iolist_to_binary: 1]
 
   @route %Route{id: "1", name: "1", type: 3}
   @trip %Trip{id: "trip_id"}
@@ -130,14 +129,14 @@ defmodule TripInfoTest do
 
   describe "full_status/1" do
     test "returns status with Bus Route for bus routes" do
-      actual = @info |> full_status |> iolist_to_binary
-      expected = "Bus Route 1 to Park Street operating at normal schedule"
+      actual = @info |> full_status
+      expected = nil
       assert actual == expected
     end
 
     test "uses the route name" do
-      actual = %{@info | route: %Route{id: "Red", name: "Red Line"}} |> full_status |> iolist_to_binary
-      expected = "Red Line to Park Street operating at normal schedule"
+      actual = %{@info | route: %Route{id: "Red", name: "Red Line"}} |> full_status
+      expected = nil
       assert actual == expected
     end
   end

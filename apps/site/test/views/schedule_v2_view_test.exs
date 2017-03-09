@@ -170,24 +170,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "prediction_trip_information/1" do
-    test "route status available" do
-      vehicle_status = %{route_type: 2, stop_name: "North Station",
-        vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1652",
-         route_id: "CR-Fitchburg", status: :stopped, stop_id: "place-north",
-         trip_id: "CR-Weekday-Fall-16-423"}}
-
-      output = prediction_trip_information(vehicle_status) |> safe_to_string
-      assert output =~ "Train has arrived at North Station."
-    end
-
-    test "route status is not available" do
-      vehicle_status = %{route_type: 2, stop_name: "North Station"}
-      output = prediction_trip_information(vehicle_status)
-      assert output == ""
-    end
-  end
-
   describe "_trip_view.html" do
     test "renders a message if no scheduled trips" do
       output = Site.ScheduleV2View.render(

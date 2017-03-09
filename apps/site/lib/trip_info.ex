@@ -69,14 +69,20 @@ defmodule TripInfo do
     |> do_from_list(starting_stop_ids, destination_id, opts)
   end
 
+  @spec add_stop_name_to_vehicle(Keyword.t, time_list) :: Keyword.t
   defp add_stop_name_to_vehicle(opts, times) do
     if opts[:vehicle] do
       vehicle_stop_name = times
       |> Enum.find_value(fn (time) ->
-        if opts[:vehicle].stop_id == time.schedule.stop.id do
-          time.schedule.stop.name
-        else
-          false
+        case time.schedule do
+          nil ->
+            false
+          _ ->
+            if opts[:vehicle].stop_id == time.schedule.stop.id do
+              time.schedule.stop.name
+            else
+              false
+            end
         end
       end)
       Keyword.put(opts, :vehicle, %{opts[:vehicle] | :stop_name => vehicle_stop_name})
