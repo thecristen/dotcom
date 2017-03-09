@@ -33,8 +33,14 @@
             <span>
               <%= Timex.format!(@calendar.active_date, "{Mfull} {YYYY}") %>
             </span>
-            <%= link to: @calendar.next_month_url do %>
-              <%= fa "chevron-circle-right"%>
+            <%= if @calendar.next_month_url do %>
+              <%= link to: @calendar.next_month_url do %>
+                <%= fa "chevron-circle-right"%>
+              <% end %>
+            <% else %>
+              <span class="disabled">
+                <%= fa "chevron-circle-right" %>
+              </span>
             <% end %>
           </td>
         </tr>

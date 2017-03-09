@@ -35,11 +35,11 @@
           </span>
           <%= if @calendar.next_month_url do %>
             <%= link to: @calendar.next_month_url do %>
-              <%= fa "chevron-circle-right"%>
+              <%= fa "chevron-circle-right" %>
             <% end %>
           <% else %>
             <span class="disabled">
-              <%= fa "chevron-circle-left" %>
+              <%= fa "chevron-circle-right" %>
             </span>
           <% end %>
         </td>

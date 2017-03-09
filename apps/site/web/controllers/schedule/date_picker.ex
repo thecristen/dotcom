@@ -19,7 +19,8 @@ defmodule Site.ScheduleController.DatePicker do
   def build_calendar(%Conn{assigns: %{date: date}} = conn, []) do
     shift = shift(conn)
     holidays = date |> Timex.shift(months: shift) |> Holiday.Repo.holidays_in_month()
-    calendar = BuildCalendar.build(date, Util.service_date(), holidays, &update_url(conn, &1), shift: shift)
+    calendar = BuildCalendar.build(date, Util.service_date(), holidays, &update_url(conn, &1),
+      shift: shift, end_date: Schedules.Repo.end_of_rating())
 
     conn
     |> assign(:calendar, calendar)
