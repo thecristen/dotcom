@@ -28,7 +28,7 @@ defmodule Site.ScheduleV2Controller do
   end
 
   # Plug that assigns the tab based on a URL parameter or a default value to the connection
-  @spec tab(Plug.Conn.t, map) :: Plug.Conn.t
+  @spec tab(Plug.Conn.t, list) :: Plug.Conn.t
   defp tab(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, _opts) do
     tab = case conn.params["tab"] do
       "trip-view" ->
@@ -107,7 +107,7 @@ defmodule Site.ScheduleV2Controller do
   end
 
   # Plug that calls other plugs depending on which tab is currently set
-  @spec tab_assigns(Plug.Conn.t, map) :: Plug.Conn.t
+  @spec tab_assigns(Plug.Conn.t, list) :: Plug.Conn.t
   defp tab_assigns(%Plug.Conn{assigns: %{tab: "timetable"}} = conn, _opts) do
     conn
     |> assign_trip_schedules
