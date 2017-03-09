@@ -1,12 +1,5 @@
 <div>
   <h3 class="station-fare-subheader">Commuter Rail Fares</h3>
-  <p>
-    Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
-    <% path_options = if origin_station?(@stop), do: [origin: @stop.id], else: [origin: @stop.id, destination: @terminal_station] %>
-    <%= link to: fare_path(@conn, :show, "commuter_rail", path_options) do %>
-      <p>Find your <span class="no-wrap">fare <%= fa "arrow-right "%></span></p>
-    <% end %>
-  </p>
   <%= if @stop.has_fare_machine? do %>
     <div class="station-callout-box">
       <p>
@@ -18,7 +11,15 @@
     </div>
   <% end %>
 
-  <%= if show_fares?(@stop) do %>
-    <%= Site.FareView.summarize(mode_summaries(:commuter_rail, @zone_name)) %>
-  <% end %>
+  <% path_options = if origin_station?(@stop), do: [origin: @stop.id], else: [origin: @stop.id, destination: @terminal_station] %>
+  <% fare_details_path = fare_path(@conn, :show, "commuter_rail", path_options) %>
+  <% summaries = if origin_station?(@stop), do: mode_summaries(:commuter_rail), else: mode_summaries(:commuter_rail, @zone_name, fare_details_path) %>
+
+  <%= Site.FareView.summarize(summaries) %>
+
+  <p>
+    <%= link to: fare_details_path do %>
+      <p>View Commuter Rail <%= Fares.Format.name(%Fares.Fare{name: @zone_name}) %> fares list <span class="no-wrap"><%= fa "arrow-right "%></span></p>
+    <% end %>
+  </p>
 </div>

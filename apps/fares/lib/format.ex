@@ -115,4 +115,15 @@ defmodule Fares.Format do
       }
     end
   end
+
+  @spec summarize_one(Fare.t, :commuter_rail, Keyword.t) :: Summary.t
+  def summarize_one(fare, :commuter_rail, opts \\ []) do
+    %Fares.Summary{
+      name: Fares.Format.full_name(fare),
+      duration: fare.duration,
+      modes: [fare.mode | fare.additional_valid_modes],
+      fares: [{Fares.Format.media(fare), Fares.Format.price(fare.cents)}],
+      url: Keyword.get(opts, :url)
+    }
+  end
 end
