@@ -65,7 +65,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     is_nil(conn.query_params["show_collapsed_trip_stops?"])
   end
 
-  defp handle_vehicle_status(conn, selected_trip_id, opts) do
+  defp handle_vehicle_status(%Conn{assigns: %{vehicle_locations: vehicle_locations}} = conn, selected_trip_id, opts) do
     vehicle_status = case build_info(selected_trip_id, conn, nil, nil, false, opts) do
       {:error, _} ->
         url = update_url(conn, trip: nil)
@@ -83,7 +83,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
                   nil ->
                     false
                   _ ->
-                    vehicle = conn.assigns.vehicle_locations[{item.schedule.trip.id, item.schedule.stop.id}]
+                    vehicle = vehicle_locations[{item.schedule.trip.id, item.schedule.stop.id}]
                     if vehicle do
                       %{stop_name: item.schedule.stop.name, vehicle: vehicle, route_type: info.route.type}
                     end
@@ -93,6 +93,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
         end
     end
     assign(conn, :vehicle_status, vehicle_status)
+  end
+  defp handle_vehicle_status(conn, _selected_trip_id, _opts) do
+    assign(conn, :vehicle_status, nil)
   end
 
   defp handle_trip(conn, selected_trip_id, origin, destination, collapse, opts) do
