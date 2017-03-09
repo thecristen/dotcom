@@ -65,9 +65,7 @@
       </p>
       <p class="charlie-ticket-method">
         <strong>Tip:</strong>
-        Bus and Subway One Way fares are more expensive when you pay with a CharlieTicket than
-        when paying with a CharlieCard. However, CharlieTickets are more convenient to get, as
-        CharlieCards are only available at select locations.
+        Pick up a CharlieTicket at <%= link "select locations", to: fare_path(@conn, :show, :charlie_card) %> to get cheaper One Way fares on Bus and Subway. 
       </p>
       <h4>Using CharlieTickets on the Commuter Rail and Ferry</h4>
       <div class="row">
@@ -106,8 +104,7 @@
       <p>
         <strong>Tip:</strong>
         This is a very convenient option for smartphone owners and eliminates the risk of misplacing your physical pass.
-        Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket.
-        However, passes purchased through mTicket app are not valid for use on Bus and Subway like they are on a CharlieTicket.
+        Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, unlike passes loaded onto a CharlieTicket, mTicket passes are not valid for use on the Bus and Subway. Available on the iPhone App Store and Google Play.
       </p>
       <p>
         <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
@@ -134,11 +131,7 @@
       </p>
       <p class="fare-callout-box">
         <strong>Note:</strong>
-        For underground Subway stops, you will buy your fare and load it onto a CharlieCard or CharlieTicket
-        at the station’s fare vending machines.
-        However, most above-ground Green Line stops do not have fare vending machines.
-        At these stops, you may use cash to pay your fare on-board if you do not have a CharlieCard or
-        CharlieTicket with money or a pass loaded onto it.
+        At most Subway stops, you will buy your fare and load it onto a CharlieCard or CharlieTicket at the station’s fare vending machines. If you board the Subway at a stop that does not have fare vending machines, you may may pay on-board with cash.
       </p>
       <p>
         *Visit the <%= link "Bus and Subway fares page", to: fare_path(@conn, :show, :bus_subway) %> to view transfer limitations

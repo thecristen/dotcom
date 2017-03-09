@@ -13,12 +13,12 @@ defmodule Site.FareViewTest do
 
     test "returns fare note for seniors" do
       assert safe_to_string(fare_type_note(%Fare{mode: :commuter_rail, reduced: :senior_disabled})) =~
-        "People 65 or older and persons with disabilities"
+        "People aged 65 years or older"
     end
 
     test "returns fare note for bus and subway" do
       assert safe_to_string(fare_type_note(%Fare{mode: :bus, reduced: nil})) =~
-        "To view prices and details for fare passes"
+        "click on the \“Passes\” tab below"
     end
 
     test "returns fare note for ferry" do
@@ -144,7 +144,7 @@ defmodule Site.FareViewTest do
   describe "origin_destination_description/2" do
     test "for CR" do
       content = :commuter_rail |> origin_destination_description |> safe_to_string
-      assert content =~ "Fares for the Commuter Rail"
+      assert content =~ "Your Commuter Rail fare"
       assert content =~ "www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg"
     end
 

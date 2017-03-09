@@ -100,7 +100,7 @@ defmodule Site.FareControllerTest do
       conn = get build_conn(), fare_path(Site.Endpoint, :show, "payment_methods")
       content = html_response(conn, 200)
       assert content =~ "CharlieCards are durable, plastic cards"
-      assert content =~ "CharlieTickets are more convenient"
+      assert content =~ "Pick up a CharlieTicket at"
       assert content =~ "Commuter Rail and Ferry riders can easily purchase any pass"
       assert content =~ "Each mode accepts cash on-board"
     end

@@ -27,7 +27,7 @@
     <%= render "_retail_sales.html", forward_assigns(@conn) %>
     <div class="how-to-pay-sub-section col-md-6 col-xs-12">
       <h3>On-Board</h3>
-      <p>Single Ride tickets or Stored Value can be purchased using cash. You can also add value to a CharlieCard or ticket on-board. Exact change is encouraged.</p>
+      <p>One Way fare can be purchased using cash. You can also add value to a CharlieCard or CharlieTicket on-board. Exact change is encouraged.</p>
     </div>
   </div>
   <div class="row">

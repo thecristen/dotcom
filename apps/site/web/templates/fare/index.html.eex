@@ -3,14 +3,15 @@
     <h1>Fares and Passes</h1>
     <div>
       <p>
-        Your fare is determined by your mode of travel (subway, bus, light rail, commuter rail, or ferry) and the way you pay (Cash, CharlieCard, CharlieTicket, or mobile app).
+        Your fare will depend on whether you travel by Subway, Bus, Commuter Rail, or Ferry and whether you pay by cash, CharlieTicket, CharlieCard, or mobile app.
       </p>
     </div>
     <div>
       <h2>Paying Your Fare</h2>
       <p>
-        There are four primary payment methods: CharlieCard, CharlieTicket, mTicket app, and cash on-board. Each mode accepts
-        a variety of these methods. Your chosen payment method may affect how much your fare costs, which passes you can purchase,
+        You can pay your fare with a CharlieCard, CharlieTicket, the mTicket app, or by cash on-board. 
+        <%= link "Click here", to: fare_path(@conn, :show, :payment_methods) %> to see what types of transportation
+         each payment option is accepted on. How you choose to pay may affect how much your fare costs, which passes you can purchase,
         and your eligibility to make discounted transfers.
       </p>
       <div class="row">
@@ -103,7 +104,7 @@
     </div>
     <div>
       <h2>Reduced Fare Eligibility</h2>
-      <p>Children age 11 and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced fares on all modes, depending on the type of fare they purchase. </p>
+      <p>Children aged 11 years and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced One Way fares. </p>
       <p><%= link to: fare_path(@conn, :show, :reduced) do %>
         Learn more about reduced fare <span class="no-wrap">eligibility <%= fa "arrow-right" %></span>
       <% end %></p>

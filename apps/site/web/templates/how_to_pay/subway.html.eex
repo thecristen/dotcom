@@ -3,7 +3,7 @@
     <div class="col-xs-12">
       <h2>Step 1: Purchase a Ticket or Pass</h2>
       <p>
-        You can purchase your Subway fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board (only accepted at above-ground Green Line stops). Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharlieCard versus a CharlieTicket or cash on-board.
+        You can purchase your Subway fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board (only accepted at above-ground Green Line stops). One Way fares are cheaper when you pay with a CharlieCard. Benefit from free or reduced transfers by paying with a CharlieCard or CharlieTicket.
       </p>
       <p>
       <div class="row">
@@ -30,7 +30,7 @@
     <%= render "_retail_sales.html", forward_assigns(@conn) %>
     <div class="col-md-6 col-xs-12 ">
       <h3>On-Board</h3>
-      Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or ticket. Exact change is encouraged.
+      Single Ride tickets or Stored Value can be purchased using cash at above-ground stops on the Green line. You can also add value to a CharlieCard or CharlieTicket. Exact change is encouraged.
     </div>
   </div>
   <h2>Step 2: Pay Your Fare</h2>
@@ -73,9 +73,9 @@
       </figure>
       <h4>Entry with a CharlieTicket</h4>
       <ol class="how-to-pay-steps">
-        <li><div>Insert the ticket into the ticket slot with the arrow facing away from you.</div></li>
-        <li><div>The screen will say “Enter” and show the remaining value on the ticket.</div></li>
-        <li><div>Remove your ticket from the slot and proceed to the platform.</div></li>
+        <li><div>Insert your CharlieTicket into the ticket slot with the arrow facing away from you.</div></li>
+        <li><div>“Enter” will appear on the screen and show the remaining value on your CharlieTicket.</div></li>
+        <li><div>Remove your CharlieTicket from the slot and proceed to the platform.</div></li>
       </ol>
     </div>
   </div>
@@ -96,8 +96,8 @@
     <div class="col-md-6 col-xs-12">
       <h4>Paying by CharlieTicket</h4>
       <ol class="how-to-pay-steps">
-        <li><div>Insert your ticket into the ticket slot with the arrow facing away from you.</div></li>
-        <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your ticket.</div></li>
+        <li><div>Insert your CharlieTicket into the ticket slot with the arrow facing away from you.</div></li>
+        <li><div>The fare box will beep twice to inform you the appropriate amount has been deducted from your CharlieTicket.</div></li>
       </ol>
       <p>
       <strong>Tip:</strong> Three quick beeps from the fare box lets you know that either the machine was unable to read your
