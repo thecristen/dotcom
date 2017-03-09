@@ -2,7 +2,13 @@ set -e
 ELIXIR_VERSION=1.4.0
 ERLANG_VERSION=19
 
-export MIX_HOME=$SEMAPHORE_CACHE_DIR
+mkdir -p $SEMAPHORE_CACHE_DIR/gems $SEMAPHORE_CACHE_DIR/npm $SEMAPHORE_CACHE_DIR/mix
+
+# Turn off some high-memory apps
+test -x /etc/init.d/cassandra && sudo /etc/init.d/cassandra stop
+test -x /etc/init.d/elasticsearch && sudo /etc/init.d/elasticsearch stop
+
+export MIX_HOME=$SEMAPHORE_CACHE_DIR/mix
 
 . /home/runner/.kerl/installs/$ERLANG_VERSION/activate
 if ! kiex use $ELIXIR_VERSION; then
@@ -15,7 +21,6 @@ mix local.rebar --force
 MIX_ENV=test mix do deps.get, deps.compile
 nvm use 6.2
 rbenv local 2.4.0
-mkdir -p $SEMAPHORE_CACHE_DIR/gems $SEMAPHORE_CACHE_DIR/npm
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems gem install -g gem.deps.rb sass pronto pronto-credo pronto-eslint pronto-scss -N
 # drop phantomjs/backstop/casper from the deps to install
 sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/package.json

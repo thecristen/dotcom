@@ -11,7 +11,7 @@
     "wiremock": "cd apps/site && java -jar $WIREMOCK_PATH",
     "wiremock:record": "cd apps/site && rm -r __files mappings && java -jar $WIREMOCK_PATH --proxy-all=\"https://dev.api.mbtace.com\" --record-mappings",
     "routes": "cd apps/site && mix phoenix.routes && cd ../..",
-    "dialyzer": "mix dialyzer --fullpath --halt-exit-status| grep -E -v \"('__impl__')\""
+    "dialyzer": "mix dialyzer --halt-exit-status"
   },
   "dependencies": {
     "brunch": "^2.8.2"
