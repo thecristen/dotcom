@@ -5,10 +5,6 @@
 
   .route-stop-name-icons {
     @extend %stop-name-and-time-column;
-
-    @include media-breakpoint-only(xs) {
-      padding-left: 1.5rem;
-    }
   }
 }
 
@@ -83,6 +79,36 @@
 .route-row-green {
   min-height: 3rem;
   padding: $space-4 0;
+
+  @include media-breakpoint-only(xs) {
+    // At xs, there are a few names that are long enough to need line-breaks and also long enough
+    // to force the icons down to the next line, which causes a gap in the line graphic. To avoid this, we force
+    // all names to be one-line only, and remove the padding-right (which isn't needed on xs anyway)
+    [class^="col-"]:last-child {
+      padding-right: 0;
+    }
+
+    .name-and-zone {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+  }
+
+  .route-icons {
+    float: none;
+  }
+
+  .route-stop-name-icons {
+    @include media-breakpoint-only(xs) {
+      padding-left: $base-spacing * 1.5;
+    }
+
+    @include media-breakpoint-up(sm) {
+      padding-left: $base-spacing;
+    }
+  }
 }
 
 .route-stop-green {

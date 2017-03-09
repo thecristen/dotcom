@@ -1,7 +1,6 @@
 <% route_mode_class = @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>
 <div class="route-info row">
   <div class="col-xs-12 col-sm-6 page-section">
-    <h2><%= break_text_at_slash(@route.name) %> Stops</h2>
     <div class="route-stop-list stop-group <%= route_mode_class %> row">
       <%= render @stop_list_template, assigns %>
     </div>
