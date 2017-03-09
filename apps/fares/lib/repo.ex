@@ -13,6 +13,12 @@ defmodule Fares.Repo do
     |> filter(opts)
   end
 
+  @doc """
+  Filter fares using a keyword list. Returns fares whose struct key/value pairs
+  all exactly match the provided key/value pairs. In addition, supports the
+  :includes_media keyword, which will match against a fare whose :media list
+  includes that media (possibly among other media types).
+  """
   @spec filter([Fare.t], Keyword.t) :: [Fare.t]
   def filter(fares, opts) do
     fares
