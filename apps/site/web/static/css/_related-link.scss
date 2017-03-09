@@ -1,6 +1,7 @@
 .related-link {
   border: $border;
   border-left-width: 0;
+  color: $gray-dark;
   display: block;
   margin-bottom: $base-spacing;
   padding: $space-8 $space-16;
@@ -11,12 +12,11 @@
   }
 
   @include hover-focus-active {
-    background-color: $brand-primary-light;
-    border-color: $brand-primary-light;
+    background-color: $btn-primary-focus-bg;
     text-decoration: none;
 
     > * {
-      color: $white;
+      color: $btn-primary-focus-color;
     }
   }
 
@@ -29,16 +29,12 @@
     position: absolute;
     top: -1px;
   }
-
-  > * {
-    color: $gray-dark;
-  }
-
 }
 
 .related-link-title {
   font-weight: bold;
   padding-bottom: $space-12;
+  color: $link-color;
 }
 
 .related-link-group {

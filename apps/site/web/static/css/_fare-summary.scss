@@ -17,7 +17,8 @@
   width: 100%;
 
   @include hover-focus-active {
-    background-color: $gray-lightest;
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
   }
 }
 

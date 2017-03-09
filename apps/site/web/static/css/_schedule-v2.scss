@@ -63,6 +63,43 @@ $z-index-calendar-cover: 4;
   }
 }
 
+a {
+  &.trip-list-v2-row {
+    @include hover-focus-active() {
+      background-color: $btn-primary-focus-bg;
+      border-bottom-color: $btn-primary-focus-bg;
+      border-top-color: $btn-primary-focus-bg;
+      color: $btn-primary-focus-color;
+    }
+  }
+
+  &.trip-list-v2-row-selected {
+    @include plain-hover-focus() {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-color;
+    }
+
+    @include media-breakpoint-up(md) {
+      &::after {
+        background: url('/images/selected-triangle.svg') no-repeat;
+        background-size: cover;
+        bottom: -2px;
+        content: ' ';
+        display: block;
+        margin-top: 1px;
+        position: absolute;
+        right: -1.5rem;
+        top: -2px;
+        width: 1.5rem;
+      }
+    }
+
+    .icon {
+      @extend %icon-inverse;
+    }
+  }
+}
+
 .trip-list-v2 {
   margin-bottom: $base-spacing;
 }
@@ -84,26 +121,6 @@ $z-index-calendar-cover: 4;
 
     &:last-child {
       @include make-col-span(8);
-    }
-  }
-}
-
-.trip-list-v2-row-selected {
-  background: $brand-primary-lightest;
-  border-color: $brand-primary-lightest;
-
-  @include media-breakpoint-up(md) {
-    &::after {
-      background: url('/images/selected-triangle.svg') no-repeat;
-      background-size: cover;
-      bottom: -2px;
-      content: ' ';
-      display: block;
-      margin-top: -1px;
-      position: absolute;
-      right: -1.5rem;
-      top: -2px;
-      width: 1.5rem;
     }
   }
 }
@@ -309,9 +326,9 @@ $z-index-calendar-cover: 4;
   text-align: left;
   white-space: normal;
 
-  &:hover {
+  @include hover-focus-active() {
     .filter-icon-border {
-      border-color: $white;
+      border-color: $btn-primary-focus-color;
     }
   }
 }

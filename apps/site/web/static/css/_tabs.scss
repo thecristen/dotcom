@@ -25,6 +25,12 @@
   padding: $space-12;
   text-align: center;
 
+  @include hover-focus-active {
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
+    text-decoration: none;
+  }
+
   @include media-breakpoint-up(lg) {
     width: 20%;
   }
@@ -61,10 +67,8 @@
 }
 
 .tab-list-selected {
-  background-color: $brand-primary;
-  color: $white;
-
-  @include hover-focus-active {
-    color: $white;
+  @include plain-hover-focus() {
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
   }
 }

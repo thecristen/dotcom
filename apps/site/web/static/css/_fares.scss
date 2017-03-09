@@ -282,7 +282,18 @@ a {
 .common-fare-dark {
   border: 1px solid $brand-primary-dark;
   border-left: 6px solid $brand-primary-light;
+  color: $white;
   padding: $space-8;
+
+  @include hover-focus-active() {
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
+    text-decoration: none;
+
+    * {
+      color: $btn-primary-focus-color;
+    }
+  }
 
   ul {
     margin-bottom: $space-8;
@@ -290,17 +301,7 @@ a {
 
   li {
     border-top: 0;
-    color: $white;
     padding: $space-4;
-  }
-
-  &:hover {
-    background-color: transparentize($white, .8);
-    text-decoration: none;
-  }
-
-  .common-fare-type {
-    font-weight: bold;
   }
 
   .charlie-card-block {
@@ -314,6 +315,11 @@ a {
       padding-bottom: ($space-16 * 2);
     }
   }
+}
+
+.common-fare-type {
+  color: $brand-primary-light;
+  font-weight: bold;
 }
 
 .charlie-card-block {

@@ -11,6 +11,11 @@
   border-width: 1px;
   padding: $grid-gutter-width / 2;
 
+  @include hover-focus-active {
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
+  }
+
   @include media-breakpoint-down(sm) {
     font-size: $font-size-sm;
     line-height: $line-height-sm;
@@ -33,16 +38,12 @@
   @extend %button;
   background-color: transparent;
   background-image: none;
-  border-color: $brand-primary;
-  color: $brand-primary;
+  border-color: $btn-primary-bg;
+  color: $btn-primary-bg;
 
-  &:hover {
-    background-color: $brand-primary;
-
-    a,
-    div {
-      color: $white;
-    }
+  @include hover-focus-active {
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
   }
 }
 

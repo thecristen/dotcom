@@ -369,10 +369,6 @@ a {
     }
   }
 
-  a {
-    color: $gray-dark;
-  }
-
   tbody {
     border-bottom: 0;
 
@@ -384,6 +380,11 @@ a {
         display: block;
         padding: .75rem;
         text-decoration: none;
+
+        @include hover-focus {
+          background-color: $btn-primary-focus-bg;
+          color: $btn-primary-focus-color;
+        }
       }
     }
   }
@@ -414,12 +415,17 @@ a {
   background-color: $holiday-color;
 }
 
-.schedule-selected {
-  background-color: $brand-primary;
-  border: 1px solid $brand-primary;
+.schedule-today {
+  background-color: $today-color;
+}
 
-  a {
-    color: $white;
+.schedule-selected {
+  @include plain-hover-focus() {
+    background-color: $btn-primary-bg;
+
+    a {
+      color: $btn-primary-color;
+    }
   }
 }
 
@@ -427,10 +433,6 @@ a {
   a {
     color: $gray-light;
   }
-}
-
-.schedule-today {
-  background-color: $today-color;
 }
 
 .holiday-list {
