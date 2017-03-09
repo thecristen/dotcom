@@ -113,4 +113,20 @@ defmodule Schedules.RepoTest do
       assert trips == Enum.uniq(trips)
     end
   end
+
+  describe "end_of_rating/1" do
+    test "returns the date if it comes back from the API" do
+      error = %JsonApi.Error{
+        code: "no_service",
+        meta: %{
+          "end_date" => "2017-01-01"
+        }
+      }
+      assert ~D[2017-01-01] = end_of_rating(fn _ -> {:error, [error]} end)
+    end
+
+    test "returns nil if there are problems" do
+      refute end_of_rating(fn _ -> %JsonApi{} end)
+    end
+  end
 end

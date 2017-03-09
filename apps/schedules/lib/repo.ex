@@ -73,6 +73,18 @@ defmodule Schedules.Repo do
     end
   end
 
+  @spec end_of_rating() :: Date.t | nil
+  def end_of_rating(all_fn \\ &V3Api.Schedules.all/1) do
+    cache all_fn, fn all_fn ->
+      with {:error, [%{code: "no_service"} = error]} <- all_fn.(route: "Red", date: "1970-01-01"),
+           {:ok, date} <- Timex.parse(error.meta["end_date"], "{ISOdate}") do
+        NaiveDateTime.to_date(date)
+      else
+        _ -> nil
+      end
+    end
+  end
+
   defp all_from_params(params) do
     params
     |> V3Api.Schedules.all
