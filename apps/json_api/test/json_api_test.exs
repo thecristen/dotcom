@@ -1,6 +1,45 @@
 defmodule JsonApiTest do
   use ExUnit.Case, async: true
 
+  test ".parse parses an error into a JsonApi.Error struct" do
+    body = """
+    {
+      "jsonapi": {"version": "1.0"},
+      "errors": [
+        {
+          "code": "code",
+          "detail": "detail",
+          "source": {
+            "parameter": "name"
+          },
+          "meta": {
+            "key": "value"
+          }
+        }
+      ]
+    }
+    """
+    parsed = JsonApi.parse(body)
+    assert {:error, [
+               %JsonApi.Error{
+                 code: "code",
+                 detail: "detail",
+                 source: %{"parameter" => "name"},
+                 meta: %{"key" => "value"}}]} = parsed
+  end
+
+  test ".parse parses invalid JSON into an error tuple" do
+    assert {:error, _} = JsonApi.parse("invalid")
+  end
+
+  test ".parses valid JSON without data or errors into an invalid error tuple" do
+    assert {:error, :invalid} = JsonApi.parse("""
+    {
+      "jsonapi": {"version": "1.0"}
+    }
+    """)
+  end
+
   @lint {Credo.Check.Readability.MaxLineLength, false}
   _ = @lint
   test ".parse parses a body into a JsonApi struct" do

@@ -7,6 +7,16 @@ defmodule JsonApi.Item do
     relationships: %{String.t => list(JsonApi.Item.t)}}
 end
 
+defmodule JsonApi.Error do
+  defstruct [:code, :source, :detail, :meta]
+  @type t :: %__MODULE__{
+    code: String.t | nil,
+    source: String.t | nil,
+    detail: String.t | nil,
+    meta: %{String.t => any}
+  }
+end
+
 defmodule JsonApi do
   defstruct [:links, :data]
   @type t :: %JsonApi{
@@ -31,11 +41,16 @@ defmodule JsonApi do
 
   @spec parse(String.t) :: JsonApi.t | {:error, any}
   def parse(body) do
-    with {:ok, parsed} <- Poison.Parser.parse(body) do
+    with {:ok, parsed} <- Poison.Parser.parse(body),
+         {:ok, data} <- parse_data(parsed) do
       %JsonApi{
         links: parse_links(parsed),
-        data: parse_data(parsed)
+        data: data
       }
+    else
+      {:error, [_ | _] = errors} ->
+        {:error, parse_errors(errors)}
+      error -> error
     end
   end
 
@@ -49,18 +64,20 @@ defmodule JsonApi do
     %{}
   end
 
-  @spec parse_data(Poison.Parser.t) :: list(JsonApi.Item.t)
+  @spec parse_data(Poison.Parser.t) :: {:ok, [JsonApi.Item.t]} | {:error, any}
   defp parse_data(%{"data" => data} = parsed) when is_list(data) do
     included = parse_included(parsed)
-    data
-    |> Enum.map(&(parse_data_item(&1, included)))
+    {:ok, Enum.map(data, &parse_data_item(&1, included))}
   end
   defp parse_data(%{"data" => data} = parsed) do
     included = parse_included(parsed)
-    [parse_data_item(data, included)]
+    {:ok, [parse_data_item(data, included)]}
+  end
+  defp parse_data(%{"errors" => errors}) do
+    {:error, errors}
   end
   defp parse_data(%{}) do
-    []
+    {:error, :invalid}
   end
 
   def parse_data_item(%{"type" => type, "id" => id, "attributes" => attributes} = item, included) do
@@ -128,5 +145,18 @@ defmodule JsonApi do
     |> Enum.concat(data)
     |> Map.new(fn %{"type" => type, "id" => id} = item ->
       {{type, id}, item} end)
+  end
+
+  defp parse_errors(errors) do
+    Enum.map(errors, &parse_error/1)
+  end
+
+  defp parse_error(error) do
+    %JsonApi.Error{
+      code: error["code"],
+      detail: error["detail"],
+      source: error["source"],
+      meta: error["meta"] || %{}
+    }
   end
 end
