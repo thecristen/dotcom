@@ -4,12 +4,12 @@
     <h1>Reduced Fare Eligibility</h1>
 
     <div class="fare-callout-box">
-      <strong>Note:</strong> Children age 11 and under and persons who are blind or visually impaired ride all MBTA services for free.
+      <strong>Note:</strong> Children aged 11 years and under and persons who are blind or visually impaired ride all MBTA services for free. Discounts apply to One Way fares only.
     </div>
 
     <h2>Seniors</h2>
     <p>
-      People aged 65 and older are eligible for reduced fares on MBTA services.
+      People aged 65 years and older are eligible for reduced fares on MBTA services.
       Seniors must have a Senior CharlieCard in order to receive the reduced fare.
       Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>),
       or at a Senior CharlieCard Event
@@ -51,6 +51,9 @@
     <h2>Students</h2>
     <p>
       Middle and High School students are eligible for a reduced fare if their school issues them a Student CharlieCard. All Student CharlieCards expire on August 31st each year and are reissued by schools for the following year. Please direct all questions and concerns regarding lost, stolen, and/or replacements of Student CharlieCards to your school administrator.
+    </p>
+    <p>
+      College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school.
     </p>
     <p>
       School administrators can learn more by <%= link "visiting the pass program website", to: redirect_path(@conn, "pass_program") %> or by calling <%= tel_link "(617) 222-5710" %>.

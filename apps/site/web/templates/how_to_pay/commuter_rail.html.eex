@@ -28,9 +28,7 @@
       <h3>mTicket App</h3>
       <p>
         You can purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.
-        Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However,
-        passes purchased through mTicket app are not valid for use on Bus and Subway like they are on a
-        CharlieTicket. Available on the iPhone App Store and Google Play.
+        Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, unlike passes loaded onto a CharlieTicket, mTicket passes are not valid for use on the Bus and Subway. Available on the iPhone App Store and Google Play.
       </p>
       <p>
         <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
@@ -45,8 +43,8 @@
     <div class="col-md-6 col-xs-12">
       <h3>Fare Vending Machine</h3>
       <p>
-        You can load One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and
-        Subway travel as well) Passes onto a CharlieTicket at a fare vending machine, found in all
+        You can load a One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and
+        Subway travel as well) Pass onto a CharlieTicket at a fare vending machine, found in all
         Subway stations and the following Commuter Rail stations:
       </p>
       <p><%= Site.FareView.vending_machine_stations() %></p>

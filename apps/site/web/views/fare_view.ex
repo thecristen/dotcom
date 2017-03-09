@@ -15,19 +15,19 @@ defmodule Site.FareView do
   @spec fare_type_note(Fare.t) :: Phoenix.HTML.Safe.t | nil
   def fare_type_note(%Fare{reduced: :student}) do
     content_tag :span do
-      "Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. Student discounts apply to One Way fares only -- discounts for passes not available. College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."
+      "Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. Student discounts apply to One Way fares only. Discounts for passes are not available. College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."
     end
   end
   def fare_type_note(%Fare{reduced: :senior_disabled}) do
     content_tag :span do
-      ["People 65 or older and persons with disabilities qualify for a reduced fare on Bus and Subway. Seniors must obtain a Senior CharlieCard and persons with disabilities must apply for a ",
+      ["People aged 65 years or older and persons with disabilities qualify for a reduced fare on Bus and Subway. Seniors must obtain a Senior CharlieCard and persons with disabilities must apply for a ",
      (link "Transportation Access Pass (TAP) ", to: fare_path(Site.Endpoint, :show, :reduced)<>"#reduced-disability", data: [turbolinks: "false"]),
-      "in order to receive a reduced fare. Discounts apply to One Way fares only -- discounts for passes not available."]
+      "in order to receive a reduced fare. Discounts apply to One Way fares only. Discounts for passes are not available."]
     end
   end
   def fare_type_note(%Fare{reduced: nil, mode: mode}) when mode in [:bus, :subway] do
     content_tag :span do
-      "To view prices and details for fare passes, click on the “Passes” tab below."
+      "If you would like information on purchasing more than one trip, click on the “Passes” tab below."
     end
   end
   def fare_type_note(%Fare{reduced: nil, mode: :ferry}) do
@@ -149,9 +149,9 @@ defmodule Site.FareView do
   def origin_destination_description(:commuter_rail) do
     content_tag :p do
       [
-        "Fares for the Commuter Rail are separated into zones that depend on your origin and destination ",
-        link("(view map of fare zones)", to: "http://www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg"),
-        "."
+        "Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into ",
+        link("Zones 1A-10", to: "http://www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg"),
+        ". Enter two stops below to find your trip's exact fare."
       ]
     end
   end

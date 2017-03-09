@@ -1,7 +1,7 @@
 <div class="how-to-pay-sub-section col-md-6 col-xs-12">
   <h3>Select Bus and Subway Stations</h3>
   <p>
-    To take advantage of discounted One Way fares, you can get a blank CharlieCard from an MBTA Customer Service agent working at the following stations:
+    You can get a free, blank CharlieCard from an MBTA Customer Service agent working at the following stations:
   </p>
     <p><%= Site.FareView.charlie_card_stations() %></p>
 </div>
