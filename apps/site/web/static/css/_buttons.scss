@@ -5,16 +5,12 @@
 %button {
   // scss-lint:disable PlaceholderInExtend
   @extend .btn;
+  @extend %button-focus-color;
   border-color: $gray-lightest;
   border-radius: 0;
   border-style: solid;
   border-width: 1px;
   padding: $grid-gutter-width / 2;
-
-  @include hover-focus-active {
-    background-color: $btn-primary-focus-bg;
-    color: $btn-primary-focus-color;
-  }
 
   @include media-breakpoint-down(sm) {
     font-size: $font-size-sm;
@@ -40,10 +36,34 @@
   background-image: none;
   border-color: $btn-primary-bg;
   color: $btn-primary-bg;
+}
 
+%button-focus-color {
+  // helper to give an element the focus coloring of a button
   @include hover-focus-active {
     background-color: $btn-primary-focus-bg;
     color: $btn-primary-focus-color;
+
+    * {
+      color: $btn-primary-focus-color;
+    }
+  }
+}
+
+%button-selected-color {
+  // helper to give an element the selected coloring
+  @include plain-hover-focus {
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
+
+    * {
+      color: $btn-primary-color;
+    }
+
+    .icon {
+      // make the icon white
+      @extend %icon-inverse;
+    }
   }
 }
 

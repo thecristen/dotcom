@@ -65,19 +65,16 @@ $z-index-calendar-cover: 4;
 
 a {
   &.trip-list-v2-row {
+    @extend %button-focus-color;
+
     @include hover-focus-active() {
-      background-color: $btn-primary-focus-bg;
       border-bottom-color: $btn-primary-focus-bg;
       border-top-color: $btn-primary-focus-bg;
-      color: $btn-primary-focus-color;
     }
   }
 
   &.trip-list-v2-row-selected {
-    @include plain-hover-focus() {
-      background-color: $btn-primary-bg;
-      color: $btn-primary-color;
-    }
+    @extend %button-selected-color;
 
     @include media-breakpoint-up(md) {
       &::after {

@@ -37,17 +37,13 @@
 }
 
 .station-route-row {
+  @extend %button-focus-color;
   border-bottom: 1px solid $gray-lightest;
   border-left: 1px solid $gray-lightest;
   border-right: 1px solid $gray-lightest;
   display: block;
   padding-bottom: .5em;
   padding-top: .5em;
-
-  @include hover-focus-active() {
-    background: $btn-primary-focus-bg;
-    color: $btn-primary-focus-color;
-  }
 
   .column-name {
     font-weight: bold;

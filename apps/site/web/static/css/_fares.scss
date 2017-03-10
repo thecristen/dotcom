@@ -280,19 +280,14 @@ a {
 }
 
 .common-fare-dark {
+  @extend %button-focus-color;
   border: 1px solid $brand-primary-dark;
   border-left: 6px solid $brand-primary-light;
   color: $white;
   padding: $space-8;
 
   @include hover-focus-active() {
-    background-color: $btn-primary-focus-bg;
-    color: $btn-primary-focus-color;
     text-decoration: none;
-
-    * {
-      color: $btn-primary-focus-color;
-    }
   }
 
   ul {

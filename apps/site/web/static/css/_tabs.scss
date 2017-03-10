@@ -19,6 +19,7 @@
 }
 
 .tab-list-tab {
+  @extend %button-focus-color;
   border: 1px solid $brand-primary;
   display: inline-block;
   margin-bottom: -1 * $space-2;
@@ -26,8 +27,6 @@
   text-align: center;
 
   @include hover-focus-active {
-    background-color: $btn-primary-focus-bg;
-    color: $btn-primary-focus-color;
     text-decoration: none;
   }
 
@@ -67,8 +66,5 @@
 }
 
 .tab-list-selected {
-  @include plain-hover-focus() {
-    background-color: $btn-primary-bg;
-    color: $btn-primary-color;
-  }
+  @extend %button-selected-color;
 }

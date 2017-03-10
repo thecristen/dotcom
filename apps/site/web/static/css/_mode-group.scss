@@ -37,16 +37,12 @@
   @extend .btn;
   @include button-variant($link-color, white, $gray-lightest);
   @extend .btn-block;
+  @extend %button-focus-color;
 
   margin-bottom: $grid-gutter-width / 4;
   margin-top: $grid-gutter-width / 4;
   padding-bottom: $base-spacing-sm;
   padding-top: $base-spacing-sm;
-
-  @include hover-focus-active {
-    background-color: $btn-primary-focus-bg;
-    color: $btn-primary-focus-color;
-  }
 
   @include media-breakpoint-down(sm) {
     // small button

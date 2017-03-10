@@ -364,14 +364,10 @@ a {
       padding: 0;
 
       a {
+        @extend %button-focus-color;
         display: block;
         padding: .75rem;
         text-decoration: none;
-
-        @include hover-focus {
-          background-color: $btn-primary-focus-bg;
-          color: $btn-primary-focus-color;
-        }
       }
     }
   }
@@ -407,13 +403,7 @@ a {
 }
 
 .schedule-selected {
-  @include plain-hover-focus() {
-    background-color: $btn-primary-bg;
-
-    a {
-      color: $btn-primary-color;
-    }
-  }
+  @extend %button-selected-color;
 }
 
 .schedule-next-month {
