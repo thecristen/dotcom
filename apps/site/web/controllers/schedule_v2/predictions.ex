@@ -37,6 +37,8 @@ defmodule Site.ScheduleV2Controller.Predictions do
     |> Keyword.merge(prediction_query(origin, destination, direction_id))
     |> predictions_fn.()
     |> filter_stop_at_origin(origin.id)
+    |> Enum.filter(fn pred ->
+      (pred.trip != nil || pred.status != nil) end)
 
     assign(conn, :predictions, predictions)
   end
