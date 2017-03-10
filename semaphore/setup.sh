@@ -1,12 +1,14 @@
 set -e
-ELIXIR_VERSION=1.4.0
+ELIXIR_VERSION=1.4.2
 ERLANG_VERSION=19
 
 mkdir -p $SEMAPHORE_CACHE_DIR/gems $SEMAPHORE_CACHE_DIR/npm $SEMAPHORE_CACHE_DIR/mix
 
 # Turn off some high-memory apps
-test -x /etc/init.d/cassandra && sudo /etc/init.d/cassandra stop
-test -x /etc/init.d/elasticsearch && sudo /etc/init.d/elasticsearch stop
+for service in cassandra elasticsearch mysql rabbitmq-server mongod docker memcached postgresql apache2 redis-server; do
+    sudo service $service stop
+done
+killall Xvfb
 
 export MIX_HOME=$SEMAPHORE_CACHE_DIR/mix
 
