@@ -1,22 +1,25 @@
 <%= render "_trip_view_filters.html", forward_assigns(@conn) %>
-<%= if Enum.empty?(@all_stops) do %>
-  <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination %>
-<% else %>
-  <%= render "_stop_filters.html", forward_assigns(@conn) %>
-
-  <%= if (assigns[:stop_times] && @stop_times.times == []) && @origin && @destination && !Route.subway?(@route.type) do %>
+<div class="calendar-covered">
+  <%= if @show_date_select?, do: content_tag(:div, "", [class: "calendar-cover"]) %>
+  <%= if Enum.empty?(@all_stops) do %>
     <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination %>
-  <% end %>
+  <% else %>
+    <%= render "_stop_filters.html", forward_assigns(@conn) %>
 
-  <%= if @origin do %>
-    <div class="trip-list-v2-container">
-      <%= if assigns[:stop_times] do %>
-        <%= if @route.type == 2 do %>
-          <%= render "_commuter_trip_list.html", forward_assigns(@conn) %>
-        <% else %>
-          <%= render "_trip_list.html", forward_assigns(@conn) %>
+    <%= if (assigns[:stop_times] && @stop_times.times == []) && @origin && @destination && !Route.subway?(@route.type) do %>
+      <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination %>
+    <% end %>
+
+    <%= if @origin do %>
+      <div class="trip-list-v2-container">
+        <%= if assigns[:stop_times] do %>
+          <%= if @route.type == 2 do %>
+            <%= render "_commuter_trip_list.html", forward_assigns(@conn) %>
+          <% else %>
+            <%= render "_trip_list.html", forward_assigns(@conn) %>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>
