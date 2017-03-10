@@ -105,6 +105,8 @@
   }
 
   .route-stop-name-icons {
+    padding-top: $space-8;
+
     @include media-breakpoint-only(xs) {
       padding-left: $base-spacing * 1.5;
     }
