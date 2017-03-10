@@ -218,31 +218,31 @@ defmodule Site.ViewHelpers do
     |> Kernel.<>(" mi")
   end
 
-  @spec mode_summaries(atom, {atom, String.t} | nil) :: [Fares.Summary.t]
+  @spec mode_summaries(atom, {atom, String.t} | nil, String.t | nil) :: [Fares.Summary.t]
   @doc "Return the fare summaries for the given mode"
-  def mode_summaries(mode_atom, name \\ nil)
-  def mode_summaries(:commuter_rail, nil) do
+  def mode_summaries(mode_atom, name \\ nil, url \\ nil)
+  def mode_summaries(:commuter_rail, nil, _url) do
     :commuter_rail
     |> mode_filters(nil)
     |> summaries_for_filters(:commuter_rail)
   end
-  def mode_summaries(:commuter_rail, name) do
+  def mode_summaries(:commuter_rail, name, url) do
     :commuter_rail
     |> mode_filters(name)
-    |> summaries_for_filters(:commuter_rail)
-    |> Enum.map(fn(summary) -> %{summary | modes: [:commuter_rail]} end)
+    |> get_fares
+    |> Enum.map(&(Fares.Format.summarize_one(&1, :commuter_rail, url: url)))
   end
-  def mode_summaries(:ferry, name) do
+  def mode_summaries(:ferry, name, _url) do
     :ferry
     |> mode_filters(name)
     |> summaries_for_filters(:ferry)
   end
-  def mode_summaries(:bus, name) do
+  def mode_summaries(:bus, name, _url) do
     :local_bus
     |> mode_filters(name)
     |> summaries_for_filters(:bus_subway)
   end
-  def mode_summaries(mode, name) do
+  def mode_summaries(mode, name, _url) do
     mode
     |> mode_filters(name)
     |> summaries_for_filters(:bus_subway)
@@ -254,8 +254,8 @@ defmodule Site.ViewHelpers do
      [mode: :ferry, duration: :month, reduced: nil]]
   end
   defp mode_filters(:commuter_rail, nil) do
-    [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
-     [mode: :commuter_rail, duration: :month, reduced: nil]]
+    [[mode: :commuter_rail, duration: :single_trip, reduced: nil, includes_media: :cash],
+     [mode: :commuter_rail, duration: :month, reduced: nil, includes_media: :commuter_ticket]]
   end
   defp mode_filters(:commuter_rail, name) do
     :commuter_rail
@@ -278,9 +278,13 @@ defmodule Site.ViewHelpers do
      [name: mode, duration: :month, reduced: nil]]
   end
 
+  defp get_fares(filters) do
+    filters |> Enum.flat_map(&Fares.Repo.all/1)
+  end
+
   @spec summaries_for_filters([keyword()], atom) :: [Fares.Summary.t]
   defp summaries_for_filters(filters, mode) do
-    filters |> Enum.flat_map(&Fares.Repo.all/1) |> Fares.Format.summarize(mode)
+    filters |> get_fares |> Fares.Format.summarize(mode)
   end
 
   def schedule_path(conn_or_endpoint, method, arg, opts \\ [])
