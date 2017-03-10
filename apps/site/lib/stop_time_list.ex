@@ -34,11 +34,11 @@ defmodule StopTimeList do
   """
   @spec build_predictions_only([Schedule.t], [Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
   def build_predictions_only(schedules, predictions, origin_id, destination_id) do
-    schedules
+    stop_time = schedules
     |> build_times(predictions, origin_id, destination_id)
     |> Enum.filter(&StopTime.has_departure_prediction?/1)
-    |> Enum.take(5)
     |> from_times(:keep_all, nil)
+    %{stop_time | times: Enum.take(stop_time.times, 5)}
   end
 
   @spec build_times([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
