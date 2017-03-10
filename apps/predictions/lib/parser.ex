@@ -41,6 +41,7 @@ defmodule Predictions.Parser do
     end
   end
 
+  @spec schedule_relationship(String.t) :: Prediction.schedule_relationship
   defp schedule_relationship("ADDED"), do: :added
   defp schedule_relationship("UNSCHEDULED"), do: :unscheduled
   defp schedule_relationship("CANCELLED"), do: :cancelled

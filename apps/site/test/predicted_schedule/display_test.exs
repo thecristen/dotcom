@@ -63,7 +63,7 @@ defmodule PredictedSchedule.DisplayTest do
     test "if the trip is cancelled, only crosses out the schedule time" do
       result = %PredictedSchedule{
         schedule: %Schedule{route: @commuter_route, time: @schedule_time},
-        prediction: %Prediction{route: @commuter_route, schedule_relationship: :canceled}}
+        prediction: %Prediction{route: @commuter_route, schedule_relationship: :cancelled}}
         |> time
         |> safe_to_string
 
