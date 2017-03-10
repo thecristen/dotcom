@@ -5,7 +5,7 @@
 <ul class="route-holiday-info">
   <%= for holiday <- @holidays do %>
     <li>
-      <%= holiday.name %> <small>(<%= format_full_date(holiday.date) %>)</small>
+      <%= holiday.name %> (<%= format_full_date(holiday.date) %>)
     </li>
   <% end %>
 </ul>
