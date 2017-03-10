@@ -658,6 +658,16 @@ defmodule StopTimeListTest do
       end
     end
 
+    test "Results contain the first 5 predictions regardless of original order" do
+      # trip needs to have a headsign to trigger bug
+      early_prediction = %Prediction{trip: %Trip{id: "trip0", headsign: "other"},
+                                     route: @route,
+                                     stop: %Stop{id: "stop1"},
+                                     time: ~N[2017-01-01T00:00:00]}
+      result = build_predictions_only([], @origin_destination_predictions ++ [early_prediction], "stop1", nil).times
+      assert List.first(result).departure.prediction == early_prediction
+    end
+
     test "Results contain no schedules for origin and destination" do
 
       # -----------------------------------------------------
