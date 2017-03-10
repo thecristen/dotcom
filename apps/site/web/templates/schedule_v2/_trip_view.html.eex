@@ -1,3 +1,4 @@
+<%= render "_trip_view_filters.html", forward_assigns(@conn) %>
 <%= if Enum.empty?(@all_stops) do %>
   <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination %>
 <% else %>

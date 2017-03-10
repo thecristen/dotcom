@@ -1,3 +1,4 @@
+<%= render "_trip_view_filters.html", forward_assigns(@conn) %>
 <div class="schedule-v2-timetable-container" data-sticky-container>
   <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later commuter-rail">
     <tr>
