@@ -162,36 +162,23 @@ a {
   }
 
   &.selected-period-header {
-    background-color: $brand-primary-dark;
-    border-color: $brand-primary-dark;
-    color: $white;
-
-    .alert-image {
-      fill: $white;
-    }
-
-    @include hover-focus-active {
-      // we override the default and keep the same colors in the hover state.
-      // iOS doesn't distinguish between these cases and it looks strange
-      // when toggling between schedule groups. -ps
+    @include plain-hover-focus {
       background-color: $brand-primary-dark;
       border-color: $brand-primary-dark;
       color: $white;
 
-      + .schedule-list-group-item {
-        border-color: $brand-primary-dark;
+      .alert-image {
+        fill: $white;
       }
     }
 
-    @media (pointer: fine) {
-      // if we have a mouse, use the regular focus colors
-      @include hover-focus-active {
-        background-color: $brand-primary-lightest;
-        border-color: $brand-primary-lightest;
+    @include hover-focus {
+      // we override the default and keep the same colors in the hover state.
+      // iOS doesn't distinguish between these cases and it looks strange
+      // when toggling between schedule groups. -ps
 
-        + .schedule-list-group-item {
-          border-color: $brand-primary-lightest;
-        }
+      + .schedule-list-group-item {
+        border-color: $brand-primary-dark;
       }
     }
 
