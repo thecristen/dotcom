@@ -78,7 +78,7 @@ defmodule PredictedSchedule.Display do
   defp do_display_time(%PredictedSchedule{
         schedule: %Schedule{} = schedule,
         prediction: %Prediction{time: nil, schedule_relationship: relationship}})
-  when relationship in [:canceled, :skipped] do
+  when relationship in [:cancelled, :skipped] do
     content_tag :del, schedule.time |> format_schedule_time |> do_realtime
   end
   defp do_display_time(%PredictedSchedule{prediction: %Prediction{time: nil, status: nil}}) do
