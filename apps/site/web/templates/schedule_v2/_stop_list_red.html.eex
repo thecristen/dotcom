@@ -9,9 +9,6 @@
           <%= view_branch_link(@conn, "braintree", branch_name) %>
         <% else %>
           <%= hide_branch_link(@conn, branch_name) %>
-          <%= link to: update_url(@conn, expanded: nil), class: "branch-link" do %>
-            Hide Braintree Branch <%= fa "caret-up" %>
-          <% end %>
         <% end %>
       </div>
     </div>
