@@ -45,6 +45,7 @@ defmodule Site.FareView do
   end
 
   @spec summary_url(Summary.t) :: String.t
+  def summary_url(%Summary{url: url}) when not is_nil(url), do: url
   def summary_url(%Summary{modes: [subway_or_bus | _], duration: duration}) when subway_or_bus in [:subway, :bus] do
     opts = if duration in ~w(day week month)a do
       [filter: "passes"]

@@ -37,7 +37,11 @@ $location-line-width: $space-6;
 
 %stop-bubble-first {
   .stop-bubble::before {
-    height: 90%;
+    // NB: The seemingly magic number 98% keeps the lines long enough
+    // to hit the next stop bubble without overlapping and causing
+    // visual noise. This may require adjustment if the height of the
+    // rows changes in the future
+    height: 98%;
     top: $space-2;
   }
 }

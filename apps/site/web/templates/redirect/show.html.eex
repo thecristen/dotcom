@@ -12,7 +12,7 @@
         Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
       </a>
       <%= if @mobile_enabled do %>
-        <a class="btn btn-primary btn-block hidden-md-up" role="button" href="http://mobile.usablenet.com/mt/<%= strip_protocol(@redirect) %>">
+        <a class="btn btn-primary btn-small hidden-md-up" role="button" href="http://mobile.usablenet.com/mt/<%= strip_protocol(@redirect) %>">
           Take me there<span class="sr-only"> (mobile version)</span> <%= fa "arrow-right" %>
         </a>
       <% end %>

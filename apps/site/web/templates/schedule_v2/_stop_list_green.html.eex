@@ -14,7 +14,7 @@
           </div>
         </div>
       <% end %>
-      <div class="col-xs-7 col-sm-8">
+      <div class="col-xs-7 col-md-8">
         <div class="route-stop-name-icons route-stop route-stop-green route-expand-branch">
           <%= if branch_to_expand == @expanded do %>
             <%= hide_branch_link(@conn, branch) %>
@@ -42,7 +42,7 @@
           </div>
         </div>
       <% end %>
-      <div class="col-xs-7 col-sm-8">
+      <div class="col-xs-7 col-md-8">
         <%= stop_name_and_icons(@conn, stop, @stop_features[stop.id]) %>
       </div>
     </div>

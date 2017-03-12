@@ -11,7 +11,7 @@
   "cowlib": {:hex, :cowlib, "1.0.2", "9d769a1d062c9c3ac753096f868ca121e2730b9a377de23dec0f7e08b1df84ee", [:make], []},
   "credo": {:hex, :credo, "0.5.3", "0c405b36e7651245a8ed63c09e2d52c2e2b89b6d02b1570c4d611e0fcbecf4a2", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
   "csv": {:hex, :csv, "1.4.4", "992f2e1418849a326fd1d9287801fa2d86091db4f9611f60781da6d236f64cd4", [:mix], [{:parallel_stream, "~> 1.0.4", [hex: :parallel_stream, optional: false]}]},
-  "dialyxir": {:hex, :dialyxir, "0.4.3", "a4daeebd0107de10d3bbae2ccb6b8905e69544db1ed5fe9148ad27cd4cb2c0cd", [:mix], []},
+  "dialyxir": {:hex, :dialyxir, "0.5.0", "5bc543f9c28ecd51b99cc1a685a3c2a1a93216990347f259406a910cf048d1d7", [:mix], []},
   "earmark": {:hex, :earmark, "1.1.0", "8c2bf85d725050a92042bc1edf362621004d43ca6241c756f39612084e95487f", [:mix], []},
   "ehmon": {:git, "https://github.com/heroku/ehmon.git", "8831d2e138d866ac0f23206eb3436877a93633b9", [tag: "v4"]},
   "erlware_commons": {:hex, :erlware_commons, "0.22.0", "051bed79a34e66678c1cbeebc7b66360c827d081a0c5e2528878011e31ddcdca", [:rebar3], [{:cf, "0.2.2", [hex: :cf, optional: false]}]},

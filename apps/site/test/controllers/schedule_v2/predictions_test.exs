@@ -48,11 +48,47 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> assign(:direction_id, "0")
       |> call([predictions_fn: fn [route: "4", stop: "place-sstat", direction_id: "0"] -> @empty end])
 
-      assert conn.assigns[:predictions] == @empty
+      assert conn.assigns[:predictions] == []
     end
 
     test "ignores predictions which have the origin as their destination", %{conn: conn} do
-      prediction = %Predictions.Prediction{time: ~N[2017-01-01T00:00:00], stop: %Stops.Stop{id: "origin"}, departing?: false}
+      prediction = %Predictions.Prediction{time: ~N[2017-01-01T00:00:00], stop: %Stops.Stop{id: "origin"}, trip: 1234, departing?: false}
+      conn = conn
+      |> assign(:origin, %Stops.Stop{id: "origin"})
+      |> assign(:destination, nil)
+      |> assign(:route, %{id: "4"})
+      |> assign(:direction_id, "0")
+      |> call([predictions_fn: fn (_) -> [prediction] end])
+
+      assert conn.assigns.predictions == []
+    end
+
+    test "does not ignore predictions which have a trip id but not status", %{conn: conn} do
+      prediction = %Predictions.Prediction{time: ~N[2017-01-01T00:00:00], stop: %Stops.Stop{id: "destination"}, status: nil, trip: 1234, departing?: false}
+      conn = conn
+      |> assign(:origin, %Stops.Stop{id: "origin"})
+      |> assign(:destination, nil)
+      |> assign(:route, %{id: "4"})
+      |> assign(:direction_id, "0")
+      |> call([predictions_fn: fn (_) -> [prediction] end])
+
+      assert conn.assigns.predictions == [prediction]
+    end
+
+    test "does not ignore predictions which have a status but not a trip id", %{conn: conn} do
+      prediction = %Predictions.Prediction{time: ~N[2017-01-01T00:00:00], stop: %Stops.Stop{id: "destination"}, status: "On Time", trip: nil, departing?: false}
+      conn = conn
+      |> assign(:origin, %Stops.Stop{id: "origin"})
+      |> assign(:destination, nil)
+      |> assign(:route, %{id: "4"})
+      |> assign(:direction_id, "0")
+      |> call([predictions_fn: fn (_) -> [prediction] end])
+
+      assert conn.assigns.predictions == [prediction]
+    end
+
+    test "ignores predictions which do not have a trip id or a status", %{conn: conn} do
+      prediction = %Predictions.Prediction{time: ~N[2017-01-01T00:00:00], stop: %Stops.Stop{id: "destination"}, status: nil, trip: nil, departing?: false}
       conn = conn
       |> assign(:origin, %Stops.Stop{id: "origin"})
       |> assign(:destination, nil)
@@ -64,7 +100,7 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
     end
 
     test "keeps predictions without a time", %{conn: conn} do
-      prediction = %Predictions.Prediction{stop: %Stops.Stop{id: "origin"}, departing?: false}
+      prediction = %Predictions.Prediction{stop: %Stops.Stop{id: "origin"}, trip: 1234, departing?: false}
       conn = conn
       |> assign(:origin, %Stops.Stop{id: "origin"})
       |> assign(:destination, nil)
@@ -90,7 +126,7 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       |> assign(:direction_id, "0")
       |> call([predictions_fn: fn [route: "66", stop: "1148,21148"] -> @empty end])
 
-      assert conn.assigns[:predictions] == @empty
+      assert conn.assigns[:predictions] == []
     end
 
     test "assigns a list containing predictions for every stop with a vehicle at it", %{conn: conn} do

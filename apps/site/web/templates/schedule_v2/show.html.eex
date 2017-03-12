@@ -6,27 +6,23 @@
     </span>
     <%= route_header_text(@route) %>
   </h1>
-  <%= if @tab in ["timetable", "trip-view"], do: render "_trip_view_filters.html", forward_assigns(@conn) %>
 
-  <div class="calendar-covered">
-    <%= if @show_date_select?, do: content_tag(:div, "", [class: "calendar-cover"]) %>
-    <%= if @tab in ["timetable", "trip-view"], do: Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
-    <%= if @route.type == 2 do %>
-      <%= tab_list(%TabList{
-        links: [
-          {"Timetable", update_url(@conn, tab: "timetable"), tab_selected?("timetable", @tab)},
-          {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
-          {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
-        ]
-      }) %>
-    <% else %>
-      <%= tab_list(%TabList{
-        links: [
-          {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
-          {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
-        ]
-      }) %>
-    <% end %>
-    <%= render template_for_tab(@tab), forward_assigns(@conn) %>
-  </div>
+  <%= if @tab in ["timetable", "trip-view"], do: Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
+  <%= if @route.type == 2 do %>
+    <%= tab_list(%TabList{
+      links: [
+        {"Timetable", update_url(@conn, tab: "timetable"), tab_selected?("timetable", @tab)},
+        {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
+        {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
+      ]
+    }) %>
+  <% else %>
+    <%= tab_list(%TabList{
+      links: [
+        {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
+        {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
+      ]
+    }) %>
+  <% end %>
+  <%= render template_for_tab(@tab), forward_assigns(@conn) %>
 </div>

@@ -1,61 +1,70 @@
-<div class="schedule-v2-timetable-container" data-sticky-container>
-  <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later commuter-rail">
-    <tr>
-      <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
-        Stop
-        <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" aria-hidden="true">
-          <%= fa "angle-left" %>
-          <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
-        </div>
-      </th>
-      <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
-        <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
-          <%= schedule.trip.name %>
-          <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
-            <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
+<%= render "_trip_view_filters.html", forward_assigns(@conn) %>
+
+<div class="calendar-covered">
+  <%= if @show_date_select?, do: content_tag(:div, "", [class: "calendar-cover"]) %>
+  <%= if Enum.empty?(@header_schedules) do %>
+    <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination %>
+  <% else %>
+    <div class="schedule-v2-timetable-container" data-sticky-container>
+      <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later commuter-rail">
+        <tr>
+          <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
+            Stop
+            <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" aria-hidden="true">
+              <%= fa "angle-left" %>
+              <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
+            </div>
+          </th>
+          <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
+            <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
+              <%= schedule.trip.name %>
+              <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
+                <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
+              <% end %>
+            </th>
           <% end %>
-        </th>
-      <% end %>
-      <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
-        <%= fa "angle-right" %>
-        <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
-      </th>
-    </tr>
-    <%= for {stop, terminus?} <- EnumHelpers.with_first_last(@all_stops) do %>
-      <tr class="schedule-v2-timetable-row">
-        <td class="schedule-v2-timetable-name-col" data-sticky="left">
-          <div class="stop-bubble hidden-sm-down">
-            <%= stop_bubble_location_display(false, @route.type, terminus?) %>
-          </div>
-          <div class="schedule-v2-timetable-name">
-            <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>&nbsp;<%=
-              if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do
-                fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}]
-              end
-            %>
-          </div>
-          <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier"></div>
-        </td>
-        <%= for schedule <- @header_schedules do %>
-          <td class="schedule-v2-timetable-col">
-            <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
-              <%= format_schedule_time(trip_schedule.time) %>
+          <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
+            <%= fa "angle-right" %>
+            <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
+          </th>
+        </tr>
+        <%= for {stop, terminus?} <- EnumHelpers.with_first_last(@all_stops) do %>
+          <tr class="schedule-v2-timetable-row">
+            <td class="schedule-v2-timetable-name-col" data-sticky="left">
+              <div class="stop-bubble hidden-sm-down">
+                <%= stop_bubble_location_display(false, @route.type, terminus?) %>
+              </div>
+              <div class="schedule-v2-timetable-name">
+                <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>&nbsp;<%=
+                                                                                                      if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do
+                                                                                                      fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}]
+                                                                                                      end
+                                                                                                      %>
+              </div>
+              <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier"></div>
+            </td>
+            <%= for schedule <- @header_schedules do %>
+              <td class="schedule-v2-timetable-col">
+                <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
+                  <%= format_schedule_time(trip_schedule.time) %>
+                <% end %>
+                <% prediction = prediction_for_vehicle_location(@conn, stop.id, schedule.trip.id) %>
+                <% vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] %>
+                <span data-html=true data-toggle="tooltip"
+                      title="<%= prediction_tooltip(prediction, stop.name, vehicle, @route.type) %>">
+                  <%= timetable_location_display(vehicle) %>
+                </span>
+                <%= if trip_message = @trip_messages[{schedule.trip.name, stop.id}] do %>
+                  <span class="schedule-v2-timetable-trip-message">
+                    <%= trip_message %>
+                  </span>
+                <% end %>
+              </td>
             <% end %>
-            <% prediction = prediction_for_vehicle_location(@conn, stop.id, schedule.trip.id) %>
-            <% vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] %>
-            <span data-html=true data-toggle="tooltip"
-              title="<%= prediction_tooltip(prediction, stop.name, vehicle, @route.type) %>">
-              <%= timetable_location_display(vehicle) %>
-            </span>
-            <%= if trip_message = @trip_messages[{schedule.trip.name, stop.id}] do %>
-              <span class="schedule-v2-timetable-trip-message">
-                <%= trip_message %>
-              </span>
-            <% end %>
-          </td>
+            <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later" data-sticky="right"></td>
+          </tr>
         <% end %>
-        <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later" data-sticky="right"></td>
-      </tr>
-    <% end %>
-  </table>
+      </table>
+    </div>
+  <% end %>
 </div>

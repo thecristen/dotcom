@@ -171,16 +171,21 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "_trip_view.html" do
-    test "renders a message if no scheduled trips" do
+    test "renders a message if no scheduled trips", %{conn: conn} do
+      conn = conn
+      |> assign(:all_stops, [])
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:destination, nil)
+      |> assign(:origin, nil)
+      |> assign(:route, %Routes.Route{})
+      |> assign(:direction_id, 1)
+      |> assign(:show_date_select?, false)
+      |> assign(:headsigns, %{0 => [], 1 => []})
+      |> fetch_query_params
+
       output = Site.ScheduleV2View.render(
         "_trip_view.html",
-        conn: build_conn(),
-        all_stops: [],
-        date: ~D[2017-01-01],
-        destination: nil,
-        origin: nil,
-        route: %Routes.Route{},
-        direction_id: 1
+        Keyword.merge(Keyword.new(conn.assigns), conn: conn)
       ) |> safe_to_string
 
       assert output =~ "There are no scheduled inbound trips on January 1, 2017."
@@ -539,19 +544,27 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "hide_branch_link/2" do
     test "generates a link to hide the given branch", %{conn: conn} do
-      link = conn |> get("/", expanded: "braintree") |> hide_branch_link("Braintree") |> safe_to_string
+      link = conn
+      |> get("/", expanded: "braintree")
+      |> hide_branch_link("Braintree")
+      |> safe_to_string
+      |> Floki.find(".branch-link")
 
-      assert link =~ "Hide Braintree Branch"
-      refute link =~ "?expanded=braintree"
+      assert link |> Floki.text |> String.trim() =~ "Hide Braintree Branch"
+      refute link |> Floki.attribute("href") |> List.first =~ "?expanded=braintree"
     end
   end
 
   describe "view_branch_link/3" do
     test "generates a link to view the given branch", %{conn: conn} do
-      link = conn |> fetch_query_params |> view_branch_link("braintree", "Braintree") |> safe_to_string
+      link = conn
+      |> fetch_query_params
+      |> view_branch_link("braintree", "Braintree")
+      |> safe_to_string
+      |> Floki.find(".branch-link")
 
-      assert link =~ "View Braintree Branch"
-      assert link =~ "?expanded=braintree"
+      assert link |> Floki.text |> String.trim() =~ "View Braintree Branch"
+      assert link |> Floki.attribute("href") |> List.first =~ "?expanded=braintree"
     end
   end
 
