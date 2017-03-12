@@ -79,11 +79,7 @@ defmodule TripInfo do
   defp vehicle_stop_name(vehicle, times) do
     case Enum.find(times, &PredictedSchedule.stop(&1).id == vehicle.stop_id) do
       nil -> ""
-      schedule ->
-        case schedule.prediction do
-          nil -> ""
-          _ -> schedule.prediction.stop.name
-        end
+      schedule -> PredictedSchedule.stop(schedule).name
     end
   end
 
@@ -156,7 +152,7 @@ defmodule TripInfo do
         [vehicle[route_type], " has left ", vehicle_stop_name, "."]
     end
   end
-  def full_status(_), do: nil
+  def full_status(_), do: ""
 
   @doc """
   Returns a list of either :separator or [{time, Flags.t}].  If we've

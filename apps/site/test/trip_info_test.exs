@@ -130,13 +130,13 @@ defmodule TripInfoTest do
   describe "full_status/1" do
     test "returns status with Bus Route for bus routes" do
       actual = @info |> full_status
-      expected = nil
+      expected = ""
       assert actual == expected
     end
 
     test "uses the route name" do
       actual = %{@info | route: %Route{id: "Red", name: "Red Line"}} |> full_status
-      expected = nil
+      expected = ""
       assert actual == expected
     end
   end

@@ -1,9 +1,10 @@
 <% route_class = @trip_info.route |> SvgIcon.get_icon_atom() |> Atom.to_string |> String.replace("_", "-") %>
 <div id="trip-info-box" class="schedule-trip-info <%= route_class %>">
   <div class="schedule-trip-info-header">Trip Information</div>
-  <%= route_status = TripInfo.full_status(@trip_info)
-    if route_status do %>
-    <div class="route-status"><%=route_status%></div>
+  <%= if route_status = TripInfo.full_status(@trip_info) do %>
+    <%= if route_status != "" do %>
+      <div class="route-status"><%=route_status%></div>
+    <% end %>
   <% end %>
   <div class="trip-info-labels">
     <div class="stop-info">
