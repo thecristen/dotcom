@@ -116,10 +116,12 @@ defmodule Content.Parse.Page do
   def parse_field_notes([%{"value" => value}]) do
     [notes: value]
   end
+  def parse_field_notes(_), do: [notes: ""]
 
   def parse_field_agenda([%{"value" => value}]) do
     [agenda: value]
   end
+  def parse_field_agenda(_), do: [agenda: ""]
 
   def parse_field_start_time([%{"value" => value}]) do
     case parse_iso_datetime(value) do

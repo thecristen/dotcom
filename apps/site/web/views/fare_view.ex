@@ -138,7 +138,7 @@ defmodule Site.FareView do
   end
 
   @doc "Filter out key stops that are not in possible destinations"
-  @spec destination_key_stops([Schedules.Stop.t], [Schedules.Stop.t]) :: [Schedules.Stop.t]
+  @spec destination_key_stops([Stops.Stop.t], [Stops.Stop.t]) :: [Stops.Stop.t]
   def destination_key_stops(destination_stops, key_stops) do
     key_stop_ids = Enum.map(key_stops, &(&1.id))
     destination_stops

@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <% start_time = Map.get(@conn.params, "field_start_time_gt") %>
+    <% start_time = Map.get(@conn.params, "start_time_gt") %>
     <% {title, short} = if start_time do
         title = start_time |> Timex.parse!("{ISOdate}") |> Timex.format!("{Mfull}")
         {title, "meetings in #{title}"}
@@ -18,25 +18,25 @@
         <div class="card">
           <div class="card-header card-header-primary-darkest text-xs-center">
             <h2 class="h3">
-              <%= link to: shift_month_url(@conn, :field_start_time, -1) do %>
+              <%= link to: shift_month_url(@conn, :start_time, -1) do %>
                 <span class="sr-only">Previous Month</span>
                 <%= fa "chevron-circle-left" %>
               <% end %>
               <%= title %>
-              <%= link to: shift_month_url(@conn, :field_start_time, 1) do %>
+              <%= link to: shift_month_url(@conn, :start_time, 1) do %>
                 <span class="sr-only">Next Month</span>
                 <%= fa "chevron-circle-right" %>
               <% end %>
             </h2>
           </div>
-          <%= if @list == [] do %>
+          <%= if @events == [] do %>
             <div class="p-a-1">Sorry, there are no <%= short %>.</div>
           <% else %>
             <ul class="list-group list-group-flush">
-              <%= for event <- @list do %>
+              <%= for event <- @events do %>
                 <li class="list-group-item">
                   <div><%= event_duration(event.fields.start_time, event.fields.end_time) %></div>
-                  <div><%= link event.title, to: "/node/#{event.id}" %></div>
+                  <div><%= link event.title, to: event_path(@conn, :show, event.id) %></div>
                 </li>
               <% end %>
             </ul>

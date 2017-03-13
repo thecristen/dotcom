@@ -109,11 +109,11 @@ defmodule Site.FareViewTest do
 
   describe "destination_key_stops/2" do
     test "Unavailable key stops are filtered out" do
-      key_stop1 = %Schedules.Stop{id: 1}
-      key_stop2 = %Schedules.Stop{id: 2}
-      dest_stop1 = %Schedules.Stop{id: 4}
-      dest_stop2 = %Schedules.Stop{id: 5}
-      dest_stop3 = %Schedules.Stop{id: 2}
+      key_stop1 = %Stops.Stop{id: 1}
+      key_stop2 = %Stops.Stop{id: 2}
+      dest_stop1 = %Stops.Stop{id: 4}
+      dest_stop2 = %Stops.Stop{id: 5}
+      dest_stop3 = %Stops.Stop{id: 2}
 
       filtered = destination_key_stops([dest_stop1, dest_stop2, dest_stop3], [key_stop1, key_stop2])
       assert Enum.count(filtered) == 1
@@ -123,8 +123,8 @@ defmodule Site.FareViewTest do
 
   describe "format_name/2" do
     test "uses ferry origin and destination" do
-      origin = %Schedules.Stop{name: "North"}
-      dest = %Schedules.Stop{name: "South"}
+      origin = %Stops.Stop{name: "North"}
+      dest = %Stops.Stop{name: "South"}
       tag = format_name(%Fare{mode: :ferry, duration: :week}, %{origin: origin, destination: dest})
       assert safe_to_string(tag) =~ "North"
       assert safe_to_string(tag) =~ "South"

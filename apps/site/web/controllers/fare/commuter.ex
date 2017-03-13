@@ -1,7 +1,7 @@
 defmodule Site.FareController.Commuter do
   use Site.FareController.OriginDestinationFareBehavior
 
-  alias Schedules.Stop
+  alias Stops.Stop
 
   def route_type, do: 2
 
