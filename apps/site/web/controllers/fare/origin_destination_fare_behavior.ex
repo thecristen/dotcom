@@ -3,7 +3,7 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   @callback mode() :: atom()
 
   @callback route_type() :: integer
-  @callback key_stops() :: [Schedules.Stop.t]
+  @callback key_stops() :: [Stops.Stop.t]
 
   alias Site.FareController.Filter
   import Plug.Conn, only: [assign: 3]
@@ -92,7 +92,7 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   end
 
   @doc "Returns a destination if there is only one possibility"
-  @spec guess_destination(Schedules.Stop.t | nil, [Schedules.Stop.t]) :: Schedules.Stop.t | nil
+  @spec guess_destination(Stops.Stop.t | nil, [Stops.Stop.t]) :: Stops.Stop.t | nil
   def guess_destination(nil, [_origin, destination]) do
     destination
   end

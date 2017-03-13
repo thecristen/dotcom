@@ -1,14 +1,12 @@
 defmodule Site.FareController.Ferry do
   use Site.FareController.OriginDestinationFareBehavior
 
-  alias Schedules.Stop
-
   def route_type, do: 4
 
   def mode, do: :ferry
 
-  def fares(%{assigns: %{origin: %Stop{id: origin}, destination: %Stop{id: destination}}}) do
-    Fares.Repo.all(name: fare_name(origin, destination))
+  def fares(%{assigns: %{origin: origin, destination: destination}}) do
+    Fares.Repo.all(name: fare_name(origin.id, destination.id))
   end
   def fares(_conn) do
     []

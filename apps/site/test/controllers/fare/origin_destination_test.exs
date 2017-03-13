@@ -14,21 +14,21 @@ defmodule Site.FareController.OriginDestinationTest do
   end
 
   describe "guess_destination/2" do
-    @origin %Schedules.Stop{id: 0, name: "Initial Stop"}
-    @dest %Schedules.Stop{id: 1, name: "Final Stop"}
+    @origin %Stops.Stop{id: 0, name: "Initial Stop"}
+    @dest %Stops.Stop{id: 1, name: "Final Stop"}
 
     test "Destination returned if only one possibility" do
       assert ODFB.guess_destination(nil, [@origin, @dest]) == @dest
     end
 
     test "Destination not altered if one is given" do
-      alternative_dest = %Schedules.Stop{id: 2, name: "Alt"}
+      alternative_dest = %Stops.Stop{id: 2, name: "Alt"}
       assert ODFB.guess_destination(alternative_dest, [@origin, @dest]) == alternative_dest
     end
 
     test "destination is not guessed if there is not a single possibility" do
-      existing_dest = %Schedules.Stop{id: 3, name: "Existing"}
-      additional_dest = %Schedules.Stop{id: 4, name: "Additional"}
+      existing_dest = %Stops.Stop{id: 3, name: "Existing"}
+      additional_dest = %Stops.Stop{id: 4, name: "Additional"}
       assert ODFB.guess_destination(nil, [@origin, @dest, additional_dest]) == nil
       assert ODFB.guess_destination(nil, []) == nil
       assert ODFB.guess_destination(existing_dest, []) == existing_dest
