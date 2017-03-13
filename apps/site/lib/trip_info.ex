@@ -78,7 +78,7 @@ defmodule TripInfo do
   end
   defp vehicle_stop_name(vehicle, times) do
     case Enum.find(times, &PredictedSchedule.stop(&1).id == vehicle.stop_id) do
-      nil -> ""
+      nil -> nil
       schedule -> PredictedSchedule.stop(schedule).name
     end
   end
@@ -140,8 +140,9 @@ defmodule TripInfo do
   @doc """
   Returns a long status string suitable for display to a user.
   """
-  @spec full_status(TripInfo.t) :: iodata
-  def full_status(%TripInfo{vehicle: %{status: status}, vehicle_stop_name: vehicle_stop_name, route: %{type: route_type}}) do
+  @spec full_status(TripInfo.t) :: iodata | nil
+  def full_status(%TripInfo{vehicle: %{status: status}, vehicle_stop_name: vehicle_stop_name, route: %{type: route_type}})
+  when vehicle_stop_name != nil do
     vehicle = %{0 => "Train", 1 => "Train", 2 => "Train", 3 => "Bus", 4 => "Ferry"}
     case status do
       :incoming ->
@@ -152,7 +153,7 @@ defmodule TripInfo do
         [vehicle[route_type], " has left ", vehicle_stop_name, "."]
     end
   end
-  def full_status(_), do: ""
+  def full_status(_), do: nil
 
   @doc """
   Returns a list of either :separator or [{time, Flags.t}].  If we've

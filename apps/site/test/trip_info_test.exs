@@ -128,9 +128,9 @@ defmodule TripInfoTest do
   end
 
   describe "full_status/1" do
-    test "empty string for bus routes" do
+    test "nil for bus routes" do
       actual = @info |> full_status
-      expected = ""
+      expected = nil
       assert actual == expected
     end
 
@@ -145,13 +145,13 @@ defmodule TripInfoTest do
       assert actual == expected
     end
 
-    test "empty string when there is no vehicle" do
+    test "nil when there is no vehicle" do
       trip_info = %TripInfo{
         route: %Routes.Route{type: 2},
         vehicle_stop_name: "Readville"
       }
       actual = trip_info |> full_status
-      expected = ""
+      expected = nil
       assert actual == expected
     end
 
