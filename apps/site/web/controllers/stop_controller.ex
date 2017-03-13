@@ -3,7 +3,7 @@ defmodule Site.StopController do
 
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
-  plug Site.Plugs.Alerts
+  plug Site.Plugs.Alerts, upcoming?: false
 
   alias Stops.Repo
   alias Stops.Stop

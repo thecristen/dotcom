@@ -9,7 +9,8 @@ defmodule Site.Plugs.Alerts do
   import Plug.Conn, only: [assign: 3]
 
   @default_opts [
-    alerts_fn: &Alerts.Repo.all/0
+    alerts_fn: &Alerts.Repo.all/0,
+    upcoming?: true
   ]
 
   def init(opts) do
@@ -19,8 +20,8 @@ defmodule Site.Plugs.Alerts do
   # can pass in a different function to use for getting all the alerts
   def call(conn, opts) do
     conn
-    |> assign_all_alerts(Keyword.get(opts, :alerts_fn))
-    |> assign_current_upcoming
+    |> assign_all_alerts(opts[:alerts_fn])
+    |> assign_current_upcoming(opts)
   end
 
   defp assign_all_alerts(conn, alert_fn) do
@@ -28,21 +29,25 @@ defmodule Site.Plugs.Alerts do
     |> assign(:all_alerts, alerts(conn, alert_fn))
   end
 
-  defp assign_current_upcoming(%{assigns: %{all_alerts: all_alerts, date: date}} = conn) do
+  defp assign_current_upcoming(%{assigns: %{all_alerts: all_alerts, date: date}} = conn, opts) do
     {current_alerts, not_current_alerts} = all_alerts
     |> Enum.partition(fn alert -> Alerts.Match.any_time_match?(alert, date) end)
 
-    upcoming_alerts = not_current_alerts
-    |> Enum.filter(fn alert ->
-      Enum.any?(alert.active_period, fn
-        {nil, nil} ->
-          true
-        {nil, stop} ->
-          not Timex.before?(date, stop)
-        {start, _} ->
-          Timex.before?(date, start)
+    upcoming_alerts = if opts[:upcoming?] do
+      not_current_alerts
+      |> Enum.filter(fn alert ->
+        Enum.any?(alert.active_period, fn
+          {nil, nil} ->
+            true
+          {nil, stop} ->
+            not Timex.before?(date, stop)
+          {start, _} ->
+            Timex.before?(date, start)
+        end)
       end)
-    end)
+    else
+      []
+    end
 
     conn
     |> assign(:alerts, current_alerts)

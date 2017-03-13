@@ -2,7 +2,7 @@ defmodule Site.PageController do
   use Site.Web, :controller
 
   plug Site.Plugs.Date
-  plug Site.Plugs.Alerts
+  plug Site.Plugs.Alerts, upcoming?: false
   plug Site.Plugs.TransitNearMe
 
   def index(conn, params) do
