@@ -104,6 +104,10 @@ a {
 .trip-list-v2-header {
   @extend %table-header;
   margin-top: $base-spacing;
+
+  * {
+    color: $white;
+  }
 }
 
 .trip-list-v2-row-2-col {

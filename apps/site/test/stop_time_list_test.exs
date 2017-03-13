@@ -187,6 +187,31 @@ defmodule StopTimeListTest do
     @pred_stop3_trip6__8_38,
   ]
 
+  describe "has_predictions?/1" do
+    test "true when any of the stop times have a prediction" do
+      for {schedules, origin_id, destination_id} <- [
+            {@origin_schedules, "stop1", nil},
+            {@od_schedules, "stop1", "stop2"},
+            {@od_schedules, "stop1", "stop3"},
+            {@od_schedules, "stop2", "stop3"}] do
+          assert schedules
+          |> build(@predictions, origin_id, destination_id, :keep_all, @time)
+          |> has_predictions?
+      end
+    end
+
+    test "false when there are no predictions" do
+      for {schedules, destination_id} <- [
+            {@origin_schedules, nil},
+            {@od_schedules, "stop2"}] do
+          refute schedules
+          |> build([], "stop1", destination_id, :keep_all, @time)
+          |> has_predictions?
+
+      end
+    end
+  end
+
   describe "build/1 with no origin or destination" do
     test "returns no times" do
       assert build(@origin_schedules, @predictions, nil, nil, :keep_all, @time) == %StopTimeList{times: [], showing_all?: true}

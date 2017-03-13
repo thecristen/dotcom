@@ -1,15 +1,16 @@
 <%= if @stop_times.times != [] do %>
+  <% refresh = if StopTimeList.has_predictions?(@stop_times), do: render "_refresh.html" %>
   <div class="trip-list-v2 trip-list-v2-commuter">
     <div class="trip-list-v2-row trip-list-v2-header">
       <div class="row">
         <%= if @destination do %>
           <div class="col-xs-4">Departure</div>
           <div class="col-xs-4">Arrival</div>
-          <div class="col-xs-4">Train</div>
+          <div class="col-xs-4">Train <%= refresh %></div>
         <% else %>
           <div class="col-xs-4">Departure</div>
           <div class="col-xs-2">Train</div>
-          <div class="col-xs-6"><%= display_direction(@stop_times) %></div>
+          <div class="col-xs-6"><%= display_direction(@stop_times) %> <%= refresh %></div>
         <% end %>
       </div>
     </div>

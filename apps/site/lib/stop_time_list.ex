@@ -21,6 +21,13 @@ defmodule StopTimeList do
   @type schedule_map :: %{map_key_t => %{stop_id => Schedule.t}}
   @type schedule_pair_map :: %{map_key_t => schedule_pair}
 
+  @doc "Returns true if any of the stop times have a prediction"
+  @spec has_predictions?(t) :: boolean
+  def has_predictions?(%StopTimeList{times: times}) do
+    times
+    |> Enum.any?(&StopTime.has_prediction?/1)
+  end
+
   @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil) :: __MODULE__.t
   def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time) do
     schedules
