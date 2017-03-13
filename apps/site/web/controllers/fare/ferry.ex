@@ -5,7 +5,8 @@ defmodule Site.FareController.Ferry do
 
   def mode, do: :ferry
 
-  def fares(%{assigns: %{origin: origin, destination: destination}}) do
+  def fares(%{assigns: %{origin: origin, destination: destination}})
+  when not is_nil(origin) and not is_nil(destination) do
     Fares.Repo.all(name: fare_name(origin.id, destination.id))
   end
   def fares(_conn) do
