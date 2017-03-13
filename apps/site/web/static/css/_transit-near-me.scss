@@ -132,6 +132,7 @@
 }
 
 .transit-card {
+  @extend %button-focus-color;
   background: $white;
   border: $border;
   border-radius: $default-border-radius;
