@@ -54,8 +54,8 @@ $hp-hero-gradient-start: rgba(28, 30, 35, .4);
 $hp-hero-gradient-end: rgba(28, 30, 35, .8);
 $hp-hero-gradient: linear-gradient(to bottom, $hp-hero-gradient-start, $hp-hero-gradient-end);
 $riding-the-t-gradient-start: rgba(52, 65, 110, .95);
-$riding-the-t-gradient-end: rgba(52, 65, 110, .6);
-$riding-the-t-gradient: linear-gradient(to bottom, $riding-the-t-gradient-start, $riding-the-t-gradient-end);
+$riding-the-t-gradient-end: rgba(52, 65, 110, .75);
+$riding-the-t-gradient: linear-gradient(to bottom right, $riding-the-t-gradient-start, $riding-the-t-gradient-end);
 
 
 // General

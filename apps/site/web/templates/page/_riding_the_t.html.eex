@@ -3,33 +3,41 @@
     <h1>Riding the T</h1>
     <h2>Common Fares and Passes</h2>
     <%= render Site.FareView, "_common_fares.html", conn: @conn %>
-    <div class="row all-fares-link">
-      <p class="col-xs-12">
-        <%= link to: Site.Router.Helpers.fare_path(@conn, :index) do
-          [
-            content_tag(:span, "View all MBTA fares and "),
-            content_tag(:span, [class: "no-wrap"], do: ["passes ", fa("arrow-right")])
-          ]
-        end %>
-      </p>
+    <div class="all-fares-link">
+      <%= link to: Site.Router.Helpers.fare_path(@conn, :index), class: "homepage-link light" do
+      [
+        content_tag(:span, "View all MBTA fares and "),
+        content_tag(:span, [class: "no-wrap"], do: ["passes ", fa("arrow-right")])
+      ]
+      end %>
     </div>
     <h2>Plan Your Trip</h2>
-    <div class="plan-your-trip">
-      <div class="plan-trip-link">
-        <%= link [to: redirect_path(@conn, "rider-tools"), class: "get-directions"] do
-          content_tag(:span, "Get directions using the MBTA")
-        end %>
-      </div>
-      <div class="plan-trip-link">
-        <%= link [to: redirect_path(@conn, "/riding_the_t/logan"), class: "getting-to-logan"] do
-          content_tag(:span, "Getting to and from Logan Airport")
-        end %>
-      </div>
-      <div class="plan-trip-link">
-        <%= link [to: redirect_path(@conn, "rider-tools"), class: "accessibility-at-t"] do
-           content_tag(:span, "Accessibility at the T")
-        end %>
-      </div>
+    <div class="row">
+      <%= link to: redirect_path(@conn, "rider_tools/trip_planner"), class: "homepage-link light" do %>
+        <div class="col-sm-3">
+          <div class="homepage-svg"><%= svg "directions.svg" %></div>
+          <div class="about-title">Directions</div>
+        </div>
+      <% end %>
+      <%= link to: stop_path(@conn, :index), class: "homepage-link light" do %>
+
+        <div class="col-sm-3">
+          <div class="homepage-svg"><%= svg "station-info.svg" %></div>
+          <div class="about-title">Station Info</div>
+        </div>
+      <% end %>
+      <%= link to: redirect_path(@conn, "riding_the_t/parking/"), class: "homepage-link light" do %>
+        <div class="col-sm-3">
+          <div class="homepage-svg"><%= svg "parking.svg" %></div>
+          <div class="about-title">Parking</div>
+        </div>
+      <% end %>
+      <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/"), class: "homepage-link light" do %>
+        <div class="col-sm-3">
+          <div class="homepage-svg"><%= svg "homepage-accessibility.svg" %></div>
+          <div class="about-title">Accessibility</div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

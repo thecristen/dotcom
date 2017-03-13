@@ -1,99 +1,53 @@
 <div class="container page-section">
   <h2>About the MBTA</h2>
   <div class="row">
-    <div class="col-sm-3">
-      <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/public-meetings.jpg" %> 1199w, /images/public-meetings-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="A public meeting" />
+    <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/"), class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "public-meetings.svg" %></div>
         <div class="about-title">Public Meetings</div>
-      <% end %>
-    </div>
-    <div class="col-sm-3">
-      <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/fmcb.jpg" %> 1199w, /images/fmcb-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="Members of the Fiscal Management Control Board" />
+      </div>
+    <% end %>
+    <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "fmcb.svg" %></div>
         <div class="about-title">FMCB</div>
-      <% end %>
-    </div>
-    <div class="col-sm-3">
-      <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/performance.jpg" %> 1199w, /images/performance-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="A graph" />
+      </div>
+    <% end %>
+    <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "performance.svg" %></div>
         <div class="about-title">Performance</div>
-      <% end %>
-    </div>
-    <div class="col-sm-3">
-      <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/working-at-the-t.jpg" %> 1199w, /images/working-at-the-t-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="A bus driver" />
+      </div>
+    <% end %>
+    <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/"), class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "working-at-the-t.svg" %></div>
         <div class="about-title">Working at the T</div>
-      <% end %>
-    </div>
-    <div class="col-sm-3">
-      <%= link to: redirect_path(@conn, "business_center/DBE/"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/business-opportunities.jpg" %> 1199w, /images/business-opportunities-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="Advertisements in a subway station" />
+      </div>
+    <% end %>
+    <%= link to: redirect_path(@conn, "business_center/DBE/"), class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "business-opportunities.svg" %></div>
         <div class="about-title">Business Opportunities</div>
-      <% end %>
-    </div>
-    <div class="col-sm-3">
-      <%= link to: redirect_path(@conn, "about_the_mbta/environment/"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/sustainability.jpg" %> 1199w, /images/sustainability-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="A windmill" />
+      </div>
+    <% end %>
+    <%= link to: redirect_path(@conn, "about_the_mbta/environment/"), class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "sustainability.svg" %></div>
         <div class="about-title">Sustainability</div>
-      <% end %>
-    </div>
-    <div class="col-sm-3">
-      <%= link to: redirect_path(@conn, "business_center/innovation_proposals"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/innovation.jpg" %> 1199w, /images/innovation-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="Officials inspecting a site" />
+      </div>
+    <% end %>
+    <%= link to: redirect_path(@conn, "business_center/innovation_proposals"), class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "innovation.svg" %></div>
         <div class="about-title">Innovation</div>
-      <% end %>
-    </div>
-    <div class="col-sm-3">
-      <%= link to: "http://transitapp.com", class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/transit.jpg" %> 1199w, /images/transit-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="Transit app logo" />
-        <div class="about-title">Transit</div>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-<div class="container page-section">
-  <h2>Improvements and Projects</h2>
-  <div class="row">
-    <div class="col-sm-4">
-      <%= link to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/projects-01.jpg" %> 1199w, /images/projects-01-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="Red and Orange Line Cars" />
-        <div class="about-title">Red and Orange Line Cars</div>
-      <% end %>
-    </div>
-    <div class="col-sm-4">
-      <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/projects-02.jpg" %> 1199w, /images/projects-02-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="Silver Line Gateway Project" />
-        <div class="about-title">Silver Line Gateway</div>
-      <% end %>
-    </div>
-    <div class="col-sm-4">
-      <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199"), class: "homepage-about-link" do %>
-        <img srcset="<%= static_url @conn, "/images/projects-03.jpg" %> 1199w, /images/projects-03-2x.jpg 1500w"
-          class="hidden-xs-down"
-          alt="Green Line Extension Project" />
-        <div class="about-title">Green Line Extension (GLX) Project</div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
+    <%= link to: "http://transitapp.com", class: "homepage-link" do %>
+      <div class="col-sm-3">
+        <div class="homepage-svg"><%= svg "transit-app.svg" %></div>
+        <div class="about-title">Transit App</div>
+      </div>
+    <% end %>
   </div>
 </div>

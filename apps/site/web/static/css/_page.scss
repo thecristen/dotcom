@@ -1,86 +1,3 @@
-// $page-section-padding-sm: .75rem;
-// $page-section-padding-md: 0;
-// $page-section-padding-xxl: 0;
-
-// .page-section {
-//   margin-bottom: $page-section-padding-sm;
-
-//   @include media-breakpoint-up(md) {
-//     &:first-child {
-//       margin-top: $page-section-padding-sm;
-//     }
-//   }
-
-//   &:empty {
-//     // don't show anything for empty sections
-//     display: none;
-//   }
-// }
-
-// .page-section-narrow {
-//   margin-left: $page-section-padding-sm;
-//   margin-right: $page-section-padding-sm;
-
-//   @include media-breakpoint-up(md) {
-//     // only narrow on mobile
-//     margin-left: inherit;
-//     margin-right: inherit;
-//   }
-// }
-
-// .page-header {
-//   background-color: $white;
-//   border-bottom: 1px solid $white;
-//   padding: $page-section-padding-sm;
-
-//   @include media-breakpoint-up(md) {
-//     padding-left: $page-section-padding-md;
-//     padding-right: $page-section-padding-md;
-//     padding-top: $page-section-padding-md;
-//   }
-
-//   @include media-breakpoint-up(xxl) {
-//     padding-left: $page-section-padding-xxl;
-//     padding-right: $page-section-padding-xxl;
-//     padding-top: $page-section-padding-xxl;
-//   }
-// }
-
-// .page-block {
-//   margin-top: $page-section-padding-sm;
-//   padding: 1.25rem $page-section-padding-sm $page-section-padding-sm;
-
-//   @include media-breakpoint-up(md) {
-//     padding-bottom: $page-section-padding-md;
-//     padding-left: $page-section-padding-md;
-//     padding-right: $page-section-padding-md;
-//   }
-
-//   @include media-breakpoint-up(xxl) {
-//     padding-bottom: $page-section-padding-xxl;
-//     padding-left: $page-section-padding-xxl;
-//     padding-right: $page-section-padding-xxl;
-//   }
-
-//   div[class^="col-"] + div[class^="col-"] {
-//     margin-top: $base-spacing;
-//   }
-// }
-
-// // formerly page-block-no-header
-// .page-block:first-child {
-//   //  we don't want to undo the margin
-//   margin-top: 0;
-//   padding-top: $page-section-padding-sm;
-
-//   @include media-breakpoint-up(md) {
-//     padding-top: $page-section-padding-md;
-//   }
-
-//   @include media-breakpoint-up(xxl) {
-//     padding-top: $page-section-padding-xxl;}
-// }
-
 .page-section {
   margin-bottom: $base-spacing;
   margin-top: $base-spacing;
@@ -89,7 +6,7 @@
     margin-bottom: 0;
   }
 
-  .homepage-about-link:last-child {
+  .homepage-link:last-child {
     .about-title {
       border-bottom-width: 0;
     }
@@ -165,7 +82,7 @@
   padding-top: $base-spacing * 2;
 
   @include media-breakpoint-up(md) {
-    background-image: $riding-the-t-gradient, url('/images/riding-the-t.jpg');
+    background-image: $riding-the-t-gradient, url('/images/riding-the-t-bg.jpg');
     background-size: cover;
   }
 
@@ -247,10 +164,10 @@
   }
 
   .all-fares-link {
-    background: $white;
     margin-bottom: $base-spacing;
     margin-left: 0;
     margin-right: 0;
+    padding: .5rem 0;
 
     p {
       margin-bottom: $base-spacing / 2;
@@ -377,16 +294,49 @@
   padding-left: 0;
 }
 
-.homepage-about-link {
-  img {
-    width: 100%;
+.homepage-link {
+  * {
+    text-decoration: inherit;
+  }
+
+  &.light {
+    color: $white;
   }
 
   .about-title {
+    margin-bottom: 1rem;
     padding: $space-12 0;
 
     @include media-breakpoint-down(xs) {
       border-bottom: 1px solid $gray-lightest;
     }
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.homepage-svg {
+  background-color: $white;
+  border: 1px solid $gray-lightest;
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+
+  @include hover-focus-active {
+    background-color: $brand-primary-lightest;
+  }
+}
+
+.related-link.homepage-card {
+  @include hover-focus-active {
+    h4 {
+      color: $gray-dark;
+    }
+  }
+
+  h4 {
+    color: $link-color;
   }
 }
