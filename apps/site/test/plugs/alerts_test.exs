@@ -45,33 +45,6 @@ defmodule Site.Plugs.AlertsTest do
     assert conn.assigns.all_alerts == [cr_alert]
   end
 
-  property "sorts the notices by their updated at times (newest to oldest)", %{conn: conn} do
-    date = Util.service_date() |> Timex.shift(days: 1) # put them in the future
-    for_all times in list(pos_integer()) do
-      # create alerts with a bunch of updated_at times
-      alerts = for time <- times do
-        dt = date |> Timex.shift(seconds: time)
-        %Alert{id: inspect(make_ref()),
-               updated_at: dt,
-               active_period: [{nil, nil}]}
-      end
-
-      conn = conn
-      |> assign(:date, date)
-      |> Alerts.call(alerts_fn: fn -> alerts end)
-
-      sorted = alerts
-      |> Enum.sort_by(&(&1.id))
-      |> Enum.reverse # reverse after ID sort so that the second reverse puts
-                      # them in the right order
-      |> Enum.sort_by(&(&1.updated_at))
-      |> Enum.reverse
-
-      assert conn.assigns.all_alerts == sorted
-      assert conn.assigns.alerts == sorted
-    end
-  end
-
   test "filters by direction ID if it is assigned without a query param", %{conn: conn} do
     date_time = ~N[2017-02-22 12:00:00]
     alerts = [

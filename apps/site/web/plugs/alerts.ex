@@ -67,7 +67,6 @@ defmodule Site.Plugs.Alerts do
   end
   defp alerts(_, alert_fn) do
     alert_fn.()
-    |> sort
   end
 
   defp alerts_from_params(params, alert_fn) do
@@ -91,7 +90,6 @@ defmodule Site.Plugs.Alerts do
 
     alert_fn.()
     |> Alerts.Match.match(entities)
-    |> sort
   end
 
   defp direction_id(nil) do
@@ -99,9 +97,5 @@ defmodule Site.Plugs.Alerts do
   end
   defp direction_id(id) when is_integer(id) do
     id
-  end
-
-  defp sort(alerts) do
-    Alerts.Sort.sort(alerts)
   end
 end
