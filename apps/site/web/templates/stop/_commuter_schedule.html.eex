@@ -26,13 +26,13 @@
           <%= if schedule = upcoming_commuter_departures(@conn, route.id, direction_id) do %>
             <% %Schedule{trip: %Trip{id: trip_id}} = schedule %>
             <% prediction = commuter_prediction(@stop_predictions, trip_id) %>
-            <div class="station-route-row">
+            <%= link class: "station-route-row", to: schedule_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") do %>
               <div class="col-xs-12 mode-route-name">
                 <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
-                <%= link route.name, to: schedule_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") %>
+                <%= route.name %>
               </div>
               <div class="clearfix">
-                <div class="col-sm-4 col-xs-12">
+                <div class="col-sm-4 col-xs-12 station-trip-headsign">
                   <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
                   <%= if has_alerts?(@conn, %Alerts.InformedEntity{trip: schedule.trip.id, route: route.id}) do %>
                     <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
@@ -40,21 +40,19 @@
                 </div>
                 <div class="col-sm-8 col-xs-12">
                   <div class="row">
-                    <div class="no-wrap col-xs-3">
+                    <div class="no-wrap col-xs-3 station-trip-name">
                       No. <%= schedule.trip.name %>
                     </div>
                     <div class="col-xs-4">
-                      <%= link to: schedule_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") do %>
-                        <%= PredictedSchedule.Display.time(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
-                      <% end %>
+                      <%= PredictedSchedule.Display.time(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
                     </div>
-                    <div class="col-xs-5">
+                    <div class="col-xs-5 station-trip-status">
                       <%= StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
                     </div>
                   </div>
                 </div>
               </div>
-              </div>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>

@@ -1,6 +1,8 @@
 .related-link {
+  @extend %button-focus-color;
   border: $border;
   border-left-width: 0;
+  color: $gray-dark;
   display: block;
   margin-bottom: $base-spacing;
   padding: $space-8 $space-16;
@@ -8,16 +10,6 @@
 
   @include media-breakpoint-up(sm) {
     min-height: $space-24 * 6;
-  }
-
-  @include hover-focus-active {
-    background-color: $brand-primary-light;
-    border-color: $brand-primary-light;
-    text-decoration: none;
-
-    > * {
-      color: $white;
-    }
   }
 
   &::before {
@@ -29,16 +21,12 @@
     position: absolute;
     top: -1px;
   }
-
-  > * {
-    color: $gray-dark;
-  }
-
 }
 
 .related-link-title {
   font-weight: bold;
   padding-bottom: $space-12;
+  color: $link-color;
 }
 
 .related-link-group {

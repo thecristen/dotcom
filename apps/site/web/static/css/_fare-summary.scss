@@ -9,16 +9,13 @@
 
 .fare-summary-entry {
   @extend %block-level-link;
+  @extend %button-focus-color;
   border: $space-1 solid $gray-lightest;
   display: table-cell;
   float: left;
   margin-top: -$space-1;
   padding: $base-spacing;
   width: 100%;
-
-  @include hover-focus-active {
-    background-color: $gray-lightest;
-  }
 }
 
 div:not(.col-md-6) > .fare-summary-container {

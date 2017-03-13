@@ -37,6 +37,7 @@
   @extend .btn;
   @include button-variant($link-color, white, $gray-lightest);
   @extend .btn-block;
+  @extend %button-focus-color;
 
   margin-bottom: $grid-gutter-width / 4;
   margin-top: $grid-gutter-width / 4;
