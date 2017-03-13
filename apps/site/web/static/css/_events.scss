@@ -1,0 +1,31 @@
+.add-to-calendar {
+  padding-top: .5em;
+}
+
+.calendar-icon {
+  padding-right: .5em;
+}
+
+.event-map-container {
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    margin-left: -1 * $space-6;
+    width: calc(100% + .75rem);
+  }
+}
+
+.event-meta-row {
+  @include media-breakpoint-up(md) {
+    border-bottom: 1px solid $gray-lightest;
+    margin-bottom: $space-12;
+  }
+}
+
+.event-meta-col {
+  @include media-breakpoint-down(sm) {
+    border-bottom: 1px solid $gray-lightest;
+    margin-bottom: $space-12;
+    padding-bottom: $space-12;
+  }
+}

@@ -9,7 +9,7 @@ defmodule Content.Mixfile do
      deps_path: "../../deps",
      lockfile: "../../mix.lock",
      elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
+     elixirc_paths: elixirc_paths(Mix.env),
      start_permanent: Mix.env == :prod,
      test_coverage: [tool: ExCoveralls],
      deps: deps()]
@@ -22,6 +22,10 @@ defmodule Content.Mixfile do
     [applications: [:logger, :timex, :httpoison, :poison, :plug, :tzdata],
      mod: {Content, []}]
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
 
   # Dependencies can be Hex packages:
   #
