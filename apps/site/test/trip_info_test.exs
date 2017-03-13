@@ -128,15 +128,41 @@ defmodule TripInfoTest do
   end
 
   describe "full_status/1" do
-    test "returns status with Bus Route for bus routes" do
+    test "empty string for bus routes" do
       actual = @info |> full_status
       expected = ""
       assert actual == expected
     end
 
-    test "uses the route name" do
-      actual = %{@info | route: %Route{id: "Red", name: "Red Line"}} |> full_status
+    test "result for CR, uses the route name" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 2},
+        vehicle: %Vehicles.Vehicle{status: :incoming},
+        vehicle_stop_name: "Readville"
+      }
+      actual = trip_info |> full_status
+      expected = ["Train", " is entering ", "Readville", "."]
+      assert actual == expected
+    end
+
+    test "empty string when there is no vehicle" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 2},
+        vehicle_stop_name: "Readville"
+      }
+      actual = trip_info |> full_status
       expected = ""
+      assert actual == expected
+    end
+
+    test "result for Subway, uses the route name" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 1},
+        vehicle: %Vehicles.Vehicle{status: :stopped},
+        vehicle_stop_name: "Forest Hills"
+      }
+      actual = trip_info |> full_status
+      expected = ["Train", " has arrived at ", "Forest Hills", "."]
       assert actual == expected
     end
   end
