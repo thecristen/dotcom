@@ -1,5 +1,5 @@
-<div class="<%= @class %>">
-  <%= link to: @href, class: "mode-group-btn" do %>
+<div class="button-container <%= @class %>">
+  <%= link to: @href, class: "button" do %>
     <%= @text %>
   <% end %>
 </div>

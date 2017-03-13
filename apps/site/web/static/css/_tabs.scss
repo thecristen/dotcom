@@ -19,11 +19,16 @@
 }
 
 .tab-list-tab {
+  @extend %button-focus-color;
   border: 1px solid $brand-primary;
   display: inline-block;
   margin-bottom: -1 * $space-2;
   padding: $space-12;
   text-align: center;
+
+  @include hover-focus-active {
+    text-decoration: none;
+  }
 
   @include media-breakpoint-up(lg) {
     width: 20%;
@@ -61,10 +66,5 @@
 }
 
 .tab-list-selected {
-  background-color: $brand-primary;
-  color: $white;
-
-  @include hover-focus-active {
-    color: $white;
-  }
+  @extend %button-selected-color;
 }

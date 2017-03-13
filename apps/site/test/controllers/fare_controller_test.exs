@@ -38,6 +38,12 @@ defmodule Site.FareControllerTest do
     assert response =~ "Valid between Long Wharf, Boston and Logan Ferry Terminal only."
   end
 
+  test "renders ferry when no destinations", %{conn: conn} do
+    conn = get conn, fare_path(conn, :show, :ferry)
+    response = html_response(conn, 200)
+    assert response =~ "Find Your Fare"
+  end
+
   test "renders bus/subway", %{conn: conn} do
     conn = get conn, fare_path(conn, :show, :bus_subway)
     assert html_response(conn, 200) =~ "Bus and Subway Fares"

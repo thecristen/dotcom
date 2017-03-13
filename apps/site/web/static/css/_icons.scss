@@ -201,7 +201,8 @@ a {
   }
 }
 
-.icon-inverse {
+.icon-inverse,
+%icon-inverse {
   // white fill, white border, transparent fill
   .icon-circle {
     fill: transparent;
