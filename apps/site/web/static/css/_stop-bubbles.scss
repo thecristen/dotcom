@@ -33,7 +33,7 @@ $location-line-width: $space-6;
   }
 }
 
-%stop-bubble-first {
+@mixin stop-bubble-first() {
   .stop-bubble::before {
     // NB: The seemingly magic number 98% keeps the lines long enough
     // to hit the next stop bubble without overlapping and causing
@@ -44,13 +44,13 @@ $location-line-width: $space-6;
   }
 }
 
-%stop-bubble-last {
+@mixin stop-bubble-last() {
   .stop-bubble::before {
     display: none;
   }
 }
 
-%stop-bubble-collapsed {
+@mixin stop-bubble-collapsed() {
   .stop-bubble {
     &::before {
       border-left-style: dotted;

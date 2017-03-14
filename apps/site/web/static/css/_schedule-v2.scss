@@ -173,7 +173,7 @@ a {
 
 // "Show all stops" row -- dotted lines
 .collapsed-row {
-  @extend %stop-bubble-collapsed;
+  @include stop-bubble-collapsed();
 
   .expand-link {
     @extend %stop-name-and-time-column;
@@ -186,13 +186,13 @@ a {
 .stop-group:first-child .schedule-trip-stop:first-child,
 .route-stop-list .route-stop:first-child,
 .schedule-v2-timetable-row:nth-child(2) {
-  @extend %stop-bubble-first;
+  @include stop-bubble-first();
 }
 
 // the last stop in the list, don't display the line
 .stop-group:last-child .schedule-trip-stop:last-child,
 .schedule-v2-timetable-row:last-child {
-  @extend %stop-bubble-last;
+  @include stop-bubble-last();
 
   .stop-info {
     border-bottom: 0;

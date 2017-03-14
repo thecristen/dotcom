@@ -14,11 +14,11 @@
 
   &:not(.route-stop-green) {
     &:first-child {
-      @extend %stop-bubble-first;
+      @include stop-bubble-first();
     }
 
     &:last-child {
-      @extend %stop-bubble-last;
+      @include stop-bubble-last();
     }
   }
 }
@@ -33,8 +33,8 @@
   padding: .5rem 1rem;
 }
 
-.route-expand-branch {
-  @extend %stop-bubble-collapsed;
+.route-expand-branch.collapsed-row {
+  @include stop-bubble-collapsed();
 }
 
 .route-icons {
@@ -119,7 +119,7 @@
 
 .route-stop-green {
   &.green-line-collapsed {
-    @extend %stop-bubble-collapsed;
+    @include stop-bubble-collapsed();
 
     .green-line-bubble.stop-bubble::before {
       border-left-width: $space-2;
@@ -128,7 +128,7 @@
   }
 
   &.westbound-terminus {
-    @extend %stop-bubble-last;
+    @include stop-bubble-last();
   }
 
   .green-line-bubble {
