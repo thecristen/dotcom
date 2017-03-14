@@ -9,6 +9,12 @@
     <div class="row">
       <div class="col-xs-12">
         <img src="<%= @map_img_src %>" class="img-fluid">
+        <%= if display_map_link?(@route.type) do %>
+          <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
+            <%= fa "search-plus" %>
+            View map as a PDF
+          </a>
+        <% end %>
       </div>
       <div class="col-xs-12 page-section">
         <h2>Hours of Operation</h2>
