@@ -506,4 +506,12 @@ defmodule Site.ScheduleV2View do
   def display_map_link?(_route_type) do
     false
   end
+
+  @spec display_map?(integer) :: boolean
+  def display_map?(3) do
+    false
+  end
+  def display_map?(_) do
+    true
+  end
 end
