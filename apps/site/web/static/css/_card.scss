@@ -19,11 +19,6 @@
   display: block;
   margin-bottom: $base-spacing;
   padding: $base-spacing-sm $base-spacing;
-  position: relative;
-
-  @include media-breakpoint-up(sm) {
-    min-height: $space-24 * 6;
-  }
 }
 
 .title-card-title,
@@ -53,9 +48,17 @@ a {
 .title-card-container-separate {
   .title-card {
     border-radius: $space-1 * 3;
+
+    @include media-breakpoint-up(sm) {
+      min-height: $space-24 * 6;
+    }
   }
 
   a {
+    &.title-card {
+      position: relative;
+    }
+
     &.title-card::before {
       border-bottom-left-radius: $space-1 * 3;
       border-left: ($space-1 * 4) solid $btn-primary-bg;
@@ -73,11 +76,12 @@ a {
 .title-card-container-table,
 %title-card-container-table {
   border-collapse: collapse;
+  padding-top: $base-spacing;
 
   .title-card,
   %title-card {
     border-radius: 0;
-    margin-top: -$space-1; // collapse the top border
+    margin-top: -$space-1 - $base-spacing;
     width: 100%;
   }
 }
@@ -86,14 +90,17 @@ a {
   @include media-breakpoint-up(sm) {
     // add back the bottom margin removed by the display: table
     margin-bottom: $base-spacing;
+    padding-top: 0;
 
     > * {
+      @include clearfix();
       display: table;
       width: 100%;
+    }
 
-      + * {
-        margin-top: -$space-1;
-      }
+    > * + * {
+      // collapse subsequent rows
+      margin-top: -$space-1;
     }
 
     .title-card,
@@ -101,14 +108,5 @@ a {
       display: table-cell;
       width: 50%;
     }
-  }
-}
-
-.title-card-container-table-single-col {
-  padding-top: $base-spacing; // since we move each card up by $base-spacing
-
-  .title-card,
-  %title-card {
-    margin-top: -$space-1 - $base-spacing;
   }
 }

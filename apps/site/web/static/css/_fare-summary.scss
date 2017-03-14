@@ -19,7 +19,26 @@
   padding: $base-spacing-sm 0;
 }
 
+.fare-summary-fare-name {
+  display: inline-block;
+  max-width: 75%;
+}
+
 .fare-summary-fare-price {
   float: right;
   font-weight: normal;
+}
+
+.fare-summary-container-dark {
+  margin-bottom: 0;
+
+  .fare-summary-entry {
+    background-color: $brand-navy-dark; // same as desktop color
+    border-color: $brand-primary-light;
+    color: $white;
+  }
+
+  .fare-summary-name {
+    color: $brand-primary-light;
+  }
 }

@@ -159,22 +159,4 @@ defmodule Site.FareView do
   def origin_destination_description(:ferry) do
     content_tag :p, do: "Ferry fares depend on your origin and destination."
   end
-
-  @doc "Fetches the price of a fare from the repo and formats it into $1.00 format"
-  @spec format_price(Keyword.t) :: String.t
-  def format_price(filters) do
-    filters
-    |> Fares.Repo.all
-    |> List.first
-    |> Fares.Format.price
-  end
-
-  @spec commuter_rail_fare_range() :: {String.t, String.t}
-  defp commuter_rail_fare_range() do
-    [mode: :commuter_rail, duration: :single_trip, reduced: nil]
-    |> Fares.Repo.all
-    |> Fares.Format.summarize(:commuter_rail)
-    |> List.first
-    |> (fn s -> hd s.fares end).()
-  end
 end
