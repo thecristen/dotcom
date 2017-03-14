@@ -71,10 +71,10 @@
     <div>
       <h2>The RIDE</h2>
       <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
-      <div class="fare-summary-container">
+      <div class="row">
         <%= for fare <- @the_ride do %>
-          <div class="fare-summary-entry">
-            <div class="fare-summary-name">
+          <div class="col-md-6 col-sm-12 the-ride-summary-entry">
+            <h4 class="fare-summary-name">
               <%= Fares.Format.full_name(fare) %>
               <span class="fare-summary-mode-icons" aria-hidden="true">
                 <span class="fares-mode-icon-group">
@@ -84,7 +84,7 @@
               <div class="fare-summary-fare-price">
                 <%= Fares.Format.price(fare) %>
               </div>
-            </div>
+            </h4>
             <div class="fare-summary-box">
               <%= description(fare, @conn.assigns) %>
             </div>
