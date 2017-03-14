@@ -1,5 +1,5 @@
 <div class="stop-filters schedule-filter-row">
-  <p>To view schedules for a specific stop, please enter your origin and destination.</p>
+  <div>To view schedules for a specific stop, please enter your origin and destination.</div>
   <div class="row">
     <div class="col-sm-6">
       <% origin = if @origin, do: @origin.id, else: nil %>
