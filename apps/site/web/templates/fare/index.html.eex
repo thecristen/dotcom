@@ -9,12 +9,12 @@
     <div>
       <h2>Paying Your Fare</h2>
       <p>
-        You can pay your fare with a CharlieCard, CharlieTicket, the mTicket app, or by cash on-board. 
+        You can pay your fare with a CharlieCard, CharlieTicket, the mTicket app, or by cash on-board.
         <%= link "Click here", to: fare_path(@conn, :show, :payment_methods) %> to see what types of transportation
          each payment option is accepted on. How you choose to pay may affect how much your fare costs, which passes you can purchase,
         and your eligibility to make discounted transfers.
       </p>
-      <div class="row">
+      <div class="row title-card-container title-card-container-separate">
         <div class="col-xs-12 col-sm-6">
           <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: ["Accepted payment methods", "Where to purchase your fare", "Paying your fare"], href: how_to_pay_path(@conn, :index) %>
         </div>

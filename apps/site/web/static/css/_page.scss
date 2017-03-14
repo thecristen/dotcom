@@ -328,15 +328,3 @@
     background-color: $brand-primary-lightest;
   }
 }
-
-.related-link.homepage-card {
-  @include hover-focus-active {
-    h4 {
-      color: $gray-dark;
-    }
-  }
-
-  h4 {
-    color: $link-color;
-  }
-}
