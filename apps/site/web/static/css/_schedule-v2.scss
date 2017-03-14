@@ -318,19 +318,30 @@ a {
 
 .date-filter,
 .direction-filter {
+  // scss-lint:disable VendorPrefix
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
 }
 
 .filter-button {
+  // scss-lint:disable VendorPrefix
   @extend %button-primary-outline;
   @include clearfix();
   border-radius: $border-radius;
+  -webkit-box-flex: 1;
   display: block;
+  -ms-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
   height: 100%;
   position: relative;
   text-align: left;
   white-space: normal;
+  width: 100%;
 
   @include hover-focus-active() {
     .filter-icon-border {
