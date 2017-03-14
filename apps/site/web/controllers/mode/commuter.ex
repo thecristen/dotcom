@@ -6,8 +6,6 @@ defmodule Site.Mode.CommuterRailController do
 
   def mode_name, do: "Commuter Rail"
 
-  def map_image_url, do: "/images/commuter-rail-spider.jpg"
-
   def fare_description do
     [
       link_to_zone_fares(),

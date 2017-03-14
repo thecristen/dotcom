@@ -28,4 +28,27 @@ defmodule MapHelpersTest do
       assert map_pdf_url(9)  == nil
     end
   end
+
+  describe "map_image_url/1" do
+    test "returns a map image url for the subway" do
+      assert map_image_url(:subway) == "/images/subway-spider.jpg"
+    end
+
+    test "returns a map image url for the bus" do
+      assert map_image_url(:bus) == "/images/subway-spider.jpg"
+    end
+
+    test "returns a map image url for the ferry" do
+      assert map_image_url(:ferry) == "/images/ferry-spider.jpg"
+    end
+
+    test "returns a map image url for the commuter rail" do
+      assert map_image_url(:commuter_rail) == "/images/commuter-rail-spider.jpg"
+    end
+
+    test "works with numbers instead of route type atoms" do
+      assert map_image_url(2) == "/images/commuter-rail-spider.jpg"
+      assert map_image_url(1) == "/images/subway-spider.jpg"
+    end
+  end
 end
