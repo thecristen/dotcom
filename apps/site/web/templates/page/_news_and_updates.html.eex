@@ -1,32 +1,32 @@
 <div class="container page-section">
   <h2>News &amp; Updates</h2>
   <div class="row">
-    <div class="col-md-6 hidden-sm-down">
-      <img class="img-fluid" src=<%= static_path(@conn, "/images/news-and-updates.jpg")%> alt="Statue of the MBTA logo" />
+    <div class="col-md-6 col-sm-12">
+      <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442457706&month=&year="), class: "related-link homepage-card" do %>
+        <h4>Update on MBTA Installation of Positive Train Control Technology</h4>
+        <p>The MBTA's Positive Train Control (PTC) Program staff Monday presented updates about the Program to the Fiscal&hellip;</p>
+      <% end %>
     </div>
     <div class="col-md-6 col-sm-12">
-      <ul class="index-news-group">
-        <li class="index-news-item">
-          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493") do %>
-            Buses to replace Green Line trolleys on D branch to allow for tree removal work
-          <% end %>
-        </li>
-        <li class="index-news-item">
-          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457492") do %>
-            MBTA Youth Pass Program launches Wednesday, February 1
-          <% end %>
-        </li>
-        <li class="index-news-item">
-          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457485&month=&year=") do %>
-            MBTA releases Overnight Service Survey Data
-          <% end %>
-        </li>
-        <li class="index-news-item">
-          <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/") do %>
-            View all news <%= fa "arrow-right" %>
-          <% end %>
-        </li>
-      </ul>
+      <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442457677&month=&year="), class: "related-link homepage-card" do %>
+        <h4>Governor Baker, MBTA Celebrate Expansion of The RIDE's On-Demand Paratransit Service</h4>
+        <p>Today, Governor Charlie Baker and MBTA Acting General Manager Brian Shortsleeve celebrated 10,000 rides in the&hellip;</p>
+      <% end %>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442457676&month=&year="), class: "related-link homepage-card" do %>
+        <h4>$7.9 Million Investment to Upgrade Mattapan Line Trolley Fleet</h4>
+        <p>The MBTA Fiscal and Management Control Board was briefed Monday on a plan to invest $7.9 million to fully overhaul&hellip;</p>
+      <% end %>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442457650&month=&year="), class: "related-link homepage-card" do %>
+        <h4>Design-Build Firms Interested in Green Line Extension Project</h4>
+        <p>The MBTA has announced that an important step has been achieved for the Green Line Extension Project.  The&hellip;</p>
+      <% end %>
     </div>
   </div>
+  <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/") do %>
+    More News <%= fa "arrow-right" %>
+  <% end %>
 </div>

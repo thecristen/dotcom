@@ -54,7 +54,6 @@ defmodule Site.PageControllerTest do
         |> Floki.text()
         |> String.replace("\n", " ")
       assert footer_text =~ "Zakim bridge and the TD Garden photo by: Robbie Shade"
-      assert footer_text =~ "Sunset at BU Central photo by: Mark Zastrow"
     end
 
     test "are not included in footer when not on the homepage", %{conn: conn} do
@@ -66,7 +65,6 @@ defmodule Site.PageControllerTest do
         |> Floki.text()
         |> String.replace("\n", " ")
       refute footer_text =~ "Zakim bridge and the TD Garden photo by: Robbie Shade"
-      refute footer_text =~ "Sunset at BU Central photo by: Mark Zastrow"
     end
   end
 end

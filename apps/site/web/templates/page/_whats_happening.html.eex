@@ -1,16 +1,16 @@
 <div class="container page-section">
   <h2>What's Happening at the MBTA</h2>
   <div class="row">
-    <div class="col-sm-4 homepage-about-link">
-      <img src="<%= static_url @conn, "/images/southstation-01.jpg" %>"
-        alt="South Station interior" />
+    <div class="col-sm-4 homepage-link">
+      <img srcset="<%= static_url @conn, "/images/dtx-station.jpg" %>, <%= static_url @conn, "/images/dtx-station_2x.jpg" %> 2x"
+        alt="Downtown Crossing exterior" />
       <div class="about-title">The Red Line north passageway at Downtown Crossing station will be out of service to allow for the construction of a new elevator.
         <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457424&month=&year=") do %>
           <span class="no-wrap">Read <%= fa "arrow-right" %></span>
         <% end %>
       </div>
     </div>
-    <div class="col-sm-4 homepage-about-link">
+    <div class="col-sm-4 homepage-link">
       <img src="<%= static_url @conn, "/images/commuter-01.jpg" %>"
         alt="Commuter Rail train at North Station"
         class="hidden-xs-down" />
@@ -20,12 +20,12 @@
         <% end %>
       </div>
     </div>
-    <div class="col-sm-4 homepage-about-link">
-      <img src="<%= static_url @conn, "/images/green-01.jpg" %>"
-        alt="Outside Green Line Stop"
+    <div class="col-sm-4 homepage-link">
+      <img srcset="<%= static_url @conn, "/images/ruggles-station.jpg" %>, <%= static_url @conn, "/images/ruggles-station.jpg" %> 2x"
+        alt="Outside Ruggles Station"
         class="hidden-xs-down" />
-      <div class="about-title">Buses will replace Green Line D branch service between Newton Highlands and Riverside Stations from 9:00 am to 3:00 pm on...
-        <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457493&month=&year=") do %>
+      <div class="about-title">The Fiscal and Management Control Board (FMCB) today voted to amend the Ruggles Station Transportation Project contract with Vanasse Hangen Brustlin&hellip;
+        <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442457281&month=&year") do %>
           <span class="no-wrap">Read <%= fa "arrow-right" %></span>
         <% end %>
       </div>
