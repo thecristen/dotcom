@@ -20,6 +20,10 @@
     &:last-child {
       @include stop-bubble-last();
     }
+
+    &.collapsed-row {
+      @include stop-bubble-collapsed();
+    }
   }
 }
 
@@ -30,11 +34,8 @@
 .branch-link {
   background-color: $gray-lightest;
   border-radius: $space-4;
+  display: inline-block; // forces the button to hold its shape if the line needs to break
   padding: .5rem 1rem;
-}
-
-.route-expand-branch.collapsed-row {
-  @include stop-bubble-collapsed();
 }
 
 .route-icons {
@@ -133,5 +134,26 @@
 
   .green-line-bubble {
     height: 400%;
+  }
+}
+
+.red-line-braintree-stops {
+  position: relative;
+  z-index: $z-index-redline-braintree-stops;
+  // z-index is required because the braintree stops get covered by the ashmont stops; not sure exactly why
+  // but I suspect it's related to the position:absolute on the ashmont line's .route-stop -kh
+
+  &.ashmont-collapsed {
+    > .stop-bubble::before {
+      border-left-style: dotted;
+    }
+  }
+}
+
+.red-line-ashmont-stops {
+  .route-expand-branch.collapsed-row {
+    .stop-bubble::before {
+      height: 100%;
+    }
   }
 }

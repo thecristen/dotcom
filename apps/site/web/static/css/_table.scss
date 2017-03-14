@@ -59,7 +59,8 @@
   @include clearfix();
 
   background-color: $white;
-  border: $border;
+  border-bottom: $border;
+  border-top: $border;
   margin-bottom: -$space-1;
   margin-top: -$space-1;
   padding: $base-spacing-sm $grid-gutter-width / 2;

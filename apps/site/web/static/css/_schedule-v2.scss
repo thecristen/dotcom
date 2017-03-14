@@ -49,6 +49,8 @@
 .trip-list-v2-row {
   @extend %unpadded-table-row;
   @include make-row();
+  border-left: $border;
+  border-right: $border;
   color: $gray-dark;
   display: block;
 
@@ -258,6 +260,8 @@ a {
 // trip info parent container
 .schedule-trip-info {
   @include make-row();
+  border-left: $border;
+  border-right: $border;
 
   @include media-breakpoint-up(md) {
     float: right;
