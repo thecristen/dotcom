@@ -6,9 +6,9 @@ defmodule Site.FareView do
   defdelegate description(fare, assigns), to: Site.FareView.Description
 
   @doc "Renders a summary of fares into HTML"
-  @spec summarize([Summary.t]) :: Phoenix.HTML.Safe.t
-  def summarize(summaries) do
-    render("_summary.html", summaries: summaries)
+  @spec summarize([Summary.t], Keyword.t) :: Phoenix.HTML.Safe.t
+  def summarize(summaries, opts \\ []) do
+    render("_summary.html", summaries: summaries, class: opts[:class])
   end
 
   @doc "Return the reduced fare note for the given fare"

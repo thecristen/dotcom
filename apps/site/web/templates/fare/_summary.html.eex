@@ -1,4 +1,4 @@
-<div class="fare-summary-container">
+<div class="fare-summary-container <%= @class || "title-card-container-table-multi-col" %>">
   <%= for chunk <- Enum.chunk(@summaries, 2, 2, []) do %>
     <div class="fare-summary-row">
       <%= for summary <- chunk do %>

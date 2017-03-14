@@ -1,35 +1,10 @@
 .fare-summary-container {
+  @extend %title-card-container;
   @extend %title-card-container-table;
 }
 
 .fare-summary-entry {
   @extend %title-card;
-  border: $space-1 solid $gray-lightest;
-  float: left;
-  margin-top: -$space-1;
-  padding: $base-spacing;
-  width: 100%;
-}
-
-div:not(.col-md-6) > .fare-summary-row {
-  // only make it smaller if we're not inside a shrinking column already
-  @include media-breakpoint-up(sm) {
-    display: table;
-    // add margin back that's ignored by the `display: table`
-    margin-bottom: $base-spacing;
-    width: 100%;
-
-    + .fare-summary-row {
-      margin-top: -$space-1 - $base-spacing;
-    }
-
-    .fare-summary-entry {
-      display: table-cell;
-      float: none;
-      width: 50%;
-    }
-
-  }
 }
 
 .fare-summary-name {
