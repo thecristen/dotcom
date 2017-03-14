@@ -514,4 +514,19 @@ defmodule Site.ScheduleV2View do
   def display_map?(_) do
     true
   end
+
+  @spec route_pdf_link(Route.t) :: Phoenix.HTML.Safe.t
+  def route_pdf_link(%Route{} = route) do
+    case Routes.Pdf.url(route) do
+      nil -> []
+      _pdf_url -> link(to: route_pdf_path(Site.Endpoint, :pdf, route)) do
+        [
+          fa("file-pdf-o"),
+          " View PDF of the ",
+          route.name,
+          " schedules"
+        ]
+      end
+    end
+  end
 end
