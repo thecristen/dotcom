@@ -295,6 +295,12 @@
 }
 
 .homepage-link {
+  @include hover-focus-active {
+    .homepage-svg {
+      background-color: $btn-primary-focus-bg;
+    }
+  }
+
   * {
     text-decoration: inherit;
   }
@@ -323,8 +329,4 @@
   border-radius: 4px;
   padding: 1.5rem;
   text-align: center;
-
-  @include hover-focus-active {
-    background-color: $brand-primary-lightest;
-  }
 }
