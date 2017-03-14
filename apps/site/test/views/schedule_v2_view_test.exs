@@ -650,4 +650,15 @@ defmodule Site.ScheduleV2ViewTest do
       assert display_map?(4) == true
     end
   end
+
+  describe "route_pdf_link/1" do
+    test "returns a link to PDF redirector if we have a PDF for the route" do
+      rendered = safe_to_string(route_pdf_link(%Routes.Route{id: "CR-Worcester", name: "Framingham/Worcester Line"}))
+      assert rendered =~ "View PDF of the Framingham/Worcester Line schedules"
+    end
+
+    test "returns an empty list if no PDF for that route" do
+      assert route_pdf_link(%Routes.Route{id: "nonexistent"}) == []
+    end
+  end
 end
