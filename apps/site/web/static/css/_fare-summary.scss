@@ -1,36 +1,26 @@
 .fare-summary-container {
-  @include clearfix();
-  margin-bottom: $base-spacing;
-
-  + .fare-summary-container {
-    margin-top: -$base-spacing;
-  }
+  @extend %title-card-container-table;
 }
 
 .fare-summary-entry {
-  @extend %block-level-link;
-  @extend %button-focus-color;
+  @extend %title-card;
   border: $space-1 solid $gray-lightest;
-  display: table-cell;
   float: left;
   margin-top: -$space-1;
   padding: $base-spacing;
   width: 100%;
 }
 
-.the-ride-summary-entry {
-  padding-bottom: $base-spacing;
-}
-
-div:not(.col-md-6) > .fare-summary-container {
+div:not(.col-md-6) > .fare-summary-row {
   // only make it smaller if we're not inside a shrinking column already
   @include media-breakpoint-up(sm) {
-    border-collapse: collapse;
     display: table;
+    // add margin back that's ignored by the `display: table`
+    margin-bottom: $base-spacing;
     width: 100%;
 
-    + .fare-summary-container {
-      margin-top: -$base-spacing - $space-1;
+    + .fare-summary-row {
+      margin-top: -$space-1 - $base-spacing;
     }
 
     .fare-summary-entry {
@@ -38,12 +28,12 @@ div:not(.col-md-6) > .fare-summary-container {
       float: none;
       width: 50%;
     }
+
   }
 }
 
 .fare-summary-name {
-  font-weight: bold;
-  margin-bottom: $base-spacing-sm;
+  @extend %title-card-title;
 }
 
 .fare-summary-mode-icons {

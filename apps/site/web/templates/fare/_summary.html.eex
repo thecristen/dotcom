@@ -1,30 +1,30 @@
-<%= for chunk <- Enum.chunk(@summaries, 2, 2, []) do %>
-  <div class="fare-summary-container">
-    <%= for summary <- chunk do %>
-      <% url = summary_url(summary) %>
-      <div class="fare-summary-entry">
-        <div class="fare-summary-name">
-          <%= link summary.name, to: url %>
-          <span class="fare-summary-mode-icons">
-            <span class="sr-only">Valid on:</span>
-            <%= for mode <- summary.modes do %>
-              <span class="sr-only"><%= mode_name(mode) %></span>
-              <span class="fares-mode-icon-group" aria-hidden="true">
-                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %>
-              </span>
+<div class="fare-summary-container">
+  <%= for chunk <- Enum.chunk(@summaries, 2, 2, []) do %>
+    <div class="fare-summary-row">
+      <%= for summary <- chunk do %>
+        <%= link to: summary_url(summary), class: "fare-summary-entry" do %>
+          <div class="fare-summary-name">
+            <%= summary.name %>
+            <span class="fare-summary-mode-icons">
+              <span class="sr-only">Valid on:</span>
+              <%= for mode <- summary.modes do %>
+                <span class="sr-only"><%= mode_name(mode) %></span>
+                <span class="fares-mode-icon-group" aria-hidden="true">
+                  <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, class: "icon-small"}) %>
+                </span>
+              <% end %>
+            </span>
+          </div>
+          <div class="fare-summary-box">
+            <%= for {title, price} <- summary.fares do %>
+              <div class="fare-summary-fare">
+                <span class="fare-summary-fare-name"><%= title %></span>
+                <span class="fare-summary-fare-price"><%= price %></span>
+              </div>
             <% end %>
-          </span>
-        </div>
-        <div class="fare-summary-box">
-          <%= for {title, price} <- summary.fares do %>
-            <div class="fare-summary-fare">
-              <span class="fare-summary-fare-name"><%= title %></span>
-              <span class="fare-summary-fare-price"><%= price %></span>
-            </div>
-          <% end %>
-        </div>
-        <%= link "", to: url %>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

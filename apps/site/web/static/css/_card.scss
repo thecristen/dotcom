@@ -10,7 +10,8 @@
 }
 
 
-.title-card {
+.title-card,
+%title-card {
   border: $border;
   color: $gray-dark;
   display: block;
@@ -23,19 +24,26 @@
   }
 }
 
-.title-card-title {
+.title-card-title,
+%title-card-title {
   @extend h4;
-  color: $link-color;
   margin-bottom: $base-spacing-sm;
 }
 
 a {
-  &.title-card {
+  &.title-card,
+  &%title-card {
     @extend %button-focus-color;
+  }
+
+  .title-card-title,
+  %title-card-title {
+    color: $link-color;
   }
 }
 
 .title-card-container {
+  @include clearfix();
 }
 
 .title-card-container-separate {
@@ -56,4 +64,9 @@ a {
       top: 0;
     }
   }
+}
+
+.title-card-container-table,
+%title-card-container-table {
+  border-collapse: collapse;
 }
