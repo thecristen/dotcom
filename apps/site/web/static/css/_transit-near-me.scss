@@ -95,12 +95,11 @@
   @include set-breakpoint-columns(lg, 4);
   @include set-breakpoint-columns(xxl, 4);
 
-  border-radius: $default-border-radius;
-  -moz-column-gap: $grid-gutter-width;
-  -webkit-column-gap: $grid-gutter-width;
-  column-gap: $grid-gutter-width;
+  -moz-column-gap: $grid-gutter-width / 2;
+  -webkit-column-gap: $grid-gutter-width / 2;
+  column-gap: $grid-gutter-width / 2;
   margin: 0 0 $base-spacing;
-  padding: $grid-gutter-width;
+  padding: $base-spacing-lg $base-spacing-lg ($base-spacing-lg - $base-spacing);
 
   &.empty {
     display: none;
@@ -127,25 +126,9 @@
   background: $white;
 }
 
-.transit-card-link {
-  display: block;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
 .transit-card {
-  @extend %button-focus-color;
-  background: $white;
-  border: $border;
-  border-radius: $default-border-radius;
+  @extend %title-card;
   display: inline-block;
-  margin-bottom: $grid-gutter-width / 4;
-  margin-top: $grid-gutter-width / 4;
-  padding: $space-12;
-  position: relative;
   width: 100%;
 }
 
@@ -170,9 +153,9 @@
 }
 
 .transit-card-name {
+  @extend %title-card-title;
   float: left;
-  margin-bottom: $space-16;
-  width: 66.666%;
+  width: 66%;
 }
 
 .transit-card-distance {

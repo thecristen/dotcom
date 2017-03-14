@@ -68,21 +68,6 @@
   }
 }
 
-%block-level-link {
-  @include clearfix();
-  @include force-width;
-  position: relative;
-
-  > a:last-of-type {
-    @include force-width;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-}
-
 .button-group,
 %button-group {
   @include clearfix();
