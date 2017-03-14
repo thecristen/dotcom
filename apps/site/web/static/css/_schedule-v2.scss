@@ -1,7 +1,6 @@
 @import 'table';
 @import 'buttons';
 
-$z-index-calendar-cover: 4;
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -511,7 +510,7 @@ a {
   -webkit-writing-mode: vertical-lr; // Safari
   writing-mode: tb-lr; // for IE
   writing-mode: vertical-lr; // for everything else
-  z-index: 1;
+  z-index: $z-index-schedule-v2-timetable-time-text;
 
   @include media-breakpoint-up(md) {
     display: block;
