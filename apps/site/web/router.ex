@@ -59,6 +59,7 @@ defmodule Site.Router do
     pipe_through [:browser]
     get "/Green", ScheduleV2Controller.Green, :green
     get "/:route", ScheduleV2Controller, :show
+    get "/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
   end
 
   # This needs to go last so that it catches any URLs that fall through.
