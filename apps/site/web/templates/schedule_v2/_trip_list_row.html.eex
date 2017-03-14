@@ -6,7 +6,7 @@ else
   {:div, [class: class_name]}
 end %>
 <%= content_tag tag, attributes do %>
-  <div>
+  <div class="trip-list-v2-departure">
     <%= PredictedSchedule.Display.time(@departure) %>
   </div>
   <div>

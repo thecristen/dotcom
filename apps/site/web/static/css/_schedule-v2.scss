@@ -1,7 +1,6 @@
 @import 'table';
 @import 'buttons';
 
-$z-index-calendar-cover: 4;
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -50,6 +49,7 @@ $z-index-calendar-cover: 4;
 .trip-list-v2-row {
   @extend %unpadded-table-row;
   @include make-row();
+  color: $gray-dark;
   display: block;
 
   &:empty {
@@ -71,6 +71,10 @@ a {
       border-bottom-color: $btn-primary-focus-bg;
       border-top-color: $btn-primary-focus-bg;
     }
+  }
+
+  .trip-list-v2-departure {
+    color: $link-color;
   }
 
   &.trip-list-v2-row-selected {
@@ -103,6 +107,7 @@ a {
 
 .trip-list-v2-header {
   @extend %table-header;
+  color: $white;
   margin-top: $base-spacing;
 
   * {
@@ -505,7 +510,7 @@ a {
   -webkit-writing-mode: vertical-lr; // Safari
   writing-mode: tb-lr; // for IE
   writing-mode: vertical-lr; // for everything else
-  z-index: 1;
+  z-index: $z-index-schedule-v2-timetable-time-text;
 
   @include media-breakpoint-up(md) {
     display: block;

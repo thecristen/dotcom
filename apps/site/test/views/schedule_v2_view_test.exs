@@ -637,4 +637,16 @@ defmodule Site.ScheduleV2ViewTest do
       refute display_collapsed?("Green-D", "Green-D", %Stops.Stop{id: "place-river"}, :empty, "Green-D", @stops_on_routes)
     end
   end
+
+  describe "display_map_link?/1" do
+    test "is true for subway and ferry" do
+      assert display_map_link?(0) == true
+      assert display_map_link?(4) == true
+    end
+
+    test "is false for bus and commuter rail" do
+      assert display_map_link?(3) == false
+      assert display_map_link?(2) == false
+    end
+  end
 end

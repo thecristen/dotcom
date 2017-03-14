@@ -7,8 +7,6 @@ defmodule Site.Mode.HubBehavior do
   @callback fares() :: [Summary.t]
   @callback fare_description() :: String.t | iodata
   @callback route_type() :: 0..4
-  @callback map_pdf_url() :: String.t | nil
-  @callback map_image_url() :: String.t
 
   use Site.Web, :controller
 
@@ -24,13 +22,7 @@ defmodule Site.Mode.HubBehavior do
 
       def routes, do: Routes.Repo.by_type(route_type())
 
-      def map_pdf_url do
-        "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
-      end
-
-      def map_image_url, do: "/images/subway-spider.jpg"
-
-      defoverridable [routes: 0, map_pdf_url: 0, map_image_url: 0]
+      defoverridable [routes: 0]
     end
   end
 
@@ -44,8 +36,8 @@ defmodule Site.Mode.HubBehavior do
       mode_name: mode_strategy.mode_name(),
       fares: Task.await(fares_task),
       fare_description: mode_strategy.fare_description(),
-      map_pdf_url: mode_strategy.map_pdf_url(),
-      map_image_url: static_url(Site.Endpoint, mode_strategy.map_image_url()),
+      map_pdf_url: MapHelpers.map_pdf_url(mode_strategy.route_type),
+      map_image_url: static_url(Site.Endpoint, MapHelpers.map_image_url(mode_strategy.route_type)),
       breadcrumbs: [{mode_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name()]
     )
   end

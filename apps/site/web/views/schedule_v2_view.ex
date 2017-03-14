@@ -465,4 +465,12 @@ defmodule Site.ScheduleV2View do
       true -> false
     end
   end
+
+  @spec display_map_link?(integer) :: boolean
+  def display_map_link?(route_type) when route_type in [0, 1, 4] do
+    true
+  end
+  def display_map_link?(_route_type) do
+    false
+  end
 end
