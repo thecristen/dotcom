@@ -20,11 +20,6 @@ defmodule Site.ScheduleController do
   plug ScheduleController.Predictions
   plug :disable_cache
 
-  def show(%{query_params: %{"route" => new_route_id}} = conn,
-    %{"route" => old_route_id} = params) when new_route_id != old_route_id do
-    new_path = schedule_path(conn, :show, new_route_id, Map.delete(params, "route"))
-    redirect conn, to: new_path
-  end
   def show(conn, _params) do
     conn
     |> render("index.html")

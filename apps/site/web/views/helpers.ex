@@ -287,19 +287,6 @@ defmodule Site.ViewHelpers do
     filters |> get_fares |> Fares.Format.summarize(mode)
   end
 
-  def schedule_path(conn_or_endpoint, method, arg, opts \\ [])
-  def schedule_path(%Plug.Conn{} = conn, method, arg, opts) do
-    helper = if Laboratory.enabled?(conn, :schedules_v2) do
-      :schedule_v2_path
-    else
-      :schedule_path
-    end
-    apply(Site.Router.Helpers, helper, [conn, method, arg, opts])
-  end
-  def schedule_path(endpoint, method, arg, opts) do
-    Site.Router.Helpers.schedule_path(endpoint, method, arg, opts)
-  end
-
   @spec route_type_name(number) :: String.t
   def route_type_name(route_type) do
     case route_type do

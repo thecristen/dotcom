@@ -26,13 +26,16 @@ defmodule Site.Router do
     resources "/events", EventController, only: [:index, :show]
     get "/redirect/*path", RedirectController, :show
     resources "/stops", StopController, only: [:index, :show]
+    get "/schedules_v1/Green", ScheduleController.Green, :green
+    get "/schedules_v1/:route", ScheduleController, :show
     get "/schedules", ModeController, :index
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus
     get "/schedules/ferry", ModeController, :ferry
     get "/schedules/commuter_rail", ModeController, :commuter_rail
-    get "/schedules/Green", ScheduleController.Green, :green
-    get "/schedules/:route", ScheduleController, :show
+    get "/schedules/Green", ScheduleV2Controller.Green, :green
+    get "/schedules/:route", ScheduleV2Controller, :show
+    get "/schedules/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
     get "/style_guide", StyleGuideController, :index
     get "/style_guide/:section", StyleGuideController, :index
     get "/style_guide/:section/:subpage", StyleGuideController, :show
@@ -53,13 +56,6 @@ defmodule Site.Router do
     pipe_through [:browser]
 
     forward "/", Laboratory.Router
-  end
-
-  scope "/schedules_v2", Site do
-    pipe_through [:browser]
-    get "/Green", ScheduleV2Controller.Green, :green
-    get "/:route", ScheduleV2Controller, :show
-    get "/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
   end
 
   # This needs to go last so that it catches any URLs that fall through.

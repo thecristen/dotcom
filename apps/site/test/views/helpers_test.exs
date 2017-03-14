@@ -111,33 +111,12 @@ defmodule Site.ViewHelpersTest do
     end
   end
 
-  describe "schedule_path/3 and /4" do
-    test "defaults to schedule path", %{conn: conn} do
-      expected = Site.Router.Helpers.schedule_path(Site.Endpoint, :show, 5)
-      assert Site.ViewHelpers.schedule_path(conn, :show, 5) == expected
-      assert Site.ViewHelpers.schedule_path(Site.Endpoint, :show, 5) == expected
-    end
-
-    test "takes arguments", %{conn: conn} do
-      expected = Site.Router.Helpers.schedule_path(Site.Endpoint, :show, 5, origin: "10")
-      assert Site.ViewHelpers.schedule_path(conn, :show, 5, origin: "10") == expected
-      assert Site.ViewHelpers.schedule_path(Site.Endpoint, :show, 5, origin: "10") == expected
-    end
-
-    test "if cookie is present, generates a v2 URL", %{conn: conn} do
-      expected = Site.Router.Helpers.schedule_v2_path(Site.Endpoint, :show, 5)
-      assert conn
-      |> put_resp_cookie("schedules_v2", "true")
-      |> recycle
-      |> Site.ViewHelpers.schedule_path(:show, 5) == expected
-    end
-
-    test "can generate a v2 url with args", %{conn: conn} do
-      expected = Site.Router.Helpers.schedule_v2_path(Site.Endpoint, :show, 5, origin: 10)
-      assert conn
-      |> put_resp_cookie("schedules_v2", "true")
-      |> recycle
-      |> Site.ViewHelpers.schedule_path(:show, 5, origin: 10) == expected
+  describe "verify that schedule path functions show correct version" do
+    test "make sure paths have the correct version" do
+      v2 = Site.Router.Helpers.schedule_v2_path(Site.Endpoint, :show, 5)
+      v1 = Site.Router.Helpers.schedule_path(Site.Endpoint, :show, 5)
+      assert v2 =~ ~r/\/schedules\//
+      assert v1 =~ ~r/\/schedules_v1\//
     end
   end
 
