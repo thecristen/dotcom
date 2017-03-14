@@ -18,6 +18,10 @@
   width: 100%;
 }
 
+.the-ride-summary-entry {
+  padding-bottom: $base-spacing;
+}
+
 div:not(.col-md-6) > .fare-summary-container {
   // only make it smaller if we're not inside a shrinking column already
   @include media-breakpoint-up(sm) {

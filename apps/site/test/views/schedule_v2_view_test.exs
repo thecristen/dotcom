@@ -649,4 +649,17 @@ defmodule Site.ScheduleV2ViewTest do
       assert display_map_link?(2) == false
     end
   end
+
+  describe "display_map?/1" do
+    test "is false for bus" do
+      assert display_map?(3) == false
+    end
+
+    test "is true for all modes except bus" do
+      assert display_map?(0) == true
+      assert display_map?(1) == true
+      assert display_map?(2) == true
+      assert display_map?(4) == true
+    end
+  end
 end

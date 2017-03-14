@@ -49,16 +49,17 @@ defmodule StopTimeList do
   end
 
   @spec build_times([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
-  defp build_times(schedules, predictions, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
+  defp build_times(schedule_pairs, predictions, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
+    predictions = match_schedule_direction(schedule_pairs, predictions)
     stop_times = group_trips(
-      schedules,
+      schedule_pairs,
       predictions,
       origin_id,
       destination_id,
       &build_schedule_pair_map/2,
       &build_stop_time(&1, &2, &3, origin_id, destination_id)
     )
-    Enum.reject(stop_times, &Timex.after?(StopTime.departure_time(&1), StopTime.arrival_time(&1)))
+    Enum.reject(stop_times, &reversed_stop_time?/1)
   end
   defp build_times(schedules, predictions, origin_id, nil) when is_binary(origin_id) do
     group_trips(
@@ -156,5 +157,21 @@ defmodule StopTimeList do
     |> Enum.reject(&is_nil/1)
     |> List.first
     |> Map.get(:trip)
+  end
+
+  @spec reversed_stop_time?(StopTime.t) :: boolean
+  defp reversed_stop_time?(stop_time) do
+    Timex.after?(StopTime.departure_time(stop_time), StopTime.arrival_time(stop_time))
+  end
+
+  # reject predictions which are going in the wrong direction from the schedule
+  @spec match_schedule_direction([{Schedule.t, Schedule.t}], [Prediction.t]) :: [Prediction.t]
+  defp match_schedule_direction(schedule_pairs, predictions)
+  defp match_schedule_direction([], predictions) do
+    predictions
+  end
+  defp match_schedule_direction([{departure_schedule, _} | _], predictions) do
+    direction_id = departure_schedule.trip.direction_id
+    Enum.filter(predictions, &match?(%{direction_id: ^direction_id}, &1))
   end
 end

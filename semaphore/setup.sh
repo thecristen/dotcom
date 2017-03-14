@@ -10,6 +10,12 @@ for service in cassandra elasticsearch mysql rabbitmq-server mongod docker memca
 done
 killall Xvfb
 
+# Add more swap memory. Default is ~200m, make it 1G
+sudo swapoff -a
+sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
 export MIX_HOME=$SEMAPHORE_CACHE_DIR/mix
 
 . /home/runner/.kerl/installs/$ERLANG_VERSION/activate
