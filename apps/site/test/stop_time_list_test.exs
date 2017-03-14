@@ -644,6 +644,22 @@ defmodule StopTimeListTest do
       }
     end
 
+    test "when trips are cancelled, returns the schedules with those cancel predictions" do
+      cancel_stop1_trip2 = %{@pred_stop1_trip2__8_16 | time: nil, schedule_relationship: :cancelled}
+      cancel_stop3_trip2 = %{@pred_stop3_trip2__8_32 | time: nil, schedule_relationship: :cancelled}
+      # cancellations for the right stops, but a trip going the other direction
+      cancel_stop1_trip6 = %{@pred_stop1_trip6__8_37 | time: nil, schedule_relationship: :cancelled, direction_id: 1}
+      cancel_stop3_trip6 = %{@pred_stop3_trip6__8_38 | time: nil, schedule_relationship: :cancelled, direction_id: 1}
+      predictions = [cancel_stop3_trip6, cancel_stop1_trip6, cancel_stop3_trip2, cancel_stop1_trip2]
+
+      result = build(@od_schedules, predictions, "stop1", "stop3", :keep_all, ~N[2017-01-01T08:00:00])
+      stop_time = Enum.at(result.times, 1) # should be trip 2
+
+      assert PredictedSchedule.trip(stop_time.departure) == %Trip{id: "trip2"}
+      assert stop_time.departure.prediction == cancel_stop1_trip2
+      assert stop_time.arrival.prediction == cancel_stop3_trip2
+    end
+
     test "when showing all, can return schedules before predictions" do
       result = build(@od_schedules, @predictions, "stop1", "stop3", :keep_all, @time)
       assert List.first(result.times) == %StopTime{

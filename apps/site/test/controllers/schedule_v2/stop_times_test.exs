@@ -113,11 +113,11 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       origin = %Stop{id: "origin"}
       destination = %Stop{id: "destination"}
       schedules = [
-        {%Schedule{trip: nil, stop: origin, time: @date_time},
-         %Schedule{trip: nil, stop: destination, time: @date_time}},
         {%Schedule{trip: trip, stop: origin, time: @date_time},
          %Schedule{trip: trip, stop: destination, time: @date_time}}]
-      predictions = []
+      predictions = [
+        %Prediction{stop: origin, time: @date_time},
+        %Prediction{stop: destination, time: @date_time}]
       conn = setup_conn(@route, schedules, predictions, @date_time, @cal_date, origin, destination)
       assert redirected_to(conn, 302) == update_url(conn, direction_id: 1)
     end
