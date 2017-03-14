@@ -2,6 +2,18 @@ defmodule Fares.RepoTest do
   use ExUnit.Case, async: true
   alias Fares.{Repo, Fare}
 
+  describe "all/0" do
+    test "returns a list of the fares we know about" do
+      assert is_list(Repo.all())
+    end
+  end
+
+  describe "all/1" do
+    test "is the same as piping all/0 through filter/2" do
+      assert Repo.all(mode: :subway) == Repo.filter(Repo.all(), mode: :subway)
+    end
+  end
+
   describe "filter/1" do
     @fares [
       %Fare{mode: :commuter_rail, cents: 225, duration: :single_trip, name: {:zone, "1A"}, media: [:commuter_ticket], reduced: nil},
