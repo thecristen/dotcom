@@ -12,7 +12,8 @@ defmodule Site.ScheduleV2Controller.PdfTest do
   end
 
   test "renders 404 if route exists but does not have PDF", %{conn: conn} do
-    conn = get(conn, route_pdf_path(conn, :pdf, %Routes.Route{id: "57A"}))
+    # 195 is a secret route - https://en.wikipedia.org/wiki/List_of_MBTA_bus_routes#195
+    conn = get(conn, route_pdf_path(conn, :pdf, %Routes.Route{id: "195"}))
     assert html_response(conn, 404)
   end
 end
