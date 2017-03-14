@@ -32,6 +32,7 @@ defmodule Alerts.RepoTest do
             id: "id",
             attributes: %{
               "header" => "header",
+              "url" => "url",
               "banner" => "banner",
               "description" => "description"
             }},
@@ -45,7 +46,27 @@ defmodule Alerts.RepoTest do
         ]}
       banner = %Alerts.Banner{
         id: "id",
-        title: "banner"}
+        title: "banner",
+        url: "url"}
+      assert do_banner(fn -> api end) == banner
+    end
+
+    test "can return a banner with a nil URL" do
+      api = %JsonApi{
+        data: [
+          %JsonApi.Item{
+            id: "id",
+            attributes: %{
+              "header" => "header",
+              "url" => nil,
+              "banner" => "banner",
+              "description" => "description"
+            }},
+        ]}
+      banner = %Alerts.Banner{
+        id: "id",
+        title: "banner",
+        url: nil}
       assert do_banner(fn -> api end) == banner
     end
   end
