@@ -5,8 +5,8 @@ defmodule Vehicles.Parser do
   def parse(%JsonApi.Item{id: id, attributes: attributes, relationships: relationships}) do
     %Vehicle{
       id: id,
-      route_id: List.first(relationships["route"]).id,
-      trip_id: trip_id(relationships["trip"]),
+      route_id: optional_id(relationships["route"]),
+      trip_id: optional_id(relationships["trip"]),
       stop_id: stop_id(relationships["stop"]),
       direction_id: attributes["direction_id"],
       status: status(attributes["current_status"])
@@ -18,9 +18,9 @@ defmodule Vehicles.Parser do
   defp status("INCOMING_AT"), do: :incoming
   defp status("IN_TRANSIT_TO"), do: :in_transit
 
-  @spec trip_id([JsonApi.Item.t]) :: String.t | nil
-  defp trip_id([]), do: nil
-  defp trip_id([%JsonApi.Item{id: id}]), do: id
+  @spec optional_id([JsonApi.Item.t]) :: String.t | nil
+  defp optional_id([]), do: nil
+  defp optional_id([%JsonApi.Item{id: id}]), do: id
 
   @spec stop_id([JsonApi.Item.t]) :: String.t
   defp stop_id([%JsonApi.Item{
