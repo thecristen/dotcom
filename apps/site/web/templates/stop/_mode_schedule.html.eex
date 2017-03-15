@@ -14,7 +14,7 @@
       <%= for route <- @routes do %>
         <%= for direction_id <- [0, 1] do %>
           <%= if (departure_groups = upcoming_departures(@conn.assigns, @stop.id, route.id, direction_id)) != [] do %>
-            <%= link class: "station-route-row", to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) do %>
+            <%= link class: "station-route-row", to: schedule_v2_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) do %>
               <div class="col-xs-12 mode-route-name">
                 <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route, class: "icon-small"}) %>
                 <%= route.name %>

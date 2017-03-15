@@ -26,7 +26,7 @@
           <%= if schedule = upcoming_commuter_departures(@conn, route.id, direction_id) do %>
             <% %Schedule{trip: %Trip{id: trip_id}} = schedule %>
             <% prediction = commuter_prediction(@stop_predictions, trip_id) %>
-            <%= link class: "station-route-row", to: schedule_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") do %>
+            <%= link class: "station-route-row", to: schedule_v2_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") do %>
               <div class="col-xs-12 mode-route-name">
                 <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
                 <%= route.name %>

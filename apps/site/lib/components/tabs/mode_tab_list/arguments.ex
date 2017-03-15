@@ -8,7 +8,7 @@ defmodule Site.Components.Tabs.ModeTabList do
     id: "modes",
     class: "",
     links: for mode <- [:bus, :commuter_rail, :subway, :ferry] do
-             {mode, Site.Router.Helpers.schedule_path(Site.Endpoint, :show, mode)}
+             {mode, Site.Router.Helpers.schedule_v2_path(Site.Endpoint, :show, mode)}
            end,
     selected_mode: :bus,
     collapse: nil

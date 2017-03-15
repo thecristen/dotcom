@@ -33,7 +33,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: "trip")
-      expected = schedule_path(conn, :show, "route", trip: "trip")
+      expected = schedule_v2_path(conn, :show, "route", trip: "trip")
 
       assert expected == actual
     end
@@ -42,7 +42,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route", "trip" => "old"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: "trip")
-      expected = schedule_path(conn, :show, "route", trip: "trip")
+      expected = schedule_v2_path(conn, :show, "route", trip: "trip")
 
       assert expected == actual
     end
@@ -51,7 +51,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: nil)
-      expected = schedule_path(conn, :show, "route")
+      expected = schedule_v2_path(conn, :show, "route")
 
       assert expected == actual
     end
@@ -60,7 +60,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: "")
-      expected = schedule_path(conn, :show, "route", trip: "")
+      expected = schedule_v2_path(conn, :show, "route", trip: "")
 
       assert expected == actual
     end
@@ -74,7 +74,7 @@ defmodule Site.ScheduleViewTest do
     end
 
     test "on commuter rail, renders inline predictions", %{conn: conn} do
-      conn = get conn, "/schedules/CR-Lowell?direction_id=0"
+      conn = get conn, "/schedules_v1/CR-Lowell?direction_id=0"
       second_schedule = Enum.at(conn.assigns[:schedules], 1)
       conn = conn
       |> assign(:predictions, [
@@ -96,7 +96,7 @@ defmodule Site.ScheduleViewTest do
     end
 
     test "for subway, renders a list of times", %{conn: conn} do
-      conn = get conn, "/schedules/Red"
+      conn = get conn, "/schedules_v1/Red"
       schedule = List.first(conn.assigns[:schedules])
       time = Util.now |> Timex.shift(minutes: 5, seconds: 30)
       conn = conn

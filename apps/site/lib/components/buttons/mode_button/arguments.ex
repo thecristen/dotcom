@@ -5,6 +5,7 @@ defmodule Site.Components.Buttons.ModeButton do
 
   """
   import Site.ViewHelpers
+  import Site.Router.Helpers, only: [schedule_v2_path: 3]
   alias Site.Components.Buttons.ModeButton
   alias Phoenix.HTML.Tag
 
@@ -55,6 +56,6 @@ defmodule Site.Components.Buttons.ModeButton do
   def has_alert?(_), do: true
 
   def link_tag(args) do
-    Tag.tag :a, class: "mode-group-btn #{args.class}", id: args.id, href: Site.ViewHelpers.schedule_path(args.conn, :show, args.route.id)
+    Tag.tag :a, class: "mode-group-btn #{args.class}", id: args.id, href: schedule_v2_path(args.conn, :show, args.route.id)
   end
 end

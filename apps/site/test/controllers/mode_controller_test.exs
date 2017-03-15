@@ -9,4 +9,10 @@ defmodule Site.ModeControllerTest do
       |> html_response(200)
     end
   end
+
+  test "test mode redirect route_id", %{conn: conn} do
+    assert conn
+    |> get(mode_path(conn, :index, route: "CR-Fitchburg"))
+    |> redirected_to() == "/schedules/CR-Fitchburg"
+  end
 end
