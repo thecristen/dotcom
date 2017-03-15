@@ -49,6 +49,8 @@
 .trip-list-v2-row {
   @extend %unpadded-table-row;
   @include make-row();
+  border-left: $border;
+  border-right: $border;
   color: $gray-dark;
   display: block;
 
@@ -173,7 +175,7 @@ a {
 
 // "Show all stops" row -- dotted lines
 .collapsed-row {
-  @extend %stop-bubble-collapsed;
+  @include stop-bubble-collapsed();
 
   .expand-link {
     @extend %stop-name-and-time-column;
@@ -186,13 +188,13 @@ a {
 .stop-group:first-child .schedule-trip-stop:first-child,
 .route-stop-list .route-stop:first-child,
 .schedule-v2-timetable-row:nth-child(2) {
-  @extend %stop-bubble-first;
+  @include stop-bubble-first();
 }
 
 // the last stop in the list, don't display the line
 .stop-group:last-child .schedule-trip-stop:last-child,
 .schedule-v2-timetable-row:last-child {
-  @extend %stop-bubble-last;
+  @include stop-bubble-last();
 
   .stop-info {
     border-bottom: 0;
@@ -258,6 +260,8 @@ a {
 // trip info parent container
 .schedule-trip-info {
   @include make-row();
+  border-left: $border;
+  border-right: $border;
 
   @include media-breakpoint-up(md) {
     float: right;

@@ -26,6 +26,10 @@ $location-line-width: $space-6;
         }
       }
 
+      .stop-list-indented::after {
+        background-color: $color;
+      }
+
       .stop-bubble::before {
         border-left-color: $color;
       }
@@ -33,7 +37,7 @@ $location-line-width: $space-6;
   }
 }
 
-%stop-bubble-first {
+@mixin stop-bubble-first() {
   .stop-bubble::before {
     // NB: The seemingly magic number 98% keeps the lines long enough
     // to hit the next stop bubble without overlapping and causing
@@ -44,20 +48,20 @@ $location-line-width: $space-6;
   }
 }
 
-%stop-bubble-last {
+@mixin stop-bubble-last() {
   .stop-bubble::before {
     display: none;
   }
 }
 
-%stop-bubble-collapsed {
+@mixin stop-bubble-collapsed() {
   .stop-bubble {
     &::before {
       border-left-style: dotted;
       border-left-width: $location-line-width;
       // taller and adjusted up so it moves up towards the previous stop
       height: 150%;
-      top: -$space-16 - $space-4;
+      top: -$base-spacing * .75;
     }
   }
 }
@@ -84,6 +88,37 @@ $location-line-width: $space-6;
     overflow: visible;
     position: absolute;
     z-index: $z-index-stop-bubble;
+  }
+}
+
+.stop-list-indented {
+  padding-left: $icon-size;
+  position: relative;
+
+  // Starts in the middle of the line it's indenting from, and goes to the right edge of the indented line.
+  $extender-width: $location-line-width + ($icon-size * 1.5);
+
+  .route-stop {
+    padding-right: 0;
+  }
+
+  &::after {
+    content: ' ';
+    height: $location-line-width;
+    left: $icon-size / 2;
+    position: absolute;
+    top: 0;
+    width: $extender-width;
+  }
+
+  .route-stop:first-child {
+    //scss-lint:disable NestingDepth
+    .stop-bubble:first-child {
+      // removes a gap between the top of the indented line and the horizontal extender line.
+      &::before {
+        top: -$base-spacing / 2;
+      }
+    }
   }
 }
 
