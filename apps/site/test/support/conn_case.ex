@@ -21,6 +21,8 @@ defmodule Site.ConnCase do
       use Phoenix.ConnTest
 
       import Site.Router.Helpers
+      import Content.Factory
+      import Content.FactoryHelpers
 
       # The default endpoint for testing
       @endpoint Site.Endpoint
