@@ -26,5 +26,8 @@
       <% end %>
     <% end %>
     <%= trip_expansion_link(@stop_times.expansion, @date, @conn)%>
+    <p aria-hidden="true" class="trip-list-v2-row trip-list-v2-realtime">
+      <%= fa "rss" %> Real-time information
+    </p>
   </div>
 <% end %>

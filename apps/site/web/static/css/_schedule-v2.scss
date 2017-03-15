@@ -144,6 +144,11 @@ a {
   border-radius: 50%;
 }
 
+.trip-list-v2-realtime {
+  border: 0;
+  border-top: $border;
+}
+
 .commuter-status {
   @include first-column;
 }
