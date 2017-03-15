@@ -4,12 +4,12 @@
   }
 
   .route-stop-name-icons {
-    @extend %stop-name-and-time-column;
+    @include stop-info-column();
   }
 }
 
 .route-stop {
-  @extend %trip-stop;
+  @include trip-stop();
   border: 0;
 
   &:not(.route-stop-green) {

@@ -4,6 +4,42 @@
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+///   MIXINS
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+@mixin stop-info-column() {
+  @include unpadded-column;
+
+  display: block;
+  margin-left: $base-spacing + $icon-size;
+  padding-left: 0;
+  width: grid-width(10);
+
+  > span:first-child,
+  > span:last-child {
+    float: left;
+    width: 50%;
+  }
+}
+
+@mixin trip-stop() {
+// %trip-stop {
+  @extend %unpadded-table-row;
+  background-color: transparent;
+  border-bottom: 0;
+  border-top: 0;
+  position: relative;
+
+  .stop-info {
+    @include stop-info-column();
+    border-bottom: 1px solid $gray-lightest;
+    padding-bottom: $base-spacing;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 ///   GENERAL PAGE STYLES
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -184,7 +220,7 @@ a {
   @include stop-bubble-collapsed();
 
   .expand-link {
-    @extend %stop-name-and-time-column;
+    @include stop-info-column();
     // add spacing between link and the next stop
     margin-bottom: $base-spacing;
   }
@@ -215,54 +251,6 @@ a {
   }
 }
 
-%trip-stop {
-  @extend %unpadded-table-row;
-  background-color: transparent;
-  border-bottom: 0;
-  border-top: 0;
-  position: relative;
-
-  .stop-info {
-    @extend %stop-name-and-time-column;
-    border-bottom: 1px solid $gray-lightest;
-    padding-bottom: $base-spacing;
-
-    // increases selector specificity, to override @extend
-    &.stop-info {
-      // needs to use margin + shorter width instead of padding + 100% width to
-      // prevent the border-bottom from crossing the vehicle location line
-      margin-left: $base-spacing + $icon-size;
-      padding-left: 0;
-      width: grid-width(10);
-    }
-  }
-}
-
-%stop-name-column {
-  float: left;
-  width: 50%;
-}
-
-%stop-time-column {
-  float: left;
-  width: 50%;
-}
-
-%stop-name-and-time-column {
-  @include unpadded-column;
-  display: block;
-  padding-left: $base-spacing + $icon-size;
-  width: 100%;
-
-  > span:first-child {
-    @extend %stop-name-column;
-  }
-
-  > span:last-child {
-    @extend %stop-time-column;
-  }
-}
-
 // trip info parent container
 .schedule-trip-info {
   @include make-row();
@@ -286,7 +274,7 @@ a {
 
 .schedule-trip-stop,
 .collapsed-row {
-  @extend %trip-stop;
+  @include trip-stop();
 }
 
 .route-status,
@@ -294,8 +282,14 @@ a {
   @extend %table-row;
 }
 
+.trip-info {
+  .stop-info {
+    width: grid-width(10);
+  }
+}
+
 .trip-info-labels {
-  @extend %trip-stop;
+  @include trip-stop();
   font-weight: bold;
 
   .stop-info {
