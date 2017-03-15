@@ -14,7 +14,7 @@ defmodule Site.ModeController do
 
   def index(conn, %{"route" => route_id} = params) when is_binary(route_id) do
     # redirect from old /schedules?route=ID to new /schedules/ID
-    new_path = schedule_v2_path(conn, :show, route_id, Map.delete(params, "route"))
+    new_path = schedule_path(conn, :show, route_id, Map.delete(params, "route"))
     redirect conn, to: new_path
   end
 

@@ -75,7 +75,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
       icon_if_subway(route),
       Site.ViewHelpers.clean_route_name(route.name),
       alert_icon(route, alerts, date)
-    ], Site.Router.Helpers.schedule_v2_path(conn, :show, route.id)}
+    ], Site.Router.Helpers.schedule_path(conn, :show, route.id)}
   end
 
   @doc """

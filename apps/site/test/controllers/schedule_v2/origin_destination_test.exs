@@ -83,7 +83,7 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
     end
 
     test "when origin does not exist, redirects to schedules_v2 page with no stops selected", %{conn: conn} do
-      path = schedule_v2_path(conn, :show, "1")
+      path = schedule_path(conn, :show, "1")
       conn = setup_conn(
         %{conn |
           request_path: path,
@@ -95,7 +95,7 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
     end
 
     test "when neither origin or destination exist, redirects to schedules_v2 page with no stops selected", %{conn: conn} do
-      path = schedule_v2_path(conn, :show, "1")
+      path = schedule_path(conn, :show, "1")
       conn = setup_conn(
         %{conn |
           params: %{"route" => "1"},
@@ -110,36 +110,36 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
       conn = setup_conn(
         %{conn |
           params: %{"route" => "Orange"},
-          request_path: schedule_v2_path(conn, :show, "Orange"),
+          request_path: schedule_path(conn, :show, "Orange"),
           query_params: %{"origin" => "place-ogmnl", "direction_id" => "1"}
         }
       )
 
-      assert redirected_to(conn, 302) == schedule_v2_path(conn, :show, "Orange", direction_id: "1")
+      assert redirected_to(conn, 302) == schedule_path(conn, :show, "Orange", direction_id: "1")
     end
 
     test "when origin and destination are on opposite Red Line branches, redirects to the page with no destination", %{conn: conn} do
       conn = setup_conn(
         %{conn |
           params: %{"route" => "Red"},
-          request_path: schedule_v2_path(conn, :show, "Red"),
+          request_path: schedule_path(conn, :show, "Red"),
           query_params: %{"destination" => "place-asmnl", "origin" => "place-qamnl", "direction_id" => "0"}
         }
       )
 
-      assert redirected_to(conn, 302) == schedule_v2_path(conn, :show, "Red", direction_id: "0", origin: "place-qamnl")
+      assert redirected_to(conn, 302) == schedule_path(conn, :show, "Red", direction_id: "0", origin: "place-qamnl")
     end
 
     test "when origin and destination are the same, redirects with only origin selected", %{conn: conn} do
       conn = setup_conn(
         %{conn |
           params: %{"route" => "CR-Lowell"},
-          request_path: schedule_v2_path(conn, :show, "CR-Lowell"),
+          request_path: schedule_path(conn, :show, "CR-Lowell"),
           query_params: %{"destination" => "West Medford", "origin" => "West Medford", "direction_id" => "0"}
         }
       )
 
-      assert redirected_to(conn, 302) == schedule_v2_path(conn, :show, "CR-Lowell", direction_id: "0", origin: "West Medford")
+      assert redirected_to(conn, 302) == schedule_path(conn, :show, "CR-Lowell", direction_id: "0", origin: "West Medford")
     end
   end
 end

@@ -33,7 +33,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: "trip")
-      expected = schedule_v2_path(conn, :show, "route", trip: "trip")
+      expected = schedule_path(conn, :show, "route", trip: "trip")
 
       assert expected == actual
     end
@@ -42,7 +42,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route", "trip" => "old"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: "trip")
-      expected = schedule_v2_path(conn, :show, "route", trip: "trip")
+      expected = schedule_path(conn, :show, "route", trip: "trip")
 
       assert expected == actual
     end
@@ -51,7 +51,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: nil)
-      expected = schedule_v2_path(conn, :show, "route")
+      expected = schedule_path(conn, :show, "route")
 
       assert expected == actual
     end
@@ -60,7 +60,7 @@ defmodule Site.ScheduleViewTest do
       conn = %{conn | params: %{"route" => "route", "trip" => "trip"}}
 
       actual = ScheduleView.update_schedule_url(conn, trip: "")
-      expected = schedule_v2_path(conn, :show, "route", trip: "")
+      expected = schedule_path(conn, :show, "route", trip: "")
 
       assert expected == actual
     end
