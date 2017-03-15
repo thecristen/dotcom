@@ -29,12 +29,42 @@ defmodule Vehicles.ParserTest do
       assert Parser.parse(@item) == expected
     end
 
-    test "can handle a nil trip" do
-      item = %{@item | relationships: Map.put(@item.relationships, "trip", nil)}
+    test "can handle a missing trip" do
+      item = put_in @item.relationships["trip"], []
 
       expected = %Vehicle{
         id: "y1799",
         route_id: "1",
+        stop_id: "72",
+        trip_id: nil,
+        direction_id: 1,
+        status: :stopped
+      }
+      assert Parser.parse(item) == expected
+    end
+
+    test "can handle a missing stop" do
+      item = put_in @item.relationships["stop"], []
+
+      expected = %Vehicle{
+        id: "y1799",
+        route_id: "1",
+        stop_id: nil,
+        trip_id: "32893540",
+        direction_id: 1,
+        status: :stopped
+      }
+      assert Parser.parse(item) == expected
+    end
+
+    test "can handle a missing route" do
+      item = put_in @item.relationships["route"], []
+      # if we don't have a route, we definitely don't have a trip
+      item = put_in item.relationships["trip"], []
+
+      expected = %Vehicle{
+        id: "y1799",
+        route_id: nil,
         stop_id: "72",
         trip_id: nil,
         direction_id: 1,
