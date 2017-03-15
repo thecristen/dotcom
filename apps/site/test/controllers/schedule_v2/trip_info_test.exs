@@ -102,7 +102,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     params = put_in query_params["route"], "1"
 
     %{conn |
-      request_path: schedule_v2_path(conn, :show, "1"),
+      request_path: schedule_path(conn, :show, "1"),
       query_params: query_params,
       params: params}
     |> assign_stop_times_from_schedules(schedules)
@@ -152,7 +152,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       origin: "fake",
       destination: "fake",
       param: "param")
-    expected_path = schedule_v2_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
+    expected_path = schedule_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
     assert conn.halted
     assert redirected_to(conn) == expected_path
   end
@@ -160,7 +160,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   test "Trip predictions are not fetched if date is not service day", %{conn: conn} do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "1"),
+      request_path: schedule_path(conn, :show, "1"),
       query_params: %{"trip" =>  "long_trip"}}
     |> assign(:schedules, [])
     |> assign(:date_time, @time)
@@ -204,7 +204,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "Red"),
+      request_path: schedule_path(conn, :show, "Red"),
       query_params: nil
     }
     |> assign(:schedules, schedules)
@@ -239,7 +239,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "66"),
+      request_path: schedule_path(conn, :show, "66"),
       query_params: nil
     }
     |> assign_stop_times_from_schedules(schedules)
@@ -275,7 +275,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "66"),
+      request_path: schedule_path(conn, :show, "66"),
       query_params: nil
     }
     |> assign_stop_times_from_schedules(schedules)
@@ -312,7 +312,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "Red"),
+      request_path: schedule_path(conn, :show, "Red"),
       query_params: nil
     }
     |> assign_stop_times_from_schedules(schedules)
@@ -348,7 +348,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "1"),
+      request_path: schedule_path(conn, :show, "1"),
       query_params: nil
     }
     |> assign_stop_times_from_schedules(schedules)
@@ -364,7 +364,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "1"),
+      request_path: schedule_path(conn, :show, "1"),
       query_params: nil
     }
     |> assign(:stop_times, StopTimeList.build_predictions_only([], [prediction], "origin", nil))
@@ -381,7 +381,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "1"),
+      request_path: schedule_path(conn, :show, "1"),
       query_params: nil
     }
     |> assign(:stop_times, StopTimeList.build_predictions_only([], [prediction], "origin", nil))

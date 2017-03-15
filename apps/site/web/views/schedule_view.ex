@@ -55,7 +55,7 @@ defmodule Site.ScheduleView do
   defp empty_value?({_, _}), do: false
 
   defp do_update_schedule_url({nil, new_query}, conn), do: green_path(conn, :green, new_query |> Enum.into([]))
-  defp do_update_schedule_url({route, new_query}, conn), do: schedule_v2_path(conn, :show, route, new_query |> Enum.into([]))
+  defp do_update_schedule_url({route, new_query}, conn), do: schedule_path(conn, :show, route, new_query |> Enum.into([]))
 
   def stop_info_link(stop) do
     %Stops.Stop{id: id, name: name} = Stops.Repo.get(stop.id)

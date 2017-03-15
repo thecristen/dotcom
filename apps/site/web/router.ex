@@ -30,14 +30,14 @@ defmodule Site.Router do
     get "/redirect/*path", RedirectController, :show
     resources "/stops", StopController, only: [:index, :show]
     get "/schedules_v1/Green", ScheduleController.Green, :green
-    get "/schedules_v1/:route", ScheduleController, :show
+    get "/schedules_v1/:route", ScheduleController, :show, as: :schedule_v1
     get "/schedules", ModeController, :index
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus
     get "/schedules/ferry", ModeController, :ferry
     get "/schedules/commuter_rail", ModeController, :commuter_rail
     get "/schedules/Green", ScheduleV2Controller.Green, :green
-    get "/schedules/:route", ScheduleV2Controller, :show
+    get "/schedules/:route", ScheduleV2Controller, :show, as: :schedule
     get "/schedules/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
     get "/style_guide", StyleGuideController, :index
     get "/style_guide/:section", StyleGuideController, :index

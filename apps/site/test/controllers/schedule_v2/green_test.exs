@@ -14,20 +14,20 @@ defmodule Site.ScheduleV2Controller.GreenTest do
   }
 
   test "assigns the route as the Green Line", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green"))
+    conn = get(conn, schedule_path(conn, :show, "Green"))
     html_response(conn, 200)
     assert conn.assigns.route == @green_line
   end
 
   test "assigns the date and date_time", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green"))
+    conn = get(conn, schedule_path(conn, :show, "Green"))
     html_response(conn, 200)
     assert conn.assigns.date
     assert conn.assigns.date_time
   end
 
   test "assigns date select and calendar", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green", date_select: "true"))
+    conn = get(conn, schedule_path(conn, :show, "Green", date_select: "true"))
     html_response(conn, 200)
     assert conn.assigns.date_select
     assert conn.assigns.calendar
@@ -57,13 +57,13 @@ defmodule Site.ScheduleV2Controller.GreenTest do
   end
 
   test "assigns origin and destination", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green", origin: "place-pktrm", destination: "place-boyls"))
+    conn = get(conn, schedule_path(conn, :show, "Green", origin: "place-pktrm", destination: "place-boyls"))
     assert conn.assigns.origin.id == "place-pktrm"
     assert conn.assigns.destination.id == "place-boyls"
   end
 
   test "assigns stops for all branches", %{conn: conn} do
-    all_stops = Enum.map(get(conn, schedule_v2_path(conn, :show, "Green")).assigns.all_stops, & &1.id)
+    all_stops = Enum.map(get(conn, schedule_path(conn, :show, "Green")).assigns.all_stops, & &1.id)
 
     assert "place-lake" in all_stops
     assert "place-clmnl" in all_stops
@@ -72,7 +72,7 @@ defmodule Site.ScheduleV2Controller.GreenTest do
   end
 
   test "assigns headsigns for all branches", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green"))
+    conn = get(conn, schedule_path(conn, :show, "Green"))
 
     assert "Boston College" in conn.assigns.headsigns[0]
     assert "Cleveland Circle" in conn.assigns.headsigns[0]
@@ -120,26 +120,26 @@ defmodule Site.ScheduleV2Controller.GreenTest do
   end
 
   test "assigns excluded stops", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green", origin: "place-pktrm", direction_id: 0))
+    conn = get(conn, schedule_path(conn, :show, "Green", origin: "place-pktrm", direction_id: 0))
 
     assert conn.assigns.excluded_origin_stops == ExcludedStops.excluded_origin_stops(0, "Green", conn.assigns.all_stops)
     assert conn.assigns.excluded_destination_stops == ExcludedStops.excluded_destination_stops("Green", "place-pktrm")
   end
 
   test "assigns stop times", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green", origin: "place-pktrm"))
+    conn = get(conn, schedule_path(conn, :show, "Green", origin: "place-pktrm"))
 
     assert conn.assigns.stop_times.times
   end
 
   test "assigns breadcrumbs", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green"))
+    conn = get(conn, schedule_path(conn, :show, "Green"))
 
     assert conn.assigns.breadcrumbs
   end
 
   test "assigns stops_on_routes", %{conn: conn} do
-    conn = get(conn, schedule_v2_path(conn, :show, "Green", direction_id: 1))
+    conn = get(conn, schedule_path(conn, :show, "Green", direction_id: 1))
 
     assert conn.assigns.stops_on_routes == GreenLine.stops_on_routes(1)
   end

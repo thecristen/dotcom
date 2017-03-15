@@ -9,16 +9,16 @@
               <span>Transit Services</span>
             </p>
             <ul>
-              <li><%= link to: schedule_v2_path(@conn, :show, "subway") do %></li>
+              <li><%= link to: schedule_path(@conn, :show, "subway") do %></li>
                 <%= fa "caret-right" %> Subway
               <% end %>
-              <li><%= link to: schedule_v2_path(@conn, :show, "bus") do %></li>
+              <li><%= link to: schedule_path(@conn, :show, "bus") do %></li>
                 <%= fa "caret-right" %> Bus
               <% end %>
-              <li><%= link to: schedule_v2_path(@conn, :show, "commuter_rail") do %></li>
+              <li><%= link to: schedule_path(@conn, :show, "commuter_rail") do %></li>
                 <%= fa "caret-right" %> Commuter Rail
               <% end %>
-              <li><%= link to: schedule_v2_path(@conn, :show, "ferry") do %></li>
+              <li><%= link to: schedule_path(@conn, :show, "ferry") do %></li>
                 <%= fa "caret-right" %> Ferry
               <% end %>
               <li><%= link to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") do %></li>

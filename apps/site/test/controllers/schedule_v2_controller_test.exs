@@ -4,32 +4,32 @@ defmodule Site.ScheduleV2ControllerTest do
 
   describe "Bus" do
     test "all stops is assigned for a route", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1"))
+      conn = get(conn, schedule_path(conn, :show, "1"))
       html_response(conn, 200)
       assert conn.assigns.all_stops != nil
     end
 
     test "origin is unassigned for a route when you first view the page", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1"))
+      conn = get(conn, schedule_path(conn, :show, "1"))
       html_response(conn, 200)
       assert conn.assigns.origin == nil
     end
 
     test "has the origin when it has been selected", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", direction_id: "1"))
+      conn = get(conn, schedule_path(conn, :show, "1", origin: "2167", direction_id: "1"))
       html_response(conn, 200)
       assert conn.assigns.origin.id == "2167"
     end
 
     test "finds a trip when origin has been selected", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", direction_id: "1"))
+      conn = get(conn, schedule_path(conn, :show, "1", origin: "2167", direction_id: "1"))
       html_response(conn, 200)
       assert conn.assigns.origin.id == "2167"
       assert conn.assigns.trip_info
     end
 
     test "finds a trip list with origin and destination", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1", origin: "2167", destination: "82", direction_id: "1"))
+      conn = get(conn, schedule_path(conn, :show, "1", origin: "2167", destination: "82", direction_id: "1"))
       html_response(conn, 200)
       assert conn.assigns.origin.id == "2167"
       assert conn.assigns.destination.id == "82"
@@ -39,19 +39,19 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns tab to \"trip-view\"", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1"))
+      conn = get(conn, schedule_path(conn, :show, "1"))
       assert conn.assigns.tab == "trip-view"
     end
   end
 
   describe "commuter rail" do
     test "assigns the tab parameter if none is provided", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester"))
+      conn = get(conn, schedule_path(conn, :show, "CR-Worcester"))
       assert conn.assigns.tab == "timetable"
     end
 
     test "assigns information for the trip view", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "CR-Worcester", tab: "trip-view", origin: "Westborough"))
+      conn = get(conn, schedule_path(conn, :show, "CR-Worcester", tab: "trip-view", origin: "Westborough"))
       assert conn.assigns.tab == "trip-view"
       refute conn.assigns.schedules == nil
       refute conn.assigns.predictions == nil
@@ -59,7 +59,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns information for the timetable", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "timetable", direction_id: 0))
+      conn = get(conn, schedule_path(conn, :show, "CR-Lowell", tab: "timetable", direction_id: 0))
       assert conn.assigns.tab == "timetable"
       assert conn.assigns.offset
       assert conn.assigns.alerts
@@ -74,14 +74,14 @@ defmodule Site.ScheduleV2ControllerTest do
             {"CR-Haverhill", 0, 2},
             {"CR-Franklin", 1, 4}
           ] do
-          path = schedule_v2_path(conn, :show, route_id, tab: "timetable", direction_id: direction_id)
+          path = schedule_path(conn, :show, route_id, tab: "timetable", direction_id: direction_id)
           conn = get(conn, path)
           assert map_size(conn.assigns.trip_messages) == expected_size
       end
     end
 
     test "header schedules are sorted correctly", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "timetable"))
+      conn = get(conn, schedule_path(conn, :show, "CR-Lowell", tab: "timetable"))
 
       assert conn.assigns.header_schedules == conn.assigns.timetable_schedules
       |> Schedules.Sort.sort_by_first_times
@@ -89,7 +89,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns a map of stop ID to zone", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "trip-view"))
+      conn = get(conn, schedule_path(conn, :show, "CR-Lowell", tab: "trip-view"))
       zone_map = conn.assigns.zone_map
 
       assert "North Billerica" in Map.keys(zone_map)
@@ -99,7 +99,7 @@ defmodule Site.ScheduleV2ControllerTest do
 
   describe "subway" do
     test "assigns schedules, frequency table, origin, and destination", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy"))
+      conn = get(conn, schedule_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy"))
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
       assert conn.assigns.stop_times
@@ -109,7 +109,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns schedules, frequency table, and origin", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "Red", origin: "place-sstat"))
+      conn = get(conn, schedule_path(conn, :show, "Red", origin: "place-sstat"))
       assert conn.assigns.schedules
       assert conn.assigns.frequency_table
       assert conn.assigns.stop_times
@@ -118,14 +118,14 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
    test "frequency table not assigned when no origin is selected", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "Red"))
+      conn = get(conn, schedule_path(conn, :show, "Red"))
       refute :frequency_table in Map.keys(conn.assigns)
       refute conn.assigns.origin
       refute :schedules in Map.keys(conn.assigns)
     end
 
     test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "Green-C", origin: "place-pktrm"))
+      conn = get(conn, schedule_path(conn, :show, "Green-C", origin: "place-pktrm"))
       assert conn.assigns.schedules
       assert conn.assigns.stop_times.times
       assert conn.assigns.frequency_table
@@ -134,7 +134,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns schedules, frequency table, origin, destination for green line", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "Green-B", origin: "place-chill", destination: "place-pktrm", direction_id: "1"))
+      conn = get(conn, schedule_path(conn, :show, "Green-B", origin: "place-chill", destination: "place-pktrm", direction_id: "1"))
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
       assert conn.assigns.stop_times.times
@@ -146,14 +146,14 @@ defmodule Site.ScheduleV2ControllerTest do
 
   describe "all modes" do
     test "assigns breadcrumbs", %{conn: conn} do
-      conn = get(conn, schedule_v2_path(conn, :show, "1"))
+      conn = get(conn, schedule_path(conn, :show, "1"))
       assert conn.assigns.breadcrumbs
     end
   end
 
   describe "line tabs" do
     test "Commuter Rail data", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "CR-Lowell", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "CR-Lowell", tab: "line")
       assert html_response(conn, 200) =~ "Lowell Line"
 
       # make sure each stop has a zone
@@ -181,7 +181,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Ferry data", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Boat-F1", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Boat-F1", tab: "line")
       assert html_response(conn, 200) =~ "Hingham Ferry"
       assert List.first(conn.assigns.stops).id == "Boat-Hingham"
       assert List.last(conn.assigns.stops).id == "Boat-Long"
@@ -191,7 +191,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Red Line data", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Red", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Red", tab: "line")
       assert html_response(conn, 200) =~ "Red Line"
 
       # stops are in southbound order, Ashmont branch
@@ -210,7 +210,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Red line initally has no Braintree or Ashmont data besides termini", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Red", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Red", tab: "line")
       assert conn.status == 200
 
       assert List.first(conn.assigns.braintree_branch_stops).id == "place-brntn"
@@ -218,14 +218,14 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Red line has braintree and ashmont stops when indicated in query params", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Red", expanded: "braintree", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Red", expanded: "braintree", tab: "line")
       assert conn.status == 200
       stop_ids = Enum.map(conn.assigns.braintree_branch_stops, & &1.id)
       assert List.first(stop_ids) == "place-nqncy"
       assert List.last(stop_ids) == "place-brntn"
       assert Enum.count(conn.assigns.ashmont_branch_stops) == 1
 
-      conn = get conn, schedule_v2_path(conn, :show, "Red", expanded: "ashmont", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Red", expanded: "ashmont", tab: "line")
       stop_ids = Enum.map(conn.assigns.ashmont_branch_stops, & &1.id)
       assert List.first(stop_ids) == "place-shmnl"
       assert List.last(stop_ids) == "place-asmnl"
@@ -233,7 +233,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Green Line data", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Green", tab: "line")
       assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in Westbound order, Lechmere -> Boston College (last stop on B)
@@ -262,7 +262,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Green line does not show branched route data", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Green", tab: "line")
       assert conn.status == 200
       stop_ids = stop_ids(conn)
 
@@ -271,7 +271,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Green line terminals shown if branch not expanded", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Green", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Green", tab: "line")
       assert conn.status == 200
       stop_ids = stop_ids(conn)
 
@@ -281,7 +281,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Green line shows individual branch when expanded", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "Green", expanded: "Green-E", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Green", expanded: "Green-E", tab: "line")
       assert conn.status == 200
       stop_ids = stop_ids(conn)
 
@@ -291,7 +291,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "assigns 3 holidays", %{conn: conn} do
-      conn = get conn, schedule_v2_path(conn, :show, "CR-Fitchburg", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "CR-Fitchburg", tab: "line")
 
       assert Enum.count(conn.assigns.holidays) == 3
     end
