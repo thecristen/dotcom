@@ -104,7 +104,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   @spec is_trip_after_now?(StopTime.t, DateTime.t) :: boolean
   defp is_trip_after_now?(%StopTime{departure: departure}, now) do
     # returns true if the StopTime has a trip that's departing in the future
-    PredictedSchedule.map_optional(departure, [:schedule, :prediction], false, fn x ->
+    PredictedSchedule.map_optional(departure, [:prediction, :schedule], false, fn x ->
       if x.time && x.trip do
         Timex.after?(x.time, now)
       else

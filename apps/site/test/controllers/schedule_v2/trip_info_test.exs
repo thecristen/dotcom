@@ -61,6 +61,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
   defp trip_fn("long_trip") do
     # add some extra schedule data so that we can collapse this trip
+    # make sure all schedules have "long_trip" as ID, since that's this trip_fn match
     @trip_schedules
     |> Enum.concat([
       %Schedule{
@@ -84,6 +85,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         time: List.last(@schedules).time
       }
     ])
+    |> Enum.map(& %Schedule{ &1 | trip: %Trip{id: "long_trip"}})
   end
   defp trip_fn("not_in_schedule") do
     []
@@ -113,6 +115,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   defp assign_stop_times_from_schedules(conn, schedules) do
     stop_times = Enum.map(schedules, & %StopTime{departure: %PredictedSchedule{schedule: &1}})
+    assign(conn, :stop_times, %StopTimeList{times: stop_times})
+  end
+  defp assign_stop_times_from_schedules(conn, schedules, predictions) do
+    stop_times = Enum.zip(schedules, predictions) |> Enum.map(fn {schedule, prediction} ->
+      %StopTime{departure: %PredictedSchedule{schedule: schedule, prediction: prediction}}
+    end)
+
     assign(conn, :stop_times, %StopTimeList{times: stop_times})
   end
 
@@ -285,6 +294,54 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
 
     assert TripInfo.is_current_trip?(conn.assigns.trip_info, "32893585")
+  end
+
+  test "Default Trip id is an upcoming trip, defers to prediction over schedule", %{conn: conn} do
+    # the long_trip is scheduled for 10 minutes ago
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "long_trip"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: -10),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 15),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+
+    # however, with delays the long_trip is predicted to arrive in one minute
+    predictions = [
+      %Prediction{
+        trip: %Trip{id: "long_trip"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 1),
+        route: %Routes.Route{type: 1}
+      },
+      %Prediction{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 20),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+
+    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_v2_path(conn, :show, "66"),
+      query_params: nil
+    }
+    |> assign_stop_times_from_schedules(schedules, predictions)
+    |> assign(:route, %Routes.Route{type: 1})
+    |> assign(:date, ~D[2017-02-10])
+    |> assign(:datetime, @time)
+    |> call(init)
+
+    assert TripInfo.is_current_trip?(conn.assigns.trip_info, "long_trip")
   end
 
   test "does assign trips for the subway if the date is today", %{conn: conn} do
