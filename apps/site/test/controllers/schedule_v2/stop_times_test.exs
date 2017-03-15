@@ -37,13 +37,13 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
     test "assigns stop_times even without schedules or predictions" do
       conn = setup_conn(@route, [], [], @date_time, @cal_date, nil, nil)
 
-      assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: true}
+      assert conn.assigns.stop_times == %StopTimeList{times: []}
     end
 
     test "Does not initially show all trips for Ferry" do
       conn = setup_conn(%Route{id: "Boat-F4", type: 4, name: "Boaty McBoatface"}, [], [], @date_time, @cal_date, nil, nil)
 
-      assert conn.assigns.stop_times == %StopTimeList{times: [], showing_all?: true}
+      assert conn.assigns.stop_times == %StopTimeList{times: []}
     end
 
     test "filters out schedules in the past by default, leaving the last entry before now" do
@@ -59,7 +59,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
       conn = setup_conn(%Route{id: "CR-Lowell", type: 2, name: "Lowell"}, schedules, [], now, now, stop, nil)
 
-      assert conn.assigns.stop_times.times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, :last_trip_and_upcoming, now).times
+      assert conn.assigns.stop_times.times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, :last_trip_and_upcoming, now, true).times
     end
 
     test "if filter_flag is :keep_all is true, doesn't filter schedules" do
@@ -74,7 +74,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
       conn = setup_conn(@route, schedules, [], now, @cal_date, stop, nil, "true")
 
-      assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, :keep_all, @date_time)
+      assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, :keep_all, @date_time, true)
     end
 
     test "assigns stop_times for subway", %{conn: conn} do
@@ -184,7 +184,8 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
         origin.id,
         destination.id,
         :predictions_then_schedules,
-        @date_time
+        @date_time,
+        true
       )
     end
   end

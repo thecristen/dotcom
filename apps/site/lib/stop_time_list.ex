@@ -9,11 +9,11 @@ defmodule StopTimeList do
 
   defstruct [
     times: [],
-    showing_all?: false
+    expansion: :none
   ]
   @type t :: %__MODULE__{
     times: [StopTime.t],
-    showing_all?: boolean
+    expansion: :expanded | :collapsed | :none
   }
   @type stop_id :: String.t
   @type schedule_pair :: PredictedSchedule.Group.schedule_pair_t
@@ -28,11 +28,11 @@ defmodule StopTimeList do
     |> Enum.any?(&StopTime.has_prediction?/1)
   end
 
-  @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil) :: __MODULE__.t
-  def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time) do
+  @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
+  def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, today?) do
     schedules
     |> build_times(predictions, origin_id, destination_id)
-    |> from_times(filter_flag, current_time)
+    |> from_times(filter_flag, current_time, today?)
   end
 
   @doc """
@@ -44,7 +44,7 @@ defmodule StopTimeList do
     stop_time = schedules
     |> build_times(predictions, origin_id, destination_id)
     |> Enum.filter(&StopTime.has_departure_prediction?/1)
-    |> from_times(:keep_all, nil)
+    |> from_times(:keep_all, nil, false)
     %{stop_time | times: Enum.take(stop_time.times, 5)}
   end
 
@@ -73,9 +73,9 @@ defmodule StopTimeList do
   end
   defp build_times(_schedules, _predictions, _origin_id, _destination_id), do: []
 
-  # Creates a StopTimeList object from a list of times and the showing_all? flag
-  @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil) :: __MODULE__.t
-  defp from_times(stop_times, filter_flag, current_time) do
+  # Creates a StopTimeList object from a list of times and the expansion value
+  @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
+  defp from_times(stop_times, filter_flag, current_time, today?) do
     filtered_times = stop_times
     |> StopTime.Filter.filter(filter_flag, current_time)
     |> StopTime.Filter.sort
@@ -83,7 +83,7 @@ defmodule StopTimeList do
 
     %__MODULE__{
       times: filtered_times,
-      showing_all?: length(filtered_times) == length(stop_times)
+      expansion: StopTime.Filter.expansion(stop_times, filtered_times, today?)
     }
   end
 

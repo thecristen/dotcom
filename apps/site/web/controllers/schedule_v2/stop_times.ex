@@ -31,10 +31,11 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     current_time = conn.assigns.date_time
     user_selected_date = conn.assigns.date
     current_date_time = conn.assigns.date_time
-    filter_flag = filter_flag(user_selected_date, current_date_time, route_type, show_all_trips?)
+    today? = Timex.diff(user_selected_date, current_date_time, :days) == 0
+    filter_flag = filter_flag(today?, route_type, show_all_trips?)
 
     stop_times =
-      StopTimeList.build(schedules, predictions, origin_id, destination_id, filter_flag, current_time)
+      StopTimeList.build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, today?)
 
     assign(conn, :stop_times, stop_times)
   end
@@ -61,8 +62,8 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     conn
   end
 
-  defp filter_flag(user_selected_date, current_date_time, route_type, show_all) do
-    if Timex.diff(user_selected_date, current_date_time, :days) == 0 do
+  defp filter_flag(today?, route_type, show_all) do
+    if today? do
       filter_flag_for_today(route_type, show_all)
     else
       :keep_all

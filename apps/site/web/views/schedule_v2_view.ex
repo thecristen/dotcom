@@ -496,4 +496,24 @@ defmodule Site.ScheduleV2View do
       end
     end
   end
+
+  @doc """
+  Returns a link to expand or collapse the trip list. No link is shown
+  if there are no additional trips
+  """
+  @spec trip_expansion_link(:none | :collapsed | :expanded, Date.t, Plug.Conn.t) :: Phoenix.HTML.Safe.t | nil
+  def trip_expansion_link(:none, _date, _conn) do
+    nil
+  end
+  def trip_expansion_link(:collapsed, date, conn) do
+    date_string = date |> pretty_date |> String.downcase
+    link to: update_url(conn, show_all_trips: true)<>"#trip-info-box", class: "trip-list-v2-row trip-list-v2-footer" do
+      "Show all trips for #{date_string}"
+    end
+  end
+  def trip_expansion_link(:expanded, _date, conn) do
+    link to: update_url(conn, show_all_trips: false)<>"#trip-info-box", class: "trip-list-v2-row trip-list-v2-footer" do
+      "Show upcoming trips only"
+    end
+  end
 end

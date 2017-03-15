@@ -63,7 +63,8 @@ defmodule Site.ScheduleV2ViewTest do
         "stop",
         nil,
         :keep_all,
-        ~N[2017-01-01T06:30:00]
+        ~N[2017-01-01T06:30:00],
+        true
       )
       assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end
@@ -652,6 +653,24 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "returns an empty list if no PDF for that route" do
       assert route_pdf_link(%Routes.Route{id: "nonexistent"}) == []
+    end
+  end
+
+  describe "trip_expansion_link/3" do
+    @date ~D[2017-05-05]
+
+    test "Does not return link when no expansion", %{conn: conn} do
+      refute trip_expansion_link(:none, @date, conn)
+    end
+
+    test "Shows expand link when collapsed", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert safe_to_string(trip_expansion_link(:collapsed, @date, conn)) =~ "Show all trips for"
+    end
+
+    test "Shows collapse link when expanded", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert safe_to_string(trip_expansion_link(:expanded, @date, conn)) =~ "Show upcoming trips only"
     end
   end
 end

@@ -5,6 +5,9 @@ defmodule StopTime.Filter do
 
   @type filter_flag_t :: :keep_all | :last_trip_and_upcoming | :predictions_then_schedules
 
+  # Max amount of trips that should be displayed
+  @trip_limit 14
+
   # filter the stop times based on the filter_flag
   # Currently, the following options are supported:
   # * :keep_all -- do not do any filtering (for example, when user selected 'Show all trips')
@@ -86,6 +89,24 @@ defmodule StopTime.Filter do
 
   def limit(stop_times, :keep_all), do: stop_times
   def limit(stop_times, _filter_flag) do
-    Enum.take(stop_times, 14)
+    Enum.take(stop_times, @trip_limit)
+  end
+
+  @doc """
+  Determines whether the filtered times are expanded, collapsed, or neither.
+  Will always return none when date is not today.
+  """
+  @spec expansion([StopTime.t], [StopTime.t], boolean, number) :: :expanded | :collapsed | :none
+  def expansion(all_times, filtered_times, today?, limit \\ @trip_limit)
+  def expansion(_all_times, _filtered_times, false, _limit) do
+    :none
+  end
+  def expansion(all_times, filtered_times, _today?, limit) do
+    all_times_length = length(all_times)
+    cond do
+      all_times_length <= limit -> :none
+      length(filtered_times) < all_times_length -> :collapsed
+      true -> :expanded
+    end
   end
 end
