@@ -1,43 +1,6 @@
 @import 'table';
 @import 'buttons';
 
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-///   MIXINS
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-@mixin stop-info-column() {
-  @include unpadded-column;
-
-  display: block;
-  margin-left: $base-spacing + $icon-size;
-  padding-left: 0;
-  width: grid-width(10);
-
-  > span:first-child,
-  > span:last-child {
-    float: left;
-    width: 50%;
-  }
-}
-
-@mixin trip-stop() {
-// %trip-stop {
-  @extend %unpadded-table-row;
-  background-color: transparent;
-  border-bottom: 0;
-  border-top: 0;
-  position: relative;
-
-  .stop-info {
-    @include stop-info-column();
-    border-bottom: 1px solid $gray-lightest;
-    padding-bottom: $base-spacing;
-  }
-}
-
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ///   GENERAL PAGE STYLES
@@ -274,7 +237,7 @@ a {
 
 .schedule-trip-stop,
 .collapsed-row {
-  @include trip-stop();
+  @include stop-bubble-row();
 }
 
 .route-status,
@@ -289,7 +252,7 @@ a {
 }
 
 .trip-info-labels {
-  @include trip-stop();
+  @include stop-bubble-row();
   font-weight: bold;
 
   .stop-info {
