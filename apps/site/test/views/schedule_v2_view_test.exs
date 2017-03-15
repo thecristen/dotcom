@@ -300,37 +300,18 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "_trip_info.html" do
-    test "CR show status" do
-      output = Site.ScheduleV2View.render(
+    test "make sure page reflects information from full_status function" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 2},
+        vehicle: %Vehicles.Vehicle{status: :incoming},
+        vehicle_stop_name: "Readville"
+      }
+      actual = Site.ScheduleV2View.render(
         "_trip_info.html",
-        trip_info: %TripInfo{
-          route: %Routes.Route{type: 2},
-          vehicle: %Vehicles.Vehicle{status: :incoming},
-          vehicle_stop_name: "Readville"
-        }
+        trip_info: trip_info
       )
-      assert safe_to_string(output) =~ "Train is entering Readville."
-    end
-    test "CR no status" do
-      output = Site.ScheduleV2View.render(
-        "_trip_info.html",
-        trip_info: %TripInfo{
-          route: %Routes.Route{type: 2},
-          vehicle_stop_name: "Readville"
-        }
-      )
-      refute safe_to_string(output) =~ "Train is entering Readville."
-    end
-    test "Subway show status" do
-      output = Site.ScheduleV2View.render(
-        "_trip_info.html",
-        trip_info: %TripInfo{
-         route: %Routes.Route{type: 1},
-         vehicle: %Vehicles.Vehicle{status: :stopped},
-         vehicle_stop_name: "Forest Hills"
-        }
-      )
-      assert safe_to_string(output) =~ "Train has arrived at Forest Hills."
+      expected = TripInfo.full_status(trip_info) |> IO.iodata_to_binary
+      assert safe_to_string(actual) =~ expected
     end
   end
 

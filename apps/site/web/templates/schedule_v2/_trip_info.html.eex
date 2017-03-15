@@ -2,7 +2,7 @@
 <div id="trip-info-box" class="schedule-trip-info <%= route_class %>">
   <div class="schedule-trip-info-header">Trip Information</div>
   <%= if route_status = TripInfo.full_status(@trip_info) do %>
-    <div class="route-status"><%=route_status%></div>
+    <div class="route-status"><%= route_status %></div>
   <% end %>
   <div class="trip-info-labels">
     <div class="stop-info">

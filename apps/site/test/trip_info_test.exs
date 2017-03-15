@@ -107,6 +107,16 @@ defmodule TripInfoTest do
       actual = @time_list |> Enum.take(1) |> from_list
       assert {:error, _} = actual
     end
+
+    test "vehicle stop name is set" do
+      actual = from_list(@time_list, vehicle: %Vehicle{stop_id: "place-censq"})
+      assert actual.vehicle_stop_name == "Central Square"
+    end
+
+    test "vehicle stop name is not set, vehicle does not match any times" do
+      actual = from_list(@time_list, vehicle: %Vehicle{stop_id: "CR-Fairmount"})
+      assert actual.vehicle_stop_name == nil
+    end
   end
 
   describe "is_current_trip?/2" do
