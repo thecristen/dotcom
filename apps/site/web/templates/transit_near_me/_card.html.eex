@@ -1,6 +1,6 @@
-<div class="transit-card">
+<%= link to: stop_path(@conn, :show, @stop.id), class: "transit-card" do %>
   <div class="transit-card-name">
-    <%= link @stop.name, to: stop_path(@conn, :show, @stop.id) %>
+    <%= @stop.name %>
   </div>
   <div class="transit-card-distance"><%= round_distance(@distance) %></div>
 
@@ -10,5 +10,4 @@
       <div class="transit-route-name"><%= get_type_list(type, routes) %></div>
     </div>
   <% end %>
-  <%= link "", to: stop_path(@conn, :show, @stop.id), class: "transit-card-link" %>
-</div>
+<% end %>

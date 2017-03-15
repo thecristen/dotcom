@@ -8,3 +8,105 @@
     padding: 0 $space-12;
   }
 }
+
+
+.title-card,
+%title-card {
+  background-color: $white;
+  border: $border;
+  border-radius: $space-1 * 3;
+  color: $gray-dark;
+  display: block;
+  margin-bottom: $base-spacing;
+  padding: $base-spacing-sm $base-spacing;
+}
+
+.title-card-title,
+%title-card-title {
+  //scss-lint:disable PlaceholderInExtend
+  @extend .h4;
+  margin-bottom: $base-spacing-sm;
+}
+
+a {
+  &.title-card,
+  &%title-card {
+    @extend %button-focus-color;
+  }
+
+  .title-card-title,
+  %title-card-title {
+    color: $link-color;
+  }
+}
+
+.title-card-container,
+%title-card-container {
+  @include clearfix();
+}
+
+.title-card-container-separate {
+  .title-card {
+    border-radius: $space-1 * 3;
+
+    @include media-breakpoint-up(sm) {
+      min-height: $space-24 * 6;
+    }
+  }
+
+  a {
+    &.title-card {
+      position: relative;
+    }
+
+    &.title-card::before {
+      border-bottom-left-radius: $space-1 * 3;
+      border-left: ($space-1 * 4) solid $btn-primary-bg;
+      border-top-left-radius: $space-1 * 3;
+      content: ' ';
+      display: block;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+    }
+  }
+}
+
+.title-card-container-table,
+%title-card-container-table {
+  border-collapse: collapse;
+  padding-top: $base-spacing;
+
+  .title-card,
+  %title-card {
+    border-radius: 0;
+    margin-top: -$space-1 - $base-spacing;
+    width: 100%;
+  }
+}
+
+.title-card-container-table-multi-col {
+  @include media-breakpoint-up(sm) {
+    // add back the bottom margin removed by the display: table
+    margin-bottom: $base-spacing;
+    padding-top: 0;
+
+    > * {
+      @include clearfix();
+      display: table;
+      width: 100%;
+    }
+
+    > * + * {
+      // collapse subsequent rows
+      margin-top: -$space-1;
+    }
+
+    .title-card,
+    %title-card {
+      display: table-cell;
+      width: 50%;
+    }
+  }
+}

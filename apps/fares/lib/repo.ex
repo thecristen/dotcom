@@ -1,6 +1,8 @@
 defmodule Fares.Repo do
   @fares Fares.FareInfo.fare_info
 
+  use RepoCache, ttl: :timer.hours(24)
+
   alias Fares.Fare
 
   @spec all() :: [Fare.t]
@@ -9,8 +11,10 @@ defmodule Fares.Repo do
     @fares
   end
   def all(opts) when is_list(opts) do
-    all()
-    |> filter(opts)
+    cache opts, fn opts ->
+      all()
+      |> filter(opts)
+    end
   end
 
   @doc """

@@ -1,5 +1,5 @@
-<%= link to: @href, class: "related-link" do %>
-  <div class="related-link-title"><%= @title %></div>
+<%= link to: @href, class: "title-card" do %>
+  <div class="title-card-title"><%= @title %></div>
   <ul>
     <%= for topic <- @body do %>
       <li><%= topic %></li>

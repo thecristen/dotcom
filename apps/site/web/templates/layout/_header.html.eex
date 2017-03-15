@@ -62,7 +62,7 @@
       </ul>
     </nav>
   </div>
-  <%= render "_desktop_header.html", conn: @conn %>
+  <%= render "_desktop_header.html", conn: @conn, common_fare_summaries: @common_fare_summaries %>
   <%= if @conn.assigns[:breadcrumbs] do %>
     <div class="breadcrumb-container">
       <div class="container">

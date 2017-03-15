@@ -1,5 +1,5 @@
 <div class="post-container-wrapper">
-  <%= render Site.PageView, "_riding_the_t.html", conn: @conn %>
+  <%= render Site.PageView, "_riding_the_t.html", conn: @conn, common_fare_summaries: @common_fare_summaries %>
   <div class="whats-happening-section">
     <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
   </div>

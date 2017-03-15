@@ -6,9 +6,9 @@ defmodule Site.FareView do
   defdelegate description(fare, assigns), to: Site.FareView.Description
 
   @doc "Renders a summary of fares into HTML"
-  @spec summarize([Summary.t]) :: Phoenix.HTML.Safe.t
-  def summarize(summaries) do
-    render("_summary.html", summaries: summaries)
+  @spec summarize([Summary.t], Keyword.t) :: Phoenix.HTML.Safe.t
+  def summarize(summaries, opts \\ []) do
+    render("_summary.html", summaries: summaries, class: opts[:class])
   end
 
   @doc "Return the reduced fare note for the given fare"
@@ -158,23 +158,5 @@ defmodule Site.FareView do
   end
   def origin_destination_description(:ferry) do
     content_tag :p, do: "Ferry fares depend on your origin and destination."
-  end
-
-  @doc "Fetches the price of a fare from the repo and formats it into $1.00 format"
-  @spec format_price(Keyword.t) :: String.t
-  def format_price(filters) do
-    filters
-    |> Fares.Repo.all
-    |> List.first
-    |> Fares.Format.price
-  end
-
-  @spec commuter_rail_fare_range() :: {String.t, String.t}
-  defp commuter_rail_fare_range() do
-    [mode: :commuter_rail, duration: :single_trip, reduced: nil]
-    |> Fares.Repo.all
-    |> Fares.Format.summarize(:commuter_rail)
-    |> List.first
-    |> (fn s -> hd s.fares end).()
   end
 end

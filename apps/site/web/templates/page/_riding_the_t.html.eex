@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Riding the T</h1>
     <h2>Common Fares and Passes</h2>
-    <%= render Site.FareView, "_common_fares.html", conn: @conn %>
+    <%= Site.FareView.summarize(@common_fare_summaries) %>
     <div class="all-fares-link">
       <%= link to: Site.Router.Helpers.fare_path(@conn, :index), class: "homepage-link light" do
       [

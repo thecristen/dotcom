@@ -13,6 +13,7 @@ defmodule Site.Router do
     plug BetaAnnouncement.Plug
     plug Site.Plugs.Banner
     plug Turbolinks.Plug
+    plug Site.Plugs.CommonFares
   end
 
   pipeline :api do

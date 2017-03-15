@@ -1,49 +1,14 @@
 .fare-summary-container {
-  @include clearfix();
-  margin-bottom: $base-spacing;
-
-  + .fare-summary-container {
-    margin-top: -$base-spacing;
-  }
+  @extend %title-card-container;
+  @extend %title-card-container-table;
 }
 
 .fare-summary-entry {
-  @extend %block-level-link;
-  @extend %button-focus-color;
-  border: $space-1 solid $gray-lightest;
-  display: table-cell;
-  float: left;
-  margin-top: -$space-1;
-  padding: $base-spacing;
-  width: 100%;
-}
-
-.the-ride-summary-entry {
-  padding-bottom: $base-spacing;
-}
-
-div:not(.col-md-6) > .fare-summary-container {
-  // only make it smaller if we're not inside a shrinking column already
-  @include media-breakpoint-up(sm) {
-    border-collapse: collapse;
-    display: table;
-    width: 100%;
-
-    + .fare-summary-container {
-      margin-top: -$base-spacing - $space-1;
-    }
-
-    .fare-summary-entry {
-      display: table-cell;
-      float: none;
-      width: 50%;
-    }
-  }
+  @extend %title-card;
 }
 
 .fare-summary-name {
-  font-weight: bold;
-  margin-bottom: $base-spacing-sm;
+  @extend %title-card-title;
 }
 
 .fare-summary-mode-icons {
@@ -54,7 +19,26 @@ div:not(.col-md-6) > .fare-summary-container {
   padding: $base-spacing-sm 0;
 }
 
+.fare-summary-fare-name {
+  display: inline-block;
+  max-width: 75%;
+}
+
 .fare-summary-fare-price {
   float: right;
   font-weight: normal;
+}
+
+.fare-summary-container-dark {
+  margin-bottom: 0;
+
+  .fare-summary-entry {
+    background-color: $brand-navy-dark; // same as desktop color
+    border-color: $brand-primary-light;
+    color: $white;
+  }
+
+  .fare-summary-name {
+    color: $brand-primary-light;
+  }
 }
