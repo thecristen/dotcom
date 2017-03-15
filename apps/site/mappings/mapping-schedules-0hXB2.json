@@ -1,0 +1,19 @@
+{
+  "uuid" : "2209acc6-3e9a-3d4e-8702-3be45ca5c8ce",
+  "request" : {
+    "url" : "/schedules/?direction_id=0&date=2017-02-14&route=CR-Providence&include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-0hXB2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 15 Mar 2017 19:05:26 GMT",
+      "Server" : "nginx/1.10.1",
+      "x-request-id" : "18p7937o39hu5h437s62vh0f125gknvn",
+      "Connection" : "keep-alive"
+    }
+  }
+}
