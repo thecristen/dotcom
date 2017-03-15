@@ -117,8 +117,11 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     stop_times = Enum.map(schedules, & %StopTime{departure: %PredictedSchedule{schedule: &1}})
     assign(conn, :stop_times, %StopTimeList{times: stop_times})
   end
-  defp assign_stop_times_from_schedules(conn, schedules, predictions) do
-    stop_times = Enum.zip(schedules, predictions) |> Enum.map(fn {schedule, prediction} ->
+
+  defp assign_stop_times_from_schedules_and_predictions(conn, schedules, predictions) do
+    stop_times = schedules
+    |> Enum.zip(predictions)
+    |> Enum.map(fn {schedule, prediction} ->
       %StopTime{departure: %PredictedSchedule{schedule: schedule, prediction: prediction}}
     end)
 
@@ -335,7 +338,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_v2_path(conn, :show, "66"),
       query_params: nil
     }
-    |> assign_stop_times_from_schedules(schedules, predictions)
+    |> assign_stop_times_from_schedules_and_predictions(schedules, predictions)
     |> assign(:route, %Routes.Route{type: 1})
     |> assign(:date, ~D[2017-02-10])
     |> assign(:datetime, @time)
