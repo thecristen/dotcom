@@ -23,6 +23,7 @@ defmodule TripInfo do
     origin_id: String.t,
     destination_id: String.t,
     vehicle: Vehicles.Vehicle.t | nil,
+    vehicle_stop_name: String.t | nil,
     status: String.t,
     sections: [time_list],
     duration: pos_integer
@@ -33,6 +34,7 @@ defmodule TripInfo do
     origin_id: nil,
     destination_id: nil,
     vehicle: nil,
+    vehicle_stop_name: nil,
     status: "operating at normal schedule",
     sections: [],
     duration: -1,
@@ -63,9 +65,22 @@ defmodule TripInfo do
     else
       [origin_id]
     end
+    vehicle_stop_name = vehicle_stop_name(opts[:vehicle], times)
     times
     |> clamp_times_to_origin_destination(origin_id, destination_id)
-    |> do_from_list(starting_stop_ids, destination_id, opts)
+    |> do_from_list(starting_stop_ids, destination_id, vehicle_stop_name, opts)
+  end
+
+  @spec vehicle_stop_name(Vehicles.Vehicle.t | nil, time_list) :: String.t | nil
+  defp vehicle_stop_name(vehicle, times)
+  defp vehicle_stop_name(nil, _times) do
+    nil
+  end
+  defp vehicle_stop_name(vehicle, times) do
+    case Enum.find(times, &PredictedSchedule.stop(&1).id == vehicle.stop_id) do
+      nil -> nil
+      schedule -> PredictedSchedule.stop(schedule).name
+    end
   end
 
   @doc """
@@ -98,7 +113,7 @@ defmodule TripInfo do
     |> (fn stop -> stop.id end).()
   end
 
-  defp do_from_list([time, _ | _] = times, [origin_id | _] = starting_stop_ids, destination_id, opts)
+  defp do_from_list([time, _ | _] = times, [origin_id | _] = starting_stop_ids, destination_id, vehicle_stop_name, opts)
   when is_binary(origin_id) and is_binary(destination_id) do
     route = PredictedSchedule.route(time)
     duration = duration(times, origin_id)
@@ -114,28 +129,31 @@ defmodule TripInfo do
       destination_id: destination_id,
       vehicle: opts[:vehicle],
       sections: sections,
-      duration: duration
+      duration: duration,
+      vehicle_stop_name: vehicle_stop_name
     }
   end
-  defp do_from_list(_times, _starting_stop_ids, _destination_id, _opts) do
+  defp do_from_list(_times, _starting_stop_ids, _destination_id, _vehicle_stop_name, _opts) do
     {:error, "not enough times to build a trip"}
   end
 
   @doc """
   Returns a long status string suitable for display to a user.
   """
-  @spec full_status(TripInfo.t) :: iolist
-  def full_status(%TripInfo{route: route,
-                            sections: sections,
-                            status: status}) do
-    [
-      route_name(route),
-      " to ",
-      destination(List.last(sections)),
-      " ",
-      status
-    ]
+  @spec full_status(TripInfo.t) :: iodata | nil
+  def full_status(%TripInfo{vehicle: %{status: status}, vehicle_stop_name: vehicle_stop_name, route: %{type: route_type}})
+  when vehicle_stop_name != nil do
+    vehicle = %{0 => "Train", 1 => "Train", 2 => "Train", 3 => "Bus", 4 => "Ferry"}
+    case status do
+      :incoming ->
+        [vehicle[route_type], " is entering ", vehicle_stop_name, "."]
+      :stopped ->
+        [vehicle[route_type], " has arrived at ", vehicle_stop_name, "."]
+      :in_transit ->
+        [vehicle[route_type], " has left ", vehicle_stop_name, "."]
+    end
   end
+  def full_status(_), do: nil
 
   @doc """
   Returns a list of either :separator or [{time, Flags.t}].  If we've
@@ -196,21 +214,6 @@ defmodule TripInfo do
     first = Enum.find(times, & PredictedSchedule.stop(&1).id == origin_id)
     last = List.last(times)
     Timex.diff(PredictedSchedule.time(last), PredictedSchedule.time(first), :minutes)
-  end
-
-  defp route_name(%Routes.Route{type: 3, name: name}) do
-    ["Bus Route ", name]
-  end
-  defp route_name(%Routes.Route{name: name}) do
-    name
-  end
-
-  defp destination([_ | _] = times) do
-    stop = times
-    |> List.last
-    |> PredictedSchedule.stop
-
-    stop.name
   end
 
   @doc "Determines if the trip info box should be displayed"

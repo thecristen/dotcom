@@ -170,29 +170,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "prediction_trip_information/2" do
-    @trip_info %TripInfo{
-      route: %Routes.Route{type: 2},
-      sections: [[
-        %PredictedSchedule{
-          schedule: %Schedules.Schedule{
-            stop: %Schedules.Stop{id: "place-forhl", name: "Forest Hills"},
-            trip: %Schedules.Trip{id: "32610405"}}}]]}
-
-    test "route status available" do
-      vehicle_locations = %{{"32610405", "place-forhl"} => %Vehicles.Vehicle{
-        status: :stopped, stop_id: "place-forhl", trip_id: "32610405"}}
-
-      output = prediction_trip_information(@trip_info, vehicle_locations) |> safe_to_string
-      assert output =~ "Train has arrived at Forest Hills."
-    end
-
-    test "route status is not available" do
-      output = prediction_trip_information(@trip_info, %{})
-      assert output == ""
-    end
-  end
-
   describe "_trip_view.html" do
     test "renders a message if no scheduled trips", %{conn: conn} do
       conn = conn
@@ -319,6 +296,22 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "Icon is displayed if alerts are given" do
       assert safe_to_string(display_alerts(["alert"])) =~ "icon-alert"
+    end
+  end
+
+  describe "_trip_info.html" do
+    test "make sure page reflects information from full_status function" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 2},
+        vehicle: %Vehicles.Vehicle{status: :incoming},
+        vehicle_stop_name: "Readville"
+      }
+      actual = Site.ScheduleV2View.render(
+        "_trip_info.html",
+        trip_info: trip_info
+      )
+      expected = TripInfo.full_status(trip_info) |> IO.iodata_to_binary
+      assert safe_to_string(actual) =~ expected
     end
   end
 

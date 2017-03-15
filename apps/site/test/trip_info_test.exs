@@ -7,7 +7,6 @@ defmodule TripInfoTest do
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
   alias Vehicles.Vehicle
-  import :erlang, only: [iolist_to_binary: 1]
 
   @route %Route{id: "1", name: "1", type: 3}
   @trip %Trip{id: "trip_id"}
@@ -108,6 +107,16 @@ defmodule TripInfoTest do
       actual = @time_list |> Enum.take(1) |> from_list
       assert {:error, _} = actual
     end
+
+    test "vehicle stop name is set" do
+      actual = from_list(@time_list, vehicle: %Vehicle{stop_id: "place-censq"})
+      assert actual.vehicle_stop_name == "Central Square"
+    end
+
+    test "vehicle stop name is not set, vehicle does not match any times" do
+      actual = from_list(@time_list, vehicle: %Vehicle{stop_id: "CR-Fairmount"})
+      assert actual.vehicle_stop_name == nil
+    end
   end
 
   describe "is_current_trip?/2" do
@@ -129,15 +138,41 @@ defmodule TripInfoTest do
   end
 
   describe "full_status/1" do
-    test "returns status with Bus Route for bus routes" do
-      actual = @info |> full_status |> iolist_to_binary
-      expected = "Bus Route 1 to Park Street operating at normal schedule"
+    test "nil for bus routes" do
+      actual = @info |> full_status
+      expected = nil
       assert actual == expected
     end
 
-    test "uses the route name" do
-      actual = %{@info | route: %Route{id: "Red", name: "Red Line"}} |> full_status |> iolist_to_binary
-      expected = "Red Line to Park Street operating at normal schedule"
+    test "result for CR, uses the route name" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 2},
+        vehicle: %Vehicles.Vehicle{status: :incoming},
+        vehicle_stop_name: "Readville"
+      }
+      actual = trip_info |> full_status
+      expected = ["Train", " is entering ", "Readville", "."]
+      assert actual == expected
+    end
+
+    test "nil when there is no vehicle" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 2},
+        vehicle_stop_name: "Readville"
+      }
+      actual = trip_info |> full_status
+      expected = nil
+      assert actual == expected
+    end
+
+    test "result for Subway, uses the route name" do
+      trip_info = %TripInfo{
+        route: %Routes.Route{type: 1},
+        vehicle: %Vehicles.Vehicle{status: :stopped},
+        vehicle_stop_name: "Forest Hills"
+      }
+      actual = trip_info |> full_status
+      expected = ["Train", " has arrived at ", "Forest Hills", "."]
       assert actual == expected
     end
   end
