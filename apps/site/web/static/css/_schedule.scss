@@ -340,6 +340,7 @@ a {
       border-color: $brand-primary-darkest;
       color: $white;
       font-weight: bold;
+      padding: $base-spacing-sm;
 
       > * {
         padding-left: $base-spacing;
@@ -446,4 +447,12 @@ a {
 
 .schedule-date-cancel {
   margin-bottom: $base-spacing;
+
+  @include media-breakpoint-down(xs) {
+    margin-top: $base-spacing-sm;
+  }
+}
+
+.mobile-legend > span {
+  margin-right: $space-12;
 }
