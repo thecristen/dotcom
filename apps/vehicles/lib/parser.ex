@@ -19,7 +19,7 @@ defmodule Vehicles.Parser do
   defp status("IN_TRANSIT_TO"), do: :in_transit
 
   @spec trip_id([JsonApi.Item.t]) :: String.t | nil
-  defp trip_id(nil), do: nil
+  defp trip_id([]), do: nil
   defp trip_id([%JsonApi.Item{id: id}]), do: id
 
   @spec stop_id([JsonApi.Item.t]) :: String.t
@@ -29,5 +29,10 @@ defmodule Vehicles.Parser do
                ]) do
     stop_id
   end
-  defp stop_id([%JsonApi.Item{id: stop_id}]), do: stop_id
+  defp stop_id([%JsonApi.Item{id: stop_id}]) do
+    stop_id
+  end
+  defp stop_id([]) do
+    nil
+  end
 end

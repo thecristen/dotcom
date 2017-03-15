@@ -7,7 +7,7 @@ defmodule Vehicles.Vehicle do
     id: String.t,
     route_id: String.t,
     trip_id: String.t | nil,
-    stop_id: String.t,
+    stop_id: String.t | nil,
     direction_id: 0 | 1,
     status: status
   }
