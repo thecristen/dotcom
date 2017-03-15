@@ -47,14 +47,19 @@
   }
 
   .location-btn {
-    background: none;
+    background-color: $gray-lightest;
     color: $link-color;
     float: left;
     margin-left: .125rem;
     padding: .375rem;
+    width: 3rem;
 
     i {
       pointer-events: none;
+    }
+
+    &:hover {
+      background-color: $brand-primary-lightest;
     }
   }
 }
