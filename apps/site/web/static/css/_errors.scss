@@ -18,7 +18,7 @@
   }
 
   @include media-breakpoint-up(md) {
-    margin: 4rem auto 0;
+    margin: $space-24 auto 0;
   }
 
   @include media-breakpoint-down(sm) {
@@ -45,7 +45,7 @@
 
 .redirect-button {
   @include media-breakpoint-up(md) {
-    margin-bottom: 100px;
+    margin-bottom: $base-spacing * 3;
   }
 
   @include media-breakpoint-down(sm) {
