@@ -57,6 +57,10 @@
     i {
       pointer-events: none;
     }
+
+    &:hover {
+      background-color: $brand-primary-lightest
+    }
   }
 }
 
