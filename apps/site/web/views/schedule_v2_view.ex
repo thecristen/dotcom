@@ -346,7 +346,7 @@ defmodule Site.ScheduleV2View do
   # Displays the stop name and associated icons and zone
   @spec stop_name_and_icons(Plug.Conn.t, Stops.Stop.t, [atom]) :: Phoenix.HTML.Safe.t
   defp stop_name_and_icons(conn, stop, stop_features) do
-    content_tag :div, class: "route-stop-name-icons" do
+    content_tag :div, class: "stop-info route-stop-name-icons" do
       [
         content_tag(:div, [class: "name-and-zone"], do: [
           link(break_text_at_slash(stop.name), to: stop_path(conn, :show, stop.id)),
