@@ -14,7 +14,7 @@
       <img src="<%= static_url @conn, "/images/commuter-01.jpg" %>"
         alt="Commuter Rail train at North Station"
         class="hidden-xs-down" />
-      <div class="about-title">We'd like your opinion on the Worcester Line proposed schedues for the Spring of 2017.
+      <div class="about-title">We'd like your opinion on the Worcester Line proposed schedules for the Spring of 2017.
         <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457397&month=&year=") do %>
           <span class="no-wrap">Read <%= fa "arrow-right" %></span>
         <% end %>
