@@ -50,12 +50,12 @@
   }
 
   > .up {
-    display: initial;
+    display: inline;
   }
 
   &.collapsed {
     > .down {
-      display: initial;
+      display: inline;
     }
 
     > .up {
