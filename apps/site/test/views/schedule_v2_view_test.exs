@@ -475,7 +475,7 @@ defmodule Site.ScheduleV2ViewTest do
       result2 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :stopped}, 2)
       result3 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :in_transit}, 2)
 
-      assert result1 =~ "Train is entering"
+      assert result1 =~ "Train is on the way to"
       assert result2 =~ "Train has arrived"
       assert result3 =~ "Train has left"
     end

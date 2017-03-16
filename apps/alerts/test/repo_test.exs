@@ -4,6 +4,22 @@ defmodule Alerts.RepoTest do
   import Alerts.Repo
 
   @tag :external
+  describe "all/0" do
+    test "returns a list of alerts" do
+      alerts = all()
+      assert is_list(alerts)
+      for alert <- alerts do
+        assert %Alerts.Alert{} = alert
+      end
+    end
+
+    test "returns the alerts sorted" do
+      alerts = all()
+      assert alerts == Alerts.Sort.sort(alerts)
+    end
+  end
+
+  @tag :external
   describe "banner/0" do
     test "returns a banner or nil" do
       actual = banner()

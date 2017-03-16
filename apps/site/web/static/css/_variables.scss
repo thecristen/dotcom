@@ -1,7 +1,7 @@
 @import 'colors';
 
 // for referencing Bootstrap CDN font files directly
-$fa-font-path: "https://opensource.keycdn.com/fontawesome/4.6.3/";
+$fa-font-path: 'https://opensource.keycdn.com/fontawesome/4.6.3';
 
 $container-max-widths: (
   md: 768px,
@@ -22,7 +22,7 @@ $headings-font-weight: bold;
 $headings-line-height: 1.5;
 
 
-@import "node_modules/bootstrap/scss/variables";
+@import 'node_modules/bootstrap/scss/variables';
 $spacers: (
   0: (
     x:   0,

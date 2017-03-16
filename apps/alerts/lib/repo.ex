@@ -8,6 +8,7 @@ defmodule Alerts.Repo do
     cache nil, fn _ ->
       v3_api_all().data
       |> Enum.map(&Parser.Alert.parse/1)
+      |> Alerts.Sort.sort()
     end
   end
 
