@@ -47,4 +47,15 @@ defmodule Site.RedirectControllerTest do
     assert response =~ "https://passprogram.mbta.com/news?entry=123"
   end
 
+  test "handles commerce subdomain", %{conn: conn} do
+    conn = get conn, "/redirect/commerce"
+    response = html_response(conn, 200)
+    assert response =~ "https://commerce.mbta.com/"
+  end
+
+  test "handles commerce subdomain with slashes", %{conn: conn} do
+    conn = get conn, "/redirect/commerce/TheRide"
+    response = html_response(conn, 200)
+    assert response =~ "https://commerce.mbta.com/TheRide"
+  end
 end
