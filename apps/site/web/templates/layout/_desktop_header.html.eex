@@ -82,6 +82,9 @@
           <div class="col-xs-3 fares-column">
             <p>More Fares Info</p>
             <ul>
+              <li><%= link to: fare_path(@conn, :index) do %></li>
+                <%= fa "caret-right" %> Fares Overview
+              <% end %>
               <li><%= link to: fare_path(@conn, :show, "bus_subway") do %></li>
                 <%= fa "caret-right" %> Bus and Subway Fares
               <% end %>
@@ -96,9 +99,6 @@
               <% end %>
               <li><%= link to: fare_path(@conn, :show, "payment_methods") do %></li>
                 <%= fa "caret-right" %> Payment Methods
-              <% end %>
-              <li><%= link to: fare_path(@conn, :index) do %></li>
-                <%= fa "caret-right" %> View All Fares Info
               <% end %>
             </ul>
           </div>

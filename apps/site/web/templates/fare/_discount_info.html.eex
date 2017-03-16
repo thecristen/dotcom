@@ -6,9 +6,11 @@
       <%= note %>
     </p>
   <% end %>
-  <p>
-    <%= link to: fare_path(Site.Endpoint, :show, :reduced) do %>
-      Learn more about reduced fares <%= fa "arrow-right"%>
-    <% end %>
-  </p>
+  <%= if @fare_type.reduced do %>
+    <p>
+      <%= link to: fare_path(Site.Endpoint, :show, :reduced) do %>
+        Learn more about reduced fares <%= fa "arrow-right"%>
+      <% end %>
+    </p>
+  <% end %>
 </div>
