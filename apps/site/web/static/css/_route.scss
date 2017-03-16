@@ -4,13 +4,12 @@
   }
 
   .route-stop-name-icons {
-    @extend %stop-name-and-time-column;
+    @include stop-info-column();
   }
 }
 
 .route-stop {
-  @extend %trip-stop;
-  border: 0;
+  @include stop-bubble-row();
 
   &:not(.route-stop-green) {
     &:first-child {
@@ -106,8 +105,7 @@
   }
 
   .route-stop-name-icons {
-    padding-top: $space-8;
-
+    @include stop-info-column();
     @include media-breakpoint-only(xs) {
       padding-left: $base-spacing * 1.5;
     }

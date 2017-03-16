@@ -66,6 +66,36 @@ $location-line-width: $space-6;
   }
 }
 
+@mixin stop-info-column() {
+  @include unpadded-column;
+
+  display: block;
+  margin-left: $base-spacing + $icon-size;
+  padding-left: 0;
+  width: grid-width(10);
+
+  > span:first-child,
+  > span:last-child {
+    float: left;
+    width: 50%;
+  }
+}
+
+@mixin stop-bubble-row() {
+  @extend %unpadded-table-row;
+  background-color: transparent;
+  border-bottom: 0;
+  border-top: 0;
+  position: relative;
+
+  .stop-info {
+    @include stop-info-column();
+    border-bottom: $border;
+    padding-bottom: $base-spacing;
+  }
+}
+
+
 .stop-bubble {
   height: 100%;
   padding: $base-spacing-sm 0;

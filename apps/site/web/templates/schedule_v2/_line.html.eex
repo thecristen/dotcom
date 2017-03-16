@@ -1,11 +1,11 @@
 <% route_mode_class = @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>
 <div class="route-info row">
-  <div class="col-xs-12 col-sm-6 page-section">
+  <div class="col-xs-12 col-sm-6 page-section<%= if @route.id == ~s(Green) do %> col-md-6 col-md-offset-1 col-lg-5<% end %>">
     <div class="route-stop-list stop-group <%= route_mode_class %> row">
       <%= render @stop_list_template, assigns %>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1 page-section route-hours">
+  <div class="col-xs-12 col-sm-6 col-md-5 page-section route-hours">
     <div class="row">
       <div class="col-xs-12">
         <%= if display_map?(@route.type) do %>
