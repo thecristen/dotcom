@@ -112,7 +112,7 @@
           <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account</a>
         </div>
         <div class="col-md-6">
-          <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/loginIV.jsf">Reload CharlieCard</a>
+          <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/reloadCharlieCardIV.jsf">Reload CharlieCard</a>
           <a class="charlie-card-link charlie-card-truncate" href="https://commerce.mbta.com/">Buy Commuter Rail, Ferry, Express Bus pass</a>
         </div>
       </div>
