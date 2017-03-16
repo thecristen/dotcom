@@ -2,15 +2,15 @@
   <% note = fare_type_note(@fare_type) %>
   <%= if note do %>
     <p class="fare-tip">
-    <strong>Tip:</strong>
-    <%= note %>
+      <strong>Tip:</strong>
+      <%= note %>
     </p>
   <% end %>
   <%= if @fare_type.reduced do %>
     <p>
-    <%= link to: fare_path(Site.Endpoint, :show, :reduced) do %>
-      Learn more about reduced fares <%= fa "arrow-right"%>
-    <% end %>
+      <%= link to: fare_path(Site.Endpoint, :show, :reduced) do %>
+        Learn more about reduced fares <%= fa "arrow-right"%>
+      <% end %>
     </p>
   <% end %>
 </div>
