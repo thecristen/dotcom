@@ -13,12 +13,12 @@
     </div>
   </div>
   <div class="row">
-    <figure class="col-sm-6 col-xs-12">
-      <h4>Monthly Pass CharlieTicket</h4>
+    <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+      <figcaption><strong>Monthly Pass CharlieTicket</strong></figcaption>
       <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/cr-monthly-pass-with-model.jpg") %>" alt="Commuter Rail monthly pass" />
     </figure>
-    <figure class="col-sm-6 col-xs-12">
-      <h4>mTicket App</h4>
+    <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+      <figcaption><strong>mTicket App</strong></figcaption>
       <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/activated-mticket.jpg") %>" alt="mTicket app with an activated ticket" />
     </figure>
     <p class="col-xs-12">
