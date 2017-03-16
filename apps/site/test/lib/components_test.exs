@@ -20,7 +20,7 @@ defmodule Site.ComponentsTest do
       check_mode_button_widths([%Routes.Route{id: "Red", name: "Red Line", type: 1}], :subway,
         %{xs: 6, sm: 6, md: 3, xxl: 3})
       check_mode_button_widths([%Routes.Route{id: "CR-Fitchburg", name: "Fitchburg Line", type: 2}], :commuter_rail,
-        %{xs: 12, sm: 6, md: 4, xxl: 3})
+        %{xs: 6, sm: 6, md: 4, xxl: 3})
       check_mode_button_widths([%Routes.Route{id: "Boat-F4", name: "Hull Ferry", type: 4}], :ferry,
         %{xs: 12, sm: 4, md: 4, xxl: 4})
       check_mode_button_widths(Site.ModeView.get_route_group(:the_ride, []), :the_ride, %{xs: 12, sm: 6, md: 6, xxl: 3})

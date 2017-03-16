@@ -53,3 +53,14 @@
     margin-left: .375rem;
   }
 }
+
+@include media-breakpoint-down(xs) {
+  // for commuter rail on homepage for mobile, special rules to guarantee nice two column formatting
+  .mode-group.commuter-rail .button {
+    align-items: center;
+    display: flex;
+    height: 4rem;
+    justify-content: center;
+    white-space: normal;
+  }
+}
