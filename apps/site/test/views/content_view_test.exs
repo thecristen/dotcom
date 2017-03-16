@@ -1,30 +1,33 @@
 defmodule Site.ContentViewTest do
   use ExUnit.Case, async: true
-
   import Site.ContentView
 
   describe "field_has_content?/1" do
-    test "it is true given a populated string" do
+    test "true given a populated string" do
       assert field_has_content?("some content")
     end
 
-    test "it is true given a populated list" do
+    test "true given a populated list" do
       assert field_has_content?(["some content"])
     end
 
-    test "it is false given an empty string" do
+    test "false given nil" do
+      refute field_has_content?(nil)
+    end
+
+    test "false given an empty string" do
       refute field_has_content?("")
     end
 
-    test "it is false given a whitespace-only string" do
+    test "false given a whitespace-only string" do
       refute field_has_content?(" ")
     end
 
-    test "it is false given an empty list" do
+    test "false given an empty list" do
       refute field_has_content?([])
     end
 
-    test "it is false given an empty map" do
+    test "false given an empty map" do
       refute field_has_content?(%{})
     end
   end

@@ -18,24 +18,21 @@ defmodule IcalendarGeneratorTest do
       assert result =~ "BEGIN:VEVENT"
     end
 
-    test "includes the event information" do
-      start_datetime = Timex.to_datetime({{2017,2,28}, {14, 00, 00}})
-      end_datetime = Timex.to_datetime({{2017,2,28}, {16, 00, 00}})
-
+    test "includes the event details" do
       event =
         event_page_factory()
         |> update_attribute(:body, "<p>Here is a <strong>description</strong></p>.")
-        |> update_fields_attribute(:start_time, start_datetime)
-        |> update_fields_attribute(:end_time, end_datetime)
+        |> update_fields_attribute(:location, "MassDot")
+        |> update_fields_attribute(:street_address, "10 Park Plaza")
+        |> update_fields_attribute(:city, "Boston")
+        |> update_fields_attribute(:state, "MA")
 
       result =
         IcalendarGenerator.to_ical(event)
         |> IO.iodata_to_binary
 
-      assert result =~ "DTSTART;TZID=\"America/New_York\":20170228T090000"
-      assert result =~ "DTEND;TZID=\"America/New_York\":20170228T110000"
       assert result =~ "DESCRIPTION:Here is a description."
-      assert result =~ "LOCATION:#{event.fields.map_address}"
+      assert result =~ "LOCATION:MassDot 10 Park Plaza Boston, MA"
       assert result =~ "SUMMARY:#{event.title}"
       assert result =~ "URL:http://localhost:4001/events/#{event.id}"
     end
@@ -50,6 +47,23 @@ defmodule IcalendarGeneratorTest do
       assert result =~ "UID:event#{event.id}@mbta.com\n"
       assert result =~ "SEQUENCE:"
       refute result =~ "SEQUENCE:\n"
+    end
+
+    test "includes the event start and end time with timezone information" do
+      start_datetime = Timex.to_datetime({{2017,2,28}, {14, 00, 00}})
+      end_datetime = Timex.to_datetime({{2017,2,28}, {16, 00, 00}})
+
+      event =
+        event_page_factory()
+        |> update_fields_attribute(:start_time, start_datetime)
+        |> update_fields_attribute(:end_time, end_datetime)
+
+      result =
+        IcalendarGenerator.to_ical(event)
+        |> IO.iodata_to_binary
+
+      assert result =~ "DTSTART;TZID=\"America/New_York\":20170228T090000"
+      assert result =~ "DTEND;TZID=\"America/New_York\":20170228T110000"
     end
 
     test "when the event does not have an end time" do

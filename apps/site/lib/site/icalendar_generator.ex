@@ -13,11 +13,20 @@ defmodule Site.IcalendarGenerator do
       "DTSTART;TZID=\"America/New_York\":", start_time(event), "\n",
       "DTEND;TZID=\"America/New_York\":", end_time(event), "\n",
       "DESCRIPTION:", description(event), "\n",
-      "LOCATION:", event.fields.map_address, "\n",
+      "LOCATION:", full_address(event), "\n",
       "SUMMARY:", event.title, "\n",
       "URL:", full_url(event), "\n",
       "END:VEVENT\n",
       "END:VCALENDAR\n"
+    ]
+  end
+
+  defp full_address(event) do
+    [
+      event.fields.location, " ",
+      event.fields.street_address, " ",
+      event.fields.city, ", ",
+      event.fields.state
     ]
   end
 
