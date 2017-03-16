@@ -106,8 +106,10 @@
 }
 
 .menu-row {
+  display: table;
   padding-bottom: 2.25rem;
   padding-top: 2.25rem;
+  width: 100%;
 }
 
 .menu-link-row {
@@ -115,7 +117,9 @@
 }
 
 .header-column {
+  display: table-cell;
   border-left: 1px solid $white;
+  float: none;
   padding-left: $space-24;
   padding-right: $space-24;
 
