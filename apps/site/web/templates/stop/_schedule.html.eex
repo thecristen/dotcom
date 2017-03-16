@@ -3,5 +3,5 @@
   <%= render schedule_template(mode), forward_assigns(@conn |> Plug.Conn.assign(:mode, mode) |> Plug.Conn.assign(:routes, routes)) %>
 <% end %>
 <p aria-hidden="true">
-  <%= fa "rss station-schedule-icon" %> Real time service
+  <%= fa "rss station-schedule-icon" %> Real-time information
 </p>

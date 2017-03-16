@@ -134,6 +134,7 @@ a {
 }
 
 .trip-list-v2-footer {
+  color: $link-color;
   display: block;
 }
 
@@ -141,6 +142,11 @@ a {
   background-color: $white;
   border: 1px solid $brand-green-line;
   border-radius: 50%;
+}
+
+.trip-list-v2-realtime {
+  border: 0;
+  border-top: $border;
 }
 
 .commuter-status {
