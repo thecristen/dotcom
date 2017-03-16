@@ -21,7 +21,7 @@ defmodule Site.ModeController do
   def index(conn, _params) do
     conn
     |> render("index.html",
-      grouped_routes: Routes.Repo.all |> Routes.Group.group,
+      grouped_routes: filtered_grouped_routes([:bus]),
       breadcrumbs: ["Schedules & Maps"],
       include_ride: true
     )

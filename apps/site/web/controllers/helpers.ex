@@ -57,4 +57,23 @@ defmodule Site.ControllerHelpers do
   defp get_group_number(width) when width >= 768, do: 3
   defp get_group_number(width) when width >= 543, do: 2
   defp get_group_number(_), do: 1
+
+  @spec filter_routes([{atom, [Route.t]}], [atom]) :: [{atom, [Route.t]}]
+  def filter_routes(grouped_routes, filter_lines) do
+    grouped_routes
+    |> Enum.map(fn {mode, lines} ->
+      if mode in filter_lines do
+        {mode, lines |> Enum.filter(&Routes.Route.key_route?/1)}
+      else
+        {mode, lines}
+      end
+    end)
+  end
+
+  @spec filtered_grouped_routes([atom]) :: [{atom, [Route.t]}]
+  def filtered_grouped_routes(filters) do
+    Routes.Repo.all
+    |> Routes.Group.group
+    |> filter_routes(filters)
+  end
 end

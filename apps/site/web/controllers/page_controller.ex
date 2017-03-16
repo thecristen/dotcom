@@ -7,7 +7,7 @@ defmodule Site.PageController do
 
   def index(conn, params) do
     conn
-    |> async_assign(:grouped_routes, &grouped_routes/0)
+    |> assign(:grouped_routes, filtered_grouped_routes([:subway, :bus]))
     |> async_assign(:news, &news/0)
     |> await_assign_all
     |> assign_tnm_column_groups
@@ -19,11 +19,6 @@ defmodule Site.PageController do
 
   defp news do
     News.Repo.all(limit: 3)
-  end
-
-  defp grouped_routes do
-    Routes.Repo.all
-    |> Routes.Group.group
   end
 
   defp whats_happening_banner(conn, %{"whats_happening_banner" => _}) do
