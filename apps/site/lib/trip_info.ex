@@ -141,16 +141,16 @@ defmodule TripInfo do
   Returns a long status string suitable for display to a user.
   """
   @spec full_status(TripInfo.t) :: iodata | nil
-  def full_status(%TripInfo{vehicle: %{status: status}, vehicle_stop_name: vehicle_stop_name, route: %{type: route_type}})
+  def full_status(%TripInfo{vehicle: %{status: status}, vehicle_stop_name: vehicle_stop_name, route: route})
   when vehicle_stop_name != nil do
-    vehicle = %{0 => "Train", 1 => "Train", 2 => "Train", 3 => "Bus", 4 => "Ferry"}
+    vehicle = Routes.Route.vehicle_name(route)
     case status do
       :incoming ->
-        [vehicle[route_type], " is entering ", vehicle_stop_name, "."]
+        [vehicle, " is on the way to ", vehicle_stop_name, "."]
       :stopped ->
-        [vehicle[route_type], " has arrived at ", vehicle_stop_name, "."]
+        [vehicle, " has arrived at ", vehicle_stop_name, "."]
       :in_transit ->
-        [vehicle[route_type], " has left ", vehicle_stop_name, "."]
+        [vehicle, " has left ", vehicle_stop_name, "."]
     end
   end
   def full_status(_), do: nil

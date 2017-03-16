@@ -19,7 +19,7 @@ defmodule Routes.Route do
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
 
   @spec type_atom(t | 0..4) :: gtfs_route_type
-  def type_atom(%Routes.Route{type: type}), do: type_atom(type)
+  def type_atom(%__MODULE__{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway
   def type_atom(2), do: :commuter_rail
@@ -27,19 +27,31 @@ defmodule Routes.Route do
   def type_atom(4), do: :ferry
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
-  def icon_atom(%Routes.Route{id: "Red"}), do: :red_line
-  def icon_atom(%Routes.Route{id: "Mattapan"}), do: :red_line
-  def icon_atom(%Routes.Route{id: "Orange"}), do: :orange_line
-  def icon_atom(%Routes.Route{id: "Blue"}), do: :blue_line
-  def icon_atom(%Routes.Route{id: "Green" <> _}), do: :green_line
-  def icon_atom(%Routes.Route{} = route), do: type_atom(route.type)
+  def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
+  def icon_atom(%__MODULE__{id: "Mattapan"}), do: :red_line
+  def icon_atom(%__MODULE__{id: "Orange"}), do: :orange_line
+  def icon_atom(%__MODULE__{id: "Blue"}), do: :blue_line
+  def icon_atom(%__MODULE__{id: "Green" <> _}), do: :green_line
+  def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
+  @spec type_name(atom) :: String.t
   def type_name(:commuter_rail), do: "Commuter Rail"
   def type_name(:the_ride), do: "The Ride"
   def type_name(atom) do
     atom
     |> Atom.to_string
     |> String.capitalize
+  end
+
+  @spec vehicle_name(t) :: String.t
+  def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do
+    "Train"
+  end
+  def vehicle_name(%__MODULE__{type: 3}) do
+    "Bus"
+  end
+  def vehicle_name(%__MODULE__{type: 4}) do
+    "Ferry"
   end
 
   @spec key_route?(t) :: boolean

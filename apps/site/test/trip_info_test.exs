@@ -150,8 +150,8 @@ defmodule TripInfoTest do
         vehicle: %Vehicles.Vehicle{status: :incoming},
         vehicle_stop_name: "Readville"
       }
-      actual = trip_info |> full_status
-      expected = ["Train", " is entering ", "Readville", "."]
+      actual = trip_info |> full_status |> IO.iodata_to_binary
+      expected = "Train is on the way to Readville."
       assert actual == expected
     end
 

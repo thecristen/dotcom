@@ -150,7 +150,7 @@ defmodule Site.ScheduleV2View do
 
   @spec prediction_stop_text(String.t, Vehicles.Vehicle.t | nil, number) :: String.t
   defp prediction_stop_text(_name, nil, _route_type), do: ""
-  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :incoming}, route_type), do: "#{route_type_name(route_type)} is entering #{name}"
+  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :incoming}, route_type), do: "#{route_type_name(route_type)} is on the way to #{name}"
   defp prediction_stop_text(name, %Vehicles.Vehicle{status: :stopped}, route_type), do: "#{route_type_name(route_type)} has arrived at #{name}"
   defp prediction_stop_text(name, %Vehicles.Vehicle{status: :in_transit}, route_type), do: "#{route_type_name(route_type)} has left #{name}"
 
