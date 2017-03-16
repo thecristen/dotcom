@@ -106,18 +106,6 @@ defmodule Site.FareView do
     end
   end
 
-  @doc "Returns image description and image path"
-  @spec reduced_image(:student | :senior_disabled | nil) :: [{String.t, String.t}]
-  def reduced_image(:student) do
-    [{"Back of Student CharlieCard","/images/student-back.jpg"}, {"Front of Student CharlieCard", "/images/student-front.jpg"}]
-  end
-  def reduced_image(:senior_disabled) do
-    [{"Transportation Access Pass", "/images/tap-pass.jpg"}, {"Senior CharlieCard","/images/senior-id.jpg"}]
-  end
-  def reduced_image(_) do
-    []
-  end
-
   @doc "Display name for given fare"
   @spec format_name(Fare.t, map()) :: Phoenix.HTML.Safe.t
   def format_name(%Fare{mode: :ferry} = base_fare, %{origin: origin, destination: destination}) do
