@@ -7,7 +7,6 @@
 .error-card {
   background: $white;
   color: $gray-dark;
-  padding: 1em .5em 0;
   text-align: center;
 
   @include media-breakpoint-down(md) {
@@ -15,10 +14,6 @@
       max-width: 300px;
       width: 100%;
    }
-  }
-
-  @include media-breakpoint-up(md) {
-    margin: $space-24 auto 0;
   }
 
   @include media-breakpoint-down(sm) {
