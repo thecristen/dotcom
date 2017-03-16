@@ -4,15 +4,19 @@
       <h2>Step 1: Purchase a Ticket or Pass</h2>
       <p>You can pay your Bus fare with the following payment methods: CharlieCard, CharlieTicket, and cash on-board. Transfer fares may vary based on your payment method. One Way fares are cheaper when you pay with a CharlieCard versus a CharlieTicket or cash on-board.</p>
       <div class="row">
-        <figure class="col-sm-6 col-xs-12">
-          <h4>CharlieCard</h4>
-          <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-with-model.jpg") %>" alt="Charlie Card" />
-          <%= link to: fare_path(@conn, :show, :charlie_card) do %>
-            Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
-          <% end %>
-        </figure>
-        <figure class="col-sm-6 col-xs-12">
-          <h4>CharlieTicket</h4>
+        <div class="col-sm-6 col-xs-12">
+          <figure class="fare-photo-figure">
+            <figcaption><strong>CharlieCard</strong></figcaption>
+            <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charliecard-with-model.jpg") %>" alt="Charlie Card" />
+          </figure>
+          <p>
+            <%= link to: fare_path(@conn, :show, :charlie_card) do %>
+              Pick up your CharlieCard today, free of charge <%= fa "arrow-right" %>
+            <% end %>
+          </p>
+        </div>
+        <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+          <figcaption><strong>CharlieTicket</strong></figcaption>
           <img class="how-to-pay-image-oversize" src="<%= static_url(@conn, "/images/charlieticket-with-model.jpg") %>" alt="Charlie Ticket" />
         </figure>
       </div>

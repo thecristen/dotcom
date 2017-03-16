@@ -14,7 +14,7 @@
             name="comments"
             class="support-form-control form-control"
             maxlength=3000
-            rows=1
+            rows=3
             placeholder="Make sure to include (if applicable) the time and date of the incident, the route, and the vehicle number."
             required><%= Map.get @existing_params, "comments", "" %></textarea>
           <span></span>

@@ -19,9 +19,9 @@
     </p>
 
     <div class="row">
-      <figure class= "col-sm-6 col-xs-12">
+      <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+        <figcaption><strong>Senior CharlieCard</strong></figcaption>
         <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/senior-id.jpg")%> alt="A senior ID card" />
-        <figcaption>Senior CharlieCard</figcaption>
       </figure>
     </div>
 
@@ -31,9 +31,9 @@
     </p>
 
     <div class="row">
-      <figure class= "col-sm-6 col-xs-12">
+      <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+        <figcaption><strong>Transportation Access Pass</strong></figcaption>
         <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/tap-pass.jpg")%> alt="A transportation access pass" />
-        <figcaption>Transportation Access Pass</figcaption>
       </figure>
       <div class="col-sm-6 col-xs-12">
         <strong>Transport Access Pass Application</strong>
@@ -60,9 +60,9 @@
     </p>
 
     <div class="row">
-      <figure class= "col-sm-6 col-xs-12">
+      <figure class="col-sm-6 col-xs-12 fare-photo-figure">
+        <figcaption><strong>Student CharlieCard</strong></figcaption>
         <img class="img-fluid reduced-image" src=<%= static_path(@conn, "/images/student-back.jpg")%> alt="A Student CharlieCard" />
-        <figcaption>Student CharlieCard</figcaption>
       </figure>
     </div>
 
