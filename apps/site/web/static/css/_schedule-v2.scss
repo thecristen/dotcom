@@ -309,10 +309,11 @@ a {
   border-radius: $border-radius;
   -webkit-box-flex: 1;
   display: block;
-  -ms-flex: 1;
+  -ms-flex: 1 1 0%;
   -webkit-flex: 1;
-  flex: 1;
+  flex: 1 1 0%; // specify all 3 to work around IE bug
   height: 100%;
+  min-height: 5rem;
   position: relative;
   text-align: left;
   white-space: normal;
