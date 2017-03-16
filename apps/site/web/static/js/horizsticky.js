@@ -40,6 +40,13 @@ export default function($) {
       const $child = $(this).css({width: 'auto', height: 'auto', right: '0', position: 'relative'});
       const rect = this.getBoundingClientRect();
 
+      $("<" + this.tagName + ">").addClass("sticky-replacement").text(' ')
+        .css({
+          paddingRight: Math.ceil(rect.width),
+          height: Math.ceil(rect.height)
+        })
+        .insertBefore($child);
+
       $child.css({
         height: Math.ceil(rect.height),
         width: Math.ceil(rect.width),

@@ -22,6 +22,7 @@ $gray-dark: #1c1e23;
 $gray-light: #788093;
 $gray-lighter: #b0b5c0;
 $gray-lightest: #e9eaed;
+$gray-bordered-background: #f2f3f5; // use as background color for gray elements that need a border
 
 // style-guide --section Modes and Lines
 $brand-blue-line: #0064c8;
@@ -69,7 +70,7 @@ $error-text: #4d1e1e;
 $form-success-message: #dff0d8;
 $white: #fff;
 $holiday-color: #dcd3e8;
-$weekend-color: #f2f3f5;
+$weekend-color: $gray-bordered-background;
 $today-color: $brand-primary-lightest;
 
 $btn-primary-color: $white;

@@ -23,13 +23,13 @@ export default function($) {
       const width = $table.width();
       const height = $table.height();
 
-      const hideEarlier = scrollPos < 36;
-      const hideLater = width - containerWidth - scrollPos < 36;
+      const hideEarlier = scrollPos < 48;
+      const hideLater = width - containerWidth - scrollPos < 48;
 
       $table
         .toggleClass('schedule-v2-timetable-hide-earlier', hideEarlier)
         .toggleClass('schedule-v2-timetable-hide-later', hideLater)
-        .find(".schedule-v2-timetable-time-text:not(.vertically-centered)").each(function(index, textEl) {
+        .find(".schedule-v2-timetable-more-text:not(.vertically-centered)").each(function(index, textEl) {
           // vertically center the timetable text banners if they're visible
           const $textEl = $(textEl);
           if ($textEl.width()) {
