@@ -67,6 +67,7 @@
 
   .transit-input-label {
     color: $white;
+    margin-bottom: $base-spacing-sm;
 
     @include media-breakpoint-only(xs) {
       padding-top: $grid-gutter-width;
