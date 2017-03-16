@@ -87,8 +87,8 @@ defmodule StopTime do
   """
   @spec before?(t, t) :: boolean
   def before?(left, right) do
-    left_departure_time = StopTime.departure_time(left)
-    right_departure_time = StopTime.departure_time(right)
+    left_departure_time = departure_prediction_time(left) || departure_time(left)
+    right_departure_time = departure_prediction_time(right) || departure_time(right)
 
     cmp_departure = safe_time_compare(left_departure_time, right_departure_time)
 
