@@ -99,14 +99,6 @@ defmodule Site.FareViewTest do
     end
   end
 
-  describe "reduced_image/1" do
-    test "student descriptions given" do
-      descriptions = reduced_image(:student)
-                     |> Enum.map(&(elem(&1, 0)))
-      assert descriptions == ["Back of Student CharlieCard", "Front of Student CharlieCard"]
-    end
-  end
-
   describe "destination_key_stops/2" do
     test "Unavailable key stops are filtered out" do
       key_stop1 = %Stops.Stop{id: 1}
@@ -129,20 +121,11 @@ defmodule Site.FareViewTest do
       assert safe_to_string(tag) =~ "North"
       assert safe_to_string(tag) =~ "South"
     end
+
     test "Non ferry mode uses full name" do
       fare = %Fare{mode: :bus, duration: :week, name: "local_bus"}
       assert format_name(fare, %{}) == Fares.Format.full_name(fare)
     end
-  end
-
-  test "senior descriptions given" do
-    descriptions = reduced_image(:senior_disabled)
-                   |> Enum.map(&(elem(&1, 0)))
-    assert descriptions == ["Transportation Access Pass", "Senior CharlieCard"]
-  end
-
-  test "No images given for non-reduced fare" do
-    assert Enum.empty?(reduced_image(:adult))
   end
 
   describe "origin_destination_description/2" do
