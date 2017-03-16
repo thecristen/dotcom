@@ -48,7 +48,7 @@
         <div class="transit-near-me-results transit-near-me-gray small-set grouped">
           <%= for {%Location{agent: agent, location: street, city: city} = location, distance} <- @fare_sales_locations do %>
             <div class="transit-column">
-              <%= link to: GoogleMaps.direction_map_url(@stop, location), class: "transit-card" do %>
+              <%= link to: GoogleMaps.direction_map_url(@stop, location), class: "transit-card", target: "_blank" do %>
                 <div class="transit-card-name">
                   <%= agent %>
                 </div>

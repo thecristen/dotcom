@@ -32,7 +32,7 @@
     <% end %>
     <%= if @route_alerts == [] do %>
       <div class="alert-no-alerts">
-        There are no current service alerts for this mode.
+        There are no current service alerts for <%= mode_name(@id) %>.
       </div>
     <% end %>
     <div class="alert-show-row">
