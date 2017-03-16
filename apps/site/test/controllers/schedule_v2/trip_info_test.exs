@@ -335,7 +335,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
     conn = %{conn |
-      request_path: schedule_v2_path(conn, :show, "66"),
+      request_path: schedule_path(conn, :show, "66"),
       query_params: nil
     }
     |> assign_stop_times_from_schedules_and_predictions(schedules, predictions)
