@@ -130,7 +130,7 @@
                 <% end %>
               </li>
               <li>
-                <%= link to: customer_support_path(@conn, :index) do %>
+                <%= link to: customer_support_path(@conn, :index)<>"#customer_support" do %>
                   <%= fa "caret-right" %> View all contact numbers
                 <% end %>
               </li>
@@ -157,10 +157,12 @@
             </p>
             <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
             <p>
-              <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank" do %>
-                Sign Up for T-Alerts <%= fa "arrow-circle-right" %>
-              <% end %>
               <ul>
+                <li>
+                  <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank" do %>
+                    <%= fa "caret-right" %> Sign Up for T-Alerts
+                  <% end %>
+                </li>
                 <li>
                   <%= link to: "https://twitter.com/MBTA", target: "_blank" do %>
                     <%= fa "caret-right" %> @MBTA Twitter Updates
