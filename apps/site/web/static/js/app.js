@@ -19,7 +19,6 @@
 
 // import socket from "./socket"
 import submitOnEvents from './submit-on-events.js';
-import dateToggle from './date-toggle.js';
 import dismissAnnouncement from './dismiss-announcement.js';
 import selectModal from './select-modal.js';
 import tooltip from './tooltip.js';
@@ -39,7 +38,6 @@ import scrollTo from './scroll-to';
 import stickyTooltip from './sticky-tooltip';
 
 submitOnEvents(["blur", "change"]);
-dateToggle();
 dismissAnnouncement();
 selectModal();
 tooltip();
