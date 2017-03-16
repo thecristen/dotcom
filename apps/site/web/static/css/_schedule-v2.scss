@@ -121,15 +121,23 @@ a {
 
   > div {
     @include make-col();
-
-    &:first-child {
-      @include make-col-span(4);
-    }
-
-    &:last-child {
-      @include make-col-span(8);
-    }
   }
+}
+
+.trip-list-v2-departure {
+  @include make-col-span(4);
+}
+
+.trip-list-v2-headsign {
+  @include make-col-span(8);
+}
+
+.time-block-name {
+  @include make-col-span(7);
+}
+
+.time-block-times {
+  @include make-col-span(5);
 }
 
 .trip-list-v2-footer {

@@ -9,7 +9,7 @@ end %>
   <div class="trip-list-v2-departure">
     <%= PredictedSchedule.Display.time(@departure) %>
   </div>
-  <div>
+  <div class="trip-list-v2-headsign">
     <%= if @arrival do
           PredictedSchedule.Display.time(@arrival)
         else
