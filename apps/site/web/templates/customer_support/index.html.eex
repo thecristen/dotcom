@@ -44,7 +44,11 @@
             <li><span class="support-tel-number"><strong>Anonymous Text Number</strong> <%= sms_link "873-873" %></span>
             </li>
             <li><span class="support-tel-number"><strong>Non-Emergency</strong> <%= tel_link "(617)-222-1000" %></span></li>
-            <li><a href="http://www.mbta.com/transitpolice/contact_us/">View more about the Transit Police <%= fa "arrow-right" %></a></li>
+            <li>
+              <%= link to: redirect_path(@conn, "transitpolice/contact_us") do %>
+                View more about the Transit Police <%= fa "arrow-right" %>
+              <% end %>
+            </li>
           </ul>
         </div>
       </div>
