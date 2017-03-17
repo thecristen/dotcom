@@ -13,27 +13,26 @@
     </div>
     <h2>Plan Your Trip</h2>
     <div class="row">
+      <%= link to: "mbta-at-a-glance", class: "homepage-link light" do %>
+        <div class="col-md-3 col-xs-6">
+          <div class="homepage-svg"><%= svg "guide-to-mbta.svg" %></div>
+          <div class="about-title">MBTA at a Glance</div>
+        </div>
+      <% end %>
       <%= link to: redirect_path(@conn, "rider_tools/trip_planner"), class: "homepage-link light" do %>
-        <div class="col-sm-3">
+        <div class="col-md-3 col-xs-6">
           <div class="homepage-svg"><%= svg "directions.svg" %></div>
           <div class="about-title">Directions</div>
         </div>
       <% end %>
       <%= link to: stop_path(@conn, :index), class: "homepage-link light" do %>
-
-        <div class="col-sm-3">
+        <div class="col-md-3 col-xs-6">
           <div class="homepage-svg"><%= svg "station-info.svg" %></div>
           <div class="about-title">Station Info</div>
         </div>
       <% end %>
-      <%= link to: redirect_path(@conn, "riding_the_t/parking/"), class: "homepage-link light" do %>
-        <div class="col-sm-3">
-          <div class="homepage-svg"><%= svg "parking.svg" %></div>
-          <div class="about-title">Parking</div>
-        </div>
-      <% end %>
       <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/"), class: "homepage-link light" do %>
-        <div class="col-sm-3">
+        <div class="col-md-3 col-xs-6">
           <div class="homepage-svg"><%= svg "homepage-accessibility.svg" %></div>
           <div class="about-title">Accessibility</div>
         </div>
