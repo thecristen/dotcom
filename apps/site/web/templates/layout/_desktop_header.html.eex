@@ -2,7 +2,7 @@
   <div class="container">
     <div class="menu-card panel row">
       <div id="gettingAround" class="menu-panel col-md-12 collapse" role="tabpanel">
-        <div class="row menu-row">
+        <div class="menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
@@ -78,7 +78,7 @@
     </div>
     <div class="menu-card panel row">
       <div id="fares" class="menu-panel col-md-12 collapse" role="tabpanel">
-        <div class="row menu-row">
+        <div class="menu-row">
           <div class="col-xs-3 fares-column">
             <p>More Fares Info</p>
             <ul>
@@ -111,7 +111,7 @@
     </div>
     <div class="menu-card panel row">
       <div id="contactUs" class="menu-panel col-md-12 collapse" role="tabpanel">
-        <div class="row menu-row">
+        <div class="menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :phone, class: "icon-boring"}) %>
@@ -175,7 +175,7 @@
     </div>
     <div class="menu-card panel row">
       <div id="more" class="menu-panel col-md-12 collapse" role="tabpanel">
-        <div class="row menu-row">
+        <div class="menu-row">
           <div class="col-xs-4 header-column">
             <p class="nav-title">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
