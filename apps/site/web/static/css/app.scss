@@ -78,16 +78,8 @@ body {
 }
 
 .main-container {
-  @extend .bg-white;
+  background-color: $white;
   padding-bottom: 1em;
-}
-
-.alert:empty {
-  display: none;
-}
-
-.bg-gray-light {
-  background-color: $gray-light;
 }
 
 @include media-breakpoint-up(md) {
@@ -197,22 +189,6 @@ div {
 .page-container {
   margin-bottom: 0;
   padding-bottom: $base-spacing * 2;
-}
-
-%callout {
-  background-color: $gray-lightest;
-  border-radius: 0;
-  margin-bottom: $base-spacing;
-  padding: $space-12;
-
-  &:empty {
-    display: none;
-  }
-}
-
-.callout {
-  @extend %callout;
-  margin: $space-12 0;
 }
 
 .d-inline {

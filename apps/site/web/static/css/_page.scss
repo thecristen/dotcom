@@ -52,6 +52,7 @@
 
 .pre-container-wrapper {
   // scss-lint:disable ColorVariable
+  background-color: $brand-primary-darkest;
   background-image: $hp-hero-gradient, url('/images/td-garden-zakim.jpg');
   background-position-x: 50%;
   background-position-y: 0%;
@@ -266,18 +267,6 @@
 
   @include media-breakpoint-up(sm) {
     background: linear-gradient(130deg, $whats-happening-gradient-end 0%, $whats-happening-gradient-end 10%, $gray-lightest 10%, $gray-lightest 90%, $whats-happening-gradient-end 90%, $whats-happening-gradient-end 100%);
-  }
-}
-
-.page-img-block {
-  display: block;
-  margin-top: 1.5rem;
-  padding: 1rem;
-
-  img {
-    //scss-lint:disable PlaceholderInExtend
-    @extend .img-fluid;
-    @extend .center-block;
   }
 }
 

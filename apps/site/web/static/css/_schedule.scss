@@ -1,11 +1,5 @@
 @import 'variables';
 
-.form-control.schedule-route-selector {
-  // leave room for the route icon
-  max-width: 80%;
-  float: left;
-}
-
 .schedule-callout {
   @extend %callout;
 

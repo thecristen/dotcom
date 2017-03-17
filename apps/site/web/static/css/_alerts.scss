@@ -1,5 +1,8 @@
-@import "variables";
 // Show
+
+.alert:empty {
+  display: none;
+}
 
 .alert-show-btn-bus {
   .btn-selected-bottom {

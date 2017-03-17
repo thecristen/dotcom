@@ -54,6 +54,8 @@
     padding: .5em 0;
 
     img {
+      // Polyfill for IE object-fit support
+      font-family: 'object-fit: cover;';
       object-fit: contain;
     }
   }
