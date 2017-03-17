@@ -158,4 +158,29 @@ defmodule Site.AlertViewTest do
       refute safe_to_string(result) == ""
     end
   end
+
+  describe "_item.html" do
+    @alert %Alerts.Alert{effect_name: "Access Alert", updated_at: ~D[2017-03-01], header: "Alert Header", description: "description"}
+    @time ~N[2017-03-01T07:29:00]
+
+    test "Displays full description button if alert has description" do
+      response = Site.AlertView.render("_item.html", alert: @alert, time: @time)
+      assert safe_to_string(response) =~ "View Full Description"
+    end
+
+    test "Does not display full description button if description is nil" do
+      response = Site.AlertView.render("_item.html", alert: %{@alert | description: nil}, time: @time)
+      refute safe_to_string(response) =~ "View Full Description"
+    end
+
+    test "Does not display full description button if description is only whitespace" do
+      response1 = Site.AlertView.render("_item.html", alert: %{@alert | description: ""}, time: @time)
+      response2 = Site.AlertView.render("_item.html", alert: %{@alert | description: "     "}, time: @time)
+      response3 = Site.AlertView.render("_item.html", alert: %{@alert | description: "\n\t\n\r\r "}, time: @time)
+
+      refute safe_to_string(response1) =~ "View Full Description"
+      refute safe_to_string(response2) =~ "View Full Description"
+      refute safe_to_string(response3) =~ "View Full Description"
+    end
+  end
 end
