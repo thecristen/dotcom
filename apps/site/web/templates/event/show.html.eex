@@ -35,7 +35,9 @@
     <h2>When</h2>
     <%= event_duration(@event.fields.start_time, @event.fields.end_time) %>
     <div class="add-to-calendar">
-      <%= link to: event_icalendar_path(@conn, :show, @event.id), target: "_blank", class: "btn btn-primary" do %>
+      <%= link to: event_icalendar_path(@conn, :show, @event.id),
+          data: [turbolinks: false],
+          class: "btn btn-primary" do %>
         <i class="calendar-icon fa fa-calendar"></i>
         Add to Calendar
       <% end %>
