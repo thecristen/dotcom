@@ -55,8 +55,9 @@
 }
 
 @include media-breakpoint-down(xs) {
-  // for commuter rail on homepage for mobile, special rules to guarantee nice two column formatting
-  .mode-group.commuter-rail .button {
+  // for commuter rail on homepage and mode page for mobile, special rules to guarantee nice two column formatting
+  .mode-group.commuter-rail .button,
+  .commuter-rail .mode-group .button, {
     align-items: center;
     display: flex;
     height: 4rem;
