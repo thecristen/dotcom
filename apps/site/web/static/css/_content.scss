@@ -1,12 +1,10 @@
 .project-update-featured-image {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .img-fluid;
+  @include img-fluid();
   width: 100%;
 }
 
 .project-update-metadata {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-unstyled;
+  @include list-unstyled();
 
   > li {
     padding-top: $space-12;

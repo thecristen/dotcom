@@ -27,10 +27,7 @@
 }
 
 .mode-group-btn {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .btn;
   @include button-variant($link-color, white, $gray-lightest);
-  @extend .btn-block;
   @extend %button-focus-color;
 
   margin-bottom: $grid-gutter-width / 4;

@@ -1,6 +1,5 @@
 .carousel {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-unstyled;
+  @include list-unstyled();
 }
 
 .carousel,
@@ -23,8 +22,7 @@
   }
 
   img {
-    //scss-lint:disable PlaceholderInExtend
-    @extend .img-fluid;
+    @include img-fluid();
   }
 }
 

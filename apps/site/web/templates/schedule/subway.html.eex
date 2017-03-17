@@ -3,7 +3,7 @@
   <% last_trip_id = List.last(schedules).trip.id %>
   <% is_selected_period = Enum.any?(schedules, &(&1.trip.id == @trip)) %>
   <% trip_alerts = trip_alerts_for @all_alerts, schedules %>
-  <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
+  <a class="list-group-item schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= last_trip_id %>"
     href="<%= if is_selected_period do %>
           <%= update_schedule_url @conn, trip: "" %>
@@ -32,7 +32,7 @@
     <span class="schedule-col-1 pull-right"><%= selected_caret is_selected_period %></span>
   </a>
   <%= if is_selected_period do %>
-    <div class="schedule-list-group-item selected-period">
+    <div class="list-group-item schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: List.first(schedules).time %>
       <div class="row">
         <%= for schedule <- schedule_list(schedules, @show_full_list)  do %>

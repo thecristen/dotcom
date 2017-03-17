@@ -59,9 +59,6 @@
 }
 
 .btn-select-modal {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .btn;
-  @extend .btn-link;
   margin-top: $space-8 * -1;
   padding: 0;
 }

@@ -1,4 +1,4 @@
-<div class="schedule-list-group-item schedule-list-group-header">
+<div class="list-group-item schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <%= if @route.type == 2 do %><span class="schedule-col-group">Train No.</span><% end %>
   <span class="schedule-col-1 pull-right">
@@ -10,7 +10,7 @@
   <% is_selected_period = schedule.trip.id == @trip %>
   <% trip_alerts = trip_alerts_for @all_alerts, schedule %>
   <% prediction = prediction_for_schedule(@predictions, schedule) %>
-  <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
+  <a class="list-group-item schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= schedule.trip.id %>"
     href="<%= if is_selected_period do %>
           <%= update_schedule_url @conn, trip: "" %>
@@ -50,7 +50,7 @@
     <% end %>
   </a>
   <%= if is_selected_period do %>
-    <div class="schedule-list-group-item selected-period">
+    <div class="list-group-item schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: schedule.time %>
       <%= render "_your_trip.html", trip_schedule: @trip_schedule, origin: @origin, destination: @destination, show_full_list: @show_full_list, conn: @conn, alerts: @alerts %>
     </div>

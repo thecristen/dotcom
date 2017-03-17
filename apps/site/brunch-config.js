@@ -29,6 +29,7 @@ exports.config = {
     },
     stylesheets: {
       joinTo: {
+        'css/core.css': /^web\/static\/css\/core/,
         'css/app.css': /^web\/static\/css\/app/,
         'css/style_guide.css': /^web\/static\/css\/style_guide/
       }

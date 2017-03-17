@@ -25,8 +25,8 @@
     // scss-lint:disable PlaceholderInExtend
     // scss-lint:disable PseudoElement
     &:before {
-      @extend .fa;
-      @extend .fa-exclamation-circle;
+      @include fa-icon();
+      content: $fa-var-exclamation-circle;
       margin-right: .25em;
     }
   }
@@ -124,8 +124,8 @@ body {
 // scss-lint:disable PlaceholderInExtend
 // scss-lint:disable PseudoElement
 .has-success .support-form-control + span:before {
-  @extend .fa;
-  @extend .fa-check-circle;
+  @include fa-icon();
+  content: $fa-var-check-circle;
   color: $brand-success;
   float: right;
   left: -.5rem;

@@ -1,13 +1,4 @@
-.index-news-group {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-group;
-  @extend .list-group-flush;
-}
-
 .index-news-item {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-group-item;
-  @extend .list-group-item-flush;
   @include truncate();
 
   background-color: initial;
