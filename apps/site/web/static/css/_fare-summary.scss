@@ -7,6 +7,10 @@
   @extend %title-card;
 }
 
+.the-ride-summary-entry {
+  padding-bottom: $base-spacing;
+}
+
 .fare-summary-name {
   @extend %title-card-title;
 }
