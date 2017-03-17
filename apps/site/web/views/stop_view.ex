@@ -262,7 +262,13 @@ defmodule Site.StopView do
   end
 
   def station_schedule_empty_msg(mode) do
-    content_tag :div, "There are no upcoming #{mode |> mode_name |> String.downcase} departures until the start of tomorrow's service.", class: "station-schedules-empty station-route-row"
+    content_tag :div, class: "station-schedules-empty station-route-row" do
+      [
+        "There are no upcoming ",
+        mode |> mode_name |> String.downcase,
+        " departures until the start of the next day's service."
+      ]
+    end
   end
 
   @doc """

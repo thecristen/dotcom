@@ -56,7 +56,7 @@
           <% end %>
         <% end %>
       <% end %>
+      <%= station_schedule_empty_msg(@mode) %>
     </div>
   </div>
-  <%= station_schedule_empty_msg(@mode) %>
 </div>

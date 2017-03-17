@@ -84,7 +84,7 @@
 
   display: none;
 
-  &:nth-child(2) {
+  &:first-child {
     &:last-child {
       display: initial;
     }
