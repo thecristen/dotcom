@@ -309,7 +309,7 @@ defmodule Site.ComponentsTest do
     test "optionally takes a CSS class" do
       rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
 
-      assert rendered =~ ~s(<div class="tab-list-group show-btn-group test-class">)
+      assert rendered =~ ~s(<div class="tab-list-group test-class">)
     end
 
     test "tab_class/1" do

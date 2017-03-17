@@ -1,5 +1,5 @@
 <%= if @stop_times.times != [] do %>
-  <% refresh = if StopTimeList.has_predictions?(@stop_times), do: render "_refresh.html" %>
+  <% refresh = if StopTimeList.has_predictions?(@stop_times), do: render "_refresh.html", conn: @conn %>
   <div class="trip-list-v2 trip-list-v2-commuter">
     <div class="trip-list-v2-row trip-list-v2-header">
       <div class="row">

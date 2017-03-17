@@ -1,5 +1,6 @@
-<div class="tab-list-group show-btn-group <%= args.class %>">
-  <%= for {text, href, selected} <- args.links do %>
-    <%= Phoenix.HTML.Link.link text, to: href, class: tab_class(selected) %>
-  <% end %>
+<div class="tab-list-group <%= args.class %>">
+  <%# by doing it in one block, we avoid the spaces between the elements that IE adds. %>
+  <%= for {text, href, selected} <- args.links do
+      Phoenix.HTML.Link.link text, to: href, class: tab_class(selected)
+      end %>
 </div>

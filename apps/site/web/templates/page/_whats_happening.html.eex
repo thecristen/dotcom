@@ -3,6 +3,7 @@
   <div class="row">
     <div class="col-sm-4 homepage-link">
       <img srcset="<%= static_url @conn, "/images/dtx-station.jpg" %>, <%= static_url @conn, "/images/dtx-station_2x.jpg" %> 2x"
+        src="<%= static_url @conn, "/images/dtx-station_2x.jpg" %>"
         alt="Downtown Crossing exterior" />
       <div class="about-title">The Red Line north passageway at Downtown Crossing station will be out of service to allow for the construction of a new elevator.
         <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/?id=6442457424&month=&year=") do %>
@@ -21,7 +22,7 @@
       </div>
     </div>
     <div class="col-sm-4 homepage-link">
-      <img srcset="<%= static_url @conn, "/images/ruggles-station.jpg" %>, <%= static_url @conn, "/images/ruggles-station.jpg" %> 2x"
+      <img src="<%= static_url @conn, "/images/ruggles-station.jpg" %>"
         alt="Outside Ruggles Station"
         class="hidden-xs-down" />
       <div class="about-title">The Fiscal and Management Control Board (FMCB) today voted to amend the Ruggles Station Transportation Project contract with Vanasse Hangen Brustlin&hellip;
