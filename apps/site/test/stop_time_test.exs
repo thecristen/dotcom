@@ -142,6 +142,23 @@ defmodule StopTimeTest do
       refute StopTime.before?(dep_time_nil, arr_time_nil)
     end
 
+    test "compares by prediction times before schedules" do
+      stop_time1 = %StopTime{
+        departure: %PredictedSchedule{
+          schedule: %Schedule{time: ~N[2017-03-01T07:30:00]},
+          prediction: %Prediction{time: ~N[2017-03-01T07:00:00]}
+        }
+      }
+      stop_time2 = %StopTime{
+        departure: %PredictedSchedule{
+          schedule: %Schedule{time: ~N[2017-03-01T07:25:00]},
+          prediction: %Prediction{time: ~N[2017-03-01T07:20:00]}
+        }
+      }
+
+      assert StopTime.before?(stop_time1, stop_time2)
+    end
+
     test "compares by status if there are no times" do
       one_away = %StopTime{departure: %PredictedSchedule{prediction: %Prediction{status: "1 stop away"}}}
       two_away = %StopTime{departure: %PredictedSchedule{prediction: %Prediction{status: "2 stops away"}}}
