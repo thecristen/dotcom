@@ -15,12 +15,17 @@ defmodule Site.FareView do
   @spec fare_type_note(Fare.t) :: Phoenix.HTML.Safe.t | nil
   def fare_type_note(%Fare{reduced: :student}) do
     content_tag :span do
-      "Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a Student CharlieCard issued by their school. Student discounts apply to One Way fares only. Discounts for passes are not available. College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."
+      ["Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a ",
+       (link "Student CharlieCard ", to: fare_path(Site.Endpoint, :show, :reduced)<>"#students", data: [turbolinks: "false"]),
+       "issued by their school. Student discounts apply to One Way fares only. Discounts for passes are not available. College students may 
+       be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."]
     end
   end
   def fare_type_note(%Fare{reduced: :senior_disabled}) do
     content_tag :span do
-      ["People aged 65 years or older and persons with disabilities qualify for a reduced fare on Bus and Subway. Seniors must obtain a Senior CharlieCard and persons with disabilities must apply for a ",
+      ["People aged 65 years or older and persons with disabilities qualify for a reduced fare on Bus and Subway. Seniors must obtain a ",
+      (link "Senior CharlieCard ", to: fare_path(Site.Endpoint, :show, :reduced), data: [turbolinks: "false"]),
+      "and persons with disabilities must apply for a ",
      (link "Transportation Access Pass (TAP) ", to: fare_path(Site.Endpoint, :show, :reduced)<>"#reduced-disability", data: [turbolinks: "false"]),
       "in order to receive a reduced fare. Discounts apply to One Way fares only. Discounts for passes are not available."]
     end

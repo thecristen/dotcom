@@ -2,7 +2,7 @@
   <div class="page-block row">
     <div class="col-xs-12">
       <h1>How to Pay</h1>
-      <p>Each service the MBTA accepts varying payment methods and a different process for paying. Select a mode below to view more.</p>
+      <p>You may pay your fare in several ways, depending on the type of transportation you take.  Select your choice of transportation below to see its payment options.</p>
       <%= mode_tab_list %ModeTabList{
         links: for mode <- [:subway, :bus, :commuter_rail, :ferry, :the_ride] do
           {mode, how_to_pay_path(@conn, :show, mode)}

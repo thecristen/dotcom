@@ -48,10 +48,10 @@ defmodule Site.FareView.DescriptionTest do
     test "if current fare is cheapest, should have costs to other fares" do
       fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card], cents: 1}
       result = fare |> transfers |> iodata_to_binary
-      assert result =~ "Transfer to Subway $"
-      assert result =~ "Transfer to Local Bus $"
-      assert result =~ "Transfer to Inner Express Bus $"
-      assert result =~ "Transfer to Outer Express Bus $"
+      assert result =~ "Transfer to Subway: $"
+      assert result =~ "Transfer to Local Bus: $"
+      assert result =~ "Transfer to Inner Express Bus: $"
+      assert result =~ "Transfer to Outer Express Bus: $"
     end
 
     test "if current fare is most expensive, should have free transfers to other fares" do
@@ -72,8 +72,8 @@ defmodule Site.FareView.DescriptionTest do
       fare = %Fare{mode: :bus, name: :local_bus, duration: :single_trip, media: [:charlie_card], cents: inner_express_fare.cents - 1}
 
       result = fare |> transfers |> iodata_to_binary
-      assert result =~ "Transfer to Inner Express Bus $0.01."
-      assert result =~ "Transfer to Outer Express Bus $1" # leave off cents
+      assert result =~ "Transfer to Inner Express Bus: $0.01."
+      assert result =~ "Transfer to Outer Express Bus: $1" # leave off cents
       assert result =~ "Free transfers to Subway and Local Bus."
     end
   end

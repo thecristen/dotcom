@@ -59,13 +59,13 @@ defmodule Site.FareView.Description do
   when media != [:charlie_ticket, :cash] do
 
     [
-      "Valid for all Subway lines (includes routes SL1 and SL2). ",
+      "Valid for all Subway lines (includes Routes SL1 and SL2). ",
       transfers(fare),
       " Must be done within 2 hours of your original ride."
     ]
   end
   def description(%Fare{mode: :subway, media: [:charlie_ticket, :cash]}, _assigns) do
-    "Free transfer to Subway, route SL4, and route SL5 when done within 2 hours of purchasing a ticket."
+    "Free transfer to Subway, Route SL4, and Route SL5 when done within 2 hours of purchasing a ticket."
   end
   def description(%Fare{mode: :bus, media: [:charlie_ticket, :cash]}, _assigns) do
     "Free transfer to one additional Local Bus included."
@@ -84,7 +84,7 @@ defmodule Site.FareView.Description do
     "Can be used for the Subway, Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
   end
   def description(%Fare{name: :local_bus, duration: :month}, _assigns) do
-    "Unlimited travel for one calendar month on the Local Bus (not including routes SL1 or SL2)."
+    "Unlimited travel for one calendar month on the Local Bus (not including Routes SL1 or SL2)."
   end
   def description(%Fare{name: :inner_express_bus, duration: :month}, _assigns) do
     ["Unlimited travel for one calendar month on the Inner Express Bus",
@@ -103,7 +103,7 @@ defmodule Site.FareView.Description do
   def description(%Fare{mode: :bus, media: media} = fare, _assigns)
   when media != [:charlie_ticket, :cash] do
     [
-      "Valid for the Local Bus (includes route SL4 and SL5). ",
+      "Valid for the Local Bus (includes Route SL4 and SL5). ",
       transfers(fare),
       " Must be done within 2 hours of your original ride."
     ]
@@ -162,7 +162,7 @@ defmodule Site.FareView.Description do
 
   defp transfers_map({name, text}, fare) do
     other_fare = transfers_other_fare(name, fare)
-    [" Transfer to ", text, " ", Fares.Format.price(other_fare.cents - fare.cents), "."]
+    [" Transfer to ", text, ": ", Fares.Format.price(other_fare.cents - fare.cents), "."]
   end
 
   defp transfers_other_fare(name, fare) do
