@@ -106,6 +106,8 @@
 
   .route-stop-name-icons {
     @include stop-info-column();
+    margin-left: 0;
+
     @include media-breakpoint-only(xs) {
       padding-left: $base-spacing * 1.5;
     }
@@ -132,6 +134,7 @@
 
   .green-line-bubble {
     height: 400%;
+    top: 0;
   }
 }
 
