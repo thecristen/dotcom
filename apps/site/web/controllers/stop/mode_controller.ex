@@ -13,7 +13,7 @@ defmodule Site.StopController.ModeController do
     |> Enum.into([])
     |> gather_green_line(mode)
 
-    render(conn, "index.html", mode: mode, stop_info: stop_info, breadcrumbs: ["Stops"])
+    render(conn, "index.html", mode: mode, stop_info: stop_info, breadcrumbs: ["Stations"])
   end
 
   @spec gather_green_line([{Route.t, [Stop.t]}], Route.gtfs_route_type) :: [{Route.t, [Stop.t]}]
