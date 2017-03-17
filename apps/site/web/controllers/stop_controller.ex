@@ -47,7 +47,7 @@ defmodule Site.StopController do
 
   @spec breadcrumbs(Stop.t) :: [{String.t, String.t} | String.t]
   defp breadcrumbs(%Stop{station?: true, name: name}) do
-    [{stop_path(Site.Endpoint, :index), "Stops"}, name]
+    [{stop_path(Site.Endpoint, :index), "Stations"}, name]
   end
   defp breadcrumbs(%Stop{name: name}) do
     [name]
