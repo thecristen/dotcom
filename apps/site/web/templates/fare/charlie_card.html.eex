@@ -108,12 +108,12 @@
       <p>Bus and Subway riders can create a MyCharlie account to set up recurring monthly pass purchases and have protection against loss, theft, or damage to their CharlieCard. Those who do not want a MyCharlie can reload their CharlieCard with up to $50. Commuter Rail, Boat, and Express Bus riders can order monthly passes online.</p>
       <div class="row">
         <div class="col-md-6">
-          <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Log in to MyCharlie account</a>
-          <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account</a>
+          <a class="btn btn-block mode-group-btn" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Log in to MyCharlie account</a>
+          <a class="btn btn-block mode-group-btn" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf">Sign up for MyCharlie account</a>
         </div>
         <div class="col-md-6">
-          <a class="charlie-card-link" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/reloadCharlieCardIV.jsf">Reload CharlieCard</a>
-          <a class="charlie-card-link charlie-card-truncate" href="https://commerce.mbta.com/">Buy Commuter Rail, Ferry, Express Bus pass</a>
+          <a class="btn btn-block mode-group-btn" href="https://charliecard.mbta.com/CharlieCardWebProgram/pages/reloadCharlieCardIV.jsf">Reload CharlieCard</a>
+          <a class="btn btn-block mode-group-btn" href="https://commerce.mbta.com/">Buy Commuter Rail, Ferry, Express Bus pass</a>
         </div>
       </div>
     </div>

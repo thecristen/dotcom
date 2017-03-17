@@ -3,8 +3,6 @@
 
 .button,
 %button {
-  // scss-lint:disable PlaceholderInExtend
-  @extend .btn;
   @extend %button-focus-color;
   border-color: $gray-lightest;
   border-radius: 0;

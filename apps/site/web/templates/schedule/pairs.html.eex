@@ -1,5 +1,5 @@
 <% route_type = Route.type_atom(@route) %>
-<div class="schedule-list-group-item schedule-list-group-header">
+<div class="list-group-item schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <span class="schedule-col-arrival">Arrival</span>
   <span class="schedule-col-pair-notes">

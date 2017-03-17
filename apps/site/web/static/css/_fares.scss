@@ -70,6 +70,7 @@ a {
 }
 
 .fares-box-column {
+  @include make-col();
   @include make-col-span(12);
 
   padding-bottom: $grid-gutter-width / 2;
@@ -158,15 +159,6 @@ a {
 
 .charlie-card-stations {
   margin-top: $base-spacing;
-}
-
-.charlie-card-link {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .mode-group-btn;
-
-  .charlie-card-truncate {
-    @include truncate();
-  }
 }
 
 .charlie-ticket-method {
