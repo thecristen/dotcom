@@ -12,3 +12,10 @@
     padding-top: $space-12;
   }
 }
+
+.content-page-block {
+  img {
+    @include img-fluid();
+    margin-bottom: $base-spacing;
+  }
+}
