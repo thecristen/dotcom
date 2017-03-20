@@ -30,7 +30,7 @@ tar xzf ./credo.tar.gz
 cd credo-0.7.0
 mix deps.get
 mix archive.build
-mix archive.install
+mix archive.install --force
 cd ..
 
 mix local.hex --force
