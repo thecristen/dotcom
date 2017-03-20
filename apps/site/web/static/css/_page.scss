@@ -79,7 +79,8 @@
   background-color: $riding-the-t-bg;
   color: $white;
   margin-bottom: 0;
-  padding-bottom: $base-spacing * 3;
+  margin-top: -$base-spacing;
+  padding-bottom: $base-spacing;
   padding-top: $base-spacing * 2;
 
   @include media-breakpoint-up(md) {
