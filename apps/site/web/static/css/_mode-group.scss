@@ -45,14 +45,37 @@
   }
 }
 
-@include media-breakpoint-down(xs) {
-  // for commuter rail on homepage and mode page for mobile, special rules to guarantee nice two column formatting
+@include media-breakpoint-only(xs) {
+  // scss-lint:disable VendorPrefix
+  // for commuter rail on homepage for mobile, special rules to guarantee nice two column formatting
   .mode-group.commuter-rail .button,
-  .commuter-rail .mode-group .button, {
+  .commuter-rail .mode-group .button {
     align-items: center;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
     height: 4rem;
     justify-content: center;
     white-space: normal;
+  }
+
+  .commuter-rail {
+    .mode-button-text {
+      display: inline-block;
+      -ms-flex: 1 1 0%;
+      -webkit-flex: 1;
+      flex: 1;
+    }
+
+    .icon-alert {
+      -ms-flex: 0 0 $icon-size-sm;
+      -webkit-flex-basis: $icon-size-sm;
+      flex-basis: $icon-size-sm;
+      -webkit-flex-grow: 0;
+      flex-grow: 0;
+      -webkit-flex-shrink: 0;
+      flex-shrink: 0;
+    }
   }
 }
