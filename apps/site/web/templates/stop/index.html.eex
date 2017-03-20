@@ -1,5 +1,5 @@
 <div class="page-section">
-  <h1>MBTA Stops</h1>
+  <h1>MBTA Stations</h1>
   <%= mode_tab_list %ModeTabList{
     links: for mode <- [:commuter_rail, :subway, :ferry] do
       {mode, stop_path(@conn, :show, mode)}
