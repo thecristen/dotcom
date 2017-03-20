@@ -1,31 +1,99 @@
-.add-to-calendar {
-  padding-top: .5em;
+.event-title {
+  padding-top: $base-spacing-lg;
+}
+
+.event-schedule-container {
+  height: auto;
+}
+
+.event-schedule {
+  background-color: $gray-lightest;
+  float: left;
+  height: 16rem;
+  padding: $base-spacing;
+  width: 65%;
+
+  @include media-breakpoint-down(md) {
+    float: none;
+    height: 15rem;
+    width: 100%;
+  }
+}
+
+.event-schedule-title {
+  border-bottom: $border;
+  padding-bottom: $base-spacing-sm;
+}
+
+.event-time {
+  font-weight: bold;
+  margin-bottom: $base-spacing;
+}
+
+.event-address {
+  list-style: none;
+  padding: 0;
+}
+
+.event-location {
+  font-weight: bold;
+}
+
+.event-street-address {
+  padding-left: $base-spacing-lg;
+}
+
+.event-city {
+  padding-left: $base-spacing-lg;
+}
+
+.event-attendees {
+  font-weight: bold;
+}
+
+.event-icon {
+  padding-right: $base-spacing-lg;
+  text-align: center;
+  width: 1.5rem;
+}
+
+.event-export {
+  height: 16rem;
+
+  @include media-breakpoint-down(md) {
+    height: auto;
+    padding-top: $base-spacing-sm;
+  }
+}
+
+.export-to-calendar {
+  text-align: right;
+
+  @include media-breakpoint-down(md) {
+    text-align: left;
+  }
 }
 
 .calendar-icon {
-  padding-right: .5em;
+  padding-right: $base-spacing-sm;
 }
 
-.event-map-container {
-  width: 100%;
-
-  @include media-breakpoint-down(sm) {
-    margin-left: -1 * $space-6;
-    width: calc(100% + .75rem);
-  }
+.event-description {
+  padding-top: $base-spacing-xl;
 }
 
-.event-meta-row {
+.event-hr-row {
   @include media-breakpoint-up(md) {
-    border-bottom: 1px solid $gray-lightest;
-    margin-bottom: $space-12;
+    border-top: $border;
+    margin-top: $base-spacing-lg;
+    padding-top: $base-spacing;
   }
 }
 
-.event-meta-col {
+.event-hr-col {
   @include media-breakpoint-down(sm) {
-    border-bottom: 1px solid $gray-lightest;
-    margin-bottom: $space-12;
-    padding-bottom: $space-12;
+    border-top: $border;
+    margin-top: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
   }
 }

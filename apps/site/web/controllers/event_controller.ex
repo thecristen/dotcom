@@ -19,10 +19,19 @@ defmodule Site.EventController do
     event = Content.Repo.get!("events", id)
 
     conn
+    |> assign_breadcrumbs(event)
     |> render("show.html", event: event)
   end
 
   defp params_for_upcoming_events do
     EventQueryBuilder.upcoming_events(Timex.today)
+  end
+
+  defp assign_breadcrumbs(conn, event) do
+    conn
+    |> assign(:breadcrumbs, [
+        {event_path(conn, :index), "Events"},
+        event.title
+      ])
   end
 end

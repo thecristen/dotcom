@@ -2,27 +2,6 @@ defmodule Site.EventView do
   use Site.Web, :view
   import Site.TimeHelpers
 
-  @doc "Returns the srcset attribute for maps at a given set of sizes."
-  @spec scaled_map_srcset([{number, number}], String.t) :: String.t
-  def scaled_map_srcset(sizes, address) do
-    sizes
-    |> GoogleMaps.scale
-    |> Enum.map(fn {width, height, scale} ->
-      {"#{width * scale}", map_url(address, width, height, scale)}
-    end)
-    |> Picture.srcset
-  end
-
-  @doc "URL for the embedded Google map image for an address."
-  @spec map_url(String.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
-  def map_url(address, width, height, scale) do
-    GoogleMaps.static_map_url(width, height,
-      channel: "beta_mbta_content",
-      zoom: 16,
-      scale: scale,
-      markers: address)
-  end
-
   @doc ""
   @spec shift_month_url(Plug.Conn.t, atom, integer) :: String.t
   def shift_month_url(conn, field, shift) do

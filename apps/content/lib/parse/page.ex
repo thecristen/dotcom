@@ -65,7 +65,7 @@ defmodule Content.Parse.Page do
     [more_information: value]
   end
   def parse_field_more_information([]) do
-    [more_information: []]
+    [more_information: nil]
   end
 
   def parse_field_status([%{"value" => value}]) do
@@ -101,12 +101,20 @@ defmodule Content.Parse.Page do
     }
   end
 
-  def parse_field_address([%{"value" => value}]) do
-    [address: value]
+  def parse_field_location([%{"value" => location}]) do
+    [location: location]
   end
 
-  def parse_field_map_address([%{"value" => value}]) do
-    [map_address: value]
+  def parse_field_street_address([%{"value" => value}]) do
+    [street_address: value]
+  end
+
+  def parse_field_city([%{"value" => city}]) do
+    [city: city]
+  end
+
+  def parse_field_state([%{"value" => state}]) do
+    [state: state]
   end
 
   def parse_field_who([%{"value" => value}]) do
@@ -116,12 +124,12 @@ defmodule Content.Parse.Page do
   def parse_field_notes([%{"value" => value}]) do
     [notes: value]
   end
-  def parse_field_notes(_), do: [notes: ""]
+  def parse_field_notes(_), do: [notes: nil]
 
   def parse_field_agenda([%{"value" => value}]) do
     [agenda: value]
   end
-  def parse_field_agenda(_), do: [agenda: ""]
+  def parse_field_agenda(_), do: [agenda: nil]
 
   def parse_field_start_time([%{"value" => value}]) do
     case parse_iso_datetime(value) do

@@ -4,23 +4,37 @@ defmodule Site.EventViewTest do
 
   describe "index.html" do
     test "when no events are found for the current month", %{conn: conn} do
-      html = Site.EventView
+      html =
+        Site.EventView
         |> render_to_string("index.html", conn: conn, events: [])
 
       assert html =~ "Sorry, there are no upcoming meetings."
     end
   end
 
-  describe "scaled_map_srcset/2" do
-    test "returns a srcset for the scaled map sizes" do
-      sizes = [{1, 2}, {5, 10}]
-      urls = [
-        {"1", map_url("address", 1, 2, 1)},
-        {"2", map_url("address", 1, 2, 2)},
-        {"5", map_url("address", 5, 10, 1)},
-        {"10", map_url("address", 5, 10, 2)},
-      ]
-      assert scaled_map_srcset(sizes, "address") == Picture.srcset(urls)
+  describe "show.html" do
+    test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
+      event =
+        event_page_factory()
+        |> update_fields_attribute(:notes, nil)
+
+      html =
+        Site.EventView
+        |> render_to_string("show.html", conn: conn, event: event)
+
+      refute html =~ "Notes"
+    end
+
+    test "the agenda section is not renderd when the event agenda is empty", %{conn: conn} do
+      event =
+        event_page_factory()
+        |> update_fields_attribute(:agenda, nil)
+
+      html =
+        Site.EventView
+        |> render_to_string("show.html", conn: conn, event: event)
+
+      refute html =~ "Agenda"
     end
   end
 

@@ -6,11 +6,13 @@ defmodule Content.Factory do
       title: "AACT Membership Meeting",
       type: "event",
       fields: %{
-        address: "10 Park Plaza, Conference Room 2",
-        agenda: "Event Agenda",
+        location: "MassDOT",
+        street_address: "10 Park Plaza",
+        city: "Boston",
+        state: "MA",
         start_time: Timex.now(),
         end_time: Timex.shift(Timex.now(), hours: 1),
-        map_address: "10 Park Plaza Boston, MA",
+        agenda: "Event Agenda",
         notes: "Event Notes",
         who: "Board Members"
       }
