@@ -191,9 +191,12 @@ defmodule TripInfo do
   # included, the behavior is undefined.
   @spec clamp_times_to_origin_destination(time_list, String.t, String.t) :: time_list
   defp clamp_times_to_origin_destination(times, origin_id, destination_id) do
-    times
-    |> Enum.drop_while(& origin_id != PredictedSchedule.stop(&1).id)
-    |> clamp_to_destination(destination_id, [])
+    case Enum.drop_while(times, & origin_id != PredictedSchedule.stop(&1).id) do
+      [origin | rest] ->
+        [origin | clamp_to_destination(rest, destination_id, [])]
+      [] ->
+        []
+    end
   end
 
   defp clamp_to_destination([], _destination_id, _acc) do
