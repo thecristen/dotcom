@@ -1,18 +1,15 @@
 defmodule Site.EventController do
   use Site.Web, :controller
-  alias Site.EventQueryBuilder
+  alias Site.EventDateRange
 
-  def index(conn, %{"start_time_gt" => _, "start_time_lt" => _} = params) do
-    events = Content.Repo.all("events", params)
-
-    conn
-    |> render("index.html", events: events)
-  end
-  def index(conn, _params) do
-    events = Content.Repo.all("events", params_for_upcoming_events())
+  def index(conn, params) do
+    date_range = EventDateRange.build(params, Util.today)
+    events = Content.Repo.all("events", date_range)
 
     conn
-    |> render("index.html", events: events)
+    |> assign(:month, date_range.start_time_gt)
+    |> assign(:events, events)
+    |> render("index.html")
   end
 
   def show(conn, %{"id" => id}) do
@@ -21,10 +18,6 @@ defmodule Site.EventController do
     conn
     |> assign_breadcrumbs(event)
     |> render("show.html", event: event)
-  end
-
-  defp params_for_upcoming_events do
-    EventQueryBuilder.upcoming_events(Timex.today)
   end
 
   defp assign_breadcrumbs(conn, event) do

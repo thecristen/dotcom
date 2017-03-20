@@ -2,28 +2,48 @@ defmodule Site.EventView do
   use Site.Web, :view
   import Site.TimeHelpers
 
-  @doc ""
-  @spec shift_month_url(Plug.Conn.t, atom, integer) :: String.t
-  def shift_month_url(conn, field, shift) do
-    current_month = current_month(conn, field)
-
-    %{
-      "#{field}_gt" => current_month |> Timex.shift(months: shift) |> Timex.format!("{ISOdate}"),
-      "#{field}_lt" => current_month |> Timex.shift(months: shift + 1) |> Timex.format!("{ISOdate}")
-    }
-    |> URI.encode_query
-    |> (fn query -> "#{conn.request_path}?#{query}" end).()
+  @spec shift_date_range(String.t, integer) :: map
+  def shift_date_range(iso_string, shift_value) do
+    iso_string
+    |> Timex.parse!("{ISOdate}")
+    |> Timex.shift(months: shift_value)
+    |> Timex.beginning_of_month
+    |> Timex.format!("{ISOdate}")
   end
 
-  defp current_month(conn, field) do
-    field_name = "#{field}_gt"
-    case Map.get(conn.params, field_name) do
-      nil -> Util.today
-      date_str -> case Timex.parse(date_str, "{ISOdate}") do
-                    {:ok, date} -> date
-                    {:error, _} -> Util.today
-                  end
+  @spec calendar_title(%{required(String.t) => String.t}) :: String.t
+  def calendar_title(%{"month" => month}) do
+    if valid_iso_month?(month) do
+      name_of_month(month)
+    else
+      calendar_title(%{})
     end
+  end
+  def calendar_title(_missing_month) do
+    "Upcoming Meetings"
+  end
+
+  @spec no_results_message(%{required(String.t) => String.t}) :: String.t
+  def no_results_message(%{"month" => month}) do
+    if valid_iso_month?(month) do
+      "Sorry, there are no meetings in #{name_of_month(month)}."
+    else
+      no_results_message(%{})
+    end
+  end
+  def no_results_message(_missing_month) do
+    "Sorry, there are no upcoming meetings."
+  end
+
+  defp valid_iso_month?(iso_string) do
+    {:ok, _date}
+    |> match?(Timex.parse(iso_string, "{ISOdate}"))
+  end
+
+  defp name_of_month(iso_string) do
+    iso_string
+    |> Timex.parse!("{ISOdate}")
+    |> Timex.format!("{Mfull}")
   end
 
   @doc "Nicely renders the duration of an event, given two DateTimes."

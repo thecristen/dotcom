@@ -3,12 +3,18 @@ defmodule Site.EventViewTest do
   import Site.EventView
 
   describe "index.html" do
-    test "when no events are found for the current month", %{conn: conn} do
+    test "includes links to the previous and next month", %{conn: conn} do
       html =
         Site.EventView
-        |> render_to_string("index.html", conn: conn, events: [])
+        |> render_to_string(
+          "index.html",
+          conn: conn,
+          events: [],
+          month: "2017-01-15"
+        )
 
-      assert html =~ "Sorry, there are no upcoming meetings."
+      assert html =~ "<a href=\"/events?month=2016-12-01\">"
+      assert html =~ "<a href=\"/events?month=2017-02-01\">"
     end
   end
 
@@ -35,6 +41,44 @@ defmodule Site.EventViewTest do
         |> render_to_string("show.html", conn: conn, event: event)
 
       refute html =~ "Agenda"
+    end
+  end
+
+  describe "calendar_title/1" do
+    test "returns the name of the month" do
+      params = %{"month" => "2017-01-01"}
+      assert calendar_title(params) == "January"
+    end
+
+    test "returns default title when a month is not provided" do
+      assert calendar_title(%{}) == "Upcoming Meetings"
+    end
+
+    test "returns default title given an invalid month" do
+      params = %{"month" => "2017-01"}
+      assert calendar_title(params) == "Upcoming Meetings"
+    end
+  end
+
+  describe "no_results_message/1" do
+    test "includes the name of the month" do
+      params = %{"month" => "2017-01-01"}
+      expected_message = "Sorry, there are no meetings in January."
+
+      assert no_results_message(params) == expected_message
+    end
+
+    test "displays the default message when a month is not provided" do
+      expected_message = "Sorry, there are no upcoming meetings."
+
+      assert no_results_message(%{}) == expected_message
+    end
+
+    test "displays the default message given an invalid month" do
+      params = %{"month" => "2017-01"}
+      expected_message = "Sorry, there are no upcoming meetings."
+
+      assert no_results_message(params) == expected_message
     end
   end
 
@@ -67,37 +111,13 @@ defmodule Site.EventViewTest do
     end
   end
 
-  describe "shift_month_url/3" do
-    test "without any params, returns shifted URLs for the current month" do
-      today = Util.today
-      previous = Timex.shift(today, months: -1)
-      path = "/path"
-      gt = Timex.format!(previous, "{ISOdate}")
-      lt = Timex.format!(today, "{ISOdate}")
-
-      actual = shift_month_url(%{request_path: path, params: %{}}, :field, -1)
-      expected = ~s(/path?field_gt=#{gt}&field_lt=#{lt})
-
-      assert expected == actual
+  describe "shift_date_range/2" do
+    test "shifts the month by the provided value" do
+      assert shift_date_range("2017-04-15", -1) == "2017-03-01"
     end
 
-    test "with a param, shifts the gt and lt values by that much" do
-      params = %{
-        "field_gt" => "2016-12-01"
-      }
-        path = "/path"
-        actual = shift_month_url(%{request_path: path, params: params}, :field, 1)
-        expected = "/path?field_gt=2017-01-01&field_lt=2017-02-01"
-
-        assert expected == actual
-    end
-
-    test "with an invalid param, works the same as if no params was passed" do
-      path = "/path"
-      actual = shift_month_url(%{request_path: path, params: %{"field_gt" => "invalid"}}, :field, 1)
-      expected = shift_month_url(%{request_path: path, params: %{}}, :field, 1)
-
-      assert expected == actual
+    test "returns the beginning of the month" do
+      assert shift_date_range("2017-04-15", 1) == "2017-05-01"
     end
   end
 end
