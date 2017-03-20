@@ -172,15 +172,5 @@ defmodule Site.AlertViewTest do
       response = Site.AlertView.render("_item.html", alert: %{@alert | description: nil}, time: @time)
       refute safe_to_string(response) =~ "View Full Description"
     end
-
-    test "Does not display full description button if description is only whitespace" do
-      response1 = Site.AlertView.render("_item.html", alert: %{@alert | description: ""}, time: @time)
-      response2 = Site.AlertView.render("_item.html", alert: %{@alert | description: "     "}, time: @time)
-      response3 = Site.AlertView.render("_item.html", alert: %{@alert | description: "\n\t\n\r\r "}, time: @time)
-
-      refute safe_to_string(response1) =~ "View Full Description"
-      refute safe_to_string(response2) =~ "View Full Description"
-      refute safe_to_string(response3) =~ "View Full Description"
-    end
   end
 end
