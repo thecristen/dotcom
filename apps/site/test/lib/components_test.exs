@@ -274,9 +274,9 @@ defmodule Site.ComponentsTest do
       assert btn_class(nil) == ""
     end
 
-    test "nav_class/1" do
-      assert nav_class("xs") == "collapse navbar-toggleable-xs"
-      assert nav_class("sm") == "collapse navbar-toggleable-sm"
+    test "tab_class/1" do
+      assert nav_class("xs") == "collapse tab-toggleable-xs"
+      assert nav_class("sm") == "collapse tab-toggleable-sm"
       assert nav_class(nil) == ""
     end
   end

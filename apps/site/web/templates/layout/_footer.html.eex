@@ -74,19 +74,19 @@
         Follow Us Online
         <ul class="social-nav nav-inline">
           <li class="nav-item">
-            <a class="nav-link social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
+            <a class="social-nav-instagram" href="https://www.instagram.com/mbtapics/" target="_blank">
               <%= fa "instagram" %>
               <span class="sr-only">MBTA Instagram</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link social-nav-youtube" href="https://www.youtube.com/user/mbtagm/" target="_blank">
+            <a class="social-nav-youtube" href="https://www.youtube.com/user/mbtagm/" target="_blank">
               <%= fa "youtube" %>
               <span class="sr-only">MBTA Youtube</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link social-nav-twitter" href="https://twitter.com/MBTA" target="_blank">
+            <a class="social-nav-twitter" href="https://twitter.com/MBTA" target="_blank">
               <%= fa "twitter" %>
               <span class="sr-only">MBTA Twitter</span>
             </a>

@@ -29,7 +29,7 @@ defmodule Site.Components.Tabs.ModeTabList do
   def btn_class("sm"), do: "hidden-md-up"
   def btn_class(_collapse), do: ""
 
-  def nav_class("xs"), do: "collapse navbar-toggleable-xs"
-  def nav_class("sm"), do: "collapse navbar-toggleable-sm"
+  def nav_class("xs"), do: "collapse tab-toggleable-xs"
+  def nav_class("sm"), do: "collapse tab-toggleable-sm"
   def nav_class(_collapse), do: ""
 end
