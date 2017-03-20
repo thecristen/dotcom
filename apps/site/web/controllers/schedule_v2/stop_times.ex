@@ -32,10 +32,11 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     user_selected_date = conn.assigns.date
     current_date_time = conn.assigns.date_time
     today? = Timex.diff(user_selected_date, current_date_time, :days) == 0
-    filter_flag = filter_flag(today?, route_type, show_all_trips?)
+    filter_flag = filter_flag_for_route_type(route_type)
+    keep_all? = keep_all?(today?, route_type, show_all_trips?)
 
     stop_times =
-      StopTimeList.build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, today?)
+      StopTimeList.build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, keep_all?)
 
     assign(conn, :stop_times, stop_times)
   end
@@ -62,17 +63,11 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     conn
   end
 
-  defp filter_flag(today?, route_type, show_all) do
-    if today? do
-      filter_flag_for_today(route_type, show_all)
-    else
-      :keep_all
-    end
-  end
+  defp keep_all?(_today?, _route_type, true), do: true
+  defp keep_all?(_today?, route_type, _show_all) when Route.subway?(route_type), do: true
+  defp keep_all?(false, _route_type, _show_all), do: true
+  defp keep_all?(true, _route_type, _show_all), do: false
 
-  defp filter_flag_for_today(route_type, false) when route_type in [2, 4] do
-    :last_trip_and_upcoming
-  end
-  defp filter_flag_for_today(3, false), do: :predictions_then_schedules
-  defp filter_flag_for_today(_route_type, _show_all), do: :keep_all
+  defp filter_flag_for_route_type(3), do: :predictions_then_schedules
+  defp filter_flag_for_route_type(_route_type), do: :last_trip_and_upcoming
 end

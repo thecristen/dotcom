@@ -62,7 +62,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       assert conn.assigns.stop_times.times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, :last_trip_and_upcoming, now, true).times
     end
 
-    test "if filter_flag is :keep_all is true, doesn't filter schedules" do
+    test "if keep_all? is true, doesn't filter schedules" do
       now = @date_time
       stop = %Stop{id: "stop"}
       schedules = for hour <- [-3, -2, -1, 1, 2, 3] do
@@ -74,7 +74,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
       conn = setup_conn(@route, schedules, [], now, @cal_date, stop, nil, "true")
 
-      assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, :keep_all, @date_time, true)
+      assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, :last_trip_and_upcoming, @date_time, true)
     end
 
     test "assigns stop_times for subway", %{conn: conn} do

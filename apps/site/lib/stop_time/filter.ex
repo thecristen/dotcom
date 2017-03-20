@@ -3,20 +3,18 @@ defmodule StopTime.Filter do
   Helpful functions for filtering and sorting StopTimes
   """
 
-  @type filter_flag_t :: :keep_all | :last_trip_and_upcoming | :predictions_then_schedules
+  @type filter_flag_t :: :last_trip_and_upcoming | :predictions_then_schedules
 
   # Max amount of trips that should be displayed
   @trip_limit 14
 
   # filter the stop times based on the filter_flag
   # Currently, the following options are supported:
-  # * :keep_all -- do not do any filtering (for example, when user selected 'Show all trips')
   # * :last_trip_and_upcoming -- only leave upcoming trips and one before (used for Commuter Rail and Ferry)
   # * :predictions_then_schedules -- remove all scheduled trips before predictions.
   #                                  That is, make sure the list starts with predictions, followed by schedules
   #
   @spec filter([StopTime.t], filter_flag_t, DateTime.t | nil) :: [StopTime.t]
-  def filter(stop_times, :keep_all, _current_time), do: stop_times
   def filter(stop_times, _filter_flag, nil), do: stop_times
   def filter(stop_times, :last_trip_and_upcoming, current_time) do
     remove_departure_schedules_before_last_trip(stop_times, current_time)
@@ -87,8 +85,8 @@ defmodule StopTime.Filter do
     Enum.sort(stop_times, &StopTime.before?/2)
   end
 
-  def limit(stop_times, :keep_all), do: stop_times
-  def limit(stop_times, _filter_flag) do
+  def limit(stop_times, true), do: stop_times
+  def limit(stop_times, false) do
     Enum.take(stop_times, @trip_limit)
   end
 
@@ -96,17 +94,12 @@ defmodule StopTime.Filter do
   Determines whether the filtered times are expanded, collapsed, or neither.
   Will always return none when date is not today.
   """
-  @spec expansion([StopTime.t], [StopTime.t], boolean, number) :: :expanded | :collapsed | :none
-  def expansion(all_times, filtered_times, today?, limit \\ @trip_limit)
-  def expansion(_all_times, _filtered_times, false, _limit) do
-    :none
-  end
-  def expansion(all_times, filtered_times, _today?, limit) do
-    all_times_length = length(all_times)
+  @spec expansion([StopTime.t], [StopTime.t], boolean) :: :expanded | :collapsed | :none
+  def expansion(expanded_times, collapsed_times, keep_all?) do
     cond do
-      all_times_length <= limit -> :none
-      length(filtered_times) < all_times_length -> :collapsed
-      true -> :expanded
+      expanded_times == collapsed_times -> :none
+      keep_all? -> :expanded
+      true -> :collapsed
     end
   end
 end

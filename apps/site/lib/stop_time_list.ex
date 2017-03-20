@@ -29,10 +29,10 @@ defmodule StopTimeList do
   end
 
   @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
-  def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, today?) do
+  def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, keep_all?) do
     schedules
     |> build_times(predictions, origin_id, destination_id)
-    |> from_times(filter_flag, current_time, today?)
+    |> from_times(filter_flag, current_time, keep_all?)
   end
 
   @doc """
@@ -44,7 +44,7 @@ defmodule StopTimeList do
     stop_time = schedules
     |> build_times(predictions, origin_id, destination_id)
     |> Enum.filter(&StopTime.has_departure_prediction?/1)
-    |> from_times(:keep_all, nil, false)
+    |> from_times(:keep_all, nil, true)
     %{stop_time | times: Enum.take(stop_time.times, 5)}
   end
 
@@ -75,15 +75,15 @@ defmodule StopTimeList do
 
   # Creates a StopTimeList object from a list of times and the expansion value
   @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
-  defp from_times(stop_times, filter_flag, current_time, today?) do
-    filtered_times = stop_times
+  defp from_times(expanded_times, filter_flag, current_time, keep_all?) do
+    collapsed_times = expanded_times
     |> StopTime.Filter.filter(filter_flag, current_time)
     |> StopTime.Filter.sort
-    |> StopTime.Filter.limit(filter_flag)
+    |> StopTime.Filter.limit(keep_all?)
 
     %__MODULE__{
-      times: filtered_times,
-      expansion: StopTime.Filter.expansion(stop_times, filtered_times, today?)
+      times: (if keep_all?, do: StopTime.Filter.sort(expanded_times), else: collapsed_times),
+      expansion: StopTime.Filter.expansion(expanded_times, collapsed_times, keep_all?)
     }
   end
 

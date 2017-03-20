@@ -74,7 +74,7 @@ defmodule StopTime do
       when not is_nil(time) do
     Timex.after?(time, cmp_time)
   end
-  def departure_schedule_after?(%StopTime{}), do: false
+  def departure_schedule_after?(%StopTime{}, _cmp_time), do: false
 
   @doc """
 

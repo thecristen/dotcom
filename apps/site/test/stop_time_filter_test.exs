@@ -100,20 +100,16 @@ defmodule StopTimeListFilterTest do
     @times List.duplicate(%StopTime{}, 6)
 
     test "Expansion is none when there are no more times to show" do
-      assert expansion(@times, [], true, 6) == :none
-      assert expansion(@times, @times, true, 10) == :none
+      assert expansion(@times, @times, true) == :none
+      assert expansion(@times, @times, false) == :none
     end
 
-    test "Expansion is collapsed when there are more times to be shown" do
-      assert expansion(@times, Enum.take(@times, 3), true, 5) == :collapsed
+    test "Expansion is collapsed when keep_all is false" do
+      assert expansion(@times, Enum.take(@times, 3), false) == :collapsed
     end
 
-    test "Expansion is expanded when times can be collapsed" do
-      assert expansion(@times, @times, true, 3) == :expanded
-    end
-
-    test "Future dates do not have an expansion" do
-      assert expansion(@times, @times, false, 3) == :none
+    test "Expansion is expanded when keep_all is true" do
+      assert expansion(@times, Enum.take(@times, 3), true) == :expanded
     end
   end
 end
