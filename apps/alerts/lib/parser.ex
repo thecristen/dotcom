@@ -11,7 +11,7 @@ defmodule Alerts.Parser do
         severity: attributes["severity"],
         lifecycle: attributes["lifecycle"],
         updated_at: parse_time(attributes["updated_at"]),
-        description: attributes["description"]
+        description: description(attributes["description"])
       }
     end
 
@@ -36,6 +36,17 @@ defmodule Alerts.Parser do
     defp parse_time(str) do
       str
       |> Timex.parse!("{ISO:Extended}")
+    end
+
+    # remove leading/trailing whitespace from description
+    defp description(nil) do
+      nil
+    end
+    defp description(str) do
+      case String.trim(str) do
+        "" -> nil
+        str -> str
+      end
     end
   end
 

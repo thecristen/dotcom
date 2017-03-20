@@ -57,5 +57,71 @@ defmodule Alerts.ParserTest do
         description: "Affected routes: 18"
       }
     end
+
+    test "Whitespace is trimmed from description" do
+      assert %Alerts.Alert{description: "Affected routes:\t18"}
+      =
+      Parser.Alert.parse(
+        %JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [
+            %{
+              "route_type" => 3,
+              "route" => "18",
+              "stop" => "stop",
+              "trip" => "trip",
+              "direction_id" => 1
+            }
+          ],
+            "header" => "Route 18 experiencing moderate delays due to traffic",
+            "active_period" => [
+              %{
+                "start" => "2016-06-06T14:48:48-04:00",
+                "end" => "2016-06-06T19:53:51-04:00"
+              }
+            ],
+            "severity" => "Minor",
+            "lifecycle" => "Ongoing",
+            "effect_name" => "Delay",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => "\n\r\tAffected routes:\t18\n\r\t"
+          }
+        })
+    end
+
+    test "All whitespace descriptions are parsed as nil" do
+      assert %Alerts.Alert{description: nil}
+      =
+      Parser.Alert.parse(
+        %JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [
+            %{
+              "route_type" => 3,
+              "route" => "18",
+              "stop" => "stop",
+              "trip" => "trip",
+              "direction_id" => 1
+            }
+          ],
+            "header" => "Route 18 experiencing moderate delays due to traffic",
+            "active_period" => [
+              %{
+                "start" => "2016-06-06T14:48:48-04:00",
+                "end" => "2016-06-06T19:53:51-04:00"
+              }
+            ],
+            "severity" => "Minor",
+            "lifecycle" => "Ongoing",
+            "effect_name" => "Delay",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => "\n\r\t\n    \r\t\n\r "
+          }
+        })
+    end
   end
 end
