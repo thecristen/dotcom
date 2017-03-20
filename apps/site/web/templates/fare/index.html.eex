@@ -74,7 +74,7 @@
       <div class="title-card-container-table-multi-col">
         <div class="fare-summary-row">
           <%= for fare <- @the_ride do %>
-            <div class="the-ride-summary-entry">
+            <div class="fare-summary-entry">
               <h4 class="fare-summary-name">
                 <%= Fares.Format.full_name(fare) %>
                 <span class="fare-summary-mode-icons" aria-hidden="true">
