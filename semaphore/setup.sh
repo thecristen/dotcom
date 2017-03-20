@@ -24,6 +24,15 @@ if ! kiex use $ELIXIR_VERSION; then
     kiex use $ELIXIR_VERSION
 fi
 
+# install credo
+curl -L -o ./credo.tar.gz https://github.com/rrrene/credo/archive/v0.7.0.tar.gz
+tar xzf ./credo.tar.gz
+cd credo-0.7.0
+mix deps.get
+mix archive.build
+mix archive.install
+cd ..
+
 mix local.hex --force
 mix local.rebar --force
 MIX_ENV=test mix do deps.get, deps.compile
