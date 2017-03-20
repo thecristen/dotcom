@@ -8,7 +8,7 @@ defmodule Routes.PdfTest do
       route2 = %Route{id: "CR-Fitchburg"}
       route3 = %Route{id: "Boat-F4"}
 
-      assert Routes.Pdf.url(route1) == "https://mbta.com/uploadedFiles/Documents/Schedules_and_Maps/Bus/route001.pdf"
+      assert Routes.Pdf.url(route1) == "https://www.mbta.com/uploadedFiles/Documents/Schedules_and_Maps/Bus/route001.pdf"
       assert Routes.Pdf.url(route2) == "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/fitchburg.pdf"
       assert Routes.Pdf.url(route3) == "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Boats/routeF4.pdf?led=7/8/2016%201:50:02%20PM"
     end
