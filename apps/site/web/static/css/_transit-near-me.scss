@@ -80,11 +80,8 @@
   display: none;
 }
 
-// scss-lint:disable VendorPrefix
 @mixin set-breakpoint-columns($breakpoint, $column-count) {
   @include media-breakpoint-only($breakpoint) {
-    -moz-column-count: $column-count;
-    -webkit-column-count: $column-count;
     column-count: $column-count;
   }
 }
@@ -95,8 +92,6 @@
   @include set-breakpoint-columns(lg, 4);
   @include set-breakpoint-columns(xxl, 4);
 
-  -moz-column-gap: $grid-gutter-width / 2;
-  -webkit-column-gap: $grid-gutter-width / 2;
   column-gap: $grid-gutter-width / 2;
   margin: 0 0 $base-spacing;
   padding: $base-spacing-lg $base-spacing-lg ($base-spacing-lg - $base-spacing);
@@ -107,8 +102,6 @@
 
   &.small-set {
     @include media-breakpoint-up(sm) {
-      -moz-column-count: 2;
-      -webkit-column-count: 2;
       column-count: 2;
     }
     &.grouped {

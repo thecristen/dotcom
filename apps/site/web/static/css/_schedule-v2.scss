@@ -301,36 +301,23 @@ a {
   // that do not support flexbox (>1% of our visitors).
 
   @include media-breakpoint-up(sm) {
-    // scss-lint:disable VendorPrefix
     align-items: stretch;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
   }
 }
 
 .date-filter,
 .direction-filter {
-  // scss-lint:disable VendorPrefix
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -ms-flex-direction: column;
-  -webkit-flex-direction: column;
   flex-direction: column;
 }
 
 .filter-button {
-  // scss-lint:disable VendorPrefix
   @extend %button-primary-outline;
   @include clearfix();
   border-radius: $border-radius;
-  -webkit-box-flex: 1;
   display: block;
-  -ms-flex: 1 1 0%; // specify all 3 to work around IE bug
-  -webkit-flex: 1;
+  //-ms-flex: 1 1 0%; // specify all 3 to work around IE bug
   flex: 1;
   height: 100%;
   min-height: 5rem;
@@ -359,11 +346,7 @@ a {
 }
 
 .filter-icon {
-  // scss-lint:disable VendorPrefix
   align-items: center;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
   float: right;
   height: 100%;
@@ -534,11 +517,9 @@ a {
   overflow: visible;
   position: absolute;
   right: 25%;
-  -webkit-text-orientation: sideways;
   text-orientation: sideways;
   top: $space-8;
   white-space: nowrap;
-  -webkit-writing-mode: vertical-lr; // Safari
   writing-mode: tb-lr; // for IE
   writing-mode: vertical-lr; // for everything else
   z-index: $z-index-schedule-v2-timetable-more-text;
