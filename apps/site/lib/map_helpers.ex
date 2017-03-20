@@ -8,16 +8,16 @@ defmodule MapHelpers do
     |> map_pdf_url
   end
   def map_pdf_url(:subway) do
-    "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+    "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
   end
   def map_pdf_url(:bus) do
-    "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+    "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
   end
   def map_pdf_url(:ferry) do
     "https://s3.amazonaws.com/mbta-dotcom/Water_Ferries_2016.pdf"
   end
   def map_pdf_url(:commuter_rail) do
-    "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
+    "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
   end
   def map_pdf_url(_) do
     nil
