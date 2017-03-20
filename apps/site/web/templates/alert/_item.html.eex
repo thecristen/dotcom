@@ -16,7 +16,7 @@
     <br />
     <%= format_alert_description(@alert.description) %>
   </span>
-  <%= if @alert.description && @alert.description != "" do %>
+  <%= if @alert.description do %>
     <button class="btn-link alert-body-toggle" data-toggle="collapse" data-target="#alert-body-<%= @alert.id %><%= extra_id %>" aria-expanded="false" aria-controls="alert-body-<%= @alert.id %><%= extra_id %>">
       View Full Description <%= fa "arrow-right" %>
     </button>

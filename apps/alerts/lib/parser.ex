@@ -39,8 +39,15 @@ defmodule Alerts.Parser do
     end
 
     # remove leading/trailing whitespace from description
-    defp description(nil), do: nil
-    defp description(str), do: String.trim(str)
+    defp description(nil) do
+      nil
+    end
+    defp description(str) do
+      case String.trim(str) do
+        "" -> nil
+        str -> str
+      end
+    end
   end
 
   defmodule Banner do
