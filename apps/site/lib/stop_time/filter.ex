@@ -85,6 +85,10 @@ defmodule StopTime.Filter do
     Enum.sort(stop_times, &StopTime.before?/2)
   end
 
+  @doc """
+  Limits the amount of stop times if the keep_all? flag is set to false
+  """
+  @spec limit([StopTime.t], boolean) :: [StopTime.t]
   def limit(stop_times, true), do: stop_times
   def limit(stop_times, false) do
     Enum.take(stop_times, @trip_limit)
@@ -92,12 +96,11 @@ defmodule StopTime.Filter do
 
   @doc """
   Determines whether the filtered times are expanded, collapsed, or neither.
-  Will always return none when date is not today.
   """
   @spec expansion([StopTime.t], [StopTime.t], boolean) :: :expanded | :collapsed | :none
   def expansion(expanded_times, collapsed_times, keep_all?) do
     cond do
-      expanded_times == collapsed_times -> :none
+      length(expanded_times) == length(collapsed_times) -> :none
       keep_all? -> :expanded
       true -> :collapsed
     end

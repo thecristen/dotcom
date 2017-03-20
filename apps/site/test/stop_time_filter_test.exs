@@ -104,11 +104,11 @@ defmodule StopTimeListFilterTest do
       assert expansion(@times, @times, false) == :none
     end
 
-    test "Expansion is collapsed when keep_all is false" do
+    test "Expansion is :collapsed when more times can be shown" do
       assert expansion(@times, Enum.take(@times, 3), false) == :collapsed
     end
 
-    test "Expansion is expanded when keep_all is true" do
+    test "Expansion is :expanded when filtered times can be shown" do
       assert expansion(@times, Enum.take(@times, 3), true) == :expanded
     end
   end

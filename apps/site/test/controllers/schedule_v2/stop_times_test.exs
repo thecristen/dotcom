@@ -77,6 +77,21 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, :last_trip_and_upcoming, @date_time, true)
     end
 
+    test "Future schedules have no expansion" do
+      now = @date_time
+      stop = %Stop{id: "stop"}
+      schedules = for hour <- [-3, -2, -1, 1, 2, 3] do
+        %Schedule{
+          time: Timex.shift(now, hours: hour),
+          trip: %Trip{id: "trip-#{hour}"},
+          stop: stop
+        }
+      end
+      conn = setup_conn(@route, schedules, [], now, Timex.shift(@cal_date, years: 2000), stop, nil, "true")
+
+      assert conn.assigns.stop_times.expansion == :none
+    end
+
     test "assigns stop_times for subway", %{conn: conn} do
       conn = conn
       |> assign(:route, %Routes.Route{type: 1})
