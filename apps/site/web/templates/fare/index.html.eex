@@ -71,14 +71,15 @@
     <div>
       <h2>The RIDE</h2>
       <p>Fares for The RIDE are determined by when the trip is booked and the location of the destination. The two fare options are listed below.</p>
-        <div class="row">
+      <div class="title-card-container-table-multi-col">
+        <div class="fare-summary-row">
           <%= for fare <- @the_ride do %>
-            <div class="col-md-6 col-sm-12 the-ride-summary-entry">
+            <div class="the-ride-summary-entry">
               <h4 class="fare-summary-name">
                 <%= Fares.Format.full_name(fare) %>
                 <span class="fare-summary-mode-icons" aria-hidden="true">
                   <span class="fares-mode-icon-group">
-                    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode, class: "icon-small"}) %>
+                    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: fare.mode}) %>
                   </span>
                 </span>
                 <div class="fare-summary-fare-price">
@@ -91,6 +92,7 @@
             </div>
           <% end %>
         </div>
+      </div>
     </div>
     <div>
       <h2>The CharlieCard</h2>
