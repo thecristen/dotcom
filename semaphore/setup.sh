@@ -27,6 +27,18 @@ fi
 mix local.hex --force
 mix local.rebar --force
 MIX_ENV=test mix do deps.get, deps.compile
+
+# install credo and bunt as archives for use by pronto-credo
+cd $SEMAPHORE_PROJECT_DIR/deps/credo
+mix deps.get
+mix archive.build
+mix archive.install --force
+cd $SEMAPHORE_PROJECT_DIR/deps/bunt
+mix deps.get
+mix archive.build
+mix archive.install --force
+cd $SEMAPHORE_PROJECT_DIR
+
 nvm use 6.2
 rbenv local 2.4.0
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems gem install -g gem.deps.rb sass pronto pronto-credo pronto-eslint pronto-scss -N
