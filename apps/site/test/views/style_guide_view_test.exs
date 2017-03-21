@@ -21,27 +21,31 @@ defmodule Site.StyleGuideViewTest do
   end
 
   test "component_description returns the module documentation" do
-    assert Site.StyleGuideView.component_description(:mode_button, :buttons)
-      == "\nThe is the documentation for a button.\n\n"
+    assert Site.StyleGuideView.component_description(:mode_button_list, :buttons)
+      =~ "Renders a ButtonGroup with alert icons and"
   end
 
   test "StyleGuideView can get component variants" do
-    assert length(Site.StyleGuideView.get_variants(:mode_button, :buttons)) == 2
+    assert [{name, %SvgIcon{}}|_] = Site.StyleGuideView.get_variants(:svg_icon, :icons)
+    assert is_binary(name)
   end
 
   test "component_args returns a map of a component's default arguments" do
-    assert Site.StyleGuideView.component_args(:mode_button, :buttons) ==
-      %ModeButton{class: "", id: nil, alert: nil,
-        route: %{id: "CR-Fitchburg", key_route?: false, name: "Fitchburg Line", type: 2}}
+    assert Site.StyleGuideView.component_args(:button_group, :buttons) ==
+      %ButtonGroup{class: "", id: nil, breakpoint_widths: %{ xs: 12, sm: 6, md: 4, xxl: 3},
+                   links:   [
+                     {"Sample link 1", Site.Router.Helpers.page_path(Site.Endpoint, :index)},
+                     {"Sample link 2", Site.Router.Helpers.page_path(Site.Endpoint, :index)}
+                     ]}
   end
 
   test "Can determine if a component's argument needs a comma after it" do
-    {_, index} = %ModeButton{}
+    {_, index} = %ModeButtonList{}
     |> Map.from_struct
     |> Map.keys
     |> Enum.with_index
     |> List.last
-    refute Site.StyleGuideView.needs_comma?(:mode_button, :buttons, index) == true
+    refute Site.StyleGuideView.needs_comma?(:mode_button_list, :buttons, index) == true
   end
 
   def css_file do

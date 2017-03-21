@@ -37,7 +37,7 @@ defmodule Site.Components.Helpers do
   end
 
   @doc """
-    Returns the component's module (i.e. Site.Components.Buttons.ModeButton)
+    Returns the component's module (i.e. Site.Components.Buttons.ModeButtonList)
   """
   @spec component_module(atom, atom) :: module
   def component_module(component, section) when is_atom(component) and is_atom(section) do

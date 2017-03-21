@@ -46,9 +46,9 @@ defmodule Site.Components.Precompiler do
   @doc """
   Defines function to render a particular component.  For example:
 
-      precompile_component(:mode_button, :buttons)
+      precompile_component(:mode_button_list, :buttons)
 
-  defines the function `mode_button/1`, taking the variables to assign and
+  defines the function `mode_button_list/1`, taking the variables to assign and
   returning a `Phoenix.HTML.Safe.t`.
   """
   def precompile_component(component, section) when is_atom(component) and is_atom(section) do
