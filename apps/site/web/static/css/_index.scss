@@ -1,23 +1,8 @@
-.index-news-group {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-group;
-  @extend .list-group-flush;
-}
-
 .index-news-item {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-group-item;
-  @extend .list-group-item-flush;
   @include truncate();
 
   background-color: initial;
   border-top: 0;
-}
-
-.news-card {
-  h1 {
-    margin-bottom: 1rem;
-  }
 }
 
 .list-group-item-flush {
@@ -32,27 +17,8 @@
   }
 }
 
-.news-image {
-  // Polyfill for IE object-fit support
-  font-family: 'object-fit: cover; object-position: 100% 63%;';
-  max-height: 10rem;
-  object-fit: cover;
-  object-position: 100% 63%;
-  width: 100%;
-
-  @include media-breakpoint-up(md) {
-    max-height: 15rem;
-  }
-}
-
-.homepage-footer {
-  .list-group-item {
-    &:first-child {
-      border-top-width: 0;
-    }
-
-    &:last-child {
-      border-bottom-width: 0;
-    }
+@include media-breakpoint-down(sm) {
+  .index {
+    padding-bottom: $base-spacing;
   }
 }

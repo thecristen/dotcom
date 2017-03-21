@@ -1,11 +1,5 @@
 @import 'variables';
 
-.form-control.schedule-route-selector {
-  // leave room for the route icon
-  max-width: 80%;
-  float: left;
-}
-
 .schedule-callout {
   @extend %callout;
 
@@ -29,14 +23,10 @@
 }
 
 .schedule-list-group {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-group;
   margin-bottom: $base-spacing;
 }
 
 .schedule-list-group-item {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .list-group-item;
   @include clearfix;
   display: block;
   padding: $base-spacing-sm;

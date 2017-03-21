@@ -1,5 +1,5 @@
 <% route_type = Route.type_atom(@route) %>
-<div class="schedule-list-group-item schedule-list-group-header">
+<div class="list-group-item schedule-list-group-item schedule-list-group-header">
   <span class="schedule-col-departure">Departure</span>
   <span class="schedule-col-arrival">Arrival</span>
   <span class="schedule-col-pair-notes">
@@ -12,7 +12,7 @@
 <%= for {origin, destination} <- @schedules do %>
   <% is_selected_period = origin.trip.id == @trip %>
   <% trip_alerts = trip_alerts_for @all_alerts, [origin, destination] %>
-  <a class="schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
+  <a class="list-group-item schedule-list-group-item <%= if is_selected_period do %>selected-period-header<% end %>"
     id="<%= origin.trip.id %>"
     href="<%= if is_selected_period do %>
           <%= update_schedule_url @conn, trip: "" %>
@@ -48,7 +48,7 @@
     <% end %>
   </a>
   <%= if is_selected_period do %>
-    <div class="schedule-list-group-item selected-period">
+    <div class="list-group-item schedule-list-group-item selected-period">
       <%= Site.AlertView.inline @conn, alerts: trip_alerts, time: origin.time %>
       <%= render "_your_trip.html", trip_schedule: @trip_schedule, origin: @origin, destination: @destination, show_full_list: @show_full_list, conn: @conn, alerts: @alerts %>
     </div>

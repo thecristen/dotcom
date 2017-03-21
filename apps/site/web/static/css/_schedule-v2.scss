@@ -537,63 +537,10 @@ a {
   transform: rotate(180deg);
 }
 
-.route-row {
-  > .route-row {
-    // branch
-    padding-left: 1rem;
-  }
-}
-
-.route-green-bubble {
-  display: inline-block;
-  width: $icon-size * 1.5;
-}
-
 .route-holiday-info {
   li {
     margin-left: -$space-18;
   }
-}
-
-/// Schedule V2 direction buttons
-.btn.schedule-v2-direction-btn {
-  display: table-cell;
-  float: none;
-  font-size: 1rem;
-  padding-bottom: 1rem;
-  padding-top: .75rem;
-  text-align: left;
-  vertical-align: top;
-  white-space: normal;
-  width: 50%;
-}
-
-.schedule-v2-direction-btn-group {
-  display: table;
-  margin-bottom: .75rem;
-  width: 100%;
-}
-
-.schedule-v2-direction-btn-selected-icon {
-  @include pull-left();
-  display: block;
-  font-size: 1.7rem;
-  padding-right: .333rem;
-}
-
-.schedule-v2-direction-btn-label {
-  @include pull-left();
-  display: block;
-  max-width: 90%;
-  padding-left: .5rem;
-
-  @include media-breakpoint-up(xs) {
-    max-width: 70%;
-  }
-}
-
-.schedule-v2-direction-btn-label-selected {
-  font-weight: bold;
 }
 
 .schedule-v2-timetable-trip-message {

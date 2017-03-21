@@ -125,7 +125,7 @@ export function convertSelects($) {
           .addClass('select-modal-text')
           .text(el.options[el.selectedIndex].text),
           $replacement = $(`<button data-select-modal="${$el.attr('name')}" type=button />`)
-          .addClass('btn-select-modal')
+          .addClass('btn btn-link btn-select-modal')
           .text(buttonText($el.parents("form").find("[type=submit]").text()))
           .data('select-modal-select', $el);
     $el.hide()

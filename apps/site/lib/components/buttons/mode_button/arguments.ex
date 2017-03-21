@@ -56,6 +56,6 @@ defmodule Site.Components.Buttons.ModeButton do
   def has_alert?(_), do: true
 
   def link_tag(args) do
-    Tag.tag :a, class: "mode-group-btn #{args.class}", id: args.id, href: schedule_path(args.conn, :show, args.route.id)
+    Tag.tag :a, class: "btn btn-block mode-group-btn #{args.class}", id: args.id, href: schedule_path(args.conn, :show, args.route.id)
   end
 end

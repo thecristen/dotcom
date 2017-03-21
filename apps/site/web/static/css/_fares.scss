@@ -70,9 +70,8 @@ a {
 }
 
 .fares-box-column {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .col-xs-12;
-  @extend .col-sm-6;
+  @include make-col();
+  @include make-col-span(12);
 
   padding-bottom: $grid-gutter-width / 2;
   padding-top: $grid-gutter-width / 2;
@@ -86,6 +85,8 @@ a {
   }
 
   @include media-breakpoint-up(sm) {
+    @include make-col-span(6);
+
     &:nth-child(1) {
       border-right: 1px solid $gray-lightest;
     }
@@ -158,15 +159,6 @@ a {
 
 .charlie-card-stations {
   margin-top: $base-spacing;
-}
-
-.charlie-card-link {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .mode-group-btn;
-
-  .charlie-card-truncate {
-    @include truncate();
-  }
 }
 
 .charlie-ticket-method {

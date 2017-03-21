@@ -78,10 +78,9 @@
   color: $brand-danger;
 }
 
-// scss-lint:disable PlaceholderInExtend
 .station-schedules-empty {
-  @extend .col-xs-12;
-
+  @include make-col();
+  @include make-col-span(12);
   display: none;
 
   &:first-child {

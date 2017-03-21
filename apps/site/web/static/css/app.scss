@@ -1,13 +1,12 @@
 @import 'variables';
-@import 'bootstrap';
-@import 'font-sizes';
-@import 'vendor/font-awesome-4.6.3/scss/font-awesome';
-@import 'vendor/fixedsticky';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'vendor/font-awesome-4.6.3/scss/mixins';
+@import 'vendor/font-awesome-4.6.3/scss/variables';
 @import 'helpers';
 @import 'icons';
 @import 'mode-group';
 @import 'stop-bubbles';
-@import 'page';
 @import 'card';
 @import 'index';
 @import 'alerts';
@@ -23,205 +22,9 @@
 @import 'fare-summary';
 @import 'how_to_pay';
 @import 'button-group';
-@import 'footer';
-@import 'header';
-@import 'hub';
 @import 'transit-near-me';
-@import 'carousel';
-@import 'content';
 @import 'tabs';
+@import 'content';
+@import 'carousel';
 @import 'news';
 @import 'events';
-
-body {
-  background-color: $homepage-bg-color;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  min-width: 20rem;
-
-  &.no-js {
-    .collapse:target {
-      display: block;
-    };
-
-    .hidden-no-js {
-      display: none;
-    }
-  }
-
-  &.js {
-    .hidden-js {
-      display: none;
-    }
-
-    .sr-or-no-js {
-      @include sr-only();
-    }
-  }
-
-  // Only show the main content on the mTicket app's view
-  &.mticket {
-    .announcement-container,
-    .header,
-    .footer,
-    .smartbanner {
-      display: none;
-    }
-
-    // Remove space reserved for the footer
-    .body-wrapper {
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-  }
-}
-
-.main-container {
-  @extend .bg-white;
-  padding-bottom: 1em;
-}
-
-.alert:empty {
-  display: none;
-}
-
-.bg-gray-light {
-  background-color: $gray-light;
-}
-
-@include media-breakpoint-up(md) {
-  .container {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  // hide SM down, but remain visible to screen readers
-  .focusable-sm-down {
-    @include sr-only();
-    @include sr-only-focusable();
-  }
-}
-
-%top-bar {
-  padding-bottom: $space-8;
-  padding-top: $space-8;
-}
-
-.breadcrumb-container {
-  @extend %top-bar;
-  background-color: $gray-lightest;
-  color: $gray-dark;
-
-  i {
-    color: $gray-light;
-    padding: 0 .25em;
-  }
-}
-
-.announcement-container {
-  @extend %top-bar;
-  background-color: $brand-primary-dark;
-  color: $white;
-  font-size: $font-size-sm;
-}
-
-.beta-announcement {
-  float: left;
-  width: 91%; // 11 columns
-
-  @include media-breakpoint-up(md) {
-    width: 83%; // 10 columns
-  }
-
-  + a {
-    color: $white;
-
-    @include hover-focus-active {
-      color: $white;
-    }
-  }
-}
-
-.beta-announcement-link {
-  color: $white;
-  font-weight: bold;
-  text-decoration: underline;
-
-  &:hover {
-    color: $brand-primary-light;
-  }
-}
-
-.alert-announcement-container {
-  @extend %top-bar;
-  background-color: $brand-secondary;
-  color: $gray-dark;
-  font-size: $font-size-base;
-  padding-bottom: $space-16;
-  padding-top: $space-16;
-
-  a {
-    @include hover-focus-active {
-      text-decoration: none;
-    }
-  }
-}
-
-.alert-announcement-header {
-  color: $gray-dark;
-
-  @include hover-focus-active {
-    color: $gray-dark;
-  }
-
-  .alert-item-icon {
-    margin-top: 0;
-  }
-}
-
-html {
-  min-height: 100%;
-  position: relative;
-}
-
-// To be removed once the smart banner is disabled
-div {
-  &.smartbanner {
-    top: -80px;
-  }
-}
-
-.page-container {
-  margin-bottom: 0;
-  padding-bottom: $base-spacing * 2;
-}
-
-%callout {
-  background-color: $gray-lightest;
-  border-radius: 0;
-  margin-bottom: $base-spacing;
-  padding: $space-12;
-
-  &:empty {
-    display: none;
-  }
-}
-
-.callout {
-  @extend %callout;
-  margin: $space-12 0;
-}
-
-.d-inline {
-  display: inline;
-}
-
-figcaption {
-  font-size: $font-size-sm;
-  padding-top: $space-12;
-  text-align: center;
-  width: 100%;
-}

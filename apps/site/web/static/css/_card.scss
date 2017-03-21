@@ -22,9 +22,13 @@
 
 .title-card-title,
 %title-card-title {
-  //scss-lint:disable PlaceholderInExtend
-  @extend .h4;
+  font-size: $font-size-h4;
+  font-weight: bold;
   margin-bottom: $base-spacing-sm;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-h4-xxl;
+  }
 }
 
 a {

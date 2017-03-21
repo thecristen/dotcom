@@ -1,0 +1,177 @@
+@import 'variables';
+@import 'bootstrap';
+@import 'footer';
+@import 'header';
+@import 'page';
+@import 'font-sizes';
+@import 'vendor/font-awesome-4.6.3/scss/font-awesome';
+@import 'vendor/fixedsticky';
+
+body {
+  background-color: $homepage-bg-color;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  min-width: 20rem;
+  text-rendering: optimizeLegibility;
+
+  &.no-js {
+    .collapse:target {
+      display: block;
+    };
+
+    .hidden-no-js {
+      display: none;
+    }
+  }
+
+  &.js {
+    .hidden-js {
+      display: none;
+    }
+
+    .sr-or-no-js {
+      @include sr-only();
+    }
+  }
+
+  // Only show the main content on the mTicket app's view
+  &.mticket {
+    .announcement-container,
+    .header,
+    .footer,
+    .smartbanner {
+      display: none;
+    }
+
+    // Remove space reserved for the footer
+    .body-wrapper {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+.main-container {
+  background-color: $white;
+  padding-bottom: $base-spacing;
+}
+
+@include media-breakpoint-up(md) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  // hide SM down, but remain visible to screen readers
+  .focusable-sm-down {
+    @include sr-only();
+    @include sr-only-focusable();
+  }
+}
+
+%top-bar {
+  padding-bottom: $space-8;
+  padding-top: $space-8;
+}
+
+.breadcrumb-container {
+  @extend %top-bar;
+  background-color: $gray-lightest;
+  color: $gray-dark;
+
+  i {
+    color: $gray-light;
+    padding: 0 .25em;
+  }
+}
+
+.announcement-container {
+  @extend %top-bar;
+  background-color: $brand-primary-dark;
+  color: $white;
+  font-size: $font-size-sm;
+}
+
+.beta-announcement {
+  float: left;
+  width: 91%; // 11 columns
+
+  @include media-breakpoint-up(md) {
+    width: 83%; // 10 columns
+  }
+
+  + a {
+    color: $white;
+
+    @include hover-focus-active {
+      color: $white;
+    }
+  }
+}
+
+.beta-announcement-link {
+  color: $white;
+  font-weight: bold;
+  text-decoration: underline;
+
+  &:hover {
+    color: $brand-primary-light;
+  }
+}
+
+.alert-announcement-container {
+  @extend %top-bar;
+  background-color: $brand-secondary;
+  color: $gray-dark;
+  font-size: $font-size-base;
+  padding-bottom: $space-16;
+  padding-top: $space-16;
+
+  a {
+    @include hover-focus-active {
+      text-decoration: none;
+    }
+  }
+}
+
+.alert-announcement-header {
+  color: $gray-dark;
+
+  @include hover-focus-active {
+    color: $gray-dark;
+  }
+
+  .alert-item-icon {
+    margin-top: 0;
+  }
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+// To be removed once the smart banner is disabled
+div {
+  &.smartbanner {
+    top: -80px;
+  }
+}
+
+.page-container {
+  margin-bottom: 0;
+  padding-bottom: $base-spacing * 2;
+}
+
+.d-inline {
+  display: inline;
+}
+
+figcaption {
+  font-size: $font-size-sm;
+  padding-top: $space-12;
+  text-align: center;
+  width: 100%;
+}

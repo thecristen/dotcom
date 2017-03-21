@@ -14,7 +14,7 @@
         <% end %>
       </div>
       <div class="schedule-block">
-        <div class="schedule-list-group">
+        <div class="list-group schedule-list-group">
           <%= render @list_group_template, forward_assigns(@conn) %>
         </div>
         <%= if not @show_all_schedules && @schedules != [] do %>
