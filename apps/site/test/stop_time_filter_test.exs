@@ -99,16 +99,16 @@ defmodule StopTimeListFilterTest do
   describe "StopTime.expansion/3" do
     @times List.duplicate(%StopTime{}, 6)
 
-    test "Expansion is none when there are no more times to show" do
+    test "Expansion is :none when expanded times and collapsed times are equal" do
       assert expansion(@times, @times, true) == :none
       assert expansion(@times, @times, false) == :none
     end
 
-    test "Expansion is :collapsed when more times can be shown" do
+    test "Expansion is :collapsed when filtered times are less than total times, and not all times not shown" do
       assert expansion(@times, Enum.take(@times, 3), false) == :collapsed
     end
 
-    test "Expansion is :expanded when filtered times can be shown" do
+    test "Expansion is :expanded when filtered times are less than total times, and all times are shown" do
       assert expansion(@times, Enum.take(@times, 3), true) == :expanded
     end
   end

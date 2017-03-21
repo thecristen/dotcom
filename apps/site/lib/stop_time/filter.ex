@@ -86,11 +86,12 @@ defmodule StopTime.Filter do
   end
 
   @doc """
-  Limits the amount of stop times if the keep_all? flag is set to false
+  When given true, limits the amount of stop times to `@trip_limit`
+  Otherwise, returns the list as is
   """
   @spec limit([StopTime.t], boolean) :: [StopTime.t]
-  def limit(stop_times, true), do: stop_times
-  def limit(stop_times, false) do
+  def limit(stop_times, false), do: stop_times
+  def limit(stop_times, true) do
     Enum.take(stop_times, @trip_limit)
   end
 
