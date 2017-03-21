@@ -1,0 +1,19 @@
+{
+  "uuid" : "2ab7a2f4-85b7-38bc-a3bc-d0083f946ed0",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-rmoq1.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:41:48 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "jbogelddk5ep88bs3qd0cmc9q99pbuh4"
+    }
+  }
+}

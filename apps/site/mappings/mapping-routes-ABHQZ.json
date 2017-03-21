@@ -1,0 +1,19 @@
+{
+  "uuid" : "6d1a9eeb-e447-3df3-9bd4-81974fb36991",
+  "request" : {
+    "url" : "/routes/?stop=place-smary&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ABHQZ.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:38 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ld0odsu9jm3jdmcbnkfr7i0nc1o20uln"
+    }
+  }
+}

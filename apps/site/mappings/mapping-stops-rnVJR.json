@@ -1,0 +1,19 @@
+{
+  "uuid" : "9d89891e-97df-3e26-8cca-fe569c83a1bd",
+  "request" : {
+    "url" : "/stops/?route=CR-Kingston&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-rnVJR.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:43:58 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "413aa6vgk83fklcgar0elfnnq7qjgndc"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "a6ee7547-2869-309a-bb52-4f73b8bf2cf1",
+  "request" : {
+    "url" : "/routes/?stop=10014&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WydpO.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "8ab05sn1enaqol098ln576s84selmtc9"
+    }
+  }
+}

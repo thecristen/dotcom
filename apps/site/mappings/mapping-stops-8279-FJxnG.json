@@ -1,0 +1,19 @@
+{
+  "uuid" : "7ba3aecb-3006-34c2-9798-0cecf46b5ee5",
+  "request" : {
+    "url" : "/stops/8279",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-8279-FJxnG.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "3j53f16te6hpumn5fkb4nhtav05ggvog"
+    }
+  }
+}

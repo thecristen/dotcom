@@ -1,0 +1,19 @@
+{
+  "uuid" : "61cf6fae-9b8c-3613-8fcd-eab62c7d8740",
+  "request" : {
+    "url" : "/routes/?stop=174&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WONON.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:45 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "7o2k7ufahc3chqh3umsnvmrn0h7rljqb"
+    }
+  }
+}

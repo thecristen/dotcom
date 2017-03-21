@@ -1,0 +1,19 @@
+{
+  "uuid" : "21524511-eb9d-3598-a132-0dbcddbc296b",
+  "request" : {
+    "url" : "/routes/?stop=place-rbmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AX9gc.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:41 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "1rv0l0ih2nl67ijgnr183reo5uf4k7vs"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "715277f1-296d-3908-947c-c10119fe2462",
+  "request" : {
+    "url" : "/routes/?stop=place-astao&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-o3nnN.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:39 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "14f7vsn57jud6b4nm7ej0dt6srimsv7h"
+    }
+  }
+}

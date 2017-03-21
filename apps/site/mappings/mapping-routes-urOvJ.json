@@ -1,0 +1,19 @@
+{
+  "uuid" : "645be2a9-56dc-3ddd-91b2-d6e92b826e72",
+  "request" : {
+    "url" : "/routes/?stop=place-alfcl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-urOvJ.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:41 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "9q3h5p629vpl34a2kdub94qgdf2sh7gf"
+    }
+  }
+}

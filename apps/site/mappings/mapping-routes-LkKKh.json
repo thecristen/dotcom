@@ -1,0 +1,19 @@
+{
+  "uuid" : "ff5cae16-c802-3d83-b138-8e701640bdc3",
+  "request" : {
+    "url" : "/routes/?stop=place-brntn&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LkKKh.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "hf50oijvci5cfscug9p6lalb0cehrtg4"
+    }
+  }
+}

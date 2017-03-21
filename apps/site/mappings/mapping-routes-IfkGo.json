@@ -1,0 +1,19 @@
+{
+  "uuid" : "81d28aba-341f-3f7c-99a5-7253a1875735",
+  "request" : {
+    "url" : "/routes/?stop=144&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-IfkGo.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:43 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "b72vouce26gopuopoms3kt87ifi643qm"
+    }
+  }
+}

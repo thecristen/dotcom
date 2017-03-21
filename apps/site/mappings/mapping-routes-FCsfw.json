@@ -1,0 +1,19 @@
+{
+  "uuid" : "23b58d95-a451-3298-9d10-7716b160c96c",
+  "request" : {
+    "url" : "/routes/?stop=place-sthld&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FCsfw.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:40 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "iklos5jcav1udtc4ac1h1k9opbiulo8a"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "66f14ab9-209f-3aa9-9152-6a72ff9979f9",
+  "request" : {
+    "url" : "/routes/?stop=place-rsmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Uk4yK.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:40 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "o13qem56e7pctamogb1kj95djd6a6m8m"
+    }
+  }
+}
