@@ -138,8 +138,8 @@ defmodule PredictedSchedule do
   end
 
   @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, DateTime.t}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.time}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.time}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.stop_sequence, prediction.time}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.stop_sequence, schedule.time}
 
   @doc """
   Returns the time difference between a schedule and prediction. If either is nil, returns 0.

@@ -88,6 +88,10 @@ defmodule PredictedScheduleTest do
           assert schedule.stop == prediction.stop
           assert schedule.stop_sequence == prediction.stop_sequence
       end
+
+      stop_sequences = for %PredictedSchedule{schedule: schedule} <- predicted_schedules, do: schedule.stop_sequence
+
+      assert stop_sequences == Enum.sort(stop_sequences)
     end
 
     test "All schedules are returned" do

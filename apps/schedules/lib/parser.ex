@@ -6,7 +6,8 @@ defmodule Schedules.Parser do
       stop: stop(item),
       time: time(item),
       flag?: flag?(item),
-      pickup_type: pickup_type(item)
+      pickup_type: pickup_type(item),
+      stop_sequence: item.attributes["stop_sequence"] || 0
     }
   end
 
