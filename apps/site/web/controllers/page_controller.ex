@@ -18,7 +18,7 @@ defmodule Site.PageController do
   end
 
   defp news do
-    News.Repo.all(limit: 3)
+    News.Repo.all(limit: 4)
   end
 
   defp whats_happening_banner(conn, %{"whats_happening_banner" => _}) do

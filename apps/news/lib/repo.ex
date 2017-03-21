@@ -10,20 +10,22 @@ defmodule News.Repo do
     cache opts, fn opts ->
       case Keyword.get(opts, :limit, :infinity) do
         :infinity ->
-          do_all(repo().all_ids)
+          repo().all_ids
+          |> do_all
+          |> Enum.into([])
         limit when is_integer(limit) ->
           repo().all_ids
           |> Enum.sort_by(& &1, &>=/2)
-          |> Enum.take(limit)
           |> do_all
+          |> Enum.take(limit)
       end
     end
   end
 
   defp do_all(filenames) do
     filenames
-    |> Enum.map(&parse_contents/1)
-    |> Enum.filter_map(
+    |> Stream.map(&parse_contents/1)
+    |> Stream.filter_map(
     fn
       {:ok, _} -> true
       {:error, err} ->
