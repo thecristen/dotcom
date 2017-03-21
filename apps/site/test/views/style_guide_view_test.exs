@@ -44,6 +44,40 @@ defmodule Site.StyleGuideViewTest do
     refute Site.StyleGuideView.needs_comma?(:mode_button, :buttons, index) == true
   end
 
+  def css_file do
+    """
+    $variable-1: foo;
+    $variable-2: foo;
+
+    // style-guide --section Include In Results
+    $variable-3: bar;
+    $variable-4: bar;
+    $variable-5: bar;
+
+    // style-guide --ignore
+    $varible-6: baz;
+
+    // style-guide --section Also include
+    $variable-7: baz;
+    """
+  end
+
+  describe "&parse_scss_file/1" do
+    test "only parses where it's supposed to" do
+      result = Site.StyleGuideView.CssVariables.parse_scss_file(css_file())
+      assert result == %{
+        "Include In Results" => %{
+          "$variable-3" => "bar",
+          "$variable-4" => "bar",
+          "$variable-5" => "bar"
+        },
+        "Also include" => %{
+          "$variable-7" => "baz"
+        }
+      }
+    end
+  end
+
   describe "CSS variable parser" do
     test "scss variables are parsed into the correct structure" do
       assert sorted_color_groups() ==

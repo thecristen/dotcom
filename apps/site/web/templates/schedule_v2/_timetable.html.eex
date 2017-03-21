@@ -10,22 +10,22 @@
         <tr>
           <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
             Stop
-            <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier schedule-v2-timetable-header-col" aria-hidden="true">
+            <div class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-earlier schedule-v2-timetable-header-col" aria-hidden="true">
               <%= fa "angle-left" %>
-              <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
+              <span class="schedule-v2-timetable-more-text"><%= fa "angle-up" %> Earlier Trains <%= fa "angle-up" %></span>
             </div>
           </th>
           <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
-            <th class="schedule-v2-timetable-header-col"<%= if index == @offset, do: " data-scroll-to" %>>
+            <th class="schedule-v2-timetable-header-col schedule-v2-timetable-time-col"<%= if index == @offset, do: " data-scroll-to" %>>
               <%= schedule.trip.name %>
               <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
                 <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
               <% end %>
             </th>
           <% end %>
-          <th class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
+          <th class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
             <%= fa "angle-right" %>
-            <span class="schedule-v2-timetable-time-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
+            <span class="schedule-v2-timetable-more-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
           </th>
         </tr>
         <%= for {stop, terminus?} <- EnumHelpers.with_first_last(@all_stops) do %>
@@ -41,10 +41,10 @@
                                                                                                       end
                                                                                                       %>
               </div>
-              <div class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-earlier"></div>
+              <div class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-earlier"></div>
             </td>
             <%= for schedule <- @header_schedules do %>
-              <td class="schedule-v2-timetable-col">
+              <td class="schedule-v2-timetable-time-col">
                 <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
                   <%= format_schedule_time(trip_schedule.time) %>
                 <% end %>
@@ -61,7 +61,8 @@
                 <% end %>
               </td>
             <% end %>
-            <td class="schedule-v2-timetable-time-col schedule-v2-timetable-time-col-later" data-sticky="right"></td>
+
+            <td class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-later" data-sticky="right"></td>
           </tr>
         <% end %>
       </table>

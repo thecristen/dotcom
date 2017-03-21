@@ -14,8 +14,42 @@ defmodule Site.StyleGuideView.CssVariables do
   end
 
   @doc """
-    Reads a css file and returns a map of the variables defined within it. To keep any part of the CSS file from being
-    parsed into the map, put "// parser_ignore" before it.
+    Reads a css file and returns a map of variables it contains. Begin parsing with "// style-guide --section {Section Name}"
+    and stops at "// style-guide --ignore". For example, parsing a file that's structured like this...
+
+    ```
+    $variable-1: 24px;
+    $variable-2: 36px;
+
+    // style-guide --section Spacing Values
+    $spacing-1: 1rem;
+    $spacing-2: 2rem;
+    $spacing-3: 3rem;
+
+    // style-guide --ignore
+    $border: 1px solid $gray;
+    $border-heavy: 3px solid $gray-darker;
+
+    // style-guide --section Colors
+    $foo: red;
+    $bar: blue;
+
+    ```
+
+    ...would produce this map:
+    ```
+    %{
+      "Spacing Values" => %{
+        "$spacing-1" => "1rem",
+        "$spacing-2" => "2rem",
+        "$spacing-3" => "3rem"
+      },
+      "Colors" => %{
+        "$foo" => "red",
+        "$bar" => "blue"
+      }
+    }
+    ```
   """
   def parse_scss_variables(file_name) do
     File.cwd!
@@ -26,11 +60,11 @@ defmodule Site.StyleGuideView.CssVariables do
     |> parse_scss_file
   end
 
-  defp parse_scss_file(text) do
+  def parse_scss_file(text) do
     text
-    |> String.split("//\s")
+    |> String.split("//\sstyle-guide\s")
     |> Enum.reject(&(&1 == "")) # remove empty lines
-    |> Enum.reject(&reject_ignore_lines/1)
+    |> Enum.reduce([], &reject_ignore_lines/2)
     |> Enum.map(&parse_scss_section/1)
     |> Map.new
   end
@@ -53,7 +87,7 @@ defmodule Site.StyleGuideView.CssVariables do
     {key, List.first(val)}
   end
 
-  defp reject_ignore_lines("parser_ignore" <> _), do: true
-  defp reject_ignore_lines(_), do: false
+  defp reject_ignore_lines("--section " <> content, acc), do: acc ++ [content]
+  defp reject_ignore_lines(_, acc), do: acc
 
 end

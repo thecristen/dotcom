@@ -1,5 +1,3 @@
-@import 'variables';
-
 html {
   @include media-breakpoint-up(xxl) {
     font-size: $base-font-size-xxl;

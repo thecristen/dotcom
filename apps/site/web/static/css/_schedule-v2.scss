@@ -413,67 +413,67 @@ a {
 ////////////////////////////////////////////////////////////////////////
 
 .schedule-v2-timetable-container {
+  border-bottom: $base-spacing-lg solid $brand-primary-darkest;
   max-width: 100%;
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
 }
 
-.schedule-v2-timetable-hide-earlier .schedule-v2-timetable-time-col-earlier,
-.schedule-v2-timetable-hide-later .schedule-v2-timetable-time-col-later {
-  background-color: $white;
-  color: $white;
-
-  > .schedule-v2-timetable-time-text {
-    display: none;
-  }
+.schedule-v2-timetable-hide-earlier .schedule-v2-timetable-more-col-earlier,
+.schedule-v2-timetable-hide-later .schedule-v2-timetable-more-col-later {
+  color: $gray-light;
 }
 
-.schedule-v2-timetable-hide-earlier .schedule-v2-timetable-header-col.schedule-v2-timetable-time-col-earlier,
-.schedule-v2-timetable-hide-later .schedule-v2-timetable-header-col.schedule-v2-timetable-time-col-later {
-  background-color: $brand-primary-darkest;
-  color: $brand-primary-darkest;
-}
-
-.schedule-v2-timetable-col,
+.schedule-v2-timetable-time-col,
 .schedule-v2-timetable-name-col,
 .schedule-v2-timetable-header-col {
   padding: .5rem 1rem;
-
-  @include media-breakpoint-up(md) {
-    min-width: 9rem;
-  }
 }
 
-.schedule-v2-timetable-col,
+.schedule-v2-timetable-time-col,
 .schedule-v2-timetable-header-col {
   text-align: center;
 }
 
-.schedule-v2-timetable-col,
+.schedule-v2-timetable-time-col,
 .schedule-v2-timetable-name-col:not(.schedule-v2-timetable-header-col) {
   background-color: $white;
 }
 
 .schedule-v2-timetable-header-col {
   background-color: $brand-primary-darkest;
+  border-left: $border-width solid $brand-primary-darkest;
+  border-right: $border-width solid $brand-primary-darkest;
   color: $white;
   font-weight: bold;
 }
 
-.schedule-v2-timetable-row:not(:last-child) {
-  > :not(.schedule-v2-timetable-name-col) {
-    // border on the bottom of every row except the last
-    border-bottom: 1px solid $gray-lightest;
-  }
+.schedule-v2-timetable-time-col:not([class*="header"]) {
+  // Weird bug in firefox -- at some point when the [data-sticky="left"] columns get set to position: absolute
+  // inside of horizSticky.js, a dark left and right border appears on each table cell. See bug report at
+  // https://app.asana.com/0/111025076443530/298967690426135
+  border-bottom: $border;
+  border-left-style: hidden;
+  border-right-style: hidden;
 }
 
 .schedule-v2-timetable-name-col {
   text-align: left;
 }
 
+.schedule-v2-timetable-time-col {
+  @include media-breakpoint-up(md) {
+    min-width: 9rem;
+  }
+}
+
 .schedule-v2-timetable-name {
   margin-right: $base-spacing-sm; // left scroll warning
+
+  @include media-breakpoint-up(sm) {
+    min-width: 12rem;
+  }
 
   @include media-breakpoint-up(md) {
     margin-left: 2.5rem; // bubble
@@ -485,35 +485,54 @@ a {
   }
 }
 
-.schedule-v2-timetable-time-col {
-  background-color: rgba($gray-lightest, .5);
+.no-js {
+  .schedule-v2-timetable-more-col {
+    display: none;
+  }
+}
+
+.schedule-v2-timetable-more-col {
+  color: $gray-dark;
   min-width: $base-spacing-sm;
   padding: $base-spacing-sm 0 0;
   text-align: center;
 
+  &:not(.schedule-v2-timetable-header-col) {
+    background-color: $gray-bordered-background;
+    border-left: $border;
+    border-right: $border;
+  }
+
+  > .fa-angle-right,
+  > .fa-angle-left {
+    color: $white;
+  }
+
   @include media-breakpoint-up(md) {
-    background-color: $gray-lightest;
-    color: $gray-dark;
-    min-width: $base-spacing-lg;
+    min-width: $base-spacing * 3;
   }
 }
 
-.schedule-v2-timetable-time-col-earlier {
+.schedule-v2-timetable-more-col-earlier {
   height: 100%;
   position: absolute;
   right: 0;
   top: 0;
+
+  .schedule-v2-timetable-more-text {
+    transform: rotate(180deg);
+  }
 }
 
-.schedule-v2-timetable-time-text {
+.schedule-v2-timetable-more-text {
   // scss-lint:disable DuplicateProperty
   display: none;
   font-size: $font-size-sm;
   font-weight: normal;
-  left: $space-2;
+  left: 25%;
   overflow: visible;
   position: absolute;
-  right: $space-2;
+  right: 25%;
   -webkit-text-orientation: sideways;
   text-orientation: sideways;
   top: $space-8;
@@ -521,7 +540,7 @@ a {
   -webkit-writing-mode: vertical-lr; // Safari
   writing-mode: tb-lr; // for IE
   writing-mode: vertical-lr; // for everything else
-  z-index: $z-index-schedule-v2-timetable-time-text;
+  z-index: $z-index-schedule-v2-timetable-more-text;
 
   @include media-breakpoint-up(md) {
     display: block;
@@ -533,8 +552,16 @@ a {
   }
 }
 
-.schedule-v2-timetable-time-col-earlier .schedule-v2-timetable-time-text {
-  transform: rotate(180deg);
+.route-row {
+  > .route-row {
+    // branch
+    padding-left: 1rem;
+  }
+}
+
+.route-green-bubble {
+  display: inline-block;
+  width: $icon-size * 1.5;
 }
 
 .route-holiday-info {
