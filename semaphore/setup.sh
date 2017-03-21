@@ -24,18 +24,21 @@ if ! kiex use $ELIXIR_VERSION; then
     kiex use $ELIXIR_VERSION
 fi
 
-# install credo
-curl -L -o ./credo.tar.gz https://github.com/rrrene/credo/archive/v0.7.0.tar.gz
-tar xzf ./credo.tar.gz
-cd credo-0.7.0
-mix deps.get
-mix archive.build
-mix archive.install --force
-cd ..
-
 mix local.hex --force
 mix local.rebar --force
 MIX_ENV=test mix do deps.get, deps.compile
+
+# install credo and bunt as archives for use by pronto-credo
+cd $SEMAPHORE_PROJECT_DIR/deps/credo
+mix deps.get
+mix archive.build
+mix archive.install --force
+cd $SEMAPHORE_PROJECT_DIR/deps/bunt
+mix deps.get
+mix archive.build
+mix archive.install --force
+cd $SEMAPHORE_PROJECT_DIR
+
 nvm use 6.2
 rbenv local 2.4.0
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems gem install -g gem.deps.rb sass pronto pronto-credo pronto-eslint pronto-scss -N
