@@ -35,6 +35,14 @@ defmodule News.BlurbTest do
     end
   end
 
+  property "removes a paragraph if it starts with 'By'" do
+    whitespace = ["", " ", "\t \r\n", "&nbsp;", "&#160;"]
+    for_all {a, b, c, d} in {elements(whitespace), unicode_binary(), unicode_binary(), unicode_binary()} do
+      text = "<p>" <> a <> "By " <> b <> "</p>" <> c <> "<p>" <> d <> "</p>"
+      Blurb.blurb(text) == Blurb.blurb(d)
+    end
+  end
+
   property "returns a blurb from the first non-empty paragraph" do
     for_all {a, b, c} in {unicode_binary(), unicode_binary(), unicode_binary()} do
       text = "<p>" <> a <> "</p>" <> b <> "<p>" <> c <> "</p>"
@@ -51,20 +59,11 @@ defmodule News.BlurbTest do
 
   @lint {Credo.Check.Readability.MaxLineLength, false}
   _ = @lint
-  test "removes a paragraph if it contains 'Media Contact'" do
-    text = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p>MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features Performance Trends over Time</p>"
-    expected = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features P..."
-    actual = Blurb.blurb(text)
-
-    assert actual == expected
-  end
-
-  @lint {Credo.Check.Readability.MaxLineLength, false}
-  _ = @lint
   test "removes a paragraph if it contains 'Media Contact' and strips HTML tags" do
-    text = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p><b>MBTA Debuts Performance Dashboard 2.0.</b> Updated Dashboard Features Performance Trends over Time</p>"
-    expected = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features P..."
-    actual = Blurb.blurb(text)
+    text = "MBTA Debuts Performance Dashboard 2.0. Updated Dashboard Features Performance Trends over Time Plus Extra Stuff"
+    html = "<p>Media Contact:MassDOT Press Office: 857-368-8500</p><p><b><hr>#{text}</p>"
+    expected = Blurb.blurb(text)
+    actual = Blurb.blurb(html)
 
     assert actual == expected
   end
