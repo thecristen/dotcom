@@ -96,6 +96,10 @@ a {
       }
     }
 
+    @include media-breakpoint-down(sm) {
+      border-color: $brand-primary;
+    }
+
     .icon {
       @extend %icon-inverse;
     }
@@ -231,6 +235,17 @@ a {
   @include media-breakpoint-up(md) {
     float: right;
     width: 50%;
+  }
+
+  // Add the border to highlight the trip on mobile
+  @include media-breakpoint-down(sm) {
+    border: $border;
+    border-bottom-width: $border-width * 2;
+    border-color: $brand-primary;
+
+    .trip-duration {
+      border-bottom-color: $brand-primary;
+    }
   }
 }
 
