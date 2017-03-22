@@ -9,45 +9,12 @@ export default function($) {
       var autocomplete = new google.maps.places.Autocomplete(placeInput);
 
       google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-      $(".transit-near-me form").submit(validateTNMForm);
+      $(".transit-near-me form").submit(function($event) {return validateTNMForm($event, $)});
 
       function onPlaceChanged() {
-        var place = autocomplete.getPlace(),
-            loc = window.location,
-            location_url = loc.protocol + "//" + loc.host + loc.pathname,
-            addr = $(".transit-near-me form").find('input[name="location[address]"]').val();
-        if (place.geometry) {
-          location_url = "?latitude=" + place.geometry.location.lat() + "&longitude=" + place.geometry.location.lng() + "&location[client_width]=" + ($("#transit-input").width() || 0) + "&location[address]=" + addr +  "#transit-input";
-        } else {
-          location_url = "?location[address]=" + location_url + place.name + "&location[client_width]=" + ($("#transit-input").width() || 0) + "#transit-input";
-        }
+        var location_url = constructUrl(autocomplete.getPlace(), $)
         window.location.href = encodeURI(location_url);
       }
-
-
-      function validateTNMForm($event) {
-        var val = $(".transit-near-me form").find('input[name="location[address]"]').val();
-        if (val == getUrlParameter('location[address]')) {
-          location.reload();
-          return false;
-        }
-        return true;
-      }
-
-      var getUrlParameter = function getUrlParameter(sParam) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-        for (i = 0; i < sURLVariables.length; i++) {
-          sParameterName = sURLVariables[i].split('=');
-
-          if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-          }
-        }
-      };
     }
     else {
       const existingCallback = window.mapsCallback || function() {};
@@ -59,11 +26,58 @@ export default function($) {
     }
   }
 
-  function setClientWidth() {
-    $("#client-width").val($("#transit-input").width() || 0);
-  }
-  window.addEventListener("resize", setClientWidth);
-  setClientWidth();
+  window.addEventListener("resize", function() {setClientWidth($)});
+  setClientWidth($);
 
   $(document).on('turbolinks:load', setupTNM);
+}
+
+// Functions exported for testing //
+
+export function setClientWidth($) {
+  $("#client-width").val($("#transit-input").width() || 0);
+}
+
+export function getUrlParameter(sParam) {
+  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+    sURLVariables = sPageURL.split('&'),
+    sParameterName,
+    i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1] === undefined ? true : sParameterName[1];
+    }
+  }
+}
+
+// Determines if form should be re-submitted. If place name has not changed
+// Do not resubmit the form
+// This is done to preserve the names of landmarks
+export function validateTNMForm($event, $) {
+  var val = $(".transit-near-me form").find('input[name="location[address]"]').val();
+  if (val == getUrlParameter('location[address]')) {
+    location.reload();
+    return false;
+  }
+  return true;
+}
+
+export function constructUrl(place, $) {
+  var query_str,
+      loc = window.location,
+      location_url = loc.protocol + "//" + loc.host + loc.pathname,
+      addr = $(".transit-near-me form").find('input[name="location[address]"]').val(),
+      width = ($("#transit-input").width() || 0);
+
+  if (place.geometry) {
+    var lat = place.geometry.location.lat();
+    var lng = place.geometry.location.lng();
+    query_str = "?latitude=" + lat + "&longitude=" + lng + "&location[client_width]=" + width + "&location[address]=" + addr +  "#transit-input";
+  } else {
+    query_str = "?location[address]=" + place.name + "&location[client_width]=" + width + "#transit-input";
+  }
+  return location_url + query_str;
 }
