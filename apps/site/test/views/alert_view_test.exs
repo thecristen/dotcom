@@ -4,12 +4,13 @@ defmodule Site.AlertViewTest do
 
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.AlertView
+  alias Alerts.Alert
 
   @route %Routes.Route{type: 2, id: "route_id", name: "Name"}
 
   describe "alert_effects/1" do
     test "returns one alert for one effect" do
-      delay_alert = %Alerts.Alert{effect_name: "Delay", lifecycle: "Upcoming"}
+      delay_alert = %Alert{effect_name: "Delay", lifecycle: "Upcoming"}
 
       expected = {"Delay", ""}
       actual = alert_effects([delay_alert], 0)
@@ -19,9 +20,9 @@ defmodule Site.AlertViewTest do
 
     test "returns a count with multiple alerts" do
       alerts = [
-        %Alerts.Alert{effect_name: "Suspension", lifecycle: "New"},
-        %Alerts.Alert{effect_name: "Delay"},
-        %Alerts.Alert{effect_name: "Cancellation"}
+        %Alert{effect_name: "Suspension", lifecycle: "New"},
+        %Alert{effect_name: "Delay"},
+        %Alert{effect_name: "Cancellation"}
       ]
 
       expected = {"Suspension", ["+", "2", " more"]}
@@ -37,11 +38,21 @@ defmodule Site.AlertViewTest do
     end
   end
 
+  describe "effect_name/1" do
+    test "returns the effect name for new alerts" do
+      assert "Effect" == effect_name(%Alert{effect_name: "Effect", lifecycle: "New"})
+    end
+
+    test "includes the lifecycle for alerts" do
+      assert "Effect (Upcoming)" == %Alert{effect_name: "Effect", lifecycle: "Upcoming"} |> effect_name |> IO.iodata_to_binary
+    end
+  end
+
   describe "alert_updated/1" do
     test "returns the relative offset based on our timezone" do
       now = ~N[2016-10-05T00:02:03]
       date = ~D[2016-10-05]
-      alert = %Alerts.Alert{updated_at: now}
+      alert = %Alert{updated_at: now}
 
       expected = "Last Updated: Today at 12:02 AM"
       actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary
@@ -52,7 +63,7 @@ defmodule Site.AlertViewTest do
       now = ~N[2016-10-05T00:02:03]
       date = ~D[2016-10-06]
 
-      alert = %Alerts.Alert{updated_at: now}
+      alert = %Alert{updated_at: now}
 
       expected = "Last Updated: 10/5/2016 12:02 AM"
       actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary
@@ -151,7 +162,7 @@ defmodule Site.AlertViewTest do
 
     test "renders if a list of alerts and times is passed in" do
       result = Site.AlertView.inline(Site.Endpoint,
-        alerts: [%Alerts.Alert{effect_name: "Delay", lifecycle: "Upcoming",
+        alerts: [%Alert{effect_name: "Delay", lifecycle: "Upcoming",
                                updated_at: Util.now}],
         time: Util.service_date)
 
@@ -160,7 +171,7 @@ defmodule Site.AlertViewTest do
   end
 
   describe "_item.html" do
-    @alert %Alerts.Alert{effect_name: "Access Alert", updated_at: ~D[2017-03-01], header: "Alert Header", description: "description"}
+    @alert %Alert{effect_name: "Access Alert", updated_at: ~D[2017-03-01], header: "Alert Header", description: "description"}
     @time ~N[2017-03-01T07:29:00]
 
     test "Displays full description button if alert has description" do
