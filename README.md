@@ -181,3 +181,7 @@ http://mbta-dotcom-dev-green.us-east-1.elasticbeanstalk.com/
 You can generate documentation for the project by running `$ mix docs` from the root directory.
 You can then view the genereated documentation in the `doc/` directory
 `$ open doc/index.html`
+
+## Content
+
+To set up the Drupal CMS and work on the content app, follow its [README](/blob/master/apps/content/README.md).
