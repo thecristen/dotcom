@@ -1,6 +1,6 @@
 defmodule News.BlurbTest do
   use ExUnit.Case, async: false
-  use ExCheck
+  use Quixir
   alias News.Blurb
 
   @suffix_length String.length(Blurb.suffix)
@@ -8,43 +8,43 @@ defmodule News.BlurbTest do
 
   @max_blurb_length_padding String.duplicate("x", Blurb.max_length + 1)
 
-  property "keeps string under or equal to max_length characters" do
-    for_all x in unicode_binary() do
-      String.length(Blurb.blurb(x)) <= Blurb.max_length
+  test "keeps string under or equal to max_length characters" do
+    ptest x: string() do
+      assert String.length(Blurb.blurb(x)) <= Blurb.max_length()
     end
   end
 
-  property "ends with ... if original string was > max_length characters" do
-    for_all x in unicode_binary() do
+  test "ends with ... if original string was > max_length characters" do
+    ptest x: string() do
       text = @max_blurb_length_padding <> x
-      String.slice(Blurb.blurb(text), @suffix_range) == Blurb.suffix
+      assert String.slice(Blurb.blurb(text), @suffix_range) == Blurb.suffix
     end
   end
 
-  property "does not end with ... if original string was <= max_length characters" do
-    for_all size in int(1, Blurb.max_length) do
+  test "does not end with ... if original string was <= max_length characters" do
+    ptest size: int(min: 1, max: Blurb.max_length) do
       str = String.duplicate("x", size)
-      String.slice(Blurb.blurb(str), @suffix_range) != Blurb.suffix
+      assert String.slice(Blurb.blurb(str), @suffix_range) != Blurb.suffix
     end
   end
 
-  property "removes a paragraph if it contains 'Media Contact'" do
-    for_all {a, b, c, d} in {unicode_binary(), unicode_binary(), unicode_binary(), unicode_binary()} do
+  test "removes a paragraph if it contains 'Media Contact'" do
+    ptest a: string(), b: string(), c: string(), d: string() do
       text = "<p>" <> a <> "Media Contact" <> b <> "</p>" <> c <> "<p>" <> d <> "</p>"
-      Blurb.blurb(text) == Blurb.blurb(d)
+      assert Blurb.blurb(text) == Blurb.blurb(d)
     end
   end
 
-  property "removes a paragraph if it starts with 'By'" do
-    whitespace = ["", " ", "\t \r\n", "&nbsp;", "&#160;"]
-    for_all {a, b, c, d} in {elements(whitespace), unicode_binary(), unicode_binary(), unicode_binary()} do
+  test "removes a paragraph if it starts with 'By'" do
+    whitespace = ["", " ", "\t \r\n", "&nbsp;", "&#160;"] |> Enum.map(&value/1)
+    ptest a: choose(from: whitespace), b: string(), c: string(), d: string() do
       text = "<p>" <> a <> "By " <> b <> "</p>" <> c <> "<p>" <> d <> "</p>"
-      Blurb.blurb(text) == Blurb.blurb(d)
+      assert Blurb.blurb(text) == Blurb.blurb(d)
     end
   end
 
-  property "returns a blurb from the first non-empty paragraph" do
-    for_all {a, b, c} in {unicode_binary(), unicode_binary(), unicode_binary()} do
+  test "returns a blurb from the first non-empty paragraph" do
+    ptest a: string(), b: string(), c: string() do
       text = "<p>" <> a <> "</p>" <> b <> "<p>" <> c <> "</p>"
       actual = Blurb.blurb(text)
       expected = if String.strip(a) == "" do
@@ -53,7 +53,7 @@ defmodule News.BlurbTest do
         Blurb.blurb(a)
       end
 
-      actual == expected
+      assert actual == expected
     end
   end
 

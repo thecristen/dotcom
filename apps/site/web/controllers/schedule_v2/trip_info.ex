@@ -66,13 +66,20 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   defp handle_trip(conn, selected_trip_id, opts) do
     case build_info(selected_trip_id, conn, opts) do
       {:error, _} ->
-        url = update_url(conn, trip: nil)
-        conn
-        |> redirect(to: url)
-        |> halt
+        possibly_remove_trip_query(conn)
       info ->
         assign(conn, :trip_info, info)
     end
+  end
+
+  defp possibly_remove_trip_query(%{query_params: %{"trip" => _}} = conn) do
+    url = update_url(conn, trip: nil)
+    conn
+    |> redirect(to: url)
+    |> halt
+  end
+  defp possibly_remove_trip_query(conn) do
+    assign(conn, :trip_info, nil)
   end
 
   defp build_info(trip_id, conn, opts) do

@@ -25,13 +25,17 @@ defmodule PredictedSchedule do
   """
   @spec group_by_trip([Prediction.t], [Schedule.t]) :: [PredictedSchedule.t]
   def group_by_trip(predictions, schedules) do
-    schedule_map = Map.new(schedules, &({&1.stop.id, &1}))
-    prediction_map = Map.new(predictions, &({&1.stop.id, &1}))
+    map_fn = &{{&1.stop.id, &1.stop_sequence}, &1}
+    schedule_map = Map.new(schedules, map_fn)
+    prediction_map = Map.new(predictions, map_fn)
 
     schedule_map
     |> stop_ids(prediction_map)
-    |> Enum.map(&{Map.get(schedule_map, &1), Map.get(prediction_map, &1)})
-    |> Enum.map(& %PredictedSchedule{schedule: elem(&1, 0), prediction: elem(&1, 1)})
+    |> Enum.map(fn key ->
+      %PredictedSchedule{
+        schedule: schedule_map[key],
+        prediction: prediction_map[key]}
+    end)
     |> Enum.sort_by(&sort_predicted_schedules/1)
   end
 
@@ -125,7 +129,7 @@ defmodule PredictedSchedule do
   end
 
   # Returns unique list of all stop_id's from given schedules and predictions
-  @spec stop_ids(%{String.t => Schedule.t}, %{String.t => Prediction.t}) :: [String.t]
+  @spec stop_ids(%{key => Schedule.t}, %{key => Prediction.t}) :: [String.t] when key: {String.t, non_neg_integer}
   defp stop_ids(schedule_map, prediction_map) do
     schedule_map
     |> Map.keys()
@@ -134,8 +138,8 @@ defmodule PredictedSchedule do
   end
 
   @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, DateTime.t}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.time}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.time}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.stop_sequence, prediction.time}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.stop_sequence, schedule.time}
 
   @doc """
   Returns the time difference between a schedule and prediction. If either is nil, returns 0.

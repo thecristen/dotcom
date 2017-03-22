@@ -1,0 +1,19 @@
+{
+  "uuid" : "dc54d9f4-9bc5-3deb-991f-552df6b7bb83",
+  "request" : {
+    "url" : "/routes/?stop=place-orhte&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LSPrB.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:40 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "ntov28bnadb6i843cqs7v4k5i2qes789"
+    }
+  }
+}

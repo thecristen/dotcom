@@ -39,8 +39,7 @@ defmodule News.Mixfile do
   defp deps do
     [{:yamerl, github: "yakaz/yamerl"},
      {:httpoison, ">= 0.0.0"},
-     {:excheck, "~> 0.5", only: :test},
-     {:triq, github: "triqng/triq", only: :test},
+     {:quixir, "~> 0.9", only: :test},
      {:repo_cache, in_umbrella: true},
      {:excoveralls, "~> 0.5", only: :test},
      {:html_sanitize_ex, "~> 1.1.0"}]

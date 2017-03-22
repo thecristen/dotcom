@@ -159,7 +159,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "redirects if we can't generate a trip info", %{conn: conn} do
     conn = conn_builder(
-      conn, [],
+      conn, @schedules,
       trip: "not_in_schedule",
       origin: "fake",
       destination: "fake",
@@ -167,6 +167,15 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     expected_path = schedule_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
     assert conn.halted
     assert redirected_to(conn) == expected_path
+  end
+
+  test "does not redirect if we didn't have a trip already", %{conn: conn} do
+    conn = conn_builder(
+      conn, @schedules,
+      origin: "fake",
+      destination: "fake")
+    refute conn.halted
+    refute conn.assigns.trip_info
   end
 
   test "Trip predictions are not fetched if date is not service day", %{conn: conn} do

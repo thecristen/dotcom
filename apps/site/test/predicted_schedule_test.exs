@@ -70,12 +70,28 @@ defmodule PredictedScheduleTest do
     }
   ]
 
-  describe "build_times/2" do
+  describe "group_by_trip/2" do
     test "PredictedSchedules are paired by stop" do
       predicted_schedules = group_by_trip(@predictions, Enum.shuffle(@schedules))
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 3) do
         assert schedule.stop == prediction.stop
       end
+    end
+
+    test "Schedules and Predictions with different stop_sequence values stay separated" do
+      predictions = @predictions ++ Enum.map(@predictions, &%{&1 | stop_sequence: 5})
+      schedules = @schedules ++ Enum.map(@schedules, &%{&1 | stop_sequence: 5})
+      predicted_schedules = group_by_trip(predictions, schedules)
+      assert length(predicted_schedules) == length(schedules)
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
+        not is_nil(prediction) do
+          assert schedule.stop == prediction.stop
+          assert schedule.stop_sequence == prediction.stop_sequence
+      end
+
+      stop_sequences = for %PredictedSchedule{schedule: schedule} <- predicted_schedules, do: schedule.stop_sequence
+
+      assert stop_sequences == Enum.sort(stop_sequences)
     end
 
     test "All schedules are returned" do

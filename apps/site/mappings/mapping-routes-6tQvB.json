@@ -1,0 +1,19 @@
+{
+  "uuid" : "eecd2a2f-a16c-36cc-a078-d6daf513cd1f",
+  "request" : {
+    "url" : "/routes/?stop=place-tapst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-6tQvB.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:40 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "em4chdv90aans737eag82p8hc275go4j"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "4ae433f0-1292-3700-ad0f-6942b8a12f48",
+  "request" : {
+    "url" : "/stops/6567",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-6567-TcVBJ.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "tjsuc2unuvjrlc3uisbnuhkplfejbr5d"
+    }
+  }
+}

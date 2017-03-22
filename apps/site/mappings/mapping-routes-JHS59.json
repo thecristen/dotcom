@@ -1,0 +1,19 @@
+{
+  "uuid" : "ff1b0122-d40a-34c3-8ce4-be095017c889",
+  "request" : {
+    "url" : "/routes/?stop=place-eliot&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JHS59.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:42 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "q68b3172o84h6f7hc6p0ffcj82tbqo7n"
+    }
+  }
+}

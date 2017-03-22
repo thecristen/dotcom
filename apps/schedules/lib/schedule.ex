@@ -1,11 +1,12 @@
 defmodule Schedules.Schedule do
-  defstruct route: nil, trip: nil, stop: nil, time: nil, flag?: false, pickup_type: 0
+  defstruct route: nil, trip: nil, stop: nil, time: nil, flag?: false, stop_sequence: 0, pickup_type: 0
   @type t :: %Schedules.Schedule{
     route: Routes.Route.t,
     trip: Schedules.Trip.t,
     stop: Schedules.Stop.t,
     time: DateTime.t,
     flag?: boolean,
+    stop_sequence: non_neg_integer,
     pickup_type: integer
   }
 

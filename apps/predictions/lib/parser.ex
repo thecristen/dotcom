@@ -10,6 +10,7 @@ defmodule Predictions.Parser do
       trip: trip(item),
       direction_id: attributes["direction_id"],
       time: [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
+      stop_sequence: attributes["stop_sequence"] || 0,
       schedule_relationship: schedule_relationship(attributes["schedule_relationship"]),
       track: attributes["track"],
       status: attributes["status"],

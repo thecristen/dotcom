@@ -1,0 +1,19 @@
+{
+  "uuid" : "30823c37-593b-3cce-ba4f-fafbf49f39bc",
+  "request" : {
+    "url" : "/predictions/?stop=place-sstat&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Bstop%5D=name&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip%2Croute%2Cstop.parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-JiIWe.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:44:39 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "2jg6lbj7johtsst2tb54anh6g4rojv9v"
+    }
+  }
+}

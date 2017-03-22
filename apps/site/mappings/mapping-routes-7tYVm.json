@@ -1,0 +1,19 @@
+{
+  "uuid" : "c2064e29-2a64-3d73-bbc4-fca9bdb458e2",
+  "request" : {
+    "url" : "/routes/?stop=place-haecl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7tYVm.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:42:37 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "98betksk96n82du7t8u5blbq50pkcp0e"
+    }
+  }
+}

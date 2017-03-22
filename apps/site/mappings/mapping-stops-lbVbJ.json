@@ -1,0 +1,19 @@
+{
+  "uuid" : "cc3b4b1b-4e72-3f5c-9952-42350829da09",
+  "request" : {
+    "url" : "/stops/?route=CR-Fairmount&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-lbVbJ.json",
+    "headers" : {
+      "Server" : "nginx/1.10.1",
+      "Date" : "Wed, 22 Mar 2017 18:43:48 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "x-request-id" : "f9jgkibgqgj8ge77juel14iid6ctuuog"
+    }
+  }
+}
