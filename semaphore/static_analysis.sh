@@ -2,7 +2,7 @@
 set -e
 
 bash <(curl -s https://codecov.io/bash) -t $CODECOV_UPLOAD_TOKEN
-pronto run -f github github_status -c origin/master || true
+MIX_ENV=test pronto run -f github github_status -c origin/master || true
 
 # check for unsed variables and such
 mix compile --force --warnings-as-errors
