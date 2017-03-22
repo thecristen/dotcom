@@ -5,13 +5,61 @@ defmodule GoogleMaps.GeocodeTest do
 
   @address "10 Park Plaza 02210"
 
+  @results '[{
+  "address_components" : [{
+      "long_name" : "52-2",
+      "short_name" : "52-2",
+      "types" : [ "street_number" ]
+    }],
+  "formatted_address" : "52-2 Park Ln, Boston, MA 02210, USA",
+  "geometry" : {
+    "bounds" : {
+      "northeast" : {
+        "lat" : 42.3484946,
+        "lng" : -71.0389612
+      },
+      "southwest" : {
+        "lat" : 42.3483114,
+        "lng" : -71.03938769999999
+      }
+    },
+    "location" : {
+      "lat" : 42.3484012,
+      "lng" : -71.039176
+    }
+  }
+}]'
+
+
   describe "geocode/1" do
     test "returns an error for invalid addresses" do
+      bypass = Bypass.open
+      set_domain("http://localhost:#{bypass.port}")
+
+      Bypass.expect bypass, fn conn ->
+        assert "/maps/api/geocode/json" == conn.request_path
+        conn = Plug.Conn.fetch_query_params(conn)
+        assert conn.params["address"] == "234k-rw0e8r0kew5"
+
+        Plug.Conn.resp(conn, 200, ~s({"status": "ZERO_RESULTS", "error_message": "Message"}))
+      end
+
       actual = geocode("234k-rw0e8r0kew5")
       assert {:error, :zero_results, _msg} = actual
     end
 
     test "returns :ok for valid responses" do
+      bypass = Bypass.open
+      set_domain("http://localhost:#{bypass.port}")
+
+      Bypass.expect bypass, fn conn ->
+        assert "/maps/api/geocode/json" == conn.request_path
+        conn = Plug.Conn.fetch_query_params(conn)
+        assert conn.params["address"] == @address
+
+        Plug.Conn.resp(conn, 200, ~s({"status": "OK", "results": #{@results}}))
+      end
+
       actual = geocode(@address)
       assert {:ok, results} = actual
       refute results == []
