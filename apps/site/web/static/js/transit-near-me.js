@@ -9,7 +9,7 @@ export default function($) {
       var autocomplete = new google.maps.places.Autocomplete(placeInput);
 
       google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-      $(".transit-near-me form").submit(function($event) {return validateTNMForm($event, $)});
+      $(".transit-near-me form").submit(function($event) {return validateTNMForm($event, location, $)});
 
       function onPlaceChanged() {
         var location_url = constructUrl(autocomplete.getPlace(), $)
@@ -38,8 +38,8 @@ export function setClientWidth($) {
   $("#client-width").val($("#transit-input").width() || 0);
 }
 
-export function getUrlParameter(sParam) {
-  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+export function getUrlParameter(sParam, search_string) {
+  var sPageURL = decodeURIComponent(search_string.substring(1)),
     sURLVariables = sPageURL.split('&'),
     sParameterName,
     i;
@@ -56,9 +56,9 @@ export function getUrlParameter(sParam) {
 // Determines if form should be re-submitted. If place name has not changed
 // Do not resubmit the form
 // This is done to preserve the names of landmarks
-export function validateTNMForm($event, $) {
+export function validateTNMForm($event, location, $) {
   var val = $(".transit-near-me form").find('input[name="location[address]"]').val();
-  if (val == getUrlParameter('location[address]')) {
+  if (val == getUrlParameter('location[address]', location.search)) {
     location.reload();
     return false;
   }
