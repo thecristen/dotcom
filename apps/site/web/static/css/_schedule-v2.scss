@@ -471,13 +471,14 @@ a {
 .schedule-v2-timetable-name {
   margin-right: $base-spacing-sm; // left scroll warning
 
-  @include media-breakpoint-up(sm) {
-    min-width: 12rem;
+  @include media-breakpoint-up(xs) {
+    min-width: $base-spacing * 6;
   }
 
   @include media-breakpoint-up(md) {
     margin-left: 2.5rem; // bubble
     margin-right: $base-spacing-lg; // left scroll warning
+    min-width: $base-spacing * 9.5;
   }
 
   > i {
