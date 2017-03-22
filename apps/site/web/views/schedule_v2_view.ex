@@ -448,23 +448,22 @@ defmodule Site.ScheduleV2View do
   @doc """
   Whether or not to show the line as a solid line or a dashed/collapsed line.
   """
-  @spec display_collapsed?(
-    String.t | nil,
-    String.t,
-    {:expand, String.t, String.t} | Stops.Stop.t,
-    atom,
-    String.t | nil,
-    GreenLine.stop_routes_pair) :: boolean
-  def display_collapsed?(expanded, route_for_line, next, line_status, branch_to_expand, stops_on_routes) do
-    cond do
-      line_status == :line -> true
-      route_for_line == branch_to_expand && branch_to_expand != expanded -> true
-      match?({:expand, _, ^expanded}, next) -> false
-      match?({:expand, _, _}, next) -> true
-      !GreenLine.stop_on_route?(next.id, route_for_line, stops_on_routes) -> true
-      true -> false
-    end
-  end
+  @type stop_or_expand :: {Stop.t | {:expand, String.t, String.t}}
+  @type line_type :: :line | :stop | :eastbound_terminus | :westbound_terminus | nil
+  @spec display_collapsed?({stop_or_expand, stop_or_expand}, {String.t | nil, String.t}, line_type, boolean) :: boolean
+  def display_collapsed?(row_and_next_row, expanded_and_row_branch_ids, display_type, is_e_line?)
+  def display_collapsed?(_, {branch, branch}, _, _), do: false # never collapse expanded line
+  def display_collapsed?({%Stops.Stop{}, _}, _, :eastbound_terminus, _), do: false # never collapse eastbound terminii
+  def display_collapsed?({%Stops.Stop{}, _}, {_, branch}, :line, true) when branch != "Green-E", do: false  # never collapse non-E lines at E-line stops
+  def display_collapsed?({%Stops.Stop{id: "place-kencl"}, _}, {expanded_branch, current_branch}, _, _) when expanded_branch != current_branch, do: true # always collapse at Kenmore unless branch is expanded
+  def display_collapsed?({%Stops.Stop{id: "place-coecl"}, _}, {"Green-E", "Green-E"}, _, _), do: false  # expand E-line at copley if E-line is expanded
+  def display_collapsed?({%Stops.Stop{id: "place-coecl"}, _}, {_, "Green-E"}, _, _), do: true # otherwise collapse E-line at copley
+  def display_collapsed?({%Stops.Stop{id: "place-coecl"}, _}, _, _, _), do: false # never collapse non-E lines at Copley
+  def display_collapsed?({{:expand, _, "Green-E"}, _}, _, :line, _), do: false # never collapse non-E lines at E-line expander
+  def display_collapsed?({{:expand, _, _}, _}, {expanded, current_branch}, _, _) when current_branch != expanded, do: true  # always collapse line expander unless line is expanded
+  def display_collapsed?({%Stops.Stop{}, {:expand, _, _}}, {expanded, current_branch}, _, _) when current_branch != expanded, do: true  # always collapse stop before an expander unless line is expanded
+  def display_collapsed?({%Stops.Stop{}, _}, _, :line, _), do: true  # always collapse non-bubbles if line is not expanded
+  def display_collapsed?(_, _, _, _), do: false
 
   @spec display_map_link?(integer) :: boolean
   def display_map_link?(route_type) when route_type in [0, 1, 4] do
