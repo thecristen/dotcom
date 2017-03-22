@@ -62,7 +62,7 @@ defmodule Site.ScheduleV2ViewTest do
         [],
         "stop",
         nil,
-        :keep_all,
+        :last_trip_and_upcoming,
         ~N[2017-01-01T06:30:00],
         true
       )

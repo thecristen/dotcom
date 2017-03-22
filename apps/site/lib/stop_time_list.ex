@@ -28,11 +28,21 @@ defmodule StopTimeList do
     |> Enum.any?(&StopTime.has_prediction?/1)
   end
 
+  @doc """
+  Builds a StopTimeList from given schedules and predictions.
+  schedules: Schedules to be combined with predictions for StopTimes
+  predictions: Predictions to combined with schedules for StopTimes
+  origin_id (optional): Trip origin
+  destination_id (optional): Trip Destination
+  filter_flag: Flag to determine how the trip list will be filtered and sorted
+  current_time (optional): Current time, used to determine the first trip to in filtered/sorted list. If nil, all trips will be returned
+  keep_all?: Determines if all stop times should be returned, regardless of filter flag
+  """
   @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
-  def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, today?) do
+  def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, keep_all?) do
     schedules
     |> build_times(predictions, origin_id, destination_id)
-    |> from_times(filter_flag, current_time, today?)
+    |> from_times(filter_flag, current_time, keep_all?)
   end
 
   @doc """
@@ -44,7 +54,7 @@ defmodule StopTimeList do
     stop_time = schedules
     |> build_times(predictions, origin_id, destination_id)
     |> Enum.filter(&StopTime.has_departure_prediction?/1)
-    |> from_times(:keep_all, nil, false)
+    |> from_times(:keep_all, nil, true)
     %{stop_time | times: Enum.take(stop_time.times, 5)}
   end
 
@@ -74,16 +84,17 @@ defmodule StopTimeList do
   defp build_times(_schedules, _predictions, _origin_id, _destination_id), do: []
 
   # Creates a StopTimeList object from a list of times and the expansion value
+  # Both the expanded and collapsed times are calculated in order to determine the `expansion` field
   @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
-  defp from_times(stop_times, filter_flag, current_time, today?) do
-    filtered_times = stop_times
+  defp from_times(expanded_times, filter_flag, current_time, keep_all?) do
+    collapsed_times = expanded_times
     |> StopTime.Filter.filter(filter_flag, current_time)
     |> StopTime.Filter.sort
-    |> StopTime.Filter.limit(filter_flag)
+    |> StopTime.Filter.limit(!keep_all?)
 
     %__MODULE__{
-      times: filtered_times,
-      expansion: StopTime.Filter.expansion(stop_times, filtered_times, today?)
+      times: (if keep_all?, do: StopTime.Filter.sort(expanded_times), else: collapsed_times),
+      expansion: StopTime.Filter.expansion(expanded_times, collapsed_times, keep_all?)
     }
   end
 
