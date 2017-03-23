@@ -70,7 +70,7 @@ export function constructUrl(place, $) {
       loc = window.location,
       location_url = loc.protocol + "//" + loc.host + loc.pathname,
       addr = $(".transit-near-me form").find('input[name="location[address]"]').val(),
-      width = ($("#transit-input").width() || 0);
+      width = ($("#client-width").val() || 0);
 
   if (place.geometry) {
     var lat = place.geometry.location.lat();
