@@ -679,13 +679,23 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "shows date reset link when not current date", %{conn: conn} do
       conn = %{conn | query_params: %{}}
-      rendered = Site.ScheduleV2View.render("_empty.html", origin: "origin", destination: "dest", direction: "inbound", date: @date, conn: conn)
+      rendered = Site.ScheduleV2View.render("_empty.html",
+                                            origin: "origin",
+                                            destination: "dest",
+                                            direction: "inbound",
+                                            date: @date,
+                                            conn: conn)
       assert safe_to_string(rendered) =~ "View inbound trips"
     end
 
     test "Does not show reset link if selected date is service date", %{conn: conn} do
       conn = %{conn | query_params: %{}}
-      rendered = Site.ScheduleV2View.render("_empty.html", origin: "origin", destination: "dest", direction: "inbound", date: Util.service_date(), conn: conn)
+      rendered = Site.ScheduleV2View.render("_empty.html",
+                                            origin: "origin",
+                                            destination: "dest",
+                                            direction: "inbound",
+                                            date: Util.service_date(),
+                                            conn: conn)
       refute safe_to_string(rendered) =~ "View inbound trips"
     end
   end
