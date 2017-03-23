@@ -218,6 +218,10 @@ a {
   }
 }
 
+.route-stop-list.green-line .route-stop:first-child .stop-bubble:before {
+  height: 100%; // override stop-bubble-first to prevent gaps on green line branches
+}
+
 .stop-info-column {
   min-width: 8rem;
 
