@@ -33,8 +33,7 @@
     "phantomjs-prebuilt": "^2.1",
     "sinon": "^1.17.5",
     "postcss-brunch": "~0.5.0",
-    "autoprefixer": "^6.3",
-    "csswring": "^5.1"
+    "autoprefixer": "^6.3"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-register test/js/**/*.js"
