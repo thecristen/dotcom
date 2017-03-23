@@ -380,6 +380,10 @@ defmodule Site.ScheduleV2ViewTest do
 
       assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == prediction
     end
+
+    test "when :vehicle_predictions has not been assigned, returns the conn unaltered", %{conn: conn} do
+      assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == conn
+    end
   end
 
   describe "prediction_time_text/1" do
@@ -586,37 +590,49 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "display_collapsed?/6" do
-    @stops_on_routes GreenLine.stops_on_routes(0)
-
-    test "if the line status is :line, returns true" do
-      assert display_collapsed?("", "", "", :line, "", @stops_on_routes)
+    test "eastbound terminii always return false" do
+      refute display_collapsed?({%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-boyls"}}, {nil, "Green-B"}, :eastbound_terminus, false)
+      refute display_collapsed?({%Stops.Stop{id: "place-lech"}, %Stops.Stop{id: "place-spmnl"}}, {"Green-E", "Green-E"}, :eastbound_terminus, true)
+      refute display_collapsed?({%Stops.Stop{id: "place-north"}, %Stops.Stop{id: "place-haecl"}}, {"Green-C", "Green-C"}, :eastbound_terminus, false)
+      refute display_collapsed?({%Stops.Stop{id: "place-gover"}, %Stops.Stop{id: "place-pktrm"}}, {"Green-D", "Green-D"}, :eastbound_terminus, false)
+      refute display_collapsed?({%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-boyls"}}, {"Green-B", "Green-B"}, :eastbound_terminus, false)
     end
 
-    test "if the route line is the same as the branch to be expanded/collapsed and isn't already expanded returns true" do
-      assert display_collapsed?("Green-C", "Green-B", "", :empty, "Green-B", @stops_on_routes)
+    test "E line collapses at Copley when not expanded" do
+      assert display_collapsed?({%Stops.Stop{id: "place-coecl"}, {:expand, "", "Green-E"}}, {"Green-C", "Green-E"}, :stop, false)
     end
 
-    test "if the next row to render is an expand/collapse button and the route line is expanded, returns false" do
-      refute display_collapsed?(
-        "Green-C",
-        "Green-B",
-        {:expand, "place-coecl", "Green-C"},
-        :empty,
-        "Green-E",
-        @stops_on_routes
-      )
+    test "E line does not collapse at Copley when expanded" do
+      refute display_collapsed?({%Stops.Stop{id: "place-coecl"}, %Stops.Stop{id: "place-prmnl"}}, {"Green-E", "Green-E"}, :stop, false)
     end
 
-    test "otherwise if the next row is an expand/collapse button returns true" do
-      assert display_collapsed?("Green-B", "Green-C", {:expand, "", "Green-D"}, :empty, "Green-E", @stops_on_routes)
+    test "non-E lines never collapse at Copley" do
+      refute display_collapsed?({%Stops.Stop{id: "place-coecl"}, %Stops.Stop{id: "place-prmnl"}}, {"Green-E", "Green-C"}, :stop, false)
+      refute display_collapsed?({%Stops.Stop{id: "place-coecl"}, %Stops.Stop{id: "place-prmnl"}}, {nil, "Green-D"}, :stop, false)
     end
 
-    test "if the next stop isn't on the line's route returns true" do
-      assert display_collapsed?("Green-D", "Green-C", %Stops.Stop{id: "place-fenwy"}, :empty, nil, @stops_on_routes)
+    test "non-E lines never collapse at E line expander" do
+      refute display_collapsed?({{:expand, "", "Green-E"}, %Stops.Stop{id: "place-hsmnl"}}, {"Green-E", "Green-C"}, :line, false) # E line expanded
+      refute display_collapsed?({{:expand, "", "Green-E"}, %Stops.Stop{id: "place-hsmnl"}}, {nil, "Green-C"}, :line, false) # nothing expanded
     end
 
-    test "otherwise returns false" do
-      refute display_collapsed?("Green-D", "Green-D", %Stops.Stop{id: "place-river"}, :empty, "Green-D", @stops_on_routes)
+    test "non-E lines never collapse at E stops when E is expanded" do
+      refute display_collapsed?({%Stops.Stop{id: "place-nuniv"}, %Stops.Stop{id: "place-mfa"}}, {"Green-E", "Green-C"}, :line, true)
+    end
+
+    test "lines collapse at Kenmore when not expanded" do
+      assert display_collapsed?({%Stops.Stop{id: "place-kencl"}, {:expand, "", "Green-D"}}, {nil, "Green-B"}, :stop, false)
+    end
+
+    test "lines collapse at their expander when not expanded" do
+      assert display_collapsed?({{:expand, "", "Green-E"}, %Stops.Stop{id: "place-hsmnl"}}, {nil, "Green-E"}, nil, false)
+      assert display_collapsed?({{:expand, "", "Green-D"}, %Stops.Stop{id: "place-river"}}, {nil, "Green-D"}, nil, false)
+      assert display_collapsed?({{:expand, "", "Green-C"}, %Stops.Stop{id: "place-clmnl"}}, {nil, "Green-C"}, nil, false)
+      assert display_collapsed?({{:expand, "", "Green-B"}, %Stops.Stop{id: "place-lake"}}, {nil, "Green-B"}, nil, false)
+    end
+
+    test "collapsible stops do not collapse when line is expanded" do
+      refute display_collapsed?({%Stops.Stop{id: "place-grigg"}, %Stops.Stop{id: "place-alsgr"}}, {"Green-B", "Green-B"}, :stop, false)
     end
   end
 
