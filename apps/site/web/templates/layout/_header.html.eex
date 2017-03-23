@@ -21,7 +21,7 @@
         <%= fa "angle-up", class: "up" %>
       </button>
       <nav class="desktop-menu-nav col-md-8 hidden-sm-down">
-        <ul class="nav">
+        <ul class="list-unstyled">
           <%= for {name, _, href} <- nav_links do %>
             <li class="nav-item">
               <%=
@@ -29,7 +29,7 @@
                 |> String.replace_prefix(String.first(name), name |> String.first |> String.downcase)
                 |> String.replace(" ", "")
 
-                link to: href, class: "nav-link desktop-nav-link collapsed toggle-up-down",
+                link to: href, class: "desktop-nav-link collapsed toggle-up-down",
                                data: [toggle: "collapse", parent: "#" <> id, target: "#" <> id],
                                aria: [expanded: "false", controls: id] do [
                     name <> " ",

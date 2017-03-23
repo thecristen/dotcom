@@ -1,26 +1,30 @@
 @import 'variables';
 
 .desktop-menu-nav {
-  .nav {
+  .list-unstyled {
     @include make-row();
     display: inline-block;
     float: right;
+    margin-bottom: 0;
   }
 
   .nav-item {
     @include make-col();
+    cursor: pointer;
     height: $header-navbar-height;
     text-align: right;
 
     a {
       line-height: $header-navbar-height-multiplier;
       vertical-align: middle;
+      text-decoration: none;
     }
   }
 }
 
 .desktop-nav-link {
   color: $link-color;
+  display: inline-block;
   font-weight: bold;
   position: relative;
 

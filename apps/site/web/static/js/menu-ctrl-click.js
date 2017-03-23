@@ -1,5 +1,5 @@
 export default function($ = window.jQuery) {
-  $('.nav-link[data-parent="#desktop-menu"]').click(clickHandler($));
+  $('.desktop-nav-link[data-parent="#desktop-menu"]').click(clickHandler($));
 };
 
 // Exported for testing

@@ -130,12 +130,14 @@ $credit-height: $base-spacing * 4;
   a {
     border-radius: 100%;
     color: $white;
+    display: inline-block;
     height: 1.5em;
     text-align: center;
     width: 1.5em;
   }
 
   .nav-item {
+    display: inline-block;
     margin-left: 0;
 
     + .nav-item {
