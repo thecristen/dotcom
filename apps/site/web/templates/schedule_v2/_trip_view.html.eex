@@ -22,4 +22,6 @@
       </div>
     <% end %>
   <% end %>
+
+  <div class="trip-schedules-pdf"><%= route_pdf_link(@route) %></div>
 </div>

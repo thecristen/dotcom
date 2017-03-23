@@ -164,6 +164,12 @@ a {
   @include first-column;
 }
 
+.trip-schedules-pdf {
+  border-top: $border;
+  margin-top: $base-spacing-lg;
+  padding-top: $base-spacing;
+}
+
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ///// FREQUENCY TABLE
@@ -403,6 +409,7 @@ a {
 .schedule-v2-timetable-container {
   border-bottom: $base-spacing-lg solid $brand-primary-darkest;
   max-width: 100%;
+  margin-bottom: $base-spacing;
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;

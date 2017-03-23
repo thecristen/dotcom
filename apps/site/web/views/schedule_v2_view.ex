@@ -485,12 +485,12 @@ defmodule Site.ScheduleV2View do
   def route_pdf_link(%Route{} = route) do
     case Routes.Pdf.url(route) do
       nil -> []
-      _pdf_url -> link(to: route_pdf_path(Site.Endpoint, :pdf, route)) do
+      _pdf_url -> link(to: route_pdf_path(Site.Endpoint, :pdf, route), target: "_blank") do
         [
           fa("file-pdf-o"),
-          " View PDF of the ",
+          " View PDF of ",
           route.name,
-          " schedules"
+          " paper schedule"
         ]
       end
     end

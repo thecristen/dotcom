@@ -68,4 +68,6 @@
       </table>
     </div>
   <% end %>
+
+  <%= route_pdf_link(@route) %>
 </div>
