@@ -448,7 +448,7 @@ defmodule Site.ScheduleV2View do
   @doc """
   Whether or not to show the line as a solid line or a dashed/collapsed line.
   """
-  @type stop_or_expand :: {Stop.t | {:expand, String.t, String.t}}
+  @type stop_or_expand :: {Stops.Stop.t | {:expand, String.t, String.t}}
   @type line_type :: :line | :stop | :eastbound_terminus | :westbound_terminus | nil
   @spec display_collapsed?({stop_or_expand, stop_or_expand}, {String.t | nil, String.t}, line_type, boolean) :: boolean
   def display_collapsed?(row_and_next_row, expanded_and_row_branch_ids, display_type, is_e_line?)
