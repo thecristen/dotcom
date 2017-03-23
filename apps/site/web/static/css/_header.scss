@@ -1,16 +1,12 @@
 @import 'variables';
 
-.nav {
-  list-style: none;
-  margin-bottom: 0;
-  padding-left: 0;
-}
-
 .desktop-menu-nav {
-  .nav {
+  .list-unstyled {
     @include make-row();
     display: inline-block;
     float: right;
+    margin-bottom: 0;
+    padding-left: 0;
   }
 
   .nav-item {
