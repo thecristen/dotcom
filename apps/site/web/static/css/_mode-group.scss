@@ -51,9 +51,6 @@
   .mode-group.commuter-rail .button,
   .commuter-rail .mode-group .button {
     align-items: center;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: -webkit-flex;
     display: flex;
     height: 4rem;
     justify-content: center;
@@ -63,18 +60,13 @@
   .commuter-rail {
     .mode-button-text {
       display: inline-block;
-      -ms-flex: 1 1 0%;
-      -webkit-flex: 1;
       flex: 1;
     }
 
     .icon-alert {
-      -ms-flex: 0 0 $icon-size-sm;
-      -webkit-flex-basis: $icon-size-sm;
+      -ms-flex: 0 0 $icon-size-sm; // specify all 3 to work around IE bug
       flex-basis: $icon-size-sm;
-      -webkit-flex-grow: 0;
       flex-grow: 0;
-      -webkit-flex-shrink: 0;
       flex-shrink: 0;
     }
   }

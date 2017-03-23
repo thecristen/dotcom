@@ -72,6 +72,12 @@ exports.config = {
       precision: 8,
       allowCache: true,
       includePaths: ['web/static/css'],
+    },
+
+    postcss: {
+      processors: [
+        require('autoprefixer')(['last 20 versions'])
+      ]
     }
   },
 
