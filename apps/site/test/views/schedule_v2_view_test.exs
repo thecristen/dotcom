@@ -380,6 +380,10 @@ defmodule Site.ScheduleV2ViewTest do
 
       assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == prediction
     end
+
+    test "when :vehicle_predictions has not been assigned, returns the conn unaltered", %{conn: conn} do
+      assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == conn
+    end
   end
 
   describe "prediction_time_text/1" do
