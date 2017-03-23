@@ -3,6 +3,7 @@ export default function($) {
 
   var savedPosition = null;
   var savedAnchor = null;
+  var redirectTimeout = null;
 
   Turbolinks.start();
   $(document).on('turbolinks:before-visit', (ev) => {
@@ -25,6 +26,12 @@ export default function($) {
       savedPosition = [window.scrollX, window.scrollY];
     }
 
+    // cancel a previously set redirect timeout
+    if (redirectTimeout) {
+      clearTimeout(redirectTimeout);
+      redirectTimeout = null;
+    }
+
   });
   $(document).on('turbolinks:render', (ev) => {
     if (savedPosition) {
@@ -45,6 +52,22 @@ export default function($) {
         $el.children().first().focus();
       }
     }
+  });
+  $(document).on('turbolinks:request-end', (ev) => {
+    // if a refresh header was receieved, enforce via javascript
+    var refreshHeader = ev.originalEvent.data.xhr.getResponseHeader("Refresh");
+    if (!refreshHeader) {
+      return;
+    }
+
+    // parse data from the header
+    var refreshUrl = refreshHeader.substring(refreshHeader.indexOf('=') + 1);
+    var refreshDelay = refreshHeader.split(';')[0] * 1000;
+
+    // redirect after 5 seconds
+    redirectTimeout = setTimeout(function () {
+      document.location = refreshUrl;
+    }, refreshDelay);
   });
 };
 
