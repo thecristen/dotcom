@@ -100,8 +100,8 @@ defmodule Site.ViewHelpers do
 
   @doc "Prefix route name with route for bus lines"
   def route_header_text(%{type: 3, name: name}), do: ["Route ", name]
-  def route_header_text(%{type: 2, name: name}), do: clean_route_name(name)
-  def route_header_text(%{name: name}), do: name
+  def route_header_text(%{type: 2, name: name}), do: [clean_route_name(name)]
+  def route_header_text(%{name: name}), do: [name]
 
   @doc "Clean up a GTFS route name for better presentation"
   @spec clean_route_name(String.t) :: String.t

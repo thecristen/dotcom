@@ -663,8 +663,13 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "route_pdf_link/1" do
     test "returns a link to PDF redirector if we have a PDF for the route" do
-      rendered = safe_to_string(route_pdf_link(%Routes.Route{id: "CR-Worcester", name: "Framingham/Worcester Line"}))
-      assert rendered =~ "View PDF of Framingham/Worcester Line paper schedule"
+      rendered = safe_to_string(route_pdf_link(%Routes.Route{id: "CR-Worcester", name: "Fairmount", type: 2}))
+      assert rendered =~ "View PDF of Fairmount line paper schedule"
+    end
+
+    test "has the correct text for a bus route" do
+      rendered = safe_to_string(route_pdf_link(%Routes.Route{id: "741", name: "SL1", type: 3}))
+      assert rendered =~ "View PDF of Route SL1 paper schedule"
     end
 
     test "returns an empty list if no PDF for that route" do

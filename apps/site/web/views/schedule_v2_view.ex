@@ -483,17 +483,31 @@ defmodule Site.ScheduleV2View do
 
   @spec route_pdf_link(Route.t) :: Phoenix.HTML.Safe.t
   def route_pdf_link(%Route{} = route) do
+    route_suffix = if route.type == 2, do: " line", else: ""
+    route_name = route
+    |> route_header_text()
+    |> Enum.map(&lowercase_line/1)
+    |> Enum.map(&lowercase_ferry/1)
     case Routes.Pdf.url(route) do
       nil -> []
       _pdf_url -> link(to: route_pdf_path(Site.Endpoint, :pdf, route), target: "_blank") do
         [
           fa("file-pdf-o"),
           " View PDF of ",
-          route.name,
+          route_name,
+          route_suffix,
           " paper schedule"
         ]
       end
     end
+  end
+
+  defp lowercase_line(input) do
+    String.replace_trailing(input, " Line", " line")
+  end
+
+  defp lowercase_ferry(input) do
+    String.replace_trailing(input, " Ferry", " ferry")
   end
 
   @doc """
