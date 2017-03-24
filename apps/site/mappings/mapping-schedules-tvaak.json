@@ -1,7 +1,7 @@
 {
   "uuid" : "792675fb-e828-32eb-9d4c-4e3a981b779b",
   "request" : {
-    "url" : "/schedules/?include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name&trip=33636707",
+    "url" : "/schedules/?include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name&date=2017-06-14&trip=33636707",
     "method" : "GET"
   },
   "response" : {

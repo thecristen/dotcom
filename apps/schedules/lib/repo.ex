@@ -9,6 +9,7 @@ defmodule Schedules.Repo do
       "fields[trip]": "name,headsign,direction_id",
       "fields[stop]": "name"
   ]
+
   def all(opts) do
     @default_params
     |> add_optional_param(opts, :route)
@@ -23,8 +24,15 @@ defmodule Schedules.Repo do
     end)
   end
 
-  def schedule_for_trip(trip_id) do
+  @spec schedule_for_trip(Schedules.Trip.id_t, Keyword.t) :: [Schedules.Schedule.t]
+  def schedule_for_trip(trip_id, opts \\ [])
+  def schedule_for_trip("", _) do
+    # shortcut a known invalid trip ID
+    []
+  end
+  def schedule_for_trip(trip_id, opts) do
     @default_params
+    |> Keyword.merge(opts)
     |> Keyword.merge([
       trip: trip_id
     ])
