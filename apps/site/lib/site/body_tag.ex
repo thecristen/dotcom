@@ -14,7 +14,7 @@ defmodule Site.BodyTag do
 
   @spec render(Plug.Conn.t) :: Phoenix.HTML.Safe.t
   def render(conn) do
-    Phoenix.HTML.Tag.tag(:body, [class: class_name(conn), data: [turbolinks: disable_turbolinks?(conn)]])
+    Phoenix.HTML.Tag.tag(:body, [class: class_name(conn), data: [turbolinks: enable_turbolinks?(conn)]])
   end
 
   defp class_name(conn) do
@@ -28,7 +28,7 @@ defmodule Site.BodyTag do
     |> Enum.join(" ")
   end
 
-  defp disable_turbolinks?(conn) do
+  defp enable_turbolinks?(conn) do
     is_nil(conn.assigns[:disable_turbolinks]) or Turbolinks.enabled?(conn)
   end
 
