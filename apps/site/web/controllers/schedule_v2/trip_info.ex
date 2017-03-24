@@ -15,7 +15,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   alias Routes.Route
 
   @default_opts [
-    trip_fn: &Schedules.Repo.schedule_for_trip/1,
+    trip_fn: &Schedules.Repo.schedule_for_trip/2,
     vehicle_fn: &Vehicles.Repo.trip/1,
     prediction_fn: &Predictions.Repo.all/1
   ]
@@ -84,7 +84,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
 
   defp build_info(trip_id, conn, opts) do
     trip_id
-    |> opts[:trip_fn].()
+    |> opts[:trip_fn].(date: conn.assigns.date)
     |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
     |> TripInfo.from_list(
       collapse?: collapse?(conn),

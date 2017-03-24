@@ -43,18 +43,28 @@ defmodule Schedules.RepoTest do
     end
   end
 
-  test ".schedule_for_trip returns stops in order of their stop_sequence for a given trip" do
-    # find a Lowell trip ID
-    trip_id = "Lowell"
+  describe "schedule_for_trip/2" do
+    @trip_id "Lowell"
     |> schedule_for_stop(direction_id: 1)
     |> List.first
     |> Map.get(:trip)
     |> Map.get(:id)
-    response = schedule_for_trip(trip_id)
-    assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
-    refute response == []
-    assert List.first(response).stop.id == "Lowell"
-    assert List.last(response).stop.id == "place-north"
+
+    test "returns stops in order of their stop_sequence for a given trip" do
+      # find a Lowell trip ID
+      response = schedule_for_trip(@trip_id)
+      assert response |> Enum.all?(fn schedule -> schedule.trip.id == @trip_id end)
+      refute response == []
+      assert List.first(response).stop.id == "Lowell"
+      assert List.last(response).stop.id == "place-north"
+    end
+
+    test "returns different values for different dates" do
+      today = "America/New_York" |> Timex.now |> Timex.to_date
+      tomorrow = Timex.shift(today, days: 1)
+      assert schedule_for_trip(@trip_id) == schedule_for_trip(@trip_id, date: today)
+      refute schedule_for_trip(@trip_id, date: today) == schedule_for_trip(@trip_id, date: tomorrow)
+    end
   end
 
   describe "trip/1" do

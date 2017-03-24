@@ -5,6 +5,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   alias Predictions.Prediction
 
   @time ~N[2017-02-10T20:00:00]
+  @date Timex.to_date(@time)
 
   @schedules [
     %Schedule{
@@ -48,7 +49,9 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   ]
 
   setup %{conn: conn} do
-    conn = assign(conn, :date_time, @time)
+    conn = conn
+    |> assign(:date_time, @time)
+    |> assign(:date, @date)
     {:ok, %{conn: conn}}
   end
 
@@ -56,10 +59,10 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     @predictions
   end
 
-  defp trip_fn("32893585") do
+  defp trip_fn("32893585", [date: @date]) do
     @trip_schedules
   end
-  defp trip_fn("long_trip") do
+  defp trip_fn("long_trip", [date: @date]) do
     # add some extra schedule data so that we can collapse this trip
     # make sure all schedules have "long_trip" as ID, since that's this trip_fn match
     @trip_schedules
@@ -87,7 +90,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     ])
     |> Enum.map(& %Schedule{ &1 | trip: %Trip{id: "long_trip"}})
   end
-  defp trip_fn("not_in_schedule") do
+  defp trip_fn("not_in_schedule", [date: @date]) do
     []
   end
 
@@ -99,7 +102,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   defp conn_builder(conn, schedules, params \\ []) do
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
     query_params = Map.new(params, fn {key,val} -> {Atom.to_string(key), val} end)
     params = put_in query_params["route"], "1"
 
@@ -108,8 +111,6 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       query_params: query_params,
       params: params}
     |> assign_stop_times_from_schedules(schedules)
-    |> assign(:date_time, @time)
-    |> assign(:date, Util.service_date(@time))
     |> call(init)
   end
 
@@ -179,13 +180,14 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "Trip predictions are not fetched if date is not service day", %{conn: conn} do
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    future_date = Timex.shift(@date, days: 2)
+    future_trip_fn = fn "long_trip" = trip_id, [date: ^future_date] -> trip_fn(trip_id, date: @date) end
+    init = init(trip_fn: future_trip_fn, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
     conn = %{conn |
       request_path: schedule_path(conn, :show, "1"),
       query_params: %{"trip" =>  "long_trip"}}
     |> assign(:schedules, [])
-    |> assign(:date_time, @time)
-    |> assign(:date, Timex.shift(Util.service_date(@time), days: 2))
+    |> assign(:date, future_date)
     |> call(init)
 
     for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
@@ -221,8 +223,8 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         route: %Routes.Route{type: 1}
       }
     ]
-    day = Timex.shift(@time, days: 1)
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    day = Timex.shift(@date, days: 1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "Red"),
@@ -257,7 +259,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         route: %Routes.Route{type: 1}
       }
     ]
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "66"),
@@ -293,7 +295,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         route: %Routes.Route{type: 1}
       }
     ]
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "66"),
@@ -341,7 +343,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       }
     ]
 
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "66"),
@@ -377,15 +379,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         route: %Routes.Route{type: 1}
       }
     ]
-    day = @time
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "Red"),
       query_params: nil
     }
     |> assign_stop_times_from_schedules(schedules)
-    |> assign(:date, day)
     |> assign(:route, %Routes.Route{type: 1})
     |> call(init)
 
@@ -413,8 +413,9 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         route: %Routes.Route{type: 3}
       }
     ]
-    day = Timex.shift(@time, days: 1)
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    day = Timex.shift(@date, days: 1)
+    future_trip_fn = fn "32893585" = trip_id, [date: ^day] -> trip_fn(trip_id, date: @date) end
+    init = init(trip_fn: future_trip_fn, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "1"),
@@ -430,7 +431,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "does not assign trips if the prediction doesn't have a time", %{conn: conn} do
     prediction = %Prediction{trip: %Trip{id: "trip"}, stop: %Stop{id: "origin"}, route: %Routes.Route{}}
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "1"),
@@ -447,7 +448,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   test "does not assign trips if the prediction doesn't have a trip", %{conn: conn} do
     prediction = %Prediction{time: ~N[2017-01-01T13:00:00], stop: %Stop{id: "origin"}, route: %Routes.Route{}}
-    init = init(trip_fn: &trip_fn/1, vehicle_fn: &vehicle_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "1"),
