@@ -13,14 +13,14 @@
       links: [
         {"Timetable", update_url(@conn, tab: "timetable"), tab_selected?("timetable", @tab)},
         {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
-        {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
+        {"Line Information", update_url(@conn, tab: "line", date: nil), tab_selected?("line", @tab)}
       ]
     }) %>
   <% else %>
     <%= tab_list(%TabList{
       links: [
         {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
-        {"Line Information", update_url(@conn, tab: "line"), tab_selected?("line", @tab)}
+        {"Line Information", update_url(@conn, tab: "line", date: nil), tab_selected?("line", @tab)}
       ]
     }) %>
   <% end %>
