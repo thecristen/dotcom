@@ -31,7 +31,7 @@ config :laboratory,
     http_only: true
   ]
 
-config :site, Site.BodyClass,
+config :site, Site.BodyTag,
   mticket_header: "x-mticket"
 
 config :content,

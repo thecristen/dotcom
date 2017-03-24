@@ -1,4 +1,4 @@
-defmodule Site.BodyClass do
+defmodule Site.BodyTag do
   @moduledoc """
 
   Contains the logic for the className of the <body> element.
@@ -11,7 +11,13 @@ defmodule Site.BodyClass do
   mTicket: If the request has the configured mTicket header, sets a class which will disable certain
     UI elements.
   """
-  def class_name(conn) do
+
+  @spec render(Plug.Conn.t) :: Phoenix.HTML.Safe.t
+  def render(conn) do
+    Phoenix.HTML.Tag.tag(:body, [class: class_name(conn), data: [turbolinks: enable_turbolinks?(conn)]])
+  end
+
+  defp class_name(conn) do
     [
       javascript_class(conn),
       error_class(conn),
@@ -20,6 +26,10 @@ defmodule Site.BodyClass do
     ]
     |> Enum.filter(&(&1 != ""))
     |> Enum.join(" ")
+  end
+
+  defp enable_turbolinks?(conn) do
+    is_nil(conn.assigns[:disable_turbolinks]) or Turbolinks.enabled?(conn)
   end
 
   defp javascript_class(conn) do

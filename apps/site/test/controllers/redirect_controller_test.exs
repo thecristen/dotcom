@@ -56,4 +56,27 @@ defmodule Site.RedirectControllerTest do
     response = html_response(conn, 200)
     assert response =~ "https://commerce.mbta.com/TheRide"
   end
+
+  test "send refresh header, disable turbolinks", %{conn: conn} do
+    conn = get conn, "/redirect/riding_the_t/bikes/"
+    assert Plug.Conn.get_resp_header(conn, "refresh") == ["5;url=http://www.mbta.com/riding_the_t/bikes"]
+
+    attribute = conn
+    |> html_response(200)
+    |> Floki.find("body")
+    |> Floki.attribute("data-turbolinks")
+
+    assert attribute == ["false"]
+  end
+
+  test "send refresh header, allow turbolinks", %{conn: conn} do
+    attribute = conn
+    |> put_req_header("turbolinks-referrer", "/")
+    |> get("/redirect/riding_the_t/bikes/")
+    |> html_response(200)
+    |> Floki.find("body")
+    |> Floki.attribute("data-turbolinks")
+
+    assert attribute == ["true"]
+  end
 end

@@ -4,10 +4,12 @@ defmodule Site.RedirectController do
   def show(conn, %{"path" => redirect_parts} = params) do
     # redirect_parts is a list of URL parts which should be separated by
     # slashes.  Anything else in params is a query parameter.
-
     full_path = get_path(redirect_parts, params)
-    render(conn, "show.html",
-      redirect: full_path)
+
+    conn
+    |> put_resp_header("refresh", "5;url=" <> full_path)
+    |> assign(:disable_turbolinks, true)
+    |> render("show.html", redirect: full_path)
   end
 
   @spec append_query_params(String.t, map()) :: String.t
