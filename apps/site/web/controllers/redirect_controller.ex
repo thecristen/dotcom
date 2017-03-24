@@ -7,17 +7,12 @@ defmodule Site.RedirectController do
     full_path = get_path(redirect_parts, params)
 
     # if the link is not coming from turbolinks, pass a body attribute to disable turbolinks
-    turbolinks_body_attr = if from_turbolinks?(conn), do: nil, else: "data-turbolinks=\"false\""
+    turbolinks_body_attr = if Turbolinks.enabled?(conn), do: nil, else: "data-turbolinks=\"false\""
 
     conn
     |> put_resp_header("refresh", "5;url=" <> full_path)
     |> assign(:turbolinks_body_attr, turbolinks_body_attr)
     |> render("show.html", redirect: full_path)
-  end
-
-  @spec from_turbolinks?(Plug.Conn.t) :: boolean
-  defp from_turbolinks?(conn) do
-    Enum.any?(conn.req_headers, fn {header, _} -> header == "turbolinks-referrer" end)
   end
 
   @spec append_query_params(String.t, map()) :: String.t
