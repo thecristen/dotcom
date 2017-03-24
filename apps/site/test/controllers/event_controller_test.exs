@@ -3,7 +3,7 @@ defmodule Site.EventControllerTest do
   import Mock
 
   describe "GET index" do
-    test "renders a list of events for the current month", %{conn: conn} do
+    test "renders a list of upcoming events", %{conn: conn} do
       event = event_page_factory()
 
       with_mock Content.Repo, [all: fn("events", _params) -> [event] end] do
@@ -11,6 +11,17 @@ defmodule Site.EventControllerTest do
 
         assert html_response(conn, 200) =~ event.title
         assert html_response(conn, 200) =~ "Upcoming Meetings"
+      end
+    end
+
+    test "scopes events based on provided dates", %{conn: conn} do
+      with_mock Content.Repo, [all: fn("events", _params) -> [] end] do
+        get conn, event_path(conn, :index, %{month: "2017-01-01"})
+
+        assert called Content.Repo.all(
+          "events",
+          %{start_time_gt: "2017-01-01", start_time_lt: "2017-01-31"}
+        )
       end
     end
   end
