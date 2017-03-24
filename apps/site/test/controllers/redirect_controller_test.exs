@@ -77,6 +77,6 @@ defmodule Site.RedirectControllerTest do
     |> Floki.find("body")
     |> Floki.attribute("data-turbolinks")
 
-    assert attribute == []
+    assert attribute == ["true"]
   end
 end

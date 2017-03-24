@@ -12,9 +12,10 @@ defmodule Site.BodyTag do
     UI elements.
   """
 
-  @spec render(Plug.Conn.t) :: String.t
+  @spec render(Plug.Conn.t) :: Phoenix.HTML.Safe.t
   def render(conn) do
-    "<body class=\"" <> class_name(conn) <> "\" " <> disable_turbolinks_attr(conn) <> ">"
+    #"<body class=\"" <> class_name(conn) <> "\" " <> disable_turbolinks_attr(conn) <> ">"
+    Phoenix.HTML.Tag.tag(:body, [class: class_name(conn), "data-turbolinks": disable_turbolinks_attr(conn)])
   end
 
   defp class_name(conn) do
@@ -30,9 +31,9 @@ defmodule Site.BodyTag do
 
   defp disable_turbolinks_attr(conn) do
     if conn.assigns[:disable_turbolinks] && !Turbolinks.enabled?(conn) do
-      "data-turbolinks=\"false\""
+      "false"
     else
-      ""
+      "true"
     end
   end
 
