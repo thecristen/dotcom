@@ -6,12 +6,9 @@ defmodule Site.RedirectController do
     # slashes.  Anything else in params is a query parameter.
     full_path = get_path(redirect_parts, params)
 
-    # if the link is not coming from turbolinks, pass a body attribute to disable turbolinks
-    turbolinks_body_attr = if Turbolinks.enabled?(conn), do: nil, else: "data-turbolinks=\"false\""
-
     conn
     |> put_resp_header("refresh", "5;url=" <> full_path)
-    |> assign(:turbolinks_body_attr, turbolinks_body_attr)
+    |> assign(:disable_turbolinks, true)
     |> render("show.html", redirect: full_path)
   end
 

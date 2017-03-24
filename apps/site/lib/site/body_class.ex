@@ -22,6 +22,15 @@ defmodule Site.BodyClass do
     |> Enum.join(" ")
   end
 
+  @spec disable_turbolinks_attr(Plug.Conn.t) :: String.t | nil
+  def disable_turbolinks_attr(conn) do
+    if conn.assigns[:disable_turbolinks] && !Turbolinks.enabled?(conn) do
+      "data-turbolinks=\"false\""
+    else
+      nil
+    end
+  end
+
   defp javascript_class(conn) do
     if Turbolinks.enabled?(conn) do
       "js"

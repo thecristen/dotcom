@@ -34,7 +34,7 @@
       <script async defer src="<%= raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places&callback=mapsCallback") %>"></script>
     <% end %>
   </head>
-  <body class="<%= Site.BodyClass.class_name(@conn) %>" <%= raw assigns[:turbolinks_body_attr] %>>
+  <body class="<%= Site.BodyClass.class_name(@conn) %>" <%= raw Site.BodyClass.disable_turbolinks_attr(@conn) %>>
     <div class="body-wrapper">
       <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
       <%= if assigns[:banner_template] do %>
