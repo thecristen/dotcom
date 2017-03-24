@@ -7,14 +7,8 @@ defmodule Site.RedirectController do
 
     full_path = get_path(redirect_parts, params)
     render(conn, "show.html",
-      redirect: full_path,
-      mobile_enabled: mobile_enabled(full_path))
+      redirect: full_path)
   end
-
-  @spec mobile_enabled(String.t) :: boolean
-  defp mobile_enabled("http://www.mbta.com/rider_tools/t_alerts"), do: false
-  defp mobile_enabled("https://passprogram.mbta.com"), do: false
-  defp mobile_enabled(_), do: true
 
   @spec append_query_params(String.t, map()) :: String.t
   defp append_query_params(path, params) when params == %{}, do: path
@@ -32,5 +26,4 @@ defmodule Site.RedirectController do
     query_params = params |> Map.delete("path")
     append_query_params(path, query_params)
   end
-
 end

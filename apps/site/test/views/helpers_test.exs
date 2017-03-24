@@ -50,14 +50,6 @@ defmodule Site.ViewHelpersTest do
     end
   end
 
-  describe "strip_protocol/1" do
-    test "Protocol is removed when one is present" do
-      assert strip_protocol("http://www.google.com") == "www.google.com"
-      assert strip_protocol("www.google.com") == "www.google.com"
-      assert strip_protocol("https://google.com") == "google.com"
-    end
-  end
-
   describe "subway_name/1" do
     test "All Green line routes display \"Green Line\"" do
       assert subway_name("Green-B") == "Green Line"

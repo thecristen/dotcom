@@ -8,14 +8,9 @@
     </p>
 
     <p class="redirect-button">
-      <a class="btn btn-primary<%= if @mobile_enabled do %> btn-small hidden-sm-down<% else %> btn-block<% end %>" role="button" href=<%= @redirect  %>>
+      <a class="btn btn-primary btn-small" role="button" href=<%= @redirect  %>>
         Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
       </a>
-      <%= if @mobile_enabled do %>
-        <a class="btn btn-primary btn-small hidden-md-up" role="button" href="http://mobile.usablenet.com/mt/<%= strip_protocol(@redirect) %>">
-          Take me there<span class="sr-only"> (mobile version)</span> <%= fa "arrow-right" %>
-        </a>
-      <% end %>
     </p>
     <img src="<%= static_url(Site.Endpoint, "/images/transfer.gif") %>" />
   </div>
