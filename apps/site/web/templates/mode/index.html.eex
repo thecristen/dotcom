@@ -2,12 +2,12 @@
   <div class="page-block">
     <h1>Schedules and Maps</h1>
     <% the_ride = if @include_ride, do: [:the_ride], else: [] %>
-    <%= for route_type <- [:commuter_rail, :bus, :subway, :ferry] ++ the_ride do %>
+    <%= for route_type <- [:commuter_rail, :subway, :bus, :ferry] ++ the_ride do %>
       <div class="mode-group <%= hyphenated_mode_string(route_type) %>" id="<%= route_type %>">
-        <h2 class="mode-group-header">
+        <div class="mode-group-header">
           <%= svg_icon_with_circle %SvgIconWithCircle{icon: route_type} %>
           <%= content_tag :span, do: Routes.Route.type_name route_type %>
-        </h2>
+        </div>
         <%= mode_button_list %ModeButtonList{
           conn: @conn,
           routes: get_route_group(route_type, @grouped_routes),
