@@ -15,16 +15,25 @@ defmodule Site.ContentController do
     |> render_page(maybe_page)
   end
 
-  defp render_page(conn, {:ok, page}) do
+  defp render_page(conn, %Content.BasicPage{} = page) do
     conn
-    |> assign(:metadata, Content.MetaData.for(page.type))
+    |> assign(:metadata, %{})
     |> assign(:breadcrumbs, [page.title])
     |> assign(:page, page)
-    |> render(Site.ContentView, "#{page.type}.html")
+    |> render(Site.ContentView, "page.html")
   end
-  defp render_page(conn, {:error, error}) do
-    _ = Logger.debug("error while fetching page: #{inspect error}")
-    render_page(conn, nil)
+  defp render_page(conn, %Content.ProjectUpdate{} = page) do
+    conn
+    |> assign(:metadata, %{})
+    |> assign(:breadcrumbs, [page.title])
+    |> assign(:page, page)
+    |> render(Site.ContentView, "project_update.html")
+  end
+  defp render_page(conn, %Content.NewsEntry{} = page) do
+    conn
+    |> assign(:metadata, Content.MetaData.for_news_entry)
+    |> assign(:page, page)
+    |> render(Site.ContentView, "news_entry.html")
   end
   defp render_page(conn, _) do
     conn

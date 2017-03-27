@@ -1,0 +1,25 @@
+defmodule Content.Image do
+  @moduledoc """
+  Represents an image field in the Drupal CMS. This image field is embedded
+  in other content types like Content.NewsEntry.
+  """
+
+  defstruct [url: "", alt: ""]
+
+  @type t :: %__MODULE__{
+    url: String.t,
+    alt: String.t
+  }
+
+  # TODO: do we need to rewrite these urls to use the CDN as well?
+  @spec from_api(any) :: __MODULE__.t | nil
+  def from_api([%{"alt" => alt, "url" => url}]) do
+    %__MODULE__{alt: alt, url: url}
+  end
+  def from_api(%{"alt" => alt, "url" => url}) do
+    %__MODULE__{alt: alt, url: url}
+  end
+  def from_api(_) do
+    nil
+  end
+end

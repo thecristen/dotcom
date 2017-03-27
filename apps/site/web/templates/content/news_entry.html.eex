@@ -1,11 +1,13 @@
 <div class="news-entry">
-  <img class="news-featured-image"
-    src="<%= @page.fields.featured_image.url %>"
-    alt="<%= @page.fields.featured_image.alt %>"
-  />
+  <%= if @page.featured_image do %>
+    <img class="news-featured-image"
+      src="<%= @page.featured_image.url %>"
+      alt="<%= @page.featured_image.alt %>"
+    />
+  <% end %>
 
   <h1 class="news-title">
-    <%= @page.title |> raw %>
+    <%= @page.title %>
   </h1>
 
   <p class="news-metadata">
@@ -13,13 +15,13 @@
   </p>
 
   <div class="news-entry-body">
-    <%= @page.body |> raw %>
+    <%= @page.body %>
   </div>
 
   <div>
-    <%= if field_has_content?(@page.fields.more_information) do %>
+    <%= if field_has_content?(@page.more_information) do %>
       <h2>More Information</h2>
-      <%= @page.fields.more_information |> raw %>
+      <%= @page.more_information %>
     <% end %>
   </div>
 </div>
