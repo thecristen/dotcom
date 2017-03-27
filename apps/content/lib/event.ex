@@ -7,8 +7,11 @@ defmodule Content.Event do
   import Content.Helpers, only: [field_value: 2, parse_body: 1, parse_iso_time: 1,
     handle_html: 1]
 
-  defstruct [id: "", start_time: nil, end_time: nil, title: "", location: nil, street_address: nil,
-    city: nil, state: nil, who: nil, body: raw(""), notes: raw(""), agenda: raw("")]
+  defstruct [
+    id: "", start_time: nil, end_time: nil, title: "", location: nil, street_address: nil,
+    city: nil, state: nil, who: nil, body: raw(""), notes: raw(""), agenda: raw(""),
+    meeting_id: nil, imported_address: nil
+  ]
 
   @type t :: %__MODULE__{
     id: String.t,
@@ -22,7 +25,9 @@ defmodule Content.Event do
     who: String.t | nil,
     body: Phoenix.HTML.safe,
     notes: Phoenix.HTML.safe,
-    agenda: Phoenix.HTML.safe
+    agenda: Phoenix.HTML.safe,
+    meeting_id: String.t | nil,
+    imported_address: String.t | nil
   }
 
   @spec from_api(map) :: t
