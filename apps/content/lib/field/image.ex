@@ -1,4 +1,6 @@
 defmodule Content.Field.Image do
+  import Content.Helpers, only: [rewrite_url: 1]
+
   @moduledoc """
   Represents an image field in the Drupal CMS. This image field is embedded
   in other content types like Content.NewsEntry.
@@ -11,12 +13,11 @@ defmodule Content.Field.Image do
     alt: String.t
   }
 
-  # TODO: do we need to rewrite these urls to use the CDN as well?
   @spec from_api(map | [map]) :: t
   def from_api([%{"alt" => alt, "url" => url}]) do
-    %__MODULE__{alt: alt, url: url}
+    %__MODULE__{alt: alt, url: rewrite_url(url)}
   end
   def from_api(%{"alt" => alt, "url" => url}) do
-    %__MODULE__{alt: alt, url: url}
+    %__MODULE__{alt: alt, url: rewrite_url(url)}
   end
 end

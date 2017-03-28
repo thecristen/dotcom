@@ -8,14 +8,6 @@ defmodule Content.Helpers do
     end
   end
 
-  @spec rewrite_static_file_links(String.t) :: String.t
-  def rewrite_static_file_links(body) do
-    static_path = Content.Config.static_path
-    Regex.replace(~r/"(#{static_path}[^"]+)"/, body, fn _, path ->
-      ['"', Content.Config.apply(:static, [path]), '"']
-    end)
-  end
-
   @spec parse_time(String.t) :: DateTime.t | nil
   def parse_time(unix_string) do
     case Integer.parse(unix_string) do
@@ -53,5 +45,26 @@ defmodule Content.Helpers do
       nil -> nil
       changed -> parse_time(changed)
     end
+  end
+
+  @spec rewrite_static_file_links(String.t) :: String.t
+  def rewrite_static_file_links(body) do
+    static_path = Content.Config.static_path
+    Regex.replace(~r/"(#{static_path}[^"]+)"/, body, fn _, path ->
+      ['"', Content.Config.apply(:static, [path]), '"']
+    end)
+  end
+
+  @spec rewrite_url(String.t, Keyword.t) :: String.t
+  def rewrite_url(url, opts \\ []) when is_binary(url) do
+    root = case opts[:root] || Content.Config.root do
+             nil -> "missing-host-should-not-match"
+             host -> String.replace_suffix(host, "/", "")
+           end
+    static_path = opts[:static_path] || Content.Config.static_path
+
+    Regex.replace(~r/^#{root}(#{static_path}[^"]+)/, url, fn _, path ->
+      Content.Config.apply(:static, [path])
+    end)
   end
 end
