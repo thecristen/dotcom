@@ -33,4 +33,11 @@ defmodule RepoCacheTest do
   test "returns different values for the same key on different methods" do
     assert Repo.time(1) != Repo.always(1)
   end
+
+  test "does not cache errors" do
+    {:ok, pid} = Agent.start_link fn -> {:error, :value} end
+    assert {:error, :value} == Repo.agent_state(pid)
+    Agent.update pid, fn _ -> :real end
+    assert :real == Repo.agent_state(pid)
+  end
 end

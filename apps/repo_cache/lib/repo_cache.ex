@@ -22,6 +22,8 @@ defmodule RepoCache do
   of milliseconds to cache the value.
 
   """
+  @cache_name :repo_cache_cache
+
   defmacro __using__(opts \\ []) do
     ttl = opts
     |> Keyword.get(:ttl, :timer.seconds(1))
@@ -45,11 +47,24 @@ defmodule RepoCache do
   end
 
   def do_cache(func_param, %{context_modules: [module|_],
-                                   function: {name, _}}, func, cache_opts) do
-    ConCache.get_or_store(:repo_cache_cache, {module, name, func_param}, fn ->
-      value = func.(func_param)
+                             function: {name, _}}, func, cache_opts) do
+    key = {module, name, func_param}
+    ConCache.isolated @cache_name, key, fn ->
+      case ConCache.get(@cache_name, key) do
+        nil ->
+          maybe_set_value(func.(func_param), key, cache_opts[:ttl])
+        value ->
+          value
+      end
+    end
+  end
 
-      %ConCache.Item{value: value, ttl: cache_opts[:ttl]}
-    end)
+  defp maybe_set_value({:error, _} = error, _, _) do
+    error
+  end
+  defp maybe_set_value(value, key, ttl) do
+    item = %ConCache.Item{value: value, ttl: ttl}
+    ConCache.dirty_put(@cache_name, key, item)
+    value
   end
 end
