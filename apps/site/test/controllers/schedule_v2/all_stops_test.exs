@@ -2,6 +2,8 @@ defmodule Site.ScheduleV2Controller.AllStopsTest do
   use Site.ConnCase, async: true
   alias Site.ScheduleV2Controller.AllStops
 
+  @moduletag :external
+
   test "deduplicates red line stops", %{conn: conn} do
     conn = conn
     |> assign(:date, nil)

@@ -71,7 +71,10 @@ defmodule Site.ScheduleV2Controller do
   # Helper function for obtaining schedule data
   @spec timetable_schedules(Plug.Conn.t) :: [Schedules.Schedule.t]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
-    Schedules.Repo.all(date: date, route: route.id, direction_id: direction_id)
+    case Schedules.Repo.all(date: date, route: route.id, direction_id: direction_id) do
+      {:error, _} -> []
+      schedules -> schedules
+    end
   end
 
   @spec header_schedules(list) :: list

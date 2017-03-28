@@ -3,7 +3,7 @@
 <div class="calendar-covered">
   <%= if @show_date_select?, do: content_tag(:div, "", [class: "calendar-cover"]) %>
   <%= if Enum.empty?(@header_schedules) do %>
-    <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination, conn: @conn %>
+    <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination, conn: @conn, error: assigns[:schedule_error] %>
   <% else %>
     <div class="schedule-v2-timetable-container" data-sticky-container>
       <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later commuter-rail">

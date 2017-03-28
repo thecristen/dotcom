@@ -1,5 +1,5 @@
 <div class="schedule-empty">
-  <%= no_trips_message(@origin, @destination, @direction, @date) %>
+  <%= no_trips_message(@error, @origin, @destination, @direction, @date) %>
   <%= if @date != Util.service_date() do %>
     <div>
       <%= link "View #{String.downcase(@direction)} trips for today", to: update_url(@conn, date: nil) %>
