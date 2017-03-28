@@ -38,4 +38,20 @@ defmodule Stops.ApiTest do
     assert stop.longitude != nil
     refute stop.station?
   end
+
+  test "by_route returns an error tuple if the V3 API returns an error" do
+    bypass = Bypass.open
+    v3_url = Application.get_env(:v3_api, :base_url)
+    on_exit fn ->
+      Application.put_env(:v3_api, :base_url, v3_url)
+    end
+
+    Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+
+    Bypass.expect bypass, fn conn ->
+      Plug.Conn.resp(conn, 200, "")
+    end
+
+    assert {:error, _} = Stops.Api.by_route({"1", 0, []})
+  end
 end

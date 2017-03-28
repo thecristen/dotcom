@@ -29,6 +29,7 @@ defmodule Stops.Repo do
     Stops.Nearby.nearby(position)
   end
 
+  @spec by_route(Routes.Route.id_t, 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
   def by_route(route_id, direction_id, opts \\ []) do
     cache {route_id, direction_id, opts}, &Stops.Api.by_route/1
   end
