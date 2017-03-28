@@ -13,15 +13,12 @@ defmodule Content.Download do
   }
 
   # TODO: do we need to rewrite these urls to use the CDN as well?
-  @spec from_api(any) :: __MODULE__.t | nil
+  @spec from_api(any) :: t
   def from_api(%{"description" => description, "url" => url, "target_type" => type}) do
-    %Content.Download{
+    %__MODULE__{
       description: description,
       url: url,
       type: type
     }
-  end
-  def from_api(_) do
-    nil
   end
 end

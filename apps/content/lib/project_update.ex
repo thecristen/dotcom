@@ -40,8 +40,9 @@ defmodule Content.ProjectUpdate do
   end
 
   defp parse_featured_image(data) do
-    data["field_featured_image"]
-    |> Content.Image.from_api
+    if image = data["field_featured_image"] do
+      Content.Image.from_api(image)
+    end
   end
 
   defp parse_photo_gallery(data) do
