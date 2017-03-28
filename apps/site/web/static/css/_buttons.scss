@@ -81,6 +81,8 @@
 
     .button {
       border-width: 0;
+      padding-bottom: $base-spacing-sm;
+      padding-top: $base-spacing-sm;
       width: 100%;
     }
   }

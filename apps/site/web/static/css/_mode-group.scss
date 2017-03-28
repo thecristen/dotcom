@@ -45,6 +45,11 @@
   }
 }
 
+.mode-group-header {
+  font-size: $font-size-base;
+  font-weight: bold;
+}
+
 @include media-breakpoint-only(xs) {
   // scss-lint:disable VendorPrefix
   // for commuter rail on homepage for mobile, special rules to guarantee nice two column formatting

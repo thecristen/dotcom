@@ -121,7 +121,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
 
   @spec mode_breakpoint_widths(atom) :: map
   def mode_breakpoint_widths(:subway), do: %{xs: 6, md: 3, xxl: 3}
-  def mode_breakpoint_widths(:commuter_rail), do: %{xs: 6, sm: 6, md: 4, xxl: 3}
+  def mode_breakpoint_widths(:commuter_rail), do: %{xs: 6, sm: 6, md: 4, lg: 3}
   def mode_breakpoint_widths(:bus), do: %{xs: 4, sm: 4, md: 2, xxl: 2}
   def mode_breakpoint_widths(:ferry), do: %{xs: 12, sm: 4, md: 4, xxl: 4}
   def mode_breakpoint_widths(:the_ride), do: %{xs: 12, md: 6, xxl: 3}
