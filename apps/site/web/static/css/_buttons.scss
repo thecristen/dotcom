@@ -81,9 +81,12 @@
 
     .button {
       border-width: 0;
-      padding-bottom: $base-spacing-sm;
-      padding-top: $base-spacing-sm;
       width: 100%;
+
+      @include media-breakpoint-up(md) {
+        padding-bottom: $base-spacing-sm;
+        padding-top: $base-spacing-sm;
+      }
     }
   }
 }
