@@ -1,5 +1,5 @@
-defmodule Content.ApiStatic do
-  @behaviour Content.Api
+defmodule Content.CMS.Static do
+  @behaviour Content.CMS
 
   @whats_happening [%{"changed" => [%{"value" => "1490139200"}],
        "created" => [%{"value" => "1490139146"}],

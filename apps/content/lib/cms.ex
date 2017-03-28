@@ -1,4 +1,4 @@
-defmodule Content.Api do
+defmodule Content.CMS do
   @moduledoc """
   The behaviour for a live HTTP or a static testing API over our content CMS.
   """
@@ -9,5 +9,5 @@ defmodule Content.Api do
   beyond that. Shouldn't raise an exception; if the HTTP request
   or JSON decoding fails, returns {:error, message}
   """
-  @callback view(String.t, Keyword.t) :: {:ok, list(map())} | {:ok, map()} | {:error, any}
+  @callback view(String.t, Keyword.t) :: {:ok, list(map())} | {:ok, map()} | {:error, String.t}
 end
