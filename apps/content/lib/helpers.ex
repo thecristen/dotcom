@@ -32,4 +32,26 @@ defmodule Content.Helpers do
 
     {:safe, html}
   end
+
+  @spec parse_body(map) :: Phoenix.HTML.Safe.t
+  def parse_body(%{} = data) do
+    data
+    |> field_value("body")
+    |> handle_html
+  end
+
+  @spec parse_featured_image(map) :: Content.Field.Image.t | nil
+  def parse_featured_image(%{} = data) do
+    if image = data["field_featured_image"] do
+      Content.Field.Image.from_api(image)
+    end
+  end
+
+  @spec parse_updated_at(map) :: DateTime.t | nil
+  def parse_updated_at(%{} = data) do
+    case field_value(data, "changed") do
+      nil -> nil
+      changed -> parse_time(changed)
+    end
+  end
 end

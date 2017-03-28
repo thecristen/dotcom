@@ -3,7 +3,7 @@ defmodule Content.BasicPage do
   Represents a basic "page" type in the Drupal CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, handle_html: 1]
+  import Content.Helpers, only: [field_value: 2, parse_body: 1]
 
   defstruct [id: "", title: "", body: {:safe, ""}]
 
@@ -20,11 +20,5 @@ defmodule Content.BasicPage do
       title: field_value(data, "title") || "",
       body: parse_body(data)
     }
-  end
-
-  defp parse_body(data) do
-    data
-    |> field_value("body")
-    |> handle_html
   end
 end

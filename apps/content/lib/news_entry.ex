@@ -3,7 +3,8 @@ defmodule Content.NewsEntry do
   Represents a "news_entry" content type in the Drupal CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, handle_html: 1, parse_time: 1]
+  import Content.Helpers, only: [field_value: 2, parse_body: 1, parse_featured_image: 1,
+    parse_updated_at: 1]
 
   defstruct [id: "", title: "", body: {:safe, ""}, featured_image: nil, media_contact_name: "",
     media_contact_info: "", more_information: "", updated_at: nil]
@@ -31,24 +32,5 @@ defmodule Content.NewsEntry do
       updated_at: parse_updated_at(data),
       featured_image: parse_featured_image(data)
     }
-  end
-
-  defp parse_body(data) do
-    data
-    |> field_value("body")
-    |> handle_html
-  end
-
-  defp parse_updated_at(data) do
-    case field_value(data, "changed") do
-      nil -> nil
-      changed -> parse_time(changed)
-    end
-  end
-
-  defp parse_featured_image(data) do
-    if image = data["field_featured_image"] do
-      Content.Field.Image.from_api(image)
-    end
   end
 end

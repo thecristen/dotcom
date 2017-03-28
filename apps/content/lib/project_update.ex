@@ -3,7 +3,8 @@ defmodule Content.ProjectUpdate do
   Represents a "project_update" type in the Drupal CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, handle_html: 1, parse_time: 1]
+  import Content.Helpers, only: [field_value: 2, parse_body: 1, parse_featured_image: 1,
+    parse_updated_at: 1]
 
   defstruct [id: "", body: {:safe, ""}, title: "", featured_image: nil, photo_gallery: [],
     updated_at: nil, status: "", downloads: []]
@@ -33,29 +34,10 @@ defmodule Content.ProjectUpdate do
     }
   end
 
-  defp parse_body(data) do
-    data
-    |> field_value("body")
-    |> handle_html
-  end
-
-  defp parse_featured_image(data) do
-    if image = data["field_featured_image"] do
-      Content.Field.Image.from_api(image)
-    end
-  end
-
   defp parse_photo_gallery(data) do
     case data["field_photo_gallery"] do
       nil -> []
       photos -> Enum.map(photos, &Content.Field.Image.from_api/1)
-    end
-  end
-
-  defp parse_updated_at(data) do
-    case field_value(data, "changed") do
-      nil -> nil
-      changed -> parse_time(changed)
     end
   end
 
