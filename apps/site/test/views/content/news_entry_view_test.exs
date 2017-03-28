@@ -32,7 +32,7 @@ defmodule Site.NewsEntryViewTest do
         title: "News Title",
         updated_at: DateTime.utc_now,
         more_information: "Visit us for more information",
-        featured_image: %Content.Image{
+        featured_image: %Content.Field.Image{
           alt: "alt",
           url: "image_url"
         }

@@ -12,11 +12,11 @@ defmodule Content.ProjectUpdate do
     id: String.t,
     body: {:safe, String.t},
     title: String.t,
-    featured_image: Content.Image.t | nil,
-    photo_gallery: [Content.Image.t],
+    featured_image: Content.Field.Image.t | nil,
+    photo_gallery: [Content.Field.Image.t],
     updated_at: DateTime.t | nil,
     status: String.t | nil,
-    downloads: [Content.Download.t]
+    downloads: [Content.Field.Download.t]
   }
 
   @spec from_api(map) :: __MODULE__.t
@@ -41,14 +41,14 @@ defmodule Content.ProjectUpdate do
 
   defp parse_featured_image(data) do
     if image = data["field_featured_image"] do
-      Content.Image.from_api(image)
+      Content.Field.Image.from_api(image)
     end
   end
 
   defp parse_photo_gallery(data) do
     case data["field_photo_gallery"] do
       nil -> []
-      photos -> Enum.map(photos, &Content.Image.from_api/1)
+      photos -> Enum.map(photos, &Content.Field.Image.from_api/1)
     end
   end
 
@@ -62,7 +62,7 @@ defmodule Content.ProjectUpdate do
   defp parse_downloads(data) do
     case data["field_downloads"] do
       nil -> []
-      downloads -> Enum.map(downloads, &Content.Download.from_api/1)
+      downloads -> Enum.map(downloads, &Content.Field.Download.from_api/1)
     end
   end
 end

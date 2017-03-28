@@ -1,4 +1,4 @@
-defmodule Content.Download do
+defmodule Content.Field.Download do
   @moduledoc """
   Represents a downloadable file field in the Drupal CMS. This field is embedded
   in other drupal content types, like Content.ProjectUpdate.
@@ -13,7 +13,7 @@ defmodule Content.Download do
   }
 
   # TODO: do we need to rewrite these urls to use the CDN as well?
-  @spec from_api(any) :: t
+  @spec from_api(map) :: t
   def from_api(%{"description" => description, "url" => url, "target_type" => type}) do
     %__MODULE__{
       description: description,

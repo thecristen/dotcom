@@ -12,7 +12,7 @@ defmodule Content.NewsEntry do
     id: String.t,
     title: String.t,
     body: {:safe, String.t},
-    featured_image: Content.Image.t | nil,
+    featured_image: Content.Field.Image.t | nil,
     media_contact_name: String.t | nil,
     media_contact_info: String.t | nil,
     more_information: String.t | nil,
@@ -48,7 +48,7 @@ defmodule Content.NewsEntry do
 
   defp parse_featured_image(data) do
     if image = data["field_featured_image"] do
-      Content.Image.from_api(image)
+      Content.Field.Image.from_api(image)
     end
   end
 end

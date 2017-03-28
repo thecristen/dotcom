@@ -1,4 +1,4 @@
-defmodule Content.Image do
+defmodule Content.Field.Image do
   @moduledoc """
   Represents an image field in the Drupal CMS. This image field is embedded
   in other content types like Content.NewsEntry.
