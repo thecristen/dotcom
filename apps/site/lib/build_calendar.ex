@@ -7,19 +7,19 @@ defmodule BuildCalendar do
     Represents a calendar for display.
 
     * previous_month_url: either a URL to get to the previous month, or nil if we shouldn't link to it
-    * next_month_url: a URL to get to the next month
+    * next_month_url: a URL to get to the next month, or nil if we shouldn't link to it
     * days: a list of BuildCalendar.Day structs, representing each day we're displaying for the calendar
     """
     @type t :: %__MODULE__{
       previous_month_url: String.t | nil,
-      next_month_url: String.t,
+      next_month_url: String.t | nil,
       active_date: Date.t,
       days: [BuildCalendar.Day.t],
       holidays: [Holiday.t]
     }
     defstruct [
       previous_month_url: nil,
-      next_month_url: "",
+      next_month_url: nil,
       active_date: nil,
       days: [],
       holidays: []
@@ -94,15 +94,21 @@ defmodule BuildCalendar do
   @typedoc "A function which, given some keyword arguments, returns a URL.  Used for building URLs to select dates."
   @type url_fn :: ((Keyword.t) -> url)
 
-  @doc "Builds the links that will be displayed on the calendar."
-  @spec build(Date.t, Date.t, [Holiday.t], url_fn) :: BuildCalendar.Calendar.t
+  @doc """
+  Builds the links that will be displayed on the calendar.
+
+  Options:
+  * shift: an number of months forward or backwards to shift the selected day when building the calendar
+  * end_date: a date after which we shouldn't link to future months
+  """
   @spec build(Date.t, Date.t, [Holiday.t], url_fn, Keyword.t) :: BuildCalendar.Calendar.t
   def build(selected, today, holidays, url_fn, opts \\ []) do
     holiday_set = MapSet.new(holidays, & &1.date)
+    end_date = opts[:end_date]
     shift = opts[:shift] || 0
     %BuildCalendar.Calendar{
       previous_month_url: previous_month_url(selected, today, shift, url_fn),
-      next_month_url: next_month_url(shift, url_fn),
+      next_month_url: next_month_url(selected, end_date, shift, url_fn),
       active_date: Timex.shift(selected, months: shift),
       days: build_days(selected, today, shift, holiday_set, url_fn),
       holidays: holidays
@@ -119,9 +125,20 @@ defmodule BuildCalendar do
     end
   end
 
-  @spec next_month_url(integer, url_fn) :: String.t
-  defp next_month_url(shift, url_fn) do
+  @spec next_month_url(Date.t, Date.t | nil, integer, url_fn) :: String.t | nil
+  defp next_month_url(_selected, nil, shift, url_fn) do
     url_fn.(shift: shift + 1)
+  end
+  defp next_month_url(selected, end_date, shift, url_fn) do
+    next_month = selected
+    |> Timex.shift(months: shift + 1)
+    |> Timex.beginning_of_month
+
+    if Timex.after?(next_month, end_date) do
+      nil
+    else
+      next_month_url(selected, nil, shift, url_fn)
+    end
   end
 
   @spec build_days(Date.t, Date.t, integer, MapSet.t, url_fn) :: [BuildCalendar.Day.t]

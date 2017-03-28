@@ -1,7 +1,8 @@
 defmodule Schedules.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   use Timex
   import Schedules.Repo
+  import Mock
   alias Schedules.{Schedule, Stop}
 
   describe "all/1" do
@@ -40,6 +41,19 @@ defmodule Schedules.RepoTest do
 
       assert Enum.any?(response, &match?(%Schedule{stop: %Stop{id: "Lowell"}}, &1))
       assert Enum.any?(response, &match?(%Schedule{stop: %Stop{id: "Anderson/ Woburn"}}, &1))
+    end
+
+    test "if we get an error from the API, returns an error tuple" do
+      # when the API is updated such that this is an error, we won't need to
+      # mock this anymore. -ps
+      with_mock V3Api.Schedules, [all: fn _ -> {:error, :tuple} end] do
+        response = all(
+          route: "CR-Lowell",
+          date: "1970-01-01",
+          stop: "place-north"
+        )
+        assert {:error, _} = response
+      end
     end
   end
 
@@ -111,6 +125,34 @@ defmodule Schedules.RepoTest do
       response = origin_destination("place-rugg", "1237", route: "43", date: next_tuesday)
       trips = Enum.map(response, fn {origin, _} -> origin.trip.id end)
       assert trips == Enum.uniq(trips)
+    end
+
+    test "returns an error tuple if we get an error from the API" do
+      # when the API is updated such that this is an error, we won't need to
+      # mock this anymore. -ps
+      with_mock V3Api.Schedules, [all: fn _ -> {:error, :tuple} end] do
+        response = origin_destination(
+          "Anderson/ Woburn",
+          "North Station")
+
+        assert {:error, _} = response
+      end
+    end
+  end
+
+  describe "end_of_rating/1" do
+    test "returns the date if it comes back from the API" do
+      error = %JsonApi.Error{
+        code: "no_service",
+        meta: %{
+          "end_date" => "2017-01-01"
+        }
+      }
+      assert ~D[2017-01-01] = end_of_rating(fn _ -> {:error, [error]} end)
+    end
+
+    test "returns nil if there are problems" do
+      refute end_of_rating(fn _ -> %JsonApi{} end)
     end
   end
 end

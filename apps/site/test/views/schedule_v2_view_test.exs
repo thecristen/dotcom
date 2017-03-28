@@ -505,20 +505,25 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "no_trips_message/4" do
+  describe "no_trips_message/5" do
+    test "when a no service error is provided" do
+      error = [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring 2017 version 3D"}}]
+      result = no_trips_message(error, nil, nil, nil, ~D[2017-01-01])
+      assert IO.iodata_to_binary(result) == "January 1, 2017 is not part of the Spring schedule."
+    end
     test "when a starting and ending stop are provided" do
-      result = no_trips_message(%Stops.Stop{name: "The Start"}, %Stops.Stop{name: "The End"}, nil, ~D[2017-03-05])
-      assert safe_to_string(result) == "There are no scheduled trips between The Start and The End on March 5, 2017."
+      result = no_trips_message(nil, %Stops.Stop{name: "The Start"}, %Stops.Stop{name: "The End"}, nil, ~D[2017-03-05])
+      assert IO.iodata_to_binary(result) == "There are no scheduled trips between The Start and The End on March 5, 2017."
     end
 
     test "when a direction is provided" do
-      result = no_trips_message(nil, nil, "Inbound", ~D[2017-03-05])
-      assert safe_to_string(result) == "There are no scheduled inbound trips on March 5, 2017."
+      result = no_trips_message(nil, nil, nil, "Inbound", ~D[2017-03-05])
+      assert IO.iodata_to_binary(result) == "There are no scheduled inbound trips on March 5, 2017."
     end
 
     test "fallback when nothing is available" do
-      result = no_trips_message(nil, nil, nil, nil)
-      assert safe_to_string(result) == "There are no scheduled trips."
+      result = no_trips_message(nil, nil, nil, nil, nil)
+      assert IO.iodata_to_binary(result) == "There are no scheduled trips."
     end
   end
 
@@ -701,6 +706,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "shows date reset link when not current date", %{conn: conn} do
       conn = %{conn | query_params: %{}}
       rendered = Site.ScheduleV2View.render("_empty.html",
+                                            error: nil,
                                             origin: "origin",
                                             destination: "dest",
                                             direction: "inbound",
@@ -712,6 +718,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "Does not show reset link if selected date is service date", %{conn: conn} do
       conn = %{conn | query_params: %{}}
       rendered = Site.ScheduleV2View.render("_empty.html",
+                                            error: nil,
                                             origin: "origin",
                                             destination: "dest",
                                             direction: "inbound",

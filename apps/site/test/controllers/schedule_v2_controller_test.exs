@@ -1,5 +1,6 @@
 defmodule Site.ScheduleV2ControllerTest do
   use Site.ConnCase, async: true
+
   @moduletag :external
 
   describe "Bus" do
@@ -94,6 +95,15 @@ defmodule Site.ScheduleV2ControllerTest do
 
       assert "North Billerica" in Map.keys(zone_map)
       assert zone_map["North Billerica"] == "5"
+    end
+
+    test "renders a rating error if we get no_service back from the API", %{conn: conn} do
+      conn = conn
+      |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
+      |> get(schedule_path(conn, :show, "CR-Lowell", date: "2016-01-01", tab: "timetable"))
+
+      response = html_response(conn, 200)
+      assert response =~ "January 1, 2016 is not part of the Spring schedule."
     end
   end
 
@@ -295,5 +305,14 @@ defmodule Site.ScheduleV2ControllerTest do
 
       assert Enum.count(conn.assigns.holidays) == 3
     end
+  end
+
+  test "renders a rating error if we get no_service back from the API", %{conn: conn} do
+    conn = conn
+    |> assign(:all_stops, {:error, [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring"}}]})
+    |> get(schedule_path(conn, :show, "1", date: "2016-01-01"))
+
+    response = html_response(conn, 200)
+    assert response =~ "January 1, 2016 is not part of the Spring schedule."
   end
 end

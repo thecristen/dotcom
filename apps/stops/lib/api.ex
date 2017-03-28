@@ -62,19 +62,24 @@ defmodule Stops.Api do
     params
     |> Keyword.merge(opts)
     |> V3Api.Stops.all
-    |> (fn api -> api.data end).()
+    |> merge_station_info_api
+  end
+
+  defp merge_station_info_api({:error, _} = error) do
+    error
+  end
+  defp merge_station_info_api(api) do
+    api.data
     |> Enum.uniq_by(&v3_id/1)
     |> Task.async_stream(fn (item) ->
-      station_info = item
+      item
       |> v3_id
       |> StationInfoApi.by_gtfs_id
       |> map_json_api
       |> List.first
-
-      merge_v3(station_info, item)
+      |> merge_v3(item)
     end)
     |> Enum.map(fn {:ok, stop} -> stop end)
-    |> Enum.uniq # filter out stops which hit multiple parts of the same parent
   end
 
   defp v3_id(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: parent_id}]}}) do

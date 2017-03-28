@@ -5,13 +5,24 @@ defmodule Site.ScheduleV2Controller.AllStops do
 
   def init([]), do: []
 
-  def call(%Plug.Conn{assigns: assigns} = conn, []) do
-    stops = get_all_stops(assigns.route.id, assigns.direction_id, assigns.date)
-    conn
-    |> assign(:all_stops, stops)
+  def call(conn, []) do
+    stops = get_all_stops(conn)
+    assign_all_stops(conn, stops)
   end
 
-  defp get_all_stops(route_id, direction_id, date) do
-    Stops.Repo.by_route(route_id, direction_id, date: date)
+  defp get_all_stops(%{assigns: %{all_stops: all_stops}}) do
+    all_stops
+  end
+  defp get_all_stops(%{assigns: assigns}) do
+    Stops.Repo.by_route(assigns.route.id, assigns.direction_id, date: assigns.date)
+  end
+
+  defp assign_all_stops(conn, stops) when is_list(stops) do
+    assign(conn, :all_stops, stops)
+  end
+  defp assign_all_stops(conn, {:error, error}) do
+    conn
+    |> assign(:all_stops, [])
+    |> assign(:schedule_error, error)
   end
 end

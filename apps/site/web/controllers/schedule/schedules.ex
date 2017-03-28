@@ -10,7 +10,17 @@ defmodule Site.ScheduleController.Schedules do
   def init([]), do: []
 
   def call(conn, []) do
-    all_schedules = schedules(conn)
+    conn
+    |> schedules
+    |> do_call(conn)
+  end
+
+  defp do_call({:error, _}, conn) do
+    conn
+    |> assign(:all_schedules, [])
+    |> assign(:schedules, [])
+  end
+  defp do_call(all_schedules, conn) do
     {filtered_schedules, conn} = filtered_schedules(all_schedules, conn)
 
     conn

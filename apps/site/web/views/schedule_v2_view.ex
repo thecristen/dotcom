@@ -267,34 +267,44 @@ defmodule Site.ScheduleV2View do
 
   @doc """
   The message to show when there are no trips for the given parameters.
-  Expects either two stops, or a direction.
+  Expects either an error, two stops, or a direction.
   """
-  @spec no_trips_message(Stops.Stop.t | nil, Stops.Stop.t | nil, String.t | nil, Date.t) :: Phoenix.HTML.Safe.t
-  def no_trips_message(%Stops.Stop{name: origin_name}, %Stops.Stop{name: destination_name}, _, date) do
-    {
-      :safe, [
-        "There are no scheduled trips between ",
-        origin_name,
-        " and ",
-        destination_name,
-        " on ",
-        format_full_date(date),
-        "."
-      ]
-    }
+  @spec no_trips_message(any, Stops.Stop.t | nil, Stops.Stop.t | nil, String.t | nil, Date.t) :: iodata
+  def no_trips_message([%{code: "no_service"} = error| _], _, _, _, date) do
+    [
+      format_full_date(date),
+      " is not part of the ",
+      rating_name(error),
+      " schedule."
+    ]
   end
-  def no_trips_message(_, _, direction, date) when not is_nil(direction) do
-    {
-      :safe, [
-        "There are no scheduled ",
-        String.downcase(direction),
-        " trips on ",
-        format_full_date(date),
-        "."
-      ]
-    }
+  def no_trips_message(_, %Stops.Stop{name: origin_name}, %Stops.Stop{name: destination_name}, _, date) do
+    [
+      "There are no scheduled trips between ",
+      origin_name,
+      " and ",
+      destination_name,
+      " on ",
+      format_full_date(date),
+      "."
+    ]
   end
-  def no_trips_message(_, _, _, _), do: {:safe, ["There are no scheduled trips."]}
+  def no_trips_message(_, _, _, direction, date) when not is_nil(direction) do
+    [
+      "There are no scheduled ",
+      String.downcase(direction),
+      " trips on ",
+      format_full_date(date),
+      "."
+    ]
+  end
+  def no_trips_message(_, _, _, _, _), do: "There are no scheduled trips."
+
+  defp rating_name(%{meta: %{"version" => version}}) do
+    version
+    |> String.split(" ", parts: 2)
+    |> List.first
+  end
 
   @spec clear_selector_link(map()) :: Phoenix.HTML.Safe.t
   def clear_selector_link(%{clearable?: true, selected: selected} = assigns)

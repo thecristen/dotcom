@@ -2,12 +2,12 @@
 <div class="calendar-covered">
   <%= if @show_date_select?, do: content_tag(:div, "", [class: "calendar-cover"]) %>
   <%= if Enum.empty?(@all_stops) do %>
-    <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination, conn: @conn %>
+    <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination, conn: @conn, error: assigns[:schedule_error] %>
   <% else %>
     <%= render "_stop_filters.html", forward_assigns(@conn) %>
 
     <%= if (assigns[:stop_times] && @stop_times.times == []) && @origin && @destination && !Route.subway?(@route.type) do %>
-      <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination, conn: @conn %>
+      <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: @origin, destination: @destination, conn: @conn, error: assigns[:schedule_error] %>
     <% end %>
 
     <%= if @origin do %>
