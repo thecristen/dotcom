@@ -10,11 +10,11 @@ defmodule Content.BasicPage do
   @type t :: %__MODULE__{
     id: String.t,
     title: String.t,
-    body: {:safe, String.t}
+    body: Phoenix.HTML.Safe.t
   }
 
-  @spec from_api(map) :: __MODULE__.t
-  def from_api(data) do
+  @spec from_api(map) :: t
+  def from_api(%{} = data) do
     %__MODULE__{
       id: field_value(data, "nid"),
       title: field_value(data, "title") || "",

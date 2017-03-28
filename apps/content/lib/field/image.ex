@@ -12,7 +12,7 @@ defmodule Content.Field.Image do
   }
 
   # TODO: do we need to rewrite these urls to use the CDN as well?
-  @spec from_api(any) :: t
+  @spec from_api(map | [map]) :: t
   def from_api([%{"alt" => alt, "url" => url}]) do
     %__MODULE__{alt: alt, url: url}
   end

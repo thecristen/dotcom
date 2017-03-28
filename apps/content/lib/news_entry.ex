@@ -11,7 +11,7 @@ defmodule Content.NewsEntry do
   @type t :: %__MODULE__{
     id: String.t,
     title: String.t,
-    body: {:safe, String.t},
+    body: Phoenix.HTML.Safe.t,
     featured_image: Content.Field.Image.t | nil,
     media_contact_name: String.t | nil,
     media_contact_info: String.t | nil,
@@ -19,8 +19,8 @@ defmodule Content.NewsEntry do
     updated_at: DateTime.t | nil
   }
 
-  @spec from_api(map) :: __MODULE__.t
-  def from_api(data) do
+  @spec from_api(map) :: t
+  def from_api(%{} = data) do
     %__MODULE__{
       id: field_value(data, "nid"),
       title: field_value(data, "title"),
