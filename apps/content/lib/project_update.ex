@@ -35,16 +35,12 @@ defmodule Content.ProjectUpdate do
   end
 
   defp parse_photo_gallery(data) do
-    case data["field_photo_gallery"] do
-      nil -> []
-      photos -> Enum.map(photos, &Content.Field.Image.from_api/1)
-    end
+    data["field_photo_gallery"]
+    |> Enum.map(&Content.Field.Image.from_api/1)
   end
 
   defp parse_downloads(data) do
-    case data["field_downloads"] do
-      nil -> []
-      downloads -> Enum.map(downloads, &Content.Field.Download.from_api/1)
-    end
+    data["field_downloads"]
+    |> Enum.map(&Content.Field.Download.from_api/1)
   end
 end
