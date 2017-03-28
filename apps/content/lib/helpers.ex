@@ -34,8 +34,9 @@ defmodule Content.Helpers do
 
   @spec parse_featured_image(map) :: Content.Field.Image.t | nil
   def parse_featured_image(%{} = data) do
-    if image = data["field_featured_image"] do
-      Content.Field.Image.from_api(image)
+    case data["field_featured_image"] do
+      [image] -> Content.Field.Image.from_api(image)
+      _ -> nil
     end
   end
 
@@ -55,13 +56,13 @@ defmodule Content.Helpers do
     end)
   end
 
-  @spec rewrite_url(String.t, Keyword.t) :: String.t
-  def rewrite_url(url, opts \\ []) when is_binary(url) do
-    root = case opts[:root] || Content.Config.root do
+  @spec rewrite_url(String.t) :: String.t
+  def rewrite_url(url) when is_binary(url) do
+    root = case Content.Config.root do
              nil -> "missing-host-should-not-match"
              host -> String.replace_suffix(host, "/", "")
            end
-    static_path = opts[:static_path] || Content.Config.static_path
+    static_path = Content.Config.static_path
 
     Regex.replace(~r/^#{root}(#{static_path}[^"]+)/, url, fn _, path ->
       Content.Config.apply(:static, [path])

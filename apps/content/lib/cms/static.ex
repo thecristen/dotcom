@@ -218,29 +218,49 @@ defmodule Content.CMS.Static do
       "uuid" => [%{"value" => "173f23c7-facf-4a45-91ec-0c73221e5c3b"}],
       "vid" => [%{"value" => "129"}]}
 
+  def whats_happening_response do
+    @whats_happening
+  end
+
+  def events_response do
+    @all_events
+  end
+
+  def recent_news_response do
+    @recent_news
+  end
+
+  def basic_page_response do
+    @basic_page
+  end
+
+  def project_update_response do
+    @project_update
+  end
+
   def view(path, params \\ [])
   def view("/whats_happening", _) do
-    {:ok, @whats_happening}
+    {:ok, whats_happening_response()}
   end
   def view("/events", opts) do
     results = case Keyword.get(opts, :id) do
-      nil -> @all_events
-      id -> Enum.filter(@all_events, & match?(%{"nid" => [%{"value" => ^id}]}, &1))
+      nil -> events_response()
+      id -> Enum.filter(events_response(), & match?(%{"nid" => [%{"value" => ^id}]}, &1))
     end
 
     {:ok, results}
   end
   def view("/recent-news", _) do
-    {:ok, @recent_news}
+    {:ok, recent_news_response()}
   end
   def view("/accessibility", _) do
-    {:ok, @basic_page}
+    {:ok, basic_page_response()}
   end
   def view("/gov-center-project", _) do
-    {:ok, @project_update}
+    {:ok, project_update_response()}
   end
   def view("/news/winter", _) do
-    {:ok, @recent_news |> List.first}
+    {:ok, recent_news_response() |> List.first}
   end
   def view(_, _) do
     {:error, {"Didn't work", "Sorry"}}
