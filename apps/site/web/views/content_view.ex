@@ -10,6 +10,9 @@ defmodule Site.ContentView do
   def field_has_content?(nil) do
     false
   end
+  def field_has_content?({:safe, content}) do
+    field_has_content?(content)
+  end
   def field_has_content?(content) do
     !Enum.empty?(content)
   end
