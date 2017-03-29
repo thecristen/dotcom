@@ -16,7 +16,7 @@ defmodule Content.ProjectUpdateTest do
 
       assert %Content.ProjectUpdate{
         id: id,
-        body: {:safe, body},
+        body: body,
         title: title,
         featured_image: nil,
         photo_gallery: [],
@@ -26,7 +26,7 @@ defmodule Content.ProjectUpdateTest do
       } = Content.ProjectUpdate.from_api(api_page)
 
       assert id == "3"
-      assert body =~ "<p>Value Engineering (VE)"
+      assert Phoenix.HTML.safe_to_string(body) =~ "<p>Value Engineering (VE)"
       assert title == "Government Center Construction"
       assert DateTime.to_unix(updated_at) == 1489597382
       assert status == "Construction"

@@ -5,12 +5,12 @@ defmodule Content.BasicPage do
 
   import Content.Helpers, only: [field_value: 2, parse_body: 1]
 
-  defstruct [id: "", title: "", body: {:safe, ""}]
+  defstruct [id: "", title: "", body: Phoenix.HTML.raw("")]
 
   @type t :: %__MODULE__{
     id: String.t,
     title: String.t,
-    body: Phoenix.HTML.Safe.t
+    body: Phoenix.HTML.safe
   }
 
   @spec from_api(map) :: t

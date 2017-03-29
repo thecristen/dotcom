@@ -16,16 +16,15 @@ defmodule Content.Helpers do
     end
   end
 
-  @spec handle_html(String.t | nil) :: Phoenix.HTML.Safe.t
+  @spec handle_html(String.t | nil) :: Phoenix.HTML.safe
   def handle_html(html) do
-    html = (html || "")
+    (html || "")
     |> HtmlSanitizeEx.html5
     |> rewrite_static_file_links
-
-    {:safe, html}
+    |> Phoenix.HTML.raw
   end
 
-  @spec parse_body(map) :: Phoenix.HTML.Safe.t
+  @spec parse_body(map) :: Phoenix.HTML.safe
   def parse_body(%{} = data) do
     data
     |> field_value("body")

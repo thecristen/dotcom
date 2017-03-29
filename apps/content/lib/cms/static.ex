@@ -1,101 +1,6 @@
 defmodule Content.CMS.Static do
   @behaviour Content.CMS
 
-  @whats_happening [%{"changed" => [%{"value" => "1490139200"}],
-       "created" => [%{"value" => "1490139146"}],
-       "default_langcode" => [%{"value" => "1"}],
-       "field_wh_blurb" => [%{"value" => "Looking good, is it not? Wait, I guess you're probably on this page already."}],
-       "field_wh_link" => [%{"options" => [], "title" => "",
-          "uri" => "https://dev.mbtace.com"}],
-       "field_wh_thumb" => [%{"alt" => "A sleeping capybara", "height" => "609",
-          "target_id" => "23", "target_type" => "file",
-          "target_uuid" => "64a597be-e589-4446-8e15-24c66bd8b417", "title" => "",
-          "url" => "http://mbta.kbox.site/sites/default/files/2017-03/qaGYucL_0.jpg",
-          "width" => "553"}], "langcode" => [%{"value" => "en"}],
-       "nid" => [%{"value" => "22"}], "path" => [],
-       "promote" => [%{"value" => "0"}], "revision_log" => [],
-       "revision_timestamp" => [%{"value" => "1490139200"}],
-       "revision_translation_affected" => [%{"value" => "1"}],
-       "revision_uid" => [%{"target_id" => "12", "target_type" => "user",
-          "target_uuid" => "28c3025b-59e4-43c8-813b-74786413b884",
-          "url" => "/user/12"}], "status" => [%{"value" => "1"}],
-       "sticky" => [%{"value" => "0"}],
-       "title" => [%{"value" => "Hey, check this out!"}],
-       "type" => [%{"target_id" => "what_s_happening", "target_type" => "node_type",
-          "target_uuid" => "f2c56f83-bc27-43e4-a54b-d8c06413f0d3"}],
-       "uid" => [%{"target_id" => "12", "target_type" => "user",
-          "target_uuid" => "28c3025b-59e4-43c8-813b-74786413b884",
-          "url" => "/user/12"}],
-       "uuid" => [%{"value" => "4a6728b4-74e5-4846-8dba-9af5eabb6858"}],
-       "vid" => [%{"value" => "172"}]}]
-
-  @all_events [%{"body" => [%{"format" => "full_html", "summary" => "",
-          "value" => "<p><strong>Massachusetts Department of Transportation Meeting of the Standing Committee on Finance and Audit </strong></p>\r\n"}],
-       "changed" => [%{"value" => "1490019443"}],
-       "created" => [%{"value" => "1485206493"}],
-       "default_langcode" => [%{"value" => "1"}],
-       "field_address" => [%{"value" => "MassDOT, 10 Park Plaza\r\n\r\nTransportation Boardroom\r\n\r\nBoston, MA"}],
-       "field_agenda" => [%{"format" => "basic_html",
-          "value" => "<p><strong>Call to Order Chair– Betsy Taylor</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong><em>Public Comment Period</em></strong><strong><em>&nbsp;</em></strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>PROCEDURAL</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><strong>Approval of minutes of December 12, 2016 meeting.</strong></p>\r\n\r\n<p><strong>&nbsp;</strong></p>\r\n\r\n<p><strong>PRESENTATIONS</strong></p>\r\n\r\n<p><strong>&nbsp;</strong></p>\r\n\r\n<p>Financial Report &nbsp;from the CFO</p>\r\n\r\n<p>FY17 Budget Recast</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>KPMG Discussion ofMassDOT’s FY16 Annual Report</p>\r\n\r\n<p>Update on Opportunitieson Four Highway Service Plazas</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Internal Audit</p>\r\n\r\n<p>Brockton Area Transit</p>\r\n"}],
-       "field_city" => [%{"value" => "Boston"}], "field_end_time" => [],
-       "field_location" => [%{"value" => "MassDOT"}],
-       "field_map_address" => [%{"value" => "MassDOT, 10 Park Plaza\r\n\r\nTransportation Boardroom\r\n\r\nBoston, MA"}],
-       "field_notes" => [%{"format" => "basic_html",
-          "value" => "<p><strong>THIS AGENDA HAS BEEN PREPARED IN ADVANCE AND DOES&nbsp;</strong><strong>NOT NECESSARILY INCLUDE ALL MATTERS WHICH MAY BE TAKEN UP AT THIS MEETING</strong></p>\r\n"}],
-       "field_start_time" => [%{"value" => "2017-01-23T15:00:00"}],
-       "field_state" => [%{"value" => "MA"}],
-       "field_street_address" => [%{"value" => "10 Park Plaza"}],
-       "field_who" => [%{"value" => "Board Members"}],
-       "langcode" => [%{"value" => "en"}], "nid" => [%{"value" => "17"}],
-       "path" => [], "promote" => [%{"value" => "0"}], "revision_log" => [],
-       "revision_timestamp" => [%{"value" => "1490019443"}],
-       "revision_translation_affected" => [%{"value" => "1"}],
-       "revision_uid" => [%{"target_id" => "10", "target_type" => "user",
-          "target_uuid" => "11008298-0b5b-4491-a92c-97ae40f81a79",
-          "url" => "/user/10"}], "status" => [%{"value" => "1"}],
-       "sticky" => [%{"value" => "0"}],
-       "title" => [%{"value" => "Finance & Audit Committee Meeting"}],
-       "type" => [%{"target_id" => "event", "target_type" => "node_type",
-          "target_uuid" => "db926d32-29a6-4c0b-8220-7de2c69b78c7"}],
-       "uid" => [%{"target_id" => "7", "target_type" => "user",
-          "target_uuid" => "d403ed87-c9e8-46d0-963f-4f9719dc599b",
-          "url" => "/user/7"}],
-       "uuid" => [%{"value" => "34083bf0-a9aa-4816-b247-c9c5f838bacf"}],
-       "vid" => [%{"value" => "170"}]},
-     %{"body" => [%{"format" => "basic_html", "summary" => "",
-          "value" => "<p>The AACT board of directors meets from 10:00 AM to 12 noon and AACT members meet from 1:00 PM to 3:00 PM, on the third Wednesday of this month.</p>\r\n\r\n<p>AACT meetings are held in the State Transportation Building, 10 Park Plaza, Boston, second floor, in Conference Rooms 2 and 3, unless otherwise noted.</p>\r\n\r\n<p>To obtain a copy of this calendar in an accessible format, request special accommodations for a meeting, check on the status of a meeting, or ask any questions about AACT, please contact Janie Guion, AACT Coordinator, at 857-702-3658 (voice), 617-570-9193 (TTY), or AACT@ctps.org (email).</p>\r\n\r\n<p>THIS INFORMATION IS SUBJECT TO CHANGE.</p>\r\n"}],
-       "changed" => [%{"value" => "1490019416"}],
-       "created" => [%{"value" => "1481048772"}],
-       "default_langcode" => [%{"value" => "1"}],
-       "field_address" => [%{"value" => "MassDOT, 10 Park Plaza, Transportation Board Rm., Boston, MA 02116"}],
-       "field_agenda" => [%{"format" => "basic_html",
-          "value" => "<p>The AACT board of directors meets from 10:00 AM to 12 noon and AACT members meet from 1:00 PM to 3:00 PM, on the third Wednesday of this month.</p>\r\n\r\n<p>AACT meetings are held in the State Transportation Building, 10 Park Plaza, Boston, second floor, in Conference Rooms 2 and 3, unless otherwise noted.</p>\r\n\r\n<p>To obtain a copy of this calendar in an accessible format, request special accommodations for a meeting, check on the status of a meeting, or ask any questions about AACT, please contact Janie Guion, AACT Coordinator, at 857-702-3658 (voice), 617-570-9193 (TTY), or AACT@ctps.org (email).</p>\r\n\r\n<p>THIS INFORMATION IS SUBJECT TO CHANGE.</p>\r\n"}],
-       "field_city" => [%{"value" => "Boston"}], "field_end_time" => [],
-       "field_location" => [%{"value" => "MassDOT"}],
-       "field_map_address" => [%{"value" => "10 Park Plaza, Boston, MA 02116"}],
-       "field_notes" => [%{"format" => "basic_html",
-          "value" => "<p>Meeting will be held in Conference Rooms 2 &amp; 3 on the second floor of the State Transportation Building.</p>\r\n"}],
-       "field_start_time" => [%{"value" => "2017-03-13T16:00:00"}],
-       "field_state" => [%{"value" => "MA"}],
-       "field_street_address" => [%{"value" => "10 Park Plaza"}],
-       "field_who" => [%{"value" => "Board Members"}],
-       "langcode" => [%{"value" => "en"}], "nid" => [%{"value" => "5"}],
-       "path" => [], "promote" => [%{"value" => "0"}], "revision_log" => [],
-       "revision_timestamp" => [%{"value" => "1490019416"}],
-       "revision_translation_affected" => [%{"value" => "1"}],
-       "revision_uid" => [%{"target_id" => "10", "target_type" => "user",
-          "target_uuid" => "11008298-0b5b-4491-a92c-97ae40f81a79",
-          "url" => "/user/10"}], "status" => [%{"value" => "1"}],
-       "sticky" => [%{"value" => "0"}],
-       "title" => [%{"value" => "AACT Executive Board Meeting"}],
-       "type" => [%{"target_id" => "event", "target_type" => "node_type",
-          "target_uuid" => "db926d32-29a6-4c0b-8220-7de2c69b78c7"}],
-       "uid" => [%{"target_id" => "1", "target_type" => "user",
-          "target_uuid" => "4a887460-7f79-4e33-9f24-2cdbbbf7a4c1",
-          "url" => "/user/1"}],
-       "uuid" => [%{"value" => "1cc74f68-8560-4d50-a6df-ec6d7524620b"}],
-       "vid" => [%{"value" => "169"}]}]
-
   @recent_news [%{"body" => [%{"format" => "full_html", "summary" => "",
       "value" => "<p>BOSTON -- The MBTA's Fiscal and Management Control Board (FMCB) today approved a recommendation of MBTA managers to execute a contract for construction of the brand new Blue Hill Avenue Commuter Rail Station between Blue Hill Avenue (Route 28) and Cummins Highway on the Fairmount Line. The contract will be executed with McCourt Construction Company for $16.97 million.</p>\r\n\r\n<p>Placed in a primarily residential community, Blue Hill Avenue Station will be constructed as the ninth station for the Fairmount Commuter Rail Line and provide a direct ride to downtown Boston in 20 minutes with no transfers needed. The station will be located approximately six-and-a-half miles from South Station and a quarter mile from Mattapan Square, connecting the community to other neighborhoods along the corridor. The station design includes one center-island platform between Blue Hill Avenue and Cummins Highway located below the street level measuring approximately 768 feet as well as two covered, fully accessible pedestrian ramps from both Cummins Highway and Blue Hill Avenue. The station will also include canopies, warning strips, benches/windscreens, closed circuit television (CCTV) security cameras, new lighting, new messaging signs, train approach warning systems, and historical graphic panels.</p>\r\n\r\n<p>The MassDOT Board of Directors and FMCB previously authorized funding for the project on September 2, 2015, in the amount of $26.55 million. The project was advertised in December 2016 with seven bids received. After completion of a bid analysis, the lowest bid of $16.97 million from McCourt Construction Company was chosen.</p>\r\n\r\n<p>Blue Hill Avenue Station is expected to be open along the Fairmount Line for boarding and disembarking in 2019 after a two-year construction period. On a daily basis, approximately 1,300 customers use the Fairmount Commuter Rail Line. Wachusett Station on the Fitchburg Commuter Rail Line was the last station to open in September 2016 with Boston Landing Station on the Framingham/Worcester Line scheduled to be open to passengers in April 2017.</p>\r\n"}],
        "changed" => [%{"value" => "1488904773"}],
@@ -218,14 +123,6 @@ defmodule Content.CMS.Static do
       "uuid" => [%{"value" => "173f23c7-facf-4a45-91ec-0c73221e5c3b"}],
       "vid" => [%{"value" => "129"}]}
 
-  def whats_happening_response do
-    @whats_happening
-  end
-
-  def events_response do
-    @all_events
-  end
-
   def recent_news_response do
     @recent_news
   end
@@ -239,17 +136,6 @@ defmodule Content.CMS.Static do
   end
 
   def view(path, params \\ [])
-  def view("/whats_happening", _) do
-    {:ok, whats_happening_response()}
-  end
-  def view("/events", opts) do
-    results = case Keyword.get(opts, :id) do
-      nil -> events_response()
-      id -> Enum.filter(events_response(), & match?(%{"nid" => [%{"value" => ^id}]}, &1))
-    end
-
-    {:ok, results}
-  end
   def view("/recent-news", _) do
     {:ok, recent_news_response()}
   end
@@ -263,6 +149,6 @@ defmodule Content.CMS.Static do
     {:ok, recent_news_response() |> List.first}
   end
   def view(_, _) do
-    {:error, {"Didn't work", "Sorry"}}
+    {:error, "Not able to retrieve response"}
   end
 end
