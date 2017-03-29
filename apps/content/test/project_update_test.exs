@@ -28,7 +28,7 @@ defmodule Content.ProjectUpdateTest do
       assert id == "3"
       assert Phoenix.HTML.safe_to_string(body) =~ "<p>Value Engineering (VE)"
       assert title == "Government Center Construction"
-      assert DateTime.to_unix(updated_at) == 1489597382
+      assert DateTime.to_unix(updated_at) == 1_489_597_382
       assert status == "Construction"
     end
 

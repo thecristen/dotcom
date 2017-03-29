@@ -24,7 +24,7 @@ defmodule Content.NewsEntryTest do
       assert media_contact_name == "MassDOT Press Office"
       assert media_contact_info == "857-368-8500"
       assert Phoenix.HTML.safe_to_string(more_information) == ""
-      assert DateTime.to_unix(updated_at) == 1488904773
+      assert DateTime.to_unix(updated_at) == 1_488_904_773
     end
   end
 end
