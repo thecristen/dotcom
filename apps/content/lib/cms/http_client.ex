@@ -17,8 +17,8 @@ defmodule Content.CMS.HTTPClient do
   end
 
   defp make_url(path) do
-    if root = Content.Config.root() do
-      {:ok, root <> path}
+    if url = Content.Config.url(path) do
+      {:ok, url}
     else
       {:error, :no_root}
     end
