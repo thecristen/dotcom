@@ -61,5 +61,21 @@ defmodule Content.CMS.HTTPClientTest do
 
       Application.put_env(:content, :drupal, original_config)
     end
+
+    test "Still works if given host has trailing slash as well", %{bypass: bypass} do
+      original_config = Application.get_env(:content, :drupal)
+      Application.put_env(:content, :drupal,
+        put_in(original_config[:root], original_config[:root] <> "/"))
+
+      Bypass.expect bypass, fn conn ->
+        assert "/page" == conn.request_path
+        assert Plug.Conn.fetch_query_params(conn).params["_format"] == "json"
+        Plug.Conn.resp(conn, 200, @page_json)
+      end
+
+      assert {:ok, %{}} = Content.CMS.HTTPClient.view("/page")
+
+      Application.put_env(:content, :drupal, original_config)
+    end
   end
 end
