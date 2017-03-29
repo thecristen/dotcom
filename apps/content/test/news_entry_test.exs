@@ -1,8 +1,6 @@
 defmodule Content.NewsEntryTest do
   use ExUnit.Case
 
-  import Content.CMSTestHelpers, only: [update_api_response: 3]
-
   setup do
     %{api_page: Content.CMS.Static.recent_news_response |> List.first}
   end
