@@ -1,21 +1,20 @@
 defmodule Content.Factory do
-  def event_page_factory do
-    %Content.Page{
+  import Phoenix.HTML, only: [raw: 1]
+
+  def event_factory do
+    %Content.Event{
       id: 1,
-      body: "AACT Meetings are held in the State Transportation Building.",
+      body: raw("AACT Meetings are held in the State Transportation Building."),
       title: "AACT Membership Meeting",
-      type: "event",
-      fields: %{
-        location: "MassDOT",
-        street_address: "10 Park Plaza",
-        city: "Boston",
-        state: "MA",
-        start_time: Timex.now(),
-        end_time: Timex.shift(Timex.now(), hours: 1),
-        agenda: "Event Agenda",
-        notes: "Event Notes",
-        who: "Board Members"
-      }
+      location: "MassDOT",
+      street_address: "10 Park Plaza",
+      city: "Boston",
+      state: "MA",
+      start_time: Timex.now(),
+      end_time: Timex.shift(Timex.now(), hours: 1),
+      agenda: raw("Event Agenda"),
+      notes: raw("Event Notes"),
+      who: "Board Members"
     }
   end
 end

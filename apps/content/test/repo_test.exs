@@ -185,4 +185,30 @@ defmodule Content.RepoTest do
       assert nil == Content.Repo.get_page("/does/not/exist")
     end
   end
+
+  describe "events/1" do
+    test "returns list of Content.Event" do
+      assert [%Content.Event{
+        id: id,
+        body: body
+      } | _] = Content.Repo.events()
+
+      assert id == "17"
+      assert safe_to_string(body) =~ "<p><strong>Massachusetts Department"
+    end
+  end
+
+  describe "get_event!/1" do
+    test "returns the event if it's present" do
+      assert %Content.Event{
+        id: "17"
+      } = Content.Repo.get_event!("17")
+    end
+
+    test "raises Content.NoResultsError if not present" do
+      assert_raise Content.NoResultsError, fn ->
+        Content.Repo.get_event!("nonexistent")
+      end
+    end
+  end
 end

@@ -21,10 +21,11 @@ defmodule Content.CMS.HTTPClientTest do
       Bypass.expect bypass, fn conn ->
         assert "/page" == conn.request_path
         assert Plug.Conn.fetch_query_params(conn).params["_format"] == "json"
+        assert Plug.Conn.fetch_query_params(conn).params["foo"] == "bar"
         Plug.Conn.resp(conn, 200, @page_json)
       end
 
-      assert {:ok, %{}} = Content.CMS.HTTPClient.view("/page")
+      assert {:ok, %{}} = Content.CMS.HTTPClient.view("/page", foo: "bar")
     end
 
     test "Returns error tuple if HTTP status code is not successful", %{bypass: bypass} do

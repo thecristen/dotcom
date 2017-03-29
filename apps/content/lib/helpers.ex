@@ -8,14 +8,6 @@ defmodule Content.Helpers do
     end
   end
 
-  @spec parse_time(String.t) :: DateTime.t | nil
-  def parse_time(unix_string) do
-    case Integer.parse(unix_string) do
-      {seconds, ""} -> Timex.from_unix(seconds)
-      _ -> nil
-    end
-  end
-
   @spec handle_html(String.t | nil) :: Phoenix.HTML.safe
   def handle_html(html) do
     (html || "")
@@ -39,10 +31,26 @@ defmodule Content.Helpers do
     end
   end
 
+  @spec parse_iso_time(String.t) :: DateTime.t | nil
+  def parse_iso_time(time) do
+    case Timex.parse(time, "{ISOdate}T{ISOtime}") do
+      {:ok, dt} -> Timex.to_datetime(dt, "Etc/UTC")
+      _ -> nil
+    end
+  end
+
+  @spec parse_unix_time(String.t) :: DateTime.t | nil
+  def parse_unix_time(unix_string) do
+    case Integer.parse(unix_string) do
+      {seconds, ""} -> Timex.from_unix(seconds)
+      _ -> nil
+    end
+  end
+
   @spec parse_updated_at(map) :: DateTime.t | nil
   def parse_updated_at(%{} = data) do
     if changed = field_value(data, "changed") do
-      parse_time(changed)
+      parse_unix_time(changed)
     end
   end
 

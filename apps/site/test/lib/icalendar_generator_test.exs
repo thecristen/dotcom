@@ -1,12 +1,12 @@
 defmodule IcalendarGeneratorTest do
   use ExUnit.Case, async: true
   import Content.Factory
-  import Content.FactoryHelpers
+  import Phoenix.HTML, only: [raw: 1]
   alias Site.IcalendarGenerator
 
   describe "to_ical/1" do
     test "includes the appropriate headers for the iCalendar file format" do
-      event = event_page_factory()
+      event = event_factory()
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -20,12 +20,12 @@ defmodule IcalendarGeneratorTest do
 
     test "includes the event details" do
       event =
-        event_page_factory()
-        |> update_attribute(:body, "<p>Here is a <strong>description</strong></p>.")
-        |> update_fields_attribute(:location, "MassDot")
-        |> update_fields_attribute(:street_address, "10 Park Plaza")
-        |> update_fields_attribute(:city, "Boston")
-        |> update_fields_attribute(:state, "MA")
+        event_factory()
+        |> Map.put(:body, raw("<p>Here is a <strong>description</strong></p>."))
+        |> Map.put(:location, "MassDot")
+        |> Map.put(:street_address, "10 Park Plaza")
+        |> Map.put(:city, "Boston")
+        |> Map.put(:state, "MA")
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -38,7 +38,7 @@ defmodule IcalendarGeneratorTest do
     end
 
     test "includes unique identifiers for updating an existing calendar event" do
-      event = event_page_factory()
+      event = event_factory()
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -54,9 +54,9 @@ defmodule IcalendarGeneratorTest do
       end_datetime = Timex.to_datetime({{2017,2,28}, {16, 00, 00}})
 
       event =
-        event_page_factory()
-        |> update_fields_attribute(:start_time, start_datetime)
-        |> update_fields_attribute(:end_time, end_datetime)
+        event_factory()
+        |> Map.put(:start_time, start_datetime)
+        |> Map.put(:end_time, end_datetime)
 
       result =
         IcalendarGenerator.to_ical(event)
@@ -68,8 +68,8 @@ defmodule IcalendarGeneratorTest do
 
     test "when the event does not have an end time" do
       event =
-        event_page_factory()
-        |> update_fields_attribute(:end_time, nil)
+        event_factory()
+        |> Map.put(:end_time, nil)
 
       result =
         IcalendarGenerator.to_ical(event)

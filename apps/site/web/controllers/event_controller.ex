@@ -4,7 +4,7 @@ defmodule Site.EventController do
 
   def index(conn, params) do
     date_range = EventDateRange.build(params, Util.today)
-    events = Content.Repo.all("events", date_range)
+    events = Content.Repo.events(Enum.into(date_range, []))
 
     conn
     |> assign(:month, date_range.start_time_gt)
@@ -13,7 +13,7 @@ defmodule Site.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    event = Content.Repo.get!("events", id)
+    event = Content.Repo.get_event!(id)
 
     conn
     |> assign_breadcrumbs(event)

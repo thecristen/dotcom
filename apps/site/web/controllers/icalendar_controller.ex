@@ -3,7 +3,7 @@ defmodule Site.IcalendarController do
   alias Site.IcalendarGenerator
 
   def show(conn, %{"event_id" => id}) do
-    event = Content.Repo.get("events", id)
+    event = Content.Repo.get_event!(id)
 
     conn
     |> put_resp_content_type("text/calendar")

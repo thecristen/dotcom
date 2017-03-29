@@ -1,8 +1,8 @@
 defmodule Site.IcalendarGenerator do
   import Site.Router.Helpers
 
-  @spec to_ical(Content.Page.t) :: String.t
-  def to_ical(event) do
+  @spec to_ical(Content.Event.t) :: String.t
+  def to_ical(%Content.Event{} = event) do
     [
       "BEGIN:VCALENDAR\n",
       "VERSION:2.0\n",
@@ -23,15 +23,15 @@ defmodule Site.IcalendarGenerator do
 
   defp full_address(event) do
     [
-      event.fields.location, " ",
-      event.fields.street_address, " ",
-      event.fields.city, ", ",
-      event.fields.state
+      event.location, " ",
+      event.street_address, " ",
+      event.city, ", ",
+      event.state
     ]
   end
 
   defp description(event) do
-    event.body |> HtmlSanitizeEx.strip_tags
+    event.body |> Phoenix.HTML.safe_to_string |> HtmlSanitizeEx.strip_tags
   end
 
   defp timestamp do
@@ -42,13 +42,13 @@ defmodule Site.IcalendarGenerator do
     event_url(Site.Endpoint, :show, event.id)
   end
 
-  defp start_time(%Content.Page{fields: %{start_time: nil}}), do: ""
-  defp start_time(%Content.Page{fields: %{start_time: start_time}}) do
+  defp start_time(%Content.Event{start_time: nil}), do: ""
+  defp start_time(%Content.Event{start_time: start_time}) do
     start_time |> convert_to_ical_format
   end
 
-  defp end_time(%Content.Page{fields: %{end_time: nil}}), do: ""
-  defp end_time(%Content.Page{fields: %{end_time: end_time}}) do
+  defp end_time(%Content.Event{end_time: nil}), do: ""
+  defp end_time(%Content.Event{end_time: end_time}) do
     end_time |> convert_to_ical_format
   end
 

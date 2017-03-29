@@ -24,6 +24,22 @@ defmodule Content.Repo do
     end
   end
 
+  @spec events(Keyword.t) :: [Content.Event.t]
+  def events(opts \\ []) do
+    case @cms_api.view("/events", opts) do
+      {:ok, api_data} -> Enum.map(api_data, &Content.Event.from_api/1)
+      _ -> []
+    end
+  end
+
+  @spec get_event!(String.t) :: Content.Event.t | no_return
+  def get_event!(id) do
+    case events(id: id) do
+      [event] -> event
+      _ -> raise Content.NoResultsError
+    end
+  end
+
   @spec page(String.t) :: {:ok, Content.Page.t} | {:error, any}
   def page(path, params \\ []) when is_binary(path) do
     params = put_in params[:_format], "json"

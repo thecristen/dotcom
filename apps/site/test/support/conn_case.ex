@@ -22,7 +22,6 @@ defmodule Site.ConnCase do
 
       import Site.Router.Helpers
       import Content.Factory
-      import Content.FactoryHelpers
 
       # The default endpoint for testing
       @endpoint Site.Endpoint
