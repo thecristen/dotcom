@@ -21,6 +21,20 @@ defmodule Content.Page do
     fields: %{}
   ]
 
+  @doc """
+  Expects parsed json from drupal CMS. Should be one item (not array of items)
+  """
+  @spec from_api(map) :: Content.BasicPage.t | Content.NewsEntry.t | Content.ProjectUpdate.t
+  def from_api(%{"type" => [%{"target_id" => "page"}]} = api_data) do
+    Content.BasicPage.from_api(api_data)
+  end
+  def from_api(%{"type" => [%{"target_id" => "news_entry"}]} = api_data) do
+    Content.NewsEntry.from_api(api_data)
+  end
+  def from_api(%{"type" => [%{"target_id" => "project_update"}]} = api_data) do
+    Content.ProjectUpdate.from_api(api_data)
+  end
+
   def rewrite_static_files(%Content.Page{body: body} = page) when is_binary(body) do
     %{page | body: rewrite_static_files(body)}
   end

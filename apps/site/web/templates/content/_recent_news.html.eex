@@ -3,11 +3,13 @@
   <div class="row">
     <%= for article <- @recent_news do %>
       <div class="col-sm-4">
-        <img
-          class="recent-news-featured-image"
-          src="<%= article.fields.featured_image.url %>"
-          alt="<%= article.fields.featured_image.alt %>"
-        />
+        <%= if article.featured_image do %>
+          <img
+            class="recent-news-featured-image"
+            src="<%= article.featured_image.url %>"
+            alt="<%= article.featured_image.alt %>"
+          />
+        <% end %>
         <p class="news-metadata">
           <%= format_date(article.updated_at) %>
         </p>

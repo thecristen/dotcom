@@ -19,7 +19,7 @@ defmodule Content.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :timex, :httpoison, :poison, :plug, :tzdata],
+    [applications: [:logger, :timex, :httpoison, :poison, :plug, :tzdata, :phoenix_html],
      mod: {Content, []}]
   end
 
@@ -49,6 +49,7 @@ defmodule Content.Mixfile do
      {:excheck, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test},
      {:excoveralls, "~> 0.5", only: :test},
-     {:mock, "~> 0.2.0", only: :test}]
+     {:mock, "~> 0.2.0", only: :test},
+     {:phoenix_html, "~> 2.6"}]
   end
 end

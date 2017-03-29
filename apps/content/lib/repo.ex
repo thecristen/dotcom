@@ -1,9 +1,29 @@
 defmodule Content.Repo do
   @doc """
 
-  Fetches a %Content.Page{} for a given path.
+  Interface for the content CMS. Returns a variety of content
+  related structs, like %Content.Event{} or %Content.BasicPage{}
 
   """
+
+  @cms_api Application.get_env(:content, :cms_api)
+
+  @spec recent_news() :: [Content.NewsEntry.t]
+  def recent_news do
+    case @cms_api.view("/recent-news") do
+      {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
+      _ -> []
+    end
+  end
+
+  @spec get_page(String.t) :: Content.BasicPage.t | Content.NewsEntry.t | Content.ProjectUpdate.t | nil
+  def get_page(path) do
+    case @cms_api.view(path) do
+      {:ok, api_data} -> Content.Page.from_api(api_data)
+      _ -> nil
+    end
+  end
+
   @spec page(String.t) :: {:ok, Content.Page.t} | {:error, any}
   def page(path, params \\ []) when is_binary(path) do
     params = put_in params[:_format], "json"

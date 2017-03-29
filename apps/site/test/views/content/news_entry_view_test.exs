@@ -3,9 +3,7 @@ defmodule Site.NewsEntryViewTest do
 
   describe "news_entry.html" do
     test "does not display more information when the more_information field is empty", %{conn: conn} do
-      page =
-        build_page_content()
-        |> update_in([:fields, :more_information], &(&1 = []))
+      page = %{build_page_content() | more_information: ""}
 
       metadata = %{ recent_news: [] }
 
@@ -29,17 +27,14 @@ defmodule Site.NewsEntryViewTest do
     end
 
     def build_page_content do
-      %{
-        body: "Stay safe this winter",
+      %Content.NewsEntry{
+        body: Phoenix.HTML.raw("Stay safe this winter"),
         title: "News Title",
-        type: "news_entry",
         updated_at: DateTime.utc_now,
-        fields: %{
-          more_information: "Visit us for more information.",
-          featured_image: %Content.Page.Image{
-            alt: "alt",
-            url: "image_url",
-          }
+        more_information: "Visit us for more information",
+        featured_image: %Content.Field.Image{
+          alt: "alt",
+          url: "image_url"
         }
       }
     end

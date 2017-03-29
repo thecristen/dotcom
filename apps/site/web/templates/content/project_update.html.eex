@@ -1,17 +1,19 @@
-<h1><%= @page.title |> raw %></h1>
+<h1><%= @page.title %></h1>
 
-<img class="project-update-featured-image" alt="<%= @page.fields.featured_image.alt %>" src="<%= @page.fields.featured_image.url %>"/>
+<%= if @page.featured_image do %>
+  <img class="project-update-featured-image" alt="<%= @page.featured_image.alt %>" src="<%= @page.featured_image.url %>"/>
+<% end %>
 
 <ul class="project-update-metadata">
   <li><strong>Posted on:</strong> <%= format_full_date(@page.updated_at) %></li>
-  <li><strong>Status:</strong> <%= @page.fields.status %></li>
+  <li><strong>Status:</strong> <%= @page.status %></li>
 </ul>
 
-<%= @page.body |> raw %>
+<%= @page.body %>
 
 <div class="carousel-active" id="carousel-target"></div>
 <ul class="carousel" data-target="#carousel-target">
-  <%= for {image, index} <- @page.fields |> Map.get(:photo_gallery, []) |> Enum.with_index do %>
+  <%= for {image, index} <- Enum.with_index(@page.photo_gallery) do %>
     <li class="carousel-item" tabindex="0">
       <figure>
         <img class="img-fluid" aria-described-by="caption-<%= index %>" src="<%= image.url %>" />
@@ -22,7 +24,7 @@
   <li class="clearfix"></li>
 </ul>
 
-<% files = Map.get(@page.fields, :downloads, []) %>
+<% files = @page.downloads %>
 <%= if files != [] do %>
   <h2>Downloads</h2>
   <div class="btn-group">

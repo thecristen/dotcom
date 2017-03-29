@@ -1,6 +1,8 @@
 defmodule Content.RepoTest do
   use ExUnit.Case
 
+  import Phoenix.HTML, only: [safe_to_string: 1]
+
   @page_body [Path.dirname(__ENV__.file), "fixtures", "page.json"]
   |> Path.join
   |> File.read!
@@ -135,6 +137,52 @@ defmodule Content.RepoTest do
       assert_raise Content.ErrorFetchingContent, fn ->
         Content.Repo.get!("eventz", 1)
       end
+    end
+  end
+
+  describe "recent_news" do
+    test "returns list of Content.NewsEntry" do
+      [%Content.NewsEntry{
+        body: body,
+        media_contact_name: media_contact_name,
+        featured_image: featured_image
+        } | _] = Content.Repo.recent_news
+
+      assert safe_to_string(body) =~ "BOSTON -- The MBTA"
+      assert media_contact_name == "MassDOT Press Office"
+      assert featured_image.alt == "Commuter Rail Train"
+      assert featured_image.url =~ "Allston%20train.jpg"
+    end
+  end
+
+  describe "get_page/1" do
+    test "returns a Content.BasicPage" do
+      %Content.BasicPage{title: title, body: body} = Content.Repo.get_page("/accessibility")
+      assert title == "Accessibility at the T"
+      assert safe_to_string(body) =~ "From accessible buses, trains, and stations"
+    end
+
+    test "returns a Content.NewsEntry" do
+      %Content.NewsEntry{body: body} = Content.Repo.get_page("/news/winter")
+      assert safe_to_string(body) =~ "BOSTON -- The MBTA"
+    end
+
+    test "returns a Content.ProjectUpdate" do
+      %Content.ProjectUpdate{
+        body: body,
+        featured_image: featured_image,
+        photo_gallery: [photo_gallery_image | _] = photo_gallery
+      } = Content.Repo.get_page("/gov-center-project")
+
+      assert safe_to_string(body) =~ "Value Engineering (VE), managed by"
+      assert featured_image.alt == "Proposed Government Center Head House"
+      assert length(photo_gallery) == 2
+      assert photo_gallery_image.alt == "Government Center during construction"
+      assert photo_gallery_image.url =~ "Gov%20Center%20Photo%201%281%29.jpg"
+    end
+
+    test "returns nil if no such page" do
+      assert nil == Content.Repo.get_page("/does/not/exist")
     end
   end
 end
