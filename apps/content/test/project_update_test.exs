@@ -4,7 +4,7 @@ defmodule Content.ProjectUpdateTest do
   import Content.CMSTestHelpers, only: [update_api_response_whole_field: 3]
 
   setup do
-    %{api_page: Content.CMS.Static.project_update_response}
+    %{api_page: Content.CMS.Static.project_update_response()}
   end
 
   describe "from_api/1" do

@@ -41,9 +41,8 @@ defmodule Content.Helpers do
 
   @spec parse_updated_at(map) :: DateTime.t | nil
   def parse_updated_at(%{} = data) do
-    case field_value(data, "changed") do
-      nil -> nil
-      changed -> parse_time(changed)
+    if changed = field_value(data, "changed") do
+      parse_time(changed)
     end
   end
 

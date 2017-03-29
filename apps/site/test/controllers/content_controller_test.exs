@@ -1,5 +1,5 @@
 defmodule ContentControllerTest do
-  use Site.ConnCase
+  use Site.ConnCase, async: true
 
   describe "GET - page" do
     test "renders a news entry when the CMS returns a Content.NewsEntry", %{conn: conn} do

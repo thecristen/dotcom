@@ -2,7 +2,7 @@ defmodule Content.NewsEntryTest do
   use ExUnit.Case
 
   setup do
-    %{api_page: Content.CMS.Static.recent_news_response |> List.first}
+    %{api_page: Content.CMS.Static.recent_news_response() |> List.first}
   end
 
   describe "from_api/1" do
