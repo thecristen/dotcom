@@ -1,6 +1,8 @@
 defmodule Content.RepoTest do
   use ExUnit.Case
 
+  import Phoenix.HTML, only: [safe_to_string: 1]
+
   @page_body [Path.dirname(__ENV__.file), "fixtures", "page.json"]
   |> Path.join
   |> File.read!
@@ -141,12 +143,12 @@ defmodule Content.RepoTest do
   describe "recent_news" do
     test "returns list of Content.NewsEntry" do
       [%Content.NewsEntry{
-        body: {:safe, body},
+        body: body,
         media_contact_name: media_contact_name,
         featured_image: featured_image
         } | _] = Content.Repo.recent_news
 
-      assert body =~ "BOSTON -- The MBTA"
+      assert safe_to_string(body) =~ "BOSTON -- The MBTA"
       assert media_contact_name == "MassDOT Press Office"
       assert featured_image.alt == "Commuter Rail Train"
       assert featured_image.url =~ "Allston%20train.jpg"
@@ -155,24 +157,24 @@ defmodule Content.RepoTest do
 
   describe "get_page/1" do
     test "returns a Content.BasicPage" do
-      %Content.BasicPage{title: title, body: {:safe, body}} = Content.Repo.get_page("/accessibility")
+      %Content.BasicPage{title: title, body: body} = Content.Repo.get_page("/accessibility")
       assert title == "Accessibility at the T"
-      assert body =~ "From accessible buses, trains, and stations"
+      assert safe_to_string(body) =~ "From accessible buses, trains, and stations"
     end
 
     test "returns a Content.NewsEntry" do
-      %Content.NewsEntry{body: {:safe, body}} = Content.Repo.get_page("/news/winter")
-      assert body =~ "BOSTON -- The MBTA"
+      %Content.NewsEntry{body: body} = Content.Repo.get_page("/news/winter")
+      assert safe_to_string(body) =~ "BOSTON -- The MBTA"
     end
 
     test "returns a Content.ProjectUpdate" do
       %Content.ProjectUpdate{
-        body: {:safe, body},
+        body: body,
         featured_image: featured_image,
         photo_gallery: [photo_gallery_image | _] = photo_gallery
       } = Content.Repo.get_page("/gov-center-project")
 
-      assert body =~ "Value Engineering (VE), managed by"
+      assert safe_to_string(body) =~ "Value Engineering (VE), managed by"
       assert featured_image.alt == "Proposed Government Center Head House"
       assert length(photo_gallery) == 2
       assert photo_gallery_image.alt == "Government Center during construction"

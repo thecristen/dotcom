@@ -32,11 +32,11 @@ defmodule Site.ContentViewTest do
     end
 
     test "false given an empty Phoenix.Safe.HTML.t" do
-      refute field_has_content?({:safe, ""})
+      refute field_has_content?(Phoenix.HTML.raw(""))
     end
 
     test "true given a Phoenix.Safe.HTML.t with content" do
-      assert field_has_content?({:safe, "some content"})
+      assert field_has_content?(Phoenix.HTML.raw("some content"))
     end
   end
 end

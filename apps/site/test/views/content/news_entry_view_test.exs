@@ -28,7 +28,7 @@ defmodule Site.NewsEntryViewTest do
 
     def build_page_content do
       %Content.NewsEntry{
-        body: {:safe, "Stay safe this winter"},
+        body: Phoenix.HTML.raw("Stay safe this winter"),
         title: "News Title",
         updated_at: DateTime.utc_now,
         more_information: "Visit us for more information",
