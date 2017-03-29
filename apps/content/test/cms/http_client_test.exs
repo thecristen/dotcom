@@ -52,5 +52,14 @@ defmodule Content.CMS.HTTPClientTest do
 
       assert {:error, "Could not parse JSON response"} = Content.CMS.HTTPClient.view("/page")
     end
+
+    test "Returns error tuple if no Content.Config.root setup" do
+      original_config = Application.get_env(:content, :drupal)
+      Application.put_env(:content, :drupal, put_in(original_config[:root], nil))
+
+      assert {:error, "No content root configured"} = Content.CMS.HTTPClient.view("/not-found")
+
+      Application.put_env(:content, :drupal, original_config)
+    end
   end
 end
