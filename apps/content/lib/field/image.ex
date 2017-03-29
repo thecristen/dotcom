@@ -13,10 +13,7 @@ defmodule Content.Field.Image do
     alt: String.t
   }
 
-  @spec from_api(map | [map]) :: t
-  def from_api([%{"alt" => alt, "url" => url}]) do
-    %__MODULE__{alt: alt, url: rewrite_url(url)}
-  end
+  @spec from_api(map) :: t
   def from_api(%{"alt" => alt, "url" => url}) do
     %__MODULE__{alt: alt, url: rewrite_url(url)}
   end
