@@ -39,4 +39,12 @@ defmodule Content.Repo do
       _ -> raise Content.NoResultsError
     end
   end
+
+  @spec whats_happening() :: [Content.WhatsHappeningItem.t]
+  def whats_happening do
+    case @cms_api.view("/whats-happening") do
+      {:ok, api_data} -> Enum.map(api_data, &Content.WhatsHappeningItem.from_api/1)
+      _ -> []
+    end
+  end
 end
