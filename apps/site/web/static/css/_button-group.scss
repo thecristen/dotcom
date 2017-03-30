@@ -10,6 +10,7 @@
 
 .show-btn-group {
   width: 100%;
+
   @include media-breakpoint-up(sm) {
     border-collapse: collapse;
     display: table;
@@ -20,8 +21,8 @@
   }
 
   .btn {
-    padding: $space-12;
     border-color: $gray-lightest;
+    padding: $space-12;
     position: relative;
 
     @include media-breakpoint-down(xs) {
@@ -46,6 +47,7 @@
 .show-btn-group-partial {
   @include media-breakpoint-up(sm) {
     border-bottom: $space-4 solid $brand-primary;
+
     > .btn {
       border-right: 0;
       float: left;
