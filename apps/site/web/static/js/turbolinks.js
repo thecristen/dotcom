@@ -6,6 +6,15 @@ export default function($) {
   var redirectTimeout = null;
 
   Turbolinks.start();
+
+  window.onpopstate = function(ev) {
+    var url = window.location.href;
+
+    if (redirectTimeout && !url.match(/redirect/)) {
+      clearTimeout(redirectTimeout);
+      redirectTimeout = null;
+    }
+  };
   $(document).on('turbolinks:before-visit', (ev) => {
     const url = ev.originalEvent.data.url;
     const anchorIndex = url.indexOf('#');
