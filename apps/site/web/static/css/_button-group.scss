@@ -9,17 +9,13 @@
 }
 
 .show-btn-group {
-  margin-bottom: $base-spacing;
   width: 100%;
-
   @include media-breakpoint-up(sm) {
     border-collapse: collapse;
     display: table;
 
     > .btn {
       border-radius: 0;
-      display: table-cell;
-      float: none;
     }
   }
 
@@ -27,46 +23,90 @@
     padding: $space-12;
     border-color: $gray-lightest;
     position: relative;
-  }
 
-  .btn-selected-bottom-access {
-    @include btn-selected-bottom-mode($brand-primary);
-  }
-
-  .btn-selected-bottom-bus {
-    @include btn-selected-bottom-mode($brand-secondary);
-  }
-
-  .btn-selected-bottom-subway {
-    @include btn-selected-bottom-mode($gray-light);
-  }
-
-  .btn-selected-bottom-commuter-rail {
-    @include btn-selected-bottom-mode($brand-commuter-rail);
-  }
-
-  .btn-selected-bottom-ferry {
-    @include btn-selected-bottom-mode($brand-primary-light);
-  }
-
-  .btn-selected-bottom-the-ride {
-    @include btn-selected-bottom-mode($brand-the-ride);
+    @include media-breakpoint-down(xs) {
+      border-bottom: 0;
+    }
   }
 }
 
-.btn-selected-bottom {
-  @include btn-selected-bottom-mode($brand-primary);
+.show-btn-group-full {
+  margin-bottom: $base-spacing;
+
+  @include media-breakpoint-up(sm) {
+    border-collapse: collapse;
+    display: table;
+
+    > .btn {
+      display: table-cell;
+    }
+  }
+}
+
+.show-btn-group-partial {
+  @include media-breakpoint-up(sm) {
+    border-bottom: $space-4 solid $brand-primary;
+    > .btn {
+      border-right: 0;
+      float: left;
+      width: 30%;
+
+      &:last-child {
+        border-right: $border;
+      }
+    }
+  }
+
+  .show-btn-selected {
+    border-color: $brand-primary;
+  }
+}
+
+.btn-tab-select {
+  &:hover {
+    background-color: $btn-primary-focus-bg;
+    color: $gray-dark;
+  }
 }
 
 .show-btn {
   @include media-breakpoint-down(xs) {
+    border-radius: 0;
+    padding-bottom: $space-8;
+    padding-top: $space-8;
+    text-align: left;
     width: 100%;
+
+    &:first-child {
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+    }
+
+    &:last-child {
+      border-bottom: $border;
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
   }
 }
 
 .show-btn-selected {
-  color: $gray-dark;
+  background-color: $brand-primary;
+  border-color: $brand-primary;
+  color: $white;
   font-weight: bold;
+
+  @include media-breakpoint-down(xs) {
+    padding-bottom: $space-8;
+    padding-top: $space-8;
+    text-align: left;
+  }
+
+  &:hover {
+    background-color: $brand-primary;
+    color: $white;
+    text-decoration: underline;
+  }
 }
 
 .collapse.in,

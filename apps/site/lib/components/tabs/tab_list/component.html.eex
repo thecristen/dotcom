@@ -1,6 +1,6 @@
-<div class="tab-list-group <%= args.class %>">
-  <%# by doing it in one block, we avoid the spaces between the elements that IE adds. %>
-  <%= for {text, href, selected} <- args.links do
-      Phoenix.HTML.Link.link text, to: href, class: tab_class(selected)
-      end %>
-</div>
+<%= tab_selector %Site.Components.Tabs.TabSelector{ id: args.id,
+  class: args.class,
+  links: tab_links(args.links),
+  collapse: args.collapsed,
+  selected: selected_tab(args.links),
+  full_width?: false} %>

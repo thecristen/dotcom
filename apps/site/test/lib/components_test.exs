@@ -240,10 +240,12 @@ defmodule Site.ComponentsTest do
   end
 
   describe "tabs > mode_tab_list" do
+    @links [{:bus, "/bus"}, {:subway, "/subway"}, {:the_ride, "/the-ride"}, {:access, "/access"}]
+
     def mode_tab_args do
       %ModeTabList{
         class: "navbar-toggleable-sm",
-        links: [{:bus, "/bus"}, {:subway, "/subway"}, {:the_ride, "/the-ride"}, {:access, "/access"}],
+        links: @links,
         selected_mode: :bus,
       }
     end
@@ -257,8 +259,7 @@ defmodule Site.ComponentsTest do
 
     test "displays the selected tab as such" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
-      assert rendered =~ "alert-show-btn-bus show-btn-selected"
-      assert rendered =~ "btn-selected-bottom-bus"
+      assert rendered =~ "icon-selected"
     end
 
     test "renders icons for each mode" do
@@ -268,53 +269,80 @@ defmodule Site.ComponentsTest do
       end
     end
 
-    test "btn_class/1" do
-      assert btn_class("xs") == "hidden-sm-up"
-      assert btn_class("sm") == "hidden-md-up"
-      assert btn_class(nil) == ""
+    test "mode_links/1" do
+      expected = [{"Bus", "/bus"}, {"Subway", "/subway"}, {"The Ride", "/the-ride"}, {"Access", "/access"}]
+      assert mode_links(@links) == expected
     end
 
-    test "tab_class/1" do
-      assert nav_class("xs") == "collapse tab-toggleable-xs"
-      assert nav_class("sm") == "collapse tab-toggleable-sm"
-      assert nav_class(nil) == ""
+    test "build_icon_map/2" do
+      icon_map = build_mode_icon_map(@links, :subway)
+      assert safe_to_string(icon_map["Subway"]) =~ "icon-subway"
+      assert safe_to_string(icon_map["Subway"]) =~ "icon-selected"
+      assert safe_to_string(icon_map["Bus"]) =~ "icon-bus"
+      refute safe_to_string(icon_map["Bus"]) =~ "icon-selected"
     end
   end
 
   describe "tabs > tab_list" do
-    def tab_args do
-      %TabList{
-        links: [
-          {"Schedules", "/schedules", false},
-          {"Info", "/info", true},
-          {"Something Else", "/something-else", false}
-        ]
-      }
-    end
+    @links [
+      {"Schedules", "/schedules", false},
+      {"Info", "/info", true},
+      {"Something Else", "/something-else", false}
+      ]
 
-    test "renders a list of tabs" do
-      rendered = tab_args() |> tab_list() |> safe_to_string()
-
-      for link <- ["/schedules", "/info", "/something-else"] do
-        assert rendered =~ ~s(href="#{link}")
+      def tab_args do
+        %TabList{
+          links: @links
+        }
       end
+
+      test "renders a list of tabs" do
+        rendered = tab_args() |> tab_list() |> safe_to_string()
+
+        for link <- ["/schedules", "/info", "/something-else"] do
+          assert rendered =~ ~s(href="#{link}")
+        end
+      end
+
+      test "displays a tab as selected" do
+        rendered = tab_args() |> tab_list() |> safe_to_string()
+
+        assert rendered =~ ~s(a class=\"btn show-btn show-btn btn-tab-select show-btn-selected\" href=\"/info\">)
+        assert rendered =~ "href=\"/info\""
+      end
+
+      test "optionally takes a CSS class" do
+        rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
+
+        assert rendered =~ "test-class"
+      end
+
+      test "selected_tab/1" do
+        assert selected_tab(@links) == "Info"
+      end
+
+      test "tab_links/1" do
+        expected = [{"Schedules", "/schedules"}, {"Info", "/info"}, {"Something Else", "/something-else"}]
+          assert tab_links(@links) == expected
+      end
+  end
+
+  describe "tabs > tab_selector" do
+    test "selected?/2" do
+      assert selected?("info", "info")
+      refute selected?("schedules", "info")
     end
 
-    test "displays a tab as selected" do
-      rendered = tab_args() |> tab_list() |> safe_to_string()
-
-      assert rendered =~ ~s(<a class="tab-list-tab tab-list-selected" href="/info">Info</a>)
+    test "btn_class/1" do
+      assert btn_class("xs") == "hidden-sm-up"
+      assert btn_class("sm") == "hidden-md-up"
+      assert btn_class("") == ""
     end
 
-    test "optionally takes a CSS class" do
-      rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
-
-      assert rendered =~ ~s(<div class="tab-list-group test-class">)
-    end
-
-    test "tab_class/1" do
-      assert tab_class(true) == "tab-list-tab tab-list-selected"
-      assert tab_class(false) == "tab-list-tab"
+    test "nav_class/1" do
+      assert nav_class("xs") == "collapse tab-toggleable-xs"
+      assert nav_class("sm") == "collapse tab-toggleable-sm"
+      assert nav_class("") == ""
     end
   end
 

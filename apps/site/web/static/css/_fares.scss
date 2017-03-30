@@ -12,16 +12,6 @@
   }
 }
 
-.fares-filter-list {
-  .tab-list-group {
-    margin-bottom: 0;
-  }
-
-  &:empty {
-    border-bottom: 1px solid $brand-primary;
-  }
-}
-
 .fares-tab-selected {
   background-color: $brand-primary;
   color: $white;
@@ -44,10 +34,13 @@ a {
 
 .fares-box {
   border: solid $space-1 $brand-primary;
-  border-top: 0;
   margin: 0 0 $base-spacing;
   padding-left: ($grid-gutter-width / 2);
   padding-right: ($grid-gutter-width / 2);
+
+  @include media-breakpoint-up(sm) {
+    border-top: 0;
+  }
 }
 
 .fares-row {

@@ -124,10 +124,7 @@ defmodule Site.StopViewTest do
       grouped_routes = [bus: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
         id: "742", key_route?: true, name: "SL2", type: 3}]]
 
-      text = Site.StopView.info_tab_name(grouped_routes)
-      |> Phoenix.HTML.safe_to_string
-      |> Floki.text
-      assert text == "Stop Information"
+      assert Site.StopView.info_tab_name(grouped_routes) == "Stop Info"
     end
 
     test "is station info when given any other line" do
@@ -138,10 +135,7 @@ defmodule Site.StopViewTest do
           id: "Red", key_route?: true, name: "Red", type: 1}]
       ]
 
-      text = Site.StopView.info_tab_name(grouped_routes)
-      |> Phoenix.HTML.safe_to_string
-      |> Floki.text
-      assert text == "Station Information"
+      assert Site.StopView.info_tab_name(grouped_routes) == "Station Info"
     end
   end
 

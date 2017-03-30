@@ -3,6 +3,7 @@ defmodule Site.Components.Tabs.ModeTabList do
   Renders a list of tabs for transport modes, as well as The Ride and accessibility. Can optionally collapse
   at xs or sm breakpoints.
   """
+  alias Site.ViewHelpers
 
   defstruct [
     id: "modes",
@@ -11,7 +12,7 @@ defmodule Site.Components.Tabs.ModeTabList do
              {mode, Site.Router.Helpers.schedule_path(Site.Endpoint, :show, mode)}
            end,
     selected_mode: :bus,
-    collapse: nil
+    collapse: "xs"
   ]
 
   @type t :: %__MODULE__{
@@ -22,14 +23,22 @@ defmodule Site.Components.Tabs.ModeTabList do
     collapse: String.t | nil
   }
 
-  def selected?(mode, mode), do: true
-  def selected?(_, _), do: false
 
-  def btn_class("xs"), do: "hidden-sm-up"
-  def btn_class("sm"), do: "hidden-md-up"
-  def btn_class(_collapse), do: ""
+  def mode_links(links) do
+    Enum.map(links, fn {mode_atom, href} -> {ViewHelpers.mode_name(mode_atom), href} end)
+  end
 
-  def nav_class("xs"), do: "collapse tab-toggleable-xs"
-  def nav_class("sm"), do: "collapse tab-toggleable-sm"
-  def nav_class(_collapse), do: ""
+  def build_mode_icon_map(links, selected_mode) do
+    Map.new(modes(links), &do_build_mode_icon_map(&1, selected_mode))
+  end
+
+  defp do_build_mode_icon_map(mode, selected) do
+    icon_class = if mode == selected, do: "icon-selected", else: ""
+    icon = Site.PageView.svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode, class: icon_class})
+    {ViewHelpers.mode_name(mode), icon}
+  end
+
+  defp modes(links) do
+    Enum.map(links, fn {mode, _} -> mode end)
+  end
 end

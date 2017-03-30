@@ -377,19 +377,11 @@ defmodule Site.StopView do
   end
 
   @doc "Creates the name to be used for station info tab"
-  @spec info_tab_name([Routes.Group.t]) :: Phoenix.HTML.Safe.t
+  @spec info_tab_name([Routes.Group.t]) :: String.t
   def info_tab_name([bus: _]) do
-    content_tag :span do
-      [ "Stop Info",
-        content_tag(:span, "rmation", class: "hidden-sm-down")
-      ]
-    end
+    "Stop Info"
   end
   def info_tab_name(_) do
-    content_tag :span do
-      [ "Station Info",
-        content_tag(:span, "rmation", class: "hidden-sm-down")
-      ]
-    end
+    "Station Info"
   end
 end
