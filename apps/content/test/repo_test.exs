@@ -61,16 +61,16 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "get_event!/1" do
+  describe "event!/1" do
     test "returns the event if it's present" do
       assert %Content.Event{
         id: "17"
-      } = Content.Repo.get_event!("17")
+      } = Content.Repo.event!("17")
     end
 
     test "raises Content.NoResultsError if not present" do
       assert_raise Content.NoResultsError, fn ->
-        Content.Repo.get_event!("nonexistent")
+        Content.Repo.event!("nonexistent")
       end
     end
   end

@@ -32,8 +32,8 @@ defmodule Content.Repo do
     end
   end
 
-  @spec get_event!(String.t) :: Content.Event.t | no_return
-  def get_event!(id) do
+  @spec event!(String.t) :: Content.Event.t | no_return
+  def event!(id) do
     case events(id: id) do
       [event] -> event
       _ -> raise Content.NoResultsError

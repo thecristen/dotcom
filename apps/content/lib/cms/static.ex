@@ -7,19 +7,19 @@ defmodule Content.CMS.Static do
   @events File.read!("priv/events.json")
 
   def recent_news_response do
-    @recent_news |> Poison.Parser.parse!
+    Poison.Parser.parse!(@recent_news)
   end
 
   def basic_page_response do
-    @basic_page |> Poison.Parser.parse!
+    Poison.Parser.parse!(@basic_page)
   end
 
   def project_update_response do
-    @project_update |> Poison.Parser.parse!
+    Poison.Parser.parse!(@project_update)
   end
 
   def events_response do
-    @events |> Poison.Parser.parse!
+    Poison.Parser.parse!(@events)
   end
 
   def view(path, params \\ [])

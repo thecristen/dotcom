@@ -13,7 +13,7 @@ defmodule Site.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    event = Content.Repo.get_event!(id)
+    event = Content.Repo.event!(id)
 
     conn
     |> assign_breadcrumbs(event)
