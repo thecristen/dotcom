@@ -290,41 +290,41 @@ defmodule Site.ComponentsTest do
       {"Something Else", "/something-else", false}
       ]
 
-      def tab_args do
-        %TabList{
-          links: @links
-        }
+    def tab_args do
+      %TabList{
+        links: @links
+      }
+    end
+
+    test "renders a list of tabs" do
+      rendered = tab_args() |> tab_list() |> safe_to_string()
+
+      for link <- ["/schedules", "/info", "/something-else"] do
+        assert rendered =~ ~s(href="#{link}")
       end
+    end
 
-      test "renders a list of tabs" do
-        rendered = tab_args() |> tab_list() |> safe_to_string()
+    test "displays a tab as selected" do
+      rendered = tab_args() |> tab_list() |> safe_to_string()
 
-        for link <- ["/schedules", "/info", "/something-else"] do
-          assert rendered =~ ~s(href="#{link}")
-        end
-      end
+      assert rendered =~ ~s(<a class=\"btn tab-select-btn tab-select-option tab-select-btn-selected\" href=\"/info\">)
+      assert rendered =~ "href=\"/info\""
+    end
 
-      test "displays a tab as selected" do
-        rendered = tab_args() |> tab_list() |> safe_to_string()
+    test "optionally takes a CSS class" do
+      rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
 
-        assert rendered =~ ~s(<a class=\"btn tab-select-btn tab-select-option tab-select-btn-selected\" href=\"/info\">)
-        assert rendered =~ "href=\"/info\""
-      end
+      assert rendered =~ "test-class"
+    end
 
-      test "optionally takes a CSS class" do
-        rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
+    test "selected_tab/1" do
+      assert selected_tab(@links) == "Info"
+    end
 
-        assert rendered =~ "test-class"
-      end
-
-      test "selected_tab/1" do
-        assert selected_tab(@links) == "Info"
-      end
-
-      test "tab_links/1" do
-        expected = [{"Schedules", "/schedules"}, {"Info", "/info"}, {"Something Else", "/something-else"}]
-          assert tab_links(@links) == expected
-      end
+    test "tab_links/1" do
+      expected = [{"Schedules", "/schedules"}, {"Info", "/info"}, {"Something Else", "/something-else"}]
+        assert tab_links(@links) == expected
+    end
   end
 
   describe "tabs > tab_selector" do
