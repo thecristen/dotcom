@@ -240,10 +240,12 @@ defmodule Site.ComponentsTest do
   end
 
   describe "tabs > mode_tab_list" do
+    @links [bus: "/bus", subway: "/subway", the_ride: "/the-ride", access: "/access"]
+
     def mode_tab_args do
       %ModeTabList{
         class: "navbar-toggleable-sm",
-        links: [{:bus, "/bus"}, {:subway, "/subway"}, {:the_ride, "/the-ride"}, {:access, "/access"}],
+        links: @links,
         selected_mode: :bus,
       }
     end
@@ -257,8 +259,7 @@ defmodule Site.ComponentsTest do
 
     test "displays the selected tab as such" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
-      assert rendered =~ "alert-show-btn-bus show-btn-selected"
-      assert rendered =~ "btn-selected-bottom-bus"
+      assert rendered =~ "icon-selected"
     end
 
     test "renders icons for each mode" do
@@ -268,27 +269,30 @@ defmodule Site.ComponentsTest do
       end
     end
 
-    test "btn_class/1" do
-      assert btn_class("xs") == "hidden-sm-up"
-      assert btn_class("sm") == "hidden-md-up"
-      assert btn_class(nil) == ""
+    test "mode_links/1" do
+      expected = [{"Bus", "/bus"}, {"Subway", "/subway"}, {"The Ride", "/the-ride"}, {"Access", "/access"}]
+      assert mode_links(@links) == expected
     end
 
-    test "tab_class/1" do
-      assert nav_class("xs") == "collapse tab-toggleable-xs"
-      assert nav_class("sm") == "collapse tab-toggleable-sm"
-      assert nav_class(nil) == ""
+    test "build_icon_map/2" do
+      icon_map = build_mode_icon_map(@links, :subway)
+      assert safe_to_string(icon_map["Subway"]) =~ "icon-subway"
+      assert safe_to_string(icon_map["Subway"]) =~ "icon-selected"
+      assert safe_to_string(icon_map["Bus"]) =~ "icon-bus"
+      refute safe_to_string(icon_map["Bus"]) =~ "icon-selected"
     end
   end
 
   describe "tabs > tab_list" do
+    @links [
+      {"Schedules", "/schedules", false},
+      {"Info", "/info", true},
+      {"Something Else", "/something-else", false}
+      ]
+
     def tab_args do
       %TabList{
-        links: [
-          {"Schedules", "/schedules", false},
-          {"Info", "/info", true},
-          {"Something Else", "/something-else", false}
-        ]
+        links: @links
       }
     end
 
@@ -303,18 +307,83 @@ defmodule Site.ComponentsTest do
     test "displays a tab as selected" do
       rendered = tab_args() |> tab_list() |> safe_to_string()
 
-      assert rendered =~ ~s(<a class="tab-list-tab tab-list-selected" href="/info">Info</a>)
+      assert rendered =~ ~s(<a class=\"btn tab-select-btn tab-select-option tab-select-btn-selected\" href=\"/info\">)
+      assert rendered =~ "href=\"/info\""
     end
 
     test "optionally takes a CSS class" do
       rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
 
-      assert rendered =~ ~s(<div class="tab-list-group test-class">)
+      assert rendered =~ "test-class"
     end
 
-    test "tab_class/1" do
-      assert tab_class(true) == "tab-list-tab tab-list-selected"
-      assert tab_class(false) == "tab-list-tab"
+    test "selected_tab/1" do
+      assert selected_tab(@links) == "Info"
+    end
+
+    test "tab_links/1" do
+      expected = [{"Schedules", "/schedules"}, {"Info", "/info"}, {"Something Else", "/something-else"}]
+        assert tab_links(@links) == expected
+    end
+  end
+
+  describe "tabs > tab_selector" do
+    @links [
+      {"Schedules", "/schedules"},
+      {"Info", "/info"},
+      {"Something Else", "/something-else"}
+    ]
+
+    def selector_args do
+      %TabSelector{
+        links: @links,
+        selected: "Info",
+        icon_map: %{"Info" => "info-icon"},
+        collapse: "xs",
+        full_width?: true
+      }
+    end
+
+    test "Icons are shown if given" do
+      rendered = selector_args() |> tab_selector()  |> safe_to_string()
+      option = rendered
+      |> Floki.find(".tab-select-btn-content-option")
+      |> Enum.at(0)
+      |> elem(2)
+      |> List.first
+      assert option =~ "info-icon"
+    end
+
+    test "Selector hidden if collapse is not given" do
+      args = selector_args()
+      rendered = %{args | collapse: nil}
+      |> tab_selector()
+      |> safe_to_string
+      refute rendered =~ "tab-select-btn-content"
+    end
+
+    test "Selected option is shown as such" do
+      rendered = selector_args() |> tab_selector()  |> safe_to_string()
+      option = rendered
+      |> Floki.find(".tab-select-btn-selected")
+      assert inspect(option) =~ "Info"
+    end
+
+    test "selected?/2" do
+      assert selected?("info", "info")
+      refute selected?("schedules", "info")
+    end
+
+    test "small_screen_class/1" do
+      assert small_screen_class("xs") == "hidden-sm-up"
+      assert small_screen_class("sm") == "hidden-md-up"
+      assert small_screen_class("") == ""
+    end
+
+    test "large_screen_class/1" do
+      assert large_screen_class("xs") == "hidden-xs-down"
+      assert large_screen_class("sm") == "hidden-sm-down"
+      assert large_screen_class("") == ""
     end
   end
 

@@ -201,6 +201,25 @@ a {
   }
 }
 
+.icon-selected {
+  // normal fill for content, white circle with gray border
+  .icon-circle {
+    fill: $white;
+    stroke: $white;
+  }
+
+  .icon-image {
+    fill: $brand-primary;
+  }
+
+  // some overrides
+  .icon-map-image,
+  .icon-globe-image {
+    fill: transparent;
+    stroke: $white;
+  }
+}
+
 .icon-inverse,
 %icon-inverse {
   // white fill, white border, transparent fill

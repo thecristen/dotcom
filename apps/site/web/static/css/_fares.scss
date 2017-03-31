@@ -6,45 +6,8 @@
   }
 }
 
-@include media-breakpoint-only(xs) {
-  .fares-tab-group.show-btn-group {
-    border: 0;
-  }
-}
-
-.fares-filter-list {
-  .tab-list-group {
-    margin-bottom: 0;
-  }
-
-  &:empty {
-    border-bottom: 1px solid $brand-primary;
-  }
-}
-
-.fares-tab-selected {
-  background-color: $brand-primary;
-  color: $white;
-
-  @include media-breakpoint-down(xs) {
-    &:only-child {
-      display: block;
-    }
-  }
-}
-
-a {
-  &.fares-tab-selected {
-    @include hover-focus-active {
-      color: $white;
-      text-decoration: underline;
-    }
-  }
-}
-
 .fares-box {
   border: solid $space-1 $brand-primary;
-  border-top: 0;
   margin: 0 0 $base-spacing;
   padding-left: ($grid-gutter-width / 2);
   padding-right: ($grid-gutter-width / 2);
@@ -226,4 +189,8 @@ a {
     padding: 0;
     text-align: left;
   }
+}
+
+.fare-tip {
+  margin-top: $base-spacing;
 }

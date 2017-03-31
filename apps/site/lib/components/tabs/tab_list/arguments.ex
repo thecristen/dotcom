@@ -6,18 +6,28 @@ defmodule Site.Components.Tabs.TabList do
   import Site.Router.Helpers
 
   defstruct [
+    id: "tab-select",
+    class: "",
     links: [
       {"Schedule", stop_path(Site.Endpoint, :show, "place-sstat", tab: "schedule"), true},
       {"Station Information", stop_path(Site.Endpoint, :show, "place-sstat", tab: "info"), false}
     ],
-    class: ""
+    collapsed: "xs"
   ]
 
   @type t :: %__MODULE__{
-    links: [{Phoenix.HTML.Safe.t, String.t, boolean}],
-    class: String.t
+    links: [{String.t, String.t, boolean}],
+    class: String.t,
+    collapsed: String.t
   }
 
-  def tab_class(true), do: "tab-list-tab tab-list-selected"
-  def tab_class(false), do: "tab-list-tab"
+  def tab_links(links) do
+    Enum.map(links, fn {title, href, _selected} -> {title, href} end)
+  end
+
+  def selected_tab(links) do
+    links
+    |> Enum.find(fn {_, _, selected?} -> selected? end)
+    |> elem(0)
+  end
 end

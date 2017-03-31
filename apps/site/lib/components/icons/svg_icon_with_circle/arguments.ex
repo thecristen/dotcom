@@ -15,6 +15,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
         {" (Small)", "icon-small"},
         {" (Large)", "icon-large"},
         {" (Boring)", "icon-boring"},
+        {" (Selected)", "icon-selected"},
         {" (Inverse)", "icon-inverse"}] do
       {
         "#{title} with circle#{class_title}",
