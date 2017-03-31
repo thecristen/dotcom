@@ -329,9 +329,9 @@ defmodule Site.ComponentsTest do
 
   describe "tabs > tab_selector" do
     @links [
-      {"Schedules", "/schedules", false},
-      {"Info", "/info", true},
-      {"Something Else", "/something-else", false}
+      {"Schedules", "/schedules"},
+      {"Info", "/info"},
+      {"Something Else", "/something-else"}
     ]
 
     def selector_args() do
@@ -374,16 +374,16 @@ defmodule Site.ComponentsTest do
       refute selected?("schedules", "info")
     end
 
-    test "btn_class/1" do
-      assert btn_class("xs") == "hidden-sm-up"
-      assert btn_class("sm") == "hidden-md-up"
-      assert btn_class("") == ""
+    test "small_screen_class/1" do
+      assert small_screen_class("xs") == "hidden-sm-up"
+      assert small_screen_class("sm") == "hidden-md-up"
+      assert small_screen_class("") == ""
     end
 
-    test "nav_class/1" do
-      assert nav_class("xs") == "collapse tab-toggleable-xs"
-      assert nav_class("sm") == "collapse tab-toggleable-sm"
-      assert nav_class("") == ""
+    test "large_screen_class/1" do
+      assert large_screen_class("xs") == "hidden-xs-down"
+      assert large_screen_class("sm") == "hidden-sm-down"
+      assert large_screen_class("") == ""
     end
   end
 
