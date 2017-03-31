@@ -16,7 +16,7 @@
     </nav>
   </div>
 
-  <div class="<%= small_screen_class(args.collapse)%>">
+  <div class="<%= small_screen_class(args.collapse) %>">
     <%= if args.collapse do %>
       <a class="btn btn-block btn-primary-outline tab-select-btn-selected tab-select-dropdown tab-select-btn show-mode-toggle-btn <%= small_screen_class(args.collapse) %>" href="#<%= args.id %>" data-toggle="collapse" data-target="#<%= args.id %>">
         <div class="tab-select-btn-content">
@@ -30,19 +30,19 @@
         </div>
       </a>
     <% end %>
-  </div>
 
-  <div id="<%= args.id %>" class="collapse">
-    <div class="tab-select-btn-group tab-select-btn-group-<%= btn_group_style %>">
-      <%= for {title, href} <- non_selected_links(args.links, args.selected) do %>
-        <% selected_class = if selected?(title, args.selected), do: "tab-select-btn-selected", else: "" %>
-        <%= Phoenix.HTML.Link.link to: href, class: "btn tab-select-btn tab-select-option #{selected_class}" do %>
-          <%= if icon = args.icon_map[title] do %>
-            <%= icon %>
+    <div id="<%= args.id %>" class="collapse">
+      <div class="tab-select-btn-group tab-select-btn-group-<%= btn_group_style %>">
+        <%= for {title, href} <- non_selected_links(args.links, args.selected) do %>
+          <% selected_class = if selected?(title, args.selected), do: "tab-select-btn-selected", else: "" %>
+          <%= Phoenix.HTML.Link.link to: href, class: "btn tab-select-btn tab-select-option #{selected_class}" do %>
+            <%= if icon = args.icon_map[title] do %>
+              <%= icon %>
+            <% end %>
+            <%= title %>
           <% end %>
-          <%= title %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

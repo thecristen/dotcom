@@ -23,7 +23,6 @@ defmodule Site.Components.Tabs.ModeTabList do
     collapse: String.t | nil
   }
 
-
   def mode_links(links) do
     Enum.map(links, fn {mode_atom, href} -> {ViewHelpers.mode_name(mode_atom), href} end)
   end

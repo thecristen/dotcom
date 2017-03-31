@@ -6,32 +6,6 @@
   }
 }
 
-@include media-breakpoint-only(xs) {
-  .fares-tab-group.tab-select-btn-group {
-    border: 0;
-  }
-}
-
-.fares-tab-selected {
-  background-color: $brand-primary;
-  color: $white;
-
-  @include media-breakpoint-down(xs) {
-    &:only-child {
-      display: block;
-    }
-  }
-}
-
-a {
-  &.fares-tab-selected {
-    @include hover-focus-active {
-      color: $white;
-      text-decoration: underline;
-    }
-  }
-}
-
 .fares-box {
   border: solid $space-1 $brand-primary;
   margin: 0 0 $base-spacing;

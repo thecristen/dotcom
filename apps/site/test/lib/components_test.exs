@@ -240,7 +240,7 @@ defmodule Site.ComponentsTest do
   end
 
   describe "tabs > mode_tab_list" do
-    @links [{:bus, "/bus"}, {:subway, "/subway"}, {:the_ride, "/the-ride"}, {:access, "/access"}]
+    @links [bus: "/bus", subway: "/subway", the_ride: "/the-ride", access: "/access"]
 
     def mode_tab_args do
       %ModeTabList{
@@ -334,7 +334,7 @@ defmodule Site.ComponentsTest do
       {"Something Else", "/something-else"}
     ]
 
-    def selector_args() do
+    def selector_args do
       %TabSelector{
         links: @links,
         selected: "Info",
