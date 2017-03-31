@@ -36,7 +36,7 @@ defmodule Content.Event do
       street_address: field_value(data, "field_street_address"),
       city: field_value(data, "field_city"),
       state: field_value(data, "field_state"),
-      who: field_value(data, "field_value"),
+      who: field_value(data, "field_who"),
       body: parse_body(data),
       notes: handle_html(field_value(data, "field_notes")),
       agenda: handle_html(field_value(data, "field_agenda"))

@@ -32,7 +32,7 @@ defmodule Content.EventTest do
       assert street_address == "10 Park Plaza"
       assert city == "Boston"
       assert state == "MA"
-      assert who == nil
+      assert who == "Board Members"
       assert safe_to_string(body) =~ "<p><strong>Massachusetts"
       assert safe_to_string(notes) =~ "<p><strong>THIS AGENDA"
       assert safe_to_string(agenda) =~ "<p><strong>Call to Order Chair"
