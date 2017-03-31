@@ -1,8 +1,8 @@
 <div class="post-container-wrapper">
   <%= render Site.PageView, "_riding_the_t.html", conn: @conn, common_fare_summaries: @common_fare_summaries %>
-  <div class="whats-happening-section">
-    <%= render Site.PageView, "_whats_happening.html", conn: @conn %>
-  </div>
+
+  <%= render Site.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items %>
+
   <%= render Site.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
   <%= render Site.PageView, "_about_the_mbta.html", conn: @conn %>
 </div>

@@ -14,6 +14,7 @@ defmodule Site.PageController do
     |> assign(:pre_container_template, "_pre_container.html")
     |> assign(:post_container_template, "_post_container.html")
     |> whats_happening_banner(params)
+    |> whats_happening_items
     |> render("index.html")
   end
 
@@ -25,4 +26,14 @@ defmodule Site.PageController do
     assign(conn, :whats_happening_banner, true)
   end
   defp whats_happening_banner(conn, _params), do: conn
+
+  defp whats_happening_items(conn) do
+    items = Content.Repo.whats_happening()
+
+    if length(items) == 3 do
+      assign(conn, :whats_happening_items, items)
+    else
+      assign(conn, :whats_happening_items, [])
+    end
+  end
 end
