@@ -1,10 +1,10 @@
 <div class="tab-selector-container">
 <% btn_group_style = if args.full_width?, do: "full", else: "partial" %>
 <nav class="<%= nav_class(args.collapse) %> <%= args.class %>" id="<%= args.id %>" role="navigation">
-  <div class="show-btn-group show-btn-group-<%= btn_group_style %>">
+  <div class="tab-select-btn-group tab-select-btn-group-<%= btn_group_style %>">
     <%= for {title, href} <- args.links do %>
-      <% selected_class = if selected?(title, args.selected), do: "show-btn-selected", else: "" %>
-      <%= Phoenix.HTML.Link.link to: href, class: "btn show-btn show-btn btn-tab-select #{selected_class}" do %>
+      <% selected_class = if selected?(title, args.selected), do: "tab-select-btn-selected", else: "" %>
+      <%= Phoenix.HTML.Link.link to: href, class: "btn tab-select-btn tab-select-option #{selected_class}" do %>
         <%= if icon = args.icon_map[title] do %>
           <%= icon %>
         <% end %>
@@ -14,15 +14,15 @@
   </div>
 </nav>
 <%= if args.collapse do %>
-  <a class="btn btn-block btn-primary-outline show-btn-selected tab-select-dropdown show-btn show-mode-toggle-btn <%= btn_class(args.collapse) %>" href="#<%= args.id %>" data-toggle="collapse" data-target="#<%= args.id %>">
-    <div class="clearfix">
-      <span class="pull-left">
+  <a class="btn btn-block btn-primary-outline tab-select-btn-selected tab-select-dropdown tab-select-btn show-mode-toggle-btn <%= btn_class(args.collapse) %>" href="#<%= args.id %>" data-toggle="collapse" data-target="#<%= args.id %>">
+    <div class="tab-select-btn-content">
+      <span class="tab-select-btn-content-option">
         <%= if icon = args.icon_map[args.selected] do %>
           <%= icon %>
         <% end %>
         <%= args.selected %>
       </span>
-      <span class="pull-right"><%= fa "unsorted" %></span>
+      <span class="tab-select-btn-content-icon"><%= fa "unsorted" %></span>
     </div>
   </a>
 <% end %>

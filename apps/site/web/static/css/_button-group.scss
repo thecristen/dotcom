@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-.show-btn-group {
+.tab-select-btn-group {
   width: 100%;
 
   @include media-breakpoint-up(sm) {
@@ -31,7 +31,7 @@
   }
 }
 
-.show-btn-group-full {
+.tab-select-btn-group-full {
   margin-bottom: $base-spacing;
 
   @include media-breakpoint-up(sm) {
@@ -44,7 +44,7 @@
   }
 }
 
-.show-btn-group-partial {
+.tab-select-btn-group-partial {
   @include media-breakpoint-up(sm) {
     border-bottom: $space-4 solid $brand-primary;
 
@@ -59,19 +59,19 @@
     }
   }
 
-  .show-btn-selected {
+  .tab-select-btn-selected {
     border-color: $brand-primary;
   }
 }
 
-.btn-tab-select {
-  &:hover {
+.tab-select-option {
+  @include hover-focus-active {
     background-color: $btn-primary-focus-bg;
-    color: $gray-dark;
+    color: $btn-primary-focus-color;
   }
 }
 
-.show-btn {
+.tab-select-btn {
   @include media-breakpoint-down(xs) {
     border-radius: 0;
     padding-bottom: $space-8;
@@ -92,10 +92,10 @@
   }
 }
 
-.show-btn-selected {
-  background-color: $brand-primary;
-  border-color: $brand-primary;
-  color: $white;
+.tab-select-btn-selected {
+  background-color: $btn-primary-bg;
+  border-color: $btn-primary-bg;
+  color: $btn-primary-color;
   font-weight: bold;
 
   @include media-breakpoint-down(xs) {
@@ -109,6 +109,18 @@
     color: $white;
     text-decoration: underline;
   }
+}
+
+.tab-select-btn-content {
+  @include clearfix();
+}
+
+.tab-select-btn-content-option {
+  float: left;
+}
+
+.tab-select-btn-content-icon {
+  float: right;
 }
 
 .collapse.in,

@@ -1,5 +1,5 @@
 <%= render "_discount_info.html", fare_type: List.first(@selected_filter.fares)  %>
-<%= if length(@filters) > 1 do %>
+<%= if match?([_, _ | _], @filters) do %>
     <%= tab_list(%TabList{
       id: "discount-select",
       links: for filter <- @filters do

@@ -7,7 +7,7 @@
 }
 
 @include media-breakpoint-only(xs) {
-  .fares-tab-group.show-btn-group {
+  .fares-tab-group.tab-select-btn-group {
     border: 0;
   }
 }
@@ -37,10 +37,6 @@ a {
   margin: 0 0 $base-spacing;
   padding-left: ($grid-gutter-width / 2);
   padding-right: ($grid-gutter-width / 2);
-
-  @include media-breakpoint-up(sm) {
-    border-top: 0;
-  }
 }
 
 .fares-row {
