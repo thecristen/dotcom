@@ -1,5 +1,5 @@
 <h1 class="event-title">
-  <%= @event.title |> raw %>
+  <%= @event.title %>
 </h1>
 <div class="event-schedule-container">
   <div class="event-schedule">
@@ -7,23 +7,23 @@
       <%= "Meeting Info" %>
     </h3>
     <div class="event-time">
-      <i class="event-icon fa fa-calendar"></i><%= event_duration(@event.fields.start_time, @event.fields.end_time) %>
+      <i class="event-icon fa fa-calendar"></i><%= event_duration(@event.start_time, @event.end_time) %>
     </div>
     <div>
       <ul class="event-address">
         <li class="event-location">
-          <i class="event-icon fa fa-map-marker"></i><%= @event.fields.location %>
+          <i class="event-icon fa fa-map-marker"></i><%= @event.location %>
         </li>
         <li class="event-street-address">
-          <%= @event.fields.street_address %>
+          <%= @event.street_address %>
         </li>
         <li class="event-city">
-          <%= "#{@event.fields.city}, #{@event.fields.state}" %>
+          <%= "#{@event.city}, #{@event.state}" %>
         </li>
       </ul>
     </div>
     <div class="event-attendees">
-      <i class="event-icon fa fa-users"></i><%= @event.fields.who %>
+      <i class="event-icon fa fa-users"></i><%= @event.who %>
     </div>
   </div>
 
@@ -40,19 +40,19 @@
 </div>
 
 <div class="event-description">
-  <%= @event.body |> raw %>
+  <%= @event.body %>
 </div>
 
-<%= if notes = @event.fields.notes do %>
+<%= if Site.ContentView.field_has_content?(@event.notes) do %>
   <div class="event-hr-row event-hr-col">
     <h2><%= "Notes" %></h2>
-    <%= notes |> raw %>
+    <%= @event.notes %>
   </div>
 <% end %>
 
-<%= if agenda = @event.fields.agenda do %>
+<%= if Site.ContentView.field_has_content?(@event.agenda) do %>
   <div class="event-hr-row event-hr-col">
     <h2><%= "Agenda" %></h2>
-    <%= agenda |> raw %>
+    <%= @event.agenda %>
   </div>
 <% end %>

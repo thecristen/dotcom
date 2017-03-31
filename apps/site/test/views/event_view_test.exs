@@ -21,8 +21,8 @@ defmodule Site.EventViewTest do
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
       event =
-        event_page_factory()
-        |> update_fields_attribute(:notes, nil)
+        event_factory()
+        |> Map.put(:notes, nil)
 
       html =
         Site.EventView
@@ -33,8 +33,8 @@ defmodule Site.EventViewTest do
 
     test "the agenda section is not renderd when the event agenda is empty", %{conn: conn} do
       event =
-        event_page_factory()
-        |> update_fields_attribute(:agenda, nil)
+        event_factory()
+        |> Map.put(:agenda, nil)
 
       html =
         Site.EventView
