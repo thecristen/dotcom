@@ -28,12 +28,11 @@ defmodule Site.PageController do
   defp whats_happening_banner(conn, _params), do: conn
 
   defp whats_happening_items(conn) do
-    items = Content.Repo.whats_happening()
-
-    if length(items) == 3 do
-      assign(conn, :whats_happening_items, items)
-    else
-      assign(conn, :whats_happening_items, [])
+    items = case Content.Repo.whats_happening() do
+      [_, _, _] = items -> items
+      _ -> nil
     end
+
+    assign(conn, :whats_happening_items, items)
   end
 end

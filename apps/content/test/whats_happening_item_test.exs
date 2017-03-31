@@ -2,7 +2,7 @@ defmodule Content.WhatsHappeningItemTest do
   use ExUnit.Case, async: true
 
   setup do
-    [api_item | _] = Content.CMS.Static.whats_happening_response
+    [api_item | _] = Content.CMS.Static.whats_happening_response()
     %{api_item: api_item}
   end
 

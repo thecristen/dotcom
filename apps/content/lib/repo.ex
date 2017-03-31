@@ -6,7 +6,7 @@ defmodule Content.Repo do
 
   """
 
-  use RepoCache
+  use RepoCache, ttl: :timer.minutes(1)
 
   @cms_api Application.get_env(:content, :cms_api)
 
@@ -44,11 +44,11 @@ defmodule Content.Repo do
 
   @spec whats_happening() :: [Content.WhatsHappeningItem.t]
   def whats_happening do
-    cache([], fn _ ->
+    cache [], fn _ ->
       case @cms_api.view("/whats-happening") do
         {:ok, api_data} -> Enum.map(api_data, &Content.WhatsHappeningItem.from_api/1)
         _ -> []
       end
-    end, ttl: :timer.minutes(1))
+    end
   end
 end

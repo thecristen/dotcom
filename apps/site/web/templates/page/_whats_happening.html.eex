@@ -1,4 +1,4 @@
-<%= if @whats_happening_items != [] do %>
+<%= if @whats_happening_items do %>
   <div class="whats-happening-section">
     <div class="container page-section">
       <h2>What's Happening at the MBTA</h2>

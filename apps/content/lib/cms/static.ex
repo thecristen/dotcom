@@ -24,7 +24,7 @@ defmodule Content.CMS.Static do
   end
 
   def whats_happening_response do
-    @whats_happening |> Poison.Parser.parse!
+    Poison.Parser.parse!(@whats_happening)
   end
 
   def view(path, params \\ [])
