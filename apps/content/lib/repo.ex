@@ -1,10 +1,12 @@
 defmodule Content.Repo do
-  @doc """
+  @moduledoc """
 
   Interface for the content CMS. Returns a variety of content
   related structs, like %Content.Event{} or %Content.BasicPage{}
 
   """
+
+  use RepoCache, ttl: :timer.minutes(1)
 
   @cms_api Application.get_env(:content, :cms_api)
 
@@ -37,6 +39,16 @@ defmodule Content.Repo do
     case events(id: id) do
       [event] -> event
       _ -> raise Content.NoResultsError
+    end
+  end
+
+  @spec whats_happening() :: [Content.WhatsHappeningItem.t]
+  def whats_happening do
+    cache [], fn _ ->
+      case @cms_api.view("/whats-happening") do
+        {:ok, api_data} -> Enum.map(api_data, &Content.WhatsHappeningItem.from_api/1)
+        _ -> []
+      end
     end
   end
 end

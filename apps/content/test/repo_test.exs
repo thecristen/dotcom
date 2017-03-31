@@ -74,4 +74,14 @@ defmodule Content.RepoTest do
       end
     end
   end
+
+  describe "whats_happening" do
+    test "returns a list of Content.WhatsHappeningItem" do
+      assert [%Content.WhatsHappeningItem{
+        blurb: blurb
+      } | _] = Content.Repo.whats_happening()
+
+      assert blurb =~ "The Fiscal and Management Control Board"
+    end
+  end
 end

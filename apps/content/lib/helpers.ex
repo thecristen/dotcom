@@ -74,4 +74,12 @@ defmodule Content.Helpers do
       Content.Config.apply(:static, [path])
     end)
   end
+
+  @spec parse_link_type(map, String.t) :: String.t | nil
+  def parse_link_type(data, field) do
+    case data[field] do
+      [%{"uri" => url}] -> url
+      _ -> nil
+    end
+  end
 end
