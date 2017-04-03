@@ -3,7 +3,7 @@
     <div class="filter-label">Schedules for:</div>
     <%= link to: update_schedule_url(@conn, shift: nil, date_select: !@show_date_select? || nil), class: "filter-button" do %>
       <div class="filter-text">
-        <div class="inner-label">Date:</div>
+        <div class="inner-label"><span class="sr-only">Change </span>Date:</div>
         <div><%= Timex.format!(@date, "{Mfull} {D}, {YYYY}") %></div>
       </div>
       <div class="filter-icon">
@@ -16,7 +16,11 @@
     <div class="filter-label">Direction of your trip:</div>
     <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, 1 - @direction_id)), class: "filter-button" do %>
       <div class="filter-text">
-        <div class="inner-label"><%= direction(@direction_id, @route) %></div>
+        <span class="sr-only">Change Direction of Trip.</span>
+        <div class="inner-label">
+          <%= direction(@direction_id, @route) %>
+          <span class="sr-only">to </span>
+        </div>
         <div>
           <%= fa "arrow-right" %>
           <%= headsigns %>
