@@ -69,5 +69,5 @@
     </div>
   <% end %>
 
-  <%= route_pdf_link(@route) %>
+  <div class="trip-schedules-pdf"><%= route_pdf_link(@route) %></div>
 </div>
