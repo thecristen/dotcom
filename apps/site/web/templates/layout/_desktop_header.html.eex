@@ -9,21 +9,31 @@
               <span>Transit Services</span>
             </p>
             <ul>
-              <li><%= link to: schedule_path(@conn, :show, "subway") do %></li>
-                <%= fa "caret-right" %> Subway
-              <% end %>
-              <li><%= link to: schedule_path(@conn, :show, "bus") do %></li>
-                <%= fa "caret-right" %> Bus
-              <% end %>
-              <li><%= link to: schedule_path(@conn, :show, "commuter_rail") do %></li>
-                <%= fa "caret-right" %> Commuter Rail
-              <% end %>
-              <li><%= link to: schedule_path(@conn, :show, "ferry") do %></li>
-                <%= fa "caret-right" %> Ferry
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") do %></li>
-                <%= fa "caret-right" %> The RIDE
-              <% end %>
+              <li>
+                <%= link to: schedule_path(@conn, :show, "subway") do %>
+                  <%= fa "caret-right" %> Subway
+                <% end %>
+              </li>
+              <li>
+                <%= link to: schedule_path(@conn, :show, "bus") do %>
+                  <%= fa "caret-right" %> Bus
+                <% end %>
+              </li>
+              <li>
+                <%= link to: schedule_path(@conn, :show, "commuter_rail") do %>
+                  <%= fa "caret-right" %> Commuter Rail
+                <% end %>
+              </li>
+              <li>
+                <%= link to: schedule_path(@conn, :show, "ferry") do %>
+                  <%= fa "caret-right" %> Ferry
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") do %>
+                  <%= fa "caret-right" %> The RIDE
+                <% end %>
+              </li>
             </ul>
           </div>
           <div class="col-xs-4 header-column">
@@ -32,21 +42,31 @@
               <span>Plan Your Trip</span>
             </p>
             <ul>
-              <li><%= link to: redirect_path(@conn, "rider_tools/trip_planner/") do %></li>
-                <%= fa "caret-right" %> Directions
-              <% end %>
-              <li><%= link to: stop_path(@conn, :index) do %></li>
-                <%= fa "caret-right" %> Station Info
-              <% end %>
-              <li><%= link to: alert_path(@conn, :index) do %></li>
-                <%= fa "caret-right" %> Service Alerts
-              <% end %>
-              <li><%= link to: transit_near_me_path(@conn, :index) do %></li>
-                <%= fa "caret-right" %> Transit Near Me
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "schedules_and_maps/system_map/") do %></li>
-                <%= fa "caret-right" %> Maps
-              <% end %>
+              <li>
+                <%= link to: redirect_path(@conn, "rider_tools/trip_planner/") do %>
+                  <%= fa "caret-right" %> Directions
+                <% end %>
+              </li>
+              <li>
+                <%= link to: stop_path(@conn, :index) do %>
+                  <%= fa "caret-right" %> Station Info
+                <% end %>
+              </li>
+              <li>
+                <%= link to: alert_path(@conn, :index) do %>
+                  <%= fa "caret-right" %> Service Alerts
+                <% end %>
+              </li>
+              <li>
+                <%= link to: transit_near_me_path(@conn, :index) do %>
+                  <%= fa "caret-right" %> Transit Near Me
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "schedules_and_maps/system_map/") do %>
+                  <%= fa "caret-right" %> Maps
+                <% end %>
+              </li>
             </ul>
           </div>
           <div class="col-xs-4 header-column">
@@ -55,21 +75,31 @@
               <span>Riding the T</span>
             </p>
             <ul>
-              <li><%= link to: redirect_path(@conn, "riding_the_t/accessible_services/") do %></li>
-                <%= fa "caret-right" %> Accessibility
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "riding_the_t/parking/") do %></li>
-                <%= fa "caret-right" %> Parking
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "riding_the_t/bikes/") do %></li>
-                <%= fa "caret-right" %> Bikes on the T
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "riding_the_t/pets/") do %></li>
-                <%= fa "caret-right" %> Pets on the T
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "safety/") do %><%# the safety bounce! %></li>
-                <%= fa "caret-right" %> Safety
-              <% end %>
+              <li>
+                <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/") do %>
+                  <%= fa "caret-right" %> Accessibility
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "riding_the_t/parking/") do %>
+                  <%= fa "caret-right" %> Parking
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "riding_the_t/bikes/") do %>
+                  <%= fa "caret-right" %> Bikes on the T
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "riding_the_t/pets/") do %>
+                  <%= fa "caret-right" %> Pets on the T
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "safety/") do %><%# the safety bounce! %>
+                  <%= fa "caret-right" %> Safety
+                <% end %>
+              </li>
             </ul>
           </div>
         </div>
@@ -82,24 +112,36 @@
           <div class="col-xs-3 fares-column">
             <p>More Fares Info</p>
             <ul>
-              <li><%= link to: fare_path(@conn, :index) do %></li>
-                <%= fa "caret-right" %> Fares Overview
-              <% end %>
-              <li><%= link to: fare_path(@conn, :show, "bus_subway") do %></li>
-                <%= fa "caret-right" %> Bus and Subway Fares
-              <% end %>
-              <li><%= link to: fare_path(@conn, :show, "commuter_rail") do %></li>
-                <%= fa "caret-right" %> Commuter Rail Fares
-              <% end %>
-              <li><%= link to: fare_path(@conn, :show, "ferry") do %></li>
-                <%= fa "caret-right" %> Ferry Fares
-              <% end %>
-              <li><%= link to: fare_path(@conn, :show, "reduced") do %></li>
-                <%= fa "caret-right" %> Reduced Fares
-              <% end %>
-              <li><%= link to: fare_path(@conn, :show, "payment_methods") do %></li>
-                <%= fa "caret-right" %> Payment Methods
-              <% end %>
+              <li>
+                <%= link to: fare_path(@conn, :index) do %>
+                  <%= fa "caret-right" %> Fares Overview
+                <% end %>
+              </li>
+              <li>
+                <%= link to: fare_path(@conn, :show, "bus_subway") do %>
+                  <%= fa "caret-right" %> Bus and Subway Fares
+                <% end %>
+              </li>
+              <li>
+                <%= link to: fare_path(@conn, :show, "commuter_rail") do %>
+                  <%= fa "caret-right" %> Commuter Rail Fares
+                <% end %>
+              </li>
+              <li>
+                <%= link to: fare_path(@conn, :show, "ferry") do %>
+                  <%= fa "caret-right" %> Ferry Fares
+                <% end %>
+              </li>
+              <li>
+                <%= link to: fare_path(@conn, :show, "reduced") do %>
+                  <%= fa "caret-right" %> Reduced Fares
+                <% end %>
+              </li>
+              <li>
+                <%= link to: fare_path(@conn, :show, "payment_methods") do %>
+                  <%= fa "caret-right" %> Payment Methods
+                <% end %>
+              </li>
             </ul>
           </div>
           <div class="col-xs-9">
@@ -185,34 +227,50 @@
             </p>
             <div class="col-xs-6 p-a-0">
               <ul>
-                <li><%= link to: redirect_path(@conn, "about_the_mbta/leadership/") do %></li>
-                  <%= fa "caret-right" %> Leadership
-              <% end %>
-                <li><%= link to: redirect_path(@conn, "about_the_mbta/news_events/") do %></li>
-                  <%= fa "caret-right" %> News & Events
-              <% end %>
-                <li><%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/") do %></li>
-                  <%= fa "caret-right" %> Public Meetings
-              <% end %>
-                <li><%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %></li>
-                  <%= fa "caret-right" %> Performance
-              <% end %>
+                <li>
+                  <%= link to: redirect_path(@conn, "about_the_mbta/leadership/") do %>
+                    <%= fa "caret-right" %> Leadership
+                  <% end %>
+                </li>
+                <li>
+                  <%= link to: redirect_path(@conn, "about_the_mbta/news_events/") do %>
+                    <%= fa "caret-right" %> News &amp; Events
+                  <% end %>
+                </li>
+                <li>
+                  <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/") do %>
+                    <%= fa "caret-right" %> Public Meetings
+                  <% end %>
+                </li>
+                <li>
+                  <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
+                    <%= fa "caret-right" %> Performance
+                  <% end %>
+                </li>
               </ul>
             </div>
             <div class="col-xs-6">
               <ul>
-                <li><%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/") do %></li>
-                  <%= fa "caret-right" %> FMCB
-              <% end %>
-                <li><%= link to: redirect_path(@conn, "about_the_mbta/environment/") do %></li>
-                  <span class="no-wrap"><%= fa "caret-right" %> Sustainability</span>
-              <% end %>
-                <li><%= link to: redirect_path(@conn, "about_the_mbta/history/") do %></li>
-                  <%= fa "caret-right" %> History
-              <% end %>
-                <li><%= link to: "http://www.mbtagifts.com/shop.php", target: "_blank" do %></li>
-                  <%= fa "caret-right" %> Gifts
-              <% end %>
+                <li>
+                  <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/") do %>
+                    <%= fa "caret-right" %> FMCB
+                  <% end %>
+                </li>
+                <li>
+                  <%= link to: redirect_path(@conn, "about_the_mbta/environment/") do %>
+                    <span class="no-wrap"><%= fa "caret-right" %> Sustainability</span>
+                  <% end %>
+                </li>
+                <li>
+                  <%= link to: redirect_path(@conn, "about_the_mbta/history/") do %>
+                    <%= fa "caret-right" %> History
+                  <% end %>
+                </li>
+                <li>
+                  <%= link to: "http://www.mbtagifts.com/shop.php", target: "_blank" do %>
+                    <%= fa "caret-right" %> Gifts
+                  <% end %>
+                </li>
               </ul>
             </div>
           </div>
@@ -222,21 +280,31 @@
               <span>Business Center</span>
             </p>
             <ul>
-              <li><%= link to: redirect_path(@conn, "business_center/DBE/") do %></li>
-                <%= fa "caret-right" %> Business Opportunities
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "about_the_mbta/career_opps/") do %></li>
-                <%= fa "caret-right" %> Careers
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "rider_tools/developers/") do %></li>
-                <%= fa "caret-right" %> Developers
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "about_the_mbta/financials/") do %></li>
-                <%= fa "caret-right" %> Financials
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "business_center/innovation_proposals/") do %></li>
-                <%= fa "caret-right" %> Innovation
-              <% end %>
+              <li>
+                <%= link to: redirect_path(@conn, "business_center/DBE/") do %>
+                  <%= fa "caret-right" %> Business Opportunities
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/") do %>
+                  <%= fa "caret-right" %> Careers
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "rider_tools/developers/") do %>
+                  <%= fa "caret-right" %> Developers
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "about_the_mbta/financials/") do %>
+                  <%= fa "caret-right" %> Financials
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "business_center/innovation_proposals/") do %>
+                  <%= fa "caret-right" %> Innovation
+                <% end %>
+              </li>
             </ul>
           </div>
           <div class="col-xs-4 header-column">
@@ -245,15 +313,21 @@
               <span>Improvements and Projects</span>
             </p>
             <ul>
-              <li><%= link to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), target: "_blank" do %></li>
-                <%= fa "caret-right" %> Green Line Extension
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), target: "_blank" do %></li>
-                <%= fa "caret-right" %> Silver Line Gateway
-              <% end %>
-              <li><%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199") do %></li>
-                <%= fa "caret-right" %> Red and Orange Line Cars
-              <% end %>
+              <li>
+                <%= link to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), target: "_blank" do %>
+                  <%= fa "caret-right" %> Green Line Extension
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), target: "_blank" do %>
+                  <%= fa "caret-right" %> Silver Line Gateway
+                <% end %>
+              </li>
+              <li>
+                <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199") do %>
+                  <%= fa "caret-right" %> Red and Orange Line Cars
+                <% end %>
+              </li>
             </ul>
           </div>
         </div>
