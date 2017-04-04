@@ -1,4 +1,4 @@
-<div class="desktop-menu<%= unless @conn.assigns[:page] == ~s(pageview index-template) do %> border<% end %>" id="desktop-menu" role="tablist" aria-multiselectable="true">
+<div class="desktop-menu<%= unless @conn.assigns[:page] == ~s(pageview index-template) do %> border<% end %>" id="desktop-menu">
   <div class="container">
     <div class="menu-card panel row">
       <div id="gettingAround" class="menu-panel col-md-12 collapse" role="tabpanel">
