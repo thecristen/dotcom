@@ -1,20 +1,26 @@
 @import 'variables';
 
 .desktop-menu-nav {
-  .list-unstyled {
-    @include make-row();
-    display: inline-block;
+  @include make-col();
+  @include make-col-span(8);
+  position: inherit;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+
+  > div {
     float: right;
-    margin-bottom: 0;
   }
 
   .nav-item {
-    @include make-col();
-    cursor: pointer;
+    float: left;
     height: $header-navbar-height;
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
     text-align: right;
 
-    a {
+    > a {
       line-height: $header-navbar-height-multiplier;
       vertical-align: middle;
       text-decoration: none;
@@ -74,25 +80,22 @@
   background-image: $desktop-header-pattern, $desktop-header-pattern, $desktop-header-pattern;
   background-position: 0 0, 6px 6px, 12px 12px, 18px 18px;
   background-repeat: repeat no-repeat;
+  border-bottom: $border;
+  color: $white;
   padding: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-bottom: 0;
+  text-align: left;
+  z-index: $z-index-above-main-container-content;
 
   @include media-breakpoint-down(sm) {
     display: none;
   }
 
-  &.border {
-    border-bottom: $border;
-  }
-}
-
-.menu-card {
-  border: 0;
-  color: $white;
-  margin-bottom: 0;
-
   ul {
-    list-style: none;
-    padding: 0;
+    @include list-unstyled();
   }
 }
 
@@ -189,16 +192,6 @@ header {
   @include media-breakpoint-up(md) {
     background-color: $body-bg;
     color: $body-color;
-  }
-}
-
-.navbar {
-  @include media-breakpoint-up(md) {
-    // bootstrap's default horizontal padding on .navbar is larger than the normal column padding,
-    // and it causes a very small gap on the right side of the nav at the smallest breakpoints;
-    // we reset it here to be the normal column padding used by the grid.
-    padding-left: $grid-gutter-width / 2;
-    padding-right: $grid-gutter-width / 2;
   }
 }
 

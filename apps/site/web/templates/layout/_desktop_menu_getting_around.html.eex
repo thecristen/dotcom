@@ -1,0 +1,101 @@
+<div class="menu-row">
+  <div class="col-xs-4 header-column">
+    <p class="nav-title">
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
+      <span>Transit Services</span>
+    </p>
+    <ul>
+      <li>
+        <%= link to: schedule_path(@conn, :show, "subway") do %>
+          <%= fa "caret-right" %> Subway
+        <% end %>
+      </li>
+      <li>
+        <%= link to: schedule_path(@conn, :show, "bus") do %>
+          <%= fa "caret-right" %> Bus
+        <% end %>
+      </li>
+      <li>
+        <%= link to: schedule_path(@conn, :show, "commuter_rail") do %>
+          <%= fa "caret-right" %> Commuter Rail
+        <% end %>
+      </li>
+      <li>
+        <%= link to: schedule_path(@conn, :show, "ferry") do %>
+          <%= fa "caret-right" %> Ferry
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") do %>
+          <%= fa "caret-right" %> The RIDE
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-4 header-column">
+    <p class="nav-title">
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :map, class: "icon-boring"}) %>
+      <span>Plan Your Trip</span>
+    </p>
+    <ul>
+      <li>
+        <%= link to: redirect_path(@conn, "rider_tools/trip_planner/") do %>
+          <%= fa "caret-right" %> Directions
+        <% end %>
+      </li>
+      <li>
+        <%= link to: stop_path(@conn, :index) do %>
+          <%= fa "caret-right" %> Station Info
+        <% end %>
+      </li>
+      <li>
+        <%= link to: alert_path(@conn, :index) do %>
+          <%= fa "caret-right" %> Service Alerts
+        <% end %>
+      </li>
+      <li>
+        <%= link to: transit_near_me_path(@conn, :index) do %>
+          <%= fa "caret-right" %> Transit Near Me
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "schedules_and_maps/system_map/") do %>
+          <%= fa "caret-right" %> Maps
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-4 header-column">
+    <p class="nav-title">
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-boring"}) %>
+      <span>Riding the T</span>
+    </p>
+    <ul>
+      <li>
+        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/") do %>
+          <%= fa "caret-right" %> Accessibility
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "riding_the_t/parking/") do %>
+          <%= fa "caret-right" %> Parking
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "riding_the_t/bikes/") do %>
+          <%= fa "caret-right" %> Bikes on the T
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "riding_the_t/pets/") do %>
+          <%= fa "caret-right" %> Pets on the T
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "safety/") do %><%# the safety bounce! %>
+          <%= fa "caret-right" %> Safety
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>
