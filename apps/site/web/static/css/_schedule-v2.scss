@@ -492,6 +492,7 @@ a {
   min-width: $base-spacing-sm;
   padding: $base-spacing-sm 0 0;
   text-align: center;
+  cursor: pointer;
 
   &:not(.schedule-v2-timetable-header-col) {
     background-color: $gray-bordered-background;

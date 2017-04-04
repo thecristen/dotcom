@@ -36,6 +36,7 @@ import transitNearMe from './transit-near-me';
 import googleMap from './google-map';
 import scrollTo from './scroll-to';
 import stickyTooltip from './sticky-tooltip';
+import timetableScroll from './timetable-scroll';
 
 submitOnEvents(["blur", "change"]);
 dismissAnnouncement();
@@ -55,5 +56,6 @@ transitNearMe();
 googleMap();
 scrollTo();
 stickyTooltip();
+timetableScroll();
 
 $("body").removeClass("no-js").addClass("js");
