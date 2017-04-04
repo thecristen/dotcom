@@ -84,4 +84,14 @@ defmodule Content.RepoTest do
       assert blurb =~ "The Fiscal and Management Control Board"
     end
   end
+
+  describe "important_notices" do
+    test "returns a list of Content.ImportantNotice" do
+      assert [%Content.ImportantNotice{
+        blurb: blurb
+      } | _] = Content.Repo.important_notices()
+
+      assert blurb =~ "The Red Line north passageway at Downtown Crossing"
+    end
+  end
 end
