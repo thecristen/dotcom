@@ -45,13 +45,13 @@
         </td>
       </tr>
       <tr>
-        <td class="schedule-weekend">Sun</td>
-        <td>Mon</td>
-        <td>Tue</td>
-        <td>Wed</td>
-        <td>Thu</td>
-        <td>Fri</td>
-        <td class="schedule-weekend">Sat</td>
+        <th scope="col" class="schedule-weekend">Sun</td>
+        <th scope="col">Mon</td>
+        <th scope="col">Tue</td>
+        <th scope="col">Wed</td>
+        <th scope="col">Thu</td>
+        <th scope="col">Fri</td>
+        <th scope="col" class="schedule-weekend">Sat</td>
       </tr>
     </thead>
     <tbody>

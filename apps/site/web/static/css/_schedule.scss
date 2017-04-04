@@ -317,8 +317,11 @@ a {
   text-align: center;
 
   thead {
-    td {
+    td,
+    th {
       border: $border;
+      font-weight: normal;
+      text-align: center;
 
       @include media-breakpoint-down(xs) {
         padding: 0;
