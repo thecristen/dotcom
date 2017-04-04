@@ -146,4 +146,21 @@ defmodule Routes.RepoTest do
       }
     end
   end
+
+  describe "route_hidden?/1" do
+    test "Returns true for hidden routes" do
+      hidden_routes = ["746", "2427", "3233", "3738", "4050", "627", "725", "8993", "116117", "214216",
+                       "441442", "9701", "9702", "9703", "Logan-Airport", "CapeFlyer"]
+      for route_id <- hidden_routes do
+        assert Routes.Repo.route_hidden?(%{id: route_id})
+      end
+    end
+
+    test "Returns false for non hidden routes" do
+      visible_routes = ["SL1", "66", "1", "742"]
+      for route_id <- visible_routes do
+        refute Routes.Repo.route_hidden?(%{id: route_id})
+      end
+    end
+  end
 end

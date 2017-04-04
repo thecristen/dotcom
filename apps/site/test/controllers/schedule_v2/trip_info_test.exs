@@ -144,7 +144,48 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   end
 
   test "there's a separator if there are enough schedules", %{conn: conn} do
-    conn = conn_builder(conn, [], trip: "long_trip")
+    schedules = [
+      %Schedule{
+        trip: %Trip{id: "long_trip"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: -10),
+        route: %Routes.Route{type: 1}
+      },
+      %Schedule{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 15),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+
+    predictions = [
+      %Prediction{
+        trip: %Trip{id: "long_trip"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 1),
+        route: %Routes.Route{type: 1}
+      },
+      %Prediction{
+        trip: %Trip{id: "32893585"},
+        stop: %Schedules.Stop{},
+        time: Timex.shift(@time, minutes: 20),
+        route: %Routes.Route{type: 1}
+      }
+    ]
+
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: fn _ -> [] end)
+
+    conn = %{conn |
+      request_path: schedule_path(conn, :show, "66"),
+      query_params: nil
+    }
+    |> assign_stop_times_from_schedules_and_predictions(schedules, predictions)
+    |> assign(:route, %Routes.Route{type: 1})
+    |> assign(:date, ~D[2017-02-10])
+    |> assign(:datetime, @time)
+    |> call(init)
+
     assert :separator in TripInfo.times_with_flags_and_separators(conn.assigns.trip_info)
   end
 
@@ -343,7 +384,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       }
     ]
 
-    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: fn _ -> [] end)
 
     conn = %{conn |
       request_path: schedule_path(conn, :show, "66"),

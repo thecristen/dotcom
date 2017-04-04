@@ -139,21 +139,6 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "upcoming_departures/4" do
-    test "does not crash when predictions don't have a time" do
-      predictions = [%Predictions.Prediction{route: %Routes.Route{id: "1"}, stop: %Stops.Stop{id: "stop"}, direction_id: 0}]
-      date_time = ~N[2017-01-01T12:00:00]
-      mode = 3
-
-      actual = Site.StopView.upcoming_departures(
-        %{date_time: date_time, mode: mode, stop_schedule: [], stop_predictions: predictions},
-        "stop",
-        "1",
-        0)
-      assert actual == []
-    end
-  end
-
   def formatted_time(time), do: time |> Timex.format!("{h12}:{m} {AM}")
 
   def do_safe_to_string(elements) when is_list(elements) do

@@ -96,27 +96,31 @@ defmodule Routes.Repo do
 
   defp handle_response(%{data: data}) do
     data
-    |> Enum.reject(&hidden_routes/1)
+    |> Enum.reject(&route_hidden?/1)
     |> Enum.map(&parse_json/1)
   end
 
-  defp hidden_routes(%{id: "746"}), do: true
-  defp hidden_routes(%{id: "2427"}), do: true
-  defp hidden_routes(%{id: "3233"}), do: true
-  defp hidden_routes(%{id: "3738"}), do: true
-  defp hidden_routes(%{id: "4050"}), do: true
-  defp hidden_routes(%{id: "627"}), do: true
-  defp hidden_routes(%{id: "725"}), do: true
-  defp hidden_routes(%{id: "8993"}), do: true
-  defp hidden_routes(%{id: "116117"}), do: true
-  defp hidden_routes(%{id: "214216"}), do: true
-  defp hidden_routes(%{id: "441442"}), do: true
-  defp hidden_routes(%{id: "9701"}), do: true
-  defp hidden_routes(%{id: "9702"}), do: true
-  defp hidden_routes(%{id: "9703"}), do: true
-  defp hidden_routes(%{id: "Logan-" <> _}), do: true
-  defp hidden_routes(%{id: "CapeFlyer"}), do: true
-  defp hidden_routes(_), do: false
+  @doc """
+  Determines if the given route-data is hidden
+  """
+  @spec route_hidden?(%{id: String.t}) :: boolean
+  def route_hidden?(%{id: "746"}), do: true
+  def route_hidden?(%{id: "2427"}), do: true
+  def route_hidden?(%{id: "3233"}), do: true
+  def route_hidden?(%{id: "3738"}), do: true
+  def route_hidden?(%{id: "4050"}), do: true
+  def route_hidden?(%{id: "627"}), do: true
+  def route_hidden?(%{id: "725"}), do: true
+  def route_hidden?(%{id: "8993"}), do: true
+  def route_hidden?(%{id: "116117"}), do: true
+  def route_hidden?(%{id: "214216"}), do: true
+  def route_hidden?(%{id: "441442"}), do: true
+  def route_hidden?(%{id: "9701"}), do: true
+  def route_hidden?(%{id: "9702"}), do: true
+  def route_hidden?(%{id: "9703"}), do: true
+  def route_hidden?(%{id: "Logan-" <> _}), do: true
+  def route_hidden?(%{id: "CapeFlyer"}), do: true
+  def route_hidden?(_), do: false
 
   defp order_by_frequency(enum) do
     # the complicated function in the middle collapses some lengths which are

@@ -19,24 +19,37 @@ defmodule PredictedSchedule do
 
   @doc """
   The given predictions and schedules will be merged together according to
-  stop_id to create PredictedSchedules. The final result is a sorted list of
+  stop_id and trip_id to create PredictedSchedules. The final result is a sorted list of
   PredictedSchedules where the `schedule` and `prediction` share a trip_id.
   Either the `schedule` or `prediction` may be nil, but not both.
   """
-  @spec group_by_trip([Prediction.t], [Schedule.t]) :: [PredictedSchedule.t]
-  def group_by_trip(predictions, schedules) do
-    map_fn = &{{&1.stop.id, &1.stop_sequence}, &1}
-    schedule_map = Map.new(schedules, map_fn)
-    prediction_map = Map.new(predictions, map_fn)
+  @spec group([Prediction.t], [Schedule.t]) :: [PredictedSchedule.t]
+  def group(predictions, schedules) do
+    schedule_map = create_map(schedules)
+    prediction_map = create_map(predictions)
 
     schedule_map
-    |> stop_ids(prediction_map)
+    |> unique_map_keys(prediction_map)
     |> Enum.map(fn key ->
       %PredictedSchedule{
         schedule: schedule_map[key],
         prediction: prediction_map[key]}
     end)
     |> Enum.sort_by(&sort_predicted_schedules/1)
+  end
+
+  defp create_map(predictions_or_schedules) do
+    predictions_or_schedules
+    |> Enum.filter(&valid?/1)
+    |> Map.new(&group_transform/1)
+  end
+
+  defp valid?(ps), do: ps.trip && ps.stop && ps.stop_sequence
+
+  @spec group_transform(Schedule.t | Prediction.t) ::
+                      ({{String.t, String.t, non_neg_integer}, Schedule.t | Prediction.t})
+  defp group_transform(ps) do
+    {{ps.trip.id, ps.stop.id, ps.stop_sequence}, ps}
   end
 
   @doc """
@@ -87,12 +100,30 @@ defmodule PredictedSchedule do
 
   @doc """
   Returns a time value for the given PredictedSchedule. Returned value can be either a scheduled time
-  for a prediction time. **Scheduled Times are preferred**
+  for a prediction time. **Predicted Times are preferred**
   """
   @spec time(PredictedSchedule.t) :: DateTime.t | nil
-  def time(%PredictedSchedule{schedule: nil, prediction: nil}), do: nil
   def time(%PredictedSchedule{schedule: nil, prediction: prediction}), do: prediction.time
   def time(%PredictedSchedule{schedule: schedule}), do: schedule.time
+
+  @doc """
+  Determines if the given predicted schedule occurs after the given time
+  """
+  @spec upcoming?(PredictedSchedule.t, DateTime.t) :: boolean
+  def upcoming?(ps, current_time) do
+    ps
+    |> time()
+    |> Timex.after?(current_time)
+  end
+
+  @doc """
+  Determines if this `PredictedSchedule` is departing.
+  Departing status is determined by the `pickup_type` field on schedules
+  and the `departing?` field on Predictions. Schedules are preferred for
+  determining departing? status.
+  """
+  def departing?(%PredictedSchedule{schedule: nil, prediction: prediction}), do: prediction.departing?
+  def departing?(%PredictedSchedule{schedule: schedule}), do: schedule.pickup_type != 1
 
   @doc """
 
@@ -129,15 +160,16 @@ defmodule PredictedSchedule do
   end
 
   # Returns unique list of all stop_id's from given schedules and predictions
-  @spec stop_ids(%{key => Schedule.t}, %{key => Prediction.t}) :: [String.t] when key: {String.t, non_neg_integer}
-  defp stop_ids(schedule_map, prediction_map) do
+  @spec unique_map_keys(%{key => Schedule.t}, %{key => Prediction.t}) ::
+                        [String.t] when key: {String.t, String.t, non_neg_integer}
+  defp unique_map_keys(schedule_map, prediction_map) do
     schedule_map
     |> Map.keys()
     |> Enum.concat(Map.keys(prediction_map))
     |> Enum.uniq
   end
 
-  @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, DateTime.t}
+  @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, non_neg_integer, DateTime.t}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.stop_sequence, prediction.time}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.stop_sequence, schedule.time}
 

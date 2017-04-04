@@ -95,6 +95,11 @@ defmodule Site.StopControllerTest do
     refute conn.assigns[:requires_google_maps?]
   end
 
+  test "assigns upcoming_route_departures when schedule tab is selected", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "schedule")
+    assert conn.assigns.upcoming_route_departures
+  end
+
   test "Only render map when info tab is selected", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
     assert html_response(conn, 200) =~ "station-map-container"
