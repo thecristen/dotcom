@@ -21,8 +21,8 @@ export default function($) {
     const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
     if (anchorIndex !== -1) {
       const newUrl = url.slice(0, anchorIndex);
-      const rest = url.slice(anchorIndex, url.length);
       if (!samePath(`${currentPath}${window.location.search}`, newUrl)) {
+        const rest = url.slice(anchorIndex, url.length);
         ev.preventDefault();
         ev.stopPropagation();
         savedAnchor = rest;
@@ -43,22 +43,38 @@ export default function($) {
 
   });
   $(document).on('turbolinks:render', (ev) => {
+    var clearSaved = true;
+    if ($('html').attr('data-turbolinks-preview') === '') {
+      // a cached render, not a real one.  Set the scroll/focus positions,
+      // but don't clear them until we have the true rendering.
+      clearSaved = false;
+    }
     if (savedPosition) {
       window.scrollTo.apply(window, savedPosition);
-      savedPosition = null;
+      if (clearSaved) {
+        savedPosition = null;
+      }
     }
     if (savedAnchor) {
       // if we saved the anchor and it's above the screen, scroll to it
       const $el = $(savedAnchor);
       const $window = $(window);
-      savedAnchor = null;
+      if (clearSaved) {
+        savedAnchor = null;
+      }
       if ($el.length > 0) {
         const elementY = $el.offset().top;
         const windowY = $window.scrollTop();
         if (windowY > elementY) {
           $window.scrollTop(elementY - 20);
         }
-        $el.children().first().focus();
+        // if we're focusing a link, then focus it directly. otherwise, find
+        // the first child link and focus that.
+        if ($el[0].nodeName === "A") {
+          $el.focus();
+        } else {
+          $el.children('a:first-of-type').focus();
+        }
       }
     }
   });
