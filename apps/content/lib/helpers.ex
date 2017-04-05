@@ -64,15 +64,15 @@ defmodule Content.Helpers do
 
   @spec rewrite_url(String.t) :: String.t
   def rewrite_url(url) when is_binary(url) do
-    root = case Content.Config.root do
-             nil -> "missing-host-should-not-match"
-             host -> String.replace_suffix(host, "/", "")
-           end
-    static_path = Content.Config.static_path
+    uri = URI.parse(url)
 
-    Regex.replace(~r/^#{root}(#{static_path}[^"]+)/, url, fn _, path ->
-      Content.Config.apply(:static, [path])
-    end)
+    path = if uri.query do
+      "#{uri.path}?#{uri.query}"
+    else
+      uri.path
+    end
+
+    Content.Config.apply(:static, [path])
   end
 
   @spec parse_link_type(map, String.t) :: String.t | nil
