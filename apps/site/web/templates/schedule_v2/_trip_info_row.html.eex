@@ -1,12 +1,12 @@
-<div class="schedule-trip-stop<%= if @terminus? do %> terminus<% end %><%= if @vehicle? do %> vehicle<% end %>">
+<div class="schedule-trip-stop<%= if @terminus? do %> terminus<% end %><%= if @vehicle? do %> vehicle<% end %>" role="row">
   <div class="vehicle-location stop-bubble">
     <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
   </div>
   <div class="stop-info">
-    <span class="stop-info-column">
+    <span class="stop-info-column" role="cell">
       <%= stop_name_link_with_alerts(@name, @href, @alerts) %>
     </span>
-    <span class="stop-info-column">
+    <span class="stop-info-column" role="cell">
       <%= PredictedSchedule.Display.time(@predicted_schedule) %>
     </span>
   </div>

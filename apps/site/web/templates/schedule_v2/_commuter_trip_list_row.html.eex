@@ -1,26 +1,26 @@
 <%
 class_name = ["trip-list-v2-row ", assigns[:class] || ""]
 {tag, attributes} = if assigns[:url] do
-  {:a, [href: @url, class: class_name, id: @id]}
+  {:a, [href: @url, class: class_name, role: "row", id: @id]}
 else
   {:div, [class: class_name]}
 end
 %>
 <%= content_tag tag, attributes do %>
   <div class="row">
-    <div class="col-xs-4 no-wrap trip-list-v2-departure"><%= PredictedSchedule.Display.time(@departure) %></div>
+    <div class="col-xs-4 no-wrap trip-list-v2-departure" role="cell"><%= PredictedSchedule.Display.time(@departure) %></div>
     <%= if @arrival do %>
-      <div class="col-xs-4 no-wrap"><%= PredictedSchedule.Display.time(@arrival) %></div>
-      <div class="col-xs-4 no-wrap">
+      <div class="col-xs-4 no-wrap" role="cell"><%= PredictedSchedule.Display.time(@arrival) %></div>
+      <div class="col-xs-4 no-wrap" role="cell">
         <%= assigns[:name] |> break_text_at_slash %>
         <%= display_alerts(@alerts) %>
       </div>
     <% else %>
-      <div class="col-xs-2 no-wrap">
+      <div class="col-xs-2 no-wrap" role="cell">
         <%= assigns[:name] |> break_text_at_slash %>
         <%= display_alerts(@alerts) %>
       </div>
-      <div class="col-xs-6"><%= assigns[:headsign] |> break_text_at_slash %></div>
+      <div class="col-xs-6" role="cell"><%= assigns[:headsign] |> break_text_at_slash %></div>
     <% end %>
   </div>
   <div class="commuter-status">
