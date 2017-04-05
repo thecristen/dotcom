@@ -1,10 +1,10 @@
 <div class="row important-whats-happening page-section">
   <div class="important-whats-happening-image hidden-sm-down col-md-8">
-    <img src="<%= @image_url%>" alt=<%= @image_description %> class="img-fluid" />
+    <img src="<%= @important_notice.thumb.url%>" alt=<%= @important_notice.thumb.alt %> class="img-fluid" />
   </div>
   <div class="important-whats-happening-text col-md-4 col-xs-12">
-    <%= @text %>
-    <%= link to: @href do %>
+    <%= @important_notice.blurb %>
+    <%= link to: @important_notice.url do %>
       <span class="no-wrap">Read <%= fa "arrow-right"%></span>
     <% end %>
   </div>

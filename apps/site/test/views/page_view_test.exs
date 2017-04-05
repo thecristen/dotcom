@@ -1,5 +1,5 @@
 defmodule Site.PageViewTest do
-  use Site.ConnCase, async: true
+  use Site.ViewCase, async: true
 
   describe "whats_happening_image/1" do
     test "if the item has a 2x version, includes a srcset attribute" do
@@ -31,6 +31,18 @@ defmodule Site.PageViewTest do
       |> Phoenix.HTML.safe_to_string
 
       assert rendered == ~s(<img alt="This is an image" src="/foo_1">)
+    end
+  end
+
+  describe "important notices" do
+    test "renders _important_notice.html" do
+      notice = %Content.ImportantNotice{
+        blurb: "Uh oh, this is very important!",
+        url: "http://example.com/important",
+        thumb: %Content.Field.Image{}
+      }
+      rendered = render_to_string(Site.PageView, "_important_notice.html", important_notice: notice)
+      assert rendered =~ "Uh oh, this is very important!"
     end
   end
 end
