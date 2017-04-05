@@ -34,7 +34,7 @@
               <div class="clearfix">
                 <div class="col-sm-4 col-xs-12 station-trip-headsign">
                   <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
-                  <%= if has_alerts?(@conn, %Alerts.InformedEntity{trip: schedule.trip.id, route: route.id}) do %>
+                  <%= if has_alerts?(@all_alerts, @date, %Alerts.InformedEntity{trip: schedule.trip.id, route: route.id}) do %>
                     <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
                   <% end %>
                 </div>
