@@ -6,7 +6,7 @@
     {"More", "About Us, Business Center, Projects...", static_page_path(@conn, :about)}
   ]
 %>
-<header class="header">
+<header class="header<%= unless @conn.assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
   <div class="container">
     <div class="header-navbar row">
       <a class="col-xs-9 col-sm-10 col-md-4 navbar-logo" href="/">
@@ -44,11 +44,13 @@
                     ] end
               %>
 
-              <div class="panel">
-                <div class="desktop-menu collapse" id="<%= id %>" role="tabpanel">
-                  <div class="container">
-                    <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
-                    <%= render "_old_site_button.html", conn: @conn %>
+              <div class="desktop-menu">
+                <div class="container">
+                  <div class="desktop-menu-body panel">
+                    <div class="collapse" id="<%= id %>" role="tabpanel">
+                      <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
+                      <%= render "_old_site_button.html", conn: @conn %>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -77,23 +79,21 @@
       </ul>
     </nav>
   </div>
-  <%= if assigns[:breadcrumbs] do %>
-    <div class="breadcrumb-container">
-      <div class="container">
-        <% breadcrumb_length = length @breadcrumbs %>
-        <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
-
-        <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
-        <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
-
-        <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
-          <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
-            <a href="<%= link %>"><%= text %></a>
-            <%= fa "angle-right" %>
-          </span>
-        <% end %>
-        <%= last_text %>
-      </div>
-    </div>
-  <% end %>
 </header>
+<%= if assigns[:breadcrumbs] do %><div class="breadcrumb-container">
+  <div class="container">
+    <% breadcrumb_length = length @breadcrumbs %>
+    <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
+
+    <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
+    <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
+
+    <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
+      <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
+        <a href="<%= link %>"><%= text %></a>
+        <%= fa "angle-right" %>
+      </span>
+    <% end %>
+    <%= last_text %>
+  </div>
+</div><% end %>
