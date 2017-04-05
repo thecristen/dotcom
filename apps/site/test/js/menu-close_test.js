@@ -47,4 +47,9 @@ describe('menuClose', () => {
     assert.isTrue(clicked);
     assert.equal(document.activeElement, $("#non-menu-link")[0]);
   });
+
+  it("clicking outside the panel closes the menu", () => {
+    $("body").click();
+    assert.isTrue(clicked);
+  });
 });
