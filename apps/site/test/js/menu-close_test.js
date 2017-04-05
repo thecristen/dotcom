@@ -25,7 +25,7 @@ describe('menuClose', () => {
 <div><a id=non-menu-link href=#>3</a></div>`);
 
     clicked = false;
-    $("#tab1").click(() => clicked = true);
+    $("#tab1").click(() => clicked = true).focus();
   });
 
   afterEach(() => $('body > div').remove());
