@@ -52,12 +52,12 @@ defmodule Content.Repo do
     end
   end
 
-  @spec important_notices() :: [Content.ImportantNotice.t]
-  def important_notices do
+  @spec important_notice() :: Content.ImportantNotice.t | nil
+  def important_notice do
     cache [], fn _ ->
       case @cms_api.view("/important-notices") do
-        {:ok, api_data} -> Enum.map(api_data, &Content.ImportantNotice.from_api/1)
-        _ -> []
+        {:ok, [api_data]} -> Content.ImportantNotice.from_api(api_data)
+        _ -> nil
       end
     end
   end

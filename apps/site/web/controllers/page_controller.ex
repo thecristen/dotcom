@@ -23,11 +23,7 @@ defmodule Site.PageController do
   end
 
   defp important_notice(conn) do
-    notice = case Content.Repo.important_notices() do
-      [notice] -> notice
-      _ -> nil
-    end
-    assign(conn, :important_notice, notice)
+    assign(conn, :important_notice, Content.Repo.important_notice())
   end
 
   defp whats_happening_items(conn) do

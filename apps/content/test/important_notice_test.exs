@@ -2,7 +2,7 @@ defmodule Content.ImportantNoticeTest do
   use ExUnit.Case, async: true
 
   setup do
-    [api_notice | _] = Content.CMS.Static.important_notices_response()
+    [api_notice] = Content.CMS.Static.important_notices_response()
     %{api_notice: api_notice}
   end
 
