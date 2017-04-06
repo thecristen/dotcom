@@ -1,6 +1,7 @@
 defmodule Site.EventView do
   use Site.Web, :view
   import Site.TimeHelpers
+  import Site.ContentHelpers, only: [content: 1]
 
   @spec shift_date_range(String.t, integer) :: map
   def shift_date_range(iso_string, shift_value) do
@@ -81,5 +82,13 @@ defmodule Site.EventView do
 
   defp format_time(time) do
     Timex.format!(time, "{h12}:{m} {AM}")
+  end
+
+  @doc "Returns a pretty format for the event's city and state"
+  @spec city_and_state(%Content.Event{}) :: String.t | nil
+  def city_and_state(%Content.Event{city: city, state: state}) do
+    if city && state do
+      "#{city}, #{state}"
+    end
   end
 end

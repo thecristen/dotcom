@@ -44,7 +44,8 @@ defmodule Content.Event do
       who: field_value(data, "field_who"),
       body: parse_body(data),
       notes: handle_html(field_value(data, "field_notes")),
-      agenda: handle_html(field_value(data, "field_agenda"))
+      agenda: handle_html(field_value(data, "field_agenda")),
+      imported_address: field_value(data, "field_imported_address")
     }
   end
 end

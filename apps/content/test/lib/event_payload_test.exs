@@ -22,6 +22,19 @@ defmodule Content.EventPayloadTest do
       assert event_payload[:field_meeting_id] == [%{value: 5550}]
     end
 
+    test "removes all html tags from the location field" do
+      meeting =
+        @meeting
+        |> fixture()
+        |> Map.put("location", "<p>Address</p> with html<br> tags.")
+
+      event_payload = from_meeting(meeting)
+
+      assert event_payload[:field_imported_address] == [%{
+        value: "Address with html tags."
+      }]
+    end
+
     test "allows the end time to not be provided" do
       event_payload = from_meeting(fixture(@meeting_missing_end_time))
 

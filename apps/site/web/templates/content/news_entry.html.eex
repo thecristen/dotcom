@@ -19,13 +19,13 @@
   </div>
 
   <div>
-    <%= if field_has_content?(@page.more_information) do %>
+    <%= if more_information = content(@page.more_information) do %>
       <h2>More Information</h2>
-      <%= @page.more_information %>
+      <%= more_information %>
     <% end %>
   </div>
 </div>
 
-<%= if field_has_content?(@metadata.recent_news) do %>
+<%= if !Enum.empty?(@metadata.recent_news) do %>
   <%= render "_recent_news.html", recent_news: @metadata.recent_news %>
 <% end %>
