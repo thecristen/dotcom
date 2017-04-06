@@ -107,7 +107,7 @@ defmodule Site.StopViewTest do
 
     test "returns the location of the stop as the map center if it serves other modes" do
       stop = %Stop{id: "place-sstat", latitude: "42.352271", longitude: "-71.055242"}
-      assert Site.StopView.center_query(stop) == [center: Site.StopView.location(stop)]
+      assert Site.StopView.center_query(stop) == [markers: Site.StopView.location(stop)]
     end
   end
 
