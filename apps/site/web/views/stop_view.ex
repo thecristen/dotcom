@@ -310,20 +310,15 @@ defmodule Site.StopView do
   end
 
   @doc """
-  Returns a map of query params to determine the center of the Google map image. If the stop has
-  GPS coordinates, places a marker at its location. Otherwise, it centers the map around the stop without
-  a marker.
+  Returns a map of query params to determine the center of the Google map image. If the stop is a station,
+  it will have and icon in google maps and does not require a marker. Otherwise, the stop requires a marker.
   """
   @spec center_query(Stop.t) :: [markers: String.t] | [center: String.t]
   def center_query(stop) do
-    bus_stop? = stop.id
-    |> Routes.Repo.by_stop
-    |> Enum.all?(&(&1.type == 3))
-
-    if bus_stop? do
-      [markers: location(stop)]
-    else
+    if stop.station? do
       [center: location(stop)]
+    else
+      [markers: location(stop)]
     end
   end
 
