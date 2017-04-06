@@ -14,7 +14,9 @@ defmodule Content.Factory do
       end_time: Timex.shift(Timex.now(), hours: 1),
       agenda: raw("Event Agenda"),
       notes: raw("Event Notes"),
-      who: "Board Members"
+      who: "Board Members",
+      meeting_id: nil,
+      imported_address: nil
     }
   end
 end
