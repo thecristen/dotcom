@@ -1,0 +1,112 @@
+<div class="menu-row">
+  <div class="col-xs-4 header-column">
+    <p class="nav-title">
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
+      <span>About Us</span>
+    </p>
+    <div class="col-xs-6 p-a-0">
+      <ul>
+        <li>
+          <%= link to: redirect_path(@conn, "about_the_mbta/leadership/") do %>
+            <%= fa "caret-right" %> Leadership
+          <% end %>
+        </li>
+        <li>
+          <%= link to: redirect_path(@conn, "about_the_mbta/news_events/") do %>
+            <%= fa "caret-right" %> News &amp; Events
+          <% end %>
+        </li>
+        <li>
+          <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/") do %>
+            <%= fa "caret-right" %> Public Meetings
+          <% end %>
+        </li>
+        <li>
+          <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
+            <%= fa "caret-right" %> Performance
+          <% end %>
+        </li>
+      </ul>
+    </div>
+    <div class="col-xs-6">
+      <ul>
+        <li>
+          <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/") do %>
+            <%= fa "caret-right" %> FMCB
+          <% end %>
+        </li>
+        <li>
+          <%= link to: redirect_path(@conn, "about_the_mbta/environment/") do %>
+            <span class="no-wrap"><%= fa "caret-right" %> Sustainability</span>
+          <% end %>
+        </li>
+        <li>
+          <%= link to: redirect_path(@conn, "about_the_mbta/history/") do %>
+            <%= fa "caret-right" %> History
+          <% end %>
+        </li>
+        <li>
+          <%= link to: "http://www.mbtagifts.com/shop.php", target: "_blank" do %>
+            <%= fa "caret-right" %> Gifts
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-4 header-column">
+    <p class="nav-title">
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :suitcase, class: "icon-boring"})  %>
+      <span>Business Center</span>
+    </p>
+    <ul>
+      <li>
+        <%= link to: redirect_path(@conn, "business_center/DBE/") do %>
+          <%= fa "caret-right" %> Business Opportunities
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/") do %>
+          <%= fa "caret-right" %> Careers
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "rider_tools/developers/") do %>
+          <%= fa "caret-right" %> Developers
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "about_the_mbta/financials/") do %>
+          <%= fa "caret-right" %> Financials
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "business_center/innovation_proposals/") do %>
+          <%= fa "caret-right" %> Innovation
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-4 header-column">
+    <p class="nav-title">
+      <%= svg_icon_with_circle %SvgIconWithCircle{icon: :tools, class: "icon-boring"} %>
+      <span>Improvements and Projects</span>
+    </p>
+    <ul>
+      <li>
+        <%= link to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), target: "_blank" do %>
+          <%= fa "caret-right" %> Green Line Extension
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), target: "_blank" do %>
+          <%= fa "caret-right" %> Silver Line Gateway
+        <% end %>
+      </li>
+      <li>
+        <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199") do %>
+          <%= fa "caret-right" %> Red and Orange Line Cars
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>

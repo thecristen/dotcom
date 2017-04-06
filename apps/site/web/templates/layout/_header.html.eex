@@ -1,12 +1,12 @@
 <%
   nav_links = [
     {"Getting Around", "Transit Services, Plan Your Trip, Riding...", static_page_path(@conn, :getting_around)},
-    {"Fares", "Fares By Mode, Reduced Fares, Passes...",fare_path(@conn, :index)},
+    {"Fares", "Fares By Mode, Reduced Fares, Passes...", fare_path(@conn, :index)},
     {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(@conn, :index)},
     {"More", "About Us, Business Center, Projects...", static_page_path(@conn, :about)}
   ]
 %>
-<header class="header">
+<header class="header<%= unless @conn.assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
   <div class="container">
     <div class="header-navbar row">
       <a class="col-xs-9 col-sm-10 col-md-4 navbar-logo" href="/">
@@ -20,29 +20,46 @@
         <%= fa "angle-down", class: "down" %>
         <%= fa "angle-up", class: "up" %>
       </button>
-      <nav class="desktop-menu-nav col-md-8 hidden-sm-down">
-        <ul class="list-unstyled">
+      <nav id="desktop-menu" class="desktop-menu-nav" role="tablist">
+        <div>
           <%= for {name, _, href} <- nav_links do %>
-            <li class="nav-item">
+            <div class="nav-item">
               <%=
-                id = name
-                |> String.replace_prefix(String.first(name), name |> String.first |> String.downcase)
-                |> String.replace(" ", "")
+                  id = name
+                  |> String.replace_prefix(String.first(name), name |> String.first |> String.downcase)
+                  |> String.replace(" ", "")
 
-                link to: href, class: "desktop-nav-link collapsed toggle-up-down",
-                               data: [toggle: "collapse", parent: "#" <> id, target: "#" <> id],
-                               aria: [expanded: "false", controls: id] do [
-                    name <> " ",
-                    fa("angle-down", class: "down"),
-                    fa("angle-up", class: "up")
-                ] end
+                  filename = name
+                  |> String.downcase
+                  |> String.replace(" ", "_")
+
+                  link(to: href,
+                    class: "desktop-nav-link collapsed toggle-up-down",
+                    data: [toggle: "collapse", parent: "#desktop-menu", target: "#" <> id],
+                    role: "tab",
+                    aria: [expanded: "false", controls: id]) do [
+                      name <> " ",
+                      fa("angle-down", class: "down"),
+                      fa("angle-up", class: "up")
+                    ] end
               %>
-            </li>
+
+              <div class="desktop-menu">
+                <div class="container">
+                  <div class="desktop-menu-body panel">
+                    <div class="collapse" id="<%= id %>" role="tabpanel">
+                      <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
+                      <%= render "_old_site_button.html", conn: @conn %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           <% end %>
-        </ul>
+        </div>
       </nav>
     </div>
-    <nav class="collapse navbar row" id="navbar" role="navigation">
+    <nav class="collapse row" id="navbar" role="navigation">
       <ul class="mobile-nav">
         <%= for {name, description, href} <- [{"Home", "", page_path(@conn, :index)} | nav_links] do %>
           <li class="mobile-nav-item">
@@ -62,24 +79,21 @@
       </ul>
     </nav>
   </div>
-  <%= render "_desktop_header.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
-  <%= if assigns[:breadcrumbs] do %>
-    <div class="breadcrumb-container">
-      <div class="container">
-        <% breadcrumb_length = length @breadcrumbs %>
-        <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
-
-        <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
-        <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
-
-        <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
-          <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
-            <a href="<%= link %>"><%= text %></a>
-            <%= fa "angle-right" %>
-          </span>
-        <% end %>
-        <%= last_text %>
-      </div>
-    </div>
-  <% end %>
 </header>
+<%= if assigns[:breadcrumbs] do %><div class="breadcrumb-container">
+  <div class="container">
+    <% breadcrumb_length = length @breadcrumbs %>
+    <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
+
+    <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
+    <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
+
+    <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
+      <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
+        <a href="<%= link %>"><%= text %></a>
+        <%= fa "angle-right" %>
+      </span>
+    <% end %>
+    <%= last_text %>
+  </div>
+</div><% end %>

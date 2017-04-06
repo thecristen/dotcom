@@ -1,0 +1,40 @@
+<div class="menu-row">
+  <div class="col-xs-3 fares-column">
+    <p>More Fares Info</p>
+    <ul>
+      <li>
+        <%= link to: fare_path(@conn, :index) do %>
+          <%= fa "caret-right" %> Fares Overview
+        <% end %>
+      </li>
+      <li>
+        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
+          <%= fa "caret-right" %> Bus and Subway Fares
+        <% end %>
+      </li>
+      <li>
+        <%= link to: fare_path(@conn, :show, "commuter_rail") do %>
+          <%= fa "caret-right" %> Commuter Rail Fares
+        <% end %>
+      </li>
+      <li>
+        <%= link to: fare_path(@conn, :show, "ferry") do %>
+          <%= fa "caret-right" %> Ferry Fares
+        <% end %>
+      </li>
+      <li>
+        <%= link to: fare_path(@conn, :show, "reduced") do %>
+          <%= fa "caret-right" %> Reduced Fares
+        <% end %>
+      </li>
+      <li>
+        <%= link to: fare_path(@conn, :show, "payment_methods") do %>
+          <%= fa "caret-right" %> Payment Methods
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-9">
+    <%= Site.FareView.summarize(@common_fare_summaries, class: "fare-summary-container-dark title-card-container-table-multi-col") %>
+  </div>
+</div>

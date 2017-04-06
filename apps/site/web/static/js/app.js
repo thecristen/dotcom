@@ -37,6 +37,7 @@ import googleMap from './google-map';
 import scrollTo from './scroll-to';
 import stickyTooltip from './sticky-tooltip';
 import timetableScroll from './timetable-scroll';
+import menuClose from './menu-close';
 
 submitOnEvents(["blur", "change"]);
 dismissAnnouncement();
@@ -57,5 +58,6 @@ googleMap();
 scrollTo();
 stickyTooltip();
 timetableScroll();
+menuClose();
 
 $("body").removeClass("no-js").addClass("js");
