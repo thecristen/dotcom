@@ -58,6 +58,7 @@ export default function($) {
     if (savedAnchor) {
       // if we saved the anchor and it's above the screen, scroll to it
       const $el = $(savedAnchor);
+      const nodeName = $el[0].nodeName;
       const $window = $(window);
       if (clearSaved) {
         savedAnchor = null;
@@ -70,10 +71,10 @@ export default function($) {
         }
         // if we're focusing a link, then focus it directly. otherwise, find
         // the first child link and focus that.
-        if ($el[0].nodeName === "A") {
+        if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
           $el.focus();
         } else {
-          $el.children('a:first-of-type').focus();
+          $el.find('a:first').focus();
         }
       }
     }

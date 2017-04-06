@@ -11,7 +11,7 @@
     <% end %>
 
     <%= if @origin do %>
-      <div class="trip-list-v2-container">
+      <div id="trip-list" class="trip-list-v2-container">
         <%= if assigns[:stop_times] do %>
           <%= if @route.type == 2 do %>
             <%= render "_commuter_trip_list.html", forward_assigns(@conn) %>
