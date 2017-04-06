@@ -372,7 +372,7 @@ defmodule Site.ScheduleV2View do
   defp zone(nil, _stop), do: ""
   defp zone(zones, stop) do
     content_tag :div, class: "zone" do
-      ["Zone "<>zones[stop.id]]
+      ["Zone ", zones[stop.id]]
     end
   end
 
@@ -530,12 +530,12 @@ defmodule Site.ScheduleV2View do
   end
   def trip_expansion_link(:collapsed, date, conn) do
     date_string = date |> pretty_date |> String.downcase
-    link to: update_url(conn, show_all_trips: true)<>"#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
+    link to: update_url(conn, show_all_trips: true) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
       "Show all trips for #{date_string}"
     end
   end
   def trip_expansion_link(:expanded, _date, conn) do
-    link to: update_url(conn, show_all_trips: false)<>"#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
+    link to: update_url(conn, show_all_trips: false) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
       "Show upcoming trips only"
     end
   end
