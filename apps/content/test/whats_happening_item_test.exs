@@ -17,4 +17,12 @@ defmodule Content.WhatsHappeningItemTest do
     assert blurb =~ "The Fiscal and Management Control Board"
     assert url =~ "/about_the_mbta/news_events"
   end
+
+  test "strips out the internal: that drupal adds to relative links", %{api_item: api_item} do
+    api_item = %{api_item | "field_wh_link" => [%{"uri" => "internal:/news/winter", "title" => "", "options" => []}]}
+
+    assert %Content.WhatsHappeningItem{
+      url: "/news/winter"
+    } = Content.WhatsHappeningItem.from_api(api_item)
+  end
 end

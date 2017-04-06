@@ -78,6 +78,7 @@ defmodule Content.Helpers do
   @spec parse_link_type(map, String.t) :: String.t | nil
   def parse_link_type(data, field) do
     case data[field] do
+      [%{"uri" => "internal:" <> relative_path}] -> relative_path
       [%{"uri" => url}] -> url
       _ -> nil
     end
