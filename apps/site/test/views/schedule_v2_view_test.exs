@@ -727,4 +727,24 @@ defmodule Site.ScheduleV2ViewTest do
       refute safe_to_string(rendered) =~ "View inbound trips"
     end
   end
+
+  describe "direction_tooltip/1" do
+    test "gives commuter rail specific advice" do
+      assert direction_tooltip(2) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from it, while outbound trips leave from it"
+    end
+
+    test "gives ferry specific advice" do
+      assert direction_tooltip(4) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from it, while outbound trips leave from it"
+    end
+
+    test "gives generic advice for the other modes" do
+      assert direction_tooltip(0) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Use the route map for help finding your direction."
+    end
+  end
+
+  describe "date_tooltip/0" do
+    test "makes a schedule tooltip" do
+      assert date_tooltip() =~ "class='schedule-tooltip'"
+    end
+  end
 end

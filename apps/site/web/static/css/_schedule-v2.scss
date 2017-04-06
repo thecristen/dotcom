@@ -591,3 +591,14 @@ a {
     margin-left: $space-6;
   }
 }
+
+.tooltip-icon {
+  color: $brand-primary;
+}
+
+.schedule-tooltip {
+  font-size: 1rem;
+  max-width: 15rem;
+  padding: .5rem;
+  padding-bottom: 0;
+}

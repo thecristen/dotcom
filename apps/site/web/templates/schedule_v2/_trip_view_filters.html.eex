@@ -1,6 +1,9 @@
 <div class="row page-section trip-filters">
   <div class="date-filter col-xs-12 col-sm-6 col-md-4">
-    <div class="filter-label">Schedules for:</div>
+    <div class="filter-label">
+      Schedules for:
+      <%= render "_help_tooltip.html", text: date_tooltip() %>
+    </div>
     <%= link to: update_schedule_url(@conn, shift: nil, date_select: !@show_date_select? || nil), class: "filter-button" do %>
       <div class="filter-text">
         <div class="inner-label"><span class="sr-only">Change </span>Date:</div>
@@ -13,7 +16,10 @@
   </div>
   <% headsigns = @headsigns[@direction_id] |> Enum.map(&break_text_at_slash/1) |> Enum.join(" • ") %>
   <%= content_tag :div, class: "direction-filter col-xs-12 col-sm-6 col-md-#{if String.length(headsigns) > 20, do: "8", else: "4"}" do %>
-    <div class="filter-label">Direction of your trip:</div>
+    <div class="filter-label">
+      Direction of your trip:
+      <%= render "_help_tooltip.html", text: direction_tooltip(@route.type) %>
+    </div>
     <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, 1 - @direction_id)), class: "filter-button" do %>
       <div class="filter-text">
         <span class="sr-only">Change Direction of Trip.</span>

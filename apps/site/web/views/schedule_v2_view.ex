@@ -539,4 +539,32 @@ defmodule Site.ScheduleV2View do
       "Show upcoming trips only"
     end
   end
+
+  @spec direction_tooltip(0..4) :: String.t
+  def direction_tooltip(route_type) when route_type in [2,4] do
+    :div
+    |> content_tag([content_tag(:p,
+      "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from it, while outbound trips leave from it",
+      class: 'schedule-tooltip')])
+    |> safe_to_string
+    |> String.replace(~s("), ~s('))
+  end
+  def direction_tooltip(_route_type) do
+    :div
+    |> content_tag([content_tag(:p,
+      "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Use the route map for help finding your direction.",
+      class: 'schedule-tooltip')])
+    |> safe_to_string
+    |> String.replace(~s("), ~s('))
+  end
+
+  @spec date_tooltip() :: String.t
+  def date_tooltip do
+    :div
+    |> content_tag([content_tag(:p,
+      "Select a date to view that day’s schedule. Weekdays, Saturdays, and Sundays usually have differing schedules.",
+      class: 'schedule-tooltip')])
+    |> safe_to_string
+    |> String.replace(~s("), ~s('))
+  end
 end
