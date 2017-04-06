@@ -21,3 +21,13 @@ Local development is easiest with a copy of the Drupal CMS running locally, and 
 * At any point you can "reset" your local copy to what's on production by going to Kalabox, clicking the gear associated with the mbta tile and click "Pull", pulling the database from dev and the files from dev.
 
 * Ensure the CMS is set up by starting up your phoenix server pointing to it: `env DRUPAL_ROOT=http://mbta.kbox.site/ mix phoenix.server`. Visit localhost:4001/news/winter to confirm it loads.
+
+## Code overview
+
+Internally to the Drupal CMS, there are a number of custom "content types" created. For example, we created an "Event" content type, which has fields like "start_time", with drupal-primitive type "datetime". These content types are exposed to the world via a JSON REST API.
+
+The `content` app provides internal Elixir types that match these Drupal content types. The aforementioned "event" content type is represented by `%Content.Event{}` in the elixir app. All of these types provide a `from_api/1` function that takes the parsed JSON from the Drupal API and returns elixir structs.
+
+The `Content.Repo` module is the main interface the site uses to interact with the CMS. All the exposed endpoints on the CMS are wrapped by a function in `Content.Repo`. For example, the `/events` endpoint can be accessed via `Content.Repo.events/1`. All the `Content.Repo` functions return Elixir structs of the proper type.
+
+For testing purposes, the `Content.Repo` implementation actually uses an environment-based `@cms_api` module, which exposes a single function `view/1`, which takes a URL path `view("/events")` and returns the parsed JSON result. That module contract is described by the `Content.CMS` behaviour. There are two modules that implement that interface. The first is `Content.CMS.HTTPClient` which actually hits the Drupal CMS at the path provided, and returns the result. The other implementing module is `Content.CMS.Static`, which the test environment uses and returns static JSON that has been saved in the `content/priv/` directory.

@@ -5,7 +5,7 @@ defmodule Site.PageController do
   plug Site.Plugs.Alerts, upcoming?: false
   plug Site.Plugs.TransitNearMe
 
-  def index(conn, params) do
+  def index(conn, _params) do
     conn
     |> assign(:grouped_routes, filtered_grouped_routes([:subway, :bus]))
     |> async_assign(:news, &news/0)
@@ -13,7 +13,7 @@ defmodule Site.PageController do
     |> assign_tnm_column_groups
     |> assign(:pre_container_template, "_pre_container.html")
     |> assign(:post_container_template, "_post_container.html")
-    |> whats_happening_banner(params)
+    |> important_notice
     |> whats_happening_items
     |> render("index.html")
   end
@@ -22,10 +22,9 @@ defmodule Site.PageController do
     News.Repo.all(limit: 4)
   end
 
-  defp whats_happening_banner(conn, %{"whats_happening_banner" => _}) do
-    assign(conn, :whats_happening_banner, true)
+  defp important_notice(conn) do
+    assign(conn, :important_notice, Content.Repo.important_notice())
   end
-  defp whats_happening_banner(conn, _params), do: conn
 
   defp whats_happening_items(conn) do
     items = case Content.Repo.whats_happening() do

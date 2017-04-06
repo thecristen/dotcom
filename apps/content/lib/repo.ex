@@ -51,4 +51,14 @@ defmodule Content.Repo do
       end
     end
   end
+
+  @spec important_notice() :: Content.ImportantNotice.t | nil
+  def important_notice do
+    cache [], fn _ ->
+      case @cms_api.view("/important-notices") do
+        {:ok, [api_data]} -> Content.ImportantNotice.from_api(api_data)
+        _ -> nil
+      end
+    end
+  end
 end
