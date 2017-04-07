@@ -18,7 +18,7 @@ defmodule Content.NewsEntryTest do
         updated_at: updated_at
       } = Content.NewsEntry.from_api(api_page)
 
-      assert id == "18"
+      assert id == 18
       assert title == "FMCB approves Blue Hill Avenue Station on the Fairmount Line"
       assert Phoenix.HTML.safe_to_string(body) =~ "<p>BOSTON -- The MBTA"
       assert media_contact_name == "MassDOT Press Office"

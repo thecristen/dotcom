@@ -39,17 +39,15 @@ defmodule Content.Helpers do
     end
   end
 
-  @spec parse_unix_time(String.t) :: DateTime.t | nil
-  def parse_unix_time(unix_string) do
-    case Integer.parse(unix_string) do
-      {seconds, ""} -> Timex.from_unix(seconds)
-      _ -> nil
-    end
+  @spec parse_unix_time(integer) :: DateTime.t | nil
+  def parse_unix_time(unix_time) do
+    Timex.from_unix(unix_time)
   end
 
   @spec parse_updated_at(map) :: DateTime.t | nil
   def parse_updated_at(%{} = data) do
     if changed = field_value(data, "changed") do
+      changed = int_or_string_to_int(changed)
       parse_unix_time(changed)
     end
   end
@@ -83,4 +81,9 @@ defmodule Content.Helpers do
       _ -> nil
     end
   end
+
+  @spec int_or_string_to_int(integer | String.t | nil) :: integer | nil
+  def int_or_string_to_int(nil), do: nil
+  def int_or_string_to_int(num) when is_integer(num), do: num
+  def int_or_string_to_int(str) when is_binary(str), do: String.to_integer(str)
 end

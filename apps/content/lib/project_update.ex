@@ -3,14 +3,14 @@ defmodule Content.ProjectUpdate do
   Represents a "project_update" type in the Drupal CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, parse_body: 1, parse_featured_image: 1,
+  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_featured_image: 1,
     parse_updated_at: 1]
 
-  defstruct [id: "", body: Phoenix.HTML.raw(""), title: "", featured_image: nil, photo_gallery: [],
+  defstruct [id: 0, body: Phoenix.HTML.raw(""), title: "", featured_image: nil, photo_gallery: [],
     updated_at: nil, status: "", downloads: []]
 
   @type t :: %__MODULE__{
-    id: String.t,
+    id: integer,
     body: Phoenix.HTML.safe,
     title: String.t,
     featured_image: Content.Field.Image.t | nil,
@@ -23,7 +23,7 @@ defmodule Content.ProjectUpdate do
   @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
-      id: field_value(data, "nid"),
+      id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
       title: field_value(data, "title"),
       featured_image: parse_featured_image(data),

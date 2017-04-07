@@ -15,7 +15,7 @@ defmodule Content.BasicPageTest do
         title: title
       } = Content.BasicPage.from_api(api_page)
 
-      assert id == "6"
+      assert id == 6
       assert Phoenix.HTML.safe_to_string(body) =~ "<p>From accessible buses,"
       assert title == "Accessibility at the T"
     end

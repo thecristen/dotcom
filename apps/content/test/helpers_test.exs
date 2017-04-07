@@ -19,4 +19,39 @@ defmodule Content.HelpersTest do
       assert rewritten == Content.Config.apply(:static, ["/foo/bar"])
     end
   end
+
+  describe "parse_updated_at/1" do
+    test "handles unix time as a string" do
+      api_data = %{"changed" => [%{"value" => "1488904773"}]}
+
+      unix =
+      api_data
+      |> parse_updated_at
+      |> DateTime.to_unix
+
+      assert unix == 1_488_904_773
+    end
+
+    test "handles unix time as an int" do
+      api_data = %{"changed" => [%{"value" => 1_488_904_773}]}
+
+      unix =
+      api_data
+      |> parse_updated_at
+      |> DateTime.to_unix
+
+      assert unix == 1_488_904_773
+    end
+  end
+
+  describe "int_or_string_to_int/1" do
+    test "converts appropriately or leaves alone" do
+      assert int_or_string_to_int(5) == 5
+      assert int_or_string_to_int("5") == 5
+    end
+
+    test "handles nil" do
+      assert int_or_string_to_int(nil) == nil
+    end
+  end
 end

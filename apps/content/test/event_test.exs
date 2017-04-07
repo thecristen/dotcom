@@ -24,7 +24,7 @@ defmodule Content.EventTest do
         agenda: agenda
       } = Content.Event.from_api(api_event)
 
-      assert id == "17"
+      assert id == 17
       assert start_time == Timex.parse!("2017-01-23T15:00:00Z", "{ISO:Extended:Z}")
       assert end_time == nil
       assert title == "Finance & Audit Committee Meeting"
