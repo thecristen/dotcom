@@ -3,7 +3,7 @@ defmodule Content.IsoDateTime do
   Returns a datetime in UTC.
   Example: IsoDateTime.utc("January 1, 2017", "2:00 PM")
   """
-  @spec utc_date_time(String.t, String.t, Types.valid_timezone) :: DateTime.t | {:error, term}
+  @spec utc_date_time(String.t, String.t, Timex.Types.valid_timezone) :: DateTime.t | {:error, term}
   def utc_date_time(date, time, timezone \\ "America/New_York") do
     date
     |> date_time_with_timezone(time, timezone)
