@@ -4,6 +4,7 @@ defmodule Site.Router do
   alias Site.StaticPage
 
   pipeline :browser do
+    plug SystemMetrics.Plug
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
