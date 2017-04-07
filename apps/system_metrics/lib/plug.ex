@@ -29,6 +29,8 @@ defmodule SystemMetrics.Plug do
       # log errors per minute
       if conn.status >= 500 do
         @meter.update_counter("errors", 1, [reset_seconds: 60])
+      else
+        @meter.update_counter("errors", 0, [reset_seconds: 60])
       end
 
       conn

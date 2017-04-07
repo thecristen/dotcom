@@ -21,8 +21,6 @@ defmodule SystemMetrics.MonitorTest do
     end
 
     test "handle_info/2" do
-      # start agent process
-      @meter.start_link()
 
       # call handle info directly
       expected = {:noreply, nil}
@@ -34,7 +32,8 @@ defmodule SystemMetrics.MonitorTest do
 
       # make sure we have all the pertinent keys, and values are more than 0
       metrics = ["cpu_load", "memory_available", "memory_used", "erlang_active_tasks", "erlang_run_queue", "erlang_memory"]
-      for {{:gauge, key}, value} <- collected_data do
+      for key <- metrics do
+        value = collected_data[{:gauge, key}]
         assert Enum.member?(metrics, key)
         if key == "erlang_run_queue" do
           assert value >= 0
@@ -42,7 +41,6 @@ defmodule SystemMetrics.MonitorTest do
           assert value > 0
         end
       end
-
     end
   end
 end
