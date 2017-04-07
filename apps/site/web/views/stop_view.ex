@@ -28,19 +28,6 @@ defmodule Site.StopView do
     |> Enum.join(" ")
   end
 
-  def optional_li(""), do: ""
-  def optional_li(nil), do: ""
-  def optional_li(value) do
-    content_tag :li, value
-  end
-
-  def optional_link("", _) do
-    nil
-  end
-  def optional_link(href, value) do
-    content_tag(:a, value, href: external_link(href), target: "_blank")
-  end
-
   def sort_parking_spots(spots) do
     spots
     |> Enum.sort_by(fn %{type: type} ->
@@ -78,7 +65,7 @@ defmodule Site.StopView do
     format_accessibility_options(stop)]
   end
 
-  @spec format_accessibility_options(Stop.t) :: Phoenix.HTML.Safe.t | nil
+  @spec format_accessibility_options(Stop.t) :: Phoenix.HTML.Safe.t | String.t
   defp format_accessibility_options(stop) do
     if stop.accessibility && !Enum.empty?(stop.accessibility) do
       content_tag :p do
@@ -88,7 +75,7 @@ defmodule Site.StopView do
         |> Enum.join(", ")
       end
     else
-      content_tag :span, ""
+      ""
     end
   end
 
@@ -99,12 +86,6 @@ defmodule Site.StopView do
     content_tag(:span, "#{name} is an accessible station.")
   end
   defp format_accessibility_text(name, _features), do: content_tag(:span, "#{name} has the following accessibility features:")
-
-  @spec show_fares?(Stop.t) :: boolean
-  @doc "Determines if the fare information for the given stop should be displayed"
-  def show_fares?(stop) do
-    !origin_station?(stop)
-  end
 
   @spec origin_station?(Stop.t) :: boolean
   def origin_station?(stop) do
@@ -138,7 +119,7 @@ defmodule Site.StopView do
   def schedule_template(_), do: "_mode_schedule.html"
 
   @spec has_alerts?([Alerts.Alert.t], Date.t, Alerts.InformedEntity.t) :: boolean
-  @doc "Returns true if the given route has alerts. The date is supplied by the conn."
+  @doc "Returns true if the given route has alerts."
   def has_alerts?(alerts, date, informed_entity) do
     alerts
     |> Enum.reject(&Alerts.Alert.is_notice?(&1, date))
@@ -146,9 +127,6 @@ defmodule Site.StopView do
     |> Enum.empty?
     |> Kernel.not
   end
-
-  @spec formatted_time(DateTime.t) :: String.t
-  defp formatted_time(time), do: Timex.format!(time, "{h12}:{m} {AM}")
 
   def station_schedule_empty_msg(mode) do
     content_tag :div, class: "station-schedules-empty station-route-row" do
@@ -171,14 +149,9 @@ defmodule Site.StopView do
     |> do_schedule_display_time(time)
   end
 
-  def do_schedule_display_time(diff, time) when diff > 60 or diff < -1, do: formatted_time(time)
-
-  def do_schedule_display_time(diff, _) do
-    case diff do
-      0 -> "< 1 min"
-      x -> "#{x} #{Inflex.inflect("min", x)}"
-    end
-  end
+  def do_schedule_display_time(diff, time) when diff > 60 or diff < -1, do: format_schedule_time(time)
+  def do_schedule_display_time(0, _), do: "< 1 min"
+  def do_schedule_display_time(diff, _), do: "#{diff} #{Inflex.inflect("min", diff)}"
 
   def predicted_icon(true) do
       ~s(<i data-toggle="tooltip" title="Real-time Information" class="fa fa-rss station-schedule-icon"></i>
