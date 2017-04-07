@@ -41,7 +41,9 @@ defmodule Content.EventPayload do
 
   defp meeting_id(%{"meeting_id" => meeting_id}), do: meeting_id
 
-  defp meeting_address(%{"location" => address}), do: address
+  defp meeting_address(%{"location" => address}) do
+    HtmlSanitizeEx.strip_tags(address)
+  end
 
   defp meeting_start_date_time(%{"meetdate" => date, "meettime" => time}) do
     case IsoDateTime.parse_start_time(time) do

@@ -9,19 +9,7 @@
     <div class="event-time">
       <i class="event-icon fa fa-calendar"></i><%= event_duration(@event.start_time, @event.end_time) %>
     </div>
-    <div>
-      <ul class="event-address">
-        <li class="event-location">
-          <i class="event-icon fa fa-map-marker"></i><%= @event.location %>
-        </li>
-        <li class="event-street-address">
-          <%= @event.street_address %>
-        </li>
-        <li class="event-city">
-          <%= "#{@event.city}, #{@event.state}" %>
-        </li>
-      </ul>
-    </div>
+    <%= render "_address.html", event: @event %>
     <div class="event-attendees">
       <i class="event-icon fa fa-users"></i><%= @event.who %>
     </div>
@@ -43,16 +31,16 @@
   <%= @event.body %>
 </div>
 
-<%= if Site.ContentView.field_has_content?(@event.notes) do %>
+<%= if notes = content(@event.notes) do %>
   <div class="event-hr-row event-hr-col">
     <h2><%= "Notes" %></h2>
-    <%= @event.notes %>
+    <%= notes %>
   </div>
 <% end %>
 
-<%= if Site.ContentView.field_has_content?(@event.agenda) do %>
+<%= if agenda = content(@event.agenda) do %>
   <div class="event-hr-row event-hr-col">
     <h2><%= "Agenda" %></h2>
-    <%= @event.agenda %>
+    <%= agenda %>
   </div>
 <% end %>
