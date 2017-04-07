@@ -1,6 +1,6 @@
 defmodule PredictedScheduleTest do
   use ExUnit.Case, async: true
-  alias Schedules.{Schedule, Stop}
+  alias Schedules.{Schedule, Stop, Trip}
   alias Predictions.Prediction
   import PredictedSchedule
 
@@ -11,31 +11,37 @@ defmodule PredictedScheduleTest do
   @schedules [
     %Schedule{
       stop: %Stop{id: "first"},
+      trip: %Trip{id: "trip1"},
       time: @base_time,
       route: @route
     },
     %Schedule{
       stop: %Stop{id: "second"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 10),
       route: @route
     },
     %Schedule{
       stop: %Stop{id: "third"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 20),
       route: @route
     },
     %Schedule{
       stop: %Stop{id: "fourth"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 30),
       route: @route
     },
     %Schedule{
       stop: %Stop{id: "fifth"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 40),
       route: @route
     },
     %Schedule{
       stop: %Stop{id: "last"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 50),
       route: @route
     }
@@ -44,16 +50,19 @@ defmodule PredictedScheduleTest do
   @predictions [
     %Prediction{
       stop: %Stop{id: "first"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 12),
       route: @route
     },
     %Prediction{
       stop: %Stop{id: "second"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 22),
       route: @route
     },
     %Prediction{
       stop: %Stop{id: "third"},
+      trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 32),
       route: @route
     }
@@ -62,17 +71,61 @@ defmodule PredictedScheduleTest do
   @non_matching_predictions [
     %Prediction{
       stop: %Stop{id: "stop1"},
-      time: Timex.shift(@base_time, minutes: 12)
+      time: Timex.shift(@base_time, minutes: 12),
+      trip: %Trip{id: "trip6"}
     },
     %Prediction{
       stop: %Stop{id: "stop2"},
-      time: Timex.shift(@base_time, minutes: 32)
+      time: Timex.shift(@base_time, minutes: 32),
+      trip: %Trip{id: "trip2"}
     }
   ]
 
-  describe "group_by_trip/2" do
+  @trip_schedules [
+    %Schedule{
+      trip: %Trip{id: "Trip 1"},
+      stop: %Stop{id: "stop1"},
+      time: @base_time,
+      route: @route
+    },
+    %Schedule{
+      trip: %Trip{id: "Trip 2"},
+      stop: %Stop{id: "stop1"},
+      time: Timex.shift(@base_time, minutes: 10),
+      route: @route
+    },
+    %Schedule{
+      trip: %Trip{id: "Trip 3"},
+      stop: %Stop{id: "stop1"},
+      time: Timex.shift(@base_time, minutes: 20),
+      route: @route
+    }
+  ]
+
+  @trip_predictions [
+    %Prediction{
+      trip: %Trip{id: "Trip 1"},
+      stop: %Stop{id: "stop1"},
+      time: @base_time,
+      route: @route
+    },
+    %Prediction{
+      trip: %Trip{id: "Trip 2"},
+      stop: %Stop{id: "stop1"},
+      time: Timex.shift(@base_time, minutes: 10),
+      route: @route
+    },
+    %Prediction{
+      trip: %Trip{id: "Trip 3"},
+      stop: %Stop{id: "stop1"},
+      time: Timex.shift(@base_time, minutes: 20),
+      route: @route
+    }
+  ]
+
+  describe "group/2" do
     test "PredictedSchedules are paired by stop" do
-      predicted_schedules = group_by_trip(@predictions, Enum.shuffle(@schedules))
+      predicted_schedules = group(@predictions, Enum.shuffle(@schedules))
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 3) do
         assert schedule.stop == prediction.stop
       end
@@ -81,7 +134,7 @@ defmodule PredictedScheduleTest do
     test "Schedules and Predictions with different stop_sequence values stay separated" do
       predictions = @predictions ++ Enum.map(@predictions, &%{&1 | stop_sequence: 5})
       schedules = @schedules ++ Enum.map(@schedules, &%{&1 | stop_sequence: 5})
-      predicted_schedules = group_by_trip(predictions, schedules)
+      predicted_schedules = group(predictions, schedules)
       assert length(predicted_schedules) == length(schedules)
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
         not is_nil(prediction) do
@@ -95,17 +148,17 @@ defmodule PredictedScheduleTest do
     end
 
     test "All schedules are returned" do
-      predicted_schedules = group_by_trip(@predictions, @schedules)
+      predicted_schedules = group(@predictions, @schedules)
       assert Enum.map(predicted_schedules, & &1.schedule) == @schedules
     end
 
     test "PredictedSchedules are returned in order of ascending time" do
-      predicted_schedules = group_by_trip(Enum.shuffle(@predictions), Enum.shuffle(@schedules))
+      predicted_schedules = group(Enum.shuffle(@predictions), Enum.shuffle(@schedules))
       assert Enum.map(predicted_schedules, & &1.schedule) == @schedules
     end
 
     test "Predictions without matching stops are still returned" do
-      predicted_schedules = group_by_trip(@non_matching_predictions, Enum.shuffle(@schedules))
+      predicted_schedules = group(@non_matching_predictions, Enum.shuffle(@schedules))
       assert Enum.count(predicted_schedules) == Enum.count(@non_matching_predictions) + Enum.count(@schedules)
       for %PredictedSchedule{schedule: schedule, prediction: _prediction} <- Enum.take(predicted_schedules, 2) do
        refute schedule
@@ -113,7 +166,7 @@ defmodule PredictedScheduleTest do
     end
 
     test "ScheduledPredictions are sorted with unmatched predictions first" do
-      predicted_schedules = group_by_trip(@non_matching_predictions, Enum.shuffle(@schedules))
+      predicted_schedules = group(@non_matching_predictions, Enum.shuffle(@schedules))
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 2) do
        refute schedule
        assert prediction
@@ -121,6 +174,13 @@ defmodule PredictedScheduleTest do
 
       for %PredictedSchedule{schedule: schedule, prediction: _prediction} <- Enum.drop(predicted_schedules, 2) do
        assert schedule
+      end
+    end
+
+    test "predicted_schedules are grouped according to trip id" do
+      grouped_predicted_schedules = group(@trip_predictions, @trip_schedules)
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- grouped_predicted_schedules do
+        assert schedule.trip.id == prediction.trip.id
       end
     end
   end
@@ -232,6 +292,33 @@ defmodule PredictedScheduleTest do
       assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: nil}) == 0
       assert delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
       assert delay(nil) == 0
+    end
+  end
+
+  describe "upcoming?/2" do
+    test "determines if given predicted schedule occurs after given time" do
+      early_schedule = %Schedule{time: Timex.shift(@base_time, minutes: -2)}
+      early_prediction = %Prediction{time: Timex.shift(@base_time, minutes: -1)}
+      late_schedule = %Schedule{time: Timex.shift(@base_time, minutes: 2)}
+      late_prediction = %Prediction{time: Timex.shift(@base_time, minutes: 1)}
+
+      assert upcoming?(%PredictedSchedule{schedule: late_schedule, prediction: late_prediction}, @base_time)
+      refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: early_prediction}, @base_time)
+      refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: late_schedule}, @base_time)
+    end
+  end
+
+  describe "departing?/1" do
+    test "If schedule is given, determines departing status by pickup type" do
+      schedule = %Schedule{pickup_type: 1}
+      prediction = %Prediction{departing?: true}
+      refute departing?(%PredictedSchedule{schedule: schedule, prediction: prediction})
+      assert departing?(%PredictedSchedule{schedule: %{schedule | pickup_type: 2}, prediction: prediction})
+    end
+
+    test "Predictions is used to determine departing status if no schedule is given" do
+      refute departing?(%PredictedSchedule{prediction: %Prediction{departing?: false}})
+      assert departing?(%PredictedSchedule{prediction: %Prediction{departing?: true}, schedule: nil})
     end
   end
 end

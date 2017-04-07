@@ -11,29 +11,28 @@
   </div>
   <div class="col-xs-12">
     <div class="row">
-      <%= for route <- @routes do %>
-        <%= for direction_id <- [0, 1] do %>
-          <%= if (departure_groups = upcoming_departures(@conn.assigns, @stop.id, route.id, direction_id)) != [] do %>
-            <%= link class: "station-route-row", to: schedule_path(@conn, :show, route.id, origin: @stop.id, direction_id: direction_id) do %>
+      <%= for route_time <- @route_times do %>
+          <%= if route_time.departures != [] do %>
+            <%= link class: "station-route-row", to: schedule_path(@conn, :show, route_time.route.id, origin: @stop.id, direction_id: route_time.direction) do %>
               <div class="col-xs-12 mode-route-name">
-                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route, class: "icon-small"}) %>
-                <%= route.name %>
+                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route_time.route, class: "icon-small"}) %>
+                <%= route_time.route.name %>
               </div>
               <div class="clearfix">
-                <%= for {headsign, departures} <- departure_groups do %>
+                <%= for {headsign, departures} <- route_time.departures do %>
                   <div class="clearfix">
                     <div class="col-sm-6 col-xs-12 station-trip-headsign">
-                      <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= headsign %>
-                      <%= if has_alerts?(@alerts, @date, %Alerts.InformedEntity{route: route.id, direction_id: direction_id}) do %>
+                      <%= direction(route_time.direction, route_time.route) %> <%= fa "arrow-right" %> <%= headsign %>
+                      <%= if has_alerts?(@alerts, @date, %Alerts.InformedEntity{route: route_time.route.id, direction_id: route_time.direction}) do %>
                         <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
                       <% end %>
                     </div>
                     <div class="col-sm-6 col-xs-12">
                       <div class="row">
-                        <%= for {type, _trip, time} <- departures do %>
+                        <%= for predicted_schedule <- departures do %>
                           <div class="no-wrap schedule-upcoming-departure col-xs-4">
-                            <%= predicted_icon(type) %>
-                            <%= schedule_display_time(time, @date_time) %>
+                            <%= predicted_icon(PredictedSchedule.has_prediction?(predicted_schedule)) %>
+                            <%= schedule_display_time(PredictedSchedule.time(predicted_schedule), @date_time) %>
                           </div>
                         <% end %>
                       </div>
@@ -43,7 +42,6 @@
               </div>
             <% end %>
           <% end %>
-        <% end %>
       <% end %>
       <%= station_schedule_empty_msg(@mode) %>
     </div>

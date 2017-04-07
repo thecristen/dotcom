@@ -3,10 +3,6 @@ defmodule Site.StopView do
 
   alias Stops.Stop
   alias Fares.RetailLocations.Location
-  alias Schedules.Schedule
-  alias Schedules.Trip
-  alias Routes.Route
-  alias Predictions.Prediction
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
 
@@ -151,115 +147,8 @@ defmodule Site.StopView do
     |> Kernel.not
   end
 
-  @spec upcoming_commuter_departures(Plug.Conn.t, integer, integer) :: Schedule.t | nil
-  @doc "Returns the next departure for the given stop, CR line, and direction."
-  def upcoming_commuter_departures(conn, route, direction_id) do
-    conn.assigns.stop_schedule
-    |> Enum.reject(&(&1.pickup_type == 1))
-    |> route_schedule(route, direction_id)
-    |> Enum.find(&(Timex.after?(&1.time, conn.assigns[:date_time])))
-  end
-
-  @spec upcoming_departures(%{date_time: DateTime.t, mode: Route.route_type, stop_schedule: [Schedule.t], stop_predictions: [Prediction.t]}, String.t, integer, integer) :: [{String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}]
-  @doc "Returns the next departures for the given stop, route, and direction."
-  def upcoming_departures(%{date_time: date_time, mode: mode, stop_schedule: stop_schedule, stop_predictions: stop_predictions}, stop_id, route_id, direction_id) do
-    predicted =
-      case route_id do
-        "Green"<>_line -> [] # Skip Greenline predictions
-        _ -> stop_predictions
-        |> route_predictions(route_id, direction_id)
-        |> Enum.filter_map(&(upcoming?(&1.time, date_time, mode)), &({:predicted, &1.trip, &1.time}))
-      end
-
-    scheduled = stop_schedule
-    |> route_schedule(route_id, direction_id)
-    |> Enum.reject(&(&1.pickup_type == 1))
-    |> Enum.filter_map(&(upcoming?(&1.time, date_time, mode)),&{:scheduled, &1.trip, &1.time})
-
-    predicted
-    |> Enum.concat(scheduled)
-    |> dedup_trips
-    |> Enum.sort_by(&(elem(&1, 2)))
-    |> Enum.group_by(&(elem(&1, 1).headsign))
-    |> filter_more_stops(stop_id)
-    |> Enum.map(&format_groups(&1))
-  end
-
-  @spec filter_more_stops(%{String.t => [{:scheduled | :predicted, Trip.t, DateTime.t}]}, String.t) :: [{String.t, [{:scheduled | :predicted, Trip.t, DateTime.t}]}]
-  defp filter_more_stops(headsign_trip_map, stop_id) do
-    # get the first trip IDs for the predictions
-    prediction_trips = headsign_trip_map
-    |> Enum.flat_map(fn
-      {_, [{:predicted, trip, _} | _]} -> [trip.id]
-      _ -> []
-    end)
-    # build a map of trip ID -> boolean, where the boolean is true if there
-    # are more stops on the trip after our selected stop_id
-    departing_map = prediction_trips
-    |> Enum.join(",")
-    |> Schedules.Repo.schedule_for_trip
-    |> Enum.group_by(& &1.trip.id)
-    |> Map.new(fn {trip_id, schedules} ->
-      departing? = schedules
-      |> Enum.drop_while(& &1.stop.id != stop_id)
-      |> two_or_more?
-      {trip_id, departing?}
-    end)
-    # filter out predictions that don't have a stop afterwards
-    headsign_trip_map
-    |> Enum.filter(fn
-      {_, [{:predicted, trip, _} | _]} -> departing_map[trip.id]
-      _ -> true
-    end)
-  end
-
-  defp two_or_more?([_, _ | _]), do: true
-  defp two_or_more?(list) when is_list(list), do: false
-
-  @spec format_groups({String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}) :: {String.t, [{:scheduled | :predicted, String.t, DateTime.t}]}
-  def format_groups({headsign, departures}) do
-    {headsign, limit_departures(departures)}
-  end
-
-  @spec route_predictions([Prediction.t], integer, integer) :: [Prediction.t]
-  defp route_predictions(predictions, route_id, direction_id) do
-    predictions
-    |> Enum.filter(&(&1.route.id == route_id and &1.direction_id == direction_id && &1.time))
-  end
-
-  @spec route_schedule([Schedule.t], integer, integer) :: [Schedule.t]
-  defp route_schedule(schedules, route_id, direction_id) do
-    schedules
-    |> Enum.filter(&(&1.route.id == route_id and &1.trip.direction_id == direction_id))
-  end
-
-  # Find the first three predicted departures to display. If there are
-  # fewer than three, fill out the list with scheduled departures
-  # which leave after the last predicted departure.
-  defp limit_departures(departures) do
-    scheduled_after_predictions = departures
-    |> Enum.reverse
-    |> Enum.take_while(&(match?({:scheduled, _, _}, &1)))
-    |> Enum.reverse
-
-    predictions = departures
-    |> Enum.filter(&(match?({:predicted, _, _}, &1)))
-
-    predictions
-    |> Stream.concat(scheduled_after_predictions)
-    |> Enum.take(3)
-  end
-
   @spec formatted_time(DateTime.t) :: String.t
   defp formatted_time(time), do: Timex.format!(time, "{h12}:{m} {AM}")
-
-  @spec commuter_prediction([Prediction.t], String.t) :: Prediction.t | nil
-  def commuter_prediction(stop_predictions, trip_id) do
-    Enum.find(
-      stop_predictions,
-      &match?(%Prediction{trip: %Trip{id: ^trip_id}}, &1)
-    )
-  end
 
   def station_schedule_empty_msg(mode) do
     content_tag :div, class: "station-schedules-empty station-route-row" do
@@ -291,8 +180,9 @@ defmodule Site.StopView do
     end
   end
 
-  def predicted_icon(:predicted) do
-      ~s(<i data-toggle="tooltip" title="Real-time Information" class="fa fa-rss station-schedule-icon"></i><span class="sr-only">Predicted departure time: </span>)
+  def predicted_icon(true) do
+      ~s(<i data-toggle="tooltip" title="Real-time Information" class="fa fa-rss station-schedule-icon"></i>
+         <span class="sr-only">Predicted departure time: </span>)
       |> Phoenix.HTML.raw
   end
   def predicted_icon(_), do: ""
@@ -319,42 +209,6 @@ defmodule Site.StopView do
       [center: location(stop)]
     else
       [markers: location(stop)]
-    end
-  end
-
-  defp upcoming?(trip_time, now, mode) do
-    trip_time
-    |> Timex.diff(now, :minutes)
-    |> do_upcoming?(now, mode)
-  end
-
-  defp do_upcoming?(diff, now, :subway) do
-    # show all upcoming subway departures during early morning hours
-    # without service; otherwise limit it to within 30 minutes
-    diff >= 0 && (now.hour <= 5 || diff <= 30)
-  end
-  defp do_upcoming?(diff, _now, _mode) do
-    diff >= 0
-  end
-
-  # If we have both a schedule and a prediction for a trip, prefer the predicted version.
-  defp dedup_trips(departures) do
-    departures
-    |> Enum.reduce({%{}, []}, &dedup_trip_reducer/2)
-    |> elem(1)
-  end
-
-  defp dedup_trip_reducer({:predicted, nil, _}, acc) do
-    # invalid trip IDs aren't fetched from the API and return nil instead
-    acc
-  end
-  defp dedup_trip_reducer({:predicted, trip, _} = departure, {seen, final}) do
-    {Map.put(seen, trip.id, :predicted), [departure | final]}
-  end
-  defp dedup_trip_reducer({:scheduled, trip, _} = departure, {seen, final} = acc) do
-    case Map.get(seen, trip.id) do
-      :predicted -> acc
-      _ -> {Map.put(seen, trip.id, :scheduled), [departure | final]}
     end
   end
 

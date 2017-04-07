@@ -67,6 +67,15 @@ defmodule Site.StopController do
     |> assign(:stop_predictions, stop_predictions(stop.id))
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign(:stop_schedule)
+    |> assign_upcoming_route_departures()
+  end
+
+  defp assign_upcoming_route_departures(conn) do
+    route_time_list = conn.assigns.stop_predictions
+    |> UpcomingRouteDepartures.build_mode_list(conn.assigns.stop_schedule, conn.assigns.date_time)
+    |> Enum.sort_by(&sorter/1)
+
+    assign(conn, :upcoming_route_departures, route_time_list)
   end
 
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string

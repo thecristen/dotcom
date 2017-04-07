@@ -21,38 +21,36 @@
   </div>
   <div class="col-xs-12">
     <div class="row">
-      <%= for route <- @routes do %>
-        <%= for direction_id <- [0, 1] do %>
-          <%= if schedule = upcoming_commuter_departures(@conn, route.id, direction_id) do %>
-            <% %Schedule{trip: %Trip{id: trip_id}} = schedule %>
-            <% prediction = commuter_prediction(@stop_predictions, trip_id) %>
-            <%= link class: "station-route-row", to: schedule_path(@conn, :show, route.id, trip: trip_id, origin: @stop.id, direction_id: direction_id, tab: "trip-view") do %>
-              <div class="col-xs-12 mode-route-name">
-                <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
-                <%= route.name %>
+      <%= for route_time <- @route_times do %>
+        <%= for {headsign, departures} <- route_time.departures do %>
+          <% departure = List.first(departures) %>
+          <% trip = PredictedSchedule.trip(departure) %>
+          <%= link class: "station-route-row", to: schedule_path(@conn, :show, route_time.route.id, trip: trip.id, origin: @stop.id, direction_id: route_time.direction, tab: "trip-view") do %>
+            <div class="col-xs-12 mode-route-name">
+              <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
+              <%= route_time.route.name %>
+            </div>
+            <div class="clearfix">
+              <div class="col-sm-4 col-xs-12 station-trip-headsign">
+                <%= direction(route_time.direction, route_time.route) %> <%= fa "arrow-right" %> <%= headsign %>
+                <%= if has_alerts?(@alerts, @date, %Alerts.InformedEntity{trip: trip.id, route: route_time.route.id}) do %>
+                  <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
+                <% end %>
               </div>
-              <div class="clearfix">
-                <div class="col-sm-4 col-xs-12 station-trip-headsign">
-                  <%= direction(direction_id, route) %> <%= fa "arrow-right" %> <%= schedule.trip.headsign %>
-                  <%= if has_alerts?(@alerts, @date, %Alerts.InformedEntity{trip: schedule.trip.id, route: route.id}) do %>
-                    <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
-                  <% end %>
-                </div>
-                <div class="col-sm-8 col-xs-12">
-                  <div class="row">
-                    <div class="no-wrap col-xs-3 station-trip-name">
-                      No. <%= schedule.trip.name %>
-                    </div>
-                    <div class="col-xs-4">
-                      <%= PredictedSchedule.Display.time(%PredictedSchedule{schedule: schedule, prediction: prediction}) %>
-                    </div>
-                    <div class="col-xs-5 station-trip-status">
-                      <%= StopTime.display_status(%PredictedSchedule{schedule: schedule, prediction: prediction}, nil) %>
-                    </div>
+              <div class="col-sm-8 col-xs-12">
+                <div class="row">
+                  <div class="no-wrap col-xs-3 station-trip-name">
+                    No. <%= trip.name %>
+                  </div>
+                  <div class="col-xs-4">
+                    <%= PredictedSchedule.Display.time(departure) %>
+                  </div>
+                  <div class="col-xs-5 station-trip-status">
+                    <%= StopTime.display_status(departure, nil) %>
                   </div>
                 </div>
               </div>
-            <% end %>
+            </div>
           <% end %>
         <% end %>
       <% end %>
