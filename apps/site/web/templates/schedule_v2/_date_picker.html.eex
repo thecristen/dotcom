@@ -71,5 +71,5 @@
   <div class="graph-legend today"></div><span>Today</span>
 </div>
 <div class="col-xs-12">
-  <%= link "Cancel", to: update_schedule_url(@conn, date_select: nil, shift: nil), class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
+  <%= link "Cancel", to: update_schedule_url(@conn, date_select: nil, shift: nil) <> "#date-filter", class: "col-sm-4 col-xs-12 btn btn-primary-outline schedule-date-cancel" %>
 </div>

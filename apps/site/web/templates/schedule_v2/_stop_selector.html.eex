@@ -1,4 +1,4 @@
-<form method="GET" action="" data-submit-on-change>
+<form method="GET" action="#<%= @query_key %>" data-submit-on-change>
   <% extra_excludes = assigns[:exclude] || [] %>
   <%= hidden_query_params @conn, exclude: [@query_key | extra_excludes] %>
   <div>

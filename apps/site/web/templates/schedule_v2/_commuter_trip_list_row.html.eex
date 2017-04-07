@@ -1,7 +1,7 @@
 <%
 class_name = ["trip-list-v2-row ", assigns[:class] || ""]
 {tag, attributes} = if assigns[:url] do
-  {:a, [href: @url, class: class_name]}
+  {:a, [href: @url, class: class_name, id: @id]}
 else
   {:div, [class: class_name]}
 end
