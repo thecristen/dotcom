@@ -26,6 +26,11 @@ defmodule SystemMetrics.Monitor do
     @meter.update_gauge("memory_used", memory_data[:total_memory] - memory_data[:free_memory])
     @meter.update_gauge("memory_available", memory_data[:free_memory])
 
+    # send erlang stats
+    @meter.update_gauge("erlang_active_tasks", :erlang.statistics(:total_active_tasks))
+    @meter.update_gauge("erlang_run_queue", :erlang.statistics(:total_run_queue_lengths))
+    @meter.update_gauge("erlang_memory", :erlang.memory(:total))
+
     # reschedule once more
     schedule_work()
     {:noreply, state}

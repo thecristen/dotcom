@@ -13,7 +13,6 @@ config :elixometer,
 
 config :exometer_datadog, [
   api_key: {:system, "DD_API_KEY"},
-  report_vm_metrics: true,
   add_reporter: true,
   update_frequency: 15_000
 ]

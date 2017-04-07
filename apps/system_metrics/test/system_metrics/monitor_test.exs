@@ -33,9 +33,14 @@ defmodule SystemMetrics.MonitorTest do
       collected_data = @meter.dump()
 
       # make sure we have all the pertinent keys, and values are more than 0
+      metrics = ["cpu_load", "memory_available", "memory_used", "erlang_active_tasks", "erlang_run_queue", "erlang_memory"]
       for {{:gauge, key}, value} <- collected_data do
-        assert Enum.member?(["cpu_load", "memory_available", "memory_used"], key)
-        assert value > 0
+        assert Enum.member?(metrics, key)
+        if key == "erlang_run_queue" do
+          assert value >= 0
+        else
+          assert value > 0
+        end
       end
 
     end
