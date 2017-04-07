@@ -22,10 +22,9 @@ export default function($) {
     if (anchorIndex !== -1) {
       const newUrl = url.slice(0, anchorIndex);
       if (!samePath(`${currentPath}${window.location.search}`, newUrl)) {
-        const rest = url.slice(anchorIndex, url.length);
         ev.preventDefault();
         ev.stopPropagation();
-        savedAnchor = rest;
+        savedAnchor = url.slice(anchorIndex, url.length);
         window.setTimeout(() => Turbolinks.visit(newUrl), 0);
       }
       return;
@@ -43,12 +42,9 @@ export default function($) {
 
   });
   $(document).on('turbolinks:render', (ev) => {
-    var clearSaved = true;
-    if ($('html').attr('data-turbolinks-preview') === '') {
-      // a cached render, not a real one.  Set the scroll/focus positions,
-      // but don't clear them until we have the true rendering.
-      clearSaved = false;
-    }
+    // if it's cached render, not a real one, set the scroll/focus positions,
+    // but don't clear them until we have the true rendering.
+    var clearSaved = $('html').attr('data-turbolinks-preview') !== '';
     if (savedPosition) {
       window.scrollTo.apply(window, savedPosition);
       if (clearSaved) {
@@ -58,12 +54,12 @@ export default function($) {
     if (savedAnchor) {
       // if we saved the anchor and it's above the screen, scroll to it
       const $el = $(savedAnchor);
-      const nodeName = $el[0].nodeName;
       const $window = $(window);
       if (clearSaved) {
         savedAnchor = null;
       }
       if ($el.length > 0) {
+        const nodeName = $el[0].nodeName;
         const elementY = $el.offset().top;
         const windowY = $window.scrollTop();
         if (windowY > elementY) {
