@@ -552,7 +552,7 @@ defmodule Site.ScheduleV2View do
   def direction_tooltip(_route_type) do
     :div
     |> content_tag([content_tag(:p,
-      "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Use the route map for help finding your direction.",
+      "Click on the box below to change route directions. Certain stops will not be displayed if the vehicle does not stop there in the direction you have selected. Use the route map for help finding your direction.",
       class: 'schedule-tooltip')])
     |> safe_to_string
     |> String.replace(~s("), ~s('))

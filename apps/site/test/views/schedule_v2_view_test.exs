@@ -738,7 +738,7 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "gives generic advice for the other modes" do
-      assert direction_tooltip(0) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Use the route map for help finding your direction."
+      assert direction_tooltip(0) =~ "Click on the box below to change route directions. Certain stops will not be displayed if the vehicle does not stop there in the direction you have selected. Use the route map for help finding your direction."
     end
   end
 

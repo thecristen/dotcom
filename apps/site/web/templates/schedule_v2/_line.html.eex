@@ -1,3 +1,8 @@
+<div class="row p-t-1">
+  <%= if @route.type == 3 do %>
+    <%= render "_direction_select.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: @origin, destination: @destination %>
+  <% end %>
+</div>
 <% route_mode_class = @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>
 <div class="route-info row">
   <div class="col-xs-12 col-sm-6 page-section<%= if @route.id == ~s(Green) do %> col-md-6 col-md-offset-1 col-lg-5<% end %>">

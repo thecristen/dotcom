@@ -43,6 +43,13 @@ defmodule Site.ScheduleV2ControllerTest do
       conn = get(conn, schedule_path(conn, :show, "1"))
       assert conn.assigns.tab == "trip-view"
     end
+
+    test "uses a direction id to determine which stops to show", %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "1", direction_id: 0, tab: "line"))
+      assert Stops.Repo.get("109") in conn.assigns.stops
+      conn = get(conn, schedule_path(conn, :show, "1", direction_id: 1, tab: "line"))
+      refute Stops.Repo.get("109") in conn.assigns.stops
+    end
   end
 
   describe "commuter rail" do

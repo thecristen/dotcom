@@ -53,6 +53,15 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:zones, zones)
     |> assign(:stop_list_template, "_stop_list.html")
   end
+  def call(%Plug.Conn{assigns: %{route: %{id: route_id, type: 3}}} = conn, _args) do
+    stops = Stops.Repo.by_route(route_id, conn.assigns.direction_id)
+
+    conn
+    |> assign(:stop_list_template, "_stop_list.html")
+    |> assign(:stops, stops)
+    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
+    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
+  end
   def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
 
