@@ -2,6 +2,7 @@ defmodule Routes.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
   import Routes.Parser
+  require Logger
 
   @doc """
 
@@ -28,6 +29,22 @@ defmodule Routes.Repo do
       %{id: ^id} -> true
       _ -> false
     end)
+  end
+
+  @spec get_shapes(String.t, 0|1) :: [Routes.Shape.t]
+  def get_shapes(route_id, direction_id) do
+    cache {route_id, direction_id}, fn _ ->
+      case V3Api.Shapes.all([route: route_id, direction_id: direction_id]) do
+        {:error, error} -> warn_error([route_id, direction_id], error)
+        %JsonApi{data: data} ->
+          Enum.map(data, &parse_shape/1)
+      end
+    end
+  end
+
+  defp warn_error(item, e) do
+    _ = Logger.warn("error fetching Shapes (#{inspect item}): #{inspect e}")
+    []
   end
 
   @doc """
@@ -97,7 +114,7 @@ defmodule Routes.Repo do
   defp handle_response(%{data: data}) do
     data
     |> Enum.reject(&route_hidden?/1)
-    |> Enum.map(&parse_json/1)
+    |> Enum.map(&parse_route/1)
   end
 
   @doc """

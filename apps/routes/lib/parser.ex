@@ -1,6 +1,6 @@
 defmodule Routes.Parser do
-  @spec parse_json(JsonApi.Item.t) :: Routes.Route.t
-  def parse_json(%JsonApi.Item{id: id, attributes: attributes}) do
+  @spec parse_route(JsonApi.Item.t) :: Routes.Route.t
+  def parse_route(%JsonApi.Item{id: id, attributes: attributes}) do
     %Routes.Route{
       id: id,
       type: attributes["type"],
@@ -21,4 +21,15 @@ defmodule Routes.Parser do
   defp key_route?(_, "Key Bus Route (Frequent Service)"), do: true
   defp key_route?(name, "Rapid Transit") when name != "Mattapan Trolley", do: true
   defp key_route?(_, _), do: false
+
+  @spec parse_shape(JsonApi.Item.t) :: Routes.Shape.t
+  def parse_shape(%JsonApi.Item{id: id, attributes: attributes, relationships: relationships}) do
+    %Routes.Shape{
+      id: id,
+      name: attributes["name"],
+      stop_ids: Enum.map(relationships["stops"], & &1.id),
+      primary?: attributes["primary"],
+      direction_id: attributes["direction_id"]
+    }
+  end
 end

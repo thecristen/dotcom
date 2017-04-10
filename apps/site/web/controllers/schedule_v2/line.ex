@@ -54,11 +54,16 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:stop_list_template, "_stop_list.html")
   end
   def call(%Plug.Conn{assigns: %{route: %{id: route_id, type: 3}}} = conn, _args) do
-    stops = Stops.Repo.by_route(route_id, conn.assigns.direction_id)
+    # in the case of buses, get the stops from the selected/default shape
+    shapes = get_shapes(route_id, conn.assigns.direction_id)
+    shape = get_shape(shapes, conn.query_params["variant"])
+    stops = get_stops_from_shape(shape)
 
     conn
     |> assign(:stop_list_template, "_stop_list.html")
     |> assign(:stops, stops)
+    |> assign(:shapes, shapes)
+    |> assign(:active_shape, shape)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
     |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
   end
@@ -72,6 +77,30 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
   end
 
+  defp get_shapes(route_id, direction_id) do
+    Routes.Repo.get_shapes(route_id, direction_id)
+  end
+
+  defp get_shape(shapes, variant) do
+    shapes
+    |> get_requested_shape(variant)
+    |> get_default_shape(shapes)
+  end
+
+  defp get_stops_from_shape(%{stop_ids: stop_ids}) do
+    stop_ids
+    |> Task.async_stream(& Stops.Repo.get(&1))
+    |> Enum.map(fn {:ok, stop} -> stop end)
+  end
+  defp get_stops_from_shape(_) do
+    []
+  end
+
+  defp get_requested_shape(_shapes, nil), do: nil
+  defp get_requested_shape(shapes, variant), do: Enum.find(shapes, &(&1.id == variant))
+
+  defp get_default_shape(nil, shapes), do: Enum.find(shapes, & &1.primary?)
+  defp get_default_shape(shape, _shapes), do: shape
 
   @doc """
 
