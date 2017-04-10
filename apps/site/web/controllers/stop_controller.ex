@@ -25,7 +25,7 @@ defmodule Site.StopController do
     conn
     |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
     |> assign(:breadcrumbs, breadcrumbs(stop))
-    |> assign(:tab, params["tab"])
+    |> assign(:tab, tab_value(params["tab"]))
     |> tab_assigns(stop)
     |> await_assign(:grouped_routes)
     |> render("show.html", stop: stop)
@@ -53,6 +53,11 @@ defmodule Site.StopController do
     [name]
   end
 
+  # Determine which tab should be displayed
+  @spec tab_value(String.t | nil) :: String.t
+  defp tab_value("schedule"), do: "schedule"
+  defp tab_value(_), do: "info"
+
   defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
     conn
     |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
@@ -61,7 +66,7 @@ defmodule Site.StopController do
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
   end
-  defp tab_assigns(%{assigns: %{tab: schedule, all_alerts: alerts}} = conn, stop) when schedule in [nil, "schedule"] do
+  defp tab_assigns(%{assigns: %{tab: "schedule", all_alerts: alerts}} = conn, stop) do
     conn
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> assign(:stop_predictions, stop_predictions(stop.id))

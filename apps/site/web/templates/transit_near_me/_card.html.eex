@@ -1,4 +1,4 @@
-<%= link to: stop_path(@conn, :show, @stop.id), class: "transit-card" do %>
+<%= link to: stop_path(@conn, :show, @stop.id, tab: "schedule"), class: "transit-card" do %>
   <div class="transit-card-name">
     <%= @stop.name %>
   </div>
