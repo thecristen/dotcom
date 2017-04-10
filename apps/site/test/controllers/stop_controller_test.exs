@@ -77,6 +77,14 @@ defmodule Site.StopControllerTest do
     assert conn.assigns.stop_alerts == [0, 2] |> Enum.map(&Enum.at(@alerts, &1))
   end
 
+  test "does not assign stop alerts on info page", %{conn: conn} do
+    conn = conn
+    |> assign(:all_alerts, @alerts)
+    |> get(stop_path(conn, :show, "place-sstat", tab: "info"))
+
+    refute conn.assigns[:stop_alerts]
+  end
+
   test "assigns nearby fare retail locations", %{conn: conn} do
     assert %Plug.Conn{assigns: %{fare_sales_locations: locations}} = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
     assert is_list(locations)

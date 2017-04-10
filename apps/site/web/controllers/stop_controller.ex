@@ -17,7 +17,7 @@ defmodule Site.StopController do
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
     ModeController.show(conn, String.to_existing_atom(mode))
   end
-  def show(conn, %{"id" => id} = params) do
+  def show(%Plug.Conn{query_params: query_params} = conn, %{"id" => id}) do
     stop = id
     |> URI.decode_www_form
     |> Repo.get!
@@ -25,7 +25,7 @@ defmodule Site.StopController do
     conn
     |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
     |> assign(:breadcrumbs, breadcrumbs(stop))
-    |> assign(:tab, tab_value(params["tab"]))
+    |> assign(:tab, tab_value(query_params["tab"]))
     |> tab_assigns(stop)
     |> await_assign(:grouped_routes)
     |> render("show.html", stop: stop)
