@@ -6,11 +6,11 @@ defmodule Content.ProjectUpdate do
   import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_featured_image: 1,
     parse_updated_at: 1]
 
-  defstruct [id: 0, body: Phoenix.HTML.raw(""), title: "", featured_image: nil, photo_gallery: [],
+  defstruct [id: nil, body: Phoenix.HTML.raw(""), title: "", featured_image: nil, photo_gallery: [],
     updated_at: nil, status: "", downloads: []]
 
   @type t :: %__MODULE__{
-    id: integer,
+    id: integer | nil,
     body: Phoenix.HTML.safe,
     title: String.t,
     featured_image: Content.Field.Image.t | nil,

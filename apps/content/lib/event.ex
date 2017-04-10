@@ -8,13 +8,13 @@ defmodule Content.Event do
     handle_html: 1]
 
   defstruct [
-    id: 0, start_time: nil, end_time: nil, title: "", location: nil, street_address: nil,
+    id: nil, start_time: nil, end_time: nil, title: "", location: nil, street_address: nil,
     city: nil, state: nil, who: nil, body: raw(""), notes: raw(""), agenda: raw(""),
     meeting_id: nil, imported_address: nil
   ]
 
   @type t :: %__MODULE__{
-    id: integer,
+    id: integer | nil,
     start_time: DateTime.t | nil,
     end_time: DateTime.t | nil,
     title: String.t,

@@ -6,11 +6,11 @@ defmodule Content.NewsEntry do
   import Content.Helpers, only: [field_value: 2, handle_html: 1, int_or_string_to_int: 1, parse_body: 1,
     parse_featured_image: 1, parse_updated_at: 1]
 
-  defstruct [id: 0, title: "", body: Phoenix.HTML.raw(""), featured_image: nil, media_contact_name: "",
+  defstruct [id: nil, title: "", body: Phoenix.HTML.raw(""), featured_image: nil, media_contact_name: "",
     media_contact_info: "", more_information: Phoenix.HTML.raw(""), updated_at: nil]
 
   @type t :: %__MODULE__{
-    id: integer,
+    id: integer | nil,
     title: String.t,
     body: Phoenix.HTML.safe,
     featured_image: Content.Field.Image.t | nil,

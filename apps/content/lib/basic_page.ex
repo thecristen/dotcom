@@ -5,10 +5,10 @@ defmodule Content.BasicPage do
 
   import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1]
 
-  defstruct [id: 0, title: "", body: Phoenix.HTML.raw("")]
+  defstruct [id: nil, title: "", body: Phoenix.HTML.raw("")]
 
   @type t :: %__MODULE__{
-    id: integer,
+    id: integer | nil,
     title: String.t,
     body: Phoenix.HTML.safe
   }
