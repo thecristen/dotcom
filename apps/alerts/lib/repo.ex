@@ -5,10 +5,17 @@ defmodule Alerts.Repo do
 
   @spec all() :: [Alerts.Alert.t]
   def all do
-    cache nil, fn _ ->
-      v3_api_all().data
-      |> Enum.map(&Parser.Alert.parse/1)
-      |> Alerts.Sort.sort()
+    parse_result = cache(nil, fn _ ->
+      with %{data: data} <- v3_api_all() do
+        data
+        |> Enum.map(&Parser.Alert.parse/1)
+        |> Alerts.Sort.sort()
+      end
+    end)
+
+    # if there's an error, turn it into an empty list
+    with {:error, _} <- parse_result do
+      []
     end
   end
 
@@ -19,8 +26,11 @@ defmodule Alerts.Repo do
   end
 
   @spec banner() :: Alerts.Banner.t | nil
-  def banner() do
-    cache &v3_api_all/0, &do_banner/1
+  def banner do
+    # if there's an error, turn it into a nil
+    with {:error, _} <- cache(&v3_api_all/0, &do_banner/1) do
+      nil
+    end
   end
 
   defp v3_api_all do
@@ -31,8 +41,10 @@ defmodule Alerts.Repo do
 
   @spec do_banner((() -> JsonApi.t)) :: {:ok, Alerts.Banner.t | nil}
   def do_banner(alert_fn) do
-    alert_fn.().data
-    |> Enum.flat_map(&Parser.Banner.parse/1)
-    |> List.first
+    with %{data: data} <- alert_fn.() do
+      data
+      |> Enum.flat_map(&Parser.Banner.parse/1)
+      |> List.first
+    end
   end
 end
