@@ -455,6 +455,10 @@ a {
 
 .schedule-v2-timetable-name-col {
   text-align: left;
+
+  @include media-breakpoint-down(sm) {
+    max-width: 10rem;
+  }
 }
 
 .schedule-v2-timetable-time-col {
