@@ -1,10 +1,25 @@
 defmodule Alerts.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   import Alerts.Repo
 
+  setup do
+    clear_cache()
+  end
+
   @tag :external
   describe "all/0" do
+    test "returns an empty list if there's an error fetching the alerts" do
+      v3_url = Application.get_env(:v3_api, :base_url)
+      on_exit fn ->
+        Application.put_env(:v3_api, :base_url, v3_url)
+      end
+
+      Application.put_env(:v3_api, :base_url, "http://localhost:0")
+
+      assert all() == []
+    end
+
     test "returns a list of alerts" do
       alerts = all()
       assert is_list(alerts)
@@ -21,6 +36,17 @@ defmodule Alerts.RepoTest do
 
   @tag :external
   describe "banner/0" do
+    test "returns nil if there's an error fetching the banner" do
+      v3_url = Application.get_env(:v3_api, :base_url)
+      on_exit fn ->
+        Application.put_env(:v3_api, :base_url, v3_url)
+      end
+
+      Application.put_env(:v3_api, :base_url, "http://localhost:0")
+
+      refute banner()
+    end
+
     test "returns a banner or nil" do
       actual = banner()
       assert match?(%Alerts.Banner{}, actual) or actual == nil

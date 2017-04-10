@@ -32,8 +32,20 @@ defmodule RepoCache do
       require RepoCache
       import RepoCache
 
+      defdelegate clear_cache(), to: RepoCache
+
       @default_cache_params [{:ttl, unquote(ttl)}]
     end
+  end
+
+  def clear_cache do
+    @cache_name
+    |> ConCache.ets
+    |> :ets.tab2list
+    |> Enum.reduce(:ok, fn {key, _}, _ ->
+      ConCache.delete(@cache_name, key)
+      :ok
+    end)
   end
 
   defmacro cache(func_param, func, cache_opts \\ []) do
