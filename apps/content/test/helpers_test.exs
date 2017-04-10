@@ -23,24 +23,12 @@ defmodule Content.HelpersTest do
   describe "parse_updated_at/1" do
     test "handles unix time as a string" do
       api_data = %{"changed" => [%{"value" => "1488904773"}]}
-
-      unix =
-      api_data
-      |> parse_updated_at
-      |> DateTime.to_unix
-
-      assert unix == 1_488_904_773
+      assert parse_updated_at(api_data) == DateTime.from_unix!(1_488_904_773)
     end
 
     test "handles unix time as an int" do
       api_data = %{"changed" => [%{"value" => 1_488_904_773}]}
-
-      unix =
-      api_data
-      |> parse_updated_at
-      |> DateTime.to_unix
-
-      assert unix == 1_488_904_773
+      assert parse_updated_at(api_data) == DateTime.from_unix!(1_488_904_773)
     end
   end
 
@@ -48,6 +36,10 @@ defmodule Content.HelpersTest do
     test "converts appropriately or leaves alone" do
       assert int_or_string_to_int(5) == 5
       assert int_or_string_to_int("5") == 5
+    end
+
+    test "handles invalid string" do
+      assert int_or_string_to_int("foo") == nil
     end
 
     test "handles nil" do

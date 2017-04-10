@@ -85,5 +85,10 @@ defmodule Content.Helpers do
   @spec int_or_string_to_int(integer | String.t | nil) :: integer | nil
   def int_or_string_to_int(nil), do: nil
   def int_or_string_to_int(num) when is_integer(num), do: num
-  def int_or_string_to_int(str) when is_binary(str), do: String.to_integer(str)
+  def int_or_string_to_int(str) when is_binary(str) do
+    case Integer.parse(str) do
+      {int, ""} -> int
+      _ -> nil
+    end
+  end
 end
