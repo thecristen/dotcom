@@ -3,12 +3,12 @@ defmodule Content.BasicPage do
   Represents a basic "page" type in the Drupal CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, parse_body: 1]
+  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1]
 
-  defstruct [id: "", title: "", body: Phoenix.HTML.raw("")]
+  defstruct [id: nil, title: "", body: Phoenix.HTML.raw("")]
 
   @type t :: %__MODULE__{
-    id: String.t,
+    id: integer | nil,
     title: String.t,
     body: Phoenix.HTML.safe
   }
@@ -16,7 +16,7 @@ defmodule Content.BasicPage do
   @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
-      id: field_value(data, "nid"),
+      id: int_or_string_to_int(field_value(data, "nid")),
       title: field_value(data, "title") || "",
       body: parse_body(data)
     }

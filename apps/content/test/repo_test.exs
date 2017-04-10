@@ -56,7 +56,7 @@ defmodule Content.RepoTest do
         body: body
       } | _] = Content.Repo.events()
 
-      assert id == "17"
+      assert id == 17
       assert safe_to_string(body) =~ "<p><strong>Massachusetts Department"
     end
   end
@@ -64,7 +64,7 @@ defmodule Content.RepoTest do
   describe "event!/1" do
     test "returns the event if it's present" do
       assert %Content.Event{
-        id: "17"
+        id: 17
       } = Content.Repo.event!("17")
     end
 
