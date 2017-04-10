@@ -40,4 +40,13 @@ defmodule RepoCacheTest do
     Agent.update pid, fn _ -> :real end
     assert :real == Repo.agent_state(pid)
   end
+
+  test "can clear the cache with clear_cache" do
+    {:ok, pid} = Agent.start_link fn -> :value end
+    assert :value == Repo.agent_state(pid)
+    Agent.update pid, fn _ -> :real end
+    assert :value == Repo.agent_state(pid)
+    Repo.clear_cache
+    assert :real == Repo.agent_state(pid)
+  end
 end
