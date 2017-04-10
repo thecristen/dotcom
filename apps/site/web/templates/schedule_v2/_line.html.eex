@@ -1,6 +1,9 @@
 <div class="row p-t-1">
   <%= if @route.type == 3 do %>
     <%= render "_direction_select.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: @origin, destination: @destination %>
+    <%= if @active_shape do %>
+      <%= render "_variant_select.html", conn: @conn, shapes: @shapes, active_shape: @active_shape %>
+    <% end %>
   <% end %>
 </div>
 <% route_mode_class = @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>

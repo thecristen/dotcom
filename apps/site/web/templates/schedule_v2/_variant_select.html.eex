@@ -1,0 +1,35 @@
+<div class="shape-filter col-xs-12 col-sm-6 col-md-4" data-select-modal="variant">
+  <form method="GET" action="#variant" data-submit-on-change>
+    <%= hidden_query_params @conn, exclude: ["variant"] %>
+    <!-- <label for="variant">Select Variant:</label> -->
+    <label for="variant" class="filter-label">
+      Route Variation:
+    </label>
+    <%= render "_variant_tooltip.html" %>
+    <a class="filter-button select-modal-toggle">
+      <div class="filter-text">
+        <span class="sr-only">Change to a Variant of this Stop List.</span>
+        <div class="inner-label">
+            Variation
+        </div>
+        <div>
+            <%= fa "arrow-right" %>
+            <%= @active_shape.name %>
+        </div>
+      </div>
+      <div class="filter-icon">
+        <div class="filter-icon-border">
+          <%= svg_icon(%SvgIcon{icon: :variation, class: "icon-large", show_tooltip?: false}) %>
+        </div>
+      </div>
+    </a>
+    <select id="variant" name="variant" class="form-control c-select" data-select-modal data-no-conversion data-no-search>
+      <%= for shape <- @shapes do %>
+        <option value="<%= shape.id %>" <%= if shape.id == @active_shape.id, do: "selected" %>><%= shape.name %></option>
+      <% end %>
+    </select>
+    <div>
+      <button type="submit" class="btn btn-primary-outline btn-sm">Change line variant</button>
+    </div>
+  </form>
+</div>

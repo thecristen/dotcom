@@ -350,6 +350,71 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
+  describe "_line.html" do
+    @shape %Routes.Shape{id: "test", name: "test", stop_ids: [], primary?: true, direction_id: 0}
+    @hours_of_operation %{
+      saturday: %{
+        0 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]},
+        1 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]}
+      },
+      sunday: %{
+        0 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]},
+        1 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]}
+      },
+      week: %{
+        0 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]},
+        1 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]}
+      }
+    }
+
+    test "Bus line with variant filter", %{conn: conn} do
+      output = Site.ScheduleV2View.render(
+              "_line.html",
+              conn: Plug.Conn.fetch_query_params(conn),
+              stop_list_template: "_stop_list.html",
+              shapes: [@shape, @shape],
+              active_shape: @shape,
+              map_img_src: nil,
+              hours_of_operation: @hours_of_operation,
+              holidays: [],
+              stops: [],
+              direction_id: 1,
+              route: %Routes.Route{type: 3},
+              all_stops: [],
+              date: ~D[2017-01-01],
+              destination: nil,
+              origin: nil,
+              direction_id: 1,
+              show_date_select?: false,
+              headsigns: %{0 => [], 1 => []})
+
+      assert safe_to_string(output) =~ "shape-filter"
+    end
+
+    test "Bus line without variant filter", %{conn: conn} do
+      output = Site.ScheduleV2View.render(
+              "_line.html",
+              conn: Plug.Conn.fetch_query_params(conn),
+              stop_list_template: "_stop_list.html",
+              shapes: [@shape],
+              active_shape: nil,
+              map_img_src: nil,
+              hours_of_operation: @hours_of_operation,
+              holidays: [],
+              stops: [],
+              route: %Routes.Route{type: 3},
+              all_stops: [],
+              date: ~D[2017-01-01],
+              destination: nil,
+              origin: nil,
+              direction_id: 1,
+              show_date_select?: false,
+              headsigns: %{0 => [], 1 => []})
+
+      refute safe_to_string(output) =~ "shape-filter"
+    end
+  end
+
   describe "frequency_times/2" do
     test "returns \"Every X mins\" if there is service during a time block" do
       frequency = %Schedules.Frequency{max_headway: 11, min_headway: 3, time_block: :am_rush}

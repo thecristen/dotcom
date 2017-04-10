@@ -122,7 +122,8 @@ describe('selectModal', () => {
 
     it('generates configuration data', () => {
       assert.deepEqual(optionsFromSelect($("#test select"), $), {
-        label: 'Label'
+        label: 'Label',
+        search: true
       });
     });
   });
@@ -160,7 +161,7 @@ describe('selectModal', () => {
     beforeEach(() => {
       $('body').append('<div id=modal />');
       $modal = $('#modal');
-      renderModal($modal, data, options);
+      renderModal($modal, "name", data, options);
     });
 
     afterEach(() => {

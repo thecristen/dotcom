@@ -37,7 +37,7 @@ function openModal(ev, $) {
   const selectData = dataFromSelect($select, $);
   const options = optionsFromSelect($select, $);
   const $modal = $newModal($select.attr('name'), $);
-  renderModal($modal, selectData, options);
+  renderModal($modal, selectName, selectData, options);
   $modal
     .data('select-modal-select', $select)
     .modal({
@@ -104,6 +104,11 @@ function modalHidden(ev, $) {
 
 // public so that it can be re-run separately from the global event handlers
 export function convertSelects($) {
+  // if there asre select toggles, show them
+  $(".select-modal-toggle").each((_index, el) => {
+    const $el = $(el);
+    $el.css("display", "block");
+  });
   $("select[data-select-modal][data-no-conversion]").each((_index, el) => {
     const $el = $(el),
           $cover = $(`<div data-select-modal=${$el.attr('name')}/>`)
@@ -116,6 +121,7 @@ export function convertSelects($) {
               cursor: "pointer"
             });
     $el.before($cover).removeAttr('data-select-modal');
+    $el.addClass('select-converted-to-modal');
   });
   $("select[data-select-modal]:not([data-no-conversion])").each((_index, el) => {
     // creates a text container (based on the select value) and a button
@@ -153,7 +159,9 @@ export function dataFromSelect($el, $) {
 
 export function optionsFromSelect($el, $) {
   return {
-    label: $(`label[for=${$el.attr('id')}]`).html()
+    label: $(`label[for=${$el.attr('id')}]`).html(),
+    // make search enabled the default
+    search: typeof $el.data('no-search') === 'undefined'
   };
 }
 
@@ -175,14 +183,14 @@ data-original-id='#${id}'>
   return $div;
 }
 
-export function renderModal($modal, data, options) {
+export function renderModal($modal, selectName, data, options) {
   $modal.html(`
 <div class='modal-dialog role='document'>
   <div class="modal-content">
     <div class="modal-body">
       ${renderCloseButton()}
       <form class="select-modal-search">
-        ${renderSearch(data, options)}
+        ${renderSearch(selectName, data, options)}
       </form>
       <div class="select-modal-options list-group list-group-flush">
         ${data.map(renderOption).join('')}
@@ -227,7 +235,10 @@ function dataFromOption($) {
   };
 }
 
-function renderSearch(data, options) {
+function renderSearch(selectName, data, options) {
+  if (options.search === false) {
+    return `<label id="select-modal-label" for="${selectName}">${options.label}</label>`;
+  }
   const placeholder = firstEnabledName(data);
   return `
 <label id="select-modal-label" for="select-modal-search">${options.label}</label>
