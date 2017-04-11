@@ -15,6 +15,7 @@ erl_crash.dump
 /apps/site/backstop_data/html_report
 npm-debug.log
 /log
+*/log
 /apps/news/posts.zip
 bin
 excoveralls.json
