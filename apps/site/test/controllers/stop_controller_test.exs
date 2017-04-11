@@ -51,6 +51,18 @@ defmodule Site.StopControllerTest do
     assert conn.assigns.tab == "info"
   end
 
+  test "Tab defaults to `info` when given invalid tab param", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "weather")
+    assert conn.assigns.tab == "info"
+  end
+
+  test "Tab assigned when given valid param", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
+    assert conn.assigns.tab == "info"
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "schedule")
+    assert conn.assigns.tab == "schedule"
+  end
+
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
       get conn, stop_path(conn, :show, -1)
