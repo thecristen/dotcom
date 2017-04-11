@@ -90,3 +90,60 @@
   border-color: $brand-primary-darkest;
   color: $white;
 }
+
+.responsive-table {
+  border: $border;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: $base-spacing;
+
+  th, td {
+    padding: $space-12;
+    vertical-align: top;
+  }
+
+  thead tr {
+    @extend %table-header;
+  }
+
+  tbody th, caption {
+    display: none;
+  }
+
+  tbody tr:nth-of-type(even) {
+    background-color: $gray-bordered-background;
+  }
+
+  @include media-breakpoint-down(sm) {
+    tbody, th, td, tr {
+      display: block;
+    }
+
+    thead {
+      display: none
+    }
+
+    caption {
+      background-color: $brand-primary-darkest;
+      border-color: $brand-primary-darkest;
+      color: $white;
+      display: block;
+      font-weight: bold;
+      padding-left: $space-12;
+    }
+
+    tbody th {
+      display: block;
+      padding-bottom: 0;
+    }
+
+    tbody td {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    tr td:last-child {
+      padding-bottom: $base-spacing;
+    }
+  }
+}
