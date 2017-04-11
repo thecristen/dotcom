@@ -74,7 +74,7 @@ defmodule Schedules.RepoTest do
     end
 
     test "returns different values for different dates" do
-      today = "America/New_York" |> Timex.now |> Timex.to_date
+      today = Util.service_date
       tomorrow = Timex.shift(today, days: 1)
       assert schedule_for_trip(@trip_id) == schedule_for_trip(@trip_id, date: today)
       refute schedule_for_trip(@trip_id, date: today) == schedule_for_trip(@trip_id, date: tomorrow)
