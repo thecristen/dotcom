@@ -730,11 +730,11 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "direction_tooltip/1" do
     test "gives commuter rail specific advice" do
-      assert direction_tooltip(2) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from it, while outbound trips leave from it"
+      assert direction_tooltip(2) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from there."
     end
 
     test "gives ferry specific advice" do
-      assert direction_tooltip(4) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from it, while outbound trips leave from it"
+      assert direction_tooltip(4) =~ "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from there."
     end
 
     test "gives generic advice for the other modes" do

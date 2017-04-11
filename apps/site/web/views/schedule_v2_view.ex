@@ -544,7 +544,7 @@ defmodule Site.ScheduleV2View do
   def direction_tooltip(route_type) when route_type in [2,4] do
     :div
     |> content_tag([content_tag(:p,
-      "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from it, while outbound trips leave from it",
+      "Schedule times are shown for the direction displayed in the box below. Click on the box to change directions. Inbound trips go to Boston, while outbound trips leave from there.",
       class: 'schedule-tooltip')])
     |> safe_to_string
     |> String.replace(~s("), ~s('))
@@ -562,7 +562,7 @@ defmodule Site.ScheduleV2View do
   def date_tooltip do
     :div
     |> content_tag([content_tag(:p,
-      "Select a date to view that day’s schedule. Weekdays, Saturdays, and Sundays usually have differing schedules.",
+      "Select a date to view that day’s schedule. Weekdays, Saturdays, and Sundays usually have different schedules.",
       class: 'schedule-tooltip')])
     |> safe_to_string
     |> String.replace(~s("), ~s('))
