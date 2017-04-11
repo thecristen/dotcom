@@ -157,4 +157,37 @@ defmodule PredictedSchedule.DisplayTest do
       assert headsign(%PredictedSchedule{}) == ""
     end
   end
+
+  describe "time_difference/1" do
+    @base_time  ~N[2017-01-01T12:00:00]
+    @schedule %Schedule{time: Timex.shift(@base_time, minutes: 30)}
+    @prediction %Prediction{time: Timex.shift(@base_time, minutes: 28)}
+
+    test "Prediction time is preferred" do
+      ps = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "28 mins"
+    end
+
+    test "Schedule used when no prediction" do
+      ps = %PredictedSchedule{schedule: @schedule}
+      output = time_difference(ps, @base_time)
+      assert output =~ "30 mins"
+      refute output =~ "fa-rss"
+    end
+
+    test "realtime icon shown when prediction is shown" do
+      ps = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "fa-rss"
+    end
+
+    test "Time shown when difference is over an hour" do
+      ps = %PredictedSchedule{schedule: @schedule, prediction: %Prediction{time: Timex.shift(@base_time, hours: 2)}}
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "2:00PM"
+    end
+
+    test "Time shown as `< 1` minute when same time as current_time" do
+      ps = %PredictedSchedule{schedule: %Schedule{time: @base_time}}
+      assert time_difference(ps, @base_time) =~ "< 1 min"
+    end
+  end
 end

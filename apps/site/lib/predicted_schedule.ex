@@ -39,15 +39,14 @@ defmodule PredictedSchedule do
   end
 
   defp create_map(predictions_or_schedules) do
-    predictions_or_schedules
-    |> Enum.filter(&valid?/1)
-    |> Map.new(&group_transform/1)
+    Map.new(predictions_or_schedules, &group_transform/1)
   end
-
-  defp valid?(ps), do: ps.trip && ps.stop && ps.stop_sequence
 
   @spec group_transform(Schedule.t | Prediction.t) ::
                       ({{String.t, String.t, non_neg_integer}, Schedule.t | Prediction.t})
+  defp group_transform(%{trip: nil} = ps) do
+    {{ps.id, ps.stop.id, ps.stop_sequence}, ps}
+  end
   defp group_transform(ps) do
     {{ps.trip.id, ps.stop.id, ps.stop_sequence}, ps}
   end
@@ -107,23 +106,38 @@ defmodule PredictedSchedule do
   def time(%PredictedSchedule{schedule: schedule}), do: schedule.time
 
   @doc """
+  Retrieves status from predicted schedule if one is available
+  """
+  @spec status(PredictedSchedule.t) :: String.t | nil
+  def status(%PredictedSchedule{prediction: %Prediction{status: status}}), do: status
+  def status(_predicted_schedule), do: nil
+
+  @doc """
   Determines if the given predicted schedule occurs after the given time
   """
   @spec upcoming?(PredictedSchedule.t, DateTime.t) :: boolean
   def upcoming?(ps, current_time) do
-    ps
-    |> time()
-    |> Timex.after?(current_time)
+    upcoming_status = ps |> status() |> upcoming_status?()
+    upcoming_time = time(ps) || current_time
+    upcoming_status || Timex.after?(upcoming_time, current_time)
   end
 
   @doc """
   Determines if this `PredictedSchedule` is departing.
   Departing status is determined by the `pickup_type` field on schedules
-  and the `departing?` field on Predictions. Schedules are preferred for
+  and the `departing?` or `status` field on Predictions. Schedules are preferred for
   determining departing? status.
   """
-  def departing?(%PredictedSchedule{schedule: nil, prediction: prediction}), do: prediction.departing?
-  def departing?(%PredictedSchedule{schedule: schedule}), do: schedule.pickup_type != 1
+  @spec departing?(PredictedSchedule.t) :: boolean
+  def departing?(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: status}}) when not is_nil(status) do
+    upcoming_status?(status)
+  end
+  def departing?(%PredictedSchedule{schedule: nil, prediction: prediction}) do
+    prediction.departing?
+  end
+  def departing?(%PredictedSchedule{schedule: schedule}) do
+    schedule.pickup_type != 1
+  end
 
   @doc """
 
@@ -170,8 +184,30 @@ defmodule PredictedSchedule do
   end
 
   @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, non_neg_integer, DateTime.t}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {0, prediction.stop_sequence, prediction.time}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {1, schedule.stop_sequence, schedule.time}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {1, prediction.stop_sequence, prediction.time}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {2, schedule.stop_sequence, schedule.time}
+
+  def sort_with_status(%PredictedSchedule{schedule: _schedule, prediction: %Prediction{time: nil, status: status}})
+  when not is_nil(status)  do
+    {0, status_order(status)}
+  end
+  def sort_with_status(predicted_schedule), do: {1, PredictedSchedule.time(predicted_schedule)}
+
+  @spec status_order(String.t) :: non_neg_integer | :sort_max
+  defp status_order("Boarding"), do: 0
+  defp status_order("Approaching"), do: 1
+  defp status_order(status) do
+    case Integer.parse(status) do
+      {num, _stops_away} -> num + 1
+      _ -> :sort_max
+    end
+  end
+
+  @spec upcoming_status?(String.t) :: boolean
+  defp upcoming_status?("Approaching"), do: true
+  defp upcoming_status?("Boarding"), do: true
+  defp upcoming_status?(nil), do: false
+  defp upcoming_status?(status), do: String.ends_with?(status, "away")
 
   @doc """
   Returns the time difference between a schedule and prediction. If either is nil, returns 0.

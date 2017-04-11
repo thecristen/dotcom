@@ -13,7 +13,7 @@
     <div class="row">
       <%= for route_time <- @route_times do %>
           <%= if route_time.departures != [] do %>
-            <%= link class: "station-route-row", to: schedule_path(@conn, :show, normalize_route(route_time.route, false), origin: @stop.id, direction_id: route_time.direction) do %>
+            <%= link class: "station-route-row", to: schedule_path(@conn, :show, normalize_route(route_time.route, false), origin: @stop.id, direction_id: route_time.direction_id) do %>
               <div class="col-xs-12 mode-route-name">
                 <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route_time.route, class: "icon-small"}) %>
                 <%= route_time.route.name %>
@@ -21,18 +21,17 @@
               <div class="clearfix">
                 <%= for {headsign, departures} <- route_time.departures do %>
                   <div class="clearfix">
-                    <div class="col-sm-6 col-xs-12 station-trip-headsign">
-                      <%= direction(route_time.direction, route_time.route) %> <%= fa "arrow-right" %> <%= headsign %>
-                      <%= if has_alerts?(@alerts, @date, %Alerts.InformedEntity{route: route_time.route.id, direction_id: route_time.direction}) do %>
+                    <div class="col-md-6 col-sm-12 station-trip-headsign">
+                      <%= direction(route_time.direction_id, route_time.route) %> <%= fa "arrow-right" %> <%= headsign %>
+                      <%= if has_alerts?(@alerts, @date, %Alerts.InformedEntity{route: route_time.route.id, direction_id: route_time.direction_id}) do %>
                         <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
                       <% end %>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-md-6 col-sm-12">
                       <div class="row">
                         <%= for predicted_schedule <- departures do %>
-                          <div class="no-wrap schedule-upcoming-departure col-xs-4">
-                            <%= predicted_icon(PredictedSchedule.has_prediction?(predicted_schedule)) %>
-                            <%= schedule_display_time(PredictedSchedule.time(predicted_schedule), @date_time) %>
+                          <div class="no-wrap schedule-upcoming-departure col-sm-4 col-xs-12">
+                            <%= PredictedSchedule.Display.time_difference(predicted_schedule, @date_time) %>
                           </div>
                         <% end %>
                       </div>

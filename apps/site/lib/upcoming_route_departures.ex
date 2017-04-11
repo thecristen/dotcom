@@ -13,13 +13,13 @@ defmodule UpcomingRouteDepartures do
 
   defstruct [
     route: %Route{},
-    direction: 0,
+    direction_id: 0,
     departures: []
 
   ]
   @type t :: %__MODULE__{
     route: Route.t,
-    direction: 0 | 1,
+    direction_id: 0 | 1,
     departures: [{String.t, [PredictedSchedule.t]}]
   }
 
@@ -43,7 +43,7 @@ defmodule UpcomingRouteDepartures do
   defp build_route_times(predicted_schedules, current_time, limit) do
     predicted_schedules
     |> valid_departures(current_time)
-    |> Enum.group_by(&{PredictedSchedule.route(&1), PredictedSchedule.trip(&1).direction_id})
+    |> Enum.group_by(&{PredictedSchedule.route(&1), PredictedSchedule.direction_id(&1)})
     |> Enum.map(&build_route_time(&1, limit))
   end
 
@@ -51,7 +51,7 @@ defmodule UpcomingRouteDepartures do
   @spec build_route_time({{Route.t, 0 | 1}, [PredictedSchedule.t]}, non_neg_integer) :: UpcomingRouteDepartures.t
   defp build_route_time({{route, direction_id}, predicted_schedules}, limit) do
     predicted_schedules
-    |> Enum.group_by(&PredictedSchedule.trip(&1).headsign)
+    |> Enum.group_by(&PredictedSchedule.Display.headsign/1)
     |> Enum.map(&limited_departures(&1, limit))
     |> do_build_route_time(route, direction_id)
   end
@@ -60,7 +60,7 @@ defmodule UpcomingRouteDepartures do
   defp do_build_route_time(grouped_predictions, route, direction_id) do
     %__MODULE__{
       route: route,
-      direction:  direction_id,
+      direction_id:  direction_id,
       departures: grouped_predictions
     }
   end
@@ -70,7 +70,7 @@ defmodule UpcomingRouteDepartures do
   defp limited_departures({headsign, predicted_schedules}, limit) do
     {headsign,
       predicted_schedules
-      |> Enum.sort_by(&PredictedSchedule.time/1)
+      |> Enum.sort_by(&PredictedSchedule.sort_with_status/1)
       |> Enum.take(limit)}
   end
 
