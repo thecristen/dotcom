@@ -15,6 +15,12 @@ defmodule SystemMetrics do
       worker(SystemMetrics.Monitor, [])
     ]
 
+    children = if Application.get_env(:system_metrics, :meter) do
+      [worker(SystemMetrics.Testmeter, []) | children]
+    else
+      children
+    end
+
     opts = [strategy: :one_for_one, name: SystemMetrics.Supervisor]
     Supervisor.start_link(children, opts)
   end
