@@ -58,7 +58,7 @@ defmodule PredictedSchedule.Display do
   defp do_display_commuter_rail_time(%PredictedSchedule{schedule: schedule, prediction: prediction} = ps) do
     case PredictedSchedule.delay(ps) do
       # if we're going to show both, make sure they are different times
-      delay when delay > 0 ->
+      delay when delay != 0 ->
         content_tag :span, do: [
           content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),
           tag(:br),

@@ -7,19 +7,20 @@ defmodule PredictedSchedule.DisplayTest do
   alias Routes.Route
 
   describe "time/1" do
-    @schedule_time ~N[2017-01-01T12:00:00]
-    @prediction_time ~N[2018-02-02T14:14:14]
+    @early_time ~N[2017-01-01T12:00:00]
+    @late_time ~N[2018-02-02T14:14:14]
     @commuter_route %Route{id: "CR-Lowell", name: "Lowell", type: 2}
 
     test "Prediction is used if one is given" do
-      display_time = time(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: %Prediction{time: @prediction_time}})
+      display_time = time(
+        %PredictedSchedule{schedule: %Schedule{time: @early_time}, prediction: %Prediction{time: @late_time}})
       assert safe_to_string(display_time) =~ "2:14PM"
       refute safe_to_string(display_time) =~ "12:00PM"
       assert safe_to_string(display_time) =~ "fa fa-rss"
     end
 
     test "Scheduled time is used if no prediction is available" do
-      display_time = time(%PredictedSchedule{schedule: %Schedule{time: @schedule_time}, prediction: nil})
+      display_time = time(%PredictedSchedule{schedule: %Schedule{time: @early_time}, prediction: nil})
       assert safe_to_string(display_time) =~ "12:00PM"
       refute safe_to_string(display_time) =~ "fa fa-rss"
     end
@@ -37,10 +38,10 @@ defmodule PredictedSchedule.DisplayTest do
       assert safe_to_string(display_time) =~ "fa fa-rss"
     end
 
-    test "if the scheduled and predicted times differ, cross out the scheduled one" do
+    test "if the predicted time is later than the scheduled time, cross out the scheduled one" do
       result = %PredictedSchedule{
-        schedule: %Schedule{route: @commuter_route, time: @schedule_time},
-        prediction: %Prediction{route: @commuter_route, time: @prediction_time}}
+        schedule: %Schedule{route: @commuter_route, time: @early_time},
+        prediction: %Prediction{route: @commuter_route, time: @late_time}}
       |> time
       |> safe_to_string
 
@@ -49,10 +50,22 @@ defmodule PredictedSchedule.DisplayTest do
       assert result =~ "fa fa-rss"
     end
 
+    test "if the predicted time is earlier than the scheduled time, cross out the scheduled one" do
+      result = %PredictedSchedule{
+        schedule: %Schedule{route: @commuter_route, time: @late_time},
+        prediction: %Prediction{route: @commuter_route, time: @early_time}}
+      |> time
+      |> safe_to_string
+
+      assert result =~ "2:14PM"
+      assert result =~ "12:00PM"
+      assert result =~ "fa fa-rss"
+    end
+
     test "if the times do not differ, just returns the same result as a non-CR time" do
       result = %PredictedSchedule{
-        schedule: %Schedule{route: @commuter_route, time: @schedule_time},
-        prediction: %Prediction{route: @commuter_route, time: @schedule_time}}
+        schedule: %Schedule{route: @commuter_route, time: @early_time},
+        prediction: %Prediction{route: @commuter_route, time: @early_time}}
         |> time
         |> safe_to_string
 
@@ -62,7 +75,7 @@ defmodule PredictedSchedule.DisplayTest do
 
     test "if the trip is cancelled, only crosses out the schedule time" do
       result = %PredictedSchedule{
-        schedule: %Schedule{route: @commuter_route, time: @schedule_time},
+        schedule: %Schedule{route: @commuter_route, time: @early_time},
         prediction: %Prediction{route: @commuter_route, schedule_relationship: :cancelled}}
         |> time
         |> safe_to_string
@@ -74,7 +87,7 @@ defmodule PredictedSchedule.DisplayTest do
 
     test "if a trip is skipped, crosses out the schedule time" do
       result = %PredictedSchedule{
-        schedule: %Schedule{time: @schedule_time},
+        schedule: %Schedule{time: @early_time},
         prediction: %Prediction{schedule_relationship: :skipped}}
         |> time
         |> safe_to_string
@@ -87,14 +100,14 @@ defmodule PredictedSchedule.DisplayTest do
     test "handles nil schedules" do
       result = time(%PredictedSchedule{
             schedule: nil,
-            prediction: %Prediction{route: @commuter_route, time: @prediction_time}})
+            prediction: %Prediction{route: @commuter_route, time: @late_time}})
 
       assert safe_to_string(result) =~ "2:14PM"
     end
 
     test "handles nil predictions" do
       result = time(%PredictedSchedule{
-            schedule: %Schedule{time: @schedule_time},
+            schedule: %Schedule{time: @early_time},
             prediction: nil})
 
       assert safe_to_string(result) =~ "12:00PM"
