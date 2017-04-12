@@ -93,6 +93,9 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   defp trip_fn("not_in_schedule", [date: @date]) do
     []
   end
+  defp trip_fn("out_of_service", _) do
+    {:error, [%JsonApi.Error{code: "no_service"}]}
+  end
 
   defp vehicle_fn("32893585") do
     %Vehicles.Vehicle{}
@@ -502,6 +505,21 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> call(init)
 
     assert conn.assigns.trip_info == nil
+  end
+
+  test "removes the trip from the query string if the API returns an error", %{conn: conn} do
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
+
+    conn = %{conn |
+      request_path: schedule_path(conn, :show, "Red"),
+      query_params: %{"trip" => "out_of_service"}
+    }
+    |> assign(:schedules, [])
+    |> assign(:date, @date)
+    |> assign(:route, %Routes.Route{type: 1})
+    |> call(init)
+
+    assert redirected_to(conn) == schedule_path(conn, :show, "Red")
   end
 
   describe "show_trips?/3" do
