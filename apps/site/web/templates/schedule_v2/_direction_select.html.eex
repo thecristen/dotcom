@@ -8,8 +8,7 @@
     <div class="filter-text">
       <span class="sr-only">Change Direction of Trip.</span>
       <div class="inner-label">
-        <%= direction(@direction_id, @route) %>
-        <span class="sr-only">to </span>
+        <%= direction(@direction_id, @route) %> to&#58;
       </div>
       <div>
         <%= fa "arrow-right" %>
