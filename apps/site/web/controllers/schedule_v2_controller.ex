@@ -4,11 +4,11 @@ defmodule Site.ScheduleV2Controller do
 
   alias Site.ScheduleV2Controller, as: SV2C
 
-  plug Site.Plugs.Route, required: true
+  plug Site.Plugs.Route
   plug :tab
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
-  plug Site.ScheduleController.DatePicker
+  plug SV2C.DatePicker
   plug SV2C.Defaults
   plug Site.Plugs.Alerts
   plug SV2C.AllStops
@@ -17,8 +17,7 @@ defmodule Site.ScheduleV2Controller do
   plug SV2C.PreSelect
   plug SV2C.VehicleLocations
   plug SV2C.Predictions
-  plug Site.ScheduleController.Headsigns
-  plug Site.ScheduleController.RouteBreadcrumbs
+  plug SV2C.RouteBreadcrumbs
   plug :tab_assigns
 
   @spec show(Plug.Conn.t, map) :: Phoenix.HTML.Safe.t

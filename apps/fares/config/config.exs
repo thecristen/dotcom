@@ -18,9 +18,6 @@ use Mix.Config
 #
 # Or configure a 3rd-party app:
 
-config :logger, level: :info, colors: [enabled: true]
-
-
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
 # by uncommenting the line below and defining dev.exs, test.exs and such.

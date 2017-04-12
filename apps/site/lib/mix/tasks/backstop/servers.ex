@@ -149,7 +149,7 @@ defmodule Backstop.Servers.Phoenix do
   end
 
   def error_match do
-    "[error]"
+    ~r/\[error\] (?!Supervisor)/
   end
 end
 

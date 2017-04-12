@@ -5,7 +5,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :tab
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
-  plug Site.ScheduleController.DatePicker
+  plug Site.ScheduleV2Controller.DatePicker
   plug :alerts
   plug Site.ScheduleV2Controller.Defaults
   plug :stops_on_routes
@@ -20,7 +20,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :validate_stop_times
   plug :hide_destination_selector
   plug Site.ScheduleV2Controller.TripInfo
-  plug Site.ScheduleController.RouteBreadcrumbs
+  plug Site.ScheduleV2Controller.RouteBreadcrumbs
   plug :tab_assigns
 
   def green(conn, _params) do

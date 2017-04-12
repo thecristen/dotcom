@@ -1,4 +1,0 @@
-<a href="" class="pull-right" onclick="$(this).addClass('fa-spin');" data-turbolinks-action="replace">
-  <%= fa "refresh" %>
-  <span class="sr-only">Refresh</span>
-</a>

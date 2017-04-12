@@ -1,32 +1,31 @@
 defmodule Site.ScheduleV2Controller.ExcludedStopsTest do
   use Site.ConnCase, async: true
-  alias Site.ScheduleController.AllStops
+  alias Site.ScheduleV2Controller.AllStops
   alias Site.ScheduleV2Controller.ExcludedStops
   alias Stops.Stop
 
   defp conn_with_route(conn, route_id, opts) do
     conn = conn
+    |> assign(:date, Util.service_date())
     |> assign(:route, %Routes.Route{id: route_id})
 
-    conn = opts
-    |> Enum.reduce(conn, fn {key, value}, conn -> assign(conn, key, value) end)
+    conn =  Enum.reduce(opts, conn, fn {key, value}, conn -> assign(conn, key, value) end)
 
-    conn
-    |> AllStops.call([])
+    AllStops.call(conn, [])
   end
 
   test "exclusions use normal lines on non-red lines", %{conn: conn} do
     conn = conn
-    |> conn_with_route("Green-B", origin: %Stop{id: "place-park"}, direction_id: 1)
+    |> conn_with_route("Green-B", origin: %Stop{id: "place-lake"}, direction_id: 1)
     |> ExcludedStops.call([])
 
-    assert conn.assigns.excluded_origin_stops == ["place-lech"]
+    assert conn.assigns.excluded_origin_stops == ["place-pktrm"]
     assert conn.assigns.excluded_destination_stops == []
   end
 
   test "exclusions use the direction_id to exclude the last stop", %{conn: conn} do
     conn = conn
-    |> conn_with_route("Green-B", origin: %Stop{id: "place-park"}, direction_id: 0)
+    |> conn_with_route("Green-B", origin: %Stop{id: "place-pktrm"}, direction_id: 0)
     |> ExcludedStops.call([])
 
     assert conn.assigns.excluded_origin_stops == ["place-lake"]

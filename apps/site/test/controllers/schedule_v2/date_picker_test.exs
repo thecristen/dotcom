@@ -1,7 +1,7 @@
-defmodule Site.ScheduleController.DatePickerTest do
+defmodule Site.ScheduleV2Controller.DatePickerTest do
   use Site.ConnCase, async: true
 
-  import Site.ScheduleController.DatePicker
+  import Site.ScheduleV2Controller.DatePicker
 
   @opts init([])
 

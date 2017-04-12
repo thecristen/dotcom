@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2Controller.Pdf do
   use Site.Web, :controller
 
-  plug Site.Plugs.Route, required: true
+  plug Site.Plugs.Route
 
   def pdf(%Plug.Conn{assigns: %{route: %Routes.Route{} = route} } = conn, _params) do
     case Routes.Pdf.url(route) do

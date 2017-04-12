@@ -17,7 +17,6 @@ defmodule Site.ScheduleV2Controller.Defaults do
   def assign_headsigns(%Conn{assigns: %{route: %Route{id: route_id}}} = conn, _) do
     assign(conn, :headsigns, Routes.Repo.headsigns(route_id))
   end
-  def assign_headsigns(conn, _), do: assign(conn, :headsigns, %{0 => [], 1 => []})
 
   def assign_direction_id(conn, _) do
     do_assign_direction_id(conn.query_params["direction_id"], conn)

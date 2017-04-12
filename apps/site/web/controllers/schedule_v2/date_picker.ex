@@ -1,4 +1,4 @@
-defmodule Site.ScheduleController.DatePicker do
+defmodule Site.ScheduleV2Controller.DatePicker do
   use Plug.Builder
   alias Plug.Conn
   import UrlHelpers, only: [update_url: 2]

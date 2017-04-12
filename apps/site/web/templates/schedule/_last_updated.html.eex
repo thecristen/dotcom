@@ -1,3 +1,0 @@
-<small class="schedule-last-updated">
-  (last updated at <%= Util.now |> Timex.format!("{kitchen}") %>)
-</small>

@@ -2,7 +2,7 @@ defmodule Site.ViewHelpersTest do
   @moduledoc false
   use Site.ConnCase, async: true
 
-  import Site.ViewHelpers, except: [schedule_v1_path: 3, schedule_v1_path: 4]
+  import Site.ViewHelpers
   import Phoenix.HTML.Tag, only: [tag: 2]
   alias Routes.Route
 
@@ -103,28 +103,19 @@ defmodule Site.ViewHelpersTest do
     end
   end
 
-  describe "verify that schedule path functions show correct version" do
-    test "make sure paths have the correct version" do
-      v2 = Site.Router.Helpers.schedule_path(Site.Endpoint, :show, 5)
-      v1 = Site.Router.Helpers.schedule_v1_path(Site.Endpoint, :show, 5)
-      assert v2 =~ ~r/\/schedules\//
-      assert v1 =~ ~r/\/schedules_v1\//
-    end
-  end
-
   describe "format_full_date/1" do
     test "formats a date" do
-      assert Site.ViewHelpers.format_full_date(~D[2017-03-31]) == "March 31, 2017"
+      assert format_full_date(~D[2017-03-31]) == "March 31, 2017"
     end
   end
 
   describe "route_type_name/1" do
     test "train from route_type" do
-      assert Site.ViewHelpers.route_type_name(2) == "Train"
+      assert route_type_name(2) == "Train"
     end
 
     test "bus from route_type" do
-      assert Site.ViewHelpers.route_type_name(3) == "Bus"
+      assert route_type_name(3) == "Bus"
     end
   end
 end

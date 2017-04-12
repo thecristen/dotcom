@@ -1,4 +1,4 @@
-defmodule Site.ScheduleController.RouteBreadcrumbs do
+defmodule Site.ScheduleV2Controller.RouteBreadcrumbs do
   @moduledoc "Fetches the route from `conn.assigns` and assigns breadcrumbs."
 
   import Plug.Conn, only: [assign: 3]

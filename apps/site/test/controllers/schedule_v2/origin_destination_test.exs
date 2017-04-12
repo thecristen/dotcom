@@ -10,13 +10,13 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
     |> assign(:date, Util.service_date())
     |> fetch_query_params()
     |> Site.ScheduleV2Controller.Defaults.call([])
-    |> Site.ScheduleController.AllStops.call([])
+    |> Site.ScheduleV2Controller.AllStops.call([])
     |> OriginDestination.call([])
   end
 
   describe "assigns origin to" do
     test "nil when id not in params", %{conn: conn} do
-      conn = setup_conn(conn)
+      conn = setup_conn(%{conn | params: %{"route" => "1"}})
       assert conn.assigns.origin == nil
     end
 
@@ -38,7 +38,7 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
 
   describe "assigns destination to" do
     test "nil when id not in params", %{conn: conn} do
-      conn = setup_conn(conn)
+      conn = setup_conn(%{conn | params: %{"route" => "1"}})
       assert conn.assigns.destination == nil
     end
 
