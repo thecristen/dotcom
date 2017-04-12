@@ -2,6 +2,7 @@ defmodule Site.StopView do
   use Site.Web, :view
 
   alias Stops.Stop
+  alias Routes.Route
   alias Fares.RetailLocations.Location
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
@@ -53,10 +54,14 @@ defmodule Site.StopView do
   @doc "Combine multipe routes on the same subway line"
   def aggregate_routes(routes) do
     routes
-    |> Enum.map(&(if String.starts_with?(&1.name, "Green"), do: %{&1 | name: "Green"}, else: &1))
-    |> Enum.map(&(if &1.name == "Mattapan Trolley", do: %{&1 | name: "Red Line"}, else: &1))
-    |> Enum.uniq_by(&(&1.name))
+    |> Enum.map(& %{&1 | id: normalize_route(&1, true)})
+    |> Enum.uniq_by(&(&1.id))
   end
+
+  @spec normalize_route(Routes.t, boolean) :: String.t
+  def normalize_route(%Route{id: "Green" <> _rest}, _mattapan?), do: "Green"
+  def normalize_route(%Route{id: "Mattapan" <> _rest}, true), do: "Red"
+  def normalize_route(%Route{id: id}, _), do: id
 
   @spec accessibility_info(Stop.t) :: [Phoenix.HTML.Safe.t]
   @doc "Accessibility content for given stop"
@@ -113,7 +118,7 @@ defmodule Site.StopView do
   def tab_selected?("schedule", nil), do: true
   def tab_selected?(_, _), do: false
 
-  @spec schedule_template(Routes.Route.route_type) :: String.t
+  @spec schedule_template(Route.route_type) :: String.t
   @doc "Returns the template to render schedules for the given mode."
   def schedule_template(:commuter_rail), do: "_commuter_schedule.html"
   def schedule_template(_), do: "_mode_schedule.html"

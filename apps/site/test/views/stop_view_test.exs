@@ -2,6 +2,7 @@ defmodule Site.StopViewTest do
   @moduledoc false
   import Site.StopView
   alias Stops.Stop
+  alias Routes.Route
   use Site.ConnCase, async: true
 
   describe "fare_group/1" do
@@ -77,15 +78,47 @@ defmodule Site.StopViewTest do
 
   describe "aggregate_routes/1" do
     test "All green line routes are aggregated" do
-      e_line = %{name: "Green-E"}
-      d_line = %{name: "Green-D"}
-      c_line = %{name: "Green-C"}
-      orange_line = %{name: "Orange"}
+      e_line = %Route{id: "Green-E"}
+      d_line = %Route{id: "Green-D"}
+      c_line = %Route{id: "Green-C"}
+      orange_line = %Route{id: "Orange"}
       line_list = [e_line, d_line, c_line, orange_line]
-      green_count = line_list |> aggregate_routes |> Enum.filter(&(&1.name == "Green")) |> Enum.count
+      green_count = line_list |> aggregate_routes |> Enum.filter(&(&1.id == "Green")) |> Enum.count
 
       assert green_count == 1
       assert Enum.count(aggregate_routes(line_list)) == 2
+    end
+
+    test "Mattapan is aggregated" do
+      orange_line = %Route{id: "Orange"}
+      red_line = %Route{id: "Red"}
+      mattapan = %Route{id: "Mattapan"}
+      routes = [orange_line, red_line, mattapan] |> aggregate_routes |> Enum.map(& &1.id)
+      assert Enum.count(routes) == 2
+      assert "Red" in routes
+      refute "Mattapan" in routes
+    end
+  end
+
+  describe "normalize_route/2" do
+    test "Green routes are normalized to Green" do
+      green_e = %Route{id: "Green-E"}
+      green_b = %Route{id: "Green-B"}
+      green_c = %Route{id: "Green-C"}
+      green_d = %Route{id: "Green-D"}
+      for route_id <- Enum.map([green_e, green_b, green_c, green_d], &normalize_route(&1, false)) do
+        assert route_id == "Green"
+      end
+    end
+
+    test "Mattapan normalized when given true value" do
+      mattapan = %Route{id: "Mattapan"}
+      assert normalize_route(mattapan, true) == "Red"
+    end
+
+    test "Otherwise, mattapan is kept as mattapan" do
+      mattapan = %Route{id: "Mattapan"}
+      assert normalize_route(mattapan, false) == "Mattapan"
     end
   end
 
@@ -127,7 +160,7 @@ defmodule Site.StopViewTest do
 
   describe "info_tab_name/1" do
     test "is stop info when given a bus line" do
-      grouped_routes = [bus: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+      grouped_routes = [bus: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
         id: "742", key_route?: true, name: "SL2", type: 3}]]
 
       assert info_tab_name(grouped_routes) == "Stop Info"
@@ -135,9 +168,9 @@ defmodule Site.StopViewTest do
 
     test "is station info when given any other line" do
       grouped_routes = [
-        bus: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+        bus: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
           id: "742", key_route?: true, name: "SL2", type: 3}],
-        subway: [%Routes.Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
+        subway: [%Route{direction_names: %{0 => "Outbound", 1 => "Inbound"},
           id: "Red", key_route?: true, name: "Red", type: 1}]
       ]
 
