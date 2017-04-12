@@ -7,7 +7,7 @@ defmodule Site.RedirectController do
     full_path = get_path(redirect_parts, params)
 
     conn
-    |> put_resp_header("refresh", "5;url=" <> full_path)
+    |> maybe_put_refresh_header(full_path)
     |> assign(:disable_turbolinks, true)
     |> render("show.html", redirect: full_path)
   end
@@ -27,5 +27,20 @@ defmodule Site.RedirectController do
     path = parts |> Enum.join("/")
     query_params = params |> Map.delete("path")
     append_query_params(path, query_params)
+  end
+
+  defp maybe_put_refresh_header(conn, full_path) do
+    host = get_req_header(conn, "host")
+    referer = get_req_header(conn, "referer")
+
+    with [referer] <- referer,
+       referer <- URI.parse(referer),
+       ^host <- [referer.authority]
+      do
+        put_resp_header(conn, "refresh", "5;url=" <> full_path)
+    else
+      _ ->
+        conn
+    end
   end
 end

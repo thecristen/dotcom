@@ -57,18 +57,6 @@ defmodule Site.RedirectControllerTest do
     assert response =~ "https://commerce.mbta.com/TheRide"
   end
 
-  test "send refresh header, disable turbolinks", %{conn: conn} do
-    conn = get conn, "/redirect/riding_the_t/bikes/"
-    assert Plug.Conn.get_resp_header(conn, "refresh") == ["5;url=http://www.mbta.com/riding_the_t/bikes"]
-
-    attribute = conn
-    |> html_response(200)
-    |> Floki.find("body")
-    |> Floki.attribute("data-turbolinks")
-
-    assert attribute == ["false"]
-  end
-
   test "send refresh header, allow turbolinks", %{conn: conn} do
     attribute = conn
     |> put_req_header("turbolinks-referrer", "/")
@@ -78,5 +66,39 @@ defmodule Site.RedirectControllerTest do
     |> Floki.attribute("data-turbolinks")
 
     assert attribute == ["true"]
+  end
+
+  test "does not add a refresh header when coming from an outside source", %{conn: conn} do
+    header = conn
+    |> put_req_header("referer", "http://www.google.com")
+    |> get("/redirect/riding_the_t/bikes/")
+    |> get_resp_header("refresh")
+
+    assert header == []
+  end
+
+  test "adds the refresh header when the request is coming from the same host and turbolinks is disabled", %{conn: conn} do
+    conn = conn
+    |> put_req_header("host", "localhost:4001")
+    |> put_req_header("referer", "http://localhost:4001/")
+    |> get("/redirect/riding_the_t/bikes/")
+
+    assert conn |> get_resp_header("refresh") == ["5;url=http://www.mbta.com/riding_the_t/bikes"]
+
+    attribute = conn
+    |> html_response(200)
+    |> Floki.find("body")
+    |> Floki.attribute("data-turbolinks")
+
+    assert attribute == ["false"]
+  end
+
+  test "does not add the refresh header when the request has no referer", %{conn: conn} do
+    header = conn
+    |> put_req_header("host", "localhost:4001")
+    |> get("/redirect/riding_the_t/bikes/")
+    |> get_resp_header("refresh")
+
+    assert header == []
   end
 end
