@@ -193,7 +193,7 @@
     },
     {
       "label": "Station Info (Framingham)",
-      "url": "http://localhost:8082/stops/Framingham?date=2017-06-14&date_time=2017-06-14T17%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/Framingham?tab=schedule&date=2017-06-14&date_time=2017-06-14T17%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".station-info-map"],
       "selectors": ["main"],
       "delay": 100,
@@ -201,7 +201,7 @@
     },
     {
       "label": "Station Info (South Station)",
-      "url": "http://localhost:8082/stops/place-sstat?date=2017-06-14&date_time=2017-06-14T17%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/place-sstat?tab=schedule&date=2017-06-14&date_time=2017-06-14T17%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".station-info-map"],
       "selectors": ["main"],
       "delay": 100,

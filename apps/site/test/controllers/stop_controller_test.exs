@@ -46,6 +46,23 @@ defmodule Site.StopControllerTest do
     assert html_response(conn, 200) =~ "Anderson/Woburn"
   end
 
+  test "Tab defaults to 'info'", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat")
+    assert conn.assigns.tab == "info"
+  end
+
+  test "Tab defaults to `info` when given invalid tab param", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "weather")
+    assert conn.assigns.tab == "info"
+  end
+
+  test "Tab assigned when given valid param", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
+    assert conn.assigns.tab == "info"
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "schedule")
+    assert conn.assigns.tab == "schedule"
+  end
+
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
       get conn, stop_path(conn, :show, -1)
@@ -67,9 +84,17 @@ defmodule Site.StopControllerTest do
   test "assigns alerts for the stop", %{conn: conn} do
     conn = conn
     |> assign(:all_alerts, @alerts)
-    |> get(stop_path(conn, :show, "place-sstat"))
+    |> get(stop_path(conn, :show, "place-sstat", tab: "schedule"))
 
     assert conn.assigns.stop_alerts == [0, 2] |> Enum.map(&Enum.at(@alerts, &1))
+  end
+
+  test "does not assign stop alerts on info page", %{conn: conn} do
+    conn = conn
+    |> assign(:all_alerts, @alerts)
+    |> get(stop_path(conn, :show, "place-sstat", tab: "info"))
+
+    refute conn.assigns[:stop_alerts]
   end
 
   test "assigns nearby fare retail locations", %{conn: conn} do

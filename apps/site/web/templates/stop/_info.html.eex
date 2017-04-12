@@ -1,4 +1,4 @@
-<div id="station-info">
+<div id="station-info" class="page-section">
   <h2>Parking</h2>
   <%= if !Enum.empty?(@stop.parking_lots) do %>
     <%= for lot <- @stop.parking_lots do %>
