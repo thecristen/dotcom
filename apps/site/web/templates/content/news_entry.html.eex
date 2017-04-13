@@ -15,7 +15,7 @@
   </p>
 
   <div class="news-entry-body">
-    <%= @page.body %>
+    <%= Site.ContentRewriter.rewrite(@page.body) %>
   </div>
 
   <div>

@@ -93,57 +93,60 @@
 
 .responsive-table {
   border: $border;
-  width: 100%;
-  max-width: 100%;
   margin-bottom: $base-spacing;
+  width: 100%;
 
-  th, td {
-    padding: $space-12;
-    vertical-align: top;
-  }
-
-  thead tr {
-    @extend %table-header;
-  }
-
-  tbody th, caption {
-    display: none;
-  }
-
-  tbody tr:nth-of-type(even) {
-    background-color: $gray-bordered-background;
+  @include media-breakpoint-up(sm) {
+    tbody th,
+    caption {
+      display: none;
+    }
   }
 
   @include media-breakpoint-down(sm) {
-    tbody, th, td, tr {
+    tbody th,
+    th,
+    td,
+    tr {
       display: block;
     }
 
     thead {
-      display: none
+      display: none;
     }
 
     caption {
-      background-color: $brand-primary-darkest;
-      border-color: $brand-primary-darkest;
-      color: $white;
       display: block;
       font-weight: bold;
-      padding-left: $space-12;
+      padding-left: $grid-gutter-width / 2;
     }
 
     tbody th {
-      display: block;
       padding-bottom: 0;
     }
 
     tbody td {
-      padding-top: 0;
       padding-bottom: 0;
+      padding-top: 0;
     }
 
     tr td:last-child {
       padding-bottom: $base-spacing;
     }
+  }
+
+  thead tr,
+  caption {
+    @extend %table-header;
+  }
+
+  th,
+  td {
+    padding: $base-spacing-sm $grid-gutter-width / 2;
+    vertical-align: top;
+  }
+
+  tbody tr:nth-of-type(even) {
+    background-color: $gray-bordered-background;
   }
 }

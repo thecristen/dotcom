@@ -59,4 +59,20 @@ defmodule UtilTest do
       end
     end
   end
+
+  describe "interleave" do
+    test "interleaves lists" do
+      assert Util.interleave([1, 3, 5], [2, 4, 6]) == [1, 2, 3, 4, 5, 6]
+    end
+
+    test "handles empty lists" do
+      assert Util.interleave([1, 2, 3], []) == [1, 2, 3]
+      assert Util.interleave([], [1, 2, 3]) == [1, 2, 3]
+    end
+
+    test "handles lists of different lengths" do
+      assert Util.interleave([1, 3], [2, 4, 5, 6]) == [1, 2, 3, 4, 5, 6]
+      assert Util.interleave([1, 3, 5, 6], [2, 4]) == [1, 2, 3, 4, 5, 6]
+    end
+  end
 end

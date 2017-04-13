@@ -53,11 +53,15 @@ defmodule Util do
 
   @doc """
 
-  Returns an id property in a struct or nil 
+  Returns an id property in a struct or nil
 
   """
-
   def safe_id(%{id: id}), do: id
   def safe_id(nil), do: nil
-  
+
+  @doc "Interleaves two lists. Appends the remaining elements of the longer list"
+  @spec interleave(list, list) :: list
+  def interleave([h1|t1], [h2|t2]), do: [h1, h2 | interleave(t1, t2)]
+  def interleave([], l), do: l
+  def interleave(l, []), do: l
 end
