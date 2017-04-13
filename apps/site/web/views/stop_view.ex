@@ -58,7 +58,7 @@ defmodule Site.StopView do
     |> Enum.uniq_by(&(&1.id))
   end
 
-  @spec normalize_route(Routes.t, boolean) :: String.t
+  @spec normalize_route(Route.t, boolean) :: String.t
   def normalize_route(%Route{id: "Green" <> _rest}, _mattapan?), do: "Green"
   def normalize_route(%Route{id: "Mattapan" <> _rest}, true), do: "Red"
   def normalize_route(%Route{id: id}, _), do: id
