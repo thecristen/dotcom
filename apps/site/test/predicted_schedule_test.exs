@@ -317,9 +317,9 @@ defmodule PredictedScheduleTest do
       refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: late_schedule}, @base_time)
     end
 
-    test "status is used if no time is available" do
-      upcoming_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, status: "Boarding"}}
-      past_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, status: "Past"}}
+    test "departing? field is used if no time is available" do
+      upcoming_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, departing?: true}}
+      past_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, departing?: false}}
       assert upcoming?(upcoming_prediction, @base_time)
       refute upcoming?(past_prediction, @base_time)
     end
@@ -337,10 +337,6 @@ defmodule PredictedScheduleTest do
       refute departing?(%PredictedSchedule{prediction: %Prediction{departing?: false}})
       assert departing?(%PredictedSchedule{prediction: %Prediction{departing?: true}, schedule: nil})
     end
-
-    test "status is used to determine departing status if prediction has status" do
-      assert departing?(%PredictedSchedule{prediction: %Prediction{status: "Approaching"}, schedule: nil})
-      refute departing?(%PredictedSchedule{prediction: %Prediction{status: "Leaving"}, schedule: nil}) end
   end
 
   describe "sort_status_and_time" do

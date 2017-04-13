@@ -249,5 +249,28 @@ defmodule Predictions.ParserTest do
 
       assert Parser.parse(item) == expected
     end
+
+    test "departing status is determined by prediction status if no time is given" do
+      json_item = %Item{
+        attributes: %{
+          "track" => nil,
+          "status" => "3 stops away",
+          "direction_id" => 0,
+          "departure_time" => nil,
+          "arrival_time" => nil,
+        },
+        relationships: %{
+          "route" => [%Item{id: "route_id", attributes: %{
+                               "long_name" => "Route",
+                               "direction_names" => ["Eastbound", "Westbound"],
+                               "type" => 1
+                            }}],
+          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}],
+          "trip" => []
+        }
+      }
+      parsed = Parser.parse(json_item)
+      assert parsed.departing?
+    end
   end
 end

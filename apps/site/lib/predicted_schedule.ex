@@ -116,10 +116,11 @@ defmodule PredictedSchedule do
   Determines if the given predicted schedule occurs after the given time
   """
   @spec upcoming?(PredictedSchedule.t, DateTime.t) :: boolean
+  def upcoming?(%PredictedSchedule{schedule: nil, prediction: %Prediction{time: nil, departing?: departing?}}, _) do
+    departing?
+  end
   def upcoming?(ps, current_time) do
-    upcoming_status = ps |> status() |> upcoming_status?()
-    upcoming_time = time(ps) || current_time
-    upcoming_status || Timex.after?(upcoming_time, current_time)
+    Timex.after?(time(ps) || current_time, current_time)
   end
 
   @doc """
@@ -129,9 +130,6 @@ defmodule PredictedSchedule do
   determining departing? status.
   """
   @spec departing?(PredictedSchedule.t) :: boolean
-  def departing?(%PredictedSchedule{schedule: nil, prediction: %Prediction{status: status}}) when not is_nil(status) do
-    upcoming_status?(status)
-  end
   def departing?(%PredictedSchedule{schedule: nil, prediction: prediction}) do
     prediction.departing?
   end
@@ -202,12 +200,6 @@ defmodule PredictedSchedule do
       _ -> :sort_max
     end
   end
-
-  @spec upcoming_status?(String.t) :: boolean
-  defp upcoming_status?("Approaching"), do: true
-  defp upcoming_status?("Boarding"), do: true
-  defp upcoming_status?(nil), do: false
-  defp upcoming_status?(status), do: String.ends_with?(status, "away")
 
   @doc """
   Returns the time difference between a schedule and prediction. If either is nil, returns 0.

@@ -164,6 +164,7 @@ defmodule UpcomingRouteDeparturesTest do
       direction_id: 0,
       route: %Route{id: "Green-E", type: 0},
       status: "Boarding",
+      departing?: true,
       stop: @stop,
       stop_sequence: 1
     },
@@ -172,6 +173,7 @@ defmodule UpcomingRouteDeparturesTest do
       direction_id: 0,
       route: %Route{id: "Green-E", type: 0},
       status: "3 stops away",
+      departing?: true,
       stop: @stop,
       stop_sequence: 1
     },
@@ -180,6 +182,7 @@ defmodule UpcomingRouteDeparturesTest do
       direction_id: 0,
       route: %Route{id: "Green-E", type: 0},
       status: "6 stops away",
+      departing?: true,
       stop: @stop,
       stop_sequence: 1
     },
@@ -188,6 +191,7 @@ defmodule UpcomingRouteDeparturesTest do
       direction_id: 0,
       route: %Route{id: "Green-B", type: 0},
       status: "1 stop away",
+      departing?: true,
       stop: @stop,
       stop_sequence: 1
     },
@@ -198,11 +202,13 @@ defmodule UpcomingRouteDeparturesTest do
       trip: %Trip{id: "GREEN-2", headsign: "Boston College", direction_id: 0},
       stop: @stop,
       time: Timex.shift(@time, minutes: 5),
-      stop_sequence: 1
+      stop_sequence: 1,
+      departing?: true,
     },
     %Prediction {
       id: "Green-Prediction-6",
       status: "1 stop away",
+      departing?: true,
       direction_id: 0,
       route: %Route{id: "Green-C", type: 0},
       stop: @stop,
@@ -211,6 +217,7 @@ defmodule UpcomingRouteDeparturesTest do
     %Prediction {
       id: "Green-Prediction-5",
       status: "Approaching",
+      departing?: true,
       direction_id: 0,
       route: %Route{id: "Green-C", type: 0},
       stop: @stop,
@@ -219,6 +226,7 @@ defmodule UpcomingRouteDeparturesTest do
     %Prediction {
       id: "Green-Prediction-8",
       status: "Boarding",
+      departing?: true,
       direction_id: 0,
       route: %Route{id: "Green-C", type: 0},
       stop: @stop,
@@ -308,8 +316,8 @@ defmodule UpcomingRouteDeparturesTest do
       status_extractor = fn {_headsign, deps} -> Enum.map(deps, & &1.prediction.status) end
       mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time, 3) |> Map.new()
       upcoming_c_line = mode_map[:subway] |> Enum.find(& &1.route.id == "Green-C")
-      e_line_statuses = upcoming_c_line.departures |> Enum.flat_map(status_extractor)
-      assert e_line_statuses == ["Boarding", "Approaching", "1 stop away"]
+      c_line_statuses = upcoming_c_line.departures |> Enum.flat_map(status_extractor)
+      assert c_line_statuses == ["Boarding", "Approaching", "1 stop away"]
     end
 
     test "are sorted by status then time" do
