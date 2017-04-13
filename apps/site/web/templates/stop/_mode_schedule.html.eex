@@ -13,7 +13,7 @@
     <div class="row">
       <%= for route_time <- @route_times do %>
           <%= if route_time.departures != [] do %>
-            <%= link class: "station-route-row", to: schedule_path(@conn, :show, route_time.route.id, origin: @stop.id, direction_id: route_time.direction) do %>
+            <%= link class: "station-route-row", to: schedule_path(@conn, :show, normalize_route(route_time.route, false), origin: @stop.id, direction_id: route_time.direction) do %>
               <div class="col-xs-12 mode-route-name">
                 <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route_time.route, class: "icon-small"}) %>
                 <%= route_time.route.name %>
