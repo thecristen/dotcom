@@ -14,12 +14,22 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
   end
 
   def call(conn, opts) do
-    locations = if conn.assigns.date == Util.service_date(conn.assigns.date_time) do
+    locations = if should_fetch_vehicles?(conn) do
       find_locations(conn, opts)
     else
       %{}
     end
     assign(conn, :vehicle_locations, locations)
+  end
+
+  # don't fetch vehicles for non-commuter rail without an origin.  otherwise
+  # make sure the date is today.
+  defp should_fetch_vehicles?(%{assigns: %{route: %{type: not_commuter_rail}, origin: nil}})
+  when not_commuter_rail != 2 do
+    false
+  end
+  defp should_fetch_vehicles?(conn) do
+    conn.assigns.date == Util.service_date(conn.assigns.date_time)
   end
 
   defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id}}, opts) do

@@ -16,7 +16,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
   end
 
   def call(conn, opts) do
-    if conn.assigns.date == Util.service_date(conn.assigns.date_time) do
+    if should_fetch_predictions?(conn) do
       conn
       |> assign_predictions(opts[:predictions_fn])
       |> gather_vehicle_predictions(opts[:predictions_fn])
@@ -25,6 +25,14 @@ defmodule Site.ScheduleV2Controller.Predictions do
       |> assign(:predictions, [])
       |> assign(:vehicle_predictions, [])
     end
+  end
+
+  # only fetch predictions if we selected an origin and the date is today
+  defp should_fetch_predictions?(%{assigns: %{origin: nil}}) do
+    false
+  end
+  defp should_fetch_predictions?(%{assigns: assigns}) do
+    assigns.date == Util.service_date(assigns.date_time)
   end
 
   def assign_predictions(%{assigns: %{
