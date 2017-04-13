@@ -45,6 +45,18 @@ defmodule Content.CMS.Static do
   def view("/news/winter", _) do
     {:ok, recent_news_response() |> List.first}
   end
+  def view("/events", [meeting_id: "multiple-records"]) do
+    {:ok, events_response()}
+  end
+  def view("/events", [meeting_id: id]) do
+    events =
+      events_response()
+      |> Enum.filter(
+        &(match?(%{"field_meeting_id" => [%{"value" => ^id}]}, &1))
+      )
+
+    {:ok, events}
+  end
   def view("/events", opts) do
     events = case Keyword.get(opts, :id) do
       nil -> events_response()

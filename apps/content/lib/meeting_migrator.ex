@@ -1,10 +1,14 @@
+defmodule Content.MeetingMigrationError do
+  defexception [:message]
+end
+
 defmodule Content.MeetingMigrator do
   @spec migrate(String.t) :: {:ok, %HTTPoison.Response{}} | {:error, %HTTPoison.Response{}}
   def migrate(meeting_json) do
     encoded_event_body = build_event(meeting_json)
     meeting_id = meeting_json["meeting_id"]
 
-    if event_id = check_for_existing_event(meeting_id) do
+    if event_id = check_for_existing_event!(meeting_id) do
       update_event(event_id, encoded_event_body)
     else
       create_event(encoded_event_body)
@@ -17,13 +21,13 @@ defmodule Content.MeetingMigrator do
     |> Poison.encode!
   end
 
-  defp check_for_existing_event(id) do
-    response = HTTPoison.get!(events_url(), [], params: ["meeting_id": id])
-
-    response.body
-    |> Poison.decode!
-    |> List.first
-    |> parse_node_id
+  def check_for_existing_event!(id) do
+    case Content.Repo.events(meeting_id: id) do
+      [%Content.Event{id: id}] -> id
+      [] -> nil
+      _multiple_records -> raise Content.MeetingMigrationError,
+        message: "multiple records were found when querying by meeting_id: #{id}."
+    end
   end
 
   defp update_event(id, body) do
@@ -34,17 +38,12 @@ defmodule Content.MeetingMigrator do
     HTTPoison.post(create_event_url(), body, headers())
   end
 
-  defp parse_node_id(%{"nid" => [%{"value" => node_id}]} = _body), do: node_id
-  defp parse_node_id(_), do: nil
-
   defp headers do
     [
       {"Authorization", "Basic #{encoded_auth_credentials()}"},
       {"Content-Type", "application/json"},
     ]
   end
-
-  defp events_url, do: Content.Config.url("events")
 
   defp update_event_url(id), do: Content.Config.url("node/#{id}")
 

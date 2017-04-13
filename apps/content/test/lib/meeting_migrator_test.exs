@@ -30,22 +30,39 @@ defmodule Content.MeetingMigratorTest do
     test "given the event already exists in the CMS, updates the event" do
       bypass = bypass_cms()
 
-      Bypass.expect bypass, fn conn ->
-        response_data = [%{"nid" => [%{"value" => 37}]}]
+      previously_migrated_meeting =
+        @filename
+        |> fixture
+        |> Map.put("meeting_id", "1")
 
-        case conn.request_path do
-          "/events" ->
-            assert "GET" == conn.method
-            assert conn.query_string =~ URI.encode_query(%{meeting_id: 5550})
-            Plug.Conn.resp(conn, 200, Poison.encode!(response_data))
-          "/node/37" ->
-            assert "PATCH" == conn.method
-            Plug.Conn.resp(conn, 200, Poison.encode!(response_data))
-        end
+      Bypass.expect bypass, fn conn ->
+        response_data = [%{"nid" => [%{"value" => 17}]}]
+
+        assert conn.request_path == "/node/17"
+        assert "PATCH" == conn.method
+        Plug.Conn.resp(conn, 200, Poison.encode!(response_data))
       end
 
-      result = MeetingMigrator.migrate(fixture(@filename))
+      result = MeetingMigrator.migrate(previously_migrated_meeting)
       assert {:ok, %HTTPoison.Response{status_code: 200}} = result
+    end
+  end
+
+  describe "check_for_existing_event!/1" do
+    test "returns the event id, when an existing event is found" do
+      assert MeetingMigrator.check_for_existing_event!("1") == 17
+    end
+
+    test "when an existing record is not found" do
+      assert MeetingMigrator.check_for_existing_event!("999") == nil
+    end
+
+    test "when multiple records are found" do
+      expected_error_message = "multiple records were found when querying by meeting_id: multiple-records."
+
+      assert_raise Content.MeetingMigrationError, expected_error_message, fn ->
+        MeetingMigrator.check_for_existing_event!("multiple-records")
+      end
     end
   end
 
