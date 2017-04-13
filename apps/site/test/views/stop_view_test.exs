@@ -122,22 +122,6 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "schedule_display_time/2" do
-    @time ~N[2017-01-01T22:30:00]
-    test "returns difference in minutes when difference is less than 60" do
-      diff = @time
-      |> Timex.shift(minutes: 10)
-      |> schedule_display_time(@time)
-      assert diff == "10 mins"
-    end
-
-    test "returns formatted time when difference is greater than 60" do
-      two_hours_later = Timex.shift(@time, hours: 2)
-      diff = schedule_display_time(two_hours_later, @time)
-      assert diff == "12:30AM"
-    end
-  end
-
   describe "center_query/1" do
     test "returns a marker at the stop if it only has buses" do
       stop = %Stop{id: "2438", latitude: "42.37497", longitude: "-71.102529"}

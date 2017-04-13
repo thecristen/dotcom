@@ -143,21 +143,6 @@ defmodule Site.StopView do
     end
   end
 
-  @doc """
-    Finds the difference between now and a time, and displays either the difference in minutes or the formatted time
-    if the difference is greater than an hour.
-  """
-  @spec schedule_display_time(DateTime.t, DateTime.t) :: String.t
-  def schedule_display_time(time, now) do
-    time
-    |> Timex.diff(now, :minutes)
-    |> do_schedule_display_time(time)
-  end
-
-  def do_schedule_display_time(diff, time) when diff > 60 or diff < -1, do: format_schedule_time(time)
-  def do_schedule_display_time(0, _), do: "< 1 min"
-  def do_schedule_display_time(diff, _), do: "#{diff} #{Inflex.inflect("min", diff)}"
-
   def predicted_icon(true) do
       ~s(<i data-toggle="tooltip" title="Real-time Information" class="fa fa-rss station-schedule-icon"></i>
          <span class="sr-only">Predicted departure time: </span>)

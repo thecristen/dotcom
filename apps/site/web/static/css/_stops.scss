@@ -66,7 +66,9 @@
 }
 
 .schedule-upcoming-departure {
-  padding: 0;
+  @include media-breakpoint-down(xs) {
+    padding-left: $grid-gutter-width / 2;
+  }
 
   &:first-child {
     padding-left: $grid-gutter-width / 2;

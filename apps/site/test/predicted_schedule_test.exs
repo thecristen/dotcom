@@ -229,6 +229,16 @@ defmodule PredictedScheduleTest do
     end
   end
 
+  describe "status/1" do
+    test "returns status if one is available" do
+      predicted_schedule = %PredictedSchedule{prediction: %Prediction{status: "Boarding"}}
+      assert PredictedSchedule.status(predicted_schedule) == "Boarding"
+    end
+    test "returns nil when status is not available" do
+      refute PredictedSchedule.status(%PredictedSchedule{})
+    end
+  end
+
   describe "direction_id/1" do
     test "uses prediction if available" do
       predicted_schedule = %PredictedSchedule{prediction: %Prediction{direction_id: 1}}
@@ -306,6 +316,13 @@ defmodule PredictedScheduleTest do
       refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: early_prediction}, @base_time)
       refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: late_schedule}, @base_time)
     end
+
+    test "departing? field is used if no time is available" do
+      upcoming_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, departing?: true}}
+      past_prediction = %PredictedSchedule{prediction: %Prediction{time: nil, departing?: false}}
+      assert upcoming?(upcoming_prediction, @base_time)
+      refute upcoming?(past_prediction, @base_time)
+    end
   end
 
   describe "departing?/1" do
@@ -316,9 +333,19 @@ defmodule PredictedScheduleTest do
       assert departing?(%PredictedSchedule{schedule: %{schedule | pickup_type: 2}, prediction: prediction})
     end
 
-    test "Predictions is used to determine departing status if no schedule is given" do
+    test "Prediction is used to determine departing status if no schedule is given" do
       refute departing?(%PredictedSchedule{prediction: %Prediction{departing?: false}})
       assert departing?(%PredictedSchedule{prediction: %Prediction{departing?: true}, schedule: nil})
+    end
+  end
+
+  describe "sort_status_and_time" do
+    test "predicted schedule with status gets higher priority" do
+      ps1 = %PredictedSchedule{prediction: %Prediction{status: "3 stops away"}}
+      ps2 = %PredictedSchedule{prediction: %Prediction{status: "Approaching"}}
+      ps3 = %PredictedSchedule{prediction: %Prediction{time: @base_time}}
+      ps4 = %PredictedSchedule{schedule: %Schedule{time: Timex.shift(@base_time, minutes: -10)}}
+      assert Enum.sort_by([ps1, ps2, ps3, ps4], &sort_with_status/1) == [ps2, ps1, ps4, ps3]
     end
   end
 end

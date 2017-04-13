@@ -25,14 +25,14 @@
         <%= for {headsign, departures} <- route_time.departures do %>
           <% departure = List.first(departures) %>
           <% trip = PredictedSchedule.trip(departure) %>
-          <%= link class: "station-route-row", to: schedule_path(@conn, :show, route_time.route.id, trip: trip.id, origin: @stop.id, direction_id: route_time.direction, tab: "trip-view") do %>
+          <%= link class: "station-route-row", to: schedule_path(@conn, :show, route_time.route.id, trip: trip.id, origin: @stop.id, direction_id: route_time.direction_id, tab: "trip-view") do %>
             <div class="col-xs-12 mode-route-name">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
               <%= route_time.route.name %>
             </div>
             <div class="clearfix">
               <div class="col-sm-4 col-xs-12 station-trip-headsign">
-                <%= direction(route_time.direction, route_time.route) %> <%= fa "arrow-right" %> <%= headsign %>
+                <%= direction(route_time.direction_id, route_time.route) %> <%= fa "arrow-right" %> <%= headsign %>
                 <%= if has_alerts?(@alerts, @date, %Alerts.InformedEntity{trip: trip.id, route: route_time.route.id}) do %>
                   <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
                 <% end %>

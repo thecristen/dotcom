@@ -31,9 +31,18 @@ defmodule Predictions.Parser do
   defp departing?(%{"departure_time" => binary}) when is_binary(binary) do
     true
   end
+  defp departing?(%{"status" => binary}) when is_binary(binary) do
+    upcoming_status?(binary)
+  end
   defp departing?(_) do
     false
   end
+
+  @spec upcoming_status?(String.t) :: boolean
+  defp upcoming_status?("Approaching"), do: true
+  defp upcoming_status?("Boarding"), do: true
+  defp upcoming_status?(nil), do: false
+  defp upcoming_status?(status), do: String.ends_with?(status, "away")
 
   defp stop([stop | _]) do
     case stop.relationships["parent_station"] do
