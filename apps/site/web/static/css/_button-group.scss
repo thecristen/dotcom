@@ -101,20 +101,18 @@
 }
 
 .tab-select-btn-selected {
-  background-color: $btn-primary-bg;
+  color: $gray-dark;
   border-color: $btn-primary-bg;
-  color: $btn-primary-color;
-  font-weight: bold;
 
   @include media-breakpoint-down(xs) {
-    padding-bottom: $space-8;
-    padding-top: $space-8;
+    padding-bottom: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
     text-align: left;
   }
 
   @include hover-focus-active {
-    background-color: $btn-primary-bg;
-    color: $btn-primary-color;
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
   }
 }
 

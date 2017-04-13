@@ -22,11 +22,11 @@
   @include media-breakpoint-down(xs) {
     margin-bottom: $base-spacing;
   }
+}
 
-  .tab-select-dropdown {
-    border-radius: $border-radius;
-    padding: $space-12;
-  }
+.tab-select-dropdown {
+  border-radius: $border-radius;
+  padding: $base-spacing-sm;
 }
 
 // Custom override for
