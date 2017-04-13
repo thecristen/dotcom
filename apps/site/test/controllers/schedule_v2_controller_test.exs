@@ -312,6 +312,21 @@ defmodule Site.ScheduleV2ControllerTest do
 
       assert Enum.count(conn.assigns.holidays) == 3
     end
+
+    test "Bus line with variant", %{conn: conn} do
+      variant = "090078"
+      conn = get conn, schedule_path(conn, :show, "9", direction_id: 1, tab: "line", variant: variant)
+
+      assert Enum.count(conn.assigns.shapes) == 3
+      assert "1564" in List.last(conn.assigns.shapes).stop_ids
+      assert variant == conn.assigns.active_shape.id
+    end
+
+    test "Bus line with correct default shape", %{conn: conn} do
+      conn = get conn, schedule_path(conn, :show, "9", direction_id: 1, tab: "line")
+
+      assert "090096" == conn.assigns.active_shape.id
+    end
   end
 
   test "renders a rating error if we get no_service back from the API", %{conn: conn} do

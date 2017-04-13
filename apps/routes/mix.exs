@@ -38,7 +38,9 @@ defmodule Routes.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:v3_api, in_umbrella: true},
+     {:csv, "~> 1.4.2"},
      {:excoveralls, "~> 0.5", only: :test},
+     {:mock, "~> 0.2.0", only: :test},
      {:repo_cache, in_umbrella: true}]
   end
 end

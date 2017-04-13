@@ -21,7 +21,7 @@ defmodule Schedules.Parser do
           }} | _]
       }
     }) do
-    Routes.Parser.parse_json(route)
+    Routes.Parser.parse_route(route)
   end
 
   def trip(%JsonApi.Item{

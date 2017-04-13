@@ -1,5 +1,6 @@
 defmodule Routes.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
+  import Mock
 
   describe "all/0" do
     test "returns something" do
@@ -160,6 +161,24 @@ defmodule Routes.RepoTest do
       visible_routes = ["SL1", "66", "1", "742"]
       for route_id <- visible_routes do
         refute Routes.Repo.route_hidden?(%{id: route_id})
+      end
+    end
+  end
+
+  describe "get_shapes/2" do
+    test "Get valid response for bus route" do
+      shapes = Routes.Repo.get_shapes("9", 1)
+      shape = List.first(shapes)
+
+      assert Enum.count(shapes) == 3
+      assert shape.__struct__ == Routes.Shape
+      assert shape.id == "090096"
+      assert Enum.count(shape.stop_ids) == 28
+    end
+
+    test "Get error response" do
+      with_mock V3Api.Shapes, [all: fn _ -> {:error, :tuple} end] do
+        assert Routes.Repo.get_shapes("10", 1) == []
       end
     end
   end

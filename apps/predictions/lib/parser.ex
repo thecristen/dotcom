@@ -58,6 +58,6 @@ defmodule Predictions.Parser do
   end
 
   defp route(item) do
-    Routes.Parser.parse_json(item)
+    Routes.Parser.parse_route(item)
   end
 end
