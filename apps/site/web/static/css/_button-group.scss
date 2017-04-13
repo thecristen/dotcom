@@ -101,8 +101,10 @@
 }
 
 .tab-select-btn-selected {
-  color: $gray-dark;
+  background-color: $btn-primary-bg;
   border-color: $btn-primary-bg;
+  color: $btn-primary-color;
+  font-weight: bold;
 
   @include media-breakpoint-down(xs) {
     padding-bottom: $base-spacing-sm;
@@ -111,8 +113,8 @@
   }
 
   @include hover-focus-active {
-    background-color: $btn-primary-focus-bg;
-    color: $btn-primary-focus-color;
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
   }
 }
 

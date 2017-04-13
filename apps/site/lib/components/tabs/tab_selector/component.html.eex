@@ -18,7 +18,7 @@
 
   <div class="<%= small_screen_class(args.collapse) %>">
     <%= if args.collapse do %>
-      <a class="btn btn-block btn-primary-outline tab-select-btn-selected tab-select-dropdown tab-select-btn show-mode-toggle-btn <%= small_screen_class(args.collapse) %>" href="#<%= args.id %>" data-toggle="collapse" data-target="#<%= args.id %>">
+      <a class="btn btn-block btn-primary-outline tab-select-dropdown tab-select-btn show-mode-toggle-btn" href="#<%= args.id %>" data-toggle="collapse" data-target="#<%= args.id %>">
         <div class="tab-select-btn-content">
           <span class="tab-select-btn-content-option">
             <%= if icon = args.icon_map[args.selected] do %>

@@ -25,8 +25,15 @@
 }
 
 .tab-select-dropdown {
+  border-color: $btn-primary-bg;
   border-radius: $border-radius;
+  color: $gray-dark;
   padding: $base-spacing-sm;
+
+  @include hover-focus-active {
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
+  }
 }
 
 // Custom override for

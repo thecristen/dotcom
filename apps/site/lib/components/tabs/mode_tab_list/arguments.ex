@@ -27,13 +27,12 @@ defmodule Site.Components.Tabs.ModeTabList do
     Enum.map(links, fn {mode_atom, href} -> {ViewHelpers.mode_name(mode_atom), href} end)
   end
 
-  def build_mode_icon_map(links, selected_mode) do
-    Map.new(modes(links), &do_build_mode_icon_map(&1, selected_mode))
+  def build_mode_icon_map(links) do
+    Map.new(modes(links), &do_build_mode_icon_map/1)
   end
 
-  defp do_build_mode_icon_map(mode, selected) do
-    icon_class = if mode == selected, do: "icon-selected", else: ""
-    icon = Site.PageView.svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode, class: icon_class})
+  defp do_build_mode_icon_map(mode) do
+    icon = Site.PageView.svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode})
     {ViewHelpers.mode_name(mode), icon}
   end
 
