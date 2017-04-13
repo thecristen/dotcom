@@ -65,6 +65,17 @@ defmodule Stops.Api do
     |> merge_station_info_api
   end
 
+  def by_route_type({route_type, opts}) do
+    [
+      route_type: route_type,
+      include: "parent_station",
+    ]
+    |> Keyword.merge(opts)
+    |> V3Api.Stops.all
+    |> merge_station_info_api
+  end
+
+
   defp merge_station_info_api({:error, _} = error) do
     error
   end

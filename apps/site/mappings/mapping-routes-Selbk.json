@@ -1,0 +1,19 @@
+{
+  "uuid" : "4379ef1e-c454-384f-a1d5-151740851697",
+  "request" : {
+    "url" : "/routes/?stop=place-bbsta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Selbk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:32 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "aan5v8b7mpprt026t1h6g7g8v8bbnspr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

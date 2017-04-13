@@ -1,0 +1,19 @@
+{
+  "uuid" : "49edf3f2-83e2-3c53-803c-12f78d401804",
+  "request" : {
+    "url" : "/routes/?stop=place-pktrm&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Vacoi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:20 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "jda3d6ts0cjjl6ilma9mb0k8d2opqsdv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

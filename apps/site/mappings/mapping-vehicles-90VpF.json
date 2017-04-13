@@ -1,0 +1,19 @@
+{
+  "uuid" : "45b7c6bb-16ce-3691-b5c8-1e031e7de039",
+  "request" : {
+    "url" : "/vehicles/?fields%5Bvehicle%5D=direction_id%2Ccurrent_status&fields%5Bstop%5D=&include=stop&trip=",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-vehicles-90VpF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:22:42 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "olrkaqiv0pt2v4q6tc8ab8tbvro44gv2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

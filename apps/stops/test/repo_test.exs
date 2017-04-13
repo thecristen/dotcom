@@ -4,7 +4,7 @@ defmodule Stops.RepoTest do
   import Stops.Repo
   alias Stops.Stop
 
-  describe "by_route/2" do
+  describe "by_route/3" do
     test "returns a list of stops in order of their stop_sequence" do
       response = by_route("CR-Lowell", 1)
 
@@ -36,6 +36,26 @@ defmodule Stops.RepoTest do
       saturday = weekday |> Timex.shift(days: 1)
 
       assert by_route("CR-Providence", 1, date: weekday) != by_route("CR-Providence", 1, date: saturday)
+    end
+  end
+
+  describe "by_routes/3" do
+    test "can return stops from multiple route IDs" do
+      response = by_routes(["CR-Lowell", "CR-Haverhill"], 1)
+      assert Enum.find(response, & &1.id == "Lowell")
+      assert Enum.find(response, & &1.id == "Haverhill")
+      # North Station only appears once
+      assert response |> Enum.filter(& &1.id == "place-north") |> length == 1
+    end
+  end
+
+  describe "by_route_type/2" do
+    test "can returns stops filtered by route type" do
+      response = by_route_type(2) # commuter rail
+      assert Enum.find(response, & &1.id == "Lowell")
+      assert Enum.find(response, & &1.id == "place-north")
+      # doesn't include non-CR stops
+      refute Enum.find(response, & &1.id == "place-boyls")
     end
   end
 end

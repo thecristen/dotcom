@@ -1,0 +1,19 @@
+{
+  "uuid" : "28920e71-3c9f-3449-9104-54c55595629e",
+  "request" : {
+    "url" : "/routes/?stop=251&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PtiZ1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:30 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "1frkbk463u5cc5eq5gghiveuqu31n9mu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

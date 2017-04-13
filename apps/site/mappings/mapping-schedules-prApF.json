@@ -1,0 +1,19 @@
+{
+  "uuid" : "c5ad5c10-6896-3872-b90a-814e3c037f44",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&date=2017-06-14&include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-prApF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:23:12 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "90l4jsqatcitruh3sp2jpq15qm3adp2e",
+      "Connection" : "keep-alive"
+    }
+  }
+}

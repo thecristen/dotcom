@@ -29,16 +29,18 @@ defmodule News.Blurb do
     ""
   end
   def blurb(text) do
-    text = String.replace(text, ~R(<br.*?>), " ")
+    text = text
+    |> String.replace(~R(<br.*?>), " ")
+    |> HtmlSanitizeEx.strip_tags
+
     if String.length(text) > max_length() do
       blurb_length = max_length() - String.length(suffix())
       text
-      |> HtmlSanitizeEx.strip_tags
       |> String.strip
       |> String.slice(Range.new(0, blurb_length - 1))
       |> Kernel.<>(suffix())
     else
-      HtmlSanitizeEx.strip_tags(text)
+      text
     end
   end
 end

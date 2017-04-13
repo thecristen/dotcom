@@ -1,0 +1,19 @@
+{
+  "uuid" : "e054532b-4c85-39a5-a73d-af0f1cc9c79d",
+  "request" : {
+    "url" : "/routes/?stop=5093&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-yapip.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "cgj7qao60apjj580gk0225922rask50t",
+      "Connection" : "keep-alive"
+    }
+  }
+}

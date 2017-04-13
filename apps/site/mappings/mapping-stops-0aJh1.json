@@ -1,0 +1,19 @@
+{
+  "uuid" : "fe3d2b8f-622d-3810-8a06-839164c4ced4",
+  "request" : {
+    "url" : "/stops/?route=Red&include=parent_station&direction_id=1&date=2017-06-14",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-0aJh1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:22:51 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "tbu1brp7l6a7cnmltjjvbvft6n8nempi",
+      "Connection" : "keep-alive"
+    }
+  }
+}

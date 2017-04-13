@@ -34,6 +34,24 @@ defmodule Stops.Repo do
     cache {route_id, direction_id, opts}, &Stops.Api.by_route/1
   end
 
+  @spec by_routes([Routes.Route.id_t], 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
+  def by_routes(route_ids, direction_id, opts \\ []) when is_list(route_ids) do
+    # once the V3 API supports multiple route_ids in this field, we can do it
+    # as a single lookup -ps
+    route_ids
+    |> Task.async_stream(&by_route(&1, direction_id, opts))
+    |> Enum.flat_map(fn
+      {:ok, stops} -> stops
+      _ -> []
+    end)
+    |> Enum.uniq
+  end
+
+  @spec by_route_type(Routes.Route.type, Keyword.t):: [Stop.t] | {:error, any}
+  def by_route_type(route_type, opts \\ []) do
+    cache {route_type, opts}, &Stops.Api.by_route_type/1
+  end
+
   def stop_exists_on_route?(stop_id, route, direction_id) do
     route
     |> by_route(direction_id)

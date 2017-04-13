@@ -1,0 +1,19 @@
+{
+  "uuid" : "f86b6f3f-5f4a-313b-9159-21dd658ef677",
+  "request" : {
+    "url" : "/routes/?stop=36540&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OviXN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "7gl0gcdkk0dk8d8b0202s03huo6rqba6",
+      "Connection" : "keep-alive"
+    }
+  }
+}

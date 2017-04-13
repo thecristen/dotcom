@@ -1,0 +1,19 @@
+{
+  "uuid" : "b19dece8-1a42-3d07-bb6a-8da0e0c140de",
+  "request" : {
+    "url" : "/routes/?stop=place-stplb&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bsf5A.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "kl0oc2gt6m82hjmcb79ijmjma2ahg44q",
+      "Connection" : "keep-alive"
+    }
+  }
+}

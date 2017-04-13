@@ -1,0 +1,19 @@
+{
+  "uuid" : "ecdcca53-f857-3bad-a054-2af4da3f1846",
+  "request" : {
+    "url" : "/stops/?route=CR-Middleborough&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-I486e.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:22:36 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "bm8dq1cl2pgegl6dkbmj5k6ijptabdbh",
+      "Connection" : "keep-alive"
+    }
+  }
+}

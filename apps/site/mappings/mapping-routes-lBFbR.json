@@ -1,0 +1,19 @@
+{
+  "uuid" : "01e864ad-496f-3ec3-98c0-8bbe89ff2893",
+  "request" : {
+    "url" : "/routes/?stop=place-kencl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lBFbR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "9ptms55dnbj1k4hu3aofj5bf70onv8q3",
+      "Connection" : "keep-alive"
+    }
+  }
+}
