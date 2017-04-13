@@ -1,0 +1,19 @@
+{
+  "uuid" : "272fe5ec-258e-3179-a073-302c6d7ced20",
+  "request" : {
+    "url" : "/routes/?stop=10005&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PeMze.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:31 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "qt2do3jfnvktftp8irkcjlrk9kkmb8p5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

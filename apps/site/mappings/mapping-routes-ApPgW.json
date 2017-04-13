@@ -1,0 +1,19 @@
+{
+  "uuid" : "a6924910-a398-3f74-b5bd-261a65d464e0",
+  "request" : {
+    "url" : "/routes/?stop=place-kntst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ApPgW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "926tdsan466388bqmhdcirn0o7s83kpb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "d9ca657f-3398-32f2-b657-269f1e7d4c09",
+  "request" : {
+    "url" : "/routes/?stop=place-sthld&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GXOli.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:23 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "euth2ba9ob6s2vmsbd3h7fq0a9dttip4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

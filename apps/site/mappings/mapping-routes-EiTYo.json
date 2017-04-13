@@ -1,0 +1,19 @@
+{
+  "uuid" : "09c43988-2701-366c-a13e-bea67c3bcffc",
+  "request" : {
+    "url" : "/routes/?stop=place-stpul&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-EiTYo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:22 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "p0mo5rp56bt9btupftmjosmo29m9555e",
+      "Connection" : "keep-alive"
+    }
+  }
+}

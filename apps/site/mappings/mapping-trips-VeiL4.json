@@ -1,0 +1,19 @@
+{
+  "uuid" : "022b4f81-0047-39f9-b72e-df119ef3e7fa",
+  "request" : {
+    "url" : "/trips/?route=1&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-VeiL4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:22:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "rg6a4dkdojd55degvogs9feb4npptui9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

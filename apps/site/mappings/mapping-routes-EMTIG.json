@@ -1,0 +1,19 @@
+{
+  "uuid" : "33e98b53-b6d3-36cf-b3b7-5e53a09fcae5",
+  "request" : {
+    "url" : "/routes/?stop=1249&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-EMTIG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:29 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "t1e9dn9l6j8bc7omq1npt9hv5ecs5vvg",
+      "Connection" : "keep-alive"
+    }
+  }
+}

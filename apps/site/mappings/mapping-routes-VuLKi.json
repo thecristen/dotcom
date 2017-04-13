@@ -1,0 +1,19 @@
+{
+  "uuid" : "9ea995bb-d71c-3baf-b459-c90889dbc07f",
+  "request" : {
+    "url" : "/routes/?stop=1239&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VuLKi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:25 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ighm4q11gt4ijd1s08gm1f2n71bvo341",
+      "Connection" : "keep-alive"
+    }
+  }
+}

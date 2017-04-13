@@ -1,0 +1,19 @@
+{
+  "uuid" : "6f8f1346-320f-3ff8-8b83-8c0283e50245",
+  "request" : {
+    "url" : "/routes/?stop=place-newtn&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dPX0I.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:24 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "thdsd1ne3vlke0vfn8vou468r46k87jo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "0d923a99-7ce3-3c5c-80b5-9d6bcb084366",
+  "request" : {
+    "url" : "/routes/?stop=1251&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RMKik.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 13 Apr 2017 18:21:30 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "c3ftst8drgssgof8m3mpiikrgoepol6i",
+      "Connection" : "keep-alive"
+    }
+  }
+}
