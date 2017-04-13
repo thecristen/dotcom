@@ -57,8 +57,10 @@
 
 // Overrides
 .c-select {
+  border-color: $brand-primary;
   cursor: pointer;
   text-align: left;
+  padding: $base-spacing-sm;
 }
 
 .tooltip-inner {
