@@ -531,7 +531,6 @@ defmodule StopTimeListTest do
   end
 
   describe "build/1 with origin and destination" do
-
     test "with origin and destination provided, returns StopTimes with arrivals and departures" do
 
       # --------------------------------------------
@@ -680,6 +679,15 @@ defmodule StopTimeListTest do
           },
           prediction: nil
         }}
+    end
+
+    test "excludes StopTimes where there's no departure time" do
+      predictions = [
+        %{@pred_stop1_trip2__8_16 | time: nil, schedule_relationship: :skipped},
+        @pred_stop3_trip2__8_32
+      ]
+      result = build([], predictions, "stop1", "stop3", :last_trip_and_upcoming, @time, true)
+      assert result.times == []
     end
   end
 

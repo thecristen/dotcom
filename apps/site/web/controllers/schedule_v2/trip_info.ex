@@ -83,14 +83,15 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   end
 
   defp build_info(trip_id, conn, opts) do
-    trip_id
-    |> opts[:trip_fn].(date: conn.assigns.date)
-    |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
-    |> TripInfo.from_list(
-      collapse?: collapse?(conn),
-      vehicle: opts[:vehicle_fn].(trip_id),
-      origin_id: conn.query_params["origin"],
-      destination_id: conn.query_params["destination"])
+    with trips when is_list(trips) <- opts[:trip_fn].(trip_id, date: conn.assigns.date) do
+      trips
+      |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
+      |> TripInfo.from_list(
+        collapse?: collapse?(conn),
+        vehicle: opts[:vehicle_fn].(trip_id),
+        origin_id: conn.query_params["origin"],
+        destination_id: conn.query_params["destination"])
+    end
   end
 
   # If there are more trips left in a day, finds the next trip based on the current time.

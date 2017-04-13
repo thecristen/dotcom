@@ -172,7 +172,15 @@ defmodule StopTimeList do
 
   @spec reversed_stop_time?(StopTime.t) :: boolean
   defp reversed_stop_time?(stop_time) do
-    Timex.after?(StopTime.departure_time(stop_time), StopTime.arrival_time(stop_time))
+    case {StopTime.departure_time(stop_time), StopTime.arrival_time(stop_time)} do
+      {nil, _} ->
+        # no departure time, ignore the stop time
+        true
+      {_, nil} ->
+        false
+      {departure_time, arrival_time} ->
+        Timex.after?(departure_time, arrival_time)
+    end
   end
 
   # reject predictions which are going in the wrong direction from the schedule

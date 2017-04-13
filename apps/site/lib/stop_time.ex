@@ -7,7 +7,7 @@ defmodule StopTime do
 
   defstruct [:departure, :arrival, :trip]
   @type t :: %__MODULE__{
-    departure: PredictedSchedule.t,
+    departure: PredictedSchedule.t | nil,
     arrival: PredictedSchedule.t | nil,
     trip: Trip.t | nil
   }
