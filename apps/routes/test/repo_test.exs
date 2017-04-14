@@ -173,6 +173,7 @@ defmodule Routes.RepoTest do
       assert Enum.count(shapes) == 3
       assert shape.__struct__ == Routes.Shape
       assert shape.id == "090096"
+      assert shape.polyline
       assert Enum.count(shape.stop_ids) == 28
     end
 

@@ -483,14 +483,6 @@ defmodule Site.ScheduleV2View do
     false
   end
 
-  @spec display_map?(integer) :: boolean
-  def display_map?(3) do
-    false
-  end
-  def display_map?(_) do
-    true
-  end
-
   @spec route_pdf_link(Route.t) :: Phoenix.HTML.Safe.t
   def route_pdf_link(%Route{} = route) do
     route_suffix = if route.type == 2, do: " line", else: ""

@@ -207,6 +207,16 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.map_img_src =~ "ferry-spider"
     end
 
+    test "Bus data", %{conn: conn} do
+      conn = get conn, schedule_path(conn, :show, "66", tab: "line")
+      assert html_response(conn, 200) =~ "Route 66"
+      assert List.first(conn.assigns.stops).id == "926"
+      assert List.last(conn.assigns.stops).id == "64000"
+
+      # Map
+      assert conn.assigns.map_img_src =~ "maps.googleapis.com"
+    end
+
     test "Red Line data", %{conn: conn} do
       conn = get conn, schedule_path(conn, :show, "Red", tab: "line")
       assert html_response(conn, 200) =~ "Red Line"

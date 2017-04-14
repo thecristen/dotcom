@@ -2,6 +2,7 @@ defmodule Site.ScheduleV2Controller.Line do
 
   import Plug.Conn, only: [assign: 3]
   import Site.Router.Helpers
+  require Routes.Route
 
   def init([]), do: []
 
@@ -65,7 +66,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:shapes, shapes)
     |> assign(:active_shape, shape)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
+    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type, shape))
   end
   def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
@@ -141,27 +142,39 @@ defmodule Site.ScheduleV2Controller.Line do
   @doc """
 
   Returns an image to display on the right/bottom part of the page.  For CR,
-  we display a Google Map with the stops.  For others, we display a spider
+  and bus, we display a Google Map with the stops.  For others, we display a spider
   map.
 
   """
-  @spec map_img_src([Stops.Stop.t], 0..4) :: String.t
-  def map_img_src(stops, route_type)
-  def map_img_src(_, type) when type in [0, 1, 3] do # subway or bus
+  @spec map_img_src([Stops.Stop.t], 0..4, Routes.Shape.t) :: String.t
+  def map_img_src(stops, route_type, shape \\ nil)
+  def map_img_src(_, type, _) when Routes.Route.subway?(type) do
     static_url(Site.Endpoint, "/images/subway-spider.jpg")
   end
-  def map_img_src(stops, 2) do
+  def map_img_src(stops, 3, shape) do
     opts = [
-      markers: markers(stops),
+      markers: markers(stops, 3),
+      path: "enc:#{shape.polyline}"
+    ]
+    GoogleMaps.static_map_url(500, 500, opts)
+  end
+  def map_img_src(stops, 2, _) do
+    opts = [
+      markers: markers(stops, 2),
       path: path(stops)
     ]
     GoogleMaps.static_map_url(500, 500, opts)
   end
-  def map_img_src(_, 4) do # ferry
+  def map_img_src(_, 4, _) do # ferry
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
 
-  defp markers(stops) do
+  defp markers(stops, 3) do
+    ["anchor:center",
+     path(stops)]
+    |> Enum.join("|")
+  end
+  defp markers(stops, _type) do
     ["anchor:center",
      "icon:#{icon_path()}",
      path(stops)]
