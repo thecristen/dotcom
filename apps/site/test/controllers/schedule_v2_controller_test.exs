@@ -208,7 +208,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Bus data", %{conn: conn} do
-      conn = get conn, schedule_path(conn, :show, "66", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "66", direction_id: 1, tab: "line")
       assert html_response(conn, 200) =~ "Route 66"
       assert List.first(conn.assigns.stops).id == "926"
       assert List.last(conn.assigns.stops).id == "64000"
