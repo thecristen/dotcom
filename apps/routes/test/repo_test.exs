@@ -1,5 +1,6 @@
 defmodule Routes.RepoTest do
   use ExUnit.Case, async: false
+  import ExUnit.CaptureLog
   import Mock
 
   describe "all/0" do
@@ -178,7 +179,10 @@ defmodule Routes.RepoTest do
 
     test "Get error response" do
       with_mock V3Api.Shapes, [all: fn _ -> {:error, :tuple} end] do
-        assert Routes.Repo.get_shapes("10", 1) == []
+        log = capture_log fn ->
+          assert Routes.Repo.get_shapes("10", 1) == []
+        end
+        refute log == ""
       end
     end
   end
