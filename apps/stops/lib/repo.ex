@@ -47,7 +47,7 @@ defmodule Stops.Repo do
     |> Enum.uniq
   end
 
-  @spec by_route_type(Routes.Route.type, Keyword.t):: [Stop.t] | {:error, any}
+  @spec by_route_type(Routes.Route.t, Keyword.t):: [Stop.t] | {:error, any}
   def by_route_type(route_type, opts \\ []) do
     cache {route_type, opts}, &Stops.Api.by_route_type/1
   end
