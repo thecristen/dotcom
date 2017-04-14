@@ -29,7 +29,8 @@ defmodule Routes.Parser do
       name: attributes["name"],
       stop_ids: Enum.map(relationships["stops"], & &1.id),
       primary?: attributes["primary"],
-      direction_id: attributes["direction_id"]
+      direction_id: attributes["direction_id"],
+      polyline: attributes["polyline"]
     }
   end
 end
