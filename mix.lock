@@ -77,5 +77,5 @@
   "sweet_xml": {:hex, :sweet_xml, "0.6.3", "814265792baeb163421811c546581c522dfdcb9d1767b1e59959c52906414e80", [:mix], []},
   "timex": {:hex, :timex, "3.1.7", "71f9c32e13ff4860e86a314303757cc02b3ead5db6e977579a2935225ce9a666", [:mix], [{:combine, "~> 0.7", [hex: :combine, optional: false]}, {:gettext, "~> 0.10", [hex: :gettext, optional: false]}, {:tzdata, "~> 0.1.8 or ~> 0.5", [hex: :tzdata, optional: false]}]},
   "triq": {:git, "https://github.com/triqng/triq.git", "2c497398e020e06db8496f1d89f12481cc5adab9", []},
-  "tzdata": {:git, "https://github.com/paulswartz/tzdata.git", "18441309cc344d80aecadc99be639a2a3f974fa9", []},
+  "tzdata": {:hex, :tzdata, "0.5.11", "3d5469a9f46bdf4a8760333dbdabdcc4751325035c454b10521f71e7c611ae50", [:mix], [{:hackney, "~> 1.0", [hex: :hackney, optional: false]}]},
   "yamerl": {:git, "https://github.com/yakaz/yamerl.git", "57c050ec7a3823ce699cbbab4929ce377d28074c", []}}

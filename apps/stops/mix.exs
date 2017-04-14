@@ -20,8 +20,7 @@ defmodule Stops.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :json_api, :repo_cache, :v3_api],
-     mod: {Stops, []}]
+    [applications: [:logger, :httpoison, :json_api, :repo_cache, :v3_api, :timex]]
   end
 
   # Dependencies can be Hex packages:
@@ -39,7 +38,9 @@ defmodule Stops.Mixfile do
      {:json_api, in_umbrella: true},
      {:routes, in_umbrella: true},
      {:excoveralls, "~> 0.5", only: :test},
-     {:repo_cache, in_umbrella: true}
+     {:repo_cache, in_umbrella: true},
+     {:timex, ">= 0.0.0"},
+     {:bypass, ">= 0.0.0", only: :test}
    ]
   end
 end
