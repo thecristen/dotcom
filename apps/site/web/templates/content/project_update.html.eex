@@ -9,7 +9,7 @@
   <li><strong>Status:</strong> <%= @page.status %></li>
 </ul>
 
-<%= @page.body %>
+<%= Site.ContentRewriter.rewrite(@page.body) %>
 
 <div class="carousel-active" id="carousel-target"></div>
 <ul class="carousel" data-target="#carousel-target">

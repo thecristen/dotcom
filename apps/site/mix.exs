@@ -25,7 +25,7 @@ defmodule Site.Mixfile do
             :stops, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
             :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday,
-            :parallel_stream, :vehicles, :tzdata, :google_maps, :system_metrics]
+            :parallel_stream, :vehicles, :tzdata, :google_maps, :system_metrics, :floki]
 
     apps = if Mix.env == :prod do
       [:ehmon | apps]
@@ -84,7 +84,7 @@ defmodule Site.Mixfile do
      {:excoveralls, "~> 0.5", only: :test},
      {:vehicles, in_umbrella: true},
      {:google_maps, in_umbrella: true},
-     {:floki, "~> 0.12.0", only: :test},
+     {:floki, "~> 0.12.0"},
      {:mochiweb, "~> 2.15.0", override: true},
      {:mock, "~> 0.2.0", only: :test},
      {:system_metrics, in_umbrella: true}]

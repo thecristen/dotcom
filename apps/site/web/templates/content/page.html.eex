@@ -1,6 +1,6 @@
 <div class="page-section">
   <div class="page-block content-page-block">
     <h1><%= @page.title %></h1>
-    <%= @page.body %>
+    <%= Site.ContentRewriter.rewrite(@page.body) %>
   </div>
 </div>

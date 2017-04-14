@@ -90,3 +90,63 @@
   border-color: $brand-primary-darkest;
   color: $white;
 }
+
+.responsive-table {
+  border: $border;
+  margin-bottom: $base-spacing;
+  width: 100%;
+
+  @include media-breakpoint-up(sm) {
+    tbody th,
+    caption {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    tbody th,
+    th,
+    td,
+    tr {
+      display: block;
+    }
+
+    thead {
+      display: none;
+    }
+
+    caption {
+      display: block;
+      font-weight: bold;
+      padding-left: $grid-gutter-width / 2;
+    }
+
+    tbody th {
+      padding-bottom: 0;
+    }
+
+    tbody td {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    tr td:last-child {
+      padding-bottom: $base-spacing;
+    }
+  }
+
+  thead tr,
+  caption {
+    @extend %table-header;
+  }
+
+  th,
+  td {
+    padding: $base-spacing-sm $grid-gutter-width / 2;
+    vertical-align: top;
+  }
+
+  tbody tr:nth-of-type(even) {
+    background-color: $gray-bordered-background;
+  }
+}
