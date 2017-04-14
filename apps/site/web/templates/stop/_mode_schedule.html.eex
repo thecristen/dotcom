@@ -1,20 +1,20 @@
-<div class="row mode-section">
+<div class="row mode-section" role="table">
   <div class="col-xs-12">
-    <div class="row station-schedule-header station-route-row">
-      <div class="col-xs-12 col-sm-6">
+    <div class="row station-schedule-header station-route-row" role="row">
+      <div class="col-xs-12 col-sm-6" role="columnheader">
         <%= mode_name @mode %>
       </div>
-      <div class="col-sm-6 hidden-xs-down">
+      <div class="col-sm-6 hidden-xs-down" role="columnheader">
         Upcoming Departures
       </div>
     </div>
   </div>
   <div class="col-xs-12">
-    <div class="row">
+    <div class="row" role="row">
       <%= for route_time <- @route_times do %>
           <%= if route_time.departures != [] do %>
             <%= link class: "station-route-row", to: schedule_path(@conn, :show, normalize_route(route_time.route, false), origin: @stop.id, direction_id: route_time.direction_id) do %>
-              <div class="col-xs-12 mode-route-name">
+              <div class="col-xs-12 mode-route-name" role="cell">
                 <%= svg_icon_with_circle(%SvgIconWithCircle{icon: route_time.route, class: "icon-small"}) %>
                 <%= route_time.route.name %>
               </div>
@@ -28,7 +28,7 @@
                       <% end %>
                     </div>
                     <div class="col-md-6 col-sm-12">
-                      <div class="row">
+                      <div class="row" role="cell">
                         <%= for predicted_schedule <- departures do %>
                           <div class="no-wrap schedule-upcoming-departure col-sm-4 col-xs-12">
                             <%= PredictedSchedule.Display.time_difference(predicted_schedule, @date_time) %>
