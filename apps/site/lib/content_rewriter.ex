@@ -3,6 +3,8 @@ defmodule Site.ContentRewriter do
   Rewrites the content that comes from the CMS before rendering it to the page.
   """
 
+  alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects}
+
   @doc """
   The main entry point for the various transformations we apply to CMS content
   before rendering to the page. The content is parsed by Floki and then traversed
@@ -25,8 +27,16 @@ defmodule Site.ContentRewriter do
   defp render(content) when is_binary(content), do: content
   defp render(content), do: Floki.raw_html(content)
 
-  defp dispatch_rewrites({"table", _attrs, _children} = element) do
-    Site.ContentRewriters.ResponsiveTables.rewrite_table(element)
+  defp dispatch_rewrites({"table", _, _} = element) do
+    {name, attrs, children} = ResponsiveTables.rewrite_table(element)
+    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
+  end
+  defp dispatch_rewrites(content) when is_binary(content) do
+    Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
+      obj
+      |> String.strip
+      |> LiquidObjects.replace
+    end)
   end
   defp dispatch_rewrites(_node) do
     nil
