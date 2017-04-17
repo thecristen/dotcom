@@ -60,7 +60,7 @@
     </p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "business_center/DBE/") do %>
+        <%= link to: redirect_path(@conn, "business_center/") do %>
           <%= fa "caret-right" %> Business Opportunities
         <% end %>
       </li>
