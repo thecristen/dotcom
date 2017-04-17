@@ -41,3 +41,24 @@
   @extend %callout;
   margin: $space-12 0;
 }
+
+.has-element-overlay:hover .element-overlay {
+  display: block;
+}
+
+.element-overlay {
+  background-color: $gray-image-overlay;
+  bottom: 0;
+  display: none;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.element-overlay-icon {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

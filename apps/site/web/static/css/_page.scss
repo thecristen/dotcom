@@ -343,25 +343,3 @@
     text-decoration: underline;
   }
 }
-
-.whats-happening-image:hover .whats-happening-overlay {
-  display: block;
-}
-
-.whats-happening-overlay {
-  background-color: $gray-image-overlay;
-  bottom: 0;
-  display: none;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.whats-happening-overlay-icon {
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-

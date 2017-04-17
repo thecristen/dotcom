@@ -6,10 +6,10 @@
         <%= for item <- @whats_happening_items do %>
           <div class="col-sm-4 homepage-link whats-happening-item">
             <%= link to: item.url do %>
-              <div class="whats-happening-image">
+              <div class="whats-happening-image has-element-overlay">
                 <%= whats_happening_image(item) %>
-                <div class="whats-happening-overlay">
-                  <div class="whats-happening-overlay-icon"><%= svg "link-icon.svg" %></div>
+                <div class="element-overlay">
+                  <div class="element-overlay-icon"><%= svg "link-icon.svg" %></div>
                 </div>
               </div>
               <div class="about-title"><span class="about-description"><%= item.blurb %></span>
