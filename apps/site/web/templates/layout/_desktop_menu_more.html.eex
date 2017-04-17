@@ -13,12 +13,12 @@
         </li>
         <li>
           <%= link to: redirect_path(@conn, "about_the_mbta/news_events/") do %>
-            <%= fa "caret-right" %> News &amp; Events
+            <%= fa "caret-right" %> News &amp; Updates
           <% end %>
         </li>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/") do %>
-            <%= fa "caret-right" %> Public Meetings
+          <%= link to: event_path(@conn, :index) do %>
+            <%= fa "caret-right" %> Events
           <% end %>
         </li>
         <li>

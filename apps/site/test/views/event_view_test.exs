@@ -78,32 +78,32 @@ defmodule Site.EventViewTest do
     end
 
     test "returns default title when a month is not provided" do
-      assert calendar_title(%{}) == "Upcoming Meetings"
+      assert calendar_title(%{}) == "Upcoming Events"
     end
 
     test "returns default title given an invalid month" do
       params = %{"month" => "2017-01"}
-      assert calendar_title(params) == "Upcoming Meetings"
+      assert calendar_title(params) == "Upcoming Events"
     end
   end
 
   describe "no_results_message/1" do
     test "includes the name of the month" do
       params = %{"month" => "2017-01-01"}
-      expected_message = "Sorry, there are no meetings in January."
+      expected_message = "Sorry, there are no events in January."
 
       assert no_results_message(params) == expected_message
     end
 
     test "displays the default message when a month is not provided" do
-      expected_message = "Sorry, there are no upcoming meetings."
+      expected_message = "Sorry, there are no upcoming events."
 
       assert no_results_message(%{}) == expected_message
     end
 
     test "displays the default message given an invalid month" do
       params = %{"month" => "2017-01"}
-      expected_message = "Sorry, there are no upcoming meetings."
+      expected_message = "Sorry, there are no upcoming events."
 
       assert no_results_message(params) == expected_message
     end

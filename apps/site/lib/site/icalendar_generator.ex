@@ -6,7 +6,7 @@ defmodule Site.IcalendarGenerator do
     [
       "BEGIN:VCALENDAR\n",
       "VERSION:2.0\n",
-      "PRODID:-//www.mbta.com//Public Meetings//EN\n",
+      "PRODID:-//www.mbta.com//Events//EN\n",
       "BEGIN:VEVENT\n",
       "UID:", "event", "#{event.id}", "@mbta.com", "\n",
       "SEQUENCE:", timestamp(), "\n",
