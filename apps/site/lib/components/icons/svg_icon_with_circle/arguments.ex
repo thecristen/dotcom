@@ -36,14 +36,19 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:twitter), do: "5,10"
   def translate(:facebook), do: "8,8"
   def translate(:nineoneone), do: "9,9"
-  def translate(icon) when icon in [:phone, :subway], do: "12,9"
-  def translate(icon) when icon in [:tools, :ferry, :alert], do: "9,9"
-  def translate(icon) when icon in [:bus, :commuter_rail], do: "11,9"
+  def translate(:phone), do: "12,9"
+  def translate(:subway), do: "4,4"
+  def translate(:bus), do: "4,5"
+  def translate(:commuter_rail), do: "11,9"
+  def translate(:ferry), do: "3,4"
+  def translate(icon) when icon in [:tools, :alert], do: "9,9"
   def translate(icon) when icon in [:green_line, :orange_line,
                                     :blue_line, :red_line, :mattapan_line], do: translate(:t_logo)
   def translate(_), do: "5,5"
 
   def scale(:nineoneone), do: ".25"
+  def scale(:ferry), do: "1.5"
+  def scale(icon) when icon in [:subway, :commuter_rail, :bus], do: "1.4"
   def scale(_), do: "1"
 
   def circle_args(:twitter), do: "r=200 cx=200 cy=200"
