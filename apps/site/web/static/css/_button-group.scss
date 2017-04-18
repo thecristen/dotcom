@@ -107,8 +107,8 @@
   font-weight: bold;
 
   @include media-breakpoint-down(xs) {
-    padding-bottom: $space-8;
-    padding-top: $space-8;
+    padding-bottom: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
     text-align: left;
   }
 

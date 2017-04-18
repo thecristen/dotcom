@@ -273,7 +273,7 @@ defmodule Site.ComponentsTest do
 
     test "displays the selected tab as such" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
-      assert rendered =~ "icon-selected"
+      assert rendered =~ "tab-select-btn-selected"
     end
 
     test "renders icons for each mode" do
@@ -289,11 +289,9 @@ defmodule Site.ComponentsTest do
     end
 
     test "build_icon_map/2" do
-      icon_map = build_mode_icon_map(@links, :subway)
+      icon_map = build_mode_icon_map(@links)
       assert safe_to_string(icon_map["Subway"]) =~ "icon-subway"
-      assert safe_to_string(icon_map["Subway"]) =~ "icon-selected"
       assert safe_to_string(icon_map["Bus"]) =~ "icon-bus"
-      refute safe_to_string(icon_map["Bus"]) =~ "icon-selected"
     end
   end
 

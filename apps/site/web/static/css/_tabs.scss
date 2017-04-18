@@ -22,10 +22,17 @@
   @include media-breakpoint-down(xs) {
     margin-bottom: $base-spacing;
   }
+}
 
-  .tab-select-dropdown {
-    border-radius: $border-radius;
-    padding: $space-12;
+.tab-select-dropdown {
+  border-color: $btn-primary-bg;
+  border-radius: $border-radius;
+  color: $gray-dark;
+  padding: $base-spacing-sm;
+
+  @include hover-focus-active {
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
   }
 }
 

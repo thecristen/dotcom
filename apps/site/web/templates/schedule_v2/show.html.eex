@@ -8,6 +8,9 @@
   </h1>
 
   <%= if @tab in ["timetable", "trip-view"], do: Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
+  <div class="hidden-sm-up filter-label">
+    Viewing:
+  </div>
   <%= if @route.type == 2 do %>
     <%= tab_list(%TabList{
       links: [
