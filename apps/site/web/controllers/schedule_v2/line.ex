@@ -60,7 +60,7 @@ defmodule Site.ScheduleV2Controller.Line do
     shape = get_shape(shapes, conn.query_params["variant"])
     stops = get_stops_from_shape(shape)
     active_shape = case shapes do
-      [_ | _] -> shape
+      [_, _ | _] -> shape
       _ -> nil
     end
 
