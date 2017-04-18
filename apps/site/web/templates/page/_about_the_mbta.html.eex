@@ -37,7 +37,7 @@
         <div class="about-title">Sustainability</div>
       </div>
     <% end %>
-    <%= link to: redirect_path(@conn, "business_center/DBE/"), class: "homepage-link" do %>
+    <%= link to: redirect_path(@conn, "business_center/"), class: "homepage-link" do %>
       <div class="col-xs-6 col-md-3">
         <div class="homepage-svg"><%= svg "business-opportunities.svg" %></div>
         <div class="about-title">Business Opportunities</div>
