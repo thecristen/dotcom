@@ -64,6 +64,20 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "icon-alert"
     end
 
+    test "green line alerts are rendered with an alert icon" do
+      rendered = mode_button_list(%ModeButtonList{
+        routes: [%Routes.Route{id: "Green", key_route?: false, name: "Green", type: 1}],
+        route_type: :bus,
+        alerts: [%Alerts.Alert{
+                  effect_name: "Delay",
+                  informed_entity: [%Alerts.InformedEntity{route: "Green-B", route_type: 1}],
+                  lifecycle: "New",
+                  severity: "Moderate",
+                  active_period: current_active_period()
+        }]})
+      assert safe_to_string(rendered) =~ "icon-alert"
+    end
+
     test "routes with notices but no alerts do not get rendered with an alert" do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "CR-Haverhill", key_route?: false, name: "Haverhill Line", type: 2}],
