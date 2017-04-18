@@ -90,34 +90,32 @@ defmodule Site.Components.Buttons.ModeButtonList do
   end
   def icon_if_subway(_), do: ""
 
-  @doc """
-  Returns an alert icon if the route has an alert.
-  """
+  # Returns an alert icon if the route has an alert.
   @spec alert_icon(Routes.Route.t, [Alerts.Alert.t], DateTime.t) :: Phoenix.HTML.Safe.t
-  def alert_icon(route, alerts, date) do
+  defp alert_icon(route, alerts, date) do
     route
-    |> get_alert(alerts, date)
+    |> has_alert?(alerts, date)
     |> do_alert_icon
   end
 
-  @doc """
-  Returns a route's alert if one exists.
-  """
-  @spec get_alert(Routes.Route.t, [Alerts.Alert.t], DateTime.t) :: Alerts.Alert.t | nil
-  def get_alert(route, alerts, date) do
+  # Returns true if there is a non-notice alert for the given route on `date`
+  @spec has_alert?(Routes.Route.t, [Alerts.Alert.t], DateTime.t) :: boolean
+  defp has_alert?(%Routes.Route{id: "Green"} = route, alerts, date) do
+    GreenLine.branch_ids()
+    |> Enum.map(fn branch_id -> %{route | id: branch_id} end)
+    |> Enum.any?(&has_alert?(&1, alerts, date))
+  end
+  defp has_alert?(route, alerts, date) do
     date = date || Util.now()
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
-    alerts
-    |> Enum.find(nil, fn alert ->
-      (not Alerts.Alert.is_notice?(alert, date)) &&
-        Alerts.Match.match([alert], entity, date) == [alert]
-    end)
+    Enum.any?(alerts, fn alert -> not Alerts.Alert.is_notice?(alert, date) &&
+                                  Alerts.Match.match([alert], entity, date) == [alert]
+                      end)
   end
 
   @spec do_alert_icon(Alerts.Alert.t) :: Phoenix.HTML.Safe.t | String.t
-  defp do_alert_icon(nil), do: ""
-  defp do_alert_icon(_), do: Site.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
-
+  defp do_alert_icon(false), do: ""
+  defp do_alert_icon(true), do: Site.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 
   @spec mode_breakpoint_widths(atom) :: map
   def mode_breakpoint_widths(:subway), do: %{xs: 6, md: 3, xxl: 3}
