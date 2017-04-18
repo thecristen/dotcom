@@ -92,7 +92,7 @@ $credit-height: $base-spacing * 4;
   }
 
   a {
-    color: $brand-primary-light;
+    color: $brand-primary-light-contrast;
   }
 }
 
@@ -100,7 +100,7 @@ $credit-height: $base-spacing * 4;
   margin: .25rem 0;
 
   > a {
-    color: $brand-primary-light;
+    color: $brand-primary-light-contrast;
     font-weight: normal;
   }
 }
