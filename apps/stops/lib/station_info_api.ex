@@ -2,38 +2,21 @@ defmodule Stops.StationInfoApi do
   @moduledoc """
   Wrapper around the remote stop information service.
   """
-  use HTTPoison.Base
+  import Stops.StationInfo.Csv, only: [parse_row: 1]
 
+  @stations "priv/stations.csv"
+  |> File.stream!
+  |> CSV.decode(headers: true)
+  |> Enum.map(&parse_row/1)
+  |> Map.new(& {&1.id, &1})
+
+  @spec all() :: [Stop.t]
   def all do
-    do_all(get("/stations/"), JsonApi.empty)
+    Map.values(@stations)
   end
 
-  def by_gtfs_id(gtfs_id) do
-    with {:ok, response} <- get("/stations/", [], params: [gtfs_id: gtfs_id]),
-         %{body: body, status_code: 200} <- response do
-      body
-      |> JsonApi.parse
-    end
-  end
-
-  defp do_all({:ok, %{body: body, status_code: 200}}, acc) do
-    parsed = body
-    |> JsonApi.parse
-
-    new_acc = JsonApi.merge(parsed, acc)
-
-    case parsed.links["next"] do
-      nil -> new_acc
-      link -> do_all(get(link), new_acc)
-    end
-  end
-
-  defp process_url(url) do
-    base_url = case Application.get_env(:stops, :base_url) do
-                 {:system, envvar, default} ->
-                   System.get_env(envvar) || default
-                 value -> value
-               end
-    base_url <> url
+  @spec by_gtfs_id(Stop.id_t) :: Stop.t | nil
+  def by_gtfs_id(id) do
+    Map.get(@stations, id)
   end
 end
