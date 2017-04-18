@@ -233,7 +233,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.stop_features["place-nqncy"] == [:bus, :access]
 
       # spider map
-      assert conn.assigns.map_img_src =~ "subway-spider"
+      assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
     test "Red line initally has no Braintree or Ashmont data besides termini", %{conn: conn} do
@@ -278,7 +278,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.stop_features["place-pktrm"] == [:red_line, :access]
 
       # spider map
-      assert conn.assigns.map_img_src =~ "subway-spider"
+      assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
     defp stop_ids(conn) do

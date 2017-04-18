@@ -10,6 +10,10 @@ defmodule Site.ScheduleV2Controller.Line do
     route = GreenLine.green_line()
     stops_on_routes = GreenLine.stops_on_routes(0)
     stops = GreenLine.all_stops(stops_on_routes)
+    shapes = GreenLine.branch_ids
+    |> Enum.join(",")
+    |> get_shapes(conn.assigns.direction_id)
+
     {before_branch, after_branch} = Enum.split_while(stops, & &1.id != "place-coecl")
     routes_for_stops = GreenLine.routes_for_stops(stops_on_routes) # Inverse Map
     expanded = conn.params["expanded"]
@@ -23,11 +27,12 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:expanded, expanded)
     |> assign(:active_lines, active_lines)
     |> assign(:stop_features, stop_features(stops, route))
-    |> assign(:map_img_src, map_img_src(stops, route.type))
+    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, route.type, shapes))
     |> assign(:route, route)
   end
   def call(%Plug.Conn{assigns: %{route: %{id: "Red"}}} = conn, _args) do
     stops = Stops.Repo.by_route("Red", 0)
+    shapes = get_shapes("Red", conn.assigns.direction_id)
     {shared_stops, branched_stops} = Enum.split_while(stops, & &1.id != "place-shmnl")
     {ashmont, braintree} = red_line_branches(branched_stops, conn.params)
 
@@ -38,10 +43,11 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:braintree_branch_stops, braintree)
     |> assign(:ashmont_branch_stops, ashmont)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
+    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, conn.assigns.route.type, shapes))
   end
   def call(%Plug.Conn{assigns: %{route: %{id: "CR-"<>_ = route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
+    shapes = get_shapes(route_id, conn.assigns.direction_id)
 
     zones = Enum.reduce stops, %{}, fn stop, acc ->
       Map.put(acc, stop.id, Zones.Repo.get(stop.id))
@@ -50,7 +56,7 @@ defmodule Site.ScheduleV2Controller.Line do
     conn
     |> assign(:stops, stops)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
+    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, conn.assigns.route.type, shapes))
     |> assign(:zones, zones)
     |> assign(:stop_list_template, "_stop_list.html")
   end
@@ -70,16 +76,17 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:shapes, shapes)
     |> assign(:active_shape, active_shape)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type, shape))
+    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, conn.assigns.route.type, shapes))
   end
   def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
+    shapes = get_shapes(route_id, conn.assigns.direction_id)
 
     conn
     |> assign(:stop_list_template, "_stop_list.html")
     |> assign(:stops, stops)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type))
+    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, conn.assigns.route.type, shapes))
   end
 
   defp get_shapes(route_id, direction_id) do
@@ -150,27 +157,21 @@ defmodule Site.ScheduleV2Controller.Line do
   map.
 
   """
-  @spec map_img_src([Stops.Stop.t], 0..4, Routes.Shape.t) :: String.t
-  def map_img_src(stops, route_type, shape \\ nil)
-  def map_img_src(_, type, _) when Routes.Route.subway?(type) do
-    static_url(Site.Endpoint, "/images/subway-spider.jpg")
-  end
-  def map_img_src(stops, 3, shape) do
-    opts = [
-      markers: markers(stops, 3),
-      path: "enc:#{shape.polyline}"
-    ]
-    GoogleMaps.static_map_url(500, 500, opts)
-  end
-  def map_img_src(stops, 2, _) do
-    opts = [
-      markers: markers(stops, 2),
-      path: path(stops)
-    ]
-    GoogleMaps.static_map_url(500, 500, opts)
-  end
-  def map_img_src(_, 4, _) do # ferry
+  @spec map_img_src([Stops.Stop.t], 0..4, Routes.Shape.t | nil) :: String.t
+  def map_img_src(_, 4, _) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
+  end
+  def map_img_src(stops, route_type, shapes) do
+    paths = shapes
+    |> Enum.map(& &1.polyline)
+    |> PolylineHelpers.condense
+    |> Enum.map(&{:path, "enc:#{&1}"})
+
+    opts = paths ++ [
+      markers: markers(stops, route_type)
+    ]
+
+    GoogleMaps.static_map_url(600, 600, opts)
   end
 
   defp markers(stops, 3) do
@@ -192,11 +193,11 @@ defmodule Site.ScheduleV2Controller.Line do
   end
 
   defp position_string(%{latitude: latitude, longitude: longitude}) do
-    "#{latitude},#{longitude}"
+    "#{Float.floor(latitude, 4)},#{Float.floor(longitude, 4)}"
   end
 
   defp icon_path() do
-    static_url(Site.Endpoint, "/images/mbta-logo-t-favicon.png")
+    static_url(Site.Endpoint, "/images/map_red_dot_icon.png")
   end
 
   @doc """

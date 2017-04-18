@@ -66,6 +66,7 @@
   "pobox": {:hex, :pobox, "1.0.2", "45a5bc91e3cf20f9bc0b94494f00fcdccbc333ab2e0856972b7f0f196fc41613", [:rebar3], []},
   "poison": {:hex, :poison, "2.2.0", "4763b69a8a77bd77d26f477d196428b741261a761257ff1cf92753a0d4d24a63", [:mix], []},
   "pollution": {:hex, :pollution, "0.9.0", "2d172aeedc444f0fc06a69b03bb6a560fb141bcafcc0c8189c29b10ee6e50893", [:mix], []},
+  "polyline": {:hex, :polyline, "0.1.0", "3372871e85ad130848227f6fd10c73104b7058dc2fe339d9cd008c158fa6a6aa", [:mix], [{:vector, "~> 0.1.0", [hex: :vector, optional: false]}]},
   "providers": {:hex, :providers, "1.6.0", "db0e2f9043ae60c0155205fcd238d68516331d0e5146155e33d1e79dc452964a", [:rebar3], [{:getopt, "0.8.2", [hex: :getopt, optional: false]}]},
   "quixir": {:hex, :quixir, "0.9.1", "b9a45930f330ba485c1cb976afc9f5ceb14ebbe10faf755e0796bb971396c37c", [:mix], [{:pollution, "~> 0.9", [hex: :pollution, optional: false]}]},
   "rabbit_common": {:git, "https://github.com/jbrisbin/rabbit_common.git", "9c1965273032ffb79ec0ff80b250e5d0b4608aa7", [ref: ""]},
@@ -78,4 +79,5 @@
   "timex": {:hex, :timex, "3.1.7", "71f9c32e13ff4860e86a314303757cc02b3ead5db6e977579a2935225ce9a666", [:mix], [{:combine, "~> 0.7", [hex: :combine, optional: false]}, {:gettext, "~> 0.10", [hex: :gettext, optional: false]}, {:tzdata, "~> 0.1.8 or ~> 0.5", [hex: :tzdata, optional: false]}]},
   "triq": {:git, "https://github.com/triqng/triq.git", "2c497398e020e06db8496f1d89f12481cc5adab9", []},
   "tzdata": {:hex, :tzdata, "0.5.11", "3d5469a9f46bdf4a8760333dbdabdcc4751325035c454b10521f71e7c611ae50", [:mix], [{:hackney, "~> 1.0", [hex: :hackney, optional: false]}]},
+  "vector": {:hex, :vector, "0.1.0", "b7a6f8123089d75b8f9c716012fb0e024b0de01e99ec05696b417cf68a58ae45", [:mix], []},
   "yamerl": {:git, "https://github.com/yakaz/yamerl.git", "57c050ec7a3823ce699cbbab4929ce377d28074c", []}}
