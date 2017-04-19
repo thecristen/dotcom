@@ -317,7 +317,8 @@ a {
 }
 
 .date-filter,
-.direction-filter {
+.direction-filter,
+.shape-filter {
   display: flex;
   flex-direction: column;
 }
@@ -330,7 +331,6 @@ a {
   display: block;
   -ms-flex: 1 1 0%; // specify all 3 to work around IE bug
   flex: 1;
-  height: 100%;
   min-height: 4rem;
   padding: $base-spacing-sm;
   position: relative;
@@ -341,6 +341,10 @@ a {
   @include hover-focus-active() {
     .filter-icon-border {
       border-color: $btn-primary-focus-color;
+    }
+
+    path {
+      fill: $btn-primary-focus-color;
     }
   }
 }
@@ -379,6 +383,14 @@ a {
     margin: -1px auto;
     text-align: center;
     vertical-align: middle;
+  }
+
+  svg {
+    margin: $space-6 0 0 $space-6;
+
+    path {
+      fill: $brand-primary;
+    }
   }
 }
 

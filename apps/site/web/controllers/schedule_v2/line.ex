@@ -59,12 +59,16 @@ defmodule Site.ScheduleV2Controller.Line do
     shapes = get_shapes(route_id, conn.assigns.direction_id)
     shape = get_shape(shapes, conn.query_params["variant"])
     stops = get_stops_from_shape(shape)
+    active_shape = case shapes do
+      [_, _ | _] -> shape
+      _ -> nil
+    end
 
     conn
     |> assign(:stop_list_template, "_stop_list.html")
     |> assign(:stops, stops)
     |> assign(:shapes, shapes)
-    |> assign(:active_shape, shape)
+    |> assign(:active_shape, active_shape)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
     |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type, shape))
   end
