@@ -4,3 +4,8 @@
   @include img-fluid();
   margin-bottom: $base-spacing;
 }
+
+.hub-system-map {
+  display: inline-block;
+  position: relative;
+}
