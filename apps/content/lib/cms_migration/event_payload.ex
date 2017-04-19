@@ -1,5 +1,5 @@
-defmodule Content.EventPayload do
-  alias Content.IsoDateTime
+defmodule Content.CmsMigration.EventPayload do
+  alias Content.CmsMigration.Meeting
 
   @spec from_meeting(map) :: map | no_return
   def from_meeting(map) do
@@ -25,8 +25,8 @@ defmodule Content.EventPayload do
       body: cms_format(event.body),
       field_imported_address: cms_format(event.imported_address),
       field_meeting_id: cms_format(event.meeting_id),
-      field_start_time: cms_format_start_date_time(event.start_time),
-      field_end_time: cms_format_end_date_time(event.end_time),
+      field_start_time: cms_format_date_time(event.start_time),
+      field_end_time: cms_format_date_time(event.end_time),
       field_who: cms_format(event.who),
       title: cms_format(event.title),
       type: [%{"target_id": "event"}]
@@ -45,34 +45,23 @@ defmodule Content.EventPayload do
     HtmlSanitizeEx.strip_tags(address)
   end
 
-  defp meeting_start_date_time(%{"meetdate" => date, "meettime" => time}) do
-    case IsoDateTime.parse_start_time(time) do
-      {:ok, time} -> IsoDateTime.utc_date_time(date, time)
-      {:error, _message} -> nil
+  defp meeting_start_date_time(%{"meetdate" => date, "meettime" => time_range}) do
+    case Meeting.start_utc_datetime(date, time_range) do
+      {:error, _start_time_not_found} -> nil
+      start_datetime -> start_datetime
     end
   end
 
-  defp meeting_end_date_time(%{"meetdate" => date, "meettime" => time}) do
-    case IsoDateTime.parse_end_time(time) do
-      {:ok, time} -> IsoDateTime.utc_date_time(date, time)
-      {:error, _message} -> nil
+  defp meeting_end_date_time(%{"meetdate" => date, "meettime" => time_range}) do
+    case Meeting.end_utc_datetime(date, time_range) do
+      {:error, _end_time_not_found} -> nil
+      end_datetime -> end_datetime
     end
   end
 
-  defp cms_format_start_date_time(nil) do
-    raise "Please include a start time."
-  end
-  defp cms_format_start_date_time(time) do
-    cms_format_date_time(time)
-  end
-
-  defp cms_format_end_date_time(nil) do
+  defp cms_format_date_time(nil) do
     cms_format(nil)
   end
-  defp cms_format_end_date_time(time) do
-    cms_format_date_time(time)
-  end
-
   defp cms_format_date_time(datetime) do
     datetime
     |> Timex.format!("{YYYY}-{0M}-{0D}T{h24}:{m}:{s}")

@@ -3,7 +3,7 @@ defmodule Content.MigrateMeetingsTest do
   import Mock
   import Content.FixtureHelpers
   import ExUnit.CaptureIO
-  alias Content.MeetingMigrator
+  alias Content.CmsMigration.MeetingMigrator
 
   @meeting "cms_migration/meeting.json"
   @other_meeting "cms_migration/meeting_missing_end_time.json"

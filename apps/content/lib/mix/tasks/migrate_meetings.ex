@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Content.MigrateMeetings do
   use Mix.Task
+  alias Content.CmsMigration.MeetingMigrator
 
   @shortdoc "Migrates existing data for meetings to the new CMS."
 
@@ -24,7 +25,7 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
     for filename <- filenames do
       directory_path
       |> parse_file(filename)
-      |> Content.MeetingMigrator.migrate()
+      |> MeetingMigrator.migrate()
       |> print_response(filename)
     end
   end

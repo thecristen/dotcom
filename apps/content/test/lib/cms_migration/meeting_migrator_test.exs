@@ -1,7 +1,8 @@
-defmodule Content.MeetingMigratorTest do
+defmodule Content.CmsMigration.MeetingMigratorTest do
   use ExUnit.Case
   import Content.FixtureHelpers
-  alias Content.MeetingMigrator
+  alias Content.CmsMigration.MeetingMigrator
+  alias Content.CmsMigration.MeetingMigrationError
 
   @filename "cms_migration/meeting.json"
 
@@ -37,7 +38,6 @@ defmodule Content.MeetingMigratorTest do
 
       Bypass.expect bypass, fn conn ->
         response_data = [%{"nid" => [%{"value" => 17}]}]
-
         assert conn.request_path == "/node/17"
         assert "PATCH" == conn.method
         Plug.Conn.resp(conn, 200, Poison.encode!(response_data))
@@ -45,6 +45,30 @@ defmodule Content.MeetingMigratorTest do
 
       result = MeetingMigrator.migrate(previously_migrated_meeting)
       assert {:ok, %HTTPoison.Response{status_code: 200}} = result
+    end
+
+    test "does not migrate the event if the start time is greater than the end time" do
+      meeting_with_invalid_time_range =
+        @filename
+        |> fixture
+        |> Map.put("meettime", "4:00 PM - 2:00 PM")
+
+      error = ~r/The start time must be less than the end time/
+      assert_raise MeetingMigrationError, error, fn ->
+        MeetingMigrator.migrate(meeting_with_invalid_time_range)
+      end
+    end
+
+    test "does not migrate the event if the start time is missing" do
+      missing_start_time =
+        @filename
+        |> fixture
+        |> Map.put("meettime", "")
+
+      error = "A start time must be provided."
+      assert_raise MeetingMigrationError, error, fn ->
+        MeetingMigrator.migrate(missing_start_time)
+      end
     end
   end
 
@@ -60,7 +84,7 @@ defmodule Content.MeetingMigratorTest do
     test "when multiple records are found" do
       expected_error_message = "multiple records were found when querying by meeting_id: multiple-records."
 
-      assert_raise Content.MeetingMigrationError, expected_error_message, fn ->
+      assert_raise MeetingMigrationError, expected_error_message, fn ->
         MeetingMigrator.check_for_existing_event!("multiple-records")
       end
     end

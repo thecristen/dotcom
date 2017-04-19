@@ -1,10 +1,9 @@
-defmodule Content.EventPayloadTest do
+defmodule Content.CmsMigration.EventPayloadTest do
   use ExUnit.Case, async: true
   import Content.FixtureHelpers
-  import Content.EventPayload
+  import Content.CmsMigration.EventPayload
 
   @meeting "cms_migration/meeting.json"
-  @meeting_missing_end_time "cms_migration/meeting_missing_end_time.json"
 
   describe "from_meeting/1" do
     test "maps meeting information to CMS event fields" do
@@ -33,23 +32,6 @@ defmodule Content.EventPayloadTest do
       assert event_payload[:field_imported_address] == [%{
         value: "Address with html tags."
       }]
-    end
-
-    test "allows the end time to not be provided" do
-      event_payload = from_meeting(fixture(@meeting_missing_end_time))
-
-      assert event_payload[:field_end_time] == [%{value: nil}]
-    end
-
-    test "raises an error when the start time is not provided" do
-      event_payload =
-        @meeting
-        |> fixture()
-        |> Map.put("meettime", "")
-
-      assert_raise RuntimeError, "Please include a start time.", fn ->
-        from_meeting(event_payload)
-      end
     end
   end
 end
