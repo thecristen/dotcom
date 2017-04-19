@@ -27,15 +27,7 @@ export default function($) {
 
       $table
         .toggleClass('schedule-v2-timetable-hide-earlier', hideEarlier)
-        .toggleClass('schedule-v2-timetable-hide-later', hideLater)
-        .find(".schedule-v2-timetable-more-text:not(.vertically-centered)").each(function(index, textEl) {
-          // vertically center the timetable text banners if they're visible
-          const $textEl = $(textEl);
-          if ($textEl.width()) {
-            const top = Math.floor((height - $textEl.height()) / 2);
-            $textEl.css({top}).addClass('vertically-centered');
-          }
-        });
+        .toggleClass('schedule-v2-timetable-hide-later', hideLater);
     });
   }
 
