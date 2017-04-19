@@ -3,8 +3,10 @@ defmodule Site.ContentRewriterTest do
 
   import Site.ContentRewriter
   import Mock
+  import Site.ContentView, only: [svg_icon_with_circle: 1]
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
 
+  alias Site.Components.Icons.SvgIconWithCircle
   alias Site.ContentRewriters.ResponsiveTables
 
   describe "rewrite" do
@@ -47,7 +49,7 @@ defmodule Site.ContentRewriterTest do
                 <td>Cell 2 {{ unknown }}</td>
               </tr>
               <tr>
-                <td>Cell 3</td>
+                <td>Cell 3 {{ mbta-circle-icon "bus" }}</td>
                 <td>Cell 4</td>
               </tr>
             </tbody>
@@ -78,7 +80,7 @@ defmodule Site.ContentRewriterTest do
               </tr>
               <tr>
                 <th>Head 1</th>
-                <td>Cell 3</td>
+                <td>Cell 3 #{svg_bus()}</td>
                 <th>Head 2</th>
                 <td>Cell 4</td>
               </tr>
@@ -91,5 +93,11 @@ defmodule Site.ContentRewriterTest do
     end
   end
 
-  def remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")
+  defp remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")
+
+  defp svg_bus do
+    %SvgIconWithCircle{icon: :bus}
+    |> svg_icon_with_circle
+    |> safe_to_string
+  end
 end
