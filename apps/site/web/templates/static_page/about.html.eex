@@ -5,8 +5,9 @@
     <h2>About Us</h2>
     <div class="button-group">
       <%= render "_link.html", text: "Leadership", href: redirect_path(@conn, "about_the_mbta/leadership/"), class: "col-xs-12 col-sm-3" %>
-      <%= render "_link.html", text: "News & Updates", href: redirect_path(@conn, "about_the_mbta/news_events/"), class: "col-xs-12 col-sm-3" %>
-      <%= render "_link.html", text: "Events", href: event_url(@conn, :index), class: "col-xs-12 col-sm-3" %>
+      <%= render "_link.html", text: "News", href: redirect_path(@conn, "about_the_mbta/news_events/"), class: "col-xs-12 col-sm-3" %>
+      <%= render "_link.html", text: "Events", href: redirect_path(@conn, "about_the_mbta/news_events/"), class: "col-xs-12 col-sm-3" %>
+      <%= render "_link.html", text: "Public Meetings", href: redirect_path(@conn, "about_the_mbta/public_meetings/"), class: "col-xs-12 col-sm-3" %>
       <%= render "_link.html", text: "Performance", href: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "col-xs-12 col-sm-3" %>
       <%= render "_link.html", text: "FMCB", href: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), class: "col-xs-12 col-sm-3" %>
       <%= render "_link.html", text: "Sustainability", href: redirect_path(@conn, "about_the_mbta/environment/"), class: "col-xs-12 col-sm-3" %>

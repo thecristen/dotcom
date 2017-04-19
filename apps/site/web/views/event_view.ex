@@ -21,19 +21,19 @@ defmodule Site.EventView do
     end
   end
   def calendar_title(_missing_month) do
-    "Upcoming Events"
+    "Upcoming Meetings"
   end
 
   @spec no_results_message(%{required(String.t) => String.t}) :: String.t
   def no_results_message(%{"month" => month}) do
     if valid_iso_month?(month) do
-      "Sorry, there are no events in #{name_of_month(month)}."
+      "Sorry, there are no meetings in #{name_of_month(month)}."
     else
       no_results_message(%{})
     end
   end
   def no_results_message(_missing_month) do
-    "Sorry, there are no upcoming events."
+    "Sorry, there are no upcoming meetings."
   end
 
   defp valid_iso_month?(iso_string) do
