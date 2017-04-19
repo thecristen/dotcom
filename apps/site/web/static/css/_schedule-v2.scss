@@ -414,17 +414,48 @@ a {
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-sm;
+  }
 }
 
 .schedule-v2-timetable-hide-earlier .schedule-v2-timetable-more-col-earlier,
 .schedule-v2-timetable-hide-later .schedule-v2-timetable-more-col-later {
   color: $gray-light;
+  cursor: auto;
+
+  .schedule-v2-timetable-more-text {
+    color: $gray-light;
+
+    @include hover-focus() {
+      color: $gray-light;
+      text-decoration: none;
+    }
+  }
+}
+
+.schedule-v2-timetable-row:nth-child(even) {
+  > * {
+    background-color: $gray-bordered-background;
+  }
+}
+
+.schedule-v2-timetable-row:nth-child(odd) {
+  .schedule-v2-timetable-time-col,
+  .schedule-v2-timetable-name-col:not(.schedule-v2-timetable-header-col) {
+    background-color: $white;
+  }
 }
 
 .schedule-v2-timetable-time-col,
-.schedule-v2-timetable-name-col,
-.schedule-v2-timetable-header-col {
-  padding: .5rem 1rem;
+.schedule-v2-timetable-name-col {
+  padding: .25em .5em; // em, not rem, so that it changes with the smaller mobile font size
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: .5em;
+    padding-top: .5em;
+  }
 }
 
 .schedule-v2-timetable-time-col,
@@ -432,10 +463,6 @@ a {
   text-align: center;
 }
 
-.schedule-v2-timetable-time-col,
-.schedule-v2-timetable-name-col:not(.schedule-v2-timetable-header-col) {
-  background-color: $white;
-}
 
 .schedule-v2-timetable-header-col {
   background-color: $brand-primary-darkest;
@@ -443,29 +470,27 @@ a {
   border-right: $border-width solid $brand-primary-darkest;
   color: $white;
   font-weight: bold;
+  padding: .5em;
 }
 
 .schedule-v2-timetable-time-col:not([class*="header"]) {
   // Weird bug in firefox -- at some point when the [data-sticky="left"] columns get set to position: absolute
   // inside of horizSticky.js, a dark left and right border appears on each table cell. See bug report at
   // https://app.asana.com/0/111025076443530/298967690426135
-  border-bottom: $border;
-  border-left-style: hidden;
-  border-right-style: hidden;
+  text-align: left;
 }
 
 .schedule-v2-timetable-name-col {
   text-align: left;
 
   @include media-breakpoint-down(sm) {
-    max-width: 10rem;
+    max-width: 10em;
   }
 }
 
 .schedule-v2-timetable-time-col {
-  @include media-breakpoint-up(md) {
-    min-width: 9rem;
-  }
+  min-width: 5em;
+  white-space: nowrap;
 }
 
 .schedule-v2-timetable-name {
@@ -500,7 +525,7 @@ a {
   cursor: pointer;
 
   &:not(.schedule-v2-timetable-header-col) {
-    background-color: $gray-bordered-background;
+    background-color: $white;
     border-left: $border;
     border-right: $border;
   }
@@ -528,6 +553,7 @@ a {
 
 .schedule-v2-timetable-more-text {
   // scss-lint:disable DuplicateProperty
+  color: $link-color;
   display: none;
   font-size: $font-size-sm;
   font-weight: normal;
@@ -536,11 +562,16 @@ a {
   position: absolute;
   right: 25%;
   text-orientation: sideways;
-  top: $space-8;
+  top: 10vh;
   white-space: nowrap;
   writing-mode: tb-lr; // for IE
   writing-mode: vertical-lr; // for everything else
   z-index: $z-index-schedule-v2-timetable-more-text;
+
+  @include hover-focus() {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
 
   @include media-breakpoint-up(md) {
     display: block;
