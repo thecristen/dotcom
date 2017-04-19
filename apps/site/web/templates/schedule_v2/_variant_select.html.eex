@@ -28,7 +28,7 @@
       <% end %>
     </select>
     <div>
-      <button type="submit" class="btn btn-primary-outline btn-sm">Change line variant</button>
+      <button type="submit" class="btn btn-primary-outline btn-sm">Switch variation</button>
     </div>
   </form>
 </div>
