@@ -5,14 +5,20 @@ defmodule Alerts.Parser do
       %Alerts.Alert{
         id: id,
         header: attributes["header"],
-        informed_entity: attributes["informed_entity"] |> Enum.flat_map(&informed_entity/1),
-        active_period: attributes["active_period"] |> Enum.map(&active_period/1),
+        informed_entity: parse_informed_entity(attributes["informed_entity"]),
+        active_period:  Enum.map(attributes["active_period"], &active_period/1),
         effect_name: attributes["effect_name"],
         severity: attributes["severity"],
         lifecycle: attributes["lifecycle"],
         updated_at: parse_time(attributes["updated_at"]),
         description: description(attributes["description"])
       }
+    end
+
+    defp parse_informed_entity(informed_entities) do
+      informed_entities
+      |> Enum.flat_map(&informed_entity/1)
+      |> Enum.uniq()
     end
 
     defp informed_entity(%{"route" => "Green" <> _} = entity) do
