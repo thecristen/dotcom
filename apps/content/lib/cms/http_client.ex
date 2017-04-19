@@ -6,7 +6,7 @@ defmodule Content.CMS.HTTPClient do
     params = Keyword.merge(params, [_format: "json"])
     with {:ok, url} <- make_url(path),
       {time, response} <- :timer.tc(HTTPoison, :get, [url, [], [params: params]]),
-      log_response(time, url, params, response),
+           log_response(time, url, params, response),
       {:ok, %{status_code: 200, body: body}} <- response,
       {:ok, parsed} <- Poison.Parser.parse(body) do
       {:ok, parsed}
@@ -37,5 +37,6 @@ defmodule Content.CMS.HTTPClient do
       time = time / :timer.seconds(1)
       "Content.CMS.HTTPClient_response url=#{url} params=#{inspect params} #{text} duration=#{time}"
     end)
+    :ok
   end
 end
