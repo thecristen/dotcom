@@ -5,7 +5,7 @@ export default function($) {
   var savedAnchor = null;
   var redirectTimeout = null;
 
-  $(document).on('popstate', (ev) => {
+  $(window).on('popstate', (ev) => {
     var url = window.location.href;
 
     if (redirectTimeout && !url.match(/redirect/)) {
