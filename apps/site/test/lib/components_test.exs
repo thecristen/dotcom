@@ -70,7 +70,7 @@ defmodule Site.ComponentsTest do
         route_type: :bus,
         alerts: [%Alerts.Alert{
                   effect_name: "Delay",
-                  informed_entity: [%Alerts.InformedEntity{route: "Green-B", route_type: 1}],
+                  informed_entity: [%Alerts.InformedEntity{route: "Green", route_type: 1}],
                   lifecycle: "New",
                   severity: "Moderate",
                   active_period: current_active_period()

@@ -5,8 +5,8 @@ defmodule Alerts.Parser do
       %Alerts.Alert{
         id: id,
         header: attributes["header"],
-        informed_entity: attributes["informed_entity"] |> Enum.map(&informed_entity/1),
-        active_period: attributes["active_period"] |> Enum.map(&active_period/1),
+        informed_entity: parse_informed_entity(attributes["informed_entity"]),
+        active_period:  Enum.map(attributes["active_period"], &active_period/1),
         effect_name: attributes["effect_name"],
         severity: attributes["severity"],
         lifecycle: attributes["lifecycle"],
@@ -15,7 +15,20 @@ defmodule Alerts.Parser do
       }
     end
 
+    defp parse_informed_entity(informed_entities) do
+      informed_entities
+      |> Enum.flat_map(&informed_entity/1)
+      |> Enum.uniq()
+    end
+
+    defp informed_entity(%{"route" => "Green" <> _} = entity) do
+      [do_informed_entity(entity), do_informed_entity(%{entity | "route" => "Green"})]
+    end
     defp informed_entity(entity) do
+      [do_informed_entity(entity)]
+    end
+
+    defp do_informed_entity(entity) do
       # since lookups default to nil, this results in the correct data
       %Alerts.InformedEntity{
         route_type: entity["route_type"],
