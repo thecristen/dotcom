@@ -1,10 +1,10 @@
 <div class="container page-section">
   <h2>About the MBTA</h2>
   <div class="row">
-    <%= link to: redirect_path(@conn, "about_the_mbta/public_meetings/"), class: "homepage-link" do %>
+    <%= link to: event_path(@conn, :index), class: "homepage-link" do %>
       <div class="col-xs-6 col-md-3">
-        <div class="homepage-svg"><%= svg "public-meetings.svg" %></div>
-        <div class="about-title">Public Meetings</div>
+        <div class="homepage-svg"><%= svg "events.svg" %></div>
+        <div class="about-title">Events</div>
       </div>
     <% end %>
     <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), class: "homepage-link" do %>
