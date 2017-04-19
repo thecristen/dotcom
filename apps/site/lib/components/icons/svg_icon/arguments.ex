@@ -141,7 +141,7 @@ defmodule Site.Components.Icons.SvgIcon do
 
   def viewbox(:bus), do: "24 24"
   def viewbox(:subway), do: "24 24"
-  def viewbox(:commuter_rail), do: "24 24"
+  def viewbox(:commuter_rail), do: "16 16"
   def viewbox(:map), do: "26 24"
   def viewbox(:alert), do: "24 24"
   def viewbox(:the_ride), do: "36 36"
