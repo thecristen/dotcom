@@ -438,6 +438,7 @@ a {
 .schedule-v2-timetable-row:nth-child(even) {
   > * {
     background-color: $gray-bordered-background;
+    border-left: $space-1 $gray-bordered-background;
   }
 }
 
@@ -445,6 +446,7 @@ a {
   .schedule-v2-timetable-time-col,
   .schedule-v2-timetable-name-col:not(.schedule-v2-timetable-header-col) {
     background-color: $white;
+    border-left: $space-1 $white;
   }
 }
 
