@@ -1,13 +1,12 @@
 defmodule Content.CMS.HTTPClient do
   @behaviour Content.CMS
-  require Logger
+
+  import Content.CMS.TimeRequest, only: [time_request: 2]
 
   def view(path, params \\ []) do
     params = Keyword.merge(params, [_format: "json"])
     with {:ok, url} <- make_url(path),
-      {time, response} <- :timer.tc(HTTPoison, :get, [url, [], [params: params]]),
-           log_response(time, url, params, response),
-      {:ok, %{status_code: 200, body: body}} <- response,
+      {:ok, %{status_code: 200, body: body}} <- time_request(url, params),
       {:ok, parsed} <- Poison.Parser.parse(body) do
       {:ok, parsed}
     else
@@ -25,18 +24,5 @@ defmodule Content.CMS.HTTPClient do
     else
       {:error, :no_root}
     end
-  end
-
-  defp log_response(time, url, params, response) do
-    _ = Logger.info(fn ->
-      params = Keyword.delete(params, :_format)
-      text = case response do
-               {:ok, %{status_code: code}} -> "status=#{code}"
-               {:error, e} -> "status=error error=#{inspect e}"
-             end
-      time = time / :timer.seconds(1)
-      "Content.CMS.HTTPClient_response url=#{url} params=#{inspect params} #{text} duration=#{time}"
-    end)
-    :ok
   end
 end
