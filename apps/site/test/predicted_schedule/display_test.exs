@@ -14,14 +14,14 @@ defmodule PredictedSchedule.DisplayTest do
     test "Prediction is used if one is given" do
       display_time = time(
         %PredictedSchedule{schedule: %Schedule{time: @early_time}, prediction: %Prediction{time: @late_time}})
-      assert safe_to_string(display_time) =~ "2:14PM"
-      refute safe_to_string(display_time) =~ "12:00PM"
+      assert safe_to_string(display_time) =~ "2:14P"
+      refute safe_to_string(display_time) =~ "12:00P"
       assert safe_to_string(display_time) =~ "fa fa-rss"
     end
 
     test "Scheduled time is used if no prediction is available" do
       display_time = time(%PredictedSchedule{schedule: %Schedule{time: @early_time}, prediction: nil})
-      assert safe_to_string(display_time) =~ "12:00PM"
+      assert safe_to_string(display_time) =~ "12:00P"
       refute safe_to_string(display_time) =~ "fa fa-rss"
     end
 
@@ -45,8 +45,8 @@ defmodule PredictedSchedule.DisplayTest do
       |> time
       |> safe_to_string
 
-      assert result =~ "12:00PM"
-      assert result =~ "2:14PM"
+      assert result =~ "12:00P"
+      assert result =~ "2:14P"
       assert result =~ "fa fa-rss"
     end
 
@@ -57,8 +57,8 @@ defmodule PredictedSchedule.DisplayTest do
       |> time
       |> safe_to_string
 
-      assert result =~ "2:14PM"
-      assert result =~ "12:00PM"
+      assert result =~ "2:14P"
+      assert result =~ "12:00P"
       assert result =~ "fa fa-rss"
     end
 
@@ -102,7 +102,7 @@ defmodule PredictedSchedule.DisplayTest do
             schedule: nil,
             prediction: %Prediction{route: @commuter_route, time: @late_time}})
 
-      assert safe_to_string(result) =~ "2:14PM"
+      assert safe_to_string(result) =~ "2:14P"
     end
 
     test "handles nil predictions" do
@@ -110,7 +110,7 @@ defmodule PredictedSchedule.DisplayTest do
             schedule: %Schedule{time: @early_time},
             prediction: nil})
 
-      assert safe_to_string(result) =~ "12:00PM"
+      assert safe_to_string(result) =~ "12:00P"
     end
   end
 
@@ -182,7 +182,7 @@ defmodule PredictedSchedule.DisplayTest do
 
     test "Time shown when difference is over an hour" do
       ps = %PredictedSchedule{schedule: @schedule, prediction: %Prediction{time: Timex.shift(@base_time, hours: 2)}}
-      assert safe_to_string(time_difference(ps, @base_time)) =~ "2:00PM"
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "2:00P"
     end
 
     test "Time shown as `< 1` minute when same time as current_time" do

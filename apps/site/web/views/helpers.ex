@@ -154,7 +154,11 @@ defmodule Site.ViewHelpers do
   end
 
   @spec format_schedule_time(DateTime.t) :: String.t
-  def format_schedule_time(time), do: Timex.format!(time, "{h12}:{m}{AM}")
+  def format_schedule_time(time) do
+    time
+    |> Timex.format!("{0h12}:{m}{AM}")
+    |> String.replace_suffix("M", "") # remove the M from the end
+  end
 
   @spec format_full_date(Date.t) :: String.t
   def format_full_date(date), do: Timex.format!(date, "{Mfull} {D}, {YYYY}")
