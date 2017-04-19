@@ -34,11 +34,11 @@
 
   .fare-summary-entry {
     background-color: $brand-navy-dark; // same as desktop color
-    border-color: $brand-primary-light;
+    border-color: $brand-primary-light-contrast;
     color: $white;
   }
 
   .fare-summary-name {
-    color: $brand-primary-light;
+    color: $brand-primary-light-contrast;
   }
 }
