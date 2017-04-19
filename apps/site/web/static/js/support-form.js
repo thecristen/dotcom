@@ -101,16 +101,16 @@ export function setupTextArea($) {
 };
 
 const validators = {
-  'comments': function ($) {
+  comments: function ($) {
     return $('#comments').val().length !== 0;
   },
-  'name': function ($) {
+  name: function ($) {
     return $('#name').val().length !== 0;
   },
-  'contacts': function ($) {
+  contacts: function ($) {
     return email.valid($('#email').val()) || $('#phone').val() !== '';
   },
-  'privacy': function ($) {
+  privacy: function ($) {
     return $('#privacy').prop('checked');
   }
 }
@@ -157,7 +157,7 @@ function validateForm($) {
     errors.push(name);
   }
   else {
-    displaySuccess($, comments);
+    displaySuccess($, name);
   }
   // Phone and email
   if(!validators.contacts($)) {

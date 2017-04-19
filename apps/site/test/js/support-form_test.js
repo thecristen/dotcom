@@ -213,5 +213,13 @@ describe('support form', () => {
       spy.firstCall.args[0].error();
       assert.isFalse($('.support-form-error').hasClass('hidden-xs-up'));
     });
+
+    it('shows comment validation when other fields provided', () => {
+      $('#email').val('test@email.com');
+      $('#name').val('tom brady');
+      $('#privacy').prop('checked', 'checked');
+      $('#support-submit').click();
+      assert.isFalse($('.support-comments-error-container').hasClass('hidden-xs-up'));
+    });
   });
 });
