@@ -48,12 +48,13 @@
                 <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
                   <%= format_schedule_time(trip_schedule.time) %>
                 <% end %>
-                <% prediction = prediction_for_vehicle_location(@conn, stop.id, schedule.trip.id) %>
-                <% vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] %>
-                <span data-html=true data-toggle="tooltip"
-                      title="<%= prediction_tooltip(prediction, stop.name, vehicle, @route.type) %>">
-                  <%= timetable_location_display(vehicle) %>
-                </span>
+                <%= if vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] do %>
+                  <% prediction = prediction_for_vehicle_location(@conn, stop.id, schedule.trip.id) %>
+                  <span data-html=true data-toggle="tooltip"
+                    title="<%= prediction_tooltip(prediction, stop.name, vehicle, @route.type) %>">
+                    <%= timetable_location_display(vehicle) %>
+                  </span>
+                <% end %>
                 <%= if trip_message = @trip_messages[{schedule.trip.name, stop.id}] do %>
                   <span class="schedule-v2-timetable-trip-message">
                     <%= trip_message %>
