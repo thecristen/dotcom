@@ -8,52 +8,27 @@ export default function($) {
   function initialPosition() {
     const $this = $(this),
           scrollLeft = $this.scrollLeft();
+    var queue = [];
     // reset scroll position
     $this.scrollLeft(0);
 
-    $this.find("[data-sticky=left]").each(function() {
-      // reset the width/height of the element
-      const $child = $(this).css({width: 'auto', height: 'auto', left: '0px', position: 'relative'});
-      // clear a previous sticky replacement
-      var $replacement = $child.prev();
-      if ($replacement.hasClass("sticky-replacement")) {
-        $replacement.remove();
-      }
-      const rect = this.getBoundingClientRect();
-      // we add a replacement element so we can push sibling elements out of
-      // the way once we've gone absolute
-      $("<" + this.tagName + ">").addClass("sticky-replacement").text(' ')
-        .css({
-          paddingLeft: Math.ceil(rect.width),
-          height: Math.ceil(rect.height)
-        })
-        .insertBefore($child);
-      // update our CSS position/size
-      $child.css({
-        height: Math.ceil(rect.height),
-        width: Math.ceil(rect.width),
-        left: 0,
-        position: 'absolute'
-      });
-    });
-    $this.find("[data-sticky=right]").each(function() {
-      const $child = $(this).css({width: 'auto', height: 'auto', right: '0', position: 'relative'});
-      const rect = this.getBoundingClientRect();
+    $this.find("[data-sticky]")
+      .css({width: 'auto', height: 'auto', position: 'relative'}) // reset CSS
+      .each((_index, el) => {
+        console.log(el);
+        const $child = $(el);
+        const sticky = $child.data("sticky");
+        const rect = el.getBoundingClientRect();
 
-      $("<" + this.tagName + ">").addClass("sticky-replacement").text(' ')
-        .css({
-          paddingRight: Math.ceil(rect.width),
-          height: Math.ceil(rect.height)
-        })
-        .insertBefore($child);
-
-      $child.css({
-        height: Math.ceil(rect.height),
-        width: Math.ceil(rect.width),
-        right: 0,
-        position: 'absolute'
+        if (sticky === "left") {
+          queue.push(() => leftSticky($, $child, rect));
+        } else if (sticky === "right") {
+          queue.push(() => rightSticky($, $child, rect));
+        }
       });
-    });
+
+    // batch all the CSS updates
+    $.each(queue, (_index, fn) => fn());
 
     if (scrollLeft) {
       $(this).scrollLeft(scrollLeft);
@@ -62,4 +37,45 @@ export default function($) {
 
   $(document).on('turbolinks:load', bindScrollContainers);
   $(window).on('resize', bindScrollContainers);
+}
+
+function makeReplacement($, $child) {
+  // we add a replacement element so we can push sibling elements out of
+  // the way once we've gone absolute
+  var $replacement = $child.prev(".sticky-replacement");
+  if ($replacement.length === 0) {
+    $replacement = $("<" + $child[0].tagName + ">").addClass("sticky-replacement").text(' ');
+    $replacement.insertBefore($child);
+  }
+  return $replacement;
+}
+
+function leftSticky($, $child, rect) {
+  makeReplacement($, $child)
+    .css({
+      paddingLeft: Math.ceil(rect.width),
+      height: Math.ceil(rect.height)
+    });
+  // update our CSS position/size
+  $child.css({
+    height: Math.ceil(rect.height),
+    width: Math.ceil(rect.width),
+    left: 0,
+    position: 'absolute'
+  });
+}
+
+function rightSticky($, $child, rect) {
+  makeReplacement($, $child)
+    .css({
+      paddingRight: Math.ceil(rect.width),
+      height: Math.ceil(rect.height)
+    });
+
+  $child.css({
+    height: Math.ceil(rect.height),
+    width: Math.ceil(rect.width),
+    right: 0,
+    position: 'absolute'
+  });
 }
