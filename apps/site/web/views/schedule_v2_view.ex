@@ -371,8 +371,12 @@ defmodule Site.ScheduleV2View do
   @spec zone(map | nil, Stops.Stop.t) :: Phoenix.HTML.Safe.t
   defp zone(nil, _stop), do: ""
   defp zone(zones, stop) do
-    content_tag :div, class: "zone" do
-      ["Zone ", zones[stop.id]]
+    case zones[stop.id] do
+      nil -> ""
+      zone_number ->
+        content_tag :div, class: "zone" do
+          ["Zone ", zone_number]
+        end
     end
   end
 

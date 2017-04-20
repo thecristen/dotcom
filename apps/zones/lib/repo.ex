@@ -1,7 +1,9 @@
 defmodule Zones.Repo.StationZones do
+  @filename "priv/crzones.csv"
+  @external_resource @filename
+
   def zone_info do
-    filename = "priv/crzones.csv"
-    filename
+    @filename
     |> File.stream!
     |> CSV.decode
     |> Enum.reduce(Map.new, fn [station, zone], station_zone_map ->
