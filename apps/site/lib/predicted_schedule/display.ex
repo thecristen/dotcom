@@ -32,17 +32,22 @@ defmodule PredictedSchedule.Display do
   If a prediction status is available, that will be shown instead of time or
   time difference
   """
-  @spec time_difference(PredictedSchedule.t, DateTime.t) :: Phoenix.HTML.Safe.t | String.t
+  @spec time_difference(PredictedSchedule.t, DateTime.t) :: Phoenix.HTML.Safe.t
   def time_difference(%PredictedSchedule{prediction: %Prediction{status: status}}, _current_time) when not is_nil(status) do
     do_realtime(status)
   end
-  def time_difference(%PredictedSchedule{schedule: schedule, prediction: nil}, current_time) do
+  def time_difference(%PredictedSchedule{schedule: %Schedule{} = schedule, prediction: nil}, current_time) do
     do_time_difference(schedule.time, current_time)
   end
-  def time_difference(%PredictedSchedule{schedule: _schedule, prediction: prediction}, current_time) do
-    prediction.time
-    |> do_time_difference(current_time)
-    |> do_realtime()
+  def time_difference(%PredictedSchedule{prediction: prediction} = ps, current_time) do
+    case prediction do
+      %Prediction{time: time} when not is_nil(time) ->
+        time
+        |> do_time_difference(current_time)
+        |> do_realtime()
+      _ ->
+        do_display_time(ps)
+    end
   end
 
   defp do_time_difference(time, current_time) do
@@ -53,7 +58,7 @@ defmodule PredictedSchedule.Display do
 
   defp format_time_difference(diff, time) when diff > 60 or diff < -1, do: format_schedule_time(time)
   defp format_time_difference(0, _), do: "< 1 min"
-  defp format_time_difference(diff, _), do: "#{diff} #{Inflex.inflect("min", diff)}"
+  defp format_time_difference(diff, _), do: [Integer.to_string(diff), " ", Inflex.inflect("min", diff)]
 
   @doc """
 
