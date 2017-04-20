@@ -1,4 +1,4 @@
-<div class="shape-filter modal-hide-select col-xs-12 col-sm-6 col-md-4" data-select-modal="variant">
+<div class="shape-filter col-xs-12 col-sm-6 col-md-4" data-select-modal="variant">
   <form method="GET" action="#variant" data-submit-on-change>
     <%= hidden_query_params @conn, exclude: ["variant"] %>
     <label for="variant" class="filter-label">
