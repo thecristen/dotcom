@@ -36,8 +36,10 @@
   display: none;
 }
 
-.select-converted-to-modal {
-  display: none;
+.modal-hide-select {
+  .select-converted-to-modal {
+    display: none;
+  }
 }
 
 .select-modal-option {
