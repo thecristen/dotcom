@@ -25,4 +25,55 @@ defmodule Feedback.Mailer do
 
     Mailgun.Client.send_email config(), opts
   end
+
+  @spec send_heat_ticket(Feedback.Message.t, map()) :: {:ok, any} | {:error, any}
+  def send_heat_ticket(message, photo_info) do
+    body =
+      """
+      <INCIDENT>
+        <SERVICE>Inquiry</SERVICE>
+        <CATEGORY>Other</CATEGORY>
+        <TOPIC></TOPIC>
+        <SUBTOPIC></SUBTOPIC>
+        <MODE></MODE>
+        <LINE></LINE>
+        <STATION></STATION>
+        <INCIDENTDATE></INCIDENTDATE>
+        <VEHICLE></VEHICLE>
+        <FIRSTNAME></FIRSTNAME>
+        <LASTNAME></LASTNAME>
+        <FULLNAME>#{message.name}</FULLNAME>
+        <CITY></CITY>
+        <STATE></STATE>
+        <ZIPCODE></ZIPCODE>
+        <EMAILID>#{format_email(message.email)}</EMAILID>
+        <PHONE>#{message.phone}</PHONE>
+        <DESCRIPTION>#{message.comments}</DESCRIPTION>
+        <CUSTREQUIRERESP>No</CUSTREQUIRERESP>
+        <MBTASOURCE>Auto Ticket 2</MBTASOURCE>
+      </INCIDENT>
+      """
+    opts = [to: "heatsm@mbta.com",
+            from: Application.get_env(:feedback, :support_ticket_from_email),
+            subject: "MBTA Customer Comment Form",
+            text: body]
+
+    opts = if photo_info do
+      [{:attachments, [photo_info]} | opts]
+    else
+      opts
+    end
+
+    Mailgun.Client.send_email config(), opts
+  end
+
+  defp format_email(nil) do
+    "donotreply@mbta.com"
+  end
+  defp format_email(email) do
+    case String.trim(email) do
+      "" -> "donotreply@mbta.com"
+      email -> email
+    end
+  end
 end

@@ -22,10 +22,13 @@ Additional Comments: <%= @comments %>
 Sourceid: Auto Ticket 2
   """
 
-  def send_ticket(%Feedback.Message{email: email, phone: phone, name: name, photo: photo, comments: comments}) do
-    @template
+  def send_ticket(%Feedback.Message{email: email, phone: phone, name: name, photo: photo, comments: comments} = message) do
+    {:ok, _response} = @template
     |> EEx.eval_string(assigns: [email: email, phone: phone, name: name, comments: comments])
     |> Feedback.Mailer.send_ticket(photo_attachment(photo))
+
+    message
+    |> Feedback.Mailer.send_heat_ticket(photo_attachment(photo))
   end
 
   def photo_attachment(%Plug.Upload{path: path, filename: filename}) do

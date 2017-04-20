@@ -19,7 +19,7 @@ defmodule Site.CustomerSupportControllerTest do
       response = html_response(conn, 302)
       refute response =~ "form id=\"support-form\""
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
-      assert String.contains?(Feedback.Test.latest_message["text"], "Additional Comments: comments\n")
+      assert String.contains?(Feedback.Test.latest_message["text"], ~s(<MBTASOURCE>Auto Ticket 2</MBTASOURCE>))
     end
 
     test "validates presence of comments", %{conn: conn} do

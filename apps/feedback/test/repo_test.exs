@@ -12,14 +12,10 @@ defmodule Feedback.RepoTest do
       |> Feedback.Repo.send_ticket
 
       text = Feedback.Test.latest_message["text"]
-      assert text =~ "EMAILID: test@mbtace.com"
-      assert text =~ "Phone: 555-555-5555"
-      assert text =~ "Incident Date: " <> Timex.format!(
-        Timex.to_date(Timex.now("America/New_York")),
-        "{0M}/{D}/{YYYY}"
-      )
-      assert text =~ "Name: Charlie"
-      assert text =~ "Comments: comments"
+      assert text =~ ~s(<EMAILID>test@mbtace.com</EMAILID>)
+      assert text =~ ~s(<PHONE>555-555-5555</PHONE>)
+      assert text =~ ~s(<FULLNAME>Charlie</FULLNAME>)
+      assert text =~ ~s(<DESCRIPTION>comments</DESCRIPTION>)
     end
   end
 end
