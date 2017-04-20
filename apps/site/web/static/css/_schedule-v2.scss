@@ -421,15 +421,12 @@ a {
 
 .schedule-v2-timetable-container {
   border-bottom: $base-spacing-lg solid $brand-primary-darkest;
-  max-width: 100%;
+  font-size: $font-size-sm;
   margin-bottom: $base-spacing;
-  width: 100%;
+  max-width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
-
-  @include media-breakpoint-down(sm) {
-    font-size: $font-size-sm;
-  }
+  width: 100%;
 }
 
 .schedule-v2-timetable-hide-earlier .schedule-v2-timetable-more-col-earlier,
@@ -465,11 +462,6 @@ a {
 .schedule-v2-timetable-time-col,
 .schedule-v2-timetable-name-col {
   padding: .25em .5em; // em, not rem, so that it changes with the smaller mobile font size
-
-  @include media-breakpoint-up(md) {
-    padding-bottom: .5em;
-    padding-top: .5em;
-  }
 }
 
 .schedule-v2-timetable-time-col,
@@ -515,7 +507,6 @@ a {
   }
 
   @include media-breakpoint-up(md) {
-    margin-left: 2.5rem; // bubble
     margin-right: $base-spacing-lg; // left scroll warning
     min-width: $base-spacing * 9.5;
   }
