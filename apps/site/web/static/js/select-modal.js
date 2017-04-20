@@ -104,7 +104,7 @@ function modalHidden(ev, $) {
 
 // public so that it can be re-run separately from the global event handlers
 export function convertSelects($) {
-  // if there asre select toggles, show them
+  // if there are select toggles, show them
   $(".select-modal-toggle").each((_index, el) => {
     const $el = $(el);
     $el.css("display", "block");
@@ -121,7 +121,11 @@ export function convertSelects($) {
               cursor: "pointer"
             });
     $el.before($cover).removeAttr('data-select-modal');
-    $el.addClass('select-converted-to-modal');
+
+    // if the select had toggle button nearby, hide the select
+    if ($el.siblings('.select-modal-toggle').length) {
+      $el.addClass('select-converted-to-modal');
+    }
   });
   $("select[data-select-modal]:not([data-no-conversion])").each((_index, el) => {
     // creates a text container (based on the select value) and a button
