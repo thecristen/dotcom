@@ -234,9 +234,9 @@ defmodule UpcomingRouteDeparturesTest do
     },
   ]
 
-  describe "build_mode_list/4" do
+  describe "build_mode_list/3" do
     test "PredictedSchedules are grouped by mode" do
-      mode_map = @predictions |> build_mode_list(@schedules, @time, 2) |> Map.new()
+      mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       for type_integer_val <- [0,2,3] do
         for route_time <- mode_map[Route.type_atom(type_integer_val)] do
           assert route_time.route.type == type_integer_val
@@ -245,7 +245,7 @@ defmodule UpcomingRouteDeparturesTest do
     end
 
     test "UpcomingRouteDepartures are grouped by headsign" do
-      mode_map = @predictions |> build_mode_list(@schedules, @time, 2) |> Map.new()
+      mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       commuter_route_times = mode_map[:commuter_rail]
       for route_time <- commuter_route_times do
         for {headsign, predicted_schedules} <- route_time.departures do
@@ -254,18 +254,8 @@ defmodule UpcomingRouteDeparturesTest do
       end
     end
 
-    test "UpcomingRouteDepartures' predicted_schedules are limited to `limit`" do
-      for {_mode, route_times} <- build_mode_list(@predictions, @schedules, @time, 1) do
-        for route_time <- route_times do
-          for {_headsign, predicted_schedules} <- route_time.departures do
-            assert [_] = predicted_schedules # single predicted_schedule
-          end
-        end
-      end
-    end
-
     test "Only upcoming times are returned" do
-      for {_mode, route_times} <- build_mode_list(@predictions, @schedules, @time, 5) do
+      for {_mode, route_times} <- build_mode_list(@predictions, @schedules, @time) do
         for route_time <- route_times do
           for {_headsign, predicted_schedules} <- route_time.departures do
             for predicted_schedule <- predicted_schedules do
@@ -277,19 +267,19 @@ defmodule UpcomingRouteDeparturesTest do
     end
 
     test "Bus routes are sorted in increasing route number" do
-      mode_map = @predictions |> build_mode_list(@schedules, @time, 2) |> Map.new()
+      mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       bus_route_names = mode_map[:bus] |> Enum.map(& &1.route.name)
       assert bus_route_names == ["SL1", "9", "66"]
     end
 
     test "Only departing predicted_schedules are returned" do
-      mode_map = @predictions |> build_mode_list(@schedules, @time, 2) |> Map.new()
+      mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       commuter_route_times = mode_map[:commuter_rail]
       refute Enum.find(commuter_route_times, & &1.route.id == "Non departure")
     end
 
     test "Same headsign can occur in separate routes" do
-      mode_map = @predictions |> build_mode_list(@schedules, @time, 2) |> Map.new()
+      mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
       commuter_route_times = mode_map[:commuter_rail]
       route1 = Enum.find(commuter_route_times, & &1.route.id == "CR-1")
       route2 = Enum.find(commuter_route_times, & &1.route.id == "CR-2")
@@ -302,11 +292,12 @@ defmodule UpcomingRouteDeparturesTest do
 
   describe "Green line predictions" do
     test "Multiple greenline status predictions can be shown on single route" do
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time, 3) |> Map.new()
+      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
       upcoming_e_line = mode_map[:subway] |> Enum.find(& &1.route.id == "Green-E")
       for {_headsign, departures} <- upcoming_e_line.departures do
         assert Enum.count(departures) > 1
-        for departure <- departures do
+        for departure <- departures,
+          departure.prediction do
           assert departure.prediction.status
         end
       end
@@ -314,7 +305,7 @@ defmodule UpcomingRouteDeparturesTest do
 
     test "are sorted by status" do
       status_extractor = fn {_headsign, deps} -> Enum.map(deps, & &1.prediction.status) end
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time, 3) |> Map.new()
+      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
       upcoming_c_line = mode_map[:subway] |> Enum.find(& &1.route.id == "Green-C")
       c_line_statuses = upcoming_c_line.departures |> Enum.flat_map(status_extractor)
       assert c_line_statuses == ["Boarding", "Approaching", "1 stop away"]
@@ -322,14 +313,14 @@ defmodule UpcomingRouteDeparturesTest do
 
     test "are sorted by status then time" do
       id_extractor = fn {_headsign, deps} -> Enum.map(deps, & &1.prediction.id) end
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time, 2) |> Map.new()
+      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
       upcoming_b_line = mode_map[:subway] |> Enum.find(& &1.route.id == "Green-B")
       b_line_ids = upcoming_b_line.departures |> Enum.flat_map(id_extractor)
       assert b_line_ids == ["Green-Prediction-4", "Green-Prediction-5"]
     end
 
     test "status-only predictions shown without related schedules" do
-      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time, 1) |> Map.new()
+      mode_map = @green_line_predictions |> build_mode_list(@green_line_schedules, @time) |> Map.new()
       assert mode_map[:subway] |> Enum.find(& &1.route.id == "Green-C")
     end
   end

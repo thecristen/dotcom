@@ -150,6 +150,18 @@ defmodule Site.StopView do
   end
   def predicted_icon(_), do: ""
 
+  @spec time_differences([PredictedSchedule.t], DateTime.t) :: [Phoenix.HTML.Safe.t]
+  @doc "A list of time differences for the predicted schedules, with the empty ones removed."
+  def time_differences(predicted_schedules, date_time) do
+    predicted_schedules
+    |> Enum.flat_map(fn departure ->
+      case PredictedSchedule.Display.time_difference(departure, date_time) do
+        "" -> []
+        difference -> [difference]
+      end
+    end)
+  end
+
   @doc "URL for the embedded Google map image for the stop."
   @spec map_url(Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
   def map_url(stop, width, height, scale) do

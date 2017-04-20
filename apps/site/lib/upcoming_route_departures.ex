@@ -9,8 +9,6 @@ defmodule UpcomingRouteDepartures do
   alias Predictions.Prediction
   alias Schedules.Schedule
 
-  @limit 3
-
   defstruct [
     route: %Route{},
     direction_id: 0,
@@ -25,34 +23,34 @@ defmodule UpcomingRouteDepartures do
 
   @doc """
   Builds a list of {mode, [route_time]}
-  Given a list of predictions, a list of schedules, a time, and a limit, it will return list of
+  Given a list of predictions, a list of schedules, a time, it will return list of
   `UpcomingRouteDepartures`'s for each mode available in the given predictions and schedules.
   """
-  @spec build_mode_list([Prediction.t], [Schedule.t], DateTime.t, non_neg_integer) ::
+  @spec build_mode_list([Prediction.t], [Schedule.t], DateTime.t) ::
                         [{Route.gtfs_route_type, [UpcomingRouteDepartures.t]}]
-  def build_mode_list(predictions, schedules, current_time, limit \\ @limit) do
+  def build_mode_list(predictions, schedules, current_time) do
     filtered_schedules = Enum.reject(schedules, &Routes.Repo.route_hidden?(&1.route))
     predictions
     |> PredictedSchedule.group(filtered_schedules)
-    |> build_route_times(current_time, limit)
+    |> build_route_times(current_time)
     |> Enum.group_by(&Route.type_atom(&1.route.type)) # Group by modes
     |> Enum.map(fn {mode, route_times} -> {mode, sort_route_times(route_times)} end)
   end
 
-  @spec build_route_times([PredictedSchedule.t], DateTime.t, non_neg_integer) :: [UpcomingRouteDepartures.t]
-  defp build_route_times(predicted_schedules, current_time, limit) do
+  @spec build_route_times([PredictedSchedule.t], DateTime.t) :: [UpcomingRouteDepartures.t]
+  defp build_route_times(predicted_schedules, current_time) do
     predicted_schedules
     |> valid_departures(current_time)
     |> Enum.group_by(&{PredictedSchedule.route(&1), PredictedSchedule.direction_id(&1)})
-    |> Enum.map(&build_route_time(&1, limit))
+    |> Enum.map(&build_route_time/1)
   end
 
   # Builds a Route time with headsigns grouped together
-  @spec build_route_time({{Route.t, 0 | 1}, [PredictedSchedule.t]}, non_neg_integer) :: UpcomingRouteDepartures.t
-  defp build_route_time({{route, direction_id}, predicted_schedules}, limit) do
+  @spec build_route_time({{Route.t, 0 | 1}, [PredictedSchedule.t]}) :: UpcomingRouteDepartures.t
+  defp build_route_time({{route, direction_id}, predicted_schedules}) do
     predicted_schedules
     |> Enum.group_by(&PredictedSchedule.Display.headsign/1)
-    |> Enum.map(&limited_departures(&1, limit))
+    |> Enum.map(&sorted_departures/1)
     |> do_build_route_time(route, direction_id)
   end
 
@@ -65,13 +63,11 @@ defmodule UpcomingRouteDepartures do
     }
   end
 
-  # Take the `limit` soonest departures
-  @spec limited_departures({String.t, [PredictedSchedule.t]}, non_neg_integer) :: {String.t, [PredictedSchedule.t]}
-  defp limited_departures({headsign, predicted_schedules}, limit) do
+  # sort the departures by time
+  @spec sorted_departures({String.t, [PredictedSchedule.t]}) :: {String.t, [PredictedSchedule.t]}
+  defp sorted_departures({headsign, predicted_schedules}) do
     {headsign,
-      predicted_schedules
-      |> Enum.sort_by(&PredictedSchedule.sort_with_status/1)
-      |> Enum.take(limit)}
+     Enum.sort_by(predicted_schedules, &PredictedSchedule.sort_with_status/1)}
   end
 
   # Departures are valid if passengers can board, and the departure time is in the future
