@@ -31,3 +31,22 @@ The `content` app provides internal Elixir types that match these Drupal content
 The `Content.Repo` module is the main interface the site uses to interact with the CMS. All the exposed endpoints on the CMS are wrapped by a function in `Content.Repo`. For example, the `/events` endpoint can be accessed via `Content.Repo.events/1`. All the `Content.Repo` functions return Elixir structs of the proper type.
 
 For testing purposes, the `Content.Repo` implementation actually uses an environment-based `@cms_api` module, which exposes a single function `view/1`, which takes a URL path `view("/events")` and returns the parsed JSON result. That module contract is described by the `Content.CMS` behaviour. There are two modules that implement that interface. The first is `Content.CMS.HTTPClient` which actually hits the Drupal CMS at the path provided, and returns the result. The other implementing module is `Content.CMS.Static`, which the test environment uses and returns static JSON that has been saved in the `content/priv/` directory.
+
+## CMS template language
+
+The site supports some simple templating features to allow content creators in Drupal to embed things that we will interpret and embed in the content.
+
+### Responsive data tables
+
+The site will parse tables created with the Drupal table editor and rewrite and embed them in a way that our CSS will make responsive. To take advantage of this, the content creator needs to do two things:
+
+1. In the Drupal table editor, indicate that one of the rows is a header row by choosing Headers -> First Row.
+2. Provide text in the "Caption" input, which will be displayed as a table header in the mobile view.
+
+### Font awesome icons
+
+Font awesome icons are supported with the `{{ fa "rss" }}` syntax. Any string provided (`"rss"` in this example) will be passed  to our site's `fa()` view helper which will generate the appropriate `<i class="fa fa-rss">` markup.
+
+### MBTA icons
+
+Certain MBTA svg icons are supported via `{{ mbta-circle-icon "bus" }}` syntax. The currently supported list of icons is `"bus"`, `"commuter-rail"`, `"subway"`, and `"ferry"`.
