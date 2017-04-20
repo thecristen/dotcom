@@ -1,10 +1,12 @@
 defmodule Content.CMS.HTTPClient do
   @behaviour Content.CMS
 
+  import Content.CMS.TimeRequest, only: [time_request: 2]
+
   def view(path, params \\ []) do
     params = Keyword.merge(params, [_format: "json"])
     with {:ok, url} <- make_url(path),
-      {:ok, %{status_code: 200, body: body}} <- HTTPoison.get(url, [], params: params),
+      {:ok, %{status_code: 200, body: body}} <- time_request(url, params),
       {:ok, parsed} <- Poison.Parser.parse(body) do
       {:ok, parsed}
     else

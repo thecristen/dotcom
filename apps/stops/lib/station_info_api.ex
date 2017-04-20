@@ -3,6 +3,7 @@ defmodule Stops.StationInfoApi do
   Wrapper around the remote stop information service.
   """
   import Stops.StationInfo.Csv, only: [parse_row: 1]
+  alias Stops.Stop
 
   @stations "priv/stations.csv"
   |> File.stream!
