@@ -17,6 +17,14 @@
   }
 }
 
+.station-info-zone {
+  background-color: $gray-bordered-background;
+  font-size: 1rem;
+  font-weight: normal;
+  padding: 0 .375rem;
+  vertical-align: middle;
+}
+
 .mode-section {
   margin: $base-spacing 0;
 }
@@ -31,8 +39,8 @@
 
 .fare-agent-distance {
   color: $gray-light;
-  text-align: right;
   float: right;
+  text-align: right;
 }
 
 .station-schedule-icon {

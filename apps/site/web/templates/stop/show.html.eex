@@ -13,6 +13,9 @@
             <%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %>
             <span class="station-mode-description"><%= mode_name(type) %></span>
           <% end %>
+          <%= if type == :commuter_rail do %>
+            <span class="station-info-zone">Zone <%= @zone_number %></span>
+          <% end %>
         <% end %>
         <%= if "accessible" in @stop.accessibility do %>
           <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>

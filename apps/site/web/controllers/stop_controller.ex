@@ -26,6 +26,7 @@ defmodule Site.StopController do
     |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
     |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, tab_value(query_params["tab"]))
+    |> assign(:zone_number, Zones.Repo.get(stop.id))
     |> tab_assigns(stop)
     |> await_assign(:grouped_routes)
     |> render("show.html", stop: stop)
@@ -60,7 +61,7 @@ defmodule Site.StopController do
 
   defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
     conn
-    |> assign(:zone_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
+    |> assign(:fare_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
     |> assign(:terminal_station, terminal_station(stop))
     |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
     |> assign(:access_alerts, access_alerts(alerts, stop))

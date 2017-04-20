@@ -13,13 +13,13 @@
 
   <% path_options = if origin_station?(@stop), do: [origin: @stop.id], else: [origin: @stop.id, destination: @terminal_station] %>
   <% fare_details_path = fare_path(@conn, :show, "commuter_rail", path_options) %>
-  <% summaries = if origin_station?(@stop), do: mode_summaries(:commuter_rail), else: mode_summaries(:commuter_rail, @zone_name, fare_details_path) %>
+  <% summaries = if origin_station?(@stop), do: mode_summaries(:commuter_rail), else: mode_summaries(:commuter_rail, @fare_name, fare_details_path) %>
 
   <%= Site.FareView.summarize(summaries) %>
 
   <p>
     <%= link to: fare_details_path do %>
-      <p>View Commuter Rail <%= Fares.Format.name(%Fares.Fare{name: @zone_name}) %> fares list <span class="no-wrap"><%= fa "arrow-right "%></span></p>
+      <p>View Commuter Rail <%= Fares.Format.name(%Fares.Fare{name: @fare_name}) %> fares list <span class="no-wrap"><%= fa "arrow-right "%></span></p>
     <% end %>
   </p>
 </div>
