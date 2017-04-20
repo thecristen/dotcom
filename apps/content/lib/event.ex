@@ -17,7 +17,7 @@ defmodule Content.Event do
     id: integer | nil,
     start_time: DateTime.t | nil,
     end_time: DateTime.t | nil,
-    title: String.t,
+    title: Phoenix.HTML.safe,
     location: String.t | nil,
     street_address: String.t | nil,
     city: String.t | nil,
@@ -27,7 +27,7 @@ defmodule Content.Event do
     notes: Phoenix.HTML.safe,
     agenda: Phoenix.HTML.safe,
     meeting_id: String.t | nil,
-    imported_address: String.t | nil
+    imported_address: Phoenix.HTML.safe
   }
 
   @spec from_api(map) :: t
@@ -36,7 +36,7 @@ defmodule Content.Event do
       id: int_or_string_to_int(field_value(data, "nid")),
       start_time: parse_iso_time(field_value(data, "field_start_time")),
       end_time: parse_iso_time(field_value(data, "field_end_time")),
-      title: field_value(data, "title"),
+      title: handle_html(field_value(data, "title")),
       location: field_value(data, "field_location"),
       street_address: field_value(data, "field_street_address"),
       city: field_value(data, "field_city"),
@@ -45,7 +45,7 @@ defmodule Content.Event do
       body: parse_body(data),
       notes: handle_html(field_value(data, "field_notes")),
       agenda: handle_html(field_value(data, "field_agenda")),
-      imported_address: field_value(data, "field_imported_address"),
+      imported_address: handle_html(field_value(data, "field_imported_address")),
       meeting_id: field_value(data, "field_meeting_id")
     }
   end

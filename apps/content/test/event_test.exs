@@ -27,7 +27,7 @@ defmodule Content.EventTest do
       assert id == 17
       assert start_time == Timex.parse!("2017-01-23T15:00:00Z", "{ISO:Extended:Z}")
       assert end_time == nil
-      assert title == "Finance & Audit Committee Meeting"
+      assert safe_to_string(title) == "Finance &amp; Audit Committee Meeting"
       assert location == "MassDOT"
       assert street_address == "10 Park Plaza"
       assert city == "Boston"
