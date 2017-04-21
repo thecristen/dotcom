@@ -31,6 +31,13 @@ defmodule GreenListTest do
     end
   end
 
+  describe "all_stops/1" do
+    test "can return an error" do
+      gl = stops_on_routes(0, ~D[2017-01-01])
+      assert {:error, _} = all_stops(gl)
+    end
+  end
+
   test "terminus?/2" do
     for stop_id <- ["place-lake", "place-pktrm"] do
       assert terminus?(stop_id, "Green-B")
