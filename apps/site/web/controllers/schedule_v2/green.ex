@@ -43,12 +43,19 @@ defmodule Site.ScheduleV2Controller.Green do
     assign(conn, :route, GreenLine.green_line())
   end
 
-  def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id}} = conn, _opts) do
-    assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id))
+  def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id, date: date}} = conn, _opts) do
+    assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id, date))
   end
 
   def all_stops(%Plug.Conn{assigns: %{stops_on_routes: stops_on_routes}} = conn, _params) do
-    assign(conn, :all_stops, GreenLine.all_stops(stops_on_routes))
+    case GreenLine.all_stops(stops_on_routes) do
+      {:error, e} ->
+        conn
+        |> assign(:all_stops, [])
+        |> assign(:schedule_error, e)
+      all_stops ->
+        assign(conn, :all_stops, all_stops)
+    end
   end
 
   def headsigns(conn, _opts) do
