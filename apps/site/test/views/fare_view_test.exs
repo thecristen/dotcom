@@ -140,4 +140,16 @@ defmodule Site.FareViewTest do
       assert content =~ "Ferry fares depend on your origin and destination."
     end
   end
+
+  describe "charlie_card_store_link/1" do
+    test "it renders the link properly" do
+      rendered =
+        Site.Endpoint
+        |> charlie_card_store_link
+        |> safe_to_string
+
+      assert rendered ==
+        ~s(<span class="no-wrap">\(<a data-turbolinks="false" href="/fares/charlie_card/#store">view details</a>\)</span>)
+    end
+  end
 end

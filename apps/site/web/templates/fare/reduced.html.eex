@@ -1,4 +1,3 @@
-<% charlie_card_store_link = link "view details", to: Path.join(fare_path(@conn, :show, :charlie_card), "#store"), "data-turbolinks": "false", class: "no-wrap" %>
 <div class="page-section">
   <div class="page-block">
     <h1>Reduced Fare Eligibility</h1>
@@ -11,7 +10,7 @@
     <p>
       People aged 65 years and older are eligible for reduced fares on MBTA services.
       Seniors must have a Senior CharlieCard in order to receive the reduced fare.
-      Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>),
+      Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing <%= charlie_card_store_link(@conn) %>,
       or at a Senior CharlieCard Event
       <span class="no-wrap">
         (<%= link "view details", to: redirect_path(@conn, "fares_and_passes/reduced_fare_programs") %>).
@@ -27,7 +26,7 @@
 
     <h2 id="reduced-disability">Persons With Disabilities</h2>
     <p>
-      Persons with disabilities may receive reduced fares on MBTA services with a Transport Access Pass (TAP). Transport Access Passes can be requested with a completed TAP application at the CharlieCard Store located in Downtown Crossing (<%= charlie_card_store_link %>).
+      Persons with disabilities may receive reduced fares on MBTA services with a Transport Access Pass (TAP). Transport Access Passes can be requested with a completed TAP application at the CharlieCard Store located in Downtown Crossing <%= charlie_card_store_link(@conn) %>.
     </p>
 
     <div class="row">
@@ -68,7 +67,7 @@
 
     <h2>Persons Who are Blind or Visually Impaired</h2>
     <p>
-      People who are blind or visually impaired ride all MBTA services for free with a Blind Access CharlieCard, available at the CharlieCard Store (<%= charlie_card_store_link %>).
+      People who are blind or visually impaired ride all MBTA services for free with a Blind Access CharlieCard, available at the CharlieCard Store <%= charlie_card_store_link(@conn) %>.
     </p>
     <p>
       Guides accompanying blind or visually impaired customers will also ride for free.
