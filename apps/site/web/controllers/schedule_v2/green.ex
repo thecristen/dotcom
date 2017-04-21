@@ -43,18 +43,27 @@ defmodule Site.ScheduleV2Controller.Green do
     assign(conn, :route, GreenLine.green_line())
   end
 
-  def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id}} = conn, _opts) do
-    assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id))
+  def stops_on_routes(%Plug.Conn{assigns: %{direction_id: direction_id, date: date}} = conn, _opts) do
+    assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id, date))
   end
 
   def all_stops(%Plug.Conn{assigns: %{stops_on_routes: stops_on_routes}} = conn, _params) do
-    assign(conn, :all_stops, GreenLine.all_stops(stops_on_routes))
+    case GreenLine.all_stops(stops_on_routes) do
+      {:error, e} ->
+        conn
+        |> assign(:all_stops, [])
+        |> assign(:schedule_error, e)
+      all_stops ->
+        assign(conn, :all_stops, all_stops)
+    end
   end
 
   def headsigns(conn, _opts) do
     headsigns = GreenLine.branch_ids()
-    |> Enum.map(&Routes.Repo.headsigns/1)
-    |> Enum.reduce(%{}, & Map.merge(&1, &2, fn (_k, v1, v2) -> Enum.uniq(v1 ++ v2) end))
+    |> Task.async_stream(&Routes.Repo.headsigns/1)
+    |> Enum.reduce(%{}, fn {:ok, result}, acc ->
+      Map.merge(result, acc, fn (_k, v1, v2) -> Enum.uniq(v1 ++ v2) end)
+    end)
 
     assign(conn, :headsigns, headsigns)
   end
@@ -65,13 +74,10 @@ defmodule Site.ScheduleV2Controller.Green do
   def schedules(conn, opts) do
     schedules = conn
     |> conn_with_branches
-    |> Enum.flat_map(fn conn ->
+    |> Task.async_stream(fn conn ->
       call_plug(conn, Site.ScheduleV2Controller.Schedules, opts).assigns.schedules
     end)
-    |> Enum.sort_by(fn
-      {s1, _s2} -> s1.time
-      schedule -> schedule.time
-    end)
+    |> flat_map_results
 
     conn
     |> assign(:schedules, schedules)
@@ -81,9 +87,10 @@ defmodule Site.ScheduleV2Controller.Green do
   def predictions(conn, opts) do
     predictions = conn
     |> conn_with_branches
-    |> Enum.flat_map(fn conn ->
+    |> Task.async_stream(fn conn ->
       call_plug(conn, Site.ScheduleV2Controller.Predictions, opts).assigns.predictions
     end)
+    |> flat_map_results
 
     assign(conn, :predictions, predictions)
   end
@@ -91,17 +98,19 @@ defmodule Site.ScheduleV2Controller.Green do
   def alerts(conn, opts) do
     {all_alerts, alerts, upcoming_alerts} = conn
     |> conn_with_branches
-    |> Enum.map(fn conn ->
+    |> Task.async_stream(fn conn ->
       with_alerts = call_plug(conn, Site.Plugs.Alerts, opts).assigns
       {with_alerts.all_alerts, with_alerts.alerts, with_alerts.upcoming_alerts}
     end)
-    |> Enum.reduce({MapSet.new, MapSet.new, MapSet.new}, fn {all, alerts, upcoming}, {acc_all, acc_alerts, acc_upcoming} ->
-      {
-        MapSet.union(MapSet.new(all), acc_all),
-        MapSet.union(MapSet.new(alerts), acc_alerts),
-        MapSet.union(MapSet.new(upcoming), acc_upcoming)
-      }
-    end)
+    |> Enum.reduce(
+      {MapSet.new, MapSet.new, MapSet.new},
+      fn {:ok, {all, alerts, upcoming}}, {acc_all, acc_alerts, acc_upcoming} ->
+        {
+          MapSet.union(MapSet.new(all), acc_all),
+          MapSet.union(MapSet.new(alerts), acc_alerts),
+          MapSet.union(MapSet.new(upcoming), acc_upcoming)
+        }
+      end)
 
     conn
     |> assign(:all_alerts, MapSet.to_list(all_alerts))
@@ -112,10 +121,10 @@ defmodule Site.ScheduleV2Controller.Green do
   def vehicle_locations(conn, opts) do
     vehicle_locations = conn
     |> conn_with_branches
-    |> Enum.map(fn conn ->
+    |> Task.async_stream(fn conn ->
       call_plug(conn, Site.ScheduleV2Controller.VehicleLocations, opts).assigns.vehicle_locations
     end)
-    |> Enum.reduce(%{}, &Map.merge/2)
+    |> Enum.reduce(%{}, fn {:ok, result}, acc -> Map.merge(result, acc) end)
 
     assign(conn, :vehicle_locations, vehicle_locations)
   end
@@ -160,6 +169,7 @@ defmodule Site.ScheduleV2Controller.Green do
     end
   end
 
+  # takes opts at runtime: used for testing
   defp call_plug(conn, module, opts) do
     module.call(conn, module.init(opts))
   end
@@ -181,4 +191,10 @@ defmodule Site.ScheduleV2Controller.Green do
     |> call_plug(Site.ScheduleV2Controller.Line)
   end
   defp tab_assigns(conn, _opts), do: conn
+
+  defp flat_map_results(results) do
+    Enum.flat_map(results, &flat_map_ok/1)
+  end
+
+  defp flat_map_ok({:ok, values}), do: values
 end

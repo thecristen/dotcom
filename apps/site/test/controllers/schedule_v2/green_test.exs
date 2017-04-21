@@ -71,6 +71,12 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     assert "place-hsmnl" in all_stops
   end
 
+  test "assigns no stops and an error if the date is out of range", %{conn: conn} do
+    conn = get conn, schedule_path(conn, :show, "Green", date: "2017-01-01")
+    assert conn.assigns.all_stops == []
+    assert conn.assigns.schedule_error
+  end
+
   test "assigns headsigns for all branches", %{conn: conn} do
     conn = get(conn, schedule_path(conn, :show, "Green"))
 

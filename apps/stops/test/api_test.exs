@@ -1,5 +1,5 @@
 defmodule Stops.ApiTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias Stops.Stop
 

@@ -7,16 +7,17 @@ defmodule GreenLine do
   alias Stops.Stop
 
   @type route_id_stop_id_map :: %{Route.id_t => MapSet.t}
-  @type stop_routes_pair :: {[Stop.t], route_id_stop_id_map}
+  @type stop_routes_pair :: {[Stop.t] | {:error, any}, route_id_stop_id_map}
 
   @doc """
   Returns the list of Green Line stops, as well as a MapSet of {stop_id, route_id} pairs to signify
-  that a stop is on the branch in question.
+  that a stop is on the branch in question.  Optionally takes a date for which to fetch the
+  schedules.
   """
-  @spec stops_on_routes(0 | 1) :: stop_routes_pair
-  def stops_on_routes(direction_id) do
+  @spec stops_on_routes(0 | 1, Date.t | nil) :: stop_routes_pair
+  def stops_on_routes(direction_id, date \\ nil) do
     branch_ids()
-    |> Task.async_stream(&green_line_stops(&1, direction_id))
+    |> Task.async_stream(&green_line_stops(&1, direction_id, date))
     |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)
   end
 
@@ -55,7 +56,7 @@ defmodule GreenLine do
   @doc """
   Returns all the stops on Green Line.
   """
-  @spec all_stops(stop_routes_pair) :: [Stop.t]
+  @spec all_stops(stop_routes_pair) :: [Stop.t] | {:error, any}
   def all_stops({stops, _}) do
     stops
   end
@@ -106,16 +107,25 @@ defmodule GreenLine do
 
   # Returns the stops that are on a given branch of the Green line,
   # along with the route ID.
-  @spec green_line_stops(Route.id_t, 0 | 1) :: {Route.id_t, [Stop.t]}
-  defp green_line_stops(route_id, direction_id) do
+  @spec green_line_stops(Route.id_t, 0 | 1, Date.t | nil) :: {Route.id_t, [Stop.t]}
+  defp green_line_stops(route_id, direction_id, date) do
+    opts = if is_nil(date) do
+      []
+    else
+      [date: date]
+    end
+
     stops = route_id
-    |> Stops.Repo.by_route(direction_id)
+    |> Stops.Repo.by_route(direction_id, opts)
     |> filter_lines(route_id)
 
     {route_id, stops}
   end
 
-  @spec filter_lines([Stop.t], Route.id_t) :: [Stop.t]
+  @spec filter_lines([Stop.t] | {:error, any}, Route.id_t) :: [Stop.t] | {:error, any}
+  defp filter_lines({:error, _} = error, _) do
+    error
+  end
   defp filter_lines(stops, route_id) do
     stops
     |> do_filter_lines(route_id, false, [])
@@ -149,7 +159,15 @@ defmodule GreenLine do
   # Returns the current full list of stops on the Green line, along with a
   # map of {route_id => [stop_id]} representing all the stops on the route.
   # The {:ok, _} part of the pattern match is due to using Task.async_stream.
-  @spec merge_green_line_stops({:ok, {Route.id_t, [Stop.t]}}, stop_routes_pair) :: stop_routes_pair
+  @spec merge_green_line_stops({:ok, {Route.id_t, [Stop.t] | {:error, any}}}, stop_routes_pair) :: stop_routes_pair
+  defp merge_green_line_stops(_, {{:error, _}, _} = acc) do
+    # stops have an error, don't need to do anything else
+    acc
+  end
+  defp merge_green_line_stops({:ok, {_route_id, {:error, _} = error}}, {_current_stops, route_id_stop_map}) do
+    # new error, return that for stops
+    {error, route_id_stop_map}
+  end
   defp merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, route_id_stop_map}) do
     # Update route_id_stop_map to include the stop
     route_id_stop_map = line_stops

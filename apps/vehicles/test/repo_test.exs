@@ -1,5 +1,5 @@
 defmodule Vehicles.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   alias Vehicles.{Repo, Vehicle}
 
   describe "route/1" do
