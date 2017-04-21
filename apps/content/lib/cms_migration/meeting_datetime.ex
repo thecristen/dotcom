@@ -5,7 +5,7 @@ end
 defmodule Content.CmsMigration.MeetingDatetime do
   alias Content.CmsMigration.MeetingDatetimeError
 
-  @spec parse_utc_datetime(String.t, String.t, Timex.Types.valid_timezone) :: Datetime.t
+  @spec parse_utc_datetime(String.t, String.t, Timex.Types.valid_timezone) :: DateTime.t
   def parse_utc_datetime(date, time, timezone \\ "America/New_York") do
     date
     |> naive_datetime_from(time)

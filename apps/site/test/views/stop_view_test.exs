@@ -3,6 +3,7 @@ defmodule Site.StopViewTest do
   import Site.StopView
   alias Stops.Stop
   alias Routes.Route
+  alias Schedules.Schedule
   use Site.ConnCase, async: true
 
   describe "fare_group/1" do
@@ -159,6 +160,21 @@ defmodule Site.StopViewTest do
       ]
 
       assert info_tab_name(grouped_routes) == "Station Info"
+    end
+  end
+
+  describe "time_differences/2" do
+    test "returns a list of rendered time differences" do
+      date_time = ~N[2017-01-01T11:00:00]
+      ps = %PredictedSchedule{schedule: %Schedule{time: ~N[2017-01-01T12:00:00]}}
+      assert time_differences([ps], date_time) ==
+        [PredictedSchedule.Display.time_difference(ps, date_time)]
+    end
+
+    test "filters out predicted schedules we could not render" do
+      date_time = ~N[2017-01-01T11:00:00]
+      ps = %PredictedSchedule{}
+      assert time_differences([ps], date_time) == []
     end
   end
 

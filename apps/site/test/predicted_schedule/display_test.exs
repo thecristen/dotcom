@@ -170,9 +170,8 @@ defmodule PredictedSchedule.DisplayTest do
 
     test "Schedule used when no prediction" do
       ps = %PredictedSchedule{schedule: @schedule}
-      output = time_difference(ps, @base_time)
+      output = IO.iodata_to_binary(time_difference(ps, @base_time))
       assert output =~ "30 mins"
-      refute output =~ "fa-rss"
     end
 
     test "realtime icon shown when prediction is shown" do
@@ -188,6 +187,19 @@ defmodule PredictedSchedule.DisplayTest do
     test "Time shown as `< 1` minute when same time as current_time" do
       ps = %PredictedSchedule{schedule: %Schedule{time: @base_time}}
       assert time_difference(ps, @base_time) =~ "< 1 min"
+    end
+
+    test "crossed out schedule shown when prediction doesn't have a time" do
+      ps = %PredictedSchedule{schedule: @schedule, prediction: %Prediction{schedule_relationship: :cancelled}}
+      rendered = safe_to_string(time_difference(ps, @base_time))
+      assert rendered =~ "<del>"
+      assert rendered =~ "12:30P"
+      assert rendered =~ "fa-rss"
+    end
+
+    test "shows nothing if we can't figure out a time" do
+      ps = %PredictedSchedule{}
+      assert time_difference(ps, @base_time) == ""
     end
   end
 end
