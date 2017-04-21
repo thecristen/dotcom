@@ -9,6 +9,7 @@ defmodule Site.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/", from: :site, gzip: true,
+    headers: %{"access-control-allow-origin" => "*"},
     cache_control_for_etags: "public, max-age=86400",
     only: ~w(css fonts images js robots.txt),
     only_matching: ~w(favicon)

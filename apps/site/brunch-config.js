@@ -64,7 +64,7 @@ exports.config = {
     babel: {
       presets: ["es2015"],
       // Do not use ES6 compiler in vendor code
-      ignore: [/web\/static\/vendor/]
+      ignore: [/web\/static\/vendor/, /vendor/, /node_modules/]
     },
 
     sass: {
@@ -92,6 +92,7 @@ exports.config = {
     // All other deps in package.json will be excluded from the bundle.
     globals: {
       Tether: "tether",
+      jQuery: "jquery/dist/jquery.min",
       collapse: "bootstrap/dist/js/umd/collapse",
       modal: "bootstrap/dist/js/umd/modal",
       tooltip: "bootstrap/dist/js/umd/tooltip",

@@ -17,7 +17,8 @@
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
+window.$ = window.jQuery;
+
 import submitOnEvents from './submit-on-events.js';
 import dismissAnnouncement from './dismiss-announcement.js';
 import selectModal from './select-modal.js';
