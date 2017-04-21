@@ -64,7 +64,7 @@ defmodule Site.Mixfile do
      {:predictions, in_umbrella: true},
      {:exrm, ">= 0.0.0", only: :prod},
      {:inflex, "~> 1.8.0"},
-     {:html_sanitize_ex, "~> 1.1.0"},
+     {:html_sanitize_ex, "~> 1.2.0"},
      {:logster, "~> 0.4.0"},
      {:logger_logentries_backend, github: "paulswartz/logger_logentries_backend"},
      {:excheck, "~> 0.5", only: :test},
