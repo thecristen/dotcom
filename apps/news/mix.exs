@@ -42,6 +42,6 @@ defmodule News.Mixfile do
      {:quixir, "~> 0.9", only: :test},
      {:repo_cache, in_umbrella: true},
      {:excoveralls, "~> 0.5", only: :test},
-     {:html_sanitize_ex, "~> 1.1.0"}]
+     {:html_sanitize_ex, "~> 1.2.0"}]
   end
 end
