@@ -10,7 +10,6 @@ defmodule Site.LayoutViewTest do
       conn = fetch_query_params(conn)
       output = "_beta_announcement.html" |> render(conn: conn) |> safe_to_string
       assert output =~ Site.ViewHelpers.feedback_form_url()
-      assert output =~ ~s("/?#{BetaAnnouncement.Plug.hide_cookie_param()}=")
     end
   end
 

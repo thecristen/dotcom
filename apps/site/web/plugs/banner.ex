@@ -16,9 +16,6 @@ defmodule Site.Plugs.Banner do
     Default options for the Banner plug.
 
     banner_fn: a function which returns either an Alert.Banner or nil
-    show_announcement_fn?: a function which takes the conn and returns a boolean indicating
-    whether we should show the beta announcment
-
     """
     defstruct [
       banner_fn: &Alerts.Repo.banner/0
@@ -34,14 +31,13 @@ defmodule Site.Plugs.Banner do
   def init(opts), do: struct!(Options, opts)
 
   def call(conn, opts) do
-    if banner = opts.banner_fn.() do
-      assign_alert_banner(conn, banner)
-    else
-      conn
-    end
+    assign_alert_banner(conn, opts.banner_fn.())
   end
 
-  @spec assign_alert_banner(Plug.Conn.t, Alerts.Banner.t) :: Plug.Conn.t
+  @spec assign_alert_banner(Plug.Conn.t, Alerts.Banner.t | nil) :: Plug.Conn.t
+  defp assign_alert_banner(conn, nil) do
+    conn
+  end
   defp assign_alert_banner(conn, banner) do
     conn
     |> assign(:alert_banner, banner)

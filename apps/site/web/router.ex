@@ -11,7 +11,6 @@ defmodule Site.Router do
     plug :fetch_cookies
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug BetaAnnouncement.Plug
     plug Site.Plugs.Banner
     plug Turbolinks.Plug
     plug Site.Plugs.CommonFares
