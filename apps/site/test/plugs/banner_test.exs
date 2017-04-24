@@ -13,20 +13,12 @@ defmodule Site.Plugs.BannerTest do
       assert conn.assigns.banner_template == "_alert_announcement.html"
     end
 
-    test "if there's no alert banner and we should show the beta message, assigns that template", %{conn: conn} do
-      # also asserts that show_announcement_fn? is called with the conn value
-      opts = init(banner_fn: &no_banner/0, show_announcement_fn?: (fn ^conn -> true end))
-      conn = call(conn, opts)
-      assert conn.assigns.banner_template == "_beta_announcement.html"
-    end
-
-    test "if there's no alert banner and no beta announcment, does no assigns", %{conn: conn} do
-      opts = init(banner_fn: &no_banner/0, show_announcement_fn?: &no_show?/1)
+    test "if there's no alert banner, does no assigns", %{conn: conn} do
+      opts = init(banner_fn: &no_banner/0)
       new_conn = call(conn, opts)
       assert new_conn == conn
     end
   end
 
-  defp no_banner(), do: nil
-  defp no_show?(_), do: false
+  defp no_banner, do: nil
 end

@@ -1,5 +1,4 @@
 defmodule UrlHelpers do
-
   @spec update_url(Plug.Conn.t, Enum.t) :: String.t
   def update_url(conn, query) do
     conn
