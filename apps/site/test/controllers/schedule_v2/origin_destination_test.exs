@@ -34,6 +34,11 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
       conn = setup_conn(%{conn | params: %{"route" => "CR-Lowell"}, query_params: %{"direction_id" => "1"}})
       assert conn.assigns.origin == nil
     end
+
+    test "a hub station for a bus", %{conn: conn} do
+      conn = setup_conn(%{conn | params: %{"route" => "741"}, query_params: %{"direction_id" => "0"}})
+      assert conn.assigns.origin.id == "place-sstat"
+    end
   end
 
   describe "assigns destination to" do
