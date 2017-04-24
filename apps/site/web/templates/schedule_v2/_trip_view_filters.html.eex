@@ -4,7 +4,7 @@
       Schedules for:
       <%= render "_help_tooltip.html", text: date_tooltip() %>
     </div>
-    <%= link to: update_schedule_url(@conn, shift: nil, date_select: !@show_date_select? || nil) <> "#date-filter", id: "date-filter", class: "filter-button" do %>
+    <%= link to: update_schedule_url(@conn, shift: nil, date_select: !@show_date_select? || nil) <> "#date-filter", id: "date-filter", class: "filter-button date-picker-toggle" do %>
       <div class="filter-text">
         <div class="inner-label"><span class="sr-only">Change </span>Date:</div>
         <div><%= Timex.format!(@date, "{Mfull} {D}, {YYYY}") %></div>
@@ -16,8 +16,10 @@
   </div>
   <%= render "_direction_select.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: @origin, destination: @destination %>
 </div>
-<%= if @show_date_select? do %>
-  <div class="row page-section">
-    <%= Site.ScheduleV2View.render "_date_picker.html", conn: @conn, calendar: @calendar %>
-  </div>
+<%= if @conn.assigns[:calendar] do %>
+  <% date_picker = render "_date_picker.html", conn: @conn, calendar: @calendar %>
+  <%= if @show_date_select? do %>
+    <div class="row page-section"><%= date_picker %></div>
+  <% end %>
+  <div class="row page-section date-picker-container" hidden><%= date_picker %></div>
 <% end %>
