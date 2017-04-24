@@ -487,24 +487,25 @@ defmodule Site.ScheduleV2View do
     false
   end
 
-  @spec route_pdf_link(Route.t) :: Phoenix.HTML.Safe.t
-  def route_pdf_link(%Route{} = route) do
+  @spec route_pdf_link(Route.t, Date.t) :: Phoenix.HTML.Safe.t
+  def route_pdf_link(%Route{} = route, %Date{} = date) do
     route_suffix = if route.type == 2, do: " line", else: ""
     route_name = route
     |> route_header_text()
     |> Enum.map(&lowercase_line/1)
     |> Enum.map(&lowercase_ferry/1)
-    case Routes.Pdf.url(route) do
-      nil -> []
-      _pdf_url -> link(to: route_pdf_path(Site.Endpoint, :pdf, route), target: "_blank") do
-        [
-          fa("file-pdf-o"),
-          " View PDF of ",
-          route_name,
-          route_suffix,
-          " paper schedule"
-        ]
-      end
+    case Routes.Pdf.dated_urls(route, date) do
+      [] ->
+        []
+      [{previous_date, _}] ->
+        do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"])
+      [{previous_date, _}, {next_date, _} | _] ->
+        content_tag :div, class: "trip-schedules-pdf-multiple" do
+          [
+            do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
+            do_pdf_link(route, next_date, ["upcoming schedule — effective ", Timex.format!(next_date, "{Mshort} {D}")])
+          ]
+        end
     end
   end
 
@@ -514,6 +515,17 @@ defmodule Site.ScheduleV2View do
 
   defp lowercase_ferry(input) do
     String.replace_trailing(input, " Ferry", " ferry")
+  end
+
+  defp do_pdf_link(route, date, link_iodata) do
+    iso_date = Date.to_iso8601(date)
+    link(to: route_pdf_path(Site.Endpoint, :pdf, route, date: iso_date), target: "_blank") do
+      [
+        fa("file-pdf-o"),
+        " View PDF of ",
+        link_iodata
+      ]
+    end
   end
 
   @doc """

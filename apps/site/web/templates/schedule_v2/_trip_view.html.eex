@@ -23,5 +23,5 @@
     <% end %>
   <% end %>
 
-  <div class="trip-schedules-pdf"><%= route_pdf_link(@route) %></div>
+  <div class="trip-schedules-pdf"><%= route_pdf_link(@route, @date) %></div>
 </div>
