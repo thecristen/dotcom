@@ -3,3 +3,4 @@ all:
     - apps/site/mappings/*
     - apps/site/__files/*
     - apps/site/backstop_data/**/*
+    - apps/site/vendor/**/*

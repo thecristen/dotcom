@@ -1,8 +1,5 @@
 @import 'colors';
 
-// for referencing Bootstrap CDN font files directly
-$fa-font-path: 'https://opensource.keycdn.com/fontawesome/4.6.3';
-
 $container-max-widths: (
   md: 768px,
   lg: 960px,
@@ -62,7 +59,7 @@ $base-spacing-sm: $space-8;
 $base-spacing-lg: $space-24;
 $base-spacing-xl: $space-36;
 
-$font-family-base: 'Lato', $font-family-sans-serif;
+$font-family-base: 'LatoLatinWeb', $font-family-sans-serif;
 
 // style-guide --section Font Sizes
 $base-font-size: 16px;
