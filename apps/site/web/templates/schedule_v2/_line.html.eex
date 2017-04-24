@@ -40,7 +40,7 @@
           <% end %>
         </div>
         <%= render "_holidays.html", assigns %>
-        <%= route_pdf_link(@route) %>
+        <%= route_pdf_link(@route, @date) %>
       </div>
     </div>
   </div>
