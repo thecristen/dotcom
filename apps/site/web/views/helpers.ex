@@ -170,11 +170,22 @@ defmodule Site.ViewHelpers do
     |> Map.merge(include)
     |> Enum.reject(fn {key, _} -> key in exclude end)
     |> Enum.uniq_by(fn {key, _} -> to_string(key) end)
-    |> Enum.map(&hidden_tag/1)
+    |> Enum.flat_map(&hidden_tag/1)
   end
 
+  defp hidden_tag({key, value}) when is_list(value) do
+    Enum.flat_map(value, fn sub_value ->
+      hidden_tag({"#{key}[]", sub_value})
+    end)
+  end
+  defp hidden_tag({key, %{} = value}) do
+    # nested key
+    Enum.flat_map(value, fn {sub_key, sub_value} ->
+      hidden_tag({"#{key}[#{sub_key}]", sub_value})
+    end)
+  end
   defp hidden_tag({key, value}) do
-    tag :input, type: "hidden", name: key, value: value
+    [tag(:input, type: "hidden", name: key, value: value)]
   end
 
   @doc """

@@ -24,6 +24,27 @@ defmodule Site.ViewHelpersTest do
 
       assert expected == actual
     end
+
+    test "can handle nested params", %{conn: conn} do
+      query_params = %{"location" => %{"address" => "value"}}
+      actual = hidden_query_params(%{conn | query_params: query_params})
+      expected = [
+        tag(:input, type: "hidden", name: "location[address]", value: "value")
+      ]
+
+      assert actual == expected
+    end
+
+    test "can handle lists of params", %{conn: conn} do
+      query_params = %{"address" => ["one", "two"]}
+      actual = hidden_query_params(%{conn | query_params: query_params})
+      expected = [
+        tag(:input, type: "hidden", name: "address[]", value: "one"),
+        tag(:input, type: "hidden", name: "address[]", value: "two")
+      ]
+
+      assert actual == expected
+    end
   end
 
   describe "stop_link/1" do
