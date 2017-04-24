@@ -40,6 +40,9 @@ config :content,
     page: {Site.ContentController, :page, []}
   ]
 
+config :site, :former_mbta_site,
+  host: "https://www.mbta.com"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

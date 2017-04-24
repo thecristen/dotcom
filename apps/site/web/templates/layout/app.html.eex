@@ -1,5 +1,4 @@
 <%
-  breadcrumbs = Map.get(@conn.assigns, :breadcrumbs, [])
   include_photo_credits? = @view_module == Site.PageView && @view_template == "index.html"
 %>
 <!DOCTYPE html>
@@ -12,16 +11,7 @@
     <meta name="author" content="Massachusetts Bay Transportation Authority">
     <%= Turbolinks.cache_meta @conn %>
 
-    <title><%= case breadcrumbs do
-               [] -> ""
-               items -> items
-               |> Enum.reverse
-               |> Enum.map(fn {_, text} -> text
-                 text -> text
-                 end)
-               |> Enum.join(" < ")
-               |> Kernel.<>(" < ")
-               end %>MBTA - Massachusetts Bay Transportation Authority</title>
+    <title><%= breadcrumbs(@conn) %></title>
     <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
     <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
     <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">

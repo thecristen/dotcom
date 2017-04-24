@@ -1,5 +1,6 @@
 defmodule Site.IcalendarGenerator do
   import Site.Router.Helpers
+  import Site.ContentHelpers, only: [content: 1]
 
   @spec to_ical(Content.Event.t) :: String.t
   def to_ical(%Content.Event{} = event) do
@@ -13,12 +14,20 @@ defmodule Site.IcalendarGenerator do
       "DTSTART;TZID=\"America/New_York\":", start_time(event), "\n",
       "DTEND;TZID=\"America/New_York\":", end_time(event), "\n",
       "DESCRIPTION:", description(event), "\n",
-      "LOCATION:", full_address(event), "\n",
-      "SUMMARY:", event.title, "\n",
+      "LOCATION:", address(event), "\n",
+      "SUMMARY:", event_summary(event), "\n",
       "URL:", full_url(event), "\n",
       "END:VEVENT\n",
       "END:VCALENDAR\n"
     ]
+  end
+
+  defp address(event) do
+    if content(event.location) do
+      full_address(event)
+    else
+      imported_address(event)
+    end
   end
 
   defp full_address(event) do
@@ -30,8 +39,26 @@ defmodule Site.IcalendarGenerator do
     ]
   end
 
-  defp description(event) do
-    event.body |> Phoenix.HTML.safe_to_string |> HtmlSanitizeEx.strip_tags
+  defp imported_address(%Content.Event{imported_address: {:safe, address}}) do
+    decode_ampersand_entity(address)
+  end
+
+  defp event_summary(%Content.Event{title: {:safe, title}}) do
+    decode_ampersand_entity(title)
+  end
+
+  defp description(%Content.Event{body: {:safe, body}}) do
+    body
+    |> strip_html_tags()
+    |> decode_ampersand_entity()
+  end
+
+  defp strip_html_tags(string) do
+    HtmlSanitizeEx.strip_tags(string)
+  end
+
+  defp decode_ampersand_entity(string) do
+    String.replace(string, "&amp;", "&")
   end
 
   defp timestamp do

@@ -32,6 +32,6 @@ defmodule Site.LayoutViewTest do
     body = html_response(conn, 200)
 
     expected_title = "Subway < Schedules & Maps < MBTA - Massachusetts Bay Transportation Authority"
-    assert body =~ "<title>#{expected_title |> Plug.HTML.html_escape}</title>"
+    assert body =~ "<title>#{expected_title}</title>"
   end
 end

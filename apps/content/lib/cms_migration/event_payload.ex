@@ -1,6 +1,8 @@
 defmodule Content.CmsMigration.EventPayload do
   alias Content.CmsMigration.Meeting
 
+  @former_mbta_host Application.get_env(:site, :former_mbta_site)[:host]
+
   @spec from_meeting(map) :: map | no_return
   def from_meeting(map) do
     map
@@ -22,7 +24,7 @@ defmodule Content.CmsMigration.EventPayload do
 
   defp format_for_cms(event) do
     %{
-      body: cms_format(event.body),
+      body: cms_format_body(event.body),
       field_imported_address: cms_format(event.imported_address),
       field_meeting_id: cms_format(event.meeting_id),
       field_start_time: cms_format_date_time(event.start_time),
@@ -33,9 +35,22 @@ defmodule Content.CmsMigration.EventPayload do
     }
   end
 
-  defp title(%{"organization" => title}), do: title
+  defp title(%{"organization" => title}) do
+    HtmlSanitizeEx.strip_tags(title)
+  end
 
-  defp body(%{"objective" => body}), do: body
+  defp body(%{"objective" => body}) do
+    add_former_mbta_host_to_external_links(body)
+  end
+
+  defp add_former_mbta_host_to_external_links(body) do
+    uploaded_files_host =
+      @former_mbta_host
+      |> URI.merge("uploadedfiles")
+      |> to_string
+
+    Regex.replace(~r/\/uploadedfiles/, body, uploaded_files_host)
+  end
 
   defp who(%{"attendees" => attendees}), do: attendees
 
@@ -59,6 +74,14 @@ defmodule Content.CmsMigration.EventPayload do
     end
   end
 
+  defp cms_format(value) do
+    [%{"value": value}]
+  end
+
+  defp cms_format_body(value) do
+    [%{"value": value, "format": "basic_html"}]
+  end
+
   defp cms_format_date_time(nil) do
     cms_format(nil)
   end
@@ -66,9 +89,5 @@ defmodule Content.CmsMigration.EventPayload do
     datetime
     |> Timex.format!("{YYYY}-{0M}-{0D}T{h24}:{m}:{s}")
     |> cms_format
-  end
-
-  defp cms_format(value) do
-    [%{"value": value}]
   end
 end

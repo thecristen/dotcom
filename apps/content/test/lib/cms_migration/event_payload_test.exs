@@ -13,7 +13,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       assert event_payload[:type] == [%{target_id: "event"}]
       assert event_payload[:title] == [%{value: "Fare Increase Proposal"}]
-      assert event_payload[:body] == [%{value: "Discuss fare increase proposal."}]
+      assert event_payload[:body] == [%{value: "Discuss fare increase proposal.", format: "basic_html"}]
       assert event_payload[:field_who] == [%{value: "Staff"}]
       assert event_payload[:field_imported_address] == [%{value: "Dudley Square Branch Library"}]
       assert event_payload[:field_start_time] == [%{value: "2006-08-30T14:00:00"}]
@@ -32,6 +32,34 @@ defmodule Content.CmsMigration.EventPayloadTest do
       assert event_payload[:field_imported_address] == [%{
         value: "Address with html tags."
       }]
+    end
+
+    test "removes all html tags from the title field" do
+      meeting =
+        @meeting
+        |> fixture()
+        |> Map.put("organization", "2007 Upcoming <b>AACT</b> Meetings")
+
+      event_payload = from_meeting(meeting)
+
+      assert event_payload[:title] == [%{
+        value: "2007 Upcoming AACT Meetings"
+      }]
+    end
+
+    test "relative links are updated to include the former mbta site host" do
+      former_mbta_site_host = Application.get_env(:site, :former_mbta_site)[:host]
+
+      body_with_external_link = "<a href=\"/uploadedfiles/Meeting/BeverlyCommRail-PTC_Meeting Flyer.pdf\">Click for details</a>"
+
+      meeting =
+        @meeting
+        |> fixture()
+        |> Map.put("objective", body_with_external_link)
+
+      %{body: [%{value: value}]} = from_meeting(meeting)
+
+      assert value =~ "<a href=\"#{former_mbta_site_host}/uploadedfiles/Meeting/BeverlyCommRail-PTC_Meeting Flyer.pdf\">Click for details</a>"
     end
   end
 end

@@ -29,4 +29,21 @@ defmodule Site.LayoutView do
 
     "#{module_class} #{template_class}"
   end
+
+  def breadcrumbs(conn) do
+    breadcrumbs = Map.get(conn.assigns, :breadcrumbs, [])
+
+    breadcrumb = case breadcrumbs do
+      [] -> ""
+      items -> items
+        |> Enum.reverse
+        |> Enum.map(fn {_, text} -> text
+          text -> text
+        end)
+        |> Enum.join(" < ")
+        |> Kernel.<>(" < ")
+    end
+
+    raw(breadcrumb <> "MBTA - Massachusetts Bay Transportation Authority")
+  end
 end
