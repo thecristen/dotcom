@@ -2,6 +2,9 @@ defmodule Site.StopControllerTest do
   use Site.ConnCase, async: true
 
   alias Site.StopController
+  alias Schedules.{Schedule, Trip}
+  alias Routes.Route
+  alias Predictions.Prediction
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
 
@@ -138,6 +141,65 @@ defmodule Site.StopControllerTest do
         Enum.at(@alerts, 2)
       ]
       assert StopController.access_alerts(@alerts, %Stops.Stop{id: "place-davis"}) == []
+    end
+  end
+
+  describe "assign_upcoming_route_departures/1" do
+    @time ~N[2017-01-01T22:30:00]
+    @stop %Stops.Stop{id: 1}
+    @schedules [
+      %Schedule{
+        route: %Route{id: "CR-1", type: 2},
+        stop: @stop,
+        trip: %Trip{id: "CR-TRIP-1", headsign: "HS-1", direction_id: 0},
+        time: Timex.shift(@time, minutes: 5),
+        pickup_type: 2,
+        stop_sequence: 1
+      },
+      %Schedule{
+        route: %Route{id: "Subway-1", type: 0},
+        stop: @stop,
+        trip: %Trip{id: "Subway-TRIP-1", headsign: "S-HS-1", direction_id: 0},
+        time: Timex.shift(@time, minutes: 5),
+        pickup_type: 2,
+        stop_sequence: 1
+      },
+      %Schedule{
+        route: %Route{id: "Subway-2", type: 1},
+        stop: @stop,
+        trip: %Trip{id: "Subway-TRIP-2", headsign: "S-HS-2", direction_id: 0},
+        time: Timex.shift(@time, minutes: 20),
+        pickup_type: 2,
+        stop_sequence: 1
+      }
+    ]
+
+    @predictions [
+      %Prediction {
+        route: %Route{id: "Subway-1", type: 0},
+        id: 1,
+        direction_id: 0,
+        stop: @stop,
+        trip: %Trip{id: "Subway-1-TRIP-1", headsign: "S-HS-2", direction_id: 0},
+        time: Timex.shift(@time, minutes: 4),
+        departing?: true,
+        stop_sequence: 1
+      }
+    ]
+
+    test "upcoming_route_departures for subway only hold predicted values", %{conn: conn} do
+      conn = conn
+      |> assign(:stop_schedule, @schedules)
+      |> assign(:stop_predictions, @predictions)
+      |> assign(:date_time, @time)
+      |> StopController.assign_upcoming_route_departures()
+
+      subway_route_departures = conn.assigns.upcoming_route_departures[:subway]
+      for subway_route_departure <- subway_route_departures do
+        for {_headsign, departures} <- subway_route_departure.departures do
+          assert Enum.all?(departures, &is_nil(&1.schedule))
+        end
+      end
     end
   end
 end
