@@ -46,4 +46,29 @@ defmodule Content.HelpersTest do
       assert int_or_string_to_int(nil) == nil
     end
   end
+
+  describe "handle_html/1" do
+    test "removes unsafe html tags from safe content" do
+      html = "<h1>hello!<script>code</script></h1>"
+      assert handle_html(html) == {:safe, "<h1>hello!code</h1>"}
+    end
+
+    test "allows valid HTML5 tags" do
+      html = "<p>Content</p>"
+      assert handle_html(html) == {:safe, "<p>Content</p>"}
+    end
+
+    test "rewrites static file links" do
+      html = "<img src=\"/sites/default/files/converted.jpg\">"
+      assert handle_html(html) == {:safe, "<img src=\"http://localhost:4001/sites/default/files/converted.jpg\" />"}
+    end
+
+    test "allows an empty string" do
+      assert handle_html("") == {:safe, ""}
+    end
+
+    test "allows nil" do
+      assert handle_html(nil) == {:safe, ""}
+    end
+  end
 end

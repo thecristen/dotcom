@@ -11,7 +11,7 @@ defmodule Content.Helpers do
   @spec handle_html(String.t | nil) :: Phoenix.HTML.safe
   def handle_html(html) do
     (html || "")
-    |> HtmlSanitizeEx.html5
+    |> Content.CustomHTML5Scrubber.html5
     |> rewrite_static_file_links
     |> Phoenix.HTML.raw
   end
