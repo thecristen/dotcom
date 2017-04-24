@@ -19,7 +19,12 @@
 }
 
 .no-wrap {
+  display: inline-block;
   white-space: nowrap;
+}
+
+a:hover .no-wrap {
+  text-decoration: inherit;
 }
 
 .inline-block {

@@ -17,7 +17,7 @@ defmodule Site.FareView do
     content_tag :span do
       ["Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a ",
        (link "Student CharlieCard ", to: fare_path(Site.Endpoint, :show, :reduced)<>"#students", data: [turbolinks: "false"]),
-       "issued by their school. Student discounts apply to One Way fares only. Discounts for passes are not available. College students may 
+       "issued by their school. Student discounts apply to One Way fares only. Discounts for passes are not available. College students may
        be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school."]
     end
   end
@@ -151,5 +151,15 @@ defmodule Site.FareView do
   end
   def origin_destination_description(:ferry) do
     content_tag :p, do: "Ferry fares depend on your origin and destination."
+  end
+
+  def charlie_card_store_link(conn) do
+    content_tag :span, class: "no-wrap" do
+      [
+        "(",
+        link("view details", to: Path.join(fare_path(conn, :show, :charlie_card), "#store"), "data-turbolinks": "false"),
+        ")"
+      ]
+    end
   end
 end
