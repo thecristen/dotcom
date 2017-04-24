@@ -15,7 +15,6 @@ export default function($) {
     $this.find("[data-sticky]")
       .css({width: 'auto', height: 'auto', position: 'relative'}) // reset CSS
       .each((_index, el) => {
-        console.log(el);
         const $child = $(el);
         const sticky = $child.data("sticky");
         const rect = el.getBoundingClientRect();

@@ -21,13 +21,11 @@ defmodule Site.Plugs.Banner do
 
     """
     defstruct [
-      banner_fn: &Alerts.Repo.banner/0,
-      show_announcement_fn?: &BetaAnnouncement.show_announcement?/1
+      banner_fn: &Alerts.Repo.banner/0
     ]
 
     @type t :: %__MODULE__{
-      banner_fn: (() -> Alerts.Banner.t | nil),
-      show_announcement_fn?: ((Plug.Conn.t) -> boolean)
+      banner_fn: (() -> Alerts.Banner.t | nil)
     }
   end
 
@@ -39,7 +37,7 @@ defmodule Site.Plugs.Banner do
     if banner = opts.banner_fn.() do
       assign_alert_banner(conn, banner)
     else
-      assign_beta_announcment(conn, opts)
+      conn
     end
   end
 
@@ -49,15 +47,5 @@ defmodule Site.Plugs.Banner do
     |> assign(:alert_banner, banner)
     |> assign(:banner_class, "alert-announcement-container")
     |> assign(:banner_template, "_alert_announcement.html")
-  end
-
-  @spec assign_beta_announcment(Plug.Conn.t, Options.t) :: Plug.Conn.t
-  defp assign_beta_announcment(conn, opts) do
-    if opts.show_announcement_fn?.(conn) do
-      conn
-      |> assign(:banner_template, "_beta_announcement.html")
-    else
-      conn
-    end
   end
 end

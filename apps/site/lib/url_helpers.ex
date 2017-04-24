@@ -1,4 +1,5 @@
 defmodule UrlHelpers do
+  import Plug.Conn
 
   @spec update_url(Plug.Conn.t, Enum.t) :: String.t
   def update_url(conn, query) do
@@ -15,6 +16,9 @@ defmodule UrlHelpers do
     "#{conn.request_path}?#{Plug.Conn.Query.encode(updated)}"
   end
 
+  def update_query(%{query_params: %Plug.Conn.Unfetched{}} = conn, query) do
+    update_query(fetch_query_params(conn), query)
+  end
   def update_query(%{query_params: params}, query) do
     params = params || %{}
     query_map = query

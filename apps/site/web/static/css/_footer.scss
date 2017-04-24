@@ -19,6 +19,14 @@ $credit-height: $base-spacing * 4;
     color: $white;
     text-align: inherit;
   }
+
+  > .container {
+    min-height: $small-footer-container-height;
+
+    @include media-breakpoint-up(md) {
+      min-height: $large-footer-container-height;
+    }
+  }
 }
 
 .sticky-footer {

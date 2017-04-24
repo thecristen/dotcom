@@ -1,11 +1,7 @@
-<div class="beta-announcement">
-  Welcome to the MBTA Beta site. <%= link "Submit your thoughts", to: feedback_form_url(), class: "beta-announcement-link" %> to help us make the best possible website for you.
+<div class="announcement-container">
+  <div class="container">
+    <div class="beta-announcement">
+      Thank you for using the MBTA beta site. <%= link "Submit your thoughts", to: feedback_form_url(), target: "_blank", class: "beta-announcement-link" %> to help us make the best possible website for you.
+    </div>
+  </div>
 </div>
-<a
-  id="beta-announcement-dismiss"
-  class="pull-xs-right"
-  href="<%= update_url(@conn, %{BetaAnnouncement.Plug.hide_cookie_param() => ""}) %>"
-  role="button"
-  data-cookie-name="<%= BetaAnnouncement.beta_announcement_cookie() %>">
-  <%= fa "times-circle" %><span class="sr-only">Dismiss this announcement</span>
-</a>

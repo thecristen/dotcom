@@ -89,38 +89,33 @@ body {
 }
 
 .announcement-container {
-  @extend %top-bar;
-  background-color: $brand-primary-dark;
-  color: $white;
-  font-size: $font-size-sm;
+  background-color: $gray-lightest;
+  color: $gray-dark;
+  margin-bottom: -$footer-padding-top;
+  padding-bottom: $base-spacing-sm;
+  padding-top: $base-spacing-sm;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: $base-spacing;
+    padding-top: $base-spacing;
+  }
+}
+
+.sticky-footer .announcement-container {
+  margin-bottom: 0;
+  padding-bottom: $base-spacing-sm + $footer-padding-top / 2;
 }
 
 .beta-announcement {
   float: left;
-  width: 91%; // 11 columns
-
-  @include media-breakpoint-up(md) {
-    width: 83%; // 10 columns
-  }
-
-  + a {
-    color: $white;
-
-    @include hover-focus-active {
-      color: $white;
-    }
-  }
+  font-size: $font-size-base;
+  text-align: center;
 }
 
 .beta-announcement-link {
-  color: $white;
   font-weight: bold;
-  text-decoration: underline;
-
-  &:hover {
-    color: $brand-primary-light;
-  }
 }
+
 
 .alert-announcement-container {
   @extend %top-bar;
