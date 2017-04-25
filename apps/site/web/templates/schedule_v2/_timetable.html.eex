@@ -23,6 +23,7 @@
               <% end %>
             </th>
           <% end %>
+          <th class="schedule-v2-timetable-header-col schedule-v2-timetable-filler schedule-v2-timetable-time-col"></th>
           <th class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-later schedule-v2-timetable-header-col" data-sticky="right" aria-hidden="true">
             <%= fa "angle-right" %>
             <span class="schedule-v2-timetable-more-text"><%= fa "angle-up" %> Later Trains <%= fa "angle-up" %></span>
@@ -59,6 +60,7 @@
                 <% end %>
               </td>
             <% end %>
+            <td class="schedule-v2-timetable-time-col schedule-v2-timetable-filler"></td>
 
             <td class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-later" data-sticky="right"></td>
           </tr>

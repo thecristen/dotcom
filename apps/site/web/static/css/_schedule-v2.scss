@@ -469,6 +469,11 @@ a {
 .schedule-v2-timetable-time-col,
 .schedule-v2-timetable-name-col {
   padding: .25em .5em; // em, not rem, so that it changes with the smaller mobile font size
+
+  @include media-breakpoint-up(md) {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
 }
 
 .schedule-v2-timetable-time-col,
@@ -476,6 +481,9 @@ a {
   text-align: center;
 }
 
+.schedule-v2-timetable-filler {
+  width: 100%;
+}
 
 .schedule-v2-timetable-header-col {
   background-color: $brand-primary-darkest;
