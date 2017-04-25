@@ -33,6 +33,13 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
 
     assign(conn, :origin, List.first(conn.assigns.all_stops))
   end
+  # for bus trips, assign the origin if it's one of the hubs (South Station, North Station, Back Bay)
+  def assign_origin(%Conn{assigns: %{
+                             route: %Routes.Route{type: 3},
+                             all_stops: [%{id: hub_id} = origin | _]}} = conn, _)
+  when hub_id in ["place-sstat", "place-north", "place-bbsta"] do
+    assign(conn, :origin, origin)
+  end
   def assign_origin(conn, _) do
     assign(conn, :origin, nil)
   end
