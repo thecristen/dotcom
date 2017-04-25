@@ -3,13 +3,15 @@ export default function($) {
 
   // hide the elements
   const hide = () => {
-    $('.date-picker-container').attr('hidden', 'hidden');
+    $('.date-picker-container').slideUp('slow', () => {
+      $('.date-picker-container').attr('hidden', 'hidden');
+    })
     $('.calendar-cover').attr('hidden', 'hidden');
   };
 
   // show the elements
   const show = () => {
-    $('.date-picker-container').removeAttr('hidden');
+    $('.date-picker-container').hide().removeAttr('hidden').slideDown('slow');
     $('.calendar-cover').removeAttr('hidden');
   };
 
