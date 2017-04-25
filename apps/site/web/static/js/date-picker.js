@@ -2,15 +2,23 @@ export default function($) {
   $ = $ || window.jQuery;
 
   // hide the elements
-  const hide = () => {
-    $('.date-picker-container').slideUp('slow', () => {
+  const hide = (firstLoad) => {
+    if (firstLoad) {
+      $('.direction-filter').removeAttr('hidden');
       $('.date-picker-container').attr('hidden', 'hidden');
-    })
+    } else {
+      $('.date-picker-container').slideUp('slow', () => {
+        $('.date-picker-container').attr('hidden', 'hidden');
+          $('.direction-filter').hide().removeAttr('hidden').slideDown('fast');
+        }
+      );
+    }
     $('.calendar-cover').attr('hidden', 'hidden');
   };
 
   // show the elements
   const show = () => {
+    $('.direction-filter').attr('hidden', 'hidden');
     $('.date-picker-container').hide().removeAttr('hidden').slideDown('slow');
     $('.calendar-cover').removeAttr('hidden');
   };
@@ -21,14 +29,14 @@ export default function($) {
     if ($('.date-picker-container')[0].hasAttribute('hidden')) {
       show();
     } else {
-      hide();
+      hide(false);
       $('.date-picker-toggle').focus();
     }
   };
 
   // setup toggle behavior
   const setupDatePicker = () => {
-    hide();
+    hide(true);
     $(document).on('click', '.date-picker-toggle', toggleDatePicker);
   };
 
@@ -45,7 +53,7 @@ export default function($) {
       show();
     } else {
       // re-initialize the page
-      hide();
+      hide(true);
     }
   }
 
