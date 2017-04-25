@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { setClientWidth, getUrlParameter, validateTNMForm, constructUrl } from '../../web/static/js/transit-near-me';
+import { setClientWidth, getUrlParameter, validateTNMForm, constructUrl, submitTNMForm } from '../../web/static/js/transit-near-me';
 
 describe('transt-near-me', () => {
   var $;
@@ -37,6 +37,26 @@ describe('transt-near-me', () => {
     it("Returns undefined when parameter is not available", () => {
       const query_str = "?number=5&location[place]=mbta";
       assert.equal(getUrlParameter("name", query_str), undefined);
+    });
+  });
+
+  describe('submitTNMForm', () => {
+    beforeEach(() => {
+      $('body').append('<div id="test"><h2 id="transit-input"></h2><input id="client-width" /></div>');
+    });
+
+    afterEach(() => {
+      $('#test').remove();
+    });
+
+    it("sets client width before submission", () => {
+      const clientWidth = 960;
+      $('#transit-input').width(clientWidth);
+      var loc = {
+        search: "?number=5&location[address]=Boston%2C%20MA&location[client_width=540]",
+      };
+      submitTNMForm("event", loc, $);
+      assert.equal($('#client-width').val(), clientWidth);
     });
   });
 

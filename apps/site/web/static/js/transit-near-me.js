@@ -9,9 +9,10 @@ export default function($) {
       var autocomplete = new google.maps.places.Autocomplete(placeInput);
 
       google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-      $(".transit-near-me form").submit(function($event) {return validateTNMForm($event, location, $)});
+      $(".transit-near-me form").submit(function($event) {return submitTNMForm($event, location, $)});
 
       function onPlaceChanged() {
+        setClientWidth($);
         var location_url = constructUrl(autocomplete.getPlace(), $)
         window.location.href = encodeURI(location_url);
       }
@@ -25,9 +26,6 @@ export default function($) {
       }
     }
   }
-
-  window.addEventListener("resize", function() {setClientWidth($)});
-  setClientWidth($);
 
   $(document).on('turbolinks:load', setupTNM);
 }
@@ -51,6 +49,11 @@ export function getUrlParameter(sParam, search_string) {
       return sParameterName[1] === undefined ? true : sParameterName[1];
     }
   }
+}
+
+export function submitTNMForm($event, location, $) {
+  setClientWidth($);
+  return validateTNMForm($event, location, $);
 }
 
 // Determines if form should be re-submitted. If place name has not changed
