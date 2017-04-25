@@ -288,6 +288,16 @@ defmodule UpcomingRouteDeparturesTest do
       assert "HS-1" in route1_headsigns
       assert "HS-1" in route2_headsigns
     end
+
+    test "Subway departures do not contain scheduled times" do
+      mode_map = @predictions |> build_mode_list(@schedules, @time) |> Map.new()
+      subway_route_times = mode_map[:subway]
+      for route_departure <- subway_route_times do
+        for {_headsign, departures} <- route_departure.departures do
+          Enum.all?(departures, &is_nil(&1.schedule))
+        end
+      end
+    end
   end
 
   describe "Green line predictions" do
