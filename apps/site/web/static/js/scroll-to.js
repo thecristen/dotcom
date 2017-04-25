@@ -19,6 +19,7 @@ export default function($) {
 
     const hideEarlier = scrollPos < 48;
     const hideLater = width - containerWidth - scrollPos < 48;
+    const bottomBorder = parseInt($(".schedule-v2-timetable-container").css("border-bottom-width"));
 
     requestAnimationFrame(function() {
       if (scrollPos < 0) {
@@ -27,7 +28,15 @@ export default function($) {
 
       $table
         .toggleClass('schedule-v2-timetable-hide-earlier', hideEarlier)
-        .toggleClass('schedule-v2-timetable-hide-later', hideLater);
+        .toggleClass('schedule-v2-timetable-hide-later', hideLater)
+        .find(".schedule-v2-timetable-more-text:not(.vertically-centered)").each(function(index, textEl) {
+          // vertically center the timetable text if visible
+          const $textEl = $(textEl);
+          if ($textEl.width()) {
+            const top = Math.floor((height - $textEl.height() + bottomBorder) / 2);
+            $textEl.css({top}).addClass('vertically-centered');
+          }
+        });
     });
   }
 
