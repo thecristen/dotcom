@@ -7,7 +7,7 @@ export default function($) {
     function(f) { window.setTimeout(f, 15); };
 
   function scrollTo() {
-    $("[data-scroll-to]").each(doScrollTo);
+    $("[data-scroll-to]").each((index, el) => requestAnimationFrame(doScrollTo.bind(el)));
   }
 
   function handleScroll(ev) {
@@ -21,11 +21,11 @@ export default function($) {
     const hideLater = width - containerWidth - scrollPos < 48;
     const bottomBorder = parseInt($(".schedule-v2-timetable-container").css("border-bottom-width"));
 
-    requestAnimationFrame(function() {
-      if (scrollPos < 0) {
-        ev.target.scrollLeft = 0;
-      }
+    if (scrollPos < 0) {
+      ev.target.scrollLeft = 0;
+    }
 
+    requestAnimationFrame(function() {
       $table
         .toggleClass('schedule-v2-timetable-hide-earlier', hideEarlier)
         .toggleClass('schedule-v2-timetable-hide-later', hideLater)
@@ -40,20 +40,20 @@ export default function($) {
     });
   }
 
-  function doScrollTo(index, el) {
-    const childLeft = el.offsetLeft;
-    const $el = $(el);
+  function doScrollTo() {
+    const childLeft = this.offsetLeft;
+    const $el = $(this);
     const childWidth = $el.outerWidth();
-    const parentLeft = el.parentNode.offsetLeft;
-    const firstSiblingWidth = $el.siblings("th").first().outerWidth();
+    const parentLeft = this.parentNode.offsetLeft;
+    const firstSiblingWidth = $el.siblings("th:first").outerWidth();
 
     // childLeft - parentLeft scrolls the first row to the start of the
     // visible area.
     const scrollLeft = childLeft - parentLeft - firstSiblingWidth;
-    $(el).parents("table").parent()
-      .animate({scrollLeft}, 200)
-      .on('scroll', handleScroll)
-      .trigger('scroll');
+    const $parent = $el.parents("table").parent()
+          .on('scroll', handleScroll)
+          .trigger('scroll')
+          .animate({scrollLeft}, 200);
   }
 
   $(document).on('turbolinks:load', scrollTo);

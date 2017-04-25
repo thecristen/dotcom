@@ -2,22 +2,25 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function bindScrollContainers() {
-    $('[data-sticky-container]').each(initialPosition);
+    $('[data-sticky-container]').each(
+      (index, el) => window.requestAnimationFrame(initialPosition.bind(el))
+    );
   }
 
   function initialPosition() {
-    const $this = $(this),
-          scrollLeft = $this.scrollLeft();
+    const $this = $(this);
     var queue = [];
-    // reset scroll position
-    $this.scrollLeft(0);
 
     $this.find("[data-sticky]")
       .css({width: 'auto', height: 'auto', position: 'relative'}) // reset CSS
       .each((_index, el) => {
         const $child = $(el);
         const sticky = $child.data("sticky");
-        const rect = el.getBoundingClientRect();
+        const boundingRect = el.getBoundingClientRect();
+        const rect = {
+          width: Math.ceil(boundingRect.width),
+          height: Math.ceil(boundingRect.height)
+        };
 
         if (sticky === "left") {
           queue.push(() => leftSticky($, $child, rect));
@@ -27,11 +30,7 @@ export default function($) {
       });
 
     // batch all the CSS updates
-    $.each(queue, (_index, fn) => fn());
-
-    if (scrollLeft) {
-      $(this).scrollLeft(scrollLeft);
-    }
+    $.each(queue, (_index, fn) => window.requestAnimationFrame(fn));
   }
 
   $(document).on('turbolinks:load', bindScrollContainers);
@@ -52,13 +51,13 @@ function makeReplacement($, $child) {
 function leftSticky($, $child, rect) {
   makeReplacement($, $child)
     .css({
-      paddingLeft: Math.ceil(rect.width),
-      height: Math.ceil(rect.height)
+      paddingLeft: rect.width,
+      height: rect.height
     });
   // update our CSS position/size
   $child.css({
-    height: Math.ceil(rect.height),
-    width: Math.ceil(rect.width),
+    height: rect.height,
+    width: rect.width,
     left: 0,
     position: 'absolute'
   });
@@ -67,13 +66,13 @@ function leftSticky($, $child, rect) {
 function rightSticky($, $child, rect) {
   makeReplacement($, $child)
     .css({
-      paddingRight: Math.ceil(rect.width),
-      height: Math.ceil(rect.height)
+      paddingRight: rect.width,
+      height: rect.height
     });
 
   $child.css({
-    height: Math.ceil(rect.height),
-    width: Math.ceil(rect.width),
+    height: rect.height,
+    width: rect.width,
     right: 0,
     position: 'absolute'
   });

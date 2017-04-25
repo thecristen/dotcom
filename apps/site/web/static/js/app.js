@@ -19,8 +19,21 @@
 
 window.$ = window.jQuery;
 
+window.requestIdleCallback = window.requestIdleCallback ||
+  function (cb) {
+    return window.setTimeout(function () {
+      var start = Date.now();
+      cb({
+        didTimeout: false,
+        timeRemaining: function () {
+          return Math.max(0, 50 - (Date.now() - start));
+        }
+      });
+    }, 1);
+  };
+
+
 import submitOnEvents from './submit-on-events.js';
-import dismissAnnouncement from './dismiss-announcement.js';
 import selectModal from './select-modal.js';
 import tooltip from './tooltip.js';
 import collapse from './collapse.js';
@@ -42,7 +55,6 @@ import menuClose from './menu-close';
 import datePicker from './date-picker';
 
 submitOnEvents(["blur", "change"]);
-dismissAnnouncement();
 selectModal();
 tooltip();
 collapse();
