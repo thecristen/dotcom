@@ -39,6 +39,7 @@ import scrollTo from './scroll-to';
 import stickyTooltip from './sticky-tooltip';
 import timetableScroll from './timetable-scroll';
 import menuClose from './menu-close';
+import datePicker from './date-picker';
 
 submitOnEvents(["blur", "change"]);
 dismissAnnouncement();
@@ -60,5 +61,6 @@ scrollTo();
 stickyTooltip();
 timetableScroll();
 menuClose();
+datePicker();
 
 $("body").removeClass("no-js").addClass("js");

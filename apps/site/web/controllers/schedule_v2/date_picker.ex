@@ -13,9 +13,6 @@ defmodule Site.ScheduleV2Controller.DatePicker do
 
   @doc "If the date selector is open, build the calendar"
   @spec build_calendar(Conn.t, []) :: Conn.t
-  def build_calendar(%Conn{assigns: %{date_select: false}} = conn, []) do
-    conn
-  end
   def build_calendar(%Conn{assigns: %{date: date}} = conn, []) do
     shift = shift(conn)
     holidays = date |> Timex.shift(months: shift) |> Holiday.Repo.holidays_in_month()

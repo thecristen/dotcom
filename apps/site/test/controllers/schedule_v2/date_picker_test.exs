@@ -5,14 +5,6 @@ defmodule Site.ScheduleV2Controller.DatePickerTest do
 
   @opts init([])
 
-  test "assigns date_select == false when there are no params", %{conn: conn} do
-    conn = %{conn | query_params: %{}}
-    |> call(@opts)
-
-    assert conn.assigns.date_select == false
-    refute :calendar in Map.keys(conn.assigns)
-  end
-
   test "assigns date_select, calendar when date_select == true", %{conn: conn} do
     path = "/schedules/route"
     conn = %{conn | request_path: path,
