@@ -59,7 +59,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "schedules_and_maps/system_map/") do %>
+        <%= link to: "/maps" do %>
           <%= fa "caret-right" %> Maps
         <% end %>
       </li>
