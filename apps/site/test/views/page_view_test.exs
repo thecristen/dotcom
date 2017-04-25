@@ -16,7 +16,7 @@ defmodule Site.PageViewTest do
       |> Site.PageView.whats_happening_image
       |> Phoenix.HTML.safe_to_string
 
-      assert rendered == ~s(<img alt="This is an image" src="/foo_1" srcset="/foo_1, /foo_2 2x">)
+      assert rendered == ~s(<img alt="This is an image" sizes="\(max-width: 543px\) 100vw, 33vw" src="/foo_1" srcset="/foo_1 304w, /foo_2 608w">)
     end
 
     test "if the item doesn't have a 2x version, does not include srcset" do

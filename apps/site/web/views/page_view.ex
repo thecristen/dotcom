@@ -12,6 +12,6 @@ defmodule Site.PageView do
     img_tag(thumb.url, alt: thumb.alt)
   end
   def whats_happening_image(%Content.WhatsHappeningItem{thumb: thumb, thumb_2x: thumb_2x}) do
-    img_tag(thumb.url, alt: thumb.alt, srcset: "#{thumb.url}, #{thumb_2x.url} 2x")
+    img_tag(thumb.url, alt: thumb.alt, sizes: "(max-width: 543px) 100vw, 33vw", srcset: "#{thumb.url} 304w, #{thumb_2x.url} 608w")
   end
 end
