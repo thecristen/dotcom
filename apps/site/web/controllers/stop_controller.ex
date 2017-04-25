@@ -9,7 +9,6 @@ defmodule Site.StopController do
   alias Stops.Stop
   alias Routes.Route
   alias Site.StopController.ModeController
-  require Routes.Route
 
   def index(conn, _params) do
     redirect conn, to: stop_path(conn, :show, :subway)
@@ -77,17 +76,12 @@ defmodule Site.StopController do
     |> assign_upcoming_route_departures()
   end
 
-  def assign_upcoming_route_departures(conn) do
+  defp assign_upcoming_route_departures(conn) do
     route_time_list = conn.assigns.stop_predictions
-    |> UpcomingRouteDepartures.build_mode_list(non_subway_schedules(conn.assigns.stop_schedule), conn.assigns.date_time)
+    |> UpcomingRouteDepartures.build_mode_list(conn.assigns.stop_schedule, conn.assigns.date_time)
     |> Enum.sort_by(&sorter/1)
 
     assign(conn, :upcoming_route_departures, route_time_list)
-  end
-
-  # Takes a list of schedules and returns all schedules that are not subway
-  defp non_subway_schedules(schedules) do
-    Enum.reject(schedules, &Route.subway?(&1.route.type))
   end
 
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string

@@ -8,6 +8,7 @@ defmodule UpcomingRouteDepartures do
   alias Routes.Route
   alias Predictions.Prediction
   alias Schedules.Schedule
+  require Routes.Route
 
   defstruct [
     route: %Route{},
@@ -29,9 +30,8 @@ defmodule UpcomingRouteDepartures do
   @spec build_mode_list([Prediction.t], [Schedule.t], DateTime.t) ::
                         [{Route.gtfs_route_type, [UpcomingRouteDepartures.t]}]
   def build_mode_list(predictions, schedules, current_time) do
-    filtered_schedules = Enum.reject(schedules, &Routes.Repo.route_hidden?(&1.route))
     predictions
-    |> PredictedSchedule.group(filtered_schedules)
+    |> PredictedSchedule.group(filter_schedules(schedules))
     |> build_route_times(current_time)
     |> Enum.group_by(&Route.type_atom(&1.route.type)) # Group by modes
     |> Enum.map(fn {mode, route_times} -> {mode, sort_route_times(route_times)} end)
@@ -81,6 +81,13 @@ defmodule UpcomingRouteDepartures do
   @spec sort_route_times([UpcomingRouteDepartures.t]) :: [UpcomingRouteDepartures.t]
   defp sort_route_times(route_times) do
     Enum.sort_by(route_times, &route_time_sorter/1)
+  end
+
+  # Remove schedules for hidden routes and subway
+  defp filter_schedules(schedules) do
+    schedules
+    |> Enum.reject(&Routes.Repo.route_hidden?(&1.route))
+    |> Enum.reject(&Route.subway?(&1.route.type))
   end
 
   # Sorts bus according to number and name. Busses without a
