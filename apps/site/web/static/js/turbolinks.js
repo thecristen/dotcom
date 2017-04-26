@@ -2,77 +2,52 @@ export default function($) {
   $ = $ || window.jQuery;
 
   var savedPosition = null;
-  var savedAnchor = null;
   var redirectTimeout = null;
 
   window.addEventListener('popstate', (ev) => {
     var url = window.location.href;
 
     if (redirectTimeout && !url.match(/redirect/)) {
-      clearTimeout(redirectTimeout);
+      window.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
   }, {passive: true});
+
   document.addEventListener('turbolinks:before-visit', (ev) => {
-    const url = ev.data.url;
-    const anchorIndex = url.indexOf('#');
-    const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-    if (anchorIndex !== -1) {
-      const newUrl = url.slice(0, anchorIndex);
-      if (!samePath(`${currentPath}${window.location.search}`, newUrl)) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        savedAnchor = url.slice(anchorIndex, url.length);
-        window.setTimeout(() => Turbolinks.visit(newUrl), 0);
-      }
-      return;
+    savedPosition = null;
+
+    // cancel a previously set redirect timeout
+    if (redirectTimeout) {
+      window.clearTimeout(redirectTimeout);
+      redirectTimeout = null;
     }
+    const url = ev.data.url;
+    const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
 
     if (samePath(url, currentPath)) {
       savedPosition = [window.scrollX, window.scrollY];
     }
-
-    // cancel a previously set redirect timeout
-    if (redirectTimeout) {
-      clearTimeout(redirectTimeout);
-      redirectTimeout = null;
-    }
-
   });
+
   document.addEventListener('turbolinks:render', (ev) => {
     // if it's cached render, not a real one, set the scroll/focus positions,
     // but don't clear them until we have the true rendering.
-    var clearSaved = $('html').attr('data-turbolinks-preview') !== '';
+    const cachedRender = document.documentElement.getAttribute('data-turbolinks-preview') === '';
+    if (!cachedRender && window.location.hash) {
+      const el = document.getElementById(window.location.hash.slice(1));
+      if (el) {
+        scrollToAndFocus(el, $, savedPosition);
+      }
+    }
+
     if (savedPosition) {
       window.scrollTo.apply(window, savedPosition);
-      if (clearSaved) {
+      if (!cachedRender) {
         savedPosition = null;
       }
     }
-    if (savedAnchor) {
-      // if we saved the anchor and it's above the screen, scroll to it
-      const $el = $(savedAnchor);
-      const $window = $(window);
-      if (clearSaved) {
-        savedAnchor = null;
-      }
-      if ($el.length > 0) {
-        const nodeName = $el[0].nodeName;
-        const elementY = $el.offset().top;
-        const windowY = $window.scrollTop();
-        if (windowY > elementY) {
-          $window.scrollTop(elementY - 20);
-        }
-        // if we're focusing a link, then focus it directly. otherwise, find
-        // the first child link and focus that.
-        if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
-          $el.focus();
-        } else {
-          $el.find('a:first').focus();
-        }
-      }
-    }
   }, {passive: true});
+
   document.addEventListener('turbolinks:request-end', (ev) => {
     // if a refresh header was receieved, enforce via javascript
     var refreshHeader = ev.data.xhr.getResponseHeader("Refresh");
@@ -85,7 +60,7 @@ export default function($) {
     var refreshDelay = refreshHeader.split(';')[0] * 1000;
 
     // redirect after 5 seconds
-    redirectTimeout = setTimeout(function () {
+    redirectTimeout = window.setTimeout(function () {
       document.location = refreshUrl;
     }, refreshDelay);
   }, {passive: true});
@@ -95,3 +70,23 @@ export function samePath(first, second) {
   return (first.slice(0, second.length) === second && (
     first.length == second.length || first[second.length] === "?"));
 };
+
+function scrollToAndFocus(el, $, savedPosition) {
+  const nodeName = el.nodeName;
+  if (!savedPosition) {
+    // scroll to the element if we didn't have another position saved
+    window.requestAnimationFrame(() => {
+      // wait for the element to render
+      const elementY = el.offsetTop;
+      window.scroll(window.scrollX, elementY - 20);
+    });
+  }
+  // if we're focusing a link, then focus it directly. otherwise, find
+  // the first child link and focus that.
+  if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
+    el.focus();
+  } else {
+    const $el = $(el);
+    const $a = $el.find('a:first').focus();
+  }
+}
