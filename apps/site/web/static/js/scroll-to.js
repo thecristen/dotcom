@@ -2,17 +2,17 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function scrollTo() {
-    $("[data-scroll-to]").each((index, el) => window.setTimeout(doScrollTo.bind(el), 0));
+    document.querySelectorAll("[data-scroll-to]").forEach((el) => window.setTimeout(doScrollTo.bind(el), 0));
   }
 
   function handleScroll(ev) {
     const scrollPos = ev.target.scrollLeft;
     const containerWidth = ev.target.clientWidth;
     const table = firstElementChild(ev.target);
-    const rect = table.getBoundingClientRect();
+    const width = table.clientWidth;
 
     const hideEarlier = scrollPos < 48;
-    const hideLater = rect.width - containerWidth - scrollPos < 48;
+    const hideLater = width - containerWidth - scrollPos < 48;
 
     requestAnimationFrame(function() {
       if (scrollPos < 0) {
@@ -27,7 +27,7 @@ export default function($) {
   function doScrollTo() {
     const childLeft = this.offsetLeft;
     const parentLeft = this.parentNode.offsetLeft;
-    const firstSiblingWidth = firstSibling(this).getBoundingClientRect().width;
+    const firstSiblingWidth = firstSibling(this).clientWidth;
 
     // childLeft - parentLeft scrolls the first row to the start of the
     // visible area.
@@ -39,7 +39,7 @@ export default function($) {
     table.parentNode.addEventListener('scroll', handleScroll);
     table.parentNode.scrollLeft = scrollLeft;
     if (table.className.indexOf("vertically-centered") === -1) {
-      requestAnimationFrame(() => verticallyCenter($, table, table.getBoundingClientRect().height, 'schedule-v2-timetable-more-text'));
+      requestAnimationFrame(() => verticallyCenter($, table, table.clientHeight, 'schedule-v2-timetable-more-text'));
     }
   }
 
@@ -80,7 +80,7 @@ function firstElementChild(element) {
   return child;
 }
 
-function verticallyCenter($, el, height, className) {
+function verticallyCenter($, el, tableHeight, className) {
   const styles = getComputedStyle(el.parentNode);
   const bottomBorder = parseInt(styles.borderBottomWidth);
   var sized = false;
@@ -91,11 +91,11 @@ function verticallyCenter($, el, height, className) {
   } else {
     elements = $(el).find(".${className}");
   }
-  $.each(elements, function(index, textEl) {
+  Array.prototype.map.call(elements, (textEl) => {
     // vertically center the timetable text if visible
-    const box = textEl.getBoundingClientRect();
-    if (box.width) {
-      const top = Math.floor((height - box.height + bottomBorder) / 2);
+    const height = textEl.offsetHeight;
+    if (height) {
+      const top = Math.floor((tableHeight - height + bottomBorder) / 2);
       textEl.style.top = `${top}px`;
       sized = true;
     }
