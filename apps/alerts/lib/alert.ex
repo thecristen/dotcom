@@ -7,7 +7,7 @@ defmodule Alerts.Alert do
     effect_name: "",
     severity: "",
     lifecycle: "",
-    updated_at: nil,
+    updated_at: Timex.now(),
     description: ""
   ]
   @type period_pair :: {DateTime.t, nil} | {nil, DateTime.t} | {DateTime.t, DateTime.t} | {nil, nil}
