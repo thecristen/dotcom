@@ -1,49 +1,54 @@
 export default function($) {
   $ = $ || window.jQuery;
   function initMap() {
-    if(!$("#map").length) {
+    const map = document.getElementById("map");
+    if(!map) {
       return;
     }
-    if (typeof google != "undefined") {
-      $("#map").addClass("google-map");
-      $("#static-map").hide();
-      var lat = parseFloat($("#map").attr("data-latitude"));
-      var lng = parseFloat($("#map").attr("data-longitude"));
-      var isStation = $("#map").attr("data-show-marker") == 'true';
-      displayMap(lat, lng, isStation);
-    }
-
-    else {
-      const existingCallback = window.mapsCallback || function() {};
-      window.mapsCallback = function() {
-        window.mapsCallback = undefined;
-        existingCallback();
-        initMap();
-      }
-    }
+    initializeMap(map);
   }
 
-  $(document).on('turbolinks:load', initMap);
+  document.addEventListener('turbolinks:load', initMap);
 }
 
-function displayMap(lat, lng, showMarker) {
-  var latLng = {lat: lat, lng: lng}
-  var map = new google.maps.Map(document.getElementById('map'), {
+function initializeMap(map) {
+  if (typeof google != "undefined") {
+    map.className += "google-map";
+    document.getElementById("static-map").style.display = "none";
+    const lat = parseFloat(map.getAttribute("data-latitude"));
+    const lng = parseFloat(map.getAttribute("data-longitude"));
+    const isStation = map.getAttribute("data-show-marker") == 'true';
+    displayMap(map, lat, lng, isStation);
+  }
+
+  else {
+    const existingCallback = window.mapsCallback || function() {};
+    window.mapsCallback = function() {
+      window.mapsCallback = undefined;
+      existingCallback();
+      initializeMap(map);
+    };
+  }
+}
+
+function displayMap(el, lat, lng, showMarker) {
+  const latLng = {lat: lat, lng: lng};
+  const map = new google.maps.Map(el, {
     zoom: 17,
     center: latLng,
     gestureHandling: 'cooperative'
   });
-  var noPoi = [ // Don't show points of interest
+  const noPoi = [ // Don't show points of interest
     {
       featureType: "poi",
         stylers: [
           { visibility: "off" }
-        ]   
+        ]
     }
   ];
   map.setOptions({styles: noPoi});
   if (!showMarker) { // Only show map marker for bus stops
-    var marker = new google.maps.Marker({
+    const marker = new google.maps.Marker({
       position: latLng,
       map: map
     });

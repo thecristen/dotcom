@@ -1,21 +1,22 @@
 export default function($) {
   $ = $ || window.jQuery;
   function setupTNM() {
-    if(!$("#place-input").length) {
+    const placeInput = document.getElementById("place-input");
+    if(!placeInput) {
       return;
     }
     if (typeof google != "undefined") { // only load on pages that are using TNM
-      var placeInput = document.getElementById("place-input")
       var autocomplete = new google.maps.places.Autocomplete(placeInput);
-
-      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-      $(".transit-near-me form").submit(function($event) {return submitTNMForm($event, location, $)});
 
       function onPlaceChanged() {
         setClientWidth($);
-        var location_url = constructUrl(autocomplete.getPlace(), $)
-        window.location.href = encodeURI(location_url);
+        const locationUrl = constructUrl(autocomplete.getPlace(), $);
+        window.location.href = encodeURI(locationUrl);
       }
+
+      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+      $(".transit-near-me form").submit((ev) => submitTNMForm(ev, window.location, $));
+
     }
     else {
       const existingCallback = window.mapsCallback || function() {};
@@ -23,11 +24,11 @@ export default function($) {
         window.mapsCallback = undefined;
         existingCallback();
         setupTNM();
-      }
+      };
     }
   }
 
-  $(document).on('turbolinks:load', setupTNM);
+  document.addEventListener('turbolinks:load', setupTNM);
 }
 
 // Functions exported for testing //
