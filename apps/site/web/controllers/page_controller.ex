@@ -9,12 +9,12 @@ defmodule Site.PageController do
     conn
     |> assign(:grouped_routes, filtered_grouped_routes([:subway, :bus]))
     |> async_assign(:news, &news/0)
+    |> async_assign(:whats_happening_items, &whats_happening_items/0)
+    |> async_assign(:important_notice, &important_notice/0)
     |> await_assign_all
     |> assign_tnm_column_groups
     |> assign(:pre_container_template, "_pre_container.html")
     |> assign(:post_container_template, "_post_container.html")
-    |> important_notice
-    |> whats_happening_items
     |> render("index.html")
   end
 
@@ -22,16 +22,14 @@ defmodule Site.PageController do
     News.Repo.all(limit: 4)
   end
 
-  defp important_notice(conn) do
-    assign(conn, :important_notice, Content.Repo.important_notice())
+  defp important_notice do
+    Content.Repo.important_notice
   end
 
-  defp whats_happening_items(conn) do
-    items = case Content.Repo.whats_happening() do
+  defp whats_happening_items do
+    case Content.Repo.whats_happening() do
       [_, _, _] = items -> items
       _ -> nil
     end
-
-    assign(conn, :whats_happening_items, items)
   end
 end
