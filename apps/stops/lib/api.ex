@@ -53,13 +53,15 @@ defmodule Stops.Api do
   defp merge_station_info_api(api) do
     api.data
     |> Enum.uniq_by(&v3_id/1)
-    |> Task.async_stream(fn (item) ->
-      item
-      |> v3_id
-      |> StationInfoApi.by_gtfs_id
-      |> merge_v3(item)
-    end)
+    |> Task.async_stream(&get_station_info/1)
     |> Enum.map(fn {:ok, stop} -> stop end)
+  end
+
+  def get_station_info(%JsonApi.Item{} = stop) do
+    stop
+    |> v3_id
+    |> StationInfoApi.by_gtfs_id
+    |> merge_v3(stop)
   end
 
   defp v3_id(%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: parent_id}]}}) do
