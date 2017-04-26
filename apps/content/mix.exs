@@ -19,8 +19,20 @@ defmodule Content.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :timex, :httpoison, :poison, :plug, :tzdata, :phoenix_html, :repo_cache],
-     mod: {Content, []}]
+    [
+      applications: [
+        :httpoison,
+        :logger,
+        :mailgun,
+        :phoenix_html,
+        :plug,
+        :poison,
+        :repo_cache,
+        :timex,
+        :tzdata
+      ],
+      mod: {Content, []}
+   ]
   end
 
   # Specifies which paths to compile per environment.
@@ -51,6 +63,7 @@ defmodule Content.Mixfile do
      {:excoveralls, "~> 0.5", only: :test},
      {:mock, "~> 0.2.0", only: :test},
      {:phoenix_html, "~> 2.6"},
-     {:repo_cache, in_umbrella: true}]
+     {:repo_cache, in_umbrella: true},
+     {:mailgun, "~> 0.1.2"}]
   end
 end

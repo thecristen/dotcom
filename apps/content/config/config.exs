@@ -36,4 +36,12 @@ config :content,
 
 config :content, :cms_api, Content.CMS.HTTPClient
 
+config :content, :mailgun,
+  domain: System.get_env("MAILGUN_DOMAIN"),
+  key: System.get_env("MAILGUN_KEY")
+
+config :content, :email,
+  developer_alert_address: "devops-alerts@mbtace.com",
+  no_reply_address: "noreply@mbtace.com"
+
 import_config "#{Mix.env}.exs"

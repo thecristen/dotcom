@@ -1,14 +1,18 @@
 defmodule Content.MigrateMeetingsTest do
-  use ExUnit.Case
+  use Content.EmailCase
   import Mock
   import Content.FixtureHelpers
-  import ExUnit.CaptureIO
   alias Content.CmsMigration.MeetingMigrator
 
   @meeting "cms_migration/meeting.json"
   @other_meeting "cms_migration/meeting_missing_end_time.json"
 
   setup do
+    Mix.shell(Mix.Shell.Process)
+    on_exit fn ->
+      Mix.shell(Mix.Shell.IO)
+    end
+
     directory_path = Path.join([File.cwd!, "test", "fixtures", "cms_migration"])
     {:ok, path: directory_path}
   end
@@ -17,12 +21,11 @@ defmodule Content.MigrateMeetingsTest do
     response = {:ok, %HTTPoison.Response{status_code: 201}}
 
     with_mock MeetingMigrator, [migrate: fn(_map) -> response end] do
-      capture_io(fn ->
-        Mix.Tasks.Content.MigrateMeetings.run(path)
-      end)
+      Mix.Tasks.Content.MigrateMeetings.run(path)
 
       assert called MeetingMigrator.migrate(fixture(@meeting))
       assert called MeetingMigrator.migrate(fixture(@other_meeting))
+      refute email_sent_with_subject("Meeting Migration Task Failed")
     end
   end
 
@@ -30,9 +33,8 @@ defmodule Content.MigrateMeetingsTest do
     response = {:ok, %HTTPoison.Response{status_code: 201}}
 
     with_mock MeetingMigrator, [migrate: fn(_map) -> response end] do
-      assert capture_io(fn ->
-        Mix.Tasks.Content.MigrateMeetings.run(path)
-      end) =~ "successfully created"
+      Mix.Tasks.Content.MigrateMeetings.run(path)
+      assert_received {:mix_shell, :info, ["Successfully created" <> _filename]}
     end
   end
 
@@ -40,19 +42,26 @@ defmodule Content.MigrateMeetingsTest do
     response = {:ok, %HTTPoison.Response{status_code: 200}}
 
     with_mock MeetingMigrator, [migrate: fn(_map) -> response end] do
-      assert capture_io(fn ->
-        Mix.Tasks.Content.MigrateMeetings.run(path)
-      end) =~ "successfully updated"
+      Mix.Tasks.Content.MigrateMeetings.run(path)
+      assert_received {:mix_shell, :info, ["Successfully updated" <> _filename]}
     end
   end
 
-  test "raises an error when an event is unsuccessfully migrated", %{path: path} do
-    error_response = {:ok, %HTTPoison.Response{status_code: 422}}
+  test "prints a helpful message when an event fails to migrate", %{path: path} do
+    error_response = {:error, %HTTPoison.Response{status_code: 422}}
 
     with_mock MeetingMigrator, [migrate: fn(_map) -> error_response end] do
-      assert_raise Mix.Error, ~r/status_code: 422/, fn ->
-        Mix.Tasks.Content.MigrateMeetings.run(path)
-      end
+      Mix.Tasks.Content.MigrateMeetings.run(path)
+      assert_received {:mix_shell, :info, ["The following error occurred" <> _filename]}
+    end
+  end
+
+  test "sends an email to developers when an event fails to migrate", %{path: path} do
+    error_response = {:error, %HTTPoison.Response{status_code: 422}}
+
+    with_mock MeetingMigrator, [migrate: fn(_map) -> error_response end] do
+      Mix.Tasks.Content.MigrateMeetings.run(path)
+      assert email_sent_with_subject("Meeting Migration Task Failed")
     end
   end
 

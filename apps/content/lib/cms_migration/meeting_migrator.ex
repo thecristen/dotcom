@@ -6,14 +6,26 @@ defmodule Content.CmsMigration.MeetingMigrator do
   alias Content.CmsMigration.EventPayload
   alias Content.CmsMigration.MeetingMigrationError
 
-  @spec migrate(String.t) :: {:ok, %HTTPoison.Response{}} | {:error, %HTTPoison.Response{}}
+  @spec migrate(String.t) :: {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Response.t} | {:error, term}
   def migrate(meeting_json) do
     meeting_id = Map.fetch!(meeting_json, "meeting_id")
+    event = build_event(meeting_json)
 
-    meeting_json
-    |> build_event()
-    |> validate_event!()
-    |> migrate_event(meeting_id)
+    case validate_event(event) do
+      {:ok, event} ->
+        event
+        |> migrate_event(meeting_id)
+        |> normalize_response
+      {:error, message} -> {:error, message}
+    end
+  end
+
+  defp normalize_response(response) do
+    case response do
+      {:ok, %HTTPoison.Response{status_code: 200}} -> response
+      {:ok, %HTTPoison.Response{status_code: 201}} -> response
+      {_unsuccessful_request, response} -> {:error, response}
+    end
   end
 
   @spec check_for_existing_event!(integer) :: integer | no_return
@@ -40,21 +52,19 @@ defmodule Content.CmsMigration.MeetingMigrator do
     end
   end
 
-  defp validate_event!(%{field_start_time: [%{value: nil}], field_end_time: [%{value: nil}]} = _event) do
-    raise MeetingMigrationError, message: "A start time must be provided."
+  defp validate_event(%{field_start_time: [%{value: nil}], field_end_time: [%{value: nil}]} = _event) do
+    {:error, "A start time must be provided."}
   end
-  defp validate_event!(%{field_start_time: [%{value: _start_time}], field_end_time: [%{value: nil}]} = event) do
-    event
+  defp validate_event(%{field_start_time: [%{value: _start_time}], field_end_time: [%{value: nil}]} = event) do
+    {:ok, event}
   end
-  defp validate_event!(%{field_start_time: [%{value: start_time}], field_end_time: [%{value: end_time}]} = event) do
+  defp validate_event(%{field_start_time: [%{value: start_time}], field_end_time: [%{value: end_time}]} = event) do
     start_datetime = convert_to_datetime(start_time)
     end_datetime = convert_to_datetime(end_time)
 
     case NaiveDateTime.compare(start_datetime, end_datetime) do
-      :lt -> event
-      _ -> raise MeetingMigrationError, message:
-        "The start time must be less than the end time.
-        Start time: #{start_time}. End time: #{end_time}."
+      :lt -> {:ok, event}
+      _ -> {:error, "The start time must be less than the end time."}
     end
   end
 

@@ -20,14 +20,25 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
   def run(directory_path) do
     Mix.Task.run "app.start"
 
-    filenames = json_files(directory_path)
+    directory_path
+    |> json_files
+    |> migrate_meetings(directory_path)
+  end
 
-    for filename <- filenames do
-      directory_path
-      |> parse_file(filename)
-      |> MeetingMigrator.migrate()
-      |> print_response(filename)
+  defp migrate_meetings([filename | remaining_filenames], file_location) do
+    meeting_json = parse_file(file_location, filename)
+
+    case MeetingMigrator.migrate(meeting_json) do
+      {:ok, response} ->
+        print_response(response, filename)
+        migrate_meetings(remaining_filenames, file_location)
+      {:error, reason} ->
+        print_response(reason, filename)
+        notify_developers(reason, meeting_json)
     end
+  end
+  defp migrate_meetings([], _file_location) do
+    Mix.shell.info "All meetings have been migrated."
   end
 
   defp json_files(directory_path) do
@@ -57,17 +68,25 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
     |> Poison.Parser.parse!()
   end
 
-  defp print_response({:ok, %HTTPoison.Response{status_code: 200}}, filename) do
-    Mix.shell.info "#{filename} successfully updated."
+  defp print_response(%HTTPoison.Response{status_code: 200}, filename) do
+    Mix.shell.info "Successfully updated #{filename}."
   end
-  defp print_response({:ok, %HTTPoison.Response{status_code: 201}}, filename) do
-    Mix.shell.info "#{filename} successfully created."
+  defp print_response(%HTTPoison.Response{status_code: 201}, filename) do
+    Mix.shell.info "Successfully created #{filename}."
   end
   defp print_response(response, filename) do
-    Mix.raise """
-      The following error occurred when migrating #{filename}.
-      #{inspect response}
+    Mix.shell.info """
+    The following error occurred when migrating #{filename}.
+    #{inspect response}
     """
+  end
+
+  defp notify_developers(%HTTPoison.Response{status_code: code}, meeting_json) do
+    reason = "The CMS returned the status code #{code}."
+    Content.Mailer.meeting_migration_error_notice(reason, meeting_json)
+  end
+  defp notify_developers(reason, meeting_json) do
+    Content.Mailer.meeting_migration_error_notice(reason, meeting_json)
   end
 
   defp raise_with_instructions do
