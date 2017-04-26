@@ -19,20 +19,27 @@
 
 window.$ = window.jQuery;
 
-window.requestIdleCallback = window.requestIdleCallback ||
-  function (cb) {
-    return window.setTimeout(function () {
-      var start = Date.now();
-      cb({
-        didTimeout: false,
-        timeRemaining: function () {
-          return Math.max(0, 50 - (Date.now() - start));
+// Polyfills
+
+window.requestAnimationFrame = window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  function(f) { window.setTimeout(f, 15); };
+
+
+// Source: https://github.com/Alhadis/Snippets/blob/master/js/polyfills/IE8-child-elements.js
+if(!("previousElementSibling" in document.documentElement)){
+    Object.defineProperty(Element.prototype, "previousElementSibling", {
+        get: function(){
+            var e = this.previousSibling;
+            while(e && 1 !== e.nodeType)
+                e = e.previousSibling;
+            return e;
         }
-      });
-    }, 1);
-  };
+    });
+}
 
-
+// Imports
 import submitOnEvents from './submit-on-events.js';
 import selectModal from './select-modal.js';
 import tooltip from './tooltip.js';
