@@ -54,11 +54,13 @@ defmodule Content.Repo do
 
   @spec important_notice() :: Content.ImportantNotice.t | nil
   def important_notice do
-    cache [], fn _ ->
+    cached_value = cache [], fn _ ->
       case @cms_api.view("/important-notices") do
         {:ok, [api_data]} -> Content.ImportantNotice.from_api(api_data)
-        _ -> nil
+        {:ok, []} -> :empty
+        {:error, _} -> nil
       end
     end
+    if cached_value == :empty, do: nil, else: cached_value
   end
 end
