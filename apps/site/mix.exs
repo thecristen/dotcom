@@ -25,7 +25,7 @@ defmodule Site.Mixfile do
             :stops, :routes, :alerts, :news, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
             :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday,
-            :parallel_stream, :vehicles, :tzdata, :google_maps, :system_metrics, :floki]
+            :parallel_stream, :vehicles, :tzdata, :google_maps, :system_metrics, :floki, :util]
 
     apps = if Mix.env == :prod do
       [:ehmon | apps]
