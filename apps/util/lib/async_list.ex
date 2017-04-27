@@ -1,4 +1,4 @@
-defmodule AsyncList do
+defmodule Util.AsyncList do
   def run(task_defs) do
     task_defs
     |> Enum.map(&apply_task/1)

@@ -44,6 +44,7 @@ defmodule Schedules.Mixfile do
      {:excheck, "~> 0.5", only: :test},
      {:excoveralls, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test},
-     {:benchfella, "~> 0.3", only: :dev}]
+     {:benchfella, "~> 0.3", only: :dev},
+     {:util, in_umbrella: true}]
   end
 end

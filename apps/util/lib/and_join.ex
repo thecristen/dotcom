@@ -1,4 +1,4 @@
-defmodule AndJoin do
+defmodule Util.AndJoin do
   @doc """
 
   Joins a list of strings with commas, with an "and" before the last item.

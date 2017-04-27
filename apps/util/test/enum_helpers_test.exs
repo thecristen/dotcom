@@ -1,9 +1,9 @@
-defmodule EnumHelpersTest do
+defmodule Util.EnumHelpersTest do
   use ExUnit.Case, async: true
   use ExCheck
 
-  import EnumHelpers
-  doctest EnumHelpers
+  import Util.EnumHelpers
+  doctest Util.EnumHelpers
 
   describe "with_first_last/1" do
     property "doesn't change the order" do
