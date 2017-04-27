@@ -14,7 +14,7 @@ defmodule IcalendarGeneratorTest do
 
       assert result =~ "BEGIN:VCALENDAR"
       assert result =~ "VERSION:2.0"
-      assert result =~ "PRODID:-//www.mbta.com//Public Meetings//EN"
+      assert result =~ "PRODID:-//www.mbta.com//Events//EN"
       assert result =~ "BEGIN:VEVENT"
     end
 
