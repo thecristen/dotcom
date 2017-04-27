@@ -120,6 +120,7 @@ describe('support form', () => {
             <textarea id="comments"></textarea>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <input id="photo" type="file" />
+            <input id="request_response" type="checkbox" />
             <input id="name" />
             <input id="phone" />
             <input id="email" />
@@ -151,23 +152,37 @@ describe('support form', () => {
       assert.isFalse($('.support-comments-error-container').hasClass('hidden-xs-up'));
     });
 
-    it('requires the privacy box to be checked', () => {
+    it('requires the privacy box to be checked if the customer wants a response', () => {
+      $('#request_response').click();
       $('#support-submit').click();
       assert.isFalse($('.support-privacy-error-container').hasClass('hidden-xs-up'));
     });
 
-    it('requires a name', () => {
+    it('does not require the privacy box to be checked if the customer does not want a response', () => {
+      $('#support-submit').click();
+      assert.isTrue($('.support-privacy-error-container').hasClass('hidden-xs-up'));
+    });
+
+    it('requires a name if the customer wants a response', () => {
+      $('#request_response').click();
       $('#support-submit').click();
       assert.isFalse($('.support-name-error-container').hasClass('hidden-xs-up'));
     });
 
-    it('requires either a phone number or an email', () => {
+    it('requires either a phone number or an email when the customer wants a response', () => {
+      $('#request_response').click();
       $('#support-submit').click();
       assert.isFalse($('.support-contacts-error-container').hasClass('hidden-xs-up'));
     });
 
+    it('does not require a phone number or an email when the customer does not want a response', () => {
+      $('#support-submit').click();
+      assert.isTrue($('.support-contacts-error-container').hasClass('hidden-xs-up'));
+    });
+
     it('requires a valid email', () => {
       $('#email').val('not an email');
+      $('#request_response').click();
       $('#support-submit').click();
       assert.isFalse($('.support-contacts-error-container').hasClass('hidden-xs-up'));
       $('#email').val('test@email.com');
@@ -176,6 +191,7 @@ describe('support form', () => {
     });
 
     it('focuses to the highest error message on the page', () => {
+      $('#request_response').click();
       $('#support-submit').click();
       assert.equal(document.activeElement, $('.support-comments-error-container')[0]);
       $('#comments').val('A comment');

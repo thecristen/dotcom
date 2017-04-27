@@ -28,6 +28,7 @@ defmodule Feedback.Mailer do
 
   @spec send_heat_ticket(Feedback.Message.t, map()) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
+    request_response = if message.request_response, do: "Yes", else: "No"
     body =
       """
       <INCIDENT>
@@ -42,14 +43,14 @@ defmodule Feedback.Mailer do
         <VEHICLE></VEHICLE>
         <FIRSTNAME></FIRSTNAME>
         <LASTNAME></LASTNAME>
-        <FULLNAME>#{message.name}</FULLNAME>
+        <FULLNAME>#{format_name(message.name)}</FULLNAME>
         <CITY></CITY>
         <STATE></STATE>
         <ZIPCODE></ZIPCODE>
         <EMAILID>#{format_email(message.email)}</EMAILID>
         <PHONE>#{message.phone}</PHONE>
         <DESCRIPTION>#{message.comments}</DESCRIPTION>
-        <CUSTREQUIRERESP>No</CUSTREQUIRERESP>
+        <CUSTREQUIRERESP>#{request_response}</CUSTREQUIRERESP>
         <MBTASOURCE>Auto Ticket 2</MBTASOURCE>
       </INCIDENT>
       """
@@ -65,6 +66,16 @@ defmodule Feedback.Mailer do
     end
 
     Mailgun.Client.send_email config(), opts
+  end
+
+  defp format_name(nil) do
+    "Riding Public"
+  end
+  defp format_name(name) do
+    case String.trim(name) do
+      "" -> "Riding Public"
+      name -> name
+    end
   end
 
   defp format_email(nil) do

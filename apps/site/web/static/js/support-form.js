@@ -12,6 +12,7 @@ export default function($ = window.jQuery) {
 
     setupPhotoPreviews($);
     setupTextArea($);
+    setupRequestResponse($);
     setupValidation($);
 
     handleSubmitClick($);
@@ -75,7 +76,6 @@ export function handleUploadedPhoto($, file, $previewDiv, $container) {
       <span>Error: ${file.name} <br /> The file you've selected is not valid for review. Please upload images only.</span>
     `));
   }
-  showExpandedForm($);
   $container.focus();
   $('.upload-photo-button').addClass('hidden-xs-up');
 }
@@ -95,24 +95,45 @@ export function setupTextArea($) {
       $label.removeClass('support-comment-success');
       $label.parent('.form-group').removeClass('has-success');
     }
-  }).one('focus', function () { // Once the user has clicked into the form, expand the whole thing
-    showExpandedForm($);
-  });
+  })
 };
+
+export function setupRequestResponse($) {
+  $('#request_response').click(function() {
+    if($(this).is(":checked")) {
+      showExpandedForm($);
+    } else {
+      hideExpandedForm($);
+    }
+  });
+}
 
 const validators = {
   comments: function ($) {
     return $('#comments').val().length !== 0;
   },
   name: function ($) {
-    return $('#name').val().length !== 0;
+    if(responseRequested($)) {
+      return $('#name').val().length !== 0;
+    }
+    return true;
   },
   contacts: function ($) {
-    return email.valid($('#email').val()) || $('#phone').val() !== '';
+    if(responseRequested($)) {
+      return email.valid($('#email').val()) || $('#phone').val() !== '';
+    }
+    return true;
   },
   privacy: function ($) {
-    return $('#privacy').prop('checked');
+    if(responseRequested($)) {
+      return $('#privacy').prop('checked');
+    }
+    return true;
   }
+}
+
+function responseRequested($) {
+  return $('#request_response')[0].checked;
 }
 
 function setupValidation($) {
@@ -191,7 +212,6 @@ export function handleSubmitClick($) {
     const FormData = window.FormData ? window.FormData : require('form-data'),
           valid = validateForm($);
     event.preventDefault();
-    showExpandedForm($);
     if (valid) {
       const formData = new FormData(),
             photo = $('#photo')[0].files;
@@ -222,4 +242,8 @@ export function handleSubmitClick($) {
 
 function showExpandedForm($) {
   $('.support-form-expanded').show();
+}
+
+function hideExpandedForm($) {
+  $('.support-form-expanded').hide();
 }

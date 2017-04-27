@@ -32,7 +32,13 @@ defmodule Site.CustomerSupportController do
   end
 
   defp validate(params) do
-    [&validate_comments/1, &validate_name/1, &validate_contacts/1, &validate_privacy/1]
+    validators = if params["request_response"] == "on" do
+      [&validate_comments/1, &validate_name/1, &validate_contacts/1, &validate_privacy/1]
+    else
+      [&validate_comments/1]
+    end
+
+    validators
     |> Enum.reduce(MapSet.new, fn (f, acc) ->
       case f.(params) do
         :ok -> acc
@@ -85,7 +91,8 @@ defmodule Site.CustomerSupportController do
         email: params["email"],
         phone: params["phone"],
         name: params["name"],
-        comments: params["comments"]
+        comments: params["comments"],
+        request_response: params["request_response"] == "on"
       }
     )
   end

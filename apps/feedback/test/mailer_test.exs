@@ -38,7 +38,7 @@ defmodule Feedback.MailerTest do
           <VEHICLE></VEHICLE>
           <FIRSTNAME></FIRSTNAME>
           <LASTNAME></LASTNAME>
-          <FULLNAME></FULLNAME>
+          <FULLNAME>Riding Public</FULLNAME>
           <CITY></CITY>
           <STATE></STATE>
           <ZIPCODE></ZIPCODE>
@@ -79,6 +79,11 @@ defmodule Feedback.MailerTest do
     test "gives the full name as the name the user provided" do
       Feedback.Mailer.send_heat_ticket(%Feedback.Message{name: "My Full Name"}, nil)
       assert Feedback.Test.latest_message["text"] =~ "<FULLNAME>My Full Name</FULLNAME>"
+    end
+
+    test "if the user does not provide a name, sets the full name to riding public" do
+      Feedback.Mailer.send_heat_ticket(%Feedback.Message{name: ""}, nil)
+      assert Feedback.Test.latest_message["text"] =~ "<FULLNAME>Riding Public</FULLNAME>"
     end
 
     test "sets customer requests response to no" do
