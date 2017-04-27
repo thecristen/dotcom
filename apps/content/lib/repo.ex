@@ -57,10 +57,10 @@ defmodule Content.Repo do
     cached_value = cache [], fn _ ->
       case @cms_api.view("/important-notices") do
         {:ok, [api_data]} -> Content.ImportantNotice.from_api(api_data)
-        {:ok, []} -> :empty
-        {:error, _} -> nil
+        {:ok, _} -> :empty
+        {:error, _} -> :error
       end
     end
-    if cached_value == :empty, do: nil, else: cached_value
+    if cached_value == :empty || cached_value == :error, do: nil, else: cached_value
   end
 end
