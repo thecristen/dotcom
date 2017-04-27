@@ -53,10 +53,8 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
         |> fixture
         |> Map.put("meettime", "4:00 PM - 2:00 PM")
 
-      error = ~r/The start time must be less than the end time/
-      assert_raise MeetingMigrationError, error, fn ->
-        MeetingMigrator.migrate(meeting_with_invalid_time_range)
-      end
+      result = MeetingMigrator.migrate(meeting_with_invalid_time_range)
+      assert {:error, "The start time must be less than the end time."} = result
     end
 
     test "does not migrate the event if the start time is missing" do
@@ -65,10 +63,8 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
         |> fixture
         |> Map.put("meettime", "")
 
-      error = "A start time must be provided."
-      assert_raise MeetingMigrationError, error, fn ->
-        MeetingMigrator.migrate(missing_start_time)
-      end
+      result = MeetingMigrator.migrate(missing_start_time)
+      assert {:error, "A start time must be provided."} = result
     end
   end
 
