@@ -187,8 +187,8 @@ defmodule Site.ScheduleV2ControllerTest do
       # includes the stop features
       assert %{} = conn.assigns.stop_features
       assert conn.assigns.stop_features["place-north"] == [
-        :green_line,
         :orange_line,
+        :green_line,
         :bus,
         :access
       ]
