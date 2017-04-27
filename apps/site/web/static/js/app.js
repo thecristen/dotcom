@@ -20,6 +20,7 @@
 window.$ = window.jQuery;
 
 // Polyfills
+window.nextTick = function nextTick(f) {  window.setTimeout(f, 0); };
 
 window.requestAnimationFrame = window.requestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
@@ -114,4 +115,4 @@ timetableScroll();
 menuClose();
 datePicker();
 
-$("body").removeClass("no-js").addClass("js");
+document.body.className = document.body.className.replace("no-js", "js");

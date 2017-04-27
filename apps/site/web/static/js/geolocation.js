@@ -1,5 +1,11 @@
-export default function($ = window.jQuery) {
+export default function($ = window.jQuery, doc = document, navigator = window.navigator) {
   if ('geolocation' in navigator) {
+    doc.addEventListener(
+      'turbolinks:before-visit', () => {
+        $('.loading-indicator').hide();
+        $('.transit-near-me-error').hide();
+      }
+    );
     $(document).on('click', '[data-geolocation-target]', clickHandler($));
   }
   else {
@@ -9,12 +15,6 @@ export default function($ = window.jQuery) {
 
 // These functions are exported for testing
 export function clickHandler($) {
-  $(document).on(
-    'turbolinks:before-visit', () => {
-      $('.loading-indicator').addClass('hidden-xs-up');
-      $('.transit-near-me-error').addClass('hidden-xs-up');
-    }
-  );
   return (event) => {
     event.preventDefault();
     const $btn = $(event.target);

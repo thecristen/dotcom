@@ -1,21 +1,23 @@
 import email from 'email-validation';
 
 export default function($ = window.jQuery) {
-  $(document).on('turbolinks:load', () => {
+  document.addEventListener('turbolinks:load', () => {
 
     // TODO: create a way to run page-specific JS so that this hack isn't needed.
-    if($('#support-form').length === 0) {
+    if(!document.getElementById('support-form')) {
       return;
     }
 
-    clearFallbacks($);
+    window.nextTick(() => {
+      clearFallbacks($);
 
-    setupPhotoPreviews($);
-    setupTextArea($);
-    setupRequestResponse($);
-    setupValidation($);
+      setupPhotoPreviews($);
+      setupTextArea($);
+      setupRequestResponse($);
+      setupValidation($);
 
-    handleSubmitClick($);
+      handleSubmitClick($);
+    });
   });
 };
 

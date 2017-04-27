@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { clickHandler, locationHandler, locationError } from '../../web/static/js/geolocation';
+import { default as geolocation, clickHandler, locationHandler, locationError } from '../../web/static/js/geolocation';
 import sinon from 'sinon';
 
 describe('geolocation', () => {
@@ -16,9 +16,24 @@ describe('geolocation', () => {
     $('#test').remove();
   });
 
+  describe('geolocation', () => {
+    beforeEach(() => {
+      $('#test').html(`
+          <span class="loading-indicator"></span>
+      `);
+    });
+
+    it('adds a hook to clear the UI state', () => {
+      const spy = sinon.spy();
+      geolocation($, {addEventListener: spy}, {geolocation: true});
+      assert.equal(spy.args[0][0], 'turbolinks:before-visit');
+      spy.args[0][1](); // call the aEL callback
+      assert.equal($('.loading-indicator').css('display'), 'none');
+    });
+  });
+
   describe('clickHandler', () => {
-    var geolocationCalled,
-        onSpy;
+    var geolocationCalled;
 
     beforeEach(() => {
       $('#test').html(`
@@ -31,13 +46,7 @@ describe('geolocation', () => {
       window.navigator.geolocation = {
         getCurrentPosition: () => { geolocationCalled = true; }
       };
-      onSpy = sinon.spy($.fn, 'on');
     });
-
-    afterEach(() => {
-      onSpy.reset();
-    });
-
     it("gets the user's location", () => {
       clickHandler($)({preventDefault: () => {}, target: $('button')[0]});
       assert.isTrue(geolocationCalled);
@@ -48,14 +57,6 @@ describe('geolocation', () => {
       clickHandler($)({preventDefault: () => {}, target: $('button')[0]});
       assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
     });
-
-    it('adds a hook to clear the UI state', () => {
-      clickHandler($);
-      assert.equal(onSpy.args[0][0], 'turbolinks:before-visit');
-      onSpy.args[0][1]();
-      assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
-    });
-
   });
 
   describe('locationHandler', () => {

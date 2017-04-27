@@ -5,7 +5,7 @@ export default function($) {
   var savedAnchor = null;
   var redirectTimeout = null;
 
-  $(window).on('popstate', (ev) => {
+  window.addEventListener('popstate', (ev) => {
     var url = window.location.href;
 
     if (redirectTimeout && !url.match(/redirect/)) {
@@ -13,8 +13,8 @@ export default function($) {
       redirectTimeout = null;
     }
   });
-  $(document).on('turbolinks:before-visit', (ev) => {
-    const url = ev.originalEvent.data.url;
+  document.addEventListener('turbolinks:before-visit', (ev) => {
+    const url = ev.data.url;
     const anchorIndex = url.indexOf('#');
     const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
     if (anchorIndex !== -1) {
@@ -39,7 +39,7 @@ export default function($) {
     }
 
   });
-  $(document).on('turbolinks:render', (ev) => {
+  document.addEventListener('turbolinks:render', (ev) => {
     // if it's cached render, not a real one, set the scroll/focus positions,
     // but don't clear them until we have the true rendering.
     var clearSaved = $('html').attr('data-turbolinks-preview') !== '';
@@ -73,9 +73,9 @@ export default function($) {
       }
     }
   });
-  $(document).on('turbolinks:request-end', (ev) => {
+  document.addEventListener('turbolinks:request-end', (ev) => {
     // if a refresh header was receieved, enforce via javascript
-    var refreshHeader = ev.originalEvent.data.xhr.getResponseHeader("Refresh");
+    var refreshHeader = ev.data.xhr.getResponseHeader("Refresh");
     if (!refreshHeader) {
       return;
     }

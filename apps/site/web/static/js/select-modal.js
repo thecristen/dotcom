@@ -1,8 +1,6 @@
 import Sifter from 'sifter';
 
 export default function($ = window.jQuery) {
-  convertSelects($);
-
   // create the modal when we click on the fake select
   $(document).on("click openModal", "[data-select-modal]",
                  (ev) => openModal(ev, $));
@@ -25,7 +23,11 @@ export default function($ = window.jQuery) {
   $(document).on("click", "[data-select-modal-open]",
                  (ev) => openRemoteModal(ev, $));
 
-  $(document).on("turbolinks:load", () => convertSelects($));
+  document.addEventListener(
+    "turbolinks:load",
+    () =>
+      window.nextTick(
+        () => convertSelects($)));
 }
 
 function openModal(ev, $) {
@@ -105,13 +107,15 @@ function modalHidden(ev, $) {
 // public so that it can be re-run separately from the global event handlers
 export function convertSelects($) {
   // if there are select toggles, show them
-  $(".select-modal-toggle").each((_index, el) => {
-    const $el = $(el);
-    $el.css("display", "block");
+  window.requestAnimationFrame(() => {
+    $(".select-modal-toggle").each((_index, el) => {
+      el.style.display = "block";
+    });
   });
-  $("select[data-select-modal][data-no-conversion]").each((_index, el) => {
-    const $el = $(el),
-          $cover = $(`<div data-select-modal=${$el.attr('name')}/>`)
+  window.requestAnimationFrame(() => {
+    $("select[data-select-modal][data-no-conversion]").each((_index, el) => {
+      const $el = $(el),
+            $cover = $(`<div data-select-modal=${$el.attr('name')}/>`)
             .addClass('select-cover')
             .css({
               width: $el.outerWidth(),
@@ -120,30 +124,33 @@ export function convertSelects($) {
               position: "absolute",
               cursor: "pointer"
             });
-    $el.before($cover).removeAttr('data-select-modal');
+      $el.before($cover).removeAttr('data-select-modal');
 
-    // if the select had toggle button nearby, hide the select
-    if ($el.siblings('.select-modal-toggle').length) {
-      $el.addClass('select-converted-to-modal');
-    }
+      // if the select had toggle button nearby, hide the select
+      if ($el.siblings('.select-modal-toggle').length) {
+        $el.addClass('select-converted-to-modal');
+      }
+    });
   });
-  $("select[data-select-modal]:not([data-no-conversion])").each((_index, el) => {
-    // creates a text container (based on the select value) and a button
-    // (based on the text of the submit button for the form).
-    const $el = $(el),
-          $replacementText = $(`<span/>`)
-          .addClass('select-modal-text')
-          .text(el.options[el.selectedIndex].text),
-          $replacement = $(`<button data-select-modal="${$el.attr('name')}" type=button />`)
-          .addClass('btn btn-link btn-select-modal')
-          .text(buttonText($el.parents("form").find("[type=submit]").text()))
-          .data('select-modal-select', $el);
-    $el.hide()
-      .removeAttr('data-select-modal')
-      .after($replacementText)
-      .parents("form")
-      .find("[type=submit]")
-      .after($replacement);
+  window.requestAnimationFrame(() => {
+    $("select[data-select-modal]:not([data-no-conversion])").each((_index, el) => {
+      // creates a text container (based on the select value) and a button
+      // (based on the text of the submit button for the form).
+      const $el = $(el),
+            $replacementText = $(`<span/>`)
+            .addClass('select-modal-text')
+            .text(el.options[el.selectedIndex].text),
+            $replacement = $(`<button data-select-modal="${$el.attr('name')}" type=button />`)
+            .addClass('btn btn-link btn-select-modal')
+            .text(buttonText($el.parents("form").find("[type=submit]").text()))
+            .data('select-modal-select', $el);
+      $el.hide()
+        .removeAttr('data-select-modal')
+        .after($replacementText)
+        .parents("form")
+        .find("[type=submit]")
+        .after($replacement);
+    });
   });
 }
 

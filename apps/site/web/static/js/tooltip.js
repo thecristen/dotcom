@@ -7,5 +7,5 @@ export default function($) {
     $(selector).tooltip('dispose');
   };
 
-  $(document).on('turbolinks:before-cache', clearTooltips);
+  document.addEventListener('turbolinks:before-cache', clearTooltips);
 };

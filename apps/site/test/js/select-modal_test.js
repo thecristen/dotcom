@@ -19,6 +19,8 @@ describe('selectModal', () => {
 
   beforeEach(() => {
     $ = jsdom.rerequire('jquery');
+    // make rAF synchronous for easier testing
+    window.requestAnimationFrame = function requestAnimationFrame(fn) { fn(); };
   });
 
   describe('convertSelects', () => {

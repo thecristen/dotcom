@@ -2,30 +2,30 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function bindScrollContainers() {
-    document.querySelectorAll('[data-sticky-container]').forEach(
-      (el) => window.setTimeout(initialPosition.bind(el), 0)
-    );
+    window.nextTick(
+      () =>
+        document.querySelectorAll('[data-sticky-container]').forEach(
+          (el) => window.setTimeout(initialPosition.bind(el), 0)
+        ));
   }
 
   function initialPosition() {
     var queue = [];
     const stickyElements = this.querySelectorAll("[data-sticky]");
-    stickyElements.forEach(makeReplacement);
     stickyElements.forEach((el) => {
-        el.style = 'width: auto; height: auto; position: relative;';
-        const sticky = el.getAttribute('data-sticky');
-        const boundingRect = el.getBoundingClientRect();
-        const rect = {
-          width: Math.ceil(boundingRect.width),
-          height: Math.ceil(boundingRect.height)
-        };
+      const sticky = el.getAttribute('data-sticky');
+      const boundingRect = el.getBoundingClientRect();
+      const rect = {
+        width: Math.ceil(boundingRect.width),
+        height: Math.ceil(boundingRect.height)
+      };
 
-        if (sticky === "left") {
-          queue.push(() => leftSticky(el, rect));
-        } else if (sticky === "right") {
-          queue.push(() => rightSticky(el, rect));
-        }
-      });
+      if (sticky === "left") {
+        queue.push(() => leftSticky(el, rect));
+      } else if (sticky === "right") {
+        queue.push(() => rightSticky(el, rect));
+      }
+    });
 
     // batch all the CSS updates
     window.requestAnimationFrame(() => queue.map((fn) => fn()));
@@ -40,25 +40,22 @@ function makeReplacement(child) {
   // the way once we've gone absolute
   var replacement = previousElement(child);
   if (!replacement) {
-    replacement = document.createElement(child.tagName);
-    replacement.className = 'sticky-replacement';
-    replacement.innerText = ' ';
+    replacement = child.cloneNode(true);
     child.parentNode.insertBefore(replacement, child);
+    replacement = child;
+    replacement.removeAttribute("data-sticky");
   }
   return replacement;
 }
 
 function leftSticky(child, rect) {
-  makeReplacement(child).style = `padding-left: ${rect.width}px; height: ${rect.height}px;`;
-
-  // update our CSS position/size
-  updatePosition(child, rect, 'left');
+  const replacement = makeReplacement(child);
+  updatePosition(replacement, rect, 'left');
 }
 
 function rightSticky(child, rect) {
-  makeReplacement(child).style = `padding-right: ${rect.width}px; height: ${rect.height}px;`;
-
-  updatePosition(child, rect, 'right');
+  const replacement = makeReplacement(child);
+  updatePosition(replacement, rect, 'right');
 }
 
 function previousElement(el) {

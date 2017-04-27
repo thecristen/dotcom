@@ -2,7 +2,10 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function scrollTo() {
-    document.querySelectorAll("[data-scroll-to]").forEach((el) => window.setTimeout(doScrollTo.bind(el), 0));
+    window.nextTick(
+      () =>
+        document.querySelectorAll("[data-scroll-to]").forEach(
+          (el) => window.setTimeout(doScrollTo.bind(el), 0)));
   }
 
   function handleScroll(ev) {
@@ -39,7 +42,9 @@ export default function($) {
     table.parentNode.addEventListener('scroll', handleScroll);
     table.parentNode.scrollLeft = scrollLeft;
     if (table.className.indexOf("vertically-centered") === -1) {
-      requestAnimationFrame(() => verticallyCenter($, table, table.clientHeight, 'schedule-v2-timetable-more-text'));
+      const tableHeight = table.clientHeight;
+      window.nextTick(
+        () => verticallyCenter($, table, tableHeight, 'schedule-v2-timetable-more-text'));
     }
   }
 
@@ -96,7 +101,7 @@ function verticallyCenter($, el, tableHeight, className) {
     const height = textEl.offsetHeight;
     if (height) {
       const top = Math.floor((tableHeight - height + bottomBorder) / 2);
-      textEl.style.top = `${top}px`;
+      window.requestAnimationFrame(() => textEl.style.top = `${top}px`);
       sized = true;
     }
   });
