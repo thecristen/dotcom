@@ -1,3 +1,3 @@
-<%= for {stop, is_terminus?} <- EnumHelpers.with_first_last(@stops) do
+<%= for {stop, is_terminus?} <- Util.EnumHelpers.with_first_last(@stops) do
   route_row(@conn, stop, @stop_features[stop.id], is_terminus?)
 end %>

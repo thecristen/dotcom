@@ -1,6 +1,6 @@
 defmodule Site.FareView.Description do
   alias Fares.Fare
-  import AndJoin
+  import Util.AndJoin
 
   @spec description(Fare.t, map()) :: Phoenix.HTML.unsafe
   def description(%Fare{mode: :commuter_rail, duration: :single_trip, name: name}, _assigns) do

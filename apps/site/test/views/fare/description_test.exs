@@ -3,7 +3,7 @@ defmodule Site.FareView.DescriptionTest do
   import Site.FareView.Description
   alias Fares.Fare
   import IO, only: [iodata_to_binary: 1]
-  import AndJoin
+  import Util.AndJoin
 
   describe "description/2" do
     test "fare description for one way CR is for commuter rail between the appropriate zones only" do

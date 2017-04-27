@@ -86,7 +86,9 @@ defmodule Site.Mixfile do
      {:floki, "~> 0.12.0"},
      {:mochiweb, "~> 2.15.0", override: true},
      {:mock, "~> 0.2.0", only: :test},
-     {:system_metrics, in_umbrella: true}]
+     {:system_metrics, in_umbrella: true},
+     {:util, in_umbrella: true}
+   ]
       # NOTE: mochiweb override added to resolve dependency conflict
       # between html_sanitize_ex (2.12.2) and floki (2.15.0). Overriding does not
       # affect the functions we currently use html_sanitize_ex for. This should be

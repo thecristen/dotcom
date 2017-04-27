@@ -1,6 +1,6 @@
 defmodule Util.AndJoinTest do
   use ExUnit.Case, async: true
-  import AndJoin
+  import Util.AndJoin
   import IO, only: [iodata_to_binary: 1]
 
   test "and_join/1" do
