@@ -7,7 +7,7 @@
     padding-top: 0;
   }
 
-  .icon-small {
+  .icon-alert {
     margin: .25em .25em;
   }
 
@@ -30,7 +30,7 @@
   }
 
   @include media-breakpoint-only(xs) {
-    .icon-small {
+    .icon-alert {
       height: $font-size-sm;
       width: $font-size-sm;
     }
