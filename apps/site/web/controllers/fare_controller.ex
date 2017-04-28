@@ -14,20 +14,21 @@ defmodule Site.FareController do
                        [name: :local_bus, duration: :single_trip, reduced: nil],
                        [name: :subway, duration: :week, reduced: nil],
                        [name: :subway, duration: :month, reduced: nil]]
-  @commuter_filters [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
+  @commuter_rail_filters [[mode: :commuter_rail, duration: :single_trip, reduced: nil],
                      [mode: :commuter_rail, duration: :month, reduced: nil]]
   @ferry_filters [[mode: :ferry, duration: :single_trip, reduced: nil],
                   [mode: :ferry, duration: :month, reduced: nil]]
   @the_ride_filters [[mode: :the_ride]]
 
   def index(conn, _params) do
-    render conn, "index.html", [
-      breadcrumbs: ["Fares and Passes"],
-      bus_subway: @bus_subway_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:bus_subway),
-      commuter_rail: @commuter_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:commuter_rail),
-      ferry: @ferry_filters |> Enum.flat_map(&Repo.all/1) |> Format.summarize(:ferry),
-      the_ride: @the_ride_filters |> Enum.flat_map(&Repo.all/1)
-    ]
+    conn
+    |> async_assign(:bus_subway, fn -> format_filters(@bus_subway_filters, :bus_subway) end)
+    |> async_assign(:commuter_rail, fn -> format_filters(@commuter_rail_filters, :commuter_rail) end)
+    |> async_assign(:ferry, fn -> format_filters(@ferry_filters, :ferry) end)
+    |> async_assign(:the_ride, fn -> format_filters(@the_ride_filters, :the_ride) end)
+    |> assign(:breadcrumbs, ["Fares and Passes"])
+    |> await_assign_all()
+    |> render("index.html")
   end
 
   def show(conn, %{"id" => static}) when static in @static_pages do
@@ -43,6 +44,15 @@ defmodule Site.FareController do
     params["id"]
     |> fare_module
     |> render_fare_module(conn)
+  end
+
+  defp format_filters(filters, :the_ride) do
+    Enum.flat_map(filters, &Repo.all/1)
+  end
+  defp format_filters(filters, type) do
+    filters
+    |> Enum.flat_map(&Repo.all/1)
+    |> Format.summarize(type)
   end
 
   defp fare_module("commuter_rail"), do: Commuter
