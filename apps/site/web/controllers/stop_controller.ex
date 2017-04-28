@@ -24,11 +24,11 @@ defmodule Site.StopController do
 
     conn
     |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
+    |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)
     |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, tab_value(query_params["tab"]))
-    |> assign(:zone_number, Zones.Repo.get(stop.id))
     |> tab_assigns(stop)
-    |> await_assign(:grouped_routes)
+    |> await_assign_all()
     |> render("show.html", stop: stop)
   end
 
@@ -61,18 +61,19 @@ defmodule Site.StopController do
 
   defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
     conn
-    |> assign(:fare_name, Fares.calculate("1A", Zones.Repo.get(stop.id)))
-    |> assign(:terminal_station, terminal_station(stop))
-    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(stop))
+    |> async_assign(:fare_name, fn -> Fares.calculate("1A", Zones.Repo.get(stop.id)) end)
+    |> async_assign(:terminal_station, fn -> terminal_station(stop) end)
+    |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
+    |> await_assign_all()
   end
   defp tab_assigns(%{assigns: %{tab: "schedule", all_alerts: alerts}} = conn, stop) do
     conn
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
-    |> assign(:stop_predictions, stop_predictions(stop.id))
+    |> async_assign(:stop_predictions, fn -> stop_predictions(stop.id) end)
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
-    |> await_assign(:stop_schedule)
+    |> await_assign_all()
     |> assign_upcoming_route_departures()
   end
 
