@@ -89,7 +89,7 @@ defmodule Site.Mixfile do
      {:mock, "~> 0.2.0", only: :test},
      {:system_metrics, in_umbrella: true},
      {:util, in_umbrella: true},
-     {:polyline, "~> 0.1.0"}]
+     {:polyline, github: "ryan-mahoney/polyline_ex"}]
       # NOTE: mochiweb override added to resolve dependency conflict
       # between html_sanitize_ex (2.12.2) and floki (2.15.0). Overriding does not
       # affect the functions we currently use html_sanitize_ex for. This should be

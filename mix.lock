@@ -66,7 +66,7 @@
   "pobox": {:hex, :pobox, "1.0.2", "45a5bc91e3cf20f9bc0b94494f00fcdccbc333ab2e0856972b7f0f196fc41613", [:rebar3], []},
   "poison": {:hex, :poison, "2.2.0", "4763b69a8a77bd77d26f477d196428b741261a761257ff1cf92753a0d4d24a63", [:mix], []},
   "pollution": {:hex, :pollution, "0.9.0", "2d172aeedc444f0fc06a69b03bb6a560fb141bcafcc0c8189c29b10ee6e50893", [:mix], []},
-  "polyline": {:hex, :polyline, "0.1.0", "3372871e85ad130848227f6fd10c73104b7058dc2fe339d9cd008c158fa6a6aa", [:mix], [{:vector, "~> 0.1.0", [hex: :vector, optional: false]}]},
+  "polyline": {:git, "https://github.com/ryan-mahoney/polyline_ex.git", "f1ed40208d49806255317f9b1ebaf954e5cddff4", []},
   "providers": {:hex, :providers, "1.6.0", "db0e2f9043ae60c0155205fcd238d68516331d0e5146155e33d1e79dc452964a", [:rebar3], [{:getopt, "0.8.2", [hex: :getopt, optional: false]}]},
   "quixir": {:hex, :quixir, "0.9.1", "b9a45930f330ba485c1cb976afc9f5ceb14ebbe10faf755e0796bb971396c37c", [:mix], [{:pollution, "~> 0.9", [hex: :pollution, optional: false]}]},
   "rabbit_common": {:git, "https://github.com/jbrisbin/rabbit_common.git", "9c1965273032ffb79ec0ff80b250e5d0b4608aa7", [ref: ""]},
