@@ -4,7 +4,7 @@ defmodule Site.EventControllerTest do
   describe "GET index" do
     test "renders a list of upcoming events", %{conn: conn} do
       conn = get conn, event_path(conn, :index)
-      assert html_response(conn, 200) =~ "Upcoming Meetings"
+      assert html_response(conn, 200) =~ "Upcoming Events"
     end
 
     test "scopes events based on provided dates", %{conn: conn} do
