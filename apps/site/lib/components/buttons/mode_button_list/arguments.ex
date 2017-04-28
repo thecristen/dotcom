@@ -7,6 +7,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   """
   alias Site.Components.Icons.{SvgIcon, SvgIconWithCircle}
   alias Site.Components.Buttons.ButtonGroup
+  import Phoenix.HTML
 
   defstruct class:     "",
             id:        nil,
@@ -73,8 +74,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   def button_content(route, %__MODULE__{conn: conn, alerts: alerts, date: date}) do
     {[
       icon_if_subway(route),
-      Phoenix.HTML.Tag.content_tag(:span, Site.ViewHelpers.clean_route_name(route.name), class: "mode-button-text"),
-      alert_icon(route, alerts, date)
+      Phoenix.HTML.Tag.content_tag(:span, [Site.ViewHelpers.clean_route_name(route.name), alert_icon(route, alerts, date)], class: "mode-button-text")
     ], Site.Router.Helpers.schedule_path(conn, :show, route.id)}
   end
 

@@ -7,6 +7,10 @@
     padding-top: 0;
   }
 
+  .icon-small {
+    margin: .25em .25em;
+  }
+
   .mode-group-block {
     margin-top: $grid-gutter-width / 2;
   }
@@ -22,6 +26,13 @@
       .button-container:last-child {
         width: 33.3%;
       }
+    }
+  }
+
+  @include media-breakpoint-only(xs) {
+    .icon-small {
+      height: $font-size-sm;
+      width: $font-size-sm;
     }
   }
 }
@@ -51,32 +62,21 @@
 }
 
 @include media-breakpoint-only(xs) {
-  // scss-lint:disable VendorPrefix
   // for commuter rail on homepage for mobile, special rules to guarantee nice two column formatting
   .mode-group.commuter-rail .button,
   .commuter-rail .mode-group .button {
-    align-items: center;
-    display: -webkit-flex; // phantom seems to prefer the older syntax
-    display: flex;
-    height: 4rem;
-    justify-content: center;
+    font-size: $font-size-sm;
+    line-height: 3rem;
+    padding: 0 $btn-padding-x;
+    text-align: center;
     white-space: normal;
   }
 
   .commuter-rail {
     .mode-button-text {
       display: inline-block;
-      -ms-flex: 0 1 auto;
-      -webkit-flex: 1; // make phantom center the text centered correctly
-      flex: 1;
-      flex-grow: 0;
-    }
-
-    .icon-alert {
-      -ms-flex: 0 0 $icon-size-sm; // specify all 3 to work around IE bug
-      flex-basis: $icon-size-sm;
-      flex-grow: 0;
-      flex-shrink: 0;
+      line-height: normal;
+      vertical-align: middle;
     }
   }
 }
