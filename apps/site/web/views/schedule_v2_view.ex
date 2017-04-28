@@ -480,12 +480,7 @@ defmodule Site.ScheduleV2View do
   def display_collapsed?(_, _, _, _), do: false
 
   @spec display_map_link?(integer) :: boolean
-  def display_map_link?(route_type) when route_type in [0, 1, 4] do
-    true
-  end
-  def display_map_link?(_route_type) do
-    false
-  end
+  def display_map_link?(type), do: type == 4 # only show for ferry
 
   @spec route_pdf_link(Route.t, Date.t) :: Phoenix.HTML.Safe.t
   def route_pdf_link(%Route{} = route, %Date{} = date) do
