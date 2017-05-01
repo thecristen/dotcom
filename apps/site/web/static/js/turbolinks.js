@@ -86,7 +86,18 @@ function scrollToAndFocus(el, $, savedPosition) {
   if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
     el.focus();
   } else {
-    const $el = $(el);
-    const $a = $el.find('a:first').focus();
+    const a = el.querySelector('a');
+    a.focus();
+    scrollToElement(a);
+    // if the link we focused is the target for a collapse, then show
+    // the collapsed element
+    if (a.getAttribute("data-target") == window.location.hash) {
+      $(el).collapse('show');
+    }
   }
-}
+};
+
+function scrollToElement(el, savedPosition) {
+  const rect = el.getBoundingClientRect();
+  window.scrollBy(0, rect.top);
+};
