@@ -374,6 +374,7 @@ defmodule Site.ScheduleV2ViewTest do
               stop_list_template: "_stop_list.html",
               shapes: [@shape, @shape],
               active_shape: @shape,
+              show_variant_selector: true,
               map_img_src: nil,
               hours_of_operation: @hours_of_operation,
               holidays: [],
