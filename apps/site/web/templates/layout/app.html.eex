@@ -1,6 +1,3 @@
-<%
-  include_photo_credits? = @view_module == Site.PageView && @view_template == "index.html"
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,7 +45,7 @@
         <%= render_existing @view_module, assigns[:post_container_template], assigns %>
       <% end %>
       <%= render "_beta_announcement.html", conn: @conn %>
-      <%= render __MODULE__, "_footer.html", conn: @conn, include_photo_credits?: include_photo_credits? %>
+      <%= render __MODULE__, "_footer.html", conn: @conn %>
     </div>
     <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
     <%= if google_tag_manager_id() do %>

@@ -53,9 +53,9 @@
 .pre-container-wrapper {
   // scss-lint:disable ColorVariable
   background-color: $brand-primary-darkest;
-  background-image: $hp-hero-gradient, url('/images/td-garden-zakim.jpg');
-  background-position-x: 50%;
-  background-position-y: 0%;
+  background-image: $hp-hero-gradient, url('/images/hero.jpg');
+  background-position-x: 0%;
+  background-position-y: 50%;
   background-repeat: no-repeat;
   background-size: cover;
   padding: $base-spacing * 3;
