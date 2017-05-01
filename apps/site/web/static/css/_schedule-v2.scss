@@ -339,6 +339,7 @@ a {
   -ms-flex: 1 1 0%; // specify all 3 to work around IE bug
   flex: 1;
   min-height: 4rem;
+  overflow: hidden;
   padding: $base-spacing-sm;
   position: relative;
   text-align: left;
