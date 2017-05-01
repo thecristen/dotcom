@@ -1,5 +1,5 @@
 defmodule Feedback.MailerTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   describe "Feedback.Mailer" do
 
