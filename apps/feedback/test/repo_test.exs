@@ -1,5 +1,5 @@
 defmodule Feedback.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   describe "Feedback.Repo" do
     test "renders a message into the HEAT email format" do
