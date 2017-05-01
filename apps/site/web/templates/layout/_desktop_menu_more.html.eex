@@ -46,7 +46,7 @@
           <% end %>
         </li>
         <li>
-          <%= link to: "http://www.mbtagifts.com/shop.php", target: "_blank" do %>
+          <%= link to: "http://www.mbtagifts.com/", target: "_blank" do %>
             <%= fa "caret-right" %> Gifts
           <% end %>
         </li>
