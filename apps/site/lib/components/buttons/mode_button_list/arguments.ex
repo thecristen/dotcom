@@ -7,7 +7,6 @@ defmodule Site.Components.Buttons.ModeButtonList do
   """
   alias Site.Components.Icons.{SvgIcon, SvgIconWithCircle}
   alias Site.Components.Buttons.ButtonGroup
-  import Phoenix.HTML
 
   defstruct class:     "",
             id:        nil,
