@@ -27,7 +27,8 @@ export default function($ = window.jQuery) {
     "turbolinks:load",
     () =>
       window.nextTick(
-        () => convertSelects($)));
+        () => convertSelects($)),
+    {passive: true});
 }
 
 function openModal(ev, $) {

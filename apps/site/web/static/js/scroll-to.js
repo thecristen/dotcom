@@ -48,7 +48,7 @@ export default function($) {
     }
   }
 
-  document.addEventListener('turbolinks:load', scrollTo);
+  document.addEventListener('turbolinks:load', scrollTo, {passive: true});
 }
 
 function firstSibling(element) {

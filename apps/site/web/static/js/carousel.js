@@ -22,5 +22,8 @@ export default function($) {
     $target.html($item.children().clone());
   }
 
-  document.addEventListener('turbolinks:load', () => window.nextTick(setupCarousel));
+  document.addEventListener(
+    'turbolinks:load',
+    () => window.nextTick(setupCarousel),
+    {passive: true});
 };

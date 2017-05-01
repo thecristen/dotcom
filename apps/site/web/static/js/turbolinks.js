@@ -12,7 +12,7 @@ export default function($) {
       clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
-  });
+  }, {passive: true});
   document.addEventListener('turbolinks:before-visit', (ev) => {
     const url = ev.data.url;
     const anchorIndex = url.indexOf('#');
@@ -72,7 +72,7 @@ export default function($) {
         }
       }
     }
-  });
+  }, {passive: true});
   document.addEventListener('turbolinks:request-end', (ev) => {
     // if a refresh header was receieved, enforce via javascript
     var refreshHeader = ev.data.xhr.getResponseHeader("Refresh");
@@ -88,7 +88,7 @@ export default function($) {
     redirectTimeout = setTimeout(function () {
       document.location = refreshUrl;
     }, refreshDelay);
-  });
+  }, {passive: true});
 };
 
 export function samePath(first, second) {

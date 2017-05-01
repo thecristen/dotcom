@@ -31,8 +31,8 @@ export default function($) {
     window.requestAnimationFrame(() => queue.map((fn) => fn()));
   }
 
-  document.addEventListener('turbolinks:load', bindScrollContainers);
-  window.addEventListener('resize', bindScrollContainers);
+  document.addEventListener('turbolinks:load', bindScrollContainers, {passive: true});
+  window.addEventListener('resize', bindScrollContainers, {passive: true});
 }
 
 function makeReplacement(child) {

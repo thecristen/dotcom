@@ -8,7 +8,7 @@ export default function($) {
     initializeMap(map);
   }
 
-  document.addEventListener('turbolinks:load', initMap);
+  document.addEventListener('turbolinks:load', initMap, {passive: true});
 }
 
 function initializeMap(map) {

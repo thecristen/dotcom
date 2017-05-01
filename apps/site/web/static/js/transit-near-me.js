@@ -28,7 +28,7 @@ export default function($) {
     }
   }
 
-  document.addEventListener('turbolinks:load', setupTNM);
+  document.addEventListener('turbolinks:load', setupTNM, {passive: true});
 }
 
 // Functions exported for testing //

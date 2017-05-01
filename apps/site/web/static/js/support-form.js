@@ -18,7 +18,7 @@ export default function($ = window.jQuery) {
 
       handleSubmitClick($);
     });
-  });
+  }, {passive: true});
 };
 
 // Set a few things since we know we don't need the no-JS fallbacks

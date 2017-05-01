@@ -59,5 +59,5 @@ export default function($) {
 
   // events
   setupDatePicker();
-  document.addEventListener('turbolinks:load', displayOnLoad);
+  document.addEventListener('turbolinks:load', displayOnLoad, {passive: true});
 };
