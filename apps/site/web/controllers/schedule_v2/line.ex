@@ -63,6 +63,7 @@ defmodule Site.ScheduleV2Controller.Line do
   def call(%Plug.Conn{assigns: %{route: %{id: route_id, type: 3}}} = conn, _args) do
     # in the case of buses, get the stops from the selected/default shape
     shapes = get_shapes(route_id, conn.assigns.direction_id)
+
     shape = get_shape(shapes, conn.query_params["variant"])
     stops = get_stops_from_shape(shape)
     active_shape = case shapes do
@@ -76,7 +77,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:shapes, shapes)
     |> assign(:active_shape, active_shape)
     |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type, [active_shape]))
+    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type, [shape]))
   end
   def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
     stops = Stops.Repo.by_route(route_id, 1)
