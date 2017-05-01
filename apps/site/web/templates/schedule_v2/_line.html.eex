@@ -1,7 +1,7 @@
 <div class="row p-t-1">
   <%= if @route.type == 3 do %>
     <%= render "_direction_select.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: @origin, destination: @destination, show_date_select?: @show_date_select? %>
-    <%= if @active_shape do %>
+    <%= if assigns[:show_variant_selector] do %>
       <%= render "_variant_select.html", conn: @conn, shapes: @shapes, active_shape: @active_shape %>
     <% end %>
   <% end %>
