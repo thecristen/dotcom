@@ -14,7 +14,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   plug :assign_stop_times
   plug :validate_direction_id
 
-  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) when Route.subway?(route_type) do
+  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) when Route.subway?(route_type, route_id) do
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
     predictions = conn.assigns.predictions
@@ -23,7 +23,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
 
     assign(conn, :stop_times, stop_times)
   end
-  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type}, schedules: schedules}} = conn, []) do
+  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
@@ -33,7 +33,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     today? = Timex.diff(user_selected_date, current_date_time, :days) == 0
     current_time = if today?, do: conn.assigns.date_time, else: nil
     filter_flag = filter_flag(today?, route_type)
-    keep_all? = keep_all?(today?, route_type, show_all_trips?)
+    keep_all? = keep_all?(today?, route_type, route_id, show_all_trips?)
 
     stop_times =
       StopTimeList.build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, keep_all?)
@@ -63,8 +63,8 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     conn
   end
 
-  defp keep_all?(today?, route_type, show_all?) do
-    show_all? || !today? || Route.subway?(route_type)
+  defp keep_all?(today?, route_type, route_id, show_all?) do
+    show_all? || !today? || Route.subway?(route_type, route_id)
   end
 
   defp filter_flag(_today?, 3), do: :predictions_then_schedules

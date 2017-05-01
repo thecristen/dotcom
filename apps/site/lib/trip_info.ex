@@ -223,6 +223,6 @@ defmodule TripInfo do
   @spec should_display_trip_info?(TripInfo.t | nil) :: boolean
   def should_display_trip_info?(nil), do: false
   def should_display_trip_info?(trip_info) do
-    not Route.subway?(trip_info.route.type) or TripInfo.any_predictions?(trip_info)
+    not Route.subway?(trip_info.route.type, trip_info.route.id) or TripInfo.any_predictions?(trip_info)
   end
 end

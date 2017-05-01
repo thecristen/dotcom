@@ -44,7 +44,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
                   route: route,
                   date: user_selected_date,
                   date_time: date_time}}) when times != [] do
-    if show_trips?(user_selected_date, date_time, route.type) do
+    if show_trips?(user_selected_date, date_time, route.type, route.id) do
       current_trip(times, date_time)
     else
       nil
@@ -135,9 +135,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     prediction_fn.([trip: trip_id])
   end
 
-  @spec show_trips?(DateTime.t, DateTime.t, integer) :: boolean
-  def show_trips?(user_selected_date, current_date_time, route_type) when Route.subway?(route_type) do
+  @spec show_trips?(DateTime.t, DateTime.t, integer, String.t) :: boolean
+  def show_trips?(user_selected_date, current_date_time, route_type, route_id) when Route.subway?(route_type, route_id) do
     Timex.diff(user_selected_date, current_date_time, :days) == 0
   end
-  def show_trips?(_date, _current_date_time, _route_type), do: true
+  def show_trips?(_date, _current_date_time, _route_type, _route_id), do: true
 end
