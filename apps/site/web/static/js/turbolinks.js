@@ -3,6 +3,7 @@ export default function($) {
 
   var savedPosition = null;
   var redirectTimeout = null;
+  var lastUrl = currentUrl();
 
   window.addEventListener('popstate', (ev) => {
     var url = window.location.href;
@@ -11,6 +12,8 @@ export default function($) {
       window.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
+
+    lastUrl = currentUrl();
   }, {passive: true});
 
   document.addEventListener('turbolinks:before-visit', (ev) => {
@@ -22,12 +25,13 @@ export default function($) {
       redirectTimeout = null;
     }
     const url = ev.data.url;
-    const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
 
-    if (samePath(url, currentPath)) {
+    if (samePath(url, lastUrl)) {
       savedPosition = [window.scrollX, window.scrollY];
     }
-  });
+
+    lastUrl = currentUrl();
+  }, {passive: true});
 
   document.addEventListener('turbolinks:render', (ev) => {
     // if it's cached render, not a real one, set the scroll/focus positions,
@@ -36,7 +40,8 @@ export default function($) {
     if (!cachedRender && window.location.hash) {
       const el = document.getElementById(window.location.hash.slice(1));
       if (el) {
-        scrollToAndFocus(el, $, savedPosition);
+        savedPosition = null;
+        focusAndExpand(el, $);
       }
     }
 
@@ -71,20 +76,17 @@ export function samePath(first, second) {
     first.length == second.length || first[second.length] === "?"));
 };
 
-function scrollToAndFocus(el, $, savedPosition) {
+function currentUrl() {
+  return `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+}
+
+function focusAndExpand(el, $) {
   const nodeName = el.nodeName;
-  if (!savedPosition) {
-    // scroll to the element if we didn't have another position saved
-    window.requestAnimationFrame(() => {
-      // wait for the element to render
-      const elementY = el.offsetTop;
-      window.scroll(window.scrollX, elementY - 20);
-    });
-  }
   // if we're focusing a link, then focus it directly. otherwise, find
   // the first child link and focus that.
   if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
     el.focus();
+    scrollToElement(el);
   } else {
     const a = el.querySelector('a');
     a.focus();
@@ -98,6 +100,8 @@ function scrollToAndFocus(el, $, savedPosition) {
 };
 
 function scrollToElement(el, savedPosition) {
-  const rect = el.getBoundingClientRect();
-  window.scrollBy(0, rect.top);
+  window.requestAnimationFrame(() => {
+    const rect = el.getBoundingClientRect();
+    window.scrollBy(0, rect.top);
+  });
 };
