@@ -59,9 +59,9 @@ defmodule Routes.Route do
     key_route?
   end
 
-  defmacro subway?(expr) do
+  defmacro subway?(type, id) do
     quote do
-      unquote(expr) in [0, 1]
+      unquote(type) in [0, 1] and unquote(id) != "Mattapan"
     end
   end
 end
