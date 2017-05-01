@@ -241,7 +241,7 @@ function dataFromOption($) {
 
 function renderSearch(selectName, data, options) {
   if (options.search === false) {
-    return `<label id="select-modal-label" for="${selectName}">${options.label}</label>`;
+    return `<label class="modal-label" id="select-modal-label" for="${selectName}">${options.label}</label>`;
   }
   const placeholder = firstEnabledName(data);
   return `

@@ -24,6 +24,15 @@
   padding: $space-12 0;
 }
 
+.modal-label {
+  font-weight: bold;
+  margin-bottom: 0;
+
+  .tooltip-icon {
+    display: none;
+  }
+}
+
 .select-modal-search {
   padding-bottom: $space-12;
 
