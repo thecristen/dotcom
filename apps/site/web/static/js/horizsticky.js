@@ -38,7 +38,7 @@ export default function($) {
 function makeReplacement(child) {
   // we add a replacement element so we can push sibling elements out of
   // the way once we've gone absolute
-  var replacement = previousElement(child);
+  var replacement = child.previousElementSibling;
   if (!replacement) {
     replacement = child.cloneNode(true);
     child.parentNode.insertBefore(replacement, child);
@@ -56,13 +56,6 @@ function leftSticky(child, rect) {
 function rightSticky(child, rect) {
   const replacement = makeReplacement(child);
   updatePosition(replacement, rect, 'right');
-}
-
-function previousElement(el) {
-  var previous = el.previousSibling;
-  while (el.nodeType !== 1) {
-    previous = previous.previousSibling;
-  }
 }
 
 function updatePosition(child, rect, position) {

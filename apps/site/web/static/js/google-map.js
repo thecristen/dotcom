@@ -13,7 +13,7 @@ export default function($) {
 
 function initializeMap(map) {
   if (typeof google != "undefined") {
-    map.className += "google-map";
+    map.className += " google-map";
     document.getElementById("static-map").style.display = "none";
     const lat = parseFloat(map.getAttribute("data-latitude"));
     const lng = parseFloat(map.getAttribute("data-longitude"));
