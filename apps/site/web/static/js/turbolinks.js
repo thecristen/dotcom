@@ -1,44 +1,44 @@
-export default function($) {
-  $ = $ || window.jQuery;
+export default function($, w = window, doc = document) {
+  $ = $ || w.jQuery;
 
   var savedPosition = null;
   var redirectTimeout = null;
   var lastUrl = currentUrl();
 
-  window.addEventListener('popstate', (ev) => {
-    var url = window.location.href;
+  w.addEventListener('popstate', (ev) => {
+    var url = w.location.href;
 
     if (redirectTimeout && !url.match(/redirect/)) {
-      window.clearTimeout(redirectTimeout);
+      w.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
 
     lastUrl = currentUrl();
   }, {passive: true});
 
-  document.addEventListener('turbolinks:before-visit', (ev) => {
+  doc.addEventListener('turbolinks:before-visit', (ev) => {
     savedPosition = null;
 
     // cancel a previously set redirect timeout
     if (redirectTimeout) {
-      window.clearTimeout(redirectTimeout);
+      w.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
     const url = ev.data.url;
 
     if (samePath(url, lastUrl)) {
-      savedPosition = [window.scrollX, window.scrollY];
+      savedPosition = [w.scrollX, w.scrollY];
     }
 
     lastUrl = currentUrl();
   }, {passive: true});
 
-  document.addEventListener('turbolinks:render', (ev) => {
+  doc.addEventListener('turbolinks:render', () => {
     // if it's cached render, not a real one, set the scroll/focus positions,
     // but don't clear them until we have the true rendering.
-    const cachedRender = document.documentElement.getAttribute('data-turbolinks-preview') === '';
-    if (!cachedRender && window.location.hash) {
-      const el = document.getElementById(window.location.hash.slice(1));
+    const cachedRender = doc.documentElement.getAttribute('data-turbolinks-preview') === '';
+    if (!cachedRender && w.location.hash) {
+      const el = doc.getElementById(w.location.hash.slice(1));
       if (el) {
         savedPosition = null;
         focusAndExpand(el, $);
@@ -46,14 +46,14 @@ export default function($) {
     }
 
     if (savedPosition) {
-      window.scrollTo.apply(window, savedPosition);
+      w.scrollTo.apply(window, savedPosition);
       if (!cachedRender) {
         savedPosition = null;
       }
     }
   }, {passive: true});
 
-  document.addEventListener('turbolinks:request-end', (ev) => {
+  doc.addEventListener('turbolinks:request-end', (ev) => {
     // if a refresh header was receieved, enforce via javascript
     var refreshHeader = ev.data.xhr.getResponseHeader("Refresh");
     if (!refreshHeader) {
@@ -65,8 +65,8 @@ export default function($) {
     var refreshDelay = refreshHeader.split(';')[0] * 1000;
 
     // redirect after 5 seconds
-    redirectTimeout = window.setTimeout(function () {
-      document.location = refreshUrl;
+    redirectTimeout = w.setTimeout(function () {
+      doc.location = refreshUrl;
     }, refreshDelay);
   }, {passive: true});
 };
