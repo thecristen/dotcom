@@ -90,21 +90,17 @@ describe('support form', () => {
           <textarea id="comments"></textarea>
           <small class="form-text"></small>
         </div>
-        <div class="support-form-expanded hidden-xs-up"></div>
         <button class="edit-comments"></button>
       `);
-      setupTextArea($);
-    });
-
-    it('shows the rest of the form on focus', () => {
-      $('#comments').focus();
-      assert.equal($('.support-form-expanded').css('display'), 'block');
+      setupTextArea();
     });
 
     it('tracks the number of characters entered', () => {
-      const $textarea = $('#comments')
+      const $textarea = $('#comments');
       $textarea.val('12345');
-      $textarea.keyup();
+      const event = document.createEvent("HTMLEvents");
+      event.initEvent("keyup", true, true);
+      $textarea[0].dispatchEvent(event);
       assert.equal($('.form-text').text(), '5/3000 characters');
     });
   });

@@ -40,6 +40,17 @@ if(!("previousElementSibling" in document.documentElement)){
     });
 }
 
+if(!("nextElementSibling" in document.documentElement)){
+    Object.defineProperty(Element.prototype, "nextElementSibling", {
+        get: function(){
+            var e = this.previousSibling;
+            while(e && 1 !== e.nodeType)
+                e = e.previousSibling;
+            return e;
+        }
+    });
+}
+
 // Production steps of ECMA-262, Edition 5, 15.4.4.19
 // Reference: http://es5.github.io/#x15.4.4.19
 if (!Array.prototype.map) {

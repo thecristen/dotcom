@@ -12,7 +12,7 @@ export default function($ = window.jQuery) {
       clearFallbacks($);
 
       setupPhotoPreviews($);
-      setupTextArea($);
+      setupTextArea();
       setupRequestResponse($);
       setupValidation($);
 
@@ -82,23 +82,34 @@ export function handleUploadedPhoto($, file, $previewDiv, $container) {
   $('.upload-photo-button').addClass('hidden-xs-up');
 }
 
-export function setupTextArea($) {
+export function setupTextArea() {
   // Track the number of characters in the main <textarea>
-  $('#comments').keyup(function () {
-    const $textarea = $(this),
-          $label = $textarea.siblings('.form-text'),
-          commentLength = $textarea.val().length;
-    $label.text(commentLength + '/3000 characters');
+  const commentsNode = document.getElementById("comments"),
+        formTextNode = findSiblingWithClass(commentsNode, 'form-text');
+  commentsNode.addEventListener('keyup', (ev) => {
+    const commentLength = commentsNode.textLength;
+    formTextNode.innerHTML = commentLength + '/3000 characters';
     if (commentLength > 0) {
-      $label.addClass('support-comment-success');
-      $label.parent('.form-group').addClass('has-success');
+      formTextNode.className += ' support-comment-success';
+      formTextNode.parentNode.className += ' has-success';
     }
     else {
-      $label.removeClass('support-comment-success');
-      $label.parent('.form-group').removeClass('has-success');
+      removeClass(formTextNode, 'support-comment-success');
+      removeClass(formTextNode.parentNode, 'has-success');
     }
-  })
+  }, {passive: true});
 };
+
+function findSiblingWithClass(node, className) {
+  node = node.nextElementSibling;
+  while (node && node.className.indexOf(className) === -1) {
+    node = node.nextElementSibling;
+  }
+  return node;
+}
+function removeClass(node, className) {
+  node.className = node.className.replace(className, "");
+}
 
 export function setupRequestResponse($) {
   $('#request_response').click(function() {
@@ -132,7 +143,7 @@ const validators = {
     }
     return true;
   }
-}
+};
 
 function responseRequested($) {
   return $('#request_response')[0].checked;
@@ -185,7 +196,7 @@ function validateForm($) {
   // Phone and email
   if(!validators.contacts($)) {
     displayError($, contacts);
-    errors.push(contacts)
+    errors.push(contacts);
   }
   else {
     displaySuccess($, contacts);
@@ -193,7 +204,7 @@ function validateForm($) {
   // Privacy checkbox
   if(!validators.privacy($)) {
     displayError($, privacy);
-    errors.push(privacy)
+    errors.push(privacy);
   }
   else {
     displaySuccess($, privacy);
