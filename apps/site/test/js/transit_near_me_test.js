@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { setClientWidth, getUrlParameter, validateTNMForm, constructUrl, submitTNMForm } from '../../web/static/js/transit-near-me';
+import { getUrlParameter, validateTNMForm, constructUrl } from '../../web/static/js/transit-near-me';
 
 describe('transt-near-me', () => {
   var $;
@@ -8,23 +8,6 @@ describe('transt-near-me', () => {
 
   beforeEach(() => {
     $ = jsdom.rerequire('jquery');
-  });
-
-  describe('setClientWidth', () => {
-    beforeEach(() => {
-      $('body').append('<div id="test"><h2 id="transit-input"></h2><input id="client-width" /></div>');
-    });
-
-    afterEach(() => {
-      $('#test').remove();
-    });
-
-    it("sets the clients width from the transit-input header", () => {
-      const clientWidth = 840;
-      $('#transit-input').width(clientWidth);
-      setClientWidth($);
-      assert.equal($('#client-width').val(), clientWidth);
-    });
   });
 
   describe('getUrlParamter', () => {
@@ -40,35 +23,18 @@ describe('transt-near-me', () => {
     });
   });
 
-  describe('submitTNMForm', () => {
-    beforeEach(() => {
-      $('body').append('<div id="test"><h2 id="transit-input"></h2><input id="client-width" /></div>');
-    });
-
-    afterEach(() => {
-      $('#test').remove();
-    });
-
-    it("sets client width before submission", () => {
-      const clientWidth = 960;
-      $('#transit-input').width(clientWidth);
-      var loc = {
-        search: "?number=5&location[address]=Boston%2C%20MA&location[client_width=540]",
-      };
-      submitTNMForm("event", loc, $);
-      assert.equal($('#client-width').val(), clientWidth);
-    });
-  });
-
   describe('validateTNMForm', () => {
+    var placeInput;
+
     beforeEach(() => {
       $('body').append(`
         <div class="transit-near-me">
           <form>
-            <input name="location[address]" value="Boston, MA" />
+            <input id="input" name="location[address]" value="Boston, MA" />
           </form>
         </div>
       `);
+      placeInput = document.getElementById("input");
     });
 
     afterEach(() => {
@@ -81,30 +47,33 @@ describe('transt-near-me', () => {
         search: "?number=5&location[address]=Boston%2C%20MA",
         reload: () => reloaded = true // test reload is called
       };
-      assert.isFalse(validateTNMForm("event", loc, $));
+      assert.isFalse(validateTNMForm("event", loc, placeInput));
       assert.isTrue(reloaded);
     });
 
     it("Will submit form if place has changed", () => {
-      var reloaded = false
+      var reloaded = false;
       const loc = {
         search: "?number=5&location[address]=Kendall",
         reload: () => reloaded = true
       };
-      assert.isTrue(validateTNMForm("event", loc, $));
+      assert.isTrue(validateTNMForm("event", loc, placeInput));
       assert.isFalse(reloaded);
     });
   });
 
   describe('constructUrl', () => {
+    var placeInput;
+
     beforeEach(() => {
       $('body').append(`
         <div class="transit-near-me">
           <form>
-            <input name="location[address]" value="Boston" />
+            <input id="input" name="location[address]" value="Boston" />
           </form>
         </div>
       `);
+      placeInput = document.getElementById("input");
     });
 
     afterEach(() => {
@@ -120,14 +89,14 @@ describe('transt-near-me', () => {
           }
         }
       };
-      const expected = "about://blank?latitude=8&longitude=5&location[client_width]=0&location[address]=Boston#transit-input"
-      assert.equal(expected, constructUrl(fake_place, $));
+      const expected = "about://blank?latitude=8&longitude=5&location[client_width]=0&location[address]=Boston#transit-input";
+      assert.equal(expected, constructUrl(fake_place, placeInput));
     });
 
     it("Builds URL with place name when place has no geometry", () => {
-      const named_place = {name: "Park"}
+      const named_place = {name: "Park"};
       const expected = "about://blank?location[address]=Park&location[client_width]=0#transit-input";
-      assert.equal(expected, constructUrl(named_place, $));
+      assert.equal(expected, constructUrl(named_place, placeInput));
     });
   });
 });
