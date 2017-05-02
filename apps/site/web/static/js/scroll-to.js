@@ -86,7 +86,7 @@ function firstElementChild(element) {
 }
 
 function verticallyCenter($, el, tableHeight, className) {
-  const styles = getComputedStyle(el.parentNode);
+  const styles = window.getComputedStyle(el.parentNode);
   const bottomBorder = parseInt(styles.borderBottomWidth);
   var sized = false;
   var elements;

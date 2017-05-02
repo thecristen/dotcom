@@ -570,6 +570,12 @@ a {
   }
 }
 
+// hides the extra "Earlier/Later Trains" text when we duplicate the element
+// for being stuck to a side.
+[data-sticky] .schedule-v2-timetable-more-text {
+  display: none;
+}
+
 .schedule-v2-timetable-more-col-earlier {
   height: 100%;
   position: absolute;

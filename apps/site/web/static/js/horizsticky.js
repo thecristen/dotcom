@@ -38,8 +38,8 @@ export default function($) {
 function makeReplacement(child) {
   // we add a replacement element so we can push sibling elements out of
   // the way once we've gone absolute
-  var replacement = child.previousElementSibling;
-  if (!replacement) {
+  var replacement = child.nextElementSibling;
+  if (!replacement || replacement.className !== child.className) {
     replacement = child.cloneNode(true);
     child.parentNode.insertBefore(replacement, child);
     replacement = child;
