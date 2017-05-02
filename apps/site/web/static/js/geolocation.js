@@ -1,17 +1,21 @@
 export default function($ = window.jQuery, doc = document, navigator = window.navigator) {
   if ('geolocation' in navigator) {
     doc.addEventListener(
-      'turbolinks:before-visit', () => {
-        $('.loading-indicator').hide();
-        $('.transit-near-me-error').hide();
-      }
+      'turbolinks:before-visit', beforeVisit($),
+      {passive: true}
     );
     $(document).on('click', '[data-geolocation-target]', clickHandler($));
   }
   else {
-    $('html').addClass('geolocation-disabled');
+    doc.documentElement.className += " geolocation-disabled";
   }
 }
+
+function beforeVisit($) {
+  return () => {
+    $('.loading-indicator, .transit-near-me-error').hide();
+  };
+};
 
 // These functions are exported for testing
 export function clickHandler($) {
