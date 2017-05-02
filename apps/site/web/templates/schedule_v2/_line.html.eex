@@ -1,4 +1,4 @@
-<div class="row p-t-1 trip-filters">
+<div class="row line-filters trip-filters">
   <%= if @route.type == 3 do %>
     <%= render "_direction_select.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: @origin, destination: @destination, show_date_select?: @show_date_select?, force_six_column: true %>
     <%= if assigns[:show_variant_selector] do %>

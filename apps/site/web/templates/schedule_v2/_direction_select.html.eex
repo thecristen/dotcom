@@ -1,10 +1,5 @@
 <% headsigns = @headsigns[@direction_id] |> Enum.map(&break_text_at_slash/1) |> Enum.join(" • ") %>
-<% columns = if assigns[:force_six_column] do
-  "6"
-else
-  if String.length(headsigns) > 20, do: "8", else: "4"
-end %>
-<div class="direction-filter col-xs-12 col-sm-6 col-md-<%= columns %>" <%= if @show_date_select? do "hidden" end %>>
+<div class="direction-filter col-xs-12 col-sm-6 col-md-<%= direction_select_column_width(assigns[:force_six_column], String.length(headsigns)) %>" <%= if @show_date_select? do "hidden" end %>>
   <div class="filter-label">
     Direction of your trip:
     <%= render "_help_tooltip.html", text: direction_tooltip(@route.type) %>
