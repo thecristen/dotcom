@@ -59,6 +59,7 @@ export function getUrlParameter(sParam, search_string) {
 export function validateTNMForm(event, location, placeInput) {
   var val = placeInput.value;
   if (val === getUrlParameter('location[address]', location.search)) {
+    event.preventDefault();
     location.reload();
     return false;
   }
@@ -71,7 +72,7 @@ export function constructUrl(place, placeInput) {
       location_url = loc.protocol + "//" + loc.host + loc.pathname,
       addr = placeInput.value,
       widthElement = document.getElementById("transit-input"),
-  width = widthElement && widthElement.clientWidth || 0;
+      width = widthElement && widthElement.clientWidth || 0;
 
   if (place.geometry) {
     var lat = place.geometry.location.lat();

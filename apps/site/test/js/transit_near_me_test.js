@@ -42,13 +42,18 @@ describe('transt-near-me', () => {
     });
 
     it("Does not resubmit the form when location has not changed", () => {
-      var reloaded = false;
+      var reloaded = false,
+          defaultPrevented = false;
       const loc = {
         search: "?number=5&location[address]=Boston%2C%20MA",
         reload: () => reloaded = true // test reload is called
       };
-      assert.isFalse(validateTNMForm("event", loc, placeInput));
+      const event = {
+        preventDefault: () => defaultPrevented = true
+      };
+      assert.isFalse(validateTNMForm(event, loc, placeInput));
       assert.isTrue(reloaded);
+      assert.isTrue(defaultPrevented);
     });
 
     it("Will submit form if place has changed", () => {
