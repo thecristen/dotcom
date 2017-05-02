@@ -312,7 +312,12 @@ a {
 ////////////////////////////////////////////////////////////////////////
 
 .line-filters {
-  padding-top: 1rem;
+  padding-top: $base-spacing;
+
+  // this div is created by modal.js, but is not necessary in this case
+  .select-cover {
+    display: none;
+  }
 }
 
 .trip-filters {
