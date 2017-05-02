@@ -31,4 +31,28 @@ defmodule Site.PageControllerTest do
       |> Floki.attribute("class")
     assert body_class == "no-js sticky-footer"
   end
+
+  describe "photo credits" do
+    test "are included on homepage footer", %{conn: conn} do
+      footer_text =
+        conn
+        |> get(page_path(conn, :index))
+        |> html_response(200)
+        |> Floki.find("footer")
+        |> Floki.text()
+        |> String.replace("\n", " ")
+      assert footer_text =~ "Zakim bridge and the TD Garden photo by: Robbie Shade"
+    end
+
+    test "are not included in footer when not on the homepage", %{conn: conn} do
+      footer_text =
+        conn
+        |> get(mode_path(conn, :ferry))
+        |> html_response(200)
+        |> Floki.find("footer")
+        |> Floki.text()
+        |> String.replace("\n", " ")
+      refute footer_text =~ "Zakim bridge and the TD Garden photo by: Robbie Shade"
+    end
+  end
 end
