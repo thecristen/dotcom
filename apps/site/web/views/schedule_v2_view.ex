@@ -570,4 +570,9 @@ defmodule Site.ScheduleV2View do
     |> safe_to_string
     |> String.replace(~s("), ~s('))
   end
+
+  @spec direction_select_column_width(nil | boolean, integer) :: String.t
+  def direction_select_column_width(true, _headsign_length), do: "6"
+  def direction_select_column_width(_, headsign_length) when headsign_length > 20, do: "8"
+  def direction_select_column_width(_, _headsign_length), do: "4"
 end

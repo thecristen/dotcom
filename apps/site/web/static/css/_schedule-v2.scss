@@ -311,6 +311,15 @@ a {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+.line-filters {
+  padding-top: $base-spacing;
+
+  // this div is created by modal.js, but is not necessary in this case
+  .select-cover {
+    display: none;
+  }
+}
+
 .trip-filters {
   // We use flexbox to make the filter buttons display as same
   // height when the headsign is long and text is forced to
