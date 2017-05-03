@@ -2,79 +2,62 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function bindScrollContainers() {
-    $('[data-sticky-container]').each(initialPosition);
+    window.nextTick(
+      () =>
+        document.querySelectorAll('[data-sticky-container]').forEach(
+          (el) => window.setTimeout(initialPosition.bind(el), 0)
+        ));
   }
 
   function initialPosition() {
-    const $this = $(this),
-          scrollLeft = $this.scrollLeft();
     var queue = [];
-    // reset scroll position
-    $this.scrollLeft(0);
+    const stickyElements = this.querySelectorAll("[data-sticky]");
+    stickyElements.forEach((el) => {
+      const sticky = el.getAttribute('data-sticky');
+      const boundingRect = el.getBoundingClientRect();
+      const rect = {
+        width: Math.ceil(boundingRect.width),
+        height: Math.ceil(boundingRect.height)
+      };
 
-    $this.find("[data-sticky]")
-      .css({width: 'auto', height: 'auto', position: 'relative'}) // reset CSS
-      .each((_index, el) => {
-        const $child = $(el);
-        const sticky = $child.data("sticky");
-        const rect = el.getBoundingClientRect();
-
-        if (sticky === "left") {
-          queue.push(() => leftSticky($, $child, rect));
-        } else if (sticky === "right") {
-          queue.push(() => rightSticky($, $child, rect));
-        }
-      });
+      if (sticky === "left") {
+        queue.push(() => leftSticky(el, rect));
+      } else if (sticky === "right") {
+        queue.push(() => rightSticky(el, rect));
+      }
+    });
 
     // batch all the CSS updates
-    $.each(queue, (_index, fn) => fn());
-
-    if (scrollLeft) {
-      $(this).scrollLeft(scrollLeft);
-    }
+    window.requestAnimationFrame(() => queue.map((fn) => fn()));
   }
 
-  $(document).on('turbolinks:load', bindScrollContainers);
-  $(window).on('resize', bindScrollContainers);
+  document.addEventListener('turbolinks:load', bindScrollContainers, {passive: true});
+  window.addEventListener('resize', bindScrollContainers, {passive: true});
 }
 
-function makeReplacement($, $child) {
+function makeReplacement(child) {
   // we add a replacement element so we can push sibling elements out of
   // the way once we've gone absolute
-  var $replacement = $child.prev(".sticky-replacement");
-  if ($replacement.length === 0) {
-    $replacement = $("<" + $child[0].tagName + ">").addClass("sticky-replacement").text(' ');
-    $replacement.insertBefore($child);
+  var replacement = child.nextElementSibling;
+  if (!replacement || replacement.className !== child.className) {
+    replacement = child.cloneNode(true);
+    child.parentNode.insertBefore(replacement, child);
+    replacement = child;
+    replacement.removeAttribute("data-sticky");
   }
-  return $replacement;
+  return replacement;
 }
 
-function leftSticky($, $child, rect) {
-  makeReplacement($, $child)
-    .css({
-      paddingLeft: Math.ceil(rect.width),
-      height: Math.ceil(rect.height)
-    });
-  // update our CSS position/size
-  $child.css({
-    height: Math.ceil(rect.height),
-    width: Math.ceil(rect.width),
-    left: 0,
-    position: 'absolute'
-  });
+function leftSticky(child, rect) {
+  const replacement = makeReplacement(child);
+  updatePosition(replacement, rect, 'left');
 }
 
-function rightSticky($, $child, rect) {
-  makeReplacement($, $child)
-    .css({
-      paddingRight: Math.ceil(rect.width),
-      height: Math.ceil(rect.height)
-    });
+function rightSticky(child, rect) {
+  const replacement = makeReplacement(child);
+  updatePosition(replacement, rect, 'right');
+}
 
-  $child.css({
-    height: Math.ceil(rect.height),
-    width: Math.ceil(rect.width),
-    right: 0,
-    position: 'absolute'
-  });
+function updatePosition(child, rect, position) {
+  child.style = `height: ${rect.height}px; width: ${rect.width}px; position: absolute; ${position}: 0;`;
 }

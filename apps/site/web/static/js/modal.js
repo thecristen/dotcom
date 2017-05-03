@@ -5,5 +5,5 @@ export default function($) {
     $('.modal.in').modal('hide');
   };
 
-  $(document).on('turbolinks:before-cache', closeModals);
+  document.addEventListener('turbolinks:before-cache', closeModals, {passive: true});
 };

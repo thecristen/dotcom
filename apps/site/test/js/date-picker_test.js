@@ -16,9 +16,6 @@ describe('date-picker', () => {
   });
 
   it('hides date picker by default', () => {
-
-    console.log(window.location.search);
-
     assert.isTrue($('.date-picker-container')[0].hasAttribute("hidden"));
     assert.isTrue($('.calendar-cover')[0].hasAttribute("hidden"));
   });

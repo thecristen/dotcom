@@ -64,5 +64,4 @@ export default function ($) {
   };
 
   initTooltip();
-  $(document).on('turbolinks:load', () => $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'}));
 };

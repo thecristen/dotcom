@@ -1,40 +1,41 @@
-export default function($) {
-  $ = $ || window.jQuery;
+export default function() {
   function setupTNM() {
-    if(!$("#place-input").length) {
+    const placeInput = document.getElementById("place-input");
+
+    // only load on pages that are using TNM
+    if(!placeInput) {
       return;
     }
-    if (typeof google != "undefined") { // only load on pages that are using TNM
-      var placeInput = document.getElementById("place-input")
-      var autocomplete = new google.maps.places.Autocomplete(placeInput);
 
-      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-      $(".transit-near-me form").submit(function($event) {return submitTNMForm($event, location, $)});
-
-      function onPlaceChanged() {
-        setClientWidth($);
-        var location_url = constructUrl(autocomplete.getPlace(), $)
-        window.location.href = encodeURI(location_url);
-      }
-    }
-    else {
-      const existingCallback = window.mapsCallback || function() {};
-      window.mapsCallback = function() {
-        window.mapsCallback = undefined;
-        existingCallback();
-        setupTNM();
-      }
-    }
+    placeInput.form.addEventListener('submit', (ev) => validateTNMForm(ev, window.location, placeInput));
+    setupGoogleMaps(placeInput);
   }
 
-  $(document).on('turbolinks:load', setupTNM);
+  document.addEventListener('turbolinks:load', setupTNM, {passive: true});
 }
 
+function setupGoogleMaps(placeInput) {
+  if (typeof google !== "undefined") {
+    var autocomplete = new google.maps.places.Autocomplete(placeInput);
+
+    function onPlaceChanged() {
+      const locationUrl = constructUrl(autocomplete.getPlace(), placeInput);
+      window.location.href = encodeURI(locationUrl);
+    }
+
+    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+
+  }
+  else {
+    const existingCallback = window.mapsCallback || function() {};
+    window.mapsCallback = function() {
+      window.mapsCallback = undefined;
+      existingCallback();
+      setupGoogleMaps(placeInput);
+    };
+  }
+}
 // Functions exported for testing //
-
-export function setClientWidth($) {
-  $("#client-width").val($("#transit-input").width() || 0);
-}
 
 export function getUrlParameter(sParam, search_string) {
   var sPageURL = decodeURIComponent(search_string.substring(1)),
@@ -49,31 +50,29 @@ export function getUrlParameter(sParam, search_string) {
       return sParameterName[1] === undefined ? true : sParameterName[1];
     }
   }
-}
-
-export function submitTNMForm($event, location, $) {
-  setClientWidth($);
-  return validateTNMForm($event, location, $);
+  return null;
 }
 
 // Determines if form should be re-submitted. If place name has not changed
 // Do not resubmit the form
 // This is done to preserve the names of landmarks
-export function validateTNMForm($event, location, $) {
-  var val = $(".transit-near-me form").find('input[name="location[address]"]').val();
-  if (val == getUrlParameter('location[address]', location.search)) {
+export function validateTNMForm(event, location, placeInput) {
+  var val = placeInput.value;
+  if (val === getUrlParameter('location[address]', location.search)) {
+    event.preventDefault();
     location.reload();
     return false;
   }
   return true;
 }
 
-export function constructUrl(place, $) {
+export function constructUrl(place, placeInput) {
   var query_str,
       loc = window.location,
       location_url = loc.protocol + "//" + loc.host + loc.pathname,
-      addr = $(".transit-near-me form").find('input[name="location[address]"]').val(),
-      width = ($("#client-width").val() || 0);
+      addr = placeInput.value,
+      widthElement = document.getElementById("transit-input"),
+      width = widthElement && widthElement.clientWidth || 0;
 
   if (place.geometry) {
     var lat = place.geometry.location.lat();

@@ -41,23 +41,23 @@ export default function($) {
   };
 
   // when the month is shifted, the page will be reloaded, needs to be shown (or re-initialized)
-  const displayOnload = () => {
+  const displayOnLoad = () => {
     // don't do anything if the container is not available
-    if ($('.date-picker-container').length == 0) {
+    if (!document.getElementById('date-filter')) {
       return;
     }
 
     // check if the shift variable is in the query string
-    if (window.location.search.match(/shift=[0-9]*/)) {
-      // show onload
-      show();
-    } else {
+    if (window.location.search.indexOf("shift=") === -1) {
       // re-initialize the page
-      hide(true);
+      requestAnimationFrame(() => hide(true));
+    } else {
+      // show onload
+      requestAnimationFrame(show);
     }
-  }
+  };
 
   // events
   setupDatePicker();
-  $(document).on('turbolinks:load', displayOnload);
+  document.addEventListener('turbolinks:load', displayOnLoad, {passive: true});
 };
