@@ -97,3 +97,8 @@
     padding-top: $base-spacing-sm;
   }
 }
+
+.arrow-icon:hover {
+  color: $brand-primary-lightest;
+  text-decoration: none;
+}

@@ -13,8 +13,8 @@ defmodule Site.EventViewTest do
           month: "2017-01-15"
         )
 
-      assert html =~ "<a href=\"/events?month=2016-12-01\">"
-      assert html =~ "<a href=\"/events?month=2017-02-01\">"
+      assert html =~ "href=\"/events?month=2016-12-01\""
+      assert html =~ "href=\"/events?month=2017-02-01\""
     end
   end
 
