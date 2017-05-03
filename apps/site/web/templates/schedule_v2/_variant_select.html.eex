@@ -1,13 +1,13 @@
 <form method="GET" action="#variant" data-submit-on-change class="shape-filter col-xs-12 col-sm-6 col-md-6" data-select-modal="variant">
   <%= hidden_query_params @conn, exclude: ["variant"] %>
-  <label for="variant" class="filter-label">
-    Route Variation: <%= render "_variant_tooltip.html" %>
+  <label for="variant" class="filter-label select-modal-hidden-label">
+    Route Variation:
   </label>
   <a class="filter-button select-modal-toggle">
     <div class="filter-text">
       <span class="sr-only">Change to a Variant of this Stop List.</span>
-      <div class="inner-label">
-          Variation
+      <div class="inner-label filter-label">
+          Route Variation:
       </div>
       <div>
           <%= fa "arrow-right" %>
