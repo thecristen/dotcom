@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :alerts, api_fn: &JsonApi.empty/0
+config :alerts, api_mfa: {JsonApi, :empty, []}

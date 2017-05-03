@@ -10,7 +10,7 @@ defmodule Alerts.Supervisor do
 
   use Supervisor
 
-  @api_fn Application.get_env(:alerts, :api_fn)
+  @api_mfa Application.get_env(:alerts, :api_mfa)
 
   def start_link do
     Supervisor.start_link(__MODULE__, [])
@@ -19,7 +19,7 @@ defmodule Alerts.Supervisor do
   def init(_arg) do
     children = [
       worker(Alerts.Cache.Store, []),
-      worker(Alerts.Cache.Fetcher, [[api_fn: @api_fn]])
+      worker(Alerts.Cache.Fetcher, [[api_mfa: @api_mfa]])
     ]
 
     supervise(children, strategy: :rest_for_one)
