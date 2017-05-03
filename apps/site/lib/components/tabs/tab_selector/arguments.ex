@@ -1,6 +1,6 @@
 defmodule Site.Components.Tabs.TabSelector do
   @moduledoc """
-  Component for tab selection. Elements collapse at tge given `collapse` breakpoint
+  Component for tab selection. Elements collapse at the given `collapse` breakpoint
   """
 
   defstruct [
@@ -10,14 +10,16 @@ defmodule Site.Components.Tabs.TabSelector do
     collapse: nil,
     selected: "Schedule",
     full_width?: true,
-    icon_map: %{}
+    icon_map: %{},
+    buttonbar: false
   ]
 
   @type t :: %__MODULE__{
     id: String.t,
     class: String.t,
     links: [%{title: String.t, href: String.t, icon: Phoenix.HTML.Safe.t | nil, selected?: boolean}],
-    collapse: String.t | nil
+    collapse: String.t | nil,
+    buttonbar: boolean
   }
 
   def selected?(title, title), do: true

@@ -3,4 +3,5 @@
   links: tab_links(args.links),
   collapse: args.collapsed,
   selected: selected_tab(args.links),
-  full_width?: false} %>
+  full_width?: false,
+  buttonbar: args.buttonbar} %>
