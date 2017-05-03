@@ -4,7 +4,7 @@
 %>
 
 <%= for stop <- @stops do %>
-  <%= route_row(@conn, stop, @stop_features[stop.id], stop.id in ["place-alfcl", "place-brntn"]) %>
+  <%= route_row(@conn, stop.station_info, stop.stop_features, stop.is_terminus?) %>
   <%= if stop.id == @conn.assigns[:merge_stop_id] do %>
     <div class="red-line-braintree-stops col-xs-12<%= if ashmont_collapsed do %> ashmont-collapsed<% end %>">
       <div class="stop-list stop-list-indented">
@@ -13,7 +13,7 @@
           <div class="route-stop-name-icons">
             <% branch_name = "Braintree" %>
             <%= if braintree_collapsed do %>
-              <%= view_branch_link(@conn, "braintree", branch_name) %>
+              <%= view_branch_link(@conn, "Braintree", branch_name) %>
             <% else %>
               <%= hide_branch_link(@conn, branch_name) %>
             <% end %>
@@ -21,7 +21,6 @@
         </div>
         <%= render "_stop_list_red.html", conn: @conn,
                                         stops: @braintree_branch_stops,
-                                        stop_features: @stop_features,
                                         braintree_branch_stops: [],
                                         ashmont_branch_stops: [],
                                         route: %Routes.Route{id: "Red", type: 1} %>
@@ -36,7 +35,7 @@
       <div class="route-stop-name-icons">
         <% branch_name = "Ashmont" %>
         <%= if ashmont_collapsed do %>
-          <%= view_branch_link(@conn, "ashmont", branch_name) %>
+          <%= view_branch_link(@conn, "Ashmont", branch_name) %>
         <% else %>
           <%= hide_branch_link(@conn, branch_name) %>
         <% end %>
@@ -44,7 +43,7 @@
     </div>
     <div class="stop-list">
       <%= for stop <- @ashmont_branch_stops do %>
-        <%= route_row(@conn, stop, @stop_features[stop.id], stop.id == "place-asmnl") %>
+        <%= route_row(@conn, stop.station_info, stop.stop_features, stop.is_terminus?) %>
       <% end %>
     </div>
   </div>
