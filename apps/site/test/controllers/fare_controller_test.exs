@@ -35,7 +35,9 @@ defmodule Site.FareControllerTest do
     conn = get conn, fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Logan")
     response = html_response(conn, 200)
     assert response =~ "Ferry Fares"
-    assert response =~ "Valid between Long Wharf, Boston and Logan Ferry Terminal only."
+    assert response =~ "Valid between"
+    assert response =~ "Long Wharf"
+    assert response =~ "Logan"
   end
 
   test "renders ferry when no destinations", %{conn: conn} do
