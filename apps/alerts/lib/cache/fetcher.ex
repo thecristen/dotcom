@@ -13,7 +13,7 @@ defmodule Alerts.Cache.Fetcher do
   alias Alerts.{Cache, Parser}
 
   @default_opts [
-    api_fn: &V3Api.Alerts.all/0,
+    api_mfa: {V3Api.Alerts, :all, []},
     repeat_ms: 60_000,
     update_fn: &Cache.Store.update/2,
   ]
@@ -29,16 +29,16 @@ defmodule Alerts.Cache.Fetcher do
 
   def init(opts) do
     update_fn = Keyword.get(opts, :update_fn)
-    api_fn = Keyword.get(opts, :api_fn)
+    api_mfa = Keyword.get(opts, :api_mfa)
     repeat_ms = Keyword.get(opts, :repeat_ms)
 
     schedule_fetch(1_000)
 
-    {:ok, {update_fn, api_fn, repeat_ms}}
+    {:ok, {update_fn, api_mfa, repeat_ms}}
   end
 
-  def handle_info(:fetch, {update_fn, api_fn, repeat_ms} = state) do
-    case api_fn.() do
+  def handle_info(:fetch, {update_fn, api_mfa, repeat_ms} = state) do
+    case api_result(api_mfa) do
       %{data: data} ->
         alerts = Enum.map(data, &Parser.Alert.parse/1)
 
@@ -58,6 +58,10 @@ defmodule Alerts.Cache.Fetcher do
   end
   def handle_info(_, state) do
     {:noreply, state}
+  end
+
+  defp api_result({module, fun, args}) do
+    apply(module, fun, args)
   end
 
   defp schedule_fetch(ms) do

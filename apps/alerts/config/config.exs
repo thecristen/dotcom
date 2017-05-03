@@ -28,6 +28,6 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 
-config :alerts, api_fn: &V3Api.Alerts.all/0
+config :alerts, api_mfa: {V3Api.Alerts, :all, []}
 
 import_config "#{Mix.env}.exs"

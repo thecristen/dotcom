@@ -6,9 +6,9 @@ defmodule Alerts.Cache.FetcherTest do
   test "It periodically polls an API and updates the store" do
     {:ok, fake_store} = Agent.start_link(fn -> [] end)
     update_fn = make_update_fn(fake_store, self())
-    api_fn = fn() -> valid_data() end
+    api_mfa = {__MODULE__, :valid_data, []}
 
-    {:ok, fetcher} = Fetcher.start_link(api_fn: api_fn, update_fn: update_fn, repeat_ms: 10_000)
+    {:ok, fetcher} = Fetcher.start_link(api_mfa: api_mfa, update_fn: update_fn, repeat_ms: 10_000)
     send(fetcher, :fetch)
     send(fetcher, :fetch)
     send(fetcher, :fetch)
@@ -23,9 +23,9 @@ defmodule Alerts.Cache.FetcherTest do
   test "It handles a failed API response and does not update the store" do
     {:ok, fake_store} = Agent.start_link(fn -> [] end)
     update_fn = make_update_fn(fake_store, self())
-    api_fn = fn() -> {:error, "Didn't work!"} end
+    api_mfa = {__MODULE__, :error, ["Didn't work!"]}
 
-    {:ok, fetcher} = Fetcher.start_link(api_fn: api_fn, update_fn: update_fn, repeat_ms: 10_000)
+    {:ok, fetcher} = Fetcher.start_link(api_mfa: api_mfa, update_fn: update_fn, repeat_ms: 10_000)
     send(fetcher, :fetch)
     send(fetcher, :fetch)
     _ = await_updated()
@@ -38,9 +38,9 @@ defmodule Alerts.Cache.FetcherTest do
   test "It handles unexpected messages" do
     {:ok, fake_store} = Agent.start_link(fn -> [] end)
     update_fn = make_update_fn(fake_store, self())
-    api_fn = fn() -> valid_data() end
+    api_mfa = {__MODULE__, :valid_data, []}
 
-    {:ok, fetcher} = Fetcher.start_link(api_fn: api_fn, update_fn: update_fn, repeat_ms: 10_000)
+    {:ok, fetcher} = Fetcher.start_link(api_mfa: api_mfa, update_fn: update_fn, repeat_ms: 10_000)
     send(fetcher, :fetch)
     send(fetcher, :unexpected)
     send(fetcher, :fetch)
@@ -51,7 +51,7 @@ defmodule Alerts.Cache.FetcherTest do
     assert [{[%Alerts.Alert{}], nil}, {[%Alerts.Alert{}], nil}] = updates
   end
 
-  defp valid_data do
+  def valid_data do
     %JsonApi{data: [
       %JsonApi.Item{
         attributes: %{
@@ -82,6 +82,10 @@ defmodule Alerts.Cache.FetcherTest do
         type: "alert"
       }
     ]}
+  end
+
+  def error(e) do
+    {:error, e}
   end
 
   defp make_update_fn(agent, pid) do
