@@ -351,7 +351,7 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "_line.html" do
-    @shape %Routes.Shape{id: "test", name: "test", stop_ids: [], primary?: true, direction_id: 0}
+    @shape %Routes.Shape{id: "test", name: "test", stop_ids: [], direction_id: 0}
     @hours_of_operation %{
       saturday: %{
         0 => %Schedules.Departures{first_departure: ~D[2017-01-01], last_departure: ~D[2017-01-01]},

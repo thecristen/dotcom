@@ -113,7 +113,7 @@ defmodule Site.ScheduleV2Controller.Line do
   defp get_requested_shape(_shapes, nil), do: nil
   defp get_requested_shape(shapes, variant), do: Enum.find(shapes, &(&1.id == variant))
 
-  defp get_default_shape(nil, shapes), do: Enum.find(shapes, & &1.primary?)
+  defp get_default_shape(nil, [default | _]), do: default
   defp get_default_shape(shape, _shapes), do: shape
 
   @doc """
