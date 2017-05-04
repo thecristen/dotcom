@@ -316,6 +316,15 @@ a {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+.line-filters {
+  padding-top: $base-spacing;
+
+  // this div is created by modal.js, but is not necessary in this case
+  .select-cover {
+    display: none;
+  }
+}
+
 .trip-filters {
   // We use flexbox to make the filter buttons display as same
   // height when the headsign is long and text is forced to
@@ -333,19 +342,6 @@ a {
 .shape-filter {
   display: flex;
   flex-direction: column;
-
-  @include media-breakpoint-down(xs) {
-    margin-bottom: $base-spacing;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  // this div is created by modal.js, but is not necessary in this case
-  .select-cover {
-    display: none;
-  }
 }
 
 .filter-button {
@@ -383,24 +379,23 @@ a {
 }
 
 .filter-text {
+  float: left;
   max-width: 80%;
 }
 
 .filter-icon {
-  bottom: 0;
-  height: 2rem;
-  margin: auto;
-  overflow: hidden;
-  padding-right: $base-spacing-sm;
-  position: absolute;
-  right: 0;
-  top: 0;
+  align-items: center;
+  display: flex;
+  float: right;
+  height: 100%;
 }
 
 .filter-icon-border {
   border: 1px solid $brand-primary;
   border-radius: 50%;
   height: 2rem;
+  margin-bottom: 25%;
+  margin-top: 25%;
   text-align: center;
   width: 2rem;
 
@@ -425,7 +420,7 @@ a {
   font-weight: bold;
   margin-bottom: $space-6;
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-only(xs) {
     margin-bottom: $space-12;
   }
 }
@@ -433,6 +428,12 @@ a {
 .inner-label {
   color: $body-color;
   font-weight: bold;
+}
+
+.date-filter {
+  @include media-breakpoint-only(xs) {
+    margin-bottom: $base-spacing;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
