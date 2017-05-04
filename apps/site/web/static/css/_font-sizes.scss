@@ -2,6 +2,10 @@ html {
   @include media-breakpoint-up(xxl) {
     font-size: $base-font-size-xxl;
   }
+
+  @media (max-width: 375px) {
+    font-size: $base-font-size * .875;
+  }
 }
 
 h1,

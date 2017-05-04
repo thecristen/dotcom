@@ -8,22 +8,21 @@
   </h1>
 
   <%= if @tab in ["timetable", "trip-view"], do: Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
-  <div class="hidden-sm-up filter-label">
-    Viewing:
-  </div>
   <%= if @route.type == 2 do %>
     <%= tab_list(%TabList{
+      buttonbar: true,
       links: [
         {"Timetable", update_url(@conn, tab: "timetable"), tab_selected?("timetable", @tab)},
         {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
-        {"Line Information", update_url(@conn, tab: "line", date: nil), tab_selected?("line", @tab)}
+        {"Info and Maps", update_url(@conn, tab: "line", date: nil), tab_selected?("line", @tab)}
       ]
     }) %>
   <% else %>
     <%= tab_list(%TabList{
+      buttonbar: true,
       links: [
         {"Schedule", update_url(@conn, tab: "trip-view"), tab_selected?("trip-view", @tab)},
-        {"Line Information", update_url(@conn, tab: "line", date: nil), tab_selected?("line", @tab)}
+        {"Info and Maps", update_url(@conn, tab: "line", date: nil), tab_selected?("line", @tab)}
       ]
     }) %>
   <% end %>
