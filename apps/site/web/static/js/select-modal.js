@@ -114,6 +114,11 @@ export function convertSelects($) {
     });
   });
   window.requestAnimationFrame(() => {
+    $(".select-modal-hidden-label").each((_index, el) => {
+      el.style.display = "none";
+    });
+  });
+  window.requestAnimationFrame(() => {
     $("select[data-select-modal][data-no-conversion]").each((_index, el) => {
       const $el = $(el),
             $cover = $(`<div data-select-modal=${$el.attr('name')}/>`)

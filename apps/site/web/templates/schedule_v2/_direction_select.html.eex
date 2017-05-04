@@ -1,16 +1,13 @@
 <% headsigns = @headsigns[@direction_id] |> Enum.map(&break_text_at_slash/1) |> Enum.join(" • ") %>
 <div class="direction-filter col-xs-12 col-sm-6 col-md-<%= direction_select_column_width(assigns[:force_six_column], String.length(headsigns)) %>" <%= if @show_date_select? do "hidden" end %>>
-  <div class="filter-label">
-    Direction of your trip:
-    <%= render "_help_tooltip.html", text: direction_tooltip(@route.type) %>
-  </div>
   <%= link to: update_url(@conn, reverse_direction_opts(@origin, @destination, 1 - @direction_id)) <> "#direction-filter", id: "direction-filter", class: "filter-button" do %>
     <div class="filter-text">
       <span class="sr-only">Change Direction of Trip.</span>
       <div class="inner-label">
-        <%= direction(@direction_id, @route) %> to&#58;
+        Direction of your trip:
       </div>
       <div>
+        <%= direction(@direction_id, @route) %> to
         <%= fa "arrow-right" %>
         <%= headsigns %>
       </div>
