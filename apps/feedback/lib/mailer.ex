@@ -41,8 +41,8 @@ defmodule Feedback.Mailer do
         <STATION></STATION>
         <INCIDENTDATE></INCIDENTDATE>
         <VEHICLE></VEHICLE>
-        <FIRSTNAME></FIRSTNAME>
-        <LASTNAME></LASTNAME>
+        <FIRSTNAME>#{format_first_name(message.name)}</FIRSTNAME>
+        <LASTNAME>#{format_last_name(message.name)}</LASTNAME>
         <FULLNAME>#{format_name(message.name)}</FULLNAME>
         <CITY></CITY>
         <STATE></STATE>
@@ -75,6 +75,26 @@ defmodule Feedback.Mailer do
     case String.trim(name) do
       "" -> "Riding Public"
       name -> name
+    end
+  end
+
+  defp format_first_name(nil) do
+    "Riding"
+  end
+  defp format_first_name(name) do
+    case String.trim(name) do
+      "" -> "Riding"
+      name -> name
+    end
+  end
+
+  defp format_last_name(nil) do
+    "Public"
+  end
+  defp format_last_name(name) do
+    case String.trim(name) do
+      "" -> "Public"
+      _name -> "-"
     end
   end
 
