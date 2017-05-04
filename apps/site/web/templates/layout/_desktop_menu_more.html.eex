@@ -7,12 +7,12 @@
     <div class="col-xs-6 p-a-0">
       <ul>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/leadership/") do %>
+          <%= link to: redirect_path(@conn, "about_the_mbta/leadership/"), target: "_blank" do %>
             <%= fa "caret-right" %> Leadership
           <% end %>
         </li>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/news_events/") do %>
+          <%= link to: redirect_path(@conn, "about_the_mbta/news_events/"), target: "_blank" do %>
             <%= fa "caret-right" %> News &amp; Updates
           <% end %>
         </li>
@@ -31,17 +31,17 @@
     <div class="col-xs-6">
       <ul>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/") do %>
+          <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), target: "_blank" do %>
             <%= fa "caret-right" %> FMCB
           <% end %>
         </li>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/environment/") do %>
+          <%= link to: redirect_path(@conn, "about_the_mbta/environment/"), target: "_blank" do %>
             <span class="no-wrap"><%= fa "caret-right" %> Sustainability</span>
           <% end %>
         </li>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/history/") do %>
+          <%= link to: redirect_path(@conn, "about_the_mbta/history/"), target: "_blank" do %>
             <%= fa "caret-right" %> History
           <% end %>
         </li>
@@ -60,27 +60,27 @@
     </p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "business_center/") do %>
+        <%= link to: redirect_path(@conn, "business_center/"), target: "_blank" do %>
           <%= fa "caret-right" %> Business Opportunities
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/") do %>
+        <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/"), target: "_blank" do %>
           <%= fa "caret-right" %> Careers
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "rider_tools/developers/") do %>
+        <%= link to: redirect_path(@conn, "rider_tools/developers/"), target: "_blank" do %>
           <%= fa "caret-right" %> Developers
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "about_the_mbta/financials/") do %>
+        <%= link to: redirect_path(@conn, "about_the_mbta/financials/"), target: "_blank" do %>
           <%= fa "caret-right" %> Financials
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "business_center/innovation_proposals/") do %>
+        <%= link to: redirect_path(@conn, "business_center/innovation_proposals/"), target: "_blank" do %>
           <%= fa "caret-right" %> Innovation
         <% end %>
       </li>
@@ -103,7 +103,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199") do %>
+        <%= link to: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199"), target: "_blank" do %>
           <%= fa "caret-right" %> Red and Orange Line Cars
         <% end %>
       </li>

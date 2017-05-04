@@ -5,7 +5,7 @@
       <div class="row">
         <%= for post <- posts do %>
           <div class="col-md-6 col-sm-12">
-            <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=#{post.id}&month=&year="), class: "title-card" do %>
+            <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=#{post.id}&month=&year="), target: "_blank", class: "title-card" do %>
               <div class="title-card-title"><%= post.attributes["title"] |> raw %></div>
               <p><%= post.body |> News.Blurb.blurb() |> raw %></p>
             <% end %>
@@ -14,7 +14,7 @@
       </div>
     <% end %>
   </div>
-  <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/") do %>
+  <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/"), target: "_blank" do %>
     More News <%= fa "arrow-right" %>
   <% end %>
 </div>

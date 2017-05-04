@@ -16,10 +16,10 @@
       </p>
       <div class="row title-card-container title-card-container-separate">
         <div class="col-xs-12 col-sm-6">
-          <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: ["Accepted payment methods", "Where to purchase your fare", "Paying your fare"], href: how_to_pay_path(@conn, :index) %>
+          <%= render "_related_page_card.html", title: "How to Pay Your Fare", body: ["Accepted payment methods", "Where to purchase your fare", "Paying your fare"], href: how_to_pay_path(@conn, :index), target: "_self" %>
         </div>
         <div class="col-xs-12 col-sm-6">
-          <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, :payment_methods) %>
+          <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, :payment_methods), target: "_self" %>
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@
     <div>
       <h2>Pass Programs</h2>
       <p>Employers, schools, and visitor groups can sign up for pass programs that have benefits such as online account management, automatic monthly CharlieCard re-loads, and advance ordering for large groups.
-      For more information, take a look at the <%= link "Pass Program Website", to: redirect_path(@conn, "pass_program")%> or call <%= tel_link "(888) 844-0353" %>. </p>
+      For more information, take a look at the <%= link "Pass Program Website", to: redirect_path(@conn, "pass_program"), target: "_blank" %> or call <%= tel_link "(888) 844-0353" %>. </p>
     </div>
   </div>
 </div>

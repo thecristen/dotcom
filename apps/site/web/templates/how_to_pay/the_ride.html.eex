@@ -12,12 +12,12 @@
       <p>If you have an account with the RIDE, you can add value to your account online.</p>
       <p>
         <span class="how-to-pay-ride-link">
-          <%= link to: redirect_path(@conn, "commerce/TheRide/") do %>
+          <%= link to: redirect_path(@conn, "commerce/TheRide/"), target: "_blank" do %>
             Log into RIDE account <%= fa "arrow-right" %>
           <% end %>
         </span>
         <span class="how-to-pay-ride-link">
-          <%= link to: redirect_path(@conn, "commerce/TheRide/Account/Register") do %>
+          <%= link to: redirect_path(@conn, "commerce/TheRide/Account/Register"), target: "_blank" do %>
             Register a new RIDE account <%= fa "arrow-right" %>
           <% end %>
         </span>

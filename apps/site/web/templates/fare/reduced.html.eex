@@ -13,7 +13,7 @@
       Senior CharlieCards can be requested at the CharlieCard Store located in Downtown Crossing <%= charlie_card_store_link(@conn) %>,
       or at a Senior CharlieCard Event
       <span class="no-wrap">
-        (<%= link "view details", to: redirect_path(@conn, "fares_and_passes/reduced_fare_programs") %>).
+        (<%= link "view details", to: redirect_path(@conn, "fares_and_passes/reduced_fare_programs"), target: "_blank" %>).
       </span>
     </p>
 
@@ -55,7 +55,7 @@
       College students may be eligible for reduced fares through a Semester Pass Program. For more information, please contact an administrator at your school.
     </p>
     <p>
-      School administrators can learn more by <%= link "visiting the pass program website", to: redirect_path(@conn, "pass_program") %> or by calling <%= tel_link "(617) 222-5710" %>.
+      School administrators can learn more by <%= link "visiting the pass program website", to: redirect_path(@conn, "pass_program"), target: "_blank" %> or by calling <%= tel_link "(617) 222-5710" %>.
     </p>
 
     <div class="row">

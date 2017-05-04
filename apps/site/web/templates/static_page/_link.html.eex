@@ -1,5 +1,5 @@
 <div class="button-container <%= @class %>">
-  <%= link to: @href, class: "btn button" do %>
+  <%= link to: @href, class: "btn button", target: @target do %>
     <%= @text %>
   <% end %>
 </div>

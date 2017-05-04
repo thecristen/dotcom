@@ -62,7 +62,7 @@
         <p>MBTA riders can get One Way, Round Trip, and Monthly Passes at stores located throughout
           the Greater Boston and Providence area.</p>
           <p>
-            <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+            <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/"), target: "_blank" do %>
             Find a store near you <%= fa "arrow-right" %>
             <% end %>
           </p>

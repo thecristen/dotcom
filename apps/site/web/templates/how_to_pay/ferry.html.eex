@@ -57,7 +57,7 @@
       <h3>Retail Sales Location</h3>
       <p>You can get blank CharlieCards and load any amount of money for One Way fares or a pass (1-Day, 7-Day, Monthly) at stores located throughout the Greater Boston and Providence areas.</p>
       <p>
-      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/"), target: "_blank" do %>
         Find a store near you <%= fa "arrow-right" %>
       <% end %>
       </p>

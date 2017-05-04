@@ -45,7 +45,7 @@
             </li>
             <li><span class="support-tel-number"><strong>Non-Emergency</strong> <%= tel_link "(617)-222-1000" %></span></li>
             <li>
-              <%= link to: redirect_path(@conn, "transitpolice/contact_us") do %>
+              <%= link to: redirect_path(@conn, "transitpolice/contact_us"), target: "_blank" do %>
                 View more about the Transit Police <%= fa "arrow-right" %>
               <% end %>
             </li>

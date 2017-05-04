@@ -1,4 +1,4 @@
-<%= link to: @href, class: "title-card" do %>
+<%= link to: @href, class: "title-card", target: @target do %>
   <div class="title-card-title"><%= @title %></div>
   <ul>
     <%= for topic <- @body do %>

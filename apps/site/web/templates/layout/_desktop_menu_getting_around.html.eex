@@ -26,7 +26,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108") do %>
+        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), target: "_blank" do %>
           <%= fa "caret-right" %> The RIDE
         <% end %>
       </li>
@@ -39,7 +39,7 @@
     </p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "rider_tools/trip_planner/") do %>
+        <%= link to: redirect_path(@conn, "rider_tools/trip_planner/"), target: "_blank" do %>
           <%= fa "caret-right" %> Directions
         <% end %>
       </li>
@@ -72,27 +72,27 @@
     </p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/") do %>
+        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/"), target: "_blank" do %>
           <%= fa "caret-right" %> Accessibility
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/parking/") do %>
+        <%= link to: redirect_path(@conn, "riding_the_t/parking/"), target: "_blank" do %>
           <%= fa "caret-right" %> Parking
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/bikes/") do %>
+        <%= link to: redirect_path(@conn, "riding_the_t/bikes/"), target: "_blank" do %>
           <%= fa "caret-right" %> Bikes on the T
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/pets/") do %>
+        <%= link to: redirect_path(@conn, "riding_the_t/pets/"), target: "_blank" do %>
           <%= fa "caret-right" %> Pets on the T
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "safety/") do %><%# the safety bounce! %>
+        <%= link to: redirect_path(@conn, "safety/"), target: "_blank" do %><%# the safety bounce! %>
           <%= fa "caret-right" %> Safety
         <% end %>
       </li>

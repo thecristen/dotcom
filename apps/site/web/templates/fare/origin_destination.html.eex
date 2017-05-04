@@ -92,7 +92,7 @@
       You can get One Way, Round Trip, and Monthly (valid for Bus and Subway travel as well) Passes on a CharlieTicket at retail stores located throughout the Greater Boston and Providence areas.
     </p>
     <p>
-      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/") do %>
+      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/"), target: "_blank" do %>
         Find a store near you <%= fa "arrow-right" %>
       <% end %>
     </p>
@@ -105,15 +105,15 @@
       <%= render "_mode_pay.html", mode: @mode %>
     </div>
     <div class="col-xs-12 col-sm-6">
-      <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, :payment_methods) %>
+      <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, :payment_methods), target: "_self" %>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12 col-sm-6">
-      <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: ["Online account management", "Automatic monthly re-loads", "Advance ordering"], href: "https://passprogram.mbta.com/" %>
+      <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: ["Online account management", "Automatic monthly re-loads", "Advance ordering"], href: "https://passprogram.mbta.com/", target: "_self" %>
     </div>
     <div class="col-xs-12 col-sm-6">
-      <%= render "_related_page_card.html", title: "Reduced Fares", body: ["Qualifications", "Reduced fare rates", "How to get your reduced fare"], href: fare_path(@conn, :show, :reduced) %>
+      <%= render "_related_page_card.html", title: "Reduced Fares", body: ["Qualifications", "Reduced fare rates", "How to get your reduced fare"], href: fare_path(@conn, :show, :reduced), target: "_self" %>
     </div>
   </div>
 </div>
