@@ -1,4 +1,5 @@
-<% id = "alerts-#{@route.id}" %>
+<% id = "alerts-#{@route.id}"
+   effects = alert_effects(@alerts, @upcoming_alert_count) %>
 <div class="alert-modal-container">
   <div class="alert-container" id="<%= id %>">
     <a class="alert-list-header fixedsticky" href="#" data-hide="collapse" data-target="#<%= id %>">
@@ -38,15 +39,19 @@
   <a class="alert-link" href="#<%= id %>" data-show="collapse" data-target="#<%= id %>">
     <span class="alert-link-title">
       <%= render "_icon.html", alert: List.first(@alerts), time: @time %>
-      <%= case alert_effects(@alerts, @upcoming_alert_count) do %>
-        <% {prefix, suffix} -> %>
+      <%= case effects do %>
+        <% {prefix, _} -> %>
         <strong><%= prefix %>:</strong>
         <%= hd(@alerts).header |> clamp_header(String.length(hd(@alerts).effect_name)) %>
-        <strong><%= suffix %></strong>
         <% text -> %><%= text %>
       <% end %>
     </span>
-    <span class="alert-list-toggle">View</span>
+    <span class="alert-list-toggle">View alert
+      <%= case effects do
+        {_, suffix} -> suffix
+        _ -> ""
+      end %>
+    </span>
     <span class="clearfix"></span>
   </a>
 </div>

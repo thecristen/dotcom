@@ -124,13 +124,11 @@
 }
 
 .alert-link-title {
-  display: inline-block;
   max-width: 84%;
 
   @include media-breakpoint-up(sm) {
     max-width: 91%;
   }
-
 }
 
 .alert-list-header {
@@ -164,13 +162,10 @@
   display: inline-block;
   font-weight: bold;
   margin-right: $space-12;
-  max-width: 9em;
+  max-width: 65%;
 
   @include media-breakpoint-up(sm) {
-    max-width: 25rem;
-  }
-
-  @include media-breakpoint-up(md) {
+    max-width: 91%;
   }
 }
 
@@ -200,8 +195,6 @@
 
 .alert-list-toggle {
   color: $brand-primary;
-  float: right;
-  text-transform: uppercase;
 }
 
 .alert-item-icon {
@@ -287,6 +280,10 @@
 
 .alert-container.collapsing {
   display: block;
+
+  .alert-list-toggle {
+    float: right;
+  }
 }
 
 .alert-container,
@@ -304,6 +301,10 @@
 
   + .alert-link {
     display: none;
+  }
+
+  .alert-list-toggle {
+    float: right;
   }
 }
 
