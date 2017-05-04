@@ -1,3 +1,20 @@
-<%= for {stop, is_terminus?} <- Util.EnumHelpers.with_first_last(@stops) do
-  route_row(@conn, stop, @stop_features[stop.id], is_terminus?)
-end %>
+<%= for stop <- @stops do %>
+  <div class="route-stop">
+    <div class="stop-bubble">
+      <%= stop_bubble_location_display(false, @route.type, stop.is_terminus?) %>
+    </div>
+    <div class="stop-info route-stop-name-icons">
+      <div class="name-and-zone">
+        <%= link(break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id)) %>
+        <%= if stop.zone do %>
+          <div class="zone">
+            Zone <%= stop.zone %>
+          </div>
+        <% end %>
+      </div>
+      <div class="route-icons">
+        <%= for feature <- stop.stop_features |> Enum.sort() |> Enum.reverse(), do: svg_icon_with_circle(%SvgIconWithCircle{icon: feature}) %>
+      </div>
+    </div>
+  </div>
+<% end %>

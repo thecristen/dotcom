@@ -46,9 +46,11 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "uses a direction id to determine which stops to show", %{conn: conn} do
       conn = get(conn, schedule_path(conn, :show, "1", direction_id: 0, tab: "line"))
-      assert Stops.Repo.get("109") in conn.assigns.stops
+      stops = conn.assigns.stops |> Enum.map(& &1.id)
+      assert Enum.member?(stops, "109")
       conn = get(conn, schedule_path(conn, :show, "1", direction_id: 1, tab: "line"))
-      refute Stops.Repo.get("109") in conn.assigns.stops
+      stops = conn.assigns.stops |> Enum.map(& &1.id)
+      refute Enum.member?(stops, "109")
     end
   end
 
@@ -181,18 +183,17 @@ defmodule Site.ScheduleV2ControllerTest do
 
       # make sure each stop has a zone
       for stop <- conn.assigns.stops do
-        assert conn.assigns.zones[stop.id]
+        assert stop.zone
       end
 
       # stops are in inbound order
-      assert List.first(conn.assigns.stops).id == "Lowell"
-      assert List.last(conn.assigns.stops).id == "place-north"
+      assert List.first(conn.assigns.stops).id == "place-north"
+      assert List.last(conn.assigns.stops).id == "Lowell"
       # Stop list
       assert conn.assigns.stop_list_template == "_stop_list.html"
 
       # includes the stop features
-      assert %{} = conn.assigns.stop_features
-      assert conn.assigns.stop_features["place-north"] == [
+      assert List.first(conn.assigns.stops).stop_features == [
         :orange_line,
         :green_line,
         :bus,
@@ -206,8 +207,8 @@ defmodule Site.ScheduleV2ControllerTest do
     test "Ferry data", %{conn: conn} do
       conn = get conn, schedule_path(conn, :show, "Boat-F1", tab: "line")
       assert html_response(conn, 200) =~ "Hingham Ferry"
-      assert List.first(conn.assigns.stops).id == "Boat-Hingham"
-      assert List.last(conn.assigns.stops).id == "Boat-Long"
+      assert List.first(conn.assigns.stops).id == "Boat-Long"
+      assert List.last(conn.assigns.stops).id == "Boat-Hingham"
 
       # Map
       assert conn.assigns.map_img_src =~ "ferry-spider"
@@ -235,8 +236,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.stop_list_template == "_stop_list_red.html"
 
       # includes the stop features
-      assert %{} = conn.assigns.stop_features
-      assert conn.assigns.stop_features["place-nqncy"] == [:bus, :access]
+      assert conn.assigns.stops |> List.first() |> Map.get(:stop_features) == [:bus, :access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
@@ -251,14 +251,14 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Red line has braintree and ashmont stops when indicated in query params", %{conn: conn} do
-      conn = get conn, schedule_path(conn, :show, "Red", expanded: "braintree", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Red", expanded: "Braintree", tab: "line")
       assert conn.status == 200
       stop_ids = Enum.map(conn.assigns.braintree_branch_stops, & &1.id)
       assert List.first(stop_ids) == "place-nqncy"
       assert List.last(stop_ids) == "place-brntn"
       assert Enum.count(conn.assigns.ashmont_branch_stops) == 1
 
-      conn = get conn, schedule_path(conn, :show, "Red", expanded: "ashmont", tab: "line")
+      conn = get conn, schedule_path(conn, :show, "Red", expanded: "Ashmont", tab: "line")
       stop_ids = Enum.map(conn.assigns.ashmont_branch_stops, & &1.id)
       assert List.first(stop_ids) == "place-shmnl"
       assert List.last(stop_ids) == "place-asmnl"

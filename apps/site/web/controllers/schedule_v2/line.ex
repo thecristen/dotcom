@@ -12,7 +12,7 @@ defmodule Site.ScheduleV2Controller.Line do
     stops = GreenLine.all_stops(stops_on_routes)
     shapes = GreenLine.branch_ids
     |> Enum.join(",")
-    |> get_shapes(conn.assigns.direction_id)
+    |> Routes.Repo.get_shapes(conn.assigns.direction_id)
 
     {before_branch, after_branch} = Enum.split_while(stops, & &1.id != "place-coecl")
     routes_for_stops = GreenLine.routes_for_stops(stops_on_routes) # Inverse Map
@@ -30,11 +30,21 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, route.type, shapes))
     |> assign(:route, route)
   end
-  def call(%Plug.Conn{assigns: %{route: %{id: "Red"}}} = conn, _args) do
-    stops = Stops.Repo.by_route("Red", 0)
-    shapes = get_shapes("Red", conn.assigns.direction_id)
-    {shared_stops, branched_stops} = Enum.split_while(stops, & &1.id != "place-shmnl")
-    {ashmont, braintree} = red_line_branches(branched_stops, conn.params)
+  def call(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Red"} = route}} = conn, _args) do
+    shapes = Routes.Repo.get_shapes(route.id, 0)
+    [
+      %Stops.RouteStops{branch: nil, stops: shared_stops},
+      %Stops.RouteStops{branch: "Braintree", stops: braintree_stops},
+      %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops}
+    ] = route.id
+    |> Stops.Repo.by_route(0)
+    |> Stops.RouteStops.by_direction(shapes, route, 0)
+
+    [braintree, ashmont] = [braintree_stops, ashmont_stops]
+    |> Enum.map(fn stops ->
+      branch = stops |> List.first() |> Map.get(:branch)
+      if conn.query_params["expanded"] == branch, do: stops, else: [List.last(stops)]
+    end)
 
     conn
     |> assign(:stop_list_template, "_stop_list_red.html")
@@ -42,30 +52,12 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:merge_stop_id, "place-jfk")
     |> assign(:braintree_branch_stops, braintree)
     |> assign(:ashmont_branch_stops, ashmont)
-    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, conn.assigns.route.type, shapes))
+    |> assign(:map_img_src, map_img_src((shared_stops ++ braintree_stops ++ ashmont_stops) |> Enum.map(& &1.station_info), conn.assigns.route.type, shapes))
   end
-  def call(%Plug.Conn{assigns: %{route: %{id: "CR-"<>_ = route_id}}} = conn, _args) do
-    stops = Stops.Repo.by_route(route_id, 1)
-    shapes = get_shapes(route_id, conn.assigns.direction_id)
-
-    zones = Enum.reduce stops, %{}, fn stop, acc ->
-      Map.put(acc, stop.id, Zones.Repo.get(stop.id))
-    end
-
-    conn
-    |> assign(:stops, stops)
-    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, conn.assigns.route.type, shapes))
-    |> assign(:zones, zones)
-    |> assign(:stop_list_template, "_stop_list.html")
-  end
-  def call(%Plug.Conn{assigns: %{route: %{id: route_id, type: 3}}} = conn, _args) do
-    # in the case of buses, get the stops from the selected/default shape
-    shapes = get_shapes(route_id, conn.assigns.direction_id)
-
-    active_shape = get_shape(shapes, conn.query_params["variant"])
-    stops = get_stops_from_shape(active_shape)
+  def call(%Plug.Conn{assigns: %{direction_id: direction_id, route: %Routes.Route{type: 3} = route}} = conn, _args) do
+    shapes = Routes.Repo.get_shapes(route.id, direction_id)
+    shape = get_shape(shapes, conn.query_params["variant"])
+    route_stops = get_route_stops([shape], route, direction_id)
     show_variant_selector = case shapes do
       [_, _ | _] -> true
       _ -> false
@@ -73,41 +65,33 @@ defmodule Site.ScheduleV2Controller.Line do
 
     conn
     |> assign(:stop_list_template, "_stop_list.html")
-    |> assign(:stops, stops)
+    |> assign(:stops, route_stops)
     |> assign(:shapes, shapes)
-    |> assign(:active_shape, active_shape)
+    |> assign(:active_shape, shape)
     |> assign(:show_variant_selector, show_variant_selector)
-    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(stops, conn.assigns.route.type, [active_shape]))
+    |> assign(:map_img_src, map_img_src(route_stops |> Enum.map(& &1.station_info), route.type, [shape]))
   end
-  def call(%Plug.Conn{assigns: %{route: %{id: route_id}}} = conn, _args) do
-    stops = Stops.Repo.by_route(route_id, 1)
-    shapes = get_shapes(route_id, conn.assigns.direction_id)
+  def call(%Plug.Conn{assigns: %{direction_id: direction_id, route: route}} = conn, _args) do
+    shapes = Routes.Repo.get_shapes(route.id, direction_id)
+    route_stops = get_route_stops(shapes, route, direction_id)
 
     conn
     |> assign(:stop_list_template, "_stop_list.html")
-    |> assign(:stops, stops)
-    |> assign(:stop_features, stop_features(stops, conn.assigns.route))
-    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, conn.assigns.route.type, shapes))
+    |> assign(:stops, route_stops)
+    |> assign(:map_img_src, map_img_src(route_stops |> Enum.map(& &1.station_info), route.type, shapes))
   end
 
-  defp get_shapes(route_id, direction_id) do
-    Routes.Repo.get_shapes(route_id, direction_id)
+  defp get_route_stops(shapes, route, direction_id) do
+    route.id
+    |> Stops.Repo.by_route(direction_id)
+    |> Stops.RouteStops.by_direction(shapes, route, direction_id)
+    |> Enum.flat_map(& &1.stops)
   end
 
   defp get_shape(shapes, variant) do
     shapes
     |> get_requested_shape(variant)
     |> get_default_shape(shapes)
-  end
-
-  defp get_stops_from_shape(%{stop_ids: stop_ids}) do
-    stop_ids
-    |> Task.async_stream(& Stops.Repo.get(&1))
-    |> Enum.map(fn {:ok, stop} -> stop end)
-  end
-  defp get_stops_from_shape(_) do
-    []
   end
 
   defp get_requested_shape(_shapes, nil), do: nil
@@ -267,22 +251,6 @@ defmodule Site.ScheduleV2Controller.Line do
     route_id != expanded and not GreenLine.terminus?(stop_id, route_id)
   end
   defp do_green_line_branches(_stop_id, _routes, _expanded), do: false
-
-  defp red_line_branches(stops, %{"expanded" => "braintree"}) do
-    {ashmont, braintree} = split_ashmont_braintree(stops)
-    {[List.last(ashmont)], braintree}
-  end
-  defp red_line_branches(stops, %{"expanded" => "ashmont"}) do
-    {Enum.take_while(stops, & &1.id != "place-nqncy"), [List.last(stops)]}
-  end
-  defp red_line_branches(stops, _params) do
-    {ashmont, braintree} = split_ashmont_braintree(stops)
-    {[List.last(ashmont)], [List.last(braintree)]}
-  end
-
-  defp split_ashmont_braintree(stops) do
-    Enum.split_while(stops, & &1.id != "place-nqncy")
-  end
 
   defp insert_expands(stops, active_lines) do
     stops
