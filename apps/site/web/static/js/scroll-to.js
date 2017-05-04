@@ -2,10 +2,13 @@ export default function($) {
   $ = $ || window.jQuery;
 
   function scrollTo() {
-    window.nextTick(
-      () =>
-        document.querySelectorAll("[data-scroll-to]").forEach(
-          (el) => window.setTimeout(doScrollTo.bind(el), 0)));
+    window.requestAnimationFrame(
+      () => {
+        const elements = document.querySelectorAll("[data-scroll-to]");
+        Array.prototype.forEach.call(
+          elements,
+          doScrollTo);
+      });
   }
 
   function handleScroll(ev) {
@@ -27,15 +30,15 @@ export default function($) {
     });
   }
 
-  function doScrollTo() {
-    const childLeft = this.offsetLeft;
-    const parentLeft = this.parentNode.offsetLeft;
-    const firstSiblingWidth = firstSibling(this).clientWidth;
+  function doScrollTo(el) {
+    const childLeft = el.offsetLeft;
+    const parentLeft = el.parentNode.offsetLeft;
+    const firstSiblingWidth = firstSibling(el).clientWidth;
 
     // childLeft - parentLeft scrolls the first row to the start of the
     // visible area.
     const scrollLeft = childLeft - parentLeft - firstSiblingWidth;
-    var table = this.parentNode;
+    var table = el.parentNode;
     while (table.nodeName !== "TABLE") {
       table = table.parentNode;
     }
@@ -43,7 +46,7 @@ export default function($) {
     table.parentNode.scrollLeft = scrollLeft;
     if (table.className.indexOf("vertically-centered") === -1) {
       const tableHeight = table.clientHeight;
-      window.nextTick(
+      window.requestAnimationFrame(
         () => verticallyCenter($, table, tableHeight, 'schedule-v2-timetable-more-text'));
     }
   }
@@ -52,15 +55,14 @@ export default function($) {
 }
 
 function firstSibling(element) {
-  var previous = element.previousElementSibling;
-  while (element) {
-    if (!previous) {
-      return element;
-    }
-    element = previous;
-    previous = element.previousElementSibling;
+  const sibling = element.parentNode.firstChild;
+  if (sibling.nodeType === 1) {
+    return sibling;
+  } else if (sibling) {
+    return sibling.nextElementSibling;
+  } else {
+    return null;
   }
-  return null;
 }
 
 function toggleClass(element, newClass, bool) {
@@ -86,21 +88,22 @@ function firstElementChild(element) {
 }
 
 function verticallyCenter($, el, tableHeight, className) {
-  const styles = window.getComputedStyle(el.parentNode);
-  const bottomBorder = parseInt(styles.borderBottomWidth);
+  const styles = window.getComputedStyle(el.parentNode),
+        halfTableHeight = tableHeight / 2;
   var sized = false;
   var elements;
 
   if (el.getElementsByClassName) {
     elements = el.getElementsByClassName(className);
   } else {
-    elements = $(el).find(".${className}");
+    elements = $(el).find(`.${className}`);
   }
-  Array.prototype.map.call(elements, (textEl) => {
+  Array.prototype.forEach.call(elements, (textEl) => {
     // vertically center the timetable text if visible
     const height = textEl.offsetHeight;
+
     if (height) {
-      const top = Math.floor((tableHeight - height + bottomBorder) / 2);
+      const top = Math.floor(halfTableHeight - (height / 2));
       window.requestAnimationFrame(() => textEl.style.top = `${top}px`);
       sized = true;
     }
