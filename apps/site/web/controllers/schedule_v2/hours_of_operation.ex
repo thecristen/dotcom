@@ -5,17 +5,22 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
   def init([]), do: []
 
   def call(%Plug.Conn{assigns: %{route: route}} = conn, opts) when not is_nil(route) do
-    dates = get_dates(conn.assigns.date)
-    schedules_fn = schedules_fn(opts)
-    assign(conn, :hours_of_operation, %{
-          :week => get_hours(conn, dates[:week], schedules_fn),
-          :saturday => get_hours(conn, dates[:saturday], schedules_fn),
-          :sunday => get_hours(conn, dates[:sunday], schedules_fn)}
-    )
+    conn.assigns.date
+    |> get_dates()
+    |> Enum.map(fn date -> do_call(date, conn, Keyword.get(opts, :schedules_fn, &Schedules.Repo.all/1)) end)
+    |> Enum.map(fn {key, task} -> {key, Task.await(task)} end)
+    |> Enum.into(%{})
+    |> assign_hours(conn)
   end
   def call(conn, _opts) do
     conn
   end
+
+  defp do_call({key, date}, conn, schedules_fn) do
+    {key, Task.async(fn -> get_hours(conn, date, schedules_fn) end)}
+  end
+
+  defp assign_hours(hours, conn), do: assign(conn, :hours_of_operation, hours)
 
   defp get_hours(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Green"}}}, date, schedules_fn) do
     do_get_hours(Enum.join(GreenLine.branch_ids(), ","), date, schedules_fn)
@@ -42,9 +47,5 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
       :saturday => Timex.end_of_week(date, 7),
       :sunday => Timex.end_of_week(date, 1)
     }
-  end
-
-  defp schedules_fn(opts) do
-    Keyword.get(opts, :schedules_fn, &Schedules.Repo.all/1)
   end
 end
