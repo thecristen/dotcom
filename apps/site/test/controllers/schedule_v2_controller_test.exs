@@ -178,7 +178,13 @@ defmodule Site.ScheduleV2ControllerTest do
 
   describe "line tabs" do
     test "Commuter Rail data", %{conn: conn} do
-      conn = get conn, schedule_path(conn, :show, "CR-Lowell", tab: "line")
+      {date, date_time} = morning_date_time()
+
+      conn = get conn, schedule_path(conn, :show,
+        "CR-Lowell",
+        tab: "line",
+        date: Date.to_iso8601(date),
+        date_time: DateTime.to_iso8601(date_time))
       assert html_response(conn, 200) =~ "Lowell Line"
 
       # make sure each stop has a zone
@@ -186,7 +192,7 @@ defmodule Site.ScheduleV2ControllerTest do
         assert stop.zone
       end
 
-      # stops are in inbound order
+      # stops are in outbound order
       assert List.first(conn.assigns.stops).id == "place-north"
       assert List.last(conn.assigns.stops).id == "Lowell"
       # Stop list
@@ -205,8 +211,14 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Ferry data", %{conn: conn} do
-      conn = get conn, schedule_path(conn, :show, "Boat-F1", tab: "line")
+      {date, dt} = morning_date_time()
+      conn = get conn, schedule_path(conn, :show,
+        "Boat-F1",
+        tab: "line",
+        date: Date.to_iso8601(date),
+        date_time: NaiveDateTime.to_iso8601(dt))
       assert html_response(conn, 200) =~ "Hingham Ferry"
+      # outbound order
       assert List.first(conn.assigns.stops).id == "Boat-Long"
       assert List.last(conn.assigns.stops).id == "Boat-Hingham"
 
@@ -352,5 +364,12 @@ defmodule Site.ScheduleV2ControllerTest do
 
     response = html_response(conn, 200)
     assert response =~ "January 1, 2016 is not part of the Spring schedule."
+  end
+
+  defp morning_date_time do
+    date = Util.service_date()
+    {:ok, naive_dt} = NaiveDateTime.new(date, ~T[12:00:00])
+    {:ok, dt} = DateTime.from_naive(naive_dt, "Etc/UTC")
+    {date, dt}
   end
 end

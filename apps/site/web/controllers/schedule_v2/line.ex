@@ -71,14 +71,15 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:show_variant_selector, show_variant_selector)
     |> assign(:map_img_src, map_img_src(route_stops |> Enum.map(& &1.station_info), route.type, [shape]))
   end
-  def call(%Plug.Conn{assigns: %{direction_id: direction_id, route: route}} = conn, _args) do
+  def call(%Plug.Conn{assigns: %{route: route}} = conn, _args) do
+    direction_id = 0 # Always use the outbound direction
     shapes = Routes.Repo.get_shapes(route.id, direction_id)
     route_stops = get_route_stops(shapes, route, direction_id)
 
     conn
     |> assign(:stop_list_template, "_stop_list.html")
     |> assign(:stops, route_stops)
-    |> assign(:map_img_src, map_img_src(route_stops |> Enum.map(& &1.station_info), route.type, shapes))
+    |> assign(:map_img_src, map_img_src(Enum.map(route_stops, & &1.station_info), route.type, shapes))
   end
 
   defp get_route_stops(shapes, route, direction_id) do
