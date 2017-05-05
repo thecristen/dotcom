@@ -22,15 +22,18 @@ defmodule Routes.Parser do
   defp key_route?(name, "Rapid Transit") when name != "Mattapan Trolley", do: true
   defp key_route?(_, _), do: false
 
-  @spec parse_shape(JsonApi.Item.t) :: Routes.Shape.t
+  @spec parse_shape(JsonApi.Item.t) :: [Routes.Shape.t]
+  def parse_shape(%JsonApi.Item{attributes: %{"priority" => priority}}) when priority < 0 do
+    # ignore shapes with a negative priority
+    []
+  end
   def parse_shape(%JsonApi.Item{id: id, attributes: attributes, relationships: relationships}) do
-    %Routes.Shape{
-      id: id,
-      name: attributes["name"],
-      stop_ids: Enum.map(relationships["stops"], & &1.id),
-      primary?: attributes["primary"],
-      direction_id: attributes["direction_id"],
-      polyline: attributes["polyline"]
-    }
+    [%Routes.Shape{
+        id: id,
+        name: attributes["name"],
+        stop_ids: Enum.map(relationships["stops"], & &1.id),
+        direction_id: attributes["direction_id"],
+        polyline: attributes["polyline"]
+    }]
   end
 end
