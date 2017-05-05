@@ -121,6 +121,11 @@
   border: $border;
   display: block;
   padding: $space-12;
+
+  @include media-breakpoint-down(xs) {
+    line-height: 1.4rem;
+    padding: $space-8;
+  }
 }
 
 .alert-link-title {
@@ -310,4 +315,12 @@
 
 .alert-modal-container {
   margin-bottom: $space-16;
+
+  @include media-breakpoint-down(xs) {
+    font-size: .875rem;
+
+    .alert-item-icon > .fa {
+      margin: .1rem .2rem;
+    }
+  }
 }
