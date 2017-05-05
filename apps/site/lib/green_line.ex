@@ -78,6 +78,20 @@ defmodule GreenLine do
   end
 
   @doc """
+  The stop at which a branch joins the other branches.
+  """
+  def merge_id("Green-E"), do: "place-coecl"
+  def merge_id(_), do: "place-kencl"
+
+  @doc """
+  The first stop that belongs exclusively to each branch.
+  """
+  def split_id("Green-B"), do: "place-bland"
+  def split_id("Green-C"), do: "place-smary"
+  def split_id("Green-D"), do: "place-fenwy"
+  def split_id("Green-E"), do: "place-prmnl"
+
+  @doc """
   The Green Line.
   """
   @spec green_line() :: Route.t

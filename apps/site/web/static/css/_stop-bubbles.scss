@@ -4,7 +4,7 @@ $location-line-width: $space-6;
 // scss-lint:disable NestingDepth
 // scss-lint:disable SelectorDepth
 // Changes the color for the stop bubble based on the route type
-  .route-stop-list,
+  .route-branch-stop-list,
   .schedule-trip-info,
   .schedule-v2-timetable {
     &#{$class} {
@@ -26,8 +26,13 @@ $location-line-width: $space-6;
         }
       }
 
-      .stop-list-indented::after {
+      .route-branch-stop-bubble-line,
+      .route-branch-indent-start {
         background-color: $color;
+      }
+
+      .route-branch-stop-bubble-line.dotted {
+        outline: 1px solid $color;
       }
 
       .stop-bubble::before {
@@ -35,6 +40,143 @@ $location-line-width: $space-6;
       }
     }
   }
+}
+
+.route-branch-stop-list {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-branch-stop {
+  // scss-lint:disable VendorPrefix
+  align-items: stretch;
+  display: flex;
+  -ms-flex: 1 1 auto;
+  flex: 1;
+  overflow: hidden; // IE10 hack -- unless overflow:hidden is set, a gap appears in the line
+                    // when you hover over one of the links or the icons. No idea why. -kh
+  width: 100%;
+}
+
+.route-branch-stop-bubbles {
+  align-items: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-start;
+}
+
+.route-branch-stop-bubble {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: $icon-size;
+
+  &.stop {
+    margin-top: -1px;
+  }
+
+  .route-branch-indent-start {
+    height: $location-line-width;
+    left: -$base-spacing;
+    position: relative;
+    top: $base-spacing;
+    width: .75rem;
+  }
+
+  svg {
+    overflow: visible;
+  }
+
+  text {
+    font-weight: bold;
+  }
+
+  .stop-bubble-terminus {
+    text {
+      fill: $white;
+    }
+  }
+}
+
+.route-branch-stop-bubble-line {
+  // scss-lint:disable VendorPrefix
+  -ms-flex: 1 0 auto;
+  flex: 1;
+  min-height: 1rem;
+  width: $location-line-width;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.green-line {
+  .route-branch-stop-bubble-line {
+    &.dotted {
+      background-color: transparent;
+      margin-top: 1px;
+      width: 0;
+    }
+  }
+}
+
+.route-branch-stop-info {
+  // scss-lint:disable VendorPrefix
+  border-bottom: $border;
+  -ms-flex: 1 1 auto;
+  flex: 1;
+  margin-bottom: $base-spacing;
+  margin-left: $base-spacing;
+  padding-bottom: $base-spacing;
+  width: 100%;
+
+  &.expand {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.expand-branch-link {
+  a {
+    background: $gray-lightest;
+    border-radius: $border-radius;
+    display: inline-block;
+    padding: $base-spacing / 2;
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  .route-branch-stop-link {
+    display: block;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .route-branch-stop-name-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .schedule-link {
+    float: right;
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  .route-branch-stop-icons {
+    margin-bottom: $base-spacing / 2;
+  }
+}
+
+.route-branch-stop-zone {
+  background: $gray-lightest;
+  border-radius: $border-radius;
+  display: inline-block;
+  font-size: $font-size-sm;
+  margin-bottom: $base-spacing / 4;
+  padding: $base-spacing / 4;
 }
 
 @mixin stop-bubble-first() {
@@ -92,81 +234,6 @@ $location-line-width: $space-6;
     @include stop-info-column();
     border-bottom: $border;
     padding-bottom: $base-spacing;
-  }
-}
-
-
-.stop-bubble {
-  height: 100%;
-  padding: $base-spacing-sm 0;
-  position: absolute;
-  width: $icon-size;
-
-  &::before {
-    border-left-style: solid;
-    border-left-width: $location-line-width;
-    content: '';
-    height: 130%;
-    left: 40%;
-    position: absolute;
-    top: -25%;
-    z-index: $z-index-stop-bubble-line;
-  }
-
-  svg {
-    margin-top: -$base-spacing-sm;
-    overflow: visible;
-    position: absolute;
-    z-index: $z-index-stop-bubble;
-  }
-}
-
-.stop-list-indented {
-  padding-left: $icon-size;
-  position: relative;
-
-  // Starts in the middle of the line it's indenting from, and goes to the right edge of the indented line.
-  $extender-width: $location-line-width + ($icon-size * 1.5);
-
-  .route-stop {
-    padding-right: 0;
-  }
-
-  &::after {
-    content: ' ';
-    height: $location-line-width;
-    left: $icon-size / 2;
-    position: absolute;
-    top: 0;
-    width: $extender-width;
-  }
-
-  .route-stop:first-child {
-    //scss-lint:disable NestingDepth
-    .stop-bubble:first-child {
-      // removes a gap between the top of the indented line and the horizontal extender line.
-      &::before {
-        top: -$base-spacing / 2;
-      }
-    }
-  }
-}
-
-.icon-green-branch-bubble {
-  text {
-    font-weight: bold;
-  }
-
-  &.stop-bubble-terminus {
-    text {
-      fill: $white;
-    }
-  }
-
-  &.stop-bubble-stop {
-    text {
-      fill: $gray-dark;
-    }
   }
 }
 

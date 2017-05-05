@@ -35,6 +35,91 @@ defmodule Site.ScheduleV2View do
   end
   defp do_display_direction([]), do: ""
 
+  def build_stop_list([%Stops.RouteStops{branch: "Green-" <> _}|_] = branches) do
+    {before_split, after_split} = branches
+    |> Enum.reduce([], &build_green_stop_list/2)
+    |> Enum.split_while(fn {_, stop} -> stop.id != "place-coecl" end)
+
+    after_split = Enum.map(after_split, fn
+      {bubbles, %Stops.RouteStop{id: id} = stop} when id in ["place-coecl", "place-hymnl", "place-kencl"] -> {bubbles, %{stop | branch: nil}}
+      stop_tuple -> stop_tuple
+    end)
+
+    before_split
+    |> Enum.map(&parse_shared_green_stops/1)
+    |> Kernel.++(after_split)
+  end
+  def build_stop_list(branches) do
+    tuple_or_list = branches
+    |> Enum.reverse()
+    |> Enum.reduce({[], []}, &do_build_stop_list/2)
+    case tuple_or_list do
+      {stop_list, _} -> stop_list
+      [_|_] = list -> list
+    end
+  end
+
+  defp parse_shared_green_stops({bubble_types, stop}) do
+    bubble_types = Enum.map(bubble_types, fn
+                                            :line -> :empty
+                                            type -> type
+                                          end)
+    {bubble_types, %{stop | branch: nil}}
+  end
+
+  # appends the stops from a green line branch onto the full list of stops on the green line.
+  defp build_green_stop_list(%Stops.RouteStops{stops: branch_stops}, all_stops) do
+    branch_stop_ids = Enum.map(branch_stops, & &1.id)
+
+    all_stops
+    |> Kernel.++(Enum.map(branch_stops, & {[], &1}))
+    |> Enum.uniq_by(fn {_, stop} -> stop.id end)
+    |> Enum.map(fn {bubble_types, stop} ->
+      bubble_type = branch_stop_ids |> Enum.member?(stop.id) |> stop_bubble_type(stop.is_terminus?)
+      {[bubble_type | bubble_types], stop}
+    end)
+  end
+
+  defp do_build_stop_list(%Stops.RouteStops{branch: nil, stops: stops}, {all_stops, _branches}) do
+    stops |> Enum.reverse() |> Enum.reduce(all_stops, & build_branch_stop(&1, [&1.branch], &2))
+  end
+  defp do_build_stop_list(%Stops.RouteStops{branch: branch, stops: branch_stops}, {all_stops, previous_branches}) do
+    branches = [branch | previous_branches]
+    updated_stop_list = branch_stops |> Enum.reverse() |> Enum.reduce(all_stops, & build_branch_stop(&1, branches, &2))
+    {updated_stop_list, branches}
+  end
+
+  defp build_branch_stop(stop, branches, all_stops) do
+    bubble_types = branches |> Enum.reverse() |> Enum.map(&stop_bubble_type(&1 == stop.branch, stop.is_terminus?))
+    [{bubble_types, stop} | all_stops]
+  end
+
+  defp stop_bubble_type(true, true), do: :terminus
+  defp stop_bubble_type(true, false), do: :stop
+  defp stop_bubble_type(_, _), do: :line
+
+  def add_expand_link?(_, all_stops, %Stops.RouteStop{id: stop_id, branch: "Green-" <> _ = branch}) do
+    stop_id == all_stops
+    |> Enum.filter(fn {_, stop} -> stop.branch == branch end)
+    |> List.first()
+    |> elem(1)
+    |> Map.get(:id)
+  end
+  def add_expand_link?(_, _, _), do: false
+
+  def route_stop_line_class(_, :terminus, _expanded, {_route, _branch, %Stops.RouteStop{branch: nil}}), do: ""
+  def route_stop_line_class(1, :terminus, _expanded, {_route, _branch, %Stops.RouteStop{stop_number: 0}}), do: ""
+  def route_stop_line_class(_, bubble_type, _expanded, _) when bubble_type in [:terminus, :empty], do: "hidden"
+  def route_stop_line_class(_, _, expanded, {_route, branch, _stop}) when expanded == branch, do: ""
+  def route_stop_line_class(_, :stop, expanded_branch,
+    {%Routes.Route{id: "Green"}, branch, %Stops.RouteStop{branch: nil, id: stop_id}}) when branch != expanded_branch do
+      if GreenLine.merge_id(branch) == stop_id do "dotted" else "" end
+    end
+  def route_stop_line_class(_, :stop, _expanded, _), do: ""
+  def route_stop_line_class(_, :line, _expanded, {_route, branch, %Stops.RouteStop{branch: "Green-E"}}) when branch != "Green-E", do: ""
+  def route_stop_line_class(_, :line, _expanded, {%Routes.Route{id: "Green"}, _, _}), do: "dotted"
+  def route_stop_line_class(_, :line, _expanded, _), do: ""
+
   @doc """
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
@@ -54,9 +139,15 @@ defmodule Site.ScheduleV2View do
     stop_bubble_icon(:stop)
   end
 
-  defp stop_bubble_icon(class) do
+  defp stop_bubble_icon(class, route_id \\ nil) do
     content_tag :svg, viewBox: "0 0 42 42", class: "icon stop-bubble-#{class}" do
-      tag :circle, r: 20, cx: 20, cy: 20, transform: "translate(2,2)"
+      [
+        content_tag(:circle, "", r: 20, cx: 20, cy: 20, transform: "translate(2,2)"),
+        case route_id do
+          "Green-" <> branch -> content_tag(:text, branch, font_size: 24, x: 14, y: 30)
+          _ -> ""
+        end
+      ]
     end
   end
 

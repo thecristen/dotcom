@@ -1,20 +1,98 @@
-<%= for stop <- @stops do %>
-  <div class="route-stop">
-    <div class="stop-bubble">
-      <%= stop_bubble_location_display(false, @route.type, stop.is_terminus?) %>
-    </div>
-    <div class="stop-info route-stop-name-icons">
-      <div class="name-and-zone">
-        <%= link(break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id)) %>
+<div class="route-branch-stop-list stop-group <%= @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>">
+  <%
+    all_stops = build_stop_list(@branches)
+    branch_names = @branches |> Enum.reverse() |> Enum.map(& &1.branch) |> Enum.reject(& &1 == nil)
+    first_branched_stop_id = if length(@branches) > 1 && @route.id != "Green" do
+      @branches |> Enum.at(1) |> Map.get(:stops) |> List.first() |> Map.get(:id)
+    else
+      nil
+    end
+  %>
+  <%= for {bubbles, stop} <- all_stops do %>
+    <%= if add_expand_link?(length(@branches), all_stops, stop) do %>
+      <div class="route-branch-stop">
+        <div class="route-branch-stop-bubbles">
+          <%= for {_, branch} <- Enum.zip(bubbles, branch_names) do %>
+            <div class="route-branch-stop-bubble line">
+              <div class="route-branch-stop-bubble-line <%= route_stop_line_class(length(bubbles), :line, @expanded, {@route, branch, stop}) %>"></div>
+            </div>
+          <% end %>
+          <%= if length(bubbles) > length(branch_names) do %>
+            <%=
+              diff = length(branch_names) -length(bubbles)
+              for _ <- 1..diff, do: content_tag(:div, "", class: "route-branch-stop-bubble hidden-sm-up")
+            %>
+          <% end %>
+        </div>
+        <div class="route-branch-stop-info expand">
+          <div class="expand-branch-link">
+            <%
+              branch_name = if @route.id == "Green" do
+                [stop.branch |> String.split("-") |> List.last(), " Line"] |> IO.iodata_to_binary()
+              else
+                stop.branch
+              end
+            %>
+            <%=
+              if stop.branch == @expanded do
+                link to: update_url(@conn, [{"expanded", nil}]) do
+                  [
+                    fa("angle-double-up"),
+                    " Hide #{branch_name} stops"
+                  ]
+                end
+              else
+                link to: update_url(@conn, [{"expanded", stop.branch}]) do
+                  [
+                    fa("angle-double-down"),
+                    " Show #{branch_name} stops"
+                  ]
+                end
+              end
+            %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="route-branch-stop">
+      <div class="route-branch-stop-bubbles">
+        <%= for {{bubble_type, branch}, index} <- bubbles |> Enum.zip(branch_names) |> Enum.with_index() do %>
+          <% is_bubble? = bubble_type in [:stop, :terminus] %>
+          <div class="route-branch-stop-bubble <%= bubble_type %>">
+            <%= if is_bubble? do %>
+              <%= if stop.id == first_branched_stop_id, do: content_tag(:div, "", class: "route-branch-indent-start") %>
+              <%= stop_bubble_icon(bubble_type, if @route.id == "Green" do Enum.at(GreenLine.branch_ids, index) else @route.id end) %>
+            <% end %>
+            <div class="route-branch-stop-bubble-line <%= route_stop_line_class(length(bubbles), bubble_type, @expanded, {@route, branch, stop}) %>"></div>
+          </div>
+        <% end %>
+        <%= if length(bubbles) < branch_names |> Enum.reject(&is_nil/1) |> length() do %>
+          <%=
+            diff = branch_names |> Enum.reject(&is_nil/1) |> length() |> Kernel.-(length(bubbles))
+            for _ <- 1..diff, do: content_tag(:div, "", class: "route-branch-stop-bubble hidden-sm-up")
+          %>
+        <% end %>
+      </div>
+      <div class="route-branch-stop-info">
+        <div class="route-branch-stop-name-icons">
+          <div class="route-branch-stop-name">
+            <%= break_text_at_slash(stop.name) %>
+          </div>
+          <div class="route-branch-stop-icons">
+            <%= for feature <- stop.stop_features |> Enum.sort() |> Enum.reverse(), do: svg_icon_with_circle(%SvgIconWithCircle{icon: feature}) %>
+          </div>
+        </div>
         <%= if stop.zone do %>
-          <div class="zone">
+          <div class="route-branch-stop-zone">
+            <%= unless @route.type == 2 do %>Commuter Rail<% end %>
             Zone <%= stop.zone %>
           </div>
         <% end %>
-      </div>
-      <div class="route-icons">
-        <%= for feature <- stop.stop_features |> Enum.sort() |> Enum.reverse(), do: svg_icon_with_circle(%SvgIconWithCircle{icon: feature}) %>
+        <div class="route-branch-stop-links">
+          <%= link "Stop Info",  class: "route-branch-stop-link", to: stop_path(@conn, :show, stop.id) %>
+          <%= link "Schedules from here", class: "route-branch-stop-link schedule-link", to: schedule_path(@conn, :show, @route.id, tab: "trip-view", origin: stop.id) %>
+        </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
