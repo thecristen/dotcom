@@ -12,7 +12,7 @@
           conn: @conn,
           routes: get_route_group(route_type, @grouped_routes),
           route_type: route_type,
-          alerts: @alerts,
+          alerts: @all_alerts,
           date: @date,
           truncated_list?: route_type == :bus
           }

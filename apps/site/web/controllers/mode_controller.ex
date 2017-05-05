@@ -3,7 +3,6 @@ defmodule Site.ModeController do
 
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
-  plug Site.Plugs.Alerts, upcoming?: false
 
   alias Site.Mode
 
@@ -19,11 +18,13 @@ defmodule Site.ModeController do
   end
 
   def index(conn, _params) do
+    grouped_routes = filtered_grouped_routes([:bus])
     conn
-    |> render("index.html",
-      grouped_routes: filtered_grouped_routes([:bus]),
-      breadcrumbs: ["Schedules & Maps"],
-      include_ride: true
-    )
+    |> async_assign(:all_alerts, fn -> grouped_routes |> get_grouped_route_ids() |> Alerts.Repo.by_route_ids() end)
+    |> assign(:grouped_routes, grouped_routes)
+    |> assign(:breadcrumbs, ["Schedules & Maps"])
+    |> assign(:include_ride, true)
+    |> await_assign_all()
+    |> render("index.html")
   end
 end

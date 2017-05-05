@@ -2,7 +2,6 @@ defmodule Site.ScheduleV2Controller.GreenTest do
   use Site.ConnCase, async: true
 
   import Site.ScheduleV2Controller.Green
-  alias Alerts.{Alert, InformedEntity}
 
   @moduletag :external
 
@@ -31,29 +30,6 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     html_response(conn, 200)
     assert conn.assigns.date_select
     assert conn.assigns.calendar
-  end
-
-  test "assigns alerts for all branches", %{conn: conn} do
-    date_time = ~N[2017-02-10T11:28:02]
-    conn = conn
-    |> assign(:date, NaiveDateTime.to_date(date_time))
-    |> assign(:date_time, date_time)
-    |> assign(:route, @green_line)
-    |> fetch_query_params
-    |> alerts(alerts_fn: fn ->
-      for route_id <- GreenLine.branch_ids() do
-        %Alert{
-          informed_entity: [%InformedEntity{route: route_id}],
-          active_period: [{nil, nil}],
-          updated_at: date_time
-        }
-      end
-    end)
-
-    assert conn.assigns.all_alerts
-    |> Enum.flat_map(& &1.informed_entity)
-    |> Enum.map(& &1.route)
-    |> Kernel.==(GreenLine.branch_ids())
   end
 
   test "assigns origin and destination", %{conn: conn} do

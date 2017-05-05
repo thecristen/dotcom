@@ -3,7 +3,7 @@ defmodule Site.StopController do
 
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
-  plug Site.Plugs.Alerts, upcoming?: false
+  plug :all_alerts
 
   alias Stops.Repo
   alias Stops.Stop
@@ -124,5 +124,9 @@ defmodule Site.StopController do
   @spec stop_predictions(String.t) :: [Predictions.Prediction.t]
   defp stop_predictions(stop_id) do
     Predictions.Repo.all(stop: stop_id)
+  end
+
+  defp all_alerts(conn, _opts) do
+    assign(conn, :all_alerts, Alerts.Repo.all())
   end
 end

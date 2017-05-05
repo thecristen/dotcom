@@ -12,4 +12,11 @@ defmodule Alerts.Repo do
   def banner do
     Store.banner()
   end
+
+  @spec by_route_ids([String.t]) :: [Alerts.Alert.t]
+  def by_route_ids(route_ids) do
+    route_ids
+    |> Store.alert_ids_for_routes()
+    |> Store.alerts()
+  end
 end

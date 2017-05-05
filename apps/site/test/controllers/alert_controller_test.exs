@@ -11,6 +11,32 @@ defmodule Site.AlertControllerTest do
     assert html_response(conn, 200) =~ "Commuter Rail"
   end
 
+  describe "index/2" do
+    test "index page is redirected to subway", %{conn: conn} do
+      conn = get(conn, "/alerts")
+      assert redirected_to(conn, 302) == "/alerts/subway"
+    end
+  end
+
+  describe "show/2" do
+    test "alerts are assigned for all modes", %{conn: conn} do
+      for mode <- [:bus, :commuter_rail, :subway, :ferry] do
+        conn = get(conn, alert_path(conn, :show, mode))
+        assert conn.assigns.all_alerts
+      end
+    end
+
+    test "alerts are assigned for the access tab", %{conn: conn} do
+      conn = get(conn, alert_path(conn, :show, :access))
+      assert conn.assigns.all_alerts
+    end
+
+    test "invalid mode does not assign alerts", %{conn: conn} do
+      conn = get(conn, alert_path(conn, :show, :bicycle))
+      refute conn.assigns[:all_alerts]
+    end
+  end
+
   describe "mode icons" do
     setup %{conn: conn} do
       {:ok, conn: conn, alerts: Enum.map([:bus, :subway, :commuter_rail, :ferry, :access], &create_alert/1)}

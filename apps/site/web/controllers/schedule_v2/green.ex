@@ -10,6 +10,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug Site.Plugs.DateTime
   plug Site.ScheduleV2Controller.DatePicker
   plug :alerts
+  plug Site.Plugs.UpcomingAlerts
   plug Site.ScheduleV2Controller.Defaults
   plug :stops_on_routes
   plug :all_stops
@@ -101,47 +102,8 @@ defmodule Site.ScheduleV2Controller.Green do
     assign(conn, :predictions, predictions)
   end
 
-  def alerts(conn, opts) do
-    {all_alerts, alerts, upcoming_alerts} = conn
-    |> conn_with_branches
-    |> Task.async_stream(fn conn ->
-      with_alerts = call_plug(conn, Site.Plugs.Alerts, opts).assigns
-      {with_alerts.all_alerts, with_alerts.alerts, with_alerts.upcoming_alerts}
-    end, timeout: @task_timeout)
-    |> gather_alerts
-
-    conn
-    |> assign(:all_alerts, all_alerts)
-    |> assign(:alerts, alerts)
-    |> assign(:upcoming_alerts, upcoming_alerts)
-  end
-
-  @spec gather_alerts(Enumerable.t) :: {[Alert.t], [Alert.t], [Alert.t]}
-  defp gather_alerts(stream) do
-    acc = {MapSet.new, MapSet.new, MapSet.new}
-
-    {all_set, alerts_set, upcoming_set} = Enum.reduce(
-      stream,
-      acc,
-      fn {:ok, {all, alerts, upcoming}}, {acc_all, acc_alerts, acc_upcoming} ->
-        {
-          MapSet.union(MapSet.new(all), acc_all),
-          MapSet.union(MapSet.new(alerts), acc_alerts),
-          MapSet.union(MapSet.new(upcoming), acc_upcoming)
-        }
-    end)
-
-    {make_alert_list(all_set),
-     make_alert_list(alerts_set),
-     make_alert_list(upcoming_set)}
-  end
-
-  @spec make_alert_list(MapSet.t) :: [Alert.t]
-  defp make_alert_list(set) do
-    # make sure the alerts are in the right order
-    set
-    |> MapSet.to_list
-    |> Alerts.Sort.sort
+  def alerts(conn, _opts) do
+    assign(conn, :all_alerts, Alerts.Repo.by_route_ids([nil, "Green"]))
   end
 
   def vehicle_locations(conn, opts) do
