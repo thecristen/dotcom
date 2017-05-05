@@ -1,79 +1,59 @@
-export default function($) {
-  $ = $ || window.jQuery;
+export default function($, w = window, doc = document) {
+  $ = $ || w.jQuery;
 
   var savedPosition = null;
-  var savedAnchor = null;
   var redirectTimeout = null;
+  var lastUrl = currentUrl();
 
-  window.addEventListener('popstate', (ev) => {
-    var url = window.location.href;
+  w.addEventListener('popstate', (ev) => {
+    var url = w.location.href;
 
     if (redirectTimeout && !url.match(/redirect/)) {
-      clearTimeout(redirectTimeout);
+      w.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
-  }, {passive: true});
-  document.addEventListener('turbolinks:before-visit', (ev) => {
-    const url = ev.data.url;
-    const anchorIndex = url.indexOf('#');
-    const currentPath = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-    if (anchorIndex !== -1) {
-      const newUrl = url.slice(0, anchorIndex);
-      if (!samePath(`${currentPath}${window.location.search}`, newUrl)) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        savedAnchor = url.slice(anchorIndex, url.length);
-        window.setTimeout(() => Turbolinks.visit(newUrl), 0);
-      }
-      return;
-    }
 
-    if (samePath(url, currentPath)) {
-      savedPosition = [window.scrollX, window.scrollY];
-    }
+    lastUrl = currentUrl();
+  }, {passive: true});
+
+  doc.addEventListener('turbolinks:before-visit', (ev) => {
+    savedPosition = null;
 
     // cancel a previously set redirect timeout
     if (redirectTimeout) {
-      clearTimeout(redirectTimeout);
+      w.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
+    const url = ev.data.url;
 
-  });
-  document.addEventListener('turbolinks:render', (ev) => {
+    if (samePath(url, lastUrl)) {
+      savedPosition = [w.scrollX, w.scrollY];
+    }
+
+    lastUrl = currentUrl();
+  }, {passive: true});
+
+  doc.addEventListener('turbolinks:render', () => {
     // if it's cached render, not a real one, set the scroll/focus positions,
     // but don't clear them until we have the true rendering.
-    var clearSaved = $('html').attr('data-turbolinks-preview') !== '';
+    const cachedRender = doc.documentElement.getAttribute('data-turbolinks-preview') === '';
+    if (!cachedRender && w.location.hash) {
+      const el = doc.getElementById(w.location.hash.slice(1));
+      if (el) {
+        savedPosition = null;
+        focusAndExpand(el, $);
+      }
+    }
+
     if (savedPosition) {
-      window.scrollTo.apply(window, savedPosition);
-      if (clearSaved) {
+      w.scrollTo.apply(window, savedPosition);
+      if (!cachedRender) {
         savedPosition = null;
       }
     }
-    if (savedAnchor) {
-      // if we saved the anchor and it's above the screen, scroll to it
-      const $el = $(savedAnchor);
-      const $window = $(window);
-      if (clearSaved) {
-        savedAnchor = null;
-      }
-      if ($el.length > 0) {
-        const nodeName = $el[0].nodeName;
-        const elementY = $el.offset().top;
-        const windowY = $window.scrollTop();
-        if (windowY > elementY) {
-          $window.scrollTop(elementY - 20);
-        }
-        // if we're focusing a link, then focus it directly. otherwise, find
-        // the first child link and focus that.
-        if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
-          $el.focus();
-        } else {
-          $el.find('a:first').focus();
-        }
-      }
-    }
   }, {passive: true});
-  document.addEventListener('turbolinks:request-end', (ev) => {
+
+  doc.addEventListener('turbolinks:request-end', (ev) => {
     // if a refresh header was receieved, enforce via javascript
     var refreshHeader = ev.data.xhr.getResponseHeader("Refresh");
     if (!refreshHeader) {
@@ -85,8 +65,8 @@ export default function($) {
     var refreshDelay = refreshHeader.split(';')[0] * 1000;
 
     // redirect after 5 seconds
-    redirectTimeout = setTimeout(function () {
-      document.location = refreshUrl;
+    redirectTimeout = w.setTimeout(function () {
+      doc.location = refreshUrl;
     }, refreshDelay);
   }, {passive: true});
 };
@@ -94,4 +74,34 @@ export default function($) {
 export function samePath(first, second) {
   return (first.slice(0, second.length) === second && (
     first.length == second.length || first[second.length] === "?"));
+};
+
+function currentUrl() {
+  return `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+}
+
+function focusAndExpand(el, $) {
+  const nodeName = el.nodeName;
+  // if we're focusing a link, then focus it directly. otherwise, find
+  // the first child link and focus that.
+  if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
+    el.focus();
+    scrollToElement(el);
+  } else {
+    const a = el.querySelector('a');
+    a.focus();
+    scrollToElement(a);
+    // if the link we focused is the target for a collapse, then show
+    // the collapsed element
+    if (a.getAttribute("data-target") == window.location.hash) {
+      $(el).collapse('show');
+    }
+  }
+};
+
+function scrollToElement(el, savedPosition) {
+  window.requestAnimationFrame(() => {
+    const rect = el.getBoundingClientRect();
+    window.scrollBy(0, rect.top);
+  });
 };
