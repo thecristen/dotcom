@@ -37,7 +37,7 @@ defmodule Routes.Repo do
       case V3Api.Shapes.all([route: route_id, direction_id: direction_id]) do
         {:error, error} -> warn_error([route_id, direction_id], error)
         %JsonApi{data: data} ->
-          Enum.flat_map(data, &parse_shape/1)
+          Enum.map(data, &parse_shape/1)
       end
     end
   end
