@@ -145,7 +145,7 @@
 
 .tab-select-btnbar-group {
   @include media-breakpoint-down(xs) {
-    display: table;
+    display: flex;
     width: 100%;
   }
 }
@@ -155,7 +155,8 @@
     border-color: $brand-primary;
     border-left: 0;
     border-radius: 0;
-    display: table-cell;
+    flex: 1;
+    font-size: .875rem;
     padding: $base-spacing-sm $space-6;
     text-align: center;
 
