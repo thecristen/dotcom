@@ -10,6 +10,14 @@ defmodule Content.Repo do
 
   @cms_api Application.get_env(:content, :cms_api)
 
+  @spec news_entry!(integer) :: Content.NewsEntry.t | no_return
+  def news_entry!(id) do
+    case @cms_api.view("/news", [id: id]) do
+      {:ok, [news_entry]} -> Content.NewsEntry.from_api(news_entry)
+      _ -> raise Content.NoResultsError
+    end
+  end
+
   @spec recent_news() :: [Content.NewsEntry.t]
   def recent_news do
     case @cms_api.view("/recent-news") do

@@ -2,11 +2,6 @@ defmodule ContentControllerTest do
   use Site.ConnCase, async: true
 
   describe "GET - page" do
-    test "renders a news entry when the CMS returns a Content.NewsEntry", %{conn: conn} do
-      conn = get conn, "/news/winter"
-      assert html_response(conn, 200) =~ "FMCB approves Blue Hill Avenue Station"
-    end
-
     test "renders a basic page when the CMS returns a Content.BasicPage", %{conn: conn} do
       conn = get conn, "/accessibility"
       assert html_response(conn, 200) =~ "Accessibility at the T"

@@ -27,6 +27,7 @@ defmodule Site.Router do
     resources "/events", EventController, only: [:index, :show] do
       get "/icalendar", IcalendarController, :show
     end
+    resources "/news", NewsEntryController, only: [:show]
     get "/redirect/*path", RedirectController, :show
     resources "/stops", StopController, only: [:index, :show]
     get "/schedules", ModeController, :index

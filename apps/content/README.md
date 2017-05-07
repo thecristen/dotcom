@@ -20,7 +20,12 @@ Local development is easiest with a copy of the Drupal CMS running locally, and 
 
 * At any point you can "reset" your local copy to what's on production by going to Kalabox, clicking the gear associated with the mbta tile and click "Pull", pulling the database from dev and the files from dev.
 
-* Ensure the CMS is set up by starting up your phoenix server pointing to it: `env DRUPAL_ROOT=http://mbta.kbox.site/ mix phoenix.server`. Visit localhost:4001/news/winter to confirm it loads.
+* Ensure the CMS is set up by starting up your phoenix server pointing to it:
+`env DRUPAL_ROOT=http://mbta.kbox.site/ mix phoenix.server`. Next, visit a page
+that requires content from the CMS. For example, visit `localhost:4001/events/:id`
+and confirm the page loads. A valid event id can be found by visiting your local
+version of the CMS at: `mbta.kbox.site/admin/content` and selecting an item with
+the Content Type "Event". The id will be displayed in the URL.
 
 ## Code overview
 

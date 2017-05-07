@@ -18,16 +18,25 @@ defmodule Content.RepoTest do
     end
   end
 
+  describe "news_entry!/1" do
+    test "returns the news entry for the given id" do
+      assert %Content.NewsEntry{
+        id: 1
+      } = Content.Repo.news_entry!("1")
+    end
+
+    test "raises Content.NoResultsError given an unknown id" do
+      assert_raise Content.NoResultsError, fn ->
+        Content.Repo.news_entry!("nonexistent")
+      end
+    end
+  end
+
   describe "get_page/1" do
     test "returns a Content.BasicPage" do
       %Content.BasicPage{title: title, body: body} = Content.Repo.get_page("/accessibility")
       assert title == "Accessibility at the T"
       assert safe_to_string(body) =~ "From accessible buses, trains, and stations"
-    end
-
-    test "returns a Content.NewsEntry" do
-      %Content.NewsEntry{body: body} = Content.Repo.get_page("/news/winter")
-      assert safe_to_string(body) =~ "BOSTON -- The MBTA"
     end
 
     test "returns a Content.ProjectUpdate" do
