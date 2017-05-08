@@ -78,6 +78,7 @@ defmodule Site.ScheduleV2Controller.Green do
       call_plug(conn, Site.ScheduleV2Controller.Schedules, opts).assigns.schedules
     end)
     |> flat_map_results
+    |> Enum.sort_by(&arrival_time/1)
 
     conn
     |> assign(:schedules, schedules)
@@ -197,4 +198,8 @@ defmodule Site.ScheduleV2Controller.Green do
   end
 
   defp flat_map_ok({:ok, values}), do: values
+
+  @spec arrival_time({Schedule.t, Schedule.t} | Schedule.t) :: DateTime.t
+  defp arrival_time({arrival, _departure}), do: arrival.time
+  defp arrival_time(schedule), do: schedule.time
 end

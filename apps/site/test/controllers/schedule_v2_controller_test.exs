@@ -143,6 +143,14 @@ defmodule Site.ScheduleV2ControllerTest do
       refute :schedules in Map.keys(conn.assigns)
     end
 
+    test "frequency table does not have negative values for Green Line", %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "Green", origin: "place-north"))
+      for frequency <- conn.assigns.frequency_table.frequencies do
+        assert frequency.min_headway > 0
+        assert frequency.max_headway > 0
+      end
+    end
+
     test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
       conn = get(conn, schedule_path(conn, :show, "Green-C", origin: "place-pktrm"))
       assert conn.assigns.schedules
