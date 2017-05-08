@@ -10,17 +10,14 @@ defmodule Stops.RouteStop do
       zone: "1A"                                          # Commuter rail zone (will be nil if stop doesn't have CR routes)
       route: %Routes.Route{id: "Red"...}                  # The full Routes.Route for the parent route
       branch: nil                                         # Name of the branch that this stop is on for this route. will be nil unless the stop is actually on a branch.
-      stop_number: 9                                      # The number (0-based) of the stop along the route, relative to the beginning of the line in this direction.
-                                                          #     note that for routes with branches, stops that are on branches will be ordered as if no other branches
+      stop_number: 9                                      # The number (0-based) of the stop along the route, relative to the beginning of the line in this direction.                                                          #     note that for routes with branches, stops that are on branches will be ordered as if no other branches
                                                           #     exist. So, for example, on the Red line (direction_id: 0), the stop number for JFK/Umass is 12, and then
                                                           #     the stop number for both Savin Hill (ashmont) and North Quincy (braintree) is 13, the next stop on both
                                                           #     branches is 14, etc.
       station_info: %Stops.Stop{id: "place-sstat"...}     # Full Stops.Stop struct for the parent stop.
-      child_stops: ["70079", "70080"]                     # List of the ids of all the child GTFS stops that this stop represents for this route & direction.
 
       stop_features: [:commuter_rail, :bus, :accessible]  # List of atoms representing the icons that should be displayed for this stop.
-      is_terminus?: false                                 # Whether this is either the first or last stop on the route. Use in conjunction with stop_number to determine
-                                                          #     if this is the first or last stop.
+      is_terminus?: false                                 # Whether this is either the first or last stop on the route.
     }
   ```
 
@@ -28,7 +25,7 @@ defmodule Stops.RouteStop do
 
   @type branch_name_t :: String.t
   @type direction_id_t :: 0 | 1
-  @type stop_number_t :: integer
+  @type stop_number_t :: non_neg_integer
 
   @branched_routes ["Red", "CR-Kingston", "CR-Providence", "CR-Newburyport"]
 
@@ -38,9 +35,8 @@ defmodule Stops.RouteStop do
     zone: String.t,
     route: Routes.Route.t,
     branch: branch_name_t,
-    stop_number: non_neg_integer,
+    stop_number: stop_number_t,
     station_info: Stops.Stop.t,
-    child_stops: [Stops.Stop.id_t],
     stop_features: [Routes.Route.route_type | Routes.Route.subway_lines_type | :accessible],
     is_terminus?: boolean
   }
@@ -53,7 +49,6 @@ defmodule Stops.RouteStop do
     :branch,
     :stop_number,
     :station_info,
-    child_stops: [],
     stop_features: [],
     is_terminus?: false
   ]
@@ -67,50 +62,50 @@ defmodule Stops.RouteStop do
   the branched stops appear grouped together in order as part of the list.
   """
   @spec list_from_shapes([Routes.Shape.t], [Stops.Stop.t], Routes.Route.t, direction_id_t) :: [RouteStop.t]
-  def list_from_shapes([], [%Stops.Stop{}|_] = stops, route, direction_id) do
+  def list_from_shapes([], [%Stops.Stop{}|_] = stops, route, _direction_id) do
     # if the repo doesn't have any shapes, just fake one since we only need the name and stop_ids.
 
     stops
     |> List.last()
     |> Map.get(:id)
-    |> do_list_from_shapes(Enum.map(stops, & &1.id), stops, route, direction_id)
+    |> do_list_from_shapes(Enum.map(stops, & &1.id), stops, route)
   end
-  def list_from_shapes([%Routes.Shape{} = shape], [%Stops.Stop{}|_] = stops, route, direction_id) do
+  def list_from_shapes([%Routes.Shape{} = shape], [%Stops.Stop{}|_] = stops, route, _direction_id) do
     # If there is only one route shape, we know that we won't need to deal with merging branches so
     # we just return whatever the list of stops is without calling &merge_branches/3.
-    do_list_from_shapes(shape.name, shape.stop_ids, stops, route, direction_id)
+    do_list_from_shapes(shape.name, shape.stop_ids, stops, route)
   end
   def list_from_shapes(shapes, stops, route, direction_id) do
     shapes
-    |> Enum.map(& {&1.name, do_list_from_shapes(&1.name, &1.stop_ids, stops, route, direction_id)})
+    |> Enum.map(& {&1.name, do_list_from_shapes(&1.name, &1.stop_ids, stops, route)})
     |> merge_branches(route, direction_id)
   end
 
-  @spec do_list_from_shapes(String.t, [Stops.Stop.id_t], [Stops.Stop.t], Routes.Route.t, direction_id_t) :: [RouteStop.t]
-  defp do_list_from_shapes(shape_name, stop_ids, [%Stops.Stop{}|_] = stops, route, direction_id) do
+  @spec do_list_from_shapes(String.t, [Stops.Stop.id_t], [Stops.Stop.t], Routes.Route.t) :: [RouteStop.t]
+  defp do_list_from_shapes(shape_name, stop_ids, [%Stops.Stop{}|_] = stops, route) do
     stops = Map.new(stops, &{&1.id, &1})
     stop_ids
     |> Enum.map(& Map.get(stops, &1))
     |> Util.EnumHelpers.with_first_last()
-    |> Enum.with_index()
-    |> Task.async_stream(fn stop -> build_route_stop(stop, shape_name, route, direction_id) end)
+    |> Enum.with_index
+    |> Task.async_stream(&build_route_stop(&1, shape_name, route))
     |> Enum.map(fn {:ok, stop} -> stop end)
   end
 
   @doc """
   Builds a RouteStop from information about a stop.
   """
-  @spec build_route_stop({{Stops.Stop.t, boolean}, RouteStop.stop_number_t}, Routes.Shape.t, Routes.Route.t, direction_id_t) :: RouteStop.t
-  def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, index}, shape_name, route, direction_id) do
+  @spec build_route_stop({{Stops.Stop.t, boolean}, stop_number_t}, Routes.Shape.t, Routes.Route.t) :: RouteStop.t
+  def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, number}, shape_name, route) do
     %RouteStop{
       id: stop.id,
       route: route,
       name: stop.name,
       station_info: stop,
       branch: shape_name,
+      stop_number: number,
       is_terminus?: is_terminus?,
       zone: Zones.Repo.get(stop.id),
-      stop_number: %{direction_id => index},
       stop_features: get_stop_features(stop.id, route, stop.accessibility)
     }
   end
