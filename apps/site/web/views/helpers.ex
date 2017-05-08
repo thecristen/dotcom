@@ -29,6 +29,14 @@ defmodule Site.ViewHelpers do
     redirect_path(conn, :show, []) <> path
   end
 
+  @doc """
+  Use for links to CMS static content. For now just leaves paths alone,
+  but at least earmarks them for easy identification or if we need to change our
+  frontend<->CMS linking strategy in the future.
+  """
+  @spec cms_static_page_path(Phoenix.Endpoint.t | Plug.Conn.t, String.t) :: String.t
+  def cms_static_page_path(_conn, path), do: path
+
   def google_tag_manager_id do
     case env(:google_tag_manager_id) do
       "" -> nil

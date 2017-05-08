@@ -18,7 +18,7 @@
           <li class="footer-link-sublist-item"><%= link "Station Info", to: stop_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Service Alerts", to: alert_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Transit Near Me", to: transit_near_me_path(@conn, :index) %></li>
-          <li class="footer-link-sublist-item"><%= link "Maps", to: "/maps" %></li>
+          <li class="footer-link-sublist-item"><%= link "Maps", to: cms_static_page_path(@conn, "/maps") %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">

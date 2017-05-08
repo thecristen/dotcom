@@ -17,7 +17,7 @@
       <%= render "_link.html", href: stop_path(@conn, :index), text: "Station Info", class: "col-xs-12 col-sm-3", target: "_self" %>
       <%= render "_link.html", href: alert_path(@conn, :index), text: "Service Alerts", class: "col-xs-12 col-sm-3", target: "_self" %>
       <%= render "_link.html", href: transit_near_me_path(@conn, :index), text: "Transit Near Me", class: "col-xs-12 col-sm-3", target: "_self" %>
-      <%= render "_link.html", href: "/maps", text: "Maps", class: "col-xs-12 col-sm-3", target: "_self" %>
+      <%= render "_link.html", href: cms_static_page_path(@conn, "/maps"), text: "Maps", class: "col-xs-12 col-sm-3", target: "_self" %>
     </div>
 
     <h2>Riding the T</h2>
