@@ -333,6 +333,8 @@ a {
 .shape-filter {
   display: flex;
   flex-direction: column;
+  // fixes issue on iOS9, see: http://stackoverflow.com/questions/7892863/jquery-click-not-working-with-ipad
+  cursor: pointer;
 
   @include media-breakpoint-down(xs) {
     margin-bottom: $base-spacing;
