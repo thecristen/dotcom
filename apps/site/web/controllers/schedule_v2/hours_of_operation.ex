@@ -8,7 +8,14 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
     conn.assigns.date
     |> get_dates()
     |> Enum.map(fn date -> do_call(date, conn, Keyword.get(opts, :schedules_fn, &Schedules.Repo.all/1)) end)
-    |> Enum.map(fn {key, task} -> {key, Task.await(task)} end)
+    |> Enum.flat_map(fn {key, task} ->
+      case Task.yield(task) do
+        nil ->
+          []
+        {:ok, schedules} ->
+          [{key, schedules}]
+      end
+    end)
     |> Enum.into(%{})
     |> assign_hours(conn)
   end

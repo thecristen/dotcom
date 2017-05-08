@@ -25,20 +25,22 @@
         <% end %>
       </div>
       <div class="col-xs-12 page-section">
-        <h2>Hours of Operation</h2>
-        <div class="row">
-          <%= for period <- [:saturday, :sunday, :week] do %>
-            <div class="col-xs-12">
-              <h3 class="h5"><%= schedule_period(period) %>:</h3>
-              <%= for direction_id <- [1, 0] do %>
-                <p class="hours-directions">
-                  <span class="hours-direction-name"><%= @route.direction_names[direction_id] %>:</span>
-                  <span class="hours-time"><%= Schedules.Departures.display_departures(@hours_of_operation[period][direction_id]) %></span>
-                </p>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
+        <%= if MapSet.new(@hours_of_operation, &elem(&1, 0)) == MapSet.new(~w(week saturday sunday)a) do %>
+          <h2>Hours of Operation</h2>
+          <div class="row">
+            <%= for period <- [:week, :saturday, :sunday] do %>
+              <div class="col-xs-12">
+                <h3 class="h5"><%= schedule_period(period) %>:</h3>
+                <%= for direction_id <- [1, 0] do %>
+                  <p class="hours-directions">
+                    <span class="hours-direction-name"><%= @route.direction_names[direction_id] %>:</span>
+                    <span class="hours-time"><%= Schedules.Departures.display_departures(@hours_of_operation[period][direction_id]) %></span>
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
         <%= render "_holidays.html", assigns %>
         <%= route_pdf_link(@route, @date) %>
       </div>
