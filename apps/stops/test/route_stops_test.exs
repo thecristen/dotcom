@@ -65,20 +65,6 @@ defmodule Stops.RouteStopsTest do
     end
   end
 
-  describe "build_route_stop/4" do
-    test "creates a RouteStop object with all expected attributes" do
-      stop = %Stops.Stop{name: "Braintree", id: "place-brntn"}
-      result = RouteStops.build_route_stop({{stop, true}, 2000}, %Routes.Shape{name: "Braintree"}, %Routes.Route{id: "Red", type: 1}, 1)
-      assert result.id == "place-brntn"
-      assert result.route.id == "Red"
-      assert result.name == "Braintree"
-      assert result.station_info == stop
-      assert result.is_terminus? == true
-      assert result.zone == "2"
-      assert result.stop_number == %{1 => 2000}
-    end
-  end
-
   describe "by_direction/2 returns a list of stops in one direction in the correct order" do
     test "for Red Line direction: 1" do
       stops = Stops.Repo.by_route("Red", 0)
