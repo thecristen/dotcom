@@ -1,63 +1,6 @@
-defmodule Stops.RouteStop do
-  @moduledoc """
-  A helper module for generating some contextual information about stops on a route. RouteStops contain
-  the following information:
-  ```
-    # RouteStop info for South Station on the Red Line (direction_id: 0)
-    %Stops.RouteStop{
-      id: "place-sstat",                                  # The id that the stop is typically identified by (i.e. the parent stop's id)
-      name: "South Station"                               # Stop's display name
-      zone: "1A"                                          # Commuter rail zone (will be nil if stop doesn't have CR routes)
-      route: %Routes.Route{id: "Red"...}                  # The full Routes.Route for the parent route
-      branch: nil                                         # Name of the branch that this stop is on for this route. will be nil unless the stop is actually on a branch.
-      stop_number: 9                                      # The number (0-based) of the stop along the route, relative to the beginning of the line in this direction.
-                                                          #     note that for routes with branches, stops that are on branches will be ordered as if no other branches
-                                                          #     exist. So, for example, on the Red line (direction_id: 0), the stop number for JFK/Umass is 12, and then
-                                                          #     the stop number for both Savin Hill (ashmont) and North Quincy (braintree) is 13, the next stop on both
-                                                          #     branches is 14, etc.
-      station_info: %Stops.Stop{id: "place-sstat"...}     # Full Stops.Stop struct for the parent stop.
-      child_stops: ["70079", "70080"]                     # List of the ids of all the child GTFS stops that this stop represents for this route & direction.
-
-      stop_features: [:commuter_rail, :bus, :accessible]  # List of atoms representing the icons that should be displayed for this stop.
-      is_terminus?: false                                 # Whether this is either the first or last stop on the route. Use in conjunction with stop_number to determine
-                                                          #     if this is the first or last stop.
-    }
-  ```
-
-  """
-
-  @type branch_name_t :: String.t
-  @type stop_number_t :: integer
-
-  @type t :: %__MODULE__{
-    id: Stops.Stop.id_t,
-    name: String.t,
-    zone: String.t,
-    route: Routes.Route.t,
-    branch: branch_name_t,
-    stop_number: non_neg_integer,
-    station_info: Stops.Stop.t,
-    child_stops: [Stops.Stop.id_t],
-    stop_features: [Routes.Route.route_type | Routes.Route.subway_lines_type | :accessible],
-    is_terminus?: boolean
-  }
-
-  defstruct [
-    :id,
-    :name,
-    :zone,
-    :route,
-    :branch,
-    :stop_number,
-    :station_info,
-    child_stops: [],
-    stop_features: [],
-    is_terminus?: false
-  ]
-end
-
 defmodule Stops.RouteStops do
   defstruct [:branch, :stops]
+
   @type t :: %__MODULE__{
     branch: String.t,
     stops: [Stops.RouteStop.t]
@@ -65,6 +8,8 @@ defmodule Stops.RouteStops do
   @type direction_id_t :: 0 | 1
 
   @branched_routes ["Red", "CR-Kingston", "CR-Providence", "CR-Newburyport"]
+
+  alias Stops.RouteStop
 
   def branched_routes(), do: @branched_routes
 
@@ -77,7 +22,7 @@ defmodule Stops.RouteStops do
     |> get_shapes(route, direction_id)
     |> get_route_stops(stops, route, direction_id)
     |> Enum.chunk_by(& &1.branch)
-    |> Enum.map(fn [%Stops.RouteStop{branch: branch}|_] = stops -> %__MODULE__{branch: branch, stops: stops} end)
+    |> Enum.map(fn [%RouteStop{branch: branch}|_] = stops -> %__MODULE__{branch: branch, stops: stops} end)
   end
 
   @doc """
@@ -137,7 +82,7 @@ defmodule Stops.RouteStops do
   Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,
   the branched stops appear grouped together in order as part of the list.
   """
-  @spec get_route_stops([Routes.Shape.t] | Routes.Shape.t, [Stops.Stop.t], Routes.Route.t, direction_id_t) :: [Stops.RouteStop.t]
+  @spec get_route_stops([Routes.Shape.t] | Routes.Shape.t, [Stops.Stop.t], Routes.Route.t, direction_id_t) :: [RouteStop.t]
   def get_route_stops([], [%Stops.Stop{}|_] = stops, route, direction_id) do
     # if the repo doesn't have any shapes, just fake one since we only need the name and stop_ids.
 
@@ -157,7 +102,7 @@ defmodule Stops.RouteStops do
     |> merge_branches(route, direction_id)
   end
 
-  @spec do_get_route_stops(String.t, [Stops.Stop.id_t], [Stops.Stop.t], Routes.Route.t, direction_id_t) :: [Stops.RouteStop.t]
+  @spec do_get_route_stops(String.t, [Stops.Stop.id_t], [Stops.Stop.t], Routes.Route.t, direction_id_t) :: [RouteStop.t]
   defp do_get_route_stops(shape_name, stop_ids, [%Stops.Stop{}|_] = stops, route, direction_id) do
     stops = Enum.map(stops, &{&1.id, &1}) |> Enum.into(%{})
     stop_ids
@@ -171,9 +116,9 @@ defmodule Stops.RouteStops do
   @doc """
   Builds a RouteStop from information about a stop.
   """
-  @spec build_route_stop({{Stops.Stop.t, boolean}, Stops.RouteStop.stop_number_t}, Routes.Shape.t, Routes.Route.t, direction_id_t) :: Stops.RouteStop.t
+  @spec build_route_stop({{Stops.Stop.t, boolean}, RouteStop.stop_number_t}, Routes.Shape.t, Routes.Route.t, direction_id_t) :: RouteStop.t
   def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, index}, shape_name, route, direction_id) do
-    %Stops.RouteStop{
+    %RouteStop{
       id: stop.id,
       route: route,
       name: stop.name,
@@ -211,7 +156,7 @@ defmodule Stops.RouteStops do
   defp sort_feature_icons(:access), do: 10
   defp sort_feature_icons(_), do: 1
 
-  @spec merge_branches([{Stops.RouteStop.branch_name_t, [Stops.RouteStop.t]}], Routes.Route.t, direction_id_t) :: [Stops.RouteStop.t]
+  @spec merge_branches([{RouteStop.branch_name_t, [RouteStop.t]}], Routes.Route.t, direction_id_t) :: [RouteStop.t]
   defp merge_branches([{_shape, route_stops}], %Routes.Route{id: "Green-"<>_}, direction_id) do
     # Green line branches are merged separately
     {direction_id, route_stops}
@@ -232,7 +177,7 @@ defmodule Stops.RouteStops do
     |> reverse?(direction_id)
   end
 
-  @spec pad_shorter_branch_and_zip([{Stops.RouteStop.branch_name_t, [Stops.RouteStop.t]}]) :: [{Stops.RouteStop.t, Stops.RouteStop.t}]
+  @spec pad_shorter_branch_and_zip([{RouteStop.branch_name_t, [RouteStop.t]}]) :: [{RouteStop.t, RouteStop.t}]
   defp pad_shorter_branch_and_zip([{_branch_name, _branch_stops}|_] = branches) do
     # in order to zip the branches together without losing any stops, we pad the shorter branch with
     # some placeholder nils to make them temporarily the same length.
@@ -245,7 +190,7 @@ defmodule Stops.RouteStops do
       padding = longest - length(list)
       if padding > 0 do
         1..padding
-        |> Enum.map(fn _ -> %Stops.RouteStop{} end)
+        |> Enum.map(fn _ -> %RouteStop{} end)
         |> Kernel.++(Enum.reverse(list))
         |> Enum.reverse()
       else
@@ -255,7 +200,7 @@ defmodule Stops.RouteStops do
     |> Enum.zip()
   end
 
-  @spec reverse?({Stops.RouteStop.branch_name_t, [Stops.RouteStop.t]} | [Stops.RouteStop.t], direction_id_t) :: {Stops.RouteStop.branch_name_t, [Stops.RouteStop.t]} | [Stops.RouteStop.t]
+  @spec reverse?({RouteStop.branch_name_t, [RouteStop.t]} | [RouteStop.t], direction_id_t) :: {RouteStop.branch_name_t, [RouteStop.t]} | [RouteStop.t]
   defp reverse?({branch_name, branch_stops}, 1) do
     # all branches are at the end of the line when direction_id is 0, so if direction_id is 1, we reverse the list
     # temporarily to ensure that it's processed in the correct order.
@@ -273,7 +218,7 @@ defmodule Stops.RouteStops do
     |> Kernel.==(1)
   end
 
-  @spec do_merge_branches({[Stops.RouteStop.t], [Stops.RouteStop.t]}) :: [Stops.RouteStop.t]
+  @spec do_merge_branches({[RouteStop.t], [RouteStop.t]}) :: [RouteStop.t]
   defp do_merge_branches({unbranched_stops, branched_stops}) do
     [
       Enum.map(unbranched_stops, & &1 |> elem(0) |> Map.put(:branch, nil)),
@@ -282,7 +227,7 @@ defmodule Stops.RouteStops do
     |> List.flatten()
   end
 
-  @spec unzip_branches([tuple]) :: [Stops.RouteStop.t]
+  @spec unzip_branches([tuple]) :: [RouteStop.t]
   def unzip_branches([{_branch_1_stop_1, _branch_2_stop_2}|_other_branch] = branched_stops) do
     branched_stops
     |> Enum.unzip()
@@ -292,7 +237,7 @@ defmodule Stops.RouteStops do
 
   def merge_branch_stops(branch, acc) do
     branch
-    |> Enum.reject(fn %Stops.RouteStop{id: id} -> id == nil end)
+    |> Enum.reject(fn %RouteStop{id: id} -> id == nil end)
     |> Enum.concat(acc)
   end
 end
