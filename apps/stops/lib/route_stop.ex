@@ -33,7 +33,6 @@ defmodule Stops.RouteStop do
     id: Stops.Stop.id_t,
     name: String.t,
     zone: String.t,
-    route: Routes.Route.t,
     branch: branch_name_t,
     stop_number: stop_number_t,
     station_info: Stops.Stop.t,
@@ -45,7 +44,6 @@ defmodule Stops.RouteStop do
     :id,
     :name,
     :zone,
-    :route,
     :branch,
     :stop_number,
     :station_info,
@@ -99,7 +97,6 @@ defmodule Stops.RouteStop do
   def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, number}, shape_name, route) do
     %RouteStop{
       id: stop.id,
-      route: route,
       name: stop.name,
       station_info: stop,
       branch: shape_name,
