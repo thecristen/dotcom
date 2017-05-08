@@ -75,7 +75,7 @@ defmodule Stops.RouteStop do
   end
   def list_from_shapes(shapes, stops, route, direction_id) do
     shapes
-    |> Enum.map(& {&1.name, do_list_from_shapes(&1.name, &1.stop_ids, stops, route)})
+    |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
     |> merge_branches(route, direction_id)
   end
 
@@ -132,89 +132,58 @@ defmodule Stops.RouteStop do
   defp sort_feature_icons(:access), do: 10
   defp sort_feature_icons(_), do: 1
 
-  @spec merge_branches([{RouteStop.branch_name_t, [RouteStop.t]}], Routes.Route.t, direction_id_t) :: [RouteStop.t]
-  defp merge_branches([{_shape, route_stops}], %Routes.Route{id: "Green-" <> _}, direction_id) do
+  @spec merge_branches([[RouteStop.t]], Routes.Route.t, direction_id_t) :: [RouteStop.t]
+  defp merge_branches([branch], %Routes.Route{id: "Green-" <> _}, _direction_id) do
     # Green line branches are merged separately
-    {direction_id, route_stops}
+    branch
   end
   defp merge_branches(branches, %Routes.Route{id: route_id}, direction_id) when route_id in @branched_routes do
     # If we know a route has branches, then we need to figure out which stops are on a branch vs. which stops
-    # are shared. At this point, we have two lists of branches, and at one end the stops are all the same,
-    # but starting at some point in the middle the stops branch. So, we zip the lists of stops together and
-    # look at each tuple one by one to determine where the branches start. For each row, if the stop id is
-    # the same, then we know that the branches have not diverged yet. Once we've found the branch point, we update
-    # the branch information for each stop, then unzip the branched stops and concatenate them separately onto
-    # the end of the unbranched stops.
+    # are shared. At this point, we have two lists of branches, and at the back end the stops are all the same,
+    # but starting at some point in the middle the stops branch.
     branches
-    |> Enum.map(fn {name, branch} -> {name, reverse?(branch, direction_id)} end)
-    |> pad_shorter_branch_and_zip()
-    |> Enum.split_while(&stop_on_all_branches?/1)
-    |> do_merge_branches()
-    |> reverse?(direction_id)
+    |> Enum.map(&flip_branches_to_front(&1, direction_id))
+    |> flatten_branches
+    |> flip_branches_to_front(direction_id) # unflips the branches
   end
 
-  @spec pad_shorter_branch_and_zip([{RouteStop.branch_name_t, [RouteStop.t]}]) :: [{RouteStop.t, RouteStop.t}]
-  defp pad_shorter_branch_and_zip([{_branch_name, _branch_stops}|_] = branches) do
-    # in order to zip the branches together without losing any stops, we pad the shorter branch with
-    # some placeholder nils to make them temporarily the same length.
-    longest = branches
-    |> Enum.map(& elem(&1, 1))
-    |> Enum.max_by(&length/1)
-    |> length()
-
-    branches
-    |> Enum.map(fn {_branch_name, list} ->
-      padding = longest - length(list)
-      if padding > 0 do
-        1..padding
-        |> Enum.map(fn _ -> %RouteStop{} end)
-        |> Kernel.++(Enum.reverse(list))
-        |> Enum.reverse()
-      else
-        list
-      end
+  @spec flatten_branches([[RouteStop.t]]) :: [RouteStop.t]
+  defp flatten_branches(branches) do
+    # We build a list of the shared stops between the branches, then unassign
+    # the branch for each stop that's in the list of shared stops.
+    shared_stop_ids = branches
+    |> Enum.map(fn stops ->
+      MapSet.new(stops, & &1.id)
     end)
-    |> Enum.zip
+    |> Enum.reduce(&MapSet.intersection/2)
+
+    branches
+    |> Enum.map(&unassign_branch_if_shared(&1, shared_stop_ids))
+    |> Enum.reduce(&merge_branches/2)
   end
 
-  @spec reverse?([RouteStop.t], direction_id_t) :: [RouteStop.t]
-  defp reverse?(stop_list, 1) do
-    # all branches are at the end of the line when direction_id is 0, so if direction_id is 1, we reverse the list
-    # temporarily to ensure that it's processed in the correct order.
-    Enum.reverse(stop_list)
-  end
-  defp reverse?(stop_list, _) do
-    stop_list
-  end
-
-  @spec stop_on_all_branches?(tuple) :: boolean
-  defp stop_on_all_branches?(branches_stops) do
-    branches_stops
-    |> Tuple.to_list()
-    |> Enum.uniq_by(& &1.id)
-    |> length()
-    |> Kernel.==(1)
+  defp unassign_branch_if_shared(stops, shared_stop_ids) do
+    for stop <- stops do
+      if MapSet.member?(shared_stop_ids, stop.id) do
+        %{stop | branch: nil}
+      else
+        stop
+      end
+    end
   end
 
-  @spec do_merge_branches({[RouteStop.t], [RouteStop.t]}) :: [RouteStop.t]
-  defp do_merge_branches({unbranched_stops, branched_stops}) do
-    Enum.concat(
-      Enum.map(unbranched_stops, & &1 |> elem(0) |> Map.put(:branch, nil)),
-      unzip_branches(branched_stops)
-    )
+  defp merge_branches(first, second) do
+    {first_branch, first_core} = Enum.split_while(first, & &1.branch)
+    {second_branch, second_core} = Enum.split_while(second, & &1.branch)
+
+    core = [first_core, second_core]
+    |> Enum.max_by(&length/1)
+    |> Enum.map(& %{&1 | branch: nil})
+
+    second_branch ++ first_branch ++ core
   end
 
-  @spec unzip_branches([tuple]) :: [RouteStop.t]
-  def unzip_branches([{_branch_1_stop_1, _branch_2_stop_2}|_other_branch] = branched_stops) do
-    branched_stops
-    |> Enum.unzip()
-    |> Tuple.to_list()
-    |> Enum.reduce([], &merge_branch_stops/2)
-  end
-
-  def merge_branch_stops(branch, acc) do
-    branch
-    |> Enum.reject(fn %RouteStop{id: id} -> id == nil end)
-    |> Enum.concat(acc)
-  end
+  @spec flip_branches_to_front([RouteStop.t], direction_id_t) :: [RouteStop.t]
+  defp flip_branches_to_front(branch, 0), do: Enum.reverse(branch)
+  defp flip_branches_to_front(branch, 1), do: branch
 end
