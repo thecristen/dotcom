@@ -1,6 +1,9 @@
 defmodule Site.ScheduleV2Controller.Green do
   use Site.Web, :controller
 
+  alias Alerts.Alert
+  alias Schedules.Schedule
+
   plug :route
   plug :tab
   plug Site.Plugs.Date
@@ -22,6 +25,8 @@ defmodule Site.ScheduleV2Controller.Green do
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.RouteBreadcrumbs
   plug :tab_assigns
+
+  @task_timeout 10_000
 
   def green(conn, _params) do
     conn
@@ -53,14 +58,14 @@ defmodule Site.ScheduleV2Controller.Green do
         conn
         |> assign(:all_stops, [])
         |> assign(:schedule_error, e)
-      all_stops ->
-        assign(conn, :all_stops, all_stops)
+      stops ->
+        assign(conn, :all_stops, stops)
     end
   end
 
   def headsigns(conn, _opts) do
     headsigns = GreenLine.branch_ids()
-    |> Task.async_stream(&Routes.Repo.headsigns/1)
+    |> Task.async_stream(&Routes.Repo.headsigns/1, timeout: @task_timeout)
     |> Enum.reduce(%{}, fn {:ok, result}, acc ->
       Map.merge(result, acc, fn (_k, v1, v2) -> Enum.uniq(v1 ++ v2) end)
     end)
@@ -76,7 +81,7 @@ defmodule Site.ScheduleV2Controller.Green do
     |> conn_with_branches
     |> Task.async_stream(fn conn ->
       call_plug(conn, Site.ScheduleV2Controller.Schedules, opts).assigns.schedules
-    end)
+    end, timeout: @task_timeout)
     |> flat_map_results
     |> Enum.sort_by(&arrival_time/1)
 
@@ -90,7 +95,7 @@ defmodule Site.ScheduleV2Controller.Green do
     |> conn_with_branches
     |> Task.async_stream(fn conn ->
       call_plug(conn, Site.ScheduleV2Controller.Predictions, opts).assigns.predictions
-    end)
+    end, timeout: @task_timeout)
     |> flat_map_results
 
     assign(conn, :predictions, predictions)
@@ -102,21 +107,33 @@ defmodule Site.ScheduleV2Controller.Green do
     |> Task.async_stream(fn conn ->
       with_alerts = call_plug(conn, Site.Plugs.Alerts, opts).assigns
       {with_alerts.all_alerts, with_alerts.alerts, with_alerts.upcoming_alerts}
-    end)
-    |> Enum.reduce(
-      {MapSet.new, MapSet.new, MapSet.new},
+    end, timeout: @task_timeout)
+    |> gather_alerts
+
+    conn
+    |> assign(:all_alerts, all_alerts)
+    |> assign(:alerts, alerts)
+    |> assign(:upcoming_alerts, upcoming_alerts)
+  end
+
+  @spec gather_alerts(Enumerable.t) :: {[Alert.t], [Alert.t], [Alert.t]}
+  defp gather_alerts(stream) do
+    acc = {MapSet.new, MapSet.new, MapSet.new}
+
+    {all_set, alerts_set, upcoming_set} = Enum.reduce(
+      stream,
+      acc,
       fn {:ok, {all, alerts, upcoming}}, {acc_all, acc_alerts, acc_upcoming} ->
         {
           MapSet.union(MapSet.new(all), acc_all),
           MapSet.union(MapSet.new(alerts), acc_alerts),
           MapSet.union(MapSet.new(upcoming), acc_upcoming)
         }
-      end)
+    end)
 
-    conn
-    |> assign(:all_alerts, MapSet.to_list(all_alerts))
-    |> assign(:alerts, MapSet.to_list(alerts))
-    |> assign(:upcoming_alerts, MapSet.to_list(upcoming_alerts))
+    {MapSet.to_list(all_set),
+     MapSet.to_list(alerts_set),
+     MapSet.to_list(upcoming_set)}
   end
 
   def vehicle_locations(conn, opts) do
@@ -124,7 +141,7 @@ defmodule Site.ScheduleV2Controller.Green do
     |> conn_with_branches
     |> Task.async_stream(fn conn ->
       call_plug(conn, Site.ScheduleV2Controller.VehicleLocations, opts).assigns.vehicle_locations
-    end)
+    end, timeout: @task_timeout)
     |> Enum.reduce(%{}, fn {:ok, result}, acc -> Map.merge(result, acc) end)
 
     assign(conn, :vehicle_locations, vehicle_locations)
