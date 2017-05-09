@@ -139,4 +139,10 @@ defmodule Site.ViewHelpersTest do
       assert route_type_name(3) == "Bus"
     end
   end
+
+  describe "cms_static_page_path/2" do
+    test "returns the given path as-is", %{conn: conn} do
+      assert cms_static_page_path(conn, "/cms/path") == "/cms/path"
+    end
+  end
 end
