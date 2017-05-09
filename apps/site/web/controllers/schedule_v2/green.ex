@@ -131,9 +131,17 @@ defmodule Site.ScheduleV2Controller.Green do
         }
     end)
 
-    {MapSet.to_list(all_set),
-     MapSet.to_list(alerts_set),
-     MapSet.to_list(upcoming_set)}
+    {make_alert_list(all_set),
+     make_alert_list(alerts_set),
+     make_alert_list(upcoming_set)}
+  end
+
+  @spec make_alert_list(MapSet.t) :: [Alert.t]
+  defp make_alert_list(set) do
+    # make sure the alerts are in the right order
+    set
+    |> MapSet.to_list
+    |> Alerts.Sort.sort
   end
 
   def vehicle_locations(conn, opts) do
