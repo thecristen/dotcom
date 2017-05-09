@@ -5,9 +5,9 @@ defmodule Alerts.Cache.Store do
   * :alert_id_to_alerts - a set with has the "alert_id" as the key and
     and %Alerts.Alert{} as the value.
 
-  * :route_id_to_alert_ids - a bag with "route_id" as key and "alert_id" as
+  * :route_id_and_type_to_alert_ids - a bag with {"route_id", "route_type"} as key and "alert_id" as
     value. Each tuple in the table only has a single alert_id, but there can
-    be multiple entries for the same route_id.
+    be multiple entries for the same {route_id, route_type} pair.
 
   * :alert_banner - a set with a single key, :banner, which has either the value
     nil or an %Alert.Banner{}
@@ -40,7 +40,14 @@ defmodule Alerts.Cache.Store do
   """
   @spec alert_ids_for_routes([String.t]) :: [String.t]
   def alert_ids_for_routes(route_ids) do
-    select_many(:route_id_to_alert_ids, route_ids)
+    keys = Enum.map(route_ids, &{{{&1, :"_"}, :"$1"}, [], [:"$1"]})
+    :ets.select(:route_id_and_type_to_alert_ids, keys)
+  end
+
+  @spec alert_ids_for_routes(Enumerable.t) :: [String.t]
+  def alert_ids_for_route_types(types) do
+    keys = Enum.map(types, &{{{:"_", &1}, :"$1"}, [], [:"$1"]})
+    :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
   @doc """
@@ -82,7 +89,7 @@ defmodule Alerts.Cache.Store do
 
   def init(_args) do
     _ = :ets.new(:alert_id_to_alert, [:set, :protected, :named_table, read_concurrency: true]) # no cover
-    _ = :ets.new(:route_id_to_alert_ids, [:bag, :protected, :named_table, read_concurrency: true]) # no cover
+    _ = :ets.new(:route_id_and_type_to_alert_ids, [:bag, :protected, :named_table, read_concurrency: true]) # no cover
     _ = :ets.new(:alert_banner, [:set, :protected, :named_table, read_concurrency: true]) # no cover
 
     {:ok, []}
@@ -93,16 +100,16 @@ defmodule Alerts.Cache.Store do
       Enum.reduce(alerts, {[], []}, fn alert, {alert_inserts_acc, route_inserts_acc} ->
         {
           [{alert.id, alert} | alert_inserts_acc],
-          Enum.map(alert.informed_entity, &( {&1.route, alert.id})) ++ route_inserts_acc
+          Enum.map(alert.informed_entity, &( {{&1.route, &1.route_type}, alert.id})) ++ route_inserts_acc
         }
       end)
 
     :ets.delete_all_objects(:alert_id_to_alert)
-    :ets.delete_all_objects(:route_id_to_alert_ids)
+    :ets.delete_all_objects(:route_id_and_type_to_alert_ids)
     :ets.delete_all_objects(:alert_banner)
 
     :ets.insert(:alert_id_to_alert, alert_inserts)
-    :ets.insert(:route_id_to_alert_ids, route_inserts)
+    :ets.insert(:route_id_and_type_to_alert_ids, route_inserts)
     :ets.insert(:alert_banner, {:banner, banner})
 
     {:reply, :ok, state}

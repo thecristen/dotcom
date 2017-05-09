@@ -37,4 +37,22 @@ defmodule Alerts.RepoTest do
       refute blue_alert in alerts
     end
   end
+
+  describe "by_route_ids/1" do
+    @commuter_rail_entity %Alerts.InformedEntity{route_type: 2}
+    @bus_entity %Alerts.InformedEntity{route_type: 3}
+    @subway_entity %Alerts.InformedEntity{route_type: 0}
+
+    test "returns the list of alerts from the store with the given types" do
+      commuter_rail_alert = %Alerts.Alert{id: "commuter_rail_alert", informed_entity: [@commuter_rail_entity]}
+      bus_alert = %Alerts.Alert{id: "bus_alert", informed_entity: [@bus_entity]}
+      subway_alert = %Alerts.Alert{id: "subway_alert", informed_entity: [@subway_entity]}
+      Alerts.Cache.Store.update([commuter_rail_alert, bus_alert, subway_alert], nil)
+      alerts = Alerts.Repo.by_route_types([2, 0])
+
+      assert commuter_rail_alert in alerts
+      assert subway_alert in alerts
+      refute bus_alert in alerts
+    end
+  end
 end

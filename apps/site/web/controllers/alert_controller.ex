@@ -93,18 +93,19 @@ defmodule Site.AlertController do
     assign(conn, :all_routes, Routes.Repo.by_type(route_types))
   end
 
-  defp all_alerts(%{assigns: %{all_routes: all_routes}} = conn, _opts) do
-    all_alerts = all_routes
-    |> Enum.map(& &1.id)
-    |> List.insert_at(0, nil)
-    |> Alerts.Repo.by_route_ids()
-
-    assign(conn, :all_alerts, all_alerts)
-  end
+  defp all_alerts(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_alerts(conn, [0,1])
+  defp all_alerts(%{params: %{"id" => "commuter_rail"}} = conn, _opts), do: do_all_alerts(conn, [2])
+  defp all_alerts(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_alerts(conn, [3])
+  defp all_alerts(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_all_alerts(conn, [4])
   defp all_alerts(%{params: %{"id" => "access"}} = conn, _opts) do
     assign(conn, :all_alerts, Alerts.Repo.all())
   end
   defp all_alerts(conn, _opts) do
     conn
+  end
+
+  defp do_all_alerts(conn, types) do
+    alerts = Alerts.Repo.by_route_types(types)
+    assign(conn, :all_alerts, alerts)
   end
 end

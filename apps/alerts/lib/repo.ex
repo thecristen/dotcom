@@ -19,4 +19,11 @@ defmodule Alerts.Repo do
     |> Store.alert_ids_for_routes()
     |> Store.alerts()
   end
+
+  @spec by_route_types(Enumerable.t) :: [Alerts.Alert.t]
+  def by_route_types(types) do
+    types
+    |> Store.alert_ids_for_route_types()
+    |> Store.alerts()
+  end
 end
