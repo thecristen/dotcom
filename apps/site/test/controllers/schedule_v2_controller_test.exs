@@ -118,7 +118,7 @@ defmodule Site.ScheduleV2ControllerTest do
 
   describe "subway" do
     test "assigns schedules, frequency table, origin, and destination", %{conn: conn} do
-      conn = get(conn, schedule_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy"))
+      conn = get(conn, schedule_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy", direction_id: 0))
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
       assert conn.assigns.stop_times
