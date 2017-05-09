@@ -73,7 +73,7 @@ defmodule Site.StopController do
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> async_assign(:stop_predictions, fn -> stop_predictions(stop.id) end)
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
-    |> await_assign_all()
+    |> await_assign_all(10_000)
     |> assign_upcoming_route_departures()
   end
 

@@ -5,7 +5,7 @@ defmodule Site.ControllerHelpers do
   alias Routes.Route
 
   @doc "Find all the assigns which are Tasks, and await_assign them"
-  def await_assign_all(conn) do
+  def await_assign_all(conn, timeout \\ 5_000) do
     conn.assigns
     |> Enum.filter_map(
     fn
@@ -13,7 +13,7 @@ defmodule Site.ControllerHelpers do
       _ -> false
     end,
     fn {key, _} -> key end)
-    |> Enum.reduce(conn, fn key, conn -> Conn.await_assign(conn, key) end)
+    |> Enum.reduce(conn, fn key, conn -> Conn.await_assign(conn, key, timeout) end)
   end
 
   @spec assign_tnm_column_groups(Conn.t) :: Conn.t
