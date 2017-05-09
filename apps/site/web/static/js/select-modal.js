@@ -1,6 +1,7 @@
 import Sifter from 'sifter';
 
 export default function($ = window.jQuery) {
+
   // create the modal when we click on the fake select
   $(document).on("click openModal", "[data-select-modal]",
                  (ev) => openModal(ev, $));
