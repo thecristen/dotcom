@@ -55,7 +55,7 @@ defmodule Schedules.Repo do
            dest when is_list(dest) <- dest do
         join_schedules(origin, dest)
       end
-    end)
+    end, timeout: @default_timeout)
   end
 
   @spec schedule_for_stop(Stops.Stop.id_t, Keyword.t) :: [Schedules.Schedule.t] | {:error, any}
