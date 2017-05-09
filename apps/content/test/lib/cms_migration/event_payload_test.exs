@@ -47,6 +47,18 @@ defmodule Content.CmsMigration.EventPayloadTest do
       }]
     end
 
+    test "removes style attributes in the body field" do
+      text_with_style_attr = "<a href=\"www.mbta.com\" style=\"text-align: center;\" target=\"_blank\">Example</a>"
+      meeting =
+        @meeting
+        |> fixture()
+        |> Map.put("objective", text_with_style_attr)
+
+      %{body: [%{value: value}]} = from_meeting(meeting)
+
+      assert value == "<a href=\"www.mbta.com\" target=\"_blank\">Example</a>"
+    end
+
     test "relative links are updated to include the former mbta site host" do
       former_mbta_site_host = Application.get_env(:site, :former_mbta_site)[:host]
 

@@ -40,7 +40,9 @@ defmodule Content.CmsMigration.EventPayload do
   end
 
   defp body(%{"objective" => body}) do
-    add_former_mbta_host_to_external_links(body)
+    body
+    |> add_former_mbta_host_to_external_links()
+    |> remove_style_attr()
   end
 
   defp add_former_mbta_host_to_external_links(body) do
@@ -50,6 +52,10 @@ defmodule Content.CmsMigration.EventPayload do
       |> to_string
 
     Regex.replace(~r/\/uploadedfiles/, body, uploaded_files_host)
+  end
+
+  defp remove_style_attr(text) do
+    Regex.replace(~r/\sstyle=".*"/U, text, "")
   end
 
   defp who(%{"attendees" => attendees}), do: attendees
