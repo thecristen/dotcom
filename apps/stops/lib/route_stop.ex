@@ -133,7 +133,7 @@ defmodule Stops.RouteStop do
   defp sort_feature_icons(_), do: 1
 
   @spec merge_branches([{RouteStop.branch_name_t, [RouteStop.t]}], Routes.Route.t, direction_id_t) :: [RouteStop.t]
-  defp merge_branches([{_shape, route_stops}], %Routes.Route{id: "Green-"<>_}, direction_id) do
+  defp merge_branches([{_shape, route_stops}], %Routes.Route{id: "Green-" <> _}, direction_id) do
     # Green line branches are merged separately
     {direction_id, route_stops}
   end
@@ -146,7 +146,7 @@ defmodule Stops.RouteStop do
     # the branch information for each stop, then unzip the branched stops and concatenate them separately onto
     # the end of the unbranched stops.
     branches
-    |> Enum.map(&reverse?(&1, direction_id))
+    |> Enum.map(fn {name, branch} -> {name, reverse?(branch, direction_id)} end)
     |> pad_shorter_branch_and_zip()
     |> Enum.split_while(&stop_on_all_branches?/1)
     |> do_merge_branches()
@@ -162,7 +162,8 @@ defmodule Stops.RouteStop do
     |> Enum.max_by(&length/1)
     |> length()
 
-    Enum.map(branches, fn {_branch_name, list} ->
+    branches
+    |> Enum.map(fn {_branch_name, list} ->
       padding = longest - length(list)
       if padding > 0 do
         1..padding
@@ -173,17 +174,18 @@ defmodule Stops.RouteStop do
         list
       end
     end)
-    |> Enum.zip()
+    |> Enum.zip
   end
 
-  @spec reverse?({RouteStop.branch_name_t, [RouteStop.t]} | [RouteStop.t], direction_id_t) :: {RouteStop.branch_name_t, [RouteStop.t]} | [RouteStop.t]
-  defp reverse?({branch_name, branch_stops}, 1) do
+  @spec reverse?([RouteStop.t], direction_id_t) :: [RouteStop.t]
+  defp reverse?(stop_list, 1) do
     # all branches are at the end of the line when direction_id is 0, so if direction_id is 1, we reverse the list
     # temporarily to ensure that it's processed in the correct order.
-    {branch_name, Enum.reverse(branch_stops)}
+    Enum.reverse(stop_list)
   end
-  defp reverse?(stop_list, 1) when is_list(stop_list), do: Enum.reverse(stop_list)
-  defp reverse?(stop_list, _), do: stop_list
+  defp reverse?(stop_list, _) do
+    stop_list
+  end
 
   @spec stop_on_all_branches?(tuple) :: boolean
   defp stop_on_all_branches?(branches_stops) do
@@ -196,11 +198,10 @@ defmodule Stops.RouteStop do
 
   @spec do_merge_branches({[RouteStop.t], [RouteStop.t]}) :: [RouteStop.t]
   defp do_merge_branches({unbranched_stops, branched_stops}) do
-    [
+    Enum.concat(
       Enum.map(unbranched_stops, & &1 |> elem(0) |> Map.put(:branch, nil)),
       unzip_branches(branched_stops)
-    ]
-    |> List.flatten()
+    )
   end
 
   @spec unzip_branches([tuple]) :: [RouteStop.t]
