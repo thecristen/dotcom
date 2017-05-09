@@ -1,5 +1,6 @@
 <%
   include_photo_credits? = @view_module == Site.PageView && @view_template == "index.html"
+  google_maps_js_url = raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places&callback=mapsCallback")
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,9 @@
     <link rel="icon" href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
     <%= if assigns[:requires_google_maps?] do %>
       <script type="application/javascript">window.mapsCallback = function() {};</script>
-      <script async defer src="<%= raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places&callback=mapsCallback") %>"></script>
+      <script async defer src="<%= google_maps_js_url %>"></script>
+    <% else %>
+      <link rel="prefetch" href="<%= google_maps_js_url %>" as="script">
     <% end %>
   </head>
   <%= Site.BodyTag.render(@conn) %>
