@@ -34,7 +34,7 @@ defmodule RepoCache do
 
       defdelegate clear_cache(), to: RepoCache
 
-      @default_cache_params [{:ttl, unquote(ttl)}]
+      @default_cache_params [{:ttl, unquote(ttl)}, {:timeout, nil}]
     end
   end
 
@@ -61,7 +61,8 @@ defmodule RepoCache do
   def do_cache(func_param, %{context_modules: [module|_],
                              function: {name, _}}, func, cache_opts) do
     key = {module, name, func_param}
-    ConCache.isolated @cache_name, key, fn ->
+    timeout = cache_opts[:timeout]
+    ConCache.isolated @cache_name, key, timeout, fn ->
       case ConCache.get(@cache_name, key) do
         nil ->
           maybe_set_value(func.(func_param), key, cache_opts[:ttl])
