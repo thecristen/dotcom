@@ -818,4 +818,19 @@ defmodule Site.ScheduleV2ViewTest do
       assert direction_select_column_width(false, 10) == "4"
     end
   end
+
+  describe "south_station_commuter_rail/1" do
+    test "returns nothing if the route does not go to south station" do
+      route = %Routes.Route{id: "CR-Fitchburg"}
+
+      assert south_station_commuter_rail(route) == []
+    end
+
+    test "returns the pdf for back bay to south station schedules if the route does go to south station" do
+      route = %Routes.Route{id: "CR-Providence"}
+
+      text = south_station_commuter_rail(route) |> Phoenix.HTML.safe_to_string
+      assert text =~ "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
+    end
+  end
 end

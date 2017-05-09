@@ -498,9 +498,25 @@ defmodule Site.ScheduleV2View do
         content_tag :div, class: "trip-schedules-pdf-multiple" do
           [
             do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
-            do_pdf_link(route, next_date, ["upcoming schedule — effective ", Timex.format!(next_date, "{Mshort} {D}")])
+            do_pdf_link(route, next_date, ["upcoming schedule — effective ", Timex.format!(next_date, "{Mshort} {D}")]),
+            south_station_commuter_rail(route)
           ]
         end
+    end
+  end
+
+  @spec south_station_commuter_rail(Routes.Route.t) :: Phoenix.HTML.Safe.t
+  def south_station_commuter_rail(route) do
+    pdf_path = Routes.Pdf.south_station_back_bay_pdf(route)
+    if pdf_path do
+      link(to: pdf_path, target: "_blank") do
+        [
+          fa("file-pdf-o"),
+          " View PDF of Back Bay to South Station schedule",
+        ]
+      end
+    else
+      []
     end
   end
 
