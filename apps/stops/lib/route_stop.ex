@@ -27,8 +27,6 @@ defmodule Stops.RouteStop do
   @type direction_id_t :: 0 | 1
   @type stop_number_t :: non_neg_integer
 
-  @branched_routes ["Red", "CR-Kingston", "CR-Providence", "CR-Newburyport"]
-
   @type t :: %__MODULE__{
     id: Stops.Stop.id_t,
     name: String.t,
@@ -53,8 +51,6 @@ defmodule Stops.RouteStop do
 
   alias __MODULE__, as: RouteStop
 
-  def branched_routes, do: @branched_routes
-
   @doc """
   Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,
   the branched stops appear grouped together in order as part of the list.
@@ -70,13 +66,13 @@ defmodule Stops.RouteStop do
   end
   def list_from_shapes([%Routes.Shape{} = shape], [%Stops.Stop{}|_] = stops, route, _direction_id) do
     # If there is only one route shape, we know that we won't need to deal with merging branches so
-    # we just return whatever the list of stops is without calling &merge_branches/3.
+    # we just return whatever the list of stops is without calling &merge_branch_list/2.
     do_list_from_shapes(shape.name, shape.stop_ids, stops, route)
   end
   def list_from_shapes(shapes, stops, route, direction_id) do
     shapes
     |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
-    |> merge_branches(route, direction_id)
+    |> merge_branch_list(direction_id)
   end
 
   @spec do_list_from_shapes(String.t, [Stops.Stop.id_t], [Stops.Stop.t], Routes.Route.t) :: [RouteStop.t]
@@ -132,12 +128,8 @@ defmodule Stops.RouteStop do
   defp sort_feature_icons(:access), do: 10
   defp sort_feature_icons(_), do: 1
 
-  @spec merge_branches([[RouteStop.t]], Routes.Route.t, direction_id_t) :: [RouteStop.t]
-  defp merge_branches([branch], %Routes.Route{id: "Green-" <> _}, _direction_id) do
-    # Green line branches are merged separately
-    branch
-  end
-  defp merge_branches(branches, %Routes.Route{id: route_id}, direction_id) when route_id in @branched_routes do
+  @spec merge_branch_list([[RouteStop.t]], direction_id_t) :: [RouteStop.t]
+  defp merge_branch_list(branches, direction_id) do
     # If we know a route has branches, then we need to figure out which stops are on a branch vs. which stops
     # are shared. At this point, we have two lists of branches, and at the back end the stops are all the same,
     # but starting at some point in the middle the stops branch.
@@ -159,9 +151,10 @@ defmodule Stops.RouteStop do
 
     branches
     |> Enum.map(&unassign_branch_if_shared(&1, shared_stop_ids))
-    |> Enum.reduce(&merge_branches/2)
+    |> Enum.reduce(&merge_two_branches/2)
   end
 
+  @spec unassign_branch_if_shared([RouteStop.t], MapSet.t) :: [RouteStop.t]
   defp unassign_branch_if_shared(stops, shared_stop_ids) do
     for stop <- stops do
       if MapSet.member?(shared_stop_ids, stop.id) do
@@ -172,7 +165,8 @@ defmodule Stops.RouteStop do
     end
   end
 
-  defp merge_branches(first, second) do
+  @spec merge_two_branches([RouteStop.t], [RouteStop.t]) :: [RouteStop.t]
+  defp merge_two_branches(first, second) do
     {first_branch, first_core} = Enum.split_while(first, & &1.branch)
     {second_branch, second_core} = Enum.split_while(second, & &1.branch)
 
