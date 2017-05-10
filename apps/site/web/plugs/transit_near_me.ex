@@ -71,11 +71,12 @@ defmodule Site.Plugs.TransitNearMe do
   @spec stops_with_routes([Stop.t], Geocode.t, ((String.t) -> [Route.t])) :: [%{stop: Stop.t, distance: String.t, routes: [Routes.Group.t]}]
   def stops_with_routes(stops, {:ok, [location|_]}, routes_by_stop_fn) do
     stops
-    |> Enum.map(fn stop ->
+    |> Task.async_stream(fn stop ->
       %{stop: stop,
         distance: Distance.haversine(stop, location),
         routes: stop.id |> routes_by_stop_fn.() |> get_route_groups}
     end)
+    |> Enum.map(fn {:ok, map} -> map end)
   end
   def stops_with_routes([], {:error, _, _}, _), do: []
 
