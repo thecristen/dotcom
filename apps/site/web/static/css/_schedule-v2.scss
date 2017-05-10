@@ -266,7 +266,7 @@ a {
 
   // Add the border to highlight the trip on mobile
   @include media-breakpoint-down(sm) {
-    border: $border-size-md;
+    border: $border-md;
     border-bottom-width: $border-width * 2;
     border-color: $brand-primary;
 
