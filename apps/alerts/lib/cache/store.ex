@@ -5,9 +5,9 @@ defmodule Alerts.Cache.Store do
   * :alert_id_to_alerts - a set with has the "alert_id" as the key and
     and %Alerts.Alert{} as the value.
 
-  * :route_id_and_type_to_alert_ids - a bag with {"route_id", "route_type"} as key and "alert_id" as
-    value. Each tuple in the table only has a single alert_id, but there can
-    be multiple entries for the same {route_id, route_type} pair.
+  * :route_id_and_type_to_alert_ids - a bag with "route_id" and "route_type" as keys and "alert_id" as
+    value. Each route_id, route_type pair in the table only has a single alert_id, but there can
+    be multiple entries for the same route_id and route_type
 
   * :alert_banner - a set with a single key, :banner, which has either the value
     nil or an %Alert.Banner{}
@@ -40,13 +40,13 @@ defmodule Alerts.Cache.Store do
   """
   @spec alert_ids_for_routes([String.t]) :: [String.t]
   def alert_ids_for_routes(route_ids) do
-    keys = Enum.map(route_ids, &{{{&1, :"_"}, :"$1"}, [], [:"$1"]})
+    keys = Enum.map(route_ids, &{{&1, :"_", :"$1"}, [], [:"$1"]})
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
   @spec alert_ids_for_routes(Enumerable.t) :: [String.t]
   def alert_ids_for_route_types(types) do
-    keys = Enum.map(types, &{{{:"_", &1}, :"$1"}, [], [:"$1"]})
+    keys = Enum.map(types, &{{:"_", &1, :"$1"}, [], [:"$1"]})
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
@@ -100,7 +100,7 @@ defmodule Alerts.Cache.Store do
       Enum.reduce(alerts, {[], []}, fn alert, {alert_inserts_acc, route_inserts_acc} ->
         {
           [{alert.id, alert} | alert_inserts_acc],
-          Enum.map(alert.informed_entity, &( {{&1.route, &1.route_type}, alert.id})) ++ route_inserts_acc
+          Enum.map(alert.informed_entity, &( {&1.route, &1.route_type, alert.id})) ++ route_inserts_acc
         }
       end)
 
