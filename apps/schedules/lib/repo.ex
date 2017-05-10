@@ -2,7 +2,9 @@ defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(24)
 
-  @type schedule_pair :: {Schedules.Schedule.t, Schedules.Schedule.t}
+  alias Schedules.Schedule
+
+  @type schedule_pair :: {Schedule.t, Schedule.t}
 
   @default_timeout 10_000
   @default_params [
@@ -12,22 +14,18 @@ defmodule Schedules.Repo do
       "fields[stop]": "name"
   ]
 
-  @spec all(Keyword.t) :: [Schedules.Schedule.t] | {:error, any}
-  def all(opts) do
+  @spec by_route_ids([String.t], Keyword.t) :: [Schedule.t] | {:error, any}
+  def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
     @default_params
-    |> add_optional_param(opts, :route)
+    |> Keyword.put(:route, Enum.join(route_ids, ","))
     |> add_optional_param(opts, :date)
     |> add_optional_param(opts, :direction_id)
-    |> add_optional_param(opts, :stop_sequence)
-    |> add_optional_param(opts, :stop)
-    |> cache(fn(params) ->
-      with schedules when is_list(schedules) <- all_from_params(params) do
-        Enum.sort_by(schedules, &DateTime.to_unix(&1.time))
-      end
-    end)
+    |> add_optional_param(opts, :stop_ids, :stop)
+    |> add_optional_param(opts, :stop_sequences, :stop_sequence)
+    |> cache(&all_from_params/1)
   end
 
-  @spec schedule_for_trip(Schedules.Trip.id_t, Keyword.t) :: [Schedules.Schedule.t] | {:error, any}
+  @spec schedule_for_trip(Schedules.Trip.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
   def schedule_for_trip(trip_id, opts \\ [])
   def schedule_for_trip("", _) do
     # shortcut a known invalid trip ID
@@ -58,13 +56,12 @@ defmodule Schedules.Repo do
     end, timeout: @default_timeout)
   end
 
-  @spec schedule_for_stop(Stops.Stop.id_t, Keyword.t) :: [Schedules.Schedule.t] | {:error, any}
+  @spec schedule_for_stop(Stops.Stop.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
   def schedule_for_stop(stop_id, opts) do
-    opts
-    |> Keyword.merge([
-      stop: stop_id
-    ])
-    |> all
+    @default_params
+    |> Keyword.merge(opts)
+    |> Keyword.put(:stop, stop_id)
+    |> cache(&all_from_params/1)
   end
 
   @spec trip(String.t) :: Schedules.Trip.t | nil
@@ -91,15 +88,17 @@ defmodule Schedules.Repo do
 
   defp all_from_params(params) do
     with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
-      Enum.map(data, &Schedules.Parser.parse/1)
+      data
+      |> Enum.map(&Schedules.Parser.parse/1)
+      |> Enum.sort_by(&DateTime.to_unix(&1.time))
     end
   end
 
-  defp add_optional_param(params, opts, key) do
+  defp add_optional_param(params, opts, key, param_name \\ nil) do
+    param_name = param_name || key
     case Keyword.fetch(opts, key) do
       {:ok, value} ->
-        params
-        |> Keyword.put(key, to_string(value))
+        Keyword.put(params, param_name, to_string(value))
       :error ->
         params
     end
@@ -112,8 +111,16 @@ defmodule Schedules.Repo do
   defp to_string(str) when is_binary(str) do
     str
   end
-  defp to_string(other) do
-    Kernel.to_string(other)
+  defp to_string(atom) when is_atom(atom) do
+    Atom.to_string(atom)
+  end
+  defp to_string(list) when is_list(list) do
+    list
+    |> Enum.map(&to_string/1)
+    |> Enum.join(",")
+  end
+  defp to_string(int) when is_integer(int) do
+    Integer.to_string(int)
   end
 
   defp join_schedules(origin_schedules, dest_schedules) do

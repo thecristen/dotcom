@@ -1,27 +1,37 @@
 defmodule Schedules.RepoTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   use Timex
   import Schedules.Repo
   import Mock
   alias Schedules.{Schedule, Stop}
 
-  describe "all/1" do
+  describe "by_route_ids/2" do
     test "can take a route/direction/sequence/date" do
-      response = all(
-        route: "CR-Lowell",
+      response = by_route_ids(
+        ["CR-Lowell"],
         date: Util.service_date,
         direction_id: 1,
-        stop_sequence: "first")
+        stop_sequences: "first")
       assert response != []
       assert %Schedule{} = List.first(response)
     end
 
+    test "can take multiple route IDs" do
+      response = by_route_ids(
+        ["1", "9"],
+        direction_id: 1,
+        stop_sequences: :first)
+      refute response == []
+      assert Enum.any?(response, & &1.route.id == "1")
+      assert Enum.any?(response, & &1.route.id == "9")
+    end
+
     test "returns the parent station as the stop" do
-      response = all(
-        route: "Red",
+      response = by_route_ids(
+        ["Red"],
         date: Util.service_date,
         direction_id: 0,
-        stop_sequence: "first")
+        stop_sequences: ["first"])
       assert response != []
       assert %Stop{id: "place-alfcl", name: "Alewife"} == List.first(response).stop
     end
@@ -33,27 +43,23 @@ defmodule Schedules.RepoTest do
       |> Timex.shift(days: 3)
       |> Timex.format!("{ISOdate}")
 
-      response = all(
-        route: "CR-Lowell",
+      response = by_route_ids(
+        ["CR-Lowell"],
         date: next_weekday,
         direction_id: 1,
-        stop_sequence: "first")
+        stop_sequences: "first")
 
       assert Enum.any?(response, &match?(%Schedule{stop: %Stop{id: "Lowell"}}, &1))
       assert Enum.any?(response, &match?(%Schedule{stop: %Stop{id: "Anderson/ Woburn"}}, &1))
     end
 
     test "if we get an error from the API, returns an error tuple" do
-      # when the API is updated such that this is an error, we won't need to
-      # mock this anymore. -ps
-      with_mock V3Api.Schedules, [all: fn _ -> {:error, :tuple} end] do
-        response = all(
-          route: "CR-Lowell",
-          date: "1970-01-01",
-          stop: "place-north"
-        )
-        assert {:error, _} = response
-      end
+      response = by_route_ids(
+        ["CR-Lowell"],
+        date: "1970-01-01",
+        stop: "place-north"
+      )
+      assert {:error, _} = response
     end
   end
 
@@ -87,7 +93,8 @@ defmodule Schedules.RepoTest do
     end
 
     test "returns a %Schedule.Trip{} for a given ID" do
-      schedules = all(route: "1", date: Util.service_date |> Timex.shift(days: 1), stop_sequence: :first, direction_id: 0)
+      date = Timex.shift(Util.service_date, days: 1)
+      schedules = by_route_ids(["1"], date: date, stop_sequences: :first, direction_id: 0)
       scheduled_trip = List.first(schedules).trip
       assert scheduled_trip == trip(scheduled_trip.id)
     end
