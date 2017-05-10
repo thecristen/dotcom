@@ -39,10 +39,11 @@ defmodule Stops.Nearby do
 
     position
     |> gather_stops(
-      commuter_rail_stops |> Task.await,
+      Task.await(commuter_rail_stops),
       subway_stops |> Task.await |> sort(position) |> no_more_than(1, opts.keys_fn),
       bus_stops |> Task.await |> sort(position) |> no_more_than(2, opts.keys_fn))
-    |> Enum.map(&opts.fetch_fn.(&1.id))
+    |> Task.async_stream(&opts.fetch_fn.(&1.id))
+    |> Enum.map(fn {:ok, result} -> result end)
   end
 
   def api_task(position, %{api_fn: api_fn}, opts) do
@@ -155,11 +156,10 @@ defmodule Stops.Nearby do
   @spec no_more_than(Enum.t, pos_integer, ((any) -> [any])) :: Enum.t
   def no_more_than(enum, max_count, keys_fn) do
     {items, _} = enum
-    |> Enum.reduce({[], %{}}, fn item, {existing, all_keys} ->
+    |> Task.async_stream(fn item -> {item, keys_fn.(item)} end)
+    |> Enum.reduce({[], %{}}, fn {:ok, {item, keys}}, {existing, all_keys} ->
       still_valid_keys =
-        item
-        |> keys_fn.()
-        |> Enum.reject(&(Map.get(all_keys, &1) == max_count))
+        Enum.reject(keys, &(Map.get(all_keys, &1) == max_count))
 
       if still_valid_keys == [] do
         {existing, all_keys}
