@@ -98,6 +98,10 @@ a {
 
     @include media-breakpoint-down(sm) {
       border-color: $brand-primary;
+
+      .trip-list-v2-row {
+        border: 0;
+      }
     }
 
     .icon {
@@ -112,6 +116,7 @@ a {
 
 .trip-list-v2-header {
   @extend %table-header;
+  border: 0;
   color: $white;
   margin-top: $base-spacing;
 
@@ -261,12 +266,13 @@ a {
 
   // Add the border to highlight the trip on mobile
   @include media-breakpoint-down(sm) {
-    border: $border;
+    border: $border-md;
     border-bottom-width: $border-width * 2;
     border-color: $brand-primary;
 
     .trip-duration {
       border-bottom-color: $brand-primary;
+      border-bottom-width: $border-width * 2;
     }
   }
 }
