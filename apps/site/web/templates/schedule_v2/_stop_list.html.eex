@@ -83,13 +83,15 @@
           </div>
         </div>
         <%= if stop.zone do %>
-          <div class="route-branch-stop-zone">
-            <%= unless @route.type == 2 do %>Commuter Rail<% end %>
-            Zone <%= stop.zone %>
+          <div>
+            <div class="route-branch-stop-zone">
+              <%= unless @route.type == 2 do %>Commuter Rail<% end %>
+              Zone <%= stop.zone %>
+            </div>
           </div>
         <% end %>
         <div class="route-branch-stop-links">
-          <%= link "Stop Info",  class: "route-branch-stop-link", to: stop_path(@conn, :show, stop.id) %>
+          <%= link "Stop Info",  class: "route-branch-stop-link stop-info-link", to: stop_path(@conn, :show, stop.id) %>
           <%= link "Schedules from here", class: "route-branch-stop-link schedule-link", to: schedule_path(@conn, :show, @route.id, tab: "trip-view", origin: stop.id) %>
         </div>
       </div>

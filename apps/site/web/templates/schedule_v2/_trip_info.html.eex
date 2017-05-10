@@ -10,7 +10,7 @@
     </div>
     <div class="route-branch-stop-info" role="row">
       <div class="trip-info-stop-name-times">
-        <div class="stop-info-column" role="columnheader">Stops:</div>
+        <div class="stop-info-column trip-info-name" role="columnheader">Stops:</div>
         <div class="stop-info-column trip-info-time" role="columnheader">Times:</div>
       </div>
     </div>
