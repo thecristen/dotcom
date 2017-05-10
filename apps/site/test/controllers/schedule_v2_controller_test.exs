@@ -330,17 +330,15 @@ defmodule Site.ScheduleV2ControllerTest do
       variant = "090078"
       conn = get conn, line_path(conn, :show, "9", direction_id: 1, variant: variant)
 
-      assert Enum.count(conn.assigns.shapes) == 3
-      assert "1564" in List.last(conn.assigns.shapes).stop_ids
-      assert [shape] = conn.assigns.active_shapes
-      assert variant == shape.id
+      assert Enum.count(conn.assigns.all_shapes) == 3
+      assert "1564" in List.last(conn.assigns.all_shapes).stop_ids
+      assert variant == conn.assigns.active_shape.id
     end
 
     test "Bus line with correct default shape", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "9", direction_id: 1)
 
-      assert [shape] = conn.assigns.active_shapes
-      assert shape.id == "090096"
+      assert conn.assigns.active_shape.id == "090096"
     end
   end
 

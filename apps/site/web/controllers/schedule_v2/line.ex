@@ -10,23 +10,19 @@ defmodule Site.ScheduleV2Controller.Line do
     # always use outbound direction, except for buses
     conn = if route.type == 3, do: conn, else: assign(conn, :direction_id, 0)
     all_shapes = get_all_shapes(route.id, conn.assigns.direction_id)
-    active_shapes = get_active_shapes(all_shapes, route, conn.query_params["variant"])
+    active_shapes = get_active_shapes(all_shapes, route, conn.query_params["variant"], conn.query_params["expanded"])
 
-    branches = active_shapes
-    |> get_branches(route, conn.assigns.direction_id)
-    |> remove_collapsed_stops(route.id, conn.query_params["expanded"])
-
-    all_stops = branches
-    |> Enum.flat_map(& &1.stops)
-    |> Enum.map(& &1.station_info)
+    branches = get_branches(all_shapes, active_shapes, route, conn.assigns.direction_id)
+    map_img_src = branches
+    |> get_map_data({all_shapes, active_shapes}, route.id, conn.query_params["expanded"])
+    |> map_img_src(route)
 
     conn
     |> assign(:expanded, conn.query_params["expanded"])
-    |> assign(:branches, branches)
-    |> assign(:shapes, all_shapes)
-    |> assign(:active_shapes, if route.type == 3 do [List.first(active_shapes)] else nil end)
-    |> assign(:show_variant_selector, if length(all_shapes) > 1 && route.type == 3 do true else false end)
-    |> assign(:map_img_src, map_img_src(all_stops, route.type, route.id, active_shapes))
+    |> assign(:branches, remove_collapsed_stops(branches, route.id, conn.query_params["expanded"]))
+    |> assign(:all_shapes, all_shapes)
+    |> assign(:active_shape, if route.type == 3 do List.first(active_shapes) else nil end)
+    |> assign(:map_img_src, map_img_src)
   end
 
   defp get_all_shapes("Green", direction_id) do
@@ -38,13 +34,18 @@ defmodule Site.ScheduleV2Controller.Line do
     Routes.Repo.get_shapes(route_id, direction_id)
   end
 
-  defp get_branches(shapes, %Routes.Route{id: "Green"}, _direction_id) do
+  defp get_branches(all_shapes, _active_shape, %Routes.Route{id: "Green"}, _direction_id) do
     GreenLine.branch_ids()
-    |> Enum.map(&get_green_branch(&1, shapes))
+    |> Enum.map(&get_green_branch(&1, all_shapes))
     |> Enum.map(&Task.await/1)
     |> Enum.reverse()
   end
-  defp get_branches(shapes, route, direction_id) when is_list(shapes) do
+  defp get_branches(_, active_shapes, %Routes.Route{type: 3} = route, direction_id) do
+    do_get_branches(active_shapes, route, direction_id)
+  end
+  defp get_branches(all_shapes, _, route, direction_id), do: do_get_branches(all_shapes, route, direction_id)
+
+  defp do_get_branches(shapes, route, direction_id) do
     route.id
     |> Stops.Repo.by_route(direction_id)
     |> Stops.RouteStops.by_direction(shapes, route, direction_id)
@@ -55,7 +56,7 @@ defmodule Site.ScheduleV2Controller.Line do
       %{0 => headsigns} = Routes.Repo.headsigns(branch_id)
       branch = shapes
       |> Enum.filter(& Enum.member?(headsigns, &1.name))
-      |> get_branches(%Routes.Route{id: branch_id, type: 0}, 0)
+      |> get_branches([], %Routes.Route{id: branch_id, type: 0}, 0)
       |> List.first()
       %{branch | branch: branch_id, stops: Enum.map(branch.stops, & %{&1 | branch: branch_id})}
     end)
@@ -72,18 +73,45 @@ defmodule Site.ScheduleV2Controller.Line do
     %{branch | stops: shared ++ [List.last(not_shared)]}
   end
 
-  defp get_active_shapes(shapes, %Routes.Route{type: 3}, variant) do
+  defp get_active_shapes(shapes, %Routes.Route{type: 3}, variant, _expanded) do
     shapes
     |> get_requested_shape(variant)
     |> get_default_shape(shapes)
   end
-  defp get_active_shapes(shapes, _route, _variant), do: shapes
+  defp get_active_shapes(shapes, %Routes.Route{id: "Green"}, _variant, nil), do: shapes
+  defp get_active_shapes(shapes, %Routes.Route{id: "Green"}, _variant, expanded) do
+    index = if expanded == "Green-D", do: 1, else: 0
+    headsign = expanded
+    |> Routes.Repo.headsigns()
+    |> Map.get(0)
+    |> Enum.at(index)
+    [Enum.find(shapes, & &1.name == headsign)]
+  end
+  defp get_active_shapes(shapes, _route, _variant, _expanded), do: shapes
 
   defp get_requested_shape(_shapes, nil), do: nil
   defp get_requested_shape(shapes, variant), do: Enum.find(shapes, &(&1.id == variant))
 
   defp get_default_shape(nil, [default | _]), do: [default]
   defp get_default_shape(shape, _shapes), do: [shape]
+
+  defp get_map_data(branches, {all_shapes, _active_shapes}, "Green", nil) do
+    {get_map_stops(branches), all_shapes}
+  end
+  defp get_map_data(branches, {all_shapes, _active_shapes}, "Green", branch_id) do
+    stops = branches |> Enum.filter(& &1.branch == branch_id) |> get_map_stops()
+    {stops, all_shapes}
+  end
+  defp get_map_data(branches, {_all_shapes, active_shapes}, _route_id, _expanded) do
+    {get_map_stops(branches), active_shapes}
+  end
+
+  defp get_map_stops(branches) do
+    branches
+    |> Enum.flat_map(& &1.stops)
+    |> Enum.uniq_by(& &1.id)
+    |> Enum.map(& &1.station_info)
+  end
 
   @doc """
 
@@ -92,20 +120,28 @@ defmodule Site.ScheduleV2Controller.Line do
   map.
 
   """
-  @spec map_img_src([Stops.Stop.t], Integer, Routes.Route.id_t, [Routes.Shape.t]) :: String.t
-  def map_img_src(_, 4, _, _) do
+  @spec map_img_src({[Stops.Stop.t], [Routes.Shape.t] | [nil]}, Routes.Route.t) :: String.t
+  def map_img_src(_, %Routes.Route{type: 4}) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
-  def map_img_src(stops, route_type, route_id, shapes) do
-    paths = shapes
+  def map_img_src({stops, shapes}, %Routes.Route{id: "Green"} = route) do
+    shapes
+    |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
+    |> Enum.map(&{:path, "color:0x#{map_color(route.type, route.id)}FF|enc:#{&1}"})
+    |> do_map_img_src(stops, route)
+  end
+  def map_img_src({stops, shapes}, route) do
+    shapes
     |> Enum.map(& &1.polyline)
     |> PolylineHelpers.condense
-    |> Enum.map(&{:path, "color:0x#{map_color(route_type, route_id)}FF|enc:#{&1}"})
+    |> Enum.map(&{:path, "color:0x#{map_color(route.type, route.id)}FF|enc:#{&1}"})
+    |> do_map_img_src(stops, route)
+  end
 
+  defp do_map_img_src(paths, stops, route) do
     opts = paths ++ [
-      markers: markers(stops, route_type, route_id)
+      markers: markers(stops, route.type, route.id)
     ]
-
     GoogleMaps.static_map_url(600, 600, opts)
   end
 

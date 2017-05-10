@@ -1,4 +1,4 @@
-<%= if @route.type == 3, do: render "_bus_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, shapes: @shapes, active_shape: List.first(@active_shapes), show_variant_selector: assigns[:show_variant_selector] %>
+<%= if @route.type == 3, do: render "_bus_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, all_shapes: @all_shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
 <div class="route-info page-section row">
   <div class="col-xs-12 hidden-sm-up line-map-container">
     <h2 class="h5 route-map-heading">Route Map</h5>

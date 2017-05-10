@@ -68,6 +68,7 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubbles {
+  // scss-lint:disable DuplicateProperty
   align-items: stretch;
   display: inline-block; // for non-flex browsers
   display: flex;
@@ -109,6 +110,7 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubble-line {
+  // scss-lint:disable DuplicateProperty
   display: none; // hide on non-flex browsers
   display: flex;
   flex: 1 0 0%;
@@ -128,6 +130,7 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-info {
+  // scss-lint:disable DuplicateProperty
   border-bottom: $border;
   display: inline-block; // for non-flex browsers
   display: flex;
@@ -197,6 +200,7 @@ $location-line-width: $space-6;
     flex: 1 1 0%;
   }
 }
+
 .route-branch-stop-icons {
   text-align: right;
 }
