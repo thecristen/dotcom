@@ -1,13 +1,27 @@
-<div class="schedule-trip-stop<%= if @terminus? do %> terminus<% end %><%= if @vehicle? do %> vehicle<% end %>" role="row">
-  <div class="vehicle-location stop-bubble">
-    <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
+<%
+  {bubble_type, line_type} =  case {@terminus?, @above_expand_link?, @is_last_item?, @vehicle?} do
+    {true, _, true, _} -> {:terminus, :hidden}
+    {true, _, false, _} -> {:terminus, ""}
+    {false, true, true, false} -> {:stop, :dotted}
+    {false, true, true, true} -> {:vehicle, :dotted}
+    _ -> {:stop, ""}
+  end
+%>
+<div class="route-branch-stop <%= bubble_type %>" role="row">
+  <div class="route-branch-stop-bubbles">
+    <div class="route-branch-stop-bubble">
+      <%= stop_bubble_location_display(@vehicle?, @route, @terminus?) %>
+      <div class="route-branch-stop-bubble-line <%= line_type %>"></div>
+    </div>
   </div>
-  <div class="stop-info">
-    <span class="stop-info-column" role="cell">
-      <%= stop_name_link_with_alerts(@name, @href, @alerts) %>
-    </span>
-    <span class="stop-info-column" role="cell">
-      <%= PredictedSchedule.Display.time(@predicted_schedule) %>
-    </span>
+  <div class="route-branch-stop-info">
+    <div class="trip-info-stop-name-times">
+      <div class="stop-info-column" role="cell">
+        <%= stop_name_link_with_alerts(@name, @href, @alerts) %>
+      </div>
+      <div class="stop-info-column trip-info-time" role="cell">
+        <%= PredictedSchedule.Display.time(@predicted_schedule) %>
+      </div>
+    </div>
   </div>
 </div>

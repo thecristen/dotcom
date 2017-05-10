@@ -26,13 +26,13 @@ $location-line-width: $space-6;
         }
       }
 
-      .route-branch-stop-bubble-line,
+      .route-branch-stop-bubble-line:not(.dotted),
       .route-branch-indent-start {
         background-color: $color;
       }
 
       .route-branch-stop-bubble-line.dotted {
-        outline: 1px solid $color;
+        outline-color: $color;
       }
 
       .stop-bubble::before {
@@ -43,9 +43,19 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-list {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
+  .route-branch-stop:last-child {
+    .route-branch-stop-info {
+      border-bottom-width: 0;
+    }
+  }
+}
+
+.trip-info-labels {
+  .route-branch-stop-info {
+    border-bottom-width: 0;
+    padding-bottom: 0;
+    padding-top: $base-spacing;
+  }
 }
 
 .route-branch-stop {
@@ -109,15 +119,12 @@ $location-line-width: $space-6;
   &.hidden {
     display: none;
   }
-}
 
-.green-line {
-  .route-branch-stop-bubble-line {
-    &.dotted {
-      background-color: transparent;
-      margin-top: 1px;
-      width: 0;
-    }
+  &.dotted {
+    background-color: transparent;
+    outline-style: dashed;
+    outline-width: 1px;
+    width: 0;
   }
 }
 
@@ -137,6 +144,15 @@ $location-line-width: $space-6;
   }
 }
 
+@include media-breakpoint-down(sm) {
+  .green-line {
+    .route-branch-stop-name-icons {
+      display: block;
+      padding-bottom: $base-spacing / 2;
+    }
+  }
+}
+
 .expand-branch-link {
   a {
     background: $gray-lightest;
@@ -152,22 +168,39 @@ $location-line-width: $space-6;
   }
 }
 
-@include media-breakpoint-up(sm) {
-  .route-branch-stop-name-icons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+.trip-info-stop-name-times {
+  display: flex;
+  flex-wrap: wrap;
 
-  .schedule-link {
-    float: right;
+  .stop-info-column {
+    // scss-lint:disable VendorPrefix
+    -ms-flex: 1 1 0%;
+    flex: 1;
   }
 }
 
-@include media-breakpoint-only(xs) {
-  .route-branch-stop-icons {
-    margin-bottom: $base-spacing / 2;
+.route-branch-stop-name-icons,
+.route-branch-stop-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  > div {
+    -ms-flex: 1 1 0%;
+    flex: 1;
   }
+}
+
+.route-branch-stop-name-icons {
+  margin-bottom: $base-spacing;
+}
+
+.schedule-link {
+  float: right;
+}
+
+.trip-info-time {
+  text-align: center;
 }
 
 .route-branch-stop-zone {
@@ -177,64 +210,6 @@ $location-line-width: $space-6;
   font-size: $font-size-sm;
   margin-bottom: $base-spacing / 4;
   padding: $base-spacing / 4;
-}
-
-@mixin stop-bubble-first() {
-  .stop-bubble::before {
-    // NB: The seemingly magic number 98% keeps the lines long enough
-    // to hit the next stop bubble without overlapping and causing
-    // visual noise. This may require adjustment if the height of the
-    // rows changes in the future
-    height: 98%;
-    top: $space-2;
-  }
-}
-
-@mixin stop-bubble-last() {
-  .stop-bubble::before {
-    display: none;
-  }
-}
-
-@mixin stop-bubble-collapsed() {
-  .stop-bubble {
-    &::before {
-      border-left-style: dotted;
-      border-left-width: $location-line-width;
-      // taller and adjusted up so it moves up towards the previous stop
-      height: 150%;
-      top: -$base-spacing * .75;
-    }
-  }
-}
-
-@mixin stop-info-column() {
-  @include unpadded-column;
-
-  display: block;
-  margin-left: $base-spacing + $icon-size;
-  padding-left: 0;
-  width: grid-width(10);
-
-  > span:first-child,
-  > span:last-child {
-    float: left;
-    width: 50%;
-  }
-}
-
-@mixin stop-bubble-row() {
-  @extend %unpadded-table-row;
-  background-color: transparent;
-  border-bottom: 0;
-  border-top: 0;
-  position: relative;
-
-  .stop-info {
-    @include stop-info-column();
-    border-bottom: $border;
-    padding-bottom: $base-spacing;
-  }
 }
 
 @include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);

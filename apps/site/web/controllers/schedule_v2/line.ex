@@ -16,7 +16,6 @@ defmodule Site.ScheduleV2Controller.Line do
     |> get_branches(route, conn.assigns.direction_id)
     |> remove_collapsed_stops(route.id, conn.query_params["expanded"])
 
-
     all_stops = branches
     |> Enum.flat_map(& &1.stops)
     |> Enum.map(& &1.station_info)
@@ -29,7 +28,6 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:show_variant_selector, if length(all_shapes) > 1 && route.type == 3 do true else false end)
     |> assign(:map_img_src, map_img_src(all_stops, route.type, route.id, active_shapes))
   end
-
 
   defp get_all_shapes("Green", direction_id) do
     GreenLine.branch_ids()

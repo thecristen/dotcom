@@ -322,6 +322,8 @@ defmodule Site.ScheduleV2ViewTest do
             "_trip_info_row.html",
             name: "name",
             href: "",
+            above_expand_link?: true,
+            is_last_item?: false,
             vehicle?: true,
             terminus?: true,
             alerts: ["alert"],
