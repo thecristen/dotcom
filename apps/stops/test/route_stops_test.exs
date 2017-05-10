@@ -4,76 +4,15 @@ defmodule Stops.RouteStopsTest do
 
   @red %Routes.Route{id: "Red", type: 1}
 
-  describe "get_shapes/3" do
-    test "for red line, direction: 0" do
-      shapes = "Red"
-      |> Routes.Repo.get_shapes(0)
-      |> RouteStops.get_shapes(@red, 0)
-      assert [%Routes.Shape{name: "Ashmont", stop_ids: ashmont_stops}, %Routes.Shape{name: "Braintree", stop_ids: braintree_stops}] = shapes
-      first_stops = [ashmont_stops, braintree_stops] |> Enum.map(& &1 |> List.first())
-      last_stops = [ashmont_stops, braintree_stops] |> Enum.map(& &1 |> List.last())
-      assert first_stops == ["place-alfcl", "place-alfcl"]
-      assert last_stops == ["place-asmnl", "place-brntn"]
-      refute List.last(ashmont_stops) in braintree_stops
-      refute List.last(braintree_stops) in ashmont_stops
-    end
-
-    test "for red line, direction: 1" do
-      shapes = "Red"
-      |> Routes.Repo.get_shapes(1)
-      |> RouteStops.get_shapes(@red, 1)
-
-      assert [%Routes.Shape{name: "Ashmont", stop_ids: ashmont_stops}, %Routes.Shape{name: "Braintree", stop_ids: braintree_stops}] = shapes
-      first_stops = [ashmont_stops, braintree_stops] |> Enum.map(& &1 |> List.first())
-      last_stops = [ashmont_stops, braintree_stops] |> Enum.map(& &1 |> List.last())
-      assert first_stops == ["place-asmnl", "place-brntn"]
-      assert last_stops == ["place-alfcl", "place-alfcl"]
-    end
-
-    test "for green line, direction: 0" do
-      [b_shapes, c_shapes, d_shapes, e_shapes] = ["Green-B", "Green-C", "Green-D", "Green-E"]
-      |> Task.async_stream(fn id -> Routes.Repo.get_shapes(id, 0) end)
-      |> Enum.map(fn {:ok, shapes} -> shapes end)
-      assert [%Routes.Shape{name: "Boston College", stop_ids: b_stops}] = RouteStops.get_shapes(b_shapes, %Routes.Route{id: "Green-B", type: 0}, 0)
-      assert [%Routes.Shape{name: "Cleveland Circle", stop_ids: c_stops}] = RouteStops.get_shapes(c_shapes, %Routes.Route{id: "Green-C", type: 0}, 0)
-      assert [%Routes.Shape{name: "Riverside", stop_ids: d_stops}] = RouteStops.get_shapes(d_shapes, %Routes.Route{id: "Green-D", type: 0}, 0)
-      assert [%Routes.Shape{name: "Heath Street", stop_ids: e_stops}] = RouteStops.get_shapes(e_shapes, %Routes.Route{id: "Green-E", type: 0}, 0)
-
-      first_stops = [b_stops, c_stops, d_stops, e_stops]
-      |> Enum.map(&List.first/1)
-      |> Task.async_stream(&Stops.Api.by_gtfs_id/1)
-      |> Enum.map(fn {:ok, stop} -> stop.id end)
-
-      last_stops = [b_stops, c_stops, d_stops, e_stops]
-      |> Enum.map(&List.last/1)
-      |> Task.async_stream(&Stops.Api.by_gtfs_id/1)
-      |> Enum.map(fn {:ok, stop} -> stop.id end)
-
-      assert first_stops == ["place-pktrm", "place-north", "place-gover", "place-lech"]
-      assert last_stops == ["place-lake", "place-clmnl", "place-river", "place-hsmnl"]
-    end
-
-    test "for bus with variation" do
-      assert [%Routes.Shape{name: outbound_name, stop_ids: outbound_stops}] = "47" |> Routes.Repo.get_shapes(0) |> RouteStops.get_shapes(%Routes.Route{id: "47", type: 3}, 0)
-      assert outbound_name == "Central Square, Cambridge via Longwood & Boston Medical Center"
-      first_last = [List.first(outbound_stops), List.last(outbound_stops)] |> Task.async_stream(&Stops.Api.by_gtfs_id/1) |> Enum.map(fn {:ok, stop} -> stop.name end)
-      assert first_last == ["88 E Newton St", "Green St @ Magazine St"]
-      assert [%Routes.Shape{name: inbound_name, stop_ids: inbound_stops}] = "47" |> Routes.Repo.get_shapes(1) |> RouteStops.get_shapes(%Routes.Route{id: "47", type: 3}, 1)
-      assert inbound_name == "Boston Medical Center via Dudley Station"
-      first_last = [List.first(inbound_stops), List.last(inbound_stops)] |> Task.async_stream(&Stops.Api.by_gtfs_id/1) |> Enum.map(fn {:ok, stop} -> stop.name end)
-      assert first_last == ["Massachusetts Ave @ Pearl St", "88 E Newton St"]
-    end
-  end
-
   describe "by_direction/2 returns a list of stops in one direction in the correct order" do
-    test "for Red Line direction: 1" do
+    test "for Red Line, direction: 0" do
       stops = Stops.Repo.by_route("Red", 0)
       shapes = Routes.Repo.get_shapes("Red", 0)
       stops = RouteStops.by_direction(stops, shapes, @red, 0)
-      assert [%Stops.RouteStops{branch: nil, stops: unbranched_stops}|_] = stops
-      assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = Enum.at(stops, 1)
-      assert %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops} = List.last(stops)
-
+      [core, braintree, ashmont] = stops
+      assert %Stops.RouteStops{branch: nil, stops: unbranched_stops} = core
+      assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = braintree
+      assert %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops} = ashmont
 
       assert unbranched_stops |> Enum.map(& &1.name) == ["Alewife", "Davis", "Porter", "Harvard", "Central",
         "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/Umass"]
@@ -126,9 +65,10 @@ defmodule Stops.RouteStopsTest do
       shapes = Routes.Repo.get_shapes("Red", 1)
       stops = RouteStops.by_direction(stops, shapes, @red, 1)
 
-      assert [%Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops}|_] = stops
-      assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = Enum.at(stops, 1)
-      assert %Stops.RouteStops{branch: nil, stops: _unbranched_stops} = List.last(stops)
+      [ashmont, braintree, core] = stops
+      assert %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops} = ashmont
+      assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = braintree
+      assert %Stops.RouteStops{branch: nil, stops: _unbranched_stops} = core
 
       [ashmont|_] = ashmont_stops
       assert ashmont.name == "Ashmont"
@@ -176,15 +116,28 @@ defmodule Stops.RouteStopsTest do
     end
 
 
-    test "works for Kingston line" do
+    test "works for Kingston line (outbound)" do
       route = %Routes.Route{id: "CR-Kingston", type: 2}
       shapes = Routes.Repo.get_shapes("CR-Kingston", 0)
       stops = Stops.Repo.by_route("CR-Kingston", 0)
-      stops = RouteStops.by_direction(stops, shapes, route, 0)
+      route_stops = RouteStops.by_direction(stops, shapes, route, 0)
 
-      assert [%Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "place-sstat"}|_unbranched_stops]}|_] = stops
-      assert %Stops.RouteStops{branch: "Plymouth", stops: [%Stops.RouteStop{id: "Plymouth"}]} = Enum.at(stops, 1)
-      assert %Stops.RouteStops{branch: "Kingston", stops: [%Stops.RouteStop{id: "Kingston"}]} = List.last(stops)
+      [core, plymouth, kingston] = route_stops
+      assert %Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "place-sstat"} | _unbranched_stops]} = core
+      assert %Stops.RouteStops{branch: "Plymouth", stops: [%Stops.RouteStop{id: "Plymouth"}]} = plymouth
+      assert %Stops.RouteStops{branch: "Kingston", stops: [%Stops.RouteStop{id: "Kingston"}]} = kingston
+    end
+
+    test "works for Providence line (inbound)" do
+      route = %Routes.Route{id: "CR-Providence", type: 2}
+      shapes = Routes.Repo.get_shapes("CR-Providence", 1)
+      stops = Stops.Repo.by_route("CR-Providence", 1)
+      route_stops = RouteStops.by_direction(stops, shapes, route, 1)
+
+      [wickford, stoughton, core] = route_stops
+      assert %Stops.RouteStops{branch: "Wickford Junction", stops: [%Stops.RouteStop{id: "Wickford Junction"} | _]} = wickford
+      assert %Stops.RouteStops{branch: "Stoughton", stops: [%Stops.RouteStop{id: "Stoughton"} | _]} = stoughton
+      assert %Stops.RouteStops{branch: nil, stops: [_, _, _, _, _, %Stops.RouteStop{id: "place-sstat"}]} = core
     end
 
     test "works for bus routes" do
