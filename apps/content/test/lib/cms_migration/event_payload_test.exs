@@ -47,12 +47,15 @@ defmodule Content.CmsMigration.EventPayloadTest do
       }]
     end
 
-    test "removes style attributes in the body field" do
-      text_with_style_attr = "<a href=\"www.mbta.com\" style=\"text-align: center;\" target=\"_blank\">Example</a>"
+    test "removes style information in the body field" do
+      body_with_style_info =
+      ~s(<style type=\"text/css\">table td{vertical-align:top;}</style>) <>
+      ~s(<a href=\"www.mbta.com\" style=\"text-align: center;\" target=\"_blank\">Example</a>)
+
       meeting =
         @meeting
         |> fixture()
-        |> Map.put("objective", text_with_style_attr)
+        |> Map.put("objective", body_with_style_info)
 
       %{body: [%{value: value}]} = from_meeting(meeting)
 
@@ -62,7 +65,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
     test "relative links are updated to include the former mbta site host" do
       former_mbta_site_host = Application.get_env(:site, :former_mbta_site)[:host]
 
-      body_with_external_link = "<a href=\"/uploadedfiles/Meeting/BeverlyCommRail-PTC_Meeting Flyer.pdf\">Click for details</a>"
+      body_with_external_link = "<a href=\"/uploadedfiles/Flyer.pdf\">Click for details</a>"
 
       meeting =
         @meeting
@@ -71,7 +74,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       %{body: [%{value: value}]} = from_meeting(meeting)
 
-      assert value =~ "<a href=\"#{former_mbta_site_host}/uploadedfiles/Meeting/BeverlyCommRail-PTC_Meeting Flyer.pdf\">Click for details</a>"
+      assert value =~ "<a href=\"#{former_mbta_site_host}/uploadedfiles/Flyer.pdf\">Click for details</a>"
     end
   end
 end

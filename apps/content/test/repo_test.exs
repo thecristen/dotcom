@@ -7,11 +7,11 @@ defmodule Content.RepoTest do
     test "returns list of Content.NewsEntry" do
       [%Content.NewsEntry{
          body: body,
-         media_contact_name: media_contact_name
+         media_contact: media_contact
        } | _] = Content.Repo.recent_news()
 
       assert safe_to_string(body) =~ "BOSTON -- The MBTA"
-      assert media_contact_name == "MassDOT Press Office"
+      assert media_contact == "MassDOT Press Office"
     end
 
     test "allows the current News Entry to be excluded" do

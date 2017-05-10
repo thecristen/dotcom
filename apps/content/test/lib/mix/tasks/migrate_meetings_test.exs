@@ -41,7 +41,7 @@ defmodule Content.MigrateMeetingsTest do
     path = path("invalid_meeting")
 
     Mix.Tasks.Content.MigrateMeetings.run(path)
-    assert email_sent_with_subject("Meeting Migration Task Failed")
+    assert email_sent_with_subject("CMS Migration Task Failed")
   end
 
   test "raises with instructions when an invalid directory path is provided" do

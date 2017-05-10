@@ -4,7 +4,7 @@
   </h1>
 
   <p class="news-metadata">
-    Posted on <%= format_date(@news_entry.updated_at) %>
+    Posted on <%= format_date(@news_entry.posted_on) %>
   </p>
 
   <div class="news-entry-body">

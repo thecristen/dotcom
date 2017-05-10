@@ -109,9 +109,24 @@
         "value": "857-368-8500"
       }
     ],
+    "field_media_email": [
+      {
+        "value": "media@example.com"
+      }
+    ],
     "field_more_information": [
       {
         "value": "<p>For more information, visit <a href=\"http:\/\/www.mbta.com\/rider_tools\/t_alerts\">T-Alerts<\/a>.<\/p>"
+      }
+    ],
+    "field_posted_on": [
+      {
+        "value": "2017-01-01"
+      }
+    ],
+    "field_migration_id": [
+      {
+        "value": "1234"
       }
     ]
   },
@@ -218,6 +233,11 @@
         "value": "MassDOT Press Office"
       }
     ],
+    "field_media_email": [
+      {
+        "value": "media@example.com"
+      }
+    ],
     "field_media_phone": [
       {
         "value": "(857) 360-8500"
@@ -226,6 +246,16 @@
     "field_more_information": [
       {
         "value": "<p>For more information, visit <a href=\"http:\/\/www.mbta.com\/rider_tools\/t_alerts\">T-Alerts<\/a>.<\/p>"
+      }
+    ],
+    "field_posted_on": [
+      {
+        "value": "2017-02-02"
+      }
+    ],
+    "field_migration_id": [
+      {
+        "value": ""
       }
     ]
   },
@@ -337,7 +367,22 @@
         "value": "857-368-8500"
       }
     ],
-    "field_more_information": []
+    "field_media_email": [
+      {
+        "value": "media@example.com"
+      }
+    ],
+    "field_more_information": [],
+    "field_posted_on": [
+      {
+        "value": "2017-03-03"
+      }
+    ],
+    "field_migration_id": [
+      {
+        "value": ""
+      }
+    ]
   },
   {
     "nid": [
@@ -447,9 +492,24 @@
         "value": "(857) 360-8500"
       }
     ],
+    "field_media_email": [
+      {
+        "value": "media@example.com"
+      }
+    ],
     "field_more_information": [
       {
         "value": "<p>For more information, visit <a href=\"http:\/\/www.mbta.com\/rider_tools\/t_alerts\">T-Alerts<\/a>.<\/p>"
+      }
+    ],
+    "field_posted_on": [
+      {
+        "value": "2017-04-04"
+      }
+    ],
+    "field_migration_id": [
+      {
+        "value": ""
       }
     ]
   }
