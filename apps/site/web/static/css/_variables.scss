@@ -94,6 +94,7 @@ $icon-size: $space-16 * 1.5;
 $icon-size-sm: $space-16;
 $icon-size-lg: $space-16 * 3;
 
+$z-index-above-main-container-content: 6;
 $z-index-datepicker-content: 5;
 $z-index-alert-show-title: 5;
 $z-index-alert-show-title-background: 4;
@@ -104,6 +105,5 @@ $z-index-stop-bubble-line: 2;
 $z-index-schedule-v2-timetable-more-text: 1;
 $z-index-alert-list-header: 1;
 $z-index-alert-item-icon: 1;
-$z-index-above-main-container-content: 1;
 
 $desktop-header-pattern: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAM0lEQVQYV2Nkl9X7z4AGnIz0GBjRJUCC+85dQpWACYIMgOtAFoRLoAuCJTz9Y/6DzEQHAIosF48Uujm+AAAAAElFTkSuQmCC);
