@@ -135,7 +135,7 @@ defmodule Site.ScheduleV2Controller do
     |> call_plug(Site.ScheduleV2Controller.Line)
   end
 
-  defp all_alerts(%{assigns: %{route: %Routes.Route{id: route_id}}} = conn, _opts) do
-    assign(conn, :all_alerts, Alerts.Repo.by_route_ids([route_id]))
+  defp all_alerts(%{assigns: %{route: %Routes.Route{id: route_id, type: route_type}}} = conn, _opts) do
+    assign(conn, :all_alerts, Alerts.Repo.by_route_id_and_type(route_id, route_type))
   end
 end

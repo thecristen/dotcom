@@ -1,7 +1,6 @@
 defmodule Site.ScheduleV2Controller.Green do
   use Site.Web, :controller
 
-  alias Alerts.Alert
   alias Schedules.Schedule
 
   plug :route
@@ -103,7 +102,7 @@ defmodule Site.ScheduleV2Controller.Green do
   end
 
   def alerts(conn, _opts) do
-    assign(conn, :all_alerts, Alerts.Repo.by_route_ids([nil, "Green"]))
+    assign(conn, :all_alerts, Alerts.Repo.by_route_id_and_type("Green", 0))
   end
 
   def vehicle_locations(conn, opts) do
