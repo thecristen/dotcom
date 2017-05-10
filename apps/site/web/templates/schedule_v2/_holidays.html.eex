@@ -1,11 +1,13 @@
-<h3>Holiday Schedule Information</h3>
+<div class="route-holiday-container">
+  <h3>Holiday Schedule Information</h3>
 
-<strong>Upcoming Holidays:</strong>
+  <strong>Upcoming Holidays:</strong>
 
-<ul class="route-holiday-info">
-  <%= for holiday <- @holidays do %>
-    <li>
-      <%= holiday.name %> (<%= format_full_date(holiday.date) %>)
-    </li>
-  <% end %>
-</ul>
+  <ul class="route-holiday-info">
+    <%= for holiday <- @holidays do %>
+      <li>
+        <%= holiday.name %> (<%= format_full_date(holiday.date) %>)
+      </li>
+    <% end %>
+  </ul>
+</div>
