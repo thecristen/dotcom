@@ -2,7 +2,9 @@ defmodule Site.AlertController do
   use Site.Web, :controller
 
   plug Site.Plugs.Date
-  plug Site.Plugs.Alerts
+  plug :all_routes
+  plug :all_alerts
+  plug Site.Plugs.UpcomingAlerts
 
   @access_route_ids ["Elevator", "Escalator", "Lift"]
   @access_routes @access_route_ids
@@ -16,21 +18,13 @@ defmodule Site.AlertController do
     |> halt
   end
 
-  def show(conn, %{"id" => "subway"}) do
-    render_routes(conn, [0, 1])
-  end
-  def show(conn, %{"id" => "commuter_rail"}) do
-    render_routes(conn, 2)
-  end
-  def show(conn, %{"id" => "bus"}) do
-    render_routes(conn, 3)
-  end
-  def show(conn, %{"id" => "ferry"}) do
-    render_routes(conn, 4)
-  end
   def show(%{assigns: %{all_alerts: all_alerts}} = conn, %{"id" => "access"}) do
     conn
     |> render_route_alerts(group_access_alerts(all_alerts))
+  end
+  def show(conn, %{"id" => mode})
+  when mode in ["subway", "commuter_rail", "bus", "ferry"] do
+    render_routes(conn)
   end
   def show(conn, _params) do
     conn
@@ -39,12 +33,8 @@ defmodule Site.AlertController do
     |> halt
   end
 
-  def render_routes(%{assigns: %{all_alerts: all_alerts}} = conn, route_types) do
-    route_alerts = route_types
-    |> Routes.Repo.by_type
-    |> Enum.map(&route_alerts(&1, all_alerts))
-
-    render_route_alerts(conn, route_alerts)
+  def render_routes(%{assigns: %{all_alerts: all_alerts, all_routes: all_routes}} = conn) do
+    render_route_alerts(conn, Enum.map(all_routes, &route_alerts(&1, all_alerts)))
   end
 
   def render_route_alerts(%{params: %{"id" => id}} = conn, route_alerts) do
@@ -91,5 +81,31 @@ defmodule Site.AlertController do
       type when is_binary(type) ->
         %Routes.Route{id: type, name: type}
     end
+  end
+
+  defp all_routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_routes(conn, [0,1])
+  defp all_routes(%{params: %{"id" => "commuter_rail"}} = conn, _opts), do: do_all_routes(conn, 2)
+  defp all_routes(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_routes(conn, 3)
+  defp all_routes(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_all_routes(conn, 4)
+  defp all_routes(conn, _opts), do: conn
+
+  defp do_all_routes(conn, route_types) do
+    assign(conn, :all_routes, Routes.Repo.by_type(route_types))
+  end
+
+  defp all_alerts(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_alerts(conn, [0,1])
+  defp all_alerts(%{params: %{"id" => "commuter_rail"}} = conn, _opts), do: do_all_alerts(conn, [2])
+  defp all_alerts(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_alerts(conn, [3])
+  defp all_alerts(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_all_alerts(conn, [4])
+  defp all_alerts(%{params: %{"id" => "access"}} = conn, _opts) do
+    assign(conn, :all_alerts, Alerts.Repo.all())
+  end
+  defp all_alerts(conn, _opts) do
+    conn
+  end
+
+  defp do_all_alerts(conn, types) do
+    alerts = Alerts.Repo.by_route_types(types)
+    assign(conn, :all_alerts, alerts)
   end
 end

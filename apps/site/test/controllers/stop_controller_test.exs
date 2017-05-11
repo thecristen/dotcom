@@ -81,14 +81,6 @@ defmodule Site.StopControllerTest do
     assert conn.assigns.terminal_station == ""
   end
 
-  test "assigns alerts for the stop", %{conn: conn} do
-    conn = conn
-    |> assign(:all_alerts, @alerts)
-    |> get(stop_path(conn, :show, "place-sstat", tab: "schedule"))
-
-    assert conn.assigns.stop_alerts == [0, 2] |> Enum.map(&Enum.at(@alerts, &1))
-  end
-
   test "does not assign stop alerts on info page", %{conn: conn} do
     conn = conn
     |> assign(:all_alerts, @alerts)

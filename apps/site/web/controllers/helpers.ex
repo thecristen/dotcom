@@ -76,4 +76,11 @@ defmodule Site.ControllerHelpers do
     |> Routes.Group.group
     |> filter_routes(filters)
   end
+
+  @spec get_grouped_route_ids([{atom, [Route.t]}]) :: [String.t]
+  def get_grouped_route_ids(grouped_routes) do
+    grouped_routes
+    |> Enum.flat_map(fn {_mode, routes} -> routes end)
+    |> Enum.map(& &1.id)
+  end
 end

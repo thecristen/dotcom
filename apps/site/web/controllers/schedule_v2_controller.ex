@@ -10,7 +10,8 @@ defmodule Site.ScheduleV2Controller do
   plug Site.Plugs.DateTime
   plug SV2C.DatePicker
   plug SV2C.Defaults
-  plug Site.Plugs.Alerts
+  plug :all_alerts
+  plug Site.Plugs.UpcomingAlerts
   plug SV2C.AllStops
   plug SV2C.OriginDestination
   plug SV2C.ExcludedStops
@@ -132,5 +133,9 @@ defmodule Site.ScheduleV2Controller do
     |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
     |> call_plug(Site.ScheduleV2Controller.Holidays)
     |> call_plug(Site.ScheduleV2Controller.Line)
+  end
+
+  defp all_alerts(%{assigns: %{route: %Routes.Route{id: route_id, type: route_type}}} = conn, _opts) do
+    assign(conn, :all_alerts, Alerts.Repo.by_route_id_and_type(route_id, route_type))
   end
 end

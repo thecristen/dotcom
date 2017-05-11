@@ -26,4 +26,24 @@ defmodule Site.ControllerHelpersTest do
          key_route?: true, name: "23", type: 3}]}]
     end
   end
+
+  describe "get_grouped_route_ids/1" do
+    @grouped_routes [
+      subway: [
+        %Routes.Route{id: "sub1", type: 0},
+        %Routes.Route{id: "sub2", type: 1}
+      ],
+      bus: [
+        %Routes.Route{id: "bus1", type: 3}
+      ],
+      commuter_rail: [
+        %Routes.Route{id: "comm1", type: 2},
+        %Routes.Route{id: "comm2", type: 2}
+      ]
+    ]
+
+    test "returns list of ids from the given grouped routes" do
+      assert get_grouped_route_ids(@grouped_routes) == ["sub1", "sub2", "bus1", "comm1", "comm2"]
+    end
+  end
 end

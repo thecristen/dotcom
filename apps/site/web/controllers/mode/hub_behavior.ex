@@ -27,18 +27,24 @@ defmodule Site.Mode.HubBehavior do
   end
 
   def index(mode_strategy, conn, _params) do
-    routes_task = Task.async(mode_strategy, :routes, [])
-    fares_task = Task.async(mode_strategy, :fares, [])
+    routes = mode_strategy.routes()
+    conn
+    |> async_assign(:fares, &mode_strategy.fares/0)
+    |> async_assign(:all_alerts, fn -> alerts(routes) end)
+    |> assign(:routes, routes)
+    |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
+    |> assign(:mode_name, mode_strategy.mode_name())
+    |> assign(:fare_description, mode_strategy.fare_description())
+    |> assign(:map_pdf_url, MapHelpers.map_pdf_url(mode_strategy.route_type))
+    |> assign(:map_image_url, static_url(Site.Endpoint, MapHelpers.map_image_url(mode_strategy.route_type)))
+    |> assign(:breadcrumbs, [{mode_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name()])
+    |> await_assign_all()
+    |> render("hub.html")
+  end
 
-    render(conn, "hub.html",
-      route_type: mode_strategy.route_type |> Routes.Route.type_atom(),
-      routes: Task.await(routes_task),
-      mode_name: mode_strategy.mode_name(),
-      fares: Task.await(fares_task),
-      fare_description: mode_strategy.fare_description(),
-      map_pdf_url: MapHelpers.map_pdf_url(mode_strategy.route_type),
-      map_image_url: static_url(Site.Endpoint, MapHelpers.map_image_url(mode_strategy.route_type)),
-      breadcrumbs: [{mode_path(conn, :index), "Schedules & Maps"}, mode_strategy.mode_name()]
-    )
+  defp alerts(routes) do
+    routes
+    |> Enum.map(& &1.id)
+    |> Alerts.Repo.by_route_ids()
   end
 end
