@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
   use Site.ConnCase, async: true
 
-  defp schedules_fn(opts) do
+  defp schedules_fn(_route_ids, opts) do
     date_time = Timex.to_datetime(opts[:date])
     [
       %Schedules.Schedule{time: Timex.set(date_time, hour: 6), trip: %Schedules.Trip{direction_id: 0}},
@@ -24,7 +24,7 @@ defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
     conn = %{conn | params: %{"route" => "Teal"}}
     |> assign(:route, %Routes.Route{id: "Teal"})
     |> assign(:date, ~D[2017-02-28]) # Tuesday
-    |> Site.ScheduleV2Controller.HoursOfOperation.call(schedules_fn: &schedules_fn/1)
+    |> Site.ScheduleV2Controller.HoursOfOperation.call(schedules_fn: &schedules_fn/2)
 
     assert conn.assigns.hours_of_operation[:week][0].first_departure.hour == 6
     assert conn.assigns.hours_of_operation[:week][0].last_departure.hour == 23
@@ -37,7 +37,7 @@ defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
     conn = conn
     |> assign(:route, GreenLine.green_line())
     |> assign(:date, ~D[2017-02-28])
-    |> Site.ScheduleV2Controller.HoursOfOperation.call(schedules_fn: &schedules_fn/1)
+    |> Site.ScheduleV2Controller.HoursOfOperation.call(schedules_fn: &schedules_fn/2)
 
     assert conn.assigns.hours_of_operation[:week][0].first_departure.hour == 6
     assert conn.assigns.hours_of_operation[:week][0].last_departure.hour == 23

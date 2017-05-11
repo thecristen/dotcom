@@ -37,8 +37,8 @@ defmodule Site.ScheduleV2Controller.Schedules do
                     direction_id: direction_id,
                     origin: %Stops.Stop{id: origin_id}}}) do
     # return schedules that stop at the origin
-    [stop: origin_id, route: route_id, date: date, direction_id: direction_id]
-    |> Schedules.Repo.all
+    [route_id]
+    |> Schedules.Repo.by_route_ids(stop_ids: [origin_id], date: date, direction_id: direction_id)
     |> Enum.reject(&match?(%Schedules.Schedule{pickup_type: 1}, &1))
   end
 
