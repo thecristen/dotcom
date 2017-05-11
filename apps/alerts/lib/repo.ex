@@ -29,8 +29,8 @@ defmodule Alerts.Repo do
 
   @spec by_route_id_and_type(String.t, 0..4) :: [Alerts.Alert.t]
   def by_route_id_and_type(route_id, route_type) do
-    [route_id, nil]
-    |> by_route_ids()
-    |> Alerts.Match.match(%Alerts.InformedEntity{route_type: route_type})
+    route_id
+    |> Store.alert_ids_for_route_id_and_type(route_type)
+    |> Store.alerts()
   end
 end

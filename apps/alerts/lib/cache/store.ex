@@ -50,6 +50,11 @@ defmodule Alerts.Cache.Store do
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
+  def alert_ids_for_route_id_and_type(route_id, route_type) do
+    keys = [{{route_id, :"_", :"$1"}, [], [:"$1"]}, {{nil, route_type, :"$1"}, [], [:"$1"]}]
+    :ets.select(:route_id_and_type_to_alert_ids, keys)
+  end
+
   @doc """
   Retrieves the alert objects given a list of alert IDs. If an ID
   is passed that doesn't have a current alert, it is ignored.
