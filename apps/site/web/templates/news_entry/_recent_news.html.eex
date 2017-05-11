@@ -13,7 +13,7 @@
         <p class="news-metadata">
           <%= format_date(article.updated_at) %>
         </p>
-        <%= link article.title, to: "/node/#{article.id}", class: "recent-news-title" %>
+        <%= link article.title, to: news_entry_path(@conn, :show, article.id), class: "recent-news-title" %>
       </div>
     <% end %>
   </div>

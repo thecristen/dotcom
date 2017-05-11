@@ -27,5 +27,5 @@
 </div>
 
 <%= if render_recent_news?(@recent_news) do %>
-  <%= render "_recent_news.html", recent_news: @recent_news %>
+  <%= render "_recent_news.html", conn: @conn, recent_news: @recent_news %>
 <% end %>
