@@ -15,8 +15,7 @@ defmodule Site.ScheduleV2Controller do
     |> call_plug(Site.ScheduleV2Controller.Defaults)
     |> call_plug(Site.ScheduleV2Controller.AllStops)
     |> call_plug(Site.ScheduleV2Controller.RouteBreadcrumbs)
-    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
-    |> call_plug(Site.ScheduleV2Controller.Holidays)
+    |> line_pipeline([])
     |> call_plug(Site.ScheduleV2Controller.Line)
     |> render("show.html")
   end
@@ -38,5 +37,11 @@ defmodule Site.ScheduleV2Controller do
     |> assign(:tab, "trip-view")
     |> call_plug(Site.ScheduleV2Controller.TripView)
     |> render("show.html")
+  end
+
+  defp line_pipeline(conn, _) do
+    conn
+    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
+    |> call_plug(Site.ScheduleV2Controller.Holidays)
   end
 end
