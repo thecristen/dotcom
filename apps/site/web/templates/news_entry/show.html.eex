@@ -1,0 +1,31 @@
+<div class="news-entry">
+  <%= if @news_entry.featured_image do %>
+    <img class="news-featured-image"
+      src="<%= @news_entry.featured_image.url %>"
+      alt="<%= @news_entry.featured_image.alt %>"
+    />
+  <% end %>
+
+  <h1 class="news-title">
+    <%= @news_entry.title %>
+  </h1>
+
+  <p class="news-metadata">
+    Posted on <%= format_date(@news_entry.updated_at) %>
+  </p>
+
+  <div class="news-entry-body">
+    <%= Site.ContentRewriter.rewrite(@news_entry.body) %>
+  </div>
+
+  <div>
+    <%= if more_information = content(@news_entry.more_information) do %>
+      <h2>More Information</h2>
+      <%= more_information %>
+    <% end %>
+  </div>
+</div>
+
+<%= if render_recent_news?(@recent_news) do %>
+  <%= render "_recent_news.html", recent_news: @recent_news %>
+<% end %>

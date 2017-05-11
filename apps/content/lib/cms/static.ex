@@ -1,15 +1,15 @@
 defmodule Content.CMS.Static do
   @behaviour Content.CMS
 
-  @recent_news File.read!("priv/recent-news.json")
+  @news File.read!("priv/news.json")
   @basic_page File.read!("priv/accessibility.json")
   @project_update File.read!("priv/gov-center-project.json")
   @events File.read!("priv/events.json")
   @whats_happening File.read!("priv/whats-happening.json")
   @important_notices File.read!("priv/important-notices.json")
 
-  def recent_news_response do
-    Poison.Parser.parse!(@recent_news)
+  def news_response do
+    Poison.Parser.parse!(@news)
   end
 
   def basic_page_response do
@@ -34,7 +34,8 @@ defmodule Content.CMS.Static do
 
   def view(path, params \\ [])
   def view("/recent-news", _) do
-    {:ok, recent_news_response()}
+    recent_news = Enum.take(news_response(), 3)
+    {:ok, recent_news}
   end
   def view("/accessibility", _) do
     {:ok, basic_page_response()}
@@ -42,8 +43,9 @@ defmodule Content.CMS.Static do
   def view("/gov-center-project", _) do
     {:ok, project_update_response()}
   end
-  def view("/news/winter", _) do
-    {:ok, recent_news_response() |> List.first}
+  def view("/news", [id: id]) do
+    news_entry = Enum.filter(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
+    {:ok, news_entry}
   end
   def view("/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
