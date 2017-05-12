@@ -1,21 +1,25 @@
-<div class="row page-section trip-filters">
-  <%= if @route.type == 3 do %>
-    <%= render "_direction_select.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true %>
-    <%= if assigns[:show_variant_selector] do %>
-      <%= render "_variant_select.html", conn: @conn, shapes: @shapes, active_shape: @active_shape %>
-    <% end %>
-  <% end %>
-</div>
+<%= if @route.type == 3, do: render "_bus_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, shapes: @shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
 <% route_mode_class = @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>
 <div class="route-info page-section row">
+  <div class="col-xs-12 hidden-sm-up line-map-container">
+    <h2 class="h5 route-map-heading">Route Map</h5>
+    <img src="<%= @map_img_src %>" class="img-fluid">
+    <%= if display_map_link?(@route.type) do %>
+      <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
+        <%= fa "search-plus" %>
+        View map as a PDF
+      </a>
+    <% end %>
+  </div>
   <div class="col-xs-12 col-sm-6 <%= if @route.id == ~s(Green) do %> col-md-6 col-md-offset-1 col-lg-5<% end %>">
+    <h2 class="h5 hidden-sm-up route-stop-heading">Stops</h5>
     <div class="route-stop-list stop-group <%= route_mode_class %> row">
       <%= render @stop_list_template, assigns %>
     </div>
   </div>
   <div class="col-xs-12 col-sm-6 col-md-5 page-section route-hours">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="hidden-xs-down line-map-container">
         <img src="<%= @map_img_src %>" class="img-fluid">
         <%= if display_map_link?(@route.type) do %>
           <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
@@ -24,13 +28,13 @@
           </a>
         <% end %>
       </div>
-      <div class="col-xs-12 page-section">
+      <div class="col-xs-12">
         <%= if MapSet.new(@hours_of_operation, &elem(&1, 0)) == MapSet.new(~w(week saturday sunday)a) do %>
-          <h2>Hours of Operation</h2>
+          <h2 class="h3 hours-heading">Hours of Operation</h3>
           <div class="row">
             <%= for period <- [:week, :saturday, :sunday] do %>
               <div class="col-xs-12">
-                <h3 class="h5"><%= schedule_period(period) %>:</h3>
+                <h3 class="h5 hours-period-heading"><%= schedule_period(period) %>:</h5>
                 <%= for direction_id <- [1, 0] do %>
                   <p class="hours-directions">
                     <span class="hours-direction-name"><%= @route.direction_names[direction_id] %>:</span>

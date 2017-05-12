@@ -33,6 +33,59 @@
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+///// XS size margin and padding adjustments -- may be temporary pending
+///// introduction of sidewide base-font size reduction
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+.schedulev2view {
+  @include media-breakpoint-down(xs) {
+    font-size: $base-font-size-xs;
+
+    .alert-modal-container,
+    .date-filter,
+    .direction-filter,
+    .line-map-container,
+    .route-hours,
+    .route-map-heading,
+    .schedule-route-name,
+    .shape-filter,
+    .stop-filters,
+    .tab-selector-container,
+    .trip-filters,
+    .trip-list-v2,
+    .trip-schedules-pdf > a {
+      margin-bottom: $space-12;
+    }
+
+    .route-stop-heading {
+      margin-bottom: $space-4;
+    }
+
+    .page-section {
+      margin-top: $space-12;
+    }
+
+    .route-stop-list {
+      margin-bottom: 0;
+    }
+
+    .select-modal-label {
+      padding: $base-spacing-sm 0;
+    }
+
+    .trip-list-v2-row {
+      padding: $space-6 $space-12;
+    }
+
+    .trip-schedules-pdf {
+      margin-top: 0;
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 ///// TRIP LIST
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -314,6 +367,10 @@ a {
       display: none;
     }
   }
+}
+
+.line-map-container {
+  margin-bottom: $base-spacing;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -648,6 +705,19 @@ a {
   li {
     margin-left: -$space-18;
   }
+}
+
+.route-holiday-container {
+  margin-top: $base-spacing;
+}
+
+.hours-heading {
+  margin-bottom: 0;
+}
+
+.hours-period-heading {
+  margin-bottom: 0;
+  margin-top: $base-spacing-sm;
 }
 
 .schedule-v2-timetable-trip-message {
