@@ -433,10 +433,6 @@ a {
     .filter-icon-border {
       border-color: $btn-primary-focus-color;
     }
-
-    path {
-      fill: $btn-primary-focus-color;
-    }
   }
 }
 
@@ -455,7 +451,6 @@ a {
   bottom: 0;
   height: 2rem;
   margin: auto;
-  overflow: hidden;
   padding-right: $base-spacing-sm;
   position: absolute;
   right: 0;
@@ -483,6 +478,40 @@ a {
     path {
       fill: $brand-primary;
     }
+  }
+}
+
+.icon-calendar {
+  height: $base-spacing * 2;
+  stroke: $brand-primary;
+  width: $base-spacing * 2;
+
+  .icon-calendar-image {
+    fill: $brand-primary;
+    stroke: none;
+
+  }
+}
+
+.icon-direction {
+  height: $base-spacing * 2;
+  stroke: $brand-primary;
+  width: $base-spacing * 2;
+
+  .icon-direction-image {
+    fill: $brand-primary;
+    stroke: none;
+  }
+}
+
+.icon-variation {
+  height: $base-spacing * 2;
+  stroke: $brand-primary;
+  width: $base-spacing * 2;
+
+  .icon-variation-image {
+    fill: $brand-primary;
+    stroke: none;
   }
 }
 

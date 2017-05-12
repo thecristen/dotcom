@@ -6,7 +6,7 @@
         <div><%= Timex.format!(@date, "{Mfull} {D}, {YYYY}") %></div>
       </div>
       <div class="filter-icon">
-        <div class="filter-icon-border"><%= fa "calendar" %></div>
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :calendar, show_tooltip?: false}) %>
       </div>
     <% end %>
   </div>

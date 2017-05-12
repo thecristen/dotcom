@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="filter-icon">
-      <div class="filter-icon-border"><%= fa "exchange" %></div>
+      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :direction, show_tooltip?: false}) %>
     </div>
   <% end %>
 </div>
