@@ -27,7 +27,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:expanded, expanded)
     |> assign(:active_lines, active_lines)
     |> assign(:stop_features, stop_features(stops, route))
-    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, route.type, shapes))
+    |> assign(:map_img_src, map_img_src(conn.assigns.all_stops, route.type, route.id, shapes))
     |> assign(:route, route)
   end
   def call(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Red"} = route}} = conn, _args) do
@@ -52,7 +52,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:merge_stop_id, "place-jfk")
     |> assign(:braintree_branch_stops, braintree)
     |> assign(:ashmont_branch_stops, ashmont)
-    |> assign(:map_img_src, map_img_src((shared_stops ++ braintree_stops ++ ashmont_stops) |> Enum.map(& &1.station_info), conn.assigns.route.type, shapes))
+    |> assign(:map_img_src, map_img_src((shared_stops ++ braintree_stops ++ ashmont_stops) |> Enum.map(& &1.station_info), conn.assigns.route.type, route.id, shapes))
   end
   def call(%Plug.Conn{assigns: %{direction_id: direction_id, route: %Routes.Route{type: 3} = route}} = conn, _args) do
     shapes = Routes.Repo.get_shapes(route.id, direction_id)
@@ -69,7 +69,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:shapes, shapes)
     |> assign(:active_shape, shape)
     |> assign(:show_variant_selector, show_variant_selector)
-    |> assign(:map_img_src, map_img_src(route_stops |> Enum.map(& &1.station_info), route.type, [shape]))
+    |> assign(:map_img_src, map_img_src(route_stops |> Enum.map(& &1.station_info), route.type, route.id, [shape]))
   end
   def call(%Plug.Conn{assigns: %{route: route}} = conn, _args) do
     direction_id = 0 # Always use the outbound direction
@@ -79,7 +79,7 @@ defmodule Site.ScheduleV2Controller.Line do
     conn
     |> assign(:stop_list_template, "_stop_list.html")
     |> assign(:stops, route_stops)
-    |> assign(:map_img_src, map_img_src(Enum.map(route_stops, & &1.station_info), route.type, shapes))
+    |> assign(:map_img_src, map_img_src(Enum.map(route_stops, & &1.station_info), route.type, route.id, shapes))
   end
 
   defp get_route_stops(shapes, route, direction_id) do
@@ -144,34 +144,39 @@ defmodule Site.ScheduleV2Controller.Line do
   map.
 
   """
-  @spec map_img_src([Stops.Stop.t], 0..4, [Routes.Shape.t] | [nil]) :: String.t
-  def map_img_src(_, 4, _) do
+  @spec map_img_src([Stops.Stop.t], Routes.Route.id_t, String.t, [Routes.Shape.t] | [nil]) :: String.t
+  def map_img_src(_, 4, _, _) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
-  def map_img_src(_, _, [nil]) do
+  def map_img_src(_, _, _, [nil]) do
     ""
   end
-  def map_img_src(stops, route_type, shapes) do
+  def map_img_src(stops, route_type, route_id, shapes) do
     paths = shapes
     |> Enum.map(& &1.polyline)
     |> PolylineHelpers.condense
-    |> Enum.map(&{:path, "enc:#{&1}"})
+    |> Enum.map(&{:path, "color:0x#{map_color(route_type, route_id)}FF|enc:#{&1}"})
 
     opts = paths ++ [
-      markers: markers(stops, route_type)
+      markers: markers(stops, route_type, route_id)
     ]
 
     GoogleMaps.static_map_url(600, 600, opts)
   end
 
-  defp markers(stops, 3) do
+  @spec map_color(String.t, String.t) :: String.t
+  defp map_color(3, _id), do: "FFCE0C"
+  defp map_color(2, _id), do: "A00A78"
+  defp map_color(_type, "Blue"), do: "0064C8"
+  defp map_color(_type, "Red"), do: "FF1428"
+  defp map_color(_type, "Mattapan"), do: "FF1428"
+  defp map_color(_type, "Orange"), do: "FF8200"
+  defp map_color(_type, "Green"), do: "428608"
+  defp map_color(_type, _id), do: "0064C8"
+
+  defp markers(stops, type, id) do
     ["anchor:center",
-     path(stops)]
-    |> Enum.join("|")
-  end
-  defp markers(stops, _type) do
-    ["anchor:center",
-     "icon:#{icon_path()}",
+     "icon:#{icon_path(type, id)}",
      path(stops)]
     |> Enum.join("|")
   end
@@ -186,8 +191,8 @@ defmodule Site.ScheduleV2Controller.Line do
     "#{Float.floor(latitude, 4)},#{Float.floor(longitude, 4)}"
   end
 
-  defp icon_path() do
-    static_url(Site.Endpoint, "/images/map_red_dot_icon.png")
+  defp icon_path(type, id) do
+    static_url(Site.Endpoint, "/images/map-#{map_color(type, id)}-dot-icon.png")
   end
 
   @doc """
