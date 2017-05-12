@@ -11,6 +11,11 @@ defmodule Mix.Tasks.Fares.Locations do
   require Logger
   alias Fares.RetailLocations.{Data, Extractor}
 
+  @moduledoc """
+    In order to run this task, get content.csv from the wiki repo (https://github.com/mbta/wiki/blob/master/old-website/content/content.csv).
+    If there are updates required for that file, submit a pull request to the wiki repo with the changes in order to keep it up to date with
+    the json file it generates in this repo.
+  """
   def run(args) do
     arguments = %{
       input_file: Enum.at(args, 0, Data.file_path("content.csv")),
