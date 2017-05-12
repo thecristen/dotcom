@@ -178,6 +178,13 @@ defmodule Site.StopViewTest do
     end
   end
 
+  describe "has_alerts?/3" do
+    alerts = [%Alerts.Alert{active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}], description: "description", effect_name: "Access Issue", header: "header", id: "1"}]
+    date = ~D[2017-05-11]
+    informed_entity = %Alerts.InformedEntity{direction_id: 1, route: "556", route_type: nil, stop: nil, trip: nil}
+    assert !has_alerts?(alerts, date, informed_entity)
+  end
+
   def do_safe_to_string(elements) when is_list(elements) do
     elements
     |> Enum.map(&Phoenix.HTML.safe_to_string/1)
