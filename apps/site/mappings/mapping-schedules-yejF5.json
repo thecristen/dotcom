@@ -1,7 +1,7 @@
 {
   "uuid" : "6b038fd9-17fd-372f-8c6b-8fce019116fb",
   "request" : {
-    "url" : "/schedules/?stop=Framingham&date=2017-06-14&include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "url" : "/schedules/?stop=Framingham&include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name&date=2017-06-14",
     "method" : "GET"
   },
   "response" : {
