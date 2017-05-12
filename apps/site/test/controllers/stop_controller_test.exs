@@ -81,12 +81,12 @@ defmodule Site.StopControllerTest do
     assert conn.assigns.terminal_station == ""
   end
 
-  test "does not assign stop alerts on info page", %{conn: conn} do
+  test "does assign stop alerts on info page", %{conn: conn} do
     conn = conn
     |> assign(:all_alerts, @alerts)
     |> get(stop_path(conn, :show, "place-sstat", tab: "info"))
 
-    refute conn.assigns[:stop_alerts]
+    assert conn.assigns[:stop_alerts]
   end
 
   test "assigns nearby fare retail locations", %{conn: conn} do

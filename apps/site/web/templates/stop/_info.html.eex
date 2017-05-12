@@ -1,3 +1,4 @@
+<%= Site.AlertView.modal alerts: @stop_alerts, hide_t_alerts: true, time: @date, route: %{id: @stop.id |> String.replace(" ", "-"), name: @stop.name} %>
 <div id="station-info" class="page-section">
   <h2>Parking</h2>
   <%= if !Enum.empty?(@stop.parking_lots) do %>
