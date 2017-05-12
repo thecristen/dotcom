@@ -144,7 +144,7 @@ defmodule Site.ScheduleV2Controller.Line do
   map.
 
   """
-  @spec map_img_src([Stops.Stop.t], 0..4, String.t, [Routes.Shape.t] | [nil]) :: String.t
+  @spec map_img_src([Stops.Stop.t], Routes.Route.id_t, String.t, [Routes.Shape.t] | [nil]) :: String.t
   def map_img_src(_, 4, _, _) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
