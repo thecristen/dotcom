@@ -20,8 +20,8 @@ defmodule Schedules.Repo do
     |> Keyword.put(:route, Enum.join(route_ids, ","))
     |> add_optional_param(opts, :date)
     |> add_optional_param(opts, :direction_id)
-    |> add_optional_param(opts, :stop_ids, :stop)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
+    |> add_optional_param(opts, :stop_ids, :stop)
     |> cache(&all_from_params/1)
   end
 
