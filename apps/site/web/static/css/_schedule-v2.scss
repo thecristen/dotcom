@@ -305,11 +305,6 @@ a {
     border: $border-md;
     border-bottom-width: $border-width * 3;
     border-color: $brand-primary;
-
-    // .trip-duration {
-    //   border-bottom-color: $brand-primary;
-    //   border-bottom-width: $border-width * 2;
-    // }
   }
 }
 
@@ -738,4 +733,26 @@ a {
   max-width: 15rem;
   padding: .5rem;
   padding-bottom: 0;
+}
+
+@include media-breakpoint-up(sm) {
+  .route-info {
+    display: flex;
+  }
+
+  .stop-list-container {
+    // scss-lint:disable DuplicateProperty
+    display: inline-block;
+    display: flex;
+    flex-basis: 60%;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding-right: $base-spacing;
+  }
+
+  .route-hours {
+    display: inline-block;
+    flex: 0 1 100%;
+  }
 }

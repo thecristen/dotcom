@@ -251,18 +251,16 @@ defmodule Site.ScheduleV2ControllerTest do
       assert html_response(conn, 200) =~ "Red Line"
 
       assert [%Stops.RouteStops{branch: nil, stops: unbranched_stops},
-              %Stops.RouteStops{branch: "Braintree", stops: braintree_stops},
-              %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops}] = branches
+              %Stops.RouteStops{branch: "Braintree", stops: [braintree]},
+              %Stops.RouteStops{branch: "Ashmont", stops: [ashmont]}] = branches
 
       # stops are in southbound order
       assert List.first(unbranched_stops).id == "place-alfcl"
       assert List.last(unbranched_stops).id == "place-jfk"
 
-      assert List.first(ashmont_stops).id == "place-shmnl"
-      assert List.last(ashmont_stops).id == "place-asmnl"
+      assert ashmont.id == "place-asmnl"
 
-      assert List.first(braintree_stops).id == "place-nqncy"
-      assert List.last(braintree_stops).id == "place-brntn"
+      assert braintree.id == "place-brntn"
 
       # includes the stop features
       assert unbranched_stops |> List.first() |> Map.get(:stop_features) == [:bus, :access]

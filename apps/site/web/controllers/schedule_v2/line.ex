@@ -19,31 +19,36 @@ defmodule Site.ScheduleV2Controller.Line do
 
     conn
     |> assign(:expanded, conn.query_params["expanded"])
-    |> assign(:branches, remove_collapsed_stops(branches, route.id, conn.query_params["expanded"]))
+    |> assign(:branches, remove_collapsed_stops(branches, conn.query_params["expanded"]))
     |> assign(:all_shapes, all_shapes)
     |> assign(:active_shape, if route.type == 3 do List.first(active_shapes) else nil end)
     |> assign(:map_img_src, map_img_src)
   end
 
-  defp get_all_shapes("Green", direction_id) do
+  @doc """
+  """
+  def get_all_shapes("Green", direction_id) do
     GreenLine.branch_ids()
     |> Enum.map(& Task.async(fn -> get_all_shapes(&1, direction_id) end))
     |> Enum.flat_map(&Task.await/1)
   end
-  defp get_all_shapes(route_id, direction_id) do
+  def get_all_shapes(route_id, direction_id) do
     Routes.Repo.get_shapes(route_id, direction_id)
   end
 
-  defp get_branches(all_shapes, _active_shape, %Routes.Route{id: "Green"}, _direction_id) do
+  @doc """
+  Gets a list of RouteStops representing all of the branches on the route. Routes without branches will have
+  """
+  def get_branches(all_shapes, _active_shape, %Routes.Route{id: "Green"}, _direction_id) do
     GreenLine.branch_ids()
     |> Enum.map(&get_green_branch(&1, all_shapes))
     |> Enum.map(&Task.await/1)
     |> Enum.reverse()
   end
-  defp get_branches(_, active_shapes, %Routes.Route{type: 3} = route, direction_id) do
+  def get_branches(_, active_shapes, %Routes.Route{type: 3} = route, direction_id) do
     do_get_branches(active_shapes, route, direction_id)
   end
-  defp get_branches(all_shapes, _, route, direction_id), do: do_get_branches(all_shapes, route, direction_id)
+  def get_branches(all_shapes, _, route, direction_id), do: do_get_branches(all_shapes, route, direction_id)
 
   defp do_get_branches(shapes, route, direction_id) do
     route.id
@@ -62,15 +67,19 @@ defmodule Site.ScheduleV2Controller.Line do
     end)
   end
 
-  defp remove_collapsed_stops(branches, "Green", expanded) do
+  defp remove_collapsed_stops([all_stops], _), do: [all_stops]
+  defp remove_collapsed_stops(branches, expanded) do
     Enum.map(branches, & do_remove_collapsed_stops(&1, expanded))
   end
-  defp remove_collapsed_stops(branches, _, _), do: branches
 
+  defp do_remove_collapsed_stops(%Stops.RouteStops{branch: nil} = branch, _), do: branch
   defp do_remove_collapsed_stops(%Stops.RouteStops{branch: branch_id} = branch, branch_id), do: branch
-  defp do_remove_collapsed_stops(%Stops.RouteStops{branch: branch_id} = branch, _) do
-    {shared, not_shared} = Enum.split_while(branch.stops, & &1.id != GreenLine.split_id(branch_id))
+  defp do_remove_collapsed_stops(%Stops.RouteStops{branch: "Green-" <> _} = branch, _) do
+    {shared, not_shared} = Enum.split_while(branch.stops, & &1.id != GreenLine.split_id(branch.branch))
     %{branch | stops: shared ++ [List.last(not_shared)]}
+  end
+  defp do_remove_collapsed_stops(%Stops.RouteStops{} = branch, _) do
+    %{branch | stops: [List.last(branch.stops)]}
   end
 
   defp get_active_shapes(shapes, %Routes.Route{type: 3}, variant, _expanded) do
@@ -124,16 +133,9 @@ defmodule Site.ScheduleV2Controller.Line do
   def map_img_src(_, %Routes.Route{type: 4}) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
-  def map_img_src({stops, shapes}, %Routes.Route{id: "Green"} = route) do
-    shapes
-    |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
-    |> Enum.map(&{:path, "color:0x#{map_color(route.type, route.id)}FF|enc:#{&1}"})
-    |> do_map_img_src(stops, route)
-  end
   def map_img_src({stops, shapes}, route) do
     shapes
-    |> Enum.map(& &1.polyline)
-    |> PolylineHelpers.condense
+    |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
     |> Enum.map(&{:path, "color:0x#{map_color(route.type, route.id)}FF|enc:#{&1}"})
     |> do_map_img_src(stops, route)
   end

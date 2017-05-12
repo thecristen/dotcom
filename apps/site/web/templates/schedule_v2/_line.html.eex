@@ -1,6 +1,6 @@
 <%= if @route.type == 3, do: render "_bus_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, all_shapes: @all_shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
-<div class="route-info page-section row">
-  <div class="col-xs-12 hidden-sm-up line-map-container">
+<div class="route-info page-section">
+  <div class="hidden-sm-up line-map-container">
     <h2 class="h5 route-map-heading">Route Map</h5>
     <img src="<%= @map_img_src %>" class="img-fluid">
     <%= if display_map_link?(@route.type) do %>
@@ -10,12 +10,11 @@
       </a>
     <% end %>
   </div>
-  <div class="col-xs-12 col-sm-6 <%= if @route.id == ~s(Green) do %> col-md-6 col-md-offset-1 col-lg-5<% end %>">
+  <div class="stop-list-container">
     <h2 class="h5 hidden-sm-up route-stop-heading">Stops</h5>
-    <%= render "_stop_list.html", assigns %>
+    <%= render "_stop_list.html", Map.put(assigns, :show_vehicle?, false) %>
   </div>
-  <div class="col-xs-12 col-sm-6 col-md-5 page-section route-hours">
-    <div class="row">
+  <div class="page-section route-hours">
       <div class="hidden-xs-down line-map-container">
         <img src="<%= @map_img_src %>" class="img-fluid">
         <%= if display_map_link?(@route.type) do %>
@@ -25,12 +24,10 @@
           </a>
         <% end %>
       </div>
-      <div class="col-xs-12">
+      <div class="hours">
         <%= if MapSet.new(@hours_of_operation, &elem(&1, 0)) == MapSet.new(~w(week saturday sunday)a) do %>
           <h2 class="h3 hours-heading">Hours of Operation</h3>
-          <div class="row">
             <%= for period <- [:week, :saturday, :sunday] do %>
-              <div class="col-xs-12">
                 <h3 class="h5 hours-period-heading"><%= schedule_period(period) %>:</h5>
                 <%= for direction_id <- [1, 0] do %>
                   <p class="hours-directions">
@@ -38,13 +35,11 @@
                     <span class="hours-time"><%= Schedules.Departures.display_departures(@hours_of_operation[period][direction_id]) %></span>
                   </p>
                 <% end %>
-              </div>
             <% end %>
           </div>
         <% end %>
         <%= render "_holidays.html", assigns %>
         <%= route_pdf_link(@route, @date) %>
       </div>
-    </div>
   </div>
 </div>
