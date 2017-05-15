@@ -30,15 +30,27 @@ defmodule Site.ScheduleV2Controller.Defaults do
   If there's no headsign for a direction, default to the other direction. Otherwise, default to
   inbound before 1:00pm and outbound afterwards.
   """
+  @spec default_direction_id(Conn.t) :: 0..1
   def default_direction_id(%{assigns: %{headsigns: %{0 => []}}}), do: 1
   def default_direction_id(%{assigns: %{headsigns: %{1 => []}}}), do: 0
   def default_direction_id(%Conn{assigns: %{route: %Route{id: route_id}}} = conn) do
-    # silver line should be outbound in morning, inbound otherwise
-    if route_id == "741" or route_id == "742" do
-      if conn.assigns.date_time.hour <= 13, do: 0, else: 1
+    direction_id = default_direction_id_for_hour(conn.assigns.date_time.hour)
+    if route_id in ["741", "742"] do
+      # silver line should be outbound in morning, inbound otherwise
+      invert_direction_id(direction_id)
     else
-      if conn.assigns.date_time.hour <= 13, do: 1, else: 0
+      direction_id
     end
+  end
+
+  @spec default_direction_id_for_hour(0..23) :: 0..1
+  defp default_direction_id_for_hour(hour) do
+    if hour <= 13, do: 1, else: 0
+  end
+
+  @spec invert_direction_id(0..1) :: 0..1
+  defp invert_direction_id(direction_id) do
+    if direction_id == 1, do: 0, else: 1
   end
 
   def assign_show_date_select(conn, _) do
