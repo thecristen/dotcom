@@ -32,8 +32,13 @@ defmodule Site.ScheduleV2Controller.Defaults do
   """
   def default_direction_id(%{assigns: %{headsigns: %{0 => []}}}), do: 1
   def default_direction_id(%{assigns: %{headsigns: %{1 => []}}}), do: 0
-  def default_direction_id(conn) do
-    if conn.assigns.date_time.hour <= 13, do: 1, else: 0
+  def default_direction_id(%Conn{assigns: %{route: %Route{id: route_id}}} = conn) do
+    # silver line should be outbound in morning, inbound otherwise
+    if route_id == "741" or route_id == "742" do
+      if conn.assigns.date_time.hour <= 13, do: 0, else: 1
+    else
+      if conn.assigns.date_time.hour <= 13, do: 1, else: 0
+    end
   end
 
   def assign_show_date_select(conn, _) do
