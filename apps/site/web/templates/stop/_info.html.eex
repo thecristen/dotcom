@@ -1,4 +1,4 @@
-<%= Site.AlertView.modal alerts: @stop_alerts, hide_t_alerts: true, time: @date, route: %{id: @stop.id |> String.replace(" ", "-"), name: @stop.name} %>
+<%= render_alerts(@stop_alerts, @date, @stop) %>
 <div id="station-info" class="page-section">
   <h2>Parking</h2>
   <%= if !Enum.empty?(@stop.parking_lots) do %>
@@ -11,13 +11,6 @@
 
   <h2>Accessibility</h2>
   <%= accessibility_info(@stop) %>
-  <ul class="alert-list">
-    <%= for alert <- @access_alerts do %>
-      <li class="alert-list-item">
-        <%= render Site.AlertView, "_item.html", alert: alert, time: @date %>
-      </li>
-    <% end %>
-  </ul>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <%= unless Enum.empty?(types) do %>

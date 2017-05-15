@@ -1,4 +1,4 @@
-<%= Site.AlertView.modal alerts: @stop_alerts, hide_t_alerts: true, time: @date, route: %{id: @stop.id |> String.replace(" ", "-"), name: @stop.name} %>
+<%= render_alerts(@stop_alerts, @date, @stop) %>
 <%= for {mode, route_times} <- @upcoming_route_departures do %>
   <%= render schedule_template(mode), forward_assigns(@conn |> Plug.Conn.assign(:mode, mode) |> Plug.Conn.assign(:route_times, route_times)) %>
 <% end %>
