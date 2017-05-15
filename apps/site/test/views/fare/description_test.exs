@@ -36,6 +36,13 @@ defmodule Site.FareView.DescriptionTest do
         "Unlimited travel for one calendar month on the Inner Express Bus, Local Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
     end
 
+    test "mentions zone 1a fares as part of the description for month passes on subway" do
+      fare = %Fare{duration: :month, mode: :subway}
+      assert fare |> description(%{}) |> iodata_to_binary =~ "Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
+      fare = %Fare{duration: :month, mode: :subway, reduced: :student}
+      assert fare |> description(%{}) |> iodata_to_binary =~ "Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
+    end
+
     test "can make a description for every fare" do
       for fare <- Fares.Repo.all() do
         result = description(fare, %{})

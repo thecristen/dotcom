@@ -71,14 +71,10 @@ defmodule Site.FareView.Description do
     "Free transfer to one additional Local Bus included."
   end
   def description(%Fare{mode: :subway, duration: :month, reduced: :student}, _assigns) do
-    ["Unlimited travel for one calendar month on the Subway",
-     "Local Bus",
-     "Inner Express Bus",
-     "Outer Express Bus."
-    ] |> and_join
+    "Unlimited travel for one calendar month on the Subway, Local Bus, Inner Express Bus, and Outer Express Bus. Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
   end
   def description(%Fare{mode: :subway, duration: :month}, _assigns) do
-    "Unlimited travel for one calendar month on the Local Bus and Subway."
+    "Unlimited travel for one calendar month on the Local Bus and Subway. Valid on the Commuter Rail through Zone 1A when printed on a CharlieTicket."
   end
   def description(%Fare{mode: :subway, duration: duration}, _assigns) when duration in [:day, :week] do
     "Can be used for the Subway, Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
