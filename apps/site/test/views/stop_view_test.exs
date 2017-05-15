@@ -1,6 +1,7 @@
 defmodule Site.StopViewTest do
   @moduledoc false
   import Site.StopView
+  import Phoenix.HTML, only: [safe_to_string: 1]
   alias Stops.Stop
   alias Routes.Route
   alias Schedules.Schedule
@@ -178,18 +179,16 @@ defmodule Site.StopViewTest do
     end
   end
 
+  @alerts [%Alerts.Alert{active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}], description: "description", effect_name: "Access Issue", header: "header", id: "1"}]
+  
   describe "has_alerts?/3" do
-    alerts = [%Alerts.Alert{active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}], description: "description", effect_name: "Access Issue", header: "header", id: "1"}]
     date = ~D[2017-05-11]
     informed_entity = %Alerts.InformedEntity{direction_id: 1, route: "556", route_type: nil, stop: nil, trip: nil}
-    assert !has_alerts?(alerts, date, informed_entity)
+    assert !has_alerts?(@alerts, date, informed_entity)
   end
 
-  def do_safe_to_string(elements) when is_list(elements) do
-    elements
-    |> Enum.map(&Phoenix.HTML.safe_to_string/1)
-    |> Enum.join("")
+  describe "render_alerts/3" do
+    response = render_alerts(@alerts, ~D[2017-05-11], %Stop{id: "2438"})
+    assert safe_to_string(response) =~ "alert-list-item"
   end
-  def do_safe_to_string(string) when is_binary(string), do: string
-  def do_safe_to_string(element), do: Phoenix.HTML.safe_to_string(element)
 end
