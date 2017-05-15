@@ -52,5 +52,21 @@ defmodule Site.ScheduleV2Controller.DefaultsTest do
       |> Defaults.call([])
       assert conn.assigns.direction_id == 1
     end
+
+    test "silverline is 1 when id is not in params and after 1:59pm", %{conn: conn} do
+      conn = conn
+      |> assign(:route, %Route{id: "741", type: 3})
+      |> assign(:date_time, ~N[2017-01-25T14:00:00])
+      |> Defaults.call([])
+      assert conn.assigns.direction_id == 1
+    end
+
+    test "silverline is 0 when id is not in params and before 1:59pm", %{conn: conn} do
+      conn = conn
+      |> assign(:route, %Route{id: "741", type: 3})
+      |> assign(:date_time, ~N[2017-01-25T13:00:00])
+      |> Defaults.call([])
+      assert conn.assigns.direction_id == 0
+    end
   end
 end
