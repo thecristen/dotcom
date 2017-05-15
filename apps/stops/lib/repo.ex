@@ -6,6 +6,8 @@ defmodule Stops.Repo do
   alias Stops.Position
   alias Stops.Stop
 
+  @type stop_feature :: Routes.Route.route_type | Routes.Route.subway_lines_type | :access
+
   def stations do
     cache [], fn _ ->
       Stops.Api.all
@@ -61,19 +63,27 @@ defmodule Stops.Repo do
   @doc """
   Returns a list of the features associated with the given stop
   """
-  @spec stop_features(Stop.t) :: [atom]
+  @spec stop_features(Stop.t) :: [stop_feature]
   def stop_features(stop) do
-    stop.id
-    |> Routes.Repo.by_stop
-    |> Enum.map(&Routes.Route.icon_atom/1)
-    |> Enum.uniq()
-    |> add_accessibility(stop.accessibility)
+    [
+      route_features(stop.id),
+      accessibility_features(stop.accessibility)
+    ]
+    |> Enum.concat()
     |> Enum.sort_by(&sort_feature_icons/1)
   end
 
-  @spec add_accessibility([atom], [String.t]) :: [atom]
-  defp add_accessibility(stop_features, ["accessible" | _]), do: [:access | stop_features]
-  defp add_accessibility(stop_features, _), do: stop_features
+  @spec route_features(String.t) :: [stop_feature]
+  defp route_features(stop_id) do
+    stop_id
+    |> Routes.Repo.by_stop
+    |> Enum.map(&Routes.Route.icon_atom/1)
+    |> Enum.uniq()
+  end
+
+  @spec accessibility_features([String.t]) :: [:access]
+  defp accessibility_features(["accessible" | _]), do: [:access]
+  defp accessibility_features(_), do: []
 
   @spec sort_feature_icons(atom) :: integer
   defp sort_feature_icons(:commuter_rail), do: 0

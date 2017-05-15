@@ -34,7 +34,7 @@ defmodule Stops.RouteStop do
     branch: branch_name_t,
     stop_number: stop_number_t,
     station_info: Stops.Stop.t,
-    stop_features: [Routes.Route.route_type | Routes.Route.subway_lines_type | :accessible],
+    stop_features: [Stops.Repo.stop_feature],
     is_terminus?: boolean
   }
 
@@ -104,7 +104,7 @@ defmodule Stops.RouteStop do
   end
 
   # Remove the stop_feature for the given route
-  @spec filtered_stop_features(Stop.t, Routes.Route.t) :: [atom]
+  @spec filtered_stop_features(Stop.t, Routes.Route.t) :: [Routes.Repo.stop_feature]
   defp filtered_stop_features(stop, route) do
     stop
     |> Stops.Repo.stop_features()

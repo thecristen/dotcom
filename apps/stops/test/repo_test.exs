@@ -71,5 +71,10 @@ defmodule Stops.RepoTest do
     test "returns stop features in correct order" do
       assert stop_features(@stop) == [:commuter_rail, :red_line, :bus]
     end
+
+    test "accessibility added if relevant" do
+      features = stop_features(%{@stop | accessibility: ["accessible"]})
+      assert features == [:commuter_rail, :red_line, :bus, :access]
+    end
   end
 end
