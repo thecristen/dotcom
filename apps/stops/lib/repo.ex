@@ -57,6 +57,29 @@ defmodule Stops.Repo do
     |> by_route(direction_id)
     |> Enum.any?(&(&1.id == stop_id))
   end
+
+  @doc """
+  Returns a list of the features associated with the given stop
+  """
+  @spec stop_features(Stop.t) :: [atom]
+  def stop_features(stop) do
+    stop.id
+    |> Routes.Repo.by_stop
+    |> Enum.map(&Routes.Route.icon_atom/1)
+    |> Enum.uniq()
+    |> add_accessibility(stop.accessibility)
+    |> Enum.sort_by(&sort_feature_icons/1)
+  end
+
+  @spec add_accessibility([atom], [String.t]) :: [atom]
+  defp add_accessibility(stop_features, ["accessible" | _]), do: [:access | stop_features]
+  defp add_accessibility(stop_features, _), do: stop_features
+
+  @spec sort_feature_icons(atom) :: integer
+  defp sort_feature_icons(:commuter_rail), do: 0
+  defp sort_feature_icons(:bus), do: 2
+  defp sort_feature_icons(:access), do: 10
+  defp sort_feature_icons(_), do: 1
 end
 
 defmodule Stops.NotFoundError do
