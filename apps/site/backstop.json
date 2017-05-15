@@ -175,19 +175,19 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1?date=2017-06-14&direction_id=0&trip=&origin=place-cntsq",
+      "url": "http://localhost:8082/schedules/1/trip_view?date=2017-06-14&direction_id=0&trip=&origin=place-cntsq",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red?date=2017-06-14&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://localhost:8082/schedules/Red/trip_view?date=2017-06-14&direction_id=1&origin=place-sstat&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence?date=2017-06-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2017-06-14&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "selectors": ["main"],
       "delay": 100
     },

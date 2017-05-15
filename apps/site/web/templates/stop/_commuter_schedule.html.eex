@@ -25,7 +25,7 @@
         <%= for {headsign, departures} <- route_time.departures do %>
           <% departure = List.first(departures) %>
           <% trip = PredictedSchedule.trip(departure) %>
-          <%= link class: "station-route-row", to: schedule_path(@conn, :show, route_time.route.id, trip: trip.id, origin: @stop.id, direction_id: route_time.direction_id, tab: "trip-view") do %>
+          <%= link class: "station-route-row", to: trip_view_path(@conn, :show, route_time.route.id, trip: trip.id, origin: @stop.id, direction_id: route_time.direction_id) do %>
             <div class="col-xs-12 mode-route-name" role="cell">
               <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail, class: "icon-small"}) %>
               <%= route_time.route.name %>

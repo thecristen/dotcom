@@ -24,12 +24,19 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :hide_destination_selector
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.RouteBreadcrumbs
-  plug :tab_assigns
 
   @task_timeout 10_000
 
   def green(conn, _params) do
     conn
+    |> assign(:tab, "trip-view")
+    |> render(Site.ScheduleV2View, "show.html")
+  end
+
+  def line(conn, _params) do
+    conn
+    |> assign(:tab, "line")
+    |> tab_assigns()
     |> render(Site.ScheduleV2View, "show.html")
   end
 
@@ -171,13 +178,13 @@ defmodule Site.ScheduleV2Controller.Green do
     end)
   end
 
-  defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn, _opts) do
+  defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn) do
     conn
     |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
     |> call_plug(Site.ScheduleV2Controller.Holidays)
     |> call_plug(Site.ScheduleV2Controller.Line)
   end
-  defp tab_assigns(conn, _opts), do: conn
+  defp tab_assigns(conn), do: conn
 
   defp flat_map_results(results) do
     Enum.flat_map(results, &flat_map_ok/1)

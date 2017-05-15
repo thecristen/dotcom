@@ -1,12 +1,17 @@
-defmodule Site.ScheduleV2Controller.Timetable do
-  @moduledoc """
-  Plug builder for the Timetable schedule tab
-  """
-  use Plug.Builder
+defmodule Site.ScheduleV2Controller.TimetableController do
+  use Site.Web, :controller
 
+  plug Site.Plugs.Route
+  plug Site.Plugs.Date
+  plug Site.Plugs.DateTime
+  plug :tab_name
   plug Site.ScheduleV2Controller.Core
   plug :assign_trip_schedules
   plug Site.ScheduleV2Controller.Offset
+
+  def show(conn, _) do
+    render(conn, Site.ScheduleV2View, "show.html")
+  end
 
   # Plug that assigns trip schedule to the connection
   defp assign_trip_schedules(conn, _) do
@@ -61,4 +66,6 @@ defmodule Site.ScheduleV2Controller.Timetable do
   defp trip_messages(_, _) do
     %{}
   end
+
+  defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
 end

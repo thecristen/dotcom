@@ -35,7 +35,12 @@ defmodule Site.Router do
     get "/schedules/bus", ModeController, :bus
     get "/schedules/ferry", ModeController, :ferry
     get "/schedules/commuter_rail", ModeController, :commuter_rail
+    get "/schedules/Green/line", ScheduleV2Controller.Green, :line
+    get "/schedules/Green/trip_view", ScheduleV2Controller.Green, :green
     get "/schedules/Green", ScheduleV2Controller.Green, :green
+    get "/schedules/:route/timetable", ScheduleV2Controller.TimetableController, :show, as: :timetable
+    get "/schedules/:route/trip_view", ScheduleV2Controller.TripViewController, :show, as: :trip_view
+    get "/schedules/:route/line", ScheduleV2Controller.LineController, :show, as: :line
     get "/schedules/:route", ScheduleV2Controller, :show, as: :schedule
     get "/schedules/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
     get "/style_guide", StyleGuideController, :index
