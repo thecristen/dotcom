@@ -18,10 +18,6 @@
     margin: $space-4;
   }
 
-  .mode-group-block {
-    margin-top: $grid-gutter-width / 2;
-  }
-
   &.truncated {
     @include media-breakpoint-up(xs) {
       .button-container:last-child {
