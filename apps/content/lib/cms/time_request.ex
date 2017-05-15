@@ -8,9 +8,11 @@ defmodule Content.CMS.TimeRequest do
   Wraps an HTTP call and times how long the request takes.  Returns the HTTP response.
 
   """
-  @spec time_request(String.t, Keyword.t) :: HTTPoison.Response.t
-  def time_request(url, params) do
-    {time, response} = :timer.tc(HTTPoison, :get, [url, [], [params: params]])
+  @spec time_request(atom, String.t, String.t, Keyword.t, Keyword.t) ::
+    {:ok, HTTPoison.Response.t} |
+    {:error, HTTPoison.Error}
+  def time_request(method, url, body \\ "", headers \\ [], params \\ []) do
+    {time, response} = :timer.tc(HTTPoison, :request, [method, url, body, headers, [params: params]])
     log_response(time, url, params, response)
     response
   end

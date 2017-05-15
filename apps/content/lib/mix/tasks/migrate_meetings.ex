@@ -10,8 +10,8 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
   Example usage:
   ```
   env DRUPAL_ROOT=http://mbta.kbox.site \
-  env DRUPAL_USERNAME=username \
-  env DRUPAL_PASSWORD=password \
+  DRUPAL_USERNAME=username \
+  DRUPAL_PASSWORD=password \
   mix content.migrate_meetings ~/path/to/meeting/files/*.json
   ```
   """
@@ -68,10 +68,10 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
     |> Poison.Parser.parse!()
   end
 
-  defp print_response(%HTTPoison.Response{status_code: 200}, filename) do
+  defp print_response(:updated, filename) do
     Mix.shell.info "Successfully updated #{filename}."
   end
-  defp print_response(%HTTPoison.Response{status_code: 201}, filename) do
+  defp print_response(:created, filename) do
     Mix.shell.info "Successfully created #{filename}."
   end
   defp print_response(response, filename) do
@@ -81,10 +81,6 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
     """
   end
 
-  defp notify_developers(%HTTPoison.Response{status_code: code}, meeting_json) do
-    reason = "The CMS returned the status code #{code}."
-    Content.Mailer.meeting_migration_error_notice(reason, meeting_json)
-  end
   defp notify_developers(reason, meeting_json) do
     Content.Mailer.meeting_migration_error_notice(reason, meeting_json)
   end
