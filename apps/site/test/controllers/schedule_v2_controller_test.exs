@@ -144,7 +144,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "frequency table does not have negative values for Green Line", %{conn: conn} do
-      conn = get(conn, schedule_path(conn, :show, "Green", origin: "place-north"))
+      conn = get(conn, trip_view_path(conn, :show, "Green", origin: "place-north"))
       for frequency <- conn.assigns.frequency_table.frequencies do
         assert frequency.min_headway > 0
         assert frequency.max_headway > 0
@@ -377,5 +377,33 @@ defmodule Site.ScheduleV2ControllerTest do
     {:ok, naive_dt} = NaiveDateTime.new(date, ~T[12:00:00])
     {:ok, dt} = DateTime.from_naive(naive_dt, "Etc/UTC")
     {date, dt}
+  end
+
+  describe "tab redirects" do
+    test "timetable tab", %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "CR-Worcester", tab: "timetable", origin: "place-sstat"))
+      path = redirected_to(conn, 302)
+      path =~ timetable_path(conn, :show, "CR-Worcester")
+      path =~ "origin=place-sstat"
+      refute path =~ "tab="
+    end
+
+    test "trip_view tab", %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "1", tab: "trip-view", origin: "64", destination: "6"))
+      path = redirected_to(conn, 302)
+      path =~ trip_view_path(conn, :show, "1")
+      path =~ "origin=64"
+      path =~ "destination=6"
+    end
+
+    test "trip_view as default", %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "1"))
+      assert redirected_to(conn, 302) == trip_view_path(conn, :show, "1")
+    end
+
+    test "line tab", %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "Red", tab: "line"))
+      assert redirected_to(conn, 302) == line_path(conn, :show, "Red")
+    end
   end
 end

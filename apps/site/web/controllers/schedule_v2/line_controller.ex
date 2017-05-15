@@ -6,7 +6,8 @@ defmodule Site.ScheduleV2Controller.LineController do
   plug Site.Plugs.DateTime
   plug :tab_name
   plug Site.ScheduleV2Controller.Defaults
-  plug :assign_all_alerts
+  plug :all_alerts
+  plug Site.Plugs.UpcomingAlerts
   plug Site.ScheduleV2Controller.AllStops
   plug Site.ScheduleV2Controller.RouteBreadcrumbs
   plug Site.ScheduleV2Controller.HoursOfOperation
@@ -19,5 +20,5 @@ defmodule Site.ScheduleV2Controller.LineController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
 
-  defp assign_all_alerts(conn, _), do: Site.ControllerHelpers.assign_all_alerts(conn, [])
+  defp all_alerts(conn, _), do: Site.ControllerHelpers.assign_all_alerts(conn, [])
 end

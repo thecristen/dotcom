@@ -36,7 +36,9 @@ defmodule Site.ScheduleV2Controller.Green do
   def line(conn, _params) do
     conn
     |> assign(:tab, "line")
-    |> tab_assigns()
+    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
+    |> call_plug(Site.ScheduleV2Controller.Holidays)
+    |> call_plug(Site.ScheduleV2Controller.Line)
     |> render(Site.ScheduleV2View, "show.html")
   end
 
@@ -177,14 +179,6 @@ defmodule Site.ScheduleV2Controller.Green do
        }
     end)
   end
-
-  defp tab_assigns(%Plug.Conn{assigns: %{tab: "line"}} = conn) do
-    conn
-    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
-    |> call_plug(Site.ScheduleV2Controller.Holidays)
-    |> call_plug(Site.ScheduleV2Controller.Line)
-  end
-  defp tab_assigns(conn), do: conn
 
   defp flat_map_results(results) do
     Enum.flat_map(results, &flat_map_ok/1)
