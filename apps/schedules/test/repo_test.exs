@@ -3,7 +3,7 @@ defmodule Schedules.RepoTest do
   use Timex
   import Schedules.Repo
   import Mock
-  alias Schedules.{Schedule, Stop}
+  alias Schedules.Schedule
 
   describe "by_route_ids/2" do
     test "can take a route/direction/sequence/date" do
@@ -33,7 +33,7 @@ defmodule Schedules.RepoTest do
         direction_id: 0,
         stop_sequences: ["first"])
       assert response != []
-      assert %Stop{id: "place-alfcl", name: "Alewife"} == List.first(response).stop
+      assert %{id: "place-alfcl", name: "Alewife"} = List.first(response).stop
     end
 
     test "inbound Lowell with stop_sequence: first includes Anderson/ Woburn trip" do
@@ -49,8 +49,8 @@ defmodule Schedules.RepoTest do
         direction_id: 1,
         stop_sequences: "first")
 
-      assert Enum.any?(response, &match?(%Schedule{stop: %Stop{id: "Lowell"}}, &1))
-      assert Enum.any?(response, &match?(%Schedule{stop: %Stop{id: "Anderson/ Woburn"}}, &1))
+      assert Enum.any?(response, &match?(%Schedule{stop: %{id: "Lowell"}}, &1))
+      assert Enum.any?(response, &match?(%Schedule{stop: %{id: "Anderson/ Woburn"}}, &1))
     end
 
     test "if we get an error from the API, returns an error tuple" do

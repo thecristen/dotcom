@@ -45,10 +45,7 @@ defmodule Predictions.Parser do
   defp upcoming_status?(status), do: String.ends_with?(status, "away")
 
   defp stop([stop | _]) do
-    case stop.relationships["parent_station"] do
-      [%{id: parent_id, attributes: %{"name" => parent_name}} | _] -> %Schedules.Stop{name: parent_name, id: parent_id}
-      _ -> %Schedules.Stop{id: stop.id, name: stop.attributes["name"]}
-    end
+    Stops.Repo.get!(stop.id)
   end
 
   @spec schedule_relationship(String.t) :: Prediction.schedule_relationship

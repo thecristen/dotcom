@@ -6,6 +6,7 @@ defmodule TripInfoTest do
   alias Routes.Route
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
   alias Vehicles.Vehicle
 
   @route %Route{id: "1", name: "1", type: 3}
@@ -15,29 +16,29 @@ defmodule TripInfoTest do
       time: ~N[2017-01-01T00:00:00],
       trip: @trip,
       route: @route,
-      stop: %Schedules.Stop{id: "place-sstat", name: "South Station"}}},
-    %PredictedSchedule{schedule: %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}}},
-    %PredictedSchedule{schedule: %Schedule{stop: %Schedules.Stop{id: "skipped during collapse"}}},
+      stop: %Stop{id: "place-sstat", name: "South Station"}}},
+    %PredictedSchedule{schedule: %Schedule{stop: %Stop{id: "skipped during collapse"}}},
+    %PredictedSchedule{schedule: %Schedule{stop: %Stop{id: "skipped during collapse"}}},
     %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-02T00:00:00],
       trip: @trip,
       route: @route,
-      stop: %Schedules.Stop{id: "place-north", name: "North Station"}}},
+      stop: %Stop{id: "place-north", name: "North Station"}}},
     %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-02T12:00:00],
       trip: @trip,
       route: @route,
-      stop: %Schedules.Stop{id: "place-censq", name: "Central Square"}}},
+      stop: %Stop{id: "place-censq", name: "Central Square"}}},
     %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-02T18:00:00],
       trip: @trip,
       route: @route,
-      stop: %Schedules.Stop{id: "place-harsq", name: "Harvard Square"}}},
+      stop: %Stop{id: "place-harsq", name: "Harvard Square"}}},
     %PredictedSchedule{schedule: %Schedule{
       time: ~N[2017-01-03T00:00:00],
       trip: @trip,
       route: @route,
-      stop: %Schedules.Stop{id: "place-pktrm", name: "Park Street"}}}]
+      stop: %Stop{id: "place-pktrm", name: "Park Street"}}}]
   @info %TripInfo{
     route: @route,
     origin_id: "place-sstat",

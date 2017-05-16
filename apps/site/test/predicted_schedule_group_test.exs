@@ -4,7 +4,8 @@ defmodule PredictedScheduleGroupTest do
 
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.{Schedule, Stop, Trip}
+  alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
 
   describe "PredictedScheduleGroup.build_prediction_map" do
     test "makes prediction_map for just origin" do

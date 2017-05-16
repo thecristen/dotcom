@@ -44,27 +44,18 @@ defmodule Schedules.ParserTest do
             type: "trip"}]},
       type: "schedule"}
 
-    expected = %Schedules.Schedule{
-      route: %Routes.Route{
-        id: "CR-Lowell",
-        type: 2,
-        name: "Lowell Line"},
-      trip: %Schedules.Trip{
-        id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
-        name: "300",
-        headsign: "North Station",
-        direction_id: 1
-      },
-      stop: %Schedules.Stop{
-        id: "Lowell",
-        name: "Lowell"
-      },
-      time: Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
-      flag?: true,
-      pickup_type: 3
+    actual = Schedules.Parser.parse(api_item)
+    assert actual.route == Routes.Repo.get("CR-Lowell")
+    assert actual.trip == %Schedules.Trip{
+      id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
+      name: "300",
+      headsign: "North Station",
+      direction_id: 1
     }
-
-    assert Schedules.Parser.parse(api_item) == expected
+    assert actual.stop == Stops.Repo.get!("Lowell")
+    assert actual.time == Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4")
+    assert actual.flag?
+    assert actual.pickup_type == 3
   end
 
   test "route parsing uses the short_name if the long_name is empty" do

@@ -3,6 +3,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
   import Site.ScheduleV2View
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -58,7 +59,7 @@ defmodule Site.ScheduleV2ViewTest do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}}
       trip = %Trip{direction_id: 1}
       stop_times = StopTimeList.build(
-        [%Schedules.Schedule{route: route, trip: trip, stop: %Schedules.Stop{id: "stop"}}],
+        [%Schedules.Schedule{route: route, trip: trip, stop: %Stop{id: "stop"}}],
         [],
         "stop",
         nil,
@@ -71,7 +72,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "uses predictions if no schedule are available (as on subways)" do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}, id: "1"}
-      stop = %Schedules.Stop{id: "stop"}
+      stop = %Stop{id: "stop"}
       now = Timex.now
       stop_times = StopTimeList.build_predictions_only(
         [],
@@ -226,8 +227,8 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "Schedule Alerts" do
     @route %Routes.Route{type: 1, id: "1"}
-    @schedule %Schedule{route: @route, trip: %Trip{id: "trip"}, stop: %Schedules.Stop{id: "stop"}}
-    @prediction %Prediction{route: @route, trip: %Trip{id: "trip_pred"}, stop: %Schedules.Stop{id: "stop_pred"}, status: "Nearby"}
+    @schedule %Schedule{route: @route, trip: %Trip{id: "trip"}, stop: %Stop{id: "stop"}}
+    @prediction %Prediction{route: @route, trip: %Trip{id: "trip_pred"}, stop: %Stop{id: "stop_pred"}, status: "Nearby"}
 
     @alerts [
         %Alerts.Alert{
@@ -440,7 +441,7 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "when there is a prediction for the stop and trip, returns that prediction", %{conn: conn} do
-      prediction = %Predictions.Prediction{stop: %Schedules.Stop{id: "place-sstat"}, trip: %Schedules.Trip{id: "1234"}, status: "Now Boarding", track: 4}
+      prediction = %Predictions.Prediction{stop: %Stop{id: "place-sstat"}, trip: %Schedules.Trip{id: "1234"}, status: "Now Boarding", track: 4}
       conn = conn
       |> assign(:vehicle_predictions, [prediction])
 

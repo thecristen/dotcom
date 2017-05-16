@@ -1,7 +1,7 @@
 defmodule Predictions.RepoTest do
   use ExUnit.Case
   alias Predictions.Repo
-  alias Schedules.Stop
+  alias Stops.Stop
 
   describe "all/1" do
     test "returns a list" do

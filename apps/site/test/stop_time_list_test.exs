@@ -2,7 +2,8 @@ defmodule StopTimeListTest do
   use ExUnit.Case, async: true
   import StopTimeList
 
-  alias Schedules.{Schedule, Trip, Stop}
+  alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
   alias Predictions.Prediction
   alias Routes.Route
 

@@ -22,7 +22,7 @@
       <% else %>
         <div class="stop-group">
           <%= for {predicted_schedule, flags} <- times_or_separator do %>
-            <% %Schedules.Stop{id: stop_id, name: stop_name} = PredictedSchedule.stop(predicted_schedule) %>
+            <% %Stops.Stop{id: stop_id, name: stop_name} = PredictedSchedule.stop(predicted_schedule) %>
             <%= render "_trip_info_row.html",
                 name: stop_name,
                 href: stop_path(@conn, :show, stop_id),

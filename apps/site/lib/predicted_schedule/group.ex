@@ -1,7 +1,8 @@
 defmodule PredictedSchedule.Group do
 
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Stop, Trip}
+  alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
 
   @type schedule_pair_t :: {Schedule.t, Schedule.t}
   @type stop_id_to_prediction_map_t :: %{Stops.Stop.id_t => Prediction.t}
@@ -10,7 +11,7 @@ defmodule PredictedSchedule.Group do
   @type prediction_map_t :: %{map_key_t => stop_id_to_prediction_map_t}
 
   @doc "Groups predictions by stop_id and trip and builds a map %{Trip => %{stop_id => Prediction}}."
-  @spec build_prediction_map([Prediction.t], [Schedule.t | schedule_pair_t], Stops.Stop.id_t, Stops.Stop.id_t | nil) :: prediction_map_t
+  @spec build_prediction_map([Prediction.t], [Schedule.t | schedule_pair_t], Stop.id_t, Stop.id_t | nil) :: prediction_map_t
   def build_prediction_map(predictions, schedules, origin_id, destination_id) do
     predictions
     |> Enum.reduce(%{}, &prediction_map_builder/2)

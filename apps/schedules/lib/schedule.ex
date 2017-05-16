@@ -3,7 +3,7 @@ defmodule Schedules.Schedule do
   @type t :: %Schedules.Schedule{
     route: Routes.Route.t,
     trip: Schedules.Trip.t,
-    stop: Schedules.Stop.t,
+    stop: Stops.Stop.t,
     time: DateTime.t,
     flag?: boolean,
     stop_sequence: non_neg_integer,
@@ -21,14 +21,6 @@ defmodule Schedules.Trip do
     name: String.t,
     headsign: String.t,
     direction_id: 0 | 1
-  }
-end
-
-defmodule Schedules.Stop do
-  defstruct [:id, :name]
-  @type t :: %Schedules.Stop{
-    id: String.t,
-    name: String.t
   }
 end
 
