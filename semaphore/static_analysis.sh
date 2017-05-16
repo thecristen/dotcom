@@ -1,8 +1,10 @@
 #/usr/bin/env bash
 set -e
 
+# run pronto in background
 bash <(curl -s https://codecov.io/bash) -t $CODECOV_UPLOAD_TOKEN
-MIX_ENV=test pronto run -f github github_status -c origin/master || true
+MIX_ENV=test pronto run -f github github_status -c origin/master &
+pronto_pid=$!
 
 # check for unsed variables and such
 mix compile --force --warnings-as-errors
@@ -20,3 +22,5 @@ mix dialyzer --plt
 cp _build/dev/*_deps-dev.plt* $SEMAPHORE_CACHE_DIR
 
 mix dialyzer --halt-exit-status
+
+wait $pronto_pid
