@@ -5,6 +5,7 @@ defmodule Site.AlertController do
   plug :all_routes
   plug :all_alerts
   plug Site.Plugs.UpcomingAlerts
+  plug Site.Plug.Mticket
 
   @access_route_ids ["Elevator", "Escalator", "Lift"]
   @access_routes @access_route_ids

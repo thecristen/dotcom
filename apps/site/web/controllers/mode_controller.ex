@@ -3,6 +3,7 @@ defmodule Site.ModeController do
 
   plug Site.Plugs.Date
   plug Site.Plugs.DateTime
+  plug Site.Plug.Mticket
 
   alias Site.Mode
 

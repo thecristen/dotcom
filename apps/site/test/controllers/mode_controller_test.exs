@@ -15,4 +15,25 @@ defmodule Site.ModeControllerTest do
     |> get(mode_path(conn, :index, route: "CR-Fitchburg"))
     |> redirected_to() == "/schedules/CR-Fitchburg"
   end
+
+  describe "mTicket detection" do
+    test "mTicket matched", %{conn: conn} do
+      response = conn
+      |> put_req_header("user-agent", "Java/1.8.0_91")
+      |> get(mode_path(conn, :commuter_rail))
+      |> html_response(200)
+
+      assert response =~ "mticket-notice"
+      assert response =~ "access schedules:"
+      assert response =~ "/schedules/commuter_rail"
+    end
+
+    test "mTicket not matched", %{conn: conn} do
+      response = conn
+      |> get(mode_path(conn, :commuter_rail))
+      |> html_response(200)
+
+      refute response =~ "mticket-notice"
+    end
+  end
 end
