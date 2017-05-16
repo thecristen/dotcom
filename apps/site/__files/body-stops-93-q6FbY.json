@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-hymnl"}}},"links":{"self":"/stops/93"},"id":"93","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ Newbury St","longitude":-71.087903,"latitude":42.347888}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "3d92aaa3-babb-395d-9293-ecb9d2463628",
+  "request" : {
+    "url" : "/schedules/?stop=Framingham&include=trip%2Croute&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name&date=2017-06-14",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-LapZE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 19:40:05 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "7a8u9a65of226jooatfp0cue9lm5adrk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

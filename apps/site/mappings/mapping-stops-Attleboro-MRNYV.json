@@ -1,0 +1,19 @@
+{
+  "uuid" : "81287310-650d-3a54-805d-193d3c8cbbdd",
+  "request" : {
+    "url" : "/stops/Attleboro",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Attleboro-MRNYV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 19:39:59 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "441vjdcrn4h3l93c8l2m727rk09rgdkt",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "1577203d-4e16-39b7-aa5e-9613cb34f1b9",
+  "request" : {
+    "url" : "/stops/89",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-89-gOMRu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 19:39:43 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nchsolth0f0vbtdemqc193sla79hb4pl",
+      "Connection" : "keep-alive"
+    }
+  }
+}

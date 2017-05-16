@@ -1,0 +1,19 @@
+{
+  "uuid" : "b6858167-d616-3355-970a-6bd3b2cb4f6d",
+  "request" : {
+    "url" : "/stops/Sharon",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Sharon-y2HNq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 19:39:59 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "149prp34qj0lgbekmsmjumvsjopqg4e5",
+      "Connection" : "keep-alive"
+    }
+  }
+}
