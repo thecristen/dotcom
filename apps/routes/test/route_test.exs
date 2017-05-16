@@ -29,4 +29,13 @@ defmodule Routes.RouteTest do
       end
     end
   end
+
+  describe "types_for_mode/1" do
+    test "returns correct mode list for each mode" do
+      assert types_for_mode(:subway) == [0, 1]
+      assert types_for_mode(:commuter_rail) == [2]
+      assert types_for_mode(:bus) == [3]
+      assert types_for_mode(:ferry) == [4]
+    end
+  end
 end
