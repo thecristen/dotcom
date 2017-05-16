@@ -34,7 +34,7 @@ defmodule Stops.RouteStop do
     branch: branch_name_t,
     stop_number: stop_number_t,
     station_info: Stops.Stop.t,
-    stop_features: [Routes.Route.route_type | Routes.Route.subway_lines_type | :accessible],
+    stop_features: [Stops.Repo.stop_feature],
     is_terminus?: boolean
   }
 
@@ -99,34 +99,17 @@ defmodule Stops.RouteStop do
       stop_number: number,
       is_terminus?: is_terminus?,
       zone: Zones.Repo.get(stop.id),
-      stop_features: get_stop_features(stop.id, route, stop.accessibility)
+      stop_features: filtered_stop_features(stop, route)
     }
   end
 
-  @doc """
-  Builds the stop_features list for a RouteStop.
-  """
-  @spec get_stop_features(Stops.Stop.id_t, Routes.Route.t, [atom]) :: [atom]
-  def get_stop_features(stop_id, %Routes.Route{} = route, accessibility_features) do
-    route_feature = Routes.Route.icon_atom(route)
-    stop_id
-    |> Routes.Repo.by_stop
-    |> Enum.map(&Routes.Route.icon_atom/1)
-    |> Enum.reject(& &1 == route_feature)
-    |> Enum.uniq()
-    |> add_accessibility(accessibility_features)
-    |> Enum.sort_by(&sort_feature_icons/1)
+  # Remove the stop_feature for the given route
+  @spec filtered_stop_features(Stop.t, Routes.Route.t) :: [Routes.Repo.stop_feature]
+  defp filtered_stop_features(stop, route) do
+    stop
+    |> Stops.Repo.stop_features()
+    |> Enum.reject(& &1 == Routes.Route.icon_atom(route))
   end
-
-  @spec add_accessibility([atom], [String.t]) :: [atom]
-  defp add_accessibility(stop_features, ["accessible" | _]), do: [:access | stop_features]
-  defp add_accessibility(stop_features, _), do: stop_features
-
-  @spec sort_feature_icons(atom) :: integer
-  defp sort_feature_icons(:commuter_rail), do: 0
-  defp sort_feature_icons(:bus), do: 2
-  defp sort_feature_icons(:access), do: 10
-  defp sort_feature_icons(_), do: 1
 
   @spec merge_branch_list([[RouteStop.t]], direction_id_t) :: [RouteStop.t]
   defp merge_branch_list(branches, direction_id) do

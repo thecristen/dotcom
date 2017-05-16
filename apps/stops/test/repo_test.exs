@@ -58,4 +58,23 @@ defmodule Stops.RepoTest do
       refute Enum.find(response, & &1.id == "place-boyls")
     end
   end
+
+  describe "stop_features/1" do
+    @stop %Stop{id: "place-sstat"}
+    test "Returns stop features for a given stop" do
+      features = stop_features(@stop)
+      assert :commuter_rail in features
+      assert :red_line in features
+      assert :bus in features
+    end
+
+    test "returns stop features in correct order" do
+      assert stop_features(@stop) == [:commuter_rail, :red_line, :bus]
+    end
+
+    test "accessibility added if relevant" do
+      features = stop_features(%{@stop | accessibility: ["accessible"]})
+      assert features == [:commuter_rail, :red_line, :bus, :access]
+    end
+  end
 end
