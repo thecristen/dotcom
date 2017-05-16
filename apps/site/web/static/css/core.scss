@@ -91,7 +91,6 @@ body {
 .announcement-container {
   background-color: $gray-lightest;
   color: $gray-dark;
-  margin-bottom: -$footer-padding-top;
   padding-bottom: $base-spacing-sm;
   padding-top: $base-spacing-sm;
 
@@ -101,9 +100,12 @@ body {
   }
 }
 
-.sticky-footer .announcement-container {
+.footer-announcement-container {
+  margin-bottom: -$footer-padding-top;
+}
+
+.sticky-footer .footer-announcement-container {
   margin-bottom: 0;
-  padding-bottom: $base-spacing-sm + $footer-padding-top / 2;
 }
 
 .beta-announcement {

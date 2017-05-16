@@ -1,4 +1,4 @@
-<div class="announcement-container">
+<div class="announcement-container footer-announcement-container">
   <div class="container">
     <div class="beta-announcement">
       Thank you for using the MBTA beta site. <%= link "Submit your thoughts", to: feedback_form_url(), target: "_blank", class: "beta-announcement-link" %> to help us make the best possible website for you.
