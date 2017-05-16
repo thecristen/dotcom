@@ -191,4 +191,12 @@ defmodule Site.StopViewTest do
     response = render_alerts(@alerts, ~D[2017-05-11], %Stop{id: "2438"})
     assert safe_to_string(response) =~ "alert-list-item"
   end
+
+  describe "feature_icons/1" do
+    test "returns list of featured icons" do
+      [red_icon, access_icon | _] = feature_icons(%DetailedStop{features: [:red_line, :access]})
+      assert safe_to_string(red_icon) =~ "icon-red-line"
+      assert safe_to_string(access_icon) =~ "icon-access"
+    end
+  end
 end

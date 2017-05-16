@@ -18,7 +18,7 @@ defmodule Site.StopController do
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
     mode_atom = String.to_existing_atom(mode)
     conn
-    |> async_assign(:stop_info, fn -> grouped_stations(mode_atom) end)
+    |> async_assign(:stop_info, fn -> DetailedStopGroup.from_mode(mode_atom) end)
     |> assign(:mode, mode_atom)
     |> assign(:breadcrumbs, ["Stations"])
     |> await_assign(:stop_info)
@@ -136,30 +136,5 @@ defmodule Site.StopController do
 
   defp all_alerts(conn, _opts) do
     assign(conn, :all_alerts, Alerts.Repo.all())
-  end
-
-  @spec grouped_stations(Routes.gtfs_route_type) :: [grouped_stations]
-  defp grouped_stations(:subway), do: :subway |> stations_for_mode() |> group_green_line()
-  defp grouped_stations(mode), do: stations_for_mode(mode)
-
-  @spec stations_for_mode(Routes.gtfs_route_type) :: [grouped_stations]
-  defp stations_for_mode(mode) do
-    mode
-    |> Route.types_for_mode()
-    |> Routes.Repo.by_type()
-    |> ParallelStream.map(&{&1, Stops.Repo.by_route(&1.id, 0)})
-    |> Enum.into([])
-  end
-
-  @spec group_green_line([grouped_stations]) :: [grouped_stations]
-  defp group_green_line(grouped_stations) do
-    {green_branches, others} = grouped_stations
-                               |> Enum.partition(&String.starts_with?(elem(&1, 0).id, "Green-"))
-
-    green_stops = green_branches
-                  |> Enum.flat_map(&elem(&1, 1))
-                  |> Enum.uniq
-
-    [{%{name: "Green Line", id: "Green"}, green_stops} | others]
   end
 end

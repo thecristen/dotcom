@@ -63,14 +63,15 @@ defmodule Stops.Repo do
   @doc """
   Returns a list of the features associated with the given stop
   """
-  @spec stop_features(Stop.t) :: [stop_feature]
-  def stop_features(stop) do
+  @spec stop_features(Stop.t, [stop_feature]) :: [stop_feature]
+  def stop_features(stop, excluded \\ []) do
     [
       route_features(stop.id),
       parking_features(stop.parking_lots),
       accessibility_features(stop.accessibility)
     ]
     |> Enum.concat()
+    |> Enum.reject(& &1 in excluded)
     |> Enum.sort_by(&sort_feature_icons/1)
   end
 

@@ -3,7 +3,7 @@
     <%= break_text_at_slash(@stop.name) %>
   </div>
   <div class="route-branch-stop-icons">
-    <%= Enum.map(@stop.stop_features, &stop_feature_icon/1)%>
+    <%= Enum.map(@stop.stop_features, &Site.StopView.stop_feature_icon(&1))%>
   </div>
 </div>
 <%= if @stop.zone do %>
