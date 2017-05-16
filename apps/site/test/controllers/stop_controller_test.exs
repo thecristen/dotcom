@@ -24,6 +24,13 @@ defmodule Site.StopControllerTest do
     end
   end
 
+  test "assigns stop_info for each mode", %{conn: conn} do
+    for mode <- [:subway, :ferry, :commuter_rail] do
+      conn = get(conn, stop_path(conn, :show, mode))
+      assert conn.assigns.stop_info
+    end
+  end
+
   test "shows stations", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "place-portr")
     assert html_response(conn, 200) =~ "Porter"
