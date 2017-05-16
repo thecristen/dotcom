@@ -5,7 +5,7 @@ defmodule Site.ScheduleV2ViewTest do
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
   import Site.ScheduleV2View
-  import Site.ScheduleV2View.StopList, only: [build_stop_list: 1, add_expand_link?: 2,
+  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
                                               stop_bubble_content: 4,
                                               view_branch_link: 3, stop_bubble_location_display: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
@@ -378,6 +378,8 @@ defmodule Site.ScheduleV2ViewTest do
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
+              all_stops: [{[:terminus], %Stops.RouteStop{id: "stop 1", name: "Stop 1"}},
+                          {[:terminus], %Stops.RouteStop{id: "stop 2", name: "Stop 2"}}],
               all_shapes: [@shape, @shape],
               active_shape: @shape,
               expanded: nil,
@@ -404,14 +406,16 @@ defmodule Site.ScheduleV2ViewTest do
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
+              all_stops: [{[:terminus], %Stops.RouteStop{id: "stop 1", branch: nil, name: "Stop 1"}},
+                          {[:terminus], %Stops.RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}}],
               all_shapes: [@shape],
               expanded: nil,
               active_shape: nil,
               map_img_src: nil,
               hours_of_operation: @hours_of_operation,
               holidays: [],
-              branches: [%Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "stop 1", name: "Stop 1"},
-                                                                %Stops.RouteStop{id: "stop 2", name: "Stop 2"}]}],
+              branches: [%Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "stop 1", branch: nil, name: "Stop 1"},
+                                                                %Stops.RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}]}],
               route: %Routes.Route{type: 3},
               date: ~D[2017-01-01],
               destination: nil,
@@ -801,32 +805,6 @@ defmodule Site.ScheduleV2ViewTest do
         "Green-C" => ["place-smary", "place-clmnl"],
       }
       assert add_expand_link?(%Stops.RouteStop{id: "place-griggs", branch: "Green-B"}, green_line) == false
-    end
-  end
-
-  describe "build_stop_list" do
-    test "takes a list of branches and builds a list of all stops in a route" do
-      branches = for branch <- [nil, "branch_1", "branch_2"] do
-        stops = for stop_number <- [1, 2] do
-          %Stops.RouteStop{id: "#{branch || "nil"} stop #{stop_number}", branch: branch, is_terminus?: stop_number == 2}
-        end
-        %Stops.RouteStops{branch: branch, stops: stops}
-      end
-      assert [{[:terminus], %Stops.RouteStop{id: "nil stop 1"}} | list] = build_stop_list(branches)
-      assert assert {[:terminus], %Stops.RouteStop{id: "branch_2 stop 2"}} = List.last(list)
-    end
-
-    test "builds a list for route with no branches" do
-      stops = for id <- 1..10 do
-        %Stops.RouteStop{id: "#{id}", branch: nil, is_terminus?: id == 1 || id == 10}
-      end
-      expected = stops
-      |> Util.EnumHelpers.with_first_last()
-      |> Enum.map(fn {stop, is_terminus?} ->
-        type = if is_terminus?, do: :terminus, else: :stop
-        {[type], %{stop | branch: nil}}
-      end)
-      assert build_stop_list([%Stops.RouteStops{branch: "branch", stops: stops}]) == expected
     end
   end
 

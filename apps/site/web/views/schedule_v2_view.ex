@@ -1,6 +1,6 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
-  import Site.ScheduleV2View.StopList, only: [build_stop_list: 1, add_expand_link?: 2,
+  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
                                               stop_bubble_content: 4,
                                               view_branch_link: 3, stop_bubble_location_display: 3]
 

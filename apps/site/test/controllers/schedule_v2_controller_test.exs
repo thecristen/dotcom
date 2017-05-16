@@ -194,7 +194,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
 
       # make sure each stop has a zone
-      for stop <- stops  do
+      for stop <- stops do
         assert stop.zone
       end
 
@@ -337,6 +337,32 @@ defmodule Site.ScheduleV2ControllerTest do
       conn = get conn, line_path(conn, :show, "9", direction_id: 1)
 
       assert conn.assigns.active_shape.id == "090096"
+    end
+  end
+
+  describe "build_stop_list" do
+    test "takes a list of branches and builds a list of all stops in a route" do
+      branches = for branch <- [nil, "branch_1", "branch_2"] do
+        stops = for stop_number <- [1, 2] do
+          %Stops.RouteStop{id: "#{branch || "nil"} stop #{stop_number}", branch: branch, is_terminus?: stop_number == 2}
+        end
+        %Stops.RouteStops{branch: branch, stops: stops}
+      end
+      assert [{[:terminus], %Stops.RouteStop{id: "nil stop 1"}} | list] = Site.ScheduleV2Controller.Line.build_stop_list(branches)
+      assert assert {[:terminus], %Stops.RouteStop{id: "branch_2 stop 2"}} = List.last(list)
+    end
+
+    test "builds a list for route with no branches" do
+      stops = for id <- 1..10 do
+        %Stops.RouteStop{id: "#{id}", branch: nil, is_terminus?: id == 1 || id == 10}
+      end
+      expected = stops
+      |> Util.EnumHelpers.with_first_last()
+      |> Enum.map(fn {stop, is_terminus?} ->
+        type = if is_terminus?, do: :terminus, else: :stop
+        {[type], %{stop | branch: nil}}
+      end)
+      assert Site.ScheduleV2Controller.Line.build_stop_list([%Stops.RouteStops{branch: "branch", stops: stops}]) == expected
     end
   end
 

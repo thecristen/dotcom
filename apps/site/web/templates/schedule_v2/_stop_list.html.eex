@@ -1,15 +1,13 @@
 <div class="route-branch-stop-list stop-group <%= @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>">
   <%=
-    all_stops = build_stop_list(@branches)
-
     branch_names = @branches |> Enum.map(& &1.branch) |> Enum.reverse() |> Enum.reject(&is_nil/1)
 
-    branch_stops = all_stops
+    branch_stops = @all_stops
     |> Enum.chunk_by(fn {_, stop} -> stop.branch end)
     |> Enum.map(fn [{_, stop}|_] = stops -> {stop.branch, Enum.map(stops, fn {_, stp} -> stp.id end)} end)
     |> Enum.into(%{})
 
-    for {bubbles, stop} <- all_stops do
+    for {bubbles, stop} <- @all_stops do
       bubbles = case branch_names do
         [] -> Enum.map(bubbles, & {&1, nil})
         [_|_] -> Enum.zip(bubbles, branch_names)
