@@ -1,6 +1,6 @@
 defmodule Site.ScheduleV2Controller do
   use Site.Web, :controller
-  import Site.ControllerHelpers, only: [call_plug: 2]
+  import Site.ControllerHelpers, only: [call_plug: 2, assign_all_alerts: 2]
 
   alias Routes.Route
 
@@ -13,6 +13,8 @@ defmodule Site.ScheduleV2Controller do
     conn
     |> assign(:tab, "line")
     |> call_plug(Site.ScheduleV2Controller.Defaults)
+    |> assign_all_alerts([])
+    |> call_plug(Site.Plugs.UpcomingAlerts)
     |> call_plug(Site.ScheduleV2Controller.AllStops)
     |> call_plug(Site.ScheduleV2Controller.RouteBreadcrumbs)
     |> line_pipeline([])

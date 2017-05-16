@@ -40,6 +40,11 @@ defmodule Site.StopView do
     end)
   end
 
+  @spec render_alerts([Alerts.Alert], DateTime.t, Stop.t) :: Phoenix.HTML.Safe.t | String.t
+  def render_alerts(stop_alerts, date, stop) do
+    Site.AlertView.modal alerts: stop_alerts, hide_t_alerts: true, time: date, route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name}
+  end
+
   @spec fare_mode([atom]) :: atom
   @doc "Determine what combination of bus and subway are present in given types"
   def fare_mode(types) do

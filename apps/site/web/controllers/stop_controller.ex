@@ -66,6 +66,7 @@ defmodule Site.StopController do
     |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
+    |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign_all()
   end
   defp tab_assigns(%{assigns: %{tab: "schedule", all_alerts: alerts}} = conn, stop) do
