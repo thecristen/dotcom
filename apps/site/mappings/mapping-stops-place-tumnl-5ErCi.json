@@ -1,0 +1,19 @@
+{
+  "uuid" : "331bcd8d-05c1-3206-86e9-beece54f5701",
+  "request" : {
+    "url" : "/stops/place-tumnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-tumnl-5ErCi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:22 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "rbleujv3igoeobtk14antrtcfml7hja1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

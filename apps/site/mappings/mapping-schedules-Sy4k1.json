@@ -1,0 +1,18 @@
+{
+  "uuid" : "a2f35583-2000-39fd-bd67-c14b145a0972",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-Sy4k1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Date" : "Tue, 16 May 2017 18:59:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ntoguiuqcj2ujl1a0q2dg0a8268kh6fc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

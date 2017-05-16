@@ -1,0 +1,19 @@
+{
+  "uuid" : "e82d9225-391d-3064-bcef-3c7035239727",
+  "request" : {
+    "url" : "/schedules/?include=trip%2Croute%2Cstop.parent_station&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name&date=2017-06-14&trip=33636707",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-ZJAWF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:59:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "sg6v94omjfmpov78fg2qejpadl5t3p84",
+      "Connection" : "keep-alive"
+    }
+  }
+}

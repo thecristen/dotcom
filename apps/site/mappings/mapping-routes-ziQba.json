@@ -1,0 +1,19 @@
+{
+  "uuid" : "a3687b1b-fa33-3834-85c2-a3b5619d45e5",
+  "request" : {
+    "url" : "/routes/?stop=10000&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ziQba.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:20 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "5psll0sl3tq0o2a5cdtoh3eeb5urvnk5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

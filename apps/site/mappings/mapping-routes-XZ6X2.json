@@ -1,0 +1,19 @@
+{
+  "uuid" : "e53f5fc5-2ad5-3201-a4dc-12ba29a3e805",
+  "request" : {
+    "url" : "/routes/?stop=place-fenwd&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XZ6X2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "gh95cgqd4n6mrjnjisjpebrppb5s4t1e",
+      "Connection" : "keep-alive"
+    }
+  }
+}

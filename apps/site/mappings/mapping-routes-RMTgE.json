@@ -1,0 +1,19 @@
+{
+  "uuid" : "074a06a9-2cd1-3727-8d8d-b29d6d732a1a",
+  "request" : {
+    "url" : "/routes/?stop=place-bbsta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RMTgE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:22 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "i8ejb06e9t1f4vu5t7bu52ber7pcgs1q",
+      "Connection" : "keep-alive"
+    }
+  }
+}

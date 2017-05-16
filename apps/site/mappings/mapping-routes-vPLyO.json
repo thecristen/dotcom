@@ -1,0 +1,19 @@
+{
+  "uuid" : "475014b8-d11d-30d7-97b6-b043a905772e",
+  "request" : {
+    "url" : "/routes/?stop=8279&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vPLyO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:19 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "106p1om9fj8vkgolsv1o0847k11sia72",
+      "Connection" : "keep-alive"
+    }
+  }
+}

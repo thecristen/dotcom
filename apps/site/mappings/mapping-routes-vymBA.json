@@ -1,0 +1,19 @@
+{
+  "uuid" : "e5a2a50b-53f7-3fdf-b9b8-ddf9812fd027",
+  "request" : {
+    "url" : "/routes/?stop=place-plsgr&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vymBA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "qt9of0mjs4hvgm3i7e7lsgrj9qcno45k",
+      "Connection" : "keep-alive"
+    }
+  }
+}

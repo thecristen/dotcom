@@ -1,0 +1,19 @@
+{
+  "uuid" : "89412eb1-eecc-3755-ab29-f8579a25a048",
+  "request" : {
+    "url" : "/routes/?stop=10012&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BIWON.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nf1koq8osv4bevs6jt4ru1hl84a085b2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

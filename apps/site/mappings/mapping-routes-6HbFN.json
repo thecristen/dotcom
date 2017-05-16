@@ -1,0 +1,19 @@
+{
+  "uuid" : "cea8c976-7b4d-3650-a60e-d1aca764fb85",
+  "request" : {
+    "url" : "/routes/?stop=place-grnst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-6HbFN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:19 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "27teqlpl92nb2v8gtfsimipn05o31caf",
+      "Connection" : "keep-alive"
+    }
+  }
+}

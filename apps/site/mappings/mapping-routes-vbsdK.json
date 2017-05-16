@@ -1,0 +1,19 @@
+{
+  "uuid" : "fe5e1881-cc39-3594-84a2-4060c029b2b7",
+  "request" : {
+    "url" : "/routes/?stop=place-chmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vbsdK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "d340qtl3k5lh2sh0457nd5taumet68kh",
+      "Connection" : "keep-alive"
+    }
+  }
+}
