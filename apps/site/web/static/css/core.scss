@@ -88,8 +88,7 @@ body {
   }
 }
 
-.announcement-container,
-.footer-announcement-container {
+.announcement-container {
   background-color: $gray-lightest;
   color: $gray-dark;
   padding-bottom: $base-spacing-sm;
@@ -107,7 +106,6 @@ body {
 
 .sticky-footer .footer-announcement-container {
   margin-bottom: 0;
-  padding-bottom: $base-spacing-sm + $footer-padding-top / 2;
 }
 
 .beta-announcement {
