@@ -15,5 +15,14 @@ defmodule Content.MailerTest do
       assert email("text") =~ "Meeting JSON:\n%{\"location\" => \"MassDOT\""
       assert email("text") =~ reason
     end
+
+    test "given the reason is a map" do
+      meeting = %{"location" => "MassDOT"}
+      reason = %{reason: :econnrefused}
+
+      meeting_migration_error_notice(reason, meeting)
+
+      assert email("text") =~ "%{reason: :econnrefused}"
+    end
   end
 end

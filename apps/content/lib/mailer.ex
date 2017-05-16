@@ -21,7 +21,7 @@ defmodule Content.Mailer do
                #{inspect meeting_json}
 
                Reason for Failure:
-               #{reason}
+               #{inspect reason}
 
                For more details, visit: #{drupal_logs_url()}
                """
