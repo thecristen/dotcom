@@ -10,12 +10,20 @@ defmodule GreenLine do
   @type stop_routes_pair :: {[Stop.t] | {:error, any}, route_id_stop_id_map}
 
   @doc """
+  Returns the `calculate_stops_on_routes` results from the GreenLine.Cache.
+  """
+  @spec stops_on_routes(0 | 1, Date.t | nil) :: stop_routes_pair
+  def stops_on_routes(direction_id, date \\ nil) do
+    Site.GreenLine.Cache.stops_on_routes(direction_id, date)
+  end
+
+  @doc """
   Returns the list of Green Line stops, as well as a MapSet of {stop_id, route_id} pairs to signify
   that a stop is on the branch in question.  Optionally takes a date for which to fetch the
   schedules.
   """
-  @spec stops_on_routes(0 | 1, Date.t | nil) :: stop_routes_pair
-  def stops_on_routes(direction_id, date \\ nil) do
+  @spec calculate_stops_on_routes(0 | 1, Date.t | nil) :: stop_routes_pair
+  def calculate_stops_on_routes(direction_id, date \\ nil) do
     branch_ids()
     |> Task.async_stream(&green_line_stops(&1, direction_id, date))
     |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)

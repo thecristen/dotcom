@@ -13,7 +13,8 @@ defmodule Site do
     children = [
       # Start the endpoint when the application starts
       supervisor(Site.Endpoint, []),
-      worker(Logger.Backend.Logentries.Output.SslKeepOpen.Server, [])
+      worker(Logger.Backend.Logentries.Output.SslKeepOpen.Server, []),
+      supervisor(Site.GreenLine.Supervisor, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
