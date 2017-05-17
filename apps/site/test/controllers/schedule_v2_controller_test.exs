@@ -46,11 +46,9 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "uses a direction id to determine which stops to show", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "1", direction_id: 0))
-      stops = conn.assigns.stops |> Enum.map(& &1.id)
-      assert Enum.member?(stops, "109")
+      assert conn.assigns.branches |> List.first() |> Map.get(:stops) |> Enum.map(& &1.id) |> Enum.member?("109")
       conn = get(conn, line_path(conn, :show, "1", direction_id: 1))
-      stops = conn.assigns.stops |> Enum.map(& &1.id)
-      refute Enum.member?(stops, "109")
+      refute conn.assigns.branches |> List.first() |> Map.get(:stops) |> Enum.map(& &1.id) |> Enum.member?("109")
     end
   end
 
@@ -193,20 +191,19 @@ defmodule Site.ScheduleV2ControllerTest do
         date: Date.to_iso8601(date),
         date_time: DateTime.to_iso8601(date_time))
       assert html_response(conn, 200) =~ "Lowell Line"
+      assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
 
       # make sure each stop has a zone
-      for stop <- conn.assigns.stops do
+      for stop <- stops do
         assert stop.zone
       end
 
       # stops are in outbound order
-      assert List.first(conn.assigns.stops).id == "place-north"
-      assert List.last(conn.assigns.stops).id == "Lowell"
-      # Stop list
-      assert conn.assigns.stop_list_template == "_stop_list.html"
+      assert List.first(stops).id == "place-north"
+      assert List.last(stops).id == "Lowell"
 
       # includes the stop features
-      assert List.first(conn.assigns.stops).stop_features == [
+      assert List.first(stops).stop_features == [
         :orange_line,
         :green_line,
         :bus,
@@ -215,6 +212,9 @@ defmodule Site.ScheduleV2ControllerTest do
 
       # builds a map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
+
+      # assigns 3 holidays
+      assert Enum.count(conn.assigns.holidays) == 3
     end
 
     test "Ferry data", %{conn: conn} do
@@ -224,9 +224,11 @@ defmodule Site.ScheduleV2ControllerTest do
         date: Date.to_iso8601(date),
         date_time: NaiveDateTime.to_iso8601(dt))
       assert html_response(conn, 200) =~ "Hingham Ferry"
+      assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
+
       # outbound order
-      assert List.first(conn.assigns.stops).id == "Boat-Long"
-      assert List.last(conn.assigns.stops).id == "Boat-Hingham"
+      assert List.first(stops).id == "Boat-Long"
+      assert List.last(stops).id == "Boat-Hingham"
 
       # Map
       assert conn.assigns.map_img_src =~ "ferry-spider"
@@ -234,9 +236,10 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "Bus data", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "66", direction_id: 1)
+      assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
       assert html_response(conn, 200) =~ "Route 66"
-      assert Enum.find(conn.assigns.stops, & &1.id == "926")
-      assert List.last(conn.assigns.stops).id == "64000"
+      assert Enum.find(stops, & &1.id == "926")
+      assert List.last(stops).id == "64000"
 
       # Map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
@@ -244,43 +247,26 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "Red Line data", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "Red")
+      assert %Plug.Conn{assigns: %{branches: branches}} = conn
       assert html_response(conn, 200) =~ "Red Line"
 
-      # stops are in southbound order, Ashmont branch
-      assert List.first(conn.assigns.stops).id == "place-alfcl"
-      assert List.last(conn.assigns.stops).id == "place-jfk"
-      assert conn.assigns.merge_stop_id == "place-jfk"
-      # List template
-      assert conn.assigns.stop_list_template == "_stop_list_red.html"
+      assert [%Stops.RouteStops{branch: nil, stops: unbranched_stops},
+              %Stops.RouteStops{branch: "Braintree", stops: [braintree]},
+              %Stops.RouteStops{branch: "Ashmont", stops: [ashmont]}] = branches
+
+      # stops are in southbound order
+      assert List.first(unbranched_stops).id == "place-alfcl"
+      assert List.last(unbranched_stops).id == "place-jfk"
+
+      assert ashmont.id == "place-asmnl"
+
+      assert braintree.id == "place-brntn"
 
       # includes the stop features
-      assert conn.assigns.stops |> List.first() |> Map.get(:stop_features) == [:bus, :access]
+      assert unbranched_stops |> List.first() |> Map.get(:stop_features) == [:bus, :access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
-    end
-
-    test "Red line initally has no Braintree or Ashmont data besides termini", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Red")
-      assert conn.status == 200
-
-      assert List.first(conn.assigns.braintree_branch_stops).id == "place-brntn"
-      assert List.first(conn.assigns.ashmont_branch_stops).id == "place-asmnl"
-    end
-
-    test "Red line has braintree and ashmont stops when indicated in query params", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Red", expanded: "Braintree")
-      assert conn.status == 200
-      stop_ids = Enum.map(conn.assigns.braintree_branch_stops, & &1.id)
-      assert List.first(stop_ids) == "place-nqncy"
-      assert List.last(stop_ids) == "place-brntn"
-      assert Enum.count(conn.assigns.ashmont_branch_stops) == 1
-
-      conn = get conn, line_path(conn, :show, "Red", expanded: "Ashmont")
-      stop_ids = Enum.map(conn.assigns.ashmont_branch_stops, & &1.id)
-      assert List.first(stop_ids) == "place-shmnl"
-      assert List.last(stop_ids) == "place-asmnl"
-      assert Enum.count(conn.assigns.braintree_branch_stops) == 1
     end
 
     test "Green Line data", %{conn: conn} do
@@ -288,28 +274,19 @@ defmodule Site.ScheduleV2ControllerTest do
       assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in Westbound order, Lechmere -> Boston College (last stop on B)
-      assert List.first(conn.assigns.stops_with_expands).id == "place-lech"
-      assert List.last(conn.assigns.stops_with_expands).id == "place-lake"
-      # List template
-      assert conn.assigns.stop_list_template == "_stop_list_green.html"
-      # Active lines
-      assert conn.assigns.active_lines["place-north"] == %{"Green-B" => :empty, "Green-C" => :eastbound_terminus, "Green-D" => :empty, "Green-E" => :stop}
-      assert conn.assigns.active_lines["place-hsmnl"] == %{"Green-B" => :line, "Green-C" => :line, "Green-D" => :line, "Green-E" => :westbound_terminus} # Health
-      assert conn.assigns.active_lines["place-hymnl"] == %{"Green-B" => :stop, "Green-C" => :stop, "Green-D" => :stop}
+      all_stops = Enum.flat_map(conn.assigns.branches, & &1.stops)
+      assert List.first(all_stops).id == "place-lech"
+      assert List.last(all_stops).id == "place-lake"
 
       # includes the stop features
-      assert %{} = conn.assigns.stop_features
-      assert conn.assigns.stop_features["place-pktrm"] == [:red_line, :access]
+      assert List.first(all_stops).stop_features == [:bus, :access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
     defp stop_ids(conn) do
-      Enum.flat_map(conn.assigns.stops_with_expands, fn
-        {:expand, _, _} -> []
-        stop -> [stop.id]
-      end)
+      Enum.flat_map(conn.assigns.branches, fn %Stops.RouteStops{stops: stops} -> Enum.map(stops, & &1.id) end)
     end
 
     test "Green line does not show branched route data", %{conn: conn} do
@@ -351,15 +328,41 @@ defmodule Site.ScheduleV2ControllerTest do
       variant = "090078"
       conn = get conn, line_path(conn, :show, "9", direction_id: 1, variant: variant)
 
-      assert Enum.count(conn.assigns.shapes) == 3
-      assert "1564" in List.last(conn.assigns.shapes).stop_ids
+      assert Enum.count(conn.assigns.all_shapes) == 3
+      assert "1564" in List.last(conn.assigns.all_shapes).stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 
     test "Bus line with correct default shape", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "9", direction_id: 1)
 
-      assert "090096" == conn.assigns.active_shape.id
+      assert conn.assigns.active_shape.id == "090096"
+    end
+  end
+
+  describe "build_stop_list" do
+    test "takes a list of branches and builds a list of all stops in a route" do
+      branches = for branch <- [nil, "branch_1", "branch_2"] do
+        stops = for stop_number <- [1, 2] do
+          %Stops.RouteStop{id: "#{branch || "nil"} stop #{stop_number}", branch: branch, is_terminus?: stop_number == 2}
+        end
+        %Stops.RouteStops{branch: branch, stops: stops}
+      end
+      assert [{[:terminus], %Stops.RouteStop{id: "nil stop 1"}} | list] = Site.ScheduleV2Controller.Line.build_stop_list(branches)
+      assert assert {[:terminus], %Stops.RouteStop{id: "branch_2 stop 2"}} = List.last(list)
+    end
+
+    test "builds a list for route with no branches" do
+      stops = for id <- 1..10 do
+        %Stops.RouteStop{id: "#{id}", branch: nil, is_terminus?: id == 1 || id == 10}
+      end
+      expected = stops
+      |> Util.EnumHelpers.with_first_last()
+      |> Enum.map(fn {stop, is_terminus?} ->
+        type = if is_terminus?, do: :terminus, else: :stop
+        {[type], %{stop | branch: nil}}
+      end)
+      assert Site.ScheduleV2Controller.Line.build_stop_list([%Stops.RouteStops{branch: "branch", stops: stops}]) == expected
     end
   end
 

@@ -262,48 +262,30 @@ a {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-.vehicle-location {
-  @include unpadded-column;
+.route-status,
+.trip-info-labels,
+.trip-stops,
+.trip-duration {
+  padding-left: $base-spacing;
+  padding-right: $base-spacing;
 }
 
-// "Show all stops" row -- dotted lines
-.collapsed-row {
-  @include stop-bubble-collapsed();
-
-  .expand-link {
-    @include stop-info-column();
-    // add spacing between link and the next stop
-    margin-bottom: $base-spacing;
-  }
+.route-status,
+.trip-duration {
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
 }
 
-// first stop in the list, only display the line going down
-.stop-group:first-child .schedule-trip-stop:first-child,
-.route-stop-list .route-stop:first-child,
-.schedule-v2-timetable-row:nth-child(2) {
-  @include stop-bubble-first();
+.route-status {
+  border-bottom: $border;
 }
 
-// the last stop in the list, don't display the line
-.stop-group:last-child .schedule-trip-stop:last-child,
-.schedule-v2-timetable-row:last-child {
-  @include stop-bubble-last();
-
-  .stop-info {
-    border-bottom: 0;
-  }
+.trip-duration {
+  border-top: $border;
 }
 
-.route-stop-list.green-line .route-stop:first-child .stop-bubble::before {
-  height: 100%; // override stop-bubble-first to prevent gaps on green line branches
-}
-
-.stop-info-column {
-  min-width: 8rem;
-
-  &:first-child {
-    padding-right: $base-spacing;
-  }
+.trip-info-labels {
+  font-weight: bold;
 }
 
 // trip info parent container
@@ -311,6 +293,7 @@ a {
   @include make-row();
   border-left: $border;
   border-right: $border;
+  border-bottom: $border;
 
   @include media-breakpoint-up(md) {
     float: right;
@@ -320,13 +303,8 @@ a {
   // Add the border to highlight the trip on mobile
   @include media-breakpoint-down(sm) {
     border: $border-md;
-    border-bottom-width: $border-width * 2;
+    border-bottom-width: $border-width * 3;
     border-color: $brand-primary;
-
-    .trip-duration {
-      border-bottom-color: $brand-primary;
-      border-bottom-width: $border-width * 2;
-    }
   }
 }
 
@@ -336,36 +314,6 @@ a {
 
   @include media-breakpoint-down(sm) {
     display: none;
-  }
-}
-
-.schedule-trip-stop,
-.collapsed-row {
-  @include stop-bubble-row();
-}
-
-.route-status,
-.trip-duration {
-  @extend %table-row;
-}
-
-.trip-info {
-  .stop-info {
-    width: grid-width(10);
-  }
-}
-
-.trip-info-labels {
-  @include stop-bubble-row();
-  font-weight: bold;
-
-  .stop-info {
-    border-bottom-width: 0;
-    padding-bottom: 0;
-
-    @include media-breakpoint-down(xs) {
-      display: none;
-    }
   }
 }
 
@@ -785,4 +733,26 @@ a {
   max-width: 15rem;
   padding: .5rem;
   padding-bottom: 0;
+}
+
+@include media-breakpoint-up(sm) {
+  .route-info {
+    display: flex;
+  }
+
+  .stop-list-container {
+    // scss-lint:disable DuplicateProperty
+    display: inline-block;
+    display: flex;
+    flex-basis: 60%;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding-right: $base-spacing;
+  }
+
+  .route-hours {
+    display: inline-block;
+    flex: 0 1 100%;
+  }
 }

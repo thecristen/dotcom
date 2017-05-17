@@ -1,5 +1,8 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
+  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
+                                              stop_bubble_content: 4,
+                                              view_branch_link: 3, stop_bubble_location_display: 3]
 
   require Routes.Route
   alias Routes.Route
@@ -35,30 +38,7 @@ defmodule Site.ScheduleV2View do
   end
   defp do_display_direction([]), do: ""
 
-  @doc """
-  Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
-  class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
-  """
-  @spec stop_bubble_location_display(boolean, integer, boolean) :: Phoenix.HTML.Safe.t
-  def stop_bubble_location_display(vehicle?, route_type, terminus?)
-  def stop_bubble_location_display(true, route_type, true) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-inverse", show_tooltip?: false})
-  end
-  def stop_bubble_location_display(true, route_type, false) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route_type), class: "icon-boring", show_tooltip?: false})
-  end
-  def stop_bubble_location_display(false, _route_type, true) do
-    stop_bubble_icon(:terminus)
-  end
-  def stop_bubble_location_display(false, _, false) do
-    stop_bubble_icon(:stop)
-  end
 
-  defp stop_bubble_icon(class) do
-    content_tag :svg, viewBox: "0 0 42 42", class: "icon stop-bubble-#{class}" do
-      tag :circle, r: 20, cx: 20, cy: 20, transform: "translate(2,2)"
-    end
-  end
 
   @doc """
   Displays the CR icon if given a non-nil vehicle location. Otherwise, displays nothing.
@@ -322,19 +302,6 @@ defmodule Site.ScheduleV2View do
   end
 
   @doc """
-  Returns a row for a given stop with all featured icons
-  """
-  @spec route_row(Plug.Conn.t, Stops.Stop.t, [atom], boolean) :: Phoenix.HTML.Safe.t
-  def route_row(conn, stop, stop_features, is_terminus?) do
-    content_tag :div, class: "route-stop" do
-      [
-        stop_bubble(conn.assigns.route.type, is_terminus?),
-        stop_name_and_icons(conn, stop, stop_features)
-      ]
-    end
-  end
-
-  @doc """
   Displays a schedule period.
   """
   @spec schedule_period(atom) :: String.t
@@ -343,41 +310,6 @@ defmodule Site.ScheduleV2View do
     period
     |> Atom.to_string
     |> String.capitalize
-  end
-
-  # Displays the bubble for the line
-  @spec stop_bubble(integer, boolean) :: Phoenix.HTML.Safe.t
-  defp stop_bubble(route_type, is_terminus?) do
-    content_tag :div, class: "stop-bubble" do
-      Site.ScheduleV2View.stop_bubble_location_display(false, route_type, is_terminus?)
-    end
-  end
-
-  # Displays the stop name and associated icons and zone
-  @spec stop_name_and_icons(Plug.Conn.t, Stops.Stop.t, [atom]) :: Phoenix.HTML.Safe.t
-  defp stop_name_and_icons(conn, stop, stop_features) do
-    content_tag :div, class: "stop-info route-stop-name-icons" do
-      [
-        content_tag(:div, [class: "name-and-zone"], do: [
-          link(break_text_at_slash(stop.name), to: stop_path(conn, :show, stop.id)),
-          zone(conn.assigns[:zones], stop)
-        ]),
-        content_tag(:div, [class: "route-icons"], do: Enum.map(stop_features, &svg_icon_with_circle(%SvgIconWithCircle{icon: &1})))
-      ]
-    end
-  end
-
-  # Displays the zone
-  @spec zone(map | nil, Stops.Stop.t) :: Phoenix.HTML.Safe.t
-  defp zone(nil, _stop), do: ""
-  defp zone(zones, stop) do
-    case zones[stop.id] do
-      nil -> ""
-      zone_number ->
-        content_tag :div, class: "zone" do
-          ["Zone ", zone_number]
-        end
-    end
   end
 
   @spec stop_name_link_with_alerts(String.t, String.t, [Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
@@ -411,73 +343,6 @@ defmodule Site.ScheduleV2View do
   defp add_icon_to_string([word | rest], alerts) do
     [word, " ", add_icon_to_string(rest, alerts)]
   end
-
-  @doc """
-  Link to hide a Green/Red line branch.
-  """
-  @spec hide_branch_link(Plug.Conn.t, String.t) :: Phoenix.HTML.Safe.t
-  def hide_branch_link(conn, branch_name) do
-    do_branch_link(conn, nil, branch_name, :hide)
-  end
-
-  @doc """
-  Link to view a Green/Red line branch.
-  """
-  @spec view_branch_link(Plug.Conn.t, String.t | nil, String.t) :: Phoenix.HTML.Safe.t
-  def view_branch_link(conn, expanded, branch_name) do
-    do_branch_link(conn, expanded, branch_name, :view)
-  end
-
-  @spec do_branch_link(Plug.Conn.t, String.t | nil, String.t, :hide | :view) :: Phoenix.HTML.Safe.t
-  defp do_branch_link(conn, expanded, branch_name, action) do
-    {action_text, caret} = case action do
-                             :hide -> {"Hide ", "up"}
-                             :view -> {"View ", "down"}
-                           end
-    link to: update_url(conn, expanded: expanded), class: "branch-link" do
-      [content_tag(:span, action_text, class: "hidden-sm-down"), branch_name, " Branch ", fa("caret-#{caret}")]
-    end
-  end
-
-  @doc """
-  Inline SVG for a Green Line bubble with the branch.
-  """
-  @spec green_line_bubble(Routes.Route.id_t, atom) :: Phoenix.HTML.Safe.t
-  def green_line_bubble(<<"Green-", branch :: binary>>, stop_or_terminus) do
-    {div_class, svg_class} = case stop_or_terminus do
-                               :stop -> {"", "stop-bubble-stop"}
-                               :westbound_terminus -> {"westbound-terminus", "stop-bubble-terminus"}
-                               :eastbound_terminus -> {"eastbound-terminus", "stop-bubble-terminus"}
-                             end
-    content_tag(:div, class: "stop-bubble green-line-bubble #{div_class}") do
-      content_tag :svg, viewBox: "0 0 42 42", class: "icon icon-green-branch-bubble #{svg_class}" do
-        [
-          content_tag(:circle, "", r: 20, cx: 20, cy: 20, transform: "translate(2,2)"),
-          content_tag(:text, branch, font_size: 24, x: 14, y: 30)
-        ]
-      end
-    end
-  end
-
-  @doc """
-  Whether or not to show the line as a solid line or a dashed/collapsed line.
-  """
-  @type stop_or_expand :: {Stops.Stop.t | {:expand, String.t, String.t}}
-  @type line_type :: :line | :stop | :eastbound_terminus | :westbound_terminus | nil
-  @spec display_collapsed?({stop_or_expand, stop_or_expand}, {String.t | nil, String.t}, line_type, boolean) :: boolean
-  def display_collapsed?(row_and_next_row, expanded_and_row_branch_ids, display_type, is_e_line?)
-  def display_collapsed?(_, {branch, branch}, _, _), do: false # never collapse expanded line
-  def display_collapsed?({%Stops.Stop{}, _}, _, :eastbound_terminus, _), do: false # never collapse eastbound terminii
-  def display_collapsed?({%Stops.Stop{}, _}, {_, branch}, :line, true) when branch != "Green-E", do: false  # never collapse non-E lines at E-line stops
-  def display_collapsed?({%Stops.Stop{id: "place-kencl"}, _}, {expanded_branch, current_branch}, _, _) when expanded_branch != current_branch, do: true # always collapse at Kenmore unless branch is expanded
-  def display_collapsed?({%Stops.Stop{id: "place-coecl"}, _}, {"Green-E", "Green-E"}, _, _), do: false  # expand E-line at copley if E-line is expanded
-  def display_collapsed?({%Stops.Stop{id: "place-coecl"}, _}, {_, "Green-E"}, _, _), do: true # otherwise collapse E-line at copley
-  def display_collapsed?({%Stops.Stop{id: "place-coecl"}, _}, _, _, _), do: false # never collapse non-E lines at Copley
-  def display_collapsed?({{:expand, _, "Green-E"}, _}, _, :line, _), do: false # never collapse non-E lines at E-line expander
-  def display_collapsed?({{:expand, _, _}, _}, {expanded, current_branch}, _, _) when current_branch != expanded, do: true  # always collapse line expander unless line is expanded
-  def display_collapsed?({%Stops.Stop{}, {:expand, _, _}}, {expanded, current_branch}, _, _) when current_branch != expanded, do: true  # always collapse stop before an expander unless line is expanded
-  def display_collapsed?({%Stops.Stop{}, _}, _, :line, _), do: true  # always collapse non-bubbles if line is not expanded
-  def display_collapsed?(_, _, _, _), do: false
 
   @spec display_map_link?(integer) :: boolean
   def display_map_link?(type), do: type == 4 # only show for ferry

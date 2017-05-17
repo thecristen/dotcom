@@ -1,20 +1,25 @@
-<%= for stop <- @stops do %>
-  <div class="route-stop">
-    <div class="stop-bubble">
-      <%= stop_bubble_location_display(false, @route.type, stop.is_terminus?) %>
-    </div>
-    <div class="stop-info route-stop-name-icons">
-      <div class="name-and-zone">
-        <%= link(break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id)) %>
-        <%= if stop.zone do %>
-          <div class="zone">
-            Zone <%= stop.zone %>
-          </div>
-        <% end %>
-      </div>
-      <div class="route-icons">
-        <%= for feature <- stop.stop_features |> Enum.sort() |> Enum.reverse(), do: svg_icon_with_circle(%SvgIconWithCircle{icon: feature}) %>
-      </div>
-    </div>
-  </div>
-<% end %>
+<div class="route-branch-stop-list stop-group <%= @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>">
+  <%=
+    branch_names = @branches |> Enum.map(& &1.branch) |> Enum.reverse() |> Enum.reject(&is_nil/1)
+
+    branch_stops = @all_stops
+    |> Enum.chunk_by(fn {_, stop} -> stop.branch end)
+    |> Enum.map(fn [{_, stop}|_] = stops -> {stop.branch, Enum.map(stops, fn {_, stp} -> stp.id end)} end)
+    |> Enum.into(%{})
+
+    for {bubbles, stop} <- @all_stops do
+      bubbles = case branch_names do
+        [] -> Enum.map(bubbles, & {&1, nil})
+        [_|_] -> Enum.zip(bubbles, branch_names)
+      end
+      render "_stop_list_row.html", bubbles: bubbles,
+                                    stop: stop,
+                                    route: @route,
+                                    conn: @conn,
+                                    add_expand_link?: add_expand_link?(stop, branch_stops),
+                                    expanded: @expanded,
+                                    branch_names: branch_names,
+                                    show_vehicle?: @show_vehicle?,
+                                    row_content_template: "_line_page_stop_info.html"
+  end %>
+</div>

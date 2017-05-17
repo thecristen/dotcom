@@ -4,35 +4,46 @@
   <%= if route_status = TripInfo.full_status(@trip_info) do %>
     <div class="route-status"><%= route_status %></div>
   <% end %>
-  <div class="trip-info-labels">
-    <div class="stop-info" role="row">
-      <span role="columnheader">Stops:</span>
-      <span role="columnheader">Times:</span>
+  <div class="trip-info-labels route-branch-stop">
+    <div class="route-branch-stop-bubbles">
+      <div class="route-branch-stop-bubble"></div> <%# placeholder %>
+    </div>
+    <div class="route-branch-stop-info" role="row">
+      <div class="trip-info-stop-name-times">
+        <div class="stop-info-column trip-info-name" role="columnheader">Stops:</div>
+        <div class="stop-info-column trip-info-time" role="columnheader">Times:</div>
+      </div>
     </div>
   </div>
-  <div class="trip-stops">
-    <%= for times_or_separator <- TripInfo.times_with_flags_and_separators(@trip_info) do %>
+  <div class="trip-stops route-branch-stop-list">
+    <%= for {times_or_separator, group_idx} <- @trip_info |> TripInfo.times_with_flags_and_separators() |> Enum.with_index() do %>
       <%= if times_or_separator == :separator do %>
-        <div class="collapsed-row">
-          <div class="vehicle-location stop-bubble"><div>&nbsp;</div></div>
-          <div class="expand-link">
-            <%= link "Show All Stops", to: update_url(@conn, show_collapsed_trip_stops?: "") %>
+        <div class="route-branch-stop">
+          <div class="route-branch-stop-bubbles">
+            <div class="route-branch-stop-bubble">
+              <div class="route-branch-stop-bubble-line dotted"></div>
+            </div>
+          </div>
+          <div class="route-branch-stop-info">
+            <div class="route-branch-stop-name-times">
+              <%= link "Show All Stops", to: update_url(@conn, show_collapsed_trip_stops?: "") %>
+            </div>
           </div>
         </div>
       <% else %>
-        <div class="stop-group">
-          <%= for {predicted_schedule, flags} <- times_or_separator do %>
-            <% %Stops.Stop{id: stop_id, name: stop_name} = PredictedSchedule.stop(predicted_schedule) %>
-            <%= render "_trip_info_row.html",
-                name: stop_name,
-                href: stop_path(@conn, :show, stop_id),
-                route: @trip_info.route,
-                vehicle?: flags.vehicle?,
-                terminus?: flags.terminus?,
-                alerts: stop_alerts(predicted_schedule, @all_alerts, @route.id, @direction_id),
-                predicted_schedule: predicted_schedule %>
-          <% end %>
-        </div>
+        <%= for {{predicted_schedule, flags}, idx} <- Enum.with_index(times_or_separator) do %>
+          <% %Stops.Stop{id: stop_id, name: stop_name} = PredictedSchedule.stop(predicted_schedule) %>
+          <%= render "_trip_info_row.html",
+              name: stop_name,
+              href: stop_path(@conn, :show, stop_id),
+              route: @trip_info.route,
+              vehicle?: flags.vehicle?,
+              above_expand_link?: group_idx == 0,
+              is_last_item?: idx + 1 == length(times_or_separator),
+              terminus?: flags.terminus?,
+              alerts: stop_alerts(predicted_schedule, @all_alerts, @route.id, @direction_id),
+              predicted_schedule: predicted_schedule %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

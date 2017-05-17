@@ -5,6 +5,9 @@ defmodule Site.ScheduleV2ViewTest do
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
   import Site.ScheduleV2View
+  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
+                                              stop_bubble_content: 4,
+                                              view_branch_link: 3, stop_bubble_location_display: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "stop_selector_suffix/2" do
@@ -86,36 +89,36 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "stop_bubble_location_display/3" do
     test "when vehicle is not at stop and stop is not a terminus, returns an empty circle" do
-      rendered = safe_to_string(stop_bubble_location_display(false, 1, false))
+      rendered = safe_to_string(stop_bubble_location_display(false, %Routes.Route{type: 1}, false))
       assert rendered =~ "stop-bubble-stop"
       assert rendered =~ "svg"
     end
 
     test "when vehicle is not at stop and stop is a terminus, returns a filled circle" do
-      rendered = safe_to_string(stop_bubble_location_display(false, 1, true))
+      rendered = safe_to_string(stop_bubble_location_display(false, %Routes.Route{type: 1}, true))
       assert rendered =~ "stop-bubble-terminus"
       assert rendered =~ "svg"
     end
 
     test "when vehicle is at stop and stop is not a terminus, returns a normal vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(true, 1, false))
+      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 1}, false))
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-boring"
     end
 
     test "when vehicle is at stop and stop is a terminus, returns an inverse vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(true, 1, true))
+      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 1}, true))
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-inverse"
     end
 
     test "given a vehicle and the subway route_type, returns the icon for the subway" do
-      rendered = safe_to_string(stop_bubble_location_display(true, 1, false))
+      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 1}, false))
       assert rendered =~ "icon-subway"
     end
 
     test "given a vehicle and the bus route_type, returns the icon for the bus" do
-      rendered = safe_to_string(stop_bubble_location_display(true, 3, false))
+      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 3}, false))
       assert rendered =~ "icon-bus"
     end
   end
@@ -322,6 +325,8 @@ defmodule Site.ScheduleV2ViewTest do
             "_trip_info_row.html",
             name: "name",
             href: "",
+            above_expand_link?: true,
+            is_last_item?: false,
             vehicle?: true,
             terminus?: true,
             alerts: ["alert"],
@@ -373,19 +378,22 @@ defmodule Site.ScheduleV2ViewTest do
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
-              shapes: [@shape, @shape],
+              all_stops: [{[:terminus], %Stops.RouteStop{id: "stop 1", name: "Stop 1"}},
+                          {[:terminus], %Stops.RouteStop{id: "stop 2", name: "Stop 2"}}],
+              all_shapes: [@shape, @shape],
               active_shape: @shape,
+              expanded: nil,
               show_variant_selector: true,
               map_img_src: nil,
               hours_of_operation: @hours_of_operation,
               holidays: [],
-              stops: [],
+              branches: [%Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "stop 1", name: "Stop 1"},
+                                                                %Stops.RouteStop{id: "stop 2", name: "Stop 2"}]}],
+              origin: nil,
+              destination: nil,
               direction_id: 1,
               route: %Routes.Route{type: 3},
-              all_stops: [],
               date: ~D[2017-01-01],
-              destination: nil,
-              origin: nil,
               direction_id: 1,
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []})
@@ -398,14 +406,17 @@ defmodule Site.ScheduleV2ViewTest do
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
-              shapes: [@shape],
+              all_stops: [{[:terminus], %Stops.RouteStop{id: "stop 1", branch: nil, name: "Stop 1"}},
+                          {[:terminus], %Stops.RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}}],
+              all_shapes: [@shape],
+              expanded: nil,
               active_shape: nil,
               map_img_src: nil,
               hours_of_operation: @hours_of_operation,
               holidays: [],
-              stops: [],
+              branches: [%Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "stop 1", branch: nil, name: "Stop 1"},
+                                                                %Stops.RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}]}],
               route: %Routes.Route{type: 3},
-              all_stops: [],
               date: ~D[2017-01-01],
               destination: nil,
               origin: nil,
@@ -635,19 +646,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "hide_branch_link/2" do
-    test "generates a link to hide the given branch", %{conn: conn} do
-      link = conn
-      |> get("/", expanded: "braintree")
-      |> hide_branch_link("Braintree")
-      |> safe_to_string
-      |> Floki.find(".branch-link")
-
-      assert link |> Floki.text |> String.trim() =~ "Hide Braintree Branch"
-      refute link |> Floki.attribute("href") |> List.first =~ "?expanded=braintree"
-    end
-  end
-
   describe "view_branch_link/3" do
     test "generates a link to view the given branch", %{conn: conn} do
       link = conn
@@ -657,54 +655,7 @@ defmodule Site.ScheduleV2ViewTest do
       |> Floki.find(".branch-link")
 
       assert link |> Floki.text |> String.trim() =~ "View Braintree Branch"
-      assert link |> Floki.attribute("href") |> List.first =~ "?expanded=braintree"
-    end
-  end
-
-  describe "display_collapsed?/6" do
-    test "eastbound terminii always return false" do
-      refute display_collapsed?({%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-boyls"}}, {nil, "Green-B"}, :eastbound_terminus, false)
-      refute display_collapsed?({%Stops.Stop{id: "place-lech"}, %Stops.Stop{id: "place-spmnl"}}, {"Green-E", "Green-E"}, :eastbound_terminus, true)
-      refute display_collapsed?({%Stops.Stop{id: "place-north"}, %Stops.Stop{id: "place-haecl"}}, {"Green-C", "Green-C"}, :eastbound_terminus, false)
-      refute display_collapsed?({%Stops.Stop{id: "place-gover"}, %Stops.Stop{id: "place-pktrm"}}, {"Green-D", "Green-D"}, :eastbound_terminus, false)
-      refute display_collapsed?({%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-boyls"}}, {"Green-B", "Green-B"}, :eastbound_terminus, false)
-    end
-
-    test "E line collapses at Copley when not expanded" do
-      assert display_collapsed?({%Stops.Stop{id: "place-coecl"}, {:expand, "", "Green-E"}}, {"Green-C", "Green-E"}, :stop, false)
-    end
-
-    test "E line does not collapse at Copley when expanded" do
-      refute display_collapsed?({%Stops.Stop{id: "place-coecl"}, %Stops.Stop{id: "place-prmnl"}}, {"Green-E", "Green-E"}, :stop, false)
-    end
-
-    test "non-E lines never collapse at Copley" do
-      refute display_collapsed?({%Stops.Stop{id: "place-coecl"}, %Stops.Stop{id: "place-prmnl"}}, {"Green-E", "Green-C"}, :stop, false)
-      refute display_collapsed?({%Stops.Stop{id: "place-coecl"}, %Stops.Stop{id: "place-prmnl"}}, {nil, "Green-D"}, :stop, false)
-    end
-
-    test "non-E lines never collapse at E line expander" do
-      refute display_collapsed?({{:expand, "", "Green-E"}, %Stops.Stop{id: "place-hsmnl"}}, {"Green-E", "Green-C"}, :line, false) # E line expanded
-      refute display_collapsed?({{:expand, "", "Green-E"}, %Stops.Stop{id: "place-hsmnl"}}, {nil, "Green-C"}, :line, false) # nothing expanded
-    end
-
-    test "non-E lines never collapse at E stops when E is expanded" do
-      refute display_collapsed?({%Stops.Stop{id: "place-nuniv"}, %Stops.Stop{id: "place-mfa"}}, {"Green-E", "Green-C"}, :line, true)
-    end
-
-    test "lines collapse at Kenmore when not expanded" do
-      assert display_collapsed?({%Stops.Stop{id: "place-kencl"}, {:expand, "", "Green-D"}}, {nil, "Green-B"}, :stop, false)
-    end
-
-    test "lines collapse at their expander when not expanded" do
-      assert display_collapsed?({{:expand, "", "Green-E"}, %Stops.Stop{id: "place-hsmnl"}}, {nil, "Green-E"}, nil, false)
-      assert display_collapsed?({{:expand, "", "Green-D"}, %Stops.Stop{id: "place-river"}}, {nil, "Green-D"}, nil, false)
-      assert display_collapsed?({{:expand, "", "Green-C"}, %Stops.Stop{id: "place-clmnl"}}, {nil, "Green-C"}, nil, false)
-      assert display_collapsed?({{:expand, "", "Green-B"}, %Stops.Stop{id: "place-lake"}}, {nil, "Green-B"}, nil, false)
-    end
-
-    test "collapsible stops do not collapse when line is expanded" do
-      refute display_collapsed?({%Stops.Stop{id: "place-grigg"}, %Stops.Stop{id: "place-alsgr"}}, {"Green-B", "Green-B"}, :stop, false)
+      assert link |> Floki.attribute("href") |> List.first =~ "?expanded=Braintree"
     end
   end
 
@@ -832,6 +783,107 @@ defmodule Site.ScheduleV2ViewTest do
 
       text = south_station_commuter_rail(route) |> Phoenix.HTML.safe_to_string
       assert text =~ "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
+    end
+  end
+
+  describe "add_expand_link/2" do
+    test "returns false for unbranched stops" do
+      assert add_expand_link?(%Stops.RouteStop{id: "place-forhl", branch: nil}, %{nil => ["place-forhl", "place-1", "place-2"]}) == false
+    end
+
+    test "returns true for the first branched stop" do
+      green_line = %{
+        "Green-B" => ["place-bland", "place-lake"],
+        "Green-C" => ["place-smary", "place-clmnl"],
+      }
+      assert add_expand_link?(%Stops.RouteStop{id: "place-smary", branch: "Green-C"}, green_line) == true
+    end
+
+    test "returns false for all other branched stops" do
+      green_line = %{
+        "Green-B" => ["place-bland", "place-lake"],
+        "Green-C" => ["place-smary", "place-clmnl"],
+      }
+      assert add_expand_link?(%Stops.RouteStop{id: "place-griggs", branch: "Green-B"}, green_line) == false
+    end
+  end
+
+  def render_stop_bubble_content(assigns, bubble_type, branch, index) do
+    assigns
+    |> stop_bubble_content(bubble_type, branch, index)
+    |> Enum.map(& if &1 == "", do: "", else: safe_to_string(&1))
+    |> Enum.join()
+  end
+
+  describe "stop_bubble_content" do
+    test "returns a terminus bubble and a solid line for the first terminus" do
+      stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: true, stop_number: 0}
+      route = %Routes.Route{id: "route"}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      content = render_stop_bubble_content(assigns, :terminus, nil, 0)
+      assert content =~ "stop-bubble-terminus"
+      assert content =~ "route-branch-stop-bubble-line solid"
+      refute content =~ "route-branch-indent-start"
+    end
+
+    test "returns only a terminus bubble for the last terminus" do
+      stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: true, stop_number: 10}
+      route = %Routes.Route{id: "route"}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      content = render_stop_bubble_content(assigns, :terminus, nil, 10)
+      assert content =~ "stop-bubble-terminus"
+      refute content =~ "route-branch-stop-bubble-line"
+      refute content =~ "route-branch-indent-start"
+    end
+
+    test "returns a stop bubble and a solid line for an unbranched stop" do
+      stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: false, stop_number: 4}
+      route = %Routes.Route{id: "route"}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      content = render_stop_bubble_content(assigns, :stop, nil, 4)
+      assert content =~ "stop-bubble-stop"
+      assert content =~ "route-branch-stop-bubble-line solid"
+      refute content =~ "route-branch-indent-start"
+    end
+
+    test "returns a stop bubble and a solid line for a stop on an expanded branch" do
+      stop = %Stops.RouteStop{id: "stop", branch: "branch", is_terminus?: false, stop_number: 4}
+      route = %Routes.Route{id: "route"}
+      assigns = %{expanded: "branch", stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      content = render_stop_bubble_content(assigns, :stop, "branch", 4)
+      assert content =~ "stop-bubble-stop"
+      assert content =~ "route-branch-stop-bubble-line solid"
+      refute content =~ "route-branch-indent-start"
+    end
+
+    test "returns only a dotted line if the stop is not on the branch and the branch is collapsed" do
+      stop = %Stops.RouteStop{id: "stop", branch: "branch", is_terminus?: false, stop_number: 4}
+      route = %Routes.Route{id: "route"}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      content = render_stop_bubble_content(assigns, :line, "other branch", 4)
+      refute content =~ "stop-bubble-stop"
+      assert content =~ "route-branch-stop-bubble-line dotted"
+      refute content =~ "route-branch-indent-start"
+    end
+
+    test "returns only a solid line if the stop is not on the branch and the branch is expanded" do
+      stop = %Stops.RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
+      route = %Routes.Route{id: "route"}
+      assigns = %{expanded: "branch", stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      content = render_stop_bubble_content(assigns, :line, "branch", 4)
+      refute content =~ "stop-bubble-stop"
+      assert content =~ "route-branch-stop-bubble-line solid"
+      refute content =~ "route-branch-indent-start"
+    end
+
+    test "returns dotted route-branch-index-start div for a merge stop" do
+      stop = %Stops.RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
+      route = %Routes.Route{id: "route"}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      content = render_stop_bubble_content(assigns, :merge, "branch", 4)
+      refute content =~ "stop-bubble-stop"
+      assert content =~ "route-branch-stop-bubble-line dotted"
+      assert content =~ "route-branch-indent-start"
     end
   end
 end

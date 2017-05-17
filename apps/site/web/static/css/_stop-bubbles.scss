@@ -4,7 +4,7 @@ $location-line-width: $space-6;
 // scss-lint:disable NestingDepth
 // scss-lint:disable SelectorDepth
 // Changes the color for the stop bubble based on the route type
-  .route-stop-list,
+  .route-branch-stop-list,
   .schedule-trip-info,
   .schedule-v2-timetable {
     &#{$class} {
@@ -26,9 +26,20 @@ $location-line-width: $space-6;
         }
       }
 
-      .stop-list-indented::after {
+      .route-branch-stop-bubble-line:not(.dotted),
+      .route-branch-indent-start {
         background-color: $color;
       }
+
+      .route-branch-stop-bubble-line.dotted {
+        outline-color: $color;
+      }
+
+      .route-branch-indent-start.dotted {
+        background-color: transparent;
+        border-color: $color;
+      }
+
 
       .stop-bubble::before {
         border-left-color: $color;
@@ -37,137 +48,218 @@ $location-line-width: $space-6;
   }
 }
 
-@mixin stop-bubble-first() {
-  .stop-bubble::before {
-    // NB: The seemingly magic number 98% keeps the lines long enough
-    // to hit the next stop bubble without overlapping and causing
-    // visual noise. This may require adjustment if the height of the
-    // rows changes in the future
-    height: 98%;
-    top: $space-2;
-  }
-}
-
-@mixin stop-bubble-last() {
-  .stop-bubble::before {
-    display: none;
-  }
-}
-
-@mixin stop-bubble-collapsed() {
-  .stop-bubble {
-    &::before {
-      border-left-style: dotted;
-      border-left-width: $location-line-width;
-      // taller and adjusted up so it moves up towards the previous stop
-      height: 150%;
-      top: -$base-spacing * .75;
+.route-branch-stop-list {
+  .route-branch-stop:last-child {
+    .route-branch-stop-info {
+      border-bottom-width: 0;
     }
   }
 }
 
-@mixin stop-info-column() {
-  @include unpadded-column;
-
-  display: block;
-  margin-left: $base-spacing + $icon-size;
-  padding-left: 0;
-  width: grid-width(10);
-
-  > span:first-child,
-  > span:last-child {
-    float: left;
-    width: 50%;
+.trip-info-labels {
+  .route-branch-stop-info {
+    border-bottom-width: 0;
+    padding-bottom: 0;
+    padding-top: $base-spacing;
   }
 }
 
-@mixin stop-bubble-row() {
-  @extend %unpadded-table-row;
-  background-color: transparent;
-  border-bottom: 0;
-  border-top: 0;
+.route-branch-stop {
+  align-items: stretch;
+  display: flex;
+  flex: 1 1 0%;
+  overflow: hidden; // IE10 hack -- unless overflow:hidden is set, a gap appears in the line
+                    // when you hover over one of the links or the icons. No idea why. -kh
+  width: 100%;
+}
+
+.route-branch-stop-bubbles {
+  // scss-lint:disable DuplicateProperty
+  align-items: stretch;
+  display: inline-block; // for non-flex browsers
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-start;
+  padding-right: $base-spacing;
+
+  .merge:last-child {
+    margin-top: $base-spacing / 2;
+  }
+}
+
+.route-branch-stop-bubble {
+  // scss-lint:disable DuplicateProperty
+  align-items: center;
+  display: inline-block;
+  display: flex;
+  flex-direction: column;
   position: relative;
-
-  .stop-info {
-    @include stop-info-column();
-    border-bottom: $border;
-    padding-bottom: $base-spacing;
-  }
-}
-
-
-.stop-bubble {
-  height: 100%;
-  padding: $base-spacing-sm 0;
-  position: absolute;
   width: $icon-size;
 
-  &::before {
-    border-left-style: solid;
-    border-left-width: $location-line-width;
-    content: '';
-    height: 130%;
-    left: 40%;
-    position: absolute;
-    top: -25%;
-    z-index: $z-index-stop-bubble-line;
+  &.stop {
+    margin-top: -1px;
   }
 
-  svg {
-    margin-top: -$base-spacing-sm;
-    overflow: visible;
-    position: absolute;
-    z-index: $z-index-stop-bubble;
-  }
-}
-
-.stop-list-indented {
-  padding-left: $icon-size;
-  position: relative;
-
-  // Starts in the middle of the line it's indenting from, and goes to the right edge of the indented line.
-  $extender-width: $location-line-width + ($icon-size * 1.5);
-
-  .route-stop {
-    padding-right: 0;
-  }
-
-  &::after {
-    content: ' ';
+  .route-branch-indent-start {
     height: $location-line-width;
-    left: $icon-size / 2;
-    position: absolute;
+    left: -5px;
+    position: relative;
     top: 0;
-    width: $extender-width;
-  }
+    width: 16px;
 
-  .route-stop:first-child {
-    //scss-lint:disable NestingDepth
-    .stop-bubble:first-child {
-      // removes a gap between the top of the indented line and the horizontal extender line.
-      &::before {
-        top: -$base-spacing / 2;
-      }
+    .solid {
+      height: $location-line-width;
+    }
+
+    &.dotted {
+      border-style: dashed;
+      border-width: 1px;
+      height: 0;
+      outline-style: none;
+      width: 12px;
     }
   }
-}
 
-.icon-green-branch-bubble {
+  .dotted {
+    background-color: transparent;
+    outline-style: dashed;
+    outline-width: 1px;
+  }
+
+
+  svg {
+    overflow: visible;
+  }
+
   text {
     font-weight: bold;
   }
 
-  &.stop-bubble-terminus {
+  .stop-bubble-terminus {
     text {
       fill: $white;
     }
   }
+}
 
-  &.stop-bubble-stop {
-    text {
-      fill: $gray-dark;
+.route-branch-stop-bubble-line {
+  // scss-lint:disable DuplicateProperty
+  display: none; // hide on non-flex browsers
+  display: flex;
+  flex: 1 0 0%;
+  min-height: 1rem;
+  width: $location-line-width;
+
+  &.dotted {
+    width: 0;
+  }
+}
+
+.route-branch-stop-info {
+  // scss-lint:disable DuplicateProperty
+  border-bottom: $border;
+  display: inline-block; // for non-flex browsers
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  margin-bottom: $base-spacing;
+  padding-bottom: $base-spacing;
+  width: 60%; // for non-flex browsers
+
+  &.expand {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .green-line {
+    .route-branch-stop-icons {
+      display: block;
+      padding-bottom: $base-spacing / 2;
     }
   }
+}
+
+.expand-branch-link {
+  a {
+    background: $gray-lightest;
+    border-radius: $border-radius;
+    display: inline-block;
+    padding: $base-spacing / 2;
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  .route-branch-stop-link {
+    display: block;
+  }
+}
+
+.trip-info-stop-name-times {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.trip-info-name {
+  display: inline-block; // for non-flex browsers
+  flex: 1 1 0%;
+  min-width: 50%;
+  padding-right: $base-spacing;
+}
+
+.trip-info-time {
+  display: inline-block; // for non-flex browsers
+  float: right; // for non-flex browsers
+  width: $base-spacing * 4.5;
+}
+
+.route-branch-stop-name-icons,
+.route-branch-stop-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  > div {
+    display: inline-block;
+    flex: 1 1 0%;
+  }
+
+  .route-branch-stop-icons {
+    display: flex;
+    flex: 0 0 auto;
+    text-align: right;
+
+    svg {
+      // required for icons to be displayed on IE 10+
+      flex: 0 0 auto;
+      margin-left: $base-spacing / 8;
+    }
+  }
+}
+
+.stop-info-link {
+  padding-right: $base-spacing;
+}
+
+.route-branch-stop-link {
+  display: inline-block;
+}
+
+@include media-breakpoint-only(xs) {
+  .schedule-link {
+    float: right;
+  }
+}
+
+.route-branch-stop-zone {
+  background: $gray-lightest;
+  border-radius: $border-radius;
+  display: inline-block;
+  font-size: $font-size-sm;
+  margin-bottom: $base-spacing / 4;
+  margin-top: $base-spacing / 4;
+  padding: $base-spacing / 4;
 }
 
 @include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);

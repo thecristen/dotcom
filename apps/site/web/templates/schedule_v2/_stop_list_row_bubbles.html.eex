@@ -1,0 +1,19 @@
+<div class="route-branch-stop-bubbles">
+  <%=
+    for {{bubble_type, branch}, index} <- Enum.with_index(@bubbles) do
+      content_tag :div, class: "route-branch-stop-bubble #{bubble_type}" do
+        stop_bubble_content(assigns, bubble_type, branch, index)
+      end
+    end
+  %>
+  <%=
+    # required to keep the branch lines aligned on iOS
+    case length(@bubbles) - length(@branch_names) do
+      diff when diff > 0 ->
+        for _ <- 1..diff do
+          content_tag(:div, "", class: "route-branch-stop-bubble hidden-sm-up")
+        end
+      _ -> ""
+    end
+  %>
+</div>
