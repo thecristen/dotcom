@@ -6,7 +6,7 @@ defmodule Stops.Repo do
   alias Stops.Position
   alias Stops.Stop
 
-  @type stop_feature :: Routes.Route.route_type | Routes.Route.subway_lines_type | :access
+  @type stop_feature :: Routes.Route.route_type | Routes.Route.subway_lines_type | :access | :parking_lot
 
   def stations do
     cache [], fn _ ->
@@ -67,11 +67,15 @@ defmodule Stops.Repo do
   def stop_features(stop) do
     [
       route_features(stop.id),
+      parking_features(stop.parking_lots),
       accessibility_features(stop.accessibility)
     ]
     |> Enum.concat()
     |> Enum.sort_by(&sort_feature_icons/1)
   end
+
+  defp parking_features([]), do: []
+  defp parking_features(_parking_lots), do: [:parking_lot]
 
   @spec route_features(String.t) :: [stop_feature]
   defp route_features(stop_id) do
@@ -88,7 +92,8 @@ defmodule Stops.Repo do
   @spec sort_feature_icons(atom) :: integer
   defp sort_feature_icons(:commuter_rail), do: 0
   defp sort_feature_icons(:bus), do: 2
-  defp sort_feature_icons(:access), do: 10
+  defp sort_feature_icons(:access), do: 3
+  defp sort_feature_icons(:parking_lot), do: 4
   defp sort_feature_icons(_), do: 1
 end
 

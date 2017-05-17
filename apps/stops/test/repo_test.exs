@@ -76,5 +76,10 @@ defmodule Stops.RepoTest do
       features = stop_features(%{@stop | accessibility: ["accessible"]})
       assert features == [:commuter_rail, :red_line, :bus, :access]
     end
+
+    test "adds parking features if relevant" do
+      stop = %{@stop | parking_lots: [%Stop.ParkingLot{}]}
+      assert :parking_lot in stop_features(stop)
+    end
   end
 end

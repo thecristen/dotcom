@@ -21,7 +21,7 @@ defmodule Stops.RouteStopsTest do
       assert alewife.is_terminus? == true
       assert alewife.zone == nil
       assert alewife.branch == nil
-      assert alewife.stop_features == [:bus, :access]
+      assert alewife.stop_features == [:bus, :access, :parking_lot]
       assert alewife.stop_number == 0
 
       jfk = List.last(unbranched_stops)
@@ -34,7 +34,7 @@ defmodule Stops.RouteStopsTest do
       assert [savin|_] = ashmont_stops
       assert savin.name == "Savin Hill"
       assert savin.branch == "Ashmont"
-      assert savin.stop_features == [:access]
+      assert savin.stop_features == [:access, :parking_lot]
       assert savin.is_terminus? == false
       assert savin.stop_number == 13
 
@@ -48,14 +48,14 @@ defmodule Stops.RouteStopsTest do
       [north_quincy|_] = braintree_stops
       assert north_quincy.name == "North Quincy"
       assert north_quincy.branch == "Braintree"
-      assert north_quincy.stop_features == [:bus, :access]
+      assert north_quincy.stop_features == [:bus, :access, :parking_lot]
       assert north_quincy.is_terminus? == false
       assert north_quincy.stop_number == 13
 
       braintree = List.last(braintree_stops)
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree"
-      assert braintree.stop_features == [:commuter_rail, :bus, :access]
+      assert braintree.stop_features == [:commuter_rail, :bus, :access, :parking_lot]
       assert braintree.is_terminus? == true
       assert braintree.stop_number == 17
     end
@@ -85,7 +85,7 @@ defmodule Stops.RouteStopsTest do
       [braintree|_] = braintree_stops
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree"
-      assert braintree.stop_features == [:commuter_rail, :bus, :access]
+      assert braintree.stop_features == [:commuter_rail, :bus, :access, :parking_lot]
       assert braintree.is_terminus? == true
       assert braintree.stop_number == 0
 

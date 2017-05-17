@@ -312,6 +312,11 @@ defmodule Site.ScheduleV2View do
     |> String.capitalize
   end
 
+  @doc "display stop feature as an icon"
+  @spec stop_feature_icon(Stops.Repo.stop_feature) :: Phoenix.HTML.Safe.t
+  def stop_feature_icon(:parking_lot), do: svg_icon(%SvgIcon{icon: :parking_lot})
+  def stop_feature_icon(feature), do: svg_icon_with_circle(%SvgIconWithCircle{icon: feature})
+
   @spec stop_name_link_with_alerts(String.t, String.t, [Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
   def stop_name_link_with_alerts(name, url, []) do
     link to: url do

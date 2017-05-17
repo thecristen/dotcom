@@ -207,7 +207,8 @@ defmodule Site.ScheduleV2ControllerTest do
         :orange_line,
         :green_line,
         :bus,
-        :access
+        :access,
+        :parking_lot
       ]
 
       # builds a map
@@ -263,7 +264,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert braintree.id == "place-brntn"
 
       # includes the stop features
-      assert unbranched_stops |> List.first() |> Map.get(:stop_features) == [:bus, :access]
+      assert unbranched_stops |> List.first() |> Map.get(:stop_features) == [:bus, :access, :parking_lot]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
@@ -279,7 +280,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert List.last(all_stops).id == "place-lake"
 
       # includes the stop features
-      assert List.first(all_stops).stop_features == [:bus, :access]
+      assert List.first(all_stops).stop_features == [:bus, :access, :parking_lot]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
