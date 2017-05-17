@@ -166,4 +166,25 @@ defmodule Site.AlertControllerTest do
       }
     end
   end
+
+  describe "mTicket detection" do
+    test "mTicket matched", %{conn: conn} do
+      response = conn
+      |> put_req_header("user-agent", "Java/1.8.0_91")
+      |> get(alert_path(conn, :show, :commuter_rail))
+      |> html_response(200)
+
+      assert response =~ "mticket-notice"
+      assert response =~ "access alerts:"
+      assert response =~ "/alerts/commuter_rail"
+    end
+
+    test "mTicket not matched", %{conn: conn} do
+      response = conn
+      |> get(alert_path(conn, :show, :commuter_rail))
+      |> html_response(200)
+
+      refute response =~ "mticket-notice"
+    end
+  end
 end
