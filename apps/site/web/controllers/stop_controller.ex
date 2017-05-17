@@ -160,6 +160,6 @@ defmodule Site.StopController do
                   |> Enum.flat_map(&elem(&1, 1))
                   |> Enum.uniq
 
-    [{%{name: "Green"}, green_stops} | others]
+    [{%{name: "Green Line", id: "Green"}, green_stops} | others]
   end
 end

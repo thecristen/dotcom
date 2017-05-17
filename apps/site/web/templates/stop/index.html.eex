@@ -8,14 +8,19 @@
     collapse: "xs"
   } %>
   <%= for {route, stops} <- @stop_info do %>
-    <h2><%= route.name |> clean_route_name %></h2>
-    <div class="button-group">
-      <%= for stop <- stops |> Enum.sort_by(&(&1.name)) do %>
-        <div class="button-container col-xs-12 col-sm-6 col-md-4 col-xxl-3">
-          <a class="btn button" href="<%= stop_path(@conn, :show, stop.id) %>">
-            <%= stop.name %>
-          </a>
-        </div>
+    <div class="page-section">
+      <h2><%= route.name |> clean_route_name %></h2>
+      <div class="button-group">
+        <%= for stop <- stops |> Enum.sort_by(&(&1.name)) do %>
+          <div class="button-container col-xs-12 col-sm-6 col-md-4 col-xxl-3">
+            <a class="btn button" href="<%= stop_path(@conn, :show, stop.id) %>">
+              <%= stop.name %>
+            </a>
+          </div>
+        <% end %>
+      </div>
+      <%= link to: line_path(@conn, :show, route.id) do %>
+        View <%= route.name %> info <%= fa "arrow-right "%>
       <% end %>
     </div>
   <% end %>
