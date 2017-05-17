@@ -56,7 +56,8 @@ defmodule DetailedStopGroup do
 
   @spec build_featured_stop(Route.t, Stop.t) :: DetailedStop.t
   defp build_featured_stop(route, stop) do
-    %DetailedStop{stop: stop, features: Stops.Repo.stop_features(stop, [Route.icon_atom(route)])}
+    features = Stops.Repo.stop_features(stop, [Route.icon_atom(route)], route.id == "Green")
+    %DetailedStop{stop: stop, features: features}
   end
 
   @spec group_green_line([grouped_stops]) :: [grouped_stops]

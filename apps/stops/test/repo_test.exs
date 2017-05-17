@@ -69,12 +69,12 @@ defmodule Stops.RepoTest do
     end
 
     test "returns stop features in correct order" do
-      assert stop_features(@stop) == [:commuter_rail, :red_line, :bus]
+      assert stop_features(@stop) == [:red_line, :commuter_rail, :bus]
     end
 
     test "accessibility added if relevant" do
       features = stop_features(%{@stop | accessibility: ["accessible"]})
-      assert features == [:commuter_rail, :red_line, :bus, :access]
+      assert features == [:red_line, :commuter_rail, :bus, :access]
     end
 
     test "adds parking features if relevant" do
@@ -85,6 +85,11 @@ defmodule Stops.RepoTest do
     test "excluded features are not returned" do
       assert stop_features(@stop, [:red_line]) == [:commuter_rail, :bus]
       assert stop_features(@stop, [:red_line, :commuter_rail]) == [:bus]
+    end
+
+    test "includes specific green_line branches if specified" do
+      features = stop_features(%Stop{id: "place-pktrm"}, [], true)
+      assert features == [:"Green-B", :"Green-C", :"Green-D", :"Green-E", :red_line]
     end
   end
 end

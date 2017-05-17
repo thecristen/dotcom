@@ -12,7 +12,7 @@
       <h2><%= route.name |> clean_route_name %></h2>
       <div class="button-group">
         <%= for featured_stop <- featured_stops do %>
-          <div class="button-container col-xs-12 col-sm-6 col-md-4 col-xxl-3">
+          <div class="button-container col-xs-12 col-sm-6 col-md-4">
             <a class="btn button stop-btn" href="<%= stop_path(@conn, :show, featured_stop.stop.id) %>">
               <%= featured_stop.stop.name %>
               <span class="stop-features-list"><%= feature_icons(featured_stop)%></span>

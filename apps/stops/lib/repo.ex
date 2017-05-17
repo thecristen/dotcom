@@ -5,8 +5,10 @@ defmodule Stops.Repo do
   use RepoCache, ttl: :timer.hours(1)
   alias Stops.Position
   alias Stops.Stop
+  alias Routes.Route
 
-  @type stop_feature :: Routes.Route.route_type | Routes.Route.subway_lines_type | :access | :parking_lot
+  @type stop_feature :: Route.route_type | Route.subway_lines_type
+                        | :access | :parking_lot | :"Green-B" |:"Green-C" |:"Green-D" |:"Green-E"
 
   def stations do
     cache [], fn _ ->
@@ -31,12 +33,12 @@ defmodule Stops.Repo do
     Stops.Nearby.nearby(position)
   end
 
-  @spec by_route(Routes.Route.id_t, 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
+  @spec by_route(Route.id_t, 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
   def by_route(route_id, direction_id, opts \\ []) do
     cache {route_id, direction_id, opts}, &Stops.Api.by_route/1
   end
 
-  @spec by_routes([Routes.Route.id_t], 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
+  @spec by_routes([Route.id_t], 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
   def by_routes(route_ids, direction_id, opts \\ []) when is_list(route_ids) do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
@@ -49,7 +51,7 @@ defmodule Stops.Repo do
     |> Enum.uniq
   end
 
-  @spec by_route_type(Routes.Route.t, Keyword.t):: [Stop.t] | {:error, any}
+  @spec by_route_type(Route.t, Keyword.t):: [Stop.t] | {:error, any}
   def by_route_type(route_type, opts \\ []) do
     cache {route_type, opts}, &Stops.Api.by_route_type/1
   end
@@ -63,10 +65,10 @@ defmodule Stops.Repo do
   @doc """
   Returns a list of the features associated with the given stop
   """
-  @spec stop_features(Stop.t, [stop_feature]) :: [stop_feature]
-  def stop_features(stop, excluded \\ []) do
+  @spec stop_features(Stop.t, [stop_feature], boolean) :: [stop_feature]
+  def stop_features(stop, excluded \\ [], use_branch \\ false) do
     [
-      route_features(stop.id),
+      route_features(stop.id, use_branch),
       parking_features(stop.parking_lots),
       accessibility_features(stop.accessibility)
     ]
@@ -78,24 +80,35 @@ defmodule Stops.Repo do
   defp parking_features([]), do: []
   defp parking_features(_parking_lots), do: [:parking_lot]
 
-  @spec route_features(String.t) :: [stop_feature]
-  defp route_features(stop_id) do
+  @spec route_features(String.t, boolean) :: [stop_feature]
+  defp route_features(stop_id, use_branch) do
+    icon_fn = if use_branch, do: &branch_feature/1, else: &Route.icon_atom/1
     stop_id
     |> Routes.Repo.by_stop
-    |> Enum.map(&Routes.Route.icon_atom/1)
+    |> Enum.map(icon_fn)
     |> Enum.uniq()
   end
+
+  def branch_feature(%Route{id: "Green-B"}), do: :"Green-B"
+  def branch_feature(%Route{id: "Green-C"}), do: :"Green-C"
+  def branch_feature(%Route{id: "Green-D"}), do: :"Green-D"
+  def branch_feature(%Route{id: "Green-E"}), do: :"Green-E"
+  def branch_feature(route), do: Route.icon_atom(route)
 
   @spec accessibility_features([String.t]) :: [:access]
   defp accessibility_features(["accessible" | _]), do: [:access]
   defp accessibility_features(_), do: []
 
   @spec sort_feature_icons(atom) :: integer
-  defp sort_feature_icons(:commuter_rail), do: 0
-  defp sort_feature_icons(:bus), do: 2
-  defp sort_feature_icons(:access), do: 3
-  defp sort_feature_icons(:parking_lot), do: 4
-  defp sort_feature_icons(_), do: 1
+  defp sort_feature_icons(:"Green-B"), do: 0
+  defp sort_feature_icons(:"Green-C"), do: 1
+  defp sort_feature_icons(:"Green-D"), do: 2
+  defp sort_feature_icons(:"Green-E"), do: 3
+  defp sort_feature_icons(:commuter_rail), do: 5
+  defp sort_feature_icons(:bus), do: 6
+  defp sort_feature_icons(:access), do: 7
+  defp sort_feature_icons(:parking_lot), do: 8
+  defp sort_feature_icons(_), do: 4
 end
 
 defmodule Stops.NotFoundError do

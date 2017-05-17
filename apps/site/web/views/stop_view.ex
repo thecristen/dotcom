@@ -227,6 +227,12 @@ defmodule Site.StopView do
   """
   @spec stop_feature_icon(Stops.Repo.stop_feature, String.t) :: Phoenix.HTML.Safe.t
   def stop_feature_icon(feature, class \\ "")
+  def stop_feature_icon(feature, class) when feature in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
+    icon_opts = [icon_class: class, transform: "translate(1,1)"]
+    content_tag :span, class: "green-line route-branch-stop-list stop-feature-green" do
+      Site.ScheduleV2View.StopList.stop_bubble_icon(:stop, Atom.to_string(feature), icon_opts)
+    end
+  end
   def stop_feature_icon(:parking_lot, class) do
     svg_icon(%SvgIcon{icon: :parking_lot, class: class})
   end
