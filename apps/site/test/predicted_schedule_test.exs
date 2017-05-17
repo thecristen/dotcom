@@ -1,6 +1,7 @@
 defmodule PredictedScheduleTest do
   use ExUnit.Case, async: true
-  alias Schedules.{Schedule, Stop, Trip}
+  alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
   alias Predictions.Prediction
   import PredictedSchedule
 

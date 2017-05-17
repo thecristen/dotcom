@@ -1,0 +1,19 @@
+{
+  "uuid" : "6bc8a3ab-e87e-34c8-9a21-14fbdc4500e2",
+  "request" : {
+    "url" : "/stops/107",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-107-Wfp4u.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 19:39:43 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "a81ug8h94ni2vcdlbg9f52njp4kgbp42",
+      "Connection" : "keep-alive"
+    }
+  }
+}

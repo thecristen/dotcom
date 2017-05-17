@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/58"},"id":"58","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ Harrison Ave","longitude":-71.074931,"latitude":42.334948}}}

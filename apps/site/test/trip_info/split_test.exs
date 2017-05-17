@@ -8,7 +8,7 @@ defmodule TripInfo.SplitTest do
   @vehicle_id "vehicle"
 
   defp time(stop_id \\ nil) do
-    %PredictedSchedule{schedule: %Schedules.Schedule{stop: %Schedules.Stop{id: stop_id}}}
+    %PredictedSchedule{schedule: %Schedules.Schedule{stop: %Stops.Stop{id: stop_id}}}
   end
 
   test "splits into three sections if the vehicle is before the origin and we'd remove 3 stops" do

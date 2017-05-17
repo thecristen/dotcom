@@ -10,9 +10,9 @@ for service in cassandra elasticsearch mysql rabbitmq-server mongod docker memca
 done
 killall Xvfb
 
-# Add more swap memory. Default is ~200m, make it 1G
+# Add more swap memory. Default is ~200m, make it 2G
 sudo swapoff -a
-sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
+sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
 sudo mkswap /swapfile
 sudo swapon /swapfile
 

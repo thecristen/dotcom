@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/6"},"id":"6","attributes":{"wheelchair_boarding":0,"name":"Melnea Cass Blvd @ Harrison Ave","longitude":-71.079576,"latitude":42.332016}}}

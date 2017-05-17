@@ -1,7 +1,8 @@
 defmodule Site.ScheduleV2Controller.TripInfoTest do
   use Site.ConnCase, async: true
   import Site.ScheduleV2Controller.TripInfo
-  alias Schedules.{Schedule, Stop, Trip}
+  alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
   alias Predictions.Prediction
 
   @time ~N[2017-02-10T20:00:00]
@@ -10,29 +11,29 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   @schedules [
     %Schedule{
       trip: %Trip{id: "past_trip"},
-      stop: %Schedules.Stop{},
+      stop: %Stop{},
       time: Timex.shift(@time, hours: -1)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
-      stop: %Schedules.Stop{},
+      stop: %Stop{},
       time: Timex.shift(@time, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "far_future_trip"},
-      stop: %Schedules.Stop{},
+      stop: %Stop{},
       time: Timex.shift(@time, hours: 1)
     }
   ]
   @trip_schedules [
     %Schedule{
       trip: %Trip{id: "32893585"},
-      stop: %Schedules.Stop{id: "first"},
+      stop: %Stop{id: "first"},
       time: Timex.shift(@time, minutes: 5)
     },
     %Schedule{
       trip: %Trip{id: "32893585"},
-      stop: %Schedules.Stop{id: "last"},
+      stop: %Stop{id: "last"},
       time: Timex.shift(@time, minutes: 4)
     }
   ]
@@ -68,23 +69,23 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     @trip_schedules
     |> Enum.concat([
       %Schedule{
-        stop: %Schedules.Stop{id: "after_first"},
+        stop: %Stop{id: "after_first"},
         time: Timex.shift(List.last(@schedules).time, minutes: -4)
       },
       %Schedule{
-        stop: %Schedules.Stop{id: "1"},
+        stop: %Stop{id: "1"},
         time: Timex.shift(List.last(@schedules).time, minutes: -3)
       },
       %Schedule{
-        stop: %Schedules.Stop{id: "2"},
+        stop: %Stop{id: "2"},
         time: Timex.shift(List.last(@schedules).time, minutes: -2)
       },
       %Schedule{
-        stop: %Schedules.Stop{id: "3"},
+        stop: %Stop{id: "3"},
         time: Timex.shift(List.last(@schedules).time, minutes: -1)
       },
       %Schedule{
-        stop: %Schedules.Stop{id: "new_last"},
+        stop: %Stop{id: "new_last"},
         time: List.last(@schedules).time
       }
     ])
@@ -150,13 +151,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     schedules = [
       %Schedule{
         trip: %Trip{id: "long_trip"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: -10),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 15),
         route: %Routes.Route{type: 1}
       }
@@ -165,13 +166,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     predictions = [
       %Prediction{
         trip: %Trip{id: "long_trip"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 1),
         route: %Routes.Route{type: 1}
       },
       %Prediction{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 20),
         route: %Routes.Route{type: 1}
       }
@@ -250,19 +251,19 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, hours: 25),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 26),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, hours: 27),
         route: %Routes.Route{type: 1}
       }
@@ -286,19 +287,19 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 10),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 15),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 20),
         route: %Routes.Route{type: 1}
       }
@@ -322,19 +323,19 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     schedules = [
       %Schedule{
         trip: %Trip{id: "long_trip"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: -10),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 15),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "not_in_schedule"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 20),
         route: %Routes.Route{type: 1}
       }
@@ -359,13 +360,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     schedules = [
       %Schedule{
         trip: %Trip{id: "long_trip"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: -10),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 15),
         route: %Routes.Route{type: 1}
       }
@@ -375,13 +376,13 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     predictions = [
       %Prediction{
         trip: %Trip{id: "long_trip"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 1),
         route: %Routes.Route{type: 1}
       },
       %Prediction{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 20),
         route: %Routes.Route{type: 1}
       }
@@ -406,19 +407,19 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, hours: 25),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, minutes: 26),
         route: %Routes.Route{type: 1}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, hours: 27),
         route: %Routes.Route{type: 1}
       }
@@ -440,19 +441,19 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, hours: 25),
         route: %Routes.Route{type: 3}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, hours: 26),
         route: %Routes.Route{type: 3}
       },
       %Schedule{
         trip: %Trip{id: "32893585"},
-        stop: %Schedules.Stop{},
+        stop: %Stop{},
         time: Timex.shift(@time, hours: 27),
         route: %Routes.Route{type: 3}
       }

@@ -54,7 +54,7 @@ defmodule PredictedSchedule do
   @doc """
   Returns the stop for a given PredictedSchedule
   """
-  @spec stop(PredictedSchedule.t) :: Schedules.Stop.t
+  @spec stop(PredictedSchedule.t) :: Stops.Stop.t
   def stop(%PredictedSchedule{schedule: %Schedule{stop: stop}}), do: stop
   def stop(%PredictedSchedule{prediction: %Prediction{stop: stop}}), do: stop
 

@@ -19,7 +19,7 @@ defmodule Schedules.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api, :timex, :repo_cache, :tzdata, :util],
+    [applications: [:logger, :v3_api, :timex, :repo_cache, :tzdata, :util, :routes, :stops],
      mod: {Schedules, []}]
   end
 
@@ -41,6 +41,7 @@ defmodule Schedules.Mixfile do
      {:timex, ">= 0.0.0"},
      {:repo_cache, in_umbrella: true},
      {:routes, in_umbrella: true},
+     {:stops, in_umbrella: true},
      {:excheck, "~> 0.5", only: :test},
      {:excoveralls, "~> 0.5", only: :test},
      {:triq, github: "triqng/triq", only: :test},

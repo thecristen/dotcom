@@ -3,12 +3,13 @@ defmodule Schedules.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
   alias Schedules.Schedule
+  alias Stops.Stop
 
   @type schedule_pair :: {Schedule.t, Schedule.t}
 
   @default_timeout 10_000
   @default_params [
-      include: "trip,route,stop.parent_station",
+      include: "trip,route",
       "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence",
       "fields[trip]": "name,headsign,direction_id",
       "fields[stop]": "name"
@@ -40,7 +41,7 @@ defmodule Schedules.Repo do
     |> cache(&all_from_params/1)
   end
 
-  @spec origin_destination(Stops.Stop.id_t, Stops.Stop.id_t, Keyword.t) :: [schedule_pair] | {:error, any}
+  @spec origin_destination(Stop.id_t, Stop.id_t, Keyword.t) :: [schedule_pair] | {:error, any}
   def origin_destination(origin_stop, dest_stop, opts \\ []) do
     {origin_stop, dest_stop, opts}
     |> cache(fn _ ->
@@ -56,7 +57,7 @@ defmodule Schedules.Repo do
     end, timeout: @default_timeout)
   end
 
-  @spec schedule_for_stop(Stops.Stop.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
+  @spec schedule_for_stop(Stop.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
   def schedule_for_stop(stop_id, opts) do
     @default_params
     |> Keyword.merge(opts)

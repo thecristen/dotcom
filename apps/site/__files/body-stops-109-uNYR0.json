@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/109"},"id":"109","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ Bow St","longitude":-71.115371,"latitude":42.372099}}}

@@ -6,7 +6,8 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
   import UrlHelpers, only: [update_url: 2]
 
   alias Routes.Route
-  alias Schedules.{Schedule, Trip, Stop}
+  alias Schedules.{Schedule, Trip}
+  alias Stops.Stop
   alias Predictions.Prediction
 
  @route %Route{id: "86", type: 3, name: "86"}

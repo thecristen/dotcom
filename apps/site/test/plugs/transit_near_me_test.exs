@@ -215,6 +215,7 @@ defmodule Site.Plugs.TransitNearMeTest do
 
     conn
     |> assign_query_params(%{"location" => %{"address" => address}})
+    |> bypass_through(Site.Router, :browser)
     |> Site.Plugs.TransitNearMe.call(options)
   end
 

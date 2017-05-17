@@ -56,34 +56,9 @@ defmodule Schedules.Parser do
   def stop(%JsonApi.Item{
         relationships: %{
           "stop" => [
-          %JsonApi.Item{
-            relationships: %{
-              "parent_station" => [
-                %JsonApi.Item{
-                  id: id,
-                  attributes: %{
-                    "name" => name
-                  }}]
-            }}]
-        }}) do
-    %Schedules.Stop{
-      id: id,
-      name: name
-    }
-  end
-  def stop(%JsonApi.Item{
-        relationships: %{
-          "stop" => [
-          %JsonApi.Item{
-            id: id,
-            attributes: %{
-              "name" => name
-            }}]
-        }}) do
-    %Schedules.Stop{
-      id: id,
-      name: name
-    }
+          %JsonApi.Item{id: id}
+        ]}}) do
+    Stops.Repo.get!(id)
   end
 
   defp time(%JsonApi.Item{attributes: %{"departure_time" => departure_time}}) do

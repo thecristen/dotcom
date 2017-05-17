@@ -1,9 +1,7 @@
 defmodule Predictions.ParserTest do
   use ExUnit.Case, async: true
 
-  alias Predictions.Parser
-  alias Predictions.Prediction
-  alias Schedules.Stop
+  alias Predictions.{Parser, Prediction}
   alias Schedules.Trip
   alias Routes.Route
   alias JsonApi.Item
@@ -27,7 +25,7 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
-          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
                               "direction_id" => "0",
@@ -42,7 +40,7 @@ defmodule Predictions.ParserTest do
       }
       expected = %Prediction{
         trip: %Trip{id: "trip_id", name: "trip_name", direction_id: "0", headsign: "trip_headsign"},
-        stop: %Stop{id: "stop_id", name: "Stop"},
+        stop: Stops.Repo.get!("place-pktrm"),
         route: %Route{
           id: "route_id",
           name: "Route",
@@ -77,7 +75,7 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
-          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
                               "direction_id" => "0",
@@ -112,7 +110,7 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
-          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
                               "direction_id" => "0",
@@ -131,41 +129,6 @@ defmodule Predictions.ParserTest do
       refute parsed.departing?
     end
 
-    test "uses parent station ID and name if present" do
-      item = %Item{
-        attributes: %{
-          "track" => nil,
-          "status" => "On Time",
-          "direction_id" => 0,
-          "departure_time" => "2016-09-15T15:40:00-04:00",
-          "arrival_time" => nil
-        },
-        relationships: %{
-          "route" => [%Item{id: "route_id", attributes: %{
-                               "long_name" => "Route",
-                               "direction_names" => ["Eastbound", "Westbound"],
-                               "type" => 5
-                            }}],
-          "stop" => [%Item{id: "stop_id",
-                           attributes: %{"name" => "Stop - Outbound"},
-                           relationships: %{
-                             "parent_station" => [
-                             %Item{id: "parent_id", attributes: %{"name" => "Parent Name"}}
-                           ]
-                           }}],
-          "trip" => [%Item{id: "trip_id", attributes: %{
-                              "name" => "trip_name",
-                              "direction_id" => "0",
-                              "headsign" => "trip_headsign"
-                           }}]
-        }
-      }
-      expected = %Stop{name: "Parent Name", id: "parent_id"}
-      actual = Parser.parse(item).stop
-
-      assert actual == expected
-    end
-
     test "can parse possible schedule relationships" do
       base_item = %Item{
         attributes: %{
@@ -182,7 +145,7 @@ defmodule Predictions.ParserTest do
                                "type" => 5
                             }},
                       %Item{id: "wrong"}],
-          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}, %Item{id: "wrong"}],
           "trip" => [%Item{id: "trip_id", attributes: %{
                               "name" => "trip_name",
                               "direction_id" => "0",
@@ -226,13 +189,13 @@ defmodule Predictions.ParserTest do
                                "direction_names" => ["Eastbound", "Westbound"],
                                "type" => 5
                             }}],
-          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
           "trip" => []
         }
       }
       expected = %Prediction{
         trip: nil,
-        stop: %Stop{id: "stop_id", name: "Stop"},
+        stop: Stops.Repo.get!("place-pktrm"),
         route: %Route{
           id: "route_id",
           name: "Route",
@@ -265,7 +228,7 @@ defmodule Predictions.ParserTest do
                                "direction_names" => ["Eastbound", "Westbound"],
                                "type" => 1
                             }}],
-          "stop" => [%Item{id: "stop_id", attributes: %{"name" => "Stop"}}],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
           "trip" => []
         }
       }

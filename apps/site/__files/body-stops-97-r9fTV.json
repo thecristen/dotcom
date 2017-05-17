@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/97"},"id":"97","attributes":{"wheelchair_boarding":0,"name":"77 Massachusetts Ave","longitude":-71.093543,"latitude":42.359183}}}

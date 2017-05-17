@@ -1,0 +1,19 @@
+{
+  "uuid" : "5cd2053e-cbbf-38e3-84a8-b0e281d11d79",
+  "request" : {
+    "url" : "/stops/Back%20Bay",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-SFaN9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 19:39:59 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "93egcspqns6js0dcspi1tv46adip23qe",
+      "Connection" : "keep-alive"
+    }
+  }
+}

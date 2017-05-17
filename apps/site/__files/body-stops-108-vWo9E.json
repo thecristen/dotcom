@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/108"},"id":"108","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ Trowbridge St","longitude":-71.112998,"latitude":42.37027}}}

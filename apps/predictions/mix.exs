@@ -19,7 +19,7 @@ defmodule Predictions.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api, :timex, :repo_cache, :tzdata]]
+    [applications: [:logger, :v3_api, :timex, :repo_cache, :tzdata, :schedules, :routes, :stops]]
   end
 
   # Dependencies can be Hex packages:
@@ -38,6 +38,7 @@ defmodule Predictions.Mixfile do
      {:bypass, ">= 0.0.0", only: :test},
      {:repo_cache, in_umbrella: true},
      {:schedules, in_umbrella: true},
+     {:stops, in_umbrella: true},
      {:routes, in_umbrella: true}
     ]
   end

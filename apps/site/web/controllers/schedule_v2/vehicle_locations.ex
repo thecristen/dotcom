@@ -4,6 +4,8 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
   """
   import Plug.Conn, only: [assign: 3]
 
+  alias Stops.Stop
+
   @default_opts [
     location_fn: &Vehicles.Repo.route/2,
     schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/1
@@ -50,7 +52,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
   end
 
   defp find_previous_station([_], _stop_id), do: nil
-  defp find_previous_station([previous_stop_schedule, %Schedules.Schedule{stop: %Schedules.Stop{id: id}} | _rest], stop_id) when id == stop_id do
+  defp find_previous_station([previous_stop_schedule, %Schedules.Schedule{stop: %Stop{id: id}} | _rest], stop_id) when id == stop_id do
     previous_stop_schedule.stop
   end
   defp find_previous_station([_previous, stop_schedule | rest], stop_id) do

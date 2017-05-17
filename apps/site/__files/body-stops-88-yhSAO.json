@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/88"},"id":"88","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ Columbus Ave","longitude":-71.081617,"latitude":42.340606}}}
