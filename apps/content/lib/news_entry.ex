@@ -2,6 +2,7 @@ defmodule Content.NewsEntry do
   @moduledoc """
   Represents a "news_entry" content type in the Drupal CMS.
   """
+  @number_of_recent_news_suggestions 3
 
   import Content.Helpers, only: [field_value: 2, handle_html: 1, int_or_string_to_int: 1, parse_body: 1,
     parse_featured_image: 1, parse_updated_at: 1]
@@ -38,5 +39,9 @@ defmodule Content.NewsEntry do
     data
     |> field_value("field_more_information")
     |> handle_html
+  end
+
+  def number_of_recent_news_suggestions do
+    @number_of_recent_news_suggestions
   end
 end

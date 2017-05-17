@@ -1,5 +1,6 @@
 defmodule Content.CMS.Static do
   @behaviour Content.CMS
+  alias Content.NewsEntry
 
   @news File.read!("priv/news.json")
   @basic_page File.read!("priv/accessibility.json")
@@ -33,9 +34,15 @@ defmodule Content.CMS.Static do
   end
 
   def view(path, params \\ [])
-  def view("/recent-news", _) do
-    recent_news = Enum.take(news_response(), 3)
+  def view("/recent-news", [current_id: id]) do
+    id = Integer.to_string(id)
+    filtered_recent_news = Enum.reject(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
+    recent_news = Enum.take(filtered_recent_news, NewsEntry.number_of_recent_news_suggestions())
+
     {:ok, recent_news}
+  end
+  def view("/recent-news", _) do
+    {:ok, Enum.take(news_response(), NewsEntry.number_of_recent_news_suggestions())}
   end
   def view("/accessibility", _) do
     {:ok, basic_page_response()}

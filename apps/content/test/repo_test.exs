@@ -6,15 +6,23 @@ defmodule Content.RepoTest do
   describe "recent_news" do
     test "returns list of Content.NewsEntry" do
       [%Content.NewsEntry{
-        body: body,
-        media_contact_name: media_contact_name,
-        featured_image: featured_image
-        } | _] = Content.Repo.recent_news
+         body: body,
+         media_contact_name: media_contact_name,
+         featured_image: featured_image
+       } | _] = Content.Repo.recent_news()
 
       assert safe_to_string(body) =~ "BOSTON -- The MBTA"
       assert media_contact_name == "MassDOT Press Office"
       assert featured_image.alt == "Commuter Rail Train"
       assert featured_image.url =~ "Allston%20train.jpg"
+    end
+
+    test "allows the current News Entry to be excluded" do
+      current_id = 1
+      recent_news = Content.Repo.recent_news(current_id: current_id)
+
+      recent_news_ids = Enum.map(recent_news, &(&1.id))
+      refute Enum.member?(recent_news_ids, current_id)
     end
   end
 

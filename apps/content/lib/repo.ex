@@ -18,9 +18,9 @@ defmodule Content.Repo do
     end
   end
 
-  @spec recent_news() :: [Content.NewsEntry.t]
-  def recent_news do
-    case @cms_api.view("/recent-news") do
+  @spec recent_news(Keyword.t) :: [Content.NewsEntry.t]
+  def recent_news(opts \\ []) do
+    case @cms_api.view("/recent-news", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
       _ -> []
     end
