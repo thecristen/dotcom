@@ -11,11 +11,11 @@ defmodule Site.GreenLine.CacheWarmer do
   use GenServer
 
   def start_link(opts \\ []) do
-    start_date = Keyword.get(opts, :start_date, Util.service_date())
-    end_date = Keyword.get(opts, :end_date, Schedules.Repo.end_of_rating())
+    start_date_fn = Keyword.get(opts, :start_date_fn, &Util.service_date/0)
+    end_date_fn = Keyword.get(opts, :end_date_fn, &Schedules.Repo.end_of_rating/0)
     reset_fn = Keyword.get(opts, :reset_fn, &Site.GreenLine.Cache.reset_cache/1)
 
-    GenServer.start_link(__MODULE__, {start_date, end_date, reset_fn})
+    GenServer.start_link(__MODULE__, {start_date_fn, end_date_fn, reset_fn})
   end
 
   def init(state) do
@@ -23,10 +23,15 @@ defmodule Site.GreenLine.CacheWarmer do
     {:ok, state}
   end
 
-  def handle_info(:populate_caches, {start_date, end_date, reset_fn} = state) do
+  def handle_info(:populate_caches, {start_date_fn, end_date_fn, reset_fn} = state) do
     reset_fn.(nil)
-    populate_cache(start_date, end_date, reset_fn)
-    schedule_next_update()
+    populate_cache(start_date_fn.(), end_date_fn.(), reset_fn)
+
+    Process.send_after(
+      self(),
+      :populate_caches,
+      next_update_after(Timex.now("America/New_York"))
+    )
 
     {:noreply, state}
   end
@@ -34,24 +39,20 @@ defmodule Site.GreenLine.CacheWarmer do
     {:noreply, state} # no cover
   end
 
-  defp populate_cache(date, last_date, reset_fn) do
-    if Timex.before?(date, Timex.shift(last_date, days: 1)) do
-      reset_fn.(date)
-      populate_cache(Timex.shift(date, days: 1), last_date, reset_fn)
-    end
-  end
-
-  defp schedule_next_update do
-    now = Timex.now("America/New_York")
-
+  def next_update_after(now) do
     tomorrow_morning =
       now
       |> Timex.shift(days: 1)
       |> Timex.beginning_of_day
       |> Timex.shift(hours: 7)
 
-    wait_until = Timex.diff(tomorrow_morning, now, :milliseconds)
+    Timex.diff(tomorrow_morning, now, :milliseconds)
+  end
 
-    Process.send_after(self(), :populate_caches, wait_until)
+  defp populate_cache(date, last_date, reset_fn) do
+    if Timex.before?(date, Timex.shift(last_date, days: 1)) do
+      reset_fn.(date)
+      populate_cache(Timex.shift(date, days: 1), last_date, reset_fn)
+    end
   end
 end
