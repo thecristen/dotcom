@@ -1,0 +1,19 @@
+{
+  "uuid" : "e499e66f-28c4-393f-802c-bfbdc5a06bcd",
+  "request" : {
+    "url" : "/routes/?stop=30239&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YTzoh.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "gfc2f5418scm9a6p88v52snmbmbjp32r",
+      "Connection" : "keep-alive"
+    }
+  }
+}

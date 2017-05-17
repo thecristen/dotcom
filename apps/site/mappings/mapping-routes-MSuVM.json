@@ -1,0 +1,19 @@
+{
+  "uuid" : "471acbf1-3683-3447-8930-dc76fafdef75",
+  "request" : {
+    "url" : "/routes/?stop=place-jfk&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MSuVM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "5a85glga02blqcr0utd9grj45u09tu0l",
+      "Connection" : "keep-alive"
+    }
+  }
+}

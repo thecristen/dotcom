@@ -1,0 +1,19 @@
+{
+  "uuid" : "55a75f4e-b7a3-33f1-b149-3bc7863ba808",
+  "request" : {
+    "url" : "/routes/?stop=place-andrw&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JQr1n.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ll8auh8ib621u9pdqi5mun0asn8c6sbm",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "e26a2944-9604-3f6b-ae54-1cd790019f04",
+  "request" : {
+    "url" : "/routes/?stop=place-state&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AxqRA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "vnh8rrtsakp158k2issh8uiffcfl4v6u",
+      "Connection" : "keep-alive"
+    }
+  }
+}

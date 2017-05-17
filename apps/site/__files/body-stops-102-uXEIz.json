@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/102"},"id":"102","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ Prospect St","longitude":-71.103404,"latitude":42.365291}}}

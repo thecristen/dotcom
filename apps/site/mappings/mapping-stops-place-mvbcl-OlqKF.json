@@ -1,0 +1,19 @@
+{
+  "uuid" : "3eddda95-ebac-3040-b8c1-b7fa74db7c08",
+  "request" : {
+    "url" : "/stops/place-mvbcl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-mvbcl-OlqKF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:05 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "iaiutreutmm0c4fn5gbcj2ieadivjjtv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

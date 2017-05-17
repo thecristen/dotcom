@@ -1,0 +1,19 @@
+{
+  "uuid" : "04395d42-823c-3915-b4b2-e00efcca0a7d",
+  "request" : {
+    "url" : "/routes/?stop=1789&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mHuwa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:20 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "2v59pb2fpbe9bu20e6sm6r5uluqgb6c1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

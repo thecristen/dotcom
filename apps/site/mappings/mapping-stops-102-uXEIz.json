@@ -1,0 +1,19 @@
+{
+  "uuid" : "9c5aa9d6-6b35-3bc9-a052-02ad53288045",
+  "request" : {
+    "url" : "/stops/102",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-102-uXEIz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:59:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "mb66nhspreiujg4fk20711s5407s5gfi",
+      "Connection" : "keep-alive"
+    }
+  }
+}

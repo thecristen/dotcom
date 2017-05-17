@@ -1,0 +1,19 @@
+{
+  "uuid" : "166398e4-48ea-3fb1-9774-19da05c60684",
+  "request" : {
+    "url" : "/stops/?route_type=2&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-jOeUK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:59:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "b4ijaltptnuubldno7u5l17f1o7dpjcj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "351e909d-ac3d-32d8-a97a-c57291f98074",
+  "request" : {
+    "url" : "/routes/?stop=place-bucen&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dxad5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ca0ck5fsngo7vf10nrvb4qartdg534t2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

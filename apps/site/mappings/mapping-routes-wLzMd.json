@@ -1,0 +1,19 @@
+{
+  "uuid" : "79597ccb-f733-316c-9e6f-d532d1d1f454",
+  "request" : {
+    "url" : "/routes/?stop=place-waban&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wLzMd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:19 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "su9iq1jqra4l1rtqv61ovt77tl0qh7g2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

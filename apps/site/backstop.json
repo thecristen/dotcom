@@ -175,7 +175,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1/schedule?date=2017-06-14&direction_id=0&trip=&origin=place-cntsq",
+      "url": "http://localhost:8082/schedules/1/schedule?date=2017-06-14&direction_id=0&trip=&origin=102",
       "selectors": ["main"],
       "delay": 100
     },

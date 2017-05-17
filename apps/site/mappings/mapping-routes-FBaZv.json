@@ -1,0 +1,19 @@
+{
+  "uuid" : "f203767f-f0ae-3bbf-a876-a16ad750ea62",
+  "request" : {
+    "url" : "/routes/?stop=2832&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FBaZv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "vk4j7ihp0vhdj7evokqeb2qjj5shvug9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

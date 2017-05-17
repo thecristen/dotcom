@@ -1,0 +1,19 @@
+{
+  "uuid" : "21fcaab7-4ddf-314b-bee8-750848a0e96e",
+  "request" : {
+    "url" : "/routes/?stop=place-sstat",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PsVDf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:59:15 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "99i0riodqd6ak197p8ktsjuiu0grvt4p",
+      "Connection" : "keep-alive"
+    }
+  }
+}

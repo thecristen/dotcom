@@ -1,0 +1,19 @@
+{
+  "uuid" : "8187b974-3357-3f67-9014-6f12e6ec996a",
+  "request" : {
+    "url" : "/routes/?stop=place-prmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rvOD2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ft2k1tj8av3magbv7n0m5o98gdh1df1o",
+      "Connection" : "keep-alive"
+    }
+  }
+}

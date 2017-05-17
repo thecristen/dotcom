@@ -1,0 +1,19 @@
+{
+  "uuid" : "4bd82fb0-8900-34f2-8a7c-88c1965e3320",
+  "request" : {
+    "url" : "/routes/?stop=place-bmmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bRvCJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 16 May 2017 18:58:19 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "9ugm8g5mfprt8rdb228f5cc6kj1s1hom",
+      "Connection" : "keep-alive"
+    }
+  }
+}
