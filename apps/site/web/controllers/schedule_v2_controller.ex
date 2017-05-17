@@ -1,49 +1,29 @@
 defmodule Site.ScheduleV2Controller do
   use Site.Web, :controller
-  import Site.ControllerHelpers, only: [call_plug: 2, assign_all_alerts: 2]
-
   alias Routes.Route
 
   plug Site.Plugs.Route
-  plug Site.Plugs.Date
-  plug Site.Plugs.DateTime
 
   @spec show(Plug.Conn.t, map) :: Phoenix.HTML.Safe.t
-  def show(%{query_params: %{"tab" => "line"}} = conn, _) do
-    conn
-    |> assign(:tab, "line")
-    |> call_plug(Site.ScheduleV2Controller.Defaults)
-    |> assign_all_alerts([])
-    |> call_plug(Site.Plugs.UpcomingAlerts)
-    |> call_plug(Site.ScheduleV2Controller.AllStops)
-    |> call_plug(Site.ScheduleV2Controller.RouteBreadcrumbs)
-    |> line_pipeline([])
-    |> call_plug(Site.ScheduleV2Controller.Line)
-    |> render("show.html")
+  def show(%{query_params: %{"tab" => "timetable"} = query_params} = conn, _params) do
+    tab_redirect(conn, timetable_path(conn, :show, conn.assigns.route.id, Map.delete(query_params, "tab")))
   end
-  def show(%{query_params: %{"tab" => "trip-view"}} = conn, _) do
-    render_trip_view(conn)
+  def show(%{query_params: %{"tab" => "trip-view"} = query_params} = conn, _params) do
+    tab_redirect(conn, trip_view_path(conn, :show, conn.assigns.route.id, Map.delete(query_params, "tab")))
   end
-  def show(%{assigns: %{route: %Route{type: 2}}} = conn, _) do
-    conn
-    |> assign(:tab, "timetable")
-    |> call_plug(Site.ScheduleV2Controller.Timetable)
-    |> render("show.html")
+  def show(%{query_params: %{"tab" => "line"} = query_params} = conn, _params) do
+    tab_redirect(conn, line_path(conn, :show, conn.assigns.route.id, Map.delete(query_params, "tab")))
   end
-  def show(conn, _) do
-    render_trip_view(conn)
+  def show(%{assigns: %{route: %Route{type: 2, id: route_id}}, query_params: query_params} = conn, _params) do
+    tab_redirect(conn, timetable_path(conn, :show, route_id, query_params))
+  end
+  def show(%{assigns: %{route: %Route{id: route_id}}, query_params: query_params} = conn, _params) do
+    tab_redirect(conn, trip_view_path(conn, :show, route_id, query_params))
   end
 
-  defp render_trip_view(conn) do
+  defp tab_redirect(conn, path) do
     conn
-    |> assign(:tab, "trip-view")
-    |> call_plug(Site.ScheduleV2Controller.TripView)
-    |> render("show.html")
-  end
-
-  defp line_pipeline(conn, _) do
-    conn
-    |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
-    |> call_plug(Site.ScheduleV2Controller.Holidays)
+    |> redirect(to: path)
+    |> halt()
   end
 end
