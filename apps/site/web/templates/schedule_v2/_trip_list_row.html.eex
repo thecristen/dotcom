@@ -16,10 +16,6 @@ end %>
           PredictedSchedule.Display.headsign(@departure)
         end %>
     <%= display_alerts(@alerts) %>
-    <%= if assigns[:line] do %>
-      <span class="pull-right trip-list-green-line-icon">
-        <%= svg "green-line-#{String.downcase(@line)}.svg" %>
-      </span>
-    <% end %>
+    <%= trip_list_bubble(@departure_route_id) %>
   </div>
 <% end %>

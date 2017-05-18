@@ -11,17 +11,31 @@
       <% end %>
     </div>
     <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+      <%
+        %{id: departure_route_id} = PredictedSchedule.route(departure)
+      %>
       <%= if trip do %>
         <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
         <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
             class = if is_current_trip?, do: "trip-list-v2-row-selected"
             url = update_url(@conn, trip: trip.id) <> "#" <> trip.id
-            render "_trip_list_row.html", departure: departure, arrival: arrival, trip: trip, url: url, alerts: alerts, class: class, line: display_branch_name(PredictedSchedule.route(departure).id), id: trip.id %>
+            render "_trip_list_row.html", departure: departure,
+                                          arrival: arrival,
+                                          trip: trip,
+                                          url: url,
+                                          alerts: alerts,
+                                          class: class,
+                                          route: @route,
+                                          departure_route_id: departure_route_id,
+                                          id: trip.id %>
         <%= if is_current_trip? and TripInfo.should_display_trip_info?(@trip_info) do %>
           <%= render "_trip_info.html", forward_assigns(@conn) %>
         <% end %>
       <% else %>
-        <%= render "_trip_list_row.html", departure: departure, arrival: arrival, alerts: [], line: display_branch_name(PredictedSchedule.route(departure).id) %>
+        <%= render "_trip_list_row.html", departure: departure,
+                                          arrival: arrival,
+                                          alerts: [],
+                                          departure_route_id: departure_route_id %>
       <% end %>
     <% end %>
     <%= trip_expansion_link(@stop_times.expansion, @date, @conn)%>

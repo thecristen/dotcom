@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
   import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
-                                              stop_bubble_content: 4,
+                                              stop_bubble_content: 4, stop_bubble_icon: 2,
                                               view_branch_link: 3, stop_bubble_location_display: 3]
 
   require Routes.Route
@@ -244,6 +244,18 @@ defmodule Site.ScheduleV2View do
   @spec display_branch_name(Routes.Route.id_t) :: String.t | nil
   def display_branch_name(<<"Green-", branch :: binary>>), do: branch
   def display_branch_name(_), do: nil
+
+  @doc """
+  On green line pages, returns a div with a stop bubble with the branch letter (like the ones used in the
+  trip info list and the line pages). For all other routes, returns an empty string.
+  """
+  @spec trip_list_bubble(Routes.Route.id_it) :: Phoenix.Html.Safe.t
+  def trip_list_bubble(<<"Green-", _ :: binary>> = branch) do
+    content_tag :div, class: "pull-right trip-list-green-line-icon" do
+      stop_bubble_icon(:stop, branch)
+    end
+  end
+  def trip_list_bubble(_), do: raw([])
 
   @doc """
   The message to show when there are no trips for the given parameters.

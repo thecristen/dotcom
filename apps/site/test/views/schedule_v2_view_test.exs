@@ -886,4 +886,19 @@ defmodule Site.ScheduleV2ViewTest do
       assert content =~ "route-branch-indent-start"
     end
   end
+
+  describe "trip_list_bubble" do
+    test "returns a stop bubble with the correct branch letter on green line" do
+      assert "Green-B" |> trip_list_bubble() |> safe_to_string() =~ ">B</text>"
+      assert "Green-C" |> trip_list_bubble() |> safe_to_string() =~ ">C</text>"
+      assert "Green-D" |> trip_list_bubble() |> safe_to_string() =~ ">D</text>"
+      assert "Green-E" |> trip_list_bubble() |> safe_to_string() =~ ">E</text>"
+    end
+
+    test "returns an empty safe for all other routes" do
+      assert trip_list_bubble("Red") |> Phoenix.HTML.safe_to_string() == ""
+      assert trip_list_bubble("CR-Newburyport") |> Phoenix.HTML.safe_to_string() == ""
+      assert trip_list_bubble("anything") |> Phoenix.HTML.safe_to_string() == ""
+    end
+  end
 end

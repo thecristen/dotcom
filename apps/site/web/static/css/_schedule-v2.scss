@@ -207,10 +207,16 @@ a {
   display: block;
 }
 
-.trip-list-green-line-icon > svg {
-  background-color: $white;
-  border: 1px solid $brand-green-line;
-  border-radius: 50%;
+.trip-list-green-line-icon {
+  .stop-bubble-stop {
+    overflow: visible;
+  }
+
+  circle {
+    fill: $white;
+    stroke: $brand-green-line;
+    stroke-width: 2px;
+  }
 }
 
 .trip-list-v2-realtime {
