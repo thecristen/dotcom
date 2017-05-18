@@ -9,7 +9,6 @@ defmodule Site.GreenLine.DateAgentTest do
     assert pid == lookup(date)
 
     :ok = stop(pid)
-    :timer.sleep(1000)
     assert nil == lookup(date)
   end
 

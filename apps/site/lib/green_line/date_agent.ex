@@ -20,7 +20,7 @@ defmodule Site.GreenLine.DateAgent do
 
   def lookup(date) do
     case Registry.lookup(:green_line_cache_registry, date) do
-      [{pid, _}] -> pid
+      [{pid, _}] -> if Process.alive?(pid), do: pid
       _ -> nil
     end
   end
