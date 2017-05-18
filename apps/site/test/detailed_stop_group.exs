@@ -1,0 +1,49 @@
+defmodule DetailedStopGroupTest do
+  use ExUnit.Case, async: true
+  import DetailedStopGroup
+  alias Routes.Route
+
+  describe "from_mode/1" do
+    test "all routes are returned for given mode" do
+      featured_stop_groups = from_mode(:commuter_rail)
+      expected_route_names = MapSet.new(
+        ["Fairmount Line", "Fitchburg Line", "Framingham/Worcester Line",
+         "Franklin Line", "Greenbush Line", "Haverhill Line", "Kingston/Plymouth Line",
+         "Lowell Line", "Middleborough/Lakeville Line", "Needham Line",
+        "Newburyport/Rockport Line", "Providence/Stoughton Line"]
+      )
+      route_names = featured_stop_groups |> Enum.map(fn {route, _} -> route.name end) |> MapSet.new()
+      assert MapSet.equal?(expected_route_names, route_names)
+    end
+
+    test "green stops are grouped" do
+      featured_stop_groups = from_mode(:subway)
+      route_names = Enum.map(featured_stop_groups, fn {route, _} -> route.name end)
+      assert "Green Line" in route_names
+      refute "Green-E" in route_names
+    end
+
+    test "The route icon for the current route is not included in features" do
+      {_orange_line, orange_stops} = :subway |> from_mode() |> Enum.find(&match?({%Route{name: "Orange Line"}, _}, &1))
+      assert [_stop | _] = orange_stops # count is greater than 1
+      for stop <- orange_stops do
+        refute Route.icon_atom(%Route{id: "Orange"}) in stop.features
+      end
+    end
+
+    test "multiple stations can be associated with multiple routes" do
+      subway_stops = from_mode(:subway)
+      assert "place-dwnxg" in get_stops("Orange Line", subway_stops)
+      assert "place-dwnxg" in get_stops("Red Line", subway_stops)
+      refute "place-dwnxg" in get_stops("Blue Line", subway_stops)
+    end
+  end
+
+  defp get_stops(route_name, grouped_stops) do
+    grouped_stops
+    |> Enum.map(fn {route, stops} -> {route.name, stops} end)
+    |> Enum.into(%{})
+    |> Map.get(route_name)
+    |> Enum.map(& &1.stop.id)
+  end
+end

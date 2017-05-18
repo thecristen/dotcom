@@ -99,16 +99,8 @@ defmodule Stops.RouteStop do
       stop_number: number,
       is_terminus?: is_terminus?,
       zone: Zones.Repo.get(stop.id),
-      stop_features: filtered_stop_features(stop, route)
+      stop_features: Stops.Repo.stop_features(stop, [Routes.Route.icon_atom(route)])
     }
-  end
-
-  # Remove the stop_feature for the given route
-  @spec filtered_stop_features(Stop.t, Routes.Route.t) :: [Routes.Repo.stop_feature]
-  defp filtered_stop_features(stop, route) do
-    stop
-    |> Stops.Repo.stop_features()
-    |> Enum.reject(& &1 == Routes.Route.icon_atom(route))
   end
 
   @spec merge_branch_list([[RouteStop.t]], direction_id_t) :: [RouteStop.t]

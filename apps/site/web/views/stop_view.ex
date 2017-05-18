@@ -213,4 +213,24 @@ defmodule Site.StopView do
   def info_tab_name(_) do
     "Station Info"
   end
+
+  @doc "returns small icons for features in given DetailedStop"
+  @spec feature_icons(DetailedStop.t) :: Phoenix.HTML.Safe.t
+  def feature_icons(%DetailedStop{features: features}) do
+    for feature <- features do
+      stop_feature_icon(feature, "icon-small")
+    end
+  end
+
+  @doc """
+  Returns correct svg Icon for the given feature
+  """
+  @spec stop_feature_icon(Stops.Repo.stop_feature, String.t) :: Phoenix.HTML.Safe.t
+  def stop_feature_icon(feature, class \\ "")
+  def stop_feature_icon(:parking_lot, class) do
+    svg_icon(%SvgIcon{icon: :parking_lot, class: class})
+  end
+  def stop_feature_icon(feature, class) do
+    svg_icon_with_circle(%SvgIconWithCircle{icon: feature, class: class})
+  end
 end

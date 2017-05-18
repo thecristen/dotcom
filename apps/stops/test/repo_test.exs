@@ -81,5 +81,10 @@ defmodule Stops.RepoTest do
       stop = %{@stop | parking_lots: [%Stop.ParkingLot{}]}
       assert :parking_lot in stop_features(stop)
     end
+
+    test "excluded features are not returned" do
+      assert stop_features(@stop, [:red_line]) == [:commuter_rail, :bus]
+      assert stop_features(@stop, [:red_line, :commuter_rail]) == [:bus]
+    end
   end
 end
