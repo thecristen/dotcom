@@ -59,6 +59,7 @@ config :logger, :logentries,
 # build.
 unless System.get_env("PORT") do
   config :site, Site.Endpoint,
+    url: [scheme: "https", port: 443],
     force_ssl: [
       rewrite_on: [:x_forwarded_proto]
     ]

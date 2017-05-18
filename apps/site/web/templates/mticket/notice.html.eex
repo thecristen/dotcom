@@ -10,9 +10,9 @@
       <div class="container page-container">
         <main id="main" tabindex="-1">
           <div class="page-section mticket-notice">
-            <h2>Sorry, Your App Appears to be Out of Date</h2>
+            <h4>Sorry, Your App Appears to be Out of Date</h4>
             <p>Use the link below to access <%= @content_description %>:</p>
-            <p><a href="<%= @full_link_path %>"><%= @full_link_path %></a></p>
+            <p><a href="<%= @full_link_path %>" target="_blank"><%= @full_link_path %></a></p>
             <p>Go to your app store to update your MBTA mTicket.</p>
           </div>
         </main>
