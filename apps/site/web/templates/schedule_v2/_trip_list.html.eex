@@ -1,7 +1,7 @@
 <%= if @stop_times.times != [] do %>
   <% refresh = if StopTimeList.has_predictions?(@stop_times), do: render "_refresh.html", conn: @conn %>
   <div class="trip-list-v2" role="table">
-    <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col" role="row">
+    <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col sticky-top" role="row">
       <%= if @destination do %>
         <div class="trip-list-v2-departure" role="columnheader">Departure</div>
         <div class="trip-list-v2-headsign" role="columnheader">Arrival <%= refresh %></div>
