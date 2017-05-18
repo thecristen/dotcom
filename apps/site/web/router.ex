@@ -68,7 +68,7 @@ defmodule Site.Router do
     get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
     get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
     get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
-    get "/rider_tools/realtime_subway/", OldSiteRedirectController, :realtime_subway
+    get "/rider_tools/*path", OldSiteRedirectController, :rider_tools
     get "/fares_and_passes", OldSiteRedirectController, :fares_and_passes
     get "/fares_and_passes/*path", OldSiteRedirectController, :fares_and_passes
   end

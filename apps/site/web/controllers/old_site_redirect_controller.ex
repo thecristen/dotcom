@@ -29,8 +29,17 @@ defmodule Site.OldSiteRedirectController do
     old_site_redirect(conn, mode_url(conn, :index))
   end
 
-  def realtime_subway(conn, _params) do
+  def rider_tools(conn, %{"path" => ["realtime_subway" | _]}) do
     old_site_redirect(conn, mode_url(conn, :subway))
+  end
+  def rider_tools(conn, %{"path" => ["realtime_bus" | _]}) do
+    old_site_redirect(conn, mode_url(conn, :bus))
+  end
+  def rider_tools(conn, %{"path" => ["servicenearby" | _]}) do
+    old_site_redirect(conn, transit_near_me_url(conn, :index))
+  end
+  def rider_tools(conn, %{"path" => ["transit_updates" | _]}) do
+    old_site_redirect(conn, alert_url(conn, :index))
   end
 
   def fares_and_passes(conn, %{"path" => ["rail" | _]}) do

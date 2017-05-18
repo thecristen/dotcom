@@ -7,4 +7,19 @@ defmodule Site.OldSiteRedirectControllerTest do
       assert conn.status == 200
     end
   end
+
+  describe "/rider_tools" do
+    test "realtime bus/subway redirects to schedules", %{conn: conn} do
+      assert redirected_to(get(conn, "/rider_tools/realtime_subway")) =~ mode_url(Site.Endpoint, :subway)
+      assert redirected_to(get(conn, "/rider_tools/realtime_bus")) =~ mode_url(Site.Endpoint, :bus)
+    end
+
+    test "service nearby redirects to transit near me", %{conn: conn} do
+      assert redirected_to(get(conn, "/rider_tools/servicenearby/")) =~ transit_near_me_url(Site.Endpoint, :index)
+    end
+
+    test "transit updates redirects to alerts", %{conn: conn} do
+      assert redirected_to(get(conn, "/rider_tools/transit_updates/")) =~ alert_url(Site.Endpoint, :index)
+    end
+  end
 end
