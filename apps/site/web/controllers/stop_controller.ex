@@ -17,11 +17,14 @@ defmodule Site.StopController do
 
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
     mode_atom = String.to_existing_atom(mode)
+    stop_info = DetailedStopGroup.from_mode(mode_atom)
     conn
-    |> async_assign(:stop_info, fn -> DetailedStopGroup.from_mode(mode_atom) end)
+    |> async_assign(:mode_hubs, fn -> HubStops.mode_hubs(mode, stop_info) end)
+    |> async_assign(:route_hubs, fn -> HubStops.route_hubs(stop_info) end)
+    |> assign(:stop_info, stop_info)
     |> assign(:mode, mode_atom)
     |> assign(:breadcrumbs, ["Stations"])
-    |> await_assign(:stop_info)
+    |> await_assign_all
     |> render("index.html")
   end
   def show(%Plug.Conn{query_params: query_params} = conn, %{"id" => id}) do
