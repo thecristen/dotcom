@@ -14,15 +14,8 @@ defmodule Site.GreenLine.DateAgent do
     Agent.update(pid, fn _ -> calculate_state_fn.(date) end)
   end
 
-  def start_link(date, calculate_state_fn \\ &calculate_state/1) do
-    Agent.start_link(fn -> calculate_state_fn.(date) end, name: via_tuple(date))
-  end
-
-  def lookup(date) do
-    case Registry.lookup(:green_line_cache_registry, date) do
-      [{pid, _}] -> if Process.alive?(pid), do: pid
-      _ -> nil
-    end
+  def start_link(date, name, calculate_state_fn \\ &calculate_state/1) do
+    Agent.start_link(fn -> calculate_state_fn.(date) end, name: name)
   end
 
   def stop(pid) do
@@ -31,9 +24,5 @@ defmodule Site.GreenLine.DateAgent do
 
   defp calculate_state(date) do
     {calculate_stops_on_routes(0, date), calculate_stops_on_routes(1, date)}
-  end
-
-  defp via_tuple(date) do
-    {:via, Registry, {:green_line_cache_registry, date}}
   end
 end

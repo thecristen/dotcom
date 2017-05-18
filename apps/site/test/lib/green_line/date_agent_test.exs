@@ -3,18 +3,15 @@ defmodule Site.GreenLine.DateAgentTest do
 
   import Site.GreenLine.DateAgent
 
-  test "Can register a date agent for a given date, and then stop it" do
-    date = ~D[2016-01-01]
-    {:ok, pid} = start_link(date)
-    assert pid == lookup(date)
-
+  test "Can stop an agent" do
+    {:ok, pid} = start_link(~D[2016-01-01], :green_line_date_agent_test_stop)
     :ok = stop(pid)
-    assert nil == lookup(date)
+    assert !Process.alive?(pid)
   end
 
   test "Starting an agent calls its calculate_state function, and the values can be retrieved" do
     date = ~D[2016-01-02]
-    {:ok, pid} = start_link(date, fn _ -> {1, 2} end)
+    {:ok, pid} = start_link(date, :green_line_date_agent_test_state_calc, fn _ -> {1, 2} end)
     assert stops_on_routes(pid, 0) == 1
     assert stops_on_routes(pid, 1) == 2
 
