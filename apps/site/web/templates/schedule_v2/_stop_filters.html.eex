@@ -17,8 +17,12 @@
         exclude: ["trip"]
       %>
     </div>
+    <%
+      selector_class = if @destination, do: "", else: " hidden-xs-down"
+      toggle_class = if @destination, do: " hidden hidden-sm-up", else: " hidden-sm-up"
+    %>
     <%= if @origin && !assigns[:hide_destination_selector?] do %>
-      <div class="col-sm-6">
+      <div class="col-sm-6<%= selector_class %>">
         <% destination = if @destination, do: @destination.id, else: nil %>
         <%= Site.ScheduleV2View.render "_stop_selector.html",
             conn: @conn,
@@ -28,12 +32,15 @@
             key_stops: [],
             label_text: "Arriving at: (optional)",
             placeholder_text: "destination",
-          route: @route,
-          exclude: ["trip"],
-          disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))],
-          # filter out non-destination stops because they're on a different branch
-          clearable?: !assigns[:preselected_destination?]
+            route: @route,
+            exclude: ["trip"],
+            disabled_values: [{@origin.id, "departure stop"} | Enum.map(@excluded_destination_stops, &({&1, "not on branch"}))],
+            # filter out non-destination stops because they're on a different branch
+            clearable?: !assigns[:preselected_destination?]
         %>
+      </div>
+      <div class="page-section col-sm-6<%= toggle_class %>">
+        <a href="#" class="schedule-destination-select-toggle" data-select-modal="destination"><%= fa "plus-circle" %> Add a destination (optional)</a>
       </div>
     <% end %>
   </div>

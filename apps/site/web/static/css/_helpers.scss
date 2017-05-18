@@ -48,6 +48,10 @@ a:hover .no-wrap {
   margin: $space-12 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .has-element-overlay:hover .element-overlay {
   display: block;
 }
