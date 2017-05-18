@@ -72,7 +72,7 @@
           </li>
         <% end %>
         <li class="mobile-nav-item">
-          <%= link to: "http://www.mbta.com/index.asp", class: "mobile-nav-link old-site-mobile-link" do %>
+          <%= link to: "http://www2.mbta.com/index.asp", class: "mobile-nav-link old-site-mobile-link" do %>
             Go to old mbta.com site <%= fa "arrow-right" %>
           <% end %>
         </li>
