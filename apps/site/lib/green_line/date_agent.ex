@@ -25,6 +25,10 @@ defmodule Site.GreenLine.DateAgent do
     end
   end
 
+  def stop(pid) do
+    Agent.stop(pid)
+  end
+
   defp calculate_state(date) do
     {calculate_stops_on_routes(0, date), calculate_stops_on_routes(1, date)}
   end

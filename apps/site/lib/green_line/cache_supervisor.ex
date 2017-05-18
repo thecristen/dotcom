@@ -11,7 +11,7 @@ defmodule Site.GreenLine.CacheSupervisor do
 
   def init(_) do
     children = [
-      worker(Site.GreenLine.DateAgent, [])
+      worker(Site.GreenLine.DateAgent, [], restart: :transient)
     ]
     supervise(children, strategy: :simple_one_for_one)
   end
