@@ -1,4 +1,4 @@
-<div class="stop-filters schedule-filter-row">
+<div class="stop-filters schedule-filter-row callout">
   <div>To view schedules for a specific stop, please enter your origin and destination.</div>
   <div class="row">
     <div class="col-sm-6">
@@ -26,7 +26,7 @@
             selected: destination,
             all_stops: @all_stops,
             key_stops: [],
-            label_text: "Arriving at:",
+            label_text: "Arriving at: (optional)",
             placeholder_text: "destination",
           route: @route,
           exclude: ["trip"],

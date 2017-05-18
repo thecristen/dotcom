@@ -32,8 +32,9 @@ a:hover .no-wrap {
 }
 
 %callout {
-  background-color: $gray-lightest;
-  border-radius: 0;
+  background-color: $gray-bordered-background;
+  border: $border;
+  border-radius: $border-radius;
   margin-bottom: $base-spacing;
   padding: $space-12;
 
