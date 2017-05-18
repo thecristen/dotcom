@@ -68,3 +68,9 @@ a:hover .no-wrap {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: $zindex-sticky;
+}
