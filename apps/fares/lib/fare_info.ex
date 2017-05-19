@@ -3,6 +3,30 @@ defmodule Fares.FareInfo do
 
   @filename "priv/fares.csv"
 
+  @spec grouped_fares(Path.t) :: [Fares.CommuterFareGroup.t]
+  def grouped_fares(filename \\ @filename) do
+    :fares
+    |> Application.app_dir
+    |> Path.join(filename)
+    |> File.stream!
+    |> CSV.decode
+    |> Enum.flat_map(&zone_mapper/1)
+  end
+
+  @spec zone_mapper([String.t]) :: [Fares.CommuterFareGroup]
+  def zone_mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
+    [%Fares.CommuterFareGroup{
+       name: commuter_rail_fare_name(zone),
+       single_trip: dollars_to_cents(single_trip),
+       single_trip_reduced: dollars_to_cents(single_trip_reduced),
+       month: dollars_to_cents(monthly),
+       mticket: mticket_price(dollars_to_cents(monthly))
+     }]
+  end
+  def zone_mapper(_) do
+    []
+  end
+
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t]
   @spec fare_info(Path.t) :: [Fare.t]
@@ -64,7 +88,7 @@ defmodule Fares.FareInfo do
         duration: :month,
         media: [:mticket],
         reduced: nil,
-        cents: dollars_to_cents(monthly) - 1000}
+        cents: mticket_price(dollars_to_cents(monthly))}
     ]
   end
   def mapper([
@@ -390,6 +414,10 @@ defmodule Fares.FareInfo do
        reduced: :senior_disabled,
        duration: :single_trip,
        cents: dollars_to_cents(premium_ride)}]
+  end
+
+  def mticket_price(monthly_price) when monthly_price > 1000 do
+    monthly_price - 1000
   end
 
   defp commuter_rail_fare_name(zone) do

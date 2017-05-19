@@ -144,7 +144,7 @@ defmodule Site.FareView do
     content_tag :p do
       [
         "Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into ",
-        link("Zones 1A-10", to: "http://www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg"),
+        link("Zones 1A-10", to: fare_path(Site.Endpoint, :zone)),
         ". Enter two stops below to find your trip's exact fare."
       ]
     end

@@ -52,6 +52,7 @@ defmodule Site.Router do
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
     resources "/fares", FareController, only: [:index, :show]
+    get "/fares/commuter_rail/zone", FareController, :zone
     resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page

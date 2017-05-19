@@ -23,6 +23,23 @@ defmodule Fares.FormatTest do
       assert name(%Fare{name: {:zone, "2"}}) == "Zone 2"
       assert name(%Fare{name: {:interzone, "3"}}) == "Interzone 3"
     end
+
+    test "gives a printable name when given the name of a fare" do
+      assert name({:zone, "6"}) == "Zone 6"
+      assert name({:interzone, "4"}) == "Interzone 4"
+    end
+
+    test "gives a descriptive name for bus fares" do
+      assert name(%Fare{name: :local_bus}) == "Local Bus"
+      assert name(%Fare{name: :inner_express_bus}) == "Inner Express Bus"
+      assert name(%Fare{name: :outer_express_bus}) == "Outer Express Bus"
+    end
+
+    test "gives a descriptive name for ferry fares" do
+      assert name(%Fare{name: :ferry_inner_harbor}) == "Inner Harbor Ferry"
+      assert name(%Fare{name: :ferry_cross_harbor}) == "Cross Harbor Ferry"
+      assert name(%Fare{name: :commuter_ferry}) == "Commuter Ferry"
+    end
   end
 
   test "duration/1" do

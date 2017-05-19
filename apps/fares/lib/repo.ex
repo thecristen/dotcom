@@ -1,5 +1,6 @@
 defmodule Fares.Repo do
   @fares Fares.FareInfo.fare_info
+  @grouped_commuter_fares Fares.FareInfo.grouped_fares
 
   use RepoCache, ttl: :timer.hours(24)
 
@@ -15,6 +16,10 @@ defmodule Fares.Repo do
       all()
       |> filter(opts)
     end
+  end
+
+  def grouped_commuter_fares do
+    @grouped_commuter_fares
   end
 
   @doc """

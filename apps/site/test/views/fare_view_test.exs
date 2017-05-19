@@ -129,10 +129,10 @@ defmodule Site.FareViewTest do
   end
 
   describe "origin_destination_description/2" do
-    test "for CR" do
+    test "links to the zone fares page for CR" do
       content = :commuter_rail |> origin_destination_description |> safe_to_string
       assert content =~ "Your Commuter Rail fare"
-      assert content =~ "www.mbta.com/uploadedimages/Fares_and_Passes_v2/Commuter_Rail/Commuter_Rail_List/Cr-Zones-Web.jpg"
+      assert content =~ "fares/commuter_rail/zone"
     end
 
     test "for ferry" do

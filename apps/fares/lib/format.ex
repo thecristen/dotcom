@@ -59,17 +59,18 @@ defmodule Fares.Format do
   end
 
   @doc "Friendly name for the given Fare"
-  @spec name(Fare.t) :: String.t
-  def name(%Fare{name: :subway}), do: "Subway"
-  def name(%Fare{name: :local_bus}), do: "Local Bus"
-  def name(%Fare{name: :inner_express_bus}), do: "Inner Express Bus"
-  def name(%Fare{name: :outer_express_bus}), do: "Outer Express Bus"
-  def name(%Fare{name: {:zone, zone}}), do: "Zone #{zone}"
-  def name(%Fare{name: {:interzone, zone}}), do: "Interzone #{zone}"
-  def name(%Fare{name: :ferry_inner_harbor}), do: "Inner Harbor Ferry"
-  def name(%Fare{name: :ferry_cross_harbor}), do: "Cross Harbor Ferry"
-  def name(%Fare{name: :commuter_ferry}), do: "Commuter Ferry"
-  def name(%Fare{name: :commuter_ferry_logan}), do: "Commuter Ferry to Logan Airport"
+  @spec name(Fare.t | Fare.fare_name) :: String.t
+  def name(%Fare{name: name}), do: name(name)
+  def name(:subway), do: "Subway"
+  def name(:local_bus), do: "Local Bus"
+  def name(:inner_express_bus), do: "Inner Express Bus"
+  def name(:outer_express_bus), do: "Outer Express Bus"
+  def name(:ferry_inner_harbor), do: "Inner Harbor Ferry"
+  def name(:ferry_cross_harbor), do: "Cross Harbor Ferry"
+  def name(:commuter_ferry), do: "Commuter Ferry"
+  def name(:commuter_ferry_logan), do: "Commuter Ferry to Logan Airport"
+  def name({:zone, zone}), do: "Zone #{zone}"
+  def name({:interzone, zone}), do: "Interzone #{zone}"
 
   @spec full_name(Fare.t) :: String.t | iolist
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"

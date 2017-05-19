@@ -74,4 +74,15 @@ defmodule Fares.FareInfoTest do
       ]
     end
   end
+
+  describe "grouped_fares/1" do
+    grouped_fare_data = grouped_fares()
+    assert is_list(grouped_fare_data)
+  end
+
+  describe "mticket_price/1" do
+    test "subtracts 10 dollars from the monthly price" do
+      assert mticket_price(2000) == 1000
+    end
+  end
 end

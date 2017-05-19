@@ -115,4 +115,16 @@ defmodule Site.FareControllerTest do
       assert content =~ "Each mode accepts cash on-board"
     end
   end
+
+  describe "zone" do
+    test "assigns zone fare info", %{conn: conn} do
+      conn = get conn, fare_path(conn, :zone)
+      assert is_list(conn.assigns[:fare_zone_info])
+    end
+
+    test "successfully renders the page", %{conn: conn} do
+      conn = get conn, fare_path(conn, :zone)
+      assert html_response(conn, 200) =~ "Commuter Rail fares depend on which stops you board and exit the train."
+    end
+  end
 end

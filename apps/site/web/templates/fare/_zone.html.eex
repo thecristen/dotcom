@@ -1,0 +1,52 @@
+<h1>Commuter Rail Fare Zones</h1>
+<p>
+  Commuter Rail fares depend on which stops you board and exit the train. Stops are categorized into Zones 1A - 10 based on their distance from downtown Boston. The further the stop is from Boston, the higher its zone number.
+</p>
+<h2>How Fare Zones Work</h2>
+<p>
+  If you’re not sure what zone your station is, we recommend using the
+  <%= link "Find Your Fare", to: fare_path(@conn, :show, :commuter) %> tool.</p>
+<h3>To and from Zone 1A Fares</h3>
+<p>
+  If you begin or end your trip at a Zone 1A station, your fare will be based on
+  the zone of the other station you are traveling to or from. For example, if you
+  are traveling from Concord (a Zone 5 station) to North Station (a Zone 1A station),
+  you will pay the Zone 5 One Way fare.
+</p>
+<h3>Interzone Fares</h3>
+<p>
+  If you are not traveling to or from a Zone 1A station, your fare will be an Interzone fare.
+  These are determined by the amount of zones you pass through, including your origin and
+  destination stations. If you are traveling from Concord (Zone 5) to Fitchburg (Zone 8),
+  your fare for a one way trip will be the Interzone 4 One Way fare.
+</p>
+<table class="responsive-table">
+  <caption>Commuter Rail Fare Zones</caption>
+  <thead>
+    <tr>
+      <th>Zone</th>
+      <th>One Way</th>
+      <th>Reduced One Way</th>
+      <th>Monthly</th>
+      <th>mTicket Monthly</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for fare <- @fare_zone_info do %>
+      <tr>
+        <th>Zone</th>
+        <td><%= Fares.Format.name(fare.name) %></td>
+        <th>One Way</th>
+        <td><%= Fares.Format.price(fare.single_trip) %></td>
+        <th>Reduced One Way</th>
+        <td><%= Fares.Format.price(fare.single_trip_reduced) %></td>
+        <th>Monthly</th>
+        <td><%= Fares.Format.price(fare.month) %></td>
+        <th>mTicket Monthly</th>
+        <td><%= Fares.Format.price(fare.mticket) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<img src="<%= static_url(@conn, "/images/cr-zones-web.jpg") %>"

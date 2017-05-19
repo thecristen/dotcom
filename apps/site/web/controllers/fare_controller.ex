@@ -85,6 +85,19 @@ defmodule Site.FareController do
       filters: filters)
   end
 
+  def zone(conn, _params) do
+    fare_zone_info = gather_fare_zone_info()
+
+    conn
+    |> assign(:fare_zone_info, fare_zone_info)
+    |> render("_zone.html")
+  end
+
+  defp gather_fare_zone_info do
+    Fares.Repo.grouped_commuter_fares
+    |> Enum.sort(&Fares.CommuterFareGroup.sort_fares/2)
+  end
+
   defp fare_type(%{params: %{"fare_type" => fare_type}}) when fare_type in ["senior_disabled", "student"] do
     String.to_existing_atom(fare_type)
   end

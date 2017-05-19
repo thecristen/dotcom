@@ -90,4 +90,10 @@ defmodule Fares.RepoTest do
       ]
     end
   end
+
+  describe "grouped_fares/0" do
+    test "gives a list of all of the fares grouped by zone" do
+      assert is_list(Repo.grouped_commuter_fares())
+    end
+  end
 end
