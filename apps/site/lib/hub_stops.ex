@@ -6,29 +6,29 @@ defmodule HubStops do
   alias Routes.Route
 
   @commuter_hubs  [
-    {"place-sstat", "/images/stops/south_station.jpg"},
-    {"place-north", "/images/stops/north_station_commuter.jpg"},
-    {"place-bbsta", "/images/stops/back_bay.jpg"}
+    {"place-sstat", "/images/stops/south_station"},
+    {"place-north", "/images/stops/north_station_commuter"},
+    {"place-bbsta", "/images/stops/back_bay"}
   ]
   @red_line_hubs  [
-    {"place-sstat", "/images/stops/south_station.jpg"},
-    {"place-pktrm", "/images/stops/park_street.jpg"},
-    {"place-dwnxg", "/images/stops/downtown_crossing.jpg"}
+    {"place-sstat", "/images/stops/south_station"},
+    {"place-pktrm", "/images/stops/park_street"},
+    {"place-dwnxg", "/images/stops/downtown_crossing"}
   ]
   @green_line_hubs [
-    {"place-north","/images/stops/north_station.jpg"},
-    {"place-pktrm", "/images/stops/park_street.jpg"},
-    {"place-gover","/images/stops/government_center.jpg"}
+    {"place-north","/images/stops/north_station"},
+    {"place-pktrm", "/images/stops/park_street"},
+    {"place-gover","/images/stops/government_center"}
   ]
   @orange_line_hubs [
-    {"place-north", "/images/stops/north_station.jpg"},
-    {"place-bbsta", "/images/stops/back_bay.jpg"},
-    {"place-rugg", "/images/stops/ruggles.jpg"}
+    {"place-north", "/images/stops/north_station"},
+    {"place-bbsta", "/images/stops/back_bay"},
+    {"place-rugg", "/images/stops/ruggles"}
   ]
   @blue_line_hubs [
-    {"place-state","/images/stops/state_street.jpg"},
-    {"place-wondl","/images/stops/wonderland.jpg"},
-    {"place-aport","/images/stops/airport.jpg"}
+    {"place-state","/images/stops/state_street"},
+    {"place-wondl","/images/stops/wonderland"},
+    {"place-aport","/images/stops/airport"}
   ]
 
   @hub_map %{

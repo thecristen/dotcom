@@ -48,7 +48,7 @@ defmodule HubStopsTest do
     test "Returns a map with all hub stations" do
       route_hubs = route_hubs(@grouped_stops)
       state_street_hub = route_hubs |> Map.get("Blue") |> List.first()
-      assert state_street_hub.image_path == "/images/stops/state_street.jpg"
+      assert state_street_hub.image_path == "/images/stops/state_street"
       assert state_street_hub.detailed_stop.features == [:access]
     end
   end
