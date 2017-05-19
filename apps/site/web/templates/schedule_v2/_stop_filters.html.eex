@@ -39,8 +39,8 @@
             clearable?: !assigns[:preselected_destination?]
         %>
       </div>
-      <div class="page-section col-sm-6<%= toggle_class %>">
-        <a href="#" class="schedule-destination-select-toggle" data-select-modal="destination"><%= fa "plus-circle" %> Add a destination (optional)</a>
+      <div class="schedule-destination-select-toggle col-sm-6<%= toggle_class %>">
+        <a href="#" data-select-modal="destination"><%= fa "plus-circle" %> Add a destination (optional)</a>
       </div>
     <% end %>
   </div>
