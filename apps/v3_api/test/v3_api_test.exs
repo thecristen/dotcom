@@ -10,7 +10,9 @@ defmodule V3ApiTest do
 
     test "missing endpoints return an error" do
       response = V3Api.get_json("/missing")
-      assert {:error, _} = response
+      assert {:error, httpoison_response} = response
+      assert {"Content-Encoding", "gzip"} =
+        List.keyfind(httpoison_response.headers, "Content-Encoding", 0)
     end
   end
 end
