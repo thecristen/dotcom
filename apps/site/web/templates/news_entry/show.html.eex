@@ -1,11 +1,4 @@
 <div class="news-entry">
-  <%= if @news_entry.featured_image do %>
-    <img class="news-featured-image"
-      src="<%= @news_entry.featured_image.url %>"
-      alt="<%= @news_entry.featured_image.alt %>"
-    />
-  <% end %>
-
   <h1 class="news-title">
     <%= @news_entry.title %>
   </h1>

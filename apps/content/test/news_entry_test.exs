@@ -11,7 +11,6 @@ defmodule Content.NewsEntryTest do
         id: id,
         title: title,
         body: body,
-        featured_image: %Content.Field.Image{},
         media_contact_name: media_contact_name,
         media_contact_info: media_contact_info,
         more_information: more_information,

@@ -11,6 +11,7 @@ defmodule Site.NewsEntryControllerTest do
       assert body =~ news_entry.title
       assert body =~ Phoenix.HTML.safe_to_string(news_entry.body)
       assert body =~ Phoenix.HTML.safe_to_string(news_entry.more_information)
+      assert includes_breadcrumbs(conn, news_entry.title)
     end
 
     test "includes Recent News suggestions", %{conn: conn} do
@@ -29,6 +30,10 @@ defmodule Site.NewsEntryControllerTest do
       assert_error_sent 404, fn ->
         get conn, news_entry_path(conn, :show, "invalid")
       end
+    end
+
+    defp includes_breadcrumbs(conn, breadcrumbs) do
+      Map.get(conn.assigns, :breadcrumbs) == [breadcrumbs]
     end
   end
 end

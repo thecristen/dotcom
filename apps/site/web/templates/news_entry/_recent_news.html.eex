@@ -1,20 +1,19 @@
 <div class="recent-news">
   <h2>Recent News on the T</h2>
-  <div class="row">
-    <%= for article <- @recent_news do %>
-      <div class="col-sm-4">
-        <%= if article.featured_image do %>
-          <img
-            class="recent-news-featured-image"
-            src="<%= article.featured_image.url %>"
-            alt="<%= article.featured_image.alt %>"
-          />
-        <% end %>
-        <p class="news-metadata">
-          <%= format_date(article.updated_at) %>
-        </p>
-        <%= link article.title, to: news_entry_path(@conn, :show, article.id), class: "recent-news-title" %>
-      </div>
-    <% end %>
+  <div class="title-card-container title-card-container-separate">
+    <div class="row">
+      <%= for article <- @recent_news do %>
+        <div class="col-sm-4">
+          <%= link to: news_entry_path(@conn, :show, article.id), class: "recent-news-title title-card" do %>
+            <p class="news-metadata">
+              <%= format_date(article.updated_at) %>
+            </p>
+            <div class="title-card-title">
+              <%= article.title %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

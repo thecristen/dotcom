@@ -99,18 +99,6 @@
         "summary": ""
       }
     ],
-    "field_featured_image": [
-      {
-        "target_id": "16",
-        "alt": "Commuter Rail Train",
-        "title": "",
-        "width": "628",
-        "height": "421",
-        "target_type": "file",
-        "target_uuid": "21adb55b-9e49-4b3d-a40f-f94933f56430",
-        "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-01\/Allston%20train.jpg"
-      }
-    ],
     "field_media_contact": [
       {
         "value": "MassDOT Press Office"
@@ -223,18 +211,6 @@
         "value": "<p>The MBTA today launched its Winter Weather public information campaign, urging customers to stay connected during storms and inclement weather. Commuter Rail, bus and subway riders can go to MBTA.com\/winter, download a transit app and follow the T on Twitter @mbta, and sign up for T-alerts.",
         "format": "basic_html",
         "summary": ""
-      }
-    ],
-    "field_featured_image": [
-      {
-        "target_id": "11",
-        "alt": "Proposed Government Center Head House",
-        "title": "",
-        "width": "670",
-        "height": "367",
-        "target_type": "file",
-        "target_uuid": "d2d6b111-7f3b-4741-8615-fde812d7bc34",
-        "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2016-12\/ProposedHeadHouseEntry_0.jpg"
       }
     ],
     "field_media_contact": [
@@ -351,18 +327,6 @@
         "summary": ""
       }
     ],
-    "field_featured_image": [
-      {
-        "target_id": "16",
-        "alt": "Commuter Rail Train",
-        "title": "",
-        "width": "628",
-        "height": "421",
-        "target_type": "file",
-        "target_uuid": "21adb55b-9e49-4b3d-a40f-f94933f56430",
-        "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-01\/Allston%20train.jpg"
-      }
-    ],
     "field_media_contact": [
       {
         "value": "MassDOT Press Office"
@@ -471,18 +435,6 @@
         "value": "<p>BOSTON - The MBTA today launched its Winter Weather public information campaign, urging customers to stay connected during storms and inclement weather.",
         "format": "basic_html",
         "summary": ""
-      }
-    ],
-    "field_featured_image": [
-      {
-        "target_id": "11",
-        "alt": "Proposed Government Center Head House",
-        "title": "",
-        "width": "670",
-        "height": "367",
-        "target_type": "file",
-        "target_uuid": "d2d6b111-7f3b-4741-8615-fde812d7bc34",
-        "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2016-12\/ProposedHeadHouseEntry_0.jpg"
       }
     ],
     "field_media_contact": [
