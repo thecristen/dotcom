@@ -147,6 +147,7 @@ defmodule Site.Components.Icons.SvgIcon do
 
   @spec icon_title(atom) :: String.t
   def icon_title(:alert), do: "Service alert or delay"
+  def icon_title(:parking_lot), do: "Parking"
   def icon_title(icon), do: "#{icon} icon"
 
   def build_path(path), do: Phoenix.HTML.Tag.tag :path, d: path
