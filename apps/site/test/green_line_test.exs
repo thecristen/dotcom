@@ -3,7 +3,7 @@ defmodule GreenListTest do
 
   import GreenLine
 
-  describe "stops_on_routes/0" do
+  describe "stops_on_routes/1" do
     test "returns ordered stops on the green line by direction ID" do
       {stops, _} = stops_on_routes(0)
 
