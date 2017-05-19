@@ -161,11 +161,12 @@ defmodule Site.ScheduleV2View.StopList do
   Builds a stop bubble SVG (without vehicle). Includes the branch letter for green line stops. For a stop bubble
   with a vehicle icon, use `stop_bubble_location_display/3`
   """
-  @spec stop_bubble_icon(LineController.stop_bubble_type, Routes.Route.id_t) :: Phoenix.Html.Safe.t
-  def stop_bubble_icon(class, route_id) do
-    content_tag :svg, viewBox: "0 0 42 42", class: "icon stop-bubble-#{class}" do
+  @spec stop_bubble_icon(LineController.stop_bubble_type, Routes.Route.id_t, String.t) :: Phoenix.Html.Safe.t
+  def stop_bubble_icon(class, route_id, opts \\ []) do
+    icon_opts = Keyword.merge([icon_class: "", transform: "translate(2,2)"], opts)
+    content_tag :svg, viewBox: "0 0 42 42", class: "icon stop-bubble-#{class} #{icon_opts[:icon_class]}" do
       [
-        content_tag(:circle, "", r: 20, cx: 20, cy: 20, transform: "translate(2,2)"),
+        content_tag(:circle, "", r: 20, cx: 20, cy: 20, transform: "#{icon_opts[:transform]}"),
         case route_id do
           "Green-" <> branch -> content_tag(:text, branch, font_size: 24, x: 14, y: 30)
           _ -> ""

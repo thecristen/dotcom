@@ -5,6 +5,7 @@ $location-line-width: $space-6;
 // scss-lint:disable SelectorDepth
 // Changes the color for the stop bubble based on the route type
   .route-branch-stop-list,
+  .stop-features-list,
   .schedule-trip-info,
   .schedule-v2-timetable {
     &#{$class} {

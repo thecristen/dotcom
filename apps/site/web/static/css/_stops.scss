@@ -123,3 +123,11 @@
 .stop-features-list {
   float: right;
 }
+
+.stop-feature-green {
+  padding-left: $space-4;
+
+  @include media-breakpoint-only(md) {
+    display: none;
+  }
+}
