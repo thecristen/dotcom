@@ -918,4 +918,23 @@ defmodule Site.ScheduleV2ViewTest do
       assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 10}, [{:line, "branch1"}, {:stop, "branch2"}], 1) == 1
     end
   end
+
+  describe "trip_link/4" do
+    @trip_info %TripInfo{sections: [[%PredictedSchedule{prediction: %Predictions.Prediction{trip: %Trip{id: "1"}}}]]}
+
+    test "trip link for non-matching trip", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert trip_link(conn, @trip_info, false, "2") == "/?trip=2#2"
+    end
+
+    test "trip link for matching, un-chosen stop", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert trip_link(conn, @trip_info, false, "1") == "/?trip=1#1"
+    end
+
+    test "trip link for matching, chosen stop", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
+    end
+  end
 end

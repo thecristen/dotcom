@@ -13,6 +13,7 @@ defmodule Site.ScheduleV2Controller.Defaults do
   plug :assign_headsigns
   plug :assign_direction_id
   plug :assign_show_date_select
+  plug :assign_trip_chosen
 
   def assign_headsigns(%Conn{assigns: %{route: %Route{id: route_id}}} = conn, _) do
     assign(conn, :headsigns, Routes.Repo.headsigns(route_id))
@@ -53,5 +54,9 @@ defmodule Site.ScheduleV2Controller.Defaults do
 
   def assign_show_date_select(conn, _) do
     assign(conn, :show_date_select?, Map.get(conn.params, "date_select") == "true")
+  end
+
+  def assign_trip_chosen(conn, _) do
+    assign(conn, :trip_chosen?, Map.has_key?(conn.params, "trip"))
   end
 end
