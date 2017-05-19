@@ -19,7 +19,7 @@
     </div>
     <%
       selector_class = if @destination, do: "", else: " hidden-xs-down"
-      toggle_class = if @destination, do: " hidden hidden-sm-up", else: " hidden-sm-up"
+      toggle_class = if @destination, do: " hidden-xs-up", else: " hidden-sm-up"
     %>
     <%= if @origin && !assigns[:hide_destination_selector?] do %>
       <div class="col-sm-6<%= selector_class %>">
