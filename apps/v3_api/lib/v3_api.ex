@@ -8,7 +8,7 @@ defmodule V3Api do
     with {time, response} <- timed_get(url, params, timeout),
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
-         %{body: body} <- http_response do
+         {:ok, body} <- body(http_response) do
       body
       |> JsonApi.parse
     else
@@ -42,6 +42,20 @@ defmodule V3Api do
     ~s(status=error error="#{inspect error}")
   end
 
+  defp body(%{status_code: 200, headers: headers, body: body}) do
+    case Enum.find(
+          headers,
+          &String.downcase(elem(&1, 0)) == "content-encoding") do
+      {_, "gzip"} ->
+        {:ok, :zlib.gunzip(body)}
+      _ ->
+        {:ok, body}
+    end
+  end
+  defp body(other) do
+    other
+  end
+
   defp process_url(url) do
     base_url = case Application.get_env(:v3_api, :base_url) do
                  {:system, envvar, default} ->
@@ -49,5 +63,9 @@ defmodule V3Api do
                  value -> value
                end
     base_url <> url
+  end
+
+  defp process_request_headers(headers) do
+    put_in headers[:"accept-encoding"], "gzip"
   end
 end
