@@ -37,6 +37,15 @@ defmodule DetailedStopGroupTest do
       assert "place-dwnxg" in get_stops("Red Line", subway_stops)
       refute "place-dwnxg" in get_stops("Blue Line", subway_stops)
     end
+
+    test "detailed stops have zone info" do
+      featured_stop_groups = from_mode(:commuter_rail)
+      for {route, detailed_stops} <- featured_stop_groups do
+        for detailed_stop <- detailed_stops do
+          assert detailed_stop.zone
+        end
+      end
+    end
   end
 
   defp get_stops(route_name, grouped_stops) do
