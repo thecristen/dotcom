@@ -11,21 +11,6 @@ defmodule Feedback.Mailer do
      mode: @mix_env]
   end
 
-  def send_ticket(text, photo_info) do
-    opts = [to: Application.get_env(:feedback, :support_ticket_to_email),
-            from: Application.get_env(:feedback, :support_ticket_from_email),
-            subject: "MBTA Customer Comment Form",
-            text: text]
-
-    opts = if photo_info do
-      [{:attachments, [photo_info]} | opts]
-    else
-      opts
-    end
-
-    Mailgun.Client.send_email config(), opts
-  end
-
   @spec send_heat_ticket(Feedback.Message.t, map()) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     request_response = if message.request_response, do: "Yes", else: "No"
