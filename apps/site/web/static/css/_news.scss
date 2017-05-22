@@ -1,10 +1,6 @@
 .news-entry {
   padding-bottom: 1rem;
-}
-
-.news-featured-image {
-  padding: $base-spacing-lg 0;
-  width: 100%;
+  padding-top: $base-spacing-lg;
 }
 
 .news-metadata {
@@ -28,11 +24,6 @@
 
 .recent-news {
   padding-top: 2rem;
-}
-
-.recent-news-featured-image {
-  height: 200px;
-  width: 100%;
 }
 
 .recent-news-title {
