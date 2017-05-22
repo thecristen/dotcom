@@ -21,12 +21,12 @@ defmodule DetailedStopGroup do
     :subway
     |> stops_for_mode()
     |> group_green_line()
-    |> from_grouped_stops
+    |> from_grouped_stops(:subway)
   end
   def from_mode(mode) do
     mode
     |> stops_for_mode()
-    |> from_grouped_stops()
+    |> from_grouped_stops(mode)
   end
 
   @spec stops_for_mode(Routes.Route.gtfs_route_type) :: [grouped_stops]
@@ -38,16 +38,16 @@ defmodule DetailedStopGroup do
     |> Enum.map(fn {:ok, stops} -> stops end)
   end
 
-  @spec from_grouped_stops([grouped_stops]) :: [DetailedStopGroup.t]
-  defp from_grouped_stops(grouped_stops) do
+  @spec from_grouped_stops([grouped_stops], Routes.Route.gtfs_route_type) :: [DetailedStopGroup.t]
+  defp from_grouped_stops(grouped_stops, mode) do
+    zones = if mode == :commuter_rail, do: Zones.Repo.all(), else: %{}
     grouped_stops
-    |> Task.async_stream(&build_featured_stops/1)
+    |> Task.async_stream(&build_featured_stops(&1, zones))
     |> Enum.map(fn {:ok, featured_stops} -> featured_stops end)
   end
 
-  @spec build_featured_stops(grouped_stops) :: DetailedStopGroup.t
-  defp build_featured_stops({route, stops}) do
-    zones = Zones.Repo.all()
+  @spec build_featured_stops(grouped_stops, %{String.t => String.t}) :: DetailedStopGroup.t
+  defp build_featured_stops({route, stops}, zones) do
     featured_stops = stops
     |> Enum.sort_by(& &1.name)
     |> Task.async_stream(&build_featured_stop(route, &1, zones))

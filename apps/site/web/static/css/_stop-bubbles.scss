@@ -254,13 +254,8 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-zone {
-  background: $gray-lightest;
-  border-radius: $border-radius;
-  display: inline-block;
-  font-size: $font-size-sm;
   margin-bottom: $base-spacing / 4;
   margin-top: $base-spacing / 4;
-  padding: $base-spacing / 4;
 }
 
 @include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);

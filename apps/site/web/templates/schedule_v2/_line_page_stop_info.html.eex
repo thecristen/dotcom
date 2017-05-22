@@ -8,7 +8,7 @@
 </div>
 <%= if @stop.zone do %>
   <div>
-    <div class="route-branch-stop-zone">
+    <div class="commuter-rail-zone route-branch-stop-zone">
       <%= unless @route.type == 2 do %>Commuter Rail<% end %>
       Zone <%= @stop.zone %>
     </div>

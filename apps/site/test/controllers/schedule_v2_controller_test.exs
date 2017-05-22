@@ -204,8 +204,8 @@ defmodule Site.ScheduleV2ControllerTest do
 
       # includes the stop features
       assert List.first(stops).stop_features == [
-        :orange_line,
         :green_line,
+        :orange_line,
         :bus,
         :access,
         :parking_lot
