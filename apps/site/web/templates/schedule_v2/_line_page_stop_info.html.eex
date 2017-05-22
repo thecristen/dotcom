@@ -16,5 +16,10 @@
 <% end %>
 <div class="route-branch-stop-links">
   <%= link "Stop Info",  class: "route-branch-stop-link stop-info-link", to: stop_path(@conn, :show, @stop.id) %>
-  <%= link "Schedules from here", class: "route-branch-stop-link schedule-link", to: schedule_path(@conn, :show, @route.id, tab: "trip-view", origin: @stop.id) %>
+  <%=
+    direction_id = schedule_link_direction_id(@stop, @bubbles, @direction_id)
+    link "Schedules from here", class: "route-branch-stop-link schedule-link",
+                                to: trip_view_path(@conn, :show, @route.id, origin: @stop.id,
+                                                                            direction_id: direction_id)
+  %>
 </div>

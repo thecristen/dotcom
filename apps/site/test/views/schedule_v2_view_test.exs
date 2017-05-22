@@ -6,7 +6,7 @@ defmodule Site.ScheduleV2ViewTest do
   alias Stops.Stop
   import Site.ScheduleV2View
   import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
-                                              stop_bubble_content: 4,
+                                              stop_bubble_content: 4, schedule_link_direction_id: 3,
                                               view_branch_link: 3, stop_bubble_location_display: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -899,6 +899,23 @@ defmodule Site.ScheduleV2ViewTest do
       assert trip_list_bubble("Red") |> Phoenix.HTML.safe_to_string() == ""
       assert trip_list_bubble("CR-Newburyport") |> Phoenix.HTML.safe_to_string() == ""
       assert trip_list_bubble("anything") |> Phoenix.HTML.safe_to_string() == ""
+    end
+  end
+
+  describe "schedule_link_direction_id" do
+    test "returns opposite of direction id for the last stop on a line" do
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 10}, [{:terminus, "branch1"}], 0) == 1
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 15},
+                                        [{:line, "branch1"}, {:terminus, "branch2"}], 1) == 0
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 13},
+                                        [{:stop, "branch1"}, {:terminus, "branch2"}, {:line, "branch3"}], 0) == 1
+    end
+
+    test "returns direction id for all other stops" do
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 0}, [{:terminus, "branch1"}], 0) == 0
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 3}, [{:stop, "branch1"}], 0) == 0
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 5}, [{:line, "branch1"}], 1) == 1
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 10}, [{:line, "branch1"}, {:stop, "branch2"}], 1) == 1
     end
   end
 end

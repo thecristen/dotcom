@@ -203,4 +203,21 @@ defmodule Site.ScheduleV2View.StopList do
     end
   end
 
+  @doc """
+  Sets the direction_id for the "Schedules from here" link. Chooses the opposite of the current direction only for the last stop
+  on the line or branch (since there are no trips in that direction from those stops).
+  """
+  @spec schedule_link_direction_id(Stops.RouteStop.t, [{LineController.stop_bubble_type, String.t}], 0 | 1) :: 0 | 1
+  def schedule_link_direction_id(stop, bubbles, direction_id) do
+    bubbles
+    |> Enum.map(& elem(&1, 0))
+    |> Enum.member?(:terminus)
+    |> do_schedule_link_direction_id(stop, direction_id)
+  end
+
+  @spec do_schedule_link_direction_id(boolean, Stops.RouteStop.t, 0 | 1) :: 0 | 1
+  defp do_schedule_link_direction_id(true, %Stops.RouteStop{stop_number: stop}, direction_id) when stop != 0 do
+    if direction_id == 0, do: 1, else: 0
+  end
+  defp do_schedule_link_direction_id(_is_terminus, _stop, direction_id), do: direction_id
 end

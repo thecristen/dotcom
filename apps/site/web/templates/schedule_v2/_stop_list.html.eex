@@ -15,6 +15,7 @@
       render "_stop_list_row.html", bubbles: bubbles,
                                     stop: stop,
                                     route: @route,
+                                    direction_id: @direction_id,
                                     conn: @conn,
                                     add_expand_link?: add_expand_link?(stop, branch_stops),
                                     expanded: @expanded,

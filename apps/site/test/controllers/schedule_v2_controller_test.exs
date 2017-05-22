@@ -339,6 +339,20 @@ defmodule Site.ScheduleV2ControllerTest do
 
       assert conn.assigns.active_shape.id == "090096"
     end
+
+    test "sets schedule link direction id to 1 for last stop and 0 for all other stops on non-bus lines", %{conn: conn} do
+      response = conn
+      |> get(line_path(conn, :show, "CR-Fitchburg", direction_id: 1))
+      |> html_response(200)
+
+      [last_stop | others] = response
+      |> Floki.find(".schedule-link")
+      |> Enum.reverse()
+
+      assert last_stop |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
+      Enum.each(others, & assert &1 |> Floki.attribute("href") |> List.first() =~ "direction_id=0")
+
+    end
   end
 
   describe "build_stop_list" do
