@@ -333,13 +333,15 @@
 .whats-happening-item {
   a {
     text-decoration: none;
+
+    @include hover-focus-active {
+      .about-link {
+        text-decoration: inherit;
+      }
+    }
   }
 
   .about-description {
     color: $gray-dark;
-  }
-
-  .about-link:hover {
-    text-decoration: underline;
   }
 }

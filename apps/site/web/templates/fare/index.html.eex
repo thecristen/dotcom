@@ -109,7 +109,7 @@
       <h2>Reduced Fare Eligibility</h2>
       <p>Children aged 11 years and under and persons who are  blind or visually impaired may ride MBTA services for free. Seniors, persons with disabilities, and students are eligible for reduced One Way fares. </p>
       <p><%= link to: fare_path(@conn, :show, :reduced) do %>
-        Learn more about reduced fare <span class="no-wrap">eligibility <%= fa "arrow-right" %></span>
+        Learn more about reduced fare <span class="no-wrap fare-link">eligibility <%= fa "arrow-right" %></span>
       <% end %></p>
     </div>
     <div>
