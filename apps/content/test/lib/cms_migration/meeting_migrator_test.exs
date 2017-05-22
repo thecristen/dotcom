@@ -4,47 +4,42 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
   alias Content.CmsMigration.MeetingMigrator
   alias Content.CmsMigration.MeetingMigrationError
 
-  @filename "cms_migration/meeting.json"
+  @filename "cms_migration/valid_meeting/meeting.json"
 
   describe "migrate/2" do
     test "creates an event in the CMS" do
-      bypass = bypass_cms()
-
-      Bypass.expect bypass, fn conn ->
-        case conn.request_path do
-          "/events" ->
-            response_data = []
-            assert "GET" == conn.method
-            assert conn.query_string =~ URI.encode_query(%{meeting_id: 5550})
-            Plug.Conn.resp(conn, 200, Poison.encode!(response_data))
-          "/entity/node" ->
-            response_data = [%{"nid" => [%{"value" => 37}]}]
-            assert "POST" == conn.method
-            Plug.Conn.resp(conn, 201, Poison.encode!(response_data))
-        end
-      end
-
-      result = MeetingMigrator.migrate(fixture(@filename))
-      assert {:ok, %HTTPoison.Response{status_code: 201}} = result
+      meeting_data = fixture(@filename)
+      assert {:ok, :created} = MeetingMigrator.migrate(meeting_data)
     end
 
     test "given the event already exists in the CMS, updates the event" do
-      bypass = bypass_cms()
-
       previously_migrated_meeting =
         @filename
         |> fixture
         |> Map.put("meeting_id", "1")
 
-      Bypass.expect bypass, fn conn ->
-        response_data = [%{"nid" => [%{"value" => 17}]}]
-        assert conn.request_path == "/node/17"
-        assert "PATCH" == conn.method
-        Plug.Conn.resp(conn, 200, Poison.encode!(response_data))
-      end
+      assert {:ok, :updated} = MeetingMigrator.migrate(previously_migrated_meeting)
+    end
 
-      result = MeetingMigrator.migrate(previously_migrated_meeting)
-      assert {:ok, %HTTPoison.Response{status_code: 200}} = result
+    test "when the event fails to create" do
+      invalid_meeting =
+        @filename
+        |> fixture
+        |> Map.put("objective", "fails-to-create")
+
+      assert {:error, %{status_code: 422}} = MeetingMigrator.migrate(invalid_meeting)
+    end
+
+    test "when the event fails to update" do
+      id_for_existing_record = "1"
+
+      invalid_meeting =
+        @filename
+        |> fixture
+        |> Map.put("objective", "fails-to-update")
+        |> Map.put("meeting_id", id_for_existing_record)
+
+      assert {:error, %{status_code: 422}} = MeetingMigrator.migrate(invalid_meeting)
     end
 
     test "does not migrate the event if the start time is greater than the end time" do
@@ -84,21 +79,5 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
         MeetingMigrator.check_for_existing_event!("multiple-records")
       end
     end
-  end
-
-  defp bypass_cms do
-    original_drupal_config = Application.get_env(:content, :drupal)
-
-    bypass = Bypass.open
-    bypass_url = "http://localhost:#{bypass.port}/"
-
-    Application.put_env(:content, :drupal,
-      put_in(original_drupal_config[:root], bypass_url))
-
-    on_exit fn ->
-      Application.put_env(:content, :drupal, original_drupal_config)
-    end
-
-    bypass
   end
 end

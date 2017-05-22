@@ -83,4 +83,22 @@ defmodule Content.CMS.Static do
   def view(_, _) do
     {:error, "Not able to retrieve response"}
   end
+
+  def post("entity/node", body) do
+    if String.contains?(body, "fails-to-create") do
+      {:error, %{status_code: 422}}
+    else
+      [event] = Enum.take(events_response(), 1)
+      {:ok, event}
+    end
+  end
+
+  def update("node/" <> _id, body) do
+    if String.contains?(body, "fails-to-update") do
+      {:error, %{status_code: 422}}
+    else
+      [event] = Enum.take(events_response(), 1)
+      {:ok, event}
+    end
+  end
 end

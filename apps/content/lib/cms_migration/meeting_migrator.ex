@@ -6,25 +6,14 @@ defmodule Content.CmsMigration.MeetingMigrator do
   alias Content.CmsMigration.EventPayload
   alias Content.CmsMigration.MeetingMigrationError
 
-  @spec migrate(String.t) :: {:ok, HTTPoison.Response.t} | {:error, HTTPoison.Response.t} | {:error, term}
+  @spec migrate(String.t) :: {:ok, atom} | {:error, map} | {:error, String.t}
   def migrate(meeting_json) do
     meeting_id = Map.fetch!(meeting_json, "meeting_id")
     event = build_event(meeting_json)
 
     case validate_event(event) do
-      {:ok, event} ->
-        event
-        |> migrate_event(meeting_id)
-        |> normalize_response
+      {:ok, event} -> migrate_event(event, meeting_id)
       {:error, message} -> {:error, message}
-    end
-  end
-
-  defp normalize_response(response) do
-    case response do
-      {:ok, %HTTPoison.Response{status_code: 200}} -> response
-      {:ok, %HTTPoison.Response{status_code: 201}} -> response
-      {_unsuccessful_request, response} -> {:error, response}
     end
   end
 
@@ -52,6 +41,18 @@ defmodule Content.CmsMigration.MeetingMigrator do
     end
   end
 
+  defp update_event(id, body) do
+    with {:ok, _event} <- Content.Repo.update_event(id, body) do
+      {:ok, :updated}
+    end
+  end
+
+  defp create_event(body) do
+    with {:ok, _event} <- Content.Repo.create_event(body) do
+      {:ok, :created}
+    end
+  end
+
   defp validate_event(%{field_start_time: [%{value: nil}], field_end_time: [%{value: nil}]} = _event) do
     {:error, "A start time must be provided."}
   end
@@ -71,29 +72,4 @@ defmodule Content.CmsMigration.MeetingMigrator do
   defp convert_to_datetime(time) do
     Timex.parse!(time, "{YYYY}-{0M}-{0D}T{h24}:{m}:{s}")
   end
-
-  defp update_event(id, body) do
-    HTTPoison.patch(update_event_url(id), body, headers())
-  end
-
-  defp create_event(body) do
-    HTTPoison.post(create_event_url(), body, headers())
-  end
-
-  defp headers do
-    [
-      {"Authorization", "Basic #{encoded_auth_credentials()}"},
-      {"Content-Type", "application/json"},
-    ]
-  end
-
-  defp update_event_url(id), do: Content.Config.url("node/#{id}")
-
-  defp create_event_url, do: Content.Config.url("entity/node")
-
-  defp encoded_auth_credentials, do: Base.encode64("#{username()}:#{password()}")
-
-  defp username, do: System.get_env("DRUPAL_USERNAME")
-
-  defp password, do: System.get_env("DRUPAL_PASSWORD")
 end

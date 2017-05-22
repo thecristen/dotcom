@@ -3,7 +3,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
   import Content.FixtureHelpers
   import Content.CmsMigration.EventPayload
 
-  @meeting "cms_migration/meeting.json"
+  @meeting "cms_migration/valid_meeting/meeting.json"
 
   describe "from_meeting/1" do
     test "maps meeting information to CMS event fields" do

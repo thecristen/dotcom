@@ -71,4 +71,18 @@ defmodule Content.Repo do
     end
     if cached_value == :empty || cached_value == :error, do: nil, else: cached_value
   end
+
+  @spec create_event(String.t) :: {:ok, Content.Event.t} | {:error, map} | {:error, String.t}
+  def create_event(body) do
+    with {:ok, api_data} <- @cms_api.post("entity/node", body) do
+      {:ok, Content.Event.from_api(api_data)}
+    end
+  end
+
+  @spec update_event(String.t, String.t) :: {:ok, Content.Event.t} | {:error, map} | {:error, String.t}
+  def update_event(id, body) do
+    with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
+      {:ok, Content.Event.from_api(api_data)}
+    end
+  end
 end

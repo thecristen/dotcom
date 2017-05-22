@@ -13,7 +13,7 @@ defmodule Content.CMS.TimeRequestTest do
     Logger.configure(level: :info)
   end
 
-  describe "time_request/2" do
+  describe "time_request/5" do
     setup do
       bypass = Bypass.open
       url = "http://127.0.0.1:#{bypass.port}/"
@@ -27,7 +27,7 @@ defmodule Content.CMS.TimeRequestTest do
         send_resp(conn, 200, "ok")
       end
 
-      response = time_request(url, param: "value")
+      response = time_request(:get, url, "", [], param: "value")
       assert {:ok, %{status_code: 200, body: "ok"}} = response
     end
 
@@ -39,7 +39,7 @@ defmodule Content.CMS.TimeRequestTest do
       params = [param: "value", "_format": "json"]
 
       log = capture_log(fn ->
-        time_request(url, params)
+        time_request(:get, url, "", [], params)
       end)
       assert log =~ "status=200"
       assert log =~ "url=#{url}"
@@ -51,7 +51,7 @@ defmodule Content.CMS.TimeRequestTest do
       Bypass.down bypass
 
       log = capture_log(fn ->
-        time_request(url, [])
+        time_request(:get, url)
       end)
       assert log =~ "status=error"
       assert log =~ "error="
