@@ -7,7 +7,7 @@
     "backstop:bless": "cd apps/site/node_modules/backstopjs && npm run bless",
     "test:js": "cd apps/site && npm run test",
     "brunch:build": "cd apps/site && node_modules/brunch/bin/brunch b -p",
-    "server:mocked": "MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=localhost STATIC_PORT=8082 V3_URL=http://localhost:8080 mix do deps.compile --force, compile --no-deps-check --force, phoenix.server",
+    "server:mocked": "MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=localhost STATIC_PORT=8082 V3_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix do deps.compile --force, compile --no-deps-check --force, phoenix.server",
     "wiremock": "cd apps/site && java -jar $WIREMOCK_PATH",
     "wiremock:record": "cd apps/site && rm -fr __files mappings && java -jar $WIREMOCK_PATH --proxy-all=\"https://dev.api.mbtace.com\" --record-mappings",
     "routes": "cd apps/site && mix phoenix.routes && cd ../..",
