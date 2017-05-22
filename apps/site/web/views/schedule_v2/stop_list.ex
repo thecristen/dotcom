@@ -1,6 +1,7 @@
 defmodule Site.ScheduleV2View.StopList do
   use Site.Web, :view
 
+  import VehicleTooltip, only: [tooltip: 1]
   alias Site.ScheduleV2Controller.Line, as: LineController
 
   @doc """
@@ -20,13 +21,14 @@ defmodule Site.ScheduleV2View.StopList do
   Returns the content for an individual stop bubble in a stop list. The content and styles vary depending on
   whether the stop is a terminus, the branch is expanded, the row is a button to expand the branch, etc.
   """
-  @spec stop_bubble_content(map, LineController.stop_bubble_type, String.t, boolean) :: Phoenix.HTML.Safe.t
+  @spec stop_bubble_content(map, LineController.stop_bubble_type, String.t, VehicleTooltip.t | nil)
+        :: Phoenix.HTML.Safe.t
   def stop_bubble_content(%{is_expand_link?: true} = assigns, _, branch, _) do
     [render_stop_bubble_line(:line, {branch, assigns.expanded}, {assigns.route, assigns.stop})]
   end
   def stop_bubble_content(assigns, :merge, branch, 0) do
     [
-      render_stop_bubble(:stop, assigns.route, 0, assigns.show_vehicle?),
+      render_stop_bubble(:stop, assigns.route, 0, assigns.vehicle_tooltip),
       render_stop_bubble_line(:merge, {branch, assigns.expanded}, {assigns.route, assigns.stop})
     ]
   end
@@ -39,7 +41,7 @@ defmodule Site.ScheduleV2View.StopList do
   end
   def stop_bubble_content(assigns, bubble_type, branch, index) do
     [
-      render_stop_bubble(bubble_type, assigns.route, index, assigns.show_vehicle?),
+      render_stop_bubble(bubble_type, assigns.route, index, assigns.vehicle_tooltip),
       render_stop_bubble_line(bubble_type, {branch, assigns.expanded}, {assigns.route, assigns.stop})
     ]
   end
@@ -47,16 +49,18 @@ defmodule Site.ScheduleV2View.StopList do
   @doc """
   Renders a stop bubble, if one should be rendered.
   """
-  @spec render_stop_bubble(LineController.stop_bubble_type, Routes.Route.t, integer, boolean) :: Phoenix.HTML.Safe.t
-  def render_stop_bubble(bubble_type, route, index, show_vehicle?)
-  def render_stop_bubble(bubble_type, %Routes.Route{id: "Green"} = route, index, show_vehicle?)
-      when bubble_type in [:stop, :terminus] do
-    stop_bubble_location_display(show_vehicle?,
-                                 %{route | id: Enum.at(GreenLine.branch_ids(), index)},
-                                 bubble_type == :terminus)
+  @spec render_stop_bubble(LineController.stop_bubble_type, Routes.Route.t, integer, VehicleTooltip.t | nil)
+        :: Phoenix.HTML.Safe.t
+  def render_stop_bubble(bubble_type, route, index, vehicle_tooltip \\ nil)
+  def render_stop_bubble(bubble_type, %Routes.Route{id: "Green"} = route, index, vehicle_tooltip)
+    when bubble_type in [:stop, :terminus] do
+      stop_bubble_location_display(vehicle_tooltip,
+                                   %{route | id: Enum.at(GreenLine.branch_ids(), index)},
+                                   bubble_type == :terminus)
   end
-  def render_stop_bubble(bubble_type, %Routes.Route{} = route, _, show_vehicle?) when bubble_type in [:stop, :terminus] do
-    stop_bubble_location_display(show_vehicle?, route, bubble_type == :terminus)
+  def render_stop_bubble(bubble_type, %Routes.Route{} = route, _, vehicle_tooltip)
+  when bubble_type in [:stop, :terminus] do
+    stop_bubble_location_display(vehicle_tooltip, route, bubble_type == :terminus)
   end
   def render_stop_bubble(_, %Routes.Route{}, _, _), do: ""
 
@@ -142,19 +146,33 @@ defmodule Site.ScheduleV2View.StopList do
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
   """
-  @spec stop_bubble_location_display(boolean, Routes.Route.t, boolean) :: Phoenix.HTML.Safe.t
-  def stop_bubble_location_display(vehicle?, route, terminus?)
-  def stop_bubble_location_display(true, route, true) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route.type), class: "icon-inverse", show_tooltip?: false})
-  end
-  def stop_bubble_location_display(true, route, false) do
-    svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.type_atom(route.type), class: "icon-boring", show_tooltip?: false})
-  end
-  def stop_bubble_location_display(false, route, true) do
+  @spec stop_bubble_location_display(VehicleTooltip.t | nil, Routes.Route.t, boolean) :: Phoenix.HTML.Safe.t
+  def stop_bubble_location_display(vehicle_tooltip, route, terminus?)
+  def stop_bubble_location_display(nil, route, true) do
     stop_bubble_icon(:terminus, route.id)
   end
-  def stop_bubble_location_display(false, route, false) do
+  def stop_bubble_location_display(nil, route, false) do
     stop_bubble_icon(:stop, route.id)
+  end
+  def stop_bubble_location_display(vehicle_tooltip, route, true) do
+    content_tag(:span,
+      svg_icon_with_circle(%SvgIconWithCircle{
+        icon: Routes.Route.type_atom(route.type),
+        class: "icon-inverse",
+        show_tooltip?: false}),
+      data: [html: true, toggle: "tooltip"],
+      title: tooltip(vehicle_tooltip)
+    )
+  end
+  def stop_bubble_location_display(vehicle_tooltip, route, false) do
+    content_tag(:span,
+      svg_icon_with_circle(%SvgIconWithCircle{
+        icon: Routes.Route.type_atom(route.type),
+        class: "icon-boring",
+        show_tooltip?: false}),
+      data: [html: true, toggle: "tooltip"],
+      title: tooltip(vehicle_tooltip)
+    )
   end
 
   @doc """

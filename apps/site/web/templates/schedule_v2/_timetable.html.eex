@@ -46,10 +46,10 @@
                 <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
                   <%= format_schedule_time(trip_schedule.time) %>
                 <% end %>
-                <%= if vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] do %>
-                  <% prediction = prediction_for_vehicle_location(@conn, stop.id, schedule.trip.id) %>
+                <%= if Map.has_key?(@vehicle_tooltips, {schedule.trip.id, stop.id}) do %>
+                  <% vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] %>
                   <span data-html=true data-toggle="tooltip"
-                    title="<%= prediction_tooltip(prediction, stop.name, vehicle, @route.type) %>">
+                    title="<%= VehicleTooltip.tooltip(@vehicle_tooltips[{schedule.trip.id, stop.id}]) %>">
                     <%= timetable_location_display(vehicle) %>
                   </span>
                 <% end %>

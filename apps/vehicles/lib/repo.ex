@@ -4,7 +4,7 @@ defmodule Vehicles.Repo do
   alias Vehicles.{Vehicle, Parser}
 
   @default_params [
-    "fields[vehicle]": "direction_id,current_status",
+    "fields[vehicle]": "direction_id,current_status,longitude,latitude",
     "fields[stop]": "",
     "include": "stop"
   ]

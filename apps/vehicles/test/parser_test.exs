@@ -6,6 +6,8 @@ defmodule Vehicles.ParserTest do
     attributes: %{
       "current_status" => "STOPPED_AT",
       "direction_id" => 1,
+      "longitude" => 1.1,
+      "latitude" => 2.2
     },
     id: "y1799",
     relationships: %{
@@ -24,8 +26,11 @@ defmodule Vehicles.ParserTest do
         stop_id: "72",
         trip_id: "32893540",
         direction_id: 1,
-        status: :stopped
+        status: :stopped,
+        latitude: 2.2,
+        longitude: 1.1
       }
+
       assert Parser.parse(@item) == expected
     end
 
@@ -38,7 +43,9 @@ defmodule Vehicles.ParserTest do
         stop_id: "72",
         trip_id: nil,
         direction_id: 1,
-        status: :stopped
+        status: :stopped,
+        latitude: 2.2,
+        longitude: 1.1
       }
       assert Parser.parse(item) == expected
     end
@@ -52,7 +59,9 @@ defmodule Vehicles.ParserTest do
         stop_id: nil,
         trip_id: "32893540",
         direction_id: 1,
-        status: :stopped
+        status: :stopped,
+        latitude: 2.2,
+        longitude: 1.1
       }
       assert Parser.parse(item) == expected
     end
@@ -68,7 +77,9 @@ defmodule Vehicles.ParserTest do
         stop_id: "72",
         trip_id: nil,
         direction_id: 1,
-        status: :stopped
+        status: :stopped,
+        latitude: 2.2,
+        longitude: 1.1
       }
       assert Parser.parse(item) == expected
     end
@@ -78,6 +89,8 @@ defmodule Vehicles.ParserTest do
         attributes: %{
           "current_status" => "IN_TRANSIT_TO",
           "direction_id" => 0,
+          "longitude" => 1.1,
+          "latitude" => 2.2
         },
         id: "544B1E1A",
         relationships: %{
@@ -96,7 +109,9 @@ defmodule Vehicles.ParserTest do
         stop_id: "place-harsq",
         trip_id: "32542428",
         direction_id: 0,
-        status: :in_transit
+        status: :in_transit,
+        latitude: 2.2,
+        longitude: 1.1
       }
 
       assert Parser.parse(item) == expected

@@ -18,6 +18,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :schedules
   plug :vehicle_locations
   plug :predictions
+  plug Site.ScheduleV2Controller.VehicleTooltips
   plug Site.ScheduleV2Controller.ExcludedStops
   plug Site.ScheduleV2Controller.StopTimes
   plug :validate_stop_times

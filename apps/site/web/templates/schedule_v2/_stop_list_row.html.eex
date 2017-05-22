@@ -6,7 +6,7 @@
                                               route: @route,
                                               branch_names: @branch_names,
                                               is_expand_link?: true,
-                                              show_vehicle?: @show_vehicle?,
+                                              vehicle_tooltip: @vehicle_tooltip,
                                               expanded: @expanded %>
     <div class="route-branch-stop-info expand">
       <div class="expand-branch-link">
@@ -21,7 +21,7 @@
                                             route: @route,
                                             indent_start: assigns[:indent_start],
                                             branch_names: @branch_names,
-                                            show_vehicle?: @show_vehicle?,
+                                            vehicle_tooltip: @vehicle_tooltip,
                                             expanded: @expanded %>
 
   <div class="route-branch-stop-info">

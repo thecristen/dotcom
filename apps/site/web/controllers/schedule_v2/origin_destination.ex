@@ -30,7 +30,6 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
   # For inbound commuter rail trips, preselect the origin as the
   # terminal (i.e. either North or South stations).
   def assign_origin(%Conn{assigns: %{route: %Routes.Route{type: 2}, direction_id: 0}} = conn, _) do
-
     assign(conn, :origin, List.first(conn.assigns.all_stops))
   end
   # for bus trips, assign the origin if it's one of the hubs (South Station, North Station, Back Bay)
@@ -39,6 +38,10 @@ defmodule Site.ScheduleV2Controller.OriginDestination do
                              all_stops: [%{id: hub_id} = origin | _]}} = conn, _)
   when hub_id in ["place-sstat", "place-north", "place-bbsta"] do
     assign(conn, :origin, origin)
+  end
+  # for green line, set origin
+  def assign_origin(%Conn{assigns: %{route: %Routes.Route{type: 0}}} = conn, _) do
+    assign(conn, :origin, List.first(conn.assigns.all_stops))
   end
   def assign_origin(conn, _) do
     assign(conn, :origin, nil)

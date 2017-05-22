@@ -38,8 +38,6 @@ defmodule Site.ScheduleV2View do
   end
   defp do_display_direction([]), do: ""
 
-
-
   @doc """
   Displays the CR icon if given a non-nil vehicle location. Otherwise, displays nothing.
   """
@@ -101,75 +99,6 @@ defmodule Site.ScheduleV2View do
   @spec display_alerts([Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
   def display_alerts([]), do: raw ""
   def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
-
-  @spec prediction_status_text(Predictions.Prediction.t | nil) :: iodata
-  def prediction_status_text(%Predictions.Prediction{status: status, track: track}) when not is_nil(track) do
-    [String.capitalize(status), " on track ", track]
-  end
-  def prediction_status_text(_) do
-    ""
-  end
-
-  @spec prediction_time_text(Predictions.Prediction.t | nil) :: iodata
-  def prediction_time_text(nil) do
-    ""
-  end
-  def prediction_time_text(%Predictions.Prediction{time: nil}) do
-    ""
-  end
-  def prediction_time_text(%Predictions.Prediction{time: time, departing?: true}) do
-    do_prediction_time_text("Departure", time)
-  end
-  def prediction_time_text(%Predictions.Prediction{time: time}) do
-    do_prediction_time_text("Arrival", time)
-  end
-
-  defp do_prediction_time_text(prefix, time) do
-    [prefix, ": ", Timex.format!(time, "{h12}:{m} {AM}")]
-  end
-
-  @spec prediction_stop_text(String.t, Vehicles.Vehicle.t | nil, number) :: String.t
-  defp prediction_stop_text(_name, nil, _route_type), do: ""
-  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :incoming}, route_type), do: "#{route_type_name(route_type)} is on the way to #{name}"
-  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :stopped}, route_type), do: "#{route_type_name(route_type)} has arrived at #{name}"
-  defp prediction_stop_text(name, %Vehicles.Vehicle{status: :in_transit}, route_type), do: "#{route_type_name(route_type)} has left #{name}"
-
-  def build_prediction_tooltip(time_text, status_text, stop_text) do
-    time_tag = do_build_prediction_tooltip(time_text)
-    status_tag = do_build_prediction_tooltip(status_text)
-    stop_tag = do_build_prediction_tooltip(stop_text)
-
-    :div
-    |> content_tag([stop_tag, time_tag, status_tag])
-    |> safe_to_string
-    |> String.replace(~s("), ~s('))
-  end
-
-  @spec do_build_prediction_tooltip(iodata) :: Phoenix.HTML.Safe.t
-  defp do_build_prediction_tooltip("") do
-    ""
-  end
-  defp do_build_prediction_tooltip(text) do
-    content_tag(:p, text, class: 'prediction-tooltip')
-  end
-
-  @spec prediction_tooltip(Predictions.Prediction.t, String.t, Vehicles.Vehicle.t | nil, number) :: Phoenix.HTML.Safe.t
-  def prediction_tooltip(prediction, stop_name, vehicle, route_type) do
-    time_text = prediction_time_text(prediction)
-    status_text = prediction_status_text(prediction)
-    stop_text = prediction_stop_text(stop_name, vehicle, route_type)
-
-    build_prediction_tooltip(time_text, status_text, stop_text)
-  end
-
-  @spec prediction_for_vehicle_location(Plug.Conn.t, String.t, String.t) :: Predictions.Prediction.t
-  def prediction_for_vehicle_location(%{assigns: %{vehicle_predictions: vehicle_predictions}}, stop_id, trip_id) do
-    vehicle_predictions
-    |> Enum.find(fn prediction -> prediction.stop.id == stop_id && prediction.trip.id == trip_id end)
-  end
-  def prediction_for_vehicle_location(conn, _stop_id, _trip_id) do
-    conn
-  end
 
   @doc """
   Returns vehicle frequency for the frequency table, either "Every X minutes" or "No service between these hours".

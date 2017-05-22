@@ -12,7 +12,7 @@
   </div>
   <div class="stop-list-container">
     <h2 class="h5 hidden-sm-up route-stop-heading">Stops</h5>
-    <%= render "_stop_list.html", Map.put(assigns, :show_vehicle?, false) %>
+    <%= render "_stop_list.html", assigns %>
   </div>
   <div class="page-section route-hours">
       <div class="hidden-xs-down line-map-container">
