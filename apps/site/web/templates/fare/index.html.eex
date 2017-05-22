@@ -44,7 +44,8 @@
     <div>
       <h2>Commuter Rail Fares</h2>
       <p>
-        Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into Zones 1A-10.
+        Your Commuter Rail fare will depend on which stops you board and exit the train. Stops are categorized into
+        <%= link "Zones 1A-10", to: fare_path(@conn, :zone) %>.
         Fares can be bought as One Way, Round Trip, and Monthly Passes.
       </p>
       <p>
