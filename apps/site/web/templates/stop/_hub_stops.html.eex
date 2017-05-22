@@ -1,0 +1,12 @@
+<%= for %HubStop{detailed_stop: detailed_stop, image_path: path} <- @hubs do %>
+  <div class="col-md-4">
+    <img src=<%= static_url(@conn, path) <> ".jpg"%>
+       srcset="<%= static_url(@conn, path) <> "-2x.jpg" %> 760w,
+              <%= static_url(@conn, path) <> ".jpg"%> 380w"
+    class="img-fluid"/>
+    <div class="hub-stop-link">
+      <%= link detailed_stop.stop.name, to: stop_path(@conn, :show, detailed_stop.stop.id) %>
+      <span class="stop-features-list"><%= feature_icons(detailed_stop)%></span>
+    </div>
+  </div>
+<% end %>
