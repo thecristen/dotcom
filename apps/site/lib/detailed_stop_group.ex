@@ -16,7 +16,7 @@ defmodule DetailedStopGroup do
   The returned value will contain every route for the given mode
   and each route will contain every stop on that route
   """
-  @spec from_mode(Routes.gtfs_route_type) :: [DetailedStopGroup.t]
+  @spec from_mode(Routes.Route.gtfs_route_type) :: [DetailedStopGroup.t]
   def from_mode(:subway) do
     :subway
     |> stops_for_mode()
@@ -29,7 +29,7 @@ defmodule DetailedStopGroup do
     |> from_grouped_stops()
   end
 
-  @spec stops_for_mode(Routes.gtfs_route_type) :: [grouped_stops]
+  @spec stops_for_mode(Routes.Route.gtfs_route_type) :: [grouped_stops]
   defp stops_for_mode(mode) do
     mode
     |> Route.types_for_mode()

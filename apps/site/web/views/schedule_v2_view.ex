@@ -249,7 +249,7 @@ defmodule Site.ScheduleV2View do
   On green line pages, returns a div with a stop bubble with the branch letter (like the ones used in the
   trip info list and the line pages). For all other routes, returns an empty string.
   """
-  @spec trip_list_bubble(Routes.Route.id_it) :: Phoenix.Html.Safe.t
+  @spec trip_list_bubble(Routes.Route.id_t) :: Phoenix.HTML.Safe.t
   def trip_list_bubble(<<"Green-", _ :: binary>> = branch) do
     content_tag :div, class: "pull-right trip-list-green-line-icon" do
       stop_bubble_icon(:stop, branch)

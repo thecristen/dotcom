@@ -11,6 +11,6 @@ defmodule DetailedStop do
 
   @type t :: %__MODULE__{
     stop: Stop.t,
-    features: [Routes.Repo.stop_features]
+    features: [Stops.Repo.stop_feature]
   }
 end
