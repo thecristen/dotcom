@@ -161,5 +161,10 @@ defmodule Schedules.RepoTest do
     test "returns nil if there are problems" do
       refute end_of_rating(fn _ -> %JsonApi{} end)
     end
+
+    @tag :external
+    test "returns a date (actual endpoint)" do
+      assert %Date{} = end_of_rating()
+    end
   end
 end

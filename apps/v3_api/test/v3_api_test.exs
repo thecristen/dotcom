@@ -1,5 +1,5 @@
 defmodule V3ApiTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   describe "get_json/1" do
     test "normal responses return a JsonApi struct" do
@@ -10,9 +10,19 @@ defmodule V3ApiTest do
 
     test "missing endpoints return an error" do
       response = V3Api.get_json("/missing")
-      assert {:error, httpoison_response} = response
-      assert {"Content-Encoding", "gzip"} =
-        List.keyfind(httpoison_response.headers, "Content-Encoding", 0)
+      assert {:error, [%JsonApi.Error{}]} = response
+    end
+
+    test "can't connect returns an error" do
+      v3_url = Application.get_env(:v3_api, :base_url)
+      on_exit fn ->
+        Application.put_env(:v3_api, :base_url, v3_url)
+      end
+
+      Application.put_env(:v3_api, :base_url, "http://localhost:0")
+
+      response = V3Api.get_json("/")
+      assert {:error, %{reason: _}} = response
     end
   end
 end

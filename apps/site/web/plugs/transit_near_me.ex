@@ -7,6 +7,7 @@ defmodule Site.Plugs.TransitNearMe do
 
   defmodule Options do
     defstruct [
+      geocode_fn: &GoogleMaps.Geocode.geocode/1,
       nearby_fn: &Stops.Nearby.nearby/1,
       routes_by_stop_fn: &Routes.Repo.by_stop/1
     ]
@@ -37,8 +38,7 @@ defmodule Site.Plugs.TransitNearMe do
     do_call(conn, stops_with_routes, location)
   end
   def call(%{params: %{"location" => %{"address" => address}}} = conn, options) do
-    location = address
-    |> GoogleMaps.Geocode.geocode
+    location = options.geocode_fn.(address)
 
     stops_with_routes = calculate_stops_with_routes(location, options)
 
