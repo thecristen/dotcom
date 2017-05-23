@@ -27,3 +27,12 @@
   display: inline-block;
   text-align: right;
 }
+
+.commuter-rail-zone {
+  background: $gray-lightest;
+  border-radius: $border-radius;
+  color: $gray-dark;
+  display: inline-block;
+  font-size: $font-size-sm;
+  padding: $base-spacing / 4;
+}

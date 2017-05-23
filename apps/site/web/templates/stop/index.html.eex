@@ -27,6 +27,13 @@
             <a class="btn button stop-btn" href="<%= stop_path(@conn, :show, detailed_stop.stop.id) %>">
               <%= detailed_stop.stop.name %>
               <span class="stop-features-list"><%= feature_icons(detailed_stop)%></span>
+              <%= if detailed_stop.zone do %>
+                <div>
+                  <div class="commuter-rail-zone">
+                    Zone <%= detailed_stop.zone %>
+                  </div>
+                </div>
+              <% end %>
             </a>
           </div>
         <% end %>
