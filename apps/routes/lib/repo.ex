@@ -12,8 +12,7 @@ defmodule Routes.Repo do
   @spec all() :: [Routes.Route.t]
   def all do
     cache [], fn _ ->
-      V3Api.Routes.all
-      |> handle_response
+      handle_response(V3Api.Routes.all)
     end
   end
 
@@ -24,11 +23,11 @@ defmodule Routes.Repo do
   """
   @spec get(String.t) :: Routes.Route.t | nil
   def get(id) do
-    all()
-    |> Enum.find(fn
-      %{id: ^id} -> true
-      _ -> false
+    []
+    |> cache(fn _ ->
+      Map.new(all(), &{&1.id, &1})
     end)
+    |> Map.get(id)
   end
 
   @spec get_shapes(String.t, 0|1) :: [Routes.Shape.t]
@@ -54,14 +53,13 @@ defmodule Routes.Repo do
   """
   @spec by_type([0..4] | 0..4) :: [Routes.Route.t]
   def by_type(types) when is_list(types) do
-    all()
-    |> Enum.filter(fn %{type: type} ->
-      type in types
-    end)
+    types = Enum.sort(types)
+    cache types, fn types ->
+      Enum.filter(all(), &Map.get(&1, :type) in types)
+    end
   end
   def by_type(type) do
-    all()
-    |> Enum.filter(&match?(%{type: ^type}, &1))
+    by_type([type])
   end
 
   @doc """
