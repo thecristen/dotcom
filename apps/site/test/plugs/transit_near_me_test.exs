@@ -50,7 +50,10 @@ defmodule Site.Plugs.TransitNearMeTest do
     end
 
     test "flashes message if no results are returned", %{conn: conn} do
-      options = %Options{nearby_fn: fn _ -> [] end}
+      options = %Options{
+        geocode_fn: fn @tnm_address -> {:ok, [%Geocode.Address{formatted: "formatted"}]} end,
+        nearby_fn: fn _ -> [] end
+      }
 
       conn = conn
       |> bypass_through(Site.Router, :browser)
@@ -59,7 +62,7 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> call(options)
 
       assert conn.assigns.stops_with_routes == []
-      assert conn.assigns.tnm_address == "10 Park Plaza, Boston, MA 02116, USA"
+      assert conn.assigns.tnm_address == "formatted"
       test_val = get_flash(conn)["info"]
 
       assert test_val =~ "seem to be any stations"
