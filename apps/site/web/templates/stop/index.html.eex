@@ -15,31 +15,31 @@
   <% end %>
   <%= for {route, detailed_stops} <- @stop_info do %>
     <div class="page-section">
-      <h2><%= route.name |> clean_route_name %></h2>
-    <div class="row hidden-sm-down">
-      <%= if @route_hubs[route.id] do %>
-        <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>
-      <% end %>
-    </div>
-      <div class="button-group">
-        <%= for detailed_stop <- detailed_stops do %>
-          <div class="button-container col-xs-12 col-sm-6 col-md-4">
-            <a class="btn button stop-btn" href="<%= stop_path(@conn, :show, detailed_stop.stop.id) %>">
-              <%= detailed_stop.stop.name %>
-              <span class="stop-features-list"><%= feature_icons(detailed_stop)%></span>
-              <%= if detailed_stop.zone do %>
-                <div>
-                  <div class="commuter-rail-zone">
-                    Zone <%= detailed_stop.zone %>
-                  </div>
-                </div>
-              <% end %>
-            </a>
-          </div>
+      <div class="h2">
+        <%= if @mode == :subway, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>
+        <span><%= clean_route_name(route.name) %></span>
+      </div>
+      <div class="row hidden-sm-down">
+        <%= if @route_hubs[route.id] do %>
+          <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>
         <% end %>
       </div>
+      <%= if @mode == :subway do %>
+        <h3>Stops</h3>
+      <% end %>
+      <%= render("_detailed_stop_list.html", conn: @conn, detailed_stops: detailed_stops) %>
       <%= link to: line_path(@conn, :show, route.id) do %>
         View <%= route.name %> info <%= fa "arrow-right "%>
+      <% end %>
+      <%= if route.id == "Red" do %>
+        <div class="page-section">
+          <% {mattapan_route, mattapan_stops} = @mattapan %>
+          <h3><%= clean_route_name(mattapan_route.name)%></h3>
+          <%= render("_detailed_stop_list.html", conn: @conn, detailed_stops: mattapan_stops) %>
+          <%= link to: line_path(@conn, :show, mattapan_route.id) do %>
+            View <%= clean_route_name(mattapan_route.name) %> info <%= fa "arrow-right "%>
+          <% end %>
+        </div>
       <% end %>
     </div>
   <% end %>

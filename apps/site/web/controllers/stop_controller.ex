@@ -17,11 +17,12 @@ defmodule Site.StopController do
 
   def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
     mode_atom = String.to_existing_atom(mode)
-    stop_info = DetailedStopGroup.from_mode(mode_atom)
+    {mattapan, stop_info} = get_stop_info(mode_atom)
     conn
     |> async_assign(:mode_hubs, fn -> HubStops.mode_hubs(mode, stop_info) end)
     |> async_assign(:route_hubs, fn -> HubStops.route_hubs(stop_info) end)
     |> assign(:stop_info, stop_info)
+    |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
     |> assign(:breadcrumbs, ["Stations"])
     |> await_assign_all
@@ -139,5 +140,21 @@ defmodule Site.StopController do
 
   defp all_alerts(conn, _opts) do
     assign(conn, :all_alerts, Alerts.Repo.all())
+  end
+
+  @spec get_stop_info(Route.gtfs_route_type) :: {DetailedStopGroup.t, [DetailedStopGroup.t]}
+  defp get_stop_info(mode) do
+    mode
+    |> DetailedStopGroup.from_mode()
+    |> separate_mattapan()
+  end
+
+  # Separates mattapan from stop_info list
+  @spec separate_mattapan([DetatailedStopGroup.t]) :: {DetailedStopGroup.t, [DetailedStopGroup.t]}
+  defp separate_mattapan(stop_info) do
+    case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
+      nil -> {nil, stop_info}
+      mattapan -> {mattapan, List.delete(stop_info, mattapan)}
+    end
   end
 end
