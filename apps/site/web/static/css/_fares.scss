@@ -194,3 +194,11 @@
 .fare-tip {
   margin-top: $base-spacing;
 }
+
+a {
+  @include hover-focus-active {
+    .fare-link {
+      text-decoration: inherit;
+    }
+  }
+}
