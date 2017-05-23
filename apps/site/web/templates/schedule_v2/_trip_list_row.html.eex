@@ -17,5 +17,9 @@ end %>
         end %>
     <%= display_alerts(@alerts) %>
     <%= trip_list_bubble(@departure_route_id) %>
+    <%= fa "caret-down caret hidden-md-up" %>
+    <%= if assigns[:url] do %>
+      <span class="sr-only">Click for trip information</span>
+    <% end %>
   </div>
 <% end %>

@@ -18,7 +18,7 @@
       <%= if trip do %>
         <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
         class = if TripInfo.is_current_trip?(@trip_info, trip.id), do: "trip-list-v2-row-selected"
-        url = update_url(@conn, trip: trip.id) <> "#" <> trip.id
+        url = trip_link(@conn, @trip_info, @trip_chosen?, trip.id)
         render "_commuter_trip_list_row.html", departure: departure, arrival: arrival, name: trip.name, headsign: trip.headsign, alerts: alerts, url: url, class: class, id: trip.id %>
         <%= if TripInfo.is_current_trip?(@trip_info, trip.id) and TripInfo.should_display_trip_info?(@trip_info), do: render "_trip_info.html", forward_assigns(@conn) %>
       <% else %>

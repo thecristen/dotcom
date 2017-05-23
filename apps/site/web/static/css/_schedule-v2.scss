@@ -115,6 +115,11 @@
     display: none;
   }
 
+  .caret {
+    float: right;
+    line-height: $space-24;
+  }
+
   @include media-breakpoint-up(md) {
     clear: left;
     float: left;
@@ -164,6 +169,10 @@ a {
 
     .icon {
       @extend %icon-inverse;
+    }
+
+    .caret {
+      transform: rotate(180deg);
     }
   }
 }
@@ -248,6 +257,46 @@ a {
 
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+}
+
+// on mobile, don't show any trip as selected if the user themself didn't actually make the selection
+// disabled rule about depth because it is a necessary evil in this case
+.trip-preselected {
+  // scss-lint:disable NestingDepth, SelectorDepth
+  @include media-breakpoint-down(sm) {
+
+    .schedule-trip-info {
+      display: none;
+    }
+
+    .trip-list-v2-row-selected {
+      background-color: $white;
+      border-left: 1px solid $gray-lightest;
+      border-right: 1px solid $gray-lightest;
+      border-top: 1px solid $gray-lightest;
+
+      @include hover-focus() {
+        background-color: $brand-primary-lightest;
+        color: $gray-dark;
+      }
+
+      .trip-list-v2-departure * {
+        color: $brand-primary;
+      }
+
+      .trip-list-v2-headsign,
+      .trip-list-v2-headsign *,
+      .trip-list-v2-cr-name,
+      .commuter-status * {
+        color: $gray-dark;
+      }
+
+      .caret {
+        color: $gray-dark;
+        transform: rotate(0deg);
+      }
     }
   }
 }

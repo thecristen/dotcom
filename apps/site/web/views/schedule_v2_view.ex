@@ -473,4 +473,13 @@ defmodule Site.ScheduleV2View do
   def direction_select_column_width(true, _headsign_length), do: "6"
   def direction_select_column_width(_, headsign_length) when headsign_length > 20, do: "8"
   def direction_select_column_width(_, _headsign_length), do: "4"
+
+  @spec trip_link(Conn.t, TripInfo.t, boolean, String.t) :: String.t
+  def trip_link(conn, trip_info, trip_chosen?, trip_id) do
+    if TripInfo.is_current_trip?(trip_info, trip_id) && trip_chosen? do
+      update_url(conn, trip: "") <> "#" <> trip_id
+    else
+      update_url(conn, trip: trip_id) <> "#" <> trip_id
+    end
+  end
 end

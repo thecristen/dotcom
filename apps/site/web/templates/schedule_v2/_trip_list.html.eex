@@ -18,7 +18,7 @@
         <% is_current_trip? = TripInfo.is_current_trip?(@trip_info, trip.id) %>
         <%= alerts = trip_alerts(departure, @all_alerts, @route, @direction_id)
             class = if is_current_trip?, do: "trip-list-v2-row-selected"
-            url = update_url(@conn, trip: trip.id) <> "#" <> trip.id
+            url = trip_link(@conn, @trip_info, @trip_chosen?, trip.id)
             render "_trip_list_row.html", departure: departure,
                                           arrival: arrival,
                                           trip: trip,

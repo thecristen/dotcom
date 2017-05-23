@@ -11,16 +11,26 @@ end
     <div class="col-xs-4 no-wrap trip-list-v2-departure" role="cell"><%= PredictedSchedule.Display.time(@departure) %></div>
     <%= if @arrival do %>
       <div class="col-xs-4 no-wrap" role="cell"><%= PredictedSchedule.Display.time(@arrival) %></div>
-      <div class="col-xs-4 no-wrap" role="cell">
+      <div class="col-xs-4 no-wrap trip-list-v2-cr-name" role="cell">
         <%= assigns[:name] |> break_text_at_slash %>
         <%= display_alerts(@alerts) %>
+        <%= fa "caret-down caret hidden-md-up" %>
+        <%= if assigns[:url] do %>
+          <span class="sr-only">Click for trip information</span>
+        <% end %>
       </div>
     <% else %>
-      <div class="col-xs-2 no-wrap" role="cell">
+      <div class="col-xs-2 no-wrap trip-list-v2-cr-name" role="cell">
         <%= assigns[:name] |> break_text_at_slash %>
         <%= display_alerts(@alerts) %>
       </div>
-      <div class="col-xs-6" role="cell"><%= assigns[:headsign] |> break_text_at_slash %></div>
+      <div class="col-xs-6 trip-list-v2-cr-name" role="cell">
+        <%= assigns[:headsign] |> break_text_at_slash %>
+        <%= fa "caret-down caret hidden-md-up" %>
+        <%= if assigns[:url] do %>
+          <span class="sr-only">Click for trip information</span>
+        <% end %>
+      </div>
     <% end %>
   </div>
   <div class="commuter-status">
