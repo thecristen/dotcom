@@ -44,7 +44,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:calendar), do: "6,5"
   def translate(:direction), do: "6,5"
   def translate(:variation), do: "12,11"
-  def translate(:mattapan_line), do: "3,3"
+  def translate(:mattapan_line), do: "1,1"
   def translate(icon) when icon in [:tools, :alert], do: "9,9"
   def translate(icon) when icon in [:green_line, :orange_line,
                                     :blue_line, :red_line], do: translate(:t_logo)
@@ -55,7 +55,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def scale(:direction), do: "1.25"
   def scale(:variation), do: "1.25"
   def scale(:calendar), do: "1.25"
-  def scale(:mattapan_line), do: "1.5"
+  def scale(:mattapan_line), do: "1.7"
   def scale(icon) when icon in [:subway, :commuter_rail, :bus], do: "1.4"
   def scale(_), do: "1"
 
