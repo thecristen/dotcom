@@ -59,14 +59,13 @@ defmodule Site.StopView do
   @doc "Combine multipe routes on the same subway line"
   def aggregate_routes(routes) do
     routes
-    |> Enum.map(& %{&1 | id: normalize_route(&1, true)})
+    |> Enum.map(& %{&1 | id: normalize_route(&1)})
     |> Enum.uniq_by(&(&1.id))
   end
 
-  @spec normalize_route(Route.t, boolean) :: String.t
-  def normalize_route(%Route{id: "Green" <> _rest}, _mattapan?), do: "Green"
-  def normalize_route(%Route{id: "Mattapan" <> _rest}, true), do: "Red"
-  def normalize_route(%Route{id: id}, _), do: id
+  @spec normalize_route(Route.t) :: String.t
+  def normalize_route(%Route{id: "Green" <> _rest}), do: "Green"
+  def normalize_route(%Route{id: id}), do: id
 
   @spec accessibility_info(Stop.t) :: [Phoenix.HTML.Safe.t]
   @doc "Accessibility content for given stop"
