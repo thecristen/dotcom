@@ -134,4 +134,53 @@
 
 .hub-stop-link {
   margin: $base-spacing 0;
+
+  @include media-breakpoint-down(sm) {
+    background-color: $white;
+    padding: $space-12;
+  }
+}
+
+.hub-stop-container {
+  @include media-breakpoint-down(sm) {
+    padding: 0 $base-spacing;
+  }
+}
+
+.hub-stop-list {
+  padding: 0;
+
+  @include media-breakpoint-down(sm) {
+    background-color: $gray-lightest;
+    padding: $space-6 0;
+  }
+
+  .hub-stop-name-break {
+    @include media-breakpoint-down(xs) {
+      display: inline-block;
+      white-space: normal;
+      width: 5%;
+    }
+  }
+}
+
+.stops-view-all-btn {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+
+  button {
+    background-color: $white;
+    border: 0;
+    color: $brand-primary;
+    padding: 0;
+  }
+}
+
+.stops-for-route {
+  .collapse {
+    @include media-breakpoint-up(md) {
+      display: initial;
+    }
+  }
 }
