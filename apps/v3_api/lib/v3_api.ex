@@ -9,8 +9,7 @@ defmodule V3Api do
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
          {:ok, body} <- body(http_response) do
-      body
-      |> JsonApi.parse
+      JsonApi.parse(body)
     else
       {:error, error} -> {:error, error}
       error -> {:error, error}
@@ -42,7 +41,7 @@ defmodule V3Api do
     ~s(status=error error="#{inspect error}")
   end
 
-  defp body(%{status_code: 200, headers: headers, body: body}) do
+  defp body(%{headers: headers, body: body}) do
     case Enum.find(
           headers,
           &String.downcase(elem(&1, 0)) == "content-encoding") do
