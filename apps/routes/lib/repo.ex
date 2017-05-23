@@ -24,11 +24,11 @@ defmodule Routes.Repo do
   """
   @spec get(String.t) :: Routes.Route.t | nil
   def get(id) do
-    all()
-    |> Enum.find(fn
-      %{id: ^id} -> true
-      _ -> false
+    []
+    |> cache(fn _ ->
+      Map.new(all(), &{&1.id, &1})
     end)
+    |> Map.get(id)
   end
 
   @spec get_shapes(String.t, 0|1) :: [Routes.Shape.t]
