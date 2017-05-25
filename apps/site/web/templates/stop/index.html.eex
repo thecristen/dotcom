@@ -18,11 +18,9 @@
         <%= if subway?, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>
         <span><%= clean_route_name(route.name) %></span>
       </div>
-      <div>
         <%= if @route_hubs[route.id] do %>
           <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>
         <% end %>
-      </div>
       <div class="<%= if subway?, do: "collapse"%>" id="stops-<%= route.id%>">
         <%= if subway? do %>
           <h3>Stops</h3>
@@ -43,14 +41,14 @@
         <% end %>
       </div>
       <%= if subway? do %>
-        <span class="stops-view-all-btn hidden-md-up" id="hide-btn-<%= route.id %>">
+        <span class="stops-view-all-btn hidden-md-up .hidden-no-js" id="hide-btn-<%= route.id %>">
           Showing major stops.
-          <button id="hide-btn-#<%= route.id %>"
+          <a id="hide-btn-#<%= route.id %>"
                   data-toggle="collapse"
-                  data-target="#stops-<%= route.id %>"
+                  href="#stops-<%= route.id %>"
                   onclick='hideBtn("<%= "hide-btn-#{route.id}" %>")'>
             View all <%= fa "angle-down" %>
-          </button>
+          </a>
         </span>
       <% end %>
     <% end %>

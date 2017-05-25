@@ -133,11 +133,25 @@
 }
 
 .hub-stop-link {
+  align-items: center;
+  display: flex;
   margin: $base-spacing 0;
 
   @include media-breakpoint-down(sm) {
     background-color: $white;
     padding: $space-12;
+  }
+
+  .stop-features-list {
+    display: inline-block;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    float: none;
+  }
+
+  .commuter-rail-zone {
+    margin-left: $base-spacing / 2;
   }
 }
 
@@ -155,12 +169,9 @@
     padding: $space-6 0;
   }
 
-  .hub-stop-name-break {
-    @include media-breakpoint-down(xs) {
-      display: inline-block;
-      white-space: normal;
-      width: 5%;
-    }
+  .hub-stop-name {
+    display: inline-block;
+    flex: 1 0 0%;
   }
 }
 
@@ -183,7 +194,7 @@
 .stops-for-route {
   .collapse {
     @include media-breakpoint-up(md) {
-      display: initial;
+      display: block;
     }
   }
 }
