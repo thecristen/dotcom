@@ -1,0 +1,19 @@
+{
+  "uuid" : "5b9c3b76-46df-3acc-98f8-35a9ab823198",
+  "request" : {
+    "url" : "/routes/?stop=place-hwsst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kiFwy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ei35edhto1uuf6li2stt1cfba9si5ild",
+      "Connection" : "keep-alive"
+    }
+  }
+}

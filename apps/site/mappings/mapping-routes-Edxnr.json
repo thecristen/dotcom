@@ -1,0 +1,19 @@
+{
+  "uuid" : "c6d0907b-dae5-32a6-8a1b-6d390f9dd3a4",
+  "request" : {
+    "url" : "/routes/?stop=place-miltt&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Edxnr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "qg512ihjr39q171c8pqjg32mhlrih4qv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

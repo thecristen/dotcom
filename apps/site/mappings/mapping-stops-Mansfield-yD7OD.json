@@ -1,0 +1,19 @@
+{
+  "uuid" : "1285cfc3-cd4c-3d43-9202-bab4fe9d2823",
+  "request" : {
+    "url" : "/stops/Mansfield?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Mansfield-yD7OD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:56:57 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "grt6jv8rd6t9diicdf63qknv1qvff6pr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "2b7a6887-5b61-3b77-a02e-00e1a269282b",
+  "request" : {
+    "url" : "/routes/?stop=place-engav&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FHk70.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "7moo26rfuti8ngr7s2t3jktjojia13a6",
+      "Connection" : "keep-alive"
+    }
+  }
+}

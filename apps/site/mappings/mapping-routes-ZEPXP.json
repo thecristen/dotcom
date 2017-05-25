@@ -1,0 +1,19 @@
+{
+  "uuid" : "80f62064-3b61-3ac1-8531-4755f8d86e09",
+  "request" : {
+    "url" : "/routes/?stop=place-ogmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZEPXP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ql9qik2j5o6h8hkhabmtte7i09kublp3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

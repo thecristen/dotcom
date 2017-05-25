@@ -1,0 +1,19 @@
+{
+  "uuid" : "0cb01caa-45ed-398b-93e0-2295ec7dcaef",
+  "request" : {
+    "url" : "/routes/?stop=place-fbkst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-5ltnT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lb12htrogacdlb3f018p22b8afiod8eb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "uuid" : "d57182ce-e9a4-3c24-948e-e25a4be132d7",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-CzXmB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Date" : "Thu, 25 May 2017 15:54:10 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "rl4qjg3a5le7vus3j1gjesrtj4esc166",
+      "Connection" : "keep-alive"
+    }
+  }
+}

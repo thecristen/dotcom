@@ -1,0 +1,19 @@
+{
+  "uuid" : "6f01825b-86ac-300b-a732-1692eed37ceb",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-Ups2K.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:10 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "n5vmkso0pqijh8enbhnq06ob55t4hahn",
+      "Connection" : "keep-alive"
+    }
+  }
+}

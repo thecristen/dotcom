@@ -1,0 +1,19 @@
+{
+  "uuid" : "bb5b52bd-21c9-331e-8a95-a486d7860459",
+  "request" : {
+    "url" : "/stops/Hyde%20Park?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Hyde Park-50Rpr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:56:56 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "jvgoetqj25ja968etne3vjippu96fvjc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

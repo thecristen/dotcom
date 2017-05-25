@@ -1,0 +1,19 @@
+{
+  "uuid" : "5e228854-1921-32a8-baa8-13ab99312662",
+  "request" : {
+    "url" : "/routes/?stop=place-boyls&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VVsjJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:38 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lp45ge0df307s0pdpm0e0a6b67pm9rbo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

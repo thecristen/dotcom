@@ -1,0 +1,19 @@
+{
+  "uuid" : "5596bc2f-a516-3592-8375-9f33b4b9673e",
+  "request" : {
+    "url" : "/routes/?stop=place-spmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-e6P7Z.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:38 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lm9gpjjtdu5tfprajle0shd5tbth9g4c",
+      "Connection" : "keep-alive"
+    }
+  }
+}

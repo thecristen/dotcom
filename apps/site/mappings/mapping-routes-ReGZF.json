@@ -1,0 +1,19 @@
+{
+  "uuid" : "06e4d784-9313-3f5c-b5dd-8af69705768f",
+  "request" : {
+    "url" : "/routes/?stop=place-crtst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ReGZF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:42 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "s29hu8llo72oqr5si2km3e6on9v26bdr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

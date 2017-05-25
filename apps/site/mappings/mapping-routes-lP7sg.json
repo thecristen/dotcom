@@ -1,0 +1,19 @@
+{
+  "uuid" : "f2e9621b-f1b2-355c-a10e-6c06b79700ba",
+  "request" : {
+    "url" : "/routes/?stop=place-alsgr&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lP7sg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "06vjjr63m5a1pl6me605r7siel1n1hs7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

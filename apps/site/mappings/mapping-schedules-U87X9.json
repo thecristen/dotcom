@@ -1,0 +1,19 @@
+{
+  "uuid" : "1c973b9d-cbc4-3d9d-a1f9-77a608413947",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&direction_id=1&date=2017-06-14&route=Red&include=trip%2Croute&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-U87X9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:56:52 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "aj1rujjp5hs7dk4vr32k93ke60iu2bei",
+      "Connection" : "keep-alive"
+    }
+  }
+}

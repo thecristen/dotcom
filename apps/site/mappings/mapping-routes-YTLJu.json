@@ -1,0 +1,19 @@
+{
+  "uuid" : "4efc0413-a433-3374-9958-ea2add58a7b5",
+  "request" : {
+    "url" : "/routes/?stop=place-grnst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YTLJu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "p4e3d04jhdv50qqpg96sr32c5305999n",
+      "Connection" : "keep-alive"
+    }
+  }
+}

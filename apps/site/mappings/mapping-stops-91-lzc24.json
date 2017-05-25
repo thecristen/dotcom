@@ -1,0 +1,19 @@
+{
+  "uuid" : "787d7764-721b-38fb-9664-cc0ddc73c625",
+  "request" : {
+    "url" : "/stops/91?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-91-lzc24.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:56:44 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nni3fas644dh4stkit8vmeuk2891u42i",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "9db1f15e-0476-33ba-bc0e-f766d9790d9a",
+  "request" : {
+    "url" : "/stops/110?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-110-lQM11.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:56:44 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nnbbuc3p8oh49tudn60ki5satmp87qt9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

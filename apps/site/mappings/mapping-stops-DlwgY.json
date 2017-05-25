@@ -1,0 +1,19 @@
+{
+  "uuid" : "b18a5787-4d16-3b14-bd93-ad89a6b3eb53",
+  "request" : {
+    "url" : "/stops/?route=CR-Needham&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-DlwgY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:56:38 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "v8c2k4efqaq70039f0rn429kvlkn8d9b",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "d3f207cd-ec37-3387-b266-bdabafb09a4d",
+  "request" : {
+    "url" : "/routes/?stop=249&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FliZq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:42 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "r7hv17f5aecm7na92un1vkl8j603navs",
+      "Connection" : "keep-alive"
+    }
+  }
+}

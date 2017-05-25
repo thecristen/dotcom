@@ -1,0 +1,19 @@
+{
+  "uuid" : "adc600d7-5c4b-34f5-b027-164575c8e060",
+  "request" : {
+    "url" : "/routes/?stop=19402&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZNOPm.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:42 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lfc36ruv23lb8gr7gt8rtk2e4tgvd331",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "b3508d8b-c2c4-37ce-989c-8111e64730bd",
+  "request" : {
+    "url" : "/stops/?route=Red&include=parent_station&direction_id=1&date=2017-06-14",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-ciEBL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:56:52 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "t1qi8hfja5su79nqu69qde10vag6ddq3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

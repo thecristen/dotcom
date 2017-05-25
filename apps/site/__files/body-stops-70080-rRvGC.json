@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":{"type":"stop","id":"place-sstat"}}},"links":{"self":"/stops/70080"},"id":"70080","attributes":{"wheelchair_boarding":0,"name":"South Station - Inbound","longitude":-71.055242,"latitude":42.352271}}}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "a18206ad-80c6-3599-ad15-c3c0ee16ea26",
+  "request" : {
+    "url" : "/stops/70079?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70079-bL2it.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:57:06 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "b6q6edivcqbqu59edjqvhlnung47fisv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

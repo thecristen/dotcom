@@ -1,0 +1,19 @@
+{
+  "uuid" : "eab9d785-437f-3083-ac96-e9ba7c692e85",
+  "request" : {
+    "url" : "/routes/?stop=place-chill&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LWYNs.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 25 May 2017 15:54:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "2bbi8vm9m6r5jbr4s6ihq4budo8lmo4b",
+      "Connection" : "keep-alive"
+    }
+  }
+}
