@@ -102,7 +102,7 @@ defmodule Site.ViewHelpers do
 
   @spec subway_name(String.t) :: String.t
   @doc "Textual version of subway line"
-  def subway_name("Mattapan" <> _line), do: "Red Line"
+  def subway_name("Mattapan" <> _trolley), do: "Mattapan Line"
   def subway_name("Green" <> _line), do: "Green Line"
   def subway_name(color) when color in ["Red Line", "Blue Line", "Orange Line"], do: color
 
