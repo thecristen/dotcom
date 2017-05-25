@@ -150,7 +150,7 @@ defmodule Site.StopController do
   end
 
   # Separates mattapan from stop_info list
-  @spec separate_mattapan([DetatailedStopGroup.t]) :: {DetailedStopGroup.t, [DetailedStopGroup.t]}
+  @spec separate_mattapan([DetailedStopGroup.t]) :: {DetailedStopGroup.t, [DetailedStopGroup.t]}
   defp separate_mattapan(stop_info) do
     case Enum.find(stop_info, fn {route, _stops} -> route.id == "Mattapan" end) do
       nil -> {nil, stop_info}

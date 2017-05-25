@@ -38,6 +38,7 @@ defmodule Schedules.Repo do
     |> Keyword.merge([
       trip: trip_id
     ])
+    |> Keyword.put_new(:date, Util.service_date)
     |> cache(&all_from_params/1)
   end
 
