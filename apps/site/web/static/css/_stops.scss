@@ -165,7 +165,10 @@
 }
 
 .stops-view-all-btn {
+  border: $border;
   display: inline-block;
+  margin-top: -$base-spacing;
+  padding: $base-spacing;
   text-align: center;
   width: 100%;
 
