@@ -1,0 +1,24 @@
+<div class="news-content">
+  <h1 class="news-title">News</h1>
+  <%= for news_entry <- @news_entries do %>
+    <%= render "news_entry.html", conn: @conn, news_entry: news_entry %>
+  <% end %>
+</div>
+
+<div class="pagination">
+  <%= if previous_page_available?(@page) do %>
+    <div class="button">
+      <%= link to: news_entry_path(@conn, :index, page: @page - 1), data: [turbolinks: false] do %>
+        <i class="fa fa-caret-left"></i><span class="label">Previous</span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= if next_page_available?(@upcoming_news_entries) do %>
+    <div class="button">
+      <%= link to: news_entry_path(@conn, :index, page: @page + 1), data: [turbolinks: false] do %>
+        <span class="label">Next</span><i class="fa fa-caret-right"></i>
+      <% end %>
+    </div>
+  <% end %>
+</div>

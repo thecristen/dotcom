@@ -1,4 +1,4 @@
-<div class="news-entry">
+<div class="news-content">
   <h1 class="news-title">
     <%= @news_entry.title %>
   </h1>

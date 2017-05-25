@@ -17,6 +17,7 @@ defmodule Content.NewsEntry do
     media_phone: "",
     more_information: Phoenix.HTML.raw(""),
     posted_on: nil,
+    teaser: "",
     migration_id: nil
   ]
 
@@ -29,6 +30,7 @@ defmodule Content.NewsEntry do
     media_phone: String.t | nil,
     more_information: Phoenix.HTML.safe | nil,
     posted_on: Date.t | nil,
+    teaser: String.t,
     migration_id: String.t | nil
   }
 
@@ -43,6 +45,7 @@ defmodule Content.NewsEntry do
       media_phone: field_value(data, "field_media_phone"),
       more_information: parse_more_information(data),
       posted_on: parse_posted_date(data),
+      teaser: field_value(data, "field_teaser"),
       migration_id: field_value(data, "field_migration_id")
     }
   end
