@@ -7,4 +7,15 @@ Unknown function 'Elixir.Stops.Position.List':'__impl__'/1
 Unknown function 'Elixir.Stops.Position.PID':'__impl__'/1
 Unknown function 'Elixir.Stops.Position.Port':'__impl__'/1
 Unknown function 'Elixir.Stops.Position.Reference':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Atom':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.BitString':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Float':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Function':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Integer':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.List':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Map':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.PID':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Port':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Reference':'__impl__'/1
+Unknown function 'Elixir.TripPlan.ModeDetail.Tuple':'__impl__'/1
 Unknown type unicode:unicode_char/0
