@@ -2,7 +2,7 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
   use ExUnit.Case
   import Content.FixtureHelpers
   alias Content.CmsMigration.MeetingMigrator
-  alias Content.CmsMigration.MeetingMigrationError
+  alias Content.MigrationError
 
   @filename "cms_migration/valid_meeting/meeting.json"
 
@@ -61,22 +61,17 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
       result = MeetingMigrator.migrate(missing_start_time)
       assert {:error, "A start time must be provided."} = result
     end
-  end
 
-  describe "check_for_existing_event!/1" do
-    test "returns the event id, when an existing event is found" do
-      assert MeetingMigrator.check_for_existing_event!("1") == 17
-    end
+    test "when querying for an existing record returns more than one record" do
+      record_with_non_unique_meeting_id =
+        @filename
+        |> fixture
+        |> Map.put("meeting_id", "multiple-records")
 
-    test "when an existing record is not found" do
-      assert MeetingMigrator.check_for_existing_event!("999") == nil
-    end
-
-    test "when multiple records are found" do
       expected_error_message = "multiple records were found when querying by meeting_id: multiple-records."
 
-      assert_raise MeetingMigrationError, expected_error_message, fn ->
-        MeetingMigrator.check_for_existing_event!("multiple-records")
+      assert_raise MigrationError, expected_error_message, fn ->
+        MeetingMigrator.migrate(record_with_non_unique_meeting_id)
       end
     end
   end

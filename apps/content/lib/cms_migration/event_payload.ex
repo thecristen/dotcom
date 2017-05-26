@@ -1,5 +1,6 @@
 defmodule Content.CmsMigration.EventPayload do
   alias Content.CmsMigration.Meeting
+  alias Content.CmsMigration.DataNormalizer
 
   @former_mbta_host Application.get_env(:site, :former_mbta_site)[:host]
 
@@ -41,21 +42,9 @@ defmodule Content.CmsMigration.EventPayload do
 
   defp body(%{"objective" => body}) do
     body
-    |> add_former_mbta_host_to_external_links()
-    |> remove_style_attr()
-  end
-
-  defp add_former_mbta_host_to_external_links(body) do
-    uploaded_files_host =
-      @former_mbta_host
-      |> URI.merge("uploadedfiles")
-      |> to_string
-
-    Regex.replace(~r/\/uploadedfiles/, body, uploaded_files_host)
-  end
-
-  defp remove_style_attr(text) do
-    Regex.replace(~r/\sstyle=".*"/U, text, "")
+    |> DataNormalizer.update_relative_links("uploadedfiles", @former_mbta_host)
+    |> DataNormalizer.update_relative_image_paths("uploadedimages", @former_mbta_host)
+    |> DataNormalizer.remove_style_information()
   end
 
   defp who(%{"attendees" => attendees}), do: attendees

@@ -1,9 +1,9 @@
-defmodule Content.CmsMigration.MeetingDatetimeError do
+defmodule Content.CmsMigration.DatetimeError do
   defexception [:message]
 end
 
-defmodule Content.CmsMigration.MeetingDatetime do
-  alias Content.CmsMigration.MeetingDatetimeError
+defmodule Content.CmsMigration.Datetime do
+  alias Content.CmsMigration.DatetimeError
 
   @spec parse_utc_datetime(String.t, String.t, Timex.Types.valid_timezone) :: DateTime.t
   def parse_utc_datetime(date, time, timezone \\ "America/New_York") do
@@ -15,7 +15,7 @@ defmodule Content.CmsMigration.MeetingDatetime do
   @spec parse_time!(String.t) :: Time.t | no_return
   def parse_time!(time) do
     case parse(time, accepted_time_formats()) do
-      {:error, message} -> raise MeetingDatetimeError, message: message
+      {:error, message} -> raise DatetimeError, message: message
       naive_datetime -> NaiveDateTime.to_time(naive_datetime)
     end
   end
@@ -25,7 +25,7 @@ defmodule Content.CmsMigration.MeetingDatetime do
     date = remove_unncessary_punctuation(date)
 
     case parse(date, accepted_date_formats()) do
-      {:error, message} -> raise MeetingDatetimeError, message: message
+      {:error, message} -> raise DatetimeError, message: message
       naive_datetime -> NaiveDateTime.to_date(naive_datetime)
     end
   end

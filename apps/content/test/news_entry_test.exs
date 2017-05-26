@@ -11,19 +11,23 @@ defmodule Content.NewsEntryTest do
         id: id,
         title: title,
         body: body,
-        media_contact_name: media_contact_name,
-        media_contact_info: media_contact_info,
+        media_contact: media_contact,
+        media_email: media_email,
+        media_phone: media_phone,
         more_information: more_information,
-        updated_at: updated_at
+        posted_on: posted_on,
+        migration_id: migration_id
       } = Content.NewsEntry.from_api(api_page)
 
       assert id == 1
       assert title == "Example News Entry"
       assert Phoenix.HTML.safe_to_string(body) =~ "<p>BOSTON -- The MBTA"
-      assert media_contact_name == "MassDOT Press Office"
-      assert media_contact_info == "857-368-8500"
+      assert media_contact == "MassDOT Press Office"
+      assert media_email == "media@example.com"
+      assert media_phone == "857-368-8500"
       assert Phoenix.HTML.safe_to_string(more_information) =~ "For more information"
-      assert DateTime.to_unix(updated_at) == 1_488_904_773
+      assert posted_on == ~D[2017-01-01]
+      assert migration_id == "1234"
     end
   end
 end

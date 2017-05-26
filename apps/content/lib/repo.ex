@@ -10,10 +10,18 @@ defmodule Content.Repo do
 
   @cms_api Application.get_env(:content, :cms_api)
 
+  @spec news(Keyword.t) :: [Content.NewsEntry.t] | []
+  def news(opts \\ []) do
+    case @cms_api.view("/news", opts) do
+      {:ok, api_data} -> Enum.map(api_data, &Content.NewsEntry.from_api/1)
+      _ -> []
+    end
+  end
+
   @spec news_entry!(integer) :: Content.NewsEntry.t | no_return
   def news_entry!(id) do
-    case @cms_api.view("/news", [id: id]) do
-      {:ok, [news_entry]} -> Content.NewsEntry.from_api(news_entry)
+    case news(id: id) do
+      [news_entry] -> news_entry
       _ -> raise Content.NoResultsError
     end
   end
@@ -83,6 +91,20 @@ defmodule Content.Repo do
   def update_event(id, body) do
     with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
       {:ok, Content.Event.from_api(api_data)}
+    end
+  end
+
+  @spec create_news_entry(String.t) :: {:ok, Content.NewsEntry.t} | {:error, map} | {:error, String.t}
+  def create_news_entry(body) do
+    with {:ok, api_data} <- @cms_api.post("entity/node", body) do
+      {:ok, Content.NewsEntry.from_api(api_data)}
+    end
+  end
+
+  @spec update_news_entry(String.t, String.t) :: {:ok, Content.NewsEntry.t} | {:error, map} | {:error, String.t}
+  def update_news_entry(id, body) do
+    with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
+      {:ok, Content.NewsEntry.from_api(api_data)}
     end
   end
 end

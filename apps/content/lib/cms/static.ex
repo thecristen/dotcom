@@ -51,25 +51,27 @@ defmodule Content.CMS.Static do
     {:ok, project_update_response()}
   end
   def view("/news", [id: id]) do
-    news_entry = Enum.filter(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
+    news_entry = filter_by(news_response(), "nid", id)
     {:ok, news_entry}
+  end
+  def view("/news", [migration_id: "multiple-records"]) do
+    {:ok, news_response()}
+  end
+  def view("/news", [migration_id: id]) do
+    news = filter_by(news_response(), "field_migration_id", id)
+    {:ok, news}
   end
   def view("/events", [meeting_id: "multiple-records"]) do
     {:ok, events_response()}
   end
   def view("/events", [meeting_id: id]) do
-    events =
-      events_response()
-      |> Enum.filter(
-        &(match?(%{"field_meeting_id" => [%{"value" => ^id}]}, &1))
-      )
-
+    events = filter_by(events_response(), "field_meeting_id", id)
     {:ok, events}
   end
   def view("/events", opts) do
     events = case Keyword.get(opts, :id) do
       nil -> events_response()
-      id -> Enum.filter(events_response(), & match?(%{"nid" => [%{"value" => ^id}]}, &1))
+      id -> filter_by(events_response(), "nid", id)
     end
 
     {:ok, events}
@@ -88,8 +90,10 @@ defmodule Content.CMS.Static do
     if String.contains?(body, "fails-to-create") do
       {:error, %{status_code: 422}}
     else
-      [event] = Enum.take(events_response(), 1)
-      {:ok, event}
+      body
+      |> Poison.Parser.parse!
+      |> entity_type()
+      |> successful_response()
     end
   end
 
@@ -97,8 +101,25 @@ defmodule Content.CMS.Static do
     if String.contains?(body, "fails-to-update") do
       {:error, %{status_code: 422}}
     else
-      [event] = Enum.take(events_response(), 1)
-      {:ok, event}
+      body
+      |> Poison.Parser.parse!
+      |> entity_type()
+      |> successful_response()
     end
+  end
+
+  defp successful_response("event") do
+    [event | _] = events_response()
+    {:ok, event}
+  end
+  defp successful_response("news_entry") do
+    [news_entry | _] = news_response()
+    {:ok, news_entry}
+  end
+
+  defp entity_type(%{"type" => [%{"target_id" => target_id}]}), do: target_id
+
+  defp filter_by(map, key, value) do
+    Enum.filter(map, &(match?(%{^key => [%{"value" => ^value}]}, &1)))
   end
 end

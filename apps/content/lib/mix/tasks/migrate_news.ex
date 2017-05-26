@@ -1,9 +1,9 @@
-defmodule Mix.Tasks.Content.MigrateMeetings do
+defmodule Mix.Tasks.Content.MigrateNews do
   use Mix.Task
-  alias Content.CmsMigration.MeetingMigrator
+  alias Content.CmsMigration.NewsMigrator
   alias Content.CmsMigration.MigrationFile
 
-  @shortdoc "Migrates existing data for meetings to the new CMS."
+  @shortdoc "Migrates News Entry records from the old CMS to the new CMS."
 
   @moduledoc """
   When running this task, use the CMS system account. Ask in Slack for
@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
   env DRUPAL_ROOT=http://mbta.kbox.site \
   DRUPAL_USERNAME=username \
   DRUPAL_PASSWORD=password \
-  mix content.migrate_meetings ~/path/to/meeting/json/files/
+  mix content.migrate_news ~/path/to/news/json/files/
   ```
   """
 
@@ -23,24 +23,24 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
 
     case MigrationFile.filter_json_files(directory_path) do
       {:error, _error} -> raise_with_instructions()
-      files -> migrate_meetings(files, directory_path)
+      files -> migrate_news(files, directory_path)
     end
   end
 
-  defp migrate_meetings([filename | remaining_filenames], directory_path) do
-    {:ok, meeting_json} = MigrationFile.parse_file(directory_path, filename)
+  defp migrate_news([filename | remaining_filenames], directory_path) do
+    {:ok, news_entry_json} = MigrationFile.parse_file(directory_path, filename)
 
-    case MeetingMigrator.migrate(meeting_json) do
+    case NewsMigrator.migrate(news_entry_json) do
       {:ok, response} ->
         print_response(response, filename)
-        migrate_meetings(remaining_filenames, directory_path)
+        migrate_news(remaining_filenames, directory_path)
       {:error, reason} ->
         print_response(reason, filename)
-        notify_developers(reason, meeting_json)
+        notify_developers(reason, news_entry_json)
     end
   end
-  defp migrate_meetings([], _directory_path) do
-    Mix.shell.info "All meetings have been migrated."
+  defp migrate_news([], _file_location) do
+    Mix.shell.info "All News Entries have been migrated."
   end
 
   defp print_response(:updated, filename) do
@@ -64,7 +64,7 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
     Mix.raise """
     Oops! Looks like the path you provided does not exist.
     Please provide a valid path to the directory containing
-    the meeting json files you wish to migrate to the new CMS.
+    the news json files you wish to migrate to the new CMS.
     """
   end
 end

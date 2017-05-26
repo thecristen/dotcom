@@ -1,15 +1,11 @@
-defmodule Content.CmsMigration.MeetingMigrationError do
-  defexception [:message]
-end
-
 defmodule Content.CmsMigration.MeetingMigrator do
   alias Content.CmsMigration.EventPayload
-  alias Content.CmsMigration.MeetingMigrationError
+  alias Content.MigrationError
 
-  @spec migrate(String.t) :: {:ok, atom} | {:error, map} | {:error, String.t}
-  def migrate(meeting_json) do
-    meeting_id = Map.fetch!(meeting_json, "meeting_id")
-    event = build_event(meeting_json)
+  @spec migrate(map) :: {:ok, :created} | {:ok, :updated} | {:error, map} | {:error, String.t}
+  def migrate(meeting_data) do
+    meeting_id = Map.fetch!(meeting_data, "meeting_id")
+    event = build_event(meeting_data)
 
     case validate_event(event) do
       {:ok, event} -> migrate_event(event, meeting_id)
@@ -17,18 +13,8 @@ defmodule Content.CmsMigration.MeetingMigrator do
     end
   end
 
-  @spec check_for_existing_event!(integer) :: integer | no_return
-  def check_for_existing_event!(meeting_id) do
-    case Content.Repo.events(meeting_id: meeting_id) do
-      [%Content.Event{id: id, meeting_id: ^meeting_id}] -> id
-      [] -> nil
-      _multiple_records -> raise MeetingMigrationError,
-        message: "multiple records were found when querying by meeting_id: #{meeting_id}."
-    end
-  end
-
-  defp build_event(meeting_json) do
-    EventPayload.from_meeting(meeting_json)
+  defp build_event(meeting_data) do
+    EventPayload.from_meeting(meeting_data)
   end
 
   defp migrate_event(event, meeting_id) do
@@ -38,6 +24,15 @@ defmodule Content.CmsMigration.MeetingMigrator do
       update_event(event_id, encoded_event)
     else
       create_event(encoded_event)
+    end
+  end
+
+  defp check_for_existing_event!(meeting_id) do
+    case Content.Repo.events(meeting_id: meeting_id) do
+      [%Content.Event{id: id, meeting_id: ^meeting_id}] -> id
+      [] -> nil
+      _multiple_records -> raise MigrationError,
+        message: "multiple records were found when querying by meeting_id: #{meeting_id}."
     end
   end
 

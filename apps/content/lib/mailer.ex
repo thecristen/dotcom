@@ -9,16 +9,17 @@ defmodule Content.Mailer do
 
   use Mailgun.Client, @config
 
-  def meeting_migration_error_notice(reason, meeting_json) do
+  def migration_error_notice(reason, json) do
     send_email to: @emails[:developer_alert_address],
                from: @emails[:no_reply_address],
-               subject: "Meeting Migration Task Failed",
+               subject: "CMS Migration Task Failed",
                text: """
                Oh noes! The following error occurred
-               when attempting to migrate a meeting.
+               when attempting to migrate a record
+               from the old CMS (Ektron) to the new CMS.
 
-               Meeting JSON:
-               #{inspect meeting_json}
+               JSON:
+               #{inspect json}
 
                Reason for Failure:
                #{inspect reason}

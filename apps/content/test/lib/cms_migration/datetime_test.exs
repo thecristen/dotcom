@@ -1,7 +1,7 @@
-defmodule Content.CmsMigration.MeetingDatetimeTest do
+defmodule Content.CmsMigration.DatetimeTest do
   use ExUnit.Case, async: true
-  alias Content.CmsMigration.MeetingDatetimeError
-  import Content.CmsMigration.MeetingDatetime
+  alias Content.CmsMigration.DatetimeError
+  import Content.CmsMigration.Datetime
 
   describe "parse_time!/1" do
     test "formats compound time formats to a consistent format" do
@@ -13,7 +13,7 @@ defmodule Content.CmsMigration.MeetingDatetimeTest do
 
     test "raises an error when unable to format the time" do
       error = "Unable to convert '200PM' to a datetime."
-      assert_raise MeetingDatetimeError, error, fn ->
+      assert_raise DatetimeError, error, fn ->
         assert parse_time!("200PM")
       end
     end
@@ -32,7 +32,7 @@ defmodule Content.CmsMigration.MeetingDatetimeTest do
     test "raises an error when the date cannot be formatted" do
       error = "Unable to convert 'invalid' to a datetime."
 
-      assert_raise MeetingDatetimeError, error, fn ->
+      assert_raise DatetimeError, error, fn ->
         parse_date!("invalid")
       end
     end
