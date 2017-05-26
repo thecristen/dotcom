@@ -45,7 +45,7 @@
 
 .schedulev2view {
   @include media-breakpoint-down(xs) {
-    font-size: $base-font-size-xs;
+    font-size: $font-size-base-xs;
 
     .alert-modal-container,
     .date-filter,
