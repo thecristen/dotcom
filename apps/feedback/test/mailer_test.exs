@@ -93,5 +93,27 @@ defmodule Feedback.MailerTest do
         "filename" => "test.png"
       }
     end
+
+    test "does not log anything when the user doesnt want feedback" do
+      Logger.configure(level: :info)
+      assert ExUnit.CaptureLog.capture_log([], (
+        fn -> Feedback.Mailer.send_heat_ticket(%Feedback.Message{comments: "major issue to report"}, nil) end)) == ""
+      Logger.configure(level: :warn)
+    end
+
+    test "logs the users email when the user wants feedback" do
+      Logger.configure(level: :info)
+      message = %Feedback.Message{
+        comments: "major issue to report",
+        email: "disgruntled@user.com",
+        phone: "1231231234",
+        name: "Disgruntled User",
+        request_response: true
+      }
+
+      assert ExUnit.CaptureLog.capture_log([], (
+        fn -> Feedback.Mailer.send_heat_ticket(message, nil) end)) =~ "disgruntled@user.com"
+      Logger.configure(level: :warn)
+    end
   end
 end

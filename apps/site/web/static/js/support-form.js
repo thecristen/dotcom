@@ -226,6 +226,7 @@ export function handleSubmitClick($) {
           valid = validateForm($);
     event.preventDefault();
     if (valid) {
+      $('#support-submit').prop("disabled", true);
       const formData = new FormData(),
             photo = $('#photo')[0].files;
       $('#support-form').serializeArray().forEach(({name: name, value: value}) => {
@@ -247,6 +248,7 @@ export function handleSubmitClick($) {
         },
         error: () => {
           $('.support-form-error').removeClass('hidden-xs-up').focus();
+          $('#support-submit').prop("disabled", false);
         }
       });
     }

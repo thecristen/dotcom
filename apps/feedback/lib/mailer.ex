@@ -1,5 +1,6 @@
 defmodule Feedback.Mailer do
   use Mailgun.Client
+  require Logger
 
   # Mix isn't available at runtime
   @mix_env Mix.env
@@ -14,6 +15,11 @@ defmodule Feedback.Mailer do
   @spec send_heat_ticket(Feedback.Message.t, map()) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     request_response = if message.request_response, do: "Yes", else: "No"
+
+    _ = if message.request_response do
+      Logger.info("HEAT Ticket submitted by #{format_email(message.email)}")
+    end
+
     body =
       """
       <INCIDENT>

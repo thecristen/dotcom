@@ -15,6 +15,7 @@ defmodule Site.CustomerSupportController do
     errors = validate params
     if MapSet.size(errors) > 0 do
       conn
+      |> put_status(400)
       |> render_form(errors, params)
     else
       {:ok, _response} = send_ticket params
