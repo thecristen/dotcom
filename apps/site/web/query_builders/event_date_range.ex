@@ -1,7 +1,7 @@
 defmodule Site.EventDateRange do
-  @spec build(%{required(String.t) => String.t}, Date.t) :: map
+  @spec build(%{String.t => String.t}, Date.t) :: map
   def build(%{"month" => month}, current_date) do
-    case convert_to_date(month) do
+    case Date.from_iso8601(month) do
       {:ok, date} -> for_month(date)
       {:error, _error} -> upcoming_events_from(current_date)
     end
@@ -16,10 +16,6 @@ defmodule Site.EventDateRange do
     end_date = date |> Timex.end_of_month
 
     date_range(start_date: start_date, end_date: end_date)
-  end
-
-  defp convert_to_date(month) do
-    month |> Timex.parse("{ISOdate}")
   end
 
   defp upcoming_events_from(date) do

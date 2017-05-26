@@ -3,14 +3,15 @@ defmodule Site.ScheduleV2View.StopList do
 
   import VehicleTooltip, only: [tooltip: 1]
   alias Site.ScheduleV2Controller.Line, as: LineController
+  alias Stops.{RouteStop, RouteStops}
 
   @doc """
   Determines whether a stop is the first stop of its branch that is shown on the page, and
   therefore should display a link to expand/collapse the branch.
   """
-  @spec add_expand_link?(Stops.RouteStop.t, [Stops.RouteStops.t]) :: boolean
-  def add_expand_link?(%Stops.RouteStop{branch: nil}, _), do: false
-  def add_expand_link?(%Stops.RouteStop{id: stop_id, branch: branch}, branches) do
+  @spec add_expand_link?(RouteStop.t, %{required(RouteStop.branch_name_t) => [RouteStops.t]}) :: boolean
+  def add_expand_link?(%RouteStop{branch: nil}, _), do: false
+  def add_expand_link?(%RouteStop{id: stop_id, branch: branch}, branches) do
     case Map.get(branches, branch) do
       [^stop_id|_] -> true
       _ -> false
@@ -117,24 +118,24 @@ defmodule Site.ScheduleV2View.StopList do
 
   """
   @spec stop_bubble_line_type(LineController.stop_bubble_type, {String.t, String.t},
-                                                {Routes.Route.t, Stops.RouteStop.t}) :: :solid | :dotted | :hidden
+                                                {Routes.Route.t, RouteStop.t}) :: :solid | :dotted | :hidden
   def stop_bubble_line_type(bubble_type, branch_info, route_stop_info)
   def stop_bubble_line_type(:empty, _, _), do: nil
-  def stop_bubble_line_type(:terminus, _, {_route, %Stops.RouteStop{stop_number: 0}}), do: :solid
-  def stop_bubble_line_type(:terminus, _, {%Routes.Route{id: "Green"}, %Stops.RouteStop{branch: nil}}), do: :solid
+  def stop_bubble_line_type(:terminus, _, {_route, %RouteStop{stop_number: 0}}), do: :solid
+  def stop_bubble_line_type(:terminus, _, {%Routes.Route{id: "Green"}, %RouteStop{branch: nil}}), do: :solid
   def stop_bubble_line_type(:terminus, _, _), do: nil
   def stop_bubble_line_type(:line, {expanded, expanded}, _), do: :solid
-  def stop_bubble_line_type(:line, _, {_, %Stops.RouteStop{branch: nil}}), do: :solid
-  def stop_bubble_line_type(:line, {"Green-" <> _ = bubble_branch, _}, {_, %Stops.RouteStop{branch: "Green-E"}})
+  def stop_bubble_line_type(:line, _, {_, %RouteStop{branch: nil}}), do: :solid
+  def stop_bubble_line_type(:line, {"Green-" <> _ = bubble_branch, _}, {_, %RouteStop{branch: "Green-E"}})
       when bubble_branch != "Green-E", do: :solid
   def stop_bubble_line_type(:line, _, _), do: :dotted
   def stop_bubble_line_type(:merge, {expanded, expanded}, _), do: :solid
   def stop_bubble_line_type(:merge, _, _), do: :dotted
   def stop_bubble_line_type(:stop, {expanded, expanded}, _), do: :solid
-  def stop_bubble_line_type(:stop, _, {%Routes.Route{id: route_id}, %Stops.RouteStop{branch: nil}})
+  def stop_bubble_line_type(:stop, _, {%Routes.Route{id: route_id}, %RouteStop{branch: nil}})
       when route_id != "Green", do: :solid
   def stop_bubble_line_type(:stop, _, {%Routes.Route{id: route_id}, _}) when route_id != "Green", do: :solid
-  def stop_bubble_line_type(:stop, {branch, _}, {%Routes.Route{id: "Green"}, %Stops.RouteStop{branch: nil, id: stop_id}}) do
+  def stop_bubble_line_type(:stop, {branch, _}, {%Routes.Route{id: "Green"}, %RouteStop{branch: nil, id: stop_id}}) do
     case GreenLine.merge_id(branch) do
       ^stop_id -> :dotted
       _ -> :solid
@@ -179,7 +180,7 @@ defmodule Site.ScheduleV2View.StopList do
   Builds a stop bubble SVG (without vehicle). Includes the branch letter for green line stops. For a stop bubble
   with a vehicle icon, use `stop_bubble_location_display/3`
   """
-  @spec stop_bubble_icon(LineController.stop_bubble_type, Routes.Route.id_t, String.t) :: Phoenix.HTML.Safe.t
+  @spec stop_bubble_icon(LineController.stop_bubble_type, Routes.Route.id_t, Keyword.t) :: Phoenix.HTML.Safe.t
   def stop_bubble_icon(class, route_id, opts \\ []) do
     icon_opts = Keyword.merge([icon_class: "", transform: "translate(2,2)"], opts)
     content_tag :svg, viewBox: "0 0 42 42", class: "icon stop-bubble-#{class} #{icon_opts[:icon_class]}" do
@@ -225,7 +226,7 @@ defmodule Site.ScheduleV2View.StopList do
   Sets the direction_id for the "Schedules from here" link. Chooses the opposite of the current direction only for the last stop
   on the line or branch (since there are no trips in that direction from those stops).
   """
-  @spec schedule_link_direction_id(Stops.RouteStop.t, [{LineController.stop_bubble_type, String.t}], 0 | 1) :: 0 | 1
+  @spec schedule_link_direction_id(RouteStop.t, [{LineController.stop_bubble_type, String.t}], 0 | 1) :: 0 | 1
   def schedule_link_direction_id(stop, bubbles, direction_id) do
     bubbles
     |> Enum.map(& elem(&1, 0))
@@ -233,8 +234,8 @@ defmodule Site.ScheduleV2View.StopList do
     |> do_schedule_link_direction_id(stop, direction_id)
   end
 
-  @spec do_schedule_link_direction_id(boolean, Stops.RouteStop.t, 0 | 1) :: 0 | 1
-  defp do_schedule_link_direction_id(true, %Stops.RouteStop{stop_number: stop}, direction_id) when stop != 0 do
+  @spec do_schedule_link_direction_id(boolean, RouteStop.t, 0 | 1) :: 0 | 1
+  defp do_schedule_link_direction_id(true, %RouteStop{stop_number: stop}, direction_id) when stop != 0 do
     if direction_id == 0, do: 1, else: 0
   end
   defp do_schedule_link_direction_id(_is_terminus, _stop, direction_id), do: direction_id

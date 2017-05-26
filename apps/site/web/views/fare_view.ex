@@ -12,7 +12,7 @@ defmodule Site.FareView do
   end
 
   @doc "Return the reduced fare note for the given fare"
-  @spec fare_type_note(Fare.t) :: Phoenix.HTML.Safe.t | nil
+  @spec fare_type_note(Fare.t) :: Phoenix.HTML.safe | nil
   def fare_type_note(%Fare{reduced: :student}) do
     content_tag :span do
       ["Middle and high school students are eligible for reduced fares on Subway. In order to receive a reduced fare, students must use a ",

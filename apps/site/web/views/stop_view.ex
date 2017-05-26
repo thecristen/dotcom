@@ -40,7 +40,7 @@ defmodule Site.StopView do
     end)
   end
 
-  @spec render_alerts([Alerts.Alert], DateTime.t, Stop.t) :: Phoenix.HTML.Safe.t | String.t
+  @spec render_alerts([Alerts.Alert], DateTime.t, Stop.t) :: Phoenix.HTML.safe | String.t
   def render_alerts(stop_alerts, date, stop) do
     Site.AlertView.modal alerts: stop_alerts, hide_t_alerts: true, time: date, route: %{id: stop.id |> String.replace(" ", "-"), name: stop.name}
   end
@@ -74,7 +74,7 @@ defmodule Site.StopView do
     format_accessibility_options(stop)]
   end
 
-  @spec format_accessibility_options(Stop.t) :: Phoenix.HTML.Safe.t | String.t
+  @spec format_accessibility_options(Stop.t) :: Phoenix.HTML.safe | String.t
   defp format_accessibility_options(stop) do
     if stop.accessibility && !Enum.empty?(stop.accessibility) do
       content_tag :p do

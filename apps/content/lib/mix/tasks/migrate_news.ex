@@ -17,8 +17,7 @@ defmodule Mix.Tasks.Content.MigrateNews do
   ```
   """
 
-  @spec run(String.t) :: String.t | no_return
-  def run(directory_path) do
+  def run([directory_path]) do
     Mix.Task.run "app.start"
 
     case MigrationFile.filter_json_files(directory_path) do
@@ -60,6 +59,7 @@ defmodule Mix.Tasks.Content.MigrateNews do
     Content.Mailer.migration_error_notice(reason, meeting_json)
   end
 
+  @spec raise_with_instructions :: no_return
   defp raise_with_instructions do
     Mix.raise """
     Oops! Looks like the path you provided does not exist.

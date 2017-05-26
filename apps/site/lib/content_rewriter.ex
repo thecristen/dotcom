@@ -18,14 +18,9 @@ defmodule Site.ContentRewriter do
     content
     |> Floki.parse
     |> Site.FlokiHelpers.traverse(&dispatch_rewrites/1)
-    |> render
+    |> Floki.raw_html
     |> Phoenix.HTML.raw
   end
-
-  # necessary since foo |> Floki.parse |> Floki.raw_html blows up
-  # if there are no HTML tags in foo.
-  defp render(content) when is_binary(content), do: content
-  defp render(content), do: Floki.raw_html(content)
 
   defp dispatch_rewrites({"table", _, _} = element) do
     {name, attrs, children} = ResponsiveTables.rewrite_table(element)

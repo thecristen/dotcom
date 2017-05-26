@@ -9,7 +9,7 @@ defmodule Site.ModeView do
   end
   def get_route_group(route_type, route_groups), do: route_groups[route_type]
 
-  @spec fares_note(String) :: Phoenix.HTML.Safe.t | String.t
+  @spec fares_note(String) :: Phoenix.HTML.safe | String.t
   @doc "Returns a note describing fares for the given mode"
   def fares_note("Commuter Rail") do
     content_tag :p do

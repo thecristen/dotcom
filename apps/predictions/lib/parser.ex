@@ -41,7 +41,6 @@ defmodule Predictions.Parser do
   @spec upcoming_status?(String.t) :: boolean
   defp upcoming_status?("Approaching"), do: true
   defp upcoming_status?("Boarding"), do: true
-  defp upcoming_status?(nil), do: false
   defp upcoming_status?(status), do: String.ends_with?(status, "away")
 
   defp stop([stop | _]) do

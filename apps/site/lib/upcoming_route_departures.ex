@@ -54,7 +54,7 @@ defmodule UpcomingRouteDepartures do
     |> do_build_route_time(route, direction_id)
   end
 
-  @spec do_build_route_time(%{String.t => [PredictedSchedule.t]}, Route.t, 0 | 1) :: UpcomingRouteDepartures.t
+  @spec do_build_route_time([{String.t, [PredictedSchedule.t]}], Route.t, 0 | 1) :: UpcomingRouteDepartures.t
   defp do_build_route_time(grouped_predictions, route, direction_id) do
     %__MODULE__{
       route: route,

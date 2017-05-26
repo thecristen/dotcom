@@ -2,7 +2,7 @@ defmodule Site.IcalendarGenerator do
   import Site.Router.Helpers
   import Site.ContentHelpers, only: [content: 1]
 
-  @spec to_ical(Content.Event.t) :: String.t
+  @spec to_ical(Content.Event.t) :: iodata
   def to_ical(%Content.Event{} = event) do
     [
       "BEGIN:VCALENDAR\n",

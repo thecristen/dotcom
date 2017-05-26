@@ -106,7 +106,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
                       end)
   end
 
-  @spec do_alert_icon(Alerts.Alert.t) :: Phoenix.HTML.Safe.t | String.t
+  @spec do_alert_icon(boolean) :: Phoenix.HTML.safe | String.t
   defp do_alert_icon(false), do: ""
   defp do_alert_icon(true), do: Site.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 

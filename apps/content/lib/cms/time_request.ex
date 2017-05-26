@@ -10,7 +10,7 @@ defmodule Content.CMS.TimeRequest do
   """
   @spec time_request(atom, String.t, String.t, Keyword.t, Keyword.t) ::
     {:ok, HTTPoison.Response.t} |
-    {:error, HTTPoison.Error}
+    {:error, HTTPoison.Error.t}
   def time_request(method, url, body \\ "", headers \\ [], params \\ []) do
     {time, response} = :timer.tc(HTTPoison, :request, [method, url, body, headers, [params: params]])
     log_response(time, url, params, response)

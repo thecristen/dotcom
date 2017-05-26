@@ -23,7 +23,7 @@ defmodule Stops.RouteStop do
 
   """
 
-  @type branch_name_t :: String.t
+  @type branch_name_t :: String.t | nil
   @type direction_id_t :: 0 | 1
   @type stop_number_t :: non_neg_integer
 

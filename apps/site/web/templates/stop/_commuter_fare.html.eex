@@ -19,7 +19,7 @@
 
   <p>
     <%= link to: fare_details_path do %>
-      <p>View Commuter Rail <%= Fares.Format.name(%Fares.Fare{name: @fare_name}) %> fares list <span class="no-wrap"><%= fa "arrow-right "%></span></p>
+      <p>View Commuter Rail <%= Fares.Format.name(@fare_name) %> fares list <span class="no-wrap"><%= fa "arrow-right "%></span></p>
     <% end %>
   </p>
 </div>

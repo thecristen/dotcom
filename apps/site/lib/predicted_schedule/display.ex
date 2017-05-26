@@ -15,7 +15,7 @@ defmodule PredictedSchedule.Display do
   Display Prediction time with rss icon if available. Otherwise display scheduled time.
 
   """
-  @spec time(PredictedSchedule.t) :: Phoenix.HTML.Safe.t | String.t
+  @spec time(PredictedSchedule.t) :: Phoenix.HTML.safe | String.t
   def time(%PredictedSchedule{} = ps) do
     ps
     |> maybe_route

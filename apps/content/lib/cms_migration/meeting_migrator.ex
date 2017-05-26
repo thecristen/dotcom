@@ -2,7 +2,7 @@ defmodule Content.CmsMigration.MeetingMigrator do
   alias Content.CmsMigration.EventPayload
   alias Content.MigrationError
 
-  @spec migrate(map) :: {:ok, :created} | {:ok, :updated} | {:error, map} | {:error, String.t}
+  @spec migrate(map) :: {:ok, :created} | {:ok, :updated} | {:error, map} | {:error, String.t} | no_return
   def migrate(meeting_data) do
     meeting_id = Map.fetch!(meeting_data, "meeting_id")
     event = build_event(meeting_data)

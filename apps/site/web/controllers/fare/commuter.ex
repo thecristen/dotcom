@@ -1,8 +1,6 @@
 defmodule Site.FareController.Commuter do
   use Site.FareController.OriginDestinationFareBehavior
 
-  alias Stops.Stop
-
   def route_type, do: 2
 
   def mode, do: :commuter_rail
@@ -17,10 +15,8 @@ defmodule Site.FareController.Commuter do
   end
 
   def key_stops do
-    [
-      %Stop{id: "place-sstat", name: "South Station"},
-      %Stop{id: "place-north", name: "North Station"},
-      %Stop{id: "place-bbsta", name: "Back Bay"}
-    ]
+    for stop_id <- ~w(place-sstat place-north place-bbsta)s do
+      Stops.Repo.get!(stop_id)
+    end
   end
 end

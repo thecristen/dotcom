@@ -5,13 +5,13 @@ defmodule Fares.CommuterFareGroup do
 
   """
 
-  @type t :: [
+  @type t :: %__MODULE__{
     name: Fares.Fare.fare_name,
     single_trip: non_neg_integer,
     single_trip_reduced: non_neg_integer,
     month: non_neg_integer,
     mticket: non_neg_integer
-  ]
+  }
 
   defstruct [
     name: nil,

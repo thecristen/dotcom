@@ -3,7 +3,7 @@ defmodule Site.EventView do
   import Site.TimeHelpers
   import Site.ContentHelpers, only: [content: 1]
 
-  @spec shift_date_range(String.t, integer) :: map
+  @spec shift_date_range(String.t, integer) :: String.t
   def shift_date_range(iso_string, shift_value) do
     iso_string
     |> Timex.parse!("{ISOdate}")
