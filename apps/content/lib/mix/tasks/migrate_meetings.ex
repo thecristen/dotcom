@@ -25,6 +25,9 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
       files -> migrate_meetings(files, directory_path)
     end
   end
+  def run(_) do
+    raise_with_instructions()
+  end
 
   defp migrate_meetings([filename | remaining_filenames], directory_path) do
     {:ok, meeting_json} = MigrationFile.parse_file(directory_path, filename)

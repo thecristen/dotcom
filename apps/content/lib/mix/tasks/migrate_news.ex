@@ -25,6 +25,9 @@ defmodule Mix.Tasks.Content.MigrateNews do
       files -> migrate_news(files, directory_path)
     end
   end
+  def run(_) do
+    raise_with_instructions()
+  end
 
   defp migrate_news([filename | remaining_filenames], directory_path) do
     {:ok, news_entry_json} = MigrationFile.parse_file(directory_path, filename)

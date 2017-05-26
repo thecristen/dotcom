@@ -11,7 +11,7 @@ defmodule Content.MigrateMeetingsTest do
   test "migrates meeting data from json files to the CMS" do
     path = path("valid_meeting")
 
-    Mix.Tasks.Content.MigrateMeetings.run(path)
+    Mix.Tasks.Content.MigrateMeetings.run([path])
     assert_received {:mix_shell, :info, ["All meetings have been migrated."]}
     refute email_sent_with_subject("Meeting Migration Task Failed")
   end
@@ -19,28 +19,28 @@ defmodule Content.MigrateMeetingsTest do
   test "prints helpful message when an event is successfully created" do
     path = path("valid_meeting")
 
-    Mix.Tasks.Content.MigrateMeetings.run(path)
+    Mix.Tasks.Content.MigrateMeetings.run([path])
     assert_received {:mix_shell, :info, ["Successfully created" <> _filename]}
   end
 
   test "prints a helpful message when an event is successfully updated" do
     path = path("already_migrated_meeting")
 
-    Mix.Tasks.Content.MigrateMeetings.run(path)
+    Mix.Tasks.Content.MigrateMeetings.run([path])
     assert_received {:mix_shell, :info, ["Successfully updated" <> _filename]}
   end
 
   test "prints a helpful message when an event fails to migrate" do
     path = path("invalid_meeting")
 
-    Mix.Tasks.Content.MigrateMeetings.run(path)
+    Mix.Tasks.Content.MigrateMeetings.run([path])
     assert_received {:mix_shell, :info, ["The following error occurred" <> _filename]}
   end
 
   test "sends an email to developers when an event fails to migrate" do
     path = path("invalid_meeting")
 
-    Mix.Tasks.Content.MigrateMeetings.run(path)
+    Mix.Tasks.Content.MigrateMeetings.run([path])
     assert email_sent_with_subject("CMS Migration Task Failed")
   end
 

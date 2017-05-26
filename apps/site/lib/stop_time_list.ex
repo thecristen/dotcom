@@ -21,6 +21,8 @@ defmodule StopTimeList do
   @type map_key_t :: PredictedSchedule.Group.map_key_t
   @type schedule_map :: %{map_key_t => %{stop_id => Schedule.t}}
   @type schedule_pair_map :: %{map_key_t => schedule_pair}
+  @type filter_flag_t :: StopTime.Filter.filter_flag_t
+  @type opt_string :: String.t | nil
 
   @doc "Returns true if any of the stop times have a prediction"
   @spec has_predictions?(t) :: boolean
@@ -39,7 +41,7 @@ defmodule StopTimeList do
   current_time (optional): Current time, used to determine the first trip to in filtered/sorted list. If nil, all trips will be returned
   keep_all?: Determines if all stop times should be returned, regardless of filter flag
   """
-  @spec build([schedule_or_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: t
+  @spec build([schedule_or_pair], [Prediction.t], opt_string, opt_string, filter_flag_t, DateTime.t | nil, boolean) :: t
   def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, keep_all?) do
     schedules
     |> build_times(predictions, origin_id, destination_id)
