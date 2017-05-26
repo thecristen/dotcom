@@ -43,13 +43,27 @@ defmodule TripPlan.PersonalDetail.Step do
                               :uturn_left |
                               :uturn_right
 
- @type absolute_direction :: :north |
-                             :northeast |
-                             :east |
-                             :southeast |
-                             :south |
-                             :southwest |
-                             :west |
-                             :northwest
+  @type absolute_direction :: :north |
+                              :northeast |
+                              :east |
+                              :southeast |
+                              :south |
+                              :southwest |
+                              :west |
+                              :northwest
 
+  @spec human_relative_direction(relative_direction) :: binary
+  def human_relative_direction(:depart), do: "Depart"
+  def human_relative_direction(:slightly_left), do: "Slightly left"
+  def human_relative_direction(:left), do: "Left"
+  def human_relative_direction(:hard_left), do: "Hard left"
+  def human_relative_direction(:slightly_right), do: "Slightly right"
+  def human_relative_direction(:right), do: "Right"
+  def human_relative_direction(:hard_right), do: "Hard right"
+  def human_relative_direction(:continue), do: "Continue"
+  def human_relative_direction(:circle_clockwise), do: "Enter the traffic circle"
+  def human_relative_direction(:circle_counterclockwise), do: "Enter the traffic circle"
+  def human_relative_direction(:elevator), do: "Take the elevator"
+  def human_relative_direction(:uturn_left), do: "Make a U-turn"
+  def human_relative_direction(:uturn_right), do: "Make a U-turn"
 end
