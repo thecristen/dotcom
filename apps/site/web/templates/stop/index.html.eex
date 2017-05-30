@@ -41,23 +41,13 @@
         <% end %>
       </div>
       <%= if subway? do %>
-        <span class="stops-view-all-btn hidden-md-up .hidden-no-js" id="hide-btn-<%= route.id %>">
+        <span class="stops-view-all-btn hidden-md-up .hidden-no-js" id="hide-btn-<%= route.id %>" data-hide-on-click>
           Showing major stops.
-          <a id="hide-btn-#<%= route.id %>"
-                  data-toggle="collapse"
-                  href="#stops-<%= route.id %>"
-                  onclick='hideBtn("<%= "hide-btn-#{route.id}" %>")'>
-            View all <%= fa "angle-down" %>
+          <a data-toggle="collapse" href="#stops-<%= route.id %>" >
+             View all <%= fa "angle-down" %>
           </a>
         </span>
       <% end %>
     <% end %>
     </div>
 </div>
-
-<script>
-function hideBtn(elemId) {
-  elem = document.getElementById(elemId);
-  elem.className += " hidden-xs-up"
-}
-</script>
