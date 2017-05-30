@@ -1,6 +1,7 @@
 defmodule Site.ScheduleV2Controller.Green do
   use Site.Web, :controller
 
+  import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
 
   plug :route
@@ -14,6 +15,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :stops_on_routes
   plug :all_stops
   plug Site.ScheduleV2Controller.OriginDestination
+  plug :validate_direction
   plug :headsigns
   plug :schedules
   plug :vehicle_locations
@@ -190,4 +192,17 @@ defmodule Site.ScheduleV2Controller.Green do
   @spec arrival_time({Schedule.t, Schedule.t} | Schedule.t) :: DateTime.t
   defp arrival_time({arrival, _departure}), do: arrival.time
   defp arrival_time(schedule), do: schedule.time
+
+  defp validate_direction(%{assigns: %{origin: origin, destination: destination, direction_id: direction_id}} = conn, _)
+  when not is_nil(origin) and not is_nil(destination)  do
+    {stops, _map} = conn.assigns.stops_on_routes
+    if Enum.find_index(stops, & &1 == origin) > Enum.find_index(stops, & &1 == destination) do
+      conn
+      |> redirect(to: update_url(conn, direction_id: 1 - direction_id))
+      |> halt()
+    else
+      conn
+    end
+  end
+  defp validate_direction(conn, _), do: conn
 end
