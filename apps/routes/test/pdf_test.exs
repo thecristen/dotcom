@@ -25,7 +25,8 @@ defmodule Routes.PdfTest do
       route = %Route{id: "CR-Fairmount"}
       expected = [
         {~D[2017-01-01], url(route)},
-        {~D[2017-05-22], "https://www.mbta.com/uploadedfiles/Smart_Forms/News%2C_Events_and_Press_Releases/Fairmont%20WEB%20052217%20V1.pdf"}
+        {~D[2017-05-22], "https://www.mbta.com/uploadedfiles/Smart_Forms/News%2C_Events_and_Press_Releases/Fairmont%20WEB%20052217%20V1.pdf"},
+        {~D[2017-06-03], "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Upcoming_Schedules/Commuter_Rail/Fairmount.pdf"}
       ]
       actual = dated_urls(route, ~D[2017-03-15])
 
