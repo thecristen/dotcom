@@ -196,7 +196,7 @@ defmodule Site.ScheduleV2Controller.Green do
   defp validate_direction(%{assigns: %{origin: origin, destination: destination, direction_id: direction_id}} = conn, _)
   when not is_nil(origin) and not is_nil(destination)  do
     {stops, _map} = conn.assigns.stops_on_routes
-    if Enum.find_index(stops, & &1 == origin) > Enum.find_index(stops, & &1 == destination) do
+    if Util.ListHelpers.find_first(stops, origin, destination) == destination do
       conn
       |> redirect(to: update_url(conn, direction_id: 1 - direction_id))
       |> halt()
