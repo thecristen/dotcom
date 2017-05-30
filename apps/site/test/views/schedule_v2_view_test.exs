@@ -10,6 +10,14 @@ defmodule Site.ScheduleV2ViewTest do
                                               view_branch_link: 3, stop_bubble_location_display: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
+  @vehicle_tooltip %VehicleTooltip{
+    prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
+    vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped},
+    route_type: 2,
+    trip_name: "101",
+    stop_name: "South Station"
+  }
+
   describe "stop_selector_suffix/2" do
     test "returns zones for commuter rail", %{conn: conn} do
       conn = conn
@@ -79,7 +87,8 @@ defmodule Site.ScheduleV2ViewTest do
       now = Timex.now
       stop_times = StopTimeList.build_predictions_only(
         [],
-        [%Predictions.Prediction{route: route, stop: stop, trip: nil, direction_id: 1, time: Timex.shift(now, hours: -1)}],
+        [%Predictions.Prediction{route: route, stop: stop, trip: nil, direction_id: 1,
+                                                                      time: Timex.shift(now, hours: -1)}],
         stop.id,
         nil
       )
@@ -88,37 +97,38 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "stop_bubble_location_display/3" do
+
     test "when vehicle is not at stop and stop is not a terminus, returns an empty circle" do
-      rendered = safe_to_string(stop_bubble_location_display(false, %Routes.Route{type: 1}, false))
+      rendered = safe_to_string(stop_bubble_location_display(nil, %Routes.Route{type: 1}, false))
       assert rendered =~ "stop-bubble-stop"
       assert rendered =~ "svg"
     end
 
     test "when vehicle is not at stop and stop is a terminus, returns a filled circle" do
-      rendered = safe_to_string(stop_bubble_location_display(false, %Routes.Route{type: 1}, true))
+      rendered = safe_to_string(stop_bubble_location_display(nil, %Routes.Route{type: 1}, true))
       assert rendered =~ "stop-bubble-terminus"
       assert rendered =~ "svg"
     end
 
     test "when vehicle is at stop and stop is not a terminus, returns a normal vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 1}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1}, false))
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-boring"
     end
 
     test "when vehicle is at stop and stop is a terminus, returns an inverse vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 1}, true))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1}, true))
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-inverse"
     end
 
     test "given a vehicle and the subway route_type, returns the icon for the subway" do
-      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 1}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1}, false))
       assert rendered =~ "icon-subway"
     end
 
     test "given a vehicle and the bus route_type, returns the icon for the bus" do
-      rendered = safe_to_string(stop_bubble_location_display(true, %Routes.Route{type: 3}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3}, false))
       assert rendered =~ "icon-bus"
     end
   end
@@ -249,7 +259,8 @@ defmodule Site.ScheduleV2ViewTest do
       ]
 
       test "trip alerts use schedule for match" do
-        alert = List.first(trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, @route, 1))
+        predicted_schedule = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
+        alert = List.first(trip_alerts(predicted_schedule, @alerts, @route, 1))
         assert List.first(alert.informed_entity).trip == "trip"
       end
 
@@ -269,12 +280,14 @@ defmodule Site.ScheduleV2ViewTest do
       end
 
       test "Trip alerts are not returned for bus routes" do
-        alerts = trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, %Routes.Route{type: 3, id: "1"}, 1)
+        route = %Routes.Route{type: 3, id: "1"}
+        alerts = trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, route, 1)
         assert alerts == []
       end
 
       test "stop alerts use schedule for match" do
-        alert = List.first(stop_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, "1", 1))
+        predicted_schedule = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
+        alert = List.first(stop_alerts(predicted_schedule, @alerts, "1", 1))
         assert List.first(alert.informed_entity).stop == "stop"
       end
 
@@ -328,6 +341,7 @@ defmodule Site.ScheduleV2ViewTest do
             above_expand_link?: true,
             is_last_item?: false,
             vehicle?: true,
+            vehicle_tooltip: @vehicle_tooltip,
             terminus?: true,
             alerts: ["alert"],
             predicted_schedule: %PredictedSchedule{prediction: @prediction, schedule: @schedule},
@@ -396,7 +410,8 @@ defmodule Site.ScheduleV2ViewTest do
               date: ~D[2017-01-01],
               direction_id: 1,
               show_date_select?: false,
-              headsigns: %{0 => [], 1 => []})
+              headsigns: %{0 => [], 1 => []},
+              vehicle_tooltips: %{})
 
       assert safe_to_string(output) =~ "shape-filter"
     end
@@ -414,15 +429,18 @@ defmodule Site.ScheduleV2ViewTest do
               map_img_src: nil,
               hours_of_operation: @hours_of_operation,
               holidays: [],
-              branches: [%Stops.RouteStops{branch: nil, stops: [%Stops.RouteStop{id: "stop 1", branch: nil, name: "Stop 1"},
-                                                                %Stops.RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}]}],
+              branches: [%Stops.RouteStops{
+                          branch: nil,
+                          stops: [%Stops.RouteStop{id: "stop 1", branch: nil, name: "Stop 1"},
+                                  %Stops.RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}]}],
               route: %Routes.Route{type: 3},
               date: ~D[2017-01-01],
               destination: nil,
               origin: nil,
               direction_id: 1,
               show_date_select?: false,
-              headsigns: %{0 => [], 1 => []})
+              headsigns: %{0 => [], 1 => []},
+              vehicle_tooltips: %{})
 
       refute safe_to_string(output) =~ "shape-filter"
     end
@@ -440,126 +458,6 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns \"No service between these hours\" if there is no service" do
       actual = false |> Site.ScheduleV2View.frequency_times(%Schedules.Frequency{}) |> safe_to_string
       assert actual == "<span>No service between these hours</span>"
-    end
-  end
-
-  describe "prediction_for_vehicle_location/2" do
-    test "when there are no predictions matching the stop and trip returns nil", %{conn: conn} do
-      conn = conn
-      |> assign(:vehicle_predictions, [])
-
-      assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == nil
-    end
-
-    test "when there is a prediction for the stop and trip, returns that prediction", %{conn: conn} do
-      prediction = %Predictions.Prediction{stop: %Stop{id: "place-sstat"}, trip: %Schedules.Trip{id: "1234"}, status: "Now Boarding", track: 4}
-      conn = conn
-      |> assign(:vehicle_predictions, [prediction])
-
-      assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == prediction
-    end
-
-    test "when :vehicle_predictions has not been assigned, returns the conn unaltered", %{conn: conn} do
-      assert Site.ScheduleV2View.prediction_for_vehicle_location(conn, "place-sstat", "1234") == conn
-    end
-  end
-
-  describe "prediction_time_text/1" do
-    test "when there is no prediction, there is no prediction time" do
-      assert Site.ScheduleV2View.prediction_time_text(nil) == ""
-    end
-
-    test "when a prediction has a time, gives the arrival time" do
-      time = ~N[2017-01-01T13:00:00]
-      prediction = %Predictions.Prediction{time: time}
-      result = prediction
-      |> Site.ScheduleV2View.prediction_time_text
-      |> IO.iodata_to_binary
-
-      assert result == "Arrival: 1:00 PM"
-    end
-
-    test "when a prediction is departing, gives the departing time" do
-      time = ~N[2017-01-01T12:00:00]
-      prediction = %Predictions.Prediction{time: time, departing?: true}
-      result = prediction
-      |> Site.ScheduleV2View.prediction_time_text
-      |> IO.iodata_to_binary
-
-      assert result == "Departure: 12:00 PM"
-    end
-
-    test "when a prediction does not have a time, gives nothing" do
-      prediction = %Predictions.Prediction{time: nil}
-      assert Site.ScheduleV2View.prediction_time_text(prediction) == ""
-    end
-  end
-
-  describe "prediction_status_text/1" do
-    test "when a prediction has a track, gives the time, the status and the track" do
-      prediction = %Predictions.Prediction{status: "Now Boarding", track: "4"}
-      result = prediction
-               |> Site.ScheduleV2View.prediction_status_text
-               |> IO.iodata_to_binary
-
-      assert result == "Now boarding on track 4"
-    end
-
-    test "when a prediction does not have a track, gives nothing" do
-      prediction = %Predictions.Prediction{status: "Now Boarding", track: nil}
-      assert Site.ScheduleV2View.prediction_status_text(prediction) == ""
-    end
-  end
-
-  describe "build_prediction_tooltip/2" do
-    test "when there is no time or status for the prediction, returns stop name" do
-      assert build_prediction_tooltip("", "", "stop") =~ "stop"
-    end
-
-    test "when there is a time but no status for the prediction, gives a tooltip with arrival time" do
-      assert build_prediction_tooltip("time", "", "stop") =~ "time"
-    end
-
-    test "when there is a status but no time for the prediction, gives a tooltip with the status" do
-      assert build_prediction_tooltip("", "now boarding", "stop") =~ "now boarding"
-    end
-
-    test "when there is a status and a time for the prediction, gives a tooltip with both and also replaces double quotes with single quotes" do
-      test_tooltip = Phoenix.HTML.Tag.content_tag :div do [
-        Phoenix.HTML.Tag.content_tag(:p, "stop", class: 'prediction-tooltip'),
-        Phoenix.HTML.Tag.content_tag(:p, "time", class: 'prediction-tooltip'),
-        Phoenix.HTML.Tag.content_tag(:p, "now boarding", class: 'prediction-tooltip')
-      ]
-      end
-      |> Phoenix.HTML.safe_to_string
-      |> String.replace(~s("), ~s('))
-
-      assert build_prediction_tooltip("time", "now boarding", "stop") == test_tooltip
-    end
-  end
-
-  describe "prediction_tooltip/1" do
-    test "creates a tooltip for the prediction" do
-      time = ~N[2017-02-17T05:46:28]
-      formatted_time = Timex.format!(time, "{h12}:{m} {AM}")
-      prediction = %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
-      result = prediction
-               |> Site.ScheduleV2View.prediction_tooltip("stop", nil, 2)
-               |> IO.iodata_to_binary
-
-      assert result =~ "Now boarding on track 4"
-      assert result =~ "Arrival: #{formatted_time}"
-    end
-
-    test "Displays text based on vehicle status" do
-      prediction = %Predictions.Prediction{status: "Now Boarding", track: "4"}
-      result1 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :incoming}, 2)
-      result2 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :stopped}, 2)
-      result3 = Site.ScheduleV2View.prediction_tooltip(prediction, "stop", %Vehicles.Vehicle{status: :in_transit}, 2)
-
-      assert result1 =~ "Train is on the way to"
-      assert result2 =~ "Train has arrived"
-      assert result3 =~ "Train has left"
     end
   end
 
@@ -788,7 +686,8 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "add_expand_link/2" do
     test "returns false for unbranched stops" do
-      assert add_expand_link?(%Stops.RouteStop{id: "place-forhl", branch: nil}, %{nil => ["place-forhl", "place-1", "place-2"]}) == false
+      assert add_expand_link?(%Stops.RouteStop{id: "place-forhl", branch: nil},
+                              %{nil => ["place-forhl", "place-1", "place-2"]}) == false
     end
 
     test "returns true for the first branched stop" do
@@ -816,10 +715,27 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "stop_bubble_content" do
+
+    test "returns a bubble with a vehicle and tool tip" do
+      stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: true, stop_number: 0}
+      route = %Routes.Route{id: "route"}
+      vehicle_tooltip = %VehicleTooltip{
+        prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
+        vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped},
+        route_type: 2,
+        trip_name: "101",
+        stop_name: "South Station"
+      }
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: vehicle_tooltip}
+      content = render_stop_bubble_content(assigns, :terminus, nil, 0)
+      assert content =~ "Train 101 has arrived at South Station"
+      assert content =~ "icon-subway-image"
+    end
+
     test "returns a terminus bubble and a solid line for the first terminus" do
       stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: true, stop_number: 0}
       route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil}
       content = render_stop_bubble_content(assigns, :terminus, nil, 0)
       assert content =~ "stop-bubble-terminus"
       assert content =~ "route-branch-stop-bubble-line solid"
@@ -829,7 +745,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns only a terminus bubble for the last terminus" do
       stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: true, stop_number: 10}
       route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil}
       content = render_stop_bubble_content(assigns, :terminus, nil, 10)
       assert content =~ "stop-bubble-terminus"
       refute content =~ "route-branch-stop-bubble-line"
@@ -839,7 +755,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns a stop bubble and a solid line for an unbranched stop" do
       stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: false, stop_number: 4}
       route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil}
       content = render_stop_bubble_content(assigns, :stop, nil, 4)
       assert content =~ "stop-bubble-stop"
       assert content =~ "route-branch-stop-bubble-line solid"
@@ -849,7 +765,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns a stop bubble and a solid line for a stop on an expanded branch" do
       stop = %Stops.RouteStop{id: "stop", branch: "branch", is_terminus?: false, stop_number: 4}
       route = %Routes.Route{id: "route"}
-      assigns = %{expanded: "branch", stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      assigns = %{expanded: "branch", stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil}
       content = render_stop_bubble_content(assigns, :stop, "branch", 4)
       assert content =~ "stop-bubble-stop"
       assert content =~ "route-branch-stop-bubble-line solid"
@@ -859,7 +775,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns only a dotted line if the stop is not on the branch and the branch is collapsed" do
       stop = %Stops.RouteStop{id: "stop", branch: "branch", is_terminus?: false, stop_number: 4}
       route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil}
       content = render_stop_bubble_content(assigns, :line, "other branch", 4)
       refute content =~ "stop-bubble-stop"
       assert content =~ "route-branch-stop-bubble-line dotted"
@@ -869,7 +785,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns only a solid line if the stop is not on the branch and the branch is expanded" do
       stop = %Stops.RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
       route = %Routes.Route{id: "route"}
-      assigns = %{expanded: "branch", stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      assigns = %{expanded: "branch", stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil}
       content = render_stop_bubble_content(assigns, :line, "branch", 4)
       refute content =~ "stop-bubble-stop"
       assert content =~ "route-branch-stop-bubble-line solid"
@@ -879,7 +795,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns dotted route-branch-index-start div for a merge stop" do
       stop = %Stops.RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
       route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, show_vehicle?: false}
+      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil}
       content = render_stop_bubble_content(assigns, :merge, "branch", 4)
       refute content =~ "stop-bubble-stop"
       assert content =~ "route-branch-stop-bubble-line dotted"
@@ -915,7 +831,8 @@ defmodule Site.ScheduleV2ViewTest do
       assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 0}, [{:terminus, "branch1"}], 0) == 0
       assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 3}, [{:stop, "branch1"}], 0) == 0
       assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 5}, [{:line, "branch1"}], 1) == 1
-      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 10}, [{:line, "branch1"}, {:stop, "branch2"}], 1) == 1
+      assert schedule_link_direction_id(%Stops.RouteStop{stop_number: 10},
+                                                         [{:line, "branch1"}, {:stop, "branch2"}], 1) == 1
     end
   end
 

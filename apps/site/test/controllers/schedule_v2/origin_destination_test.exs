@@ -58,6 +58,27 @@ defmodule Site.ScheduleV2Controller.OriginDestinationTest do
      end
   end
 
+  describe "assign origin for green routes" do
+    test "direction_id 0", %{conn: conn} do
+      conn = setup_conn(
+        %{conn |
+          query_params: %{"direction_id" => "0"},
+          params: %{"route" => "Green-E"}
+        }
+      )
+      assert conn.assigns.origin.id == "place-lech"
+    end
+    test "direction_id 1", %{conn: conn} do
+      conn = setup_conn(
+        %{conn |
+          query_params: %{"direction_id" => "1"},
+          params: %{"route" => "Green-E"}
+        }
+      )
+      assert conn.assigns.origin.id == "place-hsmnl"
+    end
+  end
+
   describe "assures that stops exist based on direction:" do
     test "when both origin and destination exist, assigns both as %Stop{} structs", %{conn: conn} do
       conn = setup_conn(

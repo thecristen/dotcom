@@ -13,6 +13,9 @@ defmodule Site.ScheduleV2Controller.LineController do
   plug Site.ScheduleV2Controller.HoursOfOperation
   plug Site.ScheduleV2Controller.Holidays
   plug Site.ScheduleV2Controller.Line
+  plug Site.ScheduleV2Controller.VehicleLocations
+  plug Site.ScheduleV2Controller.Predictions
+  plug Site.ScheduleV2Controller.VehicleTooltips
 
   def show(conn, _) do
     render(conn, Site.ScheduleV2View, "show.html")

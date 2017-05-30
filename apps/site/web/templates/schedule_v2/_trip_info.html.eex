@@ -33,11 +33,17 @@
       <% else %>
         <%= for {{predicted_schedule, flags}, idx} <- Enum.with_index(times_or_separator) do %>
           <% %Stops.Stop{id: stop_id, name: stop_name} = PredictedSchedule.stop(predicted_schedule) %>
+          <% vehicle_tooltip = if predicted_schedule.schedule && predicted_schedule.schedule.trip do
+               @vehicle_tooltips[{predicted_schedule.schedule.trip.id, stop_id}]
+             else
+               nil
+             end %>
           <%= render "_trip_info_row.html",
               name: stop_name,
               href: stop_path(@conn, :show, stop_id),
               route: @trip_info.route,
               vehicle?: flags.vehicle?,
+              vehicle_tooltip: vehicle_tooltip,
               above_expand_link?: group_idx == 0,
               is_last_item?: idx + 1 == length(times_or_separator),
               terminus?: flags.terminus?,

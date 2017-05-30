@@ -12,8 +12,7 @@ defmodule Site.ScheduleV2Controller.Core do
   plug Site.ScheduleV2Controller.PreSelect
   plug Site.ScheduleV2Controller.VehicleLocations
   plug Site.ScheduleV2Controller.Predictions
-
-
+  plug Site.ScheduleV2Controller.VehicleTooltips
 
   defp schedule_pipeline_setup(conn, _opts) do
     conn

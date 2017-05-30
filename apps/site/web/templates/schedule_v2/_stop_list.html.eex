@@ -20,7 +20,7 @@
                                     add_expand_link?: add_expand_link?(stop, branch_stops),
                                     expanded: @expanded,
                                     branch_names: branch_names,
-                                    show_vehicle?: @show_vehicle?,
+                                    vehicle_tooltip: @vehicle_tooltips[stop.id],
                                     row_content_template: "_line_page_stop_info.html"
   end %>
 </div>

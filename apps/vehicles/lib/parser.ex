@@ -9,7 +9,9 @@ defmodule Vehicles.Parser do
       trip_id: optional_id(relationships["trip"]),
       stop_id: stop_id(relationships["stop"]),
       direction_id: attributes["direction_id"],
-      status: status(attributes["current_status"])
+      status: status(attributes["current_status"]),
+      longitude: attributes["longitude"],
+      latitude: attributes["latitude"],
     }
   end
 
