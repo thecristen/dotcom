@@ -33,7 +33,7 @@ export function clickHandler($) {
 
 export function locationHandler($, $btn, loc) {
   return (location) => {
-    loc.href = encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}&location[client_width]=${$(".transit-near-me").width()}#transit-input`);
+    loc.href = encodeURI(`${loc.protocol}//${loc.host}${loc.pathname}?location[address]=${location.coords.latitude}, ${location.coords.longitude}#transit-input`);
   };
 }
 

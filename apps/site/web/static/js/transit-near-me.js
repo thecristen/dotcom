@@ -70,16 +70,14 @@ export function constructUrl(place, placeInput) {
   var query_str,
       loc = window.location,
       location_url = loc.protocol + "//" + loc.host + loc.pathname,
-      addr = placeInput.value,
-      widthElement = document.getElementById("transit-input"),
-      width = widthElement && widthElement.clientWidth || 0;
+      addr = placeInput.value;
 
   if (place.geometry) {
     var lat = place.geometry.location.lat();
     var lng = place.geometry.location.lng();
-    query_str = "?latitude=" + lat + "&longitude=" + lng + "&location[client_width]=" + width + "&location[address]=" + addr +  "#transit-input";
+    query_str = "?latitude=" + lat + "&longitude=" + lng + "&location[address]=" + addr +  "#transit-input";
   } else {
-    query_str = "?location[address]=" + place.name + "&location[client_width]=" + width + "#transit-input";
+    query_str = "?location[address]=" + place.name + "#transit-input";
   }
   return location_url + query_str;
 }

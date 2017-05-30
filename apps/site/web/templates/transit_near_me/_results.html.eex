@@ -9,8 +9,8 @@
   </span>
 </p>
 <% end %>
-<%= if @stop_groups do %>
-  <%= render "_results_grouped.html", class: "transit-near-me-gray", stop_groups: @stop_groups, stops_with_routes: @stops_with_routes, conn: @conn %>
-<% else %>
-  <%= render "_results_ungrouped.html", class: "transit-near-me-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
-<% end %>
+<div class="transit-near-me-results <%= result_container_classes(@class, @stops_with_routes) %>">
+  <%= for %{stop: stop, distance: distance, routes: routes} <- @stops_with_routes do %>
+    <%= render "_card.html", stop: stop, distance: distance, routes: routes, conn: @conn %>
+  <% end %>
+</div>

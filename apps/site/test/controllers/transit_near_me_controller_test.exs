@@ -30,7 +30,6 @@ defmodule Site.TransitNearMeControllerTest do
     }
   }
 
-
   describe "Transit Near Me" do
     test "display message if no results", %{conn: conn} do
       response = conn
@@ -39,23 +38,9 @@ defmodule Site.TransitNearMeControllerTest do
       assert response =~ "any stations found"
     end
 
-    test "assigns results into different number of groups based on column width", %{conn: conn} do
-      for {width, num_results, expected_columns} <- [
-            {"1200", 12, 4},
-            {"800", 12, 3},
-            {"600", 12, 2},
-            {"300", 12, 1}] do
-          stops = stops_with_routes(num_results)
-          conn = search_near_address(conn, "10 park plaza, boston ma", stops, width)
-          number_of_groups = Map.size(conn.assigns.stop_groups)
-          assert {width, expected_columns} == {width, number_of_groups}
-      end
-    end
-
-    test "does not generate column groups if client_width is 0", %{conn: conn} do
+    test "displays the results when there are results", %{conn: conn} do
       stops = stops_with_routes(12)
-      assert %{assigns: assigns} = search_near_address(conn, "10 park plaza, boston ma", stops, "0")
-      refute Map.get(assigns, :stop_groups)
+      assert %{assigns: assigns} = search_near_address(conn, "10 park plaza, boston ma", stops)
     end
   end
 
@@ -66,14 +51,14 @@ defmodule Site.TransitNearMeControllerTest do
     assert html_response(conn, 200) =~ "https://maps.googleapis.com/maps/api/js?libraries=places"
   end
 
-  @spec search_near_address(Plug.Conn.t, String.t, [Stop.t], String.t) :: Plug.Conn.t
-  def search_near_address(conn, address, stops \\ [], width \\ "1200") do
+  @spec search_near_address(Plug.Conn.t, String.t, [Stop.t]) :: Plug.Conn.t
+  def search_near_address(conn, address, stops \\ []) do
     conn
     |> assign(:stops_with_routes, stops)
     |> assign(:tnm_address, address)
     |> Phoenix.Controller.put_view(Site.TransitNearMeView)
     |> bypass_through(Site.Router, :browser)
-    |> get(transit_near_me_path(conn, :index, %{"location" => %{"client_width" => width}}))
+    |> get(transit_near_me_path(conn, :index))
     |> Site.Plugs.TransitNearMe.call(Site.Plugs.TransitNearMe.init([]))
     |> Site.TransitNearMeController.index([])
   end

@@ -9,6 +9,6 @@
     </p>
     <p>View stations and stops near your location and preview information on schedules, alerts, fares, and other station details.</p>
 
-    <%= render "_transit_near_me.html", stop_groups: @stop_groups, stops_with_routes: @stops_with_routes, conn: @conn, tnm_address: @tnm_address%>
+    <%= render "_transit_near_me.html", stops_with_routes: @stops_with_routes, conn: @conn, tnm_address: @tnm_address%>
   </div>
 </div>

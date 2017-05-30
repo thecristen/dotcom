@@ -1,9 +1,0 @@
-<div class="transit-near-me-results grouped <%= result_container_classes(@class, @stops_with_routes) %>">
-  <%= for {_, group} <- @stop_groups do %>
-    <div>
-      <%= for %{stop: stop, distance: distance, routes: routes} <- group do %>
-        <%= render "_card.html", stop: stop, distance: distance, routes: routes, conn: @conn %>
-      <% end %>
-    </div>
-  <%= end %>
-</div>

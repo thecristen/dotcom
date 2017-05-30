@@ -80,34 +80,15 @@
   display: none;
 }
 
-@mixin set-breakpoint-columns($breakpoint, $column-count) {
-  @include media-breakpoint-only($breakpoint) {
-    column-count: $column-count;
-  }
-}
-
 .transit-near-me-results {
-  @include set-breakpoint-columns(sm, 2);
-  @include set-breakpoint-columns(md, 3);
-  @include set-breakpoint-columns(lg, 4);
-  @include set-breakpoint-columns(xxl, 4);
-
   column-gap: $grid-gutter-width / 2;
+  display: flex;
+  flex-flow: row wrap;
   margin: 0 0 $base-spacing;
-  padding: $base-spacing-lg $base-spacing-lg ($base-spacing-lg - $base-spacing);
+  padding: $base-spacing;
 
   &.empty {
     display: none;
-  }
-
-  &.small-set {
-    @include media-breakpoint-up(sm) {
-      column-count: 2;
-    }
-    &.grouped {
-      @include set-breakpoint-columns(lg, 4);
-      @include set-breakpoint-columns(xxl, 4);
-    }
   }
 }
 
@@ -122,7 +103,29 @@
 .transit-card {
   @extend %title-card;
   display: inline-block;
+  margin: .5rem;
+  padding: 1rem 0;
   width: 100%;
+
+  @include media-breakpoint-only(xs) {
+    flex: 1 1 100%;
+    margin: .25rem;
+    padding: .5rem 0;
+  }
+
+  @include media-breakpoint-only(sm) {
+    flex: 1 1 33%;
+    margin: .25rem;
+    padding: .5rem 0;
+  }
+
+  @include media-breakpoint-only(md) {
+    flex: 1 1 33%;
+  }
+
+  @include media-breakpoint-up(xl) {
+    flex: 1 1 20%;
+  }
 }
 
 .transit-route {

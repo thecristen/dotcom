@@ -1,7 +1,6 @@
 defmodule Site.TransitNearMeController do
   use Site.Web, :controller
   plug Site.Plugs.TransitNearMe
-  import Site.ControllerHelpers
 
   @doc """
     Handles GET requests both with and without parameters. Calling with an address parameter (String.t) will
@@ -21,7 +20,6 @@ defmodule Site.TransitNearMeController do
   """
   def index(conn, _params) do
     conn
-    |> assign_tnm_column_groups
     |> render("index.html", breadcrumbs: ["Transit Near Me"])
   end
 end

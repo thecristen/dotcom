@@ -94,13 +94,13 @@ describe('transt-near-me', () => {
           }
         }
       };
-      const expected = "about://blank?latitude=8&longitude=5&location[client_width]=0&location[address]=Boston#transit-input";
+      const expected = "about://blank?latitude=8&longitude=5&location[address]=Boston#transit-input";
       assert.equal(expected, constructUrl(fake_place, placeInput));
     });
 
     it("Builds URL with place name when place has no geometry", () => {
       const named_place = {name: "Park"};
-      const expected = "about://blank?location[address]=Park&location[client_width]=0#transit-input";
+      const expected = "about://blank?location[address]=Park#transit-input";
       assert.equal(expected, constructUrl(named_place, placeInput));
     });
   });
