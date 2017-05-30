@@ -40,7 +40,7 @@ defmodule Site.TransitNearMeControllerTest do
 
     test "displays the results when there are results", %{conn: conn} do
       stops = stops_with_routes(12)
-      assert %{assigns: assigns} = search_near_address(conn, "10 park plaza, boston ma", stops)
+      assert %{assigns: _assigns} = search_near_address(conn, "10 park plaza, boston ma", stops)
     end
   end
 
