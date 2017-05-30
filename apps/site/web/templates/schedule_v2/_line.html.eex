@@ -1,13 +1,18 @@
 <%= if @route.type == 3, do: render "_bus_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, all_shapes: @all_shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
+<script id="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(@dynamic_map_data) %></script>
 <div class="route-info page-section">
   <div class="hidden-sm-up line-map-container">
     <h2 class="h5 route-map-heading">Route Map</h5>
-    <img src="<%= @map_img_src %>" class="img-fluid">
     <%= if display_map_link?(@route.type) do %>
+      <img src="<%= @map_img_src %>" class="img-fluid">
       <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
         <%= fa "search-plus" %>
         View map as a PDF
       </a>
+    <% else %>
+      <div class="line-map dynamic-map">
+        <img id="static-map" src="<%= @map_img_src %>" class="img-fluid">
+      </div>
     <% end %>
   </div>
   <div class="stop-list-container">
@@ -16,12 +21,16 @@
   </div>
   <div class="page-section route-hours">
       <div class="hidden-xs-down line-map-container">
-        <img src="<%= @map_img_src %>" class="img-fluid">
         <%= if display_map_link?(@route.type) do %>
+          <img src="<%= @map_img_src %>" class="img-fluid">
           <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
             <%= fa "search-plus" %>
             View map as a PDF
           </a>
+        <% else %>
+          <div class="line-map dynamic-map">
+            <img id="static-map" src="<%= @map_img_src %>" class="img-fluid">
+          </div>
         <% end %>
       </div>
       <div class="hours">

@@ -1,5 +1,6 @@
-<div class="station-map-container"> 
-  <div id="map" data-latitude=<%= @stop.latitude%> data-longitude=<%= @stop.longitude %> data-show-marker=<%= @stop.station? %>>
+<div class="station-map-container">
+  <script id="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(@dynamic_map_data) %></script>
+  <div class="dynamic-map">
     <div id="static-map" class="embed-responsive embed-responsive-21by9 station-info-map">
       <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
         <%# This generates a srcset for our responsive image component,
@@ -30,4 +31,3 @@
     </div>
   </div>
 </div>
-

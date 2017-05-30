@@ -27,6 +27,7 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :hide_destination_selector
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.RouteBreadcrumbs
+  plug :require_map
 
   @task_timeout 10_000
 
@@ -205,4 +206,6 @@ defmodule Site.ScheduleV2Controller.Green do
     end
   end
   defp validate_direction(conn, _), do: conn
+
+  defp require_map(conn, _), do: assign(conn, :requires_google_maps?, true)
 end

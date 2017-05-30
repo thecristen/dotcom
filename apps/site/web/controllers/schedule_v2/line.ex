@@ -26,13 +26,12 @@ defmodule Site.ScheduleV2Controller.Line do
   defp update_conn(conn, route, direction_id, expanded, variant) do
     all_shapes = get_all_shapes(route.id, direction_id)
     active_shapes = get_active_shapes(all_shapes, route, variant, expanded)
-
     branches = get_branches(all_shapes, active_shapes, route, direction_id)
-    map_img_src = branches
-    |> get_map_data({all_shapes, active_shapes}, route.id, expanded)
-    |> map_img_src(route)
-
     collapsed_branches = remove_collapsed_stops(branches, expanded)
+    map_data = get_map_data(branches, {all_shapes, active_shapes}, route.id, expanded)
+    map_polylines = map_polylines(map_data, route)
+    map_img_src = map_img_src(map_data, map_polylines, route)
+    map_color = map_color(route.type, route.id)
 
     conn
     |> assign(:all_stops, build_stop_list(collapsed_branches))
@@ -41,6 +40,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> assign(:all_shapes, all_shapes)
     |> assign(:active_shape, active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
+    |> assign(:dynamic_map_data, dynamic_map_data(map_color, map_polylines, map_data, conn.assigns.vehicle_tooltips))
   end
 
   # I can't figure out why Dialyzer thinks this can only be called with
@@ -159,17 +159,24 @@ defmodule Site.ScheduleV2Controller.Line do
   map.
 
   """
-  @spec map_img_src({[Stops.Stop.t], [Routes.Shape.t] | [nil]}, Routes.Route.t) :: String.t
-  def map_img_src(_, %Routes.Route{type: 4}) do
+  @spec map_img_src({[Stops.Stop.t], any}, [String.t], Routes.Route.t) :: String.t
+  def map_img_src(_, _, %Routes.Route{type: 4}) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
-  def map_img_src({stops, shapes}, route) do
-    shapes
-    |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
+  def map_img_src({stops, _shapes}, polylines, route) do
+    polylines
     |> Enum.map(&{:path, "color:0x#{map_color(route.type, route.id)}FF|enc:#{&1}"})
     |> do_map_img_src(stops, route)
   end
 
+  @spec map_polylines({any, [Routes.Shape.t]}, Routes.Route.t) :: [String.t]
+  defp map_polylines(_, %Routes.Route{type: 4}), do: ""
+  defp map_polylines({_stops, shapes}, _) do
+    shapes
+    |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
+  end
+
+  @spec do_map_img_src(Keyword.t, [Stops.Stop.t], Routes.Route.t) :: String.t
   defp do_map_img_src(paths, stops, route) do
     opts = paths ++ [
       markers: markers(stops, route.type, route.id)
@@ -177,7 +184,7 @@ defmodule Site.ScheduleV2Controller.Line do
     GoogleMaps.static_map_url(600, 600, opts)
   end
 
-  @spec map_color(String.t, String.t) :: String.t
+  @spec map_color(0..4, String.t) :: String.t
   defp map_color(3, _id), do: "FFCE0C"
   defp map_color(2, _id), do: "A00A78"
   defp map_color(_type, "Blue"), do: "0064C8"
@@ -187,24 +194,28 @@ defmodule Site.ScheduleV2Controller.Line do
   defp map_color(_type, "Green"), do: "428608"
   defp map_color(_type, _id), do: "0064C8"
 
+  @spec markers([Stops.Stop.t], 0..4, String.t) :: String.t
   defp markers(stops, type, id) do
     ["anchor:center",
-     "icon:#{icon_path(type, id)}",
-     path(stops)]
+     "icon:#{map_stop_icon_path(type, id)}",
+     marker_path(stops)]
     |> Enum.join("|")
   end
 
-  defp path(stops) do
+  @spec marker_path([Stops.Stop.t]) :: String.t
+  defp marker_path(stops) do
     stops
     |> Enum.map(&position_string/1)
     |> Enum.join("|")
   end
 
+  @spec position_string(%{latitude: float(), longitude: float()}) :: String.t
   defp position_string(%{latitude: latitude, longitude: longitude}) do
     "#{Float.floor(latitude, 4)},#{Float.floor(longitude, 4)}"
   end
 
-  defp icon_path(type, id) do
+  @spec map_stop_icon_path(0..4, String.t) :: String.t
+  defp map_stop_icon_path(type, id) do
     static_url(Site.Endpoint, "/images/map-#{map_color(type, id)}-dot-icon.png")
   end
 
@@ -296,4 +307,36 @@ defmodule Site.ScheduleV2Controller.Line do
   defp stop_bubble_type(true, true, _), do: :terminus
   defp stop_bubble_type(true, false, _), do: :stop
   defp stop_bubble_type(_, _, _), do: :line
+
+  @spec dynamic_map_data(String.t, [String.t], {[Stops.Stop.t], any}, map()) :: map()
+  defp dynamic_map_data(color, polylines, {stops, _shapes}, vehicle_tooltips) do
+    %{
+      color: color,
+      polylines: polylines,
+      stops: Enum.map(stops, &([&1.latitude, &1.longitude, &1.name, &1.id])),
+      stops_show_marker: true,
+      stop_icon: static_url(Site.Endpoint, "/images/map-#{color}-dot-icon.png"),
+      vehicles: map_vehicles(vehicle_tooltips),
+      vehicle_icon: static_url(Site.Endpoint, "/images/map-#{color}-vehicle-icon.png"),
+      options: %{
+        gestureHandling: "cooperative",
+        streetViewControl: false,
+        mapTypeControl: false
+      }
+    }
+  end
+
+  @spec map_vehicles(nil | map()) :: []
+  def map_vehicles(nil), do: []
+  def map_vehicles(vehicle_tooltips) do
+    vehicle_tooltips
+    |> Enum.reduce([], fn({key, tooltip_data}, output) ->
+      case key do
+        {_, _} -> output
+        _ -> [[tooltip_data.vehicle.latitude,
+               tooltip_data.vehicle.longitude,
+               VehicleTooltip.tooltip(tooltip_data)] | output]
+      end
+    end)
+  end
 end

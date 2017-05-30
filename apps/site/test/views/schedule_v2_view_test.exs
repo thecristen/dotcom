@@ -411,7 +411,8 @@ defmodule Site.ScheduleV2ViewTest do
               direction_id: 1,
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
-              vehicle_tooltips: %{})
+              vehicle_tooltips: %{},
+              dynamic_map_data: %{})
 
       assert safe_to_string(output) =~ "shape-filter"
     end
@@ -440,7 +441,8 @@ defmodule Site.ScheduleV2ViewTest do
               direction_id: 1,
               show_date_select?: false,
               headsigns: %{0 => [], 1 => []},
-              vehicle_tooltips: %{})
+              vehicle_tooltips: %{},
+              dynamic_map_data: %{})
 
       refute safe_to_string(output) =~ "shape-filter"
     end
