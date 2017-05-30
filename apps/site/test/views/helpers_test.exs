@@ -78,9 +78,10 @@ defmodule Site.ViewHelpersTest do
       assert subway_name("Green-D") == "Green Line"
       assert subway_name("Green-E") == "Green Line"
     end
+
     test "Lines show correct display name" do
       assert subway_name("Red Line") == "Red Line"
-      assert subway_name("Mattapan") == "Mattapan Line"
+      assert subway_name("Mattapan") == "Mattapan Trolley"
       assert subway_name("Blue Line") == "Blue Line"
       assert subway_name("Orange Line") == "Orange Line"
     end

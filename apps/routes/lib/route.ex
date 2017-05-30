@@ -16,7 +16,7 @@ defmodule Routes.Route do
   }
   @type gtfs_route_type :: :subway | :commuter_rail | :bus | :ferry
   @type route_type :: gtfs_route_type | :the_ride
-  @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
+  @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_trolley
 
   @spec type_atom(t | 0..4) :: gtfs_route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
@@ -34,7 +34,7 @@ defmodule Routes.Route do
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
   def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
-  def icon_atom(%__MODULE__{id: "Mattapan"}), do: :mattapan_line
+  def icon_atom(%__MODULE__{id: "Mattapan"}), do: :mattapan_trolley
   def icon_atom(%__MODULE__{id: "Orange"}), do: :orange_line
   def icon_atom(%__MODULE__{id: "Blue"}), do: :blue_line
   def icon_atom(%__MODULE__{id: "Green" <> _}), do: :green_line

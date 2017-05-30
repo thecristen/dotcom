@@ -7,7 +7,7 @@ defmodule Routes.RouteTest do
     test "for subways, returns the name of the line as an atom" do
       for {expected, id} <- [
             red_line: "Red",
-            mattapan_line: "Mattapan",
+            mattapan_trolley: "Mattapan",
             orange_line: "Orange",
             blue_line: "Blue",
             green_line: "Green",

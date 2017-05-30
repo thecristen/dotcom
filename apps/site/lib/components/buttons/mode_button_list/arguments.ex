@@ -81,6 +81,12 @@ defmodule Site.Components.Buttons.ModeButtonList do
   Returns a subway icon for subway lines, and an empty string for any other mode.
   """
   @spec icon_if_subway(Routes.Route.t) :: String.t | Phoenix.HTML.Safe.t
+  def icon_if_subway(%Routes.Route{id: "Mattapan"}) do
+    Site.PageView.svg_icon_with_circle(%SvgIconWithCircle{
+      icon: :mattapan_trolley,
+      class: "icon-small"
+    })
+  end
   def icon_if_subway(%Routes.Route{type: route_type, id: route_id}) when route_type in [0,1] do
     Site.PageView.svg_icon_with_circle(%SvgIconWithCircle{
       icon: "#{route_id}_line" |> String.downcase |> String.to_existing_atom,

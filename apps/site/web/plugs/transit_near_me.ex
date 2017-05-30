@@ -117,7 +117,7 @@ defmodule Site.Plugs.TransitNearMe do
     Keyword.put(routes, :green_line, [route])
   end
   defp subway_reducer(%Route{id: "Mattapan"} = route, routes) do
-    Keyword.put(routes, :mattapan_line, [route])
+    Keyword.put(routes, :mattapan_trolley, [route])
   end
 
   @spec address(GoogleMaps.Geocode.t) :: String.t

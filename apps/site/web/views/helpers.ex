@@ -76,7 +76,8 @@ defmodule Site.ViewHelpers do
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
-  def mode_name(subway_atom) when subway_atom in [:red_line, :blue_line, :orange_line, :green_line, :mattapan_line] do
+  def mode_name(:mattapan_trolley), do: "Mattapan Trolley"
+  def mode_name(subway_atom) when subway_atom in [:red_line, :blue_line, :orange_line, :green_line] do
     subway_atom
     |> Atom.to_string
     |> String.split("_")
@@ -102,7 +103,7 @@ defmodule Site.ViewHelpers do
 
   @spec subway_name(String.t) :: String.t
   @doc "Textual version of subway line"
-  def subway_name("Mattapan" <> _trolley), do: "Mattapan Line"
+  def subway_name("Mattapan" <> _trolley), do: "Mattapan Trolley"
   def subway_name("Green" <> _line), do: "Green Line"
   def subway_name(color) when color in ["Red Line", "Blue Line", "Orange Line"], do: color
 

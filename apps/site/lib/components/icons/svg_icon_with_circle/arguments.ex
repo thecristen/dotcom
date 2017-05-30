@@ -44,7 +44,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:calendar), do: "6,5"
   def translate(:direction), do: "6,5"
   def translate(:variation), do: "12,11"
-  def translate(:mattapan_line), do: "1,1"
+  def translate(:mattapan_trolley), do: "1,1"
   def translate(icon) when icon in [:tools, :alert], do: "9,9"
   def translate(icon) when icon in [:green_line, :orange_line,
                                     :blue_line, :red_line], do: translate(:t_logo)
@@ -55,7 +55,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def scale(:direction), do: "1.25"
   def scale(:variation), do: "1.25"
   def scale(:calendar), do: "1.25"
-  def scale(:mattapan_line), do: "1.7"
+  def scale(:mattapan_trolley), do: "1.7"
   def scale(icon) when icon in [:subway, :commuter_rail, :bus], do: "1.4"
   def scale(_), do: "1"
 
@@ -68,14 +68,14 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   end
   def title(icon) when icon in [
     :bus, :subway, :ferry, :commuter_rail, :the_ride,
-    :orange_line, :green_line, :red_line, :blue_line, :mattapan_line
+    :orange_line, :green_line, :red_line, :blue_line, :mattapan_trolley
   ] do
     Site.ViewHelpers.mode_name(icon)
   end
   def title(%Routes.Route{id: "Orange"}), do: Site.ViewHelpers.mode_name(:orange_line)
   def title(%Routes.Route{id: "Red"}), do: Site.ViewHelpers.mode_name(:red_line)
   def title(%Routes.Route{id: "Blue"}), do: Site.ViewHelpers.mode_name(:blue_line)
-  def title(%Routes.Route{id: "Mattapan"}), do: Site.ViewHelpers.mode_name(:mattapan_line)
+  def title(%Routes.Route{id: "Mattapan"}), do: Site.ViewHelpers.mode_name(:mattapan_trolley)
   def title(%Routes.Route{id: "Green" <> _}), do: Site.ViewHelpers.mode_name(:green_line)
   def title(%Routes.Route{type: type}), do: Site.ViewHelpers.mode_name(type)
   def title(_icon), do: ""

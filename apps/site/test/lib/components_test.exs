@@ -35,10 +35,10 @@ defmodule Site.ComponentsTest do
       assert blue =~ "icon-circle"
 
       mattapan = mode_button_list(%ModeButtonList{
-          routes: [%Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Line", type: 1}],
+          routes: [%Routes.Route{id: "Mattapan", key_route?: true, name: "Mattapan Trolley", type: 1}],
           route_type: :subway
         }) |> safe_to_string
-      assert mattapan =~ "icon-mattapan-line"
+      assert mattapan =~ "icon-mattapan-trolley"
       assert mattapan =~ "icon-circle"
     end
 
@@ -179,8 +179,8 @@ defmodule Site.ComponentsTest do
       assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 3}}) == bus
       assert svg_icon(%SvgIcon{icon: 3}) == bus
       red_line = svg_icon(%SvgIcon{icon: :red_line})
-      mattapan_line = svg_icon(%SvgIcon{icon: :mattapan_line})
-      assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 0, id: "Mattapan"}}) == mattapan_line
+      mattapan_trolley = svg_icon(%SvgIcon{icon: :mattapan_trolley})
+      assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 0, id: "Mattapan"}}) == mattapan_trolley
       assert svg_icon(%SvgIcon{icon: %Routes.Route{type: 1, id: "Red"}}) == red_line
       assert svg_icon(%SvgIcon{icon: "Escalator"}) == svg_icon(%SvgIcon{icon: :access})
     end
@@ -237,7 +237,7 @@ defmodule Site.ComponentsTest do
       assert title(%Routes.Route{id: "Orange"}) == "Orange Line"
       assert title(%Routes.Route{id: "Red"}) == "Red Line"
       assert title(%Routes.Route{id: "Blue"}) == "Blue Line"
-      assert title(%Routes.Route{id: "Mattapan"}) == "Mattapan Line"
+      assert title(%Routes.Route{id: "Mattapan"}) == "Mattapan Trolley"
       assert title(%Routes.Route{id: "Green-B"}) == "Green Line"
       assert title(%Routes.Route{type: 4}) == "Ferry"
     end

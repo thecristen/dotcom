@@ -137,10 +137,10 @@ defmodule Site.Plugs.TransitNearMeTest do
 
     test "does not group Mattapan in with the Red line" do
       red_line = %Route{id: "Red", name: "Red", type: 1}
-      mattapan_line = %Route{id: "Mattapan", name: "Red", type: 0}
-      route_list = [mattapan_line, red_line]
+      mattapan_trolley = %Route{id: "Mattapan", name: "Red", type: 0}
+      route_list = [mattapan_trolley, red_line]
 
-      assert get_route_groups(route_list) == [red_line: [red_line], mattapan_line: [mattapan_line]]
+      assert get_route_groups(route_list) == [red_line: [red_line], mattapan_trolley: [mattapan_trolley]]
 
     end
   end
