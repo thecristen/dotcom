@@ -5,6 +5,7 @@ defmodule SystemMetrics.Monitor do
 
   """
   @meter Application.get_env(:system_metrics, :meter)
+  @dialyzer [nowarn_function: [handle_info: 2]]
   use GenServer
 
   def start_link do
@@ -19,17 +20,17 @@ defmodule SystemMetrics.Monitor do
 
   def handle_info(:work, state) do
     # send cpu stats
-    @meter.update_gauge("cpu_load", :cpu_sup.avg1)
+    _ = @meter.update_gauge("cpu_load", :cpu_sup.avg1)
 
     # send memory stats
     memory_data = :memsup.get_system_memory_data
-    @meter.update_gauge("memory_used", memory_data[:total_memory] - memory_data[:free_memory])
-    @meter.update_gauge("memory_available", memory_data[:free_memory])
+    _ = @meter.update_gauge("memory_used", memory_data[:total_memory] - memory_data[:free_memory])
+    _ = @meter.update_gauge("memory_available", memory_data[:free_memory])
 
     # send erlang stats
-    @meter.update_gauge("erlang_active_tasks", :erlang.statistics(:total_active_tasks))
-    @meter.update_gauge("erlang_run_queue", :erlang.statistics(:total_run_queue_lengths))
-    @meter.update_gauge("erlang_memory", :erlang.memory(:total))
+    _ = @meter.update_gauge("erlang_active_tasks", :erlang.statistics(:total_active_tasks))
+    _ = @meter.update_gauge("erlang_run_queue", :erlang.statistics(:total_run_queue_lengths))
+    _ = @meter.update_gauge("erlang_memory", :erlang.memory(:total))
 
     # reschedule once more
     schedule_work()

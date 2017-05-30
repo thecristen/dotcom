@@ -95,14 +95,23 @@ defmodule Feedback.MailerTest do
     end
 
     test "does not log anything when the user doesnt want feedback" do
-      Logger.configure(level: :info)
-      assert ExUnit.CaptureLog.capture_log([], (
-        fn -> Feedback.Mailer.send_heat_ticket(%Feedback.Message{comments: "major issue to report"}, nil) end)) == ""
-      Logger.configure(level: :warn)
+      old_level = Logger.level()
+      on_exit fn ->
+        Logger.configure(level: old_level)
+      end
+
+      assert ExUnit.CaptureLog.capture_log(fn ->
+        Logger.configure(level: :info)
+        Feedback.Mailer.send_heat_ticket(%Feedback.Message{comments: "major issue to report"}, nil)
+      end) == ""
     end
 
     test "logs the users email when the user wants feedback" do
-      Logger.configure(level: :info)
+      old_level = Logger.level()
+      on_exit fn ->
+        Logger.configure(level: old_level)
+      end
+
       message = %Feedback.Message{
         comments: "major issue to report",
         email: "disgruntled@user.com",
@@ -111,9 +120,10 @@ defmodule Feedback.MailerTest do
         request_response: true
       }
 
-      assert ExUnit.CaptureLog.capture_log([], (
-        fn -> Feedback.Mailer.send_heat_ticket(message, nil) end)) =~ "disgruntled@user.com"
-      Logger.configure(level: :warn)
+      assert ExUnit.CaptureLog.capture_log(fn ->
+        Logger.configure(level: :info)
+        Feedback.Mailer.send_heat_ticket(message, nil)
+      end) =~ "disgruntled@user.com"
     end
   end
 end

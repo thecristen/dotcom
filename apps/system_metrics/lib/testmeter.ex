@@ -51,7 +51,7 @@ defmodule SystemMetrics.Testmeter do
     Agent.get(__MODULE__, fn state -> state end)
   end
 
-  @spec put(String.t, integer) :: :ok
+  @spec put({:gauge | :histogram | :counter, String.t}, integer) :: :ok
   defp put(label, value) do
     # Helper function to make the code more dry
     Agent.update(__MODULE__, fn state -> Map.put(state, label, value) end)

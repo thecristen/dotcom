@@ -30,12 +30,14 @@ defmodule Content.CmsMigration.NewsMigrator do
     end
   end
 
+  @spec update_news_entry(integer, String.t) :: {:ok, :updated} | {:error, map}
   defp update_news_entry(id, body) do
     with {:ok, _news_entry} <- Content.Repo.update_news_entry(id, body) do
       {:ok, :updated}
     end
   end
 
+  @spec create_news_entry(String.t) :: {:ok, :created} | {:error, map}
   defp create_news_entry(body) do
     with {:ok, _news_entry} <- Content.Repo.create_news_entry(body) do
       {:ok, :created}

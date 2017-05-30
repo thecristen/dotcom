@@ -17,14 +17,16 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
   ```
   """
 
-  @spec run(String.t) :: String.t | no_return
-  def run(directory_path) do
+  def run([directory_path]) do
     Mix.Task.run "app.start"
 
     case MigrationFile.filter_json_files(directory_path) do
       {:error, _error} -> raise_with_instructions()
       files -> migrate_meetings(files, directory_path)
     end
+  end
+  def run(_) do
+    raise_with_instructions()
   end
 
   defp migrate_meetings([filename | remaining_filenames], directory_path) do
@@ -60,6 +62,7 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
     Content.Mailer.migration_error_notice(reason, meeting_json)
   end
 
+  @spec raise_with_instructions :: no_return
   defp raise_with_instructions do
     Mix.raise """
     Oops! Looks like the path you provided does not exist.

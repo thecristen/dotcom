@@ -13,7 +13,7 @@ defmodule Fares.FareInfo do
     |> Enum.flat_map(&zone_mapper/1)
   end
 
-  @spec zone_mapper([String.t]) :: [Fares.CommuterFareGroup]
+  @spec zone_mapper([String.t]) :: [Fares.CommuterFareGroup.t]
   def zone_mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
     [%Fares.CommuterFareGroup{
        name: commuter_rail_fare_name(zone),

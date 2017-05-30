@@ -87,7 +87,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec update_event(String.t, String.t) :: {:ok, Content.Event.t} | {:error, map} | {:error, String.t}
+  @spec update_event(integer, String.t) :: {:ok, Content.Event.t} | {:error, map} | {:error, String.t}
   def update_event(id, body) do
     with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
       {:ok, Content.Event.from_api(api_data)}
@@ -101,7 +101,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec update_news_entry(String.t, String.t) :: {:ok, Content.NewsEntry.t} | {:error, map} | {:error, String.t}
+  @spec update_news_entry(integer, String.t) :: {:ok, Content.NewsEntry.t} | {:error, map} | {:error, String.t}
   def update_news_entry(id, body) do
     with {:ok, api_data} <- @cms_api.update("node/#{id}", body) do
       {:ok, Content.NewsEntry.from_api(api_data)}

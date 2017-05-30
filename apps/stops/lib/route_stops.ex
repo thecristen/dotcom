@@ -12,7 +12,7 @@ defmodule Stops.RouteStops do
   @doc """
   Builds a list of all stops (as %RouteStop{}) on a route in a single direction.
   """
-  @spec by_direction([Stops.Stop.t], [Routes.Shape.t], Routes.Route.t, direction_id_t) :: t
+  @spec by_direction([Stops.Stop.t], [Routes.Shape.t], Routes.Route.t, direction_id_t) :: [t]
   def by_direction(stops, shapes, %Routes.Route{} = route, direction_id) when is_integer(direction_id) do
     shapes
     |> munge_shapes(route.id, direction_id)

@@ -30,8 +30,8 @@ defmodule Alerts.Cache.Store do
   The previous alerts in the cache are all removed.
   """
   @spec update([Alerts.Alert.t], Alerts.Banner.t | nil) :: :ok
-  def update(alerts, banner) do
-    GenServer.call(__MODULE__, {:update, alerts, banner})
+  def update(alerts, banner_alert) do
+    GenServer.call(__MODULE__, {:update, alerts, banner_alert})
   end
 
   @doc """
@@ -44,7 +44,7 @@ defmodule Alerts.Cache.Store do
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
-  @spec alert_ids_for_routes(Enumerable.t) :: [String.t]
+  @spec alert_ids_for_route_types(Enumerable.t) :: [String.t]
   def alert_ids_for_route_types(types) do
     keys = Enum.map(types, &{{:"_", &1, :"$1"}, [], [:"$1"]})
     :ets.select(:route_id_and_type_to_alert_ids, keys)

@@ -15,11 +15,14 @@ defmodule StopTimeList do
     times: [StopTime.t],
     expansion: :expanded | :collapsed | :none
   }
-  @type stop_id :: String.t
+  @type stop_id :: Stops.Stop.id_t
   @type schedule_pair :: PredictedSchedule.Group.schedule_pair_t
+  @type schedule_or_pair :: Schedule.t | schedule_pair
   @type map_key_t :: PredictedSchedule.Group.map_key_t
   @type schedule_map :: %{map_key_t => %{stop_id => Schedule.t}}
   @type schedule_pair_map :: %{map_key_t => schedule_pair}
+  @type filter_flag_t :: StopTime.Filter.filter_flag_t
+  @type opt_string :: String.t | nil
 
   @doc "Returns true if any of the stop times have a prediction"
   @spec has_predictions?(t) :: boolean
@@ -38,7 +41,7 @@ defmodule StopTimeList do
   current_time (optional): Current time, used to determine the first trip to in filtered/sorted list. If nil, all trips will be returned
   keep_all?: Determines if all stop times should be returned, regardless of filter flag
   """
-  @spec build([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil, StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
+  @spec build([schedule_or_pair], [Prediction.t], opt_string, opt_string, filter_flag_t, DateTime.t | nil, boolean) :: t
   def build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, keep_all?) do
     schedules
     |> build_times(predictions, origin_id, destination_id)
@@ -49,16 +52,16 @@ defmodule StopTimeList do
   Build a StopTimeList using only predictions. This will also filter out predictions that are
   missing departure_predictions. Limits to 5 predictions at most.
   """
-  @spec build_predictions_only([Schedule.t], [Prediction.t], String.t | nil, String.t | nil) :: __MODULE__.t
+  @spec build_predictions_only([Schedule.t], [Prediction.t], opt_string, opt_string) :: t
   def build_predictions_only(schedules, predictions, origin_id, destination_id) do
-    stop_time = schedules
+    stop_time_list = schedules
     |> build_times(predictions, origin_id, destination_id)
     |> Enum.filter(&StopTime.has_departure_prediction?/1)
-    |> from_times(:keep_all, nil, true)
-    %{stop_time | times: Enum.take(stop_time.times, 5)}
+    |> from_times(:predictions_then_schedules, nil, true)
+    %{stop_time_list | times: Enum.take(stop_time_list.times, 5)}
   end
 
-  @spec build_times([Schedule.t | schedule_pair], [Prediction.t], String.t | nil, String.t | nil) :: [StopTime.t]
+  @spec build_times([schedule_or_pair], [Prediction.t], opt_string, opt_string) :: [StopTime.t]
   defp build_times(schedule_pairs, predictions, origin_id, destination_id) when is_binary(origin_id) and is_binary(destination_id) do
     predictions = match_schedule_direction(schedule_pairs, predictions)
     stop_times = group_trips(
@@ -85,7 +88,7 @@ defmodule StopTimeList do
 
   # Creates a StopTimeList object from a list of times and the expansion value
   # Both the expanded and collapsed times are calculated in order to determine the `expansion` field
-  @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: __MODULE__.t
+  @spec from_times([StopTime.t], StopTime.Filter.filter_flag_t, DateTime.t | nil, boolean) :: t
   defp from_times(expanded_times, filter_flag, current_time, keep_all?) do
     collapsed_times = expanded_times
     |> StopTime.Filter.filter(filter_flag, current_time)

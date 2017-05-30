@@ -2,32 +2,57 @@ defmodule Site.ScheduleV2Controller.Line do
 
   import Plug.Conn, only: [assign: 3]
   import Site.Router.Helpers
-  require Routes.Route
+  alias Routes.{Route, Shape}
 
   @type stop_bubble_type :: :stop | :terminus | :line | :empty | :merge
 
   def init([]), do: []
 
-  def call(%Plug.Conn{assigns: %{route: route}} = conn, _args) do
+  def call(%Plug.Conn{assigns: %{route: %Route{} = route}} = conn, _args) do
     # always use outbound direction, except for buses
-    conn = if route.type == 3, do: conn, else: assign(conn, :direction_id, 0)
-    all_shapes = get_all_shapes(route.id, conn.assigns.direction_id)
-    active_shapes = get_active_shapes(all_shapes, route, conn.query_params["variant"], conn.query_params["expanded"])
+    conn = if route.type == 3 do
+      conn
+    else
+      assign(conn, :direction_id, 0)
+    end
+    direction_id = conn.assigns.direction_id
+    expanded = conn.query_params["expanded"]
+    variant = conn.query_params["variant"]
 
-    branches = get_branches(all_shapes, active_shapes, route, conn.assigns.direction_id)
+    update_conn(conn, route, direction_id, expanded, variant)
+  end
+
+  @spec update_conn(Plug.Conn.t, Route.t, 0 | 1, String.t | nil, String.t | nil) :: Plug.Conn.t
+  defp update_conn(conn, route, direction_id, expanded, variant) do
+    all_shapes = get_all_shapes(route.id, direction_id)
+    active_shapes = get_active_shapes(all_shapes, route, variant, expanded)
+
+    branches = get_branches(all_shapes, active_shapes, route, direction_id)
     map_img_src = branches
-    |> get_map_data({all_shapes, active_shapes}, route.id, conn.query_params["expanded"])
+    |> get_map_data({all_shapes, active_shapes}, route.id, expanded)
     |> map_img_src(route)
 
-    collapsed_branches = remove_collapsed_stops(branches, conn.query_params["expanded"])
+    collapsed_branches = remove_collapsed_stops(branches, expanded)
 
     conn
     |> assign(:all_stops, build_stop_list(collapsed_branches))
-    |> assign(:expanded, conn.query_params["expanded"])
+    |> assign(:expanded, expanded)
     |> assign(:branches, collapsed_branches)
     |> assign(:all_shapes, all_shapes)
-    |> assign(:active_shape, if route.type == 3 do List.first(active_shapes) else nil end)
+    |> assign(:active_shape, active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
+  end
+
+  # I can't figure out why Dialyzer thinks this can only be called with
+  # route_type == 4, Ferry. Since I've already spent more time than I should
+  # have, I'm ignoring this small function and moving on for now. -ps
+  @dialyzer [nowarn_function: [active_shape: 2]]
+  @spec active_shape(shapes :: [Shape.t], route_type :: 0..4) :: Shape.t | nil
+  defp active_shape([active | _], 3) do
+    active
+  end
+  defp active_shape(_shapes, _route_type) do
+    nil
   end
 
   @doc """

@@ -17,7 +17,7 @@ defmodule Site.Components.Tabs.TabSelector do
   @type t :: %__MODULE__{
     id: String.t,
     class: String.t,
-    links: [%{title: String.t, href: String.t, icon: Phoenix.HTML.Safe.t | nil, selected?: boolean}],
+    links: [%{title: String.t, href: String.t, icon: Phoenix.HTML.safe | nil, selected?: boolean}],
     collapse: String.t | nil,
     buttonbar: boolean
   }

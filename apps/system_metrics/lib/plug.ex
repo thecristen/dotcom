@@ -6,34 +6,33 @@ defmodule SystemMetrics.Plug do
   """
   @behaviour Plug
   @meter Application.get_env(:system_metrics, :meter)
-  import Plug.Conn, only: [register_before_send: 2, assign: 3]
+  @dialyzer [nowarn_function: [before_send: 1]]
+  import Plug.Conn, only: [register_before_send: 2, put_private: 3]
 
   def init(opts), do: opts
 
   def call(conn, _config) do
+    conn
+    |> put_private(:metrics_before_time, System.monotonic_time) # set the before time at the beginning of request
+    |> register_before_send(&before_send/1)
+  end
 
-    # set the before time at the beginning of request
-    conn = assign(conn, :before_time, System.monotonic_time)
-
+  @spec before_send(Plug.Conn.t) :: Plug.Conn.t | no_return
+  def before_send(conn) do
     # calculate the end time at end of request lifecycle
-    register_before_send conn, fn conn ->
-      conn = assign(conn, :after_time, System.monotonic_time)
+    after_time = System.monotonic_time
+    # log response time
+    diff = round((after_time - conn.private.metrics_before_time) / 1_000_000)
+    @meter.update_histogram("resp_time", diff)
 
-      # log response time
-      diff = round((conn.assigns.after_time - conn.assigns.before_time) / 1_000_000)
-      @meter.update_histogram("resp_time", diff)
+    # log requests per minute
+    @meter.update_counter("req_count", 1, [reset_seconds: 60])
 
-      # log requests per minute
-      @meter.update_counter("req_count", 1, [reset_seconds: 60])
-
-      # log errors per minute
-      if conn.status >= 500 do
-        @meter.update_counter("errors", 1, [reset_seconds: 60])
-      else
-        @meter.update_counter("errors", 0, [reset_seconds: 60])
-      end
-
-      conn
+    # log errors per minute
+    if conn.status >= 500 do
+      @meter.update_counter("errors", 1, [reset_seconds: 60])
     end
+
+    conn
   end
 end

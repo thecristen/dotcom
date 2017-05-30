@@ -1,5 +1,4 @@
 defmodule Site.Plug.Mticket do
-
   @moduledoc """
 
   A module Plug to detect requests coming from the old mTicket app and send a different HTML response
@@ -14,8 +13,7 @@ defmodule Site.Plug.Mticket do
   """
 
   @behaviour Plug
-
-  use Site.Web, :controller
+  import Phoenix.Controller, only: [put_layout: 2, render: 4]
   import Plug.Conn
 
   def init(_opts), do: []
