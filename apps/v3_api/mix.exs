@@ -37,8 +37,9 @@ defmodule V3Api.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:httpoison, ">= 0.0.0"},
-     {:hackney, "<= 1.6.5"},
+     {:hackney, "~> 1.8.0"},
      {:excoveralls, "~> 0.5", only: :test},
+     {:bypass, ">= 0.0.0", only: :test},
      {:json_api, in_umbrella: true}]
   end
 end
