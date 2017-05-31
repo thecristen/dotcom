@@ -56,15 +56,32 @@ defmodule V3Api do
   end
 
   defp process_url(url) do
-    base_url = case Application.get_env(:v3_api, :base_url) do
-                 {:system, envvar, default} ->
-                   System.get_env(envvar) || default
-                 value -> value
-               end
+    base_url = config(:base_url)
     base_url <> url
   end
 
   defp process_request_headers(headers) do
     put_in headers[:"accept-encoding"], "gzip"
+  end
+
+  defp process_request_options(opts) do
+    case config(:api_key) do
+      nil ->
+        opts
+      key ->
+        {params, opts} = Keyword.pop(opts, :params, [])
+        params = Keyword.put(params, :api_key, key)
+        Keyword.put(opts, :params, params)
+    end
+  end
+
+  defp config(key) do
+    case Application.get_env(:v3_api, key) do
+      {:system, envvar, default} ->
+        System.get_env(envvar) || default
+      {:system, envvar} ->
+        System.get_env(envvar)
+      value -> value
+    end
   end
 end
