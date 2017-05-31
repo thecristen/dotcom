@@ -133,5 +133,68 @@
 }
 
 .hub-stop-link {
+  align-items: center;
+  display: flex;
   margin: $base-spacing 0;
+
+  @include media-breakpoint-down(sm) {
+    background-color: $white;
+    padding: $space-12;
+  }
+
+  .stop-features-list {
+    display: inline-block;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    float: none;
+  }
+
+  .commuter-rail-zone {
+    margin-left: $base-spacing / 2;
+  }
+}
+
+.hub-stop-container {
+  @include media-breakpoint-down(sm) {
+    padding: 0 $base-spacing;
+  }
+}
+
+.hub-stop-list {
+  padding: 0;
+
+  @include media-breakpoint-down(sm) {
+    background-color: $gray-lightest;
+    padding: $space-6 0;
+  }
+
+  .hub-stop-name {
+    display: inline-block;
+    flex: 1 0 0%;
+  }
+}
+
+.stops-view-all-btn {
+  border: $border;
+  display: inline-block;
+  margin-top: -$base-spacing;
+  padding: $base-spacing;
+  text-align: center;
+  width: 100%;
+
+  button {
+    background-color: $white;
+    border: 0;
+    color: $brand-primary;
+    padding: 0;
+  }
+}
+
+.stops-for-route {
+  .collapse {
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+  }
 }

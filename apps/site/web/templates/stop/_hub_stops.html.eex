@@ -1,19 +1,19 @@
-<%= for %HubStop{detailed_stop: detailed_stop, image_path: path} <- @hubs do %>
-  <div class="col-md-4">
-    <img src=<%= static_url(@conn, path) <> ".jpg"%>
-       srcset="<%= static_url(@conn, path) <> "-2x.jpg" %> 760w,
-              <%= static_url(@conn, path) <> ".jpg"%> 380w"
-    class="img-fluid"/>
-    <div class="hub-stop-link">
-      <%= link detailed_stop.stop.name, to: stop_path(@conn, :show, detailed_stop.stop.id) %>
-      <span class="stop-features-list"><%= feature_icons(detailed_stop)%></span>
-      <%= if detailed_stop.zone do %>
-        <div>
-          <div class="commuter-rail-zone">
-            Zone <%= detailed_stop.zone %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+<div class="row hub-stop-container">
+  <div class=" button-group <%= if !Enum.empty?(@hubs), do: "hub-stop-list" %>">
+    <%= for %HubStop{detailed_stop: detailed_stop, image_path: path} <- @hubs do %>
+      <div class="col-md-4 hub-stop-container">
+        <% image_path = static_url(@conn, path) %>
+        <%= img_tag("#{image_path}.jpg", class: "img-fluid hidden-sm-down", srcset: "#{image_path}-2x.jpg 760w, #{image_path}.jpg 380w") %>
+           <div class="hub-stop-link">
+             <%= link detailed_stop.stop.name, to: stop_path(@conn, :show, detailed_stop.stop.id), class: "hub-stop-name" %>
+             <span class="stop-features-list"><%= feature_icons(detailed_stop)%></span>
+             <%= if detailed_stop.zone do %>
+                 <div class="commuter-rail-zone">
+                   Zone <%= detailed_stop.zone %>
+                 </div>
+             <% end %>
+           </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
