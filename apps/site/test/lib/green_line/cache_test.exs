@@ -3,12 +3,6 @@ defmodule Site.GreenLine.CacheTest do
 
   import Site.GreenLine.Cache
 
-  test "reset_cache/1 starts up an agent the first time, but not the second" do
-    date = ~D[2015-01-02]
-    assert {:ok, _pid} = reset_cache(date)
-    assert :ok = reset_cache(date)
-  end
-
   test "it calls the reset function for every date in the range" do
     test_pid = self()
     start_date_fn = fn -> ~D[1985-03-31] end
@@ -47,6 +41,19 @@ defmodule Site.GreenLine.CacheTest do
     msgs = receive_dates([nil, ~D[1987-04-01], ~D[1987-04-02]])
     assert msgs == [:ok, :ok, :ok]
     assert nil == Site.GreenLine.CacheSupervisor.lookup(yesterday)
+  end
+
+  test "reset_cache/1 sends a message if it fails" do
+    invalid_date = ~D[1900-01-01]
+    reset_cache(invalid_date, 50)
+
+    msg = receive do
+      {:reset_again, ^invalid_date} -> :ok
+    after
+      100 -> :no_msg
+    end
+
+    assert msg == :ok
   end
 
   defp receive_dates(dates) do

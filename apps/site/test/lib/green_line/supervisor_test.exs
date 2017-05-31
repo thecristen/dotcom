@@ -9,7 +9,11 @@ defmodule Site.GreenLine.CacheSupervisorTest do
   end
 
   test "can start a child and retrieve it" do
-    date = ~D[1989-03-31]
+    date = Util.service_date
+    pid = lookup(date)
+    Site.GreenLine.DateAgent.stop(pid)
+    assert lookup(date) == nil
+
     assert {:ok, pid} = start_child(date)
     assert pid == lookup(date)
   end
