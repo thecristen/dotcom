@@ -23,8 +23,7 @@ defmodule Alerts.SortTest do
         expected = alerts
         |> Enum.sort_by(&(&1.id))
         |> Enum.reverse()
-        |> Enum.sort_by(&(&1.updated_at))
-        |> Enum.reverse()
+        |> Enum.sort_by(& &1.updated_at, &Timex.after?/2)
 
         assert actual == expected
       end
