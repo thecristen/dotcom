@@ -63,13 +63,23 @@ defmodule DetailedStopGroup do
 
   @spec group_green_line([grouped_stops]) :: [grouped_stops]
   defp group_green_line(grouped_stops) do
-    {green_branches, others} = grouped_stops
-    |> Enum.partition(&String.starts_with?(elem(&1, 0).id, "Green-"))
-
-    green_stops = green_branches
-    |> Enum.flat_map(&elem(&1, 1))
-    |> Enum.uniq
-
-    [{%Route{name: "Green Line", id: "Green", type: 0}, green_stops} | others]
+    grouped_stops
+    |> Enum.chunk_by(&String.contains?(route_id(&1), "Green-"))
+    |> combine_green_stops
+    |> Enum.concat
   end
+
+  defp combine_green_stops([first, green, last]) do
+    green_stops =
+      green
+      |> Enum.flat_map(&elem(&1, 1))
+      |> Enum.uniq
+
+    [first,
+     [{%Route{name: "Green Line", id: "Green", type: 0}, green_stops}],
+     last
+    ]
+  end
+
+  defp route_id({%Route{id: id}, _}), do: id
 end
