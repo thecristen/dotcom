@@ -1,14 +1,14 @@
 defmodule Alerts.SortTest do
   use ExUnit.Case, async: true
-  use ExCheck
+  use Quixir
 
   alias Alerts.Alert
   import Alerts.Sort
 
   describe "sort/1" do
-    property "sorts the notices by their updated at times (newest to oldest)" do
+    test "sorts the notices by their updated at times (newest to oldest)" do
       date = Timex.today() |> Timex.shift(days: 1) # put them in the future
-      for_all times in list(pos_integer()) do
+      ptest times: list(positive_int()) do
         # create alerts with a bunch of updated_at times
         alerts = for time <- times do
           dt = date |> Timex.shift(seconds: time)
