@@ -16,7 +16,7 @@ defmodule HubStops do
     {"place-dwnxg", "/images/stops/downtown_crossing"}
   ]
   @green_line_hubs [
-    {"place-north","/images/stops/north_station"},
+    {"place-north","/images/stops/north_station_green"},
     {"place-pktrm", "/images/stops/park_street"},
     {"place-gover","/images/stops/government_center"}
   ]
