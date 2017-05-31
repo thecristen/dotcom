@@ -210,7 +210,7 @@ defmodule Site.StopView do
     "Stop Info"
   end
   def info_tab_name(_) do
-    "Station Info"
+    "Station Info x"
   end
 
   @doc "returns small icons for features in given DetailedStop"
