@@ -27,6 +27,7 @@ defmodule Content.CmsMigration.DatetimeTest do
       assert parse_date!("April 15,2017") == ~D[2017-04-15]
       assert parse_date!("4/15/2017") == ~D[2017-04-15]
       assert parse_date!("04/15/2017") == ~D[2017-04-15]
+      assert parse_date!("04/15/17") == ~D[2017-04-15]
     end
 
     test "raises an error when the date cannot be formatted" do

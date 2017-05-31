@@ -2,7 +2,7 @@
   <%= for post <- @news do %>
     <li class="list-group-item list-group-item-flush index-news-item">
       <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>" target="_blank"><%= post.attributes["title"]
-                                                                                            |> News.Blurb.blurb
+                                                                                            |> Content.Blurb.blurb(90)
                                                                                             |> raw %></a>
     </li>
   <% end %>

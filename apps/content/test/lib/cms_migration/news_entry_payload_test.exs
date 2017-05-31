@@ -10,18 +10,29 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
     test "maps the news entry data to the CMS News Entry fields" do
       news_entry_data = fixture(@news_entry_json)
 
-      news_entry_payload = build(news_entry_data)
+      %{
+        body: [%{format: body_format, value: body}],
+        field_media_contact: [%{value: media_contact}],
+        field_media_email: [%{value: media_email}],
+        field_media_phone: [%{value: media_phone}],
+        field_migration_id: [%{value: migration_id}],
+        field_posted_on: [%{value: posted_on}],
+        field_teaser: [%{value: teaser}],
+        title: [%{value: title}],
+        type: [%{target_id: type}]
+      } = build(news_entry_data)
 
-      assert news_entry_payload[:type] == [%{target_id: "news_entry"}]
-      assert news_entry_payload[:title] == [%{value: "News Entry Title"}]
-      assert news_entry_payload[:body] == [
-        %{value: "Important news content.", format: "basic_html"}
-      ]
-      assert news_entry_payload[:field_media_contact] == [%{value: "Leslie Knope"}]
-      assert news_entry_payload[:field_media_phone] == [%{value: "617-222-3344"}]
-      assert news_entry_payload[:field_media_email] == [%{value: "knope@mbta.com"}]
-      assert news_entry_payload[:field_posted_on] == [%{value: "2017-03-01"}]
-      assert news_entry_payload[:field_migration_id] == [%{value: "1"}]
+      assert body =~ "Necessary track work near Copley Station"
+      assert body_format == "basic_html"
+      assert type == "news_entry"
+      assert title == "Buses replacing Green Line Service"
+      assert teaser =~ "Necessary track work near Copley Station"
+      assert String.length(teaser) == 255
+      assert media_contact == "Leslie Knope"
+      assert media_phone == "617-222-3344"
+      assert media_email == "knope@mbta.com"
+      assert posted_on == "2017-03-01"
+      assert migration_id == "1"
     end
 
     test "relative links are updated to include the former mbta site host" do
@@ -63,6 +74,17 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
       %{body: [%{value: value}]} = build(news_entry_data)
 
       assert value =~ "<p><span>News Content</span></p>"
+    end
+
+    test "handles the event_date format {0M}/{0D}/{YY}" do
+      news_entry_data =
+        @news_entry_json
+        |> fixture
+        |> Map.put("event_date", "01/10/17")
+
+      %{field_posted_on: [%{value: date}]} = build(news_entry_data)
+
+      assert date == "2017-01-10"
     end
 
     test "handles the event_date format {0M}/{0D}/{YYYY}" do
