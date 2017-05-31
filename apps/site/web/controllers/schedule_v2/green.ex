@@ -93,7 +93,7 @@ defmodule Site.ScheduleV2Controller.Green do
       call_plug(conn, Site.ScheduleV2Controller.Schedules, opts).assigns.schedules
     end, timeout: @task_timeout)
     |> flat_map_results
-    |> Enum.sort_by(&arrival_time/1)
+    |> Enum.sort_by(&arrival_time/1, &Timex.before?/2)
 
     conn
     |> assign(:schedules, schedules)
