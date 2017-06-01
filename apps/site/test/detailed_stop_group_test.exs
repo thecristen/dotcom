@@ -25,9 +25,9 @@ defmodule DetailedStopGroupTest do
 
     test "order of lines is preserved" do
       featured_stop_groups = from_mode(:subway)
-      route_names = Enum.map(featured_stop_groups, fn {route, _} -> route.name end)
-      assert ["Blue Line", "Green Line", "Orange Line", "Red Line", "Mattapan Trolley"] ==
-                route_names
+      actual = Enum.map(featured_stop_groups, fn {route, _} -> route.name end)
+      expected = ["Red Line", "Mattapan Trolley", "Orange Line", "Green Line", "Blue Line"]
+      assert expected == actual
     end
 
     test "The route icon for the current route is not included in features" do
