@@ -1,0 +1,115 @@
+defmodule TripPlan.Api.OpenTripPlanner.Parser do
+  alias TripPlan.Api.OpenTripPlanner, as: OTP
+  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, PersonalDetail.Step, TransitDetail}
+
+  @personal_modes ~w(WALK CAR)s
+  @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
+
+  @doc """
+  Parse the JSON output from the plan endpoint.
+  """
+  @spec parse_json(binary) :: {:ok, [Itinerary.t]} | {:error, any}
+  def parse_json(json_binary) do
+    with {:ok, json} <- Poison.decode(json_binary) do
+      parse_map(json)
+    end
+  end
+
+  def parse_map(%{"error" => %{"msg" => error_message}}) do
+    {:error, error_message}
+  end
+  def parse_map(json) do
+    {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary/1)}
+  end
+
+  @doc "Test helper which matches off the :ok"
+  def parse_json!(json_binary) do
+    {:ok, itineraries} = parse_json(json_binary)
+    itineraries
+  end
+
+  defp parse_itinerary(json) do
+    %Itinerary{
+      start: parse_time(json["startTime"]),
+      stop: parse_time(json["endTime"]),
+      legs: Enum.map(json["legs"], &parse_leg/1)
+    }
+  end
+
+  defp parse_time(ms_after_epoch) do
+    ms_after_epoch
+    |> DateTime.from_unix!(:millisecond)
+    |> Timex.set(microsecond: {0, 0})
+    |> Timex.to_datetime(OTP.config(:timezone))
+  end
+
+  defp parse_leg(json) do
+    %Leg{
+      start: parse_time(json["startTime"]),
+      stop: parse_time(json["endTime"]),
+      mode: parse_mode(json),
+      from: parse_named_position(json["from"]),
+      to: parse_named_position(json["to"]),
+      polyline: json["legGeometry"]["points"],
+    }
+  end
+
+  def parse_named_position(json) do
+    %NamedPosition{
+      name: json["name"],
+      stop_id: json["stopCode"],
+      longitude: json["lon"],
+      latitude: json["lat"]
+    }
+  end
+
+  defp parse_mode(%{"mode" => mode} = json) when mode in @personal_modes do
+    type = case mode do
+             "WALK" -> :walk
+             "CAR" -> :drive
+           end
+    %PersonalDetail{
+      type: type,
+      distance: json["distance"],
+      steps: Enum.map(json["steps"], &parse_step/1)
+    }
+  end
+  defp parse_mode(%{"mode" => mode} = json) when mode in @transit_modes do
+    %TransitDetail{
+      route_id: json["routeId"] |> String.split(":", parts: 2) |> Enum.at(1),
+      trip_id: json["tripId"] |> String.split(":", parts: 2) |> Enum.at(1)
+    }
+  end
+
+  defp parse_step(json) do
+    %Step{
+      distance: json["distance"],
+      relative_direction: parse_relative_direction(json["relativeDirection"]),
+      absolute_direction: parse_absolute_direction(json["absoluteDirection"]),
+      street_name: json["streetName"]
+    }
+  end
+
+  # http://dev.opentripplanner.org/apidoc/1.0.0/json_RelativeDirection.html
+  for dir <- ~w(
+        depart
+        slightly_left
+        left
+        hard_left
+        slightly_right
+        right
+        hard_right
+        continue
+        circle_clockwise
+        circle_counterclockwise
+        elevator
+        uturn_left
+        uturn_right)a do
+    defp parse_relative_direction(unquote(String.upcase(Atom.to_string(dir)))), do: unquote(dir)
+  end
+
+  # http://dev.opentripplanner.org/apidoc/1.0.0/json_AbsoluteDirection.html
+  for dir <- ~w(north northeast east southeast south southwest west northwest)a do
+    defp parse_absolute_direction(unquote(String.upcase(Atom.to_string(dir)))), do: unquote(dir)
+  end
+end

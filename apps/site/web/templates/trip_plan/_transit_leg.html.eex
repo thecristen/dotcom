@@ -1,0 +1,5 @@
+<% trip = Schedules.Repo.trip(@leg.mode.trip_id) %>
+<% route = Routes.Repo.get(@leg.mode.route_id) %>
+<div><strong><%= route.name %> to <%= trip.headsign %></strong></div>
+<div><%= format_schedule_time(@leg.start) %> - <%= @leg.from.name %></div>
+<div><%= format_schedule_time(@leg.stop) %> - <%= @leg.to.name %></div>

@@ -1,0 +1,76 @@
+<h1>Directions</h1>
+<div class="row">
+  <div class="col-md-6">
+    <%= form_for @conn, @conn.request_path, [as: :plan, method: :get], fn f -> %>
+    <div class="form-group">
+      <%= label f, :from, "From:" %>
+      <%= text_input f, :from, placeholder: "Ex: 10 Park Plaza", id: "from", class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= label f, :to, "To:" %>
+      <%= text_input f, :to, placeholder: "Ex: Boston Children's Museum", id: "to", class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= label f, :personal_mode, for: "walk" do %>
+        <%= radio_button f, :personal_mode, "walk", id: "walk", checked: true %>
+        Walk
+      <% end %>
+      <%= label f, :personal_mode, for: "drive" do %>
+        <%= radio_button f, :personal_mode, "drive", id: "drive" %>
+        Drive
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= label :f, :time, for: "depart" do %>
+        <%= radio_button f, :time, "depart", id: "depart", checked: true%>
+        Depart At
+      <% end %>
+      <%= label :f, :time, for: "arrive" do %>
+        <%= radio_button f, :time, "arrive", id: "arrive" %>
+        Arrive By
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
+    </div>
+    <div class="form-group">
+      <%= label f, :accessible, for: "accessible" do %>
+        <%= checkbox f, :accessible, id: "accessible" %>
+        Wheelchair accessible trip?
+      <% end %>
+    </div>
+    <button type="submit" class="btn btn-primary">Find</button>
+    <% end %>
+  </div>
+  <div class="col-md-6">
+    <%= if assigns[:query] do %>
+      <p><%= optional_position(@query.from) %></p>
+      <p><%= optional_position(@query.to) %></p>
+      <%= case @query.itineraries do %>
+        <% {:ok, itineraries} -> %>
+        <%= for i <- itineraries, do: render "_itinerary.html", itinerary: i %>
+        <% {:error, e} -> %>
+        Error fetching plan: <%= inspect e %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+(function() {
+  function setup() {
+    if (!google.maps.places.Autocomplete) {
+      var existingCallback = window.mapsCallback || function() {};
+      window.mapsCallback = function() {
+        window.mapsCallback = undefined;
+        existingCallback();
+        setup();
+      };
+      return;
+    }
+
+    new google.maps.places.Autocomplete(document.getElementById("from"));
+    new google.maps.places.Autocomplete(document.getElementById("to"));
+  }
+  setup();
+})();
+</script>

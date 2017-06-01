@@ -1,0 +1,10 @@
+<%= case @leg.mode.type do
+    :walk -> "Walk "
+    :drive -> "Drive "
+    end %>
+for <%= Timex.diff(@leg.stop, @leg.start, :minutes) %> mins (<%= TripPlan.Distance.meters_to_imperial(@leg.mode.distance) %>) to <%= @leg.to.name %>
+<ul>
+  <%= for step <- @leg.mode.steps do %>
+    <li><%= render "_personal_leg_step.html", step: step %></li>
+  <% end %>
+</ul>
