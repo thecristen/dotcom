@@ -16,7 +16,7 @@
     <div class="page-section stops-for-route">
       <div class="h2">
         <%= if subway?, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>
-        <span><%= clean_route_name(route.name) %></span>
+        <span><%= route.name %></span>
       </div>
         <%= if @route_hubs[route.id] do %>
           <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>
@@ -32,10 +32,10 @@
         <%= if route.id == "Red" do %>
           <div class="page-section">
             <% {mattapan_route, mattapan_stops} = @mattapan %>
-            <h3><%= clean_route_name(mattapan_route.name)%></h3>
+            <h3><%= mattapan_route.name %></h3>
             <%= render("_detailed_stop_list.html", conn: @conn, detailed_stops: mattapan_stops) %>
             <%= link to: line_path(@conn, :show, mattapan_route.id) do %>
-              View <%= clean_route_name(mattapan_route.name) %> info <%= fa "arrow-right "%>
+              View <%= mattapan_route.name %> info <%= fa "arrow-right "%>
             <% end %>
           </div>
         <% end %>

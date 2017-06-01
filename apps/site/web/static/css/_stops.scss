@@ -162,11 +162,13 @@
 }
 
 .hub-stop-list {
+  margin-bottom: 0;
   padding: 0;
 
   @include media-breakpoint-down(sm) {
     background-color: $gray-lightest;
     padding: $space-6 0;
+    margin-bottom: $base-spacing;
   }
 
   .hub-stop-name {
