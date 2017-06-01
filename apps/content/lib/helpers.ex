@@ -39,6 +39,13 @@ defmodule Content.Helpers do
     end
   end
 
+  @spec parse_paragraphs(map) :: [Content.Paragraph.t]
+  def parse_paragraphs(data) do
+    data
+    |> Map.get("field_paragraphs", [])
+    |> Enum.flat_map(&Content.Paragraph.try_from_api/1)
+  end
+
   @spec parse_unix_time(integer) :: DateTime.t | nil
   def parse_unix_time(unix_time) do
     Timex.from_unix(unix_time)

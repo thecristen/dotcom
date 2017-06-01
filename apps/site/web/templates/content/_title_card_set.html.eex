@@ -1,0 +1,14 @@
+<div class="title-card-container title-card-container-separate">
+  <%= for title_card_pair <- Enum.chunk(@paragraph.title_cards, 2, 2, []) do %>
+    <div class="row">
+      <%= for title_card <- title_card_pair do %>
+        <div class="col-md-6 col-sm-12">
+          <%= link to: title_card.link, class: "title-card" do %>
+            <div class="title-card-title"><%= title_card.title %></div>
+            <p><%= title_card.body %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

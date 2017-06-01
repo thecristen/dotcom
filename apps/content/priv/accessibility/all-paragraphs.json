@@ -1,0 +1,391 @@
+{
+  "nid": [
+    {
+      "value": 2549
+    }
+  ],
+  "uuid": [
+    {
+      "value": "fb4e4a5e-5b44-476c-9634-49317308a586"
+    }
+  ],
+  "vid": [
+    {
+      "value": 2989
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type",
+      "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "All paragraphs"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "/user/12"
+    }
+  ],
+  "created": [
+    {
+      "value": 1496948825
+    }
+  ],
+  "changed": [
+    {
+      "value": 1496949740
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1496949740
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "/user/12"
+    }
+  ],
+  "revision_log": [],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "path": [
+    {
+      "alias": "/accessibility/all-paragraphs",
+      "pid": 48,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "body": [
+    {
+      "value": "<p>This is the body</p>\r\n",
+      "format": "basic_html",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [],
+  "field_page_type": [
+    {
+      "target_id": 1,
+      "target_type": "taxonomy_term",
+      "target_uuid": "f2751786-7dc2-49a6-964e-2377316b5762",
+      "url": "/taxonomy/term/1"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 6,
+      "target_revision_id": 6,
+      "id": [
+        {
+          "value": 6
+        }
+      ],
+      "uuid": [
+        {
+          "value": "9a566776-a080-44f1-ad74-f1e6585f8a24"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 6
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1496949320
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2549"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<p><strong>This is a Custom HTML paragraph.</strong></p>\r\n",
+          "format": "basic_html"
+        }
+      ]
+    },
+    {
+      "target_id": 8,
+      "target_revision_id": 8,
+      "id": [
+        {
+          "value": 8
+        }
+      ],
+      "uuid": [
+        {
+          "value": "aa113a38-e8c1-46d8-9c9f-9714a7927462"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 8
+        }
+      ],
+      "type": [
+        {
+          "target_id": "title_card_set",
+          "target_type": "paragraphs_type",
+          "target_uuid": "a656c88e-ebec-4c27-bd8c-6f0924dde9b0"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1496949700
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2549"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_title_cards": [
+        {
+          "target_id": 7,
+          "target_revision_id": 7,
+          "id": [
+            {
+              "value": 7
+            }
+          ],
+          "uuid": [
+            {
+              "value": "3279876b-b71f-4a68-a63d-83d0e24689b3"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 7
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 12,
+              "target_type": "user",
+              "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+              "url": "/user/12"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1496949700
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 12,
+              "target_type": "user",
+              "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+              "url": "/user/12"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "8"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_title_card_body": [
+            {
+              "value": "<p>Title Card <strong>BODY</strong></p>\r\n",
+              "format": "basic_html"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "internal:/some/internal/link",
+              "title": "",
+              "options": []
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Title Card Title"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
