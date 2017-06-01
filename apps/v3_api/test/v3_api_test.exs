@@ -3,47 +3,45 @@ defmodule V3ApiTest do
 
   import Plug.Conn, only: [fetch_query_params: 1, send_resp: 3]
 
+  setup _ do
+    bypass = Bypass.open
+    old_url = Application.get_env(:v3_api, :base_url)
+    old_key = Application.get_env(:v3_api, :api_key)
+    on_exit fn ->
+      Application.put_env(:v3_api, :base_url, old_url)
+      Application.put_env(:v3_api, :api_key, old_key)
+    end
+
+    Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+    {:ok, %{bypass: bypass}}
+  end
+
   describe "get_json/1" do
-    test "normal responses return a JsonApi struct" do
+    test "normal responses return a JsonApi struct", %{bypass: bypass} do
+      Bypass.expect bypass, fn conn ->
+        send_resp conn, 200, ~s({"data": []})
+      end
       response = V3Api.get_json("/routes/1")
       assert %JsonApi{} = response
       refute response.data == %{}
     end
 
-    test "missing endpoints return an error" do
+    test "missing endpoints return an error", %{bypass: bypass} do
+      Bypass.expect bypass, fn conn ->
+        send_resp conn, 404, ~s({"errors":[{"code": "not_found"}]})
+      end
       response = V3Api.get_json("/missing")
-      assert {:error, [%JsonApi.Error{}]} = response
+      assert {:error, [%JsonApi.Error{code: "not_found"}]} = response
     end
 
-    test "can't connect returns an error" do
-      v3_url = Application.get_env(:v3_api, :base_url)
-      on_exit fn ->
-        Application.put_env(:v3_api, :base_url, v3_url)
-      end
-
-      Application.put_env(:v3_api, :base_url, "http://localhost:0")
+    test "can't connect returns an error", %{bypass: bypass} do
+      Bypass.down bypass
 
       response = V3Api.get_json("/")
       assert {:error, %{reason: _}} = response
     end
 
-    test "passes an API key if present" do
-      bypass = Bypass.open
-      old_url = Application.get_env(:v3_api, :base_url)
-      old_key = Application.get_env(:v3_api, :api_key)
-      on_exit fn ->
-        Application.put_env(:v3_api, :base_url, old_url)
-        Application.put_env(:v3_api, :api_key, old_key)
-      end
-
-      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
-
-      Bypass.expect bypass, fn conn ->
-        refute fetch_query_params(conn).query_params["api_key"]
-        send_resp(conn, 200, "")
-      end
-      V3Api.get_json("/test")
-
+    test "passes an API key if present", %{bypass: bypass} do
       Application.put_env(:v3_api, :api_key, "test_key")
       Bypass.expect bypass, fn conn ->
         conn = fetch_query_params(conn)
@@ -53,6 +51,15 @@ defmodule V3ApiTest do
       end
       # make sure we keep other params
       V3Api.get_json("/test", other: "value")
+    end
+
+    test "does not pass an API key if not set", %{bypass: bypass} do
+      Application.put_env(:v3_api, :api_key, nil)
+      Bypass.expect bypass, fn conn ->
+        refute fetch_query_params(conn).query_params["api_key"]
+        send_resp(conn, 200, "")
+      end
+      V3Api.get_json("/test")
     end
   end
 end
