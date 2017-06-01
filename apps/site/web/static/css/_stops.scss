@@ -205,9 +205,5 @@
     @include media-breakpoint-up(md) {
       display: block;
     }
-
-    &.hidden-no-js {
-      display: block;
-    }
   }
 }
