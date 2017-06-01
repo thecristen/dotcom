@@ -387,23 +387,23 @@ a {
 
   // the size of the map varies at different breakpoints, these heights make is a square
   @include media-breakpoint-only(xxl) {
-    height: 480px;
+    height: 356px;
   }
 
   @include media-breakpoint-only(lg) {
-    height: 384px;
+    height: 284px;
   }
 
   @include media-breakpoint-only(md) {
-    height: 308px;
+    height: 222px;
   }
 
   @include media-breakpoint-only(sm) {
-    height: 290px;
+    height: 300px;
   }
 
   @include media-breakpoint-only(xs) {
-    height: 400px;
+    height: 256px;
   }
 
   // this hides the close "x" from the info window. This is because we use it like a tooltip (it closes on mouseout)
@@ -824,26 +824,4 @@ a {
   max-width: 15rem;
   padding: .5rem;
   padding-bottom: 0;
-}
-
-@include media-breakpoint-up(sm) {
-  .route-info {
-    display: flex;
-  }
-
-  .stop-list-container {
-    // scss-lint:disable DuplicateProperty
-    display: inline-block;
-    display: flex;
-    flex-basis: 60%;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 0;
-    padding-right: $base-spacing;
-  }
-
-  .route-hours {
-    display: inline-block;
-    flex: 0 1 100%;
-  }
 }
