@@ -1,0 +1,19 @@
+{
+  "uuid" : "eee494c3-c283-3802-aa8c-c790b27a5973",
+  "request" : {
+    "url" : "/routes/?stop=Mishawum",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-51ZAl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "kj57v9hovumhnvt2elt2hol84raiktbq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

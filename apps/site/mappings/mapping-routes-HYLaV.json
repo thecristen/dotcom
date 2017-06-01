@@ -1,0 +1,19 @@
+{
+  "uuid" : "2a96323b-8c83-3932-8830-f7d409efac98",
+  "request" : {
+    "url" : "/routes/?stop=South+Attleboro",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HYLaV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "it4rh15c7itqaivmqrkp2mumkhov6eoa",
+      "Connection" : "keep-alive"
+    }
+  }
+}

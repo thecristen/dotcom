@@ -1,0 +1,19 @@
+{
+  "uuid" : "b5f01982-8f36-3cd0-8e5e-3f501a2e5322",
+  "request" : {
+    "url" : "/routes/?stop=Bellevue",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-z3jMw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "itc3t4fu4g8e7ekcls1hfsa4pam9n3ef",
+      "Connection" : "keep-alive"
+    }
+  }
+}

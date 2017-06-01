@@ -1,0 +1,19 @@
+{
+  "uuid" : "4671783c-d058-358a-a72e-f82174d8c448",
+  "request" : {
+    "url" : "/routes/?stop=place-buest",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-6eTmH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "s0p7hfisph5lauvq2mm8pa900schf00l",
+      "Connection" : "keep-alive"
+    }
+  }
+}

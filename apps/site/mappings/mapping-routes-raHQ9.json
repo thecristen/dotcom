@@ -1,0 +1,19 @@
+{
+  "uuid" : "348a0b74-9d84-3a43-97d4-147ebee64ce0",
+  "request" : {
+    "url" : "/routes/?stop=Salem",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-raHQ9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "j0a4939i9bdn1qj9jv7jjj2vl1nupvn0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

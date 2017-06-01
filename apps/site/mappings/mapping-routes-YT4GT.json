@@ -1,0 +1,19 @@
+{
+  "uuid" : "c7f3c256-bea3-3b53-8c86-2987b1079de7",
+  "request" : {
+    "url" : "/routes/?stop=place-engav",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YT4GT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "771ma3dimh95ac0vn7n4jcj7bjq1aijr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

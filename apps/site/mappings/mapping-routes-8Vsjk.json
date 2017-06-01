@@ -1,0 +1,19 @@
+{
+  "uuid" : "5fa7547b-fc60-3a0d-9f60-b33acf798e1e",
+  "request" : {
+    "url" : "/routes/?stop=Wellesley+Square",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-8Vsjk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "d2p1avoapkgbi3kh4j25jcp98lakl5la",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "bbacc7a0-e8e3-3060-999b-c94bee455d23",
+  "request" : {
+    "url" : "/routes/?stop=Littleton+%2F+Rte+495",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0m3Mz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "uas6s86iak6ota1nul6qni50suhsrvj0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -104,7 +104,7 @@ import stickyTooltip from './sticky-tooltip';
 import timetableScroll from './timetable-scroll';
 import menuClose from './menu-close';
 import datePicker from './date-picker';
-import hideBtn from './hide-on-click';
+import toggleBtn from './toggle-on-click';
 
 submitOnEvents(["blur", "change"]);
 selectModal();
@@ -126,6 +126,6 @@ stickyTooltip();
 timetableScroll();
 menuClose();
 datePicker();
-hideBtn();
+toggleBtn();
 
 document.body.className = document.body.className.replace("no-js", "js");

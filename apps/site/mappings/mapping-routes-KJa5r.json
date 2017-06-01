@@ -1,0 +1,19 @@
+{
+  "uuid" : "1544a945-c4e9-3666-af9e-23e69baa151e",
+  "request" : {
+    "url" : "/routes/?stop=place-bckhl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KJa5r.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:17 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "sbdqm1phf6e41bolmjkdsoejsnbl1fek",
+      "Connection" : "keep-alive"
+    }
+  }
+}

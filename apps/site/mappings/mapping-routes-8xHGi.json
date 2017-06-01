@@ -1,0 +1,19 @@
+{
+  "uuid" : "910718e1-e9a4-33d9-8b90-f06a16ec6baf",
+  "request" : {
+    "url" : "/routes/?stop=place-nqncy",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-8xHGi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "hb106kpto2l7i0uvk1r7q46i8on8m8gg",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "612fc009-c317-34dc-943e-61dfa2562db3",
+  "request" : {
+    "url" : "/routes/?stop=place-asmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SzK3O.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:17 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "6h7o3hv8ufhnai8o33j6r3pe96lagsg1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

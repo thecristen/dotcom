@@ -167,8 +167,8 @@
 
   @include media-breakpoint-down(sm) {
     background-color: $gray-lightest;
-    padding: $space-6 0;
     margin-bottom: $base-spacing;
+    padding: $space-6 0;
   }
 
   .hub-stop-name {
@@ -191,6 +191,13 @@
     color: $brand-primary;
     padding: 0;
   }
+}
+
+.stops-hide-all-btn {
+  background-color: $gray-lightest;
+  display: none;
+  margin-top: $space-12;
+  padding: $space-8;
 }
 
 .stops-for-route {

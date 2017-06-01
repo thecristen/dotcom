@@ -1,0 +1,19 @@
+{
+  "uuid" : "b3cb4d69-decf-3b19-8f30-15e5e37ac64b",
+  "request" : {
+    "url" : "/routes/?stop=place-gover",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ylEX6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "4s4r7ubtae7oec017gv8sijpi6ds25eo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

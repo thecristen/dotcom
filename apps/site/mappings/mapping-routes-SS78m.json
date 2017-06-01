@@ -1,0 +1,19 @@
+{
+  "uuid" : "2471eb0e-f615-3c4b-99fd-ee4fffad2d30",
+  "request" : {
+    "url" : "/routes/?stop=Newburyport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SS78m.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "shn0mr8fhj4icm7a5c7dfo6oftk2tskb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

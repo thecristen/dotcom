@@ -206,6 +206,20 @@
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Stops List (Subway)",
+      "url": "http://localhost:8082/stops/subway",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Stops List (Commuter Rail)",
+      "url": "http://localhost:8082/stops/commuter_rail",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
     }
   ],
   "paths": {

@@ -1,0 +1,19 @@
+{
+  "uuid" : "139525ad-fd20-3a16-816d-b2166803347a",
+  "request" : {
+    "url" : "/routes/?stop=Abington",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gycZ6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "jgo38khhmb2b3otm55fj0aot2ibitbuk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

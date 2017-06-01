@@ -1,0 +1,19 @@
+{
+  "uuid" : "d399022b-88db-378a-aa56-49d8bda28116",
+  "request" : {
+    "url" : "/stops/?route=CR-Newburyport&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-auAeo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "9don367ghhfit5fr2v4l1s468ip63auj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

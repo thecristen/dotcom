@@ -1,0 +1,19 @@
+{
+  "uuid" : "3e96039e-d8b9-30e6-9938-eccdcbc39789",
+  "request" : {
+    "url" : "/routes/?stop=Rockport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FbMoy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "8oearjcmer88mtrjb3p2f2bkf7rpceoi",
+      "Connection" : "keep-alive"
+    }
+  }
+}

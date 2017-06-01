@@ -1,0 +1,19 @@
+{
+  "uuid" : "896d559d-df01-3438-b1a7-a23689fb4e92",
+  "request" : {
+    "url" : "/routes/?stop=place-coecl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FiRKe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "tb8glmca553qq33f2qqhs3g10oiatcn5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

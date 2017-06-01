@@ -1,0 +1,19 @@
+{
+  "uuid" : "5fbd84cc-837d-3a13-ab66-ab63fc7fbd7e",
+  "request" : {
+    "url" : "/routes/?stop=place-smary",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WGsyU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "8hl9ukrb64j173b4o8o9vuc8edp5s6st",
+      "Connection" : "keep-alive"
+    }
+  }
+}

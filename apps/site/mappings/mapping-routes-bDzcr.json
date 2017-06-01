@@ -1,0 +1,19 @@
+{
+  "uuid" : "27256dda-5cdb-3ae2-8ec3-23a70d09e6f7",
+  "request" : {
+    "url" : "/routes/?stop=TF+Green+Airport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bDzcr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "pkrmvdr64nl6t36bup0dmekra1vucl30",
+      "Connection" : "keep-alive"
+    }
+  }
+}

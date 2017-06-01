@@ -1,0 +1,19 @@
+{
+  "uuid" : "9f8c648f-df3b-3a5f-bff3-b278ff6ce87e",
+  "request" : {
+    "url" : "/routes/?stop=Four+Corners+%2F+Geneva",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-H4HjG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "iclein6vtgrghm6kk9658n9arav2n484",
+      "Connection" : "keep-alive"
+    }
+  }
+}
