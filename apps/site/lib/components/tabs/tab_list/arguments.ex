@@ -12,14 +12,12 @@ defmodule Site.Components.Tabs.TabList do
       {"Schedule", stop_path(Site.Endpoint, :show, "place-sstat", tab: "schedule"), true},
       {"Station Information", stop_path(Site.Endpoint, :show, "place-sstat", tab: "info"), false}
     ],
-    collapsed: "xs",
-    buttonbar: false
+    buttonbar: true
   ]
 
   @type t :: %__MODULE__{
     links: [{String.t, String.t, boolean}],
     class: String.t,
-    collapsed: String.t,
     buttonbar: boolean
   }
 

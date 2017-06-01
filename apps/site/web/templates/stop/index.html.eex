@@ -5,8 +5,7 @@
     links: for mode <- [:commuter_rail, :subway, :ferry] do
       {mode, stop_path(@conn, :show, mode)}
     end,
-    selected_mode: @mode,
-    collapse: "xs"
+    selected_mode: @mode
   } %>
   <%= if !Enum.empty?(@mode_hubs) do %>
     <h2>Major <%= mode_name(@mode)%> Stops</h2>

@@ -352,7 +352,6 @@ defmodule Site.ComponentsTest do
         links: @links,
         selected: "Info",
         icon_map: %{"Info" => "info-icon"},
-        collapse: "xs",
         full_width?: true
       }
     end
@@ -360,19 +359,11 @@ defmodule Site.ComponentsTest do
     test "Icons are shown if given" do
       rendered = selector_args() |> tab_selector()  |> safe_to_string()
       option = rendered
-      |> Floki.find(".tab-select-btn-content-option")
+      |> Floki.find(".tab-select-btn-selected")
       |> Enum.at(0)
       |> elem(2)
       |> List.first
       assert option =~ "info-icon"
-    end
-
-    test "Selector hidden if collapse is not given" do
-      args = selector_args()
-      rendered = %{args | collapse: nil}
-      |> tab_selector()
-      |> safe_to_string
-      refute rendered =~ "tab-select-btn-content"
     end
 
     test "Selected option is shown as such" do
@@ -385,18 +376,6 @@ defmodule Site.ComponentsTest do
     test "selected?/2" do
       assert selected?("info", "info")
       refute selected?("schedules", "info")
-    end
-
-    test "small_screen_class/1" do
-      assert small_screen_class("xs") == "hidden-sm-up"
-      assert small_screen_class("sm") == "hidden-md-up"
-      assert small_screen_class("") == ""
-    end
-
-    test "large_screen_class/1" do
-      assert large_screen_class("xs") == "hidden-xs-down"
-      assert large_screen_class("sm") == "hidden-sm-down"
-      assert large_screen_class("") == ""
     end
   end
 

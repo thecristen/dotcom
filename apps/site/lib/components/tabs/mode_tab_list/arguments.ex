@@ -1,7 +1,6 @@
 defmodule Site.Components.Tabs.ModeTabList do
   @moduledoc """
-  Renders a list of tabs for transport modes, as well as The Ride and accessibility. Can optionally collapse
-  at xs or sm breakpoints.
+  Renders a list of tabs for transport modes, as well as The Ride and accessibility.
   """
   alias Site.ViewHelpers
 
@@ -11,16 +10,14 @@ defmodule Site.Components.Tabs.ModeTabList do
     links: for mode <- [:bus, :commuter_rail, :subway, :ferry] do
              {mode, Site.Router.Helpers.schedule_path(Site.Endpoint, :show, mode)}
            end,
-    selected_mode: :bus,
-    collapse: "xs"
+    selected_mode: :bus
   ]
 
   @type t :: %__MODULE__{
     id: String.t,
     class: String.t,
     links: [{atom, String.t}],
-    selected_mode: atom,
-    collapse: String.t | nil
+    selected_mode: atom
   }
 
   def mode_links(links) do

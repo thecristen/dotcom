@@ -29,6 +29,14 @@
       border-bottom: 0;
     }
   }
+
+  .tab-select-btn-selected {
+    border-color: $btn-primary-bg;
+  }
+
+  .stacked-tab-label {
+    padding-bottom: $base-spacing * .875;
+  }
 }
 
 .tab-select-btn-group-full {

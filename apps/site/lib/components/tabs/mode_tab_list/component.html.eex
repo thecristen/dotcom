@@ -2,6 +2,7 @@
 <%= tab_selector %Site.Components.Tabs.TabSelector{links: mode_links(args.links),
                               id: args.id,
                               class: args.class,
-                              collapse: args.collapse,
                               selected: selected_mode_name,
-                              icon_map: build_mode_icon_map(args.links)} %>
+                              icon_map: build_mode_icon_map(args.links),
+                              buttonbar: false}
+%>

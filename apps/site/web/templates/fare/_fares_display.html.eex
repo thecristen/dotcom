@@ -2,6 +2,7 @@
   id: "reduced-select",
   links: for reduced_type <- ~w(nil student senior_disabled)a do
     {Fares.Format.customers(reduced_type), update_url(@conn, fare_type: reduced_type), @fare_type == reduced_type}
-  end
+  end,
+  buttonbar: false
 }) %>
 <%= render "_fare_info.html", selected_filter: @selected_filter, filters: @filters, conn: @conn %>
