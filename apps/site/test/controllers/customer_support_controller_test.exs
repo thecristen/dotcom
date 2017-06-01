@@ -23,6 +23,8 @@ defmodule Site.CustomerSupportControllerTest do
       response = html_response(conn, 302)
       refute response =~ "form id=\"support-form\""
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
+      ref = Process.monitor(conn.private[:ticket_task])
+      assert_receive({:DOWN, ^ref, _, _, _}, 1000)
       assert String.contains?(Feedback.Test.latest_message["text"], ~s(<MBTASOURCE>Auto Ticket 2</MBTASOURCE>))
     end
 

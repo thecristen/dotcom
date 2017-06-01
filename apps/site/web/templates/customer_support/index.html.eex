@@ -14,7 +14,7 @@
     <div class="col-xs-12 support-form-error hidden-xs-up" tabindex="-1">
       <div class="support-error">
         <%= fa "exclamation-circle" %>
-        We had an issue submitting your feedback -- please try again in a few minutes.
+        We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes.
       </div>
     </div>
   </div>

@@ -219,6 +219,18 @@ function focusError($, errors) {
   }
 }
 
+function deactivateSubmitButton($) {
+  $('#support-submit').prop("disabled", true);
+  $('.waiting').removeAttr("hidden");
+  $('#support-submit').trigger('waiting:start');
+}
+
+function reactivateSubmitButton($) {
+  $('#support-submit').prop("disabled", false);
+  $('.waiting').attr("hidden", "hidden");
+  $('#support-submit').trigger('waiting:end');
+}
+
 export function handleSubmitClick($) {
   $('#support-submit').click(function (event) {
     // Use an npm-installed library for testing
@@ -226,7 +238,7 @@ export function handleSubmitClick($) {
           valid = validateForm($);
     event.preventDefault();
     if (valid) {
-      $('#support-submit').prop("disabled", true);
+      deactivateSubmitButton($);
       const formData = new FormData(),
             photo = $('#photo')[0].files;
       $('#support-form').serializeArray().forEach(({name: name, value: value}) => {
@@ -248,7 +260,7 @@ export function handleSubmitClick($) {
         },
         error: () => {
           $('.support-form-error').removeClass('hidden-xs-up').focus();
-          $('#support-submit').prop("disabled", false);
+          reactivateSubmitButton($);
         }
       });
     }

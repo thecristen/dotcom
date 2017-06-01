@@ -126,6 +126,7 @@ describe('support form', () => {
             <div class="support-privacy-error-container hidden-xs-up" tabindex="-1"><div class="support-privacy-error"></div></div>
             <div class="support-form-expanded" style="display: none"></div>
             <button id="support-submit"></button>
+            <span class="waiting" hidden>waiting...</span>
           </form>
         </div>
         <div class="support-thank-you hidden-xs-up"></div>
@@ -201,6 +202,24 @@ describe('support form', () => {
       assert.equal(document.activeElement, $('.support-privacy-error-container')[0]);
     });
 
+    it('disables the submit button and shows the spinner on submit', () => {
+      var isWaiting = false;
+
+      $('#support-submit').on('waiting:start', () => {
+        assert.isTrue($('#support-submit').prop('disabled'));
+        assert.isFalse($('.waiting')[0].hasAttribute('hidden'));
+        isWaiting = true;
+      });
+
+      $('#email').val('test@email.com');
+      $('#name').val('tom brady');
+      $('#comments').val('A comment');
+      $('#privacy').prop('checked', 'checked');
+      $('#support-submit').click();
+
+      assert.isTrue(isWaiting);
+    });
+
     it('hides the form and shows a message on success', () => {
       $('#email').val('test@email.com');
       $('#name').val('tom brady');
@@ -217,6 +236,11 @@ describe('support form', () => {
     });
 
     it('shows a message on error', () => {
+      $('#support-submit').on('waiting:end', () => {
+        assert.isFalse($('#support-submit').prop('disabled'));
+        assert.isTrue($('.waiting')[0].hasAttribute('hidden'));
+      });
+
       $('#email').val('test@email.com');
       $('#name').val('tom brady');
       $('#comments').val('A comment');

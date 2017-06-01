@@ -18,7 +18,8 @@ defmodule Site.CustomerSupportController do
       |> put_status(400)
       |> render_form(errors, params)
     else
-      {:ok, _response} = send_ticket params
+      {:ok, pid} = Task.start(__MODULE__, :send_ticket, [params])
+      conn = Plug.Conn.put_private(conn, :ticket_task, pid)
       redirect conn, to: customer_support_path(conn, :thanks)
     end
   end
@@ -80,7 +81,7 @@ defmodule Site.CustomerSupportController do
     "privacy"
   end
 
-  defp send_ticket(params) do
+  def send_ticket(params) do
     photo_info = cond do
       "photo" in Map.keys(params) -> params["photo"]
       "photo-fallback-data" in Map.keys(params) -> {params["photo-fallback-data"], params["photo-fallback-name"]}

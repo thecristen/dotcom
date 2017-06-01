@@ -149,7 +149,10 @@
           </div>
         </div>
         <div class="form-group col-xs-12 col-sm-4 col-md-3">
-          <button class="btn btn-primary btn-block" type="submit" id="support-submit">Submit</button>
+          <button class="btn btn-primary btn-block" type="submit" id="support-submit">
+            Submit
+            <span class="waiting" hidden><%= fa "refresh fa-spin" %></span>
+          </button>
         </div>
       </form>
     </div>
