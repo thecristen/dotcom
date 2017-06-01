@@ -138,6 +138,18 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     assert conn.assigns.hide_destination_selector?
   end
 
+  test "direction is reversed when origin and destination are not in order", %{conn: conn} do
+    path = schedule_path(conn, :show, "Green", origin: "place-pktrm", destination: "place-bckhl", direction_id: 1)
+    conn = get(conn, path)
+    assert redirected_to(conn, 302) =~ "direction_id=0"
+  end
+
+  test "direction is not changed when origin and destination are in the correct order", %{conn: conn} do
+    path = schedule_path(conn, :show, "Green", origin: "place-bckhl", destination: "place-pktrm", direction_id: 1)
+    conn = get(conn, path)
+    assert conn.assigns.direction_id == 1
+  end
+
   describe "validate_stop_times/2" do
     test "redirects away from a destination if we had origin predictions but not stop_times", %{conn: conn} do
       conn = %{conn | request_path: "/", query_params: %{"origin" => "stop", "destination" => "destination"}}
