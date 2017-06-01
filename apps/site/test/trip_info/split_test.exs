@@ -1,6 +1,6 @@
 defmodule TripInfo.SplitTest do
   use ExUnit.Case, async: true
-  use ExCheck
+  use Quixir
   import TripInfo.Split
 
   @origin_id "origin"
@@ -256,9 +256,9 @@ defmodule TripInfo.SplitTest do
     assert actual == expected
   end
 
-  property :split do
-    possible_middle_ids = [@origin_id, @vehicle_id, nil]
-    for_all {first_extra, second_extra, middle_id} in {non_neg_integer(), non_neg_integer(), elements(possible_middle_ids)} do
+  test "split/2" do
+    possible_middle_ids = [value(@origin_id), value(@vehicle_id), value(nil)]
+    ptest first_extra: int(min: 0), second_extra: int(min: 0), middle_id: choose(from: possible_middle_ids) do
       times = Enum.concat([
         [time(@origin_id)],
         List.duplicate(time(), first_extra),
@@ -286,7 +286,7 @@ defmodule TripInfo.SplitTest do
           # not collapsing
           1
       end
-      actual_count == expected_count
+      assert actual_count == expected_count
     end
   end
 end

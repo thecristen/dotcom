@@ -1,6 +1,6 @@
 defmodule Site.Plugs.UpcomingAlertsTest do
   use ExUnit.Case, async: true
-  use ExCheck
+  use Quixir
 
   alias Alerts.Alert
   alias Site.Plugs.UpcomingAlerts

@@ -1,6 +1,6 @@
 defmodule TimeGroupTest do
   use ExUnit.Case, async: false
-  use ExCheck
+  use Quixir
   use Timex
   alias Schedules.Schedule
 
@@ -26,8 +26,8 @@ defmodule TimeGroupTest do
       [{5, [@schedule, other_schedule]}]
   end
 
-  property "by_hour keeps schedules globally ordered" do
-    for_all seconds in list(non_neg_integer()) do
+  test "by_hour keeps schedules globally ordered" do
+    ptest seconds: list(int(min: 0)) do
       times = seconds
       |> Enum.map(fn seconds -> DateTime.from_unix!(seconds) end)
 
@@ -38,7 +38,7 @@ defmodule TimeGroupTest do
       ungrouped = groups
       |> Enum.flat_map(fn {_, group} -> group end)
 
-      schedules == ungrouped
+      assert schedules == ungrouped
     end
   end
 

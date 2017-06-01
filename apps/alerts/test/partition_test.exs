@@ -1,6 +1,5 @@
 defmodule Alerts.PartitionTest do
   use ExUnit.Case, async: true
-  use ExCheck
 
   alias Alerts.Alert
   import Alerts.Partition

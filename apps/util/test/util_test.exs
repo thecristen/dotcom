@@ -1,6 +1,6 @@
 defmodule UtilTest do
   use ExUnit.Case, async: true
-  use ExCheck
+  use Quixir
   import Util
 
   describe "most_frequent_value/1" do
@@ -10,17 +10,17 @@ defmodule UtilTest do
       assert most_frequent_value([2, 1, 1]) == 1
     end
 
-    property "always returns an element from the list" do
-      for_all l in non_empty(list(int())) do
-        Enum.member?(l, most_frequent_value(l))
+    test "always returns an element from the list" do
+      ptest l: list(of: int(), min: 1) do
+        assert Enum.member?(l, most_frequent_value(l))
       end
     end
 
-    property "count of most_frequent value is equal or greater than the count of other elements" do
-      for_all l in non_empty(list(int())) do
+    test "count of most_frequent value is equal or greater than the count of other elements" do
+      ptest l: list(of: int(), min: 1) do
         most_frequent_value = most_frequent_value(l)
         most_frequent_count = Enum.count(l, &(&1 === most_frequent_value))
-        Enum.all?(l, fn value ->
+        assert Enum.all?(l, fn value ->
           most_frequent_count >= Enum.count(l, &(&1 === value))
         end)
       end
