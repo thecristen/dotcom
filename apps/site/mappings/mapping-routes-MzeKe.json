@@ -1,0 +1,19 @@
+{
+  "uuid" : "53f721f7-045c-3ec1-af87-ce2ba3cf7fb0",
+  "request" : {
+    "url" : "/routes/?stop=place-chhil",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MzeKe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "93mgvt4voqit0lgenempdcncnfmqo4i0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

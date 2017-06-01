@@ -1,0 +1,19 @@
+{
+  "uuid" : "c67dc3da-5ad9-3dd0-b111-1a234001cc24",
+  "request" : {
+    "url" : "/routes/?stop=Wyoming+Hill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iOBQq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "sbk7j6qoge5pb5ntde77trs84aqd6v7c",
+      "Connection" : "keep-alive"
+    }
+  }
+}

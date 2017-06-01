@@ -1,0 +1,19 @@
+{
+  "uuid" : "a1a00f10-e8a9-34ed-a3d3-2dec380d0526",
+  "request" : {
+    "url" : "/routes/?stop=Brockton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ycaOI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "eet27ec5f5l10346a4f61on0npogo2v2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

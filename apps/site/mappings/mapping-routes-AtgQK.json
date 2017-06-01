@@ -1,0 +1,19 @@
+{
+  "uuid" : "87bd19ac-284b-3253-8f6a-17babbe32fde",
+  "request" : {
+    "url" : "/routes/?stop=Yawkey",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AtgQK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "i52fcrhnae18s8rarlqpcobk6n3cahji",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "8f9f449b-b935-30ac-be07-48e0342161e6",
+  "request" : {
+    "url" : "/stops/?route=Orange&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-SU5tG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:17 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "8i31lhec7l3ebqp4juc2us1hsae499sc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

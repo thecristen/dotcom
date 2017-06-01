@@ -1,0 +1,19 @@
+{
+  "uuid" : "59cbd79d-26e2-3e3c-bc8c-f8ddd1af6cdb",
+  "request" : {
+    "url" : "/routes/?stop=place-aport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dMM6t.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:17 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "q3bmeh472agbh724u90hbahpt4905s1n",
+      "Connection" : "keep-alive"
+    }
+  }
+}

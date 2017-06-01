@@ -1,0 +1,19 @@
+{
+  "uuid" : "bae0df37-4866-3dff-973f-62a642a0acf8",
+  "request" : {
+    "url" : "/routes/?stop=West+Hingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-uIznz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "u4ce1v52cevkrus1fv1puah69f7dlhbm",
+      "Connection" : "keep-alive"
+    }
+  }
+}

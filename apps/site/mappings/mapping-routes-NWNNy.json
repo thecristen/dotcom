@@ -1,0 +1,19 @@
+{
+  "uuid" : "bf396da7-1f1c-3599-8cda-5fd1acde5518",
+  "request" : {
+    "url" : "/routes/?stop=Readville",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NWNNy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "0rqhro1kmipgblr803dhc4eg3jsnjj6n",
+      "Connection" : "keep-alive"
+    }
+  }
+}

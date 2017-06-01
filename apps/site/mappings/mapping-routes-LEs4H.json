@@ -1,0 +1,19 @@
+{
+  "uuid" : "585b8cc1-214e-315f-a60e-3ac53d10d67e",
+  "request" : {
+    "url" : "/routes/?stop=Needham+Junction",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LEs4H.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "09i2vnuemdmm9octmeuo4t76prvv7rgg",
+      "Connection" : "keep-alive"
+    }
+  }
+}

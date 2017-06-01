@@ -1,0 +1,19 @@
+{
+  "uuid" : "48982eb8-a6d5-32ea-8196-d3f449c27707",
+  "request" : {
+    "url" : "/routes/?stop=Haverhill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BB2vq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "rr0bpjoo3tbi68s5a7gnq1kf4tcqr6rt",
+      "Connection" : "keep-alive"
+    }
+  }
+}

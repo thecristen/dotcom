@@ -1,0 +1,19 @@
+{
+  "uuid" : "a7ac42c3-7689-3f15-877a-dc39134ac88b",
+  "request" : {
+    "url" : "/routes/?stop=Auburndale",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZS48m.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ae4f5i0nhaa9uck8mmjhmbbprojcegbe",
+      "Connection" : "keep-alive"
+    }
+  }
+}

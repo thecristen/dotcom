@@ -1,0 +1,19 @@
+{
+  "uuid" : "ac97b12f-2718-3b58-aa79-3d90224f9fde",
+  "request" : {
+    "url" : "/routes/?stop=place-harvd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KKHNc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "atuj08opgl8h95g2lvoh0ue96g3mscov",
+      "Connection" : "keep-alive"
+    }
+  }
+}

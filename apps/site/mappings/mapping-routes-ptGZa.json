@@ -1,0 +1,19 @@
+{
+  "uuid" : "11b7925c-e298-3f45-a3bc-8a7795d5cb20",
+  "request" : {
+    "url" : "/routes/?stop=Fitchburg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ptGZa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "mapi4caj3etptrnsv32ej3ckbpnass9n",
+      "Connection" : "keep-alive"
+    }
+  }
+}

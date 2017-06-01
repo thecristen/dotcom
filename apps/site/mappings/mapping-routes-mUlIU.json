@@ -1,0 +1,19 @@
+{
+  "uuid" : "7a423f3c-a29b-3cec-9540-67d69cdff4d0",
+  "request" : {
+    "url" : "/routes/?stop=place-state",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mUlIU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "v0q211emgbfljvlej818t5jb1nulm3jg",
+      "Connection" : "keep-alive"
+    }
+  }
+}

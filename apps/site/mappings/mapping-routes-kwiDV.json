@@ -1,0 +1,19 @@
+{
+  "uuid" : "acee28da-4bc3-3565-b6cb-bb7d32349a13",
+  "request" : {
+    "url" : "/routes/?stop=place-kencl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kwiDV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ct0ct2rpvc07pmdehmsmpe84g51bpult",
+      "Connection" : "keep-alive"
+    }
+  }
+}

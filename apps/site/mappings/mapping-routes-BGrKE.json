@@ -1,0 +1,19 @@
+{
+  "uuid" : "641d3318-5ac1-3200-8e66-7fc4be31743e",
+  "request" : {
+    "url" : "/routes/?stop=Natick+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BGrKE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:27 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lfb24norm289cfkkj88poefecsttn887",
+      "Connection" : "keep-alive"
+    }
+  }
+}

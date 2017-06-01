@@ -1,0 +1,19 @@
+{
+  "uuid" : "23b5a8f3-768f-3616-a845-d0b4a083f1e6",
+  "request" : {
+    "url" : "/routes/?stop=place-plsgr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MNUFV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 01 Jun 2017 21:48:18 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "5sr21cff7m6tdc25uiot5qi99l4a1blc",
+      "Connection" : "keep-alive"
+    }
+  }
+}
