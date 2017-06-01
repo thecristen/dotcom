@@ -38,9 +38,21 @@ defmodule Site.StopController do
     |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)
     |> assign(:breadcrumbs, breadcrumbs(stop))
     |> assign(:tab, tab_value(query_params["tab"]))
+    |> assign(:dynamic_map_data, dynamic_map_data(stop))
     |> tab_assigns(stop)
     |> await_assign_all()
     |> render("show.html", stop: stop)
+  end
+
+  @spec dynamic_map_data(Stop.t) :: map()
+  defp dynamic_map_data(stop) do
+    %{
+      stops: [[stop.latitude, stop.longitude, ""]],
+      stops_show_marker: stop.station?,
+      options: %{
+        gestureHandling: "cooperative"
+      }
+    }
   end
 
   @spec grouped_routes(String.t) :: [{Route.gtfs_route_type, Route.t}]
