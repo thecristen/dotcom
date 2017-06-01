@@ -106,11 +106,8 @@ defmodule Stops.NearbyTest do
     test "returns the parent station if it exists" do
       # south station
       actual = {42.352271, -71.055242} |> api_around(radius: 0.001) |> distance_sort
-      expected = [
-        %{id: "place-sstat", latitude: 42.352271, longitude: -71.055242},
-        %{id: "6538", latitude: 42.35176, longitude: -71.056003}
-      ]
-      assert expected == actual
+      south_station = %{id: "place-sstat", latitude: 42.352271, longitude: -71.055242}
+      assert south_station in actual
     end
   end
 

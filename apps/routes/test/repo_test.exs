@@ -10,10 +10,10 @@ defmodule Routes.RepoTest do
 
     test "parses the data into Route structs" do
       assert Routes.Repo.all |> List.first == %Routes.Route{
-        id: "Blue",
+        id: "Red",
         type: 1,
-        name: "Blue Line",
-        direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+        name: "Red Line",
+        direction_names: %{0 => "Southbound", 1 => "Northbound"},
         key_route?: true
       }
     end
@@ -172,9 +172,9 @@ defmodule Routes.RepoTest do
       shape = List.first(shapes)
 
       assert Enum.count(shapes) == 3
-      assert shape.__struct__ == Routes.Shape
-      assert shape.id == "090096"
-      assert shape.polyline
+      assert %Routes.Shape{
+        id: "090111",
+        polyline:  "_glaGjlppLEdAP?P?j@AAwB?WA{AAuEAmB???YAgBCsHjBAb@A??R?bDGxCA??P?DxKDzK?\\??BdJ???VF`L?b@??@vCBxD???VBfG@xD???v@B~H?d@??H~M???VDhF?p@oCzE??_C`ES\\??qDrGS\\??_@p@k@`AgBbDS^??A@k@z@c@x@eApB]h@Q\\??GJoAzBgAnB??S\\{@zAWd@{B~Dd@l@b@f@dAjAX`@d@l@h@fAs@MoC?}BD}AB????KLm@Ds@DcA@_CBgA@cACjE~BpB~@j@Fh@qCZiATJdECc@bCi@dDc@tCI`@YhBWxAc@hCW~Ai@xCmAhHOt@??ETYtA]fBYzA??G\\_@`Be@xBcAfEaAvDYhA??_@|AOl@KTGHqAj@kA`@yAj@c@N??UHcGbCQHi@R??OFiAb@eBp@oDpAdBhK??F`@p@vEXjBNt@JZ@D??FNVx@Vh@pBdCh@r@dAlAhD`EeBfA??{CjByA@????a@PG@IAKEQS{@{EkBwK"} = shape
       assert Enum.count(shape.stop_ids) == 28
     end
 

@@ -205,8 +205,8 @@ defmodule Site.ScheduleV2ControllerTest do
 
       # includes the stop features
       assert List.first(stops).stop_features == [
-        :green_line,
         :orange_line,
+        :green_line,
         :bus,
         :access,
         :parking_lot
@@ -338,7 +338,7 @@ defmodule Site.ScheduleV2ControllerTest do
     test "Bus line with correct default shape", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "9", direction_id: 1)
 
-      assert conn.assigns.active_shape.id == "090096"
+      assert conn.assigns.active_shape.id == "090111"
     end
 
     test "sets schedule link direction id to 1 for last stop and 0 for all other stops on non-bus lines", %{conn: conn} do

@@ -1,5 +1,5 @@
 defmodule V3Api.StopsTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   describe "by_gtfs_id/1" do
     test "gets the parent station info" do
