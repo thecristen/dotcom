@@ -1,6 +1,5 @@
 defmodule Util.ListHelpersTest do
   use ExUnit.Case, async: true
-  use ExCheck
 
   import Util.ListHelpers
 
