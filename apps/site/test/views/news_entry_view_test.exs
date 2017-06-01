@@ -1,6 +1,42 @@
 defmodule Site.NewsEntryViewTest do
   use Site.ViewCase, async: true
 
+  describe "index.html" do
+    test "does not display a Next link when additional content is not available", %{conn: conn} do
+      news_entry = news_entry_factory()
+
+      body =
+        Site.NewsEntryView
+        |> render_to_string(
+          "index.html",
+          conn: conn,
+          page: 1,
+          news_entries: [news_entry],
+          upcoming_news_entries: []
+        )
+
+      refute_text_visible?(body, "Next")
+      refute body =~ news_entry_path(conn, :index, page: 2)
+   end
+
+    test "does not display a Previous link on the first page", %{conn: conn} do
+      news_entry = news_entry_factory()
+
+      body =
+        Site.NewsEntryView
+        |> render_to_string(
+          "index.html",
+          conn: conn,
+          page: 1,
+          news_entries: [news_entry],
+          upcoming_news_entries: []
+        )
+
+      refute_text_visible?(body, "Previous")
+      refute body =~ news_entry_path(conn, :index, page: 0)
+    end
+  end
+
   describe "show.html" do
     test "does not display recent_news when there are two or fewer news entries", %{conn: conn} do
       news_entry = news_entry_factory()

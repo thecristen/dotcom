@@ -124,6 +124,11 @@
         "value": "2017-01-01"
       }
     ],
+    "field_teaser": [
+      {
+        "value": "Example teaser"
+      }
+    ],
     "field_migration_id": [
       {
         "value": "1234"
@@ -253,11 +258,12 @@
         "value": "2017-02-02"
       }
     ],
-    "field_migration_id": [
+    "field_teaser": [
       {
-        "value": ""
+        "value": "MBTA launches its Winter Weather public information campaign."
       }
-    ]
+    ],
+    "field_migration_id": []
   },
   {
     "nid": [
@@ -378,11 +384,12 @@
         "value": "2017-03-03"
       }
     ],
-    "field_migration_id": [
+    "field_teaser": [
       {
-        "value": ""
+        "value": "FMCB approves constructions for the Blue Hill Avenue Commuter Rail Station."
       }
-    ]
+    ],
+    "field_migration_id": []
   },
   {
     "nid": [
@@ -507,10 +514,11 @@
         "value": "2017-04-04"
       }
     ],
-    "field_migration_id": [
+    "field_teaser": [
       {
-        "value": ""
+        "value": "MBTA launches its Winter Weather public information campaign."
       }
-    ]
+    ],
+    "field_migration_id": []
   }
 ]
