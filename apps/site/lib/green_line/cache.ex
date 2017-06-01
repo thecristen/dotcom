@@ -12,6 +12,8 @@ defmodule Site.GreenLine.Cache do
 
   alias Site.GreenLine.{CacheSupervisor, DateAgent}
 
+  require Logger
+
   # Client
 
   def start_link(opts \\ []) do
@@ -48,16 +50,32 @@ defmodule Site.GreenLine.Cache do
 
     {:noreply, state}
   end
+  def handle_info({:reset_again, date}, {_, _, reset_fn} = state) do
+    reset_fn.(date)
+    {:noreply, state}
+  end
   def handle_info(_, state) do
     {:noreply, state} # no cover
   end
 
-  @doc "Reset (requery the API) a given date's cache"
-  @spec reset_cache(Date.t | nil) :: any
-  def reset_cache(date) do
-    case CacheSupervisor.lookup(date) do
+  @doc """
+  Reset (requery the API) a given date's cache. If the API returns an error,
+  try again in 30 seconds.
+  """
+  @spec reset_cache(Date.t | nil, integer) :: :ok | :error
+  def reset_cache(date, try_again_in \\ 30_000) do
+    results = case CacheSupervisor.lookup(date) do
       nil -> CacheSupervisor.start_child(date)
       pid -> DateAgent.reset(pid, date)
+    end
+
+    case results do
+      {:error, msg} ->
+        _ = Logger.info("#{__MODULE__} reset_cache error for #{date}: #{inspect msg}")
+        Process.send_after(self(), {:reset_again, date}, try_again_in)
+        :error
+      _ ->
+        :ok
     end
   end
 
