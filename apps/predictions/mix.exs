@@ -35,7 +35,7 @@ defmodule Predictions.Mixfile do
     [{:v3_api, in_umbrella: true},
      {:timex, ">= 0.0.0"},
      {:excoveralls, "~> 0.5", only: :test},
-     {:bypass, ">= 0.0.0", only: :test},
+     {:bypass, github: "paulswartz/bypass", only: :test},
      {:repo_cache, in_umbrella: true},
      {:schedules, in_umbrella: true},
      {:stops, in_umbrella: true},

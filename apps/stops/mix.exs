@@ -40,7 +40,7 @@ defmodule Stops.Mixfile do
      {:excoveralls, "~> 0.5", only: :test},
      {:repo_cache, in_umbrella: true},
      {:timex, ">= 0.0.0"},
-     {:bypass, ">= 0.0.0", only: :test},
+     {:bypass, github: "paulswartz/bypass", only: :test},
      {:csv, ">= 0.0.0"},
      {:util, in_umbrella: true},
      {:zones, in_umbrella: true}
