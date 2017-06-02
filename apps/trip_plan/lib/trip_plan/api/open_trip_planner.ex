@@ -11,7 +11,10 @@ defmodule TripPlan.Api.OpenTripPlanner do
          params = Map.merge(params,
          %{
            "fromPlace" => location(from),
-           "toPlace" => location(to)
+           "toPlace" => location(to),
+           "showIntermediateStops" => "true",
+           "format" => "json",
+           "locale" => "en"
          }),
            root_url = config(:root_url),
            full_url = "#{root_url}/otp/routers/default/plan",
