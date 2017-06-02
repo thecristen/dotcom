@@ -15,6 +15,7 @@ defmodule Content.CmsMigration.NewsEntryPayload do
     %Content.NewsEntry{
       title: title(map),
       body: body(map),
+      teaser: teaser(map),
       media_contact: media_contact(map),
       media_phone: media_phone(map),
       media_email: media_email(map),
@@ -27,6 +28,7 @@ defmodule Content.CmsMigration.NewsEntryPayload do
     %{
       title: cms_format(news_entry.title),
       body: cms_format_body(news_entry.body),
+      field_teaser: cms_format(news_entry.teaser),
       field_media_contact: cms_format(news_entry.media_contact),
       field_media_phone: cms_format(news_entry.media_phone),
       field_media_email: cms_format(news_entry.media_email),
@@ -45,6 +47,11 @@ defmodule Content.CmsMigration.NewsEntryPayload do
     |> DataNormalizer.update_relative_links("uploadedfiles", @former_mbta_host)
     |> DataNormalizer.update_relative_image_paths("uploadedimages", @former_mbta_host)
     |> DataNormalizer.remove_style_information()
+  end
+
+  defp teaser(%{"information" => body}) do
+    teaser_maximum_length = 255
+    Content.Blurb.blurb(body, teaser_maximum_length, "Continue reading...")
   end
 
   defp media_contact(%{"contact_name" => name}), do: name
