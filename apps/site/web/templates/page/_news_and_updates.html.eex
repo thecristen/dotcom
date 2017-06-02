@@ -7,7 +7,7 @@
           <div class="col-md-6 col-sm-12">
             <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=#{post.id}&month=&year="), target: "_blank", class: "title-card" do %>
               <div class="title-card-title"><%= post.attributes["title"] |> raw %></div>
-              <p><%= post.body |> Content.Blurb.blurb(90) |> raw %></p>
+              <p><%= post.body |> Content.Blurb.blurb(90) %></p>
             <% end %>
           </div>
         <% end %>

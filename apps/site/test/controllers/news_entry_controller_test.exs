@@ -27,7 +27,7 @@ defmodule Site.NewsEntryControllerTest do
       conn = get conn, news_entry_path(conn, :show, news_entry.id)
 
       body = html_response(conn, 200)
-      assert body =~ news_entry.title
+      assert body =~ Phoenix.HTML.safe_to_string(news_entry.title)
       assert body =~ Phoenix.HTML.safe_to_string(news_entry.body)
       assert body =~ Phoenix.HTML.safe_to_string(news_entry.more_information)
       assert includes_breadcrumbs(conn, [{news_entry_path(conn, :index), "News"}, news_entry.title])

@@ -10,27 +10,27 @@ defmodule Content.NewsEntry do
 
   defstruct [
     id: nil,
-    title: "",
+    title: Phoenix.HTML.raw(""),
     body: Phoenix.HTML.raw(""),
     media_contact: "",
     media_email: "",
     media_phone: "",
     more_information: Phoenix.HTML.raw(""),
     posted_on: nil,
-    teaser: "",
+    teaser: Phoenix.HTML.raw(""),
     migration_id: nil
   ]
 
   @type t :: %__MODULE__{
     id: integer | nil,
-    title: String.t,
+    title: Phoenix.HTML.safe,
     body: Phoenix.HTML.safe,
     media_contact: String.t | nil,
     media_email: String.t | nil,
     media_phone: String.t | nil,
     more_information: Phoenix.HTML.safe | nil,
     posted_on: Date.t | nil,
-    teaser: String.t,
+    teaser: Phoenix.HTML.safe,
     migration_id: String.t | nil
   }
 
@@ -38,14 +38,14 @@ defmodule Content.NewsEntry do
   def from_api(%{} = data) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
-      title: field_value(data, "title"),
+      title: handle_html(field_value(data, "title")),
       body: parse_body(data),
       media_contact: field_value(data, "field_media_contact"),
       media_email: field_value(data, "field_media_email"),
       media_phone: field_value(data, "field_media_phone"),
       more_information: parse_more_information(data),
       posted_on: parse_posted_date(data),
-      teaser: field_value(data, "field_teaser"),
+      teaser: handle_html(field_value(data, "field_teaser")),
       migration_id: field_value(data, "field_migration_id")
     }
   end
