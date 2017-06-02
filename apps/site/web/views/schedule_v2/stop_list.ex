@@ -161,7 +161,7 @@ defmodule Site.ScheduleV2View.StopList do
         icon: Routes.Route.type_atom(route.type),
         class: "icon-inverse",
         show_tooltip?: false}),
-      data: [html: true, toggle: "tooltip"],
+      data: [html: true, toggle: "tooltip", placement: "right"],
       title: tooltip(vehicle_tooltip)
     )
   end
@@ -171,7 +171,7 @@ defmodule Site.ScheduleV2View.StopList do
         icon: Routes.Route.type_atom(route.type),
         class: "icon-boring",
         show_tooltip?: false}),
-      data: [html: true, toggle: "tooltip"],
+      data: [html: true, toggle: "tooltip", placement: "right"],
       title: tooltip(vehicle_tooltip)
     )
   end
