@@ -23,13 +23,18 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
     do_build_params(rest, acc)
   end
   defp do_build_params([{:personal_mode, mode} | rest], acc) do
-    mode = case mode do
-      :drive ->
-        "#{OTP.config(:car_mode)},WALK"
-      :walk ->
-        "WALK"
-    end
-    acc = put_in acc["mode"], "#{mode},TRANSIT"
+    acc = case mode do
+            :drive ->
+              # disableRemainingWeightHeuristic prevents OTP from minimizing
+              # the driving distance (first leg) at the expense of walking
+              # distance (second leg) -ps
+              acc
+              |> Map.put("mode", "#{OTP.config(:car_mode)},WALK,TRANSIT")
+              |> Map.put_new("disableRemainingWeightHeuristic", "true")
+
+            :walk ->
+              Map.put(acc, "mode", "WALK,TRANSIT")
+          end
     do_build_params(rest, acc)
   end
   defp do_build_params([{:depart_at, %DateTime{} = datetime} | rest], acc) do

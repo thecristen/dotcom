@@ -36,7 +36,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   end
 
   defp log_response(url, params) do
-    {duration, response} = :timer.tc(HTTPoison, :get, [url, [], [params: params]])
+    {duration, response} = :timer.tc(HTTPoison, :get, [url, [], [params: params, recv_timeout: 10_000]])
     _ = Logger.info(fn ->
       "#{__MODULE__}.plan_response url=#{url} params=#{inspect params} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
     end)
