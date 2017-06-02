@@ -21,14 +21,14 @@ defmodule Content.NewsEntryTest do
       } = Content.NewsEntry.from_api(api_page)
 
       assert id == 1
-      assert title == "Example News Entry"
+      assert Phoenix.HTML.safe_to_string(title) == "Example News Entry"
       assert Phoenix.HTML.safe_to_string(body) =~ "<p>BOSTON -- The MBTA"
       assert media_contact == "MassDOT Press Office"
       assert media_email == "media@example.com"
       assert media_phone == "857-368-8500"
       assert Phoenix.HTML.safe_to_string(more_information) =~ "For more information"
       assert posted_on == ~D[2017-01-01]
-      assert teaser == "Example teaser"
+      assert Phoenix.HTML.safe_to_string(teaser) == "Example teaser"
       assert migration_id == "1234"
     end
   end

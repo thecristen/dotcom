@@ -1,9 +1,9 @@
 <ul class="list-group list-group-flush index-news-group">
   <%= for post <- @news do %>
     <li class="list-group-item list-group-item-flush index-news-item">
-      <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>" target="_blank"><%= post.attributes["title"]
-                                                                                            |> Content.Blurb.blurb(90)
-                                                                                            |> raw %></a>
+      <a href="<%= redirect_path @conn, "about_the_mbta/news_events/?id=#{post.id}" %>" target="_blank">
+        <%= post.attributes["title"] |> Content.Blurb.blurb(90) %>
+      </a>
     </li>
   <% end %>
   <li class="list-group-item list-group-item-flush index-news-item">

@@ -68,7 +68,9 @@ defmodule Content.BlurbTest do
 
   test "returns the default message when the string ends up empty" do
     max_length = 10
-    string = ~s(<iframe title="YouTube video player" src="http://www.youtube.example/embed/foo" frameborder="0" allowfullscreen></iframe>)
+    string =
+      ~s(<iframe title="YouTube" src="http://www.youtube.example/embed/foo") <>
+      ~s(frameborder="0" allowfullscreen></iframe>)
 
     assert Blurb.blurb(string, max_length, "Click here") == "Click here"
   end
