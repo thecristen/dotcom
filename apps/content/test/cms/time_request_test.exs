@@ -5,7 +5,7 @@ defmodule Content.CMS.TimeRequestTest do
   import Plug.Conn
   import ExUnit.CaptureLog
 
-  setup_all do
+  defp setup_log_level do
     old_level = Logger.level()
     on_exit fn ->
       Logger.configure(level: old_level)
@@ -22,6 +22,7 @@ defmodule Content.CMS.TimeRequestTest do
 
     @tag :capture_log
     test "returns an HTTP response", %{bypass: bypass, url: url} do
+      setup_log_level()
       Bypass.expect bypass, fn conn ->
         assert fetch_query_params(conn).query_params == %{"param" => "value"}
         send_resp(conn, 200, "ok")
@@ -39,6 +40,7 @@ defmodule Content.CMS.TimeRequestTest do
       params = [param: "value", "_format": "json"]
 
       log = capture_log(fn ->
+        setup_log_level()
         time_request(:get, url, "", [], params)
       end)
       assert log =~ "status=200"
@@ -51,6 +53,7 @@ defmodule Content.CMS.TimeRequestTest do
       Bypass.down bypass
 
       log = capture_log(fn ->
+        setup_log_level()
         time_request(:get, url)
       end)
       assert log =~ "status=error"

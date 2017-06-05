@@ -100,10 +100,10 @@ defmodule Feedback.MailerTest do
         Logger.configure(level: old_level)
       end
 
-      assert ExUnit.CaptureLog.capture_log(fn ->
+      refute ExUnit.CaptureLog.capture_log(fn ->
         Logger.configure(level: :info)
         Feedback.Mailer.send_heat_ticket(%Feedback.Message{comments: "major issue to report"}, nil)
-      end) == ""
+      end) =~ "major issue"
     end
 
     test "logs the users email when the user wants feedback" do
