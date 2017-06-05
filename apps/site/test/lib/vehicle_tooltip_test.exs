@@ -10,7 +10,9 @@ defmodule Site.VehicleTooltipTest do
   @predictions [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time",
                                         trip: %Schedules.Trip{id: "CR-Weekday-Spring-17-515"}}]
 
-  @tooltips build_map(2, @locations, @predictions)
+  @route %Routes.Route{type: 2}
+
+  @tooltips build_map(@route, @locations, @predictions)
 
   @tooltip_base @tooltips["place-sstat"]
 
@@ -20,7 +22,7 @@ defmodule Site.VehicleTooltipTest do
       assert Map.has_key?(@tooltips, {"CR-Weekday-Spring-17-515", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
       assert @tooltip_base.trip_name == "515"
-      assert @tooltip_base.route_type == 2
+      assert @tooltip_base.route.type == 2
       assert @tooltip_base.prediction.status == "On Time"
       assert @tooltip_base.vehicle.status == :stopped
     end
@@ -36,13 +38,13 @@ defmodule Site.VehicleTooltipTest do
     test "when a prediction has a time, gives the arrival time" do
       tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | departing?: false,
                                                                            time: ~N[2017-01-01T13:00:00]}}
-      assert tooltip(tooltip) =~ "Arrival: 1:00 PM"
+      assert tooltip(tooltip) =~ "Expected arrival at 1:00 PM"
     end
 
     test "when a prediction is departing, gives the departing time" do
       tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | departing?: true,
                                                                            time: ~N[2017-01-01T12:00:00]}}
-      assert tooltip(tooltip) =~ "Departure: 12:00 PM"
+      assert tooltip(tooltip) =~ "Expected departure at 12:00 PM"
     end
 
     test "when a prediction does not have a time, gives nothing" do
@@ -98,7 +100,7 @@ defmodule Site.VehicleTooltipTest do
       formatted_time = Timex.format!(time, "{h12}:{m} {AM}")
       result = tooltip(%{@tooltip_base | prediction: %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}})
       assert result =~ "Now boarding on track 4"
-      assert result =~ "Arrival: #{formatted_time}"
+      assert result =~ "Expected arrival at #{formatted_time}"
     end
   end
 
@@ -107,17 +109,17 @@ defmodule Site.VehicleTooltipTest do
     tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
     tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
 
-    assert tooltip(tooltip1) =~ "Train 515 is on the way to"
-    assert tooltip(tooltip2) =~ "Train 515 has arrived"
-    assert tooltip(tooltip3) =~ "Train 515 has left"
+    assert tooltip(tooltip1) =~ "train 515 is on the way to"
+    assert tooltip(tooltip2) =~ "train 515 has arrived"
+    assert tooltip(tooltip3) =~ "train 515 has left"
   end
 
   describe "prediction_for_stop/2" do
     test "do not crash if vehicle prediction does not contain a trip" do
       predictions = [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time"}]
-      tooltips = build_map(2, @locations, predictions)
+      tooltips = build_map(@route, @locations, predictions)
       tooltip = tooltips["place-sstat"]
-      assert tooltip(tooltip) =~ "Train 515 has arrived"
+      assert tooltip(tooltip) =~ "train 515 has arrived"
     end
   end
 
