@@ -21,8 +21,9 @@ defmodule Site.VehicleTooltipTest do
       assert length(Map.keys(@tooltips)) == 2
       assert Map.has_key?(@tooltips, {"CR-Weekday-Spring-17-515", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
-      assert @tooltip_base.trip_name == "515"
       assert @tooltip_base.route.type == 2
+      assert @tooltip_base.trip.name == "515"
+      assert @tooltip_base.trip.headsign == "Worcester"
       assert @tooltip_base.prediction.status == "On Time"
       assert @tooltip_base.vehicle.status == :stopped
     end
@@ -109,9 +110,9 @@ defmodule Site.VehicleTooltipTest do
     tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
     tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
 
-    assert tooltip(tooltip1) =~ "train 515 is on the way to"
-    assert tooltip(tooltip2) =~ "train 515 has arrived"
-    assert tooltip(tooltip3) =~ "train 515 has left"
+    assert tooltip(tooltip1) =~ "Worcester train 515 is on the way to"
+    assert tooltip(tooltip2) =~ "Worcester train 515 has arrived"
+    assert tooltip(tooltip3) =~ "Worcester train 515 has left"
   end
 
   describe "prediction_for_stop/2" do

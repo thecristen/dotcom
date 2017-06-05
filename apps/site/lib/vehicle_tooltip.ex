@@ -6,6 +6,7 @@ defmodule VehicleTooltip do
   alias Vehicles.Vehicle
   alias Predictions.Prediction
   alias Routes.Route
+  alias Schedules.Trip
 
   import Routes.Route, only: [vehicle_name: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
@@ -14,19 +15,17 @@ defmodule VehicleTooltip do
   defstruct [
     vehicle: %Vehicle{},
     prediction: %Prediction{},
-    headsign: "",
+    trip: %Trip{},
+    route: %Route{},
     stop_name: "",
-    trip_name: "",
-    route: %Route{}
   ]
 
   @type t :: %__MODULE__{
     vehicle: Vehicle.t,
     prediction: Prediction.t,
-    headsign: String.t,
-    stop_name: String.t,
-    trip_name: String.t,
-    route: Route.t
+    trip: Trip.t | nil,
+    route: Route.t,
+    stop_name: String.t
   }
 
   @doc """
@@ -38,13 +37,11 @@ defmodule VehicleTooltip do
   def build_map(route, vehicle_locations, vehicle_predictions) do
     Enum.reduce(vehicle_locations, %{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
-      {headsign, trip_name} = trip_name_and_headsign(Schedules.Repo.trip(trip_id))
       tooltip = %VehicleTooltip{
         vehicle: vehicle_status,
         prediction: prediction_for_stop(vehicle_predictions, trip_id),
         stop_name: stop_name(Stops.Repo.get(stop_id)),
-        trip_name: trip_name,
-        headsign: headsign,
+        trip: Schedules.Repo.trip(trip_id),
         route: route
       }
       output
@@ -57,10 +54,6 @@ defmodule VehicleTooltip do
   defp stop_name(nil), do: ""
   defp stop_name(stop), do: stop.name
 
-  @spec trip_name_and_headsign(Schedules.Trip.t | nil) :: {String.t, String.t}
-  defp trip_name_and_headsign(nil), do: {"", ""}
-  defp trip_name_and_headsign(trip), do: {trip.headsign, trip.name}
-
   @doc """
   Function used to return tooltip text for a VehicleTooltip struct
   """
@@ -68,10 +61,10 @@ defmodule VehicleTooltip do
   def tooltip(nil) do
     ""
   end
-  def tooltip(%{prediction: prediction, vehicle: vehicle, headsign: headsign, stop_name: stop_name, route: route, trip_name: trip_name}) do
+  def tooltip(%{prediction: prediction, vehicle: vehicle, trip: trip, stop_name: stop_name, route: route}) do
     time_text = prediction_time_text(prediction)
     status_text = prediction_status_text(prediction)
-    stop_text = prediction_stop_text(headsign, stop_name, vehicle, route, trip_name)
+    stop_text = prediction_stop_text(trip, stop_name, vehicle, route)
     build_prediction_tooltip(time_text, status_text, stop_text)
   end
 
@@ -109,16 +102,17 @@ defmodule VehicleTooltip do
     [prefix, Timex.format!(time, "{h12}:{m} {AM}")]
   end
 
-  @spec prediction_stop_text(String.t, String.t, Vehicle.t | nil, Route.t, String.t) :: String.t
-  defp prediction_stop_text(headsign, name, %Vehicle{status: :incoming}, route, trip_name) do
-    "#{headsign} #{String.downcase(vehicle_name(route))}#{display_trip_name(route.type, trip_name)} is on the way to #{name}"
+  @spec prediction_stop_text(Trip.t, String.t, Vehicle.t | nil, Route.t) :: iodata
+  defp prediction_stop_text(trip, stop_name, %Vehicle{status: status}, route) do
+    trip_name = if trip, do: trip.name, else: ""
+    headsign = if trip, do: "#{trip.headsign} ", else: ""
+    [headsign, String.downcase(vehicle_name(route)), display_trip_name(route.type, trip_name), prediction_stop_status_test(status), stop_name]
   end
-  defp prediction_stop_text(headsign, name, %Vehicle{status: :stopped}, route, trip_name) do
-    "#{headsign} #{String.downcase(vehicle_name(route))}#{display_trip_name(route.type, trip_name)} has arrived at #{name}"
-  end
-  defp prediction_stop_text(headsign, name, %Vehicle{status: :in_transit}, route, trip_name) do
-    "#{headsign} #{String.downcase(vehicle_name(route))}#{display_trip_name(route.type, trip_name)} has left #{name}"
-  end
+
+  @spec prediction_stop_status_test(atom) :: String.t
+  defp prediction_stop_status_test(:incoming), do: " is on the way to "
+  defp prediction_stop_status_test(:stopped), do: " has arrived at "
+  defp prediction_stop_status_test(:in_transit), do: " has left "
 
   @spec display_trip_name(0..4, String.t) :: String.t
   defp display_trip_name(2, trip_name), do: " #{trip_name}"
