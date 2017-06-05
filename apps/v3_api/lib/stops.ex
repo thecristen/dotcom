@@ -10,7 +10,7 @@ defmodule V3Api.Stops do
     get_json("/stops/", params)
   end
 
-  def by_gtfs_id(gtfs_id) do
-    get_json("/stops/#{URI.encode(gtfs_id, &URI.char_unreserved?/1)}", [include: "parent_station"])
+  def by_gtfs_id(gtfs_id, opts \\ []) do
+    get_json("/stops/#{URI.encode(gtfs_id, &URI.char_unreserved?/1)}", [include: "parent_station"], opts)
   end
 end
