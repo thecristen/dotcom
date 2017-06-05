@@ -104,9 +104,8 @@ defmodule VehicleTooltip do
 
   @spec prediction_stop_text(Trip.t | nil, String.t, Vehicle.t | nil, Route.t) :: iodata
   defp prediction_stop_text(trip, stop_name, %Vehicle{status: status}, route) do
-    trip_name = if trip, do: trip.name, else: ""
     headsign = if trip, do: "#{trip.headsign} ", else: ""
-    [headsign, String.downcase(vehicle_name(route)), display_trip_name(route.type, trip_name), prediction_stop_status_text(status), stop_name]
+    [headsign, String.downcase(vehicle_name(route)), display_trip_name(route.type, trip), prediction_stop_status_text(status), stop_name]
   end
 
   @spec prediction_stop_status_text(atom) :: String.t
@@ -114,8 +113,8 @@ defmodule VehicleTooltip do
   defp prediction_stop_status_text(:stopped), do: " has arrived at "
   defp prediction_stop_status_text(:in_transit), do: " has left "
 
-  @spec display_trip_name(0..4, String.t) :: String.t
-  defp display_trip_name(2, trip_name), do: " #{trip_name}"
+  @spec display_trip_name(0..4, Trip.t) :: String.t
+  defp display_trip_name(2, trip), do: " #{trip.name}"
   defp display_trip_name(_, _), do: ""
 
   @spec build_prediction_tooltip(String.t, String.t, iodata) :: String.t
