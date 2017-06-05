@@ -3,7 +3,7 @@ defmodule News.Repo.EtsTest do
   alias News.Repo.Ets
 
   setup _ do
-    Ets.start_link()
+    {:ok, _pid} = Ets.start_link()
     :ok
   end
 

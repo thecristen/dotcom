@@ -77,7 +77,7 @@ defmodule Site.Mixfile do
      {:fares, in_umbrella: true},
      {:content, in_umbrella: true},
      {:parallel_stream, "~> 1.0.5"},
-     {:bypass, "~> 0.1", only: :test},
+     {:bypass, github: "paulswartz/bypass", only: :test},
      {:dialyxir, ">= 0.3.5", only: [:test, :dev]},
      {:benchfella, "~> 0.3", only: :dev},
      {:excoveralls, "~> 0.5", only: :test},

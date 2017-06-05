@@ -38,6 +38,6 @@ defmodule Vehicles.Mixfile do
   defp deps do
     [{:v3_api, in_umbrella: true},
      {:repo_cache, in_umbrella: true},
-     {:bypass, ">= 0.0.0", only: :test}]
+     {:bypass, github: "paulswartz/bypass", only: :test}]
   end
 end

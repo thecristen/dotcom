@@ -3,9 +3,10 @@ defmodule V3Api do
   require Logger
 
   @spec get_json(String.t, Keyword.t) :: JsonApi.t | {:error, any}
-  def get_json(url, params \\ [], timeout \\ 30_000) do
+  def get_json(url, params \\ [], opts \\ []) do
     _ = Logger.debug("V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}")
-    with {time, response} <- timed_get(url, params, timeout),
+    with opts = Keyword.merge(default_options(), opts),
+         {time, response} <- timed_get(url, params, opts),
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
          {:ok, body} <- body(http_response) do
@@ -16,7 +17,10 @@ defmodule V3Api do
     end
   end
 
-  defp timed_get(url, params, timeout) do
+  defp timed_get(url, params, opts) do
+    url = Keyword.fetch!(opts, :base_url) <> url
+    timeout = Keyword.fetch!(opts, :timeout)
+    params = add_api_key(params, opts)
     {time, response} = :timer.tc(fn ->
       get(url, [],
         params: params,
@@ -55,24 +59,25 @@ defmodule V3Api do
     other
   end
 
-  defp process_url(url) do
-    base_url = config(:base_url)
-    base_url <> url
-  end
-
   defp process_request_headers(headers) do
     put_in headers[:"accept-encoding"], "gzip"
   end
 
-  defp process_request_options(opts) do
-    case config(:api_key) do
+  defp add_api_key(params, opts) do
+    case Keyword.fetch!(opts, :api_key) do
       nil ->
-        opts
+        params
       key ->
-        {params, opts} = Keyword.pop(opts, :params, [])
-        params = Keyword.put(params, :api_key, key)
-        Keyword.put(opts, :params, params)
+        Keyword.put(params, :api_key, key)
     end
+  end
+
+  defp default_options do
+    [
+      base_url: config(:base_url),
+      api_key: config(:api_key),
+      timeout: 30_000
+    ]
   end
 
   defp config(key) do

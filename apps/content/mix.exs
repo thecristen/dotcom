@@ -57,7 +57,7 @@ defmodule Content.Mixfile do
      {:poison, ">= 0.0.0"},
      {:timex, ">= 0.0.0"},
      {:plug, ">= 0.0.0"},
-     {:bypass, "~> 0.1", only: :test},
+     {:bypass, github: "paulswartz/bypass", only: :test},
      {:quixir, "~> 0.9", only: :test},
      {:excoveralls, "~> 0.5", only: :test},
      {:mock, "~> 0.2.0", only: :test},
