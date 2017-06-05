@@ -12,7 +12,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   @vehicle_tooltip %VehicleTooltip{
     prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
-    vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped},
+    vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "Orange"},
     route_type: 2,
     trip_name: "101",
     stop_name: "South Station"
@@ -111,25 +111,33 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "when vehicle is at stop and stop is not a terminus, returns a normal vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1, id: "Orange"}, false))
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-boring"
     end
 
     test "when vehicle is at stop and stop is a terminus, returns an inverse vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1}, true))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1, id: "Orange"}, true))
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-inverse"
     end
 
     test "given a vehicle and the subway route_type, returns the icon for the subway" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1, id: "Orange"}, false))
       assert rendered =~ "icon-subway"
     end
 
     test "given a vehicle and the bus route_type, returns the icon for the bus" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3, id: "Orange"}, false))
       assert rendered =~ "icon-bus"
+    end
+
+    test "Does not show vehicle icon when vehicle is on a different route" do
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3, id: "Blue"}, false))
+      refute rendered =~ "icon-bus"
+      refute rendered =~ "icon-circle"
+      assert rendered =~ "stop-bubble-stop"
+      assert rendered =~ "svg"
     end
   end
 
@@ -334,6 +342,7 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "_trip_info_row.html" do
+    @vehicle %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "1"}
     @output Site.ScheduleV2View.render(
             "_trip_info_row.html",
             name: "name",
@@ -341,11 +350,11 @@ defmodule Site.ScheduleV2ViewTest do
             above_expand_link?: true,
             is_last_item?: false,
             vehicle?: true,
-            vehicle_tooltip: @vehicle_tooltip,
+            vehicle_tooltip: %{@vehicle_tooltip | vehicle: @vehicle},
             terminus?: true,
             alerts: ["alert"],
             predicted_schedule: %PredictedSchedule{prediction: @prediction, schedule: @schedule},
-            route: %Routes.Route{id: "1", type: 3})
+            route: %Routes.Route{id: "1", type: 3,})
 
     test "real time icon shown when prediction is available" do
       safe_output = safe_to_string(@output)
@@ -723,7 +732,7 @@ defmodule Site.ScheduleV2ViewTest do
       route = %Routes.Route{id: "route"}
       vehicle_tooltip = %VehicleTooltip{
         prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
-        vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped},
+        vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "route"},
         route_type: 2,
         trip_name: "101",
         stop_name: "South Station"
