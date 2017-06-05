@@ -112,4 +112,13 @@ defmodule Site.VehicleTooltipTest do
     assert tooltip(tooltip3) =~ "Train 515 has left"
   end
 
+  describe "prediction_for_stop/2" do
+    test "do not crash if vehicle prediction does not contain a trip" do
+      predictions = [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time"}]
+      tooltips = build_map(2, @locations, predictions)
+      tooltip = tooltips["place-sstat"]
+      assert tooltip(tooltip) =~ "Train 515 has arrived"
+    end
+  end
+
 end

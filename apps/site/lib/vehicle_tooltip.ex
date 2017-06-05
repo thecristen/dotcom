@@ -75,7 +75,7 @@ defmodule VehicleTooltip do
     nil
   end
   defp prediction_for_stop(vehicle_predictions, trip_id) do
-    Enum.find(vehicle_predictions, &(&1.trip.id == trip_id))
+    Enum.find(vehicle_predictions, &match?(%{trip: %{id: ^trip_id}}, &1))
   end
 
   @spec prediction_status_text(Predictions.Prediction.t | nil) :: iodata
