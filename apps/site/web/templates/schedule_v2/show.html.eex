@@ -8,21 +8,27 @@
   </h1>
 
   <%= Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
+  <%
+    date = Date.to_string(@date)
+    timetable_link = timetable_path(@conn, :show, @route.id, direction_id: @direction_id, date: date)
+    schedule_link = trip_view_path(@conn, :show, @route.id, direction_id: @direction_id, date: date)
+    info_link = line_path(@conn, :show, @route.id, direction_id: @direction_id, date: date)
+  %>
   <%= if @route.type == 2 do %>
     <%= tab_list(%TabList{
       buttonbar: true,
       links: [
-        {"Timetable", timetable_path(@conn, :show, @route.id), tab_selected?("timetable", @tab)},
-        {"Schedule", trip_view_path(@conn, :show, @route.id), tab_selected?("trip-view", @tab)},
-        {"Info and Maps", line_path(@conn, :show, @route.id), tab_selected?("line", @tab)}
+        {"Timetable", timetable_link, tab_selected?("timetable", @tab)},
+        {"Schedule", schedule_link, tab_selected?("trip-view", @tab)},
+        {"Info and Maps", info_link, tab_selected?("line", @tab)}
       ]
     }) %>
   <% else %>
     <%= tab_list(%TabList{
       buttonbar: true,
       links: [
-        {"Schedule", trip_view_path(@conn, :show, @route.id), tab_selected?("trip-view", @tab)},
-        {"Info and Maps", line_path(@conn, :show, @route.id), tab_selected?("line", @tab)}
+        {"Schedule", schedule_link, tab_selected?("trip-view", @tab)},
+        {"Info and Maps", info_link, tab_selected?("line", @tab)}
       ]
     }) %>
   <% end %>
