@@ -1,20 +1,22 @@
-<div class="container page-section">
-  <h2>News &amp; Updates</h2>
-  <div class="title-card-container title-card-container-separate">
-    <%= for posts <- Enum.chunk(@news, 2) do %>
-      <div class="row">
-        <%= for post <- posts do %>
-          <div class="col-md-6 col-sm-12">
-            <%= link to: redirect_path(@conn, "about_the_mbta/news_events/?id=#{post.id}&month=&year="), target: "_blank", class: "title-card" do %>
-              <div class="title-card-title"><%= post.attributes["title"] |> raw %></div>
-              <p><%= post.body |> Content.Blurb.blurb(90) %></p>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+<%= if !Enum.empty?(@news) do %>
+  <div class="container page-section">
+    <h2>News &amp; Updates</h2>
+    <div class="title-card-container title-card-container-separate">
+      <%= for news_entry_pair <- Enum.chunk(@news, 2) do %>
+        <div class="row">
+          <%= for news_entry <- news_entry_pair do %>
+            <div class="col-md-6 col-sm-12">
+              <%= link to: news_entry_path(@conn, :show, news_entry.id), class: "title-card" do %>
+                <div class="title-card-title"><%= news_entry.title %></div>
+                <p><%= news_entry.teaser |> safe_to_string |> Content.Blurb.blurb(90) |> raw %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <%= link to: news_entry_path(@conn, :index) do %>
+      More News <%= fa "arrow-right" %>
     <% end %>
   </div>
-  <%= link to: redirect_path(@conn, "/about_the_mbta/news_events/"), target: "_blank" do %>
-    More News <%= fa "arrow-right" %>
-  <% end %>
-</div>
+<% end %>

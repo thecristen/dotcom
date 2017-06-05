@@ -19,7 +19,7 @@ defmodule Site.PageController do
   end
 
   defp news do
-    News.Repo.all(limit: 4)
+    Enum.take(Content.Repo.news(limit: 4), 4)
   end
 
   defp whats_happening_items do
