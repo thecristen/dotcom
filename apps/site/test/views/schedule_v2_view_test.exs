@@ -14,7 +14,7 @@ defmodule Site.ScheduleV2ViewTest do
     prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
     vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "Orange"},
     route: %Routes.Route{type: 2},
-    trip_name: "101",
+    trip: %Schedules.Trip{name: "101", headsign: "Headsign"},
     stop_name: "South Station"
   }
 
@@ -734,7 +734,7 @@ defmodule Site.ScheduleV2ViewTest do
         prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
         vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "route"},
         route: %Routes.Route{type: 2},
-        trip_name: "101",
+        trip: %Schedules.Trip{name: "101", headsign: "Headsign"},
         stop_name: "South Station"
       }
       assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: vehicle_tooltip}
