@@ -1,5 +1,5 @@
 defmodule Site.CustomerSupportControllerTest do
-  use Site.ConnCase, async: true
+  use Site.ConnCase
 
   describe "GET" do
     test "shows the support form", %{conn: conn} do
@@ -23,8 +23,7 @@ defmodule Site.CustomerSupportControllerTest do
       response = html_response(conn, 302)
       refute response =~ "form id=\"support-form\""
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
-      ref = Process.monitor(conn.private[:ticket_task])
-      assert_receive({:DOWN, ^ref, _, _, _}, 1000)
+      wait_for_ticket_task(conn)
       assert String.contains?(Feedback.Test.latest_message["text"], ~s(<MBTASOURCE>Auto Ticket 2</MBTASOURCE>))
     end
 
@@ -36,6 +35,7 @@ defmodule Site.CustomerSupportControllerTest do
     test "does not require name if customer does not want a response", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_no_response_data(), "name", "")
       refute conn.assigns["errors"]
+      wait_for_ticket_task(conn)
     end
 
     test "requires name if customer does want a response", %{conn: conn} do
@@ -46,6 +46,7 @@ defmodule Site.CustomerSupportControllerTest do
     test "does not require email or phone when the customer wants a response", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_no_response_data(), "email", "")
       refute conn.assigns["errors"]
+      wait_for_ticket_task(conn)
     end
 
     test "invalid with no email or phone when the customer wants a response", %{conn: conn} do
@@ -64,16 +65,26 @@ defmodule Site.CustomerSupportControllerTest do
         Map.merge(valid_request_response_data(), %{"email" => "", "phone" => "555-555-5555"})
       refute html_response(conn, 302) =~ "form id=\"support-form\""
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
+      wait_for_ticket_task(conn)
     end
 
     test "does not require privacy checkbox when customer does not want a response", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_no_response_data(), "privacy", "")
       refute conn.assigns["errors"]
+      wait_for_ticket_task(conn)
     end
 
     test "requires privacy checkbox when customer wants a response", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_request_response_data(), "privacy", "")
       assert "privacy" in conn.assigns.errors
     end
+  end
+
+  defp wait_for_ticket_task(%{private: %{ticket_task: pid}}) do
+    # since the ticket sending is running in the background, we want to wait
+    # for it to finish so that we're only running one test e-mail at a time.
+    ref = Process.monitor(pid)
+    assert_receive {:DOWN, ^ref, _, _, _}, 1_000
+    :ok
   end
 end

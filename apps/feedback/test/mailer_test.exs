@@ -1,5 +1,5 @@
 defmodule Feedback.MailerTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case
 
   describe "send_heat_ticket/2" do
     test "sends an email for heat 2" do
