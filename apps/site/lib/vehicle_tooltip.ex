@@ -38,10 +38,10 @@ defmodule VehicleTooltip do
   def build_map(route, vehicle_locations, vehicle_predictions) do
     Enum.reduce(vehicle_locations, %{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
-      {headsign, trip_name} = trip_info(Schedules.Repo.trip(trip_id))
+      {headsign, trip_name} = trip_name_and_headsign(Schedules.Repo.trip(trip_id))
       tooltip = %VehicleTooltip{
         vehicle: vehicle_status,
-        prediction: prediction_for_stop(vehicle_predictions, vehicle_status.trip_id),
+        prediction: prediction_for_stop(vehicle_predictions, trip_id),
         stop_name: stop_name(Stops.Repo.get(stop_id)),
         trip_name: trip_name,
         headsign: headsign,
@@ -57,9 +57,9 @@ defmodule VehicleTooltip do
   defp stop_name(nil), do: ""
   defp stop_name(stop), do: stop.name
 
-  @spec trip_info(Schedules.Trip.t | nil) :: {String.t, String.t}
-  defp trip_info(nil), do: {"", ""}
-  defp trip_info(trip), do: {trip.headsign, trip.name}
+  @spec trip_name_and_headsign(Schedules.Trip.t | nil) :: {String.t, String.t}
+  defp trip_name_and_headsign(nil), do: {"", ""}
+  defp trip_name_and_headsign(trip), do: {trip.headsign, trip.name}
 
   @doc """
   Function used to return tooltip text for a VehicleTooltip struct
