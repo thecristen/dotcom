@@ -13,13 +13,11 @@ defmodule Site.StopView do
   def fare_group(:subway), do: "bus_subway"
   def fare_group(type), do: Atom.to_string(type)
 
-  def location(stop) do
-    case stop.latitude do
-      nil -> URI.encode(stop.address, &URI.char_unreserved?/1)
-      _ -> "#{stop.latitude},#{stop.longitude}"
-    end
-  end
+  @spec location(Stops.Stop.t) :: String.t
+  def location(%Stops.Stop{latitude: nil, address: address}), do: URI.encode(address, &URI.char_unreserved?/1)
+  def location(%Stops.Stop{latitude: lat, longitude: lng}), do: "#{lat},#{lng}"
 
+  @spec pretty_accessibility(String.t) :: String.t
   def pretty_accessibility("tty_phone"), do: "TTY Phone"
   def pretty_accessibility("escalator_both"), do: "Escalator (Both)"
   def pretty_accessibility(accessibility) do
@@ -29,6 +27,7 @@ defmodule Site.StopView do
     |> Enum.join(" ")
   end
 
+  @spec sort_parking_spots([Stops.Stop.Parking.t]) :: [Stops.Stop.Parking.t]
   def sort_parking_spots(spots) do
     spots
     |> Enum.sort_by(fn %{type: type} ->
@@ -106,6 +105,7 @@ defmodule Site.StopView do
     stop.id in ["place-bbsta", "place-north", "place-sstat"]
   end
 
+  @spec parking_type(String.t) :: String.t
   def parking_type("basic"), do: "Parking"
   def parking_type(type), do: type |> String.capitalize
 
@@ -137,22 +137,16 @@ defmodule Site.StopView do
     |> Kernel.not
   end
 
+  @spec station_schedule_empty_msg(atom) :: Phoenix.HTML.Safe.t
   def station_schedule_empty_msg(mode) do
     content_tag :div, class: "station-schedules-empty station-route-row" do
       [
         "There are no upcoming ",
-        mode |> mode_name |> String.downcase,
+        mode |> mode_name() |> String.downcase,
         " departures until the start of the next day's service."
       ]
     end
   end
-
-  def predicted_icon(true) do
-      ~s(<i data-toggle="tooltip" title="Real-time Information" class="fa fa-rss station-schedule-icon"></i>
-         <span class="sr-only">Predicted departure time: </span>)
-      |> Phoenix.HTML.raw
-  end
-  def predicted_icon(_), do: ""
 
   @spec time_differences([PredictedSchedule.t], DateTime.t) :: [Phoenix.HTML.Safe.t]
   @doc "A list of time differences for the predicted schedules, with the empty ones removed."
