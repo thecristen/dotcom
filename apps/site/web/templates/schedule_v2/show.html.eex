@@ -9,7 +9,7 @@
 
   <%= Site.AlertView.modal(alerts: @alerts, upcoming_alerts: @upcoming_alerts, route: @route, time: @date) %>
   <%
-    tab_params = tab_params(@conn.params)
+    tab_params = Map.take(@conn.params, ["direction_id", "date"])
     timetable_link = timetable_path(@conn, :show, @route.id, tab_params)
     schedule_link = trip_view_path(@conn, :show, @route.id, tab_params)
     info_link = line_path(@conn, :show, @route.id, tab_params)

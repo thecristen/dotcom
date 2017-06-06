@@ -412,16 +412,4 @@ defmodule Site.ScheduleV2View do
       update_url(conn, trip: trip_id) <> "#" <> trip_id
     end
   end
-
-  @spec tab_params(map) :: map
-  def tab_params(%{"direction_id" => direction_id, "date" => date}) do
-    %{direction_id: direction_id, date: date}
-  end
-  def tab_params(%{"direction_id" => direction_id}) do
-    %{direction_id: direction_id}
-  end
-  def tab_params(%{"date" => date}) do
-    %{date: date}
-  end
-  def tab_params(_), do: %{}
 end

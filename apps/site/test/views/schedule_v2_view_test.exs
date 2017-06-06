@@ -865,27 +865,4 @@ defmodule Site.ScheduleV2ViewTest do
       assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
     end
   end
-
-  describe "tab_params/1" do
-
-    test "both direction and date available, so provide them while ignoring other input" do
-      expected = %{direction_id: 1, date: "2017-06-07"}
-      assert tab_params(%{"direction_id" => 1, "date" => "2017-06-07", "a" => "b"}) == expected
-    end
-
-    test "direction only available, provide that, ignore other input" do
-      expected = %{direction_id: 1}
-      assert tab_params(%{"direction_id" => 1, "a" => "b"}) == expected
-    end
-
-    test "date only available, provide that, ignore other input" do
-      expected = %{date: "2017-06-07"}
-      assert tab_params(%{"date" => "2017-06-07", "a" => "b"}) == expected
-    end
-
-    test "neither direaction nor date available, should be an empty map ignoring other input" do
-      expected = %{}
-      assert tab_params(%{"a" => "b"}) == expected
-    end
-  end
 end
