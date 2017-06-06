@@ -36,7 +36,9 @@ defmodule VehicleTooltip do
   """
   @spec build_map(Route.t, %{{String.t, String.t} => Vehicle.t}, [Prediction.t]):: %{}
   def build_map(route, vehicle_locations, vehicle_predictions) do
-    Enum.reduce(vehicle_locations, %{}, fn(vehicle_location, output) ->
+    vehicle_locations
+    |> Stream.reject(fn({{_trip_id, stop_id}, _status}) -> is_nil stop_id end)
+    |> Enum.reduce(%{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
       tooltip = %VehicleTooltip{
         vehicle: vehicle_status,
