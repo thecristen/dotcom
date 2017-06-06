@@ -423,7 +423,5 @@ defmodule Site.ScheduleV2View do
   def tab_params(%{"date" => date}) do
     %{date: date}
   end
-  def tab_params(params) do
-    %{}
-  end
+  def tab_params(_), do: %{}
 end
