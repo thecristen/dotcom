@@ -19,6 +19,26 @@
   </div>
 </div>
 
+<%= if @news_entry.media_contact || @news_entry.media_email || @news_entry.media_phone do %>
+  <div class="callout">
+    <h3>Media Contact Information</h3>
+
+    <%= if (contact = @news_entry.media_contact) do %>
+      <p>
+        For all queries and comments, please contact <%= contact %>.
+      </p>
+    <% end %>
+
+    <%= if (tel = Site.PhoneNumber.normalize(@news_entry.media_phone || "")) do %>
+      <div><strong>Phone:</strong> <%= link tel, to: "tel:1-#{tel}" %></div>
+    <% end %>
+
+    <%= if (email = @news_entry.media_email) do %>
+      <div><strong>Email:</strong> <%= link email, to: "mailto:#{email}" %></div>
+    <% end %>
+  </div>
+<% end %>
+
 <%= if render_recent_news?(@recent_news) do %>
   <%= render "_recent_news.html", conn: @conn, recent_news: @recent_news %>
 <% end %>

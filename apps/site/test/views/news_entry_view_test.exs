@@ -55,6 +55,43 @@ defmodule Site.NewsEntryViewTest do
       |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])
       |> refute_text_visible?("More Information")
     end
+
+    test "does not display Media Contact Information if none given", %{conn: conn} do
+      news_entry = news_entry_factory(%{media_contact: nil, media_email: nil, media_phone: nil})
+
+      Site.NewsEntryView
+      |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])
+      |> refute_text_visible?("Media Contact Information")
+    end
+
+    test "displays Media Contact Information when present", %{conn: conn} do
+      news_entry = news_entry_factory(%{
+        media_contact: "Capy",
+        media_email: "capy@example.com",
+        media_phone: "424-242-4242"
+      })
+
+      rendered = render_to_string(Site.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
+
+      assert rendered =~ "Media Contact Information"
+      assert rendered =~ "contact Capy."
+      assert rendered =~ ~s(<a href="mailto:capy@example.com">capy@example.com</a>)
+      assert rendered =~ ~s(<a href="tel:1-424-242-4242">424-242-4242</a>)
+    end
+
+    test "displays partial information if only some present", %{conn: conn} do
+      news_entry = news_entry_factory(%{
+        media_contact: nil,
+        media_email: nil,
+        media_phone: "424-242-4242"
+      })
+
+      rendered = render_to_string(Site.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
+
+      refute rendered =~ "please contact"
+      assert rendered =~ "Phone:"
+      refute rendered =~ "Email:"
+    end
   end
 
   describe "recent_news.html" do
