@@ -87,8 +87,6 @@ defmodule Schedules.Parser do
   end
 
   @spec shape_id(any) :: String.t | nil
-  defp shape_id(%{"shape" => [%JsonApi.Item{} = shape | _]}) do
-    shape.id
-  end
+  defp shape_id(%{"shape" => [%JsonApi.Item{id: id}]}), do: id
   defp shape_id(_), do: nil
 end
