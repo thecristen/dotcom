@@ -868,8 +868,6 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "tab_params/1" do
 
-i think it would make sense to have the test description say something about the expected behavior. it seems to me that these tests are rejecting the parameters that arent direction_id and date, so i would say something like that.
-
     test "both direction and date available, so provide them while ignoring other input" do
       expected = %{direction_id: 1, date: "2017-06-07"}
       assert tab_params(%{"direction_id" => 1, "date" => "2017-06-07", "a" => "b"}) == expected
