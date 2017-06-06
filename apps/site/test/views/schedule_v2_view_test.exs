@@ -13,8 +13,8 @@ defmodule Site.ScheduleV2ViewTest do
   @vehicle_tooltip %VehicleTooltip{
     prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
     vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "Orange"},
-    route_type: 2,
-    trip_name: "101",
+    route: %Routes.Route{type: 2},
+    trip: %Schedules.Trip{name: "101", headsign: "Headsign"},
     stop_name: "South Station"
   }
 
@@ -733,13 +733,13 @@ defmodule Site.ScheduleV2ViewTest do
       vehicle_tooltip = %VehicleTooltip{
         prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
         vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "route"},
-        route_type: 2,
-        trip_name: "101",
+        route: %Routes.Route{type: 2},
+        trip: %Schedules.Trip{name: "101", headsign: "Headsign"},
         stop_name: "South Station"
       }
       assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: vehicle_tooltip}
       content = render_stop_bubble_content(assigns, :terminus, nil, 0)
-      assert content =~ "Train 101 has arrived at South Station"
+      assert content =~ "train 101 has arrived at South Station"
       assert content =~ "icon-subway-image"
     end
 

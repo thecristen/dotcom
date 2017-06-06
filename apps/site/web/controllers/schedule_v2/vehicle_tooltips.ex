@@ -10,7 +10,7 @@ defmodule Site.ScheduleV2Controller.VehicleTooltips do
 
   def call(conn, []) do
     assign(conn, :vehicle_tooltips, VehicleTooltip.build_map(
-      conn.assigns[:route].type,
+      conn.assigns.route,
       conn.assigns[:vehicle_locations],
       conn.assigns[:vehicle_predictions]
     ))

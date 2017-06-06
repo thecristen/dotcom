@@ -304,18 +304,4 @@ defmodule Site.ViewHelpers do
   defp summaries_for_filters(filters, mode) do
     filters |> get_fares |> Fares.Format.summarize(mode)
   end
-
-  @spec route_type_name(number) :: String.t
-  def route_type_name(route_type) do
-    case route_type do
-      0 ->
-        "Subway"
-      1 ->
-        "Subway"
-      2 ->
-        "Train"
-      3 ->
-        "Bus"
-    end
-  end
 end
