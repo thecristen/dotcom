@@ -92,11 +92,13 @@ defmodule Schedules.RepoTest do
       assert trip("invalid ID") == nil
     end
 
-    test "returns a %Schedule.Trip{} for a given ID" do
+    test "returns a %Schedule.Trip{} for a given ID with a shape_id" do
       date = Timex.shift(Util.service_date, days: 1)
       schedules = by_route_ids(["1"], date: date, stop_sequences: :first, direction_id: 0)
       scheduled_trip = List.first(schedules).trip
-      assert scheduled_trip == trip(scheduled_trip.id)
+      trip = trip(scheduled_trip.id)
+      assert scheduled_trip == trip
+      assert trip.shape_id != nil
     end
   end
 
