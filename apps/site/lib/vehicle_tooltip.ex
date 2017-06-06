@@ -11,6 +11,7 @@ defmodule VehicleTooltip do
   import Routes.Route, only: [vehicle_name: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
+  import Site.ViewHelpers, only: [format_schedule_time: 1]
 
   defstruct [
     vehicle: %Vehicle{},
@@ -81,43 +82,46 @@ defmodule VehicleTooltip do
     [String.capitalize(status), " on track ", track]
   end
   defp prediction_status_text(_) do
-    ""
+    []
   end
 
   @spec prediction_time_text(Prediction.t | nil) :: iodata
   defp prediction_time_text(nil) do
-    ""
+    []
   end
   defp prediction_time_text(%Prediction{time: nil}) do
-    ""
+    []
   end
   defp prediction_time_text(%Prediction{time: time, departing?: true}) do
-    do_prediction_time_text("Expected departure at ", time)
+    ["Expected departure at ", format_schedule_time(time)]
   end
   defp prediction_time_text(%Prediction{time: time}) do
-    do_prediction_time_text("Expected arrival at ", time)
-  end
-
-  defp do_prediction_time_text(prefix, time) do
-    [prefix, Timex.format!(time, "{h12}:{m} {AM}")]
+    ["Expected arrival at ", format_schedule_time(time)]
   end
 
   @spec prediction_stop_text(Trip.t | nil, String.t, Vehicle.t | nil, Route.t) :: iodata
   defp prediction_stop_text(trip, stop_name, %Vehicle{status: status}, route) do
-    headsign = if trip, do: "#{trip.headsign} ", else: ""
-    [headsign, String.downcase(vehicle_name(route)), display_trip_name(route.type, trip), prediction_stop_status_text(status), stop_name]
+    [display_headsign_text(trip),
+     String.downcase(vehicle_name(route)),
+     display_trip_name(route, trip),
+     prediction_stop_status_text(status),
+     stop_name]
   end
+
+  @spec display_headsign_text(Trip.t | nil) :: String.t
+  defp display_headsign_text(%{headsign: headsign}), do: "#{headsign} "
+  defp display_headsign_text(_), do: ""
 
   @spec prediction_stop_status_text(atom) :: String.t
   defp prediction_stop_status_text(:incoming), do: " is on the way to "
   defp prediction_stop_status_text(:stopped), do: " has arrived at "
   defp prediction_stop_status_text(:in_transit), do: " has left "
 
-  @spec display_trip_name(0..4, Trip.t) :: String.t
-  defp display_trip_name(2, trip), do: " #{trip.name}"
+  @spec display_trip_name(Route.t, Trip.t) :: String.t
+  defp display_trip_name(%{type: 2}, trip), do: " #{trip.name}"
   defp display_trip_name(_, _), do: ""
 
-  @spec build_prediction_tooltip(String.t, String.t, iodata) :: String.t
+  @spec build_prediction_tooltip(iodata, iodata, iodata) :: String.t
   defp build_prediction_tooltip(time_text, status_text, stop_text) do
     time_tag = do_build_prediction_tooltip(time_text)
     status_tag = do_build_prediction_tooltip(status_text)
@@ -130,7 +134,7 @@ defmodule VehicleTooltip do
   end
 
   @spec do_build_prediction_tooltip(iodata) :: Phoenix.HTML.Safe.t
-  defp do_build_prediction_tooltip("") do
+  defp do_build_prediction_tooltip([]) do
     ""
   end
   defp do_build_prediction_tooltip(text) do
