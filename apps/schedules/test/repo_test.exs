@@ -96,7 +96,9 @@ defmodule Schedules.RepoTest do
       date = Timex.shift(Util.service_date, days: 1)
       schedules = by_route_ids(["1"], date: date, stop_sequences: :first, direction_id: 0)
       scheduled_trip = List.first(schedules).trip
-      assert scheduled_trip == trip(scheduled_trip.id)
+      trip = trip(scheduled_trip.id)
+      assert scheduled_trip == trip
+      refute trip.shape_id == nil
     end
   end
 
