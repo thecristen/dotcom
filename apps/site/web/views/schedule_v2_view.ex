@@ -6,6 +6,7 @@ defmodule Site.ScheduleV2View do
 
   require Routes.Route
   alias Routes.Route
+  alias Plug.Conn
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
@@ -144,15 +145,15 @@ defmodule Site.ScheduleV2View do
   @doc """
   Returns the suffix to be shown in the stop selector.
   """
-  @spec stop_selector_suffix(Plug.Conn.t, Stops.Stop.id_t) :: iodata
-  def stop_selector_suffix(%Plug.Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, stop_id) do
+  @spec stop_selector_suffix(Conn.t, Stops.Stop.id_t) :: iodata
+  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{type: 2}}} = conn, stop_id) do
     if zone = conn.assigns.zone_map[stop_id] do
       ["Zone ", zone]
     else
       ""
     end
   end
-  def stop_selector_suffix(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, stop_id) do
+  def stop_selector_suffix(%Conn{assigns: %{route: %Routes.Route{id: "Green"}}} = conn, stop_id) do
     GreenLine.branch_ids()
     |> Enum.flat_map(fn route_id ->
       if GreenLine.stop_on_route?(stop_id, route_id, conn.assigns.stops_on_routes) do
@@ -354,7 +355,7 @@ defmodule Site.ScheduleV2View do
   Returns a link to expand or collapse the trip list. No link is shown
   if there are no additional trips
   """
-  @spec trip_expansion_link(:none | :collapsed | :expanded, Date.t, Plug.Conn.t) :: Phoenix.HTML.safe | nil
+  @spec trip_expansion_link(:none | :collapsed | :expanded, Date.t, Conn.t) :: Phoenix.HTML.safe | nil
   def trip_expansion_link(:none, _date, _conn) do
     nil
   end
@@ -403,7 +404,7 @@ defmodule Site.ScheduleV2View do
   def direction_select_column_width(_, headsign_length) when headsign_length > 20, do: "8"
   def direction_select_column_width(_, _headsign_length), do: "4"
 
-  @spec trip_link(Plug.Conn.t, TripInfo.t, boolean, String.t) :: String.t
+  @spec trip_link(Conn.t, TripInfo.t, boolean, String.t) :: String.t
   def trip_link(conn, trip_info, trip_chosen?, trip_id) do
     if TripInfo.is_current_trip?(trip_info, trip_id) && trip_chosen? do
       update_url(conn, trip: "") <> "#" <> trip_id
