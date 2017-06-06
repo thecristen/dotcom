@@ -2,4 +2,11 @@
 <% route = Routes.Repo.get(@leg.mode.route_id) %>
 <div><strong><%= route.name %> to <%= trip.headsign %></strong></div>
 <div><%= format_schedule_time(@leg.start) %> - <%= @leg.from.name %></div>
+<%= unless @leg.mode.intermediate_stop_ids == [] do %>
+  <ul>
+    <%= for stop_id <- @leg.mode.intermediate_stop_ids do %>
+      <li><%= Stops.Repo.get(stop_id).name %></li>
+    <% end %>
+  </ul>
+<% end %>
 <div><%= format_schedule_time(@leg.stop) %> - <%= @leg.to.name %></div>

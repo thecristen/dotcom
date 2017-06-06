@@ -76,7 +76,11 @@ defmodule TripPlan.Api.MockPlanner do
       to: to,
       mode: %TransitDetail{
         route_id: route_id,
-        trip_id: trip_id
+        trip_id: trip_id,
+        intermediate_stop_ids: Enum.random([
+          [List.first(schedules).stop.id],
+          []
+        ])
       }
     }
   end

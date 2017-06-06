@@ -47,7 +47,8 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
     test "personal_mode of :drive adds the car mode" do
       car_mode = config(:car_mode)
       expected = {:ok, %{
-                     "mode" => "#{car_mode},WALK,TRANSIT"
+                     "mode" => "#{car_mode},WALK,TRANSIT",
+                     "disableRemainingWeightHeuristic" => "true"
                   }}
       actual = build_params(personal_mode: :drive)
       assert actual == expected

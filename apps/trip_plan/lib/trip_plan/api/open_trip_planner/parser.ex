@@ -76,8 +76,9 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   end
   defp parse_mode(%{"mode" => mode} = json) when mode in @transit_modes do
     %TransitDetail{
-      route_id: json["routeId"] |> String.split(":", parts: 2) |> Enum.at(1),
-      trip_id: json["tripId"] |> String.split(":", parts: 2) |> Enum.at(1)
+      route_id: id_after_colon(json["routeId"]),
+      trip_id: id_after_colon(json["tripId"]),
+      intermediate_stop_ids: Enum.map(json["intermediateStops"], &id_after_colon(&1["stopId"]))
     }
   end
 
@@ -111,5 +112,10 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   # http://dev.opentripplanner.org/apidoc/1.0.0/json_AbsoluteDirection.html
   for dir <- ~w(north northeast east southeast south southwest west northwest)a do
     defp parse_absolute_direction(unquote(String.upcase(Atom.to_string(dir)))), do: unquote(dir)
+  end
+
+  defp id_after_colon(agency_colon_id) do
+    [_agency, id] = String.split(agency_colon_id, ":", parts: 2)
+    id
   end
 end
