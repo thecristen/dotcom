@@ -14,13 +14,14 @@ defmodule Schedules.Schedule do
 end
 
 defmodule Schedules.Trip do
-  defstruct [:id, :name, :headsign, :direction_id]
+  defstruct [:id, :name, :headsign, :direction_id, :shape_id]
   @type id_t :: String.t
   @type t :: %Schedules.Trip{
     id: id_t,
     name: String.t,
     headsign: String.t,
-    direction_id: 0 | 1
+    direction_id: 0 | 1,
+    shape_id: String.t | nil
   }
 end
 
