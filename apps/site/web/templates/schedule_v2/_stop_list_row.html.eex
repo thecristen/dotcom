@@ -1,30 +1,8 @@
-<%# add_expand_link? = Enum.map(@bubbles, & elem(&1, 0)) == [:merge, :merge] %>
-<%= if @add_expand_link? do %>
-  <div class="route-branch-stop">
-    <%= render "_stop_list_row_bubbles.html", bubbles: @bubbles,
-                                              stop: @stop,
-                                              route: @route,
-                                              branch_names: @branch_names,
-                                              is_expand_link?: true,
-                                              vehicle_tooltip: @vehicle_tooltip,
-                                              expanded: @expanded %>
-    <div class="route-branch-stop-info expand">
-      <div class="expand-branch-link">
-        <%= view_branch_link(@conn, @expanded, @stop.branch) %>
-      </div>
-    </div>
-  </div>
-<% end %>
+<%= if @add_expand_link? && @direction_id == 0, do: render "_stop_list_expand_link.html", assigns %>
 <div class="route-branch-stop">
-  <%= render "_stop_list_row_bubbles.html", bubbles: @bubbles,
-                                            stop: @stop,
-                                            route: @route,
-                                            indent_start: assigns[:indent_start],
-                                            branch_names: @branch_names,
-                                            vehicle_tooltip: @vehicle_tooltip,
-                                            expanded: @expanded %>
-
+  <%= render "_stop_list_row_bubbles.html", assigns %>
   <div class="route-branch-stop-info">
     <%= render @row_content_template, assigns %>
   </div>
 </div>
+<%= if @add_expand_link? && @direction_id == 1, do: render "_stop_list_expand_link.html", assigns %>

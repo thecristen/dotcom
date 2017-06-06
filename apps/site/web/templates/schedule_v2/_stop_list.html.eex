@@ -2,22 +2,13 @@
   <%=
     branch_names = @branches |> Enum.map(& &1.branch) |> Enum.reverse() |> Enum.reject(&is_nil/1)
 
-    branch_stops = @all_stops
-    |> Enum.chunk_by(fn {_, stop} -> stop.branch end)
-    |> Enum.map(fn [{_, stop}|_] = stops -> {stop.branch, Enum.map(stops, fn {_, stp} -> stp.id end)} end)
-    |> Enum.into(%{})
-
     for {bubbles, stop} <- @all_stops do
-      bubbles = case branch_names do
-        [] -> Enum.map(bubbles, & {&1, nil})
-        [_|_] -> Enum.zip(bubbles, branch_names)
-      end
       render "_stop_list_row.html", bubbles: bubbles,
                                     stop: stop,
                                     route: @route,
                                     direction_id: @direction_id,
                                     conn: @conn,
-                                    add_expand_link?: add_expand_link?(stop, branch_stops),
+                                    add_expand_link?: add_expand_link?(stop, assigns),
                                     expanded: @expanded,
                                     branch_names: branch_names,
                                     vehicle_tooltip: @vehicle_tooltips[stop.id],

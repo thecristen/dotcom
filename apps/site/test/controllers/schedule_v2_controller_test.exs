@@ -276,12 +276,13 @@ defmodule Site.ScheduleV2ControllerTest do
       assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in Westbound order, Lechmere -> Boston College (last stop on B)
-      all_stops = Enum.flat_map(conn.assigns.branches, & &1.stops)
-      assert List.first(all_stops).id == "place-lech"
-      assert List.last(all_stops).id == "place-lake"
+      {_, first_stop} = List.first(conn.assigns.all_stops)
+      {_, last_stop} = List.last(conn.assigns.all_stops)
+      assert first_stop.id == "place-lech"
+      assert last_stop.id == "place-lake"
 
       # includes the stop features
-      assert List.first(all_stops).stop_features == [:bus, :access, :parking_lot]
+      assert first_stop.stop_features == [:bus, :access, :parking_lot]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
@@ -341,9 +342,9 @@ defmodule Site.ScheduleV2ControllerTest do
       assert conn.assigns.active_shape.id == "090111"
     end
 
-    test "sets schedule link direction id to 1 for last stop and 0 for all other stops on non-bus lines", %{conn: conn} do
+    test "sets schedule link to current direction for last stop and opposite for all other stops on non-bus lines", %{conn: conn} do
       response = conn
-      |> get(line_path(conn, :show, "CR-Fitchburg", direction_id: 1))
+      |> get(line_path(conn, :show, "CR-Fitchburg", direction_id: 0))
       |> html_response(200)
 
       [last_stop | others] = response
@@ -353,32 +354,6 @@ defmodule Site.ScheduleV2ControllerTest do
       assert last_stop |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
       Enum.each(others, & assert &1 |> Floki.attribute("href") |> List.first() =~ "direction_id=0")
 
-    end
-  end
-
-  describe "build_stop_list" do
-    test "takes a list of branches and builds a list of all stops in a route" do
-      branches = for branch <- [nil, "branch_1", "branch_2"] do
-        stops = for stop_number <- [1, 2] do
-          %Stops.RouteStop{id: "#{branch || "nil"} stop #{stop_number}", branch: branch, is_terminus?: stop_number == 2}
-        end
-        %Stops.RouteStops{branch: branch, stops: stops}
-      end
-      assert [{[:terminus], %Stops.RouteStop{id: "nil stop 1"}} | list] = Site.ScheduleV2Controller.Line.build_stop_list(branches)
-      assert assert {[:terminus], %Stops.RouteStop{id: "branch_2 stop 2"}} = List.last(list)
-    end
-
-    test "builds a list for route with no branches" do
-      stops = for id <- 1..10 do
-        %Stops.RouteStop{id: "#{id}", branch: nil, is_terminus?: id == 1 || id == 10}
-      end
-      expected = stops
-      |> Util.EnumHelpers.with_first_last()
-      |> Enum.map(fn {stop, is_terminus?} ->
-        type = if is_terminus?, do: :terminus, else: :stop
-        {[type], %{stop | branch: nil}}
-      end)
-      assert Site.ScheduleV2Controller.Line.build_stop_list([%Stops.RouteStops{branch: "branch", stops: stops}]) == expected
     end
   end
 

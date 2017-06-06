@@ -7,7 +7,7 @@ defmodule Util.ListHelpers do
   Accepts a list and two elements. Returns the first element that is found in the list.
   Returns nil if neither is found in the list.
   """
-  @spec find_first(List.t, any, any) :: any
+  @spec find_first([any], any, any) :: any
   def find_first([], _elem1, _elem2), do: nil
   def find_first([elem1 | _], elem1, _elem2), do: elem1
   def find_first([elem2 | _], _elem1, elem2), do: elem2

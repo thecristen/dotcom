@@ -8,6 +8,7 @@ defmodule GreenLine do
 
   @type route_id_stop_id_map :: %{Route.id_t => MapSet.t}
   @type stop_routes_pair :: {[Stop.t] | {:error, any}, route_id_stop_id_map}
+  @type branch_name :: String.t
 
   @doc """
   Returns the `calculate_stops_on_routes` results from the GreenLine.Cache.
@@ -33,16 +34,16 @@ defmodule GreenLine do
   Returns whether or not the given stop is a terminus for the line. Assumes the given stop is
   actually on the line.
   """
-  @spec terminus?(Stop.id_t, Route.id_t) :: boolean
-  def terminus?(stop_id, route_id) do
-    terminus?(stop_id, route_id, 0) or terminus?(stop_id, route_id, 1)
+  @spec terminus?(Stop.id_t, branch_name) :: boolean
+  def terminus?(stop_id, branch_name) do
+    terminus?(stop_id, branch_name, 0) or terminus?(stop_id, branch_name, 1)
   end
 
   @doc """
   Returns whether or not the stop is a terminus for the line in the given direction. Assumes
   the stop is actually on the line.
   """
-  @spec terminus?(Stop.id_t, Route.id_t, 0 | 1) :: boolean
+  @spec terminus?(Stop.id_t, branch_name, 0 | 1) :: boolean
   def terminus?("place-lake", "Green-B", 0), do: true
   def terminus?("place-clmnl", "Green-C", 0), do: true
   def terminus?("place-river", "Green-D", 0), do: true
@@ -56,9 +57,9 @@ defmodule GreenLine do
   @doc """
   Given a stop ID, route ID, and route => stop set map, returns whether the stop is on the route.
   """
-  @spec stop_on_route?(Stop.id_t, Route.id_t, stop_routes_pair) :: boolean
-  def stop_on_route?(stop_id, route_id, {_, map}) do
-    MapSet.member?(map[route_id], stop_id)
+  @spec stop_on_route?(Stop.id_t, branch_name, stop_routes_pair) :: boolean
+  def stop_on_route?(stop_id, branch_name, {_, map}) do
+    MapSet.member?(map[branch_name], stop_id)
   end
 
   @doc """
@@ -72,7 +73,7 @@ defmodule GreenLine do
   @doc """
   Returns stops on the specific branch of the line.
   """
-  @spec route_stops(Route.id_t, stop_routes_pair) :: MapSet.t
+  @spec route_stops(branch_name, stop_routes_pair) :: MapSet.t
   def route_stops(route_id, {_, map}) do
     map[route_id]
   end
@@ -80,20 +81,40 @@ defmodule GreenLine do
   @doc """
   All the branch IDs of the Green Line.
   """
-  @spec branch_ids() :: [Route.id_t]
+  @spec branch_ids() :: [branch_name]
   def branch_ids() do
     ~w(Green-B Green-C Green-D Green-E)s
   end
 
   @doc """
+  The stops on the green line that are on multiple green line branches.
+  """
+  @spec shared_stops() :: [Stop.id_t]
+  def shared_stops, do: ["place-lech", "place-spmnl", "place-north",
+                           "place-haecl","place-gover", "place-pktrm", "place-boyls", "place-armnl",
+                           "place-coecl", "place-hymnl", "place-kencl"]
+
+  @doc """
+  Returns a list of the shared stops that the branch does NOT reach.
+  """
+  @spec excluded_shared_stops(branch_name) :: [Stop.id_t]
+  def excluded_shared_stops("Green-B"), do: ["place-lech", "place-spmnl", "place-north",
+                                             "place-haecl","place-gover"]
+  def excluded_shared_stops("Green-C"), do: ["place-lech", "place-spmnl"]
+  def excluded_shared_stops("Green-D"), do: ["place-lech", "place-spmnl", "place-north", "place-haecl"]
+  def excluded_shared_stops("Green-E"), do: ["place-kencl", "place-hymnl"]
+
+  @doc """
   The stop at which a branch joins the other branches.
   """
+  @spec merge_id(branch_name) :: Stop.id_t
   def merge_id("Green-E"), do: "place-coecl"
   def merge_id(_), do: "place-kencl"
 
   @doc """
   The first stop that belongs exclusively to each branch.
   """
+  @spec split_id(branch_name) :: Stop.id_t
   def split_id("Green-B"), do: "place-bland"
   def split_id("Green-C"), do: "place-smary"
   def split_id("Green-D"), do: "place-fenwy"
@@ -145,10 +166,10 @@ defmodule GreenLine do
   end
 
   @spec filter_lines([Stop.t] | {:error, any}, Route.id_t) :: [Stop.t] | {:error, any}
-  defp filter_lines({:error, _} = error, _) do
+  def filter_lines({:error, _} = error, _) do
     error
   end
-  defp filter_lines(stops, route_id) do
+  def filter_lines(stops, route_id) do
     stops
     |> do_filter_lines(route_id, false, [])
     |> Enum.reverse

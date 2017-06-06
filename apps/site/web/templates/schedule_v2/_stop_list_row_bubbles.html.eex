@@ -1,8 +1,10 @@
 <div class="route-branch-stop-bubbles">
   <%=
-    for {{bubble_type, branch}, index} <- Enum.with_index(@bubbles) do
+    for {{bubble_branch, bubble_type}, index} <- Enum.with_index(@bubbles) do
       content_tag :div, class: "route-branch-stop-bubble #{bubble_type}" do
-        stop_bubble_content(assigns, bubble_type, branch, index)
+        assigns
+        |> Map.put(:bubble_index, index)
+        |> stop_bubble_content({bubble_branch, bubble_type})
       end
     end
   %>

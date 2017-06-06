@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
   import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2, schedule_link_direction_id: 3,
-                                              stop_bubble_content: 4, stop_bubble_icon: 2,
+                                              stop_bubble_content: 2, stop_bubble_icon: 2,
                                               view_branch_link: 3, stop_bubble_location_display: 3]
 
   require Routes.Route

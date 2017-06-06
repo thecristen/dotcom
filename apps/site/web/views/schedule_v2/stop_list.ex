@@ -10,11 +10,19 @@ defmodule Site.ScheduleV2View.StopList do
   Determines whether a stop is the first stop of its branch that is shown on the page, and
   therefore should display a link to expand/collapse the branch.
   """
-  @spec add_expand_link?(RouteStop.t, %{required(RouteStop.branch_name_t) => [RouteStops.t]}) :: boolean
-  def add_expand_link?(%RouteStop{branch: nil}, _), do: false
-  def add_expand_link?(%RouteStop{id: stop_id, branch: branch}, branches) do
-    case Map.get(branches, branch) do
-      [^stop_id|_] -> true
+  @spec add_expand_link?(RouteStop.t, map) :: boolean
+  def add_expand_link?(%RouteStop{branch: nil}, _assigns), do: false
+  def add_expand_link?(_, %{route: %Routes.Route{id: "CR-Kingson"}}), do: false
+  def add_expand_link?(%RouteStop{branch: "Green-" <> _ = branch} = stop, assigns) do
+    case assigns do
+      %{expanded: ^branch, direction_id: 0} -> GreenLine.split_id(branch) == stop.id
+      _ -> GreenLine.terminus?(stop.id, branch)
+    end
+  end
+  def add_expand_link?(%RouteStop{id: stop_id, branch: branch}, assigns) do
+    case Enum.find(assigns.branches, & &1.branch == branch) do
+      %RouteStops{stops: [_]} -> true
+      %RouteStops{stops: [%RouteStop{id: ^stop_id}|_]} -> true
       _ -> false
     end
   end
@@ -23,57 +31,74 @@ defmodule Site.ScheduleV2View.StopList do
   Returns the content for an individual stop bubble in a stop list. The content and styles vary depending on
   whether the stop is a terminus, the branch is expanded, the row is a button to expand the branch, etc.
   """
-  @spec stop_bubble_content(map, LineController.stop_bubble_type, String.t, VehicleTooltip.t | nil)
-        :: Phoenix.HTML.Safe.t
-  def stop_bubble_content(%{is_expand_link?: true} = assigns, _, branch, _) do
-    [render_stop_bubble_line(:line, {branch, assigns.expanded}, {assigns.route, assigns.stop})]
+  @spec stop_bubble_content(map, {String.t, LineController.stop_bubble_type}) :: Phoenix.HTML.Safe.t
+  def stop_bubble_content(assigns, bubble_info)
+  def stop_bubble_content(%{is_expand_link?: true} = assigns, {bubble_branch, bubble_type_}) do
+    bubble_type = if Enum.member?([:stop, :terminus], bubble_type_), do: :line, else: bubble_type_
+    [render_stop_bubble_line(bubble_type, bubble_branch, assigns)]
   end
-  def stop_bubble_content(assigns, :merge, branch, 0) do
+  def stop_bubble_content(%{route: %Routes.Route{id: "Green"}} = assigns, {branch, :terminus}) do
     [
-      render_stop_bubble(:stop, assigns.route, 0, assigns.vehicle_tooltip),
-      render_stop_bubble_line(:merge, {branch, assigns.expanded}, {assigns.route, assigns.stop})
+      render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble_line(:terminus, branch, assigns)
     ]
   end
-  def stop_bubble_content(assigns, :merge, branch, _) do
-    line_type = stop_bubble_line_type(:merge, {branch, assigns.expanded}, {assigns.route, assigns.stop})
+  def stop_bubble_content(%{stop: %RouteStop{stop_number: 0}} = assigns, {branch, :terminus}) do
     [
-      content_tag(:div, "", class: "route-branch-indent-start #{line_type}"),
-      do_render_stop_bubble_line(line_type)
+      render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble_line(:terminus, branch, assigns)
     ]
   end
-  def stop_bubble_content(assigns, bubble_type, branch, index) do
+  def stop_bubble_content(%{stop: %RouteStop{stop_number: _}} = assigns, {branch, :terminus}) do
+    [render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip])]
+  end
+  def stop_bubble_content(assigns, {branch, :terminus}) do
+    [render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip])]
+  end
+  def stop_bubble_content(%{bubble_index: 0} = assigns, {branch, :merge}) do
     [
-      render_stop_bubble(bubble_type, assigns.route, index, assigns.vehicle_tooltip),
-      render_stop_bubble_line(bubble_type, {branch, assigns.expanded}, {assigns.route, assigns.stop})
+      render_stop_bubble(:stop, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble_line(:merge, branch, assigns)
+    ]
+  end
+  def stop_bubble_content(assigns, {branch, :merge}) do
+    [
+      content_tag(:div, "", class: "route-branch-indent-start #{stop_bubble_line_type(:merge, branch, assigns)}"),
+      render_stop_bubble_line(:merge, branch, assigns)
+    ]
+  end
+  def stop_bubble_content(assigns, {branch, bubble_type}) when is_binary(branch) or is_nil(branch) do
+    [
+      render_stop_bubble(bubble_type, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble_line(bubble_type, branch, assigns)
     ]
   end
 
   @doc """
   Renders a stop bubble, if one should be rendered.
   """
-  @spec render_stop_bubble(LineController.stop_bubble_type, Route.t, integer, VehicleTooltip.t | nil)
+  @spec render_stop_bubble(LineController.stop_bubble_type, Route.t, String.t, VehicleTooltip.t | nil)
         :: Phoenix.HTML.Safe.t
-  def render_stop_bubble(bubble_type, route, index, vehicle_tooltip \\ nil)
-  def render_stop_bubble(bubble_type, %Route{id: "Green"} = route, index, vehicle_tooltip)
-    when bubble_type in [:stop, :terminus] do
-      stop_bubble_location_display(vehicle_tooltip,
-                                   %{route | id: Enum.at(GreenLine.branch_ids(), index)},
-                                   bubble_type == :terminus)
+  def render_stop_bubble(bubble_type, route, branch, vehicle_tooltip \\ nil)
+  def render_stop_bubble(bubble_type, %Route{id: "Green"} = route, branch, vehicle_tooltip)
+  when bubble_type in [:stop, :terminus] do
+    stop_bubble_location_display(vehicle_tooltip, %{route | id: branch}, bubble_type == :terminus)
   end
   def render_stop_bubble(bubble_type, %Route{} = route, _, vehicle_tooltip)
   when bubble_type in [:stop, :terminus] do
-    stop_bubble_location_display(vehicle_tooltip, route, bubble_type == :terminus)
+      stop_bubble_location_display(vehicle_tooltip, route, bubble_type == :terminus)
   end
   def render_stop_bubble(_, %Route{}, _, _), do: ""
 
-  defp render_stop_bubble_line(bubble_type, {expanded_branch, branch}, {route, stop}) do
+  def render_stop_bubble_line(:merge, _, %{bubble_index: index, direction_id: 1}) when index != 0, do: ""
+  def render_stop_bubble_line(bubble_type, bubble_branch, assigns) do
     bubble_type
-    |> stop_bubble_line_type({expanded_branch, branch}, {route, stop})
+    |> stop_bubble_line_type(bubble_branch, assigns)
     |> do_render_stop_bubble_line()
   end
 
-  defp do_render_stop_bubble_line(nil), do: ""
-  defp do_render_stop_bubble_line(class) do
+  def do_render_stop_bubble_line(nil), do: ""
+  def do_render_stop_bubble_line(class) do
     content_tag(:div, "", class: "route-branch-stop-bubble-line #{class}")
   end
 
@@ -118,28 +143,37 @@ defmodule Site.ScheduleV2View.StopList do
       - dotted line if the branch is collapsed
 
   """
-  @spec stop_bubble_line_type(LineController.stop_bubble_type, {String.t, String.t},
-                                                {Route.t, RouteStop.t}) :: :solid | :dotted | :hidden
-  def stop_bubble_line_type(bubble_type, branch_info, route_stop_info)
+  @spec stop_bubble_line_type(LineController.stop_bubble_type, String.t, map) :: :solid | :dotted | :hidden
+  def stop_bubble_line_type(bubble_type, branch_name, assigns)
   def stop_bubble_line_type(:empty, _, _), do: nil
-  def stop_bubble_line_type(:terminus, _, {_route, %RouteStop{stop_number: 0}}), do: :solid
-  def stop_bubble_line_type(:terminus, _, {%Route{id: "Green"}, %RouteStop{branch: nil}}), do: :solid
-  def stop_bubble_line_type(:terminus, _, _), do: nil
-  def stop_bubble_line_type(:line, {expanded, expanded}, _), do: :solid
-  def stop_bubble_line_type(:line, _, {_, %RouteStop{branch: nil}}), do: :solid
-  def stop_bubble_line_type(:line, {"Green-" <> _ = bubble_branch, _}, {_, %RouteStop{branch: "Green-E"}})
-      when bubble_branch != "Green-E", do: :solid
+  def stop_bubble_line_type(:terminus, _, %{stop: %RouteStop{branch: "Green-" <> branch},
+                                            expanded: "Green-" <> branch,
+                                            direction_id: 1}), do: :solid
+  def stop_bubble_line_type(:terminus, branch, %{stop: %RouteStop{branch: "Green-E"}}) when branch != "Green-E", do: :solid
+  def stop_bubble_line_type(:terminus, _, %{stop: %RouteStop{branch: "Green-" <> _}, direction_id: 1}), do: :dotted
+  def stop_bubble_line_type(:terminus, "Green-" <> _, %{stop: %RouteStop{branch: nil}, direction_id: 0}), do: :solid
+  def stop_bubble_line_type(:terminus, "Green-" <> _, _), do: nil
+  def stop_bubble_line_type(:terminus, nil, _), do: :solid
+  def stop_bubble_line_type(:terminus, branch, %{direction_id: 1, expanded: branch}) when not is_nil(branch), do: :solid
+  def stop_bubble_line_type(:terminus, _, _), do: :dotted
+  def stop_bubble_line_type(_, branch, %{expanded: branch}), do: :solid
+  def stop_bubble_line_type(:line, expanded, %{expanded: expanded}), do: :solid
+  def stop_bubble_line_type(:line, "Green-" <> _ = bubble_branch, %{stop: %RouteStop{branch: "Green-E"}})
+    when bubble_branch != "Green-E", do: :solid
   def stop_bubble_line_type(:line, _, _), do: :dotted
-  def stop_bubble_line_type(:merge, {expanded, expanded}, _), do: :solid
+  def stop_bubble_line_type(:merge, expanded, %{expanded: expanded}), do: :solid
+  def stop_bubble_line_type(:merge, _, %{direction_id: 1, bubble_index: 0}), do: :solid
   def stop_bubble_line_type(:merge, _, _), do: :dotted
-  def stop_bubble_line_type(:stop, {expanded, expanded}, _), do: :solid
-  def stop_bubble_line_type(:stop, _, {%Route{id: route_id}, %RouteStop{branch: nil}})
+  def stop_bubble_line_type(:stop, expanded, %{expanded: expanded}), do: :solid
+  def stop_bubble_line_type(:stop, _, %{route: %Routes.Route{id: route_id}, stop: %RouteStop{branch: nil}})
       when route_id != "Green", do: :solid
-  def stop_bubble_line_type(:stop, _, {%Route{id: route_id}, _}) when route_id != "Green", do: :solid
-  def stop_bubble_line_type(:stop, {branch, _}, {%Route{id: "Green"}, %RouteStop{branch: nil, id: stop_id}}) do
-    case GreenLine.merge_id(branch) do
-      ^stop_id -> :dotted
-      _ -> :solid
+  def stop_bubble_line_type(:stop, _, %{route: %Routes.Route{id: route_id}}) when route_id != "Green", do: :solid
+  def stop_bubble_line_type(:stop, "Green" <> _ = branch, %{direction_id: direction,
+                                                          stop: %RouteStop{branch: nil, id: stop_id}}) do
+    cond do
+      stop_id == GreenLine.merge_id(branch) && direction == 0 -> :dotted
+      stop_id == GreenLine.split_id(branch) && direction == 1 -> :dotted
+      true -> :solid
     end
   end
   def stop_bubble_line_type(:stop, _, _), do: :solid
@@ -188,7 +222,7 @@ defmodule Site.ScheduleV2View.StopList do
   @spec stop_bubble_icon(LineController.stop_bubble_type, Routes.Route.id_t, Keyword.t) :: Phoenix.HTML.Safe.t
   def stop_bubble_icon(class, route_id, opts \\ []) do
     icon_opts = Keyword.merge([icon_class: "", transform: "translate(2,2)"], opts)
-    content_tag :svg, viewBox: "0 0 42 42", class: "icon stop-bubble-#{class} #{icon_opts[:icon_class]}" do
+    content_tag :svg, viewBox: "0 0 42 42", class: String.trim("icon stop-bubble-#{class} #{icon_opts[:icon_class]}") do
       [
         content_tag(:circle, "", r: 20, cx: 20, cy: 20, transform: "#{icon_opts[:transform]}"),
         case route_id do
@@ -232,16 +266,11 @@ defmodule Site.ScheduleV2View.StopList do
   on the line or branch (since there are no trips in that direction from those stops).
   """
   @spec schedule_link_direction_id(RouteStop.t, [{LineController.stop_bubble_type, String.t}], 0 | 1) :: 0 | 1
-  def schedule_link_direction_id(stop, bubbles, direction_id) do
-    bubbles
-    |> Enum.map(& elem(&1, 0))
-    |> Enum.member?(:terminus)
-    |> do_schedule_link_direction_id(stop, direction_id)
+  def schedule_link_direction_id(%RouteStop{is_terminus?: true, stop_number: number}, _, direction_id) when number != 0 do
+    case direction_id do
+      0 -> 1
+      1 -> 0
+    end
   end
-
-  @spec do_schedule_link_direction_id(boolean, RouteStop.t, 0 | 1) :: 0 | 1
-  defp do_schedule_link_direction_id(true, %RouteStop{stop_number: stop}, direction_id) when stop != 0 do
-    if direction_id == 0, do: 1, else: 0
-  end
-  defp do_schedule_link_direction_id(_is_terminus, _stop, direction_id), do: direction_id
+  def schedule_link_direction_id(_, _, direction_id), do: direction_id
 end
