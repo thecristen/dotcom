@@ -48,25 +48,23 @@ defmodule Site.AlertView do
   def alert_effects([], 1), do: "There are no alerts for today; 1 upcoming alert."
   def alert_effects([], count), do: ["There are no alerts for today; ", count |> Integer.to_string, " upcoming alerts."]
   def alert_effects([alert], _) do
-    {alert.effect_name,
+    {Alerts.Alert.human_effect(alert),
      ""}
   end
   def alert_effects([alert|rest], _) do
-    {alert.effect_name,
+    {Alerts.Alert.human_effect(alert),
      ["+", rest |> length |> Integer.to_string, " more"]}
   end
 
-  def effect_name(%{effect_name: name, lifecycle: lifecycle})
+  def effect_name(%{lifecycle: lifecycle} = alert)
   when lifecycle in [:new, :unknown] do
-    name
+    Alerts.Alert.human_effect(alert)
   end
-  def effect_name(%{effect_name: name, lifecycle: lifecycle}) do
-    lifecycle_name = case lifecycle do
-      :upcoming -> "Upcoming"
-      :ongoing -> "Ongoing"
-      :ongoing_upcoming -> "Upcoming"
-    end
-    [name, " (", lifecycle_name, ")"]
+  def effect_name(alert) do
+    [Alerts.Alert.human_effect(alert),
+     " (",
+     Alerts.Alert.human_lifecycle(alert),
+     ")"]
   end
 
   def alert_updated(alert, relative_to) do

@@ -29,15 +29,15 @@ defmodule Alerts.TripTest do
 
   test "includes delays that apply to the route" do
     alert = %Alert{
-      effect_name: "Delay",
+      effect: :delay,
       informed_entity: [%IE{route: @route_id}]}
     suspension = %Alert{
-      effect_name: "Suspension",
+      effect: :suspension,
       informed_entity: [%IE{route: @route_id}]
     }
     wrong_route = %Alert{
       header: "Wrong Route",
-      effect_name: "Delay",
+      effect: :delay,
       informed_entity: [%IE{route: "other route"}]}
     wrong_effect = %Alert{
       header: "Wrong Effect",
@@ -49,7 +49,7 @@ defmodule Alerts.TripTest do
 
   test "does not double-count delays on a trip" do
     alert = %Alert{
-      effect_name: "Delay",
+      effect: :delay,
       informed_entity: [%IE{trip: @trip_id}]}
 
     assert [alert] == Trip.match([alert], @trip_id)
@@ -58,7 +58,7 @@ defmodule Alerts.TripTest do
 
   test "does not count delays on a different trip even on the same route" do
     alert = %Alert{
-      effect_name: "Delay",
+      effect: :delay,
       informed_entity: [%IE{route: @route_id, trip: "different trip"}]}
 
     assert [] == Trip.match([alert], @trip_id, route: @route_id)

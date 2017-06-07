@@ -10,7 +10,7 @@ defmodule Site.AlertViewTest do
 
   describe "alert_effects/1" do
     test "returns one alert for one effect" do
-      delay_alert = %Alert{effect_name: "Delay", lifecycle: :upcoming}
+      delay_alert = %Alert{effect: :delay, lifecycle: :upcoming}
 
       expected = {"Delay", ""}
       actual = alert_effects([delay_alert], 0)
@@ -20,9 +20,9 @@ defmodule Site.AlertViewTest do
 
     test "returns a count with multiple alerts" do
       alerts = [
-        %Alert{effect_name: "Suspension", lifecycle: :new},
-        %Alert{effect_name: "Delay"},
-        %Alert{effect_name: "Cancellation"}
+        %Alert{effect: :suspension, lifecycle: :new},
+        %Alert{effect: :delay},
+        %Alert{effect: :cancellation}
       ]
 
       expected = {"Suspension", ["+", "2", " more"]}
@@ -40,11 +40,11 @@ defmodule Site.AlertViewTest do
 
   describe "effect_name/1" do
     test "returns the effect name for new alerts" do
-      assert "Effect" == effect_name(%Alert{effect_name: "Effect", lifecycle: :new})
+      assert "Delay" == effect_name(%Alert{effect: :delay, lifecycle: :new})
     end
 
     test "includes the lifecycle for alerts" do
-      assert "Effect (Upcoming)" == %Alert{effect_name: "Effect", lifecycle: :upcoming} |> effect_name |> IO.iodata_to_binary
+      assert "Shuttle (Upcoming)" == %Alert{effect: :shuttle, lifecycle: :upcoming} |> effect_name |> IO.iodata_to_binary
     end
   end
 
@@ -162,8 +162,8 @@ defmodule Site.AlertViewTest do
 
     test "renders if a list of alerts and times is passed in" do
       result = Site.AlertView.inline(Site.Endpoint,
-        alerts: [%Alert{effect_name: "Delay", lifecycle: :upcoming,
-                               updated_at: Util.now}],
+        alerts: [%Alert{effect: :delay, lifecycle: :upcoming,
+                        updated_at: Util.now}],
         time: Util.service_date)
 
       refute safe_to_string(result) == ""
@@ -171,7 +171,7 @@ defmodule Site.AlertViewTest do
   end
 
   describe "_item.html" do
-    @alert %Alert{effect_name: "Access Alert", updated_at: ~D[2017-03-01], header: "Alert Header", description: "description"}
+    @alert %Alert{effect: :access_issue, updated_at: ~D[2017-03-01], header: "Alert Header", description: "description"}
     @time ~N[2017-03-01T07:29:00]
 
     test "Displays full description button if alert has description" do

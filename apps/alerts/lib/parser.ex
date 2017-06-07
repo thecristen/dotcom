@@ -7,7 +7,7 @@ defmodule Alerts.Parser do
         header: attributes["header"],
         informed_entity: parse_informed_entity(attributes["informed_entity"]),
         active_period:  Enum.map(attributes["active_period"], &active_period/1),
-        effect_name: attributes["effect_name"],
+        effect: effect(attributes),
         severity: severity(attributes["severity"]),
         lifecycle: lifecycle(attributes["lifecycle"]),
         updated_at: parse_time(attributes["updated_at"]),
@@ -62,6 +62,43 @@ defmodule Alerts.Parser do
       end
     end
 
+    @spec effect(%{String.t => String.t}) :: Alerts.Alert.effect
+    defp effect(attributes) do
+      case Map.fetch(attributes, "effect_name") do
+        {:ok, effect_name} ->
+          effect_name
+          |> String.replace(" ", "_")
+          |> String.upcase
+          |> do_effect
+        :error ->
+          attributes
+          |> Map.get("effect")
+          |> do_effect
+      end
+    end
+
+    defp do_effect("AMBER_ALERT"), do: :amber_alert
+    defp do_effect("CANCELLATION"), do: :cancellation
+    defp do_effect("DELAY"), do: :delay
+    defp do_effect("SUSPENSION"), do: :suspension
+    defp do_effect("TRACK_CHANGE"), do: :track_change
+    defp do_effect("DETOUR"), do: :detour
+    defp do_effect("SHUTTLE"), do: :shuttle
+    defp do_effect("STOP_CLOSURE"), do: :stop_closure
+    defp do_effect("DOCK_CLOSURE"), do: :dock_closure
+    defp do_effect("STATION_CLOSURE"), do: :station_closure
+    defp do_effect("STOP_MOVE"), do: :stop_moved # previous configuration
+    defp do_effect("STOP_MOVED"), do: :stop_moved
+    defp do_effect("EXTRA_SERVICE"), do: :extra_service
+    defp do_effect("SCHEDULE_CHANGE"), do: :schedule_change
+    defp do_effect("SERVICE_CHANGE"), do: :service_change
+    defp do_effect("SNOW_ROUTE"), do: :snow_route
+    defp do_effect("STATION_ISSUE"), do: :station_issue
+    defp do_effect("DOCK_ISSUE"), do: :dock_issue
+    defp do_effect("ACCESS_ISSUE"), do: :access_issue
+    defp do_effect("POLICY_CHANGE"), do: :policy_change
+    defp do_effect(_), do: :unknown
+
     @spec severity(String.t) :: Alerts.Alert.severity
     def severity(binary) do
       case String.upcase(binary) do
@@ -81,7 +118,7 @@ defmodule Alerts.Parser do
         "UPCOMING" -> :upcoming
         # could be either "ONGOING_UPCOMING" or "ONGOING UPCOMING"
         "ONGOING" <> _ -> :ongoing_upcoming
-        "NEW" -> :new
+          "NEW" -> :new
         _ -> :unknown
       end
     end

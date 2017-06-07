@@ -174,8 +174,14 @@ defmodule Site.StopViewTest do
     end
   end
 
-  @alerts [%Alerts.Alert{active_period: [{~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}], description: "description", effect_name: "Access Issue", header: "header", id: "1"}]
-  
+  @alerts [
+    %Alerts.Alert{
+      active_period: [
+        {~N[2017-04-12T20:00:00], ~N[2017-05-12T20:00:00]}],
+      description: "description",
+      effect: :access_issue,
+      header: "header", id: "1"}]
+
   describe "has_alerts?/3" do
     date = ~D[2017-05-11]
     informed_entity = %Alerts.InformedEntity{direction_id: 1, route: "556", route_type: nil, stop: nil, trip: nil}

@@ -55,7 +55,7 @@ defmodule Site.ComponentsTest do
         routes: [%Routes.Route{id: "106", key_route?: false, name: "106", type: 3}],
         route_type: :bus,
         alerts: [%Alerts.Alert{
-                  effect_name: "Delay",
+                  effect: :delay,
                   informed_entity: [%Alerts.InformedEntity{route: "106", route_type: 3}],
                   lifecycle: :new,
                   severity: :moderate,
@@ -69,7 +69,7 @@ defmodule Site.ComponentsTest do
         routes: [%Routes.Route{id: "Green", key_route?: false, name: "Green", type: 1}],
         route_type: :bus,
         alerts: [%Alerts.Alert{
-                  effect_name: "Delay",
+                  effect: :delay,
                   informed_entity: [%Alerts.InformedEntity{route: "Green", route_type: 1}],
                   lifecycle: :new,
                   severity: :moderate,
@@ -82,7 +82,7 @@ defmodule Site.ComponentsTest do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "CR-Haverhill", key_route?: false, name: "Haverhill Line", type: 2}],
         alerts: [%Alerts.Alert{
-                  effect_name: "Track Change",
+                  effect: :track_change,
                   informed_entity: [%Alerts.InformedEntity{route: "CR-Haverhill", route_type: 2}]
         }]}) |> safe_to_string
       refute rendered =~ "icon-alert"

@@ -5,38 +5,38 @@ defmodule AlertsTest do
 
   describe "is_notice?/2" do
     test "Delay alerts are not notices" do
-      delay = %Alert{effect_name: "Delay"}
+      delay = %Alert{effect: :delay}
       refute Alert.is_notice? delay, now()
     end
 
     test "Suspension alerts are not notices" do
-      suspension = %Alert{effect_name: "Suspension"}
+      suspension = %Alert{effect: :suspension}
       refute Alert.is_notice? suspension, now()
     end
 
     test "Track Change is a notice" do
-      change = %Alert{effect_name: "Track Change"}
+      change = %Alert{effect: :track_change}
       assert Alert.is_notice? change, now()
     end
 
     test "Minor Service Change is a notice" do
-      change = %Alert{effect_name: "Service Change", severity: "Minor"}
+      change = %Alert{effect: :service_change, severity: "Minor"}
       assert Alert.is_notice? change, now()
     end
 
     test "Current non-minor Service Change is an alert" do
-      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(now(), days: -1), nil}]}
+      change = %Alert{effect: :service_change, active_period: [{Timex.shift(now(), days: -1), nil}]}
       refute Alert.is_notice? change, now()
     end
 
     test "Future non-minor Service Change is a notice" do
-      change = %Alert{effect_name: "Service Change", active_period: [{Timex.shift(now(), days: 5), nil}]}
+      change = %Alert{effect: :service_change, active_period: [{Timex.shift(now(), days: 5), nil}]}
       assert Alert.is_notice? change, now()
     end
 
     test "Shuttle is an alert if it's active and not Ongoing" do
       today = Timex.now("America/New_York")
-      shuttle = %Alert{effect_name: "Shuttle",
+      shuttle = %Alert{effect: :shuttle,
                        active_period: [{Timex.shift(today, days: -1), nil}],
                        lifecycle: :new}
       refute Alert.is_notice?(shuttle, today)
@@ -45,7 +45,7 @@ defmodule AlertsTest do
 
     test "Shuttle is a notice if it's Ongoing" do
       today = Timex.now("America/New_York")
-      shuttle = %Alert{effect_name: "Shuttle",
+      shuttle = %Alert{effect: :shuttle,
                        active_period: [{Timex.shift(today, days: -1), nil}],
                        lifecycle: :ongoing}
       assert Alert.is_notice? shuttle, now()
@@ -54,7 +54,7 @@ defmodule AlertsTest do
     test "Non on-going alerts are notices if they arent happening now" do
       today = ~N[2017-01-01T12:00:00]
       tomorrow = Timex.shift(today, days: 1)
-      shuttle = %Alert{effect_name: "Shuttle",
+      shuttle = %Alert{effect: :shuttle,
                        active_period: [{tomorrow, nil}],
                        lifecycle: :upcoming}
       assert Alert.is_notice? shuttle, today
@@ -63,7 +63,7 @@ defmodule AlertsTest do
     test "Cancellation is an alert if it's today" do
       # NOTE: this will fail around 11:55pm, since future will switch to a different day
       future = Timex.shift(now(), minutes: 5)
-      cancellation = %Alert{effect_name: "Cancellation",
+      cancellation = %Alert{effect: :cancellation,
                             active_period: [{future, future}],
                             lifecycle: :new}
       today = future |> DateTime.to_date

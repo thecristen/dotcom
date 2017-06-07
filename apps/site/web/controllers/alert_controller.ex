@@ -59,7 +59,7 @@ defmodule Site.AlertController do
 
   def group_access_alerts(alerts) do
     alerts
-    |> Enum.filter(&(&1.effect_name == "Access Issue"))
+    |> Enum.filter(&(&1.effect == :access_issue))
     |> Enum.reverse
     |> Enum.reduce(@access_route_map, fn alert, map ->
       route = access_route(alert)
