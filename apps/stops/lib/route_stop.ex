@@ -80,6 +80,7 @@ defmodule Stops.RouteStop do
     stops = Map.new(stops, &{&1.id, &1})
     stop_ids
     |> Enum.map(& Map.get(stops, &1))
+    |> Enum.filter(& &1)
     |> Util.EnumHelpers.with_first_last()
     |> Enum.with_index
     |> Task.async_stream(&build_route_stop(&1, shape_name, route))

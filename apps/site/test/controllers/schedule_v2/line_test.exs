@@ -7,7 +7,7 @@ defmodule Site.ScheduleV2Controller.LineTest do
 
   describe "get_branches" do
     test "returns RouteStops for all green line branches in reverse order when direction is 0" do
-      shapes = get_all_shapes("Green", 0)
+      shapes = get_route_shapes("Green", 0)
       result = get_branches(shapes, nil, %Routes.Route{id: "Green"}, 0)
       assert Enum.map(result, & &1.branch) == ["Green-E", "Green-D", "Green-C", "Green-B"]
     end
@@ -17,7 +17,7 @@ defmodule Site.ScheduleV2Controller.LineTest do
     test "direction 0 returns a list of all stops in order from east to west" do
       [lechmere, science_park, north_station, haymarket, gvt_ctr, park, boylston,
        arlington, copley, heath_st, hynes, kenmore, riverside, cleveland_cir, boston_college] = "Green"
-      |> get_all_shapes(0)
+      |> get_route_shapes(0)
       |> get_branches([], %Routes.Route{id: "Green"}, 0)
       |> remove_collapsed_stops(nil, 0)
       |> build_stop_list(0)
@@ -43,7 +43,7 @@ defmodule Site.ScheduleV2Controller.LineTest do
     test "direction 1 returns a list of all stops in order from west to east" do
       [boston_college, cleveland_circle, riverside, kenmore, hynes, heath_st, copley, arlington,
        boylston, park, gvt_ctr, haymarket, north_station, science_park, lechmere] = "Green"
-      |> get_all_shapes(1)
+      |> get_route_shapes(1)
       |> get_branches([], %Routes.Route{id: "Green"}, 1)
       |> remove_collapsed_stops(nil, 1)
       |> build_stop_list(1)
@@ -71,7 +71,7 @@ defmodule Site.ScheduleV2Controller.LineTest do
     test "Red outbound" do
       [alewife, davis, porter, harvard, central, kendall, charles,
        park, dtx, sstat, broadway, andrew, jfk, braintree, ashmont] = "Red"
-      |> get_all_shapes(0)
+      |> get_route_shapes(0)
       |> get_branches([], %Routes.Route{id: "Red"}, 0)
       |> remove_collapsed_stops(nil, 0)
       |> build_stop_list(0)
@@ -97,7 +97,7 @@ defmodule Site.ScheduleV2Controller.LineTest do
     test "Red inbound" do
       [ashmont, braintree, jfk, andrew, broadway, sstat, dtx, park,
        charles, kendall, central, harvard, porter, davis, alewife] = "Red"
-      |> get_all_shapes(1)
+      |> get_route_shapes(1)
       |> get_branches([], %Routes.Route{id: "Red"}, 1)
       |> remove_collapsed_stops(nil, 1)
       |> build_stop_list(1)
@@ -123,7 +123,7 @@ defmodule Site.ScheduleV2Controller.LineTest do
     test "CR-Providence outbound" do
       [sstat, back_bay, ruggles, hyde_park, route_128,
        canton_jnct, stoughton, wickford_jnct] = "CR-Providence"
-      |> get_all_shapes(0)
+      |> get_route_shapes(0)
       |> get_branches([], %Routes.Route{id: "CR-Providence"}, 0)
       |> remove_collapsed_stops(nil, 0)
       |> build_stop_list(0)
@@ -142,7 +142,7 @@ defmodule Site.ScheduleV2Controller.LineTest do
     test "CR-Providence inbound" do
       [wickford_jnct, stoughton, canton_jnct, route_128,
        hyde_park, ruggles, back_bay, sstat] = "CR-Providence"
-      |> get_all_shapes(1)
+      |> get_route_shapes(1)
       |> get_branches([], %Routes.Route{id: "CR-Providence"}, 1)
       |> remove_collapsed_stops(nil, 1)
       |> build_stop_list(1)

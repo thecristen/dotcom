@@ -13,7 +13,10 @@ defmodule Vehicles.ParserTest do
     relationships: %{
       "route" => [%JsonApi.Item{id: "1"}],
       "stop" => [%JsonApi.Item{id: "72"}],
-      "trip" => [%JsonApi.Item{id: "32893540"}]
+      "trip" => [%JsonApi.Item{id: "32893540",
+                               relationships: %{
+                                "shape" => [%{id: "12345"}]
+                               }}]
     },
     type: "vehicle"
   }
@@ -25,6 +28,7 @@ defmodule Vehicles.ParserTest do
         route_id: "1",
         stop_id: "72",
         trip_id: "32893540",
+        shape_id: "12345",
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -58,6 +62,7 @@ defmodule Vehicles.ParserTest do
         route_id: "1",
         stop_id: nil,
         trip_id: "32893540",
+        shape_id: "12345",
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,

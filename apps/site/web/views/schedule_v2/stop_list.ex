@@ -1,7 +1,7 @@
 defmodule Site.ScheduleV2View.StopList do
   use Site.Web, :view
 
-  import VehicleTooltip, only: [tooltip: 1]
+  import VehicleHelpers, only: [tooltip: 1]
   alias Site.ScheduleV2Controller.Line, as: LineController
   alias Stops.{RouteStop, RouteStops}
   alias Routes.Route

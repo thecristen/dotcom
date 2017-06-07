@@ -172,10 +172,16 @@ defmodule Routes.RepoTest do
       shape = List.first(shapes)
 
       assert Enum.count(shapes) == 3
-      assert %Routes.Shape{
-        id: "090111",
-        polyline:  "_glaGjlppLEdAP?P?j@AAwB?WA{AAuEAmB???YAgBCsHjBAb@A??R?bDGxCA??P?DxKDzK?\\??BdJ???VF`L?b@??@vCBxD???VBfG@xD???v@B~H?d@??H~M???VDhF?p@oCzE??_C`ES\\??qDrGS\\??_@p@k@`AgBbDS^??A@k@z@c@x@eApB]h@Q\\??GJoAzBgAnB??S\\{@zAWd@{B~Dd@l@b@f@dAjAX`@d@l@h@fAs@MoC?}BD}AB????KLm@Ds@DcA@_CBgA@cACjE~BpB~@j@Fh@qCZiATJdECc@bCi@dDc@tCI`@YhBWxAc@hCW~Ai@xCmAhHOt@??ETYtA]fBYzA??G\\_@`Be@xBcAfEaAvDYhA??_@|AOl@KTGHqAj@kA`@yAj@c@N??UHcGbCQHi@R??OFiAb@eBp@oDpAdBhK??F`@p@vEXjBNt@JZ@D??FNVx@Vh@pBdCh@r@dAlAhD`EeBfA??{CjByA@????a@PG@IAKEQS{@{EkBwK"} = shape
+      assert shape.id == "090111"
       assert Enum.count(shape.stop_ids) == 28
+    end
+
+    test "get different number of shapes from same route depending on filtering" do
+      all_shapes = Routes.Repo.get_shapes("Green-E", 0, false)
+      priority_shapes = Routes.Repo.get_shapes("Green-E", 0)
+
+      assert Enum.count(all_shapes) == 2
+      assert Enum.count(priority_shapes) == 1
     end
 
     test "Get error response" do
@@ -186,5 +192,13 @@ defmodule Routes.RepoTest do
         refute log == ""
       end
     end
+  end
+
+  describe "get_shape/1" do
+    shape = "090111"
+    |> Routes.Repo.get_shape()
+    |> List.first()
+
+    assert shape.id == "090111"
   end
 end

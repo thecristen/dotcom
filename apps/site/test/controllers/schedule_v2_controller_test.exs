@@ -322,8 +322,8 @@ defmodule Site.ScheduleV2ControllerTest do
       variant = "090078"
       conn = get conn, line_path(conn, :show, "9", direction_id: 1, variant: variant)
 
-      assert Enum.count(conn.assigns.all_shapes) == 3
-      assert "1564" in List.last(conn.assigns.all_shapes).stop_ids
+      assert Enum.count(conn.assigns.route_shapes) == 3
+      assert "1564" in List.last(conn.assigns.route_shapes).stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 

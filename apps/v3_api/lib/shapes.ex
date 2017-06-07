@@ -9,4 +9,8 @@ defmodule V3Api.Shapes do
   def all(params \\ []) do
     get_json("/shapes/", params)
   end
+
+  def by_id(id, opts \\ []) do
+    get_json("/shapes/#{URI.encode(id, &URI.char_unreserved?/1)}", [], opts)
+  end
 end

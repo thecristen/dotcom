@@ -1,4 +1,4 @@
-<%= render "_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, all_shapes: @all_shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
+<%= render "_line_filters.html", conn: @conn, headsigns: @headsigns, direction_id: @direction_id, route: @route, origin: assigns[:origin], destination: assigns[:destination], show_date_select?: @show_date_select?, force_six_column: true, route_shapes: @route_shapes, active_shape: @active_shape, show_variant_selector: assigns[:show_variant_selector] %>
 <script id="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(@dynamic_map_data) %></script>
 <div class="page-section container">
   <div class="hidden-md-up line-map-container">

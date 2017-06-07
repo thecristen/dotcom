@@ -6,7 +6,7 @@ defmodule Vehicles.Repo do
   @default_params [
     "fields[vehicle]": "direction_id,current_status,longitude,latitude",
     "fields[stop]": "",
-    "include": "stop"
+    "include": "stop,trip"
   ]
 
   @spec route(String.t, Keyword.t) :: [Vehicle.t]
