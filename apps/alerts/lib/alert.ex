@@ -5,20 +5,22 @@ defmodule Alerts.Alert do
     informed_entity: [],
     active_period: [],
     effect_name: "",
-    severity: "",
-    lifecycle: "",
+    severity: :unknown,
+    lifecycle: :unknown,
     updated_at: Timex.now(),
     description: ""
   ]
-  @type period_pair :: {DateTime.t, nil} | {nil, DateTime.t} | {DateTime.t, DateTime.t} | {nil, nil}
+  @type period_pair :: {DateTime.t | nil, DateTime.t | nil}
+  @type severity :: :information | :minor | :moderate | :significant | :severe | :unknown
+  @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
   @type t :: %Alerts.Alert{
     id: String.t,
     header: String.t,
     informed_entity: [Alerts.InformedEntity.t],
     active_period: [period_pair],
     effect_name: String.t,
-    severity: String.t,
-    lifecycle: String.t,
+    severity: severity,
+    lifecycle: lifecycle,
     updated_at: DateTime.t,
     description: String.t
   }
@@ -49,11 +51,12 @@ defmodule Alerts.Alert do
   def is_notice?(%__MODULE__{effect_name: "Access Issue"}, _) do
     true
   end
-  def is_notice?(%__MODULE__{effect_name: "Service Change", severity: "Minor"}, _) do
+  def is_notice?(%__MODULE__{effect_name: "Service Change", severity: :minor}, _) do
     # minor service changes are never alerts
     true
   end
-  def is_notice?(%__MODULE__{effect_name: effect, lifecycle: "Ongoing" <> _}, _) when effect in @ongoing_effects do
+  def is_notice?(%__MODULE__{effect_name: effect, lifecycle: lifecycle}, _)
+  when effect in @ongoing_effects and lifecycle in [:ongoing, :ongoing_upcoming] do
     # Ongoing alerts are notices
     true
   end

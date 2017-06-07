@@ -10,7 +10,7 @@ defmodule Site.AlertViewTest do
 
   describe "alert_effects/1" do
     test "returns one alert for one effect" do
-      delay_alert = %Alert{effect_name: "Delay", lifecycle: "Upcoming"}
+      delay_alert = %Alert{effect_name: "Delay", lifecycle: :upcoming}
 
       expected = {"Delay", ""}
       actual = alert_effects([delay_alert], 0)
@@ -20,7 +20,7 @@ defmodule Site.AlertViewTest do
 
     test "returns a count with multiple alerts" do
       alerts = [
-        %Alert{effect_name: "Suspension", lifecycle: "New"},
+        %Alert{effect_name: "Suspension", lifecycle: :new},
         %Alert{effect_name: "Delay"},
         %Alert{effect_name: "Cancellation"}
       ]
@@ -40,11 +40,11 @@ defmodule Site.AlertViewTest do
 
   describe "effect_name/1" do
     test "returns the effect name for new alerts" do
-      assert "Effect" == effect_name(%Alert{effect_name: "Effect", lifecycle: "New"})
+      assert "Effect" == effect_name(%Alert{effect_name: "Effect", lifecycle: :new})
     end
 
     test "includes the lifecycle for alerts" do
-      assert "Effect (Upcoming)" == %Alert{effect_name: "Effect", lifecycle: "Upcoming"} |> effect_name |> IO.iodata_to_binary
+      assert "Effect (Upcoming)" == %Alert{effect_name: "Effect", lifecycle: :upcoming} |> effect_name |> IO.iodata_to_binary
     end
   end
 
@@ -162,7 +162,7 @@ defmodule Site.AlertViewTest do
 
     test "renders if a list of alerts and times is passed in" do
       result = Site.AlertView.inline(Site.Endpoint,
-        alerts: [%Alert{effect_name: "Delay", lifecycle: "Upcoming",
+        alerts: [%Alert{effect_name: "Delay", lifecycle: :upcoming,
                                updated_at: Util.now}],
         time: Util.service_date)
 

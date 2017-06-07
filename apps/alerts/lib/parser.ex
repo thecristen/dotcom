@@ -8,8 +8,8 @@ defmodule Alerts.Parser do
         informed_entity: parse_informed_entity(attributes["informed_entity"]),
         active_period:  Enum.map(attributes["active_period"], &active_period/1),
         effect_name: attributes["effect_name"],
-        severity: attributes["severity"],
-        lifecycle: attributes["lifecycle"],
+        severity: severity(attributes["severity"]),
+        lifecycle: lifecycle(attributes["lifecycle"]),
         updated_at: parse_time(attributes["updated_at"]),
         description: description(attributes["description"])
       }
@@ -59,6 +59,30 @@ defmodule Alerts.Parser do
       case String.trim(str) do
         "" -> nil
         str -> str
+      end
+    end
+
+    @spec severity(String.t) :: Alerts.Alert.severity
+    def severity(binary) do
+      case String.upcase(binary) do
+        "INFORMATION" -> :information
+        "MINOR" -> :minor
+        "MODERATE" -> :moderate
+        "SIGNIFICANT" -> :significant
+        "SEVERE" -> :severe
+        _ -> :unknown
+      end
+    end
+
+    @spec lifecycle(String.t) :: Alerts.Alert.lifecycle
+    def lifecycle(binary) do
+      case String.upcase(binary) do
+        "ONGOING" -> :ongoing
+        "UPCOMING" -> :upcoming
+        # could be either "ONGOING_UPCOMING" or "ONGOING UPCOMING"
+        "ONGOING" <> _ -> :ongoing_upcoming
+        "NEW" -> :new
+        _ -> :unknown
       end
     end
   end

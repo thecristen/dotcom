@@ -56,11 +56,17 @@ defmodule Site.AlertView do
      ["+", rest |> length |> Integer.to_string, " more"]}
   end
 
-  def effect_name(%{effect_name: name, lifecycle: "New"}) do
+  def effect_name(%{effect_name: name, lifecycle: lifecycle})
+  when lifecycle in [:new, :unknown] do
     name
   end
   def effect_name(%{effect_name: name, lifecycle: lifecycle}) do
-    [name, " (", lifecycle, ")"]
+    lifecycle_name = case lifecycle do
+      :upcoming -> "Upcoming"
+      :ongoing -> "Ongoing"
+      :ongoing_upcoming -> "Upcoming"
+    end
+    [name, " (", lifecycle_name, ")"]
   end
 
   def alert_updated(alert, relative_to) do

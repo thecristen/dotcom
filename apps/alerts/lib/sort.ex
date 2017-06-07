@@ -13,18 +13,18 @@ defmodule Alerts.Sort do
   """
 
   @severity_order [
-    "Severe",
-    "Significant",
-    "Moderate",
-    "Minor",
-    "Information"
+    :severe,
+    :significant,
+    :moderate,
+    :minor,
+    :information
   ]
 
   @lifecycle_order [
-    "New",
-    "Upcoming",
-    "Ongoing-Upcoming",
-    "Ongoing"
+    :new,
+    :upcoming,
+    :ongoing_upcoming,
+    :ongoing
   ]
 
   @effect_name_order [

@@ -57,8 +57,8 @@ defmodule Site.ComponentsTest do
         alerts: [%Alerts.Alert{
                   effect_name: "Delay",
                   informed_entity: [%Alerts.InformedEntity{route: "106", route_type: 3}],
-                  lifecycle: "New",
-                  severity: "Moderate",
+                  lifecycle: :new,
+                  severity: :moderate,
                   active_period: current_active_period()
         }]}) |> safe_to_string
       assert rendered =~ "icon-alert"
@@ -71,8 +71,8 @@ defmodule Site.ComponentsTest do
         alerts: [%Alerts.Alert{
                   effect_name: "Delay",
                   informed_entity: [%Alerts.InformedEntity{route: "Green", route_type: 1}],
-                  lifecycle: "New",
-                  severity: "Moderate",
+                  lifecycle: :new,
+                  severity: :moderate,
                   active_period: current_active_period()
         }]})
       assert safe_to_string(rendered) =~ "icon-alert"

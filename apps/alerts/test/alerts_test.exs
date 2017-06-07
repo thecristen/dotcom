@@ -38,7 +38,7 @@ defmodule AlertsTest do
       today = Timex.now("America/New_York")
       shuttle = %Alert{effect_name: "Shuttle",
                        active_period: [{Timex.shift(today, days: -1), nil}],
-                       lifecycle: "New"}
+                       lifecycle: :new}
       refute Alert.is_notice?(shuttle, today)
       assert Alert.is_notice?(shuttle, Timex.shift(today, days: -2))
     end
@@ -47,7 +47,7 @@ defmodule AlertsTest do
       today = Timex.now("America/New_York")
       shuttle = %Alert{effect_name: "Shuttle",
                        active_period: [{Timex.shift(today, days: -1), nil}],
-                       lifecycle: "Ongoing"}
+                       lifecycle: :ongoing}
       assert Alert.is_notice? shuttle, now()
     end
 
@@ -56,7 +56,7 @@ defmodule AlertsTest do
       tomorrow = Timex.shift(today, days: 1)
       shuttle = %Alert{effect_name: "Shuttle",
                        active_period: [{tomorrow, nil}],
-                       lifecycle: "Service Change"}
+                       lifecycle: :upcoming}
       assert Alert.is_notice? shuttle, today
     end
 
@@ -65,7 +65,7 @@ defmodule AlertsTest do
       future = Timex.shift(now(), minutes: 5)
       cancellation = %Alert{effect_name: "Cancellation",
                             active_period: [{future, future}],
-                            lifecycle: "New"}
+                            lifecycle: :new}
       today = future |> DateTime.to_date
       yesterday = future |> Timex.shift(days: -1) |> DateTime.to_date
       refute Alert.is_notice? cancellation, today
