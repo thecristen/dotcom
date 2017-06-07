@@ -14,11 +14,7 @@ defmodule Site.ScheduleV2Controller.Line do
 
   def init([]), do: []
 
-  def call(%Plug.Conn{assigns: %{route: %Route{} = route}} = conn, _args) do
-    direction_id = case conn do
-      %{query_params: %{"direction_id" => id}} -> String.to_integer(id)
-      _ -> 0
-    end
+  def call(%Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn, _args) do
     expanded = conn.query_params["expanded"]
     variant = conn.query_params["variant"]
     update_conn(conn, route, direction_id, expanded, variant)
