@@ -1,7 +1,11 @@
 <%= render_alerts(@stop_alerts, @date, @stop) %>
-<%= for {mode, route_times} <- @upcoming_route_departures do %>
-  <%= render schedule_template(mode), forward_assigns(@conn |> Plug.Conn.assign(:mode, mode) |> Plug.Conn.assign(:route_times, route_times)) %>
+<%= if Enum.empty?(@upcoming_route_departures) do %>
+  <div class="no-schedules-message">There are no upcoming departures scheduled for today's service from this stop.</div>
+<% else %>
+  <%= for {mode, route_times} <- @upcoming_route_departures do %>
+    <%= render schedule_template(mode), forward_assigns(@conn |> Plug.Conn.assign(:mode, mode) |> Plug.Conn.assign(:route_times, route_times)) %>
+  <% end %>
+  <p aria-hidden="true">
+    <%= fa "rss station-schedule-icon" %> Real-time information
+  </p>
 <% end %>
-<p aria-hidden="true">
-  <%= fa "rss station-schedule-icon" %> Real-time information
-</p>

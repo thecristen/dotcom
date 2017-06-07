@@ -207,3 +207,11 @@
     }
   }
 }
+
+.no-schedules-message {
+  padding-top: $base-spacing;
+
+  @include media-breakpoint-down(xs) {
+    padding-top: 0;
+  }
+}
