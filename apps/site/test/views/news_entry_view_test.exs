@@ -1,5 +1,6 @@
 defmodule Site.NewsEntryViewTest do
   use Site.ViewCase, async: true
+  use Quixir
 
   describe "index.html" do
     test "does not display a Next link when additional content is not available", %{conn: conn} do
@@ -54,6 +55,45 @@ defmodule Site.NewsEntryViewTest do
       Site.NewsEntryView
       |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])
       |> refute_text_visible?("More Information")
+    end
+
+    test "displays appropriate Media Contact Information", %{conn: conn} do
+      ptest media_contact: choose(from: [value("Mass DOT"), value(nil)]),
+        media_email: choose(from: [value("massdot@example.com"), value(nil)]),
+        media_phone: choose(from: [value("555-555-5555"), value(nil)]) do
+
+        news_entry = news_entry_factory(%{
+          media_contact: media_contact,
+          media_email: media_email,
+          media_phone: media_phone
+        })
+
+        rendered = render_to_string(Site.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
+
+        if is_nil(media_contact) && is_nil(media_email) && is_nil(media_phone) do
+          refute rendered =~ "Media Contact Information"
+        else
+          assert rendered =~ "Media Contact Information"
+
+          if is_nil(media_contact) do
+            refute rendered =~ "contact #{media_contact}."
+          else
+            assert rendered =~ "contact #{media_contact}."
+          end
+
+          if is_nil(media_email) do
+            refute rendered =~ "Email:"
+          else
+            assert rendered =~ "Email:"
+          end
+
+          if is_nil(media_phone) do
+            refute rendered =~ "Phone:"
+          else
+            assert rendered =~ "Phone:"
+          end
+        end
+      end
     end
   end
 
