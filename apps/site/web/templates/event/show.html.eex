@@ -1,46 +1,42 @@
 <h1 class="event-title">
   <%= @event.title %>
 </h1>
-<div class="event-schedule-container">
-  <div class="event-schedule">
-    <h3 class="event-schedule-title">
-      <%= "Meeting Info" %>
-    </h3>
-    <div class="event-time">
-      <i class="event-icon fa fa-calendar"></i><%= event_duration(@event.start_time, @event.end_time) %>
-    </div>
-    <%= render "_address.html", event: @event %>
-    <div class="event-attendees">
-      <i class="event-icon fa fa-users"></i><%= @event.who %>
-    </div>
-  </div>
 
-  <div class="event-export">
-    <div class="export-to-calendar">
-      <%= link to: event_icalendar_path(@conn, :show, @event.id),
-          data: [turbolinks: false],
-          class: "btn btn-primary" do %>
-        <i class="calendar-icon fa fa-calendar"></i>
-        <%= "Add to Calendar" %>
-      <% end %>
+<div class="row">
+  <div class="col-md-9">
+    <div>
+      <h2>Meeting Info</h2>
+      <p>
+        <span class="event-info-label">Date:</span> <%= event_duration(@event.start_time, @event.end_time) %>
+        &nbsp;
+        <%= link to: event_icalendar_path(@conn, :show, @event.id),
+            data: [turbolinks: false],
+            class: "hidden-md-down" do %>
+          <%= fa "calendar" %> Add to Calendar
+        <% end %>
+      </p>
+      <p><%= render "_address.html", event: @event %></p>
+      <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
     </div>
+
+    <div class="event-hr-row">
+      <h2>Event Description</h2>
+
+      <%= @event.body %>
+    </div>
+
+    <%= if agenda = content(@event.agenda) do %>
+      <div class="event-hr-row">
+        <h2><%= "Agenda" %></h2>
+        <%= agenda %>
+      </div>
+    <% end %>
+
+    <%= if notes = content(@event.notes) do %>
+      <div class="event-hr-row">
+        <h2><%= "Notes" %></h2>
+        <%= notes %>
+      </div>
+    <% end %>
   </div>
 </div>
-
-<div class="event-description">
-  <%= @event.body %>
-</div>
-
-<%= if notes = content(@event.notes) do %>
-  <div class="event-hr-row event-hr-col">
-    <h2><%= "Notes" %></h2>
-    <%= notes %>
-  </div>
-<% end %>
-
-<%= if agenda = content(@event.agenda) do %>
-  <div class="event-hr-row event-hr-col">
-    <h2><%= "Agenda" %></h2>
-    <%= agenda %>
-  </div>
-<% end %>

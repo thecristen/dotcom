@@ -69,19 +69,19 @@ defmodule Site.EventView do
   end
 
   defp do_event_duration(start_time, nil) do
-    "#{format_date(start_time)} #{format_time(start_time)}"
+    "#{format_date(start_time)} at #{format_time(start_time)}"
   end
   defp do_event_duration(
     %{year: year, month: month, day: day} = start_time,
     %{year: year, month: month, day: day} = end_time) do
-    "#{format_date(start_time)} #{format_time(start_time)} until #{format_time(end_time)}"
+    "#{format_date(start_time)} at #{format_time(start_time)} - #{format_time(end_time)}"
   end
   defp do_event_duration(start_time, end_time) do
-    "#{format_date(start_time)} #{format_time(start_time)} until #{format_date(end_time)} #{format_time(end_time)}"
+    "#{format_date(start_time)} #{format_time(start_time)} - #{format_date(end_time)} #{format_time(end_time)}"
   end
 
   defp format_time(time) do
-    Timex.format!(time, "{h12}:{m} {AM}")
+    Timex.format!(time, "{h12}:{m}{am}")
   end
 
   @doc "Returns a pretty format for the event's city and state"
