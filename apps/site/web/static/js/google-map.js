@@ -65,7 +65,7 @@ function displayMap(el, mapData, mapOffset) {
     if (mapData.stop_icon) {
       stopIcon = mapData.stop_icon;
     }
-    mapData.stops.forEach(addMarker(mapOffset, stopIcon, 16, mapData.stops_show_marker, 0));
+    mapData.stops.forEach(addMarker(mapOffset, stopIcon, 8, mapData.stops_show_marker, 0));
   }
 
   // If there are vehicles, show them
