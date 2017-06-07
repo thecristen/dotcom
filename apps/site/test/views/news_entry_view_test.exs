@@ -1,5 +1,6 @@
 defmodule Site.NewsEntryViewTest do
   use Site.ViewCase, async: true
+  use Quixir
 
   describe "index.html" do
     test "does not display a Next link when additional content is not available", %{conn: conn} do
@@ -56,41 +57,43 @@ defmodule Site.NewsEntryViewTest do
       |> refute_text_visible?("More Information")
     end
 
-    test "does not display Media Contact Information if none given", %{conn: conn} do
-      news_entry = news_entry_factory(%{media_contact: nil, media_email: nil, media_phone: nil})
+    test "displays appropriate Media Contact Information", %{conn: conn} do
+      ptest media_contact: choose(from: [value("Mass DOT"), value(nil)]),
+        media_email: choose(from: [value("massdot@example.com"), value(nil)]),
+        media_phone: choose(from: [value("555-555-5555"), value(nil)]) do
 
-      Site.NewsEntryView
-      |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])
-      |> refute_text_visible?("Media Contact Information")
-    end
+        news_entry = news_entry_factory(%{
+          media_contact: media_contact,
+          media_email: media_email,
+          media_phone: media_phone
+        })
 
-    test "displays Media Contact Information when present", %{conn: conn} do
-      news_entry = news_entry_factory(%{
-        media_contact: "Capy",
-        media_email: "capy@example.com",
-        media_phone: "424-242-4242"
-      })
+        rendered = render_to_string(Site.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
 
-      rendered = render_to_string(Site.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
+        if is_nil(media_contact) && is_nil(media_email) && is_nil(media_phone) do
+          refute rendered =~ "Media Contact Information"
+        else
+          assert rendered =~ "Media Contact Information"
 
-      assert rendered =~ "Media Contact Information"
-      assert rendered =~ "contact Capy."
-      assert rendered =~ ~s(<a href="mailto:capy@example.com">capy@example.com</a>)
-      assert rendered =~ ~s(<a href="tel:1-424-242-4242">424-242-4242</a>)
-    end
+          if is_nil(media_contact) do
+            refute rendered =~ "contact #{media_contact}."
+          else
+            assert rendered =~ "contact #{media_contact}."
+          end
 
-    test "displays partial information if only some present", %{conn: conn} do
-      news_entry = news_entry_factory(%{
-        media_contact: nil,
-        media_email: nil,
-        media_phone: "424-242-4242"
-      })
+          if is_nil(media_email) do
+            refute rendered =~ "Email:"
+          else
+            assert rendered =~ "Email:"
+          end
 
-      rendered = render_to_string(Site.NewsEntryView, "show.html", conn: conn, news_entry: news_entry, recent_news: [])
-
-      refute rendered =~ "please contact"
-      assert rendered =~ "Phone:"
-      refute rendered =~ "Email:"
+          if is_nil(media_phone) do
+            refute rendered =~ "Phone:"
+          else
+            assert rendered =~ "Phone:"
+          end
+        end
+      end
     end
   end
 
