@@ -1,23 +1,8 @@
-<%= if location = content(@event.location) do %>
-  <div>
-    <ul class="event-address">
-      <li class="event-location">
-        <i class="event-icon fa fa-map-marker"></i><%= location %>
-      </li>
-      <li class="event-street-address">
-        <%= @event.street_address %>
-      </li>
-      <li class="event-city">
-        <%= city_and_state(@event) %>
-      </li>
-    </ul>
-  </div>
-<% else %>
-  <div>
-    <ul class="event-address">
-      <li class="event-location">
-        <i class="event-icon fa fa-map-marker"></i><%= @event.imported_address %>
-      </li>
-    </ul>
-  </div>
-<% end %>
+<div>
+  <span class="event-info-label">Location:</span>
+  <%= if location = content(@event.location) do %>
+    <%= location %> • <%= @event.street_address %> • <%= city_and_state(@event) %>
+  <% else %>
+    <%= @event.imported_address %>
+  <% end %>
+</div>
