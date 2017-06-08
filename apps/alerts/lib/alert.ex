@@ -96,6 +96,7 @@ defmodule Alerts.Alert do
     do_human_effect(effect)
   end
 
+  @spec do_human_effect(effect) :: String.t
   defp do_human_effect(:amber_alert), do: "Amber Alert"
   defp do_human_effect(:cancellation), do: "Cancellation"
   defp do_human_effect(:delay), do: "Delay"
@@ -123,10 +124,12 @@ defmodule Alerts.Alert do
     do_human_lifecycle(lifecycle)
   end
 
+  @spec do_human_lifecycle(lifecycle) :: String.t
   defp do_human_lifecycle(:new), do: "New"
   defp do_human_lifecycle(:upcoming), do: "Upcoming"
   defp do_human_lifecycle(:ongoing_upcoming), do: "Upcoming"
   defp do_human_lifecycle(:ongoing), do: "Ongoing"
+  defp do_human_lifecycle(_), do: "Unknown"
 end
 
 defmodule Alerts.InformedEntity do

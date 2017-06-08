@@ -198,5 +198,28 @@ defmodule Alerts.ParserTest do
           }
         })
     end
+
+    test "alerts with effect and not effect_name are parsed" do
+      alert = Parser.Alert.parse(
+        %JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [],
+            "header" => "",
+            "active_period" => [],
+            "severity" => "MINOR",
+            "lifecycle" => "ONGOING",
+            "effect" => "DELAY",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => ""
+          }
+        })
+      assert %Alerts.Alert{
+        lifecycle: :ongoing,
+        severity: :minor,
+        effect: :delay
+      } = alert
+    end
   end
 end
