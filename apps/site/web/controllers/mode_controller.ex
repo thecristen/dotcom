@@ -19,7 +19,7 @@ defmodule Site.ModeController do
   def index(conn, _params) do
     grouped_routes = filtered_grouped_routes([:bus])
     conn
-    |> async_assign(:all_alerts, fn -> Alerts.Repo.by_route_types(0..4, conn.assigns.date_time) end)
+    |> async_assign(:all_alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
     |> assign(:grouped_routes, grouped_routes)
     |> assign(:breadcrumbs, ["Schedules & Maps"])
     |> assign(:include_ride, true)

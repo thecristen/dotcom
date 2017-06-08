@@ -6,6 +6,7 @@ defmodule Site.AlertController do
   plug Site.Plugs.UpcomingAlerts
   plug Site.Plug.Mticket
 
+  @valid_ids ~w(subway commuter_rail bus ferry access)s
   @access_route_ids ["Elevator", "Escalator", "Lift"]
   @access_routes @access_route_ids
   |> Enum.map(&(%Routes.Route{id: &1, name: &1}))
@@ -22,8 +23,7 @@ defmodule Site.AlertController do
     conn
     |> render_route_alerts(group_access_alerts(all_alerts))
   end
-  def show(conn, %{"id" => mode})
-  when mode in ["subway", "commuter_rail", "bus", "ferry"] do
+  def show(conn, %{"id" => mode}) when mode in @valid_ids do
     render_routes(conn)
   end
   def show(conn, _params) do
@@ -93,19 +93,10 @@ defmodule Site.AlertController do
     assign(conn, :all_routes, Routes.Repo.by_type(route_types))
   end
 
-  defp all_alerts(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_alerts(conn, [0,1])
-  defp all_alerts(%{params: %{"id" => "commuter_rail"}} = conn, _opts), do: do_all_alerts(conn, [2])
-  defp all_alerts(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_alerts(conn, [3])
-  defp all_alerts(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_all_alerts(conn, [4])
-  defp all_alerts(%{params: %{"id" => "access"}} = conn, _opts) do
+  defp all_alerts(%{params: %{"id" => id}} = conn, _opts) when id in @valid_ids do
     assign(conn, :all_alerts, Alerts.Repo.all(conn.assigns.date_time))
   end
   defp all_alerts(conn, _opts) do
     conn
-  end
-
-  defp do_all_alerts(conn, types) do
-    alerts = Alerts.Repo.by_route_types(types, conn.assigns.date_time)
-    assign(conn, :all_alerts, alerts)
   end
 end
