@@ -14,6 +14,8 @@ defmodule Site.Router do
     plug Site.Plugs.Banner
     plug Turbolinks.Plug
     plug Site.Plugs.CommonFares
+    plug Site.Plugs.Date
+    plug Site.Plugs.DateTime
   end
 
   pipeline :api do

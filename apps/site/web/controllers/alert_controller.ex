@@ -1,7 +1,6 @@
 defmodule Site.AlertController do
   use Site.Web, :controller
 
-  plug Site.Plugs.Date
   plug :all_routes
   plug :all_alerts
   plug Site.Plugs.UpcomingAlerts
@@ -99,14 +98,14 @@ defmodule Site.AlertController do
   defp all_alerts(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_alerts(conn, [3])
   defp all_alerts(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_all_alerts(conn, [4])
   defp all_alerts(%{params: %{"id" => "access"}} = conn, _opts) do
-    assign(conn, :all_alerts, Alerts.Repo.all())
+    assign(conn, :all_alerts, Alerts.Repo.all(conn.assigns.date_time))
   end
   defp all_alerts(conn, _opts) do
     conn
   end
 
   defp do_all_alerts(conn, types) do
-    alerts = Alerts.Repo.by_route_types(types)
+    alerts = Alerts.Repo.by_route_types(types, conn.assigns.date_time)
     assign(conn, :all_alerts, alerts)
   end
 end

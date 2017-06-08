@@ -1,10 +1,12 @@
 defmodule Alerts.RepoTest do
   use ExUnit.Case
 
+  @now Timex.parse!"2017-06-08T10:00:00-05:00", ("{ISO:Extended}")
+
   describe "all/0" do
     test "returns the list of alerts from the store" do
       Alerts.Cache.Store.update([%Alerts.Alert{id: "alert!"}], nil)
-      assert [%Alerts.Alert{id: "alert!"}] = Alerts.Repo.all()
+      assert [%Alerts.Alert{id: "alert!"}] = Alerts.Repo.all(@now)
     end
   end
 
@@ -30,7 +32,7 @@ defmodule Alerts.RepoTest do
       red_alert = %Alerts.Alert{id: "red_alert", informed_entity: [@red_entity]}
       blue_alert = %Alerts.Alert{id: "blue_alert", informed_entity: [@blue_entity]}
       Alerts.Cache.Store.update([orange_alert, red_alert, blue_alert], nil)
-      alerts = Alerts.Repo.by_route_ids(["Orange", "Red"])
+      alerts = Alerts.Repo.by_route_ids(["Orange", "Red"], @now)
 
       assert orange_alert in alerts
       assert red_alert in alerts
@@ -48,7 +50,7 @@ defmodule Alerts.RepoTest do
       bus_alert = %Alerts.Alert{id: "bus_alert", informed_entity: [@bus_entity]}
       subway_alert = %Alerts.Alert{id: "subway_alert", informed_entity: [@subway_entity]}
       Alerts.Cache.Store.update([commuter_rail_alert, bus_alert, subway_alert], nil)
-      alerts = Alerts.Repo.by_route_types([2, 0])
+      alerts = Alerts.Repo.by_route_types([2, 0], @now)
 
       assert commuter_rail_alert in alerts
       assert subway_alert in alerts
@@ -70,9 +72,9 @@ defmodule Alerts.RepoTest do
       subway_alert = %Alerts.Alert{id: "subway", informed_entity: [@subway_entity, @subway_entity2]}
       Alerts.Cache.Store.update([cr_alert1, cr_alert2, bus_alert, subway_alert], nil)
 
-      assert Alerts.Repo.by_route_id_and_type("CR-Worcester", 2) == [cr_alert1, cr_alert2]
-      assert Alerts.Repo.by_route_id_and_type("Green", 0) == [subway_alert]
-      assert Alerts.Repo.by_route_id_and_type("66", 3) == [bus_alert]
+      assert Alerts.Repo.by_route_id_and_type("CR-Worcester", 2, @now) == [cr_alert1, cr_alert2]
+      assert Alerts.Repo.by_route_id_and_type("Green", 0, @now) == [subway_alert]
+      assert Alerts.Repo.by_route_id_and_type("66", 3, @now) == [bus_alert]
     end
   end
 end

@@ -11,7 +11,6 @@ defmodule Alerts.Sort do
   * id
 
   """
-  alias Alerts.Alert
 
   @severity_order [
     "Severe",
@@ -50,17 +49,17 @@ defmodule Alerts.Sort do
     "Policy Change"
   ]
 
-  def sort(alerts) do
-    Enum.sort_by(alerts, &sort_key/1)
+  def sort(alerts, now) do
+    Enum.sort_by(alerts, &sort_key(&1, now))
   end
 
-  defp sort_key(%Alert{} = alert) do
+  defp sort_key(alert, now) do
     {
       effect_name_index(alert.effect_name),
       lifecycle_index(alert.lifecycle),
       severity_index(alert.severity),
       -updated_at_date(alert.updated_at),
-      first_future_active_period_start(alert.active_period),
+      first_future_active_period_start(alert.active_period, now),
       alert.id
     }
   end
@@ -91,10 +90,10 @@ defmodule Alerts.Sort do
     |> Timex.to_unix
   end
 
-  defp first_future_active_period_start([]), do: :infinity # atoms are greater than any integer
-  defp first_future_active_period_start(periods) do
+  defp first_future_active_period_start([], _now), do: :infinity # atoms are greater than any integer
+  defp first_future_active_period_start(periods, now) do
     # first active period that's in the future
-    now_unix = DateTime.utc_now |> DateTime.to_unix
+    now_unix = DateTime.to_unix(now, :second)
     future_periods = periods
     |> Enum.filter_map(fn {start, _} -> start != nil end, fn {start, _} -> start end)
     |> Enum.map(&Timex.to_unix/1)

@@ -6,8 +6,6 @@ defmodule Site.ScheduleV2Controller.TripViewController do
   alias Routes.Route
 
   plug Site.Plugs.Route
-  plug Site.Plugs.Date
-  plug Site.Plugs.DateTime
   plug :tab_name
   plug Site.ScheduleV2Controller.Core
   plug Site.ScheduleV2Controller.Schedules

@@ -6,8 +6,6 @@ defmodule Site.ScheduleV2Controller.Green do
 
   plug :route
   plug :tab
-  plug Site.Plugs.Date
-  plug Site.Plugs.DateTime
   plug Site.ScheduleV2Controller.DatePicker
   plug :alerts
   plug Site.Plugs.UpcomingAlerts
@@ -115,7 +113,7 @@ defmodule Site.ScheduleV2Controller.Green do
   end
 
   def alerts(conn, _opts) do
-    assign(conn, :all_alerts, Alerts.Repo.by_route_id_and_type("Green", 0))
+    assign(conn, :all_alerts, Alerts.Repo.by_route_id_and_type("Green", 0, conn.assigns.date_time))
   end
 
   def vehicle_locations(conn, opts) do

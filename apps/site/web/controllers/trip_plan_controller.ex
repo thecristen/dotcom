@@ -2,8 +2,6 @@ defmodule Site.TripPlanController do
   use Site.Web, :controller
 
   plug :require_google_maps
-  plug Site.Plugs.Date
-  plug Site.Plugs.DateTime
 
   def index(conn, %{"plan" => plan}) do
     query = TripPlan.Query.from_query(plan)

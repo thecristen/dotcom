@@ -31,15 +31,16 @@ defmodule Site.VehicleTooltipTest do
 
     test "it does not return a tooltip if a vehicle has a null stop_id" do
       null_location = %{{"trip-1", nil} => %Vehicles.Vehicle{}}
-      tooltips = build_map(2, Enum.concat(@locations, null_location), @predictions)
-      assert length(Map.keys(@tooltips)) == 2
-      assert Map.has_key?(@tooltips, {"CR-Weekday-Spring-17-515", "place-sstat"})
-      assert Map.has_key?(@tooltips, "place-sstat")
-      assert @tooltip_base.route.type == 2
-      assert @tooltip_base.trip.name == "515"
-      assert @tooltip_base.trip.headsign == "Worcester"
-      assert @tooltip_base.prediction.status == "On Time"
-      assert @tooltip_base.vehicle.status == :stopped
+      tooltips = build_map(@route, Enum.concat(@locations, null_location), @predictions)
+      assert length(Map.keys(tooltips)) == 2
+      assert Map.has_key?(tooltips, {"CR-Weekday-Spring-17-515", "place-sstat"})
+      assert Map.has_key?(tooltips, "place-sstat")
+      tooltip = tooltips["place-sstat"]
+      assert tooltip.route.type == 2
+      assert tooltip.trip.name == "515"
+      assert tooltip.trip.headsign == "Worcester"
+      assert tooltip.prediction.status == "On Time"
+      assert tooltip.vehicle.status == :stopped
     end
   end
 

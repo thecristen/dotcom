@@ -30,7 +30,7 @@ defmodule Site.Mode.HubBehavior do
     routes = mode_strategy.routes()
     conn
     |> async_assign(:fares, &mode_strategy.fares/0)
-    |> async_assign(:all_alerts, fn -> alerts(routes) end)
+    |> async_assign(:all_alerts, fn -> alerts(routes, conn.assigns.date_time) end)
     |> assign(:routes, routes)
     |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
     |> assign(:mode_name, mode_strategy.mode_name())
@@ -42,9 +42,9 @@ defmodule Site.Mode.HubBehavior do
     |> render("hub.html")
   end
 
-  defp alerts(routes) do
+  defp alerts(routes, now) do
     routes
     |> Enum.map(& &1.id)
-    |> Alerts.Repo.by_route_ids()
+    |> Alerts.Repo.by_route_ids(now)
   end
 end

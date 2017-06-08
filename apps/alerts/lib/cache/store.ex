@@ -59,19 +59,19 @@ defmodule Alerts.Cache.Store do
   Retrieves the alert objects given a list of alert IDs. If an ID
   is passed that doesn't have a current alert, it is ignored.
   """
-  @spec alerts([String.t]) :: [Alerts.Alert.t]
-  def alerts(alert_ids) do
+  @spec alerts([String.t], DateTime.t) :: [Alerts.Alert.t]
+  def alerts(alert_ids, now) do
     select_many(:alert_id_to_alert, alert_ids)
-    |> Alerts.Sort.sort
+    |> Alerts.Sort.sort(now)
   end
 
   @doc """
   Retrieves the full set of current alerts in priority sorted order.
   """
-  @spec all_alerts() :: [Alerts.Alert.t]
-  def all_alerts do
+  @spec all_alerts(DateTime.t) :: [Alerts.Alert.t]
+  def all_alerts(now) do
     :ets.select(:alert_id_to_alert, [{ {:_, :"$1"}, [], [:"$1"]  }])
-    |> Alerts.Sort.sort
+    |> Alerts.Sort.sort(now)
   end
 
   @doc """

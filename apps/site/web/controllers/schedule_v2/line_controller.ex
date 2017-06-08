@@ -2,8 +2,6 @@ defmodule Site.ScheduleV2Controller.LineController do
   use Site.Web, :controller
 
   plug Site.Plugs.Route
-  plug Site.Plugs.Date
-  plug Site.Plugs.DateTime
   plug :tab_name
   plug Site.ScheduleV2Controller.Defaults
   plug :all_alerts

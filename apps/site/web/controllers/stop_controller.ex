@@ -1,8 +1,6 @@
 defmodule Site.StopController do
   use Site.Web, :controller
 
-  plug Site.Plugs.Date
-  plug Site.Plugs.DateTime
   plug :all_alerts
 
   alias Stops.Repo
@@ -151,7 +149,7 @@ defmodule Site.StopController do
   end
 
   defp all_alerts(conn, _opts) do
-    assign(conn, :all_alerts, Alerts.Repo.all())
+    assign(conn, :all_alerts, Alerts.Repo.all(conn.assigns.date_time))
   end
 
   @spec get_stop_info(Route.gtfs_route_type) :: {DetailedStopGroup.t, [DetailedStopGroup.t]}
