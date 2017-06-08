@@ -74,4 +74,20 @@ defmodule GreenListTest do
       assert stop_map["c_stop1"] == ["Green-C"]
     end
   end
+
+  describe "filter_lines/2" do
+    test "returns error when there is an error" do
+      assert filter_lines({:error, "error"}, "Green-B") == {:error, "error"}
+    end
+
+    test "returns the list of all stops on a branch in reverse order" do
+      stops = "Green-B"
+      |> Stops.Repo.by_route(0, [])
+      |> filter_lines("Green-B")
+      |> Enum.map(fn %Stops.Stop{id: id} -> id end)
+
+      assert List.first(stops) == "place-pktrm"
+      assert List.last(stops) == "place-lake"
+    end
+  end
 end

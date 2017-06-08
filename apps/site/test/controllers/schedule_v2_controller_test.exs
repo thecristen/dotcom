@@ -185,12 +185,7 @@ defmodule Site.ScheduleV2ControllerTest do
 
   describe "line tabs" do
     test "Commuter Rail data", %{conn: conn} do
-      {date, date_time} = morning_date_time()
-
-      conn = get conn, line_path(conn, :show,
-        "CR-Lowell",
-        date: Date.to_iso8601(date),
-        date_time: DateTime.to_iso8601(date_time))
+      conn = get conn, line_path(conn, :show, "CR-Lowell", direction_id: 1)
       assert html_response(conn, 200) =~ "Lowell Line"
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
 
@@ -199,12 +194,12 @@ defmodule Site.ScheduleV2ControllerTest do
         assert stop.zone
       end
 
-      # stops are in outbound order
-      assert List.first(stops).id == "place-north"
-      assert List.last(stops).id == "Lowell"
+      # stops are in inbound order
+      assert List.first(stops).id == "Lowell"
+      assert List.last(stops).id == "place-north"
 
       # includes the stop features
-      assert List.first(stops).stop_features == [
+      assert List.last(stops).stop_features == [
         :orange_line,
         :green_line,
         :bus,
@@ -220,15 +215,11 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Ferry data", %{conn: conn} do
-      {date, dt} = morning_date_time()
-      conn = get conn, line_path(conn, :show,
-        "Boat-F1",
-        date: Date.to_iso8601(date),
-        date_time: NaiveDateTime.to_iso8601(dt))
+      conn = get conn, line_path(conn, :show, "Boat-F1", direction_id: 0)
       assert html_response(conn, 200) =~ "Hingham Ferry"
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
 
-      # outbound order
+      # inbound order
       assert List.first(stops).id == "Boat-Long"
       assert List.last(stops).id == "Boat-Hingham"
 
@@ -248,7 +239,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Red Line data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Red")
+      conn = get conn, line_path(conn, :show, "Red", direction_id: 0)
       assert %Plug.Conn{assigns: %{branches: branches}} = conn
       assert html_response(conn, 200) =~ "Red Line"
 
@@ -272,7 +263,7 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Green Line data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Green")
+      conn = get conn, line_path(conn, :show, "Green", direction_id: 0)
       assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in Westbound order, Lechmere -> Boston College (last stop on B)
@@ -364,13 +355,6 @@ defmodule Site.ScheduleV2ControllerTest do
 
     response = html_response(conn, 200)
     assert response =~ "January 1, 2016 is not part of the Spring schedule."
-  end
-
-  defp morning_date_time do
-    date = Util.service_date()
-    {:ok, naive_dt} = NaiveDateTime.new(date, ~T[12:00:00])
-    {:ok, dt} = DateTime.from_naive(naive_dt, "Etc/UTC")
-    {date, dt}
   end
 
   describe "tab redirects" do
