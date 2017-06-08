@@ -5,11 +5,13 @@ defmodule HubStop do
 
   defstruct [
     detailed_stop: %DetailedStop{},
-    image_path: ""
+    image_path: "",
+    alt_text: ""
   ]
 
   @type t :: %__MODULE__{
     detailed_stop: DetailedStop.t,
-    image_path: String.t
+    image_path: String.t,
+    alt_text: String.t
   }
 end

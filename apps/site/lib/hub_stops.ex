@@ -6,29 +6,29 @@ defmodule HubStops do
   alias Routes.Route
 
   @commuter_hubs  [
-    {"place-sstat", "/images/stops/south_station"},
-    {"place-north", "/images/stops/north_station_commuter"},
-    {"place-bbsta", "/images/stops/back_bay"}
+    {"place-sstat", "/images/stops/south_station", "South Station"},
+    {"place-north", "/images/stops/north_station_commuter", "North Station Commuter Rail Platform"},
+    {"place-bbsta", "/images/stops/back_bay", "Back Bay Station"}
   ]
   @red_line_hubs  [
-    {"place-sstat", "/images/stops/south_station"},
-    {"place-pktrm", "/images/stops/park_street"},
-    {"place-dwnxg", "/images/stops/downtown_crossing"}
+    {"place-sstat", "/images/stops/south_station", "South Station"},
+    {"place-pktrm", "/images/stops/park_street", "Park Street"},
+    {"place-dwnxg", "/images/stops/downtown_crossing", "Downtown Crossing"}
   ]
   @green_line_hubs [
-    {"place-north","/images/stops/north_station_green"},
-    {"place-pktrm", "/images/stops/park_street"},
-    {"place-gover","/images/stops/government_center"}
+    {"place-north","/images/stops/north_station_green", "North Station Green Line Platform"},
+    {"place-pktrm", "/images/stops/park_street", "Park Street"},
+    {"place-gover","/images/stops/government_center", "Government Center"}
   ]
   @orange_line_hubs [
-    {"place-north", "/images/stops/north_station"},
-    {"place-bbsta", "/images/stops/back_bay"},
-    {"place-rugg", "/images/stops/ruggles"}
+    {"place-north", "/images/stops/north_station", "North Station Orange Line Platform"},
+    {"place-bbsta", "/images/stops/back_bay", "Back Bay Station"},
+    {"place-rugg", "/images/stops/ruggles", "Ruggles Station"}
   ]
   @blue_line_hubs [
-    {"place-state","/images/stops/state_street"},
-    {"place-wondl","/images/stops/wonderland"},
-    {"place-aport","/images/stops/airport"}
+    {"place-state","/images/stops/state_street", "State Street"},
+    {"place-wondl","/images/stops/wonderland", "Wonderland"},
+    {"place-aport","/images/stops/airport", "Airport Blue Line Platform"}
   ]
 
   @hub_map %{
@@ -71,11 +71,12 @@ defmodule HubStops do
   end
   defp do_from_stop_info({%Route{id: route_id}, _}), do: {route_id, []}
 
-  @spec build_hub_stop({String.t, String.t}, [DetailedStop.t]) :: HubStop.t
-  defp build_hub_stop({stop_id, path}, detailed_stops) do
+  @spec build_hub_stop({String.t, String.t, String.t}, [DetailedStop.t]) :: HubStop.t
+  defp build_hub_stop({stop_id, path, alt_text}, detailed_stops) do
     %HubStop{
       detailed_stop: Enum.find(detailed_stops, & &1.stop.id == stop_id),
-      image_path: path
+      image_path: path,
+      alt_text: alt_text
     }
   end
 end
