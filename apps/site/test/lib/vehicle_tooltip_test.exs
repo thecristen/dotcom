@@ -9,7 +9,8 @@ defmodule Site.VehicleTooltipTest do
                                   trip_id: "CR-Weekday-Spring-17-515"}}
 
   @predictions [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time",
-                                        trip: %Schedules.Trip{id: "CR-Weekday-Spring-17-515"}}]
+                                        trip: %Schedules.Trip{id: "CR-Weekday-Spring-17-515"},
+                                        stop: %Stops.Stop{id: "place-sstat"}}]
 
   @route %Routes.Route{type: 2}
 
@@ -41,6 +42,37 @@ defmodule Site.VehicleTooltipTest do
       assert tooltip.trip.headsign == "Worcester"
       assert tooltip.prediction.status == "On Time"
       assert tooltip.vehicle.status == :stopped
+    end
+
+    test "it uses the prediction corresponding to the vehicle's current stop" do
+      locations = %{{"trip_1", "stop_1"} =>
+        %Vehicles.Vehicle{
+          stop_id: "stop_1",
+          trip_id: "trip_1"
+        }
+      }
+      predictions = [
+        %Predictions.Prediction{
+          departing?: false,
+          time: ~N[2017-01-01T11:10:00],
+          status: "On Time",
+          trip: %Schedules.Trip{id: "trip_1"},
+          stop: %Stops.Stop{id: "stop_2"}
+        },
+        correct_prediction = %Predictions.Prediction{
+          departing?: true,
+          time: ~N[2017-01-01T11:00:00],
+          status: "On Time",
+          trip: %Schedules.Trip{id: "trip_1"},
+          stop: %Stops.Stop{id: "stop_1"}
+        }
+      ]
+      route = %Routes.Route{type: 2}
+
+      tooltips = build_map(route, locations, predictions)
+      tooltip = tooltips[{"trip_1", "stop_1"}]
+
+      assert tooltip.prediction == correct_prediction
     end
   end
 

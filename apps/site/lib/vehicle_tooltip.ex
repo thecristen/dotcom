@@ -7,6 +7,7 @@ defmodule VehicleTooltip do
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Trip
+  alias Site.ScheduleV2Controller.VehicleLocations
 
   import Routes.Route, only: [vehicle_name: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
@@ -34,15 +35,19 @@ defmodule VehicleTooltip do
   construct a convenient map that can be used in views / templates to determine if a tooltip is available
   and to fetch all of the required data
   """
-  @spec build_map(Route.t, %{{String.t, String.t} => Vehicle.t}, [Prediction.t]):: %{}
+  @spec build_map(Route.t, VehicleLocations.t, [Prediction.t]) :: %{optional({String.t, String.t}) => __MODULE__.t,
+                                                                    optional(String.t) => __MODULE__.t
+                                                                   }
   def build_map(route, vehicle_locations, vehicle_predictions) do
+    indexed_predictions = index_vehicle_predictions(vehicle_predictions)
+
     vehicle_locations
     |> Stream.reject(fn({{_trip_id, stop_id}, _status}) -> is_nil stop_id end)
     |> Enum.reduce(%{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
       tooltip = %VehicleTooltip{
         vehicle: vehicle_status,
-        prediction: prediction_for_stop(vehicle_predictions, trip_id),
+        prediction: prediction_for_stop(indexed_predictions, trip_id, stop_id),
         stop_name: stop_name(Stops.Repo.get(stop_id)),
         trip: Schedules.Repo.trip(trip_id),
         route: route
@@ -71,12 +76,17 @@ defmodule VehicleTooltip do
     build_prediction_tooltip(time_text, status_text, stop_text)
   end
 
-  @spec prediction_for_stop([Prediction.t] | nil, String.t) :: Prediction.t
-  defp prediction_for_stop(nil, _) do
-    nil
+  @spec prediction_for_stop(%{{String.t, String.t} => Prediction.t}, String.t, String.t) :: Prediction.t | nil
+  defp prediction_for_stop(vehicle_predictions, trip_id, stop_id) do
+    Map.get(vehicle_predictions, {trip_id, stop_id})
   end
-  defp prediction_for_stop(vehicle_predictions, trip_id) do
-    Enum.find(vehicle_predictions, &match?(%{trip: %{id: ^trip_id}}, &1))
+
+  @spec index_vehicle_predictions([Prediction.t]) :: %{{String.t, String.t} => Prediction.t}
+  defp index_vehicle_predictions(predictions) do
+    predictions
+    |> Stream.filter(&(&1.trip && &1.stop))
+    |> Stream.map(&({{&1.trip.id, &1.stop.id}, &1}))
+    |> Enum.into(Map.new)
   end
 
   @spec prediction_status_text(Prediction.t | nil) :: iodata

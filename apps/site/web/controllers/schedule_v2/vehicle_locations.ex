@@ -11,6 +11,8 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
     schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/1
   ]
 
+  @type t :: %{{String.t, String.t} => Vehicles.Vehicle.t}
+
   def init(opts) do
     Keyword.merge(@default_opts, opts)
   end
@@ -34,6 +36,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
     conn.assigns.date == Util.service_date(conn.assigns.date_time)
   end
 
+  @spec find_locations(Plug.Conn.t, %{}) :: __MODULE__.t
   defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id}}, opts) do
     route.id
     |> opts[:location_fn].(direction_id: direction_id)
