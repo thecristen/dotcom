@@ -125,6 +125,13 @@
     float: left;
     width: 50%;
   }
+
+  &:focus {
+    border-bottom: $border-md;
+    border-top: $border-md;
+    outline: none;
+    z-index: $z-index-trip-selected;
+  }
 }
 
 a {
@@ -245,8 +252,6 @@ a {
 
 .trip-schedules-pdf {
   border-top: $border;
-  margin-top: $base-spacing-lg;
-  padding-top: $base-spacing;
 }
 
 .trip-schedules-pdf-multiple {
@@ -259,6 +264,10 @@ a {
       margin-bottom: 0;
     }
   }
+}
+
+.schedules-v2-pdf-link {
+  padding-top: $base-spacing;
 }
 
 // on mobile, don't show any trip as selected if the user themself didn't actually make the selection
@@ -472,6 +481,10 @@ a {
     .filter-icon-border {
       border-color: $btn-primary-focus-color;
     }
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 

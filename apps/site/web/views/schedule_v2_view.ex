@@ -305,9 +305,14 @@ defmodule Site.ScheduleV2View do
       [] ->
         []
       [{previous_date, _}] ->
-        do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"])
+        content_tag :div do
+          [
+            do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
+            south_station_commuter_rail(route)
+          ]
+        end
       [{previous_date, _}, {next_date, _} | _] ->
-        content_tag :div, class: "trip-schedules-pdf-multiple" do
+        content_tag :div do
           [
             do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
             do_pdf_link(route, next_date, ["upcoming schedule — effective ", Timex.format!(next_date, "{Mshort} {D}")]),
@@ -321,11 +326,13 @@ defmodule Site.ScheduleV2View do
   def south_station_commuter_rail(route) do
     pdf_path = Routes.Pdf.south_station_back_bay_pdf(route)
     if pdf_path do
-      link(to: pdf_path, target: "_blank") do
-        [
-          fa("file-pdf-o"),
-          " View PDF of Back Bay to South Station schedule",
-        ]
+      content_tag :div, class: "schedules-v2-pdf-link" do
+        link(to: pdf_path, target: "_blank") do
+          [
+            fa("file-pdf-o"),
+            " View PDF of Back Bay to South Station schedule",
+          ]
+        end
       end
     else
       []
@@ -342,12 +349,14 @@ defmodule Site.ScheduleV2View do
 
   defp do_pdf_link(route, date, link_iodata) do
     iso_date = Date.to_iso8601(date)
-    link(to: route_pdf_path(Site.Endpoint, :pdf, route, date: iso_date), target: "_blank") do
-      [
-        fa("file-pdf-o"),
-        " View PDF of ",
-        link_iodata
-      ]
+    content_tag :div, class: "schedules-v2-pdf-link" do
+      link(to: route_pdf_path(Site.Endpoint, :pdf, route, date: iso_date), target: "_blank") do
+        [
+          fa("file-pdf-o"),
+          " View PDF of ",
+          link_iodata
+        ]
+      end
     end
   end
 
