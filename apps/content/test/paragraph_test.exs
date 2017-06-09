@@ -3,19 +3,19 @@ defmodule Content.ParagraphTest do
 
   import Content.Paragraph
 
-  describe "try_from_api/1" do
+  describe "from_api/1" do
     test "parses custom html" do
       api_data = api_paragraph("custom_html")
 
-      assert try_from_api(api_data) == [%Content.Paragraph.CustomHTML{
+      assert from_api(api_data) == %Content.Paragraph.CustomHTML{
         body: Phoenix.HTML.raw("<p><strong>This is a Custom HTML paragraph.</strong></p>")
-      }]
+      }
     end
 
     test "parses title card set" do
       api_data = api_paragraph("title_card_set")
 
-      assert try_from_api(api_data) == [%Content.Paragraph.TitleCardSet{
+      assert from_api(api_data) == %Content.Paragraph.TitleCardSet{
         title_cards: [
           %Content.Paragraph.TitleCard{
             title: "Title Card Title",
@@ -23,11 +23,7 @@ defmodule Content.ParagraphTest do
             link: "/some/internal/link"
           }
         ]
-      }]
-    end
-
-    test "gracefully handles unknown paragraphs" do
-      assert try_from_api(%{"type" => [%{"target_id" => "unknown_paragraph_type"}]}) == []
+      }
     end
   end
 

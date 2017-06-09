@@ -87,10 +87,6 @@ defmodule Content.HelpersTest do
             "field_title_card_link" => [%{"uri" => "internal:/foo/bar"}],
             "field_title_card_title" => [%{"value" => "title"}]
           }],
-        },
-        %{
-          "type" => [%{"target_id" => "unknown_paragraph"}],
-          "field_foo" => [%{"value" => "bar"}]
         }
       ]}
 

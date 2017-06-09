@@ -1,4 +1,4 @@
-defmodule ContentControllerTest do
+defmodule Site.ContentControllerTest do
   use Site.ConnCase, async: true
 
   describe "GET - page" do

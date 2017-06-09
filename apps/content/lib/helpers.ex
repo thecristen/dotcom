@@ -43,7 +43,7 @@ defmodule Content.Helpers do
   def parse_paragraphs(data) do
     data
     |> Map.get("field_paragraphs", [])
-    |> Enum.flat_map(&Content.Paragraph.try_from_api/1)
+    |> Enum.map(&Content.Paragraph.from_api/1)
   end
 
   @spec parse_unix_time(integer) :: DateTime.t | nil
