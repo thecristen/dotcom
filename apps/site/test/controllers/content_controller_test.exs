@@ -1,10 +1,19 @@
-defmodule ContentControllerTest do
+defmodule Site.ContentControllerTest do
   use Site.ConnCase, async: true
 
   describe "GET - page" do
     test "renders a basic page when the CMS returns a Content.BasicPage", %{conn: conn} do
       conn = get conn, "/accessibility"
-      assert html_response(conn, 200) =~ "Accessibility at the T"
+      rendered = html_response(conn, 200)
+      assert rendered =~ "Accessibility at the T"
+    end
+
+    test "renders a basic page with all its paragraphs", %{conn: conn} do
+      conn = get conn, "/accessibility/all-paragraphs"
+      rendered = html_response(conn, 200)
+
+      assert rendered =~ "<strong>This is a Custom HTML paragraph.</strong>"
+      assert rendered =~ ~s(<div class="title-card-title">Title Card Title</div>)
     end
 
     test "renders a project update when the CMS returns a Content.ProjectUpdate", %{conn: conn} do

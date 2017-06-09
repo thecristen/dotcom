@@ -71,4 +71,37 @@ defmodule Content.HelpersTest do
       assert handle_html(nil) == {:safe, ""}
     end
   end
+
+  describe "parse_paragraphs/1" do
+    test "it parses different kinds of paragraphs" do
+      api_data = %{"field_paragraphs" => [
+        %{
+          "type" => [%{"target_id" => "custom_html"}],
+          "field_custom_html_body" =>  [%{"value" => "some HTML"}]
+        },
+        %{
+          "type" => [%{"target_id" => "title_card_set"}],
+          "field_title_cards" => [%{
+            "type" => [%{"target_id" => "title_card"}],
+            "field_title_card_body" => [%{"value" => "body"}],
+            "field_title_card_link" => [%{"uri" => "internal:/foo/bar"}],
+            "field_title_card_title" => [%{"value" => "title"}]
+          }],
+        }
+      ]}
+
+      parsed = parse_paragraphs(api_data)
+
+      assert parsed == [
+        %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("some HTML")},
+        %Content.Paragraph.TitleCardSet{
+          title_cards: [%Content.Paragraph.TitleCard{
+            body: Phoenix.HTML.raw("body"),
+            title: "title",
+            link: "/foo/bar"
+          }]
+        }
+      ]
+    end
+  end
 end
