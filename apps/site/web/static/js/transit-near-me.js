@@ -1,6 +1,6 @@
 export default function() {
   function setupTNM() {
-    const placeInput = document.getElementById("place-input");
+    const placeInput = document.getElementById("tnm-place-input");
 
     // only load on pages that are using TNM
     if(!placeInput) {
@@ -8,33 +8,12 @@ export default function() {
     }
 
     placeInput.form.addEventListener('submit', (ev) => validateTNMForm(ev, window.location, placeInput));
-    setupGoogleMaps(placeInput);
   }
 
   document.addEventListener('turbolinks:load', setupTNM, {passive: true});
+  $(document).on('autocomplete:added', '#tnm-place-input', addPlaceChangeCallback)
 }
 
-function setupGoogleMaps(placeInput) {
-  if (typeof google !== "undefined") {
-    var autocomplete = new google.maps.places.Autocomplete(placeInput);
-
-    function onPlaceChanged() {
-      const locationUrl = constructUrl(autocomplete.getPlace(), placeInput);
-      window.location.href = encodeURI(locationUrl);
-    }
-
-    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-
-  }
-  else {
-    const existingCallback = window.mapsCallback || function() {};
-    window.mapsCallback = function() {
-      window.mapsCallback = undefined;
-      existingCallback();
-      setupGoogleMaps(placeInput);
-    };
-  }
-}
 // Functions exported for testing //
 
 export function getUrlParameter(sParam, search_string) {
@@ -80,4 +59,16 @@ export function constructUrl(place, placeInput) {
     query_str = "?location[address]=" + place.name + "#transit-input";
   }
   return location_url + query_str;
+}
+
+export function addPlaceChangedEventListener(autocomplete, placeInput) {
+  function onPlaceChanged() {
+    const locationUrl = constructUrl(autocomplete.getPlace(), placeInput);
+    window.location.href = encodeURI(locationUrl);
+  }
+  google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+}
+
+function addPlaceChangeCallback(ev, autocomplete){
+  addPlaceChangedEventListener(autocomplete, ev.target);
 }

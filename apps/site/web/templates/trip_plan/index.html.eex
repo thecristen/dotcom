@@ -4,11 +4,11 @@
     <%= form_for @conn, @conn.request_path, [as: :plan, method: :get], fn f -> %>
     <div class="form-group">
       <%= label f, :from, "From:" %>
-      <%= text_input f, :from, placeholder: "Ex: 10 Park Plaza", id: "from", class: "form-control" %>
+      <%= text_input f, :from, placeholder: "Ex: 10 Park Plaza", id: "from", class: "form-control", data_autocomplete: "true" %>
     </div>
     <div class="form-group">
       <%= label f, :to, "To:" %>
-      <%= text_input f, :to, placeholder: "Ex: Boston Children's Museum", id: "to", class: "form-control" %>
+      <%= text_input f, :to, placeholder: "Ex: Boston Children's Museum", id: "to", class: "form-control", data_autocomplete: "true" %>
     </div>
     <div class="form-group">
       <%= label f, :personal_mode, for: "walk" do %>
@@ -55,22 +55,3 @@
     <% end %>
   </div>
 </div>
-<script type="text/javascript">
-(function() {
-  function setup() {
-    if (!google.maps.places.Autocomplete) {
-      var existingCallback = window.mapsCallback || function() {};
-      window.mapsCallback = function() {
-        window.mapsCallback = undefined;
-        existingCallback();
-        setup();
-      };
-      return;
-    }
-
-    new google.maps.places.Autocomplete(document.getElementById("from"));
-    new google.maps.places.Autocomplete(document.getElementById("to"));
-  }
-  setup();
-})();
-</script>
