@@ -11,7 +11,7 @@ defmodule MapHelpers do
     "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
   end
   def map_pdf_url(:bus) do
-    "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+    "https://www.mbta.com/uploadedFiles/Schedules_and_Maps/System_Map/MBTA-system_map-back.pdf"
   end
   def map_pdf_url(:ferry) do
     "https://s3.amazonaws.com/mbta-dotcom/Water_Ferries_2016.pdf"
@@ -34,6 +34,9 @@ defmodule MapHelpers do
   end
   def map_image_url(:ferry) do
     "/images/ferry-spider.jpg"
+  end
+  def map_image_url(:bus) do
+    "/images/mbta-full-system-map.jpg"
   end
   def map_image_url(_) do
     "/images/subway-spider.jpg"

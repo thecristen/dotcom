@@ -12,7 +12,7 @@ defmodule MapHelpersTest do
     end
 
     test "returns the bus map for bus" do
-      assert map_pdf_url(:bus)  == "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+      assert map_pdf_url(:bus)  == "https://www.mbta.com/uploadedFiles/Schedules_and_Maps/System_Map/MBTA-system_map-back.pdf"
     end
 
     test "returns the map link for commuter rail" do
@@ -35,7 +35,7 @@ defmodule MapHelpersTest do
     end
 
     test "returns a map image url for the bus" do
-      assert map_image_url(:bus) == "/images/subway-spider.jpg"
+      assert map_image_url(:bus) == "/images/mbta-full-system-map.jpg"
     end
 
     test "returns a map image url for the ferry" do
