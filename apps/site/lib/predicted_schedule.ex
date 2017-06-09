@@ -99,7 +99,7 @@ defmodule PredictedSchedule do
 
   @doc """
   Returns a time value for the given PredictedSchedule. Returned value can be either a scheduled time
-  for a prediction time. **Predicted Times are preferred**
+  or a predicted time. **Predicted Times are preferred**
   """
   @spec time(PredictedSchedule.t) :: DateTime.t | nil
   def time(%PredictedSchedule{schedule: nil, prediction: prediction}), do: prediction.time

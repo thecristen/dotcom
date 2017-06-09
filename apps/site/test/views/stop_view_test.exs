@@ -5,6 +5,7 @@ defmodule Site.StopViewTest do
   alias Stops.Stop
   alias Routes.Route
   alias Schedules.Schedule
+  alias Predictions.Prediction
   use Site.ConnCase, async: true
 
   describe "fare_group/1" do
@@ -177,6 +178,20 @@ defmodule Site.StopViewTest do
       ps = %PredictedSchedule{schedule: %Schedule{time: ~N[2017-01-01T12:00:00]}}
       assert time_differences([ps], date_time) ==
         [PredictedSchedule.Display.time_difference(ps, date_time)]
+    end
+
+    test "time differences are in order from smallest to largest" do
+      now = Util.now()
+      schedules = [
+        %PredictedSchedule{schedule: %Schedule{time: Timex.shift(now, minutes: 3)}},
+        %PredictedSchedule{prediction: %Prediction{time: Timex.shift(now, minutes: 1)}},
+        %PredictedSchedule{schedule: %Schedule{time: Timex.shift(now, minutes: 5)}},
+      ]
+      assert [one_min_live, three_mins, five_mins] = time_differences(schedules, now)
+      assert safe_to_string(one_min_live) ==
+        ~s(<span class="no-wrap"><i aria-hidden="true" class="fa fa-rss "></i> 1 min</span>)
+      assert three_mins == ["3", " ", "mins"]
+      assert five_mins == ["5", " ", "mins"]
     end
 
     test "filters out predicted schedules we could not render" do
