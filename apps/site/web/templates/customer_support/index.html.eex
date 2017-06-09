@@ -9,7 +9,7 @@
         <%= fa "check-circle" %>
         Thank you for your feedback.
       </div>
-      <p>Your comments have been sent to our Customer Support team, who will follow up with you shortly.</p>
+      <p>Your comments have been sent to our Customer Support team.</p>
     </div>
     <div class="col-xs-12 support-form-error hidden-xs-up" tabindex="-1">
       <div class="support-error">
