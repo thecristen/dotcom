@@ -5,6 +5,7 @@ defmodule Site.StopViewTest do
   alias Stops.Stop
   alias Routes.Route
   alias Schedules.Schedule
+  alias Predictions.Prediction
   use Site.ConnCase, async: true
 
   describe "fare_group/1" do
@@ -121,13 +122,25 @@ defmodule Site.StopViewTest do
 
   describe "center_query/1" do
     test "returns a marker at the stop if it only has buses" do
-      stop = %Stop{id: "2438", latitude: "42.37497", longitude: "-71.102529"}
+      stop = %Stop{id: "2438", latitude: 42.37497, longitude: -71.102529}
       assert center_query(stop) == [markers: "42.37497,-71.102529"]
     end
 
     test "returns the location of the stop as the map center if it serves other modes" do
-      stop = %Stop{id: "place-sstat", latitude: "42.352271", longitude: "-71.055242"}
+      stop = %Stop{id: "place-sstat", latitude: 42.352271, longitude: -71.055242}
       assert center_query(stop) == [markers: location(stop)]
+    end
+  end
+
+  describe "location/1" do
+    test "returns an encoded address if lat/lng is missing" do
+      stop = %Stop{id: "place-sstat", latitude: nil, longitude: nil, address: "10 Park Plaza, Boston, MA"}
+      assert location(stop) == "10%20Park%20Plaza%2C%20Boston%2C%20MA"
+    end
+
+    test "returns lat/lng as a string if lat/lng is available" do
+      stop = %Stop{id: "2438", latitude: 42.37497, longitude: -71.102529}
+      assert location(stop) == "#{stop.latitude},#{stop.longitude}"
     end
   end
 
@@ -165,6 +178,20 @@ defmodule Site.StopViewTest do
       ps = %PredictedSchedule{schedule: %Schedule{time: ~N[2017-01-01T12:00:00]}}
       assert time_differences([ps], date_time) ==
         [PredictedSchedule.Display.time_difference(ps, date_time)]
+    end
+
+    test "time differences are in order from smallest to largest" do
+      now = Util.now()
+      schedules = [
+        %PredictedSchedule{schedule: %Schedule{time: Timex.shift(now, minutes: 3)}},
+        %PredictedSchedule{prediction: %Prediction{time: Timex.shift(now, minutes: 1)}},
+        %PredictedSchedule{schedule: %Schedule{time: Timex.shift(now, minutes: 5)}},
+      ]
+      assert [one_min_live, three_mins, five_mins] = time_differences(schedules, now)
+      assert safe_to_string(one_min_live) ==
+        ~s(<span class="no-wrap"><i aria-hidden="true" class="fa fa-rss "></i> 1 min</span>)
+      assert three_mins == ["3", " ", "mins"]
+      assert five_mins == ["5", " ", "mins"]
     end
 
     test "filters out predicted schedules we could not render" do

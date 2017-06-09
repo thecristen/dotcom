@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-6 col-sm-12">
                       <div class="row" role="cell">
-                        <%= for time_difference <- departures |> time_differences(@date_time) |> Enum.take(3) do %>
+                        <%= for time_difference <- time_differences(departures, @date_time) do %>
                           <div class="no-wrap schedule-upcoming-departure col-sm-4 col-xs-12">
                             <%= time_difference %>
                           </div>
