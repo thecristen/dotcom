@@ -1,5 +1,6 @@
 <% id = "alerts-#{@route.id}"
-   effects = alert_effects(@alerts, @upcoming_alert_count) %>
+    effects = alert_effects(@alerts, @upcoming_alert_count)
+%>
 <div class="alert-modal-container">
   <div class="alert-container" id="<%= id %>">
     <a class="alert-list-header fixedsticky" href="#" data-hide="collapse" data-target="#<%= id %>">
@@ -23,7 +24,7 @@
           <div class="row">
             <%= if @upcoming_alert_count != 0 do %>
               <div class="col-xs-12 col-sm-6 pull-sm-right">
-                <%= link to: (alert_path(Site.Endpoint, :show, Routes.Route.type_atom(@route)) <> "#alerts-" <> @route.id), data: [turbolinks: "false"] do %>
+                <%= link to: (alert_path(Site.Endpoint, :show, Routes.Route.type_atom(@route)) <> "#" <> id) do %>
                   View <%= @upcoming_alert_count %> upcoming <%= Inflex.inflect("alert", @upcoming_alert_count) %> &raquo;
                 <% end %>
               </div>
@@ -36,13 +37,15 @@
       <% end %>
     </ul>
   </div>
+  <% first_alert = List.first(@alerts) %>
   <a class="alert-link" href="#<%= id %>" data-show="collapse" data-target="#<%= id %>">
     <span class="alert-link-title">
-      <%= render "_icon.html", alert: List.first(@alerts), time: @time %>
+      <%= render "_icon.html", alert: first_alert, time: @time %>
       <%= case effects do %>
         <% {prefix, _} -> %>
+        <% first_alert_effect_length = String.length(Alerts.Alert.human_effect(first_alert)) %>
         <strong><%= prefix %>:</strong>
-        <%= hd(@alerts).header |> clamp_header(String.length(hd(@alerts).effect_name)) %>
+        <%= clamp_header(first_alert.header, first_alert_effect_length) %>
         <% text -> %><%= text %>
       <% end %>
     </span>

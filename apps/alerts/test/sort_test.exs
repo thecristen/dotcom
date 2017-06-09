@@ -31,7 +31,7 @@ defmodule Alerts.SortTest do
 
     test "uses the passed in date for active periods" do
       alert_prototype = %Alert{
-        effect_name: "Snow Route",
+        effect: :snow_route,
         lifecycle: "Upcoming",
         severity: "Severe",
         updated_at: new_datetime("2017-06-01T12:00:00-05:00")

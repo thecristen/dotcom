@@ -35,8 +35,8 @@ defmodule Alerts.Cache.StoreTest do
   end
 
   test "alerts come back in sorted order" do
-    alert1 = %Alerts.Alert{id: "123", effect_name: "Cancellation"}
-    alert2 = %Alerts.Alert{id: "456", effect_name: "Policy Change"}
+    alert1 = %Alerts.Alert{id: "123", effect: :cancellation}
+    alert2 = %Alerts.Alert{id: "456", effect: :policy_change}
 
     Store.update([alert1, alert2], nil)
     assert Store.all_alerts(@now) == [alert1, alert2]

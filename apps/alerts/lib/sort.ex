@@ -13,40 +13,40 @@ defmodule Alerts.Sort do
   """
 
   @severity_order [
-    "Severe",
-    "Significant",
-    "Moderate",
-    "Minor",
-    "Information"
+    :severe,
+    :significant,
+    :moderate,
+    :minor,
+    :information
   ]
 
   @lifecycle_order [
-    "New",
-    "Upcoming",
-    "Ongoing-Upcoming",
-    "Ongoing"
+    :new,
+    :upcoming,
+    :ongoing_upcoming,
+    :ongoing
   ]
 
-  @effect_name_order [
-    "Amber Alert",
-    "Cancellation",
-    "Delay",
-    "Suspension",
-    "Track Change",
-    "Detour",
-    "Shuttle",
-    "Stop Closure",
-    "Dock Closure",
-    "Station Closure",
-    "Stop Move",
-    "Extra Service",
-    "Schedule Change",
-    "Service Change",
-    "Snow Route",
-    "Station Issue",
-    "Dock Issue",
-    "Access Issue",
-    "Policy Change"
+  @effect_order [
+    :amber_alert,
+    :cancellation,
+    :delay,
+    :suspension,
+    :track_change,
+    :detour,
+    :shuttle,
+    :stop_closure,
+    :dock_closure,
+    :station_closure,
+    :stop_moved,
+    :extra_service,
+    :schedule_change,
+    :service_change,
+    :snow_route,
+    :station_issue,
+    :dock_issue,
+    :access_issue,
+    :policy_change
   ]
 
   def sort(alerts, now) do
@@ -55,7 +55,7 @@ defmodule Alerts.Sort do
 
   defp sort_key(alert, now) do
     {
-      effect_name_index(alert.effect_name),
+      effect_index(alert.effect),
       lifecycle_index(alert.lifecycle),
       severity_index(alert.severity),
       -updated_at_date(alert.updated_at),
@@ -76,13 +76,13 @@ defmodule Alerts.Sort do
     defp lifecycle_index(unquote(lifecycle)), do: unquote(index)
   end
   # fallback
-  defp lifecycle_index(_), do: unquote(length(@effect_name_order))
+  defp lifecycle_index(_), do: unquote(length(@lifecycle_order))
 
-  for {name, index} <- Enum.with_index(@effect_name_order) do
-    defp effect_name_index(unquote(name)), do: unquote(index)
+  for {name, index} <- Enum.with_index(@effect_order) do
+    defp effect_index(unquote(name)), do: unquote(index)
   end
   # fallback
-  defp effect_name_index(_), do: unquote(length(@effect_name_order))
+  defp effect_index(_), do: unquote(length(@effect_order))
 
   defp updated_at_date(dt) do
     dt

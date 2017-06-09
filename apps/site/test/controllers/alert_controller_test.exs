@@ -86,7 +86,7 @@ defmodule Site.AlertControllerTest do
         active_period: [{Util.now() |> Timex.shift(days: -2), nil}],
         informed_entity: [informed_entity(mode)],
         updated_at: Util.now() |> Timex.shift(days: -2),
-        effect_name: effect_name(mode)
+        effect: effect(mode)
       }]}
     end
 
@@ -103,9 +103,9 @@ defmodule Site.AlertControllerTest do
       %Alerts.InformedEntity{route: "Boat-F4", route_type: 4, direction_id: 1, stop: "Boat-Charlestown"}
     end
 
-    defp effect_name(mode) when mode in [:subway, :ferry, :bus], do: "Delay"
-    defp effect_name(:commuter_rail), do: "Track Change"
-    defp effect_name(:access), do: "Access Issue"
+    defp effect(:commuter_rail), do: :track_change
+    defp effect(:access), do: :access_issue
+    defp effect(_mode), do: :delay
   end
 
   describe "group_access_alerts/1" do
@@ -117,7 +117,7 @@ defmodule Site.AlertControllerTest do
       ]
       |> Enum.map(fn header ->
         %Alert{
-          effect_name: "Access Issue",
+          effect: :access_issue,
           header: header}
       end)
 
@@ -135,7 +135,7 @@ defmodule Site.AlertControllerTest do
       ]
       |> Enum.map(fn header ->
         %Alert{
-          effect_name: "Access Issue",
+          effect: :access_issue,
           header: header}
       end)
 
@@ -156,7 +156,7 @@ defmodule Site.AlertControllerTest do
 
     test "includes alerts that don't start with the type" do
       alert = %Alert{
-        effect_name: "Access Issue",
+        effect: :access_issue,
         header: "This has the word 'Escalator' in it"
       }
       assert group_access_alerts([alert]) == %{

@@ -45,8 +45,8 @@ defmodule Alerts.Trip do
   end
 
   defp alert_is_delay?(alert)
-  defp alert_is_delay?(%{effect_name: "Delay"}), do: true
-  defp alert_is_delay?(%{effect_name: "Suspension"}), do: true
+  defp alert_is_delay?(%{effect: :delay}), do: true
+  defp alert_is_delay?(%{effect: :suspension}), do: true
   defp alert_is_delay?(_), do: false
 
 end

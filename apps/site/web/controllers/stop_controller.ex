@@ -129,7 +129,7 @@ defmodule Site.StopController do
   @spec access_alerts([Alerts.Alert.t], Stop.t) :: [Alerts.Alert.t]
   def access_alerts(alerts, stop) do
     alerts
-    |> Enum.filter(&(&1.effect_name == "Access Issue"))
+    |> Enum.filter(&(&1.effect == :access_issue))
     |> stop_alerts(stop)
   end
 
