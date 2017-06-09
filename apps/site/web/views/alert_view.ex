@@ -1,6 +1,7 @@
 defmodule Site.AlertView do
   use Site.Web, :view
   alias Routes.Route
+  import Site.ViewHelpers
 
   @doc """
 
@@ -73,7 +74,7 @@ defmodule Site.AlertView do
     else
       Timex.format!(alert.updated_at, "{M}/{D}/{YYYY}")
     end
-    time = Timex.format!(alert.updated_at, "{h12}:{m} {AM}")
+    time = format_schedule_time(alert.updated_at)
 
     ["Last Updated: ", date, 32, time]
   end

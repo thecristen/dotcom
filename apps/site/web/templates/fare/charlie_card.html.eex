@@ -23,29 +23,29 @@
       <p>You can get a free, blank CharlieCard from an MBTA Customer Service Agent working at the Bus and Subway stations listed below.</p>
       <div class="row">
         <div class="charlie-card-hours col-xs-12 col-md-4">
-          <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
-          <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
-          <p><strong>Sunday hours:</strong> 7:00 AM - 7:00 PM</p>
+          <p><strong>Weekday hours:</strong> 7:00A - 7:00P</p>
+          <p><strong>Saturday hours:</strong> 7:00A - 7:00P</p>
+          <p><strong>Sunday hours:</strong> 7:00A - 7:00P</p>
           <p class="charlie-card-stations"><%= charlie_card_stations() %></p>
         </div>
         <div class="charlie-card-hours col-xs-12  col-md-4">
-          <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
-          <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
-          <p><strong>Sunday hours:</strong> 7:00 AM - 7:00 PM</p>
+          <p><strong>Weekday hours:</strong> 7:00A - 7:00P</p>
+          <p><strong>Saturday hours:</strong> 7:00A - 7:00P</p>
+          <p><strong>Sunday hours:</strong> 7:00A - 7:00P</p>
           <p class="charlie-card-stations"><%= stop_link "place-haecl" %>, <%= stop_link "place-wondl" %></p>
         </div>
         <div class="charlie-card-hours col-xs-12 col-md-4">
-          <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
-          <p><strong>Saturday hours:</strong> 7:00 AM - 7:00 PM</p>
-          <p><strong>Sunday hours:</strong> 10:30 AM - 7:00 PM</p>
+          <p><strong>Weekday hours:</strong> 7:00A - 7:00P<p>
+          <p><strong>Saturday hours:</strong> 7:00A - 7:00P</p>
+          <p><strong>Sunday hours:</strong> 10:30A - 7:00P</p>
           <p class="charlie-card-stations"><%= stop_link "place-kencl" %></p>
         </div>
       </div>
       <div class="row m-t-2">
         <div class="charlie-card-hours col-xs-12 col-md-4">
-          <p><strong>Weekday hours:</strong> 7:00 AM - 7:00 PM</p>
-          <p><strong>Saturday hours:</strong> 7:00 AM - 2:00 PM, 4:30 PM - 7:00 PM</p>
-          <p><strong>Sunday hours:</strong> 10:30 AM - 7:00 PM</p>
+          <p><strong>Weekday hours:</strong> 7:00A - 7:00P</p>
+          <p><strong>Saturday hours:</strong> 7:00A - 2:00P, 4:30P - 7:00P</p>
+          <p><strong>Sunday hours:</strong> 10:30A - 7:00P</p>
           <p class="charlie-card-stations"><%= stop_link "place-mvbcl" %></p>
         </div>
       </div>
@@ -72,7 +72,7 @@
       <div class="row charlie-store-info">
         <div class="col-md-4">
           <p><strong>Hours:</strong></p>
-          <p>Monday - Friday, 8:30 AM until 5:00 PM</p>
+          <p>Monday - Friday, 8:30A until 5:00P</p>
         </div>
         <div class="col-md-4">
           <p><strong>Phone:</strong></p>

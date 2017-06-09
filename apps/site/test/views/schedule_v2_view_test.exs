@@ -2,7 +2,7 @@ defmodule Site.ScheduleV2ViewTest do
   use Site.ConnCase, async: true
 
   alias Predictions.Prediction
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.{Schedule, Trip, Departures}
   alias Stops.{Stop, RouteStop, RouteStops}
   import Site.ScheduleV2View
   import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
@@ -470,6 +470,24 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns \"No service between these hours\" if there is no service" do
       actual = false |> Site.ScheduleV2View.frequency_times(%Schedules.Frequency{}) |> safe_to_string
       assert actual == "<span>No service between these hours</span>"
+    end
+  end
+
+  describe "display_departure_range/1" do
+    test "with no times, returns No Service" do
+      result = display_departure_range(%Departures{first_departure: nil, last_departure: nil})
+      assert result == "No Service"
+    end
+
+    test "with times, displays them formatted" do
+      result = %Departures{
+        first_departure: ~N[2017-02-27 06:15:00],
+        last_departure: ~N[2017-02-28 01:04:00]
+      }
+      |> display_departure_range
+      |> IO.iodata_to_binary
+
+      assert result == "06:15A-01:04A"
     end
   end
 

@@ -118,11 +118,26 @@ defmodule Site.ScheduleV2View do
   end
 
   @spec frequency_block_name(Schedules.Frequency.t) :: String.t
-  defp frequency_block_name(%Schedules.Frequency{time_block: :am_rush}), do: "OPEN - 9:00AM"
-  defp frequency_block_name(%Schedules.Frequency{time_block: :midday}), do: "9:00AM - 3:30PM"
-  defp frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}), do: "3:30PM - 6:30PM"
-  defp frequency_block_name(%Schedules.Frequency{time_block: :evening}), do: "6:30PM - 8:00PM"
-  defp frequency_block_name(%Schedules.Frequency{time_block: :late_night}), do: "8:00PM - CLOSE"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :am_rush}), do: "OPEN - 9:00A"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :midday}), do: "9:00A - 3:30P"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}), do: "3:30P - 6:30P"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :evening}), do: "6:30P - 8:00P"
+  defp frequency_block_name(%Schedules.Frequency{time_block: :late_night}), do: "8:00P - CLOSE"
+
+  @doc """
+  Formats a Schedules.Departures.t to a human-readable time range.
+  """
+  @spec display_departure_range(Schedules.Departures.t) :: iodata
+  def display_departure_range(%Schedules.Departures{first_departure: nil, last_departure: nil}) do
+    "No Service"
+  end
+  def display_departure_range(departures) do
+    [
+      format_schedule_time(departures.first_departure),
+      "-",
+      format_schedule_time(departures.last_departure)
+    ]
+  end
 
   @doc """
   The first departure will be shown if it is the AM rush timeblock

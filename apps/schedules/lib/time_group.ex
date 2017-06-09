@@ -17,11 +17,11 @@ defmodule TimeGroup do
 
   @doc """
   Given a list of schedules, returns those schedules grouped into subway schedule periods:
-  * AM Rush Hour: OPEN - 9:00 AM (:am_rush)
-  * Midday: 9:00 AM - 3:30 PM (:midday)
-  * PM Rush Hour: 3:30 PM - 6:30 PM (:pm_rush)
-  * Evening: 6:30 PM - 8:00 PM (:evening)
-  * Late Night: 8:00 PM - CLOSE (:late_night)
+  * AM Rush Hour: OPEN - 9:00A (:am_rush)
+  * Midday: 9:00A - 3:30P (:midday)
+  * PM Rush Hour: 3:30P - 6:30P (:pm_rush)
+  * Evening: 6:30P - 8:00P (:evening)
+  * Late Night: 8:00P - CLOSE (:late_night)
 
   Returns a keyword list, and expects that the schedules are already sorted.
   """

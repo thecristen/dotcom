@@ -45,7 +45,7 @@
                   <%= for direction_id <- [1, 0] do %>
                     <p class="hours-directions">
                       <span class="hours-direction-name"><%= @route.direction_names[direction_id] %>:</span>
-                      <span class="hours-time"><%= Schedules.Departures.display_departures(@hours_of_operation[period][direction_id]) %></span>
+                      <span class="hours-time"><%= display_departure_range(@hours_of_operation[period][direction_id]) %></span>
                     </p>
                   <% end %>
               <% end %>

@@ -24,7 +24,7 @@
         <div class="col-xs-12 col-sm-6 support-section">
           <h2 id="customer_support" class="support-header"><strong>Customer Support</strong></h2>
           <ul>
-            <li><strong>Monday &mdash; Friday</strong> 6:30AM until 6:00PM</li>
+            <li><strong>Monday &mdash; Friday</strong> 6:30A until 6:00P</li>
             <li>
               <span class="support-tel-number"><strong>Main Hotline</strong> <%= tel_link "(617)-222-3200" %></span>
               <span class="support-tel-number"><strong>TTY</strong> <%= tel_link "(617)-222-5146" %></span>

@@ -109,7 +109,7 @@ defmodule Site.FareView.Description do
      "It must also be within 3/4 miles from an active MBTA Bus or Subway service, or be in the core ADA area."]
   end
   def description(%Fare{name: :premium_ride}, _assigns) do
-    ["A trip qualifies as premium if it has been booked for same-day service or if a reservation has been changed after 5:00PM for service the next day.",
+    ["A trip qualifies as premium if it has been booked for same-day service or if a reservation has been changed after 5:00P for service the next day.",
      "<br><br>" |> Phoenix.HTML.raw,
      "A trip also qualifies if it is not within the core ADA area of service, or has a destination more than 3/4 miles away from an active MBTA Bus or Subway service."
     ]
