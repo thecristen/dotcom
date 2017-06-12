@@ -675,6 +675,7 @@ a {
 }
 
 .schedule-v2-timetable-name {
+  font-weight: normal;
   margin-right: $base-spacing-sm; // left scroll warning
 
   @include media-breakpoint-up(xs) {

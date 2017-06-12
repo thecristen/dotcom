@@ -8,7 +8,7 @@
     <div class="schedule-v2-timetable-container" data-sticky-container>
       <table class="schedule-v2-timetable schedule-v2-timetable-hide-earlier schedule-v2-timetable-hide-later commuter-rail">
         <tr>
-          <th class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
+          <th scope="row" class="schedule-v2-timetable-name-col schedule-v2-timetable-header-col" data-sticky="left">
             Stop
             <div class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-earlier schedule-v2-timetable-header-col" aria-hidden="true">
               <%= fa "angle-left" %>
@@ -31,7 +31,7 @@
         </tr>
         <%= for stop <- @all_stops do %>
           <tr class="schedule-v2-timetable-row">
-            <td class="schedule-v2-timetable-name-col" data-sticky="left">
+            <th scope="row" class="schedule-v2-timetable-name-col" data-sticky="left">
               <div class="schedule-v2-timetable-name">
                 <%= link break_text_at_slash(stop.name), to: stop_path(@conn, :show, stop.id) %>&nbsp;<%=
                                                                                                       if Alerts.Stop.match(@all_alerts, stop.id, route: @route.id, time: @date_time, direction_id: @direction_id) != [] do
@@ -40,7 +40,7 @@
                                                                                                       %>
               </div>
               <div class="schedule-v2-timetable-more-col schedule-v2-timetable-more-col-earlier"></div>
-            </td>
+            </th>
             <%= for schedule <- @header_schedules do %>
               <td class="schedule-v2-timetable-time-col">
                 <%= if trip_schedule = @trip_schedules[{schedule.trip.id, stop.id}] do %>
