@@ -24,7 +24,7 @@ defmodule VehicleHelpers do
     indexed_predictions = index_vehicle_predictions(vehicle_predictions)
 
     vehicle_locations
-    |> Stream.reject(fn({{_trip_id, stop_id}, _status}) -> is_nil stop_id end)
+    |> Stream.reject(fn({{trip_id, stop_id}, _status}) -> is_nil(trip_id) or is_nil(stop_id) end)
     |> Enum.reduce(%{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
       tooltip = %VehicleTooltip{
@@ -67,7 +67,7 @@ defmodule VehicleHelpers do
 
     vehicle_shape_ids
     |> MapSet.difference(route_shape_ids)
-    |> Enum.map(&Routes.Repo.get_shape(&1))
+    |> Enum.filter_map(&is_binary(&1), &Routes.Repo.get_shape(&1))
     |> Enum.filter_map(&(!Enum.empty?(&1)), fn([%Shape{} = shape | _]) ->
       shape.polyline
     end)
@@ -77,7 +77,7 @@ defmodule VehicleHelpers do
   defp vehicle_shape_ids(locations) do
     locations
     |> Map.values()
-    |> Enum.filter_map(& &1.shape_id != "", & &1.shape_id)
+    |> Enum.filter_map(&is_binary(&1.shape_id), & &1.shape_id)
     |> MapSet.new()
   end
 
