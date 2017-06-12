@@ -65,25 +65,22 @@ function displayMap(el, mapData, mapOffset) {
     if (mapData.stop_icon) {
       stopIcon = mapData.stop_icon;
     }
-    mapData.stops.forEach(addMarker(mapOffset, stopIcon, 8, mapData.stops_show_marker, 0));
+    mapData.stops.forEach(renderMarker(mapOffset, stopIcon, 8, mapData.stops_show_marker, 0));
   }
 
   // If there are vehicles, show them
   if (mapData.vehicles) {
-    mapData.vehicles.forEach(addMarker(mapOffset, mapData.vehicle_icon, 22, true, 200));
+    mapData.vehicles.forEach(renderMarker(mapOffset, mapData.vehicle_icon, 22, true, 200));
   }
 
-  // If there are polylines, show them
-  if (mapData.polylines) {
-    mapData.polylines.forEach((polyline) => {
-      new google.maps.Polyline({
-        path: google.maps.geometry.encoding.decodePath(polyline),
-        geodesic: true,
-        strokeColor: "#" + mapData.color,
-        strokeOpacity: 1.0,
-        strokeWeight: 3
-      }).setMap(maps[mapOffset]);
-    });
+  // If there are route polylines, show them
+  if (mapData.route_polylines) {
+    renderPolylines(mapOffset, mapData.route_polylines, mapData.color, 4);
+  }
+
+  // If there additional vehicle polylines, show them
+  if (mapData.vehicle_polylines) {
+    renderPolylines(mapOffset, mapData.vehicle_polylines, mapData.color, 2);
   }
 
   // Auto zoom and auto center
@@ -104,7 +101,19 @@ function displayMap(el, mapData, mapOffset) {
   maps[mapOffset].setOptions({styles: [{featureType: "poi", stylers: [{visibility: "off"}]}]});
 }
 
-function addMarker (mapOffset, icon, iconSize, showMarker, zIndexBase) {
+function renderPolylines (mapOffset, polylines, color, weight) {
+  polylines.forEach((polyline) => {
+    new google.maps.Polyline({
+      path: google.maps.geometry.encoding.decodePath(polyline),
+      geodesic: true,
+      strokeColor: "#" + color,
+      strokeOpacity: 1.0,
+      strokeWeight: weight
+    }).setMap(maps[mapOffset]);
+  });
+}
+
+function renderMarker (mapOffset, icon, iconSize, showMarker, zIndexBase) {
   return (markerData, offset) => {
     var lat = markerData[0];
     var lng = markerData[1];

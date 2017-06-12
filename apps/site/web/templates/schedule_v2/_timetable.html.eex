@@ -49,7 +49,7 @@
                 <%= if Map.has_key?(@vehicle_tooltips, {schedule.trip.id, stop.id}) do %>
                   <% vehicle = @vehicle_locations[{schedule.trip.id, stop.id}] %>
                   <span data-html=true data-toggle="tooltip"
-                    title="<%= VehicleTooltip.tooltip(@vehicle_tooltips[{schedule.trip.id, stop.id}]) %>">
+                    title="<%= VehicleHelpers.tooltip(@vehicle_tooltips[{schedule.trip.id, stop.id}]) %>">
                     <%= timetable_location_display(vehicle) %>
                   </span>
                 <% end %>

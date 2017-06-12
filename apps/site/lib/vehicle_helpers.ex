@@ -1,11 +1,10 @@
-defmodule VehicleTooltip do
+defmodule VehicleHelpers do
   @moduledoc """
-  Represents a vehicle with it's associated status information, used to render tooltips on schedule and
-  line representations
+  Various functions for working on lists of vehicle to show on a map, or render tooltips.
   """
   alias Vehicles.Vehicle
   alias Predictions.Prediction
-  alias Routes.Route
+  alias Routes.{Route, Shape}
   alias Schedules.Trip
   alias Site.ScheduleV2Controller.VehicleLocations
 
@@ -14,35 +13,18 @@ defmodule VehicleTooltip do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Site.ViewHelpers, only: [format_schedule_time: 1]
 
-  defstruct [
-    vehicle: %Vehicle{},
-    prediction: %Prediction{},
-    trip: %Trip{},
-    route: %Route{},
-    stop_name: "",
-  ]
-
-  @type t :: %__MODULE__{
-    vehicle: Vehicle.t,
-    prediction: Prediction.t | nil,
-    trip: Trip.t | nil,
-    route: Route.t,
-    stop_name: String.t
-  }
-
   @doc """
   There are multiple places where vehicle tooltips are used. This function is called from the controller to
   construct a convenient map that can be used in views / templates to determine if a tooltip is available
   and to fetch all of the required data
   """
-  @spec build_map(Route.t, VehicleLocations.t, [Prediction.t]) :: %{optional({String.t, String.t}) => __MODULE__.t,
-                                                                    optional(String.t) => __MODULE__.t
-                                                                   }
-  def build_map(route, vehicle_locations, vehicle_predictions) do
+  @spec build_tooltip_index(Route.t, VehicleLocations.t, [Prediction.t]) ::
+    %{optional({String.t, String.t}) => VehicleTooltip.t, optional(String.t) => VehicleTooltip.t}
+  def build_tooltip_index(route, vehicle_locations, vehicle_predictions) do
     indexed_predictions = index_vehicle_predictions(vehicle_predictions)
 
     vehicle_locations
-    |> Stream.reject(fn({{_trip_id, stop_id}, _status}) -> is_nil stop_id end)
+    |> Stream.reject(fn({{trip_id, stop_id}, _status}) -> is_nil(trip_id) or is_nil(stop_id) end)
     |> Enum.reduce(%{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
       tooltip = %VehicleTooltip{
@@ -58,9 +40,46 @@ defmodule VehicleTooltip do
     end)
   end
 
+  @spec prediction_for_stop(VehicleLocations.t, String.t, String.t) :: Prediction.t | nil
+  defp prediction_for_stop(vehicle_predictions, trip_id, stop_id) do
+    Map.get(vehicle_predictions, {trip_id, stop_id})
+  end
+
+  @spec index_vehicle_predictions([Prediction.t]) :: %{{String.t, String.t} => Prediction.t}
+  defp index_vehicle_predictions(predictions) do
+    predictions
+    |> Stream.filter(&(&1.trip && &1.stop))
+    |> Stream.map(&({{&1.trip.id, &1.stop.id}, &1}))
+    |> Enum.into(Map.new)
+  end
+
   @spec stop_name(Stops.Stop.t | nil) :: String.t
   defp stop_name(nil), do: ""
   defp stop_name(stop), do: stop.name
+
+  @doc """
+  Get polylines for vehicles that didn't already have their shape included when the route polylines were requested
+  """
+  @spec get_vehicle_polylines(VehicleLocations.t, [Shape.t]) :: [String.t]
+  def get_vehicle_polylines(locations, route_shapes) do
+    vehicle_shape_ids = vehicle_shape_ids(locations)
+    route_shape_ids = MapSet.new(route_shapes, & &1.id)
+
+    vehicle_shape_ids
+    |> MapSet.difference(route_shape_ids)
+    |> Enum.map(&Routes.Repo.get_shape(&1))
+    |> Enum.filter_map(&(!Enum.empty?(&1)), fn([%Shape{} = shape | _]) ->
+      shape.polyline
+    end)
+  end
+
+  @spec vehicle_shape_ids(VehicleLocations.t) :: MapSet.t
+  defp vehicle_shape_ids(locations) do
+    locations
+    |> Map.values()
+    |> Enum.filter_map(&is_binary(&1.shape_id), & &1.shape_id)
+    |> MapSet.new()
+  end
 
   @doc """
   Function used to return tooltip text for a VehicleTooltip struct
@@ -74,19 +93,6 @@ defmodule VehicleTooltip do
     status_text = prediction_status_text(prediction)
     stop_text = prediction_stop_text(trip, stop_name, vehicle, route)
     build_prediction_tooltip(time_text, status_text, stop_text)
-  end
-
-  @spec prediction_for_stop(%{{String.t, String.t} => Prediction.t}, String.t, String.t) :: Prediction.t | nil
-  defp prediction_for_stop(vehicle_predictions, trip_id, stop_id) do
-    Map.get(vehicle_predictions, {trip_id, stop_id})
-  end
-
-  @spec index_vehicle_predictions([Prediction.t]) :: %{{String.t, String.t} => Prediction.t}
-  defp index_vehicle_predictions(predictions) do
-    predictions
-    |> Stream.filter(&(&1.trip && &1.stop))
-    |> Stream.map(&({{&1.trip.id, &1.stop.id}, &1}))
-    |> Enum.into(Map.new)
   end
 
   @spec prediction_status_text(Prediction.t | nil) :: iodata

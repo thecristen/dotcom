@@ -1,25 +1,25 @@
-defmodule Site.VehicleTooltipTest do
+defmodule Site.VehicleHelpersTest do
   use ExUnit.Case, async: true
 
-  import VehicleTooltip
+  import VehicleHelpers
   import Site.ViewHelpers, only: [format_schedule_time: 1]
 
   @locations %{{"CR-Weekday-Spring-17-515", "place-sstat"} =>
                 %Vehicles.Vehicle{latitude: 1.1, longitude: 2.2, status: :stopped, stop_id: "place-sstat",
-                                  trip_id: "CR-Weekday-Spring-17-515"}}
+                                  trip_id: "CR-Weekday-Spring-17-515", shape_id: "090111"}}
 
   @predictions [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time",
-                                        trip: %Schedules.Trip{id: "CR-Weekday-Spring-17-515"},
+                                        trip: %Schedules.Trip{id: "CR-Weekday-Spring-17-515", shape_id: "090111"},
                                         stop: %Stops.Stop{id: "place-sstat"}}]
 
   @route %Routes.Route{type: 2}
 
-  @tooltips build_map(@route, @locations, @predictions)
+  @tooltips build_tooltip_index(@route, @locations, @predictions)
 
   @tooltip_base @tooltips["place-sstat"]
 
-  describe "build_map/3" do
-    test "verify the VehicleTooltip data" do
+  describe "build_tooltip_index/3" do
+    test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
       assert Map.has_key?(@tooltips, {"CR-Weekday-Spring-17-515", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
@@ -32,16 +32,16 @@ defmodule Site.VehicleTooltipTest do
 
     test "it does not return a tooltip if a vehicle has a null stop_id" do
       null_location = %{{"trip-1", nil} => %Vehicles.Vehicle{}}
-      tooltips = build_map(@route, Enum.concat(@locations, null_location), @predictions)
+      tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
+      tooltip_base = tooltips["place-sstat"]
       assert length(Map.keys(tooltips)) == 2
       assert Map.has_key?(tooltips, {"CR-Weekday-Spring-17-515", "place-sstat"})
       assert Map.has_key?(tooltips, "place-sstat")
-      tooltip = tooltips["place-sstat"]
-      assert tooltip.route.type == 2
-      assert tooltip.trip.name == "515"
-      assert tooltip.trip.headsign == "Worcester"
-      assert tooltip.prediction.status == "On Time"
-      assert tooltip.vehicle.status == :stopped
+      assert tooltip_base.route.type == 2
+      assert tooltip_base.trip.name == "515"
+      assert tooltip_base.trip.headsign == "Worcester"
+      assert tooltip_base.prediction.status == "On Time"
+      assert tooltip_base.vehicle.status == :stopped
     end
 
     test "it uses the prediction corresponding to the vehicle's current stop" do
@@ -69,7 +69,7 @@ defmodule Site.VehicleTooltipTest do
       ]
       route = %Routes.Route{type: 2}
 
-      tooltips = build_map(route, locations, predictions)
+      tooltips = build_tooltip_index(route, locations, predictions)
       tooltip = tooltips[{"trip_1", "stop_1"}]
 
       assert tooltip.prediction == correct_prediction
@@ -165,9 +165,22 @@ defmodule Site.VehicleTooltipTest do
   describe "prediction_for_stop/2" do
     test "do not crash if vehicle prediction does not contain a trip" do
       predictions = [%Predictions.Prediction{departing?: true, time: ~N[2017-01-01T11:00:00], status: "On Time"}]
-      tooltips = build_map(@route, @locations, predictions)
+      tooltips = build_tooltip_index(@route, @locations, predictions)
       tooltip = tooltips["place-sstat"]
       assert tooltip(tooltip) =~ "train 515 has arrived"
+    end
+  end
+
+  describe "get_vehicle_polylines/2" do
+    test "vehicle polyline not in route polylines" do
+      vehicle_polylines = get_vehicle_polylines(@locations, [])
+      assert vehicle_polylines == ["_glaGjlppLEdAP?P?j@AAwB?WA{AAuEAmB???YAgBCsHjBAb@A??R?bDGxCA??P?DxKDzK?\\??BdJ???VF`L?b@??@vCBxD???VBfG@xD???v@B~H?d@??H~M???VDhF?p@oCzE??_C`ES\\??qDrGS\\??_@p@k@`AgBbDS^??A@k@z@c@x@eApB]h@Q\\??GJoAzBgAnB??S\\{@zAWd@{B~Dd@l@b@f@dAjAX`@d@l@h@fAs@MoC?}BD}AB????KLm@Ds@DcA@_CBgA@cACjE~BpB~@j@Fh@qCZiATJdECc@bCi@dDc@tCI`@YhBWxAc@hCW~Ai@xCmAhHOt@??ETYtA]fBYzA??G\\_@`Be@xBcAfEaAvDYhA??_@|AOl@KTGHqAj@kA`@yAj@c@N??UHcGbCQHi@R??OFiAb@eBp@oDpAdBhK??F`@p@vEXjBNt@JZ@D??FNVx@Vh@pBdCh@r@dAlAhD`EeBfA??{CjByA@????a@PG@IAKEQS{@{EkBwK"]
+    end
+
+    test "vehicle polyline in route polylines" do
+      shape = %Routes.Shape{id: "090111"}
+      vehicle_polylines = get_vehicle_polylines(@locations, [shape])
+      assert vehicle_polylines == []
     end
   end
 

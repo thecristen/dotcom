@@ -6,10 +6,6 @@ defmodule Routes.ParserTest do
   alias JsonApi.Item
 
   describe "parse_shape/1" do
-    test "ignores shapes with a negative priority" do
-      item = %Item{attributes: %{"priority" => -1}}
-      assert parse_shape(item) == []
-    end
 
     test "parses a shape" do
       item = %Item{id: "shape_id",

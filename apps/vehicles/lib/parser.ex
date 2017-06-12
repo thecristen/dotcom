@@ -7,6 +7,7 @@ defmodule Vehicles.Parser do
       id: id,
       route_id: optional_id(relationships["route"]),
       trip_id: optional_id(relationships["trip"]),
+      shape_id: shape(relationships["trip"]),
       stop_id: stop_id(relationships["stop"]),
       direction_id: attributes["direction_id"],
       status: status(attributes["current_status"]),
@@ -35,6 +36,14 @@ defmodule Vehicles.Parser do
     stop_id
   end
   defp stop_id([]) do
+    nil
+  end
+
+  @spec shape([JsonApi.Item.t]) :: String.t | nil
+  defp shape([%JsonApi.Item{relationships: %{"shape" => [%{id: id} | _]}} | _]) do
+    id
+  end
+  defp shape(_) do
     nil
   end
 end

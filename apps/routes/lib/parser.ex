@@ -23,10 +23,6 @@ defmodule Routes.Parser do
   defp key_route?(_, _), do: false
 
   @spec parse_shape(JsonApi.Item.t) :: [Routes.Shape.t]
-  def parse_shape(%JsonApi.Item{attributes: %{"priority" => priority}}) when priority < 0 do
-    # ignore shapes with a negative priority
-    []
-  end
   def parse_shape(%JsonApi.Item{id: id, attributes: attributes, relationships: relationships}) do
     [%Routes.Shape{
         id: id,

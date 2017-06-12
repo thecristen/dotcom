@@ -22,24 +22,28 @@ defmodule Site.ScheduleV2Controller.Line do
 
   @spec update_conn(Plug.Conn.t, Route.t, direction_id, query_param, query_param) :: Plug.Conn.t
   defp update_conn(conn, route, direction_id, expanded, variant) do
-    all_shapes = get_all_shapes(route.id, direction_id)
-    active_shapes = get_active_shapes(all_shapes, route, variant, expanded)
-    branches = get_branches(all_shapes, active_shapes, route, direction_id)
+    route_shapes = get_route_shapes(route.id, direction_id)
+    vehicles = conn.assigns[:vehicle_locations]
+    vehicle_tooltips = conn.assigns.vehicle_tooltips
+    vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
+    active_shapes = get_active_shapes(route_shapes, route, variant, expanded)
+    branches = get_branches(route_shapes, active_shapes, route, direction_id)
     collapsed_branches = remove_collapsed_stops(branches, expanded, direction_id)
-    map_data = get_map_data(branches, {all_shapes, active_shapes}, route.id, expanded)
-    map_polylines = map_polylines(map_data, route)
-    map_img_src = map_img_src(map_data, map_polylines, route)
+    map_stops = get_map_data(branches, {route_shapes, active_shapes}, route.id, expanded)
+    map_polylines = map_polylines(map_stops, route)
+    map_img_src = map_img_src(map_stops, map_polylines, route)
     map_color = map_color(route.type, route.id)
+    dynamic_map_data = dynamic_map_data(map_color, map_polylines, vehicle_polylines, map_stops, vehicle_tooltips)
 
     conn
     |> assign(:direction_id, direction_id)
     |> assign(:all_stops, build_stop_list(collapsed_branches, direction_id))
     |> assign(:expanded, conn.query_params["expanded"])
     |> assign(:branches, collapsed_branches)
-    |> assign(:all_shapes, all_shapes)
+    |> assign(:route_shapes, route_shapes)
     |> assign(:active_shape, active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
-    |> assign(:dynamic_map_data, dynamic_map_data(map_color, map_polylines, map_data, conn.assigns.vehicle_tooltips))
+    |> assign(:dynamic_map_data, dynamic_map_data)
   end
 
   # I can't figure out why Dialyzer thinks this can only be called with
@@ -54,17 +58,14 @@ defmodule Site.ScheduleV2Controller.Line do
     nil
   end
 
-  @doc """
-  Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
-  it does.
-  """
-  @spec get_all_shapes(Routes.Route.id_t, direction_id) :: [Routes.Shape.t]
-  def get_all_shapes("Green", direction_id) do
+  # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
+  @spec get_route_shapes(Routes.Route.id_t, direction_id) :: [Routes.Shape.t]
+  def get_route_shapes("Green", direction_id) do
     GreenLine.branch_ids()
-    |> Enum.map(& Task.async(fn -> get_all_shapes(&1, direction_id) end))
+    |> Enum.map(& Task.async(fn -> get_route_shapes(&1, direction_id) end))
     |> Enum.flat_map(&Task.await/1)
   end
-  def get_all_shapes(route_id, direction_id) do
+  def get_route_shapes(route_id, direction_id) do
     Routes.Repo.get_shapes(route_id, direction_id)
   end
 
@@ -98,9 +99,9 @@ defmodule Site.ScheduleV2Controller.Line do
   list with a single RouteStops struct.
   """
   @spec get_branches([Routes.Shape.t], [Routes.Shape.t], Routes.Route.t, direction_id) :: [RouteStops.t]
-  def get_branches(all_shapes, _, %Routes.Route{id: "Green"}, direction_id) do
+  def get_branches(route_shapes, _, %Routes.Route{id: "Green"}, direction_id) do
     GreenLine.branch_ids()
-    |> Enum.map(&get_green_branch(&1, all_shapes, direction_id))
+    |> Enum.map(&get_green_branch(&1, route_shapes, direction_id))
     |> Enum.map(&Task.await/1)
     |> Enum.reverse()
   end
@@ -108,7 +109,7 @@ defmodule Site.ScheduleV2Controller.Line do
     # For bus routes, we only want to show the stops for the active route variant.
     do_get_branches([active_shape], route, direction_id)
   end
-  def get_branches(all_shapes, _, route, direction_id), do: do_get_branches(all_shapes, route, direction_id)
+  def get_branches(route_shapes, _, route, direction_id), do: do_get_branches(route_shapes, route, direction_id)
 
   defp do_get_branches(shapes, route, direction_id) do
     route.id
@@ -184,14 +185,14 @@ defmodule Site.ScheduleV2Controller.Line do
   end
 
   @spec get_map_data([RouteStops.t], {[Shape.t], [Shape.t]}, Route.id_t, query_param) :: {[Stops.Stop.t], [Shape.t]}
-  defp get_map_data(branches, {all_shapes, _active_shapes}, "Green", expanded_branch) when not is_nil(expanded_branch) do
+  defp get_map_data(branches, {route_shapes, _active_shapes}, "Green", expanded_branch) when not is_nil(expanded_branch) do
     stops = branches |> Enum.filter(& &1.branch == expanded_branch) |> get_map_stops()
-    {stops, all_shapes}
+    {stops, route_shapes}
   end
-  defp get_map_data(branches, {all_shapes, _active_shapes}, "Green", _expanded) do
-    {get_map_stops(branches), all_shapes}
+  defp get_map_data(branches, {route_shapes, _active_shapes}, "Green", _expanded) do
+    {get_map_stops(branches), route_shapes}
   end
-  defp get_map_data(branches, {_all_shapes, active_shapes}, _route_id, _expanded) do
+  defp get_map_data(branches, {_route_shapes, active_shapes}, _route_id, _expanded) do
     {get_map_stops(branches), active_shapes}
   end
 
@@ -486,11 +487,12 @@ defmodule Site.ScheduleV2Controller.Line do
   def sort_stop_list(all_stops, 1) when is_list(all_stops), do: Enum.reverse(all_stops)
   def sort_stop_list(all_stops, 0) when is_list(all_stops), do: all_stops
 
-  @spec dynamic_map_data(String.t, [String.t], {[Stops.Stop.t], any}, map()) :: map()
-  defp dynamic_map_data(color, polylines, {stops, _shapes}, vehicle_tooltips) do
+  @spec dynamic_map_data(String.t, [String.t], [String.t], {[Stops.Stop.t], any}, map()) :: map()
+  defp dynamic_map_data(color, route_polylines, vehicle_polylines, {stops, _shapes}, vehicle_tooltips) do
     %{
       color: color,
-      polylines: polylines,
+      route_polylines: route_polylines,
+      vehicle_polylines: vehicle_polylines,
       stops: Enum.map(stops, &([&1.latitude, &1.longitude, &1.name, &1.id])),
       stops_show_marker: true,
       stop_icon: static_url(Site.Endpoint, "/images/map-#{color}-dot-icon.png"),
@@ -513,7 +515,7 @@ defmodule Site.ScheduleV2Controller.Line do
         {_, _} -> output
         _ -> [[tooltip_data.vehicle.latitude,
                tooltip_data.vehicle.longitude,
-               VehicleTooltip.tooltip(tooltip_data)] | output]
+               VehicleHelpers.tooltip(tooltip_data)] | output]
       end
     end)
   end
