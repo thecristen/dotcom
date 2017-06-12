@@ -79,7 +79,8 @@ body {
 
 .breadcrumb-container {
   @extend %top-bar;
-  background-color: $gray-lightest;
+  background-color: $gray-bordered-background;
+  border: solid 1px $gray-lightest;
   color: $gray-dark;
 
   i {
@@ -89,7 +90,8 @@ body {
 }
 
 .announcement-container {
-  background-color: $gray-lightest;
+  background-color: $gray-bordered-background;
+  border: solid 1px $gray-lightest;
   color: $gray-dark;
   padding-bottom: $base-spacing-sm;
   padding-top: $base-spacing-sm;

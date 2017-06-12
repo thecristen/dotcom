@@ -267,7 +267,7 @@ header {
 .mobile-nav-link {
   color: $white;
   display: block;
-  height: 3rem;
+  font-size: $font-size-base-xxl;
   margin-bottom: $base-spacing;
 
   @include hover-focus-active {
@@ -275,7 +275,7 @@ header {
   }
 
   &.old-site-mobile-link {
-    background-color: $brand-primary-dark;
+    background-color: $brand-primary-darkest;
     color: $gray-lightest;
     height: ($space-16 * 4);
     margin-bottom: -$space-16 * 2;
@@ -287,7 +287,7 @@ header {
 
 .mobile-nav-description {
   color: $gray-lightest;
-  font-size: $font-size-sm;
+  font-size: $font-size-base;
 }
 
 .old-site-desktop-link {
