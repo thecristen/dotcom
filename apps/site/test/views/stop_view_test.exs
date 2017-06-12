@@ -194,10 +194,26 @@ defmodule Site.StopViewTest do
       assert five_mins == ["5", " ", "mins"]
     end
 
+    test "sorts status predictions from closest to furthest" do
+      date_time = ~N[2017-01-01T00:00:00]
+      schedules = Enum.shuffle([
+        %PredictedSchedule{prediction: %Prediction{status: "Boarding"}},
+        %PredictedSchedule{prediction: %Prediction{status: "Approaching"}},
+        %PredictedSchedule{prediction: %Prediction{status: "1 stop away"}},
+        %PredictedSchedule{prediction: %Prediction{status: "2 stops away"}},
+      ])
+      assert [board, approach, one_stop] = time_differences(schedules, date_time)
+      assert safe_to_string(board) =~ "Boarding"
+      assert safe_to_string(approach) =~ "Approaching"
+      assert safe_to_string(one_stop) =~ "1 stop away"
+    end
+
     test "filters out predicted schedules we could not render" do
       date_time = ~N[2017-01-01T11:00:00]
-      ps = %PredictedSchedule{}
-      assert time_differences([ps], date_time) == []
+      predicted_schedules = [
+        %PredictedSchedule{}
+      ]
+      assert time_differences(predicted_schedules, date_time) == []
     end
   end
 
