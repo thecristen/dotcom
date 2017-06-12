@@ -24,6 +24,19 @@ defmodule Site.FareView.DescriptionTest do
         "Zones 1A-5 as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."
     end
 
+    test "fare description for monthly interzone pass only lists bus in other modes" do
+      fare = %Fare{
+        name: {:interzone, "5"},
+        additional_valid_modes: [:bus],
+        duration: :month,
+        mode: :commuter_rail
+      }
+
+      assert fare |> description(%{}) |> iodata_to_binary ==
+        "Valid for one calendar month of unlimited travel on Commuter Rail between " <>
+        "5 zones outside of Zone 1A as well as Local Bus."
+    end
+
     test "fare description for month mticket describes where it can be used" do
       fare = %Fare{name: {:zone, "5"}, duration: :month, media: [:mticket], mode: :commuter_rail}
 

@@ -82,7 +82,7 @@ defmodule Fares.FareInfo do
         media: [:commuter_ticket],
         reduced: nil,
         cents: dollars_to_cents(monthly),
-        additional_valid_modes: [:subway, :bus, :ferry]
+        additional_valid_modes: monthly_commuter_modes(zone)
       },
       %{base |
         duration: :month,
@@ -414,6 +414,13 @@ defmodule Fares.FareInfo do
        reduced: :senior_disabled,
        duration: :single_trip,
        cents: dollars_to_cents(premium_ride)}]
+  end
+
+  defp monthly_commuter_modes("interzone_" <> _) do
+    [:bus]
+  end
+  defp monthly_commuter_modes(_zone) do
+    [:subway, :bus, :ferry]
   end
 
   def mticket_price(monthly_price) when monthly_price > 1000 do

@@ -15,6 +15,11 @@ defmodule Site.FareView.Description do
      " only."
     ]
   end
+  def description(%Fare{mode: :commuter_rail, duration: :month, additional_valid_modes: [:bus], name: name}, _assigns) do
+    ["Valid for one calendar month of unlimited travel on Commuter Rail ",
+     valid_commuter_zones(name),
+     " as well as Local Bus."]
+  end
   def description(%Fare{mode: :commuter_rail, duration: :month, name: name}, _assigns) do
     ["Valid for one calendar month of unlimited travel on Commuter Rail ",
      valid_commuter_zones(name),
