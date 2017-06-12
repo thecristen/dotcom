@@ -138,6 +138,13 @@ defmodule PredictedSchedule do
   end
 
   @doc """
+  Returns true if the PredictedSchedule doesn't have a prediction or schedule.
+  """
+  @spec empty?(PredictedSchedule.t) :: boolean
+  def empty?(%__MODULE__{schedule: nil, prediction: nil}), do: true
+  def empty?(%__MODULE__{}), do: false
+
+  @doc """
 
   Given a Predicted schedule and an order of keys, call the given function
   with the prediction/schedule that's not nil.  If all are nil, then return

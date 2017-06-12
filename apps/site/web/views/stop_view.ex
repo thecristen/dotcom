@@ -152,7 +152,7 @@ defmodule Site.StopView do
   @doc "A list of time differences for the predicted schedules, with the empty ones removed."
   def time_differences(predicted_schedules, date_time) do
     predicted_schedules
-    |> Enum.reject(& &1.prediction == nil && &1.schedule == nil)
+    |> Enum.reject(&PredictedSchedule.empty?/1)
     |> Enum.sort_by(&PredictedSchedule.sort_with_status/1)
     |> Enum.take(3)
     |> Enum.flat_map(fn departure ->
