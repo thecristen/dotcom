@@ -67,7 +67,7 @@ defmodule VehicleHelpers do
 
     vehicle_shape_ids
     |> MapSet.difference(route_shape_ids)
-    |> Enum.filter_map(&is_binary(&1), &Routes.Repo.get_shape(&1))
+    |> Enum.map(&Routes.Repo.get_shape(&1))
     |> Enum.filter_map(&(!Enum.empty?(&1)), fn([%Shape{} = shape | _]) ->
       shape.polyline
     end)
