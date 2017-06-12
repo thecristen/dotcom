@@ -202,3 +202,34 @@ a {
     }
   }
 }
+
+.commuter-fare-content {
+  @include media-breakpoint-only(md) {
+    min-height: $base-spacing * 15;
+  }
+
+  @include media-breakpoint-only(lg) {
+    min-height: $base-spacing * 13;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    min-height: $base-spacing * 10.5;
+  }
+}
+
+.commuter-rail-photo-video-container {
+  height: 0;
+  margin-bottom: $base-spacing * 1.5;
+  padding-bottom: 56%; // The height of the video will be 56% of the width.
+  position: relative;
+  width: 100%;
+
+  .commuter-rail-photo-video {
+    // Adjust the iframe so it's rendered in the outer-width and outer-height of it's parent
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
