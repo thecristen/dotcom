@@ -180,8 +180,7 @@ defmodule Routes.RepoTest do
       all_shapes = Routes.Repo.get_shapes("Green-E", 0, false)
       priority_shapes = Routes.Repo.get_shapes("Green-E", 0)
 
-      assert Enum.count(all_shapes) == 2
-      assert Enum.count(priority_shapes) == 1
+      refute Enum.count(all_shapes) == Enum.count(priority_shapes)
     end
 
     test "Get error response" do
