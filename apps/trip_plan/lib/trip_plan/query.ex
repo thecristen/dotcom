@@ -32,15 +32,9 @@ defmodule TripPlan.Query do
   defp opts_from_query(%{"time" => "arrive", "date_time" => _date_time} = query, opts) do
     do_date_time(:arrive_by, query, opts)
   end
-  defp opts_from_query(%{"personal_mode" => "walk"} = query, opts) do
+  defp opts_from_query(%{"include_car?" => "true"} = query, opts) do
     opts_from_query(
-      Map.delete(query, "personal_mode"),
-      Keyword.put(opts, :personal_mode, :walk)
-    )
-  end
-  defp opts_from_query(%{"personal_mode" => "drive"} = query, opts) do
-    opts_from_query(
-      Map.delete(query, "personal_mode"),
+      Map.delete(query, "include_car?"),
       Keyword.put(opts, :personal_mode, :drive)
     )
   end
