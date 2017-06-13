@@ -1,6 +1,6 @@
 <h1>Directions</h1>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-5">
     <%= form_for @conn, @conn.request_path, [as: :plan, method: :get], fn f -> %>
     <div class="form-group">
       <%= label f, :from, "From:" %>
@@ -42,7 +42,7 @@
     <button type="submit" class="btn btn-primary">Find</button>
     <% end %>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-7">
     <%= if assigns[:query] do %>
       <p><%= optional_position(@query.from) %></p>
       <p><%= optional_position(@query.to) %></p>
@@ -51,7 +51,14 @@
         <%= for i <- itineraries, do: render "_itinerary.html", itinerary: i %>
         <% {:error, e} -> %>
         Error fetching plan: <%= inspect e %>
+        <p class="no-trips page-section">No trips available</p>
+        <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
       <% end %>
+    <% else %>
+      <div>
+        <img class="img-fluid hidden-sm-down" src="<%= initial_map_src() %>" alt="Map of downtown Boston" />
+        <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
+      </div>
     <% end %>
   </div>
 </div>

@@ -35,4 +35,8 @@ defmodule Site.TripPlanView do
 
     GoogleMaps.static_map_url(600, 600, Enum.concat(path_opts, marker_opts))
   end
+
+  def initial_map_src do
+    GoogleMaps.static_map_url(630, 400, [center: "Boston, MA", zoom: 14])
+  end
 end
