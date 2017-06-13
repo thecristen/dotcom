@@ -29,8 +29,17 @@ defmodule Site.OldSiteRedirectController do
     old_site_redirect(conn, mode_url(conn, :index))
   end
 
-  def realtime_subway(conn, _params) do
+  def rider_tools(conn, %{"path" => ["realtime_subway" | _]}) do
     old_site_redirect(conn, mode_url(conn, :subway))
+  end
+  def rider_tools(conn, %{"path" => ["realtime_bus" | _]}) do
+    old_site_redirect(conn, mode_url(conn, :bus))
+  end
+  def rider_tools(conn, %{"path" => ["servicenearby" | _]}) do
+    old_site_redirect(conn, transit_near_me_url(conn, :index))
+  end
+  def rider_tools(conn, %{"path" => ["transit_updates" | _]}) do
+    old_site_redirect(conn, alert_url(conn, :index))
   end
 
   def fares_and_passes(conn, %{"path" => ["rail" | _]}) do
@@ -56,11 +65,13 @@ defmodule Site.OldSiteRedirectController do
   end
 
   def uploaded_files(conn, %{"path" => path_parts}) do
-    full_url = "http://mbta.com/uploadedfiles/" <> Enum.join(path_parts, "/")
-    with {:ok, %{status_code: 200, headers: headers, body: body}} <- HTTPoison.get(full_url) do
+    full_url = "http://www2.mbta.com/uploadedfiles/#{path_parts |> Enum.map(&URI.encode/1) |> Enum.join("/")}"
+    params = conn.query_params
+    with {:ok, response} <- HTTPoison.get(full_url, [], params: params),
+         %{status_code: 200, headers: headers, body: body} <- response do
       headers
       |> Enum.reduce(conn, fn {header, value}, conn ->
-        put_resp_header(conn, header, value)
+        put_resp_header(conn, String.downcase(header), value)
       end)
       |> send_resp(200, body)
     else
