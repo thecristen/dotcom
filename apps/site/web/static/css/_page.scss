@@ -291,14 +291,25 @@
 .important-whats-happening {
   background-color: $gray-lightest;
   margin: $space-24 0;
+
+  @include media-breakpoint-up(md) {
+    // scss-lint:disable PropertySortOrder
+    background-image: url('/images/banner-squares.png');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+  }
 }
 
 .important-whats-happening-text {
   font-size: $font-size-h3;
-  padding: $space-24;
+  padding: $base-spacing;
 
-  @include media-breakpoint-down(sm) {
-    padding: 0 $space-12;
+  @include media-breakpoint-up(md) {
+    font-size: 1.25rem;
+    padding: $space-24;
   }
 }
 
