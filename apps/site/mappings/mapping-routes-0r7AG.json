@@ -1,0 +1,19 @@
+{
+  "uuid" : "31fbd1e5-b54e-3578-9d28-562a269275fa",
+  "request" : {
+    "url" : "/routes/?stop=place-cool&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0r7AG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:04 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ned7fadjns0781e5nh2naoa2s63n3f9o",
+      "Connection" : "keep-alive"
+    }
+  }
+}

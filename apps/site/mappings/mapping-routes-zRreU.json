@@ -1,0 +1,19 @@
+{
+  "uuid" : "d16307ff-23af-343f-8feb-42f4418fe7c4",
+  "request" : {
+    "url" : "/routes/?stop=place-ogmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-zRreU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "onmcqmsf4pttccev0p5rrmcv5hi01nmc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

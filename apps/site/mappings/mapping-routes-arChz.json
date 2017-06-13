@@ -1,0 +1,19 @@
+{
+  "uuid" : "1b1351f4-7a28-30f8-bd18-8d899c489528",
+  "request" : {
+    "url" : "/routes/?stop=place-cedgr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-arChz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "f91jp4tlgi8h2imdnahqgfg719amt3n0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

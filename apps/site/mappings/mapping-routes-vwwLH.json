@@ -1,0 +1,19 @@
+{
+  "uuid" : "6e7db022-14ce-33ff-b1a4-88fd04003ad6",
+  "request" : {
+    "url" : "/routes/?stop=Dedham+Corp+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vwwLH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "mdrddbu7ehioifhhrbkt9urkjai8c4il",
+      "Connection" : "keep-alive"
+    }
+  }
+}

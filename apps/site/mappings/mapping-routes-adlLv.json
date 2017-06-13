@@ -1,0 +1,19 @@
+{
+  "uuid" : "13ba9bb9-2ab5-3558-a9b8-119ac62a4734",
+  "request" : {
+    "url" : "/routes/?stop=place-coecl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-adlLv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "spnbqsphfel62bp2tfjog8ibun08iige",
+      "Connection" : "keep-alive"
+    }
+  }
+}

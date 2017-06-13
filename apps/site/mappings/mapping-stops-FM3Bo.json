@@ -1,0 +1,19 @@
+{
+  "uuid" : "a8d187f1-9530-38c7-bddb-4bcadc7f75d3",
+  "request" : {
+    "url" : "/stops/?route=Green-B&include=parent_station&direction_id=1&date=2017-08-16",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-FM3Bo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:32:46 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "1jc0lrv5hj44qimi8n1p56lhp2ovl594",
+      "Connection" : "keep-alive"
+    }
+  }
+}

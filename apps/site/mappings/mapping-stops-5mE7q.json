@@ -1,0 +1,19 @@
+{
+  "uuid" : "88117e82-b421-3e50-8084-305b67f613ff",
+  "request" : {
+    "url" : "/stops/?route=CR-Fitchburg&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-5mE7q.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "pffooc3pba0u38jh5jdnq4navju7fpib",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "b1937488-24b9-3ef5-aa32-f23c1239874a",
+  "request" : {
+    "url" : "/routes/?stop=East+Weymouth",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pkpoe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "eliklv2qno2slbtvm1pb2qou0i1u1juh",
+      "Connection" : "keep-alive"
+    }
+  }
+}

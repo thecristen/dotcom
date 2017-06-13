@@ -1,0 +1,19 @@
+{
+  "uuid" : "752b4bd2-e02c-33aa-b266-536a93f6a6df",
+  "request" : {
+    "url" : "/routes/?stop=place-forhl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-5kVrI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:04 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "47ittel5h5lbl0bf9qqbl3oejqgu38ms",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "37296de2-19b6-3fd1-ad1c-8da640d67554",
+  "request" : {
+    "url" : "/stops/?route=Green-B&include=parent_station&direction_id=1&date=2017-08-14",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Ihzag.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:32:45 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "rhuc1llibhf51mrrabhd14n5sagbn6ej",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "931cb5b9-d577-313a-b3ba-aa9a3352f59e",
+  "request" : {
+    "url" : "/routes/?stop=place-bomnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-whTAy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:03 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "4ssrperj72n5l8g7442qori5uomq7ujk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

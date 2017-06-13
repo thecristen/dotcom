@@ -1,0 +1,19 @@
+{
+  "uuid" : "d77853a8-7254-3a56-99bd-f9b551080b51",
+  "request" : {
+    "url" : "/stops/?route=Green-B&include=parent_station&direction_id=0&date=2017-07-12",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-KADYO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:32:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "vg8l11gvak37g0ds203cblrse63ekhm8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "015b2c55-2a58-3270-9e4c-a7070849ef78",
+  "request" : {
+    "url" : "/routes/?stop=place-hymnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rc9XU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:03 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nanv7o6c2iraeqoghgtjaq2lud177lb6",
+      "Connection" : "keep-alive"
+    }
+  }
+}

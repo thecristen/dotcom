@@ -1,0 +1,19 @@
+{
+  "uuid" : "ed202c43-a3be-31e8-ac99-f9c5e0f6a4c7",
+  "request" : {
+    "url" : "/routes/?stop=West+Newton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CMpdB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "bigq7ljuf20cubg4u3c0dig3rd9571jl",
+      "Connection" : "keep-alive"
+    }
+  }
+}

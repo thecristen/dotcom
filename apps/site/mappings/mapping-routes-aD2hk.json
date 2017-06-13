@@ -1,0 +1,19 @@
+{
+  "uuid" : "9dcbd59e-03a3-3f36-af60-a131ebe492aa",
+  "request" : {
+    "url" : "/routes/?stop=place-wrnst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-aD2hk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:04 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "tkilgdnbprgd4na473noe3ago9l3t5o9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

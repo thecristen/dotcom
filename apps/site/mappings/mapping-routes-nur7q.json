@@ -1,0 +1,19 @@
+{
+  "uuid" : "57964b3d-e100-3314-b3e6-0265ea8c4af6",
+  "request" : {
+    "url" : "/routes/?stop=Weymouth+Landing%2F+East+Braintree",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nur7q.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "8eimk73h8cin5at4g6g1nfoqlk2mqth1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

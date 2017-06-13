@@ -1,0 +1,19 @@
+{
+  "uuid" : "e03ac282-0a43-3479-9e62-d9c71c0ffb5c",
+  "request" : {
+    "url" : "/trips/?route=CR-Providence&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-umGHw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:24 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "njq0van99p0cdv9ask0vqq0cc8d01ebg",
+      "Connection" : "keep-alive"
+    }
+  }
+}

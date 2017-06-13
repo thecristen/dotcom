@@ -1,0 +1,19 @@
+{
+  "uuid" : "6fffdd24-38cb-3716-896c-2646579e1623",
+  "request" : {
+    "url" : "/routes/?stop=place-bndhl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-qzjEk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "mfcjgil1j06p0r4u3m9e7ull68628k3k",
+      "Connection" : "keep-alive"
+    }
+  }
+}

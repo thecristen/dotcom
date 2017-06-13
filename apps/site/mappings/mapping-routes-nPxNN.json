@@ -1,0 +1,19 @@
+{
+  "uuid" : "fccda0e8-1d5e-3b45-a7c6-4f02c96d6b67",
+  "request" : {
+    "url" : "/routes/?stop=Rockport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nPxNN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:49 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nmcqd2n1d1hm1hosbfme7g4v3rloh1kq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

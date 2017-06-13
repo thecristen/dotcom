@@ -1,0 +1,19 @@
+{
+  "uuid" : "a5e2a96f-47cc-35bb-bfb7-9f4c3c01cb71",
+  "request" : {
+    "url" : "/routes/?stop=Concord",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-U3O2L.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "vidqfiv1uglghjv0bvssnk0ibm8bcbnn",
+      "Connection" : "keep-alive"
+    }
+  }
+}

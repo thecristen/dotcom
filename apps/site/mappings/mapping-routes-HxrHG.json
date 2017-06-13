@@ -1,0 +1,19 @@
+{
+  "uuid" : "b0acfe3e-a164-3662-94fa-5693ada69a2f",
+  "request" : {
+    "url" : "/routes/?stop=West+Concord",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HxrHG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "59s087js9eojaubvd66hmaabpfd6kucb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

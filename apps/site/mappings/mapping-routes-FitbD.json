@@ -1,0 +1,19 @@
+{
+  "uuid" : "3a61c915-88cd-3e44-8a35-9fd6417d7b18",
+  "request" : {
+    "url" : "/routes/?stop=5098&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FitbD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:05 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "h5f9gnudsj5u2o09h13cfjp23ji2030l",
+      "Connection" : "keep-alive"
+    }
+  }
+}

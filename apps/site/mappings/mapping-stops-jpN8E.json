@@ -1,0 +1,19 @@
+{
+  "uuid" : "02dcc16b-6121-3675-9517-73b618626487",
+  "request" : {
+    "url" : "/stops/?route=Mattapan&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-jpN8E.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "oqgbdp5hgsvh0h8t33ibi7jirnm4b6e9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

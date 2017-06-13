@@ -1,0 +1,19 @@
+{
+  "uuid" : "6eaf644b-1d83-3fd4-8b9e-c35bc0ac12d9",
+  "request" : {
+    "url" : "/stops/Canton%20Junction?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Canton Junction-CX0xy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:25 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "0fd436g34ulkffo0baafs07s7rm0d6oq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "c4608727-ad6e-38f3-9ee5-27027da74935",
+  "request" : {
+    "url" : "/routes/?stop=place-capst&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-t2rK3.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:05 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "h38kmhc87tt6cnokh7q48s44nuhh6ur2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

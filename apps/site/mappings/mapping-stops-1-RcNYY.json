@@ -1,0 +1,19 @@
+{
+  "uuid" : "09c40f8e-7da0-3925-ab9f-3d9bdb457c85",
+  "request" : {
+    "url" : "/stops/1?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-1-RcNYY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:11 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "rrrjovls4jit53gh9mrr913g481ap5h1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

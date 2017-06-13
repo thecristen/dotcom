@@ -1,0 +1,19 @@
+{
+  "uuid" : "b9cd6151-c197-3d37-aef4-46508c11546e",
+  "request" : {
+    "url" : "/routes/?stop=Brandeis%2F+Roberts",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Sr0OP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "mrrlohs7lh5ercf39421tnkln5atoe55",
+      "Connection" : "keep-alive"
+    }
+  }
+}

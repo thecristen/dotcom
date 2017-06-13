@@ -1,0 +1,19 @@
+{
+  "uuid" : "c4507613-ac04-3d87-b20c-18708e2ae2cb",
+  "request" : {
+    "url" : "/routes/?stop=Attleboro",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-k3fcN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ll6kj7042su9r29k3k0h5s006ohp79er",
+      "Connection" : "keep-alive"
+    }
+  }
+}

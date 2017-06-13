@@ -1,0 +1,19 @@
+{
+  "uuid" : "ed3b8832-8b60-3f2f-a1af-b20e65ab4654",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2017-06-14&route=1&include=trip%2Croute&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-G3OTt.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:11 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "u7qbtqbu02npmf041r67bb3b9ouebrq4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

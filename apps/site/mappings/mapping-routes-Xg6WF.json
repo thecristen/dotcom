@@ -1,0 +1,19 @@
+{
+  "uuid" : "653ef4de-f378-3bb5-8ad4-d6e2a6a02e51",
+  "request" : {
+    "url" : "/routes/?stop=West+Natick",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Xg6WF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ln306815m8i220aqb4a01nrl127ih57a",
+      "Connection" : "keep-alive"
+    }
+  }
+}

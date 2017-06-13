@@ -1,0 +1,19 @@
+{
+  "uuid" : "b8dd724c-52f3-391a-bc00-f0a458909405",
+  "request" : {
+    "url" : "/routes/?stop=Manchester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-a1ezF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "g6t5o3vrum37geuf7rpotvhkl4d45ron",
+      "Connection" : "keep-alive"
+    }
+  }
+}

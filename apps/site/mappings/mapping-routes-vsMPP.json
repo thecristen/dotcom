@@ -1,0 +1,19 @@
+{
+  "uuid" : "c576f07a-09b4-3ecf-82cf-298ce9e25b4f",
+  "request" : {
+    "url" : "/routes/?stop=Shirley",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vsMPP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "kl2t0m6d0m688di3h1hub42am3qiese5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

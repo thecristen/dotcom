@@ -1,0 +1,19 @@
+{
+  "uuid" : "a86945ab-4f7e-31e3-8182-c5178cb96530",
+  "request" : {
+    "url" : "/stops/87?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-87-mFIDX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:11 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ot1vun6js8s496qeh8ksmlhmfqgb1i41",
+      "Connection" : "keep-alive"
+    }
+  }
+}

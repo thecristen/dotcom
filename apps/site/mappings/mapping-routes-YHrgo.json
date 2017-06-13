@@ -1,0 +1,19 @@
+{
+  "uuid" : "5fc14e6c-a0d9-383a-8c65-12846f3a6bd8",
+  "request" : {
+    "url" : "/routes/?stop=2116&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YHrgo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:06 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "bmu5shscofjdtq71bm18prha6tk6n5cj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "a9cb1cf8-b6ce-31cb-8b55-226edf1fe419",
+  "request" : {
+    "url" : "/routes/?stop=Cohasset",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Lfkcf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "5tl6gdi96l6vgmeojh2affrtgqcg2iu8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

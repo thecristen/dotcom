@@ -1,0 +1,19 @@
+{
+  "uuid" : "e996886d-6d73-3a12-a2ab-8786533280a9",
+  "request" : {
+    "url" : "/routes/?stop=Waltham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VRfBn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "hm7s728ekvlpe9du805ap2t7rjk3sj8t",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "a3306237-6ee0-3141-bb0a-5aaa91c89201",
+  "request" : {
+    "url" : "/routes/?stop=West+Gloucester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Hn0HO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:49 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "p161vapf97bs2ovf3cde29u20954h1gc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

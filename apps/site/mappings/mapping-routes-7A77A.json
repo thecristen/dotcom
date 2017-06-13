@@ -1,0 +1,19 @@
+{
+  "uuid" : "ea082855-46fa-320e-ae75-84fe821635d3",
+  "request" : {
+    "url" : "/routes/?stop=place-wimnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7A77A.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "pcskbke35ffj8vei28hdom846ev85het",
+      "Connection" : "keep-alive"
+    }
+  }
+}

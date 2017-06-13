@@ -1,0 +1,19 @@
+{
+  "uuid" : "dde38a5e-7940-3e04-9151-16b3c0a4dfbb",
+  "request" : {
+    "url" : "/stops/Providence?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Providence-F9n9J.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:25 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "g4l10ssgnp089o5cnih61gmr706ku0d4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

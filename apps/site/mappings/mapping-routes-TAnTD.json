@@ -1,0 +1,19 @@
+{
+  "uuid" : "25cd8490-133c-305a-91a2-e685d6ea8041",
+  "request" : {
+    "url" : "/routes/?stop=1788&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TAnTD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:06 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ib3s8a1nu2s7c0h7jknkglimr1bpslrs",
+      "Connection" : "keep-alive"
+    }
+  }
+}

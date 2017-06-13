@@ -1,0 +1,19 @@
+{
+  "uuid" : "32657d87-c1f0-3cef-827d-9b9b9b974c76",
+  "request" : {
+    "url" : "/stops/Attleboro?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Attleboro-7UvyP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:25 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "q4pefuss5ajfuo7q0n5gi3m7n790hch5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

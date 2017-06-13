@@ -1,0 +1,19 @@
+{
+  "uuid" : "8c3c0a01-8d64-3828-b5f3-19dd2087af42",
+  "request" : {
+    "url" : "/stops/10590?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-10590-mBEKL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:11 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ctl6lvtlkree5fu4od85pps7un740e96",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "4dc65161-024c-3318-b9f4-b1c693064139",
+  "request" : {
+    "url" : "/trips/?route=Red&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-WoVMd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:20 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "86c3s7egrred1nuid7sgd4mtgel8fjh7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

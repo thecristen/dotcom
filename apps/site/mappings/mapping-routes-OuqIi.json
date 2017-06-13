@@ -1,0 +1,19 @@
+{
+  "uuid" : "0a864112-18a7-343e-b0e0-d83429f78723",
+  "request" : {
+    "url" : "/routes/?stop=Stoughton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OuqIi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:49 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "aklspep4s3t82hdms5ajcsd49dosim3e",
+      "Connection" : "keep-alive"
+    }
+  }
+}

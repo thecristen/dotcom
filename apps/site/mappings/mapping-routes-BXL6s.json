@@ -1,0 +1,19 @@
+{
+  "uuid" : "5ffecb62-b220-3b78-bd4f-fb2f9a07471c",
+  "request" : {
+    "url" : "/routes/?stop=North+Scituate",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BXL6s.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "5h7kshqlbf8nn3jhtd63g7bu4vr21086",
+      "Connection" : "keep-alive"
+    }
+  }
+}

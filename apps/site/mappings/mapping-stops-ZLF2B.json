@@ -1,0 +1,19 @@
+{
+  "uuid" : "f7a54991-a574-33b5-b05d-69877b843653",
+  "request" : {
+    "url" : "/stops/?fields%5Bparent_station%5D=latitude%2Clongitude&fields%5Bstop%5D=latitude%2Clongitude&radius=0.6&route_type=0%2C1&latitude=42.35131&longitude=-71.066159&include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-ZLF2B.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:03 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ahc3s07a4ptk6bu36v31nrd6kvc5a4qp",
+      "Connection" : "keep-alive"
+    }
+  }
+}

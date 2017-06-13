@@ -1,0 +1,19 @@
+{
+  "uuid" : "d8ff9e2a-678e-37bd-8e76-9e02bf87a5ed",
+  "request" : {
+    "url" : "/stops/Back%20Bay?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-lbWTx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:25 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "6aa3evtm6seionr0vfkg2id78tp09ta8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

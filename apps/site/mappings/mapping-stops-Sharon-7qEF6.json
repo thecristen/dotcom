@@ -1,0 +1,19 @@
+{
+  "uuid" : "a20bb9ce-3a77-3b9e-933e-63edac56ea8f",
+  "request" : {
+    "url" : "/stops/Sharon?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Sharon-7qEF6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:25 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "i6t5ol07qdkvb0cijcu0a62a4u7h6dl8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

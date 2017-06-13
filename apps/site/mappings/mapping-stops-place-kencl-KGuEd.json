@@ -1,0 +1,19 @@
+{
+  "uuid" : "f294189d-df61-30fe-82e9-2d44314d984a",
+  "request" : {
+    "url" : "/stops/place-kencl?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-kencl-KGuEd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:33:49 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "1vnauceih7n3kflde2uac6pm0b55pe5v",
+      "Connection" : "keep-alive"
+    }
+  }
+}

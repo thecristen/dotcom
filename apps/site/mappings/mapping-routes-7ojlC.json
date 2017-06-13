@@ -1,0 +1,19 @@
+{
+  "uuid" : "605db497-ed8d-380a-826e-d3ee7a1f460b",
+  "request" : {
+    "url" : "/routes/?stop=Southborough",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7ojlC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "5fuoqitsbl3hsh8o7ernt3i416ke2356",
+      "Connection" : "keep-alive"
+    }
+  }
+}

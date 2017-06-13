@@ -1,0 +1,19 @@
+{
+  "uuid" : "40f49ff0-e732-31a9-97af-719a95d824a5",
+  "request" : {
+    "url" : "/routes/?stop=Beverly",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iuzjo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "4jdqoaeue0krnb9dpj9rkjmao43c5icq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

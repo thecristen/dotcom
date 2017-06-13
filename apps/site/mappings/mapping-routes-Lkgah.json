@@ -1,0 +1,19 @@
+{
+  "uuid" : "b1487b42-c704-3ecb-812a-9f9e59887a06",
+  "request" : {
+    "url" : "/routes/?stop=place-chswk&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Lkgah.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:04 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ht7ele1bqoelsbr8v4391rpulr2vdq64",
+      "Connection" : "keep-alive"
+    }
+  }
+}

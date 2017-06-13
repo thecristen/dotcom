@@ -1,0 +1,19 @@
+{
+  "uuid" : "3e903452-0990-39b0-b4ba-cd010534ba12",
+  "request" : {
+    "url" : "/routes/?stop=Norwood+Depot",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FE89n.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "4jvvbhgg6vborurlb40hlu8ogli2cl4v",
+      "Connection" : "keep-alive"
+    }
+  }
+}

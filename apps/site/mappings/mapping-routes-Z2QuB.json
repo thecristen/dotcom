@@ -1,0 +1,19 @@
+{
+  "uuid" : "72420c5c-39e4-3da6-8869-3d1f45f7c299",
+  "request" : {
+    "url" : "/routes/?stop=place-armnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Z2QuB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:34:03 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "i806kdikke1t2chm4v7rlhkho6fn4k8p",
+      "Connection" : "keep-alive"
+    }
+  }
+}

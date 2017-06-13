@@ -1,0 +1,19 @@
+{
+  "uuid" : "fe7a8509-5818-33b3-990e-374cb424ee71",
+  "request" : {
+    "url" : "/routes/?stop=Hyde+Park",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jT5dg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "rjlfpbirp8g5u90o59mc2tq22uu41kd7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

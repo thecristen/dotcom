@@ -1,0 +1,19 @@
+{
+  "uuid" : "028665d0-9e64-3206-a3c2-42d60ec0b61b",
+  "request" : {
+    "url" : "/routes/?stop=South+Weymouth",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-wE8L1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "daimo4kpfeheh0210tkpuj55q93aequk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

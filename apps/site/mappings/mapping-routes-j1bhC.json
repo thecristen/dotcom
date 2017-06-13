@@ -1,0 +1,19 @@
+{
+  "uuid" : "c3b68c6e-d58f-3a91-8e5d-f78bcca69dfc",
+  "request" : {
+    "url" : "/routes/?stop=Campello",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-j1bhC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "5l2bca7slsqdrua0dp5nbi4skudqad0g",
+      "Connection" : "keep-alive"
+    }
+  }
+}

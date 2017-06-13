@@ -1,0 +1,19 @@
+{
+  "uuid" : "38c1e562-e4ce-3679-9aeb-cdd6da3f881c",
+  "request" : {
+    "url" : "/routes/?stop=Montserrat",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-QHLrr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:49 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "h9stdbekieem7utjqtrklieq5pi58v7v",
+      "Connection" : "keep-alive"
+    }
+  }
+}

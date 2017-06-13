@@ -1,0 +1,19 @@
+{
+  "uuid" : "ba3536f6-0e5c-34bb-9754-e8de1f92b4bc",
+  "request" : {
+    "url" : "/routes/?stop=Melrose+Highlands",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-6zO7D.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "o4qulkgr1o9qjv1oet18crbn4mrsqfuu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

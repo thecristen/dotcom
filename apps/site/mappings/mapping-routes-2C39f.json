@@ -1,0 +1,19 @@
+{
+  "uuid" : "f852066d-9e13-3805-a618-e19a5a7c991b",
+  "request" : {
+    "url" : "/routes/?stop=place-mispk",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-2C39f.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "g6o37m6r30i34liieaa5etfpsofbqk45",
+      "Connection" : "keep-alive"
+    }
+  }
+}

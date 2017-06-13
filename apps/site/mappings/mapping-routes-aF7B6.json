@@ -1,0 +1,19 @@
+{
+  "uuid" : "ee7262f9-a514-3982-bf22-8d692fc7a4cf",
+  "request" : {
+    "url" : "/routes/?stop=Bradford",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-aF7B6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:48 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "um8ipc9eliu7ckr91nkn7hilnb3dp13a",
+      "Connection" : "keep-alive"
+    }
+  }
+}

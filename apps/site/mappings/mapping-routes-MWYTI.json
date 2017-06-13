@@ -1,0 +1,19 @@
+{
+  "uuid" : "2e1c9028-75fc-383e-9040-bafc94829ea5",
+  "request" : {
+    "url" : "/routes/?stop=place-hwsst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MWYTI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "1bgbnttgf3jja8it80kmdih9n3v0rch5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

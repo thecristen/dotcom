@@ -1,0 +1,19 @@
+{
+  "uuid" : "50355b2f-f67f-3672-a86c-603107c7bdf9",
+  "request" : {
+    "url" : "/routes/?stop=place-valrd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bOMrH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 13 Jun 2017 14:35:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "cudtus4n47gefj9rvtbpafb5pqgvi2t9",
+      "Connection" : "keep-alive"
+    }
+  }
+}
