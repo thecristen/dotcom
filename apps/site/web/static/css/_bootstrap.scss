@@ -67,6 +67,6 @@
   max-width: $tooltip-width;
 
   @include media-breakpoint-down(xs) {
-    max-width: $tooltip-width / 2;
+    max-width: 50vw;
   }
 }
