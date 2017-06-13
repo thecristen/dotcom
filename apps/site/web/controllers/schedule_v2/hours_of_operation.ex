@@ -12,6 +12,8 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
       case Task.yield(task) do
         nil ->
           []
+        {:ok, {:error, _}} ->
+          []
         {:ok, schedules} ->
           [{key, schedules}]
       end
@@ -27,6 +29,7 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
     {key, Task.async(fn -> get_hours(conn, date, schedules_fn) end)}
   end
 
+  defp assign_hours(hours, conn) when hours == %{}, do: conn
   defp assign_hours(hours, conn), do: assign(conn, :hours_of_operation, hours)
 
   defp get_hours(%Plug.Conn{assigns: %{route: %Routes.Route{id: "Green"}}}, date, schedules_fn) do
@@ -37,14 +40,15 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
   end
 
   defp do_get_hours(route_ids, date, schedules_fn) do
-    {inbound, outbound} = route_ids
-    |> schedules_fn.(date: date, stop_sequences: ~w(first last)s)
-    |> Enum.split_with(& &1.trip.direction_id == 1)
+    with schedules when is_list(schedules) <-
+      schedules_fn.(route_ids, date: date, stop_sequences: ~w(first last)s) do
 
-    %{
-      1 => Schedules.Departures.first_and_last_departures(inbound),
-      0 => Schedules.Departures.first_and_last_departures(outbound)
-    }
+      {inbound, outbound} = Enum.split_with(schedules, & &1.trip.direction_id == 1)
+      %{
+        1 => Schedules.Departures.first_and_last_departures(inbound),
+        0 => Schedules.Departures.first_and_last_departures(outbound)
+      }
+    end
   end
 
   defp get_dates(date) do

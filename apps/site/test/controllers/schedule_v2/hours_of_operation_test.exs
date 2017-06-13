@@ -11,6 +11,16 @@ defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
     ]
   end
 
+  defp no_service_fn(_route_ids, _opts) do
+    {:error,
+      [%JsonApi.Error{code: "no_service",
+        detail: nil,
+        meta: %{"end_date" => "2017-09-01",
+                "start_date" => "2017-06-08",
+                "version" => "Summer 2017 version 2D, 6/8/17"},
+        source: %{"parameter" => "date"}}]}
+  end
+
   test "if route is nil, assigns nothing", %{conn: conn} do
     conn = conn
     |> assign(:route, nil)
@@ -41,5 +51,14 @@ defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
 
     assert conn.assigns.hours_of_operation[:week][0].first_departure.hour == 6
     assert conn.assigns.hours_of_operation[:week][0].last_departure.hour == 23
+  end
+
+  test "assigns nothing if there is no service", %{conn: conn} do
+    conn = %{conn | params: %{"route" => "Teal"}}
+    |> assign(:route, %Routes.Route{id: "Teal"})
+    |> assign(:date, ~D[2017-02-28])
+    |> Site.ScheduleV2Controller.HoursOfOperation.call(schedules_fn: &no_service_fn/2)
+
+    refute Map.has_key?(conn.assigns, :hours_of_operation)
   end
 end
