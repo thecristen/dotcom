@@ -9,6 +9,7 @@ defmodule GreenLine do
   @type route_id_stop_id_map :: %{Route.id_t => MapSet.t}
   @type stop_routes_pair :: {[Stop.t] | {:error, any}, route_id_stop_id_map}
   @type branch_name :: String.t
+  @typep stops_by_routes_fn :: (([Route.id_t], 0 | 1, Keyword.t) -> [Stop.t] | {:error, any})
 
   @doc """
   Returns the `calculate_stops_on_routes` results from the GreenLine.Cache.
@@ -23,10 +24,10 @@ defmodule GreenLine do
   that a stop is on the branch in question.  Optionally takes a date for which to fetch the
   schedules.
   """
-  @spec calculate_stops_on_routes(0 | 1, Date.t | nil) :: stop_routes_pair
-  def calculate_stops_on_routes(direction_id, date \\ nil) do
+  @spec calculate_stops_on_routes(0 | 1, Date.t | nil, stops_by_routes_fn | nil) :: stop_routes_pair
+  def calculate_stops_on_routes(direction_id, date \\ nil, stops_fn \\ &Stops.Repo.by_route/3) do
     branch_ids()
-    |> Task.async_stream(&green_line_stops(&1, direction_id, date))
+    |> Task.async_stream(&green_line_stops(&1, direction_id, date, stops_fn))
     |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)
   end
 
@@ -150,8 +151,8 @@ defmodule GreenLine do
 
   # Returns the stops that are on a given branch of the Green line,
   # along with the route ID.
-  @spec green_line_stops(Route.id_t, 0 | 1, Date.t | nil) :: {Route.id_t, [Stop.t]}
-  defp green_line_stops(route_id, direction_id, date) do
+  @spec green_line_stops(Route.id_t, 0 | 1, Date.t | nil, stops_by_routes_fn) :: {Route.id_t, [Stop.t]}
+  defp green_line_stops(route_id, direction_id, date, stops_fn) do
     opts = if is_nil(date) do
       []
     else
@@ -159,7 +160,7 @@ defmodule GreenLine do
     end
 
     stops = route_id
-    |> Stops.Repo.by_route(direction_id, opts)
+    |> stops_fn.(direction_id, opts)
     |> filter_lines(route_id)
 
     {route_id, stops}
@@ -213,15 +214,27 @@ defmodule GreenLine do
   end
   defp merge_green_line_stops({:ok, {route_id, line_stops}}, {current_stops, route_id_stop_map}) do
     # Update route_id_stop_map to include the stop
-    route_id_stop_map = line_stops
-    |> Enum.reduce(route_id_stop_map, fn %{id: stop_id}, map ->
-      Map.put(map, route_id, MapSet.put(Map.get(map, route_id, MapSet.new), stop_id))
-    end)
+    route_id_stop_map =
+      line_stops
+      |> Enum.reduce(Map.put(route_id_stop_map, route_id, MapSet.new()),
+                    fn %{id: stop_id}, map ->
+                      insert_stop_id(map, route_id, stop_id)
+                    end)
 
     current_stops = line_stops
     |> List.myers_difference(current_stops)
     |> Enum.flat_map(fn {_op, stops} -> stops end)
 
     {current_stops, route_id_stop_map}
+  end
+
+  defp insert_stop_id(map, route_id, stop_id) do
+    Map.update(map,
+               route_id,
+               MapSet.new(),
+               fn stop_ids ->
+                 MapSet.put(stop_ids, stop_id)
+               end
+    )
   end
 end
