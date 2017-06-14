@@ -17,7 +17,7 @@
           </th>
           <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
             <th scope="col" class="schedule-v2-timetable-header-col schedule-v2-timetable-time-col"<%= if index == @offset, do: " data-scroll-to" %>>
-              <%= schedule.trip.name %>
+              <span class="hidden-sm-down">Train </span><%= schedule.trip.name %>
               <%= if Alerts.Trip.match(@all_alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
                 <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small icon-inverse"}) %>
               <% end %>

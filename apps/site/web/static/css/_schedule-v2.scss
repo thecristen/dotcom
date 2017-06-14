@@ -638,7 +638,9 @@ a {
 
 .schedule-v2-timetable-time-col,
 .schedule-v2-timetable-header-col {
-  text-align: center;
+  @include media-breakpoint-down(sm) {
+    text-align: center;
+  }
 }
 
 .schedule-v2-timetable-filler {
@@ -672,6 +674,10 @@ a {
 .schedule-v2-timetable-time-col {
   min-width: 5em;
   white-space: nowrap;
+
+  @include media-breakpoint-up(md) {
+    min-width: 8em;
+  }
 }
 
 .schedule-v2-timetable-name {
