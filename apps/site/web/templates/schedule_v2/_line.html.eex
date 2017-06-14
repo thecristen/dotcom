@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-7">
+    <div class="page-section col-md-7">
       <h2 class="h5 route-stop-heading">Stops</h5>
       <%= render "_stop_list.html", assigns %>
     </div>
