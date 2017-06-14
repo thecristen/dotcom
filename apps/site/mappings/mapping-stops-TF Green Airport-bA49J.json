@@ -1,0 +1,19 @@
+{
+  "uuid" : "fcc2f15c-5064-3b96-97e2-e11851a28d9b",
+  "request" : {
+    "url" : "/stops/TF%20Green%20Airport?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-TF Green Airport-bA49J.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:46 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "1l6gqf240k9d1b31blm82bvh518nucbs",
+      "Connection" : "keep-alive"
+    }
+  }
+}

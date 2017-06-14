@@ -1,0 +1,19 @@
+{
+  "uuid" : "3836f89f-c3be-3e41-aa64-0cd79598a2e5",
+  "request" : {
+    "url" : "/stops/70096?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70096-MmV2O.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "qe5p4mpfvqt9m8jki8c14qph73ju85f1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

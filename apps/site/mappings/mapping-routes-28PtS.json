@@ -1,0 +1,19 @@
+{
+  "uuid" : "1cf19262-a195-3420-b422-4fc354928b30",
+  "request" : {
+    "url" : "/routes/?stop=Montello",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-28PtS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nbr7qiudiu9cn0fc9ea76ik2vbgkpigv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

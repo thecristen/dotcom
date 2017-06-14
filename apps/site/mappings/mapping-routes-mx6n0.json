@@ -1,0 +1,19 @@
+{
+  "uuid" : "80979a56-2472-3212-abac-6e9610c5be99",
+  "request" : {
+    "url" : "/routes/?stop=River+Works+%2F+GE+Employees+Only",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mx6n0.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:08 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "7o3igd67mtnri361vr43du6o9skf7u0g",
+      "Connection" : "keep-alive"
+    }
+  }
+}

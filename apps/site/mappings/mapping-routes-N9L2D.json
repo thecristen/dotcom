@@ -1,0 +1,19 @@
+{
+  "uuid" : "97b09cc9-0acd-3d17-91db-b9964beeb234",
+  "request" : {
+    "url" : "/routes/?stop=Silver+Hill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-N9L2D.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "93fnedfbskjm00mbh22cb7n19kqhl8b4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

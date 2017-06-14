@@ -1,0 +1,19 @@
+{
+  "uuid" : "9e6970ea-1e3d-3974-9014-ffa2d59c88a1",
+  "request" : {
+    "url" : "/stops/89?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-89-DO9Aw.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:34 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "n7ic215k356g4etk1cl2jk5anqnic5cs",
+      "Connection" : "keep-alive"
+    }
+  }
+}

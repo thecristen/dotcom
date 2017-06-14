@@ -1,0 +1,19 @@
+{
+  "uuid" : "8995da79-7ab7-3ed5-a2ec-a0c26ba6ceb2",
+  "request" : {
+    "url" : "/routes/?stop=Reading",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PpKYQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lp9jlddudulm5i47krp9di2r76rkl73b",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "d66971d4-55cb-3733-9cd7-d31eae4b9523",
+  "request" : {
+    "url" : "/routes/?stop=place-butlr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LT0Kl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:00 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "8pbo0l5ubvf2ej008l7p17kihvj5ht5r",
+      "Connection" : "keep-alive"
+    }
+  }
+}

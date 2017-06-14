@@ -1,0 +1,19 @@
+{
+  "uuid" : "a7c48546-4f8f-3296-bffe-c7b6027e7a2a",
+  "request" : {
+    "url" : "/stops/70105?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70105-nipQU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "42o5as6u3u9gdu2krfcb2poh3u6v0p42",
+      "Connection" : "keep-alive"
+    }
+  }
+}

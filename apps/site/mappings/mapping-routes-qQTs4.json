@@ -1,0 +1,19 @@
+{
+  "uuid" : "485787c7-a9cf-37ad-a5f2-1b3b91341d33",
+  "request" : {
+    "url" : "/routes/?stop=Ballardvale",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-qQTs4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "haongags5aosl40su5q7im7u50bgeh00",
+      "Connection" : "keep-alive"
+    }
+  }
+}

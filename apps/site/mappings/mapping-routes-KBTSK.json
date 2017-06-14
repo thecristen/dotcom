@@ -1,0 +1,19 @@
+{
+  "uuid" : "7a66e063-2b73-37ce-9f1c-db4ca514f96a",
+  "request" : {
+    "url" : "/routes/?stop=place-chill&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KBTSK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "g258fkoh3dce4ki3nmjgn0lu4ki23ks1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

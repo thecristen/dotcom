@@ -1,0 +1,19 @@
+{
+  "uuid" : "6c9231af-c65d-3565-9551-e93269ac2997",
+  "request" : {
+    "url" : "/routes/?stop=179&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MTSP9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "sqsi75rnfct1ad3bsp89922ahfscpii1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "17ad4897-8b9b-3b5e-aea6-8370418e8ef6",
+  "request" : {
+    "url" : "/routes/?stop=Bridgewater",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ptirJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "kkhi2vg5mj04shvn7h5t00do525ovbr9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "7008f762-79ab-3b4d-a551-01f0edf98ca8",
+  "request" : {
+    "url" : "/routes/?stop=Kendal+Green",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YleeE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "nf5nvvb3afsrdch6aetdkq5l896nb8k3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

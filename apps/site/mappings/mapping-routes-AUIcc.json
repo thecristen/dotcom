@@ -1,0 +1,19 @@
+{
+  "uuid" : "3d795470-403a-32bf-99b1-edd7b4abe6dc",
+  "request" : {
+    "url" : "/routes/?stop=Lynn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AUIcc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:08 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "93h6c238aqpsjb0fcqs4gkv5sbj6tqps",
+      "Connection" : "keep-alive"
+    }
+  }
+}

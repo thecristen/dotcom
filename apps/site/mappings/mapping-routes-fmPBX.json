@@ -1,0 +1,19 @@
+{
+  "uuid" : "f869501c-3a89-3872-95a4-1b42d99823c4",
+  "request" : {
+    "url" : "/routes/?stop=Providence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fmPBX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:08 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "bj5s9enhqslrsvs4uvjsrskafn4ik8ej",
+      "Connection" : "keep-alive"
+    }
+  }
+}

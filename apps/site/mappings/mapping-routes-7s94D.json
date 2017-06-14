@@ -1,0 +1,19 @@
+{
+  "uuid" : "dfba71fd-ef01-3794-824f-0cacc114abfa",
+  "request" : {
+    "url" : "/routes/?stop=Swampscott",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7s94D.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:08 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "elnks138hj1h8iq8iobc7bv04l4h5r9d",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "9b0e7b25-e196-327a-91c0-2e6bf117e3b2",
+  "request" : {
+    "url" : "/routes/?stop=Whitman",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MW9eb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "kk2ntp87bbe33lvmn8f8ggq4f4jqapti",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "9fc35f4e-b04c-3a37-ac83-23db3c35ffb2",
+  "request" : {
+    "url" : "/routes/?stop=place-tumnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lbKyM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:25 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "3dkoqcejsl9ti7d7s2bma8egmvghjlp4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

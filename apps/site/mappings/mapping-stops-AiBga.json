@@ -1,0 +1,19 @@
+{
+  "uuid" : "0bea2b5f-e7e4-3eee-a9d0-3cbf793ef293",
+  "request" : {
+    "url" : "/stops/?route=CR-Providence&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-AiBga.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "c0vkgmfe16hddh2jr2airtm05jvin8ir",
+      "Connection" : "keep-alive"
+    }
+  }
+}

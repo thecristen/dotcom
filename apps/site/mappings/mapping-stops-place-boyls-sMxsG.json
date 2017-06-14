@@ -1,0 +1,19 @@
+{
+  "uuid" : "646b2d60-0274-3c86-8c4b-36dbb3126c57",
+  "request" : {
+    "url" : "/stops/place-boyls?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-boyls-sMxsG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:29 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "qsv4j9g3ojvhgseq100825fiilhk1a94",
+      "Connection" : "keep-alive"
+    }
+  }
+}

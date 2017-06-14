@@ -1,0 +1,19 @@
+{
+  "uuid" : "7049ab0b-9124-3d63-b77d-7b1cb83e7a45",
+  "request" : {
+    "url" : "/stops/place-harsq?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-harsq-QuPiW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "m3m7tnkgpsd6f2cghs3c4adh8fcle1pn",
+      "Connection" : "keep-alive"
+    }
+  }
+}

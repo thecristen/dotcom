@@ -1,0 +1,19 @@
+{
+  "uuid" : "950b02f7-ce71-386b-b3bf-9e4610eda7ec",
+  "request" : {
+    "url" : "/stops/70066?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70066-LVww9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:41 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "n771u8rgrnrje0mh3aavkpv8pon6dtea",
+      "Connection" : "keep-alive"
+    }
+  }
+}

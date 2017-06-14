@@ -1,0 +1,19 @@
+{
+  "uuid" : "755565d5-98e7-3bc8-90bc-c9309816e9a4",
+  "request" : {
+    "url" : "/stops/109?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-109-ncCs3.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:34 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "mcd2qs38mbg7mc150jcuf8v5agvhbe07",
+      "Connection" : "keep-alive"
+    }
+  }
+}
