@@ -8,5 +8,8 @@
 }
 
 .trip-plan-form-container {
-  top: 0;
+  @include media-breakpoint-up(md) {
+    top: 0;
+    position: sticky
+  }
 }
