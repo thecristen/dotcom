@@ -6,29 +6,29 @@ defmodule HubStops do
   alias Routes.Route
 
   @commuter_hubs  [
-    {"place-sstat", "/images/stops/south_station"},
-    {"place-north", "/images/stops/north_station_commuter"},
-    {"place-bbsta", "/images/stops/back_bay"}
+    {"place-sstat", "/images/stops/south_station", "Entrances to Red Line and Commuter Rail outside South Station"},
+    {"place-north", "/images/stops/north_station_commuter", "People walking by train departure board inside North Station"},
+    {"place-bbsta", "/images/stops/back_bay", "Lobby inside Back Bay station"}
   ]
   @red_line_hubs  [
-    {"place-sstat", "/images/stops/south_station"},
-    {"place-pktrm", "/images/stops/park_street"},
-    {"place-dwnxg", "/images/stops/downtown_crossing"}
+    {"place-sstat", "/images/stops/south_station", "Entrances to Red Line and Commuter Rail outside South Station"},
+    {"place-pktrm", "/images/stops/park_street", "Entrance to Green and Red Lines outside Park Street"},
+    {"place-dwnxg", "/images/stops/downtown_crossing", "Entrance to Orange and Red Lines outside Downtown Crossing"}
   ]
   @green_line_hubs [
-    {"place-north","/images/stops/north_station_green"},
-    {"place-pktrm", "/images/stops/park_street"},
-    {"place-gover","/images/stops/government_center"}
+    {"place-north","/images/stops/north_station_green", "People walking towards Green Line train inside North Station"},
+    {"place-pktrm", "/images/stops/park_street", "Entrance to Green and Red Lines outside Park Street"},
+    {"place-gover","/images/stops/government_center", "Entrance to Blue and Green Lines outside Government Center"}
   ]
   @orange_line_hubs [
-    {"place-north", "/images/stops/north_station"},
-    {"place-bbsta", "/images/stops/back_bay"},
-    {"place-rugg", "/images/stops/ruggles"}
+    {"place-north", "/images/stops/north_station", "People waiting as orange line train arrives inside North Station"},
+    {"place-bbsta", "/images/stops/back_bay", "Lobby inside Back Bay station"},
+    {"place-rugg", "/images/stops/ruggles", "Entrance to Ruggles station"}
   ]
   @blue_line_hubs [
-    {"place-state","/images/stops/state_street"},
-    {"place-wondl","/images/stops/wonderland"},
-    {"place-aport","/images/stops/airport"}
+    {"place-state","/images/stops/state_street", "Blue Line subway platform inside State Street"},
+    {"place-wondl","/images/stops/wonderland", "Exterior of Wonderland station"},
+    {"place-aport","/images/stops/airport", "Blue Line train departing Airport station"}
   ]
 
   @hub_map %{
@@ -71,11 +71,12 @@ defmodule HubStops do
   end
   defp do_from_stop_info({%Route{id: route_id}, _}), do: {route_id, []}
 
-  @spec build_hub_stop({String.t, String.t}, [DetailedStop.t]) :: HubStop.t
-  defp build_hub_stop({stop_id, path}, detailed_stops) do
+  @spec build_hub_stop({String.t, String.t, String.t}, [DetailedStop.t]) :: HubStop.t
+  defp build_hub_stop({stop_id, path, alt_text}, detailed_stops) do
     %HubStop{
       detailed_stop: Enum.find(detailed_stops, & &1.stop.id == stop_id),
-      image_path: path
+      image_path: path,
+      alt_text: alt_text
     }
   end
 end
