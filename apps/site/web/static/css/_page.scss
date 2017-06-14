@@ -308,8 +308,11 @@
   padding: $base-spacing;
 
   @include media-breakpoint-up(md) {
-    font-size: 1.25rem;
     padding: $space-24;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: $font-size-h3-xxl;
   }
 }
 
