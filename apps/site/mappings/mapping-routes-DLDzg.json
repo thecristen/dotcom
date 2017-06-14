@@ -1,0 +1,19 @@
+{
+  "uuid" : "8d1e81bc-0df7-386e-b146-42a9ac90a700",
+  "request" : {
+    "url" : "/routes/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DLDzg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 18:29:44 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "hlg8u3takhoco0r40p433jd60qur9agd",
+      "Connection" : "keep-alive"
+    }
+  }
+}
