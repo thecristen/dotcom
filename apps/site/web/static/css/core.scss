@@ -137,7 +137,7 @@ body {
 
 .alert-announcement-container {
   @extend %top-bar;
-  background-color: $brand-secondary;
+  background-color: $alert-color-lighter;
   color: $gray-dark;
   font-size: $font-size-base;
   padding-bottom: $space-16;

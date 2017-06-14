@@ -3,10 +3,10 @@
 %>
 <div class="alert-modal-container">
   <div class="alert-container" id="<%= id %>">
-    <a class="alert-list-header fixedsticky" href="#" data-hide="collapse" data-target="#<%= id %>">
+    <a class="alert-list-header fixedsticky clearfix" href="#" data-hide="collapse" data-target="#<%= id %>">
       <%= render "_icon.html", alert: List.first(@alerts), time: @time %>
       <span class="alert-list-header-title">Service Alerts For <%= @route.name %></span>
-      <span class="alert-list-toggle">Close</span>
+      <span class="alert-list-toggle"><%= fa "times-circle" %> Close</span>
     </a>
     <ul class="alert-list">
       <%= for alert <- @alerts do %>
@@ -48,13 +48,14 @@
         <%= clamp_header(first_alert.header, first_alert_effect_length) %>
         <% text -> %><%= text %>
       <% end %>
-    </span>
-    <span class="alert-list-toggle">View alert
+      <span class="alerts-plus">
       <%= case effects do
         {_, suffix} -> suffix
         _ -> ""
       end %>
+      </span>
     </span>
+    <span class="alert-list-toggle"><%= fa "plus-circle" %> View</span>
     <span class="clearfix"></span>
   </a>
 </div>
