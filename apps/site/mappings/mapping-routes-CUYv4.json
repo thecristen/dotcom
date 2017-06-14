@@ -1,0 +1,19 @@
+{
+  "uuid" : "5be5bcf5-8817-3568-a341-5c0fa980ddf6",
+  "request" : {
+    "url" : "/routes/?stop=Kingston",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CUYv4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "t5646ve13ido9iid0s2vr1phv2ff7tsl",
+      "Connection" : "keep-alive"
+    }
+  }
+}

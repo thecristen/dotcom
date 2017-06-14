@@ -1,0 +1,19 @@
+{
+  "uuid" : "7fa27f91-c8d4-32c8-82a6-a7ce584bb1d5",
+  "request" : {
+    "url" : "/routes/?stop=Holbrook%2F+Randolph",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-sa074.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "u2i72gqbomrai1lrarbpnpludtmhobct",
+      "Connection" : "keep-alive"
+    }
+  }
+}

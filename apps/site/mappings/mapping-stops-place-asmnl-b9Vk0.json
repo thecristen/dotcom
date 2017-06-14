@@ -1,0 +1,19 @@
+{
+  "uuid" : "7030f792-f4c3-3969-9206-90e26ee34974",
+  "request" : {
+    "url" : "/stops/place-asmnl?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-asmnl-b9Vk0.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "kihgj1oumtpcuqjci1btu0eofn0cnnv2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "15450244-a4e8-3878-b26b-af0b62edfbb9",
+  "request" : {
+    "url" : "/stops/place-brdwy?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-brdwy-WUXWY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "7frebrf0k62ajdkhghbsbkidmik2549u",
+      "Connection" : "keep-alive"
+    }
+  }
+}

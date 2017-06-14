@@ -1,0 +1,19 @@
+{
+  "uuid" : "99cbfabc-347f-3170-a3c8-79ef0861bc11",
+  "request" : {
+    "url" : "/routes/?stop=place-bland&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-glnCi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ohvndnjmo5a5jg3imp6v7vgk8ch1t5bv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

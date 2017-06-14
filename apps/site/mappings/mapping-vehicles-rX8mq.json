@@ -1,0 +1,19 @@
+{
+  "uuid" : "bf1e37c0-363d-31ee-9c09-58da893083b9",
+  "request" : {
+    "url" : "/vehicles/?fields%5Bvehicle%5D=direction_id%2Ccurrent_status%2Clongitude%2Clatitude&fields%5Bstop%5D=&include=stop%2Ctrip&route=1&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-vehicles-rX8mq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:33 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "cagh11d45ub57e5ogb60qm14ntgi6jbh",
+      "Connection" : "keep-alive"
+    }
+  }
+}

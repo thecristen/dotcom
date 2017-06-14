@@ -1,0 +1,19 @@
+{
+  "uuid" : "478bc6de-3aaa-33ee-9434-77689aadc6a3",
+  "request" : {
+    "url" : "/stops/91?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-91-XPTFz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:33 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lob89mhj0oe5i3n8afml8gbatv5pe93r",
+      "Connection" : "keep-alive"
+    }
+  }
+}

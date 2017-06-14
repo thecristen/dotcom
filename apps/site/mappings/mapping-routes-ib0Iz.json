@@ -1,0 +1,19 @@
+{
+  "uuid" : "7b53bf05-4a06-31a2-abd6-5d32c790c04b",
+  "request" : {
+    "url" : "/routes/?stop=Hanson",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ib0Iz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "80safh8ancq6lesht960hku2id80iblk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

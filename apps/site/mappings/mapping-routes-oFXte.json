@@ -1,0 +1,19 @@
+{
+  "uuid" : "2e2e18a9-c21a-3fc3-aa2e-d88461ab866c",
+  "request" : {
+    "url" : "/routes/?stop=place-shmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-oFXte.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "r0097ug4j2o0l0bmn1qempbob6pb5l5h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

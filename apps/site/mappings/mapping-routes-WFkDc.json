@@ -1,0 +1,19 @@
+{
+  "uuid" : "12ead6b0-4848-3892-a728-52a369028a17",
+  "request" : {
+    "url" : "/routes/?stop=North+Leominster",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WFkDc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "9f5j5t1tpft8l20ogi8rohv0tcbhtbdl",
+      "Connection" : "keep-alive"
+    }
+  }
+}

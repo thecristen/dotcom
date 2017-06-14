@@ -1,0 +1,19 @@
+{
+  "uuid" : "1dbf3df7-8173-3a9a-834b-d15d73e27c98",
+  "request" : {
+    "url" : "/stops/?route=Mattapan&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-AYATZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:00 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ofu7gdkc45hs1m3f7366gt503kdglqqc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

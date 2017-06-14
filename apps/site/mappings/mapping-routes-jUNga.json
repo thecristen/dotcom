@@ -1,0 +1,19 @@
+{
+  "uuid" : "dd1771ce-50f2-3fa3-9ca7-27e1ceaff7b6",
+  "request" : {
+    "url" : "/routes/?stop=place-sstat&type=2",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jUNga.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:21 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "4tqpkkgmu55k7ah8fqtah400pudu9d13",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "f582d5a4-6dbc-3c98-90d8-c0c6b05ca785",
+  "request" : {
+    "url" : "/routes/?stop=Islington",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-5bugv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "cb9otcp8rgnrllfa1mv13ui46tmggksi",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "25c3f4c2-bc64-3caf-9b3c-fc2d31d5fccf",
+  "request" : {
+    "url" : "/stops/70094?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70094-DXMKE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "2dd96gsu42i69trakaqvljlojcojlrdi",
+      "Connection" : "keep-alive"
+    }
+  }
+}

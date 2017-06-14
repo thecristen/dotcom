@@ -1,0 +1,19 @@
+{
+  "uuid" : "5246227c-432f-3508-9e46-1a30b3dcff43",
+  "request" : {
+    "url" : "/stops/Back%20Bay?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-dgFXu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:46 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "uu1psqdo6busq6jr5cuksl31fvi0iatr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "979a509c-2c6a-3d55-9b0d-0e1b59fe3f86",
+  "request" : {
+    "url" : "/routes/?stop=place-bomnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PaltA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:01 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "qti5315o5k49pu67c0a13toomrb5cg4k",
+      "Connection" : "keep-alive"
+    }
+  }
+}

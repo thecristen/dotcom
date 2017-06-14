@@ -1,0 +1,19 @@
+{
+  "uuid" : "280c18ea-6e4a-34be-8db9-10cf38275808",
+  "request" : {
+    "url" : "/stops/?route=CR-Greenbush&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-dL1UJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "4cf3breiru830rljvtk0iatcmlfbjv5v",
+      "Connection" : "keep-alive"
+    }
+  }
+}

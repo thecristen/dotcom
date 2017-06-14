@@ -1,0 +1,19 @@
+{
+  "uuid" : "25049a02-faa5-3eb3-acaf-9b5b06a49828",
+  "request" : {
+    "url" : "/routes/?stop=place-fldcr&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bAhXi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:26 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "k0fda27o1mel4toaf4n9l2u8shq9s7f8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

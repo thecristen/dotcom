@@ -1,0 +1,19 @@
+{
+  "uuid" : "9e13c0c8-8757-3891-a4ea-fcc57d308c52",
+  "request" : {
+    "url" : "/routes/?stop=place-buest",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-eVulf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:01 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "u62ndsh96hcg0jtvf1f4if0fnl4q7qou",
+      "Connection" : "keep-alive"
+    }
+  }
+}

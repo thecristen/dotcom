@@ -1,0 +1,19 @@
+{
+  "uuid" : "9c7da460-cb76-38ff-b662-db01f1a2fc76",
+  "request" : {
+    "url" : "/routes/?stop=Chelsea",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-hSZI2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:08 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "mu9e8ddck4angoddjjesj97r2qq7l2r0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "96c48014-f3e4-36b0-bf22-9bdf074cf2d3",
+  "request" : {
+    "url" : "/vehicles/?fields%5Bvehicle%5D=direction_id%2Ccurrent_status%2Clongitude%2Clatitude&fields%5Bstop%5D=&include=stop%2Ctrip&route=CR-Providence&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-vehicles-Rkf6L.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:45 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "l0ntu0rb6rcccpgp1oganbjo1nm7ligd",
+      "Connection" : "keep-alive"
+    }
+  }
+}

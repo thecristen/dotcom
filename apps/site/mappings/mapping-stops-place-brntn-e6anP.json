@@ -1,0 +1,19 @@
+{
+  "uuid" : "f72bafd1-8a11-3532-ace5-ee27493f2440",
+  "request" : {
+    "url" : "/stops/place-brntn?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-brntn-e6anP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "scibvn566oh7srifan83om9cmgoktmh2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

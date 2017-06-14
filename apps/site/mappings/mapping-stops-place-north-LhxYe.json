@@ -1,0 +1,19 @@
+{
+  "uuid" : "1543c6f6-0e90-3350-9fbd-fdf5da3ae011",
+  "request" : {
+    "url" : "/stops/place-north?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-north-LhxYe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:28 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "k52sc9msn1p5u1aa2ihpuq58fe97jo47",
+      "Connection" : "keep-alive"
+    }
+  }
+}

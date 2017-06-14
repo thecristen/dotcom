@@ -1,0 +1,19 @@
+{
+  "uuid" : "527b1444-4411-3df1-b85c-5a909d21c794",
+  "request" : {
+    "url" : "/stops/74617?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-74617-wfrac.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:55 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ape4s68m8eb7a3t9v3rhj4gd0pdh3k3g",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "ae917ee2-7a60-3bff-9f22-4455b4071f01",
+  "request" : {
+    "url" : "/routes/?stop=place-woodl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FK1W4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:01 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "sv5k4n4mp52deg38v7butsghsgm2hd0i",
+      "Connection" : "keep-alive"
+    }
+  }
+}

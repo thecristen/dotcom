@@ -1,0 +1,19 @@
+{
+  "uuid" : "84463852-038e-36ca-a4e1-cfa554e09790",
+  "request" : {
+    "url" : "/routes/?stop=Cohasset",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-M85IB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:07 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "o6b93jqaenhsmfrlhr3slokgocq6mfrv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

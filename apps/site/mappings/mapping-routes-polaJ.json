@@ -1,0 +1,19 @@
+{
+  "uuid" : "b73628c2-ba8c-379a-b333-0bbf679673f3",
+  "request" : {
+    "url" : "/routes/?stop=8279",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-polaJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:27:29 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "ge1i4jinogsuv4idlqo78pspoqobo00e",
+      "Connection" : "keep-alive"
+    }
+  }
+}

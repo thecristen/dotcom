@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"trip","relationships":{"shape":{"data":{"type":"shape","id":"010038"}},"service":{"data":{"type":"service","id":"BUS22017-hbc27011-Weekday-02"}},"route":{"data":{"type":"route","id":"1"}}},"links":{"self":"/trips/33636576"},"id":"33636576","attributes":{"wheelchair_accessible":1,"name":"","headsign":"Harvard","direction_id":0}}}

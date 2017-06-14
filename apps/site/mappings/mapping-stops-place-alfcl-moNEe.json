@@ -1,0 +1,19 @@
+{
+  "uuid" : "c9234694-7ebf-3633-812f-5173b06c8afe",
+  "request" : {
+    "url" : "/stops/place-alfcl?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-alfcl-moNEe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:28:40 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "a3e6pk7b0b2eqgjupf9e72t024rs52sk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

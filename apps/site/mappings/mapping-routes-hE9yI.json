@@ -1,0 +1,19 @@
+{
+  "uuid" : "caa648cb-3f38-3eeb-b07c-3064abf94d0c",
+  "request" : {
+    "url" : "/routes/?stop=place-lngmd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-hE9yI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Wed, 14 Jun 2017 14:29:01 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "lttqf0ao1jtuh2anvuhunrdj5pt5v7c0",
+      "Connection" : "keep-alive"
+    }
+  }
+}
