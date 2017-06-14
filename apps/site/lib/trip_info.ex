@@ -26,6 +26,7 @@ defmodule TripInfo do
     vehicle_stop_name: String.t | nil,
     status: String.t,
     sections: [time_list],
+    stop_count: pos_integer,
     duration: pos_integer
   }
 
@@ -37,6 +38,7 @@ defmodule TripInfo do
     vehicle_stop_name: nil,
     status: "operating at normal schedule",
     sections: [],
+    stop_count: 0,
     duration: -1,
   ]
 
@@ -117,6 +119,7 @@ defmodule TripInfo do
   when is_binary(origin_id) and is_binary(destination_id) do
     route = PredictedSchedule.route(time)
     duration = duration(times, origin_id)
+    stop_count = Enum.count(times)
     sections = if opts[:collapse?] do
       TripInfo.Split.split(times, starting_stop_ids)
     else
@@ -130,6 +133,7 @@ defmodule TripInfo do
       vehicle: opts[:vehicle],
       sections: sections,
       duration: duration,
+      stop_count: stop_count,
       vehicle_stop_name: vehicle_stop_name
     }
   end

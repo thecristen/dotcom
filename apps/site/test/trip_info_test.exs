@@ -44,7 +44,9 @@ defmodule TripInfoTest do
     origin_id: "place-sstat",
     destination_id: "place-pktrm",
     duration: 60 * 24 * 2, # 2 day duration trip
-    sections: [@time_list]}
+    sections: [@time_list],
+    stop_count: Enum.count(@time_list)
+  }
 
   describe "from_list/1" do
     test "creates a TripInfo from a list of PredictedSchedules" do

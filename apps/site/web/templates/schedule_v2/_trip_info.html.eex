@@ -55,6 +55,6 @@
   </div>
   <div class="trip-duration">
     <strong>Trip duration:</strong>
-    <%= @trip_info.duration %> minutes
+    <%= "#{@trip_info.stop_count} stops; #{@trip_info.duration} minutes" %>
   </div>
 </div>

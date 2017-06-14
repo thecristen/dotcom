@@ -56,8 +56,8 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     {:ok, %{conn: conn}}
   end
 
-  defp prediction_fn(_) do
-    @predictions
+  defp prediction_fn([trip: trip_id]) do
+    Enum.map(@predictions, &(%Prediction{&1 | trip: %Trip{id: trip_id}}))
   end
 
   defp trip_fn("32893585", [date: @date]) do
@@ -196,6 +196,22 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   test "no separator if show_collapsed_trip_stops? present in the URL", %{conn: conn} do
     conn = conn_builder(conn, [], trip: "long_trip", show_collapsed_trip_stops?: "")
     refute :separator in TripInfo.times_with_flags_and_separators(conn.assigns.trip_info)
+  end
+
+  test "assigns the total number of stops when a separator is present", %{conn: conn} do
+    conn = conn_builder(conn, [], trip: "long_trip")
+    assert conn.assigns.trip_info.stop_count == 7
+
+    conn = conn_builder(conn, [], trip: "32893585")
+    assert conn.assigns.trip_info.stop_count == 2
+  end
+
+  test "assigns the total number of stops when a separator is not present", %{conn: conn} do
+    conn = conn_builder(conn, [], trip: "long_trip", show_collapsed_trip_stops?: "")
+    assert conn.assigns[:trip_info].stop_count == 7
+
+    conn = conn_builder(conn, [], trip: "32893585", show_collapsed_trip_stops?: "")
+    assert conn.assigns.trip_info.stop_count == 2
   end
 
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do
