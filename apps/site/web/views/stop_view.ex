@@ -152,8 +152,8 @@ defmodule Site.StopView do
   @doc "A list of time differences for the predicted schedules, with the empty ones removed."
   def time_differences(predicted_schedules, date_time) do
     predicted_schedules
-    |> Enum.reject(& &1.prediction == nil && &1.schedule == nil)
-    |> Enum.sort_by(&sort_schedules/1, &Timex.before?/2)
+    |> Enum.reject(&PredictedSchedule.empty?/1)
+    |> Enum.sort_by(&PredictedSchedule.sort_with_status/1)
     |> Enum.take(3)
     |> Enum.flat_map(fn departure ->
       case PredictedSchedule.Display.time_difference(departure, date_time) do
@@ -162,9 +162,6 @@ defmodule Site.StopView do
       end
     end)
   end
-
-  defp sort_schedules(%{prediction: nil, schedule: schedule}), do: schedule.time
-  defp sort_schedules(%{prediction: prediction}), do: prediction.time
 
   @doc "URL for the embedded Google map image for the stop."
   @spec map_url(Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
