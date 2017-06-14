@@ -44,7 +44,13 @@ defmodule Site.AlertControllerTest do
 
     test "are shown on subway alerts", %{conn: conn, alerts: alerts} do
       response = render_alerts_page(conn, :subway, alerts)
-      assert response =~ mode_icon_tag(:red_line)
+
+      expected = %SvgIconWithCircle{icon: :red_line, aria_hidden?: true}
+      |> Site.AlertView.svg_icon_with_circle
+      |> Phoenix.HTML.safe_to_string
+      |> Kernel.<>(:red_line |> get_route |> Map.get(:name))
+
+      assert response =~ expected
     end
     test "are not shown on non-subway alerts", %{conn: conn, alerts: alerts} do
       for mode <- [:bus, :commuter_rail, :access] do

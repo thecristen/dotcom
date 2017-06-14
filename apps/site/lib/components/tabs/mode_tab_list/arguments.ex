@@ -29,7 +29,7 @@ defmodule Site.Components.Tabs.ModeTabList do
   end
 
   defp do_build_mode_icon_map(mode) do
-    icon = Site.PageView.svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode})
+    icon = Site.PageView.svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: mode, aria_hidden?: true})
     {ViewHelpers.mode_name(mode), icon}
   end
 

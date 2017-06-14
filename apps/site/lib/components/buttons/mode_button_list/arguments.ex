@@ -84,13 +84,15 @@ defmodule Site.Components.Buttons.ModeButtonList do
   def icon_if_subway(%Routes.Route{id: "Mattapan"}) do
     Site.PageView.svg_icon_with_circle(%SvgIconWithCircle{
       icon: :mattapan_trolley,
-      class: "icon-small"
+      class: "icon-small",
+      aria_hidden?: true
     })
   end
   def icon_if_subway(%Routes.Route{type: route_type, id: route_id}) when route_type in [0,1] do
     Site.PageView.svg_icon_with_circle(%SvgIconWithCircle{
       icon: "#{route_id}_line" |> String.downcase |> String.to_existing_atom,
-      class: "icon-small"
+      class: "icon-small",
+      aria_hidden?: true
     })
   end
   def icon_if_subway(_), do: ""

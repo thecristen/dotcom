@@ -15,7 +15,7 @@
       <div class="alert-show-row">
         <div class="alert-show-title-container">
           <span class="alert-show-title alert-show-title-<%= @id %>">
-            <%= if show_mode_icon?(route), do: svg_icon_with_circle(%SvgIconWithCircle{icon: route}) %><%= route.name %>
+            <%= if show_mode_icon?(route), do: svg_icon_with_circle(%SvgIconWithCircle{icon: route, aria_hidden?: true}) %><%= route.name %>
           </span>
         </div>
         <div class="alert-show-body">
