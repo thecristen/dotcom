@@ -1,6 +1,6 @@
 <h1>Directions</h1>
 <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-5 fixedsticky trip-plan-form-container callout">
     <%= form_for @conn, @conn.request_path, [as: :plan, method: :get], fn f -> %>
     <div class="form-group">
       <%= label f, :from, "From:" %>
