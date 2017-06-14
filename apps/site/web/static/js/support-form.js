@@ -255,7 +255,8 @@ export function handleSubmitClick($) {
         contentType: false,
         success: () => {
           $('#support-form').parent().remove();
-          $('.support-thank-you').removeClass('hidden-xs-up').focus();
+          $('.support-thank-you').removeClass('hidden-xs-up');
+          $('.support-success').focus();
           $('.support-form-error').addClass('hidden-xs-up');
         },
         error: () => {

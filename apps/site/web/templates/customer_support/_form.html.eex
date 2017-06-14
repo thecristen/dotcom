@@ -5,7 +5,7 @@
         <h2>Online Support</h2>
         <p>Please leave your comments, complaints, or inquiries below and they will be sent to our Customer Support team.</p>
       </div>
-      <form id="support-form" action="<%= customer_support_path @conn, :submit %>" method="post" enctype="multipart/form-data">
+      <form id="support-form" action="<%= customer_support_path @conn, :submit %>#support-result" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>" />
         <div class="form-group col-xs-12 <%= if "comments" in @errors, do: "has-danger" %>">
           <label for="comments" class="col-form-label"><strong>Your Comments</strong></label>

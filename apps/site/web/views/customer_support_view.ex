@@ -11,4 +11,8 @@ defmodule Site.CustomerSupportView do
   def photo_info(_) do
     nil
   end
+
+  def show_error_message(conn) do
+    conn.assigns.show_form && MapSet.size(conn.assigns[:errors]) > 0
+  end
 end
