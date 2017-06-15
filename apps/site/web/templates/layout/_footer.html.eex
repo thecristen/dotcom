@@ -55,7 +55,7 @@
         About Us
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Leadership", to: redirect_path(@conn, "about_the_mbta/leadership/"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "News & Updates", to: redirect_path(@conn, "about_the_mbta/news_events/"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "News & Updates", to: news_entry_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Events", to: event_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "FMCB", to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), target: "_blank" %></li>
