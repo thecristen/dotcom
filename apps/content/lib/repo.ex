@@ -26,6 +26,13 @@ defmodule Content.Repo do
     end
   end
 
+  def news_entry_by(opts) do
+    case news(opts) do
+     [record] -> record
+     [] -> nil
+    end
+  end
+
   @spec recent_news(Keyword.t) :: [Content.NewsEntry.t]
   def recent_news(opts \\ []) do
     case @cms_api.view("/recent-news", opts) do
@@ -55,6 +62,13 @@ defmodule Content.Repo do
     case events(id: id) do
       [event] -> event
       _ -> raise Content.NoResultsError
+    end
+  end
+
+  def event_by(opts) do
+    case events(opts) do
+      [record] -> record
+      [] -> nil
     end
   end
 
