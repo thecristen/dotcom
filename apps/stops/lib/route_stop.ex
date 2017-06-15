@@ -100,7 +100,7 @@ defmodule Stops.RouteStop do
       stop_number: number,
       is_terminus?: is_terminus?,
       zone: Zones.Repo.get(stop.id),
-      stop_features: Stops.Repo.stop_features(stop, [Routes.Route.icon_atom(route)])
+      stop_features: Stops.Repo.stop_features(stop, exclude: [Routes.Route.icon_atom(route)])
     }
   end
 
