@@ -25,8 +25,6 @@ defmodule Site.Components.Tabs.TabSelector do
 
   @spec slug(String.t) :: String.t
   def slug(title) do
-    title
-    |> String.replace(" ", "-")
-    |> String.downcase()
+    String.replace(String.downcase(title), " ", "-") <> "-tab"
   end
 end
