@@ -4,9 +4,9 @@
 
     <h2>Transit Services</h2>
     <div class="button-group">
+      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter_rail"), text: "Commuter Rail", class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "subway"), text: "Subway", class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "bus"), text: "Bus", class: "col-xs-12 col-sm-4", target: "_self" %>
-      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter_rail"), text: "Commuter Rail", class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "ferry"), text: "Ferry", class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), text: "The RIDE", class: "col-xs-12 col-sm-4", target: "_blank" %>
     </div>
