@@ -12,7 +12,7 @@
           <% end %>
         </li>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/news_events/"), target: "_blank" do %>
+          <%= link to: news_entry_path(@conn, :index) do %>
             <%= fa "caret-right" %> News &amp; Updates
           <% end %>
         </li>
