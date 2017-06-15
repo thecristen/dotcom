@@ -37,6 +37,16 @@ defmodule Content.RepoTest do
     end
   end
 
+  describe "news_entry_by/1" do
+    test "returns the news entry for the given id" do
+      assert %Content.NewsEntry{id: 1} = Content.Repo.news_entry_by(id: "1")
+    end
+
+    test "returns nil given no record is found" do
+      assert is_nil(Content.Repo.news_entry_by(id: "999"))
+    end
+  end
+
   describe "get_page/1" do
     test "returns a Content.BasicPage" do
       %Content.BasicPage{title: title, body: body} = Content.Repo.get_page("/accessibility")
@@ -86,6 +96,16 @@ defmodule Content.RepoTest do
       assert_raise Content.NoResultsError, fn ->
         Content.Repo.event!("nonexistent")
       end
+    end
+  end
+
+  describe "event_by/1" do
+    test "returns the event for the given id" do
+      assert %Content.Event{id: 17} = Content.Repo.event_by(id: "17")
+    end
+
+    test "returns nil given no record is found" do
+      assert is_nil(Content.Repo.event_by(id: "999"))
     end
   end
 
