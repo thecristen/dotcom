@@ -2,6 +2,7 @@ defmodule Routes.Pdf do
   alias Routes.Route
   alias Routes.Pdf.Helpers
 
+  @type dated_string :: {Date.t, String.t}
   @filename "priv/pdfs.csv"
   @external_resource @filename
 
@@ -25,7 +26,7 @@ defmodule Routes.Pdf do
   longer valid.
 
   """
-  @spec dated_urls(Route.t, Date.t) :: [{Date.t, String.t}]
+  @spec dated_urls(Route.t, Date.t) :: [dated_string]
   def dated_urls(%Route{id: route_id}, date) do
     route_id
     |> do_dated_urls
@@ -38,20 +39,21 @@ defmodule Routes.Pdf do
   end
   defp do_dated_urls(_route_id), do: []
 
-  defp filter_outdated([], _) do
-    []
+  @doc """
+  Returns either:
+    1) [currently active schedule pdf, next upcoming schedule pdf] when there are both a current
+       and a next pdf
+    2) [currently active scheudle pdf] when there is only a current pdf
+  """
+  @spec filter_outdated([dated_string], Date.t) :: [dated_string]
+  def filter_outdated(dated_urls, date) do
+    {before, aft} = Enum.split_with(dated_urls, &Date.compare(elem(&1, 0), date) != :gt)
+    [do_filter_outdated(before, :before), do_filter_outdated(aft, :after)] |> Enum.filter(& &1)
   end
-  defp filter_outdated([_] = single, _) do
-    single
-  end
-  defp filter_outdated([previous, next | rest], date) do
-    {next_date, _} = next
-    if Date.compare(next_date, date) == :gt do
-      [previous] ++ filter_outdated([next | rest], date)
-    else
-      [next | rest]
-    end
-  end
+
+  def do_filter_outdated([], _), do: nil
+  def do_filter_outdated(before, :before), do: List.last(before)
+  def do_filter_outdated([aft | _rest], :after), do: aft
 
   def south_station_back_bay_pdf(route) do
     south_station_commuter_rail_lines = ["CR-Kingston", "CR-Middleborough", "CR-Providence", "CR-Fairmount",
