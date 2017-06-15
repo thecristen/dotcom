@@ -50,15 +50,20 @@ defmodule DetailedStopGroup do
   defp build_featured_stops({route, stops}, zones) do
     featured_stops = stops
     |> Enum.sort_by(& &1.name)
-    |> Task.async_stream(&build_featured_stop(route, &1, zones))
+    |> Task.async_stream(&build_featured_stop(route, &1, Map.get(zones, &1.id)))
     |> Enum.map(fn {:ok, featured_stop} -> featured_stop end)
     {route, featured_stops}
   end
 
-  @spec build_featured_stop(Route.t, Stop.t, %{String.t => String.t}) :: DetailedStop.t
-  defp build_featured_stop(route, stop, zones) do
-    features = Stops.Repo.stop_features(stop, [Route.icon_atom(route)], route.id == "Green")
-    %DetailedStop{stop: stop, features: features, zone: zones[stop.id]}
+  @spec build_featured_stop(Route.t, Stop.t, String.t | nil) :: DetailedStop.t
+  defp build_featured_stop(route, stop, zone_name) do
+    excluded_features = [Route.icon_atom(route)]
+    green_line? = route.id == "Green"
+    features = Stops.Repo.stop_features(
+      stop,
+      exclude: excluded_features,
+      expand_branches?: green_line?)
+    %DetailedStop{stop: stop, features: features, zone: zone_name}
   end
 
   @spec group_green_line([grouped_stops]) :: [grouped_stops]

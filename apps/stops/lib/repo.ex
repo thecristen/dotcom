@@ -65,10 +65,11 @@ defmodule Stops.Repo do
   @doc """
   Returns a list of the features associated with the given stop
   """
-  @spec stop_features(Stop.t, [stop_feature], boolean) :: [stop_feature]
-  def stop_features(stop, excluded \\ [], use_branch \\ false) do
+  @spec stop_features(Stop.t, Keyword.t) :: [stop_feature]
+  def stop_features(stop, opts \\ []) do
+    excluded = Keyword.get(opts, :exclude, [])
     [
-      route_features(stop.id, use_branch),
+      route_features(stop.id, opts),
       parking_features(stop.parking_lots),
       accessibility_features(stop.accessibility)
     ]
@@ -80,9 +81,13 @@ defmodule Stops.Repo do
   defp parking_features([]), do: []
   defp parking_features(_parking_lots), do: [:parking_lot]
 
-  @spec route_features(String.t, boolean) :: [stop_feature]
-  defp route_features(stop_id, use_branch) do
-    icon_fn = if use_branch, do: &branch_feature/1, else: &Route.icon_atom/1
+  @spec route_features(String.t, Keyword.t) :: [stop_feature]
+  defp route_features(stop_id, opts) do
+    icon_fn = if Keyword.get(opts, :expand_branches?) do
+      &branch_feature/1
+    else
+      &Route.icon_atom/1
+    end
     stop_id
     |> Routes.Repo.by_stop
     |> Enum.map(icon_fn)

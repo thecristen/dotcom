@@ -83,12 +83,16 @@ defmodule Stops.RepoTest do
     end
 
     test "excluded features are not returned" do
-      assert stop_features(@stop, [:red_line]) == [:commuter_rail, :bus]
-      assert stop_features(@stop, [:red_line, :commuter_rail]) == [:bus]
+      assert stop_features(@stop, exclude: [:red_line]) == [:commuter_rail, :bus]
+      assert stop_features(@stop, exclude: [:red_line, :commuter_rail]) == [:bus]
     end
 
     test "includes specific green_line branches if specified" do
-      features = stop_features(%Stop{id: "place-pktrm"}, [], true)
+      # when green line isn't expanded, keep it in GTFS order
+      features = stop_features(%Stop{id: "place-pktrm"})
+      assert features == [:red_line, :green_line]
+      # when green line is expanded, put the branches first
+      features = stop_features(%Stop{id: "place-pktrm"}, expand_branches?: true)
       assert features == [:"Green-B", :"Green-C", :"Green-D", :"Green-E", :red_line]
     end
   end
