@@ -17,4 +17,15 @@ defmodule TripPlan.Itinerary do
     stop: DateTime.t,
     legs: [TripPlan.Leg.t]
   }
+
+  @doc "Return a list of all the route IDs used for this Itinerary"
+  @spec route_ids(t) :: [Routes.Route.id_t]
+  def route_ids(%__MODULE__{legs: legs}) do
+    Enum.flat_map(legs, fn leg ->
+      case TripPlan.Leg.route_id(leg) do
+        {:ok, route_id} -> [route_id]
+        :error -> []
+      end
+    end)
+  end
 end

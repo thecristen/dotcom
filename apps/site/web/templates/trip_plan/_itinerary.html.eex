@@ -1,17 +1,19 @@
-<div style="border: 1px solid blue; padding: 1rem; margin-bottom: 1rem;">
-  <div>
-    <strong>Duration:</strong> <%= Timex.diff(@itinerary.stop, @itinerary.start, :minutes) %>mins
+<div class="trip-plan-itinerary-container">
+  <div class="trip-plan-itinerary-header">
+    Itinerary <%= @index %>
+    <%= for leg <- @itinerary.legs do %>
+      <span class="trip-plan-itinerary-leg-feature"><%= leg_feature(leg, @route_map) %></span>
+    <% end %>
+    <div class="trip-plan-itinerary-duration">
+      <%= Timex.diff(@itinerary.stop, @itinerary.start, :minutes) %> mins
+    </div>
   </div>
-  <div>
-    <strong>Start:</strong> <%= Timex.format!(@itinerary.start, "{YYYY}-{0M}-{D} {h12}:{0m}{am}") %>
-  </div>
-  <p>
-    <strong>Stop:</strong> <%= Timex.format!(@itinerary.stop, "{YYYY}-{0M}-{D} {h12}:{0m}{am}") %>
-  </p>
-  <p>
-    <img class="img-fluid" src="<%= itinerary_map_src(@itinerary) %>" alt="Map of trip described below" />
-  </p>
-  <div>
-    <%= for leg <- @itinerary.legs, do: render "_leg.html", leg: leg %>
+  <div class="trip-plan-itinerary-body">
+    <p>
+      <img class="img-fluid" src="<%= itinerary_map_src(@itinerary) %>" alt="Map of trip described below" />
+    </p>
+    <div>
+      <%= for leg <- @itinerary.legs, do: render "_leg.html", leg: leg %>
+    </div>
   </div>
 </div>

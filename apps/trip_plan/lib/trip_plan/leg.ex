@@ -26,4 +26,9 @@ defmodule TripPlan.Leg do
     to: Position.t,
     polyline: String.t
   }
+
+  @doc "Returns the route ID for the leg, if present"
+  @spec route_id(t) :: {:ok, Routes.Route.id_t} | :error
+  def route_id(%__MODULE__{mode: %TransitDetail{route_id: route_id}}), do: {:ok, route_id}
+  def route_id(%__MODULE__{}), do: :error
 end

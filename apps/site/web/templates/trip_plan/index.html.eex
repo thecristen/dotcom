@@ -44,7 +44,7 @@
       <p><%= optional_position(@query.to) %></p>
       <%= case @query.itineraries do %>
         <% {:ok, itineraries} -> %>
-        <%= for i <- itineraries, do: render "_itinerary.html", itinerary: i %>
+        <%= for {i, index} <- Enum.with_index(itineraries, 1), do: render "_itinerary.html", itinerary: i, index: index, route_map: @route_map %>
         <% {:error, e} -> %>
         Error fetching plan: <%= inspect e %>
         <p class="no-trips page-section">No trips available</p>
