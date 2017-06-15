@@ -13,6 +13,7 @@ defmodule Site.ScheduleV2Controller.Defaults do
   plug :assign_headsigns
   plug :assign_direction_id
   plug :assign_show_date_select
+  plug :assign_tab_defaults
   plug :assign_trip_chosen
 
   def assign_headsigns(%Conn{assigns: %{route: %Route{id: route_id}}} = conn, _) do
@@ -42,6 +43,15 @@ defmodule Site.ScheduleV2Controller.Defaults do
     else
       direction_id
     end
+  end
+
+  @spec assign_tab_defaults(Conn.t, []) :: Conn.t
+  defp assign_tab_defaults(conn, _) do
+    tab_defaults = MapSet.new(%{
+      "direction_id" => Integer.to_string(default_direction_id(conn)),
+      "date" => Date.to_string(Timex.today)
+    })
+    assign(conn, :tab_defaults, tab_defaults)
   end
 
   @spec default_direction_id_for_hour(0..23) :: 0..1

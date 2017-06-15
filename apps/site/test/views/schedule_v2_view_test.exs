@@ -1055,4 +1055,24 @@ defmodule Site.ScheduleV2ViewTest do
       assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
     end
   end
+
+  describe "tab_params/2" do
+    test "values are different" do
+      query_params = %{"direction_id" => "1", "date" => "2017-01-01"}
+      default_params = MapSet.new(%{"direction_id" => "0", "date" => "2017-01-02"})
+      assert tab_params(query_params, default_params) == MapSet.new(query_params)
+    end
+
+    test "values are the same" do
+      query_params = %{"direction_id" => "1", "date" => "2017-01-01"}
+      default_params = MapSet.new(%{"direction_id" => "1", "date" => "2017-01-01"})
+      assert tab_params(query_params, default_params) == MapSet.new()
+    end
+
+    test "empty query params" do
+      query_params = %{}
+      default_params = MapSet.new(%{"direction_id" => "1", "date" => "2017-01-01"})
+      assert tab_params(query_params, default_params) == MapSet.new()
+    end
+  end
 end
