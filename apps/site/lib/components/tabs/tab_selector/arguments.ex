@@ -23,7 +23,8 @@ defmodule Site.Components.Tabs.TabSelector do
   def selected?(title, title), do: true
   def selected?(_, _), do: false
 
-  def non_selected_links(links, selected) do
-    Enum.reject(links, fn {title, _} -> title == selected end)
+  @spec slug(String.t) :: String.t
+  def slug(title) do
+    String.replace(String.downcase(title), " ", "-") <> "-tab"
   end
 end

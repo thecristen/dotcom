@@ -267,7 +267,7 @@ defmodule Site.ComponentsTest do
 
     test "renders a list of tabs for with links for modes, including access and the ride" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
-      for link <- ["/bus", "/subway", "/the-ride", "/access"] do
+      for link <- ["/bus#bus-tab", "/subway#subway-tab", "/the-ride#the-ride-tab", "/access#access-tab"] do
         assert rendered =~ ~s(href="#{link}")
       end
     end
@@ -312,7 +312,7 @@ defmodule Site.ComponentsTest do
     test "renders a list of tabs" do
       rendered = tab_args() |> tab_list() |> safe_to_string()
 
-      for link <- ["/schedules", "/info", "/something-else"] do
+      for link <- ["/schedules#schedules-tab", "/info#info-tab", "/something-else#something-else-tab"] do
         assert rendered =~ ~s(href="#{link}")
       end
     end
@@ -320,8 +320,8 @@ defmodule Site.ComponentsTest do
     test "displays a tab as selected" do
       rendered = tab_args() |> tab_list() |> safe_to_string()
 
-      assert rendered =~ ~s(<a class=\"btn tab-select-btn tab-select-option tab-select-btn-selected\" href=\"/info\">)
-      assert rendered =~ "href=\"/info\""
+      assert rendered =~ ~s(<a class=\"btn tab-select-btnbar tab-select-option tab-select-btn-selected\" href=\"/info#info-tab\" id="info-tab">)
+      assert rendered =~ "href=\"/info#info-tab\""
     end
 
     test "optionally takes a CSS class" do
