@@ -11,13 +11,9 @@
       <%= text_input f, :to, placeholder: "Ex: Boston Children's Museum", id: "to", class: "form-control", data_autocomplete: "true" %>
     </div>
     <div class="form-group">
-      <%= label f, :personal_mode, for: "walk" do %>
-        <%= radio_button f, :personal_mode, "walk", id: "walk", checked: true %>
-        Walk
-      <% end %>
-      <%= label f, :personal_mode, for: "drive" do %>
-        <%= radio_button f, :personal_mode, "drive", id: "drive" %>
-        Drive
+      <%= label f, :include_car? do %>
+        <%= checkbox f, :include_car?, id: "drive" %>
+        Include car directions
       <% end %>
     </div>
     <div class="form-group">
@@ -30,8 +26,8 @@
         Arrive By
       <% end %>
     </div>
-    <div class="form-group">
-      <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
+    <div class="form-group date-time-select">
+       <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
     </div>
     <div class="form-group">
       <%= label f, :accessible, for: "accessible" do %>

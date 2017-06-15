@@ -13,3 +13,12 @@
     top: 0;
   }
 }
+
+.date-time-select {
+  select {
+    background-color: $white;
+    border: $border;
+    border-radius: $space-4;
+    display: inline;
+  }
+}
