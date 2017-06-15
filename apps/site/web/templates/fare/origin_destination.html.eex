@@ -4,7 +4,7 @@
 <div class="fare-callout-box">
   <div class="row">
     <div class="col-xs-12 col-md-6 fare-selector-container">
-      <%= render Site.ScheduleV2View, "_stop_selector.html",
+      <%= render Site.PartialView, "_stop_selector.html",
         conn: @conn,
         query_key: "origin",
         selected: (if @origin, do: @origin.id, else: nil),
@@ -20,7 +20,7 @@
     </div>
     <%= unless @origin == nil do %>
       <div class="col-xs-12 col-md-6 fare-selector-container">
-        <%= render Site.ScheduleV2View, "_stop_selector.html",
+        <%= render Site.PartialView, "_stop_selector.html",
           conn: @conn,
           query_key: "destination",
           selected: (if @destination, do: @destination.id, else: nil),

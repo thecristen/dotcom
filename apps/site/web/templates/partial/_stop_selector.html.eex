@@ -2,7 +2,7 @@
   <% extra_excludes = assigns[:exclude] || [] %>
   <%= hidden_query_params @conn, exclude: [@query_key | extra_excludes] %>
   <div>
-    <label class="trip-view-filter-label select-modal-label " for="<%= @query_key %>"><%= @label_text %><%= render Site.ScheduleV2View, "_loading.html" %></label>
+    <label class="trip-view-filter-label select-modal-label " for="<%= @query_key %>"><%= @label_text %><%= render "_loading.html" %></label>
     <%= clear_selector_link(assigns) %>
     <br>
     <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
