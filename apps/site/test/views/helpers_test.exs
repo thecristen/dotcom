@@ -136,4 +136,13 @@ defmodule Site.ViewHelpersTest do
       assert cms_static_page_path(conn, "/cms/path") == "/cms/path"
     end
   end
+
+  describe "fare_group/1" do
+    test "return correct fare group for all modes" do
+      assert fare_group(:bus) == "bus_subway"
+      assert fare_group(:subway) == "bus_subway"
+      assert fare_group(:commuter_rail) == "commuter_rail"
+      assert fare_group(:ferry) == "ferry"
+    end
+  end
 end

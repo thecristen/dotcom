@@ -18,6 +18,11 @@ defmodule Routes.Route do
   @type route_type :: gtfs_route_type | :the_ride
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_trolley
 
+  @inner_express_routes ~w(170 325 326 351 424 426 428 434 449 450 459 501 502 504 553 554 558)
+  @inner_express_route_set MapSet.new(@inner_express_routes)
+  @outer_express_routes ~w(352 354 505)
+  @outer_express_route_set MapSet.new(@outer_express_routes)
+
   @spec type_atom(t | 0..4) :: gtfs_route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
@@ -70,4 +75,10 @@ defmodule Routes.Route do
       unquote(type) in [0, 1] and unquote(id) != "Mattapan"
     end
   end
+
+  def inner_express, do: @inner_express_routes
+  def outer_express, do: @outer_express_routes
+
+  def inner_express?(%__MODULE__{id: id}), do: id in @inner_express_route_set
+  def outer_express?(%__MODULE__{id: id}), do: id in @outer_express_route_set
 end

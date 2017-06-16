@@ -335,7 +335,8 @@ a {
 .route-status,
 .trip-info-labels,
 .trip-stops,
-.trip-duration {
+.trip-duration,
+.trip-fare {
   padding-left: $base-spacing;
   padding-right: $base-spacing;
 }
@@ -344,6 +345,10 @@ a {
 .trip-duration {
   padding-bottom: $base-spacing;
   padding-top: $base-spacing;
+}
+
+.trip-fare {
+  padding-bottom: $base-spacing;
 }
 
 .route-status {

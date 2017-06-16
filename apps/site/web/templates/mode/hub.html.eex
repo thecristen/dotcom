@@ -30,7 +30,7 @@
         <h2>Common Fares</h2>
         <%= Site.FareView.summarize(@fares, class: "") %>
         <%= fares_note(@mode_name) %>
-        <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom() |> Site.StopView.fare_group()) do %>
+        <%= link to: fare_path(@conn, :show, @mode_name |> mode_atom |> fare_group) do %>
           View <%= @mode_name %> fares <%= fa "arrow-right" %>
         <% end %>
       </div>

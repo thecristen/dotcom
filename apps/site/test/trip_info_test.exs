@@ -45,7 +45,15 @@ defmodule TripInfoTest do
     destination_id: "place-pktrm",
     duration: 60 * 24 * 2, # 2 day duration trip
     sections: [@time_list],
-    stop_count: Enum.count(@time_list)
+    stop_count: Enum.count(@time_list),
+    base_fare: %Fares.Fare{additional_valid_modes: [],
+                           cents: 170,
+                           duration: :single_trip,
+                           media: [:charlie_card],
+                           mode: :bus,
+                           name: :local_bus,
+                           reduced: nil}
+
   }
 
   describe "from_list/1" do

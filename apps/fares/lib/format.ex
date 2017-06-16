@@ -2,7 +2,8 @@ defmodule Fares.Format do
   alias Fares.{Fare, Summary}
 
   @doc "Formats the price of a fare as a traditional $dollar.cents value"
-  @spec price(Fare.t | non_neg_integer) :: String.t
+  @spec price(Fare.t | non_neg_integer | nil) :: String.t
+  def price(nil), do: ""
   def price(%Fare{cents: cents}) do
     price(cents)
   end

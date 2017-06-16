@@ -8,15 +8,6 @@ defmodule Site.StopViewTest do
   alias Predictions.Prediction
   use Site.ConnCase, async: true
 
-  describe "fare_group/1" do
-    test "return correct fare group for all modes" do
-      assert fare_group(:bus) == "bus_subway"
-      assert fare_group(:subway) == "bus_subway"
-      assert fare_group(:commuter_rail) == "commuter_rail"
-      assert fare_group(:ferry) == "ferry"
-    end
-  end
-
   describe "template_for_tab/1" do
     test "correct template for selected tab" do
       assert template_for_tab(nil) == "_info.html"

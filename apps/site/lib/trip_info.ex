@@ -1,6 +1,8 @@
 defmodule TripInfo do
   require Routes.Route
   alias Routes.Route
+  alias Site.BaseFare
+
   @moduledoc """
   Wraps the important information about a trip.
 
@@ -14,7 +16,10 @@ defmodule TripInfo do
   * sections: a list of lists of PredictedSchedule's, for stops between either
     1) the origin and destination or 2) the vehicle and destination
     These are broken into groups to hide some stops.
+  * stop_count: number of stops between either 1) the origin and the destination
+    or 2) the vehicle and destination
   * duration: the number of minutes the trip takes between origin_id and destination_id
+  * base_fare: The minimum, non-discounted, one-way fare for the trip
   """
   @type time :: PredictedSchedule.t
   @type time_list :: [time]
@@ -27,7 +32,8 @@ defmodule TripInfo do
     status: String.t,
     sections: [time_list],
     stop_count: pos_integer,
-    duration: pos_integer
+    duration: pos_integer,
+    base_fare: Fares.Fare.t
   }
 
   defstruct [
@@ -40,6 +46,7 @@ defmodule TripInfo do
     sections: [],
     stop_count: 0,
     duration: -1,
+    base_fare: nil
   ]
 
   defmodule Flags do
@@ -125,6 +132,7 @@ defmodule TripInfo do
     else
       [times]
     end
+    base_fare = BaseFare.base_fare(route, origin_id, destination_id)
 
     %TripInfo{
       route: route,
@@ -134,7 +142,8 @@ defmodule TripInfo do
       sections: sections,
       duration: duration,
       stop_count: stop_count,
-      vehicle_stop_name: vehicle_stop_name
+      vehicle_stop_name: vehicle_stop_name,
+      base_fare: base_fare
     }
   end
   defp do_from_list(_times, _starting_stop_ids, _destination_id, _vehicle_stop_name, _opts) do

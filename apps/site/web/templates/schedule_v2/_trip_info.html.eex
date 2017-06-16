@@ -55,6 +55,11 @@
   </div>
   <div class="trip-duration">
     <strong>Trip duration:</strong>
-    <%= "#{@trip_info.stop_count} stops; #{@trip_info.duration} minutes" %>
+    <%= [Integer.to_string(@trip_info.stop_count), " stops; ", Integer.to_string(@trip_info.duration), " minutes"] %>
+  </div>
+  <div class="trip-fare">
+    <strong>One way fare:</strong>
+    <%= Fares.Format.price(@trip_info.base_fare) %>
+    (<%= link("View fares", to: fare_path(@conn, :show, @trip_info.route |> Route.type_atom |> fare_group)) %>)
   </div>
 </div>

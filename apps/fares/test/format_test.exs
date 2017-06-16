@@ -8,6 +8,10 @@ defmodule Fares.FormatTest do
     assert price(%Fare{cents: 100}) == "$1.00"
   end
 
+  test "fare price returns empty string when fare is nil" do
+    assert price(nil) == ""
+  end
+
   describe "customers/1" do
     test "gets 'Student' when the fare applies to students" do
       assert customers(%Fare{reduced: :student}) == "Student"

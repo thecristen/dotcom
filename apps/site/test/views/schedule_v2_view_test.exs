@@ -295,7 +295,7 @@ defmodule Site.ScheduleV2ViewTest do
   end
 
   describe "_trip_info.html" do
-    test "make sure page reflects information from full_status function" do
+    test "make sure page reflects information from full_status function", %{conn: conn} do
       trip_info = %TripInfo{
         route: %Routes.Route{type: 2},
         vehicle: %Vehicles.Vehicle{status: :incoming},
@@ -303,7 +303,8 @@ defmodule Site.ScheduleV2ViewTest do
       }
       actual = Site.ScheduleV2View.render(
         "_trip_info.html",
-        trip_info: trip_info
+        trip_info: trip_info,
+        conn: conn
       )
       expected = TripInfo.full_status(trip_info) |> IO.iodata_to_binary
       assert safe_to_string(actual) =~ expected

@@ -38,4 +38,25 @@ defmodule Routes.RouteTest do
       assert types_for_mode(:ferry) == [4]
     end
   end
+
+  describe "express routes" do
+    defp sample(routes) do
+      routes
+      |> Enum.shuffle
+      |> Enum.at(0)
+      |> (fn id -> %Route{id: id} end).()
+    end
+
+    test "inner_express?/1 returns true if a route id is in @inner_express_routes" do
+      assert inner_express?(sample(inner_express()))
+      refute inner_express?(sample(outer_express()))
+      refute inner_express?(%Route{id: "1"})
+    end
+
+    test "outer_express?/1 returns true if a route id is in @outer_express_routes" do
+      assert outer_express?(sample(outer_express()))
+      refute outer_express?(sample(inner_express()))
+      refute outer_express?(%Route{id: "1"})
+    end
+  end
 end

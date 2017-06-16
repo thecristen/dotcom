@@ -7,12 +7,6 @@ defmodule Site.StopView do
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
 
-  @doc "Specify the mode each type is associated with"
-  @spec fare_group(atom) :: String.t
-  def fare_group(:bus), do: "bus_subway"
-  def fare_group(:subway), do: "bus_subway"
-  def fare_group(type), do: Atom.to_string(type)
-
   @spec location(Stops.Stop.t) :: String.t
   def location(%Stops.Stop{latitude: nil, address: address}), do: URI.encode(address, &URI.char_unreserved?/1)
   def location(%Stops.Stop{latitude: lat, longitude: lng}), do: "#{lat},#{lng}"

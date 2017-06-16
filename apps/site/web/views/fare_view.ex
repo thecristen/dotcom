@@ -69,11 +69,10 @@ defmodule Site.FareView do
 
   @spec callout(Fare.t) :: String.t | iolist
   def callout(%Fare{name: :inner_express_bus}) do
-    Util.AndJoin.and_join ~w(170 325 326 351 424 426 428 434 449 450 459 501 502 504
-     553 554 558.)
+    [Util.AndJoin.and_join(Routes.Route.inner_express()), "."]
   end
   def callout(%Fare{name: :outer_express_bus}) do
-    Util.AndJoin.and_join ~w(352 354 505.)
+    [Util.AndJoin.and_join(Routes.Route.outer_express()), "."]
   end
   def callout(%Fare{}), do: ""
 

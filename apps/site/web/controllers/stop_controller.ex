@@ -87,7 +87,7 @@ defmodule Site.StopController do
 
   defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
     conn
-    |> async_assign(:fare_name, fn -> Fares.calculate("1A", Zones.Repo.get(stop.id)) end)
+    |> async_assign(:fare_name, fn -> Fares.calculate_commuter_rail("1A", Zones.Repo.get(stop.id)) end)
     |> async_assign(:terminal_station, fn -> terminal_station(stop) end)
     |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
     |> assign(:access_alerts, access_alerts(alerts, stop))

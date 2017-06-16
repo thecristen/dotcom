@@ -182,6 +182,12 @@ defmodule Site.ViewHelpers do
     |> Enum.flat_map(&hidden_tag/1)
   end
 
+  @doc "Specify the mode each type is associated with"
+  @spec fare_group(atom) :: String.t
+  def fare_group(:bus), do: "bus_subway"
+  def fare_group(:subway), do: "bus_subway"
+  def fare_group(type), do: Atom.to_string(type)
+
   defp hidden_tag({key, value}) when is_list(value) do
     Enum.flat_map(value, fn sub_value ->
       hidden_tag({"#{key}[]", sub_value})
