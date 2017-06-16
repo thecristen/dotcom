@@ -35,7 +35,7 @@ defmodule Site.StopControllerTest do
     conn = get conn, stop_path(conn, :show, "place-portr")
     assert html_response(conn, 200) =~ "Porter"
     assert conn.assigns.breadcrumbs == [
-      {stop_path(conn, :index), "Stations"},
+      {stop_path(conn, :show, :subway), "Stations"},
       "Porter"
     ]
   end
