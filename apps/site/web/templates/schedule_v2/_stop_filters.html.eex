@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-6">
       <% origin = if @origin, do: @origin.id, else: nil %>
-      <%= Site.ScheduleV2View.render "_stop_selector.html",
+      <%= Site.PartialView.render "_stop_selector.html",
         conn: @conn,
         query_key: "origin",
         selected: origin,
@@ -24,7 +24,7 @@
     <%= if @origin && !assigns[:hide_destination_selector?] do %>
       <div class="col-sm-6<%= selector_class %>">
         <% destination = if @destination, do: @destination.id, else: nil %>
-        <%= Site.ScheduleV2View.render "_stop_selector.html",
+        <%= Site.PartialView.render "_stop_selector.html",
             conn: @conn,
             query_key: "destination",
             selected: destination,

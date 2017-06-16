@@ -1,24 +1,27 @@
-<form method="GET" action="" data-submit-on-change>
+<form method="GET" action="#<%= @query_key %>" data-submit-on-change>
   <% extra_excludes = assigns[:exclude] || [] %>
   <%= hidden_query_params @conn, exclude: [@query_key | extra_excludes] %>
   <div>
-    <label class="select-modal-label" for="<%= @query_key %>"><%= @label_text %><%= render Site.ScheduleV2View, "_loading.html" %></label><br>
+    <label class="trip-view-filter-label select-modal-label " for="<%= @query_key %>"><%= @label_text %><%= render "_loading.html" %></label>
+    <%= clear_selector_link(assigns) %>
+    <br>
     <% selected = Enum.find(@all_stops, &(&1.id == @selected)) %>
     <select id="<%= @query_key %>" name="<%= @query_key %>" class="form-control c-select" data-select-modal data-no-conversion>
-      <%= if !selected do %><option disabled selected value="">Select a stop</option><% end %>
+      <%= if !selected do %><option disabled selected value="">Select <%= @placeholder_text %></option><% end %>
       <%= for stop <- @key_stops do %>
         <option value="<%= stop.id %>" data-key-option="true"
-                <%= if @route_type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>"
+                data-suffix="<%= stop_selector_suffix(@conn, stop.id) %>"
                 <%= if @disabled == stop.id do %> disabled <% end %> >
           <%= stop.name %>
         </option>
       <% end %>
       <%= for stop <- @all_stops do %>
         <% stop_id = stop.id %>
+        <% disabled = Enum.find(@disabled_values, &match?({^stop_id, _}, &1)) %>
         <% selected = stop_id == @selected %>
         <option value="<%= stop_id %>"<%= if selected do %> selected<% end %>
-                <%= if @disabled == stop.id do %> disabled <% end %>
-                <%= if @route_type == 2 do %> data-suffix="Zone <%= Zones.Repo.get stop.id %> <% end %>" >
+                <%= if disabled do %> disabled<% end %>
+                data-suffix="<%= stop_selector_suffix(@conn, stop_id) %>">
           <%= stop.name %>
         </option>
       <% end %>

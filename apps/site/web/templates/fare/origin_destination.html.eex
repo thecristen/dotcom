@@ -4,7 +4,7 @@
 <div class="fare-callout-box">
   <div class="row">
     <div class="col-xs-12 col-md-6 fare-selector-container">
-      <%= render "_stop_selector.html",
+      <%= render Site.PartialView, "_stop_selector.html",
         conn: @conn,
         query_key: "origin",
         selected: (if @origin, do: @origin.id, else: nil),
@@ -12,13 +12,15 @@
         all_stops: @origin_stops,
         key_stops: @key_stops,
         label_text: "Enter your origin",
+        placeholder_text: "a stop",
         exclude: ["destination"],
+        disabled_values: [],
         route_type: @route_type
       %>
     </div>
     <%= unless @origin == nil do %>
       <div class="col-xs-12 col-md-6 fare-selector-container">
-        <%= render "_stop_selector.html",
+        <%= render Site.PartialView, "_stop_selector.html",
           conn: @conn,
           query_key: "destination",
           selected: (if @destination, do: @destination.id, else: nil),
@@ -26,6 +28,8 @@
           all_stops: @destination_stops,
           key_stops: destination_key_stops(@destination_stops, @key_stops),
           label_text: "Enter your destination",
+          placeholder_text: "a stop",
+          disabled_values: [],
           route_type: @route_type
         %>
       </div>
