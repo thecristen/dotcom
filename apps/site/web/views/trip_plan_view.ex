@@ -30,10 +30,10 @@ defmodule Site.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: icon, class: "icon-small"})
   end
   def leg_feature(%Leg{mode: %PersonalDetail{type: :walk}}, _) do
-    << 0xf0, 0x9f, 0x9a, 0xb6 >> # PEDESTRIAN
+    svg("walk.svg")
   end
   def leg_feature(%Leg{mode: %PersonalDetail{type: :drive}}, _) do
-    fa("car")
+    svg("car.svg")
   end
 
   def itinerary_map_src(itinerary) do
