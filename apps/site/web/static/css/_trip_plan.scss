@@ -38,8 +38,14 @@
   font-weight: bold;
 }
 
-.trip-plan-itinerary-leg-feature:first-child-of-type {
-  padding-left: $base-spacing-sm;
+.trip-plan-itinerary-leg-feature {
+  svg {
+    margin-top: $space-4;
+  }
+
+  &:first-child {
+    padding-left: $base-spacing-sm;
+  }
 }
 
 .trip-plan-itinerary-duration {
