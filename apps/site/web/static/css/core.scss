@@ -137,7 +137,7 @@ body {
 
 .alert-announcement-container {
   @extend %top-bar;
-  background-color: $brand-secondary;
+  background-color: $alert-color-lighter;
   color: $gray-dark;
   font-size: $font-size-base;
   padding-bottom: $space-16;
@@ -159,6 +159,19 @@ body {
 
   .alert-item-icon {
     margin-top: 0;
+  }
+}
+
+.alert-announcement-message {
+  float: left;
+  width: 90%;
+
+  @include media-breakpoint-only(md) {
+    width: 80%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    width: 70%;
   }
 }
 

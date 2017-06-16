@@ -129,10 +129,11 @@
 }
 
 .alert-link-title {
-  max-width: 84%;
+  float: left;
+  max-width: 80%;
 
   @include media-breakpoint-up(sm) {
-    max-width: 91%;
+    max-width: 86%;
   }
 }
 
@@ -165,12 +166,13 @@
 
 .alert-list-header-title {
   display: inline-block;
+  float: left;
   font-weight: bold;
   margin-right: $space-12;
-  max-width: 65%;
+  max-width: 54%;
 
   @include media-breakpoint-up(sm) {
-    max-width: 91%;
+    max-width: 82%;
   }
 }
 
@@ -200,6 +202,18 @@
 
 .alert-list-toggle {
   color: $brand-primary;
+  float: right;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.alerts-plus {
+  color: $brand-primary;
+  font-weight: bold;
+
+  @include hover-focus-active {
+    text-decoration: underline;
+  }
 }
 
 .alert-item-icon {
@@ -218,6 +232,10 @@
   > .fa {
     display: block;
     margin: .0625rem .125rem;
+
+    @include media-breakpoint-up(xxl) {
+      margin: .1rem .2rem;
+    }
   }
 }
 
@@ -285,10 +303,6 @@
 
 .alert-container.collapsing {
   display: block;
-
-  .alert-list-toggle {
-    float: right;
-  }
 }
 
 .alert-container,
@@ -306,10 +320,6 @@
 
   + .alert-link {
     display: none;
-  }
-
-  .alert-list-toggle {
-    float: right;
   }
 }
 
