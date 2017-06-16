@@ -162,6 +162,19 @@ body {
   }
 }
 
+.alert-announcement-message {
+  float: left;
+  width: 90%;
+
+  @include media-breakpoint-only(md) {
+    width: 80%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    width: 70%;
+  }
+}
+
 html {
   min-height: 100%;
   position: relative;
