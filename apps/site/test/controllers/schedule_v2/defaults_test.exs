@@ -69,4 +69,28 @@ defmodule Site.ScheduleV2Controller.DefaultsTest do
       assert conn.assigns.direction_id == 0
     end
   end
+
+  describe "assign tab_params" do
+    test "values are different", %{conn: conn} do
+      query_params = %{"direction_id" => "1", "date" => "2017-01-01"}
+      conn = %{conn | query_params: query_params}
+      |> assign(:date_time, ~N[2017-01-02T14:00:00]) # defaults will be: direction 0, date 2017-01-02
+      |> Defaults.call([])
+      assert conn.assigns.tab_params == MapSet.new(query_params)
+    end
+
+    test "values are the same", %{conn: conn} do
+      conn = %{conn | query_params: %{"direction_id" => "0", "date" => "2017-01-01"}}
+      |> assign(:date_time, ~N[2017-01-01T14:00:00]) # defaults will be: direction 0, date 2017-01-01
+      |> Defaults.call([])
+      assert conn.assigns.tab_params == MapSet.new()
+    end
+
+    test "empty query params", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      |> assign(:date_time, ~N[2017-01-01T13:00:00]) # defaults will be: direction 1, date 2017-01-01
+      |> Defaults.call([])
+      assert conn.assigns.tab_params == MapSet.new()
+    end
+  end
 end
