@@ -250,10 +250,6 @@ a {
   @include first-column;
 }
 
-.trip-schedules-pdf {
-  border-top: $border;
-}
-
 .trip-schedules-pdf-multiple {
   > a {
     clear: left;
