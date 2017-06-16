@@ -4,6 +4,7 @@ defmodule Site.ScheduleV2Controller.Line do
   import Site.Router.Helpers
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
+  alias Site.ScheduleV2Controller.Line.Maps
 
   @type stop_bubble_type :: :stop | :terminus | :line | :empty | :merge
   @type query_param :: String.t | nil
@@ -31,8 +32,8 @@ defmodule Site.ScheduleV2Controller.Line do
     collapsed_branches = remove_collapsed_stops(branches, expanded, direction_id)
     map_stops = get_map_data(branches, {route_shapes, active_shapes}, route.id, expanded)
     map_polylines = map_polylines(map_stops, route)
-    map_img_src = map_img_src(map_stops, map_polylines, route)
-    map_color = map_color(route.type, route.id)
+    map_img_src = Maps.map_img_src(map_stops, map_polylines, route)
+    map_color = Maps.map_color(route.type, route.id)
     dynamic_map_data = dynamic_map_data(map_color, map_polylines, vehicle_polylines, map_stops, vehicle_tooltips)
 
     conn
@@ -204,71 +205,11 @@ defmodule Site.ScheduleV2Controller.Line do
     |> Enum.map(& &1.station_info)
   end
 
-  @doc """
-
-  Returns an image to display on the right/bottom part of the page.  For CR,
-  and bus, we display a Google Map with the stops.  For others, we display a spider
-  map.
-
-  """
-  @spec map_img_src({[Stops.Stop.t], any}, [String.t], Routes.Route.t) :: String.t
-  def map_img_src(_, _, %Routes.Route{type: 4}) do
-    static_url(Site.Endpoint, "/images/ferry-spider.jpg")
-  end
-  def map_img_src({stops, _shapes}, polylines, route) do
-    polylines
-    |> Enum.map(&{:path, "color:0x#{map_color(route.type, route.id)}FF|enc:#{&1}"})
-    |> do_map_img_src(stops, route)
-  end
-
   @spec map_polylines({any, [Routes.Shape.t]}, Routes.Route.t) :: [String.t]
   defp map_polylines(_, %Routes.Route{type: 4}), do: ""
   defp map_polylines({_stops, shapes}, _) do
     shapes
     |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
-  end
-
-  @spec do_map_img_src(Keyword.t, [Stops.Stop.t], Routes.Route.t) :: String.t
-  defp do_map_img_src(paths, stops, route) do
-    opts = paths ++ [
-      markers: markers(stops, route.type, route.id)
-    ]
-    GoogleMaps.static_map_url(600, 600, opts)
-  end
-
-  @spec map_color(0..4, String.t) :: String.t
-  defp map_color(3, _id), do: "FFCE0C"
-  defp map_color(2, _id), do: "A00A78"
-  defp map_color(_type, "Blue"), do: "0064C8"
-  defp map_color(_type, "Red"), do: "FF1428"
-  defp map_color(_type, "Mattapan"), do: "FF1428"
-  defp map_color(_type, "Orange"), do: "FF8200"
-  defp map_color(_type, "Green"), do: "428608"
-  defp map_color(_type, _id), do: "0064C8"
-
-  @spec markers([Stops.Stop.t], 0..4, String.t) :: String.t
-  defp markers(stops, type, id) do
-    ["anchor:center",
-     "icon:#{map_stop_icon_path(type, id)}",
-     marker_path(stops)]
-    |> Enum.join("|")
-  end
-
-  @spec marker_path([Stops.Stop.t]) :: String.t
-  defp marker_path(stops) do
-    stops
-    |> Enum.map(&position_string/1)
-    |> Enum.join("|")
-  end
-
-  @spec position_string(%{latitude: float(), longitude: float()}) :: String.t
-  defp position_string(%{latitude: latitude, longitude: longitude}) do
-    "#{Float.floor(latitude, 4)},#{Float.floor(longitude, 4)}"
-  end
-
-  @spec map_stop_icon_path(0..4, String.t) :: String.t
-  defp map_stop_icon_path(type, id) do
-    static_url(Site.Endpoint, "/images/map-#{map_color(type, id)}-dot-icon.png")
   end
 
   @doc """

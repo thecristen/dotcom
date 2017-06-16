@@ -4,6 +4,8 @@ defmodule Site.StopView do
   alias Stops.Stop
   alias Routes.Route
   alias Fares.RetailLocations.Location
+  alias GoogleMaps.MapData
+  alias GoogleMaps.MapData.Marker
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
 
@@ -160,26 +162,28 @@ defmodule Site.StopView do
   @doc "URL for the embedded Google map image for the stop."
   @spec map_url(Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
   def map_url(stop, width, height, scale) do
-    opts = [
-      channel: "beta_mbta_station_info",
-      zoom: 16,
-      scale: scale
-    ] |> Keyword.merge(center_query(stop))
-
-    GoogleMaps.static_map_url(width, height, opts)
+    stop
+    |> build_google_map_data(scale, width, height)
+    |> GoogleMaps.static_map_url()
   end
 
-  @doc """
-  Returns a map of query params to determine the center of the Google map image. If the stop is a station,
-  it will have and icon in google maps and does not require a marker. Otherwise, the stop requires a marker.
-  """
-  @spec center_query(Stop.t) :: [markers: String.t] | [center: String.t]
-  def center_query(stop) do
-    if stop.station? do
-      [center: location(stop)]
-    else
-      [markers: location(stop)]
-    end
+  defp build_google_map_data(stop, scale, width, height) do
+    %MapData {
+      width: width,
+      height: height,
+      scale: scale,
+      zoom: 16,
+      markers: [build_map_marker(stop)]
+    }
+  end
+
+  defp build_map_marker(stop) do
+    %Marker {
+      latitude: stop.latitude,
+      longitude: stop.longitude,
+      icon: nil,
+      visible?: !stop.station?
+    }
   end
 
   @spec clean_city(String.t) :: String.t
