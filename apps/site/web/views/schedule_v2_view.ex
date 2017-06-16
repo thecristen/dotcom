@@ -436,15 +436,4 @@ defmodule Site.ScheduleV2View do
       update_url(conn, trip: trip_id) <> "#" <> trip_id
     end
   end
-
-  @doc """
-  Returns the relevant tab parameters if they were passed from user and differ from the defaults
-  """
-  @spec tab_params(map, MapSet.t) :: MapSet.t
-  def tab_params(query_params, default_params) do
-    query_params
-    |> Map.take(["direction_id", "date"])
-    |> MapSet.new()
-    |> MapSet.difference(default_params)
-  end
 end
