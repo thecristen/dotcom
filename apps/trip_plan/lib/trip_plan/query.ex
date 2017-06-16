@@ -1,5 +1,5 @@
 defmodule TripPlan.Query do
-  alias TripPlan.Itinerary
+  alias TripPlan.{Itinerary, Geocode}
 
   @enforce_keys [:from, :to, :itineraries]
   defstruct [:from, :to, :itineraries]

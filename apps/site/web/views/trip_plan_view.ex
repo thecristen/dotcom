@@ -1,6 +1,7 @@
 defmodule Site.TripPlanView do
   use Site.Web, :view
   alias Stops.Position
+  alias TripPlan.{Leg, TransitDetail, PersonalDetail}
 
   def optional_position({:ok, _}), do: ""
   def optional_position({:error, {:too_many_results, results}}) do
@@ -18,6 +19,21 @@ defmodule Site.TripPlanView do
   end
   def optional_position({:error, error}) do
     "Error: #{inspect error}"
+  end
+
+  @doc "A small display representing the travel on a given Leg"
+  @spec leg_feature(TripPlan.Leg.t, %{Routes.Route.id_t => Routes.Route.t}) :: Phoenix.HTML.Safe.t
+  def leg_feature(%Leg{mode: %TransitDetail{} = mode}, route_map) do
+    icon = route_map
+    |> Map.get(mode.route_id)
+    |> Routes.Route.icon_atom
+    svg_icon_with_circle(%SvgIconWithCircle{icon: icon, class: "icon-small"})
+  end
+  def leg_feature(%Leg{mode: %PersonalDetail{type: :walk}}, _) do
+    << 0xf0, 0x9f, 0x9a, 0xb6 >> # PEDESTRIAN
+  end
+  def leg_feature(%Leg{mode: %PersonalDetail{type: :drive}}, _) do
+    fa("car")
   end
 
   def itinerary_map_src(itinerary) do

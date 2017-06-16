@@ -22,3 +22,27 @@
     display: inline;
   }
 }
+
+.trip-plan-itinerary-container {
+  border: $border;
+  border-radius: $border-radius;
+
+  > * {
+    padding: $base-spacing;
+  }
+}
+
+.trip-plan-itinerary-header {
+  background: $gray-bordered-background;
+  border-bottom: $border;
+  font-weight: bold;
+}
+
+.trip-plan-itinerary-leg-feature:first-child-of-type {
+  padding-left: $base-spacing-sm;
+}
+
+.trip-plan-itinerary-duration {
+  float: right;
+  font-weight: normal;
+}
