@@ -102,6 +102,15 @@ defmodule Site.ScheduleV2View do
   def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 
   @doc """
+  Check if any of a trip's alerts indicate cancellation
+  """
+  @spec check_alert_cancelation([Alerts.Alert.t]) :: boolean
+  def check_alert_cancelation([]), do: false
+  def check_alert_cancelation(alerts) do
+    Enum.any?(alerts, fn(%{effect: :cancellation}) -> true end)
+  end
+
+  @doc """
   Returns vehicle frequency for the frequency table, either "Every X minutes" or "No service between these hours".
   """
   @spec frequency_times(boolean, Schedules.Frequency.t) :: Phoenix.HTML.Safe.t

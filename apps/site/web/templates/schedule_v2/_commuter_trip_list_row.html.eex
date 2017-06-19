@@ -5,10 +5,11 @@ class_name = ["trip-list-v2-row ", assigns[:class] || ""]
 else
   {:div, [class: class_name]}
 end
+canceled_class = if check_alert_cancelation(@alerts), do: " trip-canceled", else: ""
 %>
 <%= content_tag tag, attributes do %>
   <div class="row">
-    <div class="col-xs-4 no-wrap trip-list-v2-departure" role="cell"><%= PredictedSchedule.Display.time(@departure) %></div>
+    <div class="col-xs-4 no-wrap trip-list-v2-departure<%= canceled_class %>" role="cell"><%= PredictedSchedule.Display.time(@departure) %></div>
     <%= if @arrival do %>
       <div class="col-xs-4 no-wrap" role="cell"><%= PredictedSchedule.Display.time(@arrival) %></div>
       <div class="col-xs-4 no-wrap trip-list-v2-cr-name" role="cell">
