@@ -1,15 +1,14 @@
 export default function($) {
   $ = $ || window.jQuery;
 
-  // multiplier argument effects wether the scroll is negative or positive (left or right)
-  const scroll = (ev, multiplier) => {
-    // dynamically determine width of column based on width of an existing column
-    const offset = $(".schedule-v2-timetable-header-col.schedule-v2-timetable-time-col").eq(0).outerWidth() * multiplier;
+  const scroll = (ev, direction) => {
+    // determine the scrolling increment based on the width of an existing column
+    const offset = $(".schedule-v2-timetable-header-col.schedule-v2-timetable-time-col").eq(0).outerWidth() * direction;
 
-    // find the container element to be scrolled
+    // find the container element that will be scrolled
     const $el = $(ev.target).closest("[data-sticky-container]");
 
-    // animate the scroll element
+    // animate the scroll event
     $el.animate({scrollLeft: $el.scrollLeft() + offset});
   };
 
