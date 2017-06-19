@@ -1,6 +1,6 @@
 <div class="row important-whats-happening page-section">
   <div class="important-whats-happening-image hidden-sm-down col-md-8">
-    <img src="<%= @important_notice.thumb.url%>" alt=<%= @important_notice.thumb.alt %> class="img-fluid" />
+    <%= tag :img, src: @important_notice.thumb.url, alt: @important_notice.thumb.alt, class: "img-fluid" %>
   </div>
   <div class="important-whats-happening-text col-md-4 col-xs-12">
     <%= @important_notice.blurb %>
