@@ -425,6 +425,30 @@ defmodule Site.ScheduleV2ViewTest do
 
       refute safe_to_string(output) =~ "shape-filter"
     end
+
+    test "does not crash if hours of operation isn't set", %{conn: conn} do
+      output = Site.ScheduleV2View.render(
+              "_line.html",
+              conn: Plug.Conn.fetch_query_params(conn),
+              stop_list_template: "_stop_list.html",
+              all_stops: [],
+              route_shapes: [],
+              expanded: nil,
+              active_shape: nil,
+              map_img_src: nil,
+              holidays: [],
+              branches: [],
+              route: %Routes.Route{type: 3},
+              date: ~D[2017-01-01],
+              destination: nil,
+              origin: nil,
+              direction_id: 1,
+              show_date_select?: false,
+              headsigns: %{0 => [], 1 => []},
+              vehicle_tooltips: %{},
+              dynamic_map_data: %{})
+      refute safe_to_string(output) =~ "Hours of Operation"
+    end
   end
 
   describe "frequency_times/2" do
