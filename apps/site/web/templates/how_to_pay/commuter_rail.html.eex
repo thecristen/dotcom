@@ -26,28 +26,38 @@
     </p>
     <div class="col-md-6 col-xs-12">
       <h3>mTicket App</h3>
-      <p>
-        You can purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.
-        Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, unlike passes loaded onto a CharlieTicket, mTicket passes are not valid for use on the Bus and Subway. Available on the iPhone App Store and Google Play.
-      </p>
-      <p>
-        <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
-          <span class="sr-only">Download on the app store</span>
-          <%= svg "download_on_the_app_store.svg" %>
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
-          <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
-        </a>
-      </p>
+      <div class="commuter-fare-content">
+        <p>
+          You can purchase a One Way, Round Trip, 10-Ride, or Monthly Pass through the mTicket app.
+          Monthly Passes on mTicket are $10.00 cheaper than they are on a CharlieTicket. However, unlike passes loaded onto a CharlieTicket, mTicket passes are not valid for use on the Bus and Subway. Available on the iPhone App Store and Google Play.
+        </p>
+        <p>
+          <a href="https://itunes.apple.com/us/app/mbta-mticket/id560487958?mt=8">
+            <span class="sr-only">Download on the app store</span>
+            <%= svg "download_on_the_app_store.svg" %>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.mbta.mobileapp">
+            <img class="fares-google-play" src="<%= static_url(@conn, "/images/get_it_on_google_play.png") %>" alt="Get it on Google Play" height="41" />
+          </a>
+        </p>
+      </div>
+      <div class="commuter-rail-photo-video-container">
+        <iframe class="commuter-rail-photo-video" src="https://www.youtube.com/embed/C1l5MxnHR3c?rel=0" frameborder="0" allowfullscreen></iframe>
+      </div>
     </div>
     <div class="col-md-6 col-xs-12">
       <h3>Fare Vending Machine</h3>
-      <p>
-        You can load a One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and
-        Subway travel as well) Pass onto a CharlieTicket at a fare vending machine, found in all
-        Subway stations and the following Commuter Rail stations:
-      </p>
-      <p><%= Site.FareView.vending_machine_stations() %></p>
+      <div class="commuter-fare-content">
+        <p>
+          You can load a One Way, Round Trip, or Monthly (up to Zone 8; valid for Bus and
+          Subway travel as well) Pass onto a CharlieTicket at a fare vending machine, found in all
+          Subway stations and the following Commuter Rail stations:
+        </p>
+        <p><%= Site.FareView.vending_machine_stations() %></p>
+      </div>
+      <figure class="commuter-rail-photo-video-container">
+        <%= img_tag static_url(@conn, "/images/retail-sales-locations.jpg"), class: "commuter-rail-photo-video img-fluid", alt: "A fare vending machine in an MBTA station" %>
+      </figure>
     </div>
   </div>
   <div class="row">
