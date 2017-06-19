@@ -6,12 +6,12 @@ defmodule GoogleMaps.MapData.Marker do
   """
 
   @type size :: :tiny | :mid | :small
+  @default_opts [icon: nil, size: :mid, visible?: true]
 
   defstruct [
-    latitude: "",
-    longitude: "",
+    latitude: 0.0,
+    longitude: 0.0,
     icon: nil,
-    tooltip: "",
     visible?: true,
     size: :mid
   ]
@@ -20,10 +20,20 @@ defmodule GoogleMaps.MapData.Marker do
     latitude: float,
     longitude: float,
     icon: String.t | nil,
-    tooltip: String.t,
     visible?: boolean,
     size: size
   }
+
+  def new(latitude, longitude, opts \\ []) do
+    map_options = Keyword.merge(@default_opts, opts)
+    %__MODULE__{
+      latitude: latitude,
+      longitude: longitude,
+      icon: map_options[:icon],
+      visible?: map_options[:visible?],
+      size: map_options[:size]
+    }
+  end
 
   @doc "Formats a single marker for a static map"
   @spec format_static_marker(t) :: String.t

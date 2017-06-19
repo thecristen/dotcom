@@ -4,16 +4,24 @@ defmodule GoogleMaps.MapData.Path do
   """
 
   defstruct [
-    weight: 5,
+    polyline: "",
     color: "",
-    polyline: ""
+    weight: 5
   ]
 
   @type t :: %__MODULE__{
-    weight: integer,
+    polyline: String.t,
     color: String.t,
-    polyline: String.t
+    weight: integer
   }
+
+  def new(polyline, color \\ "", weight \\ 5) do
+    %__MODULE__{
+      polyline: polyline,
+      color: color,
+      weight: weight
+    }
+  end
 
   @doc "formats a single path for a static map url"
   @spec format_static_path(t) :: String.t

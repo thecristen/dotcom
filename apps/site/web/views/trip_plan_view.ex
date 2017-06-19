@@ -39,42 +39,33 @@ defmodule Site.TripPlanView do
   end
 
   defp itinerary_map_src(itinerary) do
-    map_data = %MapData{
-      markers: Enum.flat_map(itinerary.legs, &[build_leg_marker(&1.from), build_leg_marker(&1.to)]),
-      paths: Enum.map(itinerary.legs, & %Path{polyline: &1.polyline, color: "#fff"}),
-      width: 600,
-      height: 600,
-      zoom: 14
-    }
-    GoogleMaps.static_map_url(map_data)
+    markers = markers_for_legs(itinerary.legs)
+    paths = Enum.map(itinerary.legs, &Path.new(&1.polyline))
+
+    600
+    |> MapData.new(600)
+    |> MapData.add_markers(markers)
+    |> MapData.add_paths(paths)
+    |> GoogleMaps.static_map_url()
+  end
+
+  defp markers_for_legs(legs) do
+    Enum.flat_map(legs, &[build_leg_marker(&1.from), build_leg_marker(&1.to)])
   end
 
   defp build_leg_marker(leg_location) do
-    %Marker{
-      size: :small,
-      visible?: true,
-      latitude: Position.latitude(leg_location),
-      longitude: Position.longitude(leg_location),
-      icon: nil
-    }
+    Marker.new(Position.latitude(leg_location), Position.longitude(leg_location), size: :small)
   end
 
   def initial_map_src do
-    #GoogleMaps.static_map_url(630, 400, [center: "Boston, MA", zoom: 14])
-    map_data = %MapData {
-      height: 400,
-      width: 630,
-      zoom: 14,
-      markers: [initial_marker()]
-    }
-    GoogleMaps.static_map_url(map_data)
+    630
+    |> MapData.new(400, 14)
+    |> add_initial_marker()
+    |> GoogleMaps.static_map_url()
   end
 
-  defp initial_marker do
-    %Marker {
-      visible?: false,
-      latitude: 42.360718,
-      longitude: -71.05891
-    }
+  defp add_initial_marker(map_data) do
+    marker = Marker.new(42.360718, -71.05891, visible?: false)
+    MapData.add_marker(map_data, marker)
   end
 end

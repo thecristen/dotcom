@@ -168,22 +168,14 @@ defmodule Site.StopView do
   end
 
   defp build_google_map_data(stop, scale, width, height) do
-    %MapData {
-      width: width,
-      height: height,
-      scale: scale,
-      zoom: 16,
-      markers: [build_map_marker(stop)]
-    }
+    width
+    |> MapData.new(height, 16, scale)
+    |> add_stop_marker(stop)
   end
 
-  defp build_map_marker(stop) do
-    %Marker {
-      latitude: stop.latitude,
-      longitude: stop.longitude,
-      icon: nil,
-      visible?: !stop.station?
-    }
+  defp add_stop_marker(map_data, stop) do
+    marker = Marker.new(stop.latitude, stop.longitude, visible?: !stop.station?)
+    MapData.add_marker(map_data, marker)
   end
 
   @spec clean_city(String.t) :: String.t

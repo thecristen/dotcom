@@ -20,7 +20,7 @@ defmodule GoogleMaps.MapData do
     width: integer,
     height: integer,
     zoom: integer | nil,
-    scale: integer
+    scale: 1 | 2
   }
 
   @typep static_query_key :: :markers | :path | :zoom | :scale | :center | :size
@@ -42,6 +42,52 @@ defmodule GoogleMaps.MapData do
     |> format_static_paths(map_data.paths)
   end
 
+  @spec new(integer, integer, integer | nil, 1 | 2) :: t
+  def new(width, height, zoom \\ nil, scale \\ 1) do
+    %__MODULE__{
+      width: width,
+      height: height,
+      zoom: zoom,
+      scale: scale
+    }
+  end
+
+  @doc """
+  Returns a new MapData struct where the given marker is appended
+  to the current list of markers
+  """
+  @spec add_marker(t, Marker.t) :: t
+  def add_marker(map_data, marker) do
+    %{map_data | markers: [marker | map_data.markers]}
+  end
+
+  @doc """
+  Returns a new MapData struct where the given markers are appended
+  to the current list of markers
+  """
+  @spec add_markers(t, [Marker.t]) :: t
+  def add_markers(map_data, markers) do
+    %{map_data | markers: Enum.concat(map_data.markers, markers)}
+  end
+
+  @doc """
+  Returns a new MapData struct where the given path is appended
+  to the current list of paths
+  """
+  @spec add_path(t, Path.t) :: t
+  def add_path(map_data, path) do
+    %{map_data | paths: [path | map_data.paths]}
+  end
+
+  @doc """
+  Returns a new MapData struct where the given paths are appended
+  to the current list of paths
+  """
+  @spec add_paths(t, [Path.t]) :: t
+  def add_paths(map_data, paths) do
+    %{map_data | paths: Enum.concat(map_data.paths, paths)}
+  end
+
   @spec center_value(t) :: String.t | nil
   defp center_value(map_data) do
     do_center_value(map_data, Enum.any?(map_data.markers, & &1.visible?))
@@ -56,6 +102,10 @@ defmodule GoogleMaps.MapData do
   @spec size_value(t) :: String.t
   defp size_value(%__MODULE__{width: width, height: height}), do: "#{width}x#{height}"
 
+  @doc """
+  Formats a list of Markers. Markers are grouped by icon.
+  """
+  @spec format_static_markers(Keyword.t, [Marker.t]) :: Keyword.t
   def format_static_markers(params, markers) do
     markers
     |> Enum.filter(& &1.visible?)

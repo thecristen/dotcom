@@ -6,20 +6,20 @@ defmodule GoogleMaps.MapDataTest do
 
   @markers [
     %Marker {
-      latitude: "42.355041",
-      longitude: "-71.066065",
+      latitude: 42.355041,
+      longitude: -71.066065,
       icon: "marker1",
       visible?: true
     },
     %Marker {
-      latitude: "42.354153",
-      longitude: "-71.070547",
+      latitude: 42.354153,
+      longitude: -71.070547,
       icon: "marker2",
       visible?: true
     },
     %Marker {
-      latitude: "42.354153",
-      longitude: "-71.070547",
+      latitude: 42.354153,
+      longitude: -71.070547,
       icon: "marker2",
       visible?: true
     }
@@ -44,6 +44,56 @@ defmodule GoogleMaps.MapDataTest do
     markers: @markers,
     paths: @paths
   }
+
+  describe "new/1" do
+    test "creates new map data with given dimensions" do
+      new_map = new(300, 400)
+      assert new_map.width == 300
+      assert new_map.height == 400
+      assert new_map.scale == 1
+      assert new_map.zoom == nil
+    end
+
+    test "creates new map with given zoom and scale" do
+      new_map = new(300, 400, 19, 2)
+      assert new_map.zoom == 19
+      assert new_map.scale == 2
+    end
+  end
+
+  describe "Adding markers" do
+    @base_marker Marker.new(0, 0)
+    @base_map 300 |> new(400) |> add_marker(@base_marker)
+
+    test "add_marker/2" do
+      marker = Marker.new(1,2)
+      marker_map = add_marker(@base_map, marker)
+      assert marker_map.markers == [marker | [@base_marker]]
+    end
+
+    test "add_markers/2" do
+      markers = [Marker.new(3, 4), Marker.new(5, 6)]
+      marker_map = add_markers(@base_map, markers)
+      assert marker_map.markers == Enum.concat([@base_marker], markers)
+    end
+  end
+
+  describe "Adding paths" do
+    @base_path Path.new("base polyline")
+    @base_map 300 |> new(400) |> add_path(@base_path)
+
+    test "add_path/2" do
+      path = Path.new("polyline1")
+      path_map = add_path(@base_map, path)
+      assert path_map.paths == [path | [@base_path]]
+    end
+
+    test "add_paths/2" do
+      paths = [Path.new("polyline1"), Path.new("polyline2")]
+      paths_map = add_paths(@base_map, paths)
+      assert paths_map.paths == Enum.concat([@base_path], paths)
+    end
+  end
 
   describe "static_query/1" do
     @hidden_markers Enum.map(@markers, & %{&1 | visible?: false})

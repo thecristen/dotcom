@@ -12,20 +12,19 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
   def map_img_src({stops, _shapes}, polylines, route) do
-    map_data = %MapData{
-      paths: Enum.map(polylines, &build_polyline(&1, route)),
-      markers: build_markers(stops, route),
-      height: 600,
-      width: 600,
-    }
-    GoogleMaps.static_map_url(map_data)
+    markers = build_markers(stops, route)
+    paths = Enum.map(polylines, &build_path(&1, route))
+
+    600
+    |> MapData.new(600)
+    |> MapData.add_markers(markers)
+    |> MapData.add_paths(paths)
+    |> GoogleMaps.static_map_url()
   end
 
-  defp build_polyline(polyline, route) do
-    %Path{
-      color: route.type |> map_color(route.id) |> format_color(),
-      polyline: polyline
-    }
+  defp build_path(polyline, route) do
+    color = route.type |> map_color(route.id) |> format_color()
+    Path.new(polyline, color)
   end
 
   defp build_markers(stops, %Routes.Route{type: type, id: id}) do
@@ -34,15 +33,10 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   end
 
   defp build_marker(stop, icon) do
-    %Marker{
-      latitude: floor_position(stop.latitude),
-      longitude: floor_position(stop.longitude),
-      icon: icon,
-      visible?: true
-    }
+    Marker.new(floor_position(stop.latitude), floor_position(stop.longitude), icon: icon)
   end
 
-  defp format_color(color), do: "0x"<> color <>"FF"
+  defp format_color(color), do: "0x" <> color <> "FF"
 
   @spec floor_position(float) :: float
   defp floor_position(position) do
