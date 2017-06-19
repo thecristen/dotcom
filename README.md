@@ -140,7 +140,7 @@ In order to make sure the tests are reproducible, we use
 1. Run the backstop tests with `npm run backstop:test`
 1. The new mappings will be generated in `apps/site/mappings` and `apps/site/__files`
 
-## Enviornment Variables
+## Environment Variables
 
 You should have the following variables set in your development environment.
 
