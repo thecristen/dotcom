@@ -38,7 +38,7 @@
           <% end %>
         </div>
         <div class="hours">
-          <%= if MapSet.new(@hours_of_operation, &elem(&1, 0)) == MapSet.new(~w(week saturday sunday)a) do %>
+          <%= if assigns[:hours_of_operation] do %>
             <h2 class="h3 hours-heading">Hours of Operation</h3>
               <%= for period <- [:week, :saturday, :sunday] do %>
                   <h3 class="h5 hours-period-heading"><%= schedule_period(period) %>:</h5>
