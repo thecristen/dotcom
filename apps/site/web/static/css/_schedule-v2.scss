@@ -752,6 +752,7 @@ a {
 .schedule-v2-timetable-more-text {
   // scss-lint:disable DuplicateProperty
   color: $link-color;
+  cursor: pointer;
   display: none;
   font-size: $font-size-sm;
   font-weight: normal;
@@ -764,6 +765,7 @@ a {
   white-space: nowrap;
   writing-mode: tb-lr; // for IE
   writing-mode: vertical-lr; // for everything else
+  user-select: none;
   z-index: $z-index-schedule-v2-timetable-more-text;
 
   @include hover-focus() {
