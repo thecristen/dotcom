@@ -1,0 +1,235 @@
+{
+  "nid": [
+    {
+      "value": 2564
+    }
+  ],
+  "uuid": [
+    {
+      "value": "c9088114-9f8e-4e4b-8e45-6954a3ea3fc5"
+    }
+  ],
+  "vid": [
+    {
+      "value": 3064
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "landing_page",
+      "target_type": "node_type",
+      "target_uuid": "500bbc7e-2905-492c-9af7-54e00563553c"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Denali National Park"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "/user/12"
+    }
+  ],
+  "created": [
+    {
+      "value": 1497905675
+    }
+  ],
+  "changed": [
+    {
+      "value": 1497905739
+    }
+  ],
+  "promote": [
+    {
+      "value": true
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1497905739
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "/user/12"
+    }
+  ],
+  "revision_log": [],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "path": [
+    {
+      "alias": "/denali-national-park",
+      "pid": 60,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "field_hero_image_desktop": [
+    {
+      "target_id": 130,
+      "alt": "",
+      "title": "",
+      "width": 2104,
+      "height": 322,
+      "target_type": "file",
+      "target_uuid": "36ac8006-b703-444b-a843-430feb6885b0",
+      "url": "http://mbta.kbox.site/sites/default/files/2017-06/Denali_National_Park_Polychrome_Mountains_Wide_17350px.jpg",
+      "mime_type": "image/jpeg"
+    }
+  ],
+  "field_hero_image_mobile": [
+    {
+      "target_id": 131,
+      "alt": "",
+      "title": "",
+      "width": 943,
+      "height": 245,
+      "target_type": "file",
+      "target_uuid": "6f0a4bed-1c23-485f-967d-facda091d795",
+      "url": "http://mbta.kbox.site/sites/default/files/2017-06/Denali_National_Park_Polychrome_Mountains_Wide_17350px_upside.jpg",
+      "mime_type": "image/jpeg"
+    }
+  ],
+  "field_hero_image_mobile_2x": [
+    {
+      "target_id": 132,
+      "alt": "",
+      "title": "",
+      "width": 3839,
+      "height": 2559,
+      "target_type": "file",
+      "target_uuid": "a8a15770-69f2-4620-81fc-09a4abf25aa9",
+      "url": "http://mbta.kbox.site/sites/default/files/2017-06/back_bay.jpg",
+      "mime_type": "image/jpeg"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 8,
+      "target_revision_id": 60,
+      "id": [
+        {
+          "value": 8
+        }
+      ],
+      "uuid": [
+        {
+          "value": "58e7d07f-8abb-4b2f-8b0f-73316a6d96ce"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 60
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1497905722
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "/user/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2564"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<h2>But wait, there's more!</h2>\r\n\r\n<p>Just some little old custom HTML</p>\r\n",
+          "format": "basic_html"
+        }
+      ]
+    }
+  ],
+  "field_subtitle": [
+    {
+      "value": "The greatest park in the world"
+    }
+  ]
+}
