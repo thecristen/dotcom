@@ -5,6 +5,7 @@ defmodule GoogleMaps do
 
   """
   alias Stops.Position
+  alias GoogleMaps.MapData
 
   @host "https://maps.googleapis.com"
   @host_uri URI.parse(@host)
@@ -53,16 +54,15 @@ defmodule GoogleMaps do
     ]
   end
 
-  @doc "Given an width, and height returns a URL to a static map image."
-  @spec static_map_url(pos_integer, pos_integer, Keyword.t) :: String.t
-  def static_map_url(width, height, opts) do
-    opts
-    |> Keyword.put(:size, "#{width}x#{height}")
+  @doc "Given a GoogleMaps.MapData struct, returns a URL to a static map image."
+  @spec static_map_url(MapData.t) :: String.t
+  def static_map_url(map_data) do
+    map_data
+    |> MapData.static_query
     |> URI.encode_query
     |> (fn query -> "/maps/api/staticmap?#{query}" end).()
     |> signed_url
   end
-
 
   defp get_env(key) do
     case Application.get_env(:google_maps, key) do

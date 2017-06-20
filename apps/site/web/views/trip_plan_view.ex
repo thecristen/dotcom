@@ -2,6 +2,8 @@ defmodule Site.TripPlanView do
   use Site.Web, :view
   alias Stops.Position
   alias TripPlan.{Leg, TransitDetail, PersonalDetail}
+  alias GoogleMaps.MapData
+  alias GoogleMaps.MapData.{Marker, Path}
 
   def optional_position({:ok, _}), do: ""
   def optional_position({:error, {:too_many_results, results}}) do
@@ -36,23 +38,34 @@ defmodule Site.TripPlanView do
     svg("car.svg")
   end
 
-  def itinerary_map_src(itinerary) do
-    path_opts = for leg <- itinerary.legs do
-      {:path, "enc:#{leg.polyline}"}
-    end
-    marker_opts = for leg <- itinerary.legs do
-      markers = [
-        "size:small",
-        "#{Position.latitude(leg.from)},#{Position.longitude(leg.from)}",
-        "#{Position.latitude(leg.to)},#{Position.longitude(leg.to)}"
-      ]
-      {:markers, Enum.join(markers, "|")}
-    end
+  defp itinerary_map_src(itinerary) do
+    markers = markers_for_legs(itinerary.legs)
+    paths = Enum.map(itinerary.legs, &Path.new(&1.polyline))
 
-    GoogleMaps.static_map_url(600, 600, Enum.concat(path_opts, marker_opts))
+    600
+    |> MapData.new(600)
+    |> MapData.add_markers(markers)
+    |> MapData.add_paths(paths)
+    |> GoogleMaps.static_map_url()
+  end
+
+  defp markers_for_legs(legs) do
+    Enum.flat_map(legs, &[build_leg_marker(&1.from), build_leg_marker(&1.to)])
+  end
+
+  defp build_leg_marker(leg_location) do
+    Marker.new(Position.latitude(leg_location), Position.longitude(leg_location), size: :small)
   end
 
   def initial_map_src do
-    GoogleMaps.static_map_url(630, 400, [center: "Boston, MA", zoom: 14])
+    630
+    |> MapData.new(400, 14)
+    |> add_initial_marker()
+    |> GoogleMaps.static_map_url()
+  end
+
+  defp add_initial_marker(map_data) do
+    marker = Marker.new(42.360718, -71.05891, visible?: false)
+    MapData.add_marker(map_data, marker)
   end
 end
