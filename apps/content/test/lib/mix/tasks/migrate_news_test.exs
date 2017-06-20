@@ -16,18 +16,11 @@ defmodule Content.MigrateNewsTest do
     refute email_sent_with_subject("News Migration Task Failed")
   end
 
-  test "prints helpful message when a News Entry is successfully created" do
+  test "prints helpful message when a News Entry is successfully migrated" do
     path = path("valid_news_entry")
 
     Mix.Tasks.Content.MigrateNews.run([path])
-    assert_received {:mix_shell, :info, ["Successfully created" <> _filename]}
-  end
-
-  test "prints a helpful message when a News Entry is successfully updated" do
-    path = path("already_migrated_news_entry")
-
-    Mix.Tasks.Content.MigrateNews.run([path])
-    assert_received {:mix_shell, :info, ["Successfully updated" <> _filename]}
+    assert_received {:mix_shell, :info, ["Successfully migrated" <> _filename]}
   end
 
   test "prints a helpful message when a News Entry fails to migrate" do
@@ -44,15 +37,22 @@ defmodule Content.MigrateNewsTest do
     assert email_sent_with_subject("CMS Migration Task Failed")
   end
 
-  test "raises with instructions when an invalid directory path is provided" do
-    error_message = """
-    Oops! Looks like the path you provided does not exist.
-    Please provide a valid path to the directory containing
-    the news json files you wish to migrate to the new CMS.
-    """
+  test "sends an email to developers when migrating a news entry raised an error" do
+    path = path("exceptional_news_entry")
 
-    assert_raise Mix.Error, error_message, fn ->
-      Mix.Tasks.Content.MigrateNews.run("invalid/path")
+    Mix.Tasks.Content.MigrateNews.run([path])
+    assert email_sent_with_subject("CMS Migration Task Failed")
+  end
+
+  test "raises with instructions when an invalid directory path is provided" do
+    assert_raise Mix.Error, ~r/path you provided does not exist/, fn ->
+      Mix.Tasks.Content.MigrateNews.run(["invalid/path"])
+    end
+  end
+
+  test "raises with instructions when a directory path is not provided" do
+    assert_raise Mix.Error, ~r/path you provided does not exist/, fn ->
+      Mix.Tasks.Content.MigrateNews.run([])
     end
   end
 

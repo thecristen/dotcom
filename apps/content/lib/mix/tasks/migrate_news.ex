@@ -30,31 +30,33 @@ defmodule Mix.Tasks.Content.MigrateNews do
   end
 
   defp migrate_news([filename | remaining_filenames], directory_path) do
-    {:ok, news_entry_json} = MigrationFile.parse_file(directory_path, filename)
+    {:ok, news_json} = MigrationFile.parse_file(directory_path, filename)
 
-    case NewsMigrator.migrate(news_entry_json) do
-      {:ok, response} ->
-        print_response(response, filename)
-        migrate_news(remaining_filenames, directory_path)
-      {:error, reason} ->
-        print_response(reason, filename)
-        notify_developers(reason, news_entry_json)
-    end
+    news_json
+    |> migrate
+    |> process_response(filename, news_json)
+
+    migrate_news(remaining_filenames, directory_path)
   end
-  defp migrate_news([], _file_location) do
+  defp migrate_news([], _directory_path) do
     Mix.shell.info "All News Entries have been migrated."
   end
 
-  defp print_response(:updated, filename) do
-    Mix.shell.info "Successfully updated #{filename}."
+  defp migrate(json) do
+    NewsMigrator.migrate(json)
+  rescue
+    error -> {:error, error}
   end
-  defp print_response(:created, filename) do
-    Mix.shell.info "Successfully created #{filename}."
+
+  defp process_response({:ok, _news_entry}, filename, _json) do
+    Mix.shell.info "Successfully migrated #{filename}."
   end
-  defp print_response(response, filename) do
+  defp process_response({:error, error}, filename, json) do
+    notify_developers(error, json)
+
     Mix.shell.info """
     The following error occurred when migrating #{filename}.
-    #{inspect response}
+    #{inspect error}
     """
   end
 
