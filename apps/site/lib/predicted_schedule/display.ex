@@ -133,7 +133,7 @@ defmodule PredictedSchedule.Display do
   defp do_realtime(content) do
     content_tag(:span, [fa("rss"),
                         " ",
-                       content], class: "no-wrap")
+                       content], class: "no-wrap realtime")
   end
 
   defp do_route_headsign(%Routes.Route{id: "Green-B"}, 0) do

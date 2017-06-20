@@ -314,7 +314,8 @@ a {
   }
 }
 
-.trip-canceled {
+// we use the del tag to indicate a cancels trip time, but sometimes it has children that also need the same style
+del .realtime {
   text-decoration: line-through;
 }
 
