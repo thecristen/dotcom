@@ -144,5 +144,13 @@ defmodule Site.ViewHelpersTest do
       assert fare_group(:commuter_rail) == "commuter_rail"
       assert fare_group(:ferry) == "ferry"
     end
+
+    test "return correct fare group when route type given (as integer)" do
+      assert fare_group(0) == "bus_subway"
+      assert fare_group(1) == "bus_subway"
+      assert fare_group(2) == "commuter_rail"
+      assert fare_group(3) == "bus_subway"
+      assert fare_group(4) == "ferry"
+    end
   end
 end

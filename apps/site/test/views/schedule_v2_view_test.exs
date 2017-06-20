@@ -296,18 +296,39 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "_trip_info.html" do
     test "make sure page reflects information from full_status function", %{conn: conn} do
+      route = %Routes.Route{type: 2}
       trip_info = %TripInfo{
-        route: %Routes.Route{type: 2},
+        route: route,
         vehicle: %Vehicles.Vehicle{status: :incoming},
         vehicle_stop_name: "Readville"
       }
       actual = Site.ScheduleV2View.render(
         "_trip_info.html",
         trip_info: trip_info,
-        conn: conn
+        origin: nil,
+        destination: nil,
+        conn: conn,
+        route: route
       )
       expected = TripInfo.full_status(trip_info) |> IO.iodata_to_binary
       assert safe_to_string(actual) =~ expected
+    end
+
+    test "the fare link has the same origin and destination params as the page", %{conn: conn} do
+      origin = %Stop{id: "place-north"}
+      destination = %Stop{id: "Fitchburg"}
+      route = %Routes.Route{type: 2}
+      trip_info = %TripInfo{route: route}
+
+      actual = Site.ScheduleV2View.render(
+        "_trip_info.html",
+        trip_info: trip_info,
+        origin: origin,
+        destination: destination,
+        route: route,
+        conn: conn
+      )
+      assert safe_to_string(actual) =~ "/fares/commuter_rail?destination=Fitchburg&amp;origin=place-north"
     end
   end
 
@@ -1021,6 +1042,23 @@ defmodule Site.ScheduleV2ViewTest do
     test "trip link for matching, chosen stop", %{conn: conn} do
       conn = %{conn | query_params: %{}}
       assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
+    end
+  end
+
+  describe "fare_params/2" do
+    @origin %Stop{id: "place-north"}
+    @destination %Stop{id: "Fitchburg"}
+
+    test "fare link when no origin/destination chosen" do
+      assert fare_params(nil, nil) == %{}
+    end
+
+    test "fare link when only origin chosen" do
+      assert fare_params(@origin, nil) == %{origin: @origin}
+    end
+
+    test "fare link when origin and destination chosen" do
+      assert fare_params(@origin, @destination) == %{origin: @origin, destination: @destination}
     end
   end
 end

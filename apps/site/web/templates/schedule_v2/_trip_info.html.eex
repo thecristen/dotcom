@@ -60,6 +60,6 @@
   <div class="trip-fare">
     <strong>One way fare:</strong>
     <%= Fares.Format.price(@trip_info.base_fare) %>
-    (<%= link("View fares", to: fare_path(@conn, :show, @trip_info.route |> Route.type_atom |> fare_group)) %>)
+    (<%= link("View fares", to: fare_path(@conn, :show, fare_group(@route.type), fare_params(@origin, @destination))) %>)
   </div>
 </div>

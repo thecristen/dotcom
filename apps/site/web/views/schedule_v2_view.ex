@@ -388,4 +388,13 @@ defmodule Site.ScheduleV2View do
       update_url(conn, trip: trip_id) <> "#" <> trip_id
     end
   end
+
+  @spec fare_params(Stop.t, Stop.t) :: Map.t
+  def fare_params(origin, destination) do
+    case {origin, destination} do
+      {nil, nil} -> %{}
+      {origin, nil} -> %{origin: origin}
+      {origin, destination} -> %{origin: origin, destination: destination}
+    end
+  end
 end

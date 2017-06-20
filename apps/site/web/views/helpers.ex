@@ -183,7 +183,12 @@ defmodule Site.ViewHelpers do
   end
 
   @doc "Specify the mode each type is associated with"
-  @spec fare_group(atom) :: String.t
+  @spec fare_group(atom | integer) :: String.t
+  def fare_group(type) when is_integer(type) and type in 0..4 do
+    type
+      |> Routes.Route.type_atom
+      |> fare_group
+  end
   def fare_group(:bus), do: "bus_subway"
   def fare_group(:subway), do: "bus_subway"
   def fare_group(type), do: Atom.to_string(type)
