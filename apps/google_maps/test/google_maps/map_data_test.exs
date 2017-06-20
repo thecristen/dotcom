@@ -42,12 +42,13 @@ defmodule GoogleMaps.MapDataTest do
     height: 200,
     width: 300,
     markers: @markers,
-    paths: @paths
+    paths: @paths,
+    dynamic_options: %{streetViewControl: true, mapTypeControl: true}
   }
 
   describe "new/1" do
     test "creates new map data with given dimensions" do
-      new_map = new(300, 400)
+      new_map = new({300, 400})
       assert new_map.width == 300
       assert new_map.height == 400
       assert new_map.scale == 1
@@ -55,7 +56,7 @@ defmodule GoogleMaps.MapDataTest do
     end
 
     test "creates new map with given zoom and scale" do
-      new_map = new(300, 400, 19, 2)
+      new_map = new({300, 400}, 19, 2)
       assert new_map.zoom == 19
       assert new_map.scale == 2
     end
@@ -63,7 +64,7 @@ defmodule GoogleMaps.MapDataTest do
 
   describe "Adding markers" do
     @base_marker Marker.new(0, 0)
-    @base_map 300 |> new(400) |> add_marker(@base_marker)
+    @base_map {300, 400} |> new() |> add_marker(@base_marker)
 
     test "add_marker/2" do
       marker = Marker.new(1,2)
@@ -80,7 +81,7 @@ defmodule GoogleMaps.MapDataTest do
 
   describe "Adding paths" do
     @base_path Path.new("base polyline")
-    @base_map 300 |> new(400) |> add_path(@base_path)
+    @base_map {300, 400} |> new() |> add_path(@base_path)
 
     test "add_path/2" do
       path = Path.new("polyline1")
@@ -92,6 +93,20 @@ defmodule GoogleMaps.MapDataTest do
       paths = [Path.new("polyline1"), Path.new("polyline2")]
       paths_map = add_paths(@base_map, paths)
       assert paths_map.paths == Enum.concat([@base_path], paths)
+    end
+  end
+
+  describe "disable_map_type_controls/1" do
+    test "sets streetViewControl and mapTypeControl to false" do
+      map = {100, 100} |> MapData.new() |> MapData.disable_map_type_controls
+      refute map.dynamic_options.streetViewControl
+      refute map.dynamic_options.mapTypeControl
+    end
+
+    test "overrides existing dynamic_options" do
+      map = MapData.disable_map_type_controls(@map_data)
+      refute map.dynamic_options.streetViewControl
+      refute map.dynamic_options.mapTypeControl
     end
   end
 

@@ -1,5 +1,6 @@
 <div class="station-map-container">
-  <script id="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(@dynamic_map_data) %></script>
+  <% map_data = build_map_data(@stop, 2, 735, 260) %>
+  <script id="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
   <div class="dynamic-map">
     <div id="static-map" class="embed-responsive embed-responsive-21by9 station-info-map">
       <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
@@ -19,14 +20,14 @@
         ]
         |> GoogleMaps.scale
         |> Enum.map(fn {width, height, scale} ->
-          {"#{width * scale}", map_url(@stop, width, height, scale)}
+          {"#{width * scale}", @stop |> build_map_data(scale, width, height) |> map_url()}
         end)
         |> Picture.srcset %>"
         sizes="(min-width: 1344px) 1099w,
         (min-width: 1088px) 734w,
         (min-width: 800px) 694w,
         calc(100vw - 1.5rem)"
-        src="<%= map_url(@stop, 735, 260, 2) %>"/>
+        src="<%= map_url(map_data) %>"/>
       <% end %>
     </div>
   </div>
