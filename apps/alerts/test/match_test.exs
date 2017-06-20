@@ -79,4 +79,36 @@ defmodule Alerts.MatchTest do
     assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 1}, {12, 0, 0}})) == []
     assert Alerts.Match.match(alerts, ie, NaiveDateTime.from_erl!({{2016, 6, 2}, {12, 0, 0}})) == []
   end
+
+  test ".match returns alerts that have a nil value for a non-nil key in the entity to match" do
+    alerts = [
+      %Alert{
+        informed_entity: [
+          %InformedEntity{
+            route_type: 1,
+            route: "2",
+            stop: "3"
+          }
+        ]
+      }
+    ]
+
+    assert Alerts.Match.match(alerts, %InformedEntity{direction_id: 1, route: "2"}) == alerts
+  end
+
+  test ".match fails if the entity to match does not share a key with any of the entities in the alert" do
+    alerts = [
+      %Alert{
+        informed_entity: [
+          %InformedEntity{
+            route_type: 1,
+            route: "2",
+            stop: "3"
+          }
+        ]
+      }
+    ]
+
+    assert Alerts.Match.match(alerts, %InformedEntity{direction_id: 1}) == []
+  end
 end

@@ -50,6 +50,15 @@ defmodule Site.ControllerHelpers do
 
   @spec assign_all_alerts(Conn.t, []) :: Conn.t
   def assign_all_alerts(%{assigns: %{route: %Routes.Route{id: route_id, type: route_type}}} = conn, _opts) do
-    assign(conn, :all_alerts, Alerts.Repo.by_route_id_and_type(route_id, route_type, conn.assigns.date_time))
+    informed_entity_matchers = [
+      %Alerts.InformedEntity{route_type: route_type, direction_id: conn.assigns[:direction_id]},
+      %Alerts.InformedEntity{route: route_id, direction_id: conn.assigns[:direction_id]}
+    ]
+    alerts =
+      route_id
+      |> Alerts.Repo.by_route_id_and_type(route_type, conn.assigns.date_time)
+      |> Alerts.Match.match(informed_entity_matchers)
+
+    assign(conn, :all_alerts, alerts)
   end
 end
