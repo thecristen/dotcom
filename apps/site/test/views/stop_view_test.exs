@@ -180,7 +180,7 @@ defmodule Site.StopViewTest do
       ]
       assert [one_min_live, three_mins, five_mins] = time_differences(schedules, now)
       assert safe_to_string(one_min_live) ==
-        ~s(<span class="no-wrap"><i aria-hidden="true" class="fa fa-rss "></i> 1 min</span>)
+        ~s(<span class="no-wrap realtime"><i aria-hidden="true" class="fa fa-rss "></i> 1 min</span>)
       assert three_mins == ["3", " ", "mins"]
       assert five_mins == ["5", " ", "mins"]
     end
