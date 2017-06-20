@@ -21,6 +21,13 @@ defmodule Site.ContentController do
     |> assign(:page, page)
     |> render(Site.ContentView, "page.html")
   end
+  defp render_page(conn, %Content.LandingPage{} = page) do
+    conn
+    |> assign(:breadcrumbs, [page.title])
+    |> assign(:page, page)
+    |> assign(:pre_container_template, "landing_page.html")
+    |> render(Site.ContentView, "empty.html")
+  end
   defp render_page(conn, %Content.ProjectUpdate{} = page) do
     conn
     |> assign(:breadcrumbs, [page.title])

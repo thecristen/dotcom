@@ -16,6 +16,14 @@ defmodule Site.ContentControllerTest do
       assert rendered =~ ~s(<div class="title-card-title">Title Card Title</div>)
     end
 
+    test "renders a landing page with all its paragraphs", %{conn: conn} do
+      conn = get conn, "/denali-national-park"
+      rendered = html_response(conn, 200)
+
+      assert rendered =~ ~s(<h1 class="landing-page-title">Denali National Park</h1>)
+      assert rendered =~ "<p>Just some little old custom HTML</p>"
+    end
+
     test "renders a project update when the CMS returns a Content.ProjectUpdate", %{conn: conn} do
       conn = get conn, "/gov-center-project"
       assert html_response(conn, 200) =~ "Government Center Construction"
