@@ -221,4 +221,21 @@ defmodule PredictedSchedule do
       0
     end
   end
+
+  @doc """
+  Determines if the delay between a predicted and scheduled time are represented
+  as different minutes
+  """
+  @spec minute_delay?(PredictedSchedule.t | nil) :: boolean
+  def minute_delay?(nil), do: false
+  def minute_delay?(%PredictedSchedule{schedule: schedule, prediction: prediction}) when is_nil(schedule) or is_nil(prediction) do
+    false
+  end
+  def minute_delay?(%PredictedSchedule{schedule: schedule, prediction: prediction} = ps) do
+    if prediction.time do
+      delay(ps) > 0 or schedule.time.minute != prediction.time.minute
+    else
+      false
+    end
+  end
 end

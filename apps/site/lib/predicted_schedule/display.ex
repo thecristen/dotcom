@@ -93,16 +93,15 @@ defmodule PredictedSchedule.Display do
   end
 
   defp do_display_commuter_rail_time(%PredictedSchedule{schedule: schedule, prediction: prediction} = ps) do
-    case PredictedSchedule.delay(ps) do
-      # if we're going to show both, make sure they are different times
-      delay when delay != 0 ->
-        content_tag :span, do: [
-          content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),
-          tag(:br),
-          prediction.time |> format_schedule_time |> do_realtime
+    if PredictedSchedule.minute_delay?(ps) do
+      content_tag :span, do: [
+        content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),
+        tag(:br),
+        display_prediction(prediction)
       ]
-        # otherwise just show the scheduled or predicted time as appropriate
-        _ -> do_display_time(ps)
+    else
+      # otherwise just show the scheduled or predicted time as appropriate
+      do_display_time(ps)
     end
   end
 
@@ -125,9 +124,7 @@ defmodule PredictedSchedule.Display do
     do_realtime(status)
   end
   defp do_display_time(%PredictedSchedule{prediction: prediction}) do
-    prediction.time
-    |> format_schedule_time
-    |> do_realtime
+    display_prediction(prediction)
   end
 
   defp do_realtime(content) do
@@ -150,5 +147,11 @@ defmodule PredictedSchedule.Display do
   end
   defp do_route_headsign(_, _) do
     ""
+  end
+
+  defp display_prediction(prediction) do
+    prediction.time
+    |> format_schedule_time
+    |> do_realtime
   end
 end

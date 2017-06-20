@@ -306,6 +306,28 @@ defmodule PredictedScheduleTest do
     end
   end
 
+  describe "minute_delay?/1" do
+    @late_time ~N[2017-01-01T05:40:10]
+    @early_time ~N[2017-01-01T05:39:58]
+    @early_prediction %Prediction{time: @early_time}
+    @late_schedule %Schedule{time: @late_time}
+
+    test "returns false when no delay comparison can be made" do
+      refute minute_delay?(nil)
+      refute minute_delay?(%PredictedSchedule{schedule: nil, prediction: @early_prediction})
+      refute minute_delay?(%PredictedSchedule{schedule: nil, prediction: %Prediction{}})
+    end
+
+    test "returns true when there is at least a minute difference between scheduled and predicted time" do
+      assert minute_delay?(%PredictedSchedule{schedule: @late_schedule, prediction: @early_prediction})
+    end
+
+    test "returns false when there is less than a minute difference" do
+      close_prediction = %Prediction{time: Timex.shift(@late_time, seconds: 3)}
+      refute minute_delay?(%PredictedSchedule{schedule: @late_schedule, prediction: close_prediction})
+    end
+  end
+
   describe "upcoming?/2" do
     test "determines if given predicted schedule occurs after given time" do
       early_schedule = %Schedule{time: Timex.shift(@base_time, minutes: -2)}

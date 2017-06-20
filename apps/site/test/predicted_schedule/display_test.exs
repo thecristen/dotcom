@@ -62,6 +62,20 @@ defmodule PredictedSchedule.DisplayTest do
       assert result =~ "fa fa-rss"
     end
 
+    test "if the predicted time is earlier less than a 60 seconds, but across a different minute, cross out scheduled" do
+      scheduled_time = ~N[2017-01-01T05:40:10]
+      prediction_time = ~N[2017-01-01T05:39:58]
+      result = %PredictedSchedule{
+        schedule: %Schedule{route: @commuter_route, time: scheduled_time},
+        prediction: %Prediction{route: @commuter_route, time: prediction_time}}
+      |> time
+      |> safe_to_string
+
+      assert result =~ "5:40A"
+      assert result =~ "5:39A"
+      assert result =~ "fa fa-rss"
+    end
+
     test "if the times do not differ, just returns the same result as a non-CR time" do
       result = %PredictedSchedule{
         schedule: %Schedule{route: @commuter_route, time: @early_time},
