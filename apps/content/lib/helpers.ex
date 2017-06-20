@@ -23,9 +23,9 @@ defmodule Content.Helpers do
     |> handle_html
   end
 
-  @spec parse_featured_image(map) :: Content.Field.Image.t | nil
-  def parse_featured_image(%{} = data) do
-    case data["field_featured_image"] do
+  @spec parse_image(map, String.t) :: Content.Field.Image.t | nil
+  def parse_image(%{} = data, field) do
+    case data[field] do
       [image] -> Content.Field.Image.from_api(image)
       _ -> nil
     end
