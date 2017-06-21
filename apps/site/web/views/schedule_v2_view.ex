@@ -6,6 +6,7 @@ defmodule Site.ScheduleV2View do
 
   require Routes.Route
   alias Routes.Route
+  alias Stops.Stop
   alias Plug.Conn
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
@@ -389,7 +390,7 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec fare_params(Stop.t, Stop.t) :: Map.t
+  @spec fare_params(Stop.t, Stop.t) :: %{optional(:origin) => Stop.id_t, optional(:destination) => Stop.id_t}
   def fare_params(origin, destination) do
     case {origin, destination} do
       {nil, nil} -> %{}

@@ -9,6 +9,7 @@ defmodule Site.BaseFare do
   """
 
   alias Routes.Route
+  alias Fares.Fare
 
   @default_filters [duration: :single_trip, reduced: nil]
 
