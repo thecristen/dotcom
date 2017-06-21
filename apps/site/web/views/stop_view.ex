@@ -4,8 +4,6 @@ defmodule Site.StopView do
   alias Stops.Stop
   alias Routes.Route
   alias Fares.RetailLocations.Location
-  alias GoogleMaps.MapData
-  alias GoogleMaps.MapData.Marker
 
   @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
 
@@ -157,27 +155,6 @@ defmodule Site.StopView do
         difference -> [difference]
       end
     end)
-  end
-
-  @doc "URL for the embedded Google map image for the stop."
-  @spec map_url(MapData.t) :: String.t
-  def map_url(map_data) do
-    GoogleMaps.static_map_url(map_data)
-  end
-
-  @doc """
-  Returns a MapData struct for the given stop
-  """
-  @spec build_map_data(Stop.t, 1 | 2, integer, integer) :: MapData.t
-  def build_map_data(stop, scale, width, height) do
-    {width, height}
-    |> MapData.new(16, scale)
-    |> add_stop_marker(stop)
-  end
-
-  defp add_stop_marker(map_data, stop) do
-    marker = Marker.new(stop.latitude, stop.longitude, visible?: !stop.station?)
-    MapData.add_marker(map_data, marker)
   end
 
   @spec clean_city(String.t) :: String.t

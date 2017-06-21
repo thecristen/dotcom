@@ -6,6 +6,7 @@ defmodule Site.StopController do
   alias Stops.Repo
   alias Stops.Stop
   alias Routes.Route
+  alias Site.StopController.StopMap
 
   @type grouped_stations :: {Route.t, [Stop.t]}
 
@@ -80,6 +81,7 @@ defmodule Site.StopController do
     |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
+    |> assign(:map_info, StopMap.map_info(stop))
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign_all()
   end
