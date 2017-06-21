@@ -3,7 +3,7 @@ defmodule Content.ProjectUpdate do
   Represents a "project_update" type in the Drupal CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_featured_image: 1,
+  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_image: 2,
     parse_updated_at: 1]
 
   defstruct [id: nil, body: Phoenix.HTML.raw(""), title: "", featured_image: nil, photo_gallery: [],
@@ -26,7 +26,7 @@ defmodule Content.ProjectUpdate do
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
       title: field_value(data, "title"),
-      featured_image: parse_featured_image(data),
+      featured_image: parse_image(data, "field_featured_image"),
       photo_gallery: parse_photo_gallery(data),
       updated_at: parse_updated_at(data),
       status: field_value(data, "field_status"),

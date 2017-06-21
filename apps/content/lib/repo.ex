@@ -41,7 +41,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec get_page(String.t) :: Content.BasicPage.t | Content.NewsEntry.t | Content.ProjectUpdate.t | nil
+  @spec get_page(String.t) :: Content.Page.t | nil
   def get_page(path) do
     case @cms_api.view(path) do
       {:ok, api_data} -> Content.Page.from_api(api_data)

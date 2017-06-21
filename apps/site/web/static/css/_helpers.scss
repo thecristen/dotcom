@@ -70,3 +70,8 @@
   top: 0;
   z-index: $zindex-sticky;
 }
+
+.stripe-bar {
+  background: $gray-stripe-pattern repeat;
+  height: 25px;
+}

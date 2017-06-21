@@ -20,6 +20,24 @@ defmodule Content.HelpersTest do
     end
   end
 
+  describe "parse_image/2" do
+    test "parses image data and rewrites URL" do
+      data = %{
+        "field_my_image" => [%{
+          "alt" => "Picture of a barn",
+          "url" => "/foo/barn.jpg",
+        }]
+      }
+
+      assert %Content.Field.Image{
+        alt: "Picture of a barn",
+        url: url
+      } = parse_image(data, "field_my_image")
+
+      assert url == Content.Config.apply(:static, ["/foo/barn.jpg"])
+    end
+  end
+
   describe "parse_updated_at/1" do
     test "handles unix time as a string" do
       api_data = %{"changed" => [%{"value" => "1488904773"}]}

@@ -9,6 +9,7 @@ defmodule Content.CMS.Static do
   @whats_happening File.read!("priv/whats-happening.json")
   @important_notices File.read!("priv/important-notices.json")
   @all_paragraphs File.read!("priv/accessibility/all-paragraphs.json")
+  @landing_page File.read!("priv/denali-national-park.json")
 
   def news_response do
     Poison.Parser.parse!(@news)
@@ -23,7 +24,7 @@ defmodule Content.CMS.Static do
   end
 
   def events_response do
-    Poison.Parser.parse!(@events)
+  Poison.Parser.parse!(@events)
   end
 
   def whats_happening_response do
@@ -36,6 +37,10 @@ defmodule Content.CMS.Static do
 
   def all_paragraphs_response do
     Poison.Parser.parse!(@all_paragraphs)
+  end
+
+  def landing_page_response do
+    Poison.Parser.parse!(@landing_page)
   end
 
   def view(path, params \\ [])
@@ -93,6 +98,9 @@ defmodule Content.CMS.Static do
   end
   def view("/accessibility/all-paragraphs", _) do
     {:ok, all_paragraphs_response()}
+  end
+  def view("/denali-national-park", _) do
+    {:ok, landing_page_response()}
   end
   def view(_, _) do
     {:error, "Not able to retrieve response"}
