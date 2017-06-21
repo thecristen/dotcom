@@ -16,18 +16,11 @@ defmodule Content.MigrateMeetingsTest do
     refute email_sent_with_subject("Meeting Migration Task Failed")
   end
 
-  test "prints helpful message when an event is successfully created" do
+  test "prints helpful message when an event is successfully migrated" do
     path = path("valid_meeting")
 
     Mix.Tasks.Content.MigrateMeetings.run([path])
-    assert_received {:mix_shell, :info, ["Successfully created" <> _filename]}
-  end
-
-  test "prints a helpful message when an event is successfully updated" do
-    path = path("already_migrated_meeting")
-
-    Mix.Tasks.Content.MigrateMeetings.run([path])
-    assert_received {:mix_shell, :info, ["Successfully updated" <> _filename]}
+    assert_received {:mix_shell, :info, ["Successfully migrated" <> _filename]}
   end
 
   test "prints a helpful message when an event fails to migrate" do
@@ -37,22 +30,29 @@ defmodule Content.MigrateMeetingsTest do
     assert_received {:mix_shell, :info, ["The following error occurred" <> _filename]}
   end
 
-  test "sends an email to developers when an event fails to migrate" do
+  test "notifies developers when migrating an event returns an error" do
     path = path("invalid_meeting")
 
     Mix.Tasks.Content.MigrateMeetings.run([path])
     assert email_sent_with_subject("CMS Migration Task Failed")
   end
 
-  test "raises with instructions when an invalid directory path is provided" do
-    error_message = """
-    Oops! Looks like the path you provided does not exist.
-    Please provide a valid path to the directory containing
-    the meeting json files you wish to migrate to the new CMS.
-    """
+  test "notifies developers when migrating an event raised an error" do
+    path = path("exceptional_meeting")
 
-    assert_raise Mix.Error, error_message, fn ->
-      Mix.Tasks.Content.MigrateMeetings.run("invalid/path")
+    Mix.Tasks.Content.MigrateMeetings.run([path])
+    assert email_sent_with_subject("CMS Migration Task Failed")
+  end
+
+  test "raises with instructions when an invalid directory path is provided" do
+    assert_raise Mix.Error, ~r/path you provided does not exist/, fn ->
+      Mix.Tasks.Content.MigrateMeetings.run(["invalid/path"])
+    end
+  end
+
+  test "raises with instructions when a directory path is not provided" do
+    assert_raise Mix.Error, ~r/path you provided does not exist/, fn ->
+      Mix.Tasks.Content.MigrateMeetings.run([])
     end
   end
 

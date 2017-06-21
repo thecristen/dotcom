@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
   alias Content.CmsMigration.MeetingMigrator
   alias Content.CmsMigration.MigrationFile
 
-  @shortdoc "Migrates existing data for meetings to the new CMS."
+  @shortdoc "Migrates Meeting records to from the old CMS to the new CMS."
 
   @moduledoc """
   When running this task, use the CMS system account. Ask in Slack for
@@ -32,29 +32,31 @@ defmodule Mix.Tasks.Content.MigrateMeetings do
   defp migrate_meetings([filename | remaining_filenames], directory_path) do
     {:ok, meeting_json} = MigrationFile.parse_file(directory_path, filename)
 
-    case MeetingMigrator.migrate(meeting_json) do
-      {:ok, response} ->
-        print_response(response, filename)
-        migrate_meetings(remaining_filenames, directory_path)
-      {:error, reason} ->
-        print_response(reason, filename)
-        notify_developers(reason, meeting_json)
-    end
+    meeting_json
+    |> migrate
+    |> process_response(filename, meeting_json)
+
+    migrate_meetings(remaining_filenames, directory_path)
   end
   defp migrate_meetings([], _directory_path) do
     Mix.shell.info "All meetings have been migrated."
   end
 
-  defp print_response(:updated, filename) do
-    Mix.shell.info "Successfully updated #{filename}."
+  defp migrate(json) do
+    MeetingMigrator.migrate(json)
+  rescue
+    error -> {:error, error}
   end
-  defp print_response(:created, filename) do
-    Mix.shell.info "Successfully created #{filename}."
+
+  defp process_response({:ok, _event}, filename, _json) do
+    Mix.shell.info "Successfully migrated #{filename}"
   end
-  defp print_response(response, filename) do
+  defp process_response({:error, error}, filename, json) do
+    notify_developers(error, json)
+
     Mix.shell.info """
     The following error occurred when migrating #{filename}.
-    #{inspect response}
+    #{inspect error}
     """
   end
 
