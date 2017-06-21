@@ -1,5 +1,6 @@
 defmodule Site.TripPlanControllerTest do
   use Site.ConnCase, async: true
+  alias Site.TripPlanController.TripPlanMap
 
   @good_params %{
     "plan" => %{"from" => "from address",
@@ -15,6 +16,11 @@ defmodule Site.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index)
       assert html_response(conn, 200) =~ "Directions"
       assert conn.assigns.requires_google_maps?
+    end
+
+    test "assigns initial_map_src", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index)
+      assert conn.assigns.initial_map_src
     end
   end
 
@@ -34,6 +40,15 @@ defmodule Site.TripPlanControllerTest do
       assert response =~ "Too many results returned"
       assert conn.assigns.requires_google_maps?
       assert %TripPlan.Query{} = conn.assigns.query
+    end
+
+    test "assigns maps for each itinerary", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index, @good_params)
+      assert conn.assigns.itinerary_maps
+      {:ok, itineraries} = conn.assigns.query.itineraries
+      for {itinerary, map} <- Enum.zip(itineraries, conn.assigns.itinerary_maps) do
+        assert map == TripPlanMap.itinerary_map_src(itinerary)
+      end
     end
   end
 end
