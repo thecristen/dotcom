@@ -1,5 +1,6 @@
 defmodule Site.TripPlanController do
   use Site.Web, :controller
+  alias Site.TripPlanController.TripPlanMap
 
   plug :require_google_maps
 
@@ -7,10 +8,14 @@ defmodule Site.TripPlanController do
     query = TripPlan.Query.from_query(plan)
     route_map = routes_for_query(query)
 
-    render(conn, query: query, route_map: route_map)
+    conn
+    |> assign(:query, query)
+    |> assign(:route_map, route_map)
+    |> assign(:itinerary_maps, itinerary_maps(query))
+    |> render
   end
   def index(conn, _params) do
-    render(conn, :index)
+    render(conn, :index, initial_map_src: TripPlanMap.initial_map_src())
   end
 
   def require_google_maps(conn, _) do
@@ -25,6 +30,13 @@ defmodule Site.TripPlanController do
     |> Map.new(&{&1, Routes.Repo.get(&1)})
   end
   defp routes_for_query(%TripPlan.Query{}) do
+    %{}
+  end
+
+  defp itinerary_maps(%TripPlan.Query{itineraries: {:ok, itineraries}}) do
+    Enum.map(itineraries, &TripPlanMap.itinerary_map_src/1)
+  end
+  defp itinerary_maps(%TripPlan.Query{}) do
     %{}
   end
 end

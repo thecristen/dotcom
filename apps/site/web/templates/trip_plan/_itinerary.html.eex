@@ -10,7 +10,7 @@
   </div>
   <div class="trip-plan-itinerary-body">
     <p>
-      <img class="img-fluid" src="<%= itinerary_map_src(@itinerary) %>" alt="Map of trip described below" />
+      <img class="img-fluid" src="<%= @itinerary_map %>" alt="Map of trip described below" />
     </p>
     <div>
       <%= for leg <- @itinerary.legs, do: render "_leg.html", leg: leg %>
