@@ -1,7 +1,6 @@
 defmodule Site.ScheduleV2Controller.Line do
 
   import Plug.Conn, only: [assign: 3]
-  import Site.Router.Helpers
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
   alias Site.ScheduleV2Controller.Line.Maps
@@ -34,7 +33,7 @@ defmodule Site.ScheduleV2Controller.Line do
     map_polylines = map_polylines(map_stops, route)
     map_img_src = Maps.map_img_src(map_stops, map_polylines, route)
     map_color = Maps.map_color(route.type, route.id)
-    dynamic_map_data = dynamic_map_data(map_color, map_polylines, vehicle_polylines, map_stops, vehicle_tooltips)
+    dynamic_map_data = Maps.dynamic_map_data(map_color, map_polylines, vehicle_polylines, map_stops, vehicle_tooltips)
 
     conn
     |> assign(:direction_id, direction_id)
@@ -206,7 +205,7 @@ defmodule Site.ScheduleV2Controller.Line do
   end
 
   @spec map_polylines({any, [Routes.Shape.t]}, Routes.Route.t) :: [String.t]
-  defp map_polylines(_, %Routes.Route{type: 4}), do: ""
+  defp map_polylines(_, %Routes.Route{type: 4}), do: []
   defp map_polylines({_stops, shapes}, _) do
     shapes
     |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
@@ -427,37 +426,4 @@ defmodule Site.ScheduleV2Controller.Line do
   def sort_stop_list({all_stops, _branches}, direction_id), do: sort_stop_list(all_stops, direction_id)
   def sort_stop_list(all_stops, 1) when is_list(all_stops), do: Enum.reverse(all_stops)
   def sort_stop_list(all_stops, 0) when is_list(all_stops), do: all_stops
-
-  @spec dynamic_map_data(String.t, [String.t], [String.t], {[Stops.Stop.t], any}, map()) :: map()
-  defp dynamic_map_data(color, route_polylines, vehicle_polylines, {stops, _shapes}, vehicle_tooltips) do
-    %{
-      color: color,
-      route_polylines: route_polylines,
-      vehicle_polylines: vehicle_polylines,
-      stops: Enum.map(stops, &([&1.latitude, &1.longitude, &1.name, &1.id])),
-      stops_show_marker: true,
-      stop_icon: static_url(Site.Endpoint, "/images/map-#{color}-dot-icon.png"),
-      vehicles: map_vehicles(vehicle_tooltips),
-      vehicle_icon: static_url(Site.Endpoint, "/images/map-#{color}-vehicle-icon.png"),
-      options: %{
-        gestureHandling: "cooperative",
-        streetViewControl: false,
-        mapTypeControl: false
-      }
-    }
-  end
-
-  @spec map_vehicles(nil | map()) :: []
-  def map_vehicles(nil), do: []
-  def map_vehicles(vehicle_tooltips) do
-    vehicle_tooltips
-    |> Enum.reduce([], fn({key, tooltip_data}, output) ->
-      case key do
-        {_, _} -> output
-        _ -> [[tooltip_data.vehicle.latitude,
-               tooltip_data.vehicle.longitude,
-               VehicleHelpers.tooltip(tooltip_data)] | output]
-      end
-    end)
-  end
 end

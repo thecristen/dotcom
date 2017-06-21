@@ -39,7 +39,6 @@ function initializeMap(el, mapData, offset) {
     if (staticMap) {
       staticMap.style.display = "none";
     }
-
     displayMap(el, mapData, offset);
   } else {
     const existingCallback = window.mapsCallback || function() {};
@@ -53,34 +52,19 @@ function initializeMap(el, mapData, offset) {
 
 function displayMap(el, mapData, mapOffset) {
   // Create a map instance
-  maps[mapOffset] = new google.maps.Map(el, mapData.options);
+  maps[mapOffset] = new google.maps.Map(el, mapData.dynamic_options);
 
   // Bounds will allow us to later zoom the map to the boundaries of the stops
   bounds[mapOffset] = new google.maps.LatLngBounds();
 
   // If there are stops, show them
-  if (mapData.stops) {
-    // Handle custom icon if available
-    var stopIcon = "";
-    if (mapData.stop_icon) {
-      stopIcon = mapData.stop_icon;
-    }
-    mapData.stops.forEach(renderMarker(mapOffset, stopIcon, 8, mapData.stops_show_marker, 0));
-  }
-
-  // If there are vehicles, show them
-  if (mapData.vehicles) {
-    mapData.vehicles.forEach(renderMarker(mapOffset, mapData.vehicle_icon, 22, true, 200));
+  if (mapData.markers) {
+    mapData.markers.forEach(renderMarker(mapOffset));
   }
 
   // If there are route polylines, show them
-  if (mapData.route_polylines) {
-    renderPolylines(mapOffset, mapData.route_polylines, mapData.color, 4);
-  }
-
-  // If there additional vehicle polylines, show them
-  if (mapData.vehicle_polylines) {
-    renderPolylines(mapOffset, mapData.vehicle_polylines, mapData.color, 2);
+  if (mapData.paths) {
+    renderPolylines(mapOffset, mapData.paths);
   }
 
   // Auto zoom and auto center
@@ -101,37 +85,38 @@ function displayMap(el, mapData, mapOffset) {
   maps[mapOffset].setOptions({styles: [{featureType: "poi", stylers: [{visibility: "off"}]}]});
 }
 
-function renderPolylines (mapOffset, polylines, color, weight) {
-  polylines.forEach((polyline) => {
+function renderPolylines (mapOffset, polylines) {
+  polylines.forEach((path) => {
     new google.maps.Polyline({
-      path: google.maps.geometry.encoding.decodePath(polyline),
+      path: google.maps.geometry.encoding.decodePath(path.polyline),
       geodesic: true,
-      strokeColor: "#" + color,
+      strokeColor: "#" + path.color,
       strokeOpacity: 1.0,
-      strokeWeight: weight
+      strokeWeight: path.weight
     }).setMap(maps[mapOffset]);
   });
 }
 
-function renderMarker (mapOffset, icon, iconSize, showMarker, zIndexBase) {
+function renderMarker (mapOffset) {
   return (markerData, offset) => {
-    var lat = markerData[0];
-    var lng = markerData[1];
-    var content = markerData[2];
-    var key = zIndexBase + offset;
+    var lat = markerData.latitude;
+    var lng = markerData.longitude;
+    var content = markerData.tooltip;
+    var key = markerData.z_index + offset;
+    var iconSize = markerData.size == "tiny" ? 8 : 22;
 
     // Add a marker to map
-    if (showMarker) {
+    if (markerData["visible?"]) {
       markers[key] = new google.maps.Marker({
         position: {lat: lat, lng: lng},
         map: maps[mapOffset],
         icon: {
-          url: icon,
+          url: markerData.icon,
           size: new google.maps.Size(iconSize, iconSize),
           origin: new google.maps.Point(0, 0),
           anchor: new google.maps.Point(0, iconSize)
         },
-        zIndex: zIndexBase + offset
+        zIndex: markerData.z_index + offset
       });
 
       // Display information about

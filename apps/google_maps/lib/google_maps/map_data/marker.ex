@@ -6,14 +6,16 @@ defmodule GoogleMaps.MapData.Marker do
   """
 
   @type size :: :tiny | :mid | :small
-  @default_opts [icon: nil, size: :mid, visible?: true]
+  @default_opts [icon: nil, size: :mid, visible?: true, tooltip: nil, z_index: 0]
 
   defstruct [
     latitude: 0.0,
     longitude: 0.0,
     icon: nil,
     visible?: true,
-    size: :mid
+    size: :mid,
+    tooltip: nil,
+    z_index: 0
   ]
 
   @type t :: %__MODULE__{
@@ -21,7 +23,9 @@ defmodule GoogleMaps.MapData.Marker do
     longitude: float,
     icon: String.t | nil,
     visible?: boolean,
-    size: size
+    size: size,
+    tooltip: String.t | nil,
+    z_index: integer
   }
 
   def new(latitude, longitude, opts \\ []) do
@@ -31,7 +35,9 @@ defmodule GoogleMaps.MapData.Marker do
       longitude: longitude,
       icon: map_options[:icon],
       visible?: map_options[:visible?],
-      size: map_options[:size]
+      size: map_options[:size],
+      tooltip: map_options[:tooltip],
+      z_index: map_options[:z_index]
     }
   end
 

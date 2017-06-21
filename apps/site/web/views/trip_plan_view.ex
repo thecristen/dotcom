@@ -42,8 +42,8 @@ defmodule Site.TripPlanView do
     markers = markers_for_legs(itinerary.legs)
     paths = Enum.map(itinerary.legs, &Path.new(&1.polyline))
 
-    600
-    |> MapData.new(600)
+    {600, 600}
+    |> MapData.new
     |> MapData.add_markers(markers)
     |> MapData.add_paths(paths)
     |> GoogleMaps.static_map_url()
@@ -58,8 +58,8 @@ defmodule Site.TripPlanView do
   end
 
   def initial_map_src do
-    630
-    |> MapData.new(400, 14)
+    {630, 400}
+    |> MapData.new(14)
     |> add_initial_marker()
     |> GoogleMaps.static_map_url()
   end

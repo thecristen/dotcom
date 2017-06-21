@@ -160,16 +160,18 @@ defmodule Site.StopView do
   end
 
   @doc "URL for the embedded Google map image for the stop."
-  @spec map_url(Stop.t, non_neg_integer, non_neg_integer, non_neg_integer) :: String.t
-  def map_url(stop, width, height, scale) do
-    stop
-    |> build_google_map_data(scale, width, height)
-    |> GoogleMaps.static_map_url()
+  @spec map_url(MapData.t) :: String.t
+  def map_url(map_data) do
+    GoogleMaps.static_map_url(map_data)
   end
 
-  defp build_google_map_data(stop, scale, width, height) do
-    width
-    |> MapData.new(height, 16, scale)
+  @doc """
+  Returns a MapData struct for the given stop
+  """
+  @spec build_map_data(Stop.t, 1 | 2, integer, integer) :: MapData.t
+  def build_map_data(stop, scale, width, height) do
+    {width, height}
+    |> MapData.new(16, scale)
     |> add_stop_marker(stop)
   end
 

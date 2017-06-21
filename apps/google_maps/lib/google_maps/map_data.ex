@@ -1,9 +1,11 @@
 defmodule GoogleMaps.MapData do
   alias GoogleMaps.MapData.Path
   alias GoogleMaps.MapData.Marker
+
   @moduledoc """
   Represents the data required to build a a google map.
   """
+  @default_dynamic_options %{gestureHandling: "cooperative"}
 
   defstruct [
     markers: [],
@@ -11,7 +13,8 @@ defmodule GoogleMaps.MapData do
     width: 0,
     height: 0,
     zoom: nil,
-    scale: 1
+    scale: 1,
+    dynamic_options: @default_dynamic_options
   ]
 
   @type t :: %__MODULE__{
@@ -20,7 +23,8 @@ defmodule GoogleMaps.MapData do
     width: integer,
     height: integer,
     zoom: integer | nil,
-    scale: 1 | 2
+    scale: 1 | 2,
+    dynamic_options: %{atom => String.t | boolean}
   }
 
   @typep static_query_key :: :markers | :path | :zoom | :scale | :center | :size
@@ -42,8 +46,8 @@ defmodule GoogleMaps.MapData do
     |> format_static_paths(map_data.paths)
   end
 
-  @spec new(integer, integer, integer | nil, 1 | 2) :: t
-  def new(width, height, zoom \\ nil, scale \\ 1) do
+  @spec new({integer, integer}, integer | nil, 1 | 2) :: t
+  def new({width, height}, zoom \\ nil, scale \\ 1) do
     %__MODULE__{
       width: width,
       height: height,
@@ -86,6 +90,16 @@ defmodule GoogleMaps.MapData do
   @spec add_paths(t, [Path.t]) :: t
   def add_paths(map_data, paths) do
     %{map_data | paths: Enum.concat(map_data.paths, paths)}
+  end
+
+  @doc """
+  Adds params that will disable the streetViewControl
+  and MapTypeControl on a dynamic map.
+  """
+  @spec disable_map_type_controls(t) :: t
+  def disable_map_type_controls(map_data) do
+    opts_map = %{streetViewControl: false, mapTypeControl: false}
+    %{map_data | dynamic_options: Map.merge(map_data.dynamic_options, opts_map)}
   end
 
   @spec center_value(t) :: String.t | nil
