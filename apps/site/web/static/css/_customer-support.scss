@@ -47,26 +47,22 @@
 
 .photo-preview-container {
   .photo-preview {
-    border-bottom: 1px solid $gray-lightest;
-    border-top: 1px solid $gray-lightest;
     margin-top: .5em;
-    padding: .5em 0;
 
     img {
       // Polyfill for IE object-fit support
       font-family: 'object-fit: cover;';
       object-fit: contain;
     }
+
+    p {
+      margin: 0;
+    }
   }
 }
 
-.upload-photo-button {
-  background-color: $gray-light;
-  color: $white;
-
-  label {
-    margin: 0;
-  }
+.upload-photo-link {
+  cursor: pointer;
 
   + input {
     padding: $space-8 0;
@@ -80,7 +76,7 @@
 
 body {
   &.no-js {
-    .upload-photo-button {
+    .upload-photo-link {
       display: none;
     }
   }
@@ -117,7 +113,7 @@ body {
   border-color: $gray-light;
 }
 
-.has-success .support-form-control + span:before {
+.has-success .support-form-control + span::before {
   @include fa-icon();
   color: $brand-success;
   content: $fa-var-check-circle;
@@ -127,6 +123,20 @@ body {
   top: -1.75rem;
 }
 
+.submit-button {
+  margin-top: $space-8;
+}
+
 button .waiting {
   margin: 5%;
+}
+
+.contrast {
+  background-color: $gray-bordered-background;
+  margin-left: $space-12;
+
+  &.form-group {
+    margin-bottom: $space-2;
+    padding: $space-12;
+  }
 }

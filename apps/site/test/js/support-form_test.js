@@ -24,7 +24,7 @@ describe('support form', () => {
   describe('clearFallbacks', () => {
     beforeEach(() => {
       $('#test').html(`
-        <button class="upload-photo-button" tabindex="-1"><label for="photo" tabindex="0"></label></button>
+        <a class="upload-photo-link" tabindex="-1">Upload Photo</a>
         <input type="file" id="photo" name="photo" />
         <div class="support-form-expanded"></div>
       `);
@@ -32,13 +32,12 @@ describe('support form', () => {
     });
 
     it('resets tabindex attributes in the photo section to their defaults', () => {
-      assert.equal($('.upload-photo-button').prop('tabindex'), 0);
-      assert.equal($('label[for=photo]').prop('tabindex'), -1);
+      assert.equal($('.upload-photo-link').prop('tabindex'), -1);
     });
 
-    it('forwards a click on the button to the input', (done) => {
+    it('forwards a click on the link to the input', (done) => {
       $('#photo').click(() => done());
-      $('.upload-photo-button').click();
+      $('.upload-photo-link').click();
     });
   });
 
@@ -50,7 +49,7 @@ describe('support form', () => {
        <div class="photo-preview"></div>
      </div>
      <input type="file" id="photo" name="photo" />
-     <button class="upload-photo-button hidden-xs-up"></button>
+     <a class="upload-photo-link hidden-xs-up"></a>
      `);
       handleUploadedPhoto(
         $,
@@ -67,8 +66,8 @@ describe('support form', () => {
       assert.include($preview.html(), '24 B');
     });
 
-    it('hides the upload button', () => {
-      assert.isTrue($('.upload-photo-button').hasClass('hidden-xs-up'));
+    it('hides the upload link', () => {
+      assert.isTrue($('.upload-photo-link').hasClass('hidden-xs-up'));
     });
 
     it('adds a clear button which clears the photo', () => {

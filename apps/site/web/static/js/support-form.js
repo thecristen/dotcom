@@ -23,14 +23,12 @@ export default function($ = window.jQuery) {
 
 // Set a few things since we know we don't need the no-JS fallbacks
 export function clearFallbacks($) {
-  const $photoLabel = $('label[for=photo]'),
-        $photoButton = $photoLabel.parent('button'),
+  const $photoLink = $('.upload-photo-link'),
         $photoInput = $('#photo');
   // Remove tabindex manipulation for screenreaders
-  $photoLabel.removeAttr('tabindex');
-  $photoButton.removeAttr('tabindex');
+  $photoLink.removeAttr('tabindex');
   // Forward clicks from the button to the input
-  $photoButton.click(function (event) {
+  $photoLink.click(function (event) {
     event.preventDefault();
     $photoInput.click();
   });
@@ -45,7 +43,7 @@ function setupPhotoPreviews($) {
     }
     else {
       $container.addClass('hidden-xs-up');
-      $('.upload-photo-button').removeClass('hidden-xs-up');
+      $('.upload-photo-link').removeClass('hidden-xs-up');
     }
   });
 };
@@ -62,7 +60,7 @@ export function handleUploadedPhoto($, file, $previewDiv, $container) {
         ${file.name} &mdash; ${filesize(file.size)}
         <button class="btn btn-link clear-photo"><i class="fa fa-times-circle" aria-hidden="rue"></i><span class="sr-only">Clear Photo Upload</span></button>
       </p>
-      <img width="100" height="100" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
+      <img height="100" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
     `),
           reader = new FileReader();
     reader.onloadend = () => { $imgPreview[2].src = reader.result; };
@@ -79,7 +77,7 @@ export function handleUploadedPhoto($, file, $previewDiv, $container) {
     `));
   }
   $container.focus();
-  $('.upload-photo-button').addClass('hidden-xs-up');
+  $('.upload-photo-link').addClass('hidden-xs-up');
 }
 
 export function setupTextArea() {
