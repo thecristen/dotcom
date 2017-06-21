@@ -40,9 +40,9 @@
         <div class="hours">
           <%= if assigns[:hours_of_operation] do %>
             <h2 class="h3 hours-heading">Hours of Operation</h3>
-              <%= for period <- [:week, :saturday, :sunday] do %>
-                  <h3 class="h5 hours-period-heading"><%= schedule_period(period) %>:</h5>
-                  <%= for direction_id <- [1, 0] do %>
+              <%= for period <- ~w(week saturday sunday)a, @hours_of_operation[period] do %>
+                <h3 class="h5 hours-period-heading"><%= schedule_period(period) %>:</h5>
+                  <%= for direction_id <- [1, 0], @hours_of_operation[period][direction_id] do %>
                     <p class="hours-directions">
                       <span class="hours-direction-name"><%= @route.direction_names[direction_id] %>:</span>
                       <span class="hours-time"><%= display_departure_range(@hours_of_operation[period][direction_id]) %></span>
