@@ -9,16 +9,16 @@
   border-bottom: $space-4 solid $btn-primary-bg;
 
   .btn {
-    display: table-cell;
     border: $tab-border;
-    border-radius: 0;
     border-bottom: 0;
+    border-radius: 0;
+    display: table-cell;
+    padding: $base-spacing * .875;
     text-align: center;
-    padding: $base-spacing * .875;;
 
     @include media-breakpoint-down(xs) {
-      padding: $base-spacing-sm $space-6;
       font-size: .875rem;
+      padding: $base-spacing-sm $space-6;
     }
 
     @include hover-focus-active {
@@ -45,15 +45,15 @@
 
 .tab-select-btn-group-stacked {
   @include media-breakpoint-down(xs) {
-    display: inline-block;
     border-bottom: 0;
+    display: inline-block;
 
     .btn {
       display: inline-block;
-      width: 100%;
-      padding: $base-spacing * .75;
       font-size: 1rem;
+      padding: $base-spacing * .75;
       text-align: left;
+      width: 100%;
 
       &:last-child {
         border-bottom: $tab-border;
