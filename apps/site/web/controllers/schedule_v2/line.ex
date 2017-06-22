@@ -29,11 +29,8 @@ defmodule Site.ScheduleV2Controller.Line do
     active_shapes = get_active_shapes(route_shapes, route, variant, expanded)
     branches = get_branches(route_shapes, active_shapes, route, direction_id)
     collapsed_branches = remove_collapsed_stops(branches, expanded, direction_id)
-    map_stops = get_map_data(branches, {route_shapes, active_shapes}, route.id, expanded)
-    map_polylines = map_polylines(map_stops, route)
-    map_img_src = Maps.map_img_src(map_stops, map_polylines, route)
-    map_color = Maps.map_color(route.type, route.id)
-    dynamic_map_data = Maps.dynamic_map_data(map_color, map_polylines, vehicle_polylines, map_stops, vehicle_tooltips)
+    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id, expanded)
+    {map_img_src, dynamic_map_data} = Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
 
     conn
     |> assign(:direction_id, direction_id)
@@ -182,33 +179,6 @@ defmodule Site.ScheduleV2Controller.Line do
       1 -> List.first(branch.stops)
     end
     %{branch | stops: [stop]}
-  end
-
-  @spec get_map_data([RouteStops.t], {[Shape.t], [Shape.t]}, Route.id_t, query_param) :: {[Stops.Stop.t], [Shape.t]}
-  defp get_map_data(branches, {route_shapes, _active_shapes}, "Green", expanded_branch) when not is_nil(expanded_branch) do
-    stops = branches |> Enum.filter(& &1.branch == expanded_branch) |> get_map_stops()
-    {stops, route_shapes}
-  end
-  defp get_map_data(branches, {route_shapes, _active_shapes}, "Green", _expanded) do
-    {get_map_stops(branches), route_shapes}
-  end
-  defp get_map_data(branches, {_route_shapes, active_shapes}, _route_id, _expanded) do
-    {get_map_stops(branches), active_shapes}
-  end
-
-  @spec get_map_stops([RouteStops.t]) :: [Stops.Stop.t]
-  defp get_map_stops(branches) do
-    branches
-    |> Enum.flat_map(& &1.stops)
-    |> Enum.uniq_by(& &1.id)
-    |> Enum.map(& &1.station_info)
-  end
-
-  @spec map_polylines({any, [Routes.Shape.t]}, Routes.Route.t) :: [String.t]
-  defp map_polylines(_, %Routes.Route{type: 4}), do: []
-  defp map_polylines({_stops, shapes}, _) do
-    shapes
-    |> Enum.flat_map(& PolylineHelpers.condense([&1.polyline]))
   end
 
   @doc """
