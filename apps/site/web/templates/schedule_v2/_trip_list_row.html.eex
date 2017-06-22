@@ -1,7 +1,7 @@
 <% # if we got a URL, then link each of the parts of the row; otherwise use a <div>
 class_name = ["trip-list-v2-row trip-list-v2-row-2-col ", assigns[:class] || ""]
 {tag, attributes} = if assigns[:url] do
-  {:a, [href: @url, class: class_name, id: @id, role: "row"]}
+  {:a, [href: @url, class: class_name, data: [scroll: "true"], id: @id, role: "row"]}
 else
   {:div, [class: class_name]}
 end %>
