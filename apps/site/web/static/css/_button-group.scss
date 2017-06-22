@@ -1,141 +1,84 @@
 @import 'variables';
 
-@mixin btn-selected-bottom-mode($color) {
-  border-bottom: $space-6 solid $color;
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  width: 100%;
-}
-
 .tab-select-btn-group {
   width: 100%;
+  display: table;
+  table-layout: fixed;
+  border-collapse: collapse;
 
-  @include media-breakpoint-up(sm) {
-    border-collapse: collapse;
-    display: table;
-
-    > .btn {
-      border-radius: 0;
-    }
-  }
+  border-bottom: $space-4 solid $btn-primary-bg;
 
   .btn {
-    border-color: $gray-lightest;
-    padding: $space-12;
-    position: relative;
+    border: $tab-border;
+    border-bottom: 0;
+    border-radius: 0;
+    display: table-cell;
+    padding: $base-spacing * .875;
+    text-align: center;
 
     @include media-breakpoint-down(xs) {
-      border-bottom: 0;
+      font-size: .875rem;
+      padding: $base-spacing-sm $space-6;
+    }
+
+    @include hover-focus-active {
+      background-color: $btn-primary-focus-bg;
+      color: $btn-primary-focus-color;
     }
   }
 
   .tab-select-btn-selected {
-    border-color: $btn-primary-bg;
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
+    font-weight: bold;
+
+    @include hover-focus-active {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-color;
+    }
   }
 
   .stacked-tab-label {
-    padding-bottom: $base-spacing * .875;
+    display: none;
   }
 }
 
-.tab-select-btn-group-full {
-  margin-bottom: $base-spacing;
+.tab-select-btn-group-stacked {
+  @include media-breakpoint-down(xs) {
+    border-bottom: 0;
+    display: inline-block;
 
-  @include media-breakpoint-up(sm) {
-    border-collapse: collapse;
-    display: table;
+    .btn {
+      display: inline-block;
+      font-size: 1rem;
+      padding: $base-spacing * .75;
+      text-align: left;
+      width: 100%;
 
-    > .btn {
-      display: table-cell;
+      &:last-child {
+        border-bottom: $tab-border;
+      }
+    }
+
+    .stacked-tab-label {
+      display: inline-block;
+      padding-bottom: $base-spacing * .875;
     }
   }
 }
 
 .tab-select-btn-group-partial {
   @include media-breakpoint-up(md) {
-    border-bottom: $space-4 solid $brand-primary;
-
-    > .btn {
-      border-right: 0;
+    .btn {
       float: left;
       width: 30%;
 
+      border-right: 0;
       &:last-child {
-        border-right: $border;
+        border-right: $tab-border;
       }
     }
   }
-
-  @include media-breakpoint-only(sm) {
-    border-bottom: $space-4 solid $brand-primary;
-
-    > .btn {
-      display: table-cell;
-    }
-  }
-
-  .tab-select-btn-selected {
-    border-color: $brand-primary;
-  }
-}
-
-.tab-select-option {
-  @include hover-focus-active {
-    background-color: $btn-primary-focus-bg;
-    color: $btn-primary-focus-color;
-  }
-}
-
-.tab-select-btn {
-  @include media-breakpoint-down(xs) {
-    border-radius: 0;
-    padding-bottom: $base-spacing-sm;
-    padding-top: $base-spacing-sm;
-    text-align: left;
-    width: 100%;
-
-    &:first-child {
-      border-top-left-radius: $border-radius;
-      border-top-right-radius: $border-radius;
-    }
-
-    &:last-child {
-      border-bottom: $border;
-      border-bottom-left-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-    }
-  }
-}
-
-.tab-select-btn-selected {
-  background-color: $btn-primary-bg;
-  border-color: $btn-primary-bg;
-  color: $btn-primary-color;
-  font-weight: bold;
-
-  @include media-breakpoint-down(xs) {
-    padding-bottom: $base-spacing-sm;
-    padding-top: $base-spacing-sm;
-    text-align: left;
-  }
-
-  @include hover-focus-active {
-    background-color: $btn-primary-bg;
-    color: $btn-primary-color;
-  }
-}
-
-.tab-select-btn-content {
-  @include clearfix();
-}
-
-.tab-select-btn-content-option {
-  float: left;
-}
-
-.tab-select-btn-content-icon {
-  float: right;
 }
 
 .collapse.in,
@@ -148,28 +91,5 @@
 .social-button-block {
   a {
     text-decoration: none;
-  }
-}
-
-.tab-select-btnbar-group {
-  @include media-breakpoint-down(xs) {
-    display: flex;
-    width: 100%;
-  }
-}
-
-.tab-select-btnbar {
-  @include media-breakpoint-down(xs) {
-    border-color: $brand-primary;
-    border-left: 0;
-    border-radius: 0;
-    flex: 1;
-    font-size: .875rem;
-    padding: $base-spacing-sm $space-6;
-    text-align: center;
-
-    &:first-child {
-      border-left: 1px solid $brand-primary;
-    }
   }
 }

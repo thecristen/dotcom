@@ -29,7 +29,8 @@
 }
 
 .alert-show-title-container {
-  margin-bottom: .75rem;
+  margin-bottom: $space-12;
+  margin-top: $space-12;
   position: relative;
   text-align: center;
 
@@ -107,6 +108,12 @@
   .btn {
     border-color: $white;
     color: $white;
+  }
+}
+
+.alert-mode-tab-list {
+  .tab-select-btn-group {
+    table-layout: auto;
   }
 }
 
