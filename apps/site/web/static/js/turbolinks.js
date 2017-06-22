@@ -1,36 +1,49 @@
 export default function($, w = window, doc = document) {
   $ = $ || w.jQuery;
 
-  var savedPosition = null;
+  var lastScrollPosition = null;
+  var scrollBehavior = null;
   var redirectTimeout = null;
-  var lastUrl = currentUrl();
 
   w.addEventListener('popstate', (ev) => {
     var url = w.location.href;
-
     if (redirectTimeout && !url.match(/redirect/)) {
       w.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
-
-    lastUrl = currentUrl();
   }, {passive: true});
 
   doc.addEventListener('turbolinks:before-visit', (ev) => {
-    savedPosition = null;
-
     // cancel a previously set redirect timeout
     if (redirectTimeout) {
       w.clearTimeout(redirectTimeout);
       redirectTimeout = null;
     }
-    const url = ev.data.url;
 
-    if (samePath(url, lastUrl)) {
-      savedPosition = [w.scrollX, w.scrollY];
+    // for every visit, there is an active element. That active element probably doesn't say much about whether the
+    // page should scroll or not after it is loaded, so the default behaviour is to consider if the link is to the
+    // same page, and if it is, retain the same position. But if the active element indicated what scroll action to take
+    // then that preference should override the default behavior
+    lastScrollPosition = [w.scrollX, w.scrollY];
+    switch (ev.srcElement.activeElement.dataset.scroll) {
+      // allow the page to scroll on focus, or not at all if there is no focus
+      case "true":
+        scrollBehavior = "none";
+        break;
+
+      // prevent any scrolling for any reason
+      case "false":
+        scrollBehavior = "remember";
+        break;
+
+      // decide remember the position if the current page and next page have the same path
+      default:
+        if (samePath(ev.data.url, currentUrl())) {
+          scrollBehavior = "remember";
+        } else {
+          scrollBehavior = "top";
+        }
     }
-
-    lastUrl = currentUrl();
   }, {passive: true});
 
   doc.addEventListener('turbolinks:render', () => {
@@ -40,16 +53,18 @@ export default function($, w = window, doc = document) {
     if (!cachedRender && w.location.hash) {
       const el = doc.getElementById(w.location.hash.slice(1));
       if (el) {
-        savedPosition = null;
         focusAndExpand(el, $);
       }
     }
 
-    if (savedPosition) {
-      w.scrollTo.apply(window, savedPosition);
-      if (!cachedRender) {
-        savedPosition = null;
-      }
+    // scroll page depeneding on previously determined conditions
+    switch (scrollBehavior) {
+      case "remember":
+        w.scrollTo.apply(window, lastScrollPosition);
+        break;
+
+      case "top":
+        w.scrollTo.apply(window, [0, 0]);
     }
   }, {passive: true});
 
@@ -86,22 +101,13 @@ function focusAndExpand(el, $) {
   // the first child link and focus that.
   if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
     el.focus();
-    scrollToElement(el);
   } else {
     const a = el.querySelector('a');
     a.focus();
-    scrollToElement(a);
     // if the link we focused is the target for a collapse, then show
     // the collapsed element
     if (a.getAttribute("data-target") == window.location.hash) {
       $(el).collapse('show');
     }
   }
-};
-
-function scrollToElement(el, savedPosition) {
-  window.requestAnimationFrame(() => {
-    const rect = el.getBoundingClientRect();
-    window.scrollBy(0, rect.top);
-  });
 };
