@@ -2,10 +2,10 @@
 <p class="tnm-mode-links">
   <span>Or view by mode:</span>
   <span class="no-wrap">
-    <a href="#commuter_rail">Commuter Rail</a>,
-    <a href="#bus">Bus</a>,
-    <a href="#subway">Subway</a>,
-    <a href="#ferry">Ferry</a>
+    <a href="#commuter_rail" data-scroll="true">Commuter Rail</a>,
+    <a href="#bus" data-scroll="true">Bus</a>,
+    <a href="#subway" data-scroll="true">Subway</a>,
+    <a href="#ferry" data-scroll="true">Ferry</a>
   </span>
 </p>
 <% end %>
