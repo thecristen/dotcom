@@ -9,25 +9,23 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="card">
-          <div class="card-header card-header-primary-darkest text-xs-center">
-            <h2 class="h3">
-              <%= link(
-                to: event_path(@conn, :index, month: shift_date_range(@month, -1)),
-                class: "arrow-icon"
-              ) do %>
-                <span class="sr-only">Previous Month</span>
-                <%= fa "chevron-circle-left" %>
-              <% end %>
-              <%= calendar_title(@conn.params) %>
-              <%= link(
-                to: event_path(@conn, :index, month: shift_date_range(@month, 1)),
-                class: "arrow-icon"
-              ) do %>
-                <span class="sr-only">Next Month</span>
-                <%= fa "chevron-circle-right" %>
-              <% end %>
-            </h2>
-          </div>
+          <h2 class="card-header card-header-primary-darkest text-xs-center">
+            <%= link(
+              to: event_path(@conn, :index, month: shift_date_range(@month, -1)),
+              class: "arrow-icon"
+            ) do %>
+              <span class="sr-only">Previous Month</span>
+              <%= fa "chevron-circle-left" %>
+            <% end %>
+            <%= calendar_title(@conn.params) %>
+            <%= link(
+              to: event_path(@conn, :index, month: shift_date_range(@month, 1)),
+              class: "arrow-icon"
+            ) do %>
+              <span class="sr-only">Next Month</span>
+              <%= fa "chevron-circle-right" %>
+            <% end %>
+          </h2>
 
           <%= if Enum.empty?(@events) do %>
             <div class="p-a-1">

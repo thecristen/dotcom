@@ -1,3 +1,8 @@
+.card-header,
+%card-header {
+  margin-bottom: 0;
+}
+
 .card-header-primary-darkest {
   background-color: $brand-primary-darkest;
   color: $white;
