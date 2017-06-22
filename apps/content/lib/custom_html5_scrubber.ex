@@ -5,6 +5,7 @@ defmodule Content.CustomHTML5Scrubber do
 
   Custom additions are:
   - Inclusion of 'mailto' in valid_schemes
+  - Provides missing quotes to "alt crossorigin usemap ismap width height"
   """
 
   require HtmlSanitizeEx.Scrubber.Meta
@@ -54,7 +55,7 @@ defmodule Content.CustomHTML5Scrubber do
 
   Meta.allow_tag_with_uri_attributes   "img", ["src", "lowsrc", "srcset"], @valid_schemes
   Meta.allow_tag_with_these_attributes "img", ["accesskey", "class", "contenteditable", "contextmenu", "dir", "draggable", "dropzone", "hidden", "id", "inert", "itemid", "itemprop", "itemref", "itemscope", "itemtype", "lang", "role", "spellcheck", "tabindex", "title", "translate",
-                                              "alt crossorigin usemap ismap width height"]
+                                              "alt", "crossorigin", "usemap", "ismap", "width", "height"]
 
   Meta.allow_tag_with_uri_attributes   "input", ["src"], @valid_schemes
   Meta.allow_tag_with_these_attributes "input", ["accesskey", "class", "contenteditable", "contextmenu", "dir", "draggable", "dropzone", "hidden", "id", "inert", "itemid", "itemprop", "itemref", "itemscope", "itemtype", "lang", "role", "spellcheck", "tabindex", "title", "translate",
