@@ -1,4 +1,6 @@
+<div class="page-section">
 <%= render_alerts(@stop_alerts, @date, @stop) %>
+</div>
 <%= if Enum.empty?(@upcoming_route_departures) do %>
   <div class="no-schedules-message">There are no upcoming departures scheduled for today's service from this stop.</div>
 <% else %>

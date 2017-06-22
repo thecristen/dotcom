@@ -8,8 +8,10 @@
     selected_mode: @mode
   } %>
   <%= if !Enum.empty?(@mode_hubs) do %>
+    <div class="page-section">
     <h2>Major <%= mode_name(@mode)%> Stops</h2>
     <%= render("_hub_stops.html", hubs: @mode_hubs, conn: @conn)%>
+    </div>
   <% end %>
   <%= for {route, detailed_stops} <- @stop_info do %>
     <div class="page-section stops-for-route">

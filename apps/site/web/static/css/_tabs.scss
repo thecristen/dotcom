@@ -18,12 +18,6 @@
   }
 }
 
-.tab-selector-container {
-  @include media-breakpoint-down(xs) {
-    margin-bottom: $base-spacing;
-  }
-}
-
 .tab-select-dropdown {
   border-color: $btn-primary-bg;
   border-radius: $border-radius;

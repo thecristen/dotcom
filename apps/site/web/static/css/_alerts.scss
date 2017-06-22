@@ -30,6 +30,7 @@
 
 .alert-show-title-container {
   margin-bottom: .75rem;
+  margin-top: .75rem;
   position: relative;
   text-align: center;
 
@@ -107,6 +108,12 @@
   .btn {
     border-color: $white;
     color: $white;
+  }
+}
+
+.alert-mode-tab-list {
+  .tab-select-btn-group {
+    table-layout: auto;
   }
 }
 
