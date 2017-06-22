@@ -114,7 +114,7 @@ function renderMarker (mapOffset) {
           url: markerData.icon,
           size: new google.maps.Size(iconSize, iconSize),
           origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(0, iconSize)
+          anchor: new google.maps.Point(iconSize / 2, iconSize / 2)
         },
         zIndex: markerData.z_index + offset
       });
