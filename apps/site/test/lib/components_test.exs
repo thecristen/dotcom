@@ -320,8 +320,8 @@ defmodule Site.ComponentsTest do
     test "displays a tab as selected" do
       rendered = tab_args() |> tab_list() |> safe_to_string()
 
-      assert rendered =~ ~s(<a class=\"btn tab-select-btnbar tab-select-option tab-select-btn-selected\" data-scroll=\"false\" href=\"/info#info-tab\" id="info-tab">)
-      assert rendered =~ "href=\"/info#info-tab\""
+      assert rendered =~ ~r/<a.*href=\"\/info#info-tab\"/
+      assert rendered =~ ~r/class=.*tab-select-btn-selected/
     end
 
     test "optionally takes a CSS class" do
