@@ -83,13 +83,12 @@ defmodule Site.CustomerSupportController do
 
   def send_ticket(params) do
     photo_info = cond do
-      "photo" in Map.keys(params) -> params["photo"]
-      "photo-fallback-data" in Map.keys(params) -> {params["photo-fallback-data"], params["photo-fallback-name"]}
+      "photos" in Map.keys(params) -> params["photos"]
       true -> nil
     end
     Feedback.Repo.send_ticket(
       %Feedback.Message{
-        photo: photo_info,
+        photos: photo_info,
         email: params["email"],
         phone: params["phone"],
         name: params["name"],

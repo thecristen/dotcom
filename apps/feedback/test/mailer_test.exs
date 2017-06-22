@@ -87,11 +87,11 @@ defmodule Feedback.MailerTest do
     end
 
     test "can attach a photo" do
-      Feedback.Mailer.send_heat_ticket(%Feedback.Message{}, %{path: "/tmp/nonsense.txt", filename: "test.png"})
-      assert List.first(Feedback.Test.latest_message["attachments"]) == %{
+      Feedback.Mailer.send_heat_ticket(%Feedback.Message{}, [%{path: "/tmp/nonsense.txt", filename: "test.png"}])
+      assert Feedback.Test.latest_message["attachments"] == [%{
         "path" => "/tmp/nonsense.txt",
         "filename" => "test.png"
-      }
+      }]
     end
 
     test "does not log anything when the user doesnt want feedback" do

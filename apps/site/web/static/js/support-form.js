@@ -11,12 +11,13 @@ export default function($ = window.jQuery) {
     window.nextTick(() => {
       clearFallbacks($);
 
-      setupPhotoPreviews($);
+      const toUpload = [];
+      setupPhotoPreviews($, toUpload);
       setupTextArea();
       setupRequestResponse($);
       setupValidation($);
 
-      handleSubmitClick($);
+      handleSubmitClick($, toUpload);
     });
   }, {passive: true});
 };
@@ -35,49 +36,77 @@ export function clearFallbacks($) {
 };
 
 // Adds the uploaded photo previews
-function setupPhotoPreviews($) {
+function setupPhotoPreviews($, toUpload) {
   const $container = $('.photo-preview-container');
   $('#photo').change(function () {
-    if (this.files.length === 1) {
-      handleUploadedPhoto($, this.files[0], $('.photo-preview'), $container);
-    }
-    else {
-      $container.addClass('hidden-xs-up');
-      $('.upload-photo-link').removeClass('hidden-xs-up');
+    if (this.files.length >= 1) {
+      handleUploadedPhoto($, this.files[0], $container, toUpload);
     }
   });
 };
 
 // Split out for testing, since the content of a file input can't be
 // changed programmatically for security reasons
-export function handleUploadedPhoto($, file, $previewDiv, $container) {
-  const filesize = require('filesize');
-  $previewDiv.html('');
-  $container.removeClass('hidden-xs-up');
+export function handleUploadedPhoto($, file, $container, toUpload) {
   if (/image\//.test(file.type)) {
-    const $imgPreview = $(`
-      <p>
-        ${file.name} &mdash; ${filesize(file.size)}
-        <button class="btn btn-link clear-photo"><i class="fa fa-times-circle" aria-hidden="rue"></i><span class="sr-only">Clear Photo Upload</span></button>
-      </p>
-      <img height="100" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
-    `),
-          reader = new FileReader();
-    reader.onloadend = () => { $imgPreview[2].src = reader.result; };
-    reader.readAsDataURL(file);
-    $previewDiv.append($imgPreview);
-    $imgPreview.find('.clear-photo').click((event) => {
-      event.preventDefault();
-      $('#photo').val('').trigger('change');
-    });
+    toUpload.push(file);
+    console.log(toUpload);
+    hideOrShowPreviews($container, toUpload);
+
+    let preview = new PhotoPreview($, file)
+      .addClickHandler($container, toUpload)
+      .div();
+    $container.append(preview);
   }
   else {
-    $previewDiv.append($(`
+    $container.append($(`
       <span>Error: ${file.name} <br /> The file you've selected is not valid for review. Please upload images only.</span>
     `));
   }
   $container.focus();
-  $('.upload-photo-link').addClass('hidden-xs-up');
+}
+
+function hideOrShowPreviews($container, toUpload) {
+  if (toUpload.length > 0) {
+    $container.removeClass("hidden-xs-up");
+  } else{
+    $container.addClass("hidden-xs-up");
+  }
+}
+
+function PhotoPreview ($, file) {
+  const filesize = require('filesize');
+
+  let $div = $(`
+    <div class="photo-preview">
+      <p>
+        ${file.name} &mdash; ${filesize(file.size)}
+        <button class="btn btn-link clear-photo"><i class="fa fa-times-circle" aria-hidden="true"></i><span class="sr-only">Clear Photo Upload</span></button>
+      </p>
+      <img height="100" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
+    </div>
+  `);
+
+  let reader = new FileReader();
+  reader.onloadend = () => { $div.find("img")[0].src = reader.result; };
+  reader.readAsDataURL(file);
+
+  this.addClickHandler = function ($container, toUpload) {
+    $div.find('.clear-photo').click((event) => {
+      event.preventDefault();
+
+      let index = toUpload.indexOf(file);
+      toUpload.splice(index, 1);
+      $div.remove();
+
+      hideOrShowPreviews($container, toUpload);
+    });
+    return this;
+  }
+
+  this.div = function () {
+    return $div;
+  }
 }
 
 export function setupTextArea() {
@@ -229,7 +258,7 @@ function reactivateSubmitButton($) {
   $('#support-submit').trigger('waiting:end');
 }
 
-export function handleSubmitClick($) {
+export function handleSubmitClick($, toUpload) {
   $('#support-submit').click(function (event) {
     // Use an npm-installed library for testing
     const FormData = window.FormData ? window.FormData : require('form-data'),
@@ -237,14 +266,13 @@ export function handleSubmitClick($) {
     event.preventDefault();
     if (valid) {
       deactivateSubmitButton($);
-      const formData = new FormData(),
-            photo = $('#photo')[0].files;
+      const formData = new FormData();
       $('#support-form').serializeArray().forEach(({name: name, value: value}) => {
         formData.append(name, value);
       });
-      if (photo.length === 1) {
-        formData.append('photo', photo[0]);
-      }
+      toUpload.forEach((photo) => {
+        formData.append("photos[]", photo);
+      });
       $.ajax({
         url: $('#support-form').attr('action'),
         method: "POST",

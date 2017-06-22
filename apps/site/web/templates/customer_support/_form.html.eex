@@ -24,15 +24,6 @@
           </div>
         </div>
         <div class="col-xs-12 photo-preview-container contrast <%= unless "photo" in Map.keys(@existing_params), do: "hidden-xs-up" %>" tabindex="-1">
-
-          <div class="photo-preview">
-            <%= with {encoded, content_type, name, size} <- photo_info(@existing_params) do %>
-              <img src="data:<%= content_type %>;base64,<%= encoded %>" height="100" alt="Uploaded image <%= name %> preview"></img>
-              <span><%= name %> &mdash; <%= size %></span>
-              <input type="hidden" name="photo-fallback-data" value="<%= encoded %>" />
-              <input type="hidden" name="photo-fallback-name" value="<%= name %>" />
-            <% end %>
-          </div>
         </div>
         <div class="form-group col-xs-12 contrast">
           <a class="upload-photo-link" tabindex="-1"><%= fa "camera" %> Upload Photo</a>

@@ -42,20 +42,22 @@ describe('support form', () => {
   });
 
   describe('handleUploadedPhoto', () => {
+    var toUpload = [];
+
     beforeEach(() => {
+      toUpload = [];
       $('#test').html(`
      <div class="photo-preview-container hidden-xs-up" tabindex="-1">
        <strong></strong>
-       <div class="photo-preview"></div>
      </div>
      <input type="file" id="photo" name="photo" />
-     <a class="upload-photo-link hidden-xs-up"></a>
+     <a class="upload-photo-link"></a>
      `);
       handleUploadedPhoto(
         $,
         new File({name: 'test-file', buffer: new Buffer("this is a 24 byte string"), type: "image/png"}),
-        $('.photo-preview'),
-        $('.photo-preview-container')
+        $('.photo-preview-container'),
+        toUpload
       );
     });
 
@@ -66,13 +68,77 @@ describe('support form', () => {
       assert.include($preview.html(), '24 B');
     });
 
-    it('hides the upload link', () => {
-      assert.isTrue($('.upload-photo-link').hasClass('hidden-xs-up'));
+    it('does not hide the upload link', () => {
+      assert.isFalse($('.upload-photo-link').hasClass('hidden-xs-up'));
     });
 
     it('adds a clear button which clears the photo', () => {
       $('.clear-photo').click();
       assert.equal($('#photo').val(), '');
+      assert.equal($('.photo-preview').length, 0);
+    });
+
+    it('handles multiple uploaded photos', () => {
+      handleUploadedPhoto(
+        $,
+        new File({name: 'test-file-2', buffer: new Buffer("this is now a 28 byte string"), type: "image/png"}),
+        $('.photo-preview-container'),
+        toUpload
+      );
+
+      const $preview = $('.photo-preview')
+      assert.equal($preview.length, 2);
+      assert.include($preview.first().html(), 'test-file')
+      assert.include($preview.last().html(), 'test-file-2')
+      assert.include($preview.first().html(), '24 B');
+      assert.include($preview.last().html(), '28 B');
+    });
+
+    it('stores all the photos to be uploaded in the toUpload array', () => {
+      handleUploadedPhoto(
+        $,
+        new File({name: 'test-file-2', buffer: new Buffer("this is now a 28 byte string"), type: "image/png"}),
+        $('.photo-preview-container'),
+        toUpload
+      );
+
+      let fileNames = toUpload.map((file) => { return file.name; });
+      assert.deepEqual(fileNames, ['test-file', 'test-file-2']);
+    });
+
+    it('clears the photo that was clicked; the previews are not hidden if there are any photos left', () => {
+      handleUploadedPhoto(
+        $,
+        new File({name: 'test-file-2', buffer: new Buffer("this is now a 28 byte string"), type: "image/png"}),
+        $('.photo-preview-container'),
+        toUpload
+      );
+
+      const $preview = $('.photo-preview')
+      const $first_photo = $preview.first();
+      const $second_photo = $preview.last();
+      $first_photo.find('.clear-photo').trigger('click');
+
+      assert.isFalse($('.photo-preview-container').hasClass('hidden-xs-up'));
+      assert.equal($(".photo-preview").length, 1);
+      assert.include($second_photo.html(), 'test-file-2');
+    });
+
+    it('removes the photo that was clicked from the toUpload array', () => {
+      handleUploadedPhoto(
+        $,
+        new File({name: 'test-file-2', buffer: new Buffer("this is now a 28 byte string"), type: "image/png"}),
+        $('.photo-preview-container'),
+        toUpload
+      );
+
+      const $preview = $('.photo-preview')
+      const $first_photo = $preview.first();
+      const $second_photo = $preview.last();
+      $first_photo.find('.clear-photo').trigger('click');
+
+      let fileNames = toUpload.map((file) => { return file.name; });
+      assert.notInclude(fileNames, 'test-file');
     });
   });
 
@@ -106,19 +172,20 @@ describe('support form', () => {
 
   describe('handleSubmitClick', () => {
     var spy;
+    const toUpload = [];
 
     beforeEach(() => {
       spy = sinon.spy($, 'ajax');
       $('#test').html(`
         <div class="form-container">
           <form id="support-form" action="/customer-support">
-            <textarea id="comments"></textarea>
+            <textarea name="comments" id="comments"></textarea>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
-            <input id="photo" type="file" />
-            <input id="request_response" type="checkbox" />
-            <input id="name" />
-            <input id="phone" />
-            <input id="email" />
+            <input name="photo" id="photo" type="file" />
+            <input name="request_response" id="request_response" type="checkbox" />
+            <input name="name" id="name" />
+            <input name="phone" id="phone" />
+            <input name="email" id="email" />
             <div class="support-name-error-container hidden-xs-up" tabindex="-1"><div class="support-name-error"></div></div>
             <div class="support-contacts-error-container hidden-xs-up" tabindex="-1"><div class="support-contacts-error"></div></div>
             <input id="privacy" type="checkbox" />
@@ -130,7 +197,7 @@ describe('support form', () => {
         </div>
         <div class="support-thank-you hidden-xs-up"></div>
       `);
-      handleSubmitClick($);
+      handleSubmitClick($, toUpload);
     });
 
     afterEach(() => {
@@ -255,6 +322,22 @@ describe('support form', () => {
       $('#privacy').prop('checked', 'checked');
       $('#support-submit').click();
       assert.isFalse($('.support-comments-error-container').hasClass('hidden-xs-up'));
+    });
+
+    it('sends multiple files down to the server', () => {
+      let file_1 = new File({name: 'test-file', buffer: new Buffer("this is a 24 byte string"), type: "image/png"});
+      let file_2 = new File({name: 'test-file-2', buffer: new Buffer("this is now a 28 byte string"), type: "image/png"});
+      toUpload.push(file_1);
+      toUpload.push(file_2);
+
+      $('#comments').val('A comment');
+      $('#privacy').prop('checked', 'checked');
+      $('#support-submit').click();
+
+      const photos = spy.firstCall.args[0].data.getAll("photos[]");
+      // getAll returns [ "[object Object]", "[object Object]" ]
+      // not sure how to recover actual values
+      assert.equal(photos.length, toUpload.length);
     });
   });
 });

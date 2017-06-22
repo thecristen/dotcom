@@ -78,6 +78,21 @@ defmodule Site.CustomerSupportControllerTest do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_request_response_data(), "privacy", "")
       assert "privacy" in conn.assigns.errors
     end
+
+    test "attaches photos in params", %{conn: conn} do
+      params =
+        valid_no_response_data()
+        |> Map.put("photos", [%Plug.Upload{filename: "photo-1", path: "/tmp/photo-1.jpg"},
+                              %Plug.Upload{filename: "photo-2", path: "/tmp/photo-2.jpg"}
+        ])
+      conn = post conn, customer_support_path(conn, :submit), params
+      wait_for_ticket_task(conn)
+
+      attachments = Feedback.Test.latest_message["attachments"]
+      assert attachments == [%{"filename" => "photo-1", "path" => "/tmp/photo-1.jpg"},
+                             %{"filename" => "photo-2", "path" => "/tmp/photo-2.jpg"}
+                            ]
+    end
   end
 
   defp wait_for_ticket_task(%{private: %{ticket_task: pid}}) do

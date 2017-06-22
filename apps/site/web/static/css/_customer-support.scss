@@ -47,7 +47,9 @@
 
 .photo-preview-container {
   .photo-preview {
-    margin-top: .5em;
+    display: inline-block;
+    margin-left: $space-8;
+    margin-top: $space-8;
 
     img {
       // Polyfill for IE object-fit support
@@ -58,6 +60,10 @@
     p {
       margin: 0;
     }
+  }
+
+  .clear-photo {
+    padding-left: $space-2;
   }
 }
 

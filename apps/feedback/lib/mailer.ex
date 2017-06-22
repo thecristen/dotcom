@@ -51,7 +51,7 @@ defmodule Feedback.Mailer do
             text: body]
 
     opts = if photo_info do
-      [{:attachments, [photo_info]} | opts]
+      [{:attachments, photo_info} | opts]
     else
       opts
     end
