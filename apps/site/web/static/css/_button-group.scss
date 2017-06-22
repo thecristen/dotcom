@@ -8,7 +8,7 @@ $tab-border: $border-width solid $btn-primary-bg;
   table-layout: fixed;
   border-collapse: collapse;
 
-  border-bottom: $space-4 solid $brand-primary;
+  border-bottom: $space-4 solid $btn-primary-bg;
 
   .btn {
     display: table-cell;
