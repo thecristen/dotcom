@@ -141,6 +141,12 @@ defmodule Site.StopControllerTest do
     assert html_response(conn, 200) =~ "station-map-container"
     conn = get conn, stop_path(conn, :show, "Readville", tab: "schedule")
     refute html_response(conn, 200) =~ "station-map-container"
+    refute conn.assigns[:map_info]
+  end
+
+  test "assigns map info for tab info", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
+    assert conn.assigns.map_info
   end
 
   describe "access_alerts/2" do
