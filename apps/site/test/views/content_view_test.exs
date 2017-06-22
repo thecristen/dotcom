@@ -1,6 +1,7 @@
 defmodule Site.ContentViewTest do
   use ExUnit.Case, async: true
 
+  import Content.Factory, only: [event_factory: 0]
   import Site.ContentView
 
   describe "render_paragraph/1" do
@@ -43,6 +44,21 @@ defmodule Site.ContentViewTest do
       assert rendered =~ ~s(<div class="title-card-title">Card 2</div>)
       assert rendered =~ "<strong>Body 2</strong>"
       assert rendered =~ ~s( href="https://www.example.com/another/link")
+    end
+
+    test "renders a Content.Paragraph.UpcomingBoardMeetings" do
+      event = event_factory()
+      paragraph = %Content.Paragraph.UpcomingBoardMeetings{
+        events: [event]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph()
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ Phoenix.HTML.safe_to_string(event.title)
+      assert rendered =~ "View all upcoming meetings"
     end
   end
 end

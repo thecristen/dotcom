@@ -18,13 +18,19 @@ defmodule Content.Paragraph do
   * Update Site.ContentViewTest to ensure it is rendered correctly
   """
 
-  @type t :: Content.Paragraph.CustomHTML.t | Content.Paragraph.TitleCardSet.t
+  alias Content.Paragraph
+
+  @type t :: Paragraph.CustomHTML.t | Paragraph.TitleCardSet.t |
+             Paragraph.UpcomingBoardMeetings.t
 
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
-    Content.Paragraph.CustomHTML.from_api(para)
+    Paragraph.CustomHTML.from_api(para)
   end
   def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para) do
-    Content.Paragraph.TitleCardSet.from_api(para)
+    Paragraph.TitleCardSet.from_api(para)
+  end
+  def from_api(%{"type" => [%{"target_id" => "upcoming_board_meetings"}]} = para) do
+    Paragraph.UpcomingBoardMeetings.from_api(para)
   end
 end
