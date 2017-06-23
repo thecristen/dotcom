@@ -250,7 +250,7 @@ defmodule Stops.NearbyTest do
   end
 
   defp random_around(float, range \\ 10_000) do
-    integer = :crypto.rand_uniform(-1 * range, range)
+    integer = :rand.uniform(range * 2) - range
     float + (integer / range)
   end
 
