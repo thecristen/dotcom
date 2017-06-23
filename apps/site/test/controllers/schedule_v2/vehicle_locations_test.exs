@@ -82,5 +82,19 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
         {"3", "Yawkey"} => Enum.at(@locations, 2)
       }
     end
+    test "if a vehicle is in transit to a stop but we can't find a schedule, shows the vehicle at the provided stop", %{conn: conn} do
+      conn = conn
+      |> call(
+        [
+          location_fn: fn (_, _) -> Enum.drop(@locations, 2) end,
+          schedule_for_trip_fn: fn _ -> []
+          end
+        ]
+      )
+
+      assert conn.assigns.vehicle_locations == %{
+        {"3", "place-bbsta"} => Enum.at(@locations, -1)
+      }
+    end
   end
 end
