@@ -315,4 +315,21 @@ defmodule Site.ViewHelpers do
   defp summaries_for_filters(filters, mode) do
     filters |> get_fares |> Fares.Format.summarize(mode)
   end
+
+  @doc """
+  Turns a word or phrase with spaces or underscores into a camelcased string.
+  """
+  @spec to_camelcase(String.t) :: String.t
+  def to_camelcase(phrase) do
+    phrase
+    |> String.replace("_", " ")
+    |> String.split(" ")
+    |> do_to_camelcase()
+  end
+
+  defp do_to_camelcase([word]), do: String.downcase(word)
+  defp do_to_camelcase([first | rest]) do
+    [String.downcase(first) | Enum.map(rest, &String.capitalize/1)]
+    |> IO.iodata_to_binary()
+  end
 end

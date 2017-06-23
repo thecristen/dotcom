@@ -3,10 +3,7 @@
     <%= for {name, _, href} <- nav_link_content(@conn) do %>
       <div class="nav-item">
         <%=
-            id = name
-            |> String.replace_prefix(String.first(name), name |> String.first |> String.downcase)
-            |> String.replace(" ", "")
-
+            id = to_camelcase(name)
             filename = name
             |> String.downcase
             |> String.replace(" ", "_")
