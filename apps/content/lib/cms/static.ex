@@ -2,45 +2,36 @@ defmodule Content.CMS.Static do
   @behaviour Content.CMS
   alias Content.NewsEntry
 
-  @news File.read!("priv/news.json")
-  @basic_page File.read!("priv/accessibility.json")
-  @project_update File.read!("priv/gov-center-project.json")
-  @events File.read!("priv/events.json")
-  @whats_happening File.read!("priv/whats-happening.json")
-  @important_notices File.read!("priv/important-notices.json")
-  @all_paragraphs File.read!("priv/accessibility/all-paragraphs.json")
-  @landing_page File.read!("priv/denali-national-park.json")
-
   def news_response do
-    Poison.Parser.parse!(@news)
+    parse_json("news.json")
   end
 
   def basic_page_response do
-    Poison.Parser.parse!(@basic_page)
+    parse_json("accessibility.json")
   end
 
   def project_update_response do
-    Poison.Parser.parse!(@project_update)
+    parse_json("gov-center-project.json")
   end
 
   def events_response do
-  Poison.Parser.parse!(@events)
+    parse_json("events.json")
   end
 
   def whats_happening_response do
-    Poison.Parser.parse!(@whats_happening)
+    parse_json("whats-happening.json")
   end
 
   def important_notices_response do
-    Poison.Parser.parse!(@important_notices)
+    parse_json("important-notices.json")
   end
 
   def all_paragraphs_response do
-    Poison.Parser.parse!(@all_paragraphs)
+    parse_json("accessibility/all-paragraphs.json")
   end
 
   def landing_page_response do
-    Poison.Parser.parse!(@landing_page)
+    parse_json("denali-national-park.json")
   end
 
   @impl true
@@ -144,5 +135,14 @@ defmodule Content.CMS.Static do
 
   defp filter_by(map, key, value) do
     Enum.filter(map, &(match?(%{^key => [%{"value" => ^value}]}, &1)))
+  end
+
+  defp parse_json(filename) do
+    file_path = [Path.dirname(__ENV__.file), "../../priv/", filename]
+
+    file_path
+    |> Path.join()
+    |> File.read!()
+    |> Poison.Parser.parse!()
   end
 end

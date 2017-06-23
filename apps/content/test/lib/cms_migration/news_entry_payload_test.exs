@@ -1,14 +1,14 @@
 defmodule Content.CmsMigration.NewsEntryPayloadTest do
   use ExUnit.Case, async: true
-  import Content.FixtureHelpers
+  import Content.JsonHelpers
   import Content.CmsMigration.NewsEntryPayload
 
-  @news_entry_json "cms_migration/valid_news_entry/news_entry.json"
+  @news_entry_json "fixtures/cms_migration/valid_news_entry/news_entry.json"
   @former_mbta_site_host Application.get_env(:site, :former_mbta_site)[:host]
 
   describe "build/1" do
     test "maps the news entry data to the CMS News Entry fields" do
-      news_entry_data = fixture(@news_entry_json)
+      news_entry_data = parse_json_file(@news_entry_json)
 
       %{
         body: [%{format: body_format, value: body}],
@@ -40,7 +40,7 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
 
       news_entry_data =
         @news_entry_json
-        |> fixture
+        |> parse_json_file()
         |> Map.put("information", body_with_external_link)
 
       %{body: [%{value: value}]} = build(news_entry_data)
@@ -53,7 +53,7 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
 
       news_entry_data =
         @news_entry_json
-        |> fixture
+        |> parse_json_file()
         |> Map.put("information", content_with_image)
 
       %{body: [%{value: value}]} = build(news_entry_data)
@@ -68,7 +68,7 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
 
       news_entry_data =
         @news_entry_json
-        |> fixture()
+        |> parse_json_file()
         |> Map.put("information", body_with_style_info)
 
       %{body: [%{value: value}]} = build(news_entry_data)
@@ -79,7 +79,7 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
     test "handles the event_date format {0M}/{0D}/{YY}" do
       news_entry_data =
         @news_entry_json
-        |> fixture
+        |> parse_json_file()
         |> Map.put("event_date", "01/10/17")
 
       %{field_posted_on: [%{value: date}]} = build(news_entry_data)
@@ -90,7 +90,7 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
     test "handles the event_date format {0M}/{0D}/{YYYY}" do
       news_entry_data =
         @news_entry_json
-        |> fixture
+        |> parse_json_file()
         |> Map.put("event_date", "01/10/2017")
 
       %{field_posted_on: [%{value: date}]} = build(news_entry_data)
@@ -101,7 +101,7 @@ defmodule Content.CmsMigration.NewsEntryPayloadTest do
     test "handles the event_date format {Mfull} {0D}, {YYYY}" do
       news_entry_data =
         @news_entry_json
-        |> fixture
+        |> parse_json_file()
         |> Map.put("event_date", "January 10, 2017")
 
       %{field_posted_on: [%{value: date}]} = build(news_entry_data)

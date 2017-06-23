@@ -1,21 +1,21 @@
 defmodule Content.CmsMigration.MeetingMigratorTest do
   use ExUnit.Case
-  import Content.FixtureHelpers
+  import Content.JsonHelpers
   alias Content.CmsMigration.MeetingMigrator
   alias Content.MigrationError
 
-  @filename "cms_migration/valid_meeting/meeting.json"
+  @filename "fixtures/cms_migration/valid_meeting/meeting.json"
 
   describe "migrate/2" do
     test "creates an event in the CMS" do
-      meeting_data = fixture(@filename)
+      meeting_data = parse_json_file(@filename)
       assert {:ok, :created} = MeetingMigrator.migrate(meeting_data)
     end
 
     test "given the event already exists in the CMS, updates the event" do
       previously_migrated_meeting =
         @filename
-        |> fixture
+        |> parse_json_file()
         |> Map.put("meeting_id", "1")
 
       assert {:ok, :updated} = MeetingMigrator.migrate(previously_migrated_meeting)
@@ -24,7 +24,7 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
     test "when the event fails to create" do
       invalid_meeting =
         @filename
-        |> fixture
+        |> parse_json_file()
         |> Map.put("objective", "fails-to-create")
 
       assert {:error, %{status_code: 422}} = MeetingMigrator.migrate(invalid_meeting)
@@ -35,7 +35,7 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
 
       invalid_meeting =
         @filename
-        |> fixture
+        |> parse_json_file()
         |> Map.put("objective", "fails-to-update")
         |> Map.put("meeting_id", id_for_existing_record)
 
@@ -45,7 +45,7 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
     test "does not migrate the event if the start time is greater than the end time" do
       meeting_with_invalid_time_range =
         @filename
-        |> fixture
+        |> parse_json_file()
         |> Map.put("meettime", "4:00 PM - 2:00 PM")
 
       result = MeetingMigrator.migrate(meeting_with_invalid_time_range)
@@ -55,7 +55,7 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
     test "does not migrate the event if the start time is missing" do
       missing_start_time =
         @filename
-        |> fixture
+        |> parse_json_file()
         |> Map.put("meettime", "")
 
       result = MeetingMigrator.migrate(missing_start_time)
@@ -65,7 +65,7 @@ defmodule Content.CmsMigration.MeetingMigratorTest do
     test "when querying for an existing record returns more than one record" do
       record_with_non_unique_meeting_id =
         @filename
-        |> fixture
+        |> parse_json_file()
         |> Map.put("meeting_id", "multiple-records")
 
       expected_error_message = "multiple records were found when querying by meeting_id: multiple-records."

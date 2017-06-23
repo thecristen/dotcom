@@ -1,13 +1,13 @@
 defmodule Content.CmsMigration.EventPayloadTest do
   use ExUnit.Case, async: true
-  import Content.FixtureHelpers
+  import Content.JsonHelpers
   import Content.CmsMigration.EventPayload
 
-  @meeting "cms_migration/valid_meeting/meeting.json"
+  @meeting "fixtures/cms_migration/valid_meeting/meeting.json"
 
   describe "from_meeting/1" do
     test "maps meeting information to CMS event fields" do
-      meeting = fixture(@meeting)
+      meeting = parse_json_file(@meeting)
 
       event_payload = from_meeting(meeting)
 
@@ -24,7 +24,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
     test "removes all html tags from the location field" do
       meeting =
         @meeting
-        |> fixture()
+        |> parse_json_file()
         |> Map.put("location", "<p>Address</p> with html<br> tags.")
 
       event_payload = from_meeting(meeting)
@@ -37,7 +37,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
     test "removes all html tags from the title field" do
       meeting =
         @meeting
-        |> fixture()
+        |> parse_json_file()
         |> Map.put("organization", "2007 Upcoming <b>AACT</b> Meetings")
 
       event_payload = from_meeting(meeting)
@@ -54,7 +54,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       meeting =
         @meeting
-        |> fixture()
+        |> parse_json_file()
         |> Map.put("objective", body_with_style_info)
 
       %{body: [%{value: value}]} = from_meeting(meeting)
@@ -69,7 +69,7 @@ defmodule Content.CmsMigration.EventPayloadTest do
 
       meeting =
         @meeting
-        |> fixture()
+        |> parse_json_file()
         |> Map.put("objective", body_with_external_link)
 
       %{body: [%{value: value}]} = from_meeting(meeting)
