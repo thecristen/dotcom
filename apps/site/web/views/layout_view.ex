@@ -53,5 +53,4 @@ defmodule Site.LayoutView do
       {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
       {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
     ]
-
 end

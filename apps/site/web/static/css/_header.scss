@@ -293,8 +293,13 @@ header {
 .old-site-desktop-link {
   background-color: $white;
   border-radius: 3px;
+<<<<<<< HEAD
   color: $brand-primary;
   font-weight: bold;
   padding: $space-12 0;
+=======
+  color: $white;
+  padding: $space-6 0;
+>>>>>>> 4282cf818... fixup! add tests for nav templates
   text-align: center;
 }
