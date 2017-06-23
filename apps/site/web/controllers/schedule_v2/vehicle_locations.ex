@@ -38,24 +38,29 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
 
   @spec find_locations(Plug.Conn.t, %{}) :: __MODULE__.t
   defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id}}, opts) do
-    route.id
-    |> opts[:location_fn].(direction_id: direction_id)
-    |> Map.new(&{location_key(&1, opts[:schedule_for_trip_fn]), &1})
+    schedule_for_trip_fn = opts[:schedule_for_trip_fn]
+    for vehicle <- opts[:location_fn].(route.id, direction_id: direction_id), into: %{} do
+      key = location_key(vehicle, schedule_for_trip_fn)
+      {key, vehicle}
+    end
   end
 
-  defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, schedule_for_trip_fn) do
-    previous_station = vehicle.trip_id
-    |> schedule_for_trip_fn.()
-    |> find_previous_station(vehicle.stop_id)
-
-    {vehicle.trip_id, previous_station.id}
+  defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, schedule_for_trip_fn)
+  when is_function(schedule_for_trip_fn, 1) do
+    schedules = schedule_for_trip_fn.(vehicle.trip_id)
+    if previous_station = find_previous_station(schedules, vehicle.stop_id) do
+      {vehicle.trip_id, previous_station.id}
+    else
+      location_key(vehicle, :default)
+    end
   end
-  defp location_key(vehicle, _) do
+  defp location_key(%Vehicles.Vehicle{} = vehicle, _) do
     {vehicle.trip_id, vehicle.stop_id}
   end
 
+  defp find_previous_station([], _stop_id), do: nil
   defp find_previous_station([_], _stop_id), do: nil
-  defp find_previous_station([previous_stop_schedule, %Schedules.Schedule{stop: %Stop{id: id}} | _rest], stop_id) when id == stop_id do
+  defp find_previous_station([previous_stop_schedule, %Schedules.Schedule{stop: %Stop{id: stop_id}} | _rest], stop_id) do
     previous_stop_schedule.stop
   end
   defp find_previous_station([_previous, stop_schedule | rest], stop_id) do
