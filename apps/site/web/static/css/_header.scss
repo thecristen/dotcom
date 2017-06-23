@@ -19,6 +19,7 @@
     &:last-child {
       padding-left: 0;
     }
+
     > a {
       line-height: $header-navbar-height-multiplier;
       vertical-align: middle;
@@ -32,6 +33,7 @@
 }
 
 .desktop-nav-link {
+  // scss-lint:disable DuplicateProperty
   color: $link-color;
   display: inline-block;
   display: flex;
@@ -118,7 +120,7 @@
   }
 
   .desktop-menu-background-image {
-    background-image: linear-gradient(to top, transparentize($white, .4), transparentize($white, .8)), url('/images/map-abstract-bkg-overlay.png');
+    background-image: linear-gradient(to top, transparentize($white, .6), transparentize($white, .1)), url('/images/map-abstract-bkg-overlay.png');
     background-size: 100%;
   }
 }
