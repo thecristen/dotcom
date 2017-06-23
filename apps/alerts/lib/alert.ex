@@ -5,7 +5,7 @@ defmodule Alerts.Alert do
     informed_entity: [],
     active_period: [],
     effect: :unknown,
-    severity: :unknown,
+    severity: 5,
     lifecycle: :unknown,
     updated_at: Timex.now(),
     description: ""
@@ -32,7 +32,7 @@ defmodule Alerts.Alert do
   :access_issue |
   :policy_change |
   :unknown
-  @type severity :: :information | :minor | :moderate | :significant | :severe | :unknown
+  @type severity :: 0..10
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
   @type t :: %Alerts.Alert{
     id: String.t,
@@ -72,7 +72,7 @@ defmodule Alerts.Alert do
   def is_notice?(%__MODULE__{effect: :access_issue}, _) do
     true
   end
-  def is_notice?(%__MODULE__{effect: :service_change, severity: :minor}, _) do
+  def is_notice?(%__MODULE__{effect: :service_change, severity: severity}, _) when severity <= 3 do
     # minor service changes are never alerts
     true
   end

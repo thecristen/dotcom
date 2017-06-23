@@ -22,7 +22,7 @@ defmodule AlertsTest do
     end
 
     test "Minor Service Change is a notice" do
-      change = %Alert{effect: :service_change, severity: "Minor"}
+      change = %Alert{effect: :service_change, severity: 3}
       assert is_notice? change, now()
     end
 
