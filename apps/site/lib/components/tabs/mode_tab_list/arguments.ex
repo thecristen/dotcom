@@ -21,7 +21,7 @@ defmodule Site.Components.Tabs.ModeTabList do
   }
 
   def mode_links(links) do
-    Enum.map(links, fn {mode_atom, href} -> {ViewHelpers.mode_name(mode_atom), href} end)
+    Enum.map(links, fn {mode_atom, href} -> {mode_atom, ViewHelpers.mode_name(mode_atom), href} end)
   end
 
   def build_mode_icon_map(links) do

@@ -1,7 +1,6 @@
-<% selected_mode_name = mode_name(args.selected_mode)%>
 <%= tab_selector %Site.Components.Tabs.TabSelector{links: mode_links(args.links),
                               id: args.id,
                               class: "tab-select-btn-group-stacked #{args.class}",
-                              selected: selected_mode_name,
+                              selected: args.selected_mode,
                               icon_map: build_mode_icon_map(args.links)}
 %>

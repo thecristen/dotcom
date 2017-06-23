@@ -14,20 +14,22 @@
     info_link = line_path(@conn, :show, @route.id, @tab_params)
   %>
   <%= if @route.type == 2 do %>
-    <%= tab_list(%TabList{
+    <%= tab_selector(%TabSelector{
       links: [
-        {"Timetable", timetable_link, tab_selected?("timetable", @tab)},
-        {"Schedule", schedule_link, tab_selected?("trip-view", @tab)},
-        {"Info and Maps", info_link, tab_selected?("line", @tab)}
+        {"timetable", "Timetable", timetable_link},
+        {"trip-view", "Schedule", schedule_link},
+        {"line", "Info and Maps", info_link}
       ],
+      selected: @tab,
       class: "tab-select-btn-group-partial"
     }) %>
   <% else %>
-    <%= tab_list(%TabList{
+    <%= tab_selector(%TabSelector{
       links: [
-        {"Schedule", schedule_link, tab_selected?("trip-view", @tab)},
-        {"Info and Maps", info_link, tab_selected?("line", @tab)}
+        {"trip-view", "Schedule", schedule_link},
+        {"line", "Info and Maps", info_link}
       ],
+      selected: @tab,
       class: "tab-select-btn-group-partial"
     }) %>
   <% end %>

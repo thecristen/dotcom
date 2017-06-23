@@ -123,18 +123,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "tab_selected?/2" do
-    test "true for the same two arguments" do
-      assert tab_selected?("timetable", "timetable")
-      assert tab_selected?("trip-view", "trip-view")
-    end
-
-    test "true for different arguments" do
-      refute tab_selected?("trip-view", "timetable")
-      refute tab_selected?("trip-view", "timetable")
-    end
-  end
-
   describe "template_for_tab/1" do
     test "returns the template corresponding to a tab value" do
       assert template_for_tab("trip-view") == "_trip_view.html"

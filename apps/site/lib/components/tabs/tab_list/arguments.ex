@@ -20,7 +20,7 @@ defmodule Site.Components.Tabs.TabList do
   }
 
   def tab_links(links) do
-    Enum.map(links, fn {title, href, _selected} -> {title, href} end)
+    Enum.map(links, fn {title, href, _selected} -> {title, title, href} end)
   end
 
   def selected_tab(links) do

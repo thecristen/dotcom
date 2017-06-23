@@ -294,21 +294,22 @@ defmodule Site.ComponentsTest do
     end
   end
 
-  describe "tabs > tab_list" do
+  describe "tabs > tab_selector" do
     @links [
-      {"Schedules", "/schedules", false},
-      {"Info", "/info", true},
-      {"Something Else", "/something-else", false}
+      {"sched", "Schedules", "/schedules"},
+      {"info", "Info", "/info"},
+      {"etc", "Something Else", "/something-else"}
       ]
 
     def tab_args do
-      %TabList{
-        links: @links
+      %TabSelector{
+        links: @links,
+        selected: info
       }
     end
 
     test "renders a list of tabs" do
-      rendered = tab_args() |> tab_list() |> safe_to_string()
+      rendered = tab_args() |> tab_selector() |> safe_to_string()
 
       for link <- ["/schedules#schedules-tab", "/info#info-tab", "/something-else#something-else-tab"] do
         assert rendered =~ ~s(href="#{link}")
@@ -316,14 +317,14 @@ defmodule Site.ComponentsTest do
     end
 
     test "displays a tab as selected" do
-      rendered = tab_args() |> tab_list() |> safe_to_string()
+      rendered = tab_args() |> tab_selector() |> safe_to_string()
 
       assert rendered =~ ~r/<a.*href=\"\/info#info-tab\"/
       assert rendered =~ ~r/class=.*tab-select-btn-selected/
     end
 
     test "optionally takes a CSS class" do
-      rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
+      rendered = tab_args() |> Map.put(:class, "test-class") |> tab_selector() |> safe_to_string()
 
       assert rendered =~ "test-class"
     end
@@ -350,7 +351,6 @@ defmodule Site.ComponentsTest do
         links: @links,
         selected: "Info",
         icon_map: %{"Info" => "info-icon"},
-        full_width?: true
       }
     end
 

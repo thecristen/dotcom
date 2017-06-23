@@ -39,11 +39,12 @@
       <%= render "_map.html", forward_assigns(@conn) %>
     <% end %>
 
-    <%= tab_list(%TabList{
+    <%= tab_selector(%TabSelector{
       links: [
-        {info_tab_name(@grouped_routes), update_url(@conn, tab: "info"), tab_selected?("info", @tab)},
-        {"Schedule", update_url(@conn, tab: "schedule"), tab_selected?("schedule", @tab)}
+        {"info", info_tab_name(@grouped_routes), update_url(@conn, tab: "info")},
+        {"schedule", "Schedule", update_url(@conn, tab: "schedule")}
       ],
+      selected: @tab,
       class: "tab-select-btn-group-partial"
     }) %>
     <%= render template_for_tab(@tab), forward_assigns(@conn) %>

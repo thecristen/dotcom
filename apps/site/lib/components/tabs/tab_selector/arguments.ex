@@ -6,18 +6,20 @@ defmodule Site.Components.Tabs.TabSelector do
   defstruct [
     id: "tab-select",
     class: "",
-    links: [{"Schedule", Site.Router.Helpers.schedule_path(Site.Endpoint, :show, :bus)}],
-    selected: "Schedule",
+    links: [
+      {"trip-view", "Schedule", Site.Router.Helpers.schedule_path(Site.Endpoint, :show, :bus)},
+      {"info", "Info", Site.Router.Helpers.line_path(Site.Endpoint, :show, :bus)}],
+    selected: "trip-view",
     icon_map: %{},
   ]
 
   @type t :: %__MODULE__{
     id: String.t,
     class: String.t,
-    links: [%{title: String.t, href: String.t, icon: Phoenix.HTML.safe | nil, selected?: boolean}],
+    links: [%{tab_item_name: String.t, title: String.t, href: String.t, icon: Phoenix.HTML.safe | nil, selected?: boolean}],
   }
 
-  def selected?(title, title), do: true
+  def selected?(tab_item_name, tab_item_name), do: true
   def selected?(_, _), do: false
 
   @spec slug(String.t) :: String.t
