@@ -35,6 +35,6 @@
     </ul>
   </div>
   <div class="col-xs-9">
-    <%= Site.FareView.summarize(@common_fare_summaries, class: "fare-summary-container-dark title-card-container-table-multi-col") %>
+    <%= Site.FareView.summarize(@common_fare_summaries) %>
   </div>
 </div>

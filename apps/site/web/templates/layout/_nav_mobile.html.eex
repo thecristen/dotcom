@@ -1,6 +1,6 @@
 <nav class="collapse row" id="navbar" role="navigation">
   <ul class="mobile-nav">
-    <%= for {name, description, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
+    <%= for {name, description, _icon, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
       <li class="mobile-nav-item">
         <%=
           link to: href, class: "mobile-nav-link" do [

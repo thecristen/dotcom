@@ -8,9 +8,11 @@
         </div>
       </a>
       <button class="navbar-toggle collapsed toggle-up-down col-xs-3 col-sm-2 hidden-md-up" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
-        Menu
-        <%= fa "angle-down", class: "down" %>
-        <%= fa "angle-up", class: "up" %>
+        <span class="nav-link-content">
+          Menu
+          <%= fa "angle-down", class: "down" %>
+          <%= fa "angle-up", class: "up" %>
+        </span>
       </button>
       <%= render "_nav_desktop.html", assigns %>
     </div>

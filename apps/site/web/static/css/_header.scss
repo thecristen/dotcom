@@ -8,10 +8,6 @@
     display: none;
   }
 
-  > div {
-    float: right;
-  }
-
   .nav-item {
     float: left;
     height: $header-navbar-height;
@@ -19,32 +15,28 @@
     padding-right: $grid-gutter-width / 2;
     text-align: right;
 
+    &:first-child,
+    &:last-child {
+      padding-left: 0;
+    }
     > a {
       line-height: $header-navbar-height-multiplier;
       vertical-align: middle;
       text-decoration: none;
     }
   }
-}
 
-.desktop-menu-body {
-  // adjust some margin/padding to replicate the previous styles.  If you're
-  // making other changes that affect Backstop, you can probably remove
-  // these and simplify the layout.
-  margin-left: -$grid-gutter-width / 2;
-  margin-right: -$grid-gutter-width / 2;
-
-  > div {
-    padding-left: $grid-gutter-width / 2;
-    padding-right: $grid-gutter-width / 2;
-    width: 100%;
+  .nav-pull-right {
+    float: right;
   }
 }
 
 .desktop-nav-link {
   color: $link-color;
   display: inline-block;
+  display: flex;
   font-weight: bold;
+  justify-content: space-between;
   position: relative;
 
   &::before {
@@ -67,16 +59,31 @@
   }
 }
 
+.nav-link-content {
+  display: inline-block;
+  flex: 0 0 auto;
+
+  &.nav-link-icon {
+    // scss-lint:disable DuplicateProperty
+    align-items: center;
+    display: inline-block;
+    display: flex;
+    margin-right: $base-spacing / 4;
+  }
+}
+
 .toggle-up-down {
-  > .down {
-    display: none;
+  .nav-link-content {
+    > .down {
+      display: none;
+    }
+
+    > .up {
+      display: inline;
+    }
   }
 
-  > .up {
-    display: inline;
-  }
-
-  &.collapsed {
+  &.collapsed .nav-link-content {
     > .down {
       display: inline;
     }
@@ -85,15 +92,15 @@
       display: none;
     }
   }
+
 }
 
 .desktop-menu {
   // The same pattern repeated thrice upon the y-axis and infinitely along the x-axis
-  background-color: $brand-navy-dark;
-  background-image: $desktop-header-pattern, $desktop-header-pattern, $desktop-header-pattern;
+  background-color: $gray-lightest;
+  background-image: $gray-stripe-pattern, $gray-stripe-pattern, $gray-stripe-pattern;
   background-position: 0 0, 6px 6px, 12px 12px, 18px 18px;
   background-repeat: repeat no-repeat;
-  color: $white;
   padding: 0;
   position: absolute;
   left: 0;
@@ -108,6 +115,11 @@
 
   ul {
     @include list-unstyled();
+  }
+
+  .desktop-menu-background-image {
+    background-image: linear-gradient(to top, transparentize($white, .4), transparentize($white, .8)), url('/images/map-abstract-bkg-overlay.png');
+    background-size: 100%;
   }
 }
 
@@ -136,24 +148,14 @@
 }
 
 .header-column {
-  border-left: 1px solid $white;
+  border-left: 1px solid $brand-primary-darkest;
   display: table-cell;
   float: none;
   padding-left: $space-24;
   padding-right: $space-24;
 
-  a {
-    color: $brand-primary-light-contrast;
-  }
-
   &:first-child {
     border-left-width: 0;
-  }
-}
-
-.fares-column {
-  a {
-    color: $brand-primary-light-contrast;
   }
 }
 
@@ -291,15 +293,9 @@ header {
 }
 
 .old-site-desktop-link {
-  background-color: $white;
+  background-color: $brand-primary;
   border-radius: 3px;
-<<<<<<< HEAD
-  color: $brand-primary;
-  font-weight: bold;
-  padding: $space-12 0;
-=======
   color: $white;
   padding: $space-6 0;
->>>>>>> 4282cf818... fixup! add tests for nav templates
   text-align: center;
 }

@@ -1,9 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :phone, class: "icon-boring"}) %>
-      <span> Customer Support</span>
-    </p>
+    <p class="nav-title">Customer Support</p>
     <p>
       (617) 222-3200<br />
       <strong>TTY</strong> <span class="no-wrap">(617) 222-5146</span><br />
@@ -24,10 +21,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :nineoneone, class: "icon-boring"}) %>
-      <span> Transit Police</span>
-    </p>
+    <p class="nav-title">Transit Police</p>
     <strong>Emergency:</strong> <span class="no-wrap">(617) 222-1212</span><br />
     <strong>TTY:</strong> <span class="no-wrap">(617) 222-5146</span><br />
     <strong>Anonymous Text Number:</strong> <span class="no-wrap">873-873</span>
@@ -37,10 +31,7 @@
     </p>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :alert, class: "icon-boring"}) %>
-      <span>Service Updates</span>
-    </p>
+    <p class="nav-title">Service Updates</p>
     <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
     <p>
       <ul>

@@ -1,9 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
-      <span>Transit Services</span>
-    </p>
+    <p class="nav-title">Transit Services</p>
     <ul>
       <li>
         <%= link to: schedule_path(@conn, :show, "commuter_rail") do %>
@@ -33,10 +30,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :map, class: "icon-boring"}) %>
-      <span>Plan Your Trip</span>
-    </p>
+    <p class="nav-title">Plan Your Trip</p>
     <ul>
       <li>
         <%= link to: redirect_path(@conn, "rider_tools/trip_planner/"), target: "_blank" do %>
@@ -66,10 +60,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :bus, class: "icon-boring"}) %>
-      <span>Riding the T</span>
-    </p>
+    <p class="nav-title">Riding the T</p>
     <ul>
       <li>
         <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/"), target: "_blank" do %>
