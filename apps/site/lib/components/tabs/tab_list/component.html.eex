@@ -1,6 +1,4 @@
 <%= tab_selector %Site.Components.Tabs.TabSelector{ id: args.id,
   class: args.class,
   links: tab_links(args.links),
-  selected: selected_tab(args.links),
-  full_width?: false,
-  buttonbar: args.buttonbar} %>
+  selected: selected_tab(args.links) } %>

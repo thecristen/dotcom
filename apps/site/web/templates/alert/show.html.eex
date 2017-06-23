@@ -2,7 +2,7 @@
   <div class="page-header">
     <h1>Service Alerts and Notices</h1>
     <%= mode_tab_list %ModeTabList{
-      class: "alert-mode-tab-list",
+      class: "tab-select-btn-group-table-layout-auto",
       links: for mode <- ~w(commuter_rail subway bus ferry access)a do
         {mode, alert_path(@conn, :show, mode)}
       end,

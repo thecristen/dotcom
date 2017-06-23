@@ -1,8 +1,6 @@
-<% btn_group_partial_class = if args.full_width?, do: "", else: "tab-select-btn-group-partial" %>
-<% btn_group_stacked_class = if args.buttonbar, do: "", else: "tab-select-btn-group-stacked" %>
 <div class="tab-selector-container">
   <nav class="<%= args.class %>" role="navigation">
-    <div class="tab-select-btn-group <%= btn_group_partial_class %> <%= btn_group_stacked_class %>">
+    <div class="tab-select-btn-group">
       <div class="stacked-tab-label"><strong>Viewing:</strong></div>
       <%= for {title, href} <- args.links do %>
         <%

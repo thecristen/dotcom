@@ -44,7 +44,7 @@
         {info_tab_name(@grouped_routes), update_url(@conn, tab: "info"), tab_selected?("info", @tab)},
         {"Schedule", update_url(@conn, tab: "schedule"), tab_selected?("schedule", @tab)}
       ],
-      class: "side-by-side"
+      class: "tab-select-btn-group-partial"
     }) %>
     <%= render template_for_tab(@tab), forward_assigns(@conn) %>
   </div>

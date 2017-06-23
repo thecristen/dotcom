@@ -15,20 +15,20 @@
   %>
   <%= if @route.type == 2 do %>
     <%= tab_list(%TabList{
-      buttonbar: true,
       links: [
         {"Timetable", timetable_link, tab_selected?("timetable", @tab)},
         {"Schedule", schedule_link, tab_selected?("trip-view", @tab)},
         {"Info and Maps", info_link, tab_selected?("line", @tab)}
-      ]
+      ],
+      class: "tab-select-btn-group-partial"
     }) %>
   <% else %>
     <%= tab_list(%TabList{
-      buttonbar: true,
       links: [
         {"Schedule", schedule_link, tab_selected?("trip-view", @tab)},
         {"Info and Maps", info_link, tab_selected?("line", @tab)}
-      ]
+      ],
+      class: "tab-select-btn-group-partial"
     }) %>
   <% end %>
   <%= render template_for_tab(@tab), forward_assigns(@conn) %>
