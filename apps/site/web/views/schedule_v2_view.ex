@@ -132,7 +132,7 @@ defmodule Site.ScheduleV2View do
   def display_departure_range(%Schedules.Departures{first_departure: nil, last_departure: nil}) do
     "No Service"
   end
-  def display_departure_range(departures) do
+  def display_departure_range(%Schedules.Departures{} = departures) do
     [
       format_schedule_time(departures.first_departure),
       "-",
