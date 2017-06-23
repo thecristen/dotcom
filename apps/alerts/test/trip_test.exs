@@ -78,7 +78,7 @@ defmodule Alerts.TripTest do
 
   test "does not include alerts which only apply to the route type of the trip" do
     alert = %Alert{
-      severity: "Severe",
+      severity: 7,
       informed_entity: [%IE{route_type: 1}]
     }
 

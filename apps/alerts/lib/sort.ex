@@ -12,14 +12,6 @@ defmodule Alerts.Sort do
 
   """
 
-  @severity_order [
-    :severe,
-    :significant,
-    :moderate,
-    :minor,
-    :information
-  ]
-
   @lifecycle_order [
     :new,
     :upcoming,
@@ -57,7 +49,7 @@ defmodule Alerts.Sort do
     {
       effect_index(alert.effect),
       lifecycle_index(alert.lifecycle),
-      severity_index(alert.severity),
+      -alert.severity,
       -updated_at_date(alert.updated_at),
       first_future_active_period_start(alert.active_period, now),
       alert.id
@@ -66,12 +58,6 @@ defmodule Alerts.Sort do
 
   # generate methods for looking up the indexes, rather than having to
   # traverse the list each time
-  for {severity, index} <- Enum.with_index(@severity_order) do
-    defp severity_index(unquote(severity)), do: unquote(index)
-  end
-  # fallback
-  defp severity_index(_), do: unquote(length(@severity_order))
-
   for {lifecycle, index} <- Enum.with_index(@lifecycle_order) do
     defp lifecycle_index(unquote(lifecycle)), do: unquote(index)
   end

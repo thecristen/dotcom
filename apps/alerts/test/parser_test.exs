@@ -50,7 +50,7 @@ defmodule Alerts.ParserTest do
           {~N[2016-06-06T14:48:48] |> Timex.to_datetime("Etc/GMT+4"),
            ~N[2016-06-06T19:53:51] |> Timex.to_datetime("Etc/GMT+4")}
         ],
-        severity: :minor,
+        severity: 3,
         lifecycle: :ongoing,
         effect: :delay,
         updated_at: ~N[2016-06-20T16:09:29] |> Timex.to_datetime("Etc/GMT+4"),
@@ -208,7 +208,7 @@ defmodule Alerts.ParserTest do
             "informed_entity" => [],
             "header" => "",
             "active_period" => [],
-            "severity" => "MINOR",
+            "severity" => 3,
             "lifecycle" => "ONGOING",
             "effect" => "DELAY",
             "updated_at" => "2016-06-20T16:09:29-04:00",
@@ -217,7 +217,7 @@ defmodule Alerts.ParserTest do
         })
       assert %Alerts.Alert{
         lifecycle: :ongoing,
-        severity: :minor,
+        severity: 3,
         effect: :delay
       } = alert
     end

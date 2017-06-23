@@ -99,16 +99,19 @@ defmodule Alerts.Parser do
     defp do_effect("POLICY_CHANGE"), do: :policy_change
     defp do_effect(_), do: :unknown
 
-    @spec severity(String.t) :: Alerts.Alert.severity
-    def severity(binary) do
+    @spec severity(String.t | integer) :: Alerts.Alert.severity
+    def severity(binary) when is_binary(binary) do
       case String.upcase(binary) do
-        "INFORMATION" -> :information
-        "MINOR" -> :minor
-        "MODERATE" -> :moderate
-        "SIGNIFICANT" -> :significant
-        "SEVERE" -> :severe
-        _ -> :unknown
+        "INFORMATION" -> 1
+        "MINOR" -> 3
+        "MODERATE" -> 5
+        "SIGNIFICANT" -> 6
+        "SEVERE" -> 7
+        _ -> 5 # default to moderate
       end
+    end
+    def severity(int) when 0 <= int and int <= 10 do
+      int
     end
 
     @spec lifecycle(String.t) :: Alerts.Alert.lifecycle

@@ -33,7 +33,7 @@ defmodule Alerts.SortTest do
       alert_prototype = %Alert{
         effect: :snow_route,
         lifecycle: "Upcoming",
-        severity: "Severe",
+        severity: 7,
         updated_at: new_datetime("2017-06-01T12:00:00-05:00")
       }
       period_1 = {new_datetime("2017-06-10T08:00:00-05:00"), new_datetime("2017-06-12T22:00:00-05:00")}
