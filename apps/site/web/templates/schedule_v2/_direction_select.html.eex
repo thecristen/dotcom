@@ -7,9 +7,12 @@
         Direction of your trip:
       </div>
       <div>
-        <%= direction(@direction_id, @route) %> to
-        <%= fa "arrow-right" %>
-        <%= headsigns %>
+        <%= direction(@direction_id, @route) %>
+        <%= if headsigns != "" do %>
+          to
+          <%= fa "arrow-right" %>
+          <%= headsigns %>
+        <% end %>
       </div>
     </div>
     <div class="filter-icon">

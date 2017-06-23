@@ -56,6 +56,7 @@ defmodule Stops.RouteStop do
   the branched stops appear grouped together in order as part of the list.
   """
   @spec list_from_shapes([Routes.Shape.t], [Stops.Stop.t], Routes.Route.t, direction_id_t) :: [RouteStop.t]
+  def list_from_shapes([], [], _route, _direction_id), do: [] # Can't build route stops if there are no stops or shapes
   def list_from_shapes([], [%Stops.Stop{}|_] = stops, route, _direction_id) do
     # if the repo doesn't have any shapes, just fake one since we only need the name and stop_ids.
 

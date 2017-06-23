@@ -92,6 +92,7 @@ defmodule Site.ScheduleV2Controller.Line do
   @spec get_default_shape(Routes.Shape.t | nil, [Routes.Shape.t]) :: [Routes.Shape.t]
   defp get_default_shape(nil, [default | _]), do: [default]
   defp get_default_shape(%Routes.Shape{} = shape, _shapes), do: [shape]
+  defp get_default_shape(_, _), do: []
 
   @doc """
   Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a

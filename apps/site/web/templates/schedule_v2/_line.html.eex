@@ -15,6 +15,9 @@
       <% end %>
     </div>
   </div>
+  <%= if Enum.empty?(@branches) do %>
+    <%= render "_empty.html", date: nil, direction: direction(@direction_id, @route), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
+  <% else %>
   <div class="row">
     <div class="page-section col-md-7">
       <h2 class="h5 route-stop-heading">Stops</h5>
@@ -51,5 +54,6 @@
           <%= route_pdf_link(@route, @date) %>
         </div>
     </div>
+  <% end %>
   </div>
 </div>
