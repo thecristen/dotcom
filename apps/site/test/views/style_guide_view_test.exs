@@ -32,8 +32,7 @@ defmodule Site.StyleGuideViewTest do
 
   test "component_args returns a map of a component's default arguments" do
     assert Site.StyleGuideView.component_args(:button_group, :buttons) ==
-      %ButtonGroup{class: "", id: nil, breakpoint_widths: %{ xs: 12, sm: 6, md: 4, xxl: 3},
-                   links:   [
+      %ButtonGroup{class: "", id: nil, links: [
                      {"Sample link 1", Site.Router.Helpers.page_path(Site.Endpoint, :index)},
                      {"Sample link 2", Site.Router.Helpers.page_path(Site.Endpoint, :index)}
                      ]}

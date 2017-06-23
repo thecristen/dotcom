@@ -6,26 +6,7 @@ defmodule Site.ComponentsTest do
   alias Site.Components.Tabs.ModeTabList
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  def check_mode_button_widths(routes, route_type, %{xs: xs, sm: sm, md: md, xxl: xxl}) do
-    list = mode_button_list(%ModeButtonList{routes: routes, route_type: route_type}) |> safe_to_string
-    [link_class] = list |> Floki.find(".button-container") |> List.first |> Floki.attribute("class")
-    assert link_class =~ "col-xs-#{xs}"
-    assert link_class =~ "col-sm-#{sm}"
-    assert link_class =~ "col-md-#{md}"
-    assert link_class =~ "col-xxl-#{xxl}"
-  end
-
   describe "buttons > mode_button_list" do
-    test "buttons render at the correct widths" do
-      check_mode_button_widths([%Routes.Route{id: "Red", name: "Red Line", type: 1}], :subway,
-        %{xs: 6, sm: 6, md: 3, xxl: 3})
-      check_mode_button_widths([%Routes.Route{id: "CR-Fitchburg", name: "Fitchburg Line", type: 2}], :commuter_rail,
-        %{xs: 6, sm: 6, md: 4, xxl: 3})
-      check_mode_button_widths([%Routes.Route{id: "Boat-F4", name: "Hull Ferry", type: 4}], :ferry,
-        %{xs: 12, sm: 4, md: 4, xxl: 4})
-      check_mode_button_widths(Site.ModeView.get_route_group(:the_ride, []), :the_ride, %{xs: 12, sm: 6, md: 6, xxl: 3})
-    end
-
     test "subway buttons render with T logo in a colored circle" do
       blue = mode_button_list(%ModeButtonList{
           routes: [%Routes.Route{id: "Blue", key_route?: true, name: "Blue Line", type: 1}],
@@ -146,27 +127,13 @@ defmodule Site.ComponentsTest do
   end
 
   describe "buttons > button_group" do
-    test "breakpoint_widths/1 returns a string of column classes" do
-      args = %ButtonGroup{
-        breakpoint_widths: %{
-          xs: 10,
-          md: 6
-        }
-      }
-      result = ButtonGroup.breakpoint_widths(args)
-      assert result =~ "col-xs-10"
-      assert result =~ "col-sm-6" # default
-      assert result =~ "col-md-6"
-      assert result =~ "col-xxl-3" # default
-    end
-
-    test "button list renders with default widths when args.breakpoint_widths doesn't exist" do
+    test "button list renders links in button containers" do
       rendered = button_group(%ButtonGroup{
         links: [{"Link 1", "/link-1"}, {"Link 2", "/link-2"}]
       }) |> safe_to_string
       assert [{"div", [{"class", "button-group"}], links}] = Floki.find(rendered, ".button-group")
       for link <- links do
-        assert Floki.attribute(link, "class") == ["button-container col-md-4 col-sm-6 col-xs-12 col-xxl-3"]
+        assert Floki.attribute(link, "class") == ["button-container"]
       end
     end
   end
