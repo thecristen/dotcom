@@ -12,64 +12,9 @@
         <%= fa "angle-down", class: "down" %>
         <%= fa "angle-up", class: "up" %>
       </button>
-      <nav id="desktop-menu" class="desktop-menu-nav" role="tablist">
-        <div>
-          <%= for {name, _, href} <- nav_link_content(@conn) do %>
-            <div class="nav-item">
-              <%=
-                  id = name
-                  |> String.replace_prefix(String.first(name), name |> String.first |> String.downcase)
-                  |> String.replace(" ", "")
-
-                  filename = name
-                  |> String.downcase
-                  |> String.replace(" ", "_")
-
-                  link(to: href,
-                    class: "desktop-nav-link collapsed toggle-up-down",
-                    data: [toggle: "collapse", parent: "#desktop-menu", target: "#" <> id],
-                    role: "tab",
-                    aria: [expanded: "false", controls: id]) do [
-                      name <> " ",
-                      fa("angle-down", class: "down"),
-                      fa("angle-up", class: "up")
-                    ] end
-              %>
-
-              <div class="desktop-menu">
-                <div class="container">
-                  <div class="desktop-menu-body panel">
-                    <div class="collapse" id="<%= id %>" role="tabpanel">
-                      <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
-                      <%= render "_old_site_button.html", conn: @conn %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </nav>
+      <%= render "_nav_desktop.html", assigns %>
     </div>
-    <nav class="collapse row" id="navbar" role="navigation">
-      <ul class="mobile-nav">
-        <%= for {name, description, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
-          <li class="mobile-nav-item">
-            <%=
-              link to: href, class: "mobile-nav-link" do [
-                bold_if_active(@conn, href, name),
-                content_tag(:p, description, class: "mobile-nav-description")
-              ] end
-            %>
-          </li>
-        <% end %>
-        <li class="mobile-nav-item">
-          <%= link to: "http://www2.mbta.com/index.asp", class: "mobile-nav-link old-site-mobile-link" do %>
-            Go to old mbta.com site <%= fa "arrow-right" %>
-          <% end %>
-        </li>
-      </ul>
-    </nav>
+    <%= render "_nav_mobile.html", assigns %>
   </div>
 </header>
 <%= if assigns[:breadcrumbs] do %><div class="breadcrumb-container">
