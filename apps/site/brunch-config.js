@@ -76,7 +76,7 @@ exports.config = {
 
     postcss: {
       processors: [
-        require('autoprefixer')(['last 20 versions'])
+        require('autoprefixer')([])
       ]
     }
   },
