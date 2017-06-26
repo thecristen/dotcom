@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { getUrlParameter, validateTNMForm, constructUrl } from '../../web/static/js/transit-near-me';
+import { getUrlParameter, validateLocationForm, constructUrl } from '../../web/static/js/transit-near-me';
 
-describe('transt-near-me', () => {
+describe('input-location', () => {
   var $;
   jsdom();
 
@@ -23,7 +23,7 @@ describe('transt-near-me', () => {
     });
   });
 
-  describe('validateTNMForm', () => {
+  describe('validateLocationForm', () => {
     var placeInput;
 
     beforeEach(() => {
@@ -51,7 +51,7 @@ describe('transt-near-me', () => {
       const event = {
         preventDefault: () => defaultPrevented = true
       };
-      assert.isFalse(validateTNMForm(event, loc, placeInput));
+      assert.isFalse(validateLocationForm(event, loc, placeInput));
       assert.isTrue(reloaded);
       assert.isTrue(defaultPrevented);
     });
@@ -62,7 +62,7 @@ describe('transt-near-me', () => {
         search: "?number=5&location[address]=Kendall",
         reload: () => reloaded = true
       };
-      assert.isTrue(validateTNMForm("event", loc, placeInput));
+      assert.isTrue(validateLocationForm("event", loc, placeInput));
       assert.isFalse(reloaded);
     });
   });
@@ -94,13 +94,13 @@ describe('transt-near-me', () => {
           }
         }
       };
-      const expected = "about://blank?latitude=8&longitude=5&location[address]=Boston#transit-input";
+      const expected = "about://blank?latitude=8&longitude=5&location[address]=Boston#input";
       assert.equal(expected, constructUrl(fake_place, placeInput));
     });
 
     it("Builds URL with place name when place has no geometry", () => {
       const named_place = {name: "Park"};
-      const expected = "about://blank?location[address]=Park#transit-input";
+      const expected = "about://blank?location[address]=Park#input";
       assert.equal(expected, constructUrl(named_place, placeInput));
     });
   });

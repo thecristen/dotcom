@@ -1,0 +1,75 @@
+.location-input-widget {
+  background-color: $white;
+  border: $border;
+  border-radius: $default-border-radius;
+  display: block;
+  margin-bottom: .1875rem;
+  padding: $space-2 0;
+  text-align: right;
+
+  [type=submit] {
+    display: block;
+    float: right;
+    margin-right: .125rem;
+    width: 4rem;
+  }
+
+  .clear {
+    clear: both;
+  }
+}
+
+.location-input {
+  border-width: 0;
+  display: block;
+  float: left;
+  margin: .375rem 0 0 .5rem;
+  outline: 0;
+  // scss-lint:disable DuplicateProperty
+  width: 85%; // fallback for browsers that don't support calc
+  width: calc(100% - 4rem);
+
+  &:focus {
+    border-width: 0;
+    outline: 0;
+  }
+
+  &.with-submit {
+    // scss-lint:disable DuplicateProperty
+    width: 80%; // fallback for browsers that don't support calc
+    width: calc(100% - 8rem);
+  }
+}
+
+.location-btn {
+  background-color: $gray-lightest;
+  color: $link-color;
+  float: left;
+  margin-left: .125rem;
+  padding: .375rem;
+  width: 3rem;
+
+  i {
+    pointer-events: none;
+  }
+
+  &:hover {
+    background-color: $brand-primary-lightest;
+  }
+}
+
+.location-error {
+  @extend %error-message;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.no-js .location-btn {
+  display: none;
+}
+
+.geolocation-disabled .location-btn {
+  display: none;
+}

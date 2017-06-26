@@ -1,0 +1,18 @@
+<% field = "#{args.name}[#{args.name_index}]" %>
+<div class="location-input-widget">
+  <button type="button" class="btn location-btn" data-geolocation-target="true"
+          data-id="<%= args.id %>" data-field="<%= field %>">
+    <%= fa "location-arrow" %>
+    <span class="sr-only">Use my location</span>
+    <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
+    <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
+  </button>
+  <% submit_class = if args.submit, do: " with-submit", else: "" %>
+  <%= Phoenix.HTML.Form.text_input args.name, args.name_index,
+                                   placeholder: args.placeholder, value: args.address, required: args.required,
+                                   class: "location-input" <> submit_class, id: args.id, data: [autocomplete: true] %>
+  <%= if args.submit do %><button type="submit" class="btn btn-primary">GO</button><% end %>
+  <div class="clear"></div>
+</div>
+<div id="<%= args.id <> "-address-error" %>" class="location-error"><%= args.address_error %></div>
+<div id="<%= args.id <> "-geolocation-error" %>" class="location-error"></div>

@@ -42,10 +42,11 @@ describe('geolocation', () => {
 
     beforeEach(() => {
       $('#test').html(`
-        <button data-geolocation-target="target">
+        <button data-geolocation-target="target" data-id="test">
           locate me
           <span class="hidden-xs-up loading-indicator"></span>
         </button>
+        <div id="test-geolocation-error"></div>
       `);
       geolocationCalled = false;
       window.navigator.geolocation = {
@@ -70,55 +71,61 @@ describe('geolocation', () => {
 
     beforeEach(() => {
       $('#test').html(`
-        <button data-geolocation-target="target">
+        <button data-geolocation-target="target" data-id="test" data-action="reload" data-field="location[address]">
           locate me
           <span class="loading-indicator"></span>
         </button>
+        <div id="test-geolocation-error"></div>
       `);
     });
 
-    it('loads the location URL', () => {
-      const mockLocation = {};
-      locationHandler($, $('button'), mockLocation)({
+    it('triggers a geolocation:complete event with the location information', (done) => {
+      const geolocationCallback = (e, location) => {
+        assert.deepEqual(location.coords, { latitude: lat, longitude: long })
+        done();
+      }
+      $('#test').on('geolocation:complete', geolocationCallback);
+      geolocation($, document, { geolocation: true });
+
+      locationHandler($, $('button'), $('#test-geolocation-error'))({
         coords: {
           latitude: lat,
           longitude: long
         }
       });
-      assert.isTrue(new RegExp(`\\?location%5Baddress%5D=${lat},%20${long}`).test(mockLocation.href));
     });
   });
 
   describe('locationError', () => {
     beforeEach(() => {
       $('#test').html(`
-        <button data-geolocation-target="target">
+        <button data-geolocation-target="target" data-id="test">
           locate me
           <span class="loading-indicator"></span>
         </button>
         <div class="transit-near-me-error">flash error</div>
-        <p id="tnm-geolocation-error" class="transit-near-me-error hidden-xs-up">error</p>
+        <div id="test-geolocation-error"></div>
       `);
     });
 
     it('hides the loading indicator', () => {
       assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
-      locationError($, $('button'))({code: ''});
+      locationError($, $('button'), $('#test-geolocation-error'))({code: ''});
       assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
     });
 
     it('shows an error message on timeout or geolocation failure', () => {
-      locationError($, $('button'))({code: 'timeout', TIMEOUT: 'timeout'});
+      locationError($, $('button'), $('#test-geolocation-error'))({code: 'timeout', TIMEOUT: 'timeout'});
       assert.isFalse($('#tnm-geolocation-error').hasClass('hidden-xs-up'));
     });
 
     it('shows a single error message', () => {
-      locationError($, $('button'))({code: 'permission', PERMISSION_DENIED: 'permission'});
+      locationError($, $('button'), $('#test-geolocation-error'))({code: 'permission', PERMISSION_DENIED: 'permission'});
       assert.equal($('.transit-near-me-error').not('.hidden-xs-up').length, 1);
     });
 
     it('shows an error message if permission is denied', () => {
-      locationError($, $('button'))({code: 'permission', PERMISSION_DENIED: 'permission'});
+      locationError($, $('button'), $('#test-geolocation-error'))({code: 'permission', PERMISSION_DENIED: 'permission'});
       assert.isFalse($('#tnm-geolocation-error').hasClass('hidden-xs-up'));
     });
   });

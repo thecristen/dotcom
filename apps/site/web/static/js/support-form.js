@@ -50,7 +50,6 @@ function setupPhotoPreviews($, toUpload) {
 export function handleUploadedPhoto($, file, $container, toUpload) {
   if (/image\//.test(file.type)) {
     toUpload.push(file);
-    console.log(toUpload);
     hideOrShowPreviews($container, toUpload);
 
     let preview = new PhotoPreview($, file)

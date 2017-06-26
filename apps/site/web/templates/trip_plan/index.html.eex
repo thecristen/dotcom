@@ -4,11 +4,15 @@
     <%= form_for @conn, @conn.request_path, [as: :plan, method: :get], fn f -> %>
     <div class="form-group">
       <%= label f, :from, "From:" %>
-      <%= text_input f, :from, placeholder: "Ex: 10 Park Plaza", id: "from", class: "form-control", data_autocomplete: "true" %>
+      <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: false,
+                                        address: f.params["from"], address_error: "",
+                                        placeholder: "Ex: 10 Park Plaza"}) %>
     </div>
     <div class="form-group">
       <%= label f, :to, "To:" %>
-      <%= text_input f, :to, placeholder: "Ex: Boston Children's Museum", id: "to", class: "form-control", data_autocomplete: "true" %>
+      <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: false,
+                                        address: f.params["to"], address_error: "",
+                                        placeholder: "Ex: Boston Children's Museum"}) %>
     </div>
     <div class="form-group">
       <%= label f, :include_car? do %>

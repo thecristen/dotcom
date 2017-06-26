@@ -1,26 +1,28 @@
 export default function() {
-  function setupTNM() {
-    const placeInput = document.getElementById("tnm-place-input");
+  function setupLocationInput() {
+    const transitNearMeInput = document.getElementById('transit-near-me-input');
 
-    // only load on pages that are using TNM
-    if(!placeInput) {
+    // only load on pages that are using the location input
+    if (!transitNearMeInput) {
       return;
     }
 
-    placeInput.form.addEventListener('submit', (ev) => validateTNMForm(ev, window.location, placeInput));
+    transitNearMeInput.form.addEventListener('submit', (ev) => validateLocationForm(ev, window.location,
+                                                                                    transitNearMeInput));
   }
 
-  document.addEventListener('turbolinks:load', setupTNM, {passive: true});
-  $(document).on('autocomplete:added', '#tnm-place-input', addPlaceChangeCallback)
+  document.addEventListener('turbolinks:load', setupLocationInput, {passive: true});
+  $(document).on('autocomplete:added', '#transit-near-me-input', addLocationChangeCallback);
+  $(document).on('geolocation:complete', '#transit-near-me-input', geolocationCallback);
 }
 
 // Functions exported for testing //
 
 export function getUrlParameter(sParam, search_string) {
-  var sPageURL = decodeURIComponent(search_string.substring(1)),
-    sURLVariables = sPageURL.split('&'),
-    sParameterName,
-    i;
+  const sPageURL = decodeURIComponent(search_string.substring(1)),
+        sURLVariables = sPageURL.split('&');
+  var sParameterName,
+      i;
 
   for (i = 0; i < sURLVariables.length; i++) {
     sParameterName = sURLVariables[i].split('=');
@@ -35,9 +37,10 @@ export function getUrlParameter(sParam, search_string) {
 // Determines if form should be re-submitted. If place name has not changed
 // Do not resubmit the form
 // This is done to preserve the names of landmarks
-export function validateTNMForm(event, location, placeInput) {
-  var val = placeInput.value;
-  if (val === getUrlParameter('location[address]', location.search)) {
+export function validateLocationForm(event, location, input) {
+  const val = input.value;
+  const name = input.getAttribute("name");
+  if (val === getUrlParameter(name, location.search)) {
     event.preventDefault();
     location.reload();
     return false;
@@ -45,30 +48,38 @@ export function validateTNMForm(event, location, placeInput) {
   return true;
 }
 
-export function constructUrl(place, placeInput) {
-  var query_str,
-      loc = window.location,
-      location_url = loc.protocol + "//" + loc.host + loc.pathname,
-      addr = placeInput.value;
+export function constructUrl(place, input) {
+  const id = input.getAttribute("id");
+  const name = input.getAttribute("name");
+  var query_str;
+  const loc = window.location,
+        location_url = loc.protocol + "//" + loc.host + loc.pathname,
+        addr = input.value;
 
   if (place.geometry) {
-    var lat = place.geometry.location.lat();
-    var lng = place.geometry.location.lng();
-    query_str = "?latitude=" + lat + "&longitude=" + lng + "&location[address]=" + addr +  "#transit-input";
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+    query_str = "?latitude=" + lat + "&longitude=" + lng + "&" + name + "=" + addr +  "#" + id;
   } else {
-    query_str = "?location[address]=" + place.name + "#transit-input";
+    query_str = "?" + name + "=" + place.name + "#" + id;
   }
   return location_url + query_str;
 }
 
-export function addPlaceChangedEventListener(autocomplete, placeInput) {
+export function addLocationChangedEventListener(autocomplete, input) {
   function onPlaceChanged() {
-    const locationUrl = constructUrl(autocomplete.getPlace(), placeInput);
+    const locationUrl = constructUrl(autocomplete.getPlace(), input);
     window.location.href = encodeURI(locationUrl);
   }
   google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
 }
 
-function addPlaceChangeCallback(ev, autocomplete){
-  addPlaceChangedEventListener(autocomplete, ev.target);
+function addLocationChangeCallback(ev, autocomplete) {
+  addLocationChangedEventListener(autocomplete, ev.target);
+}
+
+function geolocationCallback(ev, location) {
+  const path = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+  const qs = `?location[address]=${location.coords.latitude}, ${location.coords.longitude}`;
+  window.location.href = encodeURI(path + qs + '#transit-near-me-input');
 }

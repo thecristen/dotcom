@@ -1,19 +1,8 @@
 <h2 id="transit-input" class="h5 transit-input-label">Find nearby stops and stations</h2>
 <div class="transit-near-me">
-  <%= form_for @conn, @conn.request_path<>"#transit-input", [as: :location, method: :get, class: "form transit-near-me-form"], fn f ->  %>
-    <div class="form-group">
-      <button type="button" class="btn location-btn" data-geolocation-target="tnm-place-input">
-        <%= fa "location-arrow" %>
-        <span class="sr-only">Use my location</span>
-        <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
-        <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
-      </button>
-      <% tnm_address = @conn.params["place_name"] || @tnm_address %>
-      <%= text_input f, :address, placeholder: "Enter a location", value: tnm_address, class: "transit-near-me-input", id: "tnm-place-input", data: [place_name: @conn.params["place_name"], autocomplete: true], required: true %>
-      <button type="submit" class="btn btn-primary">GO</button>
-      <div class="clear"></div>
-    </div>
+  <%= form_for @conn, @conn.request_path<>"#transit-near-me-input", [as: :location, method: :get, class: "form"], fn _f -> %>
+    <%= input_location(%InputLocation{id: "transit-near-me-input", name: :location, name_index: :address,
+                                      address: @tnm_address, address_error: get_flash(@conn, :info), submit: true,
+                                      required: true, placeholder: "Enter a location"}) %>
   <% end %>
 </div>
-<div class="transit-near-me-error"><%= get_flash(@conn, :info) %></div>
-<p id="tnm-geolocation-error" class="transit-near-me-error hidden-xs-up"></p>
