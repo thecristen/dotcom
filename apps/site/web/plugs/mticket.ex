@@ -16,8 +16,10 @@ defmodule Site.Plug.Mticket do
   import Phoenix.Controller, only: [put_layout: 2, render: 4]
   import Plug.Conn
 
+  @impl true
   def init(_opts), do: []
 
+  @impl true
   def call(conn, _opts) do
     # this is the user agent that mTrip 1.0 uses to proxy some pages when the app is first loaded
     if get_req_header(conn, "user-agent") == ["Java/1.8.0_91"] do

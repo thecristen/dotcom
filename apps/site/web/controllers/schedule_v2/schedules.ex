@@ -4,13 +4,16 @@ defmodule Site.ScheduleV2Controller.Schedules do
   Responsible for populating @schedules and @frequency_table based on parameters.
 
   """
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
   require Routes.Route
   alias Routes.Route
 
+  @impl true
   def init(_), do: []
 
+  @impl true
   def call(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do
     conn
   end

@@ -20,10 +20,12 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     prediction_fn: &Predictions.Repo.all/1
   ]
 
+  @impl true
   def init(opts) do
     Keyword.merge(@default_opts, opts)
   end
 
+  @impl true
   def call(conn, opts) do
     case trip_id(conn) do
       nil ->

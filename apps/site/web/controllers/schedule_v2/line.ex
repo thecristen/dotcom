@@ -1,5 +1,5 @@
 defmodule Site.ScheduleV2Controller.Line do
-
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
@@ -12,8 +12,10 @@ defmodule Site.ScheduleV2Controller.Line do
   @type stop_bubble :: {branch_name, stop_bubble_type}
   @type stop_with_bubble_info :: {[stop_bubble], RouteStop.t}
 
+  @impl true
   def init([]), do: []
 
+  @impl true
   def call(%Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn, _args) do
     expanded = conn.query_params["expanded"]
     variant = conn.query_params["variant"]

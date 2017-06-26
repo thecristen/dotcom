@@ -28,8 +28,10 @@ defmodule Site.Plugs.Banner do
 
   alias __MODULE__.Options
 
+  @impl true
   def init(opts), do: struct!(Options, opts)
 
+  @impl true
   def call(conn, opts) do
     assign_alert_banner(conn, opts.banner_fn.())
   end

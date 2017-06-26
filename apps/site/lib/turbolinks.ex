@@ -33,7 +33,7 @@ defmodule Turbolinks.Plug do
   information.
 
   """
-
+  @behaviour Plug
   import Phoenix.Controller, only: [get_flash: 2,
                                     put_flash: 3]
 
@@ -41,8 +41,10 @@ defmodule Turbolinks.Plug do
                            get_resp_header: 2,
                            put_resp_header: 3]
 
+  @impl true
   def init([]), do: []
 
+  @impl true
   def call(conn, []) do
     if Turbolinks.enabled?(conn) do
       conn

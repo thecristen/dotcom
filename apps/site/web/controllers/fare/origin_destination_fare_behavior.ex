@@ -4,6 +4,7 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
 
   @callback route_type() :: integer
   @callback key_stops() :: [Stops.Stop.t]
+  @optional_callbacks key_stops: 0
 
   alias Site.FareController.Filter
   import Plug.Conn, only: [assign: 3]
@@ -15,14 +16,18 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
 
       use Site.FareController.Behavior
 
+      @impl true
       defdelegate filters(fares), to: unquote(__MODULE__)
 
+      @impl true
       def before_render(conn) do
         unquote(__MODULE__).before_render(conn, __MODULE__)
       end
 
-      def template(), do: "origin_destination.html"
+      @impl true
+      def template, do: "origin_destination.html"
 
+      @impl true
       def key_stops, do: []
 
       defoverridable [key_stops: 0]

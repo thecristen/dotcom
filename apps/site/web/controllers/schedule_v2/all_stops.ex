@@ -1,10 +1,12 @@
 defmodule Site.ScheduleV2Controller.AllStops do
   @moduledoc "Fetch all the stops on a route and assign them as @all_stops"
-
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
+  @impl true
   def init([]), do: []
 
+  @impl true
   def call(conn, []) do
     stops = get_all_stops(conn)
     assign_all_stops(conn, stops)

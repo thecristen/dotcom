@@ -30,6 +30,7 @@ defmodule Site.GreenLine.CacheSupervisor do
     end
   end
 
+  @impl true
   def init(_) do
     children = [
       worker(Site.GreenLine.DateAgent, [], restart: :transient)

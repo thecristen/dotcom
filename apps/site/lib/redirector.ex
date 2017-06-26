@@ -1,11 +1,14 @@
 defmodule Site.Redirector do
+  @behaviour Plug
   import Plug.Conn, only: [put_status: 2, halt: 1]
   import Phoenix.Controller, only: [redirect: 2, render: 4, put_layout: 2]
 
+  @impl true
   @spec init(Keyword.t) :: Keyword.t
   def init([to: _] = opts), do: opts
   def init(_default), do: raise("Missing required to: option in redirect")
 
+  @impl true
   @spec call(Plug.Conn.t, Keyword.t) :: Plug.Conn.t
   def call(%Plug.Conn{params: %{"id" => id}} = conn, [to: to]) do
     if record = find_record(id, to) do

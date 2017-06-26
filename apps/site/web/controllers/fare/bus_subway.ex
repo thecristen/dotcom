@@ -5,8 +5,10 @@ defmodule Site.FareController.BusSubway do
   import Plug.Conn, only: [assign: 3]
   import Site.Router.Helpers
 
+  @impl true
   def template(), do: "bus_subway.html"
 
+  @impl true
   def before_render(conn) do
     conn
     |> assign(:breadcrumbs, [
@@ -15,11 +17,13 @@ defmodule Site.FareController.BusSubway do
         ])
   end
 
+  @impl true
   def fares(_conn) do
     [:subway, :bus]
     |> Enum.flat_map(&Fares.Repo.all(mode: &1))
   end
 
+  @impl true
   def filters([%Fare{reduced: nil} | _] = fares) do
     {single_rides, passes} = fares |> Enum.partition(&single_ride?/1)
 

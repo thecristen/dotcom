@@ -43,6 +43,7 @@ defmodule Content.CMS.Static do
     Poison.Parser.parse!(@landing_page)
   end
 
+  @impl true
   def view(path, params \\ [])
   def view("/recent-news", [current_id: id]) do
     id = Integer.to_string(id)
@@ -106,6 +107,7 @@ defmodule Content.CMS.Static do
     {:error, "Not able to retrieve response"}
   end
 
+  @impl true
   def post("entity/node", body) do
     if String.contains?(body, "fails-to-create") do
       {:error, %{status_code: 422}}
@@ -117,6 +119,7 @@ defmodule Content.CMS.Static do
     end
   end
 
+  @impl true
   def update("node/" <> _id, body) do
     if String.contains?(body, "fails-to-update") do
       {:error, %{status_code: 422}}

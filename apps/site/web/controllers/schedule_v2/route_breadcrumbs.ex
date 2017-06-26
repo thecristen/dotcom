@@ -1,11 +1,13 @@
 defmodule Site.ScheduleV2Controller.RouteBreadcrumbs do
   @moduledoc "Fetches the route from `conn.assigns` and assigns breadcrumbs."
-
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
   import Site.Router.Helpers, only: [mode_path: 2]
 
+  @impl true
   def init([]), do: []
 
+  @impl true
   def call(%{assigns: %{route: route}} = conn, []) do
     conn
     |> assign(:breadcrumbs, breadcrumbs(route))

@@ -16,6 +16,7 @@ defmodule Alerts.Supervisor do
     Supervisor.start_link(__MODULE__, [])
   end
 
+  @impl true
   def init(_arg) do
     children = [
       worker(Alerts.Cache.Store, []),
