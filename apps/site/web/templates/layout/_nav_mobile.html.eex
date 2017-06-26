@@ -1,0 +1,19 @@
+<nav class="collapse row" id="navbar" role="navigation">
+  <ul class="mobile-nav">
+    <%= for {name, description, _icon, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
+      <li class="mobile-nav-item">
+        <%=
+          link to: href, class: "mobile-nav-link" do [
+            bold_if_active(@conn, href, name),
+            content_tag(:p, description, class: "mobile-nav-description")
+          ] end
+        %>
+      </li>
+    <% end %>
+    <li class="mobile-nav-item">
+      <%= link to: "http://www2.mbta.com/index.asp", class: "mobile-nav-link old-site-mobile-link" do %>
+        Go to old mbta.com site <%= fa "arrow-right" %>
+      <% end %>
+    </li>
+  </ul>
+</nav>

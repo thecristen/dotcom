@@ -34,6 +34,7 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:suitcase), do: "9,11"
   def translate(:t_logo), do: "8,11"
   def translate(:map), do: "8,9"
+  def translate(:fare_ticket), do: "3,13"
   def translate(:access), do: "9,7"
   def translate(:twitter), do: "5,10"
   def translate(:facebook), do: "8,8"
@@ -54,12 +55,16 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
 
   def scale(:nineoneone), do: ".25"
   def scale(:ferry), do: "1.5"
+  def scale(:fare_ticket), do: "1.6"
   def scale(:direction), do: "1.25"
   def scale(:variation), do: "1.25"
   def scale(:calendar), do: "1.25"
   def scale(:mattapan_trolley), do: "1.7"
   def scale(icon) when icon in [:subway, :commuter_rail, :bus], do: "1.4"
   def scale(_), do: "1"
+
+  def rotate(:fare_ticket), do: "rotate(-15)"
+  def rotate(_), do: ""
 
   def circle_args(:twitter), do: "r=200 cx=200 cy=200"
   def circle_args(:facebook), do: "r=37 cx=37 cy=37"

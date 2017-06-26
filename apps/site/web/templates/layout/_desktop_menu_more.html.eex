@@ -1,9 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :t_logo, class: "icon-boring"}) %>
-      <span>About Us</span>
-    </p>
+    <p class="nav-title">About Us</p>
     <div class="col-xs-6 p-a-0">
       <ul>
         <li>
@@ -54,10 +51,7 @@
     </div>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :suitcase, class: "icon-boring"})  %>
-      <span>Business Center</span>
-    </p>
+    <p class="nav-title">Business Center</p>
     <ul>
       <li>
         <%= link to: redirect_path(@conn, "business_center/"), target: "_blank" do %>
@@ -87,10 +81,7 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">
-      <%= svg_icon_with_circle %SvgIconWithCircle{icon: :tools, class: "icon-boring"} %>
-      <span>Improvements and Projects</span>
-    </p>
+    <p class="nav-title">Improvements and Projects</p>
     <ul>
       <li>
         <%= link to: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), target: "_blank" do %>

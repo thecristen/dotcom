@@ -35,4 +35,51 @@ defmodule Site.LayoutViewTest do
 
     assert body == [Site.ViewHelpers.feedback_form_url()]
   end
+
+  describe "_header.html" do
+    test "renders desktop nav with all content drawers", %{conn: conn} do
+      assert {:safe, html} = render("_header.html", %{conn: conn})
+      assert [{"nav", _, drawers}] = html |> IO.iodata_to_binary() |> Floki.find("#desktop-menu")
+      refute Floki.raw_html(drawers) =~ "mobile"
+      assert conn |> nav_link_content() |> length() > 0
+
+      conn
+      |> nav_link_content()
+      |> Enum.each(fn {name, description, icon, href} ->
+
+        camelized = Site.ViewHelpers.to_camelcase(name)
+        id = "#" <> camelized
+
+        assert [{"div", _, drawer_content}] = Floki.find(drawers, id)
+        assert [{"a", link_attrs, link_content}] = Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
+        assert Floki.raw_html(link_content) =~ icon |> Atom.to_string() |> String.replace("_", "-")
+        assert [controls, expanded, _class, parent, target, toggle, _href, role] = link_attrs
+
+        assert controls == {"aria-controls", camelized}
+        assert expanded == {"aria-expanded", "false"}
+        assert parent == {"data-parent", "#desktop-menu"}
+        assert toggle == {"data-toggle", "collapse"}
+        assert target == {"data-target", id}
+        assert role == {"role", "tab"}
+
+        refute Floki.raw_html(drawer_content) =~ description
+
+        if id == "#fares" do
+          assert [{"div", _, _}] = Floki.find(drawer_content, ".fare-summary-container")
+        end
+      end)
+    end
+
+    test "renders mobile nav with all content drawers", %{conn: conn} do
+      assert {:safe, html} = render("_header.html", %{conn: conn})
+      html_string = IO.iodata_to_binary(html)
+      conn
+      |> nav_link_content()
+      |> Enum.each(fn {name, description, _icon, link} ->
+        assert html_string =~ name
+        assert html_string =~ description
+        assert html_string =~ link
+      end)
+    end
+  end
 end

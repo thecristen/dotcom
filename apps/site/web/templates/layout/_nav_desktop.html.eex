@@ -1,0 +1,42 @@
+<nav id="desktop-menu" class="desktop-menu-nav" role="tablist">
+  <div class="pull-right">
+    <%= for {name, _, icon, href} <- nav_link_content(@conn) do %>
+      <div class="nav-item">
+        <%=
+            id = to_camelcase(name)
+            filename = name
+            |> String.downcase
+            |> String.replace(" ", "_")
+
+            link([
+              content_tag(:div, [class: "nav-link-content nav-link-icon"], do: [
+                svg_icon_with_circle(%SvgIconWithCircle{icon: icon, class: "icon-boring", show_tooltip?: false})
+              ]),
+              content_tag(:div, [class: "nav-link-content"], do: [
+                "#{name} ",
+                fa("angle-down", class: "down"),
+                fa("angle-up", class: "up")
+              ])
+            ], to: href,
+               class: "desktop-nav-link collapsed toggle-up-down",
+               data: [toggle: "collapse", parent: "#desktop-menu", target: "#" <> id],
+               role: "tab",
+               aria: [expanded: "false", controls: id])
+        %>
+
+        <div class="desktop-menu">
+          <div class="desktop-menu-background-image">
+            <div class="container">
+              <div class="desktop-menu-body panel">
+                <div class="collapse" id="<%= id %>" role="tabpanel">
+                  <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
+                  <%= render "_old_site_button.html", conn: @conn %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</nav>

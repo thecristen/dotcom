@@ -153,4 +153,14 @@ defmodule Site.ViewHelpersTest do
       assert fare_group(4) == "ferry"
     end
   end
+
+  describe "to_camelcase/1" do
+    test "turns a phrase with spaces into camelcased format" do
+      assert to_camelcase("Capitalized With Spaces") == "capitalizedWithSpaces"
+      assert to_camelcase("Capitalized") == "capitalized"
+      assert to_camelcase("Sentence case") == "sentenceCase"
+      assert to_camelcase("no words capitalized") == "noWordsCapitalized"
+      assert to_camelcase("with_underscores") == "withUnderscores"
+    end
+  end
 end

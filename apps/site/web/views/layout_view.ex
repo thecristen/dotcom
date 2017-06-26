@@ -46,4 +46,11 @@ defmodule Site.LayoutView do
 
     raw(breadcrumb <> "MBTA - Massachusetts Bay Transportation Authority")
   end
+
+  def nav_link_content(conn), do: [
+      {"Getting Around", "Transit Services, Plan Your Trip, Riding...", :map, static_page_path(conn, :getting_around)},
+      {"Fares", "Fares By Mode, Reduced Fares, Passes...", :fare_ticket, fare_path(conn, :index)},
+      {"Contact Us", "Phone And Online Support, T-Alerts", :phone, customer_support_path(conn, :index)},
+      {"More", "About Us, Business Center, Projects...", :t_logo, static_page_path(conn, :about)}
+    ]
 end

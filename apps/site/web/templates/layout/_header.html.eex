@@ -1,11 +1,3 @@
-<%
-  nav_links = [
-    {"Getting Around", "Transit Services, Plan Your Trip, Riding...", static_page_path(@conn, :getting_around)},
-    {"Fares", "Fares By Mode, Reduced Fares, Passes...", fare_path(@conn, :index)},
-    {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(@conn, :index)},
-    {"More", "About Us, Business Center, Projects...", static_page_path(@conn, :about)}
-  ]
-%>
 <header class="header<%= unless @conn.assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
   <div class="container">
     <div class="header-navbar row">
@@ -16,68 +8,15 @@
         </div>
       </a>
       <button class="navbar-toggle collapsed toggle-up-down col-xs-3 col-sm-2 hidden-md-up" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
-        Menu
-        <%= fa "angle-down", class: "down" %>
-        <%= fa "angle-up", class: "up" %>
+        <span class="nav-link-content">
+          Menu
+          <%= fa "angle-down", class: "down" %>
+          <%= fa "angle-up", class: "up" %>
+        </span>
       </button>
-      <nav id="desktop-menu" class="desktop-menu-nav" role="tablist">
-        <div>
-          <%= for {name, _, href} <- nav_links do %>
-            <div class="nav-item">
-              <%=
-                  id = name
-                  |> String.replace_prefix(String.first(name), name |> String.first |> String.downcase)
-                  |> String.replace(" ", "")
-
-                  filename = name
-                  |> String.downcase
-                  |> String.replace(" ", "_")
-
-                  link(to: href,
-                    class: "desktop-nav-link collapsed toggle-up-down",
-                    data: [toggle: "collapse", parent: "#desktop-menu", target: "#" <> id],
-                    role: "tab",
-                    aria: [expanded: "false", controls: id]) do [
-                      name <> " ",
-                      fa("angle-down", class: "down"),
-                      fa("angle-up", class: "up")
-                    ] end
-              %>
-
-              <div class="desktop-menu">
-                <div class="container">
-                  <div class="desktop-menu-body panel">
-                    <div class="collapse" id="<%= id %>" role="tabpanel">
-                      <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
-                      <%= render "_old_site_button.html", conn: @conn %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </nav>
+      <%= render "_nav_desktop.html", assigns %>
     </div>
-    <nav class="collapse row" id="navbar" role="navigation">
-      <ul class="mobile-nav">
-        <%= for {name, description, href} <- [{"Home", "", page_path(@conn, :index)} | nav_links] do %>
-          <li class="mobile-nav-item">
-            <%=
-              link to: href, class: "mobile-nav-link" do [
-                bold_if_active(@conn, href, name),
-                content_tag(:p, description, class: "mobile-nav-description")
-              ] end
-            %>
-          </li>
-        <% end %>
-        <li class="mobile-nav-item">
-          <%= link to: "http://www2.mbta.com/index.asp", class: "mobile-nav-link old-site-mobile-link" do %>
-            Go to old mbta.com site <%= fa "arrow-right" %>
-          <% end %>
-        </li>
-      </ul>
-    </nav>
+    <%= render "_nav_mobile.html", assigns %>
   </div>
 </header>
 <%= if assigns[:breadcrumbs] do %><div class="breadcrumb-container">
