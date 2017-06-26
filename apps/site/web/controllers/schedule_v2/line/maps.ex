@@ -1,6 +1,8 @@
 defmodule Site.ScheduleV2Controller.Line.Maps do
   alias GoogleMaps.MapData
   alias GoogleMaps.MapData.{Path, Marker}
+  alias Stops.RouteStops
+  alias Routes.{Route, Shape}
 
   @moduledoc """
   Handles Map information for the line controller
@@ -119,7 +121,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
     {static_data, dynamic_data}
   end
 
-  @spec map_polylines({any, [Routes.Shape.t]}, Routes.Route.t) :: [String.t]
+  @spec map_polylines({any, [Routes.Shape.t]}, Route.t) :: [String.t]
   defp map_polylines(_, %Routes.Route{type: 4}), do: []
   defp map_polylines({_stops, shapes}, _) do
     shapes

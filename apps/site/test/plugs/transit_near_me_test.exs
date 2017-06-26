@@ -25,7 +25,7 @@ defmodule Site.Plugs.TransitNearMeTest do
     end
 
     test "assigns address and stops with routes", %{conn: conn} do
-      options = %Options{nearby_fn: &mock_response/1}
+      options = init(nearby_fn: &mock_response/1)
 
       conn = conn
       |> bypass_through(Site.Router, :browser)
@@ -43,17 +43,17 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> assign_query_params(%{})
       |> bypass_through(Site.Router, :browser)
       |> get("/")
-      |> call(%Options{})
+      |> call(init([]))
 
       assert conn.assigns.stops_with_routes == []
       assert conn.assigns.tnm_address == ""
     end
 
     test "flashes message if no results are returned", %{conn: conn} do
-      options = %Options{
+      options = init(
         geocode_fn: fn @tnm_address -> {:ok, [%Geocode.Address{formatted: "formatted"}]} end,
         nearby_fn: fn _ -> [] end
-      }
+      )
 
       conn = conn
       |> bypass_through(Site.Router, :browser)
@@ -69,7 +69,7 @@ defmodule Site.Plugs.TransitNearMeTest do
     end
 
     test "can take a lat/long as query parameters", %{conn: conn} do
-      options = %Options{nearby_fn: &mock_response/1}
+      options = init(nearby_fn: &mock_response/1)
       lat = 42.3515322
       lng = -71.0668452
 
@@ -89,15 +89,15 @@ defmodule Site.Plugs.TransitNearMeTest do
       |> assign_query_params(%{})
       |> bypass_through(Site.Router, :browser)
       |> get("/")
-      |> call(%Options{})
+      |> call(init([]))
 
       assert conn.assigns.requires_google_maps?
     end
   end
 
   describe "init/1" do
-    test "it returns a default options struct" do
-      assert init([]) == %Options{}
+    test "it returns a default options map" do
+      assert init([]) == Map.from_struct(%Options{})
     end
   end
 
@@ -214,7 +214,7 @@ defmodule Site.Plugs.TransitNearMeTest do
   end
 
   def search_near_address(conn, address) do
-    options = %Options{nearby_fn: &mock_response/1}
+    options = init(nearby_fn: &mock_response/1)
 
     conn
     |> assign_query_params(%{"location" => %{"address" => address}})

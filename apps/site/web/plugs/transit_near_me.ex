@@ -15,7 +15,11 @@ defmodule Site.Plugs.TransitNearMe do
   end
 
   @impl true
-  def init([]), do: %Options{}
+  def init(opts) do
+    Options
+    |> struct!(opts)
+    |> Map.from_struct
+  end
 
   @impl true
   def call(%{assigns: %{stops_with_routes: stops_with_routes}} = conn, _options) when is_list(stops_with_routes) do

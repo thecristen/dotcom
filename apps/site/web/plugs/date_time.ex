@@ -9,10 +9,10 @@ defmodule Site.Plugs.DateTime do
   import Plug.Conn, only: [assign: 3]
 
   @impl true
-  def init([]), do: &Util.now/0
+  def init([]), do: [now_fn: &Util.now/0]
 
   @impl true
-  def call(conn, now_fn) do
+  def call(conn, [now_fn: now_fn]) do
     conn
     |> assign(:date_time, date_time(conn.params["date_time"], now_fn))
   end

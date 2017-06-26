@@ -82,7 +82,7 @@ defmodule Alerts.Sort do
     now_unix = DateTime.to_unix(now, :second)
     future_periods = for {start, _} <- periods,
       start,
-      unix = DateTime.to_unix(start),
+      unix <- [DateTime.to_unix(start)], # wrap in a list to avoid an Erlang 19.3 issue
       unix > now_unix do
         unix
     end
