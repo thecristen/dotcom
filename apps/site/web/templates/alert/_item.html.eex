@@ -10,7 +10,7 @@
 </span>
 <div class="alert-item-body-container">
   <div>
-    <%= @alert.header %>
+    <%= replace_urls_with_links(@alert.header) %>
   </div>
   <span class="alert-item-body collapse" id="alert-body-<%= @alert.id %><%= extra_id %>">
     <br />

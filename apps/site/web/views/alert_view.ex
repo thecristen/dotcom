@@ -95,7 +95,27 @@ defmodule Site.AlertView do
     |> String.replace(~r/^(.*:)\s/, "<strong>\\1</strong>\n") # an initial header
     |> String.replace(~r/\n(.*:)\s/, "<br /><strong>\\1</strong>\n") # all other start with a line break
     |> String.replace(~r/\s*\n/s, "<br />")
+    |> replace_urls_with_links
+  end
+
+  @url_regex ~r/(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/i
+
+  @spec replace_urls_with_links(String.t) :: Phoenix.HTML.safe
+  def replace_urls_with_links(text) do
+    @url_regex
+    |> Regex.replace(text, &create_url/1)
     |> raw
+  end
+
+  defp create_url(full_url) do
+    # I could probably convince the Regex to match an internal period but not
+    # one at the end, but this is clearer. -ps
+    {full_url, suffix} = if String.ends_with?(full_url, ".") do
+      String.split_at(full_url, -1)
+    else
+      {full_url, ""}
+    end
+    ~s(<a target="_blank" href="#{full_url}">#{full_url}</a>#{suffix})
   end
 
   @spec show_mode_icon?(Route.t) :: boolean
