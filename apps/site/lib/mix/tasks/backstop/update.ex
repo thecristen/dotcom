@@ -9,51 +9,56 @@ defmodule Mix.Tasks.Backstop.Update do
 
   @reference_dir "apps/site/backstop_data/bitmaps_test"
 
-  def run([]) do
-    latest_test_dir()
-    |> latest_failures
-    |> Enum.each(&copy_file/1)
-  end
-  def run(filenames) do
+  def run(files) do
     test_dir = latest_test_dir()
-
-    filenames
-    |> Enum.map(fn path ->
-      Path.expand(Path.join(test_dir, path))
-    end)
+    test_dir
+    |> File.ls!
+    |> filter_file_list(files)
+    |> join_paths(test_dir)
     |> Enum.each(&copy_file/1)
   end
 
-  def latest_test_dir do
+  defp latest_test_dir do
     @reference_dir
     |> File.ls!
-    |> Enum.sort
-    |> Enum.map(&Path.join(@reference_dir, &1))
+    |> join_paths(@reference_dir)
     |> Enum.filter(&File.dir?/1)
-    |> List.last
+    |> Enum.max
   end
 
-  def latest_failures(dir) do
-    dir
-    |> File.ls!
-    |> Enum.filter(&Kernel.=~(&1, "failed_diff_"))
-    |> Enum.map(fn path ->
-      ~r/^failed_diff_(.*)$/
-      |> Regex.run(path, capture: :all_but_first)
-      |> List.first
-      |> (fn f -> Path.expand(Path.join(dir, f)) end).()
-    end)
+  @doc "Join a root path to a list of filenames"
+  def join_paths(paths, root) do
+    for path <- paths, do: Path.expand(path, root)
   end
 
-  def copy_file(path) do
-    filename = path
-    |> Path.split
-    |> List.last
+  @doc "Either find the failed files, or filter to a list of provided files"
+  def filter_file_list(directory_files, []) do
+    latest_failures(directory_files)
+  end
+  def filter_file_list(directory_files, file_list) do
+    for file <- directory_files,
+      file in file_list do
+        file
+    end
+  end
 
-    destination = [@reference_dir, "../bitmaps_reference", filename]
+  defp latest_failures(files) do
+    for file <- files,
+      String.starts_with?(file, "failed_diff_") do
+        String.replace_prefix(file, "failed_diff_", "")
+    end
+  end
+
+  defp copy_file(path) do
+    File.cp! path, destination_path(path)
+  end
+
+  @doc "Path for the reference image of a given test image"
+  def destination_path(path) do
+    filename = Path.basename(path)
+
+    [@reference_dir, "../bitmaps_reference", filename]
     |> Path.join
     |> Path.expand
-
-    :ok = File.cp path, destination
   end
 end
