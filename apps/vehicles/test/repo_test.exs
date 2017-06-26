@@ -20,6 +20,22 @@ defmodule Vehicles.RepoTest do
         assert match?(%Vehicle{route_id: "CR-Lowell", direction_id: 1}, vehicle)
       end
     end
+
+    test "returns an empty list when the API errors" do
+      bypass = Bypass.open()
+      v3_url = Application.get_env(:v3_api, :base_url)
+      on_exit fn ->
+        Application.put_env(:v3_api, :base_url, v3_url)
+      end
+
+      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+
+      Bypass.expect bypass, fn conn ->
+        Plug.Conn.resp(conn, 500, "Whops!")
+      end
+
+      assert Repo.route("not-a-route") == []
+    end
   end
 
   describe "trip/1" do

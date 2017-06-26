@@ -28,7 +28,10 @@ defmodule Vehicles.Repo do
     @default_params
     |> Keyword.merge(params)
     |> V3Api.Vehicles.all
-    |> Map.get(:data)
+    |> get_data
     |> Enum.map(&Parser.parse/1)
   end
+
+  defp get_data({:error, _}), do: []
+  defp get_data(json), do: Map.get(json, :data)
 end
