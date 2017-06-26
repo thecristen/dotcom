@@ -3,30 +3,30 @@
     <h1>Getting Around</h1>
 
     <h2>Transit Services</h2>
-    <div class="button-group getting-around">
-      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter_rail"), text: "Commuter Rail", target: "_self" %>
-      <%= render "_link.html", href: schedule_path(@conn, :show, "subway"), text: "Subway", target: "_self" %>
-      <%= render "_link.html", href: schedule_path(@conn, :show, "bus"), text: "Bus", target: "_self" %>
-      <%= render "_link.html", href: schedule_path(@conn, :show, "ferry"), text: "Ferry", target: "_self" %>
-      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), text: "The RIDE", target: "_blank" %>
+    <div class="button-group">
+      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter_rail"), text: "Commuter Rail", class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", href: schedule_path(@conn, :show, "subway"), text: "Subway", class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", href: schedule_path(@conn, :show, "bus"), text: "Bus", class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", href: schedule_path(@conn, :show, "ferry"), text: "Ferry", class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), text: "The RIDE", class: "col-xs-12 col-sm-4", target: "_blank" %>
     </div>
 
     <h2>Plan Your Trip</h2>
-    <div class="button-group getting-around">
-      <%= render "_link.html", href: redirect_path(@conn, "rider_tools/trip_planner/"), text: "Directions", target: "_blank" %>
-      <%= render "_link.html", href: stop_path(@conn, :index), text: "Station Info", target: "_self" %>
-      <%= render "_link.html", href: alert_path(@conn, :index), text: "Service Alerts", target: "_self" %>
-      <%= render "_link.html", href: transit_near_me_path(@conn, :index), text: "Transit Near Me", target: "_self" %>
-      <%= render "_link.html", href: cms_static_page_path(@conn, "/maps"), text: "Maps", target: "_self" %>
+    <div class="button-group">
+      <%= render "_link.html", href: redirect_path(@conn, "rider_tools/trip_planner/"), text: "Directions", class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", href: stop_path(@conn, :index), text: "Station Info", class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", href: alert_path(@conn, :index), text: "Service Alerts", class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", href: transit_near_me_path(@conn, :index), text: "Transit Near Me", class: "col-xs-12 col-sm-4", target: "_self" %>
+      <%= render "_link.html", href: cms_static_page_path(@conn, "/maps"), text: "Maps", class: "col-xs-12 col-sm-4", target: "_self" %>
     </div>
 
     <h2>Riding the T</h2>
-    <div class="button-group getting-around">
-      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/"), text: "Accessibility", target: "_blank" %>
-      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/parking/"), text: "Parking", target: "_blank" %>
-      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/bikes/"), text: "Bikes on the T", target: "_blank" %>
-      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/pets/"), text: "Pets on the T", target: "_blank" %>
-      <%= render "_link.html", href: redirect_path(@conn, "safety/"), text: "Safety", target: "_blank" %>
+    <div class="button-group">
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/"), text: "Accessibility", class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/parking/"), text: "Parking", class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/bikes/"), text: "Bikes on the T", class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/pets/"), text: "Pets on the T", class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", href: redirect_path(@conn, "safety/"), text: "Safety", class: "col-xs-12 col-sm-4", target: "_blank" %>
     </div>
   </div>
 </div>

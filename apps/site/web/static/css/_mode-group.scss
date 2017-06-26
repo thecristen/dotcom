@@ -63,14 +63,17 @@
   .mode-group.commuter-rail .button,
   .commuter-rail .mode-group .button {
     font-size: $font-size-sm;
+    line-height: 3rem;
     padding: 0 $btn-padding-x;
     text-align: center;
+    white-space: normal;
   }
 
   .commuter-rail {
     .mode-button-text {
+      display: inline-block;
+      line-height: normal;
       vertical-align: middle;
-      white-space: normal;
     }
   }
 }
