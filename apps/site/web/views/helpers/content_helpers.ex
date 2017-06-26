@@ -11,7 +11,7 @@ defmodule Site.ContentHelpers do
     end
   end
   def content(string) do
-    case String.strip(string) do
+    case String.trim(string) do
       "" -> nil
       string -> string
     end

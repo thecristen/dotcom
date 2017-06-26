@@ -7,14 +7,14 @@
             <li><strong><%= parking.type |> parking_type %> <%= Inflex.inflect("Space", parking.spots) %>:</strong> <%= parking.spots %></li>
           <% end %>
         </ul>
-      <%= else %>
+      <% else %>
         <em>No Parking availability information available</em>
       <% end %>
     </div>
     <div class="col-sm-4 payment-info">
       <%= if @lot.rate && @lot.rate != "" do %>
         <strong>Parking Rate:</strong> <%= @lot.rate |> HtmlSanitizeEx.strip_tags %>
-        <%= else %>
+        <% else %>
         <em>No payment information available</em>
       <% end %>
     </div>
@@ -23,7 +23,7 @@
         <ul class="list-unstyled">
           <%= if @lot.manager.name && @lot.manager.name != "" do %>
             <li><strong>Managed by:</strong> <%= @lot.manager.name %></li>
-            <%= end %>
+            <% end %>
             <%= if @lot.manager.phone do %>
               <li><strong>Phone:</strong> <%= @lot.manager.phone %></li>
             <% end %>
@@ -33,7 +33,7 @@
               <% end %>
             <% end %>
         </ul>
-        <%= else %>
+        <% else %>
         <em>No contact information available</em>
       <% end %>
     </div>
@@ -44,7 +44,7 @@
     <strong>Note:</strong>
     <%= @lot.note |> HtmlSanitizeEx.strip_tags %>
   </div>
-<%= else %>
+<% else %>
   <div class="station-callout-box">
     <strong>Note:</strong>
     No MBTA parking. Street or private parking may exist.

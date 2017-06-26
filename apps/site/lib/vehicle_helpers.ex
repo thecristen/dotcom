@@ -68,17 +68,21 @@ defmodule VehicleHelpers do
     vehicle_shape_ids
     |> MapSet.difference(route_shape_ids)
     |> Enum.map(&Routes.Repo.get_shape(&1))
-    |> Enum.filter_map(&(!Enum.empty?(&1)), fn([%Shape{} = shape | _]) ->
-      shape.polyline
+    |> Enum.flat_map(fn
+      [] ->
+        []
+      [%Shape{} = shape | _] ->
+        [shape.polyline]
     end)
   end
 
   @spec vehicle_shape_ids(VehicleLocations.t) :: MapSet.t
   defp vehicle_shape_ids(locations) do
-    locations
-    |> Map.values()
-    |> Enum.filter_map(&is_binary(&1.shape_id), & &1.shape_id)
-    |> MapSet.new()
+    for {_, value} <- locations,
+      is_binary(value.shape_id),
+      into: MapSet.new() do
+        value.shape_id
+    end
   end
 
   @doc """

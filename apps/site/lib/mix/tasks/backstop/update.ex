@@ -36,7 +36,8 @@ defmodule Mix.Tasks.Backstop.Update do
   def latest_failures(dir) do
     dir
     |> File.ls!
-    |> Enum.filter_map(&Kernel.=~(&1, "failed_diff_"), fn path ->
+    |> Enum.filter(&Kernel.=~(&1, "failed_diff_"))
+    |> Enum.map(fn path ->
       ~r/^failed_diff_(.*)$/
       |> Regex.run(path, capture: :all_but_first)
       |> List.first

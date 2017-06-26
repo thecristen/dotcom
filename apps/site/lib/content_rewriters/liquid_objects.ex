@@ -41,7 +41,7 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp get_arg(str) do
     str
     |> String.replace("\"", "")
-    |> String.strip
+    |> String.trim
   end
 
   defp mbta_svg_icon("commuter-rail"), do: svg_icon_with_circle(%SvgIconWithCircle{icon: :commuter_rail})

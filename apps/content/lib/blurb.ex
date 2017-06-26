@@ -50,7 +50,7 @@ defmodule Content.Blurb do
 
   defp remove_empty_p_tags(text) do
     Enum.reject(text, fn paragraph ->
-      String.strip(paragraph) == ""
+      String.trim(paragraph) == ""
     end)
   end
 
@@ -58,7 +58,7 @@ defmodule Content.Blurb do
     if String.length(text) > max_length do
       blurb_length = max_length - String.length(suffix())
       text
-      |> String.strip
+      |> String.trim
       |> String.slice(Range.new(0, blurb_length - 1))
       |> Kernel.<>(suffix())
     else

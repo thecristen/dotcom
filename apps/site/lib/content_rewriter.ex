@@ -34,7 +34,7 @@ defmodule Site.ContentRewriter do
   defp dispatch_rewrites(content) when is_binary(content) do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
       obj
-      |> String.strip
+      |> String.trim
       |> LiquidObjects.replace
     end)
   end

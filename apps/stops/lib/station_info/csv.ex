@@ -22,7 +22,7 @@ defmodule Stops.StationInfo.Csv do
   |> Map.new(&{&1, true})
 
   def parse_row(row) do
-    id = String.strip(row["_gtfs_id"])
+    id = String.trim(row["_gtfs_id"])
     %Stop{
       id: id,
       name: row["_name"],
@@ -81,7 +81,7 @@ defmodule Stops.StationInfo.Csv do
   defp manager(%{"ManagedByLabel" => label} = row)
   when label != "" and label != "N/A" do
     %Stop.Manager{
-      name: String.strip(label),
+      name: String.trim(label),
       email: row["ManagedByEmail"],
       website: row["ManagedByWeb"],
       phone: row["ManagedByPhone"]
