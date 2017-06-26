@@ -10,7 +10,7 @@
   </div>
   <div class="trip-plan-itinerary-body">
       <% {map_data, map_url} = @itinerary_map %>
-      <script id="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+      <script class="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
       <div class="dynamic-map trip-plan-map">
         <div id="static-map">
           <img class="img-fluid" src="<%= map_url %>" alt="Map of trip described below" />
