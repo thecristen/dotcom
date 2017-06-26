@@ -22,17 +22,22 @@ defmodule Site.TripPlanController.TripPlanMap do
     Marker.new(42.360718, -71.05891, visible?: false)
   end
 
-  @doc "Returns the static map source URL for the given itinerary"
-  @spec itinerary_map_src(TripPlan.Itinerary.t) :: String.t
-  def itinerary_map_src(itinerary) do
+  @doc "Returns the static map data and source URL"
+  @spec itinerary_map(TripPlan.Itinerary.t) :: {MapData.t, String.t}
+  def itinerary_map(itinerary) do
+    map_data = itinerary_map_data(itinerary)
+    {map_data, GoogleMaps.static_map_url(map_data)}
+  end
+
+  @spec itinerary_map_data(TripPlan.Itinerary.t) :: MapData.t
+  defp itinerary_map_data(itinerary) do
     markers = markers_for_legs(itinerary.legs)
-    paths = Enum.map(itinerary.legs, &Path.new(&1.polyline))
+    paths = Enum.map(itinerary.legs, &Path.new(&1.polyline, "0064C8"))
 
     {600, 600}
     |> MapData.new()
     |> MapData.add_markers(markers)
     |> MapData.add_paths(paths)
-    |> GoogleMaps.static_map_url()
   end
 
   @spec markers_for_legs([TripPlan.Leg.t]) :: [Marker.t]

@@ -46,8 +46,8 @@ defmodule Site.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       assert conn.assigns.itinerary_maps
       {:ok, itineraries} = conn.assigns.query.itineraries
-      for {itinerary, map} <- Enum.zip(itineraries, conn.assigns.itinerary_maps) do
-        assert map == TripPlanMap.itinerary_map_src(itinerary)
+      for {itinerary, itinerary_map} <- Enum.zip(itineraries, conn.assigns.itinerary_maps) do
+        assert itinerary_map == TripPlanMap.itinerary_map(itinerary)
       end
     end
   end
