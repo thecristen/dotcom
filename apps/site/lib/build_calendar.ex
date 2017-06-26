@@ -77,16 +77,18 @@ defmodule BuildCalendar do
     def class(day) do
       # The list is a tuple of {boolean, class_name}.  We filter out the
       # false booleans, then get the class names and join them.
-      case [
+      classes = [
         {Timex.weekday(day.date) > 5, "schedule-weekend"},
         {day.holiday?, "schedule-holiday"},
         {day.selected? && day.month_relation == :current, "schedule-selected"},
         {day.month_relation == :next, "schedule-next-month"},
         {day.today?, "schedule-today"}
       ]
-      |> Enum.filter_map(&match?({true, _}, &1), &elem(&1, 1)) do
-        [] -> nil
-        classes -> Enum.join(classes, " ")
+      |> Enum.filter(&match?({true, _}, &1))
+      |> Enum.map(&elem(&1, 1))
+
+      unless classes == [] do
+        Enum.intersperse(classes, " ")
       end
     end
   end

@@ -11,26 +11,30 @@ defmodule Routes.Group do
   @spec group([Route.t]) :: [Routes.Group.t]
   def group(routes) do
     routes
-    |> Enum.reverse
-    |> Enum.filter_map(&filter/1, &filter_map/1)
-    |> Enum.reduce([], &reducer/2)
+    |> combine_green_line_into_single_route
+    |> group_items_by_route_type
     |> Enum.sort_by(&sorter/1)
   end
 
-  defp filter(%Route{type: 0, id: "Green-B"}), do: true
-  defp filter(%Route{type: 0, id: "Green" <> _}), do: false
-  defp filter(_), do: true
+  @spec combine_green_line_into_single_route([Route.t]) :: [Route.t]
+  defp combine_green_line_into_single_route(routes) do
+    routes
+    |> Enum.uniq_by(fn
+      %{id: "Green" <> _} -> "Green"
+      %{"id": id} -> id
+    end)
+    |> Enum.map(&set_green_line_name/1)
+  end
 
-  defp filter_map(%Route{type: 0, id: "Green" <> _} = route) do
+  defp set_green_line_name(%Route{type: 0, id: "Green" <> _} = route) do
     %{route | name: "Green Line", id: "Green"}
   end
-  defp filter_map(item) do
+  defp set_green_line_name(item) do
     item
   end
 
-  defp reducer(route, acc) do
-    acc
-    |> Keyword.update(Route.type_atom(route), [route], fn(value) -> [route|value] end)
+  defp group_items_by_route_type(routes) do
+    Enum.group_by(routes, &Route.type_atom(&1))
   end
 
   def sorter({:subway, _}), do: 0

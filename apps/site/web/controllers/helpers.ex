@@ -1,18 +1,14 @@
 defmodule Site.ControllerHelpers do
-  import Plug.Conn, only: [assign: 3]
+  import Plug.Conn, only: [assign: 3, await_assign: 3]
   alias Plug.Conn
   alias Routes.Route
 
   @doc "Find all the assigns which are Tasks, and await_assign them"
   def await_assign_all(conn, timeout \\ 5_000) do
-    conn.assigns
-    |> Enum.filter_map(
-    fn
-      {_, %Task{}} -> true
-      _ -> false
-    end,
-    fn {key, _} -> key end)
-    |> Enum.reduce(conn, fn key, conn -> Conn.await_assign(conn, key, timeout) end)
+    task_keys = for {key, %Task{}} <- conn.assigns do
+      key
+    end
+    Enum.reduce(task_keys, conn, fn key, conn -> await_assign(conn, key, timeout) end)
   end
 
   defmacro call_plug(conn, module) do

@@ -1,4 +1,5 @@
 defmodule Site.Plugs.TransitNearMe do
+  @behaviour Plug
   import Plug.Conn
   import Phoenix.Controller, [only: [put_flash: 3]]
   alias GoogleMaps.Geocode
@@ -13,8 +14,14 @@ defmodule Site.Plugs.TransitNearMe do
     ]
   end
 
-  def init([]), do: %Options{}
+  @impl true
+  def init(opts) do
+    Options
+    |> struct!(opts)
+    |> Map.from_struct
+  end
 
+  @impl true
   def call(%{assigns: %{stops_with_routes: stops_with_routes}} = conn, _options) when is_list(stops_with_routes) do
     conn
     |> flash_if_error()

@@ -11,6 +11,7 @@ defmodule Site.Plugs.CommonFares do
     ]
   ]
 
+  @impl true
   def init([]) do
     # split up the filtering to avoid the cache (runtime-only)
     all_fares = Fares.Repo.all()
@@ -23,6 +24,7 @@ defmodule Site.Plugs.CommonFares do
     end)
   end
 
+  @impl true
   def call(conn, summaries) do
     Plug.Conn.assign(conn, :common_fare_summaries, summaries)
   end

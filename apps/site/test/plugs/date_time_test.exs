@@ -11,28 +11,28 @@ defmodule Site.Plugs.DateTimeTest do
 
   describe "init/1" do
     test "defaults to Util.now/0" do
-      assert init([]) == &Util.now/0
+      assert init([]) == [now_fn: &Util.now/0]
     end
   end
 
   describe "call/2" do
     test "with no params, assigns date_time to the result of now_fn", %{conn: conn} do
       conn = %{conn | params: %{}}
-      |> call(&now_fn/0)
+      |> call(now_fn: &now_fn/0)
 
       assert conn.assigns.date_time == @now
     end
 
     test "with a valid date_time param, parses that into date_time", %{conn: conn} do
       conn = %{conn | params: %{"date_time" => "2016-12-12T12:12:12-05:00"}}
-      |> call(&now_fn/0)
+      |> call(now_fn: &now_fn/0)
 
       assert conn.assigns.date_time == Timex.to_datetime(~N[2016-12-12T12:12:12], "America/New_York")
     end
 
     test "with an invalid date_time param, returns the result of now_fn", %{conn: conn} do
       conn = %{conn | params: %{"date_time" => "not_a_time"}}
-      |> call(&now_fn/0)
+      |> call(now_fn: &now_fn/0)
 
       assert conn.assigns.date_time == @now
     end

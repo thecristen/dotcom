@@ -12,12 +12,14 @@ defmodule SystemMetrics.Monitor do
     GenServer.start_link(__MODULE__, %{})
   end
 
+  @impl true
   def init(state) do
     # schedule work to be performed on start
     schedule_work()
     {:ok, state}
   end
 
+  @impl true
   def handle_info(:work, state) do
     # send cpu stats
     _ = @meter.update_gauge("cpu_load", :cpu_sup.avg1)

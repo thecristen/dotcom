@@ -27,11 +27,13 @@ defmodule Site.GreenLine.Cache do
 
   # Server
 
+  @impl true
   def init({start_date_fn, end_date_fn, reset_fn}) do
     send self(), :populate_caches
     {:ok, {start_date_fn, end_date_fn, reset_fn}}
   end
 
+  @impl true
   def handle_info(:populate_caches, {start_date_fn, end_date_fn, reset_fn} = state) do
     previous_day = Timex.shift(start_date_fn.(), days: -1)
 

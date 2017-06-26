@@ -2,10 +2,13 @@ defmodule Site.ScheduleV2Controller.Offset do
   @moduledoc """
   Assigns the offset parameter to determine which scheduled trips to show.
   """
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
+  @impl true
   def init([]), do: []
 
+  @impl true
   def call(conn, []) do
     offset = find_offset(conn.assigns.timetable_schedules, conn.assigns.date_time)
     assign(conn, :offset, offset)

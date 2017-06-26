@@ -1,9 +1,11 @@
 defmodule Site.ScheduleV2Controller.HoursOfOperation do
-
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
+  @impl true
   def init([]), do: []
 
+  @impl true
   def call(%Plug.Conn{assigns: %{route: route}} = conn, opts) when not is_nil(route) do
     conn.assigns.date
     |> get_dates()

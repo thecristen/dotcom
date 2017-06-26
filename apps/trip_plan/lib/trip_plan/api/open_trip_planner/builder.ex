@@ -39,7 +39,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   end
   defp do_build_params([{:depart_at, %DateTime{} = datetime} | rest], acc) do
     local = Timex.to_datetime(datetime, OTP.config(:timezone))
-    date = Date.to_iso8601(local)
+    date = Timex.format!(local, "{ISOdate}")
     time = Timex.format!(local, "{h12}:{0m}{am}")
     acc = Map.merge(acc, %{
           "date" => date,
@@ -50,7 +50,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   end
   defp do_build_params([{:arrive_by, %DateTime{} = datetime} | rest], acc) do
     local = Timex.to_datetime(datetime, OTP.config(:timezone))
-    date = Date.to_iso8601(local)
+    date = Timex.format!(local, "{ISOdate}")
     time = Timex.format!(local, "{h12}:{0m}{am}")
     acc = Map.merge(acc, %{
           "date" => date,

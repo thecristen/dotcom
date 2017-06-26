@@ -80,14 +80,17 @@ defmodule Alerts.Sort do
   defp first_future_active_period_start(periods, now) do
     # first active period that's in the future
     now_unix = DateTime.to_unix(now, :second)
-    future_periods = periods
-    |> Enum.filter_map(fn {start, _} -> start != nil end, fn {start, _} -> start end)
-    |> Enum.map(&Timex.to_unix/1)
-    |> Enum.filter(&(&1 > now_unix))
+    future_periods = for {start, _} <- periods,
+      start,
+      unix <- [DateTime.to_unix(start)], # wrap in a list to avoid an Erlang 19.3 issue
+      unix > now_unix do
+        unix
+    end
 
-    case future_periods do
-      [] -> :infinity
-      list -> Enum.min(list)
+    if future_periods == [] do
+      :infinity
+    else
+      Enum.min(future_periods)
     end
   end
 end

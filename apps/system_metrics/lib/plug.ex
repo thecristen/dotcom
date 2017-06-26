@@ -9,8 +9,10 @@ defmodule SystemMetrics.Plug do
   @dialyzer [nowarn_function: [before_send: 1]]
   import Plug.Conn, only: [register_before_send: 2, put_private: 3]
 
+  @impl true
   def init(opts), do: opts
 
+  @impl true
   def call(conn, _config) do
     conn
     |> put_private(:metrics_before_time, System.monotonic_time) # set the before time at the beginning of request

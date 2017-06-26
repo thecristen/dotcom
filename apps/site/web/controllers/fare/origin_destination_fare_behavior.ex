@@ -4,6 +4,7 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
 
   @callback route_type() :: integer
   @callback key_stops() :: [Stops.Stop.t]
+  @optional_callbacks key_stops: 0
 
   alias Site.FareController.Filter
   import Plug.Conn, only: [assign: 3]
@@ -15,14 +16,18 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
 
       use Site.FareController.Behavior
 
+      @impl true
       defdelegate filters(fares), to: unquote(__MODULE__)
 
+      @impl true
       def before_render(conn) do
         unquote(__MODULE__).before_render(conn, __MODULE__)
       end
 
-      def template(), do: "origin_destination.html"
+      @impl true
+      def template, do: "origin_destination.html"
 
+      @impl true
       def key_stops, do: []
 
       defoverridable [key_stops: 0]
@@ -83,7 +88,8 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   defp destination_stops(origin, route_type) do
     origin.id
     |> Routes.Repo.by_stop
-    |> Enum.filter_map(&(&1.type == route_type), & &1.id)
+    |> Enum.filter(&(&1.type == route_type))
+    |> Enum.map(& &1.id)
     |> Stops.Repo.by_routes(0)
     |> Enum.sort_by(&(&1.name))
     |> Enum.dedup

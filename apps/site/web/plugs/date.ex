@@ -5,11 +5,14 @@ defmodule Site.Plugs.Date do
   invalid or missing, uses today's service date.
 
   """
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
-  def init([]), do: &Util.service_date/0
+  @impl true
+  def init([]), do: [date_fn: &Util.service_date/0]
 
-  def call(conn, date_fn) do
+  @impl true
+  def call(conn, [date_fn: date_fn]) do
     conn
     |> assign(:date, date(conn.params["date"], date_fn))
   end

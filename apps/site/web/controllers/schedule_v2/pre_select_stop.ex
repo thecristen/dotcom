@@ -5,10 +5,13 @@ defmodule Site.ScheduleV2Controller.PreSelect do
   assigned if there is only one available option. Will not
   overwrite an existing origin or destination
   """
-
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
+  @impl true
   def init(_opts), do: []
+
+  @impl true
   def call(conn, _opts) do
     conn
     |> pre_select_stop(:origin)

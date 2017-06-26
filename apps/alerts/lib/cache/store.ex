@@ -91,7 +91,7 @@ defmodule Alerts.Cache.Store do
   end
 
   # Server
-
+  @impl true
   def init(_args) do
     _ = :ets.new(:alert_id_to_alert, [:set, :protected, :named_table, read_concurrency: true]) # no cover
     _ = :ets.new(:route_id_and_type_to_alert_ids, [:bag, :protected, :named_table, read_concurrency: true]) # no cover
@@ -100,6 +100,7 @@ defmodule Alerts.Cache.Store do
     {:ok, []}
   end
 
+  @impl true
   def handle_call({:update, alerts, banner}, _from, state) do
     {alert_inserts, route_inserts} =
       Enum.reduce(alerts, {[], []}, fn alert, {alert_inserts_acc, route_inserts_acc} ->

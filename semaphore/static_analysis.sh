@@ -13,7 +13,7 @@ mix compile --force --warnings-as-errors
 test -f apps/site/priv/static/css/app.css && test -f apps/site/priv/static/js/app.js
 
 # copy any pre-built PLTs to the right directory
-find $SEMAPHORE_CACHE_DIR -name "dialyxir_*elixir-${ELIXIR_VERSION}_deps-dev.plt*" | xargs -I{} cp '{}' _build/dev
+find $SEMAPHORE_CACHE_DIR -name "dialyxir_*_deps-dev.plt*" | xargs -I{} cp '{}' _build/dev
 
 export ERL_CRASH_DUMP=/dev/null
 mix dialyzer --plt

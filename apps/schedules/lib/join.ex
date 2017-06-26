@@ -27,9 +27,10 @@ defmodule Join do
       {key_fn.(item), item}
     end)
 
-    r
-    |> Enum.filter_map(
-      fn item -> Map.has_key?(s_map, key_fn.(item)) end,
-      fn item -> tuple_fn.(s_map[key_fn.(item)], item) end)
+    for item <- r,
+      key = key_fn.(item),
+      Map.has_key?(s_map, key) do
+        tuple_fn.(Map.get(s_map, key), item)
+    end
   end
 end

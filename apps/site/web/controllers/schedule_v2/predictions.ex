@@ -4,6 +4,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
   Assigns predictions based on the currently selected route/stop/direction.
 
   """
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
   alias Predictions.Prediction
 
@@ -11,10 +12,12 @@ defmodule Site.ScheduleV2Controller.Predictions do
     predictions_fn: &Predictions.Repo.all/1,
   ]
 
+  @impl true
   def init(opts) do
     Keyword.merge(@default_opts, opts)
   end
 
+  @impl true
   def call(conn, opts) do
     if should_fetch_predictions?(conn) do
       conn

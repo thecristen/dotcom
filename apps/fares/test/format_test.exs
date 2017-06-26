@@ -106,7 +106,7 @@ defmodule Fares.FormatTest do
     end
 
     test "ferry groups them by single/multiple trip and groups prices" do
-      base = %Fare{name: :ferry, mode: :ferry, duration: :single_trip, name: :ferry}
+      base = %Fare{name: :ferry, mode: :ferry, duration: :single_trip}
       cheap = %{base | cents: 100}
       expensive = %{base | cents: 200}
 

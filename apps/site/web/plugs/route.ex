@@ -4,11 +4,14 @@ defmodule Site.Plugs.Route do
   Assigns @route based on a `route` parameter in the conn.
 
   """
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3, put_status: 2, halt: 1]
   import Phoenix.Controller, only: [render: 4]
 
+  @impl true
   def init([]), do: []
 
+  @impl true
   def call(%{params: %{"route" => route_id}} = conn, []) do
     case Routes.Repo.get(route_id) do
       nil ->

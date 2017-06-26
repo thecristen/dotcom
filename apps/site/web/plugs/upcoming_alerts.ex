@@ -6,12 +6,15 @@ defmodule Site.Plugs.UpcomingAlerts do
   * alerts: currently valid alerts/notices (current based on date parameter)
   * upcoming alerts: alerts/notices that will be valid some other time
   """
+  @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
+  @impl true
   def init(_opts) do
     []
   end
 
+  @impl true
   def call(%{assigns: %{all_alerts: all_alerts, date: date}} = conn, _opts) do
     {current_alerts, upcoming_alerts} = Alerts.Partition.current_and_upcoming(all_alerts, date)
     conn

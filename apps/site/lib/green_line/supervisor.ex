@@ -20,6 +20,7 @@ defmodule Site.GreenLine.Supervisor do
     Supervisor.start_link(__MODULE__, nil)
   end
 
+  @impl true
   def init(_) do
     children = [
       supervisor(Registry, [:unique, :green_line_cache_registry]),

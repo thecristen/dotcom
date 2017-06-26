@@ -6,6 +6,7 @@ defmodule Backstop.Servers do
   @callback command() :: String.t
   @callback started_match() :: String.t
   @callback error_match() :: String.t | Regex.t
+  @optional_callbacks environment: 0
 
   defmodule State do
     @type t :: %__MODULE__{
@@ -38,6 +39,7 @@ defmodule Backstop.Servers do
     end
   end
 
+  @impl true
   def init([module, parent]) do
     port = Port.open(
       {:spawn, module.command()},
@@ -55,6 +57,7 @@ defmodule Backstop.Servers do
                  port: port}}
   end
 
+  @impl true
   def terminate(reason, %{port: port} = state) do
     _ = Logger.info "shutting down #{server_name(state.module)}"
     :ok = kill_port(port)
@@ -66,6 +69,7 @@ defmodule Backstop.Servers do
     reason
   end
 
+  @impl true
   def handle_info({port, {:data, {_flag, data_list}}}, %{module: module, port: port} = state) do
     data = :erlang.iolist_to_binary(data_list)
     _ = Logger.info [server_name(module), " => ", data_list]
@@ -129,6 +133,7 @@ defmodule Backstop.Servers.Phoenix do
 
   use Backstop.Servers
 
+  @impl true
   def environment do
     [
       {'MIX_ENV', 'prod'},
@@ -140,14 +145,17 @@ defmodule Backstop.Servers.Phoenix do
     ]
   end
 
+  @impl true
   def command do
     "mix do deps.compile --force, compile --no-deps-check --force, phoenix.server"
   end
 
+  @impl true
   def started_match do
     "Running Site.Endpoint"
   end
 
+  @impl true
   def error_match do
     ~r/\[error\] (?!Supervisor)/
   end
@@ -158,14 +166,17 @@ defmodule Backstop.Servers.Wiremock do
 
   use Backstop.Servers
 
+  @impl true
   def command do
     "java -jar #{Application.get_env(:site, :wiremock_path)}"
   end
 
+  @impl true
   def started_match do
     "8080"
   end
 
+  @impl true
   def error_match do
     ~r/(Address already in use)|(Unable to access jarfile)/
   end

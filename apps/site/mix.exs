@@ -22,7 +22,7 @@ defmodule Site.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-            :stops, :routes, :alerts, :news, :schedules, :predictions, :timex,
+            :stops, :routes, :alerts, :schedules, :predictions, :timex,
             :inflex, :html_sanitize_ex, :logger_logentries_backend,
             :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday,
             :parallel_stream, :vehicles, :tzdata, :google_maps, :system_metrics, :floki,
@@ -59,7 +59,6 @@ defmodule Site.Mixfile do
      {:routes, in_umbrella: true},
      {:alerts, in_umbrella: true},
      {:holiday, in_umbrella: true},
-     {:news, in_umbrella: true},
      {:schedules, in_umbrella: true},
      {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
      {:predictions, in_umbrella: true},

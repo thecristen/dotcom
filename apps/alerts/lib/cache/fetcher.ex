@@ -26,7 +26,7 @@ defmodule Alerts.Cache.Fetcher do
   end
 
   # Server
-
+  @impl true
   def init(opts) do
     update_fn = Keyword.get(opts, :update_fn)
     api_mfa = Keyword.get(opts, :api_mfa)
@@ -37,6 +37,7 @@ defmodule Alerts.Cache.Fetcher do
     {:ok, {update_fn, api_mfa, repeat_ms}}
   end
 
+  @impl true
   def handle_info(:fetch, {update_fn, api_mfa, repeat_ms} = state) do
     case api_result(api_mfa) do
       %{data: data} ->

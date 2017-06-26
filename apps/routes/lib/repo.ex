@@ -121,10 +121,8 @@ defmodule Routes.Repo do
     route_id
     |> V3Api.Trips.by_route("fields[trip]": "headsign", direction_id: direction_id)
     |> (fn %{data: data} -> data end).()
-    |> Enum.filter_map(
-      fn %{attributes: attributes} -> attributes["headsign"] != "" end,
-      fn %{attributes: attributes} -> attributes["headsign"] end
-    )
+    |> Enum.reject(&match?(%{attributes: %{"headsign" => ""}}, &1))
+    |> Enum.map(fn %{attributes: %{"headsign" => headsign}} -> headsign end)
     |> order_by_frequency
   end
 

@@ -56,10 +56,12 @@ defmodule Fares.RetailLocations.Extractor do
 
   @type api_fn :: {atom, atom}
 
+  @impl true
   def init(args) do
     {:ok, args}
   end
 
+  @impl true
   def handle_call(:start, parent, state) do
     :ok = start(state, parent)
     {:reply, :ok, state}
