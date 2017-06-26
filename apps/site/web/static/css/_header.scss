@@ -120,7 +120,7 @@
   }
 
   .desktop-menu-background-image {
-    background-image: linear-gradient(to top, transparentize($white, .6), transparentize($white, .1)), url('/images/map-abstract-bkg-overlay.png');
+    background-image: linear-gradient(to bottom, transparentize($white, .6), transparentize($gray, .7)), url('/images/map-abstract-bkg-overlay.png');
     background-size: 100%;
   }
 }
