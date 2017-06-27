@@ -24,7 +24,7 @@ defmodule Site.TripPlan.AlertsTest do
         informed_entity: [%IE{route: route_id}]
       }
       bad_alert = %{good_alert | informed_entity: [%IE{route: "not_valid"}]}
-      assert filter_for_itinerary([good_alert, bad_alert], itinerary, opts()) == [good_alert]
+      assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
     test "returns an alert if it affects the trip", %{itinerary: itinerary, trip_id: trip_id} do
@@ -33,7 +33,7 @@ defmodule Site.TripPlan.AlertsTest do
         informed_entity: [%IE{trip: trip_id}]
       }
       bad_alert = %{good_alert | informed_entity: [%IE{trip: "not_valid"}]}
-      assert filter_for_itinerary([good_alert, bad_alert], itinerary, opts()) == [good_alert]
+      assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
     test "returns an alert if it affects the route in a direction", %{itinerary: itinerary, route_id: route_id} do
@@ -42,7 +42,7 @@ defmodule Site.TripPlan.AlertsTest do
         informed_entity: [%IE{route: route_id, direction_id: 1}]
       }
       bad_alert = %{good_alert | informed_entity: [%IE{route: route_id, direction_id: 0}]}
-      assert filter_for_itinerary([good_alert, bad_alert], itinerary, opts()) == [good_alert]
+      assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
 
     test "returns an alert if it affects the route's type", %{itinerary: itinerary, route_id: route_id} do
@@ -52,12 +52,39 @@ defmodule Site.TripPlan.AlertsTest do
         informed_entity: [%IE{route_type: route.type}]
       }
       bad_alert = %{good_alert | informed_entity: [%IE{route_type: 0}]}
-      assert filter_for_itinerary([good_alert, bad_alert], itinerary, opts()) == [good_alert]
+      assert_only_good_alert(good_alert, bad_alert, itinerary)
     end
+
+    test "returns an alert if it matches a transfer stop", %{itinerary: itinerary} do
+      stop_id = itinerary |> Itinerary.stop_ids |> List.first
+      good_alert = %Alert{
+        active_period: [valid_active_period(itinerary)],
+        informed_entity: [%IE{stop: stop_id}]
+      }
+      bad_alert = %{good_alert | informed_entity: [%IE{stop: stop_id, route: "different route"}]}
+      assert_only_good_alert good_alert, bad_alert, itinerary
+    end
+
+    test "ignores an alert if it's at the wrong time", %{itinerary: itinerary, route_id: route_id} do
+      good_alert = %Alert{
+        active_period: [valid_active_period(itinerary)],
+        informed_entity: [%IE{route: route_id}]
+      }
+      bad_alert = %{good_alert | active_period: [invalid_active_period(itinerary)]}
+      assert_only_good_alert(good_alert, bad_alert, itinerary)
+    end
+  end
+
+  defp assert_only_good_alert(good_alert, bad_alert, itinerary) do
+    assert filter_for_itinerary([good_alert, bad_alert], itinerary, opts()) == [good_alert]
   end
 
   defp valid_active_period(%Itinerary{start: start, stop: stop}) do
     {start, stop}
+  end
+
+  defp invalid_active_period(%Itinerary{start: start}) do
+    {nil, Timex.shift(start, hours: -1)}
   end
 
   defp opts do

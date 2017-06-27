@@ -30,8 +30,11 @@ defmodule Site.TripPlan.Alerts do
     |> Enum.uniq
   end
 
-  defp leg_entities(%Leg{from: from, to: to, mode: mode}, opts) do
-    mode_entities(mode, opts)
+  defp leg_entities(%Leg{mode: mode} = leg, opts) do
+    for entity <- mode_entities(mode, opts),
+      stop_id <- Leg.stop_ids(leg) do
+        %{entity | stop: stop_id}
+    end
   end
 
   defp mode_entities(%TransitDetail{route_id: route_id, trip_id: trip_id}, opts) do
