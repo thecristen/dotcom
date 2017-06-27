@@ -303,8 +303,7 @@ defmodule Site.ComponentsTest do
 
     def tab_args do
       %TabSelector{
-        links: @links,
-        selected: info
+        links: @links
       }
     end
 
@@ -327,10 +326,6 @@ defmodule Site.ComponentsTest do
       rendered = tab_args() |> Map.put(:class, "test-class") |> tab_selector() |> safe_to_string()
 
       assert rendered =~ "test-class"
-    end
-
-    test "selected_tab/1" do
-      assert selected_tab(@links) == "Info"
     end
 
     test "tab_links/1" do
