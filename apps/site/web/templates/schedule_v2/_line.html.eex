@@ -11,10 +11,7 @@
           View map as a PDF
         </a>
       <% else %>
-        <script class="dynamic_map_data" type="text/plain"><%= encoded_map_data %></script>
-        <div class="line-map dynamic-map">
-          <img src="<%= @map_img_src %>" class="img-fluid">
-        </div>
+        <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src %>
       <% end %>
     </div>
   </div>
@@ -33,10 +30,7 @@
               View map as a PDF
             </a>
           <% else %>
-            <script class="dynamic_map_data" type="text/plain"><%= encoded_map_data %></script>
-            <div class="line-map dynamic-map">
-              <img src="<%= @map_img_src %>" class="img-fluid">
-            </div>
+            <%= render "_line_map.html", encoded_data: encoded_map_data, map_img_src: @map_img_src %>
           <% end %>
         </div>
         <div class="hours">

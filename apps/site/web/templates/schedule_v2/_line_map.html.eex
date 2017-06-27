@@ -1,0 +1,4 @@
+<script class="dynamic_map_data" type="text/plain"><%= @encoded_data %></script>
+<div class="line-map dynamic-map">
+  <img src="<%= @map_img_src %>" class="img-fluid">
+</div>

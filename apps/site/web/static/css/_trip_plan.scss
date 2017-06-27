@@ -60,6 +60,10 @@
 }
 
 .trip-plan-map {
-  height: 31.5rem;
+  height: $base-spacing * 31.5;
   margin-bottom: $base-spacing;
+
+  @include media-breakpoint-down(sm) {
+    height: $base-spacing * 20;
+  }
 }
