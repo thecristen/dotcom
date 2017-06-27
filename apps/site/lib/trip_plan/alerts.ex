@@ -11,27 +11,41 @@ defmodule Site.TripPlan.Alerts do
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
 
+  @default_opts [
+    route_by_id: &Routes.Repo.get/1,
+    trip_by_id: &Schedules.Repo.trip/1
+  ]
+
   @doc "Filters a list of Alerts to those relevant to the Itinerary"
-  @spec filter_for_itinerary([Alert.t], Itinerary.t) :: [Alert.t]
-  def filter_for_itinerary(alerts, itinerary) do
-    Alerts.Match.match(alerts, entities(itinerary), itinerary.start)
+  @spec filter_for_itinerary([Alert.t], Itinerary.t, Keyword.t) :: [Alert.t]
+  def filter_for_itinerary(alerts, itinerary, opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
+    Alerts.Match.match(alerts, entities(itinerary, opts), itinerary.start)
   end
 
-  @spec entities(Itinerary.t) :: [IE.t]
-  defp entities(itinerary) do
+  @spec entities(Itinerary.t, Keyword.t) :: [IE.t]
+  defp entities(itinerary, opts) do
     itinerary.legs
-    |> Enum.flat_map(&leg_entities/1)
+    |> Enum.flat_map(&leg_entities(&1, opts))
     |> Enum.uniq
   end
 
-  defp leg_entities(%Leg{from: from, to: to, mode: mode}) do
-    mode_entities(mode)
+  defp leg_entities(%Leg{from: from, to: to, mode: mode}, opts) do
+    mode_entities(mode, opts)
   end
 
-  defp mode_entities(%TransitDetail{route_id: route_id, trip_id: trip_id}) do
-    [%IE{route: route_id, trip: trip_id}]
+  defp mode_entities(%TransitDetail{route_id: route_id, trip_id: trip_id}, opts) do
+    route = Keyword.get(opts, :route_by_id).(route_id)
+    trip = Keyword.get(opts, :trip_by_id).(trip_id)
+    route_type = if route do
+      route.type
+    end
+    direction_id = if trip do
+      trip.direction_id
+    end
+    [%IE{route_type: route_type, route: route_id, trip: trip_id, direction_id: direction_id}]
   end
-  defp mode_entities(_) do
+  defp mode_entities(_, _opts) do
     []
   end
 end
