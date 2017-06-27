@@ -5,7 +5,6 @@ defmodule Site.ScheduleV2Controller.Green do
   alias Schedules.Schedule
 
   plug :route
-  plug :tab
   plug Site.ScheduleV2Controller.DatePicker
   plug :alerts
   plug Site.Plugs.UpcomingAlerts
@@ -29,7 +28,10 @@ defmodule Site.ScheduleV2Controller.Green do
 
   @task_timeout 10_000
 
-  def green(conn, _params) do
+  def show(%Plug.Conn{query_params: %{"tab" => "trip-view"}} = conn, _params), do: trip_view(conn, [])
+  def show(conn, _parmas), do: line(conn, [])
+
+  def trip_view(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
     |> render(Site.ScheduleV2View, "show.html")
@@ -42,17 +44,6 @@ defmodule Site.ScheduleV2Controller.Green do
     |> call_plug(Site.ScheduleV2Controller.Holidays)
     |> call_plug(Site.ScheduleV2Controller.Line)
     |> render(Site.ScheduleV2View, "show.html")
-  end
-
-  defp tab(conn, _opts) do
-    tab = case conn.params["tab"] do
-      "line" ->
-        "line"
-      _ ->
-        "trip-view"
-    end
-    conn
-    |> assign(:tab, tab)
   end
 
   def route(conn, _params) do

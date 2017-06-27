@@ -12,6 +12,31 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     type: 0
   }
 
+  describe "schedule_path/3" do
+    test "renders line tab without redirect when query_params doesn't include :tab", %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "Green"))
+      assert catch_error(redirected_to(conn, 302)) ==
+        %RuntimeError{message: "expected redirection with status 302, got: 200"}
+      assert conn.assigns.tab == "line"
+    end
+
+    test ~s(renders trip_view tab without redirecting when query params = %{tab => trip-view}), %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "trip-view"}))
+      assert conn.query_params == %{"tab" => "trip-view"}
+      assert catch_error(redirected_to(conn, 302)) ==
+        %RuntimeError{message: "expected redirection with status 302, got: 200"}
+      assert conn.assigns.tab == "trip-view"
+    end
+
+    test ~s(renders line tab without redirecting when query params = %{tab => trip-view}), %{conn: conn} do
+      conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "line"}))
+      assert conn.query_params == %{"tab" => "line"}
+      assert catch_error(redirected_to(conn, 302)) ==
+        %RuntimeError{message: "expected redirection with status 302, got: 200"}
+      assert conn.assigns.tab == "line"
+    end
+  end
+
   test "assigns the route as the Green Line", %{conn: conn} do
     conn = get(conn, schedule_path(conn, :show, "Green"))
     html_response(conn, 200)
@@ -38,17 +63,33 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     assert conn.assigns.destination.id == "place-boyls"
   end
 
-  test "assigns stops for all branches", %{conn: conn} do
-    all_stops = Enum.map(get(conn, schedule_path(conn, :show, "Green")).assigns.all_stops, & &1.id)
+  test "trip view :all_stops is a list of %Stop{} for all stops on all branches", %{conn: conn} do
+    conn = get(conn, green_path(conn, :trip_view, %{direction_id: 0}))
 
+    assert [%Stops.Stop{} | all_stops] = conn.assigns.all_stops
+
+    all_stops = Enum.map(all_stops, & &1.id)
     assert "place-lake" in all_stops
     assert "place-clmnl" in all_stops
     assert "place-river" in all_stops
     assert "place-hsmnl" in all_stops
   end
 
-  test "assigns no stops and an error if the date is out of range", %{conn: conn} do
-    conn = get conn, schedule_path(conn, :show, "Green", date: "2017-01-01")
+  test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches", %{conn: conn} do
+    conn = get(conn, green_path(conn, :line, %{direction_id: 0}))
+    assert [{bubble_types, stop} | all_stops] = conn.assigns.all_stops
+    assert stop.id == "place-lech"
+    assert bubble_types == [{"Green-B", :empty}, {"Green-C", :empty}, {"Green-D", :empty}, {"Green-E", :terminus}]
+
+    all_stops = Enum.map(all_stops, fn {_, stop} -> stop.id end)
+    assert "place-lake" in all_stops
+    assert "place-clmnl" in all_stops
+    assert "place-river" in all_stops
+    assert "place-hsmnl" in all_stops
+  end
+
+  test "trip view assigns no stops and an error if the date is out of range", %{conn: conn} do
+    conn = get conn, green_path(conn, :trip_view, date: "2017-01-01")
     assert conn.assigns.all_stops == []
     assert conn.assigns.schedule_error
   end
@@ -144,8 +185,8 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     assert conn.assigns.excluded_destination_stops == ExcludedStops.excluded_destination_stops("Green", "place-pktrm")
   end
 
-  test "assigns stop times", %{conn: conn} do
-    conn = get(conn, schedule_path(conn, :show, "Green", origin: "place-pktrm"))
+  test "trip view assigns stop times", %{conn: conn} do
+    conn = get(conn, green_path(conn, :trip_view, origin: "place-pktrm"))
 
     assert conn.assigns.stop_times.times
   end
