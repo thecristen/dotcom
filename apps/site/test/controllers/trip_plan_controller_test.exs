@@ -1,6 +1,6 @@
 defmodule Site.TripPlanControllerTest do
   use Site.ConnCase, async: true
-  alias Site.TripPlanController.TripPlanMap
+  alias Site.TripPlan.Map, as: TripPlanMap
 
   @good_params %{
     "plan" => %{"from" => "from address",
