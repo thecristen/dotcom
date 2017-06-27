@@ -283,7 +283,7 @@ defmodule Site.ComponentsTest do
     end
 
     test "mode_links/1" do
-      expected = [{"Bus", "/bus"}, {"Subway", "/subway"}, {"The Ride", "/the-ride"}, {"Access", "/access"}]
+      expected = [{:bus, "Bus", "/bus"}, {:subway, "Subway", "/subway"}, {:the_ride, "The Ride", "/the-ride"}, {:access, "Access", "/access"}]
       assert mode_links(@links) == expected
     end
 
@@ -303,7 +303,8 @@ defmodule Site.ComponentsTest do
 
     def tab_args do
       %TabSelector{
-        links: @links
+        links: @links,
+        selected: "info"
       }
     end
 
@@ -327,24 +328,19 @@ defmodule Site.ComponentsTest do
 
       assert rendered =~ "test-class"
     end
-
-    test "tab_links/1" do
-      expected = [{"Schedules", "/schedules"}, {"Info", "/info"}, {"Something Else", "/something-else"}]
-        assert tab_links(@links) == expected
-    end
   end
 
   describe "tabs > tab_selector" do
     @links [
-      {"Schedules", "/schedules"},
-      {"Info", "/info"},
-      {"Something Else", "/something-else"}
+      {"sched", "Schedules", "/schedules"},
+      {"info", "Info", "/info"},
+      {"etc", "Something Else", "/something-else"}
     ]
 
     def selector_args do
       %TabSelector{
         links: @links,
-        selected: "Info",
+        selected: "info",
         icon_map: %{"Info" => "info-icon"},
       }
     end

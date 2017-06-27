@@ -3,6 +3,7 @@ defmodule Site.Components.Tabs.TabSelector do
   Component for tab selection.
   """
 
+  @enforce_keys [:links, :selected]
   defstruct [
     id: "tab-select",
     class: "",
@@ -16,7 +17,7 @@ defmodule Site.Components.Tabs.TabSelector do
   @type t :: %__MODULE__{
     id: String.t,
     class: String.t,
-    links: [%{tab_item_name: String.t, title: String.t, href: String.t, icon: Phoenix.HTML.safe | nil, selected?: boolean}],
+    links: [%{tab_item_name: String.t, title: String.t, href: String.t, icon: Phoenix.HTML.safe | nil}],
   }
 
   def selected?(tab_item_name, tab_item_name), do: true
