@@ -72,8 +72,8 @@ defmodule Content.CMS.Static do
     news = filter_by(news_response(), "field_migration_id", id)
     {:ok, news}
   end
-  def view("/news", [page: page]) do
-    record = Enum.at(news_response(), page)
+  def view("/news", [page: _page]) do
+    record = List.first(news_response())
     {:ok, [record]}
   end
   def view("/events", [meeting_id: "multiple-records"]) do
