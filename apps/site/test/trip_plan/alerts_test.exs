@@ -27,6 +27,18 @@ defmodule Site.TripPlan.AlertsTest do
       bad_alert = %{good_alert | informed_entity: [%IE{route: "not_valid"}]}
       assert filter_for_itinerary([good_alert, bad_alert], itinerary) == [good_alert]
     end
+
+    test "returns an alert if it affects the trip", %{itinerary: itinerary} do
+      entities = for trip_id <- Itinerary.trip_ids(itinerary) do
+        %IE{trip: trip_id}
+      end
+      good_alert = %Alert{
+        active_period: [valid_active_period(itinerary)],
+        informed_entity: entities
+      }
+      bad_alert = %{good_alert | informed_entity: [%IE{trip: "not_valid"}]}
+      assert filter_for_itinerary([good_alert, bad_alert], itinerary) == [good_alert]
+    end
   end
 
   defp valid_active_period(%Itinerary{start: start, stop: stop}) do

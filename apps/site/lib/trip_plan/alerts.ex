@@ -29,7 +29,7 @@ defmodule Site.TripPlan.Alerts do
   end
 
   defp mode_entities(%TransitDetail{route_id: route_id, trip_id: trip_id}) do
-    [%IE{route: route_id}]
+    [%IE{route: route_id, trip: trip_id}]
   end
   defp mode_entities(_) do
     []
