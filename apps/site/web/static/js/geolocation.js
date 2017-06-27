@@ -4,7 +4,7 @@ export default function($ = window.jQuery, doc = document, navigator = window.na
       'turbolinks:before-visit', beforeVisit($),
       {passive: true}
     );
-    $(document).on('click', '[data-geolocation-target]', clickHandler($));
+    $(document).on('click', '[data-geolocation-target]', clickHandler($, navigator));
   } else {
     doc.documentElement.className += " geolocation-disabled";
   }
@@ -17,12 +17,12 @@ function beforeVisit($) {
 };
 
 // These functions are exported for testing
-export function clickHandler($) {
+export function clickHandler($, navigator) {
   return (event) => {
     event.preventDefault();
     const $btn = $(event.target);
     const $errorEl = $('#' + $btn.data("id") + '-geolocation-error');
-    $btn.find('.loading-indicator').removeClass('hidden-xs-up');
+    toggleLoadingIndicator($, $btn);
     $errorEl.addClass('hidden-xs-up');
     navigator.geolocation.getCurrentPosition(
       locationHandler($, $btn, $errorEl),
@@ -50,4 +50,13 @@ export function locationError($, $btn, $errorEl) {
       $errorEl.html("It looks like you haven't granted permission to fetch your location &mdash; to use geolocation, update your browser's settings and try again.");
     }
   };
+}
+
+function toggleLoadingIndicator($, $btn) {
+  const id = $btn.data("id");
+  const $indicator = $btn.find('.loading-indicator');
+  $indicator.removeClass('hidden-xs-up');
+  $('#' + id).on('geolocation:complete', () => {
+    $indicator.addClass('hidden-xs-up');
+  });
 }

@@ -38,8 +38,6 @@ describe('geolocation', () => {
   });
 
   describe('clickHandler', () => {
-    var geolocationCalled;
-
     beforeEach(() => {
       $('#test').html(`
         <button data-geolocation-target="target" data-id="test">
@@ -48,19 +46,30 @@ describe('geolocation', () => {
         </button>
         <div id="test-geolocation-error"></div>
       `);
-      geolocationCalled = false;
       window.navigator.geolocation = {
-        getCurrentPosition: () => { geolocationCalled = true; }
+        getCurrentPosition: () => {}
       };
     });
+
     it("gets the user's location", () => {
-      clickHandler($)({preventDefault: () => {}, target: $('button')[0]});
+      var geolocationCalled = false;
+      clickHandler($,
+        { geolocation: {
+            getCurrentPosition: () => { geolocationCalled = true; }
+          }
+        }
+      )({preventDefault: () => {}, target: $('button')[0]});
       assert.isTrue(geolocationCalled);
     });
 
     it('shows the loading indicator', () => {
       assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
-      clickHandler($)({preventDefault: () => {}, target: $('button')[0]});
+      clickHandler($,
+        { geolocation: {
+            getCurrentPosition: () => {}
+          }
+        }
+      )({preventDefault: () => {}, target: $('button')[0]});
       assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
     });
   });
@@ -93,6 +102,24 @@ describe('geolocation', () => {
           longitude: long
         }
       });
+    });
+
+    it('hides the loading indicator on geolocation:complete', (done) => {
+      geolocation($,
+        document,
+        { geolocation: {
+            getCurrentPosition: (success, error) => {
+              success({ coords: { latitude: 0, longitude: 0 } });
+            }
+          }
+        });
+      $('#test').find('.loading-indicator').removeClass('hidden-xs-up');
+      $('#test').parent().on('geolocation:complete', () => {
+        assert.isTrue($('#test').find('.loading-indicator').hasClass('hidden-xs-up'));
+        done();
+      });
+
+      $('#test button').trigger('click');
     });
   });
 

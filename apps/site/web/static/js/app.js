@@ -106,6 +106,7 @@ import timetableScroll from './timetable-scroll';
 import menuClose from './menu-close';
 import datePicker from './date-picker';
 import toggleBtn from './toggle-on-click';
+import tripPlan from './trip-plan';
 
 submitOnEvents(["blur", "change"]);
 selectModal();
@@ -129,5 +130,6 @@ timetableScroll();
 menuClose();
 datePicker();
 toggleBtn();
+tripPlan();
 
 document.body.className = document.body.className.replace("no-js", "js");

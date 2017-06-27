@@ -7,12 +7,16 @@
       <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: false,
                                         address: f.params["from"], address_error: "",
                                         placeholder: "Ex: 10 Park Plaza"}) %>
+      <%= hidden_input :plan, :from_latitude %>
+      <%= hidden_input :plan, :from_longitude %>
     </div>
     <div class="form-group">
       <%= label f, :to, "To:" %>
       <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: false,
                                         address: f.params["to"], address_error: "",
                                         placeholder: "Ex: Boston Children's Museum"}) %>
+      <%= hidden_input :plan, :to_latitude %>
+      <%= hidden_input :plan, :to_longitude %>
     </div>
     <div class="form-group">
       <%= label f, :include_car? do %>
