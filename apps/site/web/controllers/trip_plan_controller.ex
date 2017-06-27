@@ -5,14 +5,16 @@ defmodule Site.TripPlanController do
 
   plug :require_google_maps
 
+  @typep route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
+
   def index(conn, %{"plan" => plan}) do
     query = TripPlan.Query.from_query(plan)
-
+    route_map = with_itineraries(query, %{}, &routes_for_query/1)
     render conn,
       query: query,
-      route_map: with_itineraries(query, %{}, &routes_for_query/1),
+      route_map: route_map,
       itinerary_maps: with_itineraries(query, [], &itinerary_maps/1),
-      alerts: with_itineraries(query, [], &alerts/1)
+      alerts: with_itineraries(query, [], &alerts(&1, route_map))
   end
   def index(conn, _params) do
     render(conn, :index, initial_map_src: TripPlanMap.initial_map_src())
@@ -30,7 +32,7 @@ defmodule Site.TripPlanController do
     default
   end
 
-  @spec routes_for_query([TripPlan.Itinerary.t]) :: %{Routes.Route.id_t => Routes.Route}
+  @spec routes_for_query([TripPlan.Itinerary.t]) :: route_map
   defp routes_for_query(itineraries) do
     itineraries
     |> Enum.flat_map(&TripPlan.Itinerary.route_ids/1)
@@ -43,16 +45,17 @@ defmodule Site.TripPlanController do
     Enum.map(itineraries, &TripPlanMap.itinerary_map/1)
   end
 
-  @spec alerts([TripPlan.Itinerary.t]) :: [alert_list] when alert_list: [Alerts.Alert.t]
-  defp alerts([]) do
+  @spec alerts([TripPlan.Itinerary.t], route_map) :: [alert_list] when alert_list: [Alerts.Alert.t]
+  defp alerts([], _) do
     []
   end
-  defp alerts([first | _] = itineraries) do
+  defp alerts([first | _] = itineraries, route_map) do
     # time here is only used for sorting, so it's okay that the time might
     # not exactly match the alerts
     all_alerts = Alerts.Repo.all(first.start)
+    opts = [route_by_id: &Map.get(route_map, &1)]
     for itinerary <- itineraries do
-      TripPlanAlerts.filter_for_itinerary(all_alerts, itinerary)
+      TripPlanAlerts.filter_for_itinerary(all_alerts, itinerary, opts)
     end
   end
 end
