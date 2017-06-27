@@ -50,5 +50,11 @@ defmodule Site.TripPlanControllerTest do
         assert itinerary_map == TripPlanMap.itinerary_map(itinerary)
       end
     end
+
+    test "assigns a list of alerts for each itinerary", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index, @good_params)
+      {:ok, itineraries} = conn.assigns.query.itineraries
+      assert length(itineraries) == length(conn.assigns.alerts)
+    end
   end
 end
