@@ -1,5 +1,6 @@
 defmodule MapHelpersTest do
   use Site.ConnCase, async: true
+  alias Routes.Route
   import MapHelpers
 
   describe "map_pdf_url/1" do
@@ -51,4 +52,22 @@ defmodule MapHelpersTest do
       assert map_image_url(1) == "/images/subway-spider.jpg"
     end
   end
+
+  describe "route_map_color/1" do
+    test "correct color is returned for each route" do
+      assert route_map_color(%Route{type: 3}) == "FFCE0C"
+      assert route_map_color(%Route{type: 2}) == "A00A78"
+      assert route_map_color(%Route{id: "Blue"}) == "0064C8"
+      assert route_map_color(%Route{id: "Red"}) == "FF1428"
+      assert route_map_color(%Route{id: "Mattapan"}) == "FF1428"
+      assert route_map_color(%Route{id: "Orange"}) == "FF8200"
+      assert route_map_color(%Route{id: "Green"}) == "428608"
+      assert route_map_color(%Route{id: "Boat"}) == "0064C8"
+    end
+  end
+    describe "map_stop_icon_path" do
+      test "returns correct path for route" do
+        assert map_stop_icon_path(%Route{type: 3}) =~ "/images/map-FFCE0C-dot-icon.png"
+      end
+    end
 end

@@ -1,22 +1,20 @@
 defmodule Site.ScheduleV2Controller.Line.Maps do
   alias GoogleMaps.MapData
   alias GoogleMaps.MapData.{Path, Marker}
-  alias Stops.RouteStops
   alias Routes.{Route, Shape}
+  import Site.Router.Helpers
 
   @moduledoc """
   Handles Map information for the line controller
   """
 
-  import Site.Router.Helpers
-
   def map_img_src(_, _, %Routes.Route{type: 4}, _path_color) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
   def map_img_src({stops, _shapes}, polylines, route, path_color) do
-    icon = map_stop_icon_path(route.type, route.id)
+    icon = MapHelpers.map_stop_icon_path(route)
     markers = build_stop_markers(stops, icon, true)
-    paths = Enum.map(polylines, &Path.new(&1, format_color(path_color)))
+    paths = Enum.map(polylines, &Path.new(&1, path_color))
 
     {600, 600}
     |> MapData.new
@@ -39,27 +37,11 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
     Marker.new(stop.latitude, stop.longitude, icon: icon, tooltip: stop.name, size: :tiny)
   end
 
-  defp format_color(color), do: "0x" <> color <> "FF"
-
   @spec floor_position(float) :: float
   defp floor_position(position) do
     Float.floor(position, 4)
   end
 
-  @spec map_stop_icon_path(0..4, String.t) :: String.t
-  defp map_stop_icon_path(type, id) do
-    static_url(Site.Endpoint, "/images/map-#{map_color(type, id)}-dot-icon.png")
-  end
-
-  @spec map_color(0..4, String.t) :: String.t
-  def map_color(3, _id), do: "FFCE0C"
-  def map_color(2, _id), do: "A00A78"
-  def map_color(_type, "Blue"), do: "0064C8"
-  def map_color(_type, "Red"), do: "FF1428"
-  def map_color(_type, "Mattapan"), do: "FF1428"
-  def map_color(_type, "Orange"), do: "FF8200"
-  def map_color(_type, "Green"), do: "428608"
-  def map_color(_type, _id), do: "0064C8"
 
   @spec dynamic_map_data(String.t, [String.t], {[Stops.Stop.t], any}, [String.t], map()) :: MapData.t
   def dynamic_map_data(color, map_polylines, {stops, _shapes}, vehicle_polylines, vehicle_tooltips) do
@@ -114,7 +96,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   struct used to build the dynamic map
   """
   def map_data(route, map_stops, vehicle_polylines, vehicle_tooltips) do
-    color = map_color(route.type, route.id)
+    color = MapHelpers.route_map_color(route)
     map_polylines = map_polylines(map_stops, route)
     static_data = map_img_src(map_stops, map_polylines, route, color)
     dynamic_data = dynamic_map_data(color, map_polylines, map_stops, vehicle_polylines, vehicle_tooltips)

@@ -5,7 +5,7 @@ defmodule GoogleMaps.MapData.PathTest do
 
   @path %Path {
     weight: 4,
-    color: "#fff",
+    color: "fff",
     polyline: "Polyline"
   }
 
@@ -24,7 +24,7 @@ defmodule GoogleMaps.MapData.PathTest do
 
   describe "format_static_path/1" do
     test "formats a path" do
-      expected = "weight:4|color:#fff|enc:Polyline"
+      expected = "weight:4|color:0xfffFF|enc:Polyline"
       assert format_static_path(@path) == expected
     end
   end

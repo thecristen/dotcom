@@ -1,6 +1,5 @@
 defmodule Site.TripPlanControllerTest do
   use Site.ConnCase, async: true
-  alias Site.TripPlan.Map, as: TripPlanMap
 
   @good_params %{
     "plan" => %{"from" => "from address",
@@ -51,6 +50,16 @@ defmodule Site.TripPlanControllerTest do
       assert Map.size(conn.assigns.route_map) > 0
     end
 
+    test "each map url has a path color", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index, @good_params)
+      for {map_data, static_map} <- conn.assigns.itinerary_maps do
+        assert static_map =~ "color"
+        for path <- map_data.paths do
+          assert path.color
+        end
+      end
+    end
+
     test "renders a geocoding error", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @bad_params)
       response = html_response(conn, 200)
@@ -63,9 +72,8 @@ defmodule Site.TripPlanControllerTest do
     test "assigns maps for each itinerary", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       assert conn.assigns.itinerary_maps
-      {:ok, itineraries} = conn.assigns.query.itineraries
-      for {itinerary, itinerary_map} <- Enum.zip(itineraries, conn.assigns.itinerary_maps) do
-        assert itinerary_map == TripPlanMap.itinerary_map(itinerary)
+      for {_map_data, static_map} <- conn.assigns.itinerary_maps do
+        assert static_map =~ "https://maps.googleapis.com/maps/api/staticmap"
       end
     end
 

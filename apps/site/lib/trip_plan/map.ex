@@ -1,6 +1,8 @@
 defmodule Site.TripPlan.Map do
+  alias TripPlan.{Leg, TransitDetail, Itinerary}
   alias Stops.Position
   alias GoogleMaps.{MapData, MapData.Marker, MapData.Path}
+  alias Site.TripPlanController
 
   @type static_map :: String.t
   @type t :: {MapData.t, static_map}
@@ -26,16 +28,16 @@ defmodule Site.TripPlan.Map do
   end
 
   @doc "Returns the static map data and source URL"
-  @spec itinerary_map(TripPlan.Itinerary.t) :: t
-  def itinerary_map(itinerary) do
-    map_data = itinerary_map_data(itinerary)
+  @spec itinerary_map(Itinerary.t, TripPlanController.route_map) :: t
+  def itinerary_map(itinerary, route_map) do
+    map_data = itinerary_map_data(itinerary, route_map)
     {map_data, GoogleMaps.static_map_url(map_data)}
   end
 
-  @spec itinerary_map_data(TripPlan.Itinerary.t) :: MapData.t
-  defp itinerary_map_data(itinerary) do
+  @spec itinerary_map_data(Itinerary.t, TripPlanController.route_map) :: MapData.t
+  defp itinerary_map_data(itinerary, route_map) do
     markers = markers_for_legs(itinerary.legs)
-    paths = Enum.map(itinerary.legs, &Path.new(&1.polyline, "0064C8"))
+    paths = Enum.map(itinerary.legs, &build_leg_path(&1, route_map))
 
     {600, 600}
     |> MapData.new()
@@ -43,7 +45,13 @@ defmodule Site.TripPlan.Map do
     |> MapData.add_paths(paths)
   end
 
-  @spec markers_for_legs([TripPlan.Leg.t]) :: [Marker.t]
+  @spec build_leg_path(Leg.t, TripPlanController.route_map) :: Path.t
+  defp build_leg_path(leg, route_map) do
+    color = leg_color(leg, route_map)
+    Path.new(leg.polyline, color)
+  end
+
+  @spec markers_for_legs([Leg.t]) :: [Marker.t]
   defp markers_for_legs(legs) do
     Enum.flat_map(legs, &[build_leg_marker(&1.from), build_leg_marker(&1.to)])
   end
@@ -51,5 +59,15 @@ defmodule Site.TripPlan.Map do
   @spec build_leg_marker(Stops.Position.t) :: Marker.t
   defp build_leg_marker(leg_location) do
     Marker.new(Position.latitude(leg_location), Position.longitude(leg_location), size: :small)
+  end
+
+  @spec leg_color(Leg.t, TripPlanController.route_map) :: String.t
+  defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_map) do
+    route_map
+    |> Map.get(route_id)
+    |> MapHelpers.route_map_color()
+  end
+  defp leg_color(_leg, _route_map) do
+    "000000"
   end
 end

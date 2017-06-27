@@ -5,7 +5,7 @@ defmodule Site.TripPlanController do
 
   plug :require_google_maps
 
-  @typep route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
+  @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
 
   def index(conn, %{"plan" => plan}) do
     query = TripPlan.Query.from_query(plan)
@@ -13,7 +13,7 @@ defmodule Site.TripPlanController do
     render conn,
       query: query,
       route_map: route_map,
-      itinerary_maps: with_itineraries(query, [], &itinerary_maps/1),
+      itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_map)),
       alerts: with_itineraries(query, [], &alerts(&1, route_map))
   end
   def index(conn, _params) do
@@ -40,11 +40,6 @@ defmodule Site.TripPlanController do
     |> Map.new(&{&1, Routes.Repo.get(&1)})
   end
 
-  @spec itinerary_maps([TripPlan.Itinerary.t]) :: [TripPlanMap.t]
-  defp itinerary_maps(itineraries) do
-    Enum.map(itineraries, &TripPlanMap.itinerary_map/1)
-  end
-
   @spec alerts([TripPlan.Itinerary.t], route_map) :: [alert_list] when alert_list: [Alerts.Alert.t]
   defp alerts([], _) do
     []
@@ -57,5 +52,9 @@ defmodule Site.TripPlanController do
     for itinerary <- itineraries do
       TripPlanAlerts.filter_for_itinerary(all_alerts, itinerary, opts)
     end
+  end
+
+  defp itinerary_maps(itineraries, route_map) do
+    Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_map))
   end
 end
