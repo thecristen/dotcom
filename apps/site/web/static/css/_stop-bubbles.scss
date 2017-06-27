@@ -82,10 +82,6 @@ $location-line-width: $space-6;
   flex: 0 0 auto;
   justify-content: flex-start;
   padding-right: $base-spacing;
-
-  .merge:last-child {
-    margin-top: $base-spacing / 2;
-  }
 }
 
 .route-branch-stop-bubble {
@@ -99,6 +95,14 @@ $location-line-width: $space-6;
 
   &.stop {
     margin-top: -1px;
+  }
+
+  &.merge:last-child {
+    .route-branch-stop-bubble-line.direction-1,
+    .merge-stop-spacer {
+      flex: 0 0 $base-spacing / 2;
+      min-height: $base-spacing / 2;
+    }
   }
 
   .route-branch-indent-start {

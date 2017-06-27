@@ -61,8 +61,15 @@ defmodule Site.ScheduleV2View.StopList do
       render_stop_bubble_line(:merge, branch, assigns)
     ]
   end
+  def stop_bubble_content(%{direction_id: 1} = assigns, {branch, :merge}) do
+    [
+      render_stop_bubble_line(:merge, branch, assigns),
+      content_tag(:div, "", class: "route-branch-indent-start #{stop_bubble_line_type(:merge, branch, assigns)}")
+    ]
+  end
   def stop_bubble_content(assigns, {branch, :merge}) do
     [
+      content_tag(:div, "", class: "merge-stop-spacer"),
       content_tag(:div, "", class: "route-branch-indent-start #{stop_bubble_line_type(:merge, branch, assigns)}"),
       render_stop_bubble_line(:merge, branch, assigns)
     ]
@@ -90,16 +97,15 @@ defmodule Site.ScheduleV2View.StopList do
   end
   def render_stop_bubble(_, %Route{}, _, _), do: ""
 
-  def render_stop_bubble_line(:merge, _, %{bubble_index: index, direction_id: 1}) when index != 0, do: ""
   def render_stop_bubble_line(bubble_type, bubble_branch, assigns) do
     bubble_type
     |> stop_bubble_line_type(bubble_branch, assigns)
-    |> do_render_stop_bubble_line()
+    |> do_render_stop_bubble_line(assigns.direction_id)
   end
 
-  def do_render_stop_bubble_line(nil), do: ""
-  def do_render_stop_bubble_line(class) do
-    content_tag(:div, "", class: "route-branch-stop-bubble-line #{class}")
+  def do_render_stop_bubble_line(nil, _), do: ""
+  def do_render_stop_bubble_line(class, direction_id) do
+    content_tag(:div, "", class: "route-branch-stop-bubble-line #{class} direction-#{direction_id}")
   end
 
   @doc """
