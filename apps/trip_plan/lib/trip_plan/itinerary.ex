@@ -21,11 +21,18 @@ defmodule TripPlan.Itinerary do
   @doc "Return a list of all the route IDs used for this Itinerary"
   @spec route_ids(t) :: [Routes.Route.id_t]
   def route_ids(%__MODULE__{legs: legs}) do
-    Enum.flat_map(legs, fn leg ->
-      case TripPlan.Leg.route_id(leg) do
-        {:ok, route_id} -> [route_id]
-        :error -> []
-      end
-    end)
+    flat_map_over_legs(legs, &TripPlan.Leg.route_id/1)
+  end
+
+  @doc "Return a list of all the trip IDs used for this Itinerary"
+  @spec trip_ids(t) :: [Schedules.Trip.id_t]
+  def trip_ids(%__MODULE__{legs: legs}) do
+    flat_map_over_legs(legs, &TripPlan.Leg.trip_id/1)
+  end
+
+  defp flat_map_over_legs(legs, mapper) do
+    for leg <- legs, {:ok, value} <- leg |> mapper.() |> List.wrap do
+      value
+    end
   end
 end

@@ -18,4 +18,17 @@ defmodule TripPlan.ItineraryTest do
       assert test_calculated_ids == route_ids(itinerary)
     end
   end
+
+  describe "trip_ids/1" do
+    test "returns all the trip IDs from the itinerary" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      test_calculated_ids = Enum.flat_map(itinerary.legs, fn leg ->
+        case leg.mode do
+          %TransitDetail{trip_id: trip_id} -> [trip_id]
+          _ -> []
+        end
+      end)
+      assert test_calculated_ids == trip_ids(itinerary)
+    end
+  end
 end
