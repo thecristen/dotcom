@@ -2,7 +2,7 @@ defmodule Site.AlertViewTest do
   @moduledoc false
   use ExUnit.Case, async: true
 
-  import Phoenix.HTML, only: [safe_to_string: 1]
+  import Phoenix.HTML, only: [safe_to_string: 1, raw: 1]
   import Site.AlertView
   alias Alerts.Alert
 
@@ -126,6 +126,30 @@ defmodule Site.AlertViewTest do
     test "<strong>ifies a starting long header" do
       expected = {:safe, "<strong>Long Header:</strong><br />7:30"}
       actual = format_alert_description("Long Header:\n7:30")
+
+      assert expected == actual
+    end
+
+    test "linkifies a URL" do
+      expected = raw(~s(before <a target="_blank" href="http://mbta.com">http://mbta.com</a> after))
+      actual = format_alert_description("before http://mbta.com after")
+
+      assert expected == actual
+    end
+  end
+
+  describe "replace_urls_with_links/1" do
+    test "does not include a period at the end of the URL" do
+      expected = raw(~s(<a target="_blank" href="http://mbta.com/foo/bar">http://mbta.com/foo/bar</a>.))
+      actual = replace_urls_with_links("http://mbta.com/foo/bar.")
+
+      assert expected == actual
+    end
+
+    test "can replace multiple URLs" do
+      expected = raw(~s(<a target="_blank" href="http://one.com">http://one.com</a> \
+<a target="_blank" href="https://two.net">https://two.net</a>))
+      actual = replace_urls_with_links("http://one.com https://two.net")
 
       assert expected == actual
     end
