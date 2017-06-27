@@ -283,7 +283,7 @@ defmodule Site.ComponentsTest do
     end
 
     test "mode_links/1" do
-      expected = [{:bus, "Bus", "/bus"}, {:subway, "Subway", "/subway"}, {:the_ride, "The Ride", "/the-ride"}, {:access, "Access", "/access"}]
+      expected = [{"bus", "Bus", "/bus"}, {"subway", "Subway", "/subway"}, {"the_ride", "The Ride", "/the-ride"}, {"access", "Access", "/access"}]
       assert mode_links(@links) == expected
     end
 

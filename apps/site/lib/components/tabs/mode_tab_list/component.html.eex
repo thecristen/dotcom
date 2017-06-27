@@ -1,6 +1,7 @@
-<%= tab_selector %Site.Components.Tabs.TabSelector{links: mode_links(args.links),
+<%= tab_selector %Site.Components.Tabs.TabSelector{
+                              links: mode_links(args.links),
                               id: args.id,
                               class: "tab-select-btn-group-stacked #{args.class}",
-                              selected: args.selected_mode,
+                              selected: Atom.to_string(args.selected_mode),
                               icon_map: build_mode_icon_map(args.links)}
 %>
