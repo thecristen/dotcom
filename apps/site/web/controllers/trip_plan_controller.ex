@@ -1,6 +1,7 @@
 defmodule Site.TripPlanController do
   use Site.Web, :controller
   alias Site.TripPlan.Map, as: TripPlanMap
+  alias Site.TripPlan.Alerts, as: TripPlanAlerts
 
   plug :require_google_maps
 
@@ -10,7 +11,8 @@ defmodule Site.TripPlanController do
     render conn,
       query: query,
       route_map: with_itineraries(query, %{}, &routes_for_query/1),
-      itinerary_maps: with_itineraries(query, [], &itinerary_maps/1)
+      itinerary_maps: with_itineraries(query, [], &itinerary_maps/1),
+      alerts: with_itineraries(query, [], &alerts/1)
   end
   def index(conn, _params) do
     render(conn, :index, initial_map_src: TripPlanMap.initial_map_src())
@@ -39,5 +41,18 @@ defmodule Site.TripPlanController do
   @spec itinerary_maps([TripPlan.Itinerary.t]) :: [TripPlanMap.t]
   defp itinerary_maps(itineraries) do
     Enum.map(itineraries, &TripPlanMap.itinerary_map/1)
+  end
+
+  @spec alerts([TripPlan.Itinerary.t]) :: [alert_list] when alert_list: [Alerts.Alert.t]
+  defp alerts([]) do
+    []
+  end
+  defp alerts([first | _] = itineraries) do
+    # time here is only used for sorting, so it's okay that the time might
+    # not exactly match the alerts
+    all_alerts = Alerts.Repo.all(first.start)
+    for itinerary <- itineraries do
+      TripPlanAlerts.filter_for_itinerary(all_alerts, itinerary)
+    end
   end
 end
