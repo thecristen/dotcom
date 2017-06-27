@@ -13,10 +13,27 @@
   text-decoration: none;
 }
 
+.event-list-empty {
+  margin-bottom: 0;
+  padding: $base-spacing;
+}
+
+.event-list li:first-child {
+  border-top: 0;
+}
+
 .event-info-label {
   font-weight: bold;
 
   @include media-breakpoint-down(sm) {
     display: block;
   }
+}
+
+.events-paragraph {
+  margin: $base-spacing-lg 0;
+}
+
+.event-paragraph-title {
+  font-weight: bold;
 }

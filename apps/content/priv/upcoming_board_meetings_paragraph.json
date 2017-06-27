@@ -1,0 +1,370 @@
+{
+  "target_id": 17,
+  "target_revision_id": 101,
+  "id": [
+    {
+      "value": 17
+    }
+  ],
+  "uuid": [
+    {
+      "value": "5db73d61-3c34-4962-acf4-bfa903d4a7e9"
+    }
+  ],
+  "revision_id": [
+    {
+      "value": 101
+    }
+  ],
+  "type": [
+    {
+      "target_id": "upcoming_board_meetings",
+      "target_type": "paragraphs_type",
+      "target_uuid": "7b3ac3b3-75fb-45c7-9b90-64ca538f58a8"
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 10,
+      "target_type": "user",
+      "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
+      "url": "/user/10"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "created": [
+    {
+      "value": 1498075214
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 10,
+      "target_type": "user",
+      "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
+      "url": "/user/10"
+    }
+  ],
+  "parent_id": [
+    {
+      "value": "2564"
+    }
+  ],
+  "parent_type": [
+    {
+      "value": "node"
+    }
+  ],
+  "parent_field_name": [
+    {
+      "value": "field_paragraphs"
+    }
+  ],
+  "behavior_settings": [
+    {
+      "value": "a:0:{}"
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "view_data": [
+    {
+      "nid": [
+        {
+          "value": 1
+        }
+      ],
+      "uuid": [
+        {
+          "value": "568277e9-7eed-4a70-a3b0-0c7162463bb6"
+        }
+      ],
+      "vid": [
+        {
+          "value": 3081
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "event",
+          "target_type": "node_type",
+          "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "title": [
+        {
+          "value": "AACT Executive Board Meeting"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 13,
+          "target_type": "user",
+          "target_uuid": "b1e7bc68-04a7-4492-ba03-575615e56e5c",
+          "url": "/user/13"
+        }
+      ],
+      "created": [
+        {
+          "value": 1492630304
+        }
+      ],
+      "changed": [
+        {
+          "value": 1498098025
+        }
+      ],
+      "promote": [
+        {
+          "value": false
+        }
+      ],
+      "sticky": [
+        {
+          "value": false
+        }
+      ],
+      "revision_timestamp": [
+        {
+          "value": 1498098025
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 10,
+          "target_type": "user",
+          "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
+          "url": "/user/10"
+        }
+      ],
+      "revision_log": [],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "path": [],
+      "publish_on": [],
+      "unpublish_on": [],
+      "menu_link": [],
+      "body": [
+        {
+          "value": "<p>The AACT board of directors meets from 10:00 AM to 12 noon and AACT members meet from 1:00 PM to 3:00 PM, on the third Wednesday of this month.<br />\r\n<br />\r\nAACT meetings are held in the State Transportation Building, 10 Park Plaza, Boston, second floor, in Conference Rooms 2 and 3, unless otherwise noted.<br />\r\n<br />\r\nTo obtain a copy of this calendar in an accessible format, request special accommodations for a meeting, check on the status of a meeting, or ask any questions about AACT, please contact Janie Guion, AACT Coordinator, at 857-702-3658 (voice), 617-570-9193 (TTY), or <a href=\"mailto:AACT@ctps.org\">AACT@ctps.org</a> (email).<br />\r\n<br />\r\nTHIS INFORMATION IS SUBJECT TO CHANGE.</p>\r\n",
+          "format": "basic_html",
+          "summary": ""
+        }
+      ],
+      "field_agenda": [],
+      "field_agenda_file": [],
+      "field_city": [],
+      "field_end_time": [
+        {
+          "value": "2017-06-28T16:00:00"
+        }
+      ],
+      "field_event_type": [
+        {
+          "target_id": 7,
+          "target_type": "taxonomy_term",
+          "target_uuid": "af7f887c-b010-416e-a958-38de18b9afa3",
+          "url": "/taxonomy/term/7"
+        }
+      ],
+      "field_imported_address": [
+        {
+          "value": "State Transportation Building, 10 Park Plaza, Boston, 2nd Fl, Conference Rooms 2 &amp; 3",
+          "format": null
+        }
+      ],
+      "field_location": [],
+      "field_meeting_id": [
+        {
+          "value": "6442457122"
+        }
+      ],
+      "field_minutes_file": [],
+      "field_notes": [],
+      "field_other_files": [],
+      "field_start_time": [
+        {
+          "value": "2017-06-28T14:00:00"
+        }
+      ],
+      "field_state": [],
+      "field_street_address": [],
+      "field_who": [
+        {
+          "value": "All"
+        }
+      ]
+    },
+    {
+      "nid": [
+        {
+          "value": 2
+        }
+      ],
+      "uuid": [
+        {
+          "value": "9e7b989a-3682-4cab-86f5-f6ba2a6bd824"
+        }
+      ],
+      "vid": [
+        {
+          "value": 3082
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "event",
+          "target_type": "node_type",
+          "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "title": [
+        {
+          "value": "Fiscal &amp; Management Control Board Meeting"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 13,
+          "target_type": "user",
+          "target_uuid": "b1e7bc68-04a7-4492-ba03-575615e56e5c",
+          "url": "/user/13"
+        }
+      ],
+      "created": [
+        {
+          "value": 1492630318
+        }
+      ],
+      "changed": [
+        {
+          "value": 1498098047
+        }
+      ],
+      "promote": [
+        {
+          "value": false
+        }
+      ],
+      "sticky": [
+        {
+          "value": false
+        }
+      ],
+      "revision_timestamp": [
+        {
+          "value": 1498098047
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 10,
+          "target_type": "user",
+          "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
+          "url": "/user/10"
+        }
+      ],
+      "revision_log": [],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "path": [],
+      "publish_on": [],
+      "unpublish_on": [],
+      "menu_link": [],
+      "body": [
+        {
+          "value": "<p>Board Meeting</p>\r\n",
+          "format": "basic_html",
+          "summary": ""
+        }
+      ],
+      "field_agenda": [],
+      "field_agenda_file": [],
+      "field_city": [],
+      "field_end_time": [],
+      "field_event_type": [
+        {
+          "target_id": 7,
+          "target_type": "taxonomy_term",
+          "target_uuid": "af7f887c-b010-416e-a958-38de18b9afa3",
+          "url": "/taxonomy/term/7"
+        }
+      ],
+      "field_imported_address": [
+        {
+          "value": "MassDOT, 10 Park Plaza, Transportation Board Room, Boston, MA",
+          "format": null
+        }
+      ],
+      "field_location": [],
+      "field_meeting_id": [
+        {
+          "value": "6442457381"
+        }
+      ],
+      "field_minutes_file": [],
+      "field_notes": [],
+      "field_other_files": [],
+      "field_start_time": [
+        {
+          "value": "2017-07-10T16:00:00"
+        }
+      ],
+      "field_state": [],
+      "field_street_address": [],
+      "field_who": [
+        {
+          "value": "Board Members"
+        }
+      ]
+    }
+  ]
+}

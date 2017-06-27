@@ -1,0 +1,41 @@
+<div class="events-paragraph">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="card">
+        <p class="event-paragraph-title card-header card-header-primary-darkest text-xs-center">
+          Upcoming Board Meetings
+        </p>
+
+        <div class="event-list">
+          <%= if Enum.empty?(@paragraph.events) do %>
+            <p class="event-list-empty">
+              Sorry, there are no upcoming board meetings
+            </p>
+          <% else %>
+            <ul class="list-group">
+              <%= for event <- @paragraph.events do %>
+                <li class="list-group-item">
+                  <div>
+                    <%= event_duration(event.start_time, event.end_time) %>
+                  </div>
+                  <div>
+                    <%= link(
+                      event.title,
+                      to: event_path(Site.Endpoint, :show, event.id)
+                    ) %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+      <div>
+        <%= link to: event_path(Site.Endpoint, :index) do %>
+          View all upcoming meetings
+          <%= fa "arrow-right" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

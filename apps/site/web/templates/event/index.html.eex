@@ -27,20 +27,22 @@
             <% end %>
           </h2>
 
-          <%= if Enum.empty?(@events) do %>
-            <div class="p-a-1">
-              <%= no_results_message(@conn.params) %>
-            </div>
-          <% else %>
-            <ul class="list-group list-group-flush">
-              <%= for event <- @events do %>
-                <li class="list-group-item">
-                  <div><%= event_duration(event.start_time, event.end_time) %></div>
-                  <div><%= link event.title, to: event_path(@conn, :show, event.id) %></div>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
+          <div class="event-list">
+            <%= if Enum.empty?(@events) do %>
+              <p class="event-list-empty">
+                <%= no_results_message(@conn.params) %>
+              </p>
+            <% else %>
+              <ul class="list-group">
+                <%= for event <- @events do %>
+                  <li class="list-group-item">
+                    <div><%= event_duration(event.start_time, event.end_time) %></div>
+                    <div><%= link event.title, to: event_path(@conn, :show, event.id) %></div>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
