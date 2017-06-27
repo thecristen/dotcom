@@ -2,7 +2,7 @@
   <% {map_data, map_srcset, map_url} = @map_info %>
   <script class="dynamic_map_data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
   <div class="dynamic-map">
-    <div id="static-map" class="embed-responsive embed-responsive-21by9 station-info-map">
+    <div class="embed-responsive embed-responsive-21by9 station-info-map">
       <%= link to: "https://maps.google.com/?q=#{location(@stop)}", target: "_blank" do %>
         <%# This generates a srcset for our responsive image component,
         based on the sizes of the current iframe.  It generates a

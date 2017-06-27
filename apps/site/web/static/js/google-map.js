@@ -33,12 +33,6 @@ var markers = {};
 function initializeMap(el, mapData, offset) {
   if (typeof google != "undefined") {
     el.className += " google-map";
-
-    // if there is a static map, hide it
-    const staticMap = document.getElementById("static-map");
-    if (staticMap) {
-      staticMap.style.display = "none";
-    }
     displayMap(el, mapData, offset);
   } else {
     const existingCallback = window.mapsCallback || function() {};
