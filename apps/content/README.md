@@ -55,3 +55,21 @@ Font awesome icons are supported with the `{{ fa "rss" }}` syntax. Any string pr
 ### MBTA icons
 
 Certain MBTA svg icons are supported via `{{ mbta-circle-icon "bus" }}` syntax. The currently supported list of icons is `"bus"`, `"commuter-rail"`, `"subway"`, and `"ferry"`.
+
+## Fetching news/meetings from the Ektron DB
+
+First, ensure you have all the dependencies:
+
+* `python3` version 3.6 (3.4 is known to not work)
+* `bsqldb`, a part of FreeTDS (`brew install freetds`)
+
+You will need the following 5 environment variables before running the import script:
+
+* `MBTA_SQL_SERVER`
+* `MBTA_SQL_USERNAME`
+* `MBTA_SQL_PASSWORD`
+* `MBTA_SQL_DATABASE`
+
+The Ektron database is only accessible from within the MBTA network, so this script must be run while hardwired (not WiFi) in the office.
+
+You should then be able to run the `import_news.py` and `import_meetings.py` scripts from the `dotcom/apps/content/` directory, which will download the news entries from the Ektron DB and format them as JSON.
