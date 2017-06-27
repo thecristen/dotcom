@@ -31,4 +31,14 @@ defmodule TripPlan.ItineraryTest do
       assert test_calculated_ids == trip_ids(itinerary)
     end
   end
+
+  describe "stop_ids/1" do
+    test "returns all the stop IDs from the itinerary" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      first_leg = List.first(itinerary.legs)
+      last_leg = List.last(itinerary.legs)
+      test_calculated_ids = Enum.uniq([first_leg.from.stop_id, last_leg.from.stop_id, last_leg.to.stop_id])
+      assert test_calculated_ids == stop_ids(itinerary)
+    end
+  end
 end

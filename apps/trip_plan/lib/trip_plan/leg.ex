@@ -36,4 +36,12 @@ defmodule TripPlan.Leg do
   @spec trip_id(t) :: {:ok, Schedules.Trip.id_t} | :error
   def trip_id(%__MODULE__{mode: %TransitDetail{trip_id: trip_id}}), do: {:ok, trip_id}
   def trip_id(%__MODULE__{}), do: :error
+
+  @doc "Returns the stop IDs for the leg"
+  @spec stop_ids(t) :: [Stops.Stop.id_t]
+  def stop_ids(%__MODULE__{from: from, to: to}) do
+    for %{stop_id: stop_id} <- [from, to] do
+      stop_id
+    end
+  end
 end
