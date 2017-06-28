@@ -52,8 +52,8 @@
       <p><%= optional_position(@query.to) %></p>
       <%= case @query.itineraries do %>
         <% {:ok, itineraries} -> %>
-          <%= for {i, map, index} <- Enum.zip([itineraries, @itinerary_maps, Stream.iterate(1, & &1 + 1)]) do %>
-            <%= render "_itinerary.html", itinerary: i, index: index, route_map: @route_map, itinerary_map: map %>
+          <%= for {i, map, alerts, index} <- Enum.zip([itineraries, @itinerary_maps, @alerts, Stream.iterate(1, & &1 + 1)]) do %>
+            <%= render "_itinerary.html", itinerary: i, index: index, route_map: @route_map, itinerary_map: map, alerts: alerts %>
           <% end %>
         <% {:error, e} -> %>
         Error fetching plan: <%= inspect e %>

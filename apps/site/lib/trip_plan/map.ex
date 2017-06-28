@@ -1,6 +1,9 @@
-defmodule Site.TripPlanController.TripPlanMap do
+defmodule Site.TripPlan.Map do
   alias Stops.Position
   alias GoogleMaps.{MapData, MapData.Marker, MapData.Path}
+
+  @type static_map :: String.t
+  @type t :: {MapData.t, static_map}
 
   @moduledoc """
   Handles generating the maps displayed within the TripPlan Controller
@@ -9,7 +12,7 @@ defmodule Site.TripPlanController.TripPlanMap do
   @doc """
   Returns the url for the initial map for the Trip Planner
   """
-  @spec initial_map_src() :: String.t
+  @spec initial_map_src() :: static_map
   def initial_map_src do
     {630, 400}
     |> MapData.new(14)
@@ -23,7 +26,7 @@ defmodule Site.TripPlanController.TripPlanMap do
   end
 
   @doc "Returns the static map data and source URL"
-  @spec itinerary_map(TripPlan.Itinerary.t) :: {MapData.t, String.t}
+  @spec itinerary_map(TripPlan.Itinerary.t) :: t
   def itinerary_map(itinerary) do
     map_data = itinerary_map_data(itinerary)
     {map_data, GoogleMaps.static_map_url(map_data)}

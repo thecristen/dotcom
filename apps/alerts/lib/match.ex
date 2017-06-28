@@ -43,10 +43,10 @@ defmodule Alerts.Match do
     true
   end
   defp between?({start, nil}, datetime) do
-    Timex.equal?(datetime, start) || Timex.after?(datetime, start)
+    not Timex.before?(datetime, start)
   end
   defp between?({nil, stop}, datetime) do
-    Timex.equal?(datetime, stop) || Timex.before?(datetime, stop)
+    not Timex.after?(datetime, stop)
   end
   defp between?({start, stop}, datetime) do
     Timex.between?(datetime, start, stop) ||

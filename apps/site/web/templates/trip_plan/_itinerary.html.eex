@@ -14,6 +14,9 @@
       <div class="dynamic-map trip-plan-map">
         <img class="img-fluid" src="<%= map_url %>" alt="Map of trip described below" />
       </div>
+    <%= unless Enum.empty?(@alerts) do
+        Site.AlertView.modal(alerts: @alerts, route: %{id: "itinerary-#{@index}", name: "Itinerary"}, hide_t_alerts: true, time: @itinerary.start)
+    end %>
     <div>
       <%= for leg <- @itinerary.legs, do: render "_leg.html", leg: leg %>
     </div>
