@@ -16,7 +16,6 @@ defmodule Mix.Tasks.Backstop.Tests do
     args
     |> Enum.map(&arg_to_tuple/1)
     |> Enum.into(%{})
-    |> IO.inspect()
     |> do_run()
   end
 
