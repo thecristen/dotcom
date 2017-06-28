@@ -107,16 +107,21 @@ defmodule Site.AlertView do
     |> raw
   end
 
-  defp create_url(full_url) do
+  defp create_url(url) do
     # I could probably convince the Regex to match an internal period but not
     # one at the end, but this is clearer. -ps
-    {full_url, suffix} = if String.ends_with?(full_url, ".") do
-      String.split_at(full_url, -1)
+    {url, suffix} = if String.ends_with?(url, ".") do
+      String.split_at(url, -1)
     else
-      {full_url, ""}
+      {url, ""}
     end
-    ~s(<a target="_blank" href="#{full_url}">#{full_url}</a>#{suffix})
+    full_url = ensure_scheme(url)
+    ~s(<a target="_blank" href="#{full_url}">#{url}</a>#{suffix})
   end
+
+  defp ensure_scheme("http://" <> _ = url), do: url
+  defp ensure_scheme("https://" <> _ = url), do: url
+  defp ensure_scheme(url), do: "http://" <> url
 
   @spec show_mode_icon?(Route.t) :: boolean
   defp show_mode_icon?(%Route{name: name}) when name in ["Escalator", "Elevator"], do: false

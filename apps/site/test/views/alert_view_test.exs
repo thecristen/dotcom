@@ -153,6 +153,13 @@ defmodule Site.AlertViewTest do
 
       assert expected == actual
     end
+
+    test "adds http:// to the URL if it's missing" do
+      expected = raw(~s(<a target="_blank" href="http://http.com">http.com</a>))
+      actual = replace_urls_with_links("http.com")
+
+      assert expected == actual
+    end
   end
 
   describe "modal.html" do
