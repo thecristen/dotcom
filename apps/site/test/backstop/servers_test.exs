@@ -39,7 +39,7 @@ defmodule Backstop.ServersTest do
 
   @tag :capture_log
   test "can run and finish" do
-    {:ok, pid} = Backstop.ServersTest.TestServer.start_link
+    {:ok, pid} = Backstop.ServersTest.TestServer.start_link()
     assert :started = Backstop.Servers.await(pid)
     assert :ok = Backstop.Servers.shutdown(pid)
     refute Process.alive? pid
@@ -48,7 +48,7 @@ defmodule Backstop.ServersTest do
 
   @tag :capture_log
   test "can handle an error" do
-    {:ok, pid} = Backstop.ServersTest.ErrorServer.start_link
+    {:ok, pid} = Backstop.ServersTest.ErrorServer.start_link()
     assert :error = Backstop.Servers.await(pid)
     assert :ok = Backstop.Servers.shutdown(pid)
     refute Process.alive? pid
@@ -58,14 +58,14 @@ defmodule Backstop.ServersTest do
   @tag :capture_log
   describe "run_with_pids/2" do
     test "returns fn status code if servers start" do
-      {:ok, pid} = Backstop.ServersTest.TestServer.start_link
-      assert 2 == Backstop.Servers.Helpers.run_with_pids([pid], fn -> 2 end)
+      {:ok, pid} = Backstop.ServersTest.TestServer.start_link()
+      assert 2 == Backstop.Servers.Helpers.run_with_pids([pid], %{}, fn _ -> 2 end)
       refute Process.alive?(pid)
     end
 
     test "returns 1 if the server fails to start" do
-      {:ok, pid} = Backstop.ServersTest.ErrorServer.start_link
-      assert 1 == Backstop.Servers.Helpers.run_with_pids([pid], fn -> 2 end)
+      {:ok, pid} = Backstop.ServersTest.ErrorServer.start_link()
+      assert 1 == Backstop.Servers.Helpers.run_with_pids([pid], %{}, fn _ -> 2 end)
       refute Process.alive?(pid)
     end
   end

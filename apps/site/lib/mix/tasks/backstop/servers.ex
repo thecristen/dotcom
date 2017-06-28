@@ -187,11 +187,11 @@ defmodule Backstop.Servers.Helpers do
   require Logger
 
   @doc "Runs a given fn once the server pids have started.  Returns a status code."
-  @spec run_with_pids([pid], (() -> non_neg_integer)) :: non_neg_integer
-  def run_with_pids(pids, func) do
+  @spec run_with_pids([pid], [String.t], (() -> non_neg_integer)) :: non_neg_integer
+  def run_with_pids(pids, args, func) do
     expected = Enum.map(pids, fn _ -> :started end)
     status = case Enum.map(pids, &await/1) do
-               ^expected -> func.()
+               ^expected -> func.(args)
                _ -> 1
              end
     Enum.each(pids, &shutdown/1)
