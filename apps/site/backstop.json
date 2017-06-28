@@ -231,7 +231,7 @@
     "html_report": "backstop_data/html_report"
   },
   "id": "MBTA_Backstop",
-  "fileNameTemplate": "{scenarioIndex}_{selectorIndex}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
+  "fileNameTemplate": "{scenarioLabel}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
   "engine": "phantomjs",
   "report": ["browser"],
   "casperFlags": [],
