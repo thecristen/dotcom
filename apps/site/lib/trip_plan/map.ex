@@ -2,11 +2,11 @@ defmodule Site.TripPlan.Map do
   alias TripPlan.{Leg, TransitDetail, Itinerary}
   alias Stops.Position
   alias GoogleMaps.{MapData, MapData.Marker, MapData.Path}
-  alias Site.TripPlanController
   alias Site.MapHelpers
 
   @type static_map :: String.t
   @type t :: {MapData.t, static_map}
+  @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
 
   @moduledoc """
   Handles generating the maps displayed within the TripPlan Controller
@@ -29,13 +29,13 @@ defmodule Site.TripPlan.Map do
   end
 
   @doc "Returns the static map data and source URL"
-  @spec itinerary_map(Itinerary.t, TripPlanController.route_map) :: t
+  @spec itinerary_map(Itinerary.t, route_map) :: t
   def itinerary_map(itinerary, route_map) do
     map_data = itinerary_map_data(itinerary, route_map)
     {map_data, GoogleMaps.static_map_url(map_data)}
   end
 
-  @spec itinerary_map_data(Itinerary.t, TripPlanController.route_map) :: MapData.t
+  @spec itinerary_map_data(Itinerary.t, route_map) :: MapData.t
   defp itinerary_map_data(itinerary, route_map) do
     markers = markers_for_legs(itinerary.legs)
     paths = Enum.map(itinerary.legs, &build_leg_path(&1, route_map))
@@ -46,7 +46,7 @@ defmodule Site.TripPlan.Map do
     |> MapData.add_paths(paths)
   end
 
-  @spec build_leg_path(Leg.t, TripPlanController.route_map) :: Path.t
+  @spec build_leg_path(Leg.t, route_map) :: Path.t
   defp build_leg_path(leg, route_map) do
     color = leg_color(leg, route_map)
     Path.new(leg.polyline, color)
@@ -62,7 +62,7 @@ defmodule Site.TripPlan.Map do
     Marker.new(Position.latitude(leg_location), Position.longitude(leg_location), size: :small)
   end
 
-  @spec leg_color(Leg.t, TripPlanController.route_map) :: String.t
+  @spec leg_color(Leg.t, route_map) :: String.t
   defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_map) do
     route_map
     |> Map.get(route_id)
