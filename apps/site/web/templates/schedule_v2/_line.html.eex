@@ -6,7 +6,7 @@
       <h2 class="h5 route-map-heading">Route Map</h5>
       <%= if display_map_link?(@route.type) do %>
         <img src="<%= @map_img_src %>" class="img-fluid">
-        <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
+        <a href="<%= Site.MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
           <%= fa "search-plus" %>
           View map as a PDF
         </a>
@@ -25,7 +25,7 @@
           <h2 class="h5 route-map-heading">Route Map</h5>
           <%= if display_map_link?(@route.type) do %>
             <img src="<%= @map_img_src %>" class="img-fluid">
-            <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
+            <a href="<%= Site.MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
               <%= fa "search-plus" %>
               View map as a PDF
             </a>

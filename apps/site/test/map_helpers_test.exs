@@ -1,7 +1,7 @@
 defmodule MapHelpersTest do
   use Site.ConnCase, async: true
   alias Routes.Route
-  import MapHelpers
+  import Site.MapHelpers
 
   describe "map_pdf_url/1" do
     test "returns the map link for subway" do

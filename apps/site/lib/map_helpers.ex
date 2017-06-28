@@ -1,4 +1,4 @@
-defmodule MapHelpers do
+defmodule Site.MapHelpers do
   alias Routes.Route
   import Site.Router.Helpers
 

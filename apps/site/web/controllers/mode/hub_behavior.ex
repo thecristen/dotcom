@@ -1,5 +1,6 @@
 defmodule Site.Mode.HubBehavior do
   alias Fares.Summary
+  alias Site.MapHelpers
   @moduledoc "Behavior for mode hub pages."
 
   @callback routes() :: [Routes.Route.t]

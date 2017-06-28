@@ -3,6 +3,7 @@ defmodule Site.TripPlan.Map do
   alias Stops.Position
   alias GoogleMaps.{MapData, MapData.Marker, MapData.Path}
   alias Site.TripPlanController
+  alias Site.MapHelpers
 
   @type static_map :: String.t
   @type t :: {MapData.t, static_map}
