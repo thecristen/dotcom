@@ -65,9 +65,10 @@ defmodule MapHelpersTest do
       assert route_map_color(%Route{id: "Boat"}) == "0064C8"
     end
   end
-    describe "map_stop_icon_path" do
-      test "returns correct path for route" do
-        assert map_stop_icon_path(%Route{type: 3}) =~ "/images/map-FFCE0C-dot-icon.png"
-      end
+
+  describe "map_stop_icon_path" do
+    test "returns correct path for route" do
+      assert map_stop_icon_path(%Route{type: 3}) =~ "/images/map-FFCE0C-dot-icon.png"
     end
+  end
 end

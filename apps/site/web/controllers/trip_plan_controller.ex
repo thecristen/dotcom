@@ -10,10 +10,11 @@ defmodule Site.TripPlanController do
   def index(conn, %{"plan" => plan}) do
     query = TripPlan.Query.from_query(plan)
     route_map = with_itineraries(query, %{}, &routes_for_query/1)
+    route_mapper = &Map.get(route_map, &1)
     render conn,
       query: query,
       route_map: route_map,
-      itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_map)),
+      itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
       alerts: with_itineraries(query, [], &alerts(&1, route_map))
   end
   def index(conn, _params) do
@@ -54,7 +55,7 @@ defmodule Site.TripPlanController do
     end
   end
 
-  defp itinerary_maps(itineraries, route_map) do
-    Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_map))
+  defp itinerary_maps(itineraries, route_mapper) do
+    Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper))
   end
 end

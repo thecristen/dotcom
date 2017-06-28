@@ -8,6 +8,7 @@ defmodule Site.ScheduleV2View do
   alias Routes.Route
   alias Stops.Stop
   alias Plug.Conn
+  alias Site.MapHelpers
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
