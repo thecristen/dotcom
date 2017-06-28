@@ -49,13 +49,6 @@ defmodule Site.ScheduleV2View do
   end
   def timetable_location_display(_location), do: ""
 
-  @spec tab_selected?(tab :: String.t, current_tab :: String.t | nil) :: boolean()
-  @doc """
-  Given a schedule tab, and the selected tab, returns whether or not the schedule tab should be rendered as selected.
-  """
-  def tab_selected?(tab, tab), do: true
-  def tab_selected?(_, _), do: false
-
   @spec template_for_tab(String.t) :: String.t
   @doc "Returns the template for the selected tab."
   def template_for_tab("trip-view"), do: "_trip_view.html"

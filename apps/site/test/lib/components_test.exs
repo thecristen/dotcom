@@ -283,7 +283,7 @@ defmodule Site.ComponentsTest do
     end
 
     test "mode_links/1" do
-      expected = [{"Bus", "/bus"}, {"Subway", "/subway"}, {"The Ride", "/the-ride"}, {"Access", "/access"}]
+      expected = [{"bus", "Bus", "/bus"}, {"subway", "Subway", "/subway"}, {"the_ride", "The Ride", "/the-ride"}, {"access", "Access", "/access"}]
       assert mode_links(@links) == expected
     end
 
@@ -294,21 +294,22 @@ defmodule Site.ComponentsTest do
     end
   end
 
-  describe "tabs > tab_list" do
+  describe "tabs > tab_selector" do
     @links [
-      {"Schedules", "/schedules", false},
-      {"Info", "/info", true},
-      {"Something Else", "/something-else", false}
+      {"sched", "Schedules", "/schedules"},
+      {"info", "Info", "/info"},
+      {"etc", "Something Else", "/something-else"}
       ]
 
     def tab_args do
-      %TabList{
-        links: @links
+      %TabSelector{
+        links: @links,
+        selected: "info"
       }
     end
 
     test "renders a list of tabs" do
-      rendered = tab_args() |> tab_list() |> safe_to_string()
+      rendered = tab_args() |> tab_selector() |> safe_to_string()
 
       for link <- ["/schedules#schedules-tab", "/info#info-tab", "/something-else#something-else-tab"] do
         assert rendered =~ ~s(href="#{link}")
@@ -316,41 +317,31 @@ defmodule Site.ComponentsTest do
     end
 
     test "displays a tab as selected" do
-      rendered = tab_args() |> tab_list() |> safe_to_string()
+      rendered = tab_args() |> tab_selector() |> safe_to_string()
 
       assert rendered =~ ~r/<a.*href=\"\/info#info-tab\"/
       assert rendered =~ ~r/class=.*tab-select-btn-selected/
     end
 
     test "optionally takes a CSS class" do
-      rendered = tab_args() |> Map.put(:class, "test-class") |> tab_list() |> safe_to_string()
+      rendered = tab_args() |> Map.put(:class, "test-class") |> tab_selector() |> safe_to_string()
 
       assert rendered =~ "test-class"
-    end
-
-    test "selected_tab/1" do
-      assert selected_tab(@links) == "Info"
-    end
-
-    test "tab_links/1" do
-      expected = [{"Schedules", "/schedules"}, {"Info", "/info"}, {"Something Else", "/something-else"}]
-        assert tab_links(@links) == expected
     end
   end
 
   describe "tabs > tab_selector" do
     @links [
-      {"Schedules", "/schedules"},
-      {"Info", "/info"},
-      {"Something Else", "/something-else"}
+      {"sched", "Schedules", "/schedules"},
+      {"info", "Info", "/info"},
+      {"etc", "Something Else", "/something-else"}
     ]
 
     def selector_args do
       %TabSelector{
         links: @links,
-        selected: "Info",
+        selected: "info",
         icon_map: %{"Info" => "info-icon"},
-        full_width?: true
       }
     end
 

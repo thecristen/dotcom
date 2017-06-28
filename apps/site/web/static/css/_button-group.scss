@@ -45,8 +45,10 @@
 
 .tab-select-btn-group-stacked {
   @include media-breakpoint-down(xs) {
-    border-bottom: 0;
-    display: inline-block;
+    .tab-select-btn-group {
+      border-bottom: 0;
+      display: inline-block;
+    }
 
     .btn {
       display: inline-block;
@@ -78,6 +80,12 @@
         border-right: $tab-border;
       }
     }
+  }
+}
+
+.tab-select-btn-group-table-layout-auto {
+  .tab-select-btn-group {
+    table-layout: auto;
   }
 }
 

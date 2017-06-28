@@ -16,15 +16,6 @@ defmodule Site.StopViewTest do
     end
   end
 
-  describe "tab_selected?/2" do
-    test "true for the selected tab, false otherwise" do
-      assert tab_selected?("schedule", nil)
-      refute tab_selected?("info", nil)
-      refute tab_selected?("schedule", "info")
-      assert tab_selected?("info", "info")
-    end
-  end
-
   describe "fare_mode/1" do
     test "types are separated as bus, subway or both" do
       assert fare_mode([:bus, :commuter_rail, :ferry]) == :bus

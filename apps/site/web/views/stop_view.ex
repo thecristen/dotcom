@@ -108,14 +108,6 @@ defmodule Site.StopView do
   def template_for_tab("schedule"), do: "_schedule.html"
   def template_for_tab(_tab), do: "_info.html"
 
-  @spec tab_selected?(tab :: String.t, current_tab :: String.t | nil) :: boolean()
-  @doc """
-  Given a station tab, and the selected tab, returns whether or not the station tab should be rendered as selected.
-  """
-  def tab_selected?(tab, tab), do: true
-  def tab_selected?("schedule", nil), do: true
-  def tab_selected?(_, _), do: false
-
   @spec schedule_template(Route.route_type) :: String.t
   @doc "Returns the template to render schedules for the given mode."
   def schedule_template(:commuter_rail), do: "_commuter_schedule.html"
