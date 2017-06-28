@@ -1,8 +1,8 @@
 defmodule Site.Components.Tabs.ModeTabList do
   @moduledoc """
   Renders a list of tabs for transport modes, as well as The Ride and accessibility.
-  
-  By default the tab is shown with each button using the same width. 
+
+  By default the tab is shown with each button using the same width.
   Use class=tab-select-btn-group-table-layout-auto to make the button widths adjust to the text inside them.
   """
   alias Site.ViewHelpers
