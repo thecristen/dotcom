@@ -2,6 +2,12 @@ defmodule Site.TripPlanView do
   use Site.Web, :view
   alias TripPlan.{Leg, TransitDetail, PersonalDetail}
 
+  @spec rendered_location_error(Plug.Conn.t, TripPlan.Query.t | nil, :from | :to) :: Phoenix.HTML.safe
+  def rendered_location_error(conn, query_or_nil, location_field)
+  def rendered_location_error(_conn, _query_or_nil, _location_field) do
+    ""
+  end
+
   def optional_position({:ok, _}), do: ""
   def optional_position({:error, {:too_many_results, results}}) do
     content_tag :div do
