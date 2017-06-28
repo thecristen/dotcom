@@ -40,7 +40,8 @@ defmodule TripPlan.Leg do
   @doc "Returns the stop IDs for the leg"
   @spec stop_ids(t) :: [Stops.Stop.id_t]
   def stop_ids(%__MODULE__{from: from, to: to}) do
-    for %{stop_id: stop_id} <- [from, to] do
+    for %{stop_id: stop_id} <- [from, to],
+      stop_id do
       stop_id
     end
   end
