@@ -6,8 +6,8 @@ defmodule Site.TripPlan.AlertsTest do
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
 
-  @from TripPlan.Api.MockPlanner.random_stop
-  @to TripPlan.Api.MockPlanner.random_stop
+  @from TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
+  @to TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
   @date_time ~N[2017-06-27T11:43:00]
 
   describe "filter_for_itinerary/2" do

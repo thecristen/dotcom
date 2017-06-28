@@ -10,7 +10,7 @@ defmodule TripPlan.Api.MockPlanner do
     start = DateTime.utc_now()
     duration = :rand.uniform(@max_duration)
     stop = Timex.shift(start, seconds: duration)
-    midpoint_stop = random_stop()
+    midpoint_stop = without_stop_ids([from.stop_id, to.stop_id], &random_stop/0)
     midpoint_time = Timex.shift(start, seconds: Integer.floor_div(duration, 2))
     itineraries = [
       %Itinerary{
@@ -26,15 +26,16 @@ defmodule TripPlan.Api.MockPlanner do
     {:ok, itineraries}
   end
 
-  def random_stop do
+  def random_stop(fields \\ []) do
     stop_id = Enum.random(~w"place-sstat place-north place-bbsta"s)
     stop = Stops.Repo.get!(stop_id)
-    %NamedPosition{
+    fields = Keyword.merge([
       name: stop.name,
       stop_id: stop_id,
       latitude: stop.latitude,
       longitude: stop.longitude
-    }
+    ], fields)
+    struct!(NamedPosition, fields)
   end
 
   def personal_leg(from, to, start, stop) do
@@ -83,5 +84,17 @@ defmodule TripPlan.Api.MockPlanner do
         ])
       }
     }
+  end
+
+  defp without_stop_ids(excluded_stop_ids, function) do
+    # ensure that the stop ID returned from function doesn't have stop ID in
+    # the provided list.
+    excluded_stop_ids = Enum.reject(excluded_stop_ids, &is_nil/1)
+    stop = function.()
+    if stop.stop_id in excluded_stop_ids do
+      without_stop_ids(excluded_stop_ids, function)
+    else
+      stop
+    end
   end
 end
