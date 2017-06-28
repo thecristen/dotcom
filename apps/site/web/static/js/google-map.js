@@ -98,18 +98,14 @@ function renderMarker (mapOffset) {
     var content = markerData.tooltip;
     var key = markerData.z_index + offset;
     var iconSize = markerData.size == "tiny" ? 8 : 22;
+    var icon = buildIcon(markerData.icon, iconSize);
 
     // Add a marker to map
     if (markerData["visible?"]) {
       markers[key] = new google.maps.Marker({
         position: {lat: lat, lng: lng},
         map: maps[mapOffset],
-        icon: {
-          url: markerData.icon,
-          size: new google.maps.Size(iconSize, iconSize),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(iconSize / 2, iconSize / 2)
-        },
+        icon: icon,
         zIndex: markerData.z_index + offset
       });
 
@@ -154,5 +150,19 @@ function reavaluteMapBounds () {
   for (var offset in maps) {
     maps[offset].fitBounds(bounds[offset]);
     maps[offset].panToBounds(bounds[offset]);
+  }
+}
+
+// If there is icon data, return an icon, otherwise return null
+function buildIcon(iconData, iconSize) {
+  if (iconData) {
+    return {
+      url: iconData,
+      size: new google.maps.Size(iconSize, iconSize),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(iconSize / 2, iconSize / 2)
+    };
+  } else {
+    return null;
   }
 }
