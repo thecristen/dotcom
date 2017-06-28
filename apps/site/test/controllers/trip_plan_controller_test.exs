@@ -33,6 +33,24 @@ defmodule Site.TripPlanControllerTest do
       assert Map.size(conn.assigns.route_map) > 0
     end
 
+    test "uses current location to render a query plan", %{conn: conn} do
+      params = %{
+        "plan" => %{"from" => "Current Location",
+                    "from_latitude" => "42.3428",
+                    "from_longitude" => "-71.0857",
+                    "to" => "to address",
+                    "to_latitude" => "",
+                    "to_longitude" => ""
+                   }
+      }
+      conn = get conn, trip_plan_path(conn, :index, params)
+
+      assert html_response(conn, 200) =~ "Directions"
+      assert conn.assigns.requires_google_maps?
+      assert %TripPlan.Query{} = conn.assigns.query
+      assert Map.size(conn.assigns.route_map) > 0
+    end
+
     test "renders a geocoding error", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @bad_params)
       response = html_response(conn, 200)

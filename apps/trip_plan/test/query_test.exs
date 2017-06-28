@@ -27,6 +27,39 @@ defmodule TripPlan.QueryTest do
       } == actual
     end
 
+    test "can use lat/lng instead of an address" do
+      params = %{"from" => "from address",
+                 "to" => "Current Location",
+                 "to_latitude" => "42.3428",
+                 "to_longitude" => "-71.0857"
+                }
+      actual = from_query(params)
+      to_position = %TripPlan.NamedPosition{latitude: 42.3428, longitude: -71.0857, name: "Current Location"}
+      assert_received {:geocoded_address, "from address", {:ok, from_position}}
+      assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
+      assert %TripPlan.Query{
+        from: {:ok, from_position},
+        to: {:ok, to_position},
+        itineraries: {:ok, itineraries}
+      } == actual
+    end
+
+    test "ignores lat/lng that are empty strings" do
+      params = %{"from" => "from address",
+                 "from_latitude" => "",
+                 "from_longitude" => "",
+                 "to" => "to address"}
+      actual = from_query(params)
+      assert_received {:geocoded_address, "from address", {:ok, from_position}}
+      assert_received {:geocoded_address, "to address", {:ok, to_position}}
+      assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
+      assert %TripPlan.Query{
+        from: {:ok, from_position},
+        to: {:ok, to_position},
+        itineraries: {:ok, itineraries}
+      } == actual
+    end
+
     test "can include other params in the plan" do
       params = %{"from" => "from address",
                  "to" => "to address",
@@ -67,6 +100,25 @@ defmodule TripPlan.QueryTest do
         to: ^to_result,
         itineraries: {:error, _}
       } = actual
+    end
+  end
+
+  describe "fetch_lat_lng/2" do
+    test "returns {:ok, lat, lng} when both are parseable floats in params" do
+      params = %{"from_latitude" => "42.349159", "from_longitude" => "-71.0655084"}
+
+      assert {:ok, latitude, longitude} = fetch_lat_lng(params, :from)
+      assert latitude == 42.349159
+      assert longitude == -71.0655084
+    end
+
+    test "returns :error if either is an empty string or nil" do
+      params = %{"from_latitude" => "42.349159",
+                 "from_longitude" => "",
+                 "to_longitude" => "-71.0655084"}
+
+      assert fetch_lat_lng(params, :from) == :error
+      assert fetch_lat_lng(params, :to) == :error
     end
   end
 end

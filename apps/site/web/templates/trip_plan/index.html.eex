@@ -6,15 +6,15 @@
       <%= label f, :from, "From:" %>
       <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: false,
                                         address: f.params["from"], address_error: "",
-                                        placeholder: "Ex: 10 Park Plaza"}) %>
-      <%= hidden_input :plan, :from_latitude %>
-      <%= hidden_input :plan, :from_longitude %>
+                                        placeholder: "Ex: 10 Park Plaza", class: location_input_class(f.params, :from)}) %>
+      <%= hidden_input :plan, :from_latitude, value: f.params["from_latitude"] %>
+      <%= hidden_input :plan, :from_longitude, value: f.params["from_longitude"] %>
     </div>
     <div class="form-group">
       <%= label f, :to, "To:" %>
       <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: false,
                                         address: f.params["to"], address_error: "",
-                                        placeholder: "Ex: Boston Children's Museum"}) %>
+                                        placeholder: "Ex: Boston Children's Museum", class: location_input_class(f.params, :to)}) %>
       <%= hidden_input :plan, :to_latitude %>
       <%= hidden_input :plan, :to_longitude %>
     </div>

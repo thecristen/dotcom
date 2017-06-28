@@ -7,10 +7,11 @@
     <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
     <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
   </button>
-  <% submit_class = if args.submit, do: " with-submit", else: "" %>
+  <% submit_class = if args.submit, do: "with-submit", else: "" %>
   <%= Phoenix.HTML.Form.text_input args.name, args.name_index,
                                    placeholder: args.placeholder, value: args.address, required: args.required,
-                                   class: "location-input" <> submit_class, id: args.id, data: [autocomplete: true] %>
+                                   class: ["location-input", " ", submit_class, " ", args.class],
+                                   id: args.id, data: [autocomplete: true] %>
   <%= if args.submit do %><button type="submit" class="btn btn-primary">GO</button><% end %>
   <div class="clear"></div>
 </div>

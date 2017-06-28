@@ -11,7 +11,8 @@ defmodule Site.Components.Inputs.InputLocation do
     address_error: "",
     placeholder: "Enter a location",
     submit: true,
-    required: true
+    required: true,
+    class: ""
   ]
 
   @type t :: %__MODULE__{
@@ -22,6 +23,7 @@ defmodule Site.Components.Inputs.InputLocation do
     address_error: String.t,
     placeholder: String.t,
     submit: boolean,
-    required: boolean
+    required: boolean,
+    class: String.t
   }
 end

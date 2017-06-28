@@ -34,4 +34,12 @@ defmodule Site.TripPlanView do
   def leg_feature(%Leg{mode: %PersonalDetail{type: :drive}}, _) do
     svg("car.svg")
   end
+
+  def location_input_class(params, key) do
+    if TripPlan.Query.fetch_lat_lng(params, Atom.to_string(key)) == :error do
+      ""
+    else
+      "trip-plan-current-location"
+    end
+  end
 end

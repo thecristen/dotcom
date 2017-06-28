@@ -10,9 +10,9 @@ defmodule TripPlan.Query do
     itineraries: {:ok, [Itinerary.t]} | {:error, any}
   }
 
-  def from_query(%{"from" => from, "to" => to} = query) do
-    from = TripPlan.geocode(from)
-    to = TripPlan.geocode(to)
+  def from_query(query) do
+    from = location(query, :from)
+    to = location(query, :to)
     itineraries = with {:ok, opts} <- opts_from_query(query),
                        {:ok, from} <- from,
                        {:ok, to} <- to do
@@ -24,6 +24,41 @@ defmodule TripPlan.Query do
       itineraries: itineraries
     }
   end
+
+  defp location(query, terminus) do
+    key = Atom.to_string(terminus)
+    location = Map.get(query, key)
+
+    case fetch_lat_lng(query, key) do
+      {:ok, latitude, longitude} ->
+        {:ok,
+          %TripPlan.NamedPosition{
+            name: location,
+            latitude: latitude,
+            longitude: longitude
+          }
+        }
+      _ ->
+        TripPlan.geocode(location)
+    end
+  end
+
+  def fetch_lat_lng(query, key) do
+    with {:ok, lat} <- optional_float(Map.get(query, "#{key}_latitude")),
+         {:ok, lng} <- optional_float(Map.get(query, "#{key}_longitude")) do
+           {:ok, lat, lng}
+    else
+      _ -> :error
+    end
+  end
+
+  defp optional_float(binary) when is_binary(binary) do
+    case Float.parse(binary) do
+      {float, ""} -> {:ok, float}
+      _ -> :error
+    end
+  end
+  defp optional_float(_), do: :error
 
   defp opts_from_query(query, opts \\ [])
   defp opts_from_query(%{"time" => "depart", "date_time" => _date_time} = query, opts) do
