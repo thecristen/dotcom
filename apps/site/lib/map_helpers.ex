@@ -1,5 +1,6 @@
 defmodule Site.MapHelpers do
   alias Routes.Route
+  alias GoogleMaps.MapData.Marker
   import Site.Router.Helpers
 
   @spec map_pdf_url(integer | atom) :: String.t | nil
@@ -52,11 +53,14 @@ defmodule Site.MapHelpers do
   def route_map_color(%Route{id: "Mattapan"}), do: "FF1428"
   def route_map_color(%Route{id: "Orange"}), do: "FF8200"
   def route_map_color(%Route{id: "Green" <> _}), do: "428608"
-  def route_map_color(_), do: "0064C8"
+  def route_map_color(_), do: "000000"
 
-  @spec map_stop_icon_path(Route.t) :: String.t
-  def map_stop_icon_path(route) do
+  @spec map_stop_icon_path(Route.t, Marker.size | nil) :: String.t
+  def map_stop_icon_path(route, size \\ nil)
+  def map_stop_icon_path(route, :mid) do
+    static_url(Site.Endpoint, "/images/map-#{route_map_color(route)}-dot-icon-mid.png")
+  end
+  def map_stop_icon_path(route, _size) do
     static_url(Site.Endpoint, "/images/map-#{route_map_color(route)}-dot-icon.png")
   end
-
 end
