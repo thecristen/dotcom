@@ -17,6 +17,8 @@ defmodule TripPlan.Query do
                        {:ok, from} <- from,
                        {:ok, to} <- to do
                     TripPlan.plan(from, to, opts)
+                  else
+                    _ -> {:error, :prereq}
                   end
     %__MODULE__{
       from: from,
