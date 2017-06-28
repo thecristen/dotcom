@@ -1,0 +1,8 @@
+Did you mean?
+<ul class="trip-plan-too-many-results">
+  <%= for result <- @results do %>
+    <li>
+      <%= link result.name, to: update_url(@conn, plan: %{@field => result.name}) %>
+    </li>
+  <% end %>
+</ul>
