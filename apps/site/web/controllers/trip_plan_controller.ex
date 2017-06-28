@@ -34,7 +34,7 @@ defmodule Site.TripPlanController do
   end
 
   defp itinerary_maps(%TripPlan.Query{itineraries: {:ok, itineraries}}) do
-    Enum.map(itineraries, &TripPlanMap.itinerary_map_src/1)
+    Enum.map(itineraries, &TripPlanMap.itinerary_map/1)
   end
   defp itinerary_maps(%TripPlan.Query{}) do
     %{}

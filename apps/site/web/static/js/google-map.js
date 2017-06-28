@@ -1,19 +1,19 @@
 export default function() {
   function initMap() {
     // Read the map data from page
-    var mapData = document.getElementById("dynamic_map_data");
+    var mapDataElements = document.getElementsByClassName("dynamic_map_data");
 
     // Clean up and leave if there is no map data available
-    if (!mapData) {
+    if (!mapDataElements || mapDataElements.length == 0) {
       // Get rid of any previously registered reavaluteMapBounds event
       window.removeEventListener("resize", reavaluteMapBounds);
       return;
     }
-    mapData = JSON.parse(mapData.innerHTML);
 
     // Render all maps by iterating over the HTMLCollection elements
     const mapElements = document.getElementsByClassName("dynamic-map");
     for (var i = 0; i < mapElements.length; i++) {
+      var mapData = JSON.parse(mapDataElements[i].innerHTML)
       initializeMap(mapElements[i], mapData, i);
     }
 
@@ -33,12 +33,6 @@ var markers = {};
 function initializeMap(el, mapData, offset) {
   if (typeof google != "undefined") {
     el.className += " google-map";
-
-    // if there is a static map, hide it
-    const staticMap = document.getElementById("static-map");
-    if (staticMap) {
-      staticMap.style.display = "none";
-    }
     displayMap(el, mapData, offset);
   } else {
     const existingCallback = window.mapsCallback || function() {};

@@ -58,3 +58,12 @@
   color: $btn-primary-color;
   text-align: center;
 }
+
+.trip-plan-map {
+  height: $base-spacing * 31.5;
+  margin-bottom: $base-spacing;
+
+  @include media-breakpoint-down(sm) {
+    height: $base-spacing * 20;
+  }
+}
