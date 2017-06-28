@@ -18,17 +18,30 @@ defmodule UrlHelpersTest do
   end
 
   describe "update_query/2" do
-    test "maintains existing parameters while updating passed params", %{conn: conn} do
-      assert update_query(conn, @update) == @expected_query
+    test "maintains existing parameters while updating passed params" do
+      assert update_query(@original_query, @update) == @expected_query
     end
 
-    test "when updates is an empty list, does not change query", %{conn: conn} do
-      assert update_query(conn, []) == @original_query
+    test "when updates is an empty list, does not change query" do
+      assert update_query(@original_query, []) == @original_query
     end
 
-    test "can take either a map or a keyword list", %{conn: conn} do
-      assert update_query(conn, [param2: "2"]) == @expected_query
-      assert update_query(conn, %{param2: "2"}) == @expected_query
+    test "can take either a map or a keyword list" do
+      assert update_query(@original_query, [param2: "2"]) == @expected_query
+      assert update_query(@original_query, %{param2: "2"}) == @expected_query
+    end
+
+    test "can update a nested query string" do
+      original = %{
+        "top" => "level",
+        "parent" => %{
+          "a" => "b",
+          "c" => "d"
+        }
+      }
+      actual = update_query(original, %{parent: %{a: "updated"}})
+      expected = put_in original["parent"]["a"], "updated"
+      assert actual == expected
     end
   end
 
