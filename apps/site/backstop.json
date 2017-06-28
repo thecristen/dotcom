@@ -116,7 +116,7 @@
       "misMatchThreshold": 0.1
     },
     {
-      "label": "Header (Getting Around)",
+      "label": "Header Getting Around",
       "url": "http://localhost:8082/?date=2017-09-01",
       "selectors": ["#gettingAround"],
       "readyEvent": null,
@@ -125,7 +125,7 @@
       "onReadyScript": "header.js"
     },
     {
-      "label": "Header (Fares)",
+      "label": "Header Fares",
       "url": "http://localhost:8082/?date=2017-09-01",
       "selectors": ["#fares"],
       "readyEvent": null,
@@ -134,7 +134,7 @@
       "onReadyScript": "header.js"
     },
     {
-      "label": "Header (Contact Us)",
+      "label": "Header Contact Us",
       "url": "http://localhost:8082/?date=2017-09-01",
       "selectors": ["#contactUs"],
       "readyEvent": null,
@@ -143,7 +143,7 @@
       "onReadyScript": "header.js"
     },
     {
-      "label": "Header (More)",
+      "label": "Header More",
       "url": "http://localhost:8082/?date=2017-09-01",
       "selectors": ["#more"],
       "readyEvent": null,
@@ -159,7 +159,7 @@
       "misMatchThreshold" : 0.1
     },
     {
-      "label": "Station Info Tab (South Station)",
+      "label": "Station Info Tab South Station",
       "url": "http://localhost:8082/stops/place-sstat?date=2017-09-01&tab=info",
       "hideSelectors": [".station-info-map"],
       "selectors": ["#station-info"],
@@ -193,7 +193,7 @@
       "delay": 100
     },
     {
-      "label": "Station Info (Framingham)",
+      "label": "Station Info Framingham",
       "url": "http://localhost:8082/stops/Framingham?tab=schedule&date=2017-09-01&date_time=2017-09-01T17%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".station-info-map"],
       "selectors": ["main"],
@@ -201,7 +201,7 @@
       "misMatchThreshold": 0.1
     },
     {
-      "label": "Station Info (South Station)",
+      "label": "Station Info South Station",
       "url": "http://localhost:8082/stops/place-sstat?tab=schedule&date=2017-09-01&date_time=2017-09-01T17%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".station-info-map"],
       "selectors": ["main"],
@@ -209,14 +209,14 @@
       "misMatchThreshold": 0.1
     },
     {
-      "label": "Stops List (Subway)",
+      "label": "Stops List Subway",
       "url": "http://localhost:8082/stops/subway",
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
     },
     {
-      "label": "Stops List (Commuter Rail)",
+      "label": "Stops List Commuter Rail",
       "url": "http://localhost:8082/stops/commuter_rail",
       "selectors": ["main"],
       "delay": 100,
