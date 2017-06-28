@@ -48,8 +48,6 @@
   </div>
   <div class="col-md-7">
     <%= if assigns[:query] do %>
-      <p><%= optional_position(@query.from) %></p>
-      <p><%= optional_position(@query.to) %></p>
       <%= case @query.itineraries do %>
         <% {:ok, itineraries} -> %>
           <%= for {i, map, alerts, index} <- Enum.zip([itineraries, @itinerary_maps, @alerts, Stream.iterate(1, & &1 + 1)]) do %>

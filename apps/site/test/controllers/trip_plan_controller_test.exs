@@ -64,7 +64,7 @@ defmodule Site.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index, @bad_params)
       response = html_response(conn, 200)
       assert response =~ "Directions"
-      assert response =~ "Too many results returned"
+      assert response =~ "Did you mean?"
       assert conn.assigns.requires_google_maps?
       assert %TripPlan.Query{} = conn.assigns.query
     end

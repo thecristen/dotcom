@@ -30,24 +30,6 @@ defmodule Site.TripPlanView do
     "An unknown error occurred. Please try again, or try a different address."
   end
 
-  def optional_position({:ok, _}), do: ""
-  def optional_position({:error, {:too_many_results, results}}) do
-    content_tag :div do
-      [
-        "Too many results returned",
-        tag(:br),
-        content_tag :ul do
-          for result <- results do
-            content_tag :li, [result.name]
-          end
-        end
-      ]
-    end
-  end
-  def optional_position({:error, error}) do
-    "Error: #{inspect error}"
-  end
-
   @doc "A small display representing the travel on a given Leg"
   @spec leg_feature(TripPlan.Leg.t, %{Routes.Route.id_t => Routes.Route.t}) :: Phoenix.HTML.Safe.t
   def leg_feature(%Leg{mode: %TransitDetail{} = mode}, route_map) do
