@@ -35,8 +35,9 @@ defmodule TripPlan.ItineraryTest do
   describe "positions/1" do
     test "returns all named positions for the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      legs = Enum.flat_map(itinerary.legs, &[&1.from, &1.to])
-      assert positions(itinerary) == legs
+      [first, second] = itinerary.legs
+      expected = [first.from, first.to, second.from, second.to]
+      assert positions(itinerary) == expected
     end
   end
 
