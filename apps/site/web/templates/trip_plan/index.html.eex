@@ -54,9 +54,8 @@
             <%= render "_itinerary.html", itinerary: i, index: index, route_map: @route_map, itinerary_map: map, alerts: alerts %>
           <% end %>
         <% {:error, e} -> %>
-        Error fetching plan: <%= inspect e %>
         <p class="no-trips page-section">No trips available</p>
-        <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
+        <p class="instructions page-section"><%= rendered_plan_error(e) %></p>
       <% end %>
     <% else %>
       <div>
