@@ -458,6 +458,30 @@ defmodule Site.ScheduleV2ViewTest do
               dynamic_map_data: %{})
       refute safe_to_string(output) =~ "Hours of Operation"
     end
+
+    test "Displays error message when there are no trips in selected direction", %{conn: conn} do
+      output = Site.ScheduleV2View.render(
+              "_line.html",
+              conn: Plug.Conn.fetch_query_params(conn),
+              stop_list_template: "_stop_list.html",
+              all_stops: [],
+              route_shapes: [],
+              expanded: nil,
+              active_shape: nil,
+              map_img_src: nil,
+              holidays: [],
+              branches: [],
+              route: %Routes.Route{type: 3},
+              date: ~D[2017-01-01],
+              destination: nil,
+              origin: nil,
+              direction_id: 1,
+              show_date_select?: false,
+              headsigns: %{0 => [], 1 => []},
+              vehicle_tooltips: %{},
+              dynamic_map_data: %{})
+      assert safe_to_string(output) =~ "There are no scheduled"
+    end
   end
 
   describe "frequency_times/2" do
@@ -639,6 +663,19 @@ defmodule Site.ScheduleV2ViewTest do
                                             date: Util.service_date(),
                                             conn: conn)
       refute safe_to_string(rendered) =~ "View inbound trips"
+    end
+
+    test "Does not list date if none is given", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      rendered = Site.ScheduleV2View.render("_empty.html",
+                                            error: nil,
+                                            origin: nil,
+                                            destination: nil,
+                                            direction: "inbound",
+                                            date: nil,
+                                            conn: conn)
+      refute safe_to_string(rendered) =~ "on"
+      assert safe_to_string(rendered) =~ "There are no scheduled inbound"
     end
   end
 

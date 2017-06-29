@@ -188,6 +188,13 @@ defmodule Site.ScheduleV2View do
       "."
     ]
   end
+  def no_trips_message(_, _, _, direction, nil) when not is_nil(direction) do
+    [
+      "There are no scheduled ",
+      String.downcase(direction),
+      " trips."
+    ]
+  end
   def no_trips_message(_, _, _, direction, date) when not is_nil(direction) do
     [
       "There are no scheduled ",

@@ -11,6 +11,11 @@ defmodule Site.ScheduleV2Controller.LineTest do
       result = get_branches(shapes, nil, %Routes.Route{id: "Green"}, 0)
       assert Enum.map(result, & &1.branch) == ["Green-E", "Green-D", "Green-C", "Green-B"]
     end
+
+    test "Does not return branches when route has no trips in given direction", %{conn: conn} do
+      conn = get(conn, line_path(conn, :show, "195", direction_id: 0))
+      assert conn.assigns.branches == []
+    end
   end
 
   describe "build_stop_list/2 for Green Line" do
