@@ -1,14 +1,3 @@
-<%= if @stops_with_routes == [] do %>
-<p class="tnm-mode-links">
-  <span>Or view by mode:</span>
-  <span class="no-wrap">
-    <a href="#commuter_rail" data-scroll="true">Commuter Rail</a>,
-    <a href="#bus" data-scroll="true">Bus</a>,
-    <a href="#subway" data-scroll="true">Subway</a>,
-    <a href="#ferry" data-scroll="true">Ferry</a>
-  </span>
-</p>
-<% end %>
 <div class="transit-near-me-results <%= result_container_classes(@class, @stops_with_routes) %>">
   <%= for %{stop: stop, distance: distance, routes: routes} <- @stops_with_routes do %>
     <%= render "_card.html", stop: stop, distance: distance, routes: routes, conn: @conn %>

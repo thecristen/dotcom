@@ -3,6 +3,6 @@
   <%= form_for @conn, @conn.request_path<>"#transit-near-me-input", [as: :location, method: :get, class: "form"], fn _f -> %>
     <%= input_location(%InputLocation{id: "transit-near-me-input", name: :location, name_index: :address,
                                       address: @tnm_address, address_error: get_flash(@conn, :info), submit: true,
-                                      required: true, placeholder: "Enter a location"}) %>
+                                      required: true, placeholder: "Enter a location", button_class: @button_class}) %>
   <% end %>
 </div>

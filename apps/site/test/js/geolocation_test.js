@@ -40,9 +40,11 @@ describe('geolocation', () => {
   describe('clickHandler', () => {
     beforeEach(() => {
       $('#test').html(`
-        <button data-geolocation-target="target" data-id="test">
-          locate me
-          <span class="hidden-xs-up loading-indicator"></span>
+        <button class="location-link " data-geolocation-target="true" data-id="test" data-field="location[address]">
+          <span class="location-arrow"><i aria-hidden="true" class="fa fa-location-arrow "></i></span>
+          Use my current location
+          <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
+          <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
         </button>
         <div id="test-geolocation-error"></div>
       `);
@@ -58,7 +60,20 @@ describe('geolocation', () => {
             getCurrentPosition: () => { geolocationCalled = true; }
           }
         }
-      )({preventDefault: () => {}, target: $('button')[0]});
+      )({preventDefault: () => {}, target: $('.location-link')[0]});
+
+      assert.isTrue(geolocationCalled);
+    });
+
+    it("allows a click on the span containing the arrow", () => {
+      var geolocationCalled = false;
+      clickHandler($,
+        { geolocation: {
+            getCurrentPosition: () => { geolocationCalled = true; }
+          }
+        }
+      )({preventDefault: () => {}, target: $('.location-link .location-arrow')[0]});
+
       assert.isTrue(geolocationCalled);
     });
 
@@ -69,7 +84,7 @@ describe('geolocation', () => {
             getCurrentPosition: () => {}
           }
         }
-      )({preventDefault: () => {}, target: $('button')[0]});
+      )({preventDefault: () => {}, target: $('.location-link')[0]});
       assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
     });
   });
@@ -80,9 +95,11 @@ describe('geolocation', () => {
 
     beforeEach(() => {
       $('#test').html(`
-        <button data-geolocation-target="target" data-id="test" data-action="reload" data-field="location[address]">
-          locate me
-          <span class="loading-indicator"></span>
+        <button class="location-link" data-geolocation-target="target" data-id="test" data-action="reload" data-field="location[address]">
+          <span class="location-arrow"><i aria-hidden="true" class="fa fa-location-arrow "></i></span>
+          Use my current location
+          <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
+          <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
         </button>
         <div id="test-geolocation-error"></div>
       `);
@@ -96,7 +113,7 @@ describe('geolocation', () => {
       $('#test').on('geolocation:complete', geolocationCallback);
       geolocation($, document, { geolocation: true });
 
-      locationHandler($, $('button'), $('#test-geolocation-error'))({
+      locationHandler($, $('.location-link'), $('#test-geolocation-error'))({
         coords: {
           latitude: lat,
           longitude: long
@@ -119,41 +136,41 @@ describe('geolocation', () => {
         done();
       });
 
-      $('#test button').trigger('click');
+      $('#test .location-link').trigger('click');
     });
   });
 
   describe('locationError', () => {
     beforeEach(() => {
       $('#test').html(`
-        <button data-geolocation-target="target" data-id="test">
-          locate me
-          <span class="loading-indicator"></span>
+        <button class="location-link " data-geolocation-target="true" data-id="test" data-field="location[address]">
+          <span class="location-arrow"><i aria-hidden="true" class="fa fa-location-arrow "></i></span>
+          Use my current location
+          <i aria-hidden="true" class="fa fa-cog fa-spin loading-indicator"></i>
         </button>
-        <div class="transit-near-me-error">flash error</div>
-        <div id="test-geolocation-error"></div>
+        <div id="test-geolocation-error" class="location-error hidden-xs-up"></div>
       `);
     });
 
     it('hides the loading indicator', () => {
       assert.isFalse($('.loading-indicator').hasClass('hidden-xs-up'));
-      locationError($, $('button'), $('#test-geolocation-error'))({code: ''});
+      locationError($, $('.location-link'), $('#test-geolocation-error'))({code: ''});
       assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
     });
 
     it('shows an error message on timeout or geolocation failure', () => {
-      locationError($, $('button'), $('#test-geolocation-error'))({code: 'timeout', TIMEOUT: 'timeout'});
+      locationError($, $('.location-link'), $('#test-geolocation-error'))({code: 'timeout', TIMEOUT: 'timeout'});
       assert.isFalse($('#tnm-geolocation-error').hasClass('hidden-xs-up'));
     });
 
     it('shows a single error message', () => {
-      locationError($, $('button'), $('#test-geolocation-error'))({code: 'permission', PERMISSION_DENIED: 'permission'});
-      assert.equal($('.transit-near-me-error').not('.hidden-xs-up').length, 1);
+      locationError($, $('.location-link'), $('#test-geolocation-error'))({code: 'permission', PERMISSION_DENIED: 'permission'});
+      assert.equal($('.location-error').not('.hidden-xs-up').length, 1);
     });
 
     it('shows an error message if permission is denied', () => {
-      locationError($, $('button'), $('#test-geolocation-error'))({code: 'permission', PERMISSION_DENIED: 'permission'});
-      assert.isFalse($('#tnm-geolocation-error').hasClass('hidden-xs-up'));
+      locationError($, $('.location-link'), $('#test-geolocation-error'))({code: 'permission', PERMISSION_DENIED: 'permission'});
+      assert.isFalse($('#test-geolocation-error').hasClass('hidden-xs-up'));
     });
   });
 });

@@ -20,7 +20,7 @@ function beforeVisit($) {
 export function clickHandler($, navigator) {
   return (event) => {
     event.preventDefault();
-    const $btn = $(event.target);
+    const $btn = locationButton($(event.target));
     const $errorEl = $('#' + $btn.data("id") + '-geolocation-error');
     toggleLoadingIndicator($, $btn);
     $errorEl.addClass('hidden-xs-up');
@@ -59,4 +59,12 @@ function toggleLoadingIndicator($, $btn) {
   $('#' + id).on('geolocation:complete', () => {
     $indicator.addClass('hidden-xs-up');
   });
+}
+
+function locationButton($el) {
+  var target = $el;
+  while (!target.data().geolocationTarget) {
+    target = target.parent();
+  }
+  return target;
 }

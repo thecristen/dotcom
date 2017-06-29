@@ -12,7 +12,8 @@ defmodule Site.Components.Inputs.InputLocation do
     placeholder: "Enter a location",
     submit: true,
     required: true,
-    class: ""
+    input_class: "",
+    button_class: ""
   ]
 
   @type t :: %__MODULE__{
@@ -24,6 +25,7 @@ defmodule Site.Components.Inputs.InputLocation do
     placeholder: String.t,
     submit: boolean,
     required: boolean,
-    class: String.t
+    input_class: String.t,
+    button_class: String.t
   }
 end
