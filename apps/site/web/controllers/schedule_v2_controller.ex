@@ -18,7 +18,7 @@ defmodule Site.ScheduleV2Controller do
     tab_redirect(conn, timetable_path(conn, :show, route_id, query_params))
   end
   def show(%{assigns: %{route: %Route{id: route_id}}, query_params: query_params} = conn, _params) do
-    tab_redirect(conn, trip_view_path(conn, :show, route_id, query_params))
+    tab_redirect(conn, line_path(conn, :show, route_id, query_params))
   end
 
   defp tab_redirect(conn, path) do

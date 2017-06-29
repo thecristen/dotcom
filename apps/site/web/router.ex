@@ -38,8 +38,8 @@ defmodule Site.Router do
     get "/schedules/ferry", ModeController, :ferry
     get "/schedules/commuter_rail", ModeController, :commuter_rail
     get "/schedules/Green/line", ScheduleV2Controller.Green, :line
-    get "/schedules/Green/schedule", ScheduleV2Controller.Green, :green
-    get "/schedules/Green", ScheduleV2Controller.Green, :green
+    get "/schedules/Green/schedule", ScheduleV2Controller.Green, :trip_view
+    get "/schedules/Green", ScheduleV2Controller.Green, :show
     get "/schedules/:route/timetable", ScheduleV2Controller.TimetableController, :show, as: :timetable
     get "/schedules/:route/schedule", ScheduleV2Controller.TripViewController, :show, as: :trip_view
     get "/schedules/:route/line", ScheduleV2Controller.LineController, :show, as: :line

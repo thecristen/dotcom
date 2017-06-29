@@ -374,9 +374,9 @@ defmodule Site.ScheduleV2ControllerTest do
       path =~ "destination=6"
     end
 
-    test "trip_view as default", %{conn: conn} do
+    test "line tab as default", %{conn: conn} do
       conn = get(conn, schedule_path(conn, :show, "1"))
-      assert redirected_to(conn, 302) == trip_view_path(conn, :show, "1")
+      assert redirected_to(conn, 302) == line_path(conn, :show, "1")
     end
 
     test "line tab", %{conn: conn} do
