@@ -304,7 +304,8 @@ defmodule Site.ComponentsTest do
     def tab_args do
       %TabSelector{
         links: @links,
-        selected: "info"
+        selected: "info",
+        icon_map: %{"Info" => "info-icon"},
       }
     end
 
@@ -328,25 +329,9 @@ defmodule Site.ComponentsTest do
 
       assert rendered =~ "test-class"
     end
-  end
-
-  describe "tabs > tab_selector" do
-    @links [
-      {"sched", "Schedules", "/schedules"},
-      {"info", "Info", "/info"},
-      {"etc", "Something Else", "/something-else"}
-    ]
-
-    def selector_args do
-      %TabSelector{
-        links: @links,
-        selected: "info",
-        icon_map: %{"Info" => "info-icon"},
-      }
-    end
 
     test "Icons are shown if given" do
-      rendered = selector_args() |> tab_selector()  |> safe_to_string()
+      rendered = tab_args() |> tab_selector()  |> safe_to_string()
       option = rendered
       |> Floki.find(".tab-select-btn-selected")
       |> Enum.at(0)
@@ -356,7 +341,7 @@ defmodule Site.ComponentsTest do
     end
 
     test "Selected option is shown as such" do
-      rendered = selector_args() |> tab_selector()  |> safe_to_string()
+      rendered = tab_args() |> tab_selector()  |> safe_to_string()
       option = rendered
       |> Floki.find(".tab-select-btn-selected")
       assert inspect(option) =~ "Info"
