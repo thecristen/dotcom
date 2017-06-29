@@ -40,11 +40,11 @@ defmodule Site.LayoutView do
         |> Enum.map(fn {_, text} -> text
           text -> text
         end)
-        |> Enum.join(" < ")
-        |> Kernel.<>(" < ")
+        |> Enum.intersperse(" < ")
+        |> Enum.concat([" < "])
     end
 
-    raw(breadcrumb <> "MBTA - Massachusetts Bay Transportation Authority")
+    [breadcrumb, "MBTA - Massachusetts Bay Transportation Authority"]
   end
 
   def nav_link_content(conn), do: [
