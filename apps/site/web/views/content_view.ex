@@ -12,4 +12,7 @@ defmodule Site.ContentView do
   def render_paragraph(%Content.Paragraph.UpcomingBoardMeetings{} = para) do
     render "_upcoming_board_meetings.html", paragraph: para
   end
+  def render_paragraph(%Content.Paragraph.PeopleGrid{} = para) do
+    render "_people_grid.html", paragraph: para
+  end
 end

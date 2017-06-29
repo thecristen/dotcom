@@ -14,6 +14,7 @@ defmodule Site.ContentControllerTest do
 
       assert rendered =~ "<strong>This is a Custom HTML paragraph.</strong>"
       assert rendered =~ ~s(<div class="title-card-title">Title Card Title</div>)
+      assert_rendered_includes_people_grid_paragraph(rendered)
     end
 
     test "renders a landing page with all its paragraphs", %{conn: conn} do
@@ -33,5 +34,10 @@ defmodule Site.ContentControllerTest do
       conn = get conn, "/unknown-path-for-content"
       assert html_response(conn, 404)
     end
+  end
+
+  defp assert_rendered_includes_people_grid_paragraph(rendered) do
+    assert rendered =~ ~s(role="people-grid-paragraph")
+    assert rendered =~ "Ron Swanson"
   end
 end

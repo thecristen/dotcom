@@ -37,6 +37,17 @@ defmodule Content.ParagraphTest do
         ]
       } = from_api(api_data)
     end
+
+    test "returns the correct struct when given a people grid paragraph" do
+      api_data = api_paragraph("people_grid")
+
+      assert %Content.Paragraph.PeopleGrid{
+        people: [
+          %Content.Person{id: 1},
+          %Content.Person{id: 2}
+        ]
+      } = from_api(api_data)
+    end
   end
 
   defp api_paragraph(paragraph_type) do
