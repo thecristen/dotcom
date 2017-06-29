@@ -45,6 +45,7 @@ defmodule Site.MapHelpers do
   end
 
   @doc "Returns the map color that should be used for the given route"
+  # The Ferry color: 5DA9E8 isn't used on any maps right now.
   @spec route_map_color(Route.t) :: String.t
   def route_map_color(%Route{type: 3}), do: "FFCE0C"
   def route_map_color(%Route{type: 2}), do: "A00A78"
