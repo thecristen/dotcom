@@ -220,13 +220,24 @@ defmodule PredictedScheduleTest do
   end
 
   describe "time/1" do
-    test "Scheduled time is given if one is available" do
+    test "Predicted time is given if one is available" do
       predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules), prediction: List.last(@predictions)}
+      assert time(predicted_schedule) == List.last(@predictions).time
+    end
+    test "Scheduled time is used if no prediction present" do
+      predicted_schedule = %PredictedSchedule{schedule: List.first(@schedules)}
       assert time(predicted_schedule) == List.first(@schedules).time
     end
-    test "Predicted time is used if no schedule present" do
-      predicted_schedule = %PredictedSchedule{schedule: nil, prediction: List.last(@predictions)}
-      assert time(predicted_schedule) == List.last(@predictions).time
+    test "Scheduled time is used if the prediction is present but without a time" do
+      schedule = List.first(@schedules)
+      prediction = %{List.last(@predictions) | time: nil, schedule_relationship: :cancelled}
+      predicted_schedule = %PredictedSchedule{schedule: schedule, prediction: prediction}
+      assert time(predicted_schedule) == schedule.time
+    end
+    test "returns nil if there isn't a scheduled time or a predicted time" do
+      prediction = %{List.last(@predictions) | time: nil, status: "Approaching"}
+      predicted_schedule = %PredictedSchedule{prediction: prediction}
+      assert time(predicted_schedule) == nil
     end
   end
 
@@ -337,7 +348,7 @@ defmodule PredictedScheduleTest do
 
       assert upcoming?(%PredictedSchedule{schedule: late_schedule, prediction: late_prediction}, @base_time)
       refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: early_prediction}, @base_time)
-      refute upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: late_schedule}, @base_time)
+      assert upcoming?(%PredictedSchedule{schedule: early_schedule, prediction: late_prediction}, @base_time)
     end
 
     test "departing? field is used if no time is available" do

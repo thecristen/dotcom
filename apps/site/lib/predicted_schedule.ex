@@ -102,8 +102,16 @@ defmodule PredictedSchedule do
   or a predicted time. **Predicted Times are preferred**
   """
   @spec time(PredictedSchedule.t) :: DateTime.t | nil
-  def time(%PredictedSchedule{schedule: nil, prediction: prediction}), do: prediction.time
-  def time(%PredictedSchedule{schedule: schedule}), do: schedule.time
+  def time(%PredictedSchedule{prediction: %Prediction{time: time}}) when not is_nil(time) do
+    time
+  end
+  def time(%PredictedSchedule{schedule: %Schedule{time: time}}) do
+    time
+  end
+  def time(%PredictedSchedule{}) do
+    # this falls through when there's no predicted time and no scheduled time
+    nil
+  end
 
   @doc """
   Retrieves status from predicted schedule if one is available
