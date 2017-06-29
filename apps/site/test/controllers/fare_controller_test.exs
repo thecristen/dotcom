@@ -26,44 +26,51 @@ defmodule Site.FareControllerTest do
     end
   end
 
-  test "renders commuter rail", %{conn: conn} do
-    conn = get conn, fare_path(conn, :show, :commuter_rail, origin: "place-sstat", destination: "Readville")
-    assert html_response(conn, 200) =~ "Commuter Rail Fares"
-  end
-
-  test "renders ferry", %{conn: conn} do
-    conn = get conn, fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Logan")
-    response = html_response(conn, 200)
-    assert response =~ "Ferry Fares"
-    assert response =~ "Valid between"
-    assert response =~ "Long Wharf"
-    assert response =~ "Logan"
-  end
-
-  test "renders ferry when no destinations", %{conn: conn} do
-    conn = get conn, fare_path(conn, :show, :ferry)
-    response = html_response(conn, 200)
-    assert response =~ "Find Your Fare"
-  end
-
-  test "renders bus/subway", %{conn: conn} do
-    conn = get conn, fare_path(conn, :show, :bus_subway)
-    assert html_response(conn, 200) =~ "Bus and Subway Fares"
-  end
-
-  test "lists vending machine stations on bus/subway page", %{conn: conn} do
-    conn = get conn, fare_path(conn, :show, :bus_subway)
-    for station  <- ["Back Bay", "Braintree", "Forest Hills", "JFK/UMass", "Lynn", "Malden Center", "North Station",
-    "Porter Square", "Quincy Center", "Ruggles", "South Station", "Worcester/Union"] do
-      assert html_response(conn, 200) =~ station
+  describe "show" do
+    test "renders commuter rail", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :commuter_rail, origin: "place-sstat", destination: "Readville")
+      assert html_response(conn, 200) =~ "Commuter Rail Fares"
     end
-  end
 
-  test "lists charliecard stations on bus/subway page", %{conn: conn} do
-    conn = get conn, fare_path(conn, :show, :bus_subway)
-    for station <- ["Alewife", "Arlington", "Ashmont", "Back Bay", "Dudley Square", "Forest Hills", "Harvard Square",
-    "North Station", "Oak Grove", "Park", "Ruggles"] do
-      assert html_response(conn, 200) =~ station
+    test "renders ferry", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Logan")
+      response = html_response(conn, 200)
+      assert response =~ "Ferry Fares"
+      assert response =~ "Valid between"
+      assert response =~ "Long Wharf"
+      assert response =~ "Logan"
+    end
+
+    test "renders ferry when no destinations", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :ferry)
+      response = html_response(conn, 200)
+      assert response =~ "Find Your Fare"
+    end
+
+    test "renders bus/subway", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :bus_subway)
+      assert html_response(conn, 200) =~ "Bus and Subway Fares"
+    end
+
+    test "lists vending machine stations on bus/subway page", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :bus_subway)
+      for station  <- ["Back Bay", "Braintree", "Forest Hills", "JFK/UMass", "Lynn", "Malden Center", "North Station",
+      "Porter Square", "Quincy Center", "Ruggles", "South Station", "Worcester/Union"] do
+        assert html_response(conn, 200) =~ station
+      end
+    end
+
+    test "lists charliecard stations on bus/subway page", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :bus_subway)
+      for station <- ["Alewife", "Arlington", "Ashmont", "Back Bay", "Dudley Square", "Forest Hills", "Harvard Square",
+      "North Station", "Oak Grove", "Park", "Ruggles"] do
+        assert html_response(conn, 200) =~ station
+      end
+    end
+
+    test "renders a page about retail sale locations", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :retail_sales_locations)
+      assert html_response(conn, 200) =~ "Retail Sales Locations"
     end
   end
 

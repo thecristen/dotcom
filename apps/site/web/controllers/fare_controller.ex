@@ -39,7 +39,9 @@ defmodule Site.FareController do
       ]
     ]
   end
-
+  def show(conn, %{"id" => "retail_sales_locations"}) do
+    render(conn, "retail_sales_locations.html")
+  end
   def show(conn, params) do
     params["id"]
     |> fare_module
