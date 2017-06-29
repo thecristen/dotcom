@@ -133,26 +133,32 @@
 }
 
 .hub-stop-link {
-  align-items: center;
-  display: flex;
-  margin: $base-spacing 0;
+  margin: $base-spacing / 2 0;
 
   @include media-breakpoint-down(sm) {
     background-color: $white;
+    min-width: 100%;
     padding: $space-12;
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: 33%;
   }
 
   .stop-features-list {
     display: inline-block;
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 0;
     float: none;
   }
 
   .commuter-rail-zone {
     margin-left: $base-spacing / 2;
   }
+
+  .hub-stop-name {
+    display: inline-block;
+    flex: 1 0 0%;
+  }
+
 }
 
 .hub-stop-container {
@@ -163,17 +169,41 @@
 
 .hub-stop-list {
   margin-bottom: 0;
-  padding: 0;
 
   @include media-breakpoint-down(sm) {
     background-color: $gray-lightest;
     margin-bottom: $base-spacing;
-    padding: $space-6 0;
+    padding: $space-6 $base-spacing;
   }
 
-  .hub-stop-name {
-    display: inline-block;
-    flex: 1 0 0%;
+}
+
+.detailed-stop-list {
+  margin: 1px 1px 0 0;
+  outline: 1px solid $gray-lightest;
+
+  @include media-breakpoint-only(xs) {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+
+  @include media-breakpoint-only(sm) {
+    flex: 1 1 34%;
+    max-width: 50%;
+  }
+
+  @include media-breakpoint-up(md) {
+    flex: 1 1 33%;
+    max-width: 33%;
+    min-width: 33%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .button {
+    border: 0;
   }
 }
 

@@ -2,7 +2,6 @@
   <%= button_group(%Site.Components.Buttons.ButtonGroup{
     class: "#{args.class}",
     id: args.id,
-    links: make_buttons(args),
-    breakpoint_widths: mode_breakpoint_widths(args.route_type)
+    links: make_buttons(args)
   }) %>
 <% end %>

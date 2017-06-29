@@ -68,25 +68,99 @@
 
 .button-group,
 %button-group {
-  @include clearfix();
+  display: flex;
+  flex-wrap: wrap;
   margin: 0 auto $grid-gutter-width / 2;
   width: 100%;
 
   .button-container {
+    @extend %button-focus-color;
+    align-items: center;
     background: $white;
-    float: left;
+    display: flex;
+    flex: 1 1 33%;
     margin-top: 1px;
+    min-height: 3rem;
     outline: 1px solid $gray-lightest;
     padding: 0;
 
-    .button {
-      border-width: 0;
-      width: 100%;
+    @include media-breakpoint-down(xs) {
+      flex: 0 1 100%;
+      min-width: 100%;
+    }
 
-      @include media-breakpoint-up(md) {
-        padding-bottom: $base-spacing-sm;
-        padding-top: $base-spacing-sm;
-      }
+    @include media-breakpoint-up(sm) {
+      flex: 0 1 33%;
+      min-width: 33%;
+    }
+
+    .button {
+      align-items: center;
+      border-width: 0;
+      flex: 1;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+  }
+}
+
+.commuter-rail {
+  .button-container {
+    @include media-breakpoint-down(sm) {
+      flex: 1 1 50%;
+      min-width: 50%;
+    }
+
+    @include media-breakpoint-only(md) {
+      flex: 1 1 33%;
+      min-width: 33%;
+    }
+
+    @include media-breakpoint-up(lg) {
+      flex: 1 1 25%;
+      min-width: 25%;
+    }
+  }
+}
+
+.subway {
+  .button-container {
+    @include media-breakpoint-down(sm) {
+      flex: 0 1 50%;
+      min-width: 50%;
+    }
+
+    @include media-breakpoint-up(md) {
+      flex: 0 1 25%;
+      min-width: 25%;
+    }
+  }
+}
+
+.bus {
+  .button-container {
+    @include media-breakpoint-down(sm) {
+      flex: 1 1 33%;
+      min-width: 33%;
+    }
+
+    @include media-breakpoint-up(md) {
+      flex: 1 1 20%;
+      min-width: 20%;
+    }
+  }
+}
+
+.the-ride {
+  .button-container {
+    @include media-breakpoint-down(xs) {
+      flex: 0 1 100%;
+      min-width: 100%;
+    }
+
+    @include media-breakpoint-up(sm) {
+      flex: 0 1 50%;
+      min-width: 50%;
     }
   }
 }
