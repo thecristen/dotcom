@@ -9,7 +9,7 @@ defmodule Site.TripPlan.MapTest do
   describe "itinerary_map/3" do
     setup do
       {:ok, [itinerary]} = TripPlan.plan(@from, @to, depart_at: @date_time)
-      {map_data, _static_url} = itinerary_map(itinerary, &route_mapper/1, &stop_mapper/1)
+      {map_data, _static_url} = itinerary_map(itinerary, [route_mapper: &route_mapper/1, stop_mapper: &stop_mapper/1])
       {:ok, %{itinerary: itinerary, map_data: map_data}}
     end
 

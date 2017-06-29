@@ -10,6 +10,11 @@ defmodule Site.TripPlan.Map do
   @type route_mapper :: (String.t -> Route.t | nil)
   @type stop_mapper :: (String.t -> Stops.Stop.t | nil)
 
+  @default_opts [
+    route_mapper: &Routes.Repo.get/1,
+    stop_mapper: &Stops.Repo.get/1
+  ]
+
   @moduledoc """
   Handles generating the maps displayed within the TripPlan Controller
   """
@@ -35,16 +40,16 @@ defmodule Site.TripPlan.Map do
   Accepts a function that will return either a
   Route or nil when given a route_id
   """
-  @spec itinerary_map(Itinerary.t, route_mapper, stop_mapper) :: t
-  def itinerary_map(itinerary, route_mapper, stop_mapper \\ &Stops.Repo.get/1) do
-    map_data = itinerary_map_data(itinerary, route_mapper, stop_mapper)
+  @spec itinerary_map(Itinerary.t, Keyword.t) :: t
+  def itinerary_map(itinerary, opts \\ []) do
+    map_data = itinerary_map_data(itinerary, Keyword.merge(@default_opts, opts))
     {map_data, GoogleMaps.static_map_url(map_data)}
   end
 
-  @spec itinerary_map_data(Itinerary.t, route_mapper, stop_mapper) :: MapData.t
-  defp itinerary_map_data(itinerary, route_mapper, stop_mapper) do
-    markers = markers_for_legs(itinerary.legs, route_mapper, stop_mapper)
-    paths = Enum.map(itinerary.legs, &build_leg_path(&1, route_mapper))
+  @spec itinerary_map_data(Itinerary.t, Keyword.t) :: MapData.t
+  defp itinerary_map_data(itinerary, opts) do
+    markers = markers_for_legs(itinerary.legs, opts)
+    paths = Enum.map(itinerary.legs, &build_leg_path(&1, opts[:route_mapper]))
 
     {600, 600}
     |> MapData.new()
@@ -58,18 +63,18 @@ defmodule Site.TripPlan.Map do
     Path.new(leg.polyline, color)
   end
 
-  @spec markers_for_legs([Leg.t], route_mapper, stop_mapper) :: [Marker.t]
-  defp markers_for_legs(legs, route_mapper, stop_mapper) do
-    Enum.flat_map(legs, &build_marker_for_leg(&1, route_mapper, stop_mapper))
+  @spec markers_for_legs([Leg.t], Keyword.t) :: [Marker.t]
+  defp markers_for_legs(legs, opts) do
+    Enum.flat_map(legs, &build_marker_for_leg(&1, opts))
   end
 
-  @spec build_marker_for_leg(Leg.t, route_mapper, stop_mapper) :: [Marker.t]
-  defp build_marker_for_leg(leg, route_mapper, stop_mapper) do
+  @spec build_marker_for_leg(Leg.t, Keyword.t) :: [Marker.t]
+  defp build_marker_for_leg(leg, opts) do
     route = case Leg.route_id(leg) do
       :error -> nil
-      {:ok, route_id} -> route_mapper.(route_id)
+      {:ok, route_id} -> opts[:route_mapper].(route_id)
     end
-    Enum.map([leg.from, leg.to], &build_marker_for_leg_position(&1, route, stop_mapper))
+    Enum.map([leg.from, leg.to], &build_marker_for_leg_position(&1, route, opts[:stop_mapper]))
   end
 
   @spec build_marker_for_leg_position(NamedPosition.t, Route.t, stop_mapper) :: Marker.t

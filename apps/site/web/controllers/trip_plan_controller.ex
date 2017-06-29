@@ -14,7 +14,7 @@ defmodule Site.TripPlanController do
     render conn,
       query: query,
       route_map: route_map,
-      itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
+      itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, [route_mapper: route_mapper])),
       alerts: with_itineraries(query, [], &alerts(&1, route_map))
   end
   def index(conn, _params) do
