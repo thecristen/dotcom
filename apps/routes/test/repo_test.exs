@@ -121,15 +121,6 @@ defmodule Routes.RepoTest do
       }
     end
 
-    test "returns multiple headsigns for a direction" do
-      headsigns = Routes.Repo.headsigns("66")
-
-      assert headsigns == %{
-        0 => ["Harvard via Allston", "Brighton Center via Brookline", "Union Square, Allston via Brookline"],
-        1 => ["Dudley via Allston"]
-      }
-    end
-
     test "returns headsigns for rail routes" do
       headsigns = Routes.Repo.headsigns("CR-Lowell")
 
@@ -171,7 +162,7 @@ defmodule Routes.RepoTest do
       shapes = Routes.Repo.get_shapes("9", 1)
       shape = List.first(shapes)
 
-      assert Enum.count(shapes) == 3
+      assert Enum.count(shapes) >= 2
       assert shape.id == "090111"
       assert Enum.count(shape.stop_ids) == 28
     end
