@@ -26,6 +26,7 @@ defmodule GoogleMaps.MapData.Path do
   @doc "formats a single path for a static map url"
   @spec format_static_path(t) :: String.t
   def format_static_path(path) do
-    "weight:#{path.weight}|color:#{path.color}|enc:#{path.polyline}"
+    formatted_color = "0x" <> path.color <> "FF"
+    "weight:#{path.weight}|color:#{formatted_color}|enc:#{path.polyline}"
   end
 end

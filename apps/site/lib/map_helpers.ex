@@ -1,5 +1,6 @@
-defmodule MapHelpers do
+defmodule Site.MapHelpers do
   alias Routes.Route
+  import Site.Router.Helpers
 
   @spec map_pdf_url(integer | atom) :: String.t | nil
   def map_pdf_url(mode_number) when mode_number in 0..4 do
@@ -41,4 +42,21 @@ defmodule MapHelpers do
   def map_image_url(_) do
     "/images/subway-spider.jpg"
   end
+
+  @doc "Returns the map color that should be used for the given route"
+  @spec route_map_color(Route.t) :: String.t
+  def route_map_color(%Route{type: 3}), do: "FFCE0C"
+  def route_map_color(%Route{type: 2}), do: "A00A78"
+  def route_map_color(%Route{id: "Blue"}), do: "0064C8"
+  def route_map_color(%Route{id: "Red"}), do: "FF1428"
+  def route_map_color(%Route{id: "Mattapan"}), do: "FF1428"
+  def route_map_color(%Route{id: "Orange"}), do: "FF8200"
+  def route_map_color(%Route{id: "Green" <> _}), do: "428608"
+  def route_map_color(_), do: "0064C8"
+
+  @spec map_stop_icon_path(Route.t) :: String.t
+  def map_stop_icon_path(route) do
+    static_url(Site.Endpoint, "/images/map-#{route_map_color(route)}-dot-icon.png")
+  end
+
 end
