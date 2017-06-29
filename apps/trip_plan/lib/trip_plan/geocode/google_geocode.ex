@@ -3,7 +3,12 @@ defmodule TripPlan.Geocode.GoogleGeocode do
 
   alias TripPlan.NamedPosition
 
-  def geocode(address) do
+  @impl true
+  def geocode(address)
+  def geocode("") do
+    {:error, :required}
+  end
+  def geocode(address) when is_binary(address) do
     with {:ok, addresses} <- GoogleMaps.Geocode.geocode(address),
          results = Enum.map(addresses, &address_to_result/1),
          [result] <- results do

@@ -1,12 +1,43 @@
 defmodule Site.TripPlanViewTest do
-  use ExUnit.Case, async: true
+  use Site.ConnCase, async: true
   import Site.TripPlanView
+  import Phoenix.HTML, only: [safe_to_string: 1]
+  import UrlHelpers, only: [update_url: 2]
   alias TripPlan.Api.MockPlanner
 
   @from MockPlanner.random_stop()
   @to MockPlanner.random_stop()
   @start ~N[2017-01-01T00:00:00]
   @stop ~N[2017-01-01T23:59:59]
+
+  describe "rendered_location_error/3" do
+    test "renders an empty string if there's no query", %{conn: conn} do
+      assert "" == rendered_location_error(conn, nil, :from)
+    end
+
+    test "renders an empty string if the query has a good value for the field", %{conn: conn} do
+      query = %TripPlan.Query{from: {:ok, @from}, to: {:error, :unknown}, itineraries: {:error, :unknown}}
+      assert "" == rendered_location_error(conn, query, :from)
+      refute "" == rendered_location_error(conn, query, :to)
+    end
+
+    test "renders each position as a link if we have too many results", %{conn: conn} do
+      {:error, {:too_many_results, results}} = from = TripPlan.geocode("too many results")
+      query = %TripPlan.Query{
+        from: from,
+        to: {:error, :unknown},
+        itineraries: {:error, :unknown}}
+      conn = Map.put(conn, :query_params, %{})
+      rendered = conn
+      |> rendered_location_error(query, :from)
+      |> safe_to_string
+      assert rendered =~ "Did you mean?"
+      for result <- results do
+        assert rendered =~ result.name
+        assert rendered =~ update_url(conn, %{plan: %{from: result.name}})
+      end
+    end
+  end
 
   describe "leg_feature/2" do
     test "works for all kinds of transit legs" do

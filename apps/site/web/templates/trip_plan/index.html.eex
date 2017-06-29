@@ -4,16 +4,16 @@
     <%= form_for @conn, @conn.request_path, [as: :plan, method: :get], fn f -> %>
     <div class="form-group">
       <%= label f, :from, "From:" %>
-      <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: false,
-                                        address: f.params["from"], address_error: "",
+      <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: true,
+                                        address: f.params["from"], address_error: rendered_location_error(@conn, assigns[:query], :from),
                                         placeholder: "Ex: 10 Park Plaza", input_class: location_input_class(f.params, :from)}) %>
       <%= hidden_input :plan, :from_latitude, value: f.params["from_latitude"] %>
       <%= hidden_input :plan, :from_longitude, value: f.params["from_longitude"] %>
     </div>
     <div class="form-group">
       <%= label f, :to, "To:" %>
-      <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: false,
-                                        address: f.params["to"], address_error: "",
+      <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: true,
+                                        address: f.params["to"], address_error: rendered_location_error(@conn, assigns[:query], :to),
                                         placeholder: "Ex: Boston Children's Museum", input_class: location_input_class(f.params, :to)}) %>
       <%= hidden_input :plan, :to_latitude %>
       <%= hidden_input :plan, :to_longitude %>
@@ -48,8 +48,6 @@
   </div>
   <div class="col-md-7">
     <%= if assigns[:query] do %>
-      <p><%= optional_position(@query.from) %></p>
-      <p><%= optional_position(@query.to) %></p>
       <%= case @query.itineraries do %>
         <% {:ok, itineraries} -> %>
           <%= for {i, map, alerts, index} <- Enum.zip([itineraries, @itinerary_maps, @alerts, Stream.iterate(1, & &1 + 1)]) do %>

@@ -34,6 +34,10 @@ defmodule TripPlan.Geocode.GoogleGeocodeTest do
       end
     end
 
+    test "returns {:error, :required} if no address is provided" do
+      assert {:error, :required} = geocode("")
+    end
+
     test "returns {:error, :unknown} for other errors" do
       with_geocode_mock {:error, :request_denied, "Request denied."}, fn ->
         assert {:error, :unknown} = geocode("formatted")
