@@ -23,19 +23,17 @@ defmodule Site.TripPlan.MapTest do
     test "Markers have tooltip of stop name if it exists", %{itinerary: itinerary, map_data: map_data} do
       map_tooltips = Enum.map(map_data.markers, & &1.tooltip)
       stop_ids = Enum.flat_map(itinerary.legs, &[&1.from.stop_id, &1.to.stop_id])
-      for stop <- stop_ids |> Enum.map(&stop_mapper/1) |> Enum.filter(& &1) do
-        assert stop.name in map_tooltips
+      for stop_id <- stop_ids,
+        stop = stop_mapper(stop_id) do
+          assert stop.name in map_tooltips
       end
     end
 
     test "Markers show position name if no stop exisits", %{itinerary: itinerary, map_data: map_data} do
       map_tooltips = Enum.map(map_data.markers, & &1.tooltip)
-      non_stop_positions = itinerary.legs
-      |> Enum.flat_map(&[&1.from, &1.to])
-      |> Enum.reject(& &1.stop_id)
-
-      for position <- non_stop_positions do
-        position.name in map_tooltips
+      for position <- TripPlan.Itinerary.positions(itinerary),
+        is_nil(position.stop_id) do
+          position.name in map_tooltips
       end
     end
   end
