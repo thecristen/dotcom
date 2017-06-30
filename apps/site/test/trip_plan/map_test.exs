@@ -28,6 +28,19 @@ defmodule Site.TripPlan.MapTest do
       refute Enum.empty?(stops)
       assert Enum.all?(stops, & &1.name in map_tooltips)
     end
+
+    test "z index is 1 if leg has a route", %{itinerary: itinerary, map_data: map_data} do
+      assert Enum.count(itinerary.legs) == 2
+      assert [_route_id] = Itinerary.route_ids(itinerary)
+      assert markers_with_z_index(0, map_data.markers) == 2
+      assert markers_with_z_index(1, map_data.markers) == 2
+    end
+  end
+
+  defp markers_with_z_index(idx, markers) do
+    markers
+    |> Enum.filter(& &1.z_index == idx)
+    |> Enum.count
   end
 
   defp route_mapper("Blue" = id) do
@@ -45,9 +58,6 @@ defmodule Site.TripPlan.MapTest do
 
   defp stop_mapper("place-north") do
     %Stops.Stop{name: "North Station", id: "place-north"}
-  end
-  defp stop_mapper("place-bbsta") do
-    %Stops.Stop{name: "Back Bay Station", id: "bbsta-north"}
   end
   defp stop_mapper("place-sstat") do
     %Stops.Stop{name: "South Station", id: "place-sstat"}

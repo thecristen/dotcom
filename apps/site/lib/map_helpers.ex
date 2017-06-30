@@ -46,7 +46,7 @@ defmodule Site.MapHelpers do
 
   @doc "Returns the map color that should be used for the given route"
   # The Ferry color: 5DA9E8 isn't used on any maps right now.
-  @spec route_map_color(Route.t) :: String.t
+  @spec route_map_color(Route.t | nil) :: String.t
   def route_map_color(%Route{type: 3}), do: "FFCE0C"
   def route_map_color(%Route{type: 2}), do: "A00A78"
   def route_map_color(%Route{id: "Blue"}), do: "0064C8"
@@ -61,7 +61,7 @@ defmodule Site.MapHelpers do
   can be given. A Size of :mid represents the larger stop icons.
   If no size is specified, the smaller icons are shown
   """
-  @spec map_stop_icon_path(Route.t, Marker.size | nil) :: String.t
+  @spec map_stop_icon_path(Route.t | nil, Marker.size | nil) :: String.t
   def map_stop_icon_path(route, size \\ nil)
   def map_stop_icon_path(route, :mid) do
     static_url(Site.Endpoint, "/images/map-#{route_map_color(route)}-dot-icon-mid.png")
