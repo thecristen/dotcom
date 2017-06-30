@@ -72,7 +72,7 @@
 .tab-select-btn-group-partial {
   @include media-breakpoint-up(md) {
     .btn {
-      float: left;
+      display: inline-block;
       width: 30%;
 
       border-right: 0;
