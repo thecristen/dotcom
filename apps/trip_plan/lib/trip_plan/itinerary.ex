@@ -31,7 +31,7 @@ defmodule TripPlan.Itinerary do
   end
 
   @doc "Returns a list of all the named positions for this Itinerary"
-  @spec positions(t) :: TripPlan.NamedPosition.t
+  @spec positions(t) :: [TripPlan.NamedPosition.t]
   def positions(%__MODULE__{legs: legs}) do
     Enum.flat_map(legs, &[&1.from, &1.to])
   end

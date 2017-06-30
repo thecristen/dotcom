@@ -70,32 +70,19 @@ defmodule Site.TripPlan.Map do
 
   @spec build_marker_for_leg(Leg.t, Keyword.t) :: [Marker.t]
   defp build_marker_for_leg(leg, opts) do
-    route = case Leg.route_id(leg) do
-      :error -> nil
-      {:ok, route_id} -> opts[:route_mapper].(route_id)
-    end
+    route = route_for_leg(leg, opts[:route_mapper])
     Enum.map([leg.from, leg.to], &build_marker_for_leg_position(&1, route, opts[:stop_mapper]))
   end
 
-  @spec build_marker_for_leg_position(NamedPosition.t, Route.t, stop_mapper) :: Marker.t
-  defp build_marker_for_leg_position(%NamedPosition{stop_id: nil} = position, route, _stop_mapper) do
-    do_build_marker_for_leg_position(position, position.name, route, 0)
-  end
-  defp build_marker_for_leg_position(%NamedPosition{stop_id: stop_id} = position, route, stop_mapper) do
-    tooltip = case stop_mapper.(stop_id) do
-      nil -> position.name
-      stop -> stop.name
-    end
-    z_index = if route, do: 1, else: 0
-    do_build_marker_for_leg_position(position, tooltip, route, z_index)
-  end
-
-  @spec do_build_marker_for_leg_position(NamedPosition.t, String.t, Route.t, non_neg_integer) :: Marker.t
-  defp do_build_marker_for_leg_position(leg_position, tooltip, route, z_index) do
-    lat = Position.latitude(leg_position)
-    lng = Position.longitude(leg_position)
-    icon = MapHelpers.map_stop_icon_path(route, :mid)
-    Marker.new(lat, lng, tooltip: tooltip, icon: icon, size: :mid, z_index: z_index)
+  @spec build_marker_for_leg_position(NamedPosition.t, Route.t | nil, stop_mapper) :: Marker.t
+  defp build_marker_for_leg_position(leg_position, route, stop_mapper) do
+    leg_position
+    |> Position.latitude
+    |> Marker.new(Position.longitude(leg_position),
+                  icon: MapHelpers.map_stop_icon_path(route, :mid),
+                  size: :mid,
+                  tooltip: tooltip_for_position(leg_position, stop_mapper),
+                  z_index: z_index(route))
   end
 
   @spec leg_color(Leg.t, route_mapper) :: String.t
@@ -107,4 +94,27 @@ defmodule Site.TripPlan.Map do
   defp leg_color(_leg, _route_mapper) do
     "000000"
   end
+
+  @spec route_for_leg(Leg.t, route_mapper) :: Route.t | nil
+  defp route_for_leg(leg, route_mapper) do
+    case Leg.route_id(leg) do
+      :error -> nil
+      {:ok, route_id} -> route_mapper.(route_id)
+    end
+  end
+
+  @spec tooltip_for_position(NamedPosition.t, stop_mapper) :: String.t
+  defp tooltip_for_position(%NamedPosition{stop_id: nil, name: name}, _stop_mapper) do
+    name
+  end
+  defp tooltip_for_position(%NamedPosition{stop_id: stop_id} = position, stop_mapper) do
+    case stop_mapper.(stop_id) do
+      nil -> position.name
+      stop -> stop.name
+    end
+  end
+
+  @spec z_index(Route.t | nil) :: 0 | 1
+  defp z_index(nil), do: 0
+  defp z_index(_), do: 1
 end

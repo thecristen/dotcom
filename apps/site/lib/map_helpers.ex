@@ -56,6 +56,11 @@ defmodule Site.MapHelpers do
   def route_map_color(%Route{id: "Green" <> _}), do: "428608"
   def route_map_color(_), do: "000000"
 
+  @doc """
+  Returns the map icon path for the given route. An optional size
+  can be given. A Size of :mid represents the larger stop icons.
+  If no size is specified, the smaller icons are shown
+  """
   @spec map_stop_icon_path(Route.t, Marker.size | nil) :: String.t
   def map_stop_icon_path(route, size \\ nil)
   def map_stop_icon_path(route, :mid) do

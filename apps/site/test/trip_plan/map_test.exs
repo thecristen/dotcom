@@ -1,5 +1,6 @@
 defmodule Site.TripPlan.MapTest do
   use ExUnit.Case, async: true
+  alias TripPlan.Itinerary
   import Site.TripPlan.Map
 
   @from TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
@@ -14,6 +15,7 @@ defmodule Site.TripPlan.MapTest do
     end
 
     test "All markers have icons and tooltips", %{map_data: map_data} do
+      refute Enum.empty?(map_data.markers)
       for marker <- map_data.markers do
         assert marker.icon
         assert marker.tooltip
@@ -22,19 +24,9 @@ defmodule Site.TripPlan.MapTest do
 
     test "Markers have tooltip of stop name if it exists", %{itinerary: itinerary, map_data: map_data} do
       map_tooltips = Enum.map(map_data.markers, & &1.tooltip)
-      stop_ids = Enum.flat_map(itinerary.legs, &[&1.from.stop_id, &1.to.stop_id])
-      for stop_id <- stop_ids,
-        stop = stop_mapper(stop_id) do
-          assert stop.name in map_tooltips
-      end
-    end
-
-    test "Markers show position name if no stop exisits", %{itinerary: itinerary, map_data: map_data} do
-      map_tooltips = Enum.map(map_data.markers, & &1.tooltip)
-      for position <- TripPlan.Itinerary.positions(itinerary),
-        is_nil(position.stop_id) do
-          position.name in map_tooltips
-      end
+      stops = itinerary |> Itinerary.stop_ids() |> Enum.map(&stop_mapper/1) |> Enum.filter(& &1)
+      refute Enum.empty?(stops)
+      assert Enum.all?(stops, & &1.name in map_tooltips)
     end
   end
 
