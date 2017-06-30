@@ -72,13 +72,12 @@
 .tab-select-btn-group-partial {
   @include media-breakpoint-up(md) {
     .btn {
-      display: inline-block;
-      width: 30%;
-
       border-right: 0;
       &:last-child {
         border-right: $tab-border;
       }
+      display: inline-block;
+      width: 30%;
     }
   }
 }
