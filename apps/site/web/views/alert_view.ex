@@ -98,7 +98,7 @@ defmodule Site.AlertView do
     |> replace_urls_with_links
   end
 
-  @url_regex ~r/(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/i
+  @url_regex ~r/(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w\.-]*)*\/?/i
 
   @spec replace_urls_with_links(String.t) :: Phoenix.HTML.safe
   def replace_urls_with_links(text) do
