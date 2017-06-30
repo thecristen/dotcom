@@ -166,41 +166,6 @@
   margin-bottom: .5rem;
 }
 
-.social-nav {
-  bottom: 3rem;
-  height: 0;
-  padding: 0;
-  margin-top: $space-8;
-
-  a {
-    border-radius: 100%;
-    color: $white;
-    height: 1.5em;
-    text-align: center;
-    width: 1.5em;
-  }
-
-  .nav-item {
-    text-align: right;
-  }
-}
-
-.social-nav-instagram {
-  background-color: $white;
-
-  .fa {
-    color: $instagram;
-  }
-}
-
-.social-nav-youtube {
-  background-color: $youtube;
-}
-
-.social-nav-twitter {
-  background-color: $twitter;
-}
-
 header {
   background-color: $brand-primary;
   color: $white;
