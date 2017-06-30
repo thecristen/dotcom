@@ -56,7 +56,7 @@ defmodule Site.TripPlan.AlertsTest do
     end
 
     test "returns an alert if it matches a transfer stop", %{itinerary: itinerary} do
-      stop_id = itinerary |> Itinerary.stop_ids |> List.first
+      stop_id = itinerary |> Itinerary.stop_ids |> Enum.at(1)
       good_alert = %Alert{
         active_period: [valid_active_period(itinerary)],
         informed_entity: [%IE{stop: stop_id}]

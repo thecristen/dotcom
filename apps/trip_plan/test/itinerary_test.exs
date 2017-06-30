@@ -32,6 +32,15 @@ defmodule TripPlan.ItineraryTest do
     end
   end
 
+  describe "positions/1" do
+    test "returns all named positions for the itinerary" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      [first, second] = itinerary.legs
+      expected = [first.from, first.to, second.from, second.to]
+      assert positions(itinerary) == expected
+    end
+  end
+
   describe "stop_ids/1" do
     test "returns all the stop IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])

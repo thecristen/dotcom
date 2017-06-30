@@ -97,7 +97,7 @@ function renderMarker (mapOffset) {
     var lng = markerData.longitude;
     var content = markerData.tooltip;
     var key = markerData.z_index + offset;
-    var iconSize = markerData.size == "tiny" ? 8 : 22;
+    var iconSize = getIconSize(markerData.size);
     var icon = buildIcon(markerData.icon, iconSize);
 
     // Add a marker to map
@@ -164,5 +164,18 @@ function buildIcon(iconData, iconSize) {
     };
   } else {
     return null;
+  }
+}
+
+function getIconSize(size) {
+  switch (size) {
+    case "tiny":
+      return 8;
+      break;
+    case "small":
+      return 12;
+      break;
+    default:
+      return 22; // "mid" sized
   }
 }

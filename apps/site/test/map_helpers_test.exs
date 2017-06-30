@@ -62,13 +62,16 @@ defmodule MapHelpersTest do
       assert route_map_color(%Route{id: "Mattapan"}) == "FF1428"
       assert route_map_color(%Route{id: "Orange"}) == "FF8200"
       assert route_map_color(%Route{id: "Green"}) == "428608"
-      assert route_map_color(%Route{id: "Boat"}) == "0064C8"
+      assert route_map_color(%Route{id: "OTHER"}) == "000000"
     end
   end
 
   describe "map_stop_icon_path" do
-    test "returns correct path for route" do
+    test "returns correct path for route when no size specified" do
       assert map_stop_icon_path(%Route{type: 3}) =~ "/images/map-FFCE0C-dot-icon.png"
+    end
+    test "returns correct path for route when size is specified" do
+      assert map_stop_icon_path(%Route{type: 3}, :mid) =~ "/images/map-FFCE0C-dot-icon-mid.png"
     end
   end
 end

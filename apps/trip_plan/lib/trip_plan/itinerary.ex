@@ -30,11 +30,18 @@ defmodule TripPlan.Itinerary do
     flat_map_over_legs(legs, &TripPlan.Leg.trip_id/1)
   end
 
+  @doc "Returns a list of all the named positions for this Itinerary"
+  @spec positions(t) :: [TripPlan.NamedPosition.t]
+  def positions(%__MODULE__{legs: legs}) do
+    Enum.flat_map(legs, &[&1.from, &1.to])
+  end
+
   @doc "Return a list of all the stop IDs used for this Itinerary"
   @spec stop_ids(t) :: [Schedules.Trip.id_t]
-  def stop_ids(%__MODULE__{legs: legs}) do
-    legs
-    |> Enum.flat_map(&TripPlan.Leg.stop_ids/1)
+  def stop_ids(%__MODULE__{} = itinerary) do
+    itinerary
+    |> positions
+    |> Enum.map(& &1.stop_id)
     |> Enum.uniq
   end
 
