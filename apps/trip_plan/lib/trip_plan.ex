@@ -23,7 +23,11 @@ defmodule TripPlan do
   Finds the latitude/longitude for a given address.
   """
   @spec geocode(String.t) :: TripPlan.Geocode.t
-  def geocode(address) do
+  def geocode(address)
+  def geocode("") do
+    {:error, :required}
+  end
+  def geocode(address) when is_binary(address) do
     module = Application.fetch_env!(:trip_plan, Geocode)[:module]
     apply(module, :geocode, [address])
   end

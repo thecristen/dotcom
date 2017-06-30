@@ -60,6 +60,16 @@ defmodule TripPlan.QueryTest do
       } == actual
     end
 
+    test "ignores params that are empty strings or missing" do
+      params = %{"from" => ""}
+      actual = from_query(params)
+      assert %TripPlan.Query{
+        from: {:error, :required},
+        to: {:error, :required},
+        itineraries: {:error, :prereq}
+      } = actual
+    end
+
     test "can include other params in the plan" do
       params = %{"from" => "from address",
                  "to" => "to address",
