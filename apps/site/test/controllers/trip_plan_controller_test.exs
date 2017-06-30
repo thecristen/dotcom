@@ -1,5 +1,6 @@
 defmodule Site.TripPlanControllerTest do
   use Site.ConnCase, async: true
+  import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
   @good_params %{
     "plan" => %{"from" => "from address",
@@ -26,10 +27,13 @@ defmodule Site.TripPlanControllerTest do
   describe "index with params" do
     test "renders the query plan", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
-      assert html_response(conn, 200) =~ "Directions"
+      response = html_response(conn, 200)
+      assert response =~ "Directions"
+      assert response =~ "Itinerary 1"
       assert conn.assigns.requires_google_maps?
       assert %TripPlan.Query{} = conn.assigns.query
       assert Map.size(conn.assigns.route_map) > 0
+
     end
 
     test "uses current location to render a query plan", %{conn: conn} do
@@ -67,6 +71,12 @@ defmodule Site.TripPlanControllerTest do
       assert response =~ "Did you mean?"
       assert conn.assigns.requires_google_maps?
       assert %TripPlan.Query{} = conn.assigns.query
+    end
+
+    test "renders a prereq error with the initial map", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index, plan: %{"from" => "", "to" => ""})
+      response = html_response(conn, 200)
+      assert response =~ conn.assigns.initial_map_src |> html_escape |> safe_to_string
     end
 
     test "assigns maps for each itinerary", %{conn: conn} do
