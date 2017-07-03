@@ -28,7 +28,7 @@ describe('geolocation', () => {
       geolocation($, {addEventListener: spy}, {geolocation: true});
       assert.equal(spy.args[0][0], 'turbolinks:before-visit');
       spy.args[0][1](); // call the aEL callback
-      assert.equal($('.loading-indicator').css('display'), 'none');
+      assert.isTrue($('.loading-indicator').hasClass('hidden-xs-up'));
     });
 
     it('adds a class to the HTML element if geolocation is disabled', () => {

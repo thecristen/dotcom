@@ -23,22 +23,20 @@
   border-width: 0;
   display: block;
   float: left;
-  margin: .375rem 0 0 .5rem;
   outline: 0;
-  // scss-lint:disable DuplicateProperty
-  width: 85%; // fallback for browsers that don't support calc
-  width: calc(100% - 4rem);
+  padding: .375rem .5rem;
+  width: 100%;
 
   &:focus {
     border-width: 0;
     outline: 0;
   }
+}
 
-  &.with-submit {
-    // scss-lint:disable DuplicateProperty
-    width: 80%; // fallback for browsers that don't support calc
-    width: calc(100% - 8rem);
-  }
+.location-input-with-submit {
+  // scss-lint:disable DuplicateProperty
+  width: 80%; // fallback for browsers that don't support calc
+  width: calc(100% - 5rem);
 }
 
 .location-link {
