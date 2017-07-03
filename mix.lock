@@ -40,7 +40,7 @@
   "html_sanitize_ex": {:hex, :html_sanitize_ex, "1.2.0", "956289c84381ea7d056238a0a5c6a018f044ce3247592492f2747735a73a71b7", [:mix], [{:mochiweb, "~> 2.15", [hex: :mochiweb, repo: "hexpm", optional: false]}], "hexpm"},
   "httpoison": {:hex, :httpoison, "0.12.0", "8fc3d791c5afe6beb0093680c667dd4ce712a49d89c38c3fe1a43100dd76cf90", [:mix], [{:hackney, "~> 1.8.0", [hex: :hackney, repo: "hexpm", optional: false]}], "hexpm"},
   "idna": {:hex, :idna, "5.0.2", "ac203208ada855d95dc591a764b6e87259cb0e2a364218f215ad662daa8cd6b4", [:rebar3], [{:unicode_util_compat, "0.2.0", [hex: :unicode_util_compat, repo: "hexpm", optional: false]}], "hexpm"},
-  "inflex": {:hex, :inflex, "1.8.0", "7cfc752ae244b30b42ac9cf4c092771b485bc3424139aba4a933e54be8c63931", [:mix], [], "hexpm"},
+  "inflex": {:hex, :inflex, "1.8.1", "9fa9684ff1a872eab7415c0be500cc1b7782f28da6ed75423081e75f92831b1c", [:mix], [], "hexpm"},
   "jiffy": {:git, "git://github.com/davisp/jiffy.git", "137d3d94b6ee10001d761d412cbbe7f665680c98", [ref: "0.13.3"]},
   "jsx": {:hex, :jsx, "2.8.2", "7acc7d785b5abe8a6e9adbde926a24e481f29956dd8b4df49e3e4e7bcc92a018", [:mix, :rebar3], [], "hexpm"},
   "laboratory": {:git, "https://github.com/paulswartz/laboratory.git", "24adbe2cb18d8368e140ab5e13c8f5b75adea742", [ref: "cookie_opts"]},
