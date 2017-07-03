@@ -20,5 +20,10 @@
     <div>
       <%= for leg <- @itinerary.legs, do: render "_leg.html", leg: leg %>
     </div>
+    <ul class="trip-plan-related-links list-unstyled">
+      <%= for link <- @links do %>
+        <%= link %>
+      <% end %>
+    </ul>
   </div>
 </div>
