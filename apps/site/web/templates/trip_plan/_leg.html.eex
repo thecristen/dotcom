@@ -1,6 +1,0 @@
-<div style="padding: 1rem; border: 1px solid red; margin-bottom: 0.5rem;">
-  <%= case @leg.mode do
-        %TripPlan.PersonalDetail{} -> render("_personal_leg.html", leg: @leg)
-        %TripPlan.TransitDetail{} -> render("_transit_leg.html", leg: @leg)
-      end %>
-</div>

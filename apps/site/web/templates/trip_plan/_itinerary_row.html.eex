@@ -1,0 +1,28 @@
+<% {stop_name, stop_id} = @itinerary_row.stop %>
+<div>
+  <%= if stop_id do %>
+    <%= link stop_name, to: stop_path(@conn, :show, stop_id) %>
+  <% else %>
+    <div><%= stop_name %></div>
+  <% end %>
+  <%= if @itinerary_row.arrival do %>
+    <div>Arrive at <%= stop_name %>
+      <div class="pull-right"><%= format_schedule_time(@itinerary_row.arrival) %></div>
+    </div>
+  <% end %>
+  <%= if @itinerary_row.trip do %>
+    <div>
+      <% route = @itinerary_row.route %>
+      Take the <%= route.name %> <%= direction(@itinerary_row.trip.direction_id, route)%>
+      towards <%= @itinerary_row.trip.headsign %>
+      <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
+    </div>
+  <% else %>
+      <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
+  <% end %>
+  <ul>
+    <%= for step <- @itinerary_row.steps do %>
+      <li><%= step %></li>
+    <% end %>
+  </ul>
+</div>

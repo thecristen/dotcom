@@ -4,6 +4,7 @@ defmodule Site.TripPlanController do
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
   alias Site.TripPlan.RelatedLink
+  alias Site.TripPlan.ItineraryRowList
 
   plug :require_google_maps
   plug :assign_initial_map, TripPlanMap.initial_map_src()
@@ -20,7 +21,8 @@ defmodule Site.TripPlanController do
       route_map: route_map,
       itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
       related_links: with_itineraries(query, [], &related_links(&1, route_mapper)),
-      alerts: with_itineraries(query, [], &alerts(&1, route_mapper))
+      alerts: with_itineraries(query, [], &alerts(&1, route_mapper)),
+      itinerary_row_lists: itinerary_row_lists(query)
   end
   def index(conn, _params) do
     render(conn, :index)
@@ -28,6 +30,14 @@ defmodule Site.TripPlanController do
 
   def require_google_maps(conn, _) do
     assign(conn, :requires_google_maps?, true)
+  end
+
+  def itinerary_row_lists(query) do
+    with_itineraries(query, [], &do_itinerary_row_lists/1)
+  end
+
+  defp do_itinerary_row_lists(itineraries) do
+    Enum.map(itineraries, fn itinerary -> ItineraryRowList.from_itinerary(itinerary) end)
   end
 
   def assign_initial_map(conn, url) do
