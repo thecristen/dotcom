@@ -73,11 +73,12 @@
   @include media-breakpoint-up(md) {
     .btn {
       border-right: 0;
+      display: inline-block;
+      width: 30%;
+
       &:last-child {
         border-right: $tab-border;
       }
-      display: inline-block;
-      width: 30%;
     }
   }
 }
