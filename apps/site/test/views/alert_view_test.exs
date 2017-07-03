@@ -160,6 +160,12 @@ defmodule Site.AlertViewTest do
 
       assert expected == actual
     end
+
+    test "does not link short TLDs" do
+      expected = raw("a.m.")
+      actual = replace_urls_with_links("a.m.")
+      assert expected == actual
+    end
   end
 
   describe "modal.html" do
