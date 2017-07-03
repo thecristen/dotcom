@@ -1,6 +1,7 @@
 defmodule Site.ScheduleV2Controller.Line.Maps do
   alias GoogleMaps.MapData
   alias GoogleMaps.MapData.{Path, Marker}
+  alias Stops.RouteStops
   alias Routes.{Route, Shape}
   alias Site.MapHelpers
   import Site.Router.Helpers
