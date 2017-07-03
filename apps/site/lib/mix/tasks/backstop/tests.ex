@@ -30,14 +30,15 @@ defmodule Mix.Tasks.Backstop.Tests do
   end
 
   defp run_backstop(args_map) do
+    default_args = ["--config=apps/site/backstop.json"]
     backstop_args = case args_map do
-      %{"--filter" => scenario} -> ["--filter=#{scenario}"]
-      _ -> []
+      %{"--filter" => scenario} -> ["--filter=#{scenario}" | default_args]
+      _ -> default_args
     end
     try do
       _ = Logger.info "starting Backstop with args: #{inspect backstop_args}"
-      :ok = File.cd("apps/site")
-      {_stream, status} = System.cmd "backstop", ["test" | backstop_args], into: IO.stream(:stdio, :line)
+      bin_path = Path.join(File.cwd!(), "apps/site/node_modules/.bin/backstop")
+      {_stream, status} = System.cmd bin_path, ["test" | backstop_args], into: IO.stream(:stdio, :line)
       status
     rescue
       RuntimeError ->

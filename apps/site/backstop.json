@@ -224,11 +224,11 @@
     }
   ],
   "paths": {
-    "bitmaps_reference": "backstop_data/bitmaps_reference",
-    "bitmaps_test": "backstop_data/bitmaps_test",
-    "compare_data": "backstop_data/bitmaps_test/compare.json",
-    "casper_scripts": "backstop_data/casper_scripts",
-    "html_report": "backstop_data/html_report"
+    "bitmaps_reference": "apps/site/backstop_data/bitmaps_reference",
+    "bitmaps_test": "apps/site/backstop_data/bitmaps_test",
+    "compare_data": "apps/site/backstop_data/bitmaps_test/compare.json",
+    "casper_scripts": "apps/site/backstop_data/casper_scripts",
+    "html_report": "apps/site/backstop_data/html_report"
   },
   "id": "MBTA_Backstop",
   "fileNameTemplate": "{scenarioLabel}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
