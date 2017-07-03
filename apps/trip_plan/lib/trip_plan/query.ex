@@ -17,6 +17,8 @@ defmodule TripPlan.Query do
                        {:ok, from} <- from,
                        {:ok, to} <- to do
                     TripPlan.plan(from, to, opts)
+                  else
+                    _ -> {:error, :prereq}
                   end
     %__MODULE__{
       from: from,
@@ -27,7 +29,7 @@ defmodule TripPlan.Query do
 
   defp location(query, terminus) do
     key = Atom.to_string(terminus)
-    location = Map.get(query, key)
+    location = Map.get(query, key, "")
 
     case fetch_lat_lng(query, key) do
       {:ok, latitude, longitude} ->

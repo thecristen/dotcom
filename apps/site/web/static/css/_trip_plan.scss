@@ -5,6 +5,10 @@
 
 .instructions {
   color: $gray-light;
+
+  &:empty {
+    display: none;
+  }
 }
 
 .trip-plan-form-container {

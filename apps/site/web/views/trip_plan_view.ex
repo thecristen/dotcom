@@ -30,6 +30,23 @@ defmodule Site.TripPlanView do
     "An unknown error occurred. Please try again, or try a different address."
   end
 
+  @spec rendered_plan_error(term) :: Phoenix.HTML.Safe.t
+  def rendered_plan_error(:prereq) do
+    ""
+  end
+  def rendered_plan_error(no_plan) when no_plan in [:path_not_found, :too_close] do
+    "We were unable to plan a trip between those locations."
+  end
+  def rendered_plan_error(:outside_bounds) do
+    "We can only plan trips inside the MBTA transitshed."
+  end
+  def rendered_plan_error(:no_transit_times) do
+    "We were unable to plan a trip at the time you selected."
+  end
+  def rendered_plan_error(_) do
+    "We were unable to plan your trip. Please try again later."
+  end
+
   @doc "A small display representing the travel on a given Leg"
   @spec leg_feature(TripPlan.Leg.t, %{Routes.Route.id_t => Routes.Route.t}) :: Phoenix.HTML.Safe.t
   def leg_feature(%Leg{mode: %TransitDetail{} = mode}, route_map) do

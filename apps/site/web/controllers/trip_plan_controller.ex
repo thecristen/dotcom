@@ -4,6 +4,7 @@ defmodule Site.TripPlanController do
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
 
   plug :require_google_maps
+  plug :assign_initial_map, TripPlanMap.initial_map_src()
 
   @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
 
@@ -18,11 +19,15 @@ defmodule Site.TripPlanController do
       alerts: with_itineraries(query, [], &alerts(&1, route_map))
   end
   def index(conn, _params) do
-    render(conn, :index, initial_map_src: TripPlanMap.initial_map_src())
+    render(conn, :index)
   end
 
   def require_google_maps(conn, _) do
     assign(conn, :requires_google_maps?, true)
+  end
+
+  def assign_initial_map(conn, url) do
+    assign(conn, :initial_map_src, url)
   end
 
   defp with_itineraries(query, default, function)

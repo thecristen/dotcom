@@ -15,8 +15,8 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     end
   end
 
-  def parse_map(%{"error" => %{"msg" => error_message}}) do
-    {:error, error_message}
+  def parse_map(%{"error" => %{"message" => error_message}}) do
+    {:error, error_message_atom(error_message)}
   end
   def parse_map(json) do
     {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary/1)}
@@ -27,6 +27,13 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     {:ok, itineraries} = parse_json(json_binary)
     itineraries
   end
+
+  defp error_message_atom("OUTSIDE_BOUNDS"), do: :outside_bounds
+  defp error_message_atom("REQUEST_TIMEOUT"), do: :timeout
+  defp error_message_atom("NO_TRANSIT_TIMES"), do: :no_transit_times
+  defp error_message_atom("TOO_CLOSE"), do: :too_close
+  defp error_message_atom("PATH_NOT_FOUND"), do: :path_not_found
+  defp error_message_atom(_), do: :unknown
 
   defp parse_itinerary(json) do
     %Itinerary{
