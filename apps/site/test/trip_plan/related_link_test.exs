@@ -26,5 +26,10 @@ defmodule Site.TripPlan.RelatedLinkTest do
       assert fare_link.text == "View fare information"
       assert fare_link.url =~ fare_path(Site.Endpoint, :show, expected_fare_mode)
     end
+
+    test "only returns non-duplicate links", %{itinerary: itinerary} do
+      itinerary = %{itinerary | legs: itinerary.legs ++ itinerary.legs}
+      assert [_route_link, _fare_link] = links_for_itinerary(itinerary)
+    end
   end
 end

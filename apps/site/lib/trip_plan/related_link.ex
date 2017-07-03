@@ -63,7 +63,9 @@ defmodule Site.TripPlan.RelatedLink do
     fare_links = for route_id <- Itinerary.route_ids(itinerary) do
       route_id |> route_by_id.() |> fare_link
     end
-    Enum.concat(route_links, fare_links)
+    [route_links, fare_links]
+    |> Enum.concat
+    |> Enum.uniq
   end
 
   defp optional_icon(nil), do: []
