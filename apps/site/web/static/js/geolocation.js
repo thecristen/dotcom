@@ -12,7 +12,7 @@ export default function($ = window.jQuery, doc = document, navigator = window.na
 
 function beforeVisit($) {
   return () => {
-    $('.loading-indicator, .location-error').hide();
+    $('.loading-indicator, .location-error').addClass('hidden-xs-up');
   };
 };
 
@@ -21,7 +21,7 @@ export function clickHandler($, navigator) {
   return (event) => {
     event.preventDefault();
     const $btn = locationButton($(event.target));
-    const $errorEl = $('#' + $btn.data("id") + '-geolocation-error');
+    const $errorEl = $(`#${$btn.data("id")}-geolocation-error`);
     toggleLoadingIndicator($, $btn);
     $errorEl.addClass('hidden-xs-up');
     navigator.geolocation.getCurrentPosition(
@@ -35,7 +35,7 @@ export function locationHandler($, $btn, $errorEl) {
   return (location) => {
     const id = $btn.data("id");
     const field = $btn.data("field");
-    $("#" + id).trigger('geolocation:complete', location);
+    $(`#${id}`).trigger('geolocation:complete', location);
   };
 }
 
@@ -56,7 +56,7 @@ function toggleLoadingIndicator($, $btn) {
   const id = $btn.data("id");
   const $indicator = $btn.find('.loading-indicator');
   $indicator.removeClass('hidden-xs-up');
-  $('#' + id).on('geolocation:complete', () => {
+  $(`#${id}`).on('geolocation:complete', () => {
     $indicator.addClass('hidden-xs-up');
   });
 }
