@@ -1,8 +1,8 @@
 export default function($ = window.jQuery) {
   $(document).on('geolocation:complete', '#to', geolocationCallback($));
   $(document).on('geolocation:complete', '#from', geolocationCallback($));
-  $("#to").on("focus", clearCurrentLocation($));
-  $("#from").on("focus", clearCurrentLocation($));
+  $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
+  $(document).on("focus", "#from.trip-plan-current-location", clearCurrentLocation($));
 };
 
 export function geolocationCallback($) {
