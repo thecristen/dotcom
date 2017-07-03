@@ -20,7 +20,7 @@ defmodule Site.TripPlan.RelatedLink do
   import Phoenix.HTML.Link, only: [link: 2]
   # Need a view in order to use the components. Ideally we'd have a separate
   # module, but that doesn't work at the moment.
-  import Site.LayoutView, only: [svg_icon: 1]
+  import Site.LayoutView, only: [svg_icon_with_circle: 1]
   import Site.Router.Helpers
   alias TripPlan.Itinerary
   alias Routes.Route
@@ -68,7 +68,7 @@ defmodule Site.TripPlan.RelatedLink do
 
   defp optional_icon(nil), do: []
   defp optional_icon(icon_name) do
-    svg_icon(%Site.Components.Icons.SvgIcon{icon: icon_name})
+    svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: icon_name, class: "icon-small"})
   end
 
   defp route_link(route) do

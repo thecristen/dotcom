@@ -75,3 +75,13 @@
     height: $base-spacing * 20;
   }
 }
+
+.trip-plan-related-links {
+  margin: 0;
+  padding: 0;
+
+  > * {
+    display: inline-block;
+    min-width: 15 * $base-spacing;
+  }
+}
