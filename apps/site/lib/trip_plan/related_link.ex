@@ -87,8 +87,8 @@ defmodule Site.TripPlan.RelatedLink do
       route.name
     end
     text = [base_text, " schedules"]
-    date = Date.to_iso8601(itinerary.start)
-    url = schedule_path(Site.Endpoint, :show, route.id, date: date, trip: trip_id)
+    date = Timex.format!(itinerary.start, "{ISOdate}")
+    url = schedule_path(Site.Endpoint, :show, route, date: date, trip: trip_id)
     new(text, url, icon_name)
   end
 
