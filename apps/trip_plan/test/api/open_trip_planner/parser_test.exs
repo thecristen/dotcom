@@ -38,6 +38,13 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
       assert %PersonalDetail{} = walk_leg.mode
     end
 
+    test "positions can use stopId instead of stopCode" do
+      stop_code_regex = ~r/"stopCode": "[^"]",/
+      data = String.replace(@fixture, stop_code_regex, "")
+      parsed = parse_json!(data)
+      assert parsed == @parsed
+    end
+
     test "walk legs have distance and step plans" do
       [_, walk_leg] = List.first(@parsed).legs
       assert walk_leg.mode.distance == 329.314
