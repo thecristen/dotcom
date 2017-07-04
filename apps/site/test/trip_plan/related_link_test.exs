@@ -1,7 +1,7 @@
 defmodule Site.TripPlan.RelatedLinkTest do
   use ExUnit.Case, async: true
   import Site.TripPlan.RelatedLink
-  import Site.Router.Helpers
+  import Site.Router.Helpers, only: [fare_path: 3]
   alias TripPlan.Itinerary
 
   setup do
@@ -19,9 +19,11 @@ defmodule Site.TripPlan.RelatedLinkTest do
           ["1"] -> {"Route 1 schedules", :bus, :bus_subway}
           ["CR-Lowell"] -> {"Lowell Line schedules", :commuter_rail, :commuter_rail}
         end
-
+      [trip_id] = Itinerary.trip_ids(itinerary)
       assert [route_link, fare_link] = links_for_itinerary(itinerary)
       assert text(route_link) == expected_route
+      assert url(route_link) =~ Timex.format!(itinerary.start, "date={ISOdate}")
+      assert url(route_link) =~ "trip=#{trip_id}"
       assert route_link.icon_name == expected_icon
       assert fare_link.text == "View fare information"
       assert fare_link.url =~ fare_path(Site.Endpoint, :show, expected_fare_mode)

@@ -41,6 +41,12 @@ defmodule Site.TripPlan.RelatedLink do
     IO.iodata_to_binary(text)
   end
 
+  @doc "Returns the URL of the link"
+  @spec url(t) :: String.t
+  def url(%__MODULE__{url: url}) do
+    url
+  end
+
   @doc "Returns the HTML link for the RelatedLink"
   @spec as_html(t) :: Phoenix.HTML.Safe.t
   def as_html(%__MODULE__{} = rl) do
@@ -57,8 +63,8 @@ defmodule Site.TripPlan.RelatedLink do
   def links_for_itinerary(itinerary, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
     route_by_id = Keyword.get(opts, :route_by_id)
-    route_links = for route_id <- Itinerary.route_ids(itinerary) do
-      route_id |> route_by_id.() |> route_link
+    route_links = for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary) do
+      route_id |> route_by_id.() |> route_link(trip_id, itinerary)
     end
     fare_links = for route_id <- Itinerary.route_ids(itinerary) do
       route_id |> route_by_id.() |> fare_link
@@ -73,7 +79,7 @@ defmodule Site.TripPlan.RelatedLink do
     svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: icon_name, class: "icon-small"})
   end
 
-  defp route_link(route) do
+  defp route_link(route, trip_id, itinerary) do
     icon_name = Route.icon_atom(route)
     base_text = if Route.type_atom(route) == :bus do
       ["Route ", route.name]
@@ -81,7 +87,8 @@ defmodule Site.TripPlan.RelatedLink do
       route.name
     end
     text = [base_text, " schedules"]
-    url = schedule_path(Site.Endpoint, :show, route.id)
+    date = Date.to_iso8601(itinerary.start)
+    url = schedule_path(Site.Endpoint, :show, route.id, date: date, trip: trip_id)
     new(text, url, icon_name)
   end
 
