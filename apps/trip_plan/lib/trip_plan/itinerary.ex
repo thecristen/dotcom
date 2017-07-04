@@ -30,6 +30,12 @@ defmodule TripPlan.Itinerary do
     flat_map_over_legs(legs, &TripPlan.Leg.trip_id/1)
   end
 
+  @doc "Return a list of {route ID, trip ID} pairs for this Itinerary"
+  @spec route_trip_ids(t) :: [{Routes.Route.id_t, Schedules.Trip.id_t}]
+  def route_trip_ids(%__MODULE__{legs: legs}) do
+    flat_map_over_legs(legs, &TripPlan.Leg.route_trip_ids/1)
+  end
+
   @doc "Returns a list of all the named positions for this Itinerary"
   @spec positions(t) :: [TripPlan.NamedPosition.t]
   def positions(%__MODULE__{legs: legs}) do
