@@ -54,6 +54,13 @@ defmodule TripPlan.ItineraryTest do
     end
   end
 
+  describe "destination/1" do
+    test "returns the final destination of the itinerary" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      assert destination(itinerary) == @to
+    end
+  end
+
   describe "stop_ids/1" do
     test "returns all the stop IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])

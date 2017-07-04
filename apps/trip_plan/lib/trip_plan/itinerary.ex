@@ -17,6 +17,12 @@ defmodule TripPlan.Itinerary do
     stop: DateTime.t,
     legs: [TripPlan.Leg.t]
   }
+  alias TripPlan.NamedPosition
+
+  @spec destination(t) :: NamedPosition.t
+  def destination(%__MODULE__{legs: legs}) do
+    List.last(legs).to
+  end
 
   @doc "Return a list of all the route IDs used for this Itinerary"
   @spec route_ids(t) :: [Routes.Route.id_t]
