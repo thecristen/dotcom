@@ -68,7 +68,8 @@ defmodule Site.StopViewTest do
       c_line = %Route{id: "Green-C"}
       orange_line = %Route{id: "Orange"}
       line_list = [e_line, d_line, c_line, orange_line]
-      green_count = line_list |> aggregate_routes |> Enum.filter(&(&1.id == "Green")) |> Enum.count
+      aggregated_list = aggregate_routes(line_list)
+      green_count = Enum.count(aggregated_list, & &1.id =~ "Green")
 
       assert green_count == 1
       assert Enum.count(aggregate_routes(line_list)) == 2
@@ -82,23 +83,6 @@ defmodule Site.StopViewTest do
       assert Enum.count(routes) == 3
       assert "Red" in routes
       assert "Mattapan" in routes
-    end
-  end
-
-  describe "normalize_route/2" do
-    test "Green routes are normalized to Green" do
-      green_e = %Route{id: "Green-E"}
-      green_b = %Route{id: "Green-B"}
-      green_c = %Route{id: "Green-C"}
-      green_d = %Route{id: "Green-D"}
-      for route_id <- Enum.map([green_e, green_b, green_c, green_d], &normalize_route(&1)) do
-        assert route_id == "Green"
-      end
-    end
-
-    test "Mattapan is kept as mattapan" do
-      mattapan = %Route{id: "Mattapan"}
-      assert normalize_route(mattapan) == "Mattapan"
     end
   end
 
