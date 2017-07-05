@@ -69,8 +69,7 @@ $location-line-width: $space-6;
   align-items: stretch;
   display: flex;
   flex: 1 1 0%;
-  overflow: hidden; // IE10 hack -- unless overflow:hidden is set, a gap appears in the line
-                    // when you hover over one of the links or the icons. No idea why. -kh
+  overflow: visible; // if set to hidden, site works better in IE10, but then cirlces are slightly cropped everywhere
   width: 100%;
 }
 
@@ -81,6 +80,7 @@ $location-line-width: $space-6;
   display: flex;
   flex: 0 0 auto;
   justify-content: flex-start;
+  overflow: visible;
   padding-right: $base-spacing;
 }
 
@@ -90,6 +90,7 @@ $location-line-width: $space-6;
   display: inline-block;
   display: flex;
   flex-direction: column;
+  overflow: visible;
   position: relative;
   width: $icon-size;
 
@@ -260,6 +261,14 @@ $location-line-width: $space-6;
 .route-branch-stop-zone {
   margin-bottom: $base-spacing / 4;
   margin-top: $base-spacing / 4;
+}
+
+.vehicle-bubble {
+  height: $base-spacing;
+  left: 0;
+  position: absolute; // IE 10 only fix
+  top: 0;
+  z-index: $z-index-stop-bubble;
 }
 
 @include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);

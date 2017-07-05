@@ -5,6 +5,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   alias Routes.{Route, Shape}
   alias Site.MapHelpers
   import Site.Router.Helpers
+  import Routes.Route, only: [vehicle_atom: 1]
 
   @moduledoc """
   Handles Map information for the line controller
@@ -44,10 +45,10 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
     Float.floor(position, 4)
   end
 
-
-  @spec dynamic_map_data(String.t, [String.t], {[Stops.Stop.t], any}, [String.t], map()) :: MapData.t
-  def dynamic_map_data(color, map_polylines, {stops, _shapes}, vehicle_polylines, vehicle_tooltips) do
-    markers = dynamic_markers(stops, vehicle_tooltips, color)
+  @spec dynamic_map_data(String.t, [String.t], {[Stops.Stop.t], any}, {[String.t], map(), String.t}) :: MapData.t
+  def dynamic_map_data(color, map_polylines, {stops, _shapes}, {vehicle_polylines, vehicle_tooltips, vehicle_icon}) do
+    stop_icon = static_url(Site.Endpoint, "/images/map-#{color}-dot-icon.png")
+    markers = dynamic_markers(stops, stop_icon, vehicle_tooltips, vehicle_icon)
     paths = dynamic_paths(color, map_polylines, vehicle_polylines)
 
     {600, 600}
@@ -57,9 +58,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
     |> MapData.disable_map_type_controls
   end
 
-  defp dynamic_markers(stops, vehicle_tooltips, color) do
-    stop_icon = static_url(Site.Endpoint, "/images/map-#{color}-dot-icon.png")
-    vehicle_icon = static_url(Site.Endpoint, "/images/map-#{color}-vehicle-icon.png")
+  defp dynamic_markers(stops, stop_icon, vehicle_tooltips, vehicle_icon) do
     vehicle_markers = vehicle_tooltips |> get_vehicles |> build_vehicle_markers(vehicle_icon)
     build_stop_markers(stops, stop_icon) ++ vehicle_markers
   end
@@ -101,7 +100,9 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
     color = MapHelpers.route_map_color(route)
     map_polylines = map_polylines(map_stops, route)
     static_data = map_img_src(map_stops, map_polylines, route, color)
-    dynamic_data = dynamic_map_data(color, map_polylines, map_stops, vehicle_polylines, vehicle_tooltips)
+    vehicle_icon = static_url(Site.Endpoint, "/images/map-#{vehicle_atom(route.type)}-vehicle-icon.png")
+    vehicle_data = {vehicle_polylines, vehicle_tooltips, vehicle_icon}
+    dynamic_data = dynamic_map_data(color, map_polylines, map_stops, vehicle_data)
     {static_data, dynamic_data}
   end
 

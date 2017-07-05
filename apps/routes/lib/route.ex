@@ -65,6 +65,12 @@ defmodule Routes.Route do
     "Ferry"
   end
 
+  @spec vehicle_atom(0..4) :: atom
+  def vehicle_atom(2), do: :cr
+  def vehicle_atom(3), do: :bus
+  def vehicle_atom(4), do: :ferry
+  def vehicle_atom(_), do: :train
+
   @spec key_route?(t) :: boolean
   def key_route?(%__MODULE__{key_route?: key_route?}) do
     key_route?
