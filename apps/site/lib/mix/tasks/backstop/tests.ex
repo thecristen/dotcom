@@ -19,16 +19,21 @@ defmodule Mix.Tasks.Backstop.Tests do
     |> do_run()
   end
 
+  @spec do_run(%{optional(String.t) => String.t}) :: no_return
   def do_run(args_map) do
     [Wiremock, Phoenix]
-    |> Enum.map(fn module ->
-      {:ok, pid} = module.start_link()
-      pid
-    end)
+    |> Enum.map(&start_server/1)
     |> Helpers.run_with_pids(args_map, &run_backstop/1)
     |> System.halt
   end
 
+  @spec start_server(atom) :: pid
+  def start_server(module) do
+    {:ok, pid} = module.start_link()
+    pid
+  end
+
+  @spec run_backstop(%{String.t => String.t}) :: non_neg_integer
   defp run_backstop(args_map) do
     default_args = ["--config=apps/site/backstop.json"]
     backstop_args = case args_map do
@@ -47,12 +52,14 @@ defmodule Mix.Tasks.Backstop.Tests do
     end
   end
 
+  @spec arg_to_tuple(String.t) :: {String.t, String.t}
   defp arg_to_tuple(arg) when is_binary(arg) do
     arg
     |> String.split("=")
     |> do_arg_to_tuple()
   end
 
+  @spec do_arg_to_tuple([String.t]) :: {String.t, String.t}
   defp do_arg_to_tuple([key]), do: {key, ""}
   defp do_arg_to_tuple([key, val]), do: {key, val}
 end
