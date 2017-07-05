@@ -8,6 +8,8 @@ defmodule Backstop.Servers do
   @callback error_match() :: String.t | Regex.t
   @optional_callbacks environment: 0
 
+  @type await_fn :: ((pid) -> :started | :error | :timeout)
+
   defmodule State do
     @type t :: %__MODULE__{
       module: atom,
@@ -184,18 +186,18 @@ end
 
 defmodule Backstop.Servers.Helpers do
   import Backstop.Servers
+  alias Mix.Tasks.Backstop.Tests
   require Logger
 
   @doc "Runs a given fn once the server pids have started.  Returns a status code."
-  @spec run_with_pids([pid], (() -> non_neg_integer)) :: non_neg_integer
-  def run_with_pids(pids, func) do
+  @spec run_with_pids([pid], %{String.t => String.t}, Tests.runner_fn,
+                                                      Backstop.Servers.await_fn) :: {non_neg_integer, [pid]}
+  def run_with_pids(pids, args, runner_fn \\ &Tests.run_backstop/1, await_fn \\ &await/1) do
     expected = Enum.map(pids, fn _ -> :started end)
-    status = case Enum.map(pids, &await/1) do
-               ^expected -> func.()
+    status = case Enum.map(pids, await_fn) do
+               ^expected -> runner_fn.(args)
                _ -> 1
              end
-    Enum.each(pids, &shutdown/1)
-    _ = Logger.flush
-    status
+    {status, pids}
   end
 end
