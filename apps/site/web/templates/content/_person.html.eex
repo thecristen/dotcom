@@ -3,6 +3,7 @@
 </div>
 
 <div>
-  <div><strong><%= @person.name %></strong></div>
-  <div><%= @person.position %></div>
+  <div><strong><%= @person.name%></strong></div>
+  <div><%= @person.position%></div>
+  <div><%= link "View Bio", to: person_path(Site.Endpoint, :show, @person.id) %></div>
 </div>

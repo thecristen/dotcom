@@ -49,6 +49,22 @@ defmodule Content.Repo do
     end
   end
 
+  @spec people(Keyword.t) :: [Content.Person.t]
+  def people(opts \\ []) do
+    case @cms_api.view("/api/people", opts) do
+      {:ok, api_data} -> Enum.map(api_data, &Content.Person.from_api/1)
+      _ -> []
+    end
+  end
+
+  @spec person!(integer) :: Content.Person.t | no_return
+  def person!(id) do
+    case people(id: id) do
+      [person] -> person
+      _ -> raise Content.NoResultsError
+    end
+  end
+
   @spec events(Keyword.t) :: [Content.Event.t]
   def events(opts \\ []) do
     case @cms_api.view("/events", opts) do

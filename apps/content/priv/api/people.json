@@ -1,0 +1,244 @@
+[
+  {
+    "nid": [
+      {
+        "value": 2579
+      }
+    ],
+    "uuid": [
+      {
+        "value": "0ba14673-c7ad-495c-acd5-1b85fd92e80a"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3161
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "person",
+        "target_type": "node_type",
+        "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Joseph Aiello"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "/user/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1499095018
+      }
+    ],
+    "changed": [
+      {
+        "value": 1499284354
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1499284354
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "/user/12"
+      }
+    ],
+    "revision_log": [],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_bio": [
+      {
+        "value": "<p>Joseph \"Joe\" Aiello (Chair) is currently a partner and Director of Business Development North America at Meridiam Infrastructure where he has worked since 2007, overseeing strategic development and other stuff.</p>\r\n\r\n<p>Governor Charlie Baker appointed him, MassDOT Secretary and CEO on Jan 13, 2015. His mission is to find better ways to meet the&nbsp;state's transportation needs.</p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_position": [
+      {
+        "value": "Chairman",
+        "format": "basic_html"
+      }
+    ],
+    "field_profile_image": [
+      {
+        "target_id": 158,
+        "alt": "Joseph Aiello photo",
+        "title": "",
+        "width": 128,
+        "height": 158,
+        "target_type": "file",
+        "target_uuid": "9eb0cd25-4eff-4bd9-91f6-2220f6cac19d",
+        "url": "http://mbta.kbox.site/sites/default/files/2017-07/Screen%20Shot%202017-07-03%20at%2011.18.32%20AM.png",
+        "mime_type": "image/png"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 2581
+      }
+    ],
+    "uuid": [
+      {
+        "value": "e74245b6-cc4b-4e83-afc4-43f6d962886c"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3160
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "person",
+        "target_type": "node_type",
+        "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Johnny Applesauce"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "/user/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1499280312
+      }
+    ],
+    "changed": [
+      {
+        "value": 1499280422
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1499280422
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "/user/12"
+      }
+    ],
+    "revision_log": [],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_bio": [
+      {
+        "value": "<p>This is a person.</p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_position": [
+      {
+        "value": "Chief Capybara",
+        "format": "basic_html"
+      }
+    ],
+    "field_profile_image": [
+      {
+        "target_id": 159,
+        "alt": "Capybara sleeping",
+        "title": "",
+        "width": 140,
+        "height": 154,
+        "target_type": "file",
+        "target_uuid": "8d09191a-7cec-4ea7-928e-14b9aef9d82e",
+        "url": "http://mbta.kbox.site/sites/default/files/2017-07/qaGYucL.jpg",
+        "mime_type": "image/jpeg"
+      }
+    ]
+  }
+]

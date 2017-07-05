@@ -18,6 +18,10 @@ defmodule Content.CMS.Static do
     parse_json("events.json")
   end
 
+  def people_response do
+    parse_json("api/people.json")
+  end
+
   def whats_happening_response do
     parse_json("whats-happening.json")
   end
@@ -81,6 +85,12 @@ defmodule Content.CMS.Static do
     end
 
     {:ok, events}
+  end
+  def view("/api/people", []) do
+    {:ok, people_response()}
+  end
+  def view("/api/people", [id: id]) do
+    {:ok, filter_by(people_response(), "nid", String.to_integer(id))}
   end
   def view("/whats-happening", _) do
     {:ok, whats_happening_response()}

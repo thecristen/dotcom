@@ -96,3 +96,13 @@
     font-size: $font-size-h3-xxl;
   }
 }
+
+.content-person-sidebar-img {
+  float: left;
+}
+
+.content-person-body {
+  @include media-breakpoint-up(sm) {
+    margin-left: 150px;
+  }
+}
