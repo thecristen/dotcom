@@ -76,4 +76,9 @@ defmodule Backstop.ServersTest do
       assert "Address already in use" =~ Backstop.Servers.Wiremock.error_match
     end
   end
+
+  test "wiremock command uses :wiremock_path config" do
+    Application.put_env(:site, :wiremock_path, "path/to/wiremock")
+    assert Backstop.Servers.Wiremock.command == "java -jar path/to/wiremock"
+  end
 end
