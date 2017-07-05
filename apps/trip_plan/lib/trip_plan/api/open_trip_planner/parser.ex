@@ -64,7 +64,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   def parse_named_position(json) do
     %NamedPosition{
       name: json["name"],
-      stop_id: json["stopCode"],
+      stop_id: if(id_str = json["stopId"], do: id_after_colon(id_str)),
       longitude: json["lon"],
       latitude: json["lat"]
     }
