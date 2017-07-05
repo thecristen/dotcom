@@ -1,23 +1,9 @@
 <h1>
   Retail Sales Locations
 </h1>
+
 <%= unless @fare_sales_locations == [] do %>
-  <div class="fare-sales-locations">
-    <h3>Nearby MBTA fare retail sales locations</h3>
-    <div class="transit-near-me-results transit-near-me-gray small-set grouped">
-      <%= for {%Fares.RetailLocations.Location{agent: agent, location: street} = location, distance} <- @fare_sales_locations do %>
-        <%= link to: GoogleMaps.direction_map_url(@search_position, location), class: "transit-card", target: "_blank" do %>
-          <div class="transit-card-name">
-            <%= agent %>
-          </div>
-          <div class="transit-card-distance"><%= round_distance(distance) %></div>
-          <div class="transit-route">
-            <%= street %><br>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+  <%= render "_nearby_locations.html", fare_sales_locations: @fare_sales_locations, search_position: @search_position %>
 <% end %>
 <p>
   MBTA riders can purchase fares for the Commuter Rail, Bus, Subway, and Ferry at stores located throughout the Greater Boston and Providence areas.

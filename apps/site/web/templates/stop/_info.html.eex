@@ -38,24 +38,8 @@
         <% end %>
       </p>
     <% end %>
-    <%= if length(@fare_sales_locations) > 0 do %>
-      <div class="fare-sales-locations">
-        <h3>Nearby MBTA fare retail sales locations</h3>
-        <div class="transit-near-me-results transit-near-me-gray small-set grouped">
-          <%= for {%Location{agent: agent, location: street, city: city} = location, distance} <- @fare_sales_locations do %>
-            <%= link to: GoogleMaps.direction_map_url(@stop, location), class: "transit-card", target: "_blank" do %>
-              <div class="transit-card-name">
-                <%= agent %>
-              </div>
-              <div class="transit-card-distance"><%= round_distance(distance) %></div>
-              <div class="transit-route">
-                <%= street %><br>
-                <%= clean_city(city) %>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
+    <%= unless @fare_sales_locations == [] do %>
+      <%= render Site.FareView, "_nearby_locations.html", fare_sales_locations: @fare_sales_locations, search_position: @stop %>
     <% end %>
   <% end %>
 

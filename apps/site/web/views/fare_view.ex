@@ -161,4 +161,11 @@ defmodule Site.FareView do
       ]
     end
   end
+
+  @spec clean_city(String.t) :: iodata
+  defp clean_city(city) do
+    city = city |> String.split("/") |> List.first
+    [city, ", MA"]
+  end
+
 end

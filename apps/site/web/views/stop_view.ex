@@ -149,12 +149,6 @@ defmodule Site.StopView do
     end)
   end
 
-  @spec clean_city(String.t) :: String.t
-  defp clean_city(city) do
-    city = city |> String.split("/") |> List.first
-    "#{city}, MA"
-  end
-
   @doc "Returns the url for a map showing directions from a stop to a retail location."
   @spec retail_location_directions_link(Location.t, Stop.t) :: Phoenix.HTML.Safe.t
   def retail_location_directions_link(%Location{latitude: retail_lat, longitude: retail_lng}, %Stop{latitude: stop_lat, longitude: stop_lng}) do
