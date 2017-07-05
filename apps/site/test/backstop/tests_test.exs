@@ -48,4 +48,35 @@ defmodule Mix.Tasks.Backstop.TestsTest do
       assert args == %{"--filter" => ~s("Homepage")}
     end
   end
+
+  def cmd_fn(cmd, args, _opts) do
+    send self(), {"cmd args", cmd, args}
+    {:ok, 2}
+  end
+
+
+  describe "run_backstop/2" do
+    test "runs backstop with filter when --filter option is used" do
+      assert Mix.Tasks.Backstop.Tests.run_backstop(%{"--filter" => "Homepage"}, &cmd_fn/3) == 2
+      assert_receive {"cmd args", cmd, args}
+      assert cmd =~ "apps/site/node_modules/.bin/backstop"
+      assert args == ["test", "--filter=Homepage", "--config=apps/site/backstop.json"]
+    end
+
+    test "runs backstop without filter if --filter option is not used" do
+      assert Mix.Tasks.Backstop.Tests.run_backstop(%{}, &cmd_fn/3) == 2
+      assert_receive {"cmd args", _cmd, args}
+      assert args == ["test", "--config=apps/site/backstop.json"]
+    end
+
+    test "returns 1 if process fails with a RuntimeError" do
+      error_fn = fn _, _, _ ->
+        raise RuntimeError
+      end
+      error = ExUnit.CaptureLog.capture_log fn ->
+        assert Mix.Tasks.Backstop.Tests.run_backstop(%{}, error_fn)
+      end
+      assert error =~ "Backstop did not start; shutting down"
+    end
+  end
 end

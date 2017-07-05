@@ -51,17 +51,15 @@ defmodule Mix.Tasks.Backstop.Tests do
     pid
   end
 
-  @spec run_backstop(%{String.t => String.t}) :: non_neg_integer
-  def run_backstop(args_map) do
-    default_args = ["--config=apps/site/backstop.json"]
-    backstop_args = case args_map do
-      %{"--filter" => scenario} -> ["--filter=#{scenario}" | default_args]
-      _ -> default_args
-    end
+  @type cmd_fn :: ((String.t, [String.t], Keyword.t) -> {any, non_neg_integer})
+
+  @spec run_backstop(%{String.t => String.t}, cmd_fn) :: non_neg_integer
+  def run_backstop(args_map, cmd_fn \\ &System.cmd/3) do
     try do
-      _ = Logger.info "starting Backstop with args: #{inspect backstop_args}"
+      args = backstop_args(args_map)
+      _ = Logger.info "starting Backstop with args: #{inspect args}"
       bin_path = Path.join(File.cwd!(), "apps/site/node_modules/.bin/backstop")
-      {_stream, status} = System.cmd bin_path, ["test" | backstop_args], into: IO.stream(:stdio, :line)
+      {_stream, status} = cmd_fn.(bin_path, ["test" | args], into: IO.stream(:stdio, :line))
       status
     rescue
       RuntimeError ->
@@ -69,6 +67,13 @@ defmodule Mix.Tasks.Backstop.Tests do
       1
     end
   end
+
+  defp backstop_args(%{"--filter" => scenario}) do
+    ["--filter=#{scenario}" | backstop_config()]
+  end
+  defp backstop_args(_), do: backstop_config()
+
+  defp backstop_config, do: ["--config=apps/site/backstop.json"]
 
   @spec arg_to_tuple(String.t) :: {String.t, String.t}
   defp arg_to_tuple(arg) when is_binary(arg) do
