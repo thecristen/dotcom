@@ -11,20 +11,38 @@ defmodule Mix.Tasks.Backstop.Tests do
   You can pass `--filter="<<scenario.label>>"` to only run a specific scenario instead of running the full suite.
   """
 
-  @spec run([String.t]) :: no_return
-  def run(args) do
+  @type runner_fn :: ((%{String.t => String.t}) -> non_neg_integer)
+
+  @runner_fn &__MODULE__.run_backstop/1
+  @await_fn &Backstop.Servers.await/1
+
+  @spec run([String.t], [atom], runner_fn, Backstop.Servers.await_fn) :: no_return
+  def run(args, modules \\ [Wiremock, Phoenix], runner_fn \\ @runner_fn, await_fn \\ @await_fn) do
     args
     |> Enum.map(&arg_to_tuple/1)
     |> Enum.into(%{})
-    |> do_run()
+    |> do_run(modules, runner_fn, await_fn)
   end
 
-  @spec do_run(%{optional(String.t) => String.t}) :: no_return
-  def do_run(args_map) do
-    [Wiremock, Phoenix]
+  @spec do_run(%{optional(String.t) => String.t}, [atom], runner_fn, Backstop.Servers.await_fn) :: no_return
+  def do_run(args_map, modules, runner_fn, await_fn) do
+    modules
     |> Enum.map(&start_server/1)
-    |> Helpers.run_with_pids(args_map, &run_backstop/1)
-    |> System.halt
+    |> Helpers.run_with_pids(args_map, runner_fn, await_fn)
+    |> shutdown()
+  end
+
+  defp shutdown({status, pids}) do
+    Enum.each(pids, &Backstop.Servers.shutdown/1)
+    _ = Logger.flush
+    return_status({status, pids})
+  end
+
+  defp return_status({0, pids}) do
+    {:ok, pids}
+  end
+  defp return_status(error) do
+    {:error, error}
   end
 
   @spec start_server(atom) :: pid
@@ -34,7 +52,7 @@ defmodule Mix.Tasks.Backstop.Tests do
   end
 
   @spec run_backstop(%{String.t => String.t}) :: non_neg_integer
-  defp run_backstop(args_map) do
+  def run_backstop(args_map) do
     default_args = ["--config=apps/site/backstop.json"]
     backstop_args = case args_map do
       %{"--filter" => scenario} -> ["--filter=#{scenario}" | default_args]

@@ -59,14 +59,12 @@ defmodule Backstop.ServersTest do
   describe "run_with_pids/2" do
     test "returns fn status code if servers start" do
       {:ok, pid} = Backstop.ServersTest.TestServer.start_link()
-      assert 2 == Backstop.Servers.Helpers.run_with_pids([pid], %{}, fn _ -> 2 end)
-      refute Process.alive?(pid)
+      assert Backstop.Servers.Helpers.run_with_pids([pid], %{}, fn _ -> 2 end) == {2, [pid]}
     end
 
     test "returns 1 if the server fails to start" do
       {:ok, pid} = Backstop.ServersTest.ErrorServer.start_link()
-      assert 1 == Backstop.Servers.Helpers.run_with_pids([pid], %{}, fn _ -> 2 end)
-      refute Process.alive?(pid)
+      assert Backstop.Servers.Helpers.run_with_pids([pid], %{}, fn _ -> 2 end) == {1, [pid]}
     end
   end
 
