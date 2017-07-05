@@ -71,6 +71,13 @@ defmodule Site.FareControllerTest do
     test "renders a page about retail sale locations", %{conn: conn} do
       conn = get conn, fare_path(conn, :show, :retail_sales_locations)
       assert html_response(conn, 200) =~ "Retail Sales Locations"
+      assert conn.assigns[:fare_sales_locations] == []
+    end
+
+    test "assigns a lat and a long for retail sales locations", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :retail_sales_locations, lat: "42.0", long: "-71.0")
+      assert conn.assigns[:search_position] == %{latitude: 42.0, longitude: -71.0}
+      assert is_list conn.assigns[:fare_sales_locations]
     end
   end
 

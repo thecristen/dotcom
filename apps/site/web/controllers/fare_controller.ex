@@ -39,13 +39,26 @@ defmodule Site.FareController do
       ]
     ]
   end
-  def show(conn, %{"id" => "retail_sales_locations"}) do
-    render(conn, "retail_sales_locations.html")
+  def show(conn, %{"id" => "retail_sales_locations"} = params) do
+    conn
+    |> assign_fare_sales_locations(params)
+    |> render("retail_sales_locations.html")
   end
   def show(conn, params) do
     params["id"]
     |> fare_module
     |> render_fare_module(conn)
+  end
+
+  defp assign_fare_sales_locations(conn, %{"lat" => lat, "long" => long}) do
+    position = %{latitude: String.to_float(lat), longitude: String.to_float(long)}
+    conn
+    |> assign(:search_position, position)
+    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(position))
+  end
+  defp assign_fare_sales_locations(conn, _params) do
+    conn
+    |> assign(:fare_sales_locations, [])
   end
 
   defp format_filters(filters, :the_ride) do

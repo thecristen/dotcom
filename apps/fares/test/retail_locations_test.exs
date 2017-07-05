@@ -24,5 +24,11 @@ defmodule Fares.RetailLocationsTest do
       |> Enum.sort
       |> List.first == top_distance
     end
+
+    test "returns nearby sales locations given a lat and a long" do
+      locations = Fares.RetailLocations.get_nearby(%{latitude: 42.352271, longitude: -71.055242})
+      assert is_list locations
+      assert length(locations) > 0
+    end
   end
 end
