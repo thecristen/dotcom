@@ -55,17 +55,15 @@ defmodule Mix.Tasks.Backstop.Tests do
 
   @spec run_backstop(%{String.t => String.t}, cmd_fn) :: non_neg_integer
   def run_backstop(args_map, cmd_fn \\ &System.cmd/3) do
-    try do
-      args = backstop_args(args_map)
-      _ = Logger.info "starting Backstop with args: #{inspect args}"
-      bin_path = Path.join(File.cwd!(), "apps/site/node_modules/.bin/backstop")
-      {_stream, status} = cmd_fn.(bin_path, ["test" | args], into: IO.stream(:stdio, :line))
-      status
-    rescue
-      RuntimeError ->
-        _ = Logger.error "Backstop did not start; shutting down"
+    args = backstop_args(args_map)
+    _ = Logger.info "starting Backstop with args: #{inspect args}"
+    bin_path = Path.join(File.cwd!(), "apps/site/node_modules/.bin/backstop")
+    {_stream, status} = cmd_fn.(bin_path, ["test" | args], into: IO.stream(:stdio, :line))
+    status
+  rescue
+    RuntimeError ->
+      _ = Logger.error "Backstop did not start; shutting down"
       1
-    end
   end
 
   defp backstop_args(%{"--filter" => scenario}) do

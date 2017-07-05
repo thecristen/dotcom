@@ -54,7 +54,6 @@ defmodule Mix.Tasks.Backstop.TestsTest do
     {:ok, 2}
   end
 
-
   describe "run_backstop/2" do
     test "runs backstop with filter when --filter option is used" do
       assert Mix.Tasks.Backstop.Tests.run_backstop(%{"--filter" => "Homepage"}, &cmd_fn/3) == 2
