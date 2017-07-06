@@ -221,6 +221,13 @@
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
+    },
+    {
+      "label": "Commuter Rail Maps and Info Worcester",
+      "url": "https://dev.mbtace.com/schedules/CR-Worcester/line?direction_id=0&date_time=2017-12-01T12:00:00-04:00",
+      "selectors": ["main"],
+      "delay": 100,
+      "misMatchThreshold": 0.1
     }
   ],
   "paths": {
