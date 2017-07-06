@@ -50,7 +50,7 @@ defmodule Site.TripPlan.RelatedLinkTest do
             nil
         end
       end
-      expected_text_urls = for leg <- itinerary.legs,
+      expected_text_urls = for leg <- itinerary,
         expected = expected_text_url.(leg) do
           expected
       end

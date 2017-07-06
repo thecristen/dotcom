@@ -66,7 +66,7 @@ defmodule Site.TripPlan.RelatedLink do
     route_links = for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary) do
       route_id |> route_by_id.() |> route_link(trip_id, itinerary)
     end
-    fare_links = for leg <- itinerary.legs,
+    fare_links = for leg <- itinerary,
       {:ok, route_id} <- [Leg.route_id(leg)],
       route = route_by_id.(route_id) do
         fare_link(route, leg)
