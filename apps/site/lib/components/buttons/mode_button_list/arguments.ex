@@ -7,6 +7,7 @@ defmodule Site.Components.Buttons.ModeButtonList do
   """
   alias Site.Components.Icons.{SvgIcon, SvgIconWithCircle}
   alias Site.Components.Buttons.ButtonGroup
+  import Phoenix.HTML, only: [raw: 1]
 
   defstruct class:     "",
             id:        nil,
@@ -73,8 +74,20 @@ defmodule Site.Components.Buttons.ModeButtonList do
   def button_content(route, %__MODULE__{conn: conn, alerts: alerts, date: date}) do
     {[
       icon_if_subway(route),
-      Phoenix.HTML.Tag.content_tag(:span, [Site.ViewHelpers.clean_route_name(route.name), alert_icon(route, alerts, date)], class: "mode-button-text")
+      Phoenix.HTML.Tag.content_tag(:span,
+                                   wrap_on_slash_not_alert(Site.ViewHelpers.clean_route_name(route.name),
+                                                           alert_icon(route, alerts, date)),
+                                   class: "mode-button-text")
     ], Site.Router.Helpers.schedule_path(conn, :show, route.id)}
+  end
+
+  defp wrap_on_slash_not_alert(route_name, alert) do
+    if String.contains?(route_name, "/​") do
+      [first | rest] = String.split(route_name, "/​")
+      [first, "/", raw("<wbr/>"), Phoenix.HTML.Tag.content_tag(:span, [rest, alert], class: "nowrap")]
+    else
+      [route_name, alert]
+    end
   end
 
   @doc """

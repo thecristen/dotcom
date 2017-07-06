@@ -44,6 +44,20 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "icon-alert"
     end
 
+    test "routes with a slash and an alert get properly no-wrap-ed" do
+      rendered = mode_button_list(%ModeButtonList{
+        routes: [%Routes.Route{id: "CR-Providence", name: "Providence/Stoughton", type: 2}],
+        route_type: :commuter_rail,
+        alerts: [%Alerts.Alert{
+                  effect: :delay,
+                  informed_entity: [%Alerts.InformedEntity{route: "CR-Providence", route_type: 2}],
+                  lifecycle: :new,
+                  active_period: current_active_period()
+        }]}) |> safe_to_string
+      assert rendered =~ "wbr"
+      assert rendered =~ "nowrap"
+    end
+
     test "green line alerts are rendered with an alert icon" do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "Green", key_route?: false, name: "Green", type: 1}],

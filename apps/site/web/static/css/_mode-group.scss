@@ -8,6 +8,10 @@
       height: $font-size-sm;
       width: $font-size-sm;
     }
+
+    .nowrap {
+      white-space: nowrap;
+    }
   }
 
   &:first-child {
@@ -70,7 +74,6 @@
   .commuter-rail {
     .mode-button-text {
       vertical-align: middle;
-      white-space: normal;
     }
   }
 }
