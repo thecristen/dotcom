@@ -62,24 +62,24 @@ defmodule Site.TripPlan.RelatedLink do
   @spec links_for_itinerary(Itinerary.t, Keyword.t) :: [t]
   def links_for_itinerary(itinerary, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
-    route_by_id = Keyword.get(opts, :route_by_id)
-    route_links = for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary) do
-      route_id |> route_by_id.() |> route_link(trip_id, itinerary)
+    for func <- [&route_links/2, &fare_links/2],
+      link <- func.(itinerary, opts) do
+        link
     end
-    fare_links = for leg <- itinerary,
-      {:ok, route_id} <- [Leg.route_id(leg)],
-      route = route_by_id.(route_id) do
-        fare_link(route, leg)
-    end
-    |> Enum.uniq
-    |> simplify_fare_text
-
-    Enum.concat(route_links, fare_links)
   end
 
   defp optional_icon(nil), do: []
   defp optional_icon(icon_name) do
     svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: icon_name, class: "icon-small"})
+  end
+
+  defp route_links(itinerary, opts) do
+    route_by_id = Keyword.get(opts, :route_by_id)
+    for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary) do
+      route_id
+      |> route_by_id.()
+      |> route_link(trip_id, itinerary)
+    end
   end
 
   defp route_link(route, trip_id, itinerary) do
@@ -93,6 +93,17 @@ defmodule Site.TripPlan.RelatedLink do
     date = Timex.format!(itinerary.start, "{ISOdate}")
     url = schedule_path(Site.Endpoint, :show, route, date: date, trip: trip_id)
     new(text, url, icon_name)
+  end
+
+  defp fare_links(itinerary, opts) do
+    route_by_id = Keyword.get(opts, :route_by_id)
+    for leg <- itinerary,
+      {:ok, route_id} <- [Leg.route_id(leg)],
+      route = route_by_id.(route_id) do
+        fare_link(route, leg)
+    end
+    |> Enum.uniq
+    |> simplify_fare_text
   end
 
   defp fare_link(route, leg) do
