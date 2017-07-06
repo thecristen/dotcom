@@ -1,0 +1,30 @@
+defmodule Content.Person do
+  @moduledoc """
+  Represents a "person" content type in the Drupal CMS.
+  """
+
+  import Content.Helpers, only: [field_value: 2, handle_html: 1, parse_image: 2]
+  import Phoenix.HTML, only: [raw: 1]
+
+  @enforce_keys [:id]
+  defstruct [:id, bio: raw(""), name: "", position: "", profile_image: ""]
+
+  @type t :: %__MODULE__{
+    id: integer,
+    bio: Phoenix.HTML.safe,
+    name: String.t,
+    position: String.t,
+    profile_image: Content.Field.Image.t
+  }
+
+  @spec from_api(map) :: t
+  def from_api(data) do
+    %__MODULE__{
+      id: field_value(data, "nid"),
+      bio: handle_html(field_value(data, "field_bio")),
+      name: field_value(data, "title"),
+      position: field_value(data, "field_position"),
+      profile_image: parse_image(data, "field_profile_image")
+    }
+  end
+end

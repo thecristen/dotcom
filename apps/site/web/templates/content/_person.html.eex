@@ -1,0 +1,8 @@
+<div class="people-grid-photo">
+  <%= img_tag(@person.profile_image.url, alt: @person.profile_image.alt) %>
+</div>
+
+<div>
+  <div><strong><%= @person.name %></strong></div>
+  <div><%= @person.position %></div>
+</div>
