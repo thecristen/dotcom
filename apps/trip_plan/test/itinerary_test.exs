@@ -9,7 +9,7 @@ defmodule TripPlan.ItineraryTest do
   describe "route_ids/1" do
     test "returns all the route IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      test_calculated_ids = Enum.flat_map(itinerary.legs, fn leg ->
+      test_calculated_ids = Enum.flat_map(itinerary, fn leg ->
         case leg.mode do
           %TransitDetail{route_id: route_id} -> [route_id]
           _ -> []
@@ -22,7 +22,7 @@ defmodule TripPlan.ItineraryTest do
   describe "trip_ids/1" do
     test "returns all the trip IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      test_calculated_ids = Enum.flat_map(itinerary.legs, fn leg ->
+      test_calculated_ids = Enum.flat_map(itinerary, fn leg ->
         case leg.mode do
           %TransitDetail{trip_id: trip_id} -> [trip_id]
           _ -> []
@@ -44,8 +44,8 @@ defmodule TripPlan.ItineraryTest do
   describe "stop_ids/1" do
     test "returns all the stop IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      first_leg = List.first(itinerary.legs)
-      last_leg = List.last(itinerary.legs)
+      first_leg = Enum.at(itinerary, 0)
+      last_leg = Enum.at(itinerary, -1)
       test_calculated_ids = Enum.uniq([first_leg.from.stop_id, last_leg.from.stop_id, last_leg.to.stop_id])
       assert test_calculated_ids == stop_ids(itinerary)
     end
