@@ -22,7 +22,7 @@ defmodule Site.TripPlanController do
       itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
       related_links: with_itineraries(query, [], &related_links(&1, route_mapper)),
       alerts: with_itineraries(query, [], &alerts(&1, route_mapper)),
-      itinerary_row_lists: itinerary_row_lists(query)
+      itinerary_row_lists: itinerary_row_lists(query, route_mapper)
   end
   def index(conn, _params) do
     render(conn, :index)
@@ -32,12 +32,12 @@ defmodule Site.TripPlanController do
     assign(conn, :requires_google_maps?, true)
   end
 
-  def itinerary_row_lists(query) do
-    with_itineraries(query, [], &do_itinerary_row_lists/1)
+  def itinerary_row_lists(query, route_mapper) do
+    with_itineraries(query, [], &do_itinerary_row_lists(&1, route_mapper))
   end
 
-  defp do_itinerary_row_lists(itineraries) do
-    Enum.map(itineraries, fn itinerary -> ItineraryRowList.from_itinerary(itinerary) end)
+  defp do_itinerary_row_lists(itineraries, route_mapper) do
+    Enum.map(itineraries, fn itinerary -> ItineraryRowList.from_itinerary(itinerary, route_mapper: route_mapper) end)
   end
 
   def assign_initial_map(conn, url) do

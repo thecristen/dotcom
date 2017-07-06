@@ -46,4 +46,16 @@ defmodule TripPlan.LegTest do
       assert [@to.stop_id] == stop_ids(personal_leg)
     end
   end
+
+  describe "transit?/1" do
+    test "Returns true for transit leg" do
+      transit_leg = MockPlanner.transit_leg(@from, @to, @start, @stop)
+      assert transit?(transit_leg)
+    end
+
+    test "Returns false for personal leg" do
+      personal_leg = MockPlanner.personal_leg(@from, @to, @start, @stop)
+      refute transit?(personal_leg)
+    end
+  end
 end

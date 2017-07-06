@@ -45,6 +45,11 @@ defmodule TripPlan.Leg do
     :error
   end
 
+  @doc "Determines if this leg uses public transit"
+  @spec transit?(t) :: boolean
+  def transit?(%__MODULE__{mode: %PersonalDetail{}}), do: false
+  def transit?(%__MODULE__{mode: %TransitDetail{}}), do: true
+
   @doc "Returns the stop IDs for the leg"
   @spec stop_ids(t) :: [Stops.Stop.id_t]
   def stop_ids(%__MODULE__{from: from, to: to}) do

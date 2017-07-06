@@ -20,8 +20,8 @@
     <div>
       <div>
         <%= for row <- @itinerary_row_list.rows, do: render "_itinerary_row.html", itinerary_row: row, conn: @conn %>
-        <% {destination_name, _destination_id, arrival_time} = @itinerary_row_list.destination %>
-        <%= destination_name %>
+        <% {destination_name, destination_id, arrival_time} = @itinerary_row_list.destination %>
+        <%= render "_itinerary_stop.html", stop_name: destination_name, stop_id: destination_id, conn: @conn %>
         <div>
           Arrive at your destination
           <div class="pull-right"><%= format_schedule_time(arrival_time) %> </div>

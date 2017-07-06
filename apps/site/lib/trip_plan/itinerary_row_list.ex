@@ -1,6 +1,13 @@
 defmodule Site.TripPlan.ItineraryRowList do
+
+  @moduledoc """
+  A data structure describing a list of ItineraryRows and
+  the final destination of an itinerary
+  """
   alias Site.TripPlan.ItineraryRow
-  alias TripPlan.{Itinerary, Leg}
+  alias TripPlan.Itinerary
+
+  @typep destination :: {String.t, String.t, DateTime.t}
 
   defstruct [
     rows: [],
@@ -9,25 +16,32 @@ defmodule Site.TripPlan.ItineraryRowList do
 
   @type t :: %__MODULE__{
     rows: [ItineraryRow.t],
-    destination: {String.t, String.t, DateTime.t}
+    destination: destination
   }
 
-  def from_itinerary(%Itinerary{legs: legs}) do
-    %__MODULE__{rows: get_rows(legs), destination: get_destination(List.last(legs))}
+  @doc  """
+  Builds a ItineraryRowList from the given itinerary
+  """
+  @spec from_itinerary(Itinerary.t, Keyword.t) :: t
+  def from_itinerary(%Itinerary{legs: legs}, opts) do
+    %__MODULE__{rows: get_rows(legs, opts), destination: get_destination(legs)}
   end
 
-  defp get_rows(legs) do
+  @spec get_rows([TripPlan.Leg.t], Keyword.t) :: [ItineraryRow.t]
+  defp get_rows(legs, opts) do
     legs
-    |> Enum.map(&ItineraryRow.from_leg/1)
+    |> Enum.map(&ItineraryRow.from_leg(&1, opts))
     |> arrival_times(legs)
   end
 
+  @spec arrival_times([ItineraryRow.t], [TripPlan.Leg.t]) :: [ItineraryRow.t]
   defp arrival_times(itinerary_rows, legs) do
     itinerary_rows
     |> Enum.zip([nil | legs])
     |> Enum.map(&do_arrival_times/1)
   end
 
+  @spec do_arrival_times({ItineraryRow.t, TripPlan.Leg.t | nil}) :: ItineraryRow.t
   defp do_arrival_times({itinerary_row, nil}) do
     %{itinerary_row | arrival: nil}
   end
@@ -35,8 +49,10 @@ defmodule Site.TripPlan.ItineraryRowList do
     %{itinerary_row | arrival: leg.stop}
   end
 
-  defp get_destination(leg) do
-    {name, stop_id} = ItineraryRow.name_from_position(leg.to)
-    {name, stop_id, leg.stop}
+  @spec get_destination([TripPlan.Leg.t]) :: destination
+  defp get_destination(legs) do
+    last_leg = List.last(legs)
+    {name, stop_id} = last_leg |> Map.get(:to) |> ItineraryRow.name_from_position()
+    {name, stop_id, last_leg.stop}
   end
 end
