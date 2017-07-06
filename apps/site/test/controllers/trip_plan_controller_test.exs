@@ -1,5 +1,6 @@
 defmodule Site.TripPlanControllerTest do
   use Site.ConnCase, async: true
+  alias Site.TripPlan.Query
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
   @good_params %{
@@ -31,7 +32,7 @@ defmodule Site.TripPlanControllerTest do
       assert response =~ "Directions"
       assert response =~ "Itinerary 1"
       assert conn.assigns.requires_google_maps?
-      assert %TripPlan.Query{} = conn.assigns.query
+      assert %Query{} = conn.assigns.query
       assert Map.size(conn.assigns.route_map) > 0
 
     end
@@ -50,7 +51,7 @@ defmodule Site.TripPlanControllerTest do
 
       assert html_response(conn, 200) =~ "Directions"
       assert conn.assigns.requires_google_maps?
-      assert %TripPlan.Query{} = conn.assigns.query
+      assert %Query{} = conn.assigns.query
       assert Map.size(conn.assigns.route_map) > 0
     end
 
@@ -70,7 +71,7 @@ defmodule Site.TripPlanControllerTest do
       assert response =~ "Directions"
       assert response =~ "Did you mean?"
       assert conn.assigns.requires_google_maps?
-      assert %TripPlan.Query{} = conn.assigns.query
+      assert %Query{} = conn.assigns.query
     end
 
     test "renders a prereq error with the initial map", %{conn: conn} do

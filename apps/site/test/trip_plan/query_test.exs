@@ -1,7 +1,8 @@
-defmodule TripPlan.QueryTest do
+defmodule Site.TripPlan.QueryTest do
   use ExUnit.Case, async: true
 
-  import TripPlan.Query
+  import Site.TripPlan.Query
+  alias Site.TripPlan.Query
 
   @date_time Timex.to_datetime(~N[2017-05-30T19:30:00], "America/New_York")
   @date_time_param %{
@@ -20,7 +21,7 @@ defmodule TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
-      assert %TripPlan.Query{
+      assert %Query{
         from: {:ok, from_position},
         to: {:ok, to_position},
         itineraries: {:ok, itineraries}
@@ -37,7 +38,7 @@ defmodule TripPlan.QueryTest do
       to_position = %TripPlan.NamedPosition{latitude: 42.3428, longitude: -71.0857, name: "Current Location"}
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
-      assert %TripPlan.Query{
+      assert %Query{
         from: {:ok, from_position},
         to: {:ok, to_position},
         itineraries: {:ok, itineraries}
@@ -53,7 +54,7 @@ defmodule TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
-      assert %TripPlan.Query{
+      assert %Query{
         from: {:ok, from_position},
         to: {:ok, to_position},
         itineraries: {:ok, itineraries}
@@ -63,7 +64,7 @@ defmodule TripPlan.QueryTest do
     test "ignores params that are empty strings or missing" do
       params = %{"from" => ""}
       actual = from_query(params)
-      assert %TripPlan.Query{
+      assert %Query{
         from: {:error, :required},
         to: {:error, :required},
         itineraries: {:error, :prereq}
@@ -105,7 +106,7 @@ defmodule TripPlan.QueryTest do
       refute_received {:planned_trip, _, _}
       assert {:error, :no_results} = from_result
       assert {:error, {:too_many_results, _}} = to_result
-      assert %TripPlan.Query{
+      assert %Query{
         from: ^from_result,
         to: ^to_result,
         itineraries: {:error, _}

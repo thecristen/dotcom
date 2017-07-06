@@ -3,6 +3,7 @@ defmodule Site.TripPlanViewTest do
   import Site.TripPlanView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
+  alias Site.TripPlan.Query
   alias TripPlan.Api.MockPlanner
 
   @from MockPlanner.random_stop()
@@ -16,14 +17,14 @@ defmodule Site.TripPlanViewTest do
     end
 
     test "renders an empty string if the query has a good value for the field", %{conn: conn} do
-      query = %TripPlan.Query{from: {:ok, @from}, to: {:error, :unknown}, itineraries: {:error, :unknown}}
+      query = %Query{from: {:ok, @from}, to: {:error, :unknown}, itineraries: {:error, :unknown}}
       assert "" == rendered_location_error(conn, query, :from)
       refute "" == rendered_location_error(conn, query, :to)
     end
 
     test "renders each position as a link if we have too many results", %{conn: conn} do
       {:error, {:too_many_results, results}} = from = TripPlan.geocode("too many results")
-      query = %TripPlan.Query{
+      query = %Query{
         from: from,
         to: {:error, :unknown},
         itineraries: {:error, :unknown}}
