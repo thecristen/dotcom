@@ -25,7 +25,7 @@ defmodule Site.TripPlan.Alerts do
 
   @spec entities(Itinerary.t, Keyword.t) :: [IE.t]
   defp entities(itinerary, opts) do
-    itinerary.legs
+    itinerary
     |> Enum.flat_map(&leg_entities(&1, opts))
     |> Enum.uniq
   end

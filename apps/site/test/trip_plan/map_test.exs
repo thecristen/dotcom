@@ -30,7 +30,7 @@ defmodule Site.TripPlan.MapTest do
     end
 
     test "z index is 1 if leg has a route", %{itinerary: itinerary, map_data: map_data} do
-      assert Enum.count(itinerary.legs) == 2
+      assert Enum.count(itinerary) == 2
       assert [_route_id] = Itinerary.route_ids(itinerary)
       assert markers_with_z_index(0, map_data.markers) == 2
       assert markers_with_z_index(1, map_data.markers) == 2

@@ -51,3 +51,20 @@ defmodule TripPlan.Itinerary do
     end
   end
 end
+
+defimpl Enumerable, for: TripPlan.Itinerary do
+  def count(_itinerary) do
+    {:error, __MODULE__}
+  end
+
+  def member?(_itinerary, %TripPlan.Leg{}) do
+    {:error, __MODULE__}
+  end
+  def member?(_itinerary, _other) do
+    {:ok, false}
+  end
+
+  def reduce(%{legs: legs}, acc, fun) do
+    Enumerable.reduce(legs, acc, fun)
+  end
+end

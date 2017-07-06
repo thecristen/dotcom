@@ -48,8 +48,8 @@ defmodule Site.TripPlan.Map do
 
   @spec itinerary_map_data(Itinerary.t, Keyword.t) :: MapData.t
   defp itinerary_map_data(itinerary, opts) do
-    markers = markers_for_legs(itinerary.legs, opts)
-    paths = Enum.map(itinerary.legs, &build_leg_path(&1, opts[:route_mapper]))
+    markers = markers_for_legs(itinerary, opts)
+    paths = Enum.map(itinerary, &build_leg_path(&1, opts[:route_mapper]))
 
     {600, 600}
     |> MapData.new()
@@ -63,7 +63,7 @@ defmodule Site.TripPlan.Map do
     Path.new(leg.polyline, color)
   end
 
-  @spec markers_for_legs([Leg.t], Keyword.t) :: [Marker.t]
+  @spec markers_for_legs(Itinerary.t, Keyword.t) :: [Marker.t]
   defp markers_for_legs(legs, opts) do
     Enum.flat_map(legs, &build_marker_for_leg(&1, opts))
   end
