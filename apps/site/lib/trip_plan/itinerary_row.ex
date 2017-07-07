@@ -1,9 +1,8 @@
 defmodule Site.TripPlan.ItineraryRow do
-  alias Site.TripPlan.Step
   alias TripPlan.{PersonalDetail, TransitDetail, NamedPosition, Leg}
   alias TripPlan.PersonalDetail.Step
 
-  @typep name_and_id :: {String.t | nil, String.t | nil}
+  @typep name_and_id :: {String.t, String.t | nil}
 
   @default_opts [
     stop_mapper: &Stops.Repo.get/1,
@@ -28,7 +27,7 @@ defmodule Site.TripPlan.ItineraryRow do
     trip: Schedules.Trip.t | nil,
     arrival: DateTime.t | nil,
     departure: DateTime.t,
-    steps: [Step.t]
+    steps: [String.t]
   }
 
   @type route_mapper :: (Routes.Route.id_t -> Routes.Route.t | nil)
@@ -77,10 +76,9 @@ defmodule Site.TripPlan.ItineraryRow do
     Enum.map(steps, &format_personal_step/1)
   end
   defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, stop_mapper) do
-    stop_ids
-    |> Task.async_stream(stop_mapper)
-    |> Enum.filter(fn {:ok, stop} -> stop end)
-    |> Enum.map(fn {:ok, stop} -> stop.name end)
+    for {:ok, stop} <- Task.async_stream(stop_ids, stop_mapper), stop do
+      stop.name
+    end
   end
 
   @spec parse_route_id(:error | {:ok, String.t}, route_mapper) :: Routes.Route.t | nil

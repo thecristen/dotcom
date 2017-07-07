@@ -39,7 +39,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
     end
 
     test "Rows have departure times of corresponding legs", %{itinerary: itinerary, itinerary_row_list: row_list} do
-      for {row, leg} <- Enum.zip(row_list.rows, itinerary.legs) do
+      for {row, leg} <- Enum.zip(row_list, itinerary) do
         assert row.departure == leg.start
       end
     end

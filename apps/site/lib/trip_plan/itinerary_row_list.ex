@@ -42,3 +42,20 @@ defmodule Site.TripPlan.ItineraryRowList do
     {name, stop_id, last_leg.stop}
   end
 end
+
+defimpl Enumerable, for: Site.TripPlan.ItineraryRowList do
+  def count(_itinerary_row_list) do
+    {:error, __MODULE__}
+  end
+
+  def member?(_itinerary_row_list, %Site.TripPlan.ItineraryRow{}) do
+    {:error, __MODULE__}
+  end
+  def member?(_itinerary_row_list, _other) do
+    {:ok, false}
+  end
+
+  def reduce(%{rows: rows}, acc, fun) do
+    Enumerable.reduce(rows, acc, fun)
+  end
+end
