@@ -63,9 +63,17 @@ defmodule Site.StopController do
       |> Enum.min_by(& &1.type)
       |> Routes.Route.type_atom
 
-    [{stop_path(Site.Endpoint, :show, breadcrumb_tab), "Stations"}, name]
+    breadcrumbs_for_station_type(breadcrumb_tab, name)
   end
   defp breadcrumbs(%Stop{name: name}) do
+    breadcrumbs_for_station_type(nil, name)
+  end
+
+  defp breadcrumbs_for_station_type(breadcrumb_tab, name)
+  when breadcrumb_tab in ~w(subway commuter_rail ferry)a do
+    [{stop_path(Site.Endpoint, :show, breadcrumb_tab), "Stations"}, name]
+  end
+  defp breadcrumbs_for_station_type(_, name) do
     [name]
   end
 
