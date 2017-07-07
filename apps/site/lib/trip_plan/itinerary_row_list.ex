@@ -23,30 +23,16 @@ defmodule Site.TripPlan.ItineraryRowList do
   Builds a ItineraryRowList from the given itinerary
   """
   @spec from_itinerary(Itinerary.t, Keyword.t) :: t
-  def from_itinerary(%Itinerary{legs: legs}, opts) do
-    %__MODULE__{rows: get_rows(legs, opts), destination: get_destination(legs)}
+  def from_itinerary(%Itinerary{legs: legs} = itinerary, opts) do
+    %__MODULE__{rows: get_rows(itinerary, opts), destination: get_destination(legs)}
   end
 
-  @spec get_rows([TripPlan.Leg.t], Keyword.t) :: [ItineraryRow.t]
-  defp get_rows(legs, opts) do
-    legs
-    |> Enum.map(&ItineraryRow.from_leg(&1, opts))
-    |> arrival_times(legs)
-  end
-
-  @spec arrival_times([ItineraryRow.t], [TripPlan.Leg.t]) :: [ItineraryRow.t]
-  defp arrival_times(itinerary_rows, legs) do
-    itinerary_rows
-    |> Enum.zip([nil | legs])
-    |> Enum.map(&do_arrival_times/1)
-  end
-
-  @spec do_arrival_times({ItineraryRow.t, TripPlan.Leg.t | nil}) :: ItineraryRow.t
-  defp do_arrival_times({itinerary_row, nil}) do
-    %{itinerary_row | arrival: nil}
-  end
-  defp do_arrival_times({itinerary_row, leg}) do
-    %{itinerary_row | arrival: leg.stop}
+  @spec get_rows(Itinerary.t, Keyword.t) :: [ItineraryRow.t]
+  defp get_rows(itinerary, opts) do
+    [nil]
+    |> Enum.concat(itinerary)
+    |> Enum.zip(itinerary)
+    |> Enum.map(fn {before, current} -> ItineraryRow.from_legs(current, before, opts) end)
   end
 
   @spec get_destination([TripPlan.Leg.t]) :: destination

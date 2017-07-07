@@ -1,0 +1,5 @@
+<%= if @stop_id do %>
+  <%= link @stop_name, to: stop_path(@conn, :show, @stop_id) %>
+<% else %>
+  <div><%= @stop_name %></div>
+<% end %>
