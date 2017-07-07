@@ -57,4 +57,4 @@ sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/pa
 npm config set cache $SEMAPHORE_CACHE_DIR/npm
 NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run install --no-optional
 npm run brunch:build
-MIX_ENV=test mix compile --force
+MIX_ENV=test mix compile --warnings-as-errors --force
