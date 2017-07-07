@@ -1,5 +1,6 @@
 defmodule Site.TripPlanController do
   use Site.Web, :controller
+  alias Site.TripPlan.Query
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
   alias Site.TripPlan.RelatedLink
@@ -11,7 +12,7 @@ defmodule Site.TripPlanController do
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
 
   def index(conn, %{"plan" => plan}) do
-    query = TripPlan.Query.from_query(plan)
+    query = Query.from_query(plan)
     route_map = with_itineraries(query, %{}, &routes_for_query/1)
     route_mapper = &Map.get(route_map, &1)
     render conn,
@@ -34,10 +35,10 @@ defmodule Site.TripPlanController do
   end
 
   defp with_itineraries(query, default, function)
-  defp with_itineraries(%TripPlan.Query{itineraries: {:ok, itineraries}}, _default, function) do
+  defp with_itineraries(%Query{itineraries: {:ok, itineraries}}, _default, function) do
     function.(itineraries)
   end
-  defp with_itineraries(%TripPlan.Query{}, default, _function) do
+  defp with_itineraries(%Query{}, default, _function) do
     default
   end
 

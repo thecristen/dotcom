@@ -1,4 +1,4 @@
-defmodule TripPlan.Query do
+defmodule Site.TripPlan.Query do
   alias TripPlan.{Itinerary, Geocode}
 
   @enforce_keys [:from, :to, :itineraries]

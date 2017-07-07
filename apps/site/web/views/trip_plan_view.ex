@@ -1,6 +1,7 @@
 defmodule Site.TripPlanView do
   use Site.Web, :view
-  alias TripPlan.{Leg, TransitDetail, PersonalDetail, Query}
+  alias TripPlan.{Leg, TransitDetail, PersonalDetail}
+  alias Site.TripPlan.Query
 
   @spec rendered_location_error(Plug.Conn.t, Query.t | nil, :from | :to) :: Phoenix.HTML.Safe.t
   def rendered_location_error(conn, query_or_nil, location_field)
@@ -63,7 +64,7 @@ defmodule Site.TripPlanView do
   end
 
   def location_input_class(params, key) do
-    if TripPlan.Query.fetch_lat_lng(params, Atom.to_string(key)) == :error do
+    if Query.fetch_lat_lng(params, Atom.to_string(key)) == :error do
       ""
     else
       "trip-plan-current-location"
