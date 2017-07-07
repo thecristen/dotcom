@@ -73,11 +73,45 @@ defmodule Site.FareControllerTest do
       assert html_response(conn, 200) =~ "Retail Sales Locations"
       assert conn.assigns[:fare_sales_locations] == []
     end
+  end
 
-    test "assigns a lat and a long for retail sales locations", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :retail_sales_locations, lat: "42.0", long: "-71.0")
-      assert conn.assigns[:search_position] == %{latitude: 42.0, longitude: -71.0}
-      assert is_list conn.assigns[:fare_sales_locations]
+  describe "assign_fare_sales_locations/3" do
+    test "assigns retail_sales_locations", %{conn: conn} do
+      nearby_fn = fn position -> [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}] end
+
+      conn = conn
+      |> assign(:search_position, %{latitude: 42.0, longitude: -71.0})
+
+      conn = assign_fare_sales_locations(conn, nearby_fn)
+      assert conn.assigns[:fare_sales_locations] == [{%{latitude: 42.0, longitude: -71.0}, 10.0}]
+    end
+
+    test "when there is no search position, assigns an empty list of nearby locations", %{conn: conn} do
+      nearby_fn = fn position -> [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}] end
+
+      conn = assign_fare_sales_locations(conn, nearby_fn)
+      assert conn.assigns[:fare_sales_locations] == []
+    end
+  end
+
+  describe "assign_position/3" do
+    test "it assigns search position and address", %{conn: conn} do
+      params = %{"location" => %{"address" => "42.0, -71.0"}}
+      geocode_fn = fn _address ->
+        {:ok, [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
+      end
+
+      conn = assign_position(conn, params, geocode_fn)
+      assert conn.assigns[:address] == "address"
+      assert %{latitude: 42.0, longitude: -70.1} = conn.assigns[:search_position]
+    end
+
+    test "when there is no location map assigns no position", %{conn: conn} do
+      params = %{}
+      geocode_fn = fn _address -> %{formatted: "address", latitude: 42.0, longitude: -71.0} end
+      conn = assign_position(conn, params, geocode_fn)
+      assert conn.assigns[:address] == ""
+      assert conn.assigns[:search_position] == %{}
     end
   end
 

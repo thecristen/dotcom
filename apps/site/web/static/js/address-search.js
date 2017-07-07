@@ -1,6 +1,6 @@
 export default function() {
   function setupLocationInput() {
-    const transitNearMeInput = document.getElementById('transit-near-me-input');
+    const transitNearMeInput = document.getElementById('address-search-input');
 
     // only load on pages that are using the location input
     if (!transitNearMeInput) {
@@ -12,8 +12,8 @@ export default function() {
   }
 
   document.addEventListener('turbolinks:load', setupLocationInput, {passive: true});
-  $(document).on('autocomplete:added', '#transit-near-me-input', addLocationChangeCallback);
-  $(document).on('geolocation:complete', '#transit-near-me-input', geolocationCallback);
+  $(document).on('autocomplete:added', '#address-search-input', addLocationChangeCallback);
+  $(document).on('geolocation:complete', '#address-search-input', geolocationCallback);
 }
 
 // Functions exported for testing //
@@ -81,5 +81,5 @@ function addLocationChangeCallback(ev, autocomplete) {
 function geolocationCallback(ev, location) {
   const path = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
   const qs = `?location[address]=${location.coords.latitude}, ${location.coords.longitude}`;
-  window.location.href = encodeURI(path + qs + '#transit-near-me-input');
+  window.location.href = encodeURI(path + qs + '#address-search-input');
 }

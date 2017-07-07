@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { getUrlParameter, validateLocationForm, constructUrl } from '../../web/static/js/transit-near-me';
+import { getUrlParameter, validateLocationForm, constructUrl } from '../../web/static/js/address-search';
 
 describe('input-location', () => {
   var $;

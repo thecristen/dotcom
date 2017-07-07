@@ -1,13 +1,20 @@
 <h1>
   Retail Sales Locations
 </h1>
-
-<%= unless @fare_sales_locations == [] do %>
-  <%= render "_nearby_locations.html", fare_sales_locations: @fare_sales_locations, search_position: @search_position %>
-<% end %>
 <p>
   MBTA riders can purchase fares for the Commuter Rail, Bus, Subway, and Ferry at stores located throughout the Greater Boston and Providence areas.
 </p>
+
+<h2>Find a Store Near You</h2>
+<h3>Enter your location</h3>
+<%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
+  <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address,
+                                    address: @address, address_error: get_flash(@conn, :info), submit: true,
+                                    required: true, placeholder: "Enter a location", button_class: ""}) %>
+<% end %>
+<%= unless @fare_sales_locations == [] do %>
+  <%= render "_nearby_locations.html", fare_sales_locations: @fare_sales_locations, search_position: @search_position %>
+<% end %>
 <h2>
   How It Works
 </h2>

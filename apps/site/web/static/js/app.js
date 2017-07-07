@@ -97,7 +97,7 @@ import horizsticky from './horizsticky';
 import menuCtrlClick from './menu-ctrl-click';
 import carousel from './carousel';
 import geoLocation from './geolocation';
-import transitNearMe from './transit-near-me';
+import addressSearch from './address-search';
 import autocomplete from './autocomplete';
 import googleMap from './google-map';
 import scrollTo from './scroll-to';
@@ -121,7 +121,7 @@ objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
 carousel();
 geoLocation();
-transitNearMe();
+addressSearch();
 autocomplete();
 googleMap();
 scrollTo();

@@ -2,7 +2,12 @@ defmodule Site.FareController do
   use Site.Web, :controller
 
   alias Site.FareController.{Commuter, BusSubway, Ferry, Filter}
-  alias Fares.{Format, Repo}
+  alias Fares.{Format, Repo, RetailLocations}
+
+  @options %{
+    geocode_fn: &GoogleMaps.Geocode.geocode/1,
+    nearby_fn: &Fares.RetailLocations.get_nearby/1
+  }
 
   @static_page_titles %{
     "reduced" => "Reduced Fare Eligibility",
@@ -41,7 +46,9 @@ defmodule Site.FareController do
   end
   def show(conn, %{"id" => "retail_sales_locations"} = params) do
     conn
-    |> assign_fare_sales_locations(params)
+    |> assign_position(params, @options.geocode_fn)
+    |> assign_fare_sales_locations(@options.nearby_fn)
+    |> assign(:requires_google_maps?, true)
     |> render("retail_sales_locations.html")
   end
   def show(conn, params) do
@@ -50,13 +57,39 @@ defmodule Site.FareController do
     |> render_fare_module(conn)
   end
 
-  defp assign_fare_sales_locations(conn, %{"lat" => lat, "long" => long}) do
-    position = %{latitude: String.to_float(lat), longitude: String.to_float(long)}
+  @spec assign_position(Plug.Conn.t, map(), (String.t -> GoogleMaps.Geocode.t)) :: Plug.Conn.t
+  def assign_position(conn, %{"location" => %{"address" => address}}, geocode_fn) do
+    {position, formatted_address} = address
+    |> geocode_fn.()
+    |> parse_geocode_response
+
     conn
     |> assign(:search_position, position)
-    |> assign(:fare_sales_locations, Fares.RetailLocations.get_nearby(position))
+    |> assign(:address, formatted_address)
   end
-  defp assign_fare_sales_locations(conn, _params) do
+  def assign_position(conn, _params, _geocode_fn) do
+    conn
+    |> assign(:search_position, %{})
+    |> assign(:address, "")
+  end
+
+  defp parse_geocode_response({:ok, [location | _]}) do
+    {location, location.formatted}
+  end
+  defp parse_geocode_response(_) do
+    {%{}, ""}
+  end
+
+  @spec assign_fare_sales_locations(Plug.Conn.t, (GoogleMaps.Geocode.t -> [{RetailLocations.Location.t, float}])) :: Plug.Conn.t
+  def assign_fare_sales_locations(
+    %Plug.Conn{assigns: %{search_position: %{latitude: _lat, longitude: _long} = position}} = conn, nearby_fn
+  ) do
+    locations = nearby_fn.(position)
+
+    conn
+    |> assign(:fare_sales_locations, locations)
+  end
+  def assign_fare_sales_locations(conn, _nearby_fn) do
     conn
     |> assign(:fare_sales_locations, [])
   end
