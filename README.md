@@ -142,11 +142,11 @@ In order to make sure the tests are reproducible, we use
 
 ## Environment Variables
 
-You should have the following variables set in your development environment.
+The following variables can be used in your development environment.
 
 * `GOOGLE_API_KEY` - You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
 This will ensure any javascript that uses Google's API will work correctly.
-* `WIREMOCK_PATH` - The path to your wiremock `.jar` file. This ensures backstop tests will work properly.
+* `WIREMOCK_PATH` - The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default.
 
 ## Building
 
