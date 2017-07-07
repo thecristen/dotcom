@@ -109,6 +109,26 @@ defmodule Content.RepoTest do
     end
   end
 
+  describe "person!/1" do
+    test "returns the person if they're present" do
+      assert %Content.Person{
+        id: 2579
+      } = Content.Repo.person!("2579")
+    end
+
+    test "raises Content.NoResultsError if not present" do
+      assert_raise Content.NoResultsError, fn ->
+        Content.Repo.person!("0")
+      end
+    end
+  end
+
+  describe "people/1" do
+    test "returns a list of people if they're present" do
+      assert [%Content.Person{id: 2579}, %Content.Person{id: 2581}] = Content.Repo.people()
+    end
+  end
+
   describe "whats_happening" do
     test "returns a list of Content.WhatsHappeningItem" do
       assert [%Content.WhatsHappeningItem{
