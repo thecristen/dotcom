@@ -32,12 +32,32 @@ defmodule TripPlan.ItineraryTest do
     end
   end
 
+  describe "route_trip_ids/1" do
+    test "returns all the route and trip IDs from the itinerary" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      test_calculated_ids = Enum.flat_map(itinerary.legs, fn leg ->
+        case leg.mode do
+          %TransitDetail{} = td -> [{td.route_id, td.trip_id}]
+          _ -> []
+        end
+      end)
+      assert test_calculated_ids == route_trip_ids(itinerary)
+    end
+  end
+
   describe "positions/1" do
     test "returns all named positions for the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
       [first, second] = itinerary.legs
       expected = [first.from, first.to, second.from, second.to]
       assert positions(itinerary) == expected
+    end
+  end
+
+  describe "destination/1" do
+    test "returns the final destination of the itinerary" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      assert destination(itinerary) == @to
     end
   end
 

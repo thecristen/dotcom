@@ -22,7 +22,7 @@ defmodule Site.TripPlan.RelatedLink do
   # module, but that doesn't work at the moment.
   import Site.LayoutView, only: [svg_icon_with_circle: 1]
   import Site.Router.Helpers
-  alias TripPlan.Itinerary
+  alias TripPlan.{Itinerary, Leg}
   alias Routes.Route
 
   @doc "Returns a new RelatedLink"
@@ -41,6 +41,12 @@ defmodule Site.TripPlan.RelatedLink do
     IO.iodata_to_binary(text)
   end
 
+  @doc "Returns the URL of the link"
+  @spec url(t) :: String.t
+  def url(%__MODULE__{url: url}) do
+    url
+  end
+
   @doc "Returns the HTML link for the RelatedLink"
   @spec as_html(t) :: Phoenix.HTML.Safe.t
   def as_html(%__MODULE__{} = rl) do
@@ -56,16 +62,10 @@ defmodule Site.TripPlan.RelatedLink do
   @spec links_for_itinerary(Itinerary.t, Keyword.t) :: [t]
   def links_for_itinerary(itinerary, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
-    route_by_id = Keyword.get(opts, :route_by_id)
-    route_links = for route_id <- Itinerary.route_ids(itinerary) do
-      route_id |> route_by_id.() |> route_link
+    for func <- [&route_links/2, &fare_links/2],
+      link <- func.(itinerary, opts) do
+        link
     end
-    fare_links = for route_id <- Itinerary.route_ids(itinerary) do
-      route_id |> route_by_id.() |> fare_link
-    end
-    [route_links, fare_links]
-    |> Enum.concat
-    |> Enum.uniq
   end
 
   defp optional_icon(nil), do: []
@@ -73,7 +73,16 @@ defmodule Site.TripPlan.RelatedLink do
     svg_icon_with_circle(%Site.Components.Icons.SvgIconWithCircle{icon: icon_name, class: "icon-small"})
   end
 
-  defp route_link(route) do
+  defp route_links(itinerary, opts) do
+    route_by_id = Keyword.get(opts, :route_by_id)
+    for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary) do
+      route_id
+      |> route_by_id.()
+      |> route_link(trip_id, itinerary)
+    end
+  end
+
+  defp route_link(route, trip_id, itinerary) do
     icon_name = Route.icon_atom(route)
     base_text = if Route.type_atom(route) == :bus do
       ["Route ", route.name]
@@ -81,19 +90,53 @@ defmodule Site.TripPlan.RelatedLink do
       route.name
     end
     text = [base_text, " schedules"]
-    url = schedule_path(Site.Endpoint, :show, route.id)
+    date = Timex.format!(itinerary.start, "{ISOdate}")
+    url = schedule_path(Site.Endpoint, :show, route, date: date, trip: trip_id)
     new(text, url, icon_name)
   end
 
-  defp fare_link(route) do
-    text = "View fare information"
-    fare_section = case Route.type_atom(route) do
-                     :subway -> :bus_subway
-                     :bus -> :bus_subway
-                     other -> other
-                   end
-    url = fare_path(Site.Endpoint, :show, fare_section)
-    new(text, url)
+  defp fare_links(itinerary, opts) do
+    route_by_id = Keyword.get(opts, :route_by_id)
+    for leg <- itinerary,
+      {:ok, route_id} <- [Leg.route_id(leg)],
+      route = route_by_id.(route_id) do
+        fare_link(route, leg)
+    end
+    |> Enum.uniq
+    |> simplify_fare_text
+  end
+
+  defp fare_link(route, leg) do
+    type_atom = Route.type_atom(route)
+    text = fare_link_text(type_atom)
+    {fare_section, opts} = fare_link_url_opts(type_atom, leg)
+    url = fare_path(Site.Endpoint, :show, fare_section, opts)
+    new(["View ", text, " fare information"], url)
+  end
+
+  defp fare_link_text(:commuter_rail) do
+    "commuter rail"
+  end
+  defp fare_link_text(:ferry) do
+    "ferry"
+  end
+  defp fare_link_text(_) do
+    "bus/subway"
+  end
+
+  defp fare_link_url_opts(type, leg) when type in [:commuter_rail, :ferry] do
+    {type, origin: leg.from.stop_id, destination: leg.to.stop_id}
+  end
+  defp fare_link_url_opts(type, _leg) when type in [:bus, :subway] do
+    {:bus_subway, []}
+  end
+
+  defp simplify_fare_text([fare_link]) do
+    # if there's only one fare link, change the text to "View fare information"
+    [%{fare_link | text: "View fare information"}]
+  end
+  defp simplify_fare_text(fare_links) do
+    fare_links
   end
 end
 

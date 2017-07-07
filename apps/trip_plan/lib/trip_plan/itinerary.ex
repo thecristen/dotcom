@@ -17,6 +17,12 @@ defmodule TripPlan.Itinerary do
     stop: DateTime.t,
     legs: [TripPlan.Leg.t]
   }
+  alias TripPlan.NamedPosition
+
+  @spec destination(t) :: NamedPosition.t
+  def destination(%__MODULE__{legs: legs}) do
+    List.last(legs).to
+  end
 
   @doc "Return a list of all the route IDs used for this Itinerary"
   @spec route_ids(t) :: [Routes.Route.id_t]
@@ -28,6 +34,12 @@ defmodule TripPlan.Itinerary do
   @spec trip_ids(t) :: [Schedules.Trip.id_t]
   def trip_ids(%__MODULE__{legs: legs}) do
     flat_map_over_legs(legs, &TripPlan.Leg.trip_id/1)
+  end
+
+  @doc "Return a list of {route ID, trip ID} pairs for this Itinerary"
+  @spec route_trip_ids(t) :: [{Routes.Route.id_t, Schedules.Trip.id_t}]
+  def route_trip_ids(%__MODULE__{legs: legs}) do
+    flat_map_over_legs(legs, &TripPlan.Leg.route_trip_ids/1)
   end
 
   @doc "Returns a list of all the named positions for this Itinerary"

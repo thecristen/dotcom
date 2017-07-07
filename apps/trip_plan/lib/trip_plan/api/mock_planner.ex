@@ -26,6 +26,22 @@ defmodule TripPlan.Api.MockPlanner do
     {:ok, itineraries}
   end
 
+  @doc """
+  Extend a plan with an additional transit leg
+
+  Used in tests to make longer trip plans.
+  """
+  @spec add_transit_leg(Itinerary.t) :: Itinerary.t
+  def add_transit_leg(%Itinerary{} = itinerary) do
+    new_to = random_stop()
+    new_stop = Timex.shift(itinerary.stop, seconds: :rand.uniform(@max_duration))
+    new_leg = transit_leg(Itinerary.destination(itinerary), new_to, itinerary.stop, new_stop)
+    %{itinerary |
+      stop: new_stop,
+      legs: itinerary.legs ++ [new_leg]
+    }
+  end
+
   def random_stop(fields \\ []) do
     stop_id = Enum.random(~w"place-sstat place-north place-bbsta"s)
     stop = Stops.Repo.get!(stop_id)

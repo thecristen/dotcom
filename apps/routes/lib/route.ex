@@ -88,3 +88,9 @@ defmodule Routes.Route do
   def inner_express?(%__MODULE__{id: id}), do: id in @inner_express_route_set
   def outer_express?(%__MODULE__{id: id}), do: id in @outer_express_route_set
 end
+
+defimpl Phoenix.Param, for: Routes.Route do
+  alias Routes.Route
+  def to_param(%Route{id: "Green" <> _rest}), do: "Green"
+  def to_param(%Route{id: id}), do: id
+end
