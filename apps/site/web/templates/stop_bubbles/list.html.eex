@@ -4,7 +4,7 @@
       content_tag :div, class: "route-branch-stop-bubble #{bubble_type}" do
         assigns
         |> Map.put(:bubble_index, index)
-        |> stop_bubble_content({bubble_branch, bubble_type})
+        |> Site.StopBubblesView.stop_bubble_content({bubble_branch, bubble_type})
       end
     end
   %>
