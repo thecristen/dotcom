@@ -40,6 +40,12 @@ defmodule Site.StopControllerTest do
     ]
   end
 
+  test "shows bus-only stations", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-crtst")
+    assert html_response(conn, 200) =~ "Courthouse"
+    assert conn.assigns.breadcrumbs == ["Courthouse"]
+  end
+
   test "separates mattapan from stop info for subway", %{conn: conn} do
       conn = get(conn, stop_path(conn, :show, :subway))
       assert conn.assigns.mattapan
