@@ -155,16 +155,16 @@ defmodule Site.Components.Icons.SvgIcon do
 
   def build_path(path), do: Phoenix.HTML.Tag.tag :path, d: path
 
-  def viewbox(:bus), do: "24 24"
-  def viewbox(:subway), do: "24 24"
-  def viewbox(:commuter_rail), do: "16 16"
-  def viewbox(:map), do: "26 24"
-  def viewbox(:alert), do: "24 24"
-  def viewbox(:the_ride), do: "36 36"
-  def viewbox(:twitter), do: "400 400"
-  def viewbox(:facebook), do: "75 75"
-  def viewbox(:parking_lot), do: "24 24"
-  def viewbox(_), do: "40 40"
+  def viewbox(:bus), do: "0 0 24 24"
+  def viewbox(:subway), do: "0 0 24 24"
+  def viewbox(:commuter_rail), do: "0 0 16 16"
+  def viewbox(:map), do: "0 0 26 24"
+  def viewbox(:alert), do: "0 0 24 24"
+  def viewbox(:the_ride), do: "0 0 36 36"
+  def viewbox(:twitter), do: "0 0 400 400"
+  def viewbox(:facebook), do: "0 0 75 75"
+  def viewbox(:parking_lot), do: "0 0 24 24"
+  def viewbox(_), do: "0 0 40 40"
 
   def unoptimized_paths, do: @icons
 end

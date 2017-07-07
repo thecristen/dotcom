@@ -26,9 +26,9 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
     end
   end
 
-  def circle_viewbox(:twitter), do: "400 400"
-  def circle_viewbox(:facebook), do: "75 75"
-  def circle_viewbox(_icon), do: "42 42"
+  def circle_viewbox(:twitter), do: "0 0 400 400"
+  def circle_viewbox(:facebook), do: "0 0 75 75"
+  def circle_viewbox(_icon), do: "0 0 42 42"
 
   def translate(:globe), do: "6,6"
   def translate(:suitcase), do: "9,11"

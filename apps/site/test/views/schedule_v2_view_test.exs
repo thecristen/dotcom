@@ -308,7 +308,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "shows vehicle icon when vehicle location is available" do
       safe_output = safe_to_string(@output)
-      assert safe_output =~ "icon-bus"
+      assert safe_output =~ "vehicle-bubble"
     end
   end
 
