@@ -2,7 +2,7 @@ defmodule Content.PersonTest do
   use ExUnit.Case, async: true
 
   setup do
-    %{api_person: person_from_people_grid_paragraph}
+    %{api_person: person_from_people_grid_paragraph()}
   end
 
   describe "from_api/1" do
