@@ -49,34 +49,19 @@ defmodule Site.StopBubblesViewTest do
       assert rendered =~ "svg"
     end
 
-    test "when vehicle is at stop and stop is not a terminus, returns a normal vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1, id: "Orange"}, false))
-      assert rendered =~ "icon-circle"
-      assert rendered =~ "icon-boring"
-    end
-
-    test "when vehicle is at stop and stop is a terminus, returns an inverse vehicle circle icon" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1, id: "Orange"}, true))
-      assert rendered =~ "icon-circle"
-      assert rendered =~ "icon-inverse"
-    end
-
     test "given a vehicle and the subway route_type, returns the icon for the subway" do
       rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1, id: "Orange"}, false))
-      assert rendered =~ "icon-subway"
+      assert rendered =~ "vehicle-bubble"
     end
 
     test "given a vehicle and the bus route_type, returns the icon for the bus" do
       rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3, id: "Orange"}, false))
-      assert rendered =~ "icon-bus"
+      assert rendered =~ "vehicle-bubble"
     end
 
     test "Does not show vehicle icon when vehicle is on a different route" do
       rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3, id: "Blue"}, false))
-      refute rendered =~ "icon-bus"
-      refute rendered =~ "icon-circle"
-      assert rendered =~ "stop-bubble-stop"
-      assert rendered =~ "svg"
+      refute rendered =~ "vehicle-bubble"
     end
   end
 
@@ -95,7 +80,7 @@ defmodule Site.StopBubblesViewTest do
                   direction_id: 0}
       content = render_stop_bubble_content(assigns, {nil, :terminus})
       assert content =~ "train 101 has arrived at South Station"
-      assert content =~ "icon-subway-image"
+      assert content =~ "vehicle-bubble"
     end
 
     test "returns a terminus bubble and a solid line for the first terminus" do

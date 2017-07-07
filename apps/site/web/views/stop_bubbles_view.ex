@@ -165,8 +165,8 @@ defmodule Site.StopBubblesView do
   @spec stop_bubble_location_display(VehicleTooltip.t | nil, Route.t, boolean) :: Phoenix.HTML.Safe.t
   def stop_bubble_location_display(vehicle_tooltip, route, terminus?)
   def stop_bubble_location_display(%VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: route_id}} = vehicle_tooltip,
-                                   %Route{id: route_id, type: route_type}, terminus?) do
-    vehicle_bubble(route_type, vehicle_tooltip, terminus?)
+                                   %Route{id: route_id, type: route_type}, _terminus?) do
+    vehicle_bubble(route_type, vehicle_tooltip)
   end
   def stop_bubble_location_display(_, route, true) do
     stop_bubble_icon(:terminus, route.id)
@@ -175,23 +175,14 @@ defmodule Site.StopBubblesView do
     stop_bubble_icon(:stop, route.id)
   end
 
-  @spec vehicle_bubble(0..4, VehicleTooltip.t, boolean) :: Phoenix.HTML.Safe.t
-  defp vehicle_bubble(route_type, vehicle_tooltip, true) do
-    do_vehicle_bubble(route_type, vehicle_tooltip, "icon-inverse")
-  end
-  defp vehicle_bubble(route_type, vehicle_tooltip, false) do
-    do_vehicle_bubble(route_type, vehicle_tooltip, "icon-boring")
-  end
-
-  @spec do_vehicle_bubble(0..4, VehicleTooltip.t, String.t) :: Phoenix.HTML.Safe.t
-  defp do_vehicle_bubble(route_type, vehicle_tooltip, class) do
+  @spec vehicle_bubble(0..4, VehicleTooltip.t) :: Phoenix.HTML.Safe.t
+  defp vehicle_bubble(route_type, vehicle_tooltip) do
+    svg_name =  "#{Atom.to_string(Routes.Route.type_atom(route_type))}-vehicle-icon.svg"
     content_tag(:span,
-      svg_icon_with_circle(%SvgIconWithCircle{
-        icon: Routes.Route.type_atom(route_type),
-        class: class,
-        show_tooltip?: false}),
+      svg(svg_name),
       data: [html: true, toggle: "tooltip", placement: "right"],
-      title: tooltip(vehicle_tooltip)
+      title: tooltip(vehicle_tooltip),
+      class: "vehicle-bubble"
     )
   end
 
