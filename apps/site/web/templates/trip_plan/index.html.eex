@@ -70,6 +70,7 @@
     <%= case assigns[:query] do %>
       <% %{itineraries: {:ok, itineraries}} -> %>
       <%= for {i,
+               features,
                map,
                alerts,
                links,
@@ -78,6 +79,7 @@
                destination_bubble_params,
                index} <- Enum.zip([
           itineraries,
+          @features,
           @itinerary_maps,
           @alerts,
           @related_links,
@@ -88,7 +90,7 @@
             render "_itinerary.html",
             itinerary: i,
             index: index,
-            route_map: @route_map,
+            features: features,
             itinerary_map: map,
             alerts: alerts,
             links: links,

@@ -1,6 +1,5 @@
 defmodule Site.TripPlanView do
   use Site.Web, :view
-  alias TripPlan.{Leg, TransitDetail, PersonalDetail}
   alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
 
@@ -47,21 +46,6 @@ defmodule Site.TripPlanView do
   end
   def rendered_plan_error(_) do
     "We were unable to plan your trip. Please try again later."
-  end
-
-  @doc "A small display representing the travel on a given Leg"
-  @spec leg_feature(TripPlan.Leg.t, %{Routes.Route.id_t => Routes.Route.t}) :: Phoenix.HTML.Safe.t
-  def leg_feature(%Leg{mode: %TransitDetail{} = mode}, route_map) do
-    icon = route_map
-    |> Map.get(mode.route_id)
-    |> Routes.Route.icon_atom
-    svg_icon_with_circle(%SvgIconWithCircle{icon: icon, class: "icon-small"})
-  end
-  def leg_feature(%Leg{mode: %PersonalDetail{type: :walk}}, _) do
-    svg("walk.svg")
-  end
-  def leg_feature(%Leg{mode: %PersonalDetail{type: :drive}}, _) do
-    svg("car.svg")
   end
 
   def location_input_class(params, key) do
