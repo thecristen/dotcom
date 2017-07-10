@@ -63,9 +63,9 @@ defmodule Content.CmsMigration.Datetime do
 
   defp accepted_date_formats do
     [
-      "{Mfull} {0D} {YYYY}",
-      "{0M}/{0D}/{YY}",
-      "{0M}/{0D}/{YYYY}"
+      "{Mfull} {D} {YYYY}",
+      "{M}/{D}/{YY}",
+      "{M}/{D}/{YYYY}"
     ]
   end
 
