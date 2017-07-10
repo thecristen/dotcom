@@ -29,6 +29,13 @@ defmodule Site.TripPlan.RelatedLinkTest do
       # fare URL is tested later
     end
 
+    test "returns a list for multiple kinds of itineraries" do
+      for _i <- 0..10 do
+        {:ok, [itinerary]} = TripPlan.plan(MockPlanner.random_stop(), MockPlanner.random_stop(), [])
+        assert [_ | _] = links_for_itinerary(itinerary)
+      end
+    end
+
     test "with multiple types of fares, returns relevant fare links", %{itinerary: itinerary} do
       itinerary = itinerary
       |> MockPlanner.add_transit_leg

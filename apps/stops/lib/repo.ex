@@ -17,7 +17,7 @@ defmodule Stops.Repo do
     end
   end
 
-  def get(id) do
+  def get(id) when is_binary(id) do
     cache id, &Stops.Api.by_gtfs_id/1
   end
 
