@@ -1,1 +1,0 @@
-<%= TripPlan.PersonalDetail.Step.human_relative_direction(@step.relative_direction) %> onto <%= @step.street_name %> for <%= TripPlan.Distance.meters_to_imperial(@step.distance) %>

@@ -49,13 +49,22 @@
   <div class="col-md-7">
     <%= case assigns[:query] do %>
       <% %{itineraries: {:ok, itineraries}} -> %>
-      <%= for {i, map, alerts, links, index} <- Enum.zip([
+      <%= for {i, map, alerts, links, itinerary_row_list, index} <- Enum.zip([
           itineraries,
           @itinerary_maps,
           @alerts,
           @related_links,
+          @itinerary_row_lists,
           Stream.iterate(1, & &1 + 1)]) do
-            render "_itinerary.html", itinerary: i, index: index, route_map: @route_map, itinerary_map: map, alerts: alerts, links: links
+            render "_itinerary.html",
+            itinerary: i,
+            index: index,
+            route_map: @route_map,
+            itinerary_map: map,
+            alerts: alerts,
+            links: links,
+            itinerary_row_list: itinerary_row_list,
+            conn: @conn
           end %>
       <% %{itineraries: {:error, e}} when e != :prereq -> %>
       <p class="no-trips page-section">No trips available</p>
