@@ -72,14 +72,22 @@ defmodule Routes.RepoTest do
     end
   end
 
-  test "get/1 returns a single route" do
-    assert %Routes.Route{
-      id: "Red",
-      name: "Red Line",
-      type: 1
-    } = Routes.Repo.get("Red")
+  describe "get/1" do
+    test "returns a single route" do
+      assert %Routes.Route{
+        id: "Red",
+        name: "Red Line",
+        type: 1
+      } = Routes.Repo.get("Red")
+    end
 
-    assert nil == Routes.Repo.get("_unknown_route")
+    test "returns nil for an unknown route" do
+      refute Routes.Repo.get("_unknown_route")
+    end
+
+    test "returns a hidden route" do
+      assert %Routes.Route{id: "746"} = Routes.Repo.get("746")
+    end
   end
 
   test "key bus routes are tagged" do
