@@ -5,11 +5,13 @@ defmodule Site.StopBubblesView do
   alias Stops.RouteStop
   alias Routes.Route
 
+  @typep stop_bubble_type :: Site.ScheduleV2Controller.Line.stop_bubble_type
+
   @doc """
   Returns the content for an individual stop bubble in a stop list. The content and styles vary depending on
   whether the stop is a terminus, the branch is expanded, the row is a button to expand the branch, etc.
   """
-  @spec stop_bubble_content(map, {String.t, LineController.stop_bubble_type}) :: Phoenix.HTML.Safe.t
+  @spec stop_bubble_content(map, {String.t, stop_bubble_type}) :: Phoenix.HTML.Safe.t
   def stop_bubble_content(assigns, bubble_info)
   def stop_bubble_content(%{is_expand_link?: true} = assigns, {bubble_branch, bubble_type_}) do
     bubble_type = if Enum.member?([:stop, :terminus], bubble_type_), do: :line, else: bubble_type_
@@ -59,7 +61,7 @@ defmodule Site.StopBubblesView do
     ]
   end
 
-  @spec render_stop_bubble(LineController.stop_bubble_type, Route.t, String.t, VehicleTooltip.t | nil)
+  @spec render_stop_bubble(stop_bubble_type, Route.t, String.t, VehicleTooltip.t | nil)
         :: Phoenix.HTML.Safe.t
   defp render_stop_bubble(bubble_type, %Route{id: "Green"} = route, branch, vehicle_tooltip)
   when bubble_type in [:stop, :terminus] do
@@ -123,7 +125,7 @@ defmodule Site.StopBubblesView do
       - dotted line if the branch is collapsed
 
   """
-  @spec stop_bubble_line_type(LineController.stop_bubble_type, String.t, map) :: :solid | :dotted | :hidden
+  @spec stop_bubble_line_type(stop_bubble_type, String.t, map) :: :solid | :dotted | :hidden
   def stop_bubble_line_type(bubble_type, branch_name, assigns)
   def stop_bubble_line_type(:empty, _, _), do: nil
   def stop_bubble_line_type(:terminus, _, %{stop: %RouteStop{branch: "Green-" <> branch},
@@ -190,7 +192,7 @@ defmodule Site.StopBubblesView do
   Builds a stop bubble SVG (without vehicle). Includes the branch letter for green line stops. For a stop bubble
   with a vehicle icon, use `stop_bubble_location_display/3`
   """
-  @spec stop_bubble_icon(LineController.stop_bubble_type, Routes.Route.id_t, Keyword.t) :: Phoenix.HTML.Safe.t
+  @spec stop_bubble_icon(stop_bubble_type, Routes.Route.id_t, Keyword.t) :: Phoenix.HTML.Safe.t
   def stop_bubble_icon(class, route_id, opts \\ []) do
     icon_opts = Keyword.merge([icon_class: "", transform: "translate(2,2)"], opts)
     content_tag :svg, viewBox: "0 0 42 42", class: String.trim("icon stop-bubble-#{class} #{icon_opts[:icon_class]}") do
