@@ -5,7 +5,9 @@ defmodule PredictedScheduleTest do
   alias Predictions.Prediction
   import PredictedSchedule
 
-  @base_time  ~N[2017-01-02T12:00:00]
+  # set to the end of a month to uncover issues with sorting times as
+  # structs, rather than as integers
+  @base_time  ~N[2017-06-30T23:30:00]
 
   @route %Routes.Route{id: "Teal"}
 
@@ -166,7 +168,7 @@ defmodule PredictedScheduleTest do
       end
     end
 
-    test "ScheduledPredictions are sorted with unmatched predictions first" do
+    test "PredictedSchedules are sorted with unmatched predictions first" do
       predicted_schedules = group(@non_matching_predictions, Enum.shuffle(@schedules))
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- Enum.take(predicted_schedules, 2) do
        refute schedule
@@ -373,7 +375,7 @@ defmodule PredictedScheduleTest do
     end
   end
 
-  describe "sort_status_and_time" do
+  describe "sort_with_status/1" do
     test "predicted schedule with status gets higher priority" do
       ps1 = %PredictedSchedule{prediction: %Prediction{status: "3 stops away"}}
       ps2 = %PredictedSchedule{prediction: %Prediction{status: "Approaching"}}

@@ -1,4 +1,4 @@
-defmodule PredictedScheduleGroupTest do
+defmodule PredictedSchedule.GroupTest do
   use ExUnit.Case, async: true
   import PredictedSchedule.Group
 
@@ -35,7 +35,11 @@ defmodule PredictedScheduleGroupTest do
       orig_sched2 = %Schedule{stop: %Stop{id: "orig1"}, trip: %Trip{id: "trip2"}}
       dest_sched2 = %Schedule{stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip2"}}
 
-      result = build_prediction_map([pred1, pred2, pred3], [{orig_sched1, dest_sched1}, {orig_sched2, dest_sched2}], "orig1", "dest1")
+      result = build_prediction_map(
+        [pred1, pred2, pred3],
+        [{orig_sched1, dest_sched1}, {orig_sched2, dest_sched2}],
+        "orig1",
+        "dest1")
 
       assert Map.size(result) == 2
 
@@ -47,7 +51,6 @@ defmodule PredictedScheduleGroupTest do
       pred1 = %Prediction{stop: %Stop{id: "orig1"}, trip: %Trip{id: "trip1"}}
       pred2 = %Prediction{stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip1"}}
       pred3 = %Prediction{stop: %Stop{id: "dest1"}, trip: %Trip{id: "trip2"}}
-
 
       result = build_prediction_map([pred1, pred2, pred3], [], "orig1", "dest1")
 
