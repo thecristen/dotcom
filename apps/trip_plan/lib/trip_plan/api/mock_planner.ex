@@ -43,7 +43,7 @@ defmodule TripPlan.Api.MockPlanner do
   end
 
   def random_stop(fields \\ []) do
-    stop_id = Enum.random(~w"place-sstat place-north place-bbsta"s)
+    stop_id = Enum.random(["place-sstat", "North Station", "place-bbsta"])
     stop = Stops.Repo.get!(stop_id)
     fields = Keyword.merge([
       name: stop.name,

@@ -56,7 +56,7 @@ defmodule Site.TripPlan.MapTest do
     nil
   end
 
-  defp stop_mapper("place-north") do
+  defp stop_mapper("North Station") do
     %Stops.Stop{name: "North Station", id: "place-north"}
   end
   defp stop_mapper("place-sstat") do
