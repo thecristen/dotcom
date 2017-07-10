@@ -99,7 +99,7 @@ defmodule Site.StopView do
 
   @spec template_for_tab(String.t) :: String.t
   @doc "Returns the template to be rendered for the given tab"
-  def template_for_tab("schedule"), do: "_schedule.html"
+  def template_for_tab("departures"), do: "_departures.html"
   def template_for_tab(_tab), do: "_info.html"
 
   @spec schedule_template(Route.route_type) :: String.t

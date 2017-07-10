@@ -12,7 +12,7 @@ defmodule Site.StopViewTest do
     test "correct template for selected tab" do
       assert template_for_tab(nil) == "_info.html"
       assert template_for_tab("info") == "_info.html"
-      assert template_for_tab("schedule") == "_schedule.html"
+      assert template_for_tab("departures") == "_departures.html"
     end
   end
 

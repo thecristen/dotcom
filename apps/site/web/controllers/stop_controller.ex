@@ -27,6 +27,9 @@ defmodule Site.StopController do
     |> await_assign_all
     |> render("index.html")
   end
+  def show(conn, %{"tab" => "schedule", "id" => id} = params) do
+    redirect conn, to: stop_path(conn, :show, id, %{params | "tab" => "departures"})
+  end
   def show(%Plug.Conn{query_params: query_params} = conn, %{"id" => id}) do
     stop = id
     |> URI.decode_www_form
@@ -79,7 +82,7 @@ defmodule Site.StopController do
 
   # Determine which tab should be displayed
   @spec tab_value(String.t | nil) :: String.t
-  defp tab_value("schedule"), do: "schedule"
+  defp tab_value("departures"), do: "departures"
   defp tab_value(_), do: "info"
 
   defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
@@ -93,7 +96,7 @@ defmodule Site.StopController do
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign_all()
   end
-  defp tab_assigns(%{assigns: %{tab: "schedule", all_alerts: alerts}} = conn, stop) do
+  defp tab_assigns(%{assigns: %{tab: "departures", all_alerts: alerts}} = conn, stop) do
     conn
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> async_assign(:stop_predictions, fn -> stop_predictions(stop.id) end)

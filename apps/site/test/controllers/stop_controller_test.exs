@@ -81,11 +81,17 @@ defmodule Site.StopControllerTest do
     assert conn.assigns.tab == "info"
   end
 
+  test "redirects to departures tab when 'schedule' provided as tab param", %{conn: conn} do
+
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "schedule")
+    assert redirected_to(conn) == stop_path(conn, :show, "place-sstat", tab: "departures")
+  end
+
   test "Tab assigned when given valid param", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "place-sstat", tab: "info")
     assert conn.assigns.tab == "info"
-    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "schedule")
-    assert conn.assigns.tab == "schedule"
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "departures")
+    assert conn.assigns.tab == "departures"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -133,19 +139,19 @@ defmodule Site.StopControllerTest do
   test "assigns the google maps requirement only when info tab is selected", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
     assert conn.assigns.requires_google_maps?
-    conn = get conn, stop_path(conn, :show, "Readville", tab: "schedule")
+    conn = get conn, stop_path(conn, :show, "Readville", tab: "departures")
     refute conn.assigns[:requires_google_maps?]
   end
 
-  test "assigns upcoming_route_departures when schedule tab is selected", %{conn: conn} do
-    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "schedule")
+  test "assigns upcoming_route_departures when departures tab is selected", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "place-sstat", tab: "departures")
     assert conn.assigns.upcoming_route_departures
   end
 
   test "Only render map when info tab is selected", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
     assert html_response(conn, 200) =~ "station-map-container"
-    conn = get conn, stop_path(conn, :show, "Readville", tab: "schedule")
+    conn = get conn, stop_path(conn, :show, "Readville", tab: "departures")
     refute html_response(conn, 200) =~ "station-map-container"
     refute conn.assigns[:map_info]
   end
