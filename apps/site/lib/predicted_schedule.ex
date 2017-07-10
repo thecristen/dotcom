@@ -196,15 +196,15 @@ defmodule PredictedSchedule do
     |> Enum.uniq
   end
 
-  @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, non_neg_integer, DateTime.t}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {1, prediction.stop_sequence, prediction.time}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {2, schedule.stop_sequence, schedule.time}
+  @spec sort_predicted_schedules(PredictedSchedule.t) :: {integer, non_neg_integer, non_neg_integer}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}), do: {1, prediction.stop_sequence, Timex.to_unix(prediction.time)}
+  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}), do: {2, schedule.stop_sequence, Timex.to_unix(schedule.time)}
 
   def sort_with_status(%PredictedSchedule{schedule: _schedule, prediction: %Prediction{time: nil, status: status}})
   when not is_nil(status)  do
     {0, status_order(status)}
   end
-  def sort_with_status(predicted_schedule), do: {1, PredictedSchedule.time(predicted_schedule)}
+  def sort_with_status(predicted_schedule), do: {1, predicted_schedule |> time |> Timex.to_unix}
 
   @spec status_order(String.t) :: non_neg_integer | :sort_max
   defp status_order("Boarding"), do: 0
