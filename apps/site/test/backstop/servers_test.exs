@@ -72,6 +72,7 @@ defmodule Backstop.ServersTest do
     test "matches error strings" do
       assert "[error] something or other" =~ Backstop.Servers.Phoenix.error_match
       refute "[error] Supervisor 'Elixir.Logger.Supervisor'" =~ Backstop.Servers.Phoenix.error_match
+      refute "[error] Could not find static manifest" =~ Backstop.Servers.Phoenix.error_match
       assert "Unable to access jarfile blah.jar" =~ Backstop.Servers.Wiremock.error_match
       assert "Address already in use" =~ Backstop.Servers.Wiremock.error_match
     end
