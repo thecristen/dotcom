@@ -15,13 +15,13 @@
   </div>
 <% end %>
 <div class="route-branch-stop-links">
-  <%= link class: "route-branch-stop-link stop-info-link", to: stop_path(@conn, :show, @stop.id) do %>
-    <%= fa "caret-right" %> Stop Info
-  <% end %>
   <%=
     direction_id = schedule_link_direction_id(@stop, @bubbles, @direction_id)
     trip_path = trip_view_path(@conn, :show, @route.id, origin: @stop.id, direction_id: direction_id)
     link class: "route-branch-stop-link schedule-link", to: trip_path do %>
       <%= fa "caret-right" %> Schedules from here
+  <% end %>
+  <%= link class: "route-branch-stop-link stop-info-link", to: stop_path(@conn, :show, @stop.id) do %>
+    <%= fa "caret-right" %> Stop Info
   <% end %>
 </div>

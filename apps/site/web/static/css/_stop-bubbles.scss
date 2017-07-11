@@ -244,7 +244,7 @@ $location-line-width: $space-6;
   }
 }
 
-.stop-info-link {
+.schedule-link {
   padding-right: $base-spacing;
 }
 
@@ -253,7 +253,7 @@ $location-line-width: $space-6;
 }
 
 @include media-breakpoint-only(xs) {
-  .schedule-link {
+  .stop-info-link {
     float: right;
   }
 }
