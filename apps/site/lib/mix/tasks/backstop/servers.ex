@@ -159,7 +159,7 @@ defmodule Backstop.Servers.Phoenix do
 
   @impl true
   def error_match do
-    ~r/\[error\] (?!Supervisor)/
+    ~r/\[error\] (?!Supervisor|Could not find static manifest)/
   end
 end
 

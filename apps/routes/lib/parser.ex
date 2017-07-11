@@ -10,7 +10,7 @@ defmodule Routes.Parser do
     }
   end
 
-  defp name(%{"type" => 3, "short_name" => short_name}), do: short_name
+  defp name(%{"type" => 3, "short_name" => short_name}) when short_name != "", do: short_name
   defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
   defp name(%{"long_name" => long_name}), do: long_name
 

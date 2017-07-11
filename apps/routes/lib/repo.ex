@@ -27,7 +27,22 @@ defmodule Routes.Repo do
     |> cache(fn _ ->
       Map.new(all(), &{&1.id, &1})
     end)
-    |> Map.get(id)
+    |> Map.get_lazy(id, fn -> get_directly(id) end)
+  end
+
+  @doc """
+  Returns a single route by ID, or nil.
+
+  Fetches directly from the V3 API, rather than though the map built by `all/0`.
+  """
+  @spec get_directly(String.t) :: Routes.Route.t | nil
+  def get_directly(id) do
+    cache id, fn id ->
+      case V3Api.Routes.get(id) do
+        %{data: [route]} -> parse_route(route)
+        _ -> nil
+      end
+    end
   end
 
   @spec get_shapes(String.t, 0|1, boolean) :: [Routes.Shape.t]
