@@ -6,7 +6,7 @@
       <strong>Note:</strong> Children aged 11 years and under and persons who are blind or visually impaired ride all MBTA services for free. Discounts apply to One Way fares only.
     </div>
 
-    <h2>Seniors</h2>
+    <h2 id="reduced-senior">Seniors</h2>
     <p>
       People aged 65 years and older are eligible for reduced fares on MBTA services.
       Seniors must have a Senior CharlieCard in order to receive the reduced fare.

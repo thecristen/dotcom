@@ -71,47 +71,64 @@ defmodule Site.FareControllerTest do
     test "renders a page about retail sale locations", %{conn: conn} do
       conn = get conn, fare_path(conn, :show, :retail_sales_locations)
       assert html_response(conn, 200) =~ "Retail Sales Locations"
-      assert conn.assigns[:fare_sales_locations] == []
     end
   end
 
-  describe "assign_fare_sales_locations/3" do
-    test "assigns retail_sales_locations", %{conn: conn} do
+  describe "fare_sales_locations/2" do
+    test "calculates nearest retail_sales_locations" do
       nearby_fn = fn position -> [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}] end
 
-      conn = conn
-      |> assign(:search_position, %{latitude: 42.0, longitude: -71.0})
-
-      conn = assign_fare_sales_locations(conn, nearby_fn)
-      assert conn.assigns[:fare_sales_locations] == [{%{latitude: 42.0, longitude: -71.0}, 10.0}]
+      locations = fare_sales_locations(%{latitude: 42.0, longitude: -71.0}, nearby_fn)
+      assert locations == [{%{latitude: 42.0, longitude: -71.0}, 10.0}]
     end
 
-    test "when there is no search position, assigns an empty list of nearby locations", %{conn: conn} do
+    test "when there is no search position, is an empty list of nearby locations" do
       nearby_fn = fn position -> [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}] end
 
-      conn = assign_fare_sales_locations(conn, nearby_fn)
-      assert conn.assigns[:fare_sales_locations] == []
+      locations = fare_sales_locations(%{}, nearby_fn)
+      assert locations == []
     end
   end
 
-  describe "assign_position/3" do
-    test "it assigns search position and address", %{conn: conn} do
+  describe "calculate_position/2" do
+    test "it calculates search position and address" do
       params = %{"location" => %{"address" => "42.0, -71.0"}}
       geocode_fn = fn _address ->
         {:ok, [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
       end
 
-      conn = assign_position(conn, params, geocode_fn)
-      assert conn.assigns[:address] == "address"
-      assert %{latitude: 42.0, longitude: -70.1} = conn.assigns[:search_position]
+      {position, formatted} = calculate_position(params, geocode_fn)
+
+      assert formatted == "address"
+      assert %{latitude: 42.0, longitude: -70.1} = position
     end
 
-    test "when there is no location map assigns no position", %{conn: conn} do
+    test "when there is no location map there is no position" do
       params = %{}
       geocode_fn = fn _address -> %{formatted: "address", latitude: 42.0, longitude: -71.0} end
-      conn = assign_position(conn, params, geocode_fn)
-      assert conn.assigns[:address] == ""
-      assert conn.assigns[:search_position] == %{}
+      {position, formatted}  = calculate_position(params, geocode_fn)
+      assert formatted == ""
+      assert position == %{}
+    end
+  end
+
+  describe "current_pass/1" do
+    test "is the current month when the date given is prior to the 15th" do
+      {:ok, date} = Timex.parse("2016-12-01T12:12:12-05:00", "{ISO:Extended}")
+
+      assert current_pass(date) == "December 2016"
+    end
+
+    test "is the next month when the date given is the 15th or later" do
+      {:ok, date} = Timex.parse("2016-12-15T12:12:12-05:00", "{ISO:Extended}")
+
+      assert current_pass(date) == "January 2017"
+    end
+
+    test "uses the date passed in if there is one", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :retail_sales_locations, date_time: "2013-01-01T12:12:12-05:00")
+
+      assert html_response(conn, 200) =~ "January 2013"
     end
   end
 

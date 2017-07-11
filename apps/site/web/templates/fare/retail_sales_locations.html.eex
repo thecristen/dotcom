@@ -6,7 +6,7 @@
 </p>
 
 <h2>Find a Store Near You</h2>
-<h3>Enter your location</h3>
+<h3 class="h5">Enter your location</h3>
 <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
   <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address,
                                     address: @address, address_error: get_flash(@conn, :info), submit: true,
@@ -23,28 +23,34 @@
 </h3>
 <p>
   You can purchase any Bus or Subway pass (1-Day, 7-Day, Monthly) or load up to $100
-  for One Way fares at a retail sales location. CharlieCards and CharlieTickets will
-  be available to you at these locations free of charge if you do not already have one.
+  for One Way fares at a retail sales location. <%= link "CharlieCards", to: fare_path(@conn, :show, :payment_methods)<>"#charlie-card" %> and
+  <%= link "CharlieTickets", to: fare_path(@conn, :show, :payment_methods)<>"#charlie-ticket" %> will be available to you at these locations
+  free of charge if you do not already have one.
 </p>
 <h3>
   Commuter Rail
 </h3>
 <p>
-  You can purchase any Commuter Rail pass (One Way, Round Trip, Monthly) at a retail sales location. Your Sales Agent will load your pass onto a CharlieTicket.
+You can purchase any Commuter Rail pass (One Way, Round Trip, Monthly) at a retail sales location. Your Sales Agent will load your pass onto a
+<%= link "CharlieTicket", to: fare_path(@conn, :show, :payment_methods)<>"#charlie-ticket" %>.
 </p>
 <h3>
   Ferry
 </h3>
 <p>
-  You can purchase a Ferry Monthly Pass at retail sales locations. Your Sales Agent will load your pass onto a CharlieTicket.
+You can purchase a Ferry Monthly Pass at retail sales locations. Your Sales Agent will load your pass onto a
+<%= link "CharlieTicket", to: fare_path(@conn, :show, :payment_methods)<>"#charlie-ticket" %>.
 </p>
 <h3>
   Reduced Fares
 </h3>
 <p>
-  If you are eligible for reduced fares and have a Senior CharlieCard or Transportation
-  Access Pass, you can purchase new passes or One Way fares at retail sales locations.
-  If you have a Student CharlieCard, you may load money onto a CharlieCard or CharlieTicket
+  If you are eligible for reduced fares and have a <%= link "Senior CharlieCard", to: fare_path(@conn, :show, :reduced)<>"#reduced-senior" %>
+  or <%= link "Transportation Access Pass", to: fare_path(@conn, :show, :reduced)<>"#reduced-disability" %>,
+  you can purchase new passes or One Way fares at retail sales locations.
+  If you have a <%= link "Student CharlieCard", to: fare_path(@conn, :show, :reduced)<>"#students" %>, you may load money onto a
+  <%= link "CharlieCard", to: fare_path(@conn, :show, :payment_methods)<>"#charlie-card" %> or
+  <%= link "CharlieTicket", to: fare_path(@conn, :show, :payment_methods)<>"charlie-ticket" %>
   for reduced One Way fares only.
 </p>
 <h3>
@@ -55,3 +61,25 @@
   Monthly passes purchased on the 15th of the month or later will be eligible for use
   during the next calendar month.
 </p>
+<div class="callout">
+  <strong>Monthly Pass on sale now:</strong> <%= @current_pass %>
+</div>
+<h2>Related Pages</h2>
+<div class="title-card-container title-card-container-separate">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <%= render "_mode_pay.html", mode: :commuter_rail %>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, :payment_methods), target: "_self" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: ["Online account management", "Automatic monthly CharlieCard re-loads", "Advance ordering"], href: redirect_path(@conn, "pass_program"), target: "_blank" %>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <%= render "_related_page_card.html", title: "Reduced Fares", body: ["Find out if you qualify", "How to get your reduced fares"], href: redirect_path(@conn, "reduced"), target: "_blank" %>
+    </div>
+  </div>
+</div>

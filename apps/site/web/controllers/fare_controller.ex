@@ -44,12 +44,16 @@ defmodule Site.FareController do
       ]
     ]
   end
-  def show(conn, %{"id" => "retail_sales_locations"} = params) do
-    conn
-    |> assign_position(params, @options.geocode_fn)
-    |> assign_fare_sales_locations(@options.nearby_fn)
-    |> assign(:requires_google_maps?, true)
-    |> render("retail_sales_locations.html")
+  def show(%Plug.Conn{assigns: %{date_time: date_time}} = conn, %{"id" => "retail_sales_locations"} = params) do
+    {position, formatted} = calculate_position(params, @options.geocode_fn)
+
+    render(conn, "retail_sales_locations.html",
+         current_pass: current_pass(date_time),
+         requires_google_maps?: true,
+         fare_sales_locations: fare_sales_locations(position, @options.nearby_fn),
+         address: formatted,
+         search_position: position
+       )
   end
   def show(conn, params) do
     params["id"]
@@ -57,20 +61,24 @@ defmodule Site.FareController do
     |> render_fare_module(conn)
   end
 
-  @spec assign_position(Plug.Conn.t, map(), (String.t -> GoogleMaps.Geocode.t)) :: Plug.Conn.t
-  def assign_position(conn, %{"location" => %{"address" => address}}, geocode_fn) do
-    {position, formatted_address} = address
+  @spec calculate_position(map(),
+    (String.t -> GoogleMaps.Geocode.Address.t)) :: {GoogleMaps.Geocode.Address.t, String.t}
+  def calculate_position(%{"location" => %{"address" => address}}, geocode_fn) do
+    address
     |> geocode_fn.()
     |> parse_geocode_response
-
-    conn
-    |> assign(:search_position, position)
-    |> assign(:address, formatted_address)
   end
-  def assign_position(conn, _params, _geocode_fn) do
-    conn
-    |> assign(:search_position, %{})
-    |> assign(:address, "")
+  def calculate_position(_params, _geocode_fn) do
+    {%{}, ""}
+  end
+
+  @spec current_pass(DateTime.t) :: String.t
+  def current_pass(%{day: day} = date) when day < 15 do
+    Timex.format!(date, "{Mfull} {YYYY}")
+  end
+  def current_pass(date) do
+    next_month = Timex.shift(date, months: 1)
+    Timex.format!(next_month, "{Mfull} {YYYY}")
   end
 
   defp parse_geocode_response({:ok, [location | _]}) do
@@ -80,18 +88,13 @@ defmodule Site.FareController do
     {%{}, ""}
   end
 
-  @spec assign_fare_sales_locations(Plug.Conn.t, (GoogleMaps.Geocode.t -> [{RetailLocations.Location.t, float}])) :: Plug.Conn.t
-  def assign_fare_sales_locations(
-    %Plug.Conn{assigns: %{search_position: %{latitude: _lat, longitude: _long} = position}} = conn, nearby_fn
-  ) do
-    locations = nearby_fn.(position)
-
-    conn
-    |> assign(:fare_sales_locations, locations)
+  @spec fare_sales_locations(GoogleMaps.Geocode.Address.t,
+    (GoogleMaps.Geocode.Address.t -> [{RetailLocations.Location.t, float}])) :: [{RetailLocations.Location.t, float}]
+  def fare_sales_locations(%{latitude: _lat, longitude: _long} = position, nearby_fn) do
+    nearby_fn.(position)
   end
-  def assign_fare_sales_locations(conn, _nearby_fn) do
-    conn
-    |> assign(:fare_sales_locations, [])
+  def fare_sales_locations(%{}, _nearby_fn) do
+    []
   end
 
   defp format_filters(filters, :the_ride) do

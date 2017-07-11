@@ -110,7 +110,7 @@
       You can get One Way, Round Trip, and Monthly (valid for Bus and Subway travel as well) Passes on a CharlieTicket at retail stores located throughout the Greater Boston and Providence areas.
     </p>
     <p>
-      <%= link to: redirect_path(@conn, "fares_and_passes/sales_locations/"), target: "_blank" do %>
+      <%= link to: fare_path(@conn, :show, :retail_sales_locations) do %>
         Find a store near you <%= fa "arrow-right" %>
       <% end %>
     </p>

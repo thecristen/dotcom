@@ -5,7 +5,7 @@
       <p>You may pay your fare in a several ways, depending on the type of transportation you take. Information on each payment option and which types of transportation accept them is listed below.</p>
     </div>
     <div class="payment-method">
-      <h2>CharlieCard</h2>
+      <h2 id="charlie-card">CharlieCard</h2>
       <p class="charliecard-uses">
         <strong>Use it on:</strong>
         Bus and Subway <%= fare_mode_icons([:bus, :subway])%>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="payment-method">
-      <h2>CharlieTicket</h2>
+      <h2 id="charlie-ticket">CharlieTicket</h2>
       <p>
         <strong>Use it on:</strong>
         All Modes <%= fare_mode_icons([:commuter_rail, :bus, :subway, :ferry])%>
@@ -66,7 +66,7 @@
       </p>
       <p class="charlie-ticket-method">
         <strong>Tip:</strong>
-        Pick up a CharlieTicket at <%= link "select locations", to: fare_path(@conn, :show, :charlie_card) %> to get cheaper One Way fares on Bus and Subway. 
+        Pick up a CharlieTicket at <%= link "select locations", to: fare_path(@conn, :show, :charlie_card) %> to get cheaper One Way fares on Bus and Subway.
       </p>
       <h4>Using CharlieTickets on the Commuter Rail and Ferry</h4>
       <div class="row">
