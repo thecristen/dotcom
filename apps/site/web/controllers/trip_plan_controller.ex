@@ -6,6 +6,8 @@ defmodule Site.TripPlanController do
   alias Site.TripPlan.RelatedLink
   alias Site.TripPlan.{ItineraryRowList, ItineraryRow}
   alias Site.PartialView.StopBubbles
+  import Site.Validation.Date, only: [date_string_ok: 1, date_string_is_in_future: 1]
+  import Site.Validation, only: [validate: 2]
 
   plug :require_google_maps
   plug :assign_initial_map, TripPlanMap.initial_map_src()
@@ -13,7 +15,23 @@ defmodule Site.TripPlanController do
   @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
 
-  def index(conn, %{"plan" => plan}) do
+  def index(conn, %{"plan" => %{"date_time" => date_time} = plan}) do
+    params = %{"date_string" => build_date_string(date_time), "system_date_time" => conn.assigns.date_time}
+    validators = [&date_string_ok/1, &date_string_is_in_future/1]
+    conn = assign(conn, :errors, validate(validators, params))
+    if Enum.empty?(conn.assigns.errors) do
+      render_plan(conn, plan)
+    else
+      render(conn, :index)
+    end
+  end
+  def index(conn, _params) do
+    conn
+    |> assign(:errors, [])
+    |> render(:index)
+  end
+
+  defp render_plan(conn, plan) do
     query = Query.from_query(plan)
     route_map = with_itineraries(query, %{}, &routes_for_query/1)
     route_mapper = &Map.get(route_map, &1)
@@ -28,9 +46,12 @@ defmodule Site.TripPlanController do
       stop_bubble_params_list: stop_bubble_params(itinerary_row_lists),
       destination_stop_bubble_params_list: destination_stop_bubble_params_list(itinerary_row_lists)
   end
-  def index(conn, _params) do
-    render(conn, :index)
+
+  @spec build_date_string(map) :: String.t
+  defp build_date_string(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute}) do
+    "#{year}-#{month}-#{day}T#{hour}:#{String.pad_leading(minute, 2, "0")}:00"
   end
+  defp build_date_string(_), do: ""
 
   def require_google_maps(conn, _) do
     assign(conn, :requires_google_maps?, true)

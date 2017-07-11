@@ -1,10 +1,11 @@
 defmodule Site.CustomerSupportController do
   use Site.Web, :controller
+  import Site.Validation, only: [validate: 2]
 
   plug Turbolinks.Plug.NoCache
 
   def index(conn, _params) do
-    render_form conn, MapSet.new, %{}
+    render_form conn, [], %{}
   end
 
   def thanks(conn, _params) do
@@ -12,15 +13,15 @@ defmodule Site.CustomerSupportController do
   end
 
   def submit(conn, params) do
-    errors = validate params
-    if MapSet.size(errors) > 0 do
-      conn
-      |> put_status(400)
-      |> render_form(errors, params)
-    else
+    errors = do_validation(params)
+    if Enum.empty?(errors) do
       {:ok, pid} = Task.start(__MODULE__, :send_ticket, [params])
       conn = Plug.Conn.put_private(conn, :ticket_task, pid)
       redirect conn, to: customer_support_path(conn, :thanks)
+    else
+      conn
+      |> put_status(400)
+      |> render_form(errors, params)
     end
   end
 
@@ -33,52 +34,51 @@ defmodule Site.CustomerSupportController do
       show_form: true
   end
 
-  defp validate(params) do
+  @spec do_validation(map) :: []
+  defp do_validation(params) do
     validators = if params["request_response"] == "on" do
       [&validate_comments/1, &validate_name/1, &validate_contacts/1, &validate_privacy/1]
     else
       [&validate_comments/1]
     end
 
-    validators
-    |> Enum.reduce(MapSet.new, fn (f, acc) ->
-      case f.(params) do
-        :ok -> acc
-        field -> MapSet.put acc, field
-      end
-    end)
+    validate(validators, params)
   end
 
+  @spec validate_comments(map) :: {:ok, map} | {:error, String.t}
   defp validate_comments(%{"comments" => ""}) do
-    "comments"
+    {:error, "comments"}
   end
   defp validate_comments(_) do
-    :ok
+    {:ok, nil}
   end
 
+  @spec validate_name(map) :: {:ok, map} | {:error, String.t}
   defp validate_name(%{"name" => ""}) do
-    "name"
+    {:error, "name"}
   end
   defp validate_name(_) do
-    :ok
+    {:ok, nil}
   end
 
+  @spec validate_contacts(map) :: {:ok, map} | {:error, String.t}
   defp validate_contacts(%{"phone" => << _, _ :: binary >>}) do
-    :ok
+    {:ok, nil}
   end
   defp validate_contacts(%{"email" => email}) do
     case Regex.run(~r/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/, email) do
       nil ->
-        "contacts"
+        {:error, "contacts"}
       [_] ->
-        :ok
+        {:ok, nil}
     end
   end
-  defp validate_contacts(_), do: "contacts"
+  defp validate_contacts(_), do: {:error, "contacts"}
 
-  defp validate_privacy(%{"privacy" => "on"}), do: :ok
+  @spec validate_privacy(map) :: {:ok, map} | {:error, String.t}
+  defp validate_privacy(%{"privacy" => "on"}), do: {:ok, nil}
   defp validate_privacy(_) do
-    "privacy"
+    {:error, "privacy"}
   end
 
   def send_ticket(params) do
