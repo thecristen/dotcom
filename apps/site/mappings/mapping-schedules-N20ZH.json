@@ -1,0 +1,19 @@
+{
+  "uuid" : "8ef9e862-26cb-35b6-aa7e-99db7c852bd0",
+  "request" : {
+    "url" : "/schedules/?stop_sequence=first%2Clast&date=2017-08-14&route=CR-Worcester&include=trip%2Croute&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-N20ZH.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 11 Jul 2017 17:33:12 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "f9vhsmvoe128kee3qvfdnn5ctmm8flut",
+      "Connection" : "keep-alive"
+    }
+  }
+}

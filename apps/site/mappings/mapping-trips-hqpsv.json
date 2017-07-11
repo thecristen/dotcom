@@ -1,0 +1,19 @@
+{
+  "uuid" : "a8bd7018-3343-3717-8e4e-63872c26923d",
+  "request" : {
+    "url" : "/trips/?route=CR-Worcester&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-hqpsv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 11 Jul 2017 17:33:11 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "v7edsp1hn54flqku6pa1fkl1kejkcp8d",
+      "Connection" : "keep-alive"
+    }
+  }
+}

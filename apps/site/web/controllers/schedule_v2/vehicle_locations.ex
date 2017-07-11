@@ -8,7 +8,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
 
   @default_opts [
     location_fn: &Vehicles.Repo.route/2,
-    schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/1
+    schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/2
   ]
 
   @type t :: %{{String.t, String.t} => Vehicles.Vehicle.t}
@@ -37,24 +37,24 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
   end
 
   @spec find_locations(Plug.Conn.t, %{}) :: __MODULE__.t
-  defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id}}, opts) do
+  defp find_locations(%Plug.Conn{assigns: %{route: route, direction_id: direction_id, date_time: service_date}}, opts) do
     schedule_for_trip_fn = opts[:schedule_for_trip_fn]
     for vehicle <- opts[:location_fn].(route.id, direction_id: direction_id), into: %{} do
-      key = location_key(vehicle, schedule_for_trip_fn)
+      key = location_key(vehicle, service_date, schedule_for_trip_fn)
       {key, vehicle}
     end
   end
 
-  defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, schedule_for_trip_fn)
+  defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, service_date, schedule_for_trip_fn)
   when is_function(schedule_for_trip_fn, 1) do
-    schedules = schedule_for_trip_fn.(vehicle.trip_id)
+    schedules = schedule_for_trip_fn.(vehicle.trip_id, date: service_date)
     if previous_station = find_previous_station(schedules, vehicle.stop_id) do
       {vehicle.trip_id, previous_station.id}
     else
-      location_key(vehicle, :default)
+      location_key(vehicle, service_date, :default)
     end
   end
-  defp location_key(%Vehicles.Vehicle{} = vehicle, _) do
+  defp location_key(%Vehicles.Vehicle{} = vehicle, _service_date, _schedule_for_trip_fn) do
     {vehicle.trip_id, vehicle.stop_id}
   end
 
