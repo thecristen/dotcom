@@ -69,7 +69,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
       |> call(
         [
           location_fn: fn (_, _) -> Enum.drop(@locations, 2) end,
-          schedule_for_trip_fn: fn (_,_) -> [
+          schedule_for_trip_fn: fn (_, _) -> [
             %Schedules.Schedule{stop: %Stops.Stop{id: "Yawkey"}},
             %Schedules.Schedule{stop: %Stops.Stop{id: "place-bbsta"}},
             %Schedules.Schedule{stop: %Stops.Stop{id: "place-sstat"}}
@@ -87,7 +87,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
       |> call(
         [
           location_fn: fn (_, _) -> Enum.drop(@locations, 2) end,
-          schedule_for_trip_fn: fn (_,_) -> []
+          schedule_for_trip_fn: fn (_, _) -> []
           end
         ]
       )
