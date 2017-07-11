@@ -1,10 +1,10 @@
 defmodule Site.StopBubblesViewTest do
   use Site.ConnCase, async: true
 
-  import Site.StopBubblesView, only: [stop_bubble_content: 2,
-                                      stop_bubble_line_type: 3,
-                                      stop_bubble_location_display: 3]
-  alias Stops.RouteStop
+  import Site.PartialView.StopBubbles, only: [stop_bubble_content: 2,
+                                             stop_bubble_line_type: 3,
+                                             stop_bubble_location_display: 3]
+  alias Site.PartialView.StopBubbles.Params
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   @vehicle_tooltip %VehicleTooltip{
@@ -20,55 +20,55 @@ defmodule Site.StopBubblesViewTest do
   @dotted_line @line_class <> "dotted"
   @direction_class %{0 => " direction-0", 1 => " direction-1"}
   @terminus_line_type %{0 => @solid_line <> @direction_class[0], 1 => ""}
-  @normal_stop %RouteStop{id: "stop", branch: nil, is_terminus?: false, stop_number: 5}
   @stop_class "stop-bubble-stop"
   @normal_stop_classes {@stop_class, @solid_line <> @direction_class[0]}
   @indent_start_class "route-branch-indent-start"
-  @normal_assigns %{expanded: nil, stop: @normal_stop, route: %Routes.Route{id: "route"},
-                    is_expand_link?: false, vehicle_tooltip: nil, direction_id: 0}
-  @green_assigns %{add_expand_link?: false,
+  @normal_assigns %Params{expanded: nil, stop_number: 5, stop_branch: nil, stop_id: "stop", route_id: "route",
+                    route_type: 1, is_expand_link?: false, vehicle_tooltip: nil, direction_id: 0}
+  @green_assigns %Params{
                    branch_names: ["Green-B", "Green-C", "Green-D", "Green-E"],
                    bubble_index: nil,
                    bubbles: [],
                    direction_id: 0,
                    expanded: nil,
-                   route: %Routes.Route{id: "Green", type: 0},
-                   show_vehicle?: false,
-                   stop: nil}
+                   route_id: "Green",
+                   route_type: 1,
+                   stop_id: nil,
+                   stop_branch: nil,
+                   stop_number: nil
+                 }
 
   describe "stop_bubble_location_display/3" do
     test "when vehicle is not at stop and stop is not a terminus, returns an empty circle" do
-      rendered = safe_to_string(stop_bubble_location_display(nil, %Routes.Route{type: 1}, false))
+      rendered = safe_to_string(stop_bubble_location_display(nil, {nil, 1}, false))
       assert rendered =~ "stop-bubble-stop"
       assert rendered =~ "svg"
     end
 
     test "when vehicle is not at stop and stop is a terminus, returns a filled circle" do
-      rendered = safe_to_string(stop_bubble_location_display(nil, %Routes.Route{type: 1}, true))
+      rendered = safe_to_string(stop_bubble_location_display(nil, {nil, 1}, true))
       assert rendered =~ "stop-bubble-terminus"
       assert rendered =~ "svg"
     end
 
     test "given a vehicle and the subway route_type, returns the icon for the subway" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 1, id: "Orange"}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, {"Orange", 1}, false))
       assert rendered =~ "vehicle-bubble"
     end
 
     test "given a vehicle and the bus route_type, returns the icon for the bus" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3, id: "Orange"}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, {"Orange", 3}, false))
       assert rendered =~ "vehicle-bubble"
     end
 
     test "Does not show vehicle icon when vehicle is on a different route" do
-      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, %Routes.Route{type: 3, id: "Blue"}, false))
+      rendered = safe_to_string(stop_bubble_location_display(@vehicle_tooltip, {"Blue", 3}, false))
       refute rendered =~ "vehicle-bubble"
     end
   end
 
   describe "stop_bubble_content" do
     test "returns a bubble with a vehicle and tool tip" do
-      stop = %Stops.RouteStop{id: "stop", branch: nil, is_terminus?: true, stop_number: 0}
-      route = %Routes.Route{id: "route"}
       vehicle_tooltip = %VehicleTooltip{
         prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
         vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "route"},
@@ -76,33 +76,33 @@ defmodule Site.StopBubblesViewTest do
         trip: %Schedules.Trip{name: "101", headsign: "Headsign"},
         stop_name: "South Station"
       }
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: vehicle_tooltip,
-                  direction_id: 0}
+      assigns = %Params{expanded: nil, stop_number: 0, stop_branch: nil,
+                  route_type: 1, route_id: "route", is_expand_link?: false,
+                  vehicle_tooltip: vehicle_tooltip, direction_id: 0}
       content = render_stop_bubble_content(assigns, {nil, :terminus})
       assert content =~ "train 101 has arrived at South Station"
       assert content =~ "vehicle-bubble"
     end
 
     test "returns a terminus bubble and a solid line for the first terminus" do
-      assigns = %{@normal_assigns | stop: %{@normal_stop | is_terminus?: true, stop_number: 0}}
+      assigns = %{@normal_assigns | stop_number: 0}
       assert stop_bubble_classes(assigns, {nil, :terminus}) == {@terminus_class, @solid_line <> @direction_class[0]}
       refute render_stop_bubble_content(assigns, {nil, :terminus}) =~ @indent_start_class
     end
 
     test "returns only a terminus bubble for the last terminus" do
-      assigns = %{@normal_assigns | stop: %{@normal_stop | is_terminus?: true}}
-      assert stop_bubble_classes(assigns, {nil, :terminus}) == {@terminus_class, ""}
-      refute render_stop_bubble_content(assigns, {nil, :terminus}) =~ @indent_start_class
+      assert stop_bubble_classes(@normal_assigns, {nil, :terminus}) == {@terminus_class, ""}
+      refute render_stop_bubble_content(@normal_assigns, {nil, :terminus}) =~ @indent_start_class
     end
 
     test "returns a terminus bubble and a dotted line the first teminus on a branch" do
-      assigns = %{@normal_assigns | stop: %{@normal_stop | is_terminus?: true, stop_number: 0, branch: "branch"}}
+      assigns = %{@normal_assigns | stop_number: 0, stop_branch: "branch"}
       assert stop_bubble_classes(assigns, {"branch", :terminus}) == {@terminus_class, @dotted_line <> @direction_class[0]}
       refute render_stop_bubble_content(assigns, {"branch", :terminus}) =~ @indent_start_class
     end
 
     test "returns a terminus bubble for the last teminus on a branch" do
-      assigns = %{@normal_assigns | stop: %{@normal_stop | is_terminus?: true, branch: "branch"}}
+      assigns = %{@normal_assigns | stop_branch: "branch"}
       assert stop_bubble_classes(assigns, {"branch", :terminus}) == {@terminus_class, ""}
       refute render_stop_bubble_content(assigns, {"branch", :terminus}) =~ @indent_start_class
     end
@@ -113,60 +113,65 @@ defmodule Site.StopBubblesViewTest do
     end
 
     test "returns a stop bubble and a solid line for a stop on an expanded branch" do
-      assigns = %{@normal_assigns | stop: %{@normal_stop | branch: "branch"}, expanded: "branch"}
+      assigns = %{@normal_assigns | stop_branch: "branch",  expanded: "branch"}
       assert stop_bubble_classes(assigns, {"branch", :stop}) == @normal_stop_classes
       refute render_stop_bubble_content(assigns, {"branch", :stop}) =~ @indent_start_class
     end
 
     test "returns only a dotted line if the stop is not on the branch and the branch is collapsed" do
-      assigns = %{@normal_assigns | stop: %{@normal_stop | branch: "branch"}}
+      assigns = %{@normal_assigns | stop_branch: "branch"}
       assert stop_bubble_line_type(:line, "other branch", assigns) == :dotted
       assert stop_bubble_classes(assigns, {"other branch", :line}) == {"", @dotted_line <> @direction_class[0]}
       refute render_stop_bubble_content(assigns, {"other branch", :line}) =~ @indent_start_class
     end
 
     test "returns only a solid line if the stop is not on the branch and the branch is expanded" do
-      stop = %RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
-      route = %Routes.Route{id: "route"}
-      assigns = %{expanded: "branch", stop: stop, route: route, is_expand_link?: false, show_vehicle?: false,
+      assigns = %Params{expanded: "branch", stop_number: 4, stop_branch: "other branch",
+                  route_type: 0, route_id: "route", is_expand_link?: false,
                   direction_id: 0}
       assert stop_bubble_classes(assigns, {"branch", :line}) == {"", @solid_line <> @direction_class[0]}
       refute render_stop_bubble_content(assigns, {"branch", :line}) =~ @indent_start_class
     end
 
     test "returns a stop bubble and a dotted line for the first merge stop in direction 0" do
-      stop = %RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
-      route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil,
+      assigns = %Params{expanded: nil, stop_number: 4, stop_branch: "other branch",
+                  route_type: 0, route_id: "route", is_expand_link?: false, vehicle_tooltip: nil,
                   bubble_index: 0, direction_id: 0}
       assert stop_bubble_classes(assigns, {"branch", :merge}) == {@stop_class, @dotted_line <> @direction_class[0]}
       refute render_stop_bubble_content(assigns, {"branch", :merge}) =~ @indent_start_class
     end
 
     test "returns a spacer and a dotted route-branch-indent-start div for the second merge stop in direction 0" do
-      stop = %RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
-      route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil,
-                  bubble_index: 1, direction_id: 0}
+      assigns = %Params{expanded: nil,
+                        stop_number: 4,
+                        stop_branch: "other branch",
+                        route_id: "route",
+                        is_expand_link?: false,
+                        vehicle_tooltip: nil,
+                        bubble_index: 1,
+                        direction_id: 0}
       assert stop_bubble_classes(assigns, {"branch", :merge}) ==
         {"merge-stop-spacer", @indent_start_class <> " dotted", @dotted_line <> @direction_class[0]}
       assert render_stop_bubble_content(assigns, {"branch", :merge}) =~ @indent_start_class
     end
 
     test "returns a stop bubble and a solid line for the first merge stop in direction 1" do
-      stop = %RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
-      route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil,
+      assigns = %Params{expanded: nil, stop_number: 4, route_id: "route", route_type: 0,
+                  is_expand_link?: false, vehicle_tooltip: nil,
                   bubble_index: 0, direction_id: 1}
       assert stop_bubble_classes(assigns, {"branch", :merge}) == {@stop_class, @solid_line <> @direction_class[1]}
       refute render_stop_bubble_content(assigns, {"branch", :merge}) =~ @indent_start_class
     end
 
     test "returns a dotted line and a dotted route-branch-indent-start div for the second merge stop in direction 1" do
-      stop = %RouteStop{id: "stop", branch: "other branch", is_terminus?: false, stop_number: 4}
-      route = %Routes.Route{id: "route"}
-      assigns = %{expanded: nil, stop: stop, route: route, is_expand_link?: false, vehicle_tooltip: nil,
-                  bubble_index: 1, direction_id: 1}
+      assigns = %Params{expanded: nil,
+                        stop_number: 4,
+                        stop_branch: "other branch",
+                        route_id: "route",
+                        is_expand_link?: false,
+                        vehicle_tooltip: nil,
+                        bubble_index: 1,
+                        direction_id: 1}
       assert stop_bubble_classes(assigns, {"branch", :merge}) ==
         {@dotted_line <> @direction_class[1], @indent_start_class <> " dotted"}
       assert render_stop_bubble_content(assigns, {"branch", :merge}) =~ @indent_start_class
@@ -175,7 +180,7 @@ defmodule Site.StopBubblesViewTest do
 
   describe "green line stop_bubble_content" do
     test "lechmere" do
-      westbound = %{@green_assigns | stop: %RouteStop{id: "place-lech", is_terminus?: true}}
+      westbound = %{@green_assigns | stop_id: "place-lech"}
       for direction <- [0, 1] do
         for {letter, index} <- Enum.with_index(["B", "C", "D"]) do
           branch = "Green-" <> letter
@@ -191,7 +196,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "science park" do
       for direction <- [0, 1] do
-        assigns = %{@green_assigns | stop: %RouteStop{id: "place-spmnl", is_terminus?: true}, direction_id: direction}
+        assigns = %{@green_assigns | stop_id: "place-spmnl", direction_id: direction}
         for {letter, index} <- Enum.with_index(["B", "C", "D"]) do
           branch = "Green-" <> letter
           assert stop_bubble_classes(%{assigns | bubble_index: index}, {branch, :empty}) == {"", ""}
@@ -203,7 +208,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "north station" do
       for direction <- [0, 1] do
-        assigns = %{@green_assigns | stop: %RouteStop{id: "place-north"}, direction_id: direction}
+        assigns = %{@green_assigns | stop_id: "place-north", direction_id: direction}
         assert stop_bubble_classes(%{assigns | bubble_index: 0}, {"Green-B", :empty}) == {"", ""}
         assert stop_bubble_classes(%{assigns | bubble_index: 1}, {"Green-C", :terminus}) ==
           {@terminus_class, @terminus_line_type[direction]}
@@ -215,7 +220,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "government center" do
       for direction <- [0, 1] do
-        assigns = %{@green_assigns | stop: %RouteStop{id: "place-gover"}, direction_id: direction}
+        assigns = %{@green_assigns | stop_id: "place-gover", direction_id: direction}
         assert stop_bubble_classes(%{assigns | bubble_index: 0}, {"Green-B", :empty}) == {"", ""}
         assert stop_bubble_classes(%{assigns | bubble_index: 1}, {"Green-C", :stop}) ==
           {@stop_class, @solid_line <> @direction_class[direction]}
@@ -228,7 +233,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "park st" do
       for direction <- [0, 1] do
-        assigns = %{@green_assigns | stop: %RouteStop{id: "place-gover"}, direction_id: direction}
+        assigns = %{@green_assigns | stop_id: "place-pktrm", direction_id: direction}
         assert stop_bubble_classes(%{assigns | bubble_index: 0}, {"Green-B", :terminus}) ==
           {@terminus_class, @terminus_line_type[direction]}
         assert stop_bubble_classes(%{assigns | bubble_index: 1}, {"Green-C", :stop}) ==
@@ -243,7 +248,7 @@ defmodule Site.StopBubblesViewTest do
     test "boylston through copley" do
       for direction <- [0, 1] do
         for stop <- ["place-boyls", "place-armnl", "place-coecl"] do
-          assigns = %{@green_assigns | stop: %RouteStop{id: stop}, direction_id: direction}
+          assigns = %{@green_assigns | stop_id: stop, direction_id: direction}
           for {branch, index} <- GreenLine.branch_ids() do
             assert stop_bubble_classes(%{assigns | bubble_index: index}, {branch, :stop}) == @normal_stop_classes
           end
@@ -253,7 +258,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "hynes" do
       for direction <- [0, 1] do
-        assigns = %{@green_assigns | stop: %RouteStop{id: "place-hymnl"}, direction_id: direction}
+        assigns = %{@green_assigns | stop_id: "place-hymnl", direction_id: direction}
         for {branch, index} <- Enum.with_index ["B", "C", "D"] do
           assert stop_bubble_classes(%{assigns | bubble_index: index}, {"Green-" <> branch, :stop}) ==
             {@stop_class, @solid_line <> @direction_class[direction]}
@@ -263,7 +268,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "kenmore" do
       for {branch, index} <- Enum.with_index ["B", "C", "D"] do
-        assigns = %{@green_assigns | stop: %RouteStop{id: "place-kencl"}, bubble_index: index}
+        assigns = %{@green_assigns | stop_id: "place-kencl", bubble_index: index}
         bubble = {"Green-" <> branch, :stop}
         assert stop_bubble_classes(assigns, bubble) == {@stop_class, @dotted_line <> @direction_class[0]}
         assert stop_bubble_classes(%{assigns | direction_id: 1}, bubble) ==
@@ -272,7 +277,7 @@ defmodule Site.StopBubblesViewTest do
     end
 
     test "E branch stops" do
-      heath = %{@green_assigns | stop: %RouteStop{id: "place-hsmnl", is_terminus?: true, branch: "Green-E"}}
+      heath = %{@green_assigns | stop_id: "place-hsmnl", stop_branch: "Green-E"}
       assert stop_bubble_classes(heath, {"Green-E", :terminus}) == {@terminus_class, ""}
       assert stop_bubble_classes(%{heath | direction_id: 1}, {"Green-E", :terminus}) ==
         {@terminus_class, @dotted_line <> @direction_class[1]}
@@ -283,7 +288,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "Non-E branch stops" do
       for direction <- [0, 1] do
-        assigns = %{@green_assigns | stop: %RouteStop{id: "place-bland", branch: "Green-B"},
+        assigns = %{@green_assigns | stop_id: "place-bland", stop_branch: "Green-B",
                                   expanded: "Green-B",
                                   direction_id: direction}
         assert stop_bubble_classes(assigns, {"Green-B", :stop}) ==
@@ -299,7 +304,7 @@ defmodule Site.StopBubblesViewTest do
       }
       [b, c, d] = Enum.map(["B", "C", "D"], fn letter ->
         branch = "Green-" <> letter
-        %{@green_assigns | stop: %RouteStop{id: branch_terminii[branch], is_terminus?: true, branch: branch}}
+        %{@green_assigns | stop_id: branch_terminii[branch], stop_branch: branch}
       end)
       b_1_expanded = %{b | direction_id: 1, expanded: "Green-B"}
       c_1_expanded = %{c | direction_id: 1, expanded: "Green-C"}
@@ -326,9 +331,8 @@ defmodule Site.StopBubblesViewTest do
 
   describe "expanded branches" do
     test "braintree has a solid line and terminus bubble when braintree is expanded and direction is 1" do
-      braintree = %RouteStop{id: "place-brntn", branch: "Braintree", is_terminus?: true, stop_number: 0}
-      assigns = %{expanded: "Braintree", stop: braintree, route: %Routes.Route{id: "Red", type: 1},
-                        is_expand_link?: false, vehicle_tooltip: nil, direction_id: 1}
+      assigns = %Params{expanded: "Braintree", stop_id: "place-brntn", stop_number: 0, stop_branch: "Braintree",
+                  route_id: "Red", route_type: 1, is_expand_link?: false, vehicle_tooltip: nil, direction_id: 1}
       assert stop_bubble_classes(assigns, {"Braintree", :terminus}) ==
         {@terminus_class, @solid_line <> @direction_class[1]}
     end

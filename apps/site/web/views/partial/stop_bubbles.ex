@@ -1,43 +1,101 @@
-defmodule Site.StopBubblesView do
+defmodule Site.PartialView.StopBubbles do
   use Site.Web, :view
 
   import VehicleHelpers, only: [tooltip: 1]
-  alias Stops.RouteStop
   alias Routes.Route
 
-  @typep stop_bubble_type :: Site.ScheduleV2Controller.Line.stop_bubble_type
+  @type stop_bubble_type :: :stop | :terminus | :line | :empty | :merge
+  @type stop_bubble :: {Route.branch_name, StopBubblesView.stop_bubble_type}
+
+  defmodule Params do
+    defstruct [
+      bubbles: [],
+      stop_number: 0,
+      stop_branch: nil,
+      stop_id: nil,
+      route_id: nil,
+      route_type: nil,
+      direction_id: 0,
+      expanded: false,
+      branch_names: [],
+      vehicle_tooltip: nil,
+      bubble_index: 0,
+      is_expand_link?: false
+    ]
+
+    @type t :: %__MODULE__{
+      bubbles: [Site.PartialView.StopBubbles.stop_bubble],
+      stop_number: integer,
+      stop_branch: Route.branch_name,
+      stop_id: Stop.id_t | nil,
+      route_id: Route.id_t | nil,
+      route_type: Route.type_int | nil,
+      direction_id: 0 | 1,
+      expanded: boolean,
+      branch_names: [Route.branch_name],
+      vehicle_tooltip: VehicleTooltip.t,
+      bubble_index: integer,
+      is_expand_link?: boolean
+    }
+  end
+
+  def render_stop_bubbles(params) do
+    content_tag :div, class: "route-branch-stop-bubbles" do
+      [render_bubbles(params),
+       render_padding(params)
+      ]
+    end
+  end
+
+  defp render_bubbles(params) do
+    for {{bubble_branch, bubble_type}, index} <- Enum.with_index(params.bubbles) do
+      content_tag :div, class: "route-branch-stop-bubble #{bubble_type}" do
+        params
+        |> Map.put(:bubble_index, index)
+        |> stop_bubble_content({bubble_branch, bubble_type})
+      end
+    end
+  end
+
+  # required to keep the branch lines aligned on iOS
+  defp render_padding(params) do
+    case length(params.bubbles) - length(params.branch_names) do
+      diff when diff > 0 ->
+        for _ <- 1..diff do
+          content_tag(:div, "", class: "route-branch-stop-bubble hidden-sm-up")
+        end
+      _ -> ""
+    end
+  end
 
   @doc """
   Returns the content for an individual stop bubble in a stop list. The content and styles vary depending on
   whether the stop is a terminus, the branch is expanded, the row is a button to expand the branch, etc.
   """
-  @spec stop_bubble_content(map, {String.t, stop_bubble_type}) :: Phoenix.HTML.Safe.t
+  @spec stop_bubble_content(Params.t, {String.t, stop_bubble_type}) :: Phoenix.HTML.Safe.t
   def stop_bubble_content(assigns, bubble_info)
   def stop_bubble_content(%{is_expand_link?: true} = assigns, {bubble_branch, bubble_type_}) do
     bubble_type = if Enum.member?([:stop, :terminus], bubble_type_), do: :line, else: bubble_type_
     [render_stop_bubble_line(bubble_type, bubble_branch, assigns)]
   end
-  def stop_bubble_content(%{route: %Routes.Route{id: "Green"}} = assigns, {branch, :terminus}) do
+  def stop_bubble_content(%{route_id: "Green"} = assigns, {branch, :terminus}) do
     [
-      render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble(:terminus, {assigns.route_id, assigns.route_type}, branch, assigns.vehicle_tooltip),
       render_stop_bubble_line(:terminus, branch, assigns)
     ]
   end
-  def stop_bubble_content(%{stop: %RouteStop{stop_number: 0}} = assigns, {branch, :terminus}) do
+  def stop_bubble_content(%{stop_number: 0} = assigns, {branch, :terminus}) do
     [
-      render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble(:terminus, {assigns.route_id, assigns.route_type}, branch, assigns.vehicle_tooltip),
       render_stop_bubble_line(:terminus, branch, assigns)
     ]
   end
-  def stop_bubble_content(%{stop: %RouteStop{stop_number: _}} = assigns, {branch, :terminus}) do
-    [render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip])]
-  end
-  def stop_bubble_content(assigns, {branch, :terminus}) do
-    [render_stop_bubble(:terminus, assigns.route, branch, assigns[:vehicle_tooltip])]
+  def stop_bubble_content(%{stop_number: _} = assigns, {branch, :terminus}) do
+    [render_stop_bubble(:terminus, {assigns.route_id, assigns.route_type}, branch, assigns.vehicle_tooltip)]
   end
   def stop_bubble_content(%{bubble_index: 0} = assigns, {branch, :merge}) do
     [
-      render_stop_bubble(:stop, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble(:stop, {assigns.route_id, assigns.route_type}, branch, assigns.vehicle_tooltip),
       render_stop_bubble_line(:merge, branch, assigns)
     ]
   end
@@ -56,22 +114,22 @@ defmodule Site.StopBubblesView do
   end
   def stop_bubble_content(assigns, {branch, bubble_type}) when is_binary(branch) or is_nil(branch) do
     [
-      render_stop_bubble(bubble_type, assigns.route, branch, assigns[:vehicle_tooltip]),
+      render_stop_bubble(bubble_type, {assigns.route_id, assigns.route_type}, branch, assigns.vehicle_tooltip),
       render_stop_bubble_line(bubble_type, branch, assigns)
     ]
   end
 
-  @spec render_stop_bubble(stop_bubble_type, Route.t, String.t, VehicleTooltip.t | nil)
+  @spec render_stop_bubble(stop_bubble_type, {Route.id_t, Route.type_int}, String.t, VehicleTooltip.t | nil)
         :: Phoenix.HTML.Safe.t
-  defp render_stop_bubble(bubble_type, %Route{id: "Green"} = route, branch, vehicle_tooltip)
+  defp render_stop_bubble(bubble_type, {"Green", route_type}, branch, vehicle_tooltip)
   when bubble_type in [:stop, :terminus] do
-    stop_bubble_location_display(vehicle_tooltip, %{route | id: branch}, bubble_type == :terminus)
+    stop_bubble_location_display(vehicle_tooltip, {branch, route_type}, bubble_type == :terminus)
   end
-  defp render_stop_bubble(bubble_type, %Route{} = route, _, vehicle_tooltip)
-  when bubble_type in [:stop, :terminus] do
+  defp render_stop_bubble(bubble_type, {route_id, _} = route, _, vehicle_tooltip)
+  when bubble_type in [:stop, :terminus] and not is_nil(route_id) do
       stop_bubble_location_display(vehicle_tooltip, route, bubble_type == :terminus)
   end
-  defp render_stop_bubble(_, %Route{}, _, _), do: ""
+  defp render_stop_bubble(_, {route_id, _}, _, _) when not is_nil(route_id), do: ""
 
   defp render_stop_bubble_line(bubble_type, bubble_branch, assigns) do
     bubble_type
@@ -125,33 +183,31 @@ defmodule Site.StopBubblesView do
       - dotted line if the branch is collapsed
 
   """
-  @spec stop_bubble_line_type(stop_bubble_type, String.t, map) :: :solid | :dotted | :hidden
+  @spec stop_bubble_line_type(stop_bubble_type, String.t, Params.t) :: :solid | :dotted | :hidden
   def stop_bubble_line_type(bubble_type, branch_name, assigns)
   def stop_bubble_line_type(:empty, _, _), do: nil
-  def stop_bubble_line_type(:terminus, _, %{stop: %RouteStop{branch: "Green-" <> branch},
+  def stop_bubble_line_type(:terminus, _, %{stop_branch: "Green-" <> branch,
                                             expanded: "Green-" <> branch,
                                             direction_id: 1}), do: :solid
-  def stop_bubble_line_type(:terminus, branch, %{stop: %RouteStop{branch: "Green-E"}}) when branch != "Green-E", do: :solid
-  def stop_bubble_line_type(:terminus, _, %{stop: %RouteStop{branch: "Green-" <> _}, direction_id: 1}), do: :dotted
-  def stop_bubble_line_type(:terminus, "Green-" <> _, %{stop: %RouteStop{branch: nil}, direction_id: 0}), do: :solid
+  def stop_bubble_line_type(:terminus, branch, %{stop_branch: "Green-E"}) when branch != "Green-E", do: :solid
+  def stop_bubble_line_type(:terminus, _, %{stop_branch: "Green-" <> _, direction_id: 1}), do: :dotted
+  def stop_bubble_line_type(:terminus, "Green-" <> _, %{stop_branch: nil, direction_id: 0}), do: :solid
   def stop_bubble_line_type(:terminus, "Green-" <> _, _), do: nil
   def stop_bubble_line_type(:terminus, nil, _), do: :solid
   def stop_bubble_line_type(:terminus, branch, %{direction_id: 1, expanded: branch}) when not is_nil(branch), do: :solid
   def stop_bubble_line_type(:terminus, _, _), do: :dotted
   def stop_bubble_line_type(_, branch, %{expanded: branch}), do: :solid
-  def stop_bubble_line_type(:line, expanded, %{expanded: expanded}), do: :solid
-  def stop_bubble_line_type(:line, "Green-" <> _ = bubble_branch, %{stop: %RouteStop{branch: "Green-E"}})
+  def stop_bubble_line_type(:line, "Green-" <> _ = bubble_branch, %{stop_branch: "Green-E"})
     when bubble_branch != "Green-E", do: :solid
   def stop_bubble_line_type(:line, _, _), do: :dotted
-  def stop_bubble_line_type(:merge, expanded, %{expanded: expanded}), do: :solid
   def stop_bubble_line_type(:merge, _, %{direction_id: 1, bubble_index: 0}), do: :solid
   def stop_bubble_line_type(:merge, _, _), do: :dotted
-  def stop_bubble_line_type(:stop, expanded, %{expanded: expanded}), do: :solid
-  def stop_bubble_line_type(:stop, _, %{route: %Routes.Route{id: route_id}, stop: %RouteStop{branch: nil}})
+  def stop_bubble_line_type(:stop, _, %{route_id: route_id, stop_branch: nil})
       when route_id != "Green", do: :solid
-  def stop_bubble_line_type(:stop, _, %{route: %Routes.Route{id: route_id}}) when route_id != "Green", do: :solid
+  def stop_bubble_line_type(:stop, _, %{route_id: route_id}) when route_id != "Green", do: :solid
   def stop_bubble_line_type(:stop, "Green" <> _ = branch, %{direction_id: direction,
-                                                          stop: %RouteStop{branch: nil, id: stop_id}}) do
+                                                            stop_branch: nil,
+                                                            stop_id: stop_id}) do
     cond do
       stop_id == GreenLine.merge_id(branch) && direction == 0 -> :dotted
       stop_id == GreenLine.split_id(branch) && direction == 1 -> :dotted
@@ -164,20 +220,24 @@ defmodule Site.StopBubblesView do
   Given a Vehicle and a route, returns an icon for the route. Given nil, returns nothing. Adds a
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
   """
-  @spec stop_bubble_location_display(VehicleTooltip.t | nil, Route.t, boolean) :: Phoenix.HTML.Safe.t
+  @spec stop_bubble_location_display(VehicleTooltip.t | nil,
+                                     {Route.id_t,
+                                      Route.type_int},
+                                      boolean) ::
+        Phoenix.HTML.Safe.t
   def stop_bubble_location_display(vehicle_tooltip, route, terminus?)
   def stop_bubble_location_display(%VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: route_id}} = vehicle_tooltip,
-                                   %Route{id: route_id, type: route_type}, _terminus?) do
+                                   {route_id, route_type}, _terminus?) do
     vehicle_bubble(route_type, vehicle_tooltip)
   end
-  def stop_bubble_location_display(_, route, true) do
-    stop_bubble_icon(:terminus, route.id)
+  def stop_bubble_location_display(_, {route_id, _}, true) do
+    stop_bubble_icon(:terminus, route_id)
   end
-  def stop_bubble_location_display(_, route, false) do
-    stop_bubble_icon(:stop, route.id)
+  def stop_bubble_location_display(_, {route_id, _}, false) do
+    stop_bubble_icon(:stop, route_id)
   end
 
-  @spec vehicle_bubble(0..4, VehicleTooltip.t) :: Phoenix.HTML.Safe.t
+  @spec vehicle_bubble(Route.type_int, VehicleTooltip.t) :: Phoenix.HTML.Safe.t
   defp vehicle_bubble(route_type, vehicle_tooltip) do
     svg_name =  "#{Atom.to_string(Routes.Route.type_atom(route_type))}-vehicle-icon.svg"
     content_tag(:span,

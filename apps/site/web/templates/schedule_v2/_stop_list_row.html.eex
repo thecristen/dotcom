@@ -1,6 +1,6 @@
 <%= if @add_expand_link? && @direction_id == 0, do: render "_stop_list_expand_link.html", assigns %>
 <div class="route-branch-stop">
-  <%= render Site.StopBubblesView, "list.html", assigns %>
+  <%= Site.PartialView.StopBubbles.render_stop_bubbles(stop_bubble_row_params(assigns)) %>
   <div class="route-branch-stop-info">
     <%= render @row_content_template, assigns %>
   </div>

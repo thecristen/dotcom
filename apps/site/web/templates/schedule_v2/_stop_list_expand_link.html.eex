@@ -1,5 +1,5 @@
 <div class="route-branch-stop">
-  <%= render Site.StopBubblesView,"list.html", Map.put(assigns, :is_expand_link?, true) %>
+  <%= Site.PartialView.StopBubbles.render_stop_bubbles(stop_bubble_row_params(assigns, true)) %>
   <div class="route-branch-stop-info expand">
     <div class="expand-branch-link">
       <%= view_branch_link(@conn, @expanded, @stop.branch) %>

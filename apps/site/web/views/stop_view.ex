@@ -175,7 +175,7 @@ defmodule Site.StopView do
   def stop_feature_icon(feature, class) when feature in [:"Green-B", :"Green-C", :"Green-D", :"Green-E"] do
     icon_opts = [icon_class: class, transform: "translate(1,1)"]
     content_tag :span, class: "green-line route-branch-stop-list stop-feature-green" do
-      Site.StopBubblesView.stop_bubble_icon(:stop, Atom.to_string(feature), icon_opts)
+      Site.PartialView.StopBubbles.stop_bubble_icon(:stop, Atom.to_string(feature), icon_opts)
     end
   end
   def stop_feature_icon(:parking_lot, class) do

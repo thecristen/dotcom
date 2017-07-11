@@ -10,7 +10,7 @@
 <div class="route-branch-stop <%= bubble_type %>" role="row">
   <div class="route-branch-stop-bubbles">
     <div class="route-branch-stop-bubble">
-      <%= stop_bubble_location_display(@vehicle_tooltip, @route, @terminus?) %>
+      <%= stop_bubble_location_display(@vehicle_tooltip, {@route.id, @route.type}, @terminus?) %>
       <%= unless line_type == :hidden, do: content_tag(:div, "", class: "route-branch-stop-bubble-line #{line_type}") %>
     </div>
   </div>

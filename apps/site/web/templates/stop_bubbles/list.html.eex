@@ -1,16 +1,16 @@
 <div class="route-branch-stop-bubbles">
   <%=
-    for {{bubble_branch, bubble_type}, index} <- Enum.with_index(@bubbles) do
+    for {{bubble_branch, bubble_type}, index} <- Enum.with_index(@bubble_params.bubbles) do
       content_tag :div, class: "route-branch-stop-bubble #{bubble_type}" do
-        assigns
+        @bubble_params
         |> Map.put(:bubble_index, index)
-        |> Site.StopBubblesView.stop_bubble_content({bubble_branch, bubble_type})
+        |> Site.PartialView.StopBubbles.stop_bubble_content({bubble_branch, bubble_type})
       end
     end
   %>
   <%=
     # required to keep the branch lines aligned on iOS
-    case length(@bubbles) - length(@branch_names) do
+    case length(@bubble_params.bubbles) - length(@bubble_params.branch_names) do
       diff when diff > 0 ->
         for _ <- 1..diff do
           content_tag(:div, "", class: "route-branch-stop-bubble hidden-sm-up")

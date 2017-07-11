@@ -4,13 +4,11 @@ defmodule Site.ScheduleV2Controller.Line do
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
   alias Site.ScheduleV2Controller.Line.Maps
+  alias Site.PartialView.StopBubbles
 
-  @type stop_bubble_type :: :stop | :terminus | :line | :empty | :merge
   @type query_param :: String.t | nil
-  @type branch_name :: String.t | nil
   @type direction_id :: 0 | 1
-  @type stop_bubble :: {branch_name, stop_bubble_type}
-  @type stop_with_bubble_info :: {[stop_bubble], RouteStop.t}
+  @typep stop_with_bubble_info :: {[StopBubbles.stop_bubble], RouteStop.t}
 
   @impl true
   def init([]), do: []
@@ -68,7 +66,7 @@ defmodule Site.ScheduleV2Controller.Line do
     Routes.Repo.get_shapes(route_id, direction_id)
   end
 
-  @spec get_active_shapes([Routes.Shape.t], Routes.Route.t, query_param, branch_name) :: [Routes.Shape.t]
+  @spec get_active_shapes([Routes.Shape.t], Routes.Route.t, query_param, Route.branch_name) :: [Routes.Shape.t]
   defp get_active_shapes(shapes, %Routes.Route{type: 3}, variant, _expanded) do
     shapes
     |> get_requested_shape(variant)
@@ -144,7 +142,7 @@ defmodule Site.ScheduleV2Controller.Line do
     |> do_update_green_branch_stop(stop, branch_id)
   end
 
-  @spec do_update_green_branch_stop(boolean, RouteStop.t, branch_name) :: RouteStop.t
+  @spec do_update_green_branch_stop(boolean, RouteStop.t, Route.branch_name) :: RouteStop.t
   defp do_update_green_branch_stop(true, stop, _branch_id), do: %{stop | branch: nil}
   defp do_update_green_branch_stop(false, stop, branch_id), do: %{stop | branch: branch_id}
 
@@ -159,7 +157,7 @@ defmodule Site.ScheduleV2Controller.Line do
     Enum.map(branches, & do_remove_collapsed_stops(&1, expanded, direction_id))
   end
 
-  @spec do_remove_collapsed_stops(RouteStops.t, branch_name, direction_id) :: RouteStops.t
+  @spec do_remove_collapsed_stops(RouteStops.t, Route.branch_name, direction_id) :: RouteStops.t
   defp do_remove_collapsed_stops(%RouteStops{branch: nil} = branch, _, _) do
     # if the branch's name is nil, it represents the unbranched stops on the route, so no stops should be removed.
     branch
@@ -268,7 +266,7 @@ defmodule Site.ScheduleV2Controller.Line do
   # so that we don't duplicate efforts.
   @spec parse_green_branch({[RouteStop.t], [RouteStop.t]},
                            {[stop_with_bubble_info], [RouteStop.t]},
-                           direction_id, branch_name) :: {[stop_with_bubble_info], [RouteStop.t]}
+                           direction_id, Route.branch_name) :: {[stop_with_bubble_info], [RouteStop.t]}
   defp parse_green_branch({branch_stops, shared_stops}, acc, direction_id, branch_name) do
     branch_stops
     |> Enum.reduce([], &build_branched_stop(&1, &2, {branch_name, GreenLine.branch_ids()}))
@@ -298,16 +296,16 @@ defmodule Site.ScheduleV2Controller.Line do
 
   Stops will be in reverse order. Not used by the Green Line.
   """
-  @spec build_branched_stop_list(RouteStops.t, {[stop_with_bubble_info], [branch_name]}) ::
-                                                                              {[stop_with_bubble_info], [branch_name]}
+  @spec build_branched_stop_list(RouteStops.t, {[stop_with_bubble_info], [Route.branch_name]}) ::
+        {[stop_with_bubble_info], [Route.branch_name]}
   def build_branched_stop_list(%RouteStops{branch: branch, stops: branch_stops}, {all_stops, previous_branches}) do
     previous_branches
     |> update_bubble_branches(branch)
     |> do_build_branched_stop_list(branch, branch_stops, all_stops)
   end
 
-  @spec do_build_branched_stop_list([branch_name], branch_name, [Stops.RouteStop.t],
-                                    [stop_with_bubble_info]) :: {[stop_with_bubble_info], [branch_name]}
+  @spec do_build_branched_stop_list([Route.branch_name], Route.branch_name, [Stops.RouteStop.t],
+        [stop_with_bubble_info]) :: {[stop_with_bubble_info], [Route.branch_name]}
   defp do_build_branched_stop_list(branch_names, current_branch, branch_stops, all_stops) do
     stop_list = branch_stops
     |> Util.EnumHelpers.with_first_last()
@@ -321,7 +319,7 @@ defmodule Site.ScheduleV2Controller.Line do
   as a tuple of {stop_bubbles, %RouteStop{}}.
   """
   @spec build_branched_stop(RouteStop.t | {RouteStop.t, boolean}, [stop_with_bubble_info],
-                              {branch_name, [branch_name]}) :: [stop_with_bubble_info]
+        {Route.branch_name, [Route.branch_name]}) :: [stop_with_bubble_info]
   def build_branched_stop(this_stop, all_stops, current_and_previous_branches)
   def build_branched_stop(stop, branch_stops, {_, ["Green" <> _ | _] = green_branches}) do
     # Green Line always evaluates all branches on all stops. If the stop should have a bubble for a branch,
@@ -359,14 +357,14 @@ defmodule Site.ScheduleV2Controller.Line do
   @doc """
   Adds or removes a branch name to the list of branch names used to build the stop bubbles. Not used by Green Line.
   """
-  @spec update_bubble_branches([branch_name], branch_name) :: [branch_name]
+  @spec update_bubble_branches([Route.branch_name], Route.branch_name) :: [Route.branch_name]
   def update_bubble_branches(previous_branches, nil), do: previous_branches
   def update_bubble_branches(previous_branches, branch), do: previous_branches ++ [branch]
 
   @doc """
   Returns a tuple with the stop bubble type, and the name of the branch that the bubble represents.
   """
-  @spec stop_bubble_type(String.t, RouteStop.t) :: {String.t, stop_bubble_type}
+  @spec stop_bubble_type(String.t, RouteStop.t) :: {String.t, StopBubblesView.stop_bubble_type}
   def stop_bubble_type(bubble_branch_name, stop)
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: true}), do: {branch_id, :terminus}
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: false}), do: {branch_id, :stop}
@@ -395,7 +393,10 @@ defmodule Site.ScheduleV2Controller.Line do
   @doc """
   Takes the final generated list of all stops for the route and sorts them into the correct order based on direction id.
   """
-  @spec sort_stop_list({[Stops.RouteStop.t], [branch_name]} | [Stops.RouteStop.t], direction_id) :: [Stops.RouteStop.t]
+  @spec sort_stop_list({[Stops.RouteStop.t],
+                       [Route.branch_name]} | [Stops.RouteStop.t],
+                       direction_id) ::
+        [Stops.RouteStop.t]
   def sort_stop_list({all_stops, _branches}, direction_id), do: sort_stop_list(all_stops, direction_id)
   def sort_stop_list(all_stops, 1) when is_list(all_stops), do: Enum.reverse(all_stops)
   def sort_stop_list(all_stops, 0) when is_list(all_stops), do: all_stops
