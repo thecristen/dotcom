@@ -50,7 +50,7 @@ You can purchase a Ferry Monthly Pass at retail sales locations. Your Sales Agen
   you can purchase new passes or One Way fares at retail sales locations.
   If you have a <%= link "Student CharlieCard", to: fare_path(@conn, :show, :reduced)<>"#students" %>, you may load money onto a
   <%= link "CharlieCard", to: fare_path(@conn, :show, :payment_methods)<>"#charlie-card" %> or
-  <%= link "CharlieTicket", to: fare_path(@conn, :show, :payment_methods)<>"charlie-ticket" %>
+  <%= link "CharlieTicket", to: fare_path(@conn, :show, :payment_methods)<>"#charlie-ticket" %>
   for reduced One Way fares only.
 </p>
 <h3>

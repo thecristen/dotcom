@@ -47,7 +47,11 @@ defmodule Site.FareController do
   def show(%Plug.Conn{assigns: %{date_time: date_time}} = conn, %{"id" => "retail_sales_locations"} = params) do
     {position, formatted} = calculate_position(params, @options.geocode_fn)
 
-    render(conn, "retail_sales_locations.html",
+    conn
+    |> assign(:breadcrumbs, [
+        {fare_path(conn, :index), "Fares and Passes"},
+        "Retail Sales Locations"])
+    |> render("retail_sales_locations.html",
          current_pass: current_pass(date_time),
          requires_google_maps?: true,
          fare_sales_locations: fare_sales_locations(position, @options.nearby_fn),
