@@ -16,6 +16,10 @@
     position: sticky;
     top: 0;
   }
+
+  @include media-breakpoint-down(sm) {
+    margin: $space-12 $base-spacing;
+  }
 }
 
 .date-time-select {
@@ -88,4 +92,21 @@
 
 .trip-plan-time {
   float: right;
+}
+
+.trip-planner-form {
+  @include media-breakpoint-up(sm) {
+    &.collapse {
+      display: block;
+    }
+  }
+}
+
+.trip-planner-edit-btn {
+  margin-top: $space-8;
+  width: 100%;
+}
+
+.planner-location-box-location {
+  padding-bottom: $space-8;
 }

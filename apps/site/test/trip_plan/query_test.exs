@@ -3,6 +3,7 @@ defmodule Site.TripPlan.QueryTest do
 
   import Site.TripPlan.Query
   alias Site.TripPlan.Query
+  alias TripPlan.NamedPosition
 
   @date_time Timex.to_datetime(~N[2017-05-30T19:30:00], "America/New_York")
   @date_time_param %{
@@ -130,6 +131,45 @@ defmodule Site.TripPlan.QueryTest do
 
       assert fetch_lat_lng(params, :from) == :error
       assert fetch_lat_lng(params, :to) == :error
+    end
+  end
+
+  describe "itineraries?/1" do
+    test "Returns true if query has itineraries" do
+      query = %Query{itineraries: {:ok, [%{}]}, from: {:ok, nil}, to: {:ok, nil}}
+      assert itineraries?(query)
+    end
+
+    test "Returns false if query has no itineraries" do
+      query = %Query{itineraries: {:ok, []}, from: nil, to: nil}
+      refute itineraries?(query)
+    end
+
+    test "Returns false if query recieved an error fetching itineraries" do
+      query = %Query{itineraries: {:error, "Could not fetch itineraries"}, from: nil, to: nil}
+      refute itineraries?(query)
+    end
+
+    test "Returns false if query is nil" do
+      refute itineraries?(nil)
+    end
+  end
+
+  describe "location_name/2" do
+    test "Returns from name if one exists" do
+      query = %Query{itineraries: {:ok, []}, from: {:ok, %NamedPosition{name: "from name"}}, to: nil}
+      assert location_name(query, :from) == "from name"
+    end
+
+    test "Returns to name if one exists" do
+      query = %Query{itineraries: {:ok, []}, to: {:ok, %NamedPosition{name: "to name"}}, from: nil}
+      assert location_name(query, :to) == "to name"
+    end
+
+    test "Returns false otherwise" do
+      query = %Query{itineraries: {:ok, []}, from: {:error, "error"}, to: nil}
+      refute location_name(query, :from)
+      refute location_name(query, :to)
     end
   end
 end

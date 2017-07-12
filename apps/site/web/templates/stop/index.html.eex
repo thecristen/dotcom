@@ -22,7 +22,7 @@
         <%= if @route_hubs[route.id] do %>
           <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>
         <% end %>
-      <div <%= if subway?, do: "subway-collapse"%> id="stops-<%= route.id%>">
+      <div <%= if subway?, do: "toggle-element-collapse" %> id="stops-<%= route.id%>">
         <%= if subway? do %>
           <h3>Stops</h3>
         <% end %>

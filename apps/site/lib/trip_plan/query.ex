@@ -107,4 +107,20 @@ defmodule Site.TripPlan.Query do
       _ -> {:error, :invalid}
     end
   end
+
+  @doc "Determines if the given query contains any itineraries"
+  @spec itineraries?(t | nil) :: boolean
+  def itineraries?(%__MODULE__{itineraries: {:ok, itineraries}}) do
+    !Enum.empty?(itineraries)
+  end
+  def itineraries?(_query), do: false
+
+  @doc "Returns the name of the location for a given query"
+  @spec location_name(t, :from | :to) :: String.t
+  def location_name(%__MODULE__{} = query, key) when key in [:from, :to] do
+    case Map.get(query, key) do
+      {:ok, position} -> position.name
+      _ -> nil
+    end
+  end
 end
