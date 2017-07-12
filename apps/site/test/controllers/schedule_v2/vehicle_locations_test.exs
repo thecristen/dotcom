@@ -10,7 +10,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
 
   @opts [
     location_fn: &TestHelpers.location_fn/2,
-    schedule_for_trip_fn: &TestHelpers.schedule_for_trip_fn/1
+    schedule_for_trip_fn: &TestHelpers.schedule_for_trip_fn/2
   ]
 
   setup %{conn: conn} do
@@ -27,7 +27,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
     test "takes no options" do
       assert init([]) == [
         location_fn: &Vehicles.Repo.route/2,
-        schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/1
+        schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/2
       ]
     end
   end
@@ -69,7 +69,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
       |> call(
         [
           location_fn: fn (_, _) -> Enum.drop(@locations, 2) end,
-          schedule_for_trip_fn: fn _ -> [
+          schedule_for_trip_fn: fn (_, _) -> [
             %Schedules.Schedule{stop: %Stops.Stop{id: "Yawkey"}},
             %Schedules.Schedule{stop: %Stops.Stop{id: "place-bbsta"}},
             %Schedules.Schedule{stop: %Stops.Stop{id: "place-sstat"}}
@@ -87,7 +87,7 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
       |> call(
         [
           location_fn: fn (_, _) -> Enum.drop(@locations, 2) end,
-          schedule_for_trip_fn: fn _ -> []
+          schedule_for_trip_fn: fn (_, _) -> []
           end
         ]
       )

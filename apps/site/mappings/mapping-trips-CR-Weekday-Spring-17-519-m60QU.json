@@ -1,0 +1,19 @@
+{
+  "uuid" : "78583dce-a2a3-3e62-be72-aa8309522e5a",
+  "request" : {
+    "url" : "/trips/CR-Weekday-Spring-17-519",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-CR-Weekday-Spring-17-519-m60QU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 11 Jul 2017 19:43:39 GMT",
+      "Server" : "nginx/1.10.2",
+      "x-request-id" : "7alq7c1sg09oeviv8q4uu32v895d3u7j",
+      "Connection" : "keep-alive"
+    }
+  }
+}
