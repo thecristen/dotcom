@@ -34,6 +34,7 @@
 .trip-plan-itinerary-container {
   border: $border;
   border-radius: $border-radius;
+  margin-top: $space-12;
 
   > * {
     padding: $base-spacing;
@@ -43,7 +44,13 @@
 .trip-plan-itinerary-header {
   background: $gray-bordered-background;
   border-bottom: $border;
+  color: $gray-dark;
+  display: block;
   font-weight: bold;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .trip-plan-itinerary-leg-feature {

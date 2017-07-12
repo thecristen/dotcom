@@ -3,6 +3,9 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on('geolocation:complete', '#from', geolocationCallback($));
   $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
   $(document).on("focus", "#from.trip-plan-current-location", clearCurrentLocation($));
+  $("[data-planner-body]").on('hide.bs.collapse', toggleIcon);
+  $("[data-planner-body]").on('show.bs.collapse', toggleIcon);
+  window.addEventListener("load", collapseItineraries($));
 };
 
 export function geolocationCallback($) {
@@ -36,4 +39,17 @@ function clearCurrentLocation($) {
     targets.latitude.val("");
     targets.longitude.val("");
   };
+}
+
+function collapseItineraries($) {
+  return function(e) {
+    $("[data-planner-body]").addClass("collapse");
+  };
+}
+
+// Toggles the arrow icon
+function toggleIcon(e) {
+  var container = $(e.target).parent();
+  var icon = $(container).find("[data-planner-header] i");
+  icon.toggleClass("fa-caret-down fa-caret-up");
 }
