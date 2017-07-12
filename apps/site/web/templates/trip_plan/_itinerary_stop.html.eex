@@ -1,5 +1,8 @@
 <%= if @stop_id do %>
   <%= link @stop_name, to: stop_path(@conn, :show, @stop_id) %>
+  <%= unless Enum.empty?(@alerts) do %>
+    <%= fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}] %>
+  <% end %>
 <% else %>
   <div><%= @stop_name %></div>
 <% end %>

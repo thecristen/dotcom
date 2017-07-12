@@ -19,9 +19,9 @@
     end %>
     <div>
       <div>
-        <%= for row <- @itinerary_row_list, do: render "_itinerary_row.html", itinerary_row: row, conn: @conn %>
+        <%= for row <- @itinerary_row_list, do: render "_itinerary_row.html", itinerary_row: row, conn: @conn, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)) %>
         <% {destination_name, destination_id, arrival_time} = @itinerary_row_list.destination %>
-        <%= render "_itinerary_stop.html", stop_name: destination_name, stop_id: destination_id, conn: @conn %>
+        <%= render "_itinerary_stop.html", stop_name: destination_name, stop_id: destination_id, conn: @conn, alerts: Alerts.Stop.match(@alerts, destination_id) %>
         <div>
           Arrive at your destination
           <div class="pull-right"><%= format_schedule_time(arrival_time) %> </div>

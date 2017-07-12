@@ -1,6 +1,6 @@
 <% {stop_name, stop_id} = @itinerary_row.stop %>
 <div>
-  <%= render "_itinerary_stop.html", stop_name: stop_name, stop_id: stop_id, conn: @conn %>
+  <%= render "_itinerary_stop.html", stop_name: stop_name, stop_id: stop_id, conn: @conn, alerts: @alerts %>
   <%= if @itinerary_row.arrival do %>
     <div>Arrive at <%= stop_name %>
       <div class="trip-plan-time"><%= format_schedule_time(@itinerary_row.arrival) %></div>
