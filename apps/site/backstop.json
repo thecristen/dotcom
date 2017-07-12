@@ -112,6 +112,7 @@
       "label": "Transit Near Me",
       "url": "http://localhost:8082/transit-near-me?_utf8=✓&latitude=42.351310&longitude=-71.066159&location[client_width]=0",
       "selectors": ["main"],
+      "hideSelectors": [".gm-err-autocomplete"],
       "delay": 100,
       "misMatchThreshold": 0.1
     },
@@ -234,6 +235,7 @@
       "label": "Retail Sales Locations",
       "url": "http://localhost:8082/fares/retail_sales_locations?location%5Baddress%5D=42.3491637,%20-71.0663166&date_time=2017-07-01T12:00:00-04:00",
       "selectors": ["main"],
+      "hideSelectors": [".gm-err-autocomplete"],
       "delay": 100,
       "misMatchThreshold": 0.1
     }
