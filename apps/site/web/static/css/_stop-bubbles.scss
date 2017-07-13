@@ -279,3 +279,4 @@ $location-line-width: $space-6;
 @include stop-bubble-mode-color(".green-line", $brand-green-line);
 @include stop-bubble-mode-color(".bus", $brand-bus);
 @include stop-bubble-mode-color(".ferry", $brand-ferry);
+@include stop-bubble-mode-color(".personal", $gray-dark);

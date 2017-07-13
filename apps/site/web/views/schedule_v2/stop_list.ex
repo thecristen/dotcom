@@ -67,7 +67,7 @@ defmodule Site.ScheduleV2View.StopList do
   def schedule_link_direction_id(_, _, direction_id), do: direction_id
 
   @spec stop_bubble_row_params(map()) :: Site.StopBubblesView.Params.t
-  def stop_bubble_row_params(assigns, is_expand_link? \\ false) do
+  def stop_bubble_row_params(assigns, line_only? \\ false) do
     %Site.PartialView.StopBubbles.Params{}
     |> Map.merge(Map.take(assigns, [:bubbles, :direction_id, :expanded, :branch_names, :vehicle_tooltip]))
     |> Map.merge(%{stop_number: assigns.stop.stop_number,
@@ -75,7 +75,7 @@ defmodule Site.ScheduleV2View.StopList do
                    stop_id: assigns.stop.id,
                    route_id: assigns.route.id,
                    route_type: assigns.route.type,
-                   is_expand_link?: is_expand_link?
+                   line_only?: line_only?
     })
   end
 end

@@ -33,11 +33,11 @@ defmodule Site.StopListViewTest do
         expanded: true,
         branch_names: ["branch"],
         vehicle_tooltip: %VehicleTooltip{},
-        is_expand_link?: false
+        line_only?: false
       } = params
     end
 
-    test "sets :is_expand_link? to true when passed in" do
+    test "sets :line_only? to true when passed in" do
       assigns = %{
         bubbles: [{"branch", :terminus}],
         stop: %RouteStop{branch: "branch", stop_number: 1, id: "stop"},
@@ -53,7 +53,7 @@ defmodule Site.StopListViewTest do
 
       params = stop_bubble_row_params(assigns, true)
 
-      assert params.is_expand_link?
+      assert params.line_only?
     end
   end
 end

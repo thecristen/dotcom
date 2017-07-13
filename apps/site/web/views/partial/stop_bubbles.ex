@@ -20,7 +20,7 @@ defmodule Site.PartialView.StopBubbles do
       branch_names: [],
       vehicle_tooltip: nil,
       bubble_index: 0,
-      is_expand_link?: false
+      line_only?: false
     ]
 
     @type t :: %__MODULE__{
@@ -35,7 +35,7 @@ defmodule Site.PartialView.StopBubbles do
       branch_names: [Route.branch_name],
       vehicle_tooltip: VehicleTooltip.t,
       bubble_index: integer,
-      is_expand_link?: boolean
+      line_only?: boolean
     }
   end
 
@@ -74,7 +74,7 @@ defmodule Site.PartialView.StopBubbles do
   """
   @spec stop_bubble_content(Params.t, {String.t, stop_bubble_type}) :: Phoenix.HTML.Safe.t
   def stop_bubble_content(assigns, bubble_info)
-  def stop_bubble_content(%{is_expand_link?: true} = assigns, {bubble_branch, bubble_type_}) do
+  def stop_bubble_content(%{line_only?: true} = assigns, {bubble_branch, bubble_type_}) do
     bubble_type = if Enum.member?([:stop, :terminus], bubble_type_), do: :line, else: bubble_type_
     [render_stop_bubble_line(bubble_type, bubble_branch, assigns)]
   end
@@ -130,6 +130,9 @@ defmodule Site.PartialView.StopBubbles do
       stop_bubble_location_display(vehicle_tooltip, route, bubble_type == :terminus)
   end
   defp render_stop_bubble(_, {route_id, _}, _, _) when not is_nil(route_id), do: ""
+  defp render_stop_bubble(bubble_type, _, _, _) do
+    stop_bubble_location_display(nil, {nil, nil}, bubble_type == :terminus)
+  end
 
   defp render_stop_bubble_line(bubble_type, bubble_branch, assigns) do
     bubble_type
@@ -186,6 +189,7 @@ defmodule Site.PartialView.StopBubbles do
   @spec stop_bubble_line_type(stop_bubble_type, String.t, Params.t) :: :solid | :dotted | :hidden
   def stop_bubble_line_type(bubble_type, branch_name, assigns)
   def stop_bubble_line_type(:empty, _, _), do: nil
+  def stop_bubble_line_type(:terminus, _, %{route_id: nil}), do: :dotted
   def stop_bubble_line_type(:terminus, _, %{stop_branch: "Green-" <> branch,
                                             expanded: "Green-" <> branch,
                                             direction_id: 1}), do: :solid
@@ -202,6 +206,7 @@ defmodule Site.PartialView.StopBubbles do
   def stop_bubble_line_type(:line, _, _), do: :dotted
   def stop_bubble_line_type(:merge, _, %{direction_id: 1, bubble_index: 0}), do: :solid
   def stop_bubble_line_type(:merge, _, _), do: :dotted
+  def stop_bubble_line_type(:stop, _, %{route_id: nil}), do: :dotted
   def stop_bubble_line_type(:stop, _, %{route_id: route_id, stop_branch: nil})
       when route_id != "Green", do: :solid
   def stop_bubble_line_type(:stop, _, %{route_id: route_id}) when route_id != "Green", do: :solid
@@ -221,8 +226,8 @@ defmodule Site.PartialView.StopBubbles do
   class to indicate that the vehicle is at a trip endpoint if the third parameter is true.
   """
   @spec stop_bubble_location_display(VehicleTooltip.t | nil,
-                                     {Route.id_t,
-                                      Route.type_int},
+                                     {Route.id_t | nil,
+                                      Route.type_int | nil},
                                       boolean) ::
         Phoenix.HTML.Safe.t
   def stop_bubble_location_display(vehicle_tooltip, route, terminus?)

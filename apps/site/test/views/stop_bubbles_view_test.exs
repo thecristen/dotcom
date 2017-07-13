@@ -24,7 +24,7 @@ defmodule Site.StopBubblesViewTest do
   @normal_stop_classes {@stop_class, @solid_line <> @direction_class[0]}
   @indent_start_class "route-branch-indent-start"
   @normal_assigns %Params{expanded: nil, stop_number: 5, stop_branch: nil, stop_id: "stop", route_id: "route",
-                    route_type: 1, is_expand_link?: false, vehicle_tooltip: nil, direction_id: 0}
+                    route_type: 1, line_only?: false, vehicle_tooltip: nil, direction_id: 0}
   @green_assigns %Params{
                    branch_names: ["Green-B", "Green-C", "Green-D", "Green-E"],
                    bubble_index: nil,
@@ -77,7 +77,7 @@ defmodule Site.StopBubblesViewTest do
         stop_name: "South Station"
       }
       assigns = %Params{expanded: nil, stop_number: 0, stop_branch: nil,
-                  route_type: 1, route_id: "route", is_expand_link?: false,
+                  route_type: 1, route_id: "route", line_only?: false,
                   vehicle_tooltip: vehicle_tooltip, direction_id: 0}
       content = render_stop_bubble_content(assigns, {nil, :terminus})
       assert content =~ "train 101 has arrived at South Station"
@@ -127,7 +127,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "returns only a solid line if the stop is not on the branch and the branch is expanded" do
       assigns = %Params{expanded: "branch", stop_number: 4, stop_branch: "other branch",
-                  route_type: 0, route_id: "route", is_expand_link?: false,
+                  route_type: 0, route_id: "route", line_only?: false,
                   direction_id: 0}
       assert stop_bubble_classes(assigns, {"branch", :line}) == {"", @solid_line <> @direction_class[0]}
       refute render_stop_bubble_content(assigns, {"branch", :line}) =~ @indent_start_class
@@ -135,7 +135,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "returns a stop bubble and a dotted line for the first merge stop in direction 0" do
       assigns = %Params{expanded: nil, stop_number: 4, stop_branch: "other branch",
-                  route_type: 0, route_id: "route", is_expand_link?: false, vehicle_tooltip: nil,
+                  route_type: 0, route_id: "route", line_only?: false, vehicle_tooltip: nil,
                   bubble_index: 0, direction_id: 0}
       assert stop_bubble_classes(assigns, {"branch", :merge}) == {@stop_class, @dotted_line <> @direction_class[0]}
       refute render_stop_bubble_content(assigns, {"branch", :merge}) =~ @indent_start_class
@@ -146,7 +146,7 @@ defmodule Site.StopBubblesViewTest do
                         stop_number: 4,
                         stop_branch: "other branch",
                         route_id: "route",
-                        is_expand_link?: false,
+                        line_only?: false,
                         vehicle_tooltip: nil,
                         bubble_index: 1,
                         direction_id: 0}
@@ -157,7 +157,7 @@ defmodule Site.StopBubblesViewTest do
 
     test "returns a stop bubble and a solid line for the first merge stop in direction 1" do
       assigns = %Params{expanded: nil, stop_number: 4, route_id: "route", route_type: 0,
-                  is_expand_link?: false, vehicle_tooltip: nil,
+                  line_only?: false, vehicle_tooltip: nil,
                   bubble_index: 0, direction_id: 1}
       assert stop_bubble_classes(assigns, {"branch", :merge}) == {@stop_class, @solid_line <> @direction_class[1]}
       refute render_stop_bubble_content(assigns, {"branch", :merge}) =~ @indent_start_class
@@ -168,13 +168,37 @@ defmodule Site.StopBubblesViewTest do
                         stop_number: 4,
                         stop_branch: "other branch",
                         route_id: "route",
-                        is_expand_link?: false,
+                        line_only?: false,
                         vehicle_tooltip: nil,
                         bubble_index: 1,
                         direction_id: 1}
       assert stop_bubble_classes(assigns, {"branch", :merge}) ==
         {@dotted_line <> @direction_class[1], @indent_start_class <> " dotted"}
       assert render_stop_bubble_content(assigns, {"branch", :merge}) =~ @indent_start_class
+    end
+
+    test "returns a dotted line for walking directions stops" do
+      assigns = %Params{
+        stop_branch: nil,
+        route_id: nil,
+        route_type: nil,
+        stop_id: nil
+      }
+
+      assert stop_bubble_classes(assigns, {nil, :stop}) ==
+        {@stop_class, @dotted_line <> @direction_class[0]}
+    end
+
+    test "returns a dotted line for walking directions start terminus" do
+      assigns = %Params{
+        stop_branch: nil,
+        route_id: nil,
+        route_type: nil,
+        stop_id: nil
+      }
+
+      assert stop_bubble_classes(assigns, {nil, :terminus}) ==
+        {@terminus_class, @dotted_line <> @direction_class[0]}
     end
   end
 
@@ -332,7 +356,7 @@ defmodule Site.StopBubblesViewTest do
   describe "expanded branches" do
     test "braintree has a solid line and terminus bubble when braintree is expanded and direction is 1" do
       assigns = %Params{expanded: "Braintree", stop_id: "place-brntn", stop_number: 0, stop_branch: "Braintree",
-                  route_id: "Red", route_type: 1, is_expand_link?: false, vehicle_tooltip: nil, direction_id: 1}
+                  route_id: "Red", route_type: 1, line_only?: false, vehicle_tooltip: nil, direction_id: 1}
       assert stop_bubble_classes(assigns, {"Braintree", :terminus}) ==
         {@terminus_class, @solid_line <> @direction_class[1]}
     end

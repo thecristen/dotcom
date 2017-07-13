@@ -1,24 +1,37 @@
-<% {stop_name, stop_id} = @itinerary_row.stop %>
-<div>
-  <%= render "_itinerary_stop.html", stop_name: stop_name, stop_id: stop_id, conn: @conn, alerts: @alerts %>
-  <%= if @itinerary_row.arrival do %>
-    <div>Arrive at <%= stop_name %>
-      <div class="trip-plan-time"><%= format_schedule_time(@itinerary_row.arrival) %></div>
-    </div>
-  <% end %>
-  <%= if @itinerary_row.trip do %>
-    <div>
-      <% route = @itinerary_row.route %>
-      Take the <%= route.name %> <%= direction(@itinerary_row.trip.direction_id, route)%>
-      towards <%= @itinerary_row.trip.headsign %>
-      <div class="trip-plan-time"><%= format_schedule_time(@itinerary_row.departure) %></div>
-    </div>
-  <% else %>
-      <div class="trip-plan-time"><%= format_schedule_time(@itinerary_row.departure) %></div>
-  <% end %>
-  <ul>
-    <%= for step <- @itinerary_row.steps do %>
-      <li><%= step %></li>
+<% {stop_name, stop_id} = @itinerary_row.stop
+   mode_class = mode_class(@itinerary_row)
+%>
+<div class="route-branch-stop-list route-branch-stop <%= mode_class %>">
+  <%= Site.PartialView.StopBubbles.render_stop_bubbles(@bubble_params) %>
+  <div class="itinerary-transfer-row">
+    <%= render "_itinerary_stop.html", stop_name: stop_name, stop_id: stop_id, alerts: @alerts, conn: @conn %>
+    <%= if @itinerary_row.arrival do %>
+      <div>
+        <span class="itinerary-instruction">
+          Arrive at <%= stop_name %>
+        </span>
+        <div class="pull-right"><%= format_schedule_time(@itinerary_row.arrival) %></div>
+      </div>
     <% end %>
-  </ul>
+    <%= if @itinerary_row.trip do %>
+      <div>
+        <% route = @itinerary_row.route %>
+        <span class="itinerary-instruction">
+          Take the <%= route.name %> <%= direction(@itinerary_row.trip.direction_id, route)%>
+          towards <%= @itinerary_row.trip.headsign %>
+        </span>
+        <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
+      </div>
+    <% else %>
+        <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
+    <% end %>
+  </div>
 </div>
+
+<% intermediate_params = intermediate_bubble_params(@itinerary_row, @bubble_params) %>
+<%= for step <- @itinerary_row.steps do %>
+  <div class="route-branch-stop-list route-branch-stop <%= mode_class %>">
+    <%= Site.PartialView.StopBubbles.render_stop_bubbles(intermediate_params) %>
+    <%= step %>
+  </div>
+<% end %>

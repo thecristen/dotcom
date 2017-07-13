@@ -6,8 +6,9 @@ defmodule Site.TripPlan.ItineraryRowList do
   """
   alias Site.TripPlan.ItineraryRow
   alias TripPlan.Itinerary
+  alias Stops.Stop
 
-  @typep destination :: {String.t, String.t, DateTime.t}
+  @typep destination :: {String.t, Stop.id_t, DateTime.t}
 
   defstruct [
     rows: [],

@@ -21,10 +21,13 @@
     end %>
     <div>
       <div>
-        <%= for row <- @itinerary_row_list, do: render "_itinerary_row.html", itinerary_row: row, conn: @conn, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)) %>
-        <% {destination_name, destination_id, arrival_time} = @itinerary_row_list.destination %>
-        <%= render "_itinerary_stop.html", stop_name: destination_name, stop_id: destination_id, conn: @conn, alerts: Alerts.Stop.match(@alerts, destination_id) %>
-        <div>
+        <%= for {row, params} <- Enum.zip(@itinerary_row_list, @bubble_params_list) do
+          render "_itinerary_row.html", itinerary_row: row, bubble_params: params, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)), conn: @conn
+        end %>
+        <div class="route-branch-stop">
+          <%= Site.PartialView.StopBubbles.render_stop_bubbles(@destination_bubble_params) %>
+          <% {destination_name, destination_id, arrival_time} = @itinerary_row_list.destination %>
+          <%= render "_itinerary_stop.html", stop_name: destination_name, stop_id: destination_id, alerts: Alerts.Stop.match(@alerts, destination_id), conn: @conn %>
           Arrive at your destination
           <div class="pull-right"><%= format_schedule_time(arrival_time) %> </div>
         </div>

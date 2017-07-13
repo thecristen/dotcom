@@ -97,10 +97,6 @@
   }
 }
 
-.trip-plan-time {
-  float: right;
-}
-
 .trip-planner-form {
   @include media-breakpoint-up(sm) {
     &.collapse {
@@ -116,4 +112,13 @@
 
 .planner-location-box-location {
   padding-bottom: $space-8;
+}
+
+.itinerary-transfer-row {
+  width: 100%;
+}
+
+.itinerary-instruction {
+  display: inline-block;
+  max-width: 75%;
 }

@@ -1,7 +1,8 @@
 defmodule Site.TripPlanView do
   use Site.Web, :view
   alias TripPlan.{Leg, TransitDetail, PersonalDetail}
-  alias Site.TripPlan.Query
+  alias Site.TripPlan.{Query, ItineraryRow}
+  alias Routes.Route
 
   @spec rendered_location_error(Plug.Conn.t, Query.t | nil, :from | :to) :: Phoenix.HTML.Safe.t
   def rendered_location_error(conn, query_or_nil, location_field)
@@ -69,5 +70,18 @@ defmodule Site.TripPlanView do
     else
       "trip-plan-current-location"
     end
+  end
+
+  def mode_class(%ItineraryRow{route: %Route{} = route}) do
+    route
+    |> Site.Components.Icons.SvgIcon.get_icon_atom
+    |> hyphenated_mode_string
+  end
+  def mode_class(_), do: "personal"
+
+  def intermediate_bubble_params(%ItineraryRow{route: %Route{}}, bubble_params),
+    do: bubble_params
+  def intermediate_bubble_params(_, bubble_params) do
+    %{bubble_params | bubbles: [{nil, :line}], line_only?: true}
   end
 end

@@ -4,7 +4,8 @@ defmodule Site.TripPlanController do
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
   alias Site.TripPlan.RelatedLink
-  alias Site.TripPlan.ItineraryRowList
+  alias Site.TripPlan.{ItineraryRowList, ItineraryRow}
+  alias Site.PartialView.StopBubbles
 
   plug :require_google_maps
   plug :assign_initial_map, TripPlanMap.initial_map_src()
@@ -16,13 +17,16 @@ defmodule Site.TripPlanController do
     query = Query.from_query(plan)
     route_map = with_itineraries(query, %{}, &routes_for_query/1)
     route_mapper = &Map.get(route_map, &1)
+    itinerary_row_lists = itinerary_row_lists(query, route_mapper)
     render conn,
       query: query,
       route_map: route_map,
       itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
       related_links: with_itineraries(query, [], &related_links(&1, route_mapper)),
       alerts: with_itineraries(query, [], &alerts(&1, route_mapper)),
-      itinerary_row_lists: itinerary_row_lists(query, route_mapper)
+      itinerary_row_lists: itinerary_row_lists,
+      stop_bubble_params_list: stop_bubble_params(itinerary_row_lists),
+      destination_stop_bubble_params_list: destination_stop_bubble_params_list(itinerary_row_lists)
   end
   def index(conn, _params) do
     render(conn, :index)
@@ -82,5 +86,35 @@ defmodule Site.TripPlanController do
     for itinerary <- itineraries do
       RelatedLink.links_for_itinerary(itinerary, route_by_id: route_mapper)
     end
+  end
+
+  defp stop_bubble_params(itinerary_row_lists) do
+    itinerary_row_lists
+    |> Enum.map(fn row_list ->
+      row_list
+      |> Enum.zip(Stream.concat([:terminus], Stream.repeatedly(fn -> :stop end)))
+      |> Enum.map(&to_stop_bubble_params/1)
+    end)
+  end
+
+  defp to_stop_bubble_params({itinerary_row, bubble_type}) do
+    %StopBubbles.Params{
+      bubbles: [{nil, bubble_type}],
+      stop_id: elem(itinerary_row.stop, 1),
+      route_id: ItineraryRow.route_id(itinerary_row),
+      route_type: ItineraryRow.route_type(itinerary_row)
+    }
+  end
+
+  defp destination_stop_bubble_params_list(itinerary_row_lists) do
+    Enum.map(itinerary_row_lists, fn %ItineraryRowList{destination: {_, id, _}} ->
+      %StopBubbles.Params{
+        bubbles: [{nil, :terminus}],
+        stop_number: 1, # greater than zero so last terminus
+        stop_id: id,
+        route_id: nil,
+        route_type: nil
+      }
+    end)
   end
 end

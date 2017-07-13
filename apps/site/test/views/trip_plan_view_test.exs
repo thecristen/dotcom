@@ -3,8 +3,10 @@ defmodule Site.TripPlanViewTest do
   import Site.TripPlanView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
-  alias Site.TripPlan.Query
+  alias Site.TripPlan.{Query, ItineraryRow}
   alias TripPlan.Api.MockPlanner
+  alias Routes.Route
+  alias Site.PartialView.StopBubbles
 
   @from MockPlanner.random_stop()
   @to MockPlanner.random_stop()
@@ -75,6 +77,36 @@ defmodule Site.TripPlanViewTest do
     test "returns the empty string if both lat and lng are blank" do
       params = %{"from_latitude" => "", "to_latitude" => ""}
       assert location_input_class(params, :from) == ""
+    end
+  end
+
+  describe "mode_class/1" do
+    test "returns the icon atom if a route is present" do
+      row = %ItineraryRow{route: %Route{id: "Red"}}
+
+      assert mode_class(row) == "red-line"
+    end
+
+    test "returns 'personal' if no route is present" do
+      row = %ItineraryRow{route: nil}
+
+      assert mode_class(row) == "personal"
+    end
+  end
+
+  describe "intermediate_bubble_params/2" do
+    test "returns the bubble params unchanged if a route exists" do
+      row = %ItineraryRow{route: %Route{id: "Red"}}
+      params = %StopBubbles.Params{line_only?: false}
+
+      assert intermediate_bubble_params(row, params) == params
+    end
+
+    test "sets line_only?: true if no route exists" do
+      row = %ItineraryRow{route: nil}
+      params = %StopBubbles.Params{line_only?: false}
+
+      assert intermediate_bubble_params(row, params).line_only?
     end
   end
 end

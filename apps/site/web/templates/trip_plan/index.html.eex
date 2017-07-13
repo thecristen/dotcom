@@ -64,12 +64,21 @@
   <div class="col-md-7">
     <%= case assigns[:query] do %>
       <% %{itineraries: {:ok, itineraries}} -> %>
-      <%= for {i, map, alerts, links, itinerary_row_list, index} <- Enum.zip([
+      <%= for {i,
+               map,
+               alerts,
+               links,
+               itinerary_row_list,
+               bubble_params_list,
+               destination_bubble_params,
+               index} <- Enum.zip([
           itineraries,
           @itinerary_maps,
           @alerts,
           @related_links,
           @itinerary_row_lists,
+          @stop_bubble_params_list,
+          @destination_stop_bubble_params_list,
           Stream.iterate(1, & &1 + 1)]) do
             render "_itinerary.html",
             itinerary: i,
@@ -79,6 +88,8 @@
             alerts: alerts,
             links: links,
             itinerary_row_list: itinerary_row_list,
+            bubble_params_list: bubble_params_list,
+            destination_bubble_params: destination_bubble_params,
             conn: @conn
           end %>
       <% %{itineraries: {:error, e}} when e != :prereq -> %>

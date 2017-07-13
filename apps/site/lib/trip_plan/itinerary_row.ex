@@ -1,6 +1,7 @@
 defmodule Site.TripPlan.ItineraryRow do
   alias TripPlan.{PersonalDetail, TransitDetail, NamedPosition, Leg}
   alias TripPlan.PersonalDetail.Step
+  alias Routes.Route
 
   @typep name_and_id :: {String.t, String.t | nil}
 
@@ -33,6 +34,12 @@ defmodule Site.TripPlan.ItineraryRow do
   @type route_mapper :: (Routes.Route.id_t -> Routes.Route.t | nil)
   @type stop_mapper :: (Stops.Stop.id_t -> Stops.Stop.t | nil)
   @type trip_mapper :: (Schedules.Trip.id_t -> Schedules.Trip.t | nil)
+
+  def route_id(%__MODULE__{route: %Route{id: id}}), do: id
+  def route_id(_row), do: nil
+
+  def route_type(%__MODULE__{route: %Route{type: type}}), do: type
+  def route_type(_row), do: nil
 
   @doc """
   Builds an ItineraryRow struct from the given leg and options
