@@ -76,24 +76,6 @@
   }
 }
 
-.post-container-wrapper {
-  @include media-breakpoint-up(xs) {
-    margin-bottom: $beta-announcement-height-xs;
-  }
-
-  @include media-breakpoint-up(sm) {
-    margin-bottom: $beta-announcement-height-sm;
-  }
-
-  @include media-breakpoint-up(md) {
-    margin-bottom: $beta-announcement-height-md;
-  }
-
-  @include media-breakpoint-up(lg) {
-    margin-bottom: $beta-announcement-height-lg;
-  }
-}
-
 .riding-the-t {
   background-color: $riding-the-t-bg;
   color: $white;

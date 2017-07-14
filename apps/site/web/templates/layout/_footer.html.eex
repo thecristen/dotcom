@@ -1,12 +1,10 @@
-<span class="<%= if @include_photo_credits? do %>fp-footer-announcement<% end %>">
-  <div class="announcement-container footer-announcement-container">
-    <div class="container">
-      <div class="beta-announcement">
-        Thank you for using the MBTA beta site. <%= link "Submit your thoughts", to: feedback_form_url(), target: "_blank", class: "beta-announcement-link" %> to help us make the best possible website for you.
-      </div>
+<div class="announcement-container footer-announcement-container">
+  <div class="container">
+    <div class="beta-announcement">
+      Thank you for using the MBTA beta site. <%= link "Submit your thoughts", to: feedback_form_url(), target: "_blank", class: "beta-announcement-link" %> to help us make the best possible website for you.
     </div>
   </div>
-</span>
+</div>
 <footer class="footer">
   <div class="container">
     <ul class="footer-link-list footer-link-list-large">

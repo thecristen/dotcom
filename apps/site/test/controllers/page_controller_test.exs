@@ -12,7 +12,7 @@ defmodule Site.PageControllerTest do
     assert conn.assigns.post_container_template == "_post_container.html"
   end
 
-  test "homepage does not have .sticky-footer class", %{conn: conn} do
+  test "body gets assigned a js class", %{conn: conn} do
     [body_class] =
       build_conn()
       |> get(page_path(conn, :index))
@@ -20,16 +20,6 @@ defmodule Site.PageControllerTest do
       |> Floki.find("body")
       |> Floki.attribute("class")
     assert body_class == "no-js"
-  end
-
-  test "non-homepage has sticky-footer class", %{conn: conn} do
-    [body_class] =
-      build_conn()
-      |> get(mode_path(conn, :ferry))
-      |> html_response(200)
-      |> Floki.find("body")
-      |> Floki.attribute("class")
-    assert body_class == "no-js sticky-footer"
   end
 
   describe "photo credits" do

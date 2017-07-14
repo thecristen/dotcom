@@ -83,7 +83,7 @@ exports.config = {
       opacity: false,
       import: false,
       minifier: true,
-			autoprefixer: {
+      autoprefixer: {
 				browsers: [
           "safari >= 4",
           "ie >= 9",

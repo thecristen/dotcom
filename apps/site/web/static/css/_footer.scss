@@ -1,68 +1,16 @@
 @import 'variables';
 
-$footer-padding-top: $base-spacing * 2;
-$footer-padding-bottom: $base-spacing * 2;
-$small-footer-container-height: 5.5rem;
-$large-footer-container-height: 25rem;
-$credit-height: $base-spacing * 4;
-$beta-announcement-height-xs: 4.5rem;
-$beta-announcement-height-sm: 4rem;
-$beta-announcement-height-md: 5rem;
-$beta-announcement-height-lg: 3.5rem;
-
 .footer {
   background-color: $footer-color;
   font-size: $font-size-sm;
-  margin-top: $base-spacing * 2;
   min-width: 20rem;
-  padding-bottom: $footer-padding-bottom;
-  padding-top: $footer-padding-top;
-  width: 100%;
+  padding-bottom: $base-spacing * 2;
+  padding-top: $base-spacing * 2;
   text-align: center;
 
   @include media-breakpoint-up(md) {
     color: $white;
     text-align: inherit;
-  }
-
-  > .container {
-    min-height: $small-footer-container-height;
-
-    @include media-breakpoint-up(md) {
-      min-height: $large-footer-container-height;
-    }
-  }
-}
-
-.sticky-footer {
-  .footer {
-    bottom: 0;
-    margin-top: 0;
-    position: absolute;
-  }
-
-  .body-wrapper {
-    @include media-breakpoint-up(xs) {
-      margin-bottom: $small-footer-container-height + $footer-padding-top + $footer-padding-bottom + $beta-announcement-height-xs;
-    }
-
-    @include media-breakpoint-up(sm) {
-      margin-bottom: $large-footer-container-height + $footer-padding-top + $footer-padding-bottom + $beta-announcement-height-sm;
-    }
-
-    @include media-breakpoint-up(md) {
-      margin-bottom: $large-footer-container-height + $footer-padding-top + $footer-padding-bottom + $beta-announcement-height-md;
-    }
-
-    @include media-breakpoint-up(lg) {
-      margin-bottom: $large-footer-container-height + $footer-padding-top + $footer-padding-bottom + $beta-announcement-height-lg;
-    }
-  }
-
-  &.mticket {
-    .body-wrapper {
-      margin-bottom: 0;
-    }
   }
 }
 
