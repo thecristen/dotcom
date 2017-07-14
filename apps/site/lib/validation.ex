@@ -1,27 +1,40 @@
 defmodule Site.Validation do
   @moduledoc """
-  This library is helpful for checking a map of params against a list of validation functions.
-
-  Validation functions must:
-  - return {:ok, any} if the check past
-  - return {:error, String.t} if the check fails
-  - take only one argument which is a map containing all the data fields to be validated
-
-  if the second entry in the success tuple is a map, it's will be merged with params and it's output passed as input
-  to subsequent validation functions.
+  Helper functions for performing data validation.
   """
 
+  @doc """
+  Takes a list of functions and a map of parameters.
+  Returns a list containing the names of fields where validation errors occurred.
+  Expects validation functions to return :ok or String.t
+  """
   @spec validate([fun], map) :: []
   def validate(validators, params) do
     validators
-    |> Enum.reduce({MapSet.new, params}, fn(validator, {errors, params}) ->
-      case validator.(params) do
-        {:ok, %{} = output} -> {errors, Map.merge(params, output)}
-        {:ok, _} -> {errors, params}
-        {:error, output} -> {MapSet.put(errors, output), params}
+    |> Enum.reduce(MapSet.new, fn (f, acc) ->
+      case f.(params) do
+        :ok -> acc
+        field -> MapSet.put acc, field
       end
     end)
-    |> elem(0)
     |> MapSet.to_list()
+  end
+
+  @doc """
+  Takes a map with string keys of field names associates to a validation function.
+  Returns a map containing the field names associated to field errors, or and empty map.
+  Expects validation functions to return :ok or String.t
+  """
+  @spec validate_by_field(map, map) :: map
+  def validate_by_field(validations, params) do
+    validations
+    |> Enum.reduce(%{}, fn({field, validator}, acc) ->
+      error = validator.(params)
+      case {error, is_binary(error)} do
+        {:ok, _} -> acc
+        {_, true} -> Map.merge(acc, %{field => error})
+        {_, _} -> Map.merge(acc, %{field => "error"})
+      end
+    end)
   end
 end

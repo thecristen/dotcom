@@ -45,41 +45,27 @@ defmodule Site.CustomerSupportController do
     validate(validators, params)
   end
 
-  @spec validate_comments(map) :: {:ok, map} | {:error, String.t}
-  defp validate_comments(%{"comments" => ""}) do
-    {:error, "comments"}
-  end
-  defp validate_comments(_) do
-    {:ok, nil}
-  end
+  @spec validate_comments(map) :: :ok | String.t
+  defp validate_comments(%{"comments" => ""}), do: "comments"
+  defp validate_comments(_), do: :ok
 
-  @spec validate_name(map) :: {:ok, map} | {:error, String.t}
-  defp validate_name(%{"name" => ""}) do
-    {:error, "name"}
-  end
-  defp validate_name(_) do
-    {:ok, nil}
-  end
+  @spec validate_name(map) :: :ok | String.t
+  defp validate_name(%{"name" => ""}), do: "name"
+  defp validate_name(_), do: :ok
 
-  @spec validate_contacts(map) :: {:ok, map} | {:error, String.t}
-  defp validate_contacts(%{"phone" => << _, _ :: binary >>}) do
-    {:ok, nil}
-  end
+  @spec validate_contacts(map) :: :ok | String.t
+  defp validate_contacts(%{"phone" => << _, _ :: binary >>}), do: :ok
   defp validate_contacts(%{"email" => email}) do
     case Regex.run(~r/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/, email) do
-      nil ->
-        {:error, "contacts"}
-      [_] ->
-        {:ok, nil}
+      nil -> "contacts"
+      [_] -> :ok
     end
   end
-  defp validate_contacts(_), do: {:error, "contacts"}
+  defp validate_contacts(_), do: "contacts"
 
-  @spec validate_privacy(map) :: {:ok, map} | {:error, String.t}
-  defp validate_privacy(%{"privacy" => "on"}), do: {:ok, nil}
-  defp validate_privacy(_) do
-    {:error, "privacy"}
-  end
+  @spec validate_privacy(map) :: :ok | String.t
+  defp validate_privacy(%{"privacy" => "on"}), do: :ok
+  defp validate_privacy(_), do: "privacy"
 
   def send_ticket(params) do
     photo_info = cond do

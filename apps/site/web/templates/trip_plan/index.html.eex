@@ -52,11 +52,8 @@
     <div class="form-group date-time-select">
       <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
       <div class="error-container">
-      <%= if "date_invalid" in @errors do %>
-        <span>Please choose a valid date.</span>
-      <% end %>
-      <%= if "date_past" in @errors do %>
-        <span>Please select a date in the future.</span>
+      <%= if @errors[:date_time] do %>
+        <span><%= @errors[:date_time] %></span>
       <% end %>
       </div>
     </div>

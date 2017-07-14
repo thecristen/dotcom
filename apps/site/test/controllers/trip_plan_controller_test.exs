@@ -4,22 +4,20 @@ defmodule Site.TripPlanControllerTest do
   alias Site.PartialView.StopBubbles
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
-  @valid_date_time Timex.shift(Util.now(), minutes: +5)
-  @valid_date_input %{"year" => Timex.format!(@valid_date_time, "{YYYY}"),
-              "month" => Timex.format!(@valid_date_time, "{M}"),
-              "day" => Timex.format!(@valid_date_time, "{D}"),
-              "hour" => Timex.format!(@valid_date_time, "{h24}"),
-              "minute" => Timex.format!(@valid_date_time, "{m}")}
+  @system_time "2017-01-01T12:20:00-05:00"
+  @date_time %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "12", "minute" => "30"}
 
   @good_params %{
+    "date_time" => @system_time,
     "plan" => %{"from" => "from address",
                 "to" => "to address",
-                "date_time" => @valid_date_input}
+                "date_time" => @date_time}
   }
   @bad_params %{
+    "date_time" => @system_time,
     "plan" => %{"from" => "no results",
                 "to" => "too many results",
-                "date_time" => @valid_date_input}
+                "date_time" => @date_time}
   }
 
   describe "index without params" do
@@ -49,13 +47,14 @@ defmodule Site.TripPlanControllerTest do
 
     test "uses current location to render a query plan", %{conn: conn} do
       params = %{
+        "date_time" => @system_time,
         "plan" => %{"from" => "Current Location",
                     "from_latitude" => "42.3428",
                     "from_longitude" => "-71.0857",
                     "to" => "to address",
                     "to_latitude" => "",
                     "to_longitude" => "",
-                    "date_time" => @valid_date_input
+                    "date_time" => @date_time
                    }
       }
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -135,51 +134,36 @@ defmodule Site.TripPlanControllerTest do
     end
 
     test "bad date input: fictional day", %{conn: conn} do
-      date_time = Timex.shift(Util.now(), years: +1)
-      date_input = %{"year" => Timex.format!(date_time, "{YYYY}"),
-                   "month" => "6",
-                   "day" => "31",
-                   "hour" => Timex.format!(date_time, "{h24}"),
-                   "minute" => Timex.format!(date_time, "{m}")}
-
       params = %{
+        "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => date_input
+                    "date_time" => %{@date_time | "month" => "6", "day" => "31"}
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
       response = html_response(conn, 200)
-      assert response =~ "Please choose a valid date"
+      assert response =~ "Date is not valid"
     end
 
     test "bad date input: partial input", %{conn: conn} do
-      date_time = Timex.shift(Util.now(), years: +1)
-      date_input = %{"year" => Timex.format!(date_time, "{YYYY}"),
-                   "month" => "",
-                   "day" => "31",
-                   "hour" => Timex.format!(date_time, "{h24}"),
-                   "minute" => Timex.format!(date_time, "{m}")}
-
       params = %{
+        "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => date_input
+                    "date_time" => %{@date_time | "month" => ""}
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
       response = html_response(conn, 200)
-      assert response =~ "Please choose a valid date"
+      assert response =~ "Date is not valid"
     end
 
     test "bad date input: corrupt day", %{conn: conn} do
-      date_input = %{"year" => "A",
-                   "month" => "B",
-                   "day" => "C",
-                   "hour" => "D",
-                   "minute" => "E"}
+      date_input = %{"year" => "A", "month" => "B", "day" => "C", "hour" => "D", "minute" => "E"}
 
       params = %{
+        "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
                     "date_time" => date_input
@@ -187,26 +171,20 @@ defmodule Site.TripPlanControllerTest do
 
       conn = get conn, trip_plan_path(conn, :index, params)
       response = html_response(conn, 200)
-      assert response =~ "Please choose a valid date"
+      assert response =~ "Date is not valid"
     end
 
     test "bad date input: date passed", %{conn: conn} do
-      date_time = Timex.shift(Util.now(), days: -1)
-      date_input = %{"year" => Timex.format!(date_time, "{YYYY}"),
-                   "month" => Timex.format!(date_time, "{M}"),
-                   "day" => Timex.format!(date_time, "{D}"),
-                   "hour" => Timex.format!(date_time, "{h24}"),
-                   "minute" => Timex.format!(date_time, "{m}")}
-
       params = %{
+        "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => date_input
+                    "date_time" => %{@date_time | "year" => "2016"}
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
       response = html_response(conn, 200)
-      assert response =~ "Please select a date in the future"
+      assert response =~ "The date selected has already passed"
     end
   end
 end

@@ -6,8 +6,7 @@ defmodule Site.TripPlanController do
   alias Site.TripPlan.RelatedLink
   alias Site.TripPlan.{ItineraryRowList, ItineraryRow}
   alias Site.PartialView.StopBubbles
-  import Site.Validation.Date, only: [date_string_ok: 1, date_string_is_in_future: 1]
-  import Site.Validation, only: [validate: 2]
+  import Site.Validation, only: [validate_by_field: 2]
 
   plug :require_google_maps
   plug :assign_initial_map, TripPlanMap.initial_map_src()
@@ -17,8 +16,8 @@ defmodule Site.TripPlanController do
 
   def index(conn, %{"plan" => %{"date_time" => date_time} = plan}) do
     params = %{"date_string" => build_date_string(date_time), "system_date_time" => conn.assigns.date_time}
-    validators = [&date_string_ok/1, &date_string_is_in_future/1]
-    conn = assign(conn, :errors, validate(validators, params))
+    validators = %{date_time: &validate_date/1}
+    conn = assign(conn, :errors, validate_by_field(validators, params))
     if Enum.empty?(conn.assigns.errors) do
       render_plan(conn, plan)
     else
@@ -45,6 +44,30 @@ defmodule Site.TripPlanController do
       itinerary_row_lists: itinerary_row_lists,
       stop_bubble_params_list: stop_bubble_params(itinerary_row_lists),
       destination_stop_bubble_params_list: destination_stop_bubble_params_list(itinerary_row_lists)
+  end
+
+  @spec validate_date(map) :: :ok | String.t
+  def validate_date(%{"date_string" => date_string, "system_date_time" => system_date_time}) do
+    date = convert_to_date(date_string)
+    case date do
+      nil -> "Date is not valid."
+      _ -> check_future_date(date, system_date_time)
+    end
+  end
+
+  @spec convert_to_date(String.t) :: NaiveDateTime.t | nil
+  def convert_to_date(date_string) do
+    {result, date_time} = Timex.parse(date_string, "{YYYY}-{M}-{D}T{h24}:{m}:{s}")
+    case {result, Timex.is_valid?(date_time)} do
+      {:ok, true} -> date_time
+      {_, _} -> nil
+    end
+  end
+
+  @spec check_future_date(NaiveDateTime.t, DateTime.t) :: :ok | String.t
+  def check_future_date(naive_date, system_date_time) do
+    local_date_time = Timex.to_datetime(naive_date, system_date_time.time_zone)
+    if Timex.after?(local_date_time, system_date_time), do: :ok, else: "The date selected has already passed."
   end
 
   @spec build_date_string(map) :: String.t
