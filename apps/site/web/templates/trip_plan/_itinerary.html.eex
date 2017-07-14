@@ -6,7 +6,7 @@
     <% end %>
     <div class="trip-plan-itinerary-duration">
       <%= Timex.diff(@itinerary.stop, @itinerary.start, :minutes) %> mins
-      <span data-planner-caret><%= if @index == 1, do: fa("caret-down"), else: fa("caret-up")%></span>
+      <span data-planner-caret><%= if @index == 1, do: fa("caret-up"), else: fa("caret-down")%></span>
     </div>
   </a>
   <% collapse_class = if @index == 1, do: "collapse in", else: "" %>
@@ -24,19 +24,23 @@
         <%= for {row, params} <- Enum.zip(@itinerary_row_list, @bubble_params_list) do
           render "_itinerary_row.html", itinerary_row: row, bubble_params: params, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)), conn: @conn
         end %>
-        <div class="route-branch-stop">
+        <div class="route-branch-stop-list route-branch-stop personal">
           <%= Site.PartialView.StopBubbles.render_stop_bubbles(@destination_bubble_params) %>
-          <% {destination_name, destination_id, arrival_time} = @itinerary_row_list.destination %>
-          <%= render "_itinerary_stop.html", stop_name: destination_name, stop_id: destination_id, alerts: Alerts.Stop.match(@alerts, destination_id), conn: @conn %>
-          Arrive at your destination
-          <div class="pull-right"><%= format_schedule_time(arrival_time) %> </div>
+          <div class="itinerary-step">
+            <% {destination_name, _destination_id, arrival_time} = @itinerary_row_list.destination %>
+            <span class="itinerary-instructions">
+              <%= destination_name %>
+            </span>
+            <div class="pull-right"><%= format_schedule_time(arrival_time) %> </div>
+          </div>
         </div>
       </div>
     </div>
-    <ul class="trip-plan-related-links">
+    <div class="trip-plan-related-links">
+      <strong>Related Links</strong>
       <%= for link <- @links do %>
-        <li><%= link %></li>
+        <div><%= link %></div>
       <% end %>
-    </ul>
+    </div>
   </div>
 </div>

@@ -2,8 +2,9 @@ defmodule Site.StopBubblesViewTest do
   use Site.ConnCase, async: true
 
   import Site.PartialView.StopBubbles, only: [stop_bubble_content: 2,
-                                             stop_bubble_line_type: 3,
-                                             stop_bubble_location_display: 3]
+                                              stop_bubble_line_type: 3,
+                                              stop_bubble_location_display: 3
+                                             ]
   alias Site.PartialView.StopBubbles.Params
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -24,7 +25,7 @@ defmodule Site.StopBubblesViewTest do
   @normal_stop_classes {@stop_class, @solid_line <> @direction_class[0]}
   @indent_start_class "route-branch-indent-start"
   @normal_assigns %Params{expanded: nil, stop_number: 5, stop_branch: nil, stop_id: "stop", route_id: "route",
-                    route_type: 1, line_only?: false, vehicle_tooltip: nil, direction_id: 0}
+                    route_type: 1, line_only?: false, vehicle_tooltip: nil, direction_id: 0, branch_names: ["branch"]}
   @green_assigns %Params{
                    branch_names: ["Green-B", "Green-C", "Green-D", "Green-E"],
                    bubble_index: nil,

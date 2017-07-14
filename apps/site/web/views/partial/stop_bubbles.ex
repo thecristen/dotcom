@@ -41,30 +41,13 @@ defmodule Site.PartialView.StopBubbles do
 
   def render_stop_bubbles(params) do
     content_tag :div, class: "route-branch-stop-bubbles" do
-      [render_bubbles(params),
-       render_padding(params)
-      ]
-    end
-  end
-
-  defp render_bubbles(params) do
-    for {{bubble_branch, bubble_type}, index} <- Enum.with_index(params.bubbles) do
-      content_tag :div, class: "route-branch-stop-bubble #{bubble_type}" do
-        params
-        |> Map.put(:bubble_index, index)
-        |> stop_bubble_content({bubble_branch, bubble_type})
-      end
-    end
-  end
-
-  # required to keep the branch lines aligned on iOS
-  defp render_padding(params) do
-    case length(params.bubbles) - length(params.branch_names) do
-      diff when diff > 0 ->
-        for _ <- 1..diff do
-          content_tag(:div, "", class: "route-branch-stop-bubble hidden-sm-up")
+      for {{bubble_branch, bubble_type}, index} <- Enum.with_index(params.bubbles) do
+        content_tag :div, class: "route-branch-stop-bubble #{bubble_type}" do
+          params
+          |> Map.put(:bubble_index, index)
+          |> stop_bubble_content({bubble_branch, bubble_type})
         end
-      _ -> ""
+      end
     end
   end
 

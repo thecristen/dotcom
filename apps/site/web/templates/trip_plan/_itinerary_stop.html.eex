@@ -1,4 +1,4 @@
-<div>
+<div class="itinerary-stop">
   <%= if @stop_id do %>
     <%= link @stop_name, to: stop_path(@conn, :show, @stop_id) %>
     <%= unless Enum.empty?(@alerts) do %>

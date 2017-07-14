@@ -88,12 +88,20 @@
 }
 
 .trip-plan-related-links {
-  margin: 0;
+  display: flex;
+  flex-flow: wrap;
+  margin: $base-spacing 0;
   padding: 0;
 
   > * {
     display: inline-block;
+    flex: 1;
+    margin: $space-8 0;
     min-width: 15 * $base-spacing;
+  }
+
+  strong {
+    flex: 2 0 100%;
   }
 }
 
@@ -121,4 +129,18 @@
 .itinerary-instruction {
   display: inline-block;
   max-width: 75%;
+  padding-right: $space-8;
+}
+
+.itinerary-step {
+  border-bottom: 1px solid $gray-lightest;
+  flex: 1 1 0%;
+  margin-bottom: $space-6;
+  padding-bottom: $space-6;
+  width: 100%;
+}
+
+.itinerary-stop {
+  padding-right: $base-spacing;
+  width: 100%;
 }
