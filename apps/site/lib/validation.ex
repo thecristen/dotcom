@@ -11,10 +11,10 @@ defmodule Site.Validation do
   @spec validate([fun], map) :: []
   def validate(validators, params) do
     validators
-    |> Enum.reduce(MapSet.new, fn (f, acc) ->
+    |> Enum.reduce(MapSet.new, fn (f, errors_map_set) ->
       case f.(params) do
-        :ok -> acc
-        field -> MapSet.put acc, field
+        :ok -> errors_map_set
+        error -> MapSet.put errors_map_set, error
       end
     end)
     |> MapSet.to_list()
@@ -28,12 +28,12 @@ defmodule Site.Validation do
   @spec validate_by_field(map, map) :: map
   def validate_by_field(validations, params) do
     validations
-    |> Enum.reduce(%{}, fn({field, validator}, acc) ->
+    |> Enum.reduce(%{}, fn({field, validator}, errors_map) ->
       error = validator.(params)
       case {error, is_binary(error)} do
-        {:ok, _} -> acc
-        {_, true} -> Map.merge(acc, %{field => error})
-        {_, _} -> Map.merge(acc, %{field => "error"})
+        {:ok, _} -> errors_map
+        {_, true} -> Map.merge(errors_map, %{field => error})
+        {_, _} -> Map.merge(errors_map, %{field => "error"})
       end
     end)
   end
