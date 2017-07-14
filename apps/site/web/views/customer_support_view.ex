@@ -13,6 +13,6 @@ defmodule Site.CustomerSupportView do
   end
 
   def show_error_message(conn) do
-    conn.assigns.show_form && MapSet.size(conn.assigns[:errors]) > 0
+    conn.assigns.show_form && !Enum.empty?(conn.assigns[:errors])
   end
 end

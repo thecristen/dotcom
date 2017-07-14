@@ -4,13 +4,20 @@ defmodule Site.TripPlanControllerTest do
   alias Site.PartialView.StopBubbles
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
+  @system_time "2017-01-01T12:20:00-05:00"
+  @date_time %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "12", "minute" => "30"}
+
   @good_params %{
+    "date_time" => @system_time,
     "plan" => %{"from" => "from address",
-                "to" => "to address"}
+                "to" => "to address",
+                "date_time" => @date_time}
   }
   @bad_params %{
+    "date_time" => @system_time,
     "plan" => %{"from" => "no results",
-                "to" => "too many results"}
+                "to" => "too many results",
+                "date_time" => @date_time}
   }
 
   describe "index without params" do
@@ -27,6 +34,7 @@ defmodule Site.TripPlanControllerTest do
   end
 
   describe "index with params" do
+
     test "renders the query plan", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       response = html_response(conn, 200)
@@ -35,17 +43,18 @@ defmodule Site.TripPlanControllerTest do
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
       assert Map.size(conn.assigns.route_map) > 0
-
     end
 
     test "uses current location to render a query plan", %{conn: conn} do
       params = %{
+        "date_time" => @system_time,
         "plan" => %{"from" => "Current Location",
                     "from_latitude" => "42.3428",
                     "from_longitude" => "-71.0857",
                     "to" => "to address",
                     "to_latitude" => "",
-                    "to_longitude" => ""
+                    "to_longitude" => "",
+                    "date_time" => @date_time
                    }
       }
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -122,6 +131,60 @@ defmodule Site.TripPlanControllerTest do
       conn.assigns.destination_stop_bubble_params_list
       |> Enum.all?(fn params -> match?(%StopBubbles.Params{bubbles: [{nil, :terminus}]}, params) end)
       |> assert
+    end
+
+    test "bad date input: fictional day", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => %{@date_time | "month" => "6", "day" => "31"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      response = html_response(conn, 200)
+      assert response =~ "Date is not valid"
+    end
+
+    test "bad date input: partial input", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => %{@date_time | "month" => ""}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      response = html_response(conn, 200)
+      assert response =~ "Date is not valid"
+    end
+
+    test "bad date input: corrupt day", %{conn: conn} do
+      date_input = %{"year" => "A", "month" => "B", "day" => "C", "hour" => "D", "minute" => "E"}
+
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => date_input
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      response = html_response(conn, 200)
+      assert response =~ "Date is not valid"
+    end
+
+    test "bad date input: date passed", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => %{@date_time | "year" => "2016"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      response = html_response(conn, 200)
+      assert response =~ "The date selected has already passed"
     end
   end
 end

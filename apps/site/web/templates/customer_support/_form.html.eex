@@ -19,7 +19,7 @@
             required><%= Map.get @existing_params, "comments", "" %></textarea>
           <span></span>
           <small class="form-text">3000 characters maximum</small>
-          <div class="support-error-container support-comments-error-container <%= unless "comments" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
+          <div class="error-container support-comments-error-container <%= unless "comments" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
             <span class="support-comments-error">Please enter a comment to continue.</span>
           </div>
         </div>
@@ -60,7 +60,7 @@
                 <% end %>
               />
               <span></span>
-              <div class="support-error-container support-name-error-container <%= unless "name" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
+              <div class="error-container support-name-error-container <%= unless "name" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
                 <span class="support-name-error">Please enter your full name to continue.</span>
               </div>
             </div>
@@ -97,7 +97,7 @@
               <span></span>
             </div>
             <div class="col-xs-12">
-              <div class="support-error-container support-contacts-error-container <%= unless "contacts" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
+              <div class="error-container support-contacts-error-container <%= unless "contacts" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
                 <span class="support-contacts-error">Please enter either a valid email or phone number to continue.</span>
               </div>
             </div>
@@ -116,7 +116,7 @@
                     checked
                     <% end %>
                   /> I have read and agree to the <a href="<%= redirect_path @conn, "customer_support/privacy_policy/" %>" target="_blank">Privacy Policy</a>
-                  <div class="support-error-container support-privacy-error-container col-xs-12 <%= unless "privacy" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
+                  <div class="error-container support-privacy-error-container col-xs-12 <%= unless "privacy" in @errors, do: "hidden-xs-up" %>" tabindex="-1">
                     <span class="support-privacy-error">You must agree to our Privacy Policy before submitting your feedback.</span>
                   </div>
                 </label>
