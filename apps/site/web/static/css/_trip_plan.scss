@@ -144,3 +144,7 @@
   padding-right: $base-spacing;
   width: 100%;
 }
+
+.reveal-steps {
+  @extend %button-as-link;
+}

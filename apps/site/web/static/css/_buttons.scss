@@ -168,3 +168,21 @@
 .stop-btn {
   text-align: left;
 }
+
+%button-as-link {
+  background: transparent;
+  border: 0;
+  color: $brand-primary;
+  cursor: pointer;
+  display: inline-block;
+  filter: none;
+  margin: $space-16 0 $space-8;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}

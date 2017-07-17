@@ -1,4 +1,6 @@
 export default function tripPlan($ = window.jQuery) {
+  $("[data-hidden-step]").hide();
+  $("[data-before-reveal-button]").find(".route-branch-stop-bubble-line").removeClass("solid").addClass("dotted");
   $(document).on('geolocation:complete', '#to', geolocationCallback($));
   $(document).on('geolocation:complete', '#from', geolocationCallback($));
   $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
@@ -6,6 +8,7 @@ export default function tripPlan($ = window.jQuery) {
   $("[data-planner-body]").on('hide.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('show.bs.collapse', toggleIcon);
   window.addEventListener("load", collapseItineraries($));
+  $(".reveal-steps").on("click", toggleSteps);
 };
 
 export function geolocationCallback($) {
@@ -52,4 +55,11 @@ function toggleIcon(e) {
   var container = $(e.target).parent();
   var icon = $(container).find("[data-planner-header] i");
   icon.toggleClass("fa-caret-down fa-caret-up");
+}
+
+function toggleSteps(e) {
+  const parent = $(e.target).closest(".itinerary-row-container");
+  parent.find("[data-hidden-step]").slideToggle();
+  $(e.target).closest(".route-branch-stop").hide();
+  parent.find("[data-before-reveal-button] .route-branch-stop-bubble-line").removeClass("dotted").addClass("solid");
 }

@@ -84,4 +84,34 @@ defmodule Site.TripPlanView do
   def intermediate_bubble_params(_, bubble_params) do
     %{bubble_params | bubbles: [{nil, :line}], line_only?: true}
   end
+
+  @spec itinerary_steps_with_classes(ItineraryRow.t) :: [{String.t, String.t}]
+  def itinerary_steps_with_classes(row) do
+    if collapsable_row?(row) do
+      do_itinerary_steps_with_classes(row)
+    else
+      Enum.map(row.steps, fn step -> {step, ""} end)
+    end
+  end
+
+  defp do_itinerary_steps_with_classes(%ItineraryRow{steps: steps}) do
+    initial_length = Enum.count(steps)
+    steps
+    |> Enum.with_index
+    |> Enum.map(fn {step, index} -> if is_middle_step?(index, initial_length)  do
+        {step, "data-hidden-step"}
+      else
+        {step, ""}
+      end
+    end)
+  end
+
+  defp is_middle_step?(index, length) do
+    index >= 1 && index < length - 2
+  end
+
+  @spec collapsable_row?(ItineraryRow.t) :: boolean()
+  def collapsable_row?(row) do
+    length(row.steps) >= 6 && mode_class(row) != "personal"
+  end
 end
