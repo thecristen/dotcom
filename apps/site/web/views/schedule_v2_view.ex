@@ -16,11 +16,11 @@ defmodule Site.ScheduleV2View do
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
-  def pretty_date(date) do
+  def pretty_date(date, format \\ "{Mshort} {D}") do
     if date == Util.service_date do
-      "Today"
+      "today"
     else
-      Timex.format!(date, "{Mshort} {D}")
+      Timex.format!(date, format)
     end
   end
 

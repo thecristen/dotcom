@@ -1,7 +1,7 @@
 <div class="trip-list-v2">
   <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col">
-    <%= route_header_text(@route) %>
-    Schedule For
+    <%= @conn.assigns.origin.name %>
+    hours and frequencies for
     <%= Site.ScheduleV2View.pretty_date(@date) %>
   </div>
   <%= for frequency <- @frequency_table.frequencies do %>

@@ -1,5 +1,4 @@
 <div class="stop-filters schedule-filter-row callout">
-  <div>To view schedules for a specific stop, please enter your origin and destination.</div>
   <div class="row">
     <div class="col-sm-6">
       <% origin = if @origin, do: @origin.id, else: nil %>
@@ -9,7 +8,7 @@
         selected: origin,
         all_stops: @all_stops,
         key_stops: [],
-        label_text: "Departure times from:",
+        label_text: "Departing from:",
         placeholder_text: "origin",
         route: @route,
         disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"}),
