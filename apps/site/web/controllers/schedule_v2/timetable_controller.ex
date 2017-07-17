@@ -41,12 +41,6 @@ defmodule Site.ScheduleV2Controller.TimetableController do
   end
 
   @spec trip_messages(Routes.Route.t, 0 | 1) :: %{{String.t, String.t} => String.t}
-  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
-    %{
-      {"221", "North Billerica"} => "Via",
-      {"221", "Lowell"} => "Haverhill"
-    }
-  end
   defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
     %{
       {"221", "Melrose Highlands"} => "Via",
