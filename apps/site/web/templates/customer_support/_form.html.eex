@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
     <div class="row">
-      <form id="support-form" action="<%= customer_support_path @conn, :submit %>#support-result" method="post" enctype="multipart/form-data">
+      <form id="support-form" class="support-form" action="<%= customer_support_path @conn, :submit %>#support-result" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>" />
         <div class="form-group col-xs-12 contrast <%= if "comments" in @errors, do: "has-danger" %>">
           <label for="comments" class="col-form-label"><strong>Let us know how our Customer Support team can help</strong></label>
