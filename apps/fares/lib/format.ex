@@ -86,25 +86,27 @@ defmodule Fares.Format do
     ]
   end
 
-  @spec summarize([Fare.t], :bus_subway | :commuter_rail | :ferry) :: [Summary.t]
-  def summarize(fares, :bus_subway) do
+  @spec summarize([Fare.t], :bus_subway | :commuter_rail | :ferry, String.t | nil) :: [Summary.t]
+  def summarize(fares, mode, url \\ nil)
+  def summarize(fares, :bus_subway, url) do
     for [base|_] = chunk <- Enum.chunk_by(fares, &{&1.name, &1.duration, &1.additional_valid_modes}) do
       %Summary{
         name: Fares.Format.full_name(base),
         duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
-        fares: Enum.map(chunk, &{Fares.Format.media(&1), Fares.Format.price(&1)})
+        fares: Enum.map(chunk, &{Fares.Format.media(&1), Fares.Format.price(&1)}),
+        url: url
       }
     end
   end
-  def summarize(fares, :commuter_rail) do
-    do_price_summary(fares, "Zones 1A-10")
+  def summarize(fares, :commuter_rail, url) do
+    do_price_summary(fares, "Zones 1A-10", url)
   end
-  def summarize(fares, :ferry) do
-    do_price_summary(fares, "All Ferry routes")
+  def summarize(fares, :ferry, url) do
+    do_price_summary(fares, "All Ferry routes", url)
   end
 
-  defp do_price_summary(fares, summary_name) do
+  defp do_price_summary(fares, summary_name, url) do
     for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
       min_price = Enum.min_by(chunk, &(&1.cents))
       max_price = Enum.max_by(chunk, &(&1.cents))
@@ -113,8 +115,8 @@ defmodule Fares.Format do
         duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
         fares: [{summary_name, [Fares.Format.price(min_price), " - ",
-                                Fares.Format.price(max_price)]}]
-      }
+                                Fares.Format.price(max_price)]}],
+        url: url}
     end
   end
 

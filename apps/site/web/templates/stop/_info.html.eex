@@ -22,10 +22,11 @@
     <% end %>
     <%= if :ferry in types do %>
       <h3 class="station-fare-subheader">Ferry Fares</h3>
-      <%= Site.FareView.summarize(mode_summaries(:ferry, @fare_name)) %>
+      <% fare_details_path = fare_path(@conn, :show, "ferry", origin: @stop.id) %>
+      <%= Site.FareView.summarize(mode_summaries(:ferry, @fare_name, fare_details_path)) %>
       <p>
-        <%= link to: fare_path(@conn, :show, "ferry") do %>
-          View all Ferry fares <%= fa "arrow-right" %>
+        <%= link to: fare_details_path do %>
+          View <%= @stop.name %> fares <%= fa "arrow-right" %>
         <% end %>
       </p>
     <% end %>

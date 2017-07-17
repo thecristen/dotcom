@@ -197,4 +197,18 @@ defmodule Site.StopViewTest do
       assert safe_to_string(access_icon) =~ "icon-access"
     end
   end
+
+  describe "_info.html" do
+    test "Ferry Fare link preselects origin", %{conn: conn} do
+      output = Site.StopView.render("_info.html",
+                                          stop_alerts: [],
+                                          fare_name: "The Iron Price",
+                                          date: ~D[2017-05-11],
+                                          stop: %Stop{name: "Iron Island", id: "IronIsland"},
+                                          grouped_routes: [{:ferry}],
+                                          fare_sales_locations: [],
+                                          conn: conn)
+      assert safe_to_string(output) =~ "/fares/ferry?origin=IronIsland"
+    end
+  end
 end

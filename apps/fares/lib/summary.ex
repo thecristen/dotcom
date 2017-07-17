@@ -25,5 +25,4 @@ defmodule Fares.Summary do
     fares: [],
     url: nil
   ]
-
 end

@@ -261,10 +261,10 @@ defmodule Site.ViewHelpers do
     |> get_fares
     |> Enum.map(&(Fares.Format.summarize_one(&1, :commuter_rail, url: url)))
   end
-  def mode_summaries(:ferry, name, _url) do
+  def mode_summaries(:ferry, name, url) do
     :ferry
     |> mode_filters(name)
-    |> summaries_for_filters(:ferry)
+    |> summaries_for_filters(:ferry, url)
   end
   def mode_summaries(:bus, name, _url) do
     :local_bus
@@ -311,9 +311,9 @@ defmodule Site.ViewHelpers do
     filters |> Enum.flat_map(&Fares.Repo.all/1)
   end
 
-  @spec summaries_for_filters([keyword()], atom) :: [Fares.Summary.t]
-  defp summaries_for_filters(filters, mode) do
-    filters |> get_fares |> Fares.Format.summarize(mode)
+  @spec summaries_for_filters([keyword()], atom, String.t | nil) :: [Fares.Summary.t]
+  defp summaries_for_filters(filters, mode, url \\ nil) do
+    filters |> get_fares |> Fares.Format.summarize(mode, url)
   end
 
   @doc """
