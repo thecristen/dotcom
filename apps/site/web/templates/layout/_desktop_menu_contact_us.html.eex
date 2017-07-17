@@ -10,7 +10,7 @@
     <ul>
       <li>
         <%= link to: customer_support_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Submit comments and inquiries
+          <%= fa "caret-right" %> Send us your comments or questions
         <% end %>
       </li>
       <li>
