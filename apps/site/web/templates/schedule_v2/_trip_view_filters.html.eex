@@ -2,8 +2,8 @@
   <div class="date-filter col-xs-12 col-sm-6 col-md-4">
     <%= link to: update_schedule_url(@conn, shift: nil, date_select: !@show_date_select? || nil) <> "#date-filter", id: "date-filter", class: "filter-button date-picker-toggle" do %>
       <div class="filter-text">
-        <div class="inner-label"><span class="sr-only">Change Date:</span>Schedules for:</div>
-        <div><%= Timex.format!(@date, "{Mfull} {D}, {YYYY}") %></div>
+        <div class="inner-label"><span class="sr-only">Change Date:</span>Schedule for:</div>
+        <div><%= String.capitalize(pretty_date(@date, "{Mfull} {D}, {YYYY}")) %></div>
       </div>
       <div class="filter-icon">
         <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :calendar, show_tooltip?: false}) %>

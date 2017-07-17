@@ -432,6 +432,12 @@ del .realtime {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+.stop-filters {
+  .trip-view-filter-label {
+    padding-top: 0;
+  }
+}
+
 .trip-filters {
   // We use flexbox to make the filter buttons display as same
   // height when the headsign is long and text is forced to
