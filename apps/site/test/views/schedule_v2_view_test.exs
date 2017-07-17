@@ -18,14 +18,19 @@ defmodule Site.ScheduleV2ViewTest do
     stop_name: "South Station"
   }
 
-  describe "pretty_date/1" do
+  describe "pretty_date/2" do
     test "it is today when the date given is todays date" do
-      assert pretty_date(Util.service_date) == "Today"
+      assert pretty_date(Util.service_date) == "today"
     end
 
     test "it abbreviates the month when the date is not today" do
       date = ~D[2017-01-01]
       assert pretty_date(date) == "Jan 1"
+    end
+
+    test "it applies custom formatting if provided" do
+      date = ~D[2017-01-01]
+      assert pretty_date(date, "{Mfull} {D}, {YYYY}") == "January 1, 2017"
     end
   end
 
@@ -136,6 +141,7 @@ defmodule Site.ScheduleV2ViewTest do
         frequency_table: frequency_table,
         schedules: schedules,
         date: date,
+        origin: %{name: "Name"},
         route: %Routes.Route{id: "1", type: 3, name: "1"})
       output = safe_to_string(safe_output)
       assert output =~ "No service between these hours"
@@ -151,6 +157,7 @@ defmodule Site.ScheduleV2ViewTest do
         frequency_table: frequency_table,
         schedules: schedules,
         date: date,
+        origin: %{name: "Name"},
         route: %Routes.Route{id: "1", type: 3, name: "1"})
       output = safe_to_string(safe_output)
       assert output =~ "5-10"
