@@ -17,6 +17,12 @@
   padding: .5em;
 }
 
+#support-form {
+  .error-container {
+    margin: 0 0 .5em 0 ;
+  }
+}
+
 .support-success {
   background-color: $form-success-message;
 }
