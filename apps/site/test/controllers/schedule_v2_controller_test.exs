@@ -77,7 +77,6 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "assigns trip messages for a few route/directions", %{conn: conn} do
       for {route_id, direction_id, expected_size} <- [
-            {"CR-Lowell", 0, 2},
             {"CR-Lowell", 1, 0},
             {"CR-Haverhill", 0, 2},
             {"CR-Franklin", 1, 4}
