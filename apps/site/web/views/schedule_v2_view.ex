@@ -353,24 +353,6 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec direction_tooltip(0..4) :: String.t
-  def direction_tooltip(route_type) when route_type in [2,4] do
-    :div
-    |> content_tag([content_tag(:p,
-      "Schedule times are shown for the direction displayed in the box below. Click on the box to change direction. Inbound trips go to Boston, and outbound trips leave from there.",
-      class: 'schedule-tooltip')])
-    |> safe_to_string
-    |> String.replace(~s("), ~s('))
-  end
-  def direction_tooltip(_route_type) do
-    :div
-    |> content_tag([content_tag(:p,
-      "Schedule times are shown for the direction displayed in the box below. Click on the box to change direction.",
-      class: 'schedule-tooltip')])
-    |> safe_to_string
-    |> String.replace(~s("), ~s('))
-  end
-
   @spec date_tooltip() :: String.t
   def date_tooltip do
     :div
