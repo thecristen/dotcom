@@ -1,27 +1,29 @@
-<% # if we got a URL, then link each of the parts of the row; otherwise use a <div>
-class_name = ["trip-list-v2-row trip-list-v2-row-2-col ", assigns[:class] || ""]
-{tag, attributes} = if assigns[:url] do
-  {:a, [href: @url, class: class_name, data: [scroll: "true"], id: @id, role: "row"]}
-else
-  {:div, [class: class_name]}
-end %>
-<%= content_tag tag, attributes do %>
-  <div class="trip-list-v2-departure" role="cell">
-    <%= PredictedSchedule.Display.time(@departure) %>
-  </div>
-  <div class="trip-list-v2-headsign" role="cell">
-    <%= if @arrival do
-          PredictedSchedule.Display.time(@arrival)
-        else
-          PredictedSchedule.Display.headsign(@departure)
-        end %>
-    <%= display_alerts(@alerts) %>
-    <%= trip_list_bubble(@departure_route_id) %>
-    <%= if @departure_route_id != "Green" do %>
-      <%= fa "caret-down caret hidden-md-up" %>
-    <% end %>
-    <%= if assigns[:url] do %>
-      <span class="sr-only">Click for trip information</span>
-    <% end %>
-  </div>
-<% end %>
+<div role="row">
+  <% # if we got a URL, then link each of the parts of the row; otherwise use a <div>
+  class_name = ["trip-list-v2-row trip-list-v2-row-2-col ", assigns[:class] || ""]
+  {tag, attributes} = if assigns[:url] do
+    {:a, [href: @url, class: class_name, data: [scroll: "true"], id: @id]}
+  else
+    {:div, [class: class_name]}
+  end %>
+  <%= content_tag tag, attributes do %>
+    <div class="trip-list-v2-departure" role="cell">
+      <%= PredictedSchedule.Display.time(@departure) %>
+    </div>
+    <div class="trip-list-v2-headsign" role="cell">
+      <%= if @arrival do
+            PredictedSchedule.Display.time(@arrival)
+          else
+            PredictedSchedule.Display.headsign(@departure)
+          end %>
+      <%= display_alerts(@alerts) %>
+      <%= trip_list_bubble(@departure_route_id) %>
+      <%= if @departure_route_id != "Green" do %>
+        <%= fa "caret-down caret hidden-md-up" %>
+      <% end %>
+      <%= if assigns[:url] do %>
+        <span class="sr-only">Click for trip information</span>
+      <% end %>
+    </div>
+  <% end %>
+</div>
