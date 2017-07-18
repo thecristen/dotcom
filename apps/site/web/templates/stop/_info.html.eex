@@ -12,7 +12,7 @@
   <% end %>
 
   <h2>Accessibility</h2>
-  <%= accessibility_info(@stop) %>
+  <%= accessibility_info(@stop, @conn) %>
 
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <%= unless Enum.empty?(types) do %>
