@@ -1,7 +1,7 @@
 <%
   tag_id = case google_tag_manager_id() do
     nil -> "null"
-    id -> Phoenix.HTML.escape_javascript(id)
+    id -> raw("\"" <> Phoenix.HTML.escape_javascript(id) <> "\"")
   end
 %>
 <%= if Laboratory.enabled?(@conn, :google_translate) do %>
