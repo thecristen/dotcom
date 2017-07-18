@@ -186,5 +186,31 @@ defmodule Site.TripPlanControllerTest do
       response = html_response(conn, 200)
       assert response =~ "The date selected has already passed"
     end
+
+    test "good date from recent past", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => %{@date_time | "day" => "1", "minute" => "11"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      response = html_response(conn, 200)
+      refute response =~ "The date selected has already passed"
+    end
+
+    test "bad date from recent past", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => %{@date_time | "day" => "1", "minute" => "09"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      response = html_response(conn, 200)
+      assert response =~ "The date selected has already passed"
+    end
   end
 end
