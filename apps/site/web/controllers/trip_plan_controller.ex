@@ -66,8 +66,10 @@ defmodule Site.TripPlanController do
 
   @spec check_future_date(NaiveDateTime.t, DateTime.t) :: :ok | String.t
   def check_future_date(naive_date, system_date_time) do
+    # shift system time 10 minutes into past to avoid issues where submitted date falls slightly behind system date
     local_date_time = Timex.to_datetime(naive_date, system_date_time.time_zone)
-    if Timex.after?(local_date_time, system_date_time), do: :ok, else: "The date selected has already passed."
+    system_date_time_minus_ten = Timex.shift(system_date_time, minutes: -10)
+    if Timex.after?(local_date_time, system_date_time_minus_ten), do: :ok, else: "The date selected has already passed."
   end
 
   @spec build_date_string(map) :: String.t
