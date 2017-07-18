@@ -36,9 +36,12 @@
       "label": "Homepage",
       "url": "http://localhost:8082/?date=2017-09-01",
       "hideSelectors": [],
-      "removeSelectors": [".index-news-group"],
+      "removeSelectors": [".index-news-group", ".whats-happening-item", ".title-card"],
       "selectors": [
         "header",
+        ".pre-container-wrapper",
+        "main",
+        ".post-container-wrapper",
         "footer"
       ],
       "readyEvent": null,
