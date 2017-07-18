@@ -79,11 +79,38 @@ defmodule Site.AlertView do
     ["Last Updated: ", date, 32, time]
   end
 
-  def clamp_header(header, extra_remove \\ 0) do
-    case String.split_at(header, 59 - extra_remove) do
+  def alert_character_limits do
+    [{{:xxs, :sm}, 58},
+     {{:xs, :md}, 100},
+     {{:sm, :lg}, 160},
+     {{:md, :xxl}, 220},
+     {{:lg, :xxxl}, 260}
+    ]
+  end
+
+  def clamp_header(header, effects, max_chars) do
+    trunc = truncate_at(effects, max_chars)
+
+    case String.split_at(header, trunc) do
       {short, ""} -> short
       {short, _} -> [String.trim(short), "…"] # ellipsis
     end
+  end
+
+  defp truncate_at(effects, max_chars) do
+    extra_length = case effects do
+      {prefix, suffix} ->
+        [prefix, suffix]
+        |> Enum.map(&IO.iodata_to_binary/1)
+        |> Enum.map(&String.length/1)
+        |> Enum.reduce(0, &(&1 + &2))
+      text ->
+        text
+        |> IO.iodata_to_binary
+        |> String.length
+    end
+
+    max_chars - extra_length
   end
 
   def format_alert_description(text) do

@@ -38,24 +38,29 @@
     </ul>
   </div>
   <% first_alert = List.first(@alerts) %>
-  <a class="alert-link" href="#<%= id %>" data-show="collapse" data-target="#<%= id %>">
+  <a class="alert-link " href="#<%= id %>" data-show="collapse" data-target="#<%= id %>">
     <span class="alert-link-title">
       <%= render "_icon.html", alert: first_alert, time: @time %>
-      <%= case effects do %>
-        <% {prefix, _} -> %>
-        <% first_alert_effect_length = String.length(Alerts.Alert.human_effect(first_alert)) %>
-        <strong><%= prefix %>:</strong>
-        <%= clamp_header(first_alert.header, first_alert_effect_length) %>
-        <% text -> %><%= text %>
+
+      <%= for {{hide_below, hide_above}, chars} <- alert_character_limits() do %>
+        <span class="hidden-<%= hide_below %>-down hidden-<%= hide_above %>-up">
+          <%= case effects do %>
+            <% {prefix, _} -> %>
+            <strong><%= prefix %>:</strong>
+            <%= clamp_header(first_alert.header, effects, chars) %>
+            <% text -> %><%= text %>
+          <% end %>
+        </span>
       <% end %>
-      <span class="alerts-plus">
-      <%= case effects do
-        {_, suffix} -> suffix
-        _ -> ""
-      end %>
-      </span>
+
+    <span class="alerts-plus">
+    <%= case effects do
+      {_, suffix} -> suffix
+      _ -> ""
+    end %>
     </span>
-    <span class="alert-list-toggle"><%= fa "plus-circle" %> View</span>
-    <span class="clearfix"></span>
-  </a>
+  </span>
+  <span class="alert-list-toggle"><%= fa "plus-circle" %> View</span>
+  <span class="clearfix"></span>
+</a>
 </div>

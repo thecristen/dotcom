@@ -73,17 +73,55 @@ defmodule Site.AlertViewTest do
 
   describe "clamp_header/1" do
     test "short headers are the same" do
-      assert clamp_header("short") == "short"
+      assert clamp_header("short", {"", ""}, 58) == "short"
     end
 
-    test "anything more than 60 characters gets chomped to 60 characters" do
-      long = String.duplicate("x", 61)
-      assert long |> clamp_header |> :erlang.iolist_to_binary |> String.length == 60
+    test "adds an ellipsis to truncated headers" do
+      truncated =
+        "x"
+        |> String.duplicate(65)
+        |> clamp_header({"", ""}, 60)
+        |> IO.iodata_to_binary
+
+      assert String.ends_with?(truncated, "…")
+    end
+
+    test "anything more than the provided character limit gets chomped" do
+      long = String.duplicate("x", 65)
+      assert long |> clamp_header({"", ""}, 60) |> :erlang.iolist_to_binary |> String.length == 61
     end
 
     test "clamps that end in a space have it trimmed" do
       text = String.duplicate(" ", 61)
-      assert text |> clamp_header |> :erlang.iolist_to_binary |> String.length == 1
+      assert text |> clamp_header({"", ""}, 60) |> :erlang.iolist_to_binary |> String.length == 1
+    end
+
+    test "the max length includes prefix and suffix for the alert" do
+      long = String.duplicate("x", 61)
+      length = long
+               |> clamp_header({"prefix", "suffix"}, 60)
+               |> IO.iodata_to_binary
+               |> String.length
+
+      assert length == 60 - (String.length("prefix") + String.length("suffix")) + 1
+    end
+
+    test "the max length includes the effects string if it is not split into prefix/suffix" do
+      long = String.duplicate("x", 61)
+      length = long
+               |> clamp_header("effects string", 60)
+               |> IO.iodata_to_binary
+               |> String.length
+
+      assert length == 60 - String.length("effects string") + 1
+    end
+  end
+
+  describe "alert_character_limits" do
+    test "has a minimum breakpoint, maximum breakpoint, and character limit" do
+      for constraints <- alert_character_limits() do
+        assert {{_min, _max}, _chars} = constraints
+      end
     end
   end
 
