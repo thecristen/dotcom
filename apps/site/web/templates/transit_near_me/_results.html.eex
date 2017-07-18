@@ -1,4 +1,4 @@
-<div class="transit-near-me-results <%= result_container_classes(@class, @stops_with_routes) %>">
+<div class="location-grid-results <%= result_container_classes(@class, @stops_with_routes) %>">
   <%= for %{stop: stop, distance: distance, routes: routes} <- @stops_with_routes do %>
     <%= render "_card.html", stop: stop, distance: distance, routes: routes, conn: @conn %>
   <% end %>

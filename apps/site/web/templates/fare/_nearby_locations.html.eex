@@ -1,13 +1,13 @@
 <div class="fare-sales-locations">
   <h3>Nearby MBTA fare retail sales locations</h3>
-  <div class="transit-near-me-results transit-near-me-gray small-set grouped">
+  <div class="location-grid-results location-grid-gray small-set grouped">
     <%= for {%Fares.RetailLocations.Location{agent: agent, location: street, city: city} = location, distance} <- @fare_sales_locations do %>
-      <%= link to: GoogleMaps.direction_map_url(@search_position, location), class: "transit-card", target: "_blank" do %>
-        <div class="transit-card-name">
+      <%= link to: GoogleMaps.direction_map_url(@search_position, location), class: "location-card", target: "_blank" do %>
+        <div class="location-card-name">
           <%= agent %>
         </div>
-        <div class="transit-card-distance"><%= round_distance(distance) %></div>
-        <div class="transit-route">
+        <div class="location-card-distance"><%= round_distance(distance) %></div>
+        <div class="location-card-description">
           <%= street %><br>
           <%= clean_city(city) %>
         </div>

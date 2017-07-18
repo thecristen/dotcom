@@ -1,4 +1,4 @@
 <div class="transit-near-me">
   <%= render "_input.html", tnm_address: @tnm_address, conn: @conn, button_class: "" %>
-  <%= render "_results.html", class: "transit-near-me-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
+  <%= render "_results.html", class: "location-grid-gray", stops_with_routes: @stops_with_routes, conn: @conn %>
 </div>

@@ -1,11 +1,11 @@
-<%= link to: stop_path(@conn, :show, @stop.id, tab: "schedule"), class: "transit-card" do %>
-  <div class="transit-card-name">
+<%= link to: stop_path(@conn, :show, @stop.id, tab: "schedule"), class: "location-card" do %>
+  <div class="location-card-name">
     <%= @stop.name %>
   </div>
-  <div class="transit-card-distance"><%= round_distance(@distance) %></div>
+  <div class="location-card-distance"><%= round_distance(@distance) %></div>
 
   <%= for {type, routes} <- @routes do %>
-    <div class="transit-route">
+    <div class="location-card-description">
       <div class="transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: type, class: "icon-small"}) %></div>
       <div class="transit-route-name"><%= get_type_list(type, routes) %></div>
     </div>
