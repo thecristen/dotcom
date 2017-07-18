@@ -13,7 +13,7 @@
 
     <h2>Plan Your Trip</h2>
     <div class="button-group getting-around">
-      <%= render "_link.html", href: redirect_path(@conn, "rider_tools/trip_planner/"), text: "Directions", target: "_blank" %>
+      <%= render "_link.html", href: trip_plan_path(@conn), text: "Directions", target: trip_planner_target(@conn) %>
       <%= render "_link.html", href: stop_path(@conn, :index), text: "Station Info", target: "_self" %>
       <%= render "_link.html", href: alert_path(@conn, :index), text: "Service Alerts", target: "_self" %>
       <%= render "_link.html", href: transit_near_me_path(@conn, :index), text: "Transit Near Me", target: "_self" %>

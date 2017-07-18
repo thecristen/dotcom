@@ -19,7 +19,7 @@
           <div class="about-title">MBTA at a Glance</div>
         </div>
       <% end %>
-      <%= link to: redirect_path(@conn, "rider_tools/trip_planner"), target: "_blank", class: "homepage-link light" do %>
+      <%= link to: trip_plan_path(@conn), target: trip_planner_target(@conn), class: "homepage-link light" do %>
         <div class="col-md-3 col-xs-6">
           <div class="homepage-svg"><%= svg "directions.svg" %></div>
           <div class="about-title">Directions</div>

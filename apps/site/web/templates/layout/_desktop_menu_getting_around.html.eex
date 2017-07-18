@@ -33,7 +33,7 @@
     <p class="nav-title">Plan Your Trip</p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "rider_tools/trip_planner/"), target: "_blank" do %>
+        <%= link to: trip_plan_path(@conn), target: trip_planner_target(@conn) do %>
           <%= fa "caret-right" %> Directions
         <% end %>
       </li>

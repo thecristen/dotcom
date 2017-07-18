@@ -332,4 +332,20 @@ defmodule Site.ViewHelpers do
     [String.downcase(first) | Enum.map(rest, &String.capitalize/1)]
     |> IO.iodata_to_binary()
   end
+
+  def trip_plan_path(conn) do
+    if Laboratory.enabled?(conn, :trip_planner) do
+      Site.Router.Helpers.trip_plan_path(conn, :index) #no cover
+    else
+      redirect_path(conn, "rider_tools/trip_planner/")
+    end
+  end
+
+  def trip_planner_target(conn) do
+    if Laboratory.enabled?(conn, :trip_planner) do
+      "_self" #no cover
+    else
+      "_blank"
+    end
+  end
 end

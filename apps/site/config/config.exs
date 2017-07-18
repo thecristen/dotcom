@@ -26,7 +26,8 @@ config :site, Site.ViewHelpers,
 
 config :laboratory,
   features: [
-    {:google_translate, "Google Translate", "Adds the Google Translate plugin"}
+    {:google_translate, "Google Translate", "Adds the Google Translate plugin"},
+    {:trip_planner, "Trip Planner", "Utilizes the new Trip Planner"}
   ],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
