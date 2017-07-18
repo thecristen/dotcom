@@ -14,8 +14,5 @@
     "wiremock:record:clean": "rm -fr apps/site/{__files,mappings} && npm run wiremock:record",
     "routes": "cd apps/site && mix phoenix.routes && cd ../..",
     "dialyzer": "mix dialyzer --halt-exit-status"
-  },
-  "dependencies": {
-    "brunch": "^2.8.2"
   }
 }
