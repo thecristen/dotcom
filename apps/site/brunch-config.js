@@ -59,6 +59,8 @@ exports.config = {
     public: "priv/static"
   },
 
+  optimize: true, // <--- required for pleeease to run
+
   // Configure your plugins
   plugins: {
     babel: {
@@ -74,10 +76,20 @@ exports.config = {
       includePaths: ['web/static/css'],
     },
 
-    postcss: {
-      processors: [
-        require('autoprefixer')([])
-      ]
+    pleeease: {
+      filters: false,
+      rem: false,
+      pseudoElements: false,
+      opacity: false,
+      import: false,
+      minifier: true,
+			autoprefixer: {
+				browsers: [
+          "safari >= 4",
+          "ie >= 9",
+          "last 20 versions"
+        ]
+      }
     }
   },
 
