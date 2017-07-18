@@ -9,7 +9,7 @@ defmodule Site.TripPlanController do
   import Site.Validation, only: [validate_by_field: 2]
 
   plug :require_google_maps
-  plug :assign_initial_map, TripPlanMap.initial_map_src()
+  plug :assign_initial_map
 
   @type route_map :: %{optional(Routes.Route.id_t) => Routes.Route.t}
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
@@ -88,8 +88,8 @@ defmodule Site.TripPlanController do
     Enum.map(itineraries, fn itinerary -> ItineraryRowList.from_itinerary(itinerary, route_mapper: route_mapper) end)
   end
 
-  def assign_initial_map(conn, url) do
-    assign(conn, :initial_map_src, url)
+  def assign_initial_map(conn, _opts) do
+    assign(conn, :initial_map_src, TripPlanMap.initial_map_src())
   end
 
   defp with_itineraries(query, default, function)
