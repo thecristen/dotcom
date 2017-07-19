@@ -163,4 +163,22 @@ defmodule Site.ViewHelpersTest do
       assert to_camelcase("with_underscores") == "withUnderscores"
     end
   end
+
+  describe "fa/2" do
+    test "creates the HTML for a FontAwesome icon" do
+      expected = ~s(<i aria-hidden="true" class="fa fa-arrow-right "></i>)
+
+      result = fa("arrow-right")
+
+      assert result |> Phoenix.HTML.safe_to_string() == expected
+    end
+
+    test "when optional attributes are included" do
+      expected = ~s(<i aria-hidden="true" class="fa fa-arrow-right foo" title="title"></i>)
+
+      result = fa("arrow-right", class: "foo", title: "title")
+
+      assert result |> Phoenix.HTML.safe_to_string() == expected
+    end
+  end
 end

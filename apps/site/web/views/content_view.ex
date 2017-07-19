@@ -20,6 +20,9 @@ defmodule Site.ContentView do
   def render_paragraph(%Content.Paragraph.FilesGrid{} = para) do
     render "_files_grid.html", paragraph: para
   end
+  def render_paragraph(%Content.Paragraph.CallToAction{} = para) do
+    render "_call_to_action.html", paragraph: para
+  end
   def render_paragraph(%Content.Paragraph.Unknown{} = para) do
     render "_unknown.html", paragraph: para
   end
