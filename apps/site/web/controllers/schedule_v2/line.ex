@@ -364,7 +364,7 @@ defmodule Site.ScheduleV2Controller.Line do
   @doc """
   Returns a tuple with the stop bubble type, and the name of the branch that the bubble represents.
   """
-  @spec stop_bubble_type(String.t, RouteStop.t) :: {String.t, StopBubblesView.stop_bubble_type}
+  @spec stop_bubble_type(String.t, RouteStop.t) :: {String.t, StopBubbles.stop_bubble_type}
   def stop_bubble_type(bubble_branch_name, stop)
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: true}), do: {branch_id, :terminus}
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: false}), do: {branch_id, :stop}

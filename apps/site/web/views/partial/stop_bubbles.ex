@@ -5,7 +5,7 @@ defmodule Site.PartialView.StopBubbles do
   alias Routes.Route
 
   @type stop_bubble_type :: :stop | :terminus | :line | :empty | :merge
-  @type stop_bubble :: {Route.branch_name, StopBubblesView.stop_bubble_type}
+  @type stop_bubble :: {Route.branch_name, stop_bubble_type}
 
   defmodule Params do
     defstruct [
@@ -27,7 +27,7 @@ defmodule Site.PartialView.StopBubbles do
       bubbles: [Site.PartialView.StopBubbles.stop_bubble],
       stop_number: integer,
       stop_branch: Route.branch_name,
-      stop_id: Stop.id_t | nil,
+      stop_id: Stops.Stop.id_t | nil,
       route_id: Route.id_t | nil,
       route_type: Route.type_int | nil,
       direction_id: 0 | 1,
