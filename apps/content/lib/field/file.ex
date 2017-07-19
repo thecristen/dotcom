@@ -15,7 +15,7 @@ defmodule Content.Field.File do
   }
 
   @spec from_api(map) :: t
-  def from_api(%{"description" => description, "url" => url, "target_type" => type}) do
+  def from_api(%{"description" => description, "url" => url, "mime_type" => type}) do
     %__MODULE__{
       description: description,
       url: rewrite_url(url),

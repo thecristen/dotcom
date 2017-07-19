@@ -42,7 +42,7 @@ defmodule Content.ProjectUpdateTest do
       |> update_api_response_whole_field("field_photo_gallery",
         [%{"alt" => "gallery alt text", "url" => "http://drupalhost.com/static/photo1.png"}])
       |> update_api_response_whole_field("field_downloads",
-        [%{"description" => "this is the description", "target_type" => "file", "url" => "http://drupalhost.com/static/download1.pdf"}])
+        [%{"description" => "this is the description", "target_type" => "file", "url" => "http://drupalhost.com/static/download1.pdf", "mime_type" => "application/pdf"}])
 
       assert %Content.ProjectUpdate{
         featured_image: %Content.Field.Image{alt: featured_alt, url: featured_url},
@@ -55,7 +55,7 @@ defmodule Content.ProjectUpdateTest do
       assert gallery_alt == "gallery alt text"
       assert gallery_url == Content.Config.apply(:static, ["/static/photo1.png"])
       assert description == "this is the description"
-      assert type == "file"
+      assert type == "application/pdf"
       assert download_url == Content.Config.apply(:static, ["/static/download1.pdf"])
 
       Application.put_env(:content, :drupal, original_drupal_config)
