@@ -13,7 +13,7 @@ defmodule Site.TripPlanController do
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
 
   def index(conn, %{"plan" => %{"date_time" => date_time} = plan}) do
-    params = %{"date_string" => build_date_string(date_time), "system_date_time" => conn.assigns.date_time}
+    params = %{"date_time" => date_time, "system_date_time" => conn.assigns.date_time}
     validators = %{date_time: &validate_date/1}
     conn = assign(conn, :errors, validate_by_field(validators, params))
     if Enum.empty?(conn.assigns.errors) do
@@ -45,8 +45,10 @@ defmodule Site.TripPlanController do
   end
 
   @spec validate_date(map) :: :ok | String.t
-  def validate_date(%{"date_string" => date_string, "system_date_time" => system_date_time}) do
-    date = convert_to_date(date_string)
+  defp validate_date(%{"system_date_time" => system_date_time,
+                      "date_time" => %{"year" => year, "month" => month, "day" => day, "hour" => hour,
+                                       "minute" => minute}}) do
+    date = convert_to_date("#{year}-#{month}-#{day}T#{hour}:#{minute}:00")
     case date do
       nil -> "Date is not valid."
       _ -> check_future_date(date, system_date_time)
@@ -54,8 +56,8 @@ defmodule Site.TripPlanController do
   end
 
   @spec convert_to_date(String.t) :: NaiveDateTime.t | nil
-  def convert_to_date(date_string) do
-    {result, date_time} = Timex.parse(date_string, "{YYYY}-{M}-{D}T{h24}:{m}:{s}")
+  defp convert_to_date(date_string) do
+    {result, date_time} = Timex.parse(date_string, "{YYYY}-{M}-{D}T{_h24}:{_m}:00")
     case {result, Timex.is_valid?(date_time)} do
       {:ok, true} -> date_time
       {_, _} -> nil
@@ -63,18 +65,12 @@ defmodule Site.TripPlanController do
   end
 
   @spec check_future_date(NaiveDateTime.t, DateTime.t) :: :ok | String.t
-  def check_future_date(naive_date, system_date_time) do
+  defp check_future_date(naive_date, system_date_time) do
     # shift system time 10 minutes into past to avoid issues where submitted date falls slightly behind system date
     local_date_time = Timex.to_datetime(naive_date, system_date_time.time_zone)
     system_date_time_minus_ten = Timex.shift(system_date_time, minutes: -10)
     if Timex.after?(local_date_time, system_date_time_minus_ten), do: :ok, else: "The date selected has already passed."
   end
-
-  @spec build_date_string(map) :: String.t
-  defp build_date_string(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute}) do
-    "#{year}-#{month}-#{day}T#{String.pad_leading(hour, 2, "0")}:#{String.pad_leading(minute, 2, "0")}:00"
-  end
-  defp build_date_string(_), do: ""
 
   def require_google_maps(conn, _) do
     assign(conn, :requires_google_maps?, true)
