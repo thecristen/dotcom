@@ -1,10 +1,8 @@
 defmodule Site.TripPlanController do
   use Site.Web, :controller
-  alias Site.TripPlan.Query
+  alias Site.TripPlan.{Query, LegFeature, RelatedLink, ItineraryRowList, ItineraryRow}
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
-  alias Site.TripPlan.RelatedLink
-  alias Site.TripPlan.{ItineraryRowList, ItineraryRow}
   alias Site.PartialView.StopBubbles
   import Site.Validation, only: [validate_by_field: 2]
 
@@ -37,7 +35,7 @@ defmodule Site.TripPlanController do
     itinerary_row_lists = itinerary_row_lists(query, route_mapper)
     render conn,
       query: query,
-      route_map: route_map,
+      features: with_itineraries(query, [], &features(&1, route_mapper)),
       itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
       related_links: with_itineraries(query, [], &related_links(&1, route_mapper)),
       alerts: with_itineraries(query, [], &alerts(&1, route_mapper)),
@@ -108,6 +106,13 @@ defmodule Site.TripPlanController do
     |> Enum.flat_map(&TripPlan.Itinerary.route_ids/1)
     |> Enum.uniq
     |> Map.new(&{&1, Routes.Repo.get(&1)})
+  end
+
+  @spec features([TripPlan.Itinerary.t], route_mapper) :: [[LegFeature.t]]
+  defp features(itineraries, route_mapper) do
+    for itinerary <- itineraries do
+      LegFeature.for_itinerary(itinerary, route_by_id: route_mapper)
+    end
   end
 
   @spec alerts([TripPlan.Itinerary.t], route_mapper) :: [alert_list] when alert_list: [Alerts.Alert.t]

@@ -29,6 +29,13 @@ defmodule Site.TripPlan.RelatedLinkTest do
       # fare URL is tested later
     end
 
+    test "returns a list for multiple kinds of itineraries" do
+      for _i <- 0..10 do
+        {:ok, [itinerary]} = TripPlan.plan(MockPlanner.random_stop(), MockPlanner.random_stop(), [])
+        assert [_ | _] = links_for_itinerary(itinerary)
+      end
+    end
+
     test "with multiple types of fares, returns relevant fare links", %{itinerary: itinerary} do
       itinerary = itinerary
       |> MockPlanner.add_transit_leg
@@ -45,7 +52,8 @@ defmodule Site.TripPlan.RelatedLinkTest do
             {"bus/subway", fare_path(Site.Endpoint, :show, :bus_subway, [])}
           %{route_id: "CR-Lowell"} ->
             {"commuter rail", fare_path(Site.Endpoint, :show, :commuter_rail,
-                origin: leg.from.stop_id, destination: leg.to.stop_id)}
+                origin: fare_stop_id(leg.from.stop_id),
+                destination: fare_stop_id(leg.to.stop_id))}
           _ ->
             nil
         end
@@ -71,4 +79,7 @@ defmodule Site.TripPlan.RelatedLinkTest do
       end
     end
   end
+
+  defp fare_stop_id("North Station"), do: "place-north"
+  defp fare_stop_id(other), do: other
 end

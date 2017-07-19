@@ -42,7 +42,10 @@ defmodule Site.TripPlanControllerTest do
       assert response =~ "Itinerary 1"
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
-      assert Map.size(conn.assigns.route_map) > 0
+      assert conn.assigns.features
+      assert conn.assigns.itinerary_maps
+      assert conn.assigns.related_links
+      assert conn.assigns.alerts
     end
 
     test "uses current location to render a query plan", %{conn: conn} do
@@ -62,7 +65,6 @@ defmodule Site.TripPlanControllerTest do
       assert html_response(conn, 200) =~ "Directions"
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
-      assert Map.size(conn.assigns.route_map) > 0
     end
 
     test "each map url has a path color", %{conn: conn} do

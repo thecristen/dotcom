@@ -15,7 +15,7 @@ defmodule Site.TripPlan.RelatedLink do
     icon_name: nil
   ]
 
-  @default_opts [route_by_id: &Routes.Repo.get/1]
+  @default_opts [route_by_id: &Routes.Repo.get/1, stop_by_id: &Stops.Repo.get/1]
 
   import Phoenix.HTML.Link, only: [link: 2]
   # Need a view in order to use the components. Ideally we'd have a separate
@@ -100,16 +100,16 @@ defmodule Site.TripPlan.RelatedLink do
     for leg <- itinerary,
       {:ok, route_id} <- [Leg.route_id(leg)],
       route = route_by_id.(route_id) do
-        fare_link(route, leg)
+        fare_link(route, leg, opts)
     end
     |> Enum.uniq
     |> simplify_fare_text
   end
 
-  defp fare_link(route, leg) do
+  defp fare_link(route, leg, opts) do
     type_atom = Route.type_atom(route)
     text = fare_link_text(type_atom)
-    {fare_section, opts} = fare_link_url_opts(type_atom, leg)
+    {fare_section, opts} = fare_link_url_opts(type_atom, leg, opts)
     url = fare_path(Site.Endpoint, :show, fare_section, opts)
     new(["View ", text, " fare information"], url)
   end
@@ -124,10 +124,17 @@ defmodule Site.TripPlan.RelatedLink do
     "bus/subway"
   end
 
-  defp fare_link_url_opts(type, leg) when type in [:commuter_rail, :ferry] do
-    {type, origin: leg.from.stop_id, destination: leg.to.stop_id}
+  defp fare_link_url_opts(type, leg, opts) when type in [:commuter_rail, :ferry] do
+    stop_by_id = Keyword.get(opts, :stop_by_id)
+    link_opts = for {key, stop_id} <- [origin: leg.from.stop_id, destination: leg.to.stop_id],
+      is_binary(stop_id) do
+      # fetch a parent stop ID
+      stop_id = stop_by_id.(stop_id).id
+      {key, stop_id}
+    end
+    {type, link_opts}
   end
-  defp fare_link_url_opts(type, _leg) when type in [:bus, :subway] do
+  defp fare_link_url_opts(type, _leg, _opts) when type in [:bus, :subway] do
     {:bus_subway, []}
   end
 
