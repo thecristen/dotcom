@@ -48,7 +48,7 @@ defmodule Site.TripPlanController do
   defp validate_date(%{"system_date_time" => system_date_time,
                       "date_time" => %{"year" => year, "month" => month, "day" => day, "hour" => hour,
                                        "minute" => minute}}) do
-    date = convert_to_date("#{year}-#{month}-#{day}T#{hour}:#{minute}:00")
+    date = convert_to_date("#{year}-#{month}-#{day}T#{hour}:#{minute}")
     case date do
       nil -> "Date is not valid."
       _ -> check_future_date(date, system_date_time)
@@ -57,7 +57,7 @@ defmodule Site.TripPlanController do
 
   @spec convert_to_date(String.t) :: NaiveDateTime.t | nil
   defp convert_to_date(date_string) do
-    {result, date_time} = Timex.parse(date_string, "{YYYY}-{M}-{D}T{_h24}:{_m}:00")
+    {result, date_time} = Timex.parse(date_string, "{YYYY}-{M}-{D}T{_h24}:{_m}")
     case {result, Timex.is_valid?(date_time)} do
       {:ok, true} -> date_time
       {_, _} -> nil
