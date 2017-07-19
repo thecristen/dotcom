@@ -62,7 +62,16 @@ def row_filename(row):
     [date, time] = row['date_created'].split(' ')
     return '%s-%s.json' % (date, row['content_id'])
 
+def remove_existing_json_files(directory_path):
+    filelist = [f for f in os.listdir(directory_name) if f.endswith(".json")]
+
+    for f in filelist:
+        file_path = os.path.join(directory_path, f)
+        os.remove(file_path)
+
 def main():
+    remove_existing_json_files(POSTS_DIR)
+
     for row in news_entries():
         try:
             tree = ET.fromstring(row['content_html'])
