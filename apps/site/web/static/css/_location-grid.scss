@@ -75,8 +75,9 @@
 }
 
 .location-card-distance {
-  color: $gray-light;
+  color: $gray-dark;
   float: left;
+  font-size: $font-size-base-xs;
   text-align: right;
   width: 33.333%;
 }

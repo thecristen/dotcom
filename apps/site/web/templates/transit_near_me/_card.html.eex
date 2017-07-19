@@ -1,6 +1,6 @@
 <%= link to: stop_path(@conn, :show, @stop.id, tab: "schedule"), class: "location-card" do %>
   <div class="location-card-name">
-    <%= @stop.name %>
+    <%= Site.ViewHelpers.break_text_at_slash(@stop.name) %>
   </div>
   <div class="location-card-distance"><%= round_distance(@distance) %></div>
 
