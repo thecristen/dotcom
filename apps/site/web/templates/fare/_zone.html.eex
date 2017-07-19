@@ -5,7 +5,7 @@
 <h2>How Fare Zones Work</h2>
 <p>
   If you’re not sure what zone your station is, we recommend using the
-  <%= link "Find Your Fare", to: fare_path(@conn, :show, :commuter) %> tool.</p>
+  <%= link "Find Your Fare", to: fare_path(@conn, :show, :commuter_rail) %> tool.</p>
 <h3>To and from Zone 1A Fares</h3>
 <p>
   If you begin or end your trip at a Zone 1A station, your fare will be based on
