@@ -45,7 +45,7 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   end
 
   def validate_direction_id(%Plug.Conn{assigns: %{direction_id: direction_id, stop_times: stop_times}} = conn, []) do
-    case Enum.find(stop_times.times, &!is_nil(&1.trip)) do
+    case Enum.find(stop_times, &!is_nil(&1.trip)) do
       nil ->
         conn
       stop_time ->

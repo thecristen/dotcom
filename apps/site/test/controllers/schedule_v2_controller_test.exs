@@ -142,7 +142,7 @@ defmodule Site.ScheduleV2ControllerTest do
 
     test "frequency table does not have negative values for Green Line", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Green", origin: "place-north", vehicle_tooltips: %{}))
-      for frequency <- conn.assigns.frequency_table.frequencies do
+      for frequency <- conn.assigns.frequency_table do
         assert frequency.min_headway > 0
         assert frequency.max_headway > 0
       end
@@ -171,7 +171,7 @@ defmodule Site.ScheduleV2ControllerTest do
     test "assigns trip info and stop times for mattapan line", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Mattapan", origin: "place-butlr", direction_id: "1"))
       assert conn.assigns.trip_info
-      refute Enum.empty?(conn.assigns.stop_times.times)
+      refute Enum.empty?(conn.assigns.stop_times)
     end
   end
 

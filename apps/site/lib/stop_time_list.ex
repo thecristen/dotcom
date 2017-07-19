@@ -26,8 +26,8 @@ defmodule StopTimeList do
 
   @doc "Returns true if any of the stop times have a prediction"
   @spec has_predictions?(t) :: boolean
-  def has_predictions?(%StopTimeList{times: times}) do
-    times
+  def has_predictions?(stop_times) do
+    stop_times
     |> Enum.any?(&StopTime.has_prediction?/1)
   end
 
@@ -195,5 +195,22 @@ defmodule StopTimeList do
   defp match_schedule_direction([{departure_schedule, _} | _], predictions) do
     direction_id = departure_schedule.trip.direction_id
     Enum.filter(predictions, &match?(%{direction_id: ^direction_id}, &1))
+  end
+end
+
+defimpl Enumerable, for: StopTimeList do
+  def count(_stop_time_list) do
+    {:error, __MODULE__}
+  end
+
+  def member?(_stop_time_list, %StopTimeList{}) do
+    {:error, __MODULE__}
+  end
+  def member?(_stop_time_list, _other) do
+    {:ok, false}
+  end
+
+  def reduce(%{times: times}, acc, fun) do
+    Enumerable.reduce(times, acc, fun)
   end
 end

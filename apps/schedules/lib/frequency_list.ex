@@ -17,3 +17,20 @@ defmodule Schedules.FrequencyList do
                                last_departure: List.last(schedules).time}}
   end
 end
+
+defimpl Enumerable, for: Schedules.FrequencyList do
+  def count(_stop_time_list) do
+    {:error, __MODULE__}
+  end
+
+  def member?(_stop_time_list, %Schedules.FrequencyList{}) do
+    {:error, __MODULE__}
+  end
+  def member?(_stop_time_list, _other) do
+    {:ok, false}
+  end
+
+  def reduce(%{frequencies: frequencies}, acc, fun) do
+    Enumerable.reduce(frequencies, acc, fun)
+  end
+end

@@ -14,4 +14,12 @@ defmodule Schedules.FrequencyListTest do
       assert frequency_list.departures.last_departure == List.last(@schedules).time
     end
   end
+
+  describe "reduce/3" do
+    test "reducing the FrequencyList is the same as reducing the list of frequencies on it" do
+      frequency_list = FrequencyList.build_frequency_list(@schedules)
+      assert Enum.reduce(frequency_list, [], fn frequency, list -> [frequency.max_headway | list] end) ==
+        Enum.reduce(frequency_list.frequencies, [], fn frequency, list -> [frequency.max_headway | list] end)
+    end
+  end
 end

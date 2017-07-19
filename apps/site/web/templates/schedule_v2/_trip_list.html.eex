@@ -10,7 +10,7 @@
         <div class="trip-list-v2-headsign" role="columnheader"><%= display_direction(@stop_times) %> <%= refresh %></div>
       <% end %>
     </div>
-    <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times.times do %>
+    <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times do %>
       <%
         %{id: departure_route_id} = PredictedSchedule.route(departure)
       %>

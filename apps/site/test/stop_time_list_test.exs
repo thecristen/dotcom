@@ -833,4 +833,12 @@ defmodule StopTimeListTest do
       assert result.times == []
     end
   end
+
+  describe "reduce/3" do
+    test "reducing the StopTimeList is the same as reducing the list of stop times on it" do
+      stop_time_list = build(@od_schedules, @predictions, "stop1", "stop3", :predictions_then_schedules, @time, false)
+      assert Enum.reduce(stop_time_list, [], fn time, list -> [time.arrival | list] end) ==
+        Enum.reduce(stop_time_list.times, [], fn time, list -> [time.arrival | list] end)
+    end
+  end
 end
