@@ -47,7 +47,7 @@ defmodule Content.ProjectUpdateTest do
       assert %Content.ProjectUpdate{
         featured_image: %Content.Field.Image{alt: featured_alt, url: featured_url},
         photo_gallery: [%Content.Field.Image{alt: gallery_alt, url: gallery_url}],
-        downloads: [%Content.Field.Download{description: description, type: type, url: download_url}]
+        downloads: [%Content.Field.File{description: description, type: type, url: download_url}]
       } = Content.ProjectUpdate.from_api(api_page)
 
       assert featured_alt == "alt text"
