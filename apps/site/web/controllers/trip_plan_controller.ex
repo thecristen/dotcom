@@ -72,7 +72,7 @@ defmodule Site.TripPlanController do
 
   @spec build_date_string(map) :: String.t
   defp build_date_string(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute}) do
-    "#{year}-#{month}-#{day}T#{hour}:#{String.pad_leading(minute, 2, "0")}:00"
+    "#{year}-#{month}-#{day}T#{String.pad_leading(hour, 2, "0")}:#{String.pad_leading(minute, 2, "0")}:00"
   end
   defp build_date_string(_), do: ""
 

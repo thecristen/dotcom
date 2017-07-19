@@ -214,5 +214,18 @@ defmodule Site.TripPlanControllerTest do
       response = html_response(conn, 200)
       assert response =~ "The date selected has already passed"
     end
+
+    test "hour and minute are processed correctly when provided as single digits", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => %{@date_time | "hour" => "1", "minute" => "1"}
+                   }}
+
+      conn = get conn, trip_plan_path(conn, :index, params)
+      response = html_response(conn, 200)
+      refute response =~ "Date is not valid"
+    end
   end
 end
