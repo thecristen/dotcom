@@ -82,10 +82,11 @@ defmodule Site.TripPlanView do
     initial_length = Enum.count(steps)
     steps
     |> Enum.with_index
-    |> Enum.map(fn {step, index} -> if is_middle_step?(index, initial_length)  do
-        {step, "data-hidden-step"}
-      else
-        {step, ""}
+    |> Enum.map(fn {step, index} ->
+      cond do
+        index == 0 -> {step, "data-before-reveal-button"}
+        is_middle_step?(index, initial_length) -> {step, "data-hidden-step"}
+        true -> {step, ""}
       end
     end)
   end

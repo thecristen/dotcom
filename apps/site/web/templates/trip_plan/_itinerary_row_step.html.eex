@@ -1,5 +1,5 @@
-<%= for {step, collapse_class} <- @steps do %>
-  <div class="route-branch-stop-list route-branch-stop <%= [@mode_class] %>" data-before-reveal-button <%= collapse_class %>>
+<%= for {step, data_attr} <- @steps do %>
+  <div class="route-branch-stop-list route-branch-stop <%= [@mode_class] %>" <%= data_attr %>>
     <%= Site.PartialView.StopBubbles.render_stop_bubbles(@intermediate_params) %>
     <div class="itinerary-step"><%= step %></div>
   </div>

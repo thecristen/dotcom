@@ -87,18 +87,19 @@ defmodule Site.TripPlanViewTest do
   end
 
   describe "itinerary_steps_with_classes/1" do
-    test "it gives no class to any step in a list with less than 6 steps" do
+    test "it gives no data-attribute to any step in a list with less than 6 steps" do
       row = %ItineraryRow{route: %Route{}, steps: ["1", "2", "3", "4", "5"]}
       assert itinerary_steps_with_classes(row) == [{"1", ""}, {"2", ""}, {"3", ""}, {"4", ""}, {"5", ""}]
     end
 
-    test "it gives a class of hidden-step to the middle steps in a list with 6 or more steps" do
+    test "it gives a data-attribute of before-reveal-button to the first step and
+          hidden-step to the middle steps in a list with 6 or more steps" do
       row = %ItineraryRow{route: %Route{}, steps: ["1", "2", "3", "4", "5", "6"]}
       assert itinerary_steps_with_classes(row) ==
-        [{"1", ""}, {"2", "data-hidden-step"}, {"3", "data-hidden-step"}, {"4", "data-hidden-step"}, {"5", ""}, {"6", ""}]
+        [{"1", "data-before-reveal-button"}, {"2", "data-hidden-step"}, {"3", "data-hidden-step"}, {"4", "data-hidden-step"}, {"5", ""}, {"6", ""}]
     end
 
-    test "it does not give the hidden-step class when the leg is personal" do
+    test "it does not give the hidden-step data-attribute when the leg is personal" do
       row = %ItineraryRow{route: nil, steps: ["1", "2", "3", "4", "5", "6"]}
       assert itinerary_steps_with_classes(row) ==
         [{"1", ""}, {"2", ""}, {"3", ""}, {"4", ""}, {"5", ""}, {"6", ""}]

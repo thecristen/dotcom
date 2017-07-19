@@ -28,16 +28,24 @@
   </div>
   <% intermediate_params = intermediate_bubble_params(@itinerary_row, @bubble_params) %>
   <% {first_one, rest} = Enum.split(itinerary_steps_with_classes(@itinerary_row), 1) %>
-  <%= render "_itinerary_row_step.html", steps: first_one, mode_class: mode_class, intermediate_params: intermediate_params %>
+  <%= render "_itinerary_row_step.html",
+             steps: first_one,
+             mode_class: mode_class,
+             intermediate_params: intermediate_params
+  %>
   <%= if collapsable_row?(@itinerary_row) do %>
     <div class="route-branch-stop-list route-branch-stop <%= [mode_class] %>">
       <%= Site.PartialView.StopBubbles.render_stop_bubbles(%{intermediate_params | line_only?: true}) %>
       <div class="itinerary-step">
-        <button class="reveal-steps">
-          Toggle steps
+        <button class="reveal-steps" data-reveal-step-button>
+          Show stops
         </button>
       </div>
     </div>
   <% end %>
-  <%= render "_itinerary_row_step.html", steps: rest, mode_class: mode_class, intermediate_params: intermediate_params %>
+  <%= render "_itinerary_row_step.html",
+             steps: rest,
+             mode_class: mode_class,
+             intermediate_params: intermediate_params
+  %>
 </div>
