@@ -147,6 +147,7 @@ The following variables can be used in your development environment.
 * `GOOGLE_API_KEY` - You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
 This will ensure any javascript that uses Google's API will work correctly.
 * `WIREMOCK_PATH` - The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default.
+* `V3_URL` - you can use this to point at a local API (`http://localhost:4000`) or the production API (`https://api.mbtace.com`)
 
 ## Building
 
@@ -155,26 +156,27 @@ This will ensure any javascript that uses Google's API will work correctly.
   * `sh build.sh`
 
 This will build the release in a Docker container, and put the files in
-`site-build.zip`
+`site-build.zip`.  This file contains all of our code, an Erlang
+distribution, and a Dockerfile to run the application.
+
+The root `Dockerfile` is responsible the build. Because most of us develop on
+a Mac but the servers are Linux, we need to run the build inside a Docker
+container so that everything is compiled correctly. The build uses `exrm` to
+make the Erlang release, along with all our dependencies. We then copy all
+those files out of the Docker build container, .zip them up, and send them
+along to Amazon.
+
+The Dockerfile used to run the application lives in `rel/Dockerfile`. It runs
+the script that `exrm` provides for us to run the server (
+`/root/rel/site/bin/site foreground`). At startup, the `relx` application
+looks for configuration values that look like `${VARIABLE}` and replaces them
+with the `VARIABLE` environment variable. This allows us to make a single
+build, but use it for different environments by changing the environment
+variables.
 
 ## Deploying
 
-1. (once) Install the AWS EB CLI:
-   http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html
-1. (once) Get AWS credentials (Access Key ID and Secret Access Key)
-1. (once) Create `~/.aws/config` with the following:
-
-    ```
-    [profile eb-cli]
-    aws_access_key_id = <YOUR ACCESS KEY ID>
-    aws_secret_access_key = <YOUR SECRET ACCESS KEY>
-    ```
-
-1. Deploy the built file:
-  * `eb deploy`
-
-You should now be able to see the new site at
-http://mbta-dotcom-dev-green.us-east-1.elasticbeanstalk.com/
+The [deployment instructions](https://github.com/mbta/wiki/blob/master/website/operations.md#deployment) are in the wiki.
 
 ## Documentation
 
