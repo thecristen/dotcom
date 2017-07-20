@@ -33,6 +33,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   defp error_message_atom("NO_TRANSIT_TIMES"), do: :no_transit_times
   defp error_message_atom("TOO_CLOSE"), do: :too_close
   defp error_message_atom("PATH_NOT_FOUND"), do: :path_not_found
+  defp error_message_atom("LOCATION_NOT_ACCESSIBLE"), do: :location_not_accessible
   defp error_message_atom(_), do: :unknown
 
   defp parse_itinerary(json) do

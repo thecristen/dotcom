@@ -44,6 +44,9 @@ defmodule Site.TripPlanView do
   def rendered_plan_error(:no_transit_times) do
     "We were unable to plan a trip at the time you selected."
   end
+  def rendered_plan_error(:location_not_accessible) do
+    "We were unable to plan an accessible trip between those locations."
+  end
   def rendered_plan_error(_) do
     "We were unable to plan your trip. Please try again later."
   end
