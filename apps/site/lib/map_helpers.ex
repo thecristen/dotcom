@@ -64,9 +64,9 @@ defmodule Site.MapHelpers do
   @spec map_stop_icon_path(Route.t | nil, Marker.size | nil) :: String.t
   def map_stop_icon_path(route, size \\ nil)
   def map_stop_icon_path(route, :mid) do
-    static_url(Site.Endpoint, "/images/map-#{route_map_color(route)}-dot-icon-mid.png")
+    "#{route_map_color(route)}-dot-mid"
   end
   def map_stop_icon_path(route, _size) do
-    static_url(Site.Endpoint, "/images/map-#{route_map_color(route)}-dot-icon.png")
+    "#{route_map_color(route)}-dot"
   end
 end
