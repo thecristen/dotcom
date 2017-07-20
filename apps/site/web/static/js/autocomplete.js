@@ -22,8 +22,8 @@ function setupAutocomplete() {
   if($elements.length > 0) {
     // these are the same bounds we use for OpenTripPlanner
     const mbtaWatershedBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(41.206, -73.619),
-      new google.maps.LatLng(42.936, -69.644)
+      new google.maps.LatLng(41.3193, -71.9380),
+      new google.maps.LatLng(42.8266, -69.6189)
     );
     const options = {
       strictBounds: true,
