@@ -24,6 +24,7 @@ defmodule Site.ContentControllerTest do
       assert rendered =~ ~s(<div class="title-card-title">Example Card 1</div>)
       assert rendered =~ ~s(<div class="people-grid-photo">)
       assert rendered =~ ~s(<p class="event-paragraph-title card-header card-header-primary-darkest text-xs-center">)
+      assert rendered =~ ~s(May 22 2017 agenda_1.pdf)
     end
 
     test "renders a project update when the CMS returns a Content.ProjectUpdate", %{conn: conn} do

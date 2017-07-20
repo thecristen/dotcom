@@ -2,6 +2,8 @@ defmodule Site.ContentView do
   use Site.Web, :view
   import Site.EventView, only: [event_duration: 2]
 
+  defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
+
   @spec render_paragraph(Content.Paragraph.t) :: Phoenix.HTML.safe
   def render_paragraph(%Content.Paragraph.CustomHTML{} = para) do
     para.body
@@ -14,5 +16,15 @@ defmodule Site.ContentView do
   end
   def render_paragraph(%Content.Paragraph.PeopleGrid{} = para) do
     render "_people_grid.html", paragraph: para
+  end
+  def render_paragraph(%Content.Paragraph.FilesGrid{} = para) do
+    render "_files_grid.html", paragraph: para
+  end
+
+  def file_description(%Content.Field.File{description: desc}) when not is_nil(desc) and desc != "" do
+    desc
+  end
+  def file_description(%Content.Field.File{url: url}) do
+    url |> Path.basename |> URI.decode
   end
 end

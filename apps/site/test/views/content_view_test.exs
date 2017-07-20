@@ -78,5 +78,44 @@ defmodule Site.ContentViewTest do
       assert rendered =~ person.name
       assert rendered =~ person.position
     end
+
+    test "renders a Paragraph.FilesGrid without a title" do
+      paragraph = %Paragraph.FilesGrid{title: nil, files: [%Content.Field.File{url: "/link", description: "link description"}]}
+
+      rendered =
+        paragraph
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ "link description"
+    end
+
+    test "renders a Paragraph.FilesGrid with a title" do
+      paragraph = %Paragraph.FilesGrid{files: [%Content.Field.File{}], title: "Some files"}
+
+      rendered =
+        paragraph
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ paragraph.title
+    end
+  end
+
+  describe "file_description/1" do
+    test "returns URL decoded file name if description is nil" do
+      file = %Content.Field.File{url: "/some/path/This%20File%20Is%20Great.pdf", description: nil}
+      assert file_description(file) == "This File Is Great.pdf"
+    end
+
+    test "returns the URL decoded file name if description is an empty string" do
+      file = %Content.Field.File{url: "/some/path/This%20File%20Is%20Great.pdf", description: ""}
+      assert file_description(file) == "This File Is Great.pdf"
+    end
+
+    test "returns the description if present" do
+      file = %Content.Field.File{url: "/some/path/This%20File%20Is%20Great.pdf", description: "Download Now"}
+      assert file_description(file) == "Download Now"
+    end
   end
 end

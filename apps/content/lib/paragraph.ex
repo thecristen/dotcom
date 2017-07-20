@@ -26,7 +26,8 @@ defmodule Content.Paragraph do
   alias Content.Paragraph
 
   @type t :: Paragraph.CustomHTML.t | Paragraph.TitleCardSet.t |
-             Paragraph.UpcomingBoardMeetings.t | Paragraph.PeopleGrid.t
+             Paragraph.UpcomingBoardMeetings.t | Paragraph.PeopleGrid.t |
+             Paragraph.FilesGrid.t
 
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
@@ -40,5 +41,8 @@ defmodule Content.Paragraph do
   end
   def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para) do
     Paragraph.PeopleGrid.from_api(para)
+  end
+  def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para) do
+    Paragraph.FilesGrid.from_api(para)
   end
 end

@@ -11,7 +11,7 @@
   ],
   "vid": [
     {
-      "value": 3274
+      "value": 3277
     }
   ],
   "langcode": [
@@ -51,7 +51,7 @@
   ],
   "changed": [
     {
-      "value": 1500581990
+      "value": 1500585132
     }
   ],
   "promote": [
@@ -66,7 +66,7 @@
   ],
   "revision_timestamp": [
     {
-      "value": 1500581990
+      "value": 1500585132
     }
   ],
   "revision_uid": [
@@ -156,7 +156,7 @@
   "field_paragraphs": [
     {
       "target_id": 35,
-      "target_revision_id": 327,
+      "target_revision_id": 359,
       "id": [
         {
           "value": 35
@@ -169,7 +169,7 @@
       ],
       "revision_id": [
         {
-          "value": 327
+          "value": 359
         }
       ],
       "type": [
@@ -237,14 +237,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page<\/strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.<\/p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML<\/a><\/li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set<\/a><\/li>\r\n\t<li><a href=\"#people-grid\">People Grid<\/a><\/li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting<\/a><\/li>\r\n<\/ul>\r\n",
+          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page<\/strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.<\/p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML<\/a><\/li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set<\/a><\/li>\r\n\t<li><a href=\"#people-grid\">People Grid<\/a><\/li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting<\/a><\/li>\r\n\t<li><a href=\"#files-grid\">Files Grid<\/a><\/li>\r\n<\/ul>\r\n",
           "format": "basic_html"
         }
       ]
     },
     {
       "target_id": 36,
-      "target_revision_id": 328,
+      "target_revision_id": 360,
       "id": [
         {
           "value": 36
@@ -257,7 +257,7 @@
       ],
       "revision_id": [
         {
-          "value": 328
+          "value": 360
         }
       ],
       "type": [
@@ -332,7 +332,7 @@
     },
     {
       "target_id": 37,
-      "target_revision_id": 329,
+      "target_revision_id": 361,
       "id": [
         {
           "value": 37
@@ -345,7 +345,7 @@
       ],
       "revision_id": [
         {
-          "value": 329
+          "value": 361
         }
       ],
       "type": [
@@ -420,7 +420,7 @@
     },
     {
       "target_id": 40,
-      "target_revision_id": 332,
+      "target_revision_id": 364,
       "id": [
         {
           "value": 40
@@ -433,7 +433,7 @@
       ],
       "revision_id": [
         {
-          "value": 332
+          "value": 364
         }
       ],
       "type": [
@@ -502,7 +502,7 @@
       "field_title_cards": [
         {
           "target_id": 38,
-          "target_revision_id": 330,
+          "target_revision_id": 362,
           "id": [
             {
               "value": 38
@@ -515,7 +515,7 @@
           ],
           "revision_id": [
             {
-              "value": 330
+              "value": 362
             }
           ],
           "type": [
@@ -604,7 +604,7 @@
         },
         {
           "target_id": 39,
-          "target_revision_id": 331,
+          "target_revision_id": 363,
           "id": [
             {
               "value": 39
@@ -617,7 +617,7 @@
           ],
           "revision_id": [
             {
-              "value": 331
+              "value": 363
             }
           ],
           "type": [
@@ -708,7 +708,7 @@
     },
     {
       "target_id": 41,
-      "target_revision_id": 333,
+      "target_revision_id": 365,
       "id": [
         {
           "value": 41
@@ -721,7 +721,7 @@
       ],
       "revision_id": [
         {
-          "value": 333
+          "value": 365
         }
       ],
       "type": [
@@ -796,7 +796,7 @@
     },
     {
       "target_id": 42,
-      "target_revision_id": 334,
+      "target_revision_id": 366,
       "id": [
         {
           "value": 42
@@ -809,7 +809,7 @@
       ],
       "revision_id": [
         {
-          "value": 334
+          "value": 366
         }
       ],
       "type": [
@@ -1279,7 +1279,7 @@
     },
     {
       "target_id": 43,
-      "target_revision_id": 335,
+      "target_revision_id": 367,
       "id": [
         {
           "value": 43
@@ -1292,7 +1292,7 @@
       ],
       "revision_id": [
         {
-          "value": 335
+          "value": 367
         }
       ],
       "type": [
@@ -1367,7 +1367,7 @@
     },
     {
       "target_id": 44,
-      "target_revision_id": 336,
+      "target_revision_id": 368,
       "id": [
         {
           "value": 44
@@ -1380,7 +1380,7 @@
       ],
       "revision_id": [
         {
-          "value": 336
+          "value": 368
         }
       ],
       "type": [
@@ -1447,6 +1447,217 @@
         }
       ],
       "view_data": [
+
+      ]
+    },
+    {
+      "target_id": 45,
+      "target_revision_id": 369,
+      "id": [
+        {
+          "value": 45
+        }
+      ],
+      "uuid": [
+        {
+          "value": "7f9e1eea-3869-440d-b8e3-41f880966da3"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 369
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500584852
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr \/>\r\n<h3 id=\"files-grid\">Files Grid<\/h3>\r\n\r\n<p>This paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile.&nbsp;Each file has an icon (e.g. spreadsheet, pdf, etc) next to it based on its file type. To customize the link text fill out the \"Description\" in the CMS. Otherwise, it will use the filename.<\/p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 46,
+      "target_revision_id": 370,
+      "id": [
+        {
+          "value": 46
+        }
+      ],
+      "uuid": [
+        {
+          "value": "8bc98289-888b-4bd5-8b41-657fd029ed3d"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 370
+        }
+      ],
+      "type": [
+        {
+          "target_id": "files_grid",
+          "target_type": "paragraphs_type",
+          "target_uuid": "79dad97a-0609-446f-bba6-daf74a92c999"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500585043
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_files": [
+        {
+          "target_id": 186,
+          "display": true,
+          "description": "This has a custom description",
+          "target_type": "file",
+          "target_uuid": "8d6ae6be-516d-44a2-9020-7cf7c5f9f66c",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/April%2013%202017%20agenda%20opk%20edits_1.pdf",
+          "mime_type": "application\/pdf"
+        },
+        {
+          "target_id": 187,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "3037e869-a016-4489-8c97-efe6aa1f6ec1",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/April%2013%202017%20minutes_2.pdf",
+          "mime_type": "application\/pdf"
+        },
+        {
+          "target_id": 188,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "e287324e-927d-429c-a64d-ca1019794c74",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/May%2015%202017%20agenda%20_2_0.pdf",
+          "mime_type": "application\/pdf"
+        },
+        {
+          "target_id": 189,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "1000900a-22b8-4aaa-9d88-5a36ac8549d8",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/May%2022%202017%20agenda_1.pdf",
+          "mime_type": "application\/pdf"
+        }
+      ],
+      "field_files_grid_title": [
 
       ]
     }

@@ -52,6 +52,15 @@ defmodule Content.ParagraphTest do
         ]
       } = from_api(api_data)
     end
+
+    test "parses a files grid paragraph" do
+      api_data = api_paragraph("files_grid")
+
+      assert %Content.Paragraph.FilesGrid{
+        title: nil,
+        files: [%Content.Field.File{}, %Content.Field.File{}, %Content.Field.File{}, %Content.Field.File{}]
+      } = from_api(api_data)
+    end
   end
 
   defp api_paragraph(paragraph_type) do
