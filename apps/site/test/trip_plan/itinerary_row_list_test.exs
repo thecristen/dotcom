@@ -85,6 +85,38 @@ defmodule Site.TripPlan.ItineraryRowListTest do
         end
       end
     end
+
+    test "Uses to name when one is provided", %{itinerary: itinerary, opts: opts} do
+      user_opts = Keyword.merge(opts, [to: "Final Destination"])
+      {destination, stop_id, _datetime} = from_itinerary(itinerary, user_opts).destination
+      assert destination == "Final Destination"
+      refute stop_id
+    end
+
+    test "Does not replace to stop_id", %{opts: opts} do
+      to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-north")
+      {:ok, [itinerary]} = TripPlan.plan(@from, to, depart_at: @date_time)
+      user_opts = Keyword.merge(opts, [to: "Final Destination"])
+      {name, id, _datetime} = itinerary |> from_itinerary(user_opts) |> Map.get(:destination)
+      assert name == "Final Destination"
+      assert id == "place-north"
+    end
+
+    test "Uses given from name when one is provided", %{opts: opts} do
+      from = TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
+      {:ok, [itinerary]} = TripPlan.plan(from, @to, depart_at: @date_time)
+      user_opts = Keyword.merge(opts, [from: "Starting Point"])
+      {name, nil} = itinerary |> from_itinerary(user_opts) |> Enum.at(0) |> Map.get(:stop)
+      assert name == "Starting Point"
+    end
+
+    test "Does not replace from stop_id", %{itinerary: itinerary, opts: opts} do
+      user_opts = Keyword.merge(opts, [from: "Starting Point"])
+      {name, id} = itinerary |> from_itinerary(user_opts) |> Enum.at(0) |> Map.get(:stop)
+      assert name == "Starting Point"
+      assert id == "place-sstat"
+    end
+
   end
 
   defp route_mapper("Blue" = id) do

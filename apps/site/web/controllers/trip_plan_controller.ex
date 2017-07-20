@@ -32,7 +32,7 @@ defmodule Site.TripPlanController do
     query = Query.from_query(plan)
     route_map = with_itineraries(query, %{}, &routes_for_query/1)
     route_mapper = &Map.get(route_map, &1)
-    itinerary_row_lists = itinerary_row_lists(query, route_mapper)
+    itinerary_row_lists = itinerary_row_lists(query, route_mapper, plan)
     render conn,
       query: query,
       features: with_itineraries(query, [], &features(&1, route_mapper)),
@@ -76,12 +76,13 @@ defmodule Site.TripPlanController do
     assign(conn, :requires_google_maps?, true)
   end
 
-  def itinerary_row_lists(query, route_mapper) do
-    with_itineraries(query, [], &do_itinerary_row_lists(&1, route_mapper))
+  def itinerary_row_lists(query, route_mapper, plan) do
+    with_itineraries(query, [], &do_itinerary_row_lists(&1, route_mapper, to_and_from(plan)))
   end
 
-  defp do_itinerary_row_lists(itineraries, route_mapper) do
-    Enum.map(itineraries, fn itinerary -> ItineraryRowList.from_itinerary(itinerary, route_mapper: route_mapper) end)
+  defp do_itinerary_row_lists(itineraries, route_mapper, to_from_opts) do
+    opts = Keyword.merge([route_mapper: route_mapper], to_from_opts)
+    Enum.map(itineraries, fn itinerary -> ItineraryRowList.from_itinerary(itinerary, opts) end)
   end
 
   def assign_initial_map(conn, _opts) do
@@ -163,5 +164,10 @@ defmodule Site.TripPlanController do
         route_type: nil
       }
     end)
+  end
+
+  @spec to_and_from(map) :: [to: String.t | nil, from: String.t | nil]
+  def to_and_from(plan) do
+    [to: Map.get(plan, "to"), from: Map.get(plan, "from")]
   end
 end

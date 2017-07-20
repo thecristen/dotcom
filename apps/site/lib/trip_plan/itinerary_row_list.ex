@@ -2,7 +2,9 @@ defmodule Site.TripPlan.ItineraryRowList do
 
   @moduledoc """
   A data structure describing a list of ItineraryRows and
-  the final destination of an itinerary
+  the final destination of an itinerary.
+
+  An optional to and from name can be passed in as options
   """
   alias Site.TripPlan.ItineraryRow
   alias TripPlan.Itinerary
@@ -25,7 +27,7 @@ defmodule Site.TripPlan.ItineraryRowList do
   """
   @spec from_itinerary(Itinerary.t, Keyword.t) :: t
   def from_itinerary(%Itinerary{legs: legs} = itinerary, opts) do
-    %__MODULE__{rows: get_rows(itinerary, opts), destination: get_destination(legs)}
+    %__MODULE__{rows: get_rows(itinerary, opts), destination: get_destination(legs, opts)}
   end
 
   @spec get_rows(Itinerary.t, Keyword.t) :: [ItineraryRow.t]
@@ -34,13 +36,25 @@ defmodule Site.TripPlan.ItineraryRowList do
     |> Enum.concat(itinerary)
     |> Enum.zip(itinerary)
     |> Enum.map(fn {before, current} -> ItineraryRow.from_legs(current, before, opts) end)
+    |> update_from_name(opts[:from])
   end
 
-  @spec get_destination([TripPlan.Leg.t]) :: destination
-  defp get_destination(legs) do
+  @spec get_destination([TripPlan.Leg.t], Keyword.t) :: destination
+  defp get_destination(legs, opts) do
     last_leg = List.last(legs)
     {name, stop_id} = last_leg |> Map.get(:to) |> ItineraryRow.name_from_position()
-    {name, stop_id, last_leg.stop}
+    {destination_name(name, opts[:to]), stop_id, last_leg.stop}
+  end
+
+  @spec destination_name(String.t, String.t | nil) :: String.t
+  defp destination_name(default_name, nil), do: default_name
+  defp destination_name(_default_name, to_name), do: to_name
+
+  @spec update_from_name([ItineraryRow.t], String.t | nil) :: [ItineraryRow.t]
+  defp update_from_name(rows, nil), do: rows
+  defp update_from_name([first_row | rest_rows], from_name) do
+    {_default_name, stop_id} = first_row.stop
+    [%{first_row | stop: {from_name, stop_id}} | rest_rows]
   end
 end
 
