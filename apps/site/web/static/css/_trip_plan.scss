@@ -133,7 +133,7 @@
 }
 
 .itinerary-step {
-  border-bottom: 1px solid $gray-lightest;
+  border-bottom: $border;
   flex: 1 1 0%;
   margin-bottom: $space-6;
   padding-bottom: $space-6;
@@ -147,4 +147,11 @@
 
 .reveal-steps {
   @extend %button-as-link;
+}
+
+.itinerary-step-distance {
+  border-bottom: $border;
+  color: $gray-light;
+  float: right;
+  margin-bottom: $space-6;
 }

@@ -68,6 +68,23 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       intersection = MapSet.intersection(from_stops, intermediate_stops)
       assert Enum.empty?(intersection)
     end
+
+    test "Distance is given with personal steps", %{itinerary: itinerary, opts: opts} do
+      leg = TripPlan.Api.MockPlanner.personal_leg(@from, @to, @date_time, Timex.shift(@date_time, minutes: 15))
+      personal_itinerary = %{itinerary | legs: [leg]}
+      row_list = from_itinerary(personal_itinerary, opts)
+      for {_step, distance} <- Enum.flat_map(row_list, & &1.steps) do
+        assert distance
+      end
+    end
+
+    test "Distance not given for transit steps", %{itinerary_row_list: row_list} do
+      for itinerary_row <- row_list, itinerary_row.transit? do
+        for {_step, distance} <- itinerary_row.steps do
+          refute distance
+        end
+      end
+    end
   end
 
   defp route_mapper("Blue" = id) do

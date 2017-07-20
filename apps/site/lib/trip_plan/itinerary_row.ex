@@ -4,6 +4,7 @@ defmodule Site.TripPlan.ItineraryRow do
   alias Routes.Route
 
   @typep name_and_id :: {String.t, String.t | nil}
+  @typep step :: {String.t, String.t | nil}
 
   @default_opts [
     stop_mapper: &Stops.Repo.get/1,
@@ -28,7 +29,7 @@ defmodule Site.TripPlan.ItineraryRow do
     trip: Schedules.Trip.t | nil,
     arrival: DateTime.t | nil,
     departure: DateTime.t,
-    steps: [String.t]
+    steps: [step]
   }
 
   @type route_mapper :: (Routes.Route.id_t -> Routes.Route.t | nil)
@@ -84,7 +85,7 @@ defmodule Site.TripPlan.ItineraryRow do
   end
   defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, stop_mapper) do
     for {:ok, stop} <- Task.async_stream(stop_ids, stop_mapper), stop do
-      stop.name
+      {stop.name, nil}
     end
   end
 
@@ -97,6 +98,10 @@ defmodule Site.TripPlan.ItineraryRow do
   defp parse_trip_id({:ok, trip_id}, trip_mapper), do: trip_mapper.(trip_id)
 
   defp format_personal_step(step) do
+    {format_personal_step_direction(step), TripPlan.Distance.meters_to_imperial(step.distance)}
+  end
+
+  defp format_personal_step_direction(step) do
     [
       Step.human_relative_direction(step.relative_direction),
       " onto ",
