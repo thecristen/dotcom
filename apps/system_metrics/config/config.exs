@@ -36,7 +36,14 @@ config :system_metrics, :meter, Elixometer
 # Or configure a 3rd-party app:
 #
 #     config :logger, level: :info
-#
+
+config :lager, [
+  log_root: '../../',
+  handlers: [
+    lager_console_backend: :info
+  ],
+  crash_log: false
+]
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment

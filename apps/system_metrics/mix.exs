@@ -20,7 +20,7 @@ defmodule SystemMetrics.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [mod: {SystemMetrics, []},
-     applications: [:sasl, :os_mon, :logger, :elixometer, :exometer_datadog]
+     applications: [:sasl, :os_mon, :lager, :logger, :elixometer, :exometer_datadog]
     ]
   end
 
