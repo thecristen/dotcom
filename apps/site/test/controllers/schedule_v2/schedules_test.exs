@@ -156,6 +156,30 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
     end
   end
 
+  describe "schedules/2" do
+    test "only assigns schedules for the origin-destination that match the provided route id", %{conn: conn} do
+      date = non_holiday_date(Util.service_date())
+      o_d_fn = fn o, d, opts ->
+        assert opts[:date] == date
+        assert opts[:route] == @bus_route.id
+        assert o == "1"
+        assert d == "3"
+        @bus_od_schedules
+      end
+
+      conn =
+      conn
+      |> assign(:date, date)
+      |> assign(:route, @bus_route)
+      |> assign(:direction_id, 0)
+      |> assign(:origin, %Stops.Stop{id: "1"})
+      |> assign(:destination, %Stops.Stop{id: "3"})
+
+      schedules = schedules(conn, o_d_fn)
+      assert schedules == @bus_od_schedules
+    end
+  end
+
   describe "assign_frequency_table/1" do
     test "when schedules are assigned as a list, assigns a frequency table", %{conn: conn} do
       conn = conn

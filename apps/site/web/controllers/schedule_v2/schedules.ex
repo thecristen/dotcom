@@ -24,21 +24,23 @@ defmodule Site.ScheduleV2Controller.Schedules do
     |> assign_frequency_table(schedules)
   end
 
+  def schedules(conn, test_override_lookup_fn \\ nil)
   def schedules(%{assigns: %{
                      date: date,
-                     route: %Routes.Route{type: route_type},
+                     route: %Routes.Route{id: route_id},
                      origin: %Stops.Stop{id: origin_id},
-                     destination: %Stops.Stop{id: destination_id}}}) do
+                     destination: %Stops.Stop{id: destination_id}}},
+                test_override_lookup_fn) do
     # with an origin, destination, we return pairs
-    origin_destination_pairs = Schedules.Repo.origin_destination(origin_id, destination_id, date: date)
-
-    Enum.filter(origin_destination_pairs, &match?({%Schedules.Schedule{route: %{type: ^route_type}}, _}, &1))
+    lookup_fn = test_override_lookup_fn || &Schedules.Repo.origin_destination/3
+    lookup_fn.(origin_id, destination_id, date: date, route: route_id)
   end
   def schedules(%{assigns: %{
                     date: date,
                     route: %Routes.Route{id: route_id},
                     direction_id: direction_id,
-                    origin: %Stops.Stop{id: origin_id}}}) do
+                    origin: %Stops.Stop{id: origin_id}}},
+                _test_override_lookup_fn) do
     # return schedules that stop at the origin
     [route_id]
     |> Schedules.Repo.by_route_ids(stop_ids: [origin_id], date: date, direction_id: direction_id)
