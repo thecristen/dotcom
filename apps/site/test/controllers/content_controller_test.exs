@@ -8,21 +8,22 @@ defmodule Site.ContentControllerTest do
       assert rendered =~ "Accessibility at the T"
     end
 
-    test "renders a basic page with all its paragraphs", %{conn: conn} do
-      conn = get conn, "/accessibility/all-paragraphs"
+    test "renders a basic page", %{conn: conn} do
+      conn = get conn, "/accessibility"
       rendered = html_response(conn, 200)
 
-      assert rendered =~ "<strong>This is a Custom HTML paragraph.</strong>"
-      assert rendered =~ ~s(<div class="title-card-title">Title Card Title</div>)
-      assert_rendered_includes_people_grid_paragraph(rendered)
+      assert rendered =~ "the MBTA is dedicated to providing excellent service to customers of all abilities"
     end
 
     test "renders a landing page with all its paragraphs", %{conn: conn} do
-      conn = get conn, "/denali-national-park"
+      conn = get conn, "/cms/style-guide"
       rendered = html_response(conn, 200)
 
-      assert rendered =~ ~s(<h1 class="landing-page-title">Denali National Park</h1>)
-      assert rendered =~ "<p>Just some little old custom HTML</p>"
+      assert rendered =~ ~s(<h1 class="landing-page-title">Paragraphs Guide</h1>)
+      assert rendered =~ "This paragraph provides the usual WYSIWYG"
+      assert rendered =~ ~s(<div class="title-card-title">Example Card 1</div>)
+      assert rendered =~ ~s(<div class="people-grid-photo">)
+      assert rendered =~ ~s(<p class="event-paragraph-title card-header card-header-primary-darkest text-xs-center">)
     end
 
     test "renders a project update when the CMS returns a Content.ProjectUpdate", %{conn: conn} do
@@ -34,10 +35,5 @@ defmodule Site.ContentControllerTest do
       conn = get conn, "/unknown-path-for-content"
       assert html_response(conn, 404)
     end
-  end
-
-  defp assert_rendered_includes_people_grid_paragraph(rendered) do
-    assert rendered =~ ~s(role="people-grid-paragraph")
-    assert rendered =~ "Ron Swanson"
   end
 end

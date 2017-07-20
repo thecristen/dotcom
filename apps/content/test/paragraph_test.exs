@@ -3,28 +3,31 @@ defmodule Content.ParagraphTest do
 
   import Content.FixtureHelpers
   import Content.Paragraph
+  import Phoenix.HTML, only: [safe_to_string: 1]
 
   describe "from_api/1" do
     test "parses custom html" do
       api_data = api_paragraph("custom_html")
 
-      assert from_api(api_data) == %Content.Paragraph.CustomHTML{
-        body: Phoenix.HTML.raw("<p><strong>This is a Custom HTML paragraph.</strong></p>")
-      }
+      assert %Content.Paragraph.CustomHTML{
+        body: body
+      } = from_api(api_data)
+
+      assert safe_to_string(body) =~ ~s(This page demonstrates all the "paragraphs" available)
     end
 
     test "parses title card set" do
       api_data = api_paragraph("title_card_set")
 
-      assert from_api(api_data) == %Content.Paragraph.TitleCardSet{
+      assert %Content.Paragraph.TitleCardSet{
         title_cards: [
-          %Content.Paragraph.TitleCard{
-            title: "Title Card Title",
-            body: Phoenix.HTML.raw("<p>Title Card <strong>BODY</strong></p>"),
-            link: "/some/internal/link"
-          }
+          %Content.Paragraph.TitleCard{} = title_card1,
+          %Content.Paragraph.TitleCard{}
         ]
-      }
+      } = from_api(api_data)
+
+      assert title_card1.title == "Example Card 1"
+      assert safe_to_string(title_card1.body) =~ "<p>The body of the title card"
     end
 
     test "parses upcoming board meetings" do
@@ -43,8 +46,9 @@ defmodule Content.ParagraphTest do
 
       assert %Content.Paragraph.PeopleGrid{
         people: [
-          %Content.Person{id: 1},
-          %Content.Person{id: 2}
+          %Content.Person{id: 2605},
+          %Content.Person{id: 2610},
+          %Content.Person{id: 2609},
         ]
       } = from_api(api_data)
     end
