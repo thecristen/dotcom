@@ -1,7 +1,6 @@
 defmodule Site.MapHelpers do
   alias Routes.Route
   alias GoogleMaps.MapData.Marker
-  import Site.Router.Helpers
 
   @spec map_pdf_url(integer | atom) :: String.t | nil
   def map_pdf_url(mode_number) when mode_number in 0..4 do
