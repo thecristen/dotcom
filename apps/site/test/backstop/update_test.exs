@@ -31,9 +31,9 @@ defmodule Backstop.UpdateTest do
 
   describe "destination_path/1" do
     test "finds the path for the file in the reference directory" do
-      expected = "#{File.cwd!}/apps/site/backstop_data/bitmaps_reference/filename.png"
+      expected = "#{File.cwd!}/apps/site/test/backstop_data/bitmaps_reference/filename.png"
       actual = destination_path(
-        "apps/site/backstop_data/bitmaps_test/20170626-110918/filename.png")
+        "apps/site/test/backstop_data/bitmaps_test/20170626-110918/filename.png")
       assert actual == expected
     end
   end

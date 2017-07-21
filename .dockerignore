@@ -18,6 +18,6 @@ deploy.sh
 .semaphore-cache
 apps/site/node_modules
 apps/site/vendor/nodep-date-input-polyfill/node_modules
-apps/site/backstop_data
+apps/site/test/backstop_data
 aws
 site-build.zip

@@ -79,7 +79,7 @@ defmodule Backstop.ServersTest do
 
   test "wiremock command uses :wiremock_path config" do
     Application.put_env(:site, :wiremock_path, "path/to/wiremock")
-    assert Backstop.Servers.Wiremock.command(%{}) == "java -jar path/to/wiremock"
-    assert Backstop.Servers.Wiremock.command(%{dev: true}) == "java -jar path/to/wiremock"
+    assert Backstop.Servers.Wiremock.command(%{}) == "java -jar path/to/wiremock --root-dir=test"
+    assert Backstop.Servers.Wiremock.command(%{dev: true}) == "java -jar path/to/wiremock --root-dir=test"
   end
 end

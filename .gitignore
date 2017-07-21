@@ -11,8 +11,8 @@ erl_crash.dump
 .elasticbeanstalk/*
 !.elasticbeanstalk/config.yml
 /site-build.zip
-/apps/site/backstop_data/bitmaps_test
-/apps/site/backstop_data/html_report
+/apps/site/test/backstop_data/bitmaps_test
+/apps/site/test/backstop_data/html_report
 npm-debug.log
 /apps/news/posts.zip
 bin

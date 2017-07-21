@@ -318,6 +318,7 @@ defmodule Mix.Tasks.Backstop.Tests do
     :site
     |> Application.app_dir()
     |> String.replace("_build/#{Mix.env}/lib", "apps")
+    |> Path.join("test")
     |> Path.join(file_name)
   end
 

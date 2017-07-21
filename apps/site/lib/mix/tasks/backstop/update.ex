@@ -7,7 +7,7 @@ defmodule Mix.Tasks.Backstop.Update do
   they should be a list of filenames to update.
   """
 
-  @reference_dir "apps/site/backstop_data/bitmaps_test"
+  @reference_dir "apps/site/test/backstop_data/bitmaps_test"
 
   def run(files) do
     test_dir = latest_test_dir()

@@ -242,7 +242,7 @@ defmodule Backstop.Servers.Wiremock do
     :ok = ["starting Wiremock with pid ", inspect self()]
     |> Backstop.Servers.log(__MODULE__)
 
-    "java -jar #{Application.get_env(:site, :wiremock_path)}"
+    "java -jar #{Application.get_env(:site, :wiremock_path)} --root-dir=test"
   end
 
   @impl true
