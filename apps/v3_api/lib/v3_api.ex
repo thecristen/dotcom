@@ -1,19 +1,31 @@
 defmodule V3Api do
   use HTTPoison.Base
   require Logger
+  import V3Api.SentryExtra
 
   @spec get_json(String.t, Keyword.t) :: JsonApi.t | {:error, any}
   def get_json(url, params \\ [], opts \\ []) do
     _ = Logger.debug("V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}")
+    body = ""
     with opts = Keyword.merge(default_options(), opts),
          {time, response} <- timed_get(url, params, opts),
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
          {:ok, body} <- body(http_response) do
-      JsonApi.parse(body)
+      data = JsonApi.parse(body)
+      case data do
+        {:error, _} ->
+          _ = log_reponse_error(url, params, body)
+          data
+        _ -> data
+      end
     else
-      {:error, error} -> {:error, error}
-      error -> {:error, error}
+      {:error, error} ->
+        _ = log_reponse_error(url, params, body)
+        {:error, error}
+      error ->
+        _ = log_reponse_error(url, params, body)
+        {:error, error}
     end
   end
 
@@ -30,11 +42,24 @@ defmodule V3Api do
     {time, response}
   end
 
+  @spec log_response(String.t, Keyword.t, integer, any) :: :ok
   defp log_response(url, params, time, response) do
-    _ = Logger.info("V3Api.get_json_response url=#{url} " <>
+    entry = "V3Api.get_json_response url=#{url} " <>
       "params=#{params |> Map.new |> Poison.encode!} " <>
       log_body(response) <>
-      " duration=#{time / 1000}")
+      " duration=#{time / 1000}"
+    log_context("api-response", entry)
+    _ = Logger.info(entry)
+    :ok
+  end
+
+  @spec log_reponse_error(String.t, Keyword.t, String.t) :: :ok
+  defp log_reponse_error(url, params, body) do
+    entry = "V3Api.get_json_response url=#{url} " <>
+      "params=#{params |> Map.new |> Poison.encode!} " <>
+      body
+      log_context("api-response-error", entry)
+      _ = Logger.info(entry)
     :ok
   end
 

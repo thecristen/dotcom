@@ -1,0 +1,38 @@
+defmodule V3Api.SentryExtra do
+  @moduledoc """
+  log up to 50 messages of "extra context" when using the Sentry error message log service
+  """
+
+  @process_dictionary_key :sentry_context
+  @process_dictionary_count 0
+  @process_dictionary_max 50
+
+  @spec log_context(String.t, String.t) :: nil
+  def log_context(entry_type, data) do
+    count = set_dictionary_count(get_dictionary_count())
+    Sentry.Context.set_extra_context(%{"#{entry_type}-#{count}" => data})
+  end
+
+  @spec get_dictionary_count() :: integer
+  defp get_dictionary_count() do
+    Process.get(@process_dictionary_count) || 0
+  end
+
+  @spec set_dictionary_count(integer) :: integer
+  defp set_dictionary_count(count) do
+    next_count = if count == @process_dictionary_max do
+      purge_dictionary()
+    else
+      count + 1
+    end
+    Process.put(@process_dictionary_count, next_count)
+    next_count
+  end
+
+  @spec purge_dictionary() :: integer
+  defp purge_dictionary() do
+    Process.put(@process_dictionary_key, %{})
+    0
+  end
+
+end
