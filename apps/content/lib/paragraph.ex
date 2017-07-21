@@ -14,9 +14,6 @@ defmodule Content.Paragraph do
   * Add that type to Content.Paragraph.t here.
   * Update this module's from_api/1 function to dispatch to the MyPara.from_api
   * Update Site.ContentView.render_paragraph/1 to display it.
-  * Update the Site.ContentControllerTest test for "renders a landing page with
-    all its paragraphs" to include content from the paragraph put in
-    cms/style-guide/paragraphs.json
   * Update Content.ParagraphTest to ensure it is parsed correctly
   * Update Site.ContentViewTest to ensure it is rendered correctly
   * After the code is merged and deployed, update /cms/style-guide/paragraphs
