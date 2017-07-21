@@ -47,7 +47,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
 
   @spec dynamic_map_data(String.t, [String.t], {[Stops.Stop.t], any}, {[String.t], map(), String.t}) :: MapData.t
   def dynamic_map_data(color, map_polylines, {stops, _shapes}, {vehicle_polylines, vehicle_tooltips, vehicle_icon}) do
-    stop_icon = static_url(Site.Endpoint, "/images/map-#{color}-dot-icon.png")
+    stop_icon = "#{color}-dot"
     markers = dynamic_markers(stops, stop_icon, vehicle_tooltips, vehicle_icon)
     paths = dynamic_paths(color, map_polylines, vehicle_polylines)
 
@@ -100,7 +100,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
     color = MapHelpers.route_map_color(route)
     map_polylines = map_polylines(map_stops, route)
     static_data = map_img_src(map_stops, map_polylines, route, color)
-    vehicle_icon = static_url(Site.Endpoint, "/images/map-#{vehicle_atom(route.type)}-vehicle-icon.png")
+    vehicle_icon = "#{vehicle_atom(route.type)}-vehicle"
     vehicle_data = {vehicle_polylines, vehicle_tooltips, vehicle_icon}
     dynamic_data = dynamic_map_data(color, map_polylines, map_stops, vehicle_data)
     {static_data, dynamic_data}
