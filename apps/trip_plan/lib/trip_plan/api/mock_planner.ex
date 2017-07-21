@@ -63,7 +63,6 @@ defmodule TripPlan.Api.MockPlanner do
       to: to,
       mode: %PersonalDetail{
         distance: distance,
-        type: Enum.random(~w(walk drive)a),
         steps: [random_step(), random_step()]
       }
     }

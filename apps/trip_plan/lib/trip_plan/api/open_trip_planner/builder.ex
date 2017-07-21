@@ -22,21 +22,6 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
     acc = put_in acc["maxWalkDistance"], "#{meters}"
     do_build_params(rest, acc)
   end
-  defp do_build_params([{:personal_mode, mode} | rest], acc) do
-    acc = case mode do
-            :drive ->
-              # disableRemainingWeightHeuristic prevents OTP from minimizing
-              # the driving distance (first leg) at the expense of walking
-              # distance (second leg) -ps
-              acc
-              |> Map.put("mode", "#{OTP.config(:car_mode)},WALK,TRANSIT")
-              |> Map.put_new("disableRemainingWeightHeuristic", "true")
-
-            :walk ->
-              Map.put(acc, "mode", "WALK,TRANSIT")
-          end
-    do_build_params(rest, acc)
-  end
   defp do_build_params([{:depart_at, %DateTime{} = datetime} | rest], acc) do
     local = Timex.to_datetime(datetime, OTP.config(:timezone))
     date = Timex.format!(local, "{ISOdate}")

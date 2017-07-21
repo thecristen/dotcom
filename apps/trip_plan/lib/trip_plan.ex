@@ -7,7 +7,6 @@ defmodule TripPlan do
   # Default options for the plans
   @default_opts [
     max_walk_distance: 805, # ~0.5 miles
-    personal_mode: :walk
   ]
 
   @doc """

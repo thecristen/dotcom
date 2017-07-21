@@ -82,20 +82,7 @@ defmodule Site.TripPlan.QueryTest do
       from_query(params)
       assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
       assert opts[:depart_at] == @date_time
-      assert opts[:personal_mode] == :walk
       assert opts[:wheelchair_accessible?]
-    end
-
-    test "can arrive by a particular time with driving" do
-      params = %{"from" => "from address",
-                 "to" => "to address",
-                 "time" => "arrive",
-                 "date_time" => @date_time_param,
-                 "include_car?" => "true"}
-      from_query(params)
-      assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
-      assert opts[:arrive_by] == @date_time
-      assert opts[:personal_mode] == :drive
     end
 
     test "does not plan a trip if we fail to geocode" do

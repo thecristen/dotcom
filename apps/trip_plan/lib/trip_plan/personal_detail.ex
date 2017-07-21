@@ -3,12 +3,10 @@ defmodule TripPlan.PersonalDetail do
   Additional information for legs which are taken on personal transportation
   """
   defstruct [
-    type: :walk,
     distance: 0.0,
     steps: []
   ]
   @type t :: %__MODULE__{
-    type: TripPlan.Api.personal_mode,
     distance: float,
     steps: [__MODULE__.Step.t]
   }

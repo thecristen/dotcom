@@ -2,7 +2,6 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   alias TripPlan.Api.OpenTripPlanner, as: OTP
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, PersonalDetail.Step, TransitDetail}
 
-  @personal_modes ~w(WALK CAR)s
   @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
 
   @doc """
@@ -73,13 +72,8 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     }
   end
 
-  defp parse_mode(%{"mode" => mode} = json) when mode in @personal_modes do
-    type = case mode do
-             "WALK" -> :walk
-             "CAR" -> :drive
-           end
+  defp parse_mode(%{"mode" => "WALK"} = json) do
     %PersonalDetail{
-      type: type,
       distance: json["distance"],
       steps: Enum.map(json["steps"], &parse_step/1)
     }

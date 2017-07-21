@@ -27,10 +27,7 @@ defmodule Site.TripPlan.LegFeatureTest do
     test "works for all kinds of personal legs" do
       for _ <- 0..5 do
         personal_leg = MockPlanner.personal_leg(@from, @to, @start, @stop)
-        expected_icon = case personal_leg.mode.type do
-                          :walk -> svg("walk.svg")
-                          :drive -> svg("car.svg")
-                        end
+        expected_icon = svg("walk.svg")
         feature = leg_feature(personal_leg, [])
         assert safe_to_string(feature) =~ safe_to_string(expected_icon)
       end

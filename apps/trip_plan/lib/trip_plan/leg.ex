@@ -2,7 +2,7 @@ defmodule TripPlan.Leg do
   @moduledoc """
   A single-mode part of an Itinerary
 
-  An Itinerary can take multiple modes of transportation (car, walk, bus,
+  An Itinerary can take multiple modes of transportation (walk, bus,
   train, &c). Leg represents a single mode of travel during journey.
   """
   alias TripPlan.{PersonalDetail, TransitDetail}

@@ -28,10 +28,7 @@ defmodule Site.TripPlan.LegFeature do
     |> Routes.Route.icon_atom
     svg_icon_with_circle(%SvgIconWithCircle{icon: icon, class: "icon-small"})
   end
-  def leg_feature(%Leg{mode: %PersonalDetail{type: :walk}}, _) do
+  def leg_feature(%Leg{mode: %PersonalDetail{}}, _) do
     svg("walk.svg")
-  end
-  def leg_feature(%Leg{mode: %PersonalDetail{type: :drive}}, _) do
-    svg("car.svg")
   end
 end

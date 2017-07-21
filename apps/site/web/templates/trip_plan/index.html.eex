@@ -34,12 +34,6 @@
       <%= hidden_input :plan, :to_longitude %>
     </div>
     <div class="form-group">
-      <%= label f, :include_car? do %>
-        <%= checkbox f, :include_car?, id: "drive" %>
-        Include car directions
-      <% end %>
-    </div>
-    <div class="form-group">
       <%= label :f, :time, for: "depart" do %>
         <%= radio_button f, :time, "depart", id: "depart", checked: true%>
         Depart At
