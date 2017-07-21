@@ -1,5 +1,6 @@
 defmodule Site.TripPlan.MapTest do
   use ExUnit.Case, async: true
+  alias Stops.Position
   alias TripPlan.Itinerary
   import Site.TripPlan.Map
 
@@ -34,6 +35,28 @@ defmodule Site.TripPlan.MapTest do
       assert [_route_id] = Itinerary.route_ids(itinerary)
       assert markers_with_z_index(0, map_data.markers) == 2
       assert markers_with_z_index(1, map_data.markers) == 2
+    end
+
+    test "prepends the 'from' and appends the 'to' locations to the polyline",
+         %{itinerary: itinerary, map_data: map_data} do
+
+      polylines = Enum.map(map_data.paths, &Polyline.decode(&1.polyline))
+      o_d_pairs = Enum.map(itinerary.legs, fn %{from: from, to: to} ->
+        {{Position.longitude(from), Position.latitude(from)},
+         {Position.longitude(to), Position.latitude(to)}}
+      end)
+
+      assert Enum.count(polylines) == Enum.count(itinerary.legs)
+      for {line, {from, to}} <- Enum.zip(polylines, o_d_pairs) do
+        {from_lon, from_lat} = from
+        {to_lon, to_lat} = to
+        {lon_1, lat_1} = List.first(line)
+        {lon_2, lat_2} = List.last(line)
+        assert_in_delta from_lon, lon_1, 0.00001
+        assert_in_delta from_lat, lat_1, 0.00001
+        assert_in_delta to_lon, lon_2, 0.00001
+        assert_in_delta to_lat, lat_2, 0.00001
+      end
     end
   end
 

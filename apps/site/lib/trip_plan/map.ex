@@ -60,7 +60,21 @@ defmodule Site.TripPlan.Map do
   @spec build_leg_path(Leg.t, route_mapper) :: Path.t
   defp build_leg_path(leg, route_mapper) do
     color = leg_color(leg, route_mapper)
-    Path.new(leg.polyline, color)
+
+    leg.polyline
+    |> extend_to_endpoints(leg)
+    |> Path.new(color)
+  end
+
+  @spec extend_to_endpoints(String.t, Leg.t) :: String.t
+  defp extend_to_endpoints(polyline, leg) do
+    from = {Position.longitude(leg.from), Position.latitude(leg.from)}
+    to = {Position.longitude(leg.to), Position.latitude(leg.to)}
+
+    polyline
+    |> Polyline.decode
+    |> (fn line -> Enum.concat([[from], line, [to]]) end).()
+    |> Polyline.encode
   end
 
   @spec markers_for_legs(Itinerary.t, Keyword.t) :: [Marker.t]
