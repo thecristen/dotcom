@@ -15,8 +15,9 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     end
   end
 
-  def parse_map(%{"error" => %{"message" => error_message}}) do
-    {:error, error_message_atom(error_message)}
+  def parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
+    accessible? = params["wheelchair"] == "true"
+    {:error, error_message_atom(error_message, accessible?: accessible?)}
   end
   def parse_map(json) do
     {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary/1)}
@@ -28,13 +29,14 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     itineraries
   end
 
-  defp error_message_atom("OUTSIDE_BOUNDS"), do: :outside_bounds
-  defp error_message_atom("REQUEST_TIMEOUT"), do: :timeout
-  defp error_message_atom("NO_TRANSIT_TIMES"), do: :no_transit_times
-  defp error_message_atom("TOO_CLOSE"), do: :too_close
-  defp error_message_atom("PATH_NOT_FOUND"), do: :path_not_found
-  defp error_message_atom("LOCATION_NOT_ACCESSIBLE"), do: :location_not_accessible
-  defp error_message_atom(_), do: :unknown
+  defp error_message_atom("OUTSIDE_BOUNDS", _opts), do: :outside_bounds
+  defp error_message_atom("REQUEST_TIMEOUT", _opts), do: :timeout
+  defp error_message_atom("NO_TRANSIT_TIMES", _opts), do: :no_transit_times
+  defp error_message_atom("TOO_CLOSE", _opts), do: :too_close
+  defp error_message_atom("PATH_NOT_FOUND", [accessible?: true]), do: :location_not_accessible
+  defp error_message_atom("PATH_NOT_FOUND", [accessible?: false]), do: :path_not_found
+  defp error_message_atom("LOCATION_NOT_ACCESSIBLE", _opts), do: :location_not_accessible
+  defp error_message_atom(_, _opts), do: :unknown
 
   defp parse_itinerary(json) do
     %Itinerary{

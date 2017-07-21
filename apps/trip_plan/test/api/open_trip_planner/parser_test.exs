@@ -81,5 +81,19 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
         70018
       )
     end
+
+    test "parses path_not_found error as location_not_accessible when accessiblity is checked" do
+      decoded_json = %{"error" =>  %{"message" =>  "PATH_NOT_FOUND"}, "requestParameters" => %{"wheelchair" => "true"}}
+      {:ok, json} = Poison.encode(decoded_json)
+      parsed_json = parse_json(json)
+      assert parsed_json == {:error, :location_not_accessible}
+    end
+
+    test "parses path_not_found error as normally when accessibility is not checked" do
+      decoded_json = %{"error" =>  %{"message" =>  "PATH_NOT_FOUND"}, "requestParameters" => %{}}
+      {:ok, json} = Poison.encode(decoded_json)
+      parsed_json = parse_json(json)
+      assert parsed_json == {:error, :path_not_found}
+    end
   end
 end
