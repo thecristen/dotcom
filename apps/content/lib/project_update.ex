@@ -17,7 +17,7 @@ defmodule Content.ProjectUpdate do
     photo_gallery: [Content.Field.Image.t],
     updated_at: DateTime.t | nil,
     status: String.t | nil,
-    downloads: [Content.Field.Download.t]
+    downloads: [Content.Field.File.t]
   }
 
   @spec from_api(map) :: t
@@ -41,6 +41,6 @@ defmodule Content.ProjectUpdate do
 
   defp parse_downloads(data) do
     data["field_downloads"]
-    |> Enum.map(&Content.Field.Download.from_api/1)
+    |> Enum.map(&Content.Field.File.from_api/1)
   end
 end

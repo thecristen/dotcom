@@ -31,7 +31,7 @@ defmodule Content.CMS.Static do
   end
 
   def all_paragraphs_response do
-    parse_json("accessibility/all-paragraphs.json")
+    parse_json("cms/style-guide/paragraphs.json")
   end
 
   def landing_page_response do
@@ -98,7 +98,7 @@ defmodule Content.CMS.Static do
   def view("/important-notices", _) do
     {:ok, important_notices_response()}
   end
-  def view("/accessibility/all-paragraphs", _) do
+  def view("/cms/style-guide", _) do
     {:ok, all_paragraphs_response()}
   end
   def view("/denali-national-park", _) do

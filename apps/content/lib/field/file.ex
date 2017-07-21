@@ -1,8 +1,8 @@
-defmodule Content.Field.Download do
+defmodule Content.Field.File do
   import Content.Helpers, only: [rewrite_url: 1]
 
   @moduledoc """
-  Represents a downloadable file field in the Drupal CMS. This field is embedded
+  Represents a file field in the Drupal CMS. This field is embedded
   in other drupal content types, like Content.ProjectUpdate.
   """
 
@@ -15,7 +15,7 @@ defmodule Content.Field.Download do
   }
 
   @spec from_api(map) :: t
-  def from_api(%{"description" => description, "url" => url, "target_type" => type}) do
+  def from_api(%{"description" => description, "url" => url, "mime_type" => type}) do
     %__MODULE__{
       description: description,
       url: rewrite_url(url),

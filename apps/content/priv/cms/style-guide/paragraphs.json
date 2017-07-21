@@ -1,0 +1,1670 @@
+{
+  "nid": [
+    {
+      "value": 2617
+    }
+  ],
+  "uuid": [
+    {
+      "value": "79ea2bbb-056f-4dc1-9066-a84f7ee65774"
+    }
+  ],
+  "vid": [
+    {
+      "value": 3277
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "landing_page",
+      "target_type": "node_type",
+      "target_uuid": "500bbc7e-2905-492c-9af7-54e00563553c"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Paragraphs Guide"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "\/user\/12"
+    }
+  ],
+  "created": [
+    {
+      "value": 1500580123
+    }
+  ],
+  "changed": [
+    {
+      "value": 1500585132
+    }
+  ],
+  "promote": [
+    {
+      "value": true
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1500585132
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "\/user\/12"
+    }
+  ],
+  "revision_log": [
+
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "path": [
+    {
+      "alias": "\/cms\/style-guide\/paragraphs",
+      "pid": 89,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [
+
+  ],
+  "unpublish_on": [
+
+  ],
+  "menu_link": [
+
+  ],
+  "field_hero_image_desktop": [
+    {
+      "target_id": 183,
+      "alt": "",
+      "title": "",
+      "width": 3000,
+      "height": 322,
+      "target_type": "file",
+      "target_uuid": "49ca225a-0dbc-455e-b131-90fd7f38b87c",
+      "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/bigblue_0.jpg",
+      "mime_type": "image\/jpeg"
+    }
+  ],
+  "field_hero_image_mobile": [
+    {
+      "target_id": 185,
+      "alt": "",
+      "title": "",
+      "width": 800,
+      "height": 245,
+      "target_type": "file",
+      "target_uuid": "7aabc724-1981-487b-a898-440b843d2b82",
+      "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/smallblue_2.jpg",
+      "mime_type": "image\/jpeg"
+    }
+  ],
+  "field_hero_image_mobile_2x": [
+    {
+      "target_id": 184,
+      "alt": "",
+      "title": "",
+      "width": 1600,
+      "height": 490,
+      "target_type": "file",
+      "target_uuid": "b45495b3-7506-4ec9-a4f4-1790b80db7b3",
+      "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/smallblue_1.jpg",
+      "mime_type": "image\/jpeg"
+    }
+  ],
+  "field_page_type": [
+    {
+      "target_id": 14,
+      "target_type": "taxonomy_term",
+      "target_uuid": "d0f82cb4-bb4a-4eab-8796-2bd8565a3f78",
+      "url": "\/taxonomy\/term\/14"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 35,
+      "target_revision_id": 359,
+      "id": [
+        {
+          "value": 35
+        }
+      ],
+      "uuid": [
+        {
+          "value": "c968874d-7502-4e55-8143-8af87b0a2aaa"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 359
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580198
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page<\/strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.<\/p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML<\/a><\/li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set<\/a><\/li>\r\n\t<li><a href=\"#people-grid\">People Grid<\/a><\/li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting<\/a><\/li>\r\n\t<li><a href=\"#files-grid\">Files Grid<\/a><\/li>\r\n<\/ul>\r\n",
+          "format": "basic_html"
+        }
+      ]
+    },
+    {
+      "target_id": 36,
+      "target_revision_id": 360,
+      "id": [
+        {
+          "value": 36
+        }
+      ],
+      "uuid": [
+        {
+          "value": "193d71e3-5966-4de9-80ff-2b45474783aa"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 360
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580232
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr \/>\r\n<h3 id=\"custom-html\">Custom HTML<\/h3>\r\n\r\n<p>This paragraph provides the usual WYSIWYG editor (see the <a href=\"\/cms\/style-guide\">Style Guide<\/a>&nbsp;for tips on using the editor). Its main purpose is to intersperse content between other types of paragraphs.<\/p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 37,
+      "target_revision_id": 361,
+      "id": [
+        {
+          "value": 37
+        }
+      ],
+      "uuid": [
+        {
+          "value": "8ee693aa-afd7-42a3-b330-7a0ff0dd6734"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 361
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580272
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr \/>\r\n<h3 id=\"title-card-set\">Title Card Set<\/h3>\r\n\r\n<p>After you add the \"Title Card Set\" paragraph, you can add an unlimited number of \"Title Cards\" within, each of which have a header, some body copy, and a link. These are great on \"hub pages\" that link to a number of sub pages. They will be broken up into rows of two each on desktop, or stacked vertically on mobile. An odd number of cards will result in one of the cards being by itself, but its width will be the usual width (i.e.: not stretched across the page).<\/p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 40,
+      "target_revision_id": 364,
+      "id": [
+        {
+          "value": 40
+        }
+      ],
+      "uuid": [
+        {
+          "value": "24975dec-59cd-42d7-a623-4df8e0e67d23"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 364
+        }
+      ],
+      "type": [
+        {
+          "target_id": "title_card_set",
+          "target_type": "paragraphs_type",
+          "target_uuid": "a656c88e-ebec-4c27-bd8c-6f0924dde9b0"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580291
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_title_cards": [
+        {
+          "target_id": 38,
+          "target_revision_id": 362,
+          "id": [
+            {
+              "value": 38
+            }
+          ],
+          "uuid": [
+            {
+              "value": "9409f638-30e0-4a26-b0dc-6393fa59db24"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 362
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 12,
+              "target_type": "user",
+              "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+              "url": "\/user\/12"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1500580291
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 12,
+              "target_type": "user",
+              "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+              "url": "\/user\/12"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "40"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_title_card_body": [
+            {
+              "value": "<p>The body of the title card can be anything, but usually it's just a few sentences or maybe a bulleted list. This card just links back to this very same page, but it can link internally or externally.<\/p>\r\n",
+              "format": "basic_html"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "internal:\/cms\/style-guide\/paragraphs",
+              "title": "",
+              "options": [
+
+              ]
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Example Card 1"
+            }
+          ]
+        },
+        {
+          "target_id": 39,
+          "target_revision_id": 363,
+          "id": [
+            {
+              "value": 39
+            }
+          ],
+          "uuid": [
+            {
+              "value": "f57919b7-608f-4cfb-86ac-8e47cb92926f"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 363
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 12,
+              "target_type": "user",
+              "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+              "url": "\/user\/12"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1500580325
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 12,
+              "target_type": "user",
+              "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+              "url": "\/user\/12"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "40"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_title_card_body": [
+            {
+              "value": "<p>Another great use of cards is lists:<\/p>\r\n\r\n<ul>\r\n\t<li>List item 1<\/li>\r\n\t<li>List item 2<\/li>\r\n\t<li>List item 3<\/li>\r\n<\/ul>\r\n",
+              "format": "basic_html"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "https:\/\/www.google.com",
+              "title": "",
+              "options": [
+
+              ]
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Example Card 2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 41,
+      "target_revision_id": 365,
+      "id": [
+        {
+          "value": 41
+        }
+      ],
+      "uuid": [
+        {
+          "value": "a78bd6c2-770d-4101-aa2e-8cdded47f872"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 365
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580346
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr \/>\r\n<h3 id=\"people-grid\">People Grid<\/h3>\r\n\r\n<p>To display a person in the \"People Grid\" they must first be added to the CMS via the \"Person\" content type. (Content -&gt; Add content -&gt; Person from the CMS dashboard.)<\/p>\r\n\r\n<p>If there are one or two people in the grid, then their pictures will be larger and they'll split the page 50\/50 on desktop and be stacked on mobile. Three or more people will result in smaller pictures that arrange themselves three-to-a-row on desktop, 50\/50 on tablet, and stacked on mobile.<\/p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 42,
+      "target_revision_id": 366,
+      "id": [
+        {
+          "value": 42
+        }
+      ],
+      "uuid": [
+        {
+          "value": "df65bdb7-f5ae-4b7c-8ce3-bc095c249d94"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 366
+        }
+      ],
+      "type": [
+        {
+          "target_id": "people_grid",
+          "target_type": "paragraphs_type",
+          "target_uuid": "c37f5d05-21d6-4066-8fdc-d025686f820e"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580369
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_people": [
+        {
+          "nid": [
+            {
+              "value": 2605
+            }
+          ],
+          "uuid": [
+            {
+              "value": "8118007d-e2ad-44ae-b36c-91c20724b4ea"
+            }
+          ],
+          "vid": [
+            {
+              "value": 3253
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "person",
+              "target_type": "node_type",
+              "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "title": [
+            {
+              "value": "Steve Poftak"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "\/user\/17"
+            }
+          ],
+          "created": [
+            {
+              "value": 1500468551
+            }
+          ],
+          "changed": [
+            {
+              "value": 1500557469
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1500557469
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "\/user\/17"
+            }
+          ],
+          "revision_log": [
+
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "path": [
+            {
+              "alias": "\/people\/steve-poftak"
+            }
+          ],
+          "publish_on": [
+
+          ],
+          "unpublish_on": [
+
+          ],
+          "menu_link": [
+
+          ],
+          "field_bio": [
+            {
+              "value": "<p dir=\"ltr\">Steve Poftak is Interim General Manager of the MBTA while on leave from his position as the Executive Director of the Rappaport Institute for Greater Boston at the Harvard Kennedy School. He has served as the Vice-Chair of the MBTA's Fiscal Management and Control Board, as well as serving on the MassDOT Board of Directors. Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Poftak holds an M.B.A. from the Olin School at Babson College and a B.A. in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.<\/p>\r\n",
+              "format": "basic_html",
+              "summary": ""
+            }
+          ],
+          "field_position": [
+            {
+              "value": "Interim General Manager",
+              "format": "basic_html"
+            }
+          ],
+          "field_profile_image": [
+            {
+              "target_id": 115,
+              "alt": "Steve Poftak",
+              "title": "",
+              "width": 125,
+              "height": 175,
+              "target_type": "file",
+              "target_uuid": "8e0d8d2a-f4c1-47d1-b53a-9e6257f483bb",
+              "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/Leadership\/StevePoftakProfile%20%281%29.jpg",
+              "mime_type": "image\/jpeg"
+            }
+          ]
+        },
+        {
+          "nid": [
+            {
+              "value": 2610
+            }
+          ],
+          "uuid": [
+            {
+              "value": "c2c2c7b4-0e07-44cf-b3a4-141dd63d64ff"
+            }
+          ],
+          "vid": [
+            {
+              "value": 3233
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "person",
+              "target_type": "node_type",
+              "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "title": [
+            {
+              "value": "Monica Tibbits-Nutt"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "\/user\/17"
+            }
+          ],
+          "created": [
+            {
+              "value": 1500469107
+            }
+          ],
+          "changed": [
+            {
+              "value": 1500469145
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1500469145
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "\/user\/17"
+            }
+          ],
+          "revision_log": [
+
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "path": [
+            {
+              "alias": "\/people\/monica-tibbits-nutt"
+            }
+          ],
+          "publish_on": [
+
+          ],
+          "unpublish_on": [
+
+          ],
+          "menu_link": [
+
+          ],
+          "field_bio": [
+            {
+              "value": "<p dir=\"ltr\">Monica Tibbits-Nutt is the Executive Director of the 128 Business Council where she has worked since 2010, advising communities in the 128 Corridor in transit planning and overseeing the operation of 12 shuttle routes with nearly half a million in annual ridership. Tibbits-Nutt also has experience with the MBTA, where she served as a Transportation Planning Consultant to the MBTA Advisory Board, and as Executive Director and Transportation Planner for TransitWorks, providing research evaluation for the MBTA and Secretary of Transportation. She holds a B.S. from the University of Southern Indiana and a Masters of City and Regional Planning from Ohio State University.<\/p>\r\n",
+              "format": "basic_html",
+              "summary": ""
+            }
+          ],
+          "field_position": [
+            {
+              "value": "Member",
+              "format": "basic_html"
+            }
+          ],
+          "field_profile_image": [
+            {
+              "target_id": 114,
+              "alt": "Monica Tibbits-Nutt",
+              "title": "",
+              "width": 125,
+              "height": 161,
+              "target_type": "file",
+              "target_uuid": "cb682ab1-a891-4401-a6a3-a086c3cf1e4c",
+              "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/Leadership\/Tibbits-NuttMonicaBio%20%281%29.jpg",
+              "mime_type": "image\/jpeg"
+            }
+          ]
+        },
+        {
+          "nid": [
+            {
+              "value": 2609
+            }
+          ],
+          "uuid": [
+            {
+              "value": "042d3b70-ea86-49fa-8570-bb4ac1fe0423"
+            }
+          ],
+          "vid": [
+            {
+              "value": 3252
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "person",
+              "target_type": "node_type",
+              "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "title": [
+            {
+              "value": "Brian Shortsleeve"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "\/user\/17"
+            }
+          ],
+          "created": [
+            {
+              "value": 1500468965
+            }
+          ],
+          "changed": [
+            {
+              "value": 1500557344
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1500557344
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "\/user\/17"
+            }
+          ],
+          "revision_log": [
+
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "path": [
+            {
+              "alias": "\/people\/brian-shortsleeve"
+            }
+          ],
+          "publish_on": [
+
+          ],
+          "unpublish_on": [
+
+          ],
+          "menu_link": [
+
+          ],
+          "field_bio": [
+            {
+              "value": "<p dir=\"ltr\">Brian Shortsleeve is the MBTA's first-ever Chief Administrator. He joined the MBTA at the time of the creation of Fiscal and Management Control Board in July 2015 with a focus on developing and implementing a strategy to put the T on a path to fiscal sustainability. Brian is a Massachusetts native and Harvard Business School graduate who has more than 20 years of leadership experience in the public and private sectors helping complex organizations through periods of both rapid growth and turnaround. He is also a former Marine officer who served in Bosnia-Herzegovina and the Persian Gulf. He spent the early part of his career at Bain &amp; Company and most recently was a Managing Director at General Catalyst Partners. Brian brings extensive experience developing and executing strategies to improve performance and drive organizational change.<\/p>\r\n",
+              "format": "basic_html",
+              "summary": ""
+            }
+          ],
+          "field_position": [
+            {
+              "value": "Member",
+              "format": "basic_html"
+            }
+          ],
+          "field_profile_image": [
+            {
+              "target_id": 164,
+              "alt": "Brian Shortsleeve",
+              "title": "",
+              "width": 140,
+              "height": 210,
+              "target_type": "file",
+              "target_uuid": "08729917-40a3-4507-b9f5-459f78f4d264",
+              "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/Leadership\/ShortsleeveBio.jpg",
+              "mime_type": "image\/jpeg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 43,
+      "target_revision_id": 367,
+      "id": [
+        {
+          "value": 43
+        }
+      ],
+      "uuid": [
+        {
+          "value": "3283d3a2-9d90-4067-b90c-ac0eea25d1bc"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 367
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580408
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr \/>\r\n<h3 id=\"upcoming-board-meetings\">Next Upcoming Board Meeting<\/h3>\r\n\r\n<p>This paragraph will automatically include the next FMCB board meeting, along with links to download its attached agenda, minutes, and presentation files, if present.<\/p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 44,
+      "target_revision_id": 368,
+      "id": [
+        {
+          "value": 44
+        }
+      ],
+      "uuid": [
+        {
+          "value": "6bf3bfe2-8509-4407-8349-7b3463342da6"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 368
+        }
+      ],
+      "type": [
+        {
+          "target_id": "upcoming_board_meetings",
+          "target_type": "paragraphs_type",
+          "target_uuid": "7b3ac3b3-75fb-45c7-9b90-64ca538f58a8"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500580439
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "view_data": [
+
+      ]
+    },
+    {
+      "target_id": 45,
+      "target_revision_id": 369,
+      "id": [
+        {
+          "value": 45
+        }
+      ],
+      "uuid": [
+        {
+          "value": "7f9e1eea-3869-440d-b8e3-41f880966da3"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 369
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500584852
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr \/>\r\n<h3 id=\"files-grid\">Files Grid<\/h3>\r\n\r\n<p>This paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile.&nbsp;Each file has an icon (e.g. spreadsheet, pdf, etc) next to it based on its file type. To customize the link text fill out the \"Description\" in the CMS. Otherwise, it will use the filename.<\/p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 46,
+      "target_revision_id": 370,
+      "id": [
+        {
+          "value": 46
+        }
+      ],
+      "uuid": [
+        {
+          "value": "8bc98289-888b-4bd5-8b41-657fd029ed3d"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 370
+        }
+      ],
+      "type": [
+        {
+          "target_id": "files_grid",
+          "target_type": "paragraphs_type",
+          "target_uuid": "79dad97a-0609-446f-bba6-daf74a92c999"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1500585043
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_files": [
+        {
+          "target_id": 186,
+          "display": true,
+          "description": "This has a custom description",
+          "target_type": "file",
+          "target_uuid": "8d6ae6be-516d-44a2-9020-7cf7c5f9f66c",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/April%2013%202017%20agenda%20opk%20edits_1.pdf",
+          "mime_type": "application\/pdf"
+        },
+        {
+          "target_id": 187,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "3037e869-a016-4489-8c97-efe6aa1f6ec1",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/April%2013%202017%20minutes_2.pdf",
+          "mime_type": "application\/pdf"
+        },
+        {
+          "target_id": 188,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "e287324e-927d-429c-a64d-ca1019794c74",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/May%2015%202017%20agenda%20_2_0.pdf",
+          "mime_type": "application\/pdf"
+        },
+        {
+          "target_id": 189,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "1000900a-22b8-4aaa-9d88-5a36ac8549d8",
+          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/May%2022%202017%20agenda_1.pdf",
+          "mime_type": "application\/pdf"
+        }
+      ],
+      "field_files_grid_title": [
+
+      ]
+    }
+  ],
+  "field_subtitle": [
+    {
+      "value": "Demonstration of all available CMS paragraphs"
+    }
+  ]
+}
