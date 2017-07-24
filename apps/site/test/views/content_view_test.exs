@@ -100,6 +100,19 @@ defmodule Site.ContentViewTest do
 
       assert rendered =~ paragraph.title
     end
+
+    test "renders a Paragraph.Unknown" do
+      paragraph = %Paragraph.Unknown{
+        type: "unsupported_paragraph_type"
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph()
+        |> Phoenix.HTML.safe_to_string()
+
+      assert rendered =~ paragraph.type
+    end
   end
 
   describe "file_description/1" do
