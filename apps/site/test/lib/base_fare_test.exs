@@ -116,6 +116,16 @@ defmodule BaseFareTest do
 
       assert %Fares.Fare{cents: 401} = base_fare(route, origin_id, destination_id, fare_fn)
     end
+
+    test "returns nil if no matching fares found" do
+      route = %Route{type: 2, id: "CapeFlyer"}
+      origin_id = "place-sstat"
+      destination_id = "Hyannis"
+
+      fare_fn = fn _ -> [] end
+
+      assert base_fare(route, origin_id, destination_id, fare_fn) == nil
+    end
   end
 
   describe "ferry" do

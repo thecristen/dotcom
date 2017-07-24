@@ -13,7 +13,7 @@ defmodule Site.BaseFare do
 
   @default_filters [duration: :single_trip, reduced: nil]
 
-  @spec base_fare(Route.t, Stops.Stop.id_t, Stops.Stop.id_t, ((Keyword.t) -> [Fare.t])) :: String.t
+  @spec base_fare(Route.t, Stops.Stop.id_t, Stops.Stop.id_t, ((Keyword.t) -> [Fare.t])) :: String.t | nil
   def base_fare(route, origin_id, destination_id, fare_fn \\ &Fares.Repo.all/1)
   def base_fare(nil, _, _, _), do: nil
   def base_fare(%Route{type: route_type} = route, origin_id, destination_id, fare_fn) do
@@ -22,7 +22,7 @@ defmodule Site.BaseFare do
     |> name_or_mode_filter(route, origin_id, destination_id)
     |> Keyword.merge(@default_filters)
     |> fare_fn.()
-    |> Enum.min_by(&(&1.cents))
+    |> Enum.min_by(&(&1.cents), fn -> nil end)
   end
 
   defp name_or_mode_filter(:subway, _route, _origin_id, _destination_id) do
