@@ -20,6 +20,9 @@ defmodule Site.ContentView do
   def render_paragraph(%Content.Paragraph.FilesGrid{} = para) do
     render "_files_grid.html", paragraph: para
   end
+  def render_paragraph(%Content.Paragraph.Unknown{} = para) do
+    render "_unknown.html", paragraph: para
+  end
 
   def file_description(%Content.Field.File{description: desc}) when not is_nil(desc) and desc != "" do
     desc

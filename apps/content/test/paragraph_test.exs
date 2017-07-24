@@ -61,6 +61,16 @@ defmodule Content.ParagraphTest do
         files: [%Content.Field.File{}, %Content.Field.File{}, %Content.Field.File{}, %Content.Field.File{}]
       } = from_api(api_data)
     end
+
+    test "parses an unknown paragraph type" do
+      api_data = %{
+        "type" => [%{"target_id" => "unsupported_paragraph_type"}]
+      }
+
+      assert %Content.Paragraph.Unknown{
+        type: "unsupported_paragraph_type"
+      } = from_api(api_data)
+    end
   end
 
   defp api_paragraph(paragraph_type) do
