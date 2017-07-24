@@ -45,7 +45,7 @@
         "footer"
       ],
       "readyEvent": null,
-      "delay": 100,
+      "delay": 500,
       "misMatchThreshold" : 0.1
     },
     {
