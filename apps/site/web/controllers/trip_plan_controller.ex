@@ -4,7 +4,6 @@ defmodule Site.TripPlanController do
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
   alias Site.PartialView.StopBubbles
-  import Site.Validation, only: [validate_by_field: 2]
 
   plug :require_google_maps
   plug :assign_initial_map
@@ -13,13 +12,15 @@ defmodule Site.TripPlanController do
   @type route_mapper :: ((Routes.Route.id_t) -> Routes.Route.t | nil)
 
   def index(conn, %{"plan" => %{"date_time" => date_time} = plan}) do
-    params = %{"date_time" => date_time, "system_date_time" => conn.assigns.date_time}
-    validators = %{date_time: &validate_date/1}
-    conn = assign(conn, :errors, validate_by_field(validators, params))
-    if Enum.empty?(conn.assigns.errors) do
-      render_plan(conn, plan)
-    else
-      render(conn, :index)
+    case validate_date(date_time) do
+      {:ok, date} ->
+        conn
+        |> assign(:errors, [])
+        |> render_plan(%{plan | "date_time" => future_date_or_now(date, conn.assigns.date_time)})
+      {_, errors} ->
+        conn
+        |> assign(:errors, errors)
+        |> render(:index)
     end
   end
   def index(conn, _params) do
@@ -44,14 +45,12 @@ defmodule Site.TripPlanController do
       destination_stop_bubble_params_list: destination_stop_bubble_params_list(itinerary_row_lists)
   end
 
-  @spec validate_date(map) :: :ok | String.t
-  defp validate_date(%{"system_date_time" => system_date_time,
-                      "date_time" => %{"year" => year, "month" => month, "day" => day, "hour" => hour,
-                                       "minute" => minute}}) do
+  @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, String.t}
+  defp validate_date(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute}) do
     date = convert_to_date("#{year}-#{month}-#{day}T#{hour}:#{minute}")
     case date do
-      nil -> "Date is not valid."
-      _ -> check_future_date(date, system_date_time)
+      nil -> {:error, %{date_time: "Date is not valid."}}
+      _ -> {:ok, date}
     end
   end
 
@@ -64,12 +63,14 @@ defmodule Site.TripPlanController do
     end
   end
 
-  @spec check_future_date(NaiveDateTime.t, DateTime.t) :: :ok | String.t
-  defp check_future_date(naive_date, system_date_time) do
-    # shift system time 10 minutes into past to avoid issues where submitted date falls slightly behind system date
+  @spec future_date_or_now(NaiveDateTime.t, DateTime.t) :: DateTime.t
+  defp future_date_or_now(naive_date, system_date_time) do
     local_date_time = Timex.to_datetime(naive_date, system_date_time.time_zone)
-    system_date_time_minus_ten = Timex.shift(system_date_time, minutes: -10)
-    if Timex.after?(local_date_time, system_date_time_minus_ten), do: :ok, else: "The date selected has already passed."
+    if Timex.after?(local_date_time, system_date_time) do
+      local_date_time
+    else
+      system_date_time
+    end
   end
 
   def require_google_maps(conn, _) do
