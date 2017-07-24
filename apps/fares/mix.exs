@@ -19,7 +19,7 @@ defmodule Fares.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    applications = [:logger]
+    applications = [:logger, :rstar]
     applications = if Mix.env != :prod do
       [:csv, :sweet_xml | applications]
     else
@@ -47,7 +47,8 @@ defmodule Fares.Mixfile do
       {:excoveralls, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},
       {:stops, in_umbrella: true},
-      {:google_maps, in_umbrella: true}
+      {:google_maps, in_umbrella: true},
+      {:rstar, github: "armon/erl-rstar"}
     ]
   end
 end

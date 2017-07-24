@@ -19,5 +19,12 @@ defmodule Fares.RetailLocationsDataTest do
         assert is_float(lng) == true
       end
     end
+
+    test "build_r_tree returns a tree with all location data" do
+      tree = Data.build_r_tree()
+      for %Location{name: name} = location <- Data.get do
+        assert [%Location{name: ^name}] = Data.k_nearest_neighbors(tree, location, 1)
+      end
+    end
   end
 end
