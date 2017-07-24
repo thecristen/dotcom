@@ -4,7 +4,7 @@
 
     <h2>About Us</h2>
     <div class="button-group">
-      <%= render "_link.html", text: "Leadership", href: redirect_path(@conn, "about_the_mbta/leadership/"), class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", text: "Leadership", href: cms_static_page_path(@conn, "/leadership"), class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", text: "News & Updates", href: news_entry_path(@conn, :index), class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", text: "Events", href: event_path(@conn, :index), class: "col-xs-12 col-sm-4", target: "_self" %>
       <%= render "_link.html", text: "Performance", href: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "col-xs-12 col-sm-4", target: "_self" %>

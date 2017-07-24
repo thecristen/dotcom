@@ -4,7 +4,7 @@
     <div class="col-xs-6 p-a-0">
       <ul>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/leadership/"), target: "_blank" do %>
+          <%= link to: cms_static_page_path(@conn, "/leadership") do %>
             <%= fa "caret-right" %> Leadership
           <% end %>
         </li>
