@@ -80,26 +80,9 @@ defmodule Site.TripPlan.Query do
   end
 
   defp do_date_time(param, %{"date_time" => date_time} = query, opts) do
-    case cast_datetime(date_time) do
-      {:ok, dt} ->
-        opts_from_query(
-          Map.drop(query, ["time", "date_time"]),
-          Keyword.put(opts, param, dt))
-      error ->
-        error
-    end
-  end
-
-  defp cast_datetime(%{"year" => y, "month" => month, "day" => d, "hour" => h, "minute" => minute}) do
-    with {y, ""} <- Integer.parse(y),
-         {month, ""} <- Integer.parse(month),
-         {d, ""} <- Integer.parse(d),
-         {h, ""} <- Integer.parse(h),
-         {minute, ""} <- Integer.parse(minute) do
-      {:ok, Timex.to_datetime({{y, month, d}, {h, minute, 0}}, "America/New_York")}
-    else
-      _ -> {:error, :invalid}
-    end
+    opts_from_query(
+      Map.drop(query, ["time", "date_time"]),
+      Keyword.put(opts, param, date_time))
   end
 
   @doc "Determines if the given query contains any itineraries"

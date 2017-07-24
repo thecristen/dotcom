@@ -6,13 +6,6 @@ defmodule Site.TripPlan.QueryTest do
   alias TripPlan.NamedPosition
 
   @date_time Timex.to_datetime(~N[2017-05-30T19:30:00], "America/New_York")
-  @date_time_param %{
-    "year" => "2017",
-    "month" => "5",
-    "day" => "30",
-    "hour" => "19",
-    "minute" => "30"
-  }
 
   describe "from_query/1" do
     test "can plan a basic trip from query params" do
@@ -76,7 +69,7 @@ defmodule Site.TripPlan.QueryTest do
       params = %{"from" => "from address",
                  "to" => "to address",
                  "time" => "depart",
-                 "date_time" => @date_time_param,
+                 "date_time" => @date_time,
                  "include_car?" => "false",
                  "accessible" => "true"}
       from_query(params)
