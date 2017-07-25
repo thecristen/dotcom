@@ -2,7 +2,7 @@
   <%
   class_name = ["trip-list-v2-row ", assigns[:class] || ""]
   {tag, attributes} = if assigns[:url] do
-    {:a, [href: @url, class: class_name, data: [scroll: "true"], id: @id]}
+    {:a, [href: @url, class: class_name, data: [scroll: "true", turbolinks_action: "replace"], id: @id]}
   else
     {:div, [class: class_name]}
   end
