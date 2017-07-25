@@ -45,7 +45,7 @@
         "footer"
       ],
       "readyEvent": null,
-      "delay": 100,
+      "delay": 500,
       "misMatchThreshold" : 0.1
     },
     {
@@ -81,7 +81,7 @@
       "url": "http://localhost:8082/not-found",
       "selectors": ["body"],
       "delay": 100,
-      "hideSelectors": [".error-card img"]
+      "hideSelectors": [".error-image"]
     },
     {
       "label": "Alerts",

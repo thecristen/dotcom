@@ -3,6 +3,8 @@
     <h1><strong>404</strong></h1>
     <p>Your stop cannot be found. This page is no longer in service.</p>
     <p><a href="/">Return to the homepage.</a></p>
-    <img src="<%= static_url(Site.Endpoint, "/images/error-bus.gif") %>" />
+    <div class="error-image">
+      <%= img_tag static_url(Site.Endpoint, "/images/error-bus.gif") %>
+    </div>
   </div>
 </div>

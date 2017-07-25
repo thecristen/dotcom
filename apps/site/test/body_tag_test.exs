@@ -6,25 +6,15 @@ defmodule Site.BodyTagTest do
   import Plug.Conn, only: [put_req_header: 3, put_private: 3]
 
   describe "render/1" do
-    test "returns no-js and sticky-footer by default" do
-      assert safe_to_string(render(build_conn())) =~ "no-js sticky-footer"
+    test "returns no-js by default" do
+      assert safe_to_string(render(build_conn())) =~ "no-js"
     end
 
     test "returns js if the request came from turbolinks" do
       conn = build_conn()
       |> put_req_header("turbolinks-referrer", "referrer")
 
-      assert safe_to_string(render(conn)) =~ "js sticky-footer"
-    end
-
-    test "does not return sticky-footer on homepage" do
-      class =
-        build_conn()
-        |> put_private(:phoenix_view, Site.PageView)
-        |> put_private(:phoenix_template, "index.html")
-        |> render()
-        |> safe_to_string()
-      assert class =~ "no-js"
+      assert safe_to_string(render(conn)) =~ "js"
     end
 
     test "returns js not-found if we get to an error page from turbolinks" do
@@ -32,14 +22,14 @@ defmodule Site.BodyTagTest do
       |> put_req_header("turbolinks-referrer", "referrer")
       |> put_private(:phoenix_view, Site.ErrorView)
 
-      assert safe_to_string(render(conn)) =~ "js not-found sticky-footer"
+      assert safe_to_string(render(conn)) =~ "js not-found"
     end
 
     test "returns mticket if the requisite header is present" do
       conn = build_conn()
       |> put_req_header(Application.get_env(:site, Site.BodyTag)[:mticket_header], "")
 
-      assert safe_to_string(render(conn)) =~ "no-js mticket sticky-footer"
+      assert safe_to_string(render(conn)) =~ "no-js mticket"
     end
   end
 end

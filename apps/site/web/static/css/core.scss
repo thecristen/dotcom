@@ -8,10 +8,19 @@
 @import 'vendor/font-awesome-4.6.3/scss/font-awesome';
 @import 'vendor/fixedsticky';
 
+html {
+  height: 100%;
+  position: relative;
+}
+
 body {
+  align-items: stretch;
   background-color: $homepage-bg-color;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  height: 100%;
+  justify-content: center;
   min-width: 20rem;
   text-rendering: optimizeLegibility;
 
@@ -52,16 +61,83 @@ body {
   }
 }
 
-.main-container {
-  background-color: $white;
-  padding-bottom: $base-spacing;
-}
-
-@include media-breakpoint-up(md) {
-  .container {
+.container {
+  @include media-breakpoint-up(md) {
     padding-left: 0;
     padding-right: 0;
   }
+}
+
+.body-wrapper {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+.alert-announcement-container,
+.header,
+.breadcrumb-container,
+.footer-announcement-container,
+.footer {
+  flex: 0 0 auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+.alert-announcement-container,
+.header,
+.breadcrumb-container {
+  align-self: flex-start;
+}
+
+.footer,
+.footer-announcement-container {
+  align-self: flex-end;
+}
+
+.pre-container-wrapper,
+.post-container-wrapper,
+.page-container {
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.pre-container-wrapper,
+.post-container-wrapper {
+  max-width: 100%;
+  width: 100%;
+}
+
+.post-container-wrapper {
+  padding-top: $base-spacing;
+}
+
+.page-container {
+  align-self: center;
+  margin: 0 auto;
+  padding: 0 0 $base-spacing * 2;
+}
+
+@each $breakpoint, $width in $container-max-widths {
+  @include media-breakpoint-only($breakpoint) {
+    .container,
+    .page-container {
+      max-width: $width;
+    }
+
+    .page-container {
+      width: $width;
+    }
+  }
+}
+
+.main-container {
+  background-color: $white;
+  padding-bottom: $base-spacing;
 }
 
 @include media-breakpoint-down(sm) {
@@ -93,36 +169,17 @@ body {
   background-color: $gray-bordered-background;
   border: solid 1px $gray-lightest;
   color: $gray-dark;
-  padding-bottom: $base-spacing-sm;
-  padding-top: $base-spacing-sm;
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
+
+  @include media-breakpoint-down(sm) {
+    padding-bottom: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
+  }
 }
 
 .footer-announcement-container {
   min-width: 20rem;
-  width: 100%;
-
-  @include media-breakpoint-up(xs) {
-    bottom: $small-footer-container-height + $footer-padding-bottom + $footer-padding-top;
-    position: absolute;
-  }
-
-  @include media-breakpoint-up(md) {
-    bottom: $large-footer-container-height + $footer-padding-bottom + $footer-padding-top;
-    padding-bottom: $base-spacing;
-    padding-top: $base-spacing;
-    position: absolute;
-  }
-}
-
-.fp-footer-announcement {
-  .footer-announcement-container {
-    margin-bottom: -$footer-padding-top;
-    position: static;
-  }
-}
-
-.sticky-footer .footer-announcement-container {
-  margin-bottom: 0;
 }
 
 .beta-announcement {
@@ -175,21 +232,11 @@ body {
   }
 }
 
-html {
-  min-height: 100%;
-  position: relative;
-}
-
 // To be removed once the smart banner is disabled
 div {
   &.smartbanner {
     top: -80px;
   }
-}
-
-.page-container {
-  margin-bottom: 0;
-  padding-bottom: $base-spacing * 2;
 }
 
 .d-inline {

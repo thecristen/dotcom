@@ -1,7 +1,7 @@
 @import 'variables';
 
-.error-page {
-  margin-bottom: -1 * $base-spacing;
+.errorview {
+  flex-shrink: 1;
 }
 
 .error-card {
@@ -13,7 +13,7 @@
     img {
       max-width: 300px;
       width: 100%;
-   }
+    }
   }
 
   @include media-breakpoint-down(sm) {

@@ -42,13 +42,15 @@
       <%= if assigns[:pre_container_template] do %>
         <%= render_existing @view_module, assigns[:pre_container_template], assigns %>
       <% end %>
-      <div class="container page-container">
-        <%= if assigns[:important_notice] do %>
-          <%= render Site.PageView, "_important_notice.html", important_notice: assigns[:important_notice] %>
-        <% end %>
-        <main class="<%= get_page_classes(@view_module, @view_template) %>" id="main" tabindex="-1">
-          <%= render @view_module, @view_template, assigns %>
-        </main>
+      <div class="page-container <%= get_page_classes(@view_module, @view_template) %>">
+        <div class="container page-inner-container">
+          <%= if assigns[:important_notice] do %>
+            <%= render Site.PageView, "_important_notice.html", important_notice: assigns[:important_notice] %>
+          <% end %>
+          <main id="main" tabindex="-1">
+            <%= render @view_module, @view_template, assigns %>
+          </main>
+        </div>
       </div> <%# /container %>
       <%= if assigns[:post_container_template] do %>
         <%= render_existing @view_module, assigns[:post_container_template], assigns %>
