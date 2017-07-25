@@ -1,4 +1,4 @@
-import { initializeMap, getZoom } from './google-map';
+import { getZoom, triggerResize } from './google-map';
 
 export default function tripPlan($ = window.jQuery) {
   hideHiddenSteps($);
@@ -61,20 +61,19 @@ function toggleIcon(e) {
   icon.toggleClass("fa-caret-down fa-caret-up");
 }
 
-// There is a race condition that sometimes occurs on the intial render of the google map where it can't set up
-// it canvas properly because it is not sure of its dimensions because it is doing the calculation while it's container
-// is being collapsed. This function will be called after an itenary is expanded to redraw the map
+// There is a race condition that sometimes occurs on the intial render of the google map. It can't render properly
+// because it's container is being resized. This function is called after an itenary is expanded to redraw the map
+// if necessary.
 function redrawMap(e) {
-  // only when the zoom value is very low does the map will need to be re-rendered
   const container = $(e.target).parent();
   const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
   const zoom = getZoom(offset);
+  // we can detect that the map did not render correctly because it will have an abnormally low zoom value, usually 3.
+  // Normal zoom values for very short or very long trips fall between a range of ~10 - ~15.
   if (zoom > 5) {
     return;
   }
-  const mapData = JSON.parse($(container).find(".dynamic_map_data")[0].innerHTML);
-  const mapEl = $(container).find(".dynamic-map")[0];
-  initializeMap(mapEl, mapData, offset);
+  triggerResize(offset);
 }
 
 function revealSteps(e) {

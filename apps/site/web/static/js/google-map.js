@@ -30,7 +30,7 @@ var bounds = {};
 var infoWindow = null;
 var markers = {};
 
-export function initializeMap(el, mapData, offset) {
+function initializeMap(el, mapData, offset) {
   if (typeof google != "undefined") {
     el.className += " google-map";
     displayMap(el, mapData, offset);
@@ -123,6 +123,10 @@ function renderMarker (mapOffset) {
 
 export function getZoom(mapOffset) {
   return maps[mapOffset].getZoom();
+}
+
+export function triggerResize(mapOffset) {
+  google.maps.event.trigger(maps[mapOffset], "resize");
 }
 
 // When there are very few markers, map will zoom in too close. 17 is a reasonable zoom level to see a small
