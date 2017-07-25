@@ -1,7 +1,7 @@
 defmodule Content.ParagraphTest do
   use ExUnit.Case, async: true
 
-  import Content.FixtureHelpers
+  import Content.JsonHelpers, only: [parse_json_file: 1]
   import Content.Paragraph
   import Phoenix.HTML, only: [safe_to_string: 1]
 
