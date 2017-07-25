@@ -69,7 +69,7 @@ function redrawMap(e) {
   const container = $(e.target).parent();
   const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
   const zoom = getZoom(offset);
-  if (zoom > 10) {
+  if (zoom > 5) {
     return;
   }
   const mapData = JSON.parse($(container).find(".dynamic_map_data")[0].innerHTML);
