@@ -1,3 +1,5 @@
+import { getZoom, triggerResize } from './google-map';
+
 export default function tripPlan($ = window.jQuery) {
   hideHiddenSteps($);
   $(document).on('geolocation:complete', '#to', geolocationCallback($));
@@ -6,6 +8,7 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("focus", "#from.trip-plan-current-location", clearCurrentLocation($));
   $("[data-planner-body]").on('hide.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('show.bs.collapse', toggleIcon);
+  $("[data-planner-body]").on('shown.bs.collapse', redrawMap);
   window.addEventListener("load", collapseItineraries($));
   $("[data-reveal-step-button]").on("click", revealSteps);
 };
@@ -51,9 +54,24 @@ function collapseItineraries($) {
 
 // Toggles the arrow icon
 function toggleIcon(e) {
-  var container = $(e.target).parent();
-  var icon = $(container).find("[data-planner-header] i");
+  const container = $(e.target).parent();
+  const icon = $(container).find("[data-planner-header] i");
   icon.toggleClass("fa-caret-down fa-caret-up");
+}
+
+// There is a race condition that sometimes occurs on the initial render of the google map. It can't render properly
+// because it's container is being resized. This function is called after an itinerary is expanded to redraw the map
+// if necessary.
+function redrawMap(e) {
+  const container = $(e.target).parent();
+  const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
+  const zoom = getZoom(offset);
+  // we can detect that the map did not render correctly because it will have an abnormally low zoom value, usually 3.
+  // Normal zoom values for very short or very long trips fall between a range of ~10 - ~15.
+  if (zoom > 5) {
+    return;
+  }
+  triggerResize(offset);
 }
 
 function revealSteps(e) {

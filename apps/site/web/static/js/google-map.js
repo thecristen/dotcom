@@ -121,6 +121,14 @@ function renderMarker (mapOffset) {
   }
 }
 
+export function getZoom(mapOffset) {
+  return maps[mapOffset].getZoom();
+}
+
+export function triggerResize(mapOffset) {
+  google.maps.event.trigger(maps[mapOffset], "resize");
+}
+
 // When there are very few markers, map will zoom in too close. 17 is a reasonable zoom level to see a small
 // number of points with additional contextual nearby map imagery
 function setReasonableZoom(map, zoom) {
