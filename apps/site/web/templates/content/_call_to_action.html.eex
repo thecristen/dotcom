@@ -1,0 +1,6 @@
+<div class="call-to-action-paragraph">
+  <%= link to: @paragraph.url do %>
+    <%= @paragraph.text %>
+    <%= fa "arrow-right" %>
+  <% end %>
+</div>

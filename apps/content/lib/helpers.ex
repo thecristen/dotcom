@@ -89,6 +89,13 @@ defmodule Content.Helpers do
     end
   end
 
+  def parse_link_text(data, field) do
+    case data[field] do
+      [%{"title" => text}] -> text
+      _ -> nil
+    end
+  end
+
   @spec int_or_string_to_int(integer | String.t | nil) :: integer | nil
   def int_or_string_to_int(nil), do: nil
   def int_or_string_to_int(num) when is_integer(num), do: num

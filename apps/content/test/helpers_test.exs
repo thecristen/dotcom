@@ -122,4 +122,24 @@ defmodule Content.HelpersTest do
       ]
     end
   end
+
+  describe "parse_link_text/2" do
+    test "returns the link text" do
+      data = %{
+        "field_link_example" => [
+          %{
+            "options" => [],
+            "title" => "Link Text",
+            "uri" => "www.example.com"
+          }
+        ]
+      }
+
+      assert parse_link_text(data, "field_link_example") == "Link Text"
+   end
+
+   test "returns nil when the given key does not exist" do
+     assert parse_link_text(%{}, "key_does_not_exist") == nil
+   end
+  end
 end

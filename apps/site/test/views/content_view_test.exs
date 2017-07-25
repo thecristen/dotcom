@@ -101,6 +101,21 @@ defmodule Site.ContentViewTest do
       assert rendered =~ paragraph.title
     end
 
+    test "renders a Paragraph.CallToAction" do
+      paragraph = %Paragraph.CallToAction{
+        url: "www.example.com",
+        text: "See example"
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph()
+        |> Phoenix.HTML.safe_to_string()
+
+      assert rendered =~ paragraph.url
+      assert rendered =~ paragraph.text
+    end
+
     test "renders a Paragraph.Unknown" do
       paragraph = %Paragraph.Unknown{
         type: "unsupported_paragraph_type"
