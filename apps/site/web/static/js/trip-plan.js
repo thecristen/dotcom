@@ -1,3 +1,5 @@
+import { initializeMap } from './google-map';
+
 export default function tripPlan($ = window.jQuery) {
   hideHiddenSteps($);
   $(document).on('geolocation:complete', '#to', geolocationCallback($));
@@ -6,6 +8,7 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("focus", "#from.trip-plan-current-location", clearCurrentLocation($));
   $("[data-planner-body]").on('hide.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('show.bs.collapse', toggleIcon);
+  $("[data-planner-body]").on('shown.bs.collapse', redrawMap);
   window.addEventListener("load", collapseItineraries($));
   $("[data-reveal-step-button]").on("click", revealSteps);
 };
@@ -45,15 +48,28 @@ function clearCurrentLocation($) {
 
 function collapseItineraries($) {
   return function(e) {
-    $("[data-planner-body]").addClass("collapse");
+    $("[data-planner-body]").each(function (offset, el) {
+      $(el).addClass("collapse").attr("data-offset", offset);
+    });
   };
 }
 
 // Toggles the arrow icon
 function toggleIcon(e) {
-  var container = $(e.target).parent();
-  var icon = $(container).find("[data-planner-header] i");
+  const container = $(e.target).parent();
+  const icon = $(container).find("[data-planner-header] i");
   icon.toggleClass("fa-caret-down fa-caret-up");
+}
+
+// There is a race condition that sometimes occurs on the intial render of the google map where it can't set up
+// it canvas properly because it is not sure of its dimensions because it is doing the calculation while it's container
+// is being collapsed. This function will be called after an itenary is expanded to redraw the map
+function redrawMap(e) {
+  const container = $(e.target).parent();
+  const mapData = JSON.parse($(container).find(".dynamic_map_data")[0].innerHTML);
+  const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
+  const mapEl = $(container).find(".dynamic-map")[0];
+  initializeMap(mapEl, mapData, offset);
 }
 
 function revealSteps(e) {

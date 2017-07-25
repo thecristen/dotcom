@@ -30,7 +30,7 @@ var bounds = {};
 var infoWindow = null;
 var markers = {};
 
-function initializeMap(el, mapData, offset) {
+export function initializeMap(el, mapData, offset) {
   if (typeof google != "undefined") {
     el.className += " google-map";
     displayMap(el, mapData, offset);
