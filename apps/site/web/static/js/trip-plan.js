@@ -48,9 +48,7 @@ function clearCurrentLocation($) {
 
 function collapseItineraries($) {
   return function(e) {
-    $("[data-planner-body]").each(function (offset, el) {
-      $(el).addClass("collapse").attr("data-offset", offset);
-    });
+    $("[data-planner-body]").addClass("collapse");
   };
 }
 
@@ -61,8 +59,8 @@ function toggleIcon(e) {
   icon.toggleClass("fa-caret-down fa-caret-up");
 }
 
-// There is a race condition that sometimes occurs on the intial render of the google map. It can't render properly
-// because it's container is being resized. This function is called after an itenary is expanded to redraw the map
+// There is a race condition that sometimes occurs on the initial render of the google map. It can't render properly
+// because it's container is being resized. This function is called after an itinerary is expanded to redraw the map
 // if necessary.
 function redrawMap(e) {
   const container = $(e.target).parent();
