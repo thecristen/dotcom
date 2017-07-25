@@ -1,0 +1,9 @@
+<div class="route-branch-stop-list route-branch-stop personal">
+  <%= Site.PartialView.StopBubbles.render_stop_bubbles(@step_bubble_params) %>
+  <div class="itinerary-step">
+    <span class="itinerary-instructions">
+      <%= @step_name %>
+    </span>
+    <div class="pull-right"><%= format_schedule_time(@step_time) %> </div>
+  </div>
+</div>
