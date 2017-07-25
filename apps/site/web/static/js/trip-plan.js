@@ -1,4 +1,4 @@
-import { initializeMap } from './google-map';
+import { initializeMap, getZoom } from './google-map';
 
 export default function tripPlan($ = window.jQuery) {
   hideHiddenSteps($);
@@ -65,9 +65,14 @@ function toggleIcon(e) {
 // it canvas properly because it is not sure of its dimensions because it is doing the calculation while it's container
 // is being collapsed. This function will be called after an itenary is expanded to redraw the map
 function redrawMap(e) {
+  // only when the zoom value is very low does the map will need to be re-rendered
   const container = $(e.target).parent();
-  const mapData = JSON.parse($(container).find(".dynamic_map_data")[0].innerHTML);
   const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
+  const zoom = getZoom(offset);
+  if (zoom > 10) {
+    return;
+  }
+  const mapData = JSON.parse($(container).find(".dynamic_map_data")[0].innerHTML);
   const mapEl = $(container).find(".dynamic-map")[0];
   initializeMap(mapEl, mapData, offset);
 }
