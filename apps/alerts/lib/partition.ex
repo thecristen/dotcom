@@ -10,7 +10,7 @@ defmodule Alerts.Partition do
   @spec current_and_upcoming([Alert.t], DateTime.t) :: {[Alert.t], [Alert.t]}
   def current_and_upcoming(alerts, date) do
     {current_alerts, upcoming_alerts} = alerts
-    |> Enum.partition(fn alert -> Alerts.Match.any_time_match?(alert, date) end)
+    |> Enum.split_with(fn alert -> Alerts.Match.any_time_match?(alert, date) end)
 
     {current_alerts, upcoming_alerts(upcoming_alerts, date)}
   end

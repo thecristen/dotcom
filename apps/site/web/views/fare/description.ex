@@ -137,7 +137,7 @@ defmodule Site.FareView.Description do
                     local_bus: "Local Bus",
                     inner_express_bus: "Inner Express Bus",
                     outer_express_bus: "Outer Express Bus"]
-                    |> Enum.partition(&transfers_filter(&1, fare))
+                    |> Enum.split_with(&transfers_filter(&1, fare))
     [
       free_transfers(free),
       Enum.map(paid, &transfers_map(&1, fare))

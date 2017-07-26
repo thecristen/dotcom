@@ -25,7 +25,7 @@ defmodule Site.FareController.BusSubway do
 
   @impl true
   def filters([%Fare{reduced: nil} | _] = fares) do
-    {single_rides, passes} = fares |> Enum.partition(&single_ride?/1)
+    {single_rides, passes} = fares |> Enum.split_with(&single_ride?/1)
 
     [
       %Filter{
