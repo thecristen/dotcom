@@ -4,8 +4,10 @@ export default function($, w = window, doc = document) {
   var lastScrollPosition = null;
   var scrollBehavior = null;
   var redirectTimeout = null;
+  var navigationEventType = "push";
 
-  w.addEventListener('popstate', (ev) => {
+  w.addEventListener("popstate", (ev) => {
+    navigationEventType = "pop";
     var url = w.location.href;
     if (redirectTimeout && !url.match(/redirect/)) {
       w.clearTimeout(redirectTimeout);
@@ -13,7 +15,7 @@ export default function($, w = window, doc = document) {
     }
   }, {passive: true});
 
-  doc.addEventListener('turbolinks:before-visit', (ev) => {
+  doc.addEventListener("turbolinks:before-visit", (ev) => {
     // cancel a previously set redirect timeout
     if (redirectTimeout) {
       w.clearTimeout(redirectTimeout);
@@ -46,10 +48,10 @@ export default function($, w = window, doc = document) {
     }
   }, {passive: true});
 
-  doc.addEventListener('turbolinks:render', () => {
+  doc.addEventListener("turbolinks:render", () => {
     // if it's cached render, not a real one, set the scroll/focus positions,
     // but don't clear them until we have the true rendering.
-    const cachedRender = doc.documentElement.getAttribute('data-turbolinks-preview') === '';
+    const cachedRender = doc.documentElement.getAttribute("data-turbolinks-preview") === "";
     if (!cachedRender && w.location.hash) {
       const el = doc.getElementById(w.location.hash.slice(1));
       if (el) {
@@ -58,17 +60,23 @@ export default function($, w = window, doc = document) {
     }
 
     // scroll page depeneding on previously determined conditions
-    switch (scrollBehavior) {
-      case "remember":
-        w.scrollTo.apply(window, lastScrollPosition);
-        break;
+    // only do this on pushes, if the user is going back in their history, let turbolinks restore the scroll position
+    if (navigationEventType == "push") {
+      switch (scrollBehavior) {
+        case "remember":
+          w.scrollTo.apply(window, lastScrollPosition);
+          break;
 
-      case "top":
-        w.scrollTo.apply(window, [0, 0]);
+        case "top":
+          w.scrollTo.apply(window, [0, 0]);
+      }
     }
+
+    // reset history state to default
+    navigationEventType = "push";
   }, {passive: true});
 
-  doc.addEventListener('turbolinks:request-end', (ev) => {
+  doc.addEventListener("turbolinks:request-end", (ev) => {
     // if a refresh header was receieved, enforce via javascript
     var refreshHeader = ev.data.xhr.getResponseHeader("Refresh");
     if (!refreshHeader) {
@@ -76,8 +84,8 @@ export default function($, w = window, doc = document) {
     }
 
     // parse data from the header
-    var refreshUrl = refreshHeader.substring(refreshHeader.indexOf('=') + 1);
-    var refreshDelay = refreshHeader.split(';')[0] * 1000;
+    var refreshUrl = refreshHeader.substring(refreshHeader.indexOf("=") + 1);
+    var refreshDelay = refreshHeader.split(";")[0] * 1000;
 
     // redirect after 5 seconds
     redirectTimeout = w.setTimeout(function () {
@@ -102,12 +110,12 @@ function focusAndExpand(el, $) {
   if (nodeName === "A" || nodeName === "SELECT" || nodeName === "INPUT") {
     el.focus();
   } else {
-    const a = el.querySelector('a');
+    const a = el.querySelector("a");
     a.focus();
     // if the link we focused is the target for a collapse, then show
     // the collapsed element
     if (a.getAttribute("data-target") == window.location.hash) {
-      $(el).collapse('show');
+      $(el).collapse("show");
     }
   }
 };
