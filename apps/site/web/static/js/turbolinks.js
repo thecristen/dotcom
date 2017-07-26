@@ -4,8 +4,10 @@ export default function($, w = window, doc = document) {
   var lastScrollPosition = null;
   var scrollBehavior = null;
   var redirectTimeout = null;
+  var navigationEventType = 'push';
 
   w.addEventListener('popstate', (ev) => {
+    navigationEventType = 'pop';
     var url = w.location.href;
     if (redirectTimeout && !url.match(/redirect/)) {
       w.clearTimeout(redirectTimeout);
@@ -58,14 +60,20 @@ export default function($, w = window, doc = document) {
     }
 
     // scroll page depeneding on previously determined conditions
-    switch (scrollBehavior) {
-      case "remember":
-        w.scrollTo.apply(window, lastScrollPosition);
-        break;
+    // only do this on pushes, if the user is going back in their history, let turbolinks restore the scroll position
+    if (navigationEventType == 'push') {
+      switch (scrollBehavior) {
+        case "remember":
+          w.scrollTo.apply(window, lastScrollPosition);
+          break;
 
-      case "top":
-        w.scrollTo.apply(window, [0, 0]);
+        case "top":
+          w.scrollTo.apply(window, [0, 0]);
+      }
     }
+
+    // reset history state to default
+    navigationEventType = 'push';
   }, {passive: true});
 
   doc.addEventListener('turbolinks:request-end', (ev) => {
