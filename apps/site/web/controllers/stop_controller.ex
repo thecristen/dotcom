@@ -87,8 +87,8 @@ defmodule Site.StopController do
 
   defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
     conn
-    |> async_assign(:fare_name, fn -> Fares.calculate_commuter_rail("1A", Zones.Repo.get(stop.id)) end)
-    |> async_assign(:terminal_station, fn -> terminal_station(stop) end)
+    |> async_assign(:fare_name, fn -> fare_name(stop) end)
+    |> async_assign(:terminal_stations, fn -> terminal_stations(stop) end)
     |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
@@ -113,24 +113,47 @@ defmodule Site.StopController do
     assign(conn, :upcoming_route_departures, route_time_list)
   end
 
+  defp fare_name(stop) do
+    stop
+    |> terminal_stations
+    |> Enum.reject(fn {_mode, terminal} -> terminal == "" end)
+    |> Enum.map(&lookup_fare(&1, stop))
+    |> List.first
+  end
+
+  defp lookup_fare({mode, terminus}, stop) do
+     Fares.fare_for_stops(Route.type_atom(mode), terminus, stop.id)
+  end
+
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string
   # if the stop doesn't serve commuter rail. Note that this assumes that all CR lines at a station have the
   # same terminal, which is currently true but could conceivably change in the future.
-  @spec terminal_station(Stop.t) :: String.t
-  defp terminal_station(stop) do
-    stop.id
-    |> Routes.Repo.by_stop(type: 2)
-    |> do_terminal_station
+
+  @spec terminal_stations(Stop.t) :: %{2 => String.t, 4 => String.t}
+  defp terminal_stations(stop) do
+    Map.new([2, 4], &{&1, terminal_station_for_type(stop.id, &1)})
+  end
+
+  defp terminal_station_for_type(stop_id, type) do
+    stop_id
+    |> Routes.Repo.by_stop(type: type)
+    |> do_terminal_stations(type)
   end
 
   # Filter out non-CR stations.
-  defp do_terminal_station([]), do: ""
-  defp do_terminal_station([route | _]) do
-    terminal = route.id
+  defp do_terminal_stations([route | _], 2) do
+    route.id
     |> Stops.Repo.by_route(0)
     |> List.first
-    terminal.id
+    |> Map.get(:id)
   end
+  defp do_terminal_stations([route], 4) do
+    case Stops.Repo.by_route(route.id, 0) do
+      [terminal_stop, _next_stop] -> terminal_stop.id
+      _ -> ""
+    end
+  end
+  defp do_terminal_stations(_routes, _type), do: ""
 
   @spec access_alerts([Alerts.Alert.t], Stop.t) :: [Alerts.Alert.t]
   def access_alerts(alerts, stop) do

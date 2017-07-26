@@ -18,11 +18,14 @@
   <%= unless Enum.empty?(types) do %>
     <h2>Fares</h2>
     <%= if :commuter_rail in types do %>
-      <%= render "_commuter_fare.html", conn: @conn, stop: @stop, fare_name: @fare_name, terminal_station: @terminal_station %>
+      <% commuter_terminal = @terminal_stations[2]%>
+      <%= render "_commuter_fare.html", conn: @conn, stop: @stop, fare_name: @fare_name, terminal_station: commuter_terminal %>
     <% end %>
     <%= if :ferry in types do %>
       <h3 class="station-fare-subheader">Ferry Fares</h3>
-      <% fare_details_path = fare_path(@conn, :show, "ferry", origin: @stop.id) %>
+      <% ferry_terminal = if origin_station?(@stop), do: "", else: @terminal_stations[4]%>
+      <% fare_path_opts = if ferry_terminal == "", do: [], else: [destination: ferry_terminal] %>
+      <% fare_details_path = fare_path(@conn, :show, "ferry", Keyword.merge([origin: @stop.id], fare_path_opts)) %>
       <%= Site.FareView.summarize(mode_summaries(:ferry, @fare_name, fare_details_path)) %>
       <p>
         <%= link to: fare_details_path do %>

@@ -120,8 +120,8 @@ defmodule Fares.Format do
     end
   end
 
-  @spec summarize_one(Fare.t, :commuter_rail, Keyword.t) :: Summary.t
-  def summarize_one(fare, :commuter_rail, opts \\ []) do
+  @spec summarize_one(Fare.t, Keyword.t) :: Summary.t
+  def summarize_one(fare, opts \\ []) do
     %Fares.Summary{
       name: Fares.Format.full_name(fare),
       duration: fare.duration,

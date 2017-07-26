@@ -5,7 +5,7 @@ defmodule Site.StopView do
   alias Routes.Route
   alias Fares.RetailLocations.Location
 
-  @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta"]
+  @origin_stations ["place-north", "place-sstat", "place-rugg", "place-bbsta", "Boat-Long"]
 
   @spec location(Stops.Stop.t) :: String.t
   def location(%Stops.Stop{latitude: nil, address: address}), do: URI.encode(address, &URI.char_unreserved?/1)

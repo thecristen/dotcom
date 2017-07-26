@@ -213,6 +213,7 @@ defmodule Site.StopViewTest do
                                           stop: %Stop{name: "Iron Island", id: "IronIsland"},
                                           grouped_routes: [{:ferry}],
                                           fare_sales_locations: [],
+                                          terminal_stations: %{4 => ""},
                                           conn: conn)
       assert safe_to_string(output) =~ "/fares/ferry?origin=IronIsland"
     end

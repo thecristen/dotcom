@@ -115,6 +115,24 @@ defmodule Site.ViewHelpersTest do
       mode_present = fn(summary, mode) -> mode in summary.modes end
       assert Enum.any?(summaries, &(mode_present.(&1,:bus))) && Enum.any?(summaries, &(mode_present.(&1,:subway)))
     end
+
+    test "Ferry summaries with nil fare name return range of fares" do
+      fares =
+        :ferry
+        |> mode_summaries(nil)
+        |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} -> IO.iodata_to_binary([text, " ", prices]) end)
+
+      assert fares == ["All Ferry routes $3.50 - $18.50", "All Ferry routes $84.50 - $308.00"]
+    end
+
+    test "Ferry summmaries with a fare name return a single fare" do
+      fares =
+        :ferry
+        |> mode_summaries(:ferry_inner_harbor)
+        |> Enum.map(fn %Fares.Summary{fares: [{text, prices}]} -> IO.iodata_to_binary([text, " ", prices]) end)
+
+      assert fares == ["CharlieTicket $3.50", "CharlieTicket $84.50"]
+    end
   end
 
   describe "mode_atom/1" do

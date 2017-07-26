@@ -124,9 +124,9 @@ defmodule Fares.FormatTest do
   end
 
   describe "summarize_one/3" do
-    test "single commuter rail fare is summarized correctly" do
+    test "single fare is summarized correctly" do
       fare = %Fare{name: {:zone, "6"}, mode: :commuter_rail, duration: :single_trip, cents: 1250, media: :cash}
-      summarized = summarize_one(fare, :commuter_rail, url: "/link_here?please=yes")
+      summarized = summarize_one(fare, url: "/link_here?please=yes")
       expected = %Summary{
         fares: [{"Cash", "$12.50"}],
         name: ["Zone 6", " ", "One Way"],

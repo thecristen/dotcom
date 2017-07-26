@@ -100,16 +100,42 @@ defmodule Site.StopControllerTest do
     end
   end
 
-  test "assigns the terminal station of CR lines from a station", %{conn: conn} do
-    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
-    assert conn.assigns.terminal_station == "place-north"
-    conn = get conn, stop_path(conn, :show, "Readville", tab: "info")
-    assert conn.assigns.terminal_station == "place-sstat"
+  test "assigns the fare name for the commuter rail from the current stop to Zone 1A", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Worcester", tab: "info")
+    assert conn.assigns.fare_name == {:zone, "8"}
   end
 
-  test "assigns an empty terminal station for non-CR stations", %{conn: conn} do
+  test "assigns nil as the fare name for a ferry with multiple options ", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Boat-Long", tab: "info")
+    assert conn.assigns.fare_name == nil
+  end
+
+  test "assigns the only available fare from stops with a single destination", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Boat-Charlestown", tab: "info")
+    assert conn.assigns.fare_name == :ferry_inner_harbor
+  end
+
+  test "assigns the terminal station of CR lines from a station", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
+    assert conn.assigns.terminal_stations[2] == "place-north"
+    conn = get conn, stop_path(conn, :show, "Readville", tab: "info")
+    assert conn.assigns.terminal_stations[2] == "place-sstat"
+  end
+
+  test "assigns the terminal station for a ferry if there is only one possibility", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Boat-Charlestown", tab: "info")
+    assert conn.assigns.terminal_stations[4] == "Boat-Long"
+  end
+
+  test "assigns an empty terminal station for a ferry if there are multiple possibilities", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Boat-Logan", tab: "info")
+    assert conn.assigns.terminal_stations[4] == ""
+  end
+
+  test "assigns an empty terminal station for non-CR/Ferry stations", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "22", tab: "info")
-    assert conn.assigns.terminal_station == ""
+    assert conn.assigns.terminal_stations[2] == ""
+    assert conn.assigns.terminal_stations[4] == ""
   end
 
   test "does assign stop alerts on info page", %{conn: conn} do
@@ -159,6 +185,17 @@ defmodule Site.StopControllerTest do
   test "assigns map info for tab info", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "Anderson/ Woburn", tab: "info")
     assert conn.assigns.map_info
+  end
+
+  test "Assigns specific fare for Charlestown Ferry", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Boat-Charlestown", tab: "info")
+    assert html_response(conn, 200) =~ "Inner Harbor Ferry One Way"
+    refute html_response(conn, 200) =~ "All Ferry routes"
+  end
+
+  test "Does not assign specific fares for Long Wharf Ferry stop", %{conn: conn} do
+    conn = get conn, stop_path(conn, :show, "Boat-Long", tab: "info")
+    assert html_response(conn, 200) =~ "All Ferry routes"
   end
 
   describe "access_alerts/2" do
