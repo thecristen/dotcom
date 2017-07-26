@@ -16,25 +16,20 @@ defmodule Fares.RetailLocations.Data do
     |> Enum.reject(&(&1.latitude == 0 || &1.longitude == 0))
   end
 
-  @spec build_r_tree :: :rtree.rtree
+  @spec build_r_tree :: :rstar.rtree
   def build_r_tree do
     get()
     |> Enum.map(&build_point_from_location/1)
     |> Enum.reduce(:rstar.new(2), fn l, t -> :rstar.insert(t, l) end)
   end
 
-  @spec k_nearest_neighbors(:rtree.rtree, Stops.Position.t, integer) :: [Location.t]
+  @spec k_nearest_neighbors(:rstar.rtree, Stops.Position.t, integer) :: [Location.t]
   def k_nearest_neighbors(tree, location, k) do
     query = build_point_from_location(location)
 
     tree
     |> :rstar.search_nearest(query, k)
-    |> Enum.map(&extract_location_from_point/1)
-  end
-
-  defp extract_location_from_point(point) do
-    {:geometry, 2, _coords, location} = point
-    location
+    |> Enum.map(&:rstar_geometry.value/1)
   end
 
   defp build_point_from_location(location) do

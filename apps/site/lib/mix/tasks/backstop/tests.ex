@@ -126,7 +126,6 @@ defmodule Mix.Tasks.Backstop.Tests do
     {:error, :timeout, pids}
   end
 
-  @impl true
   def handle_cast({:start_server, module}, state) do
     {_module, pid} = module.start_link(state.args)
     {:noreply, update_pid(state, module, {pid, :starting})}
@@ -145,7 +144,6 @@ defmodule Mix.Tasks.Backstop.Tests do
     {:noreply, state}
   end
 
-  @impl true
   def handle_call(:build_config, state) do
     {:reply, state.pids, state}
   end
@@ -153,7 +151,6 @@ defmodule Mix.Tasks.Backstop.Tests do
     {:reply, state.pids, state}
   end
 
-  @impl true
   def handle_info({:DOWN, _ref, :process, down_pid, :normal}, state) do
     state = case Enum.find(state.pids, fn {_name, {pid, _status}} -> pid == down_pid end) do
       {module, {_pid, _status}} -> update_pid(state, module, {down_pid, :down})
