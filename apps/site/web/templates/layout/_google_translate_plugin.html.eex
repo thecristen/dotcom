@@ -4,14 +4,16 @@
     id -> raw("\"" <> Phoenix.HTML.escape_javascript(id) <> "\"")
   end
 %>
-<div id="google_translate_element"></div>
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    window.translateElement = new google.translate.TranslateElement({pageLanguage: "en",
-                                                                     gaTrack: true,
-                                                                     layout: null,
-                                                                     gaId: <%= tag_id %>
-                                                                    }, "google_translate_element");
-  }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<%= if Laboratory.enabled?(@conn, :google_translate) do %>
+  <div id="google_translate_element"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      window.translateElement = new google.translate.TranslateElement({pageLanguage: "en",
+                                                                       gaTrack: true,
+                                                                       layout: null,
+                                                                       gaId: <%= tag_id %>
+                                                                      }, "google_translate_element");
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<% end %>
