@@ -200,7 +200,7 @@ defmodule Site.ScheduleV2Controller.GreenTest do
   test "assigns stops_on_routes", %{conn: conn} do
     conn = get(conn, schedule_path(conn, :show, "Green", direction_id: 1))
 
-    assert conn.assigns.stops_on_routes == GreenLine.stops_on_routes(1)
+    assert conn.assigns.stops_on_routes == GreenLine.stops_on_routes(1, conn.assigns.date)
   end
 
   test "if we select an origin where we only have non-trip predictions, we hide the destination selector", %{conn: conn} do
