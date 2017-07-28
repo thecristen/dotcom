@@ -31,7 +31,7 @@ defmodule V3Api.SentryExtra do
   @spec purge_dictionary() :: integer
   defp purge_dictionary() do
     Sentry.Context.clear_all()
-    0
+    1
   end
 
 end

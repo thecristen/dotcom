@@ -27,8 +27,6 @@ defmodule Site.Router do
   scope "/", Site do
     pipe_through :browser # Use the default browser stack
 
-    get "/test", TestController, :index
-    get "/test/error", TestController, :show
     get "/", PageController, :index
     resources "/events", EventController, only: [:index, :show] do
       get "/icalendar", IcalendarController, :show
