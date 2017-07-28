@@ -12,19 +12,15 @@ defmodule V3Api do
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
          {:ok, body} <- body(http_response) do
-      data = JsonApi.parse(body)
-      case data do
-        {:error, _} ->
-          _ = log_reponse_error(url, params, body)
-          data
-        _ -> data
-      end
+      body
+      |> JsonApi.parse
+      |> maybe_log_parse_error(url, params, body)
     else
       {:error, error} ->
-        _ = log_reponse_error(url, params, body)
+        _ = log_response_error(url, params, body)
         {:error, error}
       error ->
-        _ = log_reponse_error(url, params, body)
+        _ = log_response_error(url, params, body)
         {:error, error}
     end
   end
@@ -42,23 +38,32 @@ defmodule V3Api do
     {time, response}
   end
 
+  @spec maybe_log_parse_error(JsonApi.t | {:error, any}, String.t, Keyword.t, String.t) :: JsonApi.t | {:error, any}
+  defp maybe_log_parse_error({:error, error}, url, params, body) do
+    _ = log_response_error(url, params, body)
+    {:error, error}
+  end
+  defp maybe_log_parse_error(response, _, _, _) do
+    response
+  end
+
   @spec log_response(String.t, Keyword.t, integer, any) :: :ok
   defp log_response(url, params, time, response) do
     entry = "V3Api.get_json_response url=#{url} " <>
       "params=#{params |> Map.new |> Poison.encode!} " <>
       log_body(response) <>
       " duration=#{time / 1000}"
-    log_context("api-response", entry)
+    _ = log_context("api-response", entry)
     _ = Logger.info(entry)
     :ok
   end
 
-  @spec log_reponse_error(String.t, Keyword.t, String.t) :: :ok
-  defp log_reponse_error(url, params, body) do
+  @spec log_response_error(String.t, Keyword.t, String.t) :: :ok
+  defp log_response_error(url, params, body) do
     entry = "V3Api.get_json_response url=#{url} " <>
       "params=#{params |> Map.new |> Poison.encode!} " <>
       body
-      log_context("api-response-error", entry)
+      _ = log_context("api-response-error", entry)
       _ = Logger.info(entry)
     :ok
   end

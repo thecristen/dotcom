@@ -87,3 +87,5 @@ config :site, Site.ViewHelpers,
   google_tag_manager_id: "${GOOGLE_TAG_MANAGER_ID}"
 
 config :ehmon, :report_mf, {:ehmon, :info_report}
+
+config :sentry, dsn: "${SENTRY_DSN}"

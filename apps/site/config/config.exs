@@ -45,7 +45,7 @@ config :site, :former_mbta_site,
 
 # Centralize Error reporting
 config :sentry,
-  dsn: System.get_env |> Map.get("SENTRY_DSN", ""),
+  dsn: System.get_env("SENTRY_DSN") || "",
   environment_name: Mix.env,
   enable_source_code_context: false,
   root_source_code_path: File.cwd!,
