@@ -37,6 +37,7 @@ defmodule V3Api.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:httpoison, ">= 0.0.0"},
+     {:poison, "~> 2.2", override: true},
      {:hackney, "~> 1.8.0"},
      {:excoveralls, "~> 0.5", only: :test},
      {:bypass, github: "paulswartz/bypass", only: :test},

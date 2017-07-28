@@ -6,8 +6,16 @@ defmodule V3Api.SentryExtra do
   @process_dictionary_count :sentry_count
   @process_dictionary_max 50
 
-  @spec log_context(String.t, String.t) :: nil
+  @spec log_context(String.t, String.t | fun) :: nil
+  def log_context(entry_type, data_callback) when is_function(data_callback) do
+    do_log_context(entry_type, data_callback.())
+  end
   def log_context(entry_type, data) do
+    do_log_context(entry_type, data)
+  end
+
+  @spec do_log_context(String.t, String.t) :: nil
+  defp do_log_context(entry_type, data) do
     count = set_dictionary_count(get_dictionary_count())
     Sentry.Context.set_extra_context(%{"#{entry_type}-#{count}" => data})
   end

@@ -18,6 +18,12 @@ defmodule SentryExtraTest do
       assert expects == Process.get(@process_dictionary_key)
     end
 
+    test "input can be an anonymous function" do
+      expects = %{extra: %{"A-1" => "B"}}
+      assert nil == log_context("A", fn -> "B" end)
+      assert expects == Process.get(@process_dictionary_key)
+    end
+
     test "52 messages is 2 entries in the process dictionary" do
       expects = %{extra: %{"A-1" => "51", "A-2" => "52"}}
       for n <- 1..52, do: log_context("A", Integer.to_string(n))
@@ -32,8 +38,7 @@ defmodule SentryExtraTest do
         assert conn.request_path == "/bad_json"
         send_resp conn, 200, ~s({data: garbage})
       end
-      response = V3Api.get_json("/bad_json", [], base_url: url)
-      IO.inspect response
+      V3Api.get_json("/bad_json", [], base_url: url)
       assert expects == Process.get(@process_dictionary_key).extra["api-response-error-2"]
     end
 
