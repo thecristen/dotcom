@@ -20,8 +20,8 @@ defmodule V3Api.SentryExtra do
     Sentry.Context.set_extra_context(%{"#{entry_type}-#{count}" => data})
   end
 
-  @spec get_dictionary_count() :: integer
-  defp get_dictionary_count() do
+  @spec get_dictionary_count :: integer
+  defp get_dictionary_count do
     Process.get(@process_dictionary_count, 0)
   end
 
@@ -36,8 +36,8 @@ defmodule V3Api.SentryExtra do
     next_count
   end
 
-  @spec purge_dictionary() :: integer
-  defp purge_dictionary() do
+  @spec purge_dictionary :: integer
+  defp purge_dictionary do
     Sentry.Context.clear_all()
     1
   end
