@@ -54,7 +54,8 @@
     <div class="form-group">
       <%= label f, :accessible, for: "accessible" do %>
         <%= checkbox f, :accessible, id: "accessible" %>
-        Wheelchair accessible trip?
+        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
+        Wheelchair accessible trip
       <% end %>
     </div>
     <button type="submit" class="btn btn-primary">Find</button>
