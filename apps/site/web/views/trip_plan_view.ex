@@ -102,4 +102,19 @@ defmodule Site.TripPlanView do
   def collapsable_row?(row) do
     length(row.steps) >= 6 && mode_class(row) != "personal"
   end
+
+  @spec stop_departure_display(ItineraryRow.t) :: {:render, String.t} | :blank
+  def stop_departure_display(itinerary_row) do
+    if !itinerary_row.arrival && !itinerary_row.trip do
+      {:render, format_schedule_time(itinerary_row.departure)}
+    else
+      :blank
+    end
+  end
+
+  @spec render_stop_departure_display(:blank | {:render, String.t}) :: Phoenix.HTML.Safe.t
+  def render_stop_departure_display(:blank), do: nil
+  def render_stop_departure_display({:render, formatted_time}) do
+    content_tag :div, formatted_time, class: "pull-right"
+  end
 end

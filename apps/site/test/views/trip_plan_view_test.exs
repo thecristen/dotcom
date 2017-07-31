@@ -122,4 +122,32 @@ defmodule Site.TripPlanViewTest do
       refute collapsable_row?(row)
     end
   end
+
+  describe "stop_departure_display/1" do
+    @time ~N[2017-06-27T11:43:00]
+
+    test "returns blank when trip or arrival are available" do
+      trip_row = %ItineraryRow{trip: %Schedules.Trip{}}
+      arrival_row = %ItineraryRow{arrival: @time}
+
+      assert stop_departure_display(trip_row) == :blank
+      assert stop_departure_display(arrival_row) == :blank
+    end
+
+    test "returns formatted time when trip or arrival are not available" do
+      row = %ItineraryRow{trip: nil, arrival: nil, departure: @time}
+      assert stop_departure_display(row) == {:render, "11:43A"}
+    end
+  end
+
+  describe "render_stop_departure_display/1" do
+    test "does not render :blank" do
+      refute render_stop_departure_display(:blank)
+    end
+
+    test "renders time when given one" do
+      text = {:render, "11:00A"} |> render_stop_departure_display() |> safe_to_string
+      assert text =~ "11:00A"
+    end
+  end
 end

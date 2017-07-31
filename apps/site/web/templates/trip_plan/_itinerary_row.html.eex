@@ -5,7 +5,7 @@
   <div class="route-branch-stop-list route-branch-stop <%= mode_class %>">
     <%= Site.PartialView.StopBubbles.render_stop_bubbles(@bubble_params) %>
     <div class="itinerary-transfer-row itinerary-step">
-      <%= render "_itinerary_stop.html", stop_name: stop_name, stop_id: stop_id, alerts: @alerts, conn: @conn %>
+      <%= render "_itinerary_stop.html", stop_name: stop_name, stop_id: stop_id, alerts: @alerts, departure_display: stop_departure_display(@itinerary_row), conn: @conn %>
       <%= if @itinerary_row.arrival do %>
         <div>
           <span class="itinerary-instruction">

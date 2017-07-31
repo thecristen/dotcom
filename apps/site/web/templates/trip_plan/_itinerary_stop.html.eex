@@ -7,4 +7,5 @@
   <% else %>
     <%= @stop_name %>
   <% end %>
+  <%= render_stop_departure_display(@departure_display) %>
 </div>
