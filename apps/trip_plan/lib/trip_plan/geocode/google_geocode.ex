@@ -13,7 +13,7 @@ defmodule TripPlan.Geocode.GoogleGeocode do
       [] ->
         {:error, :no_results}
       [_ | _] = results ->
-        {:error, {:too_many_results, results}}
+        {:error, {:multiple_results, results}}
       {:error, :zero_results, _} ->
         {:error, :no_results}
       _ ->

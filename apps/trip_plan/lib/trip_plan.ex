@@ -14,8 +14,15 @@ defmodule TripPlan do
   """
   @spec plan(Position.t, Position.t, TripPlan.Api.plan_opts) :: TripPlan.Api.t
   def plan(from, to, opts) do
-    module = Application.fetch_env!(:trip_plan, Api)[:module]
-    apply(module, :plan, [from, to, Keyword.merge(@default_opts, opts)])
+    apply(module(Api), :plan, [from, to, Keyword.merge(@default_opts, opts)])
+  end
+
+  @doc """
+  Fetches all stops within 1km of a given point
+  """
+  @spec stops_nearby(Position.t) :: [Position.t]
+  def stops_nearby(location) do
+    apply(module(Api), :stops_nearby, [location])
   end
 
   @doc """
@@ -27,7 +34,8 @@ defmodule TripPlan do
     {:error, :required}
   end
   def geocode(address) when is_binary(address) do
-    module = Application.fetch_env!(:trip_plan, Geocode)[:module]
-    apply(module, :geocode, [address])
+    apply(module(Geocode), :geocode, [address])
   end
+
+  defp module(sub_module), do: Application.fetch_env!(:trip_plan, sub_module)[:module]
 end

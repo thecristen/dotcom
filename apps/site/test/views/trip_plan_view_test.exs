@@ -21,7 +21,7 @@ defmodule Site.TripPlanViewTest do
     end
 
     test "renders each position as a link if we have too many results", %{conn: conn} do
-      {:error, {:too_many_results, results}} = from = TripPlan.geocode("too many results")
+      {:error, {:multiple_results, results}} = from = TripPlan.geocode("too many results")
       query = %Query{
         from: from,
         to: {:error, :unknown},

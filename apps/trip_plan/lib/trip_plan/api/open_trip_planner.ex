@@ -2,7 +2,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   @behaviour TripPlan.Api
   require Logger
   import __MODULE__.Builder, only: [build_params: 1]
-  import __MODULE__.Parser, only: [parse_json: 1]
+  import __MODULE__.Parser, only: [parse_json: 1, parse_nearby: 1]
   alias TripPlan.NamedPosition
   alias Stops.Position
 
@@ -18,16 +18,21 @@ defmodule TripPlan.Api.OpenTripPlanner do
            "locale" => "en"
          }),
            root_url = config(:root_url),
-           full_url = "#{root_url}/otp/routers/default/plan",
-         {:ok, response} <- log_response(full_url, params),
-         %{status_code: 200, body: body} <- response do
-      parse_json(body)
-    else
-      %{status_code: _} = response ->
-        {:error, response}
-      error ->
-        error
+         full_url = "#{root_url}/otp/routers/default/plan"
+    do
+      send_request(full_url, params, &parse_json/1)
     end
+  end
+
+  def stops_nearby(location) do
+    root_url = config(:root_url)
+    full_url = "#{root_url}/otp/routers/default/index/stops"
+    params = %{
+      lat: Position.latitude(location),
+      lon: Position.longitude(location),
+      radius: 1000
+    }
+    send_request(full_url, params, &parse_nearby/1)
   end
 
   def config(key) do
@@ -36,6 +41,18 @@ defmodule TripPlan.Api.OpenTripPlanner do
         System.get_env(var) || default
       value ->
         value
+    end
+  end
+
+  defp send_request(url, params, parser) do
+    with {:ok, response} <- log_response(url, params),
+         %{status_code: 200, body: body} <- response do
+      parser.(body)
+    else
+      %{status_code: _} = response ->
+        {:error, response}
+      error ->
+        error
     end
   end
 

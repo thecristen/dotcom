@@ -86,12 +86,70 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "too many results", to_result}
       refute_received {:planned_trip, _, _}
       assert {:error, :no_results} = from_result
-      assert {:error, {:too_many_results, _}} = to_result
+      assert {:error, {:multiple_results, _}} = to_result
       assert %Query{
         from: ^from_result,
         to: ^to_result,
         itineraries: {:error, _}
       } = actual
+    end
+
+    test "sets alternate from and to locations when no trips are found" do
+      params = %{"from" => "path_not_found",
+                 "to" => "to address",
+                 "time" => "depart",
+                 "date_time" => @date_time,
+                 "include_car?" => "false",
+                 "accessible" => "true",
+      }
+      query = from_query(params)
+      assert %Query{
+        from: {:error, {:multiple_results, froms}},
+        to: {:error, {:multiple_results, tos}},
+        itineraries: {:error, :path_not_found}
+      } = query
+      refute froms == []
+      refute tos == []
+      for from <- froms, do: assert %NamedPosition{} = from
+      for to <- tos, do: assert %NamedPosition{} = to
+    end
+
+    test "keeps original from/to if no trips are found alternate search errors" do
+      params = %{"from" => "path_not_found",
+                 "to" => "stops_nearby error",
+                 "time" => "depart",
+                 "date_time" => @date_time,
+                 "include_car?" => "false",
+                 "accessible" => "true",
+      }
+      query = from_query(params)
+      assert %Query{
+        from: {:error, {:multiple_results, froms}},
+        to: {:ok, to},
+        itineraries: {:error, :path_not_found}
+      } = query
+      assert %NamedPosition{name: "Geocoded stops_nearby error"} = to
+      refute froms == []
+      for from <- froms, do: assert %NamedPosition{} = from
+    end
+
+    test "keeps original from/to if no trips are found alternate search returns no results" do
+      params = %{"from" => "path_not_found",
+                 "to" => "stops_nearby no_results",
+                 "time" => "depart",
+                 "date_time" => @date_time,
+                 "include_car?" => "false",
+                 "accessible" => "true",
+      }
+      query = from_query(params)
+      assert %Query{
+        from: {:error, {:multiple_results, froms}},
+        to: {:ok, to},
+        itineraries: {:error, :path_not_found}
+      } = query
+      assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = to
+      refute froms == []
+      for from <- froms, do: assert %NamedPosition{} = from
     end
   end
 

@@ -22,11 +22,11 @@ defmodule TripPlan.Geocode.GoogleGeocodeTest do
       end
     end
 
-    test "returns {:error, {:too_many_results, [...]}} if there are multiple results" do
+    test "returns {:error, {:multiple_results, [...]}} if there are multiple results" do
       one = %Address{formatted: "one", latitude: 1, longitude: 1}
       two = %Address{formatted: "two", latitude: 2, longitude: 2}
       with_geocode_mock {:ok, [one, two]}, fn ->
-        assert {:error, {:too_many_results, positions}} = geocode("formatted")
+        assert {:error, {:multiple_results, positions}} = geocode("formatted")
         assert [
           %NamedPosition{name: "one", latitude: 1, longitude: 1},
           %NamedPosition{name: "two", latitude: 2, longitude: 2}

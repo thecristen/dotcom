@@ -21,8 +21,8 @@ defmodule Site.TripPlanView do
   defp do_render_location_error(_conn, _field, :no_results) do
     "That address was not found. Please try a different address."
   end
-  defp do_render_location_error(conn, field, {:too_many_results, results}) do
-    render "_error_too_many_results.html", conn: conn, field: field, results: results
+  defp do_render_location_error(conn, field, {:multiple_results, results}) do
+    render "_error_multiple_results.html", conn: conn, field: field, results: results
   end
   defp do_render_location_error(_conn, _field, :required) do
     "This field is required."

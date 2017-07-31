@@ -1,5 +1,5 @@
 Did you mean?
-<ul class="trip-plan-too-many-results">
+<ul>
   <%= for result <- @results do %>
     <li>
       <%= link result.name, to: update_url(@conn, plan: %{@field => result.name}) %>

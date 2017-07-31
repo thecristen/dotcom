@@ -14,6 +14,16 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     end
   end
 
+  @spec parse_nearby(binary) :: {:ok, [NamedPosition.t]}
+  def parse_nearby(json_binary) do
+    with {:ok, json} <- Poison.decode(json_binary) do
+      json
+      |> Enum.sort_by(fn location -> location["dist"] end)
+      |> Enum.map(&parse_named_position(&1, "id"))
+      |> (fn positions -> {:ok, positions} end).()
+    end
+  end
+
   def parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
     accessible? = params["wheelchair"] == "true"
     {:error, error_message_atom(error_message, accessible?: accessible?)}
@@ -57,16 +67,16 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
       start: parse_time(json["startTime"]),
       stop: parse_time(json["endTime"]),
       mode: parse_mode(json),
-      from: parse_named_position(json["from"]),
-      to: parse_named_position(json["to"]),
+      from: parse_named_position(json["from"], "stopId"),
+      to: parse_named_position(json["to"], "stopId"),
       polyline: json["legGeometry"]["points"],
     }
   end
 
-  def parse_named_position(json) do
+  def parse_named_position(json, id_field) do
     %NamedPosition{
       name: json["name"],
-      stop_id: if(id_str = json["stopId"], do: id_after_colon(id_str)),
+      stop_id: if(id_str = json[id_field], do: id_after_colon(id_str)),
       longitude: json["lon"],
       latitude: json["lat"]
     }

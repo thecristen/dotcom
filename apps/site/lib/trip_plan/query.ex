@@ -20,6 +20,13 @@ defmodule Site.TripPlan.Query do
                   else
                     _ -> {:error, :prereq}
                   end
+
+    itineraries
+    |> build_query(from, to)
+    |> suggest_alternate_locations
+  end
+
+  defp build_query(itineraries, from, to) do
     %__MODULE__{
       from: from,
       to: to,
@@ -100,4 +107,24 @@ defmodule Site.TripPlan.Query do
       _ -> nil
     end
   end
+
+  defp suggest_alternate_locations(%__MODULE__{itineraries: {:error, error}, from: {:ok, from}, to: {:ok, to}} = query)
+  when error in [:path_not_found, :location_not_accessible] do
+    [froms, tos] =
+      [from, to]
+      |> Task.async_stream(&TripPlan.stops_nearby/1)
+      |> Enum.zip([from, to])
+      |> Enum.map(fn {results, original} ->
+        case results do
+          {:ok, {:ok, [_ | _] = results}} -> {:error, {:multiple_results, Enum.take(results, 5)}}
+          _ -> {:ok, original}
+        end
+      end)
+
+    %__MODULE__{query |
+      from: froms,
+      to: tos
+    }
+  end
+  defp suggest_alternate_locations(query), do: query
 end

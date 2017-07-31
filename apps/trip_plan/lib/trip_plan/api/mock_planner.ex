@@ -6,6 +6,9 @@ defmodule TripPlan.Api.MockPlanner do
   @max_distance 1000
   @max_duration 30 * 60
 
+  def plan(%NamedPosition{name: "Geocoded path_not_found"}, _to, _opts) do
+    {:error, :path_not_found}
+  end
   def plan(from, to, opts) do
     start = DateTime.utc_now()
     duration = :rand.uniform(@max_duration)
@@ -111,5 +114,15 @@ defmodule TripPlan.Api.MockPlanner do
     else
       stop
     end
+  end
+
+  def stops_nearby(%NamedPosition{name: "Geocoded stops_nearby error"}), do: {:error, "error"}
+  def stops_nearby(%NamedPosition{name: "Geocoded stops_nearby no_results"}), do: {:ok, []}
+  def stops_nearby(_location) do
+    {:ok, [random_stop(),
+           random_stop(),
+           random_stop()
+          ]
+    }
   end
 end

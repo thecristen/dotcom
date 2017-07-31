@@ -1,7 +1,7 @@
 defmodule TripPlan.Geocode do
   @type t :: {:ok, result} | {:error, error}
   @type result :: TripPlan.NamedPosition.t
-  @type error :: :no_results | {:too_many_results, [result]} | :required | :unknown
+  @type error :: :no_results | {:multiple_results, nonempty_list(result)} | :required | :unknown
 
   @doc """
   Given a string, figure out the latitude/longitude.

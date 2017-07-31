@@ -27,7 +27,7 @@ defmodule TripPlan.Api.OpenTripPlanner.HttpTest do
     end
   end
 
-  describe "plan/3 error handling/logging" do
+  describe "error handling/logging" do
     setup do
       bypass = Bypass.open
       host = "http://localhost:#{bypass.port}"
@@ -58,6 +58,14 @@ defmodule TripPlan.Api.OpenTripPlanner.HttpTest do
     test "connection errors are converted to error tuples", %{bypass: bypass} do
       Bypass.down bypass
       assert {:error, _} = plan({1, 1}, {2, 2}, depart_at: DateTime.utc_now())
+    end
+  end
+
+  @tag :external
+  describe "stops_nearby/1" do
+    test "returns a list of named positions near given coordinates" do
+      assert {:ok, stops} = stops_nearby({42.365257, -71.009650})
+      refute stops == []
     end
   end
 end

@@ -12,7 +12,7 @@ defmodule TripPlan.Geocode.MockGeocode do
   def geocode("too many results" = address) do
     return_result(
       address,
-      {:error, {:too_many_results, [result("one"), result("two")]}}
+      {:error, {:multiple_results, [result("one"), result("two")]}}
     )
   end
   def geocode(address) do
