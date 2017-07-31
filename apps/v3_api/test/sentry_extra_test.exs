@@ -1,4 +1,4 @@
-defmodule SentryExtraTest do
+defmodule V3Api.SentryExtraTest do
   use ExUnit.Case, async: true
 
   import V3Api.SentryExtra
@@ -39,6 +39,16 @@ defmodule SentryExtraTest do
         send_resp conn, 200, ~s({data: garbage})
       end
       V3Api.get_json("/bad_json", [], base_url: url)
+      assert expects == Process.get(@process_dictionary_key).extra["api-response-error-2"]
+    end
+
+    test "bad server response", %{bypass: bypass, url: url} do
+      expects = "V3Api.get_json_response url=/bad_response params={} "
+      Bypass.expect bypass, fn conn ->
+        assert conn.request_path == "/bad_response"
+        send_resp conn, 500, ""
+      end
+      V3Api.get_json("/bad_response", [], base_url: url)
       assert expects == Process.get(@process_dictionary_key).extra["api-response-error-2"]
     end
 
