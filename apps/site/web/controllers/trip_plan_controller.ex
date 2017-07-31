@@ -24,6 +24,7 @@ defmodule Site.TripPlanController do
     end
   end
   def index(conn, _params) do
+    ThisWillError.api11()
     conn
     |> assign(:errors, [])
     |> render(:index)
