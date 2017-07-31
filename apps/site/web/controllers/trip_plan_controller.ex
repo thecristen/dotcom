@@ -23,8 +23,10 @@ defmodule Site.TripPlanController do
         |> render(:index)
     end
   end
-  def index(conn, _params) do
-    ThisWillError.api11()
+  def index(conn, params) do
+    if (params == %{"error" => "true"}) do
+      ThisWillError.api13()
+    end
     conn
     |> assign(:errors, [])
     |> render(:index)
