@@ -49,10 +49,7 @@ config :sentry,
   environment_name: Mix.env,
   enable_source_code_context: false,
   root_source_code_path: File.cwd!,
-  tags: %{
-    env: Mix.env
-  },
-  included_environments: [:prod]
+  included_environments: [:prod, :dev]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

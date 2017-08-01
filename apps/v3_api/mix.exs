@@ -42,6 +42,6 @@ defmodule V3Api.Mixfile do
      {:excoveralls, "~> 0.5", only: :test},
      {:bypass, github: "paulswartz/bypass", only: :test},
      {:json_api, in_umbrella: true},
-     {:sentry, "~> 5.0.1"}]
+     {:sentry, github: "ryan-mahoney/sentry-elixir"}]
   end
 end
