@@ -23,7 +23,7 @@ defmodule Site.TripPlanController do
         |> render(:index)
     end
   end
-  def index(conn, params) do
+  def index(conn, _) do
     conn
     |> assign(:errors, [])
     |> render(:index)
