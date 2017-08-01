@@ -45,6 +45,14 @@ config :content,
 config :site, :former_mbta_site,
   host: "https://www.mbta.com"
 
+# Centralize Error reporting
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN") || "",
+  environment_name: Mix.env,
+  enable_source_code_context: false,
+  root_source_code_path: File.cwd!,
+  included_environments: [:prod, :dev]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
