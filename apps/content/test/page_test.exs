@@ -8,6 +8,7 @@ defmodule Content.PageTest do
       assert %Content.BasicPage{} = Content.Page.from_api(Static.basic_page_response())
       assert %Content.ProjectUpdate{} = Content.Page.from_api(Static.project_update_response())
       assert %Content.LandingPage{} = Content.Page.from_api(Static.landing_page_response())
+      assert %Content.Redirect{} = Content.Page.from_api(Static.redirect_response())
     end
   end
 end

@@ -38,6 +38,10 @@ defmodule Content.CMS.Static do
     parse_json("denali-national-park.json")
   end
 
+  def redirect_response do
+    parse_json("redirect.json")
+  end
+
   @impl true
   def view(path, params \\ [])
   def view("/recent-news", [current_id: id]) do
@@ -103,6 +107,9 @@ defmodule Content.CMS.Static do
   end
   def view("/denali-national-park", _) do
     {:ok, landing_page_response()}
+  end
+  def view("/test/redirect", _) do
+    {:ok, redirect_response()}
   end
   def view(_, _) do
     {:error, "Not able to retrieve response"}

@@ -29,7 +29,8 @@ defmodule Content.Mixfile do
         :poison,
         :repo_cache,
         :timex,
-        :tzdata
+        :tzdata,
+        :html_sanitize_ex
       ],
       mod: {Content, []}
    ]
@@ -54,9 +55,10 @@ defmodule Content.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:httpoison, ">= 0.0.0"},
-     {:poison, ">= 0.0.0"},
+     {:poison, ">= 0.0.0", override: true},
      {:timex, ">= 0.0.0"},
      {:plug, ">= 0.0.0"},
+     {:html_sanitize_ex, "~> 1.2.0"},
      {:bypass, github: "paulswartz/bypass", only: :test},
      {:quixir, "~> 0.9", only: :test},
      {:excoveralls, "~> 0.5", only: :test},
