@@ -1,7 +1,7 @@
 defmodule Content.Redirect do
   @moduledoc """
 
-  Represents the "Redirect" content type in the CMS. If there is a redirect, the user should get redirected to
+  Represents the "Redirect" content type in the CMS. If there is a redirect, the user is redirected to
   the specified url.
 
   """
