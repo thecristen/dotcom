@@ -19,6 +19,8 @@ config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
+# Include referrer in Logster request log
+config :logster, :allowed_headers, ["referer"]
 
 config :site, Site.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
