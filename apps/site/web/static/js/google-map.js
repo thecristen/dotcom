@@ -5,8 +5,8 @@ export default function() {
 
     // Clean up and leave if there is no map data available
     if (!mapDataElements || mapDataElements.length == 0) {
-      // Get rid of any previously registered reavaluteMapBounds event
-      window.removeEventListener("resize", reavaluteMapBounds);
+      // Get rid of any previously registered reevaluateMapBounds event
+      window.removeEventListener("resize", reevaluateMapBounds);
       return;
     }
 
@@ -18,7 +18,7 @@ export default function() {
     }
 
     // Reconsier bounds on page resize
-    window.addEventListener("resize", reavaluteMapBounds);
+    window.addEventListener("resize", reevaluateMapBounds);
   }
 
   document.addEventListener("turbolinks:load", initMap, {passive: true});
@@ -135,6 +135,7 @@ export function getZoom(mapOffset) {
 
 export function triggerResize(mapOffset) {
   google.maps.event.trigger(maps[mapOffset], "resize");
+  reevaluateMapBound(mapOffset);
 }
 
 // When there are very few markers, map will zoom in too close. 17 is a reasonable zoom level to see a small
@@ -162,14 +163,18 @@ function closeInfoWindow() {
 }
 
 // If the map container size changes, recalulate the positioning of the map contents
-function reavaluteMapBounds () {
+function reevaluateMapBounds() {
   for (var offset in maps) {
-    if(Object.keys(markers).length > 1) {
-      maps[offset].fitBounds(bounds[offset]);
-      maps[offset].panToBounds(bounds[offset]);
-    } else {
-      maps[offset].setCenter(bounds[offset].getCenter());
-    }
+    reevaluateMapBound(offset);
+  }
+}
+
+function reevaluateMapBound(offset) {
+  if (Object.keys(markers).length > 1) {
+    maps[offset].fitBounds(bounds[offset]);
+    maps[offset].panToBounds(bounds[offset]);
+  } else {
+    maps[offset].setCenter(bounds[offset].getCenter());
   }
 }
 
