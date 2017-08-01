@@ -9,7 +9,6 @@ export default function tripPlan($ = window.jQuery) {
   $("[data-planner-body]").on('hide.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('show.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('shown.bs.collapse', redrawMap);
-  window.addEventListener("load", collapseItineraries($));
   $("[data-reveal-step-button]").on("click", revealSteps);
 };
 
