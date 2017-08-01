@@ -30,6 +30,12 @@ defmodule Site.TripPlan.Map do
     |> GoogleMaps.static_map_url()
   end
 
+  def initial_map_data do
+    {630, 400}
+    |> MapData.new(14)
+    |> MapData.add_marker(initial_marker())
+  end
+
   @spec initial_marker() :: Marker.t
   defp initial_marker do
     Marker.new(42.360718, -71.05891, visible?: false)

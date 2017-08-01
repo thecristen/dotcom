@@ -87,6 +87,16 @@
   }
 }
 
+.trip-plan-initial-map {
+  height: $base-spacing * 18;
+  margin-bottom: $base-spacing;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    height: $base-spacing * 20;
+  }
+}
+
 .trip-plan-related-links {
   display: flex;
   flex-flow: wrap;

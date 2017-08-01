@@ -87,7 +87,9 @@ defmodule Site.TripPlanController do
   end
 
   def assign_initial_map(conn, _opts) do
-    assign(conn, :initial_map_src, TripPlanMap.initial_map_src())
+    conn
+    |> assign(:initial_map_src, TripPlanMap.initial_map_src())
+    |> assign(:initial_map_data, TripPlanMap.initial_map_data())
   end
 
   defp with_itineraries(query, default, function)

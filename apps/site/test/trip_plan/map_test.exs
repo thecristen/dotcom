@@ -60,6 +60,18 @@ defmodule Site.TripPlan.MapTest do
     end
   end
 
+  describe "initial_map_data/0" do
+    test "gives the initial map data" do
+      expected = %GoogleMaps.MapData{dynamic_options: %{gestureHandling: "cooperative"},
+        height: 400,
+        markers: [%GoogleMaps.MapData.Marker{icon: nil,
+                    latitude: 42.360718, longitude: -71.05891, size: :mid,
+                    tooltip: nil, visible?: false, z_index: 0}], paths: [], scale: 1,
+                width: 630, zoom: 14}
+      assert initial_map_data() == expected
+    end
+  end
+
   defp markers_with_z_index(idx, markers) do
     markers
     |> Enum.filter(& &1.z_index == idx)

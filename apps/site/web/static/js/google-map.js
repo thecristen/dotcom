@@ -13,7 +13,7 @@ export default function() {
     // Render all maps by iterating over the HTMLCollection elements
     const mapElements = document.getElementsByClassName("dynamic-map");
     for (var i = 0; i < mapElements.length; i++) {
-      var mapData = JSON.parse(mapDataElements[i].innerHTML)
+      var mapData = JSON.parse(mapDataElements[i].innerHTML);
       initializeMap(mapElements[i], mapData, i);
     }
 
@@ -62,15 +62,23 @@ function displayMap(el, mapData, mapOffset) {
   }
 
   // Auto zoom and auto center
-  maps[mapOffset].fitBounds(bounds[mapOffset]);
-  maps[mapOffset].panToBounds(bounds[mapOffset]);
+  if (mapData.markers.length > 1) {
+    maps[mapOffset].fitBounds(bounds[mapOffset]);
+    maps[mapOffset].panToBounds(bounds[mapOffset]);
+  } else {
+    maps[mapOffset].setCenter(bounds[mapOffset].getCenter());
+  }
+
+  var mapDataElements = document.getElementsByClassName("dynamic_map_data");
 
   // If the map zooms in too much, take it out to a reasonble level
   const zoom = maps[mapOffset].getZoom();
-  if (!zoom) {
+  if (!zoom && !mapData.zoom) {
     google.maps.event.addListenerOnce(maps[mapOffset], "zoom_changed", function() {
       setReasonableZoom(maps[mapOffset], maps[mapOffset].getZoom());
     });
+  } else if(mapData.zoom) {
+    maps[mapOffset].setZoom(mapData.zoom);
   } else {
     setReasonableZoom(maps[mapOffset], zoom);
   }
@@ -156,8 +164,12 @@ function closeInfoWindow() {
 // If the map container size changes, recalulate the positioning of the map contents
 function reavaluteMapBounds () {
   for (var offset in maps) {
-    maps[offset].fitBounds(bounds[offset]);
-    maps[offset].panToBounds(bounds[offset]);
+    if(Object.keys(markers).length > 1) {
+      maps[offset].fitBounds(bounds[offset]);
+      maps[offset].panToBounds(bounds[offset]);
+    } else {
+      maps[offset].setCenter(bounds[offset].getCenter());
+    }
   }
 }
 
