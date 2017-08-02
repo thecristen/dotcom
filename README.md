@@ -6,17 +6,14 @@ The new face of http://mbta.com/
 
 ## Getting Started
 
-1. Install Erlang/Elixir: http://elixir-lang.org/install.html
-1. Install NodeJS: https://nodejs.org/en/download/
+1. Install Erlang/Elixir: `brew install elixir` or through http://elixir-lang.org/install.html
+1. Install NodeJS, version 6. If you don't need any other versions of node installed, then install with `brew install node@6 && brew link node@6 --force`. Check that the correct version is installed with `node --version`.
 1. Install Sass:
   * `gem install sass`
   * You might get a permission error here.  You can either `sudo gem install
     sass`, or install a Ruby environment manager.
-1. Install Phoenix: http://www.phoenixframework.org/docs/installation
-1. Install our Elixir dependencies:
-  * `mix deps.get`
-1. Install our Node dependencies:
-  * `npm run install`
+1. Install our Elixir dependencies: From the root of this repo, `mix deps.get`
+1. Install our Node dependencies: From the root of this repo, `npm run install`
   * If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github:
 
       git config --global url.https://github.com/.insteadOf git://github.com/
