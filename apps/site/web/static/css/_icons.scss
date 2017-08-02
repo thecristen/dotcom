@@ -220,8 +220,7 @@ a {
   }
 }
 
-.icon-inverse,
-%icon-inverse {
+@mixin icon-inverse {
   // white fill, white border, transparent fill
   .icon-circle {
     fill: transparent;
@@ -239,4 +238,8 @@ a {
     fill: transparent;
     stroke: $white;
   }
+}
+
+%icon-inverse {
+  @include icon-inverse;
 }
