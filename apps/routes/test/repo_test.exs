@@ -133,7 +133,7 @@ defmodule Routes.RepoTest do
       headsigns = Routes.Repo.headsigns("CR-Lowell")
 
       assert headsigns == %{
-        0 => ["Lowell", "Anderson/ Woburn", "Haverhill"],
+        0 => ["Lowell", "Anderson/Woburn", "Haverhill"],
         1 => ["North Station"]
       }
     end
