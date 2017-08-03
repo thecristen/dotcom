@@ -348,6 +348,10 @@ del .realtime {
     border: $border-md;
     border-bottom-width: $border-width * 3;
     border-color: $brand-primary;
+
+    .trip-preselected & {
+      display: none;
+    }
   }
 }
 
