@@ -17,27 +17,29 @@
   </head>
 
   <body class="style-guide">
-    <header class="page-header">
-      <h1>MBTA Tech Style Guide</h1>
-      <nav class="primary-nav">
-        <ul class="row">
-          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide">Home</a></li>
-          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/components">UI Components</a></li>
-          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/principles">Design Principles</a></li>
-          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/content">Content Style Guide</a></li>
-          <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/about">About MBTA.com</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main class="main-container row">
-      <%= if has_styleguide_subpages?(@conn) do %>
-        <%= render @view_module, "_sidebar_nav.html", assigns %>
-      <% end %>
-      <div class="main-content col-sm-12<%= styleguide_main_content_class(assigns) %> <%= Map.get(@conn.params, "section") %>">
-        <%= render @view_module, @view_template, assigns %>
-      </div>
-    </main>
-    <footer></footer>
-    <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
+    <div class="body-wrapper">
+      <header class="page-header">
+        <h1>MBTA Tech Style Guide</h1>
+        <nav class="primary-nav">
+          <ul class="row">
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide">Home</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/components">UI Components</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/principles">Design Principles</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/content">Content Style Guide</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/about">About MBTA.com</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main class="main-container row">
+        <%= if has_styleguide_subpages?(@conn) do %>
+          <%= render @view_module, "_sidebar_nav.html", assigns %>
+        <% end %>
+        <div class="main-content col-sm-12<%= styleguide_main_content_class(assigns) %> <%= Map.get(@conn.params, "section") %>">
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+      </main>
+      <footer></footer>
+      <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
+    </div>
   </body>
 </html>
