@@ -34,6 +34,9 @@ defmodule Site.ContentController do
     |> assign(:page, page)
     |> render(Site.ContentView, "project_update.html")
   end
+  defp render_page(conn, %Content.Redirect{url: url}) do
+    redirect conn, external: url
+  end
   defp render_page(conn, _) do
     conn
     |> put_status(:not_found)

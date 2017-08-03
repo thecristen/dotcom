@@ -9,7 +9,6 @@ export default function tripPlan($ = window.jQuery) {
   $("[data-planner-body]").on('hide.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('show.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('shown.bs.collapse', redrawMap);
-  window.addEventListener("load", collapseItineraries($));
   $("[data-reveal-step-button]").on("click", revealSteps);
 };
 
@@ -66,11 +65,6 @@ function redrawMap(e) {
   const container = $(e.target).parent();
   const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
   const zoom = getZoom(offset);
-  // we can detect that the map did not render correctly because it will have an abnormally low zoom value, usually 3.
-  // Normal zoom values for very short or very long trips fall between a range of ~10 - ~15.
-  if (zoom > 5) {
-    return;
-  }
   triggerResize(offset);
 }
 

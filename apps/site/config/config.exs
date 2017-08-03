@@ -19,6 +19,8 @@ config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
+# Include referrer in Logster request log
+config :logster, :allowed_headers, ["referer"]
 
 config :site, Site.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
@@ -42,6 +44,14 @@ config :content,
 
 config :site, :former_mbta_site,
   host: "https://www.mbta.com"
+
+# Centralize Error reporting
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN") || "",
+  environment_name: Mix.env,
+  enable_source_code_context: false,
+  root_source_code_path: File.cwd!,
+  included_environments: [:prod, :dev]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
