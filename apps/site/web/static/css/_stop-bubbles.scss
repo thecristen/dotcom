@@ -15,7 +15,7 @@ $location-line-width: $space-6;
       .stop-bubble-terminus {
         circle {
           fill: $white;
-          stroke: $color;
+          stroke: $gray-dark;
           stroke-width: $space-2;
         }
       }
@@ -23,7 +23,7 @@ $location-line-width: $space-6;
       .icon-inverse,
       .stop-bubble-terminus {
         circle {
-          fill: $color;
+          fill: $gray-dark;
         }
       }
 

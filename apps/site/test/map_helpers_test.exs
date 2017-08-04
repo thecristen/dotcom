@@ -67,11 +67,11 @@ defmodule MapHelpersTest do
   end
 
   describe "map_stop_icon_path" do
-    test "returns correct path for route when no size specified" do
-      assert map_stop_icon_path(%Route{type: 3}) =~ "FFCE0C-dot"
+    test "returns correct path when no size specified" do
+      assert map_stop_icon_path() =~ "000000-dot"
     end
-    test "returns correct path for route when size is specified" do
-      assert map_stop_icon_path(%Route{type: 3}, :mid) =~ "FFCE0C-dot-mid"
+    test "returns correct path when size is specified" do
+      assert map_stop_icon_path(:mid) =~ "000000-dot-mid"
     end
   end
 end

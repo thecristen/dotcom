@@ -60,12 +60,8 @@ defmodule Site.MapHelpers do
   can be given. A Size of :mid represents the larger stop icons.
   If no size is specified, the smaller icons are shown
   """
-  @spec map_stop_icon_path(Route.t | nil, Marker.size | nil) :: String.t
-  def map_stop_icon_path(route, size \\ nil)
-  def map_stop_icon_path(route, :mid) do
-    "#{route_map_color(route)}-dot-mid"
-  end
-  def map_stop_icon_path(route, _size) do
-    "#{route_map_color(route)}-dot"
-  end
+  @spec map_stop_icon_path(Marker.size | nil) :: String.t
+  def map_stop_icon_path(size \\ nil)
+  def map_stop_icon_path(:mid), do: "000000-dot-mid"
+  def map_stop_icon_path(_size), do: "000000-dot"
 end

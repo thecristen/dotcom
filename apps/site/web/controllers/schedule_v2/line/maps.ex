@@ -14,8 +14,8 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   def map_img_src(_, _, %Routes.Route{type: 4}, _path_color) do
     static_url(Site.Endpoint, "/images/ferry-spider.jpg")
   end
-  def map_img_src({stops, _shapes}, polylines, route, path_color) do
-    icon = MapHelpers.map_stop_icon_path(route)
+  def map_img_src({stops, _shapes}, polylines, _route, path_color) do
+    icon = MapHelpers.map_stop_icon_path()
     markers = build_stop_markers(stops, icon, true)
     paths = Enum.map(polylines, &Path.new(&1, path_color))
 
@@ -47,7 +47,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
 
   @spec dynamic_map_data(String.t, [String.t], {[Stops.Stop.t], any}, {[String.t], map(), String.t}) :: MapData.t
   def dynamic_map_data(color, map_polylines, {stops, _shapes}, {vehicle_polylines, vehicle_tooltips, vehicle_icon}) do
-    stop_icon = "#{color}-dot"
+    stop_icon = "000000-dot"
     markers = dynamic_markers(stops, stop_icon, vehicle_tooltips, vehicle_icon)
     paths = dynamic_paths(color, map_polylines, vehicle_polylines)
 
