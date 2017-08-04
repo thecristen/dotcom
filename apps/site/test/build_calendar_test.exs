@@ -245,5 +245,16 @@ defmodule BuildCalendarTest do
         })
       assert safe_to_string(actual) =~ ~s(class="schedule-weekend schedule-selected")
     end
+
+    test "upcoming holidays includes today and future but not past" do
+      holidays = Enum.flat_map([
+        {"Ghost of Christmas Past", [{12, 23}]},
+        {"Ghost of Christmas Present", [{12, 25}]},
+        {"Ghost of Christmas Future", [{12, 27}]}
+      ], fn day -> Holiday.Repo.Helpers.make_holiday(day, 1843) end)
+      today = ~D[1843-12-25]
+      calendar = build(today, today, holidays, &url_fn/1)
+      assert calendar.upcoming_holidays == Enum.drop(holidays, 1)
+    end
   end
 end
