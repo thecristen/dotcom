@@ -99,7 +99,7 @@ defmodule Site.TripPlan.Map do
     leg_position
     |> Position.latitude
     |> Marker.new(Position.longitude(leg_position),
-                  icon: MapHelpers.map_stop_icon_path(route, :mid),
+                  icon: MapHelpers.map_stop_icon_path(:mid),
                   size: :mid,
                   tooltip: tooltip_for_position(leg_position, stop_mapper),
                   z_index: z_index(route))
