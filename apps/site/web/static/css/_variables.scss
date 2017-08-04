@@ -122,6 +122,6 @@ $hero-height-desktop: 322px;
 $hero-height-mobile: 245px;
 
 // form variables
-$form-check-margin-bottom:  .5rem !default;
-$form-check-input-gutter:   1.25rem !default;
-$form-check-input-margin-y: .25rem !default;
+$form-check-margin-bottom:  $base-spacing-sm;
+$form-check-input-gutter:   $base-spacing;
+$form-check-input-margin-y: 0;
