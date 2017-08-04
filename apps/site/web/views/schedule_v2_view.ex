@@ -281,6 +281,7 @@ defmodule Site.ScheduleV2View do
         content_tag :div do
           [
             do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
+            lowell_weekend_shuttle_pdf(route),
             south_station_commuter_rail(route)
           ]
         end
@@ -289,6 +290,7 @@ defmodule Site.ScheduleV2View do
           [
             do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
             do_pdf_link(route, next_date, ["upcoming schedule — effective ", Timex.format!(next_date, "{Mshort} {D}")]),
+            lowell_weekend_shuttle_pdf(route),
             south_station_commuter_rail(route)
           ]
         end
@@ -311,6 +313,24 @@ defmodule Site.ScheduleV2View do
       []
     end
   end
+
+  # TODO sky Aug 4, 2017 -- Remove once this ends on Oct 1
+  @spec lowell_weekend_shuttle_pdf(Routes.Route.t) :: Phoenix.HTML.Safe.t
+  def lowell_weekend_shuttle_pdf(route) do
+    if route.id == "CR-Lowell" do
+      content_tag :div, class: "schedules-v2-pdf-link" do
+        link(to: "http://mbta.com/uploadedfiles/Riding_the_T/Landing_Pages/MBTA_Diversion_8.5x11_Lowell_Flyer_WEB.pdf", target: "_blank") do
+          [
+            fa("file-pdf-o"),
+            " View PDF of Lowell line weekend shuttle schedule",
+          ]
+        end
+      end
+    else
+      []
+    end
+  end
+
 
   defp lowercase_line(input) do
     String.replace_trailing(input, " Line", " line")
