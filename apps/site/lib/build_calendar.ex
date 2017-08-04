@@ -15,14 +15,16 @@ defmodule BuildCalendar do
       next_month_url: String.t | nil,
       active_date: Date.t,
       days: [BuildCalendar.Day.t],
-      holidays: [Holiday.t]
+      holidays: [Holiday.t],
+      upcoming_holidays: [Holiday.t]
     }
     defstruct [
       previous_month_url: nil,
       next_month_url: nil,
       active_date: nil,
       days: [],
-      holidays: []
+      holidays: [],
+      upcoming_holidays: []
     ]
 
     @doc "Breaks the days of a Calendar into 1-week chunks."
@@ -113,7 +115,8 @@ defmodule BuildCalendar do
       next_month_url: next_month_url(selected, end_date, shift, url_fn),
       active_date: Timex.shift(selected, months: shift),
       days: build_days(selected, today, shift, holiday_set, url_fn),
-      holidays: holidays
+      holidays: holidays,
+      upcoming_holidays: Enum.drop_while(holidays, fn holiday -> Timex.before?(holiday.date, today) end)
     }
   end
 

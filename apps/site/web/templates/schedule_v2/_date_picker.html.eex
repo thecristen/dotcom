@@ -4,7 +4,7 @@
   <%= if @calendar.holidays == [] do %>
     <li class="holiday-list-empty">No upcoming holidays</li>
   <% else %>
-    <%= for holiday <- @calendar.holidays do %>
+    <%= for holiday <- @calendar.upcoming_holidays do %>
       <li>
         <%= link holiday.name, to: update_url(@conn, date: Timex.format!(holiday.date, "{ISOdate}"), date_select: nil, shift: nil) %>
         <p><%= Timex.format!(holiday.date, "%a, %b %e", :strftime)%></p>
