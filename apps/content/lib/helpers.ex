@@ -39,6 +39,14 @@ defmodule Content.Helpers do
     end
   end
 
+  @spec parse_link(map, String.t) :: Content.Field.Link.t | nil
+  def parse_link(%{} = data, field) do
+    case data[field] do
+      [link] -> Content.Field.Link.from_api(link)
+      _ -> nil
+    end
+  end
+
   @spec parse_paragraphs(map) :: [Content.Paragraph.t]
   def parse_paragraphs(data) do
     data
