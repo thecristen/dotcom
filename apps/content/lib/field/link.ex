@@ -13,7 +13,7 @@ defmodule Content.Field.Link do
   @spec from_api(map) :: t
   def from_api(data) do
     %__MODULE__{
-      title: field_value(data, "title"),
+      title: data["title"],
       url: parse_uri(data),
     }
   end

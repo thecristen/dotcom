@@ -4,7 +4,7 @@
   </div>
   <div class="important-whats-happening-text col-md-4 col-xs-12">
     <%= @important_notice.blurb %>
-    <%= link to: @important_notice.url do %>
+    <%= link to: (@important_notice.link && @important_notice.link.url) || "#" do %>
       <span class="no-wrap">Read <%= fa "arrow-right"%></span>
     <% end %>
   </div>
