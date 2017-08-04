@@ -84,13 +84,13 @@ if (!Array.prototype.map) {
 }
 
 // Imports
-import submitOnEvents from './submit-on-events.js';
-import selectModal from './select-modal.js';
-import tooltip from './tooltip.js';
-import collapse from './collapse.js';
-import modal from './modal.js';
+import submitOnEvents from './submit-on-events';
+import selectModal from './select-modal';
+import tooltip from './tooltip';
+import collapse from './collapse';
+import modal from './modal';
 import turbolinks from './turbolinks';
-import supportForm from './support-form.js';
+import supportForm from './support-form';
 import objectFitImages from 'object-fit-images';
 import fixedsticky from './fixedsticky';
 import horizsticky from './horizsticky';
