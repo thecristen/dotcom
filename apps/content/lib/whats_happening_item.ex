@@ -1,11 +1,11 @@
 defmodule Content.WhatsHappeningItem do
-  import Content.Helpers, only: [field_value: 2, parse_link_type: 2]
+  import Content.Helpers, only: [field_value: 2, parse_link: 2]
 
-  defstruct [blurb: "", url: "", thumb: nil, thumb_2x: nil]
+  defstruct [blurb: "", link: nil, thumb: nil, thumb_2x: nil]
 
   @type t :: %__MODULE__{
     blurb: String.t,
-    url: String.t,
+    link: Content.Field.Link.t | nil,
     thumb: Content.Field.Image.t,
     thumb_2x: Content.Field.Image.t | nil
   }
@@ -14,7 +14,7 @@ defmodule Content.WhatsHappeningItem do
   def from_api(%{} = data) do
     %__MODULE__{
       blurb: field_value(data, "field_wh_blurb"),
-      url: parse_link_type(data, "field_wh_link"),
+      link: parse_link(data, "field_wh_link"),
       thumb: parse_image(data["field_wh_thumb"]),
       thumb_2x: parse_image(data["field_wh_thumb_2x"])
     }
