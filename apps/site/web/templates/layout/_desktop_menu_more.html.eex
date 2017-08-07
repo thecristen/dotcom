@@ -29,7 +29,7 @@
       <ul>
         <li>
           <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
-            <%= fa "caret-right" %> Performance
+            <span class="no-wrap"><%= fa "caret-right" %> Performance</span>
           <% end %>
         </li>
         <li>
