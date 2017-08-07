@@ -89,14 +89,36 @@ function displayMap(el, mapData, mapOffset) {
 
 function renderPolylines (mapOffset, polylines) {
   polylines.forEach((path) => {
-    new google.maps.Polyline({
+    polylineForPath(path).setMap(maps[mapOffset]);
+  });
+}
+
+function polylineForPath (path) {
+  if (path["dotted?"]) {
+    const lineSymbol = {
+      path: `M 0,-${path.weight} 0,${path.weight}`,
+      strokeOpacity: 1,
+      scale: 2
+    };
+    return new google.maps.Polyline({
+      icons: [{
+        icon: lineSymbol,
+        offset: '0',
+        repeat: '10px'
+      }],
+      path: google.maps.geometry.encoding.decodePath(path.polyline),
+      geodesic: true,
+      strokeOpacity: 0
+    })
+  } else {
+    return new google.maps.Polyline({
       path: google.maps.geometry.encoding.decodePath(path.polyline),
       geodesic: true,
       strokeColor: "#" + path.color,
       strokeOpacity: 1.0,
       strokeWeight: path.weight
-    }).setMap(maps[mapOffset]);
-  });
+    })
+  }
 }
 
 function renderMarker (mapOffset) {

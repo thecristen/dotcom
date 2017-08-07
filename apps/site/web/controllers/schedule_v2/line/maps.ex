@@ -18,7 +18,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   def map_img_src({route_stops, _shapes}, polylines, _route, path_color) do
     icon = MapHelpers.map_stop_icon_path(:tiny)
     markers = build_stop_markers(route_stops, icon, true)
-    paths = Enum.map(polylines, &Path.new(&1, path_color))
+    paths = Enum.map(polylines, &Path.new(&1, color: path_color))
 
     {600, 600}
     |> MapData.new
@@ -67,8 +67,8 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   end
 
   defp dynamic_paths(color, route_polylines, vehicle_polylines) do
-    route_paths = Enum.map(route_polylines, &Path.new(&1, color, 4))
-    vehicle_paths = Enum.map(vehicle_polylines, &Path.new(&1, color, 2))
+    route_paths = Enum.map(route_polylines, &Path.new(&1, color: color, weight: 4))
+    vehicle_paths = Enum.map(vehicle_polylines, &Path.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths
   end
 

@@ -66,10 +66,11 @@ defmodule Site.TripPlan.Map do
   @spec build_leg_path(Leg.t, route_mapper) :: Path.t
   defp build_leg_path(leg, route_mapper) do
     color = leg_color(leg, route_mapper)
+    path_weight = if Leg.transit?(leg), do: 5, else: 1
 
     leg.polyline
     |> extend_to_endpoints(leg)
-    |> Path.new(color)
+    |> Path.new(color: color, weight: path_weight, dotted?: !Leg.transit?(leg))
   end
 
   @spec extend_to_endpoints(String.t, Leg.t) :: String.t

@@ -3,23 +3,29 @@ defmodule GoogleMaps.MapData.Path do
   Represents a google map polyline path
   """
 
+  @default_opts [color: "", weight: 5, dotted?: false]
+
   defstruct [
     polyline: "",
     color: "",
-    weight: 5
+    weight: 5,
+    dotted?: false
   ]
 
   @type t :: %__MODULE__{
     polyline: String.t,
     color: String.t,
-    weight: integer
+    weight: integer,
+    dotted?: boolean
   }
 
-  def new(polyline, color \\ "", weight \\ 5) do
+  def new(polyline, user_opts \\ []) do
+    opts = Keyword.merge(@default_opts, user_opts)
     %__MODULE__{
       polyline: polyline,
-      color: color,
-      weight: weight
+      color: opts[:color],
+      weight: opts[:weight],
+      dotted?: opts[:dotted?]
     }
   end
 

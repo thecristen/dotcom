@@ -16,9 +16,21 @@ defmodule GoogleMaps.MapData.PathTest do
     end
 
     test "creates path with given weight and color" do
-      path =  new("polyline", "blue", 8)
+      path =  new("polyline", color: "blue", weight: 8)
       assert path.color == "blue"
       assert path.weight == 8
+    end
+
+    test "creates path with given dotted value" do
+      path =  new("polyline", color: "blue", weight: 8, dotted?: true)
+      assert path.dotted?
+    end
+
+    test "creates path with defaults" do
+      path = new("polyline")
+      assert path.color == ""
+      assert path.weight == 5
+      refute path.dotted?
     end
   end
 
