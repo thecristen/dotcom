@@ -2,6 +2,7 @@ defmodule Stops.RouteStopTest do
   use ExUnit.Case, async: true
 
   import Stops.RouteStop
+  alias Stops.RouteStop
   alias Stops.Stop
   alias Routes.{Route, Shape}
 
@@ -94,6 +95,15 @@ defmodule Stops.RouteStopTest do
 
       assert_stop_ids(actual, ~w(kingston plymouth braintree jfk sstat)s)
       assert_branch_names(actual, ["Kingston", "Plymouth", nil, nil, nil])
+    end
+  end
+
+  describe "RouteStop implements Position" do
+    @route_stop %RouteStop{station_info: %Stop{latitude: 100.0, longitude: 50.0}}
+
+    test "Position.Latitude" do
+      assert Stops.Position.latitude(@route_stop) == 100.0
+      assert Stops.Position.longitude(@route_stop) == 50.0
     end
   end
 
