@@ -24,12 +24,12 @@ defmodule Site.ContentViewTest do
           %Paragraph.TitleCard{
             title: "Card 1",
             body: Phoenix.HTML.raw("<strong>Body 1</strong>"),
-            link: "/relative/link",
+            link: %Content.Field.Link{url: "/relative/link"},
           },
           %Paragraph.TitleCard{
             title: "Card 2",
             body: Phoenix.HTML.raw("<strong>Body 2</strong>"),
-            link: "https://www.example.com/another/link",
+            link: %Content.Field.Link{url: "https://www.example.com/another/link"},
           }
         ]
       }

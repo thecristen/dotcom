@@ -142,7 +142,9 @@ defmodule Content.HelpersTest do
           title_cards: [%Content.Paragraph.TitleCard{
             body: Phoenix.HTML.raw("body"),
             title: "title",
-            link: "/foo/bar"
+            link: %Content.Field.Link{
+              url: "/foo/bar",
+            }
           }]
         }
       ]
