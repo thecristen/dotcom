@@ -16,7 +16,7 @@
               <%= for event <- @paragraph.events do %>
                 <li class="list-group-item">
                   <div>
-                    <%= event_duration(event.start_time, event.end_time) %>
+                    <%= render_duration(event.start_time, event.end_time) %>
                   </div>
                   <div>
                     <%= link(

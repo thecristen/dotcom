@@ -5,12 +5,12 @@ defmodule Content.Event do
 
   import Phoenix.HTML, only: [raw: 1]
   import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_iso_time: 1,
-    handle_html: 1]
+    handle_html: 1, parse_file: 2, parse_file: 3]
 
   defstruct [
     id: nil, start_time: nil, end_time: nil, title: "", location: nil, street_address: nil,
     city: nil, state: nil, who: nil, body: raw(""), notes: raw(""), agenda: raw(""),
-    meeting_id: nil, imported_address: nil
+    meeting_id: nil, imported_address: nil, files: [], agenda_file: nil, minutes_file: nil
   ]
 
   @type t :: %__MODULE__{
@@ -27,7 +27,10 @@ defmodule Content.Event do
     notes: Phoenix.HTML.safe,
     agenda: Phoenix.HTML.safe,
     meeting_id: String.t | nil,
-    imported_address: Phoenix.HTML.safe
+    imported_address: Phoenix.HTML.safe,
+    files: [Content.Field.File.t],
+    agenda_file: Content.Field.File.t | nil,
+    minutes_file: Content.Field.File.t | nil
   }
 
   @spec from_api(map) :: t
@@ -46,7 +49,10 @@ defmodule Content.Event do
       notes: handle_html(field_value(data, "field_notes")),
       agenda: handle_html(field_value(data, "field_agenda")),
       imported_address: handle_html(field_value(data, "field_imported_address")),
-      meeting_id: field_value(data, "field_meeting_id")
+      meeting_id: field_value(data, "field_meeting_id"),
+      files: parse_file(data, "field_other_files"),
+      agenda_file: parse_file(data, "field_agenda_file", true),
+      minutes_file: parse_file(data, "field_minutes_file", true)
     }
   end
 end
