@@ -85,21 +85,32 @@ defmodule Site.TripPlan.Map do
 
   @spec markers_for_legs(Itinerary.t, Keyword.t) :: [Marker.t]
   defp markers_for_legs(legs, opts) do
-    Enum.flat_map(legs, &build_marker_for_leg(&1, opts))
+    leg_count = Enum.count(legs)
+    legs
+    |> Enum.zip(Stream.iterate(0, &(&1 + 2)))
+    |> Enum.flat_map(&build_marker_for_leg(&1, opts, leg_count))
   end
 
-  @spec build_marker_for_leg(Leg.t, Keyword.t) :: [Marker.t]
-  defp build_marker_for_leg(leg, opts) do
+  @spec build_marker_for_leg({Leg.t, non_neg_integer}, Keyword.t, non_neg_integer) :: [Marker.t]
+  defp build_marker_for_leg({leg, idx}, opts, leg_count) do
     route = route_for_leg(leg, opts[:route_mapper])
-    Enum.map([leg.from, leg.to], &build_marker_for_leg_position(&1, route, opts[:stop_mapper]))
+    leg_positions = [{leg.from, idx}, {leg.to, idx + 1}]
+    build_markers_for_leg_positions(leg_positions, route, opts[:stop_mapper], leg_count)
   end
 
-  @spec build_marker_for_leg_position(NamedPosition.t, Route.t | nil, stop_mapper) :: Marker.t
-  defp build_marker_for_leg_position(leg_position, route, stop_mapper) do
+  defp build_markers_for_leg_positions(positions_with_indicies, route, stop_mapper, leg_count) do
+    icon_for_index = fn idx -> MapHelpers.map_stop_icon_path(:mid, idx in [0, 2 * leg_count - 1]) end
+    for {position, index} <- positions_with_indicies do
+      build_marker_for_leg_position(position, route, stop_mapper, icon_for_index.(index))
+    end
+  end
+
+  @spec build_marker_for_leg_position(NamedPosition.t, Route.t | nil, stop_mapper, String.t) :: Marker.t
+  defp build_marker_for_leg_position(leg_position, route, stop_mapper, icon) do
     leg_position
     |> Position.latitude
     |> Marker.new(Position.longitude(leg_position),
-                  icon: MapHelpers.map_stop_icon_path(:mid),
+                  icon: icon,
                   size: :mid,
                   tooltip: tooltip_for_position(leg_position, stop_mapper),
                   z_index: z_index(route))
