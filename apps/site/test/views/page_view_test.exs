@@ -38,7 +38,7 @@ defmodule Site.PageViewTest do
     test "renders _important_notice.html" do
       notice = %Content.ImportantNotice{
         blurb: "Uh oh, this is very important!",
-        url: "http://example.com/important",
+        link: %Content.Field.Link{url: "http://example.com/important"},
         thumb: %Content.Field.Image{}
       }
       rendered = render_to_string(Site.PageView, "_important_notice.html", important_notice: notice)

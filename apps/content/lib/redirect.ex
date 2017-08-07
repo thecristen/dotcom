@@ -6,18 +6,19 @@ defmodule Content.Redirect do
 
   """
 
-  import Content.Helpers, only: [parse_link_type: 2]
+  import Content.Helpers, only: [parse_link: 2]
+  alias Content.Field.Link
 
-  defstruct [url: ""]
+  defstruct [link: %Link{}]
 
   @type t :: %__MODULE__{
-    url: String.t
+    link: Link.t,
   }
 
   @spec from_api(map) :: t
   def from_api(%{} = data) do
     %__MODULE__{
-      url: parse_link_type(data, "field_redirect_to")
+      link: parse_link(data, "field_redirect_to") || raise "No link specified for redirect."
     }
   end
 end

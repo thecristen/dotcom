@@ -9,7 +9,7 @@ defmodule Content.ImportantNoticeTest do
   test "it parses the API response into a Content.ImportantNotice struct", %{api_notice: api_notice} do
     assert %Content.ImportantNotice{
       blurb: blurb,
-      url: url,
+      link: %Content.Field.Link{url: url},
       thumb: %Content.Field.Image{}
     } = Content.ImportantNotice.from_api(api_notice)
 

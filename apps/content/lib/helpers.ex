@@ -39,6 +39,14 @@ defmodule Content.Helpers do
     end
   end
 
+  @spec parse_link(map, String.t) :: Content.Field.Link.t | nil
+  def parse_link(%{} = data, field) do
+    case data[field] do
+      [link] -> Content.Field.Link.from_api(link)
+      _ -> nil
+    end
+  end
+
   @spec parse_paragraphs(map) :: [Content.Paragraph.t]
   def parse_paragraphs(data) do
     data
@@ -78,22 +86,6 @@ defmodule Content.Helpers do
     end
 
     Content.Config.apply(:static, [path])
-  end
-
-  @spec parse_link_type(map, String.t) :: String.t | nil
-  def parse_link_type(data, field) do
-    case data[field] do
-      [%{"uri" => "internal:" <> relative_path}] -> relative_path
-      [%{"uri" => url}] -> url
-      _ -> nil
-    end
-  end
-
-  def parse_link_text(data, field) do
-    case data[field] do
-      [%{"title" => text}] -> text
-      _ -> nil
-    end
   end
 
   @spec int_or_string_to_int(integer | String.t | nil) :: integer | nil

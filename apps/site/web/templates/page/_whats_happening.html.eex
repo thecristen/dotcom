@@ -5,7 +5,7 @@
       <div class="row">
         <%= for item <- @whats_happening_items do %>
           <div class="col-sm-4 homepage-link whats-happening-item">
-            <%= link to: item.url do %>
+            <%= link to: (item.link && item.link.url) || "/" do %>
               <div class="whats-happening-image has-element-overlay">
                 <%= whats_happening_image(item) %>
                 <div class="element-overlay">

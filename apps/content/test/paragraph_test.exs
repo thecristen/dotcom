@@ -66,8 +66,10 @@ defmodule Content.ParagraphTest do
       api_data = api_paragraph("call_to_action")
 
       assert %Content.Paragraph.CallToAction{
-        url: "https://t.mbta.com/schedules",
-        text: "MBTA Schedules"
+        link: %Content.Field.Link{
+          url: "https://t.mbta.com/schedules",
+          title: "MBTA Schedules"
+        }
       } = from_api(api_data)
     end
 

@@ -24,12 +24,12 @@ defmodule Site.ContentViewTest do
           %Paragraph.TitleCard{
             title: "Card 1",
             body: Phoenix.HTML.raw("<strong>Body 1</strong>"),
-            link: "/relative/link",
+            link: %Content.Field.Link{url: "/relative/link"},
           },
           %Paragraph.TitleCard{
             title: "Card 2",
             body: Phoenix.HTML.raw("<strong>Body 2</strong>"),
-            link: "https://www.example.com/another/link",
+            link: %Content.Field.Link{url: "https://www.example.com/another/link"},
           }
         ]
       }
@@ -103,8 +103,10 @@ defmodule Site.ContentViewTest do
 
     test "renders a Paragraph.CallToAction" do
       paragraph = %Paragraph.CallToAction{
-        url: "www.example.com",
-        text: "See example"
+        link: %Content.Field.Link{
+          url: "www.example.com",
+          title: "See example"
+        }
       }
 
       rendered =
@@ -112,8 +114,8 @@ defmodule Site.ContentViewTest do
         |> render_paragraph()
         |> Phoenix.HTML.safe_to_string()
 
-      assert rendered =~ paragraph.url
-      assert rendered =~ paragraph.text
+      assert rendered =~ paragraph.link.url
+      assert rendered =~ paragraph.link.title
     end
 
     test "renders a Paragraph.Unknown" do

@@ -3,7 +3,7 @@
     <div class="row">
       <%= for title_card <- title_card_pair do %>
         <div class="col-md-6 col-sm-12">
-          <%= link to: title_card.link, class: "title-card" do %>
+          <%= link to: (title_card.link && title_card.link.url), class: "title-card" do %>
             <div class="title-card-title"><%= title_card.title %></div>
             <p><%= title_card.body %></p>
           <% end %>

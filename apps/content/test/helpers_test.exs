@@ -38,6 +38,32 @@ defmodule Content.HelpersTest do
     end
   end
 
+  describe "parse_link/2" do
+    test "it parses a link field into a Link" do
+      data = %{
+        "field_my_link" => [%{
+          "title" => "This is the link text",
+          "uri" => "internal:/this/is/the/link/url"
+        }]
+      }
+
+      assert %Content.Field.Link{
+        title: "This is the link text",
+        url: "/this/is/the/link/url"
+      } = parse_link(data, "field_my_link")
+    end
+
+    test "it returns nil if unexpected format" do
+      data = %{
+        "field_my_link" => %{
+          hmmm: "what is this?"
+        }
+      }
+
+      assert parse_link(data, "field_my_link") == nil
+    end
+  end
+
   describe "parse_updated_at/1" do
     test "handles unix time as a string" do
       api_data = %{"changed" => [%{"value" => "1488904773"}]}
@@ -116,30 +142,12 @@ defmodule Content.HelpersTest do
           title_cards: [%Content.Paragraph.TitleCard{
             body: Phoenix.HTML.raw("body"),
             title: "title",
-            link: "/foo/bar"
+            link: %Content.Field.Link{
+              url: "/foo/bar",
+            }
           }]
         }
       ]
     end
-  end
-
-  describe "parse_link_text/2" do
-    test "returns the link text" do
-      data = %{
-        "field_link_example" => [
-          %{
-            "options" => [],
-            "title" => "Link Text",
-            "uri" => "www.example.com"
-          }
-        ]
-      }
-
-      assert parse_link_text(data, "field_link_example") == "Link Text"
-   end
-
-   test "returns nil when the given key does not exist" do
-     assert parse_link_text(%{}, "key_does_not_exist") == nil
-   end
   end
 end
