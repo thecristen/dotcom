@@ -316,8 +316,8 @@ defmodule Site.ScheduleV2View do
 
   # TODO sky Aug 4, 2017 -- Remove once this ends on Oct 1
   @spec lowell_weekend_shuttle_pdf(Routes.Route.t, Date.t) :: Phoenix.HTML.Safe.t
-  def lowell_weekend_shuttle_pdf(route, date) do
-    if route.id == "CR-Lowell" and Date.compare(date, ~D[2017-10-02]) == :lt do
+  def lowell_weekend_shuttle_pdf(%{id: "CR-Lowell"}, date) do
+    if Date.compare(date, ~D[2017-10-02]) == :lt do
       content_tag :div, class: "schedules-v2-pdf-link" do
         link(to: "http://mbta.com/uploadedfiles/Riding_the_T/Landing_Pages/MBTA_Diversion_8.5x11_Lowell_Flyer_WEB.pdf", target: "_blank") do
           [
@@ -329,6 +329,9 @@ defmodule Site.ScheduleV2View do
     else
       []
     end
+  end
+  def lowell_weekend_shuttle_pdf(_, _) do
+    []
   end
 
   defp lowercase_line(input) do
