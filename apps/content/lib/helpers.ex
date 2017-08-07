@@ -88,22 +88,6 @@ defmodule Content.Helpers do
     Content.Config.apply(:static, [path])
   end
 
-  @spec parse_link_type(map, String.t) :: String.t | nil
-  def parse_link_type(data, field) do
-    case data[field] do
-      [%{"uri" => "internal:" <> relative_path}] -> relative_path
-      [%{"uri" => url}] -> url
-      _ -> nil
-    end
-  end
-
-  def parse_link_text(data, field) do
-    case data[field] do
-      [%{"title" => text}] -> text
-      _ -> nil
-    end
-  end
-
   @spec int_or_string_to_int(integer | String.t | nil) :: integer | nil
   def int_or_string_to_int(nil), do: nil
   def int_or_string_to_int(num) when is_integer(num), do: num
