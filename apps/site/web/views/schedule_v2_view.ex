@@ -314,7 +314,7 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  # TODO sky Aug 4, 2017 -- Remove once this ends on Oct 1
+  # Remove once this ends on Oct 1 -- Sky, Aug 4, 2017
   @spec lowell_weekend_shuttle_pdf(Routes.Route.t, Date.t) :: Phoenix.HTML.Safe.t
   def lowell_weekend_shuttle_pdf(%{id: "CR-Lowell"}, date) do
     if Date.compare(date, ~D[2017-10-02]) == :lt do
