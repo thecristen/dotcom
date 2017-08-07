@@ -4,7 +4,9 @@ defmodule V3Api do
 
   @spec get_json(String.t, Keyword.t) :: JsonApi.t | {:error, any}
   def get_json(url, params \\ [], opts \\ []) do
-    _ = Logger.debug("V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}")
+    _ = Logger.debug(fn ->
+      "V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}"
+    end)
     with opts = Keyword.merge(default_options(), opts),
          {time, response} <- timed_get(url, params, opts),
          :ok <- log_response(url, params, time, response),
@@ -31,10 +33,12 @@ defmodule V3Api do
   end
 
   defp log_response(url, params, time, response) do
-    _ = Logger.info("V3Api.get_json_response url=#{url} " <>
+    _ = Logger.info(fn ->
+      "V3Api.get_json_response url=#{url} " <>
       "params=#{params |> Map.new |> Poison.encode!} " <>
       log_body(response) <>
-      " duration=#{time / 1000}")
+      " duration=#{time / 1000}"
+    end)
     :ok
   end
 
