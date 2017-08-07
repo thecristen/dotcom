@@ -157,4 +157,9 @@ defmodule Stops.RouteStop do
   @spec flip_branches_to_front([RouteStop.t], direction_id_t) :: [RouteStop.t]
   defp flip_branches_to_front(branch, 0), do: Enum.reverse(branch)
   defp flip_branches_to_front(branch, 1), do: branch
+
+  defimpl Stops.Position do
+    def latitude(route_stop), do: route_stop.station_info.latitude
+    def longitude(route_stop), do: route_stop.station_info.longitude
+  end
 end
