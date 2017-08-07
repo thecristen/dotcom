@@ -9,6 +9,11 @@
           <% end %>
         </li>
         <li>
+          <%= link to: cms_static_page_path(@conn, "/leadership/fmcb") do %>
+            <%= fa "caret-right" %> FMCB
+          <% end %>
+        </li>
+        <li>
           <%= link to: news_entry_path(@conn, :index) do %>
             <%= fa "caret-right" %> News &amp; Updates
           <% end %>
@@ -18,18 +23,13 @@
             <%= fa "caret-right" %> Events
           <% end %>
         </li>
-        <li>
-          <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
-            <%= fa "caret-right" %> Performance
-          <% end %>
-        </li>
       </ul>
     </div>
     <div class="col-xs-6">
       <ul>
         <li>
-          <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), target: "_blank" do %>
-            <%= fa "caret-right" %> FMCB
+          <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
+            <%= fa "caret-right" %> Performance
           <% end %>
         </li>
         <li>
