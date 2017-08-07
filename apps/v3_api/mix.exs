@@ -19,7 +19,7 @@ defmodule V3Api.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :json_api, :sentry]]
+    [applications: [:logger, :httpoison, :json_api]]
   end
 
   # Dependencies can be Hex packages:
@@ -37,11 +37,9 @@ defmodule V3Api.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:httpoison, ">= 0.0.0"},
-     {:poison, "~> 2.2", override: true},
      {:hackney, "~> 1.8.0"},
      {:excoveralls, "~> 0.5", only: :test},
      {:bypass, github: "paulswartz/bypass", only: :test},
-     {:json_api, in_umbrella: true},
-     {:sentry, github: "ryan-mahoney/sentry-elixir"}]
+     {:json_api, in_umbrella: true}]
   end
 end
