@@ -13,7 +13,7 @@ defmodule Site.EventDateRange do
   @spec for_month(Date.t) :: map
   def for_month(date) do
     start_date = date |> Timex.beginning_of_month
-    end_date = date |> Timex.end_of_month
+    end_date = date |> Timex.end_of_month |> Timex.shift(days: 1)
 
     date_range(start_date: start_date, end_date: end_date)
   end

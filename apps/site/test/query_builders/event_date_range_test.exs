@@ -9,7 +9,7 @@ defmodule Site.EventDateRangeTest do
 
       assert EventDateRange.build(params, current_month) == %{
         start_time_gt: "2017-02-01",
-        start_time_lt: "2017-02-28"
+        start_time_lt: "2017-03-01"
       }
     end
 
@@ -49,7 +49,7 @@ defmodule Site.EventDateRangeTest do
 
       assert EventDateRange.for_month(date) == %{
         start_time_gt: "2017-04-01",
-        start_time_lt: "2017-04-30"
+        start_time_lt: "2017-05-01"
       }
     end
   end
