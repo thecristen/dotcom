@@ -146,39 +146,47 @@ a {
   .trip-list-v2-departure {
     color: $link-color;
   }
+}
 
-  &.trip-list-v2-row-selected {
-    @extend %button-selected-color;
-
-    @include media-breakpoint-up(md) {
-      &::after {
-        background: url('/images/selected-triangle.svg') no-repeat;
-        background-size: cover;
-        bottom: -2px;
-        content: ' ';
-        display: block;
-        margin-top: 1px;
-        position: absolute;
-        right: -1.5rem;
-        top: -2px;
-        width: 1.5rem;
-      }
-    }
-
-    @include media-breakpoint-down(sm) {
-      border-color: $brand-primary;
-
-      .trip-list-v2-row {
-        border: 0;
-      }
-    }
+.trip-list-v2-row-selected,
+.trip-list-v2-row-preselected {
+  @include media-breakpoint-up(md) {
+    @include button-selected-color;
 
     .icon {
-      @extend %icon-inverse;
+      @include icon-inverse;
+    }
+
+    &::after {
+      background: url('/images/selected-triangle.svg') no-repeat;
+      background-size: cover;
+      bottom: -2px;
+      content: ' ';
+      display: block;
+      margin-top: 1px;
+      position: absolute;
+      right: -1.5rem;
+      top: -2px;
+      width: 1.5rem;
+    }
+  }
+}
+
+.trip-list-v2-row-selected {
+  @include media-breakpoint-down(sm) {
+    @include button-selected-color;
+    border-color: $brand-primary;
+
+    .icon {
+      @include icon-inverse;
     }
 
     .caret {
       transform: rotate(180deg);
+    }
+
+    .trip-list-v2-row {
+      border: 0;
     }
   }
 }
@@ -265,46 +273,6 @@ a {
   padding-top: $base-spacing;
 }
 
-// on mobile, don't show any trip as selected if the user themself didn't actually make the selection
-// disabled rule about depth because it is a necessary evil in this case
-.trip-preselected {
-  // scss-lint:disable NestingDepth, SelectorDepth
-  @include media-breakpoint-down(sm) {
-
-    .schedule-trip-info {
-      display: none;
-    }
-
-    .trip-list-v2-row-selected {
-      background-color: $white;
-      border-left: 1px solid $gray-lightest;
-      border-right: 1px solid $gray-lightest;
-      border-top: 1px solid $gray-lightest;
-
-      @include hover-focus() {
-        background-color: $brand-primary-lightest;
-        color: $gray-dark;
-      }
-
-      .trip-list-v2-departure * {
-        color: $brand-primary;
-      }
-
-      .trip-list-v2-headsign,
-      .trip-list-v2-headsign *,
-      .trip-list-v2-cr-name,
-      .commuter-status * {
-        color: $gray-dark;
-      }
-
-      .caret {
-        color: $gray-dark;
-        transform: rotate(0deg);
-      }
-    }
-  }
-}
-
 // we use the del tag to indicate a cancels trip time, but sometimes it has children that also need the same style
 del .realtime {
   text-decoration: line-through;
@@ -380,6 +348,10 @@ del .realtime {
     border: $border-md;
     border-bottom-width: $border-width * 3;
     border-color: $brand-primary;
+
+    .trip-preselected & {
+      display: none;
+    }
   }
 }
 
