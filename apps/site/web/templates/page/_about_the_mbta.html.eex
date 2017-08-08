@@ -7,7 +7,7 @@
         <div class="about-title">Events</div>
       </div>
     <% end %>
-    <%= link to: redirect_path(@conn, "about_the_mbta/board_meetings/fmcb/"), target: "_blank", class: "homepage-link" do %>
+    <%= link to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "homepage-link" do %>
       <div class="col-xs-6 col-md-3">
         <div class="homepage-svg"><%= svg "fmcb.svg" %></div>
         <div class="about-title">FMCB</div>
