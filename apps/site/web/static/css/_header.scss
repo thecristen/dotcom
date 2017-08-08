@@ -1,7 +1,6 @@
 @import 'variables';
 
 .desktop-menu-nav {
-  @include make-col-span(8);
   float: right;
 
   @include media-breakpoint-down(sm) {
@@ -14,6 +13,12 @@
     padding-left: $grid-gutter-width / 2;
     padding-right: $grid-gutter-width / 2;
     text-align: right;
+
+    @include media-breakpoint-down(md) {
+      &:last-child {
+        padding-right: 0;
+      }
+    }
 
     &:first-child,
     &:last-child {
@@ -189,6 +194,7 @@ header {
 
 .navbar-logo {
   display: block;
+  float: left;
 
   svg {
     display: block;
@@ -265,4 +271,108 @@ header {
   color: $white;
   padding: $space-6 0;
   text-align: center;
+}
+
+.icon-search {
+  height: 30px;
+  width: 30px;
+}
+
+.nav-link-icon {
+  .icon-search {
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.nav-item-search {
+  @include media-breakpoint-up(lg) {
+    margin-left: 20px;
+  }
+}
+
+.search-no-js input {
+  border: $border;
+  border-radius: $border-radius;
+  margin-top: $base-spacing * .75;
+
+  &:active,
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.search-nav-link {
+  color: $gray-dark;
+  cursor: pointer;
+  font-weight: 400;
+  user-select: none;
+
+  &::before {
+    border-bottom-width: 0;
+  }
+}
+
+.search-label {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+}
+
+.search-dropdown {
+  border-bottom: 4px solid $brand-secondary;
+  margin-top: $base-spacing;
+  position: relative;
+
+  input {
+    background-color: transparent;
+    border: 0;
+    color: $gray-dark;
+    font-size: $font-size-h1;
+    width: 90%;
+
+    &:active,
+    &:focus {
+      border: 0;
+      box-shadow: none;
+      outline: none;
+    }
+  }
+}
+
+.search-button {
+  background-color: $brand-primary;
+  border: 0;
+  border-radius: $border-radius;
+
+  g {
+    fill: $white;
+  }
+}
+
+.search-button-sm svg {
+  width: $base-spacing;
+}
+
+.search-button-xl {
+  bottom: 7px;
+  height: 48px;
+  position: absolute;
+  right: 0;
+  width: 48px;
+}
+
+.search-mobile {
+  margin: $base-spacing 0;
+
+  g {
+    fill: $white;
+  }
+
+  .text-input-button-widget {
+    margin: auto;
+    width: 90%;
+  }
 }

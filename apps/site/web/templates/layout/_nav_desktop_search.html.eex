@@ -1,0 +1,44 @@
+<% search_icon = svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}) %>
+<% form_options = [as: :search, method: :get] %>
+<% placeholder = "Search by keyword" %>
+<div class="nav-item nav-item-search hidden-no-js">
+  <a
+    class="desktop-nav-link collapsed toggle-up-down search-nav-link"
+    aria-controls="search"
+    aria-expanded="false"
+    data-parent="#desktop-menu"
+    data-target="#search"
+    data-toggle="collapse"
+    href="/search"
+    role="tab">
+    <div class="nav-link-content search-label"><label for="search_query">Search</label></div>
+    <div class="nav-link-content nav-link-icon">&nbsp;<%= search_icon %></div>
+  </a>
+  <div class="desktop-menu">
+    <div class="desktop-menu-background-image">
+      <div class="container">
+        <div class="desktop-menu-body panel">
+          <div class="collapse" id="search" role="tabpanel">
+            <div class="menu-row search-dropdown" role="search">
+              <%= form_for @conn, "/search", form_options, fn f -> %>
+                <%= search_input :search, :query, value: f.params["query"], placeholder: placeholder, autocomplete: "off" %>
+                <button class="search-button search-button-xl" aria-label="submit search"><%= search_icon %></button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="search-no-js nav-item hidden-js">
+  <%= form_for @conn, "/search", form_options, fn f -> %>
+    <div class="nav-link-content" role="search">
+      <%= label f, :search, "Search", class: "sr-only" %>
+      <%= search_input :search, :query, value: f.params["query"], placeholder: placeholder, autocomplete: "off" %>
+    </div>
+    <div class="nav-link-content">
+      <button class="search-button search-button-sm" aria-label="submit search"><%= search_icon %></button>
+    </div>
+  <% end %>
+</div>

@@ -1,7 +1,7 @@
 <header class="header<%= unless @conn.assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
   <div class="container">
     <div class="header-navbar row">
-      <a class="col-xs-9 col-sm-10 col-md-4 navbar-logo" href="/">
+      <a class="col-xs-9 col-sm-10 col-md-2 navbar-logo" href="/">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
           <%= svg "logo-beta.svg" %>

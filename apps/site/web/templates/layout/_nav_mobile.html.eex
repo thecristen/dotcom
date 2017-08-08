@@ -1,5 +1,8 @@
 <nav class="collapse row" id="navbar" role="navigation">
   <ul class="mobile-nav">
+    <%= if Laboratory.enabled?(@conn, :cms_search) do %>
+      <%= render "_nav_mobile_search.html", conn: @conn %>
+    <% end %>
     <%= for {name, description, _icon, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
       <li class="mobile-nav-item">
         <%=

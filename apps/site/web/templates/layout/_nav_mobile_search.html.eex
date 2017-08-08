@@ -1,0 +1,13 @@
+<% search_icon = svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}) %>
+<li class="mobile-nav-item search-mobile">
+  <div class="text-input-button-widget" role="search">
+   <form action="/search" method="GET">
+   <%= form_for @conn, "/search", [as: :search, method: :get], fn f -> %>
+      <%= label f, :search, "Search", class: "sr-only" %>
+      <%= search_input :search, :query, value: f.params["query"], placeholder: "Search by keyword", autocomplete: "off",
+          class: "text-input-button-widget-input text-input-button-widget-with-submit", required: "required" %>
+      <button type="submit" class="btn btn-primary" aria-label="submit search"><%= search_icon %></button>
+      <div class="clear"></div>
+    <% end %>
+  </div>
+</li>

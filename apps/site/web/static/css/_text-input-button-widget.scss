@@ -1,0 +1,41 @@
+.text-input-button-widget {
+  background-color: $white;
+  border: $border;
+  border-radius: $default-border-radius;
+  display: block;
+  margin-bottom: .1875rem;
+  padding: $space-2 0;
+  text-align: right;
+
+  [type=submit] {
+    display: block;
+    float: right;
+    margin-right: .125rem;
+    width: 4rem;
+  }
+
+  .clear {
+    clear: both;
+  }
+}
+
+.text-input-button-widget-input {
+  border-width: 0;
+  color: $gray-dark;
+  display: block;
+  float: left;
+  outline: 0;
+  padding: .375rem .5rem;
+  width: 100%;
+
+  &:focus {
+    border-width: 0;
+    outline: 0;
+  }
+}
+
+.text-input-button-widget-with-submit {
+  // scss-lint:disable DuplicateProperty
+  width: 80%; // fallback for browsers that don't support calc
+  width: calc(100% - 5rem);
+}
