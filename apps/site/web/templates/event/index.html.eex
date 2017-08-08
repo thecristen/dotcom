@@ -36,7 +36,7 @@
               <ul class="list-group">
                 <%= for event <- @events do %>
                   <li class="list-group-item">
-                    <div><%= event_duration(event.start_time, event.end_time) %></div>
+                    <div><%= render_duration(event.start_time, event.end_time) %></div>
                     <div><%= link event.title, to: event_path(@conn, :show, event.id) %></div>
                   </li>
                 <% end %>

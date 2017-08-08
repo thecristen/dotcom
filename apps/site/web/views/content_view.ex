@@ -1,6 +1,6 @@
 defmodule Site.ContentView do
   use Site.Web, :view
-  import Site.EventView, only: [event_duration: 2]
+  import Site.TimeHelpers
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -32,5 +32,42 @@ defmodule Site.ContentView do
   end
   def file_description(%Content.Field.File{url: url}) do
     url |> Path.basename |> URI.decode
+  end
+
+  @doc "Nicely renders the duration of an event, given two DateTimes."
+  @spec render_duration(NaiveDateTime.t | DateTime.t, NaiveDateTime.t | DateTime.t | nil) :: String.t
+  def render_duration(start_time, end_time)
+  def render_duration(start_time, nil) do
+    start_time
+    |> maybe_shift_timezone
+    |> do_render_duration(nil)
+  end
+  def render_duration(start_time, end_time) do
+    start_time
+    |> maybe_shift_timezone
+    |> do_render_duration(maybe_shift_timezone(end_time))
+  end
+
+  defp maybe_shift_timezone(%NaiveDateTime{} = time) do
+    time
+  end
+  defp maybe_shift_timezone(%DateTime{} = time) do
+    Util.to_local_time(time)
+  end
+
+  defp do_render_duration(start_time, nil) do
+    "#{format_date(start_time)} at #{format_time(start_time)}"
+  end
+  defp do_render_duration(
+    %{year: year, month: month, day: day} = start_time,
+    %{year: year, month: month, day: day} = end_time) do
+    "#{format_date(start_time)} at #{format_time(start_time)} - #{format_time(end_time)}"
+  end
+  defp do_render_duration(start_time, end_time) do
+    "#{format_date(start_time)} #{format_time(start_time)} - #{format_date(end_time)} #{format_time(end_time)}"
+  end
+
+  defp format_time(time) do
+    Timex.format!(time, "{h12}:{m}{am}")
   end
 end

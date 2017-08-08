@@ -148,4 +148,33 @@ defmodule Site.ContentViewTest do
       assert file_description(file) == "Download Now"
     end
   end
+
+  describe "render_duration/2" do
+    test "with no end time, only renders start time" do
+      actual = render_duration(~N[2016-11-15T10:00:00], nil)
+      expected = "November 15, 2016 at 10:00am"
+      assert expected == actual
+    end
+
+    test "with start/end on same day, only renders date once" do
+      actual = render_duration(~N[2016-11-14T12:00:00], ~N[2016-11-14T14:30:00])
+      expected = "November 14, 2016 at 12:00pm - 2:30pm"
+      assert expected == actual
+    end
+
+    test "with start/end on different days, renders both dates" do
+      actual = render_duration(~N[2016-11-14T12:00:00], ~N[2016-12-01T14:30:00])
+      expected = "November 14, 2016 12:00pm - December 1, 2016 2:30pm"
+      assert expected == actual
+    end
+
+    test "with DateTimes, shifts them to America/New_York" do
+      actual = render_duration(
+                              Timex.to_datetime(~N[2016-11-05T05:00:00], "Etc/UTC"),
+                              Timex.to_datetime(~N[2016-11-06T06:00:00], "Etc/UTC"))
+      # could also be November 6th, 1:00 AM (test daylight savings)
+      expected = "November 5, 2016 1:00am - November 6, 2016 2:00am"
+      assert expected == actual
+    end
+  end
 end

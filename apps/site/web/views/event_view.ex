@@ -1,6 +1,7 @@
 defmodule Site.EventView do
   use Site.Web, :view
-  import Site.TimeHelpers
+  import Site.FontAwesomeHelpers
+  import Site.ContentView, only: [file_description: 1, render_duration: 2]
   import Site.ContentHelpers, only: [content: 1]
 
   @spec shift_date_range(String.t, integer) :: String.t
@@ -45,43 +46,6 @@ defmodule Site.EventView do
     iso_string
     |> Timex.parse!("{ISOdate}")
     |> Timex.format!("{Mfull}")
-  end
-
-  @doc "Nicely renders the duration of an event, given two DateTimes."
-  @spec event_duration(NaiveDateTime.t | DateTime.t, NaiveDateTime.t | DateTime.t | nil) :: String.t
-  def event_duration(start_time, end_time)
-  def event_duration(start_time, nil) do
-    start_time
-    |> maybe_shift_timezone
-    |> do_event_duration(nil)
-  end
-  def event_duration(start_time, end_time) do
-    start_time
-    |> maybe_shift_timezone
-    |> do_event_duration(maybe_shift_timezone(end_time))
-  end
-
-  defp maybe_shift_timezone(%NaiveDateTime{} = time) do
-    time
-  end
-  defp maybe_shift_timezone(%DateTime{} = time) do
-    Util.to_local_time(time)
-  end
-
-  defp do_event_duration(start_time, nil) do
-    "#{format_date(start_time)} at #{format_time(start_time)}"
-  end
-  defp do_event_duration(
-    %{year: year, month: month, day: day} = start_time,
-    %{year: year, month: month, day: day} = end_time) do
-    "#{format_date(start_time)} at #{format_time(start_time)} - #{format_time(end_time)}"
-  end
-  defp do_event_duration(start_time, end_time) do
-    "#{format_date(start_time)} #{format_time(start_time)} - #{format_date(end_time)} #{format_time(end_time)}"
-  end
-
-  defp format_time(time) do
-    Timex.format!(time, "{h12}:{m}{am}")
   end
 
   @doc "Returns a pretty format for the event's city and state"

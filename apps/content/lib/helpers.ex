@@ -23,6 +23,13 @@ defmodule Content.Helpers do
     |> handle_html
   end
 
+  @spec parse_files(map, String.t) :: [Content.Field.File.t]
+  def parse_files(%{} = data, field) do
+    data
+    |> Map.get(field, [])
+    |> Enum.map(&Content.Field.File.from_api/1)
+  end
+
   @spec parse_image(map, String.t) :: Content.Field.Image.t | nil
   def parse_image(%{} = data, field) do
     case data[field] do

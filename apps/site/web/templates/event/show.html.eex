@@ -7,7 +7,7 @@
     <div>
       <h2>Meeting Info</h2>
       <p>
-        <span class="event-info-label">Date:</span> <%= event_duration(@event.start_time, @event.end_time) %>
+        <span class="event-info-label">Date:</span> <%= render_duration(@event.start_time, @event.end_time) %>
         &nbsp;
         <%= link to: event_icalendar_path(@conn, :show, @event.id),
             data: [turbolinks: false],
@@ -36,6 +36,39 @@
       <div class="event-hr-row">
         <h2><%= "Notes" %></h2>
         <%= notes %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <%= if @event.agenda_file do %>
+      <h3>Agenda</h3>
+      <div>
+        <%= link to: @event.agenda_file.url, target: "_blank", data: [turbolinks: false] do %>
+          <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
+          <%= file_description(@event.agenda_file) %>
+        <% end %>
+      </div>
+      <hr />
+    <% end %>
+    <%= if @event.minutes_file do %>
+      <h3>Minutes</h3>
+      <div>
+        <%= link to: @event.minutes_file.url, target: "_blank", data: [turbolinks: false] do %>
+          <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
+          <%= file_description(@event.minutes_file) %>
+        <% end %>
+      </div>
+      <hr />
+    <% end %>
+    <%= if !Enum.empty?(@event.files) do %>
+      <h3>Related Files</h3>
+    <% end %>
+    <%= for file <- @event.files do %>
+      <div>
+        <%= link to: file.url, target: "_blank", data: [turbolinks: false] do %>
+          <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
+          <%= file_description(file) %>
+        <% end %>
       </div>
     <% end %>
   </div>
