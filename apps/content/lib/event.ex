@@ -5,7 +5,7 @@ defmodule Content.Event do
 
   import Phoenix.HTML, only: [raw: 1]
   import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_iso_time: 1,
-    handle_html: 1, parse_file: 2, parse_file: 3]
+    handle_html: 1, parse_files: 2]
 
   defstruct [
     id: nil, start_time: nil, end_time: nil, title: "", location: nil, street_address: nil,
@@ -50,9 +50,9 @@ defmodule Content.Event do
       agenda: handle_html(field_value(data, "field_agenda")),
       imported_address: handle_html(field_value(data, "field_imported_address")),
       meeting_id: field_value(data, "field_meeting_id"),
-      files: parse_file(data, "field_other_files"),
-      agenda_file: parse_file(data, "field_agenda_file", true),
-      minutes_file: parse_file(data, "field_minutes_file", true)
+      files: parse_files(data, "field_other_files"),
+      agenda_file: parse_files(data, "field_agenda_file") |> Enum.at(0, nil),
+      minutes_file: parse_files(data, "field_minutes_file") |> Enum.at(0, nil)
     }
   end
 end

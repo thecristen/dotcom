@@ -23,18 +23,12 @@ defmodule Content.Helpers do
     |> handle_html
   end
 
-  @spec parse_file(map, String.t, boolean | nil) :: [Content.Field.File.t] | Content.Field.File.t | nil
-  def parse_file(%{} = data, field, as_struct? \\ false) do
+  @spec parse_files(map, String.t) :: [Content.Field.File.t]
+  def parse_files(%{} = data, field) do
     data
     |> Map.get(field, [])
     |> Enum.map(&Content.Field.File.from_api/1)
-    |> get_all_or_first(as_struct?)
   end
-
-  @spec get_all_or_first([struct], boolean) :: [struct] | struct | nil
-  defp get_all_or_first(data, false), do: data
-  defp get_all_or_first([], true), do: nil
-  defp get_all_or_first([first | _rest], true), do: first
 
   @spec parse_image(map, String.t) :: Content.Field.Image.t | nil
   def parse_image(%{} = data, field) do
