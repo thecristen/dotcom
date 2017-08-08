@@ -105,10 +105,10 @@ defmodule Site.TripPlanView do
 
   @spec stop_departure_display(ItineraryRow.t) :: {:render, String.t} | :blank
   def stop_departure_display(itinerary_row) do
-    if !itinerary_row.arrival && !itinerary_row.trip do
-      {:render, format_schedule_time(itinerary_row.departure)}
-    else
+    if itinerary_row.trip do
       :blank
+    else
+      {:render, format_schedule_time(itinerary_row.departure)}
     end
   end
 

@@ -32,10 +32,8 @@ defmodule Site.TripPlan.ItineraryRowList do
 
   @spec get_rows(Itinerary.t, Keyword.t) :: [ItineraryRow.t]
   defp get_rows(itinerary, opts) do
-    [nil]
-    |> Enum.concat(itinerary)
-    |> Enum.zip(itinerary)
-    |> Enum.map(fn {before, current} -> ItineraryRow.from_legs(current, before, opts) end)
+    itinerary
+    |> Enum.map(fn leg -> ItineraryRow.from_leg(leg, opts) end)
     |> update_from_name(opts[:from])
   end
 

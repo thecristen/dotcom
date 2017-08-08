@@ -16,7 +16,6 @@ defmodule Site.TripPlan.ItineraryRow do
     stop: {nil, nil},
     route: nil,
     trip: nil,
-    arrival: nil,
     departure: DateTime.from_unix!(-1),
     transit?: false,
     steps: []
@@ -27,7 +26,6 @@ defmodule Site.TripPlan.ItineraryRow do
     transit?: boolean,
     route: Routes.Route.t | nil,
     trip: Schedules.Trip.t | nil,
-    arrival: DateTime.t | nil,
     departure: DateTime.t,
     steps: [step]
   }
@@ -49,23 +47,18 @@ defmodule Site.TripPlan.ItineraryRow do
     * stop_mapper
     * trip_mapper
   """
-  @spec from_legs(Leg.t, Leg.t, Keyword.t) :: t
-  def from_legs(current_leg, before_leg, user_opts \\ []) do
+  @spec from_leg(Leg.t, Keyword.t) :: t
+  def from_leg(leg, user_opts \\ []) do
     opts = Keyword.merge(@default_opts, user_opts)
     %__MODULE__{
-      stop: name_from_position(current_leg.from, opts[:stop_mapper]),
-      transit?: Leg.transit?(current_leg),
-      route: current_leg |> Leg.route_id |> parse_route_id(opts[:route_mapper]),
-      trip: current_leg |> Leg.trip_id |> parse_trip_id(opts[:trip_mapper]),
-      departure: current_leg.start,
-      arrival: arrival_time(before_leg),
-      steps: get_steps(current_leg.mode, opts[:stop_mapper])
+      stop: name_from_position(leg.from, opts[:stop_mapper]),
+      transit?: Leg.transit?(leg),
+      route: leg |> Leg.route_id |> parse_route_id(opts[:route_mapper]),
+      trip: leg |> Leg.trip_id |> parse_trip_id(opts[:trip_mapper]),
+      departure: leg.start,
+      steps: get_steps(leg.mode, opts[:stop_mapper])
     }
   end
-
-  @spec arrival_time(Leg.t | nil) :: DateTime.t | nil
-  defp arrival_time(nil), do: nil
-  defp arrival_time(before_leg), do: before_leg.stop
 
   @spec name_from_position(NamedPosition.t, stop_mapper) :: {String.t, String.t}
   def name_from_position(named_position, stop_mapper \\ &Stops.Repo.get/1)

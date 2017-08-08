@@ -44,12 +44,8 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       end
     end
 
-    test "ItineraryRow arrival and departure times increase in ascending order", %{itinerary_row_list: row_list} do
-      [origin_arrival | rest_times] = Enum.flat_map(row_list.rows, & [&1.arrival, &1.departure])
-      refute origin_arrival
-      for {time1, time2} <- Enum.zip(rest_times, Enum.drop(rest_times, 1)) do
-        assert Timex.compare(time1, time2) < 1
-      end
+    test "ItineraryRow departure times increase in ascending order", %{itinerary_row_list: row_list} do
+      assert Enum.sort_by(row_list.rows, & &1.departure, &Timex.before?/2) == row_list.rows
     end
 
     test "Destination is the last stop in itinerary", %{itinerary: itinerary, itinerary_row_list: row_list} do

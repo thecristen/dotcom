@@ -6,14 +6,6 @@
     <%= Site.PartialView.StopBubbles.render_stop_bubbles(@bubble_params) %>
     <div class="itinerary-transfer-row itinerary-step">
       <%= render "_itinerary_stop.html", stop_name: stop_name, stop_id: stop_id, alerts: @alerts, departure_display: stop_departure_display(@itinerary_row), conn: @conn %>
-      <%= if @itinerary_row.arrival do %>
-        <div>
-          <span class="itinerary-instruction">
-            Arrive at <%= stop_name %>
-          </span>
-          <div class="pull-right"><%= format_schedule_time(@itinerary_row.arrival) %></div>
-        </div>
-      <% end %>
       <%= if @itinerary_row.trip do %>
         <div>
           <% route = @itinerary_row.route %>
