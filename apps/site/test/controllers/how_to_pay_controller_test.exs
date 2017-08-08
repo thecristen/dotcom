@@ -17,5 +17,10 @@ defmodule Site.HowToPayControllerTest do
       conn = get conn, how_to_pay_path(conn, :show, :commuter_rail)
       assert [ {fare_path(conn, :index), "Fares and Passes"}, "How to Pay" ] == conn.assigns.breadcrumbs
     end
-  end 
+
+    test "redirects unknown modes to the index page", %{conn: conn} do
+      conn = get conn, how_to_pay_path(conn, :show, "non-existent-986419624")
+      assert redirected_to(conn) == how_to_pay_path(conn, :index)
+    end
+  end
 end
