@@ -6,6 +6,38 @@ defmodule Site.ContentViewTest do
 
   alias Content.Paragraph
 
+  describe "Basic Page" do
+    setup do
+      basic_page = Content.BasicPage.from_api(Content.CMS.Static.basic_page_with_sidebar_response())
+      %{basic_page: basic_page}
+    end
+
+    test "renders a sidebar menu", %{basic_page: basic_page} do
+      fake_conn = %{request_path: basic_page.sidebar_menu.links |> List.first |> Map.get(:url)}
+
+      rendered =
+        "page.html"
+        |> render(page: basic_page, conn: fake_conn)
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ "Parking Info by Station"
+      assert rendered =~ ~s(<ul class="sidebar-menu">)
+    end
+
+    test "renders a page without a sidebar menu", %{basic_page: basic_page} do
+      basic_page = %{basic_page | sidebar_menu: nil}
+      fake_conn = %{request_path: "/"}
+
+      rendered =
+        "page.html"
+        |> render(page: basic_page, conn: fake_conn)
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ "Parking Info by Station"
+      refute rendered =~ ~s(<ul class="sidebar-menu">)
+    end
+  end
+
   describe "render_paragraph/1" do
     test "renders a Content.Paragraph.CustomHTML" do
       paragraph = %Paragraph.CustomHTML{body: Phoenix.HTML.raw("<p>Hello</p>")}

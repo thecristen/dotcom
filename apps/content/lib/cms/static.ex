@@ -10,6 +10,10 @@ defmodule Content.CMS.Static do
     parse_json("accessibility.json")
   end
 
+  def basic_page_with_sidebar_response do
+    parse_json("parking/by-station.json")
+  end
+
   def project_update_response do
     parse_json("gov-center-project.json")
   end

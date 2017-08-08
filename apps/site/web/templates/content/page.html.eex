@@ -1,12 +1,26 @@
-<div class="page-section">
-  <div class="page-block content-page-block">
-    <h1><%= @page.title %></h1>
-    <%= Site.ContentRewriter.rewrite(@page.body) %>
-
-    <%= for paragraph <- @page.paragraphs do %>
-      <div>
-        <%= render_paragraph(paragraph) %>
+<%= if @page.sidebar_menu do %>
+  <div class="row">
+    <div class="hidden-sm-down col-md-4 col-lg-3">
+      <div class="sidebar-menu-title">
+        <strong><%= @page.sidebar_menu.title %></strong>
       </div>
-    <% end %>
+
+      <ul class="sidebar-menu">
+        <%= for link <- @page.sidebar_menu.links do %>
+          <li>
+            <%= if @conn.request_path == link.url do %>
+              <span class="sidebar-menu-current sidebar-menu-item"><%= link.title %></span>
+            <% else %>
+              <%= link link.title, to: link.url, class: "sidebar-menu-item" %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-md-8 col-lg-9">
+      <%= render "_basic_page.html", page: @page %>
+    </div>
   </div>
-</div>
+<% else %>
+  <%= render "_basic_page.html", page: @page %>
+<% end %>

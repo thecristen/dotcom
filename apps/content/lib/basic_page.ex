@@ -10,13 +10,20 @@ defmodule Content.BasicPage do
     parse_paragraphs: 1,
   ]
 
-  defstruct [id: nil, title: "", body: Phoenix.HTML.raw(""), paragraphs: []]
+  defstruct [
+    body: Phoenix.HTML.raw(""),
+    id: nil,
+    paragraphs: [],
+    sidebar_menu: nil,
+    title: "",
+  ]
 
   @type t :: %__MODULE__{
     id: integer | nil,
     title: String.t,
     body: Phoenix.HTML.safe,
     paragraphs: [Content.Paragraph.t],
+    sidebar_menu: Content.MenuLinks.t | nil,
   }
 
   @spec from_api(map) :: t
@@ -26,6 +33,15 @@ defmodule Content.BasicPage do
       title: field_value(data, "title") || "",
       body: parse_body(data),
       paragraphs: parse_paragraphs(data),
+      sidebar_menu: parse_menu_links(data),
     }
+  end
+
+  @spec parse_menu_links(map) :: Content.MenuLinks.t | nil
+  defp parse_menu_links(%{"field_sidebar_menu" => [menu_links_data]}) do
+    Content.MenuLinks.from_api(menu_links_data)
+  end
+  defp parse_menu_links(_) do
+    nil
   end
 end
