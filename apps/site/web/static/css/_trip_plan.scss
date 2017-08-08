@@ -157,3 +157,9 @@
 .reveal-steps {
   @extend %button-as-link;
 }
+
+.trip-plan-route-connection {
+  background-color: $gray-lightest;
+  margin: $space-6 0;
+  padding: $space-6 0;
+}

@@ -151,13 +151,18 @@ defmodule Site.Components.Icons.SvgIcon do
   @spec icon_title(atom) :: String.t
   def icon_title(:alert), do: "Service alert or delay"
   def icon_title(:parking_lot), do: "Parking"
-  def icon_title(icon), do: "#{icon} icon"
+  def icon_title(icon) when icon in [:subway, :bus, :commuter_rail, :ferry] do
+    Site.ViewHelpers.mode_name(icon)
+  end
+  def icon_title(icon) do
+    "#{icon} icon"
+  end
 
   def build_path(path), do: Phoenix.HTML.Tag.tag :path, d: path
 
   def viewbox(:bus), do: "0 0 24 24"
   def viewbox(:subway), do: "0 0 24 24"
-  def viewbox(:commuter_rail), do: "0 0 16 16"
+  def viewbox(:commuter_rail), do: "0 0 24 24"
   def viewbox(:map), do: "0 0 26 24"
   def viewbox(:alert), do: "0 0 24 24"
   def viewbox(:the_ride), do: "0 0 36 36"
@@ -165,6 +170,9 @@ defmodule Site.Components.Icons.SvgIcon do
   def viewbox(:facebook), do: "0 0 75 75"
   def viewbox(:parking_lot), do: "0 0 24 24"
   def viewbox(_), do: "0 0 40 40"
+
+  def transform(:commuter_rail), do: "translate(5, 4)"
+  def transform(_), do: ""
 
   def unoptimized_paths, do: @icons
 end

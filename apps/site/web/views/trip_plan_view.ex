@@ -1,5 +1,6 @@
 defmodule Site.TripPlanView do
   use Site.Web, :view
+  require Routes.Route
   alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
 
