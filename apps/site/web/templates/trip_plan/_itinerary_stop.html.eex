@@ -3,6 +3,11 @@
     <%= link @stop_name, to: stop_path(@conn, :show, @stop_id) %>
     <%= unless Enum.empty?(@alerts) do %>
       <%= fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}] %>
+      <%= for alert <- @alerts do %>
+        <div class="alert-list-item">
+          <%= Site.AlertView.render "_item.html", alert: alert, extra_id: @route_id, time: @time %>
+        </div>
+      <% end %>
     <% end %>
   <% else %>
     <%= @stop_name %>
