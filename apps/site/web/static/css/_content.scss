@@ -26,13 +26,13 @@
   text-align: center;
 
   @include media-breakpoint-up(md) {
-    height: $hero-height-desktop;
+    min-height: $hero-height-desktop;
   }
 
   @include media-breakpoint-down(sm) {
     // scss-lint:disable PropertySortOrder
 
-    height: $hero-height-mobile;
+    min-height: $hero-height-mobile;
 
     display: flex;
     align-items: center;
