@@ -51,8 +51,8 @@ defmodule Content.Event do
       imported_address: handle_html(field_value(data, "field_imported_address")),
       meeting_id: field_value(data, "field_meeting_id"),
       files: parse_files(data, "field_other_files"),
-      agenda_file: parse_files(data, "field_agenda_file") |> Enum.at(0, nil),
-      minutes_file: parse_files(data, "field_minutes_file") |> Enum.at(0, nil)
+      agenda_file: parse_files(data, "field_agenda_file") |> List.first,
+      minutes_file: parse_files(data, "field_minutes_file") |> List.first
     }
   end
 end
