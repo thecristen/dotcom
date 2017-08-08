@@ -3,8 +3,18 @@
     <%= link @stop_name, to: stop_path(@conn, :show, @stop_id) %>
     <%= unless Enum.empty?(@alerts) do %>
       <%= fa "exclamation-triangle", [{:"data-toggle", "tooltip"}, {:title, "Service alert or delay"}] %>
+      <button
+        class="btn btn-link itinerary-alert-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target="#itinerary-alert-<%= @itinerary_idx %>-<%= @itinerary_row_idx %>"
+        aria-expanded="true"
+        aria-controls="itinerary-alert-<%= @itinerary_idx %>-<%= @itinerary_row_idx %>"
+      >
+        (hide alert)
+      </button>
       <%= for alert <- @alerts do %>
-        <div class="alert-list-item">
+        <div class="alert-list-item collapse in" id="itinerary-alert-<%= @itinerary_idx %>-<%= @itinerary_row_idx %>">
           <%= Site.AlertView.render "_item.html", alert: alert, extra_id: @route_id, time: @time %>
         </div>
       <% end %>
