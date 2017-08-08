@@ -45,7 +45,7 @@ defmodule Site.AlertController do
     |> render("show.html",
     id: String.to_existing_atom(id),
     route_alerts: route_alerts,
-    breadcrumbs: ["Alerts"]
+    breadcrumbs: [Breadcrumb.build("Alerts")]
     )
   end
 

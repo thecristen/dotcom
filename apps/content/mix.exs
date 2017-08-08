@@ -30,7 +30,8 @@ defmodule Content.Mixfile do
         :repo_cache,
         :timex,
         :tzdata,
-        :html_sanitize_ex
+        :html_sanitize_ex,
+        :util
       ],
       mod: {Content, []}
    ]
@@ -65,6 +66,7 @@ defmodule Content.Mixfile do
      {:mock, "~> 0.2.0", only: :test},
      {:phoenix_html, "~> 2.6"},
      {:repo_cache, in_umbrella: true},
-     {:mailgun, "~> 0.1.2"}]
+     {:mailgun, "~> 0.1.2"},
+     {:util, in_umbrella: true}]
   end
 end

@@ -12,7 +12,7 @@
     <meta name="author" content="Massachusetts Bay Transportation Authority">
     <%= Turbolinks.cache_meta @conn %>
 
-    <title><%= breadcrumbs(@conn) %></title>
+    <title><%= title_breadcrumbs(@conn) %></title>
     <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
     <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
     <link rel="preload" href="<%= static_url(@conn, "/js/app.js") %>" as="script">

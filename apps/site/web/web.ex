@@ -29,6 +29,7 @@ defmodule Site.Web do
       import Site.Router.Helpers
       import Site.ControllerHelpers
       import Site.Gettext
+      alias Util.Breadcrumb
     end
   end
 

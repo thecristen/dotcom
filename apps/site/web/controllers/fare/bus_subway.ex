@@ -1,6 +1,7 @@
 defmodule Site.FareController.BusSubway do
   use Site.FareController.Behavior
   alias Fares.Fare
+  alias Util.Breadcrumb
   alias Site.FareController.Filter
   import Plug.Conn, only: [assign: 3]
   import Site.Router.Helpers
@@ -12,8 +13,8 @@ defmodule Site.FareController.BusSubway do
   def before_render(conn) do
     conn
     |> assign(:breadcrumbs, [
-          {fare_path(conn, :index), "Fares and Passes"},
-          "Bus and Subway"
+          Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
+          Breadcrumb.build("Bus and Subway")
         ])
   end
 

@@ -7,7 +7,7 @@ defmodule Content.BasicPage do
     field_value: 2,
     int_or_string_to_int: 1,
     parse_body: 1,
-    parse_paragraphs: 1,
+    parse_paragraphs: 1
   ]
 
   defstruct [
@@ -16,6 +16,7 @@ defmodule Content.BasicPage do
     paragraphs: [],
     sidebar_menu: nil,
     title: "",
+    breadcrumbs: []
   ]
 
   @type t :: %__MODULE__{
@@ -24,6 +25,7 @@ defmodule Content.BasicPage do
     body: Phoenix.HTML.safe,
     paragraphs: [Content.Paragraph.t],
     sidebar_menu: Content.MenuLinks.t | nil,
+    breadcrumbs: [Util.Breadcrumb.t]
   }
 
   @spec from_api(map) :: t
@@ -34,6 +36,7 @@ defmodule Content.BasicPage do
       body: parse_body(data),
       paragraphs: parse_paragraphs(data),
       sidebar_menu: parse_menu_links(data),
+      breadcrumbs: Content.Breadcrumbs.build(data)
     }
   end
 

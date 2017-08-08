@@ -21,7 +21,7 @@ defmodule Site.ModeController do
     conn
     |> async_assign(:all_alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
     |> assign(:grouped_routes, grouped_routes)
-    |> assign(:breadcrumbs, ["Schedules & Maps"])
+    |> assign(:breadcrumbs, [Breadcrumb.build("Schedules & Maps")])
     |> assign(:include_ride, true)
     |> await_assign_all()
     |> render("index.html")
