@@ -157,10 +157,3 @@
 .reveal-steps {
   @extend %button-as-link;
 }
-
-.itinerary-step-distance {
-  border-bottom: $border;
-  color: $gray-light;
-  float: right;
-  margin-bottom: $space-6;
-}
