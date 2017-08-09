@@ -1,8 +1,7 @@
 defmodule Site.ScheduleV2ViewTest do
   use Site.ConnCase, async: true
 
-  alias Predictions.Prediction
-  alias Schedules.{Schedule, Trip, Departures}
+  alias Schedules.Trip
   alias Stops.{Stop, RouteStop, RouteStops}
   import Site.ScheduleV2View
   import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2]
@@ -32,22 +31,6 @@ defmodule Site.ScheduleV2ViewTest do
     trip: @trip,
     stop_name: @stop.name
   }
-
-  describe "pretty_date/2" do
-    test "it is today when the date given is todays date" do
-      assert pretty_date(Util.service_date) == "today"
-    end
-
-    test "it abbreviates the month when the date is not today" do
-      date = ~D[2017-01-01]
-      assert pretty_date(date) == "Jan 1"
-    end
-
-    test "it applies custom formatting if provided" do
-      date = ~D[2017-01-01]
-      assert pretty_date(date, "{Mfull} {D}, {YYYY}") == "January 1, 2017"
-    end
-  end
 
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
@@ -81,19 +64,6 @@ defmodule Site.ScheduleV2ViewTest do
         nil
       )
       assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
-    end
-  end
-
-  describe "timetable_location_display/1" do
-    test "given nil, returns the empty string" do
-      assert timetable_location_display(nil) == ""
-    end
-
-    test "otherwise, displays the CR icon" do
-      for status <- [:in_transit, :incoming, :stopped] do
-        icon = svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail, class: "icon-small", show_tooltip?: false})
-        assert timetable_location_display(%Vehicles.Vehicle{status: status}) == icon
-      end
     end
   end
 
@@ -179,84 +149,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "Schedule Alerts" do
-    @route %Routes.Route{type: 1, id: "1"}
-    @schedule %Schedule{route: @route, trip: %Trip{id: "trip"}, stop: %Stop{id: "stop"}}
-    @prediction %Prediction{route: @route, trip: %Trip{id: "trip_pred"}, stop: %Stop{id: "stop_pred"}, status: "Nearby"}
-
-    @alerts [
-        %Alerts.Alert{
-          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1", trip: "trip"}]
-        },
-        %Alerts.Alert{
-          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1", trip: "trip_pred"}]
-        },
-        %Alerts.Alert{
-          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1",  stop: "stop"}]
-        },
-        %Alerts.Alert{
-          informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1",  stop: "stop_pred"}]
-        }
-      ]
-
-      test "trip alerts use schedule for match" do
-        predicted_schedule = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
-        alert = List.first(trip_alerts(predicted_schedule, @alerts, @route, 1))
-        assert List.first(alert.informed_entity).trip == "trip"
-      end
-
-      test "trip alerts use prediction if no schedule is available" do
-        alert = List.first(trip_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, @route, 1))
-        assert List.first(alert.informed_entity).trip == "trip_pred"
-      end
-
-      test "No trip alerts returned if no predicted schedule is given" do
-        alerts = trip_alerts(nil, @alerts, @route, 1)
-        assert Enum.empty?(alerts)
-      end
-
-      test "No trip alerts return if empty predicted schedule is given" do
-        alerts = trip_alerts(%PredictedSchedule{}, @alerts, @route, 1)
-        assert alerts == []
-      end
-
-      test "Trip alerts are not returned for bus routes" do
-        route = %Routes.Route{type: 3, id: "1"}
-        alerts = trip_alerts(%PredictedSchedule{schedule: @schedule, prediction: @prediction}, @alerts, route, 1)
-        assert alerts == []
-      end
-
-      test "stop alerts use schedule for match" do
-        predicted_schedule = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
-        alert = List.first(stop_alerts(predicted_schedule, @alerts, "1", 1))
-        assert List.first(alert.informed_entity).stop == "stop"
-      end
-
-      test "stop alerts use prediction if no schedule is avaulable" do
-        alert = List.first(stop_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, "1", 1))
-        assert List.first(alert.informed_entity).stop == "stop_pred"
-      end
-
-      test "No stop alerts returned if no predicted schedule is given" do
-        alerts = stop_alerts(nil, @alerts, "1", 1)
-        assert Enum.empty?(alerts)
-      end
-
-      test "No stop alerts return if empty predicted schedule is given" do
-        alerts = stop_alerts(%PredictedSchedule{}, @alerts, "1", 1)
-        assert alerts == []
-      end
-  end
-
-  describe "display_alerts/1" do
-    test "alerts are not displayed if no alerts are given" do
-      assert safe_to_string(display_alerts([])) == ""
-    end
-
-    test "Icon is displayed if alerts are given" do
-      assert safe_to_string(display_alerts(["alert"])) =~ "icon-alert"
-    end
-  end
 
   describe "_trip_info.html" do
     test "make sure page reflects information from full_status function", %{conn: conn} do
@@ -475,59 +367,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "frequency_times/2" do
-    test "returns \"Every X mins\" if there is service during a time block" do
-      frequency = %Schedules.Frequency{max_headway: 11, min_headway: 3, time_block: :am_rush}
-      rendered = true |> Site.ScheduleV2View.frequency_times(frequency) |> safe_to_string
-      assert rendered =~ "Every 3-11"
-      assert rendered =~ "mins"
-      assert rendered =~ "minutes"
-    end
-
-    test "returns \"No service between these hours\" if there is no service" do
-      actual = false |> Site.ScheduleV2View.frequency_times(%Schedules.Frequency{}) |> safe_to_string
-      assert actual == "<span>No service between these hours</span>"
-    end
-  end
-
-  describe "display_departure_range/1" do
-    test "with no times, returns No Service" do
-      result = display_departure_range(%Departures{first_departure: nil, last_departure: nil})
-      assert result == "No Service"
-    end
-
-    test "with times, displays them formatted" do
-      result = %Departures{
-        first_departure: ~N[2017-02-27 06:15:00],
-        last_departure: ~N[2017-02-28 01:04:00]
-      }
-      |> display_departure_range
-      |> IO.iodata_to_binary
-
-      assert result == "06:15A-01:04A"
-    end
-  end
-
-  describe "display_frequency_departure/2" do
-    test "AM Rush displays first departure" do
-      assert safe_to_string(display_frequency_departure(:am_rush, Util.now(), Util.now())) =~ "First Departure"
-    end
-
-    test "Late Night displays last departure" do
-      assert safe_to_string(display_frequency_departure(:late_night, Util.now(), Util.now())) =~ "Last Departure"
-    end
-
-    test "Other time blocks do no give departure" do
-      refute display_frequency_departure(:evening, Util.now(), Util.now())
-      refute display_frequency_departure(:midday, Util.now(), Util.now())
-    end
-
-    test "Ultimate departure text not shown if not given time" do
-      refute display_frequency_departure(:am_rush, nil, Util.now())
-      refute display_frequency_departure(:late_night, Util.now(), nil)
-    end
-  end
-
   describe "no_trips_message/5" do
     test "when a no service error is provided" do
       error = [%JsonApi.Error{code: "no_service", meta: %{"version" => "Spring 2017 version 3D"}}]
@@ -550,34 +389,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "stop_name_link_with_alerts/3" do
-    test "adds a no-wrap around the last word of the link text and the icon" do
-      alerts = [%Alerts.Alert{}]
-      result = stop_name_link_with_alerts("name", "url", alerts)
-      assert result |> Phoenix.HTML.safe_to_string  =~ "<a href=\"url\">"
-      assert result |> Phoenix.HTML.safe_to_string  =~ "<span class=\"inline-block\">name<svg"
-    end
-
-    test "when there are no alerts, just makes a link" do
-      alerts = []
-      result = stop_name_link_with_alerts("name", "url", alerts)
-      assert result |> Phoenix.HTML.safe_to_string  =~ "<a href=\"url\">"
-      refute result |> Phoenix.HTML.safe_to_string  =~ "<svg"
-    end
-  end
-
-  describe "display_map_link?/1" do
-    test "is true for subway and ferry" do
-      assert display_map_link?(4) == true
-    end
-
-    test "is false for subway, bus and commuter rail" do
-      assert display_map_link?(0) == false
-      assert display_map_link?(3) == false
-      assert display_map_link?(2) == false
-    end
-  end
-
   describe "route_pdf_link/2" do
     test "returns a link to PDF redirector if we have a PDF for the route" do
       route = %Routes.Route{id: "CR-Worcester", name: "Fairmount", type: 2}
@@ -595,24 +406,6 @@ defmodule Site.ScheduleV2ViewTest do
     test "returns an empty list if no PDF for that route" do
       route = %Routes.Route{id: "nonexistent"}
       assert route_pdf_link(route, ~D[2017-01-01]) == []
-    end
-  end
-
-  describe "trip_expansion_link/3" do
-    @date ~D[2017-05-05]
-
-    test "Does not return link when no expansion", %{conn: conn} do
-      refute trip_expansion_link(:none, @date, conn)
-    end
-
-    test "Shows expand link when collapsed", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert safe_to_string(trip_expansion_link(:collapsed, @date, conn)) =~ "Show all trips for"
-    end
-
-    test "Shows collapse link when expanded", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert safe_to_string(trip_expansion_link(:expanded, @date, conn)) =~ "Show upcoming trips only"
     end
   end
 
@@ -654,12 +447,6 @@ defmodule Site.ScheduleV2ViewTest do
                                             conn: conn)
       refute safe_to_string(rendered) =~ "on"
       assert safe_to_string(rendered) =~ "There are no scheduled inbound"
-    end
-  end
-
-  describe "date_tooltip/0" do
-    test "makes a schedule tooltip" do
-      assert date_tooltip() =~ "class='schedule-tooltip'"
     end
   end
 
@@ -730,23 +517,6 @@ defmodule Site.ScheduleV2ViewTest do
         %Stops.RouteStops{branch: "Green-C", stops: [%RouteStop{id: "place-smary"}, %RouteStop{id: "place-clmnl"}]}
       ]
       assert add_expand_link?(stop, %{branches: branches, expanded: nil, direction_id: 0}) == false
-    end
-  end
-
-  describe "trip_link/4" do
-    test "trip link for non-matching trip", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert trip_link(conn, @trip_info, false, "2") == "/?trip=2#2"
-    end
-
-    test "trip link for matching, un-chosen stop", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert trip_link(conn, @trip_info, false, "1") == "/?trip=1#1"
-    end
-
-    test "trip link for matching, chosen stop", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
     end
   end
 

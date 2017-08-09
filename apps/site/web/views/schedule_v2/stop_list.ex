@@ -213,4 +213,42 @@ defmodule Site.ScheduleV2View.StopList do
   defp bubble_content(route_id)
   defp bubble_content("Green-" <> letter), do: letter
   defp bubble_content(_), do: ""
+
+  @doc """
+  Formats a Schedules.Departures.t to a human-readable time range.
+  """
+  @spec display_departure_range(Schedules.Departures.t) :: iodata
+  def display_departure_range(%Schedules.Departures{first_departure: nil, last_departure: nil}) do
+    "No Service"
+  end
+  def display_departure_range(%Schedules.Departures{} = departures) do
+    [
+      format_schedule_time(departures.first_departure),
+      "-",
+      format_schedule_time(departures.last_departure)
+    ]
+  end
+
+  @doc """
+  Displays a schedule period.
+  """
+  @spec schedule_period(atom) :: String.t
+  def schedule_period(:week), do: "Monday to Friday"
+  def schedule_period(period) do
+    period
+    |> Atom.to_string
+    |> String.capitalize
+  end
+
+  @spec display_map_link?(integer) :: boolean
+  def display_map_link?(type), do: type == 4 # only show for ferry
+
+  @spec trip_link(Conn.t, TripInfo.t, boolean, String.t) :: String.t
+  def trip_link(conn, trip_info, trip_chosen?, trip_id) do
+    if TripInfo.is_current_trip?(trip_info, trip_id) && trip_chosen? do
+      update_url(conn, trip: "") <> "#" <> trip_id
+    else
+      update_url(conn, trip: trip_id) <> "#" <> trip_id
+    end
+  end
 end

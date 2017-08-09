@@ -5,8 +5,26 @@ defmodule Site.StopListViewTest do
   import Site.ScheduleV2View.StopList
   alias Stops.RouteStop
   alias Routes.Route
+  alias Schedules.Departures
   alias Site.StopBubble
 
+  @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
+  @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
+  @route %Routes.Route{type: 3, id: "1"}
+  @prediction %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time", trip: @trip}
+  @schedule %Schedules.Schedule{
+    route: @route,
+    trip: @trip,
+    stop: @stop
+  }
+  @vehicle %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: @route.id}
+  @predicted_schedule %PredictedSchedule{prediction: @prediction, schedule: @schedule}
+  @trip_info %TripInfo{
+    route: @route,
+    vehicle: @vehicle,
+    vehicle_stop_name: @stop.name,
+    times: [@predicted_schedule],
+  }
   @assigns %{
     bubbles: [{nil, :terminus}],
     stop: %RouteStop{branch: nil, id: "stop"},
@@ -364,6 +382,53 @@ defmodule Site.StopListViewTest do
         |> Enum.map(fn {_elem, _attrs, [name]} -> String.trim(name) end)
 
       assert names == ["North Quincy", "Wollaston"]
+    end
+  end
+
+  describe "display_departure_range/1" do
+    test "with no times, returns No Service" do
+      result = display_departure_range(%Departures{first_departure: nil, last_departure: nil})
+      assert result == "No Service"
+    end
+
+    test "with times, displays them formatted" do
+      result = %Departures{
+        first_departure: ~N[2017-02-27 06:15:00],
+        last_departure: ~N[2017-02-28 01:04:00]
+      }
+      |> display_departure_range
+      |> IO.iodata_to_binary
+
+      assert result == "06:15A-01:04A"
+    end
+  end
+
+  describe "display_map_link?/1" do
+    test "is true for subway and ferry" do
+      assert display_map_link?(4) == true
+    end
+
+    test "is false for subway, bus and commuter rail" do
+      assert display_map_link?(0) == false
+      assert display_map_link?(3) == false
+      assert display_map_link?(2) == false
+    end
+  end
+
+  describe "trip_link/4" do
+    test "trip link for non-matching trip", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert trip_link(conn, @trip_info, false, "2") == "/?trip=2#2"
+    end
+
+    test "trip link for matching, un-chosen stop", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert trip_link(conn, @trip_info, false, "1") == "/?trip=1#1"
+    end
+
+    test "trip link for matching, chosen stop", %{conn: conn} do
+      conn = %{conn | query_params: %{}}
+      assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
     end
   end
 end
