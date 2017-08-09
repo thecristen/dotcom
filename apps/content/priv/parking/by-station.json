@@ -1,0 +1,267 @@
+{
+  "nid": [
+    {
+      "value": 2631
+    }
+  ],
+  "uuid": [
+    {
+      "value": "376b29e6-4c22-40ee-b17f-177955a7286d"
+    }
+  ],
+  "vid": [
+    {
+      "value": 3312
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type",
+      "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Parking Info by Station"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "\/user\/12"
+    }
+  ],
+  "created": [
+    {
+      "value": 1502214158
+    }
+  ],
+  "changed": [
+    {
+      "value": 1502214844
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1502214844
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "\/user\/12"
+    }
+  ],
+  "revision_log": [
+
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "path": [
+    {
+      "alias": "\/parking\/by-station",
+      "pid": 95,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [
+
+  ],
+  "unpublish_on": [
+
+  ],
+  "menu_link": [
+
+  ],
+  "body": [
+    {
+      "value": "<h2>MBTA Parking<\/h2>\r\n\r\n<p>Providing safe and accessible parking in the vicinity of the rail stations on the MBTA commuter rail and rapid transit lines is essential to the success of the MBTA transit system.<\/p>\r\n",
+      "format": "basic_html",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [
+
+  ],
+  "field_page_type": [
+    {
+      "target_id": 6,
+      "target_type": "taxonomy_term",
+      "target_uuid": "aeb9983b-d027-4aaf-bba5-f2d05ebeea74",
+      "url": "\/taxonomy\/term\/6"
+    }
+  ],
+  "field_paragraphs": [
+
+  ],
+  "field_sidebar_menu": [
+    {
+      "nid": [
+        {
+          "value": 2630
+        }
+      ],
+      "uuid": [
+        {
+          "value": "305543a2-4348-4564-a25d-46f45c638007"
+        }
+      ],
+      "vid": [
+        {
+          "value": 3311
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "menu_links",
+          "target_type": "node_type",
+          "target_uuid": "d44f2514-b274-4a75-b0e7-492e66c0ed52"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "title": [
+        {
+          "value": "Parking"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "created": [
+        {
+          "value": 1502214075
+        }
+      ],
+      "changed": [
+        {
+          "value": 1502214151
+        }
+      ],
+      "promote": [
+        {
+          "value": true
+        }
+      ],
+      "sticky": [
+        {
+          "value": false
+        }
+      ],
+      "revision_timestamp": [
+        {
+          "value": 1502214151
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 12,
+          "target_type": "user",
+          "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+          "url": "\/user\/12"
+        }
+      ],
+      "revision_log": [
+
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "path": [
+
+      ],
+      "publish_on": [
+
+      ],
+      "unpublish_on": [
+
+      ],
+      "menu_link": [
+
+      ],
+      "field_links": [
+        {
+          "uri": "internal:\/parking\/by-station",
+          "title": "Parking Info By Station",
+          "options": [
+
+          ]
+        },
+        {
+          "uri": "internal:\/parking\/payment",
+          "title": "Payment",
+          "options": [
+
+          ]
+        },
+        {
+          "uri": "internal:\/parking\/regulations",
+          "title": "Regulations & Guidelines",
+          "options": [
+
+          ]
+        },
+        {
+          "uri": "https:\/\/google.com",
+          "title": "Contact",
+          "options": [
+
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -26,5 +26,12 @@ defmodule Content.BasicPageTest do
       assert %Content.BasicPage{body: body} = Content.BasicPage.from_api(api_page)
       assert Phoenix.HTML.safe_to_string(body) == "alert() <p>Hi</p>"
     end
+
+    test "it parses a sidebar menu" do
+      api_page = Content.CMS.Static.basic_page_with_sidebar_response()
+      assert %Content.BasicPage{
+        sidebar_menu: %Content.MenuLinks{}
+      } = Content.BasicPage.from_api(api_page)
+    end
   end
 end
