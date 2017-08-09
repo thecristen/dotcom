@@ -1,5 +1,5 @@
 <div class="row">
-  <%= if !Enum.empty?(@lot.spots) || (@lot.rate && @lot.rate != "") || @lot.manager do %>
+  <%= if !Enum.empty?(@lot.spots) || @lot.rate || @lot.manager do %>
     <div class="col-sm-4">
       <%= if !Enum.empty?(@lot.spots) do %>
         <ul class="list-unstyled">
@@ -8,11 +8,11 @@
           <% end %>
         </ul>
       <% else %>
-        <em>No Parking availability information available</em>
+        <em>No MBTA parking. Street or private parking may exist.</em>
       <% end %>
     </div>
     <div class="col-sm-4 payment-info">
-      <%= if @lot.rate && @lot.rate != "" do %>
+      <%= if @lot.rate do %>
         <strong>Parking Rate:</strong> <%= @lot.rate |> HtmlSanitizeEx.strip_tags %>
         <% else %>
         <em>No payment information available</em>
@@ -21,13 +21,13 @@
     <div class="col-sm-4">
       <%= if @lot.manager do %>
         <ul class="list-unstyled">
-          <%= if @lot.manager.name && @lot.manager.name != "" do %>
+          <%= if @lot.manager.name  do %>
             <li><strong>Managed by:</strong> <%= @lot.manager.name %></li>
             <% end %>
             <%= if @lot.manager.phone do %>
               <li><strong>Phone:</strong> <%= @lot.manager.phone %></li>
             <% end %>
-            <%= if @lot.manager.website && @lot.manager.website != "" do %>
+            <%= if @lot.manager.website do %>
               <%= link to: external_link(@lot.manager.website) do %>
                 View <%= @lot.manager.name%>'s <span class="no-wrap">Website <%= fa "arrow-right" %></span>
               <% end %>
@@ -39,14 +39,9 @@
     </div>
   <% end %>
 </div>
-<%= if @lot.note && @lot.note != "" do %>
+<%= if @lot.note do %>
   <div class="station-callout-box">
     <strong>Note:</strong>
     <%= @lot.note |> HtmlSanitizeEx.strip_tags %>
-  </div>
-<% else %>
-  <div class="station-callout-box">
-    <strong>Note:</strong>
-    No MBTA parking. Street or private parking may exist.
   </div>
 <% end %>

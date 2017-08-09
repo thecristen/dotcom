@@ -25,10 +25,10 @@ defmodule Stops.StationInfo.Csv do
     id = String.trim(row["_gtfs_id"])
     %Stop{
       id: id,
-      name: row["_name"],
-      note: row["AdditionalNotes"],
+      name: ensure_value(row["_name"]),
+      note: ensure_value(row["AdditionalNotes"]),
       accessibility: accessibility(row),
-      address: row["Address"],
+      address: ensure_value(row["Address"]),
       parking_lots: parking_lots(row),
       station?: true,
       has_fare_machine?: Map.get(@vending_machine_stations, id, false),
@@ -69,8 +69,8 @@ defmodule Stops.StationInfo.Csv do
       [
         %Stop.ParkingLot{
           spots: parking_spots(row),
-          rate: check_na(row["ParkingRate"]),
-          note: row["Comments"],
+          rate: ensure_value(row["ParkingRate"]),
+          note: ensure_value(row["Comments"]),
           manager: manager}
       ]
     else
@@ -78,14 +78,18 @@ defmodule Stops.StationInfo.Csv do
     end
   end
 
-  defp manager(%{"ManagedByLabel" => label} = row)
-  when label != "" and label != "N/A" do
-    %Stop.Manager{
-      name: String.trim(label),
-      email: row["ManagedByEmail"],
-      website: row["ManagedByWeb"],
-      phone: row["ManagedByPhone"]
-    }
+  defp manager(%{"ManagedByLabel" => label} = row) do
+    case ensure_value(label) do
+      nil ->
+        nil
+      valid_label ->
+        %Stop.Manager{
+          name: valid_label,
+          email: ensure_value(row["ManagedByEmail"]),
+          website: ensure_value(row["ManagedByWeb"]),
+          phone: ensure_value(row["ManagedByPhone"])
+        }
+    end
   end
   defp manager(_row) do
     nil
@@ -111,7 +115,12 @@ defmodule Stops.StationInfo.Csv do
     end
   end
 
-  defp check_na(""), do: nil
-  defp check_na("N/A"), do: nil
-  defp check_na(value), do: value
+  defp ensure_value("N/A"), do: nil
+  defp ensure_value(nil), do: nil
+  defp ensure_value(value) do
+    case String.trim(value) do
+      "" -> nil
+      trimmed_val -> trimmed_val
+    end
+  end
 end

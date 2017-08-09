@@ -218,4 +218,25 @@ defmodule Site.StopViewTest do
       assert safe_to_string(output) =~ "/fares/ferry?origin=IronIsland"
     end
   end
+
+  describe "_parking_lot.html" do
+    @lot %{spots: [%{type: "basic", spots: 2}], rate: "$5/hr", note: "Parking notice", manager: nil}
+
+    test "Parking note is only shown when one exists" do
+      note_output = Site.StopView.render("_parking_lot.html", lot: @lot)
+      assert safe_to_string(note_output) =~ "Note"
+      assert safe_to_string(note_output) =~ "Parking notice"
+    end
+
+    test "parking message is shown when lot has no parking" do
+      output = Site.StopView.render("_parking_lot.html", lot: %{@lot | spots: []})
+      assert safe_to_string(output) =~ "No MBTA parking. Street or private parking may exist"
+    end
+
+    test "Phone label is not shown when phone nil" do
+      lot = %{@lot | manager: %{phone: nil, name: "Parking name", website: "www.parking.com"}}
+      output = Site.StopView.render("_parking_lot.html", lot: lot)
+      refute safe_to_string(output) =~ "Phone"
+    end
+  end
 end
