@@ -32,4 +32,18 @@ defmodule TripPlan.ItineraryRowTest do
       refute route_type(row)
     end
   end
+
+  describe "route_name/1" do
+    test "returns the route name when a route is present" do
+      row = %ItineraryRow{route: %Route{name: "Red Line"}}
+
+      assert route_name(row) == "Red Line"
+    end
+
+    test "returns nil when a route is not present" do
+      row = %ItineraryRow{route: nil}
+
+      refute route_name(row)
+    end
+  end
 end

@@ -1,0 +1,8 @@
+<div class="trip-info-stop-name-times">
+  <div class="stop-info-column trip-info-name" role="cell">
+    <%= stop_name_link_with_alerts(@stop.name, @href, @alerts) %>
+  </div>
+  <div class="stop-info-column trip-info-time" role="cell">
+    <%= PredictedSchedule.Display.time(@predicted_schedule) %>
+  </div>
+</div>

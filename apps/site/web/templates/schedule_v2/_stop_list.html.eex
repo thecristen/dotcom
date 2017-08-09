@@ -1,17 +1,9 @@
 <div class="route-branch-stop-list stop-group <%= @route |> SvgIcon.get_icon_atom() |> hyphenated_mode_string %>">
   <%=
-    branch_names = @branches |> Enum.map(& &1.branch) |> Enum.reverse() |> Enum.reject(&is_nil/1)
-
-    for {bubbles, stop} <- @all_stops do
-      render "_stop_list_row.html", bubbles: bubbles,
-                                    stop: stop,
-                                    route: @route,
-                                    direction_id: @direction_id,
-                                    conn: @conn,
-                                    add_expand_link?: add_expand_link?(stop, assigns),
-                                    expanded: @expanded,
-                                    branch_names: branch_names,
-                                    vehicle_tooltip: @vehicle_tooltips[stop.id],
-                                    row_content_template: "_line_page_stop_info.html"
-  end %>
+    for branch_stops <- chunk_branches(@all_stops) do
+       branch_stops
+       |> separate_collapsible_rows(@direction_id)
+       |> merge_rows(assigns)
+    end
+  %>
 </div>

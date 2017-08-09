@@ -4,39 +4,35 @@ defmodule Site.ScheduleV2Controller.Line do
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
   alias Site.ScheduleV2Controller.Line.Maps
-  alias Site.PartialView.StopBubbles
 
   @type query_param :: String.t | nil
   @type direction_id :: 0 | 1
-  @typep stop_with_bubble_info :: {[StopBubbles.stop_bubble], RouteStop.t}
+  @typep stop_with_bubble_info :: {[Site.StopBubble.stop_bubble], RouteStop.t}
 
   @impl true
   def init([]), do: []
 
   @impl true
   def call(%Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn, _args) do
-    expanded = conn.query_params["expanded"]
     variant = conn.query_params["variant"]
-    update_conn(conn, route, direction_id, expanded, variant)
+    update_conn(conn, route, direction_id, variant)
   end
 
-  @spec update_conn(Plug.Conn.t, Route.t, direction_id, query_param, query_param) :: Plug.Conn.t
-  defp update_conn(conn, route, direction_id, expanded, variant) do
+  @spec update_conn(Plug.Conn.t, Route.t, direction_id, query_param) :: Plug.Conn.t
+  defp update_conn(conn, route, direction_id, variant) do
     route_shapes = get_route_shapes(route.id, direction_id)
     vehicles = conn.assigns[:vehicle_locations]
     vehicle_tooltips = conn.assigns.vehicle_tooltips
     vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
-    active_shapes = get_active_shapes(route_shapes, route, variant, expanded)
+    active_shapes = get_active_shapes(route_shapes, route, variant)
     branches = get_branches(route_shapes, active_shapes, route, direction_id)
-    collapsed_branches = remove_collapsed_stops(branches, expanded, direction_id)
-    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id, expanded)
+    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
     {map_img_src, dynamic_map_data} = Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
 
     conn
     |> assign(:direction_id, direction_id)
-    |> assign(:all_stops, build_stop_list(collapsed_branches, direction_id))
-    |> assign(:expanded, conn.query_params["expanded"])
-    |> assign(:branches, collapsed_branches)
+    |> assign(:all_stops, build_stop_list(branches, direction_id))
+    |> assign(:branches, branches)
     |> assign(:route_shapes, route_shapes)
     |> assign(:active_shape, active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
@@ -66,22 +62,21 @@ defmodule Site.ScheduleV2Controller.Line do
     Routes.Repo.get_shapes(route_id, direction_id)
   end
 
-  @spec get_active_shapes([Routes.Shape.t], Routes.Route.t, query_param, Route.branch_name) :: [Routes.Shape.t]
-  defp get_active_shapes(shapes, %Routes.Route{type: 3}, variant, _expanded) do
+  @spec get_active_shapes([Routes.Shape.t], Routes.Route.t, Route.branch_name) :: [Routes.Shape.t]
+  defp get_active_shapes(shapes, %Routes.Route{type: 3}, variant) do
     shapes
     |> get_requested_shape(variant)
     |> get_default_shape(shapes)
   end
-  defp get_active_shapes(shapes, %Routes.Route{id: "Green"}, _variant, nil), do: shapes
-  defp get_active_shapes(shapes, %Routes.Route{id: "Green"}, _variant, expanded) do
-    index = if expanded == "Green-D", do: 1, else: 0
-    headsign = expanded
-    |> Routes.Repo.headsigns()
-    |> Map.get(0)
-    |> Enum.at(index)
-    [Enum.find(shapes, & &1.name == headsign)]
+  defp get_active_shapes(shapes, %Routes.Route{id: "Green"}, _variant) do
+    headsign =
+      "Green"
+      |> Routes.Repo.headsigns()
+      |> Map.get(0)
+      |> Enum.at(0)
+      [Enum.find(shapes, & &1.name == headsign)]
   end
-  defp get_active_shapes(shapes, _route, _variant, _expanded), do: shapes
+  defp get_active_shapes(shapes, _route, _variant), do: shapes
 
   @spec get_requested_shape([Routes.Shape.t], query_param) :: Routes.Shape.t | nil
   defp get_requested_shape(_shapes, nil), do: nil
@@ -147,43 +142,6 @@ defmodule Site.ScheduleV2Controller.Line do
   defp do_update_green_branch_stop(false, stop, branch_id), do: %{stop | branch: branch_id}
 
   @doc """
-  For each branch, determines whether that branch is expanded. If true, it returns all of the branch's stops.
-  If false, it returns only the last stop on that branch. For collapsed branches on the Green Line, it returns
-  all shared stops on that branch + the branch terminus.
-  """
-  @spec remove_collapsed_stops([RouteStops.t], String.t, 0 | 1) :: [RouteStops.t]
-  def remove_collapsed_stops([all_stops], _, _), do: [all_stops]
-  def remove_collapsed_stops(branches, expanded, direction_id) do
-    Enum.map(branches, & do_remove_collapsed_stops(&1, expanded, direction_id))
-  end
-
-  @spec do_remove_collapsed_stops(RouteStops.t, Route.branch_name, direction_id) :: RouteStops.t
-  defp do_remove_collapsed_stops(%RouteStops{branch: nil} = branch, _, _) do
-    # if the branch's name is nil, it represents the unbranched stops on the route, so no stops should be removed.
-    branch
-  end
-  defp do_remove_collapsed_stops(%RouteStops{branch: branch_id} = branch, branch_id, _) do
-    # no stops should be removed if the branch is expanded.
-    branch
-  end
-  defp do_remove_collapsed_stops(%RouteStops{branch: "Green-" <> _} = branch, _expanded_branch, 0) do
-    {shared, not_shared} = Enum.split_while(branch.stops, & &1.id != GreenLine.split_id(branch.branch))
-    %{branch | stops: shared ++ [List.last(not_shared)]}
-  end
-  defp do_remove_collapsed_stops(%RouteStops{branch: "Green-" <> _} = branch, _expanded_branch, 1) do
-    {not_shared, shared} = Enum.split_while(branch.stops, & &1.id != GreenLine.merge_id(branch.branch))
-    %{branch | stops: [List.first(not_shared)] ++ shared}
-  end
-  defp do_remove_collapsed_stops(%RouteStops{} = branch, _expanded, direction_id) do
-    stop = case direction_id do
-      0 -> List.last(branch.stops)
-      1 -> List.first(branch.stops)
-    end
-    %{branch | stops: [stop]}
-  end
-
-  @doc """
-
   Builds a list of all stops on a route; stops are represented by tuples of
 
     { [ {branch_name, bubble_type} ], %RouteStop{} }
@@ -237,16 +195,37 @@ defmodule Site.ScheduleV2Controller.Line do
   @spec build_green_stop_list({[stop_with_bubble_info], [RouteStop.t]}, direction_id) :: [stop_with_bubble_info]
   defp build_green_stop_list({branch_stops, shared_stops}, 1) do
     shared_stops
-    |> Enum.uniq_by(& &1.id)
+    |> dedupe_green_stop_list
     |> Enum.reduce([], &build_branched_stop(&1, &2, {&1.branch, GreenLine.branch_ids()}))
     |> Kernel.++(branch_stops)
     |> Enum.reverse()
   end
   defp build_green_stop_list({branch_stops, shared_stops}, 0) do
     shared_stops
-    |> Enum.uniq_by(& &1.id)
+    |> dedupe_green_stop_list
     |> Enum.reverse()
     |> Enum.reduce(Enum.reverse(branch_stops), &build_branched_stop(&1, &2, {&1.branch, GreenLine.branch_ids()}))
+  end
+
+  defp dedupe_green_stop_list(route_stops) do
+    beginnings =
+      route_stops
+      |> Enum.group_by(&(&1.id))
+      |> Enum.map(fn {id, duplicate_stops} ->
+        {id,
+          Enum.any?(duplicate_stops, &(&1.is_beginning?))
+        }
+      end)
+      |> Enum.into(Map.new)
+
+    route_stops
+    |> Enum.uniq_by(&(&1.id))
+    |> Enum.map(fn route_stop ->
+      case Map.get(beginnings, route_stop.id) do
+        true -> %{route_stop | is_beginning?: true}
+        false -> route_stop
+      end
+    end)
   end
 
   # Splits green branch into a tuple of shared stops and stops that are unique to that branch.
@@ -364,7 +343,7 @@ defmodule Site.ScheduleV2Controller.Line do
   @doc """
   Returns a tuple with the stop bubble type, and the name of the branch that the bubble represents.
   """
-  @spec stop_bubble_type(String.t, RouteStop.t) :: {String.t, StopBubbles.stop_bubble_type}
+  @spec stop_bubble_type(String.t, RouteStop.t) :: Site.StopBubble.stop_bubble
   def stop_bubble_type(bubble_branch_name, stop)
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: true}), do: {branch_id, :terminus}
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: false}), do: {branch_id, :stop}

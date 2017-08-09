@@ -1,12 +1,12 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
-  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
-                                              schedule_link_direction_id: 3,
+  import Site.ScheduleV2View.StopList, only: [schedule_link_direction_id: 3,
                                               view_branch_link: 3,
-                                              stop_bubble_row_params: 1,
-                                              stop_bubble_row_params: 2]
-  import Site.PartialView.StopBubbles, only: [stop_bubble_icon: 2,
-                                              stop_bubble_location_display: 3]
+                                              stop_bubble_row_params: 2,
+                                              chunk_branches: 1,
+                                              separate_collapsible_rows: 2,
+                                              merge_rows: 2
+                                             ]
 
   require Routes.Route
   alias Routes.Route
@@ -155,18 +155,6 @@ defmodule Site.ScheduleV2View do
     end
   end
   def display_frequency_departure(_time_block, _first, _last), do: nil
-
-  @doc """
-  On green line pages, returns a div with a stop bubble with the branch letter (like the ones used in the
-  trip info list and the line pages). For all other routes, returns an empty string.
-  """
-  @spec trip_list_bubble(Routes.Route.id_t) :: Phoenix.HTML.Safe.t
-  def trip_list_bubble(<<"Green-", _ :: binary>> = branch) do
-    content_tag :div, class: "pull-right trip-list-green-line-icon" do
-      stop_bubble_icon(:stop, branch)
-    end
-  end
-  def trip_list_bubble(_), do: raw([])
 
   @doc """
   The message to show when there are no trips for the given parameters.
@@ -405,6 +393,32 @@ defmodule Site.ScheduleV2View do
       {nil, nil} -> %{}
       {origin, nil} -> %{origin: origin}
       {origin, destination} -> %{origin: origin, destination: destination}
+    end
+  end
+
+  @spec render_trip_info_stops([{{PredictedSchedule.t, boolean}, non_neg_integer}], map) :: [Phoenix.HTML.Safe.t]
+  def render_trip_info_stops(stop_list, assigns) do
+    for {{predicted_schedule, is_terminus?}, idx} <- stop_list do
+      stop = Stops.RouteStop.build_route_stop({{PredictedSchedule.stop(predicted_schedule), is_terminus?}, idx},
+                                                                                                    nil, assigns.route)
+      vehicle_tooltip = if predicted_schedule.schedule && predicted_schedule.schedule.trip do
+        assigns.vehicle_tooltips[{predicted_schedule.schedule.trip.id, stop.id}]
+      else
+        nil
+      end
+      render("_stop_list_row.html", %{
+      bubbles: [{assigns.trip_info.route.name, (if is_terminus?, do: :terminus, else: :stop)}],
+                direction_id: assigns.direction_id,
+                stop: stop,
+                href: stop_path(assigns.conn, :show, stop.id),
+                route: assigns.trip_info.route,
+                vehicle_tooltip: vehicle_tooltip,
+                terminus?: is_terminus?,
+                alerts: stop_alerts(predicted_schedule, assigns.all_alerts, assigns.route.id, assigns.direction_id),
+                predicted_schedule: predicted_schedule,
+                row_content_template: "_trip_info_stop.html",
+                is_expand_link?: idx == Enum.count(stop_list) - 1
+      })
     end
   end
 end

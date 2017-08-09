@@ -154,10 +154,6 @@
   width: 100%;
 }
 
-.reveal-steps {
-  @extend %button-as-link;
-}
-
 .trip-plan-route-connection {
   background-color: $gray-lightest;
   margin: $space-6 0;

@@ -243,16 +243,16 @@ defmodule Site.ScheduleV2ControllerTest do
       assert html_response(conn, 200) =~ "Red Line"
 
       assert [%Stops.RouteStops{branch: nil, stops: unbranched_stops},
-              %Stops.RouteStops{branch: "Braintree", stops: [braintree]},
-              %Stops.RouteStops{branch: "Ashmont", stops: [ashmont]}] = branches
+              %Stops.RouteStops{branch: "Braintree", stops: braintree},
+              %Stops.RouteStops{branch: "Ashmont", stops: ashmont}] = branches
 
       # stops are in southbound order
       assert List.first(unbranched_stops).id == "place-alfcl"
       assert List.last(unbranched_stops).id == "place-jfk"
 
-      assert ashmont.id == "place-asmnl"
+      assert List.last(ashmont).id == "place-asmnl"
 
-      assert braintree.id == "place-brntn"
+      assert List.last(braintree).id == "place-brntn"
 
       # includes the stop features
       assert unbranched_stops |> List.first() |> Map.get(:stop_features) == [:bus, :access, :parking_lot]
@@ -282,33 +282,16 @@ defmodule Site.ScheduleV2ControllerTest do
       Enum.flat_map(conn.assigns.branches, fn %Stops.RouteStops{stops: stops} -> Enum.map(stops, & &1.id) end)
     end
 
-    test "Green line does not show branched route data", %{conn: conn} do
+    test "Green line shows all branches", %{conn: conn} do
       conn = get conn, line_path(conn, :show, "Green")
-      assert conn.status == 200
-      stop_ids = stop_ids(conn)
-
-      refute "place-kntst" in stop_ids # Green-C
-      refute "place-symcl" in stop_ids # Green-E
-    end
-
-    test "Green line terminals shown if branch not expanded", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Green")
-      assert conn.status == 200
-      stop_ids = stop_ids(conn)
-
-      assert "place-lake" in stop_ids
-      assert "place-clmnl" in stop_ids
-      assert "place-hsmnl" in stop_ids
-    end
-
-    test "Green line shows individual branch when expanded", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Green", expanded: "Green-E")
       assert conn.status == 200
       stop_ids = stop_ids(conn)
 
       assert "place-symcl" in stop_ids
-      assert "place-nuniv" in stop_ids
-      refute "place-kntst" in stop_ids # Green-C
+      assert "place-sougr" in stop_ids # Green-B
+      assert "place-kntst" in stop_ids # Green-C
+      assert "place-rsmnl" in stop_ids # Green-D
+      assert "place-nuniv" in stop_ids # Green-E
     end
 
     test "assigns 3 holidays", %{conn: conn} do
@@ -344,8 +327,8 @@ defmodule Site.ScheduleV2ControllerTest do
       |> Enum.reverse()
 
       assert last_stop |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
+      refute others |> List.last |> Floki.attribute("href") |> List.first =~ "direction_id=1"
       Enum.each(others, & assert &1 |> Floki.attribute("href") |> List.first() =~ "direction_id=0")
-
     end
   end
 

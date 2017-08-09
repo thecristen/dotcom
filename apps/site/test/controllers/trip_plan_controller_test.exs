@@ -1,7 +1,6 @@
 defmodule Site.TripPlanControllerTest do
   use Site.ConnCase, async: true
   alias Site.TripPlan.Query
-  alias Site.PartialView.StopBubbles
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
   @system_time "2017-01-01T12:20:00-05:00"
@@ -109,30 +108,6 @@ defmodule Site.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       {:ok, itineraries} = conn.assigns.query.itineraries
       assert length(itineraries) == length(conn.assigns.alerts)
-    end
-
-    test "assigns a list of lists of stop bubble params for the itineraries", %{conn: conn} do
-      conn = get conn, trip_plan_path(conn, :index, @good_params)
-      assert length(conn.assigns.itinerary_row_lists) == length(conn.assigns.stop_bubble_params_list)
-      conn.assigns.itinerary_row_lists
-      |> Enum.zip(conn.assigns.stop_bubble_params_list)
-      |> Enum.all?(fn {rows, params} -> Enum.count(rows) == Enum.count(params) end)
-      |> assert
-
-      [itinerary_stop_bubble_params | _] = conn.assigns.stop_bubble_params_list
-      [first_row | rest_rows] = itinerary_stop_bubble_params
-      assert %StopBubbles.Params{bubbles: [{nil, :terminus}]} = first_row
-      rest_rows
-      |> Enum.all?(fn params -> match?(%StopBubbles.Params{bubbles: [{nil, :stop}]}, params) end)
-      |> assert
-    end
-
-    test "assigns stop bubble params for the destination", %{conn: conn} do
-      conn = get conn, trip_plan_path(conn, :index, @good_params)
-      assert length(conn.assigns.itinerary_row_lists) == length(conn.assigns.destination_stop_bubble_params_list)
-      conn.assigns.destination_stop_bubble_params_list
-      |> Enum.all?(fn params -> match?(%StopBubbles.Params{bubbles: [{nil, :terminus}]}, params) end)
-      |> assert
     end
 
     test "bad date input: fictional day", %{conn: conn} do

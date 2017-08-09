@@ -1,0 +1,3 @@
+<span data-html="true" data-toggle="tooltip" data-placement="right" class="vehicle-bubble" title="<%= VehicleHelpers.tooltip(@vehicle_tooltip) %>">
+  <%= svg("#{Atom.to_string(Routes.Route.type_atom(@route_type))}-vehicle-icon.svg") %>
+</span>

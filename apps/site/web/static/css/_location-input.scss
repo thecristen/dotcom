@@ -40,11 +40,13 @@
 }
 
 .location-link {
-  @extend %button-as-link;
+  border: 0;
+  margin: $space-16 0 $space-8;
 }
 
-.location-btn-invert {
+.location-link-invert {
   background-color: $gray-image-overlay;
+  border: 0;
   color: $white;
   margin: $space-4 0 $space-12;
   padding: $space-12;

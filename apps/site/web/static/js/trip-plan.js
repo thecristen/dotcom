@@ -1,7 +1,6 @@
 import { getZoom, triggerResize } from './google-map';
 
 export default function tripPlan($ = window.jQuery) {
-  hideHiddenSteps($);
   $(document).on('geolocation:complete', '#to', geolocationCallback($));
   $(document).on('geolocation:complete', '#from', geolocationCallback($));
   $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
@@ -9,7 +8,6 @@ export default function tripPlan($ = window.jQuery) {
   $("[data-planner-body]").on('hide.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('show.bs.collapse', toggleIcon);
   $("[data-planner-body]").on('shown.bs.collapse', redrawMap);
-  $("[data-reveal-step-button]").on("click", revealSteps);
 };
 
 export function geolocationCallback($) {
@@ -66,19 +64,4 @@ function redrawMap(e) {
   const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
   const zoom = getZoom(offset);
   triggerResize(offset);
-}
-
-function revealSteps(e) {
-  const parent = $(e.target).closest(".itinerary-row-container");
-  parent.find("[data-hidden-step]").slideToggle();
-  $(e.target).closest(".route-branch-stop").hide();
-  parent.find("[data-before-reveal-button] .route-branch-stop-bubble-line").removeClass("dotted").addClass("solid");
-}
-
-function hideHiddenSteps($) {
-  const hiddenSteps = $("[data-hidden-step]");
-  if (hiddenSteps.length > 0) {
-    hiddenSteps.hide();
-    $("[data-before-reveal-button]").find(".route-branch-stop-bubble-line").removeClass("solid").addClass("dotted");
-  }
 }

@@ -1,7 +1,6 @@
 defmodule TripInfoTest do
   use ExUnit.Case, async: true
   import TripInfo
-  alias TripInfo.Flags
 
   alias Routes.Route
   alias Predictions.Prediction
@@ -44,7 +43,7 @@ defmodule TripInfoTest do
     origin_id: "place-sstat",
     destination_id: "place-pktrm",
     duration: 60 * 24 * 2, # 2 day duration trip
-    sections: [@time_list],
+    times: @time_list,
     stop_count: Enum.count(@time_list),
     base_fare: %Fares.Fare{additional_valid_modes: [],
                            cents: 170,
@@ -71,15 +70,15 @@ defmodule TripInfoTest do
 
     test "given an origin, limits the times to just those after origin" do
       actual = from_list(@time_list, origin_id: "place-north")
-      first_predicted_schedule = List.first(List.first(actual.sections))
+      first_predicted_schedule = List.first(actual.times)
       assert PredictedSchedule.stop(first_predicted_schedule).id == "place-north"
       assert actual.duration == 60 * 24 # 1 day trip
     end
 
     test "given an origin and destination, limits both sides" do
       actual = from_list(@time_list, origin_id: "place-north", destination_id: "place-censq")
-      first = List.first(List.first(actual.sections))
-      last = List.last(List.last(actual.sections))
+      first = List.first(actual.times)
+      last = List.last(actual.times)
       assert PredictedSchedule.stop(first).id == "place-north"
       assert PredictedSchedule.stop(last).id == "place-censq"
       assert actual.duration == 60 * 12 # 12 hour trip
@@ -90,14 +89,14 @@ defmodule TripInfoTest do
       last_stop = rest |> List.last |> PredictedSchedule.stop
       first = put_in first.schedule.stop, last_stop
       actual = from_list([first | rest], origin_id: last_stop.id, destination_id: nil)
-      assert List.first(List.first(actual.sections)) == first
-      assert List.last(List.last(actual.sections)) == List.last(@time_list)
+      assert List.first(actual.times) == first
+      assert List.last(actual.times) == List.last(@time_list)
     end
 
     test "given an origin/destination/vehicle, does not keep stop before the origin if the vehicle is there" do
       actual = from_list(@time_list, origin_id: "place-censq", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-north"})
-      first = List.first(List.first(actual.sections))
-      last = List.last(List.last(actual.sections))
+      first = List.first(actual.times)
+      last = List.last(actual.times)
       assert PredictedSchedule.stop(first).id == "place-censq"
       assert PredictedSchedule.stop(last).id == "place-harsq"
       assert actual.duration == 60 * 6 # 6 hour trip from censq to harsq
@@ -105,22 +104,16 @@ defmodule TripInfoTest do
 
     test "given an origin/destination/vehicle, does not keep stops before the origin if the vehicle is after the origin" do
       actual = from_list(@time_list, origin_id: "place-north", destination_id: "place-harsq", vehicle: %Vehicle{stop_id: "place-censq"})
-      first = List.first(List.first(actual.sections))
-      last = List.last(List.last(actual.sections))
+      first = List.first(actual.times)
+      last = List.last(actual.times)
       assert PredictedSchedule.stop(first).id == "place-north"
       assert PredictedSchedule.stop(last).id == "place-harsq"
       assert actual.duration == 60 * 18
     end
 
-    test "if collapse? is true, shows the origin + 1 after, destination + 1 before" do
-      actual = from_list(@time_list, collapse?: true)
-      assert actual.sections == [Enum.take(@time_list, 2), Enum.take(@time_list, -2)]
-      assert actual.duration == @info.duration
-    end
-
-    test "if collapse? is false but there are not enough stops, display them all" do
+    test "display all stops for the trip" do
       actual = from_list(@time_list, origin_id: "place-north", collapse?: true)
-      assert actual.sections == [Enum.drop_while(@time_list, & PredictedSchedule.stop(&1).id != "place-north")]
+      assert actual.times == Enum.drop_while(@time_list, & PredictedSchedule.stop(&1).id != "place-north")
     end
 
     test "if there are not enough times, returns an error" do
@@ -144,15 +137,15 @@ defmodule TripInfoTest do
       assert is_current_trip?(nil, "trip_id") == false
     end
 
-    test "returns false when TripInfo sections is an empty list" do
-      assert is_current_trip?(%TripInfo{sections: []}, "trip_id") == false
+    test "returns false when TripInfo times is an empty list" do
+      assert is_current_trip?(%TripInfo{times: []}, "trip_id") == false
     end
 
-    test "returns false when first trip in TripInfo sections doesn't match provided id" do
+    test "returns false when first trip in TripInfo times doesn't match provided id" do
       assert is_current_trip?(@info, "not_trip_id") == false
     end
 
-    test "returns true when first trip in TripInfo sections matches provided id" do
+    test "returns true when first trip in TripInfo times matches provided id" do
       assert is_current_trip?(@info, "trip_id") == true
     end
   end
@@ -197,49 +190,6 @@ defmodule TripInfoTest do
     end
   end
 
-  describe "times_with_flags_and_separators/1" do
-    test "if we're showing all stops, returns one list with the times" do
-      actual = times_with_flags_and_separators(@info)
-      expected = [
-        Enum.zip(@time_list, [%Flags{terminus?: true},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: true}])
-      ]
-      assert expected == actual
-    end
-
-    test "if vehicle is present, tags that as well" do
-      time = List.last(@time_list)
-      vehicle = %Vehicle{stop_id: PredictedSchedule.stop(time).id}
-      info = from_list(@time_list, vehicle: vehicle)
-      actual = times_with_flags_and_separators(info)
-      expected = [
-        Enum.zip(@time_list, [%Flags{terminus?: true},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: false},
-                              %Flags{terminus?: true, vehicle?: true}])
-      ]
-      assert expected == actual
-    end
-
-    test "if we collapse, returns a list with a separator" do
-      info = from_list(@time_list, collapse?: true)
-      actual = times_with_flags_and_separators(info)
-      assert [first_section, :separator, last_section] = actual
-      assert length(first_section) == 2
-      assert length(last_section) == 2
-      assert List.first(first_section) == {List.first(@time_list), %Flags{terminus?: true}}
-      assert List.first(last_section) == {Enum.at(@time_list, -2), %Flags{terminus?: false}}
-    end
-  end
-
   describe "should_display_trip_info?/2" do
     test "Non subway will show trip info" do
       commuter_info = %TripInfo{route: %Routes.Route{type: 4}}
@@ -247,7 +197,8 @@ defmodule TripInfoTest do
     end
 
     test "Subway will show trip info if predictions are given" do
-      subway_info = %TripInfo{sections: [%PredictedSchedule{prediction: %Prediction{time: Util.now()}}], route: %Routes.Route{type: 1}}
+      subway_info = %TripInfo{times: [%PredictedSchedule{prediction: %Prediction{time: Util.now()}}],
+                              route: %Routes.Route{type: 1}}
       assert should_display_trip_info?(subway_info)
     end
 

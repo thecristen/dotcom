@@ -8,7 +8,7 @@
   <%= if args.submit do %><button type="submit" class="btn btn-primary">GO</button><% end %>
   <div class="clear"></div>
 </div>
-<button class="location-link <%= args.button_class %>" type="button"
+<button class="location-link btn-link <%= args.button_class %>" type="button"
   data-geolocation-target="true"
   data-id="<%= args.id %>"
   data-field="<%= field %>">

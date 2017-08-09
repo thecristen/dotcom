@@ -67,42 +67,9 @@ defmodule Site.TripPlanView do
   end
   def mode_class(_), do: "personal"
 
-  def intermediate_bubble_params(%ItineraryRow{route: %Route{}}, bubble_params),
-    do: bubble_params
-  def intermediate_bubble_params(_, bubble_params) do
-    %{bubble_params | bubbles: [{nil, :line}], line_only?: true}
-  end
-
-  @spec itinerary_steps_with_classes(ItineraryRow.t) :: [{String.t, String.t}]
-  def itinerary_steps_with_classes(row) do
-    if collapsable_row?(row) do
-      do_itinerary_steps_with_classes(row)
-    else
-      Enum.map(row.steps, fn step -> {step, ""} end)
-    end
-  end
-
-  defp do_itinerary_steps_with_classes(%ItineraryRow{steps: steps}) do
-    initial_length = Enum.count(steps)
-    steps
-    |> Enum.with_index
-    |> Enum.map(fn {step, index} ->
-      cond do
-        index == 0 -> {step, "data-before-reveal-button"}
-        is_middle_step?(index, initial_length) -> {step, "data-hidden-step"}
-        true -> {step, ""}
-      end
-    end)
-  end
-
-  defp is_middle_step?(index, length) do
-    index >= 1 && index < length - 2
-  end
-
-  @spec collapsable_row?(ItineraryRow.t) :: boolean()
-  def collapsable_row?(row) do
-    length(row.steps) >= 6 && mode_class(row) != "personal"
-  end
+  @spec collapsible_row?(ItineraryRow.t) :: boolean()
+  def collapsible_row?(%ItineraryRow{transit?: true, steps: steps}) when length(steps) > 5, do: true
+  def collapsible_row?(_), do: false
 
   @spec stop_departure_display(ItineraryRow.t) :: {:render, String.t} | :blank
   def stop_departure_display(itinerary_row) do
@@ -117,5 +84,57 @@ defmodule Site.TripPlanView do
   def render_stop_departure_display(:blank), do: nil
   def render_stop_departure_display({:render, formatted_time}) do
     content_tag :div, formatted_time, class: "pull-right"
+  end
+
+  def bubble_params(%ItineraryRow{transit?: true} = itinerary_row, _row_idx) do
+    base_params = %Site.StopBubble.Params{
+      route_id: ItineraryRow.route_id(itinerary_row),
+      route_type: ItineraryRow.route_type(itinerary_row),
+      render_type: :stop,
+      bubble_branch: ItineraryRow.route_name(itinerary_row)
+    }
+
+    params =
+      itinerary_row.steps
+      |> Enum.zip(Stream.concat(["stop dotted"], Stream.repeatedly(fn -> "stop"  end)))
+      |> Enum.map(fn {step, class} ->
+        {step, [%{base_params | class: class}]}
+      end)
+
+    [{:transfer, [%{base_params | class: "stop"}]} | params]
+  end
+  def bubble_params(%ItineraryRow{transit?: false} = itinerary_row, row_idx) do
+    params =
+      itinerary_row.steps
+      |> Enum.map(fn step ->
+        {step,
+          [%Site.StopBubble.Params{
+            render_type: :empty,
+            class: "line dotted",
+          }]}
+      end)
+
+    transfer_bubble_type =
+      if row_idx == 0 do
+        :terminus
+      else
+        :stop
+      end
+
+    [{:transfer,
+          [%Site.StopBubble.Params{
+            render_type: transfer_bubble_type,
+            class: "#{transfer_bubble_type} dotted",
+          }]}
+     | params]
+  end
+
+  def render_steps(steps, mode_class) do
+    for {step, bubbles} <- steps do
+      render "_itinerary_row_step.html",
+        step: step,
+        mode_class: mode_class,
+        bubble_params: bubbles
+    end
   end
 end

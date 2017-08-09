@@ -121,15 +121,11 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   end
 
   @doc "Returns the stops that should be displayed on the map"
-  @spec map_stops([RouteStops.t], {[Shape.t], [Shape.t]}, Route.id_t, String.t | nil) :: {[Stops.Stop.t], [Shape.t]}
-  def map_stops(branches, {route_shapes, _active_shapes}, "Green", expanded_branch) when not is_nil(expanded_branch) do
-    stops = branches |> Enum.filter(& &1.branch == expanded_branch) |> do_map_stops()
-    {stops, route_shapes}
-  end
-  def map_stops(branches, {route_shapes, _active_shapes}, "Green", _expanded) do
+  @spec map_stops([RouteStops.t], {[Shape.t], [Shape.t]}, Route.id_t) :: {[Stops.Stop.t], [Shape.t]}
+  def map_stops(branches, {route_shapes, _active_shapes}, "Green") do
     {do_map_stops(branches), route_shapes}
   end
-  def map_stops(branches, {_route_shapes, active_shapes}, _route_id, _expanded) do
+  def map_stops(branches, {_route_shapes, active_shapes}, _route_id) do
     {do_map_stops(branches), active_shapes}
   end
 

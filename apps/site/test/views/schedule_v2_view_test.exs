@@ -5,17 +5,32 @@ defmodule Site.ScheduleV2ViewTest do
   alias Schedules.{Schedule, Trip, Departures}
   alias Stops.{Stop, RouteStop, RouteStops}
   import Site.ScheduleV2View
-  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2,
-                                              schedule_link_direction_id: 3,
-                                              view_branch_link: 3]
+  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
+  @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
+  @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
+  @route %Routes.Route{type: 3, id: "1"}
+  @prediction %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time", trip: @trip}
+  @schedule %Schedules.Schedule{
+    route: @route,
+    trip: @trip,
+    stop: @stop
+  }
+  @vehicle %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: @route.id}
+  @predicted_schedule %PredictedSchedule{prediction: @prediction, schedule: @schedule}
+  @trip_info %TripInfo{
+    route: @route,
+    vehicle: @vehicle,
+    vehicle_stop_name: @stop.name,
+    times: [@predicted_schedule],
+  }
   @vehicle_tooltip %VehicleTooltip{
-    prediction: %Predictions.Prediction{departing?: true, direction_id: 0, status: "On Time"},
-    vehicle: %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "Orange"},
-    route: %Routes.Route{type: 2},
-    trip: %Schedules.Trip{name: "101", headsign: "Headsign"},
-    stop_name: "South Station"
+    prediction: @prediction,
+    vehicle: @vehicle,
+    route: @route,
+    trip: @trip,
+    stop_name: @stop.name
   }
 
   describe "pretty_date/2" do
@@ -256,6 +271,7 @@ defmodule Site.ScheduleV2ViewTest do
         trip_info: trip_info,
         origin: nil,
         destination: nil,
+        direction_id: 0,
         conn: conn,
         route: route
       )
@@ -274,6 +290,7 @@ defmodule Site.ScheduleV2ViewTest do
         trip_info: trip_info,
         origin: origin,
         destination: destination,
+        direction_id: 0,
         route: route,
         conn: conn
       )
@@ -281,41 +298,54 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "_trip_info_row.html" do
-    @vehicle %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: "1"}
-    @output Site.ScheduleV2View.render(
-            "_trip_info_row.html",
-            name: "name",
-            href: "",
-            above_expand_link?: true,
-            is_last_item?: false,
-            vehicle?: true,
-            vehicle_tooltip: %{@vehicle_tooltip | vehicle: @vehicle},
-            terminus?: true,
-            alerts: ["alert"],
-            predicted_schedule: %PredictedSchedule{prediction: @prediction, schedule: @schedule},
-            route: %Routes.Route{id: "1", type: 3,})
+  describe "render_trip_info_stops" do
+    @assigns %{
+      direction_id: 0,
+      route: @route,
+      conn: %Plug.Conn{},
+      vehicle_tooltips: %{{@trip.id, @stop.id} => @vehicle_tooltip},
+      trip_info: @trip_info,
+      all_alerts: [%Alerts.Alert{informed_entity: [%Alerts.InformedEntity{
+        route: @route.id,
+        direction_id: 0,
+        stop: @stop.id
+      }]}]
+    }
 
     test "real time icon shown when prediction is available" do
-      safe_output = safe_to_string(@output)
-      assert safe_output =~ "rss"
+      output =
+        [{{@predicted_schedule, false}, 3}]
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+        |> List.first
+        |> safe_to_string
+      assert output =~ "rss"
     end
 
     test "Alert icon is shown when alerts are not empty" do
-      safe_output = safe_to_string(@output)
-      assert safe_output =~ "icon-alert"
+      output =
+        [{{@predicted_schedule, false}, 3}]
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary
+
+      assert output =~ "icon-alert"
     end
 
     test "Alert icon is shown with tooltip attributes" do
-      safe_output = safe_to_string(@output)
-      alert = Floki.find(safe_output, ".icon-alert")
+      assert [{:safe, output}] =
+        [{{@predicted_schedule, false}, 3}]
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+      assert [alert] = output |> IO.iodata_to_binary() |> Floki.find(".icon-alert")
       assert Floki.attribute(alert, "data-toggle") == ["tooltip"]
       assert Floki.attribute(alert, "title") == ["Service alert or delay"]
     end
 
     test "shows vehicle icon when vehicle location is available" do
-      safe_output = safe_to_string(@output)
-      assert safe_output =~ "vehicle-bubble"
+      assert [{:safe, output}] =
+        [{{@predicted_schedule, false}, 2}]
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+
+      assert [_vehicle] = output |> IO.iodata_to_binary() |> Floki.find(".vehicle-bubble")
     end
   end
 
@@ -536,19 +566,6 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "view_branch_link/3" do
-    test "generates a link to view the given branch", %{conn: conn} do
-      link = conn
-      |> fetch_query_params
-      |> view_branch_link("braintree", "Braintree")
-      |> safe_to_string
-      |> Floki.find(".branch-link")
-
-      assert link |> Floki.text |> String.trim() =~ "View Braintree Branch"
-      assert link |> Floki.attribute("href") |> List.first =~ "?expanded=Braintree"
-    end
-  end
-
   describe "display_map_link?/1" do
     test "is true for subway and ferry" do
       assert display_map_link?(4) == true
@@ -706,12 +723,6 @@ defmodule Site.ScheduleV2ViewTest do
       assert add_expand_link?(stop, %{branches: [], expanded: "Green-D", direction_id: 1}) == true
     end
 
-    test "returns true on the last stop of unexpanded branch for green line" do
-      stop = %RouteStop{id: "place-lake", branch: "Green-B"}
-      assert GreenLine.terminus?(stop.id, stop.branch) == true
-      assert add_expand_link?(stop, %{branches: [], expanded: nil, direction_id: 0})
-    end
-
     test "returns false for all other branched stops" do
       stop = %RouteStop{id: "place-griggs", branch: "Green-B"}
       branches = [
@@ -722,35 +733,7 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "trip_list_bubble" do
-    test "returns a stop bubble with the correct branch letter on green line" do
-      assert "Green-B" |> trip_list_bubble() |> safe_to_string() =~ ">B</text>"
-      assert "Green-C" |> trip_list_bubble() |> safe_to_string() =~ ">C</text>"
-      assert "Green-D" |> trip_list_bubble() |> safe_to_string() =~ ">D</text>"
-      assert "Green-E" |> trip_list_bubble() |> safe_to_string() =~ ">E</text>"
-    end
-
-    test "returns an empty safe for all other routes" do
-      assert trip_list_bubble("Red") |> Phoenix.HTML.safe_to_string() == ""
-      assert trip_list_bubble("CR-Newburyport") |> Phoenix.HTML.safe_to_string() == ""
-      assert trip_list_bubble("anything") |> Phoenix.HTML.safe_to_string() == ""
-    end
-  end
-
-  describe "schedule_link_direction_id" do
-    test "returns opposite of direction id for the last stop on a line" do
-      assert schedule_link_direction_id(%RouteStop{stop_number: 10, is_terminus?: true}, [], 0) == 1
-    end
-
-    test "returns direction id for all other stops" do
-      assert schedule_link_direction_id(%RouteStop{stop_number: 0}, [], 0) == 0
-      assert schedule_link_direction_id(%RouteStop{stop_number: 3}, [], 0) == 0
-    end
-  end
-
   describe "trip_link/4" do
-    @trip_info %TripInfo{sections: [[%PredictedSchedule{prediction: %Predictions.Prediction{trip: %Trip{id: "1"}}}]]}
-
     test "trip link for non-matching trip", %{conn: conn} do
       conn = %{conn | query_params: %{}}
       assert trip_link(conn, @trip_info, false, "2") == "/?trip=2#2"

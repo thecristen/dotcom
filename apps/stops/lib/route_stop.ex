@@ -10,10 +10,6 @@ defmodule Stops.RouteStop do
       zone: "1A"                                          # Commuter rail zone (will be nil if stop doesn't have CR routes)
       route: %Routes.Route{id: "Red"...}                  # The full Routes.Route for the parent route
       branch: nil                                         # Name of the branch that this stop is on for this route. will be nil unless the stop is actually on a branch.
-      stop_number: 9                                      # The number (0-based) of the stop along the route, relative to the beginning of the line in this direction.                                                          #     note that for routes with branches, stops that are on branches will be ordered as if no other branches
-                                                          #     exist. So, for example, on the Red line (direction_id: 0), the stop number for JFK/Umass is 12, and then
-                                                          #     the stop number for both Savin Hill (ashmont) and North Quincy (braintree) is 13, the next stop on both
-                                                          #     branches is 14, etc.
       station_info: %Stops.Stop{id: "place-sstat"...}     # Full Stops.Stop struct for the parent stop.
 
       stop_features: [:commuter_rail, :bus, :accessible]  # List of atoms representing the icons that should be displayed for this stop.
@@ -25,17 +21,16 @@ defmodule Stops.RouteStop do
 
   @type branch_name_t :: String.t | nil
   @type direction_id_t :: 0 | 1
-  @type stop_number_t :: non_neg_integer
 
   @type t :: %__MODULE__{
     id: Stops.Stop.id_t,
     name: String.t,
     zone: String.t,
     branch: branch_name_t,
-    stop_number: stop_number_t,
     station_info: Stops.Stop.t,
     stop_features: [Stops.Repo.stop_feature],
-    is_terminus?: boolean
+    is_terminus?: boolean,
+    is_beginning?: boolean
   }
 
   defstruct [
@@ -43,10 +38,10 @@ defmodule Stops.RouteStop do
     :name,
     :zone,
     :branch,
-    :stop_number,
     :station_info,
     stop_features: [],
-    is_terminus?: false
+    is_terminus?: false,
+    is_beginning?: false
   ]
 
   alias __MODULE__, as: RouteStop
@@ -91,15 +86,15 @@ defmodule Stops.RouteStop do
   @doc """
   Builds a RouteStop from information about a stop.
   """
-  @spec build_route_stop({{Stops.Stop.t, boolean}, stop_number_t}, Routes.Shape.t, Routes.Route.t) :: RouteStop.t
-  def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, number}, shape_name, route) do
+  @spec build_route_stop({{Stops.Stop.t, boolean}, non_neg_integer}, String.t | nil, Routes.Route.t) :: RouteStop.t
+  def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, idx}, shape_name, route) do
     %RouteStop{
       id: stop.id,
       name: stop.name,
       station_info: stop,
       branch: shape_name,
-      stop_number: number,
       is_terminus?: is_terminus?,
+      is_beginning?: idx == 0,
       zone: Zones.Repo.get(stop.id),
       stop_features: Stops.Repo.stop_features(stop, exclude: [Routes.Route.icon_atom(route)])
     }

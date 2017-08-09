@@ -20,11 +20,11 @@
     end %>
     <div>
       <div>
-        <%= for {row, params} <- Enum.zip(@itinerary_row_list, @bubble_params_list) do
-          render "_itinerary_row.html", itinerary_row: row, bubble_params: params, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)), conn: @conn
+        <%= for {row, idx} <- Enum.with_index(@itinerary_row_list) do
+          render "_itinerary_row.html", itinerary_row: row, alerts: Alerts.Stop.match(@alerts, elem(row.stop, 1)), conn: @conn, row_idx: idx, itinerary_idx: @index
         end %>
         <div class="route-branch-stop-list route-branch-stop personal">
-          <%= Site.PartialView.StopBubbles.render_stop_bubbles(@destination_bubble_params) %>
+          <%= Site.PartialView.StopBubbles.render_stop_bubbles([%Site.StopBubble.Params{render_type: :terminus, class: "terminus", show_line?: false}]) %>
           <div class="itinerary-step">
             <% {destination_name, _destination_id, arrival_time} = @itinerary_row_list.destination %>
             <span class="itinerary-instructions">

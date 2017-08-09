@@ -141,76 +141,16 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
     expected_stops = ["after_first", "1", "2", "3", "new_last"]
     conn = conn_builder(conn, [], trip: "long_trip", origin: "after_first", destination: "new_last")
-    actual_stops = conn.assigns.trip_info.sections
-    |> List.flatten
+    actual_stops = conn.assigns.trip_info.times
     |> Enum.map(& &1.schedule.stop.id)
     assert actual_stops == expected_stops
   end
 
-  test "there's a separator if there are enough schedules", %{conn: conn} do
-    schedules = [
-      %Schedule{
-        trip: %Trip{id: "long_trip"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: -10),
-        route: %Routes.Route{type: 1}
-      },
-      %Schedule{
-        trip: %Trip{id: "32893585"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 15),
-        route: %Routes.Route{type: 1}
-      }
-    ]
-
-    predictions = [
-      %Prediction{
-        trip: %Trip{id: "long_trip"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 1),
-        route: %Routes.Route{type: 1}
-      },
-      %Prediction{
-        trip: %Trip{id: "32893585"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 20),
-        route: %Routes.Route{type: 1}
-      }
-    ]
-
-    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: fn _ -> [] end)
-
-    conn = %{conn |
-      request_path: schedule_path(conn, :show, "66"),
-      query_params: nil
-    }
-    |> assign_stop_times_from_schedules_and_predictions(schedules, predictions)
-    |> assign(:route, %Routes.Route{type: 1})
-    |> assign(:date, ~D[2017-02-10])
-    |> assign(:datetime, @time)
-    |> call(init)
-
-    assert :separator in TripInfo.times_with_flags_and_separators(conn.assigns.trip_info)
-  end
-
-  test "no separator if show_collapsed_trip_stops? present in the URL", %{conn: conn} do
-    conn = conn_builder(conn, [], trip: "long_trip", show_collapsed_trip_stops?: "")
-    refute :separator in TripInfo.times_with_flags_and_separators(conn.assigns.trip_info)
-  end
-
-  test "assigns the total number of stops when a separator is present", %{conn: conn} do
+  test "assigns the total number of stops", %{conn: conn} do
     conn = conn_builder(conn, [], trip: "long_trip")
-    assert conn.assigns.trip_info.stop_count == 7
-
-    conn = conn_builder(conn, [], trip: "32893585")
-    assert conn.assigns.trip_info.stop_count == 2
-  end
-
-  test "assigns the total number of stops when a separator is not present", %{conn: conn} do
-    conn = conn_builder(conn, [], trip: "long_trip", show_collapsed_trip_stops?: "")
     assert conn.assigns[:trip_info].stop_count == 7
 
-    conn = conn_builder(conn, [], trip: "32893585", show_collapsed_trip_stops?: "")
+    conn = conn_builder(conn, [], trip: "32893585")
     assert conn.assigns.trip_info.stop_count == 2
   end
 
@@ -251,7 +191,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> assign(:date, future_date)
     |> call(init)
 
-    for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- List.flatten(conn.assigns.trip_info.sections) do
+    for %PredictedSchedule{schedule: _schedule, prediction: prediction} <- conn.assigns.trip_info.times do
       refute prediction
     end
   end
@@ -259,7 +199,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   test "Trip predictions are fetched if date is service day", %{conn: conn} do
     conn = conn
     |> conn_builder([], trip: "long_trip")
-    predicted_schedules = List.flatten(conn.assigns.trip_info.sections)
+    predicted_schedules = conn.assigns.trip_info.times
     assert Enum.find(predicted_schedules, &match?(%PredictedSchedule{prediction: %Prediction{}}, &1))
   end
 
@@ -330,7 +270,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     |> assign(:route, %Routes.Route{type: 1})
     |> call(init)
 
-    for time <- List.flatten(conn.assigns.trip_info.sections) do
+    for time <- conn.assigns.trip_info.times do
       assert PredictedSchedule.trip(time).id == "32893585"
     end
   end

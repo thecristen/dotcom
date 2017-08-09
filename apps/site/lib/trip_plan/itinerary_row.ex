@@ -40,6 +40,9 @@ defmodule Site.TripPlan.ItineraryRow do
   def route_type(%__MODULE__{route: %Route{type: type}}), do: type
   def route_type(_row), do: nil
 
+  def route_name(%__MODULE__{route: %Route{name: name}}), do: name
+  def route_name(_row), do: nil
+
   @doc """
   Builds an ItineraryRow struct from the given leg and options
   Possible Options are:

@@ -298,8 +298,8 @@ defmodule PredictedScheduleTest do
       %PredictedSchedule{schedule: %Schedule{}}
     ]
     test "Determines if Trip info object has predictions" do
-      assert TripInfo.any_predictions?(%TripInfo{sections: [@scheduled_predictions]})
-      refute TripInfo.any_predictions?(%TripInfo{sections: [List.last(@scheduled_predictions)]})
+      assert TripInfo.any_predictions?(%TripInfo{times: @scheduled_predictions})
+      refute TripInfo.any_predictions?(%TripInfo{times: [List.last(@scheduled_predictions)]})
     end
   end
 

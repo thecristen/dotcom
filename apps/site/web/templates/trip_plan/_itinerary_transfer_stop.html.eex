@@ -1,0 +1,25 @@
+<div class="route-branch-stop-list route-branch-stop <%= @mode %>">
+  <%= Site.PartialView.StopBubbles.render_stop_bubbles(@bubble_params) %>
+  <div class="itinerary-transfer-row itinerary-step">
+    <%= render "_itinerary_stop.html", assigns %>
+    <%= if @itinerary_row.trip do %>
+      <div>
+        <% route = @itinerary_row.route %>
+          <div class="trip-plan-route-connection">
+            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring"}) %>
+            Connect to the
+            <%= if Route.subway?(route.type, route.id) do %>
+              <%= subway_name(route.name) %>
+            <% else %>
+              <%= mode_name(route.type) %>
+            <% end %>
+          </div>
+        <span class="itinerary-instruction">
+          Take the <%= route.name %> <%= direction(@itinerary_row.trip.direction_id, route)%>
+          towards <%= @itinerary_row.trip.headsign %>
+        </span>
+        <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
+      </div>
+    <% end %>
+  </div>
+</div>

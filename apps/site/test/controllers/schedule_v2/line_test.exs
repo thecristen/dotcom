@@ -19,149 +19,224 @@ defmodule Site.ScheduleV2Controller.LineTest do
   end
 
   describe "build_stop_list/2 for Green Line" do
-    test "direction 0 returns a list of all stops in order from east to west" do
-      [lechmere, science_park, north_station, haymarket, gvt_ctr, park, boylston,
-       arlington, copley, heath_st, hynes, kenmore, riverside, cleveland_cir, boston_college] = "Green"
-      |> get_route_shapes(0)
-      |> get_branches([], %Routes.Route{id: "Green"}, 0)
-      |> remove_collapsed_stops(nil, 0)
-      |> build_stop_list(0)
-      |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+    defp stop_id({_branches, stop_id}), do: stop_id
+    defp branches({branches, _stop_id}), do: branches
 
-      assert lechmere ==       {[{"Green-B", :empty}, {"Green-C", :empty}, {"Green-D", :empty}, {"Green-E", :terminus}], "place-lech"}
-      assert science_park ==   {[{"Green-B", :empty}, {"Green-C", :empty}, {"Green-D", :empty}, {"Green-E", :stop}], "place-spmnl"}
-      assert north_station ==  {[{"Green-B", :empty}, {"Green-C", :terminus}, {"Green-D", :empty}, {"Green-E", :stop}], "place-north"}
-      assert haymarket ==      {[{"Green-B", :empty}, {"Green-C", :stop}, {"Green-D", :empty}, {"Green-E", :stop}], "place-haecl"}
-      assert gvt_ctr ==        {[{"Green-B", :empty}, {"Green-C", :stop}, {"Green-D", :terminus}, {"Green-E", :stop}], "place-gover"}
-      assert park ==           {[{"Green-B", :terminus}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-pktrm"}
-      assert boylston ==       {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-boyls"}
-      assert arlington ==      {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-armnl"}
-      assert copley ==         {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-coecl"}
-      assert heath_st ==       {[{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :line}, {"Green-E", :terminus}], "place-hsmnl"}
-      assert hynes ==          {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}], "place-hymnl"}
-      assert kenmore ==        {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}], "place-kencl"}
-      assert riverside ==      {[{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :terminus}], "place-river"}
-      assert cleveland_cir ==  {[{"Green-B", :line}, {"Green-C", :terminus}], "place-clmnl"}
-      assert boston_college == {[{"Green-B", :terminus}], "place-lake"}
+    test "direction 0 returns a list of all stops in order from east to west" do
+      stops =
+        "Green"
+        |> get_route_shapes(0)
+        |> get_branches([], %Routes.Route{id: "Green"}, 0)
+        |> build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      for {id, idx} <- [{"place-lech", 0}, {"place-north", 2}, {"place-gover", 4}, {"place-pktrm", 5},
+                        {"place-coecl", 8}, {"place-hsmnl", 19}, {"place-river", 34}, {"place-clmnl", 47},
+                        {"place-lake", 65}] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "direction 0 returns the correct number of bubbles for each stop" do
+      stops =
+        "Green"
+        |> get_route_shapes(0)
+        |> get_branches([], %Routes.Route{id: "Green"}, 0)
+        |> build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [four, three, two, one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      assert Enum.each(four, &(Enum.count(branches(&1)) == 4))
+      assert stop_id(List.first(four)) == "place-lech"
+      assert stop_id(List.last(four)) == "place-hsmnl"
+
+      assert Enum.each(three, &(Enum.count(branches(&1)) == 3))
+      assert stop_id(List.first(three)) == "place-hymnl"
+      assert stop_id(List.last(three)) == "place-river"
+
+      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
+      assert stop_id(List.first(two)) == "place-smary"
+      assert stop_id(List.last(two)) == "place-clmnl"
+
+      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(one)) == "place-bland"
+      assert stop_id(List.last(one)) == "place-lake"
     end
 
     test "direction 1 returns a list of all stops in order from west to east" do
-      [boston_college, cleveland_circle, riverside, kenmore, hynes, heath_st, copley, arlington,
-       boylston, park, gvt_ctr, haymarket, north_station, science_park, lechmere] = "Green"
-      |> get_route_shapes(1)
-      |> get_branches([], %Routes.Route{id: "Green"}, 1)
-      |> remove_collapsed_stops(nil, 1)
-      |> build_stop_list(1)
-      |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+      stops =
+        "Green"
+        |> get_route_shapes(1)
+        |> get_branches([], %Routes.Route{id: "Green"}, 1)
+        |> build_stop_list(1)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      assert boston_college   == {[{"Green-B", :terminus}], "place-lake"}
-      assert cleveland_circle == {[{"Green-B", :line}, {"Green-C", :terminus}], "place-clmnl"}
-      assert riverside        == {[{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :terminus}], "place-river"}
-      assert kenmore          == {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}], "place-kencl"}
-      assert hynes            == {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}], "place-hymnl"}
-      assert heath_st         == {[{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :line}, {"Green-E", :terminus}], "place-hsmnl"}
-      assert copley           == {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-coecl"}
-      assert arlington        == {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-armnl"}
-      assert boylston         == {[{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-boyls"}
-      assert park             == {[{"Green-B", :terminus}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}], "place-pktrm"}
-      assert gvt_ctr          == {[{"Green-B", :empty}, {"Green-C", :stop}, {"Green-D", :terminus}, {"Green-E", :stop}], "place-gover"}
-      assert haymarket        == {[{"Green-B", :empty}, {"Green-C", :stop}, {"Green-D", :empty}, {"Green-E", :stop}], "place-haecl"}
-      assert north_station    == {[{"Green-B", :empty}, {"Green-C", :terminus}, {"Green-D", :empty}, {"Green-E", :stop}], "place-north"}
-      assert science_park     == {[{"Green-B", :empty}, {"Green-C", :empty}, {"Green-D", :empty}, {"Green-E", :stop}], "place-spmnl"}
-      assert lechmere         == {[{"Green-B", :empty}, {"Green-C", :empty}, {"Green-D", :empty}, {"Green-E", :terminus}], "place-lech"}
+      for {id, idx} <- [{"place-lech", 65}, {"place-north", 63}, {"place-gover", 61}, {"place-pktrm", 60},
+                        {"place-coecl", 57}, {"place-hsmnl", 46}, {"place-river", 31}, {"place-clmnl", 18},
+                        {"place-lake", 0}] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "direction 1 returns the correct number of bubbles for each stop" do
+      stops =
+        "Green"
+        |> get_route_shapes(1)
+        |> get_branches([], %Routes.Route{id: "Green"}, 1)
+        |> build_stop_list(1)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      assert [one, two, three, four] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      assert stop_id(List.first(one)) == "place-lake"
+      assert stop_id(List.last(one)) == "place-bland"
+      assert stop_id(List.first(two)) == "place-clmnl"
+      assert stop_id(List.last(two)) == "place-smary"
+      assert stop_id(List.first(three)) == "place-river"
+      assert stop_id(List.last(three)) == "place-hymnl"
+      assert stop_id(List.first(four)) == "place-hsmnl"
+      assert stop_id(List.last(four)) == "place-lech"
     end
   end
 
   describe "build_stop_list/2 for branched non-Green routes" do
     test "Red outbound" do
-      [alewife, davis, porter, harvard, central, kendall, charles,
-       park, dtx, sstat, broadway, andrew, jfk, braintree, ashmont] = "Red"
-      |> get_route_shapes(0)
-      |> get_branches([], %Routes.Route{id: "Red"}, 0)
-      |> remove_collapsed_stops(nil, 0)
-      |> build_stop_list(0)
-      |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+      stops =
+        "Red"
+        |> get_route_shapes(0)
+        |> get_branches([], %Routes.Route{id: "Red"}, 0)
+        |> build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      assert alewife     == {[{nil, :terminus}], "place-alfcl"}
-      assert davis       == {[{nil, :stop}], "place-davis"}
-      assert porter      == {[{nil, :stop}], "place-portr"}
-      assert harvard     == {[{nil, :stop}], "place-harsq"}
-      assert central     == {[{nil, :stop}], "place-cntsq"}
-      assert kendall     == {[{nil, :stop}], "place-knncl"}
-      assert charles     == {[{nil, :stop}], "place-chmnl"}
-      assert park        == {[{nil, :stop}], "place-pktrm"}
-      assert dtx         == {[{nil, :stop}], "place-dwnxg"}
-      assert sstat       == {[{nil, :stop}], "place-sstat"}
-      assert broadway    == {[{nil, :stop}], "place-brdwy"}
-      assert andrew      == {[{nil, :stop}], "place-andrw"}
-      assert jfk         == {[{"Ashmont", :merge}, {"Braintree", :merge}], "place-jfk"}
-      assert braintree   == {[{"Ashmont", :line}, {"Braintree", :terminus}], "place-brntn"}
-      assert ashmont     == {[{"Ashmont", :terminus}], "place-asmnl"}
+      for {id, idx} <- [{"place-alfcl", 0}, {"place-jfk", 12}, {"place-brntn", 17}, {"place-asmnl", 21}] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "outbound returns the correct number of bubbles for each stop" do
+      stops =
+        "Red"
+        |> get_route_shapes(0)
+        |> get_branches([], %Routes.Route{id: "Red"}, 0)
+        |> build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [one, two, another_one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(one)) == "place-alfcl"
+      assert stop_id(List.last(one)) == "place-andrw"
+
+      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
+      assert stop_id(List.first(two)) == "place-jfk"
+      assert stop_id(List.last(two)) == "place-brntn"
+
+      assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(another_one)) == "place-shmnl"
+      assert stop_id(List.last(another_one)) == "place-asmnl"
     end
 
     test "Red inbound" do
-      [ashmont, braintree, jfk, andrew, broadway, sstat, dtx, park,
-       charles, kendall, central, harvard, porter, davis, alewife] = "Red"
-      |> get_route_shapes(1)
-      |> get_branches([], %Routes.Route{id: "Red"}, 1)
-      |> remove_collapsed_stops(nil, 1)
-      |> build_stop_list(1)
-      |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+      stops =
+        "Red"
+        |> get_route_shapes(1)
+        |> get_branches([], %Routes.Route{id: "Red"}, 1)
+        |> build_stop_list(1)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      assert ashmont   == {[{"Ashmont", :terminus}], "place-asmnl"}
-      assert braintree == {[{"Ashmont", :line}, {"Braintree", :terminus}], "place-brntn"}
-      assert jfk       == {[{"Ashmont", :merge}, {"Braintree", :merge}], "place-jfk"}
-      assert andrew    == {[{nil, :stop}], "place-andrw"}
-      assert broadway  == {[{nil, :stop}], "place-brdwy"}
-      assert sstat     == {[{nil, :stop}], "place-sstat"}
-      assert dtx       == {[{nil, :stop}], "place-dwnxg"}
-      assert park      == {[{nil, :stop}], "place-pktrm"}
-      assert charles   == {[{nil, :stop}], "place-chmnl"}
-      assert kendall   == {[{nil, :stop}], "place-knncl"}
-      assert central   == {[{nil, :stop}], "place-cntsq"}
-      assert harvard   == {[{nil, :stop}], "place-harsq"}
-      assert porter    == {[{nil, :stop}], "place-portr"}
-      assert davis     == {[{nil, :stop}], "place-davis"}
-      assert alewife   == {[{nil, :terminus}], "place-alfcl"}
+      for {id, idx} <- [{"place-alfcl", 21}, {"place-jfk", 9}, {"place-brntn", 4}, {"place-asmnl", 0}] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "inbound returns the correct number of bubbles for each stop" do
+      stops =
+        "Red"
+        |> get_route_shapes(1)
+        |> get_branches([], %Routes.Route{id: "Red"}, 1)
+        |> build_stop_list(1)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [another_one, two, one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(another_one)) == "place-asmnl"
+      assert stop_id(List.last(another_one)) == "place-shmnl"
+
+      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
+      assert stop_id(List.first(two)) == "place-brntn"
+      assert stop_id(List.last(two)) == "place-jfk"
+
+      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(one)) == "place-andrw"
+      assert stop_id(List.last(one)) == "place-alfcl"
     end
 
     test "CR-Providence outbound" do
-      [sstat, back_bay, ruggles, hyde_park, route_128,
-       canton_jnct, stoughton, wickford_jnct] = "CR-Providence"
-      |> get_route_shapes(0)
-      |> get_branches([], %Routes.Route{id: "CR-Providence"}, 0)
-      |> remove_collapsed_stops(nil, 0)
-      |> build_stop_list(0)
-      |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+      stops =
+        "CR-Providence"
+        |> get_route_shapes(0)
+        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 0)
+        |> build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      assert sstat         == {[{nil, :terminus}], "place-sstat"}
-      assert back_bay      == {[{nil, :stop}], "place-bbsta"}
-      assert ruggles       == {[{nil, :stop}], "place-rugg"}
-      assert hyde_park     == {[{nil, :stop}], "Hyde Park"}
-      assert route_128     == {[{nil, :stop}], "Route 128"}
-      assert canton_jnct   == {[{"Providence", :merge}, {"Stoughton", :merge}], "Canton Junction"}
-      assert stoughton     == {[{"Providence", :line}, {"Stoughton", :terminus}], "Stoughton"}
-      assert wickford_jnct == {[{"Providence", :terminus}], "Wickford Junction"}
+      for {id, idx} <- [{"place-sstat", 0}, {"Canton Junction", 5}, {"Stoughton", 7}, {"Wickford Junction", 14}] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "CR-Providence outbound has correct number of bubbles" do
+      stops =
+        "CR-Providence"
+        |> get_route_shapes(0)
+        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 0)
+        |> build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [one, two, another_one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(one)) == "place-sstat"
+      assert stop_id(List.last(one)) == "Route 128"
+
+      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
+      assert stop_id(List.first(two)) == "Canton Junction"
+      assert stop_id(List.last(two)) == "Stoughton"
+
+      assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(another_one)) == "Sharon"
+      assert stop_id(List.last(another_one)) == "Wickford Junction"
     end
 
     test "CR-Providence inbound" do
-      [wickford_jnct, stoughton, canton_jnct, route_128,
-       hyde_park, ruggles, back_bay, sstat] = "CR-Providence"
-      |> get_route_shapes(1)
-      |> get_branches([], %Routes.Route{id: "CR-Providence"}, 1)
-      |> remove_collapsed_stops(nil, 1)
-      |> build_stop_list(1)
-      |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+      stops =
+        "CR-Providence"
+        |> get_route_shapes(1)
+        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 1)
+        |> build_stop_list(1)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      assert sstat         == {[{nil, :terminus}], "place-sstat"}
-      assert back_bay      == {[{nil, :stop}], "place-bbsta"}
-      assert ruggles       == {[{nil, :stop}], "place-rugg"}
-      assert hyde_park     == {[{nil, :stop}], "Hyde Park"}
-      assert route_128     == {[{nil, :stop}], "Route 128"}
-      assert canton_jnct   == {[{"Wickford Junction", :merge}, {"Stoughton", :merge}], "Canton Junction"}
-      assert stoughton     == {[{"Wickford Junction", :line}, {"Stoughton", :terminus}], "Stoughton"}
-      assert wickford_jnct == {[{"Wickford Junction", :terminus}], "Wickford Junction"}
+      for {id, idx} <- [{"place-sstat", 14}, {"Canton Junction", 9}, {"Stoughton", 7}, {"Wickford Junction", 0}] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
 
+    test "CR-Providence inboung has correct number of bubbles" do
+      stops =
+        "CR-Providence"
+        |> get_route_shapes(1)
+        |> get_branches([], %Routes.Route{id: "CR-Providence"}, 1)
+        |> build_stop_list(1)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [another_one, two, one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(another_one)) == "Wickford Junction"
+      assert stop_id(List.last(another_one)) == "Sharon"
+
+      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
+      assert stop_id(List.first(two)) == "Stoughton"
+      assert stop_id(List.last(two)) == "Canton Junction"
+
+      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(one)) == "Route 128"
+      assert stop_id(List.last(one)) == "place-sstat"
     end
   end
 

@@ -1,0 +1,10 @@
+<%
+  [{:transfer, transfer_bubbles} | steps] = bubble_params(@itinerary_row, @row_idx)
+%>
+
+<%=
+  render "_itinerary_transfer_stop.html",
+    Map.merge(assigns, %{mode: "personal",
+                         bubble_params: transfer_bubbles}) %>
+
+<%= render_steps(steps, "personal") %>

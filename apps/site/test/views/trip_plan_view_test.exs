@@ -6,7 +6,6 @@ defmodule Site.TripPlanViewTest do
   alias Site.TripPlan.{Query, ItineraryRow}
   alias TripPlan.Api.MockPlanner
   alias Routes.Route
-  alias Site.PartialView.StopBubbles
 
   describe "rendered_location_error/3" do
     test "renders an empty string if there's no query", %{conn: conn} do
@@ -70,56 +69,20 @@ defmodule Site.TripPlanViewTest do
     end
   end
 
-  describe "intermediate_bubble_params/2" do
-    test "returns the bubble params unchanged if a route exists" do
-      row = %ItineraryRow{route: %Route{id: "Red"}}
-      params = %StopBubbles.Params{line_only?: false}
-
-      assert intermediate_bubble_params(row, params) == params
+  describe "collapsible_row?/1" do
+    test "is true when it is a transit leg and the length of the steps is 6 or greater" do
+      row = %ItineraryRow{route: %Route{}, transit?: true, steps: ["1", "2", "3", "4", "5", "6"]}
+      assert collapsible_row?(row)
     end
 
-    test "sets line_only?: true if no route exists" do
-      row = %ItineraryRow{route: nil}
-      params = %StopBubbles.Params{line_only?: false}
-
-      assert intermediate_bubble_params(row, params).line_only?
-    end
-  end
-
-  describe "itinerary_steps_with_classes/1" do
-    test "it gives no data-attribute to any step in a list with less than 6 steps" do
-      row = %ItineraryRow{route: %Route{}, steps: ["1", "2", "3", "4", "5"]}
-      assert itinerary_steps_with_classes(row) == [{"1", ""}, {"2", ""}, {"3", ""}, {"4", ""}, {"5", ""}]
-    end
-
-    test "it gives a data-attribute of before-reveal-button to the first step and
-          hidden-step to the middle steps in a list with 6 or more steps" do
-      row = %ItineraryRow{route: %Route{}, steps: ["1", "2", "3", "4", "5", "6"]}
-      assert itinerary_steps_with_classes(row) ==
-        [{"1", "data-before-reveal-button"}, {"2", "data-hidden-step"}, {"3", "data-hidden-step"}, {"4", "data-hidden-step"}, {"5", ""}, {"6", ""}]
-    end
-
-    test "it does not give the hidden-step data-attribute when the leg is personal" do
-      row = %ItineraryRow{route: nil, steps: ["1", "2", "3", "4", "5", "6"]}
-      assert itinerary_steps_with_classes(row) ==
-        [{"1", ""}, {"2", ""}, {"3", ""}, {"4", ""}, {"5", ""}, {"6", ""}]
-    end
-  end
-
-  describe "collapsable_row?/1" do
-    test "is true when the length of the steps is 6 or greater" do
-      row = %ItineraryRow{route: %Route{}, steps: ["1", "2", "3", "4", "5", "6"]}
-      assert collapsable_row?(row)
-    end
-
-    test "is false when the length of the steps is less than 6" do
-      row = %ItineraryRow{route: %Route{}, steps: ["1", "2", "3", "4", "5"]}
-      refute collapsable_row?(row)
+    test "is false when it is a transit leg and the length of the steps is less than 6" do
+      row = %ItineraryRow{route: %Route{}, transit?: true, steps: ["1", "2", "3", "4", "5"]}
+      refute collapsible_row?(row)
     end
 
     test "is false when it is a personal leg" do
       row = %ItineraryRow{route: nil, steps: ["1", "2", "3", "4", "5", "6"]}
-      refute collapsable_row?(row)
+      refute collapsible_row?(row)
     end
   end
 
@@ -146,6 +109,119 @@ defmodule Site.TripPlanViewTest do
     test "renders time when given one" do
       text = {:render, "11:00A"} |> render_stop_departure_display() |> safe_to_string
       assert text =~ "11:00A"
+    end
+  end
+
+  describe "bubble_params/1 for a transit row" do
+    @itinerary_row %ItineraryRow{
+      transit?: true,
+      stop: {"Park Street", "place-park"},
+      steps: ["Boylston",
+              "Arlington",
+              "Copley"
+      ],
+      route: %Route{id: "Green", name: "Green Line", type: 1}
+    }
+
+    test "builds bubble_params for each step" do
+      params = bubble_params(@itinerary_row, nil)
+
+      for {_step, param} <- params do
+        assert [%Site.StopBubble.Params{
+          route_id: "Green",
+          route_type: 1,
+          render_type: :stop,
+          bubble_branch: "Green Line"
+        }] = param
+      end
+
+      assert Enum.map(params, &elem(&1, 0)) == [:transfer | @itinerary_row.steps]
+    end
+
+    test "only first step is dotted" do
+      dotted? =
+        @itinerary_row
+        |> bubble_params(nil)
+        |> Enum.map(fn {_, [%{class: class}]} -> class end)
+
+      assert dotted? == ["stop", "stop dotted", "stop", "stop"]
+    end
+  end
+
+  describe "bubble_params/1 for a personal row" do
+    @itinerary_row %ItineraryRow{
+      transit?: false,
+      stop: {"Park Street", "place-park"},
+      steps: ["Tremont and Winter",
+              "Winter and Washington",
+              "Court St. and Washington"
+      ],
+      route: nil
+    }
+
+    test "builds bubble params for each step" do
+      params = bubble_params(@itinerary_row, 0)
+
+      for {_step, param} <- params do
+        assert [%Site.StopBubble.Params{
+          route_id: nil,
+          route_type: nil,
+          bubble_branch: nil
+        }] = param
+      end
+
+      assert Enum.map(params, &elem(&1, 0)) == [:transfer | @itinerary_row.steps]
+    end
+
+    test "all but first stop are lines" do
+      [_transfer | types_and_classes] =
+        @itinerary_row
+        |> bubble_params(0)
+        |> Enum.map(fn {_, [%{class: class, render_type: render_type}]} -> {class, render_type} end)
+
+      assert types_and_classes == [{"line dotted", :empty}, {"line dotted", :empty}, {"line dotted", :empty}]
+    end
+
+    test "first stop is terminus for first row" do
+      [{_transfer_step, [%{class: class, render_type: render_type}]} | _rest] = bubble_params(@itinerary_row, 0)
+
+      assert class == "terminus dotted"
+      assert render_type == :terminus
+    end
+
+    test "first stop is stop for a row other than the first" do
+      [{_transfer_step, [%{class: class, render_type: render_type}]} | _rest] = bubble_params(@itinerary_row, 3)
+
+      assert class == "stop dotted"
+      assert render_type == :stop
+    end
+  end
+
+  describe "render_steps/2" do
+    @bubble_params [%Site.StopBubble.Params{
+      render_type: :empty,
+      class: "line dotted"
+    }]
+    @steps [
+      {"Tremont and Winter", @bubble_params},
+      {"Winter and Washington", @bubble_params},
+      {"Court St. and Washington", @bubble_params}
+    ]
+
+    test "renders the provided subset of {step, bubbles}" do
+      html =
+        @steps
+        |> render_steps("personal")
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary
+
+      assert Enum.count(Floki.find(html, ".personal")) == 3
+      assert Enum.count(Floki.find(html, ".route-branch-stop-bubble")) == 3
+      names =
+        html
+        |> Floki.find(".itinerary-step")
+        |> Enum.map(fn {_elem, _attrs, [name]} -> String.trim(name) end)
+      assert names == ["Tremont and Winter", "Winter and Washington", "Court St. and Washington"]
     end
   end
 end

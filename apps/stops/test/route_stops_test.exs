@@ -22,42 +22,36 @@ defmodule Stops.RouteStopsTest do
       assert alewife.zone == nil
       assert alewife.branch == nil
       assert alewife.stop_features == [:bus, :access, :parking_lot]
-      assert alewife.stop_number == 0
 
       jfk = List.last(unbranched_stops)
       assert jfk.name == "JFK/Umass"
       assert jfk.branch == nil
       assert jfk.stop_features == [:commuter_rail, :bus, :access]
       assert jfk.is_terminus? == false
-      assert jfk.stop_number == 12
 
       assert [savin|_] = ashmont_stops
       assert savin.name == "Savin Hill"
       assert savin.branch == "Ashmont"
       assert savin.stop_features == [:access, :parking_lot]
       assert savin.is_terminus? == false
-      assert savin.stop_number == 13
 
       ashmont = List.last(ashmont_stops)
       assert ashmont.name == "Ashmont"
       assert ashmont.branch == "Ashmont"
       assert ashmont.stop_features == [:mattapan_trolley, :bus, :access]
       assert ashmont.is_terminus? == true
-      assert ashmont.stop_number == 16
 
       [north_quincy|_] = braintree_stops
       assert north_quincy.name == "North Quincy"
       assert north_quincy.branch == "Braintree"
       assert north_quincy.stop_features == [:bus, :access, :parking_lot]
       assert north_quincy.is_terminus? == false
-      assert north_quincy.stop_number == 13
 
       braintree = List.last(braintree_stops)
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree"
       assert braintree.stop_features == [:commuter_rail, :bus, :access, :parking_lot]
       assert braintree.is_terminus? == true
-      assert braintree.stop_number == 17
     end
 
     test "for Red Line, direction: 1" do
@@ -74,26 +68,22 @@ defmodule Stops.RouteStopsTest do
       assert ashmont.name == "Ashmont"
       assert ashmont.branch == "Ashmont"
       assert ashmont.is_terminus? == true
-      assert ashmont.stop_number == 0
 
       savin = List.last(ashmont_stops)
       assert savin.name == "Savin Hill"
       assert savin.branch == "Ashmont"
       assert savin.is_terminus? == false
-      assert savin.stop_number == 3
 
       [braintree|_] = braintree_stops
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree"
       assert braintree.stop_features == [:commuter_rail, :bus, :access, :parking_lot]
       assert braintree.is_terminus? == true
-      assert braintree.stop_number == 0
 
       n_quincy = List.last(braintree_stops)
       assert n_quincy.name == "North Quincy"
       assert n_quincy.branch == "Braintree"
       assert n_quincy.is_terminus? == false
-      assert n_quincy.stop_number == 4
     end
 
     test "works for green E line" do

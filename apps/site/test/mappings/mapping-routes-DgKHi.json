@@ -1,0 +1,19 @@
+{
+  "uuid" : "d94a0fd7-869c-3298-81ef-4102cf048fac",
+  "request" : {
+    "url" : "/routes/?stop=104",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DgKHi.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 04 Aug 2017 16:09:27 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "pasolcl2hu0tjt438i2la3baoth9u5st",
+      "Connection" : "keep-alive"
+    }
+  }
+}

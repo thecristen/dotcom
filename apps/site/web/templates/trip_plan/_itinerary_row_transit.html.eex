@@ -1,0 +1,31 @@
+<%
+   collapse_target_id = "itinerary-#{@itinerary_idx}-#{@row_idx}"
+  [{:transfer, transfer_bubbles} | step_bubble_params] = bubble_params(@itinerary_row, @row_idx)
+
+  {first_step, collapsible_steps, last_two_steps} =
+    Util.EnumHelpers.pop_off_front_and_back(step_bubble_params, 1, 2)
+%>
+
+<div class="itinerary-row-container <%= @mode_class %>">
+  <%=
+    render "_itinerary_transfer_stop.html",
+      Map.merge(assigns, %{mode: @mode_class,
+      bubble_params: transfer_bubbles})
+  %>
+  <%= render_steps(first_step, @mode_class) %>
+
+  <%= if collapsible_row?(@itinerary_row) do %>
+    <%= Site.ScheduleV2View.StopList.view_branch_link(
+          ItineraryRow.route_name(@itinerary_row),
+          Map.merge(assigns, %{bubbles: [{ItineraryRow.route_name(@itinerary_row), :line}], route: @itinerary_row.route, vehicle_tooltip: nil}),
+          collapse_target_id)
+    %>
+  <% end %>
+
+  <%=
+    content_tag :div, [id: collapse_target_id, class: "collapse stop-list"] do
+      render_steps(collapsible_steps, @mode_class)
+    end
+  %>
+  <%= render_steps(last_two_steps, @mode_class) %>
+</div>

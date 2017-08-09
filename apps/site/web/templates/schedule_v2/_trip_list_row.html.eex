@@ -17,10 +17,14 @@
             PredictedSchedule.Display.headsign(@departure)
           end %>
       <%= display_alerts(@alerts) %>
-      <%= trip_list_bubble(@departure_route_id) %>
-      <%= if @departure_route_id != "Green" do %>
-        <%= fa "caret-down caret hidden-md-up" %>
-      <% end %>
+      <%= if match?("Green", @departure_route_id) do
+        Site.PartialView.render("_stop_bubble_without_vehicle.html", class: "stop",
+                                                                     icon_class: "",
+                                                                     route_id: @departure_route_id,
+                                                                     content: String.last(@departure_route_id))
+      else
+        fa "caret-down caret hidden-md-up"
+      end %>
       <%= if assigns[:url] do %>
         <span class="sr-only">Click for trip information</span>
       <% end %>

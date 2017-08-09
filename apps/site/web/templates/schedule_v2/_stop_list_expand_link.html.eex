@@ -1,8 +1,20 @@
 <div class="route-branch-stop">
-  <%= Site.PartialView.StopBubbles.render_stop_bubbles(stop_bubble_row_params(assigns, true)) %>
+  <%=
+    assigns
+    |> Map.put(:bubbles, Enum.map(@bubbles, fn {branch, _} -> {branch, :line} end))
+    |> stop_bubble_row_params(false)
+    |> Site.PartialView.StopBubbles.render_stop_bubbles()
+  %>
   <div class="route-branch-stop-info expand">
     <div class="expand-branch-link">
-      <%= view_branch_link(@conn, @expanded, @stop.branch) %>
+      <button class="toggle-stop-list btn-link"
+              data-toggle="collapse"
+              data-target="#<%= @target_id %>"
+              data-target-branch="<%= @branch_name %>"
+          <span class="hidden-sm-down">View</span>
+          <%= @branch_name %> Stops
+          <span><%= fa("caret-down") %></span>
+      </button>
     </div>
   </div>
 </div>

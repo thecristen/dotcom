@@ -12,6 +12,7 @@ $location-line-width: $space-6;
       .icon-boring,
       .icon-inverse,
       .stop-bubble-stop,
+      .stop-bubble-merge,
       .stop-bubble-terminus {
         circle {
           fill: $white;
@@ -28,6 +29,7 @@ $location-line-width: $space-6;
       }
 
       .route-branch-stop-bubble-line:not(.dotted),
+      .route-branch-stop-bubble-line.dotted.expanded,
       .route-branch-indent-start {
         background-color: $color;
       }
@@ -39,6 +41,11 @@ $location-line-width: $space-6;
       .route-branch-indent-start.dotted {
         background-color: transparent;
         border-color: $color;
+
+        &.expanded {
+          background-color: $color;
+          border-right: 1px solid $color;
+        }
       }
 
 
@@ -84,6 +91,21 @@ $location-line-width: $space-6;
   padding-right: $base-spacing;
 }
 
+.personal,
+.dotted {
+  .route-branch-stop-bubble-line {
+    background-color: transparent;
+    outline-style: dashed;
+    outline-width: 1px;
+    width: 0;
+  }
+
+  &.expanded {
+    outline-style: none;
+    width: .375rem;
+  }
+}
+
 .route-branch-stop-bubble {
   // scss-lint:disable DuplicateProperty
   align-items: center;
@@ -105,33 +127,6 @@ $location-line-width: $space-6;
       min-height: $base-spacing / 2;
     }
   }
-
-  .route-branch-indent-start {
-    height: $location-line-width;
-    left: -5px;
-    position: relative;
-    top: 0;
-    width: 16px;
-
-    .solid {
-      height: $location-line-width;
-    }
-
-    &.dotted {
-      border-style: dashed;
-      border-width: 1px;
-      height: 0;
-      outline-style: none;
-      width: 12px;
-    }
-  }
-
-  .dotted {
-    background-color: transparent;
-    outline-style: dashed;
-    outline-width: 1px;
-  }
-
 
   svg {
     overflow: visible;
@@ -155,10 +150,6 @@ $location-line-width: $space-6;
   flex: 1 0 0%;
   min-height: 1rem;
   width: $location-line-width;
-
-  &.dotted {
-    width: 0;
-  }
 }
 
 .route-branch-stop-info {
@@ -187,12 +178,13 @@ $location-line-width: $space-6;
   }
 }
 
-.expand-branch-link {
-  a {
-    background: $gray-lightest;
-    border-radius: $border-radius;
-    display: inline-block;
-    padding: $base-spacing / 2;
+.expand-branch-link button {
+  background: $gray-lightest;
+  border: 0;
+  padding: $space-8;
+
+  &:hover {
+    background: $gray-lighter;
   }
 }
 
@@ -240,6 +232,32 @@ $location-line-width: $space-6;
       // required for icons to be displayed on IE 10+
       flex: 0 0 auto;
       margin-left: $base-spacing / 8;
+    }
+  }
+}
+
+.route-branch-indent-start {
+  height: $location-line-width;
+  left: -5px;
+  position: relative;
+  top: 0;
+  width: 16px;
+
+  .solid {
+    height: $location-line-width;
+  }
+
+  &.dotted {
+    // this is only for the horizontal line -- gets rendered differently from the vertical lines
+    border-style: dashed;
+    border-width: 1px;
+    height: 0;
+    outline-style: none;
+    width: 12px;
+
+    &.expanded {
+      height: $location-line-width;
+      width: 16px;
     }
   }
 }
