@@ -315,7 +315,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "real time icon shown when prediction is available" do
       output =
         [{{@predicted_schedule, false}, 3}]
-        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns, false)
         |> List.first
         |> safe_to_string
       assert output =~ "rss"
@@ -324,7 +324,7 @@ defmodule Site.ScheduleV2ViewTest do
     test "Alert icon is shown when alerts are not empty" do
       output =
         [{{@predicted_schedule, false}, 3}]
-        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns, false)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
 
@@ -332,20 +332,44 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "Alert icon is shown with tooltip attributes" do
-      assert [{:safe, output}] =
+      output =
         [{{@predicted_schedule, false}, 3}]
-        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns, false)
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary
       assert [alert] = output |> IO.iodata_to_binary() |> Floki.find(".icon-alert")
       assert Floki.attribute(alert, "data-toggle") == ["tooltip"]
       assert Floki.attribute(alert, "title") == ["Service alert or delay"]
     end
 
     test "shows vehicle icon when vehicle location is available" do
-      assert [{:safe, output}] =
+      output =
         [{{@predicted_schedule, false}, 2}]
-        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns, false)
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary
 
       assert [_vehicle] = output |> IO.iodata_to_binary() |> Floki.find(".vehicle-bubble")
+    end
+
+    test "shows dotted line for last stop when collapsed_stops? is true" do
+      html =
+        [{{@predicted_schedule, false}, 0}]
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns, true)
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary
+
+      assert Enum.count(Floki.find(html, ".route-branch-stop-bubble.stop.dotted")) == 1
+    end
+
+    test "does not show dotted line for last stop when collapsed_stop? is false" do
+      html =
+        [{{@predicted_schedule, false}, 0}]
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns, false)
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary
+
+      assert Enum.count(Floki.find(html, ".route-branch-stop-bubble.stop.dotted")) == 0
     end
   end
 

@@ -21,13 +21,17 @@
         |> Util.EnumHelpers.with_first_last
         |> Enum.with_index
         |> Util.EnumHelpers.pop_off_front_and_back(2)
+
+       collapsed_stops = middle != []
     %>
-    <%= render_trip_info_stops(first, assigns) %>
+    <%= render_trip_info_stops(first, assigns, collapsed_stops) %>
     <div class="collapse stop-list" id="trip-info-stops">
-      <%= render_trip_info_stops(middle, assigns) %>
+      <%= render_trip_info_stops(middle, assigns, false) %>
     </div>
-    <%= view_branch_link(@route.name, Map.merge(assigns, %{bubbles: [{@route.name, :line}], vehicle_tooltip: nil}), "trip-info-stops") %>
-    <%= render_trip_info_stops(last, assigns) %>
+    <%= if collapsed_stops do %>
+      <%= view_branch_link(@route.name, Map.merge(assigns, %{bubbles: [{@route.name, :line}], vehicle_tooltip: nil}), "trip-info-stops") %>
+    <% end %>
+    <%= render_trip_info_stops(last, assigns, false) %>
   </div>
   <div class="trip-duration">
     <strong>Trip duration:</strong>
