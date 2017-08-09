@@ -23,7 +23,7 @@ defmodule Feedback.Mailer do
     body =
       """
       <INCIDENT>
-        <SERVICE>Inquiry</SERVICE>
+        <SERVICE>#{message.service}</SERVICE>
         <CATEGORY>Other</CATEGORY>
         <TOPIC></TOPIC>
         <SUBTOPIC></SUBTOPIC>

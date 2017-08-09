@@ -7,7 +7,9 @@ defmodule Feedback.RepoTest do
         email: "test@mbtace.com",
         phone: "555-555-5555",
         name: "Charlie",
-        comments: "comments"
+        comments: "comments",
+        service: "Complaint",
+        request_response: false
       }
       |> Feedback.Repo.send_ticket
 
@@ -27,7 +29,9 @@ defmodule Feedback.RepoTest do
         phone: "555-555-5555",
         name: "Charlie",
         comments: "comments",
-        photos: photos
+        photos: photos,
+        service: "Complaint",
+        request_response: false
       }
       |> Feedback.Repo.send_ticket
 

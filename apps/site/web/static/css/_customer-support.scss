@@ -132,3 +132,12 @@ button .waiting {
     padding: $space-12;
   }
 }
+
+.service-radio {
+  margin: 0 $space-16 0 0;
+
+  input {
+    display: inline-block;
+    width: $space-16;
+  }
+}

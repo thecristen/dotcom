@@ -3,10 +3,35 @@
     <div class="row">
       <form id="support-form" class="support-form" action="<%= customer_support_path @conn, :submit %>#support-result" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>" />
+
+            <div class="form-group col-xs-12 contrast <%= class_for_error("service", @errors, "has-danger", "") %>">
+              <label for="service">What kind of concern do you have? (Required)</label>
+              <div class="error-container support-service-error-container <%= class_for_error("service", @errors, "", "hidden-xs-up") %>">
+                <span class="support-contacts-error">Please select the type of concern</span>
+              </div>
+              <div id="service">
+                <%= for {text, value} <- @service_options do %>
+                  <span class="service-radio">
+                    <input
+                      type="radio"
+                      name="service"
+                      class="support-form-control form-control service"
+                      id="service-<%= value %>"
+                      value="<%= value %>"
+                    />
+                    <label for="service-<%= value %>"> <%= text %> </label>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+
         <div class="form-group col-xs-12 contrast <%= class_for_error("comments", @errors, "has-danger", "") %>">
-          <label for="comments" class="col-form-label"><strong>Let us know how our Customer Support team can help</strong></label>
+
           <div class="error-container support-comments-error-container <%= class_for_error("comments", @errors, "", "hidden-xs-up") %>" tabindex="-1">
             <span class="support-comments-error">Please enter a comment to continue.</span>
+          </div>
+          <div>
+            <p>Let us know how we can help</p>
           </div>
           <textarea
             id="comments"
@@ -14,7 +39,7 @@
             class="support-form-control form-control"
             maxlength=3000
             rows=3
-            placeholder="Make sure to include (if applicable) the time and date of the incident, the route, and the vehicle number."
+            placeholder="If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
             required><%= Map.get @existing_params, "comments", "" %></textarea>
           <span></span>
           <small class="form-text">3000 characters maximum</small>
@@ -36,7 +61,7 @@
                 <%= if Map.get(@existing_params, "request_response", "") === "on" do %>
                   checked
                 <% end %>
-              /> I would like to receive a response from MBTA Customer Service
+              /> You would like us to get back to you with questions or updates
             </label>
           </div>
         </div>

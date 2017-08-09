@@ -7,15 +7,21 @@ defmodule Site.CustomerSupportControllerTest do
       response = html_response(conn, 200)
       assert response =~ "Customer Support"
     end
+
+    test "sets the service options on the connection", %{conn: conn} do
+      conn = get conn, customer_support_path(conn, :index)
+
+      assert conn.assigns.service_options == Feedback.Message.service_options
+    end
   end
 
   describe "POST" do
     def valid_request_response_data do
-      %{"comments" => "comments", "email" => "test@gmail.com", "privacy" => "on", "phone" => "", "name" => "tom brady", "request_response" => "on"}
+      %{"comments" => "comments", "email" => "test@gmail.com", "privacy" => "on", "phone" => "", "name" => "tom brady", "request_response" => "on", "service" => "Inquiry"}
     end
 
     def valid_no_response_data do
-      %{"comments" => "comments", "request_response" => "off"}
+      %{"comments" => "comments", "request_response" => "off", "service" => "Inquiry"}
     end
 
     test "shows a thank you message on success and sends an email", %{conn: conn} do
@@ -30,6 +36,16 @@ defmodule Site.CustomerSupportControllerTest do
     test "validates presence of comments", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_request_response_data(), "comments", "")
       assert "comments" in conn.assigns.errors
+    end
+
+    test "validates the presence of the service type", %{conn: conn} do
+      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_request_response_data(), "service", "")
+      assert "service" in conn.assigns.errors
+    end
+
+    test "validates that the service is one of the allowed values", %{conn: conn} do
+      conn = post conn, customer_support_path(conn, :submit), Map.put(valid_request_response_data(), "service", "Hug")
+      assert "service" in conn.assigns.errors
     end
 
     test "does not require name if customer does not want a response", %{conn: conn} do

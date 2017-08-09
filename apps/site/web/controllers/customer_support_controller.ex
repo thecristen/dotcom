@@ -3,6 +3,7 @@ defmodule Site.CustomerSupportController do
   import Site.Validation, only: [validate: 2]
 
   plug Turbolinks.Plug.NoCache
+  plug :set_service_options
 
   def index(conn, _params) do
     render_form conn, [], %{}
@@ -37,9 +38,9 @@ defmodule Site.CustomerSupportController do
   @spec do_validation(map) :: []
   defp do_validation(params) do
     validators = if params["request_response"] == "on" do
-      [&validate_comments/1, &validate_name/1, &validate_contacts/1, &validate_privacy/1]
+      [&validate_comments/1, &validate_service/1, &validate_name/1, &validate_contacts/1, &validate_privacy/1]
     else
-      [&validate_comments/1]
+      [&validate_comments/1, &validate_service/1]
     end
 
     validate(validators, params)
@@ -48,6 +49,16 @@ defmodule Site.CustomerSupportController do
   @spec validate_comments(map) :: :ok | String.t
   defp validate_comments(%{"comments" => ""}), do: "comments"
   defp validate_comments(_), do: :ok
+
+  @spec validate_service(map) :: :ok | String.t
+  defp validate_service(%{"service" => service}) do
+    if Feedback.Message.valid_service?(service) do
+      :ok
+    else
+      "service"
+    end
+  end
+  defp validate_service(_), do: "service"
 
   @spec validate_name(map) :: :ok | String.t
   defp validate_name(%{"name" => ""}), do: "name"
@@ -79,8 +90,13 @@ defmodule Site.CustomerSupportController do
         phone: params["phone"],
         name: params["name"],
         comments: params["comments"],
+        service: params["service"],
         request_response: params["request_response"] == "on"
       }
     )
+  end
+
+  defp set_service_options(conn, _) do
+    assign(conn, :service_options, Feedback.Message.service_options())
   end
 end

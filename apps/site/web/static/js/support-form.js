@@ -151,6 +151,9 @@ const validators = {
   comments: function ($) {
     return $('#comments').val().length !== 0;
   },
+  service: function ($) {
+    return !!$("[name='service']:checked").val();
+  },
   name: function ($) {
     if(responseRequested($)) {
       return $('#name').val().length !== 0;
@@ -200,9 +203,17 @@ function displaySuccess($, selector) {
 function validateForm($) {
   const privacy = '#privacy',
         comments = '#comments',
+        service = "#service",
         contacts = '.contacts',
         name = '#name',
         errors = [];
+  // Service
+  if(!validators.service($)) {
+    displayError($, service);
+    errors.push(service);
+  } else {
+    displaySuccess($, service);
+  }
   // Main textarea
   if(!validators.comments($)) {
     displayError($, comments);
