@@ -1,6 +1,7 @@
 defmodule GoogleMaps.Geocode do
   @type t :: {:ok, [__MODULE__.Address.t]} | {:error, error_status, any}
   @type error_status :: :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
+  require Logger
 
   defmodule Address do
     @type t :: %__MODULE__{
@@ -27,6 +28,7 @@ defmodule GoogleMaps.Geocode do
     address
     |> call_google_api
     |> parse_google_response
+    |> log_response(address)
   end
 
   defp call_google_api(address) do
@@ -86,5 +88,13 @@ defmodule GoogleMaps.Geocode do
       latitude: lat,
       longitude: lng
     }
+  end
+
+  defp log_response(response, address) do
+    _ = Logger.info fn ->
+      "#{__MODULE__}.geocode_response: \
+address=#{inspect address} response=#{inspect response}"
+    end
+    response
   end
 end
