@@ -146,13 +146,18 @@ defmodule Site.ScheduleV2View.StopList do
   }) do
     stop_branch = stop && stop.branch
 
-    dotted = if is_dotted(
-      dotted_merge(bubble_type, direction_id, index),
-      dotted_green(bubble_branch, stop, direction_id),
-      dotted_branch(bubbles, stop_branch),
-      {route_id, stop_branch},
-      is_expand_link?
-    ), do: "dotted"
+    dotted =
+      cond do
+        is_dotted(
+          dotted_merge(bubble_type, direction_id, index),
+          dotted_green(bubble_branch, stop, direction_id),
+          dotted_branch(bubbles, stop_branch),
+          {route_id, stop_branch},
+          is_expand_link?
+        ) -> "dotted"
+        is_singleton_expand_link?(bubbles, is_expand_link?) -> "dotted"
+        true -> ""
+      end
 
     String.trim("#{bubble_type} #{dotted}")
   end
@@ -186,6 +191,9 @@ defmodule Site.ScheduleV2View.StopList do
       is_binary(stop_branch) && stop_branch == bubble_branch
     end)
   end
+
+  defp is_singleton_expand_link?([_bubble], true), do: true
+  defp is_singleton_expand_link?(_bubbles, _is_expand_link?), do: false
 
   defp merge_indent(bubble_type, direction_id, index)
   defp merge_indent(:merge, 0, 1), do: :above
