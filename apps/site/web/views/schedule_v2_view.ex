@@ -396,8 +396,11 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec render_trip_info_stops([{{PredictedSchedule.t, boolean}, non_neg_integer}], map) :: [Phoenix.HTML.Safe.t]
-  def render_trip_info_stops(stop_list, assigns) do
+  @spec render_trip_info_stops([{{PredictedSchedule.t, boolean}, non_neg_integer}],
+                               map,
+                               atom | nil
+                              ) :: [Phoenix.HTML.Safe.t]
+  def render_trip_info_stops(stop_list, assigns, collapse \\ nil) do
     for {{predicted_schedule, is_terminus?}, idx} <- stop_list do
       stop = Stops.RouteStop.build_route_stop({{PredictedSchedule.stop(predicted_schedule), is_terminus?}, idx},
                                                                                                     nil, assigns.route)
@@ -417,7 +420,7 @@ defmodule Site.ScheduleV2View do
                 alerts: stop_alerts(predicted_schedule, assigns.all_alerts, assigns.route.id, assigns.direction_id),
                 predicted_schedule: predicted_schedule,
                 row_content_template: "_trip_info_stop.html",
-                is_expand_link?: idx == Enum.count(stop_list) - 1
+                is_expand_link?: idx == Enum.count(stop_list) - 1 and collapse == :collapse
       })
     end
   end
