@@ -108,6 +108,7 @@ import datePicker from './date-picker';
 import toggleBtn from './toggle-on-click';
 import tripPlan from './trip-plan';
 import stopBubbles from './stop-bubbles';
+import search from './search';
 
 submitOnEvents(["blur", "change"]);
 selectModal();
@@ -133,5 +134,6 @@ datePicker();
 toggleBtn();
 tripPlan();
 stopBubbles();
+search();
 
 document.body.className = document.body.className.replace("no-js", "js");

@@ -1,3 +1,4 @@
+<% fare_summaries = Map.get(assigns, :common_fare_summaries, []) %>
 <nav id="desktop-menu" class="desktop-menu-nav" role="tablist">
   <div class="pull-right">
     <%= for {name, _, icon, href} <- nav_link_content(@conn) do %>
@@ -23,13 +24,12 @@
                role: "tab",
                aria: [expanded: "false", controls: id])
         %>
-
         <div class="desktop-menu">
           <div class="desktop-menu-background-image">
             <div class="container">
               <div class="desktop-menu-body panel">
                 <div class="collapse" id="<%= id %>" role="tabpanel">
-                  <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: Map.get(assigns, :common_fare_summaries, []) %>
+                  <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: fare_summaries %>
                   <%= render "_old_site_button.html", conn: @conn %>
                 </div>
               </div>
@@ -37,6 +37,9 @@
           </div>
         </div>
       </div>
+    <% end %>
+    <%= if Laboratory.enabled?(@conn, :cms_search) do %>
+      <%= render "_nav_desktop_search.html", conn: @conn %>
     <% end %>
   </div>
 </nav>

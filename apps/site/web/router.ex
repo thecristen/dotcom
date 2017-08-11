@@ -58,6 +58,7 @@ defmodule Site.Router do
     get "/fares/commuter_rail/zone", FareController, :zone
     resources "/fares", FareController, only: [:index, :show]
     resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
+    get "/search", SearchController, :index
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end
