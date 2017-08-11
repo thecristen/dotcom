@@ -302,12 +302,12 @@ header {
 }
 
 .search-label {
-  label {
-    margin-bottom: 0;
-  }
-
   @include media-breakpoint-down(md) {
     display: none;
+  }
+
+  label {
+    margin-bottom: 0;
   }
 }
 
