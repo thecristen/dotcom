@@ -2,28 +2,7 @@ defmodule Site.ScheduleV2View.StopList do
   use Site.Web, :view
 
   alias Site.StopBubble
-  alias Stops.{RouteStop, RouteStops}
-
-  @doc """
-  Determines whether a stop is the first stop of its branch that is shown on the page, and
-  therefore should display a link to expand/collapse the branch.
-  """
-  @spec add_expand_link?(RouteStop.t, map) :: boolean
-  def add_expand_link?(%RouteStop{branch: nil}, _assigns), do: false
-  def add_expand_link?(_, %{route: %Routes.Route{id: "CR-Kingson"}}), do: false
-  def add_expand_link?(%RouteStop{branch: "Green-" <> _ = branch} = stop, assigns) do
-    case assigns do
-      %{direction_id: 0} -> GreenLine.split_id(branch) == stop.id
-      _ -> GreenLine.terminus?(stop.id, branch)
-    end
-  end
-  def add_expand_link?(%RouteStop{id: stop_id, branch: branch}, assigns) do
-    case Enum.find(assigns.branches, & &1.branch == branch) do
-      %RouteStops{stops: [_]} -> true
-      %RouteStops{stops: [%RouteStop{id: ^stop_id}|_]} -> true
-      _ -> false
-    end
-  end
+  alias Stops.RouteStop
 
   @doc """
   Link to expand or collapse a route branch.
@@ -243,7 +222,7 @@ defmodule Site.ScheduleV2View.StopList do
   @spec display_map_link?(integer) :: boolean
   def display_map_link?(type), do: type == 4 # only show for ferry
 
-  @spec trip_link(Conn.t, TripInfo.t, boolean, String.t) :: String.t
+  @spec trip_link(Plug.Conn.t, TripInfo.t, boolean, String.t) :: String.t
   def trip_link(conn, trip_info, trip_chosen?, trip_id) do
     if TripInfo.is_current_trip?(trip_info, trip_id) && trip_chosen? do
       update_url(conn, trip: "") <> "#" <> trip_id

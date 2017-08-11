@@ -109,7 +109,7 @@ defmodule Site.ScheduleV2View.TripList do
   Returns a link to expand or collapse the trip list. No link is shown
   if there are no additional trips
   """
-  @spec trip_expansion_link(:none | :collapsed | :expanded, Date.t, Conn.t) :: Phoenix.HTML.safe | nil
+  @spec trip_expansion_link(:none | :collapsed | :expanded, Date.t, Plug.Conn.t) :: Phoenix.HTML.safe | nil
   def trip_expansion_link(:none, _date, _conn) do
     nil
   end

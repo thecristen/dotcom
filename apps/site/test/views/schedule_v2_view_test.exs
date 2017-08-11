@@ -2,9 +2,8 @@ defmodule Site.ScheduleV2ViewTest do
   use Site.ConnCase, async: true
 
   alias Schedules.Trip
-  alias Stops.{Stop, RouteStop, RouteStops}
+  alias Stops.{Stop, RouteStop}
   import Site.ScheduleV2View
-  import Site.ScheduleV2View.StopList, only: [add_expand_link?: 2]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
@@ -476,47 +475,6 @@ defmodule Site.ScheduleV2ViewTest do
 
       text = south_station_commuter_rail(route) |> Phoenix.HTML.safe_to_string
       assert text =~ "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
-    end
-  end
-
-  describe "add_expand_link/2" do
-    test "returns false for unbranched stops" do
-      stop = %RouteStop{id: "stop", branch: nil}
-      branches = [%Stops.RouteStops{branch: nil, stops: [%RouteStop{id: "stop"}]}]
-      assert add_expand_link?(stop, %{branches: branches, expanded: nil, direction_id: 0}) == false
-    end
-
-    test "returns false for Kingston" do
-      assert add_expand_link?(%RouteStop{}, %{route: %Routes.Route{id: "CR-Kingston"}}) == false
-    end
-
-    test "returns true for the first branched stop on non-green lines" do
-      stop = %RouteStop{id: "stop", branch: "branch"}
-      branches = [
-        %RouteStops{branch: nil, stops: []},
-        %RouteStops{branch: "branch", stops: [stop]},
-        %RouteStops{branch: "other", stops: [%Stops.RouteStop{}]}
-      ]
-      assert add_expand_link?(stop, %{branches: branches, expanded: nil, direction_id: nil}) == true
-    end
-
-    test "returns true on the first branched stop of expanded branch for green line when direction is 0" do
-      stop = %RouteStop{id: "place-smary", branch: "Green-C"}
-      assert add_expand_link?(stop, %{branches: [], expanded: "Green-C", direction_id: 0}) == true
-    end
-
-    test "returns true on terminus of expanded branch for green line when direction is 1" do
-      stop = %RouteStop{id: "place-river", branch: "Green-D"}
-      assert add_expand_link?(stop, %{branches: [], expanded: "Green-D", direction_id: 1}) == true
-    end
-
-    test "returns false for all other branched stops" do
-      stop = %RouteStop{id: "place-griggs", branch: "Green-B"}
-      branches = [
-        %Stops.RouteStops{branch: "Green-B", stops: [%RouteStop{id: "place-bland"}, %RouteStop{id: "place-lake"}]},
-        %Stops.RouteStops{branch: "Green-C", stops: [%RouteStop{id: "place-smary"}, %RouteStop{id: "place-clmnl"}]}
-      ]
-      assert add_expand_link?(stop, %{branches: branches, expanded: nil, direction_id: 0}) == false
     end
   end
 
