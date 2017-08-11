@@ -192,9 +192,8 @@ defmodule Site.ScheduleV2View.StopList do
     end)
   end
 
-  defp is_singleton_expand_link?(bubbles, is_expand_link?) do
-    Enum.count(bubbles) == 1 && is_expand_link?
-  end
+  defp is_singleton_expand_link?([_bubble], true), do: true
+  defp is_singleton_expand_link?(_bubbles, _is_expand_link?), do: false
 
   defp merge_indent(bubble_type, direction_id, index)
   defp merge_indent(:merge, 0, 1), do: :above
