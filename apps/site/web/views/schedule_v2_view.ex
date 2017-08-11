@@ -396,7 +396,10 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec render_trip_info_stops([{{PredictedSchedule.t, boolean}, non_neg_integer}], map, atom | nil) :: [Phoenix.HTML.Safe.t]
+  @spec render_trip_info_stops([{{PredictedSchedule.t, boolean}, non_neg_integer}],
+                               map,
+                               atom | nil
+                              ) :: [Phoenix.HTML.Safe.t]
   def render_trip_info_stops(stop_list, assigns, collapse \\ nil) do
     for {{predicted_schedule, is_terminus?}, idx} <- stop_list do
       stop = Stops.RouteStop.build_route_stop({{PredictedSchedule.stop(predicted_schedule), is_terminus?}, idx},
