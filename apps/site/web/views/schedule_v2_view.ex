@@ -1,29 +1,9 @@
 defmodule Site.ScheduleV2View do
   use Site.Web, :view
 
-  import Site.ScheduleV2View.StopList, only: [
-    view_branch_link: 3,
-    schedule_link_direction_id: 3,
-    stop_bubble_row_params: 2,
-    display_departure_range: 1,
-    schedule_period: 1,
-    display_map_link?: 1,
-    trip_link: 4,
-    chunk_branches: 1,
-    separate_collapsible_rows: 2,
-    merge_rows: 2,
-  ]
-  import Site.ScheduleV2View.TripList, only: [
-    trip_alerts: 4,
-    stop_alerts: 4,
-    display_alerts: 1,
-    frequency_times: 2,
-    frequency_block_name: 1,
-    display_frequency_departure: 3,
-    stop_name_link_with_alerts: 3,
-    trip_expansion_link: 3,
-  ]
-  import Site.ScheduleV2View.Timetable, only: [timetable_location_display: 1]
+  import Site.ScheduleV2View.StopList
+  import Site.ScheduleV2View.TripList
+  import Site.ScheduleV2View.Timetable
 
   require Routes.Route
   alias Routes.Route

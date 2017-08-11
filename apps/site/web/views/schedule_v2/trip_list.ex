@@ -1,5 +1,9 @@
 defmodule Site.ScheduleV2View.TripList do
-  use Site.Web, :view
+  alias Site.Components.Icons.SvgIcon
+  import Phoenix.HTML, only: [raw: 1]
+  import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
+  import Phoenix.HTML.Link, only: [link: 2]
+  alias Site.ViewHelpers
 
   alias Routes.Route
 
@@ -30,7 +34,7 @@ defmodule Site.ScheduleV2View.TripList do
   @doc "If alerts are given, display alert icon"
   @spec display_alerts([Alerts.Alert.t]) :: Phoenix.HTML.Safe.t
   def display_alerts([]), do: raw ""
-  def display_alerts(_alerts), do: svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
+  def display_alerts(_alerts), do: Site.PageView.svg_icon(%SvgIcon{icon: :alert, class: "icon-small"})
 
   @doc """
   Returns vehicle frequency for the frequency table, either "Every X minutes" or "No service between these hours".
@@ -63,12 +67,12 @@ defmodule Site.ScheduleV2View.TripList do
   @spec display_frequency_departure(TimeGroup.time_block, DateTime.t | nil, DateTime.t | nil) :: Phoenix.HTML.Safe.t
   def display_frequency_departure(:am_rush, first_departure, _last_departure) when not is_nil(first_departure) do
     content_tag :div, class: "schedule-v2-frequency-time" do
-      "First Departure at #{format_schedule_time(first_departure)}"
+      "First Departure at #{ViewHelpers.format_schedule_time(first_departure)}"
     end
   end
   def display_frequency_departure(:late_night, _first_departure, last_departure) when not is_nil(last_departure) do
     content_tag :div, class: "schedule-v2-frequency-time" do
-      "Last Departure at #{format_schedule_time(last_departure)}"
+      "Last Departure at #{ViewHelpers.format_schedule_time(last_departure)}"
     end
   end
   def display_frequency_departure(_time_block, _first, _last), do: nil
@@ -77,13 +81,13 @@ defmodule Site.ScheduleV2View.TripList do
   def stop_name_link_with_alerts(name, url, []) do
     link to: url do
       name
-      |> Site.ViewHelpers.break_text_at_slash
+      |> ViewHelpers.break_text_at_slash
     end
   end
   def stop_name_link_with_alerts(name, url, alerts) do
     link to: url do
       name
-      |> Site.ViewHelpers.break_text_at_slash
+      |> ViewHelpers.break_text_at_slash
       |> add_icon_to_stop_name(alerts)
     end
   end
@@ -114,13 +118,13 @@ defmodule Site.ScheduleV2View.TripList do
     nil
   end
   def trip_expansion_link(:collapsed, date, conn) do
-    date_string = date |> pretty_date |> String.downcase
-    link to: update_url(conn, show_all_trips: true) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
+    date_string = date |> ViewHelpers.pretty_date |> String.downcase
+    link to: UrlHelpers.update_url(conn, show_all_trips: true) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
       "Show all trips for #{date_string}"
     end
   end
   def trip_expansion_link(:expanded, _date, conn) do
-    link to: update_url(conn, show_all_trips: false) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
+    link to: UrlHelpers.update_url(conn, show_all_trips: false) <> "#trip-list", class: "trip-list-v2-row trip-list-v2-footer" do
       "Show upcoming trips only"
     end
   end

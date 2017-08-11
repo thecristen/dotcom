@@ -10,7 +10,7 @@ defmodule Site.ScheduleV2.TimetableViewTest do
 
     test "otherwise, displays the CR icon" do
       for status <- [:in_transit, :incoming, :stopped] do
-        icon = svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail, class: "icon-small", show_tooltip?: false})
+        icon = Site.PageView.svg_icon(%Site.Components.Icons.SvgIcon{icon: :commuter_rail, class: "icon-small", show_tooltip?: false})
         assert timetable_location_display(%Vehicles.Vehicle{status: status}) == icon
       end
     end
