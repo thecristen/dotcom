@@ -216,6 +216,23 @@ defmodule Site.StopListViewTest do
       assert b_line.class == "stop dotted"
       assert c_line.class == "stop dotted"
     end
+
+    test "schedule view expand link is dotted" do
+      assigns = %{
+        bubbles: [{"Green-E", :line}],
+        stop: nil,
+        route: %Route{id: "Green", type: 1},
+        direction_id: 1,
+        conn: "conn",
+        is_expand_link?: true,
+        branch_names: ["Green-E"],
+        vehicle_tooltip: %VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: "Green"}},
+        row_content_template: "_line_page_stop_info.html"
+      }
+
+      assert [expand_link] = stop_bubble_row_params(assigns)
+      assert expand_link.class == "line dotted"
+    end
   end
 
   describe "non-Green bubble params" do
