@@ -12,3 +12,68 @@
     padding: $base-spacing-sm;
   }
 }
+
+.pagination-box {
+  background-color: $gray-bordered-background;
+  overflow: hidden;
+  padding: $base-spacing;
+  position: relative;
+  text-align: center;
+
+  li {
+    display: table-cell;
+    line-height: $pagination-line-height;
+    vertical-align: bottom;
+  }
+
+  ul {
+    border-collapse: separate;
+    border-spacing: $space-6 0;
+    display: inline;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .active {
+    background-color: $brand-primary;
+    border-color: $brand-primary;
+
+    a {
+      color: $white;
+    }
+  }
+}
+
+.pagination-num {
+  background-color: $white;
+  border: $border;
+  margin: 0 $space-4;
+  min-width: 2rem;
+  padding: $space-6;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.pagination-prev {
+  background-color: $white;
+  border: $border;
+  float: left;
+  margin-left: 0;
+  padding: $space-6;
+}
+
+.pagination-next {
+  background-color: $white;
+  border: $border;
+  float: right;
+  margin-right: 0;
+  padding: $space-6;
+}
+
+.pagination-collapsed {
+  margin: 0;
+  padding: 0;
+}

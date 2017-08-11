@@ -1,5 +1,50 @@
+<% former_site_name = @former_site |> String.replace("https://", "") %>
 <div class="page-section search-page">
   <div class="page-block">
-    <h1>Search Results</h1>
+    <div class="search-results-facets col-md-3">
+      <%= form_for @conn, "/search", [as: :search, method: :get, data: [form: "search-filter"]], fn f -> %>
+        <%= hidden_input :search, :offset, value: @params["[offset]"] %>
+        <%= hidden_input :search, :query, value: @params["[query]"] %>
+        <%= if @facets[:content_type] do %>
+          <div class="search-results-facet" data-facet="search">
+            <h2 class="search-filter-heading" data-heading="search-filter">Filter by type<%= render_toggle_filter() %></h2>
+            <ul class="search-filter-container" data-container="search-filter">
+              <%= for option <- @facets[:content_type], do: render_filter_option(f, :content_type, option) %>
+            </ul>
+          </div>
+        <% end %>
+        <%= if @facets[:year] do %>
+          <div class="search-results-facet" data-facet="search">
+            <h2 class="search-filter-heading" data-heading="search-filter">Filter by date<%= render_toggle_filter() %></h2>
+            <ul class="search-filter-container" data-container="search-filter">
+              <%= for option <- @facets[:year], do: render_filter_option(f, :year, option) %>
+            </ul>
+          </div>
+        <% end %>
+        <button class="btn btn-primary btn-sm hidden-js">Update Results</button>
+      <% end %>
+    </div>
+    <div class="col-md-9">
+      <div class="search-results-documents">
+        <%= if @documents == [] do %>
+          <h3>No results</h3>
+        <% else %>
+          <h3 class="search-summary">Showing results 1-10 of 100 for
+            <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
+          </h3>
+          <ul><%= for document <- @documents, do: render_document(document) %></ul>
+        <% end %>
+      </div>
+
+      <div class="search-pagination">
+        <%= render Site.PaginationHelpers, "_responsive_pagination.html", pagination: @pagination,
+                                                                          link_context: @link_context %>
+      </div>
+
+      <a class="search-archive" href="<%= @former_site %>">
+        <div>Not finding what you are looking for? It may still be on our legacy site.</div>
+        <div>Search the old <%= former_site_name %> <%= fa "arrow-right" %></div>
+      </a>
+    </div>
   </div>
 </div>
