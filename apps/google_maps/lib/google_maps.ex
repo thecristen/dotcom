@@ -17,7 +17,7 @@ defmodule GoogleMaps do
 
   Options:
   * client_id: client to use for the request
-  * key: if no client ID is specified, a key to use
+  * google_api_key: if no client ID is specified, a key to use
   * signing_key: the private key used to sign the path.
 
   If no options are passed, they'll be looked up out of the GoogleMaps
