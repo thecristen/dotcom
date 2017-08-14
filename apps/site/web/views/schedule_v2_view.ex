@@ -103,16 +103,19 @@ defmodule Site.ScheduleV2View do
   @doc """
   Returns vehicle frequency for the frequency table, either "Every X minutes" or "No service between these hours".
   """
-  @spec frequency_times(boolean, Schedules.Frequency.t) :: Phoenix.HTML.Safe.t
-  def frequency_times(false, _), do: content_tag :span, "No service between these hours"
-  def frequency_times(true, frequency) do
-    content_tag :span do
-      [
-        "Every ",
-        TimeGroup.display_frequency_range(frequency),
-        content_tag(:span, " minutes", class: "sr-only"),
-        content_tag(:span, " mins", aria_hidden: true)
-      ]
+  @spec frequency_times(Schedules.Frequency.t) :: Phoenix.HTML.Safe.t
+  def frequency_times(frequency) do
+    if Schedules.Frequency.has_service?(frequency) do
+      content_tag :span do
+        [
+          "Every ",
+          TimeGroup.display_frequency_range(frequency),
+          content_tag(:span, " minutes", class: "sr-only"),
+          content_tag(:span, " mins", aria_hidden: true)
+        ]
+      end
+    else
+      content_tag :span, "No service between these hours"
     end
   end
 
