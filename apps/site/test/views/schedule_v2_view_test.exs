@@ -499,18 +499,18 @@ defmodule Site.ScheduleV2ViewTest do
     end
   end
 
-  describe "frequency_times/2" do
+  describe "frequency_times/1" do
     test "returns \"Every X mins\" if there is service during a time block" do
       frequency = %Schedules.Frequency{max_headway: 11, min_headway: 3, time_block: :am_rush}
-      rendered = true |> Site.ScheduleV2View.frequency_times(frequency) |> safe_to_string
+      rendered = frequency |> Site.ScheduleV2View.frequency_times |> safe_to_string
       assert rendered =~ "Every 3-11"
       assert rendered =~ "mins"
       assert rendered =~ "minutes"
     end
 
     test "returns \"No service between these hours\" if there is no service" do
-      actual = false |> Site.ScheduleV2View.frequency_times(%Schedules.Frequency{}) |> safe_to_string
-      assert actual == "<span>No service between these hours</span>"
+      rendered = %Schedules.Frequency{} |> Site.ScheduleV2View.frequency_times |> safe_to_string
+      assert rendered == "<span>No service between these hours</span>"
     end
   end
 
