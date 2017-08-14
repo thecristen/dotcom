@@ -11,7 +11,7 @@
         <%= display_frequency_departure(frequency.time_block, @frequency_table.departures.first_departure, @frequency_table.departures.last_departure) %>
       </div>
       <div class="time-block-times">
-        <%= frequency |> Schedules.Frequency.has_service? |> frequency_times(frequency) %>
+        <%= frequency_times(frequency) %>
       </div>
     </div>
   <% end %>
