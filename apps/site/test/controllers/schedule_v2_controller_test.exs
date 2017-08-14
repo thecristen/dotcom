@@ -307,7 +307,7 @@ defmodule Site.ScheduleV2ControllerTest do
       # during the summer, the 9 only has 2 shapes. It has three when school
       # is in session.
       assert Enum.count(conn.assigns.route_shapes) >= 2
-      assert "880" in List.last(conn.assigns.route_shapes).stop_ids
+      assert "880" in Enum.at(conn.assigns.route_shapes, 1).stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 
