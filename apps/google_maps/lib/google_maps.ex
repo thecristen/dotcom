@@ -23,6 +23,7 @@ defmodule GoogleMaps do
   If no options are passed, they'll be looked up out of the GoogleMaps
   configuration in config.exs
   """
+  @spec signed_url(binary, Keyword.t) :: binary
   def signed_url(path, opts \\ []) do
     opts = default_options()
     |> Keyword.merge(opts)
@@ -46,7 +47,7 @@ defmodule GoogleMaps do
     |> prepend_host(@web)
   end
 
-  def default_options do
+  defp default_options do
     [
       client_id: get_env(:client_id),
       google_api_key: get_env(:google_api_key),

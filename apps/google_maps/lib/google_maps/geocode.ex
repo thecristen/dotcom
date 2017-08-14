@@ -32,14 +32,14 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp call_google_api(address) do
-    HTTPoison.get(
-      geocode_url(),
-      [],
-      params: [address: address, key: GoogleMaps.default_options[:google_api_key]])
+    address
+    |> geocode_url
+    |> GoogleMaps.signed_url
+    |> HTTPoison.get
   end
 
-  defp geocode_url do
-    "#{geocode_domain()}/maps/api/geocode/json"
+  defp geocode_url(address) do
+    "#{geocode_domain()}/maps/api/geocode/json?#{URI.encode_query([address: address])}"
   end
 
   defp geocode_domain do
