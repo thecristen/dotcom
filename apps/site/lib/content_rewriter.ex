@@ -13,13 +13,16 @@ defmodule Site.ContentRewriter do
   docs for more information about how the visitor function should work to
   traverse and manipulate the tree.
   """
-  @spec rewrite(Phoenix.HTML.safe) :: Phoenix.HTML.safe
+  @spec rewrite(Phoenix.HTML.safe | String.t) :: Phoenix.HTML.safe
   def rewrite({:safe, content}) do
     content
     |> Floki.parse
     |> Site.FlokiHelpers.traverse(&dispatch_rewrites/1)
     |> render
     |> Phoenix.HTML.raw
+  end
+  def rewrite(content) when is_binary(content) do
+    dispatch_rewrites(content)
   end
 
   # necessary since foo |> Floki.parse |> Floki.raw_html blows up
