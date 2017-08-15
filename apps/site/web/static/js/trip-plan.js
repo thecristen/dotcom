@@ -1,15 +1,18 @@
 import { getZoom, triggerResize } from "./google-map";
 
 export default function tripPlan($ = window.jQuery) {
-  $(document).on("turbolinks:load", function() {$(".itinerary-alert-toggle").show();});
   $(document).on("geolocation:complete", "#to", geolocationCallback($));
   $(document).on("geolocation:complete", "#from", geolocationCallback($));
   $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
   $(document).on("focus", "#from.trip-plan-current-location", clearCurrentLocation($));
-  $(".itinerary-alert-toggle").on("click", toggleAlertDropdownText);
   $("[data-planner-body]").on("hide.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
+  $(".itinerary-alert-toggle").on("click", toggleAlertDropdownText);
+  $(document).on("turbolinks:load", function() {
+    $(".itinerary-alert-toggle").show();
+    $(".itinerary-alert-toggle").trigger('click');
+  });
 
   if ($.fn.datepicker) {
     // currently $.datepicker isn't accessible to js tests since it's in vendor
