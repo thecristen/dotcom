@@ -10,6 +10,7 @@
         data-target="#itinerary-alert-<%= @itinerary_idx %>-<%= @itinerary_row_idx %>"
         aria-expanded="true"
         aria-controls="itinerary-alert-<%= @itinerary_idx %>-<%= @itinerary_row_idx %>"
+        style="display: none"
       >
         (hide alert)
       </button>

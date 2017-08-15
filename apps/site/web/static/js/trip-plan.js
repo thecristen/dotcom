@@ -1,6 +1,7 @@
 import { getZoom, triggerResize } from "./google-map";
 
 export default function tripPlan($ = window.jQuery) {
+  $(document).on("turbolinks:load", function() {$(".itinerary-alert-toggle").show();});
   $(document).on("geolocation:complete", "#to", geolocationCallback($));
   $(document).on("geolocation:complete", "#from", geolocationCallback($));
   $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
