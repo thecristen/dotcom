@@ -41,7 +41,7 @@ defmodule Util.EnumHelpersTest do
   end
 
   describe "pop_off_front_and_back/3" do
-    test "splits a list into the first n, last n, and middle portions" do
+    test "splits a list into the first n, last m, and middle portions" do
       ptest l: list(int()), n: int(min: 0), m: int(min: 0) do
         length = Enum.count(l)
         {first, middle, last} = pop_off_front_and_back(l, n, m)
