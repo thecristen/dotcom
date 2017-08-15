@@ -1,5 +1,5 @@
 defmodule GoogleMaps.Geocode do
-  @type t :: {:ok, [__MODULE__.Address.t]} | {:error, :zero_results | :internal_error}
+  @type t :: {:ok, nonempty_list(__MODULE__.Address.t)} | {:error, :zero_results | :internal_error}
   require Logger
 
   defmodule Address do
@@ -56,6 +56,7 @@ defmodule GoogleMaps.Geocode do
     internal_error(input_address, "Unexpected HTTP code", code, body)
   end
 
+  @spec parse_json(map, String.t) :: t
   defp parse_json(%{"status" => "OK", "results" => results}, input_address) do
     results(input_address, Enum.map(results, &parse_result/1))
   end
@@ -66,6 +67,7 @@ defmodule GoogleMaps.Geocode do
     internal_error(input_address, "API error", status, Map.get(parsed, "error_message", ""))
   end
 
+  @spec parse_result(map) :: Address.t
   defp parse_result(%{"geometry" => %{"location" => %{"lat" => lat, "lng" => lng}}, "formatted_address" => address}) do
     %Address{
       formatted: address,
@@ -74,16 +76,22 @@ defmodule GoogleMaps.Geocode do
     }
   end
 
+  @spec results(String.t, [Address.t]) :: t
+  defp results(input_address, []) do
+    zero_results(input_address)
+  end
   defp results(input_address, results) do
     Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=#{inspect results}" end
     {:ok, results}
   end
 
+  @spec zero_results(String.t) :: t
   defp zero_results(input_address) do
     Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=ZERO_RESULTS" end
     {:error, :zero_results}
   end
 
+  @spec internal_error(String.t, any, any, any) :: t
   defp internal_error(input_address, error, code, body) do
     Logger.warn fn -> "#{__MODULE__} address=#{inspect input_address} error=#{inspect error} code=#{inspect code} body=#{inspect body}" end
     {:error, :internal_error}

@@ -6,8 +6,6 @@ defmodule TripPlan.Geocode.GoogleGeocode do
   @impl true
   def geocode(address) when is_binary(address) do
     case GoogleMaps.Geocode.geocode(address) do
-      {:ok, []} ->
-        {:error, :no_results}
       {:ok, [result]} ->
         {:ok, address_to_result(result)}
       {:ok, results} ->
