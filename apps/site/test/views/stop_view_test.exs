@@ -25,15 +25,13 @@ defmodule Site.StopViewTest do
   end
 
   describe "accessibility_info" do
-      @no_accessibility %Stop{name: "test", accessibility: nil}
-      @no_accessible_feature %Stop{id: "north", name: "test", accessibility: []}
-      @only_accessible_feature %Stop{name: "test", accessibility: ["accessible"]}
-      @many_feature %Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
+    @no_accessible_feature %Stop{id: "north", name: "test", accessibility: []}
+    @only_accessible_feature %Stop{name: "test", accessibility: ["accessible"]}
+    @many_feature %Stop{name: "test", accessibility: ["accessible", "ramp", "elevator"]}
 
     test "Accessibility description reflects features", %{conn: conn} do
       tag_has_text = fn(tag, text) -> Phoenix.HTML.safe_to_string(Enum.at(tag, 0)) =~ text end
-      assert tag_has_text.(accessibility_info(@no_accessibility, conn), "No accessibility")
-      assert tag_has_text.(accessibility_info(@no_accessible_feature, conn), "No accessibility")
+      assert tag_has_text.(accessibility_info(@no_accessible_feature, conn), "is not an accessible station")
       assert tag_has_text.(accessibility_info(@only_accessible_feature, conn), "is an accessible station")
       assert tag_has_text.(accessibility_info(@many_feature, conn), "has the following")
     end
@@ -41,7 +39,7 @@ defmodule Site.StopViewTest do
     test "Contact link only appears for stops with accessibility", %{conn: conn} do
       link_tag_has_text = fn(tag, text) -> Phoenix.HTML.safe_to_string(Enum.at(tag, 2)) =~ text end
       assert link_tag_has_text.(accessibility_info(@many_feature, conn), "Problem with an elevator")
-      assert Enum.at(accessibility_info(@no_accessibility, conn), 2) == ""
+      assert Enum.at(accessibility_info(@no_accessible_feature, conn), 2) == ""
     end
   end
 
