@@ -65,6 +65,10 @@ defmodule Stops.RouteStop do
     # we just return whatever the list of stops is without calling &merge_branch_list/2.
     do_list_from_shapes(shape.name, shape.stop_ids, stops, route)
   end
+  def list_from_shapes([%Routes.Shape{} = shape | _], stops, %Routes.Route{type: 4} = route, _direction_id) do
+    # for the ferry, for now, just return a single branch
+    do_list_from_shapes(shape.name, Enum.map(stops, & &1.id), stops, route)
+  end
   def list_from_shapes(shapes, stops, route, direction_id) do
     shapes
     |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))

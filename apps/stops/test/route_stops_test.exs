@@ -153,8 +153,9 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("Boat-F4", 0)
       shapes = Routes.Repo.get_shapes("Boat-F4", 0)
       route = %Routes.Route{id: "Boat-F4", type: 4}
-      [%Stops.RouteStops{branch: "Boat-Charlestown", stops: stops}] = RouteStops.by_direction(stops, shapes, route, 0)
+      [%Stops.RouteStops{branch: branch, stops: stops}] = RouteStops.by_direction(stops, shapes, route, 0)
 
+      assert branch =~ "Charlestown"
       assert Enum.all?(stops, & &1.__struct__ == Stops.RouteStop)
     end
   end
