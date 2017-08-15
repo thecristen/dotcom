@@ -5,7 +5,7 @@ defmodule GoogleMaps.GeocodeTest do
 
   @address "10 Park Plaza 02210"
 
-  @results '[{
+  @result1 '{
   "address_components" : [{
       "long_name" : "52-2",
       "short_name" : "52-2",
@@ -28,8 +28,22 @@ defmodule GoogleMaps.GeocodeTest do
       "lng" : -71.039176
     }
   }
-}]'
+}'
 
+  @result2 '{
+  "address_components" : [{
+      "long_name" : "24",
+      "short_name" : "24",
+      "types" : [ "street_number" ]
+    }],
+  "formatted_address" : "24 Beacon St, Boston, MA 02133, USA",
+  "geometry" : {
+    "location" : {
+      "lat" : 42.358627,
+      "lng" : -71.063767
+    }
+  }
+}'
 
   describe "geocode/1" do
     test "returns an error for invalid addresses" do
@@ -45,10 +59,10 @@ defmodule GoogleMaps.GeocodeTest do
       end
 
       actual = geocode("234k-rw0e8r0kew5")
-      assert {:error, :zero_results, _msg} = actual
+      assert {:error, :zero_results} = actual
     end
 
-    test "returns :ok for valid responses" do
+    test "returns :ok for one valid responses" do
       bypass = Bypass.open
       set_domain("http://localhost:#{bypass.port}")
 
@@ -57,22 +71,37 @@ defmodule GoogleMaps.GeocodeTest do
         conn = Plug.Conn.fetch_query_params(conn)
         assert conn.params["address"] == @address
 
-        Plug.Conn.resp(conn, 200, ~s({"status": "OK", "results": #{@results}}))
+        Plug.Conn.resp(conn, 200, ~s({"status": "OK", "results": [#{@result1}]}))
       end
 
       actual = geocode(@address)
-      assert {:ok, results} = actual
-      refute results == []
-      for result <- results do
-        assert %GoogleMaps.Geocode.Address{} = result
+      assert {:ok, [result]} = actual
+      assert %GoogleMaps.Geocode.Address{} = result
+    end
+
+    test "returns :ok for multiple matches" do
+      bypass = Bypass.open
+      set_domain("http://localhost:#{bypass.port}")
+
+      Bypass.expect bypass, fn conn ->
+        assert "/maps/api/geocode/json" == conn.request_path
+        conn = Plug.Conn.fetch_query_params(conn)
+        assert conn.params["address"] == @address
+
+        Plug.Conn.resp(conn, 200, ~s({"status": "OK", "results": [#{@result1}, #{@result2}]}))
       end
+
+      actual = geocode(@address)
+      assert {:ok, [result1, result2]} = actual
+      assert %GoogleMaps.Geocode.Address{} = result1
+      assert %GoogleMaps.Geocode.Address{} = result2
     end
 
     test "returns :error if the domain doesn't load" do
       set_domain("http://localhost:0")
 
       actual = geocode(@address)
-      assert {:error, _, _} = actual
+      assert {:error, :internal_error} = actual
     end
 
     test "returns :error with error and message from google" do
@@ -88,7 +117,7 @@ defmodule GoogleMaps.GeocodeTest do
       end
 
       actual = geocode(@address)
-      assert {:error, :invalid_request, "Message"} == actual
+      assert {:error, :internal_error} == actual
     end
 
     test "returns :error if the status != 200" do
@@ -100,7 +129,7 @@ defmodule GoogleMaps.GeocodeTest do
       end
 
       actual = geocode(@address)
-      assert {:error, _, _} = actual
+      assert {:error, :internal_error} = actual
     end
 
     test "returns :error if the JSON is invalid" do
@@ -112,7 +141,7 @@ defmodule GoogleMaps.GeocodeTest do
       end
 
       actual = geocode(@address)
-      assert {:error, _, _} = actual
+      assert {:error, :internal_error} = actual
     end
 
     defp set_domain(new_domain) do
