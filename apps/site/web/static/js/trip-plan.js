@@ -5,6 +5,7 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("geolocation:complete", "#from", geolocationCallback($));
   $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
   $(document).on("focus", "#from.trip-plan-current-location", clearCurrentLocation($));
+  $(".itinerary-alert-toggle").on("click", toggleAlertDropdownText);
   $("[data-planner-body]").on("hide.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
@@ -132,4 +133,13 @@ function redrawMap(e) {
   const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
   const zoom = getZoom(offset);
   triggerResize(offset);
+}
+
+function toggleAlertDropdownText(e) {
+  var target = $(e.target);
+  if(target.text() == "(view alert)") {
+    target.text("(hide alert)");
+  } else {
+    target.text("(view alert)");
+  }
 }
