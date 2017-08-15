@@ -34,17 +34,25 @@
       <%= hidden_input :plan, :to_longitude %>
     </div>
     <div class="form-check">
-      <%= label :f, :time, for: "depart", class: "form-check-label" do %>
+      <%= label f, :time, for: "depart", class: "form-check-label" do %>
         <%= radio_button f, :time, "depart", id: "depart", checked: true, class: "form-check-input" %>
         Depart At
       <% end %>
     </div>
     <div class="form-check">
-      <%= label :f, :time, for: "arrive", class: "form-check-label" do %>
+      <%= label f, :time, for: "arrive", class: "form-check-label" do %>
         <%= radio_button f, :time, "arrive", id: "arrive", class: "form-check-input" %>
         Arrive By
       <% end %>
     </div>
+    <%= if Laboratory.enabled?(@conn, :js_datepicker) do %>
+      <div class="form-group date-select-js">
+        <a href="#show-date-picker" id="plan-date-link"></a>
+        <%= label f, :date, for: "plan-date", id: "plan-date-container", class: "plan-date-container" do %>
+          <%= text_input f, :date, class: "date form-control", id: "plan-date" %>
+        <% end %>
+      </div>
+    <% end %>
     <div class="form-group date-time-select">
       <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
       <div class="error-container">
