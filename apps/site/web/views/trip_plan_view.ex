@@ -4,6 +4,42 @@ defmodule Site.TripPlanView do
   alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
 
+  @spec itinerary_explanation(Query.t) :: iodata
+  def itinerary_explanation(%Query{time: :unknown}) do
+    []
+  end
+  def itinerary_explanation(%Query{} = q) do
+    [
+      trip_explanation(q),
+      " shown are based on the fastest route and closest ",
+      time_explanation(q),
+      " to ",
+      dt_explanation(q),
+      "."
+    ]
+  end
+
+  defp trip_explanation(%{wheelchair_accessible?: false}) do
+    "Trips"
+  end
+  defp trip_explanation(%{wheelchair_accessible?: true}) do
+    "Wheelchair accessible trips"
+  end
+
+  defp time_explanation(%{time: {:arrive_by, _dt}}) do
+    "arrival"
+  end
+  defp time_explanation(%{time: {:depart_at, _dt}}) do
+    "departure"
+  end
+
+  defp dt_explanation(%{time: {_type, dt}}) do
+    [
+      Timex.format!(dt, "{h12}:{m} {AM}, {WDfull}, {Mfull} "),
+      Inflex.ordinalize(dt.day)
+    ]
+  end
+
   @spec rendered_location_error(Plug.Conn.t, Query.t | nil, :from | :to) :: Phoenix.HTML.Safe.t
   def rendered_location_error(conn, query_or_nil, location_field)
   def rendered_location_error(_conn, nil, _location_field) do

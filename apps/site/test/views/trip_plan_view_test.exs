@@ -7,6 +7,37 @@ defmodule Site.TripPlanViewTest do
   alias TripPlan.Api.MockPlanner
   alias Routes.Route
 
+  describe "itinerary_explanation/1" do
+    @base_explanation_query %Query{from: {:error, :unknown},
+                                   to: {:error, :unknown},
+                                   itineraries: {:error, :unknown}}
+    @date_time DateTime.from_unix!(0)
+
+    test "returns nothing for an empty query" do
+      assert @base_explanation_query |> itinerary_explanation |> IO.iodata_to_binary == ""
+    end
+
+    test "for wheelchair accessible depart_by trips, includes that in the message" do
+      query = %{@base_explanation_query |
+                time: {:depart_at, @date_time},
+                wheelchair_accessible?: true}
+      expected = "Wheelchair accessible trips shown are based on the fastest route and \
+closest departure to 12:00 AM, Thursday, January 1st."
+      actual = query |> itinerary_explanation |> IO.iodata_to_binary
+      assert actual == expected
+    end
+
+    test "for regular arrive_by trips, includes that in the message" do
+      query = %{@base_explanation_query |
+                time: {:arrive_by, @date_time},
+                wheelchair_accessible?: false}
+      expected = "Trips shown are based on the fastest route and \
+closest arrival to 12:00 AM, Thursday, January 1st."
+      actual = query |> itinerary_explanation |> IO.iodata_to_binary
+      assert actual == expected
+    end
+ end
+
   describe "rendered_location_error/3" do
     test "renders an empty string if there's no query", %{conn: conn} do
       assert "" == rendered_location_error(conn, nil, :from)
