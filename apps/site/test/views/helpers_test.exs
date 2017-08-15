@@ -199,4 +199,20 @@ defmodule Site.ViewHelpersTest do
       assert result |> Phoenix.HTML.safe_to_string() == expected
     end
   end
+
+  describe "pretty_date/2" do
+    test "it is today when the date given is todays date" do
+      assert pretty_date(Util.service_date) == "today"
+    end
+
+    test "it abbreviates the month when the date is not today" do
+      date = ~D[2017-01-01]
+      assert pretty_date(date) == "Jan 1"
+    end
+
+    test "it applies custom formatting if provided" do
+      date = ~D[2017-01-01]
+      assert pretty_date(date, "{Mfull} {D}, {YYYY}") == "January 1, 2017"
+    end
+  end
 end

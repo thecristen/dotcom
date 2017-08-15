@@ -332,4 +332,12 @@ defmodule Site.ViewHelpers do
     [String.downcase(first) | Enum.map(rest, &String.capitalize/1)]
     |> IO.iodata_to_binary()
   end
+
+  def pretty_date(date, format \\ "{Mshort} {D}") do
+    if date == Util.service_date do
+      "today"
+    else
+      Timex.format!(date, format)
+    end
+  end
 end
