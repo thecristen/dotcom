@@ -71,7 +71,7 @@ defmodule Site.Plugs.TransitNearMe do
   def get_stops_nearby({:ok, [location | _]}, nearby_fn) do
     nearby_fn.(location)
   end
-  def get_stops_nearby({:error, _error_code, _error_str}, _nearby_fn) do
+  def get_stops_nearby({:error, _error_code}, _nearby_fn) do
     []
   end
 
@@ -85,7 +85,7 @@ defmodule Site.Plugs.TransitNearMe do
     end)
     |> Enum.map(fn {:ok, map} -> map end)
   end
-  def stops_with_routes([], {:error, _, _}, _), do: []
+  def stops_with_routes([], {:error, _}, _), do: []
 
   defp calculate_stops_with_routes(location, options) do
     location
@@ -137,7 +137,7 @@ defmodule Site.Plugs.TransitNearMe do
     conn
     |> assign(:tnm_address, address)
   end
-  def assign_address(conn, {:error, _status, _message}) do
+  def assign_address(conn, {:error, _reason}) do
     conn
     |> assign(:tnm_address, "")
     |> assign(:tnm_address_error, "The address you've listed appears to be invalid. Please try a new address to continue.")

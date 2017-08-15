@@ -17,7 +17,7 @@ defmodule TripPlan.Geocode.GoogleGeocodeTest do
         assert {:error, :no_results} = geocode("formatted")
       end
 
-      with_geocode_mock {:error, :zero_results, "No results returned."}, fn ->
+      with_geocode_mock {:error, :zero_results}, fn ->
         assert {:error, :no_results} = geocode("formatted")
       end
     end

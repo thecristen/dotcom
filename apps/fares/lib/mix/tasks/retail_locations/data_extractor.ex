@@ -203,8 +203,8 @@ defmodule Fares.RetailLocations.Extractor do
     put_lat_lng(["0.0","0.0"], data)
   end
 
-  def handle_geocoding_response({:error, error, error_obj}, data) do
-    log "\nNo google maps results found!  ::::::: #{error} #{inspect(error_obj)} :::::::   #{inspect data}", :warn
+  def handle_geocoding_response({:error, error}, data) do
+    log "\nNo google maps results found!  ::::::: #{error} :::::::   #{inspect data}", :warn
     put_lat_lng(["0.0","0.0"], data)
   end
 
