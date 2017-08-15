@@ -11,6 +11,10 @@
   }
 }
 
+.plan-date-container {
+  display: none;
+}
+
 .trip-plan-form-container {
   @include media-breakpoint-up(md) {
     position: sticky;

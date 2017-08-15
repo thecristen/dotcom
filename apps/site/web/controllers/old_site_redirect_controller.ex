@@ -13,6 +13,14 @@ defmodule Site.OldSiteRedirectController do
           end
     old_site_redirect(conn, url)
   end
+  def schedules_and_maps(conn, %{"path" => [mode, "lines", "stations" | _]}) do
+    redirect_mode = case mode do
+      "rail" -> :commuter_rail
+      "boats" -> :ferry
+      _ -> :subway
+    end
+    old_site_redirect(conn, stop_url(conn, :show, redirect_mode))
+  end
   def schedules_and_maps(conn, %{"path" => ["rail" | _]}) do
     old_site_redirect(conn, mode_url(conn, :commuter_rail))
   end
@@ -60,8 +68,27 @@ defmodule Site.OldSiteRedirectController do
   def fares_and_passes(conn, %{"path" => ["charlie" | _]}) do
     old_site_redirect(conn, fare_url(conn, :show, :charlie_card))
   end
+  def fares_and_passes(conn, %{"path" => ["sales_locations" | _]}) do
+    old_site_redirect(conn, fare_url(conn, :show, :retail_sales_locations))
+  end
+  def fares_and_passes(conn, %{"path" => ["reduced_fare_programs" | _]}) do
+    old_site_redirect(conn, fare_url(conn, :show, :reduced))
+  end
+  def fares_and_passes(conn, %{"path" => ["mticketing" | _], "id" => id}) when id in ["25903", "25905"] do
+    old_site_redirect(conn, how_to_pay_url(conn, :show, :commuter_rail))
+  end
+  def fares_and_passes(conn, %{"path" => ["mticketing" | _], "id" => "25904"}) do
+    old_site_redirect(conn, customer_support_url(conn, :index))
+  end
+  def fares_and_passes(conn, %{"path" => ["mticketing" | _]}) do
+    old_site_redirect(conn, fare_url(conn, :show, :payment_methods))
+  end
   def fares_and_passes(conn, _params) do
     old_site_redirect(conn, fare_url(conn, :index))
+  end
+
+  def customer_support(conn, _params) do
+    old_site_redirect(conn, customer_support_url(conn, :index))
   end
 
   def uploaded_files(conn, %{"path" => path_parts}) do

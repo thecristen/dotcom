@@ -17,7 +17,7 @@ defmodule GoogleMaps do
 
   Options:
   * client_id: client to use for the request
-  * key: if no client ID is specified, a key to use
+  * google_api_key: if no client ID is specified, a key to use
   * signing_key: the private key used to sign the path.
 
   If no options are passed, they'll be looked up out of the GoogleMaps
@@ -49,7 +49,7 @@ defmodule GoogleMaps do
   def default_options do
     [
       client_id: get_env(:client_id),
-      key: get_env(:google_api_key),
+      google_api_key: get_env(:google_api_key),
       signing_key: get_env(:signing_key)
     ]
   end
@@ -75,12 +75,12 @@ defmodule GoogleMaps do
 
   defp do_signed_url(uri, "", _, opts) do
     uri
-    |> append_api_key(opts[:key])
+    |> append_api_key(opts[:google_api_key])
     |> prepend_host
   end
   defp do_signed_url(uri, _, "", opts) do
     uri
-    |> append_api_key(opts[:key])
+    |> append_api_key(opts[:google_api_key])
     |> prepend_host
   end
   defp do_signed_url(uri, client_id, signing_key, _) do

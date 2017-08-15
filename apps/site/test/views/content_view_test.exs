@@ -50,6 +50,18 @@ defmodule Site.ContentViewTest do
       assert rendered == "<p>Hello</p>"
     end
 
+    test "renders a Content.Paragraph.CustomHTML with rewritten body" do
+      html = "<div><span>Foo</span><table>Foo</table></div>"
+      paragraph = %Paragraph.CustomHTML{body: Phoenix.HTML.raw(html)}
+
+      rendered =
+        paragraph
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ "responsive-table"
+    end
+
     test "renders a Content.Paragraph.TitleCardSet" do
       paragraph = %Paragraph.TitleCardSet{
         title_cards: [
@@ -78,6 +90,26 @@ defmodule Site.ContentViewTest do
       assert rendered =~ ~s(<div class="title-card-title">Card 2</div>)
       assert rendered =~ "<strong>Body 2</strong>"
       assert rendered =~ ~s( href="https://www.example.com/another/link")
+    end
+
+    test "renders a Content.Paragraph.TitleCardSet with content rewritten" do
+      paragraph = %Paragraph.TitleCardSet{
+        title_cards: [
+          %Paragraph.TitleCard{
+            title: ~s({{mbta-circle-icon "bus"}}),
+            body: Phoenix.HTML.raw("<div><span>Foo</span><table>Foo</table></div>"),
+            link: %Content.Field.Link{url: "/relative/link"},
+          }
+        ]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ "responsive-table"
+      refute rendered =~ "mbta-circle-icon"
     end
 
     test "renders a Content.Paragraph.UpcomingBoardMeetings" do

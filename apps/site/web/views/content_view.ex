@@ -1,12 +1,13 @@
 defmodule Site.ContentView do
   use Site.Web, :view
   import Site.TimeHelpers
+  alias Site.ContentRewriter
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
   @spec render_paragraph(Content.Paragraph.t) :: Phoenix.HTML.safe
   def render_paragraph(%Content.Paragraph.CustomHTML{} = para) do
-    para.body
+    ContentRewriter.rewrite(para.body)
   end
   def render_paragraph(%Content.Paragraph.TitleCardSet{} = para) do
     render "_title_card_set.html", paragraph: para

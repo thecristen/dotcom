@@ -7,6 +7,7 @@ exports.config = {
       joinTo: "js/app.js",
       order: {
         before: [
+          "vendor/accessible-date-picker.js",
           "vendor/fixedsticky.js"
         ]
       }
@@ -49,6 +50,7 @@ exports.config = {
     watched: [
       "web/static",
       "vendor/fixedsticky.js",
+      "vendor/accessible-date-picker.js",
       "node_modules/bootstrap/dist/js/modal.js",
       "node_modules/bootstrap/dist/js/collapse.js",
       "node_modules/bootstrap/dist/js/tooltip.js",
