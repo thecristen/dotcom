@@ -79,14 +79,14 @@ defmodule Site.ScheduleV2.TripListViewTest do
   describe "frequency_times/1" do
     test "returns \"Every X mins\" if there is service during a time block" do
       frequency = %Schedules.Frequency{max_headway: 11, min_headway: 3, time_block: :am_rush}
-      rendered = frequency |> Site.ScheduleV2View.frequency_times |> safe_to_string
+      rendered = frequency |> Site.ScheduleV2View.TripList.frequency_times |> safe_to_string
       assert rendered =~ "Every 3-11"
       assert rendered =~ "mins"
       assert rendered =~ "minutes"
     end
 
     test "returns \"No service between these hours\" if there is no service" do
-      rendered = %Schedules.Frequency{} |> Site.ScheduleV2View.frequency_times |> safe_to_string
+      rendered = %Schedules.Frequency{} |> Site.ScheduleV2View.TripList.frequency_times |> safe_to_string
       assert rendered == "<span>No service between these hours</span>"
     end
   end
