@@ -2,18 +2,25 @@ defmodule Site.TripPlan.Query do
   alias TripPlan.{Itinerary, Geocode}
 
   @enforce_keys [:from, :to, :itineraries]
-  defstruct [:from, :to, :itineraries]
+  defstruct [:from,
+             :to,
+             :itineraries,
+             time: :unknown,
+             wheelchair_accessible?: false]
 
   @type t :: %__MODULE__{
     from: Geocode.t,
     to: Geocode.t,
+    time: :unknown | {:depart_at | :arrive_by, DateTime.t},
+    wheelchair_accessible?: boolean,
     itineraries: {:ok, [Itinerary.t]} | {:error, any}
   }
 
   def from_query(query) do
     from = location(query, :from)
     to = location(query, :to)
-    itineraries = with {:ok, opts} <- opts_from_query(query),
+    maybe_opts = opts_from_query(query)
+    itineraries = with {:ok, opts} <- maybe_opts,
                        {:ok, from} <- from,
                        {:ok, to} <- to do
                     TripPlan.plan(from, to, opts)
@@ -23,6 +30,7 @@ defmodule Site.TripPlan.Query do
 
     itineraries
     |> build_query(from, to)
+    |> include_options(maybe_opts)
     |> suggest_alternate_locations
   end
 
@@ -32,6 +40,24 @@ defmodule Site.TripPlan.Query do
       to: to,
       itineraries: itineraries
     }
+  end
+
+  defp include_options(query, {:ok, opts}) do
+    time = cond do
+      dt = opts[:arrive_by] ->
+        {:arrive_by, dt}
+      dt = opts[:depart_at] ->
+        {:depart_at, dt}
+      true ->
+        {:depart_at, Util.now}
+    end
+    %{query |
+      time: time,
+      wheelchair_accessible?: opts[:wheelchair_accessible?] == true
+    }
+  end
+  defp include_options(query, _) do
+    query
   end
 
   defp location(query, terminus) do
