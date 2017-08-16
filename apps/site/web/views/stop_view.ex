@@ -77,8 +77,7 @@ defmodule Site.StopView do
   end
 
   @spec format_accessibility_text(String.t, [String.t]) :: Phoenix.HTML.Safe.t
-  defp format_accessibility_text(name, nil), do: content_tag(:em, "No accessibility information available for #{name}")
-  defp format_accessibility_text(name, []), do: content_tag(:em, "No accessibility information available for #{name}")
+  defp format_accessibility_text(name, []), do: content_tag(:span, [name, " is not an accessible station."])
   defp format_accessibility_text(name, ["accessible"]) do
     content_tag(:span, "#{name} is an accessible station.")
   end
