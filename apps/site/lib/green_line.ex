@@ -11,6 +11,17 @@ defmodule GreenLine do
   @type branch_name :: String.t
   @typep stops_by_routes_fn :: (([Route.id_t], 0 | 1, Keyword.t) -> [Stop.t] | {:error, any})
 
+  @termini %{
+    {"Green-B", 0} => "place-lake",
+    {"Green-B", 1} => "place-pktrm",
+    {"Green-C", 0} => "place-clmnl",
+    {"Green-C", 1} => "place-north",
+    {"Green-D", 0} => "place-river",
+    {"Green-D", 1} => "place-gover",
+    {"Green-E", 0} => "place-hsmnl",
+    {"Green-E", 1} => "place-lech"
+  }
+
   @doc """
   Returns the `calculate_stops_on_routes` results from the GreenLine.Cache.
   """
@@ -45,15 +56,18 @@ defmodule GreenLine do
   the stop is actually on the line.
   """
   @spec terminus?(Stop.id_t, branch_name, 0 | 1) :: boolean
-  def terminus?("place-lake", "Green-B", 0), do: true
-  def terminus?("place-clmnl", "Green-C", 0), do: true
-  def terminus?("place-river", "Green-D", 0), do: true
-  def terminus?("place-hsmnl", "Green-E", 0), do: true
-  def terminus?("place-pktrm", "Green-B", 1), do: true
-  def terminus?("place-north", "Green-C", 1), do: true
-  def terminus?("place-gover", "Green-D", 1), do: true
-  def terminus?("place-lech", "Green-E", 1), do: true
-  def terminus?(_, _, _), do: false
+  def terminus?(stop_id, branch_name, direction_id) do
+    Map.get(@termini, {branch_name, direction_id}) == stop_id
+  end
+
+  @doc "A naive guess at the destination of a green line train when no trip is available"
+  @spec naive_headsign(branch_name, 0 | 1) :: String.t
+  def naive_headsign(branch_name, direction_id) do
+    @termini
+    |> Map.get({branch_name, direction_id})
+    |> Stops.Repo.get()
+    |> Map.get(:name)
+  end
 
   @doc """
   Given a stop ID, route ID, and route => stop set map, returns whether the stop is on the route.

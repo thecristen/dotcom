@@ -224,4 +224,12 @@ defmodule Site.TripPlanViewTest do
       assert names == ["Tremont and Winter", "Winter and Washington", "Court St. and Washington"]
     end
   end
+
+  describe "format_additional_route/2" do
+    test "Correctly formats Green Line route" do
+      route = %Route{name: "Green Line B", id: "Green-B", direction_names: %{1 => "Eastbound"}}
+      actual = route |> format_additional_route(1) |> IO.iodata_to_binary
+      assert actual == "Green Line (B) Eastbound towards Park Street"
+    end
+  end
 end

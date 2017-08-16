@@ -137,4 +137,16 @@ defmodule Site.TripPlanView do
         bubble_params: bubbles
     end
   end
+
+  def format_additional_route(%Route{id: "Green" <> _branch} = route, direction_id) do
+    [
+      format_green_line_name(route.name),
+      " ",
+      direction(direction_id, route),
+      " towards ",
+      GreenLine.naive_headsign(route.id, direction_id)
+    ]
+  end
+
+  defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
 end
