@@ -74,6 +74,13 @@
   <div class="col-md-7">
     <%= case assigns[:query] do %>
       <% %{itineraries: {:ok, itineraries}} -> %>
+      <p class="no-trips page-section">
+        We found
+        <%= l = length(itineraries) %>
+        <%= Inflex.inflect("trip", l) %>
+        for you
+      </p>
+      <p class="instructions page-section"><%= itinerary_explanation(@query) %></p>
       <%= for {i,
                features,
                map,
