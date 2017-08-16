@@ -32,11 +32,7 @@ defmodule GoogleMaps.Geocode do
   end
 
   defp geocode_url(address) do
-    "#{geocode_domain()}/maps/api/geocode/json?#{URI.encode_query([address: address])}"
-  end
-
-  defp geocode_domain do
-    Application.get_env(:google_maps, :domain) || "https://maps.google.com"
+    "/maps/api/geocode/json?#{URI.encode_query([address: address])}"
   end
 
   defp parse_google_response({:error, error}, input_address) do
