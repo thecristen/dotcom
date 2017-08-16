@@ -43,8 +43,7 @@ defmodule GoogleMaps do
     dest_lat = Position.latitude(destination)
     dest_lng = Position.longitude(destination)
     path = Path.join(["/", "maps", "dir", URI.encode("#{origin_lat},#{origin_lng}"), URI.encode("#{dest_lat},#{dest_lng}")])
-    %{@web_uri | path: path}
-    |> prepend_host(@web)
+    URI.to_string(%{@web_uri | path: path})
   end
 
   defp default_options do
@@ -98,8 +97,9 @@ defmodule GoogleMaps do
     %{uri | query: "#{query}&#{key}=#{value}"}
   end
 
-  defp prepend_host(uri, host \\ @host_uri) do
-    host
+  @spec prepend_host(URI.t) :: binary
+  defp prepend_host(uri) do
+    (get_env(:domain) || @host_uri)
     |> URI.merge(uri)
     |> URI.to_string
   end
