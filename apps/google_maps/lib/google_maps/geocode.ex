@@ -1,6 +1,5 @@
 defmodule GoogleMaps.Geocode do
-  @type t :: {:ok, [__MODULE__.Address.t]} | {:error, error_status, any}
-  @type error_status :: :zero_results | :over_query_limit | :request_denied | :invalid_request | :unknown_error
+  @type t :: {:ok, nonempty_list(__MODULE__.Address.t)} | {:error, :zero_results | :internal_error}
   require Logger
 
   defmodule Address do
@@ -26,62 +25,48 @@ defmodule GoogleMaps.Geocode do
   @spec geocode(String.t) :: t
   def geocode(address) when is_binary(address) do
     address
-    |> call_google_api
-    |> parse_google_response
-    |> log_response(address)
+    |> geocode_url
+    |> GoogleMaps.signed_url
+    |> HTTPoison.get
+    |> parse_google_response(address)
   end
 
-  defp call_google_api(address) do
-    HTTPoison.get(
-      geocode_url(),
-      [],
-      params: [address: address, key: GoogleMaps.default_options[:google_api_key]])
+  defp geocode_url(address) do
+    "/maps/api/geocode/json?#{URI.encode_query([address: address])}"
   end
 
-  defp geocode_url do
-    "#{geocode_domain()}/maps/api/geocode/json"
+  defp parse_google_response({:error, error}, input_address) do
+    internal_error(input_address, "HTTP error", fn -> "error=#{inspect error}" end)
+  end
+  defp parse_google_response({:ok, %{status_code: 200, body: body}}, input_address) do
+      case Poison.Parser.parse(body) do
+        {:error, :invalid} ->
+          internal_error(input_address, "Error parsing to JSON",
+                         fn -> "body=#{inspect body}" end)
+        {:error, {:invalid, parse_error_message}} ->
+          internal_error(input_address, "Error parsing to JSON",
+                         fn -> "body=#{inspect body} error_message=#{inspect parse_error_message}" end)
+        {:ok, json} ->
+          parse_json(json, input_address)
+      end
+  end
+  defp parse_google_response({:ok, %{status_code: code, body: body}}, input_address) do
+    internal_error(input_address, "Unexpected HTTP code", fn -> "code=#{inspect code} body=#{inspect body}" end)
   end
 
-  defp geocode_domain do
-    Application.get_env(:google_maps, :domain) || "https://maps.google.com"
+  @spec parse_json(map, String.t) :: t
+  defp parse_json(%{"status" => "OK", "results" => results}, input_address) do
+    results(input_address, Enum.map(results, &parse_result/1))
+  end
+  defp parse_json(%{"status" => "ZERO_RESULTS"}, input_address) do
+    zero_results(input_address)
+  end
+  defp parse_json(%{"status" => status} = parsed, input_address) do
+    internal_error(input_address, "API error",
+                   fn -> "status=#{inspect status} error_message=#{inspect(Map.get(parsed, "error_message", ""))}" end)
   end
 
-  defp parse_google_response({:error, error}) do
-    {:error, :unknown_error, error}
-  end
-  defp parse_google_response({:ok, response}) do
-    response
-    |> parse_http_response
-  end
-
-  defp parse_http_response(%{status_code: code, body: body}) when code != 200 do
-    {:error, :unknown_error, body}
-  end
-  defp parse_http_response(%{body: body}) do
-    body
-    |> Poison.Parser.parse
-    |> parse_result_json
-  end
-
-  defp parse_result_json({:error, error}) do
-    {:error, :unknown_error, error}
-  end
-  defp parse_result_json({:ok, %{"results" => results, "status" => "OK"}}) do
-    {:ok, Enum.map(results, &parse_result/1)}
-  end
-  defp parse_result_json({:ok, %{"status" => status} = parsed}) do
-    {:error,
-     parse_status(status),
-     Map.get(parsed, "error_message", "")}
-  end
-
-  @spec parse_status(String.t) :: error_status
-  defp parse_status("ZERO_RESULTS"), do: :zero_results
-  defp parse_status("OVER_QUERY_LIMIT"), do: :over_query_limit
-  defp parse_status("REQUEST_DENIED"), do: :request_denied
-  defp parse_status("INVALID_REQUEST"), do: :invalid_request
-  defp parse_status("UNKNOWN_ERROR"), do: :unknown_error
-
+  @spec parse_result(map) :: Address.t
   defp parse_result(%{"geometry" => %{"location" => %{"lat" => lat, "lng" => lng}}, "formatted_address" => address}) do
     %Address{
       formatted: address,
@@ -90,11 +75,24 @@ defmodule GoogleMaps.Geocode do
     }
   end
 
-  defp log_response(response, address) do
-    _ = Logger.info fn ->
-      "#{__MODULE__}.geocode_response: \
-address=#{inspect address} response=#{inspect response}"
-    end
-    response
+  @spec results(String.t, [Address.t]) :: t
+  defp results(input_address, []) do
+    zero_results(input_address)
+  end
+  defp results(input_address, results) do
+    Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=#{inspect results}" end
+    {:ok, results}
+  end
+
+  @spec zero_results(String.t) :: t
+  defp zero_results(input_address) do
+    Logger.info fn -> "#{__MODULE__} address=#{inspect input_address} result=ZERO_RESULTS" end
+    {:error, :zero_results}
+  end
+
+  @spec internal_error(String.t, String.t, (() -> String.t)) :: t
+  defp internal_error(input_address, message, error_fn) do
+    Logger.warn fn -> "#{__MODULE__} address=#{inspect input_address} message=#{inspect message} #{error_fn.()}" end
+    {:error, :internal_error}
   end
 end

@@ -115,7 +115,7 @@ defmodule Fares.RetailLocationsDataExtractorTest do
   end
 
   def zero_results(_) do
-    {:error, :zero_results, "no results"}
+    {:error, :zero_results}
   end
 
   def fare_location_data do

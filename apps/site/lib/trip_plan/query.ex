@@ -1,5 +1,6 @@
 defmodule Site.TripPlan.Query do
-  alias TripPlan.{Itinerary, Geocode}
+  alias TripPlan.Itinerary
+  alias Stops.Position
 
   @enforce_keys [:from, :to, :itineraries]
   defstruct [:from,
@@ -9,13 +10,14 @@ defmodule Site.TripPlan.Query do
              wheelchair_accessible?: false]
 
   @type t :: %__MODULE__{
-    from: Geocode.t,
-    to: Geocode.t,
+    from: Position.t,
+    to: Position.t,
     time: :unknown | {:depart_at | :arrive_by, DateTime.t},
     wheelchair_accessible?: boolean,
     itineraries: {:ok, [Itinerary.t]} | {:error, any}
   }
 
+  @spec from_query(map) :: t
   def from_query(query) do
     from = location(query, :from)
     to = location(query, :to)
@@ -33,6 +35,7 @@ defmodule Site.TripPlan.Query do
     |> suggest_alternate_locations
   end
 
+  @spec build_query(TripPlan.Api.t, Position.t, Position.t) :: t
   defp build_query(itineraries, from, to) do
     %__MODULE__{
       from: from,
@@ -56,6 +59,7 @@ defmodule Site.TripPlan.Query do
     }
   end
 
+  @spec location(map, :from | :to) :: TripPlan.Geocode.t
   defp location(query, terminus) do
     key = Atom.to_string(terminus)
     location = Map.get(query, key, "")
@@ -74,6 +78,7 @@ defmodule Site.TripPlan.Query do
     end
   end
 
+  @spec fetch_lat_lng(map, String.t) :: {:ok, float, float} | :error
   def fetch_lat_lng(query, key) do
     with {:ok, lat} <- optional_float(Map.get(query, "#{key}_latitude")),
          {:ok, lng} <- optional_float(Map.get(query, "#{key}_longitude")) do
@@ -131,6 +136,7 @@ defmodule Site.TripPlan.Query do
     end
   end
 
+  @spec suggest_alternate_locations(t) :: t
   defp suggest_alternate_locations(%__MODULE__{itineraries: {:error, error}, from: {:ok, from}, to: {:ok, to}} = query)
   when error in [:path_not_found, :location_not_accessible] do
     [froms, tos] =

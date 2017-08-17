@@ -5,16 +5,12 @@ defmodule TripPlan.Geocode.GoogleGeocode do
 
   @impl true
   def geocode(address) when is_binary(address) do
-    with {:ok, addresses} <- GoogleMaps.Geocode.geocode(address),
-         results = Enum.map(addresses, &address_to_result/1),
-         [result] <- results do
-      {:ok, result}
-    else
-      [] ->
-        {:error, :no_results}
-      [_ | _] = results ->
-        {:error, {:multiple_results, results}}
-      {:error, :zero_results, _} ->
+    case GoogleMaps.Geocode.geocode(address) do
+      {:ok, [result]} ->
+        {:ok, address_to_result(result)}
+      {:ok, results} ->
+        {:error, {:multiple_results, Enum.map(results, &address_to_result/1)}}
+      {:error, :zero_results} ->
         {:error, :no_results}
       _ ->
         {:error, :unknown}

@@ -113,7 +113,7 @@ defmodule Site.Plugs.TransitNearMeTest do
     end
 
     test "when there are errors, returns an empty list" do
-      geocode_result = {:error, :unknown_error, ["error"]}
+      geocode_result = {:error, :internal_error}
       nearby = fn(%Geocode.Address{}) -> [%Stop{}] end
 
       actual = get_stops_nearby(geocode_result, nearby)
@@ -194,7 +194,7 @@ defmodule Site.Plugs.TransitNearMeTest do
 
 
     test "when geocoding fails, it tells the user they had a bad address", %{conn: conn} do
-      google_maps_result = {:error, :error_code, "error message that should not show up"}
+      google_maps_result = {:error, :zero_results}
 
       conn = conn
       |> assign_address(google_maps_result)
