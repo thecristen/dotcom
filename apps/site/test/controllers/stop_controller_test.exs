@@ -1,5 +1,6 @@
 defmodule Site.StopControllerTest do
   use Site.ConnCase, async: true
+  import Site.PageHelpers, only: [breadcrumbs_include?: 2]
 
   alias Site.StopController
   alias Alerts.Alert
@@ -33,17 +34,18 @@ defmodule Site.StopControllerTest do
 
   test "shows stations", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "place-portr")
-    assert html_response(conn, 200) =~ "Porter"
-    assert conn.assigns.breadcrumbs == [
-      {stop_path(conn, :show, :subway), "Stations"},
-      "Porter"
-    ]
+
+    body = html_response(conn, 200)
+    assert body =~ "Porter"
+    assert breadcrumbs_include?(body, ["Stations", "Porter"])
   end
 
   test "shows bus-only stations", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "place-crtst")
-    assert html_response(conn, 200) =~ "Courthouse"
-    assert conn.assigns.breadcrumbs == ["Courthouse"]
+
+    body = html_response(conn, 200)
+    assert body =~ "Courthouse"
+    assert breadcrumbs_include?(body, "Courthouse")
   end
 
   test "separates mattapan from stop info for subway", %{conn: conn} do
@@ -60,10 +62,10 @@ defmodule Site.StopControllerTest do
 
   test "shows stops", %{conn: conn} do
     conn = get conn, stop_path(conn, :show, "22")
-    assert html_response(conn, 200) =~ "E Broadway @ H St"
-    assert conn.assigns.breadcrumbs == [
-      "E Broadway @ H St"
-    ]
+
+    body = html_response(conn, 200)
+    assert body =~ "E Broadway @ H St"
+    assert breadcrumbs_include?(body, "E Broadway @ H St")
   end
 
   test "can show stations with spaces", %{conn: conn} do
