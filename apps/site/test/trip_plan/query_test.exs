@@ -16,10 +16,12 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
       assert %Query{
-        from: {:ok, from_position},
-        to: {:ok, to_position},
-        itineraries: {:ok, itineraries}
-      } == actual
+        from: {:ok, ^from_position},
+        to: {:ok, ^to_position},
+        time: {:depart_at, %DateTime{}},
+        wheelchair_accessible?: false,
+        itineraries: {:ok, ^itineraries}
+      } = actual
     end
 
     test "can use lat/lng instead of an address" do
@@ -33,10 +35,10 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
       assert %Query{
-        from: {:ok, from_position},
-        to: {:ok, to_position},
-        itineraries: {:ok, itineraries}
-      } == actual
+        from: {:ok, ^from_position},
+        to: {:ok, ^to_position},
+        itineraries: {:ok, ^itineraries}
+      } = actual
     end
 
     test "ignores lat/lng that are empty strings" do
@@ -49,10 +51,10 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
       assert %Query{
-        from: {:ok, from_position},
-        to: {:ok, to_position},
-        itineraries: {:ok, itineraries}
-      } == actual
+        from: {:ok, ^from_position},
+        to: {:ok, ^to_position},
+        itineraries: {:ok, ^itineraries}
+      } = actual
     end
 
     test "ignores params that are empty strings or missing" do
@@ -68,13 +70,15 @@ defmodule Site.TripPlan.QueryTest do
     test "can include other params in the plan" do
       params = %{"from" => "from address",
                  "to" => "to address",
-                 "time" => "depart",
+                 "time" => "arrive",
                  "date_time" => @date_time,
                  "include_car?" => "false",
                  "accessible" => "true"}
-      from_query(params)
+      query = from_query(params)
+      assert {:arrive_by, %DateTime{}} = query.time
+      assert query.wheelchair_accessible?
       assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
-      assert opts[:depart_at] == @date_time
+      assert opts[:arrive_by] == @date_time
       assert opts[:wheelchair_accessible?]
     end
 
