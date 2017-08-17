@@ -99,7 +99,8 @@ defmodule GoogleMaps do
 
   @spec prepend_host(URI.t) :: binary
   defp prepend_host(uri) do
-    (get_env(:domain) || @host_uri)
+    host = get_env(:domain) || @host_uri
+    host
     |> URI.merge(uri)
     |> URI.to_string
   end
