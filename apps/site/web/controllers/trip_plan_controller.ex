@@ -101,6 +101,7 @@ defmodule Site.TripPlanController do
   defp routes_for_query(itineraries) do
     itineraries
     |> Enum.flat_map(&TripPlan.Itinerary.route_ids/1)
+    |> add_additional_routes()
     |> Enum.uniq
     |> Map.new(&{&1, Routes.Repo.get(&1)})
   end
@@ -139,5 +140,13 @@ defmodule Site.TripPlanController do
   @spec to_and_from(map) :: [to: String.t | nil, from: String.t | nil]
   def to_and_from(plan) do
     [to: Map.get(plan, "to"), from: Map.get(plan, "from")]
+  end
+
+  defp add_additional_routes(ids) do
+    if Enum.any?(ids, &String.starts_with?(&1, "Green")) do
+      Enum.concat(ids, GreenLine.branch_ids()) # no cover
+    else
+      ids
+    end
   end
 end
