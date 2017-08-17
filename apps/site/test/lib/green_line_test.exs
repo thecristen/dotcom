@@ -50,4 +50,17 @@ defmodule GreenLineTest do
       assert stop_map["Green-B"] == MapSet.new()
     end
   end
+
+  describe "naive_headsign/2" do
+    test "correct headsign for route and direction" do
+      assert naive_headsign("Green-B", 0) == "Boston College"
+      assert naive_headsign("Green-B", 1) == "Park Street"
+      assert naive_headsign("Green-C", 0) == "Cleveland Circle"
+      assert naive_headsign("Green-C", 1) == "North Station"
+      assert naive_headsign("Green-D", 0) == "Riverside"
+      assert naive_headsign("Green-D", 1) == "Government Center"
+      assert naive_headsign("Green-E", 0) == "Heath Street"
+      assert naive_headsign("Green-E", 1) == "Lechmere"
+    end
+  end
 end

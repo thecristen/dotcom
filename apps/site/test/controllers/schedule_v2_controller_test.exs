@@ -214,13 +214,13 @@ defmodule Site.ScheduleV2ControllerTest do
     end
 
     test "Ferry data", %{conn: conn} do
-      conn = get conn, line_path(conn, :show, "Boat-F1", direction_id: 0)
-      assert html_response(conn, 200) =~ "Hingham Ferry"
+      conn = get conn, line_path(conn, :show, "Boat-F4", direction_id: 0)
+      assert html_response(conn, 200) =~ "Charlestown Ferry"
       assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
 
       # inbound order
       assert List.first(stops).id == "Boat-Long"
-      assert List.last(stops).id == "Boat-Hingham"
+      assert List.last(stops).id == "Boat-Charlestown"
 
       # Map
       assert conn.assigns.map_img_src =~ "ferry-spider"
@@ -307,7 +307,7 @@ defmodule Site.ScheduleV2ControllerTest do
       # during the summer, the 9 only has 2 shapes. It has three when school
       # is in session.
       assert Enum.count(conn.assigns.route_shapes) >= 2
-      assert "880" in List.last(conn.assigns.route_shapes).stop_ids
+      assert "880" in Enum.at(conn.assigns.route_shapes, 1).stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 

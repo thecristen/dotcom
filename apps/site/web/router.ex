@@ -16,6 +16,7 @@ defmodule Site.Router do
     plug Site.Plugs.CommonFares
     plug Site.Plugs.Date
     plug Site.Plugs.DateTime
+    plug Site.Plugs.RewriteUrls
   end
 
   pipeline :api do

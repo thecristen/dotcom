@@ -18,16 +18,18 @@ defmodule Site.TripPlan.ItineraryRow do
     trip: nil,
     departure: DateTime.from_unix!(-1),
     transit?: false,
-    steps: []
+    steps: [],
+    additional_routes: []
   ]
 
   @type t :: %__MODULE__{
     stop: name_and_id,
     transit?: boolean,
-    route: Routes.Route.t | nil,
+    route: Route.t | nil,
     trip: Schedules.Trip.t | nil,
     departure: DateTime.t,
-    steps: [step]
+    steps: [step],
+    additional_routes: [Route.t]
   }
 
   @type route_mapper :: (Routes.Route.id_t -> Routes.Route.t | nil)
@@ -53,13 +55,17 @@ defmodule Site.TripPlan.ItineraryRow do
   @spec from_leg(Leg.t, Keyword.t) :: t
   def from_leg(leg, user_opts \\ []) do
     opts = Keyword.merge(@default_opts, user_opts)
+    trip = leg |> Leg.trip_id |> parse_trip_id(opts[:trip_mapper])
+    route = leg |> Leg.route_id |> parse_route_id(opts[:route_mapper])
+    stop = name_from_position(leg.from, opts[:stop_mapper])
     %__MODULE__{
-      stop: name_from_position(leg.from, opts[:stop_mapper]),
+      stop: stop,
       transit?: Leg.transit?(leg),
-      route: leg |> Leg.route_id |> parse_route_id(opts[:route_mapper]),
-      trip: leg |> Leg.trip_id |> parse_trip_id(opts[:trip_mapper]),
+      route: route,
+      trip: trip,
       departure: leg.start,
-      steps: get_steps(leg.mode, opts[:stop_mapper])
+      steps: get_steps(leg.mode, opts[:stop_mapper]),
+      additional_routes: get_additional_routes(route, trip, leg, stop, opts)
     }
   end
 
@@ -68,7 +74,7 @@ defmodule Site.TripPlan.ItineraryRow do
   def name_from_position(%NamedPosition{stop_id: stop_id, name: name}, stop_mapper) when not is_nil(stop_id) do
     case stop_mapper.(stop_id) do
       nil -> {name, stop_id}
-      stop -> {stop.name, stop_id}
+      stop -> {stop.name, stop.id}
     end
   end
   def name_from_position(%NamedPosition{name: name}, _stop_mapper) do
@@ -99,5 +105,28 @@ defmodule Site.TripPlan.ItineraryRow do
       " onto ",
       step.street_name
     ]
+  end
+
+  @spec get_additional_routes(Route.t, Schedules.Trip.t, Leg.t, name_and_id, Keyword.t) :: [Route.t]
+  defp get_additional_routes(%Route{id: "Green" <> _line = route_id}, trip, leg, {_name, from_stop_id}, opts)
+  when not is_nil(trip) do
+    stop_mapper = opts[:stop_mapper]
+    route_mapper = opts[:route_mapper]
+    stop_pairs = GreenLine.stops_on_routes(trip.direction_id)
+    {_to_stop_name, to_stop_id} = name_from_position(leg.to, stop_mapper)
+    available_routes(route_id, from_stop_id, to_stop_id, stop_pairs, route_mapper)
+  end
+  defp get_additional_routes(_route, _trip, _leg, _from, _stop_mapper), do: []
+
+  defp available_routes(current_route_id, from_stop_id, to_stop_id, stop_pairs, route_mapper) do
+    GreenLine.branch_ids()
+    |> List.delete(current_route_id)
+    |> Enum.filter(&both_stops_on_route?(&1, from_stop_id, to_stop_id, stop_pairs))
+    |> Enum.map(route_mapper)
+  end
+
+  defp both_stops_on_route?(route_id, from_stop_id, to_stop_id, stop_pairs) do
+    GreenLine.stop_on_route?(from_stop_id, route_id, stop_pairs) &&
+    GreenLine.stop_on_route?(to_stop_id, route_id, stop_pairs)
   end
 end

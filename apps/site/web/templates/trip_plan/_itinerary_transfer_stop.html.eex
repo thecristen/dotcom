@@ -20,6 +20,16 @@
         </span>
         <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
       </div>
+          <%= if !Enum.empty?(@itinerary_row.additional_routes) do %>
+            <div class="trip-plan-additional-routes">
+              <b>You can also take: </b>
+              <ul class="trip-plan-additional-routes-list ">
+                <%= for additional_route <- @itinerary_row.additional_routes do %>
+                  <li><%= format_additional_route(additional_route, @itinerary_row.trip.direction_id) %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
     <% end %>
   </div>
 </div>

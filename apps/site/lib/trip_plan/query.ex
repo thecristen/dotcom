@@ -2,19 +2,25 @@ defmodule Site.TripPlan.Query do
   alias TripPlan.{Itinerary, Geocode}
 
   @enforce_keys [:from, :to, :itineraries]
-  defstruct [:from, :to, :itineraries]
+  defstruct [:from,
+             :to,
+             :itineraries,
+             time: :unknown,
+             wheelchair_accessible?: false]
 
   @type t :: %__MODULE__{
     from: Geocode.t,
     to: Geocode.t,
+    time: :unknown | {:depart_at | :arrive_by, DateTime.t},
+    wheelchair_accessible?: boolean,
     itineraries: {:ok, [Itinerary.t]} | {:error, any}
   }
 
   def from_query(query) do
     from = location(query, :from)
     to = location(query, :to)
-    itineraries = with {:ok, opts} <- opts_from_query(query),
-                       {:ok, from} <- from,
+    opts = opts_from_query(query)
+    itineraries = with {:ok, from} <- from,
                        {:ok, to} <- to do
                     TripPlan.plan(from, to, opts)
                   else
@@ -23,6 +29,7 @@ defmodule Site.TripPlan.Query do
 
     itineraries
     |> build_query(from, to)
+    |> include_options(opts)
     |> suggest_alternate_locations
   end
 
@@ -31,6 +38,21 @@ defmodule Site.TripPlan.Query do
       from: from,
       to: to,
       itineraries: itineraries
+    }
+  end
+
+  defp include_options(query, opts) do
+    time = cond do
+      dt = opts[:arrive_by] ->
+        {:arrive_by, dt}
+      dt = opts[:depart_at] ->
+        {:depart_at, dt}
+      true ->
+        {:depart_at, Util.now}
+    end
+    %{query |
+      time: time,
+      wheelchair_accessible?: opts[:wheelchair_accessible?] == true
     }
   end
 
@@ -69,6 +91,7 @@ defmodule Site.TripPlan.Query do
   end
   defp optional_float(_), do: :error
 
+  @spec opts_from_query(%{optional(String.t) => String.t}, Keyword.t) :: Keyword.t
   defp opts_from_query(query, opts \\ [])
   defp opts_from_query(%{"time" => "depart", "date_time" => _date_time} = query, opts) do
     do_date_time(:depart_at, query, opts)
@@ -83,7 +106,7 @@ defmodule Site.TripPlan.Query do
     )
   end
   defp opts_from_query(_, opts) do
-      {:ok, opts}
+      opts
   end
 
   defp do_date_time(param, %{"date_time" => date_time} = query, opts) do

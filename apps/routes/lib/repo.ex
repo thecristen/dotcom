@@ -167,6 +167,7 @@ defmodule Routes.Repo do
   def route_hidden?(%{id: "9703"}), do: true
   def route_hidden?(%{id: "Logan-" <> _}), do: true
   def route_hidden?(%{id: "CapeFlyer"}), do: true
+  def route_hidden?(%{id: "Boat-F3"}), do: true
   def route_hidden?(_), do: false
 
   defp order_by_frequency(enum) do

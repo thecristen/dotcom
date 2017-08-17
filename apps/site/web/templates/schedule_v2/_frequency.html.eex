@@ -2,7 +2,7 @@
   <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col">
     <%= @origin.name %>
     hours and frequencies for
-    <%= Site.ScheduleV2View.pretty_date(@date) %>
+    <%= pretty_date(@date) %>
   </div>
   <%= for frequency <- @frequency_table do %>
     <div class="trip-list-v2-row trip-list-v2-row-2-col">

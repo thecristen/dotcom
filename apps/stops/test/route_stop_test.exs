@@ -95,6 +95,15 @@ defmodule Stops.RouteStopTest do
       assert_stop_ids(actual, ~w(kingston plymouth braintree jfk sstat)s)
       assert_branch_names(actual, ["Kingston", "Plymouth", nil, nil, nil])
     end
+
+    test "handles ferry routes with multiple shapes by returning the stops as-is" do
+      primary = %Shape{id: "primary"}
+      other = %Shape{id: "secondary"}
+      stops = make_stops(~w(long george logan hull rowes hingham))
+      route = %Route{id: "boat", type: 4}
+      actual = list_from_shapes([primary, other], stops, route, 1)
+      assert_stop_ids(actual, ~w(long george logan hull rowes hingham))
+    end
   end
 
   describe "RouteStop implements Position" do

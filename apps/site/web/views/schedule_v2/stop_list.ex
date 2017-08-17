@@ -1,29 +1,8 @@
 defmodule Site.ScheduleV2View.StopList do
-  use Site.Web, :view
-
+  import Phoenix.HTML.Tag, only: [content_tag: 3]
+  alias Site.ViewHelpers
   alias Site.StopBubble
-  alias Stops.{RouteStop, RouteStops}
-
-  @doc """
-  Determines whether a stop is the first stop of its branch that is shown on the page, and
-  therefore should display a link to expand/collapse the branch.
-  """
-  @spec add_expand_link?(RouteStop.t, map) :: boolean
-  def add_expand_link?(%RouteStop{branch: nil}, _assigns), do: false
-  def add_expand_link?(_, %{route: %Routes.Route{id: "CR-Kingson"}}), do: false
-  def add_expand_link?(%RouteStop{branch: "Green-" <> _ = branch} = stop, assigns) do
-    case assigns do
-      %{direction_id: 0} -> GreenLine.split_id(branch) == stop.id
-      _ -> GreenLine.terminus?(stop.id, branch)
-    end
-  end
-  def add_expand_link?(%RouteStop{id: stop_id, branch: branch}, assigns) do
-    case Enum.find(assigns.branches, & &1.branch == branch) do
-      %RouteStops{stops: [_]} -> true
-      %RouteStops{stops: [%RouteStop{id: ^stop_id}|_]} -> true
-      _ -> false
-    end
-  end
+  alias Stops.RouteStop
 
   @doc """
   Link to expand or collapse a route branch.
@@ -221,4 +200,42 @@ defmodule Site.ScheduleV2View.StopList do
   defp bubble_content(route_id)
   defp bubble_content("Green-" <> letter), do: letter
   defp bubble_content(_), do: ""
+
+  @doc """
+  Formats a Schedules.Departures.t to a human-readable time range.
+  """
+  @spec display_departure_range(Schedules.Departures.t) :: iodata
+  def display_departure_range(%Schedules.Departures{first_departure: nil, last_departure: nil}) do
+    "No Service"
+  end
+  def display_departure_range(%Schedules.Departures{} = departures) do
+    [
+      ViewHelpers.format_schedule_time(departures.first_departure),
+      "-",
+      ViewHelpers.format_schedule_time(departures.last_departure)
+    ]
+  end
+
+  @doc """
+  Displays a schedule period.
+  """
+  @spec schedule_period(atom) :: String.t
+  def schedule_period(:week), do: "Monday to Friday"
+  def schedule_period(period) do
+    period
+    |> Atom.to_string
+    |> String.capitalize
+  end
+
+  @spec display_map_link?(integer) :: boolean
+  def display_map_link?(type), do: type == 4 # only show for ferry
+
+  @spec trip_link(Plug.Conn.t, TripInfo.t, boolean, String.t) :: String.t
+  def trip_link(conn, trip_info, trip_chosen?, trip_id) do
+    if TripInfo.is_current_trip?(trip_info, trip_id) && trip_chosen? do
+      UrlHelpers.update_url(conn, trip: "") <> "#" <> trip_id
+    else
+      UrlHelpers.update_url(conn, trip: trip_id) <> "#" <> trip_id
+    end
+  end
 end

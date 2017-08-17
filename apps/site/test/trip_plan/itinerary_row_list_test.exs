@@ -113,6 +113,23 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       assert id == "place-sstat"
     end
 
+    test "Returns additional routes for Green Line legs", %{itinerary: itinerary, opts: opts} do
+      green_leg = %TripPlan.Leg{
+        start: @date_time,
+        stop: @date_time,
+        from: %TripPlan.NamedPosition{stop_id: "place-kencl", name: "Kenmore"},
+        to: %TripPlan.NamedPosition{stop_id: "place-pktrm", name: "Park Street"},
+        mode: %TripPlan.TransitDetail{
+          route_id: "Green-C",
+          trip_id: "Green-1",
+          intermediate_stop_ids: []
+        }
+      }
+      personal_itinerary = %{itinerary | legs: [green_leg]}
+      itinerary_rows = from_itinerary(personal_itinerary, opts)
+      additional_routes = itinerary_rows.rows |> List.first() |> Map.get(:additional_routes) |> Enum.map(& &1.id)
+      assert additional_routes == ["Green-B", "Green-D"]
+    end
   end
 
   defp route_mapper("Blue" = id) do
@@ -124,6 +141,9 @@ defmodule Site.TripPlan.ItineraryRowListTest do
   defp route_mapper("1" = id) do
     %Routes.Route{type: 3, id: id, name: "Bus"}
   end
+  defp route_mapper("Green-" <> branch = id) when branch in ["B", "C", "D", "E"] do
+    %Routes.Route{type: 0, id: id, name: "Subway"}
+  end
   defp route_mapper(_) do
     nil
   end
@@ -134,12 +154,21 @@ defmodule Site.TripPlan.ItineraryRowListTest do
   defp stop_mapper("place-sstat") do
     %Stops.Stop{name: "Repo South Station", id: "place-sstat"}
   end
+  defp stop_mapper("place-kencl") do
+    %Stops.Stop{name: "Kenmore", id: "place-kencl"}
+  end
+  defp stop_mapper("place-pktrm") do
+    %Stops.Stop{name: "Park Street", id: "place-pktrm"}
+  end
   defp stop_mapper(_) do
     nil
   end
 
   defp trip_mapper("34170028" = trip_id) do
     %Schedules.Trip{id: trip_id}
+  end
+  defp trip_mapper("Green-1" = trip_id) do
+    %Schedules.Trip{id: trip_id, direction_id: 1}
   end
   defp trip_mapper(_) do
     %Schedules.Trip{id: "trip_id"}
