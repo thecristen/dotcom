@@ -1,0 +1,19 @@
+{
+  "uuid" : "ceea92c9-c9a3-3280-bb22-42b58303f89c",
+  "request" : {
+    "url" : "/routes/?stop=place-stpul&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GjVel.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "v4rba3bq6qsdb77i9v0s95e4foj27q07",
+      "Connection" : "keep-alive"
+    }
+  }
+}

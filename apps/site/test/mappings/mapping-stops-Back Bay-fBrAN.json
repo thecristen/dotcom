@@ -1,0 +1,19 @@
+{
+  "uuid" : "ed257eff-1944-3102-b279-cff02175ccd0",
+  "request" : {
+    "url" : "/stops/Back%20Bay?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-fBrAN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:17 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "u3anvvpn7r9v3nt0hpskci5dsd5mn0ko",
+      "Connection" : "keep-alive"
+    }
+  }
+}

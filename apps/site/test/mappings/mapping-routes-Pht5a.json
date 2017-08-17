@@ -1,0 +1,19 @@
+{
+  "uuid" : "84c2bef2-9f64-312e-b485-24aac95fabc4",
+  "request" : {
+    "url" : "/routes/?stop=place-jaksn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Pht5a.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "i01l0efoa3uopbdfq2id6l5h91bk0rv3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

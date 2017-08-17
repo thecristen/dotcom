@@ -1,0 +1,19 @@
+{
+  "uuid" : "7bd14cec-0847-38fb-8eca-70d3389677c3",
+  "request" : {
+    "url" : "/routes/?stop=place-rcmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OngNP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "2crtturacbg9tq6oijqi73tgq0t0fnfb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

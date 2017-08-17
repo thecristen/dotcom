@@ -1,0 +1,19 @@
+{
+  "uuid" : "78fe0afa-16fe-352b-a198-ee1b97ae4b67",
+  "request" : {
+    "url" : "/routes/?stop=place-spmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ROYlo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:58 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "3d80dv2d4n64afa7eepn1g471h45mtqu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

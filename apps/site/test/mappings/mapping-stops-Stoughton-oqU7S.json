@@ -1,0 +1,19 @@
+{
+  "uuid" : "9171538b-048c-304a-91f2-78c0cb609ef9",
+  "request" : {
+    "url" : "/stops/Stoughton?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Stoughton-oqU7S.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:18 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ifb12cggiiaaaht3gdgn5lqvt1a889dk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

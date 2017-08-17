@@ -1,0 +1,19 @@
+{
+  "uuid" : "79a145de-2141-3da7-a575-57c585ebcb2e",
+  "request" : {
+    "url" : "/routes/?stop=place-sumav&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JuFyS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "kqbgcbqbmmniblkvl0e1ulilgcrjkuct",
+      "Connection" : "keep-alive"
+    }
+  }
+}

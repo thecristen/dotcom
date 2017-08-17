@@ -1,0 +1,19 @@
+{
+  "uuid" : "184ee76d-b495-3e51-8569-50451d478450",
+  "request" : {
+    "url" : "/routes/?stop=place-welln&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Wxd2C.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "mtl6al5nldva0cnu56rnu75la91l69uq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

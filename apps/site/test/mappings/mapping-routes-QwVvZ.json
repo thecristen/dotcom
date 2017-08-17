@@ -1,0 +1,19 @@
+{
+  "uuid" : "df51471a-e851-3052-bdfe-85d7450f5532",
+  "request" : {
+    "url" : "/routes/?stop=Lowell",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-QwVvZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "80as117c1l9r2lrv4q3fkmv6i3qcm28k",
+      "Connection" : "keep-alive"
+    }
+  }
+}

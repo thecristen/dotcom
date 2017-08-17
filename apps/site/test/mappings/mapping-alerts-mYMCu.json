@@ -1,0 +1,19 @@
+{
+  "uuid" : "ed504382-4569-3fd3-aed7-c913504ea860",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-mYMCu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:30 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "750r8gpfhdooogovrtsd547iq646irrn",
+      "Connection" : "keep-alive"
+    }
+  }
+}

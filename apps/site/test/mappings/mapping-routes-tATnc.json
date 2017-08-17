@@ -1,0 +1,19 @@
+{
+  "uuid" : "c29bce7e-0a9d-3424-9dae-6b93f869c8a5",
+  "request" : {
+    "url" : "/routes/?stop=Shirley",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-tATnc.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "597ufqemnlvd6587sq4qq58guu3n4o0c",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "7c7e8847-1020-3f14-86cd-0fa1866f32c0",
+  "request" : {
+    "url" : "/routes/?stop=place-brkhl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lnuDb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "uf3mlskso2t3k91op9d3dhb552l2p2st",
+      "Connection" : "keep-alive"
+    }
+  }
+}

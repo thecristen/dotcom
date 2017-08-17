@@ -1,0 +1,19 @@
+{
+  "uuid" : "2e40177e-8a98-3abd-b68b-f189ac9514b6",
+  "request" : {
+    "url" : "/routes/?stop=Plimptonville",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jcMAl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "bipmnd8gv1usli0t19vl5ue07e5nfrbc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

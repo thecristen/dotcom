@@ -1,0 +1,19 @@
+{
+  "uuid" : "f3b16e1c-d2f0-3a39-80b3-c5f9f9b340ec",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=0&date=2017-12-07",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-eRosD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:46 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "dmvm0b0imp7jvqs5vnld7jj3gdqv50ij",
+      "Connection" : "keep-alive"
+    }
+  }
+}

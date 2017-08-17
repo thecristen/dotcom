@@ -1,0 +1,19 @@
+{
+  "uuid" : "eb52cc24-9a95-3d73-8162-4d5b350c452f",
+  "request" : {
+    "url" : "/trips/?route=Red&fields%5Btrip%5D=headsign&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-n61hR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:13 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "61p19p5v0f909nl3tcojkb5sioeec5a1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/2"},"id":"2","attributes":{"wheelchair_boarding":0,"name":"Washington St @ Melnea Cass Blvd","longitude":-71.081252,"latitude":42.332324}}}

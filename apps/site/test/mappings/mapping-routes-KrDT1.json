@@ -1,0 +1,19 @@
+{
+  "uuid" : "caf5f687-a90e-3bde-b5bb-5994b1c7114d",
+  "request" : {
+    "url" : "/routes/?stop=Chelsea",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KrDT1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "92m856hj984fbmr0khkc7hsihev5p2hu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

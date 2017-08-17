@@ -1,0 +1,19 @@
+{
+  "uuid" : "a47191a1-957a-3850-be26-0addca450678",
+  "request" : {
+    "url" : "/routes/?stop=place-lech",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-9ElxC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "gcp23egvk24n49hag4jgn1tj1pfj122b",
+      "Connection" : "keep-alive"
+    }
+  }
+}

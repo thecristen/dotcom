@@ -1,0 +1,19 @@
+{
+  "uuid" : "90b4e1cb-b864-3bd9-b8d7-6e7d90eb4436",
+  "request" : {
+    "url" : "/stops/place-sstat?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-sstat-BcJGr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:56 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "50krkpk6223rhu7p4nl91lj8bt81u7hr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

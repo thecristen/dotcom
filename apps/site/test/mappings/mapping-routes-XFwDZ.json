@@ -1,0 +1,19 @@
+{
+  "uuid" : "c52dd716-0d13-311c-9183-85f57ad2cc42",
+  "request" : {
+    "url" : "/routes/?stop=place-babck",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-XFwDZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "png6aci3kh3sla1kti62ma75te9s8vvc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

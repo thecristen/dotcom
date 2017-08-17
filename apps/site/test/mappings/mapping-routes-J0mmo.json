@@ -1,0 +1,19 @@
+{
+  "uuid" : "631218e0-8ab2-3023-8dd0-9daaff0e9244",
+  "request" : {
+    "url" : "/routes/?stop=Greenwood",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-J0mmo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "iifm46erp7rm1m3j0ue37gjk5c7eji72",
+      "Connection" : "keep-alive"
+    }
+  }
+}

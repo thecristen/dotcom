@@ -1,0 +1,19 @@
+{
+  "uuid" : "8ef9675e-be1b-30b2-9bf8-a2ae31042a76",
+  "request" : {
+    "url" : "/stops/place-north?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-north-Azhkm.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:02 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "qjho0vml5sus360gcv33jhsoap73q8aq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

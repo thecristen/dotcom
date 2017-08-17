@@ -1,0 +1,19 @@
+{
+  "uuid" : "d700dbfe-c2c3-394a-aeac-4d13cd69675d",
+  "request" : {
+    "url" : "/routes/?stop=West+Newton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-YSuFf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "5i1stpl4ja0bptem60qksi2614gr618s",
+      "Connection" : "keep-alive"
+    }
+  }
+}

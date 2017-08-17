@@ -1,0 +1,19 @@
+{
+  "uuid" : "97a21358-8a03-3f9b-be6e-eba005caa14b",
+  "request" : {
+    "url" : "/routes/?stop=Needham+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-45zCO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "2grn7efagj1o2cjiam2knqpa8p0a4u5p",
+      "Connection" : "keep-alive"
+    }
+  }
+}

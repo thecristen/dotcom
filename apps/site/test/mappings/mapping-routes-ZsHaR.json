@@ -1,0 +1,19 @@
+{
+  "uuid" : "c8b543f1-8c99-3c36-bbf5-dd4c99b80bb7",
+  "request" : {
+    "url" : "/routes/?stop=Yawkey",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZsHaR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "45e3dmb6es2ubjdgfntu8f8ohtpj37oe",
+      "Connection" : "keep-alive"
+    }
+  }
+}

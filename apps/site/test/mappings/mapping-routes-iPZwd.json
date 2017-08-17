@@ -1,0 +1,19 @@
+{
+  "uuid" : "3b9dbe2c-23ef-39c4-a42b-26a228a9280c",
+  "request" : {
+    "url" : "/routes/?stop=place-mfa",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iPZwd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6gf4eqredtbnhn4b238gohsa368oftoj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

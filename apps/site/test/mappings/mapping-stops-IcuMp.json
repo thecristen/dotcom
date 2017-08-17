@@ -1,0 +1,19 @@
+{
+  "uuid" : "55c52c34-1fdb-3b14-8c56-24008c734291",
+  "request" : {
+    "url" : "/stops/?route=1&include=parent_station&direction_id=0&date=2017-12-15",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-IcuMp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:08 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "idd5qjgeci6cqet6p00iclvl7jkumgnu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

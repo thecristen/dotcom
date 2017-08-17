@@ -1,0 +1,19 @@
+{
+  "uuid" : "c58947cd-2576-3802-8fbb-4ca92ab6daea",
+  "request" : {
+    "url" : "/routes/?stop=1395&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KWX2w.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:02 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "49ppg5dolqj57rnmjn7llg24fv8u0k5g",
+      "Connection" : "keep-alive"
+    }
+  }
+}

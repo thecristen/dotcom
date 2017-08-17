@@ -1,0 +1,19 @@
+{
+  "uuid" : "ec1f0f2d-6e3e-3200-b9ee-38393ee03b79",
+  "request" : {
+    "url" : "/routes/?stop=10005&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kesWL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:04 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "fqlo5l5ijc0rhojtpsr3315t780cu45c",
+      "Connection" : "keep-alive"
+    }
+  }
+}

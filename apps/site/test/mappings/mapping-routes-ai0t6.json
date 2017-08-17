@@ -1,0 +1,19 @@
+{
+  "uuid" : "ba0a2340-ded2-3992-a7a8-46b882ac4bb6",
+  "request" : {
+    "url" : "/routes/?stop=Ashland",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ai0t6.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "onu22t6nvdvq2v2evusf5bljes0sa7um",
+      "Connection" : "keep-alive"
+    }
+  }
+}

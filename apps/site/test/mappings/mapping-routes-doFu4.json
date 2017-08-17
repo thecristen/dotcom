@@ -1,0 +1,19 @@
+{
+  "uuid" : "dea6faf3-110d-34e8-b8f5-9620c7004993",
+  "request" : {
+    "url" : "/routes/?stop=162&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-doFu4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:04 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "e9nblg4v6h7dqfndga0duhvo3jvjg40v",
+      "Connection" : "keep-alive"
+    }
+  }
+}

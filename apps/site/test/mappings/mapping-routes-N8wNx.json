@@ -1,0 +1,19 @@
+{
+  "uuid" : "b6444353-2fc3-31c8-9c4e-4cf77a14cb23",
+  "request" : {
+    "url" : "/routes/?stop=Lawrence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-N8wNx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "2cd6n2qt0pd60giu99jaf0ktkrqctljc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

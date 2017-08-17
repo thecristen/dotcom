@@ -1,0 +1,19 @@
+{
+  "uuid" : "4101dd5a-c1c8-3903-bc78-d6672c1e8d7a",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=1&date=2017-09-04",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-ftLJP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:33 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "e28gcb660rg38kjvk5ks5tn0863a573j",
+      "Connection" : "keep-alive"
+    }
+  }
+}

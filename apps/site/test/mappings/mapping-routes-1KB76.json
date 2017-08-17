@@ -1,0 +1,19 @@
+{
+  "uuid" : "c6f4e580-188c-307b-84cd-417f2b51fada",
+  "request" : {
+    "url" : "/routes/?stop=place-smmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-1KB76.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "hvhpplagasesoeru15l55c6g82aq2utr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

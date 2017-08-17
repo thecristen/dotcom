@@ -1,0 +1,19 @@
+{
+  "uuid" : "a857b460-1366-3c2c-b2db-b98a38f3889d",
+  "request" : {
+    "url" : "/stops/?route=Green-E&include=parent_station&direction_id=1&date=2017-10-30",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-TfaVR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ug8n94u05vck59f6dcbk3ccflof3s7rk",
+      "Connection" : "keep-alive"
+    }
+  }
+}

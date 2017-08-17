@@ -1,0 +1,19 @@
+{
+  "uuid" : "d9255709-bef3-3d21-aa5d-b967264b4e0b",
+  "request" : {
+    "url" : "/routes/?stop=6542",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FkCru.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:05 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "oe560s6128oi01ipmgtp10e3sb1498p8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

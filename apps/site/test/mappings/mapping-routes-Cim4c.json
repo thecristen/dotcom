@@ -1,0 +1,19 @@
+{
+  "uuid" : "938023f6-4900-30e3-ae73-2359aa26a1c8",
+  "request" : {
+    "url" : "/routes/?stop=1788&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Cim4c.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:03 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6u301e2f0i26jmqqu1b07jtht073eo8q",
+      "Connection" : "keep-alive"
+    }
+  }
+}

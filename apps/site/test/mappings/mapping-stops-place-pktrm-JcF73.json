@@ -1,0 +1,19 @@
+{
+  "uuid" : "077681db-7b01-3e9c-8ad5-cb4e53eedbcb",
+  "request" : {
+    "url" : "/stops/place-pktrm?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-pktrm-JcF73.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:05 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "k5r4nne21vumojc70gp1lmnl1cgtqeuo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

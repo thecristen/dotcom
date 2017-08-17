@@ -1,0 +1,19 @@
+{
+  "uuid" : "67d63f22-46b5-31b3-9217-3ec50b0dabce",
+  "request" : {
+    "url" : "/routes/?stop=10015&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZWVNg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:04 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6gckf5foqapnprcsnjmbqs73lt4rk1vr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "004f1214-06f3-3767-b83a-15c6358e5821",
+  "request" : {
+    "url" : "/stops/place-wondl?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-wondl-xM2Zo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:45 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ndn3drej0nd62kmnacfpgjn8hapl26f3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

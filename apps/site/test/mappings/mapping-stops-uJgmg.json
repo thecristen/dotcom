@@ -1,0 +1,19 @@
+{
+  "uuid" : "211655b7-6b09-3192-bebd-fb052bacf9bb",
+  "request" : {
+    "url" : "/stops/?route=CR-Lowell&include=parent_station&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-uJgmg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "nrp523toa1pdsncj4lo84mpi5s71fhdj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

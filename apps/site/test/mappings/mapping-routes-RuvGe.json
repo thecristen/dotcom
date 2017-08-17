@@ -1,0 +1,19 @@
+{
+  "uuid" : "4844d960-ddaf-3646-8fd3-742886a792fd",
+  "request" : {
+    "url" : "/routes/?stop=place-forhl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RuvGe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "svr8u5l542rsi4c1vvucg09iuq6l8p5c",
+      "Connection" : "keep-alive"
+    }
+  }
+}

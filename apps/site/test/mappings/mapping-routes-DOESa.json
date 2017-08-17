@@ -1,0 +1,19 @@
+{
+  "uuid" : "16b53036-07a0-3f7b-bd40-9c2c8cc733b6",
+  "request" : {
+    "url" : "/routes/?stop=place-matt&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DOESa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:00 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "07is95h7n5frmapmv99h3uj5s3algf9b",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "317b1d83-e79f-3a4f-a3fa-ee45203724c7",
+  "request" : {
+    "url" : "/routes/?stop=Wellesley+Farms",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iJLDJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "8frektpbos40ijo5q5ab9q3hcsuubvsh",
+      "Connection" : "keep-alive"
+    }
+  }
+}

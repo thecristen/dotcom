@@ -1,0 +1,19 @@
+{
+  "uuid" : "bee48361-5edf-3b64-a623-7f22db53537d",
+  "request" : {
+    "url" : "/routes/?stop=place-gover",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DDVpK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "f7ehurhr40tlh0vjtu82oljr6q2jpnqo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

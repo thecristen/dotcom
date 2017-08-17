@@ -1,0 +1,19 @@
+{
+  "uuid" : "02946678-400a-3172-a077-72225751de8f",
+  "request" : {
+    "url" : "/stops/Ruggles?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Ruggles-kN15x.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:18 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "dh4j9q1iain0s68otegmk538dt6ljrs3",
+      "Connection" : "keep-alive"
+    }
+  }
+}

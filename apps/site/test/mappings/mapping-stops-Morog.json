@@ -1,0 +1,19 @@
+{
+  "uuid" : "f79fcdc6-28fa-3cc0-ac3f-b8e7193f89f9",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=1&date=2017-12-24",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Morog.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:48 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "sel8oqslmmkinmo9ipfilg2d1qf54hjo",
+      "Connection" : "keep-alive"
+    }
+  }
+}

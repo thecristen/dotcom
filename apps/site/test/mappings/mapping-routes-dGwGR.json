@@ -1,0 +1,19 @@
+{
+  "uuid" : "7cba676e-bb26-3ca1-954c-b03db5e1904d",
+  "request" : {
+    "url" : "/routes/?stop=Wilmington",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dGwGR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "pjgd6kkinq31dgm53neugatcp3sp4kqd",
+      "Connection" : "keep-alive"
+    }
+  }
+}

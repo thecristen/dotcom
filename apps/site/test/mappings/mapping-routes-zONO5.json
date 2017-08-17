@@ -1,0 +1,19 @@
+{
+  "uuid" : "c3a03ee6-5508-30a6-94fa-3d72b19c153b",
+  "request" : {
+    "url" : "/routes/?stop=Reading",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-zONO5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "94gfjjpbj6r2sb4guk7r78ejgb2gnt9f",
+      "Connection" : "keep-alive"
+    }
+  }
+}

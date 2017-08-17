@@ -1,0 +1,19 @@
+{
+  "uuid" : "b1077ba5-5540-368e-9e31-ef012cfc22aa",
+  "request" : {
+    "url" : "/routes/?stop=Westborough",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UcOYx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "39f534pg26btrq0sm799qj641skh8mij",
+      "Connection" : "keep-alive"
+    }
+  }
+}

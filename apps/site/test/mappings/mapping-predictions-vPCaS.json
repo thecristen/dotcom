@@ -1,0 +1,19 @@
+{
+  "uuid" : "2659e0a3-84a9-3a31-a8aa-18dfa7717efe",
+  "request" : {
+    "url" : "/predictions/?stop=place-sstat&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Bstop%5D=name&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip%2Croute",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-vPCaS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:28 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ouv8ejn6e4g002ubmck9jdir1ui21vva",
+      "Connection" : "keep-alive"
+    }
+  }
+}

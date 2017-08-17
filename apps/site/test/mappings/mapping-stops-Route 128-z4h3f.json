@@ -1,0 +1,19 @@
+{
+  "uuid" : "0edc9be3-cab5-3443-800b-b22d61dc985b",
+  "request" : {
+    "url" : "/stops/Route%20128?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Route 128-z4h3f.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:18 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "oar3oegedu6t3vkh5jpu8v9n8p7bfpuq",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "c6ffba3d-5065-3267-b73c-4949ccd584bd",
+  "request" : {
+    "url" : "/stops/Canton%20Center?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Canton Center-ctQEB.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:18 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "r8vbb3um7uhg4lbm0md6uorspjottpop",
+      "Connection" : "keep-alive"
+    }
+  }
+}

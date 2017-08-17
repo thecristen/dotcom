@@ -1,0 +1,19 @@
+{
+  "uuid" : "ac316c78-2d43-33b4-b68e-0614dd120792",
+  "request" : {
+    "url" : "/stops/place-tumnl?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-tumnl-rS622.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:05 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "98jbbkn4m7e0m6374ejc8j6c5fqfhov7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

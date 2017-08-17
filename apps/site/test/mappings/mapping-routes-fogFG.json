@@ -1,0 +1,19 @@
+{
+  "uuid" : "d0203be9-8ece-3d0f-8120-a57cc1fab622",
+  "request" : {
+    "url" : "/routes/?stop=place-ogmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fogFG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "8pslv1b72i3bivceq0ejlircae7n5lb4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

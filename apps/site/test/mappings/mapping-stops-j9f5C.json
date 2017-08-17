@@ -1,0 +1,19 @@
+{
+  "uuid" : "abe29135-8b59-3507-be94-18cd3ba27f7e",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=0&date=2017-11-10",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-j9f5C.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "1ft1257pm87t5la1rn0o63p3vp725irh",
+      "Connection" : "keep-alive"
+    }
+  }
+}

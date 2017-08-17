@@ -1,0 +1,19 @@
+{
+  "uuid" : "e1f7302a-7517-3fbc-97fc-27b024bb7ae6",
+  "request" : {
+    "url" : "/routes/?stop=place-rsmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nmQXz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "u9m2b9oo2gna5ljmd6kpbeigo4d32v5t",
+      "Connection" : "keep-alive"
+    }
+  }
+}

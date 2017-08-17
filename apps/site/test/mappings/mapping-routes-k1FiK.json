@@ -1,0 +1,19 @@
+{
+  "uuid" : "fc91b859-4f92-3b8d-ac0e-e3f25843fcf0",
+  "request" : {
+    "url" : "/routes/?stop=Roslindale+Village",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-k1FiK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "idrvv730fu7tt9rd6s4oprvlcrtjo877",
+      "Connection" : "keep-alive"
+    }
+  }
+}

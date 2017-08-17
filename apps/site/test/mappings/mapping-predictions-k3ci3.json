@@ -1,0 +1,19 @@
+{
+  "uuid" : "4faed65e-8a20-3af8-87e2-6169157d93b4",
+  "request" : {
+    "url" : "/predictions/?stop=Framingham&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Bstop%5D=name&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip%2Croute",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-k3ci3.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:23 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "685f132kc1kolsbkee012dvmjlb6nnr5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "6104f7c6-1f95-3e0b-815e-e01b4c755973",
+  "request" : {
+    "url" : "/routes/?stop=place-buwst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0zHdu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "blp92i89e1ed8u92hjcsfqujpteipni8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

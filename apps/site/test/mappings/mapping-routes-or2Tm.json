@@ -1,0 +1,19 @@
+{
+  "uuid" : "003b32d0-14fc-3f18-9f0b-e45954753818",
+  "request" : {
+    "url" : "/routes/?stop=Middleborough%2F+Lakeville",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-or2Tm.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "b4p0ji8dto3q67ajofv4shv3euo3agaj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/89"},"id":"89","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ St Botolph St","longitude":-71.084121,"latitude":42.342303}}}

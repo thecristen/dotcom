@@ -1,0 +1,19 @@
+{
+  "uuid" : "7911f1a5-34c5-307a-a2d1-a049438176d8",
+  "request" : {
+    "url" : "/routes/?stop=Beverly+Farms",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Kyjcp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "c3dkdk3rp2mnu975873pidi898ns34i5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

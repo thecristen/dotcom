@@ -1,0 +1,19 @@
+{
+  "uuid" : "3ff8fbc2-be70-342a-8f2f-55262c385a43",
+  "request" : {
+    "url" : "/routes/?stop=place-rugg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-riCym.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "q4e1rfh4lgd9gb632rmenlmp2sn0uf6c",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "d549a4c0-c9ff-370a-a173-d07b958884ea",
+  "request" : {
+    "url" : "/stops/?route=Green-E&include=parent_station&direction_id=1&date=2017-12-13",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-WMoLO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:47 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "kn9rsg6e2gthf7b9shq05n8qhacjmpd1",
+      "Connection" : "keep-alive"
+    }
+  }
+}

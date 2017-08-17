@@ -1,0 +1,19 @@
+{
+  "uuid" : "3dafac55-87c5-3bd7-bb3f-e7f2d106f068",
+  "request" : {
+    "url" : "/routes/?stop=Highland",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-65BMJ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "rfu0194knp5if381h8c83t8g1l0m69kt",
+      "Connection" : "keep-alive"
+    }
+  }
+}

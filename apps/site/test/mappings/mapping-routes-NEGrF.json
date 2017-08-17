@@ -1,0 +1,19 @@
+{
+  "uuid" : "949a5d00-c904-3336-818c-cd22744b6861",
+  "request" : {
+    "url" : "/routes/?stop=Haverhill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NEGrF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "jpsovi9f5t34st7vasn5b0c5lnpqfops",
+      "Connection" : "keep-alive"
+    }
+  }
+}
