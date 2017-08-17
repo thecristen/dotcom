@@ -35,7 +35,7 @@
       <% end %>
     </div>
     <div class="commuter-status">
-      <%= StopTime.display_status(@departure, @arrival) %>
+      <%= Journey.display_status(@departure, @arrival) %>
     </div>
   <% end %>
 </div>

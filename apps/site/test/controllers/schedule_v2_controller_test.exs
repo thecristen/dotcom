@@ -118,7 +118,7 @@ defmodule Site.ScheduleV2ControllerTest do
       conn = get(conn, trip_view_path(conn, :show, "Red", origin: "place-sstat", destination: "place-brdwy", direction_id: 0))
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
-      assert conn.assigns.stop_times
+      assert conn.assigns.journeys
       assert conn.assigns.frequency_table
       assert conn.assigns.origin
       assert conn.assigns.destination
@@ -128,7 +128,7 @@ defmodule Site.ScheduleV2ControllerTest do
       conn = get(conn, trip_view_path(conn, :show, "Red", origin: "place-sstat"))
       assert conn.assigns.schedules
       assert conn.assigns.frequency_table
-      assert conn.assigns.stop_times
+      assert conn.assigns.journeys
       assert conn.assigns.origin
       refute conn.assigns.destination
     end
@@ -151,7 +151,7 @@ defmodule Site.ScheduleV2ControllerTest do
     test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Green-C", origin: "place-pktrm"))
       assert conn.assigns.schedules
-      assert conn.assigns.stop_times.times
+      assert conn.assigns.journeys.journeys
       assert conn.assigns.frequency_table
       assert conn.assigns.origin
       refute conn.assigns.destination
@@ -162,16 +162,16 @@ defmodule Site.ScheduleV2ControllerTest do
                                       direction_id: "1"))
       assert conn.assigns.schedules
       refute conn.assigns.schedules == []
-      assert conn.assigns.stop_times.times
+      assert conn.assigns.journeys.journeys
       assert conn.assigns.frequency_table
       assert conn.assigns.origin
       assert conn.assigns.destination
     end
 
-    test "assigns trip info and stop times for mattapan line", %{conn: conn} do
+    test "assigns trip info and journeys for mattapan line", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Mattapan", origin: "place-butlr", direction_id: "1"))
       assert conn.assigns.trip_info
-      refute Enum.empty?(conn.assigns.stop_times)
+      refute Enum.empty?(conn.assigns.journeys)
     end
   end
 

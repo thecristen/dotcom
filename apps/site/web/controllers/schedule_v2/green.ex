@@ -19,8 +19,8 @@ defmodule Site.ScheduleV2Controller.Green do
   plug :predictions
   plug Site.ScheduleV2Controller.VehicleTooltips
   plug Site.ScheduleV2Controller.ExcludedStops
-  plug Site.ScheduleV2Controller.StopTimes
-  plug :validate_stop_times
+  plug Site.ScheduleV2Controller.Journeys
+  plug :validate_journeys
   plug :hide_destination_selector
   plug Site.ScheduleV2Controller.TripInfo
   plug Site.ScheduleV2Controller.RouteBreadcrumbs
@@ -142,18 +142,18 @@ defmodule Site.ScheduleV2Controller.Green do
 
   @doc """
 
-  If we built an empty stop times list, but we had predictions for the
+  If we built an empty journey list, but we had predictions for the
   origin, then redirect the user away from their selected destination so they
   at least get partial results.
 
   """
-  def validate_stop_times(%{assigns: %{destination: nil}} = conn, []) do
+  def validate_journeys(%{assigns: %{destination: nil}} = conn, []) do
     conn
   end
-  def validate_stop_times(%{assigns: %{stop_times: %StopTimeList{times: [_ | _]}}} = conn, []) do
+  def validate_journeys(%{assigns: %{journeys: %JourneyList{journeys: [_ | _]}}} = conn, []) do
     conn
   end
-  def validate_stop_times(conn, []) do
+  def validate_journeys(conn, []) do
     origin_predictions = conn.assigns.predictions |> Enum.find(& &1.stop.id == conn.assigns.origin.id)
     if is_nil(origin_predictions) do
       conn

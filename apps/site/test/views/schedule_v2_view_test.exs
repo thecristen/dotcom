@@ -33,36 +33,35 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
-      assert display_direction(%StopTimeList{}) == ""
+      assert display_direction(%JourneyList{}) == ""
     end
 
     test "given a non-empty list of predicted_schedules, displays the direction of the first one's route" do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}}
       trip = %Trip{direction_id: 1}
-      stop_times = StopTimeList.build(
+      journeys = JourneyList.build(
         [%Schedules.Schedule{route: route, trip: trip, stop: %Stop{id: "stop"}}],
         [],
-        "stop",
-        nil,
         :last_trip_and_upcoming,
-        ~N[2017-01-01T06:30:00],
-        true
+        true,
+        origin_id: "stop",
+        current_time: ~N[2017-01-01T06:30:00]
       )
-      assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
+      assert journeys |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end
 
     test "uses predictions if no schedule are available (as on subways)" do
       route = %Routes.Route{direction_names: %{1 => "Northbound"}, id: "1"}
       stop = %Stop{id: "stop"}
       now = Timex.now
-      stop_times = StopTimeList.build_predictions_only(
+      journeys = JourneyList.build_predictions_only(
         [],
         [%Predictions.Prediction{route: route, stop: stop, trip: nil, direction_id: 1,
                                                                       time: Timex.shift(now, hours: -1)}],
         stop.id,
         nil
       )
-      assert stop_times |> display_direction |> IO.iodata_to_binary == "Northbound to"
+      assert journeys |> display_direction |> IO.iodata_to_binary == "Northbound to"
     end
   end
 

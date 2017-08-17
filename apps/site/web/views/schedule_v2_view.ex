@@ -16,13 +16,13 @@ defmodule Site.ScheduleV2View do
   Given a list of schedules, returns a display of the route direction. Assumes all
   schedules have the same route and direction.
   """
-  @spec display_direction(StopTimeList.t) :: iodata
-  def display_direction(%StopTimeList{times: times}) do
-    do_display_direction(times)
+  @spec display_direction(JourneyList.t) :: iodata
+  def display_direction(%JourneyList{journeys: journeys}) do
+    do_display_direction(journeys)
   end
 
-  @spec do_display_direction([StopTime.t]) :: iodata
-  defp do_display_direction([%StopTime{departure: predicted_schedule} | _]) do
+  @spec do_display_direction([Journey.t]) :: iodata
+  defp do_display_direction([%Journey{departure: predicted_schedule} | _]) do
     [
       direction(
         PredictedSchedule.direction_id(predicted_schedule),

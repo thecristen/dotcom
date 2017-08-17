@@ -1,7 +1,7 @@
-defmodule Site.ScheduleV2Controller.StopTimesTest do
+defmodule Site.ScheduleV2Controller.JourneysTest do
   use Site.ConnCase, async: true
 
-  import Site.ScheduleV2Controller.StopTimes
+  import Site.ScheduleV2Controller.Journeys
   import Plug.Conn, only: [assign: 3, fetch_query_params: 1]
   import UrlHelpers, only: [update_url: 2]
 
@@ -35,16 +35,16 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       |> call([])
     end
 
-    test "assigns stop_times even without schedules or predictions" do
+    test "assigns journeys even without schedules or predictions" do
       conn = setup_conn(@route, [], [], @date_time, @cal_date, nil, nil)
 
-      assert conn.assigns.stop_times == %StopTimeList{times: []}
+      assert conn.assigns.journeys == %JourneyList{}
     end
 
     test "Does not initially show all trips for Ferry" do
       conn = setup_conn(%Route{id: "Boat-F4", type: 4, name: "Boaty McBoatface"}, [], [], @date_time, @cal_date, nil, nil)
 
-      assert conn.assigns.stop_times == %StopTimeList{times: []}
+      assert conn.assigns.journeys == %JourneyList{}
     end
 
     test "filters out schedules in the past by default, leaving the last entry before now" do
@@ -60,7 +60,10 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
       conn = setup_conn(%Route{id: "CR-Lowell", type: 2, name: "Lowell"}, schedules, [], now, now, stop, nil)
 
-      assert conn.assigns.stop_times.times == StopTimeList.build(Enum.drop(schedules, 2), [], stop.id, nil, :last_trip_and_upcoming, now, true).times
+      current_schedules = Enum.drop(schedules, 2)
+      optionals = [origin_id: stop.id, current_time: now]
+      journey_list = JourneyList.build(current_schedules, [], :last_trip_and_upcoming, true, optionals).journeys
+      assert conn.assigns.journeys.journeys == journey_list
     end
 
     test "if keep_all? is true, doesn't filter schedules" do
@@ -75,7 +78,13 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
       conn = setup_conn(@route, schedules, [], now, @cal_date, stop, nil, "true")
 
-      assert conn.assigns.stop_times == StopTimeList.build(schedules, [], stop.id, nil, :last_trip_and_upcoming, @date_time, true)
+      journey_list = JourneyList.build(schedules,
+                                       [],
+                                       :last_trip_and_upcoming,
+                                       true,
+                                       origin_id: stop.id,
+                                       current_time: @date_time)
+      assert conn.assigns.journeys == journey_list
     end
 
     test "Future schedules have no expansion" do
@@ -90,10 +99,10 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       end
       conn = setup_conn(@route, schedules, [], now, Timex.shift(@cal_date, years: 2000), stop, nil, "true")
 
-      assert conn.assigns.stop_times.expansion == :none
+      assert conn.assigns.journeys.expansion == :none
     end
 
-    test "assigns stop_times for subway", %{conn: conn} do
+    test "assigns journeys for subway", %{conn: conn} do
       conn = conn
       |> assign(:route, %Routes.Route{type: 1})
       |> assign(:schedules, [])
@@ -103,10 +112,10 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       |> fetch_query_params
       |> call([])
 
-      assert conn.assigns.stop_times != nil
+      assert conn.assigns.journeys != nil
     end
 
-    test "assigns prediction-only stop_times", %{conn: conn} do
+    test "assigns prediction-only journeys", %{conn: conn} do
       stop = %Stop{id: "stop"}
       trip = %Trip{id: "trip"}
       schedules = [%Schedule{trip: trip, stop: stop, time: @date_time}]
@@ -120,7 +129,7 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
       |> fetch_query_params
       |> call([])
 
-      assert conn.assigns.stop_times == StopTimeList.build_predictions_only(
+      assert conn.assigns.journeys == JourneyList.build_predictions_only(
         schedules, predictions, "stop", nil)
     end
 
@@ -194,15 +203,14 @@ defmodule Site.ScheduleV2Controller.StopTimesTest do
         destination
       )
 
-      assert conn.assigns.stop_times == StopTimeList.build(
-        all_schedules,
-        destination_predictions,
-        origin.id,
-        destination.id,
-        :predictions_then_schedules,
-        @date_time,
-        true
-      )
+      journey_opts = [origin_id: origin.id, destination_id: destination.id, current_time: @date_time]
+      journeys = JourneyList.build(all_schedules,
+                                   destination_predictions,
+                                   :predictions_then_schedules,
+                                   true,
+                                   journey_opts)
+
+      assert conn.assigns.journeys == journeys
     end
   end
 end

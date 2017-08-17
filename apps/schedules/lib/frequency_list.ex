@@ -19,14 +19,14 @@ defmodule Schedules.FrequencyList do
 end
 
 defimpl Enumerable, for: Schedules.FrequencyList do
-  def count(_stop_time_list) do
+  def count(_journey_list) do
     {:error, __MODULE__}
   end
 
-  def member?(_stop_time_list, %Schedules.FrequencyList{}) do
+  def member?(_journey_list, %Schedules.FrequencyList{}) do
     {:error, __MODULE__}
   end
-  def member?(_stop_time_list, _other) do
+  def member?(_journey_list, _other) do
     {:ok, false}
   end
 

@@ -46,7 +46,7 @@
                     <%= PredictedSchedule.Display.time(departure) %>
                   </div>
                   <div class="col-xs-5 station-trip-status" role="cell">
-                    <%= StopTime.display_status(departure, nil) %>
+                    <%= Journey.display_status(departure, nil) %>
                   </div>
                 </div>
               </div>

@@ -1,5 +1,5 @@
-<%= if @stop_times.times != [] do %>
-  <% refresh = if StopTimeList.has_predictions?(@stop_times), do: render "_refresh.html", conn: @conn %>
+<%= if @journeys.journeys != [] do %>
+  <% refresh = if JourneyList.has_predictions?(@journeys), do: render "_refresh.html", conn: @conn %>
   <div class="trip-list-v2" role="table">
     <div class="trip-list-v2-row trip-list-v2-header trip-list-v2-row-2-col sticky-top" role="row">
       <%= if @destination do %>
@@ -7,10 +7,10 @@
         <div class="trip-list-v2-headsign" role="columnheader">Arrival <%= refresh %></div>
       <% else %>
         <div class="trip-list-v2-departure" role="columnheader">Scheduled</div>
-        <div class="trip-list-v2-headsign" role="columnheader"><%= display_direction(@stop_times) %> <%= refresh %></div>
+        <div class="trip-list-v2-headsign" role="columnheader"><%= display_direction(@journeys) %> <%= refresh %></div>
       <% end %>
     </div>
-    <%= for %StopTime{departure: departure, arrival: arrival, trip: trip} <- @stop_times do %>
+    <%= for %Journey{departure: departure, arrival: arrival, trip: trip} <- @journeys do %>
       <%
         %{id: departure_route_id} = PredictedSchedule.route(departure)
       %>
@@ -38,7 +38,7 @@
                                           departure_route_id: departure_route_id %>
       <% end %>
     <% end %>
-    <%= trip_expansion_link(@stop_times.expansion, @date, @conn)%>
+    <%= trip_expansion_link(@journeys.expansion, @date, @conn)%>
     <p aria-hidden="true" class="trip-list-v2-row trip-list-v2-realtime">
       <%= fa "rss" %> Real-time information
     </p>

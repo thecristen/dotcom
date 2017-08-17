@@ -1,4 +1,4 @@
-defmodule StopTime do
+defmodule Journey do
   @moduledoc """
   Represents a schedule at a stop (origin or destination) or a pair of stops (origin and destination)
   """
@@ -12,73 +12,73 @@ defmodule StopTime do
     trip: Trip.t | nil
   }
 
-  @spec has_departure_schedule?(StopTime.t) :: boolean
-  def has_departure_schedule?(%StopTime{departure: departure}), do: PredictedSchedule.has_schedule?(departure)
-  def has_departure_schedule?(%StopTime{}), do: false
+  @spec has_departure_schedule?(__MODULE__.t) :: boolean
+  def has_departure_schedule?(%__MODULE__{departure: departure}), do: PredictedSchedule.has_schedule?(departure)
+  def has_departure_schedule?(%__MODULE__{}), do: false
 
-  @spec has_departure_prediction?(StopTime.t) :: boolean
-  def has_departure_prediction?(%StopTime{departure: departure}) when not is_nil(departure) do
+  @spec has_departure_prediction?(__MODULE__.t) :: boolean
+  def has_departure_prediction?(%__MODULE__{departure: departure}) when not is_nil(departure) do
     PredictedSchedule.has_prediction?(departure)
   end
-  def has_departure_prediction?(%StopTime{}), do: false
+  def has_departure_prediction?(%__MODULE__{}), do: false
 
-  @spec has_arrival_prediction?(StopTime.t) :: boolean
-  def has_arrival_prediction?(%StopTime{arrival: arrival}) when not is_nil(arrival) do
+  @spec has_arrival_prediction?(__MODULE__.t) :: boolean
+  def has_arrival_prediction?(%__MODULE__{arrival: arrival}) when not is_nil(arrival) do
     PredictedSchedule.has_prediction?(arrival)
   end
-  def has_arrival_prediction?(%StopTime{}), do: false
+  def has_arrival_prediction?(%__MODULE__{}), do: false
 
-  @spec has_prediction?(StopTime.t) :: boolean
-  def has_prediction?(stop_time), do: has_departure_prediction?(stop_time) or has_arrival_prediction?(stop_time)
+  @spec has_prediction?(__MODULE__.t) :: boolean
+  def has_prediction?(journey), do: has_departure_prediction?(journey) or has_arrival_prediction?(journey)
 
-  @spec prediction(StopTime.t) :: Prediction.t | nil
-  def prediction(stop_time) do
+  @spec prediction(__MODULE__.t) :: Prediction.t | nil
+  def prediction(journey) do
     cond do
-      has_departure_prediction?(stop_time) ->
-        stop_time.departure.prediction
-      has_arrival_prediction?(stop_time) ->
-        stop_time.arrival.prediction
+      has_departure_prediction?(journey) ->
+        journey.departure.prediction
+      has_arrival_prediction?(journey) ->
+        journey.arrival.prediction
       true ->
         nil
     end
   end
 
   @spec time(t) :: DateTime.t | nil
-  def time(stop_time), do: departure_time(stop_time)
+  def time(journey), do: departure_time(journey)
 
-  @spec departure_time(StopTime.t) :: DateTime.t | nil
-  def departure_time(%StopTime{departure: nil}), do: nil
-  def departure_time(%StopTime{departure: departure}), do: PredictedSchedule.time(departure)
+  @spec departure_time(__MODULE__.t) :: DateTime.t | nil
+  def departure_time(%__MODULE__{departure: nil}), do: nil
+  def departure_time(%__MODULE__{departure: departure}), do: PredictedSchedule.time(departure)
 
-  @spec arrival_time(StopTime.t) :: DateTime.t | nil
-  def arrival_time(%StopTime{arrival: nil}), do: nil
-  def arrival_time(%StopTime{arrival: arrival}), do: PredictedSchedule.time(arrival)
+  @spec arrival_time(__MODULE__.t) :: DateTime.t | nil
+  def arrival_time(%__MODULE__{arrival: nil}), do: nil
+  def arrival_time(%__MODULE__{arrival: arrival}), do: PredictedSchedule.time(arrival)
 
-  @spec departure_prediction_time(StopTime.t | nil) :: DateTime.t | nil
-  def departure_prediction_time(%StopTime{departure: %PredictedSchedule{prediction: %Prediction{time: time}}}), do: time
-  def departure_prediction_time(%StopTime{}), do: nil
+  @spec departure_prediction_time(__MODULE__.t | nil) :: DateTime.t | nil
+  def departure_prediction_time(%__MODULE__{departure: %PredictedSchedule{prediction: %Prediction{time: time}}}), do: time
+  def departure_prediction_time(%__MODULE__{}), do: nil
   def departure_prediction_time(nil), do: nil
 
-  @spec departure_schedule_time(StopTime.t | nil) :: DateTime.t | nil
-  def departure_schedule_time(%StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}), do: time
-  def departure_schedule_time(%StopTime{}), do: nil
+  @spec departure_schedule_time(__MODULE__.t | nil) :: DateTime.t | nil
+  def departure_schedule_time(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}), do: time
+  def departure_schedule_time(%__MODULE__{}), do: nil
   def departure_schedule_time(nil), do: nil
 
-  def departure_schedule_before?(%StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
+  def departure_schedule_before?(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
       when not is_nil(time) do
     Timex.before?(time, cmp_time)
   end
-  def departure_schedule_before?(%StopTime{}), do: false
+  def departure_schedule_before?(%__MODULE__{}), do: false
 
-  def departure_schedule_after?(%StopTime{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
+  def departure_schedule_after?(%__MODULE__{departure: %PredictedSchedule{schedule: %Schedule{time: time}}}, cmp_time)
       when not is_nil(time) do
     Timex.after?(time, cmp_time)
   end
-  def departure_schedule_after?(%StopTime{}, _cmp_time), do: false
+  def departure_schedule_after?(%__MODULE__{}, _cmp_time), do: false
 
   @doc """
 
-  Compares two StopTimes and returns true if the first one (left) is before the second (right).
+  Compares two Journeys and returns true if the first one (left) is before the second (right).
 
   * If both have departure times, compares those
   * If both have arrival times, compares those
@@ -110,8 +110,8 @@ defmodule StopTime do
   end
 
   defp arrival_before?(left, right) do
-    left_arrival_time = StopTime.arrival_time(left)
-    right_arrival_time = StopTime.arrival_time(right)
+    left_arrival_time = arrival_time(left)
+    right_arrival_time = arrival_time(right)
 
     cmp_arrival = safe_time_compare(left_arrival_time, right_arrival_time)
 
@@ -171,17 +171,20 @@ defmodule StopTime do
   """
   @spec display_status(PredictedSchedule.t | nil, PredictedSchedule.t | nil) :: Phoenix.HTML.Safe.t
   def display_status(departure, arrival \\ nil)
-  def display_status(%PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}}, _) when not is_nil(status) do
+  def display_status(%PredictedSchedule{schedule: _, prediction: %Prediction{status: status, track: track}}, _)
+  when not is_nil(status) do
     status = String.capitalize(status)
     case track do
       nil -> Phoenix.HTML.Tag.content_tag(:span, status)
-      track -> Phoenix.HTML.Tag.content_tag(:span, [status, " on ", Phoenix.HTML.Tag.content_tag(:span, ["track ", track], class: "no-wrap")])
+      track -> Phoenix.HTML.Tag.content_tag(:span,
+      [status, " on ", Phoenix.HTML.Tag.content_tag(:span, ["track ", track],
+       class: "no-wrap")])
     end
   end
   def display_status(departure, arrival) do
     case Enum.max([PredictedSchedule.delay(departure), PredictedSchedule.delay(arrival)]) do
       delay when delay > 0 ->
-        Phoenix.HTML.Tag.content_tag(:span, [ "Delayed ", Integer.to_string(delay), " ", Inflex.inflect("minute", delay) ])
+        Phoenix.HTML.Tag.content_tag(:span, ["Delayed ", Integer.to_string(delay), " ", Inflex.inflect("minute", delay)])
       _ ->
         ""
     end

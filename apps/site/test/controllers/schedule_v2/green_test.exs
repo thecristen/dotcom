@@ -185,10 +185,10 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     assert conn.assigns.excluded_destination_stops == ExcludedStops.excluded_destination_stops("Green", "place-pktrm")
   end
 
-  test "trip view assigns stop times", %{conn: conn} do
+  test "trip view assigns journeys", %{conn: conn} do
     conn = get(conn, green_path(conn, :trip_view, origin: "place-pktrm"))
 
-    assert conn.assigns.stop_times.times
+    assert conn.assigns.journeys.journeys
   end
 
   test "assigns breadcrumbs", %{conn: conn} do
@@ -227,8 +227,8 @@ defmodule Site.ScheduleV2Controller.GreenTest do
     assert conn.assigns.direction_id == 1
   end
 
-  describe "validate_stop_times/2" do
-    test "redirects away from a destination if we had origin predictions but not stop_times", %{conn: conn} do
+  describe "validate_journeys/2" do
+    test "redirects away from a destination if we had origin predictions but not journeys", %{conn: conn} do
       conn = %{conn | request_path: "/", query_params: %{"origin" => "stop", "destination" => "destination"}}
       |> assign(:date_time, ~N[2017-01-01T12:00:00])
       |> assign(:date, ~D[2017-01-01])
@@ -237,13 +237,13 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, %Stops.Stop{id: "destination"})
       |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}])
-      |> assign(:stop_times, StopTimeList.build_predictions_only([], [], "stop", "destination"))
-      |> validate_stop_times([])
+      |> assign(:journeys, JourneyList.build_predictions_only([], [], "stop", "destination"))
+      |> validate_journeys([])
 
       assert redirected_to(conn, 302) == "/?origin=stop"
     end
 
-    test "keeps the destination if there are stop times", %{conn: conn} do
+    test "keeps the destination if there are journeys", %{conn: conn} do
       predictions = [
         %Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}
       ]
@@ -255,8 +255,8 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, %Stops.Stop{id: "destination"})
       |> assign(:predictions, predictions)
-      |> assign(:stop_times, StopTimeList.build_predictions_only([], predictions, "stop", nil))
-      |> validate_stop_times([])
+      |> assign(:journeys, JourneyList.build_predictions_only([], predictions, "stop", nil))
+      |> validate_journeys([])
 
       refute conn.halted
     end
@@ -270,8 +270,8 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, %Stops.Stop{id: "destination"})
       |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "destination"}}])
-      |> assign(:stop_times, StopTimeList.build_predictions_only([], [], "stop", "destination"))
-      |> validate_stop_times([])
+      |> assign(:journeys, JourneyList.build_predictions_only([], [], "stop", "destination"))
+      |> validate_journeys([])
 
       refute conn.halted
     end
@@ -285,8 +285,8 @@ defmodule Site.ScheduleV2Controller.GreenTest do
       |> assign(:origin, %Stops.Stop{id: "stop"})
       |> assign(:destination, nil)
       |> assign(:predictions, [%Predictions.Prediction{stop: %Stops.Stop{id: "stop"}}])
-      |> assign(:stop_times, StopTimeList.build_predictions_only([], [], "stop", "destination"))
-      |> validate_stop_times([])
+      |> assign(:journeys, JourneyList.build_predictions_only([], [], "stop", "destination"))
+      |> validate_journeys([])
 
       refute conn.halted
     end

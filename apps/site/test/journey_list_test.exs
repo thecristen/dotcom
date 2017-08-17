@@ -1,6 +1,6 @@
-defmodule StopTimeListTest do
+defmodule JourneyListTest do
   use ExUnit.Case, async: true
-  import StopTimeList
+  import JourneyList
 
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
@@ -151,9 +151,9 @@ defmodule StopTimeListTest do
   # stop3 | 7:30  | 8:30  | 9:30
 
   @od_schedules [
-      { @sched_stop1_trip2__8_00, @sched_stop3_trip2__8_30 },
-      { @sched_stop1_trip1__7_00, @sched_stop3_trip1__7_30 },
-      { @sched_stop1_trip3__9_00, @sched_stop3_trip3__9_30 },
+      {@sched_stop1_trip2__8_00, @sched_stop3_trip2__8_30},
+      {@sched_stop1_trip1__7_00, @sched_stop3_trip1__7_30},
+      {@sched_stop1_trip3__9_00, @sched_stop3_trip3__9_30},
   ]
 
   # ------------------------------
@@ -189,14 +189,15 @@ defmodule StopTimeListTest do
   ]
 
   describe "has_predictions?/1" do
-    test "true when any of the stop times have a prediction" do
+    test "true when any of the journeys have a prediction" do
       for {schedules, origin_id, destination_id} <- [
             {@origin_schedules, "stop1", nil},
             {@od_schedules, "stop1", "stop2"},
             {@od_schedules, "stop1", "stop3"},
             {@od_schedules, "stop2", "stop3"}] do
+          optionals = [origin_id: origin_id, destination_id: destination_id, current_time: @time]
           assert schedules
-          |> build(@predictions, origin_id, destination_id, :last_trip_and_upcoming, @time, true)
+          |> build(@predictions, :last_trip_and_upcoming, true, optionals)
           |> has_predictions?
       end
     end
@@ -205,8 +206,9 @@ defmodule StopTimeListTest do
       for {schedules, destination_id} <- [
             {@origin_schedules, nil},
             {@od_schedules, "stop2"}] do
+          optionals = [destination_id: destination_id, current_time: @time]
           refute schedules
-          |> build([], "stop1", destination_id, :last_trip_and_upcoming, @time, true)
+          |> build([], :last_trip_and_upcoming, true, optionals)
           |> has_predictions?
 
       end
@@ -215,12 +217,13 @@ defmodule StopTimeListTest do
 
   describe "build/1 with no origin or destination" do
     test "returns no times" do
-      assert build(@origin_schedules, @predictions, nil, nil, :last_trip_and_upcoming, @time, true) == %StopTimeList{times: []}
+      journeys = build(@origin_schedules, @predictions, :last_trip_and_upcoming, true, current_time: @time)
+      assert  journeys == %JourneyList{}
     end
   end
 
   describe "build/1 with only origin" do
-    test "returns StopTimes at that origin sorted by time with predictions first" do
+    test "returns Journeys at that origin sorted by time with predictions first" do
 
       # --------------------------------------------
       #         trip1   | trip2           | trip3
@@ -229,13 +232,13 @@ defmodule StopTimeListTest do
       # stop2 |         | 8:15(s) 8:16(p) |
       # stop3 |         | 8:32(p)         |
 
+      optionals = [origin_id: "stop1", current_time: @time]
+      result = build(@origin_schedules, @predictions, :predictions_then_schedules, false, optionals)
 
-      result = build(@origin_schedules, @predictions, "stop1", nil, :predictions_then_schedules, @time, false)
-
-      assert result == %StopTimeList{
+      assert result == %JourneyList{
         expansion: :collapsed,
-        times: [
-          %StopTime{
+        journeys: [
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -253,7 +256,7 @@ defmodule StopTimeListTest do
             },
             trip: %Trip{id: "trip2"}
           },
-          %StopTime{
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -277,9 +280,12 @@ defmodule StopTimeListTest do
         stop: %Stop{id: "stop1"},
         trip: %Trip{id: "trip1"}
       }
-      result = build(Enum.filter(@origin_schedules, & &1.trip.id != "trip1"), [prediction | @predictions], "stop1", nil, :predictions_then_schedules, @time, true)
 
-      assert List.first(result.times) == %StopTime{
+      filtered_schedules = Enum.filter(@origin_schedules, & &1.trip.id != "trip1")
+      optionals = [origin_id: "stop1", current_time: @time]
+      result = build(filtered_schedules, [prediction | @predictions], :predictions_then_schedules, true, optionals)
+
+      assert List.first(result.journeys) == %Journey{
         arrival: nil,
         departure: %PredictedSchedule{
           schedule: nil,
@@ -290,8 +296,9 @@ defmodule StopTimeListTest do
     end
 
     test "when showing all, can return schedules before predictions" do
-      result = build(@origin_schedules, @predictions, "stop1", nil, :last_trip_and_upcoming, @time, true)
-      assert List.first(result.times) == %StopTime{
+      optionals = [origin_id: "stop1", current_time: @time]
+      result = build(@origin_schedules, @predictions, :last_trip_and_upcoming, true, optionals)
+      assert List.first(result.journeys) == %Journey{
         trip: %Trip{id: "trip1"},
         departure: %PredictedSchedule{
           schedule: %Schedule{
@@ -318,11 +325,14 @@ defmodule StopTimeListTest do
         trip: %Trip{id: "trip5"}
       }
 
-      result = build([schedule | @origin_schedules], [prediction | @predictions], "stop1", nil, :predictions_then_schedules, @time, false)
-      assert result == %StopTimeList{
+      optionals = [origin_id: "stop1", current_time: @time]
+      schedules = [schedule | @origin_schedules]
+      result = build(schedules, [prediction | @predictions], :predictions_then_schedules, false, optionals)
+
+      assert result == %JourneyList{
         expansion: :collapsed,
-        times: [
-          %StopTime{
+        journeys: [
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -340,7 +350,7 @@ defmodule StopTimeListTest do
             },
             trip: %Trip{id: "trip2"}
           },
-          %StopTime{
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: nil,
@@ -353,7 +363,7 @@ defmodule StopTimeListTest do
             },
             trip: %Trip{id: "trip4"}
           },
-          %StopTime{
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -384,10 +394,11 @@ defmodule StopTimeListTest do
         trip: %Trip{id: "trip4"}
       }
 
-      result = build([schedule], [prediction], "stop1", nil, :predictions_then_schedules, @time, true)
-      assert result == %StopTimeList{
-        times: [
-          %StopTime{
+      optionals = [origin_id: "stop1", current_time: @time]
+      result = build([schedule], [prediction], :predictions_then_schedules, true, optionals)
+      assert result == %JourneyList{
+        journeys: [
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: schedule,
@@ -408,12 +419,13 @@ defmodule StopTimeListTest do
       # stop2 |       | 8:15  |
       # stop3 |       |       |
 
-      result = build(@origin_schedules, [], "stop1", nil, :last_trip_and_upcoming, ~N[2017-01-01T08:30:00], false)
+      optionals = [origin_id: "stop1", current_time: ~N[2017-01-01T08:30:00]]
+      result = build(@origin_schedules, [], :last_trip_and_upcoming, false, optionals)
 
-      assert result == %StopTimeList{
+      assert result == %JourneyList{
         expansion: :collapsed,
-        times: [
-          %StopTime{
+        journeys: [
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -426,7 +438,7 @@ defmodule StopTimeListTest do
             },
             trip: %Trip{id: "trip2"}
           },
-          %StopTime{
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -453,8 +465,9 @@ defmodule StopTimeListTest do
       # stop2 |       | 8:15  |
       # stop3 |       |       |
 
-      expected = build(@origin_schedules, [], "stop1", nil, :last_trip_and_upcoming, ~N[2017-01-01T08:30:00], true)
-      actual = build(@origin_schedules, [], "stop1", nil, :predictions_then_schedules, ~N[2017-01-01T08:30:00], true)
+      optionals = [origin_id: "stop1", current_time: ~N[2017-01-01T08:30:00]]
+      expected = build(@origin_schedules, [], :last_trip_and_upcoming, true, optionals)
+      actual = build(@origin_schedules, [], :predictions_then_schedules, true, optionals)
 
       assert expected == actual
     end
@@ -468,11 +481,12 @@ defmodule StopTimeListTest do
       # stop2 |       | 8:15  |
       # stop3 |       |       |
 
-      result = build(@origin_schedules, [], "stop1", nil, :last_trip_and_upcoming, ~N[2017-01-01T06:30:00], true)
+      optionals = [origin_id: "stop1", current_time: ~N[2017-01-01T06:30:00]]
+      result = build(@origin_schedules, [], :last_trip_and_upcoming, true, optionals)
 
-      assert result == %StopTimeList{
-        times: [
-          %StopTime{
+      assert result == %JourneyList{
+        journeys: [
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -485,7 +499,7 @@ defmodule StopTimeListTest do
             },
             trip: %Trip{id: "trip1"}
           },
-          %StopTime{
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -498,7 +512,7 @@ defmodule StopTimeListTest do
             },
             trip: %Trip{id: "trip2"}
           },
-          %StopTime{
+          %Journey{
             arrival: nil,
             departure: %PredictedSchedule{
               schedule: %Schedule{
@@ -524,15 +538,16 @@ defmodule StopTimeListTest do
       # stop2 |       | 8:15  |
       # stop3 |       |       |
 
-      expected = build(@origin_schedules, [], "stop1", nil, :last_trip_and_upcoming, ~N[2017-01-01T09:30:00], true)
-      actual = build(@origin_schedules, [], "stop1", nil, :last_trip_and_upcoming, ~N[2017-01-01T09:30:00], true)
+      optionals = [origin_id: "stop1", current_time: ~N[2017-01-01T09:30:00]]
+      expected = build(@origin_schedules, [], :last_trip_and_upcoming, true, optionals)
+      actual = build(@origin_schedules, [], :last_trip_and_upcoming, true, optionals)
 
       assert actual == expected
     end
   end
 
   describe "build/1 with origin and destination" do
-    test "with origin and destination provided, returns StopTimes with arrivals and departures" do
+    test "with origin and destination provided, returns Journeys with arrivals and departures" do
 
       # --------------------------------------------
       #         trip1   | trip2           | trip3
@@ -541,12 +556,13 @@ defmodule StopTimeListTest do
       # stop2 |         | 8:16(p)         |
       # stop3 | 7:30(s) | 8:30(s) 8:32(p) | 9:30(s)
 
-      result = build(@od_schedules, @predictions, "stop1", "stop3", :predictions_then_schedules, @time, false)
+      optionals = [origin_id: "stop1", destination_id: "stop3", current_time: @time]
+      result = build(@od_schedules, @predictions, :predictions_then_schedules, false, optionals)
 
-      assert result == %StopTimeList{
+      assert result == %JourneyList{
         expansion: :collapsed,
-        times: [
-          %StopTime{
+        journeys: [
+          %Journey{
             arrival: %PredictedSchedule{
               schedule: %Schedule{
                 time: ~N[2017-01-01T08:30:00],
@@ -576,7 +592,7 @@ defmodule StopTimeListTest do
               }
             },
             trip: %Trip{id: "trip2"}},
-          %StopTime{
+          %Journey{
             arrival: %PredictedSchedule{
               schedule: %Schedule{
                 time: ~N[2017-01-01T09:30:00],
@@ -632,10 +648,15 @@ defmodule StopTimeListTest do
       # stop2 |         | 8:16(p)         |       |
       # stop3 | 7:30(s) | 8:30(s) 8:32(p) | 9:30  | 6:30(s) 7:31(p)
 
-      result = build([schedule_pair | @od_schedules], [prediction | @predictions], "stop1", "stop3", :last_trip_and_upcoming, ~N[2017-01-01T06:15:00], true)
-      stop_time = hd(result.times)
+      optionals = [origin_id: "stop1", destination_id: "stop3", current_time: ~N[2017-01-01T06:15:00]]
+      result = build([schedule_pair | @od_schedules],
+                     [prediction | @predictions],
+                     :last_trip_and_upcoming,
+                     true,
+                   optionals)
+      journey = hd(result.journeys)
 
-      assert stop_time == %StopTime{
+      assert journey == %Journey{
         departure: %PredictedSchedule{schedule: orig_sched, prediction: nil},
         arrival: %PredictedSchedule{schedule: dest_sched, prediction: prediction},
         trip: %Schedules.Trip{id: "t_new"}
@@ -650,17 +671,19 @@ defmodule StopTimeListTest do
       cancel_stop3_trip6 = %{@pred_stop3_trip6__8_38 | time: nil, schedule_relationship: :cancelled, direction_id: 1}
       predictions = [cancel_stop3_trip6, cancel_stop1_trip6, cancel_stop3_trip2, cancel_stop1_trip2]
 
-      result = build(@od_schedules, predictions, "stop1", "stop3", :last_trip_and_upcoming, ~N[2017-01-01T08:00:00], true)
-      stop_time = Enum.at(result.times, 1) # should be trip 2
+      optionals = [origin_id: "stop1", destination_id: "stop3", current_time: ~N[2017-01-01T08:00:00]]
+      result = build(@od_schedules, predictions, :last_trip_and_upcoming, true, optionals)
+      journey = Enum.at(result.journeys, 1) # should be trip 2
 
-      assert PredictedSchedule.trip(stop_time.departure) == %Trip{id: "trip2"}
-      assert stop_time.departure.prediction == cancel_stop1_trip2
-      assert stop_time.arrival.prediction == cancel_stop3_trip2
+      assert PredictedSchedule.trip(journey.departure) == %Trip{id: "trip2"}
+      assert journey.departure.prediction == cancel_stop1_trip2
+      assert journey.arrival.prediction == cancel_stop3_trip2
     end
 
     test "when showing all, can return schedules before predictions" do
-      result = build(@od_schedules, @predictions, "stop1", "stop3", :last_trip_and_upcoming, @time, true)
-      assert List.first(result.times) == %StopTime{
+      optionals = [origin_id: "stop1", destination_id: "stop3", current_time: @time]
+      result = build(@od_schedules, @predictions, :last_trip_and_upcoming, true, optionals)
+      assert List.first(result.journeys) == %Journey{
         trip: %Trip{id: "trip1"},
         departure: %PredictedSchedule{
           schedule: %Schedule{
@@ -682,22 +705,23 @@ defmodule StopTimeListTest do
         }}
     end
 
-    test "excludes StopTimes where there's no departure time" do
+    test "excludes Journeys where there's no departure time" do
       predictions = [
         %{@pred_stop1_trip2__8_16 | time: nil, schedule_relationship: :skipped},
         @pred_stop3_trip2__8_32
       ]
-      result = build([], predictions, "stop1", "stop3", :last_trip_and_upcoming, @time, true)
-      assert result.times == []
+      optionals = [origin_id: "stop1", destination_id: "stop3", current_time: @time]
+      result = build([], predictions, :last_trip_and_upcoming, true, optionals)
+      assert result.journeys == []
     end
   end
 
   describe "build_predictions_only/4" do
     test "Results contain no schedules for origin" do
-      result = build_predictions_only([], @origin_destination_predictions, "stop1", nil).times
+      result = build_predictions_only([], @origin_destination_predictions, "stop1", nil).journeys
       assert length(result) == 5
-      for stop_time <- result do
-        assert %StopTime{departure: %PredictedSchedule{schedule: nil}, arrival: nil} = stop_time
+      for journey <- result do
+        assert %Journey{departure: %PredictedSchedule{schedule: nil}, arrival: nil} = journey
       end
     end
 
@@ -707,7 +731,7 @@ defmodule StopTimeListTest do
                                      route: @route,
                                      stop: %Stop{id: "stop1"},
                                      time: ~N[2017-01-01T00:00:00]}
-      result = build_predictions_only([], @origin_destination_predictions ++ [early_prediction], "stop1", nil).times
+      result = build_predictions_only([], @origin_destination_predictions ++ [early_prediction], "stop1", nil).journeys
       assert List.first(result).departure.prediction == early_prediction
     end
 
@@ -720,13 +744,15 @@ defmodule StopTimeListTest do
       # stop2 |       |       |       |       |       |
       # stop3 |       |       |       |       |       | 8:38
 
-      result = build_predictions_only([], @origin_destination_predictions, "stop1", "stop3").times
+      result = build_predictions_only([], @origin_destination_predictions, "stop1", "stop3").journeys
 
       assert length(result) == 1
 
-      stop_time = hd(result)
-      assert stop_time.trip.id == "trip6"
-      assert %StopTime{departure: %PredictedSchedule{schedule: nil}, arrival: %PredictedSchedule{schedule: nil}} = stop_time
+      journey = hd(result)
+
+      assert journey.trip.id == "trip6"
+      refute journey.departure.schedule
+      refute journey.arrival.schedule
     end
 
     test "All times have departure predictions" do
@@ -738,26 +764,26 @@ defmodule StopTimeListTest do
       # stop2 |       |       |       |       |       |
       # stop3 |       |       |       |       |       | 8:38
 
-      result = build_predictions_only([], @origin_destination_predictions, "stop1", "stop3").times
+      result = build_predictions_only([], @origin_destination_predictions, "stop1", "stop3").journeys
       assert length(result) == 1
 
-      stop_time = hd(result)
-      assert stop_time.trip.id == "trip6"
-      assert stop_time.departure.prediction != nil
+      journey = hd(result)
+      assert journey.trip.id == "trip6"
+      assert journey.departure.prediction != nil
     end
 
     test "uses an arrival schedule if present and does not set a prediction" do
       departure_prediction = @pred_stop1_trip2__8_16
       arrival_schedule = {@sched_stop1_trip2__8_00, @sched_stop3_trip2__8_30}
 
-      result = build_predictions_only([arrival_schedule], [departure_prediction], "stop1", "stop3").times
+      result = build_predictions_only([arrival_schedule], [departure_prediction], "stop1", "stop3").journeys
 
-      assert [stop_time] = result
-      assert stop_time.trip.id == "trip2"
-      assert stop_time.departure.schedule
-      assert stop_time.departure.prediction
-      assert stop_time.arrival.schedule
-      refute stop_time.arrival.prediction
+      assert [journey] = result
+      assert journey.trip.id == "trip2"
+      assert journey.departure.schedule
+      assert journey.departure.prediction
+      assert journey.arrival.schedule
+      refute journey.arrival.prediction
     end
 
     test "uses an arrival prediction if present with a schedule" do
@@ -765,18 +791,18 @@ defmodule StopTimeListTest do
       arrival_prediction = @pred_stop3_trip2__8_32
       arrival_schedule = {@sched_stop1_trip2__8_00, @sched_stop3_trip2__8_30}
 
-      result = build_predictions_only([arrival_schedule], [departure_prediction, arrival_prediction], "stop1", "stop3").times
+      result = build_predictions_only([arrival_schedule], [departure_prediction, arrival_prediction], "stop1", "stop3").journeys
 
-      assert [stop_time] = result
-      assert stop_time.trip.id == "trip2"
-      assert stop_time.departure.schedule
-      assert stop_time.departure.prediction
-      assert stop_time.arrival.schedule
-      assert stop_time.arrival.prediction
+      assert [journey] = result
+      assert journey.trip.id == "trip2"
+      assert journey.departure.schedule
+      assert journey.departure.prediction
+      assert journey.arrival.schedule
+      assert journey.arrival.prediction
     end
 
     test "does not use schedules if there are no predictions" do
-      result = build_predictions_only([@sched_stop3_trip2__8_30], [], "stop3", nil).times
+      result = build_predictions_only([@sched_stop3_trip2__8_30], [], "stop3", nil).journeys
 
       assert result == []
     end
@@ -790,9 +816,9 @@ defmodule StopTimeListTest do
         trip: nil
       }
       result = build_predictions_only([], [prediction], "stop1", nil)
-      assert result == %StopTimeList{
-        times: [
-          %StopTime{
+      assert result == %JourneyList{
+        journeys: [
+          %Journey{
             trip: nil,
             departure: %PredictedSchedule{
               schedule: nil,
@@ -815,9 +841,9 @@ defmodule StopTimeListTest do
         status: "1 stop away"}
       result = build_predictions_only([], [prediction, other_prediction] |> Enum.shuffle, "stop1", nil)
       assert [
-        %StopTime{trip: nil, departure: %PredictedSchedule{prediction: ^other_prediction}},
-        %StopTime{trip: nil, departure: %PredictedSchedule{prediction: ^prediction}}
-      ] = result.times
+        %Journey{trip: nil, departure: %PredictedSchedule{prediction: ^other_prediction}},
+        %Journey{trip: nil, departure: %PredictedSchedule{prediction: ^prediction}}
+      ] = result.journeys
     end
 
     test "ignores predictions where arrival is before departure" do
@@ -830,15 +856,16 @@ defmodule StopTimeListTest do
       arrival_prediction = %{prediction | time: ~N[2016-12-31T12:00:00], stop: %Stop{id: "stop3"}}
       predictions = [prediction, arrival_prediction]
       result = build_predictions_only([], predictions, "stop1", "stop3")
-      assert result.times == []
+      assert result.journeys == []
     end
   end
 
   describe "reduce/3" do
-    test "reducing the StopTimeList is the same as reducing the list of stop times on it" do
-      stop_time_list = build(@od_schedules, @predictions, "stop1", "stop3", :predictions_then_schedules, @time, false)
-      assert Enum.reduce(stop_time_list, [], fn time, list -> [time.arrival | list] end) ==
-        Enum.reduce(stop_time_list.times, [], fn time, list -> [time.arrival | list] end)
+    test "reducing the JourneyList is the same as reducing the list of journeys on it" do
+      optionals = [origin_id: "stop1", destination_id: "stop3", current_time: @time]
+      journey_list = build(@od_schedules, @predictions, :predictions_then_schedules, false, optionals)
+      assert Enum.reduce(journey_list, [], fn time, list -> [time.arrival | list] end) ==
+        Enum.reduce(journey_list.journeys, [], fn time, list -> [time.arrival | list] end)
     end
   end
 end

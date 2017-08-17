@@ -1,7 +1,7 @@
-defmodule Site.ScheduleV2Controller.StopTimes do
+defmodule Site.ScheduleV2Controller.Journeys do
   @moduledoc """
-  Assigns a list of stop times based on predictions, schedules, origin, and destination. The bulk of
-  the work happens in StopTimeList.
+  Assigns a list of journeys based on predictions, schedules, origin, and destination. The bulk of
+  the work happens in JourneyList.
   """
   use Plug.Builder
   import Plug.Conn, only: [assign: 3, halt: 1]
@@ -11,19 +11,19 @@ defmodule Site.ScheduleV2Controller.StopTimes do
   require Routes.Route
   alias Routes.Route
 
-  plug :assign_stop_times
+  plug :assign_journeys
   plug :validate_direction_id
 
-  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) when Route.subway?(route_type, route_id) do
+  def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) when Route.subway?(route_type, route_id) do
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
     predictions = conn.assigns.predictions
 
-    stop_times = StopTimeList.build_predictions_only(schedules, predictions, origin_id, destination_id)
+    journeys = JourneyList.build_predictions_only(schedules, predictions, origin_id, destination_id)
 
-    assign(conn, :stop_times, stop_times)
+    assign(conn, :journeys, journeys)
   end
-  def assign_stop_times(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) do
+  def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) do
     show_all_trips? = conn.params["show_all_trips"] == "true"
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
@@ -35,22 +35,20 @@ defmodule Site.ScheduleV2Controller.StopTimes do
     filter_flag = filter_flag(today?, route_type)
     keep_all? = keep_all?(today?, route_type, route_id, show_all_trips?)
 
-    stop_times =
-      StopTimeList.build(schedules, predictions, origin_id, destination_id, filter_flag, current_time, keep_all?)
-
-    assign(conn, :stop_times, stop_times)
+    journey_optionals = [origin_id: origin_id, destination_id: destination_id, current_time: current_time]
+    assign(conn, :journeys, JourneyList.build(schedules, predictions, filter_flag, keep_all?, journey_optionals))
   end
-  def assign_stop_times(conn, []) do
+  def assign_journeys(conn, []) do
     conn
   end
 
-  def validate_direction_id(%Plug.Conn{assigns: %{direction_id: direction_id, stop_times: stop_times}} = conn, []) do
-    case Enum.find(stop_times, &!is_nil(&1.trip)) do
+  def validate_direction_id(%Plug.Conn{assigns: %{direction_id: direction_id, journeys: journeys}} = conn, []) do
+    case Enum.find(journeys, &!is_nil(&1.trip)) do
       nil ->
         conn
-      stop_time ->
-        if stop_time.trip.direction_id != direction_id do
-          url = update_url(conn, direction_id: stop_time.trip.direction_id)
+      journey ->
+        if journey.trip.direction_id != direction_id do
+          url = update_url(conn, direction_id: journey.trip.direction_id)
           conn
           |> redirect(to: url)
           |> halt

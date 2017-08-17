@@ -9,7 +9,7 @@ defmodule Site.ScheduleV2Controller.TripViewController do
   plug :tab_name
   plug Site.ScheduleV2Controller.Core
   plug Site.ScheduleV2Controller.Schedules
-  plug Site.ScheduleV2Controller.StopTimes
+  plug Site.ScheduleV2Controller.Journeys
   plug Site.ScheduleV2Controller.TripInfo
   plug :zone_map
 

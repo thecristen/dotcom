@@ -89,7 +89,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
         time: List.last(@schedules).time
       }
     ])
-    |> Enum.map(& %Schedule{ &1 | trip: %Trip{id: "long_trip"}})
+    |> Enum.map(& %Schedule{&1 | trip: %Trip{id: "long_trip"}})
   end
   defp trip_fn("not_in_schedule", [date: @date]) do
     []
@@ -107,30 +107,30 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
 
   defp conn_builder(conn, schedules, params \\ []) do
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
-    query_params = Map.new(params, fn {key,val} -> {Atom.to_string(key), val} end)
+    query_params = Map.new(params, fn {key, val} -> {Atom.to_string(key), val} end)
     params = put_in query_params["route"], "1"
 
     %{conn |
       request_path: schedule_path(conn, :show, "1"),
       query_params: query_params,
       params: params}
-    |> assign_stop_times_from_schedules(schedules)
+    |> assign_journeys_from_schedules(schedules)
     |> call(init)
   end
 
-  defp assign_stop_times_from_schedules(conn, schedules) do
-    stop_times = Enum.map(schedules, & %StopTime{departure: %PredictedSchedule{schedule: &1}})
-    assign(conn, :stop_times, %StopTimeList{times: stop_times})
+  defp assign_journeys_from_schedules(conn, schedules) do
+    journeys = Enum.map(schedules, & %Journey{departure: %PredictedSchedule{schedule: &1}})
+    assign(conn, :journeys, %JourneyList{journeys: journeys})
   end
 
-  defp assign_stop_times_from_schedules_and_predictions(conn, schedules, predictions) do
-    stop_times = schedules
+  defp assign_journeys_from_schedules_and_predictions(conn, schedules, predictions) do
+    journeys = schedules
     |> Enum.zip(predictions)
     |> Enum.map(fn {schedule, prediction} ->
-      %StopTime{departure: %PredictedSchedule{schedule: schedule, prediction: prediction}}
+      %Journey{departure: %PredictedSchedule{schedule: schedule, prediction: prediction}}
     end)
 
-    assign(conn, :stop_times, %StopTimeList{times: stop_times})
+    assign(conn, :journeys, %JourneyList{journeys: journeys})
   end
 
   test "does not assign a trip when schedules is empty", %{conn: conn} do
@@ -239,7 +239,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
-  test "Default Trip id is taken from stop_times if one is not provided", %{conn: conn} do
+  test "Default Trip id is taken from journeys if one is not provided", %{conn: conn} do
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
@@ -266,7 +266,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_path(conn, :show, "66"),
       query_params: nil
     }
-    |> assign_stop_times_from_schedules(schedules)
+    |> assign_journeys_from_schedules(schedules)
     |> assign(:route, %Routes.Route{type: 1})
     |> call(init)
 
@@ -302,7 +302,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_path(conn, :show, "66"),
       query_params: nil
     }
-    |> assign_stop_times_from_schedules(schedules)
+    |> assign_journeys_from_schedules(schedules)
     |> assign(:route, %Routes.Route{type: 1})
     |> assign(:date, ~D[2017-02-10])
     |> assign(:datetime, @time)
@@ -350,7 +350,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_path(conn, :show, "66"),
       query_params: nil
     }
-    |> assign_stop_times_from_schedules_and_predictions(schedules, predictions)
+    |> assign_journeys_from_schedules_and_predictions(schedules, predictions)
     |> assign(:route, %Routes.Route{type: 1})
     |> assign(:date, ~D[2017-02-10])
     |> assign(:datetime, @time)
@@ -386,7 +386,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_path(conn, :show, "Red"),
       query_params: nil
     }
-    |> assign_stop_times_from_schedules(schedules)
+    |> assign_journeys_from_schedules(schedules)
     |> assign(:route, %Routes.Route{type: 1})
     |> call(init)
 
@@ -422,7 +422,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_path(conn, :show, "1"),
       query_params: nil
     }
-    |> assign_stop_times_from_schedules(schedules)
+    |> assign_journeys_from_schedules(schedules)
     |> assign(:date, day)
     |> assign(:route, %Routes.Route{type: 3})
     |> call(init)
@@ -438,7 +438,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_path(conn, :show, "1"),
       query_params: nil
     }
-    |> assign(:stop_times, StopTimeList.build_predictions_only([], [prediction], "origin", nil))
+    |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
     |> assign(:date, ~D[2017-01-01])
     |> assign(:date_time, ~N[2017-01-01T12:00:00])
     |> assign(:route, %Routes.Route{type: 1})
@@ -455,7 +455,7 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
       request_path: schedule_path(conn, :show, "1"),
       query_params: nil
     }
-    |> assign(:stop_times, StopTimeList.build_predictions_only([], [prediction], "origin", nil))
+    |> assign(:journeys, JourneyList.build_predictions_only([], [prediction], "origin", nil))
     |> assign(:date, ~D[2017-01-01])
     |> assign(:date_time, ~N[2017-01-01T12:00:00])
     |> assign(:route, %Routes.Route{type: 1})

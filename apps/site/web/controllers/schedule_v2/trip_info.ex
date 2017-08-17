@@ -36,24 +36,25 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   end
 
 
-  # Returns the selected trip ID based on the conn's query params or stop times.
+  # Returns the selected trip ID based on the conn's query params or journeys.
   @spec trip_id(Conn.t) :: String.t | nil
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end
   defp trip_id(%Conn{assigns:
-                %{stop_times: %StopTimeList{times: times},
+                %{journeys: %JourneyList{journeys: journeys},
                   route: route,
                   date: user_selected_date,
-                  date_time: date_time}}) when times != [] do
+                  date_time: date_time}}) when journeys != [] do
     if show_trips?(user_selected_date, date_time, route.type, route.id) do
-      current_trip(times, date_time)
+      current_trip(journeys, date_time)
     else
       nil
     end
   end
-  defp trip_id(%Conn{assigns: %{stop_times: %StopTimeList{times: times}, date_time: date_time}}) when times != [] do
-    current_trip(times, date_time)
+  defp trip_id(%Conn{assigns: %{journeys: %JourneyList{journeys: journeys}, date_time: date_time}})
+  when journeys != [] do
+    current_trip(journeys, date_time)
   end
   defp trip_id(%Conn{}) do
     nil
@@ -90,13 +91,13 @@ defmodule Site.ScheduleV2Controller.TripInfo do
   end
 
   # If there are more trips left in a day, finds the next trip based on the current time.
-  @spec current_trip([StopTime.t], DateTime.t) :: String.t | nil
-  defp current_trip([%StopTime{} | _] = times, now) do
+  @spec current_trip([Journey.t], DateTime.t) :: String.t | nil
+  defp current_trip([%Journey{} | _] = times, now) do
     do_current_trip times, now
   end
   defp current_trip([], _now), do: nil
 
-  @spec do_current_trip([StopTime.t], DateTime.t) :: String.t | nil
+  @spec do_current_trip([Journey.t], DateTime.t) :: String.t | nil
   defp do_current_trip(times, now) do
     case Enum.find(times, &is_trip_after_now?(&1, now)) do
       nil -> nil
@@ -104,9 +105,9 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     end
   end
 
-  @spec is_trip_after_now?(StopTime.t, DateTime.t) :: boolean
-  defp is_trip_after_now?(%StopTime{departure: departure}, now) do
-    # returns true if the StopTime has a trip that's departing in the future
+  @spec is_trip_after_now?(Journey.t, DateTime.t) :: boolean
+  defp is_trip_after_now?(%Journey{departure: departure}, now) do
+    # returns true if the Journey has a trip that's departing in the future
     PredictedSchedule.map_optional(departure, [:prediction, :schedule], false, fn x ->
       if x.time && x.trip do
         Timex.after?(x.time, now)
