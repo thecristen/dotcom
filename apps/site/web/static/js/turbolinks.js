@@ -5,6 +5,7 @@ export default function($, w = window, doc = document) {
   var scrollBehavior = null;
   var redirectTimeout = null;
   var navigationEventType = "push";
+  var currentUrl = getCurrentUrl();
 
   w.addEventListener("popstate", (ev) => {
     navigationEventType = "pop";
@@ -40,7 +41,7 @@ export default function($, w = window, doc = document) {
 
       // decide remember the position if the current page and next page have the same path
       default:
-        if (samePath(ev.data.url, currentUrl())) {
+        if (samePath(ev.data.url, currentUrl)) {
           scrollBehavior = "remember";
         } else {
           scrollBehavior = "top";
@@ -77,6 +78,9 @@ export default function($, w = window, doc = document) {
   }, {passive: true});
 
   doc.addEventListener("turbolinks:request-end", (ev) => {
+    // update the current url
+    currentUrl = getCurrentUrl();
+
     // if a refresh header was receieved, enforce via javascript
     var refreshHeader = ev.data.xhr.getResponseHeader("Refresh");
     if (!refreshHeader) {
@@ -88,7 +92,7 @@ export default function($, w = window, doc = document) {
     var refreshDelay = refreshHeader.split(";")[0] * 1000;
 
     // redirect after 5 seconds
-    redirectTimeout = w.setTimeout(function () {
+    redirectTimeout = w.setTimeout(() => {
       doc.location = refreshUrl;
     }, refreshDelay);
   }, {passive: true});
@@ -99,7 +103,7 @@ export function samePath(first, second) {
     first.length == second.length || first[second.length] === "?"));
 };
 
-function currentUrl() {
+function getCurrentUrl() {
   return `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
 }
 
@@ -118,4 +122,4 @@ function focusAndExpand(el, $) {
       $(el).collapse("show");
     }
   }
-};
+}
