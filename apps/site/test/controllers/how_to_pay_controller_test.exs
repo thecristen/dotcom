@@ -1,6 +1,6 @@
 defmodule Site.HowToPayControllerTest do
   use Site.ConnCase, async: true
-
+  import Site.PageHelpers, only: [breadcrumbs_include?: 2]
 
   describe "index" do
     test "renders", %{conn: conn} do
@@ -10,12 +10,16 @@ defmodule Site.HowToPayControllerTest do
 
     test "includes breadcrumbs on default page", %{conn: conn} do
       conn = get conn, how_to_pay_path(conn, :index)
-      assert [ {fare_path(conn, :index), "Fares and Passes"}, "How to Pay" ] == conn.assigns.breadcrumbs
+
+      body = html_response(conn, 200)
+      assert breadcrumbs_include?(body, ["Fares and Passes", "How to Pay"])
     end
 
     test "includes breadcrumbs on commuter rail tab", %{conn: conn} do
       conn = get conn, how_to_pay_path(conn, :show, :commuter_rail)
-      assert [ {fare_path(conn, :index), "Fares and Passes"}, "How to Pay" ] == conn.assigns.breadcrumbs
+
+      body = html_response(conn, 200)
+      assert breadcrumbs_include?(body, ["Fares and Passes", "How to Pay"])
     end
 
     test "redirects unknown modes to the index page", %{conn: conn} do

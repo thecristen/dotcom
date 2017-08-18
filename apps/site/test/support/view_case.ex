@@ -7,7 +7,6 @@ defmodule Site.ViewCase do
       import Phoenix.View
       import Site.Router.Helpers
       import Content.Factory
-      import Site.ViewCaseHelper
     end
   end
 

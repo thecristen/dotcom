@@ -1,5 +1,6 @@
 defmodule Site.NewsEntryViewTest do
   use Site.ViewCase, async: true
+  import Site.PageHelpers, only: [refute_text_visible?: 2]
   use Quixir
 
   describe "index.html" do
