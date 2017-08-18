@@ -38,7 +38,7 @@ defmodule GoogleMaps.Mixfile do
   defp deps do
     [
       {:stops, in_umbrella: true},
-      {:bypass, github: "paulswartz/bypass", only: :test}
+      {:bypass, "~> 0.8", only: :test}
     ]
   end
 end

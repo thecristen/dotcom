@@ -2,7 +2,7 @@ defmodule Routes.RepoTest do
   use ExUnit.Case, async: false
   import ExUnit.CaptureLog
   import Mock
-
+  @moduletag :capture_log
   describe "all/0" do
     test "returns something" do
       assert Routes.Repo.all != []

@@ -39,7 +39,7 @@ defmodule V3Api.Mixfile do
     [{:httpoison, ">= 0.0.0"},
      {:hackney, "~> 1.8.0"},
      {:excoveralls, "~> 0.5", only: :test},
-     {:bypass, github: "paulswartz/bypass", only: :test},
+     {:bypass, "~> 0.8", only: :test},
      {:json_api, in_umbrella: true}]
   end
 end
