@@ -99,7 +99,8 @@ export default function($, w = window, doc = document) {
 };
 
 export function samePath(first, second) {
-  return (first.slice(0, second.length) === second && (first.length == second.length || first[second.length] === "?"));
+  return (first.slice(0, second.length) === second && (
+    first.length == second.length || first[second.length] === "?"));
 };
 
 function getCurrentUrl() {
