@@ -75,7 +75,7 @@ defmodule Content.Helpers do
   end
 
   @spec rewrite_static_file_links(String.t) :: String.t
-  def rewrite_static_file_links(body) do
+  defp rewrite_static_file_links(body) do
     static_path = Content.Config.static_path
     Regex.replace(~r/"(#{static_path}[^"]+)"/, body, fn _, path ->
       ['"', Content.Config.apply(:static, [path]), '"']
