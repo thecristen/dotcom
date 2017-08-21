@@ -12,8 +12,8 @@ defmodule Site.PersonController do
   defp assign_breadcrumbs(conn, person) do
     conn
     |> assign(:breadcrumbs, [
-        {nil, "People"},
-        person.name
+        Breadcrumb.build("People"),
+        Breadcrumb.build(person.name)
       ])
   end
 end

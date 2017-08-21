@@ -11,7 +11,7 @@ defmodule Site.NewsEntryController do
     upcoming_news_entries = Content.Repo.news(page: zero_based_next_page)
 
     conn
-    |> assign(:breadcrumbs, ["News"])
+    |> assign(:breadcrumbs, index_breadcrumbs())
     |> assign(:news_entries, news_entries)
     |> assign(:upcoming_news_entries, upcoming_news_entries)
     |> assign(:page, page)
@@ -23,7 +23,7 @@ defmodule Site.NewsEntryController do
     recent_news = Content.Repo.recent_news(current_id: news_entry.id)
 
     conn
-    |> assign(:breadcrumbs, [{news_entry_path(conn, :index), "News"}, news_entry.title])
+    |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
     |> assign(:news_entry, news_entry)
     |> assign(:recent_news, recent_news)
     |> render(:show)
@@ -33,5 +33,16 @@ defmodule Site.NewsEntryController do
     params
     |> Map.get("page")
     |> Pagination.current_page(1)
+  end
+
+  defp index_breadcrumbs do
+    [Breadcrumb.build("News")]
+  end
+
+  defp show_breadcrumbs(conn, news_entry) do
+    [
+      Breadcrumb.build("News", news_entry_path(conn, :index)),
+      Breadcrumb.build(news_entry.title)
+    ]
   end
 end

@@ -9,6 +9,7 @@ defmodule Util.Mixfile do
      deps_path: "../../deps",
      lockfile: "../../mix.lock",
      elixir: "~> 1.4",
+     elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      test_coverage: [tool: ExCoveralls],
@@ -20,8 +21,12 @@ defmodule Util.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger]]
+    [extra_applications: [:logger, :phoenix_html]]
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Dependencies can be Hex packages:
   #
@@ -38,6 +43,8 @@ defmodule Util.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:timex, ">= 0.0.0"},
-     {:quixir, "~> 0.9", only: :test}]
+     {:quixir, "~> 0.9", only: :test},
+     {:phoenix_html, "~> 2.6"},
+     {:plug, ">= 0.0.0"}]
   end
 end

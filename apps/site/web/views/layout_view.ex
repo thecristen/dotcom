@@ -1,5 +1,6 @@
 defmodule Site.LayoutView do
   use Site.Web, :view
+  import Util.BreadcrumbHTML, only: [breadcrumb_trail: 1, title_breadcrumbs: 1]
 
   def bold_if_active(conn, path, text) do
     requested_path = Enum.at(String.split(conn.request_path, "/"), 1)
@@ -28,23 +29,6 @@ defmodule Site.LayoutView do
     template_class = template |> String.replace(".html", "-template")
 
     "#{module_class} #{template_class}"
-  end
-
-  def breadcrumbs(conn) do
-    breadcrumbs = Map.get(conn.assigns, :breadcrumbs, [])
-
-    breadcrumb = case breadcrumbs do
-      [] -> ""
-      items -> items
-        |> Enum.reverse
-        |> Enum.map(fn {_, text} -> text
-          text -> text
-        end)
-        |> Enum.intersperse(" < ")
-        |> Enum.concat([" < "])
-    end
-
-    [breadcrumb, "MBTA - Massachusetts Bay Transportation Authority"]
   end
 
   def nav_link_content(conn), do: [

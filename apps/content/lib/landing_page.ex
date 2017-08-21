@@ -4,12 +4,20 @@ defmodule Content.LandingPage do
   import Content.Helpers, only: [
     field_value: 2,
     parse_image: 2,
-    parse_paragraphs: 1,
+    parse_paragraphs: 1
   ]
 
   @enforce_keys [:id]
-  defstruct [:id, title: "", subtitle: nil, hero_desktop: %Content.Field.Image{},
-    hero_mobile: %Content.Field.Image{}, hero_mobile_2x: %Content.Field.Image{}, paragraphs: []]
+  defstruct [
+    :id,
+    title: "",
+    subtitle: nil,
+    hero_desktop: %Content.Field.Image{},
+    hero_mobile: %Content.Field.Image{},
+    hero_mobile_2x: %Content.Field.Image{},
+    paragraphs: [],
+    breadcrumbs: []
+  ]
 
   @type t :: %__MODULE__{
     id: integer,
@@ -19,6 +27,7 @@ defmodule Content.LandingPage do
     hero_mobile_2x: Content.Field.Image.t,
     paragraphs: [Content.Paragraph.t],
     subtitle: String.t | nil,
+    breadcrumbs: [Util.Breadcrumb.t]
   }
 
   @spec from_api(map) :: t
@@ -31,6 +40,7 @@ defmodule Content.LandingPage do
       hero_mobile_2x: parse_image(data, "field_hero_image_mobile_2x"),
       paragraphs: parse_paragraphs(data),
       subtitle: field_value(data, "field_subtitle"),
+      breadcrumbs: Content.Breadcrumbs.build(data)
     }
   end
 end

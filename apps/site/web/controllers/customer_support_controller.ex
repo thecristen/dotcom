@@ -10,7 +10,10 @@ defmodule Site.CustomerSupportController do
   end
 
   def thanks(conn, _params) do
-    render conn, "index.html", breadcrumbs: ["Customer Support"], show_form: false
+    render conn,
+      "index.html",
+      breadcrumbs: [Breadcrumb.build("Customer Support")],
+      show_form: false
   end
 
   def submit(conn, params) do
@@ -29,7 +32,7 @@ defmodule Site.CustomerSupportController do
   defp render_form(conn, errors, existing_params) do
     render conn,
       "index.html",
-      breadcrumbs: ["Customer Support"],
+      breadcrumbs: [Breadcrumb.build("Customer Support")],
       errors: errors,
       existing_params: existing_params,
       show_form: true

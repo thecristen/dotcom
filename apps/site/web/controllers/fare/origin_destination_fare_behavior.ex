@@ -7,6 +7,7 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   @optional_callbacks key_stops: 0
 
   alias Site.FareController.Filter
+  alias Util.Breadcrumb
   import Plug.Conn, only: [assign: 3]
   import Site.Router.Helpers
 
@@ -45,8 +46,8 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
 
     conn
     |> assign(:breadcrumbs, [
-          {fare_path(conn, :index), "Fares and Passes"},
-          Site.ViewHelpers.mode_name(module.mode)
+          Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
+          Breadcrumb.build(Site.ViewHelpers.mode_name(module.mode))
         ])
     |> assign(:mode,  module.mode)
     |> assign(:route_type, module.route_type)

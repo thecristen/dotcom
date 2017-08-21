@@ -19,24 +19,10 @@
     <%= render "_nav_mobile.html", assigns %>
   </div>
 </header>
-<%= if assigns[:breadcrumbs] do %><div class="breadcrumb-container">
-  <div class="container">
-    <% breadcrumb_length = length @breadcrumbs %>
-    <% {breadcrumb_links, [last_text]} = Enum.split(@breadcrumbs, breadcrumb_length - 1) %>
-
-    <% breadcrumb_links = [ { "/", "Home" } | breadcrumb_links ] %>
-    <% breadcrumb_w_home_length = breadcrumb_length + 1 %>
-
-    <%= for {{link, text}, index} <- Enum.with_index(breadcrumb_links) do %>
-      <span <%= if index < breadcrumb_w_home_length - 2 do %>class="focusable-sm-down"<% end %>>
-        <%= if link do %>
-          <a href="<%= link %>"><%= text %></a>
-        <% else %>
-          <%= text %>
-        <% end %>
-        <%= fa "angle-right" %>
-      </span>
-    <% end %>
-    <%= last_text %>
+<%= if assigns[:breadcrumbs] do %>
+  <div class="breadcrumb-container">
+    <div class="container">
+      <%= breadcrumb_trail(@conn) %>
+    </div>
   </div>
-</div><% end %>
+<% end %>

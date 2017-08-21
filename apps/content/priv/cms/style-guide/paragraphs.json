@@ -11,7 +11,7 @@
   ],
   "vid": [
     {
-      "value": 3277
+      "value": 3298
     }
   ],
   "langcode": [
@@ -41,7 +41,7 @@
       "target_id": 12,
       "target_type": "user",
       "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-      "url": "\/user\/12"
+      "url": "/user/12"
     }
   ],
   "created": [
@@ -51,7 +51,7 @@
   ],
   "changed": [
     {
-      "value": 1500585132
+      "value": 1501699482
     }
   ],
   "promote": [
@@ -66,20 +66,18 @@
   ],
   "revision_timestamp": [
     {
-      "value": 1500585132
+      "value": 1501699482
     }
   ],
   "revision_uid": [
     {
-      "target_id": 12,
+      "target_id": 15,
       "target_type": "user",
-      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-      "url": "\/user\/12"
+      "target_uuid": "93968e0d-046e-4ee3-98d5-c179eb42a7e4",
+      "url": "/user/15"
     }
   ],
-  "revision_log": [
-
-  ],
+  "revision_log": [],
   "revision_translation_affected": [
     {
       "value": true
@@ -92,20 +90,14 @@
   ],
   "path": [
     {
-      "alias": "\/cms\/style-guide\/paragraphs",
+      "alias": "/cms/style-guide/paragraphs",
       "pid": 89,
       "langcode": "en"
     }
   ],
-  "publish_on": [
-
-  ],
-  "unpublish_on": [
-
-  ],
-  "menu_link": [
-
-  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
   "field_hero_image_desktop": [
     {
       "target_id": 183,
@@ -115,8 +107,8 @@
       "height": 322,
       "target_type": "file",
       "target_uuid": "49ca225a-0dbc-455e-b131-90fd7f38b87c",
-      "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/bigblue_0.jpg",
-      "mime_type": "image\/jpeg"
+      "url": "http://mbta.kbox.site/sites/default/files/2017-07/bigblue_0.jpg",
+      "mime_type": "image/jpeg"
     }
   ],
   "field_hero_image_mobile": [
@@ -128,8 +120,8 @@
       "height": 245,
       "target_type": "file",
       "target_uuid": "7aabc724-1981-487b-a898-440b843d2b82",
-      "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/smallblue_2.jpg",
-      "mime_type": "image\/jpeg"
+      "url": "http://mbta.kbox.site/sites/default/files/2017-07/smallblue_2.jpg",
+      "mime_type": "image/jpeg"
     }
   ],
   "field_hero_image_mobile_2x": [
@@ -141,8 +133,8 @@
       "height": 490,
       "target_type": "file",
       "target_uuid": "b45495b3-7506-4ec9-a4f4-1790b80db7b3",
-      "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/smallblue_1.jpg",
-      "mime_type": "image\/jpeg"
+      "url": "http://mbta.kbox.site/sites/default/files/2017-07/smallblue_1.jpg",
+      "mime_type": "image/jpeg"
     }
   ],
   "field_page_type": [
@@ -150,13 +142,13 @@
       "target_id": 14,
       "target_type": "taxonomy_term",
       "target_uuid": "d0f82cb4-bb4a-4eab-8796-2bd8565a3f78",
-      "url": "\/taxonomy\/term\/14"
+      "url": "/taxonomy/term/14"
     }
   ],
   "field_paragraphs": [
     {
       "target_id": 35,
-      "target_revision_id": 359,
+      "target_revision_id": 371,
       "id": [
         {
           "value": 35
@@ -169,7 +161,7 @@
       ],
       "revision_id": [
         {
-          "value": 359
+          "value": 371
         }
       ],
       "type": [
@@ -189,7 +181,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -207,7 +199,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -237,14 +229,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page<\/strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.<\/p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML<\/a><\/li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set<\/a><\/li>\r\n\t<li><a href=\"#people-grid\">People Grid<\/a><\/li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting<\/a><\/li>\r\n\t<li><a href=\"#files-grid\">Files Grid<\/a><\/li>\r\n<\/ul>\r\n",
+          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set</a></li>\r\n\t<li><a href=\"#people-grid\">People Grid</a></li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting</a></li>\r\n\t<li><a href=\"#files-grid\">Files Grid</a></li>\r\n</ul>\r\n",
           "format": "basic_html"
         }
       ]
     },
     {
       "target_id": 36,
-      "target_revision_id": 360,
+      "target_revision_id": 372,
       "id": [
         {
           "value": 36
@@ -257,7 +249,7 @@
       ],
       "revision_id": [
         {
-          "value": 360
+          "value": 372
         }
       ],
       "type": [
@@ -277,7 +269,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -295,7 +287,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -325,14 +317,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<hr \/>\r\n<h3 id=\"custom-html\">Custom HTML<\/h3>\r\n\r\n<p>This paragraph provides the usual WYSIWYG editor (see the <a href=\"\/cms\/style-guide\">Style Guide<\/a>&nbsp;for tips on using the editor). Its main purpose is to intersperse content between other types of paragraphs.<\/p>\r\n",
+          "value": "<hr />\r\n<h3 id=\"custom-html\">Custom HTML</h3>\r\n\r\n<p>This paragraph provides the usual WYSIWYG editor (see the <a href=\"/cms/style-guide\">Style Guide</a>&nbsp;for tips on using the editor). Its main purpose is to intersperse content between other types of paragraphs.</p>\r\n",
           "format": "full_html"
         }
       ]
     },
     {
       "target_id": 37,
-      "target_revision_id": 361,
+      "target_revision_id": 373,
       "id": [
         {
           "value": 37
@@ -345,7 +337,7 @@
       ],
       "revision_id": [
         {
-          "value": 361
+          "value": 373
         }
       ],
       "type": [
@@ -365,7 +357,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -383,7 +375,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -413,14 +405,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<hr \/>\r\n<h3 id=\"title-card-set\">Title Card Set<\/h3>\r\n\r\n<p>After you add the \"Title Card Set\" paragraph, you can add an unlimited number of \"Title Cards\" within, each of which have a header, some body copy, and a link. These are great on \"hub pages\" that link to a number of sub pages. They will be broken up into rows of two each on desktop, or stacked vertically on mobile. An odd number of cards will result in one of the cards being by itself, but its width will be the usual width (i.e.: not stretched across the page).<\/p>\r\n",
+          "value": "<hr />\r\n<h3 id=\"title-card-set\">Title Card Set</h3>\r\n\r\n<p>After you add the \"Title Card Set\" paragraph, you can add an unlimited number of \"Title Cards\" within, each of which have a header, some body copy, and a link. These are great on \"hub pages\" that link to a number of sub pages. They will be broken up into rows of two each on desktop, or stacked vertically on mobile. An odd number of cards will result in one of the cards being by itself, but its width will be the usual width (i.e.: not stretched across the page).</p>\r\n",
           "format": "full_html"
         }
       ]
     },
     {
       "target_id": 40,
-      "target_revision_id": 364,
+      "target_revision_id": 376,
       "id": [
         {
           "value": 40
@@ -433,7 +425,7 @@
       ],
       "revision_id": [
         {
-          "value": 364
+          "value": 376
         }
       ],
       "type": [
@@ -453,7 +445,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -471,7 +463,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -502,7 +494,7 @@
       "field_title_cards": [
         {
           "target_id": 38,
-          "target_revision_id": 362,
+          "target_revision_id": 374,
           "id": [
             {
               "value": 38
@@ -515,7 +507,7 @@
           ],
           "revision_id": [
             {
-              "value": 362
+              "value": 374
             }
           ],
           "type": [
@@ -535,7 +527,7 @@
               "target_id": 12,
               "target_type": "user",
               "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-              "url": "\/user\/12"
+              "url": "/user/12"
             }
           ],
           "status": [
@@ -553,7 +545,7 @@
               "target_id": 12,
               "target_type": "user",
               "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-              "url": "\/user\/12"
+              "url": "/user/12"
             }
           ],
           "parent_id": [
@@ -583,17 +575,15 @@
           ],
           "field_title_card_body": [
             {
-              "value": "<p>The body of the title card can be anything, but usually it's just a few sentences or maybe a bulleted list. This card just links back to this very same page, but it can link internally or externally.<\/p>\r\n",
+              "value": "<p>The body of the title card can be anything, but usually it's just a few sentences or maybe a bulleted list. This card just links back to this very same page, but it can link internally or externally.</p>\r\n",
               "format": "basic_html"
             }
           ],
           "field_title_card_link": [
             {
-              "uri": "internal:\/cms\/style-guide\/paragraphs",
+              "uri": "internal:/cms/style-guide/paragraphs",
               "title": "",
-              "options": [
-
-              ]
+              "options": []
             }
           ],
           "field_title_card_title": [
@@ -604,7 +594,7 @@
         },
         {
           "target_id": 39,
-          "target_revision_id": 363,
+          "target_revision_id": 375,
           "id": [
             {
               "value": 39
@@ -617,7 +607,7 @@
           ],
           "revision_id": [
             {
-              "value": 363
+              "value": 375
             }
           ],
           "type": [
@@ -637,7 +627,7 @@
               "target_id": 12,
               "target_type": "user",
               "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-              "url": "\/user\/12"
+              "url": "/user/12"
             }
           ],
           "status": [
@@ -655,7 +645,7 @@
               "target_id": 12,
               "target_type": "user",
               "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-              "url": "\/user\/12"
+              "url": "/user/12"
             }
           ],
           "parent_id": [
@@ -685,17 +675,15 @@
           ],
           "field_title_card_body": [
             {
-              "value": "<p>Another great use of cards is lists:<\/p>\r\n\r\n<ul>\r\n\t<li>List item 1<\/li>\r\n\t<li>List item 2<\/li>\r\n\t<li>List item 3<\/li>\r\n<\/ul>\r\n",
+              "value": "<p>Another great use of cards is lists:</p>\r\n\r\n<ul>\r\n\t<li>List item 1</li>\r\n\t<li>List item 2</li>\r\n\t<li>List item 3</li>\r\n</ul>\r\n",
               "format": "basic_html"
             }
           ],
           "field_title_card_link": [
             {
-              "uri": "https:\/\/www.google.com",
+              "uri": "https://www.google.com",
               "title": "",
-              "options": [
-
-              ]
+              "options": []
             }
           ],
           "field_title_card_title": [
@@ -708,7 +696,7 @@
     },
     {
       "target_id": 41,
-      "target_revision_id": 365,
+      "target_revision_id": 377,
       "id": [
         {
           "value": 41
@@ -721,7 +709,7 @@
       ],
       "revision_id": [
         {
-          "value": 365
+          "value": 377
         }
       ],
       "type": [
@@ -741,7 +729,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -759,7 +747,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -789,14 +777,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<hr \/>\r\n<h3 id=\"people-grid\">People Grid<\/h3>\r\n\r\n<p>To display a person in the \"People Grid\" they must first be added to the CMS via the \"Person\" content type. (Content -&gt; Add content -&gt; Person from the CMS dashboard.)<\/p>\r\n\r\n<p>If there are one or two people in the grid, then their pictures will be larger and they'll split the page 50\/50 on desktop and be stacked on mobile. Three or more people will result in smaller pictures that arrange themselves three-to-a-row on desktop, 50\/50 on tablet, and stacked on mobile.<\/p>\r\n",
+          "value": "<hr />\r\n<h3 id=\"people-grid\">People Grid</h3>\r\n\r\n<p>To display a person in the \"People Grid\" they must first be added to the CMS via the \"Person\" content type. (Content -&gt; Add content -&gt; Person from the CMS dashboard.)</p>\r\n\r\n<p>If there are one or two people in the grid, then their pictures will be larger and they'll split the page 50/50 on desktop and be stacked on mobile. Three or more people will result in smaller pictures that arrange themselves three-to-a-row on desktop, 50/50 on tablet, and stacked on mobile.</p>\r\n",
           "format": "full_html"
         }
       ]
     },
     {
       "target_id": 42,
-      "target_revision_id": 366,
+      "target_revision_id": 378,
       "id": [
         {
           "value": 42
@@ -809,7 +797,7 @@
       ],
       "revision_id": [
         {
-          "value": 366
+          "value": 378
         }
       ],
       "type": [
@@ -829,7 +817,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -847,7 +835,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -919,7 +907,7 @@
               "target_id": 17,
               "target_type": "user",
               "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
-              "url": "\/user\/17"
+              "url": "/user/17"
             }
           ],
           "created": [
@@ -952,12 +940,10 @@
               "target_id": 17,
               "target_type": "user",
               "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
-              "url": "\/user\/17"
+              "url": "/user/17"
             }
           ],
-          "revision_log": [
-
-          ],
+          "revision_log": [],
           "revision_translation_affected": [
             {
               "value": true
@@ -970,21 +956,15 @@
           ],
           "path": [
             {
-              "alias": "\/people\/steve-poftak"
+              "alias": "/people/steve-poftak"
             }
           ],
-          "publish_on": [
-
-          ],
-          "unpublish_on": [
-
-          ],
-          "menu_link": [
-
-          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "menu_link": [],
           "field_bio": [
             {
-              "value": "<p dir=\"ltr\">Steve Poftak is Interim General Manager of the MBTA while on leave from his position as the Executive Director of the Rappaport Institute for Greater Boston at the Harvard Kennedy School. He has served as the Vice-Chair of the MBTA's Fiscal Management and Control Board, as well as serving on the MassDOT Board of Directors. Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Poftak holds an M.B.A. from the Olin School at Babson College and a B.A. in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.<\/p>\r\n",
+              "value": "<p dir=\"ltr\">Steve Poftak is Interim General Manager of the MBTA while on leave from his position as the Executive Director of the Rappaport Institute for Greater Boston at the Harvard Kennedy School. He has served as the Vice-Chair of the MBTA's Fiscal Management and Control Board, as well as serving on the MassDOT Board of Directors. Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Poftak holds an M.B.A. from the Olin School at Babson College and a B.A. in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.</p>\r\n",
               "format": "basic_html",
               "summary": ""
             }
@@ -1004,8 +984,8 @@
               "height": 175,
               "target_type": "file",
               "target_uuid": "8e0d8d2a-f4c1-47d1-b53a-9e6257f483bb",
-              "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/Leadership\/StevePoftakProfile%20%281%29.jpg",
-              "mime_type": "image\/jpeg"
+              "url": "http://mbta.kbox.site/sites/default/files/Leadership/StevePoftakProfile%20%281%29.jpg",
+              "mime_type": "image/jpeg"
             }
           ]
         },
@@ -1052,7 +1032,7 @@
               "target_id": 17,
               "target_type": "user",
               "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
-              "url": "\/user\/17"
+              "url": "/user/17"
             }
           ],
           "created": [
@@ -1085,12 +1065,10 @@
               "target_id": 17,
               "target_type": "user",
               "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
-              "url": "\/user\/17"
+              "url": "/user/17"
             }
           ],
-          "revision_log": [
-
-          ],
+          "revision_log": [],
           "revision_translation_affected": [
             {
               "value": true
@@ -1103,21 +1081,15 @@
           ],
           "path": [
             {
-              "alias": "\/people\/monica-tibbits-nutt"
+              "alias": "/people/monica-tibbits-nutt"
             }
           ],
-          "publish_on": [
-
-          ],
-          "unpublish_on": [
-
-          ],
-          "menu_link": [
-
-          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "menu_link": [],
           "field_bio": [
             {
-              "value": "<p dir=\"ltr\">Monica Tibbits-Nutt is the Executive Director of the 128 Business Council where she has worked since 2010, advising communities in the 128 Corridor in transit planning and overseeing the operation of 12 shuttle routes with nearly half a million in annual ridership. Tibbits-Nutt also has experience with the MBTA, where she served as a Transportation Planning Consultant to the MBTA Advisory Board, and as Executive Director and Transportation Planner for TransitWorks, providing research evaluation for the MBTA and Secretary of Transportation. She holds a B.S. from the University of Southern Indiana and a Masters of City and Regional Planning from Ohio State University.<\/p>\r\n",
+              "value": "<p dir=\"ltr\">Monica Tibbits-Nutt is the Executive Director of the 128 Business Council where she has worked since 2010, advising communities in the 128 Corridor in transit planning and overseeing the operation of 12 shuttle routes with nearly half a million in annual ridership. Tibbits-Nutt also has experience with the MBTA, where she served as a Transportation Planning Consultant to the MBTA Advisory Board, and as Executive Director and Transportation Planner for TransitWorks, providing research evaluation for the MBTA and Secretary of Transportation. She holds a B.S. from the University of Southern Indiana and a Masters of City and Regional Planning from Ohio State University.</p>\r\n",
               "format": "basic_html",
               "summary": ""
             }
@@ -1137,8 +1109,8 @@
               "height": 161,
               "target_type": "file",
               "target_uuid": "cb682ab1-a891-4401-a6a3-a086c3cf1e4c",
-              "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/Leadership\/Tibbits-NuttMonicaBio%20%281%29.jpg",
-              "mime_type": "image\/jpeg"
+              "url": "http://mbta.kbox.site/sites/default/files/Leadership/Tibbits-NuttMonicaBio%20%281%29.jpg",
+              "mime_type": "image/jpeg"
             }
           ]
         },
@@ -1185,7 +1157,7 @@
               "target_id": 17,
               "target_type": "user",
               "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
-              "url": "\/user\/17"
+              "url": "/user/17"
             }
           ],
           "created": [
@@ -1218,12 +1190,10 @@
               "target_id": 17,
               "target_type": "user",
               "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
-              "url": "\/user\/17"
+              "url": "/user/17"
             }
           ],
-          "revision_log": [
-
-          ],
+          "revision_log": [],
           "revision_translation_affected": [
             {
               "value": true
@@ -1236,21 +1206,15 @@
           ],
           "path": [
             {
-              "alias": "\/people\/brian-shortsleeve"
+              "alias": "/people/brian-shortsleeve"
             }
           ],
-          "publish_on": [
-
-          ],
-          "unpublish_on": [
-
-          ],
-          "menu_link": [
-
-          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "menu_link": [],
           "field_bio": [
             {
-              "value": "<p dir=\"ltr\">Brian Shortsleeve is the MBTA's first-ever Chief Administrator. He joined the MBTA at the time of the creation of Fiscal and Management Control Board in July 2015 with a focus on developing and implementing a strategy to put the T on a path to fiscal sustainability. Brian is a Massachusetts native and Harvard Business School graduate who has more than 20 years of leadership experience in the public and private sectors helping complex organizations through periods of both rapid growth and turnaround. He is also a former Marine officer who served in Bosnia-Herzegovina and the Persian Gulf. He spent the early part of his career at Bain &amp; Company and most recently was a Managing Director at General Catalyst Partners. Brian brings extensive experience developing and executing strategies to improve performance and drive organizational change.<\/p>\r\n",
+              "value": "<p dir=\"ltr\">Brian Shortsleeve is the MBTA's first-ever Chief Administrator. He joined the MBTA at the time of the creation of Fiscal and Management Control Board in July 2015 with a focus on developing and implementing a strategy to put the T on a path to fiscal sustainability. Brian is a Massachusetts native and Harvard Business School graduate who has more than 20 years of leadership experience in the public and private sectors helping complex organizations through periods of both rapid growth and turnaround. He is also a former Marine officer who served in Bosnia-Herzegovina and the Persian Gulf. He spent the early part of his career at Bain &amp; Company and most recently was a Managing Director at General Catalyst Partners. Brian brings extensive experience developing and executing strategies to improve performance and drive organizational change.</p>\r\n",
               "format": "basic_html",
               "summary": ""
             }
@@ -1270,8 +1234,8 @@
               "height": 210,
               "target_type": "file",
               "target_uuid": "08729917-40a3-4507-b9f5-459f78f4d264",
-              "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/Leadership\/ShortsleeveBio.jpg",
-              "mime_type": "image\/jpeg"
+              "url": "http://mbta.kbox.site/sites/default/files/Leadership/ShortsleeveBio.jpg",
+              "mime_type": "image/jpeg"
             }
           ]
         }
@@ -1279,7 +1243,7 @@
     },
     {
       "target_id": 43,
-      "target_revision_id": 367,
+      "target_revision_id": 379,
       "id": [
         {
           "value": 43
@@ -1292,7 +1256,7 @@
       ],
       "revision_id": [
         {
-          "value": 367
+          "value": 379
         }
       ],
       "type": [
@@ -1312,7 +1276,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -1330,7 +1294,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -1360,14 +1324,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<hr \/>\r\n<h3 id=\"upcoming-board-meetings\">Next Upcoming Board Meeting<\/h3>\r\n\r\n<p>This paragraph will automatically include the next FMCB board meeting, along with links to download its attached agenda, minutes, and presentation files, if present.<\/p>\r\n",
+          "value": "<hr />\r\n<h3 id=\"upcoming-board-meetings\">Next Upcoming Board Meeting</h3>\r\n\r\n<p>This paragraph will automatically include the next FMCB board meeting, along with links to download its attached agenda, minutes, and presentation files, if present.</p>\r\n",
           "format": "full_html"
         }
       ]
     },
     {
       "target_id": 44,
-      "target_revision_id": 368,
+      "target_revision_id": 380,
       "id": [
         {
           "value": 44
@@ -1380,7 +1344,7 @@
       ],
       "revision_id": [
         {
-          "value": 368
+          "value": 380
         }
       ],
       "type": [
@@ -1400,7 +1364,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -1418,7 +1382,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -1446,13 +1410,11 @@
           "value": true
         }
       ],
-      "view_data": [
-
-      ]
+      "view_data": []
     },
     {
       "target_id": 45,
-      "target_revision_id": 369,
+      "target_revision_id": 381,
       "id": [
         {
           "value": 45
@@ -1460,12 +1422,12 @@
       ],
       "uuid": [
         {
-          "value": "7f9e1eea-3869-440d-b8e3-41f880966da3"
+          "value": "0943530b-368c-469a-9a9c-c6cb66c5a4e6"
         }
       ],
       "revision_id": [
         {
-          "value": 369
+          "value": 381
         }
       ],
       "type": [
@@ -1485,7 +1447,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -1495,7 +1457,7 @@
       ],
       "created": [
         {
-          "value": 1500584852
+          "value": 1500917487
         }
       ],
       "revision_uid": [
@@ -1503,7 +1465,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -1533,14 +1495,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<hr \/>\r\n<h3 id=\"files-grid\">Files Grid<\/h3>\r\n\r\n<p>This paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile.&nbsp;Each file has an icon (e.g. spreadsheet, pdf, etc) next to it based on its file type. To customize the link text fill out the \"Description\" in the CMS. Otherwise, it will use the filename.<\/p>\r\n",
+          "value": "<hr />\r\n<h3 id=\"files-grid\">Files Grid</h3>\r\n\r\n<p>This paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile.&nbsp;Each file has an icon (e.g. spreadsheet, pdf, etc) next to it based on its file type. To customize the link text fill out the \"Description\" in the CMS. Otherwise, it will use the filename.</p>\r\n",
           "format": "full_html"
         }
       ]
     },
     {
       "target_id": 46,
-      "target_revision_id": 370,
+      "target_revision_id": 382,
       "id": [
         {
           "value": 46
@@ -1548,12 +1510,12 @@
       ],
       "uuid": [
         {
-          "value": "8bc98289-888b-4bd5-8b41-657fd029ed3d"
+          "value": "3a35ea72-6128-40ec-9f83-0d63c4209d56"
         }
       ],
       "revision_id": [
         {
-          "value": 370
+          "value": 382
         }
       ],
       "type": [
@@ -1573,7 +1535,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "status": [
@@ -1583,7 +1545,7 @@
       ],
       "created": [
         {
-          "value": 1500585043
+          "value": 1500917498
         }
       ],
       "revision_uid": [
@@ -1591,7 +1553,7 @@
           "target_id": 12,
           "target_type": "user",
           "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
-          "url": "\/user\/12"
+          "url": "/user/12"
         }
       ],
       "parent_id": [
@@ -1625,58 +1587,56 @@
           "display": true,
           "description": "This has a custom description",
           "target_type": "file",
-          "target_uuid": "8d6ae6be-516d-44a2-9020-7cf7c5f9f66c",
-          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/April%2013%202017%20agenda%20opk%20edits_1.pdf",
-          "mime_type": "application\/pdf"
+          "target_uuid": "37dc2808-66d7-4a7b-a855-dba62b222e54",
+          "url": "http://mbta.kbox.site/sites/default/files/2017-07/April%2013%202017%20agenda%20opk%20edits.pdf",
+          "mime_type": "application/pdf"
         },
         {
           "target_id": 187,
           "display": true,
           "description": "",
           "target_type": "file",
-          "target_uuid": "3037e869-a016-4489-8c97-efe6aa1f6ec1",
-          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/April%2013%202017%20minutes_2.pdf",
-          "mime_type": "application\/pdf"
+          "target_uuid": "7e9868a5-a7e8-410a-a49a-31f46e44202b",
+          "url": "http://mbta.kbox.site/sites/default/files/2017-07/April%2013%202017%20minutes.pdf",
+          "mime_type": "application/pdf"
         },
         {
           "target_id": 188,
           "display": true,
           "description": "",
           "target_type": "file",
-          "target_uuid": "e287324e-927d-429c-a64d-ca1019794c74",
-          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/May%2015%202017%20agenda%20_2_0.pdf",
-          "mime_type": "application\/pdf"
+          "target_uuid": "d83958c3-91bf-45f5-a964-ba6b88fcfafc",
+          "url": "http://mbta.kbox.site/sites/default/files/2017-07/May%2015%202017%20agenda%20_2.pdf",
+          "mime_type": "application/pdf"
         },
         {
           "target_id": 189,
           "display": true,
           "description": "",
           "target_type": "file",
-          "target_uuid": "1000900a-22b8-4aaa-9d88-5a36ac8549d8",
-          "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-07\/May%2022%202017%20agenda_1.pdf",
-          "mime_type": "application\/pdf"
+          "target_uuid": "1e42c1e4-0f8e-486a-98be-5d99d177ed5a",
+          "url": "http://mbta.kbox.site/sites/default/files/2017-07/May%2022%202017%20agenda.pdf",
+          "mime_type": "application/pdf"
         }
       ],
-      "field_files_grid_title": [
-
-      ]
+      "field_files_grid_title": []
     },
     {
-      "target_id": 13,
-      "target_revision_id": 81,
+      "target_id": 47,
+      "target_revision_id": 383,
       "id": [
         {
-          "value": 13
+          "value": 47
         }
       ],
       "uuid": [
         {
-          "value": "1955f759-910b-4b2b-8376-3b5fa7dabce7"
+          "value": "7a1db4f9-cd50-43b0-9e1b-553fb4af7c6a"
         }
       ],
       "revision_id": [
         {
-          "value": 81
+          "value": 383
         }
       ],
       "type": [
@@ -1693,10 +1653,10 @@
       ],
       "uid": [
         {
-          "target_id": 1,
+          "target_id": 15,
           "target_type": "user",
-          "target_uuid": "12312312sb-0b5b-4491-a92c-97ae40f81a79",
-          "url": "/user/1"
+          "target_uuid": "93968e0d-046e-4ee3-98d5-c179eb42a7e4",
+          "url": "/user/15"
         }
       ],
       "status": [
@@ -1706,20 +1666,20 @@
       ],
       "created": [
         {
-          "value": 1500415520
+          "value": 1501699465
         }
       ],
       "revision_uid": [
         {
-          "target_id": 1,
+          "target_id": 15,
           "target_type": "user",
-          "target_uuid": "12312312sb-0b5b-4491-a92c-97ae40f81a79",
-          "url": "/user/1"
+          "target_uuid": "93968e0d-046e-4ee3-98d5-c179eb42a7e4",
+          "url": "/user/15"
         }
       ],
       "parent_id": [
         {
-          "value": "123"
+          "value": "2617"
         }
       ],
       "parent_type": [
@@ -1754,6 +1714,20 @@
   "field_subtitle": [
     {
       "value": "Demonstration of all available CMS paragraphs"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "text": "Home",
+      "uri": "/"
+    },
+    {
+      "text": "MBTA CMS Style Guide",
+      "uri": "/cms/style-guide"
+    },
+    {
+      "text": "Paragraphs Guide",
+      "uri": ""
     }
   ]
 }

@@ -2,6 +2,7 @@ defmodule Site.NewsEntryViewTest do
   use Site.ViewCase, async: true
   import Site.PageHelpers, only: [refute_text_visible?: 2]
   use Quixir
+  import Site.PageHelpers, only: [refute_text_visible?: 2]
 
   describe "index.html" do
     test "does not display a Next link when additional content is not available", %{conn: conn} do

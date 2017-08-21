@@ -31,7 +31,7 @@ defmodule Site.FareController do
     |> async_assign(:commuter_rail, fn -> format_filters(@commuter_rail_filters, :commuter_rail) end)
     |> async_assign(:ferry, fn -> format_filters(@ferry_filters, :ferry) end)
     |> async_assign(:the_ride, fn -> format_filters(@the_ride_filters, :the_ride) end)
-    |> assign(:breadcrumbs, ["Fares and Passes"])
+    |> assign(:breadcrumbs, [Breadcrumb.build("Fares and Passes")])
     |> await_assign_all()
     |> render("index.html")
   end
@@ -39,8 +39,8 @@ defmodule Site.FareController do
   def show(conn, %{"id" => static}) when static in @static_pages do
     render conn, "#{static}.html", [
       breadcrumbs: [
-        {fare_path(conn, :index), "Fares and Passes"},
-        @static_page_titles[static]
+        Breadcrumb.build("Fare and Passes", fare_path(conn, :index)),
+        Breadcrumb.build(@static_page_titles[static])
       ]
     ]
   end
@@ -49,8 +49,9 @@ defmodule Site.FareController do
 
     conn
     |> assign(:breadcrumbs, [
-        {fare_path(conn, :index), "Fares and Passes"},
-        "Retail Sales Locations"])
+        Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
+        Breadcrumb.build("Retail Sales Locations")
+      ])
     |> render("retail_sales_locations.html",
          current_pass: current_pass(date_time),
          requires_google_maps?: true,
@@ -145,6 +146,7 @@ defmodule Site.FareController do
 
     conn
     |> assign(:fare_zone_info, fare_zone_info)
+    |> assign(:breadcrumbs, [Breadcrumb.build("Commuter Rail Fare Zones")])
     |> render("_zone.html")
   end
 

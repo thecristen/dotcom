@@ -23,7 +23,7 @@ defmodule Site.StopController do
     |> assign(:stop_info, stop_info)
     |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
-    |> assign(:breadcrumbs, ["Stations"])
+    |> assign(:breadcrumbs, [Breadcrumb.build("Stations")])
     |> await_assign_all
     |> render("index.html")
   end
@@ -59,7 +59,7 @@ defmodule Site.StopController do
   defp sorter({:bus, _}), do: 2
   defp sorter({:ferry, _}), do: 3
 
-  @spec breadcrumbs(Stop.t) :: [{String.t, String.t} | String.t]
+  @spec breadcrumbs(Stop.t) :: [Util.Breadcrumb.t]
   defp breadcrumbs(%Stop{station?: true, name: name, id: id}) do
     breadcrumb_tab = id
       |> Routes.Repo.by_stop()
@@ -74,10 +74,13 @@ defmodule Site.StopController do
 
   defp breadcrumbs_for_station_type(breadcrumb_tab, name)
   when breadcrumb_tab in ~w(subway commuter_rail ferry)a do
-    [{stop_path(Site.Endpoint, :show, breadcrumb_tab), "Stations"}, name]
+    [
+      Breadcrumb.build("Stations", stop_path(Site.Endpoint, :show, breadcrumb_tab)),
+      Breadcrumb.build(name)
+    ]
   end
   defp breadcrumbs_for_station_type(_, name) do
-    [name]
+    [Breadcrumb.build(name)]
   end
 
   # Determine which tab should be displayed

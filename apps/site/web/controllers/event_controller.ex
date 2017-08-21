@@ -9,6 +9,7 @@ defmodule Site.EventController do
     conn
     |> assign(:month, date_range.start_time_gt)
     |> assign(:events, events)
+    |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> render("index.html")
   end
 
@@ -23,8 +24,8 @@ defmodule Site.EventController do
   defp assign_breadcrumbs(conn, event) do
     conn
     |> assign(:breadcrumbs, [
-        {event_path(conn, :index), "Events"},
-        event.title
+        Breadcrumb.build("Events", event_path(conn, :index)),
+        Breadcrumb.build(event.title)
       ])
   end
 end
