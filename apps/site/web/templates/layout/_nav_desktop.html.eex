@@ -30,7 +30,6 @@
               <div class="desktop-menu-body panel">
                 <div class="collapse" id="<%= id %>" role="tabpanel">
                   <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: fare_summaries %>
-                  <%= render "_old_site_button.html", conn: @conn %>
                 </div>
               </div>
             </div>

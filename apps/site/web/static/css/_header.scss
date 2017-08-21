@@ -242,29 +242,11 @@ header {
   @include hover-focus-active {
     color: $white;
   }
-
-  &.old-site-mobile-link {
-    background-color: $brand-primary-darkest;
-    color: $gray-lightest;
-    height: ($space-16 * 4);
-    margin-bottom: -$space-16 * 2;
-    margin-left: -$grid-gutter-width / 2;
-    margin-right: -$grid-gutter-width / 2;
-    padding-top: $space-12;
-  }
 }
 
 .mobile-nav-description {
   color: $gray-lightest;
   font-size: $font-size-base;
-}
-
-.old-site-desktop-link {
-  background-color: $brand-primary;
-  border-radius: 3px;
-  color: $white;
-  padding: $space-6 0;
-  text-align: center;
 }
 
 .icon-search {

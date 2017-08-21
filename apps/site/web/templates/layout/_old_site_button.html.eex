@@ -1,5 +1,0 @@
-<div class="row menu-link-row">
-  <a class="old-site-desktop-link col-md-4 col-md-offset-4" href="http://www2.mbta.com/index.asp">
-    Go to old mbta.com site <%= fa "arrow-right" %>
-  </a>
-</div>
