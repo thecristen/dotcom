@@ -45,6 +45,11 @@
   margin: $space-12 0;
 }
 
+.callout-small {
+  padding-bottom: $base-spacing-sm;
+  padding-top: $base-spacing-sm;
+}
+
 .has-element-overlay:hover .element-overlay {
   display: block;
 }

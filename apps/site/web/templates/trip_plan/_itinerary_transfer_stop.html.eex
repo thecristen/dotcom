@@ -5,8 +5,8 @@
     <%= if @itinerary_row.trip do %>
       <div>
         <% route = @itinerary_row.route %>
-          <div class="trip-plan-route-connection">
-            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring"}) %>
+          <div class="callout callout-small">
+            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring icon-small"}) %>
             Connect to the
             <%= if Route.subway?(route.type, route.id) do %>
               <%= subway_name(route.name) %>

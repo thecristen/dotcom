@@ -164,7 +164,7 @@ defmodule Site.Components.Icons.SvgIcon do
 
   def viewbox(:bus), do: "0 0 24 24"
   def viewbox(:subway), do: "0 0 24 24"
-  def viewbox(:commuter_rail), do: "0 0 24 24"
+  def viewbox(:commuter_rail), do: "0 0 16 16"
   def viewbox(:map), do: "0 0 26 24"
   def viewbox(:alert), do: "0 0 24 24"
   def viewbox(:the_ride), do: "0 0 36 36"
@@ -173,9 +173,6 @@ defmodule Site.Components.Icons.SvgIcon do
   def viewbox(:parking_lot), do: "0 0 24 24"
   def viewbox(:search), do: "0 0 90 90"
   def viewbox(_), do: "0 0 40 40"
-
-  def transform(:commuter_rail), do: "translate(5, 4)"
-  def transform(_), do: ""
 
   def unoptimized_paths, do: @icons
 end
