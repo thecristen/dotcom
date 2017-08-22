@@ -1,0 +1,19 @@
+{
+  "uuid" : "b860435d-5a01-3df4-9dad-15dbd8d64e95",
+  "request" : {
+    "url" : "/routes/?stop=place-sstat",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ko8Kv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:56 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "dineesne0npkls7s5rop0b3fk8enedp0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

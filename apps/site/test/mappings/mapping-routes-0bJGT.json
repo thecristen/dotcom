@@ -1,0 +1,19 @@
+{
+  "uuid" : "cd892f73-b2f1-3b60-b5a4-b10a95b58a8f",
+  "request" : {
+    "url" : "/routes/?stop=Gloucester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0bJGT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "0m7520oq3t89lejk8lkfc4450t880u63",
+      "Connection" : "keep-alive"
+    }
+  }
+}

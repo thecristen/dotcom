@@ -1,0 +1,19 @@
+{
+  "uuid" : "6e517ef5-2b92-3c04-98dd-490c96816305",
+  "request" : {
+    "url" : "/routes/?stop=place-jfk&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pfi8C.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "rg6gp5lfkqgdl8ueom8ahonq9gpsvthj",
+      "Connection" : "keep-alive"
+    }
+  }
+}

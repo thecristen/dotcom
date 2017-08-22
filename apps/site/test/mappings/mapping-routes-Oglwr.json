@@ -1,0 +1,19 @@
+{
+  "uuid" : "cfcdaaf2-5d34-3507-800d-aa8a0f0441e3",
+  "request" : {
+    "url" : "/routes/?stop=Fairmount",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Oglwr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6n188ij2gpp3pjgp4lae0hh6j1hmgdpb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "f4be8097-9d05-3117-a676-75171de00216",
+  "request" : {
+    "url" : "/stops/?route=Green-B&include=parent_station&direction_id=0&date=2017-09-11",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-QMIEC.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "b7k9al23g34nqq905nlb6dqqgnkbs6af",
+      "Connection" : "keep-alive"
+    }
+  }
+}

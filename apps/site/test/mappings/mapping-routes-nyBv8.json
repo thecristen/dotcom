@@ -1,0 +1,19 @@
+{
+  "uuid" : "09520ba8-ee4c-3c5b-9591-6d453ccc2c78",
+  "request" : {
+    "url" : "/routes/?stop=Boston+Landing",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nyBv8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "lr17d0279nhe1k9ij4eo528r0eja42s9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

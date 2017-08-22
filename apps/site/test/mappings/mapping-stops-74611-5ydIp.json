@@ -1,0 +1,19 @@
+{
+  "uuid" : "98d855a9-b046-3349-a23e-a8e1e62fb1fd",
+  "request" : {
+    "url" : "/stops/74611?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-74611-5ydIp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:28 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "on4njafst78hi5vl0ehj7830cm45u93q",
+      "Connection" : "keep-alive"
+    }
+  }
+}

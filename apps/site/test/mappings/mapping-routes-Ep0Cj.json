@@ -1,0 +1,19 @@
+{
+  "uuid" : "9e37f1a1-c526-34c0-b077-822174938609",
+  "request" : {
+    "url" : "/routes/?stop=North+Beverly",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Ep0Cj.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "lneruhf3jphvba9um8js9tuts14l3uoe",
+      "Connection" : "keep-alive"
+    }
+  }
+}

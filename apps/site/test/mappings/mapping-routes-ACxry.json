@@ -1,0 +1,19 @@
+{
+  "uuid" : "effd09bc-9db4-3eae-bf3a-aef20ea5f1aa",
+  "request" : {
+    "url" : "/routes/?stop=place-hsmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ACxry.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ej2r7ali2n1556fmsbl183j3iqpn603u",
+      "Connection" : "keep-alive"
+    }
+  }
+}

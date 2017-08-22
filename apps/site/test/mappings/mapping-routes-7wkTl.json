@@ -1,0 +1,19 @@
+{
+  "uuid" : "b7255d0f-2c2b-3e53-aaa8-e03acf264add",
+  "request" : {
+    "url" : "/routes/?stop=place-portr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7wkTl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "kv27ek4c3qbce304sjciiagnarc3hn00",
+      "Connection" : "keep-alive"
+    }
+  }
+}

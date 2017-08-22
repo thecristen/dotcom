@@ -1,0 +1,19 @@
+{
+  "uuid" : "879ad20b-716e-3c9d-8aea-b582c2534e66",
+  "request" : {
+    "url" : "/routes/?stop=place-dwnxg",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UivND.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "cndobd9g6e6p643ehndv6o8akdmibjh4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

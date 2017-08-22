@@ -1,1 +1,0 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"stop","relationships":{"parent_station":{"data":null}},"links":{"self":"/stops/95"},"id":"95","attributes":{"wheelchair_boarding":0,"name":"Massachusetts Ave @ Beacon St","longitude":-71.089334,"latitude":42.350773}}}

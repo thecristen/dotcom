@@ -1,0 +1,19 @@
+{
+  "uuid" : "19887a6c-dbe3-397e-be79-750668e0726b",
+  "request" : {
+    "url" : "/stops/?route=Green-B&include=parent_station&direction_id=0&date=2017-10-02",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-FaCSU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:37 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "mt9pfqn074je01lelfn201ece4i5105s",
+      "Connection" : "keep-alive"
+    }
+  }
+}

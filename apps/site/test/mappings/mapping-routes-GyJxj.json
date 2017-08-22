@@ -1,0 +1,19 @@
+{
+  "uuid" : "d209b3f9-76d1-3df5-9859-68772aba8298",
+  "request" : {
+    "url" : "/routes/?stop=place-hwsst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GyJxj.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "bpchk1ngb0ajf5nf1kp9li7aa2g8p1sv",
+      "Connection" : "keep-alive"
+    }
+  }
+}

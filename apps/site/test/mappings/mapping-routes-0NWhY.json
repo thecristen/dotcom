@@ -1,0 +1,19 @@
+{
+  "uuid" : "caa6fac6-12d3-3380-85dc-cb67fa16b902",
+  "request" : {
+    "url" : "/routes/?stop=Wachusett",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0NWhY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6epjl8tmeskur6jitgl5ai165t8pq4i2",
+      "Connection" : "keep-alive"
+    }
+  }
+}

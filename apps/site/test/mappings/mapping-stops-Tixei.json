@@ -1,0 +1,19 @@
+{
+  "uuid" : "4299758f-8b32-344d-bd89-e7f9d6aaea72",
+  "request" : {
+    "url" : "/stops/?route=Green-C&include=parent_station&direction_id=1&date=2017-10-14",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Tixei.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:39 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "0eioffo3phcr7btp7adko4a42nmdv0co",
+      "Connection" : "keep-alive"
+    }
+  }
+}

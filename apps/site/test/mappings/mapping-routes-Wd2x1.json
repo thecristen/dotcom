@@ -1,0 +1,19 @@
+{
+  "uuid" : "0115c9eb-1fde-3ad4-9a8e-d7e82237c288",
+  "request" : {
+    "url" : "/routes/?stop=Newmarket",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Wd2x1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "fvtlalae2nptf4nslseo07q8gmk7f6o0",
+      "Connection" : "keep-alive"
+    }
+  }
+}

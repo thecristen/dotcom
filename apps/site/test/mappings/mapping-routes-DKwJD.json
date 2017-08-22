@@ -1,0 +1,19 @@
+{
+  "uuid" : "2c76018e-957f-3308-b666-bb0c5b1af3c7",
+  "request" : {
+    "url" : "/routes/?stop=place-pktrm&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DKwJD.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:58 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "nkf91pv82v1vg4nu1fmnqe9vptib6f5a",
+      "Connection" : "keep-alive"
+    }
+  }
+}

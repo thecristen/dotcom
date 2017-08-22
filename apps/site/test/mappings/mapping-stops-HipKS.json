@@ -1,0 +1,19 @@
+{
+  "uuid" : "61bffdee-06d0-372b-a2f8-104dc046b1a7",
+  "request" : {
+    "url" : "/stops/?route=Green-E&include=parent_station&direction_id=1&date=2017-10-29",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-HipKS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "hp3i7u64h6v5n5d2sl5303bhrlhrvu9e",
+      "Connection" : "keep-alive"
+    }
+  }
+}

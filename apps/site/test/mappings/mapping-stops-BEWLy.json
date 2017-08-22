@@ -1,0 +1,19 @@
+{
+  "uuid" : "183bc491-4011-3346-90c7-d0aed5b927f7",
+  "request" : {
+    "url" : "/stops/?route=Green-E&include=parent_station&direction_id=0&date=2017-09-30",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-BEWLy.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:36 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "8qo1i45b632p8dgbaolk5q9bcj3vh4g9",
+      "Connection" : "keep-alive"
+    }
+  }
+}

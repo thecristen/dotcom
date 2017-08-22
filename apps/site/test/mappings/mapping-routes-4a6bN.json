@@ -1,0 +1,19 @@
+{
+  "uuid" : "57f87b39-b48c-3b0d-809f-44e74b777e55",
+  "request" : {
+    "url" : "/routes/?stop=Worcester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4a6bN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "lb2o6tsiajgh0hdt7oifvbhduphpcs2h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

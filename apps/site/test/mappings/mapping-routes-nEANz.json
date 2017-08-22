@@ -1,0 +1,19 @@
+{
+  "uuid" : "569bf2c9-f2f6-3e1d-b9a4-82562077c8e8",
+  "request" : {
+    "url" : "/routes/?stop=Plymouth",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-nEANz.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "9cpm40q1mfup0ubeco0q7k2f1d1k32ge",
+      "Connection" : "keep-alive"
+    }
+  }
+}

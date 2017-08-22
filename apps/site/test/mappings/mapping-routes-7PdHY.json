@@ -1,0 +1,19 @@
+{
+  "uuid" : "79a0281e-560c-3011-84eb-8fd9138671ae",
+  "request" : {
+    "url" : "/routes/?stop=Rowley",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-7PdHY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "t7cve9uni2f46gae6f959ov62qrggp3a",
+      "Connection" : "keep-alive"
+    }
+  }
+}

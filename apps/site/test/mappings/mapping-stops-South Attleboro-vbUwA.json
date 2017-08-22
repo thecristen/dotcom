@@ -1,0 +1,19 @@
+{
+  "uuid" : "e4070685-5d71-38c8-b877-7e480e34c7f8",
+  "request" : {
+    "url" : "/stops/South%20Attleboro?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-South Attleboro-vbUwA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:18 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ce0niknvrtbod2f2k5u71i913gjib48h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

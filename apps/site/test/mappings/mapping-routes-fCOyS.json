@@ -1,0 +1,19 @@
+{
+  "uuid" : "79bdb338-3e0c-39b7-868b-517bd730ae2a",
+  "request" : {
+    "url" : "/routes/?stop=Natick+Center",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-fCOyS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "lah6jp94j1ltammvl7toljdg1aac4d3f",
+      "Connection" : "keep-alive"
+    }
+  }
+}

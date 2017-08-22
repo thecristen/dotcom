@@ -1,0 +1,19 @@
+{
+  "uuid" : "7ecbed34-696f-362e-bed3-2c0c99e3f4c0",
+  "request" : {
+    "url" : "/routes/?stop=269&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bjSIP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:04 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "h70o9a1hrle55mtkthngaqlghg4nt656",
+      "Connection" : "keep-alive"
+    }
+  }
+}

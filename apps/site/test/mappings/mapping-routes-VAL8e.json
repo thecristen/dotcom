@@ -1,0 +1,19 @@
+{
+  "uuid" : "77f0eddb-9acf-3173-ae3c-b66a03a527dd",
+  "request" : {
+    "url" : "/routes/?stop=Sharon",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-VAL8e.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "nm7b5p5mt41lv1q9doru4b3tplce7mpi",
+      "Connection" : "keep-alive"
+    }
+  }
+}

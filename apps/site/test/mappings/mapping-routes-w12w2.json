@@ -1,0 +1,19 @@
+{
+  "uuid" : "91d834e6-da80-32a2-9560-7ef5e18bb096",
+  "request" : {
+    "url" : "/routes/?stop=Lincoln",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-w12w2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6ld8cjm1s0ckl9i9fhtjtpj6mm7vl9dr",
+      "Connection" : "keep-alive"
+    }
+  }
+}

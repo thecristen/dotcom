@@ -1,0 +1,19 @@
+{
+  "uuid" : "a90fe708-49a3-3cd1-85bf-e4204277896c",
+  "request" : {
+    "url" : "/stops/?route=Green-D&include=parent_station&direction_id=0&date=2017-08-19",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-EtnSh.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:51:31 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "r1e1ccgt37jufagoh104h1vn7leinofa",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "fae4d1fb-2a21-3da8-ade3-5b9cdfb6b487",
+  "request" : {
+    "url" : "/routes/?stop=223&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-G2MKE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:03 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "47mmspq2fsds953fmjph6m83cpr8ke19",
+      "Connection" : "keep-alive"
+    }
+  }
+}

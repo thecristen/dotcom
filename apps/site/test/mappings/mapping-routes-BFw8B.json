@@ -1,0 +1,19 @@
+{
+  "uuid" : "4be8208e-bea9-3d99-8e0b-15aca9bc9476",
+  "request" : {
+    "url" : "/routes/?stop=Providence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BFw8B.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "scccca35jmh6fagugq04jaa070gmrtgm",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "a8e7f4dd-182f-3397-9b67-7ca9dcf3e91e",
+  "request" : {
+    "url" : "/routes/?stop=place-grigg&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pbj5T.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "fb3b81c8b3t7d42v1jdc1slat3hijsrs",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "a8309b4d-cdc1-3535-bfe0-49de1bd20507",
+  "request" : {
+    "url" : "/stops/Worcester?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Worcester-ohTd9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:53 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "kkm4e5t8spobqdqhajsu7q2v5dv6mts5",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "801677aa-e700-3a03-a517-37c3a33fd96a",
+  "request" : {
+    "url" : "/routes/?stop=place-grnst&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-NZ3Dn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:59 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "srjethulmv6jbna9rpjikftclvrn5ja4",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "290b5011-89a2-318c-8c16-2d51a3d11d1d",
+  "request" : {
+    "url" : "/routes/?stop=place-bmmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ScYZR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "l8u63ldp8klrpqaivh3j2m1rkdrbn1h7",
+      "Connection" : "keep-alive"
+    }
+  }
+}

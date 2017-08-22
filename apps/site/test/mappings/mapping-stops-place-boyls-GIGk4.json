@@ -1,0 +1,19 @@
+{
+  "uuid" : "4c24a2b6-bfc7-32b2-a910-abe1eb30e193",
+  "request" : {
+    "url" : "/stops/place-boyls?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-boyls-GIGk4.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:05 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "eg4rfold3lhb66g9lr1c42cabec4bkhs",
+      "Connection" : "keep-alive"
+    }
+  }
+}

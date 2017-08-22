@@ -1,0 +1,19 @@
+{
+  "uuid" : "f89f31af-1e5d-30ae-8178-81de16ad7e8b",
+  "request" : {
+    "url" : "/routes/?stop=place-lake&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LXDzS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:00 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "9ethrbpajfgt4elugb61s959k4jkmk70",
+      "Connection" : "keep-alive"
+    }
+  }
+}

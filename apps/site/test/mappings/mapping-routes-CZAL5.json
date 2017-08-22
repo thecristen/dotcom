@@ -1,0 +1,19 @@
+{
+  "uuid" : "37c0ad0b-39de-3e98-831e-d6f6714379d9",
+  "request" : {
+    "url" : "/routes/?stop=place-state&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CZAL5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:58 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ol0ufes7d0gngnsdcqp1jor97bsqs85u",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "ea15cbf5-267d-3c72-82a9-56686e33efd1",
+  "request" : {
+    "url" : "/routes/?stop=place-cenav",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dtomx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "qlg40ukqkm80s1p02jb06outoocfsv0k",
+      "Connection" : "keep-alive"
+    }
+  }
+}

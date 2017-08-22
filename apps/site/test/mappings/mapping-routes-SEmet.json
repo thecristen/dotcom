@@ -1,0 +1,19 @@
+{
+  "uuid" : "f0bf89b3-914f-3814-b013-91cd57c850a6",
+  "request" : {
+    "url" : "/routes/?stop=10013&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SEmet.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:03 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "t0nup981gejfdpitt6k0gc4ccmpju8ft",
+      "Connection" : "keep-alive"
+    }
+  }
+}

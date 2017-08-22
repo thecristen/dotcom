@@ -1,0 +1,19 @@
+{
+  "uuid" : "0a37c3f6-e9c2-3f6c-bc66-8dfe7c51f35b",
+  "request" : {
+    "url" : "/routes/?stop=place-sougr&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MIwLf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:00 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6lphn636kc6n3u8mgn7oqtmbv6vd9jdi",
+      "Connection" : "keep-alive"
+    }
+  }
+}

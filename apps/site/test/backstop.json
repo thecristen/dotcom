@@ -34,7 +34,7 @@
   "scenarios": [
     {
       "label": "Homepage",
-      "url": "http://localhost:8082/?date=2017-09-01",
+      "url": "http://localhost:8082/?date=2017-12-15",
       "hideSelectors": [],
       "removeSelectors": [".index-news-group", ".whats-happening-item", ".title-card"],
       "selectors": [
@@ -50,7 +50,7 @@
     },
     {
       "label": "Subway Hub",
-      "url": "http://localhost:8082/schedules/subway?date=2017-09-01",
+      "url": "http://localhost:8082/schedules/subway?date=2017-12-15",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
@@ -65,7 +65,7 @@
     },
     {
       "label": "All Schedules",
-      "url": "http://localhost:8082/schedules?date=2017-09-01",
+      "url": "http://localhost:8082/schedules?date=2017-12-15",
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
@@ -85,7 +85,7 @@
     },
     {
       "label": "Alerts",
-      "url": "http://localhost:8082/alerts/subway?date=2017-09-01&date_time=2017-09-01T16:23:31-05:00#alerts-Orange",
+      "url": "http://localhost:8082/alerts/subway?date=2017-12-15&date_time=2017-12-15T16:23:31-05:00#alerts-Orange",
       "selectors": ["document"],
       "delay": 1000,
       "hideSelectors": [".alert-card-footer"]
@@ -121,7 +121,7 @@
     },
     {
       "label": "Header Getting Around",
-      "url": "http://localhost:8082/?date=2017-09-01",
+      "url": "http://localhost:8082/?date=2017-12-15",
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 100,
@@ -130,7 +130,7 @@
     },
     {
       "label": "Header Fares",
-      "url": "http://localhost:8082/?date=2017-09-01",
+      "url": "http://localhost:8082/?date=2017-12-15",
       "selectors": ["#fares"],
       "readyEvent": null,
       "delay": 100,
@@ -139,7 +139,7 @@
     },
     {
       "label": "Header Contact Us",
-      "url": "http://localhost:8082/?date=2017-09-01",
+      "url": "http://localhost:8082/?date=2017-12-15",
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 100,
@@ -148,7 +148,7 @@
     },
     {
       "label": "Header More",
-      "url": "http://localhost:8082/?date=2017-09-01",
+      "url": "http://localhost:8082/?date=2017-12-15",
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 100,
@@ -164,7 +164,7 @@
     },
     {
       "label": "Station Info Tab South Station",
-      "url": "http://localhost:8082/stops/place-sstat?date=2017-09-01&tab=info",
+      "url": "http://localhost:8082/stops/place-sstat?date=2017-12-15&tab=info",
       "hideSelectors": [".dynamic-map"],
       "selectors": ["#station-info"],
       "delay": 100,
@@ -180,25 +180,25 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://localhost:8082/schedules/1/schedule?date=2017-09-01&direction_id=0&trip=&origin=102",
+      "url": "http://localhost:8082/schedules/1/schedule?date=2017-12-15&direction_id=0&trip=&origin=102",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Subway Schedule",
-      "url": "http://localhost:8082/schedules/Red/schedule?date=2017-09-01&direction_id=1&origin=place-sstat&trip=",
+      "url": "http://localhost:8082/schedules/Red/schedule?date=2017-12-15&direction_id=1&origin=place-sstat&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2017-09-01&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
+      "url": "http://localhost:8082/schedules/CR-Providence/timetable?date=2017-12-15&direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=",
       "selectors": ["main"],
       "delay": 100
     },
     {
       "label": "Station Info Framingham",
-      "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2017-09-01&date_time=2017-09-01T17%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2017-12-15&date_time=2017-12-15T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".dynamic-map"],
       "selectors": ["main"],
       "delay": 100,
@@ -206,7 +206,7 @@
     },
     {
       "label": "Station Info South Station",
-      "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2017-09-01&date_time=2017-09-01T17%3A01%3A52.397960-05%3A00",
+      "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2017-12-15&date_time=2017-12-15T18%3A01%3A52.397960-05%3A00",
       "hideSelectors": [".station-info-map"],
       "selectors": ["main"],
       "delay": 100,
@@ -228,7 +228,7 @@
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2017-08-10&date_time=2017-08-10T12:00:00-04:00",
+      "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2017-12-15&date_time=2017-12-15T13:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": [".dynamic-map"],
       "delay": 100,
@@ -236,7 +236,7 @@
     },
     {
       "label": "Retail Sales Locations",
-      "url": "http://localhost:8082/fares/retail_sales_locations?location%5Baddress%5D=42.3491637,%20-71.0663166&date_time=2017-07-01T12:00:00-04:00",
+      "url": "http://localhost:8082/fares/retail_sales_locations?location%5Baddress%5D=42.3491637,%20-71.0663166&date_time=2017-12-15T13:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 100,

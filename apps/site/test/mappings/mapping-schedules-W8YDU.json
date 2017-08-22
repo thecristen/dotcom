@@ -1,0 +1,19 @@
+{
+  "uuid" : "1d256ae6-fd72-37d9-9c72-7454393d7022",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&include=trip%2Croute&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name&date=2017-12-15",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-W8YDU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:29 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "ki5k0m4r68pvm6l8f7ctfe945bunbj65",
+      "Connection" : "keep-alive"
+    }
+  }
+}

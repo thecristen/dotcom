@@ -1,0 +1,19 @@
+{
+  "uuid" : "bbbf2daa-8665-39a5-a489-b7d6b052136b",
+  "request" : {
+    "url" : "/routes/?stop=Walpole",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ymtm8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "45c73dlrs8hmr9fs3746fbb9f2barg5u",
+      "Connection" : "keep-alive"
+    }
+  }
+}

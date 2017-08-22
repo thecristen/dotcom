@@ -1,0 +1,19 @@
+{
+  "uuid" : "008da2ee-e446-3cd3-b688-844d0622264f",
+  "request" : {
+    "url" : "/stops/1241?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-1241-h2m8Y.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:05 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "78i5o00ue6jtpmh352ganebnj2v4d39r",
+      "Connection" : "keep-alive"
+    }
+  }
+}

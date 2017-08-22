@@ -1,0 +1,19 @@
+{
+  "uuid" : "138dbb04-4313-3054-941f-ece3cad5fd91",
+  "request" : {
+    "url" : "/routes/?stop=place-harvd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Je2Z7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:35 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "avh3p31a9udprod8up26mqmo93sac3md",
+      "Connection" : "keep-alive"
+    }
+  }
+}

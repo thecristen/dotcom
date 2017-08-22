@@ -1,0 +1,19 @@
+{
+  "uuid" : "b9ef1d46-b593-32f4-b2bf-0aba6448203b",
+  "request" : {
+    "url" : "/routes/?stop=place-bckhl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bRaNO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:34 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "qbuo2hopvq71v3ipgtl3j2f0ohs56qjb",
+      "Connection" : "keep-alive"
+    }
+  }
+}

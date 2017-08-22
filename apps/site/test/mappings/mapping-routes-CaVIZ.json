@@ -1,0 +1,19 @@
+{
+  "uuid" : "6cfc4932-302d-398d-aead-124edc8714ff",
+  "request" : {
+    "url" : "/routes/?stop=place-orhte&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CaVIZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:55:00 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "2jl8k53j3f1ob2acd4rdkgt0e9mo5u2t",
+      "Connection" : "keep-alive"
+    }
+  }
+}

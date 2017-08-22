@@ -1,0 +1,19 @@
+{
+  "uuid" : "c73b45e4-c326-3907-aff2-c1237cdebc5c",
+  "request" : {
+    "url" : "/routes/?stop=Ayer",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0R7gu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "3eme8m459d4palr87t4ldvu447dd6hjm",
+      "Connection" : "keep-alive"
+    }
+  }
+}

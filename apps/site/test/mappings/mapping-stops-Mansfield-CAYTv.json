@@ -1,0 +1,19 @@
+{
+  "uuid" : "435c021a-5539-3598-8981-8b75d1ddd299",
+  "request" : {
+    "url" : "/stops/Mansfield?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Mansfield-CAYTv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:18 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "6s4tqqr6640j7rgfjo14nll2fvpitk8r",
+      "Connection" : "keep-alive"
+    }
+  }
+}

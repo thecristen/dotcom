@@ -1,0 +1,19 @@
+{
+  "uuid" : "2557cbc9-d128-3e11-a968-6604e0c4d063",
+  "request" : {
+    "url" : "/routes/?stop=Newtonville",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BWM0x.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "bgbbv47ln19kcc6ndlvscrffd9ai22fg",
+      "Connection" : "keep-alive"
+    }
+  }
+}

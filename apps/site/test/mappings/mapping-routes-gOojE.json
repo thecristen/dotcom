@@ -1,0 +1,19 @@
+{
+  "uuid" : "8ec9e72e-06dc-3df4-8425-84f6b01ad696",
+  "request" : {
+    "url" : "/routes/?stop=Waverley",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-gOojE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "mp3das1d1jjp6oukjt7fq2g58l0fes9v",
+      "Connection" : "keep-alive"
+    }
+  }
+}

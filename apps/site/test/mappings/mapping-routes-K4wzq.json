@@ -1,0 +1,19 @@
+{
+  "uuid" : "565beddb-9e23-3214-8cb8-6a4ca49bbe66",
+  "request" : {
+    "url" : "/routes/?stop=Morton+Street",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-K4wzq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "2b31qbfovg0mu0m9s34ujuejqa33uoep",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "ef0461b5-c14a-33e0-934b-dcf5a2e6e69f",
+  "request" : {
+    "url" : "/stops/Ashland?include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Ashland-D0rAE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:53 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "17pud09p2el484bjr76vs36beaf42r50",
+      "Connection" : "keep-alive"
+    }
+  }
+}

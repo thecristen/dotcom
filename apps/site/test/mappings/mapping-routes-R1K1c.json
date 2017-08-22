@@ -1,0 +1,19 @@
+{
+  "uuid" : "245d1879-404c-35cf-9451-ed856fe04a11",
+  "request" : {
+    "url" : "/routes/?stop=Hastings",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-R1K1c.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:41 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "dvnbt3kljjk8gae8i616sr6tq5fvkvb8",
+      "Connection" : "keep-alive"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "uuid" : "e0c64bae-dd1e-3d12-b743-41656ec418b2",
+  "request" : {
+    "url" : "/routes/?stop=Rockport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZhJFA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "evakri05fjkja6argcqjovete8td3p4h",
+      "Connection" : "keep-alive"
+    }
+  }
+}

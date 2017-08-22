@@ -1,0 +1,19 @@
+{
+  "uuid" : "52be6152-fd99-3f92-8079-b1b40bba28ca",
+  "request" : {
+    "url" : "/routes/?stop=Brockton",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bbeLV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:42 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "hf6mnnt8k5j5k934tv4g08n7k63rje08",
+      "Connection" : "keep-alive"
+    }
+  }
+}

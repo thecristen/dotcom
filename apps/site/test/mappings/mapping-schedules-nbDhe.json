@@ -1,0 +1,19 @@
+{
+  "uuid" : "e2159bb2-3889-3833-a495-33c4e79d7384",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2017-12-15&route=1&include=trip%2Croute&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id&fields%5Bstop%5D=name",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-nbDhe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:56:08 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "bkt0afihb3oho3gbdno1i3kbbdlgne7q",
+      "Connection" : "keep-alive"
+    }
+  }
+}

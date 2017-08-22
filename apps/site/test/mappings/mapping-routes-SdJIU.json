@@ -1,0 +1,19 @@
+{
+  "uuid" : "4aa97f0a-6c7a-3131-ba27-fbe7a51d8072",
+  "request" : {
+    "url" : "/routes/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SdJIU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 17 Aug 2017 18:54:14 GMT",
+      "Server" : "nginx/1.10.3",
+      "x-request-id" : "p311p4v5sd9hrdr6e6jae58m0i9ocv60",
+      "Connection" : "keep-alive"
+    }
+  }
+}
