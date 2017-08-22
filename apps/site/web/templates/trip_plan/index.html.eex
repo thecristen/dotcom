@@ -1,75 +1,77 @@
 <% itineraries? = Query.itineraries?(assigns[:query]) %>
 <h1>Directions</h1>
 <div class="row">
-  <div class="col-md-5 trip-plan-form-container callout">
-  <%= if itineraries? do %>
-    <div class="hidden-sm-up hidden-no-js" data-toggle-hide>
-      <div class="planner-location-box-location">
-        <strong>Start from:</strong> <%= Query.location_name(assigns[:query], :from) %>
+  <div class="col-md-5">
+    <div class="trip-plan-form-container callout">
+    <%= if itineraries? do %>
+      <div class="hidden-sm-up hidden-no-js" data-toggle-hide>
+        <div class="planner-location-box-location">
+          <strong>Start from:</strong> <%= Query.location_name(assigns[:query], :from) %>
+        </div>
+        <div class="planner-location-box-location">
+          <strong>End here: </strong><%= Query.location_name(assigns[:query], :to) %>
+        </div>
+          <a class="btn btn-primary trip-planner-edit-btn" data-toggle="collapse" href="#planner-form">
+            Edit trip
+          </a>
       </div>
-      <div class="planner-location-box-location">
-        <strong>End here: </strong><%= Query.location_name(assigns[:query], :to) %>
+    <% end %>
+    <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
+      <%= form_for @conn, @conn.request_path, form_options, fn f -> %>
+      <div class="form-group">
+        <%= label f, :from, "From:" %>
+        <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: true,
+                                          address: f.params["from"], address_error: rendered_location_error(@conn, assigns[:query], :from),
+                                          placeholder: "Ex: 10 Park Plaza", input_class: location_input_class(f.params, :from)}) %>
+        <%= hidden_input :plan, :from_latitude, value: f.params["from_latitude"] %>
+        <%= hidden_input :plan, :from_longitude, value: f.params["from_longitude"] %>
       </div>
-        <a class="btn btn-primary trip-planner-edit-btn" data-toggle="collapse" href="#planner-form">
-          Edit trip
-        </a>
-    </div>
-  <% end %>
-  <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
-    <%= form_for @conn, @conn.request_path, form_options, fn f -> %>
-    <div class="form-group">
-      <%= label f, :from, "From:" %>
-      <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: true,
-                                        address: f.params["from"], address_error: rendered_location_error(@conn, assigns[:query], :from),
-                                        placeholder: "Ex: 10 Park Plaza", input_class: location_input_class(f.params, :from)}) %>
-      <%= hidden_input :plan, :from_latitude, value: f.params["from_latitude"] %>
-      <%= hidden_input :plan, :from_longitude, value: f.params["from_longitude"] %>
-    </div>
-    <div class="form-group">
-      <%= label f, :to, "To:" %>
-      <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: true,
-                                        address: f.params["to"], address_error: rendered_location_error(@conn, assigns[:query], :to),
-                                        placeholder: "Ex: Boston Children's Museum", input_class: location_input_class(f.params, :to)}) %>
-      <%= hidden_input :plan, :to_latitude %>
-      <%= hidden_input :plan, :to_longitude %>
-    </div>
-    <div class="form-check">
-      <%= label f, :time, for: "depart", class: "form-check-label" do %>
-        <%= radio_button f, :time, "depart", id: "depart", checked: true, class: "form-check-input" %>
-        Depart At
-      <% end %>
-    </div>
-    <div class="form-check">
-      <%= label f, :time, for: "arrive", class: "form-check-label" do %>
-        <%= radio_button f, :time, "arrive", id: "arrive", class: "form-check-input" %>
-        Arrive By
-      <% end %>
-    </div>
-    <%= if Laboratory.enabled?(@conn, :js_datepicker) do %>
-      <div class="form-group date-select-js">
-        <a href="#show-date-picker" id="plan-date-link"></a>
-        <%= label f, :date, for: "plan-date", id: "plan-date-container", class: "plan-date-container" do %>
-          <%= text_input f, :date, class: "date form-control", id: "plan-date" %>
+      <div class="form-group">
+        <%= label f, :to, "To:" %>
+        <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: true,
+                                          address: f.params["to"], address_error: rendered_location_error(@conn, assigns[:query], :to),
+                                          placeholder: "Ex: Boston Children's Museum", input_class: location_input_class(f.params, :to)}) %>
+        <%= hidden_input :plan, :to_latitude %>
+        <%= hidden_input :plan, :to_longitude %>
+      </div>
+      <div class="form-check">
+        <%= label f, :time, for: "depart", class: "form-check-label" do %>
+          <%= radio_button f, :time, "depart", id: "depart", checked: true, class: "form-check-input" %>
+          Depart At
         <% end %>
       </div>
-    <% end %>
-    <div class="form-group date-time-select">
-      <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
-      <div class="error-container">
-      <%= if @errors[:date_time] do %>
-        <span><%= @errors[:date_time] %></span>
-      <% end %>
+      <div class="form-check">
+        <%= label f, :time, for: "arrive", class: "form-check-label" do %>
+          <%= radio_button f, :time, "arrive", id: "arrive", class: "form-check-input" %>
+          Arrive By
+        <% end %>
       </div>
-    </div>
-    <div class="form-group">
-      <%= label f, :accessible, for: "accessible" do %>
-        <%= checkbox f, :accessible, id: "accessible" %>
-        <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
-        Wheelchair accessible trip
+      <%= if Laboratory.enabled?(@conn, :js_datepicker) do %>
+        <div class="form-group date-select-js">
+          <a href="#show-date-picker" id="plan-date-link"></a>
+          <%= label f, :date, for: "plan-date", id: "plan-date-container", class: "plan-date-container" do %>
+            <%= text_input f, :date, class: "date form-control", id: "plan-date" %>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="form-group date-time-select">
+        <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
+        <div class="error-container">
+        <%= if @errors[:date_time] do %>
+          <span><%= @errors[:date_time] %></span>
+        <% end %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= label f, :accessible, for: "accessible" do %>
+          <%= checkbox f, :accessible, id: "accessible" %>
+          <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access}) %>
+          Wheelchair accessible trip
+        <% end %>
+      </div>
+      <button type="submit" class="btn btn-primary">Find</button>
       <% end %>
     </div>
-    <button type="submit" class="btn btn-primary">Find</button>
-    <% end %>
   </div>
   <div class="col-md-7">
     <%= case assigns[:query] do %>
