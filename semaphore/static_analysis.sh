@@ -2,9 +2,11 @@
 set -e
 
 # run pronto in background
-bash <(curl -s https://codecov.io/bash) -t $CODECOV_UPLOAD_TOKEN
 MIX_ENV=test pronto run -f github github_status -c origin/master &
 pronto_pid=$!
+
+# submit coverage report to codecov
+bash <(curl -s https://codecov.io/bash) -t $CODECOV_UPLOAD_TOKEN
 
 # check for unsed variables and such
 mix compile --force --warnings-as-errors
