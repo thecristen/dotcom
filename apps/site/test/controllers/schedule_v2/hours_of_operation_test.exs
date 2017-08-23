@@ -4,10 +4,10 @@ defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
   defp schedules_fn(_route_ids, opts) do
     date_time = Timex.to_datetime(opts[:date])
     [
-      %Schedules.Schedule{time: Timex.set(date_time, hour: 6), trip: %Schedules.Trip{direction_id: 0}},
-      %Schedules.Schedule{time: Timex.set(date_time, hour: 23), trip: %Schedules.Trip{direction_id: 0}},
-      %Schedules.Schedule{time: Timex.set(date_time, hour: 6), trip: %Schedules.Trip{direction_id: 1}},
-      %Schedules.Schedule{time: Timex.set(date_time, hour: 23), trip: %Schedules.Trip{direction_id: 1}},
+      %Schedules.Schedule{time: Timex.set(date_time, hour: 6), trip: %Schedules.Trip{id: "1", direction_id: 0}},
+      %Schedules.Schedule{time: Timex.set(date_time, hour: 23), trip: %Schedules.Trip{id: "2", direction_id: 0}},
+      %Schedules.Schedule{time: Timex.set(date_time, hour: 6), trip: %Schedules.Trip{id: "3", direction_id: 1}},
+      %Schedules.Schedule{time: Timex.set(date_time, hour: 23), trip: %Schedules.Trip{id: "4", direction_id: 1}},
     ]
   end
 

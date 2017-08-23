@@ -14,7 +14,7 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
       case Task.yield(task) do
         nil ->
           []
-        {:ok, {:error, _}} ->
+        {:ok, []} ->
           []
         {:ok, schedules} ->
           [{key, schedules}]
@@ -42,8 +42,8 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
   end
 
   defp do_get_hours(route_ids, date, schedules_fn) do
-    with schedules when is_list(schedules) <-
-      schedules_fn.(route_ids, date: date, stop_sequences: ~w(first last)s) do
+    with schedules when is_list(schedules) and schedules != [] <-
+      lookup_schedules(route_ids, date, schedules_fn) do
 
       {inbound, outbound} = Enum.split_with(schedules, & &1.trip.direction_id == 1)
       %{
@@ -52,6 +52,15 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
       }
     end
   end
+
+  defp lookup_schedules(route_ids, date, schedules_fn) do
+    route_ids
+    |> Task.async_stream(&schedules_fn.(List.wrap(&1), date: date, stop_sequences: ~w(first last)s))
+    |> Enum.flat_map(&extract_schedules/1)
+  end
+
+  defp extract_schedules({:ok, {:error, _}}), do: []
+  defp extract_schedules({:ok, schedules}), do: schedules
 
   defp get_dates(date) do
     %{
