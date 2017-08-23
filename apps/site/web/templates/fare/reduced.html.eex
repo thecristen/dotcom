@@ -36,11 +36,11 @@
       </figure>
       <div class="col-sm-6 col-xs-12">
         <strong>Transport Access Pass Application</strong>
-        <a href="http://www.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassPDF.pdf" class="btn btn-block mode-group-btn">
+        <a href="http://old.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassPDF.pdf" class="btn btn-block mode-group-btn">
           <%= fa "file-pdf-o" %> Download TAP application <%= fa "download" %>
           <span class="sr-only">(PDF version)</span>
         </a>
-        <a href="http://www.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassWord.doc" class="btn btn-block mode-group-btn">
+        <a href="http://old.mbta.com/uploadedfiles/Fares_and_Passes_v2/Reduced_Fares/AccessPassWord.doc" class="btn btn-block mode-group-btn">
           <%= fa "file-word-o" %> Download TAP application <%= fa "download" %>
           <span class="sr-only">(Word version)</span>
         </a>

@@ -5,26 +5,26 @@ defmodule Site.RedirectControllerTest do
     redirect = "schedules_and_maps/"
     conn = get conn, redirect_path(conn, :show, [redirect])
     response = html_response(conn, 200)
-    assert response =~ "http://www.mbta.com/" <> redirect
+    assert response =~ "http://old.mbta.com/" <> redirect
   end
 
   test "does not include the mobile link for t-alerts", %{conn: conn} do
     redirect = "rider_tools/t_alerts"
     conn = get conn, redirect_path(conn, :show, [redirect])
     response = html_response(conn, 200)
-    assert response =~ "http://www.mbta.com/" <> redirect
+    assert response =~ "http://old.mbta.com/" <> redirect
   end
 
   test "handles resources with slashes", %{conn: conn} do
     conn = get conn, "/redirect/rider_tools/transit_updates"
     response = html_response(conn, 200)
-    assert response =~ "http://www.mbta.com/rider_tools/transit_updates"
+    assert response =~ "http://old.mbta.com/rider_tools/transit_updates"
   end
 
   test "handles resource with query params", %{conn: conn} do
     conn = get conn, redirect_path(conn, :show, ["news"], entry: "123")
     response = html_response(conn, 200)
-    assert response =~ "http://www.mbta.com/news?entry=123"
+    assert response =~ "http://old.mbta.com/news?entry=123"
   end
 
   test "handles pass program subdomain", %{conn: conn} do
@@ -83,7 +83,7 @@ defmodule Site.RedirectControllerTest do
     |> put_req_header("referer", "http://localhost:4001/")
     |> get("/redirect/riding_the_t/bikes/")
 
-    assert conn |> get_resp_header("refresh") == ["5;url=http://www.mbta.com/riding_the_t/bikes"]
+    assert conn |> get_resp_header("refresh") == ["5;url=http://old.mbta.com/riding_the_t/bikes"]
 
     attribute = conn
     |> html_response(200)

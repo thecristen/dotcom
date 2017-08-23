@@ -46,7 +46,7 @@ config :content,
   ]
 
 config :site, :former_mbta_site,
-  host: "https://www.mbta.com"
+  host: "https://old.mbta.com"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
