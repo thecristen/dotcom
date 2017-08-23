@@ -2,6 +2,8 @@ defmodule Site.MapHelpers do
   alias Routes.Route
   alias GoogleMaps.MapData.Marker
 
+  import Site.Router.Helpers, only: [static_url: 2]
+
   @spec map_pdf_url(integer | atom) :: String.t | nil
   def map_pdf_url(mode_number) when mode_number in 0..4 do
     mode_number
@@ -9,16 +11,16 @@ defmodule Site.MapHelpers do
     |> map_pdf_url
   end
   def map_pdf_url(:subway) do
-    "https://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+    static_url(Site.Endpoint, "/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf")
   end
   def map_pdf_url(:bus) do
-    "https://old.mbta.com/uploadedFiles/Schedules_and_Maps/System_Map/MBTA-system_map-back.pdf"
+    static_url(Site.Endpoint, "/uploadedFiles/Schedules_and_Maps/System_Map/MBTA-system_map-back.pdf")
   end
   def map_pdf_url(:ferry) do
     "https://s3.amazonaws.com/mbta-dotcom/Water_Ferries_2016.pdf"
   end
   def map_pdf_url(:commuter_rail) do
-    "https://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
+    static_url(Site.Endpoint, "/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf")
   end
   def map_pdf_url(_) do
     nil

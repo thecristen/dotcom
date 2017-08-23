@@ -150,7 +150,7 @@ defmodule Site.ScheduleV2View do
   def lowell_weekend_shuttle_pdf(%{id: "CR-Lowell"}, date) do
     if Date.compare(date, ~D[2017-10-02]) == :lt do
       content_tag :div, class: "schedules-v2-pdf-link" do
-        link(to: "http://old.mbta.com/uploadedfiles/Riding_the_T/Landing_Pages/MBTA_Diversion_8.5x11_Lowell_Flyer_WEB.pdf", target: "_blank") do
+        link(to: static_url(Site.Endpoint, "/uploadedfiles/Riding_the_T/Landing_Pages/MBTA_Diversion_8.5x11_Lowell_Flyer_WEB.pdf"), target: "_blank") do
           [
             fa("file-pdf-o"),
             " View PDF of Lowell line weekend shuttle schedule",
