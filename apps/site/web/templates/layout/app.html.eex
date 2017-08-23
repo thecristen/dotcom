@@ -22,7 +22,7 @@
     <link rel="icon" href="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png") %>" sizes="32x32" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
     <%= if assigns[:requires_google_maps?] do %>
-      <script type="application/javascript">window.mapsCallback = function() {};</script>
+      <script type="application/javascript">if (!window.mapsCallback) { window.mapsCallback = function() {window.googleMapsLoaded = true;}}</script>
       <script async defer src="<%= google_maps_js_url %>"></script>
     <% else %>
       <link rel="prefetch" href="<%= google_maps_js_url %>" as="script">
