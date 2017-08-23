@@ -22,6 +22,7 @@ defmodule Content.Field.Link do
   defp parse_uri(data) do
     case data["uri"] do
       "internal:" <> relative_path -> relative_path
+      "entity:node/" <> id -> "/node/#{id}"
       url -> url
     end
   end
