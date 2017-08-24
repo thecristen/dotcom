@@ -1,23 +1,35 @@
 defmodule Content.ProjectUpdate do
   @moduledoc """
-  Represents a "project_update" type in the Drupal CMS.
+  Represents the Project Update content type in the CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_image: 2,
-    parse_updated_at: 1]
+  import Content.Helpers, only: [
+    field_value: 2,
+    int_or_string_to_int: 1,
+    parse_body: 1,
+    parse_date: 2,
+    parse_images: 2
+  ]
 
-  defstruct [id: nil, body: Phoenix.HTML.raw(""), title: "", featured_image: nil, photo_gallery: [],
-    updated_at: nil, status: "", downloads: []]
+  @enforce_keys [:id, :project_id]
+  defstruct [
+    :id,
+    :project_id,
+    body: Phoenix.HTML.raw(""),
+    photo_gallery: [],
+    posted_on: "",
+    teaser: "",
+    title: ""
+  ]
 
   @type t :: %__MODULE__{
-    id: integer | nil,
+    id: integer,
     body: Phoenix.HTML.safe,
-    title: String.t,
-    featured_image: Content.Field.Image.t | nil,
     photo_gallery: [Content.Field.Image.t],
-    updated_at: DateTime.t | nil,
-    status: String.t | nil,
-    downloads: [Content.Field.File.t]
+    posted_on: Date.t,
+    project_id: integer,
+    teaser: String.t,
+    title: String.t
   }
 
   @spec from_api(map) :: t
@@ -25,22 +37,13 @@ defmodule Content.ProjectUpdate do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
-      title: field_value(data, "title"),
-      featured_image: parse_image(data, "field_featured_image"),
-      photo_gallery: parse_photo_gallery(data),
-      updated_at: parse_updated_at(data),
-      status: field_value(data, "field_status"),
-      downloads: parse_downloads(data)
+      photo_gallery: parse_images(data, "field_photo_gallery"),
+      posted_on: parse_date(data, "field_posted_on"),
+      project_id: parse_project_id(data),
+      teaser: field_value(data, "field_teaser"),
+      title: field_value(data, "title")
     }
   end
 
-  defp parse_photo_gallery(data) do
-    data["field_photo_gallery"]
-    |> Enum.map(&Content.Field.Image.from_api/1)
-  end
-
-  defp parse_downloads(data) do
-    data["field_downloads"]
-    |> Enum.map(&Content.Field.File.from_api/1)
-  end
+  defp parse_project_id(%{"field_project" => [%{"target_id" => id}]}), do: id
 end

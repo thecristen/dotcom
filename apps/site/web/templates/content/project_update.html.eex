@@ -1,12 +1,7 @@
 <h1><%= @page.title %></h1>
 
-<%= if @page.featured_image do %>
-  <img class="project-update-featured-image" alt="<%= @page.featured_image.alt %>" src="<%= @page.featured_image.url %>"/>
-<% end %>
-
 <ul class="project-update-metadata">
-  <li><strong>Posted on:</strong> <%= format_full_date(@page.updated_at) %></li>
-  <li><strong>Status:</strong> <%= @page.status %></li>
+  <li><strong>Posted on:</strong> <%= format_full_date(@page.posted_on) %></li>
 </ul>
 
 <%= Site.ContentRewriter.rewrite(@page.body) %>
@@ -23,17 +18,5 @@
   <% end %>
   <li class="clearfix"></li>
 </ul>
-
-<% files = @page.downloads %>
-<%= if files != [] do %>
-  <h2>Downloads</h2>
-  <div class="btn-group">
-    <%= for file <- files do %>
-      <a href="<%= file.url %>" class="btn btn-small btn-primary-outline">
-        <%= fa "file-#{file.type}-o" %>&nbsp;<%= file.description %>&nbsp;<%= fa "download" %>
-      </a>
-    <% end %>
-  </div>
-<% end %>
 
 <%= render "_social.html", path: @conn.request_path %>

@@ -4,7 +4,7 @@ defmodule Content.Event do
   """
 
   import Phoenix.HTML, only: [raw: 1]
-  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_iso_time: 1,
+  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, parse_body: 1, parse_iso_datetime: 1,
     handle_html: 1, parse_files: 2]
 
   defstruct [
@@ -37,8 +37,8 @@ defmodule Content.Event do
   def from_api(%{} = data) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
-      start_time: parse_iso_time(field_value(data, "field_start_time")),
-      end_time: parse_iso_time(field_value(data, "field_end_time")),
+      start_time: parse_iso_datetime(field_value(data, "field_start_time")),
+      end_time: parse_iso_datetime(field_value(data, "field_end_time")),
       title: handle_html(field_value(data, "title")),
       location: field_value(data, "field_location"),
       street_address: field_value(data, "field_street_address"),

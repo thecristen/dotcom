@@ -14,6 +14,10 @@ defmodule Content.CMS.Static do
     parse_json("parking/by-station.json")
   end
 
+  def projects_response do
+    parse_json("api/projects.json")
+  end
+
   def project_update_response do
     parse_json("gov-center-project.json")
   end

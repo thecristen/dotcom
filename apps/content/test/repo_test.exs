@@ -55,17 +55,7 @@ defmodule Content.RepoTest do
     end
 
     test "returns a Content.ProjectUpdate" do
-      %Content.ProjectUpdate{
-        body: body,
-        featured_image: featured_image,
-        photo_gallery: [photo_gallery_image | _] = photo_gallery
-      } = Content.Repo.get_page("/gov-center-project")
-
-      assert safe_to_string(body) =~ "Value Engineering (VE), managed by"
-      assert featured_image.alt == "Proposed Government Center Head House"
-      assert length(photo_gallery) == 2
-      assert photo_gallery_image.alt == "Government Center during construction"
-      assert photo_gallery_image.url =~ "Gov%20Center%20Photo%201%281%29.jpg"
+      %Content.ProjectUpdate{} = Content.Repo.get_page("/gov-center-project")
     end
 
     test "returns nil if no such page" do

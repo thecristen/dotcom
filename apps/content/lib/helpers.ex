@@ -32,17 +32,40 @@ defmodule Content.Helpers do
 
   @spec parse_image(map, String.t) :: Content.Field.Image.t | nil
   def parse_image(%{} = data, field) do
-    case data[field] do
-      [image] -> Content.Field.Image.from_api(image)
+    case parse_images(data, field) do
+      [image] -> image
+      [] -> nil
+    end
+  end
+
+  @spec parse_images(map, String.t) :: [Content.Field.Image.t] | []
+  def parse_images(%{} = data, field) do
+    data
+    |> Map.get(field, [])
+    |> Enum.map(&Content.Field.Image.from_api/1)
+  end
+
+  @spec parse_iso_datetime(String.t) :: DateTime.t | nil
+  def parse_iso_datetime(time) do
+    case Timex.parse(time, "{ISOdate}T{ISOtime}") do
+      {:ok, dt} -> Timex.to_datetime(dt, "Etc/UTC")
       _ -> nil
     end
   end
 
-  @spec parse_iso_time(String.t) :: DateTime.t | nil
-  def parse_iso_time(time) do
-    case Timex.parse(time, "{ISOdate}T{ISOtime}") do
-      {:ok, dt} -> Timex.to_datetime(dt, "Etc/UTC")
+  @spec parse_date(map, String.t) :: Date.t | nil
+  def parse_date(data, field) do
+    case data[field] do
+      [%{"value" => date}] -> parse_date_string(date, "{YYYY}-{0M}-{0D}")
       _ -> nil
+    end
+  end
+
+  @spec parse_date_string(String.t, String.t) :: Date.t | nil
+  defp parse_date_string(date, format_string) do
+    case Timex.parse(date, format_string) do
+      {:error, _message} -> nil
+      {:ok, naive_datetime} -> NaiveDateTime.to_date(naive_datetime)
     end
   end
 
@@ -59,19 +82,6 @@ defmodule Content.Helpers do
     data
     |> Map.get("field_paragraphs", [])
     |> Enum.map(&Content.Paragraph.from_api/1)
-  end
-
-  @spec parse_unix_time(integer) :: DateTime.t | nil
-  def parse_unix_time(unix_time) do
-    Timex.from_unix(unix_time)
-  end
-
-  @spec parse_updated_at(map) :: DateTime.t | nil
-  def parse_updated_at(%{} = data) do
-    if changed = field_value(data, "changed") do
-      changed = int_or_string_to_int(changed)
-      parse_unix_time(changed)
-    end
   end
 
   @spec rewrite_static_file_links(String.t) :: String.t

@@ -1,0 +1,152 @@
+[
+  {
+    "nid": [
+      {
+        "value": 1
+      }
+    ],
+    "uuid": [
+      {
+        "value": "5d55a7f8-22da-4ce8-9861-09602c64c7e4"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3515
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "title"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 10,
+        "target_type": "user",
+        "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
+        "url": "/user/10"
+      }
+    ],
+    "created": [
+      {
+        "value": 1503597432
+      }
+    ],
+    "changed": [
+      {
+        "value": 1503597461
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1503597461
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 10,
+        "target_type": "user",
+        "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
+        "url": "/user/10"
+      }
+    ],
+    "revision_log": [],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>body</p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Contact this person"
+      }
+    ],
+    "field_end_year": [
+      {
+        "value": "2018"
+      }
+    ],
+    "field_featured": [
+      {
+        "value": false
+      }
+    ],
+    "field_featured_image": [],
+    "field_files": [],
+    "field_media_email": [
+      {
+        "value": "foo@example.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "(123) 456-7891"
+      }
+    ],
+    "field_photo_gallery": [],
+    "field_project_status": [
+      {
+        "value": "Procurement"
+      }
+    ],
+    "field_start_year": [
+      {
+        "value": "2017"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "teaser"
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2017-08-24"
+      }
+    ]
+  }
+]
