@@ -3,14 +3,15 @@ let callbacks = [];
 export default function () {
   window.mapsCallback = function() {
     window.isMapReady = true;
-    let callback;
-    while (callbacks.length > 0) {
-      callback = callbacks.shift();
-      callback();
-    }
+    callbacks.forEach((callback) => callback());
+    callbacks = [];
   }
 }
 
 export function doWhenGooleMapsIsReady (callback) {
-  window.isMapReady ? callback() : callbacks.push(callback);
+  // If the map is not ready, add it to an array of callback that will get called soon.
+  // If the map is ready, call the callback, but with a timeout.
+  // The reason for the timeout is so that this function works similar in both cases -- always with a delay, never
+  // immediately.
+  window.isMapReady ? window.setTimeout(callback, 0) : callbacks.push(callback);
 }
