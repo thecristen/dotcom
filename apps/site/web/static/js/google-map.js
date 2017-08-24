@@ -1,8 +1,6 @@
-import { doWhenGoogleMapsIsLoaded } from './google-maps-loaded';
+import { doWhenGooleMapsIsReady } from './google-maps-loaded';
 
-export default function($) {
-  $ = $ || window.jQuery;
-
+export default function() {
   function initMap() {
     // Read the map data from page
     var mapDataElements = document.getElementsByClassName("dynamic_map_data");
@@ -26,7 +24,7 @@ export default function($) {
     window.addEventListener("resize", reevaluateMapBounds);
   }
 
-  doWhenGoogleMapsIsLoaded($, () => {
+  doWhenGooleMapsIsReady(() => {
     document.addEventListener("turbolinks:load", initMap, {passive: true});
     initMap();
   });

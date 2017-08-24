@@ -1,12 +1,16 @@
-export default function ($) {
-  $ = $ || window.jQuery;
+let callbacks = [];
 
+export default function () {
   window.mapsCallback = function() {
-    window.googleMapsLoaded = true;
-    $(document).trigger("google-maps:loaded");
+    window.isMapReady = true;
+    let callback;
+    while (callbacks.length > 0) {
+      callback = callbacks.shift();
+      callback();
+    }
   }
 }
 
-export function doWhenGoogleMapsIsLoaded ($, callback) {
-  window.googleMapsLoaded ? callback() : $(document).on("google-maps:loaded", () => callback());
+export function doWhenGooleMapsIsReady (callback) {
+  window.isMapReady ? callback() : callbacks.push(callback);
 }

@@ -1,9 +1,7 @@
-import { doWhenGoogleMapsIsLoaded } from './google-maps-loaded';
+import { doWhenGooleMapsIsReady } from './google-maps-loaded';
 
-export default function($) {
-  $ = $ || window.jQuery;
-
-  doWhenGoogleMapsIsLoaded($, () => {
+export default function() {
+  doWhenGooleMapsIsReady(() => {
     document.addEventListener('turbolinks:load', setupAutocomplete, {passive: true});
     setupAutocomplete();
   });
