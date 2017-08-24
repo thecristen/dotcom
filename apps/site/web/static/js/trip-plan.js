@@ -8,6 +8,11 @@ export default function tripPlan($ = window.jQuery) {
   $("[data-planner-body]").on("hide.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
+  $(".itinerary-alert-toggle").on("click", toggleAlertDropdownText);
+  $(document).on("turbolinks:load", function() {
+    $(".itinerary-alert-toggle").show();
+    $(".itinerary-alert-toggle").trigger('click');
+  });
 
   if ($.fn.datepicker) {
     // currently $.datepicker isn't accessible to js tests since it's in vendor
@@ -132,4 +137,13 @@ function redrawMap(e) {
   const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
   const zoom = getZoom(offset);
   triggerResize(offset);
+}
+
+function toggleAlertDropdownText(e) {
+  var target = $(e.target);
+  if(target.text() == "(view alert)") {
+    target.text("(hide alert)");
+  } else {
+    target.text("(view alert)");
+  }
 }
