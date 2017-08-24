@@ -84,6 +84,7 @@ if (!Array.prototype.map) {
 }
 
 // Imports
+import googleMapsLoaded from './google-maps-loaded';
 import submitOnEvents from './submit-on-events';
 import selectModal from './select-modal';
 import tooltip from './tooltip';
@@ -111,6 +112,7 @@ import stopBubbles from './stop-bubbles';
 import search from './search';
 
 submitOnEvents(["blur", "change"]);
+googleMapsLoaded();
 selectModal();
 tooltip();
 collapse();
