@@ -59,7 +59,7 @@ defmodule Routes.Pdf do
     south_station_commuter_rail_lines = ["CR-Kingston", "CR-Middleborough", "CR-Providence", "CR-Fairmount",
                                          "CR-Franklin", "CR-Needham", "CR-Greenbush", "CR-Worcester"]
     if route.id in south_station_commuter_rail_lines do
-      "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
+      "http://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
     else
       nil
     end

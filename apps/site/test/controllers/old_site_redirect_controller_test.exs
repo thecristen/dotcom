@@ -57,7 +57,7 @@ defmodule Site.OldSiteRedirectControllerTest do
     end
 
     test "base mticket page redirects to payment methods", %{conn: conn} do
-      old_url = "http://www.mbta.com/fares_and_passes/mticketing/"
+      old_url = "http://old.mbta.com/fares_and_passes/mticketing/"
       assert redirected_to(get(conn, old_url)) =~ fare_url(Site.Endpoint, :show, :payment_methods)
     end
 
@@ -67,7 +67,7 @@ defmodule Site.OldSiteRedirectControllerTest do
     end
 
     test "mticket customer support redirects to customer support", %{conn: conn} do
-      old_url = "http://www.mbta.com/fares_and_passes/mticketing/?id=25904"
+      old_url = "http://old.mbta.com/fares_and_passes/mticketing/?id=25904"
       assert redirected_to(get(conn, old_url)) =~ customer_support_url(Site.Endpoint, :index)
     end
   end

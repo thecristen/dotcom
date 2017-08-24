@@ -9,9 +9,9 @@ defmodule Routes.PdfTest do
       route2 = %Route{id: "CR-Fitchburg"}
       route3 = %Route{id: "Boat-F4"}
 
-      assert url(route1) == "https://www.mbta.com/uploadedFiles/Documents/Schedules_and_Maps/Bus/route001.pdf"
-      assert url(route2) == "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/fitchburg.pdf"
-      assert url(route3) == "https://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Boats/routeF4.pdf?led=7/8/2016%201:50:02%20PM"
+      assert url(route1) == "https://old.mbta.com/uploadedFiles/Documents/Schedules_and_Maps/Bus/route001.pdf"
+      assert url(route2) == "https://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/fitchburg.pdf"
+      assert url(route3) == "https://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Boats/routeF4.pdf?led=7/8/2016%201:50:02%20PM"
     end
 
     test "returns nil if nothing exists for that route" do
@@ -25,7 +25,7 @@ defmodule Routes.PdfTest do
       route = %Route{id: "CR-Fairmount"}
       expected = [
         {~D[2017-01-01], url(route)},
-        {~D[2017-05-22], "https://www.mbta.com/uploadedfiles/Smart_Forms/News%2C_Events_and_Press_Releases/Fairmont%20WEB%20052217%20V1.pdf"},
+        {~D[2017-05-22], "https://old.mbta.com/uploadedfiles/Smart_Forms/News%2C_Events_and_Press_Releases/Fairmont%20WEB%20052217%20V1.pdf"},
       ]
       actual = dated_urls(route, ~D[2017-03-15])
 
@@ -35,7 +35,7 @@ defmodule Routes.PdfTest do
     test "filters out schedules once a new one is in effect" do
       route = %Route{id: "CR-Worcester"}
       expected = [
-        {~D[2017-05-22], "https://www.mbta.com/uploadedfiles/Smart_Forms/News%2C_Events_and_Press_Releases/Worcester%20WEB%20052217%20V1(1).pdf"}
+        {~D[2017-05-22], "https://old.mbta.com/uploadedfiles/Smart_Forms/News%2C_Events_and_Press_Releases/Worcester%20WEB%20052217%20V1(1).pdf"}
       ]
       assert dated_urls(route, ~D[2017-05-22]) == expected
       assert dated_urls(route, ~D[2017-05-23]) == expected
@@ -49,7 +49,7 @@ defmodule Routes.PdfTest do
 
   describe "south_station_back_pay_pdf/1" do
     test "gives the pdf of schedules between back bay and south station when given a commuter rail line that goes to south station" do
-      assert south_station_back_bay_pdf(%Route{id: "CR-Fairmount"}) == "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
+      assert south_station_back_bay_pdf(%Route{id: "CR-Fairmount"}) == "http://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
     end
 
     test "gives nil when the route is not a commuter rail line to south station" do

@@ -497,7 +497,7 @@ defmodule Site.ScheduleV2ViewTest do
       route = %Routes.Route{id: "CR-Providence"}
 
       text = south_station_commuter_rail(route) |> Phoenix.HTML.safe_to_string
-      assert text =~ "http://www.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
+      assert text =~ "http://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter_Rail/southstation_backbay.pdf"
     end
   end
 

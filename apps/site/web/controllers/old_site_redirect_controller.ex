@@ -92,7 +92,7 @@ defmodule Site.OldSiteRedirectController do
   end
 
   def uploaded_files(conn, %{"path" => path_parts}) do
-    full_url = "http://www2.mbta.com/uploadedfiles/#{path_parts |> Enum.map(&URI.encode/1) |> Enum.join("/")}"
+    full_url = "http://old.mbta.com/uploadedfiles/#{path_parts |> Enum.map(&URI.encode/1) |> Enum.join("/")}"
     params = conn.query_params
     with {:ok, response} <- HTTPoison.get(full_url, [], params: params),
          %{status_code: 200, headers: headers, body: body} <- response do
