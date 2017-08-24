@@ -5,7 +5,7 @@
       <span class="trip-plan-itinerary-leg-feature"><%= feature %></span>
     <% end %>
     <div class="trip-plan-itinerary-duration">
-      <%= Timex.diff(@itinerary.stop, @itinerary.start, :minutes) %> mins
+      <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
       <span data-planner-caret><%= if @index == 1, do: fa("caret-up"), else: fa("caret-down")%></span>
     </div>
   </a>
