@@ -15,8 +15,12 @@ defmodule Site.SearchController.Results do
     documents = [%{type: "event", title: "Green Line Extension Public Meeting", fragment: "May 1, 2017 @ 12pm",
                    url: "http://www.google.com"},
                  %{type: "news", title: "Green Line Extension Project Set to Begin", fragment: "description 2",
-                   url: "http://www.yahoo.com"}]
-
+                   url: "http://www.yahoo.com"},
+                 %{type: "people", title: "People", fragment: "test", url: "/"},
+                 %{type: "project", title: "Project", fragment: "test", url: "/"},
+                 %{type: "policy", title: "Policy", fragment: "test", url: "/"},
+                 %{type: "division", title: "Division", fragment: "test", url: "/"},
+                 %{type: "document", title: "Document", fragment: "test", url: "/"}]
     {facets, documents, 75}
   end
 end

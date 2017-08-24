@@ -50,7 +50,7 @@ defmodule Site.SearchView do
     fa "newspaper-o"
   end
   defp document_icon("people") do
-    fa "user-circle-o"
+    fa "user"
   end
   defp document_icon("project") do
     fa "line-chart"
