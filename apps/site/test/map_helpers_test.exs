@@ -5,7 +5,7 @@ defmodule MapHelpersTest do
 
   describe "map_pdf_url/1" do
     test "returns the map link for subway" do
-      assert map_pdf_url(:subway)  == "https://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+      assert map_pdf_url(:subway)  =~ "/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
     end
 
     test "returns the map link for ferry" do
@@ -13,15 +13,15 @@ defmodule MapHelpersTest do
     end
 
     test "returns the bus map for bus" do
-      assert map_pdf_url(:bus)  == "https://old.mbta.com/uploadedFiles/Schedules_and_Maps/System_Map/MBTA-system_map-back.pdf"
+      assert map_pdf_url(:bus)  =~ "/uploadedFiles/Schedules_and_Maps/System_Map/MBTA-system_map-back.pdf"
     end
 
     test "returns the map link for commuter rail" do
-      assert map_pdf_url(:commuter_rail)  == "https://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
+      assert map_pdf_url(:commuter_rail)  =~ "/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf"
     end
 
     test "works when given a route type number instead of an atom" do
-      assert map_pdf_url(1)  == "https://old.mbta.com/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
+      assert map_pdf_url(1)  =~ "/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
       assert map_pdf_url(4)  == "https://s3.amazonaws.com/mbta-dotcom/Water_Ferries_2016.pdf"
     end
 
