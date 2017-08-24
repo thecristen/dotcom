@@ -100,23 +100,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
-  describe "collapsible_row?/1" do
-    test "is true when it is a transit leg and the length of the steps is 6 or greater" do
-      row = %ItineraryRow{route: %Route{}, transit?: true, steps: ["1", "2", "3", "4", "5", "6"]}
-      assert collapsible_row?(row)
-    end
-
-    test "is false when it is a transit leg and the length of the steps is less than 6" do
-      row = %ItineraryRow{route: %Route{}, transit?: true, steps: ["1", "2", "3", "4", "5"]}
-      refute collapsible_row?(row)
-    end
-
-    test "is false when it is a personal leg" do
-      row = %ItineraryRow{route: nil, steps: ["1", "2", "3", "4", "5", "6"]}
-      refute collapsible_row?(row)
-    end
-  end
-
   describe "stop_departure_display/1" do
     @time ~N[2017-06-27T11:43:00]
 
@@ -169,13 +152,22 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert Enum.map(params, &elem(&1, 0)) == [:transfer | @itinerary_row.steps]
     end
 
-    test "only first step is dotted" do
+    test "First step is not dotted when it has less than 4 intermediate steps" do
       dotted? =
         @itinerary_row
         |> bubble_params(nil)
         |> Enum.map(fn {_, [%{class: class}]} -> class end)
 
-      assert dotted? == ["stop", "stop dotted", "stop", "stop"]
+      assert dotted? == ["stop", "stop", "stop", "stop"]
+    end
+
+    test "First step is dotted when it has 4 or more intermediate steps" do
+      dotted? =
+        %{@itinerary_row | steps: ["Prudential", "Symphony", "Northeastern" | @itinerary_row.steps]}
+        |> bubble_params(nil)
+        |> Enum.map(fn {_, [%{class: class}]} -> class end)
+
+      assert dotted? == ["stop", "stop dotted", "stop", "stop", "stop", "stop", "stop"]
     end
   end
 

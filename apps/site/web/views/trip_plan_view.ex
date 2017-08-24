@@ -103,10 +103,6 @@ defmodule Site.TripPlanView do
   end
   def mode_class(_), do: "personal"
 
-  @spec collapsible_row?(ItineraryRow.t) :: boolean()
-  def collapsible_row?(%ItineraryRow{transit?: true, steps: steps}) when length(steps) > 5, do: true
-  def collapsible_row?(_), do: false
-
   @spec stop_departure_display(ItineraryRow.t) :: {:render, String.t} | :blank
   def stop_departure_display(itinerary_row) do
     if itinerary_row.trip do
@@ -129,10 +125,11 @@ defmodule Site.TripPlanView do
       render_type: :stop,
       bubble_branch: ItineraryRow.route_name(itinerary_row)
     }
+    first_step_class = if Enum.count(itinerary_row.steps) >= 4, do: ["stop dotted"], else: ["stop"]
 
     params =
       itinerary_row.steps
-      |> Enum.zip(Stream.concat(["stop dotted"], Stream.repeatedly(fn -> "stop"  end)))
+      |> Enum.zip(Stream.concat(first_step_class, Stream.repeatedly(fn -> "stop"  end)))
       |> Enum.map(fn {step, class} ->
         {step, [%{base_params | class: class}]}
       end)
