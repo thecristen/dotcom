@@ -3,11 +3,6 @@
     <p class="nav-title">Transit Services</p>
     <ul>
       <li>
-        <%= link to: schedule_path(@conn, :show, "commuter_rail") do %>
-          <%= fa "caret-right" %> Commuter Rail
-        <% end %>
-      </li>
-      <li>
         <%= link to: schedule_path(@conn, :show, "subway") do %>
           <%= fa "caret-right" %> Subway
         <% end %>
@@ -15,6 +10,11 @@
       <li>
         <%= link to: schedule_path(@conn, :show, "bus") do %>
           <%= fa "caret-right" %> Bus
+        <% end %>
+      </li>
+      <li>
+        <%= link to: schedule_path(@conn, :show, "commuter_rail") do %>
+          <%= fa "caret-right" %> Commuter Rail
         <% end %>
       </li>
       <li>

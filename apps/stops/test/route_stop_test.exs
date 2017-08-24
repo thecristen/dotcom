@@ -15,7 +15,7 @@ defmodule Stops.RouteStopTest do
       assert result.station_info == stop
       assert result.is_terminus? == true
       assert result.zone == "2"
-      assert result.stop_features == ~w(commuter_rail bus)a
+      assert result.stop_features == ~w(bus commuter_rail)a
     end
   end
 

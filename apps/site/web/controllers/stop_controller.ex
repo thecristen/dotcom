@@ -50,14 +50,8 @@ defmodule Site.StopController do
     stop_id
     |> Routes.Repo.by_stop
     |> Enum.group_by(&Route.type_atom/1)
-    |> Enum.sort_by(&sorter/1)
+    |> Enum.sort_by(&Routes.Group.sorter/1)
   end
-
-  @spec sorter({Route.gtfs_route_type, Route.t}) :: non_neg_integer
-  defp sorter({:commuter_rail, _}), do: 0
-  defp sorter({:subway, _}), do: 1
-  defp sorter({:bus, _}), do: 2
-  defp sorter({:ferry, _}), do: 3
 
   @spec breadcrumbs(Stop.t) :: [Util.Breadcrumb.t]
   defp breadcrumbs(%Stop{station?: true, name: name, id: id}) do
@@ -111,7 +105,7 @@ defmodule Site.StopController do
   defp assign_upcoming_route_departures(conn) do
     route_time_list = conn.assigns.stop_predictions
     |> UpcomingRouteDepartures.build_mode_list(conn.assigns.stop_schedule, conn.assigns.date_time)
-    |> Enum.sort_by(&sorter/1)
+    |> Enum.sort_by(&Routes.Group.sorter/1)
 
     assign(conn, :upcoming_route_departures, route_time_list)
   end

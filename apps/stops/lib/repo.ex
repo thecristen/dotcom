@@ -109,8 +109,8 @@ defmodule Stops.Repo do
   defp sort_feature_icons(:"Green-C"), do: 1
   defp sort_feature_icons(:"Green-D"), do: 2
   defp sort_feature_icons(:"Green-E"), do: 3
-  defp sort_feature_icons(:commuter_rail), do: 5
-  defp sort_feature_icons(:bus), do: 6
+  defp sort_feature_icons(:bus), do: 5
+  defp sort_feature_icons(:commuter_rail), do: 6
   defp sort_feature_icons(:access), do: 7
   defp sort_feature_icons(:parking_lot), do: 8
   defp sort_feature_icons(_), do: 4

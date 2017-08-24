@@ -69,12 +69,12 @@ defmodule Stops.RepoTest do
     end
 
     test "returns stop features in correct order" do
-      assert stop_features(@stop) == [:red_line, :commuter_rail, :bus]
+      assert stop_features(@stop) == [:red_line, :bus, :commuter_rail]
     end
 
     test "accessibility added if relevant" do
       features = stop_features(%{@stop | accessibility: ["accessible"]})
-      assert features == [:red_line, :commuter_rail, :bus, :access]
+      assert features == [:red_line, :bus, :commuter_rail, :access]
     end
 
     test "adds parking features if relevant" do
@@ -83,7 +83,7 @@ defmodule Stops.RepoTest do
     end
 
     test "excluded features are not returned" do
-      assert stop_features(@stop, exclude: [:red_line]) == [:commuter_rail, :bus]
+      assert stop_features(@stop, exclude: [:red_line]) == [:bus, :commuter_rail]
       assert stop_features(@stop, exclude: [:red_line, :commuter_rail]) == [:bus]
     end
 

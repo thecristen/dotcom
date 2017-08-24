@@ -17,6 +17,15 @@
   <% types = @grouped_routes |> Enum.map(&(elem(&1,0))) %>
   <%= unless Enum.empty?(types) do %>
     <h2>Fares</h2>
+    <%= if :subway in types || :bus in types do %>
+      <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
+      <%= Site.FareView.summarize(mode_summaries(fare_mode(types), @fare_name)) %>
+      <p>
+        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
+          View all Bus and Subway fares <%= fa "arrow-right" %>
+        <% end %>
+      </p>
+    <% end %>
     <%= if :commuter_rail in types do %>
       <% commuter_terminal = @terminal_stations[2]%>
       <%= render "_commuter_fare.html", conn: @conn, stop: @stop, fare_name: @fare_name, terminal_station: commuter_terminal %>
@@ -30,15 +39,6 @@
       <p>
         <%= link to: fare_details_path do %>
           View <%= @stop.name %> fares <%= fa "arrow-right" %>
-        <% end %>
-      </p>
-    <% end %>
-    <%= if :subway in types || :bus in types do %>
-      <h3 class="station-fare-subheader">Bus and Subway Fares</h3>
-      <%= Site.FareView.summarize(mode_summaries(fare_mode(types), @fare_name)) %>
-      <p>
-        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
-          View all Bus and Subway fares <%= fa "arrow-right" %>
         <% end %>
       </p>
     <% end %>

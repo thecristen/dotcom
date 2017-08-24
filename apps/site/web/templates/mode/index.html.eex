@@ -2,7 +2,8 @@
   <div class="page-block">
     <h1>Schedules and Maps</h1>
     <% the_ride = if @include_ride, do: [:the_ride], else: [] %>
-    <%= for route_type <- [:commuter_rail, :subway, :bus, :ferry] ++ the_ride do %>
+    <% route_types = Keyword.keys(@grouped_routes) %>
+    <%= for route_type <- route_types ++ the_ride do %>
       <div class="mode-group <%= hyphenated_mode_string(route_type) %>" id="<%= route_type %>">
         <div class="mode-group-header">
           <%= svg_icon_with_circle %SvgIconWithCircle{icon: route_type, aria_hidden?: true} %>

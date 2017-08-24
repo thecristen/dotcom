@@ -26,7 +26,7 @@ defmodule Stops.RouteStopsTest do
       jfk = List.last(unbranched_stops)
       assert jfk.name == "JFK/Umass"
       assert jfk.branch == nil
-      assert jfk.stop_features == [:commuter_rail, :bus, :access]
+      assert jfk.stop_features == [:bus, :commuter_rail, :access]
       assert jfk.is_terminus? == false
 
       assert [savin|_] = ashmont_stops
@@ -50,7 +50,7 @@ defmodule Stops.RouteStopsTest do
       braintree = List.last(braintree_stops)
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree"
-      assert braintree.stop_features == [:commuter_rail, :bus, :access, :parking_lot]
+      assert braintree.stop_features == [:bus, :commuter_rail, :access, :parking_lot]
       assert braintree.is_terminus? == true
     end
 
@@ -77,7 +77,7 @@ defmodule Stops.RouteStopsTest do
       [braintree|_] = braintree_stops
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree"
-      assert braintree.stop_features == [:commuter_rail, :bus, :access, :parking_lot]
+      assert braintree.stop_features == [:bus, :commuter_rail, :access, :parking_lot]
       assert braintree.is_terminus? == true
 
       n_quincy = List.last(braintree_stops)
