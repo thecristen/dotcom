@@ -25,8 +25,8 @@
     <div class="nav-link-content nav-link-icon">&nbsp;<%= search_icon %></div>
   </a>
   <div class="desktop-menu">
-    <div class="desktop-menu-background-image">
-      <div class="container">
+    <div class="container">
+      <div class="col-md-12">
         <div class="desktop-menu-body panel">
           <div class="collapse" id="search" role="tabpanel">
             <div class="menu-row searchbar-input-container" role="search">
