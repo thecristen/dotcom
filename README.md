@@ -7,18 +7,18 @@ The new face of http://mbta.com/
 ## Getting Started
 
 1. Install Homebrew: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`. More installation options [here](https://docs.brew.sh/Installation.html)
-1. Install Erlang/Elixir: `brew install elixir` or through http://elixir-lang.org/install.html
-1. Install NodeJS, version 6. If you don't need any other versions of node installed, then install with `brew install node@6 && brew link node@6 --force`. Check that the correct version is installed with `node --version`.
-1. Install Sass:
+2. Install Erlang/Elixir: `brew install elixir` or through http://elixir-lang.org/install.html
+3. Install NodeJS, version 6. If you don't need any other versions of node installed, then install with `brew install node@6 && brew link node@6 --force`. Check that the correct version is installed with `node --version`.
+4. Install Sass:
   * `gem install sass`
   * You might get a permission error here.  You can either `sudo gem install
     sass`, or install a Ruby environment manager.
-1. Install our Elixir dependencies: From the root of this repo, `mix deps.get`
-1. Install our Node dependencies: From the root of this repo, `npm run install`
+5. Install our Elixir dependencies: From the root of this repo, `mix deps.get`
+6. Install our Node dependencies: From the root of this repo, `npm run install`
   * If you run into an error about fetching a Github dependency, you can tell Git to always use HTTP for Github:
 
       git config --global url.https://github.com/.insteadOf git://github.com/
-1. Run `npm run brunch:build`
+7. Run `npm run brunch:build`
 
 ## Running the Server
 
@@ -118,19 +118,21 @@ The following variables can be used in your development environment.
 ### Getting and using a Google API Key
 
 You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
-	1. Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API". 
-	1. Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
-	1. Look for the Google Maps APIs list, expand "More"
-	1. Click on "Geolocation API" and
-	1. Click "Enable"
-	1. Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default). 
+
+1. Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API". 
+1. Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
+1. Look for the Google Maps APIs list, expand "More"
+1. Click on "Geolocation API" and
+1. Click "Enable"
+1. Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default). 
 
 To use the API key when running the application, you do the following:
-	1. Create a file named ".env" in your development directory
-	1. In the file, type: GOOGLE_API_KEY=<your key>, replacing <your key> with the key obtained from Google (no brackets or quotes)
-	1. Add the .env file to your gitignore: ``~/.gitignore` `echo .env >> ~/.gitignore``
-	1. If you haven't already, run `git config --global core.excludesfile ~/.gitignore` in your terminal window to tell git to read the global .gitignore
-	1. Run the server with ```env `cat .env` mix phoenix.server```
+
+1. Create a file named ".env" in your development directory
+1. In the file, type: GOOGLE_API_KEY=<your key>, replacing <your key> with the key obtained from Google (no brackets or quotes)
+1. Add the .env file to your gitignore: ``~/.gitignore` `echo .env >> ~/.gitignore``
+1. If you haven't already, run `git config --global core.excludesfile ~/.gitignore` in your terminal window to tell git to read the global .gitignore
+1. Run the server with ```env `cat .env` mix phoenix.server```
 
 ## Building
 
