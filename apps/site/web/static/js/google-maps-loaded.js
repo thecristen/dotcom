@@ -16,7 +16,3 @@ export function doWhenGooleMapsIsReady (callback) {
   // immediately.
   window.isMapReady ? window.setTimeout(callback, 0) : callbacks.push(callback);
 }
-
-export function getCallbacks () {
-  return callbacks;
-}

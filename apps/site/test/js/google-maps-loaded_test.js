@@ -1,67 +1,48 @@
 import { assert } from "chai";
 import jsdom from 'mocha-jsdom';
-import googleMapsLoaded, { doWhenGooleMapsIsReady, getCallbacks } from "../../web/static/js/google-maps-loaded";
+import googleMapsLoaded, { doWhenGooleMapsIsReady } from "../../web/static/js/google-maps-loaded";
 
 describe("google-map-loaded", () => {
   jsdom();
 
-  it("accumulates callbacks when maps is not ready", (done) => {
-    // initialize
+  it("does not execute any callbacks if isMapReady never gets set to true", (done) => {
     googleMapsLoaded();
     window.isMapReady = false;
-
-    // add two callbacks
-    doWhenGooleMapsIsReady(() => true);
-    doWhenGooleMapsIsReady(() => true);
-
-    assert.equal(getCallbacks().length, 2);
-
-    // these test are async, call the "done" function after each one -- otherwise the test bleed into each other
-    done();
-  });
-
-  it("callback called when maps is already ready", (done) => {
-    // initialize
     let callbackCalled = false;
-    googleMapsLoaded();
-    window.isMapReady = true;
+    doWhenGooleMapsIsReady(() => { callbackCalled = true; });
 
-    // register a callback that will change a local variable
-    doWhenGooleMapsIsReady(() => {
-      callbackCalled = true;
-    });
-
-    // wait a short amount of time, verify that the callback got called because the global had been preset
+    // These test are async, call the "done" function after each one -- otherwise the test bleed into each other.
+    // Must wait a short amount of time, verify that the callback was not called.
     setTimeout(() => {
-      assert.equal(callbackCalled, true);
-      assert.equal(getCallbacks().length, 0);
+      assert.equal(callbackCalled, false);
       done();
     }, 10);
   });
 
-  it("callback called after main callback triggered", (done) => {
-    // initialize
+  // this case models the scenario where Google maps loads before app.js
+  it("executes the callback when isMapReady was already set to true", (done) => {
+    googleMapsLoaded();
+    window.isMapReady = true;
+    let callbackCalled = false;
+    doWhenGooleMapsIsReady(() => {callbackCalled = true;});
+
+    setTimeout(() => {
+      assert.equal(callbackCalled, true);
+      done();
+    }, 10);
+  });
+
+  // this case models the scenario where app.js loads before Google maps
+  it("executes the callback after this module sets isMapReady to true", (done) => {
+    googleMapsLoaded();
     window.isMapReady = false;
     let callbackCalled = false;
-    googleMapsLoaded();
+    doWhenGooleMapsIsReady(() => {callbackCalled = true;});
 
-    // register a callback that will change a local variable
-    doWhenGooleMapsIsReady(() => {
-      callbackCalled = true;
-    });
-
-    // verify that the function was not yet called because the global has been preset to false
     setTimeout(() => {
-      assert.equal(getCallbacks().length, 1);
-    }, 10)
-
-    // wait a short amount of time, now we expect that the function was called
-    setTimeout(() => {
-      // simulate google calling the global callback
       window.mapsCallback();
       assert.equal(callbackCalled, true);
-      assert.equal(getCallbacks().length, 0);
       done();
-    }, 20);
+    }, 10);
   });
 });
