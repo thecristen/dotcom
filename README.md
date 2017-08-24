@@ -111,21 +111,26 @@ For more information about the initial setup, running the tests, and adding new 
 
 The following variables can be used in your development environment.
 
-* `GOOGLE_API_KEY` - You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
+* `GOOGLE_API_KEY` - This will ensure any javascript that uses Google's API will work correctly. See below for how to get a Google API Key.
+* `WIREMOCK_PATH` - The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default.
+* `V3_URL` - you can use this to point at a local API (`http://localhost:4000`) or the production API (`https://api.mbtace.com`)
+
+### Getting and using a Google API Key
+
+You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
 	1. Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API". 
 	1. Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
 	1. Look for the Google Maps APIs list, expand "More"
 	1. Click on "Geolocation API" and
 	1. Click "Enable"
 	1. Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default). 
+
+To use the API key when running the application, you do the following:
 	1. Create a file named ".env" in your development directory
 	1. In the file, type: GOOGLE_API_KEY=<your key>, replacing <your key> with the key obtained from Google (no brackets or quotes)
 	1. Add the .env file to your gitignore: ``~/.gitignore` `echo .env >> ~/.gitignore``
 	1. If you haven't already, run `git config --global core.excludesfile ~/.gitignore` in your terminal window to tell git to read the global .gitignore
 	1. Run the server with ```env `cat .env` mix phoenix.server```
-This will ensure any javascript that uses Google's API will work correctly.
-* `WIREMOCK_PATH` - The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.10.jar` will be used as the default.
-* `V3_URL` - you can use this to point at a local API (`http://localhost:4000`) or the production API (`https://api.mbtace.com`)
 
 ## Building
 
