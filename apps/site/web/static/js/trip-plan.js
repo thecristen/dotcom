@@ -85,7 +85,7 @@ export function geolocationCallback($) {
     targets.longitude.val(location.coords.longitude);
 
     const $activeField = $(e.target);
-    $activeField.val("Current Location");
+    $activeField.val("Your current location");
     $activeField.addClass("trip-plan-current-location");
   };
 }
