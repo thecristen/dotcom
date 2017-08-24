@@ -11,14 +11,6 @@ defmodule Site.TripPlan.LegFeature do
 
   @default_opts [route_by_id: &Routes.Repo.get/1]
 
-  @spec for_itinerary(Itinerary.t, Keyword.t) :: [t]
-  def for_itinerary(itinerary, opts \\ []) do
-    opts = Keyword.merge(@default_opts, opts)
-    for leg <- itinerary do
-      leg_feature(leg, opts)
-    end
-  end
-
   @doc "A small display representing the travel on a given Leg"
   @spec leg_feature(Leg.t, Keyword.t) :: t
   def leg_feature(%Leg{mode: %TransitDetail{} = mode}, opts) do

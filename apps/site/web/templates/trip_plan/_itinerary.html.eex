@@ -1,7 +1,8 @@
 <div class="trip-plan-itinerary-container">
   <a class="trip-plan-itinerary-header" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
     Itinerary <%= @index %>
-    <%= for feature <- @features do %>
+    <%= for {feature, i} <- Enum.with_index(@features) do %>
+      <%= if i > 0, do: fa("chevron-right") %>
       <span class="trip-plan-itinerary-leg-feature"><%= feature %></span>
     <% end %>
     <div class="trip-plan-itinerary-duration">

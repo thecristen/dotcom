@@ -3,6 +3,7 @@ defmodule Site.TripPlanController do
   alias Site.TripPlan.{Query, LegFeature, RelatedLink, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
+  alias TripPlan.Leg
 
   plug :require_google_maps
   plug :assign_initial_map
@@ -109,7 +110,9 @@ defmodule Site.TripPlanController do
   @spec features([TripPlan.Itinerary.t], route_mapper) :: [[LegFeature.t]]
   defp features(itineraries, route_mapper) do
     for itinerary <- itineraries do
-      LegFeature.for_itinerary(itinerary, route_by_id: route_mapper)
+      for leg <- itinerary, Leg.transit?(leg) do
+        LegFeature.leg_feature(leg, route_by_id: route_mapper)
+      end
     end
   end
 
