@@ -1,6 +1,7 @@
 let callbacks = [];
 
 export default function () {
+  callbacks = [];
   window.mapsCallback = function() {
     window.isMapReady = true;
     callbacks.forEach((callback) => callback());
@@ -14,4 +15,8 @@ export function doWhenGooleMapsIsReady (callback) {
   // The reason for the timeout is so that this function works similar in both cases -- always with a delay, never
   // immediately.
   window.isMapReady ? window.setTimeout(callback, 0) : callbacks.push(callback);
+}
+
+export function getCallbacks () {
+  return callbacks;
 }
