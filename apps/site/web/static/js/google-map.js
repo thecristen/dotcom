@@ -1,4 +1,4 @@
-import { doWhenGooleMapsIsReady } from './google-maps-loaded';
+import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
 
 export default function() {
   function initMap() {
@@ -24,7 +24,7 @@ export default function() {
     window.addEventListener("resize", reevaluateMapBounds);
   }
 
-  doWhenGooleMapsIsReady(() => {
+  doWhenGoogleMapsIsReady(() => {
     document.addEventListener("turbolinks:load", initMap, {passive: true});
     initMap();
   });

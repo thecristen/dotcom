@@ -1,7 +1,7 @@
-import { doWhenGooleMapsIsReady } from './google-maps-loaded';
+import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
 
 export default function() {
-  doWhenGooleMapsIsReady(() => {
+  doWhenGoogleMapsIsReady(() => {
     document.addEventListener('turbolinks:load', setupAutocomplete, {passive: true});
     setupAutocomplete();
   });
