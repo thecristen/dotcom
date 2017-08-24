@@ -27,28 +27,29 @@ window.requestAnimationFrame = window.requestAnimationFrame ||
   window.mozRequestAnimationFrame ||
   function(f) { window.setTimeout(f, 15); };
 
-
 // Source: https://github.com/Alhadis/Snippets/blob/master/js/polyfills/IE8-child-elements.js
-if(!("previousElementSibling" in document.documentElement)){
-    Object.defineProperty(Element.prototype, "previousElementSibling", {
-        get: function(){
-            var e = this.previousSibling;
-            while(e && 1 !== e.nodeType)
-                e = e.previousSibling;
-            return e;
-        }
-    });
+if (!("previousElementSibling" in document.documentElement)) {
+  Object.defineProperty(Element.prototype, "previousElementSibling", {
+    get: function() {
+      var e = this.previousSibling;
+      while (e && 1 !== e.nodeType) {
+         e = e.previousSibling;
+      }
+      return e;
+    }
+  });
 }
 
-if(!("nextElementSibling" in document.documentElement)){
-    Object.defineProperty(Element.prototype, "nextElementSibling", {
-        get: function(){
-            var e = this.previousSibling;
-            while(e && 1 !== e.nodeType)
-                e = e.previousSibling;
-            return e;
-        }
-    });
+if (!("nextElementSibling" in document.documentElement)) {
+  Object.defineProperty(Element.prototype, "nextElementSibling", {
+    get: function() {
+      var e = this.previousSibling;
+      while (e && 1 !== e.nodeType) {
+        e = e.previousSibling;
+      }
+      return e;
+    }
+  });
 }
 
 // Production steps of ECMA-262, Edition 5, 15.4.4.19
@@ -82,6 +83,9 @@ if (!Array.prototype.map) {
     return A;
   };
 }
+
+// breakpoints defined in web/static/css/_variables.scss
+const breakpoints = {xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344};
 
 // Imports
 import googleMapsLoaded from './google-maps-loaded';
@@ -136,6 +140,6 @@ datePicker();
 toggleBtn();
 tripPlan();
 stopBubbles();
-search();
+search(window.$, breakpoints);
 
 document.body.className = document.body.className.replace("no-js", "js");

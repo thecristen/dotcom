@@ -26,3 +26,6 @@
     </div>
   </div>
 <% end %>
+<%= if assigns[:search_header?] do %>
+  <%= render "_searchbar.html", assigns %>
+<% end %>
