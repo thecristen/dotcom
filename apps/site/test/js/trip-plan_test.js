@@ -54,7 +54,7 @@ describe("trip-plan", () => {
       assert.isTrue($("#from").hasClass("trip-plan-current-location"));
     });
 
-    it("removes the .trip-plan-current-location class when the field receives focus", () => {
+    it("removes the .trip-plan-current-location class when the user makes a change", () => {
       const $to = $("#to");
       $to.val("Your current location");
       $to.addClass("trip-plan-current-location");
@@ -62,10 +62,26 @@ describe("trip-plan", () => {
       $("#plan_from_latitude").val("-71.0857");
 
       $to.val("Boston Symphony Hall");
-      $to.trigger("focus");
+      $to.trigger("input");
 
       assert.isFalse($("#to").hasClass("trip-plan-current-location"));
       assert.equal($("#to").val(), "");
+      assert.equal($("#plan_to_latitude").val(), "");
+      assert.equal($("#plan_to_longitude").val(), "");
+    });
+
+    it("does not delete the first letter when user deletes the current location as they start typing", () => {
+      const $to = $("#to");
+      $to.val("Your current location");
+      $to.addClass("trip-plan-current-location");
+      $("#plan_to_latitude").val("42.3428");
+      $("#plan_from_latitude").val("-71.0857");
+
+      $to.val("x");
+      $to.trigger("input");
+
+      assert.isFalse($("#to").hasClass("trip-plan-current-location"));
+      assert.equal($("#to").val(), "x");
       assert.equal($("#plan_to_latitude").val(), "");
       assert.equal($("#plan_to_longitude").val(), "");
     });
