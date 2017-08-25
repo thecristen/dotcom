@@ -8,7 +8,7 @@
       <%= render "_link.html", href: schedule_path(@conn, :show, "bus"), text: "Bus", target: "_self" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "commuter_rail"), text: "Commuter Rail", target: "_self" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "ferry"), text: "Ferry", target: "_self" %>
-      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), text: "The RIDE", target: "_blank" %>
+      <%= render "_link.html", href: cms_static_page_path(@conn, "/accessibility/the-ride"), text: "The RIDE", target: "_self" %>
     </div>
 
     <h2>Plan Your Trip</h2>
@@ -22,7 +22,7 @@
 
     <h2>Riding the T</h2>
     <div class="button-group getting-around">
-      <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/accessible_services/"), text: "Accessibility", target: "_blank" %>
+      <%= render "_link.html", href: cms_static_page_path(@conn, "/accessibility"), text: "Accessibility", target: "_self" %>
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/parking/"), text: "Parking", target: "_blank" %>
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/bikes/"), text: "Bikes on the T", target: "_blank" %>
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/pets/"), text: "Pets on the T", target: "_blank" %>
