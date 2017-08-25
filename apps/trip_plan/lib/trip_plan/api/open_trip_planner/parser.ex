@@ -29,7 +29,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     {:error, error_message_atom(error_message, accessible?: accessible?)}
   end
   def parse_map(json) do
-    {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary/1)}
+    {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary(&1, json["requestParameters"]))}
   end
 
   @doc "Test helper which matches off the :ok"
@@ -47,11 +47,12 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   defp error_message_atom("LOCATION_NOT_ACCESSIBLE", _opts), do: :location_not_accessible
   defp error_message_atom(_, _opts), do: :unknown
 
-  defp parse_itinerary(json) do
+  defp parse_itinerary(json, request_params) do
     %Itinerary{
       start: parse_time(json["startTime"]),
       stop: parse_time(json["endTime"]),
-      legs: Enum.map(json["legs"], &parse_leg/1)
+      legs: Enum.map(json["legs"], &parse_leg/1),
+      accessible?: request_params["wheelchair"] == "true"
     }
   end
 

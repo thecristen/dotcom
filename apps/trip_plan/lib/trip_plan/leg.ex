@@ -58,4 +58,9 @@ defmodule TripPlan.Leg do
       stop_id
     end
   end
+
+  @doc "Determines if two legs have the same to and from fields"
+  @spec same_leg?(t, t) :: boolean
+  def same_leg?(%__MODULE__{from: from, to: to}, %__MODULE__{from: from, to: to}), do: true
+  def same_leg?(_leg_1, _leg_2), do: false
 end
