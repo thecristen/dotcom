@@ -9,9 +9,8 @@ export default function($) {
     } else {
       $('.date-picker-container').slideUp('slow', () => {
         $('.date-picker-container').attr('hidden', 'hidden');
-          $('.direction-filter').hide().removeAttr('hidden').slideDown('fast');
-        }
-      );
+        $('.direction-filter').hide().removeAttr('hidden').slideDown('fast');
+      });
     }
     $('.calendar-cover').attr('hidden', 'hidden');
   };

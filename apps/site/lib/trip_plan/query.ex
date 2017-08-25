@@ -22,17 +22,47 @@ defmodule Site.TripPlan.Query do
     from = location(query, :from)
     to = location(query, :to)
     opts = opts_from_query(query)
-    itineraries = with {:ok, from} <- from,
-                       {:ok, to} <- to do
-                    TripPlan.plan(from, to, opts)
-                  else
-                    _ -> {:error, :prereq}
-                  end
+    itineraries = fetch_itineraries(from, to, opts)
 
     itineraries
     |> build_query(from, to)
     |> include_options(opts)
     |> suggest_alternate_locations
+  end
+
+  defp fetch_itineraries(from, to, opts) do
+    if Keyword.get(opts, :wheelchair_accessible?) do
+      do_fetch_itineraries(from, to, opts)
+    else
+      accessible_opts = Keyword.put(opts, :wheelchair_accessible?, true)
+      accessible_request = Task.async(fn -> do_fetch_itineraries(from, to, accessible_opts) end)
+
+      from
+      |> do_fetch_itineraries(to, opts)
+      |> dedup_itineraries(Task.await(accessible_request))
+    end
+  end
+
+  defp do_fetch_itineraries(from, to, opts) do
+    with {:ok, from} <- from,
+    {:ok, to} <- to do
+      TripPlan.plan(from, to, opts)
+    else
+      _ -> {:error, :prereq}
+    end
+  end
+
+  defp dedup_itineraries({:error, _status} = response, {:error, _accessible_response}), do: response
+  defp dedup_itineraries(inaccessible, {:error, _response}), do: inaccessible
+  defp dedup_itineraries({:error, _response}, {:ok, _itineraries} = accessible), do: accessible
+  defp dedup_itineraries({:ok, inaccessible}, {:ok, accessible}) do
+    {:ok, keep_unique(inaccessible, accessible, &Itinerary.same_itinerary?/2)}
+  end
+
+  defp keep_unique(inaccessible, accessible, compare_fn) do
+    accessible_duplicate? = fn itinerary -> &Enum.any?(accessible, compare_fn.(&1, itinerary)) end
+    unique_inaccessible = Enum.reject(inaccessible, accessible_duplicate?)
+    Enum.concat(accessible, unique_inaccessible)
   end
 
   @spec build_query(TripPlan.Api.t, Position.t, Position.t) :: t

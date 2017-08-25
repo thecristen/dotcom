@@ -1,3 +1,5 @@
+import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
+
 export default function() {
   function initMap() {
     // Read the map data from page
@@ -14,14 +16,18 @@ export default function() {
     const mapElements = document.getElementsByClassName("dynamic-map");
     for (var i = 0; i < mapElements.length; i++) {
       var mapData = JSON.parse(mapDataElements[i].innerHTML);
-      initializeMap(mapElements[i], mapData, i);
+      mapElements[i].className += " google-map";
+      displayMap(mapElements[i], mapData, i);
     }
 
     // Reconsier bounds on page resize
     window.addEventListener("resize", reevaluateMapBounds);
   }
 
-  document.addEventListener("turbolinks:load", initMap, {passive: true});
+  doWhenGoogleMapsIsReady(() => {
+    document.addEventListener("turbolinks:load", initMap, {passive: true});
+    initMap();
+  });
 }
 
 // These values are global to this module
@@ -29,20 +35,6 @@ var maps = {};
 var bounds = {};
 var infoWindow = null;
 var markers = {};
-
-function initializeMap(el, mapData, offset) {
-  if (typeof google != "undefined") {
-    el.className += " google-map";
-    displayMap(el, mapData, offset);
-  } else {
-    const existingCallback = window.mapsCallback || function() {};
-    window.mapsCallback = function() {
-      window.mapsCallback = undefined;
-      existingCallback();
-      initializeMap(el, mapData, offset);
-    };
-  }
-}
 
 function displayMap(el, mapData, mapOffset) {
   // Create a map instance

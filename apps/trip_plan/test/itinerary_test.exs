@@ -70,4 +70,23 @@ defmodule TripPlan.ItineraryTest do
       assert test_calculated_ids == stop_ids(itinerary)
     end
   end
+
+  describe "same_itinerary?" do
+    test "Same itinerary is the same" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      assert same_itinerary?(itinerary, itinerary)
+    end
+
+    test "itineraries with different start times are not the same" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      later_itinerary = %{itinerary | start: Timex.shift(itinerary.start, minutes: 40)}
+      refute same_itinerary?(itinerary, later_itinerary)
+    end
+
+    test "Itineraries with different accessibility flags are the same" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      accessible_itinerary = %{itinerary | accessible?: true}
+      assert same_itinerary?(itinerary, accessible_itinerary)
+    end
+  end
 end

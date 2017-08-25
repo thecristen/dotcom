@@ -130,6 +130,14 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       additional_routes = itinerary_rows.rows |> List.first() |> Map.get(:additional_routes) |> Enum.map(& &1.id)
       assert additional_routes == ["Green-B", "Green-D"]
     end
+
+    test "Uses accessible? flag from itinerary", %{itinerary: itinerary, opts: opts} do
+      accessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: true}, opts)
+      inaccessible_itinerary_rows = from_itinerary(%{itinerary | accessible?: false}, opts)
+
+      assert accessible_itinerary_rows.accessible?
+      refute inaccessible_itinerary_rows.accessible?
+    end
   end
 
   defp route_mapper("Blue" = id) do

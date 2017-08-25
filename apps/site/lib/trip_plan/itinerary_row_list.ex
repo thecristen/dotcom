@@ -14,11 +14,13 @@ defmodule Site.TripPlan.ItineraryRowList do
 
   defstruct [
     rows: [],
+    accessible?: false,
     destination: nil
   ]
 
   @type t :: %__MODULE__{
     rows: [ItineraryRow.t],
+    accessible?: boolean,
     destination: destination
   }
 
@@ -26,8 +28,8 @@ defmodule Site.TripPlan.ItineraryRowList do
   Builds a ItineraryRowList from the given itinerary
   """
   @spec from_itinerary(Itinerary.t, Keyword.t) :: t
-  def from_itinerary(%Itinerary{legs: legs} = itinerary, opts) do
-    %__MODULE__{rows: get_rows(itinerary, opts), destination: get_destination(legs, opts)}
+  def from_itinerary(%Itinerary{legs: legs, accessible?: accessible?} = itinerary, opts) do
+    %__MODULE__{rows: get_rows(itinerary, opts), destination: get_destination(legs, opts), accessible?: accessible?}
   end
 
   @spec get_rows(Itinerary.t, Keyword.t) :: [ItineraryRow.t]

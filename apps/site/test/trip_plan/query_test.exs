@@ -10,7 +10,8 @@ defmodule Site.TripPlan.QueryTest do
   describe "from_query/1" do
     test "can plan a basic trip from query params" do
       params = %{"from" => "from address",
-                 "to" => "to address"}
+                 "to" => "to address",
+                 "accessible" => "true"}
       actual = from_query(params)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -19,7 +20,7 @@ defmodule Site.TripPlan.QueryTest do
         from: {:ok, ^from_position},
         to: {:ok, ^to_position},
         time: {:depart_at, %DateTime{}},
-        wheelchair_accessible?: false,
+        wheelchair_accessible?: true,
         itineraries: {:ok, ^itineraries}
       } = actual
     end
@@ -28,7 +29,8 @@ defmodule Site.TripPlan.QueryTest do
       params = %{"from" => "from address",
                  "to" => "Your current location",
                  "to_latitude" => "42.3428",
-                 "to_longitude" => "-71.0857"
+                 "to_longitude" => "-71.0857",
+                 "accessible" => "true"
                 }
       actual = from_query(params)
       to_position = %TripPlan.NamedPosition{latitude: 42.3428, longitude: -71.0857, name: "Your current location"}
@@ -37,7 +39,7 @@ defmodule Site.TripPlan.QueryTest do
       assert %Query{
         from: {:ok, ^from_position},
         to: {:ok, ^to_position},
-        itineraries: {:ok, ^itineraries}
+        itineraries: {:ok, ^itineraries},
       } = actual
     end
 
@@ -45,7 +47,8 @@ defmodule Site.TripPlan.QueryTest do
       params = %{"from" => "from address",
                  "from_latitude" => "",
                  "from_longitude" => "",
-                 "to" => "to address"}
+                 "to" => "to address",
+                 "accessible" => "true"}
       actual = from_query(params)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -154,6 +157,41 @@ defmodule Site.TripPlan.QueryTest do
       assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = to
       refute froms == []
       for from <- froms, do: assert %NamedPosition{} = from
+    end
+
+    test "makes single request when accessibility is checked" do
+      params = %{"from" => "from_address",
+                 "to" => "to address",
+                 "time" => "depart",
+                 "date_time" => @date_time,
+                 "accessible" => "true",
+      }
+      _query = from_query(params)
+      inaccessible_opts = [max_walk_distance: 805, wheelchair_accessible?: false, depart_at: @date_time]
+      refute_received {:planned_trip, {_from, _to, ^inaccessible_opts}, {:ok, _itineraries}}
+      assert_received {:planned_trip, {_from, _to, opts}, {:ok, itineraries}}
+      assert Keyword.get(opts, :wheelchair_accessible?)
+      assert Enum.all?(itineraries, & &1.accessible?)
+    end
+
+    test "When accessible trip returns error, all returned trips are marked as not accessible" do
+      params = %{"from" => "Accessible error",
+        "to" => "to address",
+        "time" => "depart",
+        "date_time" => @date_time
+      }
+      {:ok, itineraries} = from_query(params).itineraries
+      refute Enum.any?(itineraries, & &1.accessible?)
+    end
+
+    test "When inaccessible trip returns error, all accessible trips are returned" do
+      params = %{"from" => "Inaccessible error",
+        "to" => "to address",
+        "time" => "depart",
+        "date_time" => @date_time
+      }
+      {:ok, itineraries} = from_query(params).itineraries
+      assert Enum.all?(itineraries, & &1.accessible?)
     end
   end
 

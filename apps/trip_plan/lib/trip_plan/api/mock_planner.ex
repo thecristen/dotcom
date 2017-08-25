@@ -9,6 +9,20 @@ defmodule TripPlan.Api.MockPlanner do
   def plan(%NamedPosition{name: "Geocoded path_not_found"}, _to, _opts) do
     {:error, :path_not_found}
   end
+  def plan(%NamedPosition{name: "Geocoded Accessible error"} = from, to, opts) do
+    if Keyword.get(opts, :wheelchair_accessible?) do
+      {:error, :not_accessible}
+    else
+      plan(%{from | name: "Accessible error"}, to, opts)
+    end
+  end
+  def plan(%NamedPosition{name: "Geocoded Inaccessible error"} = from, to, opts) do
+    if Keyword.get(opts, :wheelchair_accessible?) do
+      plan(%{from | name: "Inaccessible error"}, to, opts)
+    else
+      {:error, :not_accessible}
+    end
+  end
   def plan(from, to, opts) do
     start = DateTime.utc_now()
     duration = :rand.uniform(@max_duration)
@@ -22,7 +36,8 @@ defmodule TripPlan.Api.MockPlanner do
         legs: [
           personal_leg(from, midpoint_stop, start, midpoint_time),
           transit_leg(midpoint_stop, to, midpoint_time, stop)
-        ]
+        ],
+      accessible?: Keyword.get(opts, :wheelchair_accessible?, false)
       }
     ]
     send self(), {:planned_trip, {from, to, opts}, {:ok, itineraries}}

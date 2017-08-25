@@ -171,7 +171,7 @@ defmodule Site.Components.Icons.SvgIcon do
   def viewbox(:twitter), do: "0 0 400 400"
   def viewbox(:facebook), do: "0 0 75 75"
   def viewbox(:parking_lot), do: "0 0 24 24"
-  def viewbox(:search), do: "0 0 90 90"
+  def viewbox(:search), do: "6 -4 95 95"
   def viewbox(_), do: "0 0 40 40"
 
   def unoptimized_paths, do: @icons
