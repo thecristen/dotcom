@@ -1,9 +1,9 @@
 <div class="trip-plan-itinerary-container">
   <a class="trip-plan-itinerary-header" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
     Itinerary <%= @index %>
-    <%= for {feature, i} <- Enum.with_index(@features) do %>
+    <%= for {route, i} <- Enum.with_index(@routes) do %>
       <%= if i > 0, do: fa("chevron-right") %>
-      <span class="trip-plan-itinerary-leg-feature"><%= feature %></span>
+      <span class="trip-plan-itinerary-leg-feature"><%= icon_for_route(route) %></span>
     <% end %>
     <div class="trip-plan-itinerary-duration">
       <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>

@@ -3,6 +3,7 @@ defmodule Site.TripPlanViewTest do
   import Site.TripPlanView
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
+  import Site.ViewHelpers, only: [hyphenated_mode_string: 1]
   alias Site.TripPlan.{Query, ItineraryRow}
   alias TripPlan.Api.MockPlanner
   alias Routes.Route
@@ -253,6 +254,36 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       route = %Route{name: "Green Line B", id: "Green-B", direction_names: %{1 => "Eastbound"}}
       actual = route |> format_additional_route(1) |> IO.iodata_to_binary
       assert actual == "Green Line (B) Eastbound towards Park Street"
+    end
+  end
+
+  describe "icon_for_route/1" do
+    test "non-subway transit legs" do
+      for gtfs_type <- 2..4 do
+        route = %Routes.Route{
+          id: "id",
+          type: gtfs_type,
+        }
+        expected_icon_class = route
+        |> Site.Components.Icons.SvgIcon.get_icon_atom
+        |> hyphenated_mode_string
+        icon = icon_for_route(route)
+        assert safe_to_string(icon) =~ expected_icon_class
+      end
+    end
+
+    test "subway transit legs" do
+      for id <- ["Red", "Mattapan", "Orange", "Blue", "Green"] do
+        route = %Routes.Route{
+          id: id,
+          type: 0,
+        }
+        expected_icon_class = route
+        |> Site.Components.Icons.SvgIcon.get_icon_atom
+        |> hyphenated_mode_string
+        icon = icon_for_route(route)
+        assert safe_to_string(icon) =~ expected_icon_class
+      end
     end
   end
 end

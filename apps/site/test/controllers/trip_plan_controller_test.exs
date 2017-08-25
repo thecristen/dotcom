@@ -41,7 +41,7 @@ defmodule Site.TripPlanControllerTest do
       assert response =~ "Itinerary 1"
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
-      assert conn.assigns.features
+      assert conn.assigns.routes
       assert conn.assigns.itinerary_maps
       assert conn.assigns.related_links
       assert conn.assigns.alerts
@@ -96,6 +96,14 @@ defmodule Site.TripPlanControllerTest do
       assert conn.assigns.itinerary_maps
       for {_map_data, static_map} <- conn.assigns.itinerary_maps do
         assert static_map =~ "https://maps.googleapis.com/maps/api/staticmap"
+      end
+    end
+
+    test "gets routes from each itinerary", %{conn: conn} do
+      conn = get conn, trip_plan_path(conn, :index, @good_params)
+      assert conn.assigns.routes
+      for routes_for_itinerary <- conn.assigns.routes do
+        assert length(routes_for_itinerary) > 0
       end
     end
 

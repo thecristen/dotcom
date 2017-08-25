@@ -1,9 +1,8 @@
 defmodule Site.TripPlanController do
   use Site.Web, :controller
-  alias Site.TripPlan.{Query, LegFeature, RelatedLink, ItineraryRowList}
+  alias Site.TripPlan.{Query, RelatedLink, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
-  alias TripPlan.Leg
 
   plug :require_google_maps
   plug :assign_initial_map
@@ -36,7 +35,7 @@ defmodule Site.TripPlanController do
     itinerary_row_lists = itinerary_row_lists(query, route_mapper, plan)
     render conn,
       query: query,
-      features: with_itineraries(query, [], &features(&1, route_mapper)),
+      routes: with_itineraries(query, [], &routes_for_itineraries(&1, route_mapper)),
       itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
       related_links: with_itineraries(query, [], &related_links(&1, route_mapper)),
       alerts: with_itineraries(query, [], &alerts(&1, route_mapper)),
@@ -107,12 +106,12 @@ defmodule Site.TripPlanController do
     |> Map.new(&{&1, Routes.Repo.get(&1)})
   end
 
-  @spec features([TripPlan.Itinerary.t], route_mapper) :: [[LegFeature.t]]
-  defp features(itineraries, route_mapper) do
+  @spec routes_for_itineraries([TripPlan.Itinerary.t], route_mapper) :: [[Route.t]]
+  defp routes_for_itineraries(itineraries, route_mapper) do
     for itinerary <- itineraries do
-      for leg <- itinerary, Leg.transit?(leg) do
-        LegFeature.leg_feature(leg, route_by_id: route_mapper)
-      end
+      itinerary
+      |> TripPlan.Itinerary.route_ids
+      |> Enum.map(route_mapper)
     end
   end
 

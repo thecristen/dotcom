@@ -182,4 +182,10 @@ defmodule Site.TripPlanView do
   end
 
   defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
+
+  @spec icon_for_route(Route.t) :: Phoenix.HTML.Safe.t
+  def icon_for_route(route) do
+    icon_atom = Routes.Route.icon_atom(route)
+    svg_icon_with_circle(%SvgIconWithCircle{icon: icon_atom, class: "icon-small"})
+  end
 end
