@@ -149,4 +149,16 @@ defmodule Content.RepoTest do
       assert blurb =~ "The Red Line north passageway at Downtown Crossing"
     end
   end
+
+  describe "search" do
+    test "with results" do
+      {:ok, result} = Content.Repo.search("mbta", 0, [])
+      assert result.count == 2083
+    end
+
+    test "without results" do
+      {:ok, result} = Content.Repo.search("empty", 0, [])
+      assert result.count == 0
+    end
+  end
 end

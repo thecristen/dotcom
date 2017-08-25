@@ -143,4 +143,12 @@ defmodule Content.Repo do
       {:ok, Content.NewsEntry.from_api(api_data)}
     end
   end
+
+  @spec search(String.t, integer, [String.t]) :: any
+  def search(query, offset, content_types) do
+    params = [q: query, page: offset] ++ Enum.map(content_types, & {:"type[]", &1})
+    with {:ok, api_data} <- @cms_api.view("/api/search", params) do
+      {:ok, Content.Search.from_api(api_data)}
+    end
+  end
 end

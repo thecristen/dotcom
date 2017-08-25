@@ -4,7 +4,7 @@ defmodule Site.ResponsivePagination do
   """
   @desktop_max_length 5
   @mobile_max_length 3
-  @type stats_t :: %{offset: integer, per_page: integer, total: integer}
+  @type stats :: %{offset: integer, per_page: integer, total: integer, showing_from: integer, showing_to: integer}
 
   defstruct [
     range: [],
@@ -26,7 +26,7 @@ defmodule Site.ResponsivePagination do
     suffix: [integer | String.t]
   }
 
-  @spec build(stats_t) :: t
+  @spec build(stats) :: t
   def build(stats) do
     last_page = calculate_last_page(stats.total, stats.per_page)
     current = calculate_current(last_page, stats.offset)
@@ -56,7 +56,9 @@ defmodule Site.ResponsivePagination do
   defp calculate_last_page(_, 0), do: 0
   defp calculate_last_page(total, per_page) do
     total
-    |> div(per_page)
+    |> Kernel./(per_page)
+    |> Float.ceil()
+    |> round()
     |> max(1)
   end
 
