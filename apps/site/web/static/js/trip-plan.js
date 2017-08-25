@@ -3,8 +3,10 @@ import { getZoom, triggerResize } from "./google-map";
 export default function tripPlan($ = window.jQuery) {
   $(document).on("geolocation:complete", "#to", geolocationCallback($));
   $(document).on("geolocation:complete", "#from", geolocationCallback($));
-  $(document).on("focus", "#to.trip-plan-current-location", clearCurrentLocation($));
-  $(document).on("focus", "#from.trip-plan-current-location", clearCurrentLocation($));
+  $(document).on("focus", "#to.trip-plan-current-location", highlightCurrentLocation($));
+  $(document).on("focus", "#from.trip-plan-current-location", highlightCurrentLocation($));
+  $(document).on("input", "#to.trip-plan-current-location", clearCurrentLocation($));
+  $(document).on("input", "#from.trip-plan-current-location", clearCurrentLocation($));
   $("[data-planner-body]").on("hide.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("show.bs.collapse", toggleIcon);
   $("[data-planner-body]").on("shown.bs.collapse", redrawMap);
@@ -99,11 +101,20 @@ function targetFields($, e) {
   };
 }
 
+function highlightCurrentLocation($) {
+  return function(e) {
+    const $field = $(e.target);
+    $field.select();
+  };
+}
+
 function clearCurrentLocation($) {
   return function(e) {
     const $field = $(e.target);
     $field.removeClass("trip-plan-current-location");
-    $field.val("");
+    if ($field.val().length > 1) {
+      $field.val("");
+    }
 
     const targets = targetFields($, e);
     targets.latitude.val("");
