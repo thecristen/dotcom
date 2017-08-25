@@ -50,6 +50,10 @@ defmodule Content.CMS.Static do
     parse_json("redirect.json")
   end
 
+  def redirect_with_query_response do
+    parse_json("test/path%3Fid%3D5.json")
+  end
+
   @impl true
   def view(path, params \\ [])
   def view("/recent-news", [current_id: id]) do
@@ -115,6 +119,9 @@ defmodule Content.CMS.Static do
   end
   def view("/test/redirect", _) do
     {:ok, redirect_response()}
+  end
+  def view("/test/path%3Fid%3D5", _) do
+    {:ok, redirect_with_query_response()}
   end
   def view(_, _) do
     {:error, "Not able to retrieve response"}
