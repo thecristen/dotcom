@@ -41,7 +41,7 @@ describe('geolocation', () => {
     beforeEach(() => {
       $('#test').html(`
         <button class="location-link " data-geolocation-target="true" data-id="test" data-field="location[address]">
-          <span class="location-arrow"><i aria-hidden="true" class="fa fa-location-arrow "></i></span>
+          <i aria-hidden="true" class="fa fa-location-arrow "></i>
           Use my current location
           <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
           <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
@@ -72,7 +72,7 @@ describe('geolocation', () => {
             getCurrentPosition: () => { geolocationCalled = true; }
           }
         }
-      )({preventDefault: () => {}, target: $('.location-link .location-arrow')[0]});
+      )({preventDefault: () => {}, target: $('.location-link')[0]});
 
       assert.isTrue(geolocationCalled);
     });
@@ -96,7 +96,7 @@ describe('geolocation', () => {
     beforeEach(() => {
       $('#test').html(`
         <button class="location-link" data-geolocation-target="target" data-id="test" data-action="reload" data-field="location[address]">
-          <span class="location-arrow"><i aria-hidden="true" class="fa fa-location-arrow "></i></span>
+          <i aria-hidden="true" class="fa fa-location-arrow "></i>
           Use my current location
           <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
           <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
@@ -144,7 +144,7 @@ describe('geolocation', () => {
     beforeEach(() => {
       $('#test').html(`
         <button class="location-link " data-geolocation-target="true" data-id="test" data-field="location[address]">
-          <span class="location-arrow"><i aria-hidden="true" class="fa fa-location-arrow "></i></span>
+          <i aria-hidden="true" class="fa fa-location-arrow "></i>
           Use my current location
           <i aria-hidden="true" class="fa fa-cog fa-spin loading-indicator"></i>
         </button>

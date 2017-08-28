@@ -12,7 +12,7 @@
   data-geolocation-target="true"
   data-id="<%= args.id %>"
   data-field="<%= field %>">
-  <span class="location-arrow"><%= fa "location-arrow" %></span>
+  <%= fa "location-arrow" %>
   <span class="location-link-text">Use my current location</span>
   <%= fa "cog fa-spin hidden-xs-up loading-indicator" %>
   <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>

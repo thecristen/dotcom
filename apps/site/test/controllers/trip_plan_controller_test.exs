@@ -50,7 +50,7 @@ defmodule Site.TripPlanControllerTest do
     test "uses current location to render a query plan", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
-        "plan" => %{"from" => "Current Location",
+        "plan" => %{"from" => "Your current location",
                     "from_latitude" => "42.3428",
                     "from_longitude" => "-71.0857",
                     "to" => "to address",

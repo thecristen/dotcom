@@ -27,13 +27,13 @@ defmodule Site.TripPlan.QueryTest do
 
     test "can use lat/lng instead of an address" do
       params = %{"from" => "from address",
-                 "to" => "Current Location",
+                 "to" => "Your current location",
                  "to_latitude" => "42.3428",
                  "to_longitude" => "-71.0857",
                  "accessible" => "true"
                 }
       actual = from_query(params)
-      to_position = %TripPlan.NamedPosition{latitude: 42.3428, longitude: -71.0857, name: "Current Location"}
+      to_position = %TripPlan.NamedPosition{latitude: 42.3428, longitude: -71.0857, name: "Your current location"}
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
       assert %Query{

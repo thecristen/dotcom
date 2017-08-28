@@ -44,28 +44,44 @@ describe("trip-plan", () => {
       assert.equal($("#plan_to_longitude").val(), String(toLocation.coords.longitude));
     });
 
-    it("sets the value of the text box to 'Current Location', and sets the .trip-plan-current-location class", () => {
+    it("sets the value of the text box to 'Your current location', and sets the .trip-plan-current-location class", () => {
       const fromEvent = { target: document.getElementById("from") };
       const fromLocation = { coords: { latitude: 42.3428, longitude: -71.0857 } };
 
       geolocationCallback($)(fromEvent, fromLocation);
 
-      assert.equal($("#from").val(), "Current Location");
+      assert.equal($("#from").val(), "Your current location");
       assert.isTrue($("#from").hasClass("trip-plan-current-location"));
     });
 
-    it("removes the .trip-plan-current-location class when the field receives focus", () => {
+    it("removes the .trip-plan-current-location class when the user makes a change", () => {
       const $to = $("#to");
-      $to.val("Current Location");
+      $to.val("Your current location");
       $to.addClass("trip-plan-current-location");
       $("#plan_to_latitude").val("42.3428");
       $("#plan_from_latitude").val("-71.0857");
 
       $to.val("Boston Symphony Hall");
-      $to.trigger("focus");
+      $to.trigger("input");
 
       assert.isFalse($("#to").hasClass("trip-plan-current-location"));
       assert.equal($("#to").val(), "");
+      assert.equal($("#plan_to_latitude").val(), "");
+      assert.equal($("#plan_to_longitude").val(), "");
+    });
+
+    it("does not delete the first letter when user deletes the current location as they start typing", () => {
+      const $to = $("#to");
+      $to.val("Your current location");
+      $to.addClass("trip-plan-current-location");
+      $("#plan_to_latitude").val("42.3428");
+      $("#plan_from_latitude").val("-71.0857");
+
+      $to.val("x");
+      $to.trigger("input");
+
+      assert.isFalse($("#to").hasClass("trip-plan-current-location"));
+      assert.equal($("#to").val(), "x");
       assert.equal($("#plan_to_latitude").val(), "");
       assert.equal($("#plan_to_longitude").val(), "");
     });
