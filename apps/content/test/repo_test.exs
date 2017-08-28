@@ -66,6 +66,12 @@ defmodule Content.RepoTest do
     test "returns nil when the path does not match an existing page" do
       assert nil == Content.Repo.get_page("/does/not/exist")
     end
+
+    test "URL encodes the query string before fetching" do
+      assert %Content.Redirect{
+        link: %Content.Field.Link{url: "http://google.com"}
+      } = Content.Repo.get_page("/test/path", "id=5")
+    end
   end
 
   describe "events/1" do

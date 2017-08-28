@@ -32,5 +32,10 @@ defmodule Site.ContentControllerTest do
       conn = get conn, "/test/redirect"
       assert html_response(conn, 302) =~ "www.google.com"
     end
+
+    test "redirects when content type is a redirect and has a query param", %{conn: conn} do
+      conn = get conn, "/test/path?id=5"
+      assert html_response(conn, 302) =~ "google.com"
+    end
   end
 end
