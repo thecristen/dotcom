@@ -23,11 +23,6 @@ defmodule Site.ContentControllerTest do
       assert rendered =~ ~s(<div class="title-card-title">Example Card 1</div>)
     end
 
-    test "renders a project update when the CMS returns a Content.ProjectUpdate", %{conn: conn} do
-      conn = get conn, "/gov-center-project"
-      assert html_response(conn, 200) =~ "Project Update Title"
-    end
-
     test "renders a 404 when the CMS does not return any content", %{conn: conn} do
       conn = get conn, "/unknown-path-for-content"
       assert html_response(conn, 404)

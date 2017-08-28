@@ -1,10 +1,9 @@
 defmodule Content.Page do
   @moduledoc """
-  Helper functions for working with the "page" types from the CMS:
-  Content.BasicPage and Content.ProjectUpdate.
+  Parses the api data to a struct, based on the api data's content type.
   """
 
-  @type t :: Content.BasicPage.t | Content.LandingPage.t | Content.ProjectUpdate.t | Content.Redirect.t
+  @type t :: Content.BasicPage.t | Content.LandingPage.t | Content.Redirect.t
 
   @doc """
   Expects parsed json from drupal CMS. Should be one item (not array of items)
@@ -12,9 +11,6 @@ defmodule Content.Page do
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "page"}]} = api_data) do
     Content.BasicPage.from_api(api_data)
-  end
-  def from_api(%{"type" => [%{"target_id" => "project_update"}]} = api_data) do
-    Content.ProjectUpdate.from_api(api_data)
   end
   def from_api(%{"type" => [%{"target_id" => "landing_page"}]} = api_data) do
     Content.LandingPage.from_api(api_data)

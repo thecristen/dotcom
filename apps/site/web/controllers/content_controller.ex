@@ -28,12 +28,6 @@ defmodule Site.ContentController do
     |> assign(:pre_container_template, "landing_page.html")
     |> render(Site.ContentView, "empty.html")
   end
-  defp render_page(conn, %Content.ProjectUpdate{} = page) do
-    conn
-    |> assign(:breadcrumbs, [Breadcrumb.build(page.title)])
-    |> assign(:page, page)
-    |> render(Site.ContentView, "project_update.html")
-  end
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url
   end
