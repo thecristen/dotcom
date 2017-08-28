@@ -15,7 +15,7 @@
           <li class="footer-link-sublist-item"><%= link "Bus", to: schedule_path(@conn, :show, "bus") %></li>
           <li class="footer-link-sublist-item"><%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter_rail") %></li>
           <li class="footer-link-sublist-item"><%= link "Ferry", to: schedule_path(@conn, :show, "ferry") %></li>
-          <li class="footer-link-sublist-item"><%= link "The RIDE", to: cms_static_page_path(@conn, "/accessibility/the-ride"), target: "_self" %></li>
+          <li class="footer-link-sublist-item"><%= link "The RIDE", to: cms_static_page_path(@conn, "/accessibility/the-ride") %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
@@ -31,7 +31,7 @@
       <li class="footer-link-list-item">
         Riding the T
         <ul class="footer-link-sublist">
-          <li class="footer-link-sublist-item"><%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility"), target: "_self" %></li>
+          <li class="footer-link-sublist-item"><%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility") %></li>
           <li class="footer-link-sublist-item"><%= link "Parking", to: redirect_path(@conn, "riding_the_t/parking//"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Bikes on the T", to: redirect_path(@conn, "riding_the_t/bikes/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Pets on the T", to: redirect_path(@conn, "riding_the_t/pets/"), target: "_blank" %></li>
