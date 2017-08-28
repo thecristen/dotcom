@@ -1,5 +1,6 @@
 defmodule Content.HelpersTest do
   use ExUnit.Case, async: true
+  import Content.ImageHelpers, only: [site_app_domain: 0]
 
   import Content.Helpers
 
@@ -18,23 +19,64 @@ defmodule Content.HelpersTest do
       rewritten = rewrite_url("https://example.com/foo/bar")
       assert rewritten == Content.Config.apply(:static, ["/foo/bar"])
     end
+
+    test "rewrites the URL to use the Site app host" do
+      rewritten = rewrite_url("https://example.com/foo/bar")
+      assert rewritten == "http://#{site_app_domain()}/foo/bar"
+    end
   end
 
   describe "parse_image/2" do
-    test "parses image data and rewrites URL" do
+    test "parses the image data" do
       data = %{
         "field_my_image" => [%{
           "alt" => "Picture of a barn",
-          "url" => "/foo/barn.jpg",
+          "url" => "http://cms/files/barn.jpg",
         }]
       }
 
-      assert %Content.Field.Image{
+      assert parse_image(data, "field_my_image") == %Content.Field.Image{
         alt: "Picture of a barn",
-        url: url
-      } = parse_image(data, "field_my_image")
+        url: "http://#{site_app_domain()}/files/barn.jpg"
+      }
+    end
 
-      assert url == Content.Config.apply(:static, ["/foo/barn.jpg"])
+    test "when the specified field is not present" do
+      assert parse_image(%{}, "missing_field") == nil
+    end
+  end
+
+  describe "parse_images/2" do
+    test "parses image data with multiple images" do
+      data = %{
+        "field_with_images" => [
+          %{
+            "alt" => "Picture of a barn",
+            "url" => "/files/barn.jpg",
+          },
+          %{
+            "alt" => "Picture of a horse",
+            "url" => "/files/horse.jpg",
+          }
+        ]
+      }
+
+      expected_result = [
+        %Content.Field.Image{
+          alt: "Picture of a barn",
+          url: "http://#{site_app_domain()}/files/barn.jpg"
+        },
+        %Content.Field.Image{
+          alt: "Picture of a horse",
+          url: "http://#{site_app_domain()}/files/horse.jpg"
+        }
+      ]
+
+      assert parse_images(data, "field_with_images") == expected_result
+    end
+
+    test "when the specified field is not present" do
+      assert parse_images(%{}, "missing_field") == []
     end
   end
 
@@ -64,15 +106,20 @@ defmodule Content.HelpersTest do
     end
   end
 
-  describe "parse_updated_at/1" do
-    test "handles unix time as a string" do
-      api_data = %{"changed" => [%{"value" => "1488904773"}]}
-      assert parse_updated_at(api_data) == DateTime.from_unix!(1_488_904_773)
+  describe "parse_date/2" do
+    test "parses a date string to a date" do
+      map = %{"posted_on" => [%{"value" => "2017-01-01"}]}
+
+      assert parse_date(map, "posted_on") == ~D[2017-01-01]
     end
 
-    test "handles unix time as an int" do
-      api_data = %{"changed" => [%{"value" => 1_488_904_773}]}
-      assert parse_updated_at(api_data) == DateTime.from_unix!(1_488_904_773)
+    test "when the date string cannot be converted to a date" do
+      map = %{"posted_on" => [%{"value" => ""}]}
+      assert parse_date(map, "posted_on") == nil
+    end
+
+    test "when the field is missing" do
+      assert parse_date(%{}, "posted_on") == nil
     end
   end
 

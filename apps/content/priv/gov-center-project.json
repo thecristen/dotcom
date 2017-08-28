@@ -1,17 +1,17 @@
 {
   "nid": [
     {
-      "value": 3
+      "value": 123
     }
   ],
   "uuid": [
     {
-      "value": "173f23c7-facf-4a45-91ec-0c73221e5c3b"
+      "value": "785b7594-d620-4d39-89c2-3d695c5bba5a"
     }
   ],
   "vid": [
     {
-      "value": 129
+      "value": 3516
     }
   ],
   "langcode": [
@@ -33,25 +33,25 @@
   ],
   "title": [
     {
-      "value": "Government Center Construction"
+      "value": "Project Update Title"
     }
   ],
   "uid": [
     {
-      "target_id": 1,
+      "target_id": 10,
       "target_type": "user",
-      "target_uuid": "4a887460-7f79-4e33-9f24-2cdbbbf7a4c1",
-      "url": "/user/1"
+      "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
+      "url": "/user/10"
     }
   ],
   "created": [
     {
-      "value": 1480612626
+      "value": 1503597466
     }
   ],
   "changed": [
     {
-      "value": 1489597382
+      "value": 1503597476
     }
   ],
   "promote": [
@@ -66,7 +66,7 @@
   ],
   "revision_timestamp": [
     {
-      "value": 1489597382
+      "value": 1503597476
     }
   ],
   "revision_uid": [
@@ -100,62 +100,29 @@
   "menu_link": [],
   "body": [
     {
-      "value": "<p>Value Engineering (VE), managed by the Owner′s Representative as required by MGL 30/39M.5, was performed in January 2011. The major recommendation of the study was to close Government Center Station to patrons (but allow trains to pass through) for twenty-four months during the construction period by diverting passengers to other nearby stations. Closure/bypass of the station to patrons for twenty-four months during construction eliminates the need for a temporary head house and allows construction to proceed more rapidly, thereby resulting in the overall delivery of accessibility to be achieved earlier. The closure also results in minimization of system delays, improved worker and public safety, and improved construction quality. The recommendation was presented to the MBTA Board of Directors in April 2011. The Board concurred with that recommendation, and design progressed based on the Station being closed as recommended.</p>\r\n",
+      "value": "<p>body</p>\r\n",
       "format": "basic_html",
       "summary": ""
     }
   ],
-  "field_downloads": [
+  "field_photo_gallery": [],
+  "field_posted_on": [
     {
-      "target_id": 10,
-      "display": true,
-      "description": "Government Center Presentation",
-      "target_type": "file",
-      "target_uuid": "0227954f-b10f-4c86-b0de-5fed18a63051",
-      "url": "http://mbta.kbox.site/sites/default/files/2016-12/Gov%20Center%20Station%20Presentation.pdf",
-      "mime_type": "application/pdf"
+      "value": "2017-08-24"
     }
   ],
-  "field_featured_image": [
+  "field_project": [
     {
-      "target_id": 9,
-      "alt": "Proposed Government Center Head House",
-      "title": "",
-      "width": 667,
-      "height": 368,
-      "target_type": "file",
-      "target_uuid": "98365781-b78f-48dc-8acc-7c5f25f0b05c",
-      "url": "http://mbta.kbox.site/sites/default/files/2016-12/ProposedStationHeadHouse.jpg",
-      "mime_type": "image/jpeg"
+      "target_id": 2669,
+      "target_type": "node",
+      "target_uuid": "5d55a7f8-22da-4ce8-9861-09602c64c7e4",
+      "url": "/projects/project"
     }
   ],
-  "field_photo_gallery": [
+  "field_teaser": [
     {
-      "target_id": 7,
-      "alt": "Government Center during construction",
-      "title": "",
-      "width": 4128,
-      "height": 2322,
-      "target_type": "file",
-      "target_uuid": "499a208a-31f5-4913-b2ef-8dbbe2065d36",
-      "url": "http://mbta.kbox.site/sites/default/files/2016-12/Gov%20Center%20Photo%201%281%29.jpg",
-      "mime_type": "image/jpeg"
-    },
-    {
-      "target_id": 8,
-      "alt": "Proposed Government Center Head House entry",
-      "title": "",
-      "width": 4128,
-      "height": 2322,
-      "target_type": "file",
-      "target_uuid": "14d879c9-3470-4daa-8782-94473d2331d0",
-      "url": "http://mbta.kbox.site/sites/default/files/2016-12/ProposedHeadHouseEntry.jpg",
-      "mime_type": "image/jpeg"
-    }
-  ],
-  "field_status": [
-    {
-      "value": "Construction"
+      "value": "teaser"
     }
   ]
 }
+
