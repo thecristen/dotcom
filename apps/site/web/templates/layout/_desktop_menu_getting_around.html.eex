@@ -23,7 +23,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/?id=7108"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
           <%= fa "caret-right" %> The RIDE
         <% end %>
       </li>
@@ -63,7 +63,7 @@
     <p class="nav-title">Riding the T</p>
     <ul>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/accessible_services/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
           <%= fa "caret-right" %> Accessibility
         <% end %>
       </li>

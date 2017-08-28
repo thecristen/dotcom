@@ -5,7 +5,7 @@ defmodule Site.ModeView do
     route_groups[route_type] |> Enum.sort_by(&(&1.name))
   end
   def get_route_group(:the_ride, _) do
-    [{"MBTA Paratransit Program", redirect_path(Site.Endpoint, "riding_the_t/accessible_services/?id=7108")}]
+    [{"MBTA Paratransit Program", cms_static_page_path(Site.Endpoint, "/accessibility/the-ride")}]
   end
   def get_route_group(route_type, route_groups), do: route_groups[route_type]
 
