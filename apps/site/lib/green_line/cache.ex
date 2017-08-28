@@ -91,6 +91,10 @@ defmodule Site.GreenLine.Cache do
     Timex.diff(tomorrow_morning, now, :milliseconds)
   end
 
+  defp populate_cache(date, nil, reset_fn) do
+    # if we don't have an end date, just do today
+    reset_fn.(date)
+  end
   defp populate_cache(date, last_date, reset_fn) do
     if Timex.before?(date, Timex.shift(last_date, days: 1)) do
       reset_fn.(date)

@@ -16,6 +16,19 @@ defmodule Site.GreenLine.CacheTest do
     assert msgs == [:ok, :ok, :ok, :ok, :ok, :nothing]
   end
 
+  test "it does not run forever if the end_date_fn returns nil" do
+    test_pid = self()
+    start_date_fn = fn -> ~D[1985-03-31] end
+    end_date_fn = fn -> nil end
+    reset_fn = fn date -> send(test_pid, {:done, date}) end
+
+    start_link(start_date_fn: start_date_fn, end_date_fn: end_date_fn, reset_fn: reset_fn, name: :test1)
+
+    msgs = receive_dates([nil, ~D[1985-03-31], ~D[1985-04-01]])
+
+    assert msgs == [:ok, :ok, :nothing]
+  end
+
   test "next_update_after/1 calculates proper wait time" do
     start =
       Timex.now("America/New_York")
