@@ -19,7 +19,7 @@ defmodule Content.CMS.Static do
   end
 
   def project_update_response do
-    parse_json("gov-center-project.json")
+    parse_json("api/project-updates.json")
   end
 
   def events_response do
@@ -64,9 +64,6 @@ defmodule Content.CMS.Static do
   end
   def view("/accessibility", _) do
     {:ok, basic_page_response()}
-  end
-  def view("/gov-center-project", _) do
-    {:ok, project_update_response()}
   end
   def view("/news", [id: id]) do
     news_entry = filter_by(news_response(), "nid", id)

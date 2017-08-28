@@ -48,17 +48,22 @@ defmodule Content.RepoTest do
   end
 
   describe "get_page/1" do
-    test "returns a Content.BasicPage" do
-      %Content.BasicPage{title: title, body: body} = Content.Repo.get_page("/accessibility")
-      assert title == "Accessibility at the T"
-      assert safe_to_string(body) =~ "From accessible buses, trains, and stations"
+    test "given the path for a Basic page" do
+      result = Content.Repo.get_page("/accessibility")
+      assert %Content.BasicPage{} = result
     end
 
-    test "returns a Content.ProjectUpdate" do
-      %Content.ProjectUpdate{} = Content.Repo.get_page("/gov-center-project")
+    test "given the path for a Landing page" do
+      result = Content.Repo.get_page("/denali-national-park")
+      assert %Content.LandingPage{} = result
     end
 
-    test "returns nil if no such page" do
+    test "given the path for a Redirect page" do
+      result = Content.Repo.get_page("/test/redirect")
+      assert %Content.Redirect{} = result
+    end
+
+    test "returns nil when the path does not match an existing page" do
       assert nil == Content.Repo.get_page("/does/not/exist")
     end
   end
