@@ -26,7 +26,7 @@
           </a>
         </p>
       </div>
-      <div id="fares" class="col-md-6">
+      <div class="col-md-6">
         <h2>Common Fares</h2>
         <%= Site.FareView.summarize(@fares, class: "") %>
         <%= fares_note(@mode_name) %>
