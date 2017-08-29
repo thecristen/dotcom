@@ -10,6 +10,20 @@ defmodule Stops.Repo do
   @type stop_feature :: Route.route_type | Route.subway_lines_type
                         | :access | :parking_lot | :"Green-B" |:"Green-C" |:"Green-D" |:"Green-E"
 
+  for {old_id, gtfs_id} <- "priv/stop_id_to_gtfs.csv"
+  |> File.stream!()
+  |> CSV.decode(headers: true)
+  |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
+  |> Enum.flat_map(fn {ids, gtfs_id} -> Enum.map(ids, &{&1, gtfs_id}) end) do
+
+    def old_id_to_gtfs_id(unquote(old_id)) do
+      unquote(gtfs_id)
+    end
+  end
+  def old_id_to_gtfs_id(_) do
+    nil
+  end
+
   def stations do
     cache [], fn _ ->
       Stops.Api.all

@@ -13,6 +13,12 @@ defmodule Site.OldSiteRedirectController do
           end
     old_site_redirect(conn, url)
   end
+  def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id} = params) do
+    case Stops.Repo.old_id_to_gtfs_id(stop_id) do
+      nil ->  schedules_and_maps(conn, Map.delete(params, "stopId"))
+      gtfs_id -> old_site_redirect(conn, stop_url(conn, :show, gtfs_id))
+    end
+  end
   def schedules_and_maps(conn, %{"path" => [mode, "lines", "stations" | _]}) do
     redirect_mode = case mode do
       "rail" -> :commuter_rail

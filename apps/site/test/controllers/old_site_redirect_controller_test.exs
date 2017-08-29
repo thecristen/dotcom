@@ -25,23 +25,41 @@ defmodule Site.OldSiteRedirectControllerTest do
 
   describe "/schedules_and_maps" do
     test "Subway stop redirected to subway stops page", %{conn: conn} do
-      old_url = "/schedules_and_maps/subway/lines/stations/?stopId=15481" # Ashmont
+      old_url = "/schedules_and_maps/subway/lines/stations/"
       assert redirected_to(get(conn, old_url)) =~ stop_url(Site.Endpoint, :show, :subway)
     end
 
     test "Bus stop redirected to subway stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/subway/lines/stations/?stopId=11496" # Dudley Station
+      old_url = "schedules_and_maps/subway/lines/stations/"
       assert redirected_to(get(conn, old_url)) =~ stop_url(Site.Endpoint, :show, :subway)
     end
 
-    test "Commuter stop redirected to commuter rail stops page", %{conn: conn} do # Westborough
-      old_url = "schedules_and_maps/rail/lines/stations/?stopId=16087"
+    test "Commuter stop redirected to commuter rail stops page", %{conn: conn} do
+      old_url = "schedules_and_maps/rail/lines/stations/"
       assert redirected_to(get(conn, old_url)) =~ stop_url(Site.Endpoint, :show, :commuter_rail)
     end
 
     test "Ferry stop redirected to ferry stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/boats/lines/stations/?stopId=25783" # Long Wharf
+      old_url = "schedules_and_maps/boats/lines/stations/"
       assert redirected_to(get(conn, old_url)) =~ stop_url(Site.Endpoint, :show, :ferry)
+    end
+
+    test "Specific stops redirect to corresponding stop page", %{conn: conn} do
+      old_url = "schedules_and_maps/rail/lines/stations/?stopId=19"
+      assert redirected_to(get(conn, old_url)) =~ stop_url(Site.Endpoint, :show, "Beverly")
+    end
+
+    test "Redirects to stop page regardless of incomming mode", %{conn: conn} do
+      north_station_subway = "schedules_and_maps/subway/lines/stations?stopId=141"
+      north_station_rail = "schedules_and_maps/rail/lines/stations?stopId=13610"
+
+      assert redirected_to(get(conn, north_station_subway)) =~ stop_url(Site.Endpoint, :show, "place-north")
+      assert redirected_to(get(conn, north_station_rail)) =~ stop_url(Site.Endpoint, :show, "place-north")
+    end
+
+    test "Redirects to mode page if stopId is not found", %{conn: conn} do
+      invalid_rail_url = "schedules_and_maps/rail/lines/stations?stopId=invalidstopid"
+      assert redirected_to(get(conn, invalid_rail_url)) =~ stop_url(Site.Endpoint, :show, :commuter_rail)
     end
   end
 

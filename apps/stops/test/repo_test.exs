@@ -59,6 +59,16 @@ defmodule Stops.RepoTest do
     end
   end
 
+  describe "old_id_to_gtfs_id/1" do
+    test "Returns nil when no id matches" do
+      refute old_id_to_gtfs_id("made up stop id")
+    end
+
+    test "Returns gtfs id from old site id" do
+      assert old_id_to_gtfs_id("66") == "place-forhl"
+    end
+  end
+
   describe "stop_features/1" do
     @stop %Stop{id: "place-sstat"}
     test "Returns stop features for a given stop" do
