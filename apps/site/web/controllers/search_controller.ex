@@ -49,7 +49,8 @@ defmodule Site.SearchController do
 
   @spec build_facets(%Content.Search{content_types: Keyword.t}, [String.t]) :: map
   defp build_facets(%Content.Search{content_types: response_types}, content_types) do
-    build_facet("content_type", response_types, content_types)
+    "content_type"
+    |> build_facet(response_types, content_types)
     |> Map.merge(build_facet("year", Keyword.new, []))
   end
 
