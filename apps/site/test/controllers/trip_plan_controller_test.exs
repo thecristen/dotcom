@@ -22,7 +22,7 @@ defmodule Site.TripPlanControllerTest do
   describe "index without params" do
     test "renders index.html", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index)
-      assert html_response(conn, 200) =~ "Directions"
+      assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.requires_google_maps?
     end
 
@@ -37,7 +37,7 @@ defmodule Site.TripPlanControllerTest do
     test "renders the query plan", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       response = html_response(conn, 200)
-      assert response =~ "Directions"
+      assert response =~ "Trip Planner"
       assert response =~ "Itinerary 1"
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
@@ -61,7 +61,7 @@ defmodule Site.TripPlanControllerTest do
       }
       conn = get conn, trip_plan_path(conn, :index, params)
 
-      assert html_response(conn, 200) =~ "Directions"
+      assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
     end
@@ -79,7 +79,7 @@ defmodule Site.TripPlanControllerTest do
     test "renders a geocoding error", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @bad_params)
       response = html_response(conn, 200)
-      assert response =~ "Directions"
+      assert response =~ "Trip Planner"
       assert response =~ "Did you mean?"
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query

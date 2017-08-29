@@ -30,11 +30,11 @@
     </ul>
   </div>
   <div class="col-xs-4 header-column">
-    <p class="nav-title">Plan Your Trip</p>
+    <p class="nav-title">Plan Your Journey</p>
     <ul>
       <li>
         <%= link to: trip_plan_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Directions
+          <%= fa "caret-right" %> Trip Planner
         <% end %>
       </li>
       <li>
