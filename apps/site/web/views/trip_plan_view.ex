@@ -191,6 +191,6 @@ defmodule Site.TripPlanView do
   @spec icon_for_route(Route.t) :: Phoenix.HTML.Safe.t
   def icon_for_route(route) do
     icon_atom = Routes.Route.icon_atom(route)
-    svg_icon_with_circle(%SvgIconWithCircle{icon: icon_atom, class: "icon-small"})
+    svg_icon_with_circle(%SvgIconWithCircle{icon: icon_atom})
   end
 end

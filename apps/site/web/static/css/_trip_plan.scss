@@ -46,28 +46,51 @@
 .trip-plan-itinerary-header {
   background: $gray-bordered-background;
   border-bottom: $border;
-  color: $gray-dark;
-  display: block;
-  font-weight: bold;
+  display: flex;
 
   &:hover {
     text-decoration: none;
   }
 }
 
-.trip-plan-itinerary-leg-feature {
-  svg {
-    margin-top: $space-4;
-  }
+.trip-plan-itinerary-summary {
+  display: flex;
+  flex: 1 1 auto;
 
-  &:first-child {
-    padding-left: $base-spacing-sm;
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
   }
 }
 
-.trip-plan-itinerary-duration {
-  float: right;
-  font-weight: normal;
+.trip-plan-itinerary-legs {
+  flex: 1 1 auto;
+
+  .fa-angle-right {
+    color: $gray-light;
+  }
+
+  .svg {
+  }
+}
+
+.trip-plan-itinerary-length {
+  flex: 0 1 auto;
+
+  @include media-breakpoint-down(sm) {
+    align-self: end;
+  }
+}
+
+.trip-plan-itinerary-length-time {
+  font-weight: bold;
+}
+
+.trip-plan-itinerary-length-distance {
+  color: $gray-dark;
+}
+
+.trip-plan-itinerary-expand {
+  flex: 0 0 auto;
 }
 
 .trip-plan-map {

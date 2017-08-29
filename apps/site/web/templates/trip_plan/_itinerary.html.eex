@@ -1,17 +1,25 @@
 <div class="trip-plan-itinerary-container">
   <a class="trip-plan-itinerary-header" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
-    <%= for {route, i} <- Enum.with_index(@routes) do %>
-      <%= if i > 0, do: fa("chevron-right") %>
-      <span class="trip-plan-itinerary-leg-feature"><%= icon_for_route(route) %></span>
-    <% end %>
-    <div class="trip-plan-itinerary-duration">
-      <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
-      <span data-planner-caret><%= if @index == 1, do: fa("caret-up"), else: fa("caret-down")%></span>
+    <div class="trip-plan-itinerary-summary">
+      <div class="trip-plan-itinerary-legs">
+        <%= for {route, i} <- Enum.with_index(@routes) do %>
+          <%= if i > 0, do: fa "angle-right" %>
+          <%= icon_for_route(route) %>
+        <% end %>
+      </div>
+      <div class="trip-plan-itinerary-length">
+        <span class="trip-plan-itinerary-length-time">
+          <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
+        </span>
+        <span class="trip-plan-itinerary-length-distance">
+          <%= svg "walk.svg" %>
+          <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi total
+        </span>
+      </div>
     </div>
-    <div>
-      <%= svg "walk.svg" %>
-      <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi total
-    </div>
+    <span class="trip-plan-itinerary-expand">
+      <%= fa "plus-circle" %>
+    </span>
   </a>
   <div id="itinerary-<%= @index %>" class="trip-plan-itinerary-body collapse" data-planner-body data-offset="<%= @index - 1 %>">
     <% {map_data, map_url} = @itinerary_map %>
