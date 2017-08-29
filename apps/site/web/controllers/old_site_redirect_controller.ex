@@ -2,6 +2,8 @@ defmodule Site.OldSiteRedirectController do
   use Site.Web, :controller
   import Site.Router.Helpers
 
+  @s3_files ["feed_info.txt", "mbta_gtfs.zip"]
+
   def index(conn, _params) do
     old_site_redirect(conn, page_url(conn, :index))
   end
@@ -97,8 +99,14 @@ defmodule Site.OldSiteRedirectController do
     old_site_redirect(conn, customer_support_url(conn, :index))
   end
 
+  def uploaded_files(conn, %{"path" => [file_name]}) when file_name in @s3_files do
+    file_name |> s3_file_url() |> perform_uploaded_files_request(conn)
+  end
   def uploaded_files(conn, %{"path" => path_parts}) do
-    full_url = "http://old.mbta.com/uploadedfiles/#{path_parts |> Enum.map(&URI.encode/1) |> Enum.join("/")}"
+    path_parts |> old_site_file_url() |> perform_uploaded_files_request(conn)
+  end
+
+  defp perform_uploaded_files_request(full_url, conn) do
     params = conn.query_params
     with {:ok, response} <- HTTPoison.get(full_url, [], params: params),
          %{status_code: 200, headers: headers, body: body} <- response do
@@ -114,6 +122,20 @@ defmodule Site.OldSiteRedirectController do
         |> render(Site.ErrorView, "404.html", [])
         |> halt
     end
+  end
+
+  defp old_site_file_url(path_parts) do
+    host = :site |> Application.get_env(:former_mbta_site) |> Keyword.get(:host)
+    "#{host}/uploadedfiles/#{path_parts |> Enum.map(&URI.encode/1) |> Enum.join("/")}"
+  end
+
+  defp s3_file_url(file_name) do
+    bucket_name = bucket_name(Application.get_env(:site, OldSiteRedirectController)[:gtfs_s3_bucket])
+    "https://s3.amazonaws.com/#{bucket_name}/#{URI.encode(file_name)}"
+  end
+
+  defp bucket_name({:system, env_var, default}) do
+    if value = System.get_env(env_var), do: value, else: default
   end
 
   defp old_site_redirect(conn, url) do

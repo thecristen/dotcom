@@ -48,6 +48,9 @@ config :content,
 config :site, :former_mbta_site,
   host: "http://old.mbta.com"
 
+config :site, OldSiteRedirectController,
+  gtfs_s3_bucket: {:system, "GTFS_S3_BUCKET", "mbta-gtfs-s3"}
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

@@ -6,6 +6,11 @@ defmodule Site.OldSiteRedirectControllerTest do
       conn = head conn, "/uploadedfiles/Documents/Schedules_and_Maps/Rapid Transit w Key Bus.pdf"
       assert conn.status == 200
     end
+
+    test "Can return file from s3", %{conn: conn} do
+      conn = head conn, "/uploadedfiles/feed_info.txt"
+      assert conn.status == 200
+    end
   end
 
   describe "/rider_tools" do
