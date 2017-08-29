@@ -3,7 +3,7 @@ defmodule Site.ContentRewriter do
   Rewrites the content that comes from the CMS before rendering it to the page.
   """
 
-  alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects}
+  alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects, Links}
 
   @doc """
   The main entry point for the various transformations we apply to CMS content
@@ -30,8 +30,13 @@ defmodule Site.ContentRewriter do
   defp render(content) when is_binary(content), do: content
   defp render(content), do: Floki.raw_html(content)
 
+  @spec dispatch_rewrites(Floki.html_tree | binary) :: Floki.html_tree | binary | nil
   defp dispatch_rewrites({"table", _, _} = element) do
     {name, attrs, children} = ResponsiveTables.rewrite_table(element)
+    {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
+  end
+  defp dispatch_rewrites({"a", _, _} = element) do
+    {name, attrs, children} = Links.add_target_to_redirect(element)
     {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
   end
   defp dispatch_rewrites(content) when is_binary(content) do
