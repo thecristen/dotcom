@@ -29,18 +29,18 @@ defmodule Content.ProjectTest do
         updated_on: updated_on
       } = Content.Project.from_api(api_data)
 
-      assert id == 1
-      assert Phoenix.HTML.safe_to_string(body) == "<p>body</p>"
-      assert contact_information == "Contact this person"
-      assert end_year == "2018"
+      assert id == 2679
+      assert Phoenix.HTML.safe_to_string(body) == "<p>Ruggles Station Platform Project is great</p>"
+      assert contact_information == "Me"
+      assert end_year == "2020"
       assert featured == false
-      assert media_email == "foo@example.com"
-      assert media_phone == "(123) 456-7891"
+      assert media_email == "glx@massdot.com"
+      assert media_phone == "123"
       assert start_year == "2017"
-      assert status == "Procurement"
-      assert teaser == "teaser"
-      assert title == "title"
-      assert updated_on == ~D[2017-08-24]
+      assert status == "Construction"
+      assert teaser == "Ruggles Station Platform Project tease"
+      assert title == "Ruggles Station Platform Project"
+      assert updated_on == ~D[2017-07-11]
     end
 
     test "when files are provided", %{api_data: api_data} do

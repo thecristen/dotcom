@@ -2,17 +2,17 @@
   {
     "nid": [
       {
-        "value": 1
+        "value": 2679
       }
     ],
     "uuid": [
       {
-        "value": "5d55a7f8-22da-4ce8-9861-09602c64c7e4"
+        "value": "f2beaf34-dcc0-407a-8309-1f1bd808cda2"
       }
     ],
     "vid": [
       {
-        "value": 3515
+        "value": 3560
       }
     ],
     "langcode": [
@@ -34,25 +34,25 @@
     ],
     "title": [
       {
-        "value": "title"
+        "value": "Ruggles Station Platform Project"
       }
     ],
     "uid": [
       {
-        "target_id": 10,
+        "target_id": 12,
         "target_type": "user",
-        "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
-        "url": "/user/10"
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
       }
     ],
     "created": [
       {
-        "value": 1503597432
+        "value": 1504037579
       }
     ],
     "changed": [
       {
-        "value": 1503597461
+        "value": 1504037612
       }
     ],
     "promote": [
@@ -67,18 +67,20 @@
     ],
     "revision_timestamp": [
       {
-        "value": 1503597461
+        "value": 1504037612
       }
     ],
     "revision_uid": [
       {
-        "target_id": 10,
+        "target_id": 12,
         "target_type": "user",
-        "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
-        "url": "/user/10"
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
       }
     ],
-    "revision_log": [],
+    "revision_log": [
+
+    ],
     "revision_translation_affected": [
       {
         "value": true
@@ -89,25 +91,33 @@
         "value": true
       }
     ],
-    "path": [],
-    "publish_on": [],
-    "unpublish_on": [],
-    "menu_link": [],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
     "body": [
       {
-        "value": "<p>body</p>\r\n",
+        "value": "<p>Ruggles Station Platform Project is great<\/p>\r\n",
         "format": "basic_html",
         "summary": ""
       }
     ],
     "field_contact_information": [
       {
-        "value": "Contact this person"
+        "value": "Me"
       }
     ],
     "field_end_year": [
       {
-        "value": "2018"
+        "value": "2020"
       }
     ],
     "field_featured": [
@@ -115,19 +125,517 @@
         "value": false
       }
     ],
-    "field_featured_image": [],
-    "field_files": [],
+    "field_featured_image": [
+
+    ],
+    "field_files": [
+
+    ],
     "field_media_email": [
       {
-        "value": "foo@example.com"
+        "value": "glx@massdot.com"
       }
     ],
     "field_media_phone": [
       {
-        "value": "(123) 456-7891"
+        "value": "123"
       }
     ],
-    "field_photo_gallery": [],
+    "field_photo_gallery": [
+
+    ],
+    "field_project_status": [
+      {
+        "value": "Construction"
+      }
+    ],
+    "field_start_year": [
+      {
+        "value": "2017"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Ruggles Station Platform Project tease"
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2017-07-11"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 2678
+      }
+    ],
+    "uuid": [
+      {
+        "value": "e3e9697f-fa5f-4cb5-998a-345800e91d0e"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3559
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Symphony, Hynes, and Wollaston Stations Accessibility Upgrades"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1504037535
+      }
+    ],
+    "changed": [
+      {
+        "value": 1504037571
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1504037571
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "revision_log": [
+
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
+    "body": [
+      {
+        "value": "<p>Symphony, Hynes, and Wollaston Stations Accessibility Upgrades<\/p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Me"
+      }
+    ],
+    "field_end_year": [
+
+    ],
+    "field_featured": [
+      {
+        "value": false
+      }
+    ],
+    "field_featured_image": [
+
+    ],
+    "field_files": [
+
+    ],
+    "field_media_email": [
+      {
+        "value": "glx@massdot.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "123"
+      }
+    ],
+    "field_photo_gallery": [
+
+    ],
+    "field_project_status": [
+      {
+        "value": "Construction"
+      }
+    ],
+    "field_start_year": [
+      {
+        "value": "2000"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Symphony, Hynes, and Wollaston Stations Accessibility Upgrades"
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2017-08-16"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 2677
+      }
+    ],
+    "uuid": [
+      {
+        "value": "30c205f2-ec09-4561-95ba-8f19d985e3c2"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3558
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Winchester Center Commuter Rail Station Repairs"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1504037498
+      }
+    ],
+    "changed": [
+      {
+        "value": 1504037529
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1504037529
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "revision_log": [
+
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
+    "body": [
+      {
+        "value": "<p>Winchester Center Commuter Rail Station Repairs<\/p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Me"
+      }
+    ],
+    "field_end_year": [
+
+    ],
+    "field_featured": [
+      {
+        "value": false
+      }
+    ],
+    "field_featured_image": [
+
+    ],
+    "field_files": [
+
+    ],
+    "field_media_email": [
+      {
+        "value": "glx@massdot.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "123"
+      }
+    ],
+    "field_photo_gallery": [
+
+    ],
+    "field_project_status": [
+      {
+        "value": "Design"
+      }
+    ],
+    "field_start_year": [
+      {
+        "value": "2017"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Winchester Center Commuter Rail Station Repairs"
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2017-08-29"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 2676
+      }
+    ],
+    "uuid": [
+      {
+        "value": "69c849e4-c4fe-42ff-a130-5cef8c5f3df5"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3557
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "South Boston Service and Bus Stop Improvements"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1504037443
+      }
+    ],
+    "changed": [
+      {
+        "value": 1504037491
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1504037491
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "revision_log": [
+
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
+    "body": [
+      {
+        "value": "<p>South Boston Service and Bus Stop Improvements<\/p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Me"
+      }
+    ],
+    "field_end_year": [
+
+    ],
+    "field_featured": [
+      {
+        "value": false
+      }
+    ],
+    "field_featured_image": [
+
+    ],
+    "field_files": [
+
+    ],
+    "field_media_email": [
+      {
+        "value": "glx@massdot.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "123"
+      }
+    ],
+    "field_photo_gallery": [
+
+    ],
     "field_project_status": [
       {
         "value": "Procurement"
@@ -140,12 +648,534 @@
     ],
     "field_teaser": [
       {
-        "value": "teaser"
+        "value": "South Boston Service and Bus Stop Improvements"
       }
     ],
     "field_updated_on": [
       {
-        "value": "2017-08-24"
+        "value": "2017-06-07"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 2675
+      }
+    ],
+    "uuid": [
+      {
+        "value": "a362f91e-e851-400b-805e-99d69ab113e7"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3556
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Red Line Floating Slab Project"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1504037293
+      }
+    ],
+    "changed": [
+      {
+        "value": 1504037433
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1504037433
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "revision_log": [
+
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
+    "body": [
+      {
+        "value": "<p>The Red Line track from Harvard to Alewife sits on concrete slabs floating on rubber disks&nbsp;that absorb noise and vibration from trains.&nbsp;Years of water infiltration into the tunnel has resulted in corrosion and cracking that must be addressed in order to maintain safe and reliable Red Line service.<\/p>\r\n\r\n<p>In addition to six 2014 weekends in which some Red Line service is replaced with shuttle bus service, the Floating Slab Project has planned eight to nine additional weekend shuttle bus diversions scheduled each year for 2015, 2016, and 2017. These scheduled shuttle bus replacement diversions have been scheduled each year in anticipation of maintaining a state of good repair within the area of the Floating Slab. During the course of the Floating Slab Project, MBTA work crews will be removing and replacing corroded concrete slabs as part of a project partially funded by the American Recovery and Reinvestment Act. In addition to correcting problems with the floating slab structure, the project will involve the replacement of track and third rail. Workers will also address leaks in the tunnel to prevent further deterioration.&nbsp;<\/p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Not me"
+      }
+    ],
+    "field_end_year": [
+
+    ],
+    "field_featured": [
+      {
+        "value": true
+      }
+    ],
+    "field_featured_image": [
+      {
+        "target_id": 230,
+        "alt": "floating slab",
+        "title": "",
+        "width": 571,
+        "height": 435,
+        "target_type": "file",
+        "target_uuid": "ae584f77-03e8-448e-9e0c-65e28309f10e",
+        "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-08\/Screen%20Shot%202017-08-29%20at%204.09.52%20PM.png",
+        "mime_type": "image\/png"
+      }
+    ],
+    "field_files": [
+
+    ],
+    "field_media_email": [
+      {
+        "value": "fs@massdot.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "(617) 222-1234"
+      }
+    ],
+    "field_photo_gallery": [
+
+    ],
+    "field_project_status": [
+      {
+        "value": "Construction"
+      }
+    ],
+    "field_start_year": [
+      {
+        "value": "2016"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "The Red Line track from Harvard to Alewife sits on concrete slabs floating on rubber disks that absorb noise and vibration from trains. Years of water infiltration into the tunnel has resulted in corrosion and cracking that must be addressed in order to maintain safe and reliable Red Line service."
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2017-08-29"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 2674
+      }
+    ],
+    "uuid": [
+      {
+        "value": "e48de2b7-6775-450d-8ebb-28740d1c62d0"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3555
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Back Bay Station Redevelopment Project"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1504036835
+      }
+    ],
+    "changed": [
+      {
+        "value": 1504037014
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1504037014
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "revision_log": [
+
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
+    "body": [
+      {
+        "value": "<p>Private developer Boston Properties (BP) has signed a long term lease and has assumed operational control of the concourse level of Back Bay Station. In accordance with the lease agreement, BP will be responsible for maintenance, security, repairs and cleaning of the concourse level of the station.<\/p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Please contact the project staff"
+      }
+    ],
+    "field_end_year": [
+
+    ],
+    "field_featured": [
+      {
+        "value": true
+      }
+    ],
+    "field_featured_image": [
+      {
+        "target_id": 229,
+        "alt": "project",
+        "title": "",
+        "width": 800,
+        "height": 600,
+        "target_type": "file",
+        "target_uuid": "b9e5f3de-fead-4d85-9fd1-a521b0a5d249",
+        "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-08\/img_1370.jpg",
+        "mime_type": "image\/jpeg"
+      }
+    ],
+    "field_files": [
+
+    ],
+    "field_media_email": [
+      {
+        "value": "bbsr@massdot.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "(617) 222-1234"
+      }
+    ],
+    "field_photo_gallery": [
+
+    ],
+    "field_project_status": [
+      {
+        "value": "Design"
+      }
+    ],
+    "field_start_year": [
+      {
+        "value": "2008"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Private developer Boston Properties (BP) has signed a long term lease and has assumed operational control of the concourse level of Back Bay Station. In accordance with the lease agreement, BP will be responsible for maintenance, security, repairs and cleaning of the concourse level of the station."
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2017-08-02"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 2673
+      }
+    ],
+    "uuid": [
+      {
+        "value": "4a3230b3-7a17-435d-bf04-2ddfd5f599d9"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3554
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Green Line Extension (GLX) Project"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "created": [
+      {
+        "value": 1504036596
+      }
+    ],
+    "changed": [
+      {
+        "value": 1504036823
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1504036823
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 12,
+        "target_type": "user",
+        "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+        "url": "\/user\/12"
+      }
+    ],
+    "revision_log": [
+
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
+    "body": [
+      {
+        "value": "<p>The Green Line Extension (GLX) Project will extend the MBTA Green Line from a relocated Lechmere Station in East Cambridge to Union Square in Somerville and College Avenue in Medford. While proposals to extend public transit service north from Lechmere date back many decades, the current phase of planning began in 2005 with the completion of the MBTA's...<\/p>\r\n",
+        "format": "basic_html",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Contact Me"
+      }
+    ],
+    "field_end_year": [
+
+    ],
+    "field_featured": [
+      {
+        "value": true
+      }
+    ],
+    "field_featured_image": [
+      {
+        "target_id": 228,
+        "alt": "Something",
+        "title": "",
+        "width": 618,
+        "height": 430,
+        "target_type": "file",
+        "target_uuid": "fce61a73-ed7a-4d46-9441-32de7288631d",
+        "url": "http:\/\/mbta.kbox.site\/sites\/default\/files\/2017-08\/Screen%20Shot%202017-08-29%20at%204.00.02%20PM.png",
+        "mime_type": "image\/png"
+      }
+    ],
+    "field_files": [
+
+    ],
+    "field_media_email": [
+      {
+        "value": "glx@massdot.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "(617) 222-2345"
+      }
+    ],
+    "field_photo_gallery": [
+
+    ],
+    "field_project_status": [
+      {
+        "value": "Planning"
+      }
+    ],
+    "field_start_year": [
+      {
+        "value": "2005"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "The Green Line Extension (GLX) Project will extend the MBTA Green Line from a relocated Lechmere Station in East Cambridge to Union Square in Somerville and College Avenue in Medford. While proposals to extend public transit service north from Lechmere date back many decades, the current phase of planning began in 2005 with the completion of the MBTA's..."
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2017-08-29"
       }
     ]
   }

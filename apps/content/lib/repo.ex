@@ -94,6 +94,14 @@ defmodule Content.Repo do
     end
   end
 
+  @spec projects(Keyword.t) :: [Content.Project.t]
+  def projects(opts \\ []) do
+    case @cms_api.view("/api/projects", opts) do
+      {:ok, api_data} -> Enum.map(api_data, &Content.Project.from_api/1)
+      _ -> []
+    end
+  end
+
   @spec whats_happening() :: [Content.WhatsHappeningItem.t]
   def whats_happening do
     cache [], fn _ ->

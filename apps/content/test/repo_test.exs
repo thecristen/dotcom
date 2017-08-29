@@ -110,6 +110,22 @@ defmodule Content.RepoTest do
     end
   end
 
+  describe "projects/1" do
+    test "returns list of Content.Project" do
+      assert [%Content.Project{
+        id: id,
+        body: body
+      }, %Content.Project{} | _] = Content.Repo.projects()
+
+      assert id == 2679
+      assert safe_to_string(body) =~ "Ruggles Station Platform Project"
+    end
+
+    test "returns empty list if error" do
+      assert [] = Content.Repo.projects(error: true)
+    end
+  end
+
   describe "person!/1" do
     test "returns the person if they're present" do
       assert %Content.Person{

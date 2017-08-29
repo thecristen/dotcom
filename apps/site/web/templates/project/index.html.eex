@@ -1,0 +1,11 @@
+<h1>T-Projects</h1>
+
+<p>The T is evolving everyday – renovating stations, modernizing fare collection systems, upgrading facilities and services for our buses, subways, and ferries, and improving the accessibility of the entire system for people of all abilities.</p>
+
+<p>T-Projects presents our work for your review – projects underway today, planned for tomorrow, and an archive of some of our past T-Projects.</p>
+
+<ul>
+  <%= for project <- @projects do %>
+    <li><%= project.title %></li>
+  <% end %>
+</ul>
