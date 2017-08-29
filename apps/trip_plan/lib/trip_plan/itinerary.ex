@@ -59,6 +59,14 @@ defmodule TripPlan.Itinerary do
     |> Enum.uniq
   end
 
+  @doc "Total walking distance over all legs, in meters"
+  @spec walking_distance(t) :: float
+  def walking_distance(%__MODULE__{legs: legs}) do
+    legs
+    |> Enum.map(&TripPlan.Leg.walking_distance/1)
+    |> Enum.sum
+  end
+
   defp flat_map_over_legs(legs, mapper) do
     for leg <- legs, {:ok, value} <- leg |> mapper.() |> List.wrap do
       value

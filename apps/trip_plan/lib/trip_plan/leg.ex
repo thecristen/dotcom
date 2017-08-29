@@ -50,6 +50,10 @@ defmodule TripPlan.Leg do
   def transit?(%__MODULE__{mode: %PersonalDetail{}}), do: false
   def transit?(%__MODULE__{mode: %TransitDetail{}}), do: true
 
+  @spec walking_distance(t) :: float
+  def walking_distance(%__MODULE__{mode: %PersonalDetail{distance: distance}}), do: distance
+  def walking_distance(%__MODULE__{mode: %TransitDetail{}}), do: 0.0
+
   @doc "Returns the stop IDs for the leg"
   @spec stop_ids(t) :: [Stops.Stop.id_t]
   def stop_ids(%__MODULE__{from: from, to: to}) do

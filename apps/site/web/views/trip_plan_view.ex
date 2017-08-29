@@ -171,6 +171,11 @@ defmodule Site.TripPlanView do
     end
   end
 
+  @spec display_meters_as_miles(float) :: String.t
+  def display_meters_as_miles(meters) do
+    Float.to_string(meters / 1609.34, decimals: 1)
+  end
+
   def format_additional_route(%Route{id: "Green" <> _branch} = route, direction_id) do
     [
       format_green_line_name(route.name),

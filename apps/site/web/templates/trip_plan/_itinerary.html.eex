@@ -8,6 +8,10 @@
       <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
       <span data-planner-caret><%= if @index == 1, do: fa("caret-up"), else: fa("caret-down")%></span>
     </div>
+    <div>
+      <%= svg "walk.svg" %>
+      <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi total
+    </div>
   </a>
   <div id="itinerary-<%= @index %>" class="trip-plan-itinerary-body collapse" data-planner-body data-offset="<%= @index - 1 %>">
     <% {map_data, map_url} = @itinerary_map %>
