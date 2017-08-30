@@ -13,7 +13,7 @@ defmodule Site.ProjectController do
     render conn, "show.html", project: project, updates: updates, meetings: meetings
   end
 
-  def update(conn, %{"project_id" => project_id, "id" => id}) do
+  def project_update(conn, %{"project_id" => project_id, "id" => id}) do
     project = Content.Repo.project!(project_id)
     update = Content.Repo.project_update!(id)
     render conn, "update.html", project: project, update: update
