@@ -16,7 +16,7 @@ defmodule Site.SearchController do
     stats = build_stats(response.count, offset)
     link_context = %{path: "/search", form: "search", params: params}
     pagination = build(stats)
-    template = if response.results == [], do: "no-results.html", else: "index.html"
+    template = if response.results == [], do: "no_results.html", else: "index.html"
 
     conn
     |> assign(:search_header?, true)
