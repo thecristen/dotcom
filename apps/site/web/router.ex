@@ -70,6 +70,7 @@ defmodule Site.Router do
     get "/index.asp", OldSiteRedirectController, :index
     get "/uploadedfiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
+    get "/gtfs_archive/archived_feeds.txt", OldSiteRedirectController, :archived_files
     get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
     get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
     get "/rider_tools/*path", OldSiteRedirectController, :rider_tools

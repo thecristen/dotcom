@@ -99,6 +99,12 @@ defmodule Site.OldSiteRedirectController do
     old_site_redirect(conn, customer_support_url(conn, :index))
   end
 
+  def archived_files(conn, _params) do
+    "archive/archived_feeds.txt"
+    |> s3_file_url()
+    |> perform_uploaded_files_request(conn)
+  end
+
   def uploaded_files(conn, %{"path" => [file_name]}) when file_name in @s3_files do
     file_name |> s3_file_url() |> perform_uploaded_files_request(conn)
   end
@@ -117,11 +123,15 @@ defmodule Site.OldSiteRedirectController do
       |> send_resp(200, body)
     else
       _ ->
-        conn
-        |> put_status(:not_found)
-        |> render(Site.ErrorView, "404.html", [])
-        |> halt
+        file_not_found(conn)
     end
+  end
+
+  defp file_not_found(conn) do
+    conn
+    |> put_status(:not_found)
+    |> render(Site.ErrorView, "404.html", [])
+    |> halt
   end
 
   defp old_site_file_url(path_parts) do

@@ -7,9 +7,26 @@ defmodule Site.OldSiteRedirectControllerTest do
       assert conn.status == 200
     end
 
-    test "Can return file from s3", %{conn: conn} do
+    test "can return file from s3", %{conn: conn} do
       conn = head conn, "/uploadedfiles/feed_info.txt"
       assert conn.status == 200
+    end
+
+    test "returns 404 when uploaded file does not exist", %{conn: conn} do
+      conn = head conn, "/uploadedfiles/file-not-found.txt"
+      assert conn.status == 404
+    end
+  end
+
+  describe "/gtfs_archive" do
+    test "can return archived file from s3", %{conn: conn} do
+      conn = head conn, "/gtfs_archive/archived_feeds.txt"
+      assert conn.status == 200
+    end
+
+    test "returns 404 when archived file does not exist", %{conn: conn} do
+      conn = head conn, "/gtfs_archive/file-not-found.txt"
+      assert conn.status == 404
     end
   end
 
