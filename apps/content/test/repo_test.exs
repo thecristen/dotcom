@@ -131,7 +131,7 @@ defmodule Content.RepoTest do
       assert %Content.Project{
         id: id,
         body: body
-      } = Content.Repo.project!(2679)
+      } = Content.Repo.project!("2679")
 
       assert id == 2679
       assert safe_to_string(body) =~ "Ruggles Station Platform Project"
@@ -139,7 +139,7 @@ defmodule Content.RepoTest do
 
     test "raises Content.NoResultsError if not present" do
       assert_raise Content.NoResultsError, fn ->
-        Content.Repo.project!("nonexistent")
+        Content.Repo.project!("0")
       end
     end
   end
@@ -158,14 +158,14 @@ defmodule Content.RepoTest do
 
   describe "project_update!/1" do
     test "returns a Content.ProjectUpdate" do
-      assert %Content.ProjectUpdate{body: body, id: id} = Content.Repo.project_update!(123)
+      assert %Content.ProjectUpdate{body: body, id: id} = Content.Repo.project_update!("123")
       assert id == 123
       assert safe_to_string(body) =~ "body"
     end
 
     test "raises Content.NoResultsError if not present" do
       assert_raise Content.NoResultsError, fn ->
-        Content.Repo.project_update!("nonexistent")
+        Content.Repo.project_update!("0")
       end
     end
   end

@@ -119,7 +119,9 @@ defmodule Content.CMS.Static do
   def view("/api/people", [id: id]) do
     {:ok, filter_by(people_response(), "nid", String.to_integer(id))}
   end
-  def view("/api/projects", [id: "nonexistent"]), do: {:ok, []}
+  def view("/api/projects", [id: id]) do
+    {:ok, filter_by(projects_response(), "nid", String.to_integer(id))}
+  end
   def view("/api/projects", opts) do
     if Keyword.get(opts, :error) do
       {:error, "Something happened"}
@@ -127,7 +129,9 @@ defmodule Content.CMS.Static do
       {:ok, projects_response()}
     end
   end
-  def view("/api/project-updates", [id: "nonexistent"]), do: {:ok, []}
+  def view("/api/project-updates", [id: id]) do
+    {:ok, filter_by(project_updates_response(), "nid", String.to_integer(id))}
+  end
   def view("/api/project-updates", opts) do
     if Keyword.get(opts, :error) do
       {:error, "Something happened"}
