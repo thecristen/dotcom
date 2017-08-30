@@ -13,7 +13,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   """
 
   def map_img_src(_, _, %Routes.Route{type: 4}, _path_color) do
-    static_url(Site.Endpoint, "/images/ferry-spider.jpg")
+    static_url(Site.Endpoint, "/images/map_thumbnails/Ferry_Map.png")
   end
   def map_img_src({route_stops, _shapes}, polylines, _route, path_color) do
     icon = MapHelpers.map_stop_icon_path(:tiny)

@@ -11,16 +11,16 @@ defmodule Site.MapHelpers do
     |> map_pdf_url
   end
   def map_pdf_url(:subway) do
-    static_url(Site.Endpoint, "/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf")
+    static_url(Site.Endpoint, "/sites/default/files/maps/Rapid_Transit_Map.pdf")
   end
   def map_pdf_url(:bus) do
-    static_url(Site.Endpoint, "/uploadedFiles/Schedules_and_Maps/System_Map/MBTA-system_map-back.pdf")
-  end
-  def map_pdf_url(:ferry) do
-    "https://s3.amazonaws.com/mbta-dotcom/Water_Ferries_2016.pdf"
+    static_url(Site.Endpoint, "/sites/default/files/maps/Full_System_Map.pdf")
   end
   def map_pdf_url(:commuter_rail) do
-    static_url(Site.Endpoint, "/uploadedfiles/Documents/Schedules_and_Maps/Commuter%20Rail%20Map.pdf")
+    static_url(Site.Endpoint, "/sites/default/files/maps/Commuter_Rail_Map.pdf")
+  end
+  def map_pdf_url(:ferry) do
+    static_url(Site.Endpoint, "/sites/default/files/maps/Ferry_Map.pdf")
   end
   def map_pdf_url(_) do
     nil
@@ -32,17 +32,20 @@ defmodule Site.MapHelpers do
     |> Route.type_atom
     |> map_image_url
   end
-  def map_image_url(:commuter_rail) do
-    "/images/commuter-rail-spider.jpg"
-  end
-  def map_image_url(:ferry) do
-    "/images/ferry-spider.jpg"
+  def map_image_url(:subway) do
+    static_url(Site.Endpoint, "/images/map_thumbnails/Rapid_Transit_Map.png")
   end
   def map_image_url(:bus) do
-    "/images/mbta-full-system-map.jpg"
+    static_url(Site.Endpoint, "/images/map_thumbnails/Full_System_Map.png")
+  end
+  def map_image_url(:commuter_rail) do
+    static_url(Site.Endpoint, "/images/map_thumbnails/Commuter_Rail_Map.png")
+  end
+  def map_image_url(:ferry) do
+    static_url(Site.Endpoint, "/images/map_thumbnails/Ferry_Map.png")
   end
   def map_image_url(_) do
-    "/images/subway-spider.jpg"
+    nil
   end
 
   @doc "Returns the map color that should be used for the given route"

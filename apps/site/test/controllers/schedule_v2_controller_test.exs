@@ -223,7 +223,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert List.last(stops).id == "Boat-Charlestown"
 
       # Map
-      assert conn.assigns.map_img_src =~ "ferry-spider"
+      assert conn.assigns.map_img_src =~ "/images/map_thumbnails/Ferry_Map.png"
     end
 
     test "Bus data", %{conn: conn} do
