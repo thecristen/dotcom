@@ -9,7 +9,8 @@ defmodule Site.ProjectController do
   def show(conn, %{"id" => id}) do
     project = Content.Repo.project!(id)
     updates = Content.Repo.project_updates([project_id: id])
-    render conn, "show.html", project: project, updates: updates
+    meetings = Content.Repo.events([project_id: id])
+    render conn, "show.html", project: project, updates: updates, meetings: meetings
   end
 
   def update(conn, %{"project_id" => project_id, "id" => id}) do
