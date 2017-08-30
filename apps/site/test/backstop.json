@@ -54,9 +54,7 @@
       "hideSelectors": [],
       "removeSelectors": [],
       "selectors": [
-          ".system-map",
-          ".mode-button-group",
-          "#fares",
+          "main",
           ".breadcrumb-container"
       ],
       "readyEvent": null,
