@@ -1,0 +1,20 @@
+.featured-project-title {
+  font-size: $font-size-h4;
+  font-weight: bold;
+
+  @include media-breakpoint-down(xs) {
+    margin-top: $base-spacing;
+  }
+}
+
+.featured-project-updated-on {
+  color: $gray;
+  margin-bottom: $base-spacing;
+}
+
+.featured-project-image {
+  font-family: 'object-fit: cover;';  // IE polyfill
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}

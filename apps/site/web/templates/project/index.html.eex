@@ -1,11 +1,18 @@
-<h1>T-Projects</h1>
+<div class="page-section">
+  <h1>T-Projects</h1>
 
-<p>The T is evolving everyday – renovating stations, modernizing fare collection systems, upgrading facilities and services for our buses, subways, and ferries, and improving the accessibility of the entire system for people of all abilities.</p>
+  <p>The T is evolving every day—renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system for people of all abilities.</p>
 
-<p>T-Projects presents our work for your review – projects underway today, planned for tomorrow, and an archive of some of our past T-Projects.</p>
+  <p>Take a look at what we're working on to make the MBTA better.</p>
 
-<ul>
-  <%= for project <- @projects do %>
-    <li><%= project.title %></li>
+  <%= if !Enum.empty?(@featured_projects) do %>
+    <h2>Featured Projects</h2>
   <% end %>
-</ul>
+
+  <%= for project <- @featured_projects do %>
+    <%= render "_featured_project.html", project: project %>
+    <hr>
+  <% end %>
+
+  <%= render "_all_projects.html", projects: @projects %>
+</div>

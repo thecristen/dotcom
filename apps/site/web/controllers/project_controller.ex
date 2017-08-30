@@ -3,7 +3,13 @@ defmodule Site.ProjectController do
 
   def index(conn, _) do
     projects = Content.Repo.projects()
-    render conn, "index.html", projects: projects
+    featured_projects = Enum.filter(projects, & &1.featured)
+
+    render(conn, "index.html", %{
+      breadcrumbs: [Breadcrumb.build("T-Projects")],
+      projects: projects,
+      featured_projects: featured_projects,
+    })
   end
 
   def show(conn, %{"id" => id}) do
