@@ -18,7 +18,7 @@ defmodule Content.CMS.Static do
     parse_json("api/projects.json")
   end
 
-  def project_update_response do
+  def project_updates_response do
     parse_json("api/project-updates.json")
   end
 
@@ -124,6 +124,13 @@ defmodule Content.CMS.Static do
       {:error, "Something happened"}
     else
       {:ok, projects_response()}
+    end
+  end
+  def view("/api/project-updates", opts) do
+    if Keyword.get(opts, :error) do
+      {:error, "Something happened"}
+    else
+      {:ok, project_updates_response()}
     end
   end
   def view("/whats-happening", _) do

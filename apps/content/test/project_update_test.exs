@@ -3,7 +3,7 @@ defmodule Content.ProjectUpdateTest do
   import Content.CMSTestHelpers, only: [update_api_response_whole_field: 3]
 
   setup do
-    %{api_data: Content.CMS.Static.project_update_response() |> List.first}
+    %{api_data: Content.CMS.Static.project_updates_response() |> List.first}
   end
 
   describe "from_api/1" do

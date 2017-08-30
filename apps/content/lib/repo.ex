@@ -102,6 +102,30 @@ defmodule Content.Repo do
     end
   end
 
+  @spec project!(integer) :: Content.Project.t | no_return
+  def project!(id) do
+    case projects([id: id]) do
+      [project | _] -> project
+      _ -> raise Content.NoResultsError
+    end
+  end
+
+  @spec project_updates(Keyword.t) :: [Content.Project.t]
+  def project_updates(opts \\ []) do
+    case @cms_api.view("/api/project-updates", opts) do
+      {:ok, api_data} -> Enum.map(api_data, &Content.ProjectUpdate.from_api/1)
+      _ -> []
+    end
+  end
+
+  @spec project_update!(integer) :: Content.Project.t | no_return
+  def project_update!(id) do
+    case project_updates([id: id]) do
+      [project_update | _] -> project_update
+      _ -> raise Content.NoResultsError
+    end
+  end
+
   @spec whats_happening() :: [Content.WhatsHappeningItem.t]
   def whats_happening do
     cache [], fn _ ->

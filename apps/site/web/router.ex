@@ -32,7 +32,8 @@ defmodule Site.Router do
     end
     resources "/news", NewsEntryController, only: [:index, :show]
     resources "/people", PersonController, only: [:show]
-    resources "/projects", ProjectController, only: [:index]
+    resources "/projects", ProjectController, only: [:index, :show]
+    get "/projects/:project_id/update/:id", ProjectController, :update
     get "/redirect/*path", RedirectController, :show
     resources "/stops", StopController, only: [:index, :show]
     get "/schedules", ModeController, :index
