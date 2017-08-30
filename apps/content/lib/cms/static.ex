@@ -30,6 +30,14 @@ defmodule Content.CMS.Static do
     parse_json("api/people.json")
   end
 
+  def search_response do
+    parse_json("api/search.json")
+  end
+
+  def search_response_empty do
+    parse_json("api/search-empty.json")
+  end
+
   def whats_happening_response do
     parse_json("whats-happening.json")
   end
@@ -98,6 +106,12 @@ defmodule Content.CMS.Static do
     end
 
     {:ok, events}
+  end
+  def view("/api/search", [q: "empty", page: 0]) do
+    {:ok, search_response_empty()}
+  end
+  def view("/api/search", _opts) do
+    {:ok, search_response()}
   end
   def view("/api/people", []) do
     {:ok, people_response()}

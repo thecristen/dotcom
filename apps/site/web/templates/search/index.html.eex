@@ -1,23 +1,22 @@
-<% former_site_name = @former_site |> String.replace("https://", "") %>
 <div class="page-section search-page">
   <div class="page-block">
     <div class="search-results-facets col-md-3">
       <%= form_for @conn, "/search", [as: :search, method: :get, data: [form: "search-filter"]], fn f -> %>
-        <%= hidden_input :search, :offset, value: @params["[offset]"] %>
+        <input name="search[offset]" type="hidden" value="0">
         <%= hidden_input :search, :query, value: @params["[query]"] %>
-        <%= if @facets[:content_type] do %>
+        <%= if @facets["content_type"] != [] do %>
           <div class="search-results-facet" data-facet="search">
             <h2 class="search-filter-heading" data-heading="search-filter">Filter by type<%= render_toggle_filter() %></h2>
             <ul class="search-filter-container" data-container="search-filter">
-              <%= for option <- @facets[:content_type], do: render_filter_option(f, :content_type, option) %>
+              <%= for option <- @facets["content_type"], do: render_filter_option(f, :content_type, option) %>
             </ul>
           </div>
         <% end %>
-        <%= if @facets[:year] do %>
+        <%= if @facets["year"] != [] do %>
           <div class="search-results-facet" data-facet="search">
             <h2 class="search-filter-heading" data-heading="search-filter">Filter by date<%= render_toggle_filter() %></h2>
             <ul class="search-filter-container" data-container="search-filter">
-              <%= for option <- @facets[:year], do: render_filter_option(f, :year, option) %>
+              <%= for option <- @facets["year"], do: render_filter_option(f, :year, option) %>
             </ul>
           </div>
         <% end %>
@@ -26,25 +25,28 @@
     </div>
     <div class="col-md-9">
       <div class="search-results-documents">
-        <%= if @documents == [] do %>
-          <h3>No results</h3>
+        <%= if @stats.total == 1 do %>
+          <h3 class="search-summary">Showing 1 result for <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
+          </h3>
         <% else %>
-          <h3 class="search-summary">Showing results 1-10 of 100 for
+          <h3 class="search-summary">Showing results <%= @stats.showing_from %>-<%= @stats.showing_to %> of <%= @stats.total %> for
             <span class="search-terms">&ldquo;<%= @query %>&rdquo;</span>
           </h3>
-          <ul><%= for document <- @documents, do: render_document(document) %></ul>
         <% end %>
+        <ul>
+          <%= for result <- @results do %>
+            <li>
+              <a href="<%= result.url %>"><%= icon(result) %><%= result.title %></a>
+              <div><%= fragment(result) %></div>
+            </li>
+          <% end %>
+        </ul>
       </div>
-
       <div class="search-pagination">
         <%= render Site.PaginationHelpers, "_responsive_pagination.html", pagination: @pagination,
                                                                           link_context: @link_context %>
       </div>
-
-      <a class="search-archive" href="<%= @former_site %>">
-        <div>Not finding what you are looking for? It may still be on our legacy site.</div>
-        <div>Search the old <%= former_site_name %> <%= fa "arrow-right" %></div>
-      </a>
+      <%= render "_archive.html", assigns %>
     </div>
   </div>
 </div>

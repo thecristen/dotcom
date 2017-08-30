@@ -293,3 +293,11 @@
     margin: 0 ($base-spacing * -1);
   }
 }
+
+.solr-highlight-match {
+  background-color: $brand-secondary-light;
+
+  &::after {
+    content: ' ';
+  }
+}
