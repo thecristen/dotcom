@@ -4,7 +4,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   @doc "Convert general planning options into query params for OTP"
   @spec build_params(TripPlan.Api.plan_opts) :: {:ok, %{String.t => String.t}} | {:error, any}
   def build_params(opts) do
-    do_build_params(opts, %{})
+    do_build_params(opts, %{"disableRemainingWeightHeuristic" => "true"})
   end
 
   defp do_build_params([], acc) do

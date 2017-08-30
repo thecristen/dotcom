@@ -7,7 +7,8 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected = {:ok, %{
                      "date" => "2017-05-22",
                      "time" => "12:04pm",
-                     "arriveBy" => "false"
+                     "arriveBy" => "false",
+                     "disableRemainingWeightHeuristic" => "true"
                   }}
       actual = build_params(depart_at: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC"))
       assert expected == actual
@@ -17,7 +18,8 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected = {:ok, %{
                      "date" => "2017-05-22",
                      "time" => "12:04pm",
-                     "arriveBy" => "true"
+                     "arriveBy" => "true",
+                     "disableRemainingWeightHeuristic" => "true"
                   }}
       actual = build_params(arrive_by: DateTime.from_naive!(~N[2017-05-22T16:04:20], "Etc/UTC"))
       assert expected == actual
@@ -25,19 +27,23 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
 
     test "wheelchair_accessible? sets wheelchair option" do
       expected = {:ok, %{
-                     "wheelchair" => "true"
+                     "wheelchair" => "true",
+                     "disableRemainingWeightHeuristic" => "true"
                   }}
       actual = build_params(wheelchair_accessible?: true)
       assert expected == actual
 
-      expected = {:ok, %{}}
+      expected = {:ok, %{
+                     "disableRemainingWeightHeuristic" => "true"
+                  }}
       actual = build_params(wheelchair_accessible?: false)
       assert expected == actual
     end
 
     test "max_walk_distance sets maxWalkDistance in meters" do
       expected = {:ok, %{
-                     "maxWalkDistance" => "1609.5"
+                     "maxWalkDistance" => "1609.5",
+                     "disableRemainingWeightHeuristic" => "true"
                   }}
       actual = build_params(max_walk_distance: 1609.5)
       assert expected == actual
