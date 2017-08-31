@@ -37,7 +37,7 @@ defmodule Site.Mode.HubBehavior do
     |> assign(:mode_name, mode_strategy.mode_name())
     |> assign(:fare_description, mode_strategy.fare_description())
     |> assign(:map_pdf_url, MapHelpers.map_pdf_url(mode_strategy.route_type))
-    |> assign(:map_image_url, static_url(Site.Endpoint, MapHelpers.map_image_url(mode_strategy.route_type)))
+    |> assign(:map_image_url, MapHelpers.map_image_url(mode_strategy.route_type))
     |> assign(:breadcrumbs, [
         Breadcrumb.build("Schedules & Maps", mode_path(conn, :index)),
         Breadcrumb.build(mode_strategy.mode_name())
