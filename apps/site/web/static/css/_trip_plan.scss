@@ -46,15 +46,16 @@
   border-radius: $border-radius;
   display: flex;
 
-
   &:not(.collapsed) {
     background-color: $brand-primary-darkest;
     border-radius: $border-radius $border-radius 0 0;
     color: $white;
   }
 
+  &:focus,
   &:hover {
     text-decoration: none;
+    background-color: $brand-primary;
   }
 }
 
