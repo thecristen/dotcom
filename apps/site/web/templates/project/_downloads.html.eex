@@ -1,0 +1,5 @@
+<div class="project-downloads">
+  <h2>Downloads</h2>
+  <%= Site.PartialView.render("_file_columns.html", files: @files) %>
+</div>
+

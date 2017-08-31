@@ -1,7 +1,8 @@
 defmodule Site.PartialView do
   use Site.Web, :view
-
   alias Plug.Conn
+  import Site.ContentView, only: [file_description: 1]
+  defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
   @spec clear_selector_link(map()) :: Phoenix.HTML.Safe.t
   def clear_selector_link(%{clearable?: true, selected: selected} = assigns)

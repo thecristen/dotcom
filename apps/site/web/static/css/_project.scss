@@ -22,3 +22,33 @@
 .featured-project-subheader {
   margin-top: $base-spacing-lg;
 }
+
+.project-image {
+  font-family: 'object-fit: cover;';  // IE polyfill
+  height: 395px;
+  margin: 0 auto;
+  object-fit: cover;
+  width: 100%;
+}
+
+.project-updated-on {
+  color: $gray-light;
+  font-weight: bold;
+}
+
+.project-contact,
+.project-downloads,
+.project-meetings,
+.project-updates {
+  margin-top: $base-spacing-lg;
+}
+
+.project-meetings {
+  .card {
+    margin-bottom: 0;
+  }
+}
+
+.project-update-title {
+  margin-bottom: $base-spacing-sm;
+}
