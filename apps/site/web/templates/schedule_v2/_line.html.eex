@@ -3,7 +3,7 @@
 <div class="page-section container">
   <div class="hidden-md-up line-map-container">
     <div class="row">
-      <h2 class="h5 route-map-heading">Route Map</h5>
+      <h2 class="h5 route-map-heading">Route Map</h2>
       <%= if display_map_link?(@route.type) do %>
         <img src="<%= @map_img_src %>" class="img-fluid">
         <a href="<%= Site.MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
@@ -20,12 +20,12 @@
   <% else %>
   <div class="row">
     <div class="page-section col-md-7">
-      <h2 class="h5 route-stop-heading">Stops</h5>
+      <h2 class="h5 route-stop-heading">Stops</h2>
       <%= render "_stop_list.html", assigns %>
     </div>
     <div class="page-section route-hours col-md-4 col-md-offset-1">
         <div class="hidden-sm-down line-map-container">
-          <h2 class="h5 route-map-heading">Route Map</h5>
+          <h2 class="h5 route-map-heading">Route Map</h2>
           <%= if display_map_link?(@route.type) do %>
             <img src="<%= @map_img_src %>" class="img-fluid">
             <a href="<%= MapHelpers.map_pdf_url(@route.type) %>" target="_blank">
