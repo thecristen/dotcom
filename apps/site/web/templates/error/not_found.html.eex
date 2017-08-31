@@ -4,7 +4,7 @@
     <p>Your stop cannot be found. This page is no longer in service.</p>
     <p><a href="/">Return to the homepage.</a></p>
     <div class="error-image">
-      <%= img_tag static_url(Site.Endpoint, "/images/error-bus.gif") %>
+      <%= img_tag static_url(Site.Endpoint, "/images/error-bus.gif"), alt: "", aria: [hidden: true] %>
     </div>
   </div>
 </div>
