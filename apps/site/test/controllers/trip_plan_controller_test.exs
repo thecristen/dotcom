@@ -38,7 +38,7 @@ defmodule Site.TripPlanControllerTest do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       response = html_response(conn, 200)
       assert response =~ "Trip Planner"
-      assert response =~ "Itinerary 1"
+      assert response =~ "itinerary-1"
       assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
       assert conn.assigns.routes
