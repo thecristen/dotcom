@@ -74,7 +74,7 @@
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Website Feedback", to: feedback_form_url(), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: redirect_path(@conn, "customer_support/privacy_policy/"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies") %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
@@ -104,7 +104,7 @@
     </ul>
     <ul class="footer-link-list footer-link-list-small">
       <li class="footer-link-item-small"><%= link "Contact Us", to: customer_support_path(@conn, :index) %></li>
-      <li class="footer-link-item-small"><%= link "Privacy Policy", to: redirect_path(@conn, "customer_support/privacy_policy/"), target: "_blank" %></li>
+      <li class="footer-link-item-small"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies") %></li>
       <li class="footer-link-item-small"><%= link "Terms of Use", to: customer_support_path(@conn, :index) %></li>
     </ul>
     <p class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>

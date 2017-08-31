@@ -74,7 +74,7 @@ defmodule Site.OldSiteRedirectController do
     old_site_redirect(conn, fare_url(conn, :show, :bus_subway, filter: "passes"))
   end
   def fares_and_passes(conn, %{"path" => ["charlie" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :charlie_card))
+    old_site_redirect(conn, fare_url(conn, :show, :payment_methods))
   end
   def fares_and_passes(conn, %{"path" => ["sales_locations" | _]}) do
     old_site_redirect(conn, fare_url(conn, :show, :retail_sales_locations))
