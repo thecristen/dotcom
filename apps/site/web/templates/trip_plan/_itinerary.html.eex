@@ -1,5 +1,5 @@
 <div class="trip-plan-itinerary-container">
-  <a class="trip-plan-itinerary-header" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
+  <a class="trip-plan-itinerary-header collapsed" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
     <div class="trip-plan-itinerary-summary">
       <div class="trip-plan-itinerary-legs">
         <%= for {route, i} <- Enum.with_index(@routes) do %>

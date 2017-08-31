@@ -34,8 +34,6 @@
 }
 
 .trip-plan-itinerary-container {
-  border: $border-width solid $brand-primary;
-  border-radius: $border-radius;
   margin-top: $space-12;
 
   > * {
@@ -44,7 +42,16 @@
 }
 
 .trip-plan-itinerary-header {
+  border: $border-width solid $brand-primary;
+  border-radius: $border-radius;
   display: flex;
+
+
+  &:not(.collapsed) {
+    background-color: $brand-primary-darkest;
+    border-radius: $border-radius $border-radius 0 0;
+    color: $white;
+  }
 
   &:hover {
     text-decoration: none;
@@ -63,11 +70,8 @@
 .trip-plan-itinerary-legs {
   flex: 1 1 auto;
 
-  .fa-angle-right {
+  .collapsed & .fa-angle-right {
     color: $gray-light;
-  }
-
-  .svg {
   }
 }
 
@@ -84,11 +88,23 @@
 }
 
 .trip-plan-itinerary-length-distance {
-  color: $gray-dark;
+  .collapsed & {
+    color: $gray-dark;
+  }
+
+  a:not(.collapsed) & g {
+    fill: $white;
+  }
 }
 
 .trip-plan-itinerary-expand {
-  flex: 0 0 auto;
+  flex: 0 .1 auto;
+  margin-left: 4px;
+}
+
+.trip-plan-itinerary-body {
+  border: $border;
+  border-radius: 0 0 $border-radius $border-radius;
 }
 
 .trip-plan-map {
