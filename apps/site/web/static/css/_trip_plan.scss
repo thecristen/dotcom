@@ -34,7 +34,7 @@
 }
 
 .trip-plan-itinerary-container {
-  border: $border;
+  border: $border-width solid $brand-primary;
   border-radius: $border-radius;
   margin-top: $space-12;
 
@@ -44,8 +44,6 @@
 }
 
 .trip-plan-itinerary-header {
-  background: $gray-bordered-background;
-  border-bottom: $border;
   display: flex;
 
   &:hover {
