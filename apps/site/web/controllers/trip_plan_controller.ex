@@ -31,15 +31,16 @@ defmodule Site.TripPlanController do
 
   defp render_plan(conn, plan) do
     query = Query.from_query(plan)
-    route_map = with_itineraries(query, %{}, &routes_for_query/1)
+    itineraries = itineraries_in_query(query)
+    route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
     render conn,
       query: query,
-      routes: map_over_itineraries(query, &routes_for_itinerary(&1, route_mapper)),
-      itinerary_maps: map_over_itineraries(query, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
-      related_links: map_over_itineraries(query, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
-      alerts: with_itineraries(query, [], &alerts(&1, route_mapper)),
-      itinerary_row_lists: itinerary_row_lists(query, route_mapper, plan)
+      routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
+      itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
+      related_links: Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
+      alerts: alerts(itineraries, route_mapper),
+      itinerary_row_lists: itinerary_row_lists(itineraries, route_mapper, plan)
   end
 
   @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, String.t}
@@ -74,10 +75,10 @@ defmodule Site.TripPlanController do
     assign(conn, :requires_google_maps?, true)
   end
 
-  @spec itinerary_row_lists(Query.t, (String.t -> Routes.Route.t), map) :: ItineraryRowList.t
-  defp itinerary_row_lists(query, route_mapper, plan) do
+  @spec itinerary_row_lists([Itinerary.t], (String.t -> Routes.Route.t), map) :: ItineraryRowList.t
+  defp itinerary_row_lists(itineraries, route_mapper, plan) do
     opts = Keyword.merge([route_mapper: route_mapper], to_and_from(plan))
-    map_over_itineraries(query, &ItineraryRowList.from_itinerary(&1, opts))
+    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, opts))
   end
 
   def assign_initial_map(conn, _opts) do
@@ -86,18 +87,12 @@ defmodule Site.TripPlanController do
     |> assign(:initial_map_data, TripPlanMap.initial_map_data())
   end
 
-  @spec with_itineraries(Query.t, result, ([Itinerary.t] -> result)) :: result when result: term
-  defp with_itineraries(query, default, function)
-  defp with_itineraries(%Query{itineraries: {:ok, itineraries}}, _default, function) do
-    function.(itineraries)
+  @spec itineraries_in_query(Query.t) :: [Itinerary.t]
+  defp itineraries_in_query(%Query{itineraries: {:ok, itineraries}}) do
+    itineraries
   end
-  defp with_itineraries(%Query{}, default, _function) do
-    default
-  end
-
-  @spec map_over_itineraries(Query.t, (Itinerary.t -> result)) :: result when result: term
-  defp map_over_itineraries(query, function) do
-    with_itineraries(query, [], &Enum.map(&1, function))
+  defp itineraries_in_query(_) do
+    []
   end
 
   @spec routes_for_query([Itinerary.t]) :: route_map
