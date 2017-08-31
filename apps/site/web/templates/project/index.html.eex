@@ -6,7 +6,7 @@
   <p>Take a look at what we're working on to make the MBTA better.</p>
 
   <%= if !Enum.empty?(@featured_projects) do %>
-    <h2>Featured Projects</h2>
+    <h2 class="featured-project-subheader">Featured Projects</h2>
   <% end %>
 
   <%= for project <- @featured_projects do %>
