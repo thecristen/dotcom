@@ -2,10 +2,7 @@
   <a class="trip-plan-itinerary-header collapsed" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
     <div class="trip-plan-itinerary-summary">
       <div class="trip-plan-itinerary-legs">
-        <%= for {route, i} <- Enum.with_index(@routes) do %>
-          <%= if i > 0, do: fa "angle-right" %>
-          <%= icon_for_route(route) %>
-        <% end %>
+        <%= @routes |> Enum.map(&icon_for_route/1) |> Enum.intersperse(fa "angle-right") %>
       </div>
       <div class="trip-plan-itinerary-length">
         <span class="trip-plan-itinerary-length-time">

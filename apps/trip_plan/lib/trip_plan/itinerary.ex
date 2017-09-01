@@ -61,8 +61,8 @@ defmodule TripPlan.Itinerary do
 
   @doc "Total walking distance over all legs, in meters"
   @spec walking_distance(t) :: float
-  def walking_distance(%__MODULE__{legs: legs}) do
-    legs
+  def walking_distance(itinerary) do
+    itinerary
     |> Enum.map(&TripPlan.Leg.walking_distance/1)
     |> Enum.sum
   end

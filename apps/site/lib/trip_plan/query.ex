@@ -157,6 +157,14 @@ defmodule Site.TripPlan.Query do
   end
   def itineraries?(_query), do: false
 
+  @spec get_itineraries(t) :: [Itinerary.t]
+  def get_itineraries(%__MODULE__{itineraries: {:ok, itineraries}}) do
+    itineraries
+  end
+  def get_itineraries(_) do
+    []
+  end
+
   @doc "Returns the name of the location for a given query"
   @spec location_name(t, :from | :to) :: String.t
   def location_name(%__MODULE__{} = query, key) when key in [:from, :to] do

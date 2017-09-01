@@ -3,6 +3,7 @@ defmodule Site.TripPlanView do
   require Routes.Route
   alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
+  @meters_per_mile 1609.34
 
   @spec itinerary_explanation(Query.t) :: iodata
   def itinerary_explanation(%Query{time: :unknown}) do
@@ -173,7 +174,7 @@ defmodule Site.TripPlanView do
 
   @spec display_meters_as_miles(float) :: String.t
   def display_meters_as_miles(meters) do
-    Float.to_string(meters / 1609.34, decimals: 1)
+    Float.to_string(meters / @meters_per_mile, decimals: 1)
   end
 
   def format_additional_route(%Route{id: "Green" <> _branch} = route, direction_id) do
@@ -190,7 +191,6 @@ defmodule Site.TripPlanView do
 
   @spec icon_for_route(Route.t) :: Phoenix.HTML.Safe.t
   def icon_for_route(route) do
-    icon_atom = Routes.Route.icon_atom(route)
-    svg_icon_with_circle(%SvgIconWithCircle{icon: icon_atom})
+    svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end
 end

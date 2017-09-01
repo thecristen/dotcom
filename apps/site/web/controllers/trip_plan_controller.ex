@@ -31,7 +31,7 @@ defmodule Site.TripPlanController do
 
   defp render_plan(conn, plan) do
     query = Query.from_query(plan)
-    itineraries = itineraries_in_query(query)
+    itineraries = Query.get_itineraries(query)
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
     render conn,
@@ -75,7 +75,7 @@ defmodule Site.TripPlanController do
     assign(conn, :requires_google_maps?, true)
   end
 
-  @spec itinerary_row_lists([Itinerary.t], (String.t -> Routes.Route.t), map) :: ItineraryRowList.t
+  @spec itinerary_row_lists([Itinerary.t], route_mapper, map) :: [ItineraryRowList.t]
   defp itinerary_row_lists(itineraries, route_mapper, plan) do
     opts = Keyword.merge([route_mapper: route_mapper], to_and_from(plan))
     Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, opts))
@@ -85,14 +85,6 @@ defmodule Site.TripPlanController do
     conn
     |> assign(:initial_map_src, TripPlanMap.initial_map_src())
     |> assign(:initial_map_data, TripPlanMap.initial_map_data())
-  end
-
-  @spec itineraries_in_query(Query.t) :: [Itinerary.t]
-  defp itineraries_in_query(%Query{itineraries: {:ok, itineraries}}) do
-    itineraries
-  end
-  defp itineraries_in_query(_) do
-    []
   end
 
   @spec routes_for_query([Itinerary.t]) :: route_map
