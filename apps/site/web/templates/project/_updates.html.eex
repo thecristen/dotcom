@@ -1,0 +1,13 @@
+<div class="project-updates">
+  <h2>Updates</h2>
+  <%= for update <- @updates do %>
+    <div><%= format_full_date(update.posted_on) %></div>
+    <h3 class="project-update-title">
+      <%= link to: project_path(Site.Endpoint, :project_update, @project_id, update.id) do %>
+        <%= update.title %>
+      <% end %>
+    </h3>
+    <div><%= update.teaser %></div>
+    <hr>
+  <% end %>
+</div>

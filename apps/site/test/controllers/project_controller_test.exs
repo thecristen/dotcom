@@ -4,14 +4,14 @@ defmodule Site.ProjectControllerTest do
   describe "index" do
     test "renders the list of projects", %{conn: conn} do
       conn = get conn, project_path(conn, :index)
-      assert html_response(conn, 200) =~ "<h1>T-Projects</h1>"
+      assert html_response(conn, 200) =~ "<h1>Transforming the T</h1>"
     end
   end
 
   describe "show" do
     test "renders a project", %{conn: conn} do
       conn = get conn, project_path(conn, :show, "2679")
-      assert html_response(conn, 200) =~ "<h1>T-Project</h1>"
+      assert html_response(conn, 200) =~ "<h1>Ruggles Station Platform Project</h1>"
     end
   end
 

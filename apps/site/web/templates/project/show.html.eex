@@ -1,1 +1,29 @@
-<h1>T-Project</h1>
+<div class="page-section">
+  <h1><%= @project.title %></h1>
+  <%= if @project.featured_image do %>
+    <%= img_tag @project.featured_image.url, alt: @project.featured_image.alt, class: "project-image" %>
+  <% end %>
+</div>
+<div class="page-section">
+  <div class="project-updated-on">
+     Updated on <%= format_full_date(@project.updated_on) %>
+  </div>
+</div>
+<hr>
+<div class="page-section">
+  <h2>About the Project</h2>
+  <div>
+    <strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: "-#{@project.end_year}" %>
+  </div>
+  <div>
+    <strong>Status:</strong> <%= @project.status %>
+  </div>
+</div>
+<div class="page-section">
+  <%= Site.ContentRewriter.rewrite(@project.body) %>
+</div>
+<%= #if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
+<%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project_id: @project.id %>
+<%= render "_contact.html", project: @project %>
+<%= if !Enum.empty?(@meetings), do: render "_meetings.html", meetings: @meetings %>
+<%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>

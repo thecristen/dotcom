@@ -6,7 +6,7 @@ defmodule Site.ProjectController do
     featured_projects = Enum.filter(projects, & &1.featured)
 
     render(conn, "index.html", %{
-      breadcrumbs: [Breadcrumb.build("T-Projects")],
+      breadcrumbs: [Breadcrumb.build("Transforming the T")],
       projects: projects,
       featured_projects: featured_projects,
     })
@@ -16,7 +16,15 @@ defmodule Site.ProjectController do
     project = Content.Repo.project!(id)
     updates = Content.Repo.project_updates([project_id: id])
     meetings = Content.Repo.events([project_id: id])
-    render conn, "show.html", project: project, updates: updates, meetings: meetings
+    breadcrumbs = [
+      Breadcrumb.build("Transforming the T", project_path(conn, :index)),
+      Breadcrumb.build(project.title)]
+    render conn, "show.html", %{
+      breadcrumbs: breadcrumbs,
+      project: project,
+      updates: updates,
+      meetings: meetings
+    }
   end
 
   def project_update(conn, %{"project_id" => project_id, "id" => id}) do

@@ -1,0 +1,25 @@
+<div class="project-meetings">
+  <div class="page-block">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="card">
+          <h2 class="card-header card-header-primary-darkest text-xs-center">Upcoming Meetings</h2>
+          <div class="event-list">
+            <ul class="list-group">
+              <%= for meeting <- @meetings do %>
+                <li class="list-group-item">
+                  <div><%= render_duration(meeting.start_time, meeting.end_time) %></div>
+                <div>
+                  <%= link to: event_path(Site.Endpoint, :show, meeting.id) do %>
+                    <%= meeting.title %>
+                  <% end %>
+                </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

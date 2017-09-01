@@ -1,0 +1,12 @@
+<div class="row">
+  <%= for files <- Enum.chunk(@files, 3, 3, []) do %>
+    <%= for file <- files do %>
+      <div class="col-xs-12 col-sm-6 col-md-4 content-file-grid-row">
+        <%= link to: file.url, target: "_blank", data: [turbolinks: false] do %>
+          <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
+          <%= file_description(file) %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
