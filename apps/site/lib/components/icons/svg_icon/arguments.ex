@@ -160,7 +160,11 @@ defmodule Site.Components.Icons.SvgIcon do
     "#{icon} icon"
   end
 
-  def build_path(path), do: Phoenix.HTML.Tag.tag :path, d: path
+  def build_path(path) do
+    Phoenix.HTML.Tag.content_tag(:path, d: path) do
+      []
+    end
+  end
 
   def viewbox(:bus), do: "0 0 24 24"
   def viewbox(:subway), do: "0 0 24 24"

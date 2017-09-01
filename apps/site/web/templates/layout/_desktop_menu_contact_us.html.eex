@@ -23,9 +23,10 @@
   </div>
   <div class="col-xs-4 header-column">
     <p class="nav-title">Transit Police</p>
-    <strong>Emergency:</strong> <span class="no-wrap">(617) 222-1212</span><br />
-    <strong>TTY:</strong> <span class="no-wrap">(617) 222-5146</span><br />
-    <strong>Anonymous Text Number:</strong> <span class="no-wrap">873-873</span>
+    <p>
+      <strong>Emergency:</strong> <span class="no-wrap">(617) 222-1212</span><br />
+      <strong>TTY:</strong> <span class="no-wrap">(617) 222-5146</span><br />
+      <strong>Anonymous Text Number:</strong> <span class="no-wrap">873-873</span>
     </p>
     <p>
       <strong>Non-Emergency:</strong> <span class="no-wrap">(617) 222-1000</span>
@@ -34,19 +35,17 @@
   <div class="col-xs-4 header-column">
     <p class="nav-title">Service Updates</p>
     <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
-    <p>
-      <ul>
-        <li>
-          <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank" do %>
-            <%= fa "caret-right" %> Sign Up for T-Alerts
-          <% end %>
-        </li>
-        <li>
-          <%= link to: "https://twitter.com/MBTA", target: "_blank" do %>
-            <%= fa "caret-right" %> @MBTA Twitter Updates
-          <% end %>
-        </li>
-      </ul>
-    </p>
+    <ul>
+      <li>
+        <%= link to: redirect_path(@conn, "rider_tools/t_alerts/"), target: "_blank" do %>
+          <%= fa "caret-right" %> Sign Up for T-Alerts
+        <% end %>
+      </li>
+      <li>
+        <%= link to: "https://twitter.com/MBTA", target: "_blank" do %>
+          <%= fa "caret-right" %> @MBTA Twitter Updates
+        <% end %>
+      </li>
+    </ul>
   </div>
 </div>
