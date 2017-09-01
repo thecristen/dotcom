@@ -39,7 +39,7 @@ defmodule Site.FareController do
   def show(conn, %{"id" => static}) when static in @static_pages do
     render conn, "#{static}.html", [
       breadcrumbs: [
-        Breadcrumb.build("Fare and Passes", fare_path(conn, :index)),
+        Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
         Breadcrumb.build(@static_page_titles[static])
       ]
     ]
