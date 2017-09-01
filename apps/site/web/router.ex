@@ -1,5 +1,7 @@
 defmodule Site.Router do
   use Site.Web, :router
+  use Plug.ErrorHandler
+  use Sentry.Plug
 
   alias Site.StaticPage
 

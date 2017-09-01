@@ -45,6 +45,14 @@ config :content,
     page: {Site.ContentController, :page, []}
   ]
 
+# Centralize Error reporting
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN") || "",
+  environment_name: Mix.env,
+  enable_source_code_context: false,
+  root_source_code_path: File.cwd!,
+  included_environments: [:prod, :dev]
+
 config :site, :former_mbta_site,
   host: "http://old.mbta.com"
 
