@@ -6,7 +6,7 @@
 </div>
 <div class="page-section">
   <div class="project-updated-on">
-     Updated on <%= @project.updated_on && format_full_date(@project.updated_on) %>
+     Updated on <%= format_full_date(@project.updated_on) %>
   </div>
 </div>
 <hr>

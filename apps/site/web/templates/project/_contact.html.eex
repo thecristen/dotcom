@@ -1,3 +1,4 @@
+<% phone = Site.PhoneNumber.normalize(@project.media_phone || "") %>
 <div class="project-contact callout">
   <h2>Contact Information</h2>
   <div>For all queries and comments related to <%= @project.title %>, please contact <%= @project.contact_information %></div>
@@ -5,7 +6,7 @@
     <div class="row">
       <div class="col-sm-4">
         <strong>Phone:</strong>
-        <%= link @project.media_phone, to: "tel:1-#{@project.media_phone}" %>
+        <%= link phone, to: "tel:1-#{phone}" %>
       </div>
       <div class="col-sm-4">
         <strong>Email:</strong>
