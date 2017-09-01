@@ -14,12 +14,14 @@ defmodule Site.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    project = Content.Repo.project!(id)
-    updates = Content.Repo.project_updates([project_id: id])
-    meetings = Content.Repo.events([project_id: id])
+    [project, updates, meetings] = [get_project(id), get_updates(id), get_meetings(id)]
+    |> Enum.map(&Task.async/1)
+    |> Enum.map(&Task.await/1)
+
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
       Breadcrumb.build(project.title)]
+
     render conn, "show.html", %{
       breadcrumbs: breadcrumbs,
       project: project,
@@ -29,12 +31,27 @@ defmodule Site.ProjectController do
   end
 
   def project_update(conn, %{"project_id" => project_id, "id" => id}) do
-    project = Content.Repo.project!(project_id)
-    update = Content.Repo.project_update!(id)
+    [project, update] = [get_project(project_id), get_update(id)]
+    |> Enum.map(&Task.async/1)
+    |> Enum.map(&Task.await/1)
+
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
       Breadcrumb.build(project.title, project_path(conn, :show, project_id)),
       Breadcrumb.build(update.title)]
+
     render conn, "update.html", breadcrumbs: breadcrumbs, update: update
   end
+
+  @spec get_project(String.t) :: fun
+  defp get_project(id), do: fn -> Content.Repo.project!(id) end
+
+  @spec get_meetings(String.t) :: fun
+  defp get_meetings(id), do: fn -> Content.Repo.events([project_id: id]) end
+
+  @spec get_updates(String.t) :: fun
+  defp get_updates(id), do: fn -> Content.Repo.project_updates([project_id: id]) end
+
+  @spec get_update(String.t) :: fun
+  defp get_update(id), do: fn -> Content.Repo.project_update!(id) end
 end
