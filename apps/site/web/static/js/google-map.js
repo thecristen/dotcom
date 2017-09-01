@@ -1,4 +1,5 @@
 import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
+import styles from './google-map/styles';
 
 export default function() {
   function initMap() {
@@ -75,8 +76,8 @@ function displayMap(el, mapData, mapOffset) {
     setReasonableZoom(maps[mapOffset], zoom);
   }
 
-  // Don't show points of interest
-  maps[mapOffset].setOptions({styles: [{featureType: "poi", stylers: [{visibility: "off"}]}]});
+  // set basemap styles
+  maps[mapOffset].setOptions({styles: styles});
 }
 
 function renderPolylines (mapOffset, polylines) {
