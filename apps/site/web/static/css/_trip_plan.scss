@@ -52,17 +52,20 @@
     color: $white;
   }
 
-  &:focus,
-  &:hover {
+  &:focus {
     text-decoration: none;
+  }
+
+  &:hover {
     background-color: $brand-primary;
+    text-decoration: none;
   }
 }
 
 .trip-plan-itinerary-summary {
   display: flex;
-  flex-wrap: wrap;
   flex: 1 1 auto;
+  flex-wrap: wrap;
 }
 
 .trip-plan-itinerary-legs {
