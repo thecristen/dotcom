@@ -18,7 +18,7 @@ defmodule Site.ProjectControllerTest do
   describe "update" do
     test "renders a project update", %{conn: conn} do
       conn = get conn, project_path(conn, :project_update, "2679", "123")
-      assert html_response(conn, 200) =~ "<h1>Project Update</h1>"
+      assert html_response(conn, 200) =~ "<h1>Project Update Title</h1>"
     end
   end
 end

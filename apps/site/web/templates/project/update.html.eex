@@ -1,1 +1,12 @@
-<h1>Project Update</h1>
+<div class="page-section">
+  <h1><%= @update.title %></h1>
+</div>
+<div class="page-section">
+  <div class="project-updated-on">
+     Updated on <%= format_full_date(@update.posted_on) %>
+  </div>
+</div>
+<div class="page-section">
+  <%= Site.ContentRewriter.rewrite(@update.body) %>
+</div>
+<%= #if !Enum.empty?(@update.photo_gallery), do: render "_photos.html", photos: @update.photo_gallery %>
