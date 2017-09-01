@@ -20,7 +20,7 @@
   </div>
 </div>
 <div class="page-section">
-  <%= @project.body %>
+  <%= Site.ContentRewriter.rewrite(@project.body) %>
 </div>
 <%= #if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
 <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project_id: @project.id %>
