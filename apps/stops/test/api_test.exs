@@ -25,6 +25,11 @@ defmodule Stops.ApiTest do
     end
   end
 
+  test "by_gtfs_id can use the GTFS accessibility data" do
+    stop = Stops.Api.by_gtfs_id("Yawkey")
+    assert ["accessible" | _] = stop.accessibility
+  end
+
   test "by_gtfs_id returns nil if stop is not found" do
     assert Stops.Api.by_gtfs_id("-1") == nil
   end

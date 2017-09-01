@@ -89,24 +89,31 @@ defmodule Stops.Api do
   defp merge_v3(station_info_stop, v3_stop_response)
   defp merge_v3(stop, nil), do: stop
   defp merge_v3(nil, stop) do
-    accessibility = if stop.attributes["wheelchair_boarding"] == 1 do
-      ["accessible"]
-    else
-      []
-    end
     %Stop{
       id: v3_id(stop),
       name: v3_name(stop),
-      accessibility: accessibility,
+      accessibility: merge_accessibility([],
+        stop.attributes),
       parking_lots: [],
       latitude: stop.attributes["latitude"],
       longitude: stop.attributes["longitude"]
     }
   end
-  defp merge_v3(stop, %JsonApi.Item{attributes: %{"latitude" => latitude, "longitude" => longitude}} = item) do
-    %Stop{stop |
-          latitude: latitude,
-          longitude: longitude,
-          name: v3_name(item)}
+  defp merge_v3(stop, %JsonApi.Item{attributes: attributes} = item) do
+    %{stop |
+      latitude: attributes["latitude"],
+      longitude: attributes["longitude"],
+      accessibility: merge_accessibility(stop.accessibility,
+        attributes),
+      name: v3_name(item)}
+  end
+
+  defp merge_accessibility(accessibility, stop_attributes)
+  defp merge_accessibility(accessibility, %{"wheelchair_boarding" => 1}) do
+    # make sure "accessibile" is the first list option
+    Enum.uniq(["accessible" | accessibility])
+  end
+  defp merge_accessibility(accessibility, _) do
+    accessibility
   end
 end
