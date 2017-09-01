@@ -23,13 +23,16 @@ defmodule Site.ProjectController do
       breadcrumbs: breadcrumbs,
       project: project,
       updates: updates,
-      meetings: meetings
-    }
+      meetings: meetings}
   end
 
   def project_update(conn, %{"project_id" => project_id, "id" => id}) do
     project = Content.Repo.project!(project_id)
     update = Content.Repo.project_update!(id)
-    render conn, "update.html", project: project, update: update
+    breadcrumbs = [
+      Breadcrumb.build("T-Projects", project_path(conn, :index)),
+      Breadcrumb.build(project.title, project_path(conn, :show, project_id)),
+      Breadcrumb.build(update.title)]
+    render conn, "update.html", breadcrumbs: breadcrumbs, update: update
   end
 end
