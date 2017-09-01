@@ -7,8 +7,8 @@ defmodule Site.Components.Buttons.ButtonGroup do
   defstruct class:   "",
             id:      nil,
             links:   [
-              {"Sample link 1", Site.Router.Helpers.page_path(Site.Endpoint, :index)},
-              {"Sample link 2", Site.Router.Helpers.page_path(Site.Endpoint, :index)}
+              {"Sample link 1", "/"},
+              {"Sample link 2", "/"}
             ]
 
   @type t :: %__MODULE__{

@@ -34,7 +34,7 @@ defmodule Site.ScheduleV2Controller.Green do
   def trip_view(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
-    |> render(Site.ScheduleV2View, "show.html")
+    |> render(Site.ScheduleV2View, "show.html", [])
   end
 
   def line(conn, _params) do
@@ -43,7 +43,7 @@ defmodule Site.ScheduleV2Controller.Green do
     |> call_plug(Site.ScheduleV2Controller.HoursOfOperation)
     |> call_plug(Site.ScheduleV2Controller.Holidays)
     |> call_plug(Site.ScheduleV2Controller.Line)
-    |> render(Site.ScheduleV2View, "show.html")
+    |> render(Site.ScheduleV2View, "show.html", [])
   end
 
   def route(conn, _params) do

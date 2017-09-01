@@ -14,7 +14,7 @@ defmodule Site.ScheduleV2Controller.TripViewController do
   plug :zone_map
 
   def show(conn, _) do
-    render(conn, Site.ScheduleV2View, "show.html")
+    render(conn, Site.ScheduleV2View, "show.html", [])
   end
 
   defp zone_map(%{assigns: %{route: %Route{type: 2}, all_stops: all_stops}} = conn, _) do

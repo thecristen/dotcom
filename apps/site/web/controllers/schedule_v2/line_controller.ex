@@ -17,7 +17,7 @@ defmodule Site.ScheduleV2Controller.LineController do
   plug :require_map
 
   def show(conn, _) do
-    render(conn, Site.ScheduleV2View, "show.html")
+    render(conn, Site.ScheduleV2View, "show.html", [])
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")

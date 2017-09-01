@@ -25,7 +25,7 @@ defmodule Site.ContentController do
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
     |> assign(:narrow_template, no_sidebar?(page))
-    |> render(Site.ContentView, "page.html")
+    |> render(Site.ContentView, "page.html", [])
   end
   defp render_page(conn, %Content.Event{id: id}) do
     redirect conn, to: event_path(conn, :show, id)
@@ -35,7 +35,7 @@ defmodule Site.ContentController do
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
     |> assign(:pre_container_template, "landing_page.html")
-    |> render(Site.ContentView, "empty.html")
+    |> render(Site.ContentView, "empty.html", [])
   end
   defp render_page(conn, %Content.NewsEntry{id: id}) do
     redirect conn, to: news_entry_path(conn, :show, id)

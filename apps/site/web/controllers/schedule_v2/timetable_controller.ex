@@ -8,7 +8,7 @@ defmodule Site.ScheduleV2Controller.TimetableController do
   plug Site.ScheduleV2Controller.Offset
 
   def show(conn, _) do
-    render(conn, Site.ScheduleV2View, "show.html")
+    render(conn, Site.ScheduleV2View, "show.html", [])
   end
 
   # Plug that assigns trip schedule to the connection
