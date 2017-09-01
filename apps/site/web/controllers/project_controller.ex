@@ -43,15 +43,15 @@ defmodule Site.ProjectController do
     render conn, "update.html", breadcrumbs: breadcrumbs, update: update
   end
 
-  @spec get_project(String.t) :: fun
+  @spec get_project(String.t) :: (() -> Content.Project.t | no_return)
   defp get_project(id), do: fn -> Content.Repo.project!(id) end
 
-  @spec get_meetings(String.t) :: fun
+  @spec get_meetings(String.t) :: (() -> [Content.Event.t])
   defp get_meetings(id), do: fn -> Content.Repo.events([project_id: id]) end
 
-  @spec get_updates(String.t) :: fun
+  @spec get_updates(String.t) :: (() -> [Content.Project.t])
   defp get_updates(id), do: fn -> Content.Repo.project_updates([project_id: id]) end
 
-  @spec get_update(String.t) :: fun
+  @spec get_update(String.t) :: (() -> Content.ProjectUpdate.t | no_return)
   defp get_update(id), do: fn -> Content.Repo.project_update!(id) end
 end
