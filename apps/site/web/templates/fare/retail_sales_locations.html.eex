@@ -76,7 +76,7 @@ You can purchase a Ferry Monthly Pass at retail sales locations. Your Sales Agen
   </div>
   <div class="row">
     <div class="col-xs-12 col-sm-6">
-      <%= render "_related_page_card.html", title: "Corporate Pass Programs", body: ["Online account management", "Automatic monthly CharlieCard re-loads", "Advance ordering"], href: redirect_path(@conn, "pass_program"), target: "_blank" %>
+      <%= render "_related_page_card.html", title: "Pass Purchase Programs", body: ["Corporations", "Schools and Universities", "Tour and Field Trip groups"], href: redirect_path(@conn, "pass_program"), target: "_blank" %>
     </div>
     <div class="col-xs-12 col-sm-6">
       <%= render "_related_page_card.html", title: "Reduced Fares", body: ["Find out if you qualify", "How to get your reduced fares"], href: redirect_path(@conn, "reduced"), target: "_blank" %>
