@@ -61,11 +61,8 @@
 
 .trip-plan-itinerary-summary {
   display: flex;
+  flex-wrap: wrap;
   flex: 1 1 auto;
-
-  @include media-breakpoint-down(sm) {
-    flex-direction: column;
-  }
 }
 
 .trip-plan-itinerary-legs {
@@ -78,10 +75,6 @@
 
 .trip-plan-itinerary-length {
   flex: 0 1 auto;
-
-  @include media-breakpoint-down(sm) {
-    align-self: end;
-  }
 }
 
 .trip-plan-itinerary-length-time {
@@ -99,7 +92,7 @@
 }
 
 .trip-plan-itinerary-expand {
-  flex: 0 .1 auto;
+  flex: 0 0 auto;
   margin-left: 4px;
 }
 
