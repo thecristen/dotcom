@@ -110,7 +110,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec project_updates(Keyword.t) :: [Content.Project.t]
+  @spec project_updates(Keyword.t) :: [Content.ProjectUpdate.t]
   def project_updates(opts \\ []) do
     case @cms_api.view("/api/project-updates", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Content.ProjectUpdate.from_api/1)
@@ -118,7 +118,7 @@ defmodule Content.Repo do
     end
   end
 
-  @spec project_update!(integer) :: Content.Project.t | no_return
+  @spec project_update!(integer) :: Content.ProjectUpdate.t | no_return
   def project_update!(id) do
     case project_updates([id: id]) do
       [project_update | _] -> project_update
