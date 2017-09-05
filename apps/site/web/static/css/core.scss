@@ -25,6 +25,10 @@ body {
   min-width: 20rem;
   text-rendering: optimizeLegibility;
 
+  @media print {
+    color: $black;
+  }
+
   &.no-js {
     .collapse:target {
       display: block;
