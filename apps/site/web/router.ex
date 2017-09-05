@@ -70,16 +70,11 @@ defmodule Site.Router do
   end
 
   scope "/", Site do
-    get "/index.asp", OldSiteRedirectController, :index
     get "/uploadedfiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
     get "/gtfs_archive/archived_feeds.txt", OldSiteRedirectController, :archived_files
     get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
     get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
-    get "/rider_tools/*path", OldSiteRedirectController, :rider_tools
-    get "/fares_and_passes", OldSiteRedirectController, :fares_and_passes
-    get "/customer_support/*path", OldSiteRedirectController, :customer_support
-    get "/fares_and_passes/*path", OldSiteRedirectController, :fares_and_passes
     get "/about_the_mbta/public_meetings", Redirector, to: "/events"
     get "/about_the_mbta/news_events", Redirector, to: "/news"
   end
