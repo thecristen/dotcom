@@ -1,0 +1,45 @@
+// # Map module
+
+// Used for rendering a static/dynamic Google Map.  The dynamic map will be used
+// if JavaScript is available. Otherwise, the static map will be displayed.
+// When printing, the static map will always be displayed.
+
+// ## Flags
+
+// * `.is-map-dynamic`: set on the `.map` <div>, this is present when the
+//   dynamic map has been created.
+
+// ## Sample HTML
+// ```
+// <div class="map">
+//   <script class="map-dynamic-data">{...map JSON..}</script>
+//   <img class="map-static" src="...map image..."/>
+// </div>
+// ```
+
+.is-map-dynamic .map-static {
+  // hide the static map if we built a dynamic-map
+  display: none;
+
+  @media print {
+    // unless we're printing
+    display: block;
+  }
+}
+
+.map-dynamic {
+  @include img-fluid();
+  height: 100%;
+
+  @media print {
+    display: none;
+  }
+}
+
+.map-static {
+  @include img-fluid();
+
+  @media print {
+    height: 20rem;
+  }
+}

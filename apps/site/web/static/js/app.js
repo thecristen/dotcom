@@ -43,9 +43,9 @@ if (!("previousElementSibling" in document.documentElement)) {
 if (!("nextElementSibling" in document.documentElement)) {
   Object.defineProperty(Element.prototype, "nextElementSibling", {
     get: function() {
-      var e = this.previousSibling;
+      var e = this.nextSibling;
       while (e && 1 !== e.nodeType) {
-        e = e.previousSibling;
+        e = e.nextSibling;
       }
       return e;
     }
