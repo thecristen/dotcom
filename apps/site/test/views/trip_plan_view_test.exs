@@ -273,10 +273,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "subway transit legs" do
-      for id <- ["Red", "Mattapan", "Orange", "Blue", "Green"] do
+      for {id, type} <- [{"Red", 1}, {"Mattapan", 0}, {"Orange", 1}, {"Blue", 1}, {"Green", 0}] do
         route = %Routes.Route{
           id: id,
-          type: 0,
+          type: type,
         }
         expected_icon_class = route
         |> Site.Components.Icons.SvgIcon.get_icon_atom

@@ -161,7 +161,7 @@ defmodule Site.TripPlan.Query do
   def get_itineraries(%__MODULE__{itineraries: {:ok, itineraries}}) do
     itineraries
   end
-  def get_itineraries(_) do
+  def get_itineraries(%__MODULE__{itineraries: {:error, _}}) do
     []
   end
 
