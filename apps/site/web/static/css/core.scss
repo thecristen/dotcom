@@ -78,6 +78,12 @@ body {
   width: 100%;
 }
 
+.header {
+  @media print {
+    display: none;
+  }
+}
+
 .alert-announcement-container,
 .header,
 .breadcrumb-container,
@@ -181,6 +187,10 @@ body {
 
 .footer-announcement-container {
   min-width: 20rem;
+
+  @media print {
+    display: none;
+  }
 }
 
 .beta-announcement {

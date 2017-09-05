@@ -61,7 +61,7 @@
           Wheelchair accessible trip
         <% end %>
       </div>
-      <button type="submit" class="btn btn-primary">Find</button>
+      <button type="submit" class="btn btn-primary hidden-print">Find</button>
       <% end %>
     </div>
   </div>

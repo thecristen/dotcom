@@ -20,22 +20,24 @@
   float: left;
   width: 100%;
 
-  @include media-breakpoint-down(sm) {
+  @media print {
     display: none;
   }
 }
 
 .footer-link-list-large {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+
   &:nth-child(2n) {
     margin-bottom: $base-spacing * 3;
   }
 }
 
 .footer-link-list-small {
-  display: none;
-
-  @include media-breakpoint-down(sm) {
-    display: block;
+  @include media-breakpoint-up(md) {
+    display: none;
   }
 }
 

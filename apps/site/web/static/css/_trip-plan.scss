@@ -1,6 +1,10 @@
 .no-trips {
   font-size: $font-size-h4;
   font-weight: 700;
+
+  @media print {
+    display: none;
+  }
 }
 
 .instructions {
@@ -301,6 +305,10 @@
 
   strong {
     flex: 2 0 100%;
+  }
+
+  @media print {
+    display: none;
   }
 }
 
