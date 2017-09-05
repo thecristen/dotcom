@@ -7,7 +7,7 @@
             <div class="form-group col-xs-12 contrast <%= class_for_error("service", @errors, "has-danger", "") %>">
               <label for="service">What kind of concern do you have? (Required)</label>
               <div class="error-container support-service-error-container <%= class_for_error("service", @errors, "", "hidden-xs-up") %>">
-                <span class="support-contacts-error">Please select the type of concern</span>
+                <span class="support-service-error">Please select the type of concern</span>
               </div>
               <div id="service">
                 <%= for {text, value} <- @service_options do %>
@@ -86,34 +86,34 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-xs-12 col-sm-6 <%= class_for_error("contacts", @errors, "has-danger", "") %>">
+            <div class="form-group col-xs-12 col-sm-6 <%= class_for_error("email", @errors, "has-danger", "") %>">
               <label for="email"><strong>Email</strong> (Required)</label>
-              <div class="error-container support-contacts-error-container <%= class_for_error("contacts", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-                <span class="support-contacts-error">Please enter either a valid email or phone number to continue.</span>
+              <div class="error-container support-email-error-container <%= class_for_error("email", @errors, "", "hidden-xs-up") %>" tabindex="-1">
+                <span class="support-email-error">Please enter a valid email.</span>
               </div>
               <input
                 type="email"
                 id="email"
                 name="email"
                 autocomplete="email"
-                class="support-form-control form-control contacts"
+                class="support-form-control form-control"
                 placeholder="janesmith@email.com"
                 <%= if "email" in Map.keys @existing_params do %>
                 value="<%= Map.get @existing_params, "email" %>"
                 <% end %>
               />
             </div>
-            <div class="form-group col-xs-12 col-sm-6 <%= class_for_error("contacts", @errors, "has-danger", "") %>">
-              <label for="phone"><strong>Phone number</strong> (Required)</label>
-              <div class="error-container support-contacts-error-container <%= class_for_error("contacts", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-                <span class="support-contacts-error">Please enter either a valid email or phone number to continue.</span>
-              </div>
+          </div>
+          <p>If you'd like us to give you a call, please give us the best number where we can reach you.</p>
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-6">
+              <label for="phone"><strong>Phone number</strong></label>
               <input
                 type="tel"
                 id="phone"
                 name="phone"
                 autocomplete="tel"
-                class="support-form-control form-control contacts"
+                class="support-form-control form-control"
                 placeholder="(617)-555-1234" <%# fake Boston-area phone number %>
                 <%= if "phone" in Map.keys @existing_params do %>
                 value="<%= Map.get @existing_params, "phone" %>"

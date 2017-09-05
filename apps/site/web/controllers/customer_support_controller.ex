@@ -41,7 +41,7 @@ defmodule Site.CustomerSupportController do
   @spec do_validation(map) :: []
   defp do_validation(params) do
     validators = if params["request_response"] == "on" do
-      [&validate_comments/1, &validate_service/1, &validate_name/1, &validate_contacts/1, &validate_privacy/1]
+      [&validate_comments/1, &validate_service/1, &validate_name/1, &validate_email/1, &validate_privacy/1]
     else
       [&validate_comments/1, &validate_service/1]
     end
@@ -67,15 +67,14 @@ defmodule Site.CustomerSupportController do
   defp validate_name(%{"name" => ""}), do: "name"
   defp validate_name(_), do: :ok
 
-  @spec validate_contacts(map) :: :ok | String.t
-  defp validate_contacts(%{"phone" => << _, _ :: binary >>}), do: :ok
-  defp validate_contacts(%{"email" => email}) do
+  @spec validate_email(map) :: :ok | String.t
+  defp validate_email(%{"email" => email}) do
     case Regex.run(~r/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/, email) do
-      nil -> "contacts"
+      nil -> "email"
       [_] -> :ok
     end
   end
-  defp validate_contacts(_), do: "contacts"
+  defp validate_email(_), do: "email"
 
   @spec validate_privacy(map) :: :ok | String.t
   defp validate_privacy(%{"privacy" => "on"}), do: :ok
