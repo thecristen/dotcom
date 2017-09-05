@@ -37,7 +37,9 @@
   margin-top: $space-12;
 
   > * {
-    padding: $base-spacing;
+    padding-left: $space-16;
+    padding-right: $space-16;
+    padding-top: $space-16;
   }
 }
 
@@ -52,12 +54,23 @@
     color: $white;
   }
 
+  &.collapsed:not(:hover) {
+    .fa-angle-right {
+      color: $gray-light;
+    }
+
+    .trip-plan-itinerary-length-distance {
+      color: $gray-dark;
+    }
+  }
+
   &:focus {
     text-decoration: none;
   }
 
   &:hover {
-    background-color: $brand-primary;
+    background-color: $brand-primary-lightest;
+    color: $gray-dark;
     text-decoration: none;
   }
 }
@@ -70,14 +83,13 @@
 
 .trip-plan-itinerary-legs {
   flex: 1 1 auto;
-
-  .collapsed & .fa-angle-right {
-    color: $gray-light;
-  }
+  margin-bottom: $space-16;
+  margin-right: $space-36;
 }
 
 .trip-plan-itinerary-length {
   flex: 0 1 auto;
+  margin-bottom: $space-16;
 }
 
 .trip-plan-itinerary-length-time {
@@ -85,18 +97,23 @@
 }
 
 .trip-plan-itinerary-length-distance {
-  .collapsed & {
-    color: $gray-dark;
-  }
+  font-size: .875rem;
+  line-height: 1.125rem;
+  margin-left: $space-12;
+  white-space: nowrap;
 
-  a:not(.collapsed) & g {
-    fill: $white;
+  g {
+    fill: currentColor;
   }
 }
 
 .trip-plan-itinerary-expand {
+  display: flex;
   flex: 0 0 auto;
-  margin-left: 4px;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: $space-16;
+  margin-left: $space-24;
 }
 
 .trip-plan-itinerary-body {
