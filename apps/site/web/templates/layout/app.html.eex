@@ -1,5 +1,4 @@
 <%
-  include_photo_credits? = @view_module == Site.PageView && @view_template == "index.html"
   google_maps_js_url = raw GoogleMaps.signed_url("https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=mapsCallback")
 %>
 <!DOCTYPE html>
@@ -55,7 +54,7 @@
       <%= if assigns[:post_container_template] do %>
         <%= render_existing @view_module, assigns[:post_container_template], assigns %>
       <% end %>
-      <%= render __MODULE__, "_footer.html", conn: @conn, include_photo_credits?: include_photo_credits? %>
+      <%= render __MODULE__, "_footer.html", conn: @conn %>
     </div>
     <script src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-eval="false"></script>
     <%= if google_tag_manager_id() do %>

@@ -74,22 +74,13 @@
   }
 }
 
-.footer-copyright,
-.footer-photo-credits {
+.footer-copyright {
   font-size: $font-size-xs;
 
   @include media-breakpoint-down(sm) {
     color: $white;
     padding-top: 0;
     text-align: center;
-  }
-}
-
-.footer-photo-credits {
-  p,
-  a {
-    color: $gray-light;
-    margin-bottom: 0;
   }
 }
 
