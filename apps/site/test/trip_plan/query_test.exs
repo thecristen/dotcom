@@ -235,6 +235,24 @@ defmodule Site.TripPlan.QueryTest do
     end
   end
 
+  describe "get_itineraries/1" do
+    test "returns itineraries if present" do
+      itineraries = [%{}, %{}]
+      query = %Query{itineraries: {:ok, itineraries}, from: {:ok, nil}, to: {:ok, nil}}
+      assert get_itineraries(query) == itineraries
+    end
+
+    test "returns empty list if no itineraries" do
+      query = %Query{itineraries: {:ok, []}, from: {:ok, nil}, to: {:ok, nil}}
+      assert get_itineraries(query) == []
+    end
+
+    test "returns empty list on failure" do
+      query = %Query{itineraries: {:error, "message"}, from: {:ok, nil}, to: {:ok, nil}}
+      assert get_itineraries(query) == []
+    end
+  end
+
   describe "location_name/2" do
     test "Returns from name if one exists" do
       query = %Query{itineraries: {:ok, []}, from: {:ok, %NamedPosition{name: "from name"}}, to: nil}

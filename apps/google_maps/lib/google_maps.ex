@@ -34,6 +34,27 @@ defmodule GoogleMaps do
   end
 
   @doc """
+  For URLs which don't require a signature (JS libraries), this function
+  returns the URL but without the signature.
+  """
+  @spec unsigned_url(binary, Keyword.t) :: binary
+  def unsigned_url(path, opts \\ []) do
+    opts = Keyword.merge(default_options(), opts)
+    parsed = URI.parse(path)
+    parsed = case opts[:client_id] do
+               "" ->
+                 append_api_key(parsed, opts[:google_api_key])
+               nil ->
+                 append_api_key(parsed, opts[:google_api_key])
+               client_id ->
+                 append_query(parsed, :client, client_id)
+
+             end
+
+    prepend_host(parsed)
+  end
+
+  @doc """
   Returns the url to view directions to a location on https://maps.google.com.
   """
   @spec direction_map_url(Position.t, Position.t) :: String.t

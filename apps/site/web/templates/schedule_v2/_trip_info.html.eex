@@ -29,7 +29,8 @@
       <%= render_trip_info_stops(middle, assigns) %>
     </div>
     <%= if collapsed_stops do %>
-      <%= view_branch_link(@trip_info.route.name, Map.merge(assigns, %{bubbles: [{@trip_info.route.name, :line}], vehicle_tooltip: nil}), "trip-info-stops") %>
+      <% bubble_map = %{bubbles: [{@trip_info.route.name, :line}], vehicle_tooltip: nil, intermediate_stop_count: Enum.count(middle)} %>
+      <%= view_branch_link(@trip_info.route.name, Map.merge(assigns, bubble_map), "trip-info-stops", @trip_info.route.name) %>
     <% end %>
     <%= render_trip_info_stops(last, assigns) %>
   </div>

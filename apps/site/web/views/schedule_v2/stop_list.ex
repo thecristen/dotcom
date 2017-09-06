@@ -10,13 +10,14 @@ defmodule Site.ScheduleV2View.StopList do
   Note: The target element (with id `"target_id"`) must also have class `"collapse stop-list"`
   for the javascript to appropriately modify the button and the dotted/solid line
   """
-  @spec view_branch_link(Plug.Conn.t, map, String.t) :: Phoenix.HTML.Safe.t
-  def view_branch_link(nil, _assigns, _target_id), do: []
-  def view_branch_link(branch_name, assigns, target_id) do
+  @spec view_branch_link(String.t, map, String.t, String.t) :: Phoenix.HTML.Safe.t
+  def view_branch_link(nil, _assigns, _target_id, _branch_display), do: []
+  def view_branch_link(branch_name, assigns, target_id, branch_display) do
     Site.ScheduleV2View.render("_stop_list_expand_link.html",
                                Map.merge(assigns,
                                          %{is_expand_link?: true,
                                            branch_name: branch_name,
+                                           branch_display: branch_display,
                                            target_id: target_id
                                          }))
   end
@@ -70,6 +71,7 @@ defmodule Site.ScheduleV2View.StopList do
 
     rendered_expand = render_row(expand_row, assigns)
     rendered_collapse = Enum.map(collapsible_rows, &render_row(&1, assigns))
+    branch_map = expand_row |> row_assigns(assigns) |> Map.put(:intermediate_stop_count, Enum.count(collapsible_rows))
 
     case branch do
       nil ->
@@ -79,7 +81,7 @@ defmodule Site.ScheduleV2View.StopList do
         [content_tag(:div, [id: collapse_target_id, class: "collapse stop-list"], do: rendered_collapse)]
         |> List.insert_at(expand_idx, rendered_expand)
         |> List.insert_at(assigns.direction_id,
-                          view_branch_link(branch, row_assigns(expand_row, assigns), collapse_target_id))
+                          view_branch_link(branch, branch_map, collapse_target_id, branch <> " branch"))
     end
   end
 

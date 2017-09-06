@@ -1,4 +1,5 @@
 <div class="route-branch-stop">
+  <% intermediate_stop_count = Map.get(assigns, :intermediate_stop_count, 0)%>
   <%=
     assigns
     |> Map.put(:bubbles, Enum.map(@bubbles, fn {branch, _} -> {branch, :line} end))
@@ -10,9 +11,13 @@
       <button class="toggle-stop-list btn-link"
               data-toggle="collapse"
               data-target="#<%= @target_id %>"
-              data-target-branch="<%= @branch_name %>"
-          <span class="hidden-sm-down">View</span>
-          <%= @branch_name %> Stops
+              data-target-branch="<%= @branch_name %>">
+              <span class="hidden-sm-down">
+                <%= intermediate_stop_count %>
+                <%= Inflex.inflect("stop", intermediate_stop_count) %>
+                on the
+              </span>
+          <%= @branch_display %>
           <span><%= fa("caret-down") %></span>
       </button>
     </div>

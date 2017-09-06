@@ -1,8 +1,9 @@
 defmodule Site.TripPlanController do
   use Site.Web, :controller
-  alias Site.TripPlan.{Query, LegFeature, RelatedLink, ItineraryRowList}
+  alias Site.TripPlan.{Query, RelatedLink, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
   alias Site.TripPlan.Alerts, as: TripPlanAlerts
+  alias TripPlan.Itinerary
 
   plug :require_google_maps
   plug :assign_initial_map
@@ -30,16 +31,16 @@ defmodule Site.TripPlanController do
 
   defp render_plan(conn, plan) do
     query = Query.from_query(plan)
-    route_map = with_itineraries(query, %{}, &routes_for_query/1)
+    itineraries = Query.get_itineraries(query)
+    route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
-    itinerary_row_lists = itinerary_row_lists(query, route_mapper, plan)
     render conn,
       query: query,
-      features: with_itineraries(query, [], &features(&1, route_mapper)),
-      itinerary_maps: with_itineraries(query, [], &itinerary_maps(&1, route_mapper)),
-      related_links: with_itineraries(query, [], &related_links(&1, route_mapper)),
-      alerts: with_itineraries(query, [], &alerts(&1, route_mapper)),
-      itinerary_row_lists: itinerary_row_lists
+      routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
+      itinerary_maps: Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
+      related_links: Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
+      alerts: alerts(itineraries, route_mapper),
+      itinerary_row_lists: itinerary_row_lists(itineraries, route_mapper, plan)
   end
 
   @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, String.t}
@@ -74,13 +75,10 @@ defmodule Site.TripPlanController do
     assign(conn, :requires_google_maps?, true)
   end
 
-  def itinerary_row_lists(query, route_mapper, plan) do
-    with_itineraries(query, [], &do_itinerary_row_lists(&1, route_mapper, to_and_from(plan)))
-  end
-
-  defp do_itinerary_row_lists(itineraries, route_mapper, to_from_opts) do
-    opts = Keyword.merge([route_mapper: route_mapper], to_from_opts)
-    Enum.map(itineraries, fn itinerary -> ItineraryRowList.from_itinerary(itinerary, opts) end)
+  @spec itinerary_row_lists([Itinerary.t], route_mapper, map) :: [ItineraryRowList.t]
+  defp itinerary_row_lists(itineraries, route_mapper, plan) do
+    opts = Keyword.merge([route_mapper: route_mapper], to_and_from(plan))
+    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, opts))
   end
 
   def assign_initial_map(conn, _opts) do
@@ -89,31 +87,23 @@ defmodule Site.TripPlanController do
     |> assign(:initial_map_data, TripPlanMap.initial_map_data())
   end
 
-  defp with_itineraries(query, default, function)
-  defp with_itineraries(%Query{itineraries: {:ok, itineraries}}, _default, function) do
-    function.(itineraries)
-  end
-  defp with_itineraries(%Query{}, default, _function) do
-    default
-  end
-
-  @spec routes_for_query([TripPlan.Itinerary.t]) :: route_map
+  @spec routes_for_query([Itinerary.t]) :: route_map
   defp routes_for_query(itineraries) do
     itineraries
-    |> Enum.flat_map(&TripPlan.Itinerary.route_ids/1)
+    |> Enum.flat_map(&Itinerary.route_ids/1)
     |> add_additional_routes()
     |> Enum.uniq
     |> Map.new(&{&1, Routes.Repo.get(&1)})
   end
 
-  @spec features([TripPlan.Itinerary.t], route_mapper) :: [[LegFeature.t]]
-  defp features(itineraries, route_mapper) do
-    for itinerary <- itineraries do
-      LegFeature.for_itinerary(itinerary, route_by_id: route_mapper)
-    end
+  @spec routes_for_itinerary(Itinerary.t, route_mapper) :: [Routes.Route.t]
+  defp routes_for_itinerary(itinerary, route_mapper) do
+    itinerary
+    |> Itinerary.route_ids
+    |> Enum.map(route_mapper)
   end
 
-  @spec alerts([TripPlan.Itinerary.t], route_mapper) :: [alert_list] when alert_list: [Alerts.Alert.t]
+  @spec alerts([Itinerary.t], route_mapper) :: [alert_list] when alert_list: [Alerts.Alert.t]
   defp alerts([], _) do
     []
   end
@@ -124,16 +114,6 @@ defmodule Site.TripPlanController do
     opts = [route_by_id: route_mapper]
     for itinerary <- itineraries do
       TripPlanAlerts.filter_for_itinerary(all_alerts, itinerary, opts)
-    end
-  end
-
-  defp itinerary_maps(itineraries, route_mapper) do
-    Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper))
-  end
-
-  defp related_links(itineraries, route_mapper) do
-    for itinerary <- itineraries do
-      RelatedLink.links_for_itinerary(itinerary, route_by_id: route_mapper)
     end
   end
 

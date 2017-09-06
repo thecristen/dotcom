@@ -4,21 +4,22 @@ import styles from './google-map/styles';
 export default function() {
   function initMap() {
     // Read the map data from page
-    var mapDataElements = document.getElementsByClassName("dynamic_map_data");
+    var mapDataElements = document.getElementsByClassName("map-dynamic-data");
 
     // Clean up and leave if there is no map data available
     if (!mapDataElements || mapDataElements.length == 0) {
       // Get rid of any previously registered reevaluateMapBounds event
       window.removeEventListener("resize", reevaluateMapBounds);
+      resetGlobals();
       return;
     }
 
     // Render all maps by iterating over the HTMLCollection elements
-    const mapElements = document.getElementsByClassName("dynamic-map");
-    for (var i = 0; i < mapElements.length; i++) {
-      var mapData = JSON.parse(mapDataElements[i].innerHTML);
-      mapElements[i].className += " google-map";
-      displayMap(mapElements[i], mapData, i);
+    for (var i = 0; i < mapDataElements.length; i++) {
+      const el = mapDataElements[i];
+      var mapData = JSON.parse(el.innerHTML);
+      const dynamicMap = createDynamicMap(el);
+      displayMap(dynamicMap, mapData, i);
     }
 
     // Reconsier bounds on page resize
@@ -36,6 +37,25 @@ var maps = {};
 var bounds = {};
 var infoWindow = null;
 var markers = {};
+
+function resetGlobals() {
+  maps = {};
+  bounds = {};
+  markers = {};
+  infoWindow = null;
+}
+
+function createDynamicMap(el) {
+  const className = "map-dynamic";
+  var dynamicMap = el.nextElementSibling;
+  if (!dynamicMap || dynamicMap.className !== className) {
+    dynamicMap = document.createElement("div");
+    dynamicMap.className = className;
+    el.parentNode.insertBefore(dynamicMap, el.nextElementSibling);
+    el.parentNode.className += " is-map-dynamic";
+  }
+  return dynamicMap;
+}
 
 function displayMap(el, mapData, mapOffset) {
   // Create a map instance
@@ -61,8 +81,6 @@ function displayMap(el, mapData, mapOffset) {
   } else {
     maps[mapOffset].setCenter(bounds[mapOffset].getCenter());
   }
-
-  var mapDataElements = document.getElementsByClassName("dynamic_map_data");
 
   // If the map zooms in too much, take it out to a reasonble level
   const zoom = maps[mapOffset].getZoom();
