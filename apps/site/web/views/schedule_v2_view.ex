@@ -133,7 +133,7 @@ defmodule Site.ScheduleV2View do
     pdf_path = Routes.Pdf.south_station_back_bay_pdf(route)
     if pdf_path do
       content_tag :div, class: "schedules-v2-pdf-link" do
-        link(to: pdf_path, target: "_blank") do
+        link(to: static_url(Site.Endpoint, pdf_path), target: "_blank") do
           [
             fa("file-pdf-o"),
             " View PDF of Back Bay to South Station schedule",
