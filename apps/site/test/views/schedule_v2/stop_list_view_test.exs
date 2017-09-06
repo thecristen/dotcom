@@ -251,6 +251,36 @@ defmodule Site.StopListViewTest do
       assert [expand_link] = stop_bubble_row_params(assigns)
       assert expand_link.class == "line dotted"
     end
+
+    test "Expand link lists number of collapsed stops" do
+      assigns = %{
+        bubbles: [{"Green-E", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 11,
+        branch_name: "Green-E",
+        branch_display: "Green-E branch",
+        route: %Route{id: "Green-E"},
+        vehicle_tooltip: nil,
+      }
+
+      rendered = "_stop_list_expand_link.html" |> Site.ScheduleV2View.render(assigns) |> safe_to_string()
+      assert rendered =~ "11"
+    end
+
+    test "Expand link displays branch_display as link text" do
+      assigns = %{
+        bubbles: [{"Braintree", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 9,
+        branch_name: "Braintree",
+        branch_display: "Braintree branch",
+        route: %Route{id: "Red"},
+        vehicle_tooltip: nil,
+      }
+
+      rendered = "_stop_list_expand_link.html" |> Site.ScheduleV2View.render(assigns) |> safe_to_string()
+      assert rendered =~ "Braintree branch"
+    end
   end
 
   describe "non-Green bubble params" do
