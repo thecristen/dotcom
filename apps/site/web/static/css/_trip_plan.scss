@@ -59,6 +59,7 @@
       color: $gray-light;
     }
 
+    .itinerary-has-alerts-icon,
     .trip-plan-itinerary-length-distance {
       color: $gray-dark;
     }
@@ -107,6 +108,10 @@
   }
 }
 
+.itinerary-has-alerts-icon {
+  margin-left: $space-8;
+}
+
 .trip-plan-itinerary-expand {
   display: flex;
   flex: 0 0 auto;
@@ -138,6 +143,12 @@
   @include media-breakpoint-down(sm) {
     height: $base-spacing * 20;
   }
+}
+
+.itinerary-has-alerts-text {
+  background-color: $gray-lightest;
+  margin-bottom: $base-spacing;
+  padding: $base-spacing;
 }
 
 .trip-plan-related-links {
