@@ -1,7 +1,7 @@
 defmodule TripPlan.ItineraryTest do
   use ExUnit.Case, async: true
   import TripPlan.Itinerary
-  alias TripPlan.{TransitDetail, Api.MockPlanner}
+  alias TripPlan.{TransitDetail, Api.MockPlanner, Leg, PersonalDetail, TransitDetail}
 
   @from MockPlanner.random_stop()
   @to MockPlanner.random_stop()
@@ -68,6 +68,21 @@ defmodule TripPlan.ItineraryTest do
       last_leg = Enum.at(itinerary, -1)
       test_calculated_ids = Enum.uniq([first_leg.from.stop_id, last_leg.from.stop_id, last_leg.to.stop_id])
       assert test_calculated_ids == stop_ids(itinerary)
+    end
+  end
+
+  describe "walking_distance/1" do
+    test "calculates walking distance of itinerary" do
+      itinerary = %TripPlan.Itinerary{
+        start: DateTime.from_unix(10),
+        stop: DateTime.from_unix(13),
+        legs: [
+          %Leg{mode: %PersonalDetail{distance: 12.3}},
+          %Leg{mode: %TransitDetail{}},
+          %Leg{mode: %PersonalDetail{distance: 34.5}},
+        ],
+      }
+      assert abs(walking_distance(itinerary) - 46.8) < 0.001
     end
   end
 

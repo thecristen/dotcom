@@ -249,6 +249,20 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "display_meters_as_miles/1" do
+    test "123.456 mi" do
+      assert display_meters_as_miles(123.456 * 1609.34) == "123.5"
+    end
+
+    test "0.123 mi" do
+      assert display_meters_as_miles(0.123 * 1609.34) == "0.1"
+    end
+
+    test "10.001 mi" do
+      assert display_meters_as_miles(10.001 * 1609.34) == "10.0"
+    end
+  end
+
   describe "format_additional_route/2" do
     test "Correctly formats Green Line route" do
       route = %Route{name: "Green Line B", id: "Green-B", direction_names: %{1 => "Eastbound"}}
