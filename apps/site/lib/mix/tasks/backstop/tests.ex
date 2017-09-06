@@ -50,7 +50,12 @@ defmodule Mix.Tasks.Backstop.Tests do
     Process.flag(:trap_exit, true)
     {:ok, pid} = GenServer.start_link(__MODULE__, state)
     for module <- modules, do: GenServer.cast(pid, {:start_server, module})
-    await_result(pid, timeout)
+    case await_result(pid, timeout) do
+      {:ok, _, _} ->
+        :ok
+      {:error, _, _} ->
+        System.halt(1)
+    end
   end
 
   @spec run_brunch(%{atom => String.t | boolean}) :: :ok
@@ -89,13 +94,20 @@ defmodule Mix.Tasks.Backstop.Tests do
   end
 
   @spec shutdown(pid, proc_result | :timeout, non_neg_integer)
-  :: {:ok, map, [{atom, pid}]} | {:error, any, [{atom, pid}]}
+  :: {:ok, map, [{pid, atom}]} | {:error, any, [{pid, atom}]}
   defp shutdown(pid, result, timeout) do
     if Process.alive?(pid) do
       pid
       |> GenServer.call(:pids, timeout * 1000)
       |> Enum.map(&shutdown_server/1)
       |> do_shutdown(result)
+    else
+      case result do
+        {{:ok, result_map}, modules} ->
+          {:ok, result_map, Enum.into(modules, [])}
+        {{:error, error}, modules} ->
+          {:error, error, Enum.into(modules, [])}
+      end
     end
   end
 
@@ -114,7 +126,7 @@ defmodule Mix.Tasks.Backstop.Tests do
     _ = Logger.flush()
     {:ok, result, pids}
   end
-    defp do_shutdown(pids, {:error, error}) do
+  defp do_shutdown(pids, {:error, error}) do
     _ = Logger.flush()
     error
     |> inspect()
@@ -168,7 +180,7 @@ defmodule Mix.Tasks.Backstop.Tests do
         {:noreply, update_pid(state, module, {nil, :restarted})}
       false ->
         send state.parent, {{:error, error}, state.pids}
-        {:stop, :normal, state}
+        {:stop, :module_error, state}
     end
   end
   def handle_info({module, _pid, {:restart, :ok}}, state) do
