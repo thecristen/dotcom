@@ -84,14 +84,14 @@
       </p>
       <p class="instructions page-section"><%= itinerary_explanation(@query) %></p>
       <%= for {i,
-               features,
+               routes,
                map,
                alerts,
                links,
                itinerary_row_list,
                index} <- Enum.zip([
           itineraries,
-          @features,
+          @routes,
           @itinerary_maps,
           @alerts,
           @related_links,
@@ -100,7 +100,7 @@
             render "_itinerary.html",
             itinerary: i,
             index: index,
-            features: features,
+            routes: routes,
             itinerary_map: map,
             alerts: alerts,
             links: links,

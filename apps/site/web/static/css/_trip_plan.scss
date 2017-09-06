@@ -34,40 +34,91 @@
 }
 
 .trip-plan-itinerary-container {
-  border: $border;
-  border-radius: $border-radius;
   margin-top: $space-12;
 
   > * {
-    padding: $base-spacing;
+    padding-left: $space-16;
+    padding-right: $space-16;
+    padding-top: $space-16;
   }
 }
 
 .trip-plan-itinerary-header {
-  background: $gray-bordered-background;
-  border-bottom: $border;
-  color: $gray-dark;
-  display: block;
-  font-weight: bold;
+  border: $border-width solid $brand-primary;
+  border-radius: $border-radius;
+  display: flex;
+
+  &:not(.collapsed) {
+    background-color: $brand-primary-darkest;
+    border-radius: $border-radius $border-radius 0 0;
+    color: $white;
+  }
+
+  &.collapsed:not(:hover) {
+    .fa-angle-right {
+      color: $gray-light;
+    }
+
+    .trip-plan-itinerary-length-distance {
+      color: $gray-dark;
+    }
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
 
   &:hover {
+    background-color: $brand-primary-lightest;
+    color: $gray-dark;
     text-decoration: none;
   }
 }
 
-.trip-plan-itinerary-leg-feature {
-  svg {
-    margin-top: $space-4;
-  }
+.trip-plan-itinerary-summary {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
 
-  &:first-child {
-    padding-left: $base-spacing-sm;
+.trip-plan-itinerary-legs {
+  flex: 1 1 auto;
+  margin-bottom: $space-16;
+  margin-right: $space-36;
+}
+
+.trip-plan-itinerary-length {
+  flex: 0 1 auto;
+  margin-bottom: $space-16;
+}
+
+.trip-plan-itinerary-length-time {
+  font-weight: bold;
+}
+
+.trip-plan-itinerary-length-distance {
+  font-size: .875rem;
+  line-height: 1.125rem;
+  margin-left: $space-12;
+  white-space: nowrap;
+
+  g {
+    fill: currentColor;
   }
 }
 
-.trip-plan-itinerary-duration {
-  float: right;
-  font-weight: normal;
+.trip-plan-itinerary-expand {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: $space-16;
+  margin-left: $space-24;
+}
+
+.trip-plan-itinerary-body {
+  border: $border;
+  border-radius: 0 0 $border-radius $border-radius;
 }
 
 .trip-plan-map {

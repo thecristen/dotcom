@@ -137,7 +137,7 @@ function collapseItineraries($) {
 function toggleIcon(e) {
   const container = $(e.target).parent();
   const icon = $(container).find("[data-planner-header] i");
-  icon.toggleClass("fa-caret-down fa-caret-up");
+  icon.toggleClass("fa-plus-circle fa-minus-circle");
 }
 
 // There is a race condition that sometimes occurs on the initial render of the google map. It can't render properly
