@@ -4,6 +4,7 @@
 a.datepicker-button {
   cursor: pointer;
 }
+
 div.datepicker-calendar {
   margin: 0 10px 10px 0;
   font-size: .9em;
@@ -16,12 +17,14 @@ div.datepicker-calendar {
   border-radius: 4px;
   z-index: 50;
 }
+
 div.datepicker-calendar div.datepicker-month-wrap {
   margin: 0;
   padding-top: 1px;
   text-align: center;
   height: 30px;
 }
+
 div.datepicker-calendar div.datepicker-month-fast-prev.disabled,
 div.datepicker-calendar div.datepicker-month-fast-next.disabled ,
 div.datepicker-calendar div.datepicker-month-prev.disabled,
@@ -29,6 +32,7 @@ div.datepicker-calendar div.datepicker-month-next.disabled {
   border: none;
   cursor: default;
 }
+
 div.datepicker-calendar div.datepicker-month-fast-prev,
 div.datepicker-calendar div.datepicker-month-fast-next,
 div.datepicker-calendar div.datepicker-month-prev,
@@ -39,12 +43,15 @@ div.datepicker-calendar div.datepicker-month-next {
   height: 24px;
   padding-top: 3px;
 }
+
 div.datepicker-calendar div.datepicker-month-fast-prev {
   padding-right: 2px;
 }
+
 div.datepicker-calendar div.datepicker-month-fast-next {
   padding-left: 2px;
 }
+
 div.datepicker-calendar div.datepicker-month-fast-prev.enabled:hover,
 div.datepicker-calendar div.datepicker-month-fast-prev.enabled:focus,
 div.datepicker-calendar div.datepicker-month-fast-next.enabled:hover,
@@ -59,6 +66,7 @@ div.datepicker-calendar div.datepicker-month-next.enabled:focus {
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
+
 div.datepicker-calendar div.datepicker-month {
   margin: 3px 56px 2px 56px;
   height: 24px;
@@ -68,12 +76,14 @@ div.datepicker-calendar div.datepicker-month {
   cursor: pointer;
   padding-top: 1px;
 }
+
 div.datepicker-calendar div.datepicker-month:after {
   font-family: 'Glyphicons Halflings';
   font-size: 0.6em;
   display: inline-block;
   content: "\e252";
 }
+
 div.datepicker-calendar div.datepicker-month:hover,
 div.datepicker-calendar div.datepicker-month:focus {
   padding-top: 0;
@@ -82,58 +92,73 @@ div.datepicker-calendar div.datepicker-month:focus {
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
+
 div.datepicker-calendar table.datepicker-grid {
   width: 100%;
   font-size: 1.2em;
   text-align: center;
 }
+
 div.datepicker-calendar table.datepicker-grid.rtl {
   direction: rtl;
 }
+
 div.datepicker-calendar table.datepicker-grid:focus {
   outline: none;
 }
+
 div.datepicker-calendar table.datepicker-weekdays {
 }
+
 div.datepicker-calendar table.datepicker-grid th,
 div.datepicker-calendar table.datepicker-grid td{
   text-align: center;
   padding: 0;
 }
+
 div.datepicker-calendar table.datepicker-grid th abbr{
   border: none;
 }
+
 div.datepicker-calendar table.datepicker-grid td {
   border: 1px solid #999;
   cursor: pointer;
 }
+
 div.datepicker-calendar table.datepicker-grid td.unselectable {
   cursor: default;
 }
+
 div.datepicker-calendar table.datepicker-grid th,
 div.datepicker-calendar table.datepicker-grid td.day {
   height: 30px;
 }
+
 div.datepicker-calendar table.datepicker-grid td.month {
   height: 60px;
 }
+
 div.datepicker-calendar table.datepicker-grid td.year {
   height: 45px;
 }
+
 div.datepicker-calendar table.datepicker-grid td.curDay,
 div.datepicker-calendar table.datepicker-grid td.curMonth,
 div.datepicker-calendar table.datepicker-grid td.curYear {
   border: 1px solid #999;
 }
+
 div.datepicker-calendar table.datepicker-grid td.empty {
   border: 1px solid #999;
   cursor: default;
 }
+
 div.datepicker-calendar .offscreen {
   position: absolute;
   left: -200em;
   top: -100em;
 }
+
 .datepicker-overlay {
   background: #777;
     display: none;
@@ -147,6 +172,7 @@ div.datepicker-calendar .offscreen {
   min-height: 100%;
   z-index: 40;
 }
+
 div.datepicker-calendar button.datepicker-close {
   height: 30px;
   width: 100%;
@@ -167,21 +193,26 @@ div.datepicker-calendar button.datepicker-close {
  ***************************/
 a.datepicker-button.default {
 }
+
 a.datepicker-button.default:hover,
 a.datepicker-button.default:focus {
   background-color: #DDD;
 }
+
 div.datepicker-calendar.default {
   background-color: #FFF;
 }
+
 div.datepicker-calendar.default div.datepicker-month-wrap {
 }
+
 div.datepicker-calendar.default div.datepicker-month-fast-prev.disabled,
 div.datepicker-calendar.default div.datepicker-month-fast-next.disabled ,
 div.datepicker-calendar.default div.datepicker-month-prev.disabled,
 div.datepicker-calendar.default div.datepicker-month-next.disabled {
   color:  #999;
 }
+
 div.datepicker-calendar.default div.datepicker-month-fast-prev.enabled:hover,
 div.datepicker-calendar.default div.datepicker-month-fast-prev.enabled:focus,
 div.datepicker-calendar.default div.datepicker-month-fast-next.enabled:hover,
@@ -197,40 +228,50 @@ div.datepicker-calendar.default button.datepicker-close:focus {
   background-color: #EEE;
   border-color:  #999;
 }
+
 div.datepicker-calendar.default table.datepicker-grid:focus {
   outline: 1px dotted #999;
 }
+
 div.datepicker-calendar.default tr.datepicker-weekdays {
   border-top:  1px solid #999;
   border-bottom:  1px solid #999;
 }
+
 div.datepicker-calendar.default table.datepicker-grid th {
   background-color: #EEE;
   border:  none;
 }
+
 div.datepicker-calendar.default table.datepicker-grid td {
   border:  none;
   color: #000;
 }
+
 div.datepicker-calendar.default table.datepicker-grid td.unselectable {
   color: #999;
 }
+
 div.datepicker-calendar.default table.datepicker-grid td.curDay,
 div.datepicker-calendar.default table.datepicker-grid td.curMonth,
 div.datepicker-calendar.default table.datepicker-grid td.curYear {
   background-color: #FFF0C4;
 }
+
 div.datepicker-calendar.default table.datepicker-grid td.empty {
   border:  none;
   color: #CCC;
 }
+
 div.datepicker-calendar.default table.datepicker-grid td.selectable:hover,
 div.datepicker-calendar.default table.datepicker-grid td.selectable.focus {
   background-color: #DDD;
 }
+
 div.datepicker-calendar.default table.datepicker-grid td.empty:hover {
   background-color: #F9F9F9;
 }
+
 div.datepicker-calendar.default button.datepicker-close {
   background-color: #DDD;
   border-color:  #999;
