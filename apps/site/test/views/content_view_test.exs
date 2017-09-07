@@ -83,11 +83,11 @@ defmodule Site.ContentViewTest do
         |> render_paragraph
         |> Phoenix.HTML.safe_to_string
 
-      assert rendered =~ ~s(<div class="title-card-title">Card 1</div>)
+      assert rendered =~ ~s(<div class="title-card-title">\nCard 1</div>)
       assert rendered =~ "<strong>Body 1</strong>"
       assert rendered =~ ~s( href="/relative/link")
 
-      assert rendered =~ ~s(<div class="title-card-title">Card 2</div>)
+      assert rendered =~ ~s(<div class="title-card-title">\nCard 2</div>)
       assert rendered =~ "<strong>Body 2</strong>"
       assert rendered =~ ~s( href="https://www.example.com/another/link")
     end
@@ -125,6 +125,25 @@ defmodule Site.ContentViewTest do
 
       assert rendered =~ Phoenix.HTML.safe_to_string(event.title)
       assert rendered =~ "View all upcoming meetings"
+    end
+
+    test "renders a TitleCardSet when it doesn't have a link" do
+      paragraph = %Paragraph.TitleCardSet{
+        title_cards: [
+          %Paragraph.TitleCard{
+            title: "Title Card",
+            body: Phoenix.HTML.raw("This is a title card"),
+            link: nil,
+          }
+        ]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph()
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ "This is a title card"
     end
 
     test "renders a Paragraph.PeopleGrid" do

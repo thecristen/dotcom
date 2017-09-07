@@ -40,13 +40,20 @@ a {
   &.title-card,
   &%title-card {
     @extend %button-focus-color;
-    border: $border;
-    padding: $base-spacing-sm $base-spacing;
   }
 
   .title-card-title,
   %title-card-title {
     color: $link-color;
+  }
+}
+
+a,
+.title-card-link-type {
+  &.title-card,
+  &%title-card {
+    border: $border;
+    padding: $base-spacing-sm $base-spacing;
   }
 }
 
@@ -64,7 +71,8 @@ a {
     }
   }
 
-  a {
+  a,
+  .title-card-link-type {
     &.title-card {
       position: relative;
     }
