@@ -9,4 +9,4 @@
 <div class="page-section">
   <%= Site.ContentRewriter.rewrite(@update.body) %>
 </div>
-<%= #if !Enum.empty?(@update.photo_gallery), do: render "_photos.html", photos: @update.photo_gallery %>
+<%= if !Enum.empty?(@update.photo_gallery), do: render "_photos.html", photos: @update.photo_gallery %>

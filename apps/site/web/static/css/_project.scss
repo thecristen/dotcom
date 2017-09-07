@@ -39,7 +39,8 @@
 .project-contact,
 .project-downloads,
 .project-meetings,
-.project-updates {
+.project-updates,
+.project-photos {
   margin-top: $base-spacing-lg;
 }
 
@@ -51,4 +52,14 @@
 
 .project-update-title {
   margin-bottom: $base-spacing-sm;
+}
+
+.project-photos {
+  .photo-item {
+    margin-bottom: $base-spacing;
+  }
+
+  .img-thumbnail {
+    border: 0;
+  }
 }
