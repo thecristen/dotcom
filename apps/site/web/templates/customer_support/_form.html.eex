@@ -104,7 +104,9 @@
               />
             </div>
           </div>
-          <p>If you'd like us to give you a call, please give us the best number where we can reach you.</p>
+          <p class="phone-description">
+            If you'd like us to give you a call, please give us the best number where we can reach you.
+          </p>
           <div class="row">
             <div class="form-group col-xs-12 col-sm-6">
               <label for="phone"><strong>Phone number</strong></label>
