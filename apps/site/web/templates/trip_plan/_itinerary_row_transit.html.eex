@@ -1,9 +1,6 @@
 <%
    collapse_target_id = "itinerary-#{@itinerary_idx}-#{@row_idx}"
   [{:transfer, transfer_bubbles} | step_bubble_params] = bubble_params(@itinerary_row, @row_idx)
-
-  {first_step, collapsible_steps, last_two_steps} =
-    Util.EnumHelpers.pop_off_front_and_back(step_bubble_params, 1, 2)
 %>
 
 <div class="itinerary-row-container <%= @mode_class %>">
@@ -12,26 +9,21 @@
       Map.merge(assigns, %{mode: @mode_class,
       bubble_params: transfer_bubbles})
   %>
-  <%= render_steps(first_step, @mode_class) %>
-
-  <%= if !Enum.empty?(collapsible_steps) do %>
-    <% bubble_map = %{bubbles: [{ItineraryRow.route_name(@itinerary_row), :line}],
-                           route: @itinerary_row.route,
-                           vehicle_tooltip: nil,
-                           intermediate_stop_count: Enum.count(collapsible_steps)} %>
-    <% route_name = ItineraryRow.route_name(@itinerary_row)  %>
-    <%= Site.ScheduleV2View.StopList.view_branch_link(
-          route_name,
-          Map.merge(assigns, bubble_map),
-          collapse_target_id,
-          route_name)
-    %>
-  <% end %>
-
+  <%= if Site.ScheduleV2View.StopList.display_expand_link?(step_bubble_params) do
+    bubble_map = %{bubbles: [{ItineraryRow.route_name(@itinerary_row), :line}],
+      route: @itinerary_row.route,
+      vehicle_tooltip: nil,
+      intermediate_stop_count: Enum.count(step_bubble_params)}
+    route_name = ItineraryRow.route_name(@itinerary_row)
+    Site.ScheduleV2View.StopList.view_branch_link(
+        route_name,
+        Map.merge(assigns, bubble_map),
+        collapse_target_id,
+        route_name)
+  end %>
   <%=
-    content_tag :div, [id: collapse_target_id, class: "collapse stop-list"] do
-      render_steps(collapsible_steps, @mode_class)
+    content_tag :div, Site.ScheduleV2View.StopList.step_bubble_attributes(step_bubble_params, collapse_target_id) do
+      render_steps(step_bubble_params, @mode_class)
     end
   %>
-  <%= render_steps(last_two_steps, @mode_class) %>
 </div>

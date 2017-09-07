@@ -242,14 +242,14 @@ defmodule Site.ScheduleV2ViewTest do
       assert [_vehicle] = output |> Floki.find(".vehicle-bubble")
     end
 
-    test "shows dotted line for last stop when collapse is :collapse" do
+    test "collapsed stops do not use dotted line" do
       html =
         [{{@predicted_schedule, false}, 0}]
-        |> Site.ScheduleV2View.render_trip_info_stops(@assigns, :collapse)
+        |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
 
-      assert Enum.count(Floki.find(html, ".route-branch-stop-bubble.stop.dotted")) == 1
+      assert Enum.empty?(Floki.find(html, ".route-branch-stop-bubble.stop.dotted"))
     end
 
     test "does not show dotted line for last stop when collapse is nil" do

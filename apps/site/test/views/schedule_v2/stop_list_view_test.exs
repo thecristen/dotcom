@@ -235,21 +235,20 @@ defmodule Site.StopListViewTest do
       assert c_line.class == "stop dotted"
     end
 
-    test "schedule view expand link is dotted" do
+    test "schedule view expand link is solid" do
       assigns = %{
         bubbles: [{"Green-E", :line}],
         stop: nil,
         route: %Route{id: "Green", type: 1},
         direction_id: 1,
         conn: "conn",
-        is_expand_link?: true,
         branch_names: ["Green-E"],
         vehicle_tooltip: %VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: "Green"}},
         row_content_template: "_line_page_stop_info.html"
       }
 
       assert [expand_link] = stop_bubble_row_params(assigns)
-      assert expand_link.class == "line dotted"
+      assert expand_link.class == "line"
     end
 
     test "Expand link lists number of collapsed stops" do
@@ -476,6 +475,32 @@ defmodule Site.StopListViewTest do
     test "trip link for matching, chosen stop", %{conn: conn} do
       conn = %{conn | query_params: %{}}
       assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
+    end
+  end
+
+  describe "display_expand_link?/1" do
+    test "Do not display expansion link when there are no steps" do
+      refute display_expand_link?([])
+    end
+
+    test "Do not display expansion link when there is only a single step" do
+      refute display_expand_link?(["Single Step"])
+    end
+
+    test "Display link when there are more than 1 step" do
+      assert display_expand_link?(["Step 1", "Step 2"])
+      assert display_expand_link?(["Step 1", "Step 2", "Step 3"])
+    end
+  end
+
+  describe "step_bubble_attributes/2" do
+    test "returns id and class when there is more than one intermediate step" do
+      assert step_bubble_attributes(["Step 1", "Step 2"], "target") == [id: "target", class: "collapse stop-list"]
+    end
+
+    test "returns empty when there is one or less intermediate steps" do
+      assert step_bubble_attributes([], "target") == []
+      assert step_bubble_attributes(["Step 1"], "target") == []
     end
   end
 end

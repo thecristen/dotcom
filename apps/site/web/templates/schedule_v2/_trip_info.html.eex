@@ -20,12 +20,12 @@
         @trip_info.times
         |> Util.EnumHelpers.with_first_last
         |> Enum.with_index
-        |> Util.EnumHelpers.pop_off_front_and_back(2)
+        |> Util.EnumHelpers.pop_off_front_and_back(1)
 
-       collapsed_stops = if middle != [], do: :collapse
+       collapsed_stops = if middle != [] and !match?([_], middle), do: :collapse
     %>
-    <%= render_trip_info_stops(first, assigns, collapsed_stops) %>
-    <div class="collapse stop-list" id="trip-info-stops">
+    <%= render_trip_info_stops(first, assigns) %>
+    <div class="<%= unless match?([_], middle), do: "collapse" %> stop-list" id="trip-info-stops">
       <%= render_trip_info_stops(middle, assigns) %>
     </div>
     <%= if collapsed_stops do %>
