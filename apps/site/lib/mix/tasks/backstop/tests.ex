@@ -51,9 +51,9 @@ defmodule Mix.Tasks.Backstop.Tests do
     {:ok, pid} = GenServer.start_link(__MODULE__, state)
     for module <- modules, do: GenServer.cast(pid, {:start_server, module})
     case await_result(pid, timeout) do
-      {:ok, _, _} ->
+      :ok ->
         :ok
-      {:error, _, _} ->
+      :error ->
         System.halt(1)
     end
   end
@@ -65,7 +65,7 @@ defmodule Mix.Tasks.Backstop.Tests do
   end
   defp run_brunch(_), do: :ok
 
-  @spec await_result(pid, non_neg_integer) :: {:ok, map, [{atom, pid}]} | {:error, any, [{atom, pid}]}
+  @spec await_result(pid, non_neg_integer) :: :ok | :error
   def await_result(pid, timeout) do
     start = DateTime.utc_now()
     receive do
@@ -83,7 +83,6 @@ defmodule Mix.Tasks.Backstop.Tests do
       timeout
       |> div(1000)
       |> :timer.seconds() ->
-        Logger.error "Backstop timed out; shutting down servers..."
         shutdown(pid, :timeout, timeout)
     end
   end
@@ -93,21 +92,25 @@ defmodule Mix.Tasks.Backstop.Tests do
     original - diff
   end
 
-  @spec shutdown(pid, proc_result | :timeout, non_neg_integer)
-  :: {:ok, map, [{pid, atom}]} | {:error, any, [{pid, atom}]}
+  @spec shutdown(pid, proc_result | :timeout, non_neg_integer) :: :ok | :error
   defp shutdown(pid, result, timeout) do
     if Process.alive?(pid) do
       pid
       |> GenServer.call(:pids, timeout * 1000)
       |> Enum.map(&shutdown_server/1)
-      |> do_shutdown(result)
-    else
-      case result do
-        {{:ok, result_map}, modules} ->
-          {:ok, result_map, Enum.into(modules, [])}
-        {{:error, error}, modules} ->
-          {:error, error, Enum.into(modules, [])}
-      end
+    end
+    Logger.flush()
+    case result do
+      {:ok, _} ->
+        :ok
+      {:error, error} ->
+        error
+        |> inspect()
+        |> Logger.error()
+        :error
+      :timeout ->
+        Logger.error "Backstop timed out; shutting down servers..."
+        :error
     end
   end
 
@@ -119,23 +122,6 @@ defmodule Mix.Tasks.Backstop.Tests do
       Logger.info("#{module} (#{inspect(pid)}) already down; skipping")
     end
     {module, pid}
-  end
-
-  @spec do_shutdown([{pid, atom}], proc_result | :timeout) :: {:ok, map, [{pid, atom}]} | {:error, any, [{pid, atom}]}
-  defp do_shutdown(pids, {:ok, result}) do
-    _ = Logger.flush()
-    {:ok, result, pids}
-  end
-  defp do_shutdown(pids, {:error, error}) do
-    _ = Logger.flush()
-    error
-    |> inspect()
-    |> Logger.error()
-    {:error, error, pids}
-  end
-  defp do_shutdown(pids, :timeout) do
-    _ = Logger.flush()
-    {:error, :timeout, pids}
   end
 
   def handle_cast({:start_server, module}, state) do
