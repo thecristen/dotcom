@@ -14,7 +14,7 @@ defmodule GoogleMaps.Geocode do
       longitude: 0.0
     ]
 
-    defimpl Stops.Position do
+    defimpl Util.Position do
       def latitude(address), do: address.latitude
       def longitude(address), do: address.longitude
     end

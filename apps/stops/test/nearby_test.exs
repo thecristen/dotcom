@@ -2,6 +2,7 @@ defmodule Stops.NearbyTest do
   use ExUnit.Case, async: true
   doctest Stops.Nearby
 
+  alias Util.Distance
   alias Stops.Stop
   import Stops.Nearby
 
@@ -150,21 +151,21 @@ defmodule Stops.NearbyTest do
       subway = random_stops(20)
 
       actual = gather_stops(@position, [], subway, [])
-      assert Stops.Distance.closest(subway, @position, 12) == actual
+      assert Distance.closest(subway, @position, 12) == actual
     end
 
     test "if there are no Subway or Bus stops, takes the 4 closest CR" do
       commuter = random_stops(10)
 
       actual = gather_stops(@position, commuter, [], [])
-      assert Stops.Distance.closest(commuter, @position, 4) == actual
+      assert Distance.closest(commuter, @position, 4) == actual
     end
 
     test "if subway and CR stops overlap, does not return duplicates" do
       both = random_stops(20)
 
       actual = gather_stops(@position, both, both, [])
-      assert Stops.Distance.closest(both, @position, 12) == actual
+      assert Distance.closest(both, @position, 12) == actual
     end
 
     test "if non-closest subway and CR stops overlap, does not return duplicates" do
@@ -179,7 +180,7 @@ defmodule Stops.NearbyTest do
       bus = random_stops(20)
 
       actual = gather_stops(@position, [], [], bus)
-      assert Stops.Distance.closest(bus, @position, 12) == actual
+      assert Distance.closest(bus, @position, 12) == actual
     end
 
     test "with subway and commuter, returns 8 bus stops" do
@@ -191,12 +192,12 @@ defmodule Stops.NearbyTest do
 
       assert length(actual) == 12
 
-      for stop <- Stops.Distance.closest(bus, @position, 8) do
+      for stop <- Distance.closest(bus, @position, 8) do
         assert stop in actual
       end
 
-      assert (commuter |> Stops.Distance.closest(@position, 1) |> List.first) in actual
-      assert (subway |> Stops.Distance.closest(@position, 1) |> List.first) in actual
+      assert (commuter |> Distance.closest(@position, 1) |> List.first) in actual
+      assert (subway |> Distance.closest(@position, 1) |> List.first) in actual
     end
 
     test "without enough bus stops, fill with subway" do
@@ -226,7 +227,7 @@ defmodule Stops.NearbyTest do
           refute actual == []
         end
         # globally sorted
-        assert Stops.Distance.sort(actual, @position) == actual
+        assert Distance.sort(actual, @position) == actual
         # no duplicates
         assert Enum.uniq(actual) == actual
         # no more than 12 items
@@ -255,6 +256,6 @@ defmodule Stops.NearbyTest do
   end
 
   defp distance_sort(stops) do
-    Stops.Distance.sort(stops, {@latitude, @longitude})
+    Distance.sort(stops, {@latitude, @longitude})
   end
 end

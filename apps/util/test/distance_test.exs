@@ -1,4 +1,4 @@
-defmodule Stops.DistanceTest do
+defmodule Util.DistanceTest do
   use ExUnit.Case, async: true
 
   @position {42.57, -71.22}
@@ -8,7 +8,7 @@ defmodule Stops.DistanceTest do
     {42.518926, -71.252597},
     {42.518651, -71.247852}]
 
-  import Stops.Distance
+  import Util.Distance
 
   describe "closest/3" do
     test "given a list of positions, returns a list of the closest items" do

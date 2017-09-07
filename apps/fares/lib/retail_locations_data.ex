@@ -3,7 +3,7 @@ defmodule Fares.RetailLocations.Data do
     Parses json from the existing data file and returns it.
   """
   alias Fares.RetailLocations.Location
-  alias Stops.Position
+  alias Util.Position
 
   @spec get(String.t) :: [Location.t]
   def get(output_file \\ "fare_location_data.json") do
@@ -23,7 +23,7 @@ defmodule Fares.RetailLocations.Data do
     |> Enum.reduce(:rstar.new(2), fn l, t -> :rstar.insert(t, l) end)
   end
 
-  @spec k_nearest_neighbors(:rstar.rtree, Stops.Position.t, integer) :: [Location.t]
+  @spec k_nearest_neighbors(:rstar.rtree, Position.t, integer) :: [Location.t]
   def k_nearest_neighbors(tree, location, k) do
     query = build_point_from_location(location)
 

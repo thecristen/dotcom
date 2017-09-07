@@ -1,6 +1,6 @@
 defmodule Site.TripPlan.MapTest do
   use ExUnit.Case, async: true
-  alias Stops.Position
+  alias Util.Position
   alias TripPlan.Itinerary
   import Site.TripPlan.Map
 

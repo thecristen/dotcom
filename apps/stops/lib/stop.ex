@@ -32,7 +32,7 @@ defmodule Stops.Stop do
     has_charlie_card_vendor?: boolean
   }
 
-  defimpl Stops.Position do
+  defimpl Util.Position do
     def latitude(stop), do: stop.latitude
     def longitude(stop), do: stop.longitude
   end

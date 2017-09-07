@@ -4,7 +4,7 @@ defmodule Site.ScheduleV2Controller.Line.Maps do
   alias Stops.{RouteStops, RouteStop}
   alias Routes.{Route, Shape}
   alias Site.MapHelpers
-  alias Stops.Position
+  alias Util.Position
   import Site.Router.Helpers
   import Routes.Route, only: [vehicle_atom: 1]
 

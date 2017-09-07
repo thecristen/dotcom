@@ -154,11 +154,11 @@ defmodule GoogleMaps.GeocodeTest do
   end
 
   describe "Address" do
-    test "implements the Stops.Position protocol" do
-      Protocol.assert_impl!(Stops.Position, Address)
+    test "implements the Util.Position protocol" do
+      Protocol.assert_impl!(Util.Position, Address)
       address = %Address{}
-      assert Stops.Position.latitude(address) == address.latitude
-      assert Stops.Position.longitude(address) == address.longitude
+      assert Util.Position.latitude(address) == address.latitude
+      assert Util.Position.longitude(address) == address.longitude
     end
   end
 end

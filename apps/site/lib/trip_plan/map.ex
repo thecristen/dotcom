@@ -1,6 +1,6 @@
 defmodule Site.TripPlan.Map do
   alias TripPlan.{Leg, TransitDetail, Itinerary, NamedPosition}
-  alias Stops.Position
+  alias Util.Position
   alias GoogleMaps.{MapData, MapData.Marker, MapData.Path}
   alias Site.MapHelpers
   alias Routes.Route

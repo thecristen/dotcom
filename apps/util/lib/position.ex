@@ -1,4 +1,4 @@
-defprotocol Stops.Position do
+defprotocol Util.Position do
   @doc "The latitude of the item"
   def latitude(item)
 
@@ -6,12 +6,12 @@ defprotocol Stops.Position do
   def longitude(item)
 end
 
-defimpl Stops.Position, for: Map do
+defimpl Util.Position, for: Map do
   def latitude(%{latitude: latitude}), do: latitude
   def longitude(%{longitude: longitude}), do: longitude
 end
 
-defimpl Stops.Position, for: Tuple do
+defimpl Util.Position, for: Tuple do
   def latitude({latitude, _}), do: latitude
   def longitude({_, longitude}), do: longitude
 end
