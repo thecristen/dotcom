@@ -30,9 +30,4 @@ $form-check-input-margin-y: .25rem !default;
 .form-check-input {
   margin-left: -$form-check-input-gutter;
   margin-top: $form-check-input-margin-y;
-  position: absolute;
-
-  &:only-child {
-    position: static;
-  }
 }
