@@ -20,7 +20,7 @@
     }
 
     > a {
-      line-height: $header-navbar-height-multiplier;
+      line-height: $base-spacing * $header-navbar-height-multiplier;
       vertical-align: middle;
       text-decoration: none;
     }
