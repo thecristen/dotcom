@@ -1,5 +1,3 @@
-import guid from './guid';
-
 // galleries is global to this function and keeps track of 1 or more galleries on a single page
 let galleries = {};
 const PAGE_SIZE = 10;
@@ -46,7 +44,7 @@ const getGalleryImageByOffset = (id, offset) => galleries[id].images[offset];
 
 function setGalleryImageOffset (id, offset) {
   const lastOffset = galleries[id].images.length - 1;
-  if (offset == -1) {
+  if (offset === -1) {
     offset = lastOffset;
   } else if (offset > lastOffset) {
     offset = 0;
@@ -57,7 +55,7 @@ function setGalleryImageOffset (id, offset) {
 
 function setGalleryPageOffset (id, increment) {
   let page = galleries[id].pageOffset + increment;
-  if (page == -1) {
+  if (page === -1) {
     page = galleries[id].lastPage;
   } else if (page > galleries[id].lastPage) {
     page = 0;
@@ -74,18 +72,17 @@ export function handlePageLoad ($) {
 
 function handleClickImage (ev) {
   ev.preventDefault();
-  const id = ev.target.getAttribute("data-gallery");
-  const offset = ev.target.getAttribute("data-offset");
-  const photoId = ev.target.getAttribute("id");
+  const id = ev.currentTarget.getAttribute("data-gallery");
+  const offset = ev.currentTarget.getAttribute("data-offset");
+  const photoId = ev.currentTarget.getAttribute("id");
   const actualOffset = setGalleryImageOffset(id, offset);
-  //render(id, photoId);
   replaceActiveImage(id, getGalleryImageByOffset(id, actualOffset));
 }
 
 function handleClickNavigation (ev) {
   ev.preventDefault();
-  const id = ev.target.getAttribute("data-gallery");
-  const increment = parseInt(ev.target.getAttribute("data-increment"));
+  const id = ev.currentTarget.getAttribute("data-gallery");
+  const increment = parseInt(ev.currentTarget.getAttribute("data-increment"));
   const focusEl = (increment === 1) ? "next" : "prev";
   const isDesktop = isVisible(id + "images");
 
@@ -104,6 +101,7 @@ function handleClickNavigation (ev) {
 
 /* UTILITY FUNCTIONS */
 const isVisible = (id) => document.getElementById(id).offsetLeft > 0;
+const guid = () => (new Date().getTime().toString() + Math.floor(Math.random()*1000000));
 
 /* RENDERING FUNCTIONS */
 function render (id, focusId) {
