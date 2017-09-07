@@ -99,13 +99,11 @@ defmodule Content.CMS.Static do
     events = filter_by(events_response(), "field_meeting_id", id)
     {:ok, events}
   end
-  def view("/events", opts) do
-    events = case Keyword.get(opts, :id) do
-      nil -> events_response()
-      id -> filter_by(events_response(), "nid", id)
-    end
-
-    {:ok, events}
+  def view("/events", [id: id]) do
+    {:ok, filter_by(events_response(), "nid", String.to_integer(id))}
+  end
+  def view("/events", _opts) do
+    {:ok, events_response()}
   end
   def view("/api/search", [q: "empty", page: 0]) do
     {:ok, search_response_empty()}

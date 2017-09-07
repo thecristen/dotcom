@@ -2,7 +2,7 @@
   {
     "nid": [
       {
-        "value": "17"
+        "value": 17
       }
     ],
     "uuid": [
@@ -12,7 +12,7 @@
     ],
     "vid": [
       {
-        "value": "170"
+        "value": 170
       }
     ],
     "langcode": [
@@ -27,6 +27,11 @@
         "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
       }
     ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
     "title": [
       {
         "value": "Finance & Audit Committee Meeting"
@@ -34,76 +39,65 @@
     ],
     "uid": [
       {
-        "target_id": "7",
+        "target_id": 7,
         "target_type": "user",
         "target_uuid": "d403ed87-c9e8-46d0-963f-4f9719dc599b",
-        "url": "\/user\/7"
+        "url": "/user/7"
       }
     ],
-    "status": [
+   "created": [
       {
-        "value": "1"
-      }
-    ],
-    "created": [
-      {
-        "value": "1485206493"
+        "value": 1485206493
       }
     ],
     "changed": [
       {
-        "value": "1490019443"
+        "value": 1490019443
       }
     ],
     "promote": [
       {
-        "value": "0"
+        "value": false
       }
     ],
     "sticky": [
       {
-        "value": "0"
+        "value": false
       }
     ],
     "revision_timestamp": [
       {
-        "value": "1490019443"
+        "value": 1490019443
       }
     ],
     "revision_uid": [
       {
-        "target_id": "10",
+        "target_id": 10,
         "target_type": "user",
         "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
-        "url": "\/user\/10"
+        "url": "/user/10"
       }
     ],
-    "revision_log": [
-
-    ],
+    "revision_log": [],
     "revision_translation_affected": [
       {
-        "value": "1"
+        "value": true
       }
     ],
     "default_langcode": [
       {
-        "value": "1"
+        "value": true
       }
     ],
-    "path": [
-
-    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
     "body": [
       {
         "value": "<p><strong>Massachusetts Department of Transportation Meeting of the Standing Committee on Finance and Audit <\/strong><\/p>\r\n",
         "format": "full_html",
         "summary": ""
-      }
-    ],
-    "field_address": [
-      {
-        "value": "MassDOT, 10 Park Plaza\r\n\r\nTransportation Boardroom\r\n\r\nBoston, MA"
       }
     ],
     "field_agenda": [
@@ -112,30 +106,39 @@
         "format": "basic_html"
       }
     ],
+    "field_agenda_file": [],
     "field_city": [
       {
         "value": "Boston"
       }
     ],
-    "field_end_time": [
-
+    "field_end_time": [],
+    "field_event_type": [],
+    "field_imported_address": [
+      {
+        "value": "Savil Hill Apartments, 130 Auckland Street, Dorchester",
+        "format": null
+      }
     ],
     "field_location": [
       {
         "value": "MassDOT"
       }
     ],
-    "field_map_address": [
+    "field_meeting_id": [
       {
-        "value": "MassDOT, 10 Park Plaza\r\n\r\nTransportation Boardroom\r\n\r\nBoston, MA"
+        "value": "1"
       }
     ],
+    "field_minutes_file": [],
     "field_notes": [
       {
         "value": "<p><strong>THIS AGENDA HAS BEEN PREPARED IN ADVANCE AND DOES&nbsp;<\/strong><strong>NOT NECESSARILY INCLUDE ALL MATTERS WHICH MAY BE TAKEN UP AT THIS MEETING<\/strong><\/p>\r\n",
         "format": "basic_html"
       }
     ],
+    "field_other_files": [],
+    "field_project": [],
     "field_start_time": [
       {
         "value": "2017-01-23T15:00:00"
@@ -155,17 +158,12 @@
       {
         "value": "Board Members"
       }
-    ],
-    "field_meeting_id": [
-      {
-        "value": "1"
-      }
     ]
   },
   {
     "nid": [
       {
-        "value": "5"
+        "value": 5
       }
     ],
     "uuid": [
@@ -175,7 +173,7 @@
     ],
     "vid": [
       {
-        "value": "169"
+        "value": 169
       }
     ],
     "langcode": [
@@ -190,6 +188,11 @@
         "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
       }
     ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
     "title": [
       {
         "value": "AACT Executive Board Meeting"
@@ -197,108 +200,97 @@
     ],
     "uid": [
       {
-        "target_id": "1",
+        "target_id": 1,
         "target_type": "user",
         "target_uuid": "4a887460-7f79-4e33-9f24-2cdbbbf7a4c1",
-        "url": "\/user\/1"
-      }
-    ],
-    "status": [
-      {
-        "value": "1"
+        "url": "/user/1"
       }
     ],
     "created": [
       {
-        "value": "1481048772"
+        "value": 1481048772
       }
     ],
     "changed": [
       {
-        "value": "1490019416"
+        "value": 1490019416
       }
     ],
     "promote": [
       {
-        "value": "0"
+        "value": false
       }
     ],
     "sticky": [
       {
-        "value": "0"
+        "value": false
       }
     ],
     "revision_timestamp": [
       {
-        "value": "1490019416"
+        "value": 1490019416
       }
     ],
     "revision_uid": [
       {
-        "target_id": "10",
+        "target_id": 10,
         "target_type": "user",
         "target_uuid": "11008298-0b5b-4491-a92c-97ae40f81a79",
-        "url": "\/user\/10"
+        "url": "/user/10"
       }
     ],
-    "revision_log": [
-
-    ],
+    "revision_log": [],
     "revision_translation_affected": [
       {
-        "value": "1"
+        "value": true
       }
     ],
     "default_langcode": [
       {
-        "value": "1"
+        "value": true
       }
     ],
-    "path": [
-
-    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
     "body": [
       {
-        "value": "<p>The AACT board of directors meets from 10:00 AM to 12 noon and AACT members meet from 1:00 PM to 3:00 PM, on the third Wednesday of this month.<\/p>\r\n\r\n<p>AACT meetings are held in the State Transportation Building, 10 Park Plaza, Boston, second floor, in Conference Rooms 2 and 3, unless otherwise noted.<\/p>\r\n\r\n<p>To obtain a copy of this calendar in an accessible format, request special accommodations for a meeting, check on the status of a meeting, or ask any questions about AACT, please contact Janie Guion, AACT Coordinator, at 857-702-3658 (voice), 617-570-9193 (TTY), or AACT@ctps.org (email).<\/p>\r\n\r\n<p>THIS INFORMATION IS SUBJECT TO CHANGE.<\/p>\r\n",
+        "value": "<p>The AACT board of directors meets from 10:00 AM to 12 noon and AACT members meet from 1:00 PM to 3:00 PM, on the third Wednesday of this month.</p>\r\n\r\n<p>AACT meetings are held in the State Transportation Building, 10 Park Plaza, Boston, second floor, in Conference Rooms 2 and 3, unless otherwise noted.</p>\r\n\r\n<p>To obtain a copy of this calendar in an accessible format, request special accommodations for a meeting, check on the status of a meeting, or ask any questions about AACT, please contact Janie Guion, AACT Coordinator, at 857-702-3658 (voice), 617-570-9193 (TTY), or AACT@ctps.org (email).</p>\r\n\r\n<p>THIS INFORMATION IS SUBJECT TO CHANGE.</p>\r\n",
         "format": "basic_html",
         "summary": ""
       }
     ],
-    "field_address": [
-      {
-        "value": "MassDOT, 10 Park Plaza, Transportation Board Rm., Boston, MA 02116"
-      }
-    ],
     "field_agenda": [
       {
-        "value": "<p>The AACT board of directors meets from 10:00 AM to 12 noon and AACT members meet from 1:00 PM to 3:00 PM, on the third Wednesday of this month.<\/p>\r\n\r\n<p>AACT meetings are held in the State Transportation Building, 10 Park Plaza, Boston, second floor, in Conference Rooms 2 and 3, unless otherwise noted.<\/p>\r\n\r\n<p>To obtain a copy of this calendar in an accessible format, request special accommodations for a meeting, check on the status of a meeting, or ask any questions about AACT, please contact Janie Guion, AACT Coordinator, at 857-702-3658 (voice), 617-570-9193 (TTY), or AACT@ctps.org (email).<\/p>\r\n\r\n<p>THIS INFORMATION IS SUBJECT TO CHANGE.<\/p>\r\n",
+        "value": "<p>The AACT board of directors meets from 10:00 AM to 12 noon and AACT members meet from 1:00 PM to 3:00 PM, on the third Wednesday of this month.</p>\r\n\r\n<p>AACT meetings are held in the State Transportation Building, 10 Park Plaza, Boston, second floor, in Conference Rooms 2 and 3, unless otherwise noted.</p>\r\n\r\n<p>To obtain a copy of this calendar in an accessible format, request special accommodations for a meeting, check on the status of a meeting, or ask any questions about AACT, please contact Janie Guion, AACT Coordinator, at 857-702-3658 (voice), 617-570-9193 (TTY), or AACT@ctps.org (email).</p>\r\n\r\n<p>THIS INFORMATION IS SUBJECT TO CHANGE.</p>\r\n",
         "format": "basic_html"
       }
     ],
+    "field_agenda_file": [],
     "field_city": [
       {
         "value": "Boston"
       }
     ],
-    "field_end_time": [
-
-    ],
+    "field_end_time": [],
+    "field_event_type": [],
+    "field_imported_address": [],
     "field_location": [
       {
         "value": "MassDOT"
       }
     ],
-    "field_map_address": [
-      {
-        "value": "10 Park Plaza, Boston, MA 02116"
-      }
-    ],
+    "field_meeting_id": [],
+    "field_minutes_file": [],
     "field_notes": [
       {
-        "value": "<p>Meeting will be held in Conference Rooms 2 &amp; 3 on the second floor of the State Transportation Building.<\/p>\r\n",
+        "value": "<p>Meeting will be held in Conference Rooms 2 &amp; 3 on the second floor of the State Transportation Building.</p>\r\n",
         "format": "basic_html"
       }
     ],
+    "field_other_files": [],
+    "field_project": [],
     "field_start_time": [
       {
         "value": "2017-03-13T16:00:00"
@@ -318,7 +310,6 @@
       {
         "value": "Board Members"
       }
-    ],
-    "field_meeting_id": []
+    ]
   }
 ]
