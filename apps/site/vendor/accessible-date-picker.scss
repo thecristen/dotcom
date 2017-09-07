@@ -196,11 +196,11 @@ a.datepicker-button.default {
 
 a.datepicker-button.default:hover,
 a.datepicker-button.default:focus {
-  background-color: #DDD;
+  background-color: #ddd;
 }
 
 div.datepicker-calendar.default {
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 div.datepicker-calendar.default div.datepicker-month-wrap {
@@ -225,7 +225,7 @@ div.datepicker-calendar.default div.datepicker-month:hover,
 div.datepicker-calendar.default div.datepicker-month:focus,
 div.datepicker-calendar.default button.datepicker-close:hover,
 div.datepicker-calendar.default button.datepicker-close:focus {
-  background-color: #EEE;
+  background-color: #eee;
   border-color:  #999;
 }
 
@@ -239,7 +239,7 @@ div.datepicker-calendar.default tr.datepicker-weekdays {
 }
 
 div.datepicker-calendar.default table.datepicker-grid th {
-  background-color: #EEE;
+  background-color: #eee;
   border:  none;
 }
 
@@ -255,25 +255,25 @@ div.datepicker-calendar.default table.datepicker-grid td.unselectable {
 div.datepicker-calendar.default table.datepicker-grid td.curDay,
 div.datepicker-calendar.default table.datepicker-grid td.curMonth,
 div.datepicker-calendar.default table.datepicker-grid td.curYear {
-  background-color: #FFF0C4;
+  background-color: #fff0c4;
 }
 
 div.datepicker-calendar.default table.datepicker-grid td.empty {
   border:  none;
-  color: #CCC;
+  color: #ccc;
 }
 
 div.datepicker-calendar.default table.datepicker-grid td.selectable:hover,
 div.datepicker-calendar.default table.datepicker-grid td.selectable.focus {
-  background-color: #DDD;
+  background-color: #ddd;
 }
 
 div.datepicker-calendar.default table.datepicker-grid td.empty:hover {
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
 }
 
 div.datepicker-calendar.default button.datepicker-close {
-  background-color: #DDD;
+  background-color: #ddd;
   border-color:  #999;
   color: #000;
 }
