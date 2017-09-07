@@ -300,4 +300,49 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       end
     end
   end
+
+  describe "index.html" do
+    @index_assigns %{date: Util.now(),
+                     date_time: Util.now(),
+                     errors: [],
+                     initial_map_data: Site.TripPlan.Map.initial_map_data(),
+                     initial_map_src: Site.TripPlan.Map.initial_map_src()}
+
+    test "renders the form with all fields", %{conn: conn} do
+      conn = put_req_cookie(conn, "js_datepicker", "true")
+      html =
+        "index.html"
+        |> render(Map.put(@index_assigns, :conn, conn))
+        |> safe_to_string()
+      assert [{"div", _, form}] = Floki.find(html, ".plan-date-time")
+      assert [{"select", _, _year_opts}] = Floki.find(form, ~s([name="plan[date_time][year]"]))
+      assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][month]"]))
+      assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][day]"]))
+      assert [{"select", _, _hour_options}] = Floki.find(form, ~s([name="plan[date_time][hour]"]))
+      assert [{"select", _, _minute_options}] = Floki.find(form, ~s([name="plan[date_time][minute]"]))
+    end
+
+    test "includes a text field for the javascript datepicker to attach to", %{conn: conn} do
+      conn = put_req_cookie(conn, "js_datepicker", "true")
+      html =
+        "index.html"
+        |> render(Map.put(@index_assigns, :conn, conn))
+        |> safe_to_string()
+
+      assert [{"input", _, _}] = Floki.find(html, ~s(input#plan-date-input[type="text"]))
+    end
+
+    test "renders correctly when lab is not enabled", %{conn: conn} do
+      html =
+        "index.html"
+        |> render(Map.put(@index_assigns, :conn, conn))
+        |> safe_to_string()
+      assert [{"div", _, form}] = Floki.find(html, ".plan-date-time")
+      assert [{"select", _, _year_opts}] = Floki.find(form, ~s([name="plan[date_time][year]"]))
+      assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][month]"]))
+      assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][day]"]))
+      assert [{"select", _, _hour_options}] = Floki.find(form, ~s([name="plan[date_time][hour]"]))
+      assert [{"select", _, _minute_options}] = Floki.find(form, ~s([name="plan[date_time][minute]"]))
+    end
+  end
 end

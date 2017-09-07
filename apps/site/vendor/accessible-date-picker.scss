@@ -607,29 +607,3 @@ div.datepicker-calendar.green button.datepicker-close {
 	border-color:  #EEE;
 }
 
-
-/***********************************
- 		CUSTOM STYLING
-************************************/
-
-.datepicker-day abbr {
-	cursor: default;
-	text-decoration: none;
-}
-
-.plan-time-container {
-	background: $white;
-	border: $border;
-
-	input {
-		border: none;
-		display: inline;
-		width: $base-spacing * 2;
-		text-align: center;
-
-		&:focus {
-			border: 1px solid $gray-light;
-			outline: none;
-		}
-	}
-}

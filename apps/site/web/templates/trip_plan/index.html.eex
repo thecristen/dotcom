@@ -46,20 +46,12 @@
           Arrive By
         <% end %>
       </div>
-      <%= if Laboratory.enabled?(@conn, :js_datepicker) do %>
-        <div class="form-group date-select-js">
-          <a href="#show-date-picker" id="plan-date-link"></a>
-          <%= label f, :date, for: "plan-date", id: "plan-date-container", class: "plan-date-container" do %>
-            <%= text_input f, :date, class: "date form-control", id: "plan-date" %>
-          <% end %>
-        </div>
-      <% end %>
-      <div class="form-group date-time-select">
-        <%= datetime_select f, :date_time, year: [options: Range.new(@date.year, @date.year + 1)], default: @date_time %>
+      <div class="form-group">
+        <%= trip_plan_datetime_select(@conn, f, assigns[:query]) %>
         <div class="error-container">
-        <%= if @errors[:date_time] do %>
-          <span><%= @errors[:date_time] %></span>
-        <% end %>
+          <%= if @errors[:date_time] do %>
+            <span><%= @errors[:date_time] %></span>
+          <% end %>
         </div>
       </div>
       <div class="form-group">
