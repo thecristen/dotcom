@@ -160,9 +160,9 @@ const validators = {
     }
     return true;
   },
-  contacts: function ($) {
+  email: function ($) {
     if(responseRequested($)) {
-      return email.valid($('#email').val()) || $('#phone').val() !== '';
+      return email.valid($('#email').val());
     }
     return true;
   },
@@ -179,7 +179,7 @@ function responseRequested($) {
 }
 
 function setupValidation($) {
-  ['#privacy', '#comments', '.contacts', '#name'].forEach((selector) => {
+  ['#privacy', '#comments', '#email', '#name'].forEach((selector) => {
     const $selector = $(selector);
     $selector.on('keyup blur input change', () => {
       if (validators[selector.slice(1)]($)) {
@@ -204,7 +204,7 @@ function validateForm($) {
   const privacy = '#privacy',
         comments = '#comments',
         service = "#service",
-        contacts = '.contacts',
+        email = "#email",
         name = '#name',
         errors = [];
   // Service
@@ -231,12 +231,12 @@ function validateForm($) {
     displaySuccess($, name);
   }
   // Phone and email
-  if(!validators.contacts($)) {
-    displayError($, contacts);
-    errors.push(contacts);
+  if(!validators.email($)) {
+    displayError($, email);
+    errors.push(email);
   }
   else {
-    displaySuccess($, contacts);
+    displaySuccess($, email);
   }
   // Privacy checkbox
   if(!validators.privacy($)) {

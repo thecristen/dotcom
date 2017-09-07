@@ -59,29 +59,27 @@ defmodule Site.CustomerSupportControllerTest do
       assert "name" in conn.assigns.errors
     end
 
-    test "does not require email or phone when the customer wants a response", %{conn: conn} do
+    test "does not require email or phone when the customer does not want a response", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_no_response_data(), "email", "")
       refute conn.assigns["errors"]
       wait_for_ticket_task(conn)
     end
 
-    test "invalid with no email or phone when the customer wants a response", %{conn: conn} do
+    test "invalid with no email when the customer wants a response", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_request_response_data(), "email", "")
-      assert "contacts" in conn.assigns.errors
+      assert "email" in conn.assigns.errors
     end
 
     test "requires a real email", %{conn: conn} do
       conn = post conn, customer_support_path(conn, :submit), Map.put(valid_request_response_data(), "email", "not an email")
-      assert "contacts" in conn.assigns.errors
+      assert "email" in conn.assigns.errors
     end
 
-    test "valid with a phone number", %{conn: conn} do
+    test "invalid with phone but no email when the customer wants a response", %{conn: conn} do
       conn = post conn,
         customer_support_path(conn, :submit),
         Map.merge(valid_request_response_data(), %{"email" => "", "phone" => "555-555-5555"})
-      refute html_response(conn, 302) =~ "form id=\"support-form\""
-      assert redirected_to(conn) == customer_support_path(conn, :thanks)
-      wait_for_ticket_task(conn)
+      assert "email" in conn.assigns.errors
     end
 
     test "does not require privacy checkbox when customer does not want a response", %{conn: conn} do
