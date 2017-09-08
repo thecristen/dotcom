@@ -87,6 +87,7 @@ defmodule Content.Repo do
     end
   end
 
+  @spec event_by(Keyword.t) :: Content.Event.t | nil
   def event_by(opts) do
     case events(opts) do
       [record] -> record

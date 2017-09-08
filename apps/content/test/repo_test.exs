@@ -95,7 +95,7 @@ defmodule Content.RepoTest do
 
     test "raises Content.NoResultsError if not present" do
       assert_raise Content.NoResultsError, fn ->
-        Content.Repo.event!("nonexistent")
+        Content.Repo.event!("999")
       end
     end
   end
