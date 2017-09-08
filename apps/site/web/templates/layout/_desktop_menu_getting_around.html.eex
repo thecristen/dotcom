@@ -68,7 +68,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/parking/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/parking") do %>
           <%= fa "caret-right" %> Parking
         <% end %>
       </li>
