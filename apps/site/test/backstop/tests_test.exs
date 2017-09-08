@@ -34,25 +34,21 @@ defmodule Mix.Tasks.Backstop.TestsTest do
   describe "run/1" do
     test "starts servers and calls the runner task" do
       io = ExUnit.CaptureIO.capture_io(fn ->
-        assert {:ok, result, pids} = Tests.run([], [TestServer], &runner_fn/3, &cmd_fn/4, 2000)
-        assert [{TestServer, server_pid}] = pids
-        assert is_pid(server_pid)
-        assert result == %{exit_code: 0, message: "runner_fn called", args: %{}, config: ""}
+        assert :ok = Tests.run([], [TestServer], &runner_fn/3, &cmd_fn/4, 2000)
       end)
       assert io =~ "prod_server"
     end
 
     test "calls cmd_fn" do
       io = ExUnit.CaptureIO.capture_io(fn ->
-        assert {:ok, result, _pids} = Tests.run([], [TestServer], &Tests.run_backstop/3, &cmd_fn/4, 2000)
-        assert %{exit_code: 0, args: _, config: _} = result
+        assert :ok = Tests.run([], [TestServer], &Tests.run_backstop/3, &cmd_fn/4, 2000)
       end)
       assert io =~ "cmd_fn_called"
     end
 
     test "uses dev server when --dev option is used" do
       io = ExUnit.CaptureIO.capture_io(fn ->
-        assert {:ok, _result, _pids} = Tests.run(["--dev"], [TestServer], &runner_fn/3, &cmd_fn/4, 2000)
+        assert :ok = Tests.run(["--dev"], [TestServer], &runner_fn/3, &cmd_fn/4, 2000)
       end)
       assert io =~ "dev_server"
     end
