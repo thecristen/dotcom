@@ -75,7 +75,7 @@ div.datepicker-calendar div.datepicker-month {
   text-align: center;
 }
 
-div.datepicker-calendar div.datepicker-month:after {
+div.datepicker-calendar div.datepicker-month::after {
   content: '\e252';
   display: inline-block;
   font-family: 'Glyphicons Halflings';
