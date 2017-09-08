@@ -92,7 +92,7 @@ defmodule Mix.Tasks.Backstop.Tests do
     original - diff
   end
 
-  @spec shutdown(pid, proc_result | :timeout, non_neg_integer) :: :ok | :error
+  @spec shutdown(pid, proc_result, non_neg_integer) :: :ok | :error
   defp shutdown(pid, result, timeout) do
     if Process.alive?(pid) do
       pid
