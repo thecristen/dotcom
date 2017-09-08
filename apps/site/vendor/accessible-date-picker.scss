@@ -9,8 +9,6 @@ a.datepicker-button {
 
 div.datepicker-calendar {
   border: 1px solid #ccc;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
   border-radius: 4px;
   font-size: .9em;
   margin: 0 10px 10px 0;
@@ -63,8 +61,6 @@ div.datepicker-calendar div.datepicker-month-prev.enabled:focus,
 div.datepicker-calendar div.datepicker-month-next.enabled:hover,
 div.datepicker-calendar div.datepicker-month-next.enabled:focus {
   border: 1px solid #800;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
   border-radius: 4px;
   margin-top: 2px;
 }
@@ -89,8 +85,6 @@ div.datepicker-calendar div.datepicker-month:after {
 div.datepicker-calendar div.datepicker-month:hover,
 div.datepicker-calendar div.datepicker-month:focus {
   border: 1px solid #800;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
   border-radius: 4px;
   padding-top: 0;
 }
@@ -177,8 +171,6 @@ div.datepicker-calendar .offscreen {
 
 div.datepicker-calendar button.datepicker-close {
   border: 1px solid #eee;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
   border-radius: 2px;
   font-weight: bold;
   height: 30px;
