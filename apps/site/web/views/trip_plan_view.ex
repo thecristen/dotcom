@@ -174,7 +174,7 @@ defmodule Site.TripPlanView do
 
   @spec display_meters_as_miles(float) :: String.t
   def display_meters_as_miles(meters) do
-    Float.to_string(meters / @meters_per_mile, decimals: 1)
+    :erlang.float_to_binary(meters / @meters_per_mile, decimals: 1)
   end
 
   def format_additional_route(%Route{id: "Green" <> _branch} = route, direction_id) do
