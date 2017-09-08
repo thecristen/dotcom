@@ -29,7 +29,10 @@
       <strong>Anonymous Text Number:</strong> <span class="no-wrap">873-873</span>
     </p>
     <p>
-      <strong>Non-Emergency:</strong> <span class="no-wrap">(617) 222-1000</span>
+      <strong>Non-Emergency:</strong> <span class="no-wrap">(617) 222-1000</span><br />
+      <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
+        <%= fa "caret-right" %> Contact the Transit Police
+      <% end %>
     </p>
   </div>
   <div class="col-xs-4 header-column">
