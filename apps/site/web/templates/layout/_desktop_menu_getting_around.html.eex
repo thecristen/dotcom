@@ -48,13 +48,13 @@
         <% end %>
       </li>
       <li>
-        <%= link to: transit_near_me_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Transit Near Me
+        <%= link to: cms_static_page_path(@conn, "/maps") do %>
+          <%= fa "caret-right" %> Maps
         <% end %>
       </li>
       <li>
-        <%= link to: cms_static_page_path(@conn, "/maps") do %>
-          <%= fa "caret-right" %> Maps
+        <%= link to: cms_static_page_path(@conn, "/destinations") do %>
+          <%= fa "caret-right" %> Destinations
         <% end %>
       </li>
     </ul>
@@ -68,7 +68,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "riding_the_t/parking/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/parking") do %>
           <%= fa "caret-right" %> Parking
         <% end %>
       </li>
@@ -83,7 +83,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "safety/"), target: "_blank" do %><%# the safety bounce! %>
+        <%= link to: cms_static_page_path(@conn, "/safety") do %><%# the safety bounce! %>
           <%= fa "caret-right" %> Safety
         <% end %>
       </li>

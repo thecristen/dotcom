@@ -42,12 +42,14 @@
               <span class="support-tel-number"><strong>Emergency</strong> <%= tel_link "(617)-222-1212" %></span>
               <span class="support-tel-number"><strong>TTY</strong> <%= tel_link "(617)-222-1200" %></span>
             </li>
-            <li><span class="support-tel-number"><strong>Anonymous Text Number</strong> <%= sms_link "873-873" %></span>
-            </li>
-            <li><span class="support-tel-number"><strong>Non-Emergency</strong> <%= tel_link "(617)-222-1000" %></span></li>
             <li>
-              <%= link to: redirect_path(@conn, "transitpolice/contact_us"), target: "_blank" do %>
-                View more about the Transit Police <%= fa "arrow-right" %>
+              <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
+                Contact Transit Police <%= fa "arrow-right" %>
+              <% end %>
+            </li>
+            <li>
+              <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something") do %>
+                See Something, Say Something <%= fa "arrow-right" %>
               <% end %>
             </li>
           </ul>

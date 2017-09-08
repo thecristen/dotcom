@@ -25,12 +25,20 @@
     <p class="nav-title">Transit Police</p>
     <p>
       <strong>Emergency:</strong> <span class="no-wrap">(617) 222-1212</span><br />
-      <strong>TTY:</strong> <span class="no-wrap">(617) 222-5146</span><br />
-      <strong>Anonymous Text Number:</strong> <span class="no-wrap">873-873</span>
+      <strong>TTY:</strong> <span class="no-wrap">(617) 222-1200</span><br />
     </p>
-    <p>
-      <strong>Non-Emergency:</strong> <span class="no-wrap">(617) 222-1000</span>
-    </p>
+    <ul>
+      <li>
+        <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
+          <%= fa "caret-right" %> Contact Transit Police
+        <% end %>
+      </li>
+      <li>
+        <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something") do %>
+          <%= fa "caret-right" %> See Something, Say Something
+        <% end %>
+      </li>
+    </ul>
   </div>
   <div class="col-xs-4 header-column">
     <p class="nav-title">Service Updates</p>

@@ -24,18 +24,18 @@
           <li class="footer-link-sublist-item"><%= link "Trip Planner", to: trip_plan_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Station Info", to: stop_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Service Alerts", to: alert_path(@conn, :index) %></li>
-          <li class="footer-link-sublist-item"><%= link "Transit Near Me", to: transit_near_me_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Maps", to: cms_static_page_path(@conn, "/maps") %></li>
+          <li class="footer-link-sublist-item"><%= link "Destinations", to: cms_static_page_path(@conn, "/destinations") %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
         Riding the T
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility") %></li>
-          <li class="footer-link-sublist-item"><%= link "Parking", to: redirect_path(@conn, "riding_the_t/parking//"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Parking", to: cms_static_page_path(@conn, "/parking") %></li>
           <li class="footer-link-sublist-item"><%= link "Bikes on the T", to: redirect_path(@conn, "riding_the_t/bikes/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Pets on the T", to: redirect_path(@conn, "riding_the_t/pets/"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Safety", to: redirect_path(@conn, "safety/"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Safety", to: cms_static_page_path(@conn, "/safety") %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
