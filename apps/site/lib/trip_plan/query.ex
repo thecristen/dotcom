@@ -1,6 +1,6 @@
 defmodule Site.TripPlan.Query do
   alias TripPlan.Itinerary
-  alias Stops.Position
+  alias Util.Position
 
   @enforce_keys [:from, :to, :itineraries]
   defstruct [:from,

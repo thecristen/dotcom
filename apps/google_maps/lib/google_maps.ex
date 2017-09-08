@@ -4,7 +4,7 @@ defmodule GoogleMaps do
   Helper functions for working with the Google Maps API.
 
   """
-  alias Stops.Position
+  alias Util.Position
   alias GoogleMaps.MapData
 
   @host "https://maps.googleapis.com"

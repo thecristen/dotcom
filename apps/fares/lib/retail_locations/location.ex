@@ -16,7 +16,7 @@ defmodule Fares.RetailLocations.Location do
                           latitude: float, longitude: float, method_of_payment: String.t, name: String.t,
                           telephone: String.t, type_of_passes_on_sale2007: String.t}
 
-  defimpl Stops.Position do
+  defimpl Util.Position do
     def latitude(%@for{latitude: latitude}), do: latitude
     def longitude(%@for{longitude: longitude}), do: longitude
   end

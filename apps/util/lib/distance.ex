@@ -1,11 +1,11 @@
-defmodule Stops.Distance do
+defmodule Util.Distance do
   @moduledoc """
 
-  Helper functions for working with distances between Stop.Position items.
+  Helper functions for working with distances between Util.Position items.
 
   """
-  alias Stops.Position
-  import Stops.Position
+  alias Util.Position
+  import Util.Position
 
   @degrees_to_radians :math.pi / 180
   @globe_diameter 3958.7613 * 2 # mean diameter in miles

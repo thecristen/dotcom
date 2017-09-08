@@ -4,7 +4,7 @@ defmodule Site.Plugs.TransitNearMe do
   import Phoenix.Controller, [only: [put_flash: 3]]
   alias GoogleMaps.Geocode
   alias Routes.Route
-  alias Stops.{Stop, Distance}
+  alias Stops.Stop
 
   defmodule Options do
     defstruct [
@@ -80,7 +80,7 @@ defmodule Site.Plugs.TransitNearMe do
     stops
     |> Task.async_stream(fn stop ->
       %{stop: stop,
-        distance: Distance.haversine(stop, location),
+        distance: Util.Distance.haversine(stop, location),
         routes: stop.id |> routes_by_stop_fn.() |> get_route_groups}
     end)
     |> Enum.map(fn {:ok, map} -> map end)

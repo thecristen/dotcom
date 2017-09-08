@@ -12,7 +12,7 @@ defmodule TripPlan.NamedPosition do
     longitude: float
   }
 
-  defimpl Stops.Position do
+  defimpl Util.Position do
     def latitude(%{latitude: latitude}), do: latitude
     def longitude(%{longitude: longitude}), do: longitude
   end

@@ -2,7 +2,7 @@ defmodule TripPlan do
   @moduledoc """
   Plan transit trips from one place to another.
   """
-  alias Stops.Position
+  alias Util.Position
 
   # Default options for the plans
   @default_opts [

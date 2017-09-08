@@ -4,7 +4,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   import __MODULE__.Builder, only: [build_params: 1]
   import __MODULE__.Parser, only: [parse_json: 1, parse_nearby: 1]
   alias TripPlan.NamedPosition
-  alias Stops.Position
+  alias Util.Position
 
   def plan(from, to, opts) do
     with {:ok, params} <- build_params(opts),

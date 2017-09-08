@@ -3,7 +3,6 @@ defmodule Stops.Repo do
   Matches the Ecto API, but fetches Stops from the Stop Info API instead.
   """
   use RepoCache, ttl: :timer.hours(1)
-  alias Stops.Position
   alias Stops.Stop
   alias Routes.Route
 
@@ -42,7 +41,7 @@ defmodule Stops.Repo do
     end
   end
 
-  @spec closest(Position.t) :: [Stop.t]
+  @spec closest(Util.Position.t) :: [Stop.t]
   def closest(position) do
     Stops.Nearby.nearby(position)
   end

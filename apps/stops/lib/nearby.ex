@@ -17,8 +17,8 @@ defmodule Stops.Nearby do
   @mile_in_degrees 0.02
   @total 12
 
-  import Stops.Distance
-  alias Stops.Position
+  import Util.Distance
+  alias Util.Position
 
   defmodule Options do
     defstruct [

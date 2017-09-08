@@ -5,8 +5,7 @@ defmodule TripPlan.Leg do
   An Itinerary can take multiple modes of transportation (walk, bus,
   train, &c). Leg represents a single mode of travel during journey.
   """
-  alias TripPlan.{PersonalDetail, TransitDetail}
-  alias Stops.Position
+  alias TripPlan.{PersonalDetail, TransitDetail, NamedPosition}
 
   defstruct [
     start: DateTime.from_unix!(-1),
@@ -22,8 +21,8 @@ defmodule TripPlan.Leg do
     start: DateTime.t,
     stop: DateTime.t,
     mode: mode,
-    from: Position.t,
-    to: Position.t,
+    from: NamedPosition.t,
+    to: NamedPosition.t,
     polyline: String.t
   }
 
@@ -57,7 +56,7 @@ defmodule TripPlan.Leg do
   @doc "Returns the stop IDs for the leg"
   @spec stop_ids(t) :: [Stops.Stop.id_t]
   def stop_ids(%__MODULE__{from: from, to: to}) do
-    for %{stop_id: stop_id} <- [from, to],
+    for %NamedPosition{stop_id: stop_id} <- [from, to],
       stop_id do
       stop_id
     end

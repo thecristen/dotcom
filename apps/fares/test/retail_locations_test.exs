@@ -1,7 +1,7 @@
 defmodule Fares.RetailLocationsTest do
   use ExUnit.Case, async: true
 
-  @with_nearby %Stops.Stop{latitude: 42.352271, longitude: -71.055242, id: "place-sstat"}
+  @with_nearby %{latitude: 42.352271, longitude: -71.055242}
 
   describe "Fares.RetailLocations.get_nearby/1" do
     @tag fare_retail_locations: true
@@ -20,7 +20,7 @@ defmodule Fares.RetailLocationsTest do
 
       assert Fares.RetailLocations.Data.get
       |> Enum.map(&Map.from_struct/1)
-      |> Enum.map(&(Stops.Distance.haversine(&1, @with_nearby)))
+      |> Enum.map(&(Util.Distance.haversine(&1, @with_nearby)))
       |> Enum.sort
       |> List.first == top_distance
     end

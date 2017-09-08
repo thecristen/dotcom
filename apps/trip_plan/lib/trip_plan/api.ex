@@ -7,7 +7,7 @@ defmodule TripPlan.Api do
 
   """
   alias TripPlan.Itinerary
-  alias Stops.Position
+  alias Util.Position
 
   @type plan_opt :: {:arrive_by, DateTime.t} |
   {:depart_at, DateTime.t} |
