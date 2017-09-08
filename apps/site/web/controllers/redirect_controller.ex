@@ -20,6 +20,7 @@ defmodule Site.RedirectController do
   defp get_path([], _params), do: "http://old.mbta.com/"
   defp get_path(["pass_program" | parts], params), do: "https://passprogram.mbta.com/#{parts_to_path(parts, params)}"
   defp get_path(["commerce" | parts], params), do: "https://commerce.mbta.com/#{parts_to_path(parts, params)}"
+  defp get_path(["business_center" | parts], params), do: "http://bc.mbta.com/business_center/#{parts_to_path(parts, params)}"
   defp get_path(parts, params), do: "http://old.mbta.com/#{parts_to_path(parts, params)}"
 
   @spec parts_to_path([String.t], map()) :: String.t
