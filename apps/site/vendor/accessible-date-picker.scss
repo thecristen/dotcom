@@ -29,7 +29,7 @@ div.datepicker-calendar div.datepicker-month-fast-prev.disabled,
 div.datepicker-calendar div.datepicker-month-fast-next.disabled ,
 div.datepicker-calendar div.datepicker-month-prev.disabled,
 div.datepicker-calendar div.datepicker-month-next.disabled {
-  border: none;
+  border: 0;
   cursor: default;
 }
 
@@ -113,7 +113,7 @@ div.datepicker-calendar table.datepicker-grid td{
 }
 
 div.datepicker-calendar table.datepicker-grid th abbr{
-  border: none;
+  border: 0;
 }
 
 div.datepicker-calendar table.datepicker-grid td {
@@ -234,11 +234,11 @@ div.datepicker-calendar.default tr.datepicker-weekdays {
 
 div.datepicker-calendar.default table.datepicker-grid th {
   background-color: #eee;
-  border:  none;
+  border: 0;
 }
 
 div.datepicker-calendar.default table.datepicker-grid td {
-  border:  none;
+  border: 0;
   color: #000;
 }
 
@@ -253,7 +253,7 @@ div.datepicker-calendar.default table.datepicker-grid td.curYear {
 }
 
 div.datepicker-calendar.default table.datepicker-grid td.empty {
-  border:  none;
+  border: 0;
   color: #ccc;
 }
 
