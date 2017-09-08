@@ -12,7 +12,55 @@
 }
 
 .plan-date-container {
+  background: $white;
+  border: $border;
   display: none;
+
+  input {
+    border: 0;
+    display: inline;
+    text-align: center;
+    width: $base-spacing * 2;
+
+    &:focus {
+      border: 1px solid $gray-light;
+      outline: none;
+    }
+  }
+}
+
+.plan-datetime-link {
+  background: transparent;
+  border: 0;
+  color: $brand-primary;
+  text-decoration: underline;
+}
+
+.datepicker-day abbr {
+  cursor: default;
+  text-decoration: none;
+}
+
+.plan-date-input {
+  display: none;
+}
+
+.plan-time-input-select {
+  display: inline-block;
+}
+
+.datepicker-calendar {
+  display: none;
+}
+
+.plan-time {
+  display: inline-block;
+}
+
+@include media-breakpoint-up(md) {
+  .plan-date {
+    display: inline-block;
+  }
 }
 
 .trip-plan-form-container {
@@ -31,6 +79,11 @@
     border-radius: $space-4;
     display: inline;
   }
+}
+
+.plan-date-select,
+.plan-time-select {
+  display: inline-block;
 }
 
 .trip-plan-itinerary-container {

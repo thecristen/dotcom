@@ -15,11 +15,21 @@ defmodule Site.ScheduleV2View.StopList do
   def view_branch_link(branch_name, assigns, target_id, branch_display) do
     Site.ScheduleV2View.render("_stop_list_expand_link.html",
                                Map.merge(assigns,
-                                         %{is_expand_link?: true,
-                                           branch_name: branch_name,
+                                         %{branch_name: branch_name,
                                            branch_display: branch_display,
                                            target_id: target_id
                                          }))
+  end
+
+  @spec display_expand_link?([{String.t, StopBubble.Params.t}]) :: boolean
+  @doc "Determine if the expansion link should be shown"
+  def display_expand_link?([_, _ | _]), do: true
+  def display_expand_link?(_), do: false
+
+  @spec step_bubble_attributes([{String.t, StopBubble.Params.t}], String.t) :: Keyword.t
+  @doc "Returns the html attributes to be used when rendering the intermediate steps"
+  def step_bubble_attributes(step_bubble_params, target_id) do
+    if display_expand_link?(step_bubble_params), do: [id: target_id, class: "collapse stop-list"], else: []
   end
 
   @doc """
@@ -96,8 +106,7 @@ defmodule Site.ScheduleV2View.StopList do
         index: index,
         stop: assigns[:stop],
         bubbles: assigns.bubbles,
-        route_id: assigns.route.id,
-        is_expand_link?: assigns[:is_expand_link?]
+        route_id: assigns.route.id
       })
 
       %StopBubble.Params{
@@ -122,8 +131,7 @@ defmodule Site.ScheduleV2View.StopList do
     index: index,
     stop: stop,
     bubbles: bubbles,
-    route_id: route_id,
-    is_expand_link?: is_expand_link?
+    route_id: route_id
   }) do
     stop_branch = stop && stop.branch
 
@@ -133,25 +141,22 @@ defmodule Site.ScheduleV2View.StopList do
           dotted_merge(bubble_type, direction_id, index),
           dotted_green(bubble_branch, stop, direction_id),
           dotted_branch(bubbles, stop_branch),
-          {route_id, stop_branch},
-          is_expand_link?
+          {route_id, stop_branch}
         ) -> "dotted"
-        is_singleton_expand_link?(bubbles, is_expand_link?) -> "dotted"
         true -> ""
       end
 
     String.trim("#{bubble_type} #{dotted}")
   end
 
-  defp is_dotted(is_merge, is_green_dotted, is_branch, route_info, is_expand_link?)
-  defp is_dotted(_, is_green_dotted, _, {"Green", "Green-E"}, _) do
+  defp is_dotted(is_merge, is_green_dotted, is_branch, route_info)
+  defp is_dotted(_, is_green_dotted, _, {"Green", "Green-E"}) do
     is_green_dotted
   end
-  defp is_dotted(_, is_green_dotted, is_branch, {"Green", _}, _) do
+  defp is_dotted(_, is_green_dotted, is_branch, {"Green", _}) do
     is_branch or is_green_dotted
   end
-  defp is_dotted(_, _, _, _, true), do: true
-  defp is_dotted(is_merge, _, is_branch, _, _) do
+  defp is_dotted(is_merge, _, is_branch, _) do
     is_merge or is_branch
   end
 
@@ -172,9 +177,6 @@ defmodule Site.ScheduleV2View.StopList do
       is_binary(stop_branch) && stop_branch == bubble_branch
     end)
   end
-
-  defp is_singleton_expand_link?([_bubble], true), do: true
-  defp is_singleton_expand_link?(_bubbles, _is_expand_link?), do: false
 
   defp merge_indent(bubble_type, direction_id, index)
   defp merge_indent(:merge, 0, 1), do: :above

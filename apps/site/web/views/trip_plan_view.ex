@@ -193,4 +193,77 @@ defmodule Site.TripPlanView do
   def icon_for_route(route) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end
+
+  def datetime_from_query(%Query{time: {_, datetime}}), do: datetime
+  def datetime_from_query(nil), do: Util.now()
+
+  def trip_plan_datetime_select(conn, form, query) do
+    query
+    |> datetime_from_query()
+    |> do_trip_plan_datetime_select(conn, form)
+  end
+
+  defp do_trip_plan_datetime_select(datetime, conn, form) do
+    lab_enabled? = Laboratory.enabled?(conn, :js_datepicker)
+    time_options = [
+      hour: [selected: datetime.hour],
+      minute: [selected: datetime.minute],
+      default: datetime
+    ]
+    date_options = [
+      year: [options: Range.new(datetime.year, datetime.year + 1), selected: datetime.year],
+      month: [selected: datetime.month],
+      day: [selected: datetime.day],
+      default: datetime
+    ]
+    content_tag(:div, [
+      custom_time_select(form, datetime, time_options, lab_enabled?),
+      " on ",
+      custom_date_select(form, datetime, date_options, lab_enabled?)
+    ], class: "form-group plan-date-time")
+  end
+
+  def custom_date_select(form, datetime, options, true) do
+    # the accessible-date-picker uses the label's offset to determine where to position the calendar
+    # when toggling it, and throws an error if the label is omitted. So if we don't want to show a label,
+    # we can't just set display:none because that messes up the offset. That's why the label has no text
+    # and is set to aria-hidden="true".
+    content_tag(:div, [
+      content_tag(:button, Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}"), id: "plan-date-link", class: "plan-date-link plan-datetime-link", type: "button"),
+      content_tag(:label, [], for: "plan-date-input", name: "Date", aria: [hidden: true]),
+      content_tag(:input, [], type: "text", class: "plan-date-input", id: "plan-date-input", aria: [hidden: true]),
+      date_select(form, :date_time, Keyword.put(options, :builder, &custom_date_select_builder/1))
+    ], class: "plan-date", id: "plan-date")
+  end
+
+  def custom_date_select(form, _datetime, options, false) do
+    content_tag(:div, date_select(form, :date_time, options), class: "plan-date", id: "plan-date")
+  end
+
+  def custom_date_select_builder(field) do
+    content_tag(:div, [
+      field.(:month, []),
+      field.(:day, []),
+      field.(:year, [])
+    ], class: "plan-date-select hidden-js", id: "plan-date-select")
+  end
+
+  def custom_time_select(form, datetime, options, true) do
+    content_tag(:div, [
+      content_tag(:button, Timex.format!(datetime, "{h12}:{m} {AM}"), id: "plan-time-link", class: "plan-time-link plan-datetime-link", type: "button"),
+      time_select(form, :date_time, Keyword.put(options, :builder, &custom_time_select_builder/1))
+    ], class: "plan-time", id: "plan-time")
+  end
+
+  def custom_time_select(form, _datetime, options, false) do
+    content_tag(:div, time_select(form, :date_time, options), class: "plan-time", id: "plan-time")
+  end
+
+  defp custom_time_select_builder(field) do
+    content_tag(:div, [
+      field.(:hour, []),
+      ":",
+      field.(:minute, [])
+    ], class: "plan-time-select hidden-js", id: "plan-time-select")
+  end
 end

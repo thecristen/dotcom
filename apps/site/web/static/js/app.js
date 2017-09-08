@@ -114,6 +114,7 @@ import toggleBtn from './toggle-on-click';
 import tripPlan from './trip-plan';
 import stopBubbles from './stop-bubbles';
 import search from './search';
+import photoGallery from './photo-gallery';
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -141,5 +142,6 @@ toggleBtn();
 tripPlan();
 stopBubbles();
 search(window.$, breakpoints);
+photoGallery();
 
 document.body.className = document.body.className.replace("no-js", "js");

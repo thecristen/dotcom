@@ -14,75 +14,145 @@ export default function tripPlan($ = window.jQuery) {
   $(document).on("turbolinks:load", function() {
     $(".itinerary-alert-toggle").show();
     $(".itinerary-alert-toggle").trigger('click');
+    if (document.getElementById(DATE_TIME_IDS.dateEl.input)) {
+      dateInput($);
+      timeInput($);
+    }
   });
-
-  if ($.fn.datepicker) {
-    // currently $.datepicker isn't accessible to js tests since it's in vendor
-    // and gets concatenated to app.js by Brunch; running this conditionally
-    // just hides it from the js tests so that they're able to pass.
-    dateInput($);
-  }
 };
 
-function getFriendlyDate(date) {
-  const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][date.getDay()];
-  const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                 "November", "December"][date.getMonth()];
-  const dayNumber = date.getDate();
-  return `${dayOfWeek}, ${month} ${dayNumber}`;
+export const DATE_TIME_IDS = {
+  year: "plan_date_time_year",
+  month: "plan_date_time_month",
+  day: "plan_date_time_day",
+  hour: "plan_date_time_hour",
+  minute: "plan_date_time_minute",
+  dateEl: {
+    container: "plan-date",
+    input: "plan-date-input",
+    select: "plan-date-select",
+    link: "plan-date-link"
+  },
+  timeEl: {
+    container: "plan-time",
+    select: "plan-time-select",
+    link: "plan-time-link"
+  }
 }
 
-function parseDateString(dateText) {
-  const parts = dateText.replace(" ", "").split("/");
-  return new Date(parts[2], (parts[0] - 1), parts[1]);
-}
+export function dateInput($) {
+  const $dateContainer = $("#" + DATE_TIME_IDS.dateEl.container);
+  const $dateInput = $("#" + DATE_TIME_IDS.dateEl.input);
+  const $dateSelect = $("#" + DATE_TIME_IDS.dateEl.select);
+  const $dateLink = $("#" + DATE_TIME_IDS.dateEl.link);
+  const actualMonth = parseInt(document.getElementById(DATE_TIME_IDS.month).value);
+  const date = new Date(document.getElementById(DATE_TIME_IDS.year).value, actualMonth - 1, document.getElementById(DATE_TIME_IDS.day).value);
 
-function dateInput($) {
-  const $dateInputContainer = $("#plan-date-container");
-  const $dateInput = $("#plan-date");
-  const $dateLink = $("#plan-date-link");
-  const now = new Date();
+  $dateInput.val(getFriendlyDate(date));
 
-  // hide input box and show date link (hiding calendar is handled elsewhere)
-  const showDateLink = (ev) => {
-    const newDate = $dateInput.datepicker("getDate");
-    $dateInput.datepicker("setDate", newDate);
-    $dateLink.text(getFriendlyDate(newDate));
-    $dateInputContainer.css({display: "none"});
-    $dateLink.css({display: "inline-block"});
-  }
+  $dateInput.datepicker({outputFormat: 'MM/dd/yyyy', onUpdate: updateDate.bind(this, $)});
 
-  // hide date link, show input box and calendar
-  const showCalendar = () => {
-    $dateLink.css({display: "none"});
-    $dateInputContainer.css({display: "inline-block"});
-    $dateInput.datepicker("show");
-  }
+  // disable clicking on the month to change the grid type
+  $(".datepicker-month").off();
 
-  // put current date in date link
-  $dateLink.text(getFriendlyDate(now));
+  // remove fast-skip buttons
+  $(".datepicker-month-fast-next").remove();
+  $(".datepicker-month-fast-prev").remove();
 
-  // convert date input into an accessible date picker
-  $dateInput.datepicker({outputFormat: 'MM / dd / yyyy'});
-  $dateInput.datepicker("setDate", now);
-
-  // handle user direct toggle of date link to date input
-  $dateLink.click((ev) => {
+  // replace default datepicker arrow icons
+  $(".datepicker-calendar").find(".glyphicon").removeClass("glyphicon").addClass("fa")
+  $(".datepicker-calendar").find(".glyphicon-triangle-right").removeClass("glyphicon-triangle-right").addClass("fa-caret-right");
+  $(".datepicker-calendar").find(".glyphicon-triangle-left").removeClass("glyphicon-triangle-left").addClass("fa-caret-left");
+  $(".datepicker-calendar").on("ab.datepicker.closed", function(ev) {
+    $dateLink.fadeIn();
+  });
+  $(document).on("click", "#" + DATE_TIME_IDS.dateEl.link, (ev) => {
     ev.preventDefault();
     ev.stopPropagation();
-    showCalendar();
+    $("#" + DATE_TIME_IDS.dateEl.link).fadeOut();
+    $("#" + DATE_TIME_IDS.dateEl.input).datepicker("show");
   });
 
-  // detect calendar close event and optionally display date link
-  $(".datepicker-calendar").on("ab.datepicker.closed", showDateLink);
+  $dateSelect.hide();
+  $dateInput.datepicker("setDate", date);
+  $dateInput.datepicker("update");
+}
 
-  // detect date input blurred, show date link
-  $dateInput.blur((e) => {
-    const dateText = $dateInput.val();
-    const newDate = parseDateString(dateText);
-    $dateLink.text(getFriendlyDate(newDate));
-    showDateLink();
-  });
+export function getFriendlyDate(date) {
+  const options = {weekday: "long",
+                   year: "numeric",
+                   month: "long",
+                   day: "numeric"}
+  return date.toLocaleDateString("en-US", options);
+}
+
+function getFriendlyTime(datetime) {
+  const options = {hour12: true, hour: "numeric", minute: "2-digit"}
+  let amPm = "AM";
+  let hour = datetime.getHours();
+  let minute = datetime.getMinutes();
+  if (hour > 11) {
+    hour -= 12;
+    amPm = "PM";
+  }
+  if (minute < 10) { minute = `0${minute}` }
+  return `${hour}:${minute} ${amPm}`
+}
+
+function updateDate($, newDate) {
+  const date = new Date(newDate);
+  const month = date.getMonth() + 1;
+  document.getElementById(DATE_TIME_IDS.dateEl.link).textContent = getFriendlyDate(date);
+  updateDateSelect($, "#" + DATE_TIME_IDS.year, date.getFullYear().toString());
+  updateDateSelect($, "#" + DATE_TIME_IDS.month, month.toString());
+  updateDateSelect($, "#" + DATE_TIME_IDS.day, date.getDate().toString());
+  $("#" + DATE_TIME_IDS.dateEl.input).datepicker("hide");
+  $("#" + DATE_TIME_IDS.dateEl.link).show();
+}
+
+function updateDateSelect($, selector, newValue) {
+  const currentOpt = $(selector).find("option[selected='selected']");
+  const newOpt = $(selector).find(`option[value=${newValue}]`);
+  currentOpt.removeAttr("selected");
+  newOpt.attr("selected", "selected");
+}
+
+export function timeInput($) {
+  document.getElementById(DATE_TIME_IDS.timeEl.link).addEventListener("click", showTimeSelectors, true);
+  $(".datepicker-calendar").on("ab.datepicker.closed", updateTime);
+}
+
+function showTimeSelectors(ev) {
+  ev.preventDefault();
+  document.addEventListener("click", handleClickOutsideTime, true);
+  const link = document.getElementById(DATE_TIME_IDS.timeEl.link)
+  document.getElementById(DATE_TIME_IDS.timeEl.select).style.display = window.getComputedStyle(link).display;
+  link.style.display = "none";
+  return false;
+}
+
+function showTimeLink(ev) {
+  document.removeEventListener("click", handleClickOutsideTime, true);
+  updateTime();
+  const selects = document.getElementById(DATE_TIME_IDS.timeEl.select);
+  document.getElementById(DATE_TIME_IDS.timeEl.link).style.display = window.getComputedStyle(selects).display;
+  selects.style.display = "none";
+  return true;
+}
+
+function updateTime() {
+  const time = new Date();
+  time.setHours(document.getElementById(DATE_TIME_IDS.hour).value);
+  time.setMinutes(document.getElementById(DATE_TIME_IDS.minute).value);
+  document.getElementById(DATE_TIME_IDS.timeEl.link).textContent = getFriendlyTime(time);
+}
+
+function handleClickOutsideTime(ev) {
+  if (ev.target.id == DATE_TIME_IDS.hour || ev.target.id == DATE_TIME_IDS.minute) {
+    return false;
+  } else {
+    showTimeLink(ev);
+  }
 }
 
 export function geolocationCallback($) {

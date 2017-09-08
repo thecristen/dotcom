@@ -37,8 +37,6 @@
         </div>
       </div>
     <% end %>
-    <%= if Laboratory.enabled?(@conn, :cms_search) do %>
-      <%= render "_nav_desktop_search.html", conn: @conn %>
-    <% end %>
+    <%= render "_nav_desktop_search.html", conn: @conn %>
   </div>
 </nav>

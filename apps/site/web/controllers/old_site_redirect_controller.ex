@@ -4,21 +4,16 @@ defmodule Site.OldSiteRedirectController do
 
   @s3_files ["feed_info.txt", "mbta_gtfs.zip"]
 
-  def index(conn, _params) do
-    old_site_redirect(conn, page_url(conn, :index))
-  end
-
   def schedules_and_maps(conn, %{"route" => route}) do
-    url = case old_route_to_route_id(route) do
-            nil -> mode_url(conn, :index)
-            route_id -> schedule_url(conn, :show, route_id)
-          end
-    old_site_redirect(conn, url)
+    case old_route_to_route_id(route) do
+      nil -> old_site_redirect(conn)
+      route_id -> redirect conn, to: schedule_path(conn, :show, route_id)
+    end
   end
-  def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id} = params) do
+  def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
     case Stops.Repo.old_id_to_gtfs_id(stop_id) do
-      nil ->  schedules_and_maps(conn, Map.delete(params, "stopId"))
-      gtfs_id -> old_site_redirect(conn, stop_url(conn, :show, gtfs_id))
+      nil ->  old_site_redirect(conn)
+      gtfs_id -> redirect conn, to: stop_path(conn, :show, gtfs_id)
     end
   end
   def schedules_and_maps(conn, %{"path" => [mode, "lines", "stations" | _]}) do
@@ -27,76 +22,22 @@ defmodule Site.OldSiteRedirectController do
       "boats" -> :ferry
       _ -> :subway
     end
-    old_site_redirect(conn, stop_url(conn, :show, redirect_mode))
+    redirect conn, to: stop_path(conn, :show, redirect_mode)
   end
   def schedules_and_maps(conn, %{"path" => ["rail" | _]}) do
-    old_site_redirect(conn, mode_url(conn, :commuter_rail))
+    redirect conn, to: mode_path(conn, :commuter_rail)
   end
   def schedules_and_maps(conn, %{"path" => ["boats" | _]}) do
-    old_site_redirect(conn, mode_url(conn, :ferry))
+    redirect conn, to: mode_path(conn, :ferry)
   end
   def schedules_and_maps(conn, %{"path" => ["subway" | _]}) do
-    old_site_redirect(conn, mode_url(conn, :subway))
+    redirect conn, to: mode_path(conn, :subway)
   end
   def schedules_and_maps(conn, %{"path" => ["bus" | _]}) do
-    old_site_redirect(conn, mode_url(conn, :bus))
+    redirect conn, to: mode_path(conn, :bus)
   end
   def schedules_and_maps(conn, _params) do
-    old_site_redirect(conn, mode_url(conn, :index))
-  end
-
-  def rider_tools(conn, %{"path" => ["realtime_subway" | _]}) do
-    old_site_redirect(conn, mode_url(conn, :subway))
-  end
-  def rider_tools(conn, %{"path" => ["realtime_bus" | _]}) do
-    old_site_redirect(conn, mode_url(conn, :bus))
-  end
-  def rider_tools(conn, %{"path" => ["servicenearby" | _]}) do
-    old_site_redirect(conn, transit_near_me_url(conn, :index))
-  end
-  def rider_tools(conn, %{"path" => ["transit_updates" | _]}) do
-    old_site_redirect(conn, alert_url(conn, :index))
-  end
-
-  def fares_and_passes(conn, %{"path" => ["rail" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :commuter_rail))
-  end
-  def fares_and_passes(conn, %{"path" => ["subway" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :bus_subway))
-  end
-  def fares_and_passes(conn, %{"path" => ["bus" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :bus_subway))
-  end
-  def fares_and_passes(conn, %{"path" => ["boats" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :ferry))
-  end
-  def fares_and_passes(conn, %{"path" => ["passes" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :bus_subway, filter: "passes"))
-  end
-  def fares_and_passes(conn, %{"path" => ["charlie" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :payment_methods))
-  end
-  def fares_and_passes(conn, %{"path" => ["sales_locations" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :retail_sales_locations))
-  end
-  def fares_and_passes(conn, %{"path" => ["reduced_fare_programs" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :reduced))
-  end
-  def fares_and_passes(conn, %{"path" => ["mticketing" | _], "id" => id}) when id in ["25903", "25905"] do
-    old_site_redirect(conn, how_to_pay_url(conn, :show, :commuter_rail))
-  end
-  def fares_and_passes(conn, %{"path" => ["mticketing" | _], "id" => "25904"}) do
-    old_site_redirect(conn, customer_support_url(conn, :index))
-  end
-  def fares_and_passes(conn, %{"path" => ["mticketing" | _]}) do
-    old_site_redirect(conn, fare_url(conn, :show, :payment_methods))
-  end
-  def fares_and_passes(conn, _params) do
-    old_site_redirect(conn, fare_url(conn, :index))
-  end
-
-  def customer_support(conn, _params) do
-    old_site_redirect(conn, customer_support_url(conn, :index))
+    old_site_redirect(conn)
   end
 
   def archived_files(conn, _params) do
@@ -148,8 +89,8 @@ defmodule Site.OldSiteRedirectController do
     if value = System.get_env(env_var), do: value, else: default
   end
 
-  defp old_site_redirect(conn, url) do
-    redirect(conn, external: url)
+  defp old_site_redirect(conn) do
+    redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
   end
 
   defp old_route_to_route_id("RED"), do: "Red"

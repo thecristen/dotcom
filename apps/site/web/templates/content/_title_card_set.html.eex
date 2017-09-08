@@ -3,9 +3,14 @@
     <div class="row">
       <%= for title_card <- title_card_pair do %>
         <div class="col-md-6 col-sm-12">
-          <%= link to: (title_card.link && title_card.link.url), class: "title-card" do %>
-            <div class="title-card-title"><%= ContentRewriter.rewrite(title_card.title) %></div>
-            <p><%= ContentRewriter.rewrite(title_card.body) %></p>
+          <%= if title_card.link do %>
+            <%= link to: title_card.link.url, class: "title-card" do %>
+              <%= render "_title_card_body.html", title_card: title_card %>
+            <% end %>
+          <% else %>
+            <div class="title-card title-card-link-type">
+              <%= render "_title_card_body.html", title_card: title_card %>
+            </div>
           <% end %>
         </div>
       <% end %>
