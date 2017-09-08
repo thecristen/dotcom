@@ -83,7 +83,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "safety/"), target: "_blank" do %><%# the safety bounce! %>
+        <%= link to: cms_static_page_path(@conn, "/safety") do %><%# the safety bounce! %>
           <%= fa "caret-right" %> Safety
         <% end %>
       </li>

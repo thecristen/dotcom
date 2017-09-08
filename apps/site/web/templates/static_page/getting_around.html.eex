@@ -26,7 +26,7 @@
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/parking/"), text: "Parking", target: "_blank" %>
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/bikes/"), text: "Bikes on the T", target: "_blank" %>
       <%= render "_link.html", href: redirect_path(@conn, "riding_the_t/pets/"), text: "Pets on the T", target: "_blank" %>
-      <%= render "_link.html", href: redirect_path(@conn, "safety/"), text: "Safety", target: "_blank" %>
+      <%= render "_link.html", href: cms_static_page_path(@conn, "/safety"), text: "Safety", target: "_self" %>
     </div>
   </div>
 </div>

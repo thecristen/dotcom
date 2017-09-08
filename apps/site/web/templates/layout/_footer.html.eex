@@ -35,7 +35,7 @@
           <li class="footer-link-sublist-item"><%= link "Parking", to: redirect_path(@conn, "riding_the_t/parking//"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Bikes on the T", to: redirect_path(@conn, "riding_the_t/bikes/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Pets on the T", to: redirect_path(@conn, "riding_the_t/pets/"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Safety", to: redirect_path(@conn, "safety/"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Safety", to: cms_static_page_path(@conn, "/safety") %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
