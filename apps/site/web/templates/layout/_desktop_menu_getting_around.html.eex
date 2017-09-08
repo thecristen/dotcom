@@ -48,13 +48,13 @@
         <% end %>
       </li>
       <li>
-        <%= link to: transit_near_me_path(@conn, :index) do %>
-          <%= fa "caret-right" %> Transit Near Me
+        <%= link to: cms_static_page_path(@conn, "/maps") do %>
+          <%= fa "caret-right" %> Maps
         <% end %>
       </li>
       <li>
-        <%= link to: cms_static_page_path(@conn, "/maps") do %>
-          <%= fa "caret-right" %> Maps
+        <%= link to: cms_static_page_path(@conn, "/destinations") do %>
+          <%= fa "caret-right" %> Destinations
         <% end %>
       </li>
     </ul>
