@@ -1,14 +1,17 @@
 // scss-lint:disable ColorVariable
 // scss-lint:disable SelectorFormat
 
-//
-// sizes and positions
-//
 .datepicker-button {
   cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: #ddd;
+  }
 }
 
 .datepicker-calendar {
+  background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: .9em;
@@ -17,6 +20,12 @@
   position: absolute;
   width: 261px;
   z-index: 50;
+
+  .offscreen {
+    left: -200em;
+    position: absolute;
+    top: -100em;
+  }
 }
 
 .datepicker-month-wrap {
@@ -24,14 +33,6 @@
   margin: 0;
   padding-top: 1px;
   text-align: center;
-}
-
-.datepicker-month-fast-prev.disabled,
-.datepicker-month-fast-next.disabled ,
-.datepicker-month-prev.disabled,
-.datepicker-month-next.disabled {
-  border: 0;
-  cursor: default;
 }
 
 .datepicker-month-fast-prev,
@@ -43,7 +44,20 @@
   margin: 3px;
   padding-top: 3px;
   width: 24px;
+
+  .enabled {
+    border: 1px solid #800;
+    border-radius: 4px;
+    margin-top: 2px;
+  }
+
+  .disabled {
+    border: 0;
+    color: #999;
+    cursor: default;
+  }
 }
+
 
 .datepicker-month-fast-prev {
   padding-right: 2px;
@@ -51,19 +65,6 @@
 
 .datepicker-month-fast-next {
   padding-left: 2px;
-}
-
-.datepicker-month-fast-prev.enabled:hover,
-.datepicker-month-fast-prev.enabled:focus,
-.datepicker-month-fast-next.enabled:hover,
-.datepicker-month-fast-next.enabled:focus,
-.datepicker-month-prev.enabled:hover,
-.datepicker-month-prev.enabled:focus,
-.datepicker-month-next.enabled:hover,
-.datepicker-month-next.enabled:focus {
-  border: 1px solid #800;
-  border-radius: 4px;
-  margin-top: 2px;
 }
 
 .datepicker-month {
@@ -74,83 +75,98 @@
   margin: 3px 56px 2px;
   padding-top: 1px;
   text-align: center;
-}
 
-.datepicker-month::after {
-  content: '\e252';
-  display: inline-block;
-  font-family: 'Glyphicons Halflings';
-  font-size: .6em;
-}
+  &::after {
+    content: '\e252';
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-size: .6em;
+  }
 
-.datepicker-month:hover,
-.datepicker-month:focus {
-  border: 1px solid #800;
-  border-radius: 4px;
-  padding-top: 0;
+  &:hover,
+  &:focus {
+    border: 1px solid #800;
+    border-radius: 4px;
+    padding-top: 0;
+  }
 }
 
 .datepicker-grid {
   font-size: 1.2em;
   text-align: center;
   width: 100%;
+
+  &:focus {
+    outline: 1px dotted #999;
+  }
+
+  th {
+    background-color: #eee;
+    border: 0;
+
+    abbr {
+      border: 0;
+    }
+  }
+
+  th,
+  td {
+    padding: 0;
+    text-align: center;
+  }
+
+  td {
+    border: 0;
+    // border: 1px solid #999;
+    color: #000;
+    cursor: pointer;
+  }
+
+  th,
+  .day {
+    height: 30px;
+  }
+
+  .rtl {
+    direction: rtl;
+  }
+
+  .selectable:hover,
+  .selectable:focus {
+    background-color: #ddd;
+  }
+
+  .unselectable {
+    color: #999;
+    cursor: default;
+  }
+
+  .month {
+    height: 60px;
+  }
+
+  .year {
+    height: 45px;
+  }
+
+  .empty {
+    border: 0;
+    //border: 1px solid #999;
+    color: #ccc;
+    cursor: default;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+
 }
 
-.datepicker-grid.rtl {
-  direction: rtl;
-}
-
-.datepicker-grid:focus {
-  outline: none;
-}
-
-.datepicker-grid th,
-.datepicker-grid td {
-  padding: 0;
-  text-align: center;
-}
-
-.datepicker-grid th abbr {
-  border: 0;
-}
-
-.datepicker-grid td {
+.curDay,
+.curMonth,
+.curYear {
+  background-color: #fff0c4;
   border: 1px solid #999;
-  cursor: pointer;
-}
-
-.datepicker-grid .unselectable {
-  cursor: default;
-}
-
-.datepicker-grid th,
-.datepicker-grid .day {
-  height: 30px;
-}
-
-.datepicker-grid .month {
-  height: 60px;
-}
-
-.datepicker-grid .year {
-  height: 45px;
-}
-
-.datepicker-grid .curDay,
-.datepicker-grid .curMonth,
-.datepicker-grid .curYear {
-  border: 1px solid #999;
-}
-
-.datepicker-grid .empty {
-  border: 1px solid #999;
-  cursor: default;
-}
-
-.datepicker-calendar .offscreen {
-  left: -200em;
-  position: absolute;
-  top: -100em;
 }
 
 .datepicker-overlay {
@@ -168,100 +184,34 @@
 }
 
 .datepicker-close {
-  border: 1px solid #eee;
+  background-color: #ddd;
+  border: 1px solid #999;
   border-radius: 2px;
+  color: #000;
   font-weight: bold;
   height: 30px;
   margin-top: 1px;
   width: 100%;
 }
 
-/////////////////////////////
-// colors
-/////////////////////////////
-
-/////////////////////////////
-// default theme colors
-/////////////////////////////
-
-.datepicker-calendar:hover,
-.datepicker-calendar:focus {
-  background-color: #ddd;
+.datepicker-month-fast-prev.enabled,
+.datepicker-month-fast-next.enabled,
+.datepicker-month-prev.enabled,
+.datepicker-month-next.enabled,
+.datepicker-month,
+.datepicker-close {
+  &:hover,
+  &:focus {
+    background-color: #eee;
+    border-color: #999;
+  }
 }
 
-.datepicker-calendar {
-  background-color: #fff;
-}
-
-.datepicker-month-fast-prev.disabled,
-.datepicker-month-fast-next.disabled ,
-.datepicker-month-prev.disabled,
-.datepicker-month-next.disabled {
-  color: #999;
-}
-
-.datepicker-month-fast-prev.enabled:hover,
-.datepicker-month-fast-prev.enabled:focus,
-.datepicker-month-fast-next.enabled:hover,
-.datepicker-month-fast-next.enabled:focus,
-.datepicker-month-prev.enabled:hover,
-.datepicker-month-prev.enabled:focus,
-.datepicker-month-next.enabled:hover,
-.datepicker-month-next.enabled:focus,
-.datepicker-month:hover,
-.datepicker-month:focus,
-.datepicker-close:hover,
-.datepicker-close:focus {
-  background-color: #eee;
-  border-color: #999;
-}
-
-.datepicker-grid:focus {
-  outline: 1px dotted #999;
-}
 
 .datepicker-weekdays {
   border-bottom: 1px solid #999;
   border-top: 1px solid #999;
 }
 
-.datepicker-grid th {
-  background-color: #eee;
-  border: 0;
-}
-
-.datepicker-grid td {
-  border: 0;
-  color: #000;
-}
-
-.datepicker-grid .unselectable {
-  color: #999;
-}
-
-.datepicker-grid .curDay,
-.datepicker-grid .curMonth,
-.datepicker-grid .curYear {
-  background-color: #fff0c4;
-}
-
-.datepicker-grid .empty {
-  border: 0;
-  color: #ccc;
-}
-
-.datepicker-grid .selectable:hover,
-.datepicker-grid .selectable:focus {
-  background-color: #ddd;
-}
-
-.datepicker-grid .empty:hover {
-  background-color: #f9f9f9;
-}
-
-.datepicker-close {
-  background-color: #ddd;
-  border-color: #999;
-  color: #000;
-}
 // scss-lint:enable ColorVariable
+// scss-lint:disable SelectorFormat
