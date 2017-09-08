@@ -1,4 +1,4 @@
-<div class="project-meetings">
+<div class="project-events">
   <div class="page-block">
     <div class="row">
       <div class="col-xs-12">
@@ -6,12 +6,12 @@
           <h2 class="card-header card-header-primary-darkest text-xs-center">Upcoming Meetings</h2>
           <div class="event-list">
             <ul class="list-group">
-              <%= for meeting <- @meetings do %>
+              <%= for event <- @events do %>
                 <li class="list-group-item">
-                  <div><%= render_duration(meeting.start_time, meeting.end_time) %></div>
+                  <div><%= render_duration(event.start_time, event.end_time) %></div>
                 <div>
-                  <%= link to: event_path(Site.Endpoint, :show, meeting.id) do %>
-                    <%= meeting.title %>
+                  <%= link to: event_path(Site.Endpoint, :show, event.id) do %>
+                    <%= event.title %>
                   <% end %>
                 </div>
                 </li>

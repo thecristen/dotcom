@@ -25,5 +25,5 @@
 <%= if !Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
 <%= if !Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project_id: @project.id %>
 <%= render "_contact.html", project: @project %>
-<%= if !Enum.empty?(@meetings), do: render "_meetings.html", meetings: @meetings %>
+<%= if !Enum.empty?(@events), do: render "_events.html", events: @events%>
 <%= if !Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>

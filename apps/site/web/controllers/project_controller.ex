@@ -14,7 +14,7 @@ defmodule Site.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    [project, updates, meetings] = [get_project(id), get_updates(id), get_meetings(id)]
+    [project, updates, events] = [get_project(id), get_updates(id), get_upcoming_events(id)]
     |> Enum.map(&Task.async/1)
     |> Enum.map(&Task.await/1)
 
@@ -26,7 +26,7 @@ defmodule Site.ProjectController do
       breadcrumbs: breadcrumbs,
       project: project,
       updates: updates,
-      meetings: meetings
+      events: events
     }
   end
 
@@ -46,8 +46,8 @@ defmodule Site.ProjectController do
   @spec get_project(String.t) :: (() -> Content.Project.t | no_return)
   defp get_project(id), do: fn -> Content.Repo.project!(id) end
 
-  @spec get_meetings(String.t) :: (() -> [Content.Event.t])
-  defp get_meetings(id), do: fn -> Content.Repo.events([project_id: id]) end
+  @spec get_upcoming_events(String.t) :: (() -> [Content.Event.t])
+  defp get_upcoming_events(id), do: fn -> Content.Repo.events([project_id: id]) end
 
   @spec get_updates(String.t) :: (() -> [Content.Project.t])
   defp get_updates(id), do: fn -> Content.Repo.project_updates([project_id: id]) end
