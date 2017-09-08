@@ -107,12 +107,12 @@ div.datepicker-calendar table.datepicker-weekdays {
 }
 
 div.datepicker-calendar table.datepicker-grid th,
-div.datepicker-calendar table.datepicker-grid td{
+div.datepicker-calendar table.datepicker-grid td {
   padding: 0;
   text-align: center;
 }
 
-div.datepicker-calendar table.datepicker-grid th abbr{
+div.datepicker-calendar table.datepicker-grid th abbr {
   border: 0;
 }
 
@@ -204,7 +204,7 @@ div.datepicker-calendar.default div.datepicker-month-fast-prev.disabled,
 div.datepicker-calendar.default div.datepicker-month-fast-next.disabled ,
 div.datepicker-calendar.default div.datepicker-month-prev.disabled,
 div.datepicker-calendar.default div.datepicker-month-next.disabled {
-  color:  #999;
+  color: #999;
 }
 
 div.datepicker-calendar.default div.datepicker-month-fast-prev.enabled:hover,
@@ -220,7 +220,7 @@ div.datepicker-calendar.default div.datepicker-month:focus,
 div.datepicker-calendar.default button.datepicker-close:hover,
 div.datepicker-calendar.default button.datepicker-close:focus {
   background-color: #eee;
-  border-color:  #999;
+  border-color: #999;
 }
 
 div.datepicker-calendar.default table.datepicker-grid:focus {
@@ -228,8 +228,8 @@ div.datepicker-calendar.default table.datepicker-grid:focus {
 }
 
 div.datepicker-calendar.default tr.datepicker-weekdays {
-  border-bottom:  1px solid #999;
-  border-top:  1px solid #999;
+  border-bottom: 1px solid #999;
+  border-top: 1px solid #999;
 }
 
 div.datepicker-calendar.default table.datepicker-grid th {
@@ -268,7 +268,7 @@ div.datepicker-calendar.default table.datepicker-grid td.empty:hover {
 
 div.datepicker-calendar.default button.datepicker-close {
   background-color: #ddd;
-  border-color:  #999;
+  border-color: #999;
   color: #000;
 }
 // scss-lint:enable ColorVariable
