@@ -162,7 +162,7 @@
     {
       "label": "Station Info Tab South Station",
       "url": "http://localhost:8082/stops/place-sstat?date=2017-12-15&tab=info",
-      "hideSelectors": [".dynamic-map"],
+      "hideSelectors": [".map"],
       "selectors": ["#station-info"],
       "delay": 100,
       "misMatchThreshold": 0.1
@@ -196,7 +196,7 @@
     {
       "label": "Station Info Framingham",
       "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2017-12-15&date_time=2017-12-15T18%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".dynamic-map"],
+      "hideSelectors": [".map"],
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
@@ -227,7 +227,7 @@
       "label": "Commuter Rail Maps and Info Worcester",
       "url": "http://localhost:8082/schedules/CR-Worcester/line?direction_id=0&date=2017-12-15&date_time=2017-12-15T13:00:00-05:00",
       "selectors": ["main"],
-      "hideSelectors": [".dynamic-map"],
+      "hideSelectors": [".map"],
       "delay": 100,
       "misMatchThreshold": 0.1
     },
