@@ -4,10 +4,9 @@ defmodule Site.SearchController do
 
   @per_page 10
 
-  def index(conn, _params) do
+  def index(conn, %{"search" => %{"query" => query}}) when query != "" do
     [host: former_site] = Application.get_env(:site, :former_mbta_site)
     search_input = Map.get(conn.query_params, "search", %{})
-    query = Map.get(search_input, "query", "")
     params = build_params(search_input)
     offset = parse_offset(params["[offset]"])
     content_types = convert_content_type_to_list(search_input)
@@ -22,6 +21,11 @@ defmodule Site.SearchController do
     |> assign(:search_header?, true)
     |> render(template, facets: facets, results: response.results, pagination: pagination, query: query,
                             former_site: former_site, params: params, link_context: link_context, stats: stats)
+  end
+  def index(conn, _params) do
+    conn
+    |> assign(:search_header?, true)
+    |> render("empty_query.html")
   end
 
   @spec get_responses(String.t, integer, [String.t]) :: {Content.Search.t, Content.Search.t}
