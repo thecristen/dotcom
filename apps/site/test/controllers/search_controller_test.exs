@@ -41,5 +41,11 @@ defmodule Site.SearchControllerTest do
       response = html_response(conn, 200)
       assert response =~ "There are no results matching"
     end
+
+    test "no matches for empty string", %{conn: conn} do
+      conn = get conn, search_path(conn, :index, %{"search" => %{"query" => ""}})
+      response = html_response(conn, 200)
+      refute response =~ "There are no results matching"
+    end
   end
 end
