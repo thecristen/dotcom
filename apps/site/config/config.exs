@@ -28,7 +28,6 @@ config :site, Site.ViewHelpers,
 
 config :laboratory,
   features: [
-    {:google_translate, "Google Translate", "Adds the Google Translate plugin"},
     {:js_datepicker, "Styled Trip Planner Date Picker", "Adds the styled datepicker inputs to the trip planner"}],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
