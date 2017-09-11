@@ -27,6 +27,7 @@ export const DATE_TIME_IDS = {
   day: "plan_date_time_day",
   hour: "plan_date_time_hour",
   minute: "plan_date_time_minute",
+  amPm: "plan_date_time_am_pm",
   dateEl: {
     container: "plan-date",
     input: "plan-date-input",
@@ -141,13 +142,16 @@ function showTimeLink(ev) {
 
 function updateTime() {
   const time = new Date();
-  time.setHours(document.getElementById(DATE_TIME_IDS.hour).value);
+  const hour12 = document.getElementById(DATE_TIME_IDS.hour).value
+  const amPm = document.getElementById(DATE_TIME_IDS.amPm).value
+  const hour = amPm == "PM" ? parseInt(hour12) + 12 : hour12;
+  time.setHours(hour);
   time.setMinutes(document.getElementById(DATE_TIME_IDS.minute).value);
   document.getElementById(DATE_TIME_IDS.timeEl.link).textContent = getFriendlyTime(time);
 }
 
 function handleClickOutsideTime(ev) {
-  if (ev.target.id == DATE_TIME_IDS.hour || ev.target.id == DATE_TIME_IDS.minute) {
+  if (ev.target.id == DATE_TIME_IDS.hour || ev.target.id == DATE_TIME_IDS.minute || ev.target.id == DATE_TIME_IDS.amPm) {
     return false;
   } else {
     showTimeLink(ev);

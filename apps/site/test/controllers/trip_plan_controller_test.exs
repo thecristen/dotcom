@@ -4,7 +4,7 @@ defmodule Site.TripPlanControllerTest do
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
   @system_time "2017-01-01T12:20:00-05:00"
-  @date_time %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "12", "minute" => "30"}
+  @date_time %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "12", "minute" => "30", "am_pm" => "PM"}
 
   @good_params %{
     "date_time" => @system_time,
@@ -145,7 +145,7 @@ defmodule Site.TripPlanControllerTest do
     end
 
     test "bad date input: corrupt day", %{conn: conn} do
-      date_input = %{"year" => "A", "month" => "B", "day" => "C", "hour" => "D", "minute" => "E"}
+      date_input = %{"year" => "A", "month" => "B", "day" => "C", "hour" => "D", "minute" => "E", "am_pm" => "PM"}
 
       params = %{
         "date_time" => @system_time,

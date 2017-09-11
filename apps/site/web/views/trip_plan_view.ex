@@ -206,9 +206,8 @@ defmodule Site.TripPlanView do
   defp do_trip_plan_datetime_select(datetime, conn, form) do
     lab_enabled? = Laboratory.enabled?(conn, :js_datepicker)
     time_options = [
-      hour: [selected: datetime.hour],
-      minute: [selected: datetime.minute],
-      default: datetime
+      hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],
+      minute: [selected: datetime.minute]
     ]
     date_options = [
       year: [options: Range.new(datetime.year, datetime.year + 1), selected: datetime.year],
@@ -251,19 +250,23 @@ defmodule Site.TripPlanView do
   def custom_time_select(form, datetime, options, true) do
     content_tag(:div, [
       content_tag(:button, Timex.format!(datetime, "{h12}:{m} {AM}"), id: "plan-time-link", class: "plan-time-link plan-datetime-link hidden-no-js", type: "button"),
-      time_select(form, :date_time, Keyword.put(options, :builder, &custom_time_select_builder/1))
+      time_select(form, :date_time, Keyword.put(options, :builder, &custom_time_select_builder(&1, datetime)))
     ], class: "plan-time", id: "plan-time")
   end
 
-  def custom_time_select(form, _datetime, options, false) do
-    content_tag(:div, time_select(form, :date_time, options), class: "plan-time", id: "plan-time")
+  def custom_time_select(form, datetime, options, false) do
+    content_tag(:div, [
+      time_select(form, :date_time, Keyword.put(options, :builder, &custom_time_select_builder(&1, datetime)))
+    ], class: "plan-time", id: "plan-time")
   end
 
-  defp custom_time_select_builder(field) do
+  defp custom_time_select_builder(field, datetime) do
     content_tag(:div, [
       field.(:hour, []),
       ":",
-      field.(:minute, [])
+      field.(:minute, []),
+      " ",
+      select(:date_time, :am_pm, ["AM": "AM", "PM": "PM"], selected: Timex.format!(datetime, "{AM}"), name: "plan[date_time][am_pm]", id: "plan_date_time_am_pm")
     ], class: "plan-time-select hidden-js", id: "plan-time-select")
   end
 end
