@@ -4,6 +4,11 @@ defmodule Site.SearchController do
 
   @per_page 10
 
+  def index(%{query_params: %{"search" => %{"query" => ""}}} = conn, _params) do
+    conn
+    |> assign(:search_header?, true)
+    |> render("empty_query.html")
+  end
   def index(conn, _params) do
     [host: former_site] = Application.get_env(:site, :former_mbta_site)
     search_input = Map.get(conn.query_params, "search", %{})
