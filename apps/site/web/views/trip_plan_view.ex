@@ -229,7 +229,7 @@ defmodule Site.TripPlanView do
     # we can't just set display:none because that messes up the offset. That's why the label has no text
     # and is set to aria-hidden="true".
     content_tag(:div, [
-      content_tag(:button, Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}"), id: "plan-date-link", class: "plan-date-link plan-datetime-link", type: "button"),
+      content_tag(:button, Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}"), id: "plan-date-link", class: "plan-date-link plan-datetime-link hidden-no-js", type: "button"),
       content_tag(:label, [], for: "plan-date-input", name: "Date", aria: [hidden: true]),
       content_tag(:input, [], type: "text", class: "plan-date-input", id: "plan-date-input", aria: [hidden: true]),
       date_select(form, :date_time, Keyword.put(options, :builder, &custom_date_select_builder/1))
@@ -250,7 +250,7 @@ defmodule Site.TripPlanView do
 
   def custom_time_select(form, datetime, options, true) do
     content_tag(:div, [
-      content_tag(:button, Timex.format!(datetime, "{h12}:{m} {AM}"), id: "plan-time-link", class: "plan-time-link plan-datetime-link", type: "button"),
+      content_tag(:button, Timex.format!(datetime, "{h12}:{m} {AM}"), id: "plan-time-link", class: "plan-time-link plan-datetime-link hidden-no-js", type: "button"),
       time_select(form, :date_time, Keyword.put(options, :builder, &custom_time_select_builder/1))
     ], class: "plan-time", id: "plan-time")
   end
