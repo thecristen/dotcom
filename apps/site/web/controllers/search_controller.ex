@@ -7,7 +7,6 @@ defmodule Site.SearchController do
   def index(conn, %{"search" => %{"query" => query}}) when query != "" do
     [host: former_site] = Application.get_env(:site, :former_mbta_site)
     search_input = Map.get(conn.query_params, "search", %{})
-    query = Map.get(search_input, "query", "")
     params = build_params(search_input)
     offset = parse_offset(params["[offset]"])
     content_types = convert_content_type_to_list(search_input)
