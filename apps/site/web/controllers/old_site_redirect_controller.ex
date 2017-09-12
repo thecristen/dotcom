@@ -117,6 +117,17 @@ defmodule Site.OldSiteRedirectController do
   defp old_route_to_route_id("F1"), do: "Boat-F1"
   defp old_route_to_route_id("F2"), do: "Boat-F3"
   defp old_route_to_route_id("F4"), do: "Boat-F4"
+  defp old_route_to_route_id("SL1"), do: "741"
+  defp old_route_to_route_id("SL2"), do: "742"
+  defp old_route_to_route_id("SL4"), do: "751"
+  defp old_route_to_route_id("SL5"), do: "749"
+  defp old_route_to_route_id("CT1"), do: "701"
+  defp old_route_to_route_id("CT2"), do: "747"
+  defp old_route_to_route_id("CT3"), do: "708"
+  defp old_route_to_route_id("34E"), do: "34E"
+  defp old_route_to_route_id("77A"), do: "77A"
+  defp old_route_to_route_id("57A"), do: "57A"
+  defp old_route_to_route_id("70A"), do: "70A"
   defp old_route_to_route_id(route) do
     case Integer.parse(route) do
       {route_id, ""} -> route_id

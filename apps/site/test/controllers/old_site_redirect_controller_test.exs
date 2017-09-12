@@ -39,9 +39,15 @@ defmodule Site.OldSiteRedirectControllerTest do
     test "Redirects to new schedules based on old route", %{conn: conn} do
       old_url = "/schedules_and_maps/anything?route=RED"
       assert redirected_to(get(conn, old_url)) =~ schedule_path(Site.Endpoint, :show, "Red")
+    end
 
-      old_bus_url = "/schedules_and_maps/anything?route=86"
-      assert redirected_to(get(conn, old_bus_url)) =~ schedule_path(Site.Endpoint, :show, "86")
+    test "Redirects all bus routes correctly", %{conn: conn} do
+      3
+      |> Routes.Repo.by_type()
+      |> Enum.each(fn %Routes.Route{name: name, id: route_id} ->
+        old_bus_url = "/schedules_and_maps/anything?route=#{name}"
+        assert redirected_to(get(conn, old_bus_url)) =~ schedule_path(Site.Endpoint, :show, route_id)
+      end)
     end
 
     test "Redirects to old page if unknown route", %{conn: conn} do
