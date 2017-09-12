@@ -94,6 +94,10 @@ defmodule Site.OldSiteRedirectControllerTest do
       assert redirected_to(get(conn, invalid_rail_url)) == "/redirect/schedules_and_maps/rail/lines/stations?stopId=invalidstopid"
     end
 
+    test "redirects to /maps for system_map", %{conn: conn} do
+      assert redirected_to(get(conn, "/schedules_and_maps/system_map")) == "/maps"
+    end
+
     test "Redirects to old site if unknown route", %{conn: conn} do
       unknown_url = "/schedules_and_maps/something/unknown"
       assert redirected_to(get(conn, unknown_url)) == "/redirect/schedules_and_maps/something/unknown"

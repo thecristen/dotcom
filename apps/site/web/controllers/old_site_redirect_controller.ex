@@ -1,6 +1,7 @@
 defmodule Site.OldSiteRedirectController do
   use Site.Web, :controller
   import Site.Router.Helpers
+  import Site.ViewHelpers, only: [cms_static_page_path: 2]
 
   @s3_files ["feed_info.txt", "mbta_gtfs.zip"]
 
@@ -35,6 +36,9 @@ defmodule Site.OldSiteRedirectController do
   end
   def schedules_and_maps(conn, %{"path" => ["bus" | _]}) do
     redirect conn, to: mode_path(conn, :bus)
+  end
+  def schedules_and_maps(conn, %{"path" => ["system_map" | _]}) do
+    redirect conn, to: cms_static_page_path(conn, "/maps")
   end
   def schedules_and_maps(conn, _params) do
     old_site_redirect(conn)
