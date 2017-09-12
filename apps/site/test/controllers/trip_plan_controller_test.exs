@@ -66,6 +66,21 @@ defmodule Site.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
+    test "can use the old date time format", %{conn: conn} do
+      old_dt_format = Map.delete(@date_time, "am_pm")
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from_address",
+                    "from_latitude" => "",
+                    "from_longitude" => "",
+                    "to" => "to address",
+                    "to_latitude" => "",
+                    "to_longitude" => "",
+                    "date_time" => old_dt_format}}
+      conn = get conn, trip_plan_path(conn, :index, params)
+      assert html_response(conn, 200)
+    end
+
     test "each map url has a path color", %{conn: conn} do
       conn = get conn, trip_plan_path(conn, :index, @good_params)
       for {map_data, static_map} <- conn.assigns.itinerary_maps do

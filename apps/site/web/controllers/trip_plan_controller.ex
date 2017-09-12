@@ -43,13 +43,21 @@ defmodule Site.TripPlanController do
       itinerary_row_lists: itinerary_row_lists(itineraries, route_mapper, plan)
   end
 
-  @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, String.t}
+  @spec validate_date(map) :: {:ok, NaiveDateTime.t} | {:error, %{required(:date_time) => String.t}}
   defp validate_date(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute, "am_pm" => am_pm}) do
-    date = convert_to_date("#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}")
-    case date do
+    case convert_to_date("#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}") do
       nil -> {:error, %{date_time: "Date is not valid."}}
-      _ -> {:ok, date}
+      date -> {:ok, date}
     end
+  end
+  defp validate_date(%{"year" => year, "month" => month, "day" => day, "hour" => hour, "minute" => minute}) do
+    case convert_to_date("#{year}-#{month}-#{day} #{hour}:#{minute}") do
+      nil -> {:error, %{date_time: "Date is not valid."}}
+      date -> {:ok, date}
+    end
+  end
+  defp validate_date(%{}) do
+    {:error, %{date_time: "Date is not valid."}}
   end
 
   @spec convert_to_date(String.t) :: NaiveDateTime.t | nil
