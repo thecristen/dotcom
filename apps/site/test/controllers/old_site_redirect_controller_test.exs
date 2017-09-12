@@ -12,6 +12,11 @@ defmodule Site.OldSiteRedirectControllerTest do
       assert conn.status == 200
     end
 
+    test "can return file from /uploadedimages", %{conn: conn} do
+      conn = head conn, "/uploadedfiles/Documents/Schedules_and_Maps/Rapid Transit w Key Bus.pdf"
+      assert conn.status == 200
+    end
+
     test "returns 404 when uploaded file does not exist", %{conn: conn} do
       conn = head conn, "/uploadedfiles/file-not-found.txt"
       assert conn.status == 404
