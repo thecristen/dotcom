@@ -27,8 +27,7 @@ config :site, Site.ViewHelpers,
   feedback_form_url: "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
 config :laboratory,
-  features: [
-    {:js_datepicker, "Styled Trip Planner Date Picker", "Adds the styled datepicker inputs to the trip planner"}],
+  features: [],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
     http_only: true
