@@ -25,6 +25,10 @@ body {
   min-width: 20rem;
   text-rendering: optimizeLegibility;
 
+  @media print {
+    color: $black;
+  }
+
   &.no-js {
     .collapse:target {
       display: block;
@@ -76,6 +80,12 @@ body {
   height: 100%;
   max-width: 100%;
   width: 100%;
+}
+
+.header {
+  @media print {
+    display: none;
+  }
 }
 
 .alert-announcement-container,
@@ -181,6 +191,10 @@ body {
 
 .footer-announcement-container {
   min-width: 20rem;
+
+  @media print {
+    display: none;
+  }
 }
 
 .beta-announcement {

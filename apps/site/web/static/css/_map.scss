@@ -17,6 +17,12 @@
 // </div>
 // ```
 
+.map {
+  @media print {
+    height: auto;
+  }
+}
+
 .is-map-dynamic .map-static {
   // hide the static map if we built a dynamic-map
   display: none;
