@@ -117,5 +117,10 @@ defmodule Site.OldSiteRedirectController do
   defp old_route_to_route_id("F1"), do: "Boat-F1"
   defp old_route_to_route_id("F2"), do: "Boat-F3"
   defp old_route_to_route_id("F4"), do: "Boat-F4"
-  defp old_route_to_route_id(_), do: nil
+  defp old_route_to_route_id(route) do
+    case Integer.parse(route) do
+      {route_id, ""} -> route_id
+      _ -> nil
+    end
+  end
 end

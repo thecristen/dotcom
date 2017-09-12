@@ -39,6 +39,9 @@ defmodule Site.OldSiteRedirectControllerTest do
     test "Redirects to new schedules based on old route", %{conn: conn} do
       old_url = "/schedules_and_maps/anything?route=RED"
       assert redirected_to(get(conn, old_url)) =~ schedule_path(Site.Endpoint, :show, "Red")
+
+      old_bus_url = "/schedules_and_maps/anything?route=86"
+      assert redirected_to(get(conn, old_bus_url)) =~ schedule_path(Site.Endpoint, :show, "86")
     end
 
     test "Redirects to old page if unknown route", %{conn: conn} do
