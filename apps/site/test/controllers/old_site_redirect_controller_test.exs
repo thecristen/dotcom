@@ -3,7 +3,7 @@ defmodule Site.OldSiteRedirectControllerTest do
 
   describe "/uploadedfiles" do
     test "can return a file with spaces in the URL", %{conn: conn} do
-      conn = head conn, "/uploadedfiles/Documents/Schedules_and_Maps/Rapid Transit w Key Bus.pdf"
+      conn = head conn, "/uploadedfiles/Documents/Schedules_and_Maps/Rapid%20Transit%20w%20Key%20Bus.pdf"
       assert conn.status == 200
     end
 
@@ -13,7 +13,7 @@ defmodule Site.OldSiteRedirectControllerTest do
     end
 
     test "can return file from /uploadedimages", %{conn: conn} do
-      conn = head conn, "/uploadedimages/About_the_T/Art_Collection/Map Runner Up 15 lg.jpg"
+      conn = head conn, "/uploadedimages/About_the_T/Art_Collection/Map%20Runner%20Up%2015%20lg.jpg"
       assert conn.status == 200
     end
 

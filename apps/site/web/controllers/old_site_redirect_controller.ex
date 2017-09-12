@@ -84,7 +84,7 @@ defmodule Site.OldSiteRedirectController do
 
   defp old_site_file_url(request_path) do
     host = :site |> Application.get_env(:former_mbta_site) |> Keyword.get(:host)
-    "#{host}#{URI.encode(request_path)}"
+    "#{host}#{request_path}"
   end
 
   defp s3_file_url(file_name) do
