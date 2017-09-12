@@ -13,7 +13,22 @@ defmodule Site.OldSiteRedirectControllerTest do
     end
 
     test "can return file from /uploadedimages", %{conn: conn} do
-      conn = head conn, "/uploadedfiles/Documents/Schedules_and_Maps/Rapid Transit w Key Bus.pdf"
+      conn = head conn, "/uploadedimages/About_the_T/Art_Collection/Map Runner Up 15 lg.jpg"
+      assert conn.status == 200
+    end
+
+    test "can return file from /uploadedImages", %{conn: conn} do
+      conn = head conn, "/uploadedImages/services/subway/braintree_station.jpg"
+      assert conn.status == 200
+    end
+
+    test "can return file from /lib", %{conn: conn} do
+      conn = head conn, "/lib/css/T-Tracker.css"
+      assert conn.status == 200
+      end
+
+    test "can return file from /images", %{conn: conn} do
+      conn = head conn, "/images/logo-mbta.gif"
       assert conn.status == 200
     end
 
