@@ -63,7 +63,7 @@
         Business Center
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Business Opportunities", to: redirect_path(@conn, "business_center/"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Careers", to: redirect_path(@conn, "about_the_mbta/career_opps/"), target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), target: "_self" %></li>
           <li class="footer-link-sublist-item"><%= link "Developers", to: redirect_path(@conn, "rider_tools/developers/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Financials", to: redirect_path(@conn, "about_the_mbta/financials/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Innovation", to: redirect_path(@conn, "business_center/innovation_proposals/"), target: "_blank" %></li>

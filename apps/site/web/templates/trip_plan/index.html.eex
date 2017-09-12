@@ -1,7 +1,7 @@
 <% itineraries? = Query.itineraries?(assigns[:query]) %>
 <h1>Trip Planner</h1>
 <div class="row">
-  <div class="col-md-5">
+  <div class="trip-plan-sidebar">
     <div class="trip-plan-form-container callout">
     <%= if itineraries? do %>
       <div class="hidden-sm-up hidden-no-js" data-toggle-hide>
@@ -61,11 +61,11 @@
           Wheelchair accessible trip
         <% end %>
       </div>
-      <button type="submit" class="btn btn-primary">Find</button>
+      <button type="submit" class="btn btn-primary hidden-print">Find</button>
       <% end %>
     </div>
   </div>
-  <div class="col-md-7">
+  <div class="trip-plan-body">
     <%= case assigns[:query] do %>
       <% %{itineraries: {:ok, itineraries}} -> %>
       <p class="no-trips page-section">

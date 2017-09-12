@@ -69,7 +69,6 @@ export function dateInput($) {
   $(document).on("click", "#" + DATE_TIME_IDS.dateEl.link, (ev) => {
     ev.preventDefault();
     ev.stopPropagation();
-    $("#" + DATE_TIME_IDS.dateEl.link).fadeOut();
     $("#" + DATE_TIME_IDS.dateEl.input).datepicker("show");
   });
 

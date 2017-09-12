@@ -37,7 +37,11 @@ MIX_ENV=test mix do deps.get, deps.compile
 nvm use 6.2
 rbenv local 2.4.0
 
-GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems gem install -g gem.deps.rb sass pronto pronto-eslint pronto-scss -N
+GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems
+gem install pronto -v 0.7.1
+gem install pronto-eslint -v 0.7.0
+gem install pronto-scss -v 0.7.0
+gem install sass -v 3.4.23
 # install custom pronto-credo
 if test -d $SEMAPHORE_CACHE_DIR/gems/pronto-credo; then
     pushd $SEMAPHORE_CACHE_DIR/gems/pronto-credo

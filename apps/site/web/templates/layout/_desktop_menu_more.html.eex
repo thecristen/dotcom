@@ -59,7 +59,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/"), target: "_blank" do %>
+        <%= link to: cms_static_page_path(@conn, "/careers") do %>
           <%= fa "caret-right" %> Careers
         <% end %>
       </li>

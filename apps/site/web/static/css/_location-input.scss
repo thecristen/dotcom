@@ -1,6 +1,10 @@
 .location-link {
   border: 0;
   margin: $space-16 0 $space-8;
+
+  @media print {
+    display: none;
+  }
 }
 
 .location-link-invert {

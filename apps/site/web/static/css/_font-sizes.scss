@@ -1,6 +1,13 @@
-html {
+html,
+body {
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-base-xxl;
+  }
+
+  @media print {
+    // override the base font size.  Since everything (should) be defined in
+    // rems, this makes all the text bigger.
+    font-size: $font-size-base-print;
   }
 }
 
