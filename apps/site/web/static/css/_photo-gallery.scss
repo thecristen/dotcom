@@ -18,6 +18,8 @@
 }
 
 .photo-gallery-images {
+  text-align: center;
+
   @include media-breakpoint-down(sm) {
     display: none;
   }
@@ -34,10 +36,20 @@
 
 .photo-gallery-image {
   font-family: 'object-fit: cover;';  // IE polyfill
-  height: 140px;
+  height: 99px;
   object-fit: cover;
   pointer-events: none;
-  width: 140px;
+  width: 99px;
+
+  @include media-breakpoint-up(lg) {
+    height: 124px;
+    width: 124px;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    height: 140px;
+    width: 140px;
+  }
 }
 
 .photo-gallery-navigation {
