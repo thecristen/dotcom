@@ -51,6 +51,10 @@ defmodule Site.OldSiteRedirectControllerTest do
   end
 
   describe "/schedules_and_maps" do
+    test "redirects to mode root", %{conn: conn} do
+      assert redirected_to(get(conn, "/schedules_and_maps")) == mode_path(conn, :index)
+    end
+
     test "Redirects to new schedules based on old route", %{conn: conn} do
       old_url = "/schedules_and_maps/anything?route=RED"
       assert redirected_to(get(conn, old_url)) =~ schedule_path(Site.Endpoint, :show, "Red")
