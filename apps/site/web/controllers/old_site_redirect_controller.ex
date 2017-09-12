@@ -1,6 +1,7 @@
 defmodule Site.OldSiteRedirectController do
   use Site.Web, :controller
   import Site.Router.Helpers
+  import Site.ViewHelpers, only: [cms_static_page_path: 2]
 
   @s3_files ["feed_info.txt", "mbta_gtfs.zip"]
 
@@ -36,6 +37,9 @@ defmodule Site.OldSiteRedirectController do
   def schedules_and_maps(conn, %{"path" => ["bus" | _]}) do
     redirect conn, to: mode_path(conn, :bus)
   end
+  def schedules_and_maps(conn, %{"path" => ["system_map" | _]}) do
+    redirect conn, to: cms_static_page_path(conn, "/maps")
+  end
   def schedules_and_maps(conn, _params) do
     old_site_redirect(conn)
   end
@@ -49,8 +53,8 @@ defmodule Site.OldSiteRedirectController do
   def uploaded_files(conn, %{"path" => [file_name]}) when file_name in @s3_files do
     file_name |> s3_file_url() |> perform_uploaded_files_request(conn)
   end
-  def uploaded_files(conn, %{"path" => path_parts}) do
-    path_parts |> old_site_file_url() |> perform_uploaded_files_request(conn)
+  def uploaded_files(conn, _params) do
+    conn.request_path |> old_site_file_url() |> perform_uploaded_files_request(conn)
   end
 
   defp perform_uploaded_files_request(full_url, conn) do
@@ -75,9 +79,9 @@ defmodule Site.OldSiteRedirectController do
     |> halt
   end
 
-  defp old_site_file_url(path_parts) do
+  defp old_site_file_url(request_path) do
     host = :site |> Application.get_env(:former_mbta_site) |> Keyword.get(:host)
-    "#{host}/uploadedfiles/#{path_parts |> Enum.map(&URI.encode/1) |> Enum.join("/")}"
+    "#{host}#{URI.encode(request_path)}"
   end
 
   defp s3_file_url(file_name) do
