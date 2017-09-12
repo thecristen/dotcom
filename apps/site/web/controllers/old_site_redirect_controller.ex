@@ -40,6 +40,9 @@ defmodule Site.OldSiteRedirectController do
   def schedules_and_maps(conn, %{"path" => ["system_map" | _]}) do
     redirect conn, to: cms_static_page_path(conn, "/maps")
   end
+  def schedules_and_maps(conn, params) when params == %{} do
+    redirect conn, to: mode_path(conn, :index)
+  end
   def schedules_and_maps(conn, _params) do
     old_site_redirect(conn)
   end

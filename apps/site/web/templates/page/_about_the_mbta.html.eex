@@ -19,7 +19,7 @@
         <div class="about-title">Performance</div>
       </div>
     <% end %>
-    <%= link to: redirect_path(@conn, "about_the_mbta/career_opps/"), target: "_blank", class: "homepage-link" do %>
+    <%= link to: cms_static_page_path(@conn, "/careers"), class: "homepage-link" do %>
       <div class="col-xs-6 col-md-3">
         <div class="homepage-svg"><%= svg "working-at-the-t.svg" %></div>
         <div class="about-title">Working at the T</div>
