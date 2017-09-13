@@ -13,7 +13,7 @@
             <%= svg_icon_with_circle(%SvgIconWithCircle{icon: type}) %>
             <span class="station-mode-description"><%= mode_name(type) %></span>
           <% end %>
-          <%= if type == :commuter_rail do %>
+          <%= if type == :commuter_rail and Map.get(assigns, :zone_number) do %>
             <span class="station-info-zone">Zone <%= @zone_number %></span>
           <% end %>
         <% end %>

@@ -122,12 +122,14 @@ defmodule Site.StopController do
     stop
     |> terminal_stations
     |> Enum.reject(fn {_mode, terminal} -> terminal == "" end)
-    |> Enum.map(&lookup_fare(&1, stop))
-    |> List.first
+    |> Enum.find_value(&lookup_fare(&1, stop))
   end
 
   defp lookup_fare({mode, terminus}, stop) do
-     Fares.fare_for_stops(Route.type_atom(mode), terminus, stop.id)
+    case Fares.fare_for_stops(Route.type_atom(mode), terminus, stop.id) do
+      {:ok, name} -> name
+      :error -> nil
+    end
   end
 
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string

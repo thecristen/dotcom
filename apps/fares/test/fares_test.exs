@@ -25,9 +25,13 @@ defmodule FaresTest do
       zone_4 = "Ballardvale"
       zone_7 = "Haverhill"
 
-      assert Fares.fare_for_stops(:commuter_rail, zone_1a, zone_4) == {:zone, "4"}
-      assert Fares.fare_for_stops(:commuter_rail, zone_7, zone_1a) == {:zone, "7"}
-      assert Fares.fare_for_stops(:commuter_rail, zone_4, zone_7) == {:interzone, "4"}
+      assert Fares.fare_for_stops(:commuter_rail, zone_1a, zone_4) == {:ok, {:zone, "4"}}
+      assert Fares.fare_for_stops(:commuter_rail, zone_7, zone_1a) == {:ok, {:zone, "7"}}
+      assert Fares.fare_for_stops(:commuter_rail, zone_4, zone_7) == {:ok, {:interzone, "4"}}
+    end
+
+    test "returns an error if the fare doesn't exist" do
+      assert Fares.fare_for_stops(:commuter_rail, "place-north", "place-pktrm") == :error
     end
 
     test "returns the name of the ferry fare given the origin and destination" do
@@ -43,7 +47,7 @@ defmodule FaresTest do
             true -> :commuter_ferry
           end
 
-          assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == expected_name
+          assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name}
       end
     end
   end
