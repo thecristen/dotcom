@@ -76,18 +76,23 @@ defmodule Site.ControllerHelpers do
   def forward_static_file(conn, url) do
     case HTTPoison.get(url) do
       {:ok, %{status_code: 200, body: body, headers: headers}} ->
-        headers
-        |> Enum.reduce(conn, fn {key, value}, conn ->
-          if String.downcase(key) in @valid_resp_headers do
-            Conn.put_resp_header(conn, String.downcase(key), value)
-          else
-            conn
-          end
-        end)
+        conn
+        |> add_headers_if_valid(headers)
         |> Conn.halt
         |> Conn.send_resp(:ok, body)
       _ ->
         Conn.send_resp(conn, :not_found, "")
     end
+  end
+
+  @spec add_headers_if_valid(Conn.t, [{String.t, String.t}]) :: Conn.t
+  defp add_headers_if_valid(conn, headers) do
+    Enum.reduce(headers, conn, fn {key, value}, conn ->
+      if String.downcase(key) in @valid_resp_headers do
+        Conn.put_resp_header(conn, String.downcase(key), value)
+      else
+        conn
+      end
+    end)
   end
 end
