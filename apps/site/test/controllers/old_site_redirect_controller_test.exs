@@ -36,6 +36,12 @@ defmodule Site.OldSiteRedirectControllerTest do
       conn = head conn, "/uploadedfiles/file-not-found.txt"
       assert conn.status == 404
     end
+
+    test "returned file does not include content length or powered by", %{conn: conn} do
+      conn = head conn, "/images/logo-mbta.gif"
+      assert get_resp_header(conn, "content-length") == []
+      assert get_resp_header(conn, "x-powered-by") == []
+    end
   end
 
   describe "/gtfs_archive" do

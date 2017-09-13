@@ -65,6 +65,7 @@ defmodule Site.OldSiteRedirectController do
     with {:ok, response} <- HTTPoison.get(full_url, [], params: params),
          %{status_code: 200, headers: headers, body: body} <- response do
       headers
+      |> Enum.filter(&valid_file_header?/1)
       |> Enum.reduce(conn, fn {header, value}, conn ->
         put_resp_header(conn, String.downcase(header), value)
       end)
@@ -99,6 +100,12 @@ defmodule Site.OldSiteRedirectController do
   defp old_site_redirect(conn) do
     redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
   end
+
+  defp valid_file_header?({"Content-Type", _}), do: true
+  defp valid_file_header?({"Cache-Control", _}), do: true
+  defp valid_file_header?({"Last-Modified", _}), do: true
+  defp valid_file_header?({"ETag", _}), do: true
+  defp valid_file_header?(_), do: false
 
   defp old_route_to_route_id("RED"), do: "Red"
   defp old_route_to_route_id("GREEN"), do: "Green"
