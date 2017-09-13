@@ -68,6 +68,7 @@ defmodule Site.Router do
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end
+    get "/sites/*path", StaticFileController, :index
   end
 
   scope "/", Site do
@@ -90,10 +91,7 @@ defmodule Site.Router do
     forward "/", Laboratory.Router
   end
 
-  # This needs to go last so that it catches any URLs that fall through.
-  scope "/" do
-    pipe_through [:browser]
-
-    forward "/", Content.Router
+  scope "/", Site do
+    get "/*path", ContentController, :index
   end
 end

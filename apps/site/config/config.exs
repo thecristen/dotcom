@@ -38,8 +38,7 @@ config :site, Site.BodyTag,
 
 config :content,
   mfa: [
-    static: {Site.Router.Helpers, :static_url, [Site.Endpoint]},
-    page: {Site.ContentController, :page, []}
+    static: {Site.Router.Helpers, :static_url, [Site.Endpoint]}
   ]
 
 # Centralize Error reporting

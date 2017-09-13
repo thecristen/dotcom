@@ -1,12 +1,7 @@
-defmodule Content.Router do
-  @moduledoc """
+defmodule Site.StaticFileController do
+  use Site.Web, :controller
 
-  A Router to use for handling content coming from our CMS.
-  """
-  use Plug.Router
-
-  plug :match
-  plug :dispatch
+  import Plug.Conn, only: [put_resp_header: 3, send_resp: 3, halt: 1]
 
   @valid_resp_headers [
     "content-type",
@@ -17,20 +12,9 @@ defmodule Content.Router do
     "cache-control"
   ]
 
-  get "/sites/*_path" do
+  def index(conn, _params) do
     full_url = Content.Config.url(conn.request_path)
     forward_response(conn, HTTPoison.get(full_url))
-  end
-
-  get "/*_path" do
-    maybe_page = Content.Repo.get_page(conn.request_path, conn.query_string) # no cover (content_controller_test does, but coveralls doesn't pick that up)
-    Content.Config.apply(:page, [conn, maybe_page])
-  end
-
-  # handle all types of request
-  match "/*_path" do
-    error = {:error, "page not found"}
-    Content.Config.apply(:page, [conn, error])
   end
 
   @doc """
@@ -42,7 +26,7 @@ defmodule Content.Router do
 
   """
   @spec forward_response(Plug.Conn.t, {:ok, HTTPoison.Response.t} | any) :: Plug.Conn.t
-  def forward_response(conn, {:ok, %{status_code: 200, body: body, headers: headers}}) do
+  defp forward_response(conn, {:ok, %{status_code: 200, body: body, headers: headers}}) do
     headers
     |> Enum.reduce(conn, fn {key, value}, conn ->
       if String.downcase(key) in @valid_resp_headers do
@@ -54,7 +38,7 @@ defmodule Content.Router do
     |> halt
     |> send_resp(:ok, body)
   end
-  def forward_response(conn, _) do
+  defp forward_response(conn, _) do
     send_resp(conn, :not_found, "")
   end
 end
