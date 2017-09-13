@@ -45,6 +45,14 @@ defmodule Site.StopController do
     |> render("show.html", stop: stop)
   end
 
+  @doc "Redirect users who type in a URL with a slash to the correct URL"
+  def stop_with_slash_redirect(conn, %{"path" => path}) do
+    real_id = Enum.join(path, "/")
+    conn
+    |> redirect(to: stop_path(conn, :show, real_id))
+    |> halt
+  end
+
   @spec grouped_routes(String.t) :: [{Route.gtfs_route_type, Route.t}]
   defp grouped_routes(stop_id) do
     stop_id
