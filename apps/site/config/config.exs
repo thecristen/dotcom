@@ -8,9 +8,6 @@ use Mix.Config
 # Configures the endpoint
 config :site, Site.Endpoint,
   url: [host: "localhost"],
-  protocol_options: [
-    max_header_value_length: 16_384
-  ],
   secret_key_base: "4DTl03knjPRXF9QYrTqcVRZUy8hN5gS6x6rN1mIImpo1rcN79d77ZAfShyVqDzx/",
   render_errors: [accepts: ~w(html json), layout: {Site.LayoutView, "app.html"}],
   pubsub: [name: Site.PubSub,
