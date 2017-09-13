@@ -21,12 +21,12 @@ defmodule Site.ProjectController do
     breadcrumbs = [
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
       Breadcrumb.build(project.title)]
-
     render conn, "show.html", %{
       breadcrumbs: breadcrumbs,
       project: project,
       updates: updates,
-      events: events
+      events: events,
+      narrow_template: true
     }
   end
 
@@ -40,7 +40,7 @@ defmodule Site.ProjectController do
       Breadcrumb.build(project.title, project_path(conn, :show, project_id)),
       Breadcrumb.build(update.title)]
 
-    render conn, "update.html", breadcrumbs: breadcrumbs, update: update
+    render conn, "update.html", breadcrumbs: breadcrumbs, update: update, narrow_template: true
   end
 
   @spec get_project(String.t) :: (() -> Content.Project.t | no_return)

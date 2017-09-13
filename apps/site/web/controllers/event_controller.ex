@@ -10,6 +10,7 @@ defmodule Site.EventController do
     |> assign(:month, date_range.start_time_gt)
     |> assign(:events, events)
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
+    |> assign(:narrow_template, true)
     |> render("index.html")
   end
 
@@ -17,6 +18,7 @@ defmodule Site.EventController do
     event = Content.Repo.event!(id)
 
     conn
+    |> assign(:narrow_template, true)
     |> assign_breadcrumbs(event)
     |> render("show.html", event: event)
   end
