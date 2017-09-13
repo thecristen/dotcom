@@ -48,6 +48,11 @@ defmodule Site.StopControllerTest do
     assert breadcrumbs_include?(body, "Courthouse")
   end
 
+  test "redirects stations with slashes to the right URL", %{conn: conn} do
+    conn = get conn, "/stops/Four%20Corners%20/%20Geneva"
+    assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
+  end
+
   test "separates mattapan from stop info for subway", %{conn: conn} do
       conn = get(conn, stop_path(conn, :show, :subway))
       assert conn.assigns.mattapan

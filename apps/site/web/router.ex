@@ -38,6 +38,7 @@ defmodule Site.Router do
     get "/projects/:project_id/update/:id", ProjectController, :project_update
     get "/redirect/*path", RedirectController, :show
     resources "/stops", StopController, only: [:index, :show]
+    get "/stops/*path", StopController, :stop_with_slash_redirect
     get "/schedules", ModeController, :index
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus
