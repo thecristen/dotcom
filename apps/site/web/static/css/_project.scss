@@ -69,3 +69,17 @@
     border: 0;
   }
 }
+
+.project-downloads {
+  @include media-breakpoint-up(md) {
+    .content-file-grid-row {
+      width: 50%;
+    }
+  }
+}
+
+.project-phone {
+  a {
+    white-space: nowrap;
+  }
+}
