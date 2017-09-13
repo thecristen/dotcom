@@ -1,14 +1,22 @@
 defmodule Site.ControllerHelpers do
-  import Plug.Conn, only: [assign: 3, await_assign: 3]
   alias Plug.Conn
   alias Routes.Route
+
+  @valid_resp_headers [
+    "content-type",
+    "date",
+    "etag",
+    "expires",
+    "last-modified",
+    "cache-control"
+  ]
 
   @doc "Find all the assigns which are Tasks, and await_assign them"
   def await_assign_all(conn, timeout \\ 5_000) do
     task_keys = for {key, %Task{}} <- conn.assigns do
       key
     end
-    Enum.reduce(task_keys, conn, fn key, conn -> await_assign(conn, key, timeout) end)
+    Enum.reduce(task_keys, conn, fn key, conn -> Conn.await_assign(conn, key, timeout) end)
   end
 
   defmacro call_plug(conn, module) do
@@ -55,6 +63,31 @@ defmodule Site.ControllerHelpers do
       |> Alerts.Repo.by_route_id_and_type(route_type, conn.assigns.date_time)
       |> Alerts.Match.match(informed_entity_matchers)
 
-    assign(conn, :all_alerts, alerts)
+    Conn.assign(conn, :all_alerts, alerts)
+  end
+
+  @doc """
+  Gets a remote static file and forwards it to the client.
+  If there's a problem with the response, returns a 404 Not Found.
+  This also returns some (but not all) headers back to the client.
+  Headers like ETag and Last-Modified should help with caching.
+  """
+  @spec forward_static_file(Conn.t, String.t) :: Conn.t
+  def forward_static_file(conn, url) do
+    case HTTPoison.get(url) do
+      {:ok, %{status_code: 200, body: body, headers: headers}} ->
+        headers
+        |> Enum.reduce(conn, fn {key, value}, conn ->
+          if String.downcase(key) in @valid_resp_headers do
+            Conn.put_resp_header(conn, String.downcase(key), value)
+          else
+            conn
+          end
+        end)
+        |> Conn.halt
+        |> Conn.send_resp(:ok, body)
+      _ ->
+        Conn.send_resp(conn, :not_found, "")
+    end
   end
 end
