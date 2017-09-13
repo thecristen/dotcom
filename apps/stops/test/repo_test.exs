@@ -67,6 +67,18 @@ defmodule Stops.RepoTest do
     test "Returns gtfs id from old site id" do
       assert old_id_to_gtfs_id("66") == "place-forhl"
     end
+
+    test "all old IDs map to a valid GTFS id" do
+      invalid_ids = for {old_id, gtfs_id} <- "priv/stop_id_to_gtfs.csv"
+      |> File.stream!()
+      |> CSV.decode(headers: true)
+      |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
+      |> Enum.flat_map(fn {ids, gtfs_id} -> Enum.map(ids, &{&1, gtfs_id}) end),
+      get(gtfs_id) == nil do
+        {old_id, gtfs_id}
+      end
+      assert invalid_ids == []
+    end
   end
 
   describe "stop_features/1" do
