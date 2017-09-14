@@ -98,6 +98,11 @@
           <%= fa "caret-right" %> Red and Orange Line Cars
         <% end %>
       </li>
+      <li>
+        <%= link to: cms_static_page_path(@conn, "/wollaston") do %>
+          <%= fa "caret-right" %> Wollaston Station
+        <% end %>
+      </li>
     </ul>
   </div>
 </div>
