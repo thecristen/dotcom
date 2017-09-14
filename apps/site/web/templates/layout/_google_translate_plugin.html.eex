@@ -7,7 +7,7 @@
 <div id="google_translate_element"></div>
 <script type="text/javascript">
   function googleTranslateElementInit() {
-    document.getElementById("google_translate_element").innerHTML = "";
+    if (document.getElementById("google_translate_element").hasChildNodes()) { return; }
     new google.translate.TranslateElement({pageLanguage: "en", gaTrack: true, layout: null, gaId: <%= tag_id %>},
                                           "google_translate_element");
   }
