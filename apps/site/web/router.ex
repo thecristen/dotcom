@@ -68,9 +68,24 @@ defmodule Site.Router do
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
     end
+  end
+
+  #static files
+  scope "/", Site do
     get "/sites/*path", StaticFileController, :index
   end
 
+  #old site
+  scope "/", Site do
+    pipe_through :browser
+
+    get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
+    get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
+    get "/about_the_mbta/public_meetings", Redirector, to: "/events"
+    get "/about_the_mbta/news_events", Redirector, to: "/news"
+  end
+
+  #old site static files
   scope "/", Site do
     get "/uploadedfiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
@@ -79,10 +94,6 @@ defmodule Site.Router do
     get "/images/*path", OldSiteRedirectController, :uploaded_files
     get "/lib/*path", OldSiteRedirectController, :uploaded_files
     get "/gtfs_archive/archived_feeds.txt", OldSiteRedirectController, :archived_files
-    get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
-    get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
-    get "/about_the_mbta/public_meetings", Redirector, to: "/events"
-    get "/about_the_mbta/news_events", Redirector, to: "/news"
   end
 
   scope "/_flags" do
@@ -92,6 +103,8 @@ defmodule Site.Router do
   end
 
   scope "/", Site do
+    pipe_through :browser
+
     get "/*path", ContentController, :index
   end
 end
