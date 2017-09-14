@@ -47,6 +47,17 @@ $location-line-width: $space-6;
       .stop-bubble::before {
         border-left-color: $color;
       }
+
+      .expand-icon {
+        .diagonal,
+        .horizontal {
+          background-color: $color;
+        }
+
+        .diagonal.top::after {
+          background-color: $color;
+        }
+      }
     }
   }
 }
@@ -73,6 +84,12 @@ $location-line-width: $space-6;
   flex: 1 1 0%;
   overflow: visible; // if set to hidden, site works better in IE10, but then cirlces are slightly cropped everywhere
   width: 100%;
+
+  &.expanded {
+    .expand-icon {
+      display: none;
+    }
+  }
 }
 
 .route-branch-stop-bubbles {
@@ -104,7 +121,6 @@ $location-line-width: $space-6;
     background-color: transparent;
     outline-width: 1px;
     width: 0;
-  }
 
   &.expanded {
     outline-style: none;
@@ -166,6 +182,48 @@ $location-line-width: $space-6;
     fill: $white;
     stroke: $gray-dark;
     stroke-width: $space-2;
+  }
+}
+
+.expand-icon {
+  flex: 0 0 $base-spacing * 2;
+  width: 100%;
+  position: relative;
+
+  .diagonal,
+  .horizontal {
+    border-radius: $location-line-width * 2;
+    position: absolute;
+  }
+
+  .diagonal {
+    height:  $base-spacing * 1.5;
+    width: $location-line-width;
+    transform: rotate(35deg) translate(0, -$location-line-width / 2);
+    transform-origin: middle;
+
+    &.top::after {
+      border-radius: $location-line-width * 2;
+      content: " ";
+      width: $location-line-width;
+      height: 10px;
+      position: absolute;
+      top: -3px;
+      right: 0;
+    }
+
+    &.bottom {
+      left: 50%;
+      top: 50%;
+    }
+  }
+
+  .horizontal {
+    background-color: purple;
+    height: $location-line-width;
+    opacity: .4;
+    top: $base-spacing - ($location-line-width / 2);
+    width: 100%;
   }
 }
 
