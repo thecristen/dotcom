@@ -26,6 +26,7 @@
       <%= render "_link.html", text: "Green Line Extension", href: redirect_path(@conn, "about_the_mbta/t_projects/default.asp?id=23864"), class: "col-xs-12 col-sm-4", target: "_blank" %>
       <%= render "_link.html", text: "Silver Line Gateway", href: redirect_path(@conn, "about_the_mbta/news_events/?id=6442452990"), class: "col-xs-12 col-sm-4", target: "_blank" %>
       <%= render "_link.html", text: "Red and Orange Line Cars", href: redirect_path(@conn, "business_center/bidding_solicitations/default.asp?id=6442453199"), class: "col-xs-12 col-sm-4", target: "_blank" %>
+      <%= render "_link.html", text: "Wollaston Station", href: cms_static_page_path(@conn, "/wollaston"), class: "col-xs-12 col-sm-4", target: "_self" %>
     </div>
   </div>
 </div>
