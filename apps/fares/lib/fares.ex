@@ -1,11 +1,18 @@
 defmodule Fares do
   @type ferry_name :: :ferry_cross_harbor | :ferry_inner_harbor | :commuter_ferry_logan | :commuter_ferry
 
+  @spec fare_for_stops(:commuter_rail | :ferry, Stops.Stop.id_t, Stops.Stop.id_t) :: {:ok, Fares.Fare.fare_name} |
+  :error
   def fare_for_stops(:commuter_rail, origin, destination) do
-    calculate_commuter_rail(Zones.Repo.get(origin), Zones.Repo.get(destination))
+    with origin_zone when not is_nil(origin_zone) <- Zones.Repo.get(origin),
+         dest_zone when not is_nil(dest_zone) <- Zones.Repo.get(destination) do
+      {:ok, calculate_commuter_rail(Zones.Repo.get(origin), Zones.Repo.get(destination))}
+    else
+      _ -> :error
+    end
   end
   def fare_for_stops(:ferry, origin, destination) do
-    calculate_ferry(origin, destination)
+    {:ok, calculate_ferry(origin, destination)}
   end
 
   def calculate_commuter_rail(start_zone, "1A") do

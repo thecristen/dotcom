@@ -26,7 +26,7 @@
         <% end %>
       </p>
     <% end %>
-    <%= if :commuter_rail in types do %>
+    <%= if :commuter_rail in types and @fare_name do %>
       <% commuter_terminal = @terminal_stations[2]%>
       <%= render "_commuter_fare.html", conn: @conn, stop: @stop, fare_name: @fare_name, terminal_station: commuter_terminal %>
     <% end %>

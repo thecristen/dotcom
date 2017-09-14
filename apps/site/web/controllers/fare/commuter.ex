@@ -9,9 +9,12 @@ defmodule Site.FareController.Commuter do
 
   @impl true
   def fares(%{assigns: %{origin: origin, destination: destination}}) when not is_nil(origin) and not is_nil(destination) do
-    fare_name = Fares.fare_for_stops(:commuter_rail, origin.id, destination.id)
-
-    Fares.Repo.all(name: fare_name)
+    case Fares.fare_for_stops(:commuter_rail, origin.id, destination.id) do
+      {:ok, fare_name} ->
+        Fares.Repo.all(name: fare_name)
+      :error ->
+        []
+    end
   end
   def fares(_conn) do
     []

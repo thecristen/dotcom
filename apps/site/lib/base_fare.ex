@@ -37,14 +37,13 @@ defmodule Site.BaseFare do
 
     [name: name]
   end
-  defp name_or_mode_filter(:commuter_rail, _route, origin_id, destination_id) do
-    name = Fares.fare_for_stops(:commuter_rail, origin_id, destination_id)
-
-    [name: name]
-  end
-  defp name_or_mode_filter(:ferry, _route, origin_id, destination_id) do
-    name = Fares.fare_for_stops(:ferry, origin_id, destination_id)
-
-    [name: name]
+  defp name_or_mode_filter(mode, _route, origin_id, destination_id)
+  when mode in [:commuter_rail, :ferry] do
+    case Fares.fare_for_stops(mode, origin_id, destination_id) do
+      {:ok, name} ->
+        [name: name]
+      :error ->
+        [mode: mode]
+    end
   end
 end
