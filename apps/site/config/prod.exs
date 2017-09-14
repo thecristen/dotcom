@@ -18,7 +18,13 @@ config :site, Site.Endpoint,
     protocol_options: [
       max_header_value_length: 16_384,
       max_request_line_length: 16_384
-    ]
+    ],
+    # don't dispatch on URL, to avoid parsing invalid URLs
+    dispatch: [
+      {:_, [
+          {:_, Plug.Adapters.Cowboy.Handler, {Site.Endpoint, []}}
+        ]}
+    ],
   ],
   url: [host: {:system, "HOST"}, port: 80],
   static_url: [
