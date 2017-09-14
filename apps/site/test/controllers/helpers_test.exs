@@ -202,7 +202,8 @@ defmodule Site.ControllerHelpersTest do
       assert get_resp_header(response, "content-type") == ["text/plain"]
       assert get_resp_header(response, "etag") == ["tag"]
       assert get_resp_header(response, "date") == ["date"]
-      refute get_resp_header(response, "content-length") == ["6"]
+      # we don't pass content-length cuz it causes problems with gzip
+      assert get_resp_header(response, "content-length") == []
     end
   end
 end

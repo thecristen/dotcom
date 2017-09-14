@@ -78,7 +78,6 @@ defmodule Site.ControllerHelpers do
       {:ok, %{status_code: 200, body: body, headers: headers}} ->
         conn
         |> add_headers_if_valid(headers)
-        |> Conn.halt
         |> Conn.send_resp(:ok, body)
       _ ->
         Conn.send_resp(conn, :not_found, "")

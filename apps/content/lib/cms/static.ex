@@ -63,7 +63,6 @@ defmodule Content.CMS.Static do
   end
 
   @impl true
-  @spec view(String.t, Keyword.t) :: {:ok, list(map())} | {:ok, map()} | {:error, String.t}
   def view(path, params \\ [])
   def view("/recent-news", [current_id: id]) do
     id = Integer.to_string(id)
