@@ -5,7 +5,7 @@
   </h1>
 
   <div class="row">
-    <%= content_tag :div, class: "event-description#{if has_sidebar do ~s( col-md-9) else ~s( col-md-12) end}" do %>
+    <%= content_tag :div, class: "event-description#{if has_sidebar do ~s(-with-sidebar) end}" do %>
       <div>
         <h2>Meeting Info</h2>
         <p>
@@ -42,7 +42,7 @@
       <% end %>
     <% end %>
     <%= if has_sidebar do %>
-      <div class="event-sidebar col-md-3">
+      <div class="event-sidebar">
         <%= if @event.agenda_file do %>
           <h3>Agenda</h3>
           <div>
@@ -63,7 +63,7 @@
           </div>
           <hr />
         <% end %>
-        <%= if !Enum.empty?(@event.files) do %>
+        <%= unless Enum.empty?(@event.files) do %>
           <h3>Related Files</h3>
         <% end %>
         <%= for file <- @event.files do %>

@@ -56,7 +56,7 @@
 
 .project-update {
   img {
-    width: 100%;
+    @include img-fluid();
   }
 }
 
@@ -75,6 +75,15 @@
     .content-file-grid-row {
       width: 50%;
     }
+  }
+}
+
+.project-email,
+.project-phone {
+  @include make-col();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col-span(4);
   }
 }
 

@@ -146,10 +146,8 @@ body {
   }
 }
 
-@include media-breakpoint-up(md) {
-  // specific content-heavy templates, we want the
-  // default content width to be slightly narrower
-  .page-narrow {
+.page-narrow {
+  @include media-breakpoint-up(md) {
     @include make-col-span(8);
     margin-left: auto;
     margin-right: auto;

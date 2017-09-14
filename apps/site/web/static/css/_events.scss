@@ -37,3 +37,21 @@
 .event-paragraph-title {
   font-weight: bold;
 }
+
+.event-description,
+.event-description-with-sidebar,
+.event-sidebar {
+  @include make-col();
+}
+
+.event-description {
+  @include make-col-span(12);
+}
+
+.event-description-with-sidebar {
+  @include make-col-span(9);
+}
+
+.event-sidebar {
+  @include make-col-span(3);
+}
