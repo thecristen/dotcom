@@ -47,10 +47,12 @@ defmodule Site.ProjectController do
   defp get_project(id), do: fn -> Content.Repo.project!(id) end
 
   @spec get_upcoming_events(String.t) :: (() -> [Content.Event.t])
-  defp get_upcoming_events(id), do: fn -> Content.Repo.events([project_id: id]) end
+  defp get_upcoming_events(id) do
+    fn -> Content.Repo.events(project_id: id, start_time_gt: Timex.format!(Util.today, "{ISOdate}")) end
+  end
 
   @spec get_updates(String.t) :: (() -> [Content.Project.t])
-  defp get_updates(id), do: fn -> Content.Repo.project_updates([project_id: id]) end
+  defp get_updates(id), do: fn -> Content.Repo.project_updates(project_id: id) end
 
   @spec get_update(String.t) :: (() -> Content.ProjectUpdate.t | no_return)
   defp get_update(id), do: fn -> Content.Repo.project_update!(id) end
