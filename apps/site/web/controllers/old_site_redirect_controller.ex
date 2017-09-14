@@ -3,7 +3,7 @@ defmodule Site.OldSiteRedirectController do
   import Site.Router.Helpers
   import Site.ViewHelpers, only: [cms_static_page_path: 2]
 
-  @s3_files ["feed_info.txt", "mbta_gtfs.zip"]
+  @s3_files ["feed_info.txt", "MBTA_GTFS.zip"]
 
   def schedules_and_maps(conn, %{"route" => route}) do
     case old_route_to_route_id(route) do
