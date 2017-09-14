@@ -118,6 +118,6 @@ defmodule Site.Router do
   scope "/", Site do
     pipe_through [:secure, :browser]
 
-    get "/*path", ContentController, :index
+    get "/*path", ContentController, :page
   end
 end

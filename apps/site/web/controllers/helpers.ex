@@ -94,4 +94,19 @@ defmodule Site.ControllerHelpers do
       end
     end)
   end
+
+  @spec render_404_page_and_halt(Conn.t) :: Conn.t
+  def render_404_page_and_halt(conn) do
+    conn
+    |> Conn.put_status(:not_found)
+    |> Phoenix.Controller.render(Site.ErrorView, "404.html", [])
+    |> Conn.halt
+  end
+
+  @spec simple_404_and_halt(Conn.t) :: Conn.t
+  def simple_404_and_halt(conn) do
+    conn
+    |> Conn.resp(:not_found, "not found")
+    |> Conn.halt
+  end
 end
