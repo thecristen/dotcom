@@ -1,6 +1,12 @@
 defmodule Site.ControllerHelpersTest do
   use Site.ConnCase, async: true
   import Site.ControllerHelpers
+  import Plug.Conn, only: [
+    assign: 3,
+    get_resp_header: 2,
+    resp: 3,
+    merge_resp_headers: 2,
+  ]
 
   describe "filter_modes/2" do
     test "filters the key routes of all modes that are passed" do
@@ -146,6 +152,58 @@ defmodule Site.ControllerHelpersTest do
 
       expected = [@commuter_rail_alert, @worcester_alert, worcester_ambiguous_alert]
       assert alerts == expected
+    end
+  end
+
+  describe "forward_static_file/2" do
+    test "returns a 404 if there's an error" do
+      bypass = Bypass.open
+      Bypass.expect bypass, fn conn ->
+        assert "/causes/an/error" == conn.request_path
+        resp(conn, 500, "error on remote server")
+      end
+
+      response = forward_static_file(build_conn(), "http://localhost:#{bypass.port}/causes/an/error")
+
+      assert response.status == 404
+      assert response.state == :sent
+    end
+
+    test "returns a 404 if the remote side returns a 404" do
+      bypass = Bypass.open
+      Bypass.expect bypass, fn conn ->
+        assert "/does/not/exist" == conn.request_path
+        resp(conn, 404, "not found")
+      end
+
+      response = forward_static_file(build_conn(), "http://localhost:#{bypass.port}/does/not/exist")
+
+      assert response.status == 404
+      assert response.state == :sent
+    end
+
+    test "returns the body and headers from the response if it's a 200" do
+      headers = [{"Content-Type", "text/plain"},
+                 {"ETag", "tag"},
+                 {"Date", "date"},
+                 {"Content-Length", "6"}]
+      bypass = Bypass.open
+      Bypass.expect bypass, fn conn ->
+        assert "/this/file/exists" == conn.request_path
+        conn
+        |> merge_resp_headers(headers)
+        |> resp(200, "a file")
+      end
+
+      response = forward_static_file(build_conn(), "http://localhost:#{bypass.port}/this/file/exists")
+
+      assert response.status == 200
+      assert response.resp_body == "a file"
+      assert get_resp_header(response, "content-type") == ["text/plain"]
+      assert get_resp_header(response, "etag") == ["tag"]
+      assert get_resp_header(response, "date") == ["date"]
+      # we don't pass content-length cuz it causes problems with gzip
+      assert get_resp_header(response, "content-length") == []
     end
   end
 end

@@ -2,6 +2,7 @@ defmodule Site.OldSiteRedirectController do
   use Site.Web, :controller
   import Site.Router.Helpers
   import Site.ViewHelpers, only: [cms_static_page_path: 2]
+  alias Site.ControllerHelpers
 
   @s3_files ["feed_info.txt", "MBTA_GTFS.zip"]
 
@@ -48,39 +49,14 @@ defmodule Site.OldSiteRedirectController do
   end
 
   def archived_files(conn, _params) do
-    "archive/archived_feeds.txt"
-    |> s3_file_url()
-    |> perform_uploaded_files_request(conn)
+    ControllerHelpers.forward_static_file(conn, s3_file_url("archive/archived_feeds.txt"))
   end
 
   def uploaded_files(conn, %{"path" => [file_name]}) when file_name in @s3_files do
-    file_name |> s3_file_url() |> perform_uploaded_files_request(conn)
+    ControllerHelpers.forward_static_file(conn, s3_file_url(file_name))
   end
   def uploaded_files(conn, _params) do
-    conn.request_path |> old_site_file_url() |> perform_uploaded_files_request(conn)
-  end
-
-  defp perform_uploaded_files_request(full_url, conn) do
-    params = conn.query_params
-    with {:ok, response} <- HTTPoison.get(full_url, [], params: params),
-         %{status_code: 200, headers: headers, body: body} <- response do
-      headers
-      |> Enum.filter(&valid_file_header?/1)
-      |> Enum.reduce(conn, fn {header, value}, conn ->
-        put_resp_header(conn, String.downcase(header), value)
-      end)
-      |> send_resp(200, body)
-    else
-      _ ->
-        file_not_found(conn)
-    end
-  end
-
-  defp file_not_found(conn) do
-    conn
-    |> put_status(:not_found)
-    |> render(Site.ErrorView, "404.html", [])
-    |> halt
+    ControllerHelpers.forward_static_file(conn, old_site_file_url(conn.request_path))
   end
 
   defp old_site_file_url(request_path) do
@@ -100,12 +76,6 @@ defmodule Site.OldSiteRedirectController do
   defp old_site_redirect(conn) do
     redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
   end
-
-  defp valid_file_header?({"Content-Type", _}), do: true
-  defp valid_file_header?({"Cache-Control", _}), do: true
-  defp valid_file_header?({"Last-Modified", _}), do: true
-  defp valid_file_header?({"ETag", _}), do: true
-  defp valid_file_header?(_), do: false
 
   defp old_route_to_route_id("RED"), do: "Red"
   defp old_route_to_route_id("GREEN"), do: "Green"

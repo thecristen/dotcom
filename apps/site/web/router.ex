@@ -70,6 +70,22 @@ defmodule Site.Router do
     end
   end
 
+  #static files
+  scope "/", Site do
+    get "/sites/*path", StaticFileController, :index
+  end
+
+  #old site
+  scope "/", Site do
+    pipe_through :browser
+
+    get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
+    get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
+    get "/about_the_mbta/public_meetings", Redirector, to: "/events"
+    get "/about_the_mbta/news_events", Redirector, to: "/news"
+  end
+
+  #old site static files
   scope "/", Site do
     get "/uploadedfiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
@@ -78,10 +94,6 @@ defmodule Site.Router do
     get "/images/*path", OldSiteRedirectController, :uploaded_files
     get "/lib/*path", OldSiteRedirectController, :uploaded_files
     get "/gtfs_archive/archived_feeds.txt", OldSiteRedirectController, :archived_files
-    get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
-    get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
-    get "/about_the_mbta/public_meetings", Redirector, to: "/events"
-    get "/about_the_mbta/news_events", Redirector, to: "/news"
   end
 
   scope "/_flags" do
@@ -90,10 +102,9 @@ defmodule Site.Router do
     forward "/", Laboratory.Router
   end
 
-  # This needs to go last so that it catches any URLs that fall through.
-  scope "/" do
-    pipe_through [:browser]
+  scope "/", Site do
+    pipe_through :browser
 
-    forward "/", Content.Router
+    get "/*path", ContentController, :index
   end
 end

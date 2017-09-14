@@ -13,14 +13,8 @@ defmodule Site.ContentController do
     "transitpolice",
   ]
 
-  @doc """
-
-  Effectively a callback from Content.Router, this is responsible for
-  doing the actual rendering.
-
-  """
-  @spec page(Plug.Conn.t, {:ok, Content.Page.t} | {:error, any}) :: Plug.Conn.t
-  def page(conn, maybe_page) do
+  def index(conn, _params) do
+    maybe_page = Content.Repo.get_page(conn.request_path, conn.query_string)
     conn
     |> put_layout({Site.LayoutView, :app})
     |> render_page(maybe_page)
