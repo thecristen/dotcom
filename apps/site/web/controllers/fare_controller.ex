@@ -60,10 +60,17 @@ defmodule Site.FareController do
          search_position: position
        )
   end
-  def show(conn, params) do
-    params["id"]
-    |> fare_module
-    |> render_fare_module(conn)
+  def show(conn, %{"id" => "commuter_rail"}) do
+    render_fare_module(Commuter, conn)
+  end
+  def show(conn, %{"id" => "ferry"}) do
+    render_fare_module(Ferry, conn)
+  end
+  def show(conn, %{"id" => "bus_subway"}) do
+    render_fare_module(BusSubway, conn)
+  end
+  def show(conn, _) do
+    Site.ControllerHelpers.render_404_page_and_halt(conn)
   end
 
   @spec calculate_position(map(),
@@ -111,16 +118,7 @@ defmodule Site.FareController do
     |> Format.summarize(type)
   end
 
-  defp fare_module("commuter_rail"), do: Commuter
-  defp fare_module("ferry"), do: Ferry
-  defp fare_module("bus_subway"), do: BusSubway
-  defp fare_module(_), do: nil
-
-  defp render_fare_module(nil, conn) do
-    conn
-    |> redirect(to: fare_path(conn, :index))
-    |> halt
-  end
+  @spec render_fare_module(module, Conn.t) :: Conn.t
   defp render_fare_module(module, conn) do
     conn = conn
     |> assign(:fare_type, fare_type(conn))
