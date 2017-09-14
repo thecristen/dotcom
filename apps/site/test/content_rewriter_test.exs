@@ -91,6 +91,12 @@ defmodule Site.ContentRewriterTest do
 
       assert remove_whitespace(safe_to_string(rewritten)) == remove_whitespace(expected)
     end
+
+    test "strips dimension attributes from images" do
+      assert ~s(<img src="/image.png" alt="an image" width="600" height="400"/>)
+             |> raw()
+             |> rewrite() == {:safe, ~s(<img src="/image.png" alt="an image"/>)}
+    end
   end
 
   defp remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")
