@@ -1,6 +1,6 @@
 <% search_icon = svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}) %>
 <div class="search-no-js nav-item hidden-js">
-  <%= form_for @conn, "/search", [as: :search, method: :get], fn f -> %>
+  <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get], fn f -> %>
     <div class="nav-link-content" role="search">
       <%= label f, :search, "Search", class: "sr-only" %>
       <%= search_input :search, :query, placeholder: "Search by keyword", autocomplete: "off" %>
@@ -29,7 +29,7 @@
         <div class="desktop-menu-body panel">
           <div class="collapse" id="search" role="tabpanel">
             <div class="menu-row searchbar-input-container" role="search">
-              <%= desktop_form(@conn) %>
+              <%= desktop_form(@conn, false) %>
             </div>
           </div>
         </div>

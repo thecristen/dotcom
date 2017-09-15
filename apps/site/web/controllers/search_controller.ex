@@ -1,6 +1,7 @@
 defmodule Site.SearchController do
   use Site.Web, :controller
   import Site.ResponsivePagination, only: [build: 1]
+  import Site.Router.Helpers, only: [search_path: 2]
 
   @per_page 10
 
@@ -13,7 +14,7 @@ defmodule Site.SearchController do
     {response, facet_response} = get_responses(query, offset, content_types)
     facets = build_facets(facet_response, content_types)
     stats = build_stats(response.count, offset)
-    link_context = %{path: "/search", form: "search", params: params}
+    link_context = %{path: search_path(conn, :index), form: "search", params: params}
     pagination = build(stats)
     template = if response.results == [], do: "no_results.html", else: "index.html"
 

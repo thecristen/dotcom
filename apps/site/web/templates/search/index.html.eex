@@ -1,7 +1,8 @@
 <div class="page-section search-page">
   <div class="page-block">
     <div class="search-results-facets col-md-3">
-      <%= form_for @conn, "/search", [as: :search, method: :get, data: [form: "search-filter"]], fn f -> %>
+      <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, data: [form: "search-filter"]],
+          fn f -> %>
         <input name="search[offset]" type="hidden" value="0">
         <%= hidden_input :search, :query, value: @params["[query]"] %>
         <%= if @facets["content_type"] != [] do %>
