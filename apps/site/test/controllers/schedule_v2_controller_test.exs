@@ -185,8 +185,7 @@ defmodule Site.ScheduleV2ControllerTest do
       response = conn
                  |> get(trip_view_path(conn, :show, "Red", origin: "place-pktrm"))
                  |> html_response(200)
-      assert [_first, {"div", _, checkmark}] = Floki.find(response, ".terminus-circle")
-      assert Floki.attribute(checkmark, "class") == ["fa fa-check "]
+      assert [_checkmark] = Floki.find(response, ".terminus-circle .fa-check")
     end
   end
 
