@@ -155,6 +155,21 @@ defmodule Content.CMS.Static do
   def view("/test/path%3Fid%3D5", _) do
     {:ok, redirect_with_query_response()}
   end
+  def view("/node/1", _) do
+    {:ok, List.first(news_response())}
+  end
+  def view("/node/17", _) do
+    {:ok, List.first(events_response())}
+  end
+  def view("/node/123", _) do
+    {:ok, List.first(project_updates_response())}
+  end
+  def view("/node/2579", _) do
+    {:ok, List.first(people_response())}
+  end
+  def view("/node/2679", _) do
+    {:ok, List.first(projects_response())}
+  end
   def view(_, _) do
     {:error, "Not able to retrieve response"}
   end
