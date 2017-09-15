@@ -29,7 +29,7 @@
         <div class="desktop-menu-body panel">
           <div class="collapse" id="search" role="tabpanel">
             <div class="menu-row searchbar-input-container" role="search">
-              <%= desktop_form(@conn, false) %>
+              <%= desktop_form(@conn, %{}) %>
             </div>
           </div>
         </div>
