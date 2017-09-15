@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <h1 class="searchbar-heading">Search results for:</h1>
       <div class="searchbar-input-container">
-        <%= desktop_form(@conn) %>
+        <%= desktop_form(@conn, @conn.params) %>
       </div>
     </div>
   </div>
