@@ -11,7 +11,7 @@ defmodule Site.TripPlan.Merge do
   when itinerary_list: [TripPlan.Itinerary.t]
   def merge_itineraries(accessible, unknown) do
     merge(accessible, unknown, &TripPlan.Itinerary.same_itinerary?/2,
-      needed_accessible: 2, total: 4)
+      needed_accessible: 2, needed_unknown: 2)
   end
 
   @doc """
@@ -48,35 +48,64 @@ defmodule Site.TripPlan.Merge do
       ...> fn {a, _}, {u, _} -> a == u end,
       ...> needed_accessible: 2, total: 4)
       [a: false, b: false, d: true, e: true]
+
+  We can also ask for more of each list than the total: in that case we'll
+  get more items:
+
+      iex> merge([d: true, e: true, f: true], [a: false, b: false, c: false],
+      ...> fn {a, _}, {u, _} -> a == u end,
+      ...> needed_accessible: 2, needed_unknown: 2)
+      [a: false, b: false, d: true, e: true]
   """
   @spec merge([a], [a], ((a, a) -> boolean), Keyword.t) :: [a]
   when a: term
   def merge(accessible, unknown, fun, opts \\ []) do
     needed_accessible = Keyword.get(opts, :needed_accessible, 1)
+    needed_unknown = Keyword.get(opts, :needed_unknown, 1)
     total = Keyword.get(opts, :total, 3)
-    do_merge(accessible, unknown, fun, needed_accessible, total)
+    state = %{
+      fun: fun,
+      accessible: needed_accessible,
+      unknown: needed_unknown,
+      total: total
+    }
+    do_merge(accessible, unknown, state)
   end
 
-  defp do_merge(_, _, _, _, total) when total <= 0 do
+  defp do_merge(_, _, %{total: total}) when total <= 0 do
     []
   end
-  defp do_merge(accessible, [], _fun, _, total) do
+  defp do_merge(accessible, [], %{total: total}) do
     Enum.take(accessible, total)
   end
-  defp do_merge([], unknown, _fun, _, total) do
+  defp do_merge([], unknown, %{total: total}) do
     Enum.take(unknown, total)
   end
-  defp do_merge(accessible, _, _, total, total) do
-    # if we need all the rest from the accessible list, do that
-    Enum.take(accessible, total)
+  defp do_merge(accessible, unknown, %{accessible: acc, unknown: unk, total: total})
+  when total == acc or total == unk do
+    # if we need all the rest, take them, but not less than 0 items
+    unk = max(unk, 0)
+    acc = max(acc, 0)
+    Enum.take(unknown, unk) ++ Enum.take(accessible, acc)
   end
-  defp do_merge([a | a_rest] = a_all, [u | u_rest], fun, needed_accessible, total) do
-    # we have a trip from the accessible list, so we take both heads if they're equal, otherwise only the accessible
+  defp do_merge([a | a_rest] = a_all, [u | u_rest], state) do
+    %{
+      fun: fun,
+      accessible: acc,
+      unknown: unk,
+      total: total
+    } = state
+    # we have a trip from the accessible list, so we take both heads if they're equal
     if fun.(a, u) do
-      [a | do_merge(a_rest, u_rest, fun, needed_accessible - 1, total - 1)]
+      state = Map.merge(state, %{accessible: acc - 1,
+                                 unknown: unk - 1,
+                                 total: total - 1})
+      [a | do_merge(a_rest, u_rest, state)]
     else
-      # we take the accessible from s, and still need the same from the accessible list
-      [u | do_merge(a_all, u_rest, fun, needed_accessible, total - 1)]
+      # we take one from unknown, and still need the same from the accessible list
+      state = Map.merge(state, %{unknown: unk - 1,
+                                 total: total - 1})
+      [u | do_merge(a_all, u_rest, state)]
     end
   end
 end
