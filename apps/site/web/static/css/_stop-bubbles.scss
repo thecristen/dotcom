@@ -187,9 +187,9 @@ $location-line-width: $space-6;
 }
 
 .expand-icon {
-  flex: 0 0 $base-spacing * 2;
+  flex: 0 0 $base-spacing;
   position: relative;
-  width: 100%;
+  width: 75%;
 
   .diagonal,
   .horizontal {
@@ -198,32 +198,26 @@ $location-line-width: $space-6;
   }
 
   .diagonal {
-    height: $base-spacing * 1.5;
-    transform: rotate(35deg) translate(0, -$location-line-width / 2);
+    height: $base-spacing;
+    transform: rotate(35deg) translate(0, -$base-spacing * .4);
     transform-origin: middle;
     width: $location-line-width;
 
-    &.top::after {
-      border-radius: $location-line-width * 2;
-      content: ' ';
-      height: 10px;
-      position: absolute;
-      right: 0;
-      top: -3px;
-      width: $location-line-width;
+    &.top {
+      left: -5%;
+      top: $space-1;
     }
 
     &.bottom {
-      left: 50%;
-      top: 50%;
+      left: 31%;
+      top: 64%;
     }
   }
 
   .horizontal {
-    background-color: purple;
     height: $location-line-width;
     opacity: .4;
-    top: $base-spacing - ($location-line-width / 2);
+    top: ($base-spacing / 2) - ($location-line-width / 2);
     width: 100%;
   }
 }
@@ -235,6 +229,11 @@ $location-line-width: $space-6;
   flex: 1 0 0%;
   min-height: 1rem;
   width: $location-line-width;
+
+  &.above {
+    flex: 0 0 $base-spacing / 4;
+    min-height: 0;
+  }
 }
 
 .route-branch-stop-info {
