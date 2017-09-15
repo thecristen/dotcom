@@ -11,67 +11,72 @@ defmodule Site.TripPlan.Merge do
   when itinerary_list: [TripPlan.Itinerary.t]
   def merge_itineraries(accessible, unknown) do
     merge(accessible, unknown, &TripPlan.Itinerary.same_itinerary?/2,
-      needed_first: 2, total: 4)
+      needed_accessible: 2, total: 4)
   end
 
   @doc """
-  Merges two sets of lists, requiring items from the first list but
-  preferring items from the second list. Takes as an argument a function
+  Merges two sets of lists, requiring items from the accessible list but
+  preferring items from the unknown list. Takes as an argument a function
   which returns true if two items from the lists are equal.
+
+  The reason for the preference is that we assume that a better itinerary
+  would be in the unknown list as well as the accessible one. If it only
+  appears in the accessible list, it's worse than the itineraries in the
+  unknown list.
 
   ## Examples
 
-  We'll return values from the first list as long as they're equal to items
-  in the second list (the function is comparing the atoms):
+  We'll return values from the accessible list as long as they're equal to items
+  in the unknown list (the function is comparing the atoms):
 
       iex> merge([a: true, b: true, d: true], [a: false, b: false, c: false],
-      ...> fn {first, _}, {second, _} -> first == second end)
+      ...> fn {accessible, _}, {unknown, _} -> accessible == unknown end)
       [a: true, b: true, c: false]
 
   If the top items are not equal, we'll still return at least one item from
-  the first list:
+  the accessible list:
 
       iex> merge([d: true, e: true, f: true], [a: false, b: false, c: false],
-      ...> fn {f, _}, {s, _} -> f == s end)
+      ...> fn {a, _}, {u, _} -> a == u end)
       [a: false, b: false, d: true]
 
-  If given a different total number of items, or items needed from the first
+  If given a different total number of items, or items needed from the accessible
   list, we'll use those values instead of the defaults of 1 item from the
-  first list and 3 total:
+  accessible list and 3 total:
 
       iex> merge([d: true, e: true, f: true], [a: false, b: false, c: false],
-      ...> fn {f, _}, {s, _} -> f == s end,
-      ...> needed_first: 2, total: 4)
+      ...> fn {a, _}, {u, _} -> a == u end,
+      ...> needed_accessible: 2, total: 4)
       [a: false, b: false, d: true, e: true]
   """
   @spec merge([a], [a], ((a, a) -> boolean), Keyword.t) :: [a]
   when a: term
-  def merge(first, second, fun, opts \\ []) do
-    needed_first = Keyword.get(opts, :needed_first, 1)
+  def merge(accessible, unknown, fun, opts \\ []) do
+    needed_accessible = Keyword.get(opts, :needed_accessible, 1)
     total = Keyword.get(opts, :total, 3)
-    do_merge(first, second, fun, needed_first, total)
+    do_merge(accessible, unknown, fun, needed_accessible, total)
   end
 
   defp do_merge(_, _, _, _, total) when total <= 0 do
     []
   end
-  defp do_merge(first, [], _fun, _, total) do
-    Enum.take(first, total)
+  defp do_merge(accessible, [], _fun, _, total) do
+    Enum.take(accessible, total)
   end
-  defp do_merge([], second, _fun, _, total) do
-    Enum.take(second, total)
+  defp do_merge([], unknown, _fun, _, total) do
+    Enum.take(unknown, total)
   end
-  defp do_merge(first, _, _, total, total) do
-    # if we need all the rest from the first list, do that
-    Enum.take(first, total)
+  defp do_merge(accessible, _, _, total, total) do
+    # if we need all the rest from the accessible list, do that
+    Enum.take(accessible, total)
   end
-  defp do_merge([f | f_rest] = f_all, [s | s_rest], fun, needed_first, total) do
-    # we have a trip from the first list, so we take both heads if they're equal, otherwise only the first
-    if fun.(f, s) do
-      [f | do_merge(f_rest, s_rest, fun, needed_first - 1, total - 1)]
+  defp do_merge([a | a_rest] = a_all, [u | u_rest], fun, needed_accessible, total) do
+    # we have a trip from the accessible list, so we take both heads if they're equal, otherwise only the accessible
+    if fun.(a, u) do
+      [a | do_merge(a_rest, u_rest, fun, needed_accessible - 1, total - 1)]
     else
-      # we take the first from s, and still need the same from the first list
-      [s | do_merge(f_all, s_rest, fun, needed_first, total - 1)]
+      # we take the accessible from s, and still need the same from the accessible list
+      [u | do_merge(a_all, u_rest, fun, needed_accessible, total - 1)]
     end
   end
 end
