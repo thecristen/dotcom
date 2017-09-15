@@ -67,24 +67,16 @@ defmodule TripPlan.Itinerary do
     |> Enum.sum
   end
 
+  @doc "Total time taken by the itinerary in seconds"
+  @spec duration(t) :: non_neg_integer
+  def duration(%__MODULE__{start: start, stop: stop}) do
+    Timex.diff(stop, start, :seconds)
+  end
+
   defp flat_map_over_legs(legs, mapper) do
     for leg <- legs, {:ok, value} <- leg |> mapper.() |> List.wrap do
       value
     end
-  end
-
-  @doc "Determines if two itineraries represent the same sequence of legs at the same time"
-  @spec same_itinerary?(t, t) :: boolean
-  def same_itinerary?(itinerary_1, itinerary_2) do
-    itinerary_1.start == itinerary_2.start &&
-    itinerary_1.stop == itinerary_2.stop &&
-    same_legs?(itinerary_2, itinerary_2)
-  end
-
-  @spec same_legs?(t, t) :: boolean
-  defp same_legs?(%__MODULE__{legs: legs_1}, %__MODULE__{legs: legs_2}) do
-    Enum.count(legs_1) == Enum.count(legs_2) &&
-    legs_1 |> Enum.zip(legs_2) |> Enum.all?(fn {l1, l2} -> TripPlan.Leg.same_leg?(l1, l2) end)
   end
 end
 

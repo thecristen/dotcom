@@ -56,13 +56,11 @@ defmodule Site.TripPlan.Query do
   defp dedup_itineraries(inaccessible, {:error, _response}), do: inaccessible
   defp dedup_itineraries({:error, _response}, {:ok, _itineraries} = accessible), do: accessible
   defp dedup_itineraries({:ok, inaccessible}, {:ok, accessible}) do
-    {:ok, keep_unique(inaccessible, accessible, &Itinerary.same_itinerary?/2)}
-  end
-
-  defp keep_unique(inaccessible, accessible, compare_fn) do
-    accessible_duplicate? = fn itinerary -> &Enum.any?(accessible, compare_fn.(&1, itinerary)) end
-    unique_inaccessible = Enum.reject(inaccessible, accessible_duplicate?)
-    Enum.concat(accessible, unique_inaccessible)
+    merged = Site.TripPlan.Merge.merge(
+      inaccessible,
+      accessible,
+      &TripPlan.Itinerary.duration/1)
+    {:ok, merged}
   end
 
   @spec build_query(TripPlan.Api.t, Position.t, Position.t) :: t
