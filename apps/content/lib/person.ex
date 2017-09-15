@@ -3,16 +3,17 @@ defmodule Content.Person do
   Represents a "person" content type in the Drupal CMS.
   """
 
-  import Content.Helpers, only: [field_value: 2, handle_html: 1, parse_image: 2]
+  import Content.Helpers, only: [field_value: 2, handle_html: 1, parse_image: 2, parse_path_alias: 1]
   import Phoenix.HTML, only: [raw: 1]
 
   @enforce_keys [:id]
-  defstruct [:id, bio: raw(""), name: "", position: "", profile_image: ""]
+  defstruct [:id, bio: raw(""), name: "", path_alias: "", position: "", profile_image: ""]
 
   @type t :: %__MODULE__{
     id: integer,
     bio: Phoenix.HTML.safe,
     name: String.t,
+    path_alias: String.t | nil,
     position: String.t,
     profile_image: Content.Field.Image.t
   }
@@ -23,6 +24,7 @@ defmodule Content.Person do
       id: field_value(data, "nid"),
       bio: handle_html(field_value(data, "field_bio")),
       name: field_value(data, "title"),
+      path_alias: parse_path_alias(data),
       position: field_value(data, "field_position"),
       profile_image: parse_image(data, "field_profile_image")
     }

@@ -80,6 +80,25 @@ defmodule Content.HelpersTest do
     end
   end
 
+  describe "parse_path_alias/1" do
+    test "it parses a path alias when present" do
+      data = %{
+        "path" => [
+          %{
+            "alias" => "/pretty/url/alias"
+          }
+        ]
+      }
+
+      assert "/pretty/url/alias" == parse_path_alias(data)
+    end
+
+    test "returns nil if no path alias present" do
+      data = %{"something" => "else"}
+      assert nil == parse_path_alias(data)
+    end
+  end
+
   describe "parse_link/2" do
     test "it parses a link field into a Link" do
       data = %{
