@@ -24,6 +24,7 @@ defmodule Site.ContentController do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
+    |> assign(:narrow_template, true)
     |> render(Site.ContentView, "page.html")
   end
   defp render_page(conn, %Content.Event{id: id}) do
