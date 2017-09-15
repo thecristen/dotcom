@@ -56,15 +56,22 @@ defmodule Site.TripPlan.Merge do
       ...> fn {a, _}, {u, _} -> a == u end,
       ...> needed_accessible: 2, needed_unknown: 2)
       [a: false, b: false, d: true, e: true]
+
+  ...but we won't if we can get all we need with the total:
+
+      iex> merge([a: true, b: true, d: true], [a: false, b: false, c: false],
+      ...> fn {accessible, _}, {unknown, _} -> accessible == unknown end,
+      ...> needed_accessible: 2, needed_unknown: 2)
+      [a: true, b: true, c: false]
   """
   @spec merge([a], [a], ((a, a) -> boolean), Keyword.t) :: [a]
   when a: term
-  def merge(accessible, unknown, fun, opts \\ []) do
+  def merge(accessible, unknown, equal_fn, opts \\ []) do
     needed_accessible = Keyword.get(opts, :needed_accessible, 1)
     needed_unknown = Keyword.get(opts, :needed_unknown, 1)
     total = Keyword.get(opts, :total, 3)
     state = %{
-      fun: fun,
+      equal_fn: equal_fn,
       accessible: needed_accessible,
       unknown: needed_unknown,
       total: total
@@ -90,13 +97,13 @@ defmodule Site.TripPlan.Merge do
   end
   defp do_merge([a | a_rest] = a_all, [u | u_rest], state) do
     %{
-      fun: fun,
+      equal_fn: equal_fn,
       accessible: acc,
       unknown: unk,
       total: total
     } = state
     # we have a trip from the accessible list, so we take both heads if they're equal
-    if fun.(a, u) do
+    if equal_fn.(a, u) do
       state = Map.merge(state, %{accessible: acc - 1,
                                  unknown: unk - 1,
                                  total: total - 1})
