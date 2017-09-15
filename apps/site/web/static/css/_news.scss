@@ -24,6 +24,17 @@
 
 .recent-news {
   padding-top: 2rem;
+
+  @include media-breakpoint-up(sm) {
+    .title-card-container {
+      @include make-row();
+    }
+
+    .recent-news-title {
+      @include make-col();
+      @include make-col-span(6);
+    }
+  }
 }
 
 .recent-news-title {

@@ -1,19 +1,17 @@
 <div class="recent-news">
   <h2>Recent News on the T</h2>
   <div class="title-card-container title-card-container-separate">
-    <div class="row">
-      <%= for news_entry <- @recent_news do %>
-        <div class="col-sm-4">
-          <%= link to: news_entry_path(@conn, :show, news_entry.id), class: "recent-news-title title-card" do %>
-            <p class="news-metadata">
-              <%= format_date(news_entry.posted_on) %>
-            </p>
-            <div class="title-card-title">
-              <%= news_entry.title %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+    <%= for news_entry <- @recent_news do %>
+      <div class="recent-news-title">
+        <%= link to: news_entry_path(@conn, :show, news_entry.id), class: "title-card" do %>
+          <p class="news-metadata">
+            <%= format_date(news_entry.posted_on) %>
+          </p>
+          <div class="title-card-title">
+            <%= news_entry.title %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
