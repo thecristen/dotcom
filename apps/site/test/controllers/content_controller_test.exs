@@ -15,12 +15,37 @@ defmodule Site.ContentControllerTest do
       assert rendered =~ "the MBTA is dedicated to providing excellent service to customers of all abilities"
     end
 
+    test "redirects when content type is an event", %{conn: conn} do
+      conn = get conn, "/node/17"
+      assert html_response(conn, 302) =~ event_path(conn, :show, 17)
+    end
+
     test "renders a landing page with all its paragraphs", %{conn: conn} do
       conn = get conn, "/cms/style-guide"
       rendered = html_response(conn, 200)
 
       assert rendered =~ ~s(<h1 class="landing-page-title">Paragraphs Guide</h1>)
       assert rendered =~ ~s(<div class="title-card-title">\nExample Card 1</div>)
+    end
+
+    test "redirects when contenet type is news entry", %{conn: conn} do
+      conn = get conn, "/node/1"
+      assert html_response(conn, 302) =~ news_entry_path(conn, :show, 1)
+    end
+
+    test "redirects when content type is person", %{conn: conn} do
+      conn = get conn, "/node/2579"
+      assert html_response(conn, 302) =~ person_path(conn, :show, 2579)
+    end
+
+    test "redirects when content type is project", %{conn: conn} do
+      conn = get conn, "/node/2679"
+      assert html_response(conn, 302) =~ project_path(conn, :show, 2679)
+    end
+
+    test "redirects when content type is project update", %{conn: conn} do
+      conn = get conn, "/node/123"
+      assert html_response(conn, 302) =~ project_path(conn, :project_update, 2669, 123)
     end
 
     test "redirects when content type is a redirect", %{conn: conn} do

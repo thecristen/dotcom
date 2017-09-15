@@ -26,12 +26,27 @@ defmodule Site.ContentController do
     |> assign(:page, page)
     |> render(Site.ContentView, "page.html")
   end
+  defp render_page(conn, %Content.Event{id: id}) do
+    redirect conn, to: event_path(conn, :show, id)
+  end
   defp render_page(conn, %Content.LandingPage{} = page) do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
     |> assign(:pre_container_template, "landing_page.html")
     |> render(Site.ContentView, "empty.html")
+  end
+  defp render_page(conn, %Content.NewsEntry{id: id}) do
+    redirect conn, to: news_entry_path(conn, :show, id)
+  end
+  defp render_page(conn, %Content.Person{id: id}) do
+    redirect conn, to: person_path(conn, :show, id)
+  end
+  defp render_page(conn, %Content.Project{id: id}) do
+    redirect conn, to: project_path(conn, :show, id)
+  end
+  defp render_page(conn, %Content.ProjectUpdate{id: id, project_id: project_id}) do
+    redirect conn, to: project_path(conn, :project_update, project_id, id)
   end
   defp render_page(conn, %Content.Redirect{link: link}) do
     redirect conn, external: link.url
