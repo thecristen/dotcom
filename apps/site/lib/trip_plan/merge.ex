@@ -1,40 +1,55 @@
 defmodule Site.TripPlan.Merge do
   @moduledoc false
+
   @doc """
-  Merges two sets of itineraries: generally one accessible and one unknown.
-
-  We want the first one from each list, and then the lowest one from the
-  remaining lists.  Takes as argument for a function to order by.
-
-  iex> merge([1, 2, 3], [4, 5, 6], fn x -> x end)
-  [1, 4, 2]
+  Merges a list of accessible itineraries with unknown ones, preferring the
+  accessible itineraries but including at least one from the unknown list.
   """
-  @spec merge([a], [a], ((a) -> any)) :: [a]
-  when a: term
-  def merge(first, second, fun)
-  def merge(first, [], _fun) do
-    Enum.take(first, 3)
-  end
-  def merge([], second, _fun) do
-    Enum.take(second, 3)
-  end
-  def merge([f | f_rest], [s | s_rest], fun) do
-    combined_rest = Enum.concat(f_rest, s_rest)
-    f_val = fun.(f)
-    s_val = fun.(s)
-    cond do
-      f_val == s_val ->
-        [f | merge_rest(combined_rest, fun, 2)]
-      f_val < s_val ->
-        [f, s | merge_rest(combined_rest, fun, 1)]
-      true ->
-        [s, f | merge_rest(combined_rest, fun, 1)]
-    end
+  def merge_itineraries(accessible, unknown) do
+    merge(accessible, unknown, &TripPlan.Itinerary.same_itinerary?/2)
   end
 
-  defp merge_rest(rest, fun, number_to_take) do
-    rest
-    |> Enum.sort_by(fun)
-    |> Enum.take(number_to_take)
+  @doc """
+  Merges two sets of lists, preferring items from the first list.
+
+  We want the first one from each list, and then the next ones from the
+  remaining lists.  Takes as argument for a function which returns true if
+  they're equal.
+
+  iex> merge([a: true, b: true, d: true], [a: false, b: false, c: false],
+  ...> fn first, second -> elem(first, 0) == elem(second, 0) end)
+  [a: true, b: true, c: false]
+
+  iex> merge([d: true, e: true, f: true], [a: false, b: false, c: false],
+  ...> fn first, second -> elem(first, 0) == elem(second, 0) end)
+  [a: false, b: false, d: true]
+  """
+  @spec merge([a], [a], ((a, a) -> boolean)) :: [a]
+  when a: term
+  def merge(first, second, fun) do
+    do_merge(first, second, fun, true, 3)
+  end
+
+  defp do_merge(_, _, _, _, remaining) when remaining <= 0 do
+    []
+  end
+  defp do_merge(first, [], _fun, _, remaining) do
+    Enum.take(first, remaining)
+  end
+  defp do_merge([], second, _fun, _, remaining) do
+    Enum.take(second, remaining)
+  end
+  defp do_merge([f | _], _, _, true, 1) do
+    # if there's only one remaining and we still need one from the first list, now is the time!
+    [f]
+  end
+  defp do_merge([f | f_rest], [s | s_rest], fun, needs_first?, remaining) do
+    # we have a trip from the first list, so we take both heads if they're equal, otherwise only the first
+    if fun.(f, s) do
+      [f | do_merge(f_rest, s_rest, fun, false, remaining - 1)]
+    else
+      # we take the first from s, and keep the needs_first? state
+      [s | do_merge([f | f_rest], s_rest, fun, needs_first?, remaining - 1)]
+    end
   end
 end

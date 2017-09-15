@@ -6,9 +6,8 @@ defmodule Site.TripPlan.MergeTest do
 
   doctest Site.TripPlan.Merge
 
-  defp id(x), do: x
   defp do_merge(first, second) do
-    merged = merge(first, second, &id/1)
+    merged = merge(first, second, &==/2)
     {first, second, merged}
   end
 

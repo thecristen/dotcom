@@ -53,13 +53,12 @@ defmodule Site.TripPlan.Query do
   end
 
   defp dedup_itineraries({:error, _status} = response, {:error, _accessible_response}), do: response
-  defp dedup_itineraries(inaccessible, {:error, _response}), do: inaccessible
+  defp dedup_itineraries(unknown, {:error, _response}), do: unknown
   defp dedup_itineraries({:error, _response}, {:ok, _itineraries} = accessible), do: accessible
-  defp dedup_itineraries({:ok, inaccessible}, {:ok, accessible}) do
-    merged = Site.TripPlan.Merge.merge(
-      inaccessible,
+  defp dedup_itineraries({:ok, unknown}, {:ok, accessible}) do
+    merged = Site.TripPlan.Merge.merge_itineraries(
       accessible,
-      &TripPlan.Itinerary.duration/1)
+      unknown)
     {:ok, merged}
   end
 
