@@ -12,13 +12,11 @@
               data-toggle="collapse"
               data-target="#<%= @target_id %>"
               data-target-branch="<%= @branch_name %>">
-              <span>
-                <span class="expand-link-stop-text">
-                  <span class="expand-branch-stop-count">
-                    <%= intermediate_stop_count %>
-                    <%= Inflex.inflect("stop", intermediate_stop_count) %></span>
-                  on the
-                </span>
+              <span class="expand-link-stop-text">
+                <span class="expand-branch-stop-count">
+                  <%= intermediate_stop_count %>
+                  <%= Inflex.inflect("stop", intermediate_stop_count) %></span>
+                on the
                 <%= @branch_display %>
               </span>
           <span class="expand-branch-link-icon"><%= fa("plus-circle") %></span>

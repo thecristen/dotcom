@@ -14,11 +14,6 @@ $location-line-width: $space-6;
       .stop-bubble-stop,
       .stop-bubble-merge,
       .stop-bubble-terminus {
-        circle {
-          fill: $white;
-          stroke: $gray-dark;
-          stroke-width: $space-2;
-        }
       }
 
       .icon-inverse,
@@ -28,17 +23,17 @@ $location-line-width: $space-6;
         }
       }
 
-      .route-branch-stop-bubble-line:not(.dotted),
-      .route-branch-stop-bubble-line.dotted.expanded,
+      .route-branch-stop-bubble-line:not(.line-dotted),
+      .route-branch-stop-bubble-line.line-dotted.expanded,
       .route-branch-indent-start {
         background-color: $color;
       }
 
-      .route-branch-stop-bubble-line.dotted {
+      .route-branch-stop-bubble-line.line-dotted {
         outline-color: $color;
       }
 
-      .route-branch-indent-start.dotted {
+      .route-branch-indent-start.line-dotted {
         background-color: transparent;
         border-color: $color;
 
@@ -91,11 +86,22 @@ $location-line-width: $space-6;
   padding-right: $base-spacing;
 }
 
-.personal,
-.dotted {
+.personal-itinerary {
+  .route-branch-stop-bubble-line {
+    outline-style: solid;
+  }
+}
+
+.line-dotted {
+  .route-branch-stop-bubble-line {
+    outline-style: dashed;
+  }
+}
+
+.personal-itinerary,
+.line-dotted {
   .route-branch-stop-bubble-line {
     background-color: transparent;
-    outline-style: dashed;
     outline-width: 1px;
     width: 0;
   }
@@ -118,6 +124,13 @@ $location-line-width: $space-6;
 
   &.stop {
     margin-top: -1px;
+
+  }
+
+  &.transfer {
+    circle {
+      stroke-width: $space-6;
+    }
   }
 
   &.merge:last-child {
@@ -131,16 +144,28 @@ $location-line-width: $space-6;
   svg {
     overflow: visible;
     position: relative;
+    transform: translate(.5px, 1px);
   }
 
   text {
     font-weight: bold;
   }
 
-  .stop-bubble-terminus {
-    text {
-      fill: $white;
-    }
+  .terminus-circle {
+    background-color: $gray-dark;
+    border-radius: 100%;
+    color: $white;
+    height: $icon-size;
+    text-align: center;
+    width: $icon-size;
+  }
+}
+
+.stop-bubble-stop {
+  circle {
+    fill: $white;
+    stroke: $gray-dark;
+    stroke-width: $space-2;
   }
 }
 
@@ -281,7 +306,7 @@ $location-line-width: $space-6;
     height: $location-line-width;
   }
 
-  &.dotted {
+  &.line-dotted {
     // this is only for the horizontal line -- gets rendered differently from the vertical lines
     border-style: dashed;
     border-width: 1px;
@@ -318,7 +343,7 @@ $location-line-width: $space-6;
 .vehicle-bubble {
   height: $base-spacing;
   left: 0;
-  position: absolute; // IE 10 only fix
+  position: relative;
   top: 0;
   z-index: $z-index-stop-bubble;
 }
@@ -331,4 +356,4 @@ $location-line-width: $space-6;
 @include stop-bubble-mode-color(".green-line", $brand-green-line);
 @include stop-bubble-mode-color(".bus", $brand-bus);
 @include stop-bubble-mode-color(".ferry", $brand-ferry);
-@include stop-bubble-mode-color(".personal", $gray-dark);
+@include stop-bubble-mode-color(".personal-itinerary", $gray-dark);

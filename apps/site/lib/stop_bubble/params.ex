@@ -11,7 +11,8 @@ defmodule Site.StopBubble.Params do
     show_line?: true,
     vehicle_tooltip: nil,
     content: "",
-    bubble_branch: nil
+    bubble_branch: nil,
+    show_checkmark?: false
   ]
 
   @type t :: %__MODULE__{
@@ -24,6 +25,7 @@ defmodule Site.StopBubble.Params do
     show_line?: boolean,
     vehicle_tooltip: VehicleTooltip.t | nil,
     content: String.t,
-    bubble_branch: String.t | nil
+    bubble_branch: String.t | nil,
+    show_checkmark?: boolean
   }
 end

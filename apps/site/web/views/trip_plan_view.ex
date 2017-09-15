@@ -102,7 +102,7 @@ defmodule Site.TripPlanView do
     |> Site.Components.Icons.SvgIcon.get_icon_atom
     |> hyphenated_mode_string
   end
-  def mode_class(_), do: "personal"
+  def mode_class(_), do: "personal-itinerary"
 
   @spec stop_departure_display(ItineraryRow.t) :: {:render, String.t} | :blank
   def stop_departure_display(itinerary_row) do
@@ -126,16 +126,14 @@ defmodule Site.TripPlanView do
       render_type: :stop,
       bubble_branch: ItineraryRow.route_name(itinerary_row)
     }
-    first_step_class = if Enum.count(itinerary_row.steps) >= 4, do: ["stop dotted"], else: ["stop"]
 
     params =
       itinerary_row.steps
-      |> Enum.zip(Stream.concat(first_step_class, Stream.repeatedly(fn -> "stop"  end)))
-      |> Enum.map(fn {step, class} ->
-        {step, [%{base_params | class: class}]}
+      |> Enum.map(fn step ->
+        {step, [base_params]}
       end)
 
-    [{:transfer, [%{base_params | class: "stop"}]} | params]
+    [{:transfer, [%{base_params | class: "stop transfer"}]} | params]
   end
   def bubble_params(%ItineraryRow{transit?: false} = itinerary_row, row_idx) do
     params =
@@ -144,7 +142,7 @@ defmodule Site.TripPlanView do
         {step,
           [%Site.StopBubble.Params{
             render_type: :empty,
-            class: "line dotted",
+            class: "line",
           }]}
       end)
 
@@ -158,7 +156,7 @@ defmodule Site.TripPlanView do
     [{:transfer,
           [%Site.StopBubble.Params{
             render_type: transfer_bubble_type,
-            class: "#{transfer_bubble_type} dotted",
+            class: [Atom.to_string(transfer_bubble_type), " transfer"],
           }]}
      | params]
   end

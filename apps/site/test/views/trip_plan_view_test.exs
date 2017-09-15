@@ -97,7 +97,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "returns 'personal' if no route is present" do
       row = %ItineraryRow{route: nil}
 
-      assert mode_class(row) == "personal"
+      assert mode_class(row) == "personal-itinerary"
     end
   end
 
@@ -152,24 +152,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       assert Enum.map(params, &elem(&1, 0)) == [:transfer | @itinerary_row.steps]
     end
-
-    test "First step is not dotted when it has less than 4 intermediate steps" do
-      dotted? =
-        @itinerary_row
-        |> bubble_params(nil)
-        |> Enum.map(fn {_, [%{class: class}]} -> class end)
-
-      assert dotted? == ["stop", "stop", "stop", "stop"]
-    end
-
-    test "First step is dotted when it has 4 or more intermediate steps" do
-      dotted? =
-        %{@itinerary_row | steps: ["Prudential", "Symphony", "Northeastern" | @itinerary_row.steps]}
-        |> bubble_params(nil)
-        |> Enum.map(fn {_, [%{class: class}]} -> class end)
-
-      assert dotted? == ["stop", "stop dotted", "stop", "stop", "stop", "stop", "stop"]
-    end
   end
 
   describe "bubble_params/1 for a personal row" do
@@ -203,20 +185,20 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> bubble_params(0)
         |> Enum.map(fn {_, [%{class: class, render_type: render_type}]} -> {class, render_type} end)
 
-      assert types_and_classes == [{"line dotted", :empty}, {"line dotted", :empty}, {"line dotted", :empty}]
+      assert types_and_classes == [{"line", :empty}, {"line", :empty}, {"line", :empty}]
     end
 
     test "first stop is terminus for first row" do
       [{_transfer_step, [%{class: class, render_type: render_type}]} | _rest] = bubble_params(@itinerary_row, 0)
 
-      assert class == "terminus dotted"
+      assert class == ["terminus", " transfer"]
       assert render_type == :terminus
     end
 
     test "first stop is stop for a row other than the first" do
       [{_transfer_step, [%{class: class, render_type: render_type}]} | _rest] = bubble_params(@itinerary_row, 3)
 
-      assert class == "stop dotted"
+      assert class == ["stop", " transfer"]
       assert render_type == :stop
     end
   end
@@ -224,7 +206,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   describe "render_steps/2" do
     @bubble_params [%Site.StopBubble.Params{
       render_type: :empty,
-      class: "line dotted"
+      class: "line"
     }]
     @steps [
       {"Tremont and Winter", @bubble_params},

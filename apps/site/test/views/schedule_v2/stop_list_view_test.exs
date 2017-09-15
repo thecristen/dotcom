@@ -69,7 +69,7 @@ defmodule Site.StopListViewTest do
       params = stop_bubble_row_params(assigns, true)
 
       assert [%StopBubble.Params{render_type: :merge, class: "merge"},
-              %StopBubble.Params{render_type: :empty, class: "merge dotted"}
+              %StopBubble.Params{render_type: :empty, class: "merge line-dotted"}
              ] = params
     end
 
@@ -146,7 +146,7 @@ defmodule Site.StopListViewTest do
       assert b_line.class == "stop"
       assert c_line.class == "stop"
       assert d_line.class == "stop"
-      assert e_line.class == "stop dotted"
+      assert e_line.class == "stop line-dotted"
     end
 
     test "at copley when direction is 1" do
@@ -171,13 +171,13 @@ defmodule Site.StopListViewTest do
       assert b_line.class == "stop"
       assert c_line.class == "stop"
       assert d_line.class == "stop"
-      assert e_line.class == "stop dotted"
+      assert e_line.class == "stop line-dotted"
 
       assert [b_line_1, c_line_1, d_line_1, e_line_1] = stop_bubble_row_params(%{assigns | direction_id: 1})
       assert b_line_1.class == "stop"
       assert c_line_1.class == "stop"
       assert d_line_1.class == "stop"
-      assert e_line_1.class == "stop dotted"
+      assert e_line_1.class == "stop line-dotted"
     end
 
     test "all kenmore bubbles are dotted when direction_id is 0" do
@@ -186,9 +186,9 @@ defmodule Site.StopListViewTest do
                              route: %Route{id: "Green", type: 0},
                              stop: %RouteStop{id: "place-kencl", branch: nil}}
       assert [b_line, c_line, d_line] = stop_bubble_row_params(assigns)
-      assert b_line.class == "stop dotted"
-      assert c_line.class == "stop dotted"
-      assert d_line.class == "stop dotted"
+      assert b_line.class == "stop line-dotted"
+      assert c_line.class == "stop line-dotted"
+      assert d_line.class == "stop line-dotted"
     end
 
     test "all kenmore bubbles are solid when direction_id is 1" do
@@ -227,12 +227,12 @@ defmodule Site.StopListViewTest do
                              stop: %RouteStop{id: "place-clmnl", branch: "Green-C"}}
 
       assert [b_line, c_line] = stop_bubble_row_params(assigns)
-      assert b_line.class == "stop dotted"
-      assert c_line.class == "stop dotted"
+      assert b_line.class == "stop line-dotted"
+      assert c_line.class == "stop line-dotted"
 
       assert [b_line, c_line] = stop_bubble_row_params(%{assigns | direction_id: 1})
-      assert b_line.class == "stop dotted"
-      assert c_line.class == "stop dotted"
+      assert b_line.class == "stop line-dotted"
+      assert c_line.class == "stop line-dotted"
     end
 
     test "schedule view expand link is solid" do
@@ -296,8 +296,8 @@ defmodule Site.StopListViewTest do
                             route: %Route{id: "Red", type: 1},
                             stop: %RouteStop{id: "place-nqncy", branch: "Braintree"}}
       assert [ashmont, braintree] = stop_bubble_row_params(assigns)
-      assert ashmont.class == "stop dotted"
-      assert braintree.class == "stop dotted"
+      assert ashmont.class == "stop line-dotted"
+      assert braintree.class == "stop line-dotted"
     end
   end
 
@@ -308,8 +308,8 @@ defmodule Site.StopListViewTest do
                 route: %Route{id: "Red", type: 1},
                 stop: %RouteStop{id: "place-jfk", branch: nil}}
       assert [ashmont, braintree] = stop_bubble_row_params(assigns)
-      assert ashmont.class == "merge dotted"
-      assert braintree.class == "merge dotted"
+      assert ashmont.class == "merge line-dotted"
+      assert braintree.class == "merge line-dotted"
     end
 
     test "only second bubble has dotted class when direction_id is 1" do
@@ -318,7 +318,7 @@ defmodule Site.StopListViewTest do
                 stop: %RouteStop{id: "place-jfk", branch: nil}}
       assert [ashmont, braintree] = stop_bubble_row_params(assigns)
       assert ashmont.class == "merge"
-      assert braintree.class == "merge dotted"
+      assert braintree.class == "merge line-dotted"
     end
   end
 

@@ -180,6 +180,14 @@ defmodule Site.ScheduleV2ControllerTest do
       conn = get(conn, trip_view_path(conn, :show, "1"))
       assert conn.assigns.breadcrumbs
     end
+
+    test "shows a checkmark next to the last stop", %{conn: conn} do
+      response = conn
+                 |> get(trip_view_path(conn, :show, "Red", origin: "place-pktrm"))
+                 |> html_response(200)
+      assert [_first, {"div", _, checkmark}] = Floki.find(response, ".terminus-circle")
+      assert Floki.attribute(checkmark, "class") == ["fa fa-check "]
+    end
   end
 
   describe "line tabs" do
@@ -329,6 +337,15 @@ defmodule Site.ScheduleV2ControllerTest do
       assert last_stop |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
       refute others |> List.last |> Floki.attribute("href") |> List.first =~ "direction_id=1"
       Enum.each(others, & assert &1 |> Floki.attribute("href") |> List.first() =~ "direction_id=0")
+    end
+
+    test "does not show a checkmark next to any stops", %{conn: conn} do
+      response = conn
+                 |> get(line_path(conn, :show, "Red"))
+                 |> html_response(200)
+      stops = Floki.find(response, ".route-branch-stop-list")
+      refute Enum.empty?(stops)
+      assert Floki.find(stops, ".fa-check") == []
     end
   end
 

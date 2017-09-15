@@ -69,6 +69,7 @@ defmodule Site.ScheduleV2View.StopList do
       route: assigns.route,
       direction_id: assigns.direction_id,
       conn: assigns.conn,
+      show_checkmark?: false,
       row_content_template: "_line_page_stop_info.html"
     }
   end
@@ -119,9 +120,17 @@ defmodule Site.ScheduleV2View.StopList do
         show_line?: show_line?(bubble_type, indent, first_stop?),
         vehicle_tooltip: vehicle_tooltip(bubble_type, bubble_branch, assigns.vehicle_tooltip),
         content: bubble_content(bubble_branch),
-        bubble_branch: bubble_branch
+        bubble_branch: bubble_branch,
+        show_checkmark?: show_checkmark?(assigns[:show_checkmark?], first_stop?, bubble_type)
       }
     end
+  end
+
+  defp show_checkmark?(nil, first_stop?, bubble_type) do
+    !first_stop? and bubble_type == :terminus
+  end
+  defp show_checkmark?(show_checkmark?, _first_stop?, _bubble_type) do
+    show_checkmark?
   end
 
   defp bubble_class(%{
@@ -142,7 +151,7 @@ defmodule Site.ScheduleV2View.StopList do
           dotted_green(bubble_branch, stop, direction_id),
           dotted_branch(bubbles, stop_branch),
           {route_id, stop_branch}
-        ) -> "dotted"
+        ) -> "line-dotted"
         true -> ""
       end
 

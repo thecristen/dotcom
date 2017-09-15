@@ -199,5 +199,19 @@ defmodule Site.TripPlanControllerTest do
       response = html_response(conn, 200)
       refute response =~ "Date is not valid"
     end
+
+    test "destination address has a checkmark in its stop bubble", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => @date_time
+                   }}
+      response = conn
+                 |> get(trip_plan_path(conn, :index, params))
+                 |> html_response(200)
+      assert [_first, {"div", _, checkmark}] = Floki.find(response, ".terminus-circle")
+      assert Floki.attribute(checkmark, "class") == ["fa fa-check "]
+    end
   end
 end
