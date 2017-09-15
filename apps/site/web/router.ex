@@ -5,6 +5,12 @@ defmodule Site.Router do
 
   alias Site.StaticPage
 
+  pipeline :secure do
+    if force_ssl = Application.get_env(:site, :secure_pipeline)[:force_ssl] do
+      plug Plug.SSL, force_ssl
+    end
+  end
+
   pipeline :browser do
     plug SystemMetrics.Plug
     plug :accepts, ["html"]
@@ -26,7 +32,12 @@ defmodule Site.Router do
   end
 
   scope "/", Site do
-    pipe_through :browser # Use the default browser stack
+    # no pipe
+    get "/_health", HealthController, :index
+  end
+
+  scope "/", Site do
+    pipe_through [:secure, :browser]
 
     get "/", PageController, :index
     resources "/events", EventController, only: [:index, :show] do
@@ -72,12 +83,13 @@ defmodule Site.Router do
 
   #static files
   scope "/", Site do
+    pipe_through [:secure, :browser]
     get "/sites/*path", StaticFileController, :index
   end
 
   #old site
   scope "/", Site do
-    pipe_through :browser
+    pipe_through [:secure, :browser]
 
     get "/schedules_and_maps", OldSiteRedirectController, :schedules_and_maps
     get "/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps
@@ -87,6 +99,7 @@ defmodule Site.Router do
 
   #old site static files
   scope "/", Site do
+    pipe_through [:secure, :browser]
     get "/uploadedfiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedimages/*path", OldSiteRedirectController, :uploaded_files
@@ -97,13 +110,13 @@ defmodule Site.Router do
   end
 
   scope "/_flags" do
-    pipe_through [:browser]
+    pipe_through [:secure, :browser]
 
     forward "/", Laboratory.Router
   end
 
   scope "/", Site do
-    pipe_through :browser
+    pipe_through [:secure, :browser]
 
     get "/*path", ContentController, :index
   end

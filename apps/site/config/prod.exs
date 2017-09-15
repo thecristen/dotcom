@@ -72,7 +72,11 @@ config :logger, :logentries,
 # build.
 unless System.get_env("PORT") do
   config :site, Site.Endpoint,
-    url: [scheme: "https", port: 443],
+    url: [scheme: "https", port: 443]
+
+  # configured separately so that we can have the health check not require
+  # SSL
+  config :site, :secure_pipeline,
     force_ssl: [
       host: nil,
       rewrite_on: [:x_forwarded_proto]
