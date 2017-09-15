@@ -7,6 +7,8 @@ defmodule Site.TripPlan.MergeTest do
   doctest Site.TripPlan.Merge
 
   defp do_merge(first, second) do
+    first = Enum.uniq(first)
+    second = Enum.uniq(second)
     merged = merge(first, second, &==/2)
     {first, second, merged}
   end
@@ -19,10 +21,10 @@ defmodule Site.TripPlan.MergeTest do
       end
     end
 
-    test "includes no more than 3 items" do
-      ptest first: list(of: positive_int(), max: 5), second: list(of: positive_int(), max: 5) do
-        {_, _, merged} = do_merge(first, second)
-        assert length(merged) <= 3
+    test "includes no more than total items" do
+      ptest first: list(of: positive_int()), second: list(of: positive_int()), total: positive_int() do
+        merged = merge(first, second, &==/2, total: total)
+        assert length(merged) <= total
       end
     end
 
