@@ -1,5 +1,5 @@
 defmodule Routes.Repo do
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, ttl: :timer.hours(1)
 
   import Routes.Parser
   require Logger
