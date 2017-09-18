@@ -67,12 +67,12 @@ defmodule Content.CMS.Static do
   def view("/recent-news", [current_id: id]) do
     id = Integer.to_string(id)
     filtered_recent_news = Enum.reject(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
-    recent_news = Enum.take(filtered_recent_news, NewsEntry.number_of_recent_news_suggestions())
+    recent_news = Enum.take(filtered_recent_news, NewsEntry.number_of_recent_news_suggestions_show())
 
     {:ok, recent_news}
   end
   def view("/recent-news", _) do
-    {:ok, Enum.take(news_response(), NewsEntry.number_of_recent_news_suggestions())}
+    {:ok, Enum.take(news_response(), NewsEntry.number_of_recent_news_suggestions_show())}
   end
   def view("/accessibility", _) do
     {:ok, basic_page_response()}

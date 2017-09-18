@@ -520,5 +520,148 @@
       }
     ],
     "field_migration_id": []
+  },
+  {
+    "nid": [
+      {
+        "value": 2650
+      }
+    ],
+    "uuid": [
+      {
+        "value": "69e4f967-172b-4fa0-aadd-f130f78c5e85"
+      }
+    ],
+    "vid": [
+      {
+        "value": 3395
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "news_entry",
+        "target_type": "node_type",
+        "target_uuid": "1944f2c9-6e14-46d1-9f16-4f54428e8f3c"
+      }
+    ],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Seasoned executive with deep turn-around experience named MBTA General Manager\/CEO"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 13,
+        "target_type": "user",
+        "target_uuid": "b1e7bc68-04a7-4492-ba03-575615e56e5c",
+        "url": "\/user\/13"
+      }
+    ],
+    "created": [
+      {
+        "value": 1502815237
+      }
+    ],
+    "changed": [
+      {
+        "value": 1502815237
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1502815237
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 13,
+        "target_type": "user",
+        "target_uuid": "b1e7bc68-04a7-4492-ba03-575615e56e5c",
+        "url": "\/user\/13"
+      }
+    ],
+    "revision_log": [
+
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+
+    ],
+    "publish_on": [
+
+    ],
+    "unpublish_on": [
+
+    ],
+    "menu_link": [
+
+    ],
+    "body": [
+      {
+        "value": "<p>BOSTON &#8211; Luis Manuel Ram&#237;rez, whose three-decade business career has included successful turnarounds with divisions of some of the nation&#8217;s biggest corporations, will be the next General Manager\/CEO of the MBTA, Secretary of Transportation Stephanie Pollack announced today.<\/p>\n<p>Ram&#237;rez, 50, who most recently has run his own strategic and turnaround business consulting firm, will succeed Interim GM Steve Poftak on September 12.<br \/><br \/>&#8220;From Day One, we were looking for a candidate with a solid track record of leading large and complex organizations through transformation and change,&#8221; said Pollack. &#8220;His unique personal background, deep exposure to a range of challenges and constituencies, and proven leadership skills make Luis the right person to lead the MBTA as it continues to become the world-class transit agency our riders expect and deserve. With the support he&#8217;ll have from the strong operational and other leadership already at the T, Luis will get up to speed very quickly.&#8221;&#160;<\/p>\n<p>Ram&#237;rez, whose Cuban refugee father operated a crop-dusting plant and later a roofing business in Florida, worked his way through high school as a supermarket bag boy and restaurant worker and continued to work through university before beginning a corporate career marked by increasingly important posts at firms including Unisys Corporation, Siemens AG, and General Electric Corp.<br \/><br \/>While at GE from 2000 to 2012, Ram&#237;rez was steadily promoted into positions with greater challenges and responsibilities. He finished his career with the company as a GE Vice President and Corporate Officer and President and CEO of GE&#8217;s Energy Industrial Solutions business, where he was responsible for 17,000 employees operating in 60 countries, delivering $3.5 billion in annual revenue.<\/p>\n<p>Throughout his career, Ram&#237;rez has worked with a wide range of domestic and international interests and stakeholders, including governmental entities and unionized workforces.<br \/><br \/>&#8220;As we continue to invest in and reform the MBTA, it is critical to have an experienced individual with turn-around experience at the helm working to improve service for riders,&#8221; said Governor Charlie Baker. &#8220;Luis has a proven skill-set that I am sure will serve him well as he joins the team working toward meaningful reforms for commuters and taxpayers. Thank you, Steve Poftak, for your work improving operations at the T and I look forward to Luis joining Secretary Pollack&#8217;s talented team.&#8221;<br \/><br \/>Deputy General Manager Jeffrey Gonneville, who served on the GM\/CEO search committee, said Ram&#237;rez&#8217; skill sets and background will serve to strengthen T operations. &#8220;Even in the limited time I&#8217;ve spent with him, I can see that Luis understands and appreciates the hard work and talent of our employees who keep this system running every day,&#8221; said Gonneville. &#8220;The deep managerial experience he brings to the T will help us achieve even greater operational excellence.&#8221;<br \/><br \/>Fiscal and Management Control Board Chairman Joseph Aiello noted that Ram&#237;rez&#8217; contract is for three years, with two one-year mutual options to extend. &#8220;After going through six permanent or acting general managers since 2011, the T and its workforce will benefit from seasoned and stable leadership at the top.&#8221; Aiello noted that Ram&#237;rez has a history of staying in his various positions as long as it takes to implement necessary change and improvement.<br \/><br \/>Ramirez said he is anxious to bring his extensive experience, from overseeing billion dollar portfolios to managing major technology upgrades and communicating with stakeholders, to the T. &#8220;I am excited about joining a great team at the T to build upon the progress they have already made,&#8221; he said. &#8220;Going forward, we need financial discipline, we need operational excellence, and we also need strategy. But in everything we do, the overriding objective will be to put the customer first.&#8221;<\/p>\n<p>MBTA Administrative Officer Michael Abramo said Ram&#237;rez&#8217; vast executive experience &#8220;will help to further the transformation of the MBTA into a more efficient and effective organization.&#8221;&#160;<\/p>\n<p>Ram&#237;rez is moving to Boston with his wife Delia Garced, Vice President, Market Activation, GE Digital. She will work out of GE&#8217;s Boston headquarters. They have two children. Fluent in English, Spanish, and German, Ram&#237;rez is a member of CEO Connection, which helps mid-market CEOs and their companies succeed, and the National Association of Corporate Directors.<br \/><br \/>####<\/p>\n<p>Background: Luis Manuel Ram&#237;rez<br \/><br \/>Raised in South Florida, Luis Ram&#237;rez has helped lead and transform a range of complex businesses and organizations. He has held a series of increasingly significant positions, identifying challenges and taking sometimes difficult actions to resolve them.<br \/><br \/>After graduating DeVry Institute of Technology with a bachelor&#8217;s degree in computer science in 1987, Ram&#237;rez went to work as a Business Analyst at Unisys Corporation. In 1989, Siemens Global Businesses recruited him for what would become an 11-year career marked by increasing responsibilities. Beginning as a Senior Systems Analyst, his roles at Siemens included Controller for Commercial Operations for a Siemens business in Germany and, from 1996 to1998, Chief Financial Officer and Director of Business Administration for Siemens Corporate Research Center in Princeton, NJ, and, from 1998 to 2000, Director of Internal Audits and Mergers and Acquisitions for the firm&#8217;s Energy and Automation operation in Georgia.<\/p>\n<p>After 11 years at Siemens, Ram&#237;rez was recruited by General Electric, where he would again rise through a series of high-level positions that would further expand his executive responsibilities, leadership skills, and business expertise.<\/p>\n<p>From 2000 to 2001, Ram&#237;rez was Business Development and Integration Leader for GE&#8217;s Energy Management Services, where, reporting directly to the business&#8217;s CEO, he led mergers, acquisitions, and integration activities. From 2001 to 2004, he was promoted to President and General Manager of GE Energy Rentals, turning a troubled and money-losing GE business unit into a major player in the international marketplace.<\/p>\n<p>GE named him President and General Manager of GE Energy Parts from 2004 to 2006, were he opened international markets and led operations for this $3 billion after-market parts business.<br \/><br \/>Again moving up GE&#8217;s ladder, Ram&#237;rez became President of GE&#8217;s Energy Contractual Services business from 2006 to 2009, creating and executing strategies to expand this global operation of about $4 billion. Among other steps, Ram&#237;rez restructured the group and established innovation and leadership development programs that helped lead to a 23 percent growth in revenue in 2009. Recognizing Ram&#237;rez&#8217; string of successes, GE promoted him to GE Corporate Officer in 2008.<\/p>\n<p>From 2010 to 2012, Ram&#237;rez moved up again, becoming GE Vice President\/Corporate Officer and President and CEO of GE&#8217;s Energy Industrial Solutions, where he was responsible for 17,000 employees operating in 60 countries producing about $3.7 billion in annual revenue commitments.<br \/><br \/>Ram&#237;rez&#8217; successes at GE were noted and in 2012, he was recruited to become President and CEO of Texas-based Global Power Equipment Group. He directed the turnaround of this publicly listed design, engineering and manufacturing firm that had been experiencing declining growth. He developed business development strategies, brought in new leadership, and oversaw other steps that delivered positive results.<br \/><br \/>Ram&#237;rez resigned from Global Power in 2015 and founded TodoModo Group, a Dallas-based business consulting firm that provides turnaround and business consulting services to a range of clients.<\/p>\n",
+        "format": "basic_html",
+        "summary": null
+      }
+    ],
+    "field_media_contact": [
+      {
+        "value": "MassDOT Press Office"
+      }
+    ],
+    "field_media_email": [
+
+    ],
+    "field_media_phone": [
+      {
+        "value": "857-368-8500"
+      }
+    ],
+    "field_migration_id": [
+      {
+        "value": "6442458480"
+      }
+    ],
+    "field_more_information": [
+
+    ],
+    "field_posted_on": [
+      {
+        "value": "2017-08-15"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "BOSTON \u2013 Luis Manuel Ram\u00edrez, whose three-decade business career has included successful turnarounds with divisions of some of the nation\u2019s biggest corporations, will be the next General Manager\/CEO of the MBTA, Secretary of Transportation Stephanie Po..."
+      }
+    ]
   }
 ]
