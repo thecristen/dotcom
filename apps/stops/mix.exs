@@ -20,7 +20,8 @@ defmodule Stops.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :json_api, :repo_cache, :v3_api, :timex, :zones]]
+    [extra_applications: [:logger],
+     mod: {Stops, []}]
   end
 
   # Dependencies can be Hex packages:

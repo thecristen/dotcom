@@ -22,62 +22,88 @@ defmodule RepoCache do
   of milliseconds to cache the value.
 
   """
-  @cache_name :repo_cache_cache
-
   defmacro __using__(opts \\ []) do
-    ttl = opts
-    |> Keyword.get(:ttl, :timer.seconds(1))
+    opts = include_defaults(opts)
 
     quote do
-      require RepoCache
-      import RepoCache
+      @opts unquote(opts)
 
-      defdelegate clear_cache(), to: RepoCache
+      require unquote(__MODULE__)
+      import unquote(__MODULE__), only: [cache: 2, cache: 3]
 
-      @default_cache_params [{:ttl, unquote(ttl)}, {:timeout, nil}]
+      unquote(server_functions())
     end
   end
 
-  def clear_cache do
-    @cache_name
-    |> ConCache.ets
-    |> :ets.tab2list
-    |> Enum.reduce(:ok, fn {key, _}, _ ->
-      ConCache.delete(@cache_name, key)
-      :ok
-    end)
+  defp include_defaults(opts) do
+    opts
+    |> Keyword.put_new(:ttl, :timer.seconds(1))
+    |> Keyword.put_new(:ttl_check, :timer.seconds(1))
+    |> Keyword.put(:read_concurrency, :true)
+    |> Keyword.put(:write_concurrency, :true)
   end
 
-  defmacro cache(func_param, func, cache_opts \\ []) do
+  defmacro cache(fun_param, fun, cache_opts \\ []) do
     quote do
-      do_cache(
-        unquote(func_param),
-        __ENV__,
-        unquote(func),
-        Keyword.merge(@default_cache_params, unquote(cache_opts)))
+      [mod | _] = __ENV__.context_modules
+      {name, _} = __ENV__.function
+      unquote(__MODULE__).do_cache(
+        mod,
+        name,
+        unquote(fun),
+        unquote(fun_param),
+        unquote(cache_opts))
     end
   end
 
-  def do_cache(func_param, %{context_modules: [module|_],
-                             function: {name, _}}, func, cache_opts) do
-    key = {module, name, func_param}
-    timeout = cache_opts[:timeout]
-    ConCache.isolated @cache_name, key, timeout, fn ->
-      case ConCache.get(@cache_name, key) do
+  def server_functions do
+    quote do
+      def start_link do
+        ConCache.start_link(@opts, [name: __MODULE__])
+      end
+
+      def default_ttl do
+        Keyword.get(@opts, :ttl)
+      end
+
+      def clear_cache do
+        __MODULE__
+        |> ConCache.ets
+        |> :ets.delete_all_objects
+      end
+
+      def child_spec(_opts) do
+        %{
+          id: __MODULE__,
+          start: {__MODULE__, :start_link, []},
+          type: :worker,
+          restart: :permanent,
+          shutdown: 500
+        }
+      end
+    end
+  end
+
+  def do_cache(mod, name, fun, fun_param, cache_opts) do
+    key = {name, fun_param}
+    timeout = Keyword.get(cache_opts, :timeout)
+    ConCache.isolated mod, key, timeout, fn ->
+      case ConCache.get(mod, key) do
         nil ->
-          maybe_set_value(func.(func_param), key, cache_opts[:ttl])
+          maybe_set_value(fun.(fun_param), mod, key, cache_opts[:ttl])
         value ->
           value
       end
     end
   end
 
-  defp maybe_set_value({:error, _} = error, _, _) do
+  defp maybe_set_value({:error, _} = error, _, _, _) do
     error
   end
-  defp maybe_set_value(value, key, ttl) do
+  defp maybe_set_value(value, mod, key, ttl) do
+    ttl = ttl || mod.default_ttl
     item = %ConCache.Item{value: value, ttl: ttl}
-    ConCache.dirty_put(@cache_name, key, item)
+    ConCache.dirty_put(mod, key, item)
     value
   end
 end

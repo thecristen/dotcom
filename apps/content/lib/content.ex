@@ -8,8 +8,7 @@ defmodule Content do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Starts a worker by calling: Content.Worker.start_link(arg1, arg2, arg3)
-      # worker(Content.Worker, [arg1, arg2, arg3]),
+      Content.Repo
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

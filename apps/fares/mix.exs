@@ -19,13 +19,8 @@ defmodule Fares.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    applications = [:logger, :rstar]
-    applications = if Mix.env != :prod do
-      [:csv, :sweet_xml | applications]
-    else
-      applications
-    end
-    [applications: applications]
+    [extra_applications: [:logger],
+     mod: {Fares.Application, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -46,6 +41,7 @@ defmodule Fares.Mixfile do
       {:csv, "~> 1.4.2"},
       {:excoveralls, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},
+      {:repo_cache, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:google_maps, in_umbrella: true},
       {:rstar, github: "armon/erl-rstar"}
