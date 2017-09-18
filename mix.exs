@@ -36,7 +36,8 @@ defmodule DotCom.Mixfile do
   defp deps do
     [{:credo, ">= 0.7.1", only: [:dev, :test]},
      {:excoveralls, "~> 0.5", only: :test},
-     {:ex_doc, "~> 0.14", only: :dev}]
+     {:ex_doc, "~> 0.14", only: :dev},
+     {:crawler, github: "mbta/link-checker"}]
   end
 
 end
