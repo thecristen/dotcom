@@ -84,7 +84,7 @@
 
     <h2>Youth Pass Program</h2>
     <p>
-      The MBTA Youth Pass is a collaboration between the MBTA and partner cities. The Youth Pass program provides access to a reduced
+      The <%= link "MBTA Youth Pass", to: "/redirect/fares_and_passes/reduced_fare_programs/?id=6442454105"%> is a collaboration between the MBTA and partner cities. The Youth Pass program provides access to a reduced
       fare LinkPass to low-income young people between the ages of 12 and 25 who do not have access to the Student Pass program. Young
       people demonstrate eligibility once a year at city offices and receive a Youth Pass CharlieCard that allows them to purchase a
       reduced fare LinkPass.
