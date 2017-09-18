@@ -187,6 +187,16 @@ defmodule Site.TripPlanView do
 
   defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
 
+  @spec accessibility_icon([String.t]) :: Phoenix.HTML.Safe.t
+  defp accessibility_icon(classes) do
+    svg_icon_with_circle(%SvgIconWithCircle{
+      icon: :access,
+      class: Enum.join(["icon-small" | classes], " "),
+      show_tooltip?: false,
+      aria_hidden?: true,
+    })
+  end
+
   @spec icon_for_route(Route.t) :: Phoenix.HTML.Safe.t
   def icon_for_route(route) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})

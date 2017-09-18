@@ -1,15 +1,13 @@
 <div class="trip-plan-itinerary-container">
-  <%= if @itinerary.accessible? do %>
-    <div class="itinerary-accessible">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access, class: "icon-small"}) %>
+  <div class="itinerary-accessible">
+    <%= if @itinerary.accessible? do %>
+      <%= accessibility_icon([]) %>
       Accessible
-    </div>
-  <% else %>
-    <div class="itinerary-accessible not-accessible">
-      <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access, class: "icon-small"}) %>
+    <% else %>
+      <%= accessibility_icon(["icon-circle-grayed"]) %>
       May not be accessible
-    </div>
-  <% end %>
+    <% end %>
+  </div>
   <a class="trip-plan-itinerary-header collapsed" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
     <div class="trip-plan-itinerary-summary">
       <div class="trip-plan-itinerary-legs">
