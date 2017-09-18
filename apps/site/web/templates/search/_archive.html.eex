@@ -1,5 +1,5 @@
-<% former_site_name = @former_site |> String.replace("https://", "") %>
-<a class="search-archive" href="<%= @former_site %>">
+<% old_search_url = "#{@former_site}/search?q=#{URI.encode(@query)}" %>
+<a class="search-archive" href="<%= old_search_url %>">
   <div>Not finding what you are looking for? It may still be on our legacy site.</div>
-  <div>Search the old <%= former_site_name %> <%= fa "arrow-right" %></div>
+  <div>Search the old website <%= fa "arrow-right" %></div>
 </a>
