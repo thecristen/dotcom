@@ -1,5 +1,5 @@
 set -e
-ELIXIR_VERSION=1.4
+ELIXIR_VERSION=1.5
 ERLANG_VERSION=20
 
 mkdir -p $SEMAPHORE_CACHE_DIR/gems $SEMAPHORE_CACHE_DIR/npm $SEMAPHORE_CACHE_DIR/mix
@@ -32,10 +32,10 @@ fi
 
 mix local.hex --force
 mix local.rebar --force
-MIX_ENV=test mix do deps.get, deps.compile
+MIX_ENV=test mix do deps.get
 
-nvm use 6.2
-rbenv local 2.4.0
+nvm use 6.9.5
+rbenv local 2.4.1
 
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems
 gem install pronto -v 0.7.1
