@@ -1,73 +1,78 @@
-<h1 class="event-title">
-  <%= @event.title %>
-</h1>
+<% has_sidebar = @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
+<div class="container">
+  <h1 class="event-title">
+    <%= @event.title %>
+  </h1>
 
-<div class="row">
-  <div class="col-md-9">
-    <div>
-      <h2>Meeting Info</h2>
-      <p>
-        <span class="event-info-label">Date:</span> <%= render_duration(@event.start_time, @event.end_time) %>
-        &nbsp;
-        <%= link to: event_icalendar_path(@conn, :show, @event.id),
-            data: [turbolinks: false],
-            class: "hidden-md-down" do %>
-          <%= fa "calendar" %> Add to Calendar
-        <% end %>
-      </p>
-      <p><%= render "_address.html", event: @event %></p>
-      <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
-    </div>
+  <div class="row">
+    <%= content_tag :div, class: "event-description#{if has_sidebar do ~s(-with-sidebar) end}" do %>
+      <div>
+        <h2>Meeting Info</h2>
+        <p>
+          <span class="event-info-label">Date:</span> <%= render_duration(@event.start_time, @event.end_time) %>
+          &nbsp;
+          <%= link to: event_icalendar_path(@conn, :show, @event.id),
+              data: [turbolinks: false],
+              class: "hidden-md-down" do %>
+            <%= fa "calendar" %> Add to Calendar
+          <% end %>
+        </p>
+        <p><%= render "_address.html", event: @event %></p>
+        <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
+      </div>
 
-    <div class="event-hr-row">
-      <h2>Event Description</h2>
-
-      <%= @event.body %>
-    </div>
-
-    <%= if agenda = content(@event.agenda) do %>
       <div class="event-hr-row">
-        <h2><%= "Agenda" %></h2>
-        <%= agenda %>
-      </div>
-    <% end %>
+        <h2>Event Description</h2>
 
-    <%= if notes = content(@event.notes) do %>
-      <div class="event-hr-row">
-        <h2><%= "Notes" %></h2>
-        <%= notes %>
+        <%= @event.body %>
       </div>
+
+      <%= if agenda = content(@event.agenda) do %>
+        <div class="event-hr-row">
+          <h2><%= "Agenda" %></h2>
+          <%= agenda %>
+        </div>
+      <% end %>
+
+      <%= if notes = content(@event.notes) do %>
+        <div class="event-hr-row">
+          <h2><%= "Notes" %></h2>
+          <%= notes %>
+        </div>
+      <% end %>
     <% end %>
-  </div>
-  <div class="col-md-3">
-    <%= if @event.agenda_file do %>
-      <h3>Agenda</h3>
-      <div>
-        <%= link to: @event.agenda_file.url, target: "_blank", data: [turbolinks: false] do %>
-          <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
-          <%= file_description(@event.agenda_file) %>
+    <%= if has_sidebar do %>
+      <div class="event-sidebar">
+        <%= if @event.agenda_file do %>
+          <h3>Agenda</h3>
+          <div>
+            <%= link to: @event.agenda_file.url, target: "_blank", data: [turbolinks: false] do %>
+              <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
+              <%= file_description(@event.agenda_file) %>
+            <% end %>
+          </div>
+          <hr />
         <% end %>
-      </div>
-      <hr />
-    <% end %>
-    <%= if @event.minutes_file do %>
-      <h3>Minutes</h3>
-      <div>
-        <%= link to: @event.minutes_file.url, target: "_blank", data: [turbolinks: false] do %>
-          <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
-          <%= file_description(@event.minutes_file) %>
+        <%= if @event.minutes_file do %>
+          <h3>Minutes</h3>
+          <div>
+            <%= link to: @event.minutes_file.url, target: "_blank", data: [turbolinks: false] do %>
+              <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
+              <%= file_description(@event.minutes_file) %>
+            <% end %>
+          </div>
+          <hr />
         <% end %>
-      </div>
-      <hr />
-    <% end %>
-    <%= if !Enum.empty?(@event.files) do %>
-      <h3>Related Files</h3>
-    <% end %>
-    <%= for file <- @event.files do %>
-      <div>
-        <%= link to: file.url, target: "_blank", data: [turbolinks: false] do %>
-          <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
-          <%= file_description(file) %>
+        <%= unless Enum.empty?(@event.files) do %>
+          <h3>Related Files</h3>
+        <% end %>
+        <%= for file <- @event.files do %>
+          <div>
+            <%= link to: file.url, target: "_blank", data: [turbolinks: false] do %>
+              <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
+              <%= file_description(file) %>
+            <% end %>
+          </div>
         <% end %>
       </div>
     <% end %>

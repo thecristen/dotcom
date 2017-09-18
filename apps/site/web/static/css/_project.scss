@@ -54,6 +54,12 @@
   margin-bottom: $base-spacing-sm;
 }
 
+.project-update {
+  img {
+    @include img-fluid();
+  }
+}
+
 .project-photos {
   .photo-item {
     margin-bottom: $base-spacing;
@@ -61,5 +67,28 @@
 
   .img-thumbnail {
     border: 0;
+  }
+}
+
+.project-downloads {
+  @include media-breakpoint-up(md) {
+    .content-file-grid-row {
+      width: 50%;
+    }
+  }
+}
+
+.project-email,
+.project-phone {
+  @include make-col();
+
+  @include media-breakpoint-up(sm) {
+    @include make-col-span(4);
+  }
+}
+
+.project-phone {
+  a {
+    white-space: nowrap;
   }
 }

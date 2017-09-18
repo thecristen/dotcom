@@ -39,6 +39,9 @@ defmodule Site.ContentRewriter do
     {name, attrs, children} = Links.add_target_to_redirect(element)
     {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
   end
+  defp dispatch_rewrites({"img", attrs, content}) do
+    {"img", Enum.filter(attrs, &keep_img_attr?/1), content}
+  end
   defp dispatch_rewrites(content) when is_binary(content) do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
       obj
@@ -49,4 +52,8 @@ defmodule Site.ContentRewriter do
   defp dispatch_rewrites(_node) do
     nil
   end
+
+  defp keep_img_attr?({"height", _}), do: false
+  defp keep_img_attr?({"width", _}), do: false
+  defp keep_img_attr?(_), do: true
 end
