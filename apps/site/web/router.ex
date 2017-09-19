@@ -99,7 +99,7 @@ defmodule Site.Router do
 
   #old site static files
   scope "/", Site do
-    pipe_through [:secure, :browser]
+    pipe_through [:secure]
     get "/uploadedfiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedFiles/*path", OldSiteRedirectController, :uploaded_files
     get "/uploadedimages/*path", OldSiteRedirectController, :uploaded_files
