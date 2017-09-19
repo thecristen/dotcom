@@ -27,10 +27,7 @@ defmodule Site.AlertController do
     render_routes(conn)
   end
   def show(conn, _params) do
-    conn
-    |> put_status(:not_found)
-    |> render(Site.ErrorView, "404.html", [])
-    |> halt
+    Site.ControllerHelpers.render_404(conn)
   end
 
   def render_routes(%{assigns: %{all_alerts: all_alerts, all_routes: all_routes}} = conn) do

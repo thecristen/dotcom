@@ -8,19 +8,13 @@ defmodule Site.ScheduleV2Controller.Pdf do
          [{_date, pdf_url} | _] <- Routes.Pdf.dated_urls(route, date) do
       redirect(conn, external: static_url(conn, pdf_url))
     else
-      _ -> not_found(conn)
+      _ -> Site.ControllerHelpers.render_404(conn)
     end
   end
   def pdf(%Plug.Conn{assigns: %{route: route}} = conn, _params) do
     case Routes.Pdf.url(route) do
-      nil -> not_found(conn)
+      nil -> Site.ControllerHelpers.render_404(conn)
       pdf_url -> conn |> redirect(external: static_url(conn, pdf_url))
     end
-  end
-
-  defp not_found(conn) do
-    conn
-    |> put_status(:not_found)
-    |> render(Site.ErrorView, "404.html", [])
   end
 end

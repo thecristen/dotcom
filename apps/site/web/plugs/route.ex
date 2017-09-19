@@ -5,8 +5,7 @@ defmodule Site.Plugs.Route do
 
   """
   @behaviour Plug
-  import Plug.Conn, only: [assign: 3, put_status: 2, halt: 1]
-  import Phoenix.Controller, only: [render: 4]
+  import Plug.Conn, only: [assign: 3]
 
   @impl true
   def init([]), do: []
@@ -15,16 +14,9 @@ defmodule Site.Plugs.Route do
   def call(%{params: %{"route" => route_id}} = conn, []) do
     case Routes.Repo.get(route_id) do
       nil ->
-        halt_not_found(conn)
+        Site.ControllerHelpers.render_404(conn)
       route ->
         assign(conn, :route, route)
     end
-  end
-
-  defp halt_not_found(conn) do
-    conn
-    |> put_status(:not_found)
-    |> render(Site.ErrorView, "404.html", [])
-    |> halt
   end
 end
