@@ -4,19 +4,22 @@ defmodule Site.TripPlanControllerTest do
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
   @system_time "2017-01-01T12:20:00-05:00"
-  @date_time %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "12", "minute" => "30", "am_pm" => "PM"}
+  @morning %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "9", "minute" => "30", "am_pm" => "AM"}
+  @afternoon %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "5", "minute" => "30", "am_pm" => "PM"}
+  @after_hours %{"year" => "2017", "month" => "1", "day" => "2", "hour" => "3", "minute" => "00", "am_pm" => "AM"}
 
   @good_params %{
     "date_time" => @system_time,
     "plan" => %{"from" => "from address",
                 "to" => "to address",
-                "date_time" => @date_time}
+                "date_time" => @afternoon}
   }
+
   @bad_params %{
     "date_time" => @system_time,
     "plan" => %{"from" => "no results",
                 "to" => "too many results",
-                "date_time" => @date_time}
+                "date_time" => @afternoon}
   }
 
   describe "index without params" do
@@ -56,7 +59,7 @@ defmodule Site.TripPlanControllerTest do
                     "to" => "to address",
                     "to_latitude" => "",
                     "to_longitude" => "",
-                    "date_time" => @date_time
+                    "date_time" => @morning
                    }
       }
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -67,7 +70,7 @@ defmodule Site.TripPlanControllerTest do
     end
 
     test "can use the old date time format", %{conn: conn} do
-      old_dt_format = Map.delete(@date_time, "am_pm")
+      old_dt_format = Map.delete(@afternoon, "am_pm")
       params = %{
         "date_time" => @system_time,
         "plan" => %{"from" => "from_address",
@@ -138,7 +141,7 @@ defmodule Site.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => %{@date_time | "month" => "6", "day" => "31"}
+                    "date_time" => %{@morning | "month" => "6", "day" => "31"}
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -151,7 +154,7 @@ defmodule Site.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => %{@date_time | "month" => ""}
+                    "date_time" => %{@morning | "month" => ""}
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -179,7 +182,7 @@ defmodule Site.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => %{@date_time | "year" => "2016"}
+                    "date_time" => %{@afternoon | "year" => "2016"}
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -192,7 +195,7 @@ defmodule Site.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => %{@date_time | "hour" => "1", "minute" => "1"}
+                    "date_time" => %{@after_hours | "hour" => "1", "minute" => "1"}
                    }}
 
       conn = get conn, trip_plan_path(conn, :index, params)
@@ -205,13 +208,19 @@ defmodule Site.TripPlanControllerTest do
         "date_time" => @system_time,
         "plan" => %{"from" => "from address",
                     "to" => "to address",
-                    "date_time" => @date_time
+                    "date_time" => @morning
                    }}
-      response = conn
+      morning = conn
                  |> get(trip_plan_path(conn, :index, params))
                  |> html_response(200)
-      assert [_first, {"div", _, checkmark}] = Floki.find(response, ".terminus-circle")
-      assert Floki.attribute(checkmark, "class") == ["fa fa-check "]
+      assert [_itinerary1, _itinerary2, _itinerary3] = Floki.find(morning, ".terminus-circle .fa-check")
+      afternoon = conn
+                 |> get(trip_plan_path(conn, :index, %{params | "plan" => %{"from" => "from address",
+                    "to" => "to address",
+                    "date_time" => @afternoon
+                   }}))
+                 |> html_response(200)
+      assert [_itinerary1, _itinerary2, _itinerary3] = Floki.find(afternoon, ".terminus-circle .fa-check")
     end
   end
 end
