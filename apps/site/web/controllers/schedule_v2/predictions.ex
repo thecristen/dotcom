@@ -79,8 +79,8 @@ defmodule Site.ScheduleV2Controller.Predictions do
     |> Map.keys
     |> Enum.unzip
 
-    stops = Enum.join(stops, ",")
-    trips  = Enum.join(trips , ",")
+    stops = stops |> Enum.uniq |> Enum.join(",")
+    trips  = Enum.join(trips, ",")
     vehicle_predictions = predictions_fn.(trip: trips, stop: stops)
 
     conn
