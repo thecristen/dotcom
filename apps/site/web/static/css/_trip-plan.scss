@@ -212,6 +212,16 @@
   }
 }
 
+.itinerary-accessible {
+  background-color: $gray-lightest;
+  border-radius: $border-radius $border-radius 0 0;
+  display: inline-block;
+  padding-bottom: $space-4;
+  padding-left: $space-8;
+  padding-right: $space-8;
+  padding-top: $space-4;
+}
+
 .trip-plan-itinerary-header {
   border: $border-width solid $brand-primary;
   border-radius: $border-radius;
