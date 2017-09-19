@@ -22,7 +22,7 @@ defmodule Site.ScheduleV2Controller.LineController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
 
-  defp all_alerts(conn, _), do: Site.ControllerHelpers.assign_all_alerts(conn, [])
+  defp all_alerts(conn, _), do: assign_all_alerts(conn, [])
 
   defp require_map(conn, _), do: assign(conn, :requires_google_maps?, true)
 end

@@ -70,7 +70,7 @@ defmodule Site.FareController do
     render_fare_module(BusSubway, conn)
   end
   def show(conn, _) do
-    Site.ControllerHelpers.check_cms_or_404(conn)
+    check_cms_or_404(conn)
   end
 
   @spec calculate_position(map(),

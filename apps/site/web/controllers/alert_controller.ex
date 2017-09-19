@@ -27,7 +27,7 @@ defmodule Site.AlertController do
     render_routes(conn)
   end
   def show(conn, _params) do
-    Site.ControllerHelpers.render_404(conn)
+    render_404(conn)
   end
 
   def render_routes(%{assigns: %{all_alerts: all_alerts, all_routes: all_routes}} = conn) do

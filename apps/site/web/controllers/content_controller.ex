@@ -56,6 +56,6 @@ defmodule Site.ContentController do
     redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
   end
   defp render_page(conn, _) do
-    Site.ControllerHelpers.render_404(conn)
+    render_404(conn)
   end
 end
