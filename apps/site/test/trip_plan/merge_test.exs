@@ -16,21 +16,25 @@ defmodule Site.TripPlan.MergeTest do
 
   describe "merge/3" do
     test "includes no duplicates" do
-      ptest accessible: list(of: positive_int(), max: 5), unknown: list(of: positive_int(), max: 5) do
+      ptest accessible: list(of: positive_int(), max: 5),
+        unknown: list(of: positive_int(), max: 5) do
         {_, _, merged} = do_merge(accessible, unknown)
         assert Enum.uniq(merged) == merged
       end
     end
 
     test "includes no more than total items" do
-      ptest accessible: list(of: positive_int()), unknown: list(of: positive_int()), total: positive_int() do
+      ptest accessible: list(of: positive_int(), max: 5),
+        unknown: list(of: positive_int(), max: 5),
+        total: int(min: 2) do
         merged = merge(accessible, unknown, &==/2, total: total)
         assert length(merged) <= total
       end
     end
 
     test "always includes the first items in the lists" do
-      ptest accessible: list(of: positive_int(), max: 5), unknown: list(of: positive_int(), max: 5) do
+      ptest accessible: list(of: positive_int(), max: 5),
+        unknown: list(of: positive_int(), max: 5) do
         {accessible, unknown, merged} = do_merge(accessible, unknown)
         unless accessible == [] do
           assert List.first(accessible) in merged
