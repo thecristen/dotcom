@@ -1,6 +1,7 @@
 defmodule Site.EventController do
   use Site.Web, :controller
   alias Site.EventDateRange
+  alias Plug.Conn
 
   def index(conn, params) do
     date_range = EventDateRange.build(params, Util.today)
@@ -15,14 +16,17 @@ defmodule Site.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    event = Content.Repo.event!(id)
-
-    conn
-    |> assign(:narrow_template, true)
-    |> assign_breadcrumbs(event)
-    |> render("show.html", event: event)
+    case Content.Repo.event(id) do
+      :not_found -> check_cms_or_404(conn)
+      event ->
+        conn
+        |> assign(:narrow_template, true)
+        |> assign_breadcrumbs(event)
+        |> render("show.html", event: event)
+    end
   end
 
+  @spec assign_breadcrumbs(Conn.t, Content.Event.t) :: Conn.t
   defp assign_breadcrumbs(conn, event) do
     conn
     |> assign(:breadcrumbs, [
