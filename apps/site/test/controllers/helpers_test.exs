@@ -6,6 +6,7 @@ defmodule Site.ControllerHelpersTest do
     get_resp_header: 2,
     resp: 3,
     merge_resp_headers: 2,
+    put_private: 3,
   ]
 
   describe "filter_modes/2" do
@@ -204,6 +205,35 @@ defmodule Site.ControllerHelpersTest do
       assert get_resp_header(response, "date") == ["date"]
       # we don't pass content-length cuz it causes problems with gzip
       assert get_resp_header(response, "content-length") == []
+    end
+  end
+
+  describe "render_404/1" do
+    test "renders the 404 bus" do
+      rendered = build_conn()
+      |> render_404()
+      |> html_response(404)
+      assert rendered =~ "Your stop cannot be found."
+    end
+  end
+
+  describe "check_cms_or_404/1" do
+    test "returns existing pages" do
+      conn = build_conn(:get, "/accessibility", nil)
+      rendered = conn
+      |> put_private(:phoenix_endpoint, Site.Endpoint)
+      |> check_cms_or_404()
+      |> html_response(200)
+      assert rendered =~ "Accessibility at the T"
+    end
+
+    test "404s on nonexistant pages" do
+      conn = build_conn(:get, "/this/page/doesnt/exist", nil)
+      rendered = conn
+      |> put_private(:phoenix_endpoint, Site.Endpoint)
+      |> check_cms_or_404()
+      |> html_response(404)
+      assert rendered =~ "Your stop cannot be found."
     end
   end
 end

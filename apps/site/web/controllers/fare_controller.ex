@@ -118,7 +118,7 @@ defmodule Site.FareController do
     |> Format.summarize(type)
   end
 
-  @spec render_fare_module(module, Conn.t) :: Conn.t
+  @spec render_fare_module(module, Plug.Conn.t) :: Plug.Conn.t
   defp render_fare_module(module, conn) do
     conn = conn
     |> assign(:fare_type, fare_type(conn))
