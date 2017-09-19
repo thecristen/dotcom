@@ -4,50 +4,29 @@ $location-line-width: $space-6;
 // scss-lint:disable NestingDepth
 // scss-lint:disable SelectorDepth
 // Changes the color for the stop bubble based on the route type
-  .route-branch-stop-list,
-  .stop-features-list,
-  .schedule-trip-info,
-  .schedule-v2-timetable {
-    &#{$class} {
-      .icon-boring,
-      .icon-inverse,
-      .stop-bubble-stop,
-      .stop-bubble-merge,
-      .stop-bubble-terminus {
-      }
+  #{$class} {
+    .route-branch-stop-bubble-line,
+    .route-branch-indent-start {
+      background-color: $color;
+    }
 
-      .icon-inverse,
-      .stop-bubble-terminus {
-        circle {
-          fill: $gray-dark;
-        }
-      }
+    .expand-icon {
+      .horizontal {
+        background-color: rgba($color, .4);
 
-      .route-branch-stop-bubble-line:not(.line-dotted),
-      .route-branch-stop-bubble-line.line-dotted.expanded,
-      .route-branch-indent-start {
-        background-color: $color;
-      }
-
-      .route-branch-stop-bubble-line.line-dotted {
-        outline-color: $color;
-      }
-
-      .route-branch-indent-start.line-dotted {
-        background-color: transparent;
-        border-color: $color;
-
-        &.expanded {
+        &::before,
+        &::after {
           background-color: $color;
-          border-right: 1px solid $color;
         }
-      }
-
-
-      .stop-bubble::before {
-        border-left-color: $color;
       }
     }
+  }
+}
+
+.icon-inverse,
+.stop-bubble-terminus {
+  circle {
+    fill: $gray-dark;
   }
 }
 
@@ -73,6 +52,12 @@ $location-line-width: $space-6;
   flex: 1 1 0%;
   overflow: visible; // if set to hidden, site works better in IE10, but then cirlces are slightly cropped everywhere
   width: 100%;
+
+  &.expanded {
+    .expand-icon {
+      display: none;
+    }
+  }
 }
 
 .route-branch-stop-bubbles {
@@ -88,27 +73,8 @@ $location-line-width: $space-6;
 
 .personal-itinerary {
   .route-branch-stop-bubble-line {
-    outline-style: solid;
-  }
-}
-
-.line-dotted {
-  .route-branch-stop-bubble-line {
-    outline-style: dashed;
-  }
-}
-
-.personal-itinerary,
-.line-dotted {
-  .route-branch-stop-bubble-line {
-    background-color: transparent;
-    outline-width: 1px;
-    width: 0;
-  }
-
-  &.expanded {
-    outline-style: none;
-    width: .375rem;
+    background-color: $black;
+    width: 1px;
   }
 }
 
@@ -124,7 +90,6 @@ $location-line-width: $space-6;
 
   &.stop {
     margin-top: -1px;
-
   }
 
   &.transfer {
@@ -149,6 +114,7 @@ $location-line-width: $space-6;
 
   text {
     font-weight: bold;
+    transform: translate(-2px, 0);
   }
 
   .terminus-circle {
@@ -169,13 +135,60 @@ $location-line-width: $space-6;
   }
 }
 
+.expand-icon {
+  display: flex;
+  flex: 0 0 $base-spacing;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: $base-spacing;
+
+  .horizontal {
+    border-radius: $location-line-width * 2;
+    border-width: 0;
+    flex-basis: $location-line-width;
+    flex-grow: 0;
+    flex-shrink: 0;
+    position: relative;
+    width: $base-spacing;
+
+    &::before,
+    &::after {
+      border-radius: $location-line-width * 2;
+      content: '';
+      height: $location-line-width;
+      position: absolute;
+      transform: rotate(-45deg);
+      width: $base-spacing;
+    }
+
+    &::before {
+      transform-origin: 0 $location-line-width;
+    }
+
+    &::after {
+      transform-origin: $base-spacing 0;
+    }
+  }
+
+  + .route-branch-stop-bubble-line {
+    border-radius: $location-line-width * 2 $location-line-width * 2 0 0;
+  }
+}
+
 .route-branch-stop-bubble-line {
   // scss-lint:disable DuplicateProperty
+  border-width: 0;
   display: none; // hide on non-flex browsers
   display: flex;
   flex: 1 0 0%;
   min-height: 1rem;
   width: $location-line-width;
+
+  &.above {
+    flex: 0 0 $base-spacing / 4;
+    min-height: 0;
+  }
 }
 
 .route-branch-stop-info {
@@ -296,28 +309,12 @@ $location-line-width: $space-6;
 }
 
 .route-branch-indent-start {
+  align-self: flex-start;
   height: $location-line-width;
-  left: -5px;
-  position: relative;
-  top: 0;
-  width: 16px;
+  width: ($icon-size / 2) + ($location-line-width / 2);
 
   .solid {
     height: $location-line-width;
-  }
-
-  &.line-dotted {
-    // this is only for the horizontal line -- gets rendered differently from the vertical lines
-    border-style: dashed;
-    border-width: 1px;
-    height: 0;
-    outline-style: none;
-    width: 12px;
-
-    &.expanded {
-      height: $location-line-width;
-      width: 16px;
-    }
   }
 }
 
@@ -345,6 +342,9 @@ $location-line-width: $space-6;
   left: 0;
   position: relative;
   top: 0;
+  transform: scale(1.2); // vehicle SVGs are currently sized incorrectly
+                         // (circle is rendered inside of SVG and svg is too small);
+                         // this is a temporary fix until we get new assets -KH
   z-index: $z-index-stop-bubble;
 }
 

@@ -156,7 +156,7 @@ defmodule Site.TripPlanView do
     [{:transfer,
           [%Site.StopBubble.Params{
             render_type: transfer_bubble_type,
-            class: [Atom.to_string(transfer_bubble_type), " transfer"],
+            class: [Atom.to_string(transfer_bubble_type), " transfer"]
           }]}
      | params]
   end
