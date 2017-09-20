@@ -26,11 +26,6 @@ defmodule Site.Router do
     plug Site.Plugs.RewriteUrls
   end
 
-  # Use this pipeline when you need to defend against CSRF attacks
-  # pipeline :csrf do
-  #   plug :protect_from_forgery
-  # end
-
   pipeline :api do
     plug :accepts, ["json"]
   end
