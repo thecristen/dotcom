@@ -36,11 +36,12 @@ defmodule RepoCache do
   end
 
   defp include_defaults(opts) do
-    opts
+    opts = opts
     |> Keyword.put_new(:ttl, :timer.seconds(1))
-    |> Keyword.put_new(:ttl_check, :timer.seconds(1))
     |> Keyword.put(:read_concurrency, :true)
     |> Keyword.put(:write_concurrency, :true)
+
+    Keyword.put_new(opts, :ttl_check, opts[:ttl])
   end
 
   defmacro cache(fun_param, fun, cache_opts \\ []) do
