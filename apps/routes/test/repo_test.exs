@@ -141,10 +141,9 @@ defmodule Routes.RepoTest do
     test "returns headsigns for subway routes" do
       headsigns = Routes.Repo.headsigns("Red")
 
-      assert headsigns == %{
-        0 => ["Ashmont", "Braintree"],
-        1 => ["Alewife"]
-      }
+      assert "Ashmont" in headsigns[0]
+      assert "Braintree" in headsigns[0]
+      assert "Alewife" in headsigns[1]
     end
   end
 
