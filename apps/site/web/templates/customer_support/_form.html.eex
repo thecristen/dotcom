@@ -2,28 +2,26 @@
   <div class="col-xs-12">
     <div class="row">
       <form id="support-form" class="support-form" action="<%= customer_support_path @conn, :submit %>#support-result" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>" />
-
-            <div class="form-group col-xs-12 contrast <%= class_for_error("service", @errors, "has-danger", "") %>">
-              <label for="service">What kind of concern do you have? (Required)</label>
-              <div class="error-container support-service-error-container <%= class_for_error("service", @errors, "", "hidden-xs-up") %>">
-                <span class="support-service-error">Please select the type of concern</span>
-              </div>
-              <div id="service">
-                <%= for {text, value} <- @service_options do %>
-                  <span class="service-radio">
-                    <input
-                      type="radio"
-                      name="service"
-                      class="support-form-control form-control service"
-                      id="service-<%= value %>"
-                      value="<%= value %>"
-                    />
-                    <label for="service-<%= value %>"> <%= text %> </label>
-                  </span>
-                <% end %>
-              </div>
-            </div>
+        <div class="form-group col-xs-12 contrast <%= class_for_error("service", @errors, "has-danger", "") %>">
+          <label for="service">What kind of concern do you have? (Required)</label>
+          <div class="error-container support-service-error-container <%= class_for_error("service", @errors, "", "hidden-xs-up") %>">
+            <span class="support-service-error">Please select the type of concern</span>
+          </div>
+          <div id="service">
+            <%= for {text, value} <- @service_options do %>
+              <span class="service-radio">
+                <input
+                  type="radio"
+                  name="service"
+                  class="support-form-control form-control service"
+                  id="service-<%= value %>"
+                  value="<%= value %>"
+                />
+                <label for="service-<%= value %>"> <%= text %> </label>
+              </span>
+            <% end %>
+          </div>
+        </div>
 
         <div class="form-group col-xs-12 contrast <%= class_for_error("comments", @errors, "has-danger", "") %>">
 
