@@ -148,5 +148,25 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
 
       assert conn.assigns.vehicle_predictions == @empty
     end
+
+      test "does not make duplicate requests for vehicles at the same stop", %{conn: conn} do
+      vehicle_locations = %{
+        {"1", "place-sstat"} => %Vehicles.Vehicle{trip_id: "1", stop_id: "place-sstat", status: :incoming},
+        {"2", "place-sstat"} =>  %Vehicles.Vehicle{trip_id: "2", stop_id: "place-sstat", status: :stopped}
+      }
+      conn = conn
+      |> assign(:origin, %Stops.Stop{id: "1148"})
+      |> assign(:destination, %Stops.Stop{id: "21148"})
+      |> assign(:route, %{id: "66"})
+      |> assign(:direction_id, "0")
+      |> assign(:vehicle_locations, vehicle_locations)
+      |> call([predictions_fn: fn
+                [route: "66", stop: "1148,21148"] -> []
+                # we transform the data into this form so that we only need to make one repo call
+                [trip: "1,2", stop: "place-sstat"] -> @empty
+              end])
+
+      assert conn.assigns.vehicle_predictions == @empty
+    end
   end
 end
