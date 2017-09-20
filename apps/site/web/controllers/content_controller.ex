@@ -13,7 +13,7 @@ defmodule Site.ContentController do
     "transitpolice",
   ]
 
-  def index(conn, _params) do
+  def page(conn, _params) do
     maybe_page = Content.Repo.get_page(conn.request_path, conn.query_string)
     conn
     |> put_layout({Site.LayoutView, :app})
@@ -56,9 +56,6 @@ defmodule Site.ContentController do
     redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
   end
   defp render_page(conn, _) do
-    conn
-    |> put_status(:not_found)
-    |> render(Site.ErrorView, "404.html", [])
-    |> halt
+    render_404(conn)
   end
 end

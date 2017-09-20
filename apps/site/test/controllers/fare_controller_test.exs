@@ -72,6 +72,11 @@ defmodule Site.FareControllerTest do
       conn = get conn, fare_path(conn, :show, :retail_sales_locations)
       assert html_response(conn, 200) =~ "Retail Sales Locations"
     end
+
+    test "404s on nonexistant mode", %{conn: conn} do
+      conn = get conn, fare_path(conn, :show, :doesnotexist)
+      assert html_response(conn, 404) =~ "Your stop cannot be found."
+    end
   end
 
   describe "fare_sales_locations/2" do
