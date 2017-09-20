@@ -1,10 +1,11 @@
 <div class="route-branch-stop">
   <% intermediate_stop_count = Map.get(assigns, :intermediate_stop_count, 0)%>
   <%=
+    stop_branch = assigns[:stop] && @stop.branch
     assigns
     |> Map.put(:bubbles, Enum.map(@bubbles, fn {branch, _} -> {branch, :line} end))
     |> stop_bubble_row_params(false)
-    |> Site.PartialView.StopBubbles.render_stop_bubbles()
+    |> Site.PartialView.StopBubbles.render_stop_bubbles(true, stop_branch)
   %>
   <div class="route-branch-stop-info expand">
     <div class="expand-branch-link">

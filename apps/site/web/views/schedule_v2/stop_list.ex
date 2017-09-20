@@ -100,19 +100,10 @@ defmodule Site.ScheduleV2View.StopList do
   def stop_bubble_row_params(assigns, first_stop? \\ true) do
     for {{bubble_branch, bubble_type}, index} <- Enum.with_index(assigns.bubbles) do
       indent = merge_indent(bubble_type, assigns[:direction_id], index)
-      class = bubble_class(%{
-        bubble_type: bubble_type,
-        bubble_branch: bubble_branch,
-        direction_id: assigns[:direction_id],
-        index: index,
-        stop: assigns[:stop],
-        bubbles: assigns.bubbles,
-        route_id: assigns.route.id
-      })
 
       %StopBubble.Params{
         render_type: rendered_bubble_type(bubble_type, index),
-        class: class,
+        class: Atom.to_string(bubble_type),
         direction_id: assigns[:direction_id],
         merge_indent: indent,
         route_id: bubble_branch,
@@ -131,60 +122,6 @@ defmodule Site.ScheduleV2View.StopList do
   end
   defp show_checkmark?(show_checkmark?, _first_stop?, _bubble_type) do
     show_checkmark?
-  end
-
-  defp bubble_class(%{
-    bubble_type: bubble_type,
-    bubble_branch: bubble_branch,
-    direction_id: direction_id,
-    index: index,
-    stop: stop,
-    bubbles: bubbles,
-    route_id: route_id
-  }) do
-    stop_branch = stop && stop.branch
-
-    dotted =
-      cond do
-        is_dotted(
-          dotted_merge(bubble_type, direction_id, index),
-          dotted_green(bubble_branch, stop, direction_id),
-          dotted_branch(bubbles, stop_branch),
-          {route_id, stop_branch}
-        ) -> "line-dotted"
-        true -> ""
-      end
-
-    String.trim("#{bubble_type} #{dotted}")
-  end
-
-  defp is_dotted(is_merge, is_green_dotted, is_branch, route_info)
-  defp is_dotted(_, is_green_dotted, _, {"Green", "Green-E"}) do
-    is_green_dotted
-  end
-  defp is_dotted(_, is_green_dotted, is_branch, {"Green", _}) do
-    is_branch or is_green_dotted
-  end
-  defp is_dotted(is_merge, _, is_branch, _) do
-    is_merge or is_branch
-  end
-
-  defp dotted_merge(:merge, 1, 1), do: true
-  defp dotted_merge(:merge, 0, _), do: true
-  defp dotted_merge(_, _, _), do: false
-
-  defp dotted_green("Green-E", %RouteStop{id: "place-coecl"}, 0), do: true
-  defp dotted_green("Green-E", %RouteStop{branch: "Green-E"}, _), do: true
-  defp dotted_green("Green-" <> _ = bubble_branch, %RouteStop{branch: "Green-E"}, _) when bubble_branch != "Green-E" do
-    false
-  end
-  defp dotted_green("Green-" <> _, %RouteStop{id: "place-kencl"}, 0), do: true
-  defp dotted_green(_, _, _), do: false
-
-  defp dotted_branch(bubbles, stop_branch) do
-    Enum.any?(bubbles, fn {bubble_branch, _type} ->
-      is_binary(stop_branch) && stop_branch == bubble_branch
-    end)
   end
 
   defp merge_indent(bubble_type, direction_id, index)
