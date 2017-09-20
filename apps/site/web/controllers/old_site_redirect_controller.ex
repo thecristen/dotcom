@@ -8,13 +8,13 @@ defmodule Site.OldSiteRedirectController do
 
   def schedules_and_maps(conn, %{"route" => route}) do
     case old_route_to_route_id(route) do
-      nil -> old_site_redirect(conn)
+      nil -> check_cms_or_404(conn)
       route_id -> redirect conn, to: schedule_path(conn, :show, route_id)
     end
   end
   def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
     case Stops.Repo.old_id_to_gtfs_id(stop_id) do
-      nil ->  old_site_redirect(conn)
+      nil ->  check_cms_or_404(conn)
       gtfs_id -> redirect conn, to: stop_path(conn, :show, gtfs_id)
     end
   end
@@ -45,7 +45,7 @@ defmodule Site.OldSiteRedirectController do
     redirect conn, to: mode_path(conn, :index)
   end
   def schedules_and_maps(conn, _params) do
-    old_site_redirect(conn)
+    check_cms_or_404(conn)
   end
 
   def archived_files(conn, _params) do
@@ -71,10 +71,6 @@ defmodule Site.OldSiteRedirectController do
 
   defp bucket_name({:system, env_var, default}) do
     if value = System.get_env(env_var), do: value, else: default
-  end
-
-  defp old_site_redirect(conn) do
-    redirect conn, to: redirect_path(conn, :show, conn.path_info, conn.query_params)
   end
 
   defp old_route_to_route_id("RED"), do: "Red"
