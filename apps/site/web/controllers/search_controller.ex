@@ -11,17 +11,22 @@ defmodule Site.SearchController do
     params = build_params(search_input)
     offset = parse_offset(params["[offset]"])
     content_types = convert_content_type_to_list(search_input)
-    {response, facet_response} = get_responses(query, offset, content_types)
-    facets = build_facets(facet_response, content_types)
-    stats = build_stats(response.count, offset)
-    link_context = %{path: search_path(conn, :index), form: "search", params: params}
-    pagination = build(stats)
-    template = if response.results == [], do: "no_results.html", else: "index.html"
-
-    conn
-    |> assign(:search_header?, true)
-    |> render(template, facets: facets, results: response.results, pagination: pagination, query: query,
-                            former_site: former_site, params: params, link_context: link_context, stats: stats)
+    case get_responses(query, offset, content_types) do
+      :error ->
+        conn
+        |> assign(:search_header?, true)
+        |> render("error.html")
+      {response, facet_response} ->
+        facets = build_facets(facet_response, content_types)
+        stats = build_stats(response.count, offset)
+        link_context = %{path: search_path(conn, :index), form: "search", params: params}
+        pagination = build(stats)
+        template = if response.results == [], do: "no_results.html", else: "index.html"
+        conn
+        |> assign(:search_header?, true)
+        |> render(template, facets: facets, results: response.results, pagination: pagination, query: query,
+                                former_site: former_site, params: params, link_context: link_context, stats: stats)
+    end
   end
   def index(conn, _params) do
     conn
@@ -29,16 +34,21 @@ defmodule Site.SearchController do
     |> render("empty_query.html")
   end
 
-  @spec get_responses(String.t, integer, [String.t]) :: {Content.Search.t, Content.Search.t}
+  @spec get_responses(String.t, integer, [String.t]) :: {Content.Search.t, Content.Search.t} | :error
   def get_responses(query, offset, []) do
-    {:ok, response} = Content.Repo.search(query, offset, [])
-    {response, response}
+    case Content.Repo.search(query, offset, []) do
+      {:ok, response} -> {response, response}
+      {:error, _} -> :error
+    end
   end
   def get_responses(query, offset, content_types) do
     response = Task.async(fn -> Content.Repo.search(query, offset, content_types) end)
     facets_response = Task.async(fn -> Content.Repo.search(query, offset, []) end)
     case {Task.await(response), Task.await(facets_response)} do
       {{:ok, r1}, {:ok, r2}} -> {r1, r2}
+      {{:error, _}, {:ok, _}} -> :error
+      {{:ok, _}, {:error, _}} -> :error
+      {{:error, _}, {:error, _}} -> :error
     end
   end
 
