@@ -14,10 +14,7 @@ defmodule Site.SearchController do
     offset = offset(search_input)
     content_types = content_types(search_input)
     case backend_responses(query, offset, content_types) do
-      :error ->
-        conn
-        |> assign(:error?, true)
-        |> render("error.html")
+      :error -> render(conn, "error.html")
       {response, facet_response} ->
         conn
         |> assign(:query, query)
