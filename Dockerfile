@@ -20,15 +20,15 @@ RUN apt-get install -y rubygems ruby2.1-dev && \
     gem install sass
 
 # Install and configure AWS CLI
-# RUN apt-get install -y python-pip libpython-dev && \
-#     pip install awscli --upgrade --user && \
-#     mkdir ~/.aws && \
-#     echo "[default]" >> ~/.aws/credentials && \
-#     echo aws_access_key_id=$AWS_ACCESS_KEY_ID >> ~/.aws/credentials && \
-#     echo aws_secret_access_key=$AWS_SECRET_ACCESS_KEY >> ~/.aws/credentials && \
-#     echo "[default]" >> ~/.aws/config && \
-#     echo region=us-east-1 >> ~/.aws/config && \
-#     echo output=json >> ~/.aws/config
+RUN apt-get install -y python-pip libpython-dev && \
+    pip install awscli && \
+    mkdir ~/.aws && \
+    echo "[default]" >> ~/.aws/credentials && \
+    echo aws_access_key_id=$AWS_ACCESS_KEY_ID >> ~/.aws/credentials && \
+    echo aws_secret_access_key=$AWS_SECRET_ACCESS_KEY >> ~/.aws/credentials && \
+    echo "[default]" >> ~/.aws/config && \
+    echo region=us-east-1 >> ~/.aws/config && \
+    echo output=json >> ~/.aws/config
 
 # Clean up
 RUN apt-get clean
@@ -43,5 +43,5 @@ RUN mix do deps.get, deps.compile && \
     brunch build --production && \
     mix do compile, phoenix.digest, release --verbosity=verbose --no-confirm-missing
 
-RUN /usr/local/bin/aws s3 sync priv/static/css s3://mbta-dotcom/css --size-only
-RUN /usr/local/bin/aws s3 sync priv/static/js s3://mbta-dotcom/js --size-only
+RUN aws s3 sync priv/static/css s3://mbta-dotcom/css --size-only && \
+    aws s3 sync priv/static/js s3://mbta-dotcom/js --size-only
