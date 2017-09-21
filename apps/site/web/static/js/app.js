@@ -115,6 +115,7 @@ import tripPlan from './trip-plan';
 import stopBubbles from './stop-bubbles';
 import search from './search';
 import photoGallery from './photo-gallery';
+import filter from './filter';
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -143,5 +144,6 @@ tripPlan();
 stopBubbles();
 search(window.$, breakpoints);
 photoGallery();
+filter();
 
 document.body.className = document.body.className.replace("no-js", "js");

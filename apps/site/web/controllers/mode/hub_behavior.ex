@@ -28,11 +28,22 @@ defmodule Site.Mode.HubBehavior do
   end
 
   def index(mode_strategy, conn, _params) do
-    routes = mode_strategy.routes()
+    mode_routes = mode_strategy.routes()
+    conn = redirect_for_filter(conn, mode_strategy.mode_name(), mode_routes)
+
+    if conn.halted() do
+      conn
+    else
+      render_index(conn, mode_strategy, mode_routes)
+    end
+  end
+
+  defp render_index(conn, mode_strategy, mode_routes) do
     conn
+    |> assign_search_error(mode_strategy.mode_name())
     |> async_assign(:fares, &mode_strategy.fares/0)
-    |> async_assign(:all_alerts, fn -> alerts(routes, conn.assigns.date_time) end)
-    |> assign(:routes, routes)
+    |> async_assign(:all_alerts, fn -> alerts(mode_routes, conn.assigns.date_time) end)
+    |> assign(:routes, mode_routes)
     |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
     |> assign(:mode_name, mode_strategy.mode_name())
     |> assign(:fare_description, mode_strategy.fare_description())
@@ -46,9 +57,31 @@ defmodule Site.Mode.HubBehavior do
     |> render("hub.html")
   end
 
-  defp alerts(routes, now) do
-    routes
+  defp alerts(mode_routes, now) do
+    mode_routes
     |> Enum.map(& &1.id)
     |> Alerts.Repo.by_route_ids(now)
   end
+
+  # Redirect if specific route is requested, Only for bus
+  defp redirect_for_filter(%Plug.Conn{query_params: %{"filter" => %{"q" => route_name}}} = conn, "Bus", mode_routes) do
+    case Enum.find(mode_routes, &String.downcase(&1.name) == String.downcase(route_name)) do
+      nil -> conn
+      route -> redirect_to_route(conn, route)
+    end
+  end
+  defp redirect_for_filter(conn, _mode, _routes) do
+    conn
+  end
+
+  defp redirect_to_route(conn, route) do
+    conn
+    |> redirect(to: line_path(conn, :show, route.id))
+    |> halt
+  end
+
+  defp assign_search_error(%Plug.Conn{query_params: %{"filter" => %{"q" => route_name}}} = conn, "Bus") do
+    put_flash(conn, :search_error, route_name)
+  end
+  defp assign_search_error(conn, _mode), do: conn
 end
