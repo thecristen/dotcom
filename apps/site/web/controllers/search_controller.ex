@@ -58,18 +58,19 @@ defmodule Site.SearchController do
   end
 
   @spec backend_responses(String.t, integer, [String.t]) :: {Content.Search.t, Content.Search.t} | :error
-  defp backend_responses(query, offset, []) do
-    case Content.Repo.search(query, offset, []) do
-      {:ok, response} -> {response, response}
-      {:error, _} -> :error
-    end
-  end
   defp backend_responses(query, offset, content_types) do
-    response = Task.async(fn -> Content.Repo.search(query, offset, content_types) end)
-    facets_response = Task.async(fn -> Content.Repo.search(query, offset, []) end)
-    case {Task.await(response), Task.await(facets_response)} do
-      {{:ok, response}, {:ok, facet_response}} -> {response, facet_response}
-      {_, _} -> :error
+    search_response = fn types -> Task.async(fn -> Content.Repo.search(query, offset, types) end) end
+    search_request = search_response.([])
+    if Enum.empty?(content_types) do
+      case Task.await(search_request) do
+        {:ok, response} -> {response, response}
+        {:error, _} -> :error
+      end
+    else
+      case {Task.await(search_response.(content_types)), Task.await(search_request)} do
+        {{:ok, response}, {:ok, facet_response}} -> {response, facet_response}
+        {_, _} -> :error
+      end
     end
   end
 
