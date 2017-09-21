@@ -1,10 +1,14 @@
-<div class="error-page">
-  <div class="error-card">
-    <h1><strong>404</strong></h1>
-    <p>Your stop cannot be found. This page is no longer in service.</p>
-    <p><a href="/">Return to the homepage.</a></p>
-    <div class="error-image">
-      <%= img_tag static_url(Site.Endpoint, "/images/error-bus.gif"), alt: "", aria: [hidden: true] %>
-    </div>
+<div class="error-card">
+  <h1><strong>404</strong></h1>
+  <p>Your stop cannot be found. This page is no longer in service.</p>
+  <p><a href="/">Return to the homepage.</a></p>
+  <div class="error-image">
+    <%= img_tag static_url(Site.Endpoint, "/images/error-bus.gif"), id: "error-bus", alt: "", aria: [hidden: true] %>
   </div>
+  <p>
+    We're sorry to disappoint.
+    If you would like to help us make MBTA.com better, plus work on a range of exciting products for the T, we're hiring.
+    Please visit our
+    <a href="https://jobs.lever.co/mbta">jobs page</a>.
+   </p>
 </div>

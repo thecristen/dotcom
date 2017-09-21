@@ -1,7 +1,7 @@
 @import 'variables';
 
 .errorview {
-  flex-shrink: 1;
+  flex: 0 0 auto;
 }
 
 .error-card {
@@ -29,6 +29,11 @@
 
   h2 {
     margin-bottom: $base-spacing;
+  }
+
+  p {
+    margin: auto;
+    max-width: 30rem;
   }
 }
 

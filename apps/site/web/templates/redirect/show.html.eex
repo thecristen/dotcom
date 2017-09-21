@@ -1,17 +1,15 @@
-<div class="error-page">
-  <div class="error-card">
-    <h1>Hold On&hellip;</h1>
-    <p>
-      While we're working on the new site, we haven't moved everything over yet.
-      <br />
-      We're sending you back to the original site for the information you requested.
-    </p>
+<div class="error-card">
+  <h1>Hold On&hellip;</h1>
+  <p>
+    While we're working on the new site, we haven't moved everything over yet.
+    <br />
+    We're sending you back to the original site for the information you requested.
+  </p>
 
-    <p class="redirect-button">
-      <a class="btn btn-primary btn-small" role="button" href=<%= @redirect  %>>
-        Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
-      </a>
-    </p>
-    <img src="<%= static_url(Site.Endpoint, "/images/transfer.gif") %>" />
-  </div>
+  <p class="redirect-button">
+    <a class="btn btn-primary btn-small" role="button" href=<%= @redirect  %>>
+      Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
+    </a>
+  </p>
+  <img src="<%= static_url(Site.Endpoint, "/images/transfer.gif") %>" />
 </div>

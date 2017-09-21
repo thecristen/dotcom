@@ -77,7 +77,7 @@
     {
       "label": "404 Page",
       "url": "http://localhost:8082/not-found",
-      "selectors": ["body"],
+      "selectors": ["main"],
       "delay": 100,
       "hideSelectors": [".error-image"]
     },

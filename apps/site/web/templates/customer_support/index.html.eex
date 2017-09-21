@@ -59,10 +59,11 @@
         <div class="col-xs-12 col-sm-6 support-section">
           <h2 class="support-header"><strong>Get service updates</strong></h2>
           <p>Receive notifications of MBTA service alerts by email or text.</p>
-          <%= link to: redirect_path(Site.Endpoint, "rider_tools/t_alerts/"), target: "_blank" do %>
-            Sign up for T-Alerts <%= fa "arrow-right" %>
-          <% end %>
-          <hr />
+          <p>
+            <%= link to: redirect_path(Site.Endpoint, "rider_tools/t_alerts/"), target: "_blank" do %>
+              Sign up for T-Alerts <%= fa "arrow-right" %>
+            <% end %>
+          </p>
           <p><a href="https://twitter.com/MBTA" target="_blank"><span class="support-twitter"><%= fa "twitter" %></span> Follow @MBTA on Twitter</a></p>
         </div>
         <div class="col-xs-12 col-sm-6 support-section">
@@ -71,6 +72,15 @@
             MBTA <br />
             10 Park Plaza, Suite 3910 <br />
             Boston, MA 02116
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Join Us</strong></h2>
+          <p>
+            If you would like to help us make MBTA.com better, plus work on a range of exciting products for the T, we're hiring.
+            Please visit our <a href="https://jobs.lever.co/mbta">jobs page</a>.
           </p>
         </div>
       </div>
