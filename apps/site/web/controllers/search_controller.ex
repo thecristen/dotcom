@@ -35,7 +35,7 @@ defmodule Site.SearchController do
   end
 
   @spec search_header(Conn.t, Keyword.t) :: Conn.t
-  defp search_header(conn, params) do
+  defp search_header(conn, _) do
     assign(conn, :search_header?, true)
   end
 
