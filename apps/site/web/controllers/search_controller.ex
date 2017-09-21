@@ -2,71 +2,105 @@ defmodule Site.SearchController do
   use Site.Web, :controller
   import Site.ResponsivePagination, only: [build: 1]
   import Site.Router.Helpers, only: [search_path: 2]
+  alias Plug.Conn
+
+  plug :search_header
+  plug :former_site
 
   @per_page 10
 
-  def index(conn, %{"search" => %{"query" => query}}) when query != "" do
-    [host: former_site] = Application.get_env(:site, :former_mbta_site)
-    search_input = Map.get(conn.query_params, "search", %{})
-    params = build_params(search_input)
-    offset = parse_offset(params["[offset]"])
-    content_types = convert_content_type_to_list(search_input)
-    case get_responses(query, offset, content_types) do
-      :error ->
-        conn
-        |> assign(:search_header?, true)
-        |> render("error.html")
-      {response, facet_response} ->
-        facets = build_facets(facet_response, content_types)
-        stats = build_stats(response.count, offset)
-        link_context = %{path: search_path(conn, :index), form: "search", params: params}
-        pagination = build(stats)
-        template = if response.results == [], do: "no_results.html", else: "index.html"
-        conn
-        |> assign(:search_header?, true)
-        |> render(template, facets: facets, results: response.results, pagination: pagination, query: query,
-                                former_site: former_site, params: params, link_context: link_context, stats: stats)
-    end
-  end
-  def index(conn, _params) do
+  @spec index(Conn.t, Keyword.t) :: Conn.t
+  def index(conn, %{"search" => %{"query" => query} = search_input}) when query != "" do
     conn
-    |> assign(:search_header?, true)
-    |> render("empty_query.html")
+    |> assign(:query, query)
+    |> assign(:search_input, search_input)
+    |> offset()
+    |> content_types()
+    |> params()
+    |> backend_responses()
+    |> render_index()
+  end
+  def index(conn, _params), do: render(conn, "empty_query.html")
+
+  @spec render_index(Conn.t) :: Conn.t
+  def render_index(%Conn{assigns: %{error?: true}} = conn), do: render(conn, "error.html")
+  def render_index(%Conn{assigns: %{results: []}} = conn), do: render(conn, "no_results.html")
+  def render_index(conn) do
+    conn
+    |> facets()
+    |> stats()
+    |> link_context()
+    |> pagination()
+    |> render("index.html")
   end
 
-  @spec get_responses(String.t, integer, [String.t]) :: {Content.Search.t, Content.Search.t} | :error
-  def get_responses(query, offset, []) do
+  @spec search_header(Conn.t, Keyword.t) :: Conn.t
+  defp search_header(conn, params) do
+    assign(conn, :search_header?, true)
+  end
+
+  @spec former_site(Conn.t, Keyword.t) :: Conn.t
+  def former_site(conn, _) do
+    [host: former_site] = Application.get_env(:site, :former_mbta_site)
+    assign(conn, :former_site, former_site)
+  end
+
+  @spec link_context(%Conn{assigns: %{params: map}}) :: Conn.t
+  def link_context(%Conn{assigns: %{params: params}} = conn) do
+    link_context = %{path: search_path(conn, :index), form: "search", params: params}
+    assign(conn, :link_context, link_context)
+  end
+
+  @spec pagination(%Conn{assigns: %{stats: map}}) :: Conn.t
+  def pagination(%Conn{assigns: %{stats: stats}} = conn) do
+    pagination = build(stats)
+    assign(conn, :pagination, pagination)
+  end
+
+  @spec backend_responses(%Conn{assigns: %{query: String.t, offset: integer, content_types: [String.t]}}) :: Conn.t
+  def backend_responses(%Conn{assigns: %{query: query, offset: offset, content_types: []}} = conn) do
     case Content.Repo.search(query, offset, []) do
-      {:ok, response} -> {response, response}
-      {:error, _} -> :error
+      {:ok, response} ->
+        conn
+        |> assign(:response, response)
+        |> assign(:results, response.results)
+        |> assign(:facet_response, response)
+      {:error, _} ->
+        assign(conn, :error?, true)
     end
   end
-  def get_responses(query, offset, content_types) do
+  def backend_responses(%Conn{assigns: %{query: query, offset: offset, content_types: content_types}} = conn) do
     response = Task.async(fn -> Content.Repo.search(query, offset, content_types) end)
     facets_response = Task.async(fn -> Content.Repo.search(query, offset, []) end)
     case {Task.await(response), Task.await(facets_response)} do
-      {{:ok, r1}, {:ok, r2}} -> {r1, r2}
-      {{:error, _}, {:ok, _}} -> :error
-      {{:ok, _}, {:error, _}} -> :error
-      {{:error, _}, {:error, _}} -> :error
+      {{:ok, response}, {:ok, facet_response}} ->
+        conn
+        |> assign(:response, response)
+        |> assign(:results, response.results)
+        |> assign(:facet_response, facet_response)
+      {_, _} -> assign(conn, :error?, true)
     end
   end
 
-  @spec build_stats(integer, integer) :: Site.ResponsivePagination.stats
-  def build_stats(count, offset) do
-    %{total: count,
+  @spec stats(%Conn{assigns: %{response: %{count: integer}, offset: integer}}) :: Conn.t
+  def stats(%Conn{assigns: %{response: %{count: count}, offset: offset}} = conn) do
+    stats = %{total: count,
       per_page: @per_page,
       offset: offset,
       showing_from: (offset * @per_page) + 1,
       showing_to: min((offset * @per_page) + @per_page, count)
     }
+    assign(conn, :stats, stats)
   end
 
-  @spec build_facets(%Content.Search{content_types: Keyword.t}, [String.t]) :: map
-  defp build_facets(%Content.Search{content_types: response_types}, content_types) do
-    "content_type"
+  @spec facets(%Conn{assigns: %{facet_response: %Content.Search{content_types: Keyword.t},
+                               content_types: [String.t]}}) :: Conn.t
+  defp facets(%Conn{assigns: %{facet_response: %Content.Search{content_types: response_types},
+                               content_types: content_types}} = conn) do
+    facets = "content_type"
     |> build_facet(response_types, content_types)
     |> Map.merge(build_facet("year", Keyword.new, []))
+    assign(conn, :facets, facets)
   end
 
   @spec build_facet(String.t, Keyword.t, [String.t]) :: map
@@ -89,26 +123,30 @@ defmodule Site.SearchController do
   defp facet_label("content_type", "page"), do: "Page"
   defp facet_label("content_type", "person"), do: "Person"
 
-  @spec build_params(map) :: map
-  defp build_params(search_input) do
-    %{"[query]" => Map.get(search_input, "query", ""), "[offset]" => Map.get(search_input, "offset", "0")}
+  @spec params(Conn.t) :: Conn.t
+  defp params(%Conn{assigns: %{search_input: search_input}} = conn) do
+    params = %{"[query]" => Map.get(search_input, "query", ""), "[offset]" => Map.get(search_input, "offset", "0")}
     |> Map.merge(convert_filter_to_param(search_input, "content_type"))
     |> Map.merge(convert_filter_to_param(search_input, "year"))
+    assign(conn, :params, params)
   end
 
-  @spec parse_offset(String.t) :: integer
-  defp parse_offset(input) do
-    case Integer.parse(input) do
+  @spec offset(Conn.t) :: Conn.t
+  defp offset(%Conn{assigns: %{search_input: search_input}} = conn) do
+    input = Map.get(search_input, "offset", "0")
+    offset = case Integer.parse(input) do
       :error -> 0
       {offset, _} -> offset
     end
+    assign(conn, :offset, offset)
   end
 
-  @spec convert_content_type_to_list(map) :: [String.t]
-  def convert_content_type_to_list(search_input) do
-    search_input
+  @spec content_types(Conn.t) :: Conn.t
+  def content_types(%Conn{assigns: %{search_input: search_input}} = conn) do
+    content_types = search_input
     |> Map.get("content_type", %{})
     |> Map.keys()
+    assign(conn, :content_types, content_types)
   end
 
   @spec convert_filter_to_param(map, String.t) :: map
