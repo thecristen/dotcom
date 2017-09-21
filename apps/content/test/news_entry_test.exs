@@ -32,9 +32,4 @@ defmodule Content.NewsEntryTest do
       assert migration_id == "1234"
     end
   end
-
-  test "recent_news_suggestions defaults to home" do
-    assert Content.NewsEntry.number_of_recent_news_suggestions() ==
-      Content.NewsEntry.number_of_recent_news_suggestions(:home)
-  end
 end

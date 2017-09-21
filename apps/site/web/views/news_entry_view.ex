@@ -4,7 +4,7 @@ defmodule Site.NewsEntryView do
   import Site.ContentHelpers, only: [content: 1]
 
   def render_recent_news?(recent_news) do
-    Enum.count(recent_news) == Content.NewsEntry.number_of_recent_news_suggestions(:show)
+    Enum.count(recent_news) == Content.NewsEntry.number_of_recent_news_suggestions()
   end
 
   def previous_page_available?(page_number) do

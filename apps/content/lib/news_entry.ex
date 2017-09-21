@@ -2,8 +2,8 @@ defmodule Content.NewsEntry do
   @moduledoc """
   Represents a "news_entry" content type in the Drupal CMS.
   """
-  @number_of_recent_news_suggestions_home 3
-  @number_of_recent_news_suggestions_show 4
+
+  @number_of_recent_news_suggestions 4  # configured in the CMS
 
   import Content.Helpers, only: [
     field_value: 2, handle_html: 1, int_or_string_to_int: 1, parse_body: 1
@@ -57,14 +57,8 @@ defmodule Content.NewsEntry do
     |> handle_html
   end
 
-  def number_of_recent_news_suggestions(type \\ :home)
-
-  def number_of_recent_news_suggestions(:home) do
-    @number_of_recent_news_suggestions_home
-  end
-
-  def number_of_recent_news_suggestions(:show) do
-    @number_of_recent_news_suggestions_show
+  def number_of_recent_news_suggestions do
+    @number_of_recent_news_suggestions
   end
 
   defp parse_posted_date(data) do
