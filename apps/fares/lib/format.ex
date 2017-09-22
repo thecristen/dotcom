@@ -99,26 +99,32 @@ defmodule Fares.Format do
       }
     end
   end
-  def summarize(fares, :commuter_rail, url) do
-    do_price_summary(fares, "Zones 1A-10", url)
-  end
-  def summarize(fares, :ferry, url) do
-    do_price_summary(fares, "All Ferry routes", url)
+  def summarize(fares, mode, url) when mode in [:ferry, :commuter_rail] do
+    do_price_range_summary(fares, mode, url)
   end
 
-  defp do_price_summary(fares, summary_name, url) do
+  defp do_price_range_summary(fares, mode, url) do
     for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
+      price_range_label = price_range_label(mode)
       min_price = Enum.min_by(chunk, &(&1.cents))
       max_price = Enum.max_by(chunk, &(&1.cents))
+
       %Summary{
-        name: Fares.Format.duration(base),
+        name:  price_range_summary_name(base, mode),
         duration: base.duration,
         modes: [base.mode | base.additional_valid_modes],
-        fares: [{summary_name, [Fares.Format.price(min_price), " - ",
+        fares: [{price_range_label, [Fares.Format.price(min_price), " - ",
                                 Fares.Format.price(max_price)]}],
         url: url}
     end
   end
+
+  defp price_range_summary_name(fare, :commuter_rail), do: "Commuter Rail " <> duration(fare)
+  defp price_range_summary_name(fare, :ferry), do: "Ferry " <> duration(fare)
+  defp price_range_summary_name(fare, _), do: full_name(fare)
+
+  defp price_range_label(:commuter_rail), do: "Zones 1A-10"
+  defp price_range_label(:ferry), do: "All Ferry routes"
 
   @spec summarize_one(Fare.t, Keyword.t) :: Summary.t
   def summarize_one(fare, opts \\ []) do

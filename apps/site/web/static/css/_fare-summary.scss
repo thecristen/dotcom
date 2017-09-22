@@ -9,10 +9,13 @@
 
 .fare-summary-name {
   @extend %title-card-title;
+  display: inline-block;
+  padding-right: $base-spacing-sm;
 }
 
 .fare-summary-mode-icons {
-  padding-left: $base-spacing-sm;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .fare-summary-fare {

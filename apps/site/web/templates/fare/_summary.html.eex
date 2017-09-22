@@ -3,8 +3,8 @@
     <div class="fare-summary-row">
       <%= for summary <- chunk do %>
         <%= link to: summary_url(summary), class: "fare-summary-entry" do %>
-          <div class="fare-summary-name">
-            <%= summary.name %>
+          <div>
+            <span class="fare-summary-name"><%= summary.name %></span>
             <span class="fare-summary-mode-icons">
               <span class="sr-only">Valid on:</span>
               <%= for mode <- summary.modes do %>
