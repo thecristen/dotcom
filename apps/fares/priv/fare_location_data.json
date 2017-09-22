@@ -2578,26 +2578,6 @@
   "dates_sold":"Fare media sold daily",
   "city":"Kingston",
   "agent":"Coffee T & Thee"
-},
-{
-  "view_onmap_sales":"http://maps.google.com/maps?q=1+Bristol+Drive,+Duxbury,+MA&hl=en&sll=42.036922,-71.683501&sspn=2.092868,4.63623&oq=1+Bristol+Drive&t=h&hnear=1+Bristol+Dr,+Duxbury,+Massachusetts+02332&z=16",
-  "user":"",
-  "types_of_passes_on_sale":"Zone 8 monthlies, one ways: full and half fare, ten rides: full and half fare, Interzone 7 monthly. ",
-  "type_of_passes_on_sale2007":"Zone 8 monthlies, one ways: full and half fare, ten rides: full and half fare, Interzone 7 monthly. ",
-  "type_of_agent":"A",
-  "telephone":"617-335-9183",
-  "street_number":"1",
-  "name":"Paul Leahy",
-  "method_of_payment2007":"Cash, checks, and commuter checks ",
-  "method_of_payment":"Cash, checks, and commuter checks ",
-  "longitude":-70.75477020000001,
-  "location":"1 Bristol Drive",
-  "latitude":42.0260634,
-  "hours_of_operation":"Mon-Fri: 5am to 9am ",
-  "fax":"",
-  "dates_sold":"Fare media sold daily ",
-  "city":"Duxbury",
-  "agent":"Coffee T & Thee"
 }
 ]
 
