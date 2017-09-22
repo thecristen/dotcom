@@ -6,7 +6,7 @@ BUILD_TAG=$APP:_build
 VERSION=$(grep -o 'version: .*"' ${PREFIX}mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
 BUILD_ARTIFACT=$APP-build.zip
 
-docker build -t $BUILD_TAG .
+docker build -t $BUILD_TAG --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY .
 CONTAINER=$(docker run -d ${BUILD_TAG} sleep 2000)
 
 rm -rf rel/$APP rel/$APP.tar.gz
