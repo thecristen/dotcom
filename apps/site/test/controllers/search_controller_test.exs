@@ -1,5 +1,6 @@
 defmodule Site.SearchControllerTest do
   use Site.ConnCase, async: true
+  import Mock
 
   @params %{"search" => %{"query" => "mbta"}}
 
@@ -46,6 +47,14 @@ defmodule Site.SearchControllerTest do
       conn = get conn, search_path(conn, :index, %{"search" => %{"query" => ""}})
       response = html_response(conn, 200)
       assert response =~ "empty-search-page"
+    end
+
+    test "search server is returning an error", %{conn: conn} do
+      with_mock Content.Repo, [search: fn(_, _, _) -> {:error, :error} end] do
+        conn = get conn, search_path(conn, :index, @params)
+        response = html_response(conn, 200)
+        assert response =~ "Whoops"
+      end
     end
   end
 end

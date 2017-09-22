@@ -4,7 +4,7 @@
       <%= form_for @conn, search_path(@conn, :index), [as: :search, method: :get, data: [form: "search-filter"]],
           fn f -> %>
         <input name="search[offset]" type="hidden" value="0">
-        <%= hidden_input :search, :query, value: @params["[query]"] %>
+        <%= hidden_input :search, :query, value: @query %>
         <%= if @facets["content_type"] != [] do %>
           <div class="search-results-facet" data-facet="search">
             <h2 class="search-filter-heading" data-heading="search-filter">Filter by type<%= render_toggle_filter() %></h2>
