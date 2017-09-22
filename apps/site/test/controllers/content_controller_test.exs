@@ -8,11 +8,20 @@ defmodule Site.ContentControllerTest do
       assert rendered =~ "Accessibility at the T"
     end
 
-    test "renders a basic page", %{conn: conn} do
+    test "renders a basic page without sidebar", %{conn: conn} do
       conn = get conn, "/accessibility"
       rendered = html_response(conn, 200)
 
       assert rendered =~ "the MBTA is dedicated to providing excellent service to customers of all abilities"
+      assert rendered =~ ~s(class="page-narrow")
+    end
+
+    test "renders a basic page with sidebar", %{conn: conn} do
+      conn = get conn, "/parking/by-station"
+      rendered = html_response(conn, 200)
+
+      assert rendered =~ "Parking Info by Station"
+      refute rendered =~ ~s(class="page-narrow")
     end
 
     test "redirects when content type is an event", %{conn: conn} do

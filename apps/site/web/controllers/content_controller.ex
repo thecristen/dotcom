@@ -24,7 +24,7 @@ defmodule Site.ContentController do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
-    |> assign(:narrow_template, true)
+    |> assign(:narrow_template, no_sidebar?(page))
     |> render(Site.ContentView, "page.html")
   end
   defp render_page(conn, %Content.Event{id: id}) do
@@ -58,4 +58,6 @@ defmodule Site.ContentController do
   defp render_page(conn, _) do
     render_404(conn)
   end
+  defp no_sidebar?(%Content.BasicPage{sidebar_menu: nil}), do: true
+  defp no_sidebar?(_), do: false
 end
