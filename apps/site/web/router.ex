@@ -54,6 +54,7 @@ defmodule Site.Router do
     get "/schedules/bus", ModeController, :bus
     get "/schedules/ferry", ModeController, :ferry
     get "/schedules/commuter_rail", ModeController, :commuter_rail
+    get "/schedules/commuter-rail", ModeController, :commuter_rail
     get "/schedules/Green/line", ScheduleV2Controller.Green, :line
     get "/schedules/Green/schedule", ScheduleV2Controller.Green, :trip_view
     get "/schedules/Green", ScheduleV2Controller.Green, :show
@@ -62,18 +63,25 @@ defmodule Site.Router do
     get "/schedules/:route/line", ScheduleV2Controller.LineController, :show, as: :line
     get "/schedules/:route", ScheduleV2Controller, :show, as: :schedule
     get "/schedules/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
+    get "/style-guide", StyleGuideController, :index
+    get "/style-guide/:section", StyleGuideController, :index
+    get "/style-guide/:section/:subpage", StyleGuideController, :show
     get "/style_guide", StyleGuideController, :index
     get "/style_guide/:section", StyleGuideController, :index
     get "/style_guide/:section/:subpage", StyleGuideController, :show
     get "/transit-near-me", TransitNearMeController, :index
+    get "/transit_near_me", TransitNearMeController, :index
     resources "/alerts", AlertController, only: [:index, :show]
     get "/trip_planner", TripPlanController, :index
     get "/customer-support", CustomerSupportController, :index
+    get "/customer_support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
     get "/fares/commuter_rail/zone", FareController, :zone
+    get "/fares/commuter-rail/zone", FareController, :zone
     resources "/fares", FareController, only: [:index, :show]
     resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
+    resources "/how_to_pay", HowToPayController, only: [:index, :show], param: "mode"
     get "/search", SearchController, :index
     for static_page <- StaticPage.static_pages do
       get "/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page
