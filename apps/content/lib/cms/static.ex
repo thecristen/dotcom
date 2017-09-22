@@ -149,6 +149,9 @@ defmodule Content.CMS.Static do
   def view("/denali-national-park", _) do
     {:ok, landing_page_response()}
   end
+  def view("/parking/by-station", _) do
+    {:ok, basic_page_with_sidebar_response()}
+  end
   def view("/test/redirect", _) do
     {:ok, redirect_response()}
   end
