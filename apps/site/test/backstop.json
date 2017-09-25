@@ -95,13 +95,6 @@
       "misMatchThreshold" : 0.1
     },
     {
-      "label": "Reduced Fares",
-      "url": "http://localhost:8082/fares/reduced",
-      "selectors": ["main"],
-      "delay": 100,
-      "misMatchThreshold" : 0.1
-    },
-    {
       "label": "Getting Around",
       "url": "http://localhost:8082/getting-around",
       "selectors": ["main"],

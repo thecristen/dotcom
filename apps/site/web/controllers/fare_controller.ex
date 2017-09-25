@@ -10,7 +10,6 @@ defmodule Site.FareController do
   }
 
   @static_page_titles %{
-    "reduced" => "Reduced Fare Eligibility",
     "charlie_card" => "The CharlieCard",
     "payment_methods" => "Payment Methods"
   }
@@ -39,7 +38,7 @@ defmodule Site.FareController do
   def show(conn, %{"id" => static}) when static in @static_pages do
     render conn, "#{static}.html", [
       breadcrumbs: [
-        Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
+        Breadcrumb.build("Fares", fare_path(conn, :index)),
         Breadcrumb.build(@static_page_titles[static])
       ]
     ]
@@ -49,7 +48,7 @@ defmodule Site.FareController do
 
     conn
     |> assign(:breadcrumbs, [
-        Breadcrumb.build("Fares and Passes", fare_path(conn, :index)),
+        Breadcrumb.build("Fares", fare_path(conn, :index)),
         Breadcrumb.build("Retail Sales Locations")
       ])
     |> render("retail_sales_locations.html",
