@@ -8,12 +8,12 @@
         <% end %>
       </li>
       <li>
-        <%= link to: "https://charliecard.mbta.com" do %>
+        <%= link to: "https://charliecard.mbta.com", target: "_blank" do %>
           <%= fa "caret-right" %> Add Value to CharlieCard
         <% end %>
       </li>
       <li>
-        <%= link to: "https://commerce.mbta.com" do %>
+        <%= link to: "https://commerce.mbta.com", target: "_blank" do %>
           <%= fa "caret-right" %> Order Monthly Passes
         <% end %>
       </li>
