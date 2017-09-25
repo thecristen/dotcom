@@ -1,5 +1,5 @@
 <div class="menu-row">
-  <div class="col-xs-3 fares-column">
+  <div class="col-md-4 col-lg-3 fares-column">
     <p>More Fares Info</p>
     <ul>
       <li>
@@ -8,18 +8,13 @@
         <% end %>
       </li>
       <li>
-        <%= link to: fare_path(@conn, :show, "bus_subway") do %>
-          <%= fa "caret-right" %> Bus and Subway Fares
+        <%= link to: "https://charliecard.mbta.com" do %>
+          <%= fa "caret-right" %> Add Value to CharlieCard
         <% end %>
       </li>
       <li>
-        <%= link to: fare_path(@conn, :show, "commuter_rail") do %>
-          <%= fa "caret-right" %> Commuter Rail Fares
-        <% end %>
-      </li>
-      <li>
-        <%= link to: fare_path(@conn, :show, "ferry") do %>
-          <%= fa "caret-right" %> Ferry Fares
+        <%= link to: "https://commerce.mbta.com" do %>
+          <%= fa "caret-right" %> Order Monthly Passes
         <% end %>
       </li>
       <li>
@@ -34,7 +29,7 @@
       </li>
     </ul>
   </div>
-  <div class="col-xs-9">
+  <div class="col-md-8 col-lg-9">
     <%= Site.FareView.summarize(@common_fare_summaries) %>
   </div>
 </div>
