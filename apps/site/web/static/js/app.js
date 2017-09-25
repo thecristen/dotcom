@@ -116,6 +116,7 @@ import stopBubbles from './stop-bubbles';
 import search from './search';
 import photoGallery from './photo-gallery';
 import filter from './filter';
+import recruitmentMessage from './recruitment-message';
 
 submitOnEvents(["blur", "change"]);
 googleMapsLoaded();
@@ -145,5 +146,6 @@ stopBubbles();
 search(window.$, breakpoints);
 photoGallery();
 filter();
+recruitmentMessage();
 
 document.body.className = document.body.className.replace("no-js", "js");
