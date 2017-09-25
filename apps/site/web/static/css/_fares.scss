@@ -152,10 +152,6 @@
   }
 }
 
-.reduced-image {
-  width: 100%;
-}
-
 @include media-breakpoint-down(sm) {
   .fare-selector-container {
     padding-bottom: .75rem;
