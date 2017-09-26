@@ -26,8 +26,8 @@ defmodule Content.CMS.Static do
     parse_json("events.json")
   end
 
-  def people_response do
-    parse_json("api/people.json")
+  def person_response do
+    parse_json("people/joseph-aiello.json")
   end
 
   def search_response do
@@ -111,12 +111,6 @@ defmodule Content.CMS.Static do
   def view("/api/search", _opts) do
     {:ok, search_response()}
   end
-  def view("/api/people", []) do
-    {:ok, people_response()}
-  end
-  def view("/api/people", [id: id]) do
-    {:ok, filter_by(people_response(), "nid", String.to_integer(id))}
-  end
   def view("/api/projects", [id: id]) do
     {:ok, filter_by(projects_response(), "nid", String.to_integer(id))}
   end
@@ -158,6 +152,9 @@ defmodule Content.CMS.Static do
   def view("/test/path%3Fid%3D5", _) do
     {:ok, redirect_with_query_response()}
   end
+  def view("/people/joseph-aiello", _) do
+    {:ok, person_response()}
+  end
   def view("/node/1", _) do
     {:ok, List.first(news_response())}
   end
@@ -166,9 +163,6 @@ defmodule Content.CMS.Static do
   end
   def view("/node/123", _) do
     {:ok, List.first(project_updates_response())}
-  end
-  def view("/node/2579", _) do
-    {:ok, List.first(people_response())}
   end
   def view("/node/2679", _) do
     {:ok, List.first(projects_response())}

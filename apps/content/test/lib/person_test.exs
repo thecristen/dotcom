@@ -8,10 +8,11 @@ defmodule Content.PersonTest do
   describe "from_api/1" do
     test "parses the api response and returns a struct", %{api_person: api_person} do
       assert %Content.Person{
-        id: 2579,
+        id: 2606,
         bio: bio,
         name: "Joseph Aiello",
-        position: "Chairman",
+        path_alias: "/people/joseph-aiello",
+        position: "Chair",
         profile_image: %Content.Field.Image{}
       } = Content.Person.from_api(api_person)
 
@@ -20,7 +21,6 @@ defmodule Content.PersonTest do
   end
 
   defp person_from_api do
-    Content.CMS.Static.people_response()
-    |> List.first()
+    Content.CMS.Static.person_response()
   end
 end
