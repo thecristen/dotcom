@@ -132,7 +132,7 @@ defmodule Site.FareViewTest do
     test "links to the zone fares page for CR" do
       content = :commuter_rail |> origin_destination_description |> safe_to_string
       assert content =~ "Your Commuter Rail fare"
-      assert content =~ "fares/commuter_rail/zone"
+      assert content =~ "fares/commuter-rail/zone"
     end
 
     test "for ferry" do

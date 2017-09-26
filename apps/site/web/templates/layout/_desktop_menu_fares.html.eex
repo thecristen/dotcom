@@ -23,7 +23,7 @@
         <% end %>
       </li>
       <li>
-        <%= link to: fare_path(@conn, :show, "payment_methods") do %>
+        <%= link to: fare_path(@conn, :show, "payment-methods") do %>
           <%= fa "caret-right" %> Payment Methods
         <% end %>
       </li>

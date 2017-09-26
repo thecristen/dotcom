@@ -42,8 +42,8 @@ defmodule HubStops do
   Returns a list of HubStops for the given mode that are
   found in the given list of DetailedStopGroup's
   """
-  @spec mode_hubs(String.t, [DetailedStopGroup.t]) :: [HubStop.t]
-  def mode_hubs("commuter_rail", route_stop_pairs) do
+  @spec mode_hubs(atom, [DetailedStopGroup.t]) :: [HubStop.t]
+  def mode_hubs(:commuter_rail, route_stop_pairs) do
     all_mode_stops = Enum.flat_map(route_stop_pairs, fn {_route, stops} -> stops end)
     @commuter_hubs
     |> Enum.map(&build_hub_stop(&1, all_mode_stops))

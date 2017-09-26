@@ -25,7 +25,7 @@ defmodule Site.ModeControllerTest do
 
       assert response =~ "mticket-notice"
       assert response =~ "access schedules:"
-      assert response =~ "/schedules/commuter_rail"
+      assert response =~ "/schedules/commuter-rail"
     end
 
     test "mTicket not matched", %{conn: conn} do

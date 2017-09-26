@@ -14,11 +14,11 @@ defmodule Site.StopController do
     redirect conn, to: stop_path(conn, :show, :subway)
   end
 
-  def show(conn, %{"id" => mode}) when mode in ["subway", "commuter_rail", "ferry"] do
-    mode_atom = String.to_existing_atom(mode)
+  def show(conn, %{"id" => mode}) when mode in ["subway", "commuter-rail", "ferry"] do
+    mode_atom = Routes.Route.type_atom(mode)
     {mattapan, stop_info} = get_stop_info(mode_atom)
     conn
-    |> async_assign(:mode_hubs, fn -> HubStops.mode_hubs(mode, stop_info) end)
+    |> async_assign(:mode_hubs, fn -> HubStops.mode_hubs(mode_atom, stop_info) end)
     |> async_assign(:route_hubs, fn -> HubStops.route_hubs(stop_info) end)
     |> assign(:stop_info, stop_info)
     |> assign(:mattapan, mattapan)

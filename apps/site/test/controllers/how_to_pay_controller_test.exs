@@ -16,7 +16,7 @@ defmodule Site.HowToPayControllerTest do
     end
 
     test "includes breadcrumbs on commuter rail tab", %{conn: conn} do
-      conn = get conn, how_to_pay_path(conn, :show, :commuter_rail)
+      conn = get conn, how_to_pay_path(conn, :show, "commuter-rail")
 
       body = html_response(conn, 200)
       assert breadcrumbs_include?(body, ["Fares and Passes", "How to Pay"])

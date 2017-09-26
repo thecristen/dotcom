@@ -10,8 +10,8 @@ defmodule Site.FareController do
   }
 
   @static_page_titles %{
-    "charlie_card" => "The CharlieCard",
-    "payment_methods" => "Payment Methods"
+    "charlie-card" => "The CharlieCard",
+    "payment-methods" => "Payment Methods"
   }
   @static_pages Map.keys(@static_page_titles)
   @bus_subway_filters [[name: :subway, duration: :single_trip, reduced: nil],
@@ -36,14 +36,14 @@ defmodule Site.FareController do
   end
 
   def show(conn, %{"id" => static}) when static in @static_pages do
-    render conn, "#{static}.html", [
+    render conn, "#{String.replace(static, "-", "_")}.html", [
       breadcrumbs: [
         Breadcrumb.build("Fares", fare_path(conn, :index)),
         Breadcrumb.build(@static_page_titles[static])
       ]
     ]
   end
-  def show(%Plug.Conn{assigns: %{date_time: date_time}} = conn, %{"id" => "retail_sales_locations"} = params) do
+  def show(%Plug.Conn{assigns: %{date_time: date_time}} = conn, %{"id" => "retail-sales-locations"} = params) do
     {position, formatted} = calculate_position(params, @options.geocode_fn)
 
     conn
@@ -59,13 +59,13 @@ defmodule Site.FareController do
          search_position: position
        )
   end
-  def show(conn, %{"id" => "commuter_rail"}) do
+  def show(conn, %{"id" => "commuter-rail"}) do
     render_fare_module(Commuter, conn)
   end
   def show(conn, %{"id" => "ferry"}) do
     render_fare_module(Ferry, conn)
   end
-  def show(conn, %{"id" => "bus_subway"}) do
+  def show(conn, %{"id" => "bus-subway"}) do
     render_fare_module(BusSubway, conn)
   end
   def show(conn, _) do

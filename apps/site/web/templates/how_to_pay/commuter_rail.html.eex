@@ -84,7 +84,7 @@
           <p>Commuter Rail fares are collected after you board the train. A conductor will come to
             check your mTicket app or CharlieTicket, or collect payment if you have not already purchased
             your fare. Fare prices depend on what zones you are traveling to and from, so make sure
-            you purchase the <%= link "correct fare", to: fare_path(@conn, :show, "commuter_rail") %>
+            you purchase the <%= link "correct fare", to: fare_path(@conn, :show, "commuter-rail") %>
             for your trip before you board the train. If you are paying with cash on-board, make sure to
             tell the train conductor what your destination stop is.</p>
           </div>
@@ -135,7 +135,7 @@
           <div class="row">
             <div class="col-md-6 col-xs-12">
               <p>
-                <a href=<%= fare_path(@conn, :show, "commuter_rail") %>>
+                <a href=<%= fare_path(@conn, :show, "commuter-rail") %>>
                   Learn more about Commuter Rail Fares <%= fa "arrow-right" %>
                 </a>
               </p>

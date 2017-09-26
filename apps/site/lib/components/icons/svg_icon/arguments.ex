@@ -137,7 +137,7 @@ defmodule Site.Components.Icons.SvgIcon do
     |> String.replace(~r/\s\s/, " ")
     |> build_path
   end
-  def get_path(arg), do: get_path(get_icon_atom(arg))
+  def get_path(arg), do: arg |> get_icon_atom() |> get_path()
 
   @spec get_icon_atom(icon_arg) :: atom
   def get_icon_atom(arg) when is_atom(arg), do: arg
