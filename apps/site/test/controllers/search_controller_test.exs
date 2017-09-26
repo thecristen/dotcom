@@ -15,11 +15,12 @@ defmodule Site.SearchControllerTest do
       assert response =~ "solr-highlight-match"
 
       # check links from each type of document result
-      assert response =~ "/people/2610"
-      assert response =~ "/news/1884"
-      assert response =~ "/safety/transit-police/office-the-chief"
-      assert response =~ "/sites/default/files/2017-01/C. Perkins.pdf"
-      assert response =~ "/events/1215"
+      assert response =~ "/people/2610?from=search"
+      assert response =~ "/news/1884?from=search"
+      assert response =~ "/safety/transit-police/office-the-chief?from=search"
+      assert response =~ "/sites/default/files/2017-01/C. Perkins.pdf?from=search"
+      assert response =~ "/events/1215?from=search"
+      assert response =~ "/fares?a=b&amp;from=search"
     end
 
     test "include offset", %{conn: conn} do

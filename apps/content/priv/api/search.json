@@ -5,6 +5,32 @@
     "maxScore": 0.9726244,
     "docs": [
       {
+          "id": "p18u6y-all_content-entity:node/2948:en",
+          "index_id": "all_content",
+          "hash": "p18u6y",
+          "site": "http://mbta.kbox.site/",
+          "ss_type": "search_result",
+          "its_nid": 2948,
+          "ts_title": "Charlie Card",
+          "ts_field_keywords": "Charlie Card",
+          "ss_field_url_link": "internal:/fares?a=b",
+          "ss_field_url_title": "Charlie Card",
+          "ts_field_description": "Information about the Charlie Card and Fares in General",
+          "ss_search_api_id": "entity:node/2948:en",
+          "ss_search_api_datasource": "entity:node",
+          "ss_search_api_language": "en",
+          "timestamp": "2017-09-26T03:19:22.964Z",
+          "sm_url": [
+              "/node/2948"
+          ],
+          "score": 9.656963,
+          "highlights": [
+              "Information about the <span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span> and Fares in General",
+              "<span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span>",
+              "<span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span>"
+          ]
+      },
+      {
         "id": "p18u6y-all_content-entity:node/2610:en",
         "index_id": "all_content",
         "hash": "p18u6y",

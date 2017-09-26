@@ -96,7 +96,10 @@ defmodule Site.SearchController do
 
   @spec build_facet(String.t, Keyword.t, [String.t]) :: map
   defp build_facet(type, facet_data, user_selections) do
-    Map.put(%{}, type, Enum.map(facet_data, & do_build_facet(&1, type, user_selections)))
+    facet = facet_data
+    |> Enum.map(&do_build_facet(&1, type, user_selections))
+    |> Enum.filter(&(&1.label != :ignore))
+    Map.put(%{}, type, facet)
   end
 
   @spec do_build_facet({String.t, integer}, String.t, [String.t]) :: map
@@ -113,6 +116,7 @@ defmodule Site.SearchController do
   defp facet_label("content_type", "news_entry"), do: "News"
   defp facet_label("content_type", "page"), do: "Page"
   defp facet_label("content_type", "person"), do: "Person"
+  defp facet_label("content_type", "search_result"), do: :ignore
 
   @spec search_params(map) :: map
   defp search_params(search_input) do

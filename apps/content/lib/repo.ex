@@ -44,6 +44,7 @@ defmodule Content.Repo do
 
   @spec get_page(String.t, String.t | nil) :: Content.Page.t | nil
   def get_page(path, query_string \\ "") do
+    query_string = remove_tracking(query_string)
     cms_path = if query_string != "" do
       path <> URI.encode_www_form("?#{query_string}")
     else
@@ -55,6 +56,10 @@ defmodule Content.Repo do
       _ -> nil
     end
   end
+
+  @spec remove_tracking(String.t) :: String.t
+  defp remove_tracking(""), do: ""
+  defp remove_tracking(query_string), do: Regex.replace(~r/[&]?from=.*/, query_string, "")
 
   @spec events(Keyword.t) :: [Content.Event.t]
   def events(opts \\ []) do
