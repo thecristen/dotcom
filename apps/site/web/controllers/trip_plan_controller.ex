@@ -56,7 +56,7 @@ defmodule Site.TripPlanController do
       date -> {:ok, date}
     end
   end
-  defp validate_date(%{}) do
+  defp validate_date(_) do
     {:error, %{date_time: "Date is not valid."}}
   end
 
