@@ -56,8 +56,6 @@ defmodule Content.Repo do
     end
   end
 
-<<<<<<< HEAD
-=======
   @spec people(Keyword.t) :: [Content.Person.t]
   def people(opts \\ []) do
     case @cms_api.view("/api/people", opts) do
@@ -74,7 +72,6 @@ defmodule Content.Repo do
     end
   end
 
->>>>>>> alternate approach to handling content not found
   @spec events(Keyword.t) :: [Content.Event.t]
   def events(opts \\ []) do
     case @cms_api.view("/events", opts) do

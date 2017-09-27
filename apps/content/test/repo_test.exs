@@ -162,27 +162,6 @@ defmodule Content.RepoTest do
     end
   end
 
-<<<<<<< HEAD
-=======
-  describe "person/1" do
-    test "returns the person if they're present" do
-      assert %Content.Person{
-        id: 2579
-      } = Content.Repo.person("2579")
-    end
-
-    test "returns :not_found if not present" do
-      assert :not_found == Content.Repo.person("0")
-    end
-  end
-
-  describe "people/1" do
-    test "returns a list of people if they're present" do
-      assert [%Content.Person{id: 2579}, %Content.Person{id: 2581}] = Content.Repo.people()
-    end
-  end
-
->>>>>>> alternate approach to handling content not found
   describe "whats_happening" do
     test "returns a list of Content.WhatsHappeningItem" do
       assert [%Content.WhatsHappeningItem{

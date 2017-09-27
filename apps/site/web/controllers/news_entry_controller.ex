@@ -1,7 +1,6 @@
 defmodule Site.NewsEntryController do
   use Site.Web, :controller
   alias Site.Pagination
-  alias Plug.Conn
 
   def index(conn, params) do
     page = current_page(params)

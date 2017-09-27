@@ -1,6 +1,5 @@
 defmodule Site.PersonController do
   use Site.Web, :controller
-  alias Plug.Conn
 
   def show(conn, %{"id" => id}) do
     case Content.Repo.person(id) do
