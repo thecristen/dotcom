@@ -2,14 +2,14 @@
   <div>
     <h2>Paying for The RIDE</h2>
     <p>You will need funds in your account before scheduling a trip with The RIDE.</p>
-    <p>Your fare for The RIDE will be debited from your account as you board the vehicle. You will not be charged for a trip you don't take. Please call The RIDE at (888) 844-0355 if you need a refund.</p>
+    <p>Your fare for The RIDE will be debited from your account as you board the vehicle. You will not be charged for a trip you don't take. Please call The RIDE at <%= tel_link "800-533-6282" %> if you need a refund.</p>
     <p>You can determine your account balance via your RIDE contractor's website, your RIDE reservationist, or by calling the MBTA's Office for Transportation Access.</p>
     <p>You may add funds to your RIDE account online, by phone, by mail, or in person at the CharlieCard store.</p>
   </div>
   <div class="row">
     <div class="col-xs-12">
       <h3>Online</h3>
-      <p>If you have an account with the RIDE, you can add value to your account online.</p>
+      <p>If you have an account with The RIDE, you can add value to your account online.</p>
       <p>
         <span class="how-to-pay-ride-link">
           <%= link to: redirect_path(@conn, "commerce/TheRide/"), target: "_blank" do %>
@@ -29,16 +29,16 @@
       <div>
         <strong>Address</strong>
         <div>
-          <p>MBTA - THE RIDE<br>
-          Fares 10 Park Plaza - Rm. 5000<br>
-          Boston, MA 02116</p>
+          <p>MBTA - The RIDE<br>
+          P.O. Box 847091<br>
+          Boston, MA 02284-7091</p>
         </div>
       </div>
     </div>
     <div class="col-xs-12">
       <div>
         <h3>Phone</h3>
-        <p>You can add funds to your RIDE account by calling  <%= tel_link "(888) 844-0355" %>.</p>
+        <p>You can add funds to your RIDE account by calling  <%= tel_link "800-533-6282" %>.</p>
       </div>
       <div>
         <strong>Hours</strong>
