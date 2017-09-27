@@ -20,9 +20,8 @@ defmodule Site.EventControllerTest do
     end
 
     test "renders a 404 given an invalid id", %{conn: conn} do
-      assert_error_sent 404, fn ->
-        get conn, event_path(conn, :show, "999")
-      end
+      conn = get conn, event_path(conn, :show, "999")
+      assert conn.status == 404
     end
   end
 end

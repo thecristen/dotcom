@@ -13,12 +13,27 @@ defmodule Site.ProjectControllerTest do
       conn = get conn, project_path(conn, :show, "2679")
       assert html_response(conn, 200) =~ "<h1>Ruggles Station Platform Project</h1>"
     end
+
+    test "renders a 404 given an invalid id", %{conn: conn} do
+      conn = get conn, project_path(conn, :show, "999")
+      assert conn.status == 404
+    end
   end
 
   describe "update" do
     test "renders a project update", %{conn: conn} do
       conn = get conn, project_path(conn, :project_update, "2679", "123")
       assert html_response(conn, 200) =~ "<h1>Project Update Title</h1>"
+    end
+
+    test "renders a 404 given an invalid id", %{conn: conn} do
+      conn = get conn, project_path(conn, :project_update, "999", "999")
+      assert conn.status == 404
+    end
+
+    test "renders a 404 given an invalid id when project found", %{conn: conn} do
+      conn = get conn, project_path(conn, :project_update, "2679", "999")
+      assert conn.status == 404
     end
   end
 end

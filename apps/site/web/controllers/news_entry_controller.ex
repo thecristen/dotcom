@@ -20,15 +20,17 @@ defmodule Site.NewsEntryController do
   end
 
   def show(conn, %{"id" => id}) do
-    news_entry = Content.Repo.news_entry!(id)
-    recent_news = Content.Repo.recent_news(current_id: news_entry.id)
-
-    conn
-    |> assign(:narrow_template, true)
-    |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
-    |> assign(:news_entry, news_entry)
-    |> assign(:recent_news, recent_news)
-    |> render(:show)
+    case Content.Repo.news_entry(id) do
+      :not_found -> check_cms_or_404(conn)
+      news_entry ->
+        recent_news = Content.Repo.recent_news(current_id: news_entry.id)
+        conn
+        |> assign(:narrow_template, true)
+        |> assign(:breadcrumbs, show_breadcrumbs(conn, news_entry))
+        |> assign(:news_entry, news_entry)
+        |> assign(:recent_news, recent_news)
+        |> render(:show)
+    end
   end
 
   defp current_page(params) do
