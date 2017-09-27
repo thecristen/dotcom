@@ -101,6 +101,16 @@
         CharlieCards are reusable, durable cards that can be used on Bus and Subway. You can load money onto a CharlieCard to get
         a discounted One Way fare or purchase any pass (1-Day, 7-Day, Monthly) at the standard fare.
       </p>
+      <div class="row">
+        <div class="col-md-6">
+          <%= link "Log in to MyCharlie account", to: "https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf", class: "btn btn-block mode-group-btn", target: "_blank" %>
+          <%= link "Sign up for MyCharlie account", to: "https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf", class: "btn btn-block mode-group-btn", target: "_blank" %>
+        </div>
+        <div class="col-md-6">
+          <%= link "Add Value to Charlie Card", to: "https://charliecard.mbta.com/CharlieCardWebProgram/pages/reloadCharlieCardIV.jsf", class: "btn btn-block mode-group-btn", target: "_blank" %>
+          <%= link "Order Monthly Passes", to: "https://commerce.mbta.com/", class: "btn btn-block mode-group-btn", target: "_blank" %>
+        </div>
+      </div>
       <p><%= link to: fare_path(@conn, :show, :charlie_card) do %>
         Learn more about CharlieCards <span class="no-wrap"><%= fa "arrow-right" %></span>
       <% end %></p>
