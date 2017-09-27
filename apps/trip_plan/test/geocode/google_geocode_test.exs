@@ -18,15 +18,12 @@ defmodule TripPlan.Geocode.GoogleGeocodeTest do
       end
     end
 
-    test "returns {:error, {:multiple_results, [...]}} if there are multiple results" do
+    test "returns first result when multiple results are returned" do
       one = %Address{formatted: "one", latitude: 1, longitude: 1}
       two = %Address{formatted: "two", latitude: 2, longitude: 2}
       with_geocode_mock {:ok, [one, two]}, fn ->
-        assert {:error, {:multiple_results, positions}} = geocode("formatted")
-        assert [
-          %NamedPosition{name: "one", latitude: 1, longitude: 1},
-          %NamedPosition{name: "two", latitude: 2, longitude: 2}
-        ] = positions
+        assert {:ok, result} = geocode("formatted")
+        assert %NamedPosition{name: "one", latitude: 1, longitude: 1} = result
       end
     end
 
