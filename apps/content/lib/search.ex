@@ -9,6 +9,7 @@ defmodule Content.Search do
   alias Content.SearchResult.Page
   alias Content.SearchResult.Person
   alias Content.SearchResult.File
+  alias Content.SearchResult.Link
 
   defstruct [
     count: 0,
@@ -16,7 +17,7 @@ defmodule Content.Search do
     results: []
   ]
 
-  @type result :: Event.t | LandingPage.t | NewsEntry.t | Page.t | Person.t | File.t
+  @type result :: Event.t | LandingPage.t | NewsEntry.t | Page.t | Person.t | File.t | Link.t
 
   @type t :: %__MODULE__{
     count: integer,
@@ -39,6 +40,7 @@ defmodule Content.Search do
   defp parse_result(%{"ss_type" => "news_entry"} = result), do: [NewsEntry.build(result)]
   defp parse_result(%{"ss_type" => "page"} = result), do: [Page.build(result)]
   defp parse_result(%{"ss_type" => "person"} = result), do: [Person.build(result)]
+  defp parse_result(%{"ss_type" => "search_result"} = result), do: [Link.build(result)]
   defp parse_result(%{"ss_search_api_datasource" => "entity:file"} = result), do: [File.build(result)]
   defp parse_result(_), do: []
 

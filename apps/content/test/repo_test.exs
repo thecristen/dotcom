@@ -51,6 +51,11 @@ defmodule Content.RepoTest do
       assert %Content.BasicPage{} = result
     end
 
+    test "given the path for a Basic page with tracking params" do
+      result = Content.Repo.get_page("/accessibility", "from=search")
+      assert %Content.BasicPage{} = result
+    end
+
     test "given the path for a Landing page" do
       result = Content.Repo.get_page("/denali-national-park")
       assert %Content.LandingPage{} = result

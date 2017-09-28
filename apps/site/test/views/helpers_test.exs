@@ -215,4 +215,12 @@ defmodule Site.ViewHelpersTest do
       assert pretty_date(date, "{Mfull} {D}, {YYYY}") == "January 1, 2017"
     end
   end
+
+  describe "svg/1" do
+    test "throw exception for unknown SVG" do
+      assert_raise ArgumentError, fn ->
+        svg("???")
+      end
+    end
+  end
 end

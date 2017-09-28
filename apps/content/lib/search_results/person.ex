@@ -2,7 +2,7 @@ defmodule Content.SearchResult.Person do
   defstruct [
     title: "",
     url: "",
-    highlights: ""
+    highlights: []
   ]
 
   @type t :: %__MODULE__{

@@ -8,6 +8,7 @@ defmodule Site.SearchView do
   alias Content.SearchResult.Page
   alias Content.SearchResult.Person
   alias Content.SearchResult.File
+  alias Content.SearchResult.Link
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -35,12 +36,14 @@ defmodule Site.SearchView do
   defp icon(%Person{}), do: fa "user"
   defp icon(%LandingPage{}), do: fa "file-o"
   defp icon(%Page{}), do: fa "file-o"
+  defp icon(%Link{}), do: fa "file-o"
   defp icon(%File{mimetype: mimetype}), do: fa_icon_for_file_type(mimetype)
 
   @spec fragment(Content.Search.result) :: Phoenix.HTML.safe | String.t
   defp fragment(%NewsEntry{highlights: higlights}), do: highlights(higlights)
   defp fragment(%Person{highlights: higlights}), do: highlights(higlights)
   defp fragment(%Page{highlights: higlights}), do: highlights(higlights)
+  defp fragment(%Link{description: description}), do: description
   defp fragment(%LandingPage{highlights: higlights}), do: highlights(higlights)
   defp fragment(%Event{start_time: start_time, location: location}) do
     [content_tag(:div, render_duration(start_time, nil)), content_tag(:div, "#{location}")]
@@ -52,5 +55,14 @@ defmodule Site.SearchView do
     html_strings
     |> raw()
     |> rewrite()
+  end
+
+  @spec track_search_click(String.t, String.t) :: String.t
+  defp track_search_click(url, origin) do
+    delimiter = case String.contains?(url, "?") do
+      true -> "&"
+      false -> "?"
+    end
+    "#{url}#{delimiter}from=#{origin}"
   end
 end
