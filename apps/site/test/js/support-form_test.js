@@ -180,17 +180,17 @@ describe('support form', () => {
         <div class="form-container">
           <form id="support-form" action="/customer-support">
             <div class="support-service-error-container hidden-xs-up" tabindex="-1"><div class="support-service-error"></div></div>
-            <input name="service" value="Complaint">Complaint</input>
-            <input name="service" value="Suggestion">Comment</input>
-            <input name="service" value="Inquiry">Question</input>
-            <input name="service" value="Inquiry">Request</input>
+            <input name="support[service]" value="Complaint">Complaint</input>
+            <input name="support[service]" value="Suggestion">Comment</input>
+            <input name="support[service]" value="Inquiry">Question</input>
+            <input name="support[service]" value="Inquiry">Request</input>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
-            <textarea name="comments" id="comments"></textarea>
-            <input name="photo" id="photo" type="file" />
-            <input name="request_response" id="request_response" type="checkbox" />
-            <input name="name" id="name" />
-            <input name="phone" id="phone" />
-            <input name="email" id="email" />
+            <textarea name="support[comments]" id="comments"></textarea>
+            <input name="support[photo]" id="photo" type="file" />
+            <input name="support[request_response]" id="request_response" type="checkbox" />
+            <input name="support[name]" id="name" />
+            <input name="support[phone]" id="phone" />
+            <input name="support[email]" id="email" />
             <div class="support-name-error-container hidden-xs-up" tabindex="-1"><div class="support-name-error"></div></div>
             <div class="support-email-error-container hidden-xs-up" tabindex="-1"><div class="support-email-error"></div></div>
             <input id="privacy" type="checkbox" />
@@ -268,7 +268,7 @@ describe('support form', () => {
       $('#request_response').click();
       $('#support-submit').click();
       assert.equal(document.activeElement, $('.support-service-error-container')[0]);
-      $('[name="service"][value="Complaint"]').attr("checked", true);
+      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $('#support-submit').click();
       assert.equal(document.activeElement, $('.support-comments-error-container')[0]);
       $('#comments').val('A comment');
@@ -291,7 +291,7 @@ describe('support form', () => {
         isWaiting = true;
       });
 
-      $('[name="service"][value="Complaint"]').attr("checked", true);
+      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $('#email').val('test@email.com');
       $('#name').val('tom brady');
       $('#comments').val('A comment');
@@ -305,7 +305,7 @@ describe('support form', () => {
       $('#email').val('test@email.com');
       $('#name').val('tom brady');
       $('#comments').val('A comment');
-      $('[name="service"][value="Complaint"]').attr("checked", true);
+      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $('#privacy').prop('checked', 'checked');
       $('#support-submit').click();
       assert.equal(spy.callCount, 1);
@@ -325,7 +325,7 @@ describe('support form', () => {
 
       $('#email').val('test@email.com');
       $('#name').val('tom brady');
-      $('[name="service"][value="Complaint"]').attr("checked", true);
+      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $('#comments').val('A comment');
       $('#privacy').prop('checked', 'checked');
       $('#support-submit').click();
@@ -347,7 +347,7 @@ describe('support form', () => {
       toUpload.push(file_1);
       toUpload.push(file_2);
 
-      $('[name="service"][value="Complaint"]').attr("checked", true);
+      $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $('#comments').val('A comment');
       $('#privacy').prop('checked', 'checked');
       $('#support-submit').click();
