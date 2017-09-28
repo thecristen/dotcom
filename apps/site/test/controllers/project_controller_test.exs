@@ -2,9 +2,15 @@ defmodule Site.ProjectControllerTest do
   use Site.ConnCase, async: true
 
   describe "index" do
-    test "renders the list of projects", %{conn: conn} do
+    test "renders the list of projects if flag enabled", %{conn: conn} do
+      conn = put_req_cookie(conn, "project_index", "true")
       conn = get conn, project_path(conn, :index)
       assert html_response(conn, 200) =~ "<h1>Transforming the T</h1>"
+    end
+
+    test "404s the list of projects if not enabled", %{conn: conn} do
+      conn = get conn, project_path(conn, :index)
+      assert conn.status == 404
     end
   end
 
