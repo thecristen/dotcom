@@ -11,10 +11,12 @@ defmodule RtrDashboardControllerTest do
 
   describe "RtrDashboardData" do
     test "makes a request to the right api" do
-      url = "http://23.21.118.89/developer/api/v2-test/dailypredictionmetrics?api_key=rMKswlBRmEGhsziJHxx6Pg&format=json&from_service_date=2017-09-26&route=&to_service_date=2017-09-26"
+      current_date = Timex.shift(Util.service_date, days: -1)
+      base_url = Application.get_env(:site, :rtr_accuracy_api_url)
+      query_string = "?api_key=rMKswlBRmEGhsziJHxx6Pg&format=json&from_service_date=#{current_date}&route=&to_service_date=#{current_date}"
       with_mock HTTPoison, [get: fn(_params) -> {:ok, []} end] do
         Site.RtrDashboardData.get(%{})
-        assert called HTTPoison.get(url)
+        assert called HTTPoison.get(base_url <> query_string)
       end
     end
   end
