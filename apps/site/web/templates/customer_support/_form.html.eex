@@ -1,7 +1,9 @@
+<% form_action = "#{customer_support_path(@conn, :submit)}#support-result" %>
 <div class="row">
   <div class="col-xs-12">
     <div class="row">
-      <form id="support-form" class="support-form" action="<%= customer_support_path @conn, :submit %>#support-result" method="post" enctype="multipart/form-data">
+      <%= form_for @conn, form_action, [as: :support, multipart: true, method: :post, id: "support-form",
+                                        class: "support-form"], fn f -> %>
         <div class="form-group col-xs-12 contrast <%= class_for_error("service", @errors, "has-danger", "") %>">
           <label for="service">What kind of concern do you have? (Required)</label>
           <div class="error-container support-service-error-container <%= class_for_error("service", @errors, "", "hidden-xs-up") %>">
@@ -10,56 +12,38 @@
           <div id="service">
             <%= for {text, value} <- @service_options do %>
               <span class="service-radio">
-                <input
-                  type="radio"
-                  name="service"
-                  class="support-form-control form-control service"
-                  id="service-<%= value %>"
-                  value="<%= value %>"
-                />
-                <label for="service-<%= value %>"> <%= text %> </label>
+                <%= radio_button f, :service, value, class: "support-form-control form-control service",
+                                                     id: "service-#{value}" %>
+                <%= label f, :service, text, [for: "service-#{value}"] %>
               </span>
             <% end %>
           </div>
         </div>
-
         <div class="form-group col-xs-12 contrast <%= class_for_error("comments", @errors, "has-danger", "") %>">
-
           <div class="error-container support-comments-error-container <%= class_for_error("comments", @errors, "", "hidden-xs-up") %>" tabindex="-1">
             <span class="support-comments-error">Please enter a comment to continue.</span>
           </div>
           <div>
             <p>Let us know how we can help</p>
           </div>
-          <textarea
-            id="comments"
-            name="comments"
-            class="support-form-control form-control"
-            maxlength=3000
-            rows=3
-            placeholder="If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
-            required><%= Map.get @existing_params, "comments", "" %></textarea>
+          <% comments_placeholder = "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number." %>
+          <%= textarea f, :comments, id: "comments", class: "support-form-control form-control", maxlength: "3000",
+                                     rows: "3", placeholder: comments_placeholder, required: "required" %>
           <span></span>
           <small class="form-text">3000 characters maximum</small>
         </div>
-        <div class="col-xs-12 photo-preview-container contrast <%= unless "photo" in Map.keys(@existing_params), do: "hidden-xs-up" %>" tabindex="-1">
+        <div class="col-xs-12 photo-preview-container contrast <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
         </div>
         <div class="form-group col-xs-12 contrast">
           <a class="upload-photo-link" tabindex="-1"><%= fa "camera" %> Upload Photo</a>
-          <input type="file" accept="image/*" id="photo" name="photo" />
+          <%= file_input f, :photo, accept: "image/*", id: "photo" %>
         </div>
         <div class="col-xs-12 support-check-container contrast">
           <div class="form-check">
             <label class="form-check-label">
-              <input
-                type="checkbox"
-                id="request_response"
-                name="request_response"
-                class="form-check-input"
-                <%= if Map.get(@existing_params, "request_response", "") === "on" do %>
-                  checked
-                <% end %>
-              /> You would like us to get back to you with questions or updates
+              <%= checkbox f, :request_response, id: "request_response", class: "form-check-input",
+                                                 checked_value: "on" %>
+              You would like us to get back to you with questions or updates
             </label>
           </div>
         </div>
@@ -70,17 +54,8 @@
               <div class="error-container support-name-error-container <%= class_for_error("name", @errors, "", "hidden-xs-up") %>" tabindex="-1">
                 <span class="support-name-error">Please enter your full name to continue.</span>
               </div>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                autocomplete="name"
-                class="support-form-control form-control"
-                placeholder="Jane Smith"
-                <%= if "name" in Map.keys @existing_params do %>
-                value="<%= Map.get @existing_params, "name" %>"
-                <% end %>
-              />
+              <%= text_input f, :name, placeholder: "Jane Smith", class: "support-form-control form-control",
+                                       autocomplete: "name", id: "name" %>
             </div>
           </div>
           <div class="row">
@@ -89,17 +64,8 @@
               <div class="error-container support-email-error-container <%= class_for_error("email", @errors, "", "hidden-xs-up") %>" tabindex="-1">
                 <span class="support-email-error">Please enter a valid email.</span>
               </div>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                autocomplete="email"
-                class="support-form-control form-control"
-                placeholder="janesmith@email.com"
-                <%= if "email" in Map.keys @existing_params do %>
-                value="<%= Map.get @existing_params, "email" %>"
-                <% end %>
-              />
+              <%= text_input f, :email, placeholder: "janesmith@email.com", class: "support-form-control form-control",
+                                        autocomplete: "email", id: "email" %>
             </div>
           </div>
           <p class="phone-description">
@@ -108,17 +74,8 @@
           <div class="row">
             <div class="form-group col-xs-12 col-sm-6">
               <label for="phone"><strong>Phone number</strong></label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                autocomplete="tel"
-                class="support-form-control form-control"
-                placeholder="(617)-555-1234" <%# fake Boston-area phone number %>
-                <%= if "phone" in Map.keys @existing_params do %>
-                value="<%= Map.get @existing_params, "phone" %>"
-                <% end %>
-              />
+              <%= telephone_input f, :phone, placeholder: "(617)-555-1234", class: "support-form-control form-control",
+                                             autocomplete: "tel", id: "phone" %>
               <span></span>
             </div>
           </div>
@@ -129,31 +86,18 @@
               </div>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input
-                    type="checkbox"
-                    id="privacy"
-                    name="privacy"
-                    class="form-check-input"
-                    required
-                    <%= if Map.get(@existing_params, "privacy", "") === "on" do %>
-                    checked
-                    <% end %>
-                  /> I have read and agree to the <a href="<%= cms_static_page_path @conn, "/policies" %>">Privacy Policy</a>
+                  <%= checkbox f, :privacy, id: "privacy", class: "form-check-input", required: "required",
+                                            checked_value: "on" %>
+                  I have read and agree to the <a href="<%= cms_static_page_path @conn, "/policies" %>">Privacy Policy</a>
                 </label>
               </div>
             </div>
             <div class="col-xs-12 support-check-container">
               <div class="form-check">
                 <label class="form-check-label">
-                  <input
-                    type="checkbox"
-                    id="promotions"
-                    name="promotions"
-                    class="form-check-input"
-                    <%= if Map.get(@existing_params, "promotions", "") === "on" do %>
-                    checked
-                    <% end %>
-                  /> I would like to receive email updates on new MBTA services and promotions
+                  <%= checkbox f, :promotions, id: "promotions", class: "form-check-input", required: "required",
+                                               checked_value: "on" %>
+                  I would like to receive email updates on new MBTA services and promotions
                 </label>
               </div>
             </div>
@@ -165,7 +109,7 @@
             <span class="waiting" hidden><%= fa "refresh fa-spin" %></span>
           </button>
         </div>
-      </form>
+      <% end %>
     </div>
   </div>
 </div>

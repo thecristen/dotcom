@@ -6,7 +6,7 @@ defmodule Site.CustomerSupportController do
   plug :set_service_options
 
   def index(conn, _params) do
-    render_form conn, [], %{}
+    render_form conn, []
   end
 
   def thanks(conn, _params) do
@@ -16,25 +16,24 @@ defmodule Site.CustomerSupportController do
       show_form: false
   end
 
-  def submit(conn, params) do
-    errors = do_validation(params)
+  def submit(conn, %{"support" => data}) do
+    errors = do_validation(data)
     if Enum.empty?(errors) do
-      {:ok, pid} = Task.start(__MODULE__, :send_ticket, [params])
+      {:ok, pid} = Task.start(__MODULE__, :send_ticket, [data])
       conn = Plug.Conn.put_private(conn, :ticket_task, pid)
       redirect conn, to: customer_support_path(conn, :thanks)
     else
       conn
       |> put_status(400)
-      |> render_form(errors, params)
+      |> render_form(errors)
     end
   end
 
-  defp render_form(conn, errors, existing_params) do
+  defp render_form(conn, errors) do
     render conn,
       "index.html",
       breadcrumbs: [Breadcrumb.build("Customer Support")],
       errors: errors,
-      existing_params: existing_params,
       show_form: true
   end
 

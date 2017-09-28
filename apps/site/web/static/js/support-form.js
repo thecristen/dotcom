@@ -4,7 +4,7 @@ export default function($ = window.jQuery) {
   document.addEventListener('turbolinks:load', () => {
 
     // TODO: create a way to run page-specific JS so that this hack isn't needed.
-    if(!document.getElementById('support-form')) {
+    if (!document.getElementById('support-form')) {
       return;
     }
 
@@ -56,8 +56,7 @@ export function handleUploadedPhoto($, file, $container, toUpload) {
       .addClickHandler($container, toUpload)
       .div();
     $container.append(preview);
-  }
-  else {
+  } else {
     $container.append($(`
       <span>Error: ${file.name} <br /> The file you've selected is not valid for review. Please upload images only.</span>
     `));
@@ -139,7 +138,7 @@ function removeClass(node, className) {
 
 export function setupRequestResponse($) {
   $('#request_response').click(function() {
-    if($(this).is(":checked")) {
+    if ($(this).is(":checked")) {
       showExpandedForm($);
     } else {
       hideExpandedForm($);
@@ -152,22 +151,22 @@ const validators = {
     return $('#comments').val().length !== 0;
   },
   service: function ($) {
-    return !!$("[name='service']:checked").val();
+    return !!$("[name='support[service]']:checked").val();
   },
   name: function ($) {
-    if(responseRequested($)) {
+    if (responseRequested($)) {
       return $('#name').val().length !== 0;
     }
     return true;
   },
   email: function ($) {
-    if(responseRequested($)) {
+    if (responseRequested($)) {
       return email.valid($('#email').val());
     }
     return true;
   },
   privacy: function ($) {
-    if(responseRequested($)) {
+    if (responseRequested($)) {
       return $('#privacy').prop('checked');
     }
     return true;
@@ -208,42 +207,38 @@ function validateForm($) {
         name = '#name',
         errors = [];
   // Service
-  if(!validators.service($)) {
+  if (!validators.service($)) {
     displayError($, service);
     errors.push(service);
   } else {
     displaySuccess($, service);
   }
   // Main textarea
-  if(!validators.comments($)) {
+  if (!validators.comments($)) {
     displayError($, comments);
     errors.push(comments);
-  }
-  else {
+  } else {
     displaySuccess($, comments);
   }
   // Name
-  if(!validators.name($)) {
+  if (!validators.name($)) {
     displayError($, name);
     errors.push(name);
-  }
-  else {
+  } else {
     displaySuccess($, name);
   }
   // Phone and email
-  if(!validators.email($)) {
+  if (!validators.email($)) {
     displayError($, email);
     errors.push(email);
-  }
-  else {
+  } else {
     displaySuccess($, email);
   }
   // Privacy checkbox
-  if(!validators.privacy($)) {
+  if (!validators.privacy($)) {
     displayError($, privacy);
     errors.push(privacy);
-  }
-  else {
+  } else {
     displaySuccess($, privacy);
   }
   focusError($, errors);
@@ -274,33 +269,34 @@ export function handleSubmitClick($, toUpload) {
     const FormData = window.FormData ? window.FormData : require('form-data'),
           valid = validateForm($);
     event.preventDefault();
-    if (valid) {
-      deactivateSubmitButton($);
-      const formData = new FormData();
-      $('#support-form').serializeArray().forEach(({name: name, value: value}) => {
-        formData.append(name, value);
-      });
-      toUpload.forEach((photo) => {
-        formData.append("photos[]", photo);
-      });
-      $.ajax({
-        url: $('#support-form').attr('action'),
-        method: "POST",
-        processData: false,
-        data: formData,
-        contentType: false,
-        success: () => {
-          $('#support-form').parent().remove();
-          $('.support-thank-you').removeClass('hidden-xs-up');
-          $('.support-success').focus();
-          $('.support-form-error').addClass('hidden-xs-up');
-        },
-        error: () => {
-          $('.support-form-error').removeClass('hidden-xs-up').focus();
-          reactivateSubmitButton($);
-        }
-      });
+    if (!valid) {
+      return;
     }
+    deactivateSubmitButton($);
+    const formData = new FormData();
+    $('#support-form').serializeArray().forEach(({name: name, value: value}) => {
+      formData.append(name, value);
+    });
+    toUpload.forEach((photo) => {
+      formData.append("photos[]", photo);
+    });
+    $.ajax({
+      url: $('#support-form').attr('action'),
+      method: "POST",
+      processData: false,
+      data: formData,
+      contentType: false,
+      success: () => {
+        $('#support-form').parent().remove();
+        $('.support-thank-you').removeClass('hidden-xs-up');
+        $('.support-success').focus();
+        $('.support-form-error').addClass('hidden-xs-up');
+      },
+      error: () => {
+        $('.support-form-error').removeClass('hidden-xs-up').focus();
+        reactivateSubmitButton($);
+      }
+    });
   });
 }
 

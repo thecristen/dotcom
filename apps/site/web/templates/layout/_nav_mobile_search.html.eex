@@ -2,8 +2,7 @@
 <% search_path = search_path(@conn, :index) %>
 <li class="mobile-nav-item search-mobile">
   <div class="text-input-button-widget" role="search">
-   <form action="<%= search_path %>" method="GET">
-   <%= form_for @conn, search_path, [as: :search, method: :get], fn f -> %>
+    <%= form_for @conn, search_path, [as: :search, method: :get], fn f -> %>
       <%= label f, :search, "Search", class: "sr-only" %>
       <%= search_input :search, :query, placeholder: "Search by keyword", autocomplete: "off",
           class: "text-input-button-widget-input text-input-button-widget-with-submit", required: "required" %>
