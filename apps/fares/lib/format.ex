@@ -121,7 +121,6 @@ defmodule Fares.Format do
 
   defp price_range_summary_name(fare, :commuter_rail), do: "Commuter Rail " <> duration(fare)
   defp price_range_summary_name(fare, :ferry), do: "Ferry " <> duration(fare)
-  defp price_range_summary_name(fare, _), do: full_name(fare)
 
   defp price_range_label(:commuter_rail), do: "Zones 1A-10"
   defp price_range_label(:ferry), do: "All Ferry routes"
