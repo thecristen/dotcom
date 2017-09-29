@@ -3,6 +3,12 @@
   <h2>We are sorry. It looks like we have our signals crossed.  Our developers have been notified, and they will fix this error as soon as possible.</h2>
   <p><a href="/">Return to the homepage.</a></p>
   <div class="error-image">
-    <%= img_tag static_url(Site.Endpoint, "/images/error-bus.gif"), alt: "", aria: [hidden: true] %>
+    <%= img_tag static_url(Site.Endpoint, "/images/error-bus.gif"), id: "error-bus", alt: "", aria: [hidden: true] %>
   </div>
+  <p>
+    We're sorry to disappoint, and are working on a fix.
+    If you would like to help us make MBTA.com better, plus work on a range of exciting products for the T, we're hiring.
+    Please visit our
+    <a href="https://jobs.lever.co/mbta">jobs page</a>.
+  </p>
 </div>
