@@ -7,11 +7,15 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 
-port = System.get_env |> Map.get("PORT", "4001") |> String.to_integer
+port = String.to_integer(System.get_env("PORT") || "4001")
+host = System.get_env("HOST") || "localhost"
+static_url = case System.get_env("STATIC_URL") do
+  nil -> [ host: System.get_env("STATIC_HOST") || host, port: port]
+  static_url -> [ url: static_url ]
+end
 config :site, Site.Endpoint,
-  http: [port: System.get_env |> Map.get("PORT", "4001") |> String.to_integer],
-  static_url: [host: System.get_env |> Map.get("STATIC_HOST", "localhost"),
-               port: port],
+  http: [port: port],
+  static_url: static_url,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
