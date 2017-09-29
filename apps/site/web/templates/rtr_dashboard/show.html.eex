@@ -1,4 +1,9 @@
 <div class="container">
+  <form method="get">
+    from date: <input type="date" name="from_service_date" value=<%= @from_service_date %>></input>
+    to date: <input type="date" name="to_service_date" value=<%= @to_service_date %>></input>
+    <button type="submit">submit</button>
+  </form>
   RTR Accuracy Data:
   <div class="row">
     <span class="col-xs-3">

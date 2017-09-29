@@ -4,7 +4,13 @@ defmodule Site.RtrDashboardController do
 
   def index(conn, params) do
     conn
+    |> assign(:from_service_date, assign_service_date(params["from_service_date"]))
+    |> assign(:to_service_date, assign_service_date(params["to_service_date"]))
     |> render("show.html", accuracies: parse_data(params))
+  end
+
+  defp assign_service_date(date) do
+    date || Timex.shift(Util.service_date, days: -1)
   end
 
   def parse_data(params) do
@@ -57,7 +63,7 @@ defmodule Site.RtrDashboardData do
     URI.encode_query(
       %{"api_key" => "rMKswlBRmEGhsziJHxx6Pg",
         "format" => "json",
-        "route" => params["route"],
+        "route" => params["route"] || "Mattapan",
         "from_service_date" => from_date,
         "to_service_date" => to_date
       })
