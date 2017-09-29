@@ -208,7 +208,7 @@ defmodule Site.ScheduleV2ViewTest do
         |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> List.first
         |> safe_to_string
-      assert output =~ "rss"
+      assert output =~ "icon-realtime"
     end
 
     test "Alert icon is shown when alerts are not empty" do

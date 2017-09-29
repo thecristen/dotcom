@@ -16,7 +16,7 @@ defmodule PredictedSchedule.DisplayTest do
         %PredictedSchedule{schedule: %Schedule{time: @early_time}, prediction: %Prediction{time: @late_time}})
       assert safe_to_string(display_time) =~ "2:14P"
       refute safe_to_string(display_time) =~ "12:00P"
-      assert safe_to_string(display_time) =~ "fa fa-rss"
+      assert safe_to_string(display_time) =~ "icon-realtime"
     end
 
     test "Scheduled time is used if no prediction is available" do
@@ -35,7 +35,7 @@ defmodule PredictedSchedule.DisplayTest do
           schedule: nil,
           prediction: %Prediction{status: "Text status"}})
       assert safe_to_string(display_time) =~ "Text status"
-      assert safe_to_string(display_time) =~ "fa fa-rss"
+      assert safe_to_string(display_time) =~ "icon-realtime"
     end
 
     test "if the predicted time is later than the scheduled time, cross out the scheduled one" do
@@ -47,7 +47,7 @@ defmodule PredictedSchedule.DisplayTest do
 
       assert result =~ "12:00P"
       assert result =~ "2:14P"
-      assert result =~ "fa fa-rss"
+      assert result =~ "icon-realtime"
     end
 
     test "if the predicted time is earlier than the scheduled time, cross out the scheduled one" do
@@ -59,7 +59,7 @@ defmodule PredictedSchedule.DisplayTest do
 
       assert result =~ "2:14P"
       assert result =~ "12:00P"
-      assert result =~ "fa fa-rss"
+      assert result =~ "icon-realtime"
     end
 
     test "if the predicted time is earlier less than a 60 seconds, but across a different minute, cross out scheduled" do
@@ -73,7 +73,7 @@ defmodule PredictedSchedule.DisplayTest do
 
       assert result =~ "5:40A"
       assert result =~ "5:39A"
-      assert result =~ "fa fa-rss"
+      assert result =~ "icon-realtime"
     end
 
     test "if the times do not differ, just returns the same result as a non-CR time" do
@@ -84,7 +84,7 @@ defmodule PredictedSchedule.DisplayTest do
         |> safe_to_string
 
       assert result =~ "12:00P"
-      assert result =~ "fa fa-rss"
+      assert result =~ "icon-realtime"
     end
 
     test "if the trip is cancelled, only crosses out the schedule time" do
@@ -96,7 +96,7 @@ defmodule PredictedSchedule.DisplayTest do
 
       assert result =~ "<del"
       assert result =~ "12:00P"
-      assert result =~ "fa fa-rss"
+      assert result =~ "icon-realtime"
     end
 
     test "if a trip is skipped, crosses out the schedule time" do
@@ -108,7 +108,7 @@ defmodule PredictedSchedule.DisplayTest do
 
       assert result =~ "<del"
       assert result =~ "12:00P"
-      assert result =~ "fa fa-rss"
+      assert result =~ "icon-realtime"
     end
 
     test "handles nil schedules" do
@@ -190,7 +190,7 @@ defmodule PredictedSchedule.DisplayTest do
 
     test "realtime icon shown when prediction is shown" do
       ps = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
-      assert safe_to_string(time_difference(ps, @base_time)) =~ "fa-rss"
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "icon-realtime"
     end
 
     test "Time shown when difference is over an hour" do
@@ -206,9 +206,9 @@ defmodule PredictedSchedule.DisplayTest do
     test "crossed out schedule shown when prediction doesn't have a time" do
       ps = %PredictedSchedule{schedule: @schedule, prediction: %Prediction{schedule_relationship: :cancelled}}
       rendered = safe_to_string(time_difference(ps, @base_time))
-      assert rendered =~ "<del>"
+      assert rendered =~ ~s(<del class="no-wrap strikethrough">)
       assert rendered =~ "12:30P"
-      assert rendered =~ "fa-rss"
+      assert rendered =~ "icon-realtime"
     end
 
     test "shows nothing if we can't figure out a time" do

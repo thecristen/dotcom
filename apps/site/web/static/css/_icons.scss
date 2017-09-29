@@ -1,4 +1,6 @@
 @import 'variables';
+@import 'keyframes';
+@import 'helpers';
 
 .icon {
   display: inline-block;
@@ -79,6 +81,12 @@ a {
   .icon-globe-image {
     .icon-image {
       stroke: $link-color;
+    }
+  }
+
+  .icon-realtime {
+    svg {
+      fill: $link-color;
     }
   }
 }
@@ -244,9 +252,46 @@ a {
     fill: transparent;
     stroke: $white;
   }
+
+  .icon-realtime {
+    svg {
+      fill: $white;
+    }
+  }
 }
 
 .icon-inverse,
 %icon-inverse {
   @include icon-inverse;
+}
+
+.realtime {
+  @include media-breakpoint-up(md) {
+    @include no-wrap();
+  }
+}
+
+.realtime-content {
+  line-height: $base-spacing;
+}
+
+.icon-realtime {
+  @include no-wrap(inline);
+
+  line-height: $base-spacing * .75;
+  position: relative;
+
+  &.animate {
+    animation: 2s infinite realtime-text-color-pulse;
+  }
+}
+
+.icon-realtime-text {
+  display: inline-block;
+  font-size: $base-spacing * .75;
+  font-weight: bold;
+  letter-spacing: $space-1 * .9;
+  line-height: $base-spacing * .75;
+  margin-left: $base-spacing / 4;
+  text-transform: uppercase;
 }

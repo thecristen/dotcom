@@ -198,14 +198,9 @@ $location-line-width: $space-6;
   display: flex;
   flex: 1 1 0%;
   flex-direction: column;
-  margin-bottom: $base-spacing;
-  padding-bottom: $base-spacing;
+  margin-bottom: $base-spacing;  // both margin-bottom and padding-bottom are needed on this element
+  padding-bottom: $base-spacing; // to keep the icon properly aligned with the text
   width: 60%; // for non-flex browsers
-
-  &.expand {
-    border-bottom: 0;
-    padding-bottom: 0;
-  }
 }
 
 @include media-breakpoint-down(sm) {
@@ -219,17 +214,13 @@ $location-line-width: $space-6;
 
 .expand-branch-link button {
   align-items: center;
-  border-bottom: $border;
   color: $gray-dark;
   display: flex;
   justify-content: space-between;
-  padding: 0;
-  padding-bottom: $space-16;
   text-align: left;
   width: 100%;
 
   &:hover {
-    border-bottom: $border;
     text-decoration: none;
   }
 
@@ -256,10 +247,6 @@ $location-line-width: $space-6;
   flex: 1 1 auto;
 }
 
-.toggle-stop-list {
-  padding-bottom: $space-8;
-}
-
 @include media-breakpoint-only(xs) {
   .route-branch-stop-link {
     display: block;
@@ -280,8 +267,8 @@ $location-line-width: $space-6;
 
 .trip-info-time {
   display: inline-block; // for non-flex browsers
+  flex: 0 0 $base-spacing * 4.5;
   float: right; // for non-flex browsers
-  width: $base-spacing * 4.5;
 }
 
 .route-branch-stop-name-icons,

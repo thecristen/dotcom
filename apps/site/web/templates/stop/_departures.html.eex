@@ -7,7 +7,17 @@
   <%= for {mode, route_times} <- @upcoming_route_departures do %>
     <%= render schedule_template(mode), forward_assigns(@conn |> Plug.Conn.assign(:mode, mode) |> Plug.Conn.assign(:route_times, route_times)) %>
   <% end %>
-  <p aria-hidden="true">
-    <%= fa "rss station-schedule-icon" %> Real-time information
-  </p>
+  <div class="row">
+    <div class="col-xs-12">
+      <div aria-hidden="true" class="realtime realtime-key">
+        <%=
+          content_tag(:span, [
+            svg("icon-live-clock.svg"),
+            content_tag(:span, "live", class: "icon-realtime-text")
+          ], class: "icon-realtime animate")
+        %>
+        <span>indicates real-time information</span>
+      </div>
+    </div>
+  </div>
 <% end %>

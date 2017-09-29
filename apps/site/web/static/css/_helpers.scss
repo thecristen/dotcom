@@ -1,6 +1,6 @@
 .no-overflow {
-  word-wrap: break-word;
   word-break: break-word;
+  word-wrap: break-word;
 }
 
 .disabled {
@@ -18,14 +18,23 @@
   width: calc(100% - #{$margin-right});
 }
 
-.no-wrap {
-  display: inline-block;
+@mixin no-wrap($display: inline-block) {
+  display: $display;
   text-decoration: inherit;
   white-space: nowrap;
 }
 
+.no-wrap {
+  @include no-wrap();
+}
+
 .inline-block {
   display: inline-block;
+}
+
+.strikethrough {
+  color: $gray-lighter;
+  text-decoration: line-through;
 }
 
 %callout {

@@ -110,19 +110,14 @@
   color: $gray-dark;
   display: block;
 
-  &:empty {
-    display: none;
-  }
-
-  .caret {
-    float: right;
-    line-height: $space-24;
-  }
-
   @include media-breakpoint-up(md) {
     clear: left;
     float: left;
     width: 50%;
+  }
+
+  &:empty {
+    display: none;
   }
 
   &:focus {
@@ -131,6 +126,19 @@
     outline: none;
     z-index: $z-index-trip-selected;
   }
+
+  .caret {
+    float: right;
+    line-height: $space-24;
+  }
+
+}
+
+.realtime-key {
+  border-bottom-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  line-height: $base-spacing * .75;
 }
 
 a {
@@ -153,7 +161,8 @@ a {
   @include media-breakpoint-up(md) {
     @include button-selected-color;
 
-    .icon {
+    .icon,
+    .realtime {
       @include icon-inverse;
     }
 
@@ -177,7 +186,8 @@ a {
     @include button-selected-color;
     border-color: $brand-primary;
 
-    .icon {
+    .icon,
+    .realtime {
       @include icon-inverse;
     }
 
@@ -323,10 +333,6 @@ del .realtime {
   border-bottom: $border;
 }
 
-.trip-duration {
-  border-top: $border;
-}
-
 .trip-info-labels {
   font-weight: bold;
 }
@@ -334,9 +340,9 @@ del .realtime {
 // trip info parent container
 .schedule-trip-info {
   @include make-row();
+  border-bottom: $border;
   border-left: $border;
   border-right: $border;
-  border-bottom: $border;
 
   @include media-breakpoint-up(md) {
     float: right;
@@ -425,10 +431,10 @@ del .realtime {
 .date-filter,
 .direction-filter,
 .shape-filter {
-  display: flex;
-  flex-direction: column;
   // fixes issue on iOS9, see: http://stackoverflow.com/questions/7892863/jquery-click-not-working-with-ipad
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 
   @include media-breakpoint-down(xs) {
     margin-bottom: $base-spacing;
@@ -689,10 +695,14 @@ del .realtime {
 
 .schedule-v2-timetable-more-col {
   color: $gray-dark;
+  cursor: pointer;
   min-width: $base-spacing-sm;
   padding: $base-spacing-sm 0 0;
   text-align: center;
-  cursor: pointer;
+
+  @include media-breakpoint-up(md) {
+    min-width: $base-spacing * 3;
+  }
 
   &:not(.schedule-v2-timetable-header-col) {
     background-color: $white;
@@ -705,9 +715,6 @@ del .realtime {
     color: $white;
   }
 
-  @include media-breakpoint-up(md) {
-    min-width: $base-spacing * 3;
-  }
 }
 
 // hides the extra "Earlier/Later Trains" text when we duplicate the element
@@ -740,10 +747,10 @@ del .realtime {
   right: 25%;
   text-orientation: sideways;
   top: 10vh;
+  user-select: none;
   white-space: nowrap;
   writing-mode: tb-lr; // for IE
   writing-mode: vertical-lr; // for everything else
-  user-select: none;
   z-index: $z-index-schedule-v2-timetable-more-text;
 
   @include hover-focus() {

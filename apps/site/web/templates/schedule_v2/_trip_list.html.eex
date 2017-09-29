@@ -39,9 +39,15 @@
       <% end %>
     <% end %>
     <%= trip_expansion_link(@journeys.expansion, @date, @conn)%>
-    <p aria-hidden="true" class="trip-list-v2-row trip-list-v2-realtime">
-      <%= fa "rss" %> Real-time information
-    </p>
+    <div aria-hidden="true" class="trip-list-v2-row trip-list-v2-row-2-col realtime realtime-key">
+      <%=
+        content_tag(:span, [
+          svg("icon-live-clock.svg"),
+          content_tag(:span, "live", class: "icon-realtime-text")
+        ], class: "icon-realtime animate")
+      %>
+      <span>indicates real-time information</span>
+    </div>
   </div>
 <% end %>
 

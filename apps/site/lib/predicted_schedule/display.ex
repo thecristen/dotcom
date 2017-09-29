@@ -1,6 +1,6 @@
 defmodule PredictedSchedule.Display do
   import Phoenix.HTML.Tag, only: [tag: 1, content_tag: 2, content_tag: 3]
-  import Site.ViewHelpers, only: [fa: 1, format_schedule_time: 1]
+  import Site.ViewHelpers, only: [svg: 1, format_schedule_time: 1]
   alias Schedules.Schedule
   alias Predictions.Prediction
 
@@ -95,7 +95,7 @@ defmodule PredictedSchedule.Display do
   defp do_display_commuter_rail_time(%PredictedSchedule{schedule: schedule, prediction: prediction} = ps) do
     if PredictedSchedule.minute_delay?(ps) do
       content_tag :span, do: [
-        content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap"),
+        content_tag(:del, format_schedule_time(schedule.time), class: "no-wrap strikethrough"),
         tag(:br),
         display_prediction(prediction)
       ]
@@ -115,7 +115,7 @@ defmodule PredictedSchedule.Display do
         schedule: %Schedule{} = schedule,
         prediction: %Prediction{time: nil, schedule_relationship: relationship}})
   when relationship in [:cancelled, :skipped] do
-    content_tag :del, schedule.time |> format_schedule_time |> do_realtime
+    content_tag :del, schedule.time |> format_schedule_time |> do_realtime, class: "no-wrap strikethrough"
   end
   defp do_display_time(%PredictedSchedule{prediction: %Prediction{time: nil, status: nil}}) do
     ""
@@ -128,9 +128,13 @@ defmodule PredictedSchedule.Display do
   end
 
   defp do_realtime(content) do
-    content_tag(:span, [fa("rss"),
-                        " ",
-                       content], class: "no-wrap realtime")
+    content_tag(:div, [
+      content_tag(:div, content, class: "realtime-content"),
+      content_tag(:div, [
+        svg("icon-live-clock.svg"),
+        content_tag(:div, "live", class: "icon-realtime-text")
+      ], class: "icon-realtime animate")
+    ], class: "realtime")
   end
 
   defp do_route_headsign(%Routes.Route{id: "Green-B"}, 0) do
