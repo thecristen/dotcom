@@ -100,10 +100,6 @@ defmodule Fares.Format do
     end
   end
   def summarize(fares, mode, url) when mode in [:ferry, :commuter_rail] do
-    do_price_range_summary(fares, mode, url)
-  end
-
-  defp do_price_range_summary(fares, mode, url) do
     for [base|_] = chunk <- Enum.chunk_by(fares, &match?(%{duration: :single_trip}, &1)) do
       price_range_label = price_range_label(mode)
       min_price = Enum.min_by(chunk, &(&1.cents))
