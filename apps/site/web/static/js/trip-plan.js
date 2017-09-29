@@ -114,7 +114,11 @@ function updateDateSelect($, selector, newValue) {
   const currentOpt = $(selector).find("option[selected='selected']");
   const newOpt = $(selector).find(`option[value=${newValue}]`);
   currentOpt.removeAttr("selected");
-  newOpt.attr("selected", "selected");
+  if (newOpt.length === 0) {
+    currentOpt.parent().append($(`<option value="${newValue}" selected="selected">${newValue}</option>`));
+  } else {
+    newOpt.attr("selected", "selected");
+  }
 }
 
 export function timeInput($) {

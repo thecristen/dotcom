@@ -27,7 +27,7 @@ config :site, Site.ViewHelpers,
   feedback_form_url: "https://docs.google.com/a/mbtace.com/forms/d/e/1FAIpQLScjM7vVFw-5qNZsKC3CNy7xzOAg0i5atkn_tWhkzZkw_oQUyg/viewform"
 
 config :laboratory,
-  features: [],
+  features: [{:project_index, "List of T-Projects", "Enables Phoenix-driven T-Projects"}],
   cookie: [
     max_age: 3600 * 24 * 30, # one month,
     http_only: true
@@ -54,6 +54,9 @@ config :site, :former_mbta_site,
 
 config :site, OldSiteRedirectController,
   gtfs_s3_bucket: {:system, "GTFS_S3_BUCKET", "mbta-gtfs-s3"}
+
+config :site, :rtr_data, Site.RtrDashboardData
+config :site, :rtr_accuracy_api_url, "http://23.21.118.89/developer/api/v2-test/dailypredictionmetrics"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

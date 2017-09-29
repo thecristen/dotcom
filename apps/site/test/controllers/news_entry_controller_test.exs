@@ -48,10 +48,9 @@ defmodule Site.NewsEntryControllerTest do
       assert body =~ "MBTA Urges Customers to Stay Connected This Summer"
     end
 
-    test "raises a 404, given an invalid id", %{conn: conn} do
-      assert_error_sent 404, fn ->
-        get conn, news_entry_path(conn, :show, "invalid")
-      end
+    test "renders a 404 given an invalid id", %{conn: conn} do
+      conn = get conn, news_entry_path(conn, :show, "invalid")
+      assert conn.status == 404
     end
   end
 end

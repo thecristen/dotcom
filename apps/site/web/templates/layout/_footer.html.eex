@@ -44,7 +44,8 @@
           <li class="footer-link-sublist-item"><%= link "Fare Information by Mode", to: fare_path(@conn, :index) %></li>
           <li class="footer-link-sublist-item"><%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced") %></li>
           <li class="footer-link-sublist-item"><%= link "Pass Programs", to: redirect_path(@conn, "pass_program"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Payment Methods", to: fare_path(@conn, :show, "payment_methods") %></li>
+          <li class="footer-link-sublist-item"><%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank" %></li>
+          <li class="footer-link-sublist-item"><%= link "Order Monthly Passes", to: "https://commerce.mbta.com", target: "_blank" %></li>
         </ul>
       </li>
     </ul>

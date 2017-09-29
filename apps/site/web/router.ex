@@ -43,10 +43,10 @@ defmodule Site.Router do
       get "/icalendar", IcalendarController, :show
     end
     resources "/news", NewsEntryController, only: [:index, :show]
-    resources "/people", PersonController, only: [:show]
     resources "/projects", ProjectController, only: [:index, :show]
     get "/projects/:project_id/update/:id", ProjectController, :project_update
     get "/redirect/*path", RedirectController, :show
+    get "/rtr_dashboard", RtrDashboardController, :index
     resources "/stops", StopController, only: [:index, :show]
     get "/stops/*path", StopController, :stop_with_slash_redirect
     get "/schedules", ModeController, :index

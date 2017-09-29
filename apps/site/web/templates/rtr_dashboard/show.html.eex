@@ -1,0 +1,36 @@
+<div class="container">
+  RTR Accuracy Data:
+  <div class="row">
+    <span class="col-xs-3">
+      route_id
+    </span>
+    <span class="col-xs-3">
+      service_date
+    </span>
+    </span>
+    <span class="col-xs-3">
+      threshold_name
+    </span>
+    <span class="col-xs-3">
+      metric_result
+    </span>
+  </div>
+  <%= if @accuracies != nil do %>
+    <%= for result <- @accuracies["daily_prediction_metrics"] do %>
+      <div class="row">
+        <span class="col-xs-3">
+          <%= result["route_id"] %>
+        </span>
+        <span class="col-xs-3">
+          <%= result["service_date"] %>
+        </span>
+        <span class="col-xs-3">
+          <%= result["threshold_name"] %>
+        </span>
+        <span class="col-xs-3">
+          <%= result["metric_result"] %>
+        </span>
+      </div>
+    <% end %>
+  <% end %>
+</div>

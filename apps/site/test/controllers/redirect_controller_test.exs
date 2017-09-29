@@ -57,6 +57,12 @@ defmodule Site.RedirectControllerTest do
     assert response =~ "https://commerce.mbta.com/TheRide"
   end
 
+  test "handles business_center", %{conn: conn} do
+    conn = get conn, "/redirect/business_center"
+    response = html_response(conn, 200)
+    assert response =~ "http://bc.mbta.com/business_center"
+  end
+
   test "send refresh header, allow turbolinks", %{conn: conn} do
     attribute = conn
     |> put_req_header("turbolinks-referrer", "/")

@@ -23,17 +23,15 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "news_entry!/1" do
+  describe "news_entry/1" do
     test "returns the news entry for the given id" do
       assert %Content.NewsEntry{
         id: 1
-      } = Content.Repo.news_entry!("1")
+      } = Content.Repo.news_entry("1")
     end
 
-    test "raises Content.NoResultsError given an unknown id" do
-      assert_raise Content.NoResultsError, fn ->
-        Content.Repo.news_entry!("nonexistent")
-      end
+    test "returns :not_found given an unknown id" do
+      assert :not_found == Content.Repo.news_entry("nonexistent")
     end
   end
 
@@ -42,14 +40,19 @@ defmodule Content.RepoTest do
       assert %Content.NewsEntry{id: 1} = Content.Repo.news_entry_by(id: "1")
     end
 
-    test "returns nil given no record is found" do
-      assert is_nil(Content.Repo.news_entry_by(id: "999"))
+    test "returns :not_found given no record is found" do
+      assert :not_found == Content.Repo.news_entry_by(id: "999")
     end
   end
 
   describe "get_page/1" do
     test "given the path for a Basic page" do
       result = Content.Repo.get_page("/accessibility")
+      assert %Content.BasicPage{} = result
+    end
+
+    test "given the path for a Basic page with tracking params" do
+      result = Content.Repo.get_page("/accessibility", "from=search")
       assert %Content.BasicPage{} = result
     end
 
@@ -86,17 +89,15 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "event!/1" do
+  describe "event/1" do
     test "returns the event if it's present" do
       assert %Content.Event{
         id: 17
-      } = Content.Repo.event!("17")
+      } = Content.Repo.event("17")
     end
 
-    test "raises Content.NoResultsError if not present" do
-      assert_raise Content.NoResultsError, fn ->
-        Content.Repo.event!("999")
-      end
+    test "returns :not_found if not present" do
+      assert :not_found == Content.Repo.event("999")
     end
   end
 
@@ -105,8 +106,8 @@ defmodule Content.RepoTest do
       assert %Content.Event{id: 17} = Content.Repo.event_by(id: "17")
     end
 
-    test "returns nil given no record is found" do
-      assert is_nil(Content.Repo.event_by(id: "999"))
+    test "returns :not_found given no record is found" do
+      assert :not_found == Content.Repo.event_by(id: "999")
     end
   end
 
@@ -126,21 +127,19 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "project!/1" do
+  describe "project/1" do
     test "returns a Content.Project" do
       assert %Content.Project{
         id: id,
         body: body
-      } = Content.Repo.project!("2679")
+      } = Content.Repo.project("2679")
 
       assert id == 2679
       assert safe_to_string(body) =~ "Ruggles Station Platform Project"
     end
 
-    test "raises Content.NoResultsError if not present" do
-      assert_raise Content.NoResultsError, fn ->
-        Content.Repo.project!("0")
-      end
+    test "returns :not_found if not present" do
+      assert :not_found == Content.Repo.project("0")
     end
   end
 
@@ -156,37 +155,15 @@ defmodule Content.RepoTest do
     end
   end
 
-  describe "project_update!/1" do
+  describe "project_update/1" do
     test "returns a Content.ProjectUpdate" do
-      assert %Content.ProjectUpdate{body: body, id: id} = Content.Repo.project_update!("123")
+      assert %Content.ProjectUpdate{body: body, id: id} = Content.Repo.project_update("123")
       assert id == 123
       assert safe_to_string(body) =~ "body"
     end
 
-    test "raises Content.NoResultsError if not present" do
-      assert_raise Content.NoResultsError, fn ->
-        Content.Repo.project_update!("0")
-      end
-    end
-  end
-
-  describe "person!/1" do
-    test "returns the person if they're present" do
-      assert %Content.Person{
-        id: 2579
-      } = Content.Repo.person!("2579")
-    end
-
-    test "raises Content.NoResultsError if not present" do
-      assert_raise Content.NoResultsError, fn ->
-        Content.Repo.person!("0")
-      end
-    end
-  end
-
-  describe "people/1" do
-    test "returns a list of people if they're present" do
-      assert [%Content.Person{id: 2579}, %Content.Person{id: 2581}] = Content.Repo.people()
+    test "returns :not_found if not present" do
+      assert Content.Repo.project_update("0") == :not_found
     end
   end
 

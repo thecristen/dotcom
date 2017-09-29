@@ -11,10 +11,9 @@ defmodule Site.Redirector do
   @impl true
   @spec call(Plug.Conn.t, Keyword.t) :: Plug.Conn.t
   def call(%Plug.Conn{params: %{"id" => id}} = conn, [to: to]) do
-    if record = find_record(id, to) do
-      redirect_to_show(conn, to, record)
-    else
-      render_not_found(conn)
+    case find_record(id, to) do
+      :not_found -> render_not_found(conn)
+      record -> redirect_to_show(conn, to, record)
     end
   end
   def call(conn, [to: to]) do

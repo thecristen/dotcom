@@ -10,5 +10,10 @@ defmodule Site.IcalendarControllerTest do
         "attachment; filename='finance_&_audit_committee_meeting.ics'"
       ]
     end
+
+    test "renders a 404 given an invalid id", %{conn: conn} do
+      conn = get conn, event_icalendar_path(conn, :show, "999")
+      assert conn.status == 404
+    end
   end
 end

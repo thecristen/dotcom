@@ -1,6 +1,8 @@
 defmodule Site.ControllerHelpers do
   alias Plug.Conn
   alias Routes.Route
+  import Plug.Conn, only: [put_status: 2, halt: 1]
+  import Phoenix.Controller, only: [render: 4]
 
   @valid_resp_headers [
     "content-type",
@@ -24,6 +26,13 @@ defmodule Site.ControllerHelpers do
     quote do
       unquote(module).call(unquote(conn), unquote(opts))
     end
+  end
+
+  def render_404(conn) do
+    conn
+    |> put_status(:not_found)
+    |> render(Site.ErrorView, "404.html", [])
+    |> halt()
   end
 
   @spec filter_routes([{atom, [Route.t]}], [atom]) :: [{atom, [Route.t]}]
@@ -93,14 +102,6 @@ defmodule Site.ControllerHelpers do
         conn
       end
     end)
-  end
-
-  @spec render_404(Conn.t) :: Conn.t
-  def render_404(conn) do
-    conn
-    |> Conn.put_status(:not_found)
-    |> Phoenix.Controller.render(Site.ErrorView, "404.html", [])
-    |> Conn.halt
   end
 
   @spec check_cms_or_404(Conn.t) :: Conn.t

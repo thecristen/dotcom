@@ -18,18 +18,19 @@ defmodule Content.Repo do
     end
   end
 
-  @spec news_entry!(integer) :: Content.NewsEntry.t | no_return
-  def news_entry!(id) do
+  @spec news_entry(integer) :: Content.NewsEntry.t | :not_found
+  def news_entry(id) do
     case news(id: id) do
-      [news_entry] -> news_entry
-      _ -> raise Content.NoResultsError
+      [record] -> record
+      _ -> :not_found
     end
   end
 
+  @spec news_entry_by(Keyword.t) :: Content.NewsEntry.t | :not_found
   def news_entry_by(opts) do
     case news(opts) do
      [record] -> record
-     [] -> nil
+     [] -> :not_found
     end
   end
 
@@ -43,6 +44,7 @@ defmodule Content.Repo do
 
   @spec get_page(String.t, String.t | nil) :: Content.Page.t | nil
   def get_page(path, query_string \\ "") do
+    query_string = remove_tracking(query_string)
     cms_path = if query_string != "" do
       path <> URI.encode_www_form("?#{query_string}")
     else
@@ -55,21 +57,9 @@ defmodule Content.Repo do
     end
   end
 
-  @spec people(Keyword.t) :: [Content.Person.t]
-  def people(opts \\ []) do
-    case @cms_api.view("/api/people", opts) do
-      {:ok, api_data} -> Enum.map(api_data, &Content.Person.from_api/1)
-      _ -> []
-    end
-  end
-
-  @spec person!(integer) :: Content.Person.t | no_return
-  def person!(id) do
-    case people(id: id) do
-      [person] -> person
-      _ -> raise Content.NoResultsError
-    end
-  end
+  @spec remove_tracking(String.t) :: String.t
+  defp remove_tracking(""), do: ""
+  defp remove_tracking(query_string), do: Regex.replace(~r/[&]?from=.*/, query_string, "")
 
   @spec events(Keyword.t) :: [Content.Event.t]
   def events(opts \\ []) do
@@ -79,19 +69,19 @@ defmodule Content.Repo do
     end
   end
 
-  @spec event!(String.t) :: Content.Event.t | no_return
-  def event!(id) do
+  @spec event(String.t) :: Content.Event.t | :not_found
+  def event(id) do
     case events(id: id) do
-      [event] -> event
-      _ -> raise Content.NoResultsError
+      [record] -> record
+      _ -> :not_found
     end
   end
 
-  @spec event_by(Keyword.t) :: Content.Event.t | nil
+  @spec event_by(Keyword.t) :: Content.Event.t | :not_found
   def event_by(opts) do
     case events(opts) do
       [record] -> record
-      [] -> nil
+      [] -> :not_found
     end
   end
 
@@ -103,11 +93,11 @@ defmodule Content.Repo do
     end
   end
 
-  @spec project!(integer) :: Content.Project.t | no_return
-  def project!(id) do
+  @spec project(integer) :: Content.Project.t | :not_found
+  def project(id) do
     case projects([id: id]) do
-      [project | _] -> project
-      _ -> raise Content.NoResultsError
+      [record | _] -> record
+      _ -> :not_found
     end
   end
 
@@ -119,11 +109,11 @@ defmodule Content.Repo do
     end
   end
 
-  @spec project_update!(integer) :: Content.ProjectUpdate.t | no_return
-  def project_update!(id) do
+  @spec project_update(integer) :: Content.ProjectUpdate.t | :not_found
+  def project_update(id) do
     case project_updates([id: id]) do
-      [project_update | _] -> project_update
-      _ -> raise Content.NoResultsError
+      [record | _] -> record
+      _ -> :not_found
     end
   end
 

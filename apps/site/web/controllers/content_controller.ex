@@ -40,8 +40,10 @@ defmodule Site.ContentController do
   defp render_page(conn, %Content.NewsEntry{id: id}) do
     redirect conn, to: news_entry_path(conn, :show, id)
   end
-  defp render_page(conn, %Content.Person{id: id}) do
-    redirect conn, to: person_path(conn, :show, id)
+  defp render_page(conn, %Content.Person{} = person) do
+    conn
+    |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
+    |> render("person.html", person: person)
   end
   defp render_page(conn, %Content.Project{id: id}) do
     redirect conn, to: project_path(conn, :show, id)

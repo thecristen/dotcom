@@ -12,8 +12,7 @@ defmodule Content.Factory do
   end
 
   def person_factory(options \\ %{}) do
-    Content.CMS.Static.people_response()
-    |> List.first
+    Content.CMS.Static.person_response()
     |> Content.Person.from_api()
     |> Map.merge(options)
   end

@@ -42,9 +42,9 @@ defmodule Site.ContentControllerTest do
       assert html_response(conn, 302) =~ news_entry_path(conn, :show, 1)
     end
 
-    test "redirects when content type is person", %{conn: conn} do
-      conn = get conn, "/node/2579"
-      assert html_response(conn, 302) =~ person_path(conn, :show, 2579)
+    test "renders a person page", %{conn: conn} do
+      conn = get conn, "/people/joseph-aiello"
+      assert html_response(conn, 200) =~ "<h1>Joseph Aiello</h1>"
     end
 
     test "redirects when content type is project", %{conn: conn} do
