@@ -10,6 +10,15 @@ defmodule Routes.Pdf do
     |> File.stream!
     |> CSV.decode
 
+  @custom_pdfs [
+    # lines to show it on, text to show, link to pdf
+    {
+      ["CR-Providence", "CR-Franklin", "CR-Needham", "CR-Worcester"],
+      ["Back Bay to South Station schedule"],
+      "/sites/default/files/route_pdfs/southstation_backbay.pdf"
+    },
+  ]
+
   @doc "Returns a URL for a PDF of the given schedule."
   @spec url(Route.t) :: String.t | nil
   def url(%Route{id: route_id}) do
@@ -30,7 +39,7 @@ defmodule Routes.Pdf do
   def dated_urls(%Route{id: route_id}, date) do
     route_id
     |> do_dated_urls
-    |> filter_outdated(date)
+    |> current_and_upcoming(date)
   end
 
   for {route_id, rows} <- Enum.group_by(@routes_to_pdfs, &hd/1) do
@@ -39,29 +48,52 @@ defmodule Routes.Pdf do
   end
   defp do_dated_urls(_route_id), do: []
 
-  @doc """
-  Returns either:
-    1) [currently active schedule pdf, next upcoming schedule pdf] when there are both a current
-       and a next pdf
-    2) [currently active scheudle pdf] when there is only a current pdf
-  """
-  @spec filter_outdated([dated_string], Date.t) :: [dated_string]
-  def filter_outdated(dated_urls, date) do
+  @spec current_and_upcoming([dated_string], Date.t) :: [dated_string]
+  defp current_and_upcoming(dated_urls, date) do
     {before, aft} = Enum.split_with(dated_urls, &Date.compare(elem(&1, 0), date) != :gt)
-    [do_filter_outdated(before, :before), do_filter_outdated(aft, :after)] |> Enum.filter(& &1)
+    [List.last(before), List.first(aft)] |> Enum.filter(& &1)
   end
 
-  def do_filter_outdated([], _), do: nil
-  def do_filter_outdated(before, :before), do: List.last(before)
-  def do_filter_outdated([aft | _rest], :after), do: aft
+  @doc """
+  Returns a list of {text, path}
+  """
+  @spec all_pdfs_for_route(Route.t, Date.t) :: [{[String.t], String.t}]
+  def all_pdfs_for_route(route, date) do
+    dated_pdfs_for_route(route, date) ++ custom_pdfs_for_route(route)
+  end
 
-  def south_station_back_bay_pdf(route) do
-    south_station_commuter_rail_lines = ["CR-Kingston", "CR-Middleborough", "CR-Providence", "CR-Fairmount",
-                                         "CR-Franklin", "CR-Needham", "CR-Greenbush", "CR-Worcester"]
-    if route.id in south_station_commuter_rail_lines do
-      "/sites/default/files/route_pdfs/southstation_backbay.pdf"
-    else
-      nil
+  @spec dated_pdfs_for_route(Route.t, Date.t) :: [{[String.t], String.t}]
+  defp dated_pdfs_for_route(route, date) do
+    route_name = pretty_route_name(route)
+    case dated_urls(route, date) do
+      [] ->
+        []
+      [{_previous_date, previous_path}] ->
+        [
+          {[route_name, " paper schedule"], previous_path}
+        ]
+      [{_previous_date, previous_path}, {next_date, next_path} | _] ->
+        [
+          {[route_name, " paper schedule"], previous_path},
+          {["upcoming schedule — effective ", Timex.format!(next_date, "{Mshort} {D}")], next_path}
+        ]
+    end
+  end
+
+  @spec pretty_route_name(Route.t) :: String.t | [String.t]
+  defp pretty_route_name(route) do
+    route_prefix = if route.type == 3, do: "Route ", else: ""
+    route_name = route.name
+    |> String.replace_trailing(" Line", " line")
+    |> String.replace_trailing(" Ferry", " ferry")
+    |> String.replace_trailing(" Trolley", " trolley")
+    route_prefix <> route_name
+  end
+
+  @spec custom_pdfs_for_route(Route.t) :: [{[String.t], String.t}]
+  def custom_pdfs_for_route(route) do
+    for {routes, text, link} <- @custom_pdfs, Enum.member?(routes, route.id) do
+      {text, link}
     end
   end
 end

@@ -100,66 +100,14 @@ defmodule Site.ScheduleV2View do
 
   @spec route_pdf_link(Route.t, Date.t) :: Phoenix.HTML.Safe.t
   def route_pdf_link(%Route{} = route, %Date{} = date) do
-    route_suffix = if route.type == 2, do: " line", else: ""
-    route_name = route
-    |> route_header_text()
-    |> Enum.map(&lowercase_line/1)
-    |> Enum.map(&lowercase_ferry/1)
-    case Routes.Pdf.dated_urls(route, date) do
-      [] ->
-        []
-      [{previous_date, _}] ->
-        content_tag :div do
-          [
-            do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
-            south_station_commuter_rail(route)
-          ]
+    content_tag :div do
+      for {text, path} <- Routes.Pdf.all_pdfs_for_route(route, date) do
+        text = Enum.map(text, &break_text_at_slash/1)
+        content_tag :div, class: "schedules-v2-pdf-link" do
+          link(to: path, target: "_blank") do
+            [fa("file-pdf-o"), " View PDF of ", text]
+          end
         end
-      [{previous_date, _}, {next_date, _} | _] ->
-        content_tag :div do
-          [
-            do_pdf_link(route, previous_date, [route_name, route_suffix, " paper schedule"]),
-            do_pdf_link(route, next_date, ["upcoming schedule — effective ", Timex.format!(next_date, "{Mshort} {D}")]),
-            south_station_commuter_rail(route)
-          ]
-        end
-    end
-  end
-
-  @spec south_station_commuter_rail(Routes.Route.t) :: Phoenix.HTML.Safe.t
-  def south_station_commuter_rail(route) do
-    pdf_path = Routes.Pdf.south_station_back_bay_pdf(route)
-    if pdf_path do
-      content_tag :div, class: "schedules-v2-pdf-link" do
-        link(to: static_url(Site.Endpoint, pdf_path), target: "_blank") do
-          [
-            fa("file-pdf-o"),
-            " View PDF of Back Bay to South Station schedule",
-          ]
-        end
-      end
-    else
-      []
-    end
-  end
-
-  defp lowercase_line(input) do
-    String.replace_trailing(input, " Line", " line")
-  end
-
-  defp lowercase_ferry(input) do
-    String.replace_trailing(input, " Ferry", " ferry")
-  end
-
-  defp do_pdf_link(route, date, link_iodata) do
-    iso_date = Date.to_iso8601(date)
-    content_tag :div, class: "schedules-v2-pdf-link" do
-      link(to: route_pdf_path(Site.Endpoint, :pdf, route, date: iso_date), target: "_blank") do
-        [
-          fa("file-pdf-o"),
-          " View PDF of ",
-          link_iodata
-        ]
       end
     end
   end

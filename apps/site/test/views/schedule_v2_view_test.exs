@@ -413,7 +413,7 @@ defmodule Site.ScheduleV2ViewTest do
 
   describe "route_pdf_link/2" do
     test "returns a link to PDF redirector if we have a PDF for the route" do
-      route = %Routes.Route{id: "CR-Worcester", name: "Fairmount", type: 2}
+      route = %Routes.Route{id: "CR-Worcester", name: "Fairmount Line", type: 2}
       rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
       assert rendered =~ "View PDF of Fairmount line paper schedule"
       assert rendered =~ "View PDF of upcoming schedule — effective May 22"
@@ -427,7 +427,20 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "returns an empty list if no PDF for that route" do
       route = %Routes.Route{id: "nonexistent"}
-      assert route_pdf_link(route, ~D[2017-01-01]) == []
+      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
+      refute rendered =~ "a"
+    end
+
+    test "does not add back bay pdf if the route does not go to back bay" do
+      route = %Routes.Route{id: "CR-Fitchburg"}
+      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
+      refute rendered =~ "/sites/default/files/route_pdfs/southstation_backbay.pdf"
+    end
+
+    test "returns the pdf for back bay to south station schedules if the route does go via back bay" do
+      route = %Routes.Route{id: "CR-Providence"}
+      rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
+      assert rendered =~ "/sites/default/files/route_pdfs/southstation_backbay.pdf"
     end
   end
 
@@ -483,21 +496,6 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "short headsign column" do
       assert direction_select_column_width(false, 10) == "4"
-    end
-  end
-
-  describe "south_station_commuter_rail/1" do
-    test "returns nothing if the route does not go to south station" do
-      route = %Routes.Route{id: "CR-Fitchburg"}
-
-      assert south_station_commuter_rail(route) == []
-    end
-
-    test "returns the pdf for back bay to south station schedules if the route does go to south station" do
-      route = %Routes.Route{id: "CR-Providence"}
-
-      text = south_station_commuter_rail(route) |> Phoenix.HTML.safe_to_string
-      assert text =~ "/sites/default/files/route_pdfs/southstation_backbay.pdf"
     end
   end
 

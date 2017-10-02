@@ -46,14 +46,4 @@ defmodule Routes.PdfTest do
       assert dated_urls(route, ~D[2017-01-01]) == []
     end
   end
-
-  describe "south_station_back_bay_pdf/1" do
-    test "gives the pdf of schedules between back bay and south station when given a commuter rail line that goes to south station" do
-      assert south_station_back_bay_pdf(%Route{id: "CR-Fairmount"}) == "/sites/default/files/route_pdfs/southstation_backbay.pdf"
-    end
-
-    test "gives nil when the route is not a commuter rail line to south station" do
-      assert south_station_back_bay_pdf(%Route{id: "CR-Fitchburg"}) == nil
-    end
-  end
 end

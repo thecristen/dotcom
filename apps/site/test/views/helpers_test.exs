@@ -15,6 +15,20 @@ defmodule Site.ViewHelpersTest do
     end
   end
 
+  describe "break_text_at_slash/1" do
+    test "doesn't change text without slashes" do
+      s = "this text doesn't contain a slash"
+      assert s == break_text_at_slash(s)
+    end
+
+    test "adds zero width spaces after slashes" do
+      s = "abc/123/xyz"
+      result = break_text_at_slash(s)
+      assert String.length(result) == 13
+      assert result == "abc/​123/​xyz"
+    end
+  end
+
   describe "hidden_query_params/2" do
     test "creates a hidden tag for each query parameter", %{conn: conn} do
       actual = hidden_query_params(%{conn | query_params: %{"one" => "value", "two" => "other"}})
