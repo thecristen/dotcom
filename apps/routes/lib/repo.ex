@@ -139,6 +139,8 @@ defmodule Routes.Repo do
     |> Enum.reject(&match?(%{attributes: %{"headsign" => ""}}, &1))
     |> Enum.map(fn %{attributes: %{"headsign" => headsign}} -> headsign end)
     |> order_by_frequency
+  rescue
+    _error -> []
   end
 
   defp handle_response(%{data: data}) do

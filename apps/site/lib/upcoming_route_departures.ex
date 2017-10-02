@@ -84,6 +84,9 @@ defmodule UpcomingRouteDepartures do
   end
 
   # Remove schedules for hidden routes and subway
+  defp filter_schedules({:error, _}) do
+    []
+  end
   defp filter_schedules(schedules) do
     schedules
     |> Enum.reject(&Routes.Repo.route_hidden?(&1.route))

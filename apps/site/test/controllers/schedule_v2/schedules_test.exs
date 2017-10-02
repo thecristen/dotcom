@@ -178,7 +178,28 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
       schedules = schedules(conn, o_d_fn)
       assert schedules == @bus_od_schedules
     end
-  end
+
+    test "returns an error if the repo returned an error (origin only)", %{conn: conn} do
+      result = conn
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:route, @bus_route)
+      |> assign(:origin, %Stops.Stop{id: "1"})
+      |> assign(:direction_id, 0)
+      |> schedules
+
+      assert {:error, _} = result
+    end
+
+    test "returns an error if the repo returned an error (origin and destination)", %{conn: conn} do
+      result = conn
+      |> assign(:date, ~D[2017-01-01])
+      |> assign(:route, @bus_route)
+      |> assign(:origin, %Stops.Stop{id: "1"})
+      |> assign(:destination, %Stops.Stop{id: "2"})
+      |> schedules
+      assert {:error, _} = result
+    end
+end
 
   describe "assign_frequency_table/1" do
     test "when schedules are assigned as a list, assigns a frequency table", %{conn: conn} do
@@ -215,6 +236,12 @@ defmodule Site.ScheduleV2Controller.SchedulesTest do
     test "does not assign a frequency table for non-subway routes", %{conn: conn} do
       conn = conn
       |> assign_frequency_table(@bus_od_schedules)
+
+      refute :frequency_table in Map.keys(conn.assigns)
+    end
+
+    test "does not crash if the schedules returned an error", %{conn: conn} do
+      conn = assign_frequency_table(conn, {:error, :error})
 
       refute :frequency_table in Map.keys(conn.assigns)
     end
