@@ -149,7 +149,7 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
       assert conn.assigns.vehicle_predictions == @empty
     end
 
-      test "does not make duplicate requests for vehicles at the same stop", %{conn: conn} do
+    test "does not make duplicate requests for vehicles at the same stop", %{conn: conn} do
       vehicle_locations = %{
         {"1", "place-sstat"} => %Vehicles.Vehicle{trip_id: "1", stop_id: "place-sstat", status: :incoming},
         {"2", "place-sstat"} =>  %Vehicles.Vehicle{trip_id: "2", stop_id: "place-sstat", status: :stopped}
@@ -167,6 +167,14 @@ defmodule Site.ScheduleV2Controller.PredictionsTest do
               end])
 
       assert conn.assigns.vehicle_predictions == @empty
+    end
+
+    test "assigns empty lists if the predictions return an error", %{conn: conn} do
+      predictions_fn = fn _ -> {:error, :no_predictions} end
+      conn = call(conn, init(predictions_fn: predictions_fn))
+
+      assert conn.assigns.predictions == []
+      assert conn.assigns.vehicle_predictions == []
     end
   end
 end

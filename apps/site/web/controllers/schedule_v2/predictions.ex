@@ -5,12 +5,14 @@ defmodule Site.ScheduleV2Controller.Predictions do
 
   """
   @behaviour Plug
-  import Plug.Conn, only: [assign: 3]
+  import Plug.Conn
   alias Predictions.Prediction
 
   @default_opts [
     predictions_fn: &Predictions.Repo.all/1,
   ]
+
+  @typep predictions_fn :: (Keyword.t -> [Prediction.t] | {:error, any})
 
   @impl true
   def init(opts) do
@@ -21,8 +23,10 @@ defmodule Site.ScheduleV2Controller.Predictions do
   def call(conn, opts) do
     if should_fetch_predictions?(conn) do
       conn
-      |> assign_predictions(opts[:predictions_fn])
-      |> gather_vehicle_predictions(opts[:predictions_fn])
+      |> async_assign(:predictions, fn -> predictions(conn, opts[:predictions_fn]) end)
+      |> async_assign(:vehicle_predictions, fn -> vehicle_predictions(conn, opts[:predictions_fn]) end)
+      |> await_assign(:predictions)
+      |> await_assign(:vehicle_predictions)
     else
       conn
       |> assign(:predictions, [])
@@ -38,23 +42,26 @@ defmodule Site.ScheduleV2Controller.Predictions do
     assigns.date == Util.service_date(assigns.date_time)
   end
 
-  def assign_predictions(%{assigns: %{
-                              origin: origin,
-                              destination: destination,
-                              route: %{id: route_id},
-                              direction_id: direction_id}} = conn, predictions_fn)
+  @spec predictions(Plug.Conn.t, predictions_fn) :: [Prediction.t]
+  def predictions(%{assigns: %{
+                       origin: origin,
+                       destination: destination,
+                       route: %{id: route_id},
+                       direction_id: direction_id}}, predictions_fn)
   when not is_nil(origin) do
-    predictions = [route: route_id]
-    |> Keyword.merge(prediction_query(origin, destination, direction_id))
+    [{:route, route_id} | prediction_query(origin, destination, direction_id)]
     |> predictions_fn.()
-    |> filter_stop_at_origin(origin.id)
-    |> Enum.filter(fn pred ->
-      (pred.trip != nil || pred.status != nil) end)
-
-    assign(conn, :predictions, predictions)
+    |> case do
+         {:error, _} ->
+           []
+         list ->
+           list
+           |> filter_stop_at_origin(origin.id)
+           |> filter_missing_trip
+       end
   end
-  def assign_predictions(conn,  _) do
-    assign(conn, :predictions, [])
+  def predictions(_conn,  _) do
+    []
   end
 
   defp prediction_query(origin, nil, direction_id) do
@@ -64,6 +71,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
     [stop: "#{origin.id},#{destination.id}"]
   end
 
+  @spec filter_stop_at_origin([Prediction.t], Stops.Stop.id_t) :: [Prediction.t]
   defp filter_stop_at_origin(predictions, origin_id) do
     predictions
     |> Enum.reject(fn
@@ -73,21 +81,27 @@ defmodule Site.ScheduleV2Controller.Predictions do
     end)
   end
 
-  @spec gather_vehicle_predictions(Plug.Conn.t, ((String.t, String.t) -> Predictions.Prediction.t)) :: Plug.Conn.t
-  def gather_vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}} = conn, predictions_fn) do
+  @spec filter_missing_trip([Prediction.t]) :: [Prediction.t]
+  defp filter_missing_trip(predictions) do
+    Enum.filter(predictions, fn pred ->
+      pred.trip != nil || pred.status != nil
+    end)
+  end
+
+  @spec vehicle_predictions(Plug.Conn.t, predictions_fn) :: [Prediction.t]
+  def vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}}, predictions_fn) do
     {trips, stops} = vehicle_locations
     |> Map.keys
     |> Enum.unzip
 
     stops = stops |> Enum.uniq |> Enum.join(",")
     trips  = Enum.join(trips, ",")
-    vehicle_predictions = predictions_fn.(trip: trips, stop: stops)
-
-    conn
-    |> assign(:vehicle_predictions, vehicle_predictions)
+    case predictions_fn.(trip: trips, stop: stops) do
+      {:error, _} -> []
+      list -> list
+    end
   end
-  def gather_vehicle_predictions(conn, _) do
-    conn
-    |> assign(:vehicle_predictions, [])
+  def vehicle_predictions(_conn, _) do
+    []
   end
 end
