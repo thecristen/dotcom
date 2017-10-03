@@ -202,7 +202,7 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "icon "
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-subway"
-      assert rendered =~ "translate(4,4)"
+      assert rendered =~ "translate(10,10)"
       assert rendered =~ "title=\"Subway\""
     end
 

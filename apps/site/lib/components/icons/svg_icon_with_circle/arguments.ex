@@ -32,7 +32,6 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
 
   def translate(:globe), do: "6,6"
   def translate(:suitcase), do: "9,11"
-  def translate(:t_logo), do: "8,11"
   def translate(:map), do: "8,9"
   def translate(:fare_ticket), do: "3,13"
   def translate(:access), do: "9,7"
@@ -40,28 +39,22 @@ defmodule Site.Components.Icons.SvgIconWithCircle do
   def translate(:facebook), do: "8,8"
   def translate(:nineoneone), do: "9,9"
   def translate(:phone), do: "12,9"
-  def translate(:subway), do: "4,4"
-  def translate(:bus), do: "4,5"
-  def translate(:commuter_rail), do: "11,9"
-  def translate(:ferry), do: "3,4"
   def translate(:calendar), do: "6,5"
   def translate(:direction), do: "6,5"
   def translate(:variation), do: "12,11"
-  def translate(:mattapan_trolley), do: "1,1"
   def translate(icon) when icon in [:tools, :alert], do: "9,9"
-  def translate(icon) when icon in [:green_line, :orange_line,
-                                    :blue_line, :red_line], do: translate(:t_logo)
-  def translate(_), do: "5,5"
+  def translate(icon) do
+    if icon in Site.Components.Icons.SvgIcon.mode_icons(), do: "10,10", else: "5,5"
+  end
 
   def scale(:nineoneone), do: ".25"
-  def scale(:ferry), do: "1.5"
   def scale(:fare_ticket), do: "1.6"
   def scale(:direction), do: "1.25"
   def scale(:variation), do: "1.25"
   def scale(:calendar), do: "1.25"
-  def scale(:mattapan_trolley), do: "1.7"
-  def scale(icon) when icon in [:subway, :commuter_rail, :bus], do: "1.4"
-  def scale(_), do: "1"
+  def scale(icon) do
+    if icon in Site.Components.Icons.SvgIcon.mode_icons(), do: "1.4", else: "1"
+  end
 
   def rotate(:fare_ticket), do: "rotate(-15)"
   def rotate(_), do: ""
