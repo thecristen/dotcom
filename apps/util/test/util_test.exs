@@ -3,30 +3,6 @@ defmodule UtilTest do
   use Quixir
   import Util
 
-  describe "most_frequent_value/1" do
-    test "handles simple cases" do
-      assert most_frequent_value([1]) == 1
-      assert most_frequent_value([1, 1]) == 1
-      assert most_frequent_value([2, 1, 1]) == 1
-    end
-
-    test "always returns an element from the list" do
-      ptest l: list(of: int(), min: 1) do
-        assert Enum.member?(l, most_frequent_value(l))
-      end
-    end
-
-    test "count of most_frequent value is equal or greater than the count of other elements" do
-      ptest l: list(of: int(), min: 1) do
-        most_frequent_value = most_frequent_value(l)
-        most_frequent_count = Enum.count(l, &(&1 === most_frequent_value))
-        assert Enum.all?(l, fn value ->
-          most_frequent_count >= Enum.count(l, &(&1 === value))
-        end)
-      end
-    end
-  end
-
   describe "now/1" do
     test "handles ambiguous UTC times by returning the earlier time" do
       for {time, expected} <- [
