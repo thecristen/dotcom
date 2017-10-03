@@ -1,6 +1,4 @@
 defmodule Alerts.Repo do
-  use RepoCache, ttl: :timer.minutes(1)
-
   alias Alerts.Cache.Store
 
   @spec all(DateTime.t) :: [Alerts.Alert.t]

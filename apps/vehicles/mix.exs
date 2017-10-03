@@ -19,7 +19,8 @@ defmodule Vehicles.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api, :repo_cache]]
+    [extra_applications: [:logger],
+     mod: {Vehicles, []}]
   end
 
   # Dependencies can be Hex packages:

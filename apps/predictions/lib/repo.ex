@@ -1,5 +1,5 @@
 defmodule Predictions.Repo do
-  use RepoCache, ttl: :timer.seconds(10)
+  use RepoCache, ttl: :timer.seconds(10), ttl_check: :timer.seconds(2)
   require Logger
 
   @default_params [

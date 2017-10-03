@@ -1,8 +1,8 @@
 defmodule RepoCacheTest.Repo do
   use RepoCache, ttl: :timer.seconds(1)
 
-  def time(value, cache_opts \\ []) do
-    cache(value, fn _ -> System.monotonic_time end, cache_opts)
+  def time(value) do
+    cache(value, fn _ -> System.monotonic_time end)
   end
 
   def always(value) do
@@ -19,6 +19,11 @@ end
 defmodule RepoCacheTest do
   use ExUnit.Case, async: true
   alias RepoCacheTest.Repo
+
+  setup_all do
+    {:ok, _} = Repo.start_link
+    :ok
+  end
 
   test "returns the cache result multiple times for the same key" do
     first = Repo.time(1)
@@ -48,5 +53,16 @@ defmodule RepoCacheTest do
     assert :value == Repo.agent_state(pid)
     Repo.clear_cache
     assert :real == Repo.agent_state(pid)
+  end
+
+  describe "child_spec/1" do
+    test "returns a child_spec map" do
+      assert %{
+        id: _,
+        start: {_, _, _},
+        type: _,
+        restart: _,
+        shutdown: _} = Repo.child_spec([])
+    end
   end
 end

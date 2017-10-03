@@ -19,7 +19,8 @@ defmodule Predictions.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api, :timex, :repo_cache, :tzdata, :schedules, :routes, :stops]]
+    [extra_applications: [:logger],
+     mod: {Predictions, []}]
   end
 
   # Dependencies can be Hex packages:
