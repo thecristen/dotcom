@@ -14,7 +14,7 @@ defmodule Site.ScheduleV2Controller.Pdf do
     pdf_from_route_and_date(conn, route, date)
   end
 
-  @spec pdf_from_route_and_date(Plug.Conn.t, Route.t, Date.t) :: Plug.Conn.t
+  @spec pdf_from_route_and_date(Plug.Conn.t, Routes.Route.t, Date.t) :: Plug.Conn.t
   defp pdf_from_route_and_date(conn, route, date) do
     case Routes.Pdf.dated_urls(route, date) do
       [] ->
