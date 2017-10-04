@@ -36,9 +36,16 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
     end
 
     test "assigns journeys even without schedules or predictions" do
-      conn = setup_conn(@route, [], [], @date_time, @cal_date, nil, nil)
+      values = [
+        [], # no values
+        {:error, :error} # error value
+      ]
+      for route_type <- 0..4, schedules <- values, predictions <- values do
+        route = %{@route | type: route_type}
+        conn = setup_conn(route, schedules, predictions, @date_time, @cal_date, nil, nil)
 
-      assert conn.assigns.journeys == %JourneyList{}
+        assert conn.assigns.journeys == %JourneyList{}
+      end
     end
 
     test "Does not initially show all trips for Ferry" do

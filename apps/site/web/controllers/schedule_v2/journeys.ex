@@ -15,19 +15,21 @@ defmodule Site.ScheduleV2Controller.Journeys do
   plug :validate_direction_id
 
   def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) when Route.subway?(route_type, route_id) do
+    schedules = Util.error_default(schedules, [])
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
-    predictions = conn.assigns.predictions
+    predictions = Util.error_default(conn.assigns.predictions, [])
 
     journeys = JourneyList.build_predictions_only(schedules, predictions, origin_id, destination_id)
 
     assign(conn, :journeys, journeys)
   end
   def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) do
+    schedules = Util.error_default(schedules, [])
     show_all_trips? = conn.params["show_all_trips"] == "true"
     destination_id = Util.safe_id(conn.assigns.destination)
     origin_id = Util.safe_id(conn.assigns.origin)
-    predictions = conn.assigns.predictions
+    predictions = Util.error_default(conn.assigns.predictions, [])
     user_selected_date = conn.assigns.date
     current_date_time = conn.assigns.date_time
     today? = Timex.diff(user_selected_date, current_date_time, :days) == 0

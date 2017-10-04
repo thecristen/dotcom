@@ -2,6 +2,7 @@ defmodule UtilTest do
   use ExUnit.Case, async: true
   use Quixir
   import Util
+  doctest Util
 
   describe "most_frequent_value/1" do
     test "handles simple cases" do

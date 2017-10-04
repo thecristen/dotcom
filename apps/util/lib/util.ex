@@ -38,6 +38,26 @@ defmodule Util do
   end
 
   @doc """
+  Converts an {:error, _} tuple to a default value.
+
+  # Examples
+
+    iex> Util.error_default(:value, :default)
+    :value
+    iex> Util.error_default({:error, :tuple}, :default)
+    :default
+  """
+  @spec error_default(value | {:error, any}, value) :: value
+  when value: any
+  def error_default(error_or_default, default)
+  def error_default({:error, _}, default) do
+    default
+  end
+  def error_default(value, _default) do
+    value
+  end
+
+  @doc """
 
   The current service date.  The service date lasts from 3am to 2:59am, so
   times after midnight belong to the service of the previous date.
