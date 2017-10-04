@@ -29,4 +29,13 @@ defmodule Routes.PdfTest do
       assert dated_urls(route, ~D[2017-01-01]) == []
     end
   end
+
+  describe "all_pdfs_for_route/2" do
+    test "adds custom pdfs to end of dated pdfs" do
+      route = %Route{id: "CR-Worcester"}
+      dated_pdf_url = "/sites/default/files/route_pdfs/Worcester%20WEB%20052217%20V1(1).pdf"
+      custom_pdf_url = "/sites/default/files/route_pdfs/southstation_backbay.pdf"
+      assert [{_dated_text, ^dated_pdf_url}, {_custom_text, ^custom_pdf_url}] = all_pdfs_for_route(route, ~D[2017-05-23])
+    end
+  end
 end
