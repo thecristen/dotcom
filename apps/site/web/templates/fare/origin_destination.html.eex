@@ -110,7 +110,7 @@
       You can get One Way, Round Trip, and Monthly (valid for Bus and Subway travel as well) Passes on a CharlieTicket at retail stores located throughout the Greater Boston and Providence areas.
     </p>
     <p>
-      <%= link to: fare_path(@conn, :show, :retail_sales_locations) do %>
+      <%= link to: fare_path(@conn, :show, "retail-sales-locations") do %>
         Find a store near you <%= fa "arrow-right" %>
       <% end %>
     </p>
@@ -123,7 +123,7 @@
       <%= render "_mode_pay.html", mode: @mode %>
     </div>
     <div class="col-xs-12 col-sm-6">
-      <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, :payment_methods), target: "_self" %>
+      <%= render "_related_page_card.html", title: "Payment Methods", body: ["Ways to pay your fare", "Where each payment method can be used", "Types of fares you can load onto each payment method"], href: fare_path(@conn, :show, "payment-methods"), target: "_self" %>
     </div>
   </div>
   <div class="row">

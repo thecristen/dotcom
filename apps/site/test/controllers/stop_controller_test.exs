@@ -26,7 +26,7 @@ defmodule Site.StopControllerTest do
   end
 
   test "assigns stop_info for each mode", %{conn: conn} do
-    for mode <- [:subway, :ferry, :commuter_rail] do
+    for mode <- [:subway, :ferry, "commuter-rail"] do
       conn = get(conn, stop_path(conn, :show, mode))
       assert conn.assigns.stop_info
     end
@@ -61,7 +61,7 @@ defmodule Site.StopControllerTest do
   end
 
   test "mattapan is nil for non subway index pages", %{conn: conn} do
-      conn = get(conn, stop_path(conn, :show, :commuter_rail))
+      conn = get(conn, stop_path(conn, :show, "commuter-rail"))
       refute conn.assigns.mattapan
   end
 

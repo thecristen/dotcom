@@ -6,7 +6,7 @@
     <div class="button-group getting-around">
       <%= render "_link.html", href: schedule_path(@conn, :show, "subway"), text: "Subway", target: "_self" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "bus"), text: "Bus", target: "_self" %>
-      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter_rail"), text: "Commuter Rail", target: "_self" %>
+      <%= render "_link.html", href: schedule_path(@conn, :show, "commuter-rail"), text: "Commuter Rail", target: "_self" %>
       <%= render "_link.html", href: schedule_path(@conn, :show, "ferry"), text: "Ferry", target: "_self" %>
       <%= render "_link.html", href: cms_static_page_path(@conn, "/accessibility/the-ride"), text: "The RIDE", target: "_self" %>
     </div>

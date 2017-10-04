@@ -16,10 +16,10 @@ defmodule Site.StyleGuideController do
   end
 
   def index(conn, %{"section" => "content"}) do
-    redirect conn, to: "/style_guide/content/audience_goals_tone"
+    redirect conn, to: "/style-guide/content/audience-goals-tone"
   end
   def index(conn, %{"section" => "components"}) do
-    redirect conn, to: "/style_guide/components/typography"
+    redirect conn, to: "/style-guide/components/typography"
   end
   def index(conn, %{"section" => _} = params), do: render_section(conn, params)
 
@@ -38,6 +38,8 @@ defmodule Site.StyleGuideController do
   def show(conn, %{"subpage" => "typography"} = params), do: render_subpage(conn, params)
   def show(conn, %{"subpage" => "colors"} = params), do: render_subpage(conn, params)
   def show(conn, %{"subpage" => "logo"} = params), do: render_subpage(conn, params)
+  def show(conn, %{"section" => "content", "subpage" => "audience-goals-tone"} = params), do: render_subpage(conn, %{params | "subpage" => "audience_goals_tone"})
+  def show(conn, %{"section" => "content", "subpage" => "grammar-and-mechanics"} = params), do: render_subpage(conn, %{params | "subpage" => "grammar_and_mechanics"})
   def show(conn, %{"section" => "content", "subpage" => _} = params), do: render_subpage(conn, params)
   def show(conn, %{"subpage" => component_group} = params) do
     conn
@@ -84,7 +86,7 @@ defmodule Site.StyleGuideController do
 
   @spec get_components(String.t) :: [atom]
   defp get_components(group) do
-    group_atom = String.to_existing_atom(group)
+    group_atom = group |> String.replace("-", "_") |> String.to_existing_atom()
     @components
     |> Enum.find(&match?({^group_atom, _}, &1))
     |> elem(1)

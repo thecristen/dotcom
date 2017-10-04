@@ -38,6 +38,19 @@ defmodule Site.Router do
   scope "/", Site do
     pipe_through [:secure, :browser]
 
+    # redirect underscored urls to hyphenated version
+    get "/transit_near_me", Redirector, to: "/transit-near-me"
+    get "/stops/commuter_rail", Redirector, to: "/stops/commuter-rail"
+    get "/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail"
+    get "/alerts/commuter_rail", Redirector, to: "/alerts/commuter-rail"
+    get "/fares/commuter_rail", Redirector, to: "/fares/commuter-rail"
+    get "/fares/bus_subway", Redirector, to: "/fares/bus-subway"
+    get "/fares/commuter_rail/zone", Redirector, to: "/fares/commuter-rail/zone"
+    get "/fares/payment_methods", Redirector, to: "/fares/payment-methods"
+    get "/fares/charlie_card", Redirector, to: "/fares/charlie-card"
+    get "/fares/retail_sales_locations", Redirector, to: "/fares/retail-sales-locations"
+    get "/how-to-pay/commuter_rail", Redirector, to: "/how-to-pay/commuter-rail"
+
     get "/", PageController, :index
     resources "/events", EventController, only: [:index, :show] do
       get "/icalendar", IcalendarController, :show
@@ -53,7 +66,7 @@ defmodule Site.Router do
     get "/schedules/subway", ModeController, :subway
     get "/schedules/bus", ModeController, :bus
     get "/schedules/ferry", ModeController, :ferry
-    get "/schedules/commuter_rail", ModeController, :commuter_rail
+    get "/schedules/commuter-rail", ModeController, :commuter_rail
     get "/schedules/Green/line", ScheduleV2Controller.Green, :line
     get "/schedules/Green/schedule", ScheduleV2Controller.Green, :trip_view
     get "/schedules/Green", ScheduleV2Controller.Green, :show
@@ -62,16 +75,16 @@ defmodule Site.Router do
     get "/schedules/:route/line", ScheduleV2Controller.LineController, :show, as: :line
     get "/schedules/:route", ScheduleV2Controller, :show, as: :schedule
     get "/schedules/:route/pdf", ScheduleV2Controller.Pdf, :pdf, as: :route_pdf
-    get "/style_guide", StyleGuideController, :index
-    get "/style_guide/:section", StyleGuideController, :index
-    get "/style_guide/:section/:subpage", StyleGuideController, :show
+    get "/style-guide", StyleGuideController, :index
+    get "/style-guide/:section", StyleGuideController, :index
+    get "/style-guide/:section/:subpage", StyleGuideController, :show
     get "/transit-near-me", TransitNearMeController, :index
     resources "/alerts", AlertController, only: [:index, :show]
-    get "/trip_planner", TripPlanController, :index
+    get "/trip-planner", TripPlanController, :index
     get "/customer-support", CustomerSupportController, :index
     get "/customer-support/thanks", CustomerSupportController, :thanks
     post "/customer-support", CustomerSupportController, :submit
-    get "/fares/commuter_rail/zone", FareController, :zone
+    get "/fares/commuter-rail/zone", FareController, :zone
     resources "/fares", FareController, only: [:index, :show]
     resources "/how-to-pay", HowToPayController, only: [:index, :show], param: "mode"
     get "/search", SearchController, :index

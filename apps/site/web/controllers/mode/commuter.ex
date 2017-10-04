@@ -18,7 +18,7 @@ defmodule Site.Mode.CommuterRailController do
   end
 
   defp link_to_zone_fares do
-    path = fare_path(Site.Endpoint, :show, "commuter_rail")
+    path = fare_path(Site.Endpoint, :show, "commuter-rail")
     link "Commuter Rail Fares", to: path
   end
 end

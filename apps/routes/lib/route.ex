@@ -25,13 +25,18 @@ defmodule Routes.Route do
   @outer_express_routes ~w(352 354 505)
   @outer_express_route_set MapSet.new(@outer_express_routes)
 
-  @spec type_atom(t | type_int) :: gtfs_route_type
+  @spec type_atom(t | type_int | String.t) :: gtfs_route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway
   def type_atom(2), do: :commuter_rail
   def type_atom(3), do: :bus
   def type_atom(4), do: :ferry
+  def type_atom("commuter-rail"), do: :commuter_rail
+  def type_atom("commuter_rail"), do: :commuter_rail
+  def type_atom("subway"), do: :subway
+  def type_atom("bus"), do: :bus
+  def type_atom("ferry"), do: :ferry
 
   @spec types_for_mode(gtfs_route_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
@@ -48,6 +53,7 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
   @spec type_name(atom) :: String.t
+  def type_name("commuter-rail"), do: type_name(:commuter_rail)
   def type_name(:commuter_rail), do: "Commuter Rail"
   def type_name(:the_ride), do: "The Ride"
   def type_name(atom) do

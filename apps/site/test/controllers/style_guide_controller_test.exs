@@ -3,16 +3,14 @@ defmodule Site.StyleGuideControllerTest do
   use Site.ConnCase, async: true
 
   test "all known pages render", %{conn: conn} do
-    for {section_name, subpages} <- Site.StyleGuideController.known_pages() do
-      conn = get conn, "style_guide/#{section_name}"
-      valid = case conn.status do
-        200 -> true
-        302 -> true
-        _ -> false
-      end
-      assert valid == true
-      for subpage <- subpages do
-        conn = get conn, "style_guide/#{section_name}/#{subpage}"
+    for {section_atom, subpages} <- Site.StyleGuideController.known_pages() do
+      section_string = section_atom |> Atom.to_string() |> String.replace("_", "-")
+      conn = get conn, "style-guide/#{section_string}"
+      assert Enum.member?([200, 302], conn.status)
+      for subpage_atom <- subpages do
+        subpage_string = subpage_atom |> Atom.to_string() |> String.replace("_", "-")
+        conn = get conn, "style-guide/#{section_string}/#{subpage_string}"
+        refute {subpage_string, conn.status} == {subpage_string, 404}
         assert html_response(conn, 200)
       end
     end
@@ -28,11 +26,11 @@ defmodule Site.StyleGuideControllerTest do
     end)
   end
 
-  test "@components gets assigned to conn when visiting /style_guide/*", %{conn: conn} do
+  test "@components gets assigned to conn when visiting /style-guide/*", %{conn: conn} do
     assigned_components =
       conn
       |> bypass_through(:browser)
-      |> get("/style_guide")
+      |> get("/style-guide")
       |> Map.get(:assigns)
       |> Map.get(:components)
 
@@ -45,18 +43,18 @@ defmodule Site.StyleGuideControllerTest do
     |> Enum.each(&(assert &1.status == 200))
   end
 
-  test "/style_guide/content redirects to /style_guide/content/audience_goals_tone", %{conn: conn} do
-    conn = get conn, "style_guide/content"
-    assert html_response(conn, 302) =~ "/style_guide/content/audience_goals_tone"
+  test "/style-guide/content redirects to /style-guide/content/audience_goals_tone", %{conn: conn} do
+    conn = get conn, "style-guide/content"
+    assert html_response(conn, 302) =~ "/style-guide/content/audience-goals-tone"
   end
 
-  test "/style_guide/components/* has a side navbar", %{conn: conn} do
-    conn = get conn, "/style_guide/components/typography"
+  test "/style-guide/components/* has a side navbar", %{conn: conn} do
+    conn = get conn, "/style-guide/components/typography"
     assert html_response(conn, 200) =~ "subpage-nav"
   end
 
-  test "/style_guide/content/* has a side navbar", %{conn: conn} do
-    conn = get conn, "/style_guide/content/terms"
+  test "/style-guide/content/* has a side navbar", %{conn: conn} do
+    conn = get conn, "/style-guide/content/terms"
     assert html_response(conn, 200) =~ "subpage-nav"
   end
 
@@ -67,7 +65,7 @@ defmodule Site.StyleGuideControllerTest do
   def get_component_section_conn(conn, {section, _components}) do
     conn
     |> bypass_through(:browser)
-    |> get("/style_guide/components/#{section}")
+    |> get("/style-guide/components/#{section}")
   end
 
 end

@@ -28,7 +28,7 @@ defmodule Site.FareControllerTest do
 
   describe "show" do
     test "renders commuter rail", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :commuter_rail, origin: "place-sstat", destination: "Readville")
+      conn = get conn, fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
       assert html_response(conn, 200) =~ "Commuter Rail Fares"
     end
 
@@ -48,12 +48,12 @@ defmodule Site.FareControllerTest do
     end
 
     test "renders bus/subway", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :bus_subway)
+      conn = get conn, fare_path(conn, :show, "bus-subway")
       assert html_response(conn, 200) =~ "Bus and Subway Fares"
     end
 
     test "lists vending machine stations on bus/subway page", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :bus_subway)
+      conn = get conn, fare_path(conn, :show, "bus-subway")
       for station  <- ["Back Bay", "Braintree", "Forest Hills", "JFK/UMass", "Lynn", "Malden Center", "North Station",
       "Porter Square", "Quincy Center", "Ruggles", "South Station", "Worcester/Union"] do
         assert html_response(conn, 200) =~ station
@@ -61,7 +61,7 @@ defmodule Site.FareControllerTest do
     end
 
     test "lists charliecard stations on bus/subway page", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :bus_subway)
+      conn = get conn, fare_path(conn, :show, "bus-subway")
       for station <- ["Alewife", "Arlington", "Ashmont", "Back Bay", "Dudley Square", "Forest Hills", "Harvard Square",
       "North Station", "Oak Grove", "Park", "Ruggles"] do
         assert html_response(conn, 200) =~ station
@@ -69,7 +69,7 @@ defmodule Site.FareControllerTest do
     end
 
     test "renders a page about retail sale locations", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :retail_sales_locations)
+      conn = get conn, fare_path(conn, :show, "retail-sales-locations")
       assert html_response(conn, 200) =~ "Retail Sales Locations"
     end
 
@@ -131,7 +131,7 @@ defmodule Site.FareControllerTest do
     end
 
     test "uses the date passed in if there is one", %{conn: conn} do
-      conn = get conn, fare_path(conn, :show, :retail_sales_locations, date_time: "2013-01-01T12:12:12-05:00")
+      conn = get conn, fare_path(conn, :show, "retail-sales-locations", date_time: "2013-01-01T12:12:12-05:00")
 
       assert html_response(conn, 200) =~ "January 2013"
     end
@@ -177,7 +177,7 @@ defmodule Site.FareControllerTest do
 
   describe "payment methods page" do
     test "renders payment info" do
-      conn = get build_conn(), fare_path(Site.Endpoint, :show, "payment_methods")
+      conn = get build_conn(), fare_path(Site.Endpoint, :show, "payment-methods")
       content = html_response(conn, 200)
       assert content =~ "CharlieCards are durable, plastic cards"
       assert content =~ "Pick up a CharlieTicket at"
