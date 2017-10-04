@@ -52,7 +52,7 @@ defmodule V3Api do
 
   @spec log_response(String.t, Keyword.t, integer, any) :: :ok
   defp log_response(url, params, time, response) do
-    entry = fn -> "V3Api.get_json_response url=#{url} " <>
+    entry = fn -> "V3Api.get_json_response url=#{inspect url} " <>
       "params=#{params |> Map.new |> Poison.encode!} " <>
       log_body(response) <>
       " duration=#{time / 1000}"
@@ -64,8 +64,8 @@ defmodule V3Api do
 
   @spec log_response_error(String.t, Keyword.t, String.t) :: :ok
   defp log_response_error(url, params, body) do
-    entry = fn -> "V3Api.get_json_response url=#{url} " <>
-      "params=#{params |> Map.new |> Poison.encode!} " <>
+    entry = fn -> "V3Api.get_json_response url=#{inspect url} " <>
+      "params=#{params |> Map.new |> Poison.encode!} response=" <>
       body
     end
       _ = log_context("api-response-error", entry)

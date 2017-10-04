@@ -33,7 +33,7 @@ defmodule V3Api.SentryExtraTest do
 
   describe "check conditions through V3Api.get_json/3" do
     test "bad json response", %{bypass: bypass, url: url} do
-      expects = "V3Api.get_json_response url=/bad_json params={} {data: garbage}"
+      expects = "V3Api.get_json_response url=\"/bad_json\" params={} response={data: garbage}"
       Bypass.expect bypass, fn conn ->
         assert conn.request_path == "/bad_json"
         send_resp conn, 200, ~s({data: garbage})
@@ -43,7 +43,7 @@ defmodule V3Api.SentryExtraTest do
     end
 
     test "bad server response", %{bypass: bypass, url: url} do
-      expects = "V3Api.get_json_response url=/bad_response params={} "
+      expects = "V3Api.get_json_response url=\"/bad_response\" params={} response="
       Bypass.expect bypass, fn conn ->
         assert conn.request_path == "/bad_response"
         send_resp conn, 500, ""
