@@ -1,5 +1,7 @@
 #/usr/bin/env bash
 set -e
+
+mix compile --force
 # copy any pre-built PLTs to the right directory
 find $SEMAPHORE_CACHE_DIR -name "dialyxir_*_deps-dev.plt*" | xargs -I{} cp '{}' _build/dev
 
