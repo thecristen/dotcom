@@ -21,7 +21,13 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
   end
 
   describe "call/2" do
-    defp setup_conn(route, schedules, predictions, now, selected_date, origin, destination, show_all_trips \\ "false") do
+    defp setup_conn(route, schedules, predictions, opts \\ []) do
+      now = opts[:now] || @date_time
+      selected_date = opts[:selected_date] || @cal_date
+      origin = opts[:origin]
+      destination = opts[:destination]
+      show_all_trips = opts[:show_all_trips] || "false"
+
       %{build_conn() | params: %{"show_all_trips" => show_all_trips}}
       |> assign(:route, route)
       |> assign(:direction_id, 0)
@@ -42,14 +48,14 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
       ]
       for route_type <- 0..4, schedules <- values, predictions <- values do
         route = %{@route | type: route_type}
-        conn = setup_conn(route, schedules, predictions, @date_time, @cal_date, nil, nil)
+        conn = setup_conn(route, schedules, predictions)
 
         assert conn.assigns.journeys == %JourneyList{}
       end
     end
 
     test "Does not initially show all trips for Ferry" do
-      conn = setup_conn(%Route{id: "Boat-F4", type: 4, name: "Boaty McBoatface"}, [], [], @date_time, @cal_date, nil, nil)
+      conn = setup_conn(%Route{id: "Boat-F4", type: 4, name: "Boaty McBoatface"}, [], [])
 
       assert conn.assigns.journeys == %JourneyList{}
     end
@@ -65,7 +71,8 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
           stop: stop
         }
       end
-      conn = setup_conn(%Route{id: "CR-Lowell", type: 2, name: "Lowell"}, schedules, [], now, now, stop, nil)
+      conn = setup_conn(%Route{id: "CR-Lowell", type: 2, name: "Lowell"}, schedules, [],
+        now: now, selected_date: now, origin: stop)
 
       current_schedules = Enum.drop(schedules, 2)
       optionals = [origin_id: stop.id, current_time: now]
@@ -83,7 +90,7 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
           stop: stop
         }
       end
-      conn = setup_conn(@route, schedules, [], now, @cal_date, stop, nil, "true")
+      conn = setup_conn(@route, schedules, [], now: now, origin: stop, show_all_trips: "true")
 
       journey_list = JourneyList.build(schedules,
                                        [],
@@ -104,7 +111,9 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
           stop: stop
         }
       end
-      conn = setup_conn(@route, schedules, [], now, Timex.shift(@cal_date, years: 2000), stop, nil, "true")
+      conn = setup_conn(@route, schedules, [],
+        now: now, selected_date: Timex.shift(@cal_date, years: 2000),
+        origin: stop, show_all_trips: "true")
 
       assert conn.assigns.journeys.expansion == :none
     end
@@ -150,7 +159,7 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
       predictions = [
         %Prediction{stop: origin, time: @date_time},
         %Prediction{stop: destination, time: @date_time}]
-      conn = setup_conn(@route, schedules, predictions, @date_time, @cal_date, origin, destination)
+      conn = setup_conn(@route, schedules, predictions, origin: origin, destination: destination)
       assert redirected_to(conn, 302) == update_url(conn, direction_id: 1)
     end
 
@@ -204,10 +213,9 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
         @route,
         all_schedules,
         destination_predictions ++ extra_predictions,
-        now,
-        @cal_date,
-        origin,
-        destination
+        now: now,
+        origin: origin,
+        destination: destination
       )
 
       journey_opts = [origin_id: origin.id, destination_id: destination.id, current_time: @date_time]
