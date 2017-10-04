@@ -19,15 +19,6 @@ defmodule Routes.Pdf do
     },
   ]
 
-  @doc "Returns a URL for a PDF of the given schedule."
-  @spec url(Route.t) :: String.t | nil
-  def url(%Route{id: route_id}) do
-    case do_dated_urls(route_id) do
-      [{_, url} | _] -> url
-      _ -> nil
-    end
-  end
-
   @doc """
 
   Returns a list of PDF URLs, along with the date that the schedule starts
@@ -91,7 +82,7 @@ defmodule Routes.Pdf do
   end
 
   @spec custom_pdfs_for_route(Route.t) :: [{[String.t], String.t}]
-  def custom_pdfs_for_route(route) do
+  defp custom_pdfs_for_route(route) do
     for {routes, text, link} <- @custom_pdfs, Enum.member?(routes, route.id) do
       {text, link}
     end
