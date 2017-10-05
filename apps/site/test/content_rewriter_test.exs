@@ -95,8 +95,21 @@ defmodule Site.ContentRewriterTest do
     test "strips dimension attributes from images" do
       assert ~s(<img src="/image.png" alt="an image" width="600" height="400"/>)
              |> raw()
-             |> rewrite() == {:safe, ~s(<img src="/image.png" alt="an image"/>)}
+             |> rewrite() == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
     end
+
+    test "adds img-fluid to images that don't already have a class" do
+      assert ~s(<img src="/image.png" alt="an image" />)
+             |> raw()
+             |> rewrite() == {:safe, ~s(<img class="img-fluid" src="/image.png" alt="an image"/>)}
+    end
+
+    test "adds img-fluid to images that do already have a class" do
+      assert ~s(<img src="/image.png" alt="an image" class="existing-class" />)
+             |> raw()
+             |> rewrite() == {:safe, ~s(<img class="existing-class img-fluid" src="/image.png" alt="an image"/>)}
+    end
+
   end
 
   defp remove_whitespace(str), do: String.replace(str, ~r/[ \n]/, "")

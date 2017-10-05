@@ -202,7 +202,7 @@ defmodule Site.ComponentsTest do
       assert rendered =~ "icon "
       assert rendered =~ "icon-circle"
       assert rendered =~ "icon-subway"
-      assert rendered =~ "translate(4,4)"
+      assert rendered =~ "translate(10,10)"
       assert rendered =~ "title=\"Subway\""
     end
 
@@ -234,7 +234,7 @@ defmodule Site.ComponentsTest do
   end
 
   describe "tabs > mode_tab_list" do
-    @links [bus: "/bus", subway: "/subway", the_ride: "/the-ride", access: "/access"]
+    @links [{"commuter-rail", "/commuter-rail"}, {"bus", "/bus"}, {"subway", "/subway"}, {"the_ride", "/the-ride"}, {"access", "/access"}]
 
     def mode_tab_args do
       %ModeTabList{
@@ -246,7 +246,7 @@ defmodule Site.ComponentsTest do
 
     test "renders a list of tabs for with links for modes, including access and the ride" do
       rendered = mode_tab_args() |> mode_tab_list() |> safe_to_string()
-      for link <- ["/bus#bus-tab", "/subway#subway-tab", "/the-ride#the-ride-tab", "/access#access-tab"] do
+      for link <- ["/commuter-rail#commuter-rail-tab", "/bus#bus-tab", "/subway#subway-tab", "/the-ride#the-ride-tab", "/access#access-tab"] do
         assert rendered =~ ~s(href="#{link}")
       end
     end
@@ -264,7 +264,7 @@ defmodule Site.ComponentsTest do
     end
 
     test "mode_links/1" do
-      expected = [{"bus", "Bus", "/bus"}, {"subway", "Subway", "/subway"}, {"the_ride", "The Ride", "/the-ride"}, {"access", "Access", "/access"}]
+      expected = [{"commuter_rail", "Commuter Rail", "/commuter-rail"}, {"bus", "Bus", "/bus"}, {"subway", "Subway", "/subway"}, {"the_ride", "The Ride", "/the-ride"}, {"access", "Access", "/access"}]
       assert mode_links(@links) == expected
     end
 
@@ -331,6 +331,14 @@ defmodule Site.ComponentsTest do
     test "selected?/2" do
       assert selected?("info", "info")
       refute selected?("schedules", "info")
+    end
+  end
+
+  describe "get_path/1" do
+    test "can take a %Route{}" do
+      assert %Routes.Route{id: "Red"}
+              |> get_path()
+              |> safe_to_string() =~ "<path"
     end
   end
 

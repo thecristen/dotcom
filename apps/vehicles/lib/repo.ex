@@ -1,5 +1,5 @@
 defmodule Vehicles.Repo do
-  use RepoCache, ttl: :timer.seconds(10)
+  use RepoCache, ttl: :timer.seconds(10), ttl_check: :timer.seconds(2)
 
   alias Vehicles.{Vehicle, Parser}
 

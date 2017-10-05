@@ -40,7 +40,7 @@ defmodule Site.ContentRewriter do
     {name, attrs, Site.FlokiHelpers.traverse(children, &dispatch_rewrites/1)}
   end
   defp dispatch_rewrites({"img", attrs, content}) do
-    {"img", Enum.filter(attrs, &keep_img_attr?/1), content}
+    {"img", img_attrs(attrs), content}
   end
   defp dispatch_rewrites(content) when is_binary(content) do
     Regex.replace(~r/\{\{(.*)\}\}/U, content, fn(_, obj) ->
@@ -53,7 +53,20 @@ defmodule Site.ContentRewriter do
     nil
   end
 
+  defp img_attrs(attrs) do
+    attrs
+    |> Enum.filter(&keep_img_attr?/1)
+    |> ensure_img_fluid()
+  end
+
   defp keep_img_attr?({"height", _}), do: false
   defp keep_img_attr?({"width", _}), do: false
   defp keep_img_attr?(_), do: true
+
+  defp ensure_img_fluid(attrs) do
+    case Enum.split_with(attrs, fn {key, _val} -> key == "class" end) do
+      {[], attrs} -> [{"class", "img-fluid"} | attrs]
+      {[{"class", class}], other_attrs} -> [{"class", class <> " img-fluid"} | other_attrs]
+    end
+  end
 end

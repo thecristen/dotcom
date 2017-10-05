@@ -37,23 +37,9 @@ MIX_ENV=test mix do deps.get
 nvm use 6.9.5
 rbenv local 2.4.1
 
+# Setup scss
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems
-gem install pronto -v 0.7.1
-gem install pronto-eslint -v 0.7.0
-gem install pronto-scss -v 0.7.0
 gem install sass -v 3.4.23
-# install custom pronto-credo
-if test -d $SEMAPHORE_CACHE_DIR/gems/pronto-credo; then
-    pushd $SEMAPHORE_CACHE_DIR/gems/pronto-credo
-else
-    pushd $SEMAPHORE_CACHE_DIR/gems
-    git clone https://github.com/paulswartz/pronto-credo.git
-    cd pronto-credo
-fi
-git checkout no-full-path
-gem build pronto-credo.gemspec
-gem install pronto-credo*.gem
-popd
 
 # drop phantomjs/backstop/casper from the deps to install
 sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/package.json
@@ -61,4 +47,5 @@ sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/pa
 npm config set cache $SEMAPHORE_CACHE_DIR/npm
 NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run install --no-optional
 npm run brunch:build
+
 MIX_ENV=test mix compile --warnings-as-errors --force

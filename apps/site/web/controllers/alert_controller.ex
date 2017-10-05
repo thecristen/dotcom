@@ -6,7 +6,7 @@ defmodule Site.AlertController do
   plug Site.Plugs.UpcomingAlerts
   plug Site.Plug.Mticket
 
-  @valid_ids ~w(subway commuter_rail bus ferry access)s
+  @valid_ids ~w(subway commuter-rail bus ferry access)s
   @access_route_ids ["Elevator", "Escalator", "Lift"]
   @access_routes @access_route_ids
   |> Enum.map(&(%Routes.Route{id: &1, name: &1}))
@@ -40,7 +40,7 @@ defmodule Site.AlertController do
 
     conn
     |> render("show.html",
-    id: String.to_existing_atom(id),
+    id: id_to_atom(id),
     route_alerts: route_alerts,
     breadcrumbs: [Breadcrumb.build("Alerts")]
     )
@@ -80,8 +80,8 @@ defmodule Site.AlertController do
     end
   end
 
-  defp all_routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_routes(conn, [0,1])
-  defp all_routes(%{params: %{"id" => "commuter_rail"}} = conn, _opts), do: do_all_routes(conn, 2)
+  defp all_routes(%{params: %{"id" => "subway"}} = conn, _opts), do: do_all_routes(conn, [0, 1])
+  defp all_routes(%{params: %{"id" => "commuter-rail"}} = conn, _opts), do: do_all_routes(conn, 2)
   defp all_routes(%{params: %{"id" => "bus"}} = conn, _opts), do: do_all_routes(conn, 3)
   defp all_routes(%{params: %{"id" => "ferry"}} = conn, _opts), do: do_all_routes(conn, 4)
   defp all_routes(conn, _opts), do: conn
@@ -96,4 +96,7 @@ defmodule Site.AlertController do
   defp all_alerts(conn, _opts) do
     conn
   end
+
+  defp id_to_atom("commuter-rail"), do: :commuter_rail
+  defp id_to_atom(id), do: String.to_existing_atom(id)
 end

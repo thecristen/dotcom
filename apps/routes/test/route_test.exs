@@ -16,6 +16,11 @@ defmodule Routes.RouteTest do
       end
     end
 
+    test "handles hyphen in commuter-rail" do
+      assert type_atom("commuter-rail") == :commuter_rail
+      assert type_atom("commuter_rail") == :commuter_rail
+    end
+
     test "extracts the type integer from the route struct and returns the corresponding atom" do
       assert type_atom(%Route{type: 3}) == :bus
     end
@@ -68,6 +73,11 @@ defmodule Routes.RouteTest do
       ] do
         assert type_name(atom) == str
       end
+    end
+
+    test "handles hyphen in commuter-rail" do
+      assert type_name("commuter-rail") == "Commuter Rail"
+      assert type_name(:commuter_rail) == "Commuter Rail"
     end
   end
 

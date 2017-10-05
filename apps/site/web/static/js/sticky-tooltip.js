@@ -3,6 +3,7 @@
 
 export default function ($) {
   $ = $ || window.jQuery;
+  const selector = '[data-toggle="tooltip"]';
 
   const wasTapped = (element) => {
     const touchStart = element.data('lastTouchStart');
@@ -27,7 +28,9 @@ export default function ($) {
   };
 
   const initTooltip = () => {
-    const selector = '[data-toggle="tooltip"]';
+    $(selector).each(function(i, el) {
+      $(el).tooltip({container: $(el).parent()});
+    });
 
     $(document).on('touchstart', selector, function (e) {
       $(this).data('lastTouchStart', e.originalEvent);
@@ -46,7 +49,6 @@ export default function ($) {
       if (wasTouchedRecently($this)) {
         return;
       }
-
       $this.tooltip('show');
     });
     $(document).on('mouseleave', selector, function (e) {
@@ -63,5 +65,10 @@ export default function ($) {
     });
   };
 
-  initTooltip();
+  function clearTooltips() {
+    $(selector).tooltip('dispose');
+  }
+
+  document.addEventListener('turbolinks:before-cache', clearTooltips, {passive: true});
+  document.addEventListener("turbolinks:load", initTooltip, {passive: true});
 };

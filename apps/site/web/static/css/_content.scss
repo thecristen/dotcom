@@ -35,7 +35,9 @@
   color: $white;
 }
 
-.content-page-block {
+.news-content,
+.content-page-content,
+.landing-page-content {
   img {
     @include img-fluid();
     margin-bottom: $base-spacing;

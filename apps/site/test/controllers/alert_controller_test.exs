@@ -7,7 +7,7 @@ defmodule Site.AlertControllerTest do
   import Site.AlertController, only: [group_access_alerts: 1]
 
   test "renders commuter rail", %{conn: conn} do
-    conn = get conn, alert_path(conn, :show, :commuter_rail)
+    conn = get conn, alert_path(conn, :show, "commuter-rail")
     assert html_response(conn, 200) =~ "Commuter Rail"
   end
 
@@ -20,7 +20,7 @@ defmodule Site.AlertControllerTest do
 
   describe "show/2" do
     test "alerts are assigned for all modes", %{conn: conn} do
-      for mode <- [:bus, :commuter_rail, :subway, :ferry] do
+      for mode <- [:bus, "commuter-rail", :subway, :ferry] do
         conn = get(conn, alert_path(conn, :show, mode))
         assert conn.assigns.all_alerts
       end
@@ -177,17 +177,17 @@ defmodule Site.AlertControllerTest do
     test "mTicket matched", %{conn: conn} do
       response = conn
       |> put_req_header("user-agent", "Java/1.8.0_91")
-      |> get(alert_path(conn, :show, :commuter_rail))
+      |> get(alert_path(conn, :show, "commuter-rail"))
       |> html_response(200)
 
       assert response =~ "mticket-notice"
       assert response =~ "access alerts:"
-      assert response =~ "/alerts/commuter_rail"
+      assert response =~ "/alerts/commuter-rail"
     end
 
     test "mTicket not matched", %{conn: conn} do
       response = conn
-      |> get(alert_path(conn, :show, :commuter_rail))
+      |> get(alert_path(conn, :show, "commuter-rail"))
       |> html_response(200)
 
       refute response =~ "mticket-notice"
