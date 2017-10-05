@@ -10,7 +10,6 @@ defmodule Site.StyleGuideControllerTest do
       for subpage_atom <- subpages do
         subpage_string = subpage_atom |> Atom.to_string() |> String.replace("_", "-")
         conn = get conn, "style-guide/#{section_string}/#{subpage_string}"
-        refute {subpage_string, conn.status} == {subpage_string, 404}
         assert html_response(conn, 200)
       end
     end
