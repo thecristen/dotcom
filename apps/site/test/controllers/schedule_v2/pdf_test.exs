@@ -4,7 +4,8 @@ defmodule Site.ScheduleV2Controller.PdfTest do
   test "redirects to PDF for route when present", %{conn: conn} do
     route = %Routes.Route{id: "CR-Fitchburg"}
     conn = get(conn, route_pdf_path(conn, :pdf, route))
-    assert redirected_to(conn, 302) == static_url(conn, Routes.Pdf.url(route))
+    [{_date, expected_url} | _] = Routes.Pdf.dated_urls(route, conn.assigns.date)
+    assert redirected_to(conn, 302) == static_url(conn, expected_url)
   end
 
   test "renders 404 if route doesn't exist", %{conn: conn} do
