@@ -1,7 +1,7 @@
 defmodule Schedules.ParserTest do
   use ExUnit.Case, async: true
 
-  test "parse converts a JsonApi.Item into a Schedule" do
+  test "parse converts a JsonApi.Item into a tuple" do
     api_item = %JsonApi.Item{
       attributes: %{
         "departure_time" => "2016-06-08T05:35:00+04:00",
@@ -29,56 +29,30 @@ defmodule Schedules.ParserTest do
             id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
             relationships: %{
               "predictions" => [],
-              "route" => [
-                %JsonApi.Item{
-                  attributes: %{
-                    "long_name" => "Lowell Line",
-                    "direction_names" => ["Outbound", "Inbound"],
-                    "type" => 2
-                  },
-                  id: "CR-Lowell",
-                  relationships: %{},
-                  type: "route"}],
               "service" => [],
               "vehicle" => []},
-            type: "trip"}]},
+            type: "trip"}],
+        "route" => [
+          %JsonApi.Item{
+            attributes: %{
+              "long_name" => "Lowell Line",
+              "direction_names" => ["Outbound", "Inbound"],
+              "type" => 2
+            },
+            id: "CR-Lowell",
+            relationships: %{},
+            type: "route"}]},
       type: "schedule"}
 
     actual = Schedules.Parser.parse(api_item)
-    assert actual.route == Routes.Repo.get("CR-Lowell")
-    assert actual.trip == %Schedules.Trip{
-      id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
-      name: "300",
-      headsign: "North Station",
-      direction_id: 1
-    }
-    assert actual.stop == Stops.Repo.get!("Lowell")
-    assert actual.time == Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4")
-    assert actual.flag?
-    assert actual.pickup_type == 3
-  end
-
-  test "route parsing uses the short_name if the long_name is empty" do
-    api_item = %JsonApi.Item{
-      relationships: %{
-        "trip" => [%JsonApi.Item{
-                      relationships: %{
-                        "route" => [%JsonApi.Item{
-                                       type: "route",
-                                       id: "9",
-                                       attributes: %{
-                                         "type" => 3,
-                                         "short_name" => "9",
-                                         "long_name" => "",
-                                         "direction_names" => ["Outbound", "Inbound"],
-                                         "description" => "Local Bus"
-                                       }}]}}]}}
-    assert Schedules.Parser.route(api_item) ==
-      %Routes.Route{
-        type: 3,
-        id: "9",
-        name: "9"
-      }
+    assert {
+      "CR-Lowell",
+      "31174458-CR_MAY2016-hxl16011-Weekday-01",
+      "Lowell",
+      Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
+      true,
+      0,
+      3} == actual
   end
 
   describe "trip/1" do

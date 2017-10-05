@@ -90,6 +90,7 @@ defmodule Schedules.RepoTest do
   describe "trip/1" do
     test "returns nil for an invalid trip ID" do
       assert trip("invalid ID") == nil
+      assert trip("") == nil
     end
 
     test "returns a %Schedule.Trip{} for a given ID" do
