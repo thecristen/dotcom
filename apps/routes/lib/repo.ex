@@ -122,7 +122,7 @@ defmodule Routes.Repo do
   def headsigns(id) do
     cache id, fn id ->
       [zero_task, one_task] = for direction_id <- [0, 1] do
-        Task.async(__MODULE__, :do_headsigns, [id, direction_id])
+        Task.async(__MODULE__, :fetch_headsigns, [id, direction_id])
       end
       %{
         0 => Task.await(zero_task),
@@ -131,14 +131,24 @@ defmodule Routes.Repo do
     end
   end
 
-  @spec do_headsigns(String.t, non_neg_integer) :: any
-  def do_headsigns(route_id, direction_id) do
+  @spec fetch_headsigns(Routes.Route.id_t, non_neg_integer) :: [String.t]
+  def fetch_headsigns(route_id, direction_id) do
     route_id
     |> V3Api.Trips.by_route("fields[trip]": "headsign", direction_id: direction_id)
-    |> (fn %{data: data} -> data end).()
-    |> Enum.reject(&match?(%{attributes: %{"headsign" => ""}}, &1))
-    |> Enum.map(fn %{attributes: %{"headsign" => headsign}} -> headsign end)
+    |> calculate_headsigns
+  end
+
+  @spec calculate_headsigns(JsonApi.t | JsonApi.Error.t) :: [String.t]
+  def calculate_headsigns(%JsonApi{data: data}) do
+    data
+    |> Enum.flat_map(fn
+      %{attributes: %{"headsign" => ""}} -> []
+      %{attributes: %{"headsign" => headsign}} -> [headsign]
+    end)
     |> order_by_frequency
+  end
+  def calculate_headsigns(_) do
+    []
   end
 
   defp handle_response(%{data: data}) do

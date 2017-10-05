@@ -2,6 +2,7 @@ defmodule UtilTest do
   use ExUnit.Case, async: true
   use Quixir
   import Util
+  doctest Util
 
   describe "now/1" do
     test "handles ambiguous UTC times by returning the earlier time" do

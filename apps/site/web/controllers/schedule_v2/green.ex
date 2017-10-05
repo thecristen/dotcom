@@ -184,7 +184,12 @@ defmodule Site.ScheduleV2Controller.Green do
     Enum.flat_map(results, &flat_map_ok/1)
   end
 
-  defp flat_map_ok({:ok, values}), do: values
+  @spec flat_map_ok({:ok, [value] | error} | error) :: [value]
+  when error: {:error, any}, value: any
+  defp flat_map_ok({:ok, values}) when is_list(values), do: values
+  defp flat_map_ok(_) do
+    []
+  end
 
   @spec arrival_time({Schedule.t, Schedule.t} | Schedule.t) :: DateTime.t
   defp arrival_time({arrival, _departure}), do: arrival.time

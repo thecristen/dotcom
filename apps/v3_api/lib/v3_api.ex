@@ -3,6 +3,8 @@ defmodule V3Api do
   require Logger
   import V3Api.SentryExtra
 
+  @default_timeout Application.get_env(:v3_api, :default_timeout)
+
   @spec get_json(String.t, Keyword.t) :: JsonApi.t | {:error, any}
   def get_json(url, params \\ [], opts \\ []) do
     _ = Logger.debug(fn -> "V3Api.get_json url=#{url} params=#{params |> Map.new |> Poison.encode!}" end)
@@ -50,7 +52,7 @@ defmodule V3Api do
 
   @spec log_response(String.t, Keyword.t, integer, any) :: :ok
   defp log_response(url, params, time, response) do
-    entry = fn -> "V3Api.get_json_response url=#{url} " <>
+    entry = fn -> "V3Api.get_json_response url=#{inspect url} " <>
       "params=#{params |> Map.new |> Poison.encode!} " <>
       log_body(response) <>
       " duration=#{time / 1000}"
@@ -62,8 +64,8 @@ defmodule V3Api do
 
   @spec log_response_error(String.t, Keyword.t, String.t) :: :ok
   defp log_response_error(url, params, body) do
-    entry = fn -> "V3Api.get_json_response url=#{url} " <>
-      "params=#{params |> Map.new |> Poison.encode!} " <>
+    entry = fn -> "V3Api.get_json_response url=#{inspect url} " <>
+      "params=#{params |> Map.new |> Poison.encode!} response=" <>
       body
     end
       _ = log_context("api-response-error", entry)
@@ -93,7 +95,9 @@ defmodule V3Api do
   end
 
   defp process_request_headers(headers) do
-    put_in headers[:"accept-encoding"], "gzip"
+    [{"accept-encoding", "gzip"},
+     {"accept", "application/vnd.api+json"}
+     | headers]
   end
 
   defp add_api_key(params, opts) do
@@ -109,7 +113,7 @@ defmodule V3Api do
     [
       base_url: config(:base_url),
       api_key: config(:api_key),
-      timeout: 30_000
+      timeout: @default_timeout
     ]
   end
 

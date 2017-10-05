@@ -147,6 +147,25 @@ defmodule Routes.RepoTest do
     end
   end
 
+  describe "calculate_headsigns" do
+    test "returns an empty list for an error" do
+      error = %JsonApi.Error{}
+      assert Routes.Repo.calculate_headsigns(error) == []
+    end
+
+    test "returns headsigns sorted by frequency" do
+      data = %JsonApi{
+        data: [
+          %JsonApi.Item{attributes: %{"headsign" => ""}},
+          %JsonApi.Item{attributes: %{"headsign" => "first"}},
+          %JsonApi.Item{attributes: %{"headsign" => "second"}},
+          %JsonApi.Item{attributes: %{"headsign" => "first"}},
+        ]
+      }
+      assert Routes.Repo.calculate_headsigns(data) == ["first", "second"]
+    end
+  end
+
   describe "route_hidden?/1" do
     test "Returns true for hidden routes" do
       hidden_routes = ["746", "2427", "3233", "3738", "4050", "627", "725", "8993", "116117", "214216",

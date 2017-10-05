@@ -9,6 +9,9 @@ defmodule Site.ScheduleV2Controller.Schedules do
 
   require Routes.Route
   alias Routes.Route
+  alias Schedules.Schedule
+
+  @typep schedule_pair :: {Schedule.t, Schedule.t}
 
   @impl true
   def init(_), do: []
@@ -24,15 +27,13 @@ defmodule Site.ScheduleV2Controller.Schedules do
     |> assign_frequency_table(schedules)
   end
 
-  def schedules(conn, test_override_lookup_fn \\ nil)
+  def schedules(conn, lookup_fn \\ &Schedules.Repo.origin_destination/3)
   def schedules(%{assigns: %{
                      date: date,
                      route: %Routes.Route{id: route_id},
                      origin: %Stops.Stop{id: origin_id},
                      destination: %Stops.Stop{id: destination_id}}},
-                test_override_lookup_fn) do
-    # with an origin, destination, we return pairs
-    lookup_fn = test_override_lookup_fn || &Schedules.Repo.origin_destination/3
+                lookup_fn) do
     lookup_fn.(origin_id, destination_id, date: date, route: route_id)
   end
   def schedules(%{assigns: %{
@@ -42,13 +43,22 @@ defmodule Site.ScheduleV2Controller.Schedules do
                     origin: %Stops.Stop{id: origin_id}}},
                 _test_override_lookup_fn) do
     # return schedules that stop at the origin
-    [route_id]
-    |> Schedules.Repo.by_route_ids(stop_ids: [origin_id], date: date, direction_id: direction_id)
-    |> Enum.reject(&match?(%Schedules.Schedule{pickup_type: 1}, &1))
+    case Schedules.Repo.by_route_ids(
+          [route_id],
+          stop_ids: [origin_id], date: date, direction_id: direction_id) do
+      {:error, _} = error ->
+        error
+      route_schedules ->
+        Enum.reject(route_schedules, &match?(%Schedules.Schedule{pickup_type: 1}, &1))
+    end
   end
 
-  @spec assign_frequency_table(Plug.Conn.t, [{Schedules.Schedule.t, Schedules.Schedule.t}]) :: Plug.Conn.t
-  def assign_frequency_table(conn, [{%Schedules.Schedule{route: %Routes.Route{type: type, id: route_id}}, _} | _] = schedules)
+  @spec assign_frequency_table(
+    Plug.Conn.t,
+    [schedule_pair | Schedule.t] | {:error, any}) :: Plug.Conn.t
+  def assign_frequency_table(
+    conn,
+    [{%Schedule{route: %Route{type: type, id: route_id}}, _} | _] = schedules)
   when Route.subway?(type, route_id) do
     frequencies = schedules
     |> Enum.map(fn schedule -> elem(schedule, 0) end)
@@ -57,7 +67,9 @@ defmodule Site.ScheduleV2Controller.Schedules do
     conn
     |> assign(:frequency_table, frequencies)
   end
-  def assign_frequency_table(conn, [%Schedules.Schedule{route: %Routes.Route{type: type, id: route_id}} | _] = schedules)
+  def assign_frequency_table(
+    conn,
+    [%Schedule{route: %Route{type: type, id: route_id}} | _] = schedules)
   when Route.subway?(type, route_id) do
     assign(conn, :frequency_table, Schedules.FrequencyList.build_frequency_list(schedules))
   end

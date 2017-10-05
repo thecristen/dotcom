@@ -77,10 +77,14 @@ defmodule Site.FareController.OriginDestinationFareBehavior do
   end
 
   defp origin_stops(route_type) do
-    route_type
-    |> Stops.Repo.by_route_type(direction_id: 0)
-    |> Enum.sort_by(&(&1.name))
-    |> Enum.dedup
+    case Stops.Repo.by_route_type(route_type, direction_id: 0) do
+      {:error, _} ->
+        []
+      stops ->
+        stops
+        |> Enum.sort_by(&(&1.name))
+        |> Enum.dedup
+    end
   end
 
   defp destination_stops(nil, _route_type) do
