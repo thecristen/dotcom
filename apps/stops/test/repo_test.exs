@@ -1,5 +1,5 @@
 defmodule Stops.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   import Stops.Repo
   alias Stops.Stop
@@ -36,6 +36,15 @@ defmodule Stops.RepoTest do
       saturday = weekday |> Timex.shift(days: 1)
 
       assert by_route("CR-Providence", 1, date: weekday) != by_route("CR-Providence", 1, date: saturday)
+    end
+
+    test "caches per-stop as well" do
+      ConCache.delete(Stops.Repo, {:by_route, {"Red", 1, []}})
+      ConCache.put(Stops.Repo, {:stop, "place-brntn"}, "to-be-overwritten")
+      assert get("place-brntn") == "to-be-overwritten"
+
+      by_route("Red", 1, [])
+      assert %Stops.Stop{} = get("place-brntn")
     end
   end
 
