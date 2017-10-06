@@ -39,9 +39,13 @@ config :logger,
   level: :debug,
   backends: [{Logger.Backend.Logentries, :logentries}, :console]
 
+config :logger, :console,
+  level: :info
+
 config :logger, :logentries,
   connector: Logger.Backend.Logentries.Output.SslKeepOpen,
   host: 'data.logentries.com',
+  level: :debug,
   port: 443,
   token: "${LOGENTRIES_TOKEN}",
   format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
