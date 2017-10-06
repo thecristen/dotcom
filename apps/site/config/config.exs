@@ -55,9 +55,6 @@ config :site, :former_mbta_site,
 config :site, OldSiteRedirectController,
   gtfs_s3_bucket: {:system, "GTFS_S3_BUCKET", "mbta-gtfs-s3"}
 
-config :site, :rtr_data, Site.RtrDashboardData
-config :site, :rtr_accuracy_api_url, "http://23.21.118.89/developer/api/v2-test/dailypredictionmetrics"
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
