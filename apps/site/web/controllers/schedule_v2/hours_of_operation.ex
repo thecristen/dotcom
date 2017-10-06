@@ -55,12 +55,15 @@ defmodule Site.ScheduleV2Controller.HoursOfOperation do
 
   defp lookup_schedules(route_ids, date, schedules_fn) do
     route_ids
-    |> Task.async_stream(&schedules_fn.(List.wrap(&1), date: date, stop_sequences: ~w(first last)s))
+    |> Task.async_stream(
+      &schedules_fn.([&1], date: date, stop_sequences: ~w(first last)s),
+      on_timeout: :kill)
     |> Enum.flat_map(&extract_schedules/1)
   end
 
   defp extract_schedules({:ok, {:error, _}}), do: []
   defp extract_schedules({:ok, schedules}), do: schedules
+  defp extract_schedules({:exit, _}), do: []
 
   defp get_dates(date) do
     %{
