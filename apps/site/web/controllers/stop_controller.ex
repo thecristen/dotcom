@@ -33,16 +33,20 @@ defmodule Site.StopController do
   def show(%Plug.Conn{query_params: query_params} = conn, %{"id" => id}) do
     stop = id
     |> URI.decode_www_form
-    |> Repo.get!
+    |> Repo.get
 
-    conn
-    |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
-    |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)
-    |> assign(:breadcrumbs, breadcrumbs(stop))
-    |> assign(:tab, tab_value(query_params["tab"]))
-    |> tab_assigns(stop)
-    |> await_assign_all()
-    |> render("show.html", stop: stop)
+    if stop do
+      conn
+      |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
+      |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)
+      |> assign(:breadcrumbs, breadcrumbs(stop))
+      |> assign(:tab, tab_value(query_params["tab"]))
+      |> tab_assigns(stop)
+      |> await_assign_all()
+      |> render("show.html", stop: stop)
+    else
+      check_cms_or_404(conn)
+    end
   end
 
   @doc "Redirect users who type in a URL with a slash to the correct URL"

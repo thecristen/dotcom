@@ -102,9 +102,8 @@ defmodule Site.StopControllerTest do
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
-      get conn, stop_path(conn, :show, -1)
-    end
+    conn = get conn, stop_path(conn, :show, -1)
+    assert html_response(conn, 404)
   end
 
   test "assigns the fare name for the commuter rail from the current stop to Zone 1A", %{conn: conn} do
