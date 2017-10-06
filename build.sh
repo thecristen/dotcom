@@ -18,6 +18,6 @@ rm rel/$APP.tar.gz
 
 test -f $BUILD_ARTIFACT && rm $BUILD_ARTIFACT || true
 pushd rel
-zip -r ../$BUILD_ARTIFACT *
+zip -r ../$BUILD_ARTIFACT * .ebextensions
 rm -fr bin erts* lib releases
 popd
