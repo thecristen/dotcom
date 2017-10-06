@@ -61,4 +61,14 @@ defmodule Site.ScheduleV2Controller.HoursOfOperationTest do
 
     refute Map.has_key?(conn.assigns, :hours_of_operation)
   end
+
+  test "assigns nothing if the request times out", %{conn: conn} do
+    timeout_fn = fn _, _ -> :timer.sleep(:infinity) end
+    conn = %{conn | params: %{"route" => "Teal"}}
+    |> assign(:route, %Routes.Route{id: "Teal"})
+    |> assign(:date, ~D[2017-02-28])
+    |> Site.ScheduleV2Controller.HoursOfOperation.call(schedules_fn: timeout_fn)
+
+    refute Map.has_key?(conn.assigns, :hours_of_operation)
+  end
 end
