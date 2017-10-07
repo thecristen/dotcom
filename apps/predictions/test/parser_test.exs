@@ -1,14 +1,12 @@
 defmodule Predictions.ParserTest do
   use ExUnit.Case, async: true
 
-  alias Predictions.{Parser, Prediction}
-  alias Schedules.Trip
-  alias Routes.Route
+  import Predictions.Parser
   alias JsonApi.Item
   alias Timex.Timezone
 
   describe "parse/1" do
-    test "parses a %JsonApi.Item{} into %Prediction{}" do
+    test "parses a %JsonApi.Item{} into a record" do
       item = %Item{
         attributes: %{
           "track" => nil,
@@ -38,25 +36,21 @@ defmodule Predictions.ParserTest do
                            }}]
         }
       }
-      expected = %Prediction{
-        trip: %Trip{id: "trip_id", name: "trip_name", direction_id: "0", headsign: "trip_headsign"},
-        stop: Stops.Repo.get!("place-pktrm"),
-        route: %Route{
-          id: "route_id",
-          name: "Route",
-          key_route?: false,
-          direction_names: %{0 => "Eastbound", 1 => "Westbound"},
-          type: 5
-        },
-        direction_id: 0,
-        time: ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
-        stop_sequence: 5,
-        track: nil,
-        status: "On Time",
-        departing?: true
+      expected = {
+        nil,
+        "trip_id",
+        "place-pktrm",
+        "route_id",
+        0,
+        ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
+        5,
+        nil,
+        nil,
+        "On Time",
+        true
       }
 
-      assert Parser.parse(item) == expected
+      assert parse(item) == expected
     end
 
     test "uses arrival time if departure time isn't available" do
@@ -88,10 +82,10 @@ defmodule Predictions.ParserTest do
                            }}]
         }
       }
-      parsed = Parser.parse(item)
+      parsed = parse(item)
 
-      assert parsed.time == ~N[2016-09-15T14:40:00] |> Timezone.convert("Etc/GMT-1")
-      refute parsed.departing?
+      assert elem(parsed, 5) == ~N[2016-09-15T14:40:00] |> Timezone.convert("Etc/GMT-1")
+      refute elem(parsed, 10)
     end
 
     test "can parse a prediction with no times" do
@@ -123,10 +117,10 @@ defmodule Predictions.ParserTest do
                            }}]
         }
       }
-      parsed = Parser.parse(item)
+      parsed = parse(item)
 
-      assert parsed.time == nil
-      refute parsed.departing?
+      assert elem(parsed, 5) == nil
+      refute elem(parsed, 10)
     end
 
     test "can parse possible schedule relationships" do
@@ -170,7 +164,8 @@ defmodule Predictions.ParserTest do
           ] do
           # update the item to set the given JSON relationship
           item = %{base_item | attributes: Map.put(base_item.attributes, "schedule_relationship", json)}
-          assert Parser.parse(item).schedule_relationship == expected
+          parsed = parse(item)
+          assert elem(parsed, 7) == expected
       end
     end
 
@@ -193,24 +188,8 @@ defmodule Predictions.ParserTest do
           "trip" => []
         }
       }
-      expected = %Prediction{
-        trip: nil,
-        stop: Stops.Repo.get!("place-pktrm"),
-        route: %Route{
-          id: "route_id",
-          name: "Route",
-          key_route?: false,
-          direction_names: %{0 => "Eastbound", 1 => "Westbound"},
-          type: 5
-        },
-        direction_id: 0,
-        time: ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
-        track: nil,
-        status: "On Time",
-        departing?: true
-      }
-
-      assert Parser.parse(item) == expected
+      parsed = parse(item)
+      assert elem(parsed, 1) == nil
     end
 
     test "departing status is determined by prediction status if no time is given" do
@@ -232,8 +211,8 @@ defmodule Predictions.ParserTest do
           "trip" => []
         }
       }
-      parsed = Parser.parse(json_item)
-      assert parsed.departing?
+      parsed = parse(json_item)
+      assert elem(parsed, 10)
     end
   end
 end

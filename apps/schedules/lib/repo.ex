@@ -158,12 +158,13 @@ defmodule Schedules.Repo do
     |> Enum.map(fn {:ok, schedule} -> schedule end)
   end
 
-  defp insert_trips_into_cache(data) do
+  def insert_trips_into_cache(data) do
     # Since we fetched all the trips along with the schedules, we can insert
     # them into the cache directly. That way, they'll be available when we
     # ask for them via trip/1.
     data
     |> Stream.map(&Schedules.Parser.trip/1)
+    |> Stream.reject(&is_nil/1)
     |> Stream.uniq_by(& &1.id)
     |> Enum.each(fn trip ->
       ConCache.dirty_put(__MODULE__, {:trip, trip.id}, trip)

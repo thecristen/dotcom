@@ -40,6 +40,11 @@ defmodule Schedules.Parser do
       shape_id: shape_id(relationships)
     }
   end
+  def trip(%JsonApi.Item{
+        relationships: %{
+          "trip" => []}}) do
+    nil
+  end
   def trip(%JsonApi{
         data: [%JsonApi.Item{
                   id: id, attributes: %{
