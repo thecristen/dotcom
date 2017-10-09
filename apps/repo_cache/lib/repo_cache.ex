@@ -88,13 +88,13 @@ defmodule RepoCache do
   def do_cache(mod, name, fun, fun_param, cache_opts) do
     key = {name, fun_param}
     timeout = Keyword.get(cache_opts, :timeout)
-    ConCache.isolated mod, key, timeout, fn ->
-      case ConCache.get(mod, key) do
-        nil ->
+    case ConCache.get(mod, key) do
+      nil ->
+        ConCache.isolated mod, key, timeout, fn ->
           maybe_set_value(fun.(fun_param), mod, key, cache_opts[:ttl])
-        value ->
-          value
-      end
+        end
+      value ->
+        value
     end
   end
 
