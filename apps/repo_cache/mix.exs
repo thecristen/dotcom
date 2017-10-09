@@ -19,7 +19,9 @@ defmodule RepoCache.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [extra_applications: [:logger]]
+    [extra_applications: [:logger],
+     mod: {RepoCache.Application, []}
+    ]
   end
 
   # Dependencies can be Hex packages:
