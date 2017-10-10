@@ -23,7 +23,7 @@ defmodule Site.Endpoint do
   end
 
   plug Plug.RequestId
-  plug Logster.Plugs.Logger
+  plug Logster.Plugs.Logger, formatter: Site.Logster.SafeStringFormatter
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
