@@ -16,8 +16,8 @@ defmodule Site.Components.Tabs.TabSelector do
     id: "tab-select",
     class: "",
     links: [
-      {"trip-view", "Schedule", Site.Router.Helpers.schedule_path(Site.Endpoint, :show, :bus)},
-      {"info", "Info", Site.Router.Helpers.line_path(Site.Endpoint, :show, :bus)}],
+      {"trip-view", "Schedule", "/schedules/bus"},
+      {"info", "Info", "/schedules/bus"}],
     selected: "trip-view",
     icon_map: %{},
   ]

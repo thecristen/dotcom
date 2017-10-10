@@ -32,7 +32,7 @@ config :site, Site.Endpoint,
     host: {:system, "STATIC_HOST"},
     port: {:system, "STATIC_PORT"}
   ],
-  cache_static_manifest: "priv/static/manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger,
