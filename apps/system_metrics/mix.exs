@@ -45,8 +45,8 @@ defmodule SystemMetrics.Mixfile do
      {:exometer, github: "Feuerlabs/exometer"},
      {:exometer_core, "~>1.4.0", override: true},
      {:lager, ">= 3.2.1", [hex: :lager, override: true]},
-     {:amqp_client, git: "https://github.com/jbrisbin/amqp_client.git", override: true},
-     {:amqp, "~> 0.1.4"},
+     {:amqp_client, "~> 3.6.12", override: true},
+     {:amqp, "~> 0.3.0"},
      {:excoveralls, "~> 0.5", only: :test}]
   end
 end
