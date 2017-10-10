@@ -31,7 +31,7 @@ defmodule Stops.Repo do
   end
 
   def get(id) when is_binary(id) do
-    cache id, &Stops.Api.by_gtfs_id/1
+    stop(id)
   end
 
   def get!(id) do
@@ -41,6 +41,13 @@ defmodule Stops.Repo do
     end
   end
 
+  defp stop(id) do
+    # the `cache` macro uses the function name as part of the key, and :stop
+    # makes more sense for this than :get, since other functions in this
+    # module will be working with those cache rows as well.
+    cache id, &Stops.Api.by_gtfs_id/1
+  end
+
   @spec closest(Util.Position.t) :: [Stop.t]
   def closest(position) do
     Stops.Nearby.nearby(position)
@@ -48,7 +55,16 @@ defmodule Stops.Repo do
 
   @spec by_route(Route.id_t, 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
   def by_route(route_id, direction_id, opts \\ []) do
-    cache {route_id, direction_id, opts}, &Stops.Api.by_route/1
+    cache({route_id, direction_id, opts}, fn args ->
+      with stops when is_list(stops) <- Stops.Api.by_route(args) do
+        for stop <- stops do
+          # Put the stop in the cache under {:stop, id} key as well so it will
+          # also be cached for Stops.Repo.get/1 calls
+          ConCache.put(__MODULE__, {:stop, stop.id}, stop)
+          stop
+        end
+      end
+    end)
   end
 
   @spec by_routes([Route.id_t], 0 | 1, Keyword.t) :: [Stop.t] | {:error, any}
