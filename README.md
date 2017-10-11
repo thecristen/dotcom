@@ -22,14 +22,14 @@ The new face of http://mbta.com/
 
 ## Running the Server
 
-* Basic running: `mix phoenix.server`
-* Running with an environment variable: `env `cat .env` mix phoenix.server`
+* Basic running: `mix phx.server`
+* Running with an environment variable: `env `cat .env` mix phx.server`
 
 Then, visit the site at http://localhost:4001/
 
 ## Tests
 
-Run `mix phoenix.server` to start a server in one window, then open a
+Run `mix phx.server` to start a server in one window, then open a
 separate window and run `npm test` from the main folder. This will execute
 the following scripts in succession:
 
@@ -89,10 +89,10 @@ Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no ou
 We use [BackstopJS](https://github.com/garris/BackstopJS) to test for
 unexpected visual changes. Backstop works by keeping a repository of
 reference images. When you run a backstop test it takes snapshots of the
-pages on your localhost and compares them to those references images. 
+pages on your localhost and compares them to those references images.
 If anything has changed then the test will fail. This helps us catch unintended
 changes to the UI (for example a CSS selector that is broader than
-expected). Whenever you make a change that affects the UI, you will need to check 
+expected). Whenever you make a change that affects the UI, you will need to check
 and if necessary update the backstop images.
 
 The tests are run against a live application, built in production mode. To make sure that the tests
@@ -119,12 +119,12 @@ The following variables can be used in your development environment.
 
 You can get a key from [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key).
 
-1. Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API". 
+1. Click on "Get a Key", create a project (e.g. "mbtadotcom") and click "Enable API".
 1. Go to the API library for your project (e.g. https://console.developers.google.com/apis/library?project=mbtadotcom)
 1. Look for the Google Maps APIs list, expand "More"
 1. Click on "Geolocation API" and
 1. Click "Enable"
-1. Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default). 
+1. Depending on what you're working on, you may need to enable other APIs (several of them are enabled by default).
 
 To use the API key when running the application, you do the following:
 
@@ -132,7 +132,7 @@ To use the API key when running the application, you do the following:
 1. In the file, type: GOOGLE_API_KEY=<your key>, replacing <your key> with the key obtained from Google (no brackets or quotes)
 1. Add the .env file to your gitignore: ``~/.gitignore` `echo .env >> ~/.gitignore``
 1. If you haven't already, run `git config --global core.excludesfile ~/.gitignore` in your terminal window to tell git to read the global .gitignore
-1. Run the server with ```env `cat .env` mix phoenix.server```
+1. Run the server with ```env `cat .env` mix phx.server```
 
 ## Building
 

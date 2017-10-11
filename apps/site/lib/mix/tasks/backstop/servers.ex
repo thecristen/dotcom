@@ -215,8 +215,8 @@ defmodule Backstop.Servers.Phoenix do
     do_command(args)
   end
 
-  defp do_command(%{dev: true}), do: "mix phoenix.server"
-  defp do_command(_), do: "mix do deps.compile --force, compile --no-deps-check --force, phoenix.server"
+  defp do_command(%{dev: true}), do: "mix phx.server"
+  defp do_command(_), do: "mix do deps.compile --force, compile --no-deps-check --force, phx.server"
 
   @impl true
   def log_color, do: :magenta
