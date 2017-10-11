@@ -39,9 +39,8 @@ config :system_metrics, :meter, Elixometer
 
 config :lager, [
   log_root: '../../',
-  handlers: [
-    lager_console_backend: :info
-  ],
+  handlers: [],
+  error_logger_redirect: false,
   crash_log: false
 ]
 
