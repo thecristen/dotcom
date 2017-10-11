@@ -45,9 +45,10 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
     end
   end
 
+  @spec location_key(Vehicles.Vehicle.t, Date.t, any) :: {String.t | nil, String.t | nil}
   defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, date, schedule_for_trip_fn)
   when is_function(schedule_for_trip_fn, 2) do
-    schedules = schedule_for_trip_fn.(vehicle.trip_id, date: date)
+    schedules = vehicle.trip_id |> schedule_for_trip_fn.(date: date) |> parse_schedules_for_trip()
     if previous_station = find_previous_station(schedules, vehicle.stop_id) do
       {vehicle.trip_id, previous_station.id}
     else
@@ -57,6 +58,10 @@ defmodule Site.ScheduleV2Controller.VehicleLocations do
   defp location_key(%Vehicles.Vehicle{} = vehicle, _date, _schedule_for_trip_fn) do
     {vehicle.trip_id, vehicle.stop_id}
   end
+
+  @spec parse_schedules_for_trip({:error, any} | [Schedules.Schedule.t]) :: [Schedules.Schedule.t]
+  defp parse_schedules_for_trip({:error, _reason}), do: []
+  defp parse_schedules_for_trip(schedules), do: schedules
 
   defp find_previous_station([], _stop_id), do: nil
   defp find_previous_station([_], _stop_id), do: nil

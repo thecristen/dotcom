@@ -96,5 +96,20 @@ defmodule Site.ScheduleV2Controller.VehicleLocationsTest do
         {"3", "place-bbsta"} => Enum.at(@locations, -1)
       }
     end
+
+    test "Handles error when schedules can't be found", %{conn: conn} do
+      conn = conn
+      |> call(
+        [
+          location_fn: fn (_, _) -> Enum.drop(@locations, 2) end,
+          schedule_for_trip_fn: fn (_, _) -> {:error, :timeout}
+          end
+        ]
+      )
+
+      assert conn.assigns.vehicle_locations == %{
+        {"3", "place-bbsta"} => Enum.at(@locations, -1)
+      }
+    end
   end
 end
