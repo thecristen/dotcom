@@ -35,6 +35,10 @@ defmodule RepoCache do
     end
   end
 
+  def log(hit_or_miss, module, name) do
+    RepoCache.Log.log(hit_or_miss, module, name)
+  end
+
   defp include_defaults(opts) do
     opts = opts
     |> Keyword.put_new(:ttl, :timer.seconds(1))
@@ -88,13 +92,15 @@ defmodule RepoCache do
   def do_cache(mod, name, fun, fun_param, cache_opts) do
     key = {name, fun_param}
     timeout = Keyword.get(cache_opts, :timeout)
-    ConCache.isolated mod, key, timeout, fn ->
-      case ConCache.get(mod, key) do
-        nil ->
+    case ConCache.get(mod, key) do
+      nil ->
+        RepoCache.log(:miss, mod, name)
+        ConCache.isolated mod, key, timeout, fn ->
           maybe_set_value(fun.(fun_param), mod, key, cache_opts[:ttl])
-        value ->
-          value
-      end
+        end
+      value ->
+        RepoCache.log(:hit, mod, name)
+        value
     end
   end
 

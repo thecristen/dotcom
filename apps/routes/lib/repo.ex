@@ -12,7 +12,11 @@ defmodule Routes.Repo do
   @spec all() :: [Routes.Route.t]
   def all do
     cache [], fn _ ->
-      handle_response(V3Api.Routes.all)
+      routes = handle_response(V3Api.Routes.all)
+      for route <- routes do
+        ConCache.put(__MODULE__, {:get, route.id}, route)
+      end
+      routes
     end
   end
 
