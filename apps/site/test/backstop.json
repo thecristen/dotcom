@@ -36,7 +36,12 @@
       "label": "Homepage",
       "url": "http://localhost:8082/?date=2017-12-15",
       "hideSelectors": [],
-      "removeSelectors": [".index-news-group", ".whats-happening-item", ".title-card"],
+      "removeSelectors": [
+        ".index-news-group",
+        ".whats-happening-item",
+        ".title-card",
+        "#google_translate_element"
+      ],
       "selectors": [
         "header",
         ".pre-container-wrapper",
@@ -189,7 +194,7 @@
     {
       "label": "Station Info Framingham",
       "url": "http://localhost:8082/stops/Framingham?tab=departures&date=2017-12-15&date_time=2017-12-15T18%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".map"],
+      "hideSelectors": [".map", ".animate"],
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
@@ -197,7 +202,7 @@
     {
       "label": "Station Info South Station",
       "url": "http://localhost:8082/stops/place-sstat?tab=departures&date=2017-12-15&date_time=2017-12-15T18%3A01%3A52.397960-05%3A00",
-      "hideSelectors": [".station-info-map"],
+      "hideSelectors": [".station-info-map", ".animate"],
       "selectors": ["main"],
       "delay": 100,
       "misMatchThreshold": 0.1
