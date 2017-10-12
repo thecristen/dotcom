@@ -13,33 +13,12 @@ defmodule Site.EventView do
     |> Timex.format!("{ISOdate}")
   end
 
-  @spec calendar_title(%{required(String.t) => String.t}) :: String.t
-  def calendar_title(%{"month" => month}) do
-    if valid_iso_month?(month) do
-      name_of_month(month)
-    else
-      calendar_title(%{})
-    end
-  end
-  def calendar_title(_missing_month) do
-    "Upcoming Events"
-  end
+  @spec calendar_title(String.t) :: String.t
+  def calendar_title(month), do: name_of_month(month)
 
-  @spec no_results_message(%{required(String.t) => String.t}) :: String.t
-  def no_results_message(%{"month" => month}) do
-    if valid_iso_month?(month) do
-      "Sorry, there are no events in #{name_of_month(month)}."
-    else
-      no_results_message(%{})
-    end
-  end
-  def no_results_message(_missing_month) do
-    "Sorry, there are no upcoming events."
-  end
-
-  defp valid_iso_month?(iso_string) do
-    {:ok, _date}
-    |> match?(Timex.parse(iso_string, "{ISOdate}"))
+  @spec no_results_message(String.t) :: String.t
+  def no_results_message(month) do
+    "Sorry, there are no events in #{name_of_month(month)}."
   end
 
   defp name_of_month(iso_string) do

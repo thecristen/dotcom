@@ -13,32 +13,32 @@ defmodule Site.EventDateRangeTest do
       }
     end
 
-    test "returns a date range for upcoming events when a month is not provided" do
+    test "returns a date range for the current month when a month is not provided" do
       current_month = ~D[2017-04-15]
 
       assert EventDateRange.build(%{}, current_month) == %{
-        start_time_gt: "2017-04-15",
-        start_time_lt: "2017-05-15"
+        start_time_gt: "2017-04-01",
+        start_time_lt: "2017-05-01"
       }
     end
 
-    test "returns a date range for upcoming events when given an invalid date" do
+    test "returns a date range for the current month when given an invalid date" do
       params = %{"month" => "nope"}
       current_month = ~D[2017-04-15]
 
       assert EventDateRange.build(params, current_month) == %{
-        start_time_gt: "2017-04-15",
-        start_time_lt: "2017-05-15"
+        start_time_gt: "2017-04-01",
+        start_time_lt: "2017-05-01"
       }
     end
 
-    test "returns a date range for upcoming events when given a partial date" do
+    test "returns a date range for the current month when given a partial date" do
       params = %{"month" => "2017-01"}
       current_month = ~D[2017-04-15]
 
       assert EventDateRange.build(params, current_month) == %{
-        start_time_gt: "2017-04-15",
-        start_time_lt: "2017-05-15"
+        start_time_gt: "2017-04-01",
+        start_time_lt: "2017-05-01"
       }
     end
   end
