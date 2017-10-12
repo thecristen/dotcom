@@ -50,6 +50,7 @@ defmodule Site.Router do
     get "/fares/charlie_card", Redirector, to: "/fares/charlie-card"
     get "/fares/retail_sales_locations", Redirector, to: "/fares/retail-sales-locations"
     get "/how-to-pay/commuter_rail", Redirector, to: "/how-to-pay/commuter-rail"
+    get "/trip_planner", Redirector, to: "/trip-planner"
 
     get "/", PageController, :index
     resources "/events", EventController, only: [:index, :show] do
