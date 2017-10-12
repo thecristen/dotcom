@@ -43,7 +43,10 @@ WORKDIR /root/apps/site
 RUN mix do deps.get, deps.compile && \
     npm install --only=production --no-optional && \
     brunch build --production && \
-    mix do compile, phx.digest, release --verbosity=verbose --no-confirm-missing
-
+    mix phx.digest
 RUN aws s3 sync priv/static/css s3://mbta-dotcom/css --size-only && \
-    aws s3 sync priv/static/js s3://mbta-dotcom/js --size-only
+    aws s3 sync priv/static/js s3://mbta-dotcom/js --size-only || \
+    true
+
+WORKDIR /root
+RUN mix release --verbose

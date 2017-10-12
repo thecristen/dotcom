@@ -6,6 +6,8 @@ node_modules
 test
 cache
 rel
+!rel/vm.args
+!rel/config.exs
 erl_crash.dump
 build.sh
 deploy.sh
@@ -18,6 +20,6 @@ deploy.sh
 .semaphore-cache
 apps/site/node_modules
 apps/site/vendor/nodep-date-input-polyfill/node_modules
-apps/site/test/backstop_data
+apps/site/test
 aws
 site-build.zip
