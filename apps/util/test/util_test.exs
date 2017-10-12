@@ -52,4 +52,17 @@ defmodule UtilTest do
       assert Util.interleave([1, 3, 5, 6], [2, 4]) == [1, 2, 3, 4, 5, 6]
     end
   end
+
+  describe "yield_or_terminate/3" do
+    test "returns the value of a task if it ends in time" do
+      task = Task.async(fn -> 5 end)
+      assert yield_or_terminate(task, nil, 1000) == 5
+    end
+
+    test "returns the default and terminates task that runs too long" do
+      task = Task.async(fn -> :timer.sleep(60_000) end)
+      assert yield_or_terminate(task, :default, 100) == :default
+      refute Process.alive?(task.pid)
+    end
+  end
 end

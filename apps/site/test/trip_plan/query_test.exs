@@ -193,6 +193,18 @@ defmodule Site.TripPlan.QueryTest do
       {:ok, itineraries} = from_query(params).itineraries
       assert Enum.all?(itineraries, & &1.accessible?)
     end
+
+    test "Handles timeout gracefully" do
+      params = %{
+        "from" => "Timeout error",
+        "from_latitude" => "1",
+        "from_longitude" => "1",
+        "to" => "to address",
+        "date_time" => @date_time
+      }
+
+      assert %Query{itineraries: {:error, :timeout}} = from_query(params)
+    end
   end
 
   describe "fetch_lat_lng/2" do
