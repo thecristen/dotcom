@@ -89,7 +89,13 @@ defmodule Content.Helpers do
   def parse_paragraphs(data) do
     data
     |> Map.get("field_paragraphs", [])
+    |> Enum.filter(&para_is_published/1)
     |> Enum.map(&Content.Paragraph.from_api/1)
+  end
+  
+  @spec para_is_published(map) :: [Content.Paragraph.t]
+  def para_is_published(%{"status" => [%{"value" => value }]}) do
+    value
   end
 
   @spec rewrite_static_file_links(String.t) :: String.t
