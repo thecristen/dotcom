@@ -1,0 +1,21 @@
+{
+  "uuid" : "a3cb5133-02f3-35c4-a33f-1ebac61d2b92",
+  "request" : {
+    "url" : "/predictions/?trip=&stop=&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname&include=trip",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-th1sl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 12 Oct 2017 12:28:39 GMT",
+      "etag" : "1AF91D605F67C2BD144267922C578D66F2DED3240E1DCE917C3AB3BF795F5D17",
+      "last-modified" : "Thu, 12 Oct 2017 12:28:24 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "5npo0fkbboml8enrgovvch5div0fcc1j",
+      "Connection" : "keep-alive"
+    }
+  }
+}

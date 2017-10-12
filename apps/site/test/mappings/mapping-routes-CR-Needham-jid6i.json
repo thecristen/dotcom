@@ -1,0 +1,21 @@
+{
+  "uuid" : "e884b417-1715-35f9-b072-6b01765edc7f",
+  "request" : {
+    "url" : "/routes/CR-Needham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CR-Needham-jid6i.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 12 Oct 2017 18:32:45 GMT",
+      "etag" : "B36E709C644982DD4385C7A897846C48348083814B23264C78A0EDF3DFB47DFB",
+      "last-modified" : "Wed, 11 Oct 2017 21:59:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "slmmg7p55c20ehep9m6n00ssrs06rjma",
+      "Connection" : "keep-alive"
+    }
+  }
+}

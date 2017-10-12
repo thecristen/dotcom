@@ -1,0 +1,21 @@
+{
+  "uuid" : "1e5023f1-a86e-36c0-a165-e54d04ad74c2",
+  "request" : {
+    "url" : "/routes/CR-Greenbush",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CR-Greenbush-N4PxT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 12 Oct 2017 18:32:45 GMT",
+      "etag" : "B36E709C644982DD4385C7A897846C48348083814B23264C78A0EDF3DFB47DFB",
+      "last-modified" : "Wed, 11 Oct 2017 21:59:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "baudomppr4ij225okmav469cmue75iun",
+      "Connection" : "keep-alive"
+    }
+  }
+}

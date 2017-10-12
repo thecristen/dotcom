@@ -1,0 +1,21 @@
+{
+  "uuid" : "326e764b-2c7e-36f7-8915-c98905bc5bf1",
+  "request" : {
+    "url" : "/routes/CR-Fairmount",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CR-Fairmount-KmMe9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 12 Oct 2017 18:32:45 GMT",
+      "etag" : "B36E709C644982DD4385C7A897846C48348083814B23264C78A0EDF3DFB47DFB",
+      "last-modified" : "Wed, 11 Oct 2017 21:59:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "icla8q84ah3mr9lv0hdg7h8l52gdq4i6",
+      "Connection" : "keep-alive"
+    }
+  }
+}
