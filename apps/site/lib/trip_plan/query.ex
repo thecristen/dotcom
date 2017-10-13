@@ -14,7 +14,7 @@ defmodule Site.TripPlan.Query do
     to: Position.t,
     time: :unknown | {:depart_at | :arrive_by, DateTime.t},
     wheelchair_accessible?: boolean,
-    itineraries: {:ok, [Itinerary.t]} | {:error, any}
+    itineraries: TripPlan.Api.t
   }
 
   @spec from_query(map) :: t
@@ -30,19 +30,23 @@ defmodule Site.TripPlan.Query do
     |> suggest_alternate_locations
   end
 
+  @spec fetch_itineraries(TripPlan.Geocode.t, TripPlan.Geocode.t, Keyword.t) :: TripPlan.Api.t
   defp fetch_itineraries(from, to, opts) do
     if Keyword.get(opts, :wheelchair_accessible?) do
       do_fetch_itineraries(from, to, opts)
     else
+      request = Task.async(fn -> do_fetch_itineraries(from, to, opts) end)
       accessible_opts = Keyword.put(opts, :wheelchair_accessible?, true)
       accessible_request = Task.async(fn -> do_fetch_itineraries(from, to, accessible_opts) end)
 
-      from
-      |> do_fetch_itineraries(to, opts)
-      |> dedup_itineraries(Task.await(accessible_request))
+      dedup_itineraries(
+        Util.yield_or_terminate(request, {:error, :timeout}),
+        Util.yield_or_terminate(accessible_request, {:error, :timeout})
+      )
     end
   end
 
+  @spec do_fetch_itineraries(TripPlan.Geocode.t, TripPlan.Geocode.t, Keyword.t) :: TripPlan.Api.t
   defp do_fetch_itineraries(from, to, opts) do
     with {:ok, from} <- from,
     {:ok, to} <- to do
@@ -52,6 +56,7 @@ defmodule Site.TripPlan.Query do
     end
   end
 
+  @spec dedup_itineraries(TripPlan.Api.t, TripPlan.Api.t) :: TripPlan.Api.t
   defp dedup_itineraries({:error, _status} = response, {:error, _accessible_response}), do: response
   defp dedup_itineraries(unknown, {:error, _response}), do: unknown
   defp dedup_itineraries({:error, _response}, {:ok, _itineraries} = accessible), do: accessible

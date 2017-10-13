@@ -6,6 +6,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   alias TripPlan.NamedPosition
   alias Util.Position
 
+  @impl true
   def plan(from, to, opts) do
     with {:ok, params} <- build_params(opts),
          params = Map.merge(params,

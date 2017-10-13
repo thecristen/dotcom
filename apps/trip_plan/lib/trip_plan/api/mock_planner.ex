@@ -6,6 +6,7 @@ defmodule TripPlan.Api.MockPlanner do
   @max_distance 1000
   @max_duration 30 * 60
 
+  @impl true
   def plan(%NamedPosition{name: "Geocoded path_not_found"}, _to, _opts) do
     {:error, :path_not_found}
   end
@@ -22,6 +23,9 @@ defmodule TripPlan.Api.MockPlanner do
     else
       {:error, :not_accessible}
     end
+  end
+  def plan(%NamedPosition{name: "Timeout error"}, _, _) do
+    :timer.sleep(:infinity)
   end
   def plan(from, to, opts) do
     start = DateTime.utc_now()
