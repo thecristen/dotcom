@@ -63,7 +63,7 @@ defmodule Content.CMS.Static do
   end
 
   @impl true
-  def view(path, params \\ [])
+  def view(path, params)
   def view("/recent-news", [current_id: id]) do
     id = Integer.to_string(id)
     filtered_recent_news = Enum.reject(news_response(), &match?(%{"nid" => [%{"value" => ^id}]}, &1))
