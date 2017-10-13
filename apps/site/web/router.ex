@@ -49,6 +49,7 @@ defmodule Site.Router do
     get "/how-to-pay/commuter_rail", Redirector, to: "/how-to-pay/commuter-rail"
     get "/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail"
     get "/stops/commuter_rail", Redirector, to: "/stops/commuter-rail"
+    get "/style_guide", Redirector, to: "/style-guide"
     get "/transit_near_me", Redirector, to: "/transit-near-me"
     get "/trip_planner", Redirector, to: "/trip-planner"
 
