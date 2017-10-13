@@ -34,11 +34,12 @@ defmodule Site.ScheduleV2Controller.Predictions do
     end
   end
 
-  # only fetch predictions if we selected an origin and the date is today
-  defp should_fetch_predictions?(%{assigns: %{origin: nil}}) do
+  @spec should_fetch_predictions?(Plug.Conn.t) :: boolean
+  @doc "We only fetch predictions if we selected an origin and the date is today."
+  def should_fetch_predictions?(%{assigns: %{origin: nil}}) do
     false
   end
-  defp should_fetch_predictions?(%{assigns: assigns}) do
+  def should_fetch_predictions?(%{assigns: assigns}) do
     assigns.date == Util.service_date(assigns.date_time)
   end
 

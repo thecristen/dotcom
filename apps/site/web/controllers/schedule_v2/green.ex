@@ -93,21 +93,24 @@ defmodule Site.ScheduleV2Controller.Green do
   end
 
   def predictions(conn, opts) do
-    predictions_task = Task.async(fn ->
-      conn
+    {predictions, vehicle_predictions} =
+    if Site.ScheduleV2Controller.Predictions.should_fetch_predictions?(conn) do
+      predictions_fn = opts[:predictions_fn] || &Predictions.Repo.all/1
+      predictions_stream = conn
       |> conn_with_branches
       |> Task.async_stream(fn conn ->
-        call_plug(conn, Site.ScheduleV2Controller.Predictions, opts).assigns.predictions
-      end, timeout: @task_timeout)
-      |> flat_map_results
-    end)
-    vehicle_predictions_task = Task.async(fn ->
-      call_plug(conn, Site.ScheduleV2Controller.Predictions, opts).assigns.vehicle_predictions
-    end)
+        Site.ScheduleV2Controller.Predictions.predictions(conn, predictions_fn)
+      end, timeout: @task_timeout, on_timeout: :kill_task)
+      vehicle_predictions = Site.ScheduleV2Controller.Predictions.vehicle_predictions(conn, predictions_fn)
 
+      {flat_map_results(predictions_stream), vehicle_predictions}
+    else
+      {[], []}
+    end
     conn
-    |> assign(:predictions, Task.await(predictions_task))
-    |> assign(:vehicle_predictions, Task.await(vehicle_predictions_task))
+    |> assign(:predictions, predictions)
+    |> assign(:vehicle_predictions, vehicle_predictions)
+
   end
 
   def alerts(conn, _opts) do
