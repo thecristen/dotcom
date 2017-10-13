@@ -22,11 +22,11 @@
         <h1>MBTA Tech Style Guide</h1>
         <nav class="primary-nav">
           <ul class="row">
-            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide">Home</a></li>
-            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/components">UI Components</a></li>
-            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/principles">Design Principles</a></li>
-            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/content">Content Style Guide</a></li>
-            <li class="col-sm-12 col-md-2"><a class="h4" href="/style_guide/about">About MBTA.com</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide">Home</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide/components">UI Components</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide/principles">Design Principles</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide/content">Content Style Guide</a></li>
+            <li class="col-sm-12 col-md-2"><a class="h4" href="/style-guide/about">About MBTA.com</a></li>
           </ul>
         </nav>
       </header>

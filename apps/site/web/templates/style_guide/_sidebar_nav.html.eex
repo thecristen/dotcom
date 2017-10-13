@@ -4,7 +4,7 @@
       <%= for subpage <- @all_subpages do %>
         <% active = if @subpage == subpage, do: "active", else: "inactive" %>
         <li class="col-sm-6 col-md-12 <%= active %>">
-          <a href="/style_guide/<%= @section %>/<%= subpage %>"><%= page_title(subpage) %></a>
+          <a href="/style-guide/<%= @section %>/<%= subpage %>"><%= page_title(subpage) %></a>
         </li>
       <% end %>
     </ul>
