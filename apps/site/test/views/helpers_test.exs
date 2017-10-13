@@ -227,6 +227,9 @@ defmodule Site.ViewHelpersTest do
     test "skips the arrow and headsign if the headsign is empty" do
       actual = safe_to_string(html_escape(direction_with_headsign(%Route{}, 0, "")))
       refute actual =~ "arrow-right"
+
+      actual = safe_to_string(html_escape(direction_with_headsign(%Route{}, 0, [])))
+      refute actual =~ "arrow-right"
     end
   end
 

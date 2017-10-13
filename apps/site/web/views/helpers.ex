@@ -63,15 +63,10 @@ defmodule Site.ViewHelpers do
                          Keyword.delete(attributes, :class)]
   end
 
-  @doc "Deprecated function to return the direction name for a route"
-  def direction(direction_id, route) do
-    Routes.Route.direction_name(route, direction_id)
-  end
-
   @doc "The direction with an optional headsign"
-  @spec direction_with_headsign(Routes.Route.t, 0 | 1, String.t) :: Phoenix.HTML.Safe.t
+  @spec direction_with_headsign(Routes.Route.t, 0 | 1, iodata) :: Phoenix.HTML.Safe.t
   def direction_with_headsign(route, direction_id, headsign)
-  def direction_with_headsign(route, direction_id, "") do
+  def direction_with_headsign(route, direction_id, empty) when empty in ["", []]do
     Routes.Route.direction_name(route, direction_id)
   end
   def direction_with_headsign(route, direction_id, headsign) do

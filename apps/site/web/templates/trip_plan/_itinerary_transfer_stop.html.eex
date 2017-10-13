@@ -15,8 +15,8 @@
             <% end %>
           </div>
         <span class="itinerary-instruction">
-          Take the <%= route.name %> <%= direction(@itinerary_row.trip.direction_id, route)%>
-          towards <%= @itinerary_row.trip.headsign %>
+          Take the <%= route.name %> <%= Routes.Route.direction_name(route, @itinerary_row.trip.direction_id) %>
+          <%= unless @itinerary_row.trip.headsign == "" do %>towards <%= @itinerary_row.trip.headsign %><% end %>
         </span>
         <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
       </div>
