@@ -39,17 +39,17 @@ defmodule Site.Router do
     pipe_through [:secure, :browser]
 
     # redirect underscored urls to hyphenated version
-    get "/transit_near_me", Redirector, to: "/transit-near-me"
-    get "/stops/commuter_rail", Redirector, to: "/stops/commuter-rail"
-    get "/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail"
     get "/alerts/commuter_rail", Redirector, to: "/alerts/commuter-rail"
-    get "/fares/commuter_rail", Redirector, to: "/fares/commuter-rail"
     get "/fares/bus_subway", Redirector, to: "/fares/bus-subway"
+    get "/fares/charlie_card", Redirector, to: "/fares/charlie-card"
+    get "/fares/commuter_rail", Redirector, to: "/fares/commuter-rail"
     get "/fares/commuter_rail/zone", Redirector, to: "/fares/commuter-rail/zone"
     get "/fares/payment_methods", Redirector, to: "/fares/payment-methods"
-    get "/fares/charlie_card", Redirector, to: "/fares/charlie-card"
     get "/fares/retail_sales_locations", Redirector, to: "/fares/retail-sales-locations"
     get "/how-to-pay/commuter_rail", Redirector, to: "/how-to-pay/commuter-rail"
+    get "/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail"
+    get "/stops/commuter_rail", Redirector, to: "/stops/commuter-rail"
+    get "/transit_near_me", Redirector, to: "/transit-near-me"
     get "/trip_planner", Redirector, to: "/trip-planner"
 
     get "/", PageController, :index
