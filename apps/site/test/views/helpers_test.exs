@@ -4,6 +4,7 @@ defmodule Site.ViewHelpersTest do
 
   import Site.ViewHelpers
   import Phoenix.HTML.Tag, only: [tag: 2]
+  import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   alias Routes.Route
 
   describe "route_header_text/2" do
@@ -65,14 +66,14 @@ defmodule Site.ViewHelpersTest do
     test "given a stop, returns a link to that stop" do
       link = %Stops.Stop{id: "place-sstat", name: "South Station"}
       |> stop_link
-      |> Phoenix.HTML.safe_to_string
+      |> safe_to_string
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
 
     test "given a stop ID, returns a link to that stop" do
       link = "place-sstat"
       |> stop_link
-      |> Phoenix.HTML.safe_to_string
+      |> safe_to_string
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
   end
@@ -202,7 +203,7 @@ defmodule Site.ViewHelpersTest do
 
       result = fa("arrow-right")
 
-      assert result |> Phoenix.HTML.safe_to_string() == expected
+      assert result |> safe_to_string() == expected
     end
 
     test "when optional attributes are included" do
@@ -210,7 +211,22 @@ defmodule Site.ViewHelpersTest do
 
       result = fa("arrow-right", class: "foo", title: "title")
 
-      assert result |> Phoenix.HTML.safe_to_string() == expected
+      assert result |> safe_to_string() == expected
+    end
+  end
+
+  describe "direction_with_headsign/3" do
+    test "returns the direction name and headsign when included" do
+      actual = safe_to_string(html_escape(direction_with_headsign(%Route{}, 0, "headsign")))
+      assert actual =~ "Outbound"
+      assert actual =~ "arrow-right"
+      assert actual =~ ~s(<span class="sr-only">to</span>)
+      assert actual =~ "headsign"
+    end
+
+    test "skips the arrow and headsign if the headsign is empty" do
+      actual = safe_to_string(html_escape(direction_with_headsign(%Route{}, 0, "")))
+      refute actual =~ "arrow-right"
     end
   end
 

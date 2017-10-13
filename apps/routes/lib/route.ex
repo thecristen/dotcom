@@ -62,6 +62,11 @@ defmodule Routes.Route do
     |> String.capitalize
   end
 
+  @spec direction_name(t, 0 | 1) :: String.t
+  def direction_name(%__MODULE__{direction_names: names}, direction_id) when direction_id in [0, 1] do
+    Map.get(names, direction_id)
+  end
+
   @spec vehicle_name(t) :: String.t
   def vehicle_name(%__MODULE__{type: type}) when type in [0, 1, 2] do
     "Train"

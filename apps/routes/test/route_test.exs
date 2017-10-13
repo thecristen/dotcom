@@ -81,6 +81,14 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "direction_name/2" do
+    test "returns the name of the direction" do
+      assert direction_name(%Route{}, 0) == "Outbound"
+      assert direction_name(%Route{}, 1) == "Inbound"
+      assert direction_name(%Route{direction_names: %{0 => "Zero"}}, 0) == "Zero"
+    end
+  end
+
   describe "vehicle_name/1" do
     test "returns the appropriate type of vehicle" do
       for {type, name} <- [
