@@ -44,6 +44,8 @@ defmodule Predictions.RepoTest do
 
     @tag :capture_log
     test "returns valid entries even if some don't parse" do
+      _ = Stops.Repo.get("place-pktrm") # make sure it's cached
+
       bypass = Bypass.open
       v3_url = Application.get_env(:v3_api, :base_url)
       on_exit fn ->
@@ -52,7 +54,7 @@ defmodule Predictions.RepoTest do
 
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
         Plug.Conn.resp(conn, 200, ~s(
               {
@@ -82,15 +84,35 @@ defmodule Predictions.RepoTest do
                     },
                     "relationships": {
                       "route": {"data": {"type": "route", "id": "Red"}},
-                      "trip": {"data": {"type": "trip", "id": "trip"}},
-                      "stop": {"data": {"type": "stop", "id": "stop"}}
+                      "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
+                      "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
                     }
                   }
                 ]
               }))
       end
 
-      refute Repo.all(route: "test_partial_parse") == []
+      refute Repo.all(route: "Red", trip: "made_up_trip") == []
+    end
+
+    @tag :capture_log
+    test "returns an empty list if the API returns an error" do
+      _ = Stops.Repo.get("place-pktrm") # make sure it's cached
+
+      bypass = Bypass.open
+      v3_url = Application.get_env(:v3_api, :base_url)
+      on_exit fn ->
+        Application.put_env(:v3_api, :base_url, v3_url)
+      end
+
+      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+
+      Bypass.expect bypass, fn %{request_path: "/predictions/"} = conn ->
+        # return a Prediction with a valid stop, and one with an invalid stop
+        Plug.Conn.resp(conn, 500, "")
+      end
+
+      assert Repo.all(route: "Red", trip: "has_an_error") == []
     end
   end
 end

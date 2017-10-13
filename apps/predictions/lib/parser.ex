@@ -1,20 +1,34 @@
 defmodule Predictions.Parser do
   alias Predictions.Prediction
 
-  @spec parse(JsonApi.Item.t) :: Prediction.t
-  def parse(%JsonApi.Item{attributes: attributes, relationships: relationships} = item) do
-    %Prediction{
-      id: item.id,
-      route: route(List.first(relationships["route"])),
-      stop: stop(relationships["stop"]),
-      trip: trip(item),
-      direction_id: attributes["direction_id"],
-      time: [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
-      stop_sequence: attributes["stop_sequence"] || 0,
-      schedule_relationship: schedule_relationship(attributes["schedule_relationship"]),
-      track: attributes["track"],
-      status: attributes["status"],
-      departing?: departing?(attributes)
+  @type record :: {
+    Prediction.id_t | nil,
+    Schedules.Trip.id_t | nil,
+    Stops.Stop.id_t,
+    Routes.Route.id_t,
+    0 | 1,
+    DateTime.t | nil,
+    non_neg_integer,
+    Prediction.schedule_relationship,
+    String.t | nil,
+    String.t | nil,
+    boolean
+  }
+
+  @spec parse(JsonApi.Item.t) :: record
+  def parse(%JsonApi.Item{attributes: attributes} = item) do
+    {
+      item.id,
+      trip_id(item),
+      stop_id(item),
+      route_id(item),
+      attributes["direction_id"],
+      [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
+      attributes["stop_sequence"] || 0,
+      schedule_relationship(attributes["schedule_relationship"]),
+      attributes["track"],
+      attributes["status"],
+      departing?(attributes)
     }
   end
 
@@ -43,10 +57,6 @@ defmodule Predictions.Parser do
   defp upcoming_status?("Boarding"), do: true
   defp upcoming_status?(status), do: String.ends_with?(status, "away")
 
-  defp stop([stop | _]) do
-    Stops.Repo.get!(stop.id)
-  end
-
   @spec schedule_relationship(String.t) :: Prediction.schedule_relationship
   defp schedule_relationship("ADDED"), do: :added
   defp schedule_relationship("UNSCHEDULED"), do: :unscheduled
@@ -55,14 +65,21 @@ defmodule Predictions.Parser do
   defp schedule_relationship("NO_DATA"), do: :no_data
   defp schedule_relationship(_), do: nil
 
-  defp trip(%JsonApi.Item{relationships: %{"trip" => []}}) do
+  defp stop_id(%JsonApi.Item{relationships: %{"stop" => [%{id: id} | _]}}) do
+    id
+  end
+  defp stop_id(%JsonApi.Item{relationships: %{"stop" => []}}) do
     nil
   end
-  defp trip(item) do
-    Schedules.Parser.trip(item)
+
+  defp trip_id(%JsonApi.Item{relationships: %{"trip" => [%{id: id} | _]}}) do
+    id
+  end
+  defp trip_id(%JsonApi.Item{relationships: %{"trip" => []}}) do
+    nil
   end
 
-  defp route(item) do
-    Routes.Parser.parse_route(item)
+  defp route_id(%JsonApi.Item{relationships: %{"route" => [%{id: id} | _]}}) do
+    id
   end
 end

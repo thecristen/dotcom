@@ -35,9 +35,12 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     end
   end
 
-
   # Returns the selected trip ID based on the conn's query params or journeys.
   @spec trip_id(Conn.t) :: String.t | nil
+  defp trip_id(%Conn{query_params: %{"trip" => ""}}) do
+    # explicitly selected no trip
+    nil
+  end
   defp trip_id(%Conn{query_params: %{"trip" => trip_id}}) do
     trip_id
   end

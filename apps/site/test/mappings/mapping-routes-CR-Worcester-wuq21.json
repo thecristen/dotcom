@@ -1,0 +1,21 @@
+{
+  "uuid" : "a8dc7f3c-72d7-368c-8a46-5e7511fdc61a",
+  "request" : {
+    "url" : "/routes/CR-Worcester",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CR-Worcester-wuq21.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 12 Oct 2017 18:32:45 GMT",
+      "etag" : "B36E709C644982DD4385C7A897846C48348083814B23264C78A0EDF3DFB47DFB",
+      "last-modified" : "Wed, 11 Oct 2017 21:59:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "igucd91fgq545thul9cql5a67vn68dhu",
+      "Connection" : "keep-alive"
+    }
+  }
+}

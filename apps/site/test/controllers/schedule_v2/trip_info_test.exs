@@ -97,6 +97,9 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
   defp trip_fn("out_of_service", _) do
     {:error, [%JsonApi.Error{code: "no_service"}]}
   end
+  defp trip_fn("", _) do
+    []
+  end
 
   defp vehicle_fn("32893585") do
     %Vehicles.Vehicle{}
@@ -131,6 +134,11 @@ defmodule Site.ScheduleV2Controller.TripInfoTest do
     end)
 
     assign(conn, :journeys, %JourneyList{journeys: journeys})
+  end
+
+  test "does not assign a trip when trip is the empty string", %{conn: conn} do
+    conn = conn_builder(conn, @schedules, trip: "")
+    assert conn.assigns.trip_info == nil
   end
 
   test "does not assign a trip when schedules is empty", %{conn: conn} do

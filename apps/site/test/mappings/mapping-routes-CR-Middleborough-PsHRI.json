@@ -1,0 +1,21 @@
+{
+  "uuid" : "4e2c6c3e-6e25-3aa1-958f-34d82e3a953f",
+  "request" : {
+    "url" : "/routes/CR-Middleborough",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-CR-Middleborough-PsHRI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Thu, 12 Oct 2017 18:32:45 GMT",
+      "etag" : "B36E709C644982DD4385C7A897846C48348083814B23264C78A0EDF3DFB47DFB",
+      "last-modified" : "Wed, 11 Oct 2017 21:59:40 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "er7dd1v8vh7s5tma3ijl356g7ufbe7vc",
+      "Connection" : "keep-alive"
+    }
+  }
+}

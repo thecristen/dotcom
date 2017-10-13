@@ -1,27 +1,27 @@
 defmodule Schedules.Parser do
   def parse(item) do
-    %Schedules.Schedule{
-      route: route(item),
-      trip: trip(item),
-      stop: stop(item),
-      time: time(item),
-      flag?: flag?(item),
-      pickup_type: pickup_type(item),
-      stop_sequence: item.attributes["stop_sequence"] || 0
+    {
+      route_id(item),
+      trip_id(item),
+      stop_id(item),
+      time(item),
+      flag?(item),
+      item.attributes["stop_sequence"] || 0,
+      pickup_type(item)
     }
   end
 
-  def route(
+  def route_id(
     %JsonApi.Item{
       relationships: %{
-        "trip" => [
-        %JsonApi.Item{
-          relationships: %{
-            "route" => [route | _]
-          }} | _]
-      }
-    }) do
-    Routes.Parser.parse_route(route)
+        "route" => [%JsonApi.Item{id: id} | _]}}) do
+    id
+  end
+
+  def trip_id(%JsonApi.Item{
+        relationships: %{
+          "trip" => [%JsonApi.Item{id: id} | _]}}) do
+    id
   end
 
   def trip(%JsonApi.Item{
@@ -40,6 +40,11 @@ defmodule Schedules.Parser do
       shape_id: shape_id(relationships)
     }
   end
+  def trip(%JsonApi.Item{
+        relationships: %{
+          "trip" => []}}) do
+    nil
+  end
   def trip(%JsonApi{
         data: [%JsonApi.Item{
                   id: id, attributes: %{
@@ -57,12 +62,12 @@ defmodule Schedules.Parser do
     }
   end
 
-  def stop(%JsonApi.Item{
+  def stop_id(%JsonApi.Item{
         relationships: %{
           "stop" => [
           %JsonApi.Item{id: id}
         ]}}) do
-    Stops.Repo.get!(id)
+    id
   end
 
   defp time(%JsonApi.Item{attributes: %{"departure_time" => departure_time}}) do

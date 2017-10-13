@@ -1,21 +1,21 @@
 defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, ttl: :timer.hours(6)
 
   alias Schedules.Schedule
   alias Stops.Stop
+  alias Routes.Route
 
   @type schedule_pair :: {Schedule.t, Schedule.t}
 
   @default_timeout 10_000
   @default_params [
-      include: "trip,route",
-      "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence",
-      "fields[trip]": "name,headsign,direction_id",
-      "fields[stop]": "name"
+    include: "trip",
+    "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence",
+    "fields[trip]": "name,headsign,direction_id",
   ]
 
-  @spec by_route_ids([String.t], Keyword.t) :: [Schedule.t] | {:error, any}
+  @spec by_route_ids([Route.id_t], Keyword.t) :: [Schedule.t] | {:error, any}
   def by_route_ids(route_ids, opts \\ []) when is_list(route_ids) do
     @default_params
     |> Keyword.put(:route, Enum.join(route_ids, ","))
@@ -24,6 +24,7 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
     |> cache(&all_from_params/1)
+    |> load_from_other_repos
   end
 
   @spec schedule_for_trip(Schedules.Trip.id_t, Keyword.t) :: [Schedule.t] | {:error, any}
@@ -35,11 +36,10 @@ defmodule Schedules.Repo do
   def schedule_for_trip(trip_id, opts) do
     @default_params
     |> Keyword.merge(opts)
-    |> Keyword.merge([
-      trip: trip_id
-    ])
+    |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new(:date, Util.service_date)
     |> cache(&all_from_params/1)
+    |> load_from_other_repos
   end
 
   @spec origin_destination(Stop.id_t, Stop.id_t, Keyword.t) :: [schedule_pair] | {:error, any}
@@ -64,9 +64,15 @@ defmodule Schedules.Repo do
     |> Keyword.merge(opts)
     |> Keyword.put(:stop, stop_id)
     |> cache(&all_from_params/1)
+    |> load_from_other_repos
   end
 
   @spec trip(String.t) :: Schedules.Trip.t | nil
+  def trip(trip_id)
+  def trip("") do
+    # short circuit an known invalid trip ID
+    nil
+  end
   def trip(trip_id) do
     cache trip_id, fn trip_id ->
       case V3Api.Trips.by_id(trip_id) do
@@ -90,9 +96,11 @@ defmodule Schedules.Repo do
 
   defp all_from_params(params) do
     with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
+      insert_trips_into_cache(data)
+
       data
-      |> Enum.map(&Schedules.Parser.parse/1)
-      |> Enum.sort_by(&DateTime.to_unix(&1.time))
+      |> Stream.map(&Schedules.Parser.parse/1)
+      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
     end
   end
 
@@ -130,5 +138,36 @@ defmodule Schedules.Repo do
     |> Join.join(dest_schedules, & &1.trip.id)
     |> Enum.filter(fn {o, d} -> o.stop_sequence < d.stop_sequence end)
     |> Enum.uniq_by(fn {o, _} -> o.trip.id end)
+  end
+
+  defp load_from_other_repos({:error, _} = error) do
+    error
+  end
+  defp load_from_other_repos(schedules) do
+    schedules
+    |> Task.async_stream(fn {route_id, trip_id, stop_id, time, flag?, stop_sequence, pickup_type} ->
+      %Schedules.Schedule{
+        route: Routes.Repo.get(route_id),
+        trip: trip(trip_id),
+        stop: Stops.Repo.get(stop_id),
+        time: time,
+        flag?: flag?,
+        stop_sequence: stop_sequence,
+        pickup_type: pickup_type}
+    end)
+    |> Enum.map(fn {:ok, schedule} -> schedule end)
+  end
+
+  def insert_trips_into_cache(data) do
+    # Since we fetched all the trips along with the schedules, we can insert
+    # them into the cache directly. That way, they'll be available when we
+    # ask for them via trip/1.
+    data
+    |> Stream.map(&Schedules.Parser.trip/1)
+    |> Stream.reject(&is_nil/1)
+    |> Stream.uniq_by(& &1.id)
+    |> Enum.each(fn trip ->
+      ConCache.dirty_put(__MODULE__, {:trip, trip.id}, trip)
+    end)
   end
 end
