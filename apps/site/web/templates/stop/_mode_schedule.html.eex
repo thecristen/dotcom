@@ -22,7 +22,7 @@
                 <%= for {headsign, departures} <- route_time.departures do %>
                   <div class="clearfix">
                     <div class="col-md-6 col-sm-12 station-trip-headsign">
-                      <%= direction(route_time.direction_id, route_time.route) %> <%= fa "arrow-right" %> <%= headsign %>
+                      <%= direction_with_headsign(route_time.route, route_time.direction_id, headsign) %>
                       <%= if has_alerts?(@all_alerts, @date, %Alerts.InformedEntity{route: route_time.route.id, direction_id: route_time.direction_id}) do %>
                         <%= svg_icon(%SvgIcon{icon: :alert, class: "icon-small"}) %>
                       <% end %>

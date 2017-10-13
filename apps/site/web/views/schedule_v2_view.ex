@@ -24,9 +24,9 @@ defmodule Site.ScheduleV2View do
   @spec do_display_direction([Journey.t]) :: iodata
   defp do_display_direction([%Journey{departure: predicted_schedule} | _]) do
     [
-      direction(
-        PredictedSchedule.direction_id(predicted_schedule),
-        PredictedSchedule.route(predicted_schedule)
+      Route.direction_name(
+        PredictedSchedule.route(predicted_schedule),
+        PredictedSchedule.direction_id(predicted_schedule)
       ),
       " to"
     ]

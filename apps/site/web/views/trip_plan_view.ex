@@ -179,7 +179,7 @@ defmodule Site.TripPlanView do
     [
       format_green_line_name(route.name),
       " ",
-      direction(direction_id, route),
+      Route.direction_name(route, direction_id),
       " towards ",
       GreenLine.naive_headsign(route.id, direction_id)
     ]

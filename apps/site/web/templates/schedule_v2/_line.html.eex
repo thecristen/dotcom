@@ -16,7 +16,7 @@
     </div>
   </div>
   <%= if Enum.empty?(@branches) do %>
-    <%= render "_empty.html", date: @date, direction: direction(@direction_id, @route), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
+    <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
   <% else %>
   <div class="row">
     <div class="page-section col-md-7">

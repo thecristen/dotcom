@@ -63,9 +63,21 @@ defmodule Site.ViewHelpers do
                          Keyword.delete(attributes, :class)]
   end
 
-  @doc "The string description of a direction ID"
-  def direction(direction_id, route) do
-    route.direction_names[direction_id]
+  @doc "The direction with an optional headsign"
+  @spec direction_with_headsign(Routes.Route.t, 0 | 1, iodata) :: Phoenix.HTML.Safe.t
+  def direction_with_headsign(route, direction_id, headsign)
+  def direction_with_headsign(route, direction_id, empty) when empty in ["", []]do
+    Routes.Route.direction_name(route, direction_id)
+  end
+  def direction_with_headsign(route, direction_id, headsign) do
+    [
+      Routes.Route.direction_name(route, direction_id),
+      " ",
+      fa("arrow-right"),
+      content_tag(:span, "to", class: "sr-only"),
+      " ",
+      headsign
+    ]
   end
 
   @spec mode_name(0..4 | Routes.Route.route_type | Routes.Route.subway_lines_type | :access) :: String.t

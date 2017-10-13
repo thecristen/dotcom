@@ -11,7 +11,7 @@
         label_text: "Departing from:",
         placeholder_text: "origin",
         route: @route,
-        disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{direction(@direction_id, @route) |> String.downcase} stop"}),
+        disabled_values: @excluded_origin_stops |> Enum.map(&{&1, "last #{@route |> Routes.Route.direction_name(@direction_id) |> String.downcase} stop"}),
         clearable?: false,
         exclude: ["trip"]
       %>
