@@ -35,6 +35,16 @@ defmodule Site.Router do
     get "/_health", HealthController, :index
   end
 
+  # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
+  scope "/", Site, host: "t." do
+    # no pipe
+    get "/*path", WwwRedirector, []
+  end
+  scope "/", Site, host: "beta." do
+    # no pipe
+    get "/*path", WwwRedirector, []
+  end
+
   scope "/", Site do
     pipe_through [:secure, :browser]
 
