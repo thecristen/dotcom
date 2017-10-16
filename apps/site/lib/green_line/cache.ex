@@ -50,11 +50,11 @@ defmodule Site.GreenLine.Cache do
       next_update_after(Timex.now("America/New_York"))
     )
 
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
   def handle_info({:reset_again, date}, {_, _, reset_fn} = state) do
     reset_fn.(date)
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
   def handle_info(_, state) do
     {:noreply, state} # no cover
