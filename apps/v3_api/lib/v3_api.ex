@@ -80,7 +80,7 @@ defmodule V3Api do
     ~s(status=error error="#{inspect error}")
   end
 
-  defp body(%{headers: headers, body: body}) do
+  def body(%{headers: headers, body: body}) do
     case Enum.find(
           headers,
           &String.downcase(elem(&1, 0)) == "content-encoding") do
@@ -89,8 +89,10 @@ defmodule V3Api do
       _ ->
         {:ok, body}
     end
+  rescue
+    e in ErlangError -> {:error, e.original}
   end
-  defp body(other) do
+  def body(other) do
     other
   end
 

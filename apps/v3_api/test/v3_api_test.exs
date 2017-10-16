@@ -56,4 +56,31 @@ defmodule V3ApiTest do
       V3Api.get_json("/without_api_key", [], base_url: url, api_key: nil)
     end
   end
+
+  describe "body/1" do
+    test "returns a normal body if there's no content-encoding" do
+      response = %HTTPoison.Response{headers: [], body: "body"}
+      assert V3Api.body(response) == {:ok, "body"}
+    end
+
+    test "decodes a gzip encoded body" do
+      body = "body"
+      encoded_body = :zlib.gzip(body)
+      header = {"Content-Encoding", "gzip"}
+      response = %HTTPoison.Response{headers: [header], body: encoded_body}
+      assert {:ok, ^body} = V3Api.body(response)
+    end
+
+    test "returns an error if the gzip body is invalid" do
+      encoded_body = "bad gzip"
+      header = {"Content-Encoding", "gzip"}
+      response = %HTTPoison.Response{headers: [header], body: encoded_body}
+      assert {:error, :data_error} = V3Api.body(response)
+    end
+
+    test "returns an error if we have an error instead of a response" do
+      error = %HTTPoison.Error{}
+      assert ^error = V3Api.body(error)
+    end
+  end
 end
