@@ -74,15 +74,16 @@ defmodule Util do
   @doc """
 
   Takes a task and yields to it with the specified timeout. If the task times
-  out, it shuts it down and returns the provided default value.
+  out, shuts the task down and returns the provided default value.
 
   """
   @spec yield_or_terminate(Task.t, any, integer) :: any
-  def yield_or_terminate(task, default, timeout \\ 5000) do
-    case Task.yield(task, timeout) || Task.shutdown(task) do
+  def yield_or_terminate(%Task{} = task, default, timeout \\ 5000) do
+    case Task.yield(task, timeout) do
       {:ok, result} -> result
       nil ->
-        Logger.warn("async task timed out. Returning: #{inspect(default)}")
+        _ = Logger.warn(fn -> "async task timed out. Returning: #{inspect(default)}" end)
+        Task.shutdown(task, :brutal_kill)
         default
     end
   end
