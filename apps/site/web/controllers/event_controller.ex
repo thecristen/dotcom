@@ -4,7 +4,8 @@ defmodule Site.EventController do
   alias Plug.Conn
 
   def index(conn, params) do
-    date_range = EventDateRange.build(params, Util.today)
+    {:ok, current_month} = Date.new(Util.today.year, Util.today.month, 1)
+    date_range = EventDateRange.build(params, current_month)
     events = Content.Repo.events(Enum.into(date_range, []))
 
     conn

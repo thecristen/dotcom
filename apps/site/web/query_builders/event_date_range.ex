@@ -3,11 +3,11 @@ defmodule Site.EventDateRange do
   def build(%{"month" => month}, current_date) do
     case Date.from_iso8601(month) do
       {:ok, date} -> for_month(date)
-      {:error, _error} -> upcoming_events_from(current_date)
+      {:error, _error} -> for_month(current_date)
     end
   end
   def build(_month_missing, current_date) do
-    upcoming_events_from(current_date)
+    for_month(current_date)
   end
 
   @spec for_month(Date.t) :: map
@@ -16,15 +16,6 @@ defmodule Site.EventDateRange do
     end_date = date |> Timex.end_of_month |> Timex.shift(days: 1)
 
     date_range(start_date: start_date, end_date: end_date)
-  end
-
-  defp upcoming_events_from(date) do
-    end_date = date |> thirty_days_out
-    date_range(start_date: date, end_date: end_date)
-  end
-
-  defp thirty_days_out(date) do
-    date |> Timex.shift(days: 30)
   end
 
   defp date_range(start_date: start_date, end_date: end_date) do
