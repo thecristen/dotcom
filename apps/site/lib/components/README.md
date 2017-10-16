@@ -27,7 +27,7 @@ The controller then uses this list to build out the UI Components page with subp
 - The contents of the moduledoc for the component's module.
 
 The UI Components section of the style guide also has two non-component pages:
-- Typography -- fully static content, editable at `/apps/site/web/templates/style_guide/_typography.html`
+- Typography -- fully static content, editable at `/apps/site/web/templates/style-guide/_typography.html`
 - Colors -- dynamically populated with all color variables.
 
 ### Color Variables

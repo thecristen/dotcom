@@ -99,7 +99,7 @@ defmodule Site.StyleGuideView do
 
    @doc """
      Returns the component's default arguments as defined in its struct.
-     Only intended to be used in templates/style_guide/show.html.eex.
+     Only intended to be used in templates/style-guide/show.html.eex.
    """
    @spec component_args(atom, atom) :: map
    def component_args(component, section) do
