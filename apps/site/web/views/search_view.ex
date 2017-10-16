@@ -2,13 +2,7 @@ defmodule Site.SearchView do
   use Site.Web, :view
   import Site.ContentView, only: [render_duration: 2]
   import Site.ContentRewriter, only: [rewrite: 1]
-  alias Content.SearchResult.Event
-  alias Content.SearchResult.LandingPage
-  alias Content.SearchResult.NewsEntry
-  alias Content.SearchResult.Page
-  alias Content.SearchResult.Person
-  alias Content.SearchResult.File
-  alias Content.SearchResult.Link
+  alias Content.SearchResult.{Event, LandingPage, NewsEntry, Page, Person, File, Link}
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 

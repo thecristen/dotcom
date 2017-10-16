@@ -1,0 +1,51 @@
+defmodule Content.Search.Facets do
+  @moduledoc "Module for interacting with Search Facets"
+
+  @default_opts [search_fn: &Content.Repo.search/3, response_timeout: 5000]
+  @typep search_fn :: (String.t, integer, [String.t] -> Content.Search.t)
+  @typep content_response :: {:ok, Content.Search.t} | :error
+
+  @doc """
+  Returns search performed with and without conent_types.
+  If no content_types provided, returns base search twice
+  """
+  @spec facet_responses(String.t, integer, [String.t], Keyword.t) :: {Content.Search.t, Content.Search.t} | :error
+  def facet_responses(query, offset, content_types, user_opts \\ []) do
+    opts = Keyword.merge(@default_opts, user_opts)
+    case perform_search(query, offset, content_types, opts) do
+      {{:ok, response}, {:ok, facet_response}} -> {response, facet_response}
+      _ -> :error
+    end
+  end
+
+  @spec perform_search(String.t, integer, [String.t], Keyword.t) :: {content_response, content_response}
+  defp perform_search(query, offset, [], opts) do
+    result = do_perform_search(query, offset, [], opts[:search_fn])
+    {result, result}
+  end
+  defp perform_search(query, offset, content_types, opts) do
+    search_fn = opts[:search_fn]
+    base_search_task = Task.async(fn -> do_perform_search(query, offset, [], search_fn) end)
+
+    {
+      do_perform_search(query, offset, content_types, search_fn),
+      Util.yield_or_terminate(base_search_task, :error, opts[:response_timeout]),
+    }
+  end
+
+  @spec do_perform_search(String.t, integer, [String.t], search_fn) :: {:ok, Content.Search.t} | :error
+  defp do_perform_search(query, offset, content_types, search_fn) do
+    case search_fn.(query, offset, content_types) do
+      {:ok, _response} = result -> result
+      _ -> :error
+    end
+  end
+
+  @spec build(String.t, Keyword.t, [String.t]) :: map
+  def build(type, facet_data, user_selections) do
+    facet = facet_data
+            |> Enum.map(&Content.Search.Facet.build(&1, user_selections))
+            |> Enum.filter(&(&1.label != :ignore))
+    Map.put(%{}, type, facet)
+  end
+end

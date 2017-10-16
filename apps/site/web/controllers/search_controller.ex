@@ -3,6 +3,7 @@ defmodule Site.SearchController do
   import Site.ResponsivePagination, only: [build: 1]
   import Site.Router.Helpers, only: [search_path: 2]
   alias Plug.Conn
+  alias Content.Search.Facets
 
   plug :search_header
   plug :former_site
@@ -13,12 +14,11 @@ defmodule Site.SearchController do
   def index(conn, %{"search" => %{"query" => query} = search_input}) when query != "" do
     offset = offset(search_input)
     content_types = content_types(search_input)
-    case backend_responses(query, offset, content_types) do
+    case Facets.facet_responses(query, offset, content_types) do
       :error -> render(conn, "error.html")
-      {response, facet_response} ->
-        conn
+      {response, facet_response} -> conn
         |> assign(:query, query)
-        |> facets(facet_response, content_types)
+        |> assign_facets(facet_response, content_types)
         |> assign(:results, response.results)
         |> render_index(offset, response.count, search_input)
     end
@@ -57,21 +57,9 @@ defmodule Site.SearchController do
     assign(conn, :pagination, pagination)
   end
 
-  @spec backend_responses(String.t, integer, [String.t]) :: {Content.Search.t, Content.Search.t} | :error
-  defp backend_responses(query, offset, content_types) do
-    search_response = fn types -> Task.async(fn -> Content.Repo.search(query, offset, types) end) end
-    search_request = search_response.([])
-    if Enum.empty?(content_types) do
-      case Task.await(search_request) do
-        {:ok, response} -> {response, response}
-        {:error, _} -> :error
-      end
-    else
-      case {Task.await(search_response.(content_types)), Task.await(search_request)} do
-        {{:ok, response}, {:ok, facet_response}} -> {response, facet_response}
-        {_, _} -> :error
-      end
-    end
+  @spec assign_facets(Conn.t, %Content.Search{content_types: Keyword.t}, [String.t]) :: Conn.t
+  def assign_facets(conn, %Content.Search{content_types: response_types}, content_types) do
+    assign(conn, :facets, Facets.build("content_type", response_types, content_types))
   end
 
   @spec stats(Conn.t, integer, integer) :: Conn.t
@@ -86,38 +74,6 @@ defmodule Site.SearchController do
     assign(conn, :stats, stats)
   end
 
-  @spec facets(Conn.t, %Content.Search{content_types: Keyword.t}, [String.t]) :: Conn.t
-  defp facets(conn, %Content.Search{content_types: response_types}, content_types) do
-    facets = "content_type"
-    |> build_facet(response_types, content_types)
-    |> Map.merge(build_facet("year", Keyword.new, []))
-    assign(conn, :facets, facets)
-  end
-
-  @spec build_facet(String.t, Keyword.t, [String.t]) :: map
-  defp build_facet(type, facet_data, user_selections) do
-    facet = facet_data
-    |> Enum.map(&do_build_facet(&1, type, user_selections))
-    |> Enum.filter(&(&1.label != :ignore))
-    Map.put(%{}, type, facet)
-  end
-
-  @spec do_build_facet({String.t, integer}, String.t, [String.t]) :: map
-  defp do_build_facet({value, count}, type, input) do
-    %{label: facet_label(type, value),
-      value: value,
-      active?: Enum.member?(input, value),
-      count: count}
-  end
-
-  @spec facet_label(String.t, String.t) :: String.t
-  defp facet_label("content_type", "event"), do: "Event"
-  defp facet_label("content_type", "landing_page"), do: "Main Page"
-  defp facet_label("content_type", "news_entry"), do: "News"
-  defp facet_label("content_type", "page"), do: "Page"
-  defp facet_label("content_type", "person"), do: "Person"
-  defp facet_label("content_type", "search_result"), do: :ignore
-
   @spec search_params(map) :: map
   defp search_params(search_input) do
     %{"[query]" => Map.get(search_input, "query", ""), "[offset]" => Map.get(search_input, "offset", "0")}
@@ -130,7 +86,7 @@ defmodule Site.SearchController do
     input = Map.get(search_input, "offset", "0")
     case Integer.parse(input) do
       :error -> 0
-      {offset, _} -> offset
+      {search_offset, _} -> search_offset
     end
   end
 

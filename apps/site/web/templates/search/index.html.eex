@@ -13,14 +13,6 @@
             </ul>
           </div>
         <% end %>
-        <%= if @facets["year"] != [] do %>
-          <div class="search-results-facet" data-facet="search">
-            <h2 class="search-filter-heading" data-heading="search-filter">Filter by date<%= render_toggle_filter() %></h2>
-            <ul class="search-filter-container" data-container="search-filter">
-              <%= for option <- @facets["year"], do: render_filter_option(f, :year, option) %>
-            </ul>
-          </div>
-        <% end %>
         <button class="btn btn-primary btn-sm hidden-js">Update Results</button>
       <% end %>
     </div>
