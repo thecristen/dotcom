@@ -118,6 +118,6 @@ defmodule Alerts.Cache.Store do
     :ets.insert(:route_id_and_type_to_alert_ids, route_inserts)
     :ets.insert(:alert_banner, {:banner, banner})
 
-    {:reply, :ok, state}
+    {:reply, :ok, state, :hibernate}
   end
 end
