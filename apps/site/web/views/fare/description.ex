@@ -23,7 +23,7 @@ defmodule Site.FareView.Description do
   def description(%Fare{mode: :commuter_rail, duration: :month, name: name}, _assigns) do
     ["Valid for one calendar month of unlimited travel on Commuter Rail ",
      valid_commuter_zones(name),
-     " as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."]
+     " as well as Local Bus, Subway, and the Charlestown Ferry."]
   end
   def description(%Fare{mode: :ferry, duration: duration}, %{origin: origin, destination: destination}) when duration in [:round_trip, :single_trip, :day, :week] do
     [
@@ -87,18 +87,32 @@ defmodule Site.FareView.Description do
   def description(%Fare{name: :local_bus, duration: :month}, _assigns) do
     "Unlimited travel for one calendar month on the Local Bus (not including Routes SL1 or SL2)."
   end
+  def description(%Fare{name: :inner_express_bus, media: [:charlie_card, :charlie_ticket], duration: :month}, _assigns) do
+    ["Unlimited travel for one calendar month on the Inner Express Bus",
+     "Local Bus",
+     "Subway",
+     "Commuter Rail Zone 1A (CharlieTicket only)",
+     "the Charlestown Ferry (CharlieTicket only)."
+    ] |> and_join
+  end
   def description(%Fare{name: :inner_express_bus, duration: :month}, _assigns) do
     ["Unlimited travel for one calendar month on the Inner Express Bus",
      "Local Bus",
-     "Commuter Rail Zone 1A",
-     "the Charlestown Ferry."
+     "Subway."
+    ] |> and_join
+  end
+  def description(%Fare{name: :outer_express_bus, media: [:charlie_card, :charlie_ticket], duration: :month}, _assigns) do
+    ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
+     "Local Bus",
+     "Subway",
+     "Commuter Rail Zone 1A (CharlieTicket only)",
+     "the Charlestown Ferry (CharlieTicket only).",
     ] |> and_join
   end
   def description(%Fare{name: :outer_express_bus, duration: :month}, _assigns) do
     ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus",
      "Local Bus",
-     "Commuter Rail Zone 1A",
-     "the Charlestown Ferry."
+     "Subway.",
     ] |> and_join
   end
   def description(%Fare{mode: :bus, media: media} = fare, _assigns)

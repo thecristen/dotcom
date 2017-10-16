@@ -21,7 +21,7 @@ defmodule Site.FareView.DescriptionTest do
 
       assert fare |> description(%{}) |> iodata_to_binary ==
         "Valid for one calendar month of unlimited travel on Commuter Rail from " <>
-        "Zones 1A-5 as well as Local Bus, Subway, Express Bus, and the Charlestown Ferry."
+        "Zones 1A-5 as well as Local Bus, Subway, and the Charlestown Ferry."
     end
 
     test "fare description for monthly interzone pass only lists bus in other modes" do
@@ -44,9 +44,32 @@ defmodule Site.FareView.DescriptionTest do
         "Valid for one calendar month of travel on the commuter rail from Zones 1A-5 only."
     end
 
+    test "fare description for an inner express bus describes the modes you can use it on with a charlie ticket" do
+      expected = ["Unlimited travel for one calendar month on the Inner Express Bus, Local Bus, Subway, ",
+                  "Commuter Rail Zone 1A (CharlieTicket only), and the Charlestown Ferry (CharlieTicket only)."]
+                  |> iodata_to_binary()
+     assert %Fare{name: :inner_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
+              |> description(%{})
+              |> iodata_to_binary == expected
+    end
+
     test "fare description for an inner express bus describes the modes you can use it on" do
       assert %Fare{name: :inner_express_bus, duration: :month} |> description(%{}) |> iodata_to_binary ==
-        "Unlimited travel for one calendar month on the Inner Express Bus, Local Bus, Commuter Rail Zone 1A, and the Charlestown Ferry."
+        "Unlimited travel for one calendar month on the Inner Express Bus, Local Bus, and Subway."
+    end
+
+    test "fare description for an outer express bus describes the modes you can use it on with a charlie ticket" do
+      expected = ["Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus,",
+                  " Local Bus, Subway, Commuter Rail Zone 1A (CharlieTicket only), and the Charlestown Ferry (CharlieTicket only)."]
+                  |> iodata_to_binary()
+      assert %Fare{name: :outer_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
+             |> description(%{})
+             |> iodata_to_binary == expected
+    end
+
+    test "fare description for an outer express bus describes the modes you can use it on" do
+      assert %Fare{name: :outer_express_bus, duration: :month} |> description(%{}) |> iodata_to_binary ==
+        "Unlimited travel for one calendar month on the Outer Express Bus as well as the Inner Express Bus, Local Bus, and Subway."
     end
 
     test "mentions zone 1a fares as part of the description for month passes on subway" do
