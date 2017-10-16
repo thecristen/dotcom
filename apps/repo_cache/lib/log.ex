@@ -73,7 +73,7 @@ defmodule RepoCache.Log do
     |> output_sizes()
 
     schedule_log()
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
   def handle_info(msg, state) do
     super(msg, state)
