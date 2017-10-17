@@ -51,7 +51,7 @@ defmodule Content.Repo do
       path
     end
 
-    case @cms_api.view(cms_path) do
+    case @cms_api.view(cms_path, []) do
       {:ok, api_data} -> Content.Page.from_api(api_data)
       _ -> nil
     end
@@ -120,7 +120,7 @@ defmodule Content.Repo do
   @spec whats_happening() :: [Content.WhatsHappeningItem.t]
   def whats_happening do
     cache [], fn _ ->
-      case @cms_api.view("/whats-happening") do
+      case @cms_api.view("/whats-happening", []) do
         {:ok, api_data} -> Enum.map(api_data, &Content.WhatsHappeningItem.from_api/1)
         _ -> []
       end
@@ -130,7 +130,7 @@ defmodule Content.Repo do
   @spec important_notice() :: Content.ImportantNotice.t | nil
   def important_notice do
     cached_value = cache [], fn _ ->
-      case @cms_api.view("/important-notices") do
+      case @cms_api.view("/important-notices", []) do
         {:ok, [api_data]} -> Content.ImportantNotice.from_api(api_data)
         {:ok, _} -> :empty
         {:error, _} -> :error

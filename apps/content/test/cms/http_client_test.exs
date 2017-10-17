@@ -7,7 +7,7 @@ defmodule Content.CMS.HTTPClientTest do
   describe "view/2" do
     test "makes a get request with format: json params" do
       with_mock ExternalRequest, [process: fn(_method, _path, _body, _params) -> {:ok, []} end] do
-        view("/path")
+        view("/path", [])
         assert called ExternalRequest.process(:get, "/path", "", [_format: "json"])
       end
     end

@@ -16,6 +16,7 @@
   "credo": {:hex, :credo, "0.8.2", "aa410c8f27c5fab00cab24f8477782bde9100b73d31debdce46625f097cc0e32", [:mix], [{:bunt, "~> 0.2.0", [hex: :bunt, optional: false]}]},
   "csv": {:hex, :csv, "1.4.4", "992f2e1418849a326fd1d9287801fa2d86091db4f9611f60781da6d236f64cd4", [:mix], [{:parallel_stream, "~> 1.0.4", [hex: :parallel_stream, optional: false]}]},
   "dialyxir": {:hex, :dialyxir, "0.5.0", "5bc543f9c28ecd51b99cc1a685a3c2a1a93216990347f259406a910cf048d1d7", [:mix], []},
+  "distillery": {:hex, :distillery, "1.4.1", "546d851bf27ae8fe0727e10e4fc4e146ad836eecee138263a60431e688044ed3", [], [], "hexpm"},
   "earmark": {:hex, :earmark, "1.2.2", "f718159d6b65068e8daeef709ccddae5f7fdc770707d82e7d126f584cd925b74", [:mix], []},
   "edown": {:hex, :edown, "0.7.0", "6803599606b10f8e328d6d60c44cd16244cd2429908894c415fce4211c3bfefd", [:make, :rebar], []},
   "ehmon": {:git, "https://github.com/heroku/ehmon.git", "8831d2e138d866ac0f23206eb3436877a93633b9", [tag: "v4"]},

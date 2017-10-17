@@ -63,7 +63,7 @@ defmodule Site.Mixfile do
      {:schedules, in_umbrella: true},
      {:ehmon, git: "https://github.com/heroku/ehmon.git", tag: "v4", only: :prod},
      {:predictions, in_umbrella: true},
-     {:exrm, ">= 0.0.0", only: :prod},
+     {:distillery, "~> 1.4.1", runtime: :false},
      {:inflex, "~> 1.8.0"},
      {:html_sanitize_ex, "~> 1.2.0"},
      {:logster, "~> 0.4.0"},

@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e -x
-PREFIX=apps/site/
+PREFIX=_build/prod/
 APP=site
 BUILD_TAG=$APP:_build
-VERSION=$(grep -o 'version: .*"' ${PREFIX}mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
+VERSION=$(grep -o 'version: .*"' apps/$APP/mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
 BUILD_ARTIFACT=$APP-build.zip
 
 docker build -t $BUILD_TAG --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY .
