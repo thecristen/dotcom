@@ -222,35 +222,43 @@ defmodule Content.HelpersTest do
       map_data = %{"field_paragraphs" => [
         %{
           "type" => [%{"target_id" => "custom_html"}],
-          "status" =>  [%{"value" => 1}]
+          "status" =>  [%{"value" => true}],
+          "field_custom_html_body" =>  [%{"value" => "I am published"}]
         },
         %{
           "type" => [%{"target_id" => "custom_html"}],
-          "status" =>  [%{"value" => 0}]
+          "status" =>  [%{"value" => false}],
+          "field_custom_html_body" =>  [%{"value" => "I am NOT published"}]
         },
         %{
           "type" => [%{"target_id" => "title_card_set"}],
-          "status" =>  [%{"value" => 1}]
+          "status" =>  [%{"value" => true}],
+          "field_title_cards" => [%{
+            "type" => [%{"target_id" => "title_card"}],
+            "field_title_card_body" => [%{"value" => "I am published"}]
+          }]
         },
         %{
           "type" => [%{"target_id" => "title_card_set"}],
-          "status" =>  [%{"value" => 0}]
+          "status" =>  [%{"value" => false}],
+          "field_title_cards" => [%{
+            "type" => [%{"target_id" => "title_card"}],
+            "field_title_card_body" => [%{"value" => "I am NOT published"}]
+          }]
         }
       ]}
 
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-        %{"field_paragraphs" => [
-          %{
-            "type" => [%{"target_id" => "custom_html"}],
-            "status" =>  [%{"value" => 1}]
-          },
-          %{
-            "type" => [%{"target_id" => "title_card_set"}],
-            "status" =>  [%{"value" => 1}]
-          }
-        ]}
+        %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("I am published")},
+        %Content.Paragraph.TitleCardSet{
+          title_cards: [%Content.Paragraph.TitleCard{
+            body: Phoenix.HTML.raw("I am published"),
+            title: nil,
+            link: nil
+          }]
+        }
       ]
     end
   end
