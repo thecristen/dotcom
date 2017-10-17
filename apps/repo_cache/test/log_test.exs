@@ -51,7 +51,7 @@ defmodule RepoCache.LogTest do
     test ":output_log logs data" do
       state = []
       log = capture_log fn ->
-        assert {:noreply, ^state} = handle_info(:output_log, state)
+        assert {:noreply, ^state, :hibernate} = handle_info(:output_log, state)
       end
       refute log == ""
     end

@@ -55,7 +55,7 @@ defmodule Alerts.Cache.Fetcher do
 
     schedule_fetch(repeat_ms)
 
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
   def handle_info(_, state) do
     {:noreply, state}

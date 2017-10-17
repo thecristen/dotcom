@@ -36,7 +36,7 @@ defmodule SystemMetrics.Monitor do
 
     # reschedule once more
     schedule_work()
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
 
   defp schedule_work do

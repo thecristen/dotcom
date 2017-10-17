@@ -23,7 +23,7 @@ defmodule SystemMetrics.MonitorTest do
     test "handle_info/2" do
 
       # call handle info directly
-      expected = {:noreply, nil}
+      expected = {:noreply, nil, :hibernate}
       actual = SystemMetrics.Monitor.handle_info(:work, nil)
       assert expected == actual
 
