@@ -14,7 +14,7 @@ defmodule Site.WwwRedirectorTest do
       check_redirect_to_www_mbta(conn, "/", nil, "https://www.mbta.com/")
       check_redirect_to_www_mbta(conn, "", nil, "https://www.mbta.com")
     end
-  
+
     test "with path redirected", %{conn: conn} do
       check_redirect_to_www_mbta(conn, "/schedules", nil, "https://www.mbta.com/schedules")
     end
