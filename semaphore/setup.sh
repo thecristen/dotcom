@@ -32,20 +32,28 @@ fi
 
 mix local.hex --force
 mix local.rebar --force
-MIX_ENV=test mix do deps.get
+# retry setup if it fails
+n=0
+until [ $n -ge 3 ]; do
+    MIX_ENV=test mix deps.get && break
+    n=$[$n+1]
+    sleep 3
+done
 
 nvm use 6.9.5
-rbenv local 2.4.1
+# drop phantomjs/backstop/casper from the deps to install
+sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/package.json
 
+# set cache dir for node
+npm config set cache $SEMAPHORE_CACHE_DIR/npm
+NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run install --no-optional
+
+
+rbenv local 2.4.1
 # Setup scss
 GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems
 gem install sass -v 3.4.23
 
-# drop phantomjs/backstop/casper from the deps to install
-sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/package.json
-# set cache dir for node
-npm config set cache $SEMAPHORE_CACHE_DIR/npm
-NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run install --no-optional
 npm run brunch:build
 
 MIX_ENV=test mix compile --warnings-as-errors --force
