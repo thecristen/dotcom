@@ -11,15 +11,18 @@ defmodule Alerts.Match do
   alias Alerts.InformedEntity, as: IE
   def match(alerts, entity, datetime \\ nil)
   def match(alerts, entity, nil) do
-    alerts
-    |> Enum.filter(&any_entity_match?(&1, entity))
+    for alert <- alerts,
+      any_entity_match?(alert, entity) do
+        alert
+    end
   end
   def match(alerts, entity, datetime) do
     # time first in order to minimize the more-expensive entity match
-    alerts
-    |> Enum.filter(fn alert ->
-      any_time_match?(alert, datetime) && any_entity_match?(alert, entity)
-    end)
+    for alert <- alerts,
+      any_time_match?(alert, datetime),
+      any_entity_match?(alert, entity) do
+        alert
+    end
   end
 
   defp any_entity_match?(alert, entities) when is_list(entities) do

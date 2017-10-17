@@ -17,9 +17,15 @@ defmodule Alerts.Stop do
     # First, we filter the alerts to those that match any of the options
     # including the stop.  Then, we filter again to get only those that
     # explicitly use the stop.
-    alerts
-    |> Match.match(entity_for(stop_id, options), options[:time])
-    |> Match.match(entity_for(stop_id, []))
+    stop_entity = entity_for(stop_id, [])
+    stop_with_options_entity = entity_for(stop_id, options)
+    time = options[:time]
+
+    for alert <- alerts,
+      Match.match([alert], stop_entity, time) != [],
+      Match.match([alert], stop_with_options_entity) != [] do
+        alert
+    end
   end
 
   defp entity_for(stop_id, options) do

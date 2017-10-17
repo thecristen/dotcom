@@ -153,11 +153,7 @@ defmodule Alerts.InformedEntity do
   """
   @spec from_keywords(list) :: %IE{}
   def from_keywords(options) do
-    map = options
-    |> Map.new
-    |> Map.take(@fields)
-
-    struct!(__MODULE__, map)
+    struct(__MODULE__, options)
   end
 
   @doc """
@@ -170,7 +166,7 @@ defmodule Alerts.InformedEntity do
   """
   @spec match?(%IE{}, %IE{}) :: boolean
   def match?(%IE{} = first, %IE{} = second) do
-    share_a_key(first, second) && do_match?(first, second)
+    share_a_key?(first, second) && do_match?(first, second)
   end
 
   defp do_match?(f, s) do
@@ -178,12 +174,12 @@ defmodule Alerts.InformedEntity do
     |> Enum.all?(&do_key_match(Map.get(f, &1), Map.get(s, &1)))
   end
 
-  defp do_key_match(eql, eql), do: true
   defp do_key_match(nil, _), do: true
   defp do_key_match(_, nil), do: true
+  defp do_key_match(eql, eql), do: true
   defp do_key_match(_, _), do: false
 
-  defp share_a_key(first, second) do
+  defp share_a_key?(first, second) do
     @fields
     |> Enum.any?(&shared_key(Map.get(first, &1), Map.get(second, &1)))
   end

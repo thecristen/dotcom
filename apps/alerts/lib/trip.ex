@@ -16,37 +16,46 @@ defmodule Alerts.Trip do
   """
   def match(alerts, trip_ids, options \\ [])
   def match(alerts, trip_ids, options) when is_list(trip_ids) do
-    [trip_alerts(alerts, trip_ids, options[:time]),
-     delay_alerts(alerts, trip_ids, options)]
-    |> Enum.concat
-    |> Enum.uniq
+    trip_entities = trip_entities(trip_ids)
+    delay_entities = delay_entities(trip_ids, options)
+    time = options[:time]
+
+    for alert <- alerts,
+      trip_alert?(alert, trip_entities, time) or delay_alert?(alert, delay_entities, time) do
+        alert
+    end
   end
   def match(alerts, trip_id, options) do
     match(alerts, [trip_id], options)
   end
 
-  defp trip_alerts(alerts, trip_ids, time) do
-    trip_entities = trip_ids
-    |> Enum.map(&(%Alerts.InformedEntity{trip: &1}))
-
-    alerts
-    |> Alerts.Match.match(trip_entities, time)
+  defp trip_alert?(alert, entities, time) do
+    Alerts.Match.match([alert], entities, time) != []
   end
 
-  defp delay_alerts(alerts, trip_ids, options) do
+  defp delay_alert?(alert, entities, time) do
+    if alert_is_delay?(alert) do
+      Alerts.Match.match([alert], entities, time) != []
+    else
+      false
+    end
+  end
+
+  def trip_entities(trip_ids) do
+    for trip_id <- trip_ids do
+      Alerts.InformedEntity.from_keywords(trip: trip_id)
+    end
+  end
+
+  defp delay_entities(trip_ids, options) do
     entity = Alerts.InformedEntity.from_keywords(options)
-
-    entities = trip_ids
-    |> Enum.map(fn id -> %{entity | trip: id} end)
-
-    alerts
-    |> Enum.filter(&alert_is_delay?/1)
-    |> Alerts.Match.match(entities, options[:time])
+    for trip_id <- trip_ids do
+      %{entity | trip: trip_id}
+    end
   end
 
   defp alert_is_delay?(alert)
   defp alert_is_delay?(%{effect: :delay}), do: true
   defp alert_is_delay?(%{effect: :suspension}), do: true
   defp alert_is_delay?(_), do: false
-
 end
