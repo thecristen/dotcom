@@ -29,7 +29,7 @@ defmodule Site.Mixfile do
             :polyline, :util, :trip_plan, :sentry]
 
     apps = if Mix.env == :prod do
-      [:ehmon | apps]
+      [:ehmon, :recon | apps]
     else
       apps
     end
