@@ -34,22 +34,37 @@ defmodule Alerts.Match do
   end
 
   def any_time_match?(alert, datetime) do
-    alert.active_period
-    |> Enum.any?(&between?(&1, datetime))
+    any_period_match?(alert.active_period, datetime)
   end
 
-  defp between?({nil, nil}, _) do
+  defp any_period_match?([], _datetime) do
+    false
+  end
+  defp any_period_match?([{nil, nil} | _rest], _datetime) do
     true
   end
-  defp between?({start, nil}, datetime) do
+  defp any_period_match?([{nil, stop} | rest], datetime) do
+    if compare(datetime, stop) != :gt do
+      true
+    else
+      any_period_match?(rest, datetime)
+    end
+  end
+  defp any_period_match?([{start, nil} | _rest], datetime) do
     compare(datetime, start) != :lt
   end
-  defp between?({nil, stop}, datetime) do
-    compare(datetime, stop) != :gt
-  end
-  defp between?({start, stop}, datetime) do
-    compare(datetime, start) != :lt and
-    compare(datetime, stop) != :gt
+  defp any_period_match?([{start, stop} | rest], datetime) do
+    start_compare = compare(datetime, start)
+    stop_compare = compare(datetime, stop)
+    cond do
+      start_compare != :lt and stop_compare != :gt ->
+        true
+      stop_compare == :lt ->
+        # if it stops in the future, no other period will match
+        false
+      true ->
+        any_period_match?(rest, datetime)
+    end
   end
 
   defp compare(%Date{} = first, %DateTime{} = second) do
