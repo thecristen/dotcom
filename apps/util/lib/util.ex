@@ -49,12 +49,10 @@ defmodule Util do
   times after midnight belong to the service of the previous date.
 
   """
-  def service_date(current_time \\ nil) do
-    current_time = current_time || Util.now()
-
-    current_time
-    |> Timex.shift(hours: -3)
-    |> Timex.to_date
+  def service_date(current_time \\ Util.now()) do
+    %{year: year, month: month, day: day} = Timex.shift(current_time, hours: -3)
+    {:ok, date} = Date.new(year, month, day)
+    date
   end
 
   @doc """

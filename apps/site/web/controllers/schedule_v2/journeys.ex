@@ -32,7 +32,7 @@ defmodule Site.ScheduleV2Controller.Journeys do
     predictions = Util.error_default(conn.assigns.predictions, [])
     user_selected_date = conn.assigns.date
     current_date_time = conn.assigns.date_time
-    today? = Timex.diff(user_selected_date, current_date_time, :days) == 0
+    today? = Date.diff(user_selected_date, current_date_time) == 0
     current_time = if today?, do: conn.assigns.date_time, else: nil
     filter_flag = filter_flag(route)
     keep_all? = keep_all?(today?, route_type, route_id, show_all_trips?)
