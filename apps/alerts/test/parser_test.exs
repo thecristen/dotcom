@@ -37,15 +37,14 @@ defmodule Alerts.ParserTest do
       %Alerts.Alert{
         id: "130612",
         header: "Route 18 experiencing moderate delays due to traffic",
-        informed_entity: [
+        informed_entity: Alerts.InformedEntitySet.new([
           %Alerts.InformedEntity{
             route_type: 3,
             route: "18",
             stop: "stop",
             trip: "trip",
-            direction_id: 1
-}
-        ],
+            direction_id: 1}
+        ]),
         active_period: [
           {~N[2016-06-06T14:48:48] |> Timex.to_datetime("Etc/GMT+4"),
            ~N[2016-06-06T19:53:51] |> Timex.to_datetime("Etc/GMT+4")}

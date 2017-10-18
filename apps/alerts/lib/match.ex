@@ -8,7 +8,8 @@ defmodule Alerts.Match do
   """
   use Timex
 
-  alias Alerts.InformedEntity, as: IE
+  alias Alerts.InformedEntitySet, as: IESet
+
   def match(alerts, entity, datetime \\ nil)
   def match(alerts, entity, nil) do
     for alert <- alerts,
@@ -26,15 +27,10 @@ defmodule Alerts.Match do
   end
 
   defp any_entity_match?(alert, entities) when is_list(entities) do
-    alert.informed_entity
-    |> Enum.any?(fn ie ->
-      entities
-      |> Enum.any?(&IE.match?(ie, &1))
-    end)
+    Enum.any?(entities, &any_entity_match?(alert, &1))
   end
   defp any_entity_match?(alert, entity) do
-    alert.informed_entity
-    |> Enum.any?(&IE.match?(entity, &1))
+    IESet.match?(alert.informed_entity, entity)
   end
 
   def any_time_match?(alert, datetime) do
@@ -46,14 +42,23 @@ defmodule Alerts.Match do
     true
   end
   defp between?({start, nil}, datetime) do
-    not Timex.before?(datetime, start)
+    compare(datetime, start) != :lt
   end
   defp between?({nil, stop}, datetime) do
-    not Timex.after?(datetime, stop)
+    compare(datetime, stop) != :gt
   end
   defp between?({start, stop}, datetime) do
-    Timex.between?(datetime, start, stop) ||
-      Timex.equal?(datetime, start) ||
-      Timex.equal?(datetime, stop)
+    compare(datetime, start) != :lt and
+    compare(datetime, stop) != :gt
+  end
+
+  defp compare(%Date{} = first, %DateTime{} = second) do
+    Date.compare(first, DateTime.to_date(second))
+  end
+  defp compare(%DateTime{} = first, %DateTime{} = second) do
+    DateTime.compare(first, second)
+  end
+  defp compare(%NaiveDateTime{} = first, %NaiveDateTime{} = second) do
+    NaiveDateTime.compare(first, second)
   end
 end
