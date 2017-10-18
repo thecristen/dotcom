@@ -64,6 +64,23 @@ defmodule Site.Router do
     get "/transit_near_me", Redirector, to: "/transit-near-me"
     get "/trip_planner", Redirector, to: "/trip-planner"
 
+    # redirect SL and CT to proper route ids
+    get "/schedules/SL1", Redirector, to: "/schedules/741"
+    get "/schedules/sl1", Redirector, to: "/schedules/741"
+    get "/schedules/SL2", Redirector, to: "/schedules/742"
+    get "/schedules/sl2", Redirector, to: "/schedules/742"
+    get "/schedules/SL4", Redirector, to: "/schedules/751"
+    get "/schedules/sl4", Redirector, to: "/schedules/751"
+    get "/schedules/SL5", Redirector, to: "/schedules/749"
+    get "/schedules/sl5", Redirector, to: "/schedules/749"
+
+    get "/schedules/CT1", Redirector, to: "/schedules/701"
+    get "/schedules/ct1", Redirector, to: "/schedules/701"
+    get "/schedules/CT2", Redirector, to: "/schedules/747"
+    get "/schedules/ct2", Redirector, to: "/schedules/747"
+    get "/schedules/CT3", Redirector, to: "/schedules/708"
+    get "/schedules/ct3", Redirector, to: "/schedules/708"
+
     get "/", PageController, :index
     resources "/events", EventController, only: [:index, :show] do
       get "/icalendar", IcalendarController, :show
