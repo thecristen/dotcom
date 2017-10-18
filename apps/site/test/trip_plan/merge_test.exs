@@ -23,6 +23,15 @@ defmodule Site.TripPlan.MergeTest do
       end
     end
 
+    test "includes no duplicates when the first elements don't match" do
+      unknown = [{1, :unknown}, {2, :unknown}, {3, :unknown}]
+      accessible = [{2, :accessible}, {3, :accessible}]
+      equal_fn = fn ({accessible, _}, {unknown, _}) -> accessible == unknown end
+
+      merged = merge(accessible, unknown, equal_fn, needed_accessible: 2, needed_unknown: 2)
+      assert merged == [{1, :unknown}, {2, :accessible}, {3, :accessible}]
+    end
+
     test "includes no more than total items" do
       ptest accessible: list(of: positive_int(), max: 5),
         unknown: list(of: positive_int(), max: 5),

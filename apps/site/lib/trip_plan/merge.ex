@@ -88,12 +88,15 @@ defmodule Site.TripPlan.Merge do
   defp do_merge([], unknown, %{total: total}) do
     Enum.take(unknown, total)
   end
-  defp do_merge(accessible, unknown, %{accessible: acc, unknown: unk, total: total})
+  defp do_merge(accessible, unknown, %{accessible: acc, unknown: unk, total: total, equal_fn: equal_fn})
   when total == acc or total == unk do
     # if we need all the rest, take them, but not less than 0 items
     unk = max(unk, 0)
     acc = max(acc, 0)
-    Enum.take(unknown, unk) ++ Enum.take(accessible, acc)
+    unknown = Enum.take(unknown, unk)
+    accessible = Enum.take(accessible, acc)
+
+    merge(accessible, unknown, equal_fn, total: unk + acc, needed_accessible: 0, needed_unknown: 0)
   end
   defp do_merge([a | a_rest] = a_all, [u | u_rest], state) do
     %{
