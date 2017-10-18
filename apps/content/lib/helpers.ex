@@ -92,9 +92,9 @@ defmodule Content.Helpers do
     |> Enum.filter(&para_is_published/1)
     |> Enum.map(&Content.Paragraph.from_api/1)
   end
-  
+
   @spec para_is_published(map) :: [Content.Paragraph.t]
-  def para_is_published(%{"status" => [%{"value" => value }]}) do
+  defp para_is_published(%{"status" => [%{"value" => value }]}) do
     value
   end
 

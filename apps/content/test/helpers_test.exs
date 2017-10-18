@@ -187,12 +187,12 @@ defmodule Content.HelpersTest do
       api_data = %{"field_paragraphs" => [
         %{
           "type" => [%{"target_id" => "custom_html"}],
-          "status" => [%{"value" => 1}],
-          "field_custom_html_body" =>  [%{"value" => "some HTML"}]
+          "status" => [%{"value" => true}],
+          "field_custom_html_body" => [%{"value" => "some HTML"}]
         },
         %{
           "type" => [%{"target_id" => "title_card_set"}],
-          "status" => [%{"value" => 1}],
+          "status" => [%{"value" => true}],
           "field_title_cards" => [%{
             "type" => [%{"target_id" => "title_card"}],
             "field_title_card_body" => [%{"value" => "body"}],
@@ -217,18 +217,18 @@ defmodule Content.HelpersTest do
         }
       ]
     end
-    
+
     test "it skips paragraphs that are unpublished" do
       map_data = %{"field_paragraphs" => [
         %{
           "type" => [%{"target_id" => "custom_html"}],
           "status" =>  [%{"value" => true}],
-          "field_custom_html_body" =>  [%{"value" => "I am published"}]
+          "field_custom_html_body" => [%{"value" => "I am published"}]
         },
         %{
           "type" => [%{"target_id" => "custom_html"}],
           "status" =>  [%{"value" => false}],
-          "field_custom_html_body" =>  [%{"value" => "I am NOT published"}]
+          "field_custom_html_body" => [%{"value" => "I am NOT published"}]
         },
         %{
           "type" => [%{"target_id" => "title_card_set"}],
