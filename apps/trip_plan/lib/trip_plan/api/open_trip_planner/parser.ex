@@ -1,4 +1,5 @@
 defmodule TripPlan.Api.OpenTripPlanner.Parser do
+  require Logger
   alias TripPlan.Api.OpenTripPlanner, as: OTP
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, PersonalDetail.Step, TransitDetail}
 
@@ -12,6 +13,10 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     with {:ok, json} <- Poison.decode(json_binary) do
       parse_map(json)
     end
+    rescue
+      e in FunctionClauseError ->
+        _ = Logger.error fn -> "#{__MODULE__} message=#{e.message} json=#{json_binary}" end
+        {:error, :invalid_json}
   end
 
   @spec parse_nearby(binary) :: {:ok, [NamedPosition.t]}
@@ -24,11 +29,12 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     end
   end
 
-  def parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
+  @spec parse_map(map) :: {:ok, [Itinerary.t]} | {:error, any}
+  defp parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
     accessible? = params["wheelchair"] == "true"
     {:error, error_message_atom(error_message, accessible?: accessible?)}
   end
-  def parse_map(json) do
+  defp parse_map(json) do
     {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary(&1, json["requestParameters"]))}
   end
 
