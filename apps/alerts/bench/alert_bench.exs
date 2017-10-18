@@ -9,13 +9,13 @@ defmodule AlertsBench do
     stop: "3",
   }
   @alerts [
-    %Alerts.Alert{
+    Alerts.Alert.new(
       informed_entity: [@ie],
         active_period: [
           {nil, ~N[2016-06-01T00:00:00]},
           {~N[2016-06-02T00:00:00], ~N[2016-06-02T01:00:00]},
           {~N[2016-06-03T00:00:00], nil}
-        ]}
+        ])
   ]
 
 

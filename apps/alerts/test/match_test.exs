@@ -7,7 +7,7 @@ defmodule Alerts.MatchTest do
 
   test ".match returns alerts matching the provided InformedEntity" do
     alerts = [
-      %Alert{
+      Alert.new(
         informed_entity: [
           %InformedEntity{
             route_type: 1,
@@ -15,7 +15,7 @@ defmodule Alerts.MatchTest do
             stop: "3"
           }
         ]
-      }
+      )
     ]
 
     assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1}) == alerts
@@ -32,14 +32,14 @@ defmodule Alerts.MatchTest do
 
   test ".match can include partially defined informed entities" do
     alerts = [
-      %Alert{
+      Alert.new(
         informed_entity: [
           %InformedEntity{
             route_type: 1,
             route: "2",
           }
         ]
-      }
+      )
     ]
 
     assert Alerts.Match.match(alerts, %InformedEntity{route_type: 1}) == alerts
@@ -55,7 +55,7 @@ defmodule Alerts.MatchTest do
 
   test ".match can take a datetime to filter further" do
     alerts = [
-      %Alert{
+      Alert.new(
         informed_entity: [
           %InformedEntity{stop: "1"}
         ],
@@ -64,7 +64,7 @@ defmodule Alerts.MatchTest do
           {NaiveDateTime.from_erl!({{2016, 6, 2}, {0, 0, 0}}), NaiveDateTime.from_erl!({{2016, 6, 2}, {1, 0, 0}})},
           {NaiveDateTime.from_erl!({{2016, 6, 3}, {0, 0, 0}}), nil}
         ]
-      }
+      )
     ]
     ie = %InformedEntity{stop: "1"}
 
@@ -82,7 +82,7 @@ defmodule Alerts.MatchTest do
 
   test ".match returns alerts that have a nil value for a non-nil key in the entity to match" do
     alerts = [
-      %Alert{
+      Alert.new(
         informed_entity: [
           %InformedEntity{
             route_type: 1,
@@ -90,7 +90,7 @@ defmodule Alerts.MatchTest do
             stop: "3"
           }
         ]
-      }
+      )
     ]
 
     assert Alerts.Match.match(alerts, %InformedEntity{direction_id: 1, route: "2"}) == alerts
@@ -98,7 +98,7 @@ defmodule Alerts.MatchTest do
 
   test ".match fails if the entity to match does not share a key with any of the entities in the alert" do
     alerts = [
-      %Alert{
+      Alert.new(
         informed_entity: [
           %InformedEntity{
             route_type: 1,
@@ -106,7 +106,7 @@ defmodule Alerts.MatchTest do
             stop: "3"
           }
         ]
-      }
+      )
     ]
 
     assert Alerts.Match.match(alerts, %InformedEntity{direction_id: 1}) == []

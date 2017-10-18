@@ -88,12 +88,12 @@ defmodule Site.AlertControllerTest do
                                                       name: "Fitchburg Line", type: 2}
 
     defp do_create_alert(route, mode) do
-      {route, [%Alert{
+      {route, [Alert.new(
         active_period: [{Util.now() |> Timex.shift(days: -2), nil}],
         informed_entity: [informed_entity(mode)],
         updated_at: Util.now() |> Timex.shift(days: -2),
         effect: effect(mode)
-      }]}
+      )]}
     end
 
     defp informed_entity(mode) when mode in [:subway, :access] do
@@ -122,9 +122,9 @@ defmodule Site.AlertControllerTest do
         "Lift alert"
       ]
       |> Enum.map(fn header ->
-        %Alert{
+        Alert.new(
           effect: :access_issue,
-          header: header}
+          header: header)
       end)
 
       assert group_access_alerts(alerts) == %{
@@ -140,9 +140,9 @@ defmodule Site.AlertControllerTest do
         "Elevator alert two",
       ]
       |> Enum.map(fn header ->
-        %Alert{
+        Alert.new(
           effect: :access_issue,
-          header: header}
+          header: header)
       end)
 
       assert group_access_alerts(alerts) == %{
@@ -153,7 +153,7 @@ defmodule Site.AlertControllerTest do
     end
 
     test "ignores non Access Issue alerts" do
-      assert group_access_alerts([%Alert{}]) == %{
+      assert group_access_alerts([Alert.new()]) == %{
         %Routes.Route{id: "Elevator", name: "Elevator"} => [],
         %Routes.Route{id: "Escalator", name: "Escalator"} => [],
         %Routes.Route{id: "Lift", name: "Lift"} => [],
@@ -161,10 +161,10 @@ defmodule Site.AlertControllerTest do
     end
 
     test "includes alerts that don't start with the type" do
-      alert = %Alert{
+      alert = Alert.new(
         effect: :access_issue,
         header: "This has the word 'Escalator' in it"
-      }
+      )
       assert group_access_alerts([alert]) == %{
         %Routes.Route{id: "Elevator", name: "Elevator"} => [],
         %Routes.Route{id: "Escalator", name: "Escalator"} => [alert],

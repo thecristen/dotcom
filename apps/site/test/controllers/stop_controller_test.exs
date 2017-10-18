@@ -7,9 +7,17 @@ defmodule Site.StopControllerTest do
   alias Alerts.InformedEntity, as: IE
 
   @alerts [
-    %Alert{effect: :delay, informed_entity: [%IE{route: "Red", stop: "place-sstat"}], updated_at: ~N[2017-01-01T12:00:00]},
-    %Alert{effect: :access_issue, informed_entity: [%IE{stop: "place-pktrm"}]},
-    %Alert{effect: :access_issue, informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}], updated_at: ~N[2017-01-01T12:00:00]}
+    Alert.new(
+      effect: :delay,
+      informed_entity: [%IE{route: "Red", stop: "place-sstat"}],
+      updated_at: ~N[2017-01-01T12:00:00]),
+    Alert.new(
+      effect: :access_issue,
+      informed_entity: [%IE{stop: "place-pktrm"}]),
+    Alert.new(
+      effect: :access_issue,
+      informed_entity: [%IE{stop: "place-sstat"}, %IE{route: "Red"}],
+      updated_at: ~N[2017-01-01T12:00:00])
   ]
 
   test "redirects to subway stops on index", %{conn: conn} do

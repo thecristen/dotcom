@@ -58,6 +58,18 @@ defmodule Alerts.Alert do
     :service_change
   ]
 
+  def new(keywords \\ [])
+  def new([]) do
+    %__MODULE__{}
+  end
+  def new(keywords) do
+    alert = struct(__MODULE__, keywords)
+  end
+
+  def update(%__MODULE__{} = alert, keywords) do
+    struct(alert, keywords)
+  end
+
   @doc "Returns true if the Alert should be displayed as a less-prominent notice"
   @spec is_notice?(t, DateTime.t | Date.t) :: boolean
   def is_notice?(alert_list, time_or_date)

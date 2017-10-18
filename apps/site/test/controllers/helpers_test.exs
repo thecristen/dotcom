@@ -60,10 +60,10 @@ defmodule Site.ControllerHelpersTest do
     @commuter_rail %Alerts.InformedEntity{route_type: 2}
     @bus %Alerts.InformedEntity{route_type: 3}
 
-    @worcester_alert  %Alerts.Alert{id: "worcester", informed_entity: [@worcester]}
-    @worcester_inbound_alert %Alerts.Alert{id: "worcester-inbound", informed_entity: [@worcester_inbound]}
-    @commuter_rail_alert %Alerts.Alert{id: "commuter-rail", informed_entity: [@commuter_rail]}
-    @bus_alert %Alerts.Alert{id: "bus", informed_entity: [@bus]}
+    @worcester_alert  Alerts.Alert.new(id: "worcester", informed_entity: [@worcester])
+    @worcester_inbound_alert Alerts.Alert.new(id: "worcester-inbound", informed_entity: [@worcester_inbound])
+    @commuter_rail_alert Alerts.Alert.new(id: "commuter-rail", informed_entity: [@commuter_rail])
+    @bus_alert Alerts.Alert.new(id: "bus", informed_entity: [@bus])
 
     setup do
       Alerts.Cache.Store.update([@worcester_alert,
@@ -131,10 +131,10 @@ defmodule Site.ControllerHelpersTest do
 
     test "assigns alerts when any of the matching informed entities have a nil direction,
           even if others have conflicting direction ids (which shouldn't happen)", %{conn: conn} do
-      worcester_ambiguous_alert = %Alerts.Alert{@worcester_inbound_alert |
+      worcester_ambiguous_alert = Alerts.Alert.new(
         id: "worcester-ambiguous",
         informed_entity: [@worcester_inbound, @worcester]
-      }
+      )
       Alerts.Cache.Store.update([@worcester_alert,
                                  @worcester_inbound_alert,
                                  worcester_ambiguous_alert,

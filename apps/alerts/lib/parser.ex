@@ -2,7 +2,7 @@ defmodule Alerts.Parser do
   defmodule Alert do
     @spec parse(JsonApi.Item.t) :: Alerts.Alert.t
     def parse(%JsonApi.Item{type: "alert", id: id, attributes: attributes}) do
-      %Alerts.Alert{
+      Alerts.Alert.new(
         id: id,
         header: attributes["header"],
         informed_entity: parse_informed_entity(attributes["informed_entity"]),
@@ -12,7 +12,7 @@ defmodule Alerts.Parser do
         lifecycle: lifecycle(attributes["lifecycle"]),
         updated_at: parse_time(attributes["updated_at"]),
         description: description(attributes["description"])
-      }
+      )
     end
 
     defp parse_informed_entity(informed_entities) do
