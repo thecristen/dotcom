@@ -116,7 +116,7 @@ defmodule BuildCalendar do
       active_date: Timex.shift(selected, months: shift),
       days: build_days(selected, today, shift, holiday_set, url_fn),
       holidays: holidays,
-      upcoming_holidays: Enum.drop_while(holidays, fn holiday -> Timex.before?(holiday.date, today) end)
+      upcoming_holidays: Enum.drop_while(holidays, fn holiday -> Date.compare(holiday.date, today) == :lt end)
     }
   end
 
@@ -139,7 +139,7 @@ defmodule BuildCalendar do
     |> Timex.shift(months: shift + 1)
     |> Timex.beginning_of_month
 
-    if Timex.after?(next_month, end_date) do
+    if Date.compare(next_month, end_date) == :gt do
       nil
     else
       next_month_url(selected, nil, shift, url_fn)
@@ -155,7 +155,7 @@ defmodule BuildCalendar do
 
     last_day_of_this_month = Timex.end_of_month(shifted)
 
-    for date <- day_enum(first_day(shifted), last_day(shifted)) do
+    for date <- Date.range(first_day(shifted), last_day(shifted)) do
       %BuildCalendar.Day{
         date: date,
         url: build_url(url_fn, date, today),
@@ -177,29 +177,11 @@ defmodule BuildCalendar do
   @spec last_day(Date.t) :: Date.t
   defp last_day(date) do
     # at the last day of the month, add a week, then go the end of the
-    # current week.  We use Monday as the start of the week so we end on a
-    # Sunday.
+    # current week.  We use Sunday as the end of the week.
     date
     |> Timex.end_of_month
     |> Timex.shift(days: 7)
-    |> Timex.end_of_week(1)
-  end
-
-  # Given a first day and a last day, returns a list of Date.t, inclusive of
-  # both first and exclusive of last.
-  @spec day_enum(Date.t, Date.t) :: [Date.t]
-  defp day_enum(first, last) do
-    do_day_enum(first, last, [])
-  end
-
-  @spec do_day_enum(Date.t, Date.t, [Date.t]) :: [Date.t]
-  defp do_day_enum(first, first, acc) do
-    Enum.reverse(acc)
-  end
-  defp do_day_enum(first, last, acc) do
-    acc = [first | acc]
-    next = Timex.shift(first, days: 1)
-    do_day_enum(next, last, acc)
+    |> Timex.end_of_week(7)
   end
 
   @spec build_url(url_fn, Date.t, Date.t) :: String.t
@@ -207,20 +189,15 @@ defmodule BuildCalendar do
     url_fn.(date: nil, date_select: nil, shift: nil)
   end
   defp build_url(url_fn, date, _) do
-    url_fn.(date: format_date(date), date_select: nil, shift: nil)
-  end
-
-  @spec format_date(Date.t) :: String.t
-  defp format_date(%Date{} = date) do
-    Timex.format!(date, "{ISOdate}")
+    url_fn.(date: Date.to_iso8601(date), date_select: nil, shift: nil)
   end
 
   @spec month_relation(Date.t, Date.t, Date.t) :: __MODULE__.Day.month_relation
   defp month_relation(date, last_day_of_previous_month, last_day_of_this_month) do
     cond do
-      Timex.after?(date, last_day_of_this_month) ->
+      Date.compare(date, last_day_of_this_month) == :gt ->
         :next
-      Timex.after?(date, last_day_of_previous_month) ->
+      Date.compare(date, last_day_of_previous_month) == :gt ->
         :current
       true ->
         :previous
