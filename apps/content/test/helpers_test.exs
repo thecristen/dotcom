@@ -187,10 +187,12 @@ defmodule Content.HelpersTest do
       api_data = %{"field_paragraphs" => [
         %{
           "type" => [%{"target_id" => "custom_html"}],
-          "field_custom_html_body" =>  [%{"value" => "some HTML"}]
+          "status" => [%{"value" => true}],
+          "field_custom_html_body" => [%{"value" => "some HTML"}]
         },
         %{
           "type" => [%{"target_id" => "title_card_set"}],
+          "status" => [%{"value" => true}],
           "field_title_cards" => [%{
             "type" => [%{"target_id" => "title_card"}],
             "field_title_card_body" => [%{"value" => "body"}],
@@ -211,6 +213,50 @@ defmodule Content.HelpersTest do
             link: %Content.Field.Link{
               url: "/foo/bar",
             }
+          }]
+        }
+      ]
+    end
+
+    test "it skips paragraphs that are unpublished" do
+      map_data = %{"field_paragraphs" => [
+        %{
+          "type" => [%{"target_id" => "custom_html"}],
+          "status" =>  [%{"value" => true}],
+          "field_custom_html_body" => [%{"value" => "I am published"}]
+        },
+        %{
+          "type" => [%{"target_id" => "custom_html"}],
+          "status" =>  [%{"value" => false}],
+          "field_custom_html_body" => [%{"value" => "I am NOT published"}]
+        },
+        %{
+          "type" => [%{"target_id" => "title_card_set"}],
+          "status" =>  [%{"value" => true}],
+          "field_title_cards" => [%{
+            "type" => [%{"target_id" => "title_card"}],
+            "field_title_card_body" => [%{"value" => "I am published"}]
+          }]
+        },
+        %{
+          "type" => [%{"target_id" => "title_card_set"}],
+          "status" =>  [%{"value" => false}],
+          "field_title_cards" => [%{
+            "type" => [%{"target_id" => "title_card"}],
+            "field_title_card_body" => [%{"value" => "I am NOT published"}]
+          }]
+        }
+      ]}
+
+      parsed_map = parse_paragraphs(map_data)
+
+      assert parsed_map == [
+        %Content.Paragraph.CustomHTML{body: Phoenix.HTML.raw("I am published")},
+        %Content.Paragraph.TitleCardSet{
+          title_cards: [%Content.Paragraph.TitleCard{
+            body: Phoenix.HTML.raw("I am published"),
+            title: nil,
+            link: nil
           }]
         }
       ]
