@@ -27,7 +27,7 @@ defmodule Site.StopListViewTest do
   }
   @assigns %{
     bubbles: [{nil, :terminus}],
-    stop: %RouteStop{branch: nil, id: "stop"},
+    stop: %RouteStop{branch: nil, id: "stop", zone: "1", stop_features: []},
     route: %Route{id: "route_id", type: 1},
     direction_id: 1,
     conn: "conn",
@@ -240,25 +240,39 @@ defmodule Site.StopListViewTest do
 
   describe "rendering stop list rows" do
     @trunk [
-      {[{nil, :terminus}], %RouteStop{name: "Broadway", id: "broadway", branch: nil}},
-      {[{nil, :stop}], %RouteStop{name: "Andrew", id: "andrew", branch: nil}},
-      {[{nil, :merge}], %RouteStop{name: "JFK/Umass", id: "jfk-umass", branch: nil}}
+      {[{nil, :terminus}], %RouteStop{name: "Broadway", id: "broadway", branch: nil}
+      |> RouteStop.fetch_stop_features
+      |> RouteStop.fetch_zone},
+      {[{nil, :stop}], %RouteStop{name: "Andrew", id: "andrew", branch: nil}
+      |> RouteStop.fetch_stop_features
+      |> RouteStop.fetch_zone},
+      {[{nil, :merge}], %RouteStop{name: "JFK/Umass", id: "jfk-umass", branch: nil}
+      |> RouteStop.fetch_stop_features
+      |> RouteStop.fetch_zone}
     ]
     @braintree [
       {[{"Ashmont", :line},
         {"Braintree", :stop}],
-        %RouteStop{name: "North Quincy", id: "north-quincy", branch: "Braintree"}},
+       %RouteStop{name: "North Quincy", id: "north-quincy", branch: "Braintree"}
+       |> RouteStop.fetch_stop_features
+       |> RouteStop.fetch_zone},
       {[{"Ashmont", :line},
         {"Braintree", :terminus}],
-        %RouteStop{name: "Wollaston", id: "wollaston", branch: "Braintree"}},
+       %RouteStop{name: "Wollaston", id: "wollaston", branch: "Braintree"}
+       |> RouteStop.fetch_stop_features
+       |> RouteStop.fetch_zone},
     ]
     @ashmont [
       {[{"Ashmont", :stop},
         {"Braintree", :empty}],
-        %RouteStop{name: "Savin Hill", id: "savin-hill", branch: "Ashmont"}},
+       %RouteStop{name: "Savin Hill", id: "savin-hill", branch: "Ashmont"}
+       |> RouteStop.fetch_stop_features
+       |> RouteStop.fetch_zone},
       {[{"Ashmont", :terminus},
         {"Braintree", :empty}],
-        %RouteStop{name: "Fields Corner", id: "fields-corner", branch: "Ashmont"}}
+       %RouteStop{name: "Fields Corner", id: "fields-corner", branch: "Ashmont"}
+       |> RouteStop.fetch_stop_features
+       |> RouteStop.fetch_zone}
     ]
     @assigns %{
       all_stops: @trunk ++ @braintree ++ @ashmont,

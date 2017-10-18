@@ -281,12 +281,14 @@ defmodule Site.ScheduleV2ViewTest do
     }
 
     test "Bus line with variant filter", %{conn: conn} do
+      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: []}
+      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: []}
       output = Site.ScheduleV2View.render(
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
-              all_stops: [{[{nil, :terminus}], %RouteStop{id: "stop 1", name: "Stop 1"}},
-                          {[{nil, :terminus}], %RouteStop{id: "stop 2", name: "Stop 2"}}],
+              all_stops: [{[{nil, :terminus}], route_stop_1},
+                          {[{nil, :terminus}], route_stop_2}],
               route_shapes: [@shape, @shape],
               active_shape: @shape,
               expanded: nil,
@@ -294,8 +296,8 @@ defmodule Site.ScheduleV2ViewTest do
               map_img_src: nil,
               hours_of_operation: @hours_of_operation,
               holidays: [],
-              branches: [%Stops.RouteStops{branch: nil, stops: [%RouteStop{id: "stop 1", name: "Stop 1"},
-                                                                %RouteStop{id: "stop 2", name: "Stop 2"}]}],
+              branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1,
+                                                                route_stop_2]}],
               origin: nil,
               destination: nil,
               direction_id: 1,
@@ -311,12 +313,14 @@ defmodule Site.ScheduleV2ViewTest do
     end
 
     test "Bus line without variant filter", %{conn: conn} do
+      route_stop_1 = %RouteStop{id: "stop 1", name: "Stop 1", zone: "1", stop_features: []}
+      route_stop_2 = %RouteStop{id: "stop 2", name: "Stop 2", zone: "2", stop_features: []}
       output = Site.ScheduleV2View.render(
               "_line.html",
               conn: Plug.Conn.fetch_query_params(conn),
               stop_list_template: "_stop_list.html",
-              all_stops: [{[{nil, :terminus}], %RouteStop{id: "stop 1", branch: nil, name: "Stop 1"}},
-                          {[{nil, :terminus}], %RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}}],
+              all_stops: [{[{nil, :terminus}], route_stop_1},
+                          {[{nil, :terminus}], route_stop_2}],
               route_shapes: [@shape],
               expanded: nil,
               active_shape: nil,
@@ -325,8 +329,8 @@ defmodule Site.ScheduleV2ViewTest do
               holidays: [],
               branches: [%Stops.RouteStops{
                           branch: nil,
-                          stops: [%Stops.RouteStop{id: "stop 1", branch: nil, name: "Stop 1"},
-                                  %Stops.RouteStop{id: "stop 2", branch: nil, name: "Stop 2"}]}],
+                          stops: [route_stop_1,
+                                  route_stop_2]}],
               route: %Routes.Route{type: 3},
               date: ~D[2017-01-01],
               destination: nil,
