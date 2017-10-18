@@ -94,7 +94,7 @@ defmodule Content.Helpers do
   end
 
   @spec para_is_published(map) :: [Content.Paragraph.t]
-  defp para_is_published(%{"status" => [%{"value" => value }]}) do
+  defp para_is_published(%{"status" => [%{"value" => value}]}) do
     value
   end
 
