@@ -47,11 +47,17 @@ export function dateInput($) {
   const $dateSelect = $("#" + DATE_TIME_IDS.dateEl.select);
   const $dateLink = $("#" + DATE_TIME_IDS.dateEl.link);
   const actualMonth = parseInt(document.getElementById(DATE_TIME_IDS.month).value);
+  const minAllowedDate = $dateInput.data('min-date');
+  const maxAllowedDate = $dateInput.data('max-date');
   const date = new Date(document.getElementById(DATE_TIME_IDS.year).value, actualMonth - 1, document.getElementById(DATE_TIME_IDS.day).value);
 
   $dateInput.val(getFriendlyDate(date));
 
-  $dateInput.datepicker({outputFormat: 'MM/dd/yyyy', onUpdate: updateDate.bind(this, $)});
+  $dateInput.datepicker({outputFormat: 'MM/dd/yyyy',
+                         onUpdate: updateDate.bind(this, $),
+                         min: minAllowedDate,
+                         max: maxAllowedDate
+  });
 
   // disable clicking on the month to change the grid type
   $(".datepicker-month").off();
