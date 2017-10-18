@@ -342,13 +342,19 @@ defmodule Site.StopListViewTest do
       braintree = [
         {[{"Ashmont", :line},
           {"Braintree", :stop}],
-          %RouteStop{name: "Quincy Center", id: "quincy-center", branch: "Braintree"}},
-        {[{"Ashmont", :line},
-          {"Braintree", :stop}],
-          %RouteStop{name: "North Quincy", id: "north-quincy", branch: "Braintree"}},
+         %RouteStop{name: "Quincy Center", id: "quincy-center", branch: "Braintree"}
+         |> RouteStop.fetch_zone
+         |> RouteStop.fetch_stop_features},
+      {[{"Ashmont", :line},
+        {"Braintree", :stop}],
+          %RouteStop{name: "North Quincy", id: "north-quincy", branch: "Braintree"}
+          |> RouteStop.fetch_zone
+          |> RouteStop.fetch_stop_features},
         {[{"Ashmont", :line},
           {"Braintree", :terminus}],
-          %RouteStop{name: "Wollaston", id: "wollaston", branch: "Braintree"}},
+          %RouteStop{name: "Wollaston", id: "wollaston", branch: "Braintree"}
+         |> RouteStop.fetch_zone
+         |> RouteStop.fetch_stop_features},
       ]
 
       all_stops = @trunk ++ braintree ++ @ashmont

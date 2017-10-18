@@ -126,28 +126,43 @@ defmodule Site.ScheduleV2View do
     end
   end
 
-  @spec render_trip_info_stops([{{PredictedSchedule.t, boolean}, non_neg_integer}], map) :: [Phoenix.HTML.Safe.t]
-  def render_trip_info_stops(stop_list, assigns) do
-    for {{predicted_schedule, is_terminus?}, idx} <- stop_list do
-      stop = Stops.RouteStop.build_route_stop({{PredictedSchedule.stop(predicted_schedule), is_terminus?}, idx},
-                                                                                                    nil, assigns.route)
+  @spec render_trip_info_stops([PredictedSchedule.t], map, Keyword.t) :: [Phoenix.HTML.Safe.t]
+  def render_trip_info_stops(schedule_list, assigns, opts \\ [])
+  def render_trip_info_stops([], _, _) do
+    []
+  end
+  def render_trip_info_stops(schedule_list, assigns, opts) do
+    route = assigns.route
+    route_name = route.name
+    direction_id = assigns.direction_id
+    all_alerts = assigns.all_alerts
+    first? = opts[:first?] == true
+    last? = opts[:last?] == true
+    terminus? = first? or last?
+    for predicted_schedule <- schedule_list do
+      route_stop = build_route_stop_from_predicted_schedule(predicted_schedule, first?, last?)
       vehicle_tooltip = if predicted_schedule.schedule && predicted_schedule.schedule.trip do
-        assigns.vehicle_tooltips[{predicted_schedule.schedule.trip.id, stop.id}]
-      else
-        nil
+        assigns.vehicle_tooltips[{predicted_schedule.schedule.trip.id, route_stop.id}]
       end
       render("_stop_list_row.html", %{
-      bubbles: [{assigns.trip_info.route.name, (if is_terminus?, do: :terminus, else: :stop)}],
-                direction_id: assigns.direction_id,
-                stop: stop,
-                href: stop_path(assigns.conn, :show, stop.id),
-                route: assigns.trip_info.route,
+      bubbles: [{route_name, (if terminus?, do: :terminus, else: :stop)}],
+                direction_id: direction_id,
+                stop: route_stop,
+                href: stop_path(Site.Endpoint, :show, route_stop.id),
+                route: route,
                 vehicle_tooltip: vehicle_tooltip,
-                terminus?: is_terminus?,
-                alerts: stop_alerts(predicted_schedule, assigns.all_alerts, assigns.route.id, assigns.direction_id),
+                terminus?: terminus?,
+                alerts: stop_alerts(predicted_schedule, all_alerts, route.id, direction_id),
                 predicted_schedule: predicted_schedule,
                 row_content_template: "_trip_info_stop.html"
       })
     end
+  end
+
+  @spec build_route_stop_from_predicted_schedule(PredictedSchedule.t, boolean, boolean) :: Stops.RouteStop.t
+  defp build_route_stop_from_predicted_schedule(predicted_schedule, first?, last?) do
+    stop = PredictedSchedule.stop(predicted_schedule)
+    route = PredictedSchedule.route(predicted_schedule)
+    Stops.RouteStop.build_route_stop(stop, route, first?: first?, last?: last?)
   end
 end

@@ -81,27 +81,37 @@ defmodule Stops.RouteStop do
   defp do_list_from_shapes(shape_name, stop_ids, [%Stops.Stop{}|_] = stops, route) do
     stops = Map.new(stops, &{&1.id, &1})
     stop_ids
-    |> Enum.map(& Map.get(stops, &1))
-    |> Enum.filter(& &1)
+    |> Enum.flat_map(fn stop_id ->
+      case Map.fetch(stops, stop_id) do
+        {:ok, stop} -> [stop]
+        :error -> []
+      end
+    end)
     |> Util.EnumHelpers.with_first_last()
     |> Enum.with_index
-    |> Task.async_stream(&build_route_stop(&1, shape_name, route))
-    |> Enum.map(fn {:ok, stop} -> stop end)
+    |> Enum.map(fn {{stop, first_or_last?}, idx} ->
+      first? = idx == 0
+      last? = first_or_last? and idx > 0
+      build_route_stop(stop, route, first?: first?, last?: last?, branch: shape_name)
+    end)
   end
 
   @doc """
   Builds a RouteStop from information about a stop.
   """
-  @spec build_route_stop({{Stops.Stop.t, boolean}, non_neg_integer}, String.t | nil, Routes.Route.t) :: RouteStop.t
-  def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, idx}, shape_name, route) do
+  @spec build_route_stop(Stops.Stop.t, Routes.Route.t, Keyword.t) :: RouteStop.t
+  def build_route_stop(%Stops.Stop{} = stop, route, opts \\ []) do
+    branch = Keyword.get(opts, :branch)
+    first? = Keyword.get(opts, :first?) == true
+    last? = Keyword.get(opts, :last?) == true
     %RouteStop{
       id: stop.id,
       name: stop.name,
       station_info: stop,
       route: route,
-      branch: shape_name,
-      is_terminus?: is_terminus?,
-      is_beginning?: idx == 0
+      branch: branch,
+      is_terminus?: first? or last?,
+      is_beginning?: first?
     }
   end
 

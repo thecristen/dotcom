@@ -6,15 +6,16 @@ defmodule Stops.RouteStopTest do
   alias Stops.Stop
   alias Routes.{Route, Shape}
   @stop  %Stop{name: "Braintree", id: "place-brntn"}
-  @shape %Routes.Shape{name: "Braintree"}
   @route %Routes.Route{id: "Red", type: 1}
   describe "build_route_stop/3" do
     test "creates a RouteStop object with all expected attributes" do
-      result = build_route_stop({{@stop, true}, 2000}, @shape, @route)
+      result = build_route_stop(@stop, @route, first?: true, last?: true, branch: "Braintree")
       assert result.id == "place-brntn"
       assert result.name == "Braintree"
       assert result.station_info == @stop
-      assert result.is_terminus? == true
+      assert result.is_terminus?
+      assert result.is_beginning?
+      assert result.branch == "Braintree"
       assert result.zone == {:error, :not_fetched}
       assert result.stop_features == {:error, :not_fetched} #~w(bus commuter_rail)a
     end
@@ -22,7 +23,7 @@ defmodule Stops.RouteStopTest do
 
   describe "fetch_zone/1" do
     test "returns a RouteStop with the zone data" do
-      route_stop = build_route_stop({{@stop, true}, 0}, @shape, @route)
+      route_stop = build_route_stop(@stop, @route)
       fetched = fetch_zone(route_stop)
       refute fetched.zone == route_stop.zone
     end
@@ -30,7 +31,7 @@ defmodule Stops.RouteStopTest do
 
   describe "fetch_stop_features/1" do
     test "returns a RouteStop with the stop feature data" do
-      route_stop = build_route_stop({{@stop, true}, 0}, @shape, @route)
+      route_stop = build_route_stop(@stop, @route)
       fetched = fetch_stop_features(route_stop)
       refute fetched.stop_features == route_stop.stop_features
     end

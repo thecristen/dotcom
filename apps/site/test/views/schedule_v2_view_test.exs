@@ -204,7 +204,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "real time icon shown when prediction is available" do
       output =
-        [{{@predicted_schedule, false}, 3}]
+        [@predicted_schedule]
         |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> List.first
         |> safe_to_string
@@ -213,7 +213,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "Alert icon is shown when alerts are not empty" do
       output =
-        [{{@predicted_schedule, false}, 3}]
+        [@predicted_schedule]
         |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
@@ -223,7 +223,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "Alert icon is shown with tooltip attributes" do
       output =
-        [{{@predicted_schedule, false}, 3}]
+        [@predicted_schedule]
         |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
@@ -234,7 +234,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "shows vehicle icon when vehicle location is available" do
       output =
-        [{{@predicted_schedule, false}, 2}]
+        [@predicted_schedule]
         |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
@@ -244,7 +244,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "collapsed stops do not use dotted line" do
       html =
-        [{{@predicted_schedule, false}, 0}]
+        [@predicted_schedule]
         |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
@@ -254,7 +254,7 @@ defmodule Site.ScheduleV2ViewTest do
 
     test "does not show dotted line for last stop when collapse is nil" do
       html =
-        [{{@predicted_schedule, false}, 0}]
+        [@predicted_schedule]
         |> Site.ScheduleV2View.render_trip_info_stops(@assigns)
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
