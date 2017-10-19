@@ -19,24 +19,32 @@ defmodule VehicleHelpers do
   and to fetch all of the required data
   """
   @spec build_tooltip_index(Route.t, VehicleLocations.t, [Prediction.t]) ::
-    %{optional({String.t, String.t}) => VehicleTooltip.t, optional(String.t) => VehicleTooltip.t}
+    %{optional({String.t | nil, String.t}) => VehicleTooltip.t, optional(String.t) => VehicleTooltip.t}
   def build_tooltip_index(route, vehicle_locations, vehicle_predictions) do
     indexed_predictions = index_vehicle_predictions(vehicle_predictions)
 
     vehicle_locations
-    |> Stream.reject(fn({{trip_id, stop_id}, _status}) -> is_nil(trip_id) or is_nil(stop_id) end)
+    |> Stream.reject(fn({{_trip_id, stop_id}, _status}) -> is_nil(stop_id) end)
     |> Enum.reduce(%{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
+      {prediction, trip} = if trip_id do
+        {
+          prediction_for_stop(indexed_predictions, trip_id, stop_id),
+          Schedules.Repo.trip(trip_id)
+        }
+      else
+        {nil, nil}
+      end
       tooltip = %VehicleTooltip{
         vehicle: vehicle_status,
-        prediction: prediction_for_stop(indexed_predictions, trip_id, stop_id),
+        prediction: prediction,
         stop_name: stop_name(Stops.Repo.get(stop_id)),
-        trip: Schedules.Repo.trip(trip_id),
+        trip: trip,
         route: route
       }
       output
-      |> Map.merge(%{vehicle_status.stop_id => tooltip})
-      |> Map.merge(%{{trip_id, stop_id} => tooltip})
+      |> Map.put(stop_id, tooltip)
+      |> Map.put({trip_id, stop_id}, tooltip)
     end)
   end
 

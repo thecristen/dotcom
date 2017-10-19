@@ -44,6 +44,19 @@ defmodule Site.VehicleHelpersTest do
       assert tooltip_base.vehicle.status == :stopped
     end
 
+    test "it does return a tooltip if a vehicle has a null trip_id" do
+      null_trip = %{{nil, "place-sstat"} => %Vehicles.Vehicle{}}
+      tooltips = build_tooltip_index(@route, null_trip, [])
+      tooltip_base = tooltips["place-sstat"]
+      assert length(Map.keys(tooltips)) == 2
+      assert Map.has_key?(tooltips, {nil, "place-sstat"})
+      assert Map.has_key?(tooltips, "place-sstat")
+      assert tooltip_base.route.type == 2
+      assert tooltip_base.trip == nil
+      assert tooltip_base.prediction == nil
+      assert tooltip_base.vehicle == %Vehicles.Vehicle{}
+    end
+
     test "it uses the prediction corresponding to the vehicle's current stop" do
       locations = %{{"trip_1", "stop_1"} =>
         %Vehicles.Vehicle{
