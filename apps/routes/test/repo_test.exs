@@ -1,8 +1,6 @@
 defmodule Routes.RepoTest do
-  use ExUnit.Case, async: false
-  import ExUnit.CaptureLog
-  import Mock
-  @moduletag :capture_log
+  use ExUnit.Case, async: true
+
   describe "all/0" do
     test "returns something" do
       assert Routes.Repo.all != []
@@ -213,15 +211,6 @@ defmodule Routes.RepoTest do
       priority_shapes = Routes.Repo.get_shapes("Green-E", 0)
 
       refute Enum.count(all_shapes) == Enum.count(priority_shapes)
-    end
-
-    test "Get error response" do
-      with_mock V3Api.Shapes, [all: fn _ -> {:error, :tuple} end] do
-        log = capture_log fn ->
-          assert Routes.Repo.get_shapes("10", 1) == []
-        end
-        refute log == ""
-      end
     end
   end
 
