@@ -37,21 +37,29 @@ defmodule Routes.Repo do
 
   @spec get_shapes(String.t, 0|1, boolean) :: [Routes.Shape.t]
   def get_shapes(route_id, direction_id, filter_negative_priority? \\ true) do
-    cache {route_id, direction_id, filter_negative_priority?}, fn _ ->
+    shapes = cache {route_id, direction_id}, fn _ ->
       case V3Api.Shapes.all([route: route_id, direction_id: direction_id]) do
         {:error, error} -> warn_error([route_id, direction_id], error)
         %JsonApi{data: data} ->
-          Enum.flat_map(data, &do_get_shape(&1, filter_negative_priority?))
+          shapes = Enum.flat_map(data, &parse_shape/1)
+          for shape <- shapes do
+            ConCache.put(__MODULE__, {:get_shape, shape.id}, [shape])
+          end
+          shapes
       end
     end
+    filter_shapes_by_priority(shapes, filter_negative_priority?)
   end
 
-  @spec do_get_shape(JsonApi.Item.t, boolean) :: [Routes.Shape.t]
-  defp do_get_shape(%JsonApi.Item{attributes: %{"priority" => priority}}, true) when priority < 0 do
-    []
+  @spec filter_shapes_by_priority([Routes.Shape.t], boolean) :: [Routes.Shape.t]
+  defp filter_shapes_by_priority(shapes, true) do
+    for shape <- shapes,
+      shape.priority >= 0 do
+        shape
+    end
   end
-  defp do_get_shape(data, _) do
-    parse_shape(data)
+  defp filter_shapes_by_priority(shapes, false) do
+    shapes
   end
 
   @spec get_shape(String.t) :: [Routes.Shape.t]
