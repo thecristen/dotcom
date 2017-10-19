@@ -279,7 +279,7 @@ defmodule Site.ScheduleV2ControllerTest do
       assert last_stop.id == "place-lake"
 
       # includes the stop features
-      assert first_stop.stop_features == [:bus, :access, :parking_lot]
+      assert first_stop.stop_features == [:bus, :access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
