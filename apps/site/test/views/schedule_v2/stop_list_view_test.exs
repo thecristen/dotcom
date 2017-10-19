@@ -324,7 +324,45 @@ defmodule Site.StopListViewTest do
       assert names == ["Broadway", "Andrew", "JFK/​Umass"]
     end
 
-    test "inserts a collapse target div and an expand link when the branch is not nil", %{conn: conn} do
+    test "collapses branch when it is not nil and there is more than one intermediate stop", %{conn: conn} do
+      braintree = [
+        {[{"Ashmont", :line},
+          {"Braintree", :stop}],
+          %RouteStop{name: "Quincy Center", id: "quincy-center", branch: "Braintree"}},
+        {[{"Ashmont", :line},
+          {"Braintree", :stop}],
+          %RouteStop{name: "North Quincy", id: "north-quincy", branch: "Braintree"}},
+        {[{"Ashmont", :line},
+          {"Braintree", :terminus}],
+          %RouteStop{name: "Wollaston", id: "wollaston", branch: "Braintree"}},
+      ]
+
+      all_stops = @trunk ++ braintree ++ @ashmont
+
+      separated_rows =
+        separate_collapsible_rows(braintree, 0)
+
+      assigns = %{@assigns | all_stops: all_stops}
+
+      html =
+        separated_rows
+        |> merge_rows(Map.put(assigns, :conn, conn))
+        |> Enum.map(&safe_to_string/1)
+        |> IO.iodata_to_binary
+
+      assert Enum.count(Floki.find(html, ".collapse")) == 1
+      assert Enum.count(Floki.find(html, "#branch-braintree")) == 1
+      assert Enum.count(Floki.find(html, "#branch-ashmont")) == 0
+
+      names =
+        html
+        |> Floki.find(".route-branch-stop-name")
+        |> Enum.map(fn {_elem, _attrs, [name]} -> String.trim(name) end)
+
+      assert names == ["Quincy Center", "North Quincy", "Wollaston"]
+    end
+
+    test "does not collapse the branch when there fewer than two intermediate stops", %{conn: conn} do
       separated_rows =
         separate_collapsible_rows(@braintree, 0)
 
@@ -334,8 +372,8 @@ defmodule Site.StopListViewTest do
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary
 
-      assert Enum.count(Floki.find(html, ".collapse")) == 1
-      assert Enum.count(Floki.find(html, "#branch-braintree")) == 1
+      assert Enum.count(Floki.find(html, ".collapse")) == 0
+      assert Enum.count(Floki.find(html, "#branch-braintree")) == 0
       assert Enum.count(Floki.find(html, "#branch-ashmont")) == 0
 
       names =

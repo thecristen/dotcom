@@ -82,17 +82,16 @@ defmodule Site.ScheduleV2View.StopList do
 
     rendered_expand = render_row(expand_row, assigns)
     rendered_collapse = Enum.map(collapsible_rows, &render_row(&1, assigns))
-    branch_map = expand_row |> row_assigns(assigns) |> Map.put(:intermediate_stop_count, Enum.count(collapsible_rows))
 
-    case branch do
-      nil ->
+    if match?([_, _ | _], collapsible_rows) && !is_nil(branch) do
+      branch_map = expand_row |> row_assigns(assigns) |> Map.put(:intermediate_stop_count, Enum.count(collapsible_rows))
 
-        List.insert_at(rendered_collapse, expand_idx, rendered_expand)
-      _ ->
-        [content_tag(:div, [id: collapse_target_id, class: "collapse stop-list"], do: rendered_collapse)]
-        |> List.insert_at(expand_idx, rendered_expand)
-        |> List.insert_at(assigns.direction_id,
-                          view_branch_link(branch, branch_map, collapse_target_id, branch <> " branch"))
+      [content_tag(:div, [id: collapse_target_id, class: "collapse stop-list"], do: rendered_collapse)]
+      |> List.insert_at(expand_idx, rendered_expand)
+      |> List.insert_at(assigns.direction_id,
+                        view_branch_link(branch, branch_map, collapse_target_id, branch <> " branch"))
+    else
+      List.insert_at(rendered_collapse, expand_idx, rendered_expand)
     end
   end
 
