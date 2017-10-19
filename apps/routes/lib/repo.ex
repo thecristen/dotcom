@@ -11,12 +11,16 @@ defmodule Routes.Repo do
   """
   @spec all() :: [Routes.Route.t]
   def all do
-    cache [], fn _ ->
-      routes = handle_response(V3Api.Routes.all)
-      for route <- routes do
-        ConCache.put(__MODULE__, {:get, route.id}, route)
+    case cache [], fn _ ->
+      result = handle_response(V3Api.Routes.all)
+      for {:ok, routes} <- [result],
+          route <- routes do
+        ConCache.put(__MODULE__, {:get, route.id}, {:ok, route})
       end
-      routes
+      result
+    end do
+      {:ok, routes} -> routes
+      {:error, _} -> []
     end
   end
 
@@ -27,11 +31,13 @@ defmodule Routes.Repo do
   """
   @spec get(String.t) :: Routes.Route.t | nil
   def get(id) do
-    cache id, fn id ->
-      case V3Api.Routes.get(id) do
-        %{data: [route]} -> parse_route(route)
-        _ -> nil
+    case cache id, fn id ->
+      with %{data: [route]} <- V3Api.Routes.get(id) do
+        {:ok, parse_route(route)}
       end
+    end do
+      {:ok, route} -> route
+      {:error, _} -> nil
     end
   end
 
@@ -78,12 +84,21 @@ defmodule Routes.Repo do
   @spec by_type([0..4] | 0..4) :: [Routes.Route.t]
   def by_type(types) when is_list(types) do
     types = Enum.sort(types)
-    cache types, fn types ->
-      Enum.filter(all(), &Map.get(&1, :type) in types)
+    case cache types, &by_type_uncached/1 do
+      {:ok, routes} -> routes
+      {:error, _} -> []
     end
   end
   def by_type(type) do
     by_type([type])
+  end
+
+  @spec by_type_uncached([0..4]) :: {:ok, [Routes.Route.t]} | {:error, any}
+  defp by_type_uncached(types) do
+    case all() do
+      [] -> {:error, "no routes"}
+      routes -> {:ok, Enum.filter(routes, fn route -> route.type in types end)}
+    end
   end
 
   @doc """
@@ -91,15 +106,14 @@ defmodule Routes.Repo do
   Given a stop ID, returns the list of routes which stop there.
 
   """
-  @spec by_stop(String.t) :: [Routes.Route.t]
+  @spec by_stop(String.t, Keyword.t) :: [Routes.Route.t]
   def by_stop(stop_id, opts \\ []) do
-    {:ok, routes} = cache {stop_id, opts}, fn {stop_id, opts} ->
-      {:ok, stop_id
-      |> V3Api.Routes.by_stop(opts)
-      |> handle_response
-      }
+    case cache {stop_id, opts}, fn {stop_id, opts} ->
+      stop_id |> V3Api.Routes.by_stop(opts) |> handle_response
+    end do
+      {:ok, routes} -> routes
+      {:error, _} -> []
     end
-    routes
   end
 
   @doc """
@@ -141,10 +155,15 @@ defmodule Routes.Repo do
     []
   end
 
+  @spec handle_response(JsonApi.t | {:error, any}) :: {:ok, [Routes.Route.t]} | {:error, any}
+  defp handle_response({:error, reason}) do
+    {:error, reason}
+  end
   defp handle_response(%{data: data}) do
-    data
+    {:ok, data
     |> Enum.reject(&route_hidden?/1)
     |> Enum.map(&parse_route/1)
+    }
   end
 
   @doc """

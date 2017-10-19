@@ -91,17 +91,9 @@ defmodule Routes.RepoTest do
   end
 
   test "key bus routes are tagged" do
-    assert %Routes.Route{
-      key_route?: true}
-    = Routes.Repo.get("1")
-
-    assert %Routes.Route{
-      key_route?: true}
-    = Routes.Repo.get("741")
-
-    assert %Routes.Route{
-      key_route?: false}
-    = Routes.Repo.get("47")
+    assert %Routes.Route{key_route?: true} = Routes.Repo.get("1")
+    assert %Routes.Route{key_route?: true} = Routes.Repo.get("741")
+    assert %Routes.Route{key_route?: false} = Routes.Repo.get("47")
   end
 
   describe "headsigns/1" do
@@ -163,6 +155,29 @@ defmodule Routes.RepoTest do
         ]
       }
       assert Routes.Repo.calculate_headsigns(data) == ["first", "second"]
+    end
+  end
+
+  describe "by_stop/1" do
+    test "returns stops from different lines" do
+      assert [
+        %Routes.Route{id: "Blue", type: 1},
+        %Routes.Route{id: "119", type: 3},
+      ] = Routes.Repo.by_stop("place-bmmnl") #Beachmont
+    end
+
+    test "can specify type as param" do
+      assert [
+        %Routes.Route{id: "119", type: 3},
+      ] = Routes.Repo.by_stop("place-bmmnl", type: 3) #Beachmont
+    end
+
+    test "returns empty list if no routes of that type serve that stop" do
+      assert [] = Routes.Repo.by_stop("place-bmmnl", type: 0)
+    end
+
+    test "returns no routes on nonexistant station" do
+      assert [] = Routes.Repo.by_stop("thisstopdoesntexist")
     end
   end
 
