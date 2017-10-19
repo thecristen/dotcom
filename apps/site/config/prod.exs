@@ -42,7 +42,7 @@ config :logger,
 config :logger, :console,
   level: :info,
   format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-  metadata: [:request_id]
+  metadata: [:request_id, :ip]
 
 config :logger, :logentries,
   connector: Logger.Backend.Logentries.Output.SslKeepOpen,
@@ -51,7 +51,7 @@ config :logger, :logentries,
   port: 443,
   token: "${LOGENTRIES_TOKEN}",
   format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-  metadata: [:request_id]
+  metadata: [:request_id, :ip]
 
   # ## SSL Support
 #
