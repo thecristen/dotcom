@@ -1,5 +1,6 @@
 @import 'table';
 @import 'buttons';
+@import 'vendor/sass-svg-uri/svg-uri';
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -158,8 +159,27 @@ a {
 
 .trip-list-v2-row-selected,
 .trip-list-v2-row-preselected {
+  @mixin background-triangle($fill) {
+    background: svg-uri('<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewbox="100 100" height="100px" width="100px"><polygon points="0,0 0,100 20,50" fill="#{$fill}"/></svg>');
+    background-size: cover;
+    bottom: -2px;
+    content: ' ';
+    display: block;
+    margin-top: 1px;
+    position: absolute;
+    right: -1.5rem;
+    top: -2px;
+    width: 1.5rem;
+  }
+
   @include media-breakpoint-up(md) {
     @include button-selected-color;
+
+    @include hover-focus-active() {
+      &::after {
+        @include background-triangle($brand-primary-lightest)
+      }
+    }
 
     .icon,
     .realtime {
@@ -167,16 +187,7 @@ a {
     }
 
     &::after {
-      background: url('/images/selected-triangle.svg') no-repeat;
-      background-size: cover;
-      bottom: -2px;
-      content: ' ';
-      display: block;
-      margin-top: 1px;
-      position: absolute;
-      right: -1.5rem;
-      top: -2px;
-      width: 1.5rem;
+      @include background-triangle($brand-primary)
     }
   }
 }
