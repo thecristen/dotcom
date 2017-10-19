@@ -22,6 +22,7 @@ defmodule Site.Endpoint do
     plug Phoenix.CodeReloader
   end
 
+  plug Site.Plugs.RemoteIp
   plug Plug.RequestId
   plug Logster.Plugs.Logger, formatter: Site.Logster.SafeStringFormatter
 
