@@ -4,7 +4,8 @@ defmodule Routes.Shape do
     name: "",
     stop_ids: [],
     direction_id: 0,
-    polyline: ""
+    polyline: "",
+    priority: 0
   ]
   @type id_t :: String.t
   @type t :: %__MODULE__{
@@ -12,6 +13,7 @@ defmodule Routes.Shape do
     name: String.t,
     stop_ids: [],
     direction_id: 0 | 1,
-    polyline: String.t
+    polyline: String.t,
+    priority: integer
   }
 end
