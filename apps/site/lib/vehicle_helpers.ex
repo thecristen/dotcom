@@ -19,24 +19,32 @@ defmodule VehicleHelpers do
   and to fetch all of the required data
   """
   @spec build_tooltip_index(Route.t, VehicleLocations.t, [Prediction.t]) ::
-    %{optional({String.t, String.t}) => VehicleTooltip.t, optional(String.t) => VehicleTooltip.t}
+    %{optional({String.t | nil, String.t}) => VehicleTooltip.t, optional(String.t) => VehicleTooltip.t}
   def build_tooltip_index(route, vehicle_locations, vehicle_predictions) do
     indexed_predictions = index_vehicle_predictions(vehicle_predictions)
 
     vehicle_locations
-    |> Stream.reject(fn({{trip_id, stop_id}, _status}) -> is_nil(trip_id) or is_nil(stop_id) end)
+    |> Stream.reject(fn({{_trip_id, stop_id}, _status}) -> is_nil(stop_id) end)
     |> Enum.reduce(%{}, fn(vehicle_location, output) ->
       {{trip_id, stop_id}, vehicle_status} = vehicle_location
+      {prediction, trip} = if trip_id do
+        {
+          prediction_for_stop(indexed_predictions, trip_id, stop_id),
+          Schedules.Repo.trip(trip_id)
+        }
+      else
+        {nil, nil}
+      end
       tooltip = %VehicleTooltip{
         vehicle: vehicle_status,
-        prediction: prediction_for_stop(indexed_predictions, trip_id, stop_id),
+        prediction: prediction,
         stop_name: stop_name(Stops.Repo.get(stop_id)),
-        trip: Schedules.Repo.trip(trip_id),
+        trip: trip,
         route: route
       }
       output
-      |> Map.merge(%{vehicle_status.stop_id => tooltip})
-      |> Map.merge(%{{trip_id, stop_id} => tooltip})
+      |> Map.put(stop_id, tooltip)
+      |> Map.put({trip_id, stop_id}, tooltip)
     end)
   end
 
@@ -123,24 +131,25 @@ defmodule VehicleHelpers do
 
   @spec prediction_stop_text(Trip.t | nil, String.t, Vehicle.t | nil, Route.t) :: iodata
   defp prediction_stop_text(trip, stop_name, %Vehicle{status: status}, route) do
-    [display_headsign_text(trip),
+    [display_headsign_text(route, trip),
      String.downcase(vehicle_name(route)),
      display_trip_name(route, trip),
      prediction_stop_status_text(status),
      stop_name]
   end
 
-  @spec display_headsign_text(Trip.t | nil) :: String.t
-  defp display_headsign_text(%{headsign: headsign}), do: "#{headsign} "
-  defp display_headsign_text(_), do: ""
+  @spec display_headsign_text(Route.t, Trip.t | nil) :: iodata
+  defp display_headsign_text(_, %{headsign: headsign}), do: [headsign, " "]
+  defp display_headsign_text(%{name: name}, _), do: [name, " "]
+  defp display_headsign_text(_, _), do: ""
 
   @spec prediction_stop_status_text(atom) :: String.t
   defp prediction_stop_status_text(:incoming), do: " is on the way to "
   defp prediction_stop_status_text(:stopped), do: " has arrived at "
   defp prediction_stop_status_text(:in_transit), do: " has left "
 
-  @spec display_trip_name(Route.t, Trip.t) :: String.t
-  defp display_trip_name(%{type: 2}, trip), do: " #{trip.name}"
+  @spec display_trip_name(Route.t, Trip.t | nil) :: iodata
+  defp display_trip_name(%{type: 2}, %{name: name}), do: [" ", name]
   defp display_trip_name(_, _), do: ""
 
   @spec build_prediction_tooltip(iodata, iodata, iodata) :: String.t

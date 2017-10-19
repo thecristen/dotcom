@@ -95,8 +95,8 @@ defmodule Site.ScheduleV2Controller.Predictions do
     |> Map.keys
     |> Enum.unzip
 
-    stops = stops |> Enum.uniq |> Enum.join(",")
-    trips  = Enum.join(trips, ",")
+    stops = stops |> Enum.reject(&is_nil/1) |> Enum.uniq |> Enum.join(",")
+    trips = trips |> Enum.reject(&is_nil/1) |> Enum.join(",")
     case predictions_fn.(trip: trips, stop: stops) do
       {:error, _} -> []
       list -> list
