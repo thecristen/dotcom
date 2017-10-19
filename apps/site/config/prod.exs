@@ -36,16 +36,18 @@ config :site, Site.Endpoint,
 
 # Do not print debug messages in production
 config :logger,
-  level: :debug,
+  level: :info,
   backends: [{Logger.Backend.Logentries, :logentries}, :console]
 
 config :logger, :console,
-  level: :info
+  level: :info,
+  format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
+  metadata: [:request_id]
 
 config :logger, :logentries,
   connector: Logger.Backend.Logentries.Output.SslKeepOpen,
   host: 'data.logentries.com',
-  level: :debug,
+  level: :info,
   port: 443,
   token: "${LOGENTRIES_TOKEN}",
   format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
