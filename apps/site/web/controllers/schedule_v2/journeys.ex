@@ -24,7 +24,7 @@ defmodule Site.ScheduleV2Controller.Journeys do
 
     assign(conn, :journeys, journeys)
   end
-  def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id}, schedules: schedules}} = conn, []) do
+  def assign_journeys(%Plug.Conn{assigns: %{route: %Routes.Route{type: route_type, id: route_id} = route, schedules: schedules}} = conn, []) do
     schedules = Util.error_default(schedules, [])
     show_all_trips? = conn.params["show_all_trips"] == "true"
     destination_id = Util.safe_id(conn.assigns.destination)
@@ -34,7 +34,7 @@ defmodule Site.ScheduleV2Controller.Journeys do
     current_date_time = conn.assigns.date_time
     today? = Timex.diff(user_selected_date, current_date_time, :days) == 0
     current_time = if today?, do: conn.assigns.date_time, else: nil
-    filter_flag = filter_flag(today?, route_type)
+    filter_flag = filter_flag(route)
     keep_all? = keep_all?(today?, route_type, route_id, show_all_trips?)
 
     journey_optionals = [origin_id: origin_id, destination_id: destination_id, current_time: current_time]
@@ -67,6 +67,8 @@ defmodule Site.ScheduleV2Controller.Journeys do
     show_all? || !today? || Route.subway?(route_type, route_id)
   end
 
-  defp filter_flag(_today?, 3), do: :predictions_then_schedules
-  defp filter_flag(_today?, _route_type), do: :last_trip_and_upcoming
+  @spec filter_flag(Routes.Route.t) :: Journey.Filter.filter_flag_t
+  def filter_flag(%Routes.Route{type: 3}), do: :predictions_then_schedules
+  def filter_flag(%Routes.Route{type: 0, id: "Mattapan"}), do: :predictions_then_schedules
+  def filter_flag(_route), do: :last_trip_and_upcoming
 end

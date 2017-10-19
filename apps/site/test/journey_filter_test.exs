@@ -113,4 +113,31 @@ defmodule JourneyListFilterTest do
       assert expansion(@times, Enum.take(@times, 3), true) == :expanded
     end
   end
+
+  describe "Journey.remove_departure_schedules_before_predictions/2" do
+    test "scheduled departure is before all predicted departures" do
+      journey1 = %Journey{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T07:00:00]}}}
+      journey2 = %Journey{departure: %PredictedSchedule{prediction: %Prediction{time: ~N[2017-03-01T08:00:00]}}}
+      journey3 = %Journey{departure: %PredictedSchedule{prediction: %Prediction{time: ~N[2017-03-01T09:00:00]}}}
+
+      actual = remove_departure_schedules_before_predictions(
+        [journey1, journey2, journey3],
+        ~N[2017-03-01T06:00:00])
+
+      assert actual == [journey2, journey3]
+    end
+
+    test "scheduled daprture is between predcited departures" do
+      journey1 = %Journey{departure: %PredictedSchedule{prediction: %Prediction{time: ~N[2017-03-01T07:00:00]}}}
+      journey2 = %Journey{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T08:00:00]}}}
+      journey3 = %Journey{departure: %PredictedSchedule{prediction: %Prediction{time: ~N[2017-03-01T09:00:00]}}}
+      journey4 = %Journey{departure: %PredictedSchedule{schedule: %Schedule{time: ~N[2017-03-01T10:00:00]}}}
+
+      actual = remove_departure_schedules_before_predictions(
+        [journey1, journey2, journey3, journey4],
+        ~N[2017-03-01T06:00:00])
+
+      assert actual == [journey1, journey3, journey4]
+    end
+  end
 end

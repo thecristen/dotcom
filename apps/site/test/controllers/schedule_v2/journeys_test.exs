@@ -228,4 +228,30 @@ defmodule Site.ScheduleV2Controller.JourneysTest do
       assert conn.assigns.journeys == journeys
     end
   end
+
+  describe "filter_flag/1" do
+    test "Returns :predictions_then_schedules for bus routes" do
+      route = %Routes.Route{type: 3, id: "some bus"}
+
+      assert filter_flag(route) == :predictions_then_schedules
+    end
+
+    test "Returns :predictions_then_schedules for Mattapan rail" do
+      route = %Routes.Route{type: 0, id: "Mattapan"}
+
+      assert filter_flag(route) == :predictions_then_schedules
+    end
+
+    test "Returns :last_trip_and_upcoming for non-Mattapan rail" do
+      route = %Routes.Route{type: 0, id: "some other rail"}
+
+      assert filter_flag(route) == :last_trip_and_upcoming
+    end
+
+    test "Returns :last_trip_and_upcoming for subway" do
+      route = %Routes.Route{type: 1, id: "some other rail"}
+
+      assert filter_flag(route) == :last_trip_and_upcoming
+    end
+  end
 end
