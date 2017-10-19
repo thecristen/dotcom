@@ -35,25 +35,27 @@ defmodule Site.ComponentsTest do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "106", key_route?: false, name: "106", type: 3}],
         route_type: :bus,
-        alerts: [%Alerts.Alert{
+        alerts: [Alerts.Alert.new(
                   effect: :delay,
                   informed_entity: [%Alerts.InformedEntity{route: "106", route_type: 3}],
                   lifecycle: :new,
                   active_period: current_active_period()
-        }]}) |> safe_to_string
-      assert rendered =~ "icon-alert"
+        )]})
+      assert safe_to_string(rendered) =~ "icon-alert"
     end
 
     test "routes with a slash and an alert get properly no-wrap-ed" do
-      rendered = mode_button_list(%ModeButtonList{
+      rendered = %ModeButtonList{
         routes: [%Routes.Route{id: "CR-Providence", name: "Providence/Stoughton", type: 2}],
         route_type: :commuter_rail,
-        alerts: [%Alerts.Alert{
+        alerts: [Alerts.Alert.new(
                   effect: :delay,
                   informed_entity: [%Alerts.InformedEntity{route: "CR-Providence", route_type: 2}],
                   lifecycle: :new,
                   active_period: current_active_period()
-        }]}) |> safe_to_string
+                  )]}
+      |> mode_button_list
+      |> safe_to_string
       assert rendered =~ "wbr"
       assert rendered =~ "nowrap"
     end
@@ -62,23 +64,23 @@ defmodule Site.ComponentsTest do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "Green", key_route?: false, name: "Green", type: 1}],
         route_type: :bus,
-        alerts: [%Alerts.Alert{
+        alerts: [Alerts.Alert.new(
                   effect: :delay,
                   informed_entity: [%Alerts.InformedEntity{route: "Green", route_type: 1}],
                   lifecycle: :new,
                   active_period: current_active_period()
-        }]})
+        )]})
       assert safe_to_string(rendered) =~ "icon-alert"
     end
 
     test "routes with notices but no alerts do not get rendered with an alert" do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "CR-Haverhill", key_route?: false, name: "Haverhill Line", type: 2}],
-        alerts: [%Alerts.Alert{
+        alerts: [Alerts.Alert.new(
                   effect: :track_change,
                   informed_entity: [%Alerts.InformedEntity{route: "CR-Haverhill", route_type: 2}]
-        }]}) |> safe_to_string
-      refute rendered =~ "icon-alert"
+        )]})
+      refute safe_to_string(rendered) =~ "icon-alert"
     end
 
     test "includes a 'view all' link as last link if :truncated_list? is true and route_type is bus" do
@@ -86,8 +88,8 @@ defmodule Site.ComponentsTest do
         routes: [%Routes.Route{id: "1", name: "1", type: 3}],
         route_type: :bus,
         truncated_list?: true
-      }) |> safe_to_string
-      links = Floki.find(rendered, ".button-container")
+      })
+      links = rendered |> safe_to_string() |> Floki.find(".button-container")
       assert length(links) > 1
       assert links |> List.last |> Floki.text == "View all buses "
       assert links |> List.last |> Floki.find("a") |> Floki.attribute("href") == ["/schedules/bus"]
@@ -97,8 +99,8 @@ defmodule Site.ComponentsTest do
       rendered = mode_button_list(%ModeButtonList{
         routes: [%Routes.Route{id: "1", name: "1", type: 3}],
         route_type: :bus
-        }) |> safe_to_string
-      links = Floki.find(rendered, ".button-container")
+        })
+      links = rendered |> safe_to_string() |> Floki.find(".button-container")
       for link <- links do
         refute link |> Floki.text |> String.downcase =~ "view all buses"
         refute link |> Floki.find("a") |> Floki.attribute("href") == ["/schedules/bus"]
@@ -106,11 +108,13 @@ defmodule Site.ComponentsTest do
     end
 
     test "does not include a 'view all' link for subway regardless of :truncated_list?" do
-      rendered = mode_button_list(%ModeButtonList{
+      rendered = %ModeButtonList{
         routes: [%Routes.Route{id: "Red", name: "Red", type: 0}],
         route_type: :subway,
         truncated_list?: true
-      }) |> safe_to_string
+      }
+      |> mode_button_list()
+      |> safe_to_string()
       refute Floki.find(rendered, ~s([href="/schedules/Red"])) == []
       assert Floki.find(rendered, ~s([href="/schedules/subway"])) == []
       refute rendered |> Floki.text |> String.downcase =~ "view all"

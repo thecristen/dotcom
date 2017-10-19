@@ -195,11 +195,11 @@ defmodule Site.ScheduleV2ViewTest do
       conn: %Plug.Conn{},
       vehicle_tooltips: %{{@trip.id, @stop.id} => @vehicle_tooltip},
       trip_info: @trip_info,
-      all_alerts: [%Alerts.Alert{informed_entity: [%Alerts.InformedEntity{
+      all_alerts: [Alerts.Alert.new(informed_entity: [%Alerts.InformedEntity{
         route: @route.id,
         direction_id: 0,
         stop: @stop.id
-      }]}]
+      }])]
     }
 
     test "real time icon shown when prediction is available" do

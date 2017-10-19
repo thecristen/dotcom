@@ -8,49 +8,72 @@ defmodule Alerts.Match do
   """
   use Timex
 
-  alias Alerts.InformedEntity, as: IE
+  alias Alerts.InformedEntitySet, as: IESet
+
   def match(alerts, entity, datetime \\ nil)
   def match(alerts, entity, nil) do
-    alerts
-    |> Enum.filter(&any_entity_match?(&1, entity))
+    for alert <- alerts,
+      any_entity_match?(alert, entity) do
+        alert
+    end
   end
   def match(alerts, entity, datetime) do
     # time first in order to minimize the more-expensive entity match
-    alerts
-    |> Enum.filter(fn alert ->
-      any_time_match?(alert, datetime) && any_entity_match?(alert, entity)
-    end)
+    for alert <- alerts,
+      any_time_match?(alert, datetime),
+      any_entity_match?(alert, entity) do
+        alert
+    end
   end
 
   defp any_entity_match?(alert, entities) when is_list(entities) do
-    alert.informed_entity
-    |> Enum.any?(fn ie ->
-      entities
-      |> Enum.any?(&IE.match?(ie, &1))
-    end)
+    Enum.any?(entities, &any_entity_match?(alert, &1))
   end
   defp any_entity_match?(alert, entity) do
-    alert.informed_entity
-    |> Enum.any?(&IE.match?(entity, &1))
+    IESet.match?(alert.informed_entity, entity)
   end
 
   def any_time_match?(alert, datetime) do
-    alert.active_period
-    |> Enum.any?(&between?(&1, datetime))
+    any_period_match?(alert.active_period, datetime)
   end
 
-  defp between?({nil, nil}, _) do
+  defp any_period_match?([], _datetime) do
+    false
+  end
+  defp any_period_match?([{nil, nil} | _rest], _datetime) do
     true
   end
-  defp between?({start, nil}, datetime) do
-    not Timex.before?(datetime, start)
+  defp any_period_match?([{nil, stop} | rest], datetime) do
+    if compare(datetime, stop) != :gt do
+      true
+    else
+      any_period_match?(rest, datetime)
+    end
   end
-  defp between?({nil, stop}, datetime) do
-    not Timex.after?(datetime, stop)
+  defp any_period_match?([{start, nil} | _rest], datetime) do
+    compare(datetime, start) != :lt
   end
-  defp between?({start, stop}, datetime) do
-    Timex.between?(datetime, start, stop) ||
-      Timex.equal?(datetime, start) ||
-      Timex.equal?(datetime, stop)
+  defp any_period_match?([{start, stop} | rest], datetime) do
+    start_compare = compare(datetime, start)
+    stop_compare = compare(datetime, stop)
+    cond do
+      start_compare != :lt and stop_compare != :gt ->
+        true
+      stop_compare == :lt ->
+        # if it stops in the future, no other period will match
+        false
+      true ->
+        any_period_match?(rest, datetime)
+    end
+  end
+
+  defp compare(%Date{} = first, %DateTime{} = second) do
+    Date.compare(first, DateTime.to_date(second))
+  end
+  defp compare(%DateTime{} = first, %DateTime{} = second) do
+    DateTime.compare(first, second)
+  end
+  defp compare(%NaiveDateTime{} = first, %NaiveDateTime{} = second) do
+    NaiveDateTime.compare(first, second)
   end
 end

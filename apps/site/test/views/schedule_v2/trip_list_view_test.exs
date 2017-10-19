@@ -13,29 +13,29 @@ defmodule Site.ScheduleV2.TripListViewTest do
     @prediction %Prediction{route: @route, trip: %Trip{id: "trip_pred"}, stop: %Stop{id: "stop_pred"}, status: "Nearby"}
 
     @alerts [
-        %Alerts.Alert{
+        Alerts.Alert.new(
           informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1", trip: "trip"}]
-        },
-        %Alerts.Alert{
+        ),
+        Alerts.Alert.new(
           informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1", trip: "trip_pred"}]
-        },
-        %Alerts.Alert{
+        ),
+        Alerts.Alert.new(
           informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1",  stop: "stop"}]
-        },
-        %Alerts.Alert{
+        ),
+        Alerts.Alert.new(
           informed_entity: [%Alerts.InformedEntity{direction_id: 1, route: "1",  stop: "stop_pred"}]
-        }
+        )
       ]
 
       test "trip alerts use schedule for match" do
         predicted_schedule = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
         alert = List.first(trip_alerts(predicted_schedule, @alerts, @route, 1))
-        assert List.first(alert.informed_entity).trip == "trip"
+        assert Enum.at(alert.informed_entity, 0).trip == "trip"
       end
 
       test "trip alerts use prediction if no schedule is available" do
         alert = List.first(trip_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, @route, 1))
-        assert List.first(alert.informed_entity).trip == "trip_pred"
+        assert Enum.at(alert.informed_entity, 0).trip == "trip_pred"
       end
 
       test "No trip alerts returned if no predicted schedule is given" do
@@ -57,12 +57,12 @@ defmodule Site.ScheduleV2.TripListViewTest do
       test "stop alerts use schedule for match" do
         predicted_schedule = %PredictedSchedule{schedule: @schedule, prediction: @prediction}
         alert = List.first(stop_alerts(predicted_schedule, @alerts, "1", 1))
-        assert List.first(alert.informed_entity).stop == "stop"
+        assert Enum.at(alert.informed_entity, 0).stop == "stop"
       end
 
       test "stop alerts use prediction if no schedule is avaulable" do
         alert = List.first(stop_alerts(%PredictedSchedule{prediction: @prediction}, @alerts, "1", 1))
-        assert List.first(alert.informed_entity).stop == "stop_pred"
+        assert Enum.at(alert.informed_entity, 0).stop == "stop_pred"
       end
 
       test "No stop alerts returned if no predicted schedule is given" do
@@ -123,7 +123,7 @@ defmodule Site.ScheduleV2.TripListViewTest do
 
   describe "stop_name_link_with_alerts/3" do
     test "adds a no-wrap around the last word of the link text and the icon" do
-      alerts = [%Alerts.Alert{}]
+      alerts = [Alerts.Alert.new()]
       result = stop_name_link_with_alerts("name", "url", alerts)
       assert result |> Phoenix.HTML.safe_to_string  =~ "<a href=\"url\">"
       assert result |> Phoenix.HTML.safe_to_string  =~ "<span class=\"inline-block\">name<svg"

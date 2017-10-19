@@ -5,6 +5,29 @@ defmodule AlertsTest do
   import Alerts.Alert
   alias Alerts.Alert
 
+  describe "new/1" do
+    test "with no params, returns a default struct" do
+      assert new() == %Alert{}
+    end
+
+    test "with params, sets values (include informed_entity)" do
+      entities = [%Alerts.InformedEntity{}]
+      assert new(effect: :detour, informed_entity: entities) == %Alert{
+        effect: :detour,
+        informed_entity: Alerts.InformedEntitySet.new(entities)}
+    end
+  end
+
+  describe "update/2" do
+    test "updates an existing alert, keeping the old values" do
+      alert = new(effect: :detour)
+      entities = [%Alerts.InformedEntity{}]
+      expected = new(effect: :detour, informed_entity: entities)
+      actual = update(alert, informed_entity: entities)
+      assert expected == actual
+    end
+  end
+
   describe "is_notice?/2" do
     test "Delay alerts are not notices" do
       delay = %Alert{effect: :delay}
