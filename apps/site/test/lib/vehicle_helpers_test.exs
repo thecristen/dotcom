@@ -12,7 +12,7 @@ defmodule Site.VehicleHelpersTest do
                                         trip: %Schedules.Trip{id: "CR-Weekday-Spring-17-515", shape_id: "090111"},
                                         stop: %Stops.Stop{id: "place-sstat"}}]
 
-  @route %Routes.Route{type: 2}
+  @route %Routes.Route{name: "Framingham/Worcester Line", type: 2}
 
   @tooltips build_tooltip_index(@route, @locations, @predictions)
 
@@ -89,7 +89,7 @@ defmodule Site.VehicleHelpersTest do
     end
   end
 
-  describe "prediction_time_text/1" do
+  describe "tooltip/1" do
     test "when there is no prediction, there is no prediction time" do
       tooltip = %{@tooltip_base | prediction: nil}
       assert tooltip(@tooltip_base) =~ "11:00A"
@@ -114,9 +114,7 @@ defmodule Site.VehicleHelpersTest do
       refute result =~ "P"
       refute result =~ "A"
     end
-  end
 
-  describe "prediction_status_text/1" do
     test "when a prediction has a track, gives the time, the status and the track" do
       tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: "4"}}
       assert tooltip(tooltip) =~ "Now boarding on track 4"
@@ -126,9 +124,7 @@ defmodule Site.VehicleHelpersTest do
       tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: nil}}
       refute tooltip(tooltip) =~ "Now boarding"
     end
-  end
 
-  describe "build_prediction_tooltip/2" do
     test "when there is no time or status for the prediction, returns stop name" do
       tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | status: nil, time: nil}}
       assert tooltip(tooltip) =~ "South Station"
@@ -153,9 +149,7 @@ defmodule Site.VehicleHelpersTest do
       # there will be four single quotes, two for each class declaration
       assert length(String.split(tooltip(tooltip), "'")) == 5
     end
-  end
 
-  describe "prediction_tooltip/1" do
     test "creates a tooltip for the prediction" do
       time = ~N[2017-02-17T05:46:28]
       formatted_time = format_schedule_time(time)
@@ -163,16 +157,23 @@ defmodule Site.VehicleHelpersTest do
       assert result =~ "Now boarding on track 4"
       assert result =~ "Expected arrival at #{formatted_time}"
     end
-  end
 
-  test "Displays text based on vehicle status" do
-    tooltip1 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :incoming}}
-    tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
-    tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
+    test "Displays text based on vehicle status" do
+      tooltip1 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :incoming}}
+      tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
+      tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
 
-    assert tooltip(tooltip1) =~ "Worcester train 515 is on the way to"
-    assert tooltip(tooltip2) =~ "Worcester train 515 has arrived"
-    assert tooltip(tooltip3) =~ "Worcester train 515 has left"
+      assert tooltip(tooltip1) =~ "Worcester train 515 is on the way to"
+      assert tooltip(tooltip2) =~ "Worcester train 515 has arrived"
+      assert tooltip(tooltip3) =~ "Worcester train 515 has left"
+    end
+
+    test "displays the route when there isn't a trip" do
+      actual = tooltip(%{@tooltip_base | prediction: nil, trip:  nil})
+      assert actual =~ "Framingham/Worcester Line"
+      assert actual =~ "train has arrived"
+      assert actual =~ "South Station"
+    end
   end
 
   describe "prediction_for_stop/2" do
