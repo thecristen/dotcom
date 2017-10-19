@@ -15,7 +15,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     end
     rescue
       e in FunctionClauseError ->
-        _ = Logger.error fn -> "#{__MODULE__} message=#{e.message} json=#{json_binary}" end
+        _ = Logger.info fn -> "#{__MODULE__} exception=FunctionClauseError function=#{e.function} json=#{json_binary}" end
         {:error, :invalid_json}
   end
 
