@@ -75,10 +75,9 @@ defmodule Site.TripPlan.RelatedLink do
 
   defp route_links(itinerary, opts) do
     route_by_id = Keyword.get(opts, :route_by_id)
-    for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary) do
-      route_id
-      |> route_by_id.()
-      |> route_link(trip_id, itinerary)
+    for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary),
+        %Route{} = route <- [route_by_id.(route_id)] do
+      route_link(route, trip_id, itinerary)
     end
   end
 
@@ -98,9 +97,9 @@ defmodule Site.TripPlan.RelatedLink do
   defp fare_links(itinerary, opts) do
     route_by_id = Keyword.get(opts, :route_by_id)
     for leg <- itinerary,
-      {:ok, route_id} <- [Leg.route_id(leg)],
-      route = route_by_id.(route_id) do
-        fare_link(route, leg, opts)
+        {:ok, route_id} <- [Leg.route_id(leg)],
+        %Route{} = route <- [route_by_id.(route_id)] do
+      fare_link(route, leg, opts)
     end
     |> Enum.uniq
     |> simplify_fare_text

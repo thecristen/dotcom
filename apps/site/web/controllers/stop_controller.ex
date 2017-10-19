@@ -67,12 +67,14 @@ defmodule Site.StopController do
 
   @spec breadcrumbs(Stop.t) :: [Util.Breadcrumb.t]
   defp breadcrumbs(%Stop{station?: true, name: name, id: id}) do
-    breadcrumb_tab = id
-      |> Routes.Repo.by_stop()
-      |> Enum.min_by(& &1.type)
-      |> Routes.Route.type_atom
-
-    breadcrumbs_for_station_type(breadcrumb_tab, name)
+    case Routes.Repo.by_stop(id) do
+      [] -> breadcrumbs_for_station_type(nil, name)
+      routes ->
+        routes
+        |> Enum.min_by(& &1.type)
+        |> Routes.Route.type_atom
+        |> breadcrumbs_for_station_type(name)
+    end
   end
   defp breadcrumbs(%Stop{name: name}) do
     breadcrumbs_for_station_type(nil, name)
