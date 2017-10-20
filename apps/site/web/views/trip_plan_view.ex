@@ -235,7 +235,7 @@ defmodule Site.TripPlanView do
     # we can't just set display:none because that messes up the offset. That's why the label has no text
     # and is set to aria-hidden="true".
 
-    min_date = Timex.format!(datetime, "{0M}/{0D}/{YYYY}")
+    min_date = Timex.format!(Util.now(), "{0M}/{0D}/{YYYY}")
     max_date = Timex.format!(Schedules.Repo.end_of_rating(), "{0M}/{0D}/{YYYY}")
 
     content_tag(:div, [
