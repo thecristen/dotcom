@@ -750,8 +750,8 @@ del .realtime {
   color: $link-color;
   cursor: pointer;
   display: none;
-  font-size: $font-size-sm;
-  font-weight: normal;
+  font-size: $font-size-h5;
+  font-weight: bold;
   left: 25%;
   overflow: visible;
   position: absolute;
@@ -774,6 +774,7 @@ del .realtime {
   }
 
   .fa {
+    font-weight: bold;
     padding-bottom: $base-spacing-sm;
     padding-top: $base-spacing-sm;
   }
