@@ -14,6 +14,8 @@ use Mix.Config
 config :site, Site.Endpoint,
   http: [
     port: {:system, "PORT"},
+    acceptors: 2_048,
+    max_connections: 32_768,
     compress: true,
     protocol_options: [
       max_header_value_length: 16_384,
