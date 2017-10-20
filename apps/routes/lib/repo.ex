@@ -2,7 +2,6 @@ defmodule Routes.Repo do
   use RepoCache, ttl: :timer.hours(24)
 
   import Routes.Parser
-  require Logger
 
   @doc """
 
@@ -11,12 +10,16 @@ defmodule Routes.Repo do
   """
   @spec all() :: [Routes.Route.t]
   def all do
-    cache [], fn _ ->
-      routes = handle_response(V3Api.Routes.all)
-      for route <- routes do
-        ConCache.put(__MODULE__, {:get, route.id}, route)
+    case cache [], fn _ ->
+      result = handle_response(V3Api.Routes.all)
+      for {:ok, routes} <- [result],
+          route <- routes do
+        ConCache.put(__MODULE__, {:get, route.id}, {:ok, route})
       end
-      routes
+      result
+    end do
+      {:ok, routes} -> routes
+      {:error, _} -> []
     end
   end
 
@@ -27,11 +30,13 @@ defmodule Routes.Repo do
   """
   @spec get(String.t) :: Routes.Route.t | nil
   def get(id) do
-    cache id, fn id ->
-      case V3Api.Routes.get(id) do
-        %{data: [route]} -> parse_route(route)
-        _ -> nil
+    case cache id, fn id ->
+      with %{data: [route]} <- V3Api.Routes.get(id) do
+        {:ok, parse_route(route)}
       end
+    end do
+      {:ok, route} -> route
+      {:error, _} -> nil
     end
   end
 
@@ -39,7 +44,7 @@ defmodule Routes.Repo do
   def get_shapes(route_id, direction_id, filter_negative_priority? \\ true) do
     cache {route_id, direction_id, filter_negative_priority?}, fn _ ->
       case V3Api.Shapes.all([route: route_id, direction_id: direction_id]) do
-        {:error, error} -> warn_error([route_id, direction_id], error)
+        {:error, _} -> []
         %JsonApi{data: data} ->
           Enum.flat_map(data, &do_get_shape(&1, filter_negative_priority?))
       end
@@ -58,16 +63,11 @@ defmodule Routes.Repo do
   def get_shape(shape_id) do
     cache shape_id, fn _ ->
       case V3Api.Shapes.by_id(shape_id) do
-        {:error, error} -> warn_error([shape_id], error)
+        {:error, _} -> []
         %JsonApi{data: data} ->
           Enum.flat_map(data, &parse_shape/1)
       end
     end
-  end
-
-  defp warn_error(item, e) do
-    _ = Logger.warn("error fetching Shapes (#{inspect item}): #{inspect e}")
-    []
   end
 
   @doc """
@@ -78,12 +78,21 @@ defmodule Routes.Repo do
   @spec by_type([0..4] | 0..4) :: [Routes.Route.t]
   def by_type(types) when is_list(types) do
     types = Enum.sort(types)
-    cache types, fn types ->
-      Enum.filter(all(), &Map.get(&1, :type) in types)
+    case cache types, &by_type_uncached/1 do
+      {:ok, routes} -> routes
+      {:error, _} -> []
     end
   end
   def by_type(type) do
     by_type([type])
+  end
+
+  @spec by_type_uncached([0..4]) :: {:ok, [Routes.Route.t]} | {:error, any}
+  defp by_type_uncached(types) do
+    case all() do
+      [] -> {:error, "no routes"}
+      routes -> {:ok, Enum.filter(routes, fn route -> route.type in types end)}
+    end
   end
 
   @doc """
@@ -91,15 +100,14 @@ defmodule Routes.Repo do
   Given a stop ID, returns the list of routes which stop there.
 
   """
-  @spec by_stop(String.t) :: [Routes.Route.t]
+  @spec by_stop(String.t, Keyword.t) :: [Routes.Route.t]
   def by_stop(stop_id, opts \\ []) do
-    {:ok, routes} = cache {stop_id, opts}, fn {stop_id, opts} ->
-      {:ok, stop_id
-      |> V3Api.Routes.by_stop(opts)
-      |> handle_response
-      }
+    case cache {stop_id, opts}, fn {stop_id, opts} ->
+      stop_id |> V3Api.Routes.by_stop(opts) |> handle_response
+    end do
+      {:ok, routes} -> routes
+      {:error, _} -> []
     end
-    routes
   end
 
   @doc """
@@ -141,10 +149,15 @@ defmodule Routes.Repo do
     []
   end
 
-  defp handle_response(%{data: data}) do
-    data
+  @spec handle_response(JsonApi.t | {:error, any}) :: {:ok, [Routes.Route.t]} | {:error, any}
+  def handle_response({:error, reason}) do
+    {:error, reason}
+  end
+  def handle_response(%{data: data}) do
+    {:ok, data
     |> Enum.reject(&route_hidden?/1)
     |> Enum.map(&parse_route/1)
+    }
   end
 
   @doc """

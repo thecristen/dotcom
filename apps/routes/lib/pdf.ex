@@ -26,8 +26,8 @@ defmodule Routes.Pdf do
   longer valid.
 
   """
-  @spec dated_urls(Route.t, Date.t) :: [dated_string]
-  def dated_urls(%Route{id: route_id}, date) do
+  @spec dated_urls(Routes.Route.id_t, Date.t) :: [dated_string]
+  def dated_urls(route_id, date) do
     route_id
     |> do_dated_urls
     |> current_and_upcoming(date)
@@ -56,7 +56,7 @@ defmodule Routes.Pdf do
   @spec dated_pdfs_for_route(Route.t, Date.t) :: [{[String.t], String.t}]
   defp dated_pdfs_for_route(route, date) do
     route_name = pretty_route_name(route)
-    case dated_urls(route, date) do
+    case dated_urls(route.id, date) do
       [] ->
         []
       [{_previous_date, previous_path}] ->
