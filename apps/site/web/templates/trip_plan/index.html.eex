@@ -107,7 +107,9 @@
         <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
         <div class="trip-plan-initial-map map">
           <script class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
-          <img class="map-static" src="<%= map_url %>" alt="Map of downtown Boston" />
+          <div class="map-static" style="background-image:url(<%= map_url %>);">
+            <span class="sr-only">Map of downtown Boston"</span>
+          </div>
         </div>
         <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
       </div>

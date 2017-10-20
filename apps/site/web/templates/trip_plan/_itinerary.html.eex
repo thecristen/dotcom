@@ -36,7 +36,9 @@
     <div class="trip-plan-map map">
       <% {map_data, map_url} = @itinerary_map %>
       <script class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
-      <img class="map-static" src="<%= map_url %>" alt="Map of trip described below" />
+      <div class="map-static" style="background-image:url(<%= map_url %>);">
+        <span class="sr-only">Map of itinerary described next</span>
+      </div>
     </div>
     <%= if @alerts != [] do %>
       <div class="itinerary-has-alerts-text">

@@ -1,4 +1,4 @@
 <div class="line-map map">
   <script class="map-dynamic-data" type="text/plain"><%= @encoded_data %></script>
-  <%= img_tag @map_img_src, class: "map-static" %>
+  <div class="map-static" style="background-image:url(<%= @map_img_src %>);"></div>
 </div>
