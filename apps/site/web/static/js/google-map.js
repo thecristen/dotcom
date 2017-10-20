@@ -1,34 +1,12 @@
 import { doWhenGoogleMapsIsReady } from './google-maps-loaded';
 import styles from './google-map/styles';
 
-export default function() {
-  function initMap() {
-    // Read the map data from page
-    var mapDataElements = document.getElementsByClassName("map-dynamic-data");
-
-    // Clean up and leave if there is no map data available
-    if (!mapDataElements || mapDataElements.length == 0) {
-      // Get rid of any previously registered reevaluateMapBounds event
-      window.removeEventListener("resize", reevaluateMapBounds);
-      resetGlobals();
-      return;
-    }
-
-    // Render all maps by iterating over the HTMLCollection elements
-    for (var i = 0; i < mapDataElements.length; i++) {
-      const el = mapDataElements[i];
-      var mapData = JSON.parse(el.innerHTML);
-      const dynamicMap = createDynamicMap(el);
-      displayMap(dynamicMap, mapData, i);
-    }
-
-    // Reconsier bounds on page resize
-    window.addEventListener("resize", reevaluateMapBounds);
-  }
+export default function($) {
+  $ = $ || window.jQuery;
 
   doWhenGoogleMapsIsReady(() => {
-    document.addEventListener("turbolinks:load", initMap, {passive: true});
-    initMap();
+    document.addEventListener("turbolinks:load", () => initMap($), {passive: true});
+    initMap($);
   });
 }
 
@@ -36,71 +14,121 @@ export default function() {
 var maps = {};
 var bounds = {};
 var infoWindow = null;
-var markers = {};
 
 function resetGlobals() {
   maps = {};
   bounds = {};
-  markers = {};
   infoWindow = null;
 }
 
-function createDynamicMap(el) {
+function initMap($) {
+  // Read the map data from page
+  const mapDataElements = document.getElementsByClassName("map-dynamic-data");
+
+  // Get rid of any previously registered reevaluateMapBounds event
+  window.removeEventListener("resize", reevaluateMapBounds);
+  $(document).off("show.bs.collapse", createToggledMap);
+
+    // Clean up and leave if there is no map data available
+  if (!mapDataElements || mapDataElements.length == 0) {
+    resetGlobals();
+    return;
+  }
+
+  maybeCreateMaps(mapDataElements);
+
+  // Reconsier bounds on page resize
+  window.addEventListener("resize", reevaluateMapBounds, {passive: true});
+  // must be a jQuery.on since it's a synthetic event
+  $(document).on("show.bs.collapse", createToggledMap);
+}
+
+
+function maybeCreateMaps(mapDataElements) {
+  // Render all visible maps by iterating over the HTMLCollection elements
+  for (var i = 0; i < mapDataElements.length; i++) {
+    const el = mapDataElements[i];
+    const dynamicMap = createDynamicMap(el, i);
+    if (dynamicMap.offsetParent) {
+      var mapData = JSON.parse(el.innerHTML);
+      displayMap(dynamicMap, mapData);
+    }
+  }
+}
+
+function createToggledMap(ev) {
+  const dynamicData = ev.target.getElementsByClassName("map-dynamic-data");
+  if (dynamicData.length > 0) {
+    const el = dynamicData[0];
+    const mapData = JSON.parse(el.innerHTML);
+    const dynamicMap = createDynamicMap(el);
+    displayMap(dynamicMap, mapData);
+  }
+}
+
+function createDynamicMap(el, index) {
   const className = "map-dynamic";
   var dynamicMap = el.nextElementSibling;
   if (!dynamicMap || dynamicMap.className !== className) {
     dynamicMap = document.createElement("div");
     dynamicMap.className = className;
+    dynamicMap.attributes["data-index"] = index;
     el.parentNode.insertBefore(dynamicMap, el.nextElementSibling);
     el.parentNode.className += " is-map-dynamic";
   }
   return dynamicMap;
 }
 
-function displayMap(el, mapData, mapOffset) {
+function cachedMapFor(el) {
+  const index = el.attributes["data-index"];
+  return maps[index];
+}
+
+function displayMap(el, mapData) {
+  const index = el.attributes["data-index"];
+  if (maps[index]) {
+    // bail out if we already made a map
+    return;
+  }
   // Create a map instance
-  maps[mapOffset] = new google.maps.Map(el, mapData.dynamic_options);
+  const map = maps[index] = new google.maps.Map(el, mapData.dynamic_options);
 
   // Bounds will allow us to later zoom the map to the boundaries of the stops
-  bounds[mapOffset] = new google.maps.LatLngBounds();
+  const bound = bounds[index] = new google.maps.LatLngBounds();
 
   // If there are stops, show them
   if (mapData.markers) {
-    mapData.markers.forEach(renderMarker(mapOffset));
+    mapData.markers.forEach(renderMarkerFunction(el, bound));
   }
 
   // If there are route polylines, show them
   if (mapData.paths) {
-    renderPolylines(mapOffset, mapData.paths);
+    renderPolylines(el, mapData.paths);
   }
 
   // Auto zoom and auto center
-  if (mapData.markers.length > 1) {
-    maps[mapOffset].fitBounds(bounds[mapOffset]);
-    maps[mapOffset].panToBounds(bounds[mapOffset]);
-  } else {
-    maps[mapOffset].setCenter(bounds[mapOffset].getCenter());
-  }
+  reevaluateMapBoundByIndex(index);
 
   // If the map zooms in too much, take it out to a reasonble level
-  const zoom = maps[mapOffset].getZoom();
+  const zoom = map.getZoom();
   if (!zoom && !mapData.zoom) {
-    google.maps.event.addListenerOnce(maps[mapOffset], "zoom_changed", function() {
-      setReasonableZoom(maps[mapOffset], maps[mapOffset].getZoom());
+    google.maps.event.addListenerOnce(map, "zoom_changed", () => {
+      setReasonableZoom(map, map.getZoom());
     });
   } else if(mapData.zoom) {
-    maps[mapOffset].setZoom(mapData.zoom);
+    map.setZoom(mapData.zoom);
   } else {
-    setReasonableZoom(maps[mapOffset], zoom);
+    setReasonableZoom(map, zoom);
   }
 
   // set basemap styles
-  maps[mapOffset].setOptions({styles: styles});
+  map.setOptions({styles: styles});
 }
 
-function renderPolylines (mapOffset, polylines) {
+function renderPolylines (el, polylines) {
+  const map = cachedMapFor(el);
   polylines.forEach((path) => {
-    polylineForPath(path).setMap(maps[mapOffset]);
+    polylineForPath(path).setMap(map);
   });
 }
 
@@ -114,13 +142,13 @@ function polylineForPath (path) {
     return new google.maps.Polyline({
       icons: [{
         icon: lineSymbol,
-        offset: '0',
+        index: '0',
         repeat: '10px'
       }],
       path: google.maps.geometry.encoding.decodePath(path.polyline),
       geodesic: true,
       strokeOpacity: 0
-    })
+    });
   } else {
     return new google.maps.Polyline({
       path: google.maps.geometry.encoding.decodePath(path.polyline),
@@ -128,47 +156,45 @@ function polylineForPath (path) {
       strokeColor: "#" + path.color,
       strokeOpacity: 1.0,
       strokeWeight: path.weight
-    })
+    });
   }
 }
 
-function renderMarker (mapOffset) {
-  return (markerData, offset) => {
+function renderMarkerFunction(el, bound) {
+  return (markerData, index) => {
+    const map = cachedMapFor(el);
     var lat = markerData.latitude;
     var lng = markerData.longitude;
     var content = markerData.tooltip;
-    var key = markerData.z_index + offset;
+    var key = markerData.z_index + index;
     var iconSize = getIconSize(markerData.size);
     var icon = buildIcon(markerData.icon, iconSize);
 
     // Add a marker to map
     if (markerData["visible?"]) {
-      markers[key] = new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: {lat: lat, lng: lng},
-        map: maps[mapOffset],
+        map: map,
         icon: icon,
-        zIndex: markerData.z_index + offset
+        zIndex: markerData.z_index + index
       });
 
       // Display information about
       if (content) {
-        markers[key].addListener("mouseover", showInfoWindow(maps[mapOffset], markers[key], content));
-        markers[key].addListener("mouseout", () => { closeInfoWindow(); });
+        marker.addListener("mouseover", showInfoWindow(map, marker, content));
+        marker.addListener("mouseout", () => { closeInfoWindow(); });
       }
     }
 
     // Extend the boundaries of the map to include this marker
-    bounds[mapOffset].extend(new google.maps.LatLng(lat, lng));
-  }
+    bound.extend(new google.maps.LatLng(lat, lng));
+  };
 }
 
-export function getZoom(mapOffset) {
-  return maps[mapOffset].getZoom();
-}
-
-export function triggerResize(mapOffset) {
-  google.maps.event.trigger(maps[mapOffset], "resize");
-  reevaluateMapBound(mapOffset);
+export function triggerResize(el) {
+  const map = cachedMapFor(el);
+  google.maps.event.trigger(map, "resize");
+  reevaluateMapBoundByIndex(el.attributes["data-index"]);
 }
 
 // When there are very few markers, map will zoom in too close. 17 is a reasonable zoom level to see a small
@@ -188,26 +214,34 @@ function showInfoWindow(map, marker, content) {
     }
     infoWindow = new google.maps.InfoWindow({content: content});
     infoWindow.open(map, marker);
-  }
+  };
 }
 
 function closeInfoWindow() {
   infoWindow.close();
+  infoWindow = null;
 }
 
 // If the map container size changes, recalulate the positioning of the map contents
 function reevaluateMapBounds() {
-  for (var offset in maps) {
-    reevaluateMapBound(offset);
+  for (var index in maps) {
+    reevaluateMapBoundByIndex(index);
   }
 }
 
-function reevaluateMapBound(offset) {
-  if (Object.keys(markers).length > 1) {
-    maps[offset].fitBounds(bounds[offset]);
-    maps[offset].panToBounds(bounds[offset]);
+function reevaluateMapBoundByIndex(index) {
+  const map = maps[index];
+  const bound = bounds[index];
+  const ne = bound.getNorthEast();
+  const sw = bound.getSouthWest();
+  // if the north-east and south-west corners are the same, it's a
+  // single-bound bounds, so just set the center
+  if (ne.equals(sw)) {
+    map.setCenter(ne);
   } else {
-    maps[offset].setCenter(bounds[offset].getCenter());
+    // otherwise, pan to the bounds
+    map.fitBounds(bound);
+    map.panToBounds(bound);
   }
 }
 
