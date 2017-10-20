@@ -220,4 +220,26 @@ defmodule Site.StopControllerTest do
       assert StopController.access_alerts(@alerts, %Stops.Stop{id: "place-davis"}) == []
     end
   end
+
+  describe "breadcrumbs/2" do
+    test "returns station breadcrumbs if the stop is served by more than buses" do
+      stop = %Stops.Stop{name: "Name", station?: true}
+      routes = [%Routes.Route{id: "CR-Lowell", type: 2}]
+      assert StopController.breadcrumbs(stop, routes) == [
+        %Util.Breadcrumb{text: "Stations", url: "/stops/commuter_rail"},
+        %Util.Breadcrumb{text: "Name", url: ""}
+      ]
+    end
+
+    test "returns simple breadcrumb if the stop is served by only buses" do
+      stop = %Stops.Stop{name: "Dudley Station"}
+      routes = [%Routes.Route{id: "28", type: 3}]
+      assert StopController.breadcrumbs(stop, routes) == [%Util.Breadcrumb{text: "Dudley Station", url: ""}]
+    end
+
+    test "returns simple breadcrumb if we have no route info for the stop" do
+      stop = %Stops.Stop{name: "Name", station?: true}
+      assert StopController.breadcrumbs(stop, []) == [%Util.Breadcrumb{text: "Name", url: ""}]
+    end
+  end
 end

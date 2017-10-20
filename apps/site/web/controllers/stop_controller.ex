@@ -36,12 +36,13 @@ defmodule Site.StopController do
     |> Repo.get
 
     if stop do
+      routes = Routes.Repo.by_stop(stop.id)
       conn
-      |> async_assign(:grouped_routes, fn -> grouped_routes(stop.id) end)
+      |> async_assign(:grouped_routes, fn -> grouped_routes(routes) end)
       |> async_assign(:zone_number, fn -> Zones.Repo.get(stop.id) end)
-      |> assign(:breadcrumbs, breadcrumbs(stop))
+      |> assign(:breadcrumbs, breadcrumbs(stop, routes))
       |> assign(:tab, tab_value(query_params["tab"]))
-      |> tab_assigns(stop)
+      |> tab_assigns(stop, routes)
       |> await_assign_all()
       |> render("show.html", stop: stop)
     else
@@ -57,26 +58,24 @@ defmodule Site.StopController do
     |> halt
   end
 
-  @spec grouped_routes(String.t) :: [{Route.gtfs_route_type, Route.t}]
-  defp grouped_routes(stop_id) do
-    stop_id
-    |> Routes.Repo.by_stop
+  @spec grouped_routes([Routes.Route.t]) :: [{Route.gtfs_route_type, Route.t}]
+  defp grouped_routes(routes) do
+    routes
     |> Enum.group_by(&Route.type_atom/1)
     |> Enum.sort_by(&Routes.Group.sorter/1)
   end
 
-  @spec breadcrumbs(Stop.t) :: [Util.Breadcrumb.t]
-  defp breadcrumbs(%Stop{station?: true, name: name, id: id}) do
-    case Routes.Repo.by_stop(id) do
-      [] -> breadcrumbs_for_station_type(nil, name)
-      routes ->
-        routes
-        |> Enum.min_by(& &1.type)
-        |> Routes.Route.type_atom
-        |> breadcrumbs_for_station_type(name)
-    end
+  @spec breadcrumbs(Stop.t, [Routes.Route.t]) :: [Util.Breadcrumb.t]
+  def breadcrumbs(%Stop{name: name}, []) do
+    breadcrumbs_for_station_type(nil, name)
   end
-  defp breadcrumbs(%Stop{name: name}) do
+  def breadcrumbs(%Stop{station?: true, name: name}, routes) do
+    routes
+    |> Enum.min_by(& &1.type)
+    |> Routes.Route.type_atom
+    |> breadcrumbs_for_station_type(name)
+  end
+  def breadcrumbs(%Stop{name: name}, _routes) do
     breadcrumbs_for_station_type(nil, name)
   end
 
@@ -96,10 +95,11 @@ defmodule Site.StopController do
   defp tab_value("departures"), do: "departures"
   defp tab_value(_), do: "info"
 
-  defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop) do
+  @spec tab_assigns(Plug.Conn.t, Stop.t, [Routes.Route.t]) :: Plug.Conn.t
+  defp tab_assigns(%{assigns: %{tab: "info", all_alerts: alerts}} = conn, stop, routes) do
     conn
-    |> async_assign(:fare_name, fn -> fare_name(stop) end)
-    |> async_assign(:terminal_stations, fn -> terminal_stations(stop) end)
+    |> async_assign(:fare_name, fn -> fare_name(stop, routes) end)
+    |> async_assign(:terminal_stations, fn -> terminal_stations(routes) end)
     |> async_assign(:fare_sales_locations, fn -> Fares.RetailLocations.get_nearby(stop) end)
     |> assign(:access_alerts, access_alerts(alerts, stop))
     |> assign(:requires_google_maps?, true)
@@ -107,7 +107,7 @@ defmodule Site.StopController do
     |> assign(:stop_alerts, stop_alerts(alerts, stop))
     |> await_assign_all()
   end
-  defp tab_assigns(%{assigns: %{tab: "departures", all_alerts: alerts}} = conn, stop) do
+  defp tab_assigns(%{assigns: %{tab: "departures", all_alerts: alerts}} = conn, stop, _routes) do
     conn
     |> async_assign(:stop_schedule, fn -> stop_schedule(stop.id, conn.assigns.date) end)
     |> async_assign(:stop_predictions, fn -> stop_predictions(stop.id) end)
@@ -124,8 +124,8 @@ defmodule Site.StopController do
     assign(conn, :upcoming_route_departures, route_time_list)
   end
 
-  defp fare_name(stop) do
-    stop
+  defp fare_name(stop, routes) do
+    routes
     |> terminal_stations
     |> Enum.reject(fn {_mode, terminal} -> terminal == "" end)
     |> Enum.find_value(&lookup_fare(&1, stop))
@@ -139,17 +139,17 @@ defmodule Site.StopController do
   end
 
   # Returns the last station on the commuter rail lines traveling through the given stop, or the empty string
-  # if the stop doesn't serve commuter rail. Note that this assumes that all CR lines at a station have the
+  # if none of the routes are commuter rail. Note that this assumes that all CR lines at a station have the
   # same terminal, which is currently true but could conceivably change in the future.
 
-  @spec terminal_stations(Stop.t) :: %{2 => String.t, 4 => String.t}
-  defp terminal_stations(stop) do
-    Map.new([2, 4], &{&1, terminal_station_for_type(stop.id, &1)})
+  @spec terminal_stations([Routes.Route.t]) :: %{2 => String.t, 4 => String.t}
+  defp terminal_stations(routes) do
+    Map.new([2, 4], &{&1, terminal_station_for_type(routes, &1)})
   end
 
-  defp terminal_station_for_type(stop_id, type) do
-    stop_id
-    |> Routes.Repo.by_stop(type: type)
+  defp terminal_station_for_type(routes, type) do
+    routes
+    |> Enum.filter(fn route -> route.type == type end)
     |> do_terminal_stations(type)
   end
 
