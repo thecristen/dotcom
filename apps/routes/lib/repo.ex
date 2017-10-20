@@ -150,10 +150,10 @@ defmodule Routes.Repo do
   end
 
   @spec handle_response(JsonApi.t | {:error, any}) :: {:ok, [Routes.Route.t]} | {:error, any}
-  defp handle_response({:error, reason}) do
+  def handle_response({:error, reason}) do
     {:error, reason}
   end
-  defp handle_response(%{data: data}) do
+  def handle_response(%{data: data}) do
     {:ok, data
     |> Enum.reject(&route_hidden?/1)
     |> Enum.map(&parse_route/1)

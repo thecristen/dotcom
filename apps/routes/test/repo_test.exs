@@ -196,6 +196,37 @@ defmodule Routes.RepoTest do
     end
   end
 
+  describe "handle_response/1" do
+    test "parses routes" do
+      response = %JsonApi{data: [
+        %JsonApi.Item{attributes: %{"description" => "Local Bus", "direction_names" => ["Outbound", "Inbound"],
+          "long_name" => "", "short_name" => "16", "sort_order" => 1600, "type" => 3},
+          id: "16", relationships: %{}, type: "route"},
+        %JsonApi.Item{attributes: %{"description" => "Local Bus", "direction_names" => ["Outbound", "Inbound"],
+          "long_name" => "", "short_name" => "36", "sort_order" => 3600, "type" => 3},
+          id: "36", relationships: %{}, type: "route"},
+      ], links: %{}}
+      assert {:ok, [%Routes.Route{id: "16"}, %Routes.Route{id: "36"}]} = Routes.Repo.handle_response(response)
+    end
+
+    test "removes hidden routes" do
+      response = %JsonApi{data: [
+        %JsonApi.Item{attributes: %{"description" => "Local Bus", "direction_names" => ["Outbound", "Inbound"],
+          "long_name" => "", "short_name" => "36", "sort_order" => 3600, "type" => 3},
+          id: "36", relationships: %{}, type: "route"},
+        %JsonApi.Item{attributes: %{"description" => "Limited Service", "direction_names" => ["Outbound", "Inbound"],
+          "long_name" => "", "short_name" => "9701", "sort_order" => 970_100, "type" => 3},
+          id: "9701", relationships: %{}, type: "route"},
+      ], links: %{}}
+      assert {:ok, [%Routes.Route{id: "36"}]} = Routes.Repo.handle_response(response)
+    end
+
+    test "passes errors through" do
+      error = {:error, %HTTPoison.Error{id: nil, reason: :timeout}}
+      assert Routes.Repo.handle_response(error) == error
+    end
+  end
+
   describe "get_shapes/2" do
     test "Get valid response for bus route" do
       shapes = Routes.Repo.get_shapes("9", 1)
