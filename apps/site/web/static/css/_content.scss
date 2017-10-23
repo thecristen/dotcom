@@ -148,8 +148,8 @@
 .multi-column-wrapper {
   @include media-breakpoint-up(md) {
     .column-content {
+      border-left: solid 1px $gray-bordered-background;
       padding-left: $base-spacing;
-      border-left: solid 1px #f2f3f5;
     }
   }
 }
