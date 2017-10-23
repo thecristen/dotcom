@@ -11,7 +11,7 @@
   ],
   "vid": [
     {
-      "value": 4973
+      "value": 4988
     }
   ],
   "langcode": [
@@ -51,7 +51,7 @@
   ],
   "changed": [
     {
-      "value": 1508717785
+      "value": 1508792302
     }
   ],
   "promote": [
@@ -66,7 +66,7 @@
   ],
   "revision_timestamp": [
     {
-      "value": 1508717785
+      "value": 1508792302
     }
   ],
   "revision_uid": [
@@ -148,7 +148,7 @@
   "field_paragraphs": [
     {
       "target_id": 35,
-      "target_revision_id": 4169,
+      "target_revision_id": 4445,
       "id": [
         {
           "value": 35
@@ -161,7 +161,7 @@
       ],
       "revision_id": [
         {
-          "value": 4169
+          "value": 4445
         }
       ],
       "type": [
@@ -229,289 +229,14 @@
       ],
       "field_custom_html_body": [
         {
-          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set</a></li>\r\n\t<li><a href=\"#people-grid\">People Grid</a></li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting</a></li>\r\n\t<li><a href=\"#files-grid\">Files Grid</a></li>\r\n\t<li><a href=\"#call-to-action\">Call to Action</a></li>\r\n</ul>\r\n",
+          "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them. <strong>Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\r\n\t<li><a href=\"#multi-column\">Multi-Column</a></li>\r\n\t<li><a href=\"#title-card-set\">Title Card Set</a></li>\r\n\t<li><a href=\"#people-grid\">People Grid</a></li>\r\n\t<li><a href=\"#upcoming-board-meetings\">Upcoming Board Meeting</a></li>\r\n\t<li><a href=\"#files-grid\">Files Grid</a></li>\r\n\t<li><a href=\"#call-to-action\">Call to Action</a></li>\r\n</ul>\r\n",
           "format": "basic_html"
         }
       ]
     },
     {
-      "target_id": 348,
-      "target_revision_id": 4172,
-      "id": [
-        {
-          "value": 348
-        }
-      ],
-      "uuid": [
-        {
-          "value": "0722a015-667c-4731-8b4d-7b8ea27204ee"
-        }
-      ],
-      "revision_id": [
-        {
-          "value": 4172
-        }
-      ],
-      "type": [
-        {
-          "target_id": "multi_column",
-          "target_type": "paragraphs_type",
-          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
-        }
-      ],
-      "langcode": [
-        {
-          "value": "en"
-        }
-      ],
-      "uid": [
-        {
-          "target_id": 29,
-          "target_type": "user",
-          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
-          "url": "/user/29"
-        }
-      ],
-      "status": [
-        {
-          "value": true
-        }
-      ],
-      "created": [
-        {
-          "value": 1508716373
-        }
-      ],
-      "revision_uid": [
-        {
-          "target_id": 29,
-          "target_type": "user",
-          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
-          "url": "/user/29"
-        }
-      ],
-      "parent_id": [
-        {
-          "value": "2617"
-        }
-      ],
-      "parent_type": [
-        {
-          "value": "node"
-        }
-      ],
-      "parent_field_name": [
-        {
-          "value": "field_paragraphs"
-        }
-      ],
-      "behavior_settings": [
-        {
-          "value": "a:0:{}"
-        }
-      ],
-      "default_langcode": [
-        {
-          "value": true
-        }
-      ],
-      "field_column": [
-        {
-          "target_id": 346,
-          "target_revision_id": 4170,
-          "id": [
-            {
-              "value": 346
-            }
-          ],
-          "uuid": [
-            {
-              "value": "b5d3332e-661f-4c3a-a63a-69ea9fec1a56"
-            }
-          ],
-          "revision_id": [
-            {
-              "value": 4170
-            }
-          ],
-          "type": [
-            {
-              "target_id": "column",
-              "target_type": "paragraphs_type",
-              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
-            }
-          ],
-          "langcode": [
-            {
-              "value": "en"
-            }
-          ],
-          "uid": [
-            {
-              "target_id": 29,
-              "target_type": "user",
-              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
-              "url": "/user/29"
-            }
-          ],
-          "status": [
-            {
-              "value": true
-            }
-          ],
-          "created": [
-            {
-              "value": 1508716386
-            }
-          ],
-          "revision_uid": [
-            {
-              "target_id": 29,
-              "target_type": "user",
-              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
-              "url": "/user/29"
-            }
-          ],
-          "parent_id": [
-            {
-              "value": "348"
-            }
-          ],
-          "parent_type": [
-            {
-              "value": "paragraph"
-            }
-          ],
-          "parent_field_name": [
-            {
-              "value": "field_column"
-            }
-          ],
-          "behavior_settings": [
-            {
-              "value": "a:0:{}"
-            }
-          ],
-          "default_langcode": [
-            {
-              "value": true
-            }
-          ],
-          "field_column_body": [
-            {
-              "value": "<p>Body for column 1</p>\r\n",
-              "format": "basic_html"
-            }
-          ],
-          "field_column_header": [
-            {
-              "value": "Col1"
-            }
-          ]
-        },
-        {
-          "target_id": 347,
-          "target_revision_id": 4171,
-          "id": [
-            {
-              "value": 347
-            }
-          ],
-          "uuid": [
-            {
-              "value": "0dbbe689-b11c-47b4-8856-469131d6a8d5"
-            }
-          ],
-          "revision_id": [
-            {
-              "value": 4171
-            }
-          ],
-          "type": [
-            {
-              "target_id": "column",
-              "target_type": "paragraphs_type",
-              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
-            }
-          ],
-          "langcode": [
-            {
-              "value": "en"
-            }
-          ],
-          "uid": [
-            {
-              "target_id": 29,
-              "target_type": "user",
-              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
-              "url": "/user/29"
-            }
-          ],
-          "status": [
-            {
-              "value": true
-            }
-          ],
-          "created": [
-            {
-              "value": 1508716399
-            }
-          ],
-          "revision_uid": [
-            {
-              "target_id": 29,
-              "target_type": "user",
-              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
-              "url": "/user/29"
-            }
-          ],
-          "parent_id": [
-            {
-              "value": "348"
-            }
-          ],
-          "parent_type": [
-            {
-              "value": "paragraph"
-            }
-          ],
-          "parent_field_name": [
-            {
-              "value": "field_column"
-            }
-          ],
-          "behavior_settings": [
-            {
-              "value": "a:0:{}"
-            }
-          ],
-          "default_langcode": [
-            {
-              "value": true
-            }
-          ],
-          "field_column_body": [
-            {
-              "value": "<p>Body for column 2</p>\r\n",
-              "format": "basic_html"
-            }
-          ],
-          "field_column_header": [
-            {
-              "value": "Col2"
-            }
-          ]
-        }
-      ],
-      "field_section_title": [
-        {
-          "value": "Multi-Column"
-        }
-      ]
-    },
-    {
       "target_id": 36,
-      "target_revision_id": 4173,
+      "target_revision_id": 4446,
       "id": [
         {
           "value": 36
@@ -524,7 +249,7 @@
       ],
       "revision_id": [
         {
-          "value": 4173
+          "value": 4446
         }
       ],
       "type": [
@@ -598,8 +323,444 @@
       ]
     },
     {
+      "target_id": 352,
+      "target_revision_id": 4447,
+      "id": [
+        {
+          "value": 352
+        }
+      ],
+      "uuid": [
+        {
+          "value": "e2229a9f-0d2d-438e-aeac-922d1fb97852"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 4447
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1508789443
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h3 id=\"multi-column\">Multi-Column</h3>\r\n\r\n<p>The Multi-Column paragraph allows you to add 2-4 columns side-by-side, with custom HTML within each. Do not use this for \"newspaper\" style columns, as they will not flow from one column to the next. This is more of a way to break up similar chunks of data, so please think of it as more of a single-row table. Column headlines (H4) are recommended.</p>\r\n",
+          "format": "full_html"
+        }
+      ]
+    },
+    {
+      "target_id": 348,
+      "target_revision_id": 4451,
+      "id": [
+        {
+          "value": 348
+        }
+      ],
+      "uuid": [
+        {
+          "value": "0722a015-667c-4731-8b4d-7b8ea27204ee"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 4451
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1508716373
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2617"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "field_column": [
+        {
+          "target_id": 346,
+          "target_revision_id": 4448,
+          "id": [
+            {
+              "value": 346
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b5d3332e-661f-4c3a-a63a-69ea9fec1a56"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 4448
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1508716386
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "348"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_column_body": [
+            {
+              "value": "<h4>Column A Headline</h4>\r\n\r\n<p>Body for <strong>column</strong> 1</p>\r\n\r\n<p>Has two paragraphs :)</p>\r\n",
+              "format": "basic_html"
+            }
+          ]
+        },
+        {
+          "target_id": 347,
+          "target_revision_id": 4449,
+          "id": [
+            {
+              "value": 347
+            }
+          ],
+          "uuid": [
+            {
+              "value": "0dbbe689-b11c-47b4-8856-469131d6a8d5"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 4449
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1508716399
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "348"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_column_body": [
+            {
+              "value": "<h4>Column B Headline</h4>\r\n\r\n<p>Body for column 2 has an image:</p>\r\n\r\n<p><img alt=\"PollackBio.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"285\" src=\"/sites/default/files/PollackBio.jpg\" width=\"190\" /></p>\r\n",
+              "format": "basic_html"
+            }
+          ]
+        },
+        {
+          "target_id": 350,
+          "target_revision_id": 4450,
+          "id": [
+            {
+              "value": 350
+            }
+          ],
+          "uuid": [
+            {
+              "value": "de8ea0da-d028-46e0-907b-958f44c2fc53"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 4450
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1508782952
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "348"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "field_column_body": [
+            {
+              "value": "<p>Headlines are optional, but recommended. This paragraph will always line up with the top of adjacent columns, regardless of the presence of a headline (h4) element.</p>\r\n",
+              "format": "basic_html"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "target_id": 37,
-      "target_revision_id": 4174,
+      "target_revision_id": 4452,
       "id": [
         {
           "value": 37
@@ -612,7 +773,7 @@
       ],
       "revision_id": [
         {
-          "value": 4174
+          "value": 4452
         }
       ],
       "type": [
@@ -687,7 +848,7 @@
     },
     {
       "target_id": 40,
-      "target_revision_id": 4177,
+      "target_revision_id": 4455,
       "id": [
         {
           "value": 40
@@ -700,7 +861,7 @@
       ],
       "revision_id": [
         {
-          "value": 4177
+          "value": 4455
         }
       ],
       "type": [
@@ -769,7 +930,7 @@
       "field_title_cards": [
         {
           "target_id": 38,
-          "target_revision_id": 4175,
+          "target_revision_id": 4453,
           "id": [
             {
               "value": 38
@@ -782,7 +943,7 @@
           ],
           "revision_id": [
             {
-              "value": 4175
+              "value": 4453
             }
           ],
           "type": [
@@ -869,7 +1030,7 @@
         },
         {
           "target_id": 39,
-          "target_revision_id": 4176,
+          "target_revision_id": 4454,
           "id": [
             {
               "value": 39
@@ -882,7 +1043,7 @@
           ],
           "revision_id": [
             {
-              "value": 4176
+              "value": 4454
             }
           ],
           "type": [
@@ -971,7 +1132,7 @@
     },
     {
       "target_id": 41,
-      "target_revision_id": 4178,
+      "target_revision_id": 4456,
       "id": [
         {
           "value": 41
@@ -984,7 +1145,7 @@
       ],
       "revision_id": [
         {
-          "value": 4178
+          "value": 4456
         }
       ],
       "type": [
@@ -1059,7 +1220,7 @@
     },
     {
       "target_id": 42,
-      "target_revision_id": 4179,
+      "target_revision_id": 4457,
       "id": [
         {
           "value": 42
@@ -1072,7 +1233,7 @@
       ],
       "revision_id": [
         {
-          "value": 4179
+          "value": 4457
         }
       ],
       "type": [
@@ -1518,7 +1679,7 @@
     },
     {
       "target_id": 43,
-      "target_revision_id": 4180,
+      "target_revision_id": 4458,
       "id": [
         {
           "value": 43
@@ -1531,7 +1692,7 @@
       ],
       "revision_id": [
         {
-          "value": 4180
+          "value": 4458
         }
       ],
       "type": [
@@ -1606,7 +1767,7 @@
     },
     {
       "target_id": 44,
-      "target_revision_id": 4181,
+      "target_revision_id": 4459,
       "id": [
         {
           "value": 44
@@ -1619,7 +1780,7 @@
       ],
       "revision_id": [
         {
-          "value": 4181
+          "value": 4459
         }
       ],
       "type": [
@@ -1689,7 +1850,7 @@
     },
     {
       "target_id": 45,
-      "target_revision_id": 4182,
+      "target_revision_id": 4460,
       "id": [
         {
           "value": 45
@@ -1702,7 +1863,7 @@
       ],
       "revision_id": [
         {
-          "value": 4182
+          "value": 4460
         }
       ],
       "type": [
@@ -1777,7 +1938,7 @@
     },
     {
       "target_id": 46,
-      "target_revision_id": 4183,
+      "target_revision_id": 4461,
       "id": [
         {
           "value": 46
@@ -1790,7 +1951,7 @@
       ],
       "revision_id": [
         {
-          "value": 4183
+          "value": 4461
         }
       ],
       "type": [
@@ -1898,7 +2059,7 @@
     },
     {
       "target_id": 67,
-      "target_revision_id": 4184,
+      "target_revision_id": 4462,
       "id": [
         {
           "value": 67
@@ -1911,7 +2072,7 @@
       ],
       "revision_id": [
         {
-          "value": 4184
+          "value": 4462
         }
       ],
       "type": [
@@ -1986,7 +2147,7 @@
     },
     {
       "target_id": 47,
-      "target_revision_id": 4185,
+      "target_revision_id": 4463,
       "id": [
         {
           "value": 47
@@ -1999,7 +2160,7 @@
       ],
       "revision_id": [
         {
-          "value": 4185
+          "value": 4463
         }
       ],
       "type": [

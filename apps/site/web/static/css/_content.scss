@@ -145,6 +145,14 @@
   margin-bottom: $base-spacing;
 }
 
+.multi-column-wrapper {
+  @include media-breakpoint-up(md) {
+    .column-content {
+      padding-left: $base-spacing;
+      border-left: solid 1px #f2f3f5;
+    }
+  }
+}
 .iframe-container {
   @include media-breakpoint-down(sm) {
     height: 0;

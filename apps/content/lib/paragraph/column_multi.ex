@@ -1,7 +1,4 @@
 defmodule Content.Paragraph.ColumnMulti do
-  import Content.Helpers, only: [
-    field_value: 2
-  ]
 
   defstruct [columns: [], header: nil]
 
@@ -18,7 +15,6 @@ defmodule Content.Paragraph.ColumnMulti do
       |> Enum.map(&Content.Paragraph.Column.from_api/1)
 
     %__MODULE__{
-      header: field_value(data, "field_section_title"),
       columns: columns
     }
   end
