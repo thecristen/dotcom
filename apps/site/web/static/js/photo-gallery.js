@@ -121,7 +121,7 @@ function render (id, focusId) {
           id="${id + "primary"}"
           alt="${mainImage.getAttribute("alt")}"
           src="${mainImage.getAttribute("src")}">
-        <div class="photo-gallery-selected-title">${mainImage.getAttribute("alt")}</div>
+        <div id="${id + "name"}" class="photo-gallery-selected-title">${mainImage.getAttribute("alt")}</div>
       </div>
       <div id="${id + "images"}" class="photo-gallery-images">
         ${renderImages(images, firstImage, id)}
@@ -171,6 +171,8 @@ function renderImages (images, firstImage, id) {
 
 function replaceActiveImage (id, image) {
   const activeImage = document.getElementById(id + "primary");
+  const activeImageName = document.getElementById(id + "name");
   activeImage.setAttribute("src", image.getAttribute("src"));
   activeImage.setAttribute("alt", image.getAttribute("alt"));
+  activeImageName.innerHTML = image.getAttribute("alt");
 }
