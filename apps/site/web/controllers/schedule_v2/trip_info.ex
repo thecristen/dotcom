@@ -113,11 +113,18 @@ defmodule Site.ScheduleV2Controller.TripInfo do
     # returns true if the Journey has a trip that's departing in the future
     PredictedSchedule.map_optional(departure, [:prediction, :schedule], false, fn x ->
       if x.time && x.trip do
-        Timex.after?(x.time, now)
+        compare(x.time, now) == :gt
       else
         false
       end
     end)
+  end
+
+  defp compare(%DateTime{} = a, %DateTime{} = b) do
+    DateTime.compare(a, b)
+  end
+  defp compare(%NaiveDateTime{} = a, %NaiveDateTime{} = b) do
+    NaiveDateTime.compare(a, b)
   end
 
   defp build_trip_times(schedules, %{date_time: date_time} = assigns, trip_id, prediction_fn) do
@@ -136,7 +143,7 @@ defmodule Site.ScheduleV2Controller.TripInfo do
 
   @spec show_trips?(DateTime.t, DateTime.t, integer, String.t) :: boolean
   def show_trips?(user_selected_date, current_date_time, route_type, route_id) when Route.subway?(route_type, route_id) do
-    Timex.diff(user_selected_date, current_date_time, :days) == 0
+    Date.diff(user_selected_date, current_date_time) == 0
   end
   def show_trips?(_date, _current_date_time, _route_type, _route_id), do: true
 end

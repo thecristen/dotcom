@@ -40,7 +40,7 @@ defmodule Site.ScheduleV2Controller.Predictions do
     false
   end
   def should_fetch_predictions?(%{assigns: assigns}) do
-    assigns.date == Util.service_date(assigns.date_time)
+    Date.compare(assigns.date, Util.service_date(assigns.date_time)) == :eq
   end
 
   @spec predictions(Plug.Conn.t, predictions_fn) :: [Prediction.t]

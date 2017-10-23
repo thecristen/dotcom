@@ -19,7 +19,7 @@ defmodule Util.EnumHelpers do
   end
 
   defp do_with_first_last([last], acc) do
-    Enum.reverse([{last, true} | acc])
+    Enum.reverse(acc, [{last, true}])
   end
   defp do_with_first_last([item | rest], acc) do
     do_with_first_last(rest, [{item, false} | acc])

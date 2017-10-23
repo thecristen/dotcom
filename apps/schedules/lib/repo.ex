@@ -37,7 +37,7 @@ defmodule Schedules.Repo do
     @default_params
     |> Keyword.merge(opts)
     |> Keyword.put(:trip, trip_id)
-    |> Keyword.put_new(:date, Util.service_date)
+    |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache(&all_from_params/1)
     |> load_from_other_repos
   end

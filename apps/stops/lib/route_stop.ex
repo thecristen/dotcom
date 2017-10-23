@@ -25,10 +25,11 @@ defmodule Stops.RouteStop do
   @type t :: %__MODULE__{
     id: Stops.Stop.id_t,
     name: String.t,
-    zone: String.t,
+    zone: String.t | {:error, :not_fetched},
     branch: branch_name_t,
     station_info: Stops.Stop.t,
-    stop_features: [Stops.Repo.stop_feature],
+    route: Routes.Route.t | nil,
+    stop_features: [Stops.Repo.stop_feature] | {:error, :not_fetched},
     is_terminus?: boolean,
     is_beginning?: boolean
   }
@@ -36,10 +37,11 @@ defmodule Stops.RouteStop do
   defstruct [
     :id,
     :name,
-    :zone,
     :branch,
     :station_info,
-    stop_features: [],
+    :route,
+    zone: {:error, :not_fetched},
+    stop_features: {:error, :not_fetched},
     is_terminus?: false,
     is_beginning?: false
   ]
@@ -79,29 +81,61 @@ defmodule Stops.RouteStop do
   defp do_list_from_shapes(shape_name, stop_ids, [%Stops.Stop{}|_] = stops, route) do
     stops = Map.new(stops, &{&1.id, &1})
     stop_ids
-    |> Enum.map(& Map.get(stops, &1))
-    |> Enum.filter(& &1)
+    |> Enum.flat_map(fn stop_id ->
+      case Map.fetch(stops, stop_id) do
+        {:ok, stop} -> [stop]
+        :error -> []
+      end
+    end)
     |> Util.EnumHelpers.with_first_last()
     |> Enum.with_index
-    |> Task.async_stream(&build_route_stop(&1, shape_name, route))
-    |> Enum.map(fn {:ok, stop} -> stop end)
+    |> Enum.map(fn {{stop, first_or_last?}, idx} ->
+      first? = idx == 0
+      last? = first_or_last? and idx > 0
+      build_route_stop(stop, route, first?: first?, last?: last?, branch: shape_name)
+    end)
   end
 
   @doc """
   Builds a RouteStop from information about a stop.
   """
-  @spec build_route_stop({{Stops.Stop.t, boolean}, non_neg_integer}, String.t | nil, Routes.Route.t) :: RouteStop.t
-  def build_route_stop({{%Stops.Stop{} = stop, is_terminus?}, idx}, shape_name, route) do
+  @spec build_route_stop(Stops.Stop.t, Routes.Route.t, Keyword.t) :: RouteStop.t
+  def build_route_stop(%Stops.Stop{} = stop, route, opts \\ []) do
+    branch = Keyword.get(opts, :branch)
+    first? = Keyword.get(opts, :first?) == true
+    last? = Keyword.get(opts, :last?) == true
     %RouteStop{
       id: stop.id,
       name: stop.name,
       station_info: stop,
-      branch: shape_name,
-      is_terminus?: is_terminus?,
-      is_beginning?: idx == 0,
-      zone: Zones.Repo.get(stop.id),
-      stop_features: Stops.Repo.stop_features(stop, exclude: [Routes.Route.icon_atom(route)])
+      route: route,
+      branch: branch,
+      is_terminus?: first? or last?,
+      is_beginning?: first?
     }
+  end
+
+  @spec fetch_zone(t) :: t
+  def fetch_zone(%__MODULE__{zone: {:error, :not_fetched}} = route_stop) do
+    %{route_stop | zone: Zones.Repo.get(route_stop.id)}
+  end
+
+  @spec fetch_stop_features(t) :: t
+  def fetch_stop_features(%__MODULE__{stop_features: {:error, :not_fetched}} = route_stop) do
+    features = route_stop_features(route_stop.route, route_stop.station_info)
+    %{route_stop | stop_features: features}
+  end
+
+  @spec route_stop_features(Routes.Route.t | nil, Stops.Stop.t) :: [Stops.Repo.stop_feature]
+  defp route_stop_features(route, stop)
+  defp route_stop_features(nil, _stop) do
+    []
+  end
+  defp route_stop_features(route, stop) do
+    exclude = [
+      Routes.Route.icon_atom(route)
+    ]
+    Stops.Repo.stop_features(stop, exclude: exclude)
   end
 
   @spec merge_branch_list([[RouteStop.t]], direction_id_t) :: [RouteStop.t]
