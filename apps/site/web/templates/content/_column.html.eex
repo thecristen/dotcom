@@ -1,4 +1,10 @@
-<div class="multi-column-column">
-  <h3><%= ContentRewriter.rewrite(@columns.title) %></h3>
-  <%= ContentRewriter.rewrite(@columns.body) %>
+<div class="column-contents">
+<%= if @columns.title do %>
+  <h4 class="column-header"><%= ContentRewriter.rewrite(@columns.title) %></h4>
+<% end %>
+<%= if @columns.body do %>
+  <div class="column-body">
+    <%= ContentRewriter.rewrite(@columns.body) %>
+  </div>
+<% end %>
 </div>

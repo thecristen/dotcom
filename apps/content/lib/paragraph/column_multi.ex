@@ -6,7 +6,7 @@ defmodule Content.Paragraph.ColumnMulti do
   defstruct [columns: [], header: nil]
 
   @type t :: %__MODULE__{
-    header: String.t | nil,    
+    header: String.t | nil,
     columns: [Content.Paragraph.Column.t]
   }
 

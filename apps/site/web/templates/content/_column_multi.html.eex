@@ -1,14 +1,13 @@
-<div class="title-card-container title-card-container-separate">
-  <h2><%= ContentRewriter.rewrite(@paragraph.header) %></h2>
-  <%= for columns <- Enum.chunk(@paragraph.columns, 2, 2, []) do %>
-    <div class="row">
-      <%= for column <- columns do %>
-        <div class="col-md-6 col-sm-12">
-            <div class="title-card title-card-link-type">
-              <%= render "_column.html", columns: column %>
-            </div>
-        </div>
-      <% end %>
-    </div>
+<div class="multi-column-wrapper">
+  <%= if @paragraph.header do %>
+    <h2><%= ContentRewriter.rewrite(@paragraph.header) %></h2>
   <% end %>
+  <div class="row">
+    <% grid = round(12/Enum.count(@paragraph.columns)) %>
+    <%= for {column, i} <- Enum.with_index(@paragraph.columns) do %>
+      <div class="col-md-<%= grid %> col-<%= i+1 %>">
+        <%= render "_column.html", columns: column %>
+      </div>
+    <% end %>
+  </div>
 </div>
