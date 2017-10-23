@@ -1,0 +1,4 @@
+<div class="multi-column-column">
+  <h3><%= ContentRewriter.rewrite(@columns.title) %></h3>
+  <%= ContentRewriter.rewrite(@columns.body) %>
+</div>
