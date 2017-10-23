@@ -92,16 +92,17 @@ export function getFriendlyDate(date) {
   return date.toLocaleDateString("en-US", options);
 }
 
-function getFriendlyTime(datetime) {
-  const options = {hour12: true, hour: "numeric", minute: "2-digit"}
+export function getFriendlyTime(datetime) {
   let amPm = "AM";
   let hour = datetime.getHours();
   let minute = datetime.getMinutes();
-  if (hour > 11) {
-    hour -= 12;
-    amPm = "PM";
-  }
-  if (minute < 10) { minute = `0${minute}` }
+
+  if (hour > 11) { amPm = "PM"; }
+  if (hour > 12) { hour -= 12; }
+  if (hour === 0) { hour = 12; }
+
+  if (minute < 10) { minute = `0${minute}`; }
+
   return `${hour}:${minute} ${amPm}`
 }
 
@@ -152,9 +153,9 @@ function showTimeLink(ev) {
 
 function updateTime() {
   const time = new Date();
-  const hour12 = document.getElementById(DATE_TIME_IDS.hour).value
+  const hour12 = parseInt(document.getElementById(DATE_TIME_IDS.hour).value) % 12
   const amPm = document.getElementById(DATE_TIME_IDS.amPm).value
-  const hour = amPm == "PM" ? parseInt(hour12) + 12 : hour12;
+  const hour = amPm == "PM" ? hour12 + 12 : hour12;
   time.setHours(hour);
   time.setMinutes(document.getElementById(DATE_TIME_IDS.minute).value);
   document.getElementById(DATE_TIME_IDS.timeEl.link).textContent = getFriendlyTime(time);
