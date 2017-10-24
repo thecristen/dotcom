@@ -201,6 +201,31 @@ defmodule Site.ContentViewTest do
       assert rendered =~ paragraph.link.title
     end
 
+    test "renders a Content.Paragraph.ColumnMulti" do
+      paragraph = %Paragraph.ColumnMulti{
+        columns: [
+          %Paragraph.Column{
+            body: Phoenix.HTML.raw("<strong>Column Body 1</strong>"),
+          },
+          %Paragraph.Column{
+            body: Phoenix.HTML.raw("<strong>Column Body 2</strong>"),
+          },
+          %Paragraph.Column{
+            body: Phoenix.HTML.raw("<strong>Column Body 3</strong>"),
+          }
+        ]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph
+        |> Phoenix.HTML.safe_to_string
+
+      assert rendered =~ "<strong>Column Body 1</strong>"
+      assert rendered =~ "<strong>Column Body 2</strong>"
+      assert rendered =~ "<strong>Column Body 3</strong>"
+    end
+
     test "renders a Paragraph.Unknown" do
       paragraph = %Paragraph.Unknown{
         type: "unsupported_paragraph_type"
