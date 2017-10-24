@@ -34,18 +34,21 @@
         <%= hidden_input :plan, :to_latitude %>
         <%= hidden_input :plan, :to_longitude %>
       </div>
-      <div class="form-check">
-        <%= label f, :time, for: "depart", class: "form-check-label" do %>
-          <%= radio_button f, :time, "depart", id: "depart", checked: true, class: "form-check-input" %>
-          Depart At
-        <% end %>
-      </div>
-      <div class="form-check">
-        <%= label f, :time, for: "arrive", class: "form-check-label" do %>
-          <%= radio_button f, :time, "arrive", id: "arrive", class: "form-check-input" %>
-          Arrive By
-        <% end %>
-      </div>
+      <fieldset>
+        <legend class="sr-only">Schedule By Arrival or Departure:</legend>
+        <div class="form-check">
+          <%= label f, :time, for: "depart", class: "form-check-label" do %>
+            <%= radio_button f, :time, "depart", id: "depart", checked: true, class: "form-check-input" %>
+            Depart At
+          <% end %>
+        </div>
+        <div class="form-check">
+          <%= label f, :time, for: "arrive", class: "form-check-label" do %>
+            <%= radio_button f, :time, "arrive", id: "arrive", class: "form-check-input" %>
+            Arrive By
+          <% end %>
+        </div>
+      </fieldset>
       <div class="form-group">
         <%= trip_plan_datetime_select(f, assigns[:query]) %>
         <div class="error-container">
