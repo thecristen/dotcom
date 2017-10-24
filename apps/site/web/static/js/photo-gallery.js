@@ -111,6 +111,7 @@ function render (id, focusId) {
   // get pages of images
   const firstImage = galleries[id].pageOffset * PAGE_SIZE;
   const lastImage = firstImage + PAGE_SIZE;
+  const pagination = galleries[id].images.length > PAGE_SIZE;
   const images = galleries[id].images.filter((_el, offset) => offset >= firstImage && offset < lastImage);
 
   // render group of images
@@ -121,29 +122,12 @@ function render (id, focusId) {
           id="${id + "primary"}"
           alt="${mainImage.getAttribute("alt")}"
           src="${mainImage.getAttribute("src")}">
-        <div class="photo-gallery-selected-title">${mainImage.getAttribute("alt")}</div>
+        <div id="${id + "name"}" class="photo-gallery-selected-title">${mainImage.getAttribute("alt")}</div>
       </div>
       <div id="${id + "images"}" class="photo-gallery-images">
         ${renderImages(images, firstImage, id)}
       </div>
-      <div class="photo-gallery-navigation">
-        <a href="#gallery-previous"
-           title="previous photos"
-           role="navigation"
-           id="${id + "prev"}"
-           class="photo-gallery-previous"
-           data-gallery="${id}"
-           data-image="navigation"
-           data-increment="-1"><i class="fa fa-caret-left" aria-hidden="true"></i> Previous</a>
-        <a href="#gallery-next"
-           title="next photos"
-           role="navigation"
-           id="${id + "next"}"
-           class="photo-gallery-next"
-           data-gallery="${id}"
-           data-image="navigation"
-           data-increment="1">Next <i class="fa fa-caret-right" aria-hidden="true"></i></a>
-      </div>
+      ${renderNavigation(id, pagination)}
     </div>
   `;
 
@@ -152,6 +136,28 @@ function render (id, focusId) {
 
   // if an element was passed in to focus on, set focus
   (focusId) ? document.getElementById(focusId).focus() : null;
+}
+
+function renderNavigation (id, pagination) {
+  const hideOnDesktop = pagination ? "" : " hidden-md-up";
+  return `<div class="photo-gallery-navigation${hideOnDesktop}">
+      <a href="#gallery-previous"
+        title="previous photos"
+        role="navigation"
+        id="${id + "prev"}"
+        class="photo-gallery-previous"
+        data-gallery="${id}"
+        data-image="navigation"
+        data-increment="-1"><i class="fa fa-caret-left" aria-hidden="true"></i> Previous</a>
+      <a href="#gallery-next"
+        title="next photos"
+        role="navigation"
+        id="${id + "next"}"
+        class="photo-gallery-next"
+        data-gallery="${id}"
+        data-image="navigation"
+        data-increment="1">Next <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+    </div>`;
 }
 
 function renderImages (images, firstImage, id) {
@@ -171,6 +177,8 @@ function renderImages (images, firstImage, id) {
 
 function replaceActiveImage (id, image) {
   const activeImage = document.getElementById(id + "primary");
+  const activeImageName = document.getElementById(id + "name");
   activeImage.setAttribute("src", image.getAttribute("src"));
   activeImage.setAttribute("alt", image.getAttribute("alt"));
+  activeImageName.innerHTML = image.getAttribute("alt");
 }
