@@ -248,8 +248,11 @@ defmodule Site.TripPlanView do
 
   def custom_date_select_builder(field) do
     content_tag(:div, [
+      content_tag(:label, "Month", for: "plan_date_time_month", class: "sr-only"),
       field.(:month, []),
+      content_tag(:label, "Day", for: "plan_date_time_day", class: "sr-only"),
       field.(:day, []),
+      content_tag(:label, "Year", for: "plan_date_time_year", class: "sr-only"),
       field.(:year, [])
     ], class: "plan-date-select hidden-js", id: "plan-date-select")
   end
@@ -263,10 +266,13 @@ defmodule Site.TripPlanView do
 
   defp custom_time_select_builder(field, datetime) do
     content_tag(:div, [
+      content_tag(:label, "Hour", for: "plan_date_time_hour", class: "sr-only"),
       field.(:hour, []),
       ":",
+      content_tag(:label, "Minute", for: "plan_date_time_minute", class: "sr-only"),
       field.(:minute, []),
       " ",
+      content_tag(:label, "AM or PM", for: "plan_date_time_am_pm", class: "sr-only"),
       select(:date_time, :am_pm, ["AM": "AM", "PM": "PM"], selected: Timex.format!(datetime, "{AM}"), name: "plan[date_time][am_pm]", id: "plan_date_time_am_pm")
     ], class: "plan-time-select hidden-js", id: "plan-time-select")
   end

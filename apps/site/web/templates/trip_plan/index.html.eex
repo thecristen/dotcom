@@ -19,7 +19,7 @@
     <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
       <%= form_for @conn, @conn.request_path, form_options, fn f -> %>
       <div class="form-group">
-        <%= label f, :from, "From:" %>
+        <%= label f, :from, "From:", for: "from" %>
         <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: true,
                                           address: f.params["from"], address_error: rendered_location_error(@conn, assigns[:query], :from),
                                           placeholder: "Ex: 10 Park Plaza", input_class: location_input_class(f.params, :from)}) %>
@@ -27,7 +27,7 @@
         <%= hidden_input :plan, :from_longitude, value: f.params["from_longitude"] %>
       </div>
       <div class="form-group">
-        <%= label f, :to, "To:" %>
+        <%= label f, :to, "To:", for: "to" %>
         <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: true,
                                           address: f.params["to"], address_error: rendered_location_error(@conn, assigns[:query], :to),
                                           placeholder: "Ex: Boston Children's Museum", input_class: location_input_class(f.params, :to)}) %>
