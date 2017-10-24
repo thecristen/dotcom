@@ -25,7 +25,7 @@
             <li><strong>Managed by:</strong> <%= @lot.manager.name %></li>
             <% end %>
             <%= if @lot.manager.phone do %>
-              <li><strong>Phone:</strong> <%= @lot.manager.phone %></li>
+              <li><strong>Phone:</strong> <%= tel_link @lot.manager.phone %></li>
             <% end %>
             <%= if @lot.manager.website do %>
               <%= link to: external_link(@lot.manager.website) do %>
