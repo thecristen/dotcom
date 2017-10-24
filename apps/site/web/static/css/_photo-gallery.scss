@@ -5,9 +5,9 @@
 }
 
 .photo-gallery-selected-image {
-  font-family: 'object-fit: cover;';  // IE polyfill
+  font-family: 'object-fit: contain;';  // IE polyfill
   height: 395px;
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
 }
 
