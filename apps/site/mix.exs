@@ -27,7 +27,7 @@ defmodule Site.Mixfile do
             :floki, :polyline, :util, :trip_plan, :sentry]
 
     apps = if Mix.env == :prod do
-      [:ehmon, :recon | apps]
+      [:ehmon, :recon, :sasl | apps]
     else
       apps
     end
