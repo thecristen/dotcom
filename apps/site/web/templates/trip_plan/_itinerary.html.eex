@@ -8,7 +8,8 @@
       May not be accessible
     <% end %>
   </div>
-  <a class="trip-plan-itinerary-header collapsed" data-toggle="collapse" href="#itinerary-<%= @index %>" data-planner-header>
+  <a class="trip-plan-itinerary-header collapsed" aria-controls="itinerary-<%= @index %>" data-toggle="collapse"
+     href="#itinerary-<%= @index %>" data-planner-header>
     <div class="trip-plan-itinerary-summary">
       <div class="trip-plan-itinerary-legs">
         <%= @routes |> Enum.map(&icon_for_route/1) |> Enum.intersperse(fa "angle-right") %>
