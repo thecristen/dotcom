@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import jsdom from 'mocha-jsdom';
-import { default as turbolinks, samePath } from '../../web/static/js/turbolinks';
+import { default as turbolinks, samePathWithQueryString, samePathWithAnchor } from '../../web/static/js/turbolinks';
 
 describe('turbolinks', () => {
   describe('on turbolinks:render', () => {
@@ -48,22 +48,49 @@ describe('turbolinks', () => {
     });
   });
 
-  describe("samePath", () => {
+  describe("samePathWithQueryString", () => {
     it("true if they are equal", () => {
-      assert.isTrue(samePath("http://localhost/1", "http://localhost/1"));
+      assert.isTrue(samePathWithQueryString("http://localhost/1", "http://localhost/1"));
     });
 
     it("false if they are not equal", () => {
-      assert.isFalse(samePath("http://localhost/1", "http://localhost/2"));
+      assert.isFalse(samePathWithQueryString("http://localhost/1", "http://localhost/2"));
     });
 
-    it("true if they have equal paths", () => {
-      assert.isTrue(samePath("http://localhost/1?query", "http://localhost/1"));
+    it("true if they have equal paths diffeering only in query string", () => {
+      assert.isTrue(samePathWithQueryString("http://localhost/1?query", "http://localhost/1"));
+    });
+
+    it("false if they have equal paths diffeering only in anchor", () => {
+      assert.isFalse(samePathWithQueryString("http://localhost/1#anchor", "http://localhost/1"));
     });
 
     it("false if first is only a prefix of second", () => {
-      assert.isFalse(samePath("http://localhost/1/2", "http://localhost/1"));
-      assert.isFalse(samePath("http://localhost/1", "http://localhost/1/2"));
+      assert.isFalse(samePathWithQueryString("http://localhost/1/2", "http://localhost/1"));
+      assert.isFalse(samePathWithQueryString("http://localhost/1", "http://localhost/1/2"));
+    });
+  });
+
+  describe("samePathWithAnchor", () => {
+    it("true if they are equal", () => {
+      assert.isTrue(samePathWithAnchor("http://localhost/1", "http://localhost/1"));
+    });
+
+    it("false if they are not equal", () => {
+      assert.isFalse(samePathWithAnchor("http://localhost/1", "http://localhost/2"));
+    });
+
+    it("false if they have equal paths diffeering only in query string", () => {
+      assert.isFalse(samePathWithAnchor("http://localhost/1?query", "http://localhost/1"));
+    });
+
+    it("true if they have equal paths diffeering only in anchor", () => {
+      assert.isTrue(samePathWithAnchor("http://localhost/1#anchor", "http://localhost/1"));
+    });
+
+    it("false if first is only a prefix of second", () => {
+      assert.isFalse(samePathWithAnchor("http://localhost/1/2", "http://localhost/1"));
+      assert.isFalse(samePathWithAnchor("http://localhost/1", "http://localhost/1/2"));
     });
   });
 });

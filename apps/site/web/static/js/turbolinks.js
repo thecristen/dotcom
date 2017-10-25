@@ -40,9 +40,12 @@ export default function($, w = window, doc = document) {
         break;
 
       // decide remember the position if the current page and next page have the same path
+      // allow scroll if the new url is an anchor link on the same page
       default:
-        if (samePath(ev.data.url, currentUrl)) {
+        if (samePathWithQueryString(ev.data.url, currentUrl)) {
           scrollBehavior = "remember";
+        } else if (samePathWithAnchor(ev.data.url, currentUrl)) {
+          scrollBehavior = "scroll";
         } else {
           scrollBehavior = "top";
         }
@@ -98,9 +101,17 @@ export default function($, w = window, doc = document) {
   }, {passive: true});
 };
 
-export function samePath(first, second) {
+export function samePathWithQueryString(first, second) {
+  return samePath(first, second, "?");
+};
+
+export function samePathWithAnchor(first, second) {
+  return samePath(first, second, "#");
+};
+
+function samePath(first, second, suffix_char) {
   return (first.slice(0, second.length) === second && (
-    first.length == second.length || first[second.length] === "?"));
+    first.length == second.length || first[second.length] === suffix_char));
 };
 
 function getCurrentUrl() {
@@ -115,11 +126,13 @@ function focusAndExpand(el, $) {
     el.focus();
   } else {
     const a = el.querySelector("a");
-    a.focus();
-    // if the link we focused is the target for a collapse, then show
-    // the collapsed element
-    if (a.getAttribute("data-target") == window.location.hash) {
-      $(el).collapse("show");
+    if (a != null) {
+      a.focus();
+      // if the link we focused is the target for a collapse, then show
+      // the collapsed element
+      if (a.getAttribute("data-target") == window.location.hash) {
+        $(el).collapse("show");
+      }
     }
   }
 }
