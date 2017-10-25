@@ -39,6 +39,7 @@ config :site, Site.Endpoint,
 # Do not print debug messages in production
 config :logger,
   level: :info,
+  handle_sasl_reports: true,
   backends: [{Logger.Backend.Logentries, :logentries}, :console]
 
 config :logger, :console,
