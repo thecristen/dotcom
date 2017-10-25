@@ -3,6 +3,7 @@ defmodule Site.TripPlanView do
   require Routes.Route
   alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
+  alias Phoenix.HTML.Form
   @meters_per_mile 1609.34
 
   @spec itinerary_explanation(Query.t) :: iodata
@@ -229,7 +230,8 @@ defmodule Site.TripPlanView do
     ], class: "form-group plan-date-time")
   end
 
-  def custom_date_select(form, datetime, options) do
+  @spec custom_date_select(Form.t, DateTime.t, Keyword.t) :: Phoenix.HTML.Safe.t
+  defp custom_date_select(form, datetime, options) do
     # the accessible-date-picker uses the label's offset to determine where to position the calendar
     # when toggling it, and throws an error if the label is omitted. So if we don't want to show a label,
     # we can't just set display:none because that messes up the offset. That's why the label has no text
@@ -237,16 +239,21 @@ defmodule Site.TripPlanView do
 
     min_date = Timex.format!(Util.now(), "{0M}/{0D}/{YYYY}")
     max_date = Timex.format!(Schedules.Repo.end_of_rating(), "{0M}/{0D}/{YYYY}")
+    current_date = Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}")
+    aria_label = "#{current_date}, click or press the enter or space key to edit the date"
 
     content_tag(:div, [
-      content_tag(:button, Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}"), id: "plan-date-link", class: "plan-date-link plan-datetime-link hidden-no-js", type: "button"),
+      content_tag(:button, current_date, id: "plan-date-link", class: "plan-date-link plan-datetime-link hidden-no-js",
+                                         type: "button", aria_label: aria_label),
       content_tag(:label, [], for: "plan-date-input", name: "Date", aria: [hidden: true]),
-      content_tag(:input, [], type: "text", class: "plan-date-input", id: "plan-date-input", aria: [hidden: true], data: ["min-date": min_date, "max-date": max_date]),
+      content_tag(:input, [], type: "text", class: "plan-date-input", id: "plan-date-input", aria: [hidden: true],
+                              data: ["min-date": min_date, "max-date": max_date]),
       date_select(form, :date_time, Keyword.put(options, :builder, &custom_date_select_builder/1))
     ], class: "plan-date", id: "plan-date")
   end
 
-  def custom_date_select_builder(field) do
+  @spec custom_date_select_builder(fun) :: Phoenix.HTML.Safe.t
+  defp custom_date_select_builder(field) do
     content_tag(:div, [
       content_tag(:label, "Month", for: "plan_date_time_month", class: "sr-only"),
       field.(:month, []),
@@ -257,9 +264,13 @@ defmodule Site.TripPlanView do
     ], class: "plan-date-select hidden-js", id: "plan-date-select")
   end
 
-  def custom_time_select(form, datetime, options) do
+  @spec custom_time_select(Form.t, DateTime.t, Keyword.t) :: Phoenix.HTML.Safe.t
+  defp custom_time_select(form, datetime, options) do
+    current_time = Timex.format!(datetime, "{h12}:{m} {AM}")
+    aria_label = "#{current_time}, click or press the enter or space key to edit the time"
     content_tag(:div, [
-      content_tag(:button, Timex.format!(datetime, "{h12}:{m} {AM}"), id: "plan-time-link", class: "plan-time-link plan-datetime-link hidden-no-js", type: "button"),
+      content_tag(:button, current_time, id: "plan-time-link", class: "plan-time-link plan-datetime-link hidden-no-js",
+                           type: "button", aria_label: aria_label),
       time_select(form, :date_time, Keyword.put(options, :builder, &custom_time_select_builder(&1, datetime)))
     ], class: "plan-time", id: "plan-time")
   end
