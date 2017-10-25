@@ -39,6 +39,7 @@ defmodule Vehicles.Mixfile do
   defp deps do
     [{:v3_api, in_umbrella: true},
      {:repo_cache, in_umbrella: true},
+     {:routes, in_umbrella: true},
      {:bypass, "~> 0.8", only: :test}]
   end
 end

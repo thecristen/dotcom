@@ -8,7 +8,9 @@ defmodule Vehicles do
 
     # Define workers and child supervisors to be supervised
     children = [
-      Vehicles.Repo
+      {Registry, keys: :duplicate, name: Vehicles.Registry},
+      Vehicles.Repo,
+      Vehicles.Realtime
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
