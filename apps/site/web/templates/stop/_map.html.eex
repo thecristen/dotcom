@@ -7,7 +7,7 @@
         srcset entry for each width/height pair, as well as a
         double-width entry for the 2x scaled Google Maps image. %>
     <img
-      class="map-static"
+      class="map-static map-static-img"
       alt="Map of <%= @stop.name %> and surrounding area"
       srcset="<%= map_srcset %>"
       sizes="(min-width: 1344px) 1099w,

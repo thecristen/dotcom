@@ -229,9 +229,8 @@ function toggleIcon(e) {
 // if necessary.
 function redrawMap(e) {
   const container = $(e.target).parent();
-  const offset = $(container).find(".trip-plan-itinerary-body").attr("data-offset");
-  const zoom = getZoom(offset);
-  triggerResize(offset);
+  const el = $(container).find(".trip-plan-itinerary-body .map-dynamic")[0];
+  triggerResize(el);
 }
 
 function toggleAlertDropdownText(e) {
