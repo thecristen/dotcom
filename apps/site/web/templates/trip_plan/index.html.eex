@@ -17,7 +17,7 @@
       </div>
     <% end %>
     <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
-      <%= form_for @conn, @conn.request_path, form_options, fn f -> %>
+      <%= form_for @conn, @conn.request_path<>"#plan_result_focus", form_options, fn f -> %>
       <div class="form-group">
         <%= label f, :from, "From:", for: "from" %>
         <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: true,
@@ -101,7 +101,7 @@
             conn: @conn
           end %>
       <% %{itineraries: {:error, e}} when e != :prereq -> %>
-      <p class="no-trips page-section">No trips available</p>
+      <p id="plan_result_focus" class="no-trips page-section">No trips available</p>
       <p class="instructions page-section"><%= rendered_plan_error(e) %></p>
       <% _ -> %>
       <div>
