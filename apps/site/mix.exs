@@ -21,12 +21,10 @@ defmodule Site.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    apps = [:system_metrics, :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :gettext,
-            :stops, :routes, :alerts, :schedules, :predictions, :timex,
-            :inflex, :html_sanitize_ex, :logger_logentries_backend,
-            :logster, :sizeable, :feedback, :zones, :fares, :content, :holiday,
-            :parallel_stream, :vehicles, :tzdata, :google_maps, :logger, :floki,
-            :polyline, :util, :trip_plan, :sentry]
+    apps = [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :gettext, :stops, :routes, :alerts, :schedules,
+            :predictions, :timex, :inflex, :html_sanitize_ex, :logger_logentries_backend, :logster, :sizeable,
+            :feedback, :zones, :fares, :content, :holiday, :parallel_stream, :vehicles, :tzdata, :google_maps, :logger,
+            :floki, :polyline, :util, :trip_plan, :sentry]
 
     apps = if Mix.env == :prod do
       [:ehmon, :recon | apps]
@@ -86,7 +84,6 @@ defmodule Site.Mixfile do
      {:floki, "~> 0.12.0"},
      {:mochiweb, "~> 2.15.0", override: true},
      {:mock, "~> 0.2.0", only: :test},
-     {:system_metrics, in_umbrella: true},
      {:util, in_umbrella: true},
      {:polyline, github: "ryan-mahoney/polyline_ex"},
      {:trip_plan, in_umbrella: true},
