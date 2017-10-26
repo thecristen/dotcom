@@ -76,6 +76,7 @@
           <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Website Feedback", to: feedback_form_url(), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %></li>
+          <li class="footer-link-sublist-item"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3", target: "_blank" %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
