@@ -19,7 +19,7 @@ defmodule Holiday.Repo.Helpers do
     |> Enum.with_index(start_year)
     |> Enum.map(fn {{month, day}, year} ->
       %Holiday{
-        date: Timex.to_date({year, month, day}),
+        date: Date.from_erl!({year, month, day}),
         name: name}
     end)
   end
@@ -37,10 +37,10 @@ defmodule Holiday.Repo.Helpers do
   """
   @spec observe_holiday(Holiday.t) :: [Holiday.t]
   def observe_holiday(%Holiday{date: date} = holiday) do
-    if Timex.weekday(date) == 7 do # Sunday
+    if Date.day_of_week(date) == 7 do # Sunday
       [holiday,
        %{holiday |
-         date: date |> Timex.shift(days: 1),
+         date: Date.add(date, 1),
          name: "#{holiday.name} (Observed)"}]
     else
       [holiday]
