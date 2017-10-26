@@ -40,7 +40,7 @@ until [ $n -ge 3 ]; do
     sleep 3
 done
 
-nvm use 6.9.5
+nvm use 8.7.0
 # drop phantomjs/backstop/casper from the deps to install
 sed -r -e 's/.*"(phantomjs-prebuilt|backstopjs|casperjs)".*//' -i'' apps/site/package.json
 

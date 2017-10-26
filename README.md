@@ -8,7 +8,7 @@ The new face of http://mbta.com/
 
 1. Install Homebrew: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`. More installation options [here](https://docs.brew.sh/Installation.html)
 2. Install Erlang/Elixir: `brew install elixir` or through http://elixir-lang.org/install.html
-3. Install NodeJS, version 6. If you don't need any other versions of node installed, then install with `brew install node@6 && brew link node@6 --force`. Check that the correct version is installed with `node --version`.
+3. Install NodeJS, version 8. If you don't need any other versions of node installed, then install with `brew install node@8 && brew link node@8 --force`. Check that the correct version is installed with `node --version`.
 4. Install Sass:
   * `gem install sass`
   * You might get a permission error here.  You can either `sudo gem install
