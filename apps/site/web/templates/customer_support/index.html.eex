@@ -22,7 +22,7 @@
     <div class="col-xs-12">
       <div class="row">
         <div class="col-xs-12 col-sm-6 support-section">
-          <h2 id="customer_support" class="support-header"><strong>Call us</strong></h2>
+          <h2 id="customer_support" class="support-header"><strong>Call Us</strong></h2>
           <ul>
             <li><strong>Monday &mdash; Friday</strong> 6:30A until 8:00P</li>
             <li><strong>Saturday &mdash; Sunday</strong> 8:00A until 4:00P</li>
@@ -57,7 +57,7 @@
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-6 support-section">
-          <h2 class="support-header"><strong>Get service updates</strong></h2>
+          <h2 class="support-header"><strong>Get Service Updates</strong></h2>
           <p>Receive notifications of MBTA service alerts by email or text.</p>
           <p>
             <%= link to: redirect_path(Site.Endpoint, "rider_tools/t_alerts/"), target: "_blank" do %>
@@ -67,7 +67,7 @@
           <p><a href="https://twitter.com/MBTA" target="_blank"><span class="support-twitter"><%= fa "twitter" %></span> Follow @MBTA on Twitter</a></p>
         </div>
         <div class="col-xs-12 col-sm-6 support-section">
-          <h2 class="support-header"><strong>Write to us</strong></h2>
+          <h2 class="support-header"><strong>Write to Us</strong></h2>
           <p>
             MBTA <br />
             10 Park Plaza, Suite 3910 <br />
@@ -76,6 +76,17 @@
         </div>
       </div>
       <div class="row">
+        <div class="col-xs-12 col-sm-6 support-section">
+          <h2 class="support-header"><strong>Request Public Records</strong></h2>
+          <p>
+            Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request.
+          </p>
+          <p>
+            <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3", target: "_blank" do %>
+              Submit a public records request to the MBTA <%= fa "arrow-right" %>
+            <% end %>
+          </p>
+        </div>
         <div class="col-xs-12 col-sm-6 support-section">
           <h2 class="support-header"><strong>Join Us</strong></h2>
           <p>
