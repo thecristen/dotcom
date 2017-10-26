@@ -11,11 +11,11 @@
       <li class="footer-link-list-item">
         Transit Services
         <ul class="footer-link-sublist">
-          <li class="footer-link-sublist-item"><%= link "Subway", to: schedule_path(@conn, :show, "subway") %></li>
-          <li class="footer-link-sublist-item"><%= link "Bus", to: schedule_path(@conn, :show, "bus") %></li>
-          <li class="footer-link-sublist-item"><%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter-rail") %></li>
-          <li class="footer-link-sublist-item"><%= link "Ferry", to: schedule_path(@conn, :show, "ferry") %></li>
-          <li class="footer-link-sublist-item"><%= link "The RIDE", to: cms_static_page_path(@conn, "/accessibility/the-ride") %></li>
+          <li class="footer-link-sublist-item"><%= link "Subway", to: schedule_path(@conn, :show, "subway"), data: [scroll: true] %></li>
+          <li class="footer-link-sublist-item"><%= link "Bus", to: schedule_path(@conn, :show, "bus"), data: [scroll: true]  %></li>
+          <li class="footer-link-sublist-item"><%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter-rail"), data: [scroll: true] %></li>
+          <li class="footer-link-sublist-item"><%= link "Ferry", to: schedule_path(@conn, :show, "ferry"), data: [scroll: true] %></li>
+          <li class="footer-link-sublist-item"><%= link "The RIDE", to: cms_static_page_path(@conn, "/accessibility/the-ride"), data: [scroll: true] %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
@@ -53,10 +53,10 @@
       <li class="footer-link-list-item">
         About Us
         <ul class="footer-link-sublist">
-          <li class="footer-link-sublist-item"><%= link "Leadership", to: cms_static_page_path(@conn, "/leadership") %></li>
-          <li class="footer-link-sublist-item"><%= link "FMCB", to: cms_static_page_path(@conn, "/leadership/fmcb") %></li>
-          <li class="footer-link-sublist-item"><%= link "News & Updates", to: news_entry_path(@conn, :index) %></li>
-          <li class="footer-link-sublist-item"><%= link "Events", to: event_path(@conn, :index) %></li>
+          <li class="footer-link-sublist-item"><%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), data: [scroll: true] %></li>
+          <li class="footer-link-sublist-item"><%= link "FMCB", to: cms_static_page_path(@conn, "/leadership/fmcb"), data: [scroll: true] %></li>
+          <li class="footer-link-sublist-item"><%= link "News & Updates", to: news_entry_path(@conn, :index), data: [scroll: true] %></li>
+          <li class="footer-link-sublist-item"><%= link "Events", to: event_path(@conn, :index), data: [scroll: true] %></li>
           <li class="footer-link-sublist-item"><%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %></li>
         </ul>
       </li>
@@ -64,7 +64,7 @@
         Business Center
         <ul class="footer-link-sublist">
           <li class="footer-link-sublist-item"><%= link "Business Opportunities", to: redirect_path(@conn, "business_center/"), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), target: "_self" %></li>
+          <li class="footer-link-sublist-item"><%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Developers", to: redirect_path(@conn, "rider_tools/developers/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Financials", to: redirect_path(@conn, "about_the_mbta/financials/"), target: "_blank" %></li>
           <li class="footer-link-sublist-item"><%= link "Innovation", to: redirect_path(@conn, "business_center/innovation_proposals/"), target: "_blank" %></li>
@@ -73,9 +73,9 @@
       <li class="footer-link-list-item">
         Customer Support
         <ul class="footer-link-sublist">
-          <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index) %></li>
+          <li class="footer-link-sublist-item"><%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %></li>
           <li class="footer-link-sublist-item"><%= link "Website Feedback", to: feedback_form_url(), target: "_blank" %></li>
-          <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies") %></li>
+          <li class="footer-link-sublist-item"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %></li>
         </ul>
       </li>
       <li class="footer-link-list-item">
@@ -104,9 +104,9 @@
       </li>
     </ul>
     <ul class="footer-link-list footer-link-list-small">
-      <li class="footer-link-item-small"><%= link "Contact Us", to: customer_support_path(@conn, :index) %></li>
-      <li class="footer-link-item-small"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies") %></li>
-      <li class="footer-link-item-small"><%= link "Terms of Use", to: customer_support_path(@conn, :index) %></li>
+      <li class="footer-link-item-small"><%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true] %></li>
+      <li class="footer-link-item-small"><%= link "Privacy Policy", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true] %></li>
+      <li class="footer-link-item-small"><%= link "Terms of Use", to: customer_support_path(@conn, :index), data: [scroll: true] %></li>
     </ul>
     <p class="footer-copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
   </div>
