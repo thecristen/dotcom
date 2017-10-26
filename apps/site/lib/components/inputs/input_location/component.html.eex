@@ -5,6 +5,12 @@
                                    placeholder: args.placeholder, value: args.address, required: args.required,
                                    class: ["text-input-button-widget-input ", submit_class, args.input_class],
                                    id: args.id, data: [autocomplete: true] %>
+  <%= if args.submit_coordinates do %>
+    <%= Phoenix.HTML.Form.hidden_input args.name, :"#{args.name_index}_latitude",
+                                       value: args.latitude, id: "#{args.id}_latitude" %>
+    <%= Phoenix.HTML.Form.hidden_input args.name, :"#{args.name_index}_longitude",
+                                       value: args.longitude, id: "#{args.id}_longitude" %>
+  <% end %>
   <%= if args.submit do %><button type="submit" class="btn btn-primary">GO</button><% end %>
   <div class="clear"></div>
 </div>
