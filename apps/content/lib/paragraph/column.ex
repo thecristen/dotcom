@@ -4,7 +4,7 @@ defmodule Content.Paragraph.Column do
     handle_html: 1
   ]
 
-  defstruct [body: Phoenix.HTML.raw(""), title: ""]
+  defstruct [body: Phoenix.HTML.raw("")]
 
   @type t :: %__MODULE__{
     body: Phoenix.HTML.safe

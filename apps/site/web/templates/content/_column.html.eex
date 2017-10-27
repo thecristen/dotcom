@@ -1,5 +1,3 @@
-<%= if @columns.body do %>
-  <div class="column-content">
-    <%= ContentRewriter.rewrite(@columns.body) %>
-  </div>
-<% end %>
+<div class="column-content">
+  <%= ContentRewriter.rewrite(@columns.body) %>
+</div>
