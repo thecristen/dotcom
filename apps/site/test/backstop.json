@@ -83,8 +83,15 @@
       "label": "404 Page",
       "url": "http://localhost:8082/not-found",
       "selectors": ["main"],
-      "delay": 100,
-      "hideSelectors": [".error-image"]
+      "hideSelectors": [".error-card img"],
+      "delay": 100
+    },
+    {
+      "label": "Redirect Page",
+      "url": "http://localhost:8082/redirect",
+      "selectors": ["main"],
+      "hideSelectors": [".error-card img"],
+      "delay": 100
     },
     {
       "label": "Alerts",

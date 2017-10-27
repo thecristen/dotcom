@@ -1,15 +1,14 @@
 <div class="error-card">
-  <h1>Hold On&hellip;</h1>
-  <p>
-    While we're working on the new site, we haven't moved everything over yet.
-    <br />
-    We're sending you back to the original site for the information you requested.
-  </p>
+  <h1 class="error-card-header">Hold On&hellip;</h1>
+  <p class="error-card-content">While we're working on the new site, we haven't moved everything over yet.</p>
+  <p class="error-card-content">We're sending you back to the original site for the information you requested.</p>
 
-  <p class="redirect-button">
+  <p class="error-card-button">
     <a class="btn btn-primary btn-small" role="button" href=<%= @redirect  %>>
       Take me there<span class="sr-only"> (desktop version)</span> <%= fa "arrow-right" %>
     </a>
   </p>
-  <img src="<%= static_url(Site.Endpoint, "/images/transfer.gif") %>" />
+  <p class="error-card-content">
+    <%= img_tag static_url(Site.Endpoint, "/images/transfer.gif"), class: "img-fluid error-card-image" %>
+  </p>
 </div>
