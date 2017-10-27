@@ -17,11 +17,13 @@
       </div>
     <% end %>
     <%
-      from_error = rendered_location_error(@conn, assigns[:query], :from)
-      to_error = rendered_location_error(@conn, assigns[:query], :to)
-      address_error = case {from_error, to_error} do
-        {"", ""} -> false
-        {_, _} -> true
+      from_error = case rendered_location_error(@conn, assigns[:query], :from) do
+        "" -> ""
+        error -> content_tag :span, error, id: "plan_result_focus"
+      end
+      to_error = case rendered_location_error(@conn, assigns[:query], :to) do
+        "" -> ""
+        error -> content_tag :span, error, id: "plan_result_focus"
       end
     %>
     <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
@@ -113,19 +115,14 @@
       <p class="instructions page-section"><%= rendered_plan_error(e) %></p>
       <% _ -> %>
       <div>
-        <%= if address_error do %>
-          <p id="plan_result_focus" class="no-trips page-section">No trips available</p>
-           <p class="instructions page-section">Please review the errors in the form and re-submit.</p>
-        <% else %>
-          <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
-          <div class="trip-plan-initial-map map">
-            <script class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
-            <div class="map-static" style="background-image:url(<%= map_url %>);">
-              <span class="sr-only">Map of downtown Boston"</span>
-            </div>
+        <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
+        <div class="trip-plan-initial-map map">
+          <script class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+          <div class="map-static" style="background-image:url(<%= map_url %>);">
+            <span class="sr-only">Map of downtown Boston"</span>
           </div>
-          <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
-        <% end %>
+        </div>
+        <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
       </div>
     <% end %>
   </div>
