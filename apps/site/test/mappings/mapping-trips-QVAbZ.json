@@ -1,0 +1,21 @@
+{
+  "uuid" : "d02ad350-a50f-35a5-a11c-660d9b50f635",
+  "request" : {
+    "url" : "/trips/?route=CR-Fitchburg&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-QVAbZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Oct 2017 20:29:18 GMT",
+      "etag" : "513C572CC070C57777E7DAF714A2F2BAB3A6BFC255FD332EF9B951086EC5322D",
+      "last-modified" : "Fri, 27 Oct 2017 18:30:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "v0c2id25memp19j64uh0vclopd2e4qjn",
+      "Connection" : "keep-alive"
+    }
+  }
+}

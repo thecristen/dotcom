@@ -1,0 +1,21 @@
+{
+  "uuid" : "b5ab0340-5411-3328-8328-3fcd8fa09ecf",
+  "request" : {
+    "url" : "/trips/?route=80&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-UmMxn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Oct 2017 20:33:32 GMT",
+      "etag" : "513C572CC070C57777E7DAF714A2F2BAB3A6BFC255FD332EF9B951086EC5322D",
+      "last-modified" : "Fri, 27 Oct 2017 18:30:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "oedqs6vfvgcptfoatk0hk95l1masr94l",
+      "Connection" : "keep-alive"
+    }
+  }
+}

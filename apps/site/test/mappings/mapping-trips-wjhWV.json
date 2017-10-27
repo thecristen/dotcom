@@ -1,0 +1,21 @@
+{
+  "uuid" : "3ac99e64-be43-31d5-be5e-94c9504f49a3",
+  "request" : {
+    "url" : "/trips/?route=86&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-wjhWV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 27 Oct 2017 20:33:33 GMT",
+      "etag" : "513C572CC070C57777E7DAF714A2F2BAB3A6BFC255FD332EF9B951086EC5322D",
+      "last-modified" : "Fri, 27 Oct 2017 18:30:54 GMT",
+      "Server" : "nginx/1.12.1",
+      "x-request-id" : "ep0p2ti5ic05og6m83l2c8uhgh6isf10",
+      "Connection" : "keep-alive"
+    }
+  }
+}
