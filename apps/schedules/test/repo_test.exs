@@ -1,5 +1,5 @@
 defmodule Schedules.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   use Timex
   import Schedules.Repo
   import Mock
@@ -168,6 +168,18 @@ defmodule Schedules.RepoTest do
     @tag :external
     test "returns a date (actual endpoint)" do
       assert %Date{} = end_of_rating()
+    end
+  end
+
+  describe "hours_of_operation/1" do
+    @tag :external
+    test "returns an %HoursOfOperation{} struct for a valid route" do
+      assert %Schedules.HoursOfOperation{} = hours_of_operation("47")
+    end
+
+    @tag :external
+    test "returns an %HoursOfOperation{} struct for an invalid route" do
+      assert %Schedules.HoursOfOperation{} = hours_of_operation("unknown route ID")
     end
   end
 end
