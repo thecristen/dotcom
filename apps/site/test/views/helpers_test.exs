@@ -3,7 +3,7 @@ defmodule Site.ViewHelpersTest do
   use Site.ConnCase, async: true
 
   import Site.ViewHelpers
-  import Phoenix.HTML.Tag, only: [tag: 2]
+  import Phoenix.HTML.Tag, only: [tag: 2, content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   alias Routes.Route
 
@@ -27,6 +27,18 @@ defmodule Site.ViewHelpersTest do
       result = break_text_at_slash(s)
       assert String.length(result) == 13
       assert result == "abc/​123/​xyz"
+    end
+  end
+
+  describe "tel_link/1" do
+    test "renders formattable numbers as a link" do
+      assert tel_link("617-222-3200") ==
+        content_tag(:a, "(617) 222-3200", href: "tel:+1-617-222-3200")
+    end
+
+    test "non-formattable numbers don't get processed and don't become links" do
+      assert tel_link("0118 999 881 999 119 7253") ==
+        content_tag(:span, "0118 999 881 999 119 7253", [])
     end
   end
 

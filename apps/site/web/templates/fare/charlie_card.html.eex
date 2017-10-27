@@ -91,7 +91,7 @@
     <div class="page-section">
       <h2>Replacing CharlieCards</h3>
       <h3 class="h4">Lost, Stolen, or Damaged</h3>
-      <p>Lost, stolen, or damaged CharlieCards can only be replaced if they have already been registered with a MyCharlie account. If you have a MyCharlie account, login and request a replacement card to be mailed to you or call 1-888-844-0355.</p>
+      <p>Lost, stolen, or damaged CharlieCards can only be replaced if they have already been registered with a MyCharlie account. If you have a MyCharlie account, login and request a replacement card to be mailed to you or call <%= tel_link "1-888-844-0355" %>.</p>
       <h3 class="h4">Expired</h3>
       <p>Expired CharlieCards (including Senior and TAP CharlieCards) can be replaced at the CharlieCard Store located in Downtown Crossing. An agent will transfer any remaining balance on an expired CharlieCard to a new card.</p>
       <p>If you have an expired Senior or TAP CharlieCard, you may also send it in the mail in order to get a new one mailed back to you. Please send expired cards to:</p>

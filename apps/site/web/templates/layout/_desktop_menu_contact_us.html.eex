@@ -2,8 +2,8 @@
   <div class="col-xs-4 header-column">
     <p class="nav-title">Customer Support</p>
     <p>
-      (617) 222-3200<br />
-      <strong>TTY</strong> <span class="no-wrap">(617) 222-5146</span><br />
+      <%= tel_link "(617) 222-3200" %><br />
+      <strong>TTY</strong> <%= tel_link "(617) 222-5146" %><br />
       <strong>Monday &mdash; Friday:</strong> 6:30A until 8:00P<br />
       <strong>Saturday &mdash; Sunday:</strong> 8:00A until 4:00P<br />
     </p>
@@ -24,8 +24,8 @@
   <div class="col-xs-4 header-column">
     <p class="nav-title">Transit Police</p>
     <p>
-      <strong>Emergency:</strong> <span class="no-wrap">(617) 222-1212</span><br />
-      <strong>TTY:</strong> <span class="no-wrap">(617) 222-1200</span><br />
+      <strong>Emergency:</strong> <%= tel_link "(617) 222-1212" %><br />
+      <strong>TTY:</strong> <%= tel_link "(617) 222-1200" %><br />
     </p>
     <ul>
       <li>

@@ -29,8 +29,8 @@
       </p>
     <% end %>
 
-    <%= if (tel = Site.PhoneNumber.normalize(@news_entry.media_phone || "")) do %>
-      <div><strong>Phone:</strong> <%= link tel, to: "tel:1-#{tel}" %></div>
+    <%= if (phone = @news_entry.media_phone) do %>
+      <div><strong>Phone:</strong> <%= tel_link phone %></div>
     <% end %>
 
     <%= if (email = @news_entry.media_email) do %>

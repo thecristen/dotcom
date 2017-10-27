@@ -158,12 +158,15 @@ defmodule Site.ViewHelpers do
     end
   end
 
+  @spec tel_link(String.t | nil) :: Phoenix.HTML.Safe.t
   def tel_link(number) do
-    content_tag :a, number, href: "tel:#{number}"
-  end
-
-  def sms_link(number) do
-    content_tag :a, number, href: "sms:#{number}"
+    pretty_formatted = Site.PhoneNumber.pretty_format(number)
+    case Site.PhoneNumber.machine_format(number) do
+      nil ->
+        content_tag :span, pretty_formatted, []
+      machine_formatted ->
+        content_tag :a, pretty_formatted, href: "tel:#{machine_formatted}"
+    end
   end
 
   def atom_to_string(atom) do
