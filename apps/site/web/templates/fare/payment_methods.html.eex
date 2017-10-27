@@ -132,7 +132,7 @@
       </p>
       <p class="fare-callout-box">
         <strong>Note:</strong>
-        At most Subway stops, you will buy your fare and load it onto a CharlieCard or CharlieTicket at the station’s fare vending machines. If you board the Subway at a stop that does not have fare vending machines, you may may pay on-board with cash.
+        At most Subway stops, you will buy your fare and load it onto a CharlieCard or CharlieTicket at the station’s fare vending machines. If you board the Subway at a stop that does not have fare vending machines, you may pay on-board with cash.
       </p>
       <p>
         *Visit the <%= link "Bus and Subway fares page", to: fare_path(@conn, :show, "bus-subway") %> to view transfer limitations
