@@ -16,19 +16,27 @@
           </a>
       </div>
     <% end %>
+    <%
+      from_error = rendered_location_error(@conn, assigns[:query], :from)
+      to_error = rendered_location_error(@conn, assigns[:query], :to)
+      address_error = case {from_error, to_error} do
+        {"", ""} -> false
+        {_, _} -> true
+      end
+    %>
     <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
       <%= form_for @conn, @conn.request_path<>"#plan_result_focus", form_options, fn f -> %>
       <div class="form-group">
         <%= label f, :from, "From:", for: "from" %>
         <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: true,
-                                          address: f.params["from"], address_error: rendered_location_error(@conn, assigns[:query], :from),
+                                          address: f.params["from"], address_error: from_error,
                                           placeholder: "Ex: 10 Park Plaza", input_class: location_input_class(f.params, :from),
                                           submit_coordinates: true, latitude: f.params["from_latitude"], longitude: f.params["from_longitude"]}) %>
       </div>
       <div class="form-group">
         <%= label f, :to, "To:", for: "to" %>
         <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: true,
-                                          address: f.params["to"], address_error: rendered_location_error(@conn, assigns[:query], :to),
+                                          address: f.params["to"], address_error: to_error,
                                           placeholder: "Ex: Boston Children's Museum", input_class: location_input_class(f.params, :to),
                                           submit_coordinates: true, latitude: f.params["to_latitude"], longitude: f.params["to_longitude"]}) %>
       </div>
@@ -105,14 +113,19 @@
       <p class="instructions page-section"><%= rendered_plan_error(e) %></p>
       <% _ -> %>
       <div>
-        <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
-        <div class="trip-plan-initial-map map">
-          <script class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
-          <div class="map-static" style="background-image:url(<%= map_url %>);">
-            <span class="sr-only">Map of downtown Boston"</span>
+        <%= if address_error do %>
+          <p id="plan_result_focus" class="no-trips page-section">No trips available</p>
+           <p class="instructions page-section">Please review the errors in the form and re-submit.</p>
+        <% else %>
+          <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
+          <div class="trip-plan-initial-map map">
+            <script class="map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+            <div class="map-static" style="background-image:url(<%= map_url %>);">
+              <span class="sr-only">Map of downtown Boston"</span>
+            </div>
           </div>
-        </div>
-        <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
+          <p class="instructions page-section">Please enter an origin and destination to view recommended trips.</p>
+        <% end %>
       </div>
     <% end %>
   </div>
