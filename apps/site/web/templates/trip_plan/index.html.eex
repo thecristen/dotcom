@@ -23,7 +23,7 @@
       end
       to_error = case {from_error, rendered_location_error(@conn, assigns[:query], :to)} do
         {"", error} -> if error == "", do: "", else: content_tag :span, error, id: "plan_result_focus"
-        {_, error} -> errorerror
+        {_, error} -> error
       end
     %>
     <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
