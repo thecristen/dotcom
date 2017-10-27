@@ -16,19 +16,30 @@
           </a>
       </div>
     <% end %>
+    <%
+      from_error = case rendered_location_error(@conn, assigns[:query], :from) do
+        "" -> ""
+        error -> content_tag :span, error, id: "plan_result_focus"
+      end
+      to_error = case {from_error, rendered_location_error(@conn, assigns[:query], :to)} do
+        {"", ""} -> ""
+        {"", error} -> content_tag :span, error, id: "plan_result_focus"
+        {_, error} -> error
+      end
+    %>
     <% form_options = [as: :plan, method: :get, toggle_element_collapse: itineraries?, class: "trip-planner-form", id: "planner-form"] %>
-      <%= form_for @conn, @conn.request_path, form_options, fn f -> %>
+      <%= form_for @conn, @conn.request_path<>"#plan_result_focus", form_options, fn f -> %>
       <div class="form-group">
         <%= label f, :from, "From:", for: "from" %>
         <%= input_location(%InputLocation{id: "from", name: :plan, name_index: :from, submit: false, required: true,
-                                          address: f.params["from"], address_error: rendered_location_error(@conn, assigns[:query], :from),
+                                          address: f.params["from"], address_error: from_error,
                                           placeholder: "Ex: 10 Park Plaza", input_class: location_input_class(f.params, :from),
                                           submit_coordinates: true, latitude: f.params["from_latitude"], longitude: f.params["from_longitude"]}) %>
       </div>
       <div class="form-group">
         <%= label f, :to, "To:", for: "to" %>
         <%= input_location(%InputLocation{id: "to", name: :plan, name_index: :to, submit: false, required: true,
-                                          address: f.params["to"], address_error: rendered_location_error(@conn, assigns[:query], :to),
+                                          address: f.params["to"], address_error: to_error,
                                           placeholder: "Ex: Boston Children's Museum", input_class: location_input_class(f.params, :to),
                                           submit_coordinates: true, latitude: f.params["to_latitude"], longitude: f.params["to_longitude"]}) %>
       </div>
@@ -101,7 +112,7 @@
             conn: @conn
           end %>
       <% %{itineraries: {:error, e}} when e != :prereq -> %>
-      <p class="no-trips page-section">No trips available</p>
+      <p id="plan_result_focus" class="no-trips page-section">No trips available</p>
       <p class="instructions page-section"><%= rendered_plan_error(e) %></p>
       <% _ -> %>
       <div>
