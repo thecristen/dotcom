@@ -18,7 +18,7 @@ defmodule JsonApi.Error do
 end
 
 defmodule JsonApi do
-  defstruct [:links, :data]
+  defstruct [links: %{}, data: []]
   @type t :: %JsonApi{
     links: %{String.t => String.t},
     data: list(JsonApi.Item.t)}
