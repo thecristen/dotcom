@@ -173,7 +173,7 @@ defmodule Site.ScheduleV2ViewTest do
       origin = %Stop{id: "place-north"}
       destination = %Stop{id: "Fitchburg"}
       route = %Routes.Route{type: 2}
-      trip_info = %TripInfo{route: route}
+      trip_info = %TripInfo{route: route, base_fare: %Fares.Fare{}}
 
       actual = Site.ScheduleV2View.render(
         "_trip_info.html",
@@ -185,6 +185,43 @@ defmodule Site.ScheduleV2ViewTest do
         conn: conn
       )
       assert safe_to_string(actual) =~ "/fares/commuter_rail?destination=Fitchburg&amp;origin=place-north"
+    end
+
+    test "the fare description is Round trip fare if it's a round-trip fare", %{conn: conn} do
+      origin = %Stop{id: "place-south"}
+      destination = %Stop{id: "Foxboro"}
+      route = %Routes.Route{type: 2}
+      trip_info = %TripInfo{route: route, base_fare: %Fares.Fare{duration: :round_trip}}
+
+      actual = Site.ScheduleV2View.render(
+        "_trip_info.html",
+        trip_info: trip_info,
+        origin: origin,
+        destination: destination,
+        direction_id: 0,
+        route: route,
+        conn: conn
+      )
+      assert safe_to_string(actual) =~ "Round trip fare:"
+    end
+
+    test "no fare information is rendered without a fare", %{conn: conn} do
+      origin = %Stop{id: "place-south"}
+      destination = %Stop{id: "Foxboro"}
+      route = %Routes.Route{type: 2}
+      trip_info = %TripInfo{route: route, base_fare: nil}
+
+      actual = Site.ScheduleV2View.render(
+        "_trip_info.html",
+        trip_info: trip_info,
+        origin: origin,
+        destination: destination,
+        direction_id: 0,
+        route: route,
+        conn: conn
+      )
+      rendered = safe_to_string(actual)
+      refute rendered =~ "fare"
     end
   end
 

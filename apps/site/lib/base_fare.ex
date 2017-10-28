@@ -11,16 +11,18 @@ defmodule Site.BaseFare do
   alias Routes.Route
   alias Fares.Fare
 
-  @default_filters [duration: :single_trip, reduced: nil]
+  @default_filters [reduced: nil]
 
   @spec base_fare(Route.t, Stops.Stop.id_t, Stops.Stop.id_t, ((Keyword.t) -> [Fare.t])) :: String.t | nil
   def base_fare(route, origin_id, destination_id, fare_fn \\ &Fares.Repo.all/1)
   def base_fare(nil, _, _, _), do: nil
   def base_fare(%Route{type: route_type} = route, origin_id, destination_id, fare_fn) do
-    route_type
+    route_filters = route_type
     |> Route.type_atom
     |> name_or_mode_filter(route, origin_id, destination_id)
-    |> Keyword.merge(@default_filters)
+
+    @default_filters
+    |> Keyword.merge(route_filters)
     |> fare_fn.()
     |> Enum.min_by(&(&1.cents), fn -> nil end)
   end

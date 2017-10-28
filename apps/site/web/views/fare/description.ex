@@ -143,6 +143,9 @@ defmodule Site.FareView.Description do
   defp valid_commuter_zones({:interzone, total}) do
     ["between ", total, " zones outside of Zone 1A"]
   end
+  defp valid_commuter_zones(:foxboro) do
+    "to Gillette Stadium for special events"
+  end
 
   def transfers(fare) do
     # used to generate the list of transfer fees for a a given fare.
