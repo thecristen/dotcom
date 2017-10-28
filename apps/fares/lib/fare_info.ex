@@ -415,6 +415,18 @@ defmodule Fares.FareInfo do
        duration: :single_trip,
        cents: dollars_to_cents(premium_ride)}]
   end
+  def mapper(["foxboro", round_trip | _]) do
+    for reduced <- [nil, :student, :senior_disabled] do
+      %Fare{
+        mode: :commuter_rail,
+        name: :foxboro,
+        duration: :round_trip,
+        media: [:commuter_ticket, :cash],
+        reduced: reduced,
+        cents: dollars_to_cents(round_trip)
+      }
+    end
+  end
 
   defp monthly_commuter_modes("interzone_" <> _) do
     [:bus]
