@@ -103,8 +103,9 @@ defmodule Site.ScheduleV2View do
     content_tag :div do
       for {text, path} <- Routes.Pdf.all_pdfs_for_route(route, date) do
         text = Enum.map(text, &break_text_at_slash/1)
+        url = static_url(Site.Endpoint, path)
         content_tag :div, class: "schedules-v2-pdf-link" do
-          link(to: path, target: "_blank") do
+          link(to: url, target: "_blank") do
             [fa("file-pdf-o"), " View PDF of ", text]
           end
         end

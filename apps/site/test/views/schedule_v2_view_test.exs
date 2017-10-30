@@ -421,6 +421,7 @@ defmodule Site.ScheduleV2ViewTest do
       rendered = safe_to_string(route_pdf_link(route, ~D[2017-01-01]))
       assert rendered =~ "View PDF of Fairmount line paper schedule"
       assert rendered =~ "View PDF of upcoming schedule — effective May 22"
+      assert rendered =~ "http://" # full URL
     end
 
     test "has the correct text for a bus route" do
