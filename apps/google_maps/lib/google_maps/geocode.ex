@@ -1,34 +1,20 @@
 defmodule GoogleMaps.Geocode do
-  @type t :: {:ok, nonempty_list(__MODULE__.Address.t)} | {:error, :zero_results | :internal_error}
+  use RepoCache, ttl: :timer.hours(24)
+
+  alias GoogleMaps.Geocode.Address
   require Logger
 
-  defmodule Address do
-    @type t :: %__MODULE__{
-      formatted: String.t,
-      latitude: float,
-      longitude: float
-    }
-    defstruct [
-      formatted: "",
-      latitude: 0.0,
-      longitude: 0.0
-    ]
-
-    defimpl Util.Position do
-      def latitude(address), do: address.latitude
-      def longitude(address), do: address.longitude
-    end
-  end
-
-  alias __MODULE__.Address
+  @type t :: {:ok, nonempty_list(Address.t)} | {:error, :zero_results | :internal_error}
 
   @spec geocode(String.t) :: t
   def geocode(address) when is_binary(address) do
-    address
-    |> geocode_url
-    |> GoogleMaps.signed_url
-    |> HTTPoison.get
-    |> parse_google_response(address)
+    cache address, fn address ->
+      address
+      |> geocode_url
+      |> GoogleMaps.signed_url
+      |> HTTPoison.get
+      |> parse_google_response(address)
+    end
   end
 
   defp geocode_url(address) do
