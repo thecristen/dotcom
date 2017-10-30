@@ -6,7 +6,7 @@ defmodule Content.Search.Facets do
   @typep content_response :: {:ok, Content.Search.t} | :error
 
   @doc """
-  Returns search performed with and without conent_types.
+  Returns search performed with and without content_types.
   If no content_types provided, returns base search twice
   """
   @spec facet_responses(String.t, integer, [String.t], Keyword.t) :: {Content.Search.t, Content.Search.t} | :error
@@ -25,12 +25,13 @@ defmodule Content.Search.Facets do
   end
   defp perform_search(query, offset, content_types, opts) do
     search_fn = opts[:search_fn]
-    base_search_task = Task.async(fn -> do_perform_search(query, offset, [], search_fn) end)
 
-    {
-      do_perform_search(query, offset, content_types, search_fn),
-      Util.yield_or_terminate(base_search_task, :error, opts[:response_timeout]),
-    }
+    [filtered_search_result, base_search_result] = Util.async_with_timeout([
+      fn -> do_perform_search(query, offset, content_types, search_fn) end,
+      fn -> do_perform_search(query, offset, [], search_fn) end,
+    ], :error, opts[:response_timeout])
+
+    {filtered_search_result, base_search_result}
   end
 
   @spec do_perform_search(String.t, integer, [String.t], search_fn) :: {:ok, Content.Search.t} | :error

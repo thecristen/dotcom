@@ -53,16 +53,16 @@ defmodule UtilTest do
     end
   end
 
-  describe "yield_or_terminate/3" do
+  describe "async_with_timeout/3" do
     test "returns the value of a task if it ends in time" do
-      task = Task.async(fn -> 5 end)
-      assert yield_or_terminate(task, nil, 1000) == 5
+      assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, 1000) == [5, 6]
     end
 
-    test "returns the default and terminates task that runs too long" do
-      task = Task.async(fn -> :timer.sleep(60_000) end)
-      assert yield_or_terminate(task, :default, 100) == :default
-      refute Process.alive?(task.pid)
+    test "returns the default for a task that runs too long" do
+      assert async_with_timeout([
+        fn -> 5 end,
+        fn -> :timer.sleep(60_000) end
+      ], :default, 10) == [5, :default]
     end
   end
 end

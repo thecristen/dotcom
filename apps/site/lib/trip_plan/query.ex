@@ -35,14 +35,14 @@ defmodule Site.TripPlan.Query do
     if Keyword.get(opts, :wheelchair_accessible?) do
       do_fetch_itineraries(from, to, opts)
     else
-      request = Task.async(fn -> do_fetch_itineraries(from, to, opts) end)
       accessible_opts = Keyword.put(opts, :wheelchair_accessible?, true)
-      accessible_request = Task.async(fn -> do_fetch_itineraries(from, to, accessible_opts) end)
 
-      dedup_itineraries(
-        Util.yield_or_terminate(request, {:error, :timeout}),
-        Util.yield_or_terminate(accessible_request, {:error, :timeout})
-      )
+      [mixed_results, accessible_results] = Util.async_with_timeout([
+        fn -> do_fetch_itineraries(from, to, opts) end,
+        fn -> do_fetch_itineraries(from, to, accessible_opts) end,
+      ], {:error, :timeout})
+
+      dedup_itineraries(mixed_results, accessible_results)
     end
   end
 
