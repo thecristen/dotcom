@@ -40,7 +40,7 @@ defmodule Content.Search.FacetsTest do
     :error
   end
   def content_search("timeout", _offset, _types) do
-    :timer.sleep(10)
+    :timer.sleep(2_000)
     {:ok, "Base Response"}
   end
   def content_search(_query, _offset, []) do
